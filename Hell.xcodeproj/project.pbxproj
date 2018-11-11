@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D42562B02197F35100FEFD6B /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42562AF2197F35100FEFD6B /* main.swift */; };
 		D44B549B2197EE9900FB94FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B549A2197EE9900FB94FC /* AppDelegate.swift */; };
 		D44B549D2197EE9900FB94FC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549C2197EE9900FB94FC /* GameScene.sks */; };
 		D44B549F2197EE9900FB94FC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549E2197EE9900FB94FC /* Actions.sks */; };
@@ -27,7 +28,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		D42562AB2197F35100FEFD6B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		D42562AD2197F35100FEFD6B /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
+		D42562AF2197F35100FEFD6B /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D44B54972197EE9900FB94FC /* XCodeClutter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCodeClutter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D44B549A2197EE9900FB94FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D44B549C2197EE9900FB94FC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -44,6 +59,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D42562AA2197F35100FEFD6B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D44B54942197EE9900FB94FC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -61,9 +83,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D42562A82197F2D900FEFD6B /* Source */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		D42562AE2197F35100FEFD6B /* Experimental */ = {
+			isa = PBXGroup;
+			children = (
+				D42562AF2197F35100FEFD6B /* main.swift */,
+			);
+			path = Experimental;
+			sourceTree = "<group>";
+		};
 		D44B548E2197EE9900FB94FC = {
 			isa = PBXGroup;
 			children = (
+				D42562AE2197F35100FEFD6B /* Experimental */,
+				D42562A82197F2D900FEFD6B /* Source */,
 				D44B54992197EE9900FB94FC /* XCodeClutter */,
 				D44B54B22197EE9A00FB94FC /* XCodeClutterTests */,
 				D44B54982197EE9900FB94FC /* Products */,
@@ -75,6 +114,7 @@
 			children = (
 				D44B54972197EE9900FB94FC /* XCodeClutter.app */,
 				D44B54AF2197EE9A00FB94FC /* XCodeClutterTests.xctest */,
+				D42562AD2197F35100FEFD6B /* Experimental */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,6 +147,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D42562AC2197F35100FEFD6B /* Experimental */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D42562B12197F35100FEFD6B /* Build configuration list for PBXNativeTarget "Experimental" */;
+			buildPhases = (
+				D42562A92197F35100FEFD6B /* Sources */,
+				D42562AA2197F35100FEFD6B /* Frameworks */,
+				D42562AB2197F35100FEFD6B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Experimental;
+			productName = Experimental;
+			productReference = D42562AD2197F35100FEFD6B /* Experimental */;
+			productType = "com.apple.product-type.tool";
+		};
 		D44B54962197EE9900FB94FC /* XCodeClutter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D44B54B82197EE9A00FB94FC /* Build configuration list for PBXNativeTarget "XCodeClutter" */;
@@ -152,6 +209,9 @@
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Rob Bishop";
 				TargetAttributes = {
+					D42562AC2197F35100FEFD6B = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					D44B54962197EE9900FB94FC = {
 						CreatedOnToolsVersion = 10.1;
 					};
@@ -161,7 +221,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D44B54922197EE9900FB94FC /* Build configuration list for PBXProject "XCodeClutter" */;
+			buildConfigurationList = D44B54922197EE9900FB94FC /* Build configuration list for PBXProject "Hell" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -176,6 +236,7 @@
 			targets = (
 				D44B54962197EE9900FB94FC /* XCodeClutter */,
 				D44B54AE2197EE9A00FB94FC /* XCodeClutterTests */,
+				D42562AC2197F35100FEFD6B /* Experimental */,
 			);
 		};
 /* End PBXProject section */
@@ -202,6 +263,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D42562A92197F35100FEFD6B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D42562B02197F35100FEFD6B /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D44B54932197EE9900FB94FC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -242,6 +311,26 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D42562B22197F35100FEFD6B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D42562B32197F35100FEFD6B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 		D44B54B62197EE9A00FB94FC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -440,7 +529,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D44B54922197EE9900FB94FC /* Build configuration list for PBXProject "XCodeClutter" */ = {
+		D42562B12197F35100FEFD6B /* Build configuration list for PBXNativeTarget "Experimental" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D42562B22197F35100FEFD6B /* Debug */,
+				D42562B32197F35100FEFD6B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D44B54922197EE9900FB94FC /* Build configuration list for PBXProject "Hell" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D44B54B62197EE9A00FB94FC /* Debug */,
