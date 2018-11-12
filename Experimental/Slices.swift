@@ -17,7 +17,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-  
 
 import Foundation
 
@@ -61,10 +60,10 @@ func getValue(from iterator: StrandIterator) throws -> String {
     let cursorLimit = getCursorLimit()
     
     print("VV", ^^iterator, cursorLimit)
-
+    
     let previousIndex = ^iterator
     let scanner = iterator
-
+    
     _ = scanner.advance(2)
     if scanner.eof { try Utilities.hurl(DecodeError.earlyEof); throw DecodeError.fatal }
     
@@ -93,10 +92,10 @@ func getDouble() throws -> Double {
     } catch DecodeError.overshot {
         doubleSubstring =
     }
-
+    
     guard let rawDouble = Double(doubleSubString)
         else { try Utilities.hurl(DecodeError.inputInconsistent); throw DecodeError.fatal }
-
+    
     return Double(truncating: NSNumber(floatLiteral: rawDouble))
 }
 
@@ -113,7 +112,7 @@ func getBool() throws -> Bool {
     
     let boolSubString = hereToEnd[firstCharacterIndex..<closeParenIndex]
     _ = boolCursor.next()
-
+    
     guard boolSubString == "true" || boolSubString == "false"
         else { print("barf4", boolSubString); try Utilities.hurl(DecodeError.inputInconsistent); throw DecodeError.fatal }
     
@@ -124,7 +123,7 @@ func getInt(_ startIndex: String.Index, _ endIndex: String.Index) throws -> Int 
     print(I)
     if intCursor.eodu { try Utilities.hurl(DecodeError.overshot); throw DecodeError.recoverable }
     _ = intCursor.advance(2)
-
+    
     let firstDigitIndex = ^intCursor
     let hereToEnd = intCursor.input[firstDigitIndex...]
     
@@ -133,7 +132,7 @@ func getInt(_ startIndex: String.Index, _ endIndex: String.Index) throws -> Int 
     
     let intSubString = hereToEnd[firstDigitIndex..<closeParenIndex]
     _ = intCursor.next()
-
+    
     if let result = Int(intSubString) { print("result = \(result)"); return result }
     else { try Utilities.hurl(DecodeError.inputInconsistent); throw DecodeError.fatal }
 }
@@ -142,85 +141,137 @@ enum DecodeError: Error {
     case earlyEndOfDecodeUnit, fatal, general, inputInconsistent, overshot, recoverable
 }
 
-func getNeuron(_ neuronStartIndex: String.Index, _ neuronEndIndex: String.Index) throws -> Neuron {
-    /*
-
-     let layerSegment = originalStrand[layerStartIndex..<layerEndIndex]
-     let endOfLayerControlSegment = (^neuronCursor >= layerEndIndex) ? layerEndIndex : ^neuronCursor
-     
-     let neuronCount = try getInt(layerEndIndex, endOfLayerControlSegment)
-     var neuronStartIndex = originalStrand.index(endOfLayerControlSegment, offsetBy: 1)
-     
-     var neurons = [Neuron]()
-     
-     for _ in 0..<neuronCount {
-     let neuronMeatSegment_ = originalStrand[neuronStartIndex...]
-     var neuronEndIndex: String.Index
-     
-     if let e = neuronMeatSegment_.firstIndex(of: N) { neuronEndIndex = e }
-     else { neuronEndIndex = originalStrand.endIndex }
-     
-     let neuron = try getNeuron(neuronStartIndex, neuronEndIndex)
-     neurons.append(neuron)
-     
-     neuronStartIndex = neuronEndIndex
-     }
-     
-     _ = layerCursor.next()
-     
-     return Layer(neurons: neurons)
- */
-    print(N)
-
-    let neuronSegment = originalStrand[neuronStartIndex..<neuronEndIndex]
-    let endOfNeuronControlSegment = (^neuronCursor >= neuronEndIndex) ? neuronEndIndex : ^neuronCursor
-
-    
-
-    _ = neuronCursor.next() // Move to the next neuron gene
-
-    let numberOfActivators = try getInt()
-    let numberOfWeights = try getInt()
-    
-    var activators = [Bool]();   for _ in 0..<numberOfActivators { activators.append(try getBool()) }
-    var weights =    [Double](); for _ in 0..<numberOfWeights    { weights.append(try getDouble()) }
-    
-    let bias = try getDouble()
-    let threshold = try getDouble()
-    
-    return Neuron(activators: activators, weights: weights, bias: bias, threshold: threshold)
+func getNeuronControlInt(_ neuronSegment: Substring) throws -> (Int, String.Index)? {
 }
 
-func getLayer(_ layerStartIndex: String.Index, _ layerEndIndex: String.Index) throws -> Layer {
-    print(L)
+func getNeuronDouble(_ neuronSegment: Substring) throws -> Double {
+    
+}
 
-    let layerSegment = originalStrand[layerStartIndex..<layerEndIndex]
-    var endOfLayerControlSegment = originalStrand.endIndex
-        
-    if let e = layerSegment.firstIndex(where: { $0 == N }) {
-        endOfLayerControlSegment = e
-    } else {
-        try Utilities.hurl(DecodeError.earlyEndOfDecodeUnit); throw DecodeError.recoverable
+func getNeuron(_ neuronSegment: Substring) throws -> Neuron {
+    print(N)
+    
+    var nextStop = neuronSegment.endIndex
+
+    var activatorsCount: Int?
+    var weightsCount: Int?
+    
+    var iMeatStart = neuronSegment.startIndex
+    var intStart: String.Index?
+    var doubleStart: String.Index?
+    
+    var workingStartIndex = neuronSegment.startIndex
+    var workingSegment = neuronSegment[workingStartIndex...]
+
+    if let (a, ix) = try getNeuronControlInt(workingSegment) {
+        activatorsCount = a
+        workingStartIndex = ix
+        workingSegment = neuronSegment[workingStartIndex...]
     }
     
-    let neuronCount = try getInt(layerStartIndex, endOfLayerControlSegment)
-    var neuronStartIndex = originalStrand.index(endOfLayerControlSegment, offsetBy: 1)
+    if let (a, ix) = try getNeuronControlInt(workingSegment) {
+        weightsCount = a
+        workingStartIndex = ix
+        workingSegment = neuronSegment[workingStartIndex...]
+    }
+    
+    var activators = [Bool]()
+    
+    if let a = activatorsCount {
+        for _ in 0..<a {
+            if workingSegment[workingStartIndex] == B,
+                let ix = workingSegment.index(workingSegment.startIndex, offsetBy: 2, limitedBy: workingSegment.endIndex)
+            {
+                workingSegment = workingSegment[ix...]
+                if let e = workingSegment.firstIndex(where: { $0 == B }) {
+                    workingStartIndex = ix
+                    workingSegment = workingSegment[ix..<e]
+                    var b = try getBool(workingSegment)
+                } else {
+                    try Utilities.hurl(DecodeError.earlyEndOfDecodeUnit); throw DecodeError.recoverable
+                }
+            }
+        }
+    }
+    
+    var weights = [Double]()
+    var bias = 0.0
+    var threshold = 0.0
+    
+    if let w = weightsCount {
+        for weightIx in 0..<(w + 2) {
+            if workingSegment[workingStartIndex] == D,
+                let ix = workingSegment.index(workingSegment.startIndex, offsetBy: 2, limitedBy: workingSegment.endIndex)
+            {
+                workingSegment = workingSegment[ix...]
+                if let e = workingSegment.firstIndex(where: { $0 == D }) {
+                    workingStartIndex = ix
+                    workingSegment = workingSegment[ix..<e]
+                    var d = try getDouble(workingSegment)
+                    
+                    if weightIx > w {
+                        if weightIx > w + 1 {
+                            threshold = d
+                        } else {
+                            bias = d
+                        }
+                    } else {
+                        weights.append(d)
+                    }
+                } else {
+                    try Utilities.hurl(DecodeError.earlyEndOfDecodeUnit); throw DecodeError.recoverable
+                }
+            }
+        }
+    }
+}
+
+func getLayer(_ layerSegment: Substring) throws -> Layer {
+    print(L)
     
     var neurons = [Neuron]()
 
-    for _ in 0..<neuronCount {
-        let neuronMeatSegment_ = originalStrand[neuronStartIndex...]
-        var neuronEndIndex: String.Index
-        
-        if let e = neuronMeatSegment_.firstIndex(of: N) { neuronEndIndex = e }
-        else { neuronEndIndex = originalStrand.endIndex }
+    var endOfLayerControlSegment = originalStrand.endIndex
 
-        let neuron = try getNeuron(neuronStartIndex, neuronEndIndex)
-        neurons.append(neuron)
+    guard let e = layerSegment.firstIndex(where: { $0 == N }) else {
+        if neurons.isEmpty {
+            try Utilities.hurl(DecodeError.earlyEndOfDecodeUnit)
+            throw DecodeError.recoverable
+        }
         
-        neuronStartIndex = neuronEndIndex
+        return Layer(neurons: neurons)
     }
+    
+    endOfLayerControlSegment = e
+    
+    let layerControlSegment = layerSegment[layerSegment.startIndex..<endOfLayerControlSegment]
+    let neuronCount = try getInt(layerControlSegment)
+    
+    // Skip past the N-marker
+    var neuronStartIndex = originalStrand.index(endOfLayerControlSegment, offsetBy: 1)
+    var layerMeatSegment_ = originalStrand[neuronStartIndex...]
 
+    var neuronEndIndex = layerSegment.endIndex
+    
+    for _ in 0..<neuronCount {
+        if let e = layerMeatSegment_.firstIndex(where: { $0 == N }) {
+            neuronEndIndex = e
+        }
+        
+        let neuronSegment_ = layerMeatSegment_[neuronStartIndex..<neuronEndIndex]
+        var neuronEndIndex = neuronSegment_.endIndex
+        
+        if let e = neuronSegment_.firstIndex(of: N) { neuronEndIndex = e }
+        
+        let neuronSegment = neuronSegment_[neuronStartIndex..<neuronEndIndex]
+        let neuron = try getNeuron(neuronSegment)
+
+        neurons.append(neuron)
+        neuronStartIndex = neuronEndIndex
+        
+        layerMeatSegment_ = layerMeatSegment_[neuronStartIndex...]
+    }
+    
     _ = layerCursor.next()
     
     return Layer(neurons: neurons)
@@ -228,21 +279,23 @@ func getLayer(_ layerStartIndex: String.Index, _ layerEndIndex: String.Index) th
 
 do {
     var brain: Brain!
-
+    
     var layers = [Layer]()
     var layerStartIndex = originalStrand.startIndex
-
+    
+    _ = layerCursor.next()  // Move to the next layer indicator
+    
     print("R")
     while *layerCursor != nil {
         let layerEndIndex = ^layerCursor
-        let layer = try getLayer(layerStartIndex, layerEndIndex)
+        let layer = try getLayer(originalStrand[layerStartIndex..<layerEndIndex])
         layers.append(layer)
         print("\(layers.count) layers so far")
         layerStartIndex = layerEndIndex
     }
-
+    
     brain = Brain(layers: layers)
-
+    
     print(brain)
 } catch {
     print(error)
