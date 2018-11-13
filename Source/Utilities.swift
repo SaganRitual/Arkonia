@@ -23,6 +23,7 @@ import Foundation
 typealias Gene = String
 typealias Strand = String
 typealias StrandSlice = Substring
+typealias StrandIndex = String.Index
 typealias Strands = [Strand]
 
 enum Utilities {

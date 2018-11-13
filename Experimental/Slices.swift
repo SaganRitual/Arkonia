@@ -20,13 +20,13 @@
 
 import Foundation
 
-var B: Character { return Utilities.B[Utilities.B.startIndex] }
-var D: Character { return Utilities.D[Utilities.D.startIndex] }
-var I: Character { return Utilities.I[Utilities.I.startIndex] }
-var L: Character { return Utilities.L[Utilities.L.startIndex] }
-var N: Character { return Utilities.N[Utilities.N.startIndex] }
-var b: Character { return Utilities.b[Utilities.b.startIndex] }
-var t: Character { return Utilities.t[Utilities.t.startIndex] }
+fileprivate var B: Character { return Utilities.B[Utilities.B.startIndex] }
+fileprivate var D: Character { return Utilities.D[Utilities.D.startIndex] }
+fileprivate var I: Character { return Utilities.I[Utilities.I.startIndex] }
+fileprivate var L: Character { return Utilities.L[Utilities.L.startIndex] }
+fileprivate var N: Character { return Utilities.N[Utilities.N.startIndex] }
+fileprivate var b: Character { return Utilities.b[Utilities.b.startIndex] }
+fileprivate var t: Character { return Utilities.t[Utilities.t.startIndex] }
 
 let originalStrands = StrandBuilder.buildBrainStrands(howMany: 1)
 let originalStrand = originalStrands[0]
