@@ -22,7 +22,6 @@
 		D4838182219A2D5800B3648A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D483816F2197F4A400B3648A /* main.swift */; };
 		D4838184219A94E300B3648A /* TestGetDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838183219A94E300B3648A /* TestGetDouble.swift */; };
 		D4838186219A956400B3648A /* StrandDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838185219A956400B3648A /* StrandDecoder.swift */; };
-		D4838188219A96BE00B3648A /* HardTestGetDouble.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838187219A96BE00B3648A /* HardTestGetDouble.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,7 +70,6 @@
 		D48381802199F1D300B3648A /* Slices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slices.swift; sourceTree = "<group>"; };
 		D4838183219A94E300B3648A /* TestGetDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestGetDouble.swift; sourceTree = "<group>"; };
 		D4838185219A956400B3648A /* StrandDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrandDecoder.swift; sourceTree = "<group>"; };
-		D4838187219A96BE00B3648A /* HardTestGetDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HardTestGetDouble.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,7 +151,6 @@
 				D48381802199F1D300B3648A /* Slices.swift */,
 				D4838185219A956400B3648A /* StrandDecoder.swift */,
 				D4838183219A94E300B3648A /* TestGetDouble.swift */,
-				D4838187219A96BE00B3648A /* HardTestGetDouble.swift */,
 			);
 			path = Experimental;
 			sourceTree = "<group>";
@@ -315,7 +312,6 @@
 				D4838186219A956400B3648A /* StrandDecoder.swift in Sources */,
 				D4838182219A2D5800B3648A /* main.swift in Sources */,
 				D48381782197F52D00B3648A /* Strand.swift in Sources */,
-				D4838188219A96BE00B3648A /* HardTestGetDouble.swift in Sources */,
 				D483817C2198C14800B3648A /* Utilities.swift in Sources */,
 				D483817A2198A4F000B3648A /* StrandBuilder.swift in Sources */,
 				D4838184219A94E300B3648A /* TestGetDouble.swift in Sources */,

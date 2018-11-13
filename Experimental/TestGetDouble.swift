@@ -27,7 +27,6 @@ func makeSlice(_ string: String, _ startIndex: Int, _ endIndex: Int) -> StrandSl
 }
 
 func makeSlice(_ string: String, _ startIndex: StrandIndex, _ rangeEnd: Int) -> StrandSlice {
-    print("?", string, rangeEnd, string.distance(from: string.startIndex, to: startIndex))
     let endIndex = string.index(startIndex, offsetBy: rangeEnd)
     return string[startIndex..<endIndex]
 }
@@ -39,7 +38,15 @@ func makeSlice(_ slice: StrandSlice, _ startIndex: StrandIndex, _ rangeEnd: Int)
 
 class TestGetDouble {
     let inputStrand = "L.I(0)L.I(1)N.L.I(2)N.N.I(1)I(1)B(true)D(441.33)D(47.33)D(386.65)"
-    
+
+    func hardTestGetDouble() {
+        let input = "DDDLLLLLLLL"
+        if let (theDouble, nextIndex) = StrandDecoder(input).getDouble(input[...]) {
+            Utilities.clobbered("Should not have succeeded getting a double; double = \(theDouble); nextIndex = \(nextIndex)")
+            return
+        }
+    }
+
     func testGetDouble() {
         let decoder = StrandDecoder(inputStrand)
         

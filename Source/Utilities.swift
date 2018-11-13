@@ -37,4 +37,6 @@ enum Utilities {
     static var t: String { return "t" }
     
     static func hurl(_ exception: DecodeError) throws { throw exception }
+    
+    static func clobbered(_ message: String) { print(message); fatalError(message) }
 }

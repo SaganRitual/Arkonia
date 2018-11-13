@@ -47,4 +47,5 @@ var b: Character { return Utilities.b[Utilities.b.startIndex] }
 var t: Character { return Utilities.t[Utilities.t.startIndex] }
 
 TestGetDouble().testGetDouble()
+TestGetDouble().hardTestGetDouble()
 

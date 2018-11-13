@@ -32,11 +32,10 @@ class StrandDecoder {
     }
     
     func getDouble(_ slice: StrandSlice) -> (Double, StrandIndex)? {
-        print(D)
-        
         // Fatal, almost certainly a bug in my code
         guard slice[slice.startIndex] == D else {
-            fatalError("Expected D-marker at index \(toInt(slice.startIndex)); slice = \(toString(slice))")
+            Utilities.clobbered("Expected D-marker at index \(toInt(slice.startIndex)); slice = \(toString(slice))")
+            return nil
         }
         
         var doubleSlice = slice.dropFirst(2)    // Skip the D-marker and the paren
