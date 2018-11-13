@@ -231,27 +231,35 @@ class TestGetDouble {
         
         // Lengthen the slice out to the end of the strand and make sure we
         // get the correct new index
-        print("huh \(decoder.toInt(ixOfFirstDouble))", decoder.sub(ixOfFirstDouble, from: self.inputStrand.count))
-        for ixLoop_ in 0..<decoder.sub(ixOfFirstDouble, from: self.inputStrand.count) {
-            let ixLoop = ixLoop_ + decoder.toInt(ixOfFirstDouble)
-            print("f", ixLoop, decoder.toInt(ixOfFirstDouble), self.inputStrand.count, decoder.sub(ixOfFirstDouble, from: self.inputStrand.count), decoder.toInt(self.inputStrand.endIndex))
+        let tailLength = decoder.sub(ixOfFirstDouble, from: self.inputStrand.count)
+        for ixLoop in 1..<tailLength {
             let slice = makeSlice(self.inputStrand, ixOfFirstDouble, ixLoop)
-            print(ixLoop, slice.toString())
+
             if let (double, newEndIndex) = decoder.getDouble(slice) {
-                let truncated = Double(truncating: 441.33)
+                var truncated = 0.0
+                switch ixLoop {
+                case 3: truncated = Double(truncating: 4)
+                case 4: truncated = Double(truncating: 44)
+                case 5: truncated = Double(truncating: 441)
+                case 6: truncated = Double(truncating: 441)
+                case 7: truncated = Double(truncating: 441.3)
+                default: if ixLoop < 3 { truncated = 0 } else { truncated = Double(truncating: 441.33) }
+                }
+                
                 if double != truncated {
-                    let e = "Should get \(truncated) here; got \(double), ixLoop = \(ixLoop)"
+                    let e = "Should get \(truncated) here; got \(double), ixLoop = \(ixLoop), newEix = \(decoder.toInt(newEndIndex))"
                     print(e)
                     fatalError(e)
                 }
                 
                 let endss = slice.toInt(newEndIndex)
-                if endss != 9 {
-                    let e = "Returned invalid new index \(endss)"
+                if endss > 9 {
+                    let e = "Returned invalid new index \(endss); slice length = \(slice.count)"
                     print(e)
                     fatalError(e)
                 }
             } else {
+                if ixLoop < 8 { continue }
                 let e = "Should get a double here; ixLoop = \(ixLoop), slice = \(slice.toString())"
                 print(e)
                 fatalError(e)
@@ -260,40 +268,43 @@ class TestGetDouble {
     }
 }
 
-//let inputStrand = "L.I(0)L.I(1)N.L.I(2)N.N.I(1)I(1)B(true)D(441.33)D(47.33)D(386.65)"
-#if false
-let inputStrand = "L.IIXDZ"
-let ct = inputStrand.count
-let ix_ = inputStrand.firstIndex(of: D)!
-let ix = inputStrand.distance(from: inputStrand.startIndex, to: ix_)
-let ff = inputStrand.distance(from: ix_, to: inputStrand.endIndex)
+let inputStrand = "L.I(0)L.I(1)N.L.I(2)N.N.I(1)I(1)B(true)D(441.33)D(47.33)D(386.65)"
+//let inputStrand = "L.IIXDZ"
 
-print(ct, ff)
+//#if true
+//let ct = inputStrand.count
+//let ix_ = inputStrand.firstIndex(of: D)!
+//let st = inputStrand[ix_..<inputStrand.endIndex]
+//let ix = st.distance(from: st.startIndex, to: ix_)
+//let ff = st.distance(from: ix_, to: st.endIndex)
+//
+//print(ct, ff)
+//
+//for loopIx in 1..<ff {
+//    print(loopIx, inputStrand[ix_..<inputStrand.index(ix_, offsetBy: loopIx)])
+//}
+//
+//print("fuck", String(inputStrand[ix_..<inputStrand.endIndex]))
+//abort()
+//#else
+//let inputArray = ["L", ".", "I", "I", "X", "D", "Z"]
+//let ct = inputArray.count
+//let ix = inputArray.firstIndex(of: "D")!
+//let ff = ct - ix
+//
+//print(ct, ff)
+//
+//for loopIx in 1..<ff {
+//    print(loopIx, inputArray[ix..<ix + loopIx])
+//}
+//
+//print("fuck", inputArray[ix..<inputArray.endIndex])
+//abort()
+//#endif
 
-for loopIx in 1..<ff {
-    print(loopIx, inputStrand[ix_..<inputStrand.index(ix_, offsetBy: loopIx)])
-}
 
-print("fuck", String(inputStrand[ix_..<inputStrand.endIndex]))
-#else
-let inputArray = ["L", ".", "I", "I", "X", "D", "Z"]
-let ct = inputArray.count
-let ix = inputArray.firstIndex(of: "D")!
-let ff = ct - ix
-
-print(ct, ff)
-
-for loopIx in 1..<ff {
-    print(loopIx, inputArray[ix..<ix + loopIx])
-}
-
-print("fuck", inputArray[ix..<inputArray.endIndex])
-#endif
-abort()
-
-
-//let tester = TestGetDouble(inputStrand)
-//tester.testGetDouble()
+let tester = TestGetDouble(inputStrand)
+tester.testGetDouble()
 
 #if false
 func getBool() throws -> Bool {
