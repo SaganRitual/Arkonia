@@ -17,34 +17,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-  
 
 import Foundation
 
-enum MockBrain {
-    struct Neuron {
-        let activators: [Bool]
-        let weights: [Double]
-        let bias: Double
-        let threshold: Double
-    }
+class HardTestGetDouble {
 
-    struct Layer {
-        let neurons: [Neuron]
-    }
-
-    struct Brain {
-        let layers: [Layer]
+    func hardTestGetDouble() {
+        
     }
 }
-
-var B: Character { return Utilities.B[Utilities.B.startIndex] }
-var D: Character { return Utilities.D[Utilities.D.startIndex] }
-var I: Character { return Utilities.I[Utilities.I.startIndex] }
-var L: Character { return Utilities.L[Utilities.L.startIndex] }
-var N: Character { return Utilities.N[Utilities.N.startIndex] }
-var b: Character { return Utilities.b[Utilities.b.startIndex] }
-var t: Character { return Utilities.t[Utilities.t.startIndex] }
-
-TestGetDouble().testGetDouble()
-
