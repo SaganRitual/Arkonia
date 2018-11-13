@@ -24,6 +24,88 @@ enum DecodeError: Error {
     case earlyEndOfDecodeUnit, fatal, general, inputInconsistent, overshot, recoverable
 }
 
+protocol ValueSliceProtcol {
+    associatedtype WrapperType: DoNada
+    associatedtype HelperType
+    
+    init(_ inputSlice: StrandSlice)
+    func getResult() -> (WrapperType.PrimitiveType, StrandIndex)?
+}
+
+protocol DoNada {
+    associatedtype PrimitiveType
+    func getResult() -> PrimitiveType?
+}
+
+class GeneWrapper<PrimitiveType>: DoNada {
+    func getResult() -> PrimitiveType? { return nil }
+}
+
+class BoolWrapper: GeneWrapper<Bool> {
+    var theBool: Bool?
+    override func getResult() -> Bool? { return theBool }
+}
+
+class IntWrapper: GeneWrapper<Int> {
+    var theInt: Int?
+    override func getResult() -> Int? { return theInt }
+}
+
+class DoubleWrapper: GeneWrapper<Double> {
+    var theDouble: Double?
+    override func getResult() -> Double? { return theDouble }
+}
+
+class GeneHelper<WrapperType: GeneWrapper<Any>>: ValueSliceProtcol {
+    typealias HelperType = GeneHelper
+    
+    let slice: StrandSlice
+    required init(_ slice: StrandSlice) { self.slice = slice }
+    
+    func getGeneWrapper(_ valueSlice: StrandSlice) -> WrapperType {
+        return WrapperType(valueSlice)
+    }
+    
+    func getResult(_ sliceWithGeneMarker: StrandSlice) -> (WrapperType.Type, StrandIndex)? {
+        var valueSlice = slice.dropFirst(2)    // Skip the gene marker and the paren
+        
+        // Not fatal, it just means there's no double where we
+        // expected one. The neuron may be salvageable. There
+        // must be at least two characters available: at least
+        // one digit, and the closing paren.
+        guard valueSlice.count >= 2 else { return nil }
+        
+        var ixOfCloseParen = valueSlice.endIndex
+        if let ix = valueSlice.firstIndex(where: { $0 == ")" }) {
+            ixOfCloseParen = ix
+        }
+        
+        //        let ixOfNextSymbol = (ixOfCloseParen < valueSlice.endIndex) ?
+        //            valueSlice.addIx(ixOfCloseParen, 1) : ixOfCloseParen
+        let ixOfNextSymbol = valueSlice.startIndex
+        
+        valueSlice = valueSlice[..<ixOfCloseParen]
+        
+        let geneWrapper = getGeneWrapper(valueSlice)
+        if let result = geneWrapper.getResult() {
+            return (result, ixOfNextSymbol)
+        }
+        
+        return nil
+    }
+}
+
+class BoolGeneHelper: GeneHelper<BoolWrapper> {
+    typealias HelperType = BoolGeneHelper
+}
+
+class IntGeneHelper: GeneHelper<IntWrapper> {
+    typealias HelperType = IntGeneHelper
+}
+class DoubleGeneHelper: GeneHelper<DoubleWrapper> {
+    typealias HelperType = DoubleGeneHelper
+}
+
 class StrandDecoder {
     let inputStrand: Strand
     
@@ -31,91 +113,7 @@ class StrandDecoder {
         self.inputStrand = inputStrand
     }
     
-    func getDouble(_ slice: StrandSlice) -> (Double, StrandIndex)? {
-        // Fatal, almost certainly a bug in my code
-        guard slice[slice.startIndex] == D else {
-            Utilities.clobbered("Expected D-marker at index \(toInt(slice.startIndex)); slice = \(toString(slice))")
-            return nil
-        }
+    func decode() {
         
-        var doubleSlice = slice.dropFirst(2)    // Skip the D-marker and the paren
-        
-        // Not fatal, it just means there's no double where we
-        // expected one. The neuron may be salvageable. There
-        // must be at least two characters available: at least
-        // one digit, and the closing paren.
-        guard doubleSlice.count >= 2 else { return nil }
-        
-        var ixOfCloseParen = doubleSlice.endIndex
-        if let ix = doubleSlice.firstIndex(where: { $0 == ")" }) {
-            ixOfCloseParen = ix
-        }
-        
-        let ixOfNextSymbol = (ixOfCloseParen < doubleSlice.endIndex) ?
-            addIx(ixOfCloseParen, 1) : ixOfCloseParen
-        
-        doubleSlice = doubleSlice[..<ixOfCloseParen]
-        
-        guard let rawDouble = Double(doubleSlice) else { return nil }
-        
-        return (Double(truncating: NSNumber(floatLiteral: rawDouble)), ixOfNextSymbol)
-    }
-    
-    func addIx(_ stringIndex: String.Index, _ ss: Int) -> String.Index {
-        return self.inputStrand.index(stringIndex, offsetBy: ss)
-    }
-    
-    func addInt(_ stringIndex: String.Index, _ ss: Int) -> Int {
-        return self.inputStrand.distance(from: stringIndex, to: addIx(stringIndex, ss))
-    }
-    
-    func distance(to endIndex: String.Index) -> Int {
-        return self.inputStrand.distance(from: self.inputStrand.startIndex, to: endIndex)
-    }
-    
-    func gt(_ lhs: StrandIndex, _ rhs: StrandIndex) -> Bool {
-        return lhs > rhs
-    }
-    
-    func sub(_ lhs: StrandIndex, from rhs: Int) -> Int {
-        return rhs - toInt(lhs)
-    }
-    
-    func toIndex(_ ss: Int) -> StrandIndex {
-        return self.inputStrand.index(self.inputStrand.startIndex, offsetBy: ss)
-    }
-    
-    func toInt(_ index: StrandIndex) -> Int {
-        return self.inputStrand.distance(from: self.inputStrand.startIndex, to: index)
-    }
-    
-    func toString(_ slice: StrandSlice) -> String {
-        return String(slice)
-    }
-}
-
-extension StrandSlice {
-    func addIx(_ stringIndex: String.Index, _ ss: Int) -> String.Index {
-        return self.index(stringIndex, offsetBy: ss)
-    }
-    
-    func addInt(_ stringIndex: String.Index, _ ss: Int) -> Int {
-        return self.distance(from: stringIndex, to: addIx(stringIndex, ss))
-    }
-    
-    func distance(to endIndex: String.Index) -> Int {
-        return self.distance(from: self.startIndex, to: endIndex)
-    }
-    
-    func toIndex(_ ss: Int) -> StrandIndex {
-        return self.index(self.startIndex, offsetBy: ss)
-    }
-    
-    func toInt(_ index: StrandIndex) -> Int {
-        return self.distance(from: self.startIndex, to: index)
-    }
-    
-    func toString() -> String {
-        return String(self)
     }
 }

@@ -41,7 +41,7 @@ class TestGetDouble {
 
     func hardTestGetDouble() {
         let input = "DDDLLLLLLLL"
-        if let (theDouble, nextIndex) = StrandDecoder(input).getDouble(input[...]) {
+        if let (theDouble, nextIndex) = StrandDecoder(input).getValue(input[...]) {
             Utilities.clobbered("Should not have succeeded getting a double; double = \(theDouble); nextIndex = \(nextIndex)")
             return
         }
@@ -57,7 +57,7 @@ class TestGetDouble {
             let endIndex = decoder.addIx(ixOfFirstDouble, ixLoop)
             let slice = self.inputStrand[ixOfFirstDouble..<endIndex]
             
-            if let (theDouble, _) = decoder.getDouble(slice) {
+            if let (theDouble, _) = decoder.getValue(slice) {
                 let e = "Should get nil, should not be here; ix = \(ixLoop), double = \(theDouble), slice = \(decoder.toString(slice))"
                 print(e)
                 fatalError(e)
@@ -77,7 +77,7 @@ class TestGetDouble {
                 }
                 
                 let truncated = Double(truncating: truncated_)
-                if double != truncated {
+                if double.getResults() != truncated {
                     let e = "Should get \(truncated) here; got \(double), ixLoop = \(ixLoop)"
                     print(e)
                     fatalError(e)
@@ -113,7 +113,7 @@ class TestGetDouble {
                 default: if ixLoop < 3 { truncated = 0 } else { truncated = Double(truncating: 441.33) }
                 }
                 
-                if double != truncated {
+                if double.getResults() != truncated {
                     let e = "Should get \(truncated) here; got \(double), ixLoop = \(ixLoop), newEix = \(decoder.toInt(newEndIndex))"
                     print(e)
                     fatalError(e)

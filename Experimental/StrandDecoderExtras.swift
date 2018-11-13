@@ -1,0 +1,82 @@
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+
+import Foundation
+
+
+extension StrandDecoder {
+    func addIx(_ stringIndex: String.Index, _ ss: Int) -> String.Index {
+        return self.inputStrand.index(stringIndex, offsetBy: ss)
+    }
+    
+    func addInt(_ stringIndex: String.Index, _ ss: Int) -> Int {
+        return self.inputStrand.distance(from: stringIndex, to: addIx(stringIndex, ss))
+    }
+    
+    func distance(to endIndex: String.Index) -> Int {
+        return self.inputStrand.distance(from: self.inputStrand.startIndex, to: endIndex)
+    }
+    
+    func gt(_ lhs: StrandIndex, _ rhs: StrandIndex) -> Bool {
+        return lhs > rhs
+    }
+    
+    func sub(_ lhs: StrandIndex, from rhs: Int) -> Int {
+        return rhs - toInt(lhs)
+    }
+    
+    func toIndex(_ ss: Int) -> StrandIndex {
+        return self.inputStrand.index(self.inputStrand.startIndex, offsetBy: ss)
+    }
+    
+    func toInt(_ index: StrandIndex) -> Int {
+        return self.inputStrand.distance(from: self.inputStrand.startIndex, to: index)
+    }
+    
+    func toString(_ slice: StrandSlice) -> String {
+        return String(slice)
+    }
+}
+
+extension StrandSlice {
+    func addIx(_ stringIndex: String.Index, _ ss: Int) -> String.Index {
+        return self.index(stringIndex, offsetBy: ss)
+    }
+    
+    func addInt(_ stringIndex: String.Index, _ ss: Int) -> Int {
+        return self.distance(from: stringIndex, to: addIx(stringIndex, ss))
+    }
+    
+    func distance(to endIndex: String.Index) -> Int {
+        return self.distance(from: self.startIndex, to: endIndex)
+    }
+    
+    func toIndex(_ ss: Int) -> StrandIndex {
+        return self.index(self.startIndex, offsetBy: ss)
+    }
+    
+    func toInt(_ index: StrandIndex) -> Int {
+        return self.distance(from: self.startIndex, to: index)
+    }
+    
+    func toString() -> String {
+        return String(self)
+    }
+}

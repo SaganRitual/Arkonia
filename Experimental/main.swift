@@ -48,4 +48,4 @@ var t: Character { return Utilities.t[Utilities.t.startIndex] }
 
 TestGetDouble().testGetDouble()
 TestGetDouble().hardTestGetDouble()
-
+//TestGetBool().testGetBool()
