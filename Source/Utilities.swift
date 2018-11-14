@@ -23,6 +23,7 @@ import Foundation
 typealias Gene = String
 typealias Strand = String
 typealias StrandSlice = Substring
+typealias StrandSliceIndex = Substring.Index
 typealias StrandIndex = String.Index
 typealias Strands = [Strand]
 
@@ -39,4 +40,22 @@ enum Utilities {
     static func hurl(_ exception: DecodeError) throws { throw exception }
     
     static func clobbered(_ message: String) { print(message); fatalError(message) }
+}
+
+struct Trouble: CustomStringConvertible {
+    var value = "0"
+    var needUpdate = false
+    
+    var description: String { return value }
+    
+    init(_ value: Double) {
+        let truncated = Double(truncating: NSNumber(floatLiteral: value))
+        self.value = String(format: "%.5f", truncated)
+    }
+    
+    init?(_ value: String) {
+        guard let d = Double(value) else { return nil }
+        let truncated = Double(truncating: NSNumber(floatLiteral: d))
+        self.value = String(format: "%.5f", truncated)
+    }
 }

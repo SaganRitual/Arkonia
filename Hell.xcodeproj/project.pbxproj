@@ -71,6 +71,7 @@
 		D4838183219A94E300B3648A /* TestGetDouble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestGetDouble.swift; sourceTree = "<group>"; };
 		D4838185219A956400B3648A /* StrandDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrandDecoder.swift; sourceTree = "<group>"; };
 		D4838189219AAA4F00B3648A /* StrandDecoderExtras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrandDecoderExtras.swift; sourceTree = "<group>"; };
+		D4A0362E219B926C00EC171E /* Hell.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Hell.playground; path = XCodeClutter/Hell.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +148,7 @@
 		D483816E2197F4A400B3648A /* Experimental */ = {
 			isa = PBXGroup;
 			children = (
+				D4A0362E219B926C00EC171E /* Hell.playground */,
 				D483816F2197F4A400B3648A /* main.swift */,
 				D48381802199F1D300B3648A /* Slices.swift */,
 				D4838185219A956400B3648A /* StrandDecoder.swift */,
