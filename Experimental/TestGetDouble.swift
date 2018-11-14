@@ -37,8 +37,7 @@ func makeSlice(_ slice: StrandSlice, _ startIndex: StrandIndex, _ rangeEnd: Int)
 }
 
 enum TestExtras {
-    static var inputStrand: String { get {
-        print("huh?"); return "L.I(0)L.I(1)N.L.I(2)N.N.I(1)I(1)B(true)" } }
+    static var inputStrand = "L.I(0)L.I(1)N.L.I(2)N.N.I(1)I(1)B(true)"
 
     static func createTokenArray(_ token: String, in strand: Strand) -> [StrandIndex] {
         var result = [StrandIndex]()
@@ -132,7 +131,7 @@ class TestParseGeneValues {
     var Ls = [StrandIndex]()
     var Ns = [StrandIndex]()
     
-    var wildInputStrand: String?
+    var wildInputStrand: String? = "L.I(6).N.I(10).I(1).B(false).B(true).B(false).B(false).B(true).B(true).B(true).B(true).B(false).B(true).D(-57.20712).D(2.26167).D(-45.73700).N.I(2).I(7).B(false).B(false).D(73.3934).D(31.0).D(-3.87103).D(67.0057).D(-16.95238).D(70).D(-7).D(-71.3).D(71.5140).N.I(10).I(8).B(false).B(false).B(true).B(false).B(true).B(false).B(false).B(true).B(true).B(false).D(-53.672).D(-71.6).D(-94.73).D(-91.46).D(93.02060).D(23.6332).D(53.6071).D(-93.14).D(22.8807).D(87.8165).N.I(2).I(0).B(false).B(false).D(-0.80623).D(0.70).N.I(9).I(3).B(true).B(true).B(true).B(false).B(false).B(false).B(false).B(true).B(true).D(81).D(84.632).D(2).D(84.91).D(-50.37648).N.I(4).I(7).B(true).B(true).B(false).B(false).D(-61.1).D(-67.52).D(11.90537).D(-15.9).D(11.2238).D(78.2).D(14.79).D(-5).D(-88.670).L.I(10).N.I(5).I(5).B(false).B(false).B(false).B(true).B(false).D(-13).D(-12.162).D(-70.8722).D(-2.19).D(6.29).D(-10.63).D(74.936).N.I(2).I(1).B(false).B(true).D(80.9).D(90).D(-13).N.I(10).I(4).B(true).B(false).B(false).B(true).B(true).B(true).B(true).B(true).B(true).B(false).D(-10).D(-57.3).D(-6.0673).D(-12.5249).D(20).D(-52.2089).N.I(8).I(10).B(true).B(false).B(true).B(true).B(true).B(true).B(true).B(false).D(-50.0).D(44.53).D(37.7239).D(-72.16).D(-81.19175).D(-37.87).D(78.2188).D(63.67).D(-8).D(-19).D(81.160).D(-23.15025).N.I(4).I(9).B(false).B(false).B(false).B(false).D(-78).D(52.055).D(-33).D(12.5944).D(-30.83).D(-67.48082).D(-94.81696).D(38.159).D(30.3).D(16.448).D(66.4).N.I(9).I(4).B(true).B(false).B(true).B(true).B(false).B(true).B(false).B(true).B(false).D(92.1898).D(50.6179).D(-65.08904).D(70.040).D(-36.79165).D(96.36).N.I(3).I(0).B(true).B(false).B(false).D(-53.2).D(-99.6).N.I(6).I(7).B(true).B(false).B(true).B(true).B(false).B(false).D(88.2763).D(91.8560).D(21.4).D(67.1).D(95.392).D(-91.59).D(-78.1).D(-44.8).D(17).N.I(2).I(4).B(false).B(false).D(-48.15).D(46).D(-86.25).D(49.7781).D(-27.838).D(-83.474).N.I(4).I(1).B(false).B(true).B(true).B(false).D(11.847).D(79).D(-24.601).L.I(2).N.I(9).I(6).B(true).B(false).B(false).B(true).B(true).B(false).B(false).B(false).B(true).D(37.402).D(67.2).D(11.5).D(-99.1).D(42.81).D(-62.1).D(-39.0).D(-26.9176).N.I(4).I(10).B(true).B(false).B(true).B(true).D(-79.7).D(47.1).D(79.63).D(95.76721).D(-31.7).D(-90.75073).D(-55.58).D(33).D(5).D(-26.3606).D(-7).D(-35).L.I(10).N.I(8).I(0).B(true).B(false).B(false).B(false).B(true).B(false).B(false).B(true).D(94.10873).D(-65.45560).N.I(5).I(9).B(false).B(true).B(true).B(true).B(true).D(-37).D(18.2273).D(21.821).D(8.9168).D(75.8013).D(30.212).D(1.1851).D(-91.8402).D(75.1418).D(42.6223).D(43.2928).N.I(3).I(8).B(true).B(false).B(true).D(47.354).D(-2.1).D(22.79016).D(-34).D(59.804).D(18.1900).D(-62.61).D(88).D(-80.18058).D(24).N.I(9).I(8).B(true).B(true).B(false).B(false).B(true).B(false).B(false).B(true).B(false).D(-20.756).D(-11.7815).D(44.3451).D(32.83).D(-12.3).D(37.1891).D(85.14773).D(-82.8945).D(-0.008).D(-8.8369).N.I(9).I(5).B(true).B(false).B(true).B(true).B(true).B(false).B(false).B(true).B(true).D(-95.6148).D(-27).D(-22.88).D(21.09).D(-88.947).D(-19.77).D(39.8).N.I(9).I(0).B(true).B(true).B(false).B(false).B(true).B(false).B(true).B(true).B(true).D(-49.234).D(-90.396).N.I(10).I(0).B(false).B(false).B(false).B(false).B(true).B(true).B(false).B(true).B(false).B(true).D(-73.96).D(77.67016).N.I(10).I(9).B(false).B(true).B(false).B(true).B(false).B(false).B(true).B(false).B(true).B(false).D(9.67073).D(11).D(-17.8).D(-0.64798).D(43.481).D(9.7667).D(7.8).D(-42.120).D(30.79).D(-90.482).D(-71.92779).N.I(6).I(10).B(false).B(true).B(false).B(true).B(true).B(true).D(52.8).D(47).D(-13.313).D(-50.155).D(-68.800).D(-65).D(-4.40307).D(-37.4132).D(-32.4).D(-5.4).D(36.2).D(-59).N.I(0).I(1).D(-78).D(-58).D(81.179)."
     
     var inputStrand: Strand
     var doubleCheckValues = [Double]()
@@ -149,7 +148,8 @@ class TestParseGeneValues {
                 decimalPlaces = match.distance(from: dot, to: match.endIndex)
             }
             
-            let theDouble_ = Double(match)!
+            let theDouble__ = Double(match)!
+            let theDouble_ = Double(truncating: NSNumber(floatLiteral: theDouble__))
             let funnyAsHell = String(format: "%.\(decimalPlaces)f", theDouble_)
             let theDouble = Double(funnyAsHell)!
             self.doubleCheckValues.append(theDouble)
@@ -180,10 +180,13 @@ class TestParseGeneValues {
                 
                 for _ in 0..<howManyActivators { theRandomStrand += "B(\(Bool.random().description))." }
                 for _ in 0..<(howManyWeights + 2) {
-                    let aRandomNumber = Double.random(in: -100...100)
+                    let aRandomNumber_ = Double.random(in: -100...100)
+                    let aRandomNumber = Double(truncating: NSNumber(floatLiteral: aRandomNumber_))
                     let decimalPlaces = Int.random(in: 0..<6)
-                    theRandomStrand += "D(\(String(format: "%.\(decimalPlaces)f", aRandomNumber)))."
-                    doubleCheckValues.append(aRandomNumber)
+                    let formatString = "%.\(decimalPlaces)f"
+                    let asString = String(format: formatString, aRandomNumber)
+                    theRandomStrand += "D(\(asString))."
+                    doubleCheckValues.append(Double(asString)!)
                 }
             }
         }
@@ -195,21 +198,18 @@ class TestParseGeneValues {
         if let w = wildInputStrand {
             (self.inputStrand, self.doubleCheckValues) =
                 TestParseGeneValues(w).getStrandStats()
-            
         } else {
-            print("random")
             (self.inputStrand, self.doubleCheckValues) =
                 TestParseGeneValues.makeRandomStrand()
-            
         }
-       
-        print(self.inputStrand)
         
-        Bs = TestExtras.createTokenArray("B", in: self.inputStrand); print(Bs.count)
-        Ds = TestExtras.createTokenArray("D", in: self.inputStrand); print(Ds.count)
-        Is = TestExtras.createTokenArray("I", in: self.inputStrand); print(Is.count)
-        Ns = TestExtras.createTokenArray("N", in: self.inputStrand); print(Ns.count)
-        Ls = TestExtras.createTokenArray("L", in: self.inputStrand); print(Ls.count)
+        print(self.inputStrand) // Use this as input back into the decoder to make sure it works both ways
+       
+        Bs = TestExtras.createTokenArray("B", in: self.inputStrand);
+        Ds = TestExtras.createTokenArray("D", in: self.inputStrand);
+        Is = TestExtras.createTokenArray("I", in: self.inputStrand);
+        Ns = TestExtras.createTokenArray("N", in: self.inputStrand);
+        Ls = TestExtras.createTokenArray("L", in: self.inputStrand);
     }
 
     func testParseDouble() {
@@ -220,10 +220,7 @@ class TestParseGeneValues {
             let paren = tail.firstIndex(of: ")")!
             let meat = tail[..<paren]
             
-            print("length is ", tail.distance(from: tail.startIndex, to: paren))
-            
             let parsed = StrandDecoder.parseDouble(meat)
-            print("m", String(meat), "p", parsed ?? "<huh?>", "ss", ss)
             
             if let p = parsed {
                 let correct = doubleCheckValues[ss]
