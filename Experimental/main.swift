@@ -46,5 +46,7 @@ var N: Character { return Utilities.N[Utilities.N.startIndex] }
 var b: Character { return Utilities.b[Utilities.b.startIndex] }
 var t: Character { return Utilities.t[Utilities.t.startIndex] }
 
-TestParseGeneValues().testParseDouble()
-//TestGetBool().testGetBool()
+_ = TestParseGeneValues(TestParseGeneValues().testParseBool()).testParseBool()
+_ = TestParseGeneValues(TestParseGeneValues().testParseDouble()).testParseDouble()
+_ = TestParseGeneValues(TestParseGeneValues().testParseInt()).testParseInt()
+
