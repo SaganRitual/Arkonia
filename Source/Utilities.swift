@@ -39,6 +39,7 @@ enum Utilities {
     
     static func hurl(_ exception: DecodeError) throws { throw exception }
     
+
     static func clobbered(_ message: String) { print(message); fatalError(message) }
 }
 

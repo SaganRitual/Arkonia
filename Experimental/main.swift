@@ -46,7 +46,25 @@ var N: Character { return Utilities.N[Utilities.N.startIndex] }
 var b: Character { return Utilities.b[Utilities.b.startIndex] }
 var t: Character { return Utilities.t[Utilities.t.startIndex] }
 
-_ = TestParseGeneValues(TestParseGeneValues().testParseBool()).testParseBool()
-_ = TestParseGeneValues(TestParseGeneValues().testParseDouble()).testParseDouble()
-_ = TestParseGeneValues(TestParseGeneValues().testParseInt()).testParseInt()
+let translators = DecoderTestGeneTranslators()
+
+let boolTest = TestParseGeneValues(parsers: nil, translators: translators)
+_ = boolTest.parseBool()
+
+let boolTestInput = boolTest.inputStrand[...]
+_ = TestParseGeneValues(parsers: nil, translators: translators).parseBool(boolTestInput)
+
+let doubleTest = TestParseGeneValues(parsers: nil, translators: translators)
+_ = doubleTest.parseDouble()
+
+let doubleTestInput = doubleTest.inputStrand[...]
+_ = TestParseGeneValues(parsers: nil, translators: translators).parseDouble(doubleTestInput)
+
+let intTest = TestParseGeneValues(parsers: nil, translators: translators)
+_ = intTest.parseInt()
+
+let intTestInput = intTest.inputStrand[...]
+_ = TestParseGeneValues(parsers: nil, translators: translators).parseInt(intTestInput)
+
+TestDecoder().testDecoderExpectingOneEmptyLayer()
 

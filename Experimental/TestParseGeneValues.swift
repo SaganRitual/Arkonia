@@ -37,27 +37,30 @@ enum TestExtras {
     }
 }
 
-class TestParseGeneValues {
+class TestParseGeneValues: ValueParserProtocol {
     var Bs = [StrandIndex]()
     var Ds = [StrandIndex]()
     var Is = [StrandIndex]()
     var Ls = [StrandIndex]()
     var Ns = [StrandIndex]()
     
-    var wildInputStrand: String?
-    
-    var inputStrand: Strand
+    var inputStrand = Strand()
     var boolCheckValues   = [Bool]()
     var doubleCheckValues = [Double]()
     var intCheckValues    = [Int]()
-
-    init(_ substituteInput: Strand?) {
-        if let si = substituteInput { self.inputStrand = si }
-        else { (self.inputStrand, self.boolCheckValues, self.doubleCheckValues, self.intCheckValues) =
-            TestParseGeneValues.makeRandomStrand()
-        }
-    }
     
+    var parsers: ValueParserProtocol!
+    let translators: GeneDecoderProtocol
+    
+    var decoder: ValueParserProtocol!
+    
+    func decode() {}    // To meet ValueParserProtocol
+    
+    init(parsers: ValueParserProtocol?, translators: GeneDecoderProtocol) {
+        self.translators = translators
+        if let p = parsers { self.parsers = p } else { self.parsers = self }
+    }
+
     func setCheckValues() -> (Strand, [Bool]) {
         let pe = "B\\(((?:(true)|(false)))\\)\\."
         
@@ -144,97 +147,79 @@ class TestParseGeneValues {
         
         return (theRandomStrand, boolCheckValues, doubleCheckValues, intCheckValues)
     }
-    
-    init() {
-        if let w = wildInputStrand {
-            (self.inputStrand, self.doubleCheckValues) =
-                TestParseGeneValues(w).setCheckValues()
-        } else {
-            (self.inputStrand, self.boolCheckValues, self.doubleCheckValues, self.intCheckValues) =
-                TestParseGeneValues.makeRandomStrand()
-        }
-        
-        print(self.inputStrand) // Use this as input back into the decoder to make sure it works both ways
-       
-        Bs = TestExtras.createTokenArray("B", in: self.inputStrand);
-        Ds = TestExtras.createTokenArray("D", in: self.inputStrand);
-        Is = TestExtras.createTokenArray("I", in: self.inputStrand);
-        Ns = TestExtras.createTokenArray("N", in: self.inputStrand);
-        Ls = TestExtras.createTokenArray("L", in: self.inputStrand);
-    }
 
-    func testParseBool() -> String {
-        let decoder = StrandDecoder(self.inputStrand)
-        
+    func parseBool(_ slice: StrandSlice? = nil) -> Bool {
         for (ss, B) in zip(0..., Bs) {
             let tail = inputStrand[B...].dropFirst(2)
             let paren = tail.firstIndex(of: ")")!
             let meat = tail[..<paren]
             
-            let parsed = StrandDecoder.parseBool(meat)
+            let parsed = parsers.parseBool(meat)
             
-            if let p = parsed {
-                let correct = boolCheckValues[ss]
-                if p != correct {
-                    Utilities.clobbered("Mismatch in testParseBool(); expected \(correct), got \(p)")
-                }
-            } else {
-                let meatStart = decoder.toInt(tail.startIndex)
-                let meatEnd = decoder.toInt(meat.endIndex)
-                Utilities.clobbered("Failed to parse bool in \"\(String(meat))\", [\(meatStart)..<\(meatEnd)]")
+            let correct = boolCheckValues[ss]
+            if parsed != correct {
+                Utilities.clobbered("Mismatch in testParseBool(); expected \(correct), got \(parsed)")
             }
         }
         
-        return self.inputStrand
+        return false
     }
 
-    func testParseDouble() -> String {
-        let decoder = StrandDecoder(self.inputStrand)
-        
+    func parseDouble(_ slice: StrandSlice? = nil) -> Double {
         for (ss, D) in zip(0..., Ds) {
             let tail = inputStrand[D...].dropFirst(2)
             let paren = tail.firstIndex(of: ")")!
             let meat = tail[..<paren]
             
-            let parsed = StrandDecoder.parseDouble(meat)
+            let parsed = parsers.parseDouble(meat)
             
-            if let p = parsed {
-                let correct = doubleCheckValues[ss]
-                if p != correct {
-                    Utilities.clobbered("Mismatch in testParseDouble(); expected \(correct), got \(p)")
-                }
-            } else {
-                let meatStart = decoder.toInt(tail.startIndex)
-                let meatEnd = decoder.toInt(meat.endIndex)
-                Utilities.clobbered("Failed to parse double in \"\(String(meat))\", [\(meatStart)..<\(meatEnd)]")
+            let correct = doubleCheckValues[ss]
+            if parsed != correct {
+                Utilities.clobbered("Mismatch in testParseDouble(); expected \(correct), got \(parsed)")
             }
         }
         
-        return self.inputStrand
+        return 0
     }
 
-    func testParseInt() -> String {
-        let decoder = StrandDecoder(self.inputStrand)
-        
+    func parseInt(_ slice: StrandSlice? = nil) -> Int {
         for (ss, I) in zip(0..., Is) {
             let tail = inputStrand[I...].dropFirst(2)
             let paren = tail.firstIndex(of: ")")!
             let meat = tail[..<paren]
             
-            let parsed = StrandDecoder.parseInt(meat)
+            let parsed = parsers.parseInt(meat)
             
-            if let p = parsed {
-                let correct = intCheckValues[ss]
-                if p != correct {
-                    Utilities.clobbered("Mismatch in testParseInt(); expected \(correct), got \(p)")
-                }
-            } else {
-                let meatStart = decoder.toInt(tail.startIndex)
-                let meatEnd = decoder.toInt(meat.endIndex)
-                Utilities.clobbered("Failed to parse int in \"\(String(meat))\", [\(meatStart)..<\(meatEnd)]")
+            let correct = intCheckValues[ss]
+            if parsed != correct {
+                Utilities.clobbered("Mismatch in testParseInt(); expected \(correct), got \(parsed)")
             }
         }
         
-        return self.inputStrand
+        return 0
+    }
+    
+    func setDecoder(decoder: ValueParserProtocol) {
+        self.decoder = decoder
+    }
+    
+    func setInput(to inputStrand: String) -> ValueParserProtocol {
+        self.inputStrand = inputStrand
+        print(self.inputStrand) // Use this as input back into the decoder to make sure it works both ways
+        
+        Bs = TestExtras.createTokenArray("B", in: self.inputStrand);
+        Ds = TestExtras.createTokenArray("D", in: self.inputStrand);
+        Is = TestExtras.createTokenArray("I", in: self.inputStrand);
+        Ns = TestExtras.createTokenArray("N", in: self.inputStrand);
+        Ls = TestExtras.createTokenArray("L", in: self.inputStrand);
+        
+        return self
+    }
+    
+    func setDefaultInput() -> ValueParserProtocol {
+        (self.inputStrand, self.boolCheckValues, self.doubleCheckValues, self.intCheckValues) =
+            TestParseGeneValues.makeRandomStrand()
+        
+        return self
     }
 }

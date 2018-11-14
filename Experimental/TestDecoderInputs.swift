@@ -17,6 +17,37 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-  
 
 import Foundation
+
+// All of these inputs should produce only one empty layer
+enum TestDecoderInput {
+    static let oneEmptyLayerStrands = [
+        "L.",
+        
+        "L.I(0).",
+        "L.I(1).",
+        "L.I(2).",
+        "L.I(3).",
+        "L.I(4).",
+        
+        "L.N.",
+        "L.I(0).N.",
+        
+        "L.N.I(0).",
+        "L.N.I(1).",
+        "L.N.I(2).",
+        "L.N.I(3).",
+        "L.N.I(4).",
+        
+        "L.N.I(0).N.",
+        "L.N.I(1).N.",
+        "L.N.I(2).N.",
+        "L.N.I(3).N.",
+        "L.N.I(4).N.",
+        
+        "L.N.N.",
+        "L.N.N.N.N.N.",
+        "L.I(0).I(1).I(0).N.N.N.N.N."
+    ]
+}
