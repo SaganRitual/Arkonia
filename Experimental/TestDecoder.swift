@@ -148,7 +148,7 @@ class DecoderTestGeneTranslators: GeneDecoderProtocol {
 }
 
 struct TestDecoder {
-    let decoder: StrandDecoder
+    let decoder: Decoder
     let parsers = DecoderTestParsers()
     let translators = DecoderTestGeneTranslators()
     
@@ -157,7 +157,7 @@ struct TestDecoder {
     let maxLayers = 10, maxNeuronsPerLayer = 10, maxWeightsPerNeuron = 10, maxActivatorsPerNeuron = 10
 
     init() {
-        decoder = StrandDecoder(parsers: parsers, translators: translators)
+        decoder = Decoder(parsers: parsers, translators: translators)
         parsers.setDecoder(decoder: decoder)
         
         for _ in 0..<maxLayers {

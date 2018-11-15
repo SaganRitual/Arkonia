@@ -58,7 +58,7 @@ func main() {
     
     print(inputStrand)
     
-    let decoder = StrandDecoder(parsers: parsers, translators: translators)
+    let decoder = Decoder(parsers: parsers, translators: translators)
     _ = decoder.setInput(to: inputStrand)
     decoder.decode()
 }

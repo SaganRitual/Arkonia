@@ -28,7 +28,7 @@ fileprivate enum DecodeState {
     case endOfStrand, inLayer, inNeuron, noLayer
 }
 
-class StrandDecoder {
+class Decoder {
     var inputStrand: Strand!
     let parsers: ValueParserProtocol
     let translators: GeneDecoderProtocol
@@ -74,7 +74,7 @@ class StrandDecoder {
     }
 }
 
-extension StrandDecoder {
+extension Decoder {
     func dispatchValueGene(_ slice: StrandSlice) -> Int {
         var symbolsConsumed = 0
         var tSlice = slice
@@ -98,7 +98,7 @@ extension StrandDecoder {
     }
 }
 
-extension StrandDecoder {
+extension Decoder {
     
     func dispatch_noLayer(_ slice: StrandSlice) -> Int {
         guard let first = slice.first else { fatalError("Though we had a slice, but it's gone now?") }
@@ -166,7 +166,7 @@ extension StrandDecoder {
     }
 }
 
-extension StrandDecoder: ValueParserProtocol {
+extension Decoder: ValueParserProtocol {
     func setDecoder(decoder: ValueParserProtocol) {
     }
     

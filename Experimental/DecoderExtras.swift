@@ -21,7 +21,7 @@
 import Foundation
 
 
-extension StrandDecoder {
+extension Decoder {
     func addIx(_ stringIndex: String.Index, _ ss: Int) -> String.Index {
         return self.inputStrand.index(stringIndex, offsetBy: ss)
     }

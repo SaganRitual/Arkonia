@@ -39,10 +39,56 @@ var b: Character { return "b" } // bias as Double
 var t: Character { return "t" } // threshold as Double
 
 enum Utilities {
+    static var filenameSerialNumber = 0
     
-    static func hurl(_ exception: DecodeError) throws { throw exception }
     static func clobbered(_ message: String) { print(message); fatalError(message) }
+
+    static func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    static func makeFullPath(_ filename: URL) -> URL {
+        let filename = String(format: "txt%04d.txt", filenameSerialNumber)
+        let fullPath = Utilities.getDocumentsDirectory().appendingPathComponent(filename)
+        
+        filenameSerialNumber += 1
+        return fullPath
+    }
+
+    static func hurl(_ exception: DecodeError) throws { throw exception }
+    
+    static func load(filename: String) -> [Strand] {
+        do {
+            let fullPathURL = Utilities.getDocumentsDirectory().appendingPathComponent(filename)
+            let jsonString = try String(contentsOf: fullPathURL)
+            
+            let strands = try JSONDecoder().decode([Strand].self, from: jsonString.data(using: .utf8)!)
+            return strands
+        } catch {
+            print(error)
+            fatalError()
+        }
+    }
+    
+    static func save(_ strands: [Strand], to filename: String) -> String {
+        do {
+            let json = try JSONEncoder().encode(strands)
+            
+            let fullPath = Utilities.getDocumentsDirectory().appendingPathComponent(filename)
+            
+            filenameSerialNumber += 1
+            
+            try json.write(to: fullPath)
+            return fullPath.absoluteString
+        } catch {
+            // print(error)
+            fatalError()
+        }
+    }
 }
+
+
 
 infix operator ~~=
 infix operator ~~+
