@@ -16,6 +16,13 @@
 		D44B54A52197EE9A00FB94FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D44B54A42197EE9A00FB94FC /* Assets.xcassets */; };
 		D44B54A82197EE9A00FB94FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D44B54A62197EE9A00FB94FC /* Main.storyboard */; };
 		D44B54B42197EE9A00FB94FC /* XCodeClutterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B54B32197EE9A00FB94FC /* XCodeClutterTests.swift */; };
+		D483817C2198C14800B3648A /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D483817B2198C14800B3648A /* Utilities.swift */; };
+		D4838182219A2D5800B3648A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D483816F2197F4A400B3648A /* main.swift */; };
+		D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838183219A94E300B3648A /* TestParseGeneValues.swift */; };
+		D4838186219A956400B3648A /* StrandDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838185219A956400B3648A /* StrandDecoder.swift */; };
+		D483818A219AAA4F00B3648A /* StrandDecoderExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838189219AAA4F00B3648A /* StrandDecoderExtras.swift */; };
+		D4A03630219BD1BD00EC171E /* TestDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A0362F219BD1BD00EC171E /* TestDecoder.swift */; };
+		D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A03631219CA94300EC171E /* TestDecoderInputs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D42562AB2197F35100FEFD6B /* CopyFiles */ = {
+		D483816B2197F4A400B3648A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -56,6 +63,15 @@
 		D44B54AF2197EE9A00FB94FC /* XCodeClutterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XCodeClutterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D44B54B32197EE9A00FB94FC /* XCodeClutterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCodeClutterTests.swift; sourceTree = "<group>"; };
 		D44B54B52197EE9A00FB94FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D483816D2197F4A400B3648A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
+		D483816F2197F4A400B3648A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D483817B2198C14800B3648A /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = Source/Utilities.swift; sourceTree = SOURCE_ROOT; };
+		D4838183219A94E300B3648A /* TestParseGeneValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestParseGeneValues.swift; sourceTree = "<group>"; };
+		D4838185219A956400B3648A /* StrandDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrandDecoder.swift; sourceTree = "<group>"; };
+		D4838189219AAA4F00B3648A /* StrandDecoderExtras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrandDecoderExtras.swift; sourceTree = "<group>"; };
+		D4A0362E219B926C00EC171E /* Hell.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Hell.playground; path = XCodeClutter/Hell.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		D4A0362F219BD1BD00EC171E /* TestDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDecoder.swift; sourceTree = "<group>"; };
+		D4A03631219CA94300EC171E /* TestDecoderInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDecoderInputs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +90,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D44B54AC2197EE9A00FB94FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D483816A2197F4A400B3648A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -101,8 +124,8 @@
 		D44B548E2197EE9900FB94FC = {
 			isa = PBXGroup;
 			children = (
-				D42562AE2197F35100FEFD6B /* Experimental */,
-				D42562A82197F2D900FEFD6B /* Source */,
+				D48381742197F4C500B3648A /* Source */,
+				D483816E2197F4A400B3648A /* Experimental */,
 				D44B54992197EE9900FB94FC /* XCodeClutter */,
 				D44B54B22197EE9A00FB94FC /* XCodeClutterTests */,
 				D44B54982197EE9900FB94FC /* Products */,
@@ -114,7 +137,7 @@
 			children = (
 				D44B54972197EE9900FB94FC /* XCodeClutter.app */,
 				D44B54AF2197EE9A00FB94FC /* XCodeClutterTests.xctest */,
-				D42562AD2197F35100FEFD6B /* Experimental */,
+				D483816D2197F4A400B3648A /* Experimental */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -142,6 +165,29 @@
 				D44B54B52197EE9A00FB94FC /* Info.plist */,
 			);
 			path = XCodeClutterTests;
+			sourceTree = "<group>";
+		};
+		D483816E2197F4A400B3648A /* Experimental */ = {
+			isa = PBXGroup;
+			children = (
+				D4A0362E219B926C00EC171E /* Hell.playground */,
+				D483816F2197F4A400B3648A /* main.swift */,
+				D4838185219A956400B3648A /* StrandDecoder.swift */,
+				D4838189219AAA4F00B3648A /* StrandDecoderExtras.swift */,
+				D4A0362F219BD1BD00EC171E /* TestDecoder.swift */,
+				D4A03631219CA94300EC171E /* TestDecoderInputs.swift */,
+				D4838183219A94E300B3648A /* TestParseGeneValues.swift */,
+			);
+			path = Experimental;
+			sourceTree = "<group>";
+		};
+		D48381742197F4C500B3648A /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				D483817B2198C14800B3648A /* Utilities.swift */,
+			);
+			name = Source;
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,6 +245,23 @@
 			productReference = D44B54AF2197EE9A00FB94FC /* XCodeClutterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D483816C2197F4A400B3648A /* Experimental */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D48381732197F4A400B3648A /* Build configuration list for PBXNativeTarget "Experimental" */;
+			buildPhases = (
+				D48381692197F4A400B3648A /* Sources */,
+				D483816A2197F4A400B3648A /* Frameworks */,
+				D483816B2197F4A400B3648A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Experimental;
+			productName = Experimental;
+			productReference = D483816D2197F4A400B3648A /* Experimental */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -219,6 +282,9 @@
 						CreatedOnToolsVersion = 10.1;
 						TestTargetID = D44B54962197EE9900FB94FC;
 					};
+					D483816C2197F4A400B3648A = {
+						CreatedOnToolsVersion = 10.1;
+					};
 				};
 			};
 			buildConfigurationList = D44B54922197EE9900FB94FC /* Build configuration list for PBXProject "Hell" */;
@@ -236,7 +302,7 @@
 			targets = (
 				D44B54962197EE9900FB94FC /* XCodeClutter */,
 				D44B54AE2197EE9A00FB94FC /* XCodeClutterTests */,
-				D42562AC2197F35100FEFD6B /* Experimental */,
+				D483816C2197F4A400B3648A /* Experimental */,
 			);
 		};
 /* End PBXProject section */
@@ -286,6 +352,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				D44B54B42197EE9A00FB94FC /* XCodeClutterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D48381692197F4A400B3648A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4A03630219BD1BD00EC171E /* TestDecoder.swift in Sources */,
+				D4838186219A956400B3648A /* StrandDecoder.swift in Sources */,
+				D4838182219A2D5800B3648A /* main.swift in Sources */,
+				D483817C2198C14800B3648A /* Utilities.swift in Sources */,
+				D483818A219AAA4F00B3648A /* StrandDecoderExtras.swift in Sources */,
+				D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */,
+				D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,18 +606,29 @@
 			};
 			name = Release;
 		};
+		D48381712197F4A400B3648A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D48381722197F4A400B3648A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D42562B12197F35100FEFD6B /* Build configuration list for PBXNativeTarget "Experimental" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D42562B22197F35100FEFD6B /* Debug */,
-				D42562B32197F35100FEFD6B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		D44B54922197EE9900FB94FC /* Build configuration list for PBXProject "Hell" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -561,6 +652,15 @@
 			buildConfigurations = (
 				D44B54BC2197EE9A00FB94FC /* Debug */,
 				D44B54BD2197EE9A00FB94FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D48381732197F4A400B3648A /* Build configuration list for PBXNativeTarget "Experimental" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D48381712197F4A400B3648A /* Debug */,
+				D48381722197F4A400B3648A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
