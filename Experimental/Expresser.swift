@@ -20,6 +20,10 @@
 
 import Foundation
 
+protocol BrainProtocol {
+    func show()
+}
+
 protocol ExpresserProtocol {
     var reachedEndOfStrand: Bool { get set }
     
@@ -31,6 +35,9 @@ protocol ExpresserProtocol {
 
     func endOfStrand()
     
+    func getBrain() -> BrainProtocol
+    
+    func newBrain()
     func newLayer()
     func newNeuron()
     
@@ -40,48 +47,59 @@ protocol ExpresserProtocol {
     func setThreshold(_ value: Double)
 }
 
-class Expresser {
-    func newBrain() -> Brain {
-        return Brain()
+class Expresser: ExpresserProtocol {
+    var layers = [Layer]()
+    var reachedEndOfStrand = false
+    var underConstruction: Layer!
+    
+    func addActivator(_ active: Bool) { underConstruction.underConstruction.addActivator(active) }
+    func addWeight(_ weight: Double) { underConstruction.underConstruction.addWeight(weight) }
+    
+    func closeLayer() {
+        if let u = underConstruction { layers.append(u) }
+        underConstruction = nil
     }
 
-    class Brain: ExpresserProtocol {
-        var reachedEndOfStrand = false
-        
-        var layerStack = [Layer]()
-        var underConstruction: Layer!
-        
-        func addActivator(_ active: Bool) { underConstruction.underConstruction.addActivator(active) }
-        func addWeight(_ weight: Double) { underConstruction.underConstruction.addWeight(weight) }
-        
-        func closeLayer() { if let u = underConstruction { layerStack.append(u) }}
-        func closeNeuron() { underConstruction.closeNeuron() }
-        
-        func endOfStrand() {
-            if let u = underConstruction {
-                layerStack.append(u)
-                underConstruction = nil
-                reachedEndOfStrand = true
-            }
-            
-            if let layer = layerStack.last { layer.endOfStrand() }
+    func closeNeuron() { underConstruction.closeNeuron() }
+    
+    func endOfStrand() {
+        if let u = underConstruction {
+            layers.append(u)
+            underConstruction = nil
+            reachedEndOfStrand = true
         }
         
-        func newLayer() {
-            if let u = underConstruction { layerStack.append(u); underConstruction = nil }
-            else { underConstruction = Layer() }
-        }
-        
-        func newNeuron() { underConstruction.newNeuron() }
-        
-        func reset() { reachedEndOfStrand = false; layerStack.removeAll() }
-        
-        func setBias(_ value: Double) { underConstruction!.setThreshold(value) }
-        func setThreshold(_ value: Double) { underConstruction!.setThreshold(value) }
+        if let layer = layers.last { layer.endOfStrand() }
     }
+    
+    func getBrain() -> BrainProtocol { return Brain(layers: layers) }
+    
+    func newLayer() {
+        if let u = underConstruction { layers.append(u); underConstruction = nil }
+        else { underConstruction = Layer() }
+    }
+    
+    func newBrain() { layers = []; underConstruction = nil }
+    func newNeuron() { underConstruction.newNeuron() }
+    
+    func reset() { reachedEndOfStrand = false; layers.removeAll() }
+    
+    func setBias(_ value: Double) { underConstruction!.setBias(value) }
+    func setThreshold(_ value: Double) { underConstruction!.setThreshold(value) }
 }
 
 extension Expresser {
+    class Brain: BrainProtocol {
+        let layers: [Layer]
+
+        init(layers: [Layer]) { self.layers = layers }
+        
+        func show() {
+            print("Brain:")
+            for (ss, layer) in zip(0..., layers) { layer.show(ss) }
+        }
+    }
+ 
     class Layer {
         var neurons = [Neuron]()
         var underConstruction: Neuron!
@@ -89,13 +107,23 @@ extension Expresser {
         func addActivator(_ value: Bool) { underConstruction.activators.append(value) }
         func addWeight(_ value: Double) { underConstruction.weights.append(value) }
 
-        func closeNeuron() { neurons.append(underConstruction); underConstruction = nil }
+        func closeNeuron() {
+            if let u = underConstruction { neurons.append(u) }
+            underConstruction = nil
+        }
+
         func newNeuron() { underConstruction = Neuron() }
         
         func endOfStrand() { closeNeuron() }
         
         func setBias(_ value: Double) { underConstruction.bias = value }
         func setThreshold(_ value: Double) { underConstruction.threshold = value }
+        
+        func show(_ layerSS: Int) {
+            print("Layer \(layerSS):")
+            for (ss, neuron) in zip(0..., neurons) { neuron.show(ss) }
+        }
+        
     }
     
     class Neuron {
@@ -108,5 +136,21 @@ extension Expresser {
         func addWeight(_ weight: Double) { weights.append(weight) }
         func setBias(_ value: Double) { bias = value }
         func setThreshold(_ value: Double) { threshold = value }
+        
+        func show(_ neuronSS: Int) {
+            print("Neuron \(neuronSS):")
+            
+            print("\tActivators: ", terminator: "")
+            for a in activators { print("A(\(a)) ", terminator: "") }
+            print("")
+
+            print("\tWeights: ", terminator: "")
+            for w in weights { print("W(\(w)) ", terminator: "") }
+            print("")
+            
+            let biasString = (bias == nil) ? "<nil>" : String(bias!)
+            let thresholdString = (threshold == nil) ? "<nil>" : String(threshold!)
+            print("\tBias: \(biasString), Threshold \(thresholdString)")
+        }
     }
 }

@@ -42,7 +42,7 @@ class Decoder {
         if let g = inputGenome { self.inputGenome = g }
 
         if let e = expresser { self.expresser = e }
-        else { self.expresser = Expresser().newBrain() }
+        else { self.expresser = Expresser() }
 
         if let p = parser { self.parser = p }
         else { self.parser = self }
@@ -67,7 +67,7 @@ class Decoder {
         var slice = inputGenome[inputGenome.startIndex..<inputGenome.endIndex]
 
         while decodeState != .endOfStrand {
-            guard let _ = slice.first else { decodeState = .endOfStrand; break }
+            if slice.first == nil { decodeState = .endOfStrand; break }
 
             var symbolsConsumed = 0
             switch decodeState {
@@ -82,6 +82,8 @@ class Decoder {
 
         expresser.endOfStrand()
     }
+    
+    func newBrain() { self.expresser.newBrain() }
 }
 
 extension Decoder {
@@ -116,13 +118,13 @@ extension Decoder {
         case L:
             decodeState = .inLayer
             expresser.newLayer()
-            return 0
+            return 2
             
         case N:
             decodeState = .inNeuron
             expresser.newLayer()
             expresser.newNeuron()
-            return 0
+            return 2
 
         default:
             decodeState = .inNeuron
@@ -141,15 +143,16 @@ extension Decoder {
             
             expresser.closeLayer()
             expresser.newLayer()
-            return 0
+            return 2
             
         case N:
             decodeState = .inNeuron
-            expresser.newNeuron()     // Close any open neuron and start a new one
-            return 0
+            expresser.newNeuron()
+            return 2
 
         default:
             decodeState = .inNeuron
+            expresser.newNeuron()
             return dispatchValueGene(slice)
         }
     }
@@ -162,13 +165,13 @@ extension Decoder {
             expresser.closeNeuron()
             expresser.closeLayer()
             expresser.newLayer()
-            return 0
+            return 2
             
         case N:
             decodeState = .inNeuron
             expresser.closeNeuron()
             expresser.newNeuron()
-            return 0
+            return 2
             
         default:
             return dispatchValueGene(slice)
