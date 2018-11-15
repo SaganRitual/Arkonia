@@ -21,11 +21,9 @@
 import Foundation
 
 typealias Gene = String
-typealias Strand = String
-typealias StrandSlice = Substring
-typealias StrandSliceIndex = Substring.Index
-typealias StrandIndex = String.Index
-typealias Strands = [Strand]
+typealias Genome = String
+typealias GenomeSlice = Substring
+typealias GenomeIndex = String.Index
 
 var A: Character { return "A" } // Activator -- Bool
 var B: Character { return "B" } // Generic Bool
@@ -56,14 +54,14 @@ enum Utilities {
         return fullPath
     }
 
-    static func hurl(_ exception: DecodeError) throws { throw exception }
+//    static func hurl(_ exception: DecodeError) throws { throw exception }
     
-    static func load(filename: String) -> [Strand] {
+    static func load(filename: String) -> [Genome] {
         do {
             let fullPathURL = Utilities.getDocumentsDirectory().appendingPathComponent(filename)
             let jsonString = try String(contentsOf: fullPathURL)
             
-            let strands = try JSONDecoder().decode([Strand].self, from: jsonString.data(using: .utf8)!)
+            let strands = try JSONDecoder().decode([Genome].self, from: jsonString.data(using: .utf8)!)
             return strands
         } catch {
             print(error)
@@ -71,7 +69,7 @@ enum Utilities {
         }
     }
     
-    static func save(_ strands: [Strand], to filename: String) -> String {
+    static func save(_ strands: [Genome], to filename: String) -> String {
         do {
             let json = try JSONEncoder().encode(strands)
             
@@ -88,7 +86,12 @@ enum Utilities {
     }
 }
 
-
+extension Double {
+    func truncate() -> String {
+        let t = Double(truncating: NSNumber(floatLiteral: self))
+        return String(format: "%.5f", t)
+    }
+}
 
 infix operator ~~=
 infix operator ~~+

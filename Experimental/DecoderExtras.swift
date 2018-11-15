@@ -23,60 +23,34 @@ import Foundation
 
 extension Decoder {
     func addIx(_ stringIndex: String.Index, _ ss: Int) -> String.Index {
-        return self.inputStrand.index(stringIndex, offsetBy: ss)
+        return self.inputGenome.index(stringIndex, offsetBy: ss)
     }
     
     func addInt(_ stringIndex: String.Index, _ ss: Int) -> Int {
-        return self.inputStrand.distance(from: stringIndex, to: addIx(stringIndex, ss))
+        return self.inputGenome.distance(from: stringIndex, to: addIx(stringIndex, ss))
     }
     
     func distance(to endIndex: String.Index) -> Int {
-        return self.inputStrand.distance(from: self.inputStrand.startIndex, to: endIndex)
+        return self.inputGenome.distance(from: self.inputGenome.startIndex, to: endIndex)
     }
     
-    func gt(_ lhs: StrandIndex, _ rhs: StrandIndex) -> Bool {
+    func gt(_ lhs: GenomeIndex, _ rhs: GenomeIndex) -> Bool {
         return lhs > rhs
     }
     
-    func sub(_ lhs: StrandIndex, from rhs: Int) -> Int {
+    func sub(_ lhs: GenomeIndex, from rhs: Int) -> Int {
         return rhs - toInt(lhs)
     }
     
-    func toIndex(_ ss: Int) -> StrandIndex {
-        return self.inputStrand.index(self.inputStrand.startIndex, offsetBy: ss)
+    func toIndex(_ ss: Int) -> GenomeIndex {
+        return self.inputGenome.index(self.inputGenome.startIndex, offsetBy: ss)
     }
     
-    func toInt(_ index: StrandIndex) -> Int {
-        return self.inputStrand.distance(from: self.inputStrand.startIndex, to: index)
+    func toInt(_ index: GenomeIndex) -> Int {
+        return self.inputGenome.distance(from: self.inputGenome.startIndex, to: index)
     }
     
-    func toString(_ slice: StrandSlice) -> String {
+    func toString(_ slice: GenomeSlice) -> String {
         return String(slice)
-    }
-}
-
-extension StrandSlice {
-    func addIx(_ stringIndex: String.Index, _ ss: Int) -> String.Index {
-        return self.index(stringIndex, offsetBy: ss)
-    }
-    
-    func addInt(_ stringIndex: String.Index, _ ss: Int) -> Int {
-        return self.distance(from: stringIndex, to: addIx(stringIndex, ss))
-    }
-    
-    func distance(to endIndex: String.Index) -> Int {
-        return self.distance(from: self.startIndex, to: endIndex)
-    }
-    
-    func toIndex(_ ss: Int) -> StrandIndex {
-        return self.index(self.startIndex, offsetBy: ss)
-    }
-    
-    func toInt(_ index: StrandIndex) -> Int {
-        return self.distance(from: self.startIndex, to: index)
-    }
-    
-    func toString() -> String {
-        return String(self)
     }
 }

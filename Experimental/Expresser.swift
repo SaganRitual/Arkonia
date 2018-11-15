@@ -20,5 +20,93 @@
 
 import Foundation
 
+protocol ExpresserProtocol {
+    var reachedEndOfStrand: Bool { get set }
+    
+    func addActivator(_ active: Bool)
+    func addWeight(_ weight: Double)
+    
+    func closeLayer()
+    func closeNeuron()
+
+    func endOfStrand()
+    
+    func newLayer()
+    func newNeuron()
+    
+    func reset()
+    
+    func setBias(_ value: Double)
+    func setThreshold(_ value: Double)
+}
+
 class Expresser {
+    func newBrain() -> Brain {
+        return Brain()
+    }
+
+    class Brain: ExpresserProtocol {
+        var reachedEndOfStrand = false
+        
+        var layerStack = [Layer]()
+        var underConstruction: Layer!
+        
+        func addActivator(_ active: Bool) { underConstruction.underConstruction.addActivator(active) }
+        func addWeight(_ weight: Double) { underConstruction.underConstruction.addWeight(weight) }
+        
+        func closeLayer() { if let u = underConstruction { layerStack.append(u) }}
+        func closeNeuron() { underConstruction.closeNeuron() }
+        
+        func endOfStrand() {
+            if let u = underConstruction {
+                layerStack.append(u)
+                underConstruction = nil
+                reachedEndOfStrand = true
+            }
+            
+            if let layer = layerStack.last { layer.endOfStrand() }
+        }
+        
+        func newLayer() {
+            if let u = underConstruction { layerStack.append(u); underConstruction = nil }
+            else { underConstruction = Layer() }
+        }
+        
+        func newNeuron() { underConstruction.newNeuron() }
+        
+        func reset() { reachedEndOfStrand = false; layerStack.removeAll() }
+        
+        func setBias(_ value: Double) { underConstruction!.setThreshold(value) }
+        func setThreshold(_ value: Double) { underConstruction!.setThreshold(value) }
+    }
+}
+
+extension Expresser {
+    class Layer {
+        var neurons = [Neuron]()
+        var underConstruction: Neuron!
+        
+        func addActivator(_ value: Bool) { underConstruction.activators.append(value) }
+        func addWeight(_ value: Double) { underConstruction.weights.append(value) }
+
+        func closeNeuron() { neurons.append(underConstruction); underConstruction = nil }
+        func newNeuron() { underConstruction = Neuron() }
+        
+        func endOfStrand() { closeNeuron() }
+        
+        func setBias(_ value: Double) { underConstruction.bias = value }
+        func setThreshold(_ value: Double) { underConstruction.threshold = value }
+    }
+    
+    class Neuron {
+        var bias: Double?
+        var threshold: Double?
+        
+        var activators = [Bool](), weights = [Double]()
+        
+        func addActivator(_ active: Bool) { activators.append(active) }
+        func addWeight(_ weight: Double) { weights.append(weight) }
+        func setBias(_ value: Double) { bias = value }
+        func setThreshold(_ value: Double) { threshold = value }
+    }
 }

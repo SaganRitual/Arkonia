@@ -21,26 +21,11 @@
 
 import Foundation
 
-extension Double {
-    func truncate() -> String {
-        let t = Double(truncating: NSNumber(floatLiteral: self))
-        return String(format: "%.5f", t)
-    }
-}
-
 func main() {
-    let translators = DecoderTestGeneTranslators()
-    let parsers = DecoderTestParsers()
-
     let geneSelector = [String(A), String(W), String(b), String(t)]
     
-    func truncate(_ d: Double) -> String {
-        let t = Double(truncating: NSNumber(floatLiteral: d))
-        return String(t)
-    }
-    
-    let inputStrand: Strand = {
-        var workingStrand = Strand()
+    let inputGenome: Genome = {
+        var workingStrand = Genome()
         for _ in 0..<100 {
             let ss = Int.random(in: 0..<geneSelector.count)
 
@@ -56,10 +41,9 @@ func main() {
         return workingStrand
     }()
     
-    print(inputStrand)
+    print(inputGenome)
     
-    let decoder = Decoder(parsers: parsers, translators: translators)
-    _ = decoder.setInput(to: inputStrand)
+    let decoder = Decoder(inputGenome: inputGenome)
     decoder.decode()
 }
 

@@ -21,10 +21,10 @@
 import Foundation
 
 enum TestExtras {
-    static var inputStrand = "L.I(0)L.I(1)N.L.I(2)N.N.I(1)I(1)B(true)"
+    static var inputGenome = "L.I(0)L.I(1)N.L.I(2)N.N.I(1)I(1)B(true)"
 
-    static func createTokenArray(_ token: String, in strand: Strand) -> [StrandIndex] {
-        var result = [StrandIndex]()
+    static func createTokenArray(_ token: String, in strand: Genome) -> [GenomeIndex] {
+        var result = [GenomeIndex]()
         var slice = strand[strand.startIndex..<strand.endIndex]
         
         while let startIndex = slice.firstIndex(of: token.first!) {
@@ -38,44 +38,44 @@ enum TestExtras {
 }
 
 class TestParseGeneValues: ValueParserProtocol {
-    var Bs = [StrandIndex]()
-    var Ds = [StrandIndex]()
-    var Is = [StrandIndex]()
-    var Ls = [StrandIndex]()
-    var Ns = [StrandIndex]()
+    var Bs = [GenomeIndex]()
+    var Ds = [GenomeIndex]()
+    var Is = [GenomeIndex]()
+    var Ls = [GenomeIndex]()
+    var Ns = [GenomeIndex]()
     
-    var inputStrand = Strand()
+    var inputGenome = Genome()
     var boolCheckValues   = [Bool]()
     var doubleCheckValues = [Double]()
     var intCheckValues    = [Int]()
     
-    var parsers: ValueParserProtocol!
-    let translators: GeneDecoderProtocol
+    var parser: ValueParserProtocol!
+    let expresser: ExpresserProtocol
     
     var decoder: ValueParserProtocol!
     
     func decode() {}    // To meet ValueParserProtocol
     
-    init(parsers: ValueParserProtocol?, translators: GeneDecoderProtocol) {
-        self.translators = translators
-        if let p = parsers { self.parsers = p } else { self.parsers = self }
+    init(parser: ValueParserProtocol?, expresser: ExpresserProtocol) {
+        self.expresser = expresser
+        if let p = parser { self.parser = p } else { self.parser = self }
     }
 
-    func setCheckValues() -> (Strand, [Bool]) {
+    func setCheckValues() -> (Genome, [Bool]) {
         let pe = "B\\(((?:(true)|(false)))\\)\\."
         
-        let matches = self.inputStrand.searchRegex(regex: pe)
+        let matches = self.inputGenome.searchRegex(regex: pe)
         for match in matches {
             self.boolCheckValues.append(match == "true")
         }
         
-        return (self.inputStrand, self.boolCheckValues)
+        return (self.inputGenome, self.boolCheckValues)
     }
     
-    func setCheckValues() -> (Strand, [Double]) {
+    func setCheckValues() -> (Genome, [Double]) {
         let pe = "D\\((-?\\d*\\.{0,1}\\d*)\\)\\."
         
-        let matches = self.inputStrand.searchRegex(regex: pe)
+        let matches = self.inputGenome.searchRegex(regex: pe)
         for match in matches {
             var decimalPlaces = 0
             if let dot = match.firstIndex(of: ".") {
@@ -89,22 +89,22 @@ class TestParseGeneValues: ValueParserProtocol {
             self.doubleCheckValues.append(theDouble)
         }
         
-        return (self.inputStrand, self.doubleCheckValues)
+        return (self.inputGenome, self.doubleCheckValues)
     }
     
-    func setCheckValues() -> (Strand, [Int]) {
+    func setCheckValues() -> (Genome, [Int]) {
         let pe = "I\\((-?\\d+)\\)\\."
         
-        let matches = self.inputStrand.searchRegex(regex: pe)
+        let matches = self.inputGenome.searchRegex(regex: pe)
         for match in matches {
             self.intCheckValues.append(Int(match)!)
         }
         
-        return (self.inputStrand, self.intCheckValues)
+        return (self.inputGenome, self.intCheckValues)
     }
 
-    static func makeRandomStrand() -> (Strand, [Bool], [Double], [Int]) {
-        var theRandomStrand = Strand()
+    static func makeRandomStrand() -> (Genome, [Bool], [Double], [Int]) {
+        var theRandomStrand = Genome()
         var boolCheckValues = [Bool]()
         var doubleCheckValues = [Double]()
         var intCheckValues = [Int]()
@@ -148,13 +148,13 @@ class TestParseGeneValues: ValueParserProtocol {
         return (theRandomStrand, boolCheckValues, doubleCheckValues, intCheckValues)
     }
 
-    func parseBool(_ slice: StrandSlice? = nil) -> Bool {
+    func parseBool(_ slice: GenomeSlice? = nil) -> Bool {
         for (ss, B) in zip(0..., Bs) {
-            let tail = inputStrand[B...].dropFirst(2)
+            let tail = inputGenome[B...].dropFirst(2)
             let paren = tail.firstIndex(of: ")")!
             let meat = tail[..<paren]
             
-            let parsed = parsers.parseBool(meat)
+            let parsed = parser.parseBool(meat)
             
             let correct = boolCheckValues[ss]
             if parsed != correct {
@@ -165,13 +165,13 @@ class TestParseGeneValues: ValueParserProtocol {
         return false
     }
 
-    func parseDouble(_ slice: StrandSlice? = nil) -> Double {
+    func parseDouble(_ slice: GenomeSlice? = nil) -> Double {
         for (ss, D) in zip(0..., Ds) {
-            let tail = inputStrand[D...].dropFirst(2)
+            let tail = inputGenome[D...].dropFirst(2)
             let paren = tail.firstIndex(of: ")")!
             let meat = tail[..<paren]
             
-            let parsed = parsers.parseDouble(meat)
+            let parsed = parser.parseDouble(meat)
             
             let correct = doubleCheckValues[ss]
             if parsed != correct {
@@ -182,13 +182,13 @@ class TestParseGeneValues: ValueParserProtocol {
         return 0
     }
 
-    func parseInt(_ slice: StrandSlice? = nil) -> Int {
+    func parseInt(_ slice: GenomeSlice? = nil) -> Int {
         for (ss, I) in zip(0..., Is) {
-            let tail = inputStrand[I...].dropFirst(2)
+            let tail = inputGenome[I...].dropFirst(2)
             let paren = tail.firstIndex(of: ")")!
             let meat = tail[..<paren]
             
-            let parsed = parsers.parseInt(meat)
+            let parsed = parser.parseInt(meat)
             
             let correct = intCheckValues[ss]
             if parsed != correct {
@@ -203,21 +203,21 @@ class TestParseGeneValues: ValueParserProtocol {
         self.decoder = decoder
     }
     
-    func setInput(to inputStrand: String) -> ValueParserProtocol {
-        self.inputStrand = inputStrand
-        print(self.inputStrand) // Use this as input back into the decoder to make sure it works both ways
+    func setInput(to inputGenome: String) -> ValueParserProtocol {
+        self.inputGenome = inputGenome
+        print(self.inputGenome) // Use this as input back into the decoder to make sure it works both ways
         
-        Bs = TestExtras.createTokenArray("B", in: self.inputStrand);
-        Ds = TestExtras.createTokenArray("D", in: self.inputStrand);
-        Is = TestExtras.createTokenArray("I", in: self.inputStrand);
-        Ns = TestExtras.createTokenArray("N", in: self.inputStrand);
-        Ls = TestExtras.createTokenArray("L", in: self.inputStrand);
+        Bs = TestExtras.createTokenArray("B", in: self.inputGenome);
+        Ds = TestExtras.createTokenArray("D", in: self.inputGenome);
+        Is = TestExtras.createTokenArray("I", in: self.inputGenome);
+        Ns = TestExtras.createTokenArray("N", in: self.inputGenome);
+        Ls = TestExtras.createTokenArray("L", in: self.inputGenome);
         
         return self
     }
     
     func setDefaultInput() -> ValueParserProtocol {
-        (self.inputStrand, self.boolCheckValues, self.doubleCheckValues, self.intCheckValues) =
+        (self.inputGenome, self.boolCheckValues, self.doubleCheckValues, self.intCheckValues) =
             TestParseGeneValues.makeRandomStrand()
         
         return self

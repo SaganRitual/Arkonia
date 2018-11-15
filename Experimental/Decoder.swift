@@ -20,8 +20,12 @@
 
 import Foundation
 
-enum DecodeError: Error {
-    case earlyEndOfDecodeUnit, fatal, general, inputInconsistent, overshot, recoverable
+protocol ValueParserProtocol {
+    func parseBool(_ slice: GenomeSlice?) -> Bool
+    func parseDouble(_ slice: GenomeSlice?) -> Double
+    func parseInt(_ slice: GenomeSlice?) -> Int
+    func setInput(to inputGenome: Genome) -> ValueParserProtocol
+    func setDefaultInput() -> ValueParserProtocol
 }
 
 fileprivate enum DecodeState {
@@ -29,13 +33,19 @@ fileprivate enum DecodeState {
 }
 
 class Decoder {
-    var inputStrand: Strand!
-    let parsers: ValueParserProtocol
-    let translators: GeneDecoderProtocol
+    var inputGenome: Genome!
+    let expresser: ExpresserProtocol!
+    var parser: ValueParserProtocol!
 
-    init(parsers: ValueParserProtocol, translators: GeneDecoderProtocol) {
-        self.parsers = parsers
-        self.translators = translators
+    init(inputGenome: Genome? = nil, parser: ValueParserProtocol? = nil, expresser: ExpresserProtocol? = nil) {
+        // The genomoe can be set or reset at any time
+        if let g = inputGenome { self.inputGenome = g }
+
+        if let e = expresser { self.expresser = e }
+        else { self.expresser = Expresser().newBrain() }
+
+        if let p = parser { self.parser = p }
+        else { self.parser = self }
     }
     
     var A: Character { return "A" } // Activator -- Bool
@@ -52,9 +62,9 @@ class Decoder {
     fileprivate var decodeState: DecodeState = .noLayer
 
     func decode() {
-        translators.reset()
+        expresser.reset()
 
-        var slice = inputStrand[inputStrand.startIndex..<inputStrand.endIndex]
+        var slice = inputGenome[inputGenome.startIndex..<inputGenome.endIndex]
 
         while decodeState != .endOfStrand {
             guard let _ = slice.first else { decodeState = .endOfStrand; break }
@@ -70,12 +80,12 @@ class Decoder {
             slice = slice.dropFirst(symbolsConsumed)
         }
 
-        translators.endOfStrand()
+        expresser.endOfStrand()
     }
 }
 
 extension Decoder {
-    func dispatchValueGene(_ slice: StrandSlice) -> Int {
+    func dispatchValueGene(_ slice: GenomeSlice) -> Int {
         var symbolsConsumed = 0
         var tSlice = slice
         let token = tSlice.first!
@@ -86,10 +96,10 @@ extension Decoder {
         let meatSlice = tSlice[..<ixOfCloseParen]
         
         switch token {
-        case A: translators.addActivator(parseBool(meatSlice))
-        case W: translators.addWeight(parseDouble(meatSlice))
-        case b: translators.setBias(parseDouble(meatSlice))
-        case t: translators.setThreshold(parseDouble(meatSlice))
+        case A: expresser.addActivator(parseBool(meatSlice))
+        case W: expresser.addWeight(parseDouble(meatSlice))
+        case b: expresser.setBias(parseDouble(meatSlice))
+        case t: expresser.setThreshold(parseDouble(meatSlice))
         default: fatalError("Looking for a value gene and found something else")
         }
 
@@ -100,42 +110,42 @@ extension Decoder {
 
 extension Decoder {
     
-    func dispatch_noLayer(_ slice: StrandSlice) -> Int {
-        guard let first = slice.first else { fatalError("Though we had a slice, but it's gone now?") }
+    func dispatch_noLayer(_ slice: GenomeSlice) -> Int {
+        guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
         case L:
             decodeState = .inLayer
-            translators.newLayer()
+            expresser.newLayer()
             return 0
             
         case N:
             decodeState = .inNeuron
-            translators.newLayer()
-            translators.newNeuron()
+            expresser.newLayer()
+            expresser.newNeuron()
             return 0
 
         default:
             decodeState = .inNeuron
-            translators.newLayer()
-            translators.newNeuron()
+            expresser.newLayer()
+            expresser.newNeuron()
             
             return dispatchValueGene(slice)
         }
     }
     
-    func dispatch_inLayer(_ slice: StrandSlice) -> Int {
-        guard let first = slice.first else { fatalError("Though we had a slice, but it's gone now?") }
+    func dispatch_inLayer(_ slice: GenomeSlice) -> Int {
+        guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
         case L:
             decodeState = .inLayer
             
-            translators.closeLayer()
-            translators.newLayer()
+            expresser.closeLayer()
+            expresser.newLayer()
             return 0
             
         case N:
             decodeState = .inNeuron
-            translators.newNeuron()     // Close any open neuron and start a new one
+            expresser.newNeuron()     // Close any open neuron and start a new one
             return 0
 
         default:
@@ -144,20 +154,20 @@ extension Decoder {
         }
     }
 
-    func dispatch_inNeuron(_ slice: StrandSlice) -> Int {
-        guard let first = slice.first else { fatalError("Though we had a slice, but it's gone now?") }
+    func dispatch_inNeuron(_ slice: GenomeSlice) -> Int {
+        guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
         case L:
             decodeState = .inLayer
-            translators.closeNeuron()
-            translators.closeLayer()
-            translators.newLayer()
+            expresser.closeNeuron()
+            expresser.closeLayer()
+            expresser.newLayer()
             return 0
             
         case N:
             decodeState = .inNeuron
-            translators.closeNeuron()
-            translators.newNeuron()
+            expresser.closeNeuron()
+            expresser.newNeuron()
             return 0
             
         default:
@@ -167,21 +177,18 @@ extension Decoder {
 }
 
 extension Decoder: ValueParserProtocol {
-    func setDecoder(decoder: ValueParserProtocol) {
-    }
-    
-    func setInput(to inputStrand: String) -> ValueParserProtocol {
-        self.inputStrand = inputStrand
+    func setInput(to inputGenome: Genome) -> ValueParserProtocol {
+        self.inputGenome = inputGenome
         return self
     }
     
     func setDefaultInput() -> ValueParserProtocol { return self }
 
-    func parse<PrimitiveType>(_ slice: StrandSlice? = nil) -> PrimitiveType {
+    func parse<PrimitiveType>(_ slice: GenomeSlice? = nil) -> PrimitiveType {
         fatalError("Should never come here")
     }
     
-    func parseBool(_ slice: StrandSlice? = nil) -> Bool {
+    func parseBool(_ slice: GenomeSlice? = nil) -> Bool {
         let truthy = "true", falsy = "false", stringy = String(slice!)
         switch stringy {
         case truthy: return true
@@ -190,11 +197,11 @@ extension Decoder: ValueParserProtocol {
         }
     }
     
-    func parseDouble(_ slice: StrandSlice? = nil) -> Double {
+    func parseDouble(_ slice: GenomeSlice? = nil) -> Double {
         let s = String(slice!)
         let n = NSNumber(floatLiteral: Double(s)!)
         return Double(truncating: n)
     }
     
-    func parseInt(_ slice: StrandSlice? = nil) -> Int { return Int(slice!)! }
+    func parseInt(_ slice: GenomeSlice? = nil) -> Int { return Int(slice!)! }
 }
