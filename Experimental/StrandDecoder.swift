@@ -24,6 +24,10 @@ enum DecodeError: Error {
     case earlyEndOfDecodeUnit, fatal, general, inputInconsistent, overshot, recoverable
 }
 
+fileprivate enum DecodeState {
+    case endOfStrand, inLayer, inNeuron, noLayer
+}
+
 class StrandDecoder {
     var inputStrand: Strand!
     let parsers: ValueParserProtocol
@@ -34,165 +38,131 @@ class StrandDecoder {
         self.translators = translators
     }
     
+    var A: Character { return "A" } // Activator -- Bool
+    var B: Character { return "B" } // Generic Bool
+    var D: Character { return "D" } // Generic Double
+    var H: Character { return "H" } // Hox gene
+    var I: Character { return "I" } // Generic Int
+    var L: Character { return "L" } // Layer
+    var N: Character { return "N" } // Neuron
+    var W: Character { return "W" } // Weight -- Double
+    var b: Character { return "b" } // bias as Double
+    var t: Character { return "t" } // threshold as Double
+
+    fileprivate var decodeState: DecodeState = .noLayer
+
     func decode() {
-        var numberOfNeuronsToSeek = 0
-        var numberOfNeuronsFound = 0
-        var numberOfActivatorsToSeek = 0
-        var numberOfActivatorsFound = 0
-        var numberOfWeightsToSeek = 0
-        var numberOfWeightsFound = 0
-        var decodeState: DecodeState = .seekingLayer
-        
-        enum DecodeState {
-            case seekingLayer, seekingNeuron
-            case seekingNeuronCount, seekingActivatorsCount, seekingWeightsCount
-            case seekingBias, seekingThreshold
-            case seekingWeight, seekingActivator
-            case endOfStrand
-        }
-        
         translators.reset()
 
         var slice = inputStrand[inputStrand.startIndex..<inputStrand.endIndex]
-        
-        guard let firstIndex = slice.firstIndex(of: L) else { translators.endOfStrand(); return }
-        
-        var ixOfCloseParen = firstIndex
 
         while decodeState != .endOfStrand {
-            print(decodeState)
-            if slice.isEmpty {break}
+            guard let _ = slice.first else { decodeState = .endOfStrand; break }
+
+            var symbolsConsumed = 0
             switch decodeState {
-            case .endOfStrand: break
-                
-            case .seekingLayer: // We WERE seeking Layer, now we've found it
-                slice = slice.dropFirst(2); decodeState = .seekingNeuronCount
-                translators.addLayer()
-                numberOfNeuronsFound = 0
-                if slice.count == 0 { decodeState = .endOfStrand; translators.endOfStrand(); break }
-                
-            case .seekingNeuronCount: // We WERE seeking neuron count, now we've found it
-                slice = slice.dropFirst(2); decodeState = .seekingNeuron
-
-                if let f = slice.first {
-                    if f == ")" { ixOfCloseParen = slice.startIndex }
-                    else { ixOfCloseParen = slice.firstIndex(of: ")")! }
-                } else {
-                    decodeState = .endOfStrand
-                    translators.endOfStrand(); break
-                }
-                
-
-                numberOfNeuronsToSeek = parsers.parseInt(slice[..<ixOfCloseParen])
-
-                slice = slice[ixOfCloseParen...]
-
-                slice = slice.dropFirst(2)   // Skip past closing paren and trailing dot, to the next token
-                if slice.count == 0 { decodeState = .endOfStrand; translators.endOfStrand(); break }
-
-                // Zero neuron count; we can't do anything with any of the data between
-                // here and the next neuron.
-                if numberOfNeuronsToSeek == 0 { decodeState = .seekingLayer; continue }
-
-            case .seekingNeuron:
-                slice = slice.dropFirst(2); decodeState = .seekingActivatorsCount
-                numberOfActivatorsFound = 0; numberOfWeightsFound = 0
-                numberOfNeuronsFound += 1
-                
-                translators.addNeuron()
-
-                if slice.count == 0 { decodeState = .endOfStrand; translators.endOfStrand(); break }
-
-                if numberOfActivatorsFound == numberOfActivatorsToSeek {
-                    decodeState = (numberOfWeightsToSeek == 0) ? .seekingBias : .seekingWeight
-                } else {
-                    decodeState = .seekingActivator
-                }
-
-            case .seekingActivatorsCount:
-                slice = slice.dropFirst(2); decodeState = .seekingWeightsCount
-                ixOfCloseParen = slice.firstIndex(of: ")")!
-                numberOfActivatorsToSeek = parsers.parseInt(slice[..<ixOfCloseParen])
-                
-                slice = slice[ixOfCloseParen...]
-                slice = slice.dropFirst(2)   // Skip past trailing dot, to the next token
-                if slice.count == 0 { decodeState = .endOfStrand; translators.endOfStrand(); break }
-
-            case .seekingWeightsCount:
-                slice = slice.dropFirst(2)
-                decodeState = (numberOfActivatorsToSeek == 0) ? .seekingWeight : .seekingActivator
-                
-                ixOfCloseParen = slice.firstIndex(of: ")")!
-                numberOfWeightsToSeek = parsers.parseInt(slice[..<ixOfCloseParen])
-                slice = slice[ixOfCloseParen...]
-
-                slice = slice.dropFirst(2)   // Skip past trailing dot, to the next token
-                if slice.count == 0 { decodeState = .endOfStrand; translators.endOfStrand(); break }
-
-            case .seekingActivator:
-                slice = slice.dropFirst(2)
-                numberOfActivatorsFound += 1
-                
-                if numberOfActivatorsFound == numberOfActivatorsToSeek {
-                    decodeState = (numberOfWeightsToSeek == 0) ? .seekingBias : .seekingWeight
-                } else {
-                    decodeState = .seekingActivator
-                }
-                
-                ixOfCloseParen = slice.firstIndex(of: ")")!
-                let activator = parsers.parseBool(slice[..<ixOfCloseParen])
-                translators.addActivator(activator)
-
-                slice = slice[ixOfCloseParen...]
-                slice = slice.dropFirst(2)   // Skip past trailing dot, to the next token
-                if slice.count == 0 { decodeState = .endOfStrand; translators.endOfStrand(); break }
-
-            case .seekingWeight:
-                slice = slice.dropFirst(2)
-                numberOfWeightsFound += 1
-
-                if numberOfWeightsFound == numberOfWeightsToSeek {
-                    decodeState = .seekingBias
-                } else {
-                    decodeState = .seekingWeight
-                }
-                
-                ixOfCloseParen = slice.firstIndex(of: ")")!
-                let weight = parsers.parseDouble(slice[..<ixOfCloseParen])
-                translators.addWeight(weight)
-
-                slice = slice[..<ixOfCloseParen]
-                slice = slice.dropFirst(2)   // Skip past trailing dot, to the next token
-                if slice.count == 0 { decodeState = .endOfStrand; translators.endOfStrand(); break }
-
-            case .seekingBias:
-                slice = slice.dropFirst(2); decodeState = .seekingThreshold
-                
-                ixOfCloseParen = slice.firstIndex(of: ")")!
-                let bias = parsers.parseDouble(slice[..<ixOfCloseParen])
-                translators.setBias(bias)
-
-                slice = slice[..<ixOfCloseParen]
-                slice = slice.dropFirst(2)   // Skip past trailing dot, to the next token
-                if slice.count == 0 { decodeState = .endOfStrand; translators.endOfStrand(); break }
-
-            case .seekingThreshold:
-                slice = slice.dropFirst(2); decodeState = .seekingLayer
-                let threshold = parsers.parseDouble(slice[..<ixOfCloseParen])
-                translators.setThreshold(threshold)
-                if numberOfNeuronsFound == numberOfNeuronsToSeek {
-                    decodeState = .seekingLayer
-                } else {
-                    decodeState = .seekingNeuron
-                }
-
-                slice = slice[..<ixOfCloseParen]
-                slice = slice.dropFirst(2)   // Skip past trailing dot, to the next token
-                if slice.count == 0 { decodeState = .endOfStrand; translators.endOfStrand(); break }
+            case .noLayer: symbolsConsumed = dispatch_noLayer(slice)
+            case .inLayer: symbolsConsumed = dispatch_inLayer(slice)
+            case .inNeuron: symbolsConsumed = dispatch_inNeuron(slice)
+            case .endOfStrand: fatalError("We shouldn't be in here; end-of-strand is how the loop knows to stop.")
             }
+
+            slice = slice.dropFirst(symbolsConsumed)
         }
+
+        translators.endOfStrand()
+    }
+}
+
+extension StrandDecoder {
+    func dispatchValueGene(_ slice: StrandSlice) -> Int {
+        var symbolsConsumed = 0
+        var tSlice = slice
+        let token = tSlice.first!
+
+        symbolsConsumed += 2; tSlice = tSlice.dropFirst(2)
         
-        print("Decode complete; end-of-strand reached: \(translators.reachedEndOfStrand)")
+        let ixOfCloseParen = tSlice.firstIndex(of: ")")!
+        let meatSlice = tSlice[..<ixOfCloseParen]
+        
+        switch token {
+        case A: translators.addActivator(parseBool(meatSlice))
+        case W: translators.addWeight(parseDouble(meatSlice))
+        case b: translators.setBias(parseDouble(meatSlice))
+        case t: translators.setThreshold(parseDouble(meatSlice))
+        default: fatalError("Looking for a value gene and found something else")
+        }
+
+        symbolsConsumed += 2 + tSlice.distance(from: tSlice.startIndex, to: ixOfCloseParen)
+        return symbolsConsumed
+    }
+}
+
+extension StrandDecoder {
+    
+    func dispatch_noLayer(_ slice: StrandSlice) -> Int {
+        guard let first = slice.first else { fatalError("Though we had a slice, but it's gone now?") }
+        switch first {
+        case L:
+            decodeState = .inLayer
+            translators.newLayer()
+            return 0
+            
+        case N:
+            decodeState = .inNeuron
+            translators.newLayer()
+            translators.newNeuron()
+            return 0
+
+        default:
+            decodeState = .inNeuron
+            translators.newLayer()
+            translators.newNeuron()
+            
+            return dispatchValueGene(slice)
+        }
+    }
+    
+    func dispatch_inLayer(_ slice: StrandSlice) -> Int {
+        guard let first = slice.first else { fatalError("Though we had a slice, but it's gone now?") }
+        switch first {
+        case L:
+            decodeState = .inLayer
+            
+            translators.closeLayer()
+            translators.newLayer()
+            return 0
+            
+        case N:
+            decodeState = .inNeuron
+            translators.newNeuron()     // Close any open neuron and start a new one
+            return 0
+
+        default:
+            decodeState = .inNeuron
+            return dispatchValueGene(slice)
+        }
+    }
+
+    func dispatch_inNeuron(_ slice: StrandSlice) -> Int {
+        guard let first = slice.first else { fatalError("Though we had a slice, but it's gone now?") }
+        switch first {
+        case L:
+            decodeState = .inLayer
+            translators.closeNeuron()
+            translators.closeLayer()
+            translators.newLayer()
+            return 0
+            
+        case N:
+            decodeState = .inNeuron
+            translators.closeNeuron()
+            translators.newNeuron()
+            return 0
+            
+        default:
+            return dispatchValueGene(slice)
+        }
     }
 }
 

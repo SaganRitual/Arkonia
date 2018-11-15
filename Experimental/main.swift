@@ -21,50 +21,46 @@
 
 import Foundation
 
-enum MockBrain {
-    struct Neuron {
-        let activators: [Bool]
-        let weights: [Double]
-        let bias: Double
-        let threshold: Double
-    }
-
-    struct Layer {
-        let neurons: [Neuron]
-    }
-
-    struct Brain {
-        let layers: [Layer]
+extension Double {
+    func truncate() -> String {
+        let t = Double(truncating: NSNumber(floatLiteral: self))
+        return String(format: "%.5f", t)
     }
 }
 
-var B: Character { return Utilities.B[Utilities.B.startIndex] }
-var D: Character { return Utilities.D[Utilities.D.startIndex] }
-var I: Character { return Utilities.I[Utilities.I.startIndex] }
-var L: Character { return Utilities.L[Utilities.L.startIndex] }
-var N: Character { return Utilities.N[Utilities.N.startIndex] }
-var b: Character { return Utilities.b[Utilities.b.startIndex] }
-var t: Character { return Utilities.t[Utilities.t.startIndex] }
+func main() {
+    let translators = DecoderTestGeneTranslators()
+    let parsers = DecoderTestParsers()
 
-let translators = DecoderTestGeneTranslators()
+    let geneSelector = [String(A), String(W), String(b), String(t)]
+    
+    func truncate(_ d: Double) -> String {
+        let t = Double(truncating: NSNumber(floatLiteral: d))
+        return String(t)
+    }
+    
+    let inputStrand: Strand = {
+        var workingStrand = Strand()
+        for _ in 0..<100 {
+            let ss = Int.random(in: 0..<geneSelector.count)
 
-let boolTest = TestParseGeneValues(parsers: nil, translators: translators)
-_ = boolTest.parseBool()
+            switch ss {
+            case 0: workingStrand += "A(\(Bool.random()))."
+            case 1: workingStrand += "W(\(Double.random(in: -100...100).truncate()))."
+            case 2: workingStrand += "b(\(Double.random(in: -100...100).truncate()))."
+            case 3: workingStrand += "t(\(Double.random(in: -100...100).truncate()))."
+            default: fatalError()
+            }
+        }
 
-let boolTestInput = boolTest.inputStrand[...]
-_ = TestParseGeneValues(parsers: nil, translators: translators).parseBool(boolTestInput)
+        return workingStrand
+    }()
+    
+    print(inputStrand)
+    
+    let decoder = StrandDecoder(parsers: parsers, translators: translators)
+    _ = decoder.setInput(to: inputStrand)
+    decoder.decode()
+}
 
-let doubleTest = TestParseGeneValues(parsers: nil, translators: translators)
-_ = doubleTest.parseDouble()
-
-let doubleTestInput = doubleTest.inputStrand[...]
-_ = TestParseGeneValues(parsers: nil, translators: translators).parseDouble(doubleTestInput)
-
-let intTest = TestParseGeneValues(parsers: nil, translators: translators)
-_ = intTest.parseInt()
-
-let intTestInput = intTest.inputStrand[...]
-_ = TestParseGeneValues(parsers: nil, translators: translators).parseInt(intTestInput)
-
-TestDecoder().testDecoderExpectingOneEmptyLayer()
-
+main()

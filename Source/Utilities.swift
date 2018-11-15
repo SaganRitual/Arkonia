@@ -27,19 +27,20 @@ typealias StrandSliceIndex = Substring.Index
 typealias StrandIndex = String.Index
 typealias Strands = [Strand]
 
+var A: Character { return "A" } // Activator -- Bool
+var B: Character { return "B" } // Generic Bool
+var D: Character { return "D" } // Generic Double
+var H: Character { return "H" } // Hox gene
+var I: Character { return "I" } // Generic Int
+var L: Character { return "L" } // Layer
+var N: Character { return "N" } // Neuron
+var W: Character { return "w" } // Weight -- Double
+var b: Character { return "b" } // bias as Double
+var t: Character { return "t" } // threshold as Double
+
 enum Utilities {
-    static var B: String { return "B" }
-    static var D: String { return "D" }
-    static var F: String { return "F" }
-    static var I: String { return "I" }
-    static var L: String { return "L" }
-    static var N: String { return "N" }
-    static var b: String { return "b" }
-    static var t: String { return "t" }
     
     static func hurl(_ exception: DecodeError) throws { throw exception }
-    
-
     static func clobbered(_ message: String) { print(message); fatalError(message) }
 }
 

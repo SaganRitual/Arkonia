@@ -67,12 +67,8 @@ class Layer {
     
     func addActivator(_ value: Bool) { underConstruction.activators.append(value) }
     
-    func addNeuron() {
-        if firstPass { underConstruction = Neuron(); firstPass = false; return }
-
-        neurons.append(underConstruction)
-        underConstruction = Neuron()
-    }
+    func closeNeuron() { neurons.append(underConstruction); underConstruction = nil }
+    func newNeuron() { underConstruction = Neuron() }
 
     func addWeight(_ value: Double) { underConstruction.weights.append(value) }
     
@@ -97,14 +93,19 @@ class Neuron {
 }
 
 protocol GeneDecoderProtocol {
-    func addActivator(_ active: Bool)
-    func addLayer()
-    func addNeuron()
-    func addWeight(_ weight: Double)
-    
-    func endOfStrand()
     var reachedEndOfStrand: Bool { get set }
-    
+
+    func addActivator(_ active: Bool)
+    func addWeight(_ weight: Double)
+
+    func closeNeuron()
+    func closeLayer()
+
+    func endOfStrand()
+
+    func newLayer()
+    func newNeuron()
+
     func reset()
     
     func setBias(_ value: Double)
@@ -117,42 +118,33 @@ class DecoderTestGeneTranslators: GeneDecoderProtocol {
     var layerStack = [Layer]()
     var underConstruction: Layer!
     
-    func addActivator(_ active: Bool) { underConstruction.neurons.last!.addActivator(active) }
-    func addLayer() {
-        if let u = underConstruction { layerStack.append(u); underConstruction = nil }
-        else { underConstruction = Layer() }
-    }
+    func addActivator(_ active: Bool) { underConstruction.underConstruction.addActivator(active) }
+    func addWeight(_ weight: Double) { underConstruction.underConstruction.addWeight(weight) }
 
-    func addNeuron() { underConstruction.addNeuron() }
-    func addWeight(_ weight: Double) { underConstruction.neurons.last!.addWeight(weight) }
-    
+    func closeLayer() { if let u = underConstruction { layerStack.append(u) }}
+    func closeNeuron() { underConstruction.closeNeuron() }
+
     func endOfStrand() {
         if let u = underConstruction {
             layerStack.append(u)
             underConstruction = nil
             reachedEndOfStrand = true
         }
-
+        
         if let layer = layerStack.last { layer.endOfStrand() }
     }
+
+    func newLayer() {
+        if let u = underConstruction { layerStack.append(u); underConstruction = nil }
+        else { underConstruction = Layer() }
+    }
+
+    func newNeuron() { underConstruction.newNeuron() }
     
     func reset() { reachedEndOfStrand = false; layerStack.removeAll() }
 
-    func setBias(_ value: Double) {
-        guard let newestLayer = layerStack.last, let _ = newestLayer.underConstruction,
-            let newestNeuron = newestLayer.neurons.last
-            else { Utilities.clobbered("setBias() called, but no layers present"); return }
-        
-        newestNeuron.setBias(value)
-    }
-    
-    func setThreshold(_ value: Double) {
-        guard let newestLayer = layerStack.last, let _ = underConstruction,
-            let newestNeuron = newestLayer.neurons.last
-            else { Utilities.clobbered("setBias() called, but no layers present"); return }
-        
-        newestNeuron.setThreshold(value)
-    }
+    func setBias(_ value: Double) { underConstruction!.setThreshold(value) }
+    func setThreshold(_ value: Double) { underConstruction!.setThreshold(value) }
 }
 
 struct TestDecoder {
