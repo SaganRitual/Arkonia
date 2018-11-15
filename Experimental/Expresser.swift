@@ -21,6 +21,7 @@
 import Foundation
 
 protocol BrainProtocol {
+    var layers: [Expresser.Layer] { get set }
     func show()
 }
 
@@ -48,9 +49,9 @@ protocol ExpresserProtocol {
 }
 
 class Expresser: ExpresserProtocol {
-    var layers = [Layer]()
+    var layers = [Expresser.Layer]()
     var reachedEndOfStrand = false
-    var underConstruction: Layer!
+    var underConstruction: Expresser.Layer!
     
     func addActivator(_ active: Bool) { underConstruction.underConstruction.addActivator(active) }
     func addWeight(_ weight: Double) { underConstruction.underConstruction.addWeight(weight) }
@@ -82,7 +83,10 @@ class Expresser: ExpresserProtocol {
     func newBrain() { layers = []; underConstruction = nil }
     func newNeuron() { underConstruction.newNeuron() }
     
-    func reset() { reachedEndOfStrand = false; layers.removeAll() }
+    func reset() {
+        reachedEndOfStrand = false
+        layers.removeAll()
+    }
     
     func setBias(_ value: Double) { underConstruction!.setBias(value) }
     func setThreshold(_ value: Double) { underConstruction!.setThreshold(value) }
@@ -90,8 +94,8 @@ class Expresser: ExpresserProtocol {
 
 extension Expresser {
     class Brain: BrainProtocol {
-        let layers: [Layer]
-
+        var layers: [Expresser.Layer]
+        
         init(layers: [Layer]) { self.layers = layers }
         
         func show() {
@@ -127,9 +131,7 @@ extension Expresser {
     }
     
     class Neuron {
-        var bias: Double?
-        var threshold: Double?
-        
+        var bias: Double?, threshold: Double?
         var activators = [Bool](), weights = [Double]()
         
         func addActivator(_ active: Bool) { activators.append(active) }

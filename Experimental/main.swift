@@ -22,6 +22,8 @@
 import Foundation
 
 func main() {
+    // The map is so we can weight the gene types differently, so we
+    // don't end up with one neuron per layer, or something silly like that.
     let geneSelector = [A : 5, L : 1, N : 3, W : 5, b : 4, t : 4]
     
     let inputGenome: Genome = {

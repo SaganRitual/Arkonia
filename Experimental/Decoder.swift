@@ -38,7 +38,10 @@ class Decoder {
     var parser: ValueParserProtocol!
 
     init(inputGenome: Genome? = nil, parser: ValueParserProtocol? = nil, expresser: ExpresserProtocol? = nil) {
-        // The genomoe can be set or reset at any time
+        // The genomoe can be set or reset at any time.
+        // Here, if the caller hasn't specified an input
+        // genome, then we just sit idle until we get
+        // further instructions
         if let g = inputGenome { self.inputGenome = g }
 
         if let e = expresser { self.expresser = e }
@@ -62,6 +65,7 @@ class Decoder {
     fileprivate var decodeState: DecodeState = .noLayer
 
     func decode() {
+        self.reset()
         expresser.reset()
 
         var slice = inputGenome[inputGenome.startIndex..<inputGenome.endIndex]
@@ -84,6 +88,8 @@ class Decoder {
     }
     
     func newBrain() { self.expresser.newBrain() }
+    
+    func reset() { self.decodeState = .noLayer }
 }
 
 extension Decoder {
