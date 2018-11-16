@@ -32,6 +32,8 @@
 		D48AB379219DDFC900624000 /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB377219DDFBC00624000 /* VBrain.swift */; };
 		D48AB37A219DE3AE00624000 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D483817B2198C14800B3648A /* Utilities.swift */; };
 		D48AB37B219DE4A800624000 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838185219A956400B3648A /* Decoder.swift */; };
+		D48AB37D219DFFA000624000 /* Breeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB37C219DFFA000624000 /* Breeder.swift */; };
+		D48AB37E219DFFA000624000 /* Breeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB37C219DFFA000624000 /* Breeder.swift */; };
 		D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A03631219CA94300EC171E /* TestDecoderInputs.swift */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +91,7 @@
 		D48AB371219DDE6A00624000 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D48AB372219DDE6A00624000 /* VBrain.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VBrain.entitlements; sourceTree = "<group>"; };
 		D48AB377219DDFBC00624000 /* VBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
+		D48AB37C219DFFA000624000 /* Breeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breeder.swift; sourceTree = "<group>"; };
 		D4A0362E219B926C00EC171E /* Hell.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Hell.playground; path = XCodeClutter/Hell.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D4A03631219CA94300EC171E /* TestDecoderInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDecoderInputs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -177,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				D4A0362E219B926C00EC171E /* Hell.playground */,
+				D48AB37C219DFFA000624000 /* Breeder.swift */,
 				D4838185219A956400B3648A /* Decoder.swift */,
 				D4838189219AAA4F00B3648A /* DecoderExtras.swift */,
 				D48AB35A219D4B6100624000 /* Expresser.swift */,
@@ -387,6 +391,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4838186219A956400B3648A /* Decoder.swift in Sources */,
+				D48AB37D219DFFA000624000 /* Breeder.swift in Sources */,
 				D4838182219A2D5800B3648A /* main.swift in Sources */,
 				D48AB35B219D4B6100624000 /* Expresser.swift in Sources */,
 				D483817C2198C14800B3648A /* Utilities.swift in Sources */,
@@ -401,6 +406,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D48AB37A219DE3AE00624000 /* Utilities.swift in Sources */,
+				D48AB37E219DFFA000624000 /* Breeder.swift in Sources */,
 				D48AB36B219DDE6900624000 /* ViewController.swift in Sources */,
 				D48AB369219DDE6900624000 /* GameScene.swift in Sources */,
 				D48AB363219DDE6900624000 /* AppDelegate.swift in Sources */,

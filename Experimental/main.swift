@@ -21,44 +21,6 @@
 
 import Foundation
 
-func main() {
-    // The map is so we can weight the gene types differently, so we
-    // don't end up with one neuron per layer, or something silly like that.
-    let geneSelector = [A : 5, L : 1, N : 3, W : 5, b : 4, t : 4]
-    
-    let inputGenome: Genome = {
-        var workingGenome = Genome()
-        var weightedGeneSelector: [Character] = {
-            var t = [Character]()
-            for (geneType, weight) in geneSelector {
-                for _ in 0..<weight { t.append(geneType) }
-            }
-            return t
-        }()
 
-        for _ in 0..<100 {
-            let geneSS = Int.random(in: 0..<weightedGeneSelector.count)
-            let geneType = weightedGeneSelector[geneSS]
-
-            switch geneType {
-            case A: workingGenome += "A(\(Bool.random()))."
-            case L: workingGenome += "L."
-            case N: workingGenome += "N."
-            case W: workingGenome += "W(\(Double.random(in: -100...100).truncate()))."
-            case b: workingGenome += "b(\(Double.random(in: -100...100).truncate()))."
-            case t: workingGenome += "t(\(Double.random(in: -100...100).truncate()))."
-            default: fatalError()
-            }
-        }
-
-        return workingGenome
-    }()
-    
-    print(inputGenome)
-    
-    let decoder = Decoder(inputGenome: inputGenome)
-    decoder.decode()
-    decoder.expresser.getBrain().show()
-}
-
-main()
+let brain = Breeder().makeRandomBrain()
+print(brain.stimulate(sensoryInput: brain.generateRandomSensoryInput()))

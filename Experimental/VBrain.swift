@@ -28,6 +28,7 @@ class VBrain {
     var vNeurons = [SKShapeNode]()
     var vTestInputs = [SKLabelNode]()
     var vTestOutputs = [SKLabelNode]()
+    var layers = [Expresser.Layer]()
     
     init(gameScene: GameScene, brain: BrainProtocol) {
         guard let _ = NSScreen.main?.frame else {
@@ -38,12 +39,13 @@ class VBrain {
         self.brain = brain
     }
     
-    func displayBrain() {
-        brain.show()
+    func displayBrain(_ brain: BrainProtocol? = nil) {
         gameScene.removeAllChildren()
-        
-        self.spacer = Spacer(layersCount: brain.layers.count, displaySize: gameScene.size)
-        drawNeuronLayers(brain.layers, spacer: spacer)
+
+        if let b = brain { self.layers = b.layers }
+
+        self.spacer = Spacer(layersCount: self.layers.count, displaySize: gameScene.size)
+        drawNeuronLayers(self.layers, spacer: spacer)
     }
     
     func reset() {
@@ -57,7 +59,7 @@ class VBrain {
         self.brain = brain
     }
     
-    func tick() {
+    func tick(inputs: [Double], outputs: [Double]) {
         gameScene.removeChildren(in: vTestInputs + vTestOutputs)
         
         let lambda = { (inputs: [Double], yIndex: Int) -> () in
@@ -71,13 +73,9 @@ class VBrain {
                 self.gameScene.addChild(n)
             }
         }
-        #if false
-        let testInputs = breeder.bestBrainMostRecentInputs
-        let testOutputs = breeder.bestBrainMostRecentOutputs
-        
-        lambda(testInputs, 0)
-        lambda(testOutputs, testOutputs.count - 1)
-        #endif
+
+        lambda(inputs, 0)
+        lambda(outputs, outputs.count - 1)
     }
     
     struct Spacer {

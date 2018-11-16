@@ -1,25 +1,12 @@
 import Foundation
 
-struct Trouble: CustomStringConvertible {
-    var value = "0"
-    var needUpdate = false
-    
-    var description: String { print(".", terminator: ""); return value }
-    
-    init(_ value: Double) {
-        let truncated = Double(truncating: NSNumber(floatLiteral: value))
-        self.value = String(format: "%.5f", truncated)
-    }
-    
-    init?(_ value: String) {
-        guard let d = Double(value) else { return nil }
-        let truncated = Double(truncating: NSNumber(floatLiteral: d))
-        self.value = String(format: "%.5f", truncated)
-    }
-}
 
-let fortyTwo = Trouble(42)
-print(fortyTwo.description)
+print((0..<0).isEmpty)
+print((0..<1).isEmpty)
+print((0..<0).endIndex)
+print((1..<1).endIndex)
+print((2..<2).endIndex)
+print((3..<3).endIndex)
 
-let fortySomething = fortyTwo
-print(fortySomething.description)
+var hola: Int = (3..<3).endIndex
+print(hola)

@@ -28,14 +28,24 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
     
     private var brain: BrainProtocol!
+    private var breeder = Breeder()
     private var decoder: Decoder!
     private var vBrain: VBrain!
     
     override func didMove(to view: SKView) {
+        #if true
+
+        self.brain = self.breeder.makeRandomBrain()
+
+        #else
+
         decoder = Decoder()
         self.brain = decoder.expresser.getBrain()
+
+        #endif
+
         vBrain = VBrain(gameScene: self, brain: self.brain)
-        
+
         // Get label node from scene and store it for use later
         self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
         if let label = self.label {
@@ -108,49 +118,27 @@ class GameScene: SKScene {
     var frameCount = 0
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
-        
-        if (frameCount % 30) == 0 {
-            _ = decoder.setInput(to: self.generateGenome())
+
+        if (frameCount % 30) == 0 && frameCount > 30 {
+            #if true
+            
+            self.brain = breeder.makeRandomBrain()
+
+            #else
+            _ = decoder.setInput(to: Utilities.generateGenome())
             decoder.decode()
 
-            self.brain = decoder.expresser.getBrain()
             vBrain.setBrain(self.brain)
-            vBrain.displayBrain()
-            self.brain.show()
+            #endif
+        }
+        
+        if (frameCount % 15) == 0 && frameCount > 30 {
+            let rsi = self.brain.generateRandomSensoryInput()
+            let outputs = self.brain.stimulate(sensoryInput: rsi)
+
+            vBrain.displayBrain(self.brain)
+            vBrain.tick(inputs: rsi, outputs: outputs)
         }
     }
 }
 
-extension GameScene {
-    func generateGenome() -> Genome {
-        // The map is so we can weight the gene types differently, so we
-        // don't end up with one neuron per layer, or something silly like that.
-        let geneSelector = [A : 5, L : 1, N : 3, W : 5, b : 4, t : 4]
-        
-        var workingGenome = Genome()
-        var weightedGeneSelector: [Character] = {
-            var t = [Character]()
-            for (geneType, weight) in geneSelector {
-                for _ in 0..<weight { t.append(geneType) }
-            }
-            return t
-        }()
-        
-        for _ in 0..<100 {
-            let geneSS = Int.random(in: 0..<weightedGeneSelector.count)
-            let geneType = weightedGeneSelector[geneSS]
-            
-            switch geneType {
-            case A: workingGenome += "A(\(Bool.random()))."
-            case L: workingGenome += "L."
-            case N: workingGenome += "N."
-            case W: workingGenome += "W(\(Double.random(in: -100...100).truncate()))."
-            case b: workingGenome += "b(\(Double.random(in: -100...100).truncate()))."
-            case t: workingGenome += "t(\(Double.random(in: -100...100).truncate()))."
-            default: fatalError()
-            }
-        }
-        
-        return workingGenome
-    }
-}
