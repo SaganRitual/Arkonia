@@ -15,7 +15,6 @@
 		D44B54A52197EE9A00FB94FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D44B54A42197EE9A00FB94FC /* Assets.xcassets */; };
 		D44B54A82197EE9A00FB94FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D44B54A62197EE9A00FB94FC /* Main.storyboard */; };
 		D44B54B42197EE9A00FB94FC /* XCodeClutterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B54B32197EE9A00FB94FC /* XCodeClutterTests.swift */; };
-		D483817C2198C14800B3648A /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D483817B2198C14800B3648A /* Utilities.swift */; };
 		D4838182219A2D5800B3648A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D483816F2197F4A400B3648A /* main.swift */; };
 		D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838183219A94E300B3648A /* TestParseGeneValues.swift */; };
 		D4838186219A956400B3648A /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838185219A956400B3648A /* Decoder.swift */; };
@@ -30,10 +29,12 @@
 		D48AB370219DDE6A00624000 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D48AB36E219DDE6A00624000 /* Main.storyboard */; };
 		D48AB376219DDF3000624000 /* Expresser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB35A219D4B6100624000 /* Expresser.swift */; };
 		D48AB379219DDFC900624000 /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB377219DDFBC00624000 /* VBrain.swift */; };
-		D48AB37A219DE3AE00624000 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D483817B2198C14800B3648A /* Utilities.swift */; };
 		D48AB37B219DE4A800624000 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838185219A956400B3648A /* Decoder.swift */; };
 		D48AB37D219DFFA000624000 /* Breeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB37C219DFFA000624000 /* Breeder.swift */; };
 		D48AB37E219DFFA000624000 /* Breeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB37C219DFFA000624000 /* Breeder.swift */; };
+		D48AB37F219E47C600624000 /* DecoderExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838189219AAA4F00B3648A /* DecoderExtras.swift */; };
+		D48AB382219E484000624000 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB381219E484000624000 /* Utilities.swift */; };
+		D48AB383219E484000624000 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB381219E484000624000 /* Utilities.swift */; };
 		D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A03631219CA94300EC171E /* TestDecoderInputs.swift */; };
 /* End PBXBuildFile section */
 
@@ -75,7 +76,6 @@
 		D44B54B52197EE9A00FB94FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D483816D2197F4A400B3648A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
 		D483816F2197F4A400B3648A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		D483817B2198C14800B3648A /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = Source/Utilities.swift; sourceTree = SOURCE_ROOT; };
 		D4838183219A94E300B3648A /* TestParseGeneValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestParseGeneValues.swift; sourceTree = "<group>"; };
 		D4838185219A956400B3648A /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
 		D4838189219AAA4F00B3648A /* DecoderExtras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoderExtras.swift; sourceTree = "<group>"; };
@@ -92,6 +92,7 @@
 		D48AB372219DDE6A00624000 /* VBrain.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VBrain.entitlements; sourceTree = "<group>"; };
 		D48AB377219DDFBC00624000 /* VBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
 		D48AB37C219DFFA000624000 /* Breeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breeder.swift; sourceTree = "<group>"; };
+		D48AB381219E484000624000 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		D4A0362E219B926C00EC171E /* Hell.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Hell.playground; path = XCodeClutter/Hell.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D4A03631219CA94300EC171E /* TestDecoderInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDecoderInputs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,7 +132,7 @@
 		D44B548E2197EE9900FB94FC = {
 			isa = PBXGroup;
 			children = (
-				D48381742197F4C500B3648A /* Source */,
+				D48AB380219E47EC00624000 /* Source */,
 				D483816E2197F4A400B3648A /* Experimental */,
 				D48AB361219DDE6900624000 /* VBrain */,
 				D44B54992197EE9900FB94FC /* XCodeClutter */,
@@ -181,8 +182,6 @@
 			children = (
 				D4A0362E219B926C00EC171E /* Hell.playground */,
 				D48AB37C219DFFA000624000 /* Breeder.swift */,
-				D4838185219A956400B3648A /* Decoder.swift */,
-				D4838189219AAA4F00B3648A /* DecoderExtras.swift */,
 				D48AB35A219D4B6100624000 /* Expresser.swift */,
 				D483816F2197F4A400B3648A /* main.swift */,
 				D4A03631219CA94300EC171E /* TestDecoderInputs.swift */,
@@ -190,15 +189,6 @@
 				D48AB377219DDFBC00624000 /* VBrain.swift */,
 			);
 			path = Experimental;
-			sourceTree = "<group>";
-		};
-		D48381742197F4C500B3648A /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				D483817B2198C14800B3648A /* Utilities.swift */,
-			);
-			name = Source;
-			path = "New Group";
 			sourceTree = "<group>";
 		};
 		D48AB361219DDE6900624000 /* VBrain */ = {
@@ -215,6 +205,16 @@
 				D48AB372219DDE6A00624000 /* VBrain.entitlements */,
 			);
 			path = VBrain;
+			sourceTree = "<group>";
+		};
+		D48AB380219E47EC00624000 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				D4838185219A956400B3648A /* Decoder.swift */,
+				D4838189219AAA4F00B3648A /* DecoderExtras.swift */,
+				D48AB381219E484000624000 /* Utilities.swift */,
+			);
+			path = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -394,9 +394,9 @@
 				D48AB37D219DFFA000624000 /* Breeder.swift in Sources */,
 				D4838182219A2D5800B3648A /* main.swift in Sources */,
 				D48AB35B219D4B6100624000 /* Expresser.swift in Sources */,
-				D483817C2198C14800B3648A /* Utilities.swift in Sources */,
 				D483818A219AAA4F00B3648A /* DecoderExtras.swift in Sources */,
 				D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */,
+				D48AB382219E484000624000 /* Utilities.swift in Sources */,
 				D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -405,12 +405,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D48AB37A219DE3AE00624000 /* Utilities.swift in Sources */,
 				D48AB37E219DFFA000624000 /* Breeder.swift in Sources */,
 				D48AB36B219DDE6900624000 /* ViewController.swift in Sources */,
 				D48AB369219DDE6900624000 /* GameScene.swift in Sources */,
 				D48AB363219DDE6900624000 /* AppDelegate.swift in Sources */,
+				D48AB37F219E47C600624000 /* DecoderExtras.swift in Sources */,
 				D48AB37B219DE4A800624000 /* Decoder.swift in Sources */,
+				D48AB383219E484000624000 /* Utilities.swift in Sources */,
 				D48AB379219DDFC900624000 /* VBrain.swift in Sources */,
 				D48AB376219DDF3000624000 /* Expresser.swift in Sources */,
 			);

@@ -27,6 +27,7 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
+    private var expresser = Expresser()
     private var brain: BrainProtocol!
     private var breeder = Breeder()
     private var decoder: Decoder!
@@ -36,6 +37,7 @@ class GameScene: SKScene {
         #if true
 
         self.brain = self.breeder.makeRandomBrain()
+        decoder = Decoder(expresser: expresser)
 
         #else
 
@@ -101,7 +103,7 @@ class GameScene: SKScene {
     }
     
     override func mouseUp(with event: NSEvent) {
-        self.touchUp(atPoint: event.location(in: self))
+        self.genome += breeder.generateRandomGene()
     }
     
     override func keyDown(with event: NSEvent) {
@@ -115,6 +117,30 @@ class GameScene: SKScene {
         }
     }
     
+    // With deepest gratitude to Stack Overflow dude
+    // https://stackoverflow.com/users/2346164/gilian-joosen
+    // https://stackoverflow.com/a/26787701/1610473
+    //
+    func returnChar(_ theEvent: NSEvent) -> Character? {
+        let s: String = theEvent.characters!
+        for char in s{ return char }
+        return nil
+    }
+
+    override func keyUp(with event: NSEvent) {
+//        let e = String(self.returnChar(event)!)
+        self.genome += breeder.generateRandomGene()
+        decoder.setInput(to: self.genome).decode()
+        self.brain = expresser.getBrain()
+        self.brain.show()
+        print(self.genome)
+
+        update = true
+    }
+    
+    var firstUpdate = true
+    var update = true
+    var genome = "b(42).W(-0.71562).W(-33.21311).N.A(false).W(-76.33163).A(false).W(-17.40379).t(-20.08699).A(true).t(-49.80827).W(-88.31035).t(-66.83028).N.A(false).A(false).L.b(87.97370).A(true).N.t(-47.82303)."
     var frameCount = 0
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
@@ -122,7 +148,7 @@ class GameScene: SKScene {
         if (frameCount % 30) == 0 && frameCount > 30 {
             #if true
             
-            self.brain = breeder.makeRandomBrain()
+//            self.brain = breeder.makeRandomBrain()
 
             #else
             _ = decoder.setInput(to: Utilities.generateGenome())
@@ -133,11 +159,16 @@ class GameScene: SKScene {
         }
         
         if (frameCount % 15) == 0 && frameCount > 30 {
+            if firstUpdate { firstUpdate = false; return }
+            if !update { return }
+
             let rsi = self.brain.generateRandomSensoryInput()
             let outputs = self.brain.stimulate(sensoryInput: rsi)
 
             vBrain.displayBrain(self.brain)
             vBrain.tick(inputs: rsi, outputs: outputs)
+
+            update = false
         }
     }
 }

@@ -24,7 +24,6 @@ protocol ValueParserProtocol {
     func parseBool(_ slice: GenomeSlice?) -> Bool
     func parseDouble(_ slice: GenomeSlice?) -> Double
     func parseInt(_ slice: GenomeSlice?) -> Int
-    func setInput(to inputGenome: Genome) -> ValueParserProtocol
     func setDefaultInput() -> ValueParserProtocol
 }
 
@@ -186,7 +185,7 @@ extension Decoder {
 }
 
 extension Decoder: ValueParserProtocol {
-    func setInput(to inputGenome: Genome) -> ValueParserProtocol {
+    func setInput(to inputGenome: Genome) -> Decoder {
         self.inputGenome = inputGenome
         return self
     }

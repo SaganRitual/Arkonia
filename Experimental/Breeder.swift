@@ -32,40 +32,39 @@ class Breeder {
         return outputs
     }
     
-    func makeRandomBrain() -> BrainProtocol {
+    func generateRandomGene() -> String {
         // The map is so we can weight the gene types differently, so we
         // don't end up with one neuron per layer, or something silly like that.
         let geneSelector = [A : 5, L : 1, N : 3, W : 5, b : 4, t : 4]
-        
-        let inputGenome: Genome = {
-            var workingGenome = Genome()
-            var weightedGeneSelector: [Character] = {
-                var t = [Character]()
-                for (geneType, weight) in geneSelector {
-                    for _ in 0..<weight { t.append(geneType) }
-                }
-                return t
-            }()
-            
-            for _ in 0..<100 {
-                let geneSS = Int.random(in: 0..<weightedGeneSelector.count)
-                let geneType = weightedGeneSelector[geneSS]
-                
-                switch geneType {
-                case A: workingGenome += "A(\(Bool.random()))."
-                case L: workingGenome += "L."
-                case N: workingGenome += "N."
-                case W: workingGenome += "W(\(Double.random(in: -100...100).sTruncate()))."
-                case b: workingGenome += "b(\(Double.random(in: -100...100).sTruncate()))."
-                case t: workingGenome += "t(\(Double.random(in: -100...100).sTruncate()))."
-                default: fatalError()
-                }
+
+        var weightedGeneSelector: [Character] = {
+            var t = [Character]()
+            for (geneType, weight) in geneSelector {
+                for _ in 0..<weight { t.append(geneType) }
             }
-            
-            return workingGenome
+            return t
         }()
         
-        let decoder = Decoder(inputGenome: inputGenome)
+        let geneSS = Int.random(in: 0..<weightedGeneSelector.count)
+        let geneType = weightedGeneSelector[geneSS]
+        
+        switch geneType {
+        case A: return "A(\(Bool.random()))."
+        case L: return "L."
+        case N: return "N."
+        case W: return "W(\(Double.random(in: -100...100).sTruncate()))."
+        case b: return "b(\(Double.random(in: -100...100).sTruncate()))."
+        case t: return "t(\(Double.random(in: -100...100).sTruncate()))."
+        default: fatalError()
+        }
+    }
+    
+    func makeRandomBrain() -> BrainProtocol {
+        var newGenome = Genome()
+        
+        for _ in 0..<100 { newGenome += generateRandomGene() }
+        
+        let decoder = Decoder(inputGenome: newGenome)
         decoder.decode()
         let brain = decoder.expresser.getBrain()
         return brain

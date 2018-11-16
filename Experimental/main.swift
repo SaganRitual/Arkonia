@@ -21,6 +21,33 @@
 
 import Foundation
 
-
+#if false
 let brain = Breeder().makeRandomBrain()
 print(brain.stimulate(sensoryInput: brain.generateRandomSensoryInput()))
+#endif
+
+let testGenomes = [
+    /*
+    "L.N.A(true).W(1).b(1).t(1)", "L.N.A(true).W(1).b(2).t(1)", "L.N.A(true).W(1).b(1).t(2)",
+    "L.N.A(true).W(1).b(-4).t(2)", "L.N.A(true).W(1).W(1).b(-4).t(2)",
+    "L.N.A(true).A(true).W(1).b(1).t(2)", "L.N.A(true).A(true).W(1).W(1).b(1).t(2)",
+    "L.N.A(true).W(1).A(true).W(1).b(1).t(2)", "L.N.b(1).t(2).A(true).W(1).A(true).W(1)"
+ */
+    "L.N.A(true).W(1).b(1).t(100).N.A(true).W(2).b(2).t(100).",
+    "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100).",
+    "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).N.A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100)."
+]
+
+for testGenome in testGenomes {
+    let allOnes = testGenome
+    let expresser = Expresser()
+    let decoder = Decoder(inputGenome: allOnes, expresser: expresser)
+    decoder.decode()
+
+    let brain = expresser.getBrain()
+//    brain.show()
+
+    let oneSense = [1.0]
+    let output = brain.stimulate(sensoryInput: oneSense)
+    print(output)
+}

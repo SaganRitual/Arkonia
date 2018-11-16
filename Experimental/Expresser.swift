@@ -182,11 +182,21 @@ extension Expresser {
 
         func postInit(inputLineDescriptor: Range<Int>) {
             if activators.isEmpty || weights.isEmpty { return }
-            if !activators.reduce(false, { $0 && $1 }) { return }
+
+            let length = min(activators.count, weights.count)
+
+            let aSlice = activators[0..<length]
+            if !aSlice.reduce(false, { $0 || $1 }) { return }
             
+            // This happens only for the top layer. We give one
+            // sensory input to each neuron, whether he likes it or not.
+            // We get a zero-length range with the end index set
+            // to the subscript of the sensory input that will
+            // apply to this neuron.
             if inputLineDescriptor.isEmpty {
                 let theOnlyInputLine = inputLineDescriptor.endIndex
-                inputLineSwitches[0] = theOnlyInputLine
+                inputLineSwitches = [theOnlyInputLine]
+                inputLines = [0]
                 return
             }
 
@@ -229,7 +239,17 @@ extension Expresser {
 extension Expresser.Neuron {
     public func output() -> Double {
         let ws = weightedSum(), b = bias ?? 0, t = threshold ?? 0
-        return (abs(ws + t) > abs(t)) ? (ws + b) : t
+        let biased = ws + b
+        let abiased = abs(biased)
+        
+        let sign = (biased >= 0) ? 1.0 : -1.0
+        
+        // Make the same sign as ws + b, so we'll trigger on
+        // the magnitude. Otherwise, we would send out the
+        // threshold value with the wrong sign if ws + b
+        // were negative but could trigger t by having a
+        // large magnitude.
+        return (abiased < abs(t)) ? biased : sign * t
     }
 
     private func weightedSum() -> Double {
