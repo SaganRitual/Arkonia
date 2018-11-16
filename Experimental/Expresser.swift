@@ -52,6 +52,8 @@ protocol ExpresserProtocol {
 }
 
 class Expresser: ExpresserProtocol {
+    public static var e = Expresser()
+    
     var layers = [Expresser.Layer]()
     var reachedEndOfStrand = false
     var underConstruction: Expresser.Layer!

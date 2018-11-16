@@ -20,22 +20,60 @@
 
 import Foundation
 
-enum Breeder {
+class Breeder {
+    public static var bb = Breeder()
+    
+    typealias GenoPheno = (Genome, BrainProtocol)
+    typealias Generation = [GenoPheno]
+    
+    private var currentProgenitorGenome: Genome!
+    private var currentGeneration = [(Genome, BrainProtocol)]()
+
+    private let decoder = Decoder()
+    
+    var currentProgenitorBrain: BrainProtocol!
+    var bestFitnessScore = Int.max
+    
+    let zName = "Zoe Bishop"
+    let uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+    let lowercase = "abcdefghijklmnopqrstuvwxyz "
+
     static let howManySenses = 5
     
+    func setProgenitor(_ progenitor: Genome? = nil) {
+        if let p = progenitor {
+            decoder.setInput(to: p).decode()
+            currentProgenitorGenome = p
+        } else {
+            currentProgenitorGenome = Breeder.generateRandomGenome()
+        }
+    }
+    
+    func breedOneGeneration(_ howMany: Int, from: Genome) {
+        self.currentGeneration = Generation()
+
+        for _ in 0..<howMany {
+            _ = Mutator.m.setInputGenome(currentProgenitorGenome).mutate()
+            let mutatedGenome = Mutator.m.convertToGenome()
+            decoder.setInput(to: mutatedGenome).decode()
+            let brain = Expresser.e.getBrain()
+            self.currentGeneration.append((mutatedGenome, brain))
+        }
+    }
+    
     static func getSensoryInput() -> [Double] {
-        var outputs = [Double]()
+        var inputs = [Double]()
         for _ in 0..<howManySenses {
-            outputs.append(Double.random(in: -100...100).dTruncate())
+            inputs.append(Double.random(in: -100...100).dTruncate())
         }
         
-        return outputs
+        return inputs
     }
     
     static func generateRandomGene() -> String {
         // The map is so we can weight the gene types differently, so we
         // don't end up with one neuron per layer, or something silly like that.
-        let geneSelector = [A : 5, L : 1, N : 3, W : 5, b : 4, t : 4]
+        let geneSelector = [A : 10, L : 1, N : 3, W : 10, b : 8, t : 8]
 
         var weightedGeneSelector: [Character] = {
             var t = [Character]()
@@ -59,14 +97,105 @@ enum Breeder {
         }
     }
     
-    static func makeRandomBrain(howManyGenes: Int = 100) -> BrainProtocol {
+    static func generateRandomGenome(howManyGenes: Int = 100) -> Genome {
         var newGenome = Genome()
-        
         for _ in 0..<howManyGenes { newGenome += Breeder.generateRandomGene() }
+        return newGenome
+    }
+    
+    static func makeRandomBrain(howManyGenes: Int = 100) -> BrainProtocol {
+        let newGenome = generateRandomGenome(howManyGenes: howManyGenes)
         
-        let decoder = Decoder(inputGenome: newGenome)
-        decoder.decode()
-        let brain = decoder.expresser.getBrain()
+        let decoder = Decoder()
+        decoder.setInput(to: newGenome).decode()
+        let brain = Expresser.e.getBrain()
         return brain
+    }
+    
+    func getFitnessScore(for: [Double]) -> Int {
+        var scoreForTheseOutputs = 0
+
+        var matchIndex: String.Index!
+        var whichCase = uppercase
+
+        for character in zName {
+            if character == " " {
+                whichCase = "ADisgustingHackThatIShouldBePuni shed for"
+                matchIndex = whichCase.firstIndex(of: character)!
+            } else if String().isUppercase(character) {
+                matchIndex = uppercase.firstIndex(of: character)!
+                whichCase = uppercase
+            } else {
+                matchIndex = lowercase.firstIndex(of: character)!
+                whichCase = lowercase
+            }
+            
+            let s = whichCase.distance(from: whichCase.startIndex, to: matchIndex)
+            scoreForTheseOutputs += s
+        }
+        
+        return scoreForTheseOutputs
+    }
+    
+    func lambda(childGenome: Genome, brain: BrainProtocol) -> Bool {
+        let sensoryInput: [Double] = [1, 1, 1, 1, 1]
+        let outputs = brain.stimulate(sensoryInput: sensoryInput)
+        print(outputs)
+        var foundNewWinner = false
+        let fs = getFitnessScore(for: outputs)
+        if fs < bestFitnessScore {
+            foundNewWinner = true
+            bestFitnessScore = fs
+            self.currentProgenitorGenome = childGenome
+            self.currentProgenitorBrain = brain
+            
+            var zIndex = zName.startIndex
+            for output in outputs {
+                let zSlice = zName[zIndex...]
+                let zChar = zSlice.first!
+                
+                let chopped = Int(output.remainder(dividingBy: 27.0).rounded())
+                let isUppercase = String().isUppercase(zChar)
+                let whichCase = isUppercase ? uppercase : lowercase
+                let characterIndex = whichCase.index(whichCase.startIndex, offsetBy: chopped)
+                print(whichCase[characterIndex], terminator: "")
+                
+                zIndex = zName.index(after: zIndex)
+            }
+            print("\nBest score so far: \(bestFitnessScore)")
+        }
+        
+        return foundNewWinner
+    }
+
+    var testBrains = [Genome]()
+    public func selectFromCurrentGeneration() -> [Genome] {
+        let progenitorGenome = self.currentProgenitorGenome
+        let winnerOfThisGeneration = progenitorGenome
+        
+        guard let w = winnerOfThisGeneration else { fatalError() }
+        
+        self.testBrains = [Genome]()
+        
+        decoder.setInput(to: w).decode()
+        currentProgenitorBrain = Expresser.e.getBrain()
+        testBrains.append(currentProgenitorGenome)
+        
+        var bestBrainSS = -1
+        _ = lambda(childGenome: currentProgenitorGenome, brain: currentProgenitorBrain)
+        
+        for (ss, (childGenome, brain)) in zip(0..., self.currentGeneration) {
+            if lambda(childGenome: childGenome, brain: brain) {
+                bestBrainSS = ss
+            }
+        }
+        
+        if bestBrainSS == -1 {
+            print("Progenitor wins: score \(self.bestFitnessScore)")
+        } else {
+            print("Offspring \(bestBrainSS) wins: score \(self.bestFitnessScore)")
+        }
+
+        return testBrains
     }
 }

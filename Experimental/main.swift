@@ -41,12 +41,10 @@ func controlledConditionsTest() {
 
     for testGenome in testGenomes {
         let allOnes = testGenome
-        let expresser = Expresser()
-        let decoder = Decoder(inputGenome: allOnes, expresser: expresser)
-        decoder.decode()
 
-        let brain = expresser.getBrain()
-    //    brain.show()
+        let decoder = Decoder()
+        decoder.setInput(to: allOnes).decode()
+        let brain = Expresser.e.getBrain()
 
         let oneSense = [1.0]
         let output = brain.stimulate(sensoryInput: oneSense)
@@ -67,14 +65,40 @@ func testMutator() {
 //    let something = testInput.searchRegex(regex: vegex)
 //    print(something)
     
-    let mutator = Mutator(genome: testInput)
-    _ = mutator.mutate()
+    _ = Mutator.m.setInputGenome(testInput).mutate()
     print("mutated:  ", terminator: "")
-    let newGenome = mutator.convertToGenome()
+    let newGenome = Mutator.m.convertToGenome()
     print("before", testInput)
     print("after", newGenome)
 }
 
-oneSignalPassThroughRandomBrain()
-controlledConditionsTest()
-testMutator()
+func chopTail(of string: String, howManyToKeep: Int) -> GenomeSlice {
+    let howManyToCut = string.count - howManyToKeep
+    return string.dropLast(howManyToCut)
+}
+
+func testBreeder() {
+    let howManyGenes = 50
+    
+    let newGenome = Breeder.generateRandomGenome(howManyGenes: howManyGenes)
+    
+    Breeder.bb.setProgenitor(newGenome)
+    Breeder.bb.breedOneGeneration(10, from: newGenome)
+
+    let selection = Breeder.bb.selectFromCurrentGeneration()
+
+    for (ss, genome) in zip(0..., selection) {
+        print("Genome \(ss): ", genome)
+    }
+
+//    let characterLimit = 50
+//    let howManyToKeep = selection.count > characterLimit ? characterLimit : selection.count
+//    print("winner: (\(selection.count))", selection.first!)
+}
+
+//oneSignalPassThroughRandomBrain()
+//controlledConditionsTest()
+//testMutator()
+
+//print("testing breeder")
+testBreeder()

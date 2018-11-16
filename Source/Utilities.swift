@@ -53,39 +53,6 @@ enum Utilities {
         filenameSerialNumber += 1
         return fullPath
     }
-    
-    static func generateGenome() -> Genome {
-        // The map is so we can weight the gene types differently, so we
-        // don't end up with one neuron per layer, or something silly like that.
-        let geneSelector = [A : 5, L : 1, N : 3, W : 5, b : 4, t : 4]
-        
-        var workingGenome = Genome()
-        var weightedGeneSelector: [Character] = {
-            var t = [Character]()
-            for (geneType, weight) in geneSelector {
-                for _ in 0..<weight { t.append(geneType) }
-            }
-            return t
-        }()
-        
-        for _ in 0..<100 {
-            let geneSS = Int.random(in: 0..<weightedGeneSelector.count)
-            let geneType = weightedGeneSelector[geneSS]
-            
-            switch geneType {
-            case A: workingGenome += "A(\(Bool.random()))."
-            case L: workingGenome += "L."
-            case N: workingGenome += "N."
-            case W: workingGenome += "W(\(Double.random(in: -100...100).sTruncate()))."
-            case b: workingGenome += "b(\(Double.random(in: -100...100).sTruncate()))."
-            case t: workingGenome += "t(\(Double.random(in: -100...100).sTruncate()))."
-            default: fatalError()
-            }
-        }
-        
-        return workingGenome
-    }
-
 
 //    static func hurl(_ exception: DecodeError) throws { throw exception }
     
@@ -208,3 +175,12 @@ extension NSTextCheckingResult {
         return groups
     }
 }
+
+extension String {
+    func isUppercase(_ inputCharacter: Character) -> Bool {
+        let inputArray = String(inputCharacter)
+        let captureGroup = inputArray.searchRegex(regex: "[a-z]")
+        return captureGroup.isEmpty
+    }
+}
+

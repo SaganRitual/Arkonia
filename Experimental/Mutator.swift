@@ -42,17 +42,24 @@ class Tene {
 }
 
 class Mutator {
-    var inputGenome: Genome
+    public static var m = Mutator()
+    
+    var e = Expresser.e
+    var inputGenome: Genome?
     var workingTenome = Tenome()
     
-    init(genome: Genome) {
-        self.inputGenome = genome
-        #if false
-//        let rawDataParse = "([LN])\\.|([ABDIWbt])\\(([^\\(]*)\\)\\."
-//        let rawComponentSets = genome.searchRegex(regex: rawDataParse)
-        #else
-        let rawComponentSets = Mutator.getRawComponentSets(for: genome)
-        #endif
+    func setInputGenome(_ inputGenome: Genome) -> Mutator {
+        if inputGenome.first! == "R" {
+            let headless = inputGenome.drop(while: { $0 != L })
+            let tailStart = inputGenome.lastIndex(of: L)!
+            let tailLength = inputGenome.distance(from: tailStart, to: headless.endIndex)
+            let tailless = headless.dropLast(tailLength)
+            self.inputGenome = String(tailless)
+        } else {
+            self.inputGenome = inputGenome
+        }
+
+        let rawComponentSets = Mutator.getRawComponentSets(for: inputGenome)
         
         for rawComponentSet in rawComponentSets {
             let literalMatch = String(rawComponentSet[0])
@@ -62,8 +69,7 @@ class Mutator {
             workingTenome.append(Tene(String(token), value: value))
         }
         
-//        print("workingTenome: ", terminator: "")
-//        show(workingTenome)
+        return Mutator.m
     }
     
     enum MutationType: Int {
@@ -77,6 +83,9 @@ class Mutator {
     public func convertToGenome() -> Genome {
         var genome = Genome()
         
+        // Prepend a five-neuron top layer
+//        genome += "L."; for _ in 0..<5 { genome += "N.A(true).W(1)." }
+        
         for tene in workingTenome {
             if tene.token == L || tene.token == N {
                 genome += String(tene.token) + "."
@@ -85,6 +94,8 @@ class Mutator {
             }
         }
         
+        // Append a nine-neuron bottom layer
+//        genome += "L."; for _ in 0..<9 { genome += "N.A(true).W(1)." }
         return genome
     }
     

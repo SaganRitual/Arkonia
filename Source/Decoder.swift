@@ -33,18 +33,14 @@ fileprivate enum DecodeState {
 
 class Decoder {
     var inputGenome: Genome!
-    let expresser: ExpresserProtocol!
     var parser: ValueParserProtocol!
 
-    init(inputGenome: Genome? = nil, parser: ValueParserProtocol? = nil, expresser: ExpresserProtocol? = nil) {
+    init() {
         // The genomoe can be set or reset at any time.
         // Here, if the caller hasn't specified an input
         // genome, then we just sit idle until we get
         // further instructions
         if let g = inputGenome { self.inputGenome = g }
-
-        if let e = expresser { self.expresser = e }
-        else { self.expresser = Expresser() }
 
         if let p = parser { self.parser = p }
         else { self.parser = self }
@@ -65,9 +61,17 @@ class Decoder {
 
     func decode() {
         self.reset()
-        expresser.reset()
+        Expresser.e.reset()
+        
+        let head: Genome = {
+            var g = Genome(); g += "R.L."; for _ in 0..<5 { g += "N.A(true).W(1)." }; return g
+        }()
+        
+        let tail: Genome = {
+            var g = Genome(); g += "L."; for _ in 0..<9 { g += "N.A(true).W(1)." }; return g
+        }()
 
-        var slice = inputGenome[inputGenome.startIndex..<inputGenome.endIndex]
+        var slice = head[...] + inputGenome[...] + tail[...]
 
         while decodeState != .endOfStrand {
             if slice.first == nil { decodeState = .endOfStrand; break }
@@ -83,10 +87,10 @@ class Decoder {
             slice = slice.dropFirst(symbolsConsumed)
         }
 
-        expresser.endOfStrand()
+        Expresser.e.endOfStrand()
     }
     
-    func newBrain() { self.expresser.newBrain() }
+    func newBrain() { Expresser.e.newBrain() }
     
     func reset() { self.decodeState = .noLayer }
 }
@@ -103,11 +107,11 @@ extension Decoder {
         let meatSlice = tSlice[..<ixOfCloseParen]
         
         switch token {
-        case A: expresser.addActivator(parseBool(meatSlice))
-        case W: expresser.addWeight(parseDouble(meatSlice))
-        case b: expresser.setBias(parseDouble(meatSlice))
-        case t: expresser.setThreshold(parseDouble(meatSlice))
-        default: fatalError("Looking for a value gene and found something else")
+        case A: Expresser.e.addActivator(parseBool(meatSlice))
+        case W: Expresser.e.addWeight(parseDouble(meatSlice))
+        case b: Expresser.e.setBias(parseDouble(meatSlice))
+        case t: Expresser.e.setThreshold(parseDouble(meatSlice))
+        default: print("Decoder says '\(token)' is an unknown token: "); return 2
         }
 
         symbolsConsumed += 2 + tSlice.distance(from: tSlice.startIndex, to: ixOfCloseParen)
@@ -122,19 +126,19 @@ extension Decoder {
         switch first {
         case L:
             decodeState = .inLayer
-            expresser.newLayer()
+            Expresser.e.newLayer()
             return 2
             
         case N:
             decodeState = .inNeuron
-            expresser.newLayer()
-            expresser.newNeuron()
+            Expresser.e.newLayer()
+            Expresser.e.newNeuron()
             return 2
 
         default:
             decodeState = .inNeuron
-            expresser.newLayer()
-            expresser.newNeuron()
+            Expresser.e.newLayer()
+            Expresser.e.newNeuron()
             
             return dispatchValueGene(slice)
         }
@@ -146,18 +150,18 @@ extension Decoder {
         case L:
             decodeState = .inLayer
             
-            expresser.closeLayer()
-            expresser.newLayer()
+            Expresser.e.closeLayer()
+            Expresser.e.newLayer()
             return 2
             
         case N:
             decodeState = .inNeuron
-            expresser.newNeuron()
+            Expresser.e.newNeuron()
             return 2
 
         default:
             decodeState = .inNeuron
-            expresser.newNeuron()
+            Expresser.e.newNeuron()
             return dispatchValueGene(slice)
         }
     }
@@ -167,15 +171,15 @@ extension Decoder {
         switch first {
         case L:
             decodeState = .inLayer
-            expresser.closeNeuron()
-            expresser.closeLayer()
-            expresser.newLayer()
+            Expresser.e.closeNeuron()
+            Expresser.e.closeLayer()
+            Expresser.e.newLayer()
             return 2
             
         case N:
             decodeState = .inNeuron
-            expresser.closeNeuron()
-            expresser.newNeuron()
+            Expresser.e.closeNeuron()
+            Expresser.e.newNeuron()
             return 2
             
         default:
