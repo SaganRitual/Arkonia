@@ -131,13 +131,13 @@ extension VBrain {
     }
     
     func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Expresser.Neuron, at neuronPosition: CGPoint) {
-        for (previousLayerPoint, active) in zip(previousLayerPoints, neuron.activators) {
+        for previousLayerPoint in previousLayerPoints {
             let linePath = CGMutablePath()
             linePath.move(to: neuronPosition)
             linePath.addLine(to: previousLayerPoint)
             
             let line = SKShapeNode(path: linePath)
-            line.strokeColor = active ? .green : .gray
+            line.strokeColor = .green
             gameScene.addChild(line)
         }
     }

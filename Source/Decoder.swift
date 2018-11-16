@@ -28,7 +28,7 @@ protocol ValueParserProtocol {
 }
 
 fileprivate enum DecodeState {
-    case endOfStrand, inLayer, inNeuron, noLayer
+    case diagnostics, endOfStrand, inLayer, inNeuron, noLayer
 }
 
 class Decoder {
@@ -64,11 +64,11 @@ class Decoder {
         Expresser.e.reset()
         
         let head: Genome = {
-            var g = Genome(); g += "R.L."; for _ in 0..<5 { g += "N.A(true).W(1)." }; return g
+            var g = Genome(); g += "R.L."; for _ in 0..<5 { g += "N.A(true).W(1)." }; g += "L."; return g
         }()
         
         let tail: Genome = {
-            var g = Genome(); g += "L."; for _ in 0..<9 { g += "N.A(true).W(1)." }; return g
+            var g = Genome(); g += "L."; for _ in 0..<10 { g += "N.A(true).W(1)." }; return g
         }()
 
         var slice = head[...] + inputGenome[...] + tail[...]
@@ -78,6 +78,9 @@ class Decoder {
 
             var symbolsConsumed = 0
             switch decodeState {
+                // Skip the diagnostics, or the decoder will create
+                // a nice new layer for us, with a single neuron
+            case .diagnostics: symbolsConsumed = dispatch_noLayer(slice)
             case .noLayer: symbolsConsumed = dispatch_noLayer(slice)
             case .inLayer: symbolsConsumed = dispatch_inLayer(slice)
             case .inNeuron: symbolsConsumed = dispatch_inNeuron(slice)
@@ -133,6 +136,10 @@ extension Decoder {
             decodeState = .inNeuron
             Expresser.e.newLayer()
             Expresser.e.newNeuron()
+            return 2
+            
+        case "R":
+            decodeState = .noLayer
             return 2
 
         default:

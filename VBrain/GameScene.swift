@@ -22,6 +22,8 @@
 import SpriteKit
 import GameplayKit
 
+let thereBeNoShowing = true
+
 class GameScene: SKScene {
     
     private var label : SKLabelNode?
@@ -157,7 +159,7 @@ class GameScene: SKScene {
         decoder.setInput(to: cg).decode()
 
         self.brain = Expresser.e.getBrain()
-        self.brain.show()
+        self.brain.show(override: true)
         
         vBrain.displayBrain(self.brain)
         

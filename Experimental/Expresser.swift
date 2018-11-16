@@ -24,7 +24,7 @@ protocol BrainProtocol {
     var layers: [Expresser.Layer] { get set }
 
     func generateRandomSensoryInput() -> [Double]
-    func show()
+    func show(override: Bool)
     func stimulate(sensoryInput: [Double]) -> [Double]
 }
 
@@ -76,7 +76,8 @@ class Expresser: ExpresserProtocol {
         }
         
         if let layer = layers.last { layer.endOfStrand() }
-    }
+        
+     }
     
     func getBrain() -> BrainProtocol { return Brain(layers: layers) }
     
@@ -103,7 +104,9 @@ extension Expresser {
         
         init(layers: [Layer]) { self.layers = layers }
         
-        func show() {
+        func show(override: Bool = false) {
+            if thereBeNoShowing && !override { return }
+
             print("Brain:")
             for (ss, layer) in zip(0..., layers) { layer.show(ss) }
         }
