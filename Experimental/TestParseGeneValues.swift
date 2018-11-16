@@ -64,9 +64,17 @@ class TestParseGeneValues: ValueParserProtocol {
     func setCheckValues() -> (Genome, [Bool]) {
         let pe = "B\\(((?:(true)|(false)))\\)\\."
         
-        let matches = self.inputGenome.searchRegex(regex: pe)
-        for match in matches {
-            self.boolCheckValues.append(match == "true")
+        let fullMatches = self.inputGenome.searchRegex(regex: pe)
+        for fullMatch in fullMatches {
+            let _/*literalMatch*/ = fullMatch[0]
+            let token = fullMatch[1]
+            let value = fullMatch[2]
+            
+            switch Character(token) {
+            case A: fallthrough
+            case B: self.boolCheckValues.append(value == "true")
+            default: fatalError()
+            }
         }
         
         return (self.inputGenome, self.boolCheckValues)
@@ -75,15 +83,18 @@ class TestParseGeneValues: ValueParserProtocol {
     func setCheckValues() -> (Genome, [Double]) {
         let pe = "D\\((-?\\d*\\.{0,1}\\d*)\\)\\."
         
-        let matches = self.inputGenome.searchRegex(regex: pe)
-        for match in matches {
+        let fullMatches = self.inputGenome.searchRegex(regex: pe)
+        for fullMatch in fullMatches {
             var decimalPlaces = 0
-            if let dot = match.firstIndex(of: ".") {
-                decimalPlaces = match.distance(from: dot, to: match.endIndex)
+            let literalMatch = fullMatch[0]
+            let _/*token*/ = fullMatch[1]
+            let value = String(fullMatch[2])
+            
+            if let dot = value.firstIndex(of: ".") {
+                decimalPlaces = literalMatch.distance(from: dot, to: literalMatch.endIndex)
             }
             
-            let theDouble__ = Double(match)!
-            let theDouble_ = Double(truncating: NSNumber(floatLiteral: theDouble__))
+            let theDouble_ = Double(value)!.sTruncate()
             let funnyAsHell = String(format: "%.\(decimalPlaces)f", theDouble_)
             let theDouble = Double(funnyAsHell)!
             self.doubleCheckValues.append(theDouble)
@@ -95,9 +106,13 @@ class TestParseGeneValues: ValueParserProtocol {
     func setCheckValues() -> (Genome, [Int]) {
         let pe = "I\\((-?\\d+)\\)\\."
         
-        let matches = self.inputGenome.searchRegex(regex: pe)
-        for match in matches {
-            self.intCheckValues.append(Int(match)!)
+        let fullMatches = self.inputGenome.searchRegex(regex: pe)
+        for fullMatch in fullMatches {
+            let _/*literalMatch*/ = fullMatch[0]
+            let _/*token*/ = fullMatch[1]
+            let value = String(fullMatch[2])
+
+            self.intCheckValues.append(Int(value)!)
         }
         
         return (self.inputGenome, self.intCheckValues)

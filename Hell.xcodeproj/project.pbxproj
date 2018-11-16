@@ -35,6 +35,8 @@
 		D48AB37F219E47C600624000 /* DecoderExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838189219AAA4F00B3648A /* DecoderExtras.swift */; };
 		D48AB382219E484000624000 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB381219E484000624000 /* Utilities.swift */; };
 		D48AB383219E484000624000 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB381219E484000624000 /* Utilities.swift */; };
+		D48AB385219E718600624000 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB384219E718600624000 /* Mutator.swift */; };
+		D48AB386219E718600624000 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB384219E718600624000 /* Mutator.swift */; };
 		D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A03631219CA94300EC171E /* TestDecoderInputs.swift */; };
 /* End PBXBuildFile section */
 
@@ -93,6 +95,7 @@
 		D48AB377219DDFBC00624000 /* VBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
 		D48AB37C219DFFA000624000 /* Breeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breeder.swift; sourceTree = "<group>"; };
 		D48AB381219E484000624000 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		D48AB384219E718600624000 /* Mutator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4A0362E219B926C00EC171E /* Hell.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Hell.playground; path = XCodeClutter/Hell.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D4A03631219CA94300EC171E /* TestDecoderInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDecoderInputs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -184,6 +187,7 @@
 				D48AB37C219DFFA000624000 /* Breeder.swift */,
 				D48AB35A219D4B6100624000 /* Expresser.swift */,
 				D483816F2197F4A400B3648A /* main.swift */,
+				D48AB384219E718600624000 /* Mutator.swift */,
 				D4A03631219CA94300EC171E /* TestDecoderInputs.swift */,
 				D4838183219A94E300B3648A /* TestParseGeneValues.swift */,
 				D48AB377219DDFBC00624000 /* VBrain.swift */,
@@ -396,6 +400,7 @@
 				D48AB35B219D4B6100624000 /* Expresser.swift in Sources */,
 				D483818A219AAA4F00B3648A /* DecoderExtras.swift in Sources */,
 				D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */,
+				D48AB385219E718600624000 /* Mutator.swift in Sources */,
 				D48AB382219E484000624000 /* Utilities.swift in Sources */,
 				D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */,
 			);
@@ -413,6 +418,7 @@
 				D48AB37B219DE4A800624000 /* Decoder.swift in Sources */,
 				D48AB383219E484000624000 /* Utilities.swift in Sources */,
 				D48AB379219DDFC900624000 /* VBrain.swift in Sources */,
+				D48AB386219E718600624000 /* Mutator.swift in Sources */,
 				D48AB376219DDF3000624000 /* Expresser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

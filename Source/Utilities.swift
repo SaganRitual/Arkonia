@@ -167,24 +167,30 @@ extension String {
 // https://stackoverflow.com/users/59541/nate-cook
 // https://stackoverflow.com/questions/33290955/regex-capture-group-swift
 extension String {
-    func searchRegex (regex: String) -> Array<String> {
+    typealias CaptureElement = Array<String>
+    typealias CaptureGroup = Array<CaptureElement>
+    func searchRegex (regex: String) -> CaptureGroup {
         do {
             let regex = try NSRegularExpression(pattern: regex, options: NSRegularExpression.Options(rawValue: 0))
             let nsstr = self as NSString
             let all = NSRange(location: 0, length: nsstr.length)
-            var hatches : Array<String> = Array<String>()
+            var hatches = CaptureGroup()
             regex.enumerateMatches(in: self, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: all)
             {(result : NSTextCheckingResult?, _, _) in
                 
-                let capturedRange = result!.range(at: 1)
-                if !NSEqualRanges(capturedRange, NSMakeRange(NSNotFound, 0)) {
-                    let theResult = nsstr.substring(with: result!.range(at: 1))
-                    hatches.append(theResult)
+                if let r = result?.groups(testedString: self) {
+                    hatches.append(r)
                 }
+//                print("rob", result?.groups(testedString: self))
+//                let capturedRange = result!.range(at: 1)
+//                if !NSEqualRanges(capturedRange, NSMakeRange(NSNotFound, 0)) {
+//                    let theResult = nsstr.substring(with: result!.range(at: 1))
+//                    hatches.append(theResult)
+//                }
             }
             return hatches
         } catch {
-            return Array<String>()
+            return CaptureGroup()
         }
     }
 }
@@ -192,9 +198,11 @@ extension String {
 extension NSTextCheckingResult {
     func groups(testedString:String) -> [String] {
         var groups = [String]()
-        for i in  0 ..< self.numberOfRanges
-        {
-            let group = String(testedString[Range(self.range(at: i), in: testedString)!])
+        for i in  0 ..< self.numberOfRanges {
+            let thisRange = self.range(at: i)
+            guard let r = Range(thisRange, in: testedString) else { return groups }
+
+            let group = String(testedString[r])
             groups.append(group)
         }
         return groups

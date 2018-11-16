@@ -20,10 +20,10 @@
 
 import Foundation
 
-class Breeder {
-    let howManySenses = 5
+enum Breeder {
+    static let howManySenses = 5
     
-    func getSensoryInput() -> [Double] {
+    static func getSensoryInput() -> [Double] {
         var outputs = [Double]()
         for _ in 0..<howManySenses {
             outputs.append(Double.random(in: -100...100).dTruncate())
@@ -32,7 +32,7 @@ class Breeder {
         return outputs
     }
     
-    func generateRandomGene() -> String {
+    static func generateRandomGene() -> String {
         // The map is so we can weight the gene types differently, so we
         // don't end up with one neuron per layer, or something silly like that.
         let geneSelector = [A : 5, L : 1, N : 3, W : 5, b : 4, t : 4]
@@ -59,10 +59,10 @@ class Breeder {
         }
     }
     
-    func makeRandomBrain() -> BrainProtocol {
+    static func makeRandomBrain(howManyGenes: Int = 100) -> BrainProtocol {
         var newGenome = Genome()
         
-        for _ in 0..<100 { newGenome += generateRandomGene() }
+        for _ in 0..<howManyGenes { newGenome += Breeder.generateRandomGene() }
         
         let decoder = Decoder(inputGenome: newGenome)
         decoder.decode()

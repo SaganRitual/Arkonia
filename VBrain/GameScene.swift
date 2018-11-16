@@ -29,14 +29,13 @@ class GameScene: SKScene {
     
     private var expresser = Expresser()
     private var brain: BrainProtocol!
-    private var breeder = Breeder()
     private var decoder: Decoder!
     private var vBrain: VBrain!
     
     override func didMove(to view: SKView) {
         #if true
 
-        self.brain = self.breeder.makeRandomBrain()
+        self.brain = Breeder.makeRandomBrain()
         decoder = Decoder(expresser: expresser)
 
         #else
@@ -103,7 +102,7 @@ class GameScene: SKScene {
     }
     
     override func mouseUp(with event: NSEvent) {
-        self.genome += breeder.generateRandomGene()
+        self.genome += Breeder.generateRandomGene()
     }
     
     override func keyDown(with event: NSEvent) {
@@ -129,7 +128,7 @@ class GameScene: SKScene {
 
     override func keyUp(with event: NSEvent) {
 //        let e = String(self.returnChar(event)!)
-        self.genome += breeder.generateRandomGene()
+        self.genome += Breeder.generateRandomGene()
         decoder.setInput(to: self.genome).decode()
         self.brain = expresser.getBrain()
         self.brain.show()
