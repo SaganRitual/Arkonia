@@ -22,8 +22,6 @@
 import SpriteKit
 import GameplayKit
 
-let thereBeNoShowing = true
-
 class GameScene: SKScene {
     
     private var label : SKLabelNode?
@@ -194,7 +192,7 @@ class GameScene: SKScene {
             if !update { return }
 
             let rsi = self.brain.generateRandomSensoryInput()
-            let outputs = self.brain.stimulate(sensoryInput: rsi)
+            let outputs = self.brain.stimulate(inputs: rsi)
 
             vBrain.displayBrain(self.brain)
             vBrain.tick(inputs: rsi, outputs: outputs)

@@ -20,13 +20,6 @@
 
 import Foundation
 
-protocol ValueParserProtocol {
-    func parseBool(_ slice: GenomeSlice?) -> Bool
-    func parseDouble(_ slice: GenomeSlice?) -> Double
-    func parseInt(_ slice: GenomeSlice?) -> Int
-    func setDefaultInput() -> ValueParserProtocol
-}
-
 fileprivate enum DecodeState {
     case diagnostics, endOfStrand, inLayer, inNeuron, noLayer
 }

@@ -38,6 +38,8 @@
 		D48AB385219E718600624000 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB384219E718600624000 /* Mutator.swift */; };
 		D48AB386219E718600624000 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB384219E718600624000 /* Mutator.swift */; };
 		D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A03631219CA94300EC171E /* TestDecoderInputs.swift */; };
+		D4C2253D219FC3FB004A011A /* TestTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2253C219FC3FB004A011A /* TestTranslators.swift */; };
+		D4C2253F21A072EF004A011A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2253E21A072EF004A011A /* Protocols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +100,8 @@
 		D48AB384219E718600624000 /* Mutator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4A0362E219B926C00EC171E /* Hell.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Hell.playground; path = XCodeClutter/Hell.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D4A03631219CA94300EC171E /* TestDecoderInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDecoderInputs.swift; sourceTree = "<group>"; };
+		D4C2253C219FC3FB004A011A /* TestTranslators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTranslators.swift; sourceTree = "<group>"; };
+		D4C2253E21A072EF004A011A /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +194,7 @@
 				D48AB384219E718600624000 /* Mutator.swift */,
 				D4A03631219CA94300EC171E /* TestDecoderInputs.swift */,
 				D4838183219A94E300B3648A /* TestParseGeneValues.swift */,
+				D4C2253C219FC3FB004A011A /* TestTranslators.swift */,
 				D48AB377219DDFBC00624000 /* VBrain.swift */,
 			);
 			path = Experimental;
@@ -216,6 +221,7 @@
 			children = (
 				D4838185219A956400B3648A /* Decoder.swift */,
 				D4838189219AAA4F00B3648A /* DecoderExtras.swift */,
+				D4C2253E21A072EF004A011A /* Protocols.swift */,
 				D48AB381219E484000624000 /* Utilities.swift */,
 			);
 			path = Source;
@@ -397,10 +403,12 @@
 				D4838186219A956400B3648A /* Decoder.swift in Sources */,
 				D48AB37D219DFFA000624000 /* Breeder.swift in Sources */,
 				D4838182219A2D5800B3648A /* main.swift in Sources */,
+				D4C2253F21A072EF004A011A /* Protocols.swift in Sources */,
 				D48AB35B219D4B6100624000 /* Expresser.swift in Sources */,
 				D483818A219AAA4F00B3648A /* DecoderExtras.swift in Sources */,
 				D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */,
 				D48AB385219E718600624000 /* Mutator.swift in Sources */,
+				D4C2253D219FC3FB004A011A /* TestTranslators.swift in Sources */,
 				D48AB382219E484000624000 /* Utilities.swift in Sources */,
 				D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */,
 			);

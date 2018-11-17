@@ -20,39 +20,10 @@
 
 import Foundation
 
-protocol BrainProtocol {
-    var layers: [Expresser.Layer] { get set }
-
-    func generateRandomSensoryInput() -> [Double]
-    func show(override: Bool)
-    func stimulate(sensoryInput: [Double]) -> [Double]
-}
-
-protocol ExpresserProtocol {
-    var reachedEndOfStrand: Bool { get set }
-    
-    func addActivator(_ active: Bool)
-    func addWeight(_ weight: Double)
-    
-    func closeLayer()
-    func closeNeuron()
-
-    func endOfStrand()
-    
-    func getBrain() -> BrainProtocol
-    
-    func newBrain()
-    func newLayer()
-    func newNeuron()
-    
-    func reset()
-    
-    func setBias(_ value: Double)
-    func setThreshold(_ value: Double)
-}
-
 class Expresser: ExpresserProtocol {
     public static var e = Expresser()
+    
+    let numberOfSenses = 5
     
     var layers = [Expresser.Layer]()
     var reachedEndOfStrand = false
@@ -64,6 +35,21 @@ class Expresser: ExpresserProtocol {
     func closeLayer() {
         if let u = underConstruction { layers.append(u) }
         underConstruction = nil
+
+        let layer = layers[layers.count - 1]
+        let thereIsAPreviousLayer = layers.count >= 2
+        var connectionsAvailable = 0
+        var start = 0, end = 0
+
+        if thereIsAPreviousLayer {
+            connectionsAvailable = layers[layers.count - 2].neurons.count
+            start = 0; end = connectionsAvailable
+        } else {
+            connectionsAvailable = numberOfSenses
+            start = numberOfSenses; end = numberOfSenses
+        }
+
+        layer.close(inputLineDescriptor: start..<end, iAmBottomLayer: reachedEndOfStrand)
     }
 
     func closeNeuron() { underConstruction.closeNeuron() }
@@ -105,14 +91,14 @@ extension Expresser {
         init(layers: [Layer]) { self.layers = layers }
         
         func show(override: Bool = false) {
-            if thereBeNoShowing && !override { return }
+            if Utilities.thereBeNoShowing && !override { return }
 
             print("Brain:")
             for (ss, layer) in zip(0..., layers) { layer.show(ss) }
         }
         
-        func stimulate(sensoryInput: [Double]) -> [Double] {
-            var previousLayerOutputs = sensoryInput
+        func stimulate(inputs: [Double]) -> [Double] {
+            var previousLayerOutputs = inputs
             
             for layer in self.layers {
                 if previousLayerOutputs.isEmpty { return [] }
@@ -140,6 +126,20 @@ extension Expresser {
         
         func addActivator(_ value: Bool) { underConstruction.activators.append(value) }
         func addWeight(_ value: Double) { underConstruction.weights.append(value) }
+        
+        func close(inputLineDescriptor: Range<Int>, iAmBottomLayer: Bool) {
+            var start = 0, end = 0
+            for (n, ss) in zip(neurons, 0...) {
+                if inputLineDescriptor.isEmpty {
+                    start = ss; end = ss
+                } else {
+                    start = 0; end = inputLineDescriptor.endIndex
+                }
+                
+                let finalRange = start..<end
+                n.postInit(inputLineDescriptor: finalRange, inBottomLayer: iAmBottomLayer)
+            }
+        }
 
         func newNeuron() { underConstruction = Neuron() }
         
@@ -178,45 +178,75 @@ extension Expresser {
         func stimulate(inputs: [Double]) -> Double {
             if inputs.isEmpty { fatalError("Shouldn't be in here if the previous layer has no outputs") }
             
-            for (theSwitch, inputLineSS) in zip(inputLineSwitches, 0...) {
+            for (theSwitch, inputLineSS) in zip(inputLineSwitches, 0..<inputLines.count) {
                 inputLines[inputLineSS] = inputs[theSwitch]
             }
-            
+            print("stimulate on lines \(inputLines), input values \(inputs)")
             return self.output()
         }
 
-        func postInit(inputLineDescriptor: Range<Int>) {
+        func postInit(inputLineDescriptor: Range<Int>, inBottomLayer: Bool = false) {
+            print("A")
             if activators.isEmpty || weights.isEmpty { return }
-
+            print("B")
             let length = min(activators.count, weights.count)
 
             let aSlice = activators[0..<length]
-            if !aSlice.reduce(false, { $0 || $1 }) { return }
             
+            // if all the activators are false, there's no
+            // point us being in here; none of the weights
+            // will work
+            if !aSlice.reduce(false, { $0 || $1 }) { return }
+            print("C")
+
             // This happens only for the top layer. We give one
             // sensory input to each neuron, whether he likes it or not.
             // We get a zero-length range with the end index set
             // to the subscript of the sensory input that will
             // apply to this neuron.
             if inputLineDescriptor.isEmpty {
+                print("D")
                 let theOnlyInputLine = inputLineDescriptor.endIndex
                 inputLineSwitches = [theOnlyInputLine]
                 inputLines = [0]
                 return
             }
-
-            var weightSS = 0
             
-            for inputLineSS in inputLineDescriptor {
-                if weightSS >= inputLineSS { return }
+            print("E")
+            // This happens only at the bottom. We have all the bottom
+            // neurons set up with one input only, to connect to some
+            // neuron in the penultimate layer. But it's boring if they
+            // all always go to the leftmost neuron, just because we're
+            // counting sequentially.
+            if inBottomLayer {
+                print("F")
+                let inputLineOverride = Int.random(in: inputLineDescriptor)
+                inputLineSwitches.append(inputLineOverride)
+                print("inputLineOverride: \(inputLineOverride), inputLineDescriptor: \(inputLineDescriptor)")
+                return
+            }
+            print("G")
+
+            var maxInputLines = min(self.weights.count, inputLineDescriptor.count)
+            maxInputLines = min(maxInputLines, self.activators.count)
+            
+            var activatorSS = 0, weightSS = 0, inputLineSS = 0, connectionNumber = 0
+            while true {
+                if activatorSS >= activators.count { break }
+                if weightSS >= weights.count { break }
+                if inputLineSS > inputLines.count { break }
+                if connectionNumber >= inputLineDescriptor.endIndex { connectionNumber = 0 }
                 
-                if self.activators[inputLineSS] {
-                    inputLineSwitches.append(inputLineSS)
+                if activators[activatorSS] {
+                    self.inputLineSwitches.append(inputLineSS)
+                    // We consume a weight and an input line when
+                    // we make a connection
+                    weightSS += 1; inputLineSS += 1
                 }
-
-                if self.activators[inputLineSS] { weightSS += 1 }
-
-                inputLineSwitches.append(inputLineSS)
+                
+                // We always consume an activator, and we always
+                // advance and wrap on the connection numbers array
+                activatorSS += 1; connectionNumber += 1
             }
         }
 
@@ -224,7 +254,7 @@ extension Expresser {
         func setThreshold(_ value: Double) { threshold = value }
         
         func show(_ neuronSS: Int) {
-            print("Neuron \(neuronSS):")
+            print("Neuron \(neuronSS): inputs on lines \(inputLines)")
             
             print("\tActivators: ", terminator: "")
             for a in activators { print("A(\(a)) ", terminator: "") }
@@ -272,22 +302,6 @@ extension Expresser.Layer {
     func closeNeuron() {
         if let u = underConstruction {
             neurons.append(u)
-            
-            // 0..<neurons.count
-            var start = 0, end = neurons.count
-            
-            // If there's a previous layer, we tell all the
-            // neurons in this layer about all the neurons
-            // in the previous layer. If there's no previous
-            // layer, ie, we're working on the top layer, we
-            // force each neuron to take only one input, to
-            // make life really easy for the selector function.
-            
-            for (n, ss) in zip(neurons, 0...) {
-                // ss..<ss  Shows as empty, but endIndex == n in a range of n..<n
-                if firstLayer { start = ss; end = ss }
-                n.postInit(inputLineDescriptor: start..<end)
-            }
         }
         
         firstLayer = false

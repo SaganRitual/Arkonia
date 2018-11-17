@@ -38,6 +38,7 @@ var t: Character { return "t" } // threshold as Double
 
 enum Utilities {
     static var filenameSerialNumber = 0
+    static var thereBeNoShowing = false
     
     static func clobbered(_ message: String) { print(message); fatalError(message) }
 

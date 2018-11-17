@@ -23,7 +23,7 @@ import Foundation
 
 func oneSignalPassThroughRandomBrain() {
     let brain = Breeder.makeRandomBrain()
-    print(brain.stimulate(sensoryInput: brain.generateRandomSensoryInput()))
+    print(brain.stimulate(inputs: brain.generateRandomSensoryInput()))
 }
 
 func controlledConditionsTest() {
@@ -47,7 +47,7 @@ func controlledConditionsTest() {
         let brain = Expresser.e.getBrain()
 
         let oneSense = [1.0]
-        let output = brain.stimulate(sensoryInput: oneSense)
+        let output = brain.stimulate(inputs: oneSense)
         print(output)
     }
 }
@@ -101,4 +101,39 @@ func testBreeder() {
 //testMutator()
 
 //print("testing breeder")
-testBreeder()
+//testBreeder()
+
+func show() {
+    if Utilities.thereBeNoShowing { return }
+    testTranslators.brain.show(tabs: "", override: true)
+    
+}
+
+var testTranslators = TestTranslators()
+testTranslators.newBrain()
+
+for _ in 0..<1 {
+    testTranslators.newLayer()
+    
+    for _ in 0..<4{
+        testTranslators.newNeuron()
+        for _ in 0..<1 {
+            testTranslators.setThreshold(Double.infinity)
+            testTranslators.setBias(0)
+            testTranslators.addWeight(1)
+            testTranslators.addActivator(true)
+        }
+        testTranslators.closeNeuron()
+    }
+    
+    testTranslators.closeLayer()
+}
+
+//testTranslators.closeBrain()
+testTranslators.endOfStrand()
+Utilities.thereBeNoShowing = false
+show()
+
+let brain = testTranslators.getBrain()
+let outputs = brain.stimulate(inputs: [1, 1, 1, 1, 1, 1])
+print(outputs)

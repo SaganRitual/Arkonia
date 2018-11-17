@@ -139,7 +139,7 @@ class Breeder {
     
     func lambda(childGenome: Genome, brain: BrainProtocol) -> Bool {
         let sensoryInput: [Double] = [1, 1, 1, 1, 1]
-        let outputs = brain.stimulate(sensoryInput: sensoryInput)
+        let outputs = brain.stimulate(inputs: sensoryInput)
         print(outputs)
         var foundNewWinner = false
         let fs = getFitnessScore(for: outputs)

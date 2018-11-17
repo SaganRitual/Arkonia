@@ -131,7 +131,11 @@ extension VBrain {
     }
     
     func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Expresser.Neuron, at neuronPosition: CGPoint) {
+        var activatorSS = 0
         for previousLayerPoint in previousLayerPoints {
+            if activatorSS == neuron.activators.count { return }
+            if !neuron.activators[activatorSS] { continue }
+            activatorSS += 1
             let linePath = CGMutablePath()
             linePath.move(to: neuronPosition)
             linePath.addLine(to: previousLayerPoint)
