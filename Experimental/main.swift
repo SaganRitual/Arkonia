@@ -31,7 +31,7 @@ func oneSignalPassThroughRandomBrain() {
 
 func controlledConditionsTest() {
     let testGenomes = [
-        "L.N.A(true)."//.W(1).b(2).t(1)", "L.N.A(true).W(1).b(1).t(2)",
+        "L.N.A(true).W(1).b(0).t(100000).N.A(true).W(1).b(0).t(100000).N.A(true).W(1).b(0).t(100000).N.A(true).W(1).b(0).t(100000)."//.W(1).b(2).t(1)", "L.N.A(true).W(1).b(1).t(2)",
 //        "L.N.A(true).W(1).b(-4).t(2)", "L.N.A(true).W(1).W(1).b(-4).t(2)",
 //        "L.N.A(true).A(true).W(1).b(1).t(2)", "L.N.A(true).A(true).W(1).W(1).b(1).t(2)",
 //        "L.N.A(true).W(1).A(true).W(1).b(1).t(2)", "L.N.b(1).t(2).A(true).W(1).A(true).W(1)"*/

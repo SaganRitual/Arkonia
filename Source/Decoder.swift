@@ -64,13 +64,13 @@ class Decoder {
         
         let head: Genome = {
             var g = Genome(); g += "L."
-            for _ in 0..<Translators.numberOfSenses { g += "N.A(true).W(1).b(0).t(0)." }
-            g += "L.S."; return g
+            for _ in 0..<Translators.numberOfSenses { g += "N.A(true).W(1).b(0).t(1000000)." }
+            g += "L."; return g
         }()
         
         let tail: Genome = {
             var g = Genome(); g += "L."
-            for _ in 0..<Translators.numberOfMotorNeurons { g += "N.A(true).W(1).b(0).t(0)." }
+            for _ in 0..<Translators.numberOfMotorNeurons { g += "N.A(true).W(1).b(0).t(1000000)." }
             return g
         }()
 
@@ -112,6 +112,7 @@ class Decoder {
             }
 
             slice = slice.dropFirst(symbolsConsumed)
+            print("1", String(slice))
         }
 
         Translators.t.endOfStrand()
@@ -179,6 +180,7 @@ extension Decoder {
         guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
         case L:
+            print("ignoring extra layer marker")
             // Got another layer marker, but it would
             // cause this one to be empty. Just ignore it.
             decodeState = .inLayer

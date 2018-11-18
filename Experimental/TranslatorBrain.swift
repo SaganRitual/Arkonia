@@ -35,7 +35,11 @@ extension Translators {
         func addWeight(_ weight: Double) { if let u = underConstruction { u.addWeight(weight) } }
         
         func closeLayer() {
-            if let u = underConstruction { layers.append(u); underConstruction = nil }
+            print("close layer")
+            if let u = underConstruction {
+                print("worked"); layers.append(u); underConstruction = nil
+            }
+            print("end")
         }
         
         func closeNeuron() { underConstruction?.closeNeuron() }
@@ -47,14 +51,15 @@ extension Translators {
         func connectLayers() {
             var previousLayer: Layer?
             for layer in layers {
-                defer { previousLayer = layer }
-                guard let p = previousLayer else { layer.setTopLayerInputPorts(); continue }
+                guard let p = previousLayer else { previousLayer = layer; layer.setTopLayerInputPorts(); continue }
                 layer.connectNeurons(howManyInputsAreAvailable: p.neurons.count)
+                previousLayer = layer;
             }
         }
         
         func endOfStrand() {
-            
+            closeNeuron()
+            closeLayer()
             for layer in layers { layer.endOfStrand() }
             
         }
@@ -77,6 +82,7 @@ extension Translators {
 //                closeLayer()
 //            }
             
+            print("new layer")
             underConstruction = Layer()
         }
         

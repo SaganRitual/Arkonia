@@ -79,7 +79,7 @@ class Neuron {
         // above us.
         var activationSS = 0, weightSS = 0, availableLineSS = 0
         
-        print(activators.count, weights.count, numberOfSenses, howManyInputsAreAvailable)
+        print(activators.count, weights.count, "numberOfSenses \(numberOfSenses)(\(adjustedInputCount))", howManyInputsAreAvailable)
         while true {
             if activationSS >= activators.count { break }
             if weightSS >= weights.count { break }
@@ -95,6 +95,7 @@ class Neuron {
             availableLineSS += 1; activationSS += 1
         }
         print()
+        Translators.t.brain.show(tabs: "", override: true)
     }
     
     func setThreshold(_ value: Double) { threshold = value }
@@ -105,14 +106,19 @@ class Neuron {
     }
     
     func stimulate(inputs: [Double]) -> Double? {
+        print("neuron stimulate")
         if inputs.isEmpty { fatalError("stimulate() doesn't like empty inputs") }
-        if inputPortDescriptors.isEmpty { return nil }
+        if inputPortDescriptors.isEmpty { print("ns returns nil"); return nil }
         
-        for portNumber in 0..<inputPortDescriptors.count {
-            let inputLine = inputPortDescriptors[portNumber]
-            inputPorts[portNumber] = inputs[inputLine]
+        // We might have a lot of input ports, but we're
+        // dependent on how many inputs are available
+        let adjustedInputCount = min(inputPortDescriptors.count, inputs.count)
+        
+        for portNumber in 0..<adjustedInputCount {
+            inputPorts[portNumber] = inputs[portNumber]
         }
         
+        print("neuron stimulate finished")
         return self.output()
     }
     
