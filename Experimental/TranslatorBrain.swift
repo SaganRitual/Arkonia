@@ -35,11 +35,7 @@ extension Translators {
         func addWeight(_ weight: Double) { if let u = underConstruction { u.addWeight(weight) } }
         
         func closeLayer() {
-            print("close layer")
-            if let u = underConstruction {
-                print("worked"); layers.append(u); underConstruction = nil
-            }
-            print("end")
+            if let u = underConstruction { layers.append(u); underConstruction = nil }
         }
         
         func closeNeuron() { underConstruction?.closeNeuron() }
@@ -65,24 +61,6 @@ extension Translators {
         }
         
         func newLayer() {
-//            if firstLayer {
-//                firstLayer = false
-//
-//                underConstruction = Layer()
-//
-//                for _ in 0..<Translators.numberOfSenses {
-//                    newNeuron()
-//                    underConstruction?.addActivator(true)
-//                    underConstruction?.addWeight(1)
-//                    underConstruction?.setBias(0)
-//                    underConstruction?.setThreshold(Double.infinity)
-//                    closeNeuron()
-//                }
-//
-//                closeLayer()
-//            }
-            
-            print("new layer")
             underConstruction = Layer()
         }
         

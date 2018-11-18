@@ -61,12 +61,10 @@ class Layer {
     
     func stimulate(inputs: [Double]) -> [Double] {
         var outputs = [Double]()
-        print("Layer stimulate")
         for n in self.neurons {
             guard let r = n.stimulate(inputs: inputs)  else { continue }
             outputs.append(r)
         }
-        print("Layer stimulate finished: ", outputs)
         return outputs
     }
 }

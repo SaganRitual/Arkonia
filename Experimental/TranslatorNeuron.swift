@@ -55,7 +55,6 @@ class Neuron {
         // were negative but could trigger t by having a
         // large magnitude.
         let result = (abiased < abs(t)) ? biased : sign * t
-        print("N output = \(result.sTruncate()), ws = \(ws), bias = \(bias?.sTruncate() ?? "<nil>"), threshold = \(threshold?.sTruncate() ?? "<nil>")")
         return result
     }
     
@@ -79,7 +78,6 @@ class Neuron {
         // above us.
         var activationSS = 0, weightSS = 0, availableLineSS = 0
         
-        print(activators.count, weights.count, "numberOfSenses \(numberOfSenses)(\(adjustedInputCount))", howManyInputsAreAvailable)
         while true {
             if activationSS >= activators.count { break }
             if weightSS >= weights.count { break }
@@ -89,13 +87,10 @@ class Neuron {
                 inputPortDescriptors.append(availableLineSS)
                 inputPorts.append(0)    // Make room for another input
                 weightSS += 1
-                print("t", terminator: "")
-            } else { print("f", terminator: "") }
-            print("\nt(\(availableLineSS), \(inputPortDescriptors), \(inputPorts))")
+            }
+
             availableLineSS += 1; activationSS += 1
         }
-        print()
-        Translators.t.brain.show(tabs: "", override: true)
     }
     
     func setThreshold(_ value: Double) { threshold = value }
@@ -106,9 +101,8 @@ class Neuron {
     }
     
     func stimulate(inputs: [Double]) -> Double? {
-        print("neuron stimulate")
         if inputs.isEmpty { fatalError("stimulate() doesn't like empty inputs") }
-        if inputPortDescriptors.isEmpty { print("ns returns nil"); return nil }
+        if inputPortDescriptors.isEmpty { return nil }
         
         // We might have a lot of input ports, but we're
         // dependent on how many inputs are available
@@ -118,7 +112,6 @@ class Neuron {
             inputPorts[portNumber] = inputs[portNumber]
         }
         
-        print("neuron stimulate finished")
         return self.output()
     }
     
@@ -143,15 +136,15 @@ class Neuron {
                 
                 output += theWeightedSum
                 
-                let p = "port(\(portNumberWhereIGetTheDataFromHim))"
-                let f = "from neuron(\(theNeuronGivingMeInputOnThisPort)) -> \(theDataFromHim)"
-                let y = "weight(\(ssIntoWeightsArrayCoincidentallyIs)) -> \(theWeightValue)"
-                let w = "yield(\(theDataFromHim) * \(theWeightValue)) -> running total(\(output))"
+                let _ = "port(\(portNumberWhereIGetTheDataFromHim))"
+                let _ = "from neuron(\(theNeuronGivingMeInputOnThisPort)) -> \(theDataFromHim)"
+                let _ = "weight(\(ssIntoWeightsArrayCoincidentallyIs)) -> \(theWeightValue)"
+                let _ = "yield(\(theDataFromHim) * \(theWeightValue)) -> running total(\(output))"
                 
-                print(p + " " + f + " " + y + " " + w)
+//                print(p + " " + f + " " + y + " " + w)
         }
         
-        print("T(\(output))")
+//        print("T(\(output))")
         return output
     }
 }

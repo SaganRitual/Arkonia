@@ -112,7 +112,6 @@ class Decoder {
             }
 
             slice = slice.dropFirst(symbolsConsumed)
-            print("1", String(slice))
         }
 
         Translators.t.endOfStrand()
@@ -180,7 +179,6 @@ extension Decoder {
         guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
         case L:
-            print("ignoring extra layer marker")
             // Got another layer marker, but it would
             // cause this one to be empty. Just ignore it.
             decodeState = .inLayer

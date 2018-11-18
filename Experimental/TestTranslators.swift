@@ -43,20 +43,7 @@ class Translators: BrainOwnerProtocol {
     func connectLayers() { brain?.connectLayers() }
 
     func endOfStrand() {
-//        newLayer()
-//        
-//        for _ in 0..<Translators.numberOfMotorNeurons {
-//            newNeuron()
-//            addActivator(true)
-//            addWeight(1)
-//            setBias(0)
-//            setThreshold(Double.infinity)
-//            closeNeuron()
-//        }
-//
-//        closeLayer()
         brain.endOfStrand()
-        print("connect layers")
         connectLayers()
 
         reachedEndOfStrand = true
