@@ -112,16 +112,17 @@ func show() {
 var testTranslators = TestTranslators()
 testTranslators.newBrain()
 
-for _ in 0..<1 {
+for _ in 0..<2 {
     testTranslators.newLayer()
     
-    for _ in 0..<4{
+    for _ in 0..<5{
         testTranslators.newNeuron()
+
+        testTranslators.setThreshold(Double.infinity)
+        testTranslators.setBias(0)
+
         for _ in 0..<1 {
-            testTranslators.setThreshold(Double.infinity)
-            testTranslators.setBias(0)
             testTranslators.addWeight(1)
-            testTranslators.addActivator(true)
         }
         testTranslators.closeNeuron()
     }
@@ -135,5 +136,5 @@ Utilities.thereBeNoShowing = false
 show()
 
 let brain = testTranslators.getBrain()
-let outputs = brain.stimulate(inputs: [1, 1, 1, 1, 1, 1])
+let outputs = brain.stimulate(inputs: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
 print(outputs)

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D40593EB21A0F294008C5FE8 /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EA21A0F294008C5FE8 /* TranslatorBrain.swift */; };
+		D40593ED21A0F319008C5FE8 /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */; };
+		D40593EF21A0F34E008C5FE8 /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */; };
 		D44B549B2197EE9900FB94FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B549A2197EE9900FB94FC /* AppDelegate.swift */; };
 		D44B549D2197EE9900FB94FC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549C2197EE9900FB94FC /* GameScene.sks */; };
 		D44B549F2197EE9900FB94FC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549E2197EE9900FB94FC /* Actions.sks */; };
@@ -65,6 +68,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D40593EA21A0F294008C5FE8 /* TranslatorBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorBrain.swift; sourceTree = "<group>"; };
+		D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorLayer.swift; sourceTree = "<group>"; };
+		D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorNeuron.swift; sourceTree = "<group>"; };
 		D44B54972197EE9900FB94FC /* XCodeClutter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCodeClutter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D44B549A2197EE9900FB94FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D44B549C2197EE9900FB94FC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -195,6 +201,9 @@
 				D4A03631219CA94300EC171E /* TestDecoderInputs.swift */,
 				D4838183219A94E300B3648A /* TestParseGeneValues.swift */,
 				D4C2253C219FC3FB004A011A /* TestTranslators.swift */,
+				D40593EA21A0F294008C5FE8 /* TranslatorBrain.swift */,
+				D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */,
+				D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */,
 				D48AB377219DDFBC00624000 /* VBrain.swift */,
 			);
 			path = Experimental;
@@ -405,7 +414,10 @@
 				D4838182219A2D5800B3648A /* main.swift in Sources */,
 				D4C2253F21A072EF004A011A /* Protocols.swift in Sources */,
 				D48AB35B219D4B6100624000 /* Expresser.swift in Sources */,
+				D40593ED21A0F319008C5FE8 /* TranslatorLayer.swift in Sources */,
+				D40593EF21A0F34E008C5FE8 /* TranslatorNeuron.swift in Sources */,
 				D483818A219AAA4F00B3648A /* DecoderExtras.swift in Sources */,
+				D40593EB21A0F294008C5FE8 /* TranslatorBrain.swift in Sources */,
 				D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */,
 				D48AB385219E718600624000 /* Mutator.swift in Sources */,
 				D4C2253D219FC3FB004A011A /* TestTranslators.swift in Sources */,
