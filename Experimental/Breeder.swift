@@ -137,9 +137,9 @@ class Breeder {
         return scoreForTheseOutputs
     }
     
-    func lambda(childGenome: Genome, brain: LayerOwnerProtocol) -> Bool {
+    func lambda(childGenome: Genome, brain: LayerOwnerProtocol) -> Bool? {
         let sensoryInput: [Double] = [1, 1, 1, 1, 1]
-        let outputs = brain.stimulate(inputs: sensoryInput)
+        guard let outputs = brain.stimulate(inputs: sensoryInput) else { return nil }
         print(outputs)
         var foundNewWinner = false
         let fs = getFitnessScore(for: outputs)
@@ -169,7 +169,7 @@ class Breeder {
     }
 
     var testBrains = [Genome]()
-    public func selectFromCurrentGeneration() -> [Genome] {
+    public func selectFromCurrentGeneration() -> [Genome]? {
         let progenitorGenome = self.currentProgenitorGenome
         let winnerOfThisGeneration = progenitorGenome
         
@@ -185,9 +185,8 @@ class Breeder {
         _ = lambda(childGenome: currentProgenitorGenome, brain: currentProgenitorBrain)
         
         for (ss, (childGenome, brain)) in zip(0..., self.currentGeneration) {
-            if lambda(childGenome: childGenome, brain: brain) {
-                bestBrainSS = ss
-            }
+            guard let _ = lambda(childGenome: childGenome, brain: brain) else { return nil }
+            bestBrainSS = ss
         }
         
         if bestBrainSS == -1 {

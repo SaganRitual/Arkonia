@@ -58,7 +58,7 @@ protocol LayerOwnerProtocol {
     func setInputs(_ inputs: [Int])
     func setThreshold(_ value: Double)
     func show(tabs: String, override: Bool)
-    func stimulate(inputs: [Double]) -> [Double]
+    func stimulate(inputs: [Double]) -> [Double]?
     
     func generateRandomSensoryInput() -> [Double]
 }

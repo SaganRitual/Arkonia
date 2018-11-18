@@ -23,7 +23,10 @@ import Foundation
 
 func oneSignalPassThroughRandomBrain() {
     let brain = Breeder.makeRandomBrain()
-    print(brain.stimulate(inputs: brain.generateRandomSensoryInput()))
+    let rsi = brain.generateRandomSensoryInput()
+    print(rsi)
+//    if let results = rsi { print(results) }
+//    else { print("Brain died during testing" }
 }
 
 func controlledConditionsTest() {
@@ -47,7 +50,8 @@ func controlledConditionsTest() {
 
         let oneSense = [1.0]
         let output = brain.stimulate(inputs: oneSense)
-        print(output)
+        if let t = output { print(t) }
+        else { print("Brain died during testing") }
     }
 }
 
@@ -84,7 +88,10 @@ func testBreeder() {
     Breeder.bb.setProgenitor(newGenome)
     Breeder.bb.breedOneGeneration(10, from: newGenome)
 
-    let selection = Breeder.bb.selectFromCurrentGeneration()
+    guard let selection = Breeder.bb.selectFromCurrentGeneration() else {
+        print("Brain died during stimulation")
+        return
+    }
 
     for (ss, genome) in zip(0..., selection) {
         print("Genome \(ss): ", genome)
@@ -93,7 +100,7 @@ func testBreeder() {
 //    let characterLimit = 50
 //    let howManyToKeep = selection.count > characterLimit ? characterLimit : selection.count
 //    print("winner: (\(selection.count))", selection.first!)
-}
+    }
 
 //oneSignalPassThroughRandomBrain()
 controlledConditionsTest()

@@ -91,15 +91,16 @@ extension Translators {
             print()
         }
         
-        func stimulate(inputs: [Double]) -> [Double] {
+        func stimulate(inputs: [Double]) -> [Double]? {
             var previousLayerOutputs = inputs
             
             for layer in self.layers {
-                if previousLayerOutputs.isEmpty { return [] }
+                if previousLayerOutputs.isEmpty { return nil }
                 previousLayerOutputs =
                     layer.stimulate(inputs: previousLayerOutputs)
             }
             
+            if previousLayerOutputs.isEmpty { return nil }
             return previousLayerOutputs
         }
     }
