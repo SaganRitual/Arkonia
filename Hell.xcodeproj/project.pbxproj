@@ -22,7 +22,6 @@
 		D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838183219A94E300B3648A /* TestParseGeneValues.swift */; };
 		D4838186219A956400B3648A /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838185219A956400B3648A /* Decoder.swift */; };
 		D483818A219AAA4F00B3648A /* DecoderExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838189219AAA4F00B3648A /* DecoderExtras.swift */; };
-		D48AB35B219D4B6100624000 /* Expresser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB35A219D4B6100624000 /* Expresser.swift */; };
 		D48AB363219DDE6900624000 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB362219DDE6900624000 /* AppDelegate.swift */; };
 		D48AB365219DDE6900624000 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D48AB364219DDE6900624000 /* GameScene.sks */; };
 		D48AB367219DDE6900624000 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D48AB366219DDE6900624000 /* Actions.sks */; };
@@ -30,7 +29,6 @@
 		D48AB36B219DDE6900624000 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB36A219DDE6900624000 /* ViewController.swift */; };
 		D48AB36D219DDE6A00624000 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D48AB36C219DDE6A00624000 /* Assets.xcassets */; };
 		D48AB370219DDE6A00624000 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D48AB36E219DDE6A00624000 /* Main.storyboard */; };
-		D48AB376219DDF3000624000 /* Expresser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB35A219D4B6100624000 /* Expresser.swift */; };
 		D48AB379219DDFC900624000 /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB377219DDFBC00624000 /* VBrain.swift */; };
 		D48AB37B219DE4A800624000 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838185219A956400B3648A /* Decoder.swift */; };
 		D48AB37D219DFFA000624000 /* Breeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB37C219DFFA000624000 /* Breeder.swift */; };
@@ -89,7 +87,6 @@
 		D4838183219A94E300B3648A /* TestParseGeneValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestParseGeneValues.swift; sourceTree = "<group>"; };
 		D4838185219A956400B3648A /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
 		D4838189219AAA4F00B3648A /* DecoderExtras.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoderExtras.swift; sourceTree = "<group>"; };
-		D48AB35A219D4B6100624000 /* Expresser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expresser.swift; sourceTree = "<group>"; };
 		D48AB360219DDE6900624000 /* VBrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VBrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48AB362219DDE6900624000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D48AB364219DDE6900624000 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -195,7 +192,6 @@
 			children = (
 				D4A0362E219B926C00EC171E /* Hell.playground */,
 				D48AB37C219DFFA000624000 /* Breeder.swift */,
-				D48AB35A219D4B6100624000 /* Expresser.swift */,
 				D483816F2197F4A400B3648A /* main.swift */,
 				D48AB384219E718600624000 /* Mutator.swift */,
 				D4A03631219CA94300EC171E /* TestDecoderInputs.swift */,
@@ -413,7 +409,6 @@
 				D48AB37D219DFFA000624000 /* Breeder.swift in Sources */,
 				D4838182219A2D5800B3648A /* main.swift in Sources */,
 				D4C2253F21A072EF004A011A /* Protocols.swift in Sources */,
-				D48AB35B219D4B6100624000 /* Expresser.swift in Sources */,
 				D40593ED21A0F319008C5FE8 /* TranslatorLayer.swift in Sources */,
 				D40593EF21A0F34E008C5FE8 /* TranslatorNeuron.swift in Sources */,
 				D483818A219AAA4F00B3648A /* DecoderExtras.swift in Sources */,
@@ -439,7 +434,6 @@
 				D48AB383219E484000624000 /* Utilities.swift in Sources */,
 				D48AB379219DDFC900624000 /* VBrain.swift in Sources */,
 				D48AB386219E718600624000 /* Mutator.swift in Sources */,
-				D48AB376219DDF3000624000 /* Expresser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

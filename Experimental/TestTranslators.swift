@@ -20,7 +20,9 @@
 
 import Foundation
 
-class TestTranslators: BrainOwnerProtocol {
+class Translators: BrainOwnerProtocol {
+    static let t = Translators()
+    
     static let numberOfSenses = 1
     static let numberOfMotorNeurons = 5//"Zoe Bishop".count
 
@@ -41,18 +43,18 @@ class TestTranslators: BrainOwnerProtocol {
     func connectLayers() { brain?.connectLayers() }
 
     func endOfStrand() {
-        newLayer()
-        
-        for _ in 0..<TestTranslators.numberOfMotorNeurons {
-            newNeuron()
-            addActivator(true)
-            addWeight(1)
-            setBias(0)
-            setThreshold(Double.infinity)
-            closeNeuron()
-        }
-
-        closeLayer()
+//        newLayer()
+//        
+//        for _ in 0..<Translators.numberOfMotorNeurons {
+//            newNeuron()
+//            addActivator(true)
+//            addWeight(1)
+//            setBias(0)
+//            setThreshold(Double.infinity)
+//            closeNeuron()
+//        }
+//
+//        closeLayer()
         connectLayers()
 
         brain.endOfStrand()
@@ -67,12 +69,10 @@ class TestTranslators: BrainOwnerProtocol {
     func newLayer() { self.brain.newLayer() }
     func newNeuron() { self.brain.newNeuron() }
     
+    func reset() {}
+    
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing || !override { return }
         getBrain().show(tabs: "\t", override: override)
     }
-}
-
-extension TestTranslators {
-    
 }

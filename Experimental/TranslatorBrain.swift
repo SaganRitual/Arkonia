@@ -20,8 +20,12 @@
 
 import Foundation
 
-extension TestTranslators {
+extension Translators {
     class Brain: LayerOwnerProtocol {
+        func generateRandomSensoryInput() -> [Double] {
+            return [0]
+        }
+        
         var layers = [Layer]()
         var underConstruction: Layer!
         
@@ -56,22 +60,22 @@ extension TestTranslators {
         }
         
         func newLayer() {
-            if firstLayer {
-                firstLayer = false
-                
-                underConstruction = Layer()
-                
-                for _ in 0..<TestTranslators.numberOfSenses {
-                    newNeuron()
-                    underConstruction?.addActivator(true)
-                    underConstruction?.addWeight(1)
-                    underConstruction?.setBias(0)
-                    underConstruction?.setThreshold(Double.infinity)
-                    closeNeuron()
-                }
-                
-                closeLayer()
-            }
+//            if firstLayer {
+//                firstLayer = false
+//
+//                underConstruction = Layer()
+//
+//                for _ in 0..<Translators.numberOfSenses {
+//                    newNeuron()
+//                    underConstruction?.addActivator(true)
+//                    underConstruction?.addWeight(1)
+//                    underConstruction?.setBias(0)
+//                    underConstruction?.setThreshold(Double.infinity)
+//                    closeNeuron()
+//                }
+//
+//                closeLayer()
+//            }
             
             underConstruction = Layer()
         }

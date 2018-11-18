@@ -23,15 +23,15 @@ import Foundation
 class Breeder {
     public static var bb = Breeder()
     
-    typealias GenoPheno = (Genome, BrainProtocol)
+    typealias GenoPheno = (Genome, LayerOwnerProtocol)
     typealias Generation = [GenoPheno]
     
     private var currentProgenitorGenome: Genome!
-    private var currentGeneration = [(Genome, BrainProtocol)]()
+    private var currentGeneration = [(Genome, LayerOwnerProtocol)]()
 
     private let decoder = Decoder()
     
-    var currentProgenitorBrain: BrainProtocol!
+    var currentProgenitorBrain: LayerOwnerProtocol!
     var bestFitnessScore = Int.max
     
     let zName = "Zoe Bishop"
@@ -56,7 +56,7 @@ class Breeder {
             _ = Mutator.m.setInputGenome(currentProgenitorGenome).mutate()
             let mutatedGenome = Mutator.m.convertToGenome()
             decoder.setInput(to: mutatedGenome).decode()
-            let brain = Expresser.e.getBrain()
+            let brain = Translators.t.getBrain()
             self.currentGeneration.append((mutatedGenome, brain))
         }
     }
@@ -103,12 +103,12 @@ class Breeder {
         return newGenome
     }
     
-    static func makeRandomBrain(howManyGenes: Int = 100) -> BrainProtocol {
+    static func makeRandomBrain(howManyGenes: Int = 100) -> LayerOwnerProtocol {
         let newGenome = generateRandomGenome(howManyGenes: howManyGenes)
         
         let decoder = Decoder()
         decoder.setInput(to: newGenome).decode()
-        let brain = Expresser.e.getBrain()
+        let brain = Translators.t.getBrain()
         return brain
     }
     
@@ -137,7 +137,7 @@ class Breeder {
         return scoreForTheseOutputs
     }
     
-    func lambda(childGenome: Genome, brain: BrainProtocol) -> Bool {
+    func lambda(childGenome: Genome, brain: LayerOwnerProtocol) -> Bool {
         let sensoryInput: [Double] = [1, 1, 1, 1, 1]
         let outputs = brain.stimulate(inputs: sensoryInput)
         print(outputs)
@@ -178,7 +178,7 @@ class Breeder {
         self.testBrains = [Genome]()
         
         decoder.setInput(to: w).decode()
-        currentProgenitorBrain = Expresser.e.getBrain()
+        currentProgenitorBrain = Translators.t.getBrain()
         testBrains.append(currentProgenitorGenome)
         
         var bestBrainSS = -1

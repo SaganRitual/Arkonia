@@ -20,7 +20,7 @@
 
 import Foundation
 
-extension TestTranslators {
+extension Translators {
 class Layer {
     var neurons = [Neuron]()
     var howManyNeuronsInSensesLayer = 0

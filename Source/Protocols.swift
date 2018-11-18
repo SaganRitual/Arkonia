@@ -27,37 +27,6 @@ protocol ValueParserProtocol {
     func setDefaultInput() -> ValueParserProtocol
 }
 
-protocol BrainProtocol {
-    var layers: [Expresser.Layer] { get set }
-    
-    func generateRandomSensoryInput() -> [Double]
-    func show(override: Bool)
-    func stimulate(inputs: [Double]) -> [Double]
-}
-
-protocol ExpresserProtocol {
-    var reachedEndOfStrand: Bool { get set }
-    
-    func addActivator(_ active: Bool)
-    func addWeight(_ weight: Double)
-    
-    func closeLayer()
-    func closeNeuron()
-    
-    func endOfStrand()
-    
-    func getBrain() -> BrainProtocol
-    
-    func newBrain()
-    func newLayer()
-    func newNeuron()
-    
-    func reset()
-    
-    func setBias(_ value: Double)
-    func setThreshold(_ value: Double)
-}
-
 protocol NeuronProtocol {
     func setInputPorts(howManyInputsAreAvailable: Int)
 }
@@ -90,9 +59,13 @@ protocol LayerOwnerProtocol {
     func setThreshold(_ value: Double)
     func show(tabs: String, override: Bool)
     func stimulate(inputs: [Double]) -> [Double]
+    
+    func generateRandomSensoryInput() -> [Double]
 }
 
 protocol BrainOwnerProtocol {
+    var reachedEndOfStrand: Bool { get set }
+
     func addActivator(_ active: Bool)
     func addWeight(_ weight: Double)
     func closeBrain()
@@ -103,7 +76,7 @@ protocol BrainOwnerProtocol {
     func newBrain()
     func newLayer()
     func newNeuron()
-    
+    func reset()
     func setBias(_ value: Double)
     func setThreshold(_ value: Double)
     func show(tabs: String, override: Bool)

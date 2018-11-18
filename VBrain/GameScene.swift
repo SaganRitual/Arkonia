@@ -54,7 +54,7 @@ class GameScene: SKScene {
         
         Breeder.bb.setProgenitor(newGenome)
         decoder.setInput(to: newGenome).decode()
-        self.brain = Expresser.e.getBrain()
+        self.brain = Translators.t.getBrain()
         Breeder.bb.breedOneGeneration(10, from: newGenome)
         
         _ = Breeder.bb.selectFromCurrentGeneration()
@@ -156,7 +156,7 @@ class GameScene: SKScene {
         let cg = selection.remove(at: 0)
         decoder.setInput(to: cg).decode()
 
-        self.brain = Expresser.e.getBrain()
+        self.brain = Translators.t.getBrain()
         self.brain.show(override: true)
         
         vBrain.displayBrain(self.brain)

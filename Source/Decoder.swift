@@ -25,6 +25,10 @@ fileprivate enum DecodeState {
 }
 
 class Decoder {
+    enum BirthDefect: Error {
+        case emptyLayer
+    }
+
     var inputGenome: Genome!
     var parser: ValueParserProtocol!
 
@@ -51,23 +55,50 @@ class Decoder {
     var t: Character { return "t" } // threshold as Double
 
     fileprivate var decodeState: DecodeState = .noLayer
+    let recognizedGeneTokens = "ABDILNWbt"
 
     func decode() {
         self.reset()
-        Expresser.e.reset()
+        Translators.t.reset()
+        Translators.t.newBrain()
         
         let head: Genome = {
-            var g = Genome(); g += "R.L."; for _ in 0..<5 { g += "N.A(true).W(1)." }; g += "L."; return g
+            var g = Genome(); g += "L."
+            for _ in 0..<Translators.numberOfSenses { g += "N.A(true).W(1).b(0).t(0)." }
+            g += "L.S."; return g
         }()
         
         let tail: Genome = {
-            var g = Genome(); g += "L."; for _ in 0..<10 { g += "N.A(true).W(1)." }; return g
+            var g = Genome(); g += "L."
+            for _ in 0..<Translators.numberOfMotorNeurons { g += "N.A(true).W(1).b(0).t(0)." }
+            return g
         }()
 
         var slice = head[...] + inputGenome[...] + tail[...]
+        
+        let skipBadTokens = { (_ slice: GenomeSlice) -> GenomeSlice.Index in
+            if let r = slice.firstIndex(where: { return self.recognizedGeneTokens.contains($0) }) {
+                return r
+            } else {
+                self.decodeState = .endOfStrand
+            }
+            
+            return slice.startIndex
+        }
+        
+        let discardAnyGarbage = { (_ slice: GenomeSlice) -> GenomeSlice.Index in
+            guard let s = slice.first else { return slice.endIndex }
+            
+            if self.recognizedGeneTokens.contains(s) { return slice.startIndex }
+            else { return skipBadTokens(slice) }
+        }
 
         while decodeState != .endOfStrand {
-            if slice.first == nil { decodeState = .endOfStrand; break }
+            // Just ignore any unrecognized characters, in case I screw up the data
+            let nextValidTokenIndex = slice.startIndex
+            let goodDataIndex = discardAnyGarbage(slice)
+            if goodDataIndex == slice.endIndex { decodeState = .endOfStrand; break }
+            if goodDataIndex != nextValidTokenIndex { slice = slice[goodDataIndex...] }
 
             var symbolsConsumed = 0
             switch decodeState {
@@ -77,16 +108,16 @@ class Decoder {
             case .noLayer: symbolsConsumed = dispatch_noLayer(slice)
             case .inLayer: symbolsConsumed = dispatch_inLayer(slice)
             case .inNeuron: symbolsConsumed = dispatch_inNeuron(slice)
-            case .endOfStrand: fatalError("We shouldn't be in here; end-of-strand is how the loop knows to stop.")
+            case .endOfStrand: break;
             }
 
             slice = slice.dropFirst(symbolsConsumed)
         }
 
-        Expresser.e.endOfStrand()
+        Translators.t.endOfStrand()
     }
     
-    func newBrain() { Expresser.e.newBrain() }
+    func newBrain() { Translators.t.newBrain() }
     
     func reset() { self.decodeState = .noLayer }
 }
@@ -103,10 +134,10 @@ extension Decoder {
         let meatSlice = tSlice[..<ixOfCloseParen]
         
         switch token {
-        case A: Expresser.e.addActivator(parseBool(meatSlice))
-        case W: Expresser.e.addWeight(parseDouble(meatSlice))
-        case b: Expresser.e.setBias(parseDouble(meatSlice))
-        case t: Expresser.e.setThreshold(parseDouble(meatSlice))
+        case A: Translators.t.addActivator(parseBool(meatSlice))
+        case W: Translators.t.addWeight(parseDouble(meatSlice))
+        case b: Translators.t.setBias(parseDouble(meatSlice))
+        case t: Translators.t.setThreshold(parseDouble(meatSlice))
         default: print("Decoder says '\(token)' is an unknown token: "); return 2
         }
 
@@ -122,13 +153,13 @@ extension Decoder {
         switch first {
         case L:
             decodeState = .inLayer
-            Expresser.e.newLayer()
+            Translators.t.newLayer()
             return 2
             
         case N:
             decodeState = .inNeuron
-            Expresser.e.newLayer()
-            Expresser.e.newNeuron()
+            Translators.t.newLayer()
+            Translators.t.newNeuron()
             return 2
             
         case "R":
@@ -137,8 +168,8 @@ extension Decoder {
 
         default:
             decodeState = .inNeuron
-            Expresser.e.newLayer()
-            Expresser.e.newNeuron()
+            Translators.t.newLayer()
+            Translators.t.newNeuron()
             
             return dispatchValueGene(slice)
         }
@@ -148,20 +179,19 @@ extension Decoder {
         guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
         case L:
+            // Got another layer marker, but it would
+            // cause this one to be empty. Just ignore it.
             decodeState = .inLayer
-            
-            Expresser.e.closeLayer()
-            Expresser.e.newLayer()
             return 2
             
         case N:
             decodeState = .inNeuron
-            Expresser.e.newNeuron()
+            Translators.t.newNeuron()
             return 2
 
         default:
             decodeState = .inNeuron
-            Expresser.e.newNeuron()
+            Translators.t.newNeuron()
             return dispatchValueGene(slice)
         }
     }
@@ -171,15 +201,15 @@ extension Decoder {
         switch first {
         case L:
             decodeState = .inLayer
-            Expresser.e.closeNeuron()
-            Expresser.e.closeLayer()
-            Expresser.e.newLayer()
+            Translators.t.closeNeuron()
+            Translators.t.closeLayer()
+            Translators.t.newLayer()
             return 2
             
         case N:
             decodeState = .inNeuron
-            Expresser.e.closeNeuron()
-            Expresser.e.newNeuron()
+            Translators.t.closeNeuron()
+            Translators.t.newNeuron()
             return 2
             
         default:

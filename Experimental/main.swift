@@ -28,15 +28,14 @@ func oneSignalPassThroughRandomBrain() {
 
 func controlledConditionsTest() {
     let testGenomes = [
-        /*
-        "L.N.A(true).W(1).b(1).t(1)", "L.N.A(true).W(1).b(2).t(1)", "L.N.A(true).W(1).b(1).t(2)",
-        "L.N.A(true).W(1).b(-4).t(2)", "L.N.A(true).W(1).W(1).b(-4).t(2)",
-        "L.N.A(true).A(true).W(1).b(1).t(2)", "L.N.A(true).A(true).W(1).W(1).b(1).t(2)",
-        "L.N.A(true).W(1).A(true).W(1).b(1).t(2)", "L.N.b(1).t(2).A(true).W(1).A(true).W(1)"
-     */
-        "L.N.A(true).W(1).b(1).t(100).N.A(true).W(2).b(2).t(100).",
-        "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100).",
-        "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).N.A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100)."
+        "L.N.A(true)."//.W(1).b(2).t(1)", "L.N.A(true).W(1).b(1).t(2)",
+//        "L.N.A(true).W(1).b(-4).t(2)", "L.N.A(true).W(1).W(1).b(-4).t(2)",
+//        "L.N.A(true).A(true).W(1).b(1).t(2)", "L.N.A(true).A(true).W(1).W(1).b(1).t(2)",
+//        "L.N.A(true).W(1).A(true).W(1).b(1).t(2)", "L.N.b(1).t(2).A(true).W(1).A(true).W(1)"*/
+
+//        "L.N.A(true).W(1).b(1).t(100).N.A(true).W(2).b(2).t(100).",
+//        "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100).",
+//        "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).N.A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100)."
     ]
 
     for testGenome in testGenomes {
@@ -44,7 +43,7 @@ func controlledConditionsTest() {
 
         let decoder = Decoder()
         decoder.setInput(to: allOnes).decode()
-        let brain = Expresser.e.getBrain()
+        let brain = Translators.t.getBrain()
 
         let oneSense = [1.0]
         let output = brain.stimulate(inputs: oneSense)
@@ -97,44 +96,46 @@ func testBreeder() {
 }
 
 //oneSignalPassThroughRandomBrain()
-//controlledConditionsTest()
+controlledConditionsTest()
 //testMutator()
 
 //print("testing breeder")
 //testBreeder()
 
-func show() {
-    if Utilities.thereBeNoShowing { return }
-    testTranslators.brain.show(tabs: "", override: true)
-    
-}
-
-var testTranslators = TestTranslators()
-testTranslators.newBrain()
-
-for _ in 0..<2 {
-    testTranslators.newLayer()
-    
-    for _ in 0..<5{
-        testTranslators.newNeuron()
-
-        testTranslators.setThreshold(Double.infinity)
-        testTranslators.setBias(0)
-
-        for _ in 0..<1 {
-            testTranslators.addWeight(1)
-        }
-        testTranslators.closeNeuron()
-    }
-    
-    testTranslators.closeLayer()
-}
-
-//testTranslators.closeBrain()
-testTranslators.endOfStrand()
-Utilities.thereBeNoShowing = false
-show()
-
-let brain = testTranslators.getBrain()
-let outputs = brain.stimulate(inputs: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
-print(outputs)
+//func show() {
+//    if Utilities.thereBeNoShowing { return }
+//    testTranslators.brain.show(tabs: "", override: true)
+//
+//}
+//
+//func translatorFunction() {
+//    var testTranslators = Translators()
+//    testTranslators.newBrain()
+//
+//    for _ in 0..<2 {
+//        testTranslators.newLayer()
+//
+//        for _ in 0..<5{
+//            testTranslators.newNeuron()
+//
+//            testTranslators.setThreshold(Double.infinity)
+//            testTranslators.setBias(0)
+//
+//            for _ in 0..<1 {
+//                testTranslators.addWeight(1)
+//            }
+//            testTranslators.closeNeuron()
+//        }
+//
+//        testTranslators.closeLayer()
+//    }
+//
+//    //testTranslators.closeBrain()
+//    testTranslators.endOfStrand()
+//    Utilities.thereBeNoShowing = false
+//    show()
+//
+//    let brain = testTranslators.getBrain()
+//    let outputs = brain.stimulate(inputs: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+//    print(outputs)
+//}

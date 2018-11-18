@@ -20,7 +20,7 @@
 
 import Foundation
 
-extension TestTranslators {
+extension Translators {
 class Neuron {
     var activators = [Bool]()
     var weights = [Double]()
@@ -36,7 +36,7 @@ class Neuron {
     // This is where the breeder stores the data from
     // the upper layer for stimulating this neuron.
     var inputPorts = [Double]()
-
+    
     func addWeight(_ weight: Double) { weights.append(weight) }
     func addActivator(_ active: Bool) { activators.append(active) }
     
@@ -105,7 +105,7 @@ class Neuron {
     }
     
     func stimulate(inputs: [Double]) -> Double? {
-        if inputs.isEmpty { fatalError("Shouldn't be in here if the previous layer has no outputs") }
+        if inputs.isEmpty { fatalError("stimulate() doesn't like empty inputs") }
         if inputPortDescriptors.isEmpty { return nil }
         
         for portNumber in 0..<inputPortDescriptors.count {

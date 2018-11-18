@@ -50,14 +50,14 @@ class TestParseGeneValues: ValueParserProtocol {
     var intCheckValues    = [Int]()
     
     var parser: ValueParserProtocol!
-    let expresser: ExpresserProtocol
+    let translators: BrainOwnerProtocol
     
     var decoder: ValueParserProtocol!
     
     func decode() {}    // To meet ValueParserProtocol
     
-    init(parser: ValueParserProtocol?, expresser: ExpresserProtocol) {
-        self.expresser = expresser
+    init(parser: ValueParserProtocol?, translators: BrainOwnerProtocol) {
+        self.translators = translators
         if let p = parser { self.parser = p } else { self.parser = self }
     }
 

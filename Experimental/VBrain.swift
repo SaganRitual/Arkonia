@@ -28,7 +28,7 @@ class VBrain {
     var vNeurons = [SKShapeNode]()
     var vTestInputs = [SKLabelNode]()
     var vTestOutputs = [SKLabelNode]()
-    var layers = [Expresser.Layer]()
+    var layers = [Translators.Layer]()
     
     init(gameScene: GameScene, brain: BrainProtocol) {
         guard let _ = NSScreen.main?.frame else {
@@ -104,7 +104,7 @@ class VBrain {
 }
 
 extension VBrain {
-    func drawNeuronLayers(_ layers: [Expresser.Layer], spacer: Spacer) {
+    func drawNeuronLayers(_ layers: [Translators.Layer], spacer: Spacer) {
         var previousLayerPoints = [CGPoint]()
         
         for (i, layer) in zip(0..., layers) {
@@ -130,7 +130,7 @@ extension VBrain {
         }
     }
     
-    func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Expresser.Neuron, at neuronPosition: CGPoint) {
+    func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Translators.Neuron, at neuronPosition: CGPoint) {
         var activatorSS = 0
         for previousLayerPoint in previousLayerPoints {
             if activatorSS == neuron.activators.count { return }

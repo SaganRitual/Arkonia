@@ -44,7 +44,7 @@ class Tene {
 class Mutator {
     public static var m = Mutator()
     
-    var e = Expresser.e
+    var e = Translators.t
     var inputGenome: Genome?
     var workingTenome = Tenome()
     
