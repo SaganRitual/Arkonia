@@ -46,6 +46,8 @@ protocol NeuronOwnerProtocol {
 }
 
 protocol LayerOwnerProtocol {
+    var layers: [Translators.Layer] { get set }
+
     func addActivator(_ active: Bool)
     func setBias(_ value: Double)
     func addWeight(_ weight: Double)

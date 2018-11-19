@@ -30,17 +30,6 @@ func oneSignalPassThroughRandomBrain() {
 }
 
 func controlledConditionsTest() {
-    let testGenomes = [
-        "L.N.A(true).W(1).b(0).t(100000).N.A(true).W(1).b(0).t(100000).N.A(true).W(1).b(0).t(100000).N.A(true).W(1).b(0).t(100000)."//.W(1).b(2).t(1)", "L.N.A(true).W(1).b(1).t(2)",
-//        "L.N.A(true).W(1).b(-4).t(2)", "L.N.A(true).W(1).W(1).b(-4).t(2)",
-//        "L.N.A(true).A(true).W(1).b(1).t(2)", "L.N.A(true).A(true).W(1).W(1).b(1).t(2)",
-//        "L.N.A(true).W(1).A(true).W(1).b(1).t(2)", "L.N.b(1).t(2).A(true).W(1).A(true).W(1)"*/
-
-//        "L.N.A(true).W(1).b(1).t(100).N.A(true).W(2).b(2).t(100).",
-//        "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100).",
-//        "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).N.A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100)."
-    ]
-
     for testGenome in testGenomes {
         let allOnes = testGenome
 
@@ -50,7 +39,7 @@ func controlledConditionsTest() {
 
         let oneSense = [1.0]
         let output = brain.stimulate(inputs: oneSense)
-        if let t = output { print(t) }
+        if let t = output { print("Succes, or something: \(t)") }
         else { print("Brain died during testing") }
     }
 }

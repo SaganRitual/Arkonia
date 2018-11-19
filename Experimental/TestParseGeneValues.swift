@@ -220,7 +220,7 @@ class TestParseGeneValues: ValueParserProtocol {
     
     func setInput(to inputGenome: String) -> ValueParserProtocol {
         self.inputGenome = inputGenome
-        print(self.inputGenome) // Use this as input back into the decoder to make sure it works both ways
+//        print(self.inputGenome) // Use this as input back into the decoder to make sure it works both ways
         
         Bs = TestExtras.createTokenArray("B", in: self.inputGenome);
         Ds = TestExtras.createTokenArray("D", in: self.inputGenome);

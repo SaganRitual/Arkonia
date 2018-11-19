@@ -27,7 +27,7 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
-    private var brain: BrainProtocol!
+    private var brain: LayerOwnerProtocol!
     private var decoder: Decoder!
     private var vBrain: VBrain!
 
@@ -38,7 +38,7 @@ class GameScene: SKScene {
     var frameCount = 0
     var currentGeneration = [Genome]()
     var selection = [Genome]()
-
+    
     override func didMove(to view: SKView) {
         decoder = Decoder()
 
@@ -48,27 +48,23 @@ class GameScene: SKScene {
 //        self.brain = decoder.expresser.getBrain()
 //        #endif
 
-        let howManyGenes = 50
+//        let howManyGenes = 50
         
-        let newGenome = Breeder.generateRandomGenome(howManyGenes: howManyGenes)
+//        let newGenome = testGenomes[0] //Breeder.generateRandomGenome(howManyGenes: howManyGenes)
         
-        Breeder.bb.setProgenitor(newGenome)
-        decoder.setInput(to: newGenome).decode()
-        self.brain = Translators.t.getBrain()
-        Breeder.bb.breedOneGeneration(10, from: newGenome)
+//        Breeder.bb.setProgenitor(newGenome)
+//        Breeder.bb.breedOneGeneration(10, from: newGenome)
         
-        _ = Breeder.bb.selectFromCurrentGeneration()
+//        _ = Breeder.bb.selectFromCurrentGeneration()
         
-        self.selection = [Genome]()
-        for _ in 0..<15 { self.selection.append(Breeder.generateRandomGenome(howManyGenes: 100)) }
+//        self.selection = [Genome]()
+//        for _ in 0..<15 { self.selection.append(Breeder.generateRandomGenome(howManyGenes: 100)) }
         
 //        for (ss, genome) in zip(0..., selection) {
 //            print("Genome \(ss): ", genome)
 //        }
 
-        vBrain = VBrain(gameScene: self, brain: self.brain)
-        vBrain.displayBrain(self.brain)
-        self.selection.remove(at: 0)
+//        self.selection.remove(at: 0)
 
         // Get label node from scene and store it for use later
         self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
@@ -157,7 +153,7 @@ class GameScene: SKScene {
         decoder.setInput(to: cg).decode()
 
         self.brain = Translators.t.getBrain()
-        self.brain.show(override: true)
+        self.brain.show(tabs: "", override: false)
         
         vBrain.displayBrain(self.brain)
         
@@ -168,38 +164,25 @@ class GameScene: SKScene {
         nextBrain()
     }
     
+    var whichGenome = 1
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
+        if frameCount < 120 { return }
+        frameCount = 0
 
-        if (frameCount % 30) == 0 && frameCount > 30 {
-            #if true
-            
-//            self.brain = breeder.makeRandomBrain()
+        decoder.setInput(to: testGenomes[whichGenome]).decode()
+        self.brain = Translators.t.getBrain()
+        vBrain = VBrain(gameScene: self, brain: self.brain)
+        vBrain.displayBrain(self.brain)
 
-            #else
-            _ = decoder.setInput(to: Utilities.generateGenome())
-            decoder.decode()
-
-            vBrain.setBrain(self.brain)
-            #endif
-        }
+        vBrain = VBrain(gameScene: self, brain: self.brain)
+        vBrain.displayBrain(self.brain)
+        self.brain.show(tabs: "", override: true)
+//        whichGenome = (whichGenome + 1) % testGenomes.count
+        whichGenome += 1
+        if whichGenome >= testGenomes.count { exit(-1) }
         
-        #if true
-        
-        #else
-        if (frameCount % 15) == 0 && frameCount > 30 {
-            if firstUpdate { firstUpdate = false; return }
-            if !update { return }
-
-            let rsi = self.brain.generateRandomSensoryInput()
-            let outputs = self.brain.stimulate(inputs: rsi)
-
-            vBrain.displayBrain(self.brain)
-            vBrain.tick(inputs: rsi, outputs: outputs)
-
-            update = false
-        }
-        #endif
     }
+
 }
 

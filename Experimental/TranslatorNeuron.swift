@@ -26,6 +26,9 @@ class Neuron {
     var weights = [Double]()
     var bias: Double?, threshold: Double?
     
+    let layerID: Int
+    let neuronID: Int
+    
     // Input port means the place where the stimulator
     // signals me. The position in the array indicates
     // which port to use, while the value in the array
@@ -36,6 +39,11 @@ class Neuron {
     // This is where the breeder stores the data from
     // the upper layer for stimulating this neuron.
     var inputPorts = [Double]()
+    
+    init(layerID: Int, neuronID: Int) {
+        self.neuronID = neuronID
+        self.layerID = layerID
+    }
     
     func addWeight(_ weight: Double) { weights.append(weight) }
     func addActivator(_ active: Bool) { activators.append(active) }
@@ -59,11 +67,11 @@ class Neuron {
     }
     
     func setTopLayerInputPort(whichUpperLayerNeuron: Int) {
+//        print("Neuron setTopLayerInputPort(\(whichUpperLayerNeuron))")
         inputPortDescriptors.append(whichUpperLayerNeuron)
         activators.append(true)
         inputPorts.append(0)
         self.weights.append(1)
-        
     }
     
     func setBias(_ value: Double) { bias = value }
@@ -73,31 +81,32 @@ class Neuron {
         
         let adjustedInputCount = min(numberOfSenses, howManyInputsAreAvailable)
         
-        // myPortNumber is the subscript into my ports descriptor.
-        // hisNeuronNumber is his position in the row of neurons
-        // above us.
-        var activationSS = 0, weightSS = 0, availableLineSS = 0
+        var activationSS = 0, weightSS = 0, commLineNumber = 0
         
         while true {
+//            print("Neuron(\(self.layerID):\(self.neuronID)) setInputPort()", terminator: "")
             if activationSS >= activators.count { break }
             if weightSS >= weights.count { break }
-            if availableLineSS >= adjustedInputCount { availableLineSS = 0 }
+            if commLineNumber >= adjustedInputCount { commLineNumber = 0 }
             
             if activators[activationSS] {
-                inputPortDescriptors.append(availableLineSS)
+                print("Neuron(\(self.layerID):\(self.neuronID) attaches port \(inputPortDescriptors.count) to commLine \(commLineNumber)")
+                inputPortDescriptors.append(commLineNumber)
                 inputPorts.append(0)    // Make room for another input
                 weightSS += 1
-            }
-
-            availableLineSS += 1; activationSS += 1
+//                print("\nNeuron(\(self.layerID):\(self.neuronID)) my port #\(inputPortDescriptors.count) goes to his comm line #\(commLineNumber); (\(inputPortDescriptors))")
+            } //else { print("activator[\(activationSS)] is off") }
+            
+            activationSS += 1; commLineNumber += 1
+            
         }
     }
-    
+
     func setThreshold(_ value: Double) { threshold = value }
     
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }
-        print(tabs + "\t\tN. ports = \(inputPortDescriptors.count): \(inputPortDescriptors)")
+        print(tabs + "\n\t\tN. ports = \(inputPortDescriptors.count): \(inputPortDescriptors) -- Neuron(\(self.layerID):\(self.neuronID))", terminator: "")
     }
     
     func stimulate(inputs: [Double]) -> Double? {
@@ -109,9 +118,11 @@ class Neuron {
         let adjustedInputCount = min(inputPortDescriptors.count, inputs.count)
         
         for portNumber in 0..<adjustedInputCount {
+//            print("\nfStimulating Neuron (\(self.layerID):\(self.neuronID)) on port \(portNumber), data \(inputs[portNumber])")
             inputPorts[portNumber] = inputs[portNumber]
         }
         
+//        print("Returning \(self.output())")
         return self.output()
     }
     

@@ -22,7 +22,7 @@ import Foundation
 import SpriteKit
 
 class VBrain {
-    var brain: BrainProtocol!
+    var brain: LayerOwnerProtocol!
     let gameScene: GameScene
     var spacer: Spacer!
     var vNeurons = [SKShapeNode]()
@@ -30,7 +30,7 @@ class VBrain {
     var vTestOutputs = [SKLabelNode]()
     var layers = [Translators.Layer]()
     
-    init(gameScene: GameScene, brain: BrainProtocol) {
+    init(gameScene: GameScene, brain: LayerOwnerProtocol) {
         guard let _ = NSScreen.main?.frame else {
             fatalError("Something isn't working with the screen size")
         }
@@ -39,7 +39,7 @@ class VBrain {
         self.brain = brain
     }
     
-    func displayBrain(_ brain: BrainProtocol? = nil) {
+    func displayBrain(_ brain: LayerOwnerProtocol? = nil) {
         gameScene.removeAllChildren()
 
         if let b = brain { self.layers = b.layers }
@@ -55,7 +55,7 @@ class VBrain {
         vTestOutputs = [SKLabelNode]()
     }
     
-    func setBrain(_ brain: BrainProtocol) {
+    func setBrain(_ brain: LayerOwnerProtocol) {
         self.brain = brain
     }
     
@@ -109,6 +109,7 @@ extension VBrain {
         
         for (i, layer) in zip(0..., layers) {
             if layer.neurons.isEmpty { /* print("No neurons in this layer");*/ continue }
+            
             let spacer = Spacer(layersCount: layers.count, displaySize: gameScene.size)
             
             var currentLayerPoints = [CGPoint]()
@@ -120,22 +121,28 @@ extension VBrain {
                 let position = spacer.getPosition(neuronsThisLayer: layer.neurons.count, xIndex: j, yIndex: i)
                 vNeuron.position = position
                 currentLayerPoints.append(position)
+
+                var minusDeadCommLines = [CGPoint]()
+                let cap = min(neuron.inputPortDescriptors.count, previousLayerPoints.count)
+                for ss in 0..<cap {
+                    let commLineNumber = neuron.inputPortDescriptors[ss]
+                    minusDeadCommLines.append(previousLayerPoints[commLineNumber])
+                }
                 
-                if !previousLayerPoints.isEmpty { drawConnections(from: previousLayerPoints, to: neuron, at: position) }
+//                print("m", minusDeadCommLines, "was", previousLayerPoints, "descriptor", neuron.inputPortDescriptors)
+
+                if !minusDeadCommLines.isEmpty { drawConnections(from: minusDeadCommLines, to: neuron, at: position) }
                 
                 self.vNeurons.append(vNeuron)
                 gameScene.addChild(vNeuron)
             }
             previousLayerPoints = currentLayerPoints
+//            print("p", previousLayerPoints)
         }
     }
     
     func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Translators.Neuron, at neuronPosition: CGPoint) {
-        var activatorSS = 0
         for previousLayerPoint in previousLayerPoints {
-            if activatorSS == neuron.activators.count { return }
-            if !neuron.activators[activatorSS] { continue }
-            activatorSS += 1
             let linePath = CGMutablePath()
             linePath.move(to: neuronPosition)
             linePath.addLine(to: previousLayerPoint)

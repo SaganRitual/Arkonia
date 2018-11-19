@@ -36,6 +36,68 @@ var W: Character { return "w" } // Weight -- Double
 var b: Character { return "b" } // bias as Double
 var t: Character { return "t" } // threshold as Double
 
+let oneInputPort = "A(true).W(1).b(0).t(99999)."
+let oneBadInputPort = "A(false).W(1).b(0).t(1000000)."
+
+func makeInputPorts(_ howMany: Int, _ good: Bool = true) -> String {
+    var theString = String()
+    for _ in 0..<howMany {
+        theString.append(good ? oneInputPort : oneBadInputPort)
+    }
+    return theString
+}
+
+func makeBadInputPorts(_ howMany: Int) -> String {
+    return makeInputPorts(howMany, false)
+}
+
+let testGenomes = [
+    // One layer, one neuron, increasing numbers of input ports
+    "L.N." + makeInputPorts(1),
+    "L.N." + makeInputPorts(2),
+    "L.N." + makeInputPorts(3),
+    "L.N." + makeInputPorts(4),
+    "L.N." + makeInputPorts(5),
+    "L.N." + makeInputPorts(6),
+    "L.N." + makeInputPorts(7),
+    "L.N." + makeInputPorts(8),
+    "L.N." + makeInputPorts(9),
+    "L.N." + makeInputPorts(10),
+    
+     //One layer, multiple neurons
+    "L.N." + makeInputPorts(2) + "N." + makeInputPorts(2),
+    "L.N." + makeInputPorts(2) + "N." + makeInputPorts(2) + "N." + makeInputPorts(2),
+    "L.N." + makeInputPorts(3) + "N." + makeInputPorts(3) + "N." + makeInputPorts(3) + "N." + makeInputPorts(3),
+
+    // One layer, one neuron, increasing numbers of input ports
+    "L.N." + makeInputPorts(9) + makeInputPorts(1),
+    "L.N." + makeInputPorts(8) + makeInputPorts(2),
+    "L.N." + makeInputPorts(7) + makeInputPorts(3),
+    "L.N." + makeInputPorts(6) + makeInputPorts(4),
+    "L.N." + makeInputPorts(5) + makeInputPorts(5),
+    "L.N." + makeInputPorts(4) + makeInputPorts(6),
+    "L.N." + makeInputPorts(3) + makeInputPorts(7),
+    "L.N." + makeInputPorts(2) + makeInputPorts(8),
+    "L.N." + makeInputPorts(1) + makeInputPorts(9),
+
+    "L.N.A(true).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).A(false).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).",
+    
+    "L.N.A(true).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).",
+    
+    "L.N.A(true).A(true).W(2).W(2).W(2).b(8).t(8).",
+    "L.N.A(true).A(true).A(true).W(2).W(2).W(1).b(7).t(7).",
+    
+    
+    "L.N.A(false).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).", "L.N.A(true).W(1).W(1).b(-4).t(2).",
+
+    "L.N.A(true).A(true).W(1).b(1).t(2).", "L.N.A(true).A(true).W(1).W(1).b(1).t(2)",
+    "L.N.A(true).W(1).A(true).W(1).b(1).t(2).", "L.N.b(1).t(2).A(true).W(1).A(true).W(1).",
+
+    "L.N.A(true).W(1).b(1).t(100).N.A(true).W(2).b(2).t(100).",
+    "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100).",
+    "L.N.A(false).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).N.A(false).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100)."
+]
+
 enum Utilities {
     static var filenameSerialNumber = 0
     static var thereBeNoShowing = false

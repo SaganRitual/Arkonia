@@ -27,6 +27,12 @@ class Layer {
     var howManyNeuronsInOutputsLayer = 0
     var underConstruction: Neuron?
     
+    static var neuronID = 0
+    var neuronID = 0
+    var myID = 0
+    
+    init(layerID: Int) { self.myID = layerID }
+
     func addActivator(_ active: Bool) { if let u = underConstruction { u.addActivator(active) } }
     func addWeight(_ weight: Double) { if let u = underConstruction { u.addWeight(weight) } }
     
@@ -39,15 +45,22 @@ class Layer {
     }
     
     func connectNeurons(howManyInputsAreAvailable: Int) {
+//        print("Layer(\(self.myID)) calls neuron.setInputPorts()")
         for neuron in neurons {
             neuron.setInputPorts(howManyInputsAreAvailable: howManyInputsAreAvailable)
         }
+//        print("(\(self.myID)) finished")
     }
     
     func endOfStrand() { for neuron in neurons { neuron.endOfStrand() } }
     
-    func newNeuron() { underConstruction = Neuron() }
+    private func makeNeuron() -> Neuron {
+        defer { Layer.neuronID += 1 }
+        return Neuron(layerID: self.myID, neuronID: Layer.neuronID)
+    }
     
+    func newNeuron() { underConstruction = makeNeuron() }
+
     func setBias(_ value: Double) { underConstruction?.setBias(value) }
     func setThreshold(_ value: Double) { underConstruction?.setThreshold(value) }
     
@@ -61,6 +74,7 @@ class Layer {
     
     func stimulate(inputs: [Double]) -> [Double] {
         var outputs = [Double]()
+//        print("Layer (\(self.myID)) ")
         for n in self.neurons {
             guard let r = n.stimulate(inputs: inputs)  else { continue }
             outputs.append(r)

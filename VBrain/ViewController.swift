@@ -23,6 +23,29 @@ import Cocoa
 import SpriteKit
 import GameplayKit
 
+class WildGuessWindowController: NSWindowController {
+    static var windowDimensions = CGSize()
+    
+    override func windowDidLoad() {
+        if let screenSize = window?.screen?.frame {
+            let newHeight = screenSize.height * 0.5
+            let newWidth = screenSize.width * 0.5
+            let newX = 100//(screenSize.width - newWidth) / 2
+            let newY = 500 //2 * (screenSize.height - newHeight) / 3
+            
+            let newSize = CGSize(width: newWidth, height: newHeight)
+            let newOrigin = CGPoint(x: newX, y: newY)
+            
+            let newFrame = NSRect(origin: newOrigin, size: newSize)
+            WildGuessWindowController.windowDimensions = newSize
+            
+            window!.setFrame(newFrame, display: true)
+        }
+        
+        super.windowDidLoad()
+    }
+}
+
 class ViewController: NSViewController {
 
     @IBOutlet var skView: SKView!

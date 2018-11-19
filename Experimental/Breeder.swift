@@ -140,7 +140,7 @@ class Breeder {
     func lambda(childGenome: Genome, brain: LayerOwnerProtocol) -> Bool? {
         let sensoryInput: [Double] = [1, 1, 1, 1, 1]
         guard let outputs = brain.stimulate(inputs: sensoryInput) else { return nil }
-        print(outputs)
+//        print(outputs)
         var foundNewWinner = false
         let fs = getFitnessScore(for: outputs)
         if fs < bestFitnessScore {
