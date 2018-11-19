@@ -22,8 +22,6 @@ import Foundation
 
 extension Translators {
     class Brain: LayerOwnerProtocol {
-        static var layerID: Int = 0
-        
         func generateRandomSensoryInput() -> [Double] {
             return [0]
         }
@@ -33,24 +31,16 @@ extension Translators {
         
         var firstLayer = true
         
-        init() {
-        }
-        
         func makeLayer() -> Layer {
-            defer { Brain.layerID += 1 }
-            return Layer(layerID: Brain.layerID)
+            return Layer(layerSSInBrain: layers.count)
         }
         
         func addActivator(_ active: Bool) { if let u = underConstruction { u.addActivator(active) } }
         func addWeight(_ weight: Double) { if let u = underConstruction { u.addWeight(weight) } }
         
         func closeLayer() {
-            if let u = underConstruction {
-//                print("Close Layer(\(u.myID))")
-                layers.append(u); underConstruction = nil
-            } else {
-                print("unknown layer?")
-            }
+            if let u = underConstruction { layers.append(u); underConstruction = nil }
+            else { print("unknown layer?") }
         }
         
         func closeNeuron() { underConstruction?.closeNeuron() }

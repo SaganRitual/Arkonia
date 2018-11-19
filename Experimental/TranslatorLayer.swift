@@ -21,17 +21,17 @@
 import Foundation
 
 extension Translators {
-class Layer {
+class Layer: CustomStringConvertible {
     var neurons = [Neuron]()
     var howManyNeuronsInSensesLayer = 0
     var howManyNeuronsInOutputsLayer = 0
     var underConstruction: Neuron?
     
-    static var neuronID = 0
-    var neuronID = 0
-    var myID = 0
-    
-    init(layerID: Int) { self.myID = layerID }
+    var layerSSInBrain = 0
+
+    var description: String { return "Layer(\(self.layerSSInBrain))" }
+
+    init(layerSSInBrain: Int) { self.layerSSInBrain = layerSSInBrain }
 
     func addActivator(_ active: Bool) { if let u = underConstruction { u.addActivator(active) } }
     func addWeight(_ weight: Double) { if let u = underConstruction { u.addWeight(weight) } }
@@ -45,18 +45,15 @@ class Layer {
     }
     
     func connectNeurons(howManyInputsAreAvailable: Int) {
-//        print("Layer(\(self.myID)) calls neuron.setInputPorts()")
         for neuron in neurons {
             neuron.setInputPorts(howManyInputsAreAvailable: howManyInputsAreAvailable)
         }
-//        print("(\(self.myID)) finished")
     }
     
     func endOfStrand() { for neuron in neurons { neuron.endOfStrand() } }
     
     private func makeNeuron() -> Neuron {
-        defer { Layer.neuronID += 1 }
-        return Neuron(layerID: self.myID, neuronID: Layer.neuronID)
+        return Neuron(layerSSInBrain: self.layerSSInBrain, neuronSSInLayer: neurons.count)
     }
     
     func newNeuron() { underConstruction = makeNeuron() }

@@ -75,7 +75,6 @@ class Decoder {
         }()
 
         var slice = head[...] + inputGenome[...] + tail[...]
-        print(String(slice))
         
         let skipBadTokens = { (_ slice: GenomeSlice) -> GenomeSlice.Index in
             if let r = slice.firstIndex(where: { return self.recognizedGeneTokens.contains($0) }) {
@@ -93,21 +92,12 @@ class Decoder {
             if self.recognizedGeneTokens.contains(s) { return slice.startIndex }
             else { return skipBadTokens(slice) }
         }
-        
-//        print(String(slice))
 
         while decodeState != .endOfStrand {
             // Just ignore any unrecognized characters, in case I screw up the data
             let nextValidTokenIndex = slice.startIndex
-            if slice.count > 25 { print("string is \(slice.count) somethings long") }
-            else { print(String(slice)) }
-            
             let goodDataIndex = discardAnyGarbage(slice)
-            if goodDataIndex == slice.endIndex {
-                print("huh? '\(String(slice))'")
-                decodeState = .endOfStrand; break
-            }
-
+            if goodDataIndex == slice.endIndex { decodeState = .endOfStrand; break }
             if goodDataIndex != nextValidTokenIndex { slice = slice[goodDataIndex...] }
 
             var symbolsConsumed = 0

@@ -58,13 +58,9 @@ let testGenomes = [
     "L.N." + makeInputPorts(3),
     "L.N." + makeInputPorts(4),
     "L.N." + makeInputPorts(5),
-    "L.N." + makeInputPorts(6),
-    "L.N." + makeInputPorts(7),
-    "L.N." + makeInputPorts(8),
-    "L.N." + makeInputPorts(9),
-    "L.N." + makeInputPorts(10),
     
-     //One layer, multiple neurons
+    //One layer, multiple neurons, perfect comm units, so they
+    // all aim for the first neuron
     "L.N." + makeInputPorts(2) + "N." + makeInputPorts(2),
     "L.N." + makeInputPorts(2) + "N." + makeInputPorts(2) + "N." + makeInputPorts(2),
     "L.N." + makeInputPorts(3) + "N." + makeInputPorts(3) + "N." + makeInputPorts(3) + "N." + makeInputPorts(3),
