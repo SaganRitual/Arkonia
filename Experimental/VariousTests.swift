@@ -44,25 +44,21 @@ func controlledConditionsTest() {
     }
 }
 
+
 func testMutator() {
-    let testInput = "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).I(42).A(false).W(3).N.A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100)."
+    let testInput = "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).N.A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100)."
     
-    //    let tegex = "L\\.|N\\.|[AB]\\((true|false)\\)\\.|[bDtW]\\((\\d*\\.?\\d*)\\)\\.|I\\((\\d+)\\)"
-    //    let regex = "L\\.|N\\.|[AB]\\((true|false)\\)\\.|[DtW]\\(([0-9]*\\.?\\d*)\\)\\.|[Ib]\\((\\d+)\\)"
-    //    let uegex = "[LN]\\.||[Ib]\\((\\[0-9\\]+\\.?)\\)\\.|[AB]\\(((?:true)|(?:false))\\)\\.|[DWt]\\(([0-9]*\\.?[0-9]*)\\)\\."
-    
-    /* this one works, 16Nov18 */
-    let _/*vegex*/ = "[LN]\\.|([ABDIWbt])\\(([^\\(]*)\\)\\."
-    
-    //    let something = testInput.searchRegex(regex: vegex)
-    //    print(something)
-    
-    _ = Mutator.m.setInputGenome(testInput).mutate()
-    print("mutated:  ", terminator: "")
+    let wrapped = Utilities.applyInterfaces(to: testInput)
+    _ = Mutator.m.setInputGenome(String(wrapped)).mutate()
+
     let newGenome = Mutator.m.convertToGenome()
-    print("before", testInput)
-    print("after", newGenome)
+    print("after")
+    print(newGenome)
 }
+
+//for _ in 0..<50 {
+//    testMutator()
+//}
 
 func chopTail(of string: String, howManyToKeep: Int) -> GenomeSlice {
     let howManyToCut = string.count - howManyToKeep

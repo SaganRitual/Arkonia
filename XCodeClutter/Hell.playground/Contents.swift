@@ -1,19 +1,26 @@
-import Foundation
+func getWeightedRandomLogThing(from startingValue: Double) -> Double {
+    let randomPercentage = Double.random(in: -1...1)
+    if randomPercentage == 0 { return 1 }
 
-var lowestScore = Int.max
-var highestScore = 0
-var missedLows = 0
-var missedHighs = 0
-var caughtLows = 0
-var caughtHighs = 0
-for _ in 0..<10000 {
-    let c = abs(Int.random(in: -1000000...1000000))
-    if c < lowestScore { lowestScore = c; caughtLows += 1 }
-    else { missedLows += 1}
-    if c > highestScore { highestScore = c; caughtHighs += 1 }
-    else { missedHighs += 1 }
+    return ((0.001 / randomPercentage) * startingValue) + startingValue
 }
 
-print("lowestScore = \(lowestScore), highestScore = \(highestScore)")
-print("caughtLows = \(caughtLows), caughtHighs = \(caughtHighs)")
-print("missedLows = \(missedLows), missedHighs = \(missedHighs)")
+//for bump in 0..<10 {
+//    let d = getWeightedRandomLogThing(from: Double(bump))
+//    print(d)
+//}
+
+func getWeightedRandomLogThing(from startingValue: Int) -> Int {
+    let randomPercentage = Double.random(in: -1...1)
+    if randomPercentage == 0 { return 1 }
+    
+    let d = ((0.001 / randomPercentage) * Double(startingValue)).rounded(.towardZero)
+    
+    return startingValue + Int(d)
+}
+
+
+for bump in stride(from: 0, to: 100, by: 1) {
+    let d = getWeightedRandomLogThing(from: bump)
+    print(d)
+}

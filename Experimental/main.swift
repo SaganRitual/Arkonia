@@ -21,16 +21,15 @@
 import Foundation
 
 class TestBreeder {
-    let howManyGenes = 300
-    let howManyGenerations = 10
+    let howManyGenerations = 50
     var newGenome: Genome!
     var shouldKeepRunning = true
     var theTestSubjects: Breeder.Generation!
-    
+
     var currentGenerationNumber = 0
     func select() {
         _ = Breeder.bb.breedAndSelect()
-        
+
         currentGenerationNumber += 1
         if currentGenerationNumber >= howManyGenerations {
             self.shouldKeepRunning = false

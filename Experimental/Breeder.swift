@@ -27,6 +27,7 @@ class Breeder: BreederTestSubjectAPI {
 
     private var currentProgenitor: BreederTestSubject!
     private var currentGeneration = Generation()
+    private var aboriginalAncestorHasBestScore = true
 
     private let decoder = Decoder()
     private var testSubjectFactory: BreederTestSubjectFactory?
@@ -47,7 +48,11 @@ class Breeder: BreederTestSubjectAPI {
                 continue
             }
 
-            if score < bestFitnessScore { bestBrainSS = ss; bestFitnessScore = score }
+            if score < bestFitnessScore ||
+                (score > bestFitnessScore && aboriginalAncestorHasBestScore) {
+                bestBrainSS = ss; bestFitnessScore = score
+                aboriginalAncestorHasBestScore = false
+            }
         }
         
         return bestBrainSS
@@ -61,7 +66,7 @@ class Breeder: BreederTestSubjectAPI {
         var bestBrainSS: Int? = nil
         var ancestorTakesTheScore = false
 
-        let oldBestFitnessScore = bestFitnessScore
+//        let oldBestFitnessScore = bestFitnessScore
         if self.currentProgenitor == nil {
             self.currentProgenitor = testSubjectFactory.makeTestSubject()
             self.currentGeneration = [self.currentProgenitor]
@@ -73,7 +78,7 @@ class Breeder: BreederTestSubjectAPI {
             ancestorTakesTheScore = (select(bestBrainSS) != nil)
         }
         
-        self.testSubjects = breedOneGeneration(10, from: self.currentProgenitor)
+        self.testSubjects = breedOneGeneration(50, from: self.currentProgenitor)
         bestBrainSS = select(bestBrainSS)
         
         if let best = bestBrainSS, !ancestorTakesTheScore {
@@ -81,15 +86,13 @@ class Breeder: BreederTestSubjectAPI {
             print("Offspring \(best), fishID = \(c.myFishNumber) wins: score \(self.bestFitnessScore)")
             print(c.genome)
         } else {
-//            (self.currentProgenitor as! BreederTestZoeBrain).brain.show(tabs: "", override: true)
-//            print((self.currentProgenitor as! BreederTestZoeBrain).genome)
             print("Progenitor holds title: score \(self.bestFitnessScore)")
-            
-            if bestFitnessScore == oldBestFitnessScore {
-                let c = self.currentGeneration[0] as! BreederTestZoeBrain
-                print("Survived but lost")
-                print(c.genome)
-            }
+//
+//            if bestFitnessScore == oldBestFitnessScore {
+//                let c = self.currentGeneration[0] as! BreederTestZoeBrain
+//                print("Survived but lost")
+//                print(c.genome)
+//            }
         }
 
         return bestFitnessScore.dTruncate()

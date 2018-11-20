@@ -66,19 +66,7 @@ class Decoder {
         Translators.t.reset()
         Translators.t.newBrain()
         
-        let head: Genome = {
-            var g = Genome(); g += "L."
-            for _ in 0..<Translators.numberOfSenses { g += "N.A(true).W(1).b(0).t(1000000)." }
-            g += "L."; return g
-        }()
-        
-        let tail: Genome = {
-            var g = Genome(); g += "L."
-            for _ in 0..<Translators.numberOfMotorNeurons { g += "N.A(true).W(1).b(0).t(1000000)." }
-            return g
-        }()
-
-        var slice = head[...] + inputGenome[...] + tail[...]
+        var slice = Utilities.applyInterfaces(to: inputGenome)
         
         let skipBadTokens = { (_ slice: GenomeSlice) -> GenomeSlice.Index in
             if let r = slice.firstIndex(where: { return self.recognizedGeneTokens.contains($0) }) {

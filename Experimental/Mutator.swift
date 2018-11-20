@@ -38,7 +38,13 @@ class Tene {
     }}
     
     init(_ token: String, value: String) { self.token = Character(token); self.value = value }
-    func mutate() {}
+    func mutate() {
+        if self.value.first! == "t" || self.value.first! == "f" {
+            self.value = String(Bool.random()); return
+        }
+
+        self.value = String(Mutator.m.getWeightedRandomLogThing(from: Double(self.value)!).dTruncate())
+    }
 }
 
 class Mutator {
@@ -49,18 +55,10 @@ class Mutator {
     var workingTenome = Tenome()
     
     func setInputGenome(_ inputGenome: Genome) -> Mutator {
-        if inputGenome.first! == "R" {
-            let headless = inputGenome.drop(while: { $0 != L })
-            let tailStart = inputGenome.lastIndex(of: L)!
-            let tailLength = inputGenome.distance(from: tailStart, to: headless.endIndex)
-            let tailless = headless.dropLast(tailLength)
-            self.inputGenome = String(tailless)
-        } else {
-            self.inputGenome = inputGenome
-        }
+        self.inputGenome = Utilities.stripInterfaces(from: inputGenome)
+        let rawComponentSets = Mutator.getRawComponentSets(for: self.inputGenome!)
+        workingTenome = Tenome()
 
-        let rawComponentSets = Mutator.getRawComponentSets(for: inputGenome)
-        
         for rawComponentSet in rawComponentSets {
             let literalMatch = String(rawComponentSet[0])
             let token = (rawComponentSet.count > 1) ? Character(rawComponentSet[1]) : literalMatch.first!
@@ -83,9 +81,6 @@ class Mutator {
     public func convertToGenome() -> Genome {
         var genome = Genome()
         
-        // Prepend a five-neuron top layer
-//        genome += "L."; for _ in 0..<5 { genome += "N.A(true).W(1)." }
-        
         for tene in workingTenome {
             if tene.token == L || tene.token == N {
                 genome += String(tene.token) + "."
@@ -94,20 +89,17 @@ class Mutator {
             }
         }
         
-        // Append a nine-neuron bottom layer
-//        genome += "L."; for _ in 0..<9 { genome += "N.A(true).W(1)." }
         return genome
     }
     
     private func copySegment() -> Tegment {
-        let leftCut = Int.random(in: 0..<workingTenome.count)
-        let rightCut = Int.random(in: leftCut...workingTenome.count) // Note closed range
-        
+        let (leftCut, rightCut) = getRandomCuts(segmentLength: workingTenome.count)
         return workingTenome[leftCut..<rightCut]
     }
     
     private func deleteGenes() {
-        for _ in 0..<Int.random(in: 0...10) {
+        let howManyChances = getWeightedRandomLogThing(from: 10)
+        for _ in 0..<Int.random(in: 0..<howManyChances) {
             let ix = Int.random(in: 0..<workingTenome.count)
             workingTenome.remove(at: ix)
             if workingTenome.isEmpty { break }
@@ -115,18 +107,58 @@ class Mutator {
     }
     
     private func deleteSequence() {
-        let leftCut = Int.random(in: 0..<workingTenome.count)
-        let rightCut = Int.random(in: leftCut..<workingTenome.count)
-        
+        let (leftCut, rightCut) = getRandomCuts(segmentLength: workingTenome.count)
         workingTenome.removeSubrange(leftCut..<rightCut)
+    }
+    
+    private func getRandomCuts(segmentLength: Int) -> (Int, Int) {
+        let leftCut = Int.random(in: 0..<segmentLength)
+        let rightCut = getWeightedRandomLogThing(from: leftCut, positiveOnly: true)
+        return (leftCut, rightCut)
     }
     
     private func getRandomSnipRange() -> (Int, Int) {
         if workingTenome.isEmpty { return (0, 0) }
         
-        let leftCut = Int.random(in: 0..<workingTenome.count)
-        let rightCut = Int.random(in: leftCut...workingTenome.count)
+        let (leftCut, rightCut) = getRandomCuts(segmentLength: workingTenome.count)
         return (leftCut, rightCut)
+    }
+    
+    private func getWeightedRandomMutationType() -> MutationType  {
+        let weightMap: [MutationType : Int] = [
+            .deleteRandom : 1, .deleteSequence : 1, .insertRandom : 1, .insertSequence : 1,
+            .mutateGenes : 100, .snipAndMoveSequence : 1, .snipAndCopySequence : 1,
+            .snipAndMoveReversedSequence : 1, .snipAndCopyReversedSequence : 1
+        ]
+        
+        let weightRange = weightMap.reduce(0, { return $0 + $1.value })
+        let randomValue = Int.random(in: 0..<weightRange)
+        
+        var runningTotal = 0
+        for (key, value) in weightMap {
+            runningTotal += value
+            if runningTotal > randomValue { return key }
+        }
+        
+        fatalError()
+    }
+    
+    // Big changes happen very rarely, little ones more often
+    func getWeightedRandomLogThing(from startingValue: Int, positiveOnly: Bool = false) -> Int {
+        let randomPercentage = Double.random(in: -1...1)
+        if randomPercentage == 0 { return 1 }
+        
+        var d = ((0.001 / randomPercentage) * Double(startingValue)).rounded(.towardZero)
+        if positiveOnly { d = abs(d) }
+        
+        return startingValue + Int(d)
+    }
+
+    fileprivate func getWeightedRandomLogThing(from startingValue: Double, positiveOnly: Bool = false) -> Double {
+        let randomPercentage = Double.random(in: -1...1)
+        if randomPercentage == 0 { return 1 }
+        
+        return ((0.0001 / randomPercentage) * startingValue) + startingValue
     }
     
     private func insertGenes() {
@@ -153,33 +185,29 @@ class Mutator {
         let insertPoint = Int.random(in: 0...workingTenome.count)
         workingTenome.insert(contentsOf: snippet, at: insertPoint)
     }
-    
+
     func mutate(mutationType: MutationType? = nil) -> Tenome {
-        guard mutationType == nil || Int.random(in: -5...100) > 0 else { print("😠"); return workingTenome }
-        
-        let rv = Int.random(in: 0..<MutationType.endIndex.rawValue)
-        let m = mutationType ??
-            MutationType(rawValue: rv)!
-        
+        let m = getWeightedRandomMutationType()
         var outputTegment = Tenome(workingTenome)
+
         switch m {
-        case .deleteRandom:         /* print("(1)"); */deleteGenes()
-        case .deleteSequence:       /* print("(2)");*/ deleteSequence()
+        case .deleteRandom:          /* print("(1)"); */ deleteGenes()
+        case .deleteSequence:        /* print("(2)"); */ deleteSequence()
             
-        case .insertRandom:         /* print("(3)");*/ insertGenes()
-        case .insertSequence:       /* print("(4)");*/ insertSequence()
+        case .insertRandom:         /* print("(3)"); */ insertGenes()
+        case .insertSequence:       /* print("(4)"); */ insertSequence()
             
-        case .mutateGenes:          /* print("(5)");*/ mutateGenes()
+        case .mutateGenes:          /* print("(five)"); */ mutateGenes()
             
-        case .snipAndMoveSequence:  /* print("(6)");*/ outputTegment = snipAndMoveSequence()
-        case .snipAndCopySequence:  /* print("(7)");*/ outputTegment = snipAndMoveSequence()
+        case .snipAndMoveSequence:  /* print("(6)"); */ outputTegment = snipAndMoveSequence()
+        case .snipAndCopySequence:  /* print("(7)"); */ outputTegment = snipAndCopySequence()
             
-        case .snipAndMoveReversedSequence: /* print("(8)");*/ outputTegment = snipAndMoveReversedSequence()
-        case .snipAndCopyReversedSequence: /* print("(9)");*/ outputTegment = snipAndCopyReversedSequence()
+        case .snipAndMoveReversedSequence: /* print("(8)"); */ outputTegment = snipAndMoveReversedSequence()
+        case .snipAndCopyReversedSequence: /* print("(9)"); */ outputTegment = snipAndCopyReversedSequence()
             
         case .endIndex: fatalError("😭😭😭😭😭 Swift is broken 😭😭😭😭😭")
         }
-
+        
         return outputTegment
     }
     
@@ -187,7 +215,9 @@ class Mutator {
         if workingTenome.isEmpty { return }
         for _ in 0...Int.random(in: 0..<10) {
             let ix = Int.random(in: 0..<workingTenome.count)
-            workingTenome[ix].mutate()
+            if workingTenome[ix].value.first != "<" {   // "<nil>"
+                workingTenome[ix].mutate()
+            }
         }
     }
     
@@ -309,15 +339,6 @@ extension Mutator {
     static func getRawComponentSets(for genome: Genome) -> [[String]] {
         let rawDataParse = "[LN]\\.|([ABDIWbt])\\(([^\\(]*)\\)\\."
         let rawComponentSets = genome.searchRegex(regex: rawDataParse)
-
-        // rawComponentSets is an Array<Array<String>>
-//        for rawComponentSet in rawComponentSets {
-//            let _/*literalMatch */= rawComponentSet[0]
-//            let _ /*token*/ = rawComponentSet[1]
-//            let _ /*value*/ = String(rawComponentSet[2])
-//        }
-        
-//        print(rawComponentSets)
         return rawComponentSets
     }
 }

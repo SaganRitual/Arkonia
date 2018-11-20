@@ -1,5 +1,5 @@
-//
 // Permission is hereby granted, free of charge, to any person obtaining a
+//
 // copy of this software and associated documentation files (the "Software"),
 // to deal in the Software without restriction, including without limitation
 // the rights to use, copy, modify, merge, publish, distribute, sublicense,
@@ -240,6 +240,39 @@ extension String {
         let inputArray = String(inputCharacter)
         let captureGroup = inputArray.searchRegex(regex: "[a-z]")
         return captureGroup.isEmpty
+    }
+}
+
+extension Utilities {
+    static func applyInterfaces(to genome: Genome) -> GenomeSlice {
+        return makeSensesInterface() + genome[...] + makeOutputsInterface()
+    }
+
+    static func makeSensesInterface() -> Genome {
+        var g = Genome(); g += "L."
+        for _ in 0..<Translators.numberOfSenses { g += "N.A(true).W(1).b(0).t(1000000)." }
+        g += "R."; return g
+    }
+    
+    static func makeOutputsInterface() -> Genome {
+        var g = Genome(); g += "R.L."
+        for _ in 0..<Translators.numberOfMotorNeurons { g += "N.A(true).W(1).b(0).t(1000000)." }
+        return g
+    }
+    
+    static func stripInterfaces(from genome: Genome) -> Genome {
+        var stripped = genome[...]
+        
+        if let headless = stripped.firstIndex(of: "R") {
+            let tailless = stripped.lastIndex(of: "R")
+            
+            // Shouldn't have a lone "R"
+            if headless == tailless { fatalError() }
+            stripped = stripped[headless..<tailless!]
+            return Genome(stripped)
+        }
+        
+        return genome
     }
 }
 
