@@ -15,6 +15,7 @@
 		D40593EB21A0F294008C5FE8 /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EA21A0F294008C5FE8 /* TranslatorBrain.swift */; };
 		D40593ED21A0F319008C5FE8 /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */; };
 		D40593EF21A0F34E008C5FE8 /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */; };
+		D41BA59F21A36851009A2648 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41BA59E21A36851009A2648 /* RepeatingTimer.swift */; };
 		D44B549B2197EE9900FB94FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B549A2197EE9900FB94FC /* AppDelegate.swift */; };
 		D44B549D2197EE9900FB94FC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549C2197EE9900FB94FC /* GameScene.sks */; };
 		D44B549F2197EE9900FB94FC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549E2197EE9900FB94FC /* Actions.sks */; };
@@ -46,6 +47,8 @@
 		D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A03631219CA94300EC171E /* TestDecoderInputs.swift */; };
 		D4C2253D219FC3FB004A011A /* TestTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2253C219FC3FB004A011A /* TestTranslators.swift */; };
 		D4C2253F21A072EF004A011A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2253E21A072EF004A011A /* Protocols.swift */; };
+		D4C957BC21A3BA7F00AF0CF6 /* RandomnessGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */; };
+		D4C957BE21A3BEA700AF0CF6 /* BreederTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BD21A3BEA700AF0CF6 /* BreederTestSubject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,9 +74,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D4029F2521A28E6D00BDDB7A /* VariousTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariousTests.swift; sourceTree = "<group>"; };
 		D40593EA21A0F294008C5FE8 /* TranslatorBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorBrain.swift; sourceTree = "<group>"; };
 		D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorLayer.swift; sourceTree = "<group>"; };
 		D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorNeuron.swift; sourceTree = "<group>"; };
+		D41BA59E21A36851009A2648 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
 		D44B54972197EE9900FB94FC /* XCodeClutter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCodeClutter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D44B549A2197EE9900FB94FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D44B549C2197EE9900FB94FC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -110,6 +115,8 @@
 		D4A03631219CA94300EC171E /* TestDecoderInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDecoderInputs.swift; sourceTree = "<group>"; };
 		D4C2253C219FC3FB004A011A /* TestTranslators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTranslators.swift; sourceTree = "<group>"; };
 		D4C2253E21A072EF004A011A /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomnessGenerator.swift; sourceTree = "<group>"; };
+		D4C957BD21A3BEA700AF0CF6 /* BreederTestSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreederTestSubject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,14 +204,18 @@
 			children = (
 				D4A0362E219B926C00EC171E /* Hell.playground */,
 				D48AB37C219DFFA000624000 /* Breeder.swift */,
+				D4C957BD21A3BEA700AF0CF6 /* BreederTestSubject.swift */,
 				D483816F2197F4A400B3648A /* main.swift */,
 				D48AB384219E718600624000 /* Mutator.swift */,
+				D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */,
+				D41BA59E21A36851009A2648 /* RepeatingTimer.swift */,
 				D4A03631219CA94300EC171E /* TestDecoderInputs.swift */,
 				D4838183219A94E300B3648A /* TestParseGeneValues.swift */,
 				D4C2253C219FC3FB004A011A /* TestTranslators.swift */,
 				D40593EA21A0F294008C5FE8 /* TranslatorBrain.swift */,
 				D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */,
 				D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */,
+				D4029F2521A28E6D00BDDB7A /* VariousTests.swift */,
 				D48AB377219DDFBC00624000 /* VBrain.swift */,
 			);
 			path = Experimental;
@@ -415,11 +426,14 @@
 				D4838182219A2D5800B3648A /* main.swift in Sources */,
 				D4C2253F21A072EF004A011A /* Protocols.swift in Sources */,
 				D40593ED21A0F319008C5FE8 /* TranslatorLayer.swift in Sources */,
+				D41BA59F21A36851009A2648 /* RepeatingTimer.swift in Sources */,
 				D40593EF21A0F34E008C5FE8 /* TranslatorNeuron.swift in Sources */,
 				D483818A219AAA4F00B3648A /* DecoderExtras.swift in Sources */,
+				D4C957BC21A3BA7F00AF0CF6 /* RandomnessGenerator.swift in Sources */,
 				D40593EB21A0F294008C5FE8 /* TranslatorBrain.swift in Sources */,
 				D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */,
 				D48AB385219E718600624000 /* Mutator.swift in Sources */,
+				D4C957BE21A3BEA700AF0CF6 /* BreederTestSubject.swift in Sources */,
 				D4C2253D219FC3FB004A011A /* TestTranslators.swift in Sources */,
 				D48AB382219E484000624000 /* Utilities.swift in Sources */,
 				D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */,

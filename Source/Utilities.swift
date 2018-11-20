@@ -96,7 +96,7 @@ let testGenomes = [
 
 enum Utilities {
     static var filenameSerialNumber = 0
-    static var thereBeNoShowing = false
+    static var thereBeNoShowing = true
     
     static func clobbered(_ message: String) { print(message); fatalError(message) }
 

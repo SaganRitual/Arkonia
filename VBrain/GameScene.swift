@@ -177,7 +177,7 @@ class GameScene: SKScene {
 
         vBrain = VBrain(gameScene: self, brain: self.brain)
         vBrain.displayBrain(self.brain)
-        self.brain.show(tabs: "", override: true)
+        self.brain.show(tabs: "")
 //        whichGenome = (whichGenome + 1) % testGenomes.count
         whichGenome += 1
         if whichGenome >= testGenomes.count { exit(-1) }

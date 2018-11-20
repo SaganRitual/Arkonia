@@ -20,45 +20,90 @@
 
 import Foundation
 
-class Breeder {
+class Breeder: BreederTestSubjectAPI {
+    typealias Generation = [BreederTestSubject]
+    
     public static var bb = Breeder()
-    
-    typealias GenoPheno = (Genome, LayerOwnerProtocol)
-    typealias Generation = [GenoPheno]
-    
-    private var currentProgenitorGenome: Genome!
-    private var currentGeneration = [(Genome, LayerOwnerProtocol)]()
+
+    private var currentProgenitor: BreederTestSubject!
+    private var currentGeneration = Generation()
 
     private let decoder = Decoder()
+    private var testSubjectFactory: BreederTestSubjectFactory?
     
-    var currentProgenitorBrain: LayerOwnerProtocol!
-    var bestFitnessScore = Int.max
-    
-    let zName = "Zoe Bishop"
-    let uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
-    let lowercase = "abcdefghijklmnopqrstuvwxyz "
+    var bestFitnessScore = Double.infinity
+    private var fitnessTester: BreederFitnessTester!
 
     static let howManySenses = 5
+
+    var testSubjects = Generation()
     
-    func setProgenitor(_ progenitor: Genome? = nil) {
-        if let p = progenitor {
-            decoder.setInput(to: p).decode()
-            currentProgenitorGenome = p
-        } else {
-            currentProgenitorGenome = Breeder.generateRandomGenome()
+    func select(_ currentBestBrainSS: Int?) -> Int? {
+        var bestBrainSS = currentBestBrainSS
+        
+        for (ss, testSubject) in zip(0..., self.currentGeneration) {
+            guard let score = self.fitnessTester.administerTest(to: testSubject) else {
+                print("Subject \(ss) did not survive the test")
+                continue
+            }
+
+            if score < bestFitnessScore { bestBrainSS = ss; bestFitnessScore = score }
         }
+        
+        return bestBrainSS
     }
     
-    func breedOneGeneration(_ howMany: Int, from: Genome) {
-        self.currentGeneration = Generation()
-
-        for _ in 0..<howMany {
-            _ = Mutator.m.setInputGenome(currentProgenitorGenome).mutate()
-            let mutatedGenome = Mutator.m.convertToGenome()
-            decoder.setInput(to: mutatedGenome).decode()
-            let brain = Translators.t.getBrain()
-            self.currentGeneration.append((mutatedGenome, brain))
+    public func breedAndSelect() -> Double {
+        guard let testSubjectFactory = self.testSubjectFactory else {
+            fatalError("Can't do anything without a factory for test subjects")
         }
+        
+        var bestBrainSS: Int? = nil
+        var ancestorTakesTheScore = false
+
+        let oldBestFitnessScore = bestFitnessScore
+        if self.currentProgenitor == nil {
+            self.currentProgenitor = testSubjectFactory.makeTestSubject()
+            self.currentGeneration = [self.currentProgenitor]
+            
+            // Only for reporting purposes, so it doesn't look like
+            // offspring[0] won the first contest by tying with the
+            // progenitor. And this will happen only on the first time
+            // through, when we get a nil progenitor.
+            ancestorTakesTheScore = (select(bestBrainSS) != nil)
+        }
+        
+        self.testSubjects = breedOneGeneration(10, from: self.currentProgenitor)
+        bestBrainSS = select(bestBrainSS)
+        
+        if let best = bestBrainSS, !ancestorTakesTheScore {
+            let c = self.currentGeneration[best] as! BreederTestZoeBrain
+            print("Offspring \(best), fishID = \(c.myFishNumber) wins: score \(self.bestFitnessScore)")
+            print(c.genome)
+        } else {
+//            (self.currentProgenitor as! BreederTestZoeBrain).brain.show(tabs: "", override: true)
+//            print((self.currentProgenitor as! BreederTestZoeBrain).genome)
+            print("Progenitor holds title: score \(self.bestFitnessScore)")
+            
+            if bestFitnessScore == oldBestFitnessScore {
+                let c = self.currentGeneration[0] as! BreederTestZoeBrain
+                print("Survived but lost")
+                print(c.genome)
+            }
+        }
+
+        return bestFitnessScore.dTruncate()
+    }
+    
+    func breedOneGeneration(_ howMany: Int, from: BreederTestSubject) -> Generation {
+        self.currentGeneration = Generation()
+        
+        for _ in 0..<howMany {
+            let newTestSubject = currentProgenitor.spawn()
+            self.currentGeneration.append(newTestSubject)
+        }
+        
+        return self.currentGeneration
     }
     
     static func getSensoryInput() -> [Double] {
@@ -69,132 +114,11 @@ class Breeder {
         
         return inputs
     }
-    
-    static func generateRandomGene() -> String {
-        // The map is so we can weight the gene types differently, so we
-        // don't end up with one neuron per layer, or something silly like that.
-        let geneSelector = [A : 10, L : 1, N : 3, W : 10, b : 8, t : 8]
 
-        var weightedGeneSelector: [Character] = {
-            var t = [Character]()
-            for (geneType, weight) in geneSelector {
-                for _ in 0..<weight { t.append(geneType) }
-            }
-            return t
-        }()
-        
-        let geneSS = Int.random(in: 0..<weightedGeneSelector.count)
-        let geneType = weightedGeneSelector[geneSS]
-        
-        switch geneType {
-        case A: return "A(\(Bool.random()))."
-        case L: return "L."
-        case N: return "N."
-        case W: return "W(\(Double.random(in: -100...100).sTruncate()))."
-        case b: return "b(\(Double.random(in: -100...100).sTruncate()))."
-        case t: return "t(\(Double.random(in: -100...100).sTruncate()))."
-        default: fatalError()
-        }
-    }
+    func setFitnessTester(_ tester: BreederFitnessTester) { self.fitnessTester = tester }
     
-    static func generateRandomGenome(howManyGenes: Int = 100) -> Genome {
-        var newGenome = Genome()
-        for _ in 0..<howManyGenes { newGenome += Breeder.generateRandomGene() }
-        return newGenome
-    }
-    
-    static func makeRandomBrain(howManyGenes: Int = 100) -> LayerOwnerProtocol {
-        let newGenome = generateRandomGenome(howManyGenes: howManyGenes)
-        
-        let decoder = Decoder()
-        decoder.setInput(to: newGenome).decode()
-        let brain = Translators.t.getBrain()
-        return brain
-    }
-    
-    func getFitnessScore(for: [Double]) -> Int {
-        var scoreForTheseOutputs = 0
-
-        var matchIndex: String.Index!
-        var whichCase = uppercase
-
-        for character in zName {
-            if character == " " {
-                whichCase = "ADisgustingHackThatIShouldBePuni shed for"
-                matchIndex = whichCase.firstIndex(of: character)!
-            } else if String().isUppercase(character) {
-                matchIndex = uppercase.firstIndex(of: character)!
-                whichCase = uppercase
-            } else {
-                matchIndex = lowercase.firstIndex(of: character)!
-                whichCase = lowercase
-            }
-            
-            let s = whichCase.distance(from: whichCase.startIndex, to: matchIndex)
-            scoreForTheseOutputs += s
-        }
-        
-        return scoreForTheseOutputs
-    }
-    
-    func lambda(childGenome: Genome, brain: LayerOwnerProtocol) -> Bool? {
-        let sensoryInput: [Double] = [1, 1, 1, 1, 1]
-        guard let outputs = brain.stimulate(inputs: sensoryInput) else { return nil }
-//        print(outputs)
-        var foundNewWinner = false
-        let fs = getFitnessScore(for: outputs)
-        if fs < bestFitnessScore {
-            foundNewWinner = true
-            bestFitnessScore = fs
-            self.currentProgenitorGenome = childGenome
-            self.currentProgenitorBrain = brain
-            
-            var zIndex = zName.startIndex
-            for output in outputs {
-                let zSlice = zName[zIndex...]
-                let zChar = zSlice.first!
-                
-                let chopped = Int(output.remainder(dividingBy: 27.0).rounded())
-                let isUppercase = String().isUppercase(zChar)
-                let whichCase = isUppercase ? uppercase : lowercase
-                let characterIndex = whichCase.index(whichCase.startIndex, offsetBy: chopped)
-                print(whichCase[characterIndex], terminator: "")
-                
-                zIndex = zName.index(after: zIndex)
-            }
-            print("\nBest score so far: \(bestFitnessScore)")
-        }
-        
-        return foundNewWinner
-    }
-
-    var testBrains = [Genome]()
-    public func selectFromCurrentGeneration() -> [Genome]? {
-        let progenitorGenome = self.currentProgenitorGenome
-        let winnerOfThisGeneration = progenitorGenome
-        
-        guard let w = winnerOfThisGeneration else { fatalError() }
-        
-        self.testBrains = [Genome]()
-        
-        decoder.setInput(to: w).decode()
-        currentProgenitorBrain = Translators.t.getBrain()
-        testBrains.append(currentProgenitorGenome)
-        
-        var bestBrainSS = -1
-        _ = lambda(childGenome: currentProgenitorGenome, brain: currentProgenitorBrain)
-        
-        for (ss, (childGenome, brain)) in zip(0..., self.currentGeneration) {
-            guard let _ = lambda(childGenome: childGenome, brain: brain) else { return nil }
-            bestBrainSS = ss
-        }
-        
-        if bestBrainSS == -1 {
-            print("Progenitor wins: score \(self.bestFitnessScore)")
-        } else {
-            print("Offspring \(bestBrainSS) wins: score \(self.bestFitnessScore)")
-        }
-
-        return testBrains
+    func setTestSubjectFactory(_ factory: BreederTestSubjectFactory) -> Breeder {
+        self.testSubjectFactory = factory
+        return self     // for chaining
     }
 }

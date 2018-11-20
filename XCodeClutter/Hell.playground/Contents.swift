@@ -1,10 +1,19 @@
 import Foundation
-var x = 0, y = 0
 
-while x < 10 && y < 10 {
-    defer { print("I ordered a cheeseburger x = \(x), y = \(y)") }
-
-    if (2 * (x / 2)) == x { print("\(x) even") }
-
-    x += 1
+var lowestScore = Int.max
+var highestScore = 0
+var missedLows = 0
+var missedHighs = 0
+var caughtLows = 0
+var caughtHighs = 0
+for _ in 0..<10000 {
+    let c = abs(Int.random(in: -1000000...1000000))
+    if c < lowestScore { lowestScore = c; caughtLows += 1 }
+    else { missedLows += 1}
+    if c > highestScore { highestScore = c; caughtHighs += 1 }
+    else { missedHighs += 1 }
 }
+
+print("lowestScore = \(lowestScore), highestScore = \(highestScore)")
+print("caughtLows = \(caughtLows), caughtHighs = \(caughtHighs)")
+print("missedLows = \(missedLows), missedHighs = \(missedHighs)")

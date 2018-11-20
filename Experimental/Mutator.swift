@@ -297,7 +297,7 @@ class Mutator {
 
 extension Mutator {
     static func generateRandomTene() -> Tene {
-        let gene = Breeder.generateRandomGene()
+        let gene = RandomnessGenerator.generateRandomGene()
         let rawComponentSets = getRawComponentSets(for: gene)
         let rawComponentSet = rawComponentSets[0]
         let literalMatch = rawComponentSet[0]

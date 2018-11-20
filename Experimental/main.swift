@@ -17,121 +17,42 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-  
 
 import Foundation
 
-func oneSignalPassThroughRandomBrain() {
-    let brain = Breeder.makeRandomBrain()
-    let rsi = brain.generateRandomSensoryInput()
-    print(rsi)
-//    if let results = rsi { print(results) }
-//    else { print("Brain died during testing" }
-}
-
-func controlledConditionsTest() {
-    for testGenome in testGenomes {
-        let allOnes = testGenome
-
-        let decoder = Decoder()
-        decoder.setInput(to: allOnes).decode()
-        let brain = Translators.t.getBrain()
-
-        let oneSense = [1.0]
-        let output = brain.stimulate(inputs: oneSense)
-        if let t = output { print("Succes, or something: \(t)") }
-        else { print("Brain died during testing") }
-    }
-}
-
-func testMutator() {
-    let testInput = "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).I(42).A(false).W(3).N.A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100)."
-
-//    let tegex = "L\\.|N\\.|[AB]\\((true|false)\\)\\.|[bDtW]\\((\\d*\\.?\\d*)\\)\\.|I\\((\\d+)\\)"
-//    let regex = "L\\.|N\\.|[AB]\\((true|false)\\)\\.|[DtW]\\(([0-9]*\\.?\\d*)\\)\\.|[Ib]\\((\\d+)\\)"
-//    let uegex = "[LN]\\.||[Ib]\\((\\[0-9\\]+\\.?)\\)\\.|[AB]\\(((?:true)|(?:false))\\)\\.|[DWt]\\(([0-9]*\\.?[0-9]*)\\)\\."
-
-/* this one works, 16Nov18 */
-    let _/*vegex*/ = "[LN]\\.|([ABDIWbt])\\(([^\\(]*)\\)\\."
-
-//    let something = testInput.searchRegex(regex: vegex)
-//    print(something)
+class TestBreeder {
+    let howManyGenes = 300
+    let howManyGenerations = 10
+    var newGenome: Genome!
+    var shouldKeepRunning = true
+    var theTestSubjects: Breeder.Generation!
     
-    _ = Mutator.m.setInputGenome(testInput).mutate()
-    print("mutated:  ", terminator: "")
-    let newGenome = Mutator.m.convertToGenome()
-    print("before", testInput)
-    print("after", newGenome)
+    var currentGenerationNumber = 0
+    func select() {
+        _ = Breeder.bb.breedAndSelect()
+        
+        currentGenerationNumber += 1
+        if currentGenerationNumber >= howManyGenerations {
+            self.shouldKeepRunning = false
+        }
+    }
 }
 
-func chopTail(of string: String, howManyToKeep: Int) -> GenomeSlice {
-    let howManyToCut = string.count - howManyToKeep
-    return string.dropLast(howManyToCut)
+var newGenome = Genome()
+
+newGenome += "L."
+for _ in 0..<10 {
+    newGenome += "N.A(true).W(1).b(0).t(10000)."
 }
 
-func testBreeder() {
-    let howManyGenes = 50
-    
-    let newGenome = Breeder.generateRandomGenome(howManyGenes: howManyGenes)
-    
-    Breeder.bb.setProgenitor(newGenome)
-    Breeder.bb.breedOneGeneration(10, from: newGenome)
+let testSubjectFactory = BreederTestZoeBrain.TSF(genome: newGenome)
+_ = Breeder.bb.setTestSubjectFactory(testSubjectFactory)
+Breeder.bb.setFitnessTester(ZoeBrainFitnessTester())
+let tb = TestBreeder()
 
-    guard let selection = Breeder.bb.selectFromCurrentGeneration() else {
-        print("Brain died during stimulation")
-        return
-    }
-
-    for (ss, genome) in zip(0..., selection) {
-        print("Genome \(ss): ", genome)
-    }
-
-//    let characterLimit = 50
-//    let howManyToKeep = selection.count > characterLimit ? characterLimit : selection.count
-//    print("winner: (\(selection.count))", selection.first!)
-    }
-
-//oneSignalPassThroughRandomBrain()
-controlledConditionsTest()
-//testMutator()
-
-//print("testing breeder")
-//testBreeder()
-
-//func show() {
-//    if Utilities.thereBeNoShowing { return }
-//    testTranslators.brain.show(tabs: "", override: true)
-//
-//}
-//
-//func translatorFunction() {
-//    var testTranslators = Translators()
-//    testTranslators.newBrain()
-//
-//    for _ in 0..<2 {
-//        testTranslators.newLayer()
-//
-//        for _ in 0..<5{
-//            testTranslators.newNeuron()
-//
-//            testTranslators.setThreshold(Double.infinity)
-//            testTranslators.setBias(0)
-//
-//            for _ in 0..<1 {
-//                testTranslators.addWeight(1)
-//            }
-//            testTranslators.closeNeuron()
-//        }
-//
-//        testTranslators.closeLayer()
-//    }
-//
-//    //testTranslators.closeBrain()
-//    testTranslators.endOfStrand()
-//    Utilities.thereBeNoShowing = false
-//    show()
-//
-//    let brain = testTranslators.getBrain()
-//    let outputs = brain.stimulate(inputs: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
-//    print(outputs)
-//}
+let v = RepeatingTimer(timeInterval: 0.1)
+v.eventHandler = {
+    tb.select()
+}
+v.resume()
+while tb.shouldKeepRunning {  }

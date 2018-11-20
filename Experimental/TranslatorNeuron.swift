@@ -90,7 +90,9 @@ extension Translators {
             if commLineNumber >= adjustedInputCount { commLineNumber = 0 }
             
             if activators[activationSS] {
-                print("\(self) attaches port \(inputPortDescriptors.count) to commLine \(commLineNumber) in older sib of \(self.layerSSInBrain)")
+                if !Utilities.thereBeNoShowing {
+                    print("\(self) attaches port \(inputPortDescriptors.count) to commLine \(commLineNumber) in older sib of \(self.layerSSInBrain)")
+                }
                 inputPortDescriptors.append(commLineNumber)
                 inputPorts.append(0)    // Make room for another input
                 weightSS += 1

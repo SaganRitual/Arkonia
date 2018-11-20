@@ -25,6 +25,8 @@ fileprivate enum DecodeState {
 }
 
 class Decoder {
+    static var d: Decoder!
+
     enum BirthDefect: Error {
         case emptyLayer
     }
@@ -41,6 +43,8 @@ class Decoder {
 
         if let p = parser { self.parser = p }
         else { self.parser = self }
+        
+        Decoder.d = self
     }
     
     var A: Character { return "A" } // Activator -- Bool
