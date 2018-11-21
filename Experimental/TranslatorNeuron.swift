@@ -80,7 +80,7 @@ extension Translators {
     func setInputPorts(howManyInputsAreAvailable: Int) {
         if howManyInputsAreAvailable < 1 { fatalError("Shouldn't be in here if the previous layer has no outputs") }
         
-        let adjustedInputCount = min(numberOfSenses, howManyInputsAreAvailable)
+        let adjustedInputCount = howManyInputsAreAvailable// min(numberOfSenses, howManyInputsAreAvailable)
         
         var activationSS = 0, weightSS = 0, commLineNumber = 0
         

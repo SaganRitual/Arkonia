@@ -39,7 +39,7 @@ class GameScene: SKScene {
     var currentGeneration = [Genome]()
     var selection = [Genome]()
     var testSubjectSetup = TSNumberGuesserSetup()
-    
+
     override func didMove(to view: SKView) {
         decoder = Decoder()
 
@@ -144,10 +144,10 @@ class GameScene: SKScene {
     var whichGenome = 1
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
-        if frameCount < 30 { return }
+        if frameCount < 15 { return }
         frameCount = 0
         
-        self.testSubjectSetup.tick()
+        for _ in 0..<4 { self.testSubjectSetup.tick() }
         decoder.setInput(to: Breeder.bb.getBestGenome()).decode()
         self.brain = Translators.t.getBrain()
         vBrain = VBrain(gameScene: self, brain: self.brain)

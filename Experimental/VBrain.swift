@@ -110,7 +110,7 @@ extension VBrain {
         for (i, layer) in zip(0..., layers) {
             if layer.neurons.isEmpty { /* print("No neurons in this layer");*/ continue }
             
-            let spacer = Spacer(layersCount: layers.count, displaySize: gameScene.size)
+            let spacer = Spacer(layersCount: layers.count, displaySize: gameScene.frame.size)
             
             var currentLayerPoints = [CGPoint]()
             
@@ -133,9 +133,42 @@ extension VBrain {
 
                 if !minusDeadCommLines.isEmpty { drawConnections(from: minusDeadCommLines, to: neuron, at: position) }
                 
+                var startingY: CGFloat = 0.0
+                for ss in 0..<neuron.weights.count {
+                    let w = neuron.weights[ss]
+                    let s = SKLabelNode(text: "W(\(ss)) \(w.sTruncate())")
+
+                    s.position = vNeuron.position
+                    s.fontSize = 16
+                    s.fontName = "Courier New"
+                    s.position.x -= s.frame.width
+                    s.position.y += startingY
+                    startingY += s.frame.height
+                    gameScene.addChild(s)
+                }
+                
+                let b = SKLabelNode(text: "b(\(neuron.bias?.sTruncate() ?? "<nil>"))")
+                b.position = vNeuron.position
+                b.fontSize = 16
+                b.fontName = "Courier New"
+                b.position.x += (b.frame.width / 2)
+                b.position.y += startingY
+                startingY += b.frame.height
+                gameScene.addChild(b)
+                
+                let t = SKLabelNode(text: "t(\(neuron.threshold?.sTruncate() ?? "<nil>"))")
+                t.position = vNeuron.position
+                t.fontSize = 16
+                t.fontName = "Courier New"
+                t.position.x += (t.frame.width / 2)
+                t.position.y += startingY
+                startingY += t.frame.height
+                gameScene.addChild(t)
+
                 self.vNeurons.append(vNeuron)
                 gameScene.addChild(vNeuron)
             }
+            
             previousLayerPoints = currentLayerPoints
 //            print("p", previousLayerPoints)
         }

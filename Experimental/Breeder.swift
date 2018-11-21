@@ -53,7 +53,7 @@ class Breeder: BreederTestSubjectAPI {
         var bestBrainSS = currentBestBrainSS
         
         for (ss, testSubject) in zip(0..., self.currentGeneration) {
-            guard let (score, resultString) = self.fitnessTester.administerTest(to: testSubject) else {
+            guard let (score, _) = self.fitnessTester.administerTest(to: testSubject) else {
                 continue
             }
 
@@ -64,7 +64,7 @@ class Breeder: BreederTestSubjectAPI {
                 bestBrainSS = ss
                 aboriginalAncestorHasBestScore = false
 
-                print("\(resultString), score \(score)")
+//                print("\(resultString), score \(score.sTruncate())")
             }
         }
 
