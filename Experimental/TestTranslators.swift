@@ -57,8 +57,9 @@ import Foundation
 class Translators: BrainOwnerProtocol {
     static let t = Translators()
 
-    static let numberOfSenses = 5
-    static let numberOfMotorNeurons = "Zoe Bishop".count
+    // The test subject classes can set these
+    static var numberOfSenses = 5
+    static var numberOfMotorNeurons = "Zoe Bishop".count
 
     func setBias(_ value: Double) { brain?.setBias(value) }
     func setThreshold(_ value: Double) { brain?.setThreshold(value) }

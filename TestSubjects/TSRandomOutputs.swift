@@ -20,41 +20,37 @@
 
 import Foundation
 
-class TestBreeder {
-    var newGenome: Genome!
-    var shouldKeepRunning = true
-    var theTestSubjects: Breeder.Generation!
-
-    var currentGenerationNumber = 0
-    func select() {
-        let bestFitnessScore = Breeder.bb.breedAndSelect()
-
-        currentGenerationNumber += 1
-        if currentGenerationNumber >= Breeder.howManyGenerations || bestFitnessScore == 0 {
-            self.shouldKeepRunning = false
+class TSRandomOutputs: BreederTestSubject {
+    class TSF: BreederTestSubjectFactory {
+        func makeTestSubject() -> BreederTestSubject {
+            return TSRandomOutputs.makeTestSubject()
         }
+    }
+    
+    override init() { super.init() }
+    override init(genome: Genome) { super.init(genome: genome) }
+    override init(genome: Genome, int: Int) {  }
+
+    override class func makeTestSubject() -> BreederTestSubject {
+        return TSRandomOutputs(genome: Genome(), Int.random(in: -10000...10000))
+    }
+    
+    class func setBreederTestSubjectFactory() {
+        _ = Breeder.bb.setTestSubjectFactory(TSF())
+    }
+    
+    override func spawn() -> BreederTestSubject? {
+        return TSRandomOutputs.makeTestSubject()
     }
 }
 
-var newGenome = Genome()
-
-newGenome += "L."
-for _ in 0..<10 {
-    newGenome += "N.A(true).W(1).b(0).t(10000)."
+class FTRandomOutputs: BreederFitnessTester {
+    func getFitnessScore(for outputs: [Double]) -> (Double, String) {
+        return (0, "This stub seems a bit ugly")
+    }
+    
+    func administerTest(to testSubject: BreederTestSubject) -> (Double, String)? {
+        let d = Double((testSubject as! TSRandomOutputs).myFishNumber)
+        return (abs(d), "I have nothing to say")
+    }
 }
-
-Breeder.howManyGenerations = 500
-Breeder.howManyTestSubjectsPerGeneration = 500
-
-let testSubjectFactory = TSNumberGuesser.TSF()
-_ = Breeder.bb.setTestSubjectFactory(testSubjectFactory)
-Breeder.bb.setFitnessTester(FTNumberGuesser())
-let tb = TestBreeder()
-
-let v = RepeatingTimer(timeInterval: 0.1)
-v.eventHandler = {
-    tb.select()
-}
-v.resume()
-while tb.shouldKeepRunning {  }
-//print(Breeder.bb.getBestGenome())
