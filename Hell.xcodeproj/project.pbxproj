@@ -51,6 +51,7 @@
 		D4C957BE21A3BEA700AF0CF6 /* BreederTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BD21A3BEA700AF0CF6 /* BreederTestSubject.swift */; };
 		D4C957C121A5136600AF0CF6 /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C021A5136600AF0CF6 /* TSLearnZoeName.swift */; };
 		D4C957C521A51D5700AF0CF6 /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C421A51D5700AF0CF6 /* TSNumberGuesser.swift */; };
+		D4C957C721A574B800AF0CF6 /* TSPassThrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C621A574B800AF0CF6 /* TSPassThrough.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,7 @@
 		D4C957C021A5136600AF0CF6 /* TSLearnZoeName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSLearnZoeName.swift; sourceTree = "<group>"; };
 		D4C957C221A5160D00AF0CF6 /* TSRandomOutputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSRandomOutputs.swift; sourceTree = "<group>"; };
 		D4C957C421A51D5700AF0CF6 /* TSNumberGuesser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSNumberGuesser.swift; sourceTree = "<group>"; };
+		D4C957C621A574B800AF0CF6 /* TSPassThrough.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSPassThrough.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +261,7 @@
 			children = (
 				D4C957C021A5136600AF0CF6 /* TSLearnZoeName.swift */,
 				D4C957C421A51D5700AF0CF6 /* TSNumberGuesser.swift */,
+				D4C957C621A574B800AF0CF6 /* TSPassThrough.swift */,
 				D4C957C221A5160D00AF0CF6 /* TSRandomOutputs.swift */,
 			);
 			path = TestSubjects;
@@ -451,6 +454,7 @@
 				D4C957C121A5136600AF0CF6 /* TSLearnZoeName.swift in Sources */,
 				D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */,
 				D48AB385219E718600624000 /* Mutator.swift in Sources */,
+				D4C957C721A574B800AF0CF6 /* TSPassThrough.swift in Sources */,
 				D4C957BE21A3BEA700AF0CF6 /* BreederTestSubject.swift in Sources */,
 				D4C2253D219FC3FB004A011A /* TestTranslators.swift in Sources */,
 				D48AB382219E484000624000 /* Utilities.swift in Sources */,

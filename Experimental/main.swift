@@ -21,40 +21,42 @@
 import Foundation
 
 class TestBreeder {
-    var newGenome: Genome!
     var shouldKeepRunning = true
-    var theTestSubjects: Breeder.Generation!
 
     var currentGenerationNumber = 0
-    func select() {
+    func select() -> Double {
         let bestFitnessScore = Breeder.bb.breedAndSelect()
 
         currentGenerationNumber += 1
         if currentGenerationNumber >= Breeder.howManyGenerations || bestFitnessScore == 0 {
             self.shouldKeepRunning = false
         }
+        
+        return bestFitnessScore
     }
 }
 
+Translators.numberOfSenses = 1
+Translators.numberOfMotorNeurons = 1
 var newGenome = Genome()
 
 newGenome += "L."
-for _ in 0..<10 {
+for _ in 0..<Translators.numberOfSenses {
     newGenome += "N.A(true).W(1).b(0).t(10000)."
 }
 
-Breeder.howManyGenerations = 500
-Breeder.howManyTestSubjectsPerGeneration = 500
-
-let testSubjectFactory = TSNumberGuesser.TSF()
+let testSubjectFactory = TSPassThrough.TSF()
 _ = Breeder.bb.setTestSubjectFactory(testSubjectFactory)
-Breeder.bb.setFitnessTester(FTNumberGuesser())
+Breeder.bb.setFitnessTester(FTPassThrough())
+
 let tb = TestBreeder()
 
 let v = RepeatingTimer(timeInterval: 0.1)
+var bestFitnessScore = 0.0
 v.eventHandler = {
-    tb.select()
+    bestFitnessScore = tb.select()
 }
 v.resume()
 while tb.shouldKeepRunning {  }
-//print(Breeder.bb.getBestGenome())
+print("Best score \(bestFitnessScore)", Breeder.bb.getBestGenome())
+

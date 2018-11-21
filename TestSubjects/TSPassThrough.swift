@@ -20,10 +20,10 @@
 
 import Foundation
 
-class TSNumberGuesser: BreederTestSubject {
+class TSPassThrough: BreederTestSubject {
     class TSF: BreederTestSubjectFactory {
         let genome: Genome?
-
+        
         init() {
             Translators.numberOfSenses = 1
             Translators.numberOfMotorNeurons = 1
@@ -31,30 +31,33 @@ class TSNumberGuesser: BreederTestSubject {
         }
         
         init(genome: Genome) { self.genome = genome }
-
+        
         func makeTestSubject() -> BreederTestSubject {
             if let g = genome {
-                return TSNumberGuesser(genome: g, brain: nil)
+                return TSPassThrough(genome: g, brain: nil)
             }
             
             // Random genome, as of 19Nov2018
-            return TSNumberGuesser.makeTestSubject()
+            return TSPassThrough.makeTestSubject()
         }
     }
     
     private init(genome: Genome?, brain: LayerOwnerProtocol?) {
+        Breeder.howManyTestSubjectsPerGeneration = 100
+        Breeder.howManyGenerations = 100
+
         if let g = genome {
             super.init(genome: g)
-
+            
             if let b = brain { self.brain = b }
-            else { self.brain = TSNumberGuesser.makeBrain(from: g) }
+            else { self.brain = TSPassThrough.makeBrain(from: g) }
             
             return
         }
         
         super.init()
         self.genome = RandomnessGenerator.generateRandomGenome()
-        self.brain = TSNumberGuesser.makeBrain(from: self.genome)
+        self.brain = TSPassThrough.makeBrain(from: self.genome)
     }
     
     required init() {
@@ -65,18 +68,17 @@ class TSNumberGuesser: BreederTestSubject {
         fatalError("init(genome:) has not been implemented")
     }
     
-    class func makeTestSubject(with genome: Genome) -> BreederTestSubject{
-        TSNumberGuesser.theFishNumber += 1
-        return TSNumberGuesser(genome: genome, brain: nil)
+    override class func makeBrain(from genome: Genome) -> LayerOwnerProtocol {
+        return BrainPassThrough()
     }
     
-    override class func makeBrain(from genome: Genome) -> LayerOwnerProtocol {
-        Decoder.d.setInput(to: genome).decode()
-        return Translators.t.getBrain()
+    override class func makeTestSubject(with genome: Genome?) -> BreederTestSubject{
+        TSPassThrough.theFishNumber += 1
+        return TSPassThrough(genome: genome, brain: nil)
     }
-
+    
     override class func makeTestSubject() -> BreederTestSubject {
-        return TSNumberGuesser(genome: nil, brain: nil)
+        return TSPassThrough(genome: nil, brain: nil)
     }
     
     class func setBreederTestSubjectFactory() {
@@ -84,22 +86,46 @@ class TSNumberGuesser: BreederTestSubject {
     }
     
     override func spawn() -> BreederTestSubject? {
-        return TSNumberGuesser.makeTestSubject()
+        return TSPassThrough.makeTestSubject()
     }
 }
 
-class FTNumberGuesser: BreederFitnessTester {
+class FTPassThrough: BreederFitnessTester {
+    var counter = 0
+    var bestScore = Double(Breeder.howManyGenerations + 2)
+    
     func administerTest(to testSubject: BreederTestSubject) -> (Double, String)? {
-        let ts = testSubject as! TSNumberGuesser
-        let sensoryInput: [Double] = [1]
-        guard let outputs = ts.brain.stimulate(inputs: sensoryInput) else { return nil }
+        counter += 1
+        if counter > Breeder.howManyTestSubjectsPerGeneration {
+            counter = 0
+            bestScore -= 1
+            return getFitnessScore(for: [bestScore])
+        }
         
-        return getFitnessScore(for: outputs)
+        return getFitnessScore(for: [Double(Breeder.howManyGenerations + 1)])
     }
     
     internal func getFitnessScore(for outputs: [Double]) -> (Double, String) {
-        let score = abs(outputs.reduce(0, +) - 3)
-        return (score, "New best score \(score.sTruncate())")
+        return (outputs[0], "Fitness score for individual = \(outputs[0])")
     }
+}
+
+class BrainPassThrough: LayerOwnerProtocol {
+    var layers = [Translators.Layer]()
+    
+    func addActivator(_ active: Bool) { }
+    func setBias(_ value: Double) { }
+    func addWeight(_ weight: Double) { }
+    func connectLayers() { }
+    func closeLayer() { }
+    func closeNeuron() { }
+    func endOfStrand() { }
+    func newLayer() { }
+    func newNeuron() { }
+    func setInputs(_ inputs: [Int]) { }
+    func setThreshold(_ value: Double) { }
+    func show(tabs: String, override: Bool) { }
+    func stimulate(inputs: [Double]) -> [Double]? { return [1] }
+    func generateRandomSensoryInput() -> [Double] { return [1] }
 }
 

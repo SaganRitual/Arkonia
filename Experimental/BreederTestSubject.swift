@@ -37,25 +37,29 @@ protocol BreederTestSubjectProtocol {
     var brain: LayerOwnerProtocol! { get set }
     var myFishNumber: Int { get }
     var genome: Genome! { get set }
+    var testScore: Double { get set }
     
     init()
     init(genome: Genome)
-
-    static func makeTestSubject(with genome: Genome) -> BreederTestSubject
+    
+    static func makeBrain(from genome: Genome) -> LayerOwnerProtocol
+    static func makeTestSubject(with genome: Genome?) -> BreederTestSubject
     static func makeTestSubject() -> BreederTestSubject
     func spawn() -> BreederTestSubject?
 }
 
-class BreederTestSubject {
+class BreederTestSubject: BreederTestSubjectProtocol {
     static var theFishNumber = 0
 
     var brain: LayerOwnerProtocol!
     let myFishNumber = BreederTestSubject.theFishNumber
     var genome: Genome!
+    var testScore = 0.0
     
-    init() { self.genome = nil }
-    init(genome: Genome) { self.genome = genome }
+    required init() { self.genome = nil }
+    required init(genome: Genome) { self.genome = genome }
 
+    class func makeBrain(from genome: Genome) -> LayerOwnerProtocol { fatalError() }
     class func makeTestSubject(with genome: Genome?) -> BreederTestSubject { fatalError() }
     class func makeTestSubject() -> BreederTestSubject { fatalError() }
     func spawn() -> BreederTestSubject? { fatalError() }

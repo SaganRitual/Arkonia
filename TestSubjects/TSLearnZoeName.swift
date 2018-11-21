@@ -37,7 +37,7 @@ class TSLearnZoeName: BreederTestSubject {
         }
     }
     
-    private init(genome: Genome?, brain: LayerOwnerProtocol?) {
+    required internal init(genome: Genome?, brain: LayerOwnerProtocol?) {
         if let g = genome {
             super.init(genome: g)
 
@@ -53,7 +53,15 @@ class TSLearnZoeName: BreederTestSubject {
         self.brain = TSLearnZoeName.makeBrain(from: self.genome)
     }
     
-    static func makeBrain(from genome: Genome) -> LayerOwnerProtocol {
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+    
+    required init(genome: Genome) {
+        fatalError("init(genome:) has not been implemented")
+    }
+    
+    override class func makeBrain(from genome: Genome) -> LayerOwnerProtocol {
         Decoder.d.setInput(to: genome).decode()
         return Translators.t.getBrain()
     }
