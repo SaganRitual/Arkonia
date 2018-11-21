@@ -25,6 +25,16 @@ class TSLearnZoeName: BreederTestSubject {
         let genome: Genome?
         
         init() { self.genome = nil }
+        
+        init(genome: Genome, numberOfSenses: Int = 5, numberOfMotorNeurons: Int = 5,
+             numberOfGenerations: Int = 50, numberOfTestSubjectsPerGeneration: Int = 50) {
+            Translators.numberOfSenses = numberOfSenses
+            Translators.numberOfMotorNeurons = numberOfMotorNeurons
+            Breeder.howManyGenerations = numberOfGenerations
+            Breeder.howManyTestSubjectsPerGeneration = numberOfTestSubjectsPerGeneration
+            self.genome = genome
+        }
+
         init(genome: Genome) { self.genome = genome }
         
         func makeTestSubject() -> BreederTestSubject {
@@ -104,13 +114,14 @@ class FTLearnZoeName: BreederFitnessTester {
         return getFitnessScore(for: outputs)
     }
     
+    var charactersMatched = 0
     internal func getFitnessScore(for outputs: [Double]) -> (Double, String) {
         var scoreForTheseOutputs = 0.0
         var whichCase = uppercase
         var resultString = String()
         var previousCharacterValue: Int? = nil
         
-        for (expectedCharacter, ss) in zip(zName, 0...) {
+        for (expectedCharacter, ss) in zip(zName, 0..<(charactersMatched + 1)) {
             var modulo = Int(outputs[ss]) % 26
             var amodulo = abs(modulo)
             
@@ -153,6 +164,11 @@ class FTLearnZoeName: BreederFitnessTester {
             scoreForTheseOutputs += Double(abs(distance)).dTruncate()
         }
         
+        if scoreForTheseOutputs == 0 {
+            charactersMatched += 1
+            scoreForTheseOutputs = Double(abs(zName.count - charactersMatched))
+        }
+
         resultString += ": " + String(scoreForTheseOutputs)
         
         return (scoreForTheseOutputs, resultString)
@@ -168,4 +184,58 @@ class FTLearnZoeName: BreederFitnessTester {
         
         return String(symbolcase)
     }
+}
+
+class ZoeTestSubjectSetup {
+    
+    let numberOfSenses = 5
+    let numberOfMotorNeurons = "Zoe Bishop".count
+    let numberOfGenerations = 100
+    let numberOfTestSubjectsPerGeneration = 100
+    
+    var newGenome = Genome()
+    var testSubjectFactory: TSLearnZoeName.TSF?
+    var testBreeder: TestBreeder?
+
+    class TestBreeder {
+        var shouldKeepRunning = true
+        
+        var currentGenerationNumber = 0
+        func select() -> Double {
+            let bestFitnessScore = Breeder.bb.breedAndSelect()
+            
+            currentGenerationNumber += 1
+            if currentGenerationNumber >= Breeder.howManyGenerations || bestFitnessScore == 0 {
+                self.shouldKeepRunning = false
+            }
+            
+            return bestFitnessScore
+        }
+    }
+    
+    init() {
+        newGenome += "L."
+        for _ in 0..<numberOfSenses {
+            newGenome += "N.A(true).W(1).b(0).t(5555)."
+
+        testSubjectFactory =
+            TSLearnZoeName.TSF(genome: newGenome, numberOfSenses: numberOfSenses, numberOfMotorNeurons: numberOfMotorNeurons,
+                               numberOfGenerations: numberOfGenerations, numberOfTestSubjectsPerGeneration: numberOfTestSubjectsPerGeneration)
+
+            _ = Breeder.bb.setTestSubjectFactory(testSubjectFactory!)
+            Breeder.bb.setFitnessTester(FTLearnZoeName())
+            
+            self.testBreeder = TestBreeder()
+        }
+    }
+    
+    func run() {
+        let v = RepeatingTimer(timeInterval: 0.1)
+        var bestFitnessScore = 0.0
+        v.eventHandler = { bestFitnessScore = self.testBreeder!.select() }
+        v.resume()
+        while testBreeder!.shouldKeepRunning {  }
+        print("Best score \(bestFitnessScore)", Breeder.bb.getBestGenome())
+    }
+
 }

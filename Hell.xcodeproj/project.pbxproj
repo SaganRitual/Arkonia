@@ -52,6 +52,9 @@
 		D4C957C121A5136600AF0CF6 /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C021A5136600AF0CF6 /* TSLearnZoeName.swift */; };
 		D4C957C521A51D5700AF0CF6 /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C421A51D5700AF0CF6 /* TSNumberGuesser.swift */; };
 		D4C957C721A574B800AF0CF6 /* TSPassThrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C621A574B800AF0CF6 /* TSPassThrough.swift */; };
+		D4C957C821A5D33600AF0CF6 /* BreederTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BD21A3BEA700AF0CF6 /* BreederTestSubject.swift */; };
+		D4C957C921A5D34800AF0CF6 /* RandomnessGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */; };
+		D4C957CA21A5D35B00AF0CF6 /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C421A51D5700AF0CF6 /* TSNumberGuesser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -471,6 +474,8 @@
 				D48AB369219DDE6900624000 /* GameScene.swift in Sources */,
 				D4029F2021A2006C00BDDB7A /* TestTranslators.swift in Sources */,
 				D4029F2321A2006C00BDDB7A /* TranslatorNeuron.swift in Sources */,
+				D4C957CA21A5D35B00AF0CF6 /* TSNumberGuesser.swift in Sources */,
+				D4C957C921A5D34800AF0CF6 /* RandomnessGenerator.swift in Sources */,
 				D48AB363219DDE6900624000 /* AppDelegate.swift in Sources */,
 				D4029F2121A2006C00BDDB7A /* TranslatorBrain.swift in Sources */,
 				D48AB37F219E47C600624000 /* DecoderExtras.swift in Sources */,
@@ -480,6 +485,7 @@
 				D48AB383219E484000624000 /* Utilities.swift in Sources */,
 				D48AB379219DDFC900624000 /* VBrain.swift in Sources */,
 				D48AB386219E718600624000 /* Mutator.swift in Sources */,
+				D4C957C821A5D33600AF0CF6 /* BreederTestSubject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

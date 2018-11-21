@@ -23,18 +23,19 @@ import Foundation
 class TSNumberGuesser: BreederTestSubject {
     class TSF: BreederTestSubjectFactory {
         let genome: Genome?
-
-        init() {
-            Translators.numberOfSenses = 1
-            Translators.numberOfMotorNeurons = 1
-            genome = nil
-        }
         
-        init(genome: Genome) { self.genome = genome }
+        init(genome: Genome, numberOfSenses: Int = 5, numberOfMotorNeurons: Int = 5,
+             numberOfGenerations: Int = 50, numberOfTestSubjectsPerGeneration: Int = 50) {
+            Translators.numberOfSenses = numberOfSenses
+            Translators.numberOfMotorNeurons = numberOfMotorNeurons
+            Breeder.howManyGenerations = numberOfGenerations
+            Breeder.howManyTestSubjectsPerGeneration = numberOfTestSubjectsPerGeneration
+            self.genome = genome
+        }
 
         func makeTestSubject() -> BreederTestSubject {
             if let g = genome {
-                return TSNumberGuesser(genome: g, brain: nil)
+                return TSNumberGuesser.makeTestSubject(with: g)
             }
             
             // Random genome, as of 19Nov2018
@@ -79,27 +80,82 @@ class TSNumberGuesser: BreederTestSubject {
         return TSNumberGuesser(genome: nil, brain: nil)
     }
     
-    class func setBreederTestSubjectFactory() {
-        _ = Breeder.bb.setTestSubjectFactory(TSF())
+    class func setBreederTestSubjectFactory(factory: TSF) {
+        _ = Breeder.bb.setTestSubjectFactory(factory)
     }
     
     override func spawn() -> BreederTestSubject? {
-        return TSNumberGuesser.makeTestSubject()
+        _ = Mutator.m.setInputGenome(genome).mutate()
+        let mutatedGenome = Mutator.m.convertToGenome()
+        if mutatedGenome == self.genome { return nil }
+        
+        let brain = TSNumberGuesser.makeBrain(from: mutatedGenome)
+        return TSNumberGuesser(genome: mutatedGenome, brain: brain)
     }
 }
 
 class FTNumberGuesser: BreederFitnessTester {
+    var sensoryInput = [Double]()
+    
     func administerTest(to testSubject: BreederTestSubject) -> (Double, String)? {
         let ts = testSubject as! TSNumberGuesser
-        let sensoryInput: [Double] = [1]
+        self.sensoryInput = Array(repeating: 1.0, count: Translators.numberOfSenses)
         guard let outputs = ts.brain.stimulate(inputs: sensoryInput) else { return nil }
         
         return getFitnessScore(for: outputs)
     }
     
     internal func getFitnessScore(for outputs: [Double]) -> (Double, String) {
-        let score = abs(outputs.reduce(0, +) - 3)
+        let score = abs(outputs.reduce(0, +) - 17)
+//        let score = abs(sensoryInput[0] - 17)
+//        print("New best score \(score.sTruncate())")
         return (score, "New best score \(score.sTruncate())")
+    }
+}
+
+class TSNumberGuesserSetup {
+    class TestBreeder {
+        var shouldKeepRunning = true
+
+        var currentGenerationNumber = 0
+        func select() -> Double {
+            let bestFitnessScore = Breeder.bb.breedAndSelect()
+
+            currentGenerationNumber += 1
+            if currentGenerationNumber >= Breeder.howManyGenerations || bestFitnessScore == 0 {
+                self.shouldKeepRunning = false
+            }
+
+            return bestFitnessScore
+        }
+    }
+
+    let numberOfSenses = 2
+    let numberOfMotorNeurons = 2
+    let numberOfGenerations = 100
+    let numberOfTestSubjectsPerGeneration = 100
+
+    var newGenome = Genome()
+    let testBreeder: TestBreeder
+    
+    init() {
+        newGenome += "L."
+        for _ in 0..<numberOfSenses {
+            newGenome += "N.A(true).W(1).b(0).t(5555)."
+        }
+
+        let testSubjectFactory =
+            TSNumberGuesser.TSF(genome: newGenome, numberOfSenses: numberOfSenses, numberOfMotorNeurons: numberOfMotorNeurons,
+                                numberOfGenerations: numberOfGenerations, numberOfTestSubjectsPerGeneration: numberOfTestSubjectsPerGeneration)
+        
+        _ = Breeder.bb.setTestSubjectFactory(testSubjectFactory)
+        Breeder.bb.setFitnessTester(FTNumberGuesser())
+        
+        self.testBreeder = TestBreeder()
+    }
+    
+    func tick() {
+        _ = self.testBreeder.select()
     }
 }
 

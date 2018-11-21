@@ -38,33 +38,10 @@ class GameScene: SKScene {
     var frameCount = 0
     var currentGeneration = [Genome]()
     var selection = [Genome]()
+    var testSubjectSetup = TSNumberGuesserSetup()
     
     override func didMove(to view: SKView) {
         decoder = Decoder()
-
-//        #if true
-//        self.brain = Breeder.makeRandomBrain()
-//        #else
-//        self.brain = decoder.expresser.getBrain()
-//        #endif
-
-//        let howManyGenes = 50
-        
-//        let newGenome = testGenomes[0] //Breeder.generateRandomGenome(howManyGenes: howManyGenes)
-        
-//        Breeder.bb.setProgenitor(newGenome)
-//        Breeder.bb.breedOneGeneration(10, from: newGenome)
-        
-//        _ = Breeder.bb.selectFromCurrentGeneration()
-        
-//        self.selection = [Genome]()
-//        for _ in 0..<15 { self.selection.append(Breeder.generateRandomGenome(howManyGenes: 100)) }
-        
-//        for (ss, genome) in zip(0..., selection) {
-//            print("Genome \(ss): ", genome)
-//        }
-
-//        self.selection.remove(at: 0)
 
         // Get label node from scene and store it for use later
         self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
@@ -167,21 +144,14 @@ class GameScene: SKScene {
     var whichGenome = 1
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
-        if frameCount < 120 { return }
+        if frameCount < 30 { return }
         frameCount = 0
-
-        decoder.setInput(to: testGenomes[whichGenome]).decode()
+        
+        self.testSubjectSetup.tick()
+        decoder.setInput(to: Breeder.bb.getBestGenome()).decode()
         self.brain = Translators.t.getBrain()
         vBrain = VBrain(gameScene: self, brain: self.brain)
         vBrain.displayBrain(self.brain)
-
-        vBrain = VBrain(gameScene: self, brain: self.brain)
-        vBrain.displayBrain(self.brain)
-        self.brain.show(tabs: "")
-//        whichGenome = (whichGenome + 1) % testGenomes.count
-        whichGenome += 1
-        if whichGenome >= testGenomes.count { exit(-1) }
-        
     }
 
 }

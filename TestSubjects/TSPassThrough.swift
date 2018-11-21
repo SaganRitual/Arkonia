@@ -45,6 +45,10 @@ class TSPassThrough: BreederTestSubject {
     private init(genome: Genome?, brain: LayerOwnerProtocol?) {
         Breeder.howManyTestSubjectsPerGeneration = 100
         Breeder.howManyGenerations = 100
+        
+        if Breeder.howManyTestSubjectsPerGeneration != Breeder.howManyGenerations {
+            fatalError("Because the pass-through test subject is such a primitive pos, these two must be equal")
+        }
 
         if let g = genome {
             super.init(genome: g)

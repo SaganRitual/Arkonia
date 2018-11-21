@@ -20,43 +20,51 @@
 
 import Foundation
 
-class TestBreeder {
-    var shouldKeepRunning = true
+//class TestBreeder {
+//    var shouldKeepRunning = true
+//
+//    var currentGenerationNumber = 0
+//    func select() -> Double {
+//        let bestFitnessScore = Breeder.bb.breedAndSelect()
+//
+//        currentGenerationNumber += 1
+//        if currentGenerationNumber >= Breeder.howManyGenerations || bestFitnessScore == 0 {
+//            self.shouldKeepRunning = false
+//        }
+//
+//        return bestFitnessScore
+//    }
+//}
+//
+//let numberOfSenses = 2
+//let numberOfMotorNeurons = 2
+//let numberOfGenerations = 100
+//let numberOfTestSubjectsPerGeneration = 100
+//
+//var newGenome = Genome()
+//
+//newGenome += "L."
+//for _ in 0..<numberOfSenses {
+//    newGenome += "N.A(true).W(1).b(0).t(5555)."
+//}
+//
+//let testSubjectFactory =
+//    TSNumberGuesser.TSF(genome: newGenome, numberOfSenses: numberOfSenses, numberOfMotorNeurons: numberOfMotorNeurons,
+//                        numberOfGenerations: numberOfGenerations, numberOfTestSubjectsPerGeneration: numberOfTestSubjectsPerGeneration)
+//
+//_ = Breeder.bb.setTestSubjectFactory(testSubjectFactory)
+//Breeder.bb.setFitnessTester(FTNumberGuesser())
+//
+//let tb = TestBreeder()
+//
+//let v = RepeatingTimer(timeInterval: 0.1)
+//var bestFitnessScore = 0.0
+//v.eventHandler = {
+//    bestFitnessScore = tb.select()
+//}
+//v.resume()
+//while tb.shouldKeepRunning {  }
+//print("Best score \(bestFitnessScore)", Breeder.bb.getBestGenome())
 
-    var currentGenerationNumber = 0
-    func select() -> Double {
-        let bestFitnessScore = Breeder.bb.breedAndSelect()
-
-        currentGenerationNumber += 1
-        if currentGenerationNumber >= Breeder.howManyGenerations || bestFitnessScore == 0 {
-            self.shouldKeepRunning = false
-        }
-        
-        return bestFitnessScore
-    }
-}
-
-Translators.numberOfSenses = 1
-Translators.numberOfMotorNeurons = 1
-var newGenome = Genome()
-
-newGenome += "L."
-for _ in 0..<Translators.numberOfSenses {
-    newGenome += "N.A(true).W(1).b(0).t(10000)."
-}
-
-let testSubjectFactory = TSPassThrough.TSF()
-_ = Breeder.bb.setTestSubjectFactory(testSubjectFactory)
-Breeder.bb.setFitnessTester(FTPassThrough())
-
-let tb = TestBreeder()
-
-let v = RepeatingTimer(timeInterval: 0.1)
-var bestFitnessScore = 0.0
-v.eventHandler = {
-    bestFitnessScore = tb.select()
-}
-v.resume()
-while tb.shouldKeepRunning {  }
-print("Best score \(bestFitnessScore)", Breeder.bb.getBestGenome())
-
+let z = ZoeTestSubjectSetup()
+z.run()

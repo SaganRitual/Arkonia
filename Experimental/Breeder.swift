@@ -42,7 +42,6 @@ class Breeder: BreederTestSubjectAPI {
 
     static let howManySenses = 5
 
-    var testSubjects = Generation()
     var previousWinners = [(Genome, Double, Double)]()
     var stagnantGenerationsCount = 0
     
@@ -54,18 +53,18 @@ class Breeder: BreederTestSubjectAPI {
         var bestBrainSS = currentBestBrainSS
         
         for (ss, testSubject) in zip(0..., self.currentGeneration) {
-            guard let (score, _) = self.fitnessTester.administerTest(to: testSubject) else {
-//                print("Child \(ss) died during testing")
+            guard let (score, resultString) = self.fitnessTester.administerTest(to: testSubject) else {
                 continue
             }
-            
+
             testSubject.testScore = score
 
             if score < bestFitnessScore ||
                 (score >= bestFitnessScore && aboriginalAncestorHasBestScore) {
                 bestBrainSS = ss
                 aboriginalAncestorHasBestScore = false
-//                print("\(resultString), child \(bestBrainSS!)")
+
+                print("\(resultString), score \(score)")
             }
         }
 
@@ -73,8 +72,8 @@ class Breeder: BreederTestSubjectAPI {
     }
     
     func thisGenerationSetANewRecord(_ bestBrainSS: Int) -> Bool {
-        if testSubjects[bestBrainSS].testScore < self.bestFitnessScore {
-            self.bestFitnessScore = testSubjects[bestBrainSS].testScore
+        if currentGeneration[bestBrainSS].testScore < self.bestFitnessScore {
+            self.bestFitnessScore = currentGeneration[bestBrainSS].testScore
             return true
         }
 
@@ -96,7 +95,7 @@ class Breeder: BreederTestSubjectAPI {
         }
         
         let howMany = Breeder.howManyTestSubjectsPerGeneration
-        self.testSubjects = breedOneGeneration(howMany, from: self.currentProgenitor)
+        self.currentGeneration = breedOneGeneration(howMany, from: self.currentProgenitor)
         
         // If all the subjects died during the test, we'll
         // need to back up to the previous progenitor. Same
@@ -128,13 +127,13 @@ class Breeder: BreederTestSubjectAPI {
     }
     
     func breedOneGeneration(_ howMany: Int, from: BreederTestSubject) -> Generation {
-        print(".", terminator: "")
+//        print(".", terminator: "")
         self.currentGeneration = Generation()
         
         for _ in 0..<howMany {
             if let newTestSubject = currentProgenitor.spawn() {
                 if self.currentGeneration.contains(where: { testSubject in testSubject.genome == newTestSubject.genome } ) {
-                    print("Discarding duplicate genome")
+//                    print("_", terminator: "")
                 } else {
                     self.currentGeneration.append(newTestSubject)
                 }
@@ -161,35 +160,40 @@ class Breeder: BreederTestSubjectAPI {
     }
     
     func retreatToPreviousProgenitor() {
-        print("Retreating")
-        if previousWinners.isEmpty { fatalError("No retreat possible; no previous winners") }
-        else {
+//        print("Retreating")
+        if previousWinners.isEmpty {
+            self.bestFitnessScore = Double.infinity
+            self.previousBestFitnessScore = Double.infinity
+            print("Can't back up; starting over with aboriginal ancestor")
+        } else {
             let (_, bestFitnessScore, previousBestScore) = previousWinners.removeLast()
-            print("Backing up from \(bestFitnessScore) to \(previousBestScore)")
-            self.bestFitnessScore = previousBestScore
+            print("Backing up from \(bestFitnessScore.sTruncate()) to \(previousBestScore.sTruncate())")
+            self.bestFitnessScore = bestFitnessScore
             self.previousBestFitnessScore = previousBestScore
         }
     }
     
     func trackInitialBestScore(bestBrainSS: Int?) {
         // This happens only once, at the beginning
-        let genome = self.testSubjects[0].genome!
+        let genome = self.currentGeneration[0].genome!
         previousWinners.append((genome, bestFitnessScore, previousBestFitnessScore))
-        self.currentProgenitor = self.testSubjects[0]
+        self.currentProgenitor = self.currentGeneration[0]
         stagnantGenerationsCount = 0
     }
     
     func registerNewRecordHolder(_ bestBrainSS: Int?) {
         guard let best = bestBrainSS else { fatalError() }
-        let genome = self.testSubjects[best].genome!
-        self.bestFitnessScore = self.testSubjects[best].testScore
+        let genome = self.currentGeneration[best].genome!
+        self.bestFitnessScore = self.currentGeneration[best].testScore
         previousWinners.append((genome, bestFitnessScore, previousBestFitnessScore))
-        self.currentProgenitor = self.testSubjects[best]
+        self.currentProgenitor = self.currentGeneration[best]
         stagnantGenerationsCount = 0
+//        print("!", terminator: "")
     }
     
     func trackStagnantGenerations() -> Bool {
-        print("Track stagnant generation, count = \(stagnantGenerationsCount)")
+//        print(stagnantGenerationsCount, terminator: "")
+//        print("Track stagnant generation, count = \(stagnantGenerationsCount)")
         stagnantGenerationsCount += 1
 
         if stagnantGenerationsCount >= 5 {
