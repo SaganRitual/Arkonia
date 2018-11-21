@@ -21,7 +21,6 @@
 import Foundation
 
 class TestBreeder {
-    let howManyGenerations = 50
     var newGenome: Genome!
     var shouldKeepRunning = true
     var theTestSubjects: Breeder.Generation!
@@ -31,7 +30,7 @@ class TestBreeder {
         _ = Breeder.bb.breedAndSelect()
 
         currentGenerationNumber += 1
-        if currentGenerationNumber >= howManyGenerations {
+        if currentGenerationNumber >= Breeder.howManyGenerations {
             self.shouldKeepRunning = false
         }
     }
@@ -44,6 +43,11 @@ for _ in 0..<10 {
     newGenome += "N.A(true).W(1).b(0).t(10000)."
 }
 
+//let newGenome = "L.N.A(false).W(1).b(0).b(-44.87550).t(10000).A(true).A(true).W(1).W(90.98220).b(0).A(false).W(13.67999).t(10000).A(true).b(56.94000).t(-15.94155).b(0).t(10000).N.A(true).W(1).b(0).t(10000).N.A(true).W(1).b(0).t(10000.0).N.W(1).N.W(1).b(0).t(10000).N.W(98.01799).A(true).b(0).t(10000).A(true).N.A(true).W(1).b(0).t(10000).N.A(true).W(1).b(0).A(false)."
+
+Breeder.howManyGenerations = 500
+Breeder.howManyTestSubjectsPerGeneration = 500
+
 let testSubjectFactory = BreederTestZoeBrain.TSF(genome: newGenome)
 _ = Breeder.bb.setTestSubjectFactory(testSubjectFactory)
 Breeder.bb.setFitnessTester(ZoeBrainFitnessTester())
@@ -55,3 +59,4 @@ v.eventHandler = {
 }
 v.resume()
 while tb.shouldKeepRunning {  }
+print(Breeder.bb.getBestGenome())

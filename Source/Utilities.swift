@@ -238,8 +238,14 @@ extension NSTextCheckingResult {
 extension String {
     func isUppercase(_ inputCharacter: Character) -> Bool {
         let inputArray = String(inputCharacter)
+        let captureGroup = inputArray.searchRegex(regex: "[A-Z]")
+        return !captureGroup.isEmpty
+    }
+    
+    func isLowercase(_ inputCharacter: Character) -> Bool {
+        let inputArray = String(inputCharacter)
         let captureGroup = inputArray.searchRegex(regex: "[a-z]")
-        return captureGroup.isEmpty
+        return !captureGroup.isEmpty
     }
 }
 

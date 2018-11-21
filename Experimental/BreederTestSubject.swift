@@ -21,7 +21,7 @@
 import Foundation
 
 protocol BreederFitnessTester {
-    func administerTest(to testSubject: BreederTestSubject) -> Double?
+    func administerTest(to testSubject: BreederTestSubject) -> (Double, String)?
 }
 
 protocol BreederTestSubjectFactory {
@@ -130,18 +130,19 @@ class BreederTestSubjectMockBrain: BreederTestSubject {
 }
 
 class MockBrainFitnessTester: BreederFitnessTester {
-    func administerTest(to testSubject: BreederTestSubject) -> Double? {
+    func administerTest(to testSubject: BreederTestSubject) -> (Double, String)? {
         let d = Double((testSubject as! BreederTestSubjectMockBrain).myFishNumber)
-        return abs(d)
+        return (abs(d), "I have nothing to say")
     }
 }
 
 class ZoeBrainFitnessTester: BreederFitnessTester {
     let zName = "Zoe Bishop"
-    let uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
-    let lowercase = "abcdefghijklmnopqrstuvwxyz "
-
-    func administerTest(to testSubject: BreederTestSubject) -> Double? {
+    let uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    let lowercase = "abcdefghijklmnopqrstuvwxyz"
+    var symbolcase = ZoeBrainFitnessTester.makeSymbolCase()
+    
+    func administerTest(to testSubject: BreederTestSubject) -> (Double, String)? {
         let ts = testSubject as! BreederTestZoeBrain
         let sensoryInput: [Double] = [1, 1, 1, 1, 1]
         guard let outputs = ts.brain.stimulate(inputs: sensoryInput) else { return nil }
@@ -169,28 +170,61 @@ class ZoeBrainFitnessTester: BreederFitnessTester {
         return []
     }
     
-    private func getFitnessScore(for outputs: [Double]) -> Double {
+    private func getFitnessScore(for outputs: [Double]) -> (Double, String) {
         var scoreForTheseOutputs = 0.0
-        
-        var matchIndex: String.Index!
         var whichCase = uppercase
-        
-        for character in zName {
-            if character == " " {
-                whichCase = "ADisgustingHackThatIShouldBePuni shed for"
-                matchIndex = whichCase.firstIndex(of: character)!
-            } else if String().isUppercase(character) {
-                matchIndex = uppercase.firstIndex(of: character)!
+        var resultString = String()
+
+        for (expectedCharacter, ss) in zip(zName, 0...) {
+            var modulo = Int(outputs[ss]) % 26
+            var amodulo = abs(modulo)
+            
+            var inputCharacterValue = UnicodeScalar(amodulo)!.value
+            var inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
+            
+            if String().isUppercase(expectedCharacter) {
                 whichCase = uppercase
-            } else {
-                matchIndex = lowercase.firstIndex(of: character)!
+            } else if String().isLowercase(expectedCharacter) {
                 whichCase = lowercase
+            } else {
+                whichCase = symbolcase
+                modulo = Int(outputs[ss]) % 32
+                amodulo = abs(modulo)
+                inputCharacterValue = UnicodeScalar(amodulo)!.value
+                inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
             }
             
-            let s = whichCase.distance(from: whichCase.startIndex, to: matchIndex)
-            scoreForTheseOutputs += Double(s)
+            inputCharacterValue += UnicodeScalar(String(whichCase.first!))!.value
+            inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
+            
+            // For upper and lowercase, display the letter from the brain outputs.
+            // For symbols -- to catch the " " -- we display greek symbols
+            let displaySymbol = (whichCase == symbolcase) ?
+                UnicodeScalar(inputCharacterValue + UnicodeScalar("\u{03B1}")!.value)! :
+                UnicodeScalar(inputCharacterValue)!
+
+            resultString += String(displaySymbol)
+
+            let zCharOffset = whichCase.firstIndex(of: expectedCharacter)!
+            let iCharOffset = whichCase.firstIndex(of: inputCharacter)!
+            let distance = whichCase.distance(from: zCharOffset, to: iCharOffset)
+            
+            scoreForTheseOutputs += Double(abs(distance)).dTruncate()
         }
         
-        return scoreForTheseOutputs
+        resultString += ": " + String(scoreForTheseOutputs)
+        
+        return (scoreForTheseOutputs, resultString)
+    }
+    
+    private static func makeSymbolCase() -> String{
+        var symbolcase = [Character]()
+        
+        for charCode in 0...32 {    // Closed range; space is code 32
+            let char = Character(UnicodeScalar(charCode)!)
+            symbolcase.append(char)
+        }
+        
+        return String(symbolcase)
     }
 }

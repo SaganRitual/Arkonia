@@ -113,7 +113,7 @@ class Mutator {
     
     private func getRandomCuts(segmentLength: Int) -> (Int, Int) {
         let leftCut = Int.random(in: 0..<segmentLength)
-        let rightCut = getWeightedRandomLogThing(from: leftCut, positiveOnly: true)
+        let rightCut = getWeightedRandomLogThing(from: leftCut, min: 0.0, max: Double(segmentLength))
         return (leftCut, rightCut)
     }
     
@@ -122,6 +122,30 @@ class Mutator {
         
         let (leftCut, rightCut) = getRandomCuts(segmentLength: workingTenome.count)
         return (leftCut, rightCut)
+    }
+    
+    // Big changes happen very rarely, little ones more often
+    func getWeightedRandomLogThing(from startingValue: Int, min min_: Double? = nil, max max_: Double? = nil) -> Int {
+        let min = (min_ == nil) ? -1e10 : min_!
+        let max = (max_ == nil) ? 1e10 : max_!
+        
+        let randomPercentage = Double.random(in: min..<max)
+        if randomPercentage == 0 { return 1 }
+        
+        let d = ((0.001 / randomPercentage) * Double(startingValue)).rounded(.towardZero)
+        
+        return startingValue + Int(d)
+    }
+
+    fileprivate func getWeightedRandomLogThing(from startingValue: Double, min min_: Double? = nil, max max_: Double? = nil) -> Double {
+        let min = (min_ == nil) ? -1e10 : min_!
+        let max = (max_ == nil) ? 1e10 : max_!
+
+        let randomPercentage = Double.random(in: min..<max)
+        if randomPercentage == 0 { return 1 }
+
+        let i = (0.0001 / randomPercentage) * startingValue
+        return startingValue + i
     }
     
     private func getWeightedRandomMutationType() -> MutationType  {
@@ -142,25 +166,7 @@ class Mutator {
         
         fatalError()
     }
-    
-    // Big changes happen very rarely, little ones more often
-    func getWeightedRandomLogThing(from startingValue: Int, positiveOnly: Bool = false) -> Int {
-        let randomPercentage = Double.random(in: -1...1)
-        if randomPercentage == 0 { return 1 }
-        
-        var d = ((0.001 / randomPercentage) * Double(startingValue)).rounded(.towardZero)
-        if positiveOnly { d = abs(d) }
-        
-        return startingValue + Int(d)
-    }
 
-    fileprivate func getWeightedRandomLogThing(from startingValue: Double, positiveOnly: Bool = false) -> Double {
-        let randomPercentage = Double.random(in: -1...1)
-        if randomPercentage == 0 { return 1 }
-        
-        return ((0.0001 / randomPercentage) * startingValue) + startingValue
-    }
-    
     private func insertGenes() {
         for _ in 0...Int.random(in: 0..<10) {
             let insertPoint = Int.random(in: 0...workingTenome.count)    // Note closed range

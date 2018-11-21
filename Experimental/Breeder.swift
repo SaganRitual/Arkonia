@@ -24,6 +24,8 @@ class Breeder: BreederTestSubjectAPI {
     typealias Generation = [BreederTestSubject]
     
     public static var bb = Breeder()
+    public static var howManyTestSubjectsPerGeneration = 100
+    public static var howManyGenerations = 50
 
     private var currentProgenitor: BreederTestSubject!
     private var currentGeneration = Generation()
@@ -43,8 +45,8 @@ class Breeder: BreederTestSubjectAPI {
         var bestBrainSS = currentBestBrainSS
         
         for (ss, testSubject) in zip(0..., self.currentGeneration) {
-            guard let score = self.fitnessTester.administerTest(to: testSubject) else {
-                print("Subject \(ss) did not survive the test")
+            guard let (score, resultString) = self.fitnessTester.administerTest(to: testSubject) else {
+//                print("Subject \(ss) did not survive the test")
                 continue
             }
 
@@ -52,12 +54,16 @@ class Breeder: BreederTestSubjectAPI {
                 (score > bestFitnessScore && aboriginalAncestorHasBestScore) {
                 bestBrainSS = ss; bestFitnessScore = score
                 aboriginalAncestorHasBestScore = false
+                print("\(resultString), child \(bestBrainSS!)")
+                
+//                print((self.currentProgenitor as! BreederTestZoeBrain).genome)
             }
         }
         
         return bestBrainSS
     }
     
+    private static var progressReport = false
     public func breedAndSelect() -> Double {
         guard let testSubjectFactory = self.testSubjectFactory else {
             fatalError("Can't do anything without a factory for test subjects")
@@ -66,7 +72,6 @@ class Breeder: BreederTestSubjectAPI {
         var bestBrainSS: Int? = nil
         var ancestorTakesTheScore = false
 
-//        let oldBestFitnessScore = bestFitnessScore
         if self.currentProgenitor == nil {
             self.currentProgenitor = testSubjectFactory.makeTestSubject()
             self.currentGeneration = [self.currentProgenitor]
@@ -75,24 +80,21 @@ class Breeder: BreederTestSubjectAPI {
             // offspring[0] won the first contest by tying with the
             // progenitor. And this will happen only on the first time
             // through, when we get a nil progenitor.
-            ancestorTakesTheScore = (select(bestBrainSS) != nil)
+            let selectedSubject = select(bestBrainSS)
+            ancestorTakesTheScore = (selectedSubject != nil)
         }
         
-        self.testSubjects = breedOneGeneration(50, from: self.currentProgenitor)
+        self.testSubjects = breedOneGeneration(Breeder.howManyTestSubjectsPerGeneration, from: self.currentProgenitor)
         bestBrainSS = select(bestBrainSS)
         
-        if let best = bestBrainSS, !ancestorTakesTheScore {
+        if let best = bestBrainSS {
+            self.currentProgenitor = self.testSubjects[best]
+        }
+        
+        if let best = bestBrainSS, !ancestorTakesTheScore, Breeder.progressReport {
             let c = self.currentGeneration[best] as! BreederTestZoeBrain
             print("Offspring \(best), fishID = \(c.myFishNumber) wins: score \(self.bestFitnessScore)")
             print(c.genome)
-        } else {
-            print("Progenitor holds title: score \(self.bestFitnessScore)")
-//
-//            if bestFitnessScore == oldBestFitnessScore {
-//                let c = self.currentGeneration[0] as! BreederTestZoeBrain
-//                print("Survived but lost")
-//                print(c.genome)
-//            }
         }
 
         return bestFitnessScore.dTruncate()
@@ -107,6 +109,10 @@ class Breeder: BreederTestSubjectAPI {
         }
         
         return self.currentGeneration
+    }
+    
+    func getBestGenome() -> Genome {
+        return (currentProgenitor as! BreederTestZoeBrain).genome
     }
     
     static func getSensoryInput() -> [Double] {
