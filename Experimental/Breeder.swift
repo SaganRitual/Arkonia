@@ -104,8 +104,9 @@ class Breeder: BreederTestSubjectAPI {
         self.currentGeneration = Generation()
         
         for _ in 0..<howMany {
-            let newTestSubject = currentProgenitor.spawn()
-            self.currentGeneration.append(newTestSubject)
+            if let newTestSubject = currentProgenitor.spawn() {
+                self.currentGeneration.append(newTestSubject)
+            }
         }
         
         return self.currentGeneration

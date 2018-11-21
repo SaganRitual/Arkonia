@@ -34,12 +34,12 @@ protocol BreederTestSubjectAPI {
 
 protocol BreederTestSubjectProtocol {
     static func makeTestSubject() -> BreederTestSubject
-    func spawn() -> BreederTestSubject
+    func spawn() -> BreederTestSubject?
 }
 
 class BreederTestSubject {
     class func makeTestSubject() -> BreederTestSubject { fatalError() }
-    func spawn() -> BreederTestSubject { fatalError() }
+    func spawn() -> BreederTestSubject? { fatalError() }
 }
 
 class BreederTestZoeBrain: BreederTestSubject {
@@ -97,9 +97,11 @@ class BreederTestZoeBrain: BreederTestSubject {
         _ = Breeder.bb.setTestSubjectFactory(TSF())
     }
     
-    override func spawn() -> BreederTestSubject {
+    override func spawn() -> BreederTestSubject? {
         _ = Mutator.m.setInputGenome(genome).mutate()
         let mutatedGenome = Mutator.m.convertToGenome()
+        if mutatedGenome == self.genome { return nil }
+
         let brain = BreederTestZoeBrain.makeBrain(from: mutatedGenome)
         return BreederTestZoeBrain(genome: mutatedGenome, brain: brain)
     }
@@ -122,7 +124,7 @@ class BreederTestSubjectMockBrain: BreederTestSubject {
         _ = Breeder.bb.setTestSubjectFactory(TSF())
     }
     
-    override func spawn() -> BreederTestSubject {
+    override func spawn() -> BreederTestSubject? {
         let n = BreederTestSubjectMockBrain.makeTestSubject() as! BreederTestSubjectMockBrain
         n.myFishNumber = Int.random(in: -10000...10000)
         return n
@@ -174,6 +176,7 @@ class ZoeBrainFitnessTester: BreederFitnessTester {
         var scoreForTheseOutputs = 0.0
         var whichCase = uppercase
         var resultString = String()
+        var previousCharacterValue: Int? = nil
 
         for (expectedCharacter, ss) in zip(zName, 0...) {
             var modulo = Int(outputs[ss]) % 26
@@ -182,6 +185,12 @@ class ZoeBrainFitnessTester: BreederFitnessTester {
             var inputCharacterValue = UnicodeScalar(amodulo)!.value
             var inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
             
+            if let p = previousCharacterValue, inputCharacterValue == p {
+                scoreForTheseOutputs += 20
+            }
+            
+            previousCharacterValue = Int(inputCharacterValue)
+
             if String().isUppercase(expectedCharacter) {
                 whichCase = uppercase
             } else if String().isLowercase(expectedCharacter) {

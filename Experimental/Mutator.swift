@@ -113,7 +113,7 @@ class Mutator {
     
     private func getRandomCuts(segmentLength: Int) -> (Int, Int) {
         let leftCut = Int.random(in: 0..<segmentLength)
-        let rightCut = getWeightedRandomLogThing(from: leftCut, min: 0.0, max: Double(segmentLength))
+        let rightCut = getWeightedRandomLogThing(from: leftCut, min: Double(leftCut), max: Double(segmentLength))
         return (leftCut, rightCut)
     }
     
@@ -126,25 +126,25 @@ class Mutator {
     
     // Big changes happen very rarely, little ones more often
     func getWeightedRandomLogThing(from startingValue: Int, min min_: Double? = nil, max max_: Double? = nil) -> Int {
-        let min = (min_ == nil) ? -1e10 : min_!
-        let max = (max_ == nil) ? 1e10 : max_!
+        let min = (min_ == nil) ? -100 : min_!
+        let max = (max_ == nil) ? 100 : max_!
         
         let randomPercentage = Double.random(in: min..<max)
         if randomPercentage == 0 { return 1 }
         
-        let d = ((0.001 / randomPercentage) * Double(startingValue)).rounded(.towardZero)
+        let d = ((0.01 / randomPercentage) * Double(startingValue)).rounded(.towardZero)
         
         return startingValue + Int(d)
     }
 
     fileprivate func getWeightedRandomLogThing(from startingValue: Double, min min_: Double? = nil, max max_: Double? = nil) -> Double {
-        let min = (min_ == nil) ? -1e10 : min_!
-        let max = (max_ == nil) ? 1e10 : max_!
+        let min = (min_ == nil) ? -100 : min_!
+        let max = (max_ == nil) ? 100 : max_!
 
         let randomPercentage = Double.random(in: min..<max)
         if randomPercentage == 0 { return 1 }
 
-        let i = (0.0001 / randomPercentage) * startingValue
+        let i = (1 / randomPercentage) * startingValue
         return startingValue + i
     }
     
@@ -235,12 +235,24 @@ class Mutator {
         }
         print()
     }
+    
+    private func okToSnip(_ leftCut: Int, _ rightCut: Int) -> Bool {
+        return !(leftCut == 0 && rightCut == 0 || leftCut == rightCut)
+    }
+    
+    private func okToSnip(_ leftCut: Int, _ rightCut: Int, insertPoint: Int) -> Bool {
+        return okToSnip(leftCut, rightCut) &&
+        
+       !((leftCut..<rightCut).contains(insertPoint) || insertPoint == leftCut || insertPoint == rightCut)
+    }
 
     private func snipAndCopySequence() -> Tenome {
         if workingTenome.isEmpty { return workingTenome }
         
         let (leftCut, rightCut) = getRandomSnipRange()
         let insertPoint = Int.random(in: 0..<workingTenome.count)
+
+        if !okToSnip(leftCut, rightCut, insertPoint: insertPoint) { return workingTenome }
         
         var reassembledSlices = [Tegment]()
         reassembledSlices.append(workingTenome[..<insertPoint])
@@ -259,9 +271,9 @@ class Mutator {
         let (leftCut, rightCut) = getRandomSnipRange()
         let insertPoint = Int.random(in: 0..<workingTenome.count)
         
-        if (leftCut..<rightCut).contains(insertPoint) ||
-            insertPoint == leftCut || insertPoint == rightCut
-        { return workingTenome }
+        if !okToSnip(leftCut, rightCut, insertPoint: insertPoint) {
+            return workingTenome
+        }
         
         var reassembledSlices = [Tegment]()
         if insertPoint < leftCut {
@@ -286,7 +298,8 @@ class Mutator {
         
         let (leftCut, rightCut) = getRandomSnipRange()
         let insertPoint = Int.random(in: 0..<workingTenome.count)
-        
+        if !okToSnip(leftCut, rightCut, insertPoint: insertPoint) { return workingTenome }
+
         let theSnippet = Tegment(workingTenome[leftCut..<rightCut].reversed())
         
         var reassembledSlices = [Tegment]()
@@ -304,10 +317,7 @@ class Mutator {
         
         let (leftCut, rightCut) = getRandomSnipRange()
         let insertPoint = Int.random(in: 0..<workingTenome.count)
-        
-        if (leftCut..<rightCut).contains(insertPoint) ||
-            insertPoint == leftCut || insertPoint == rightCut
-        { return workingTenome }
+        if !okToSnip(leftCut, rightCut, insertPoint: insertPoint) { return workingTenome }
         
         let theSnippet = Tegment(workingTenome[leftCut..<rightCut].reversed())
         
