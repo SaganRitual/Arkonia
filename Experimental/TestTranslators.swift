@@ -61,15 +61,19 @@ class Translators: BrainOwnerProtocol {
     static var numberOfSenses = 5
     static var numberOfMotorNeurons = "Zoe Bishop".count
 
-    func setBias(_ value: Double) { brain?.setBias(value) }
-    func setThreshold(_ value: Double) { brain?.setThreshold(value) }
+    func setBias(_ value: ValueDoublet) { brain?.setBias(value) }
+    func setBias(_ baseline: Double, _ value: Double) { brain?.setBias(baseline, value) }
+    func setThreshold(_ value: ValueDoublet) { brain?.setThreshold(value) }
+    func setThreshold(_ baseline: Double, _ value: Double) { brain?.setThreshold(baseline, value) }
 
     var brain: Brain!
     var layers = [Layer]()
     var reachedEndOfStrand: Bool = true
 
     func addActivator(_ active: Bool) { brain?.addActivator(active) }
-    func addWeight(_ weight: Double) { brain?.addWeight(weight) }
+    
+    func addWeight(_ value: ValueDoublet) { brain?.addWeight(value) }
+    func addWeight(_ baseline: Double, _ value: Double) { brain?.addWeight(baseline, value) }
 
     func closeBrain() { self.closeLayer() }
     func closeLayer() { brain?.closeLayer() }

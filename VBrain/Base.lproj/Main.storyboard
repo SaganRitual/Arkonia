@@ -433,9 +433,9 @@
                                                             </items>
                                                         </menu>
                                                     </menuItem>
-                                                    <menuItem title="Baseline" id="OaQ-X3-Vso">
+                                                    <menuItem title="baseline" id="OaQ-X3-Vso">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <menu key="submenu" title="Baseline" id="ijk-EB-dga">
+                                                        <menu key="submenu" title="baseline" id="ijk-EB-dga">
                                                             <items>
                                                                 <menuItem title="Use Default" id="3Om-Ey-2VK">
                                                                     <modifierMask key="keyEquivalentModifierMask"/>
@@ -458,13 +458,13 @@
                                                                 <menuItem title="Raise" id="2h7-ER-AoG">
                                                                     <modifierMask key="keyEquivalentModifierMask"/>
                                                                     <connections>
-                                                                        <action selector="raiseBaseline:" target="Ady-hI-5gd" id="4sk-31-7Q9"/>
+                                                                        <action selector="raisebaseline:" target="Ady-hI-5gd" id="4sk-31-7Q9"/>
                                                                     </connections>
                                                                 </menuItem>
                                                                 <menuItem title="Lower" id="1tx-W0-xDw">
                                                                     <modifierMask key="keyEquivalentModifierMask"/>
                                                                     <connections>
-                                                                        <action selector="lowerBaseline:" target="Ady-hI-5gd" id="OF1-bc-KW4"/>
+                                                                        <action selector="lowerbaseline:" target="Ady-hI-5gd" id="OF1-bc-KW4"/>
                                                                     </connections>
                                                                 </menuItem>
                                                             </items>

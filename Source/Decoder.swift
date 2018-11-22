@@ -47,19 +47,17 @@ class Decoder {
         Decoder.d = self
     }
     
-    var A: Character { return "A" } // Activator -- Bool
-    var B: Character { return "B" } // Generic Bool
-    var D: Character { return "D" } // Generic Double
-    var H: Character { return "H" } // Hox gene
-    var I: Character { return "I" } // Generic Int
-    var L: Character { return "L" } // Layer
-    var N: Character { return "N" } // Neuron
-    var W: Character { return "W" } // Weight -- Double
-    var b: Character { return "b" } // bias as Double
-    var t: Character { return "t" } // threshold as Double
+    var A_: Character { return "A" } // Activator -- Bool
+    var B_: Character { return "B" } // Bias -- Double
+    var F_: Character { return "F" } // Output function -- string
+    var H_: Character { return "H" } // Hox gene
+    var L_: Character { return "L" } // Layer
+    var N_: Character { return "N" } // Neuron
+    var T_: Character { return "T" } // threshold as Double
+    var W_: Character { return "W" } // Weight -- Double
 
     fileprivate var decodeState: DecodeState = .noLayer
-    let recognizedGeneTokens = "ABDILNWbt"
+    let recognizedGeneTokens = "ABHLNTW"
 
     func decode() {
         self.reset()
@@ -121,15 +119,16 @@ extension Decoder {
         let token = tSlice.first!
 
         symbolsConsumed += 2; tSlice = tSlice.dropFirst(2)
-        
+        print(String(tSlice))
         let ixOfCloseParen = tSlice.firstIndex(of: ")")!
         let meatSlice = tSlice[..<ixOfCloseParen]
         
         switch token {
-        case A: Translators.t.addActivator(parseBool(meatSlice))
-        case W: Translators.t.addWeight(parseDouble(meatSlice))
-        case b: Translators.t.setBias(parseDouble(meatSlice))
-        case t: Translators.t.setThreshold(parseDouble(meatSlice))
+        case A_: Translators.t.addActivator(parseBool(meatSlice))
+        case B_: Translators.t.setBias(parseDouble(meatSlice))
+        case F_: break
+        case T_: Translators.t.setThreshold(parseDouble(meatSlice))
+        case W_: Translators.t.addWeight(parseDouble(meatSlice))
         default: print("Decoder says '\(token)' is an unknown token: "); return 2
         }
 
@@ -231,10 +230,17 @@ extension Decoder: ValueParserProtocol {
         }
     }
     
-    func parseDouble(_ slice: GenomeSlice? = nil) -> Double {
-        let s = String(slice!)
-        let n = NSNumber(floatLiteral: Double(s)!)
-        return Double(truncating: n)
+    func parseDouble(_ slice: GenomeSlice? = nil) -> ValueDoublet {
+        // B(b[\d*]v[\d*])_
+        let re = "[BW]\\(b\\[(-?\\d*\\.?\\d*)\\]v\\[(-?\\d*\\.?\\d*)\\]"
+        let values = String(slice!).searchRegex(regex: re)
+        
+        print("huh?", String(slice!), values)
+
+        let baseline = Double(values[0][1])!.dTruncate()
+        let value = Double(values[0][2])!.dTruncate()
+        
+        return ValueDoublet(baseline, value)
     }
     
     func parseInt(_ slice: GenomeSlice? = nil) -> Int { return Int(slice!)! }

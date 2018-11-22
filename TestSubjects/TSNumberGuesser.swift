@@ -146,7 +146,7 @@ class TSNumberGuesserSetup {
                 var active = true
                 for _ in 0..<5 {
                     active = !active
-                    if active { newGenome += "A(true).W(1).b(0).t(5555)." }
+                    if active { newGenome += "A(true).W(b[1]v[1]).B(b[0]v[0]).T(b[5555]v[5555])." }
                     else { newGenome += "A(false)." }
                 }
             }

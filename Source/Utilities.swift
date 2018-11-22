@@ -36,8 +36,8 @@ var W: Character { return "w" } // Weight -- Double
 var b: Character { return "b" } // bias as Double
 var t: Character { return "t" } // threshold as Double
 
-let oneInputPort = "A(true).W(1).b(0).t(99999)."
-let oneBadInputPort = "A(false).W(1).b(0).t(1000000)."
+let oneInputPort = "A(true)_W(b[1]v[0])_B(b[1]v[0])_T(b[1]v[0])_"
+let oneBadInputPort = "A(false)_W(b[1]v[0])_B(b[1]v[0])_T(b[1]v[0])_"
 
 func makeInputPorts(_ howMany: Int, _ good: Bool = true) -> String {
     var theString = String()
@@ -76,22 +76,22 @@ let testGenomes = [
     "L.N." + makeInputPorts(2) + makeInputPorts(8),
     "L.N." + makeInputPorts(1) + makeInputPorts(9),
 
-    "L.N.A(true).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).A(false).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).",
+    "L.N.A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(false).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).",
     
-    "L.N.A(true).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).",
+    "L.N.A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).",
     
-    "L.N.A(true).A(true).W(2).W(2).W(2).b(8).t(8).",
-    "L.N.A(true).A(true).A(true).W(2).W(2).W(1).b(7).t(7).",
+    "L.N.A(true).A(true).W(b[2]v[2]).W(b[2]v[2]).W(b[2]v[2]).B(b[8]v[8]).T(b[8]v[8]).",
+    "L.N.A(true).A(true).A(true).W(b[2]v[2]).W(b[2]v[2]).W(b[1]v[1]).B(b[7]v[7]).T(b[7]v[7]).",
     
     
-    "L.N.A(false).W(1).b(-4).t(2).A(true).W(1).b(-4).t(2).", "L.N.A(true).W(1).W(1).b(-4).t(2).",
+    "L.N.A(false).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).", "L.N.A(true).W(b[1]v[1]).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).",
 
-    "L.N.A(true).A(true).W(1).b(1).t(2).", "L.N.A(true).A(true).W(1).W(1).b(1).t(2)",
-    "L.N.A(true).W(1).A(true).W(1).b(1).t(2).", "L.N.b(1).t(2).A(true).W(1).A(true).W(1).",
+    "L.N.A(true).A(true).W(b[1]v[1]).B(b[1]v[1]).T(b[2]v[2]).", "L.N.A(true).A(true).W(b[1]v[1]).W(b[1]v[1]).B(b[1]v[1]).T(b[2]v[2])",
+    "L.N.A(true).W(b[1]v[1]).A(true).W(b[1]v[1]).B(b[1]v[1]).T(b[2]v[2]).", "L.N.B(b[1]v[1]).T(b[2]v[2]).A(true).W(b[1]v[1]).A(true).W(b[1]v[1]).",
 
-    "L.N.A(true).W(1).b(1).t(100).N.A(true).W(2).b(2).t(100).",
-    "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100).",
-    "L.N.A(false).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).N.A(false).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100)."
+    "L.N.A(true).W(b[1]v[1]).B(b[1]v[1]).T(b[100]v[100]).N.A(true).W(b[2]v[2]).B(b[2]v[2]).T(b[100]v[100]).",
+    "L.N.A(true).W(b[1]v[1]).B(b[1]v[1]).B(b[37]v[37]).T(b[12]v[12]).T(b[1107]v[1107]).N.A(true).W(b[2]v[2]).A(false).W(b[3]v[3]).A(true).W(b[4]v[4]).A(false).W(b[5]v[5]).A(true).W(b[6]v[6]).A(true).B(b[2]v[2]).T(b[100]v[100]).",
+    "L.N.A(false).W(b[1]v[1]).B(b[1]v[1]).B(b[37]v[37]).T(b[12]v[12]).T(b[1107]v[1107]).N.A(true).W(b[2]v[2]).A(false).W(b[3]v[3]).N.A(false).W(b[4]v[4]).A(false).W(b[5]v[5]).A(true).W(b[6]v[6]).A(true).B(b[2]v[2]).T(b[100]v[100])."
 ]
 
 enum Utilities {
@@ -256,13 +256,13 @@ extension Utilities {
 
     static func makeSensesInterface() -> Genome {
         var g = Genome(); g += "L."
-        for _ in 0..<Translators.numberOfSenses { g += "N.A(true).W(1).b(0).t(1000000)." }
+        for _ in 0..<Translators.numberOfSenses { g += "N.A(true).W(b[1]v[1]).B(b[0]v[0]).T(b[1000000]v[1000000])." }
         g += "R."; return g
     }
     
     static func makeOutputsInterface() -> Genome {
         var g = Genome(); g += "R.L."
-        for _ in 0..<Translators.numberOfMotorNeurons { g += "N.A(true).W(1).b(0).t(1000000)." }
+        for _ in 0..<Translators.numberOfMotorNeurons { g += "N.A(true).W(b[1]v[1]).B(b[0]v[0]).T(b[1000000]v[1000000])." }
         return g
     }
     

@@ -22,7 +22,7 @@ import Foundation
 
 protocol ValueParserProtocol {
     func parseBool(_ slice: GenomeSlice?) -> Bool
-    func parseDouble(_ slice: GenomeSlice?) -> Double
+    func parseDouble(_ slice: GenomeSlice?) -> ValueDoublet
     func parseInt(_ slice: GenomeSlice?) -> Int
     func setDefaultInput() -> ValueParserProtocol
 }
@@ -33,15 +33,18 @@ protocol NeuronProtocol {
 
 protocol NeuronOwnerProtocol {
     func addActivator(_ active: Bool)
-    func setBias(_ value: Double)
-    func setThreshold(_ value: Double)
-    func addWeight(_ weight: Double)
+    func addWeight(_ value: ValueDoublet)
+    func addWeight(_ baseline: Double, _ value: Double)
     func closeNeuron()
     func connectNeurons()
     func constructBottomLayer(howManyNeurons: Int, howManyInUpperLayer: Int)
     func constructTopLayer(howManyNeurons: Int)
     func endOfStrand()
     func newNeuron()
+    func setBias(_ value: ValueDoublet)
+    func setBias(_ baseline: Double, _ value: Double)
+    func setThreshold(_ value: ValueDoublet)
+    func setThreshold(_ baseline: Double, _ value: Double)
     func show(tabs: String, override: Bool)
 }
 
@@ -49,16 +52,19 @@ protocol LayerOwnerProtocol {
     var layers: [Translators.Layer] { get set }
 
     func addActivator(_ active: Bool)
-    func setBias(_ value: Double)
-    func addWeight(_ weight: Double)
+    func addWeight(_ value: ValueDoublet)
+    func addWeight(_ baseline: Double, _ value: Double)
     func connectLayers()
     func closeLayer()
     func closeNeuron()
     func endOfStrand()
     func newLayer()
     func newNeuron()
+    func setBias(_ value: ValueDoublet)
+    func setBias(_ baseline: Double, _ value: Double)
     func setInputs(_ inputs: [Int])
-    func setThreshold(_ value: Double)
+    func setThreshold(_ value: ValueDoublet)
+    func setThreshold(_ baseline: Double, _ value: Double)
     func show(tabs: String, override: Bool)
     func stimulate(inputs: [Double]) -> [Double]?
     
@@ -68,8 +74,9 @@ protocol LayerOwnerProtocol {
 protocol BrainOwnerProtocol {
     var reachedEndOfStrand: Bool { get set }
 
-    func addActivator(_ active: Bool)
-    func addWeight(_ weight: Double)
+    func addActivator(_ value: Bool)
+    func addWeight(_ value: ValueDoublet)
+    func addWeight(_ baseline: Double, _ value: Double)
     func closeBrain()
     func closeLayer()
     func closeNeuron()
@@ -79,7 +86,9 @@ protocol BrainOwnerProtocol {
     func newLayer()
     func newNeuron()
     func reset()
-    func setBias(_ value: Double)
-    func setThreshold(_ value: Double)
+    func setBias(_ value: ValueDoublet)
+    func setBias(_ baseline: Double, _ value: Double)
+    func setThreshold(_ value: ValueDoublet)
+    func setThreshold(_ baseline: Double, _ value: Double)
     func show(tabs: String, override: Bool)
 }

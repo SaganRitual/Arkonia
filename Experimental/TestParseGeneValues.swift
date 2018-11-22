@@ -180,7 +180,7 @@ class TestParseGeneValues: ValueParserProtocol {
         return false
     }
 
-    func parseDouble(_ slice: GenomeSlice? = nil) -> Double {
+    func parseDouble(_ slice: GenomeSlice? = nil) -> ValueDoublet {
         for (ss, D) in zip(0..., Ds) {
             let tail = inputGenome[D...].dropFirst(2)
             let paren = tail.firstIndex(of: ")")!
@@ -194,7 +194,7 @@ class TestParseGeneValues: ValueParserProtocol {
             }
         }
         
-        return 0
+        return ValueDoublet()
     }
 
     func parseInt(_ slice: GenomeSlice? = nil) -> Int {

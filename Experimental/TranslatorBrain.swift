@@ -36,8 +36,10 @@ extension Translators {
         }
         
         func addActivator(_ active: Bool) { if let u = underConstruction { u.addActivator(active) } }
-        func addWeight(_ weight: Double) { if let u = underConstruction { u.addWeight(weight) } }
         
+        func addWeight(_ value: ValueDoublet) { if let u = underConstruction { u.addWeight(value) } }
+        func addWeight(_ baseline: Double, _ value: Double) { if let u = underConstruction { u.addWeight(baseline, value) } }
+
         func closeLayer() {
             if let u = underConstruction { layers.append(u); underConstruction = nil }
             else { print("unknown layer?") }
@@ -71,8 +73,12 @@ extension Translators {
         }
         
         func newNeuron() { underConstruction?.newNeuron() }
-        func setBias(_ value: Double) { underConstruction?.setBias(value) }
-        func setThreshold(_ value: Double) { underConstruction?.setThreshold(value) }
+
+        func setBias(_ value: ValueDoublet) { underConstruction?.setBias(value) }
+        func setBias(_ baseline: Double, _ value: Double) { underConstruction?.setBias(baseline, value) }
+
+        func setThreshold(_ value: ValueDoublet) { underConstruction?.setThreshold(value) }
+        func setThreshold(_ baseline: Double, _ value: Double) { underConstruction?.setThreshold(baseline, value) }
         
         func show(tabs: String, override: Bool = false) {
             if Utilities.thereBeNoShowing && !override { return }

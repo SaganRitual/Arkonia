@@ -115,11 +115,14 @@ class FTPassThrough: BreederFitnessTester {
 }
 
 class BrainPassThrough: LayerOwnerProtocol {
+    
     var layers = [Translators.Layer]()
     
     func addActivator(_ active: Bool) { }
-    func setBias(_ value: Double) { }
-    func addWeight(_ weight: Double) { }
+    func setBias(_ value: ValueDoublet) { }
+    func setBias(_ baseline: Double, _ value: Double) { }
+    func addWeight(_ value: ValueDoublet) { }
+    func addWeight(_ baseline: Double, _ value: Double) { }
     func connectLayers() { }
     func closeLayer() { }
     func closeNeuron() { }
@@ -127,7 +130,8 @@ class BrainPassThrough: LayerOwnerProtocol {
     func newLayer() { }
     func newNeuron() { }
     func setInputs(_ inputs: [Int]) { }
-    func setThreshold(_ value: Double) { }
+    func setThreshold(_ value: ValueDoublet) { }
+    func setThreshold(_ baseline: Double, _ value: Double) { }
     func show(tabs: String, override: Bool) { }
     func stimulate(inputs: [Double]) -> [Double]? { return [1] }
     func generateRandomSensoryInput() -> [Double] { return [1] }

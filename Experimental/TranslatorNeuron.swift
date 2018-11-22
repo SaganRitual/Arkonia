@@ -20,11 +20,23 @@
 
 import Foundation
 
+struct ValueDoublet {
+    var baseline: Double, value: Double
+    
+    init() { baseline = 0.0; value = 0.0 }
+    init(_ doublet: ValueDoublet) { self.baseline = doublet.baseline; self.value = doublet.value }
+    init(_ baseline: Double, _ value: Double) { self.baseline = baseline; self.value = value }
+    init(_ baseline: Int, _ value: Int) { self.baseline = Double(baseline); self.value = Double(value) }
+
+    static func ==(_ lhs: ValueDoublet, _ rhs: Double) -> Bool { return lhs.value == rhs }
+    static func !=(_ lhs: ValueDoublet, _ rhs: Double) -> Bool { return !(lhs == rhs) }
+}
+
 extension Translators {
     class Neuron: CustomStringConvertible {
     var activators = [Bool]()
-    var weights = [Double]()
-    var bias: Double?, threshold: Double?
+    var weights = [ValueDoublet]()
+    var bias: ValueDoublet?, threshold: ValueDoublet?
     
     var layerSSInBrain = 0
     var neuronSSInLayer = 0
@@ -47,14 +59,15 @@ extension Translators {
         self.neuronSSInLayer = neuronSSInLayer
     }
     
-    func addWeight(_ weight: Double) { weights.append(weight) }
+    func addWeight(_ value: ValueDoublet) { weights.append(value) }
+    func addWeight(_ baseline: Double, _ value: Double) { weights.append(ValueDoublet(baseline, value)) }
     func addActivator(_ active: Bool) { activators.append(active) }
     
     func endOfStrand() {}
     
     public func output() -> Double {
-        let ws = weightedSum(), b = bias ?? 0, t = threshold ?? 0
-        let biased = ws + b
+        let ws = weightedSum(), b = bias ?? ValueDoublet(0.0, 0.0), t = threshold ?? ValueDoublet(0.0, 0.0)
+        let biased = ws + b.value
         let abiased = abs(biased)
         
         let sign = (biased >= 0) ? 1.0 : -1.0
@@ -64,7 +77,7 @@ extension Translators {
         // threshold value with the wrong sign if ws + b
         // were negative but could trigger t by having a
         // large magnitude.
-        let result = (abiased < abs(t)) ? biased : sign * t
+        let result = (abiased < abs(t.value)) ? biased : sign * t.value
         return result
     }
     
@@ -72,10 +85,11 @@ extension Translators {
         inputPortDescriptors.append(whichUpperLayerNeuron)
         activators.append(true)
         inputPorts.append(0)
-        self.weights.append(1)
+        self.weights.append(ValueDoublet(1, 1))
     }
     
-    func setBias(_ value: Double) { bias = value }
+    func setBias(_ value: ValueDoublet) { bias?.baseline = value.baseline; bias?.value = value.value }
+    func setBias(_ baseline: Double, _ value: Double) { bias?.baseline = baseline; bias?.value = value }
     
     func setInputPorts(howManyInputsAreAvailable: Int) {
         if howManyInputsAreAvailable < 1 { fatalError("Shouldn't be in here if the previous layer has no outputs") }
@@ -103,7 +117,8 @@ extension Translators {
         }
     }
 
-    func setThreshold(_ value: Double) { threshold = value }
+    func setThreshold(_ value: ValueDoublet) { threshold?.baseline = value.baseline; threshold?.value = value.value }
+    func setThreshold(_ baseline: Double, _ value: Double) { threshold?.baseline = baseline; threshold?.value = value }
     
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }
@@ -142,7 +157,7 @@ extension Translators {
                 let ssIntoWeightsArrayCoincidentallyIs = portNumberWhereIGetTheDataFromHim
                 let theWeightValue = weights[ssIntoWeightsArrayCoincidentallyIs]
                 
-                let theWeightedSum = theDataFromHim * theWeightValue
+                let theWeightedSum = theDataFromHim * theWeightValue.value
                 
                 output += theWeightedSum
                 
