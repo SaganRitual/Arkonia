@@ -216,7 +216,7 @@ class ZoeTestSubjectSetup {
     init() {
         newGenome += "L."
         for _ in 0..<numberOfSenses {
-            newGenome += "N.A(true).W(1).b(0).t(5555)."
+            newGenome += "N.A(true).W(b[1]v[1]).B(b[0]v[0]).T(b[5555]v[5555])."
 
         testSubjectFactory =
             TSLearnZoeName.TSF(genome: newGenome, numberOfSenses: numberOfSenses, numberOfMotorNeurons: numberOfMotorNeurons,

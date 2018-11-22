@@ -46,7 +46,7 @@ func controlledConditionsTest() {
 
 
 func testMutator() {
-    let testInput = "L.N.A(true).W(1).b(1).b(37).t(12).t(1107).N.A(true).W(2).A(false).W(3).N.A(true).W(4).A(false).W(5).A(true).W(6).A(true).b(2).t(100)."
+    let testInput = "L.N.A(true).W(b[1]v[1]).B(b[1]v[1]).B(b[37]v[37]).T(b[12]v[12]).T(b[1107]v[1107]).N.A(true).W(b[2]v[2]).A(false).W(b[3]v[3]).N.A(true).W(b[4]v[4]).A(false).W(b[5]v[5]).A(true).W(b[6]v[6]).A(true).B(b[2]v[2]).T(b[100]v[100])."
     
     let wrapped = Utilities.applyInterfaces(to: testInput)
     _ = Mutator.m.setInputGenome(String(wrapped)).mutate()
@@ -116,7 +116,7 @@ func lotsOTests() {
             testTranslators.setBias(0)
             
             for _ in 0..<1 {
-                testTranslators.addWeight(1)
+                testTranslators.addWeighT(b[1]v[1])
             }
             testTranslators.closeNeuron()
         }

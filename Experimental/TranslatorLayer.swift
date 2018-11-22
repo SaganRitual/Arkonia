@@ -34,7 +34,9 @@ class Layer: CustomStringConvertible {
     init(layerSSInBrain: Int) { self.layerSSInBrain = layerSSInBrain }
 
     func addActivator(_ active: Bool) { if let u = underConstruction { u.addActivator(active) } }
-    func addWeight(_ weight: Double) { if let u = underConstruction { u.addWeight(weight) } }
+    
+    func addWeight(_ value: ValueDoublet) { if let u = underConstruction { u.addWeight(value) } }
+    func addWeight(_ baseline: Double, _ value: Double) { if let u = underConstruction { u.addWeight(baseline, value) } }
     
     func closeNeuron() { if let u = underConstruction { neurons.append(u) }; underConstruction = nil }
     
@@ -58,8 +60,11 @@ class Layer: CustomStringConvertible {
     
     func newNeuron() { underConstruction = makeNeuron() }
 
-    func setBias(_ value: Double) { underConstruction?.setBias(value) }
-    func setThreshold(_ value: Double) { underConstruction?.setThreshold(value) }
+    func setBias(_ value: ValueDoublet) { underConstruction?.setBias(value) }
+    func setBias(_ baseline: Double, _ value: Double) { underConstruction?.setBias(baseline, value) }
+
+    func setThreshold(_ value: ValueDoublet) { underConstruction?.setThreshold(value) }
+    func setThreshold(_ baseline: Double, _ value: Double) { underConstruction?.setThreshold(baseline, value) }
     
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }

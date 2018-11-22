@@ -45,7 +45,7 @@ import Foundation
 //
 //newGenome += "L."
 //for _ in 0..<numberOfSenses {
-//    newGenome += "N.A(true).W(1).b(0).t(5555)."
+//    newGenome += "N.A(true).W(b[1]v[1]).B(b[0]v[0]).T(b[5555]v[5555])."
 //}
 //
 //let testSubjectFactory =
@@ -66,5 +66,5 @@ import Foundation
 //while tb.shouldKeepRunning {  }
 //print("Best score \(bestFitnessScore)", Breeder.bb.getBestGenome())
 
-let z = ZoeTestSubjectSetup()
-z.run()
+let g = TSNumberGuesserSetup()
+g.tick()
