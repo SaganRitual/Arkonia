@@ -88,9 +88,9 @@ extension Translators {
         self.weights.append(ValueDoublet(1, 1))
     }
     
-    func setBias(_ value: ValueDoublet) { bias?.baseline = value.baseline; bias?.value = value.value }
-    func setBias(_ baseline: Double, _ value: Double) { bias?.baseline = baseline; bias?.value = value }
-    
+        func setBias(_ bias: ValueDoublet) { self.bias = bias }
+        func setBias(_ baseline: Double, _ value: Double) { bias = ValueDoublet(baseline, value) }
+
     func setInputPorts(howManyInputsAreAvailable: Int) {
         if howManyInputsAreAvailable < 1 { fatalError("Shouldn't be in here if the previous layer has no outputs") }
         
@@ -117,8 +117,8 @@ extension Translators {
         }
     }
 
-    func setThreshold(_ value: ValueDoublet) { threshold?.baseline = value.baseline; threshold?.value = value.value }
-    func setThreshold(_ baseline: Double, _ value: Double) { threshold?.baseline = baseline; threshold?.value = value }
+    func setThreshold(_ threshold: ValueDoublet) { self.threshold = threshold }
+    func setThreshold(_ baseline: Double, _ value: Double) { threshold = ValueDoublet(baseline, value) }
     
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }

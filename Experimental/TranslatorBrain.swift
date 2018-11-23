@@ -35,14 +35,21 @@ extension Translators {
             return Layer(layerSSInBrain: layers.count)
         }
         
-        func addActivator(_ active: Bool) { if let u = underConstruction { u.addActivator(active) } }
+        func addActivator(_ active: Bool) { underConstruction?.addActivator(active) }
         
-        func addWeight(_ value: ValueDoublet) { if let u = underConstruction { u.addWeight(value) } }
-        func addWeight(_ baseline: Double, _ value: Double) { if let u = underConstruction { u.addWeight(baseline, value) } }
+        func addWeight(_ value: ValueDoublet) { underConstruction?.addWeight(value) }
+        func addWeight(_ baseline: Double, _ value: Double) { underConstruction?.addWeight(baseline, value) }
 
         func closeLayer() {
-            if let u = underConstruction { layers.append(u); underConstruction = nil }
-            else { print("unknown layer?") }
+            if let u = underConstruction {
+                closeNeuron()
+                layers.append(u)
+                underConstruction = nil
+//                print("Brain closes layer")
+                return
+            }
+                
+            fatalError("unknown layer?")
         }
         
         func closeNeuron() { underConstruction?.closeNeuron() }
@@ -68,8 +75,9 @@ extension Translators {
         }
         
         func newLayer() {
+            guard underConstruction == nil else { fatalError() }
             underConstruction = makeLayer()
-//            print("Brain creates Layer(\(underConstruction!.myID))")
+//            print("Brain creates Layer(\(underConstruction!))")
         }
         
         func newNeuron() { underConstruction?.newNeuron() }

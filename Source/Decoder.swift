@@ -46,15 +46,6 @@ class Decoder {
         
         Decoder.d = self
     }
-    
-    var A_: Character { return "A" } // Activator -- Bool
-    var B_: Character { return "B" } // Bias -- Double
-    var F_: Character { return "F" } // Output function -- string
-    var H_: Character { return "H" } // Hox gene
-    var L_: Character { return "L" } // Layer
-    var N_: Character { return "N" } // Neuron
-    var T_: Character { return "T" } // threshold as Double
-    var W_: Character { return "W" } // Weight -- Double
 
     fileprivate var decodeState: DecodeState = .noLayer
     public static let recognizedGeneTokens = "ABHLNRTWX"
@@ -105,6 +96,7 @@ class Decoder {
         }
 
         Translators.t.endOfStrand()
+//        Translators.t.getBrain().show(tabs: "", override: true)
     }
     
     func newBrain() { Translators.t.newBrain() }
@@ -124,11 +116,11 @@ extension Decoder {
         let meatSlice = tSlice[..<ixOfCloseParen]
 
         switch token {
-        case A_: Translators.t.addActivator(parseBool(meatSlice))
-        case B_: Translators.t.setBias(parseDouble(meatSlice))
-        case F_: break
-        case T_: Translators.t.setThreshold(parseDouble(meatSlice))
-        case W_: Translators.t.addWeight(parseDouble(meatSlice))
+        case act: Translators.t.addActivator(parseBool(meatSlice))
+        case bis: Translators.t.setBias(parseDouble(meatSlice))
+        case fun: break
+        case thr: Translators.t.setThreshold(parseDouble(meatSlice))
+        case wgt: Translators.t.addWeight(parseDouble(meatSlice))
         default: print("Decoder says '\(token)' is an unknown token: "); return 2
         }
 
@@ -155,6 +147,7 @@ extension Decoder {
             
         case ifm:
             decodeState = .noLayer
+            Translators.t.closeLayer()
             return 2
             
         case "X":
@@ -186,6 +179,7 @@ extension Decoder {
             
         case ifm:
             decodeState = .noLayer
+            Translators.t.closeLayer()
             return 2
 
         default:
@@ -213,8 +207,9 @@ extension Decoder {
             
         case ifm:
             decodeState = .noLayer
+            Translators.t.closeLayer()
             return 2
-            
+
         default:
             return dispatchValueGene(slice)
         }

@@ -130,8 +130,8 @@ class TSNumberGuesserSetup {
         }
     }
 
-    let numberOfSenses = 1
-    let numberOfMotorNeurons = 1
+    let numberOfSenses = 5
+    let numberOfMotorNeurons = 5
     let numberOfGenerations = 100
     let numberOfTestSubjectsPerGeneration = 100
 
@@ -141,12 +141,12 @@ class TSNumberGuesserSetup {
     init() {
         for _ in 0..<5 {
             newGenome += "L_"
-            for _ in 0..<3 {
+            for _ in 0..<numberOfSenses {
                 newGenome += "N_"
                 var active = true
                 for _ in 0..<5 {
                     active = !active
-                    if active { newGenome += "A(true)_W(b[1]v[1])_B(b[100]v[0])_T(b[5555]v[5555])_" }
+                    if active { newGenome += "A(true)_W(b[1]v[11])_B(b[1]v[12])_T(b[1]v[17])_" }
                     else { newGenome += "A(false)_" }
                 }
             }

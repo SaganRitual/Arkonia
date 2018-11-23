@@ -48,9 +48,13 @@ class Tene {
         if self.value.first! == "t" || self.value.first! == "f" {
             self.value = String(Bool.random()); return
         }
+        
+        let b = Mutator.m.getWeightedRandomLogThing(from: Double(self.baseline)!)
+        self.baseline = String(b.dTruncate())
 
-        self.value = String(Mutator.m.getWeightedRandomLogThing(from: Double(self.value)!).dTruncate())
-        self.baseline = String(Mutator.m.getWeightedRandomLogThing(from: Double(self.baseline)!).dTruncate())
+        let v = Mutator.m.getWeightedRandomLogThing(from: Double(self.value)!)
+        if abs(v) < abs(b) { self.value = self.baseline }
+        else { self.value = String(v.dTruncate()) }
     }
 }
 

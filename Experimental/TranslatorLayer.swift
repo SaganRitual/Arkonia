@@ -33,10 +33,10 @@ class Layer: CustomStringConvertible {
 
     init(layerSSInBrain: Int) { self.layerSSInBrain = layerSSInBrain }
 
-    func addActivator(_ active: Bool) { if let u = underConstruction { u.addActivator(active) } }
+    func addActivator(_ active: Bool) { underConstruction?.addActivator(active) }
     
-    func addWeight(_ value: ValueDoublet) { if let u = underConstruction { u.addWeight(value) } }
-    func addWeight(_ baseline: Double, _ value: Double) { if let u = underConstruction { u.addWeight(baseline, value) } }
+    func addWeight(_ value: ValueDoublet) { underConstruction?.addWeight(value) }
+    func addWeight(_ baseline: Double, _ value: Double) { underConstruction?.addWeight(baseline, value) }
     
     func closeNeuron() { if let u = underConstruction { neurons.append(u) }; underConstruction = nil }
     

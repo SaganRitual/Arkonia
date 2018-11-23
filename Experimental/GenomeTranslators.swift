@@ -20,20 +20,28 @@
 
 import Foundation
 
-// Genome display during decode
+//// Genome display during decode
 //class Translators: BrainOwnerProtocol {
 //    static let t = Translators()
 //
-//    static let numberOfSenses = 5
-//    static let numberOfMotorNeurons = "Zoe Bishop".count
+//    static var numberOfSenses = 5
+//    static var numberOfMotorNeurons = 5// "Zoe Bishop".count
 //
-//    func setBias(_ value: Double) { print("b(\(value.sTruncate())).", terminator: "") }
-//    func setThreshold(_ value: Double) { print("t(\(value.sTruncate())).", terminator: "") }
+//    func setBias(_ value: ValueDoublet) { print("B(\(value))).", terminator: "") }
+//    func setBias(_ baseline: Double, _ value: Double)
+//        { setBias(ValueDoublet(baseline, value)) }
+//
+//    func setThreshold(_ value: ValueDoublet) { print("T(\(value)).", terminator: "") }
+//    func setThreshold(_ baseline: Double, _ value: Double)
+//        { setThreshold(ValueDoublet(baseline, value)) }
 //
 //    var reachedEndOfStrand: Bool = true
 //
 //    func addActivator(_ active: Bool) { print("\n\t\t\tA(\(String(active))).", terminator: "") }
-//    func addWeight(_ weight: Double) {  print("W(\(weight.sTruncate())).", terminator: "") }
+//
+//    func addWeight(_ value: ValueDoublet) {  print("W(\(value)).", terminator: "") }
+//    func addWeight(_ baseline: Double, _ value: Double)
+//        { addWeight(ValueDoublet(baseline, value)) }
 //
 //    func closeBrain() {  }
 //    func closeLayer() { print() }
@@ -61,23 +69,23 @@ class Translators: BrainOwnerProtocol {
     static var numberOfSenses = 5
     static var numberOfMotorNeurons = "Zoe Bishop".count
 
-    func setBias(_ value: ValueDoublet) { brain?.setBias(value) }
-    func setBias(_ baseline: Double, _ value: Double) { brain?.setBias(baseline, value) }
-    func setThreshold(_ value: ValueDoublet) { brain?.setThreshold(value) }
-    func setThreshold(_ baseline: Double, _ value: Double) { brain?.setThreshold(baseline, value) }
+    func setBias(_ value: ValueDoublet) { brain.setBias(value) }
+    func setBias(_ baseline: Double, _ value: Double) { brain.setBias(baseline, value) }
+    func setThreshold(_ value: ValueDoublet) { brain.setThreshold(value) }
+    func setThreshold(_ baseline: Double, _ value: Double) { brain.setThreshold(baseline, value) }
 
     var brain: Brain!
     var layers = [Layer]()
     var reachedEndOfStrand: Bool = true
 
-    func addActivator(_ active: Bool) { brain?.addActivator(active) }
-    
-    func addWeight(_ value: ValueDoublet) { brain?.addWeight(value) }
+    func addActivator(_ active: Bool) { brain.addActivator(active) }
+
+    func addWeight(_ value: ValueDoublet) { brain.addWeight(value) }
     func addWeight(_ baseline: Double, _ value: Double) { brain?.addWeight(baseline, value) }
 
     func closeBrain() { self.closeLayer() }
-    func closeLayer() { brain?.closeLayer() }
-    func closeNeuron() { brain?.closeNeuron() }
+    func closeLayer() { brain.closeLayer() }
+    func closeNeuron() { brain.closeNeuron() }
 
     func connectLayers() { brain?.connectLayers() }
 

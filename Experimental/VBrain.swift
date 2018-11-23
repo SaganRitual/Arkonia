@@ -147,7 +147,7 @@ extension VBrain {
                     gameScene.addChild(s)
                 }
                 
-                let b = SKLabelNode(text: "b(\(neuron.bias?.value%% ?? "<nil>"))")
+                let b = SKLabelNode(text: "B(\(neuron.bias?.value%% ?? "<nil>"))")
                 b.position = vNeuron.position
                 b.fontSize = 16
                 b.fontName = "Courier New"
@@ -156,7 +156,7 @@ extension VBrain {
                 startingY += b.frame.height
                 gameScene.addChild(b)
                 
-                let t = SKLabelNode(text: "t(\(neuron.threshold?.value%% ?? "<nil>"))")
+                let t = SKLabelNode(text: "T(\(neuron.threshold?.value%% ?? "<nil>"))")
                 t.position = vNeuron.position
                 t.fontSize = 16
                 t.fontName = "Courier New"

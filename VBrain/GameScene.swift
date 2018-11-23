@@ -144,10 +144,10 @@ class GameScene: SKScene {
     var whichGenome = 1
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
-        if frameCount < 15 { return }
+        if frameCount < 60 { return }
         frameCount = 0
         
-        for _ in 0..<4 { self.testSubjectSetup.tick() }
+        for _ in 0..<1 { self.testSubjectSetup.tick() }
         decoder.setInput(to: Breeder.bb.getBestGenome()).decode()
         self.brain = Translators.t.getBrain()
         vBrain = VBrain(gameScene: self, brain: self.brain)
