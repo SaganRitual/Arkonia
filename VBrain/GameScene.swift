@@ -34,7 +34,7 @@ class GameScene: SKScene {
     var generationSS = 0
     var firstUpdate = true
     var update = true
-//    var genome = "B(b[42]v[42]).W(b[-0.71562]v[-0.71562]).W(b[-33.21311]v[-33.21311]).N.A(false).W(b[-76.33163]v[-76.33163]).A(false).W(b[-17.40379]v[-17.40379]).T(b[-20.08699]v[-20.08699]).A(true).T(b[-49.80827]v[-49.80827]).W(b[-88.31035]v[-88.31035]).T(b[-66.83028]v[-66.83028]).N.A(false).A(false).L.B(b[87.97370]v[87.97370]).A(true).N.T(b[-47.82303]v[-47.82303])."
+//    var genome = "B(b[42]v[42])_W(b[-0.71562]v[-0.71562])_W(b[-33.21311]v[-33.21311])_N_A(false)_W(b[-76.33163]v[-76.33163])_A(false)_W(b[-17.40379]v[-17.40379])_T(b[-20.08699]v[-20.08699])_A(true)_T(b[-49.80827]v[-49.80827])_W(b[-88.31035]v[-88.31035])_T(b[-66.83028]v[-66.83028])_N_A(false)_A(false)_L_B(b[87.97370]v[87.97370])_A(true)_N_T(b[-47.82303]v[-47.82303])_"
     var frameCount = 0
     var currentGeneration = [Genome]()
     var selection = [Genome]()

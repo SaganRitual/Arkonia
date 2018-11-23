@@ -55,6 +55,7 @@
 		D4C957C821A5D33600AF0CF6 /* BreederTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BD21A3BEA700AF0CF6 /* BreederTestSubject.swift */; };
 		D4C957C921A5D34800AF0CF6 /* RandomnessGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */; };
 		D4C957CA21A5D35B00AF0CF6 /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C421A51D5700AF0CF6 /* TSNumberGuesser.swift */; };
+		D4FBB7BF21A7863400722AFF /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41BA59E21A36851009A2648 /* RepeatingTimer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -482,6 +483,7 @@
 				D4029F2221A2006C00BDDB7A /* TranslatorLayer.swift in Sources */,
 				D4029F2421A2007400BDDB7A /* Protocols.swift in Sources */,
 				D48AB37B219DE4A800624000 /* Decoder.swift in Sources */,
+				D4FBB7BF21A7863400722AFF /* RepeatingTimer.swift in Sources */,
 				D48AB383219E484000624000 /* Utilities.swift in Sources */,
 				D48AB379219DDFC900624000 /* VBrain.swift in Sources */,
 				D48AB386219E718600624000 /* Mutator.swift in Sources */,

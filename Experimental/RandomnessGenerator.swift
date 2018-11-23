@@ -33,7 +33,7 @@ enum RandomnessGenerator {
     static func generateRandomGene() -> String {
         // The map is so we can weight the gene types differently, so we
         // don't end up with one neuron per layer, or something silly like that.
-        let geneSelector = [A : 10, L : 1, N : 3, W : 10, b : 8, t : 8]
+        let geneSelector = [act : 10, bis : 5, lay : 1, neu : 3, thr : 5, wgt : 10]
         
         var weightedGeneSelector: [Character] = {
             var t = [Character]()
@@ -47,12 +47,13 @@ enum RandomnessGenerator {
         let geneType = weightedGeneSelector[geneSS]
         
         switch geneType {
-        case A: return "A(\(Bool.random()))."
-        case L: return "L."
-        case N: return "N."
-        case W: return "W(\(Double.random(in: -100...100).sTruncate()))."
-        case b: return "b(\(Double.random(in: -100...100).sTruncate()))."
-        case t: return "t(\(Double.random(in: -100...100).sTruncate()))."
+        case act: return "A(\(Bool.random()))_"
+        case bis: return "B(b[\(Double.random(in: -100...100).sTruncate())]v[\(Double.random(in: -100...100).sTruncate())])_"
+        case fun: return RandomnessGenerator.getRandomOutputFunction()
+        case lay: return layb
+        case neu: return neub
+        case thr: return "T(b[\(Double.random(in: -100...100).sTruncate())]v[\(Double.random(in: -100...100).sTruncate())])_"
+        case wgt: return "W(b[\(Double.random(in: -100...100).sTruncate())]v[\(Double.random(in: -100...100).sTruncate())])_"
         default: fatalError()
         }
     }
@@ -61,5 +62,17 @@ enum RandomnessGenerator {
         var newGenome = Genome()
         for _ in 0..<howManyGenes { newGenome += generateRandomGene() }
         return newGenome
+    }
+    
+    enum OutputFunctionName: String {
+        case linear = "linear", tanh = "tanh", logistic = "logistic"
+    }
+    
+    static let outputFunctions = [
+        OutputFunctionName.linear, OutputFunctionName.tanh, OutputFunctionName.logistic
+    ]
+    
+    static func getRandomOutputFunction() -> String {
+        return outputFunctions[Int.random(in: 0..<outputFunctions.count)].rawValue
     }
 }

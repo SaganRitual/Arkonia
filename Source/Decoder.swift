@@ -57,7 +57,7 @@ class Decoder {
     var W_: Character { return "W" } // Weight -- Double
 
     fileprivate var decodeState: DecodeState = .noLayer
-    let recognizedGeneTokens = "ABHLNTW"
+    public static let recognizedGeneTokens = "ABHLNRTWX"
 
     func decode() {
         self.reset()
@@ -67,7 +67,7 @@ class Decoder {
         var slice = Utilities.applyInterfaces(to: inputGenome)
         
         let skipBadTokens = { (_ slice: GenomeSlice) -> GenomeSlice.Index in
-            if let r = slice.firstIndex(where: { return self.recognizedGeneTokens.contains($0) }) {
+            if let r = slice.firstIndex(where: { return Decoder.recognizedGeneTokens.contains($0) }) {
                 return r
             } else {
                 self.decodeState = .endOfStrand
@@ -79,7 +79,7 @@ class Decoder {
         let discardAnyGarbage = { (_ slice: GenomeSlice) -> GenomeSlice.Index in
             guard let s = slice.first else { return slice.endIndex }
             
-            if self.recognizedGeneTokens.contains(s) { return slice.startIndex }
+            if Decoder.recognizedGeneTokens.contains(s) { return slice.startIndex }
             else { return skipBadTokens(slice) }
         }
 
@@ -119,10 +119,10 @@ extension Decoder {
         let token = tSlice.first!
 
         symbolsConsumed += 2; tSlice = tSlice.dropFirst(2)
-        print(String(tSlice))
+
         let ixOfCloseParen = tSlice.firstIndex(of: ")")!
         let meatSlice = tSlice[..<ixOfCloseParen]
-        
+
         switch token {
         case A_: Translators.t.addActivator(parseBool(meatSlice))
         case B_: Translators.t.setBias(parseDouble(meatSlice))
@@ -142,18 +142,22 @@ extension Decoder {
     func dispatch_noLayer(_ slice: GenomeSlice) -> Int {
         guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
-        case L:
+        case lay:
             decodeState = .inLayer
             Translators.t.newLayer()
             return 2
             
-        case N:
+        case neu:
             decodeState = .inNeuron
             Translators.t.newLayer()
             Translators.t.newNeuron()
             return 2
             
-        case "R":
+        case ifm:
+            decodeState = .noLayer
+            return 2
+            
+        case "X":
             decodeState = .noLayer
             return 2
 
@@ -169,15 +173,19 @@ extension Decoder {
     func dispatch_inLayer(_ slice: GenomeSlice) -> Int {
         guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
-        case L:
+        case lay:
             // Got another layer marker, but it would
             // cause this one to be empty. Just ignore it.
             decodeState = .inLayer
             return 2
             
-        case N:
+        case neu:
             decodeState = .inNeuron
             Translators.t.newNeuron()
+            return 2
+            
+        case ifm:
+            decodeState = .noLayer
             return 2
 
         default:
@@ -190,17 +198,21 @@ extension Decoder {
     func dispatch_inNeuron(_ slice: GenomeSlice) -> Int {
         guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
-        case L:
+        case lay:
             decodeState = .inLayer
             Translators.t.closeNeuron()
             Translators.t.closeLayer()
             Translators.t.newLayer()
             return 2
             
-        case N:
+        case neu:
             decodeState = .inNeuron
             Translators.t.closeNeuron()
             Translators.t.newNeuron()
+            return 2
+            
+        case ifm:
+            decodeState = .noLayer
             return 2
             
         default:
@@ -231,14 +243,10 @@ extension Decoder: ValueParserProtocol {
     }
     
     func parseDouble(_ slice: GenomeSlice? = nil) -> ValueDoublet {
-        // B(b[\d*]v[\d*])_
-        let re = "[BW]\\(b\\[(-?\\d*\\.?\\d*)\\]v\\[(-?\\d*\\.?\\d*)\\]"
-        let values = String(slice!).searchRegex(regex: re)
-        
-        print("huh?", String(slice!), values)
+        let values = Utilities.getRawComponentSet(for: slice!)
 
-        let baseline = Double(values[0][1])!.dTruncate()
-        let value = Double(values[0][2])!.dTruncate()
+        let baseline = Double(values[ParseSubscript.stubbleBaseline.rawValue])!.dTruncate()
+        let value = Double(values[ParseSubscript.stubbleValue.rawValue])!.dTruncate()
         
         return ValueDoublet(baseline, value)
     }

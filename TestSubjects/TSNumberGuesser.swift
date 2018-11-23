@@ -140,14 +140,14 @@ class TSNumberGuesserSetup {
     
     init() {
         for _ in 0..<5 {
-            newGenome += "L."
+            newGenome += "L_"
             for _ in 0..<3 {
-                newGenome += "N."
+                newGenome += "N_"
                 var active = true
                 for _ in 0..<5 {
                     active = !active
-                    if active { newGenome += "A(true).W(b[1]v[1]).B(b[0]v[0]).T(b[5555]v[5555])." }
-                    else { newGenome += "A(false)." }
+                    if active { newGenome += "A(true)_W(b[1]v[1])_B(b[100]v[0])_T(b[5555]v[5555])_" }
+                    else { newGenome += "A(false)_" }
                 }
             }
         }
@@ -162,8 +162,17 @@ class TSNumberGuesserSetup {
         self.testBreeder = TestBreeder()
     }
     
+    func run() {
+        let v = RepeatingTimer(timeInterval: 0.1)
+        var bestFitnessScore = 0.0
+        v.eventHandler = { bestFitnessScore = self.testBreeder.select() }
+        v.resume()
+        while testBreeder.shouldKeepRunning {  }
+        print("Best score \(bestFitnessScore)", Breeder.bb.getBestGenome())
+    }
+    
     func tick() {
-        _ = self.testBreeder.select()
+        _ = testBreeder.select()
     }
 }
 

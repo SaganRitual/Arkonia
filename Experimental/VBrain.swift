@@ -136,7 +136,7 @@ extension VBrain {
                 var startingY: CGFloat = 0.0
                 for ss in 0..<neuron.weights.count {
                     let w = neuron.weights[ss]
-                    let s = SKLabelNode(text: "W(\(ss)) \(w.sTruncate())")
+                    let s = SKLabelNode(text: "W(\(ss)) \(w.value)")
 
                     s.position = vNeuron.position
                     s.fontSize = 16
@@ -147,7 +147,7 @@ extension VBrain {
                     gameScene.addChild(s)
                 }
                 
-                let b = SKLabelNode(text: "b(\(neuron.bias?.sTruncate() ?? "<nil>"))")
+                let b = SKLabelNode(text: "b(\(neuron.bias?.value%% ?? "<nil>"))")
                 b.position = vNeuron.position
                 b.fontSize = 16
                 b.fontName = "Courier New"
@@ -156,7 +156,7 @@ extension VBrain {
                 startingY += b.frame.height
                 gameScene.addChild(b)
                 
-                let t = SKLabelNode(text: "t(\(neuron.threshold?.sTruncate() ?? "<nil>"))")
+                let t = SKLabelNode(text: "t(\(neuron.threshold?.value%% ?? "<nil>"))")
                 t.position = vNeuron.position
                 t.fontSize = 16
                 t.fontName = "Courier New"

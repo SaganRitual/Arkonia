@@ -9,4 +9,4 @@ graveyard/
 xcshareddata/
 *.app
 DerivedData*
-
+*.playground
