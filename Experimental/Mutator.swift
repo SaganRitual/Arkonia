@@ -31,19 +31,26 @@ class Tene {
     let components = Array<String>()
     let token: Character
     var value: String
+    var baseline: String
     
     var description: String { get {
-        if token == L || token == N { return "MarkerGene: \(token)" }
-        else { return "\(token) gene: \(value)" }
+        if token == lay || token == neu { return "MarkerGene: \(token)" }
+        else { return "\(token) gene: \(value) baseline: \(baseline)" }
     }}
     
-    init(_ token: String, value: String) { self.token = Character(token); self.value = value }
+    init(_ token: String, value: String, baseline: String = "") {
+        self.token = token.first!; self.value = value; self.baseline = baseline
+    }
+
     func mutate() {
+        if [lay, neu, ifm].contains(self.token) { return }
+        
         if self.value.first! == "t" || self.value.first! == "f" {
             self.value = String(Bool.random()); return
         }
 
         self.value = String(Mutator.m.getWeightedRandomLogThing(from: Double(self.value)!).dTruncate())
+        self.baseline = String(Mutator.m.getWeightedRandomLogThing(from: Double(self.baseline)!).dTruncate())
     }
 }
 
@@ -53,22 +60,6 @@ class Mutator {
     var e = Translators.t
     var inputGenome: Genome?
     var workingTenome = Tenome()
-    
-    func setInputGenome(_ inputGenome: Genome) -> Mutator {
-        self.inputGenome = Utilities.stripInterfaces(from: inputGenome)
-        let rawComponentSets = Mutator.getRawComponentSets(for: self.inputGenome!)
-        workingTenome = Tenome()
-
-        for rawComponentSet in rawComponentSets {
-            let literalMatch = String(rawComponentSet[0])
-            let token = (rawComponentSet.count > 1) ? Character(rawComponentSet[1]) : literalMatch.first!
-            let value = (rawComponentSet.count > 2) ? rawComponentSet[2] : "<nil>"
-
-            workingTenome.append(Tene(String(token), value: value))
-        }
-        
-        return Mutator.m
-    }
     
     enum MutationType: Int {
         case insertRandom, insertSequence, deleteRandom, deleteSequence,
@@ -82,11 +73,20 @@ class Mutator {
         var genome = Genome()
         
         for tene in workingTenome {
-            if tene.token == L || tene.token == N {
-                genome += String(tene.token) + "."
-            } else {
-                genome += String(tene.token) + "(" + tene.value + ")."
+            if tene.token == lay || tene.token == neu {
+                genome += String(tene.token) + "_"
+                continue
             }
+            
+            genome += String(tene.token) + "("
+            
+            if (bis ++ thr ++ wgt).contains(tene.token) {
+                genome += "b[\(tene.baseline)]v[\(tene.value)]"
+            } else if tene.token == act {
+                genome += tene.value
+            }
+            
+            genome += ")_"
         }
         
         return genome
@@ -227,6 +227,42 @@ class Mutator {
         }
     }
     
+    private func okToSnip(_ leftCut: Int, _ rightCut: Int) -> Bool {
+        return !(leftCut == 0 && rightCut == 0 || leftCut == rightCut)
+    }
+    
+    private func okToSnip(_ leftCut: Int, _ rightCut: Int, insertPoint: Int) -> Bool {
+        return okToSnip(leftCut, rightCut) &&
+            
+            !((leftCut..<rightCut).contains(insertPoint) || insertPoint == leftCut || insertPoint == rightCut)
+    }
+
+    func setInputGenome(_ inputGenome: Genome) -> Mutator {
+        self.inputGenome = Utilities.stripInterfaces(from: inputGenome)
+        let rawComponentSets = Utilities.getRawComponentSets(for: self.inputGenome!)
+        workingTenome = Tenome()
+        
+        for rawComponentSet in rawComponentSets {
+            let token = String(rawComponentSet[0])
+            
+            if token.first! == act
+                { workingTenome.append(Tene(token, value: rawComponentSet[1])); continue }
+            
+            if token.first! == neu || token.first! == lay
+                { workingTenome.append(Tene(token, value: "")); continue }
+            
+            var r = ParseSubscript.stubbleBaseline.rawValue
+            let baseline = rawComponentSet[r]
+
+            r = ParseSubscript.stubbleValue.rawValue
+            let value = rawComponentSet[r]
+            
+            workingTenome.append(Tene(String(token), value: value, baseline: baseline))
+        }
+        
+        return Mutator.m
+    }
+
     func show(_ tenome: Tenome) {
         var separator = ""
         for tene in tenome {
@@ -234,16 +270,6 @@ class Mutator {
             separator = ", "
         }
         print()
-    }
-    
-    private func okToSnip(_ leftCut: Int, _ rightCut: Int) -> Bool {
-        return !(leftCut == 0 && rightCut == 0 || leftCut == rightCut)
-    }
-    
-    private func okToSnip(_ leftCut: Int, _ rightCut: Int, insertPoint: Int) -> Bool {
-        return okToSnip(leftCut, rightCut) &&
-        
-       !((leftCut..<rightCut).contains(insertPoint) || insertPoint == leftCut || insertPoint == rightCut)
     }
 
     private func snipAndCopySequence() -> Tenome {
@@ -342,19 +368,13 @@ class Mutator {
 }
 
 extension Mutator {
-    static func generateRandomTene() -> Tene {
+    private static func generateRandomTene() -> Tene {
         let gene = RandomnessGenerator.generateRandomGene()
-        let rawComponentSets = getRawComponentSets(for: gene)
-        let rawComponentSet = rawComponentSets[0]
-        let literalMatch = rawComponentSet[0]
-        let token = rawComponentSet.count > 1 ? Character(rawComponentSet[1]) : literalMatch.first!
-        let value = rawComponentSet.count > 2 ? String(rawComponentSet[2]) : "V"
+        let rawComponentSets = Utilities.getRawComponentSets(for: gene)
+        var rawComponentSet = rawComponentSets[0]
+        let literalMatch = rawComponentSet.removeFirst()
+        let token = (rawComponentSet.isEmpty) ? literalMatch : rawComponentSet.removeFirst()
+        let value = (rawComponentSet.isEmpty) ? "V" : rawComponentSet.removeFirst()
         return Tene(String(token), value: value)
-    }
-    
-    static func getRawComponentSets(for genome: Genome) -> [[String]] {
-        let rawDataParse = "[LN]\\.|([ABDIWbt])\\(([^\\(]*)\\)\\."
-        let rawComponentSets = genome.searchRegex(regex: rawDataParse)
-        return rawComponentSets
     }
 }

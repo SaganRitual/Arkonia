@@ -10,4 +10,4 @@ xcshareddata/
 *playground/
 *.app
 DerivedData*
-
+*.playground

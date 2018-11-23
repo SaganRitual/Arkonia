@@ -23,31 +23,31 @@ import Foundation
 // All of these inputs should produce only one empty layer
 enum TestDecoderInput {
     static let oneEmptyLayerStrands = [
-        "L.",
+        "L_",
         
-        "L.I(0).",
-        "L.I(1).",
-        "L.I(2).",
-        "L.I(3).",
-        "L.I(4).",
+        "L_I(0).",
+        "L_I(1).",
+        "L_I(2).",
+        "L_I(3).",
+        "L_I(4).",
         
-        "L.N.",
-        "L.I(0).N.",
+        "L_N_",
+        "L_I(0).N_",
         
-        "L.N.I(0).",
-        "L.N.I(1).",
-        "L.N.I(2).",
-        "L.N.I(3).",
-        "L.N.I(4).",
+        "L_N_I(0).",
+        "L_N_I(1).",
+        "L_N_I(2).",
+        "L_N_I(3).",
+        "L_N_I(4).",
         
-        "L.N.I(0).N.",
-        "L.N.I(1).N.",
-        "L.N.I(2).N.",
-        "L.N.I(3).N.",
-        "L.N.I(4).N.",
+        "L_N_I(0).N_",
+        "L_N_I(1).N_",
+        "L_N_I(2).N_",
+        "L_N_I(3).N_",
+        "L_N_I(4).N_",
         
-        "L.N.N.",
-        "L.N.N.N.N.N.",
-        "L.I(0).I(1).I(0).N.N.N.N.N."
+        "L_N_N_",
+        "L_N_N_N_N_N_",
+        "L_I(0).I(1).I(0).N_N_N_N_N_"
     ]
 }

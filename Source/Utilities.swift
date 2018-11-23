@@ -25,19 +25,32 @@ typealias Genome = String
 typealias GenomeSlice = Substring
 typealias GenomeIndex = String.Index
 
-var A: Character { return "A" } // Activator -- Bool
-var B: Character { return "B" } // Generic Bool
-var D: Character { return "D" } // Generic Double
-var H: Character { return "H" } // Hox gene
-var I: Character { return "I" } // Generic Int
-var L: Character { return "L" } // Layer
-var N: Character { return "N" } // Neuron
-var W: Character { return "w" } // Weight -- Double
-var b: Character { return "b" } // bias as Double
-var t: Character { return "t" } // threshold as Double
+var act: Character { return "A" } // Activator -- Bool
+var bis: Character { return "B" } // Bias -- Stubble
+var fun: Character { return "F" } // Function -- string
+var hox: Character { return "H" } // Hox gene -- haven't worked out the type yet
+var lay: Character { return "L" } // Layer
+var neu: Character { return "N" } // Neuron
+var thr: Character { return "T" } // Threshold -- Stubble
+var ifm: Character { return "R" } // Interface marker
+var wgt: Character { return "W" } // Weight -- Stubble
+
+var actb: String { return "A_" } // Activator -- Bool
+var bisb: String { return "B_" } // Bias -- Stubble
+var funb: String { return "F_" } // Function -- string
+var hoxb: String { return "H_" } // Hox gene -- haven't worked out the type yet
+var layb: String { return "L_" } // Layer
+var neub: String { return "N_" } // Neuron
+var thrb: String { return "T_" } // Threshold -- Stubble
+var ifmb: String { return "R_" } // Interface marker
+var wgtb: String { return "W_" } // Weight -- Stubble
 
 let oneInputPort = "A(true)_W(b[1]v[0])_B(b[1]v[0])_T(b[1]v[0])_"
 let oneBadInputPort = "A(false)_W(b[1]v[0])_B(b[1]v[0])_T(b[1]v[0])_"
+
+enum ParseSubscript: Int {
+    case stubbleBaseline = 1, stubbleValue = 2
+}
 
 func makeInputPorts(_ howMany: Int, _ good: Bool = true) -> String {
     var theString = String()
@@ -53,52 +66,128 @@ func makeBadInputPorts(_ howMany: Int) -> String {
 
 let testGenomes = [
     // One layer, one neuron, increasing numbers of input ports
-    "L.N." + makeInputPorts(1),
-    "L.N." + makeInputPorts(2),
-    "L.N." + makeInputPorts(3),
-    "L.N." + makeInputPorts(4),
-    "L.N." + makeInputPorts(5),
+    "L_N_" + makeInputPorts(1),
+    "L_N_" + makeInputPorts(2),
+    "L_N_" + makeInputPorts(3),
+    "L_N_" + makeInputPorts(4),
+    "L_N_" + makeInputPorts(5),
     
     //One layer, multiple neurons, perfect comm units, so they
     // all aim for the first neuron
-    "L.N." + makeInputPorts(2) + "N." + makeInputPorts(2),
-    "L.N." + makeInputPorts(2) + "N." + makeInputPorts(2) + "N." + makeInputPorts(2),
-    "L.N." + makeInputPorts(3) + "N." + makeInputPorts(3) + "N." + makeInputPorts(3) + "N." + makeInputPorts(3),
+    "L_N_" + makeInputPorts(2) + "N_" + makeInputPorts(2),
+    "L_N_" + makeInputPorts(2) + "N_" + makeInputPorts(2) + "N_" + makeInputPorts(2),
+    "L_N_" + makeInputPorts(3) + "N_" + makeInputPorts(3) + "N_" + makeInputPorts(3) + "N_" + makeInputPorts(3),
 
     // One layer, one neuron, increasing numbers of input ports
-    "L.N." + makeInputPorts(9) + makeInputPorts(1),
-    "L.N." + makeInputPorts(8) + makeInputPorts(2),
-    "L.N." + makeInputPorts(7) + makeInputPorts(3),
-    "L.N." + makeInputPorts(6) + makeInputPorts(4),
-    "L.N." + makeInputPorts(5) + makeInputPorts(5),
-    "L.N." + makeInputPorts(4) + makeInputPorts(6),
-    "L.N." + makeInputPorts(3) + makeInputPorts(7),
-    "L.N." + makeInputPorts(2) + makeInputPorts(8),
-    "L.N." + makeInputPorts(1) + makeInputPorts(9),
+    "L_N_" + makeInputPorts(9) + makeInputPorts(1),
+    "L_N_" + makeInputPorts(8) + makeInputPorts(2),
+    "L_N_" + makeInputPorts(7) + makeInputPorts(3),
+    "L_N_" + makeInputPorts(6) + makeInputPorts(4),
+    "L_N_" + makeInputPorts(5) + makeInputPorts(5),
+    "L_N_" + makeInputPorts(4) + makeInputPorts(6),
+    "L_N_" + makeInputPorts(3) + makeInputPorts(7),
+    "L_N_" + makeInputPorts(2) + makeInputPorts(8),
+    "L_N_" + makeInputPorts(1) + makeInputPorts(9),
 
-    "L.N.A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(false).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).",
+    "L_N_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(false)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_",
     
-    "L.N.A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).",
+    "L_N_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_",
     
-    "L.N.A(true).A(true).W(b[2]v[2]).W(b[2]v[2]).W(b[2]v[2]).B(b[8]v[8]).T(b[8]v[8]).",
-    "L.N.A(true).A(true).A(true).W(b[2]v[2]).W(b[2]v[2]).W(b[1]v[1]).B(b[7]v[7]).T(b[7]v[7]).",
+    "L_N_A(true)_A(true)_W(b[2]v[2])_W(b[2]v[2])_W(b[2]v[2])_B(b[8]v[8])_T(b[8]v[8])_",
+    "L_N_A(true)_A(true)_A(true)_W(b[2]v[2])_W(b[2]v[2])_W(b[1]v[1])_B(b[7]v[7])_T(b[7]v[7])_",
     
     
-    "L.N.A(false).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).A(true).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).", "L.N.A(true).W(b[1]v[1]).W(b[1]v[1]).B(b[-4]v[-4]).T(b[2]v[2]).",
+    "L_N_A(false)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_", "L_N_A(true)_W(b[1]v[1])_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_",
 
-    "L.N.A(true).A(true).W(b[1]v[1]).B(b[1]v[1]).T(b[2]v[2]).", "L.N.A(true).A(true).W(b[1]v[1]).W(b[1]v[1]).B(b[1]v[1]).T(b[2]v[2])",
-    "L.N.A(true).W(b[1]v[1]).A(true).W(b[1]v[1]).B(b[1]v[1]).T(b[2]v[2]).", "L.N.B(b[1]v[1]).T(b[2]v[2]).A(true).W(b[1]v[1]).A(true).W(b[1]v[1]).",
+    "L_N_A(true)_A(true)_W(b[1]v[1])_B(b[1]v[1])_T(b[2]v[2])_", "L_N_A(true)_A(true)_W(b[1]v[1])_W(b[1]v[1])_B(b[1]v[1])_T(b[2]v[2])",
+    "L_N_A(true)_W(b[1]v[1])_A(true)_W(b[1]v[1])_B(b[1]v[1])_T(b[2]v[2])_", "L_N_B(b[1]v[1])_T(b[2]v[2])_A(true)_W(b[1]v[1])_A(true)_W(b[1]v[1])_",
 
-    "L.N.A(true).W(b[1]v[1]).B(b[1]v[1]).T(b[100]v[100]).N.A(true).W(b[2]v[2]).B(b[2]v[2]).T(b[100]v[100]).",
-    "L.N.A(true).W(b[1]v[1]).B(b[1]v[1]).B(b[37]v[37]).T(b[12]v[12]).T(b[1107]v[1107]).N.A(true).W(b[2]v[2]).A(false).W(b[3]v[3]).A(true).W(b[4]v[4]).A(false).W(b[5]v[5]).A(true).W(b[6]v[6]).A(true).B(b[2]v[2]).T(b[100]v[100]).",
-    "L.N.A(false).W(b[1]v[1]).B(b[1]v[1]).B(b[37]v[37]).T(b[12]v[12]).T(b[1107]v[1107]).N.A(true).W(b[2]v[2]).A(false).W(b[3]v[3]).N.A(false).W(b[4]v[4]).A(false).W(b[5]v[5]).A(true).W(b[6]v[6]).A(true).B(b[2]v[2]).T(b[100]v[100])."
+    "L_N_A(true)_W(b[1]v[1])_B(b[1]v[1])_T(b[100]v[100])_N_A(true)_W(b[2]v[2])_B(b[2]v[2])_T(b[100]v[100])_",
+    "L_N_A(true)_W(b[1]v[1])_B(b[1]v[1])_B(b[37]v[37])_T(b[12]v[12])_T(b[1107]v[1107])_N_A(true)_W(b[2]v[2])_A(false)_W(b[3]v[3])_A(true)_W(b[4]v[4])_A(false)_W(b[5]v[5])_A(true)_W(b[6]v[6])_A(true)_B(b[2]v[2])_T(b[100]v[100])_",
+    "L_N_A(false)_W(b[1]v[1])_B(b[1]v[1])_B(b[37]v[37])_T(b[12]v[12])_T(b[1107]v[1107])_N_A(true)_W(b[2]v[2])_A(false)_W(b[3]v[3])_N_A(false)_W(b[4]v[4])_A(false)_W(b[5]v[5])_A(true)_W(b[6]v[6])_A(true)_B(b[2]v[2])_T(b[100]v[100])_"
 ]
+
+precedencegroup CharacterAdditionPrecedence {
+    assignment: true
+    lowerThan: AdditionPrecedence
+    higherThan: AssignmentPrecedence
+    associativity: left
+}
+
+infix operator ++: CharacterAdditionPrecedence
+
+extension Character {
+    static func ++(_ lhs: Character, _ rhs: Character) -> String {
+        return String(lhs) + String(rhs)
+    }
+    
+    static func ++(_ lhs: Character, _ rhs: String) -> String {
+        return String(lhs) + rhs
+    }
+    
+    static func ++(_ lhs: String, _ rhs: Character) -> String {
+        return lhs + String(rhs)
+    }
+}
 
 enum Utilities {
     static var filenameSerialNumber = 0
     static var thereBeNoShowing = true
     
     static func clobbered(_ message: String) { print(message); fatalError(message) }
+    
+    static func getRawComponentSets(for genome: Genome) -> [[String]] {
+        
+        let reTokenPass = "[LN]_|([ABHLNTW])\\(([^\\(]*)\\)_"
+        
+        var componentSets = [[String]]()
+        let tokenPassResults = genome.searchRegex(regex: reTokenPass)
+        
+        for tokenPassComponent in tokenPassResults {
+            componentSets.append(getRawComponentSet(for: tokenPassComponent))
+        }
+        
+        return componentSets
+    }
+    
+    static func getRawComponentSet(for gene: [String], isFullGene: Bool = true) -> [String] {
+        let geneSS = (isFullGene && gene.count > 1) ? 2 : 0
+        
+        let geneMatch = gene[geneSS]
+        var workingSet = [String]()
+        
+        let reValuePass = "b\\[(-?\\d*\\.?\\d*)\\]v\\[(-?\\d*\\.?\\d*)\\]"
+        
+        // This is for markers that don't carry values,
+        // like L_ and N_. Drop the _ and keep the gene
+        // type only.
+        if isFullGene && gene.count == 1 {
+            let t = String(geneMatch.dropLast())
+            workingSet.append(t);
+            return workingSet
+        }
+        
+        let valuePassResults = geneMatch.searchRegex(regex: reValuePass)
+        
+        // This is for activators. No special parsing necessary
+        if isFullGene && valuePassResults.isEmpty {
+            let t = gene.dropFirst()
+            workingSet.append(contentsOf: t)
+            return workingSet
+        }
+        
+        // ValueDoublet
+        if isFullGene { workingSet.append(gene[1]) }
+        else { workingSet.append("X_") } // Not used; just a placeholder
+        
+        workingSet.append(valuePassResults[0][ParseSubscript.stubbleBaseline.rawValue])
+        workingSet.append(valuePassResults[0][ParseSubscript.stubbleValue.rawValue])
+        return workingSet
+    }
+    
+    static func getRawComponentSet(for gene: Substring) -> [String] {
+        return getRawComponentSet(for: [String(gene)], isFullGene: false)
+    }
 
     static func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -145,6 +234,7 @@ enum Utilities {
     }
 }
 
+postfix operator %%
 extension Double {
     func sTruncate() -> String {
         let t = Double(truncating: NSNumber(floatLiteral: self))
@@ -154,6 +244,8 @@ extension Double {
     func dTruncate() -> Double {
         return Double(sTruncate())!
     }
+    
+    static postfix func %%(_ me: Double) -> String { return me.sTruncate() }
 }
 
 infix operator ~~=
@@ -255,22 +347,22 @@ extension Utilities {
     }
 
     static func makeSensesInterface() -> Genome {
-        var g = Genome(); g += "L."
-        for _ in 0..<Translators.numberOfSenses { g += "N.A(true).W(b[1]v[1]).B(b[0]v[0]).T(b[1000000]v[1000000])." }
-        g += "R."; return g
+        var g = Genome(); g += layb
+        for _ in 0..<Translators.numberOfSenses { g += "N_A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_T(b[10.0]v[10.0])_" }
+        g += ifmb; return g
     }
     
     static func makeOutputsInterface() -> Genome {
-        var g = Genome(); g += "R.L."
-        for _ in 0..<Translators.numberOfMotorNeurons { g += "N.A(true).W(b[1]v[1]).B(b[0]v[0]).T(b[1000000]v[1000000])." }
+        var g = Genome(); g += ifmb + layb
+        for _ in 0..<Translators.numberOfMotorNeurons { g += "N_A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_T(b[10.0]v[10.0])_" }
         return g
     }
     
     static func stripInterfaces(from genome: Genome) -> Genome {
         var stripped = genome[...]
         
-        if let headless = stripped.firstIndex(of: "R") {
-            let tailless = stripped.lastIndex(of: "R")
+        if let headless = stripped.firstIndex(of: ifm) {
+            let tailless = stripped.lastIndex(of: ifm)
             
             // Shouldn't have a lone "R"
             if headless == tailless { fatalError() }

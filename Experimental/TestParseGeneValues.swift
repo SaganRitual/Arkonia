@@ -21,7 +21,7 @@
 import Foundation
 
 enum TestExtras {
-    static var inputGenome = "L.I(0)L.I(1)N.L.I(2)N.N.I(1)I(1)B(true)"
+    static var inputGenome = "L_I(0)L_I(1)N_L_I(2)N_N_I(1)I(1)B(true)"
 
     static func createTokenArray(_ token: String, in strand: Genome) -> [GenomeIndex] {
         var result = [GenomeIndex]()
@@ -62,7 +62,7 @@ class TestParseGeneValues: ValueParserProtocol {
     }
 
     func setCheckValues() -> (Genome, [Bool]) {
-        let pe = "B\\(((?:(true)|(false)))\\)\\."
+        let pe = "B\\(((?:(true)|(false)))\\)_"
         
         let fullMatches = self.inputGenome.searchRegex(regex: pe)
         for fullMatch in fullMatches {
@@ -71,8 +71,7 @@ class TestParseGeneValues: ValueParserProtocol {
             let value = fullMatch[2]
             
             switch Character(token) {
-            case A: fallthrough
-            case B: self.boolCheckValues.append(value == "true")
+            case act: self.boolCheckValues.append(value == "true")
             default: fatalError()
             }
         }
@@ -81,7 +80,7 @@ class TestParseGeneValues: ValueParserProtocol {
     }
     
     func setCheckValues() -> (Genome, [Double]) {
-        let pe = "D\\((-?\\d*\\.{0,1}\\d*)\\)\\."
+        let pe = "D\\((-?\\d*\\.{0,1}\\d*)\\)_"
         
         let fullMatches = self.inputGenome.searchRegex(regex: pe)
         for fullMatch in fullMatches {
@@ -104,7 +103,7 @@ class TestParseGeneValues: ValueParserProtocol {
     }
     
     func setCheckValues() -> (Genome, [Int]) {
-        let pe = "I\\((-?\\d+)\\)\\."
+        let pe = "I\\((-?\\d+)\\)_"
         
         let fullMatches = self.inputGenome.searchRegex(regex: pe)
         for fullMatch in fullMatches {
@@ -127,14 +126,14 @@ class TestParseGeneValues: ValueParserProtocol {
         let maxLayers = 10, maxNeuronsPerLayer = 10, maxActivatorsPerNeuron = 10, maxWeightsPerNeuron = 10
 
         for _ in 0..<Int.random(in: 1...maxLayers) {
-            theRandomStrand += "L."
+            theRandomStrand += "L_"
             
             let howManyNeurons = Int.random(in: 1...maxNeuronsPerLayer)
-            theRandomStrand += "I(\(howManyNeurons))."
+            theRandomStrand += "I(\(howManyNeurons))_"
             intCheckValues.append(howManyNeurons)
             
             for _ in 0..<howManyNeurons {
-                theRandomStrand += "N."
+                theRandomStrand += "N_"
                 
                 let howManyActivators = Int.random(in: 0...maxActivatorsPerNeuron)
                 let howManyWeights = Int.random(in: 0...maxWeightsPerNeuron)
