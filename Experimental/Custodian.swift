@@ -1,30 +1,24 @@
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+// IN THE SOFTWARE.
+//
+
 import Foundation
-
-protocol TestSubjectProtocol {
-    var fitnessScore: Double? { get set }
-    var idNumber: Int { get }
-
-    func submitToTest(for inputs: [Double]) -> Double?
-}
-
-class BreederTestSubject: TestSubjectProtocol {
-    var fitnessScore: Double? = nil
-    let idNumber: Int
-    
-    init() { idNumber = 0 }
-    
-    func submitToTest(for inputs: [Double]) -> Double? { return nil }
-    
-    static func ==(_ lhs: BreederTestSubject, _ rhs: BreederTestSubject) -> Bool {
-        return lhs.idNumber == rhs.idNumber
-    }
-}
-
-var numberOfTestSubjectsPerGeneration = 0
-let bigTheNumberOfGenerations = 5
-
-func makeRandomTestSubject() -> BreederTestSubject { return BreederTestSubject() }
-
 
 class Custodian {
     let selector = Selector()
@@ -52,12 +46,12 @@ class Custodian {
     func makeGeneration(from ancestor: BreederTestSubject) -> Generation {
         return Generation()
     }
-
+    
     func select() -> BreederTestSubject? {
         let g = makeGeneration(from: self.bestTestSubject!)
         
         guard let candidate = selector.select(from: g, for: testInputs) else { return nil }
-
+        
         if let myBest = self.bestTestSubject {
             if candidate.fitnessScore! < myBest.fitnessScore! {
                 self.bestTestSubject = candidate
@@ -111,7 +105,7 @@ class Selector {
         } else {
             self.bestTestSubject = bestSubjectOfGeneration
         }
-
+        
         return self.bestTestSubject
     }
     
@@ -129,14 +123,14 @@ class Generation {
     
     private func administerTest(to subject: BreederTestSubject, for inputs: [Double]) -> Double? {
         guard let scoreForThisSubject = subject.submitToTest(for: inputs) else { return nil }
-
+        
         if let b = self.bestTestSubject {
             if let s = b.fitnessScore { if scoreForThisSubject < s { self.bestTestSubject = b } }
             else { preconditionFailure() }
         } else {
             self.bestTestSubject = subject
         }
-
+        
         subject.fitnessScore = scoreForThisSubject
         return scoreForThisSubject
     }
