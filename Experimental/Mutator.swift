@@ -45,8 +45,15 @@ class Tene {
     func mutate() {
         if [lay, neu, ifm].contains(self.token) { return }
         
-        if self.value.first! == "t" || self.value.first! == "f" {
+        if self.value == "true" || self.value == "false" {
             self.value = String(Bool.random()); return
+        }
+        
+        let outputFunctions: [Translators.OutputFunctionName] = [.linear, .logistic, .tanh]
+        if let f = Translators.OutputFunctionName(rawValue: self.value),
+            outputFunctions.contains(f) {
+            
+            self.value = RandomnessGenerator.getRandomOutputFunction(); return
         }
         
         let b = Mutator.m.getWeightedRandomLogThing(from: Double(self.baseline)!)

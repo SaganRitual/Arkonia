@@ -64,12 +64,9 @@ enum RandomnessGenerator {
         return newGenome
     }
     
-    enum OutputFunctionName: String {
-        case linear = "linear", tanh = "tanh", logistic = "logistic"
-    }
-    
     static let outputFunctions = [
-        OutputFunctionName.linear, OutputFunctionName.tanh, OutputFunctionName.logistic
+        Translators.OutputFunctionName.linear, Translators.OutputFunctionName.tanh,
+        Translators.OutputFunctionName.logistic
     ]
     
     static func getRandomOutputFunction() -> String {

@@ -118,7 +118,7 @@ extension Decoder {
         switch token {
         case act: Translators.t.addActivator(parseBool(meatSlice))
         case bis: Translators.t.setBias(parseDouble(meatSlice))
-        case fun: break
+        case fun: Translators.t.setOutputFunction(parseString(meatSlice))
         case thr: Translators.t.setThreshold(parseDouble(meatSlice))
         case wgt: Translators.t.addWeight(parseDouble(meatSlice))
         default: print("Decoder says '\(token)' is an unknown token: "); return 2
@@ -247,4 +247,6 @@ extension Decoder: ValueParserProtocol {
     }
     
     func parseInt(_ slice: GenomeSlice? = nil) -> Int { return Int(slice!)! }
+    
+    func parseString(_ slice: GenomeSlice?) -> String { return String(slice!) }
 }

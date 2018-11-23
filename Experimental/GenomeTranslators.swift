@@ -62,6 +62,7 @@ import Foundation
 //    func show(tabs: String, override: Bool = false) { }
 //}
 
+import CoreGraphics
 class Translators: BrainOwnerProtocol {
     static let t = Translators()
 
@@ -71,6 +72,7 @@ class Translators: BrainOwnerProtocol {
 
     func setBias(_ value: ValueDoublet) { brain.setBias(value) }
     func setBias(_ baseline: Double, _ value: Double) { brain.setBias(baseline, value) }
+    func setOutputFunction(_ function: @escaping NeuronOutputFunction) { brain.setOutputFunction(function) }
     func setThreshold(_ value: ValueDoublet) { brain.setThreshold(value) }
     func setThreshold(_ baseline: Double, _ value: Double) { brain.setThreshold(baseline, value) }
 
@@ -105,6 +107,21 @@ class Translators: BrainOwnerProtocol {
     func newNeuron() { self.brain.newNeuron() }
 
     func reset() {}
+    
+    enum OutputFunctionName: String {
+        case linear = "linear", tanh = "tanh", logistic = "logistic"
+    }
+    
+    static func tanh(_ theDouble: Double) -> Double { return CoreGraphics.tanh(theDouble) }
+    static func logistic(_ theDouble: Double) -> Double { return 1.0 / (1.0 + exp(-theDouble)) }
+
+    func setOutputFunction(_ functionName: String) {
+        switch OutputFunctionName.init(rawValue: functionName)! {
+        case .linear: self.brain.setOutputFunction(Neuron.outputFunction)
+        case .tanh:   self.brain.setOutputFunction(Translators.tanh)
+        case .logistic: self.brain.setOutputFunction(Translators.logistic)
+        }
+    }
 
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing || !override { return }

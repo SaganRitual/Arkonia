@@ -101,7 +101,6 @@ class FTNumberGuesser: BreederFitnessTester {
         let ts = testSubject as! TSNumberGuesser
         self.sensoryInput = Array(repeating: 1.0, count: Translators.numberOfSenses)
         guard let outputs = ts.brain.stimulate(inputs: sensoryInput) else { return nil }
-        
         return getFitnessScore(for: outputs)
     }
     
@@ -163,7 +162,7 @@ class TSNumberGuesserSetup {
     }
     
     func run() {
-        let v = RepeatingTimer(timeInterval: 0.1)
+        let v = RepeatingTimer(timeInterval: 0.2)
         var bestFitnessScore = 0.0
         v.eventHandler = { bestFitnessScore = self.testBreeder.select() }
         v.resume()

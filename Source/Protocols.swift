@@ -24,6 +24,7 @@ protocol ValueParserProtocol {
     func parseBool(_ slice: GenomeSlice?) -> Bool
     func parseDouble(_ slice: GenomeSlice?) -> ValueDoublet
     func parseInt(_ slice: GenomeSlice?) -> Int
+    func parseString(_ slice: GenomeSlice?) -> String
     func setDefaultInput() -> ValueParserProtocol
 }
 

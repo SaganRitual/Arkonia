@@ -32,6 +32,8 @@ struct ValueDoublet {
     static func !=(_ lhs: ValueDoublet, _ rhs: Double) -> Bool { return !(lhs == rhs) }
 }
 
+typealias NeuronOutputFunction = (Double) -> Double
+
 extension Translators {
     class Neuron: CustomStringConvertible {
     var activators = [Bool]()
@@ -52,6 +54,11 @@ extension Translators {
     // the upper layer for stimulating this neuron.
     var inputPorts = [Double]()
     
+    static let outputFunction: NeuronOutputFunction =
+            { (_ input: Double) -> Double in return input }
+    
+    var outputFunction = Neuron.outputFunction
+
     var description: String { return "Neuron(\(self.layerSSInBrain):\(neuronSSInLayer))" }
     
     init(layerSSInBrain: Int, neuronSSInLayer: Int) {
@@ -66,30 +73,20 @@ extension Translators {
     func endOfStrand() {}
     
     public func output() -> Double {
-        let ws = weightedSum(), b = bias ?? ValueDoublet(0.0, 0.0), t = threshold ?? ValueDoublet(0.0, 0.0)
+        let ws = weightedSum(), b = bias ?? ValueDoublet(0.0, 0.0)
         let biased = ws + b.value
-        let abiased = abs(biased)
-        
-        let sign = (biased >= 0) ? 1.0 : -1.0
         
         // Make the same sign as ws + b, so we'll trigger on
         // the magnitude. Otherwise, we would send out the
         // threshold value with the wrong sign if ws + b
         // were negative but could trigger t by having a
         // large magnitude.
-        let result = (abiased < abs(t.value)) ? biased : sign * t.value
+        let result = outputFunction(biased)
         return result
     }
     
-    func setTopLayerInputPort(whichUpperLayerNeuron: Int) {
-        inputPortDescriptors.append(whichUpperLayerNeuron)
-        activators.append(true)
-        inputPorts.append(0)
-        self.weights.append(ValueDoublet(1, 1))
-    }
-    
-        func setBias(_ bias: ValueDoublet) { self.bias = bias }
-        func setBias(_ baseline: Double, _ value: Double) { bias = ValueDoublet(baseline, value) }
+    func setBias(_ bias: ValueDoublet) { self.bias = bias }
+    func setBias(_ baseline: Double, _ value: Double) { bias = ValueDoublet(baseline, value) }
 
     func setInputPorts(howManyInputsAreAvailable: Int) {
         if howManyInputsAreAvailable < 1 { fatalError("Shouldn't be in here if the previous layer has no outputs") }
@@ -116,10 +113,19 @@ extension Translators {
             
         }
     }
+        
+    func setOutputFunction(_ function: @escaping NeuronOutputFunction) { self.outputFunction = function }
 
     func setThreshold(_ threshold: ValueDoublet) { self.threshold = threshold }
     func setThreshold(_ baseline: Double, _ value: Double) { threshold = ValueDoublet(baseline, value) }
-    
+        
+    func setTopLayerInputPort(whichUpperLayerNeuron: Int) {
+        inputPortDescriptors.append(whichUpperLayerNeuron)
+        activators.append(true)
+        inputPorts.append(0)
+        self.weights.append(ValueDoublet(1, 1))
+    }
+
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }
         print(tabs + "\n\t\tN. ports = \(inputPortDescriptors.count): \(inputPortDescriptors) -- \(self)", terminator: "")

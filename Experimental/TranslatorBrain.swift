@@ -46,10 +46,8 @@ extension Translators {
                 layers.append(u)
                 underConstruction = nil
 //                print("Brain closes layer")
-                return
             }
-                
-            fatalError("unknown layer?")
+            else { print("unknown layer?") }
         }
         
         func closeNeuron() { underConstruction?.closeNeuron() }
@@ -84,6 +82,8 @@ extension Translators {
 
         func setBias(_ value: ValueDoublet) { underConstruction?.setBias(value) }
         func setBias(_ baseline: Double, _ value: Double) { underConstruction?.setBias(baseline, value) }
+        
+        func setOutputFunction(_ function: @escaping NeuronOutputFunction) { underConstruction?.setOutputFunction(function) }
 
         func setThreshold(_ value: ValueDoublet) { underConstruction?.setThreshold(value) }
         func setThreshold(_ baseline: Double, _ value: Double) { underConstruction?.setThreshold(baseline, value) }
