@@ -26,12 +26,14 @@ class TSTestSubject {
     static private var theFishNumber = 0
     
     private(set) var myFishNumber: Int
-    private var brain: BrainStem?
+    private(set) var brain: BrainStem?
     private(set) var genome: Genome
+    private let callbacks: Custodian.Callbacks
     
-    init(with genome: Genome, brain: BrainStem? = nil) {
+    init(with genome: Genome, brain: BrainStem? = nil, callbacks: Custodian.Callbacks) {
         self.brain = brain
         self.genome = genome
+        self.callbacks = callbacks
         self.myFishNumber = TSTestSubject.theFishNumber
         TSTestSubject.theFishNumber += 1
     }
@@ -43,16 +45,19 @@ class TSTestSubject {
     
     func setBrain(_ brain: BrainStem) { self.brain = brain }
     
+    func setFitnessScore(_ score: Double) { self.brain!.fitnessScore = score }
+    
     func submitToTest(for sensoryInput: [Double]) -> [Double]? {
-        guard let b = self.brain else { preconditionFailure("No brain, no test.") }
-        return b.stimulate(inputs: sensoryInput)
+        let testOutputs = callbacks.fitnessTester!.administerTest(to: self, for: sensoryInput)
+        let _ = callbacks.fitnessTester!.setFitnessScore(for: self, outputs: testOutputs)
+        return testOutputs
     }
 }
 
 class TSRelay {
-    var testSubjects: [TSHandle : TSTestSubject]
+    var testSubjects: TSArchive
     
-    init(_ testSubjects: [TSHandle : TSTestSubject]) {
+    init(_ testSubjects: TSArchive) {
         self.testSubjects = testSubjects
     }
     
@@ -65,11 +70,11 @@ class TSRelay {
     
     func getFitnessScore(for which: TSHandle) -> Double? {
         guard let ts = testSubjects[which] else
-            { preconditionFailure("Can't find subject \(which)") }
-
+        { preconditionFailure("Can't find subject \(which)") }
+        
         return ts.getFitnessScore()
     }
-    
+
     func getFishNumber(for which: TSHandle) -> Int {
         guard let ts = testSubjects[which] else
             { preconditionFailure("Can't find subject \(which)") }

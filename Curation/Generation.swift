@@ -20,30 +20,27 @@
 
 import Foundation
 
-typealias FitnessTestFunction = ([Double]) -> Double?
-typealias TestSubjectFactoryFunction = (_ genome: Genome, _ mutate: Bool) -> TSTestSubject
-
 class Generation {
     var bestTestSubject: TSHandle?
-    var testSubjects = [TSHandle]()
-    var testSubjectFactory: TestSubjectFactory?
-    var testSubjectScoringFunction: FitnessTestFunction?
+    var testSubjects: [TSHandle]
     let tsRelay: TSRelay
     
-    init(_ tsRelay: TSRelay) { self.tsRelay = tsRelay }
+    init(_ tsRelay: TSRelay, testSubjects: TSArchive) {
+        self.tsRelay = tsRelay
+        self.testSubjects = Array(testSubjects.testSubjects.keys)
+    }
     
     func addTestSubject(_ tsHandle: TSHandle) {
+        testSubjects.append(tsHandle)
     }
     
     private func administerTest(to subject: TSHandle, for inputs: [Double]) -> Double? {
-        guard let outputsFromSubject =
-            tsRelay.administerTest(to: subject, for: inputs) else { return nil }
+        let outputsFromSubject =
+            tsRelay.administerTest(to: subject, for: inputs)
         
-        guard let scorer = testSubjectScoringFunction else {
-            preconditionFailure("Can't score without a scoring function")
-        }
+        if outputsFromSubject == nil { return nil }
         
-        guard let fitnessScore = scorer(outputsFromSubject) else { return nil }
+        guard let fitnessScore = tsRelay.getFitnessScore(for: subject) else { return nil }
 
         guard let bestTestSubject = self.bestTestSubject else {
             self.bestTestSubject = subject
@@ -58,18 +55,9 @@ class Generation {
         
         return fitnessScore
     }
-    
-    func setFitnessTester(_ tester: @escaping FitnessTestFunction) {
-        self.testSubjectScoringFunction = tester
-    }
-
-    
-    func setTestSubjectFactory(_ factory: TestSubjectFactory) {
-        testSubjectFactory = factory
-    }
 
     private func select(for inputs: [Double]) -> TSHandle? {
-        for testSubject in testSubjects {
+        for testSubject in self.testSubjects {
             let _ = self.administerTest(to: testSubject, for: inputs)
         }
         

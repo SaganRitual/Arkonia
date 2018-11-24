@@ -51,7 +51,7 @@ import Foundation
 //
 //    func endOfStrand() { reachedEndOfStrand = true; print() }
 //
-//    func getBrain() -> LayerOwnerProtocol { fatalError() }
+//    func getBrain() -> NeuralNetProtocol { fatalError() }
 //
 //    func newBrain() {  }
 //    func newLayer() { print("L") }
@@ -98,8 +98,8 @@ class Translators: BrainOwnerProtocol {
         reachedEndOfStrand = true
     }
 
-    func getBrain() -> LayerOwnerProtocol {
-        return brain as LayerOwnerProtocol
+    func getBrain() -> NeuralNetProtocol {
+        return brain as NeuralNetProtocol
     }
 
     func newBrain() { self.brain = Brain() }

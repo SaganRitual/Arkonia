@@ -83,7 +83,7 @@
 //        // Generation detects it and gives us back the winner.
 //        for whichSubject in 0..<10 {
 ////            let testSubject =
-////                TestSubjectForTesting.makeTestSubject(from: <#T##LayerOwnerProtocol#>, genome: Genome())
+////                TestSubjectForTesting.makeTestSubject(from: <#T##NeuralNetProtocol#>, genome: Genome())
 //            
 //            generation.addTestSubject(subject: testSubject)
 //            
@@ -133,7 +133,7 @@
 //        }
 //    }
 //    
-//    private init(genome: Genome?, brain: LayerOwnerProtocol?) {
+//    private init(genome: Genome?, brain: NeuralNetProtocol?) {
 //        if Breeder.howManyTestSubjectsPerGeneration != Breeder.howManyGenerations {
 //            fatalError("Because the pass-through test subject is such a primitive pos, these two must be equal")
 //        }
@@ -160,7 +160,7 @@
 //        fatalError("init(genome:) has not been implemented")
 //    }
 //    
-//    override class func makeBrain(from genome: Genome) -> LayerOwnerProtocol {
+//    override class func makeBrain(from genome: Genome) -> NeuralNetProtocol {
 //        return BrainMockTestSubject()
 //    }
 //    
@@ -202,7 +202,7 @@
 //    }
 //}
 //
-//class BrainMockTestSubject: LayerOwnerProtocol {
+//class BrainMockTestSubject: NeuralNetProtocol {
 //    
 //    var layers = [Translators.Layer]()
 //    

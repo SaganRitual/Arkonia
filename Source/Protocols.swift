@@ -83,7 +83,7 @@ protocol BrainOwnerProtocol {
     func closeLayer()
     func closeNeuron()
     func endOfStrand()
-    func getBrain() -> LayerOwnerProtocol
+    func getBrain() -> NeuralNetProtocol
     func newBrain()
     func newLayer()
     func newNeuron()

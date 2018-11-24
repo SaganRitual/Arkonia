@@ -37,7 +37,7 @@ protocol BrainStem {
     func stimulate(inputs: [Double]) -> [Double]?
 }
 
-protocol NeuralNet: BrainStem & LayerOwnerProtocol {
+protocol NeuralNetProtocol: BrainStem & LayerOwnerProtocol {
     
 }
 
@@ -54,20 +54,16 @@ class MockBrain: BrainStem {
     }
 }
 
-let relay = TSRelay()
-let generation = Generation(relay)
-let testSubjectFactory = TestSubjectFactory()
 
-for mockFitnessScore in 0..<10 {
-    let ts = generation.addTestSubject()
-    let b = MockBrain(); if ((mockFitnessScore / 2) * 2) == mockFitnessScore {
-        b.mockFitnessScore = Double(10 - mockFitnessScore)
-    }
-    relay.setBrain(b, for: ts)
-}
+var testSubjects = TSArchive()
+let decoder = Decoder()
+let relay = TSRelay(testSubjects)
+let callbacks = Custodian.Callbacks()
+let testSubjectFactory = TestSubjectFactory(relay, decoder: decoder, callbacks: callbacks)
+let fitnessTester = TestSubjectFitnessTester(callbacks: callbacks)
+let custodian = Custodian(aboriginalGenome: nil, callbacks: callbacks)
 
-if let winner = generation.submitToTest(with: [1, 1, 1, 1, 1]) {
-    print("Winner this generation is \(winner)")
-} else {
-    print("Everyone died!")
-}
+print("<")
+custodian.track()
+print(">")
+

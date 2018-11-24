@@ -20,21 +20,16 @@
 
 import Foundation
 
-protocol BreederFitnessTester {
-    func administerTest(to testSubject: BreederTestSubject) -> (Double, String)?
-    func getFitnessScore(for outputs: [Double]) -> (Double, String)
-}
-
 protocol BreederTestSubjectFactory {
     func makeTestSubject() -> BreederTestSubject
 }
 
-protocol BreederTestSubjectAPI {
-    func setFitnessTester(_ tester: BreederFitnessTester)
-}
+//protocol BreederTestSubjectAPI {
+//    func setFitnessTester(_ tester: BreederFitnessTester)
+//}
 
 protocol BreederTestSubjectProtocol {
-    var brain: LayerOwnerProtocol? { get set }
+    var brain: NeuralNetProtocol? { get set }
     var myFishNumber: Int { get }
     var genome: Genome? { get set }
     var fitnessScore: Double { get set }
@@ -42,7 +37,7 @@ protocol BreederTestSubjectProtocol {
     init()
     init(genome: Genome)
     
-    static func makeBrain(from genome: Genome) -> LayerOwnerProtocol
+    static func makeBrain(from genome: Genome) -> NeuralNetProtocol
     static func makeTestSubject(with genome: Genome?) -> BreederTestSubject
     static func makeTestSubject() -> BreederTestSubject
     func spawn() -> BreederTestSubject?
@@ -53,7 +48,7 @@ protocol BreederTestSubjectProtocol {
 class BreederTestSubject: BreederTestSubjectProtocol {
     static var theFishNumber = 0
 
-    var brain: LayerOwnerProtocol?
+    var brain: NeuralNetProtocol?
     let myFishNumber = BreederTestSubject.theFishNumber
     var genome: Genome?
     var fitnessScore = 0.0
@@ -61,7 +56,7 @@ class BreederTestSubject: BreederTestSubjectProtocol {
     required init() { self.genome = nil; self.brain = nil }
     required init(genome: Genome) { self.genome = genome }
 
-    class func makeBrain(from genome: Genome) -> LayerOwnerProtocol { fatalError() }
+    class func makeBrain(from genome: Genome) -> NeuralNetProtocol { fatalError() }
     class func makeTestSubject(with genome: Genome?) -> BreederTestSubject { fatalError() }
     class func makeTestSubject() -> BreederTestSubject { fatalError() }
     func spawn() -> BreederTestSubject? { fatalError() }

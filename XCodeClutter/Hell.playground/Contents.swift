@@ -1,14 +1,14 @@
 import Foundation
 
 typealias TSHandle = Int
-protocol LayerOwnerProtocol {
+protocol NeuralNetProtocol {
     var fitnessScore: Double? { get set }
     func stimulate(inputs: [Double]) -> Double?
 }
 
 typealias Brain = MockBrain
 
-class MockBrain: LayerOwnerProtocol {
+class MockBrain: NeuralNetProtocol {
     var mockFitnessScore: Double?
     var fitnessScore: Double? {
         get { return mockFitnessScore } set { mockFitnessScore = newValue }
@@ -25,7 +25,7 @@ class TSTestSubject {
     static private var theFishNumber = 0
     
     private(set) var myFishNumber: Int
-    private var brain: LayerOwnerProtocol?
+    private var brain: NeuralNetProtocol?
     
     init() {
         self.myFishNumber = TSTestSubject.theFishNumber

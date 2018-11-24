@@ -21,7 +21,7 @@
 import Foundation
 
 extension Translators {
-    class Brain: LayerOwnerProtocol {
+    class Brain: NeuralNetProtocol {
         var fitnessScore: Double?
         
         func generateRandomSensoryInput() -> [Double] {

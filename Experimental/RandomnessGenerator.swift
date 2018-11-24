@@ -21,7 +21,7 @@
 import Foundation
 
 enum RandomnessGenerator {
-    static func generateRandomBrain(howManyGenes: Int = 100) -> LayerOwnerProtocol {
+    static func generateRandomBrain(howManyGenes: Int = 100) -> NeuralNetProtocol {
         let newGenome = generateRandomGenome(howManyGenes: howManyGenes)
         
         let decoder = Decoder()

@@ -22,7 +22,7 @@ import Foundation
 import SpriteKit
 
 class VBrain {
-    var brain: LayerOwnerProtocol!
+    var brain: NeuralNetProtocol!
     let gameScene: GameScene
     var spacer: Spacer!
     var vNeurons = [SKShapeNode]()
@@ -30,7 +30,7 @@ class VBrain {
     var vTestOutputs = [SKLabelNode]()
     var layers = [Translators.Layer]()
     
-    init(gameScene: GameScene, brain: LayerOwnerProtocol) {
+    init(gameScene: GameScene, brain: NeuralNetProtocol) {
         guard let _ = NSScreen.main?.frame else {
             fatalError("Something isn't working with the screen size")
         }
@@ -39,7 +39,7 @@ class VBrain {
         self.brain = brain
     }
     
-    func displayBrain(_ brain: LayerOwnerProtocol? = nil) {
+    func displayBrain(_ brain: NeuralNetProtocol? = nil) {
         gameScene.removeAllChildren()
 
         if let b = brain { self.layers = b.layers }
@@ -55,7 +55,7 @@ class VBrain {
         vTestOutputs = [SKLabelNode]()
     }
     
-    func setBrain(_ brain: LayerOwnerProtocol) {
+    func setBrain(_ brain: NeuralNetProtocol) {
         self.brain = brain
     }
     

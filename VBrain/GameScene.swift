@@ -27,7 +27,7 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
     
-    private var brain: LayerOwnerProtocol!
+    private var brain: NeuralNetProtocol!
     private var decoder: Decoder!
     private var vBrain: VBrain!
 

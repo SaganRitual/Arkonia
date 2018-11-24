@@ -31,6 +31,13 @@ struct SelectionControls {
 
 var selectionControls = SelectionControls()
 
+class TSArchive {
+    var testSubjects = [TSHandle : TSTestSubject]()
+    
+    subscript(which: TSHandle) -> TSTestSubject? {
+        get { return testSubjects[which] } set { testSubjects[which] = newValue } }
+}
+
 class Custodian {
     let selector: Selector
     var numberOfGenerations = selectionControls.howManyGenerations
@@ -38,54 +45,60 @@ class Custodian {
     let testInputs = [1.0, 1.0, 1.0, 1.0]
     var dudCounter = 0
     var promisingLines: [TSHandle]?
-    var aboriginalGenome: Genome?
-    var fitnessTester: BreederFitnessTester?
+    var aboriginalGenome: Genome
     
     let tsRelay: TSRelay
-    let scoringFunction: FitnessTestFunction
-    let factoryFunction: TestSubjectFactoryFunction
     let decoder = Decoder()
+    let callbacks: Callbacks
 
-    var testSubjects = [TSHandle : TSTestSubject]()
+    var testSubjects = TSArchive()
     
-    init(aboriginalGenome: Genome?, scoringFunction: @escaping FitnessTestFunction,
-         factoryFunction: @escaping TestSubjectFactoryFunction) {
-        
+    init(aboriginalGenome: Genome? = nil, callbacks: Custodian.Callbacks) {
         if let a = aboriginalGenome { self.aboriginalGenome = a }
         else {
-            let howManyGenes = selectionControls.howManyGenes
-            self.aboriginalGenome =
-                RandomnessGenerator.generateRandomGenome(howManyGenes: howManyGenes)
+            let singleNeuronPassThroughPort = "N_A(true)_W(b[1]v[1])_B(b[0]v[0]_"
+            let sag: Genome = { () -> Genome in
+                var dag = Genome("L_")
+                for _ in 0..<selectionControls.howManySenses {
+                    dag += singleNeuronPassThroughPort
+                }
+                return dag
+            }()
+            
+            self.aboriginalGenome = sag
         }
         
-        self.scoringFunction = scoringFunction; self.factoryFunction = factoryFunction
+        self.callbacks = callbacks
         self.tsRelay = TSRelay(testSubjects)
         self.selector = Selector(tsRelay)
         
         // Get the aboriginal's fitness score as the
         // first one to beat. Also good to make sure the aboriginal
         // survives the test.
-        let generation = Generation(tsRelay)
-        let aboriginalAncestor = factoryFunction(self.aboriginalGenome!, false)
+        let generation = Generation(tsRelay, testSubjects: testSubjects)
+        let aboriginalAncestor =
+            testSubjectFactory.makeTestSubject(genome: self.aboriginalGenome, mutate: false)
         testSubjects[aboriginalAncestor.myFishNumber] = aboriginalAncestor
 
         let _ = generation.addTestSubject(aboriginalAncestor.myFishNumber)
         self.bestTestSubject = generation.submitToTest(with: testInputs)
     }
     
-    func makeGeneration(from stud: TSHandle, force thisMany: Int? = nil) -> Generation {
-        let howManyGenerations = (thisMany == nil) ? selectionControls.howManyGenerations : thisMany!
+    func makeGeneration(from stud: TSHandle, mutate: Bool = true, force thisMany: Int? = nil) -> Generation {
+        let howManySubjectsPerGeneration = (thisMany == nil) ?
+            selectionControls.howManySubjectsPerGeneration : thisMany!
+        
         let studGenome = testSubjects[stud]!.genome
         
-        var generation = Generation(tsRelay)
+        let generation = Generation(tsRelay, testSubjects: testSubjects)
         
-        for _ in 0..<howManyGenerations {
-            let testSubject = factoryFunction(studGenome, true)
+        for _ in 0..<howManySubjectsPerGeneration {
+            let testSubject = testSubjectFactory.makeTestSubject(genome: studGenome, mutate: mutate)
             testSubjects[testSubject.myFishNumber] = testSubject
             generation.addTestSubject(testSubject.myFishNumber)
         }
         
-        return Generation(tsRelay)
+        return Generation(tsRelay, testSubjects: testSubjects)
     }
     
     func select() -> TSHandle? {
@@ -107,8 +120,6 @@ class Custodian {
         
         return self.bestTestSubject
     }
-    
-    func setFitnessTester(_ tester: BreederFitnessTester) { self.fitnessTester = tester }
     
     func track() {
         let dudIfSameGuy = { (_ newGuy: TSHandle, _ currentGuy: TSHandle) -> Void in
@@ -150,8 +161,9 @@ class Custodian {
             defer { numberOfGenerations -= 1 }
             
             let selected = select()
+
             trackDudness(selected)
-            
+
             if self.bestTestSubject == nil
                 { self.bestTestSubject = selected; continue }
             
@@ -161,23 +173,70 @@ class Custodian {
     }
 }
 
-class TestSubjectFactory {
+extension Custodian {
+    class Callbacks {
+        var testSubjectFactory: SelectionTestSubjectFactory?
+        var fitnessTester: SelectionFitnessTester?
+        
+        init(testSubjectFactory: SelectionTestSubjectFactory, fitnessTester: SelectionFitnessTester) {
+            self.testSubjectFactory = testSubjectFactory; self.fitnessTester = fitnessTester
+        }
+        
+        init() { }
+    }
+}
+
+protocol SelectionTestSubjectFactory {
+    func makeTestSubject(genome: Genome, mutate: Bool) -> TSTestSubject
+}
+
+protocol SelectionFitnessTester {
+    func administerTest(to testSubject: TSTestSubject, for sensoryInput: [Double]) -> [Double]?
+    func setFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?)
+    func getFitnessScore(for testSubject: TSTestSubject) -> Double?
+}
+
+class TestSubjectFactory: SelectionTestSubjectFactory {
     let tsRelay: TSRelay
     let decoder: Decoder
+    let callbacks: Custodian.Callbacks
     
-    init(_ tsRelay: TSRelay, decoder: Decoder) { self.tsRelay = tsRelay; self.decoder = decoder }
+    init(_ tsRelay: TSRelay, decoder: Decoder, callbacks: Custodian.Callbacks) {
+        self.tsRelay = tsRelay; self.decoder = decoder;
+        self.callbacks = callbacks; callbacks.testSubjectFactory = self
+    }
 
-    func makeTestSubject(_ genome: Genome, _ mutate: Bool) -> TSTestSubject {
+    func makeTestSubject(genome: Genome, mutate: Bool) -> TSTestSubject {
         var maybeMutated = genome
         if mutate {
             let _ = Mutator.m.setInputGenome(genome).mutate()
             maybeMutated = Mutator.m.convertToGenome()
         }
-        
+
         decoder.setInput(to: maybeMutated).decode()
         let brain = Translators.t.getBrain()
-        
-        return TSTestSubject(with: maybeMutated, brain: brain)
+
+        return TSTestSubject(with: maybeMutated, brain: brain, callbacks: callbacks)
+    }
+}
+
+class TestSubjectFitnessTester: SelectionFitnessTester {
+    init(callbacks: Custodian.Callbacks) { callbacks.fitnessTester = self }
+    
+    func administerTest(to testSubject: TSTestSubject, for sensoryInput: [Double]) -> [Double]? {
+        guard let b = testSubject.brain else { preconditionFailure("No brain, no test.") }
+        let outputs = b.stimulate(inputs: sensoryInput)
+        setFitnessScore(for: testSubject, outputs: outputs)
+        return outputs
+    }
+    
+    func getFitnessScore(for testSubject: TSTestSubject) -> Double?
+        { return testSubject.getFitnessScore() }
+    
+    func setFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) {
+        guard let outputs = outputs else { return }
+        let totalOutput = outputs.reduce(0, +)
+        testSubject.setFitnessScore(abs(totalOutput - 17))    // The number I want the brains to guess
     }
 }
 
