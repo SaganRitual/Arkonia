@@ -64,6 +64,8 @@ class Custodian {
     let decoder = Decoder()
     let callbacks: Callbacks
     var studGenome: Genome
+    var bestScoreEver = Double.infinity
+    var bestGenomeEver = Genome()
 
     var testSubjects = TSTestGroup()
     
@@ -113,6 +115,7 @@ class Custodian {
             } else {
                 // We have a new winner; archive the currently-being-vetted
                 // guy, and now start vetting the new guy
+                print("New record by \(winner): \(vettee.score)")
                 self.promisingLines.append(vettee)
                 self.studBeingVetted = nil      // In case it makes debugging easier
             }
@@ -121,6 +124,10 @@ class Custodian {
         let stud = self.testSubjects.testSubjects[winner]!
         let genome = stud.genome
         let score = stud.getFitnessScore()!
+
+        self.bestScoreEver = score
+        self.bestGenomeEver = genome
+
         let forArchival = TSArchivableSubject(tsHandle: winner, genome: genome, score: score)
         self.studBeingVetted = forArchival
     }
@@ -144,7 +151,7 @@ class Custodian {
         let generation = makeGeneration()
         
         // At least one survived in this generation
-        guard let candidate = selector.select(from: generation, for: testInputs) else { print("E"); return nil }
+        guard let candidate = selector.select(from: generation, for: testInputs) else { return nil }
 
         // If I'm not vetting anyone yet (meaning, we just started with the aboriginal alone)
         guard let reigningChampion = self.studBeingVetted else { return candidate }
@@ -181,10 +188,12 @@ class Custodian {
                 self.studBeingVetted = nil                  // This guy was too dudly, goodbye
                 self.bestTestSubject = zombie.tsHandle      // Bring back his parent
                 self.studGenome = zombie.genome
+                print("Too much dudness; backing up to subject \(zombie.tsHandle)")
                 return false                                // We haven't given up on anti-dudding yet
             }
 
-            print("Even the aboriginal was a dud")
+            print("Best score from this run ~ \(self.bestScoreEver)")
+            print("Genome: \(self.bestGenomeEver)")
             return true
         }
 

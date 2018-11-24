@@ -63,7 +63,5 @@ let testSubjectFactory = TestSubjectFactory(relay, decoder: decoder, callbacks: 
 let fitnessTester = TestSubjectFitnessTester(callbacks: callbacks)
 let custodian = Custodian(starter: nil, callbacks: callbacks)
 
-print("<")
 custodian.track()
-print(">")
 
