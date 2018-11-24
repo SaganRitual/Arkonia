@@ -51,6 +51,7 @@ protocol NeuronOwnerProtocol {
 
 protocol LayerOwnerProtocol {
     var layers: [Translators.Layer] { get set }
+    var fitnessScore: Double? { get set }
 
     func addActivator(_ active: Bool)
     func addWeight(_ value: ValueDoublet)

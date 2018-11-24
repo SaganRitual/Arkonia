@@ -46,7 +46,7 @@ class Breeder: BreederTestSubjectAPI {
     var stagnantGenerationsCount = 0
     
     func getBestGenome() -> Genome {
-        return self.currentProgenitor.genome
+        return self.currentProgenitor.genome!
     }
     
     func select(_ currentBestBrainSS: Int?) -> Int? {
@@ -57,7 +57,7 @@ class Breeder: BreederTestSubjectAPI {
                 continue
             }
 
-            testSubject.testScore = score
+            testSubject.fitnessScore = score
 
             if score < bestFitnessScore ||
                 (score >= bestFitnessScore && aboriginalAncestorHasBestScore) {
@@ -72,8 +72,8 @@ class Breeder: BreederTestSubjectAPI {
     }
     
     func thisGenerationSetANewRecord(_ bestBrainSS: Int) -> Bool {
-        if currentGeneration[bestBrainSS].testScore < self.bestFitnessScore {
-            self.bestFitnessScore = currentGeneration[bestBrainSS].testScore
+        if currentGeneration[bestBrainSS].fitnessScore < self.bestFitnessScore {
+            self.bestFitnessScore = currentGeneration[bestBrainSS].fitnessScore
             return true
         }
 
@@ -184,7 +184,7 @@ class Breeder: BreederTestSubjectAPI {
     func registerNewRecordHolder(_ bestBrainSS: Int?) {
         guard let best = bestBrainSS else { fatalError() }
         let genome = self.currentGeneration[best].genome!
-        self.bestFitnessScore = self.currentGeneration[best].testScore
+        self.bestFitnessScore = self.currentGeneration[best].fitnessScore
         previousWinners.append((genome, bestFitnessScore, previousBestFitnessScore))
         self.currentProgenitor = self.currentGeneration[best]
         stagnantGenerationsCount = 0

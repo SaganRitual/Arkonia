@@ -55,7 +55,7 @@ class TSNumberGuesser: BreederTestSubject {
         
         super.init()
         self.genome = RandomnessGenerator.generateRandomGenome()
-        self.brain = TSNumberGuesser.makeBrain(from: self.genome)
+        self.brain = TSNumberGuesser.makeBrain(from: self.genome!)
     }
     
     required init() {
@@ -85,7 +85,7 @@ class TSNumberGuesser: BreederTestSubject {
     }
     
     override func spawn() -> BreederTestSubject? {
-        _ = Mutator.m.setInputGenome(genome).mutate()
+        _ = Mutator.m.setInputGenome(genome!).mutate()
         let mutatedGenome = Mutator.m.convertToGenome()
         if mutatedGenome == self.genome { return nil }
         
@@ -100,7 +100,7 @@ class FTNumberGuesser: BreederFitnessTester {
     func administerTest(to testSubject: BreederTestSubject) -> (Double, String)? {
         let ts = testSubject as! TSNumberGuesser
         self.sensoryInput = Array(repeating: 1.0, count: Translators.numberOfSenses)
-        guard let outputs = ts.brain.stimulate(inputs: sensoryInput) else { return nil }
+        guard let outputs = ts.brain!.stimulate(inputs: sensoryInput) else { return nil }
         return getFitnessScore(for: outputs)
     }
     

@@ -27,11 +27,12 @@ class TSLearnZoeName: BreederTestSubject {
         init() { self.genome = nil }
         
         init(genome: Genome, numberOfSenses: Int = 5, numberOfMotorNeurons: Int = 5,
-             numberOfGenerations: Int = 50, numberOfTestSubjectsPerGeneration: Int = 50) {
-            Translators.numberOfSenses = numberOfSenses
-            Translators.numberOfMotorNeurons = numberOfMotorNeurons
-            Breeder.howManyGenerations = numberOfGenerations
-            Breeder.howManyTestSubjectsPerGeneration = numberOfTestSubjectsPerGeneration
+             numberOfGenerations: Int = 50, numberOfSubjectsPerGeneration: Int = 50) {
+            selectionControls.howManySenses = numberOfSenses
+            selectionControls.howManyMotorNeurons = numberOfMotorNeurons
+            selectionControls.howManyGenerations = numberOfGenerations
+            selectionControls.howManySubjectsPerGeneration = numberOfSubjectsPerGeneration
+
             self.genome = genome
         }
 
@@ -60,7 +61,7 @@ class TSLearnZoeName: BreederTestSubject {
         super.init()
         
         self.genome = RandomnessGenerator.generateRandomGenome()
-        self.brain = TSLearnZoeName.makeBrain(from: self.genome)
+        self.brain = TSLearnZoeName.makeBrain(from: self.genome!)
     }
     
     required init() {
@@ -91,7 +92,7 @@ class TSLearnZoeName: BreederTestSubject {
     }
     
     override func spawn() -> BreederTestSubject? {
-        _ = Mutator.m.setInputGenome(genome).mutate()
+        _ = Mutator.m.setInputGenome(genome!).mutate()
         let mutatedGenome = Mutator.m.convertToGenome()
         if mutatedGenome == self.genome { return nil }
         
@@ -109,7 +110,7 @@ class FTLearnZoeName: BreederFitnessTester {
     func administerTest(to testSubject: BreederTestSubject) -> (Double, String)? {
         let ts = testSubject as! TSLearnZoeName
         let sensoryInput: [Double] = [1, 1, 1, 1, 1]
-        guard let outputs = ts.brain.stimulate(inputs: sensoryInput) else { return nil }
+        guard let outputs = ts.brain!.stimulate(inputs: sensoryInput) else { return nil }
         
         return getFitnessScore(for: outputs)
     }

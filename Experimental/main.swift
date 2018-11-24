@@ -20,51 +20,54 @@
 
 import Foundation
 
-//class TestBreeder {
-//    var shouldKeepRunning = true
-//
-//    var currentGenerationNumber = 0
-//    func select() -> Double {
-//        let bestFitnessScore = Breeder.bb.breedAndSelect()
-//
-//        currentGenerationNumber += 1
-//        if currentGenerationNumber >= Breeder.howManyGenerations || bestFitnessScore == 0 {
-//            self.shouldKeepRunning = false
-//        }
-//
-//        return bestFitnessScore
-//    }
-//}
-//
-//let numberOfSenses = 2
-//let numberOfMotorNeurons = 2
-//let numberOfGenerations = 100
-//let numberOfTestSubjectsPerGeneration = 100
-//
-//var newGenome = Genome()
-//
-//newGenome += "L_"
-//for _ in 0..<numberOfSenses {
-//    newGenome += "N_A(true)_W(b[1]v[1])_B(b[0]v[0])_T(b[5555]v[5555])_"
-//}
-//
-//let testSubjectFactory =
-//    TSNumberGuesser.TSF(genome: newGenome, numberOfSenses: numberOfSenses, numberOfMotorNeurons: numberOfMotorNeurons,
-//                        numberOfGenerations: numberOfGenerations, numberOfTestSubjectsPerGeneration: numberOfTestSubjectsPerGeneration)
-//
-//_ = Breeder.bb.setTestSubjectFactory(testSubjectFactory)
-//Breeder.bb.setFitnessTester(FTNumberGuesser())
-//
-//let tb = TestBreeder()
-//
-//let v = RepeatingTimer(timeInterval: 0.1)
-//var bestFitnessScore = 0.0
-//v.eventHandler = {
-//    bestFitnessScore = tb.select()
-//}
-//v.resume()
-//while tb.shouldKeepRunning {  }
-//print("Best score \(bestFitnessScore)", Breeder.bb.getBestGenome())
+protocol GenerationTestSubjectProtocol {
+    func getFitnessScore() -> Double?
+    func setFitnessScore(_ score: Double)
+}
 
-let g = TSNumberGuesserSetup()
-g.run()
+class GenerationTestSubject: GenerationTestSubjectProtocol {
+    private var fitnessScore = 0.0
+
+    func getFitnessScore() -> Double? { return self.fitnessScore }
+    func setFitnessScore(_ score: Double) { self.fitnessScore = score }
+}
+
+protocol BrainStem {
+    var fitnessScore: Double? { get set }
+    func stimulate(inputs: [Double]) -> [Double]?
+}
+
+protocol NeuralNet: BrainStem & LayerOwnerProtocol {
+    
+}
+
+class MockBrain: BrainStem {
+    var mockFitnessScore: Double?
+    var fitnessScore: Double? {
+        get { return mockFitnessScore } set { mockFitnessScore = newValue }
+    }
+    
+    func stimulate(inputs: [Double]) -> [Double]? {
+        // Test harness will set this before
+        // administering the test
+        return [mockFitnessScore!]
+    }
+}
+
+let relay = TSRelay()
+let generation = Generation(relay)
+let testSubjectFactory = TestSubjectFactory()
+
+for mockFitnessScore in 0..<10 {
+    let ts = generation.addTestSubject()
+    let b = MockBrain(); if ((mockFitnessScore / 2) * 2) == mockFitnessScore {
+        b.mockFitnessScore = Double(10 - mockFitnessScore)
+    }
+    relay.setBrain(b, for: ts)
+}
+
+if let winner = generation.submitToTest(with: [1, 1, 1, 1, 1]) {
+    print("Winner this generation is \(winner)")
+} else {
+    print("Everyone died!")
+}

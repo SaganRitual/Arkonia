@@ -64,12 +64,16 @@ enum RandomnessGenerator {
         return newGenome
     }
     
-    static let outputFunctions = [
-        Translators.OutputFunctionName.linear, Translators.OutputFunctionName.tanh,
-        Translators.OutputFunctionName.logistic
-    ]
+    static func generateRandomTestSubject(howManyGenes: Int) -> TSHandle {
+        fatalError()
+    }
     
     static func getRandomOutputFunction() -> String {
         return outputFunctions[Int.random(in: 0..<outputFunctions.count)].rawValue
     }
+
+    static let outputFunctions = [
+        Translators.OutputFunctionName.linear, Translators.OutputFunctionName.tanh,
+        Translators.OutputFunctionName.logistic
+    ]
 }

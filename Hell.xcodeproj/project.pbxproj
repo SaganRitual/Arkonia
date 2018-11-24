@@ -24,7 +24,6 @@
 		D44B54A52197EE9A00FB94FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D44B54A42197EE9A00FB94FC /* Assets.xcassets */; };
 		D44B54A82197EE9A00FB94FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D44B54A62197EE9A00FB94FC /* Main.storyboard */; };
 		D44B54B42197EE9A00FB94FC /* XCodeClutterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B54B32197EE9A00FB94FC /* XCodeClutterTests.swift */; };
-		D464FD2F21A7E97C00887C2C /* Custodian.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464FD2E21A7E97C00887C2C /* Custodian.swift */; };
 		D4838182219A2D5800B3648A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D483816F2197F4A400B3648A /* main.swift */; };
 		D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838183219A94E300B3648A /* TestParseGeneValues.swift */; };
 		D4838186219A956400B3648A /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838185219A956400B3648A /* Decoder.swift */; };
@@ -38,24 +37,22 @@
 		D48AB370219DDE6A00624000 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D48AB36E219DDE6A00624000 /* Main.storyboard */; };
 		D48AB379219DDFC900624000 /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB377219DDFBC00624000 /* VBrain.swift */; };
 		D48AB37B219DE4A800624000 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838185219A956400B3648A /* Decoder.swift */; };
-		D48AB37D219DFFA000624000 /* Breeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB37C219DFFA000624000 /* Breeder.swift */; };
-		D48AB37E219DFFA000624000 /* Breeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB37C219DFFA000624000 /* Breeder.swift */; };
 		D48AB37F219E47C600624000 /* DecoderExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838189219AAA4F00B3648A /* DecoderExtras.swift */; };
 		D48AB382219E484000624000 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB381219E484000624000 /* Utilities.swift */; };
 		D48AB383219E484000624000 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB381219E484000624000 /* Utilities.swift */; };
 		D48AB385219E718600624000 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB384219E718600624000 /* Mutator.swift */; };
 		D48AB386219E718600624000 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB384219E718600624000 /* Mutator.swift */; };
 		D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A03631219CA94300EC171E /* TestDecoderInputs.swift */; };
+		D4B137D321A8A6DE00CB6E87 /* CustodianTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B137D221A8A6DE00CB6E87 /* CustodianTest.swift */; };
+		D4B137D421A8C2CB00CB6E87 /* Custodian.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464FD2E21A7E97C00887C2C /* Custodian.swift */; };
+		D4B137D621A8DF0700CB6E87 /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B137D521A8DF0700CB6E87 /* TSRelay.swift */; };
+		D4B137D921A8E11D00CB6E87 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B137D821A8E11D00CB6E87 /* Generation.swift */; };
 		D4C2253D219FC3FB004A011A /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2253C219FC3FB004A011A /* GenomeTranslators.swift */; };
 		D4C2253F21A072EF004A011A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2253E21A072EF004A011A /* Protocols.swift */; };
 		D4C957BC21A3BA7F00AF0CF6 /* RandomnessGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */; };
 		D4C957BE21A3BEA700AF0CF6 /* BreederTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BD21A3BEA700AF0CF6 /* BreederTestSubject.swift */; };
-		D4C957C121A5136600AF0CF6 /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C021A5136600AF0CF6 /* TSLearnZoeName.swift */; };
-		D4C957C521A51D5700AF0CF6 /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C421A51D5700AF0CF6 /* TSNumberGuesser.swift */; };
-		D4C957C721A574B800AF0CF6 /* TSPassThrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C621A574B800AF0CF6 /* TSPassThrough.swift */; };
 		D4C957C821A5D33600AF0CF6 /* BreederTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BD21A3BEA700AF0CF6 /* BreederTestSubject.swift */; };
 		D4C957C921A5D34800AF0CF6 /* RandomnessGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */; };
-		D4C957CA21A5D35B00AF0CF6 /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957C421A51D5700AF0CF6 /* TSNumberGuesser.swift */; };
 		D4FBB7BF21A7863400722AFF /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41BA59E21A36851009A2648 /* RepeatingTimer.swift */; };
 /* End PBXBuildFile section */
 
@@ -117,19 +114,17 @@
 		D48AB371219DDE6A00624000 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D48AB372219DDE6A00624000 /* VBrain.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VBrain.entitlements; sourceTree = "<group>"; };
 		D48AB377219DDFBC00624000 /* VBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
-		D48AB37C219DFFA000624000 /* Breeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breeder.swift; sourceTree = "<group>"; };
 		D48AB381219E484000624000 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		D48AB384219E718600624000 /* Mutator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4A0362E219B926C00EC171E /* Hell.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Hell.playground; path = XCodeClutter/Hell.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		D4A03631219CA94300EC171E /* TestDecoderInputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDecoderInputs.swift; sourceTree = "<group>"; };
+		D4B137D221A8A6DE00CB6E87 /* CustodianTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustodianTest.swift; sourceTree = "<group>"; };
+		D4B137D521A8DF0700CB6E87 /* TSRelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSRelay.swift; sourceTree = "<group>"; };
+		D4B137D821A8E11D00CB6E87 /* Generation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generation.swift; sourceTree = "<group>"; };
 		D4C2253C219FC3FB004A011A /* GenomeTranslators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeTranslators.swift; sourceTree = "<group>"; };
 		D4C2253E21A072EF004A011A /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomnessGenerator.swift; sourceTree = "<group>"; };
 		D4C957BD21A3BEA700AF0CF6 /* BreederTestSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreederTestSubject.swift; sourceTree = "<group>"; };
-		D4C957C021A5136600AF0CF6 /* TSLearnZoeName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSLearnZoeName.swift; sourceTree = "<group>"; };
-		D4C957C221A5160D00AF0CF6 /* TSRandomOutputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSRandomOutputs.swift; sourceTree = "<group>"; };
-		D4C957C421A51D5700AF0CF6 /* TSNumberGuesser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSNumberGuesser.swift; sourceTree = "<group>"; };
-		D4C957C621A574B800AF0CF6 /* TSPassThrough.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSPassThrough.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +162,7 @@
 		D44B548E2197EE9900FB94FC = {
 			isa = PBXGroup;
 			children = (
+				D4B137D721A8E10600CB6E87 /* Curation */,
 				D48AB380219E47EC00624000 /* Source */,
 				D4C957BF21A5133900AF0CF6 /* TestSubjects */,
 				D483816E2197F4A400B3648A /* Experimental */,
@@ -217,9 +213,9 @@
 			isa = PBXGroup;
 			children = (
 				D4A0362E219B926C00EC171E /* Hell.playground */,
-				D48AB37C219DFFA000624000 /* Breeder.swift */,
 				D4C957BD21A3BEA700AF0CF6 /* BreederTestSubject.swift */,
 				D464FD2E21A7E97C00887C2C /* Custodian.swift */,
+				D4B137D221A8A6DE00CB6E87 /* CustodianTest.swift */,
 				D4C2253C219FC3FB004A011A /* GenomeTranslators.swift */,
 				D483816F2197F4A400B3648A /* main.swift */,
 				D48AB384219E718600624000 /* Mutator.swift */,
@@ -263,13 +259,18 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
+		D4B137D721A8E10600CB6E87 /* Curation */ = {
+			isa = PBXGroup;
+			children = (
+				D4B137D821A8E11D00CB6E87 /* Generation.swift */,
+			);
+			path = Curation;
+			sourceTree = "<group>";
+		};
 		D4C957BF21A5133900AF0CF6 /* TestSubjects */ = {
 			isa = PBXGroup;
 			children = (
-				D4C957C021A5136600AF0CF6 /* TSLearnZoeName.swift */,
-				D4C957C421A51D5700AF0CF6 /* TSNumberGuesser.swift */,
-				D4C957C621A574B800AF0CF6 /* TSPassThrough.swift */,
-				D4C957C221A5160D00AF0CF6 /* TSRandomOutputs.swift */,
+				D4B137D521A8DF0700CB6E87 /* TSRelay.swift */,
 			);
 			path = TestSubjects;
 			sourceTree = "<group>";
@@ -448,23 +449,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4838186219A956400B3648A /* Decoder.swift in Sources */,
-				D48AB37D219DFFA000624000 /* Breeder.swift in Sources */,
 				D4838182219A2D5800B3648A /* main.swift in Sources */,
 				D4C2253F21A072EF004A011A /* Protocols.swift in Sources */,
-				D464FD2F21A7E97C00887C2C /* Custodian.swift in Sources */,
 				D40593ED21A0F319008C5FE8 /* TranslatorLayer.swift in Sources */,
-				D4C957C521A51D5700AF0CF6 /* TSNumberGuesser.swift in Sources */,
 				D41BA59F21A36851009A2648 /* RepeatingTimer.swift in Sources */,
 				D40593EF21A0F34E008C5FE8 /* TranslatorNeuron.swift in Sources */,
 				D483818A219AAA4F00B3648A /* DecoderExtras.swift in Sources */,
 				D4C957BC21A3BA7F00AF0CF6 /* RandomnessGenerator.swift in Sources */,
 				D40593EB21A0F294008C5FE8 /* TranslatorBrain.swift in Sources */,
-				D4C957C121A5136600AF0CF6 /* TSLearnZoeName.swift in Sources */,
+				D4B137D421A8C2CB00CB6E87 /* Custodian.swift in Sources */,
 				D4838184219A94E300B3648A /* TestParseGeneValues.swift in Sources */,
 				D48AB385219E718600624000 /* Mutator.swift in Sources */,
-				D4C957C721A574B800AF0CF6 /* TSPassThrough.swift in Sources */,
+				D4B137D321A8A6DE00CB6E87 /* CustodianTest.swift in Sources */,
 				D4C957BE21A3BEA700AF0CF6 /* BreederTestSubject.swift in Sources */,
+				D4B137D621A8DF0700CB6E87 /* TSRelay.swift in Sources */,
 				D4C2253D219FC3FB004A011A /* GenomeTranslators.swift in Sources */,
+				D4B137D921A8E11D00CB6E87 /* Generation.swift in Sources */,
 				D48AB382219E484000624000 /* Utilities.swift in Sources */,
 				D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */,
 			);
@@ -474,12 +474,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D48AB37E219DFFA000624000 /* Breeder.swift in Sources */,
 				D48AB36B219DDE6900624000 /* ViewController.swift in Sources */,
 				D48AB369219DDE6900624000 /* GameScene.swift in Sources */,
 				D4029F2021A2006C00BDDB7A /* GenomeTranslators.swift in Sources */,
 				D4029F2321A2006C00BDDB7A /* TranslatorNeuron.swift in Sources */,
-				D4C957CA21A5D35B00AF0CF6 /* TSNumberGuesser.swift in Sources */,
 				D4C957C921A5D34800AF0CF6 /* RandomnessGenerator.swift in Sources */,
 				D48AB363219DDE6900624000 /* AppDelegate.swift in Sources */,
 				D4029F2121A2006C00BDDB7A /* TranslatorBrain.swift in Sources */,

@@ -1,155 +1,147 @@
 import Foundation
 
-protocol TestSubjectProtocol {
+typealias TSHandle = Int
+protocol LayerOwnerProtocol {
     var fitnessScore: Double? { get set }
-    var idNumber: Int { get }
-
-    func submitToTest(for inputs: [Double]) -> Double?
+    func stimulate(inputs: [Double]) -> Double?
 }
 
-class BreederTestSubject: TestSubjectProtocol {
-    var fitnessScore: Double? = nil
-    let idNumber: Int
-    
-    init() { idNumber = 0 }
-    
-    func submitToTest(for inputs: [Double]) -> Double? { return nil }
-    
-    static func ==(_ lhs: BreederTestSubject, _ rhs: BreederTestSubject) -> Bool {
-        return lhs.idNumber == rhs.idNumber
-    }
-}
+typealias Brain = MockBrain
 
-var numberOfTestSubjectsPerGeneration = 0
-let bigTheNumberOfGenerations = 5
-
-func makeRandomTestSubject() -> BreederTestSubject { return BreederTestSubject() }
-
-
-class Custodian {
-    let selector = Selector()
-    var numberOfGenerations = bigTheNumberOfGenerations
-    var bestTestSubject: BreederTestSubject?
-    let testInputs = [1.0, 1.0, 1.0, 1.0]
-    var dudCounter = 0
-    var promisingLines: [BreederTestSubject]?
-    var aboriginalTestSubject: BreederTestSubject?
-    
-    init(_ aboriginalTestSubject: BreederTestSubject? = nil) {
-        if let a = aboriginalTestSubject { self.aboriginalTestSubject = a }
-        else { self.aboriginalTestSubject = makeRandomTestSubject() }
-        
-        // Get the aboriginal's fitness score as the
-        // first one to beat. Also make sure the aboriginal
-        // survives the test.
-        let g = Generation()
-        g.addTestSubject(self.aboriginalTestSubject!)
-        g.submitToTest(for: testInputs)
-        
-        self.bestTestSubject =  g.bestTestSubject
+class MockBrain: LayerOwnerProtocol {
+    var mockFitnessScore: Double?
+    var fitnessScore: Double? {
+        get { return mockFitnessScore } set { mockFitnessScore = newValue }
     }
     
-    func makeGeneration(from ancestor: BreederTestSubject) -> Generation {
-        return Generation()
-    }
-
-    func select() -> BreederTestSubject? {
-        let g = makeGeneration(from: self.bestTestSubject!)
-        
-        guard let candidate = selector.select(from: g, for: testInputs) else { return nil }
-
-        if let myBest = self.bestTestSubject {
-            if candidate.fitnessScore! < myBest.fitnessScore! {
-                self.bestTestSubject = candidate
-            }
-        } else {
-            self.bestTestSubject = candidate
-        }
-        
-        return self.bestTestSubject
-    }
-    
-    func track() {
-        while numberOfGenerations > 0 {
-            defer { numberOfGenerations -= 1 }
-            
-            if let survivor = select() {
-                if let myCurrentBest = self.bestTestSubject {
-                    if survivor == myCurrentBest { dudCounter += 1 }
-                    else { dudCounter = 0 }
-                } else { self.bestTestSubject = survivor }
-            } else { dudCounter += 1 }  // The whole generation died
-            
-            if dudCounter == 0 {
-                if promisingLines == nil { promisingLines = [] }
-                promisingLines!.append(bestTestSubject!)
-            } else if dudCounter >= 5 {
-                if var p = promisingLines, !p.isEmpty {
-                    self.bestTestSubject = p.popLast()
-                } else {
-                    print("Even the aboriginal was a dud")
-                    break
-                }
-            }
-        }
+    func stimulate(inputs: [Double]) -> Double? {
+        // Test harness will set this before
+        // administering the test
+        return mockFitnessScore
     }
 }
 
-class Selector {
-    var bestTestSubject: BreederTestSubject?
-    var generations = [Generation]()
-    var testInputs = [Double]()
-    var generationCounter = 0
+class TSTestSubject {
+    static private var theFishNumber = 0
     
-    private func administerTest(to generation: Generation, for inputs: [Double]) -> BreederTestSubject? {
-        guard let bestSubjectOfGeneration = generation.submitToTest(for: inputs) else { return nil }
-        guard let bestScoreOfTheGeneration = bestSubjectOfGeneration.fitnessScore else { preconditionFailure() }
-        
-        if let b = self.bestTestSubject {
-            if let s = b.fitnessScore { if bestScoreOfTheGeneration < s { self.bestTestSubject = b } }
-            else { preconditionFailure() }
-        } else {
-            self.bestTestSubject = bestSubjectOfGeneration
-        }
-
-        return self.bestTestSubject
+    private(set) var myFishNumber: Int
+    private var brain: LayerOwnerProtocol?
+    
+    init() {
+        self.myFishNumber = TSTestSubject.theFishNumber
+        TSTestSubject.theFishNumber += 1
     }
     
-    func select(from generation: Generation, for inputs: [Double]) -> BreederTestSubject? {
-        _ = administerTest(to: generation, for: inputs)
-        return self.bestTestSubject
+    func getFitnessScore() -> Double? {
+        guard let b = self.brain else { preconditionFailure("No brain, no score.") }
+        return b.fitnessScore
+    }
+    
+    func setBrain(_ brain: Brain) { self.brain = brain }
+
+    func submitToTest(for sensoryInput: [Double]) -> Double? {
+        guard let b = self.brain else { preconditionFailure("No brain, no test.") }
+        return b.stimulate(inputs: sensoryInput)
+    }
+}
+
+class TestSubjectFactory {
+    func generateTestSubject() -> TSTestSubject { return TSTestSubject() }
+}
+
+class TSRelay {
+    var testSubjects = [TSHandle : TSTestSubject]()
+    var testSubjectFactory: TestSubjectFactory?
+    
+    func administerTest(to which: TSHandle, for inputs: [Double]) -> Double? {
+        guard let ts = testSubjects[which] else { preconditionFailure() }
+        return ts.submitToTest(for: inputs)
+    }
+    
+    func getFitnessScore(for which: TSHandle) -> Double? {
+        guard let ts = testSubjects[which] else { preconditionFailure() }
+        return ts.getFitnessScore()
+    }
+    
+    func makeTestSubject() -> TSHandle {
+        guard let tsf = testSubjectFactory else
+            { preconditionFailure("Can't make test subjects; no factory") }
+        
+        let testSubject = tsf.generateTestSubject()
+        testSubjects[testSubject.myFishNumber] = testSubject
+        return testSubject.myFishNumber
+    }
+    
+    func setBrain(_ brain: Brain, for which: TSHandle) {
+        guard let ts = testSubjects[which] else { preconditionFailure() }
+        ts.setBrain(brain)
+    }
+    
+    func setTestSubjectFactory(_ factory: TestSubjectFactory) {
+        testSubjectFactory = factory
     }
 }
 
 class Generation {
-    var bestTestSubject: BreederTestSubject?
-    var testSubjects = [BreederTestSubject]()
+    var bestTestSubject: TSHandle?
+    var testSubjects = [TSHandle]()
+    let tsRelay: TSRelay
     
-    func addTestSubject(_ subject: BreederTestSubject) { testSubjects.append(subject) }
+    init(_ tsRelay: TSRelay) { self.tsRelay = tsRelay }
     
-    private func administerTest(to subject: BreederTestSubject, for inputs: [Double]) -> Double? {
-        guard let scoreForThisSubject = subject.submitToTest(for: inputs) else { return nil }
+    func addTestSubject() -> TSHandle {
+        let subject = tsRelay.makeTestSubject()
+        testSubjects.append(subject)
+        return subject
+    }
+    
+    private func administerTest(to subject: TSHandle, for inputs: [Double]) -> Double? {
+        guard let scoreForThisSubject =
+            tsRelay.administerTest(to: subject, for: inputs) else { return nil }
 
-        if let b = self.bestTestSubject {
-            if let s = b.fitnessScore { if scoreForThisSubject < s { self.bestTestSubject = b } }
-            else { preconditionFailure() }
-        } else {
+        guard let bestTestSubject = self.bestTestSubject else {
             self.bestTestSubject = subject
+            return scoreForThisSubject
         }
-
-        subject.fitnessScore = scoreForThisSubject
+        
+        guard let bestScore = tsRelay.getFitnessScore(for: bestTestSubject) else {
+            preconditionFailure("Shouldn't have a best subject without a score")
+        }
+        
+        if scoreForThisSubject < bestScore { self.bestTestSubject = subject }
+        
         return scoreForThisSubject
     }
     
-    private func select(for inputs: [Double]) -> BreederTestSubject? {
+    private func select(for inputs: [Double]) -> TSHandle? {
         for testSubject in testSubjects {
-            administerTest(to: testSubject, for: inputs)
+            let _ = self.administerTest(to: testSubject, for: inputs)
         }
         
         return self.bestTestSubject
     }
     
-    func submitToTest(for inputs: [Double]) -> BreederTestSubject? {
-        return select(for: inputs)
+    func submitToTest(with sensoryInput: [Double]) -> TSHandle? {
+        return select(for: sensoryInput)
     }
+}
+
+let relay = TSRelay()
+let generation = Generation(relay)
+let testSubjectFactory = TestSubjectFactory()
+
+relay.setTestSubjectFactory(testSubjectFactory)
+
+for mockFitnessScore in 0..<10 {
+    let ts = generation.addTestSubject()
+    let b = Brain(); if ((mockFitnessScore / 2) * 2) == mockFitnessScore {
+        b.mockFitnessScore = Double(10 - mockFitnessScore)
+    }
+    relay.setBrain(b, for: ts)
+}
+
+if let winner = generation.submitToTest(with: [1, 1, 1, 1, 1]) {
+    print("Winner this generation is \(winner)")
+} else {
+    print("Everyone died!")
 }

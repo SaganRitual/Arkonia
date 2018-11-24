@@ -61,7 +61,7 @@ class TSPassThrough: BreederTestSubject {
         
         super.init()
         self.genome = RandomnessGenerator.generateRandomGenome()
-        self.brain = TSPassThrough.makeBrain(from: self.genome)
+        self.brain = TSPassThrough.makeBrain(from: self.genome!)
     }
     
     required init() {

@@ -34,10 +34,10 @@ protocol BreederTestSubjectAPI {
 }
 
 protocol BreederTestSubjectProtocol {
-    var brain: LayerOwnerProtocol! { get set }
+    var brain: LayerOwnerProtocol? { get set }
     var myFishNumber: Int { get }
-    var genome: Genome! { get set }
-    var testScore: Double { get set }
+    var genome: Genome? { get set }
+    var fitnessScore: Double { get set }
     
     init()
     init(genome: Genome)
@@ -46,21 +46,27 @@ protocol BreederTestSubjectProtocol {
     static func makeTestSubject(with genome: Genome?) -> BreederTestSubject
     static func makeTestSubject() -> BreederTestSubject
     func spawn() -> BreederTestSubject?
+    
+    func submitToTest(for: [Double]) -> Double?
 }
 
 class BreederTestSubject: BreederTestSubjectProtocol {
     static var theFishNumber = 0
 
-    var brain: LayerOwnerProtocol!
+    var brain: LayerOwnerProtocol?
     let myFishNumber = BreederTestSubject.theFishNumber
-    var genome: Genome!
-    var testScore = 0.0
+    var genome: Genome?
+    var fitnessScore = 0.0
     
-    required init() { self.genome = nil }
+    required init() { self.genome = nil; self.brain = nil }
     required init(genome: Genome) { self.genome = genome }
 
     class func makeBrain(from genome: Genome) -> LayerOwnerProtocol { fatalError() }
     class func makeTestSubject(with genome: Genome?) -> BreederTestSubject { fatalError() }
     class func makeTestSubject() -> BreederTestSubject { fatalError() }
     func spawn() -> BreederTestSubject? { fatalError() }
+    
+    func submitToTest(for: [Double]) -> Double? {
+        return nil
+    }
 }

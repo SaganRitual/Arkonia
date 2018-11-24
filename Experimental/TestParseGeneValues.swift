@@ -213,6 +213,10 @@ class TestParseGeneValues: ValueParserProtocol {
         return 0
     }
     
+    func parseString(_ slice: GenomeSlice?) -> String {
+        return String(slice!)
+    }
+    
     func setDecoder(decoder: ValueParserProtocol) {
         self.decoder = decoder
     }
