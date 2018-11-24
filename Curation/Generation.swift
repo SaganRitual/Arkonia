@@ -21,7 +21,7 @@
 import Foundation
 
 typealias FitnessTestFunction = ([Double]) -> Double?
-typealias TestSubjectFactoryFunction = () -> TSTestSubject
+typealias TestSubjectFactoryFunction = (_ genome: Genome, _ mutate: Bool) -> TSTestSubject
 
 class Generation {
     var bestTestSubject: TSHandle?
@@ -32,10 +32,7 @@ class Generation {
     
     init(_ tsRelay: TSRelay) { self.tsRelay = tsRelay }
     
-    func addTestSubject() -> TSHandle {
-        let subject = tsRelay.makeTestSubject()
-        testSubjects.append(subject)
-        return subject
+    func addTestSubject(_ tsHandle: TSHandle) {
     }
     
     private func administerTest(to subject: TSHandle, for inputs: [Double]) -> Double? {

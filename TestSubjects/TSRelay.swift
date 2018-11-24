@@ -27,9 +27,10 @@ class TSTestSubject {
     
     private(set) var myFishNumber: Int
     private var brain: BrainStem?
-    private var genome: Genome
+    private(set) var genome: Genome
     
-    init(with genome: Genome) {
+    init(with genome: Genome, brain: BrainStem? = nil) {
+        self.brain = brain
         self.genome = genome
         self.myFishNumber = TSTestSubject.theFishNumber
         TSTestSubject.theFishNumber += 1
@@ -49,7 +50,11 @@ class TSTestSubject {
 }
 
 class TSRelay {
-    var testSubjects = [TSHandle : TSTestSubject]()
+    var testSubjects: [TSHandle : TSTestSubject]
+    
+    init(_ testSubjects: [TSHandle : TSTestSubject]) {
+        self.testSubjects = testSubjects
+    }
     
     func administerTest(to which: TSHandle, for inputs: [Double]) -> [Double]? {
         guard let ts = testSubjects[which] else

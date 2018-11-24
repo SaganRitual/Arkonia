@@ -38,37 +38,53 @@ class Custodian {
     let testInputs = [1.0, 1.0, 1.0, 1.0]
     var dudCounter = 0
     var promisingLines: [TSHandle]?
-    var aboriginalTestSubject: TSHandle?
+    var aboriginalGenome: Genome?
     var fitnessTester: BreederFitnessTester?
     
     let tsRelay: TSRelay
     let scoringFunction: FitnessTestFunction
     let factoryFunction: TestSubjectFactoryFunction
+    let decoder = Decoder()
+
+    var testSubjects = [TSHandle : TSTestSubject]()
     
-    init(aboriginalTestSubject: TSHandle? = nil, scoringFunction: @escaping FitnessTestFunction,
+    init(aboriginalGenome: Genome?, scoringFunction: @escaping FitnessTestFunction,
          factoryFunction: @escaping TestSubjectFactoryFunction) {
         
-        if let a = aboriginalTestSubject { self.aboriginalTestSubject = a }
+        if let a = aboriginalGenome { self.aboriginalGenome = a }
         else {
             let howManyGenes = selectionControls.howManyGenes
-            self.aboriginalTestSubject =
-                RandomnessGenerator.generateRandomTestSubject(howManyGenes: howManyGenes)
+            self.aboriginalGenome =
+                RandomnessGenerator.generateRandomGenome(howManyGenes: howManyGenes)
         }
         
         self.scoringFunction = scoringFunction; self.factoryFunction = factoryFunction
-        self.tsRelay = TSRelay()
-        
+        self.tsRelay = TSRelay(testSubjects)
         self.selector = Selector(tsRelay)
         
         // Get the aboriginal's fitness score as the
-        // first one to beat. Also make sure the aboriginal
+        // first one to beat. Also good to make sure the aboriginal
         // survives the test.
-        let g = Generation(tsRelay)
-        let _ = g.addTestSubject()
-        self.bestTestSubject = g.submitToTest(with: testInputs)
+        let generation = Generation(tsRelay)
+        let aboriginalAncestor = factoryFunction(self.aboriginalGenome!, false)
+        testSubjects[aboriginalAncestor.myFishNumber] = aboriginalAncestor
+
+        let _ = generation.addTestSubject(aboriginalAncestor.myFishNumber)
+        self.bestTestSubject = generation.submitToTest(with: testInputs)
     }
     
-    func makeGeneration(from ancestor: TSHandle) -> Generation {
+    func makeGeneration(from stud: TSHandle, force thisMany: Int? = nil) -> Generation {
+        let howManyGenerations = (thisMany == nil) ? selectionControls.howManyGenerations : thisMany!
+        let studGenome = testSubjects[stud]!.genome
+        
+        var generation = Generation(tsRelay)
+        
+        for _ in 0..<howManyGenerations {
+            let testSubject = factoryFunction(studGenome, true)
+            testSubjects[testSubject.myFishNumber] = testSubject
+            generation.addTestSubject(testSubject.myFishNumber)
+        }
+        
         return Generation(tsRelay)
     }
     
@@ -116,18 +132,18 @@ class Custodian {
             self.promisingLines!.append(winner)
         }
         
-        let handleDudness = { () -> Bool in
-            if self.dudCounter < 5 { return true }
+        let isTooMuchDudness = { () -> Bool in
+            if self.dudCounter < 5 { return false }
 
             self.dudCounter = 0
 
             if var p = self.promisingLines, !p.isEmpty {
                 self.bestTestSubject = p.popLast()
-                return true
+                return false
             }
 
             print("Even the aboriginal was a dud")
-            return false
+            return true
         }
 
         while numberOfGenerations > 0 {
@@ -140,21 +156,28 @@ class Custodian {
                 { self.bestTestSubject = selected; continue }
             
             if dudCounter == 0 { archiveWinner(bestTestSubject!) }
-            else { if !handleDudness() { return } }
+            else { if isTooMuchDudness() { return } }
         }
     }
 }
 
 class TestSubjectFactory {
     let tsRelay: TSRelay
+    let decoder: Decoder
     
-    init(_ tsRelay: TSRelay) { self.tsRelay = tsRelay }
+    init(_ tsRelay: TSRelay, decoder: Decoder) { self.tsRelay = tsRelay; self.decoder = decoder }
 
-    func makeTestSubject(from parent: TSHandle) -> TSHandle {
-        let genome = tsRelay.getGenome(of: parent)
+    func makeTestSubject(_ genome: Genome, _ mutate: Bool) -> TSTestSubject {
+        var maybeMutated = genome
+        if mutate {
+            let _ = Mutator.m.setInputGenome(genome).mutate()
+            maybeMutated = Mutator.m.convertToGenome()
+        }
         
-        testSubjects[testSubject.myFishNumber] = testSubject
-        return testSubject.myFishNumber
+        decoder.setInput(to: maybeMutated).decode()
+        let brain = Translators.t.getBrain()
+        
+        return TSTestSubject(with: maybeMutated, brain: brain)
     }
 }
 
