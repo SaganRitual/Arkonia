@@ -145,3 +145,11 @@ if let winner = generation.submitToTest(with: [1, 1, 1, 1, 1]) {
 } else {
     print("Everyone died!")
 }
+
+for i in 0..<10 {
+    defer { print("deferring") }
+    print("running")
+    if i == 5 { print("five"); break }
+    print("evif")
+}
+print("done")

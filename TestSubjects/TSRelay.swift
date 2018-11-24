@@ -55,9 +55,9 @@ class TSTestSubject {
 }
 
 class TSRelay {
-    var testSubjects: TSArchive
+    var testSubjects: TSTestGroup
     
-    init(_ testSubjects: TSArchive) {
+    init(_ testSubjects: TSTestGroup) {
         self.testSubjects = testSubjects
     }
     

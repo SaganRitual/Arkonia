@@ -31,11 +31,23 @@ struct SelectionControls {
 
 var selectionControls = SelectionControls()
 
-class TSArchive {
+class TSTestGroup {
     var testSubjects = [TSHandle : TSTestSubject]()
+    
+    func reset() { testSubjects = [:] }
     
     subscript(which: TSHandle) -> TSTestSubject? {
         get { return testSubjects[which] } set { testSubjects[which] = newValue } }
+}
+
+struct TSArchivableSubject: Hashable {
+    let tsHandle: TSHandle
+    let genome: Genome
+    let score: Double
+    
+    init(tsHandle: TSHandle, genome: Genome, score: Double) {
+        self.tsHandle = tsHandle; self.genome = genome; self.score = score
+    }
 }
 
 class Custodian {
@@ -44,17 +56,19 @@ class Custodian {
     var bestTestSubject: TSHandle?
     let testInputs = [1.0, 1.0, 1.0, 1.0]
     var dudCounter = 0
-    var promisingLines: [TSHandle]?
+    var promisingLines = [TSArchivableSubject]()
+    var studBeingVetted: TSArchivableSubject?
     var aboriginalGenome: Genome
     
     let tsRelay: TSRelay
     let decoder = Decoder()
     let callbacks: Callbacks
+    var studGenome: Genome
 
-    var testSubjects = TSArchive()
+    var testSubjects = TSTestGroup()
     
-    init(aboriginalGenome: Genome? = nil, callbacks: Custodian.Callbacks) {
-        if let a = aboriginalGenome { self.aboriginalGenome = a }
+    init(starter: Genome? = nil, callbacks: Custodian.Callbacks) {
+        if let a = starter { self.aboriginalGenome = a }
         else {
             let singleNeuronPassThroughPort = "N_A(true)_W(b[1]v[1])_B(b[0]v[0]_"
             let sag: Genome = { () -> Genome in
@@ -70,7 +84,7 @@ class Custodian {
         
         self.callbacks = callbacks
         self.tsRelay = TSRelay(testSubjects)
-        self.selector = Selector(tsRelay)
+        self.selector = Selector(tsRelay, testGroup: testSubjects)
         
         // Get the aboriginal's fitness score as the
         // first one to beat. Also good to make sure the aboriginal
@@ -82,51 +96,71 @@ class Custodian {
 
         let _ = generation.addTestSubject(aboriginalAncestor.myFishNumber)
         self.bestTestSubject = generation.submitToTest(with: testInputs)
+        
+        // aboriginalGenome is definitely set, at the entry to
+        // this function, and so far he's the best thing going.
+        self.studGenome = self.aboriginalGenome
+        self.archivePromisingStud(aboriginalAncestor.myFishNumber)
     }
     
-    func makeGeneration(from stud: TSHandle, mutate: Bool = true, force thisMany: Int? = nil) -> Generation {
+    func archivePromisingStud(_ winner: TSHandle) {
+
+        if let vettee = self.studBeingVetted {
+            if vettee.tsHandle == winner {
+                // We're vetting someone currently, and he has won again;
+                // nothing to do until we get a new winner.
+                return
+            } else {
+                // We have a new winner; archive the currently-being-vetted
+                // guy, and now start vetting the new guy
+                self.promisingLines.append(vettee)
+                self.studBeingVetted = nil      // In case it makes debugging easier
+            }
+        }
+        
+        let stud = self.testSubjects.testSubjects[winner]!
+        let genome = stud.genome
+        let score = stud.getFitnessScore()!
+        let forArchival = TSArchivableSubject(tsHandle: winner, genome: genome, score: score)
+        self.studBeingVetted = forArchival
+    }
+
+    func makeGeneration(mutate: Bool = true, force thisMany: Int? = nil) -> Generation {
         let howManySubjectsPerGeneration = (thisMany == nil) ?
             selectionControls.howManySubjectsPerGeneration : thisMany!
-        
-        let studGenome = testSubjects[stud]!.genome
         
         let generation = Generation(tsRelay, testSubjects: testSubjects)
         
         for _ in 0..<howManySubjectsPerGeneration {
-            let testSubject = testSubjectFactory.makeTestSubject(genome: studGenome, mutate: mutate)
+            let testSubject = testSubjectFactory.makeTestSubject(genome: self.studGenome, mutate: mutate)
             testSubjects[testSubject.myFishNumber] = testSubject
             generation.addTestSubject(testSubject.myFishNumber)
         }
         
-        return Generation(tsRelay, testSubjects: testSubjects)
+        return generation //Generation(tsRelay, testSubjects: testSubjects)
     }
     
     func select() -> TSHandle? {
-        guard let stud = self.bestTestSubject else { preconditionFailure("Nothing to breed from") }
-
-        let generation = makeGeneration(from: stud)
+        let generation = makeGeneration()
         
-        guard let candidate = selector.select(from: generation, for: testInputs) else { return nil }
+        // At least one survived in this generation
+        guard let candidate = selector.select(from: generation, for: testInputs) else { print("E"); return nil }
+
+        // If I'm not vetting anyone yet (meaning, we just started with the aboriginal alone)
+        guard let reigningChampion = self.studBeingVetted else { return candidate }
+
+        precondition(candidate != reigningChampion.tsHandle, "Sanity check")
+
         guard let candidateScore = tsRelay.getFitnessScore(for: candidate) else {
             preconditionFailure("Generation returned a candidate that appears to have died during the test")
         }
-        
-        guard let myBest = self.bestTestSubject else { self.bestTestSubject = candidate; return candidate }
-        guard let myBestScore = tsRelay.getFitnessScore(for: myBest) else {
-            preconditionFailure("My best test subject has died while sitting on the shelf doing nothing")
-        }
 
-        if candidateScore < myBestScore { self.bestTestSubject = candidate }
-        
-        return self.bestTestSubject
+        return (candidateScore < reigningChampion.score) ? candidate : reigningChampion.tsHandle
     }
     
     func track() {
         let dudIfSameGuy = { (_ newGuy: TSHandle, _ currentGuy: TSHandle) -> Void in
-            let newFish = self.tsRelay.getFishNumber(for: newGuy)
-            let currentFish = self.tsRelay.getFishNumber(for: currentGuy)
-            
-            if newFish == currentFish { self.dudCounter += 1 }
+            if newGuy == currentGuy { self.dudCounter += 1 }
             else { self.dudCounter = 0 }
         }
         
@@ -138,19 +172,16 @@ class Custodian {
             } else { self.dudCounter += 1 }  // The whole generation died
         }
         
-        let archiveWinner = { (_ winner: TSHandle) -> Void in
-            if self.promisingLines == nil { self.promisingLines = [] }
-            self.promisingLines!.append(winner)
-        }
-        
         let isTooMuchDudness = { () -> Bool in
             if self.dudCounter < 5 { return false }
 
             self.dudCounter = 0
 
-            if var p = self.promisingLines, !p.isEmpty {
-                self.bestTestSubject = p.popLast()
-                return false
+            if let zombie = self.promisingLines.popLast() {
+                self.studBeingVetted = nil                  // This guy was too dudly, goodbye
+                self.bestTestSubject = zombie.tsHandle      // Bring back his parent
+                self.studGenome = zombie.genome
+                return false                                // We haven't given up on anti-dudding yet
             }
 
             print("Even the aboriginal was a dud")
@@ -160,6 +191,7 @@ class Custodian {
         while numberOfGenerations > 0 {
             defer { numberOfGenerations -= 1 }
             
+            self.testSubjects.reset()   // New generation; kill off the old one
             let selected = select()
 
             trackDudness(selected)
@@ -167,8 +199,13 @@ class Custodian {
             if self.bestTestSubject == nil
                 { self.bestTestSubject = selected; continue }
             
-            if dudCounter == 0 { archiveWinner(bestTestSubject!) }
-            else { if isTooMuchDudness() { return } }
+            if dudCounter == 0 {
+                self.bestTestSubject = selected
+                archivePromisingStud(bestTestSubject!)
+                continue
+            }
+            
+            if isTooMuchDudness() { return }
         }
     }
 }
@@ -242,37 +279,47 @@ class TestSubjectFitnessTester: SelectionFitnessTester {
 
 class Selector {
     var bestTestSubject: TSHandle?
+    var fullDetails: TSTestSubject?
     var generations = [Generation]()
     var testInputs = [Double]()
     var generationCounter = 0
     var tsRelay: TSRelay
-    
-    init(_ tsRelay: TSRelay) { self.tsRelay = tsRelay }
-    
+    var testGroup: TSTestGroup
+
+    init(_ tsRelay: TSRelay, testGroup: TSTestGroup) { self.tsRelay = tsRelay; self.testGroup = testGroup }
+
     private func administerTest(to generation: Generation, for inputs: [Double]) -> TSHandle? {
         guard let bestSubjectOfGeneration = generation.submitToTest(with: inputs) else { return nil }
 
-        guard let myBestTestSubject = self.bestTestSubject else {
+        if self.bestTestSubject == nil {
             self.bestTestSubject = bestSubjectOfGeneration
+            self.fullDetails = testGroup.testSubjects[bestSubjectOfGeneration]
             return self.bestTestSubject
+        }
+        
+        guard let fullDetailsOfMyBest = self.fullDetails else {
+            preconditionFailure("Best test subject is set, but no full details")
         }
         
         guard let hisScore = tsRelay.getFitnessScore(for: bestSubjectOfGeneration) else {
             preconditionFailure("Shouldn't get a winner with a nil score")
         }
         
-        guard let myScore = tsRelay.getFitnessScore(for: myBestTestSubject) else {
+        guard let myScore = fullDetailsOfMyBest.getFitnessScore() else {
             preconditionFailure("Our best test subject has lost his score")
         }
         
-        if hisScore < myScore { self.bestTestSubject = bestSubjectOfGeneration }
+        if hisScore < myScore {
+            self.bestTestSubject = bestSubjectOfGeneration
+            self.fullDetails = testGroup.testSubjects[bestSubjectOfGeneration]
+            return self.bestTestSubject
+        }
         
-        return self.bestTestSubject
+        return nil
     }
     
     func select(from generation: Generation, for inputs: [Double]) -> TSHandle? {
-        _ = administerTest(to: generation, for: inputs)
-        return self.bestTestSubject
+        return administerTest(to: generation, for: inputs)
     }
 }
 

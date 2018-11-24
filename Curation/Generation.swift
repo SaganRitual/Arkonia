@@ -25,7 +25,7 @@ class Generation {
     var testSubjects: [TSHandle]
     let tsRelay: TSRelay
     
-    init(_ tsRelay: TSRelay, testSubjects: TSArchive) {
+    init(_ tsRelay: TSRelay, testSubjects: TSTestGroup) {
         self.tsRelay = tsRelay
         self.testSubjects = Array(testSubjects.testSubjects.keys)
     }
@@ -55,6 +55,8 @@ class Generation {
         
         return fitnessScore
     }
+    
+    func reset() { testSubjects = [] }
 
     private func select(for inputs: [Double]) -> TSHandle? {
         for testSubject in self.testSubjects {

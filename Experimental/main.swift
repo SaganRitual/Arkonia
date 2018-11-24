@@ -55,13 +55,13 @@ class MockBrain: BrainStem {
 }
 
 
-var testSubjects = TSArchive()
+var testSubjects = TSTestGroup()
 let decoder = Decoder()
 let relay = TSRelay(testSubjects)
 let callbacks = Custodian.Callbacks()
 let testSubjectFactory = TestSubjectFactory(relay, decoder: decoder, callbacks: callbacks)
 let fitnessTester = TestSubjectFitnessTester(callbacks: callbacks)
-let custodian = Custodian(aboriginalGenome: nil, callbacks: callbacks)
+let custodian = Custodian(starter: nil, callbacks: callbacks)
 
 print("<")
 custodian.track()
