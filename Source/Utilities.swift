@@ -136,6 +136,16 @@ enum Utilities {
     
     static func clobbered(_ message: String) { print(message); fatalError(message) }
     
+    static func notOptional(_ isOptional: Double?, _ message: String? = nil) -> String {
+        if let n = isOptional { return String(n) }
+        else { return message ?? "Something's broken" }
+    }
+    
+    static func notOptional(_ isOptional: TSHandle?, _ message: String? = nil) -> String {
+        if let n = isOptional { return String(n) }
+        else { return message ?? "Something's broken" }
+    }
+
     static func getRawComponentSets(for genome: Genome) -> [[String]] {
         
         let reTokenPass = "[LN]_|([ABHLNTW])\\(([^\\(]*)\\)_"

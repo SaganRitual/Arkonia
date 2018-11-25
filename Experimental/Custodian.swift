@@ -27,6 +27,7 @@ struct SelectionControls {
     var howManyGenes = 200
     var howManySubjectsPerGeneration = 100
     var theFishNumber = 0
+    var dudlinessThreshold = 10
 }
 
 var selectionControls = SelectionControls()
@@ -94,6 +95,7 @@ class Custodian {
         let generation = Generation(tsRelay, testSubjects: testSubjects)
         let aboriginalAncestor =
             testSubjectFactory.makeTestSubject(genome: self.aboriginalGenome, mutate: false)
+        
         testSubjects[aboriginalAncestor.myFishNumber] = aboriginalAncestor
 
         let _ = generation.addTestSubject(aboriginalAncestor.myFishNumber)
@@ -108,17 +110,17 @@ class Custodian {
     func archivePromisingStud(_ winner: TSHandle) {
 
         if let vettee = self.studBeingVetted {
-            if vettee.tsHandle == winner {
-                // We're vetting someone currently, and he has won again;
-                // nothing to do until we get a new winner.
-                return
-            } else {
-                // We have a new winner; archive the currently-being-vetted
-                // guy, and now start vetting the new guy
-                print("New record by \(winner): \(vettee.score)")
-                self.promisingLines.append(vettee)
-                self.studBeingVetted = nil      // In case it makes debugging easier
-            }
+            precondition(vettee.tsHandle != winner,
+                         "vettee is not being tested any more; he's being vetted!")
+            
+            // We have a new winner; archive the currently-being-vetted
+            // guy, and now start vetting the new guy
+            let fs = tsRelay.getFitnessScore(for: winner)
+            let ffs = Utilities.notOptional(fs, "Something ain't right!")
+
+            print("New record by \(winner): \(ffs)")
+            self.promisingLines.append(vettee)
+            self.studBeingVetted = nil      // In case it makes debugging easier
         }
         
         let stud = self.testSubjects.testSubjects[winner]!
@@ -180,7 +182,7 @@ class Custodian {
         }
         
         let isTooMuchDudness = { () -> Bool in
-            if self.dudCounter < 5 { return false }
+            if self.dudCounter < selectionControls.dudlinessThreshold { return false }
 
             self.dudCounter = 0
 
@@ -188,13 +190,21 @@ class Custodian {
                 self.studBeingVetted = nil                  // This guy was too dudly, goodbye
                 self.bestTestSubject = zombie.tsHandle      // Bring back his parent
                 self.studGenome = zombie.genome
-                print("Too much dudness; backing up to subject \(zombie.tsHandle)")
+                self.studBeingVetted = zombie
+                print("Dead end after \(selectionControls.dudlinessThreshold) tries; backing up to subject \(zombie.tsHandle)")
                 return false                                // We haven't given up on anti-dudding yet
             }
 
-            print("Best score from this run ~ \(self.bestScoreEver)")
-            print("Genome: \(self.bestGenomeEver)")
             return true
+        }
+        
+        let finalReport = { (_ completion: Bool) -> Void in
+            let generationsTested = selectionControls.howManyGenerations - self.numberOfGenerations
+            let message = completion ? "Complete:" : "Giving up after"
+            print("\(message) \(generationsTested) generations")
+
+            print("Best score from this run ~ \(self.bestScoreEver)\n")
+            print("Genome: \(self.bestGenomeEver)")
         }
 
         while numberOfGenerations > 0 {
@@ -214,8 +224,10 @@ class Custodian {
                 continue
             }
             
-            if isTooMuchDudness() { return }
+            if isTooMuchDudness() { finalReport(false); return }
         }
+        
+        finalReport(true)
     }
 }
 

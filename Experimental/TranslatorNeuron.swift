@@ -89,7 +89,7 @@ extension Translators {
     func setBias(_ baseline: Double, _ value: Double) { bias = ValueDoublet(baseline, value) }
 
     func setInputPorts(howManyInputsAreAvailable: Int) {
-        if howManyInputsAreAvailable < 1 { fatalError("Shouldn't be in here if the previous layer has no outputs") }
+        guard howManyInputsAreAvailable > 0 else { return }
         
         let adjustedInputCount = howManyInputsAreAvailable// min(numberOfSenses, howManyInputsAreAvailable)
         
