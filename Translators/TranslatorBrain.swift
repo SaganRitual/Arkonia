@@ -46,7 +46,9 @@ extension Translators {
             if let u = underConstruction {
                 closeNeuron()
                 
-                layers.append(u)
+                // Just discard empty layers
+                if !u.neurons.isEmpty { layers.append(u) }
+                
                 underConstruction = nil
 //                print("Brain closes layer")
             }
@@ -59,23 +61,32 @@ extension Translators {
             
         }
         
-        func connectLayers(){
+        func connectLayers() throws {
             var previousLayer: Layer?
             
             for (which, layer) in zip(0..., layers) {
                 guard let p = previousLayer else { previousLayer = layer; layer.setTopLayerInputPorts(); continue }
                 let isMotorNeuronLayer = ((which + 1) == self.layers.count)
-                layer.connectNeurons(howManyInputsAreAvailable: p.neurons.count, isMotorNeuronLayer: isMotorNeuronLayer)
+                
+                let ctNeurons = p.neurons.count
+                let pell = previousLayer
+                let ismnl = isMotorNeuronLayer
+                try layer.connectNeurons(ctAvailableInputs: ctNeurons, previousLayer: pell, isMotorNeuronLayer: ismnl)
 
                 previousLayer = layer
             }
         }
         
-        func endOfStrand() {
+        func endOfStrand() throws {
             closeNeuron()
             closeLayer()
-            for layer in layers { layer.endOfStrand() }
             
+            if layers.isEmpty { throw SelectionError.nonViableBrain }
+
+            for layer in layers {
+                guard !layer.neurons.isEmpty else { throw SelectionError.nonViableBrain }
+                layer.endOfStrand()
+            }
         }
         
         func newLayer() {

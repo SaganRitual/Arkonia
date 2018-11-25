@@ -29,7 +29,7 @@ protocol ValueParserProtocol {
 }
 
 protocol NeuronProtocol {
-    func setInputPorts(howManyInputsAreAvailable: Int)
+    func setInputPorts(ctAvailableInputs: Int)
 }
 
 protocol NeuronOwnerProtocol {
@@ -56,10 +56,10 @@ protocol LayerOwnerProtocol {
     func addActivator(_ active: Bool)
     func addWeight(_ value: ValueDoublet)
     func addWeight(_ baseline: Double, _ value: Double)
-    func connectLayers()
+    func connectLayers() throws
     func closeLayer()
     func closeNeuron()
-    func endOfStrand()
+    func endOfStrand() throws
     func newLayer()
     func newNeuron()
     func setBias(_ value: ValueDoublet)
@@ -82,7 +82,7 @@ protocol BrainOwnerProtocol {
     func closeBrain()
     func closeLayer()
     func closeNeuron()
-    func endOfStrand()
+    func endOfStrand() throws
     func getBrain() -> NeuralNetProtocol
     func newBrain()
     func newLayer()
@@ -96,7 +96,7 @@ protocol BrainOwnerProtocol {
 }
 
 protocol SelectionTestSubjectFactory {
-    func makeTestSubject(genome: Genome, mutate: Bool) -> TSTestSubject
+    func makeTestSubject(genome: Genome, mutate: Bool) throws -> TSTestSubject
 }
 
 protocol SelectionFitnessTester {

@@ -21,19 +21,31 @@
 import Foundation
 
 enum RandomnessGenerator {
-    static func generateRandomBrain(howManyGenes: Int = 100) -> NeuralNetProtocol {
+    static func generateRandomBrain(howManyGenes: Int = 100) throws -> NeuralNetProtocol {
         let newGenome = generateRandomGenome(howManyGenes: howManyGenes)
         
         let decoder = Decoder()
-        decoder.setInput(to: newGenome).decode()
+        try decoder.setInput(to: newGenome).decode()
         let brain = Translators.t.getBrain()
         return brain
     }
+    
+    /*
+     var act: Character { return "A" } // Activator -- Bool
+     var bis: Character { return "B" } // Bias -- Stubble
+     var fun: Character { return "F" } // Function -- string
+     var hox: Character { return "H" } // Hox gene -- haven't worked out the type yet
+     var lay: Character { return "L" } // Layer
+     var neu: Character { return "N" } // Neuron
+     var thr: Character { return "T" } // Threshold -- Stubble
+     var ifm: Character { return "R" } // Interface marker
+     var wgt: Character { return "W" } // Weight -- Stubble
+ */
 
     static func generateRandomGene() -> String {
         // The map is so we can weight the gene types differently, so we
         // don't end up with one neuron per layer, or something silly like that.
-        let geneSelector = [act : 10, bis : 5, lay : 1, neu : 3, thr : 5, wgt : 10]
+        let geneSelector = [act : 10, bis : 5, fun : 5, hox: 0, lay : 2, neu : 3, wgt : 10]
         
         var weightedGeneSelector: [Character] = {
             var t = [Character]()
@@ -49,7 +61,7 @@ enum RandomnessGenerator {
         switch geneType {
         case act: return "A(\(Bool.random()))_"
         case bis: return "B(b[\(Double.random(in: -100...100).sTruncate())]v[\(Double.random(in: -100...100).sTruncate())])_"
-        case fun: return RandomnessGenerator.getRandomOutputFunction()
+        case fun: return "F(\(RandomnessGenerator.getRandomOutputFunction()))_"
         case lay: return layb
         case neu: return neub
         case thr: return "T(b[\(Double.random(in: -100...100).sTruncate())]v[\(Double.random(in: -100...100).sTruncate())])_"
@@ -58,7 +70,7 @@ enum RandomnessGenerator {
         }
     }
     
-    static func generateRandomGenome(howManyGenes: Int = 200) -> Genome {
+    static func generateRandomGenome(howManyGenes: Int = 50) -> Genome {
         var newGenome = Genome()
         for _ in 0..<howManyGenes { newGenome += generateRandomGene() }
         return newGenome

@@ -256,7 +256,7 @@ class Mutator {
         for rawComponentSet in rawComponentSets {
             let token = String(rawComponentSet[0])
             
-            if token.first! == act
+            if token.first! == act || token.first! == fun
                 { workingTenome.append(Tene(token, value: rawComponentSet[1])); continue }
             
             if token.first! == neu || token.first! == lay

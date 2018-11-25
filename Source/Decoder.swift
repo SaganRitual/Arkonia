@@ -50,7 +50,7 @@ class Decoder {
     fileprivate var decodeState: DecodeState = .noLayer
     public static let recognizedGeneTokens = "ABHLNRTWX"
 
-    func decode() {
+    func decode() throws {
         self.reset()
         Translators.t.reset()
         Translators.t.newBrain()
@@ -95,7 +95,7 @@ class Decoder {
             slice = slice.dropFirst(symbolsConsumed)
         }
 
-        Translators.t.endOfStrand()
+        try Translators.t.endOfStrand()
 //        Translators.t.getBrain().show(tabs: "", override: true)
     }
     

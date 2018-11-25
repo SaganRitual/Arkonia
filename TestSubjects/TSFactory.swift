@@ -29,14 +29,14 @@ class TestSubjectFactory: SelectionTestSubjectFactory {
         self.tsRelay = tsRelay; self.fitnessTester = fitnessTester
     }
     
-    func makeTestSubject(genome: Genome, mutate: Bool) -> TSTestSubject {
+    func makeTestSubject(genome: Genome, mutate: Bool) throws -> TSTestSubject {
         var maybeMutated = genome
         if mutate {
             let _ = Mutator.m.setInputGenome(genome).mutate()
             maybeMutated = Mutator.m.convertToGenome()
         }
         
-        decoder.setInput(to: maybeMutated).decode()
+        try decoder.setInput(to: maybeMutated).decode()
         let brain = Translators.t.getBrain()
         
         return TSTestSubject(with: maybeMutated, brain: brain, fitnessTester: fitnessTester)

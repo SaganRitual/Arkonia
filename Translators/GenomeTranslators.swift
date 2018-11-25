@@ -85,13 +85,13 @@ class Translators: BrainOwnerProtocol {
     func closeLayer() { brain.closeLayer() }
     func closeNeuron() { brain.closeNeuron() }
 
-    func connectLayers() -> Bool { return brain!.connectLayers() }
+    func connectLayers() throws { try brain!.connectLayers() }
 
-    func endOfStrand() {
+    func endOfStrand() throws {
         defer { reachedEndOfStrand = true }
         
-        brain.endOfStrand()
-        connectLayers()
+        try brain.endOfStrand()
+        try connectLayers()
     }
 
     func getBrain() -> NeuralNetProtocol {
@@ -108,8 +108,8 @@ class Translators: BrainOwnerProtocol {
         case linear = "linear", tanh = "tanh", logistic = "logistic"
     }
     
-    static func tanh(_ theDouble: Double) -> Double { return CoreGraphics.tanh(theDouble) }
-    static func logistic(_ theDouble: Double) -> Double { return 1.0 / (1.0 + exp(-theDouble)) }
+    static func tanh(_ theDouble: Double) -> Double { print("T", terminator: ""); return CoreGraphics.tanh(theDouble) }
+    static func logistic(_ theDouble: Double) -> Double { print("L", terminator: ""); return 1.0 / (1.0 + exp(-theDouble)) }
 
     func setOutputFunction(_ functionName: String) {
         switch OutputFunctionName.init(rawValue: functionName)! {

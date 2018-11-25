@@ -34,14 +34,14 @@ class TSLearnZoeName: TSTestSubject {
 }
 
 class TSZoeFactory: TestSubjectFactory {
-    override func makeTestSubject(genome: Genome, mutate: Bool) -> TSLearnZoeName {
+    override func makeTestSubject(genome: Genome, mutate: Bool) throws -> TSLearnZoeName {
         var maybeMutated = genome
         if mutate {
             let _ = Mutator.m.setInputGenome(genome).mutate()
             maybeMutated = Mutator.m.convertToGenome()
         }
         
-        decoder.setInput(to: maybeMutated).decode()
+        try decoder.setInput(to: maybeMutated).decode()
         let brain = Translators.t.getBrain()
         
         return TSLearnZoeName(with: maybeMutated, brain: brain, fitnessTester: fitnessTester)

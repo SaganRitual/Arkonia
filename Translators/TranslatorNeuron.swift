@@ -35,7 +35,8 @@ struct ValueDoublet {
 typealias NeuronOutputFunction = (Double) -> Double
 
 extension Translators {
-    class Neuron: CustomStringConvertible {
+
+class Neuron: CustomStringConvertible {
     var activators = [Bool]()
     var weights = [ValueDoublet]()
     var bias: ValueDoublet?, threshold: ValueDoublet?
@@ -49,6 +50,7 @@ extension Translators {
     // indicates from which connection in the upper layer
     // to receive the input.
     var inputPortDescriptors = [Int]()
+    var foundViableInput = false
     
     // This is where the breeder stores the data from
     // the upper layer for stimulating this neuron.
@@ -76,11 +78,6 @@ extension Translators {
         let ws = weightedSum(), b = bias ?? ValueDoublet(0.0, 0.0)
         let biased = ws + b.value
         
-        // Make the same sign as ws + b, so we'll trigger on
-        // the magnitude. Otherwise, we would send out the
-        // threshold value with the wrong sign if ws + b
-        // were negative but could trigger t by having a
-        // large magnitude.
         let result = outputFunction(biased)
         return result
     }
@@ -88,8 +85,8 @@ extension Translators {
     func setBias(_ bias: ValueDoublet) { self.bias = bias }
     func setBias(_ baseline: Double, _ value: Double) { bias = ValueDoublet(baseline, value) }
 
-    func setInputPorts(howManyInputsAreAvailable: Int, commLineOverride: Int? = nil) -> Int? {
-        guard howManyInputsAreAvailable > 0 else { return nil }
+    func setInputPorts(ctAvailableInputs: Int, previousLayer: Layer?, commLineOverride: Int? = nil) -> Int? {
+        guard ctAvailableInputs > 0 else { return nil }
         
         var activationSS = 0, weightSS = 0, commLineNumber = 0
         
@@ -105,7 +102,12 @@ extension Translators {
         while true {
             if activationSS >= activators.count { break }
             if weightSS >= weights.count { break }
-            if commLineNumber >= howManyInputsAreAvailable { commLineNumber = 0 }
+            if commLineNumber >= ctAvailableInputs { commLineNumber = 0 }
+
+            defer { activationSS += 1; commLineNumber += 1 }
+
+            guard let pell = previousLayer else { preconditionFailure("The top layer always counts as the first previous") }
+            guard pell.neurons[commLineNumber].foundViableInput else { continue }
             
             if activators[activationSS] || isMotorNeuronLayer {
                 if !Utilities.thereBeNoShowing {
@@ -115,10 +117,9 @@ extension Translators {
                 inputPorts.append(0)    // Make room for another input
                 weightSS += 1
             }
-            
-            activationSS += 1; commLineNumber += 1
         }
         
+        self.foundViableInput = !inputPortDescriptors.isEmpty
         return commLineNumber
     }
         

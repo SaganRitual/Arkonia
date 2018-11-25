@@ -130,6 +130,10 @@ extension Character {
     }
 }
 
+enum SelectionError: Error {
+    case nonViableBrain
+}
+
 enum Utilities {
     static var filenameSerialNumber = 0
     static var thereBeNoShowing = true
@@ -148,7 +152,7 @@ enum Utilities {
 
     static func getRawComponentSets(for genome: Genome) -> [[String]] {
         
-        let reTokenPass = "[LN]_|([ABHLNTW])\\(([^\\(]*)\\)_"
+        let reTokenPass = "[LN]_|([ABFHLNW])\\(([^\\(]*)\\)_"
         
         var componentSets = [[String]]()
         let tokenPassResults = genome.searchRegex(regex: reTokenPass)
@@ -179,7 +183,7 @@ enum Utilities {
         
         let valuePassResults = geneMatch.searchRegex(regex: reValuePass)
         
-        // This is for activators. No special parsing necessary
+        // This is for activators and functions. No special parsing necessary
         if isFullGene && valuePassResults.isEmpty {
             let t = gene.dropFirst()
             workingSet.append(contentsOf: t)
@@ -212,7 +216,7 @@ enum Utilities {
         return fullPath
     }
 
-//    static func hurl(_ exception: DecodeError) throws { throw exception }
+    static func hurl(_ exception: SelectionError) throws { throw exception }
     
     static func load(filename: String) -> [Genome] {
         do {

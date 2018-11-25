@@ -25,9 +25,9 @@ struct SelectionControls {
     var howManyMotorNeurons = 5
     var howManyGenerations = 100
     var howManyGenes = 200
-    var howManySubjectsPerGeneration = 100
+    var howManySubjectsPerGeneration = 200
     var theFishNumber = 0
-    var dudlinessThreshold = 10
+    var dudlinessThreshold = 20
 }
 
 var selectionControls = SelectionControls()
@@ -74,15 +74,15 @@ class Curator {
 
     var testSubjects = TSTestGroup()
     
-    init(starter: Genome? = nil, testSubjectFactory: TestSubjectFactory) {
+    init(starter: Genome? = nil, testSubjectFactory: TestSubjectFactory) throws {
         if let a = starter { self.aboriginalGenome = a }
         else {
 //            let singleNeuronPassThroughPort = "N_A(true)_W(b[1]v[1])_B(b[0]v[0]_"
             let sag: Genome = { () -> Genome in
                 var dag = Genome()
-                for _ in 0..<5 {
+                for _ in 0..<3 {
                     dag += "L_"
-                    for portNumber in 0..<3 {
+                    for portNumber in 0..<2 {
                         dag += "N_"
                         for _ in 0..<portNumber { dag += "A(false)_" }
                         let granularity = 100000
@@ -108,7 +108,7 @@ class Curator {
         // survives the test.
         let generation = Generation(tsRelay, testSubjects: testSubjects)
         let aboriginalAncestor =
-            testSubjectFactory.makeTestSubject(genome: self.aboriginalGenome, mutate: false)
+            try testSubjectFactory.makeTestSubject(genome: self.aboriginalGenome, mutate: false)
         
         testSubjects[aboriginalAncestor.myFishNumber] = aboriginalAncestor
 
@@ -132,10 +132,10 @@ class Curator {
             let fs = tsRelay.getFitnessScore(for: winner)
             let ffs = Utilities.notOptional(fs, "Something ain't right!")
 
-//            for char in FTLearnZoeName.resultsArray {
-//                print(String(char), terminator: "")
-//            }
-//            print()
+            for char in FTLearnZoeName.resultsArray {
+                print(String(char), terminator: "")
+            }
+            print()
             print("New record by \(winner): \(ffs)")
             self.promisingLines.append(vettee)
             self.studBeingVetted = nil      // In case it makes debugging easier
@@ -154,7 +154,7 @@ class Curator {
         self.studBeingVetted = forArchival
     }
     
-    func getMostInterestingTestSubject() -> NeuralNetProtocol {
+    func getMostInterestingTestSubject() throws -> NeuralNetProtocol {
         var mostInterestingGenome = String()
         
         if studGenome.count > 0 {
@@ -169,19 +169,19 @@ class Curator {
             mostInterestingGenome = aboriginalGenome
         }
 
-        let _ = decoder.setInput(to: mostInterestingGenome).decode()
+        let _ = try decoder.setInput(to: mostInterestingGenome).decode()
         let brain = Translators.t.getBrain()
         return brain
     }
 
-    func makeGeneration(mutate: Bool = true, force thisMany: Int? = nil) -> Generation {
+    func makeGeneration(mutate: Bool = true, force thisMany: Int? = nil) throws -> Generation {
         let howManySubjectsPerGeneration = (thisMany == nil) ?
             selectionControls.howManySubjectsPerGeneration : thisMany!
         
         let generation = Generation(tsRelay, testSubjects: testSubjects)
         
         for _ in 0..<howManySubjectsPerGeneration {
-            let testSubject = testSubjectFactory.makeTestSubject(genome: self.studGenome, mutate: mutate)
+            let testSubject = try testSubjectFactory.makeTestSubject(genome: self.studGenome, mutate: mutate)
             testSubjects[testSubject.myFishNumber] = testSubject
             generation.addTestSubject(testSubject.myFishNumber)
         }
@@ -190,7 +190,7 @@ class Curator {
     }
     
     func select() -> TSHandle? {
-        let generation = makeGeneration()
+        guard let generation = try? makeGeneration() else { return nil }
         
         // At least one survived in this generation
         guard let candidate = selector.select(from: generation, for: testInputs) else { return nil }
@@ -242,9 +242,9 @@ class Curator {
             let generationsTested = selectionControls.howManyGenerations - self.numberOfGenerations
             let message = completion ? "Complete:" : "Giving up after"
             print("\(message) \(generationsTested) generations")
+            print("Best genome: \(self.bestGenomeEver)")
 
             print("Best score from this run ~ \(self.bestScoreEver)\n")
-            print("Genome: \(self.bestGenomeEver)")
         }
 
         if numberOfGenerations > 0 {
@@ -266,7 +266,7 @@ class Curator {
             
             if isTooMuchDudness()// { finalReport(false); return .chokedByDudliness }
             {
-                print("Trying new random genome")
+//                print("Trying new random genome")
                 studGenome = RandomnessGenerator.generateRandomGenome()
             }
             
