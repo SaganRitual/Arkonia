@@ -79,11 +79,17 @@ class Curator {
         else {
 //            let singleNeuronPassThroughPort = "N_A(true)_W(b[1]v[1])_B(b[0]v[0]_"
             let sag: Genome = { () -> Genome in
-                var dag = Genome("L_")
-                for portNumber in 0..<selectionControls.howManySenses {
-                    dag += "N_"
-                    for _ in 0..<portNumber { dag += "A(false)_" }
-                    dag += "W(b[1]v[1])_B(b[0]v[0]_"
+                var dag = Genome()
+                for _ in 0..<3 {
+                    dag += "L_"
+                    for portNumber in 0..<8 {
+                        dag += "N_"
+                        for _ in 0..<portNumber { dag += "A(false)_" }
+                        let granularity = 100000
+                        let randomBia = Int.random(in: -granularity...granularity)
+                        let randomBias = Double(randomBia) / Double(granularity)
+                        dag += "A(true)_W(b[1]v[1])_B(b[\(randomBias.sTruncate())]v[0])_"
+                    }
                 }
                 return dag
             }()
@@ -91,6 +97,7 @@ class Curator {
             self.aboriginalGenome = sag
         }
         
+        testSubjectFactory.setDecoder(self.decoder)
         self.testSubjectFactory = testSubjectFactory
         self.tsRelay = TSRelay(testSubjects)
         self.selector = Selector(tsRelay, testGroup: testSubjects)
@@ -152,9 +159,10 @@ class Curator {
         } else {
             mostInterestingGenome = aboriginalGenome
         }
-        
+
         let _ = decoder.setInput(to: mostInterestingGenome).decode()
-        return Translators.t.getBrain()
+        let brain = Translators.t.getBrain()
+        return brain
     }
 
     func makeGeneration(mutate: Bool = true, force thisMany: Int? = nil) -> Generation {

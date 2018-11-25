@@ -32,10 +32,9 @@ class GameScene: SKScene {
 
     override func didMove(to view: SKView) {
         let testSubjects = TSTestGroup()
-        let decoder = Decoder()
         let relay = TSRelay(testSubjects)
         let fitnessTester = TestSubjectFitnessTester()
-        let testSubjectFactory = TestSubjectFactory(relay, decoder: decoder, fitnessTester: fitnessTester)
+        let testSubjectFactory = TestSubjectFactory(relay, fitnessTester: fitnessTester)
         self.curator = Curator(starter: nil, testSubjectFactory: testSubjectFactory)
     }
    

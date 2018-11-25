@@ -31,7 +31,7 @@ class WildGuessWindowController: NSWindowController {
             let newHeight = screenSize.height * 0.5
             let newWidth = screenSize.width * 0.5
             let newX = -100// (screenSize.width - newWidth) / 2
-            let newY = 0// 2 * (screenSize.height - newHeight) / 3
+            let newY = 500// 2 * (screenSize.height - newHeight) / 3
             
             let newSize = CGSize(width: newWidth, height: newHeight)
             let newOrigin = CGPoint(x: newX, y: newY)

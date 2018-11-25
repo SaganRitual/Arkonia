@@ -60,9 +60,10 @@ extension Translators {
         
         func connectLayers() {
             var previousLayer: Layer?
-            for layer in layers {
+            for (which, layer) in zip(0..., layers) {
                 guard let p = previousLayer else { previousLayer = layer; layer.setTopLayerInputPorts(); continue }
-                layer.connectNeurons(howManyInputsAreAvailable: p.neurons.count)
+                let isMotorNeuronLayer = ((which + 1) == self.layers.count)
+                layer.connectNeurons(howManyInputsAreAvailable: p.neurons.count, isMotorNeuronLayer: isMotorNeuronLayer)
                 previousLayer = layer;
             }
         }

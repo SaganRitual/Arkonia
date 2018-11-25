@@ -46,9 +46,12 @@ class Layer: CustomStringConvertible {
         }
     }
     
-    func connectNeurons(howManyInputsAreAvailable: Int) {
+    func connectNeurons(howManyInputsAreAvailable: Int, isMotorNeuronLayer: Bool = false) {
+        var nextCommLineForMotorNeurons: Int? = isMotorNeuronLayer ? 0 : nil
+ 
         for neuron in neurons {
-            neuron.setInputPorts(howManyInputsAreAvailable: howManyInputsAreAvailable)
+            nextCommLineForMotorNeurons =
+                neuron.setInputPorts(howManyInputsAreAvailable: howManyInputsAreAvailable, commLineOverride: nextCommLineForMotorNeurons)
         }
     }
     

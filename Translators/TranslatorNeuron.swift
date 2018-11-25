@@ -88,19 +88,23 @@ extension Translators {
     func setBias(_ bias: ValueDoublet) { self.bias = bias }
     func setBias(_ baseline: Double, _ value: Double) { bias = ValueDoublet(baseline, value) }
 
-    func setInputPorts(howManyInputsAreAvailable: Int) {
-        guard howManyInputsAreAvailable > 0 else { return }
-        
-        let adjustedInputCount = howManyInputsAreAvailable// min(numberOfSenses, howManyInputsAreAvailable)
+    func setInputPorts(howManyInputsAreAvailable: Int, commLineOverride: Int? = nil) -> Int? {
+        guard howManyInputsAreAvailable > 0 else { return nil }
         
         var activationSS = 0, weightSS = 0, commLineNumber = 0
+        
+        // This allows the layer to tell me which comm line
+        // to start with, to aim for open ones. We really
+        // should change the bottom layer to be driven by genes.
+        var isMotorNeuronLayer = false
+        if let c = commLineOverride { commLineNumber = c; isMotorNeuronLayer = true }
         
         while true {
             if activationSS >= activators.count { break }
             if weightSS >= weights.count { break }
-            if commLineNumber >= adjustedInputCount { commLineNumber = 0 }
+            if commLineNumber >= howManyInputsAreAvailable { commLineNumber = 0 }
             
-            if activators[activationSS] {
+            if activators[activationSS] || isMotorNeuronLayer {
                 if !Utilities.thereBeNoShowing {
                     print("\(self) attaches port \(inputPortDescriptors.count) to commLine \(commLineNumber) in older sib of \(self.layerSSInBrain)")
                 }
@@ -110,8 +114,9 @@ extension Translators {
             }
             
             activationSS += 1; commLineNumber += 1
-            
         }
+        
+        return commLineNumber
     }
         
     func setOutputFunction(_ function: @escaping NeuronOutputFunction) { self.outputFunction = function }

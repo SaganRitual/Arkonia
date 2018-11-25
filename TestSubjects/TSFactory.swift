@@ -22,11 +22,11 @@ import Foundation
 
 class TestSubjectFactory: SelectionTestSubjectFactory {
     let tsRelay: TSRelay
-    let decoder: Decoder
+    var decoder: Decoder!
     let fitnessTester: TestSubjectFitnessTester
     
-    init(_ tsRelay: TSRelay, decoder: Decoder, fitnessTester: TestSubjectFitnessTester) {
-        self.tsRelay = tsRelay; self.decoder = decoder; self.fitnessTester = fitnessTester
+    init(_ tsRelay: TSRelay, fitnessTester: TestSubjectFitnessTester) {
+        self.tsRelay = tsRelay; self.fitnessTester = fitnessTester
     }
     
     func makeTestSubject(genome: Genome, mutate: Bool) -> TSTestSubject {
@@ -41,4 +41,6 @@ class TestSubjectFactory: SelectionTestSubjectFactory {
         
         return TSTestSubject(with: maybeMutated, brain: brain, fitnessTester: fitnessTester)
     }
+    
+    func setDecoder(_ decoder: Decoder) { self.decoder = decoder }
 }

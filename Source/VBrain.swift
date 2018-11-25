@@ -43,6 +43,7 @@ class VBrain {
         gameScene.removeAllChildren()
 
         if let b = brain { self.layers = b.layers }
+        else { preconditionFailure("What the hell?") }
 
         self.spacer = Spacer(layersCount: self.layers.count, displaySize: gameScene.size)
         drawNeuronLayers(self.layers, spacer: spacer)
@@ -106,9 +107,9 @@ class VBrain {
 extension VBrain {
     func drawNeuronLayers(_ layers: [Translators.Layer], spacer: Spacer) {
         var previousLayerPoints = [CGPoint]()
-        
+    
         for (i, layer) in zip(0..., layers) {
-            if layer.neurons.isEmpty { /* print("No neurons in this layer");*/ continue }
+            if layer.neurons.isEmpty { print("No neurons in this layer"); continue }
             
             let spacer = Spacer(layersCount: layers.count, displaySize: gameScene.frame.size)
             
@@ -134,37 +135,39 @@ extension VBrain {
 
                 if !minusDeadCommLines.isEmpty { drawConnections(from: minusDeadCommLines, to: neuron, at: position) }
                 
+                let fontSize: CGFloat = 8.0
                 var startingY: CGFloat = 0.0
                 for ss in 0..<neuron.weights.count {
                     let w = neuron.weights[ss]
                     let s = SKLabelNode(text: "W(\(ss)) \(w.value)")
+                    
+//                    let colors = [NSColor.blue, NSColor.green, NSColor.yellow, NSColor.red]
+//                    let whichColor = Int.random(in: 0..<colors.count)
 
                     s.position = vNeuron.position
-                    s.fontSize = 16
+                    s.fontSize = fontSize
+                    s.fontColor = NSColor.green
                     s.fontName = "Courier New"
                     s.position.x -= s.frame.width
                     s.position.y += startingY
                     startingY += s.frame.height
                     gameScene.addChild(s)
                 }
+
+                let b = SKLabelNode(text: "B(\(neuron.bias?.value ?? -42.42))")
                 
-                let b = SKLabelNode(text: "B(\(neuron.bias?.value%% ?? "<nil>"))")
+//                let colors = [NSColor.blue, NSColor.green, NSColor.yellow, NSColor.red]
+//                let whichColor = Int.random(in: 0..<colors.count)
+
                 b.position = vNeuron.position
-                b.fontSize = 16
+                b.fontSize = fontSize
+                b.fontColor = NSColor.yellow
                 b.fontName = "Courier New"
-                b.position.x += (b.frame.width / 2)
+                b.position.x -= b.frame.width
+//                b.position.x += (b.frame.width / 2)
                 b.position.y += startingY
                 startingY += b.frame.height
                 gameScene.addChild(b)
-                
-                let t = SKLabelNode(text: "T(\(neuron.threshold?.value%% ?? "<nil>"))")
-                t.position = vNeuron.position
-                t.fontSize = 16
-                t.fontName = "Courier New"
-                t.position.x += (t.frame.width / 2)
-                t.position.y += startingY
-                startingY += t.frame.height
-                gameScene.addChild(t)
 
                 self.vNeurons.append(vNeuron)
                 gameScene.addChild(vNeuron)
