@@ -129,7 +129,8 @@ extension VBrain {
                     minusDeadCommLines.append(previousLayerPoints[commLineNumber])
                 }
                 
-//                print("m", minusDeadCommLines, "was", previousLayerPoints, "descriptor", neuron.inputPortDescriptors)
+//                print("m", minusDeadCommLines, "was", previousLayerPoints, "descriptor", neuron.inputPortDescriptors,
+//                      "plp count", previousLayerPoints.count, "ipd count", neuron.inputPortDescriptors.count)
 
                 if !minusDeadCommLines.isEmpty { drawConnections(from: minusDeadCommLines, to: neuron, at: position) }
                 

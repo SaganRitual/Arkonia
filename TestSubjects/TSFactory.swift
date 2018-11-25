@@ -23,11 +23,10 @@ import Foundation
 class TestSubjectFactory: SelectionTestSubjectFactory {
     let tsRelay: TSRelay
     let decoder: Decoder
-    let callbacks: Custodian.Callbacks
+    let fitnessTester: TestSubjectFitnessTester
     
-    init(_ tsRelay: TSRelay, decoder: Decoder, callbacks: Custodian.Callbacks) {
-        self.tsRelay = tsRelay; self.decoder = decoder;
-        self.callbacks = callbacks; callbacks.testSubjectFactory = self
+    init(_ tsRelay: TSRelay, decoder: Decoder, fitnessTester: TestSubjectFitnessTester) {
+        self.tsRelay = tsRelay; self.decoder = decoder; self.fitnessTester = fitnessTester
     }
     
     func makeTestSubject(genome: Genome, mutate: Bool) -> TSTestSubject {
@@ -40,6 +39,6 @@ class TestSubjectFactory: SelectionTestSubjectFactory {
         decoder.setInput(to: maybeMutated).decode()
         let brain = Translators.t.getBrain()
         
-        return TSTestSubject(with: maybeMutated, brain: brain, callbacks: callbacks)
+        return TSTestSubject(with: maybeMutated, brain: brain, fitnessTester: fitnessTester)
     }
 }

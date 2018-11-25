@@ -26,10 +26,17 @@ let pointOhOhEight = "L_N_A(true)_W(b[0.81439]v[0.84956])_N_A(false)_W(b[1]v[1])
 var testSubjects = TSTestGroup()
 let decoder = Decoder()
 let relay = TSRelay(testSubjects)
-let callbacks = Custodian.Callbacks()
+let callbacks = Curator.Callbacks()
 let testSubjectFactory = TestSubjectFactory(relay, decoder: decoder, callbacks: callbacks)
 let fitnessTester = TestSubjectFitnessTester(callbacks: callbacks)
-let custodian = Custodian(starter: nil, callbacks: callbacks)
+let curator = Curator(starter: nil, callbacks: callbacks)
 
-custodian.track()
+var curatorStatus = CuratorStatus.running
+let v = RepeatingTimer(timeInterval: 0.1)
 
+v.eventHandler = { curatorStatus = curator.track() }
+
+v.resume()
+while curatorStatus == .running { }
+
+print("\nCompletion state: \(curatorStatus)")

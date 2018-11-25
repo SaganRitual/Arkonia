@@ -21,8 +21,6 @@
 import Foundation
 
 class TestSubjectFitnessTester: SelectionFitnessTester {
-    init(callbacks: Custodian.Callbacks) { callbacks.fitnessTester = self }
-    
     func administerTest(to testSubject: TSTestSubject, for sensoryInput: [Double]) -> [Double]? {
         guard let b = testSubject.brain else { preconditionFailure("No brain, no test.") }
         let outputs = b.stimulate(inputs: sensoryInput)

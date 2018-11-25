@@ -32,6 +32,10 @@ struct SelectionControls {
 
 var selectionControls = SelectionControls()
 
+enum CuratorStatus {
+    case running, finished, chokedByDudliness
+}
+
 class TSTestGroup {
     var testSubjects = [TSHandle : TSTestSubject]()
     
@@ -51,7 +55,7 @@ struct TSArchivableSubject: Hashable {
     }
 }
 
-class Custodian {
+class Curator {
     let selector: Selector
     var numberOfGenerations = selectionControls.howManyGenerations
     var bestTestSubject: TSHandle?
@@ -63,21 +67,23 @@ class Custodian {
     
     let tsRelay: TSRelay
     let decoder = Decoder()
-    let callbacks: Callbacks
+    let testSubjectFactory: TestSubjectFactory
     var studGenome: Genome
     var bestScoreEver = Double.infinity
     var bestGenomeEver = Genome()
 
     var testSubjects = TSTestGroup()
     
-    init(starter: Genome? = nil, callbacks: Custodian.Callbacks) {
+    init(starter: Genome? = nil, testSubjectFactory: TestSubjectFactory) {
         if let a = starter { self.aboriginalGenome = a }
         else {
-            let singleNeuronPassThroughPort = "N_A(true)_W(b[1]v[1])_B(b[0]v[0]_"
+//            let singleNeuronPassThroughPort = "N_A(true)_W(b[1]v[1])_B(b[0]v[0]_"
             let sag: Genome = { () -> Genome in
                 var dag = Genome("L_")
-                for _ in 0..<selectionControls.howManySenses {
-                    dag += singleNeuronPassThroughPort
+                for portNumber in 0..<selectionControls.howManySenses {
+                    dag += "N_"
+                    for _ in 0..<portNumber { dag += "A(false)_" }
+                    dag += "W(b[1]v[1])_B(b[0]v[0]_"
                 }
                 return dag
             }()
@@ -85,7 +91,7 @@ class Custodian {
             self.aboriginalGenome = sag
         }
         
-        self.callbacks = callbacks
+        self.testSubjectFactory = testSubjectFactory
         self.tsRelay = TSRelay(testSubjects)
         self.selector = Selector(tsRelay, testGroup: testSubjects)
         
@@ -133,6 +139,23 @@ class Custodian {
         let forArchival = TSArchivableSubject(tsHandle: winner, genome: genome, score: score)
         self.studBeingVetted = forArchival
     }
+    
+    func getMostInterestingTestSubject() -> NeuralNetProtocol {
+        var mostInterestingGenome = String()
+        
+        if let bleedingEdge = studBeingVetted {
+            mostInterestingGenome = bleedingEdge.genome
+        } else if let reigningChampion = promisingLines.last {
+            mostInterestingGenome = reigningChampion.genome
+        } else if !bestGenomeEver.isEmpty {
+            mostInterestingGenome = bestGenomeEver
+        } else {
+            mostInterestingGenome = aboriginalGenome
+        }
+        
+        let _ = decoder.setInput(to: mostInterestingGenome).decode()
+        return Translators.t.getBrain()
+    }
 
     func makeGeneration(mutate: Bool = true, force thisMany: Int? = nil) -> Generation {
         let howManySubjectsPerGeneration = (thisMany == nil) ?
@@ -167,7 +190,7 @@ class Custodian {
         return (candidateScore < reigningChampion.score) ? candidate : reigningChampion.tsHandle
     }
     
-    func track() {
+    func track() -> CuratorStatus {
         let dudIfSameGuy = { (_ newGuy: TSHandle, _ currentGuy: TSHandle) -> Void in
             if newGuy == currentGuy { self.dudCounter += 1 }
             else { self.dudCounter = 0 }
@@ -207,7 +230,7 @@ class Custodian {
             print("Genome: \(self.bestGenomeEver)")
         }
 
-        while numberOfGenerations > 0 {
+        if numberOfGenerations > 0 {
             defer { numberOfGenerations -= 1 }
             
             self.testSubjects.reset()   // New generation; kill off the old one
@@ -216,30 +239,20 @@ class Custodian {
             trackDudness(selected)
 
             if self.bestTestSubject == nil
-                { self.bestTestSubject = selected; continue }
+                { self.bestTestSubject = selected; return .running }
             
             if dudCounter == 0 {
                 self.bestTestSubject = selected
                 archivePromisingStud(bestTestSubject!)
-                continue
+                return .running
             }
             
-            if isTooMuchDudness() { finalReport(false); return }
+            if isTooMuchDudness() { finalReport(false); return .chokedByDudliness }
+            
+            return .running
         }
         
         finalReport(true)
-    }
-}
-
-extension Custodian {
-    class Callbacks {
-        var testSubjectFactory: SelectionTestSubjectFactory?
-        var fitnessTester: SelectionFitnessTester?
-        
-        init(testSubjectFactory: SelectionTestSubjectFactory, fitnessTester: SelectionFitnessTester) {
-            self.testSubjectFactory = testSubjectFactory; self.fitnessTester = fitnessTester
-        }
-        
-        init() { }
+        return .finished
     }
 }

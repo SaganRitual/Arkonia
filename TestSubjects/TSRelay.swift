@@ -22,38 +22,6 @@ import Foundation
 
 typealias TSHandle = Int
 
-class TSTestSubject {
-    static private var theFishNumber = 0
-    
-    private(set) var myFishNumber: Int
-    private(set) var brain: BrainStem?
-    private(set) var genome: Genome
-    private let callbacks: Custodian.Callbacks
-    
-    init(with genome: Genome, brain: BrainStem? = nil, callbacks: Custodian.Callbacks) {
-        self.brain = brain
-        self.genome = genome
-        self.callbacks = callbacks
-        self.myFishNumber = TSTestSubject.theFishNumber
-        TSTestSubject.theFishNumber += 1
-    }
-    
-    func getFitnessScore() -> Double? {
-        guard let b = self.brain else { preconditionFailure("No brain, no score.") }
-        return b.fitnessScore
-    }
-    
-    func setBrain(_ brain: BrainStem) { self.brain = brain }
-    
-    func setFitnessScore(_ score: Double) { self.brain!.fitnessScore = score }
-    
-    func submitToTest(for sensoryInput: [Double]) -> [Double]? {
-        let testOutputs = callbacks.fitnessTester!.administerTest(to: self, for: sensoryInput)
-        let _ = callbacks.fitnessTester!.setFitnessScore(for: self, outputs: testOutputs)
-        return testOutputs
-    }
-}
-
 class TSRelay {
     var testSubjects: TSTestGroup
     

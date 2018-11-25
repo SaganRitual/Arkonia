@@ -28,10 +28,10 @@ class WildGuessWindowController: NSWindowController {
     
     override func windowDidLoad() {
         if let screenSize = window?.screen?.frame {
-            let newHeight = screenSize.height * 0.8
-            let newWidth = screenSize.width * 0.9
-            let newX = (screenSize.width - newWidth) / 2
-            let newY = 2 * (screenSize.height - newHeight) / 3
+            let newHeight = screenSize.height * 0.5
+            let newWidth = screenSize.width * 0.5
+            let newX = -100// (screenSize.width - newWidth) / 2
+            let newY = 0// 2 * (screenSize.height - newHeight) / 3
             
             let newSize = CGSize(width: newWidth, height: newHeight)
             let newOrigin = CGPoint(x: newX, y: newY)

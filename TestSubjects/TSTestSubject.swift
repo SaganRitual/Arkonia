@@ -20,37 +20,34 @@
 
 import Foundation
 
-
-extension Decoder {
-    func addIx(_ stringIndex: String.Index, _ ss: Int) -> String.Index {
-        return self.inputGenome.index(stringIndex, offsetBy: ss)
+class TSTestSubject {
+    static private var theFishNumber = 0
+    
+    private(set) var myFishNumber: Int
+    private(set) var brain: BrainStem?
+    private(set) var genome: Genome
+    private let fitnessTester: TestSubjectFitnessTester
+    
+    init(with genome: Genome, brain: BrainStem? = nil, fitnessTester: TestSubjectFitnessTester) {
+        self.brain = brain
+        self.genome = genome
+        self.fitnessTester = fitnessTester
+        self.myFishNumber = TSTestSubject.theFishNumber
+        TSTestSubject.theFishNumber += 1
     }
     
-    func addInt(_ stringIndex: String.Index, _ ss: Int) -> Int {
-        return self.inputGenome.distance(from: stringIndex, to: addIx(stringIndex, ss))
+    func getFitnessScore() -> Double? {
+        guard let b = self.brain else { preconditionFailure("No brain, no score.") }
+        return b.fitnessScore
     }
     
-    func distance(to endIndex: String.Index) -> Int {
-        return self.inputGenome.distance(from: self.inputGenome.startIndex, to: endIndex)
-    }
+    func setBrain(_ brain: BrainStem) { self.brain = brain }
     
-    func gt(_ lhs: GenomeIndex, _ rhs: GenomeIndex) -> Bool {
-        return lhs > rhs
-    }
+    func setFitnessScore(_ score: Double) { self.brain!.fitnessScore = score }
     
-    func sub(_ lhs: GenomeIndex, from rhs: Int) -> Int {
-        return rhs - toInt(lhs)
-    }
-    
-    func toIndex(_ ss: Int) -> GenomeIndex {
-        return self.inputGenome.index(self.inputGenome.startIndex, offsetBy: ss)
-    }
-    
-    func toInt(_ index: GenomeIndex) -> Int {
-        return self.inputGenome.distance(from: self.inputGenome.startIndex, to: index)
-    }
-    
-    func toString(_ slice: GenomeSlice) -> String {
-        return String(slice)
+    func submitToTest(for sensoryInput: [Double]) -> [Double]? {
+        let testOutputs = fitnessTester.administerTest(to: self, for: sensoryInput)
+        let _ = fitnessTester.setFitnessScore(for: self, outputs: testOutputs)
+        return testOutputs
     }
 }

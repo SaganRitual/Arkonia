@@ -66,10 +66,6 @@ import CoreGraphics
 class Translators: BrainOwnerProtocol {
     static let t = Translators()
 
-    // The test subject classes can set these
-    static var numberOfSenses = 5
-    static var numberOfMotorNeurons = "Zoe Bishop".count
-
     func setBias(_ value: ValueDoublet) { brain.setBias(value) }
     func setBias(_ baseline: Double, _ value: Double) { brain.setBias(baseline, value) }
     func setOutputFunction(_ function: @escaping NeuronOutputFunction) { brain.setOutputFunction(function) }
