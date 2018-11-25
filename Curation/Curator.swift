@@ -80,9 +80,9 @@ class Curator {
 //            let singleNeuronPassThroughPort = "N_A(true)_W(b[1]v[1])_B(b[0]v[0]_"
             let sag: Genome = { () -> Genome in
                 var dag = Genome()
-                for _ in 0..<3 {
+                for _ in 0..<5 {
                     dag += "L_"
-                    for portNumber in 0..<8 {
+                    for portNumber in 0..<12 {
                         dag += "N_"
                         for _ in 0..<portNumber { dag += "A(false)_" }
                         let granularity = 100000
@@ -131,6 +131,10 @@ class Curator {
             let fs = tsRelay.getFitnessScore(for: winner)
             let ffs = Utilities.notOptional(fs, "Something ain't right!")
 
+            for char in FTLearnZoeName.resultsArray {
+                print(String(char), terminator: "")
+            }
+            print()
             print("New record by \(winner): \(ffs)")
             self.promisingLines.append(vettee)
             self.studBeingVetted = nil      // In case it makes debugging easier
@@ -173,6 +177,7 @@ class Curator {
         
         for _ in 0..<howManySubjectsPerGeneration {
             let testSubject = testSubjectFactory.makeTestSubject(genome: self.studGenome, mutate: mutate)
+            guard testSubject.brain!.isViableBrain() else { continue }
             testSubjects[testSubject.myFishNumber] = testSubject
             generation.addTestSubject(testSubject.myFishNumber)
         }
@@ -241,6 +246,7 @@ class Curator {
         if numberOfGenerations > 0 {
             defer { numberOfGenerations -= 1 }
             
+            print("Test 1 generation")
             self.testSubjects.reset()   // New generation; kill off the old one
             let selected = select()
 
@@ -256,6 +262,9 @@ class Curator {
             }
             
             if isTooMuchDudness() { finalReport(false); return .chokedByDudliness }
+//                print("Trying new random genome")
+//                studGenome = RandomnessGenerator.generateRandomGenome()
+//            }
             
             return .running
         }

@@ -34,8 +34,8 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         let testSubjects = TSTestGroup()
         let relay = TSRelay(testSubjects)
-        let fitnessTester = TestSubjectFitnessTester()
-        let testSubjectFactory = TestSubjectFactory(relay, fitnessTester: fitnessTester)
+        let fitnessTester = FTLearnZoeName()
+        let testSubjectFactory = TSZoeFactory(relay, fitnessTester: fitnessTester)
         self.curator = Curator(starter: nil, testSubjectFactory: testSubjectFactory)
     }
    

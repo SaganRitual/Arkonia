@@ -40,12 +40,6 @@ class Layer: CustomStringConvertible {
     
     func closeNeuron() { if let u = underConstruction { neurons.append(u) }; underConstruction = nil }
     
-    func setTopLayerInputPorts() {
-        for (ss, neuron) in zip(0..., neurons) {
-            neuron.setTopLayerInputPort(whichUpperLayerNeuron: ss)
-        }
-    }
-    
     func connectNeurons(howManyInputsAreAvailable: Int, isMotorNeuronLayer: Bool = false) {
         var nextCommLineForMotorNeurons: Int? = isMotorNeuronLayer ? 0 : nil
  
@@ -56,6 +50,12 @@ class Layer: CustomStringConvertible {
     }
     
     func endOfStrand() { for neuron in neurons { neuron.endOfStrand() } }
+    
+    func isViableLayer() -> Bool {
+        return neurons.reduce(0, { (runningTotal, neuron) -> Int in
+            runningTotal + neuron.inputPortDescriptors.count
+        }) > 0
+    }
     
     private func makeNeuron() -> Neuron {
         return Neuron(layerSSInBrain: self.layerSSInBrain, neuronSSInLayer: neurons.count)
@@ -71,6 +71,12 @@ class Layer: CustomStringConvertible {
     func setThreshold(_ value: ValueDoublet) { underConstruction?.setThreshold(value) }
     func setThreshold(_ baseline: Double, _ value: Double) { underConstruction?.setThreshold(baseline, value) }
     
+    func setTopLayerInputPorts() {
+        for (ss, neuron) in zip(0..., neurons) {
+            neuron.setTopLayerInputPort(whichUpperLayerNeuron: ss)
+        }
+    }
+
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }
         print("\n\tL.\n\(tabs)")

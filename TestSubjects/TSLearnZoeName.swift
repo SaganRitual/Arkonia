@@ -20,114 +20,106 @@
 
 import Foundation
 
-class TSLearnZoeName: BreederTestSubject {
-    class TSF: BreederTestSubjectFactory {
-        let genome: Genome?
-        
-        init() { self.genome = nil }
-        
-        init(genome: Genome, numberOfSenses: Int = 5, numberOfMotorNeurons: Int = 5,
-             numberOfGenerations: Int = 50, numberOfSubjectsPerGeneration: Int = 50) {
-            selectionControls.howManySenses = numberOfSenses
-            selectionControls.howManyMotorNeurons = numberOfMotorNeurons
-            selectionControls.howManyGenerations = numberOfGenerations
-            selectionControls.howManySubjectsPerGeneration = numberOfSubjectsPerGeneration
+class TSLearnZoeName: TSTestSubject {
+    override init(with genome: Genome, brain: BrainStem?, fitnessTester: TestSubjectFitnessTester) {
+        super.init(with: genome, brain: brain, fitnessTester: fitnessTester)
 
-            self.genome = genome
-        }
-
-        init(genome: Genome) { self.genome = genome }
-        
-        func makeTestSubject() -> BreederTestSubject {
-            if let g = genome {
-                return TSLearnZoeName(genome: g, brain: nil)
-            }
-            
-            // Random genome, as of 19Nov2018
-            return TSLearnZoeName.makeTestSubject()
-        }
+        setSelectionControls()
     }
     
-    required internal init(genome: Genome?, brain: LayerOwnerProtocol?) {
-        if let g = genome {
-            super.init(genome: g)
-
-            if let b = brain { self.brain = b }
-            else { self.brain = TSLearnZoeName.makeBrain(from: g) }
-            
-            return
-        }
-        
-        super.init()
-        
-        self.genome = RandomnessGenerator.generateRandomGenome()
-        self.brain = TSLearnZoeName.makeBrain(from: self.genome!)
-    }
-    
-    required init() {
-        fatalError("init() has not been implemented")
-    }
-    
-    required init(genome: Genome) {
-        fatalError("init(genome:) has not been implemented")
-    }
-    
-    override class func makeBrain(from genome: Genome) -> LayerOwnerProtocol {
-        Decoder.d.setInput(to: genome).decode()
-        return Translators.t.getBrain()
-    }
-    
-    override class func makeTestSubject() -> BreederTestSubject {
-        TSLearnZoeName.theFishNumber += 1
-        return TSLearnZoeName(genome: nil, brain: nil)
-    }
-    
-    class func makeTestSubject(with genome: Genome) -> BreederTestSubject{
-        TSLearnZoeName.theFishNumber += 1
-        return TSLearnZoeName(genome: genome, brain: nil)
-    }
-    
-    class func setBreederTestSubjectFactory() {
-        _ = Breeder.bb.setTestSubjectFactory(TSF())
-    }
-    
-    override func spawn() -> BreederTestSubject? {
-        _ = Mutator.m.setInputGenome(genome!).mutate()
-        let mutatedGenome = Mutator.m.convertToGenome()
-        if mutatedGenome == self.genome { return nil }
-        
-        let brain = TSLearnZoeName.makeBrain(from: mutatedGenome)
-        return TSLearnZoeName(genome: mutatedGenome, brain: brain)
+    func setSelectionControls() {
+        selectionControls.howManySenses = 5
+        selectionControls.howManyMotorNeurons = "Zoe Bishop".count
     }
 }
 
-class FTLearnZoeName: BreederFitnessTester {
+class TSZoeFactory: TestSubjectFactory {
+    override func makeTestSubject(genome: Genome, mutate: Bool) -> TSLearnZoeName {
+        var maybeMutated = genome
+        if mutate {
+            let _ = Mutator.m.setInputGenome(genome).mutate()
+            maybeMutated = Mutator.m.convertToGenome()
+        }
+        
+        decoder.setInput(to: maybeMutated).decode()
+        let brain = Translators.t.getBrain()
+        
+        return TSLearnZoeName(with: maybeMutated, brain: brain, fitnessTester: fitnessTester)
+    }
+}
+
+class FTLearnZoeName: TestSubjectFitnessTester {
     let zName = "Zoe Bishop"
+
+    static var resultsArray = [Character("."), Character("."), Character("."), Character("."),
+                        Character("."), Character("."), Character("."), Character("."),
+                        Character("."), Character(".")]
+
+    var charactersMatched = 0
+    override func setFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) {
+        guard let outputs = outputs else { return }
+
+        var scoreForTheseOutputs = 0.0
+
+        let scorer = Scorer(zName, outputs: outputs)
+        scoreForTheseOutputs += scorer.getScore()
+        
+        if scoreForTheseOutputs == 0 {
+            charactersMatched += 1
+            scoreForTheseOutputs = Double(abs(zName.count - charactersMatched))
+        }
+        
+        testSubject.setFitnessScore(scoreForTheseOutputs)
+    }
+}
+
+fileprivate class Scorer {
     let uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     let lowercase = "abcdefghijklmnopqrstuvwxyz"
-    var symbolcase = FTLearnZoeName.makeSymbolCase()
+    var symbolcase = Scorer.makeSymbolCase()
+    var whichCase: String
+
+    let zName: String
+    var charactersMatched = 0
+    var outputs: [Double]
+    var previousCharacterValue: Int? = nil
+    var scoreForTheseOutputs = 0.0
     
-    func administerTest(to testSubject: BreederTestSubject) -> (Double, String)? {
-        let ts = testSubject as! TSLearnZoeName
-        let sensoryInput: [Double] = [1, 1, 1, 1, 1]
-        guard let outputs = ts.brain!.stimulate(inputs: sensoryInput) else { return nil }
-        
-        return getFitnessScore(for: outputs)
+    var modulo = 0
+    var amodulo = 0
+    var inputCharacterValue: UInt32 = 0
+    var inputCharacter: Character!
+
+    init(_ zName: String, outputs: [Double]) {
+        self.zName = zName; self.outputs = outputs; self.whichCase = uppercase
     }
     
-    var charactersMatched = 0
-    internal func getFitnessScore(for outputs: [Double]) -> (Double, String) {
-        var scoreForTheseOutputs = 0.0
-        var whichCase = uppercase
-        var resultString = String()
-        var previousCharacterValue: Int? = nil
+    func getCase(_ expectedCharacter: Character, _ ss: Int) -> String {
+        if String().isUppercase(expectedCharacter) {
+            whichCase = uppercase
+        } else if String().isLowercase(expectedCharacter) {
+            whichCase = lowercase
+        } else {
+            whichCase = symbolcase
+            modulo = Int(outputs[ss]) % 32
+            amodulo = abs(modulo)
+            inputCharacterValue = UnicodeScalar(amodulo)!.value
+            inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
+        }
         
-        for (expectedCharacter, ss) in zip(zName, 0..<(charactersMatched + 1)) {
-            var modulo = Int(outputs[ss]) % 26
-            var amodulo = abs(modulo)
+        return whichCase
+    }
+
+    func getScore() -> Double {
+        for (expectedCharacter, ss) in zip(zName, 0..<outputs.count) {
+            if outputs[ss] > Double(Int.max) { modulo = Int.max }
+            if outputs[ss] < Double(-Int.max) { modulo = Int.min }
+
+            modulo %= 26
+            amodulo = abs(modulo)
             
-            var inputCharacterValue = UnicodeScalar(amodulo)!.value
-            var inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
+            inputCharacterValue = UnicodeScalar(amodulo)!.value
+            inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
             
             if let p = previousCharacterValue, inputCharacterValue == p {
                 scoreForTheseOutputs += 20
@@ -135,28 +127,12 @@ class FTLearnZoeName: BreederFitnessTester {
             
             previousCharacterValue = Int(inputCharacterValue)
             
-            if String().isUppercase(expectedCharacter) {
-                whichCase = uppercase
-            } else if String().isLowercase(expectedCharacter) {
-                whichCase = lowercase
-            } else {
-                whichCase = symbolcase
-                modulo = Int(outputs[ss]) % 32
-                amodulo = abs(modulo)
-                inputCharacterValue = UnicodeScalar(amodulo)!.value
-                inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
-            }
+            let whichCase = getCase(expectedCharacter, ss)
             
             inputCharacterValue += UnicodeScalar(String(whichCase.first!))!.value
             inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
             
-            // For upper and lowercase, display the letter from the brain outputs.
-            // For symbols -- to catch the " " -- we display greek symbols
-            let displaySymbol = (whichCase == symbolcase) ?
-                UnicodeScalar(inputCharacterValue + UnicodeScalar("\u{03B1}")!.value)! :
-                UnicodeScalar(inputCharacterValue)!
-            
-            resultString += String(displaySymbol)
+            FTLearnZoeName.resultsArray[ss] = inputCharacter
             
             let zCharOffset = whichCase.firstIndex(of: expectedCharacter)!
             let iCharOffset = whichCase.firstIndex(of: inputCharacter)!
@@ -165,14 +141,7 @@ class FTLearnZoeName: BreederFitnessTester {
             scoreForTheseOutputs += Double(abs(distance)).dTruncate()
         }
         
-        if scoreForTheseOutputs == 0 {
-            charactersMatched += 1
-            scoreForTheseOutputs = Double(abs(zName.count - charactersMatched))
-        }
-
-        resultString += ": " + String(scoreForTheseOutputs)
-        
-        return (scoreForTheseOutputs, resultString)
+        return scoreForTheseOutputs
     }
     
     private static func makeSymbolCase() -> String{
@@ -185,58 +154,4 @@ class FTLearnZoeName: BreederFitnessTester {
         
         return String(symbolcase)
     }
-}
-
-class ZoeTestSubjectSetup {
-    
-    let numberOfSenses = 5
-    let numberOfMotorNeurons = "Zoe Bishop".count
-    let numberOfGenerations = 100
-    let numberOfTestSubjectsPerGeneration = 100
-    
-    var newGenome = Genome()
-    var testSubjectFactory: TSLearnZoeName.TSF?
-    var testBreeder: TestBreeder?
-
-    class TestBreeder {
-        var shouldKeepRunning = true
-        
-        var currentGenerationNumber = 0
-        func select() -> Double {
-            let bestFitnessScore = Breeder.bb.breedAndSelect()
-            
-            currentGenerationNumber += 1
-            if currentGenerationNumber >= Breeder.howManyGenerations || bestFitnessScore == 0 {
-                self.shouldKeepRunning = false
-            }
-            
-            return bestFitnessScore
-        }
-    }
-    
-    init() {
-        newGenome += "L_"
-        for _ in 0..<numberOfSenses {
-            newGenome += "N_A(true)_W(b[1]v[1])_B(b[0]v[0])_T(b[5555]v[5555])_"
-
-        testSubjectFactory =
-            TSLearnZoeName.TSF(genome: newGenome, numberOfSenses: numberOfSenses, numberOfMotorNeurons: numberOfMotorNeurons,
-                               numberOfGenerations: numberOfGenerations, numberOfTestSubjectsPerGeneration: numberOfTestSubjectsPerGeneration)
-
-            _ = Breeder.bb.setTestSubjectFactory(testSubjectFactory!)
-            Breeder.bb.setFitnessTester(FTLearnZoeName())
-            
-            self.testBreeder = TestBreeder()
-        }
-    }
-    
-    func run() {
-        let v = RepeatingTimer(timeInterval: 0.1)
-        var bestFitnessScore = 0.0
-        v.eventHandler = { bestFitnessScore = self.testBreeder!.select() }
-        v.resume()
-        while testBreeder!.shouldKeepRunning {  }
-        print("Best score \(bestFitnessScore)", Breeder.bb.getBestGenome())
-    }
-
 }

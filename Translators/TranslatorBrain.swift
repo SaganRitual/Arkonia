@@ -45,7 +45,8 @@ extension Translators {
         func closeLayer() {
             if let u = underConstruction {
                 closeNeuron()
-                layers.append(u)
+                
+                if u.isViableLayer() { layers.append(u) }
                 underConstruction = nil
 //                print("Brain closes layer")
             }
@@ -54,6 +55,10 @@ extension Translators {
         
         func closeNeuron() { underConstruction?.closeNeuron() }
         
+        func isViableBrain() -> Bool {
+            return layers.reduce(true, { $0 && $1.isViableLayer() })
+        }
+
         func setInputs(_ inputs: [Int]) {
             
         }

@@ -21,7 +21,7 @@
 import Foundation
 
 class TSTestSubject {
-    static private var theFishNumber = 0
+    static var theFishNumber = 0
     
     private(set) var myFishNumber: Int
     private(set) var brain: BrainStem?
