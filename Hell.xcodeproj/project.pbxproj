@@ -16,6 +16,12 @@
 		D40593ED21A0F319008C5FE8 /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */; };
 		D40593EF21A0F34E008C5FE8 /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */; };
 		D41BA59F21A36851009A2648 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41BA59E21A36851009A2648 /* RepeatingTimer.swift */; };
+		D43E81F321AA24C900867037 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F221AA24C900867037 /* Selector.swift */; };
+		D43E81F421AA24C900867037 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F221AA24C900867037 /* Selector.swift */; };
+		D43E81F621AA258600867037 /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F521AA258600867037 /* TSFitnessTester.swift */; };
+		D43E81F721AA258600867037 /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F521AA258600867037 /* TSFitnessTester.swift */; };
+		D43E81F921AA25AD00867037 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F821AA25AD00867037 /* TSFactory.swift */; };
+		D43E81FA21AA25AD00867037 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F821AA25AD00867037 /* TSFactory.swift */; };
 		D44B549B2197EE9900FB94FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B549A2197EE9900FB94FC /* AppDelegate.swift */; };
 		D44B549D2197EE9900FB94FC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549C2197EE9900FB94FC /* GameScene.sks */; };
 		D44B549F2197EE9900FB94FC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549E2197EE9900FB94FC /* Actions.sks */; };
@@ -84,6 +90,9 @@
 		D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorLayer.swift; sourceTree = "<group>"; };
 		D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorNeuron.swift; sourceTree = "<group>"; };
 		D41BA59E21A36851009A2648 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
+		D43E81F221AA24C900867037 /* Selector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selector.swift; sourceTree = "<group>"; };
+		D43E81F521AA258600867037 /* TSFitnessTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSFitnessTester.swift; sourceTree = "<group>"; };
+		D43E81F821AA25AD00867037 /* TSFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSFactory.swift; sourceTree = "<group>"; };
 		D44B54972197EE9900FB94FC /* XCodeClutter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCodeClutter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D44B549A2197EE9900FB94FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D44B549C2197EE9900FB94FC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -263,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				D4B137D821A8E11D00CB6E87 /* Generation.swift */,
+				D43E81F221AA24C900867037 /* Selector.swift */,
 			);
 			path = Curation;
 			sourceTree = "<group>";
@@ -270,6 +280,8 @@
 		D4C957BF21A5133900AF0CF6 /* TestSubjects */ = {
 			isa = PBXGroup;
 			children = (
+				D43E81F821AA25AD00867037 /* TSFactory.swift */,
+				D43E81F521AA258600867037 /* TSFitnessTester.swift */,
 				D4B137D521A8DF0700CB6E87 /* TSRelay.swift */,
 			);
 			path = TestSubjects;
@@ -450,6 +462,7 @@
 			files = (
 				D4838186219A956400B3648A /* Decoder.swift in Sources */,
 				D4838182219A2D5800B3648A /* main.swift in Sources */,
+				D43E81F321AA24C900867037 /* Selector.swift in Sources */,
 				D4C2253F21A072EF004A011A /* Protocols.swift in Sources */,
 				D40593ED21A0F319008C5FE8 /* TranslatorLayer.swift in Sources */,
 				D41BA59F21A36851009A2648 /* RepeatingTimer.swift in Sources */,
@@ -462,9 +475,11 @@
 				D48AB385219E718600624000 /* Mutator.swift in Sources */,
 				D4B137D321A8A6DE00CB6E87 /* CustodianTest.swift in Sources */,
 				D4C957BE21A3BEA700AF0CF6 /* BreederTestSubject.swift in Sources */,
+				D43E81F621AA258600867037 /* TSFitnessTester.swift in Sources */,
 				D4B137D621A8DF0700CB6E87 /* TSRelay.swift in Sources */,
 				D4C2253D219FC3FB004A011A /* GenomeTranslators.swift in Sources */,
 				D4B137D921A8E11D00CB6E87 /* Generation.swift in Sources */,
+				D43E81F921AA25AD00867037 /* TSFactory.swift in Sources */,
 				D48AB382219E484000624000 /* Utilities.swift in Sources */,
 				D4A03632219CA94300EC171E /* TestDecoderInputs.swift in Sources */,
 			);
@@ -480,15 +495,18 @@
 				D4029F2321A2006C00BDDB7A /* TranslatorNeuron.swift in Sources */,
 				D4C957C921A5D34800AF0CF6 /* RandomnessGenerator.swift in Sources */,
 				D48AB363219DDE6900624000 /* AppDelegate.swift in Sources */,
+				D43E81F721AA258600867037 /* TSFitnessTester.swift in Sources */,
 				D4029F2121A2006C00BDDB7A /* TranslatorBrain.swift in Sources */,
 				D48AB37F219E47C600624000 /* DecoderExtras.swift in Sources */,
 				D4029F2221A2006C00BDDB7A /* TranslatorLayer.swift in Sources */,
+				D43E81FA21AA25AD00867037 /* TSFactory.swift in Sources */,
 				D4029F2421A2007400BDDB7A /* Protocols.swift in Sources */,
 				D48AB37B219DE4A800624000 /* Decoder.swift in Sources */,
 				D4FBB7BF21A7863400722AFF /* RepeatingTimer.swift in Sources */,
 				D48AB383219E484000624000 /* Utilities.swift in Sources */,
 				D48AB379219DDFC900624000 /* VBrain.swift in Sources */,
 				D48AB386219E718600624000 /* Mutator.swift in Sources */,
+				D43E81F421AA24C900867037 /* Selector.swift in Sources */,
 				D4C957C821A5D33600AF0CF6 /* BreederTestSubject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

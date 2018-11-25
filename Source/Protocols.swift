@@ -94,3 +94,23 @@ protocol BrainOwnerProtocol {
     func setThreshold(_ baseline: Double, _ value: Double)
     func show(tabs: String, override: Bool)
 }
+
+protocol SelectionTestSubjectFactory {
+    func makeTestSubject(genome: Genome, mutate: Bool) -> TSTestSubject
+}
+
+protocol SelectionFitnessTester {
+    func administerTest(to testSubject: TSTestSubject, for sensoryInput: [Double]) -> [Double]?
+    func setFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?)
+    func getFitnessScore(for testSubject: TSTestSubject) -> Double?
+}
+
+protocol BrainStem {
+    var fitnessScore: Double? { get set }
+    func stimulate(inputs: [Double]) -> [Double]?
+}
+
+protocol NeuralNetProtocol: BrainStem & LayerOwnerProtocol {
+    
+}
+
