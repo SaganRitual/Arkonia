@@ -29,6 +29,7 @@ class GameScene: SKScene {
     var frameCount = 0
     var curator: Curator!
     var curatorStatus = CuratorStatus.running
+    var brain: NeuralNetProtocol!
 
     override func didMove(to view: SKView) {
         let testSubjects = TSTestGroup()
@@ -48,10 +49,17 @@ class GameScene: SKScene {
         return nil
     }
     
+    var completionDisplayed = false
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
         
-        guard self.curatorStatus == .running else { return }
+        guard self.curatorStatus == .running else {
+            if !completionDisplayed {
+                vBrain.displayBrain(self.brain, isFinalUpdate: true)
+                completionDisplayed = true
+            }
+            return
+        }
         
         self.curatorStatus = curator.track()
 
@@ -67,10 +75,10 @@ class GameScene: SKScene {
 //        print("?", terminator: "")
 //        frameCount = 0
 
-        let brain = curator.getMostInterestingTestSubject()
+        self.brain = curator.getMostInterestingTestSubject()
 
-        vBrain = VBrain(gameScene: self, brain: brain)
-        vBrain.displayBrain(brain)
+        vBrain = VBrain(gameScene: self, brain: self.brain)
+        vBrain.displayBrain(self.brain)
     }
 
 }

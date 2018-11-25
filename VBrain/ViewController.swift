@@ -28,13 +28,13 @@ class WildGuessWindowController: NSWindowController {
     
     override func windowDidLoad() {
         if let screenSize = window?.screen?.frame {
-            let newHeight = screenSize.height * 0.5
-            let newWidth = screenSize.width * 0.5
-            let newX = -100// (screenSize.width - newWidth) / 2
-            let newY = 500// 2 * (screenSize.height - newHeight) / 3
+            let newHeight = screenSize.height * 0.7
+            let newWidth = screenSize.width * 0.7
+            let newX = -100//(screenSize.width - newWidth) / 2        // (-100, 500) is in the upper left corner
+            let newY = 500.0 //2 * (screenSize.height - newHeight) / 3
             
             let newSize = CGSize(width: newWidth, height: newHeight)
-            let newOrigin = CGPoint(x: newX, y: newY)
+            let newOrigin = CGPoint(x: CGFloat(newX), y: CGFloat(newY))
             
             let newFrame = NSRect(origin: newOrigin, size: newSize)
             WildGuessWindowController.windowDimensions = newSize

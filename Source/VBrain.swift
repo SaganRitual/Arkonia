@@ -29,7 +29,10 @@ class VBrain {
     var vTestInputs = [SKLabelNode]()
     var vTestOutputs = [SKLabelNode]()
     var layers = [Translators.Layer]()
-    
+    var isFinalUpdate = false
+    let fontSize: CGFloat = 8.0
+    var startingY: CGFloat = 0.0
+
     init(gameScene: GameScene, brain: NeuralNetProtocol) {
         guard let _ = NSScreen.main?.frame else {
             fatalError("Something isn't working with the screen size")
@@ -39,7 +42,9 @@ class VBrain {
         self.brain = brain
     }
     
-    func displayBrain(_ brain: NeuralNetProtocol? = nil) {
+    func displayBrain(_ brain: NeuralNetProtocol? = nil, isFinalUpdate: Bool = false) {
+        self.isFinalUpdate = isFinalUpdate
+        
         gameScene.removeAllChildren()
 
         if let b = brain { self.layers = b.layers }
@@ -105,6 +110,42 @@ class VBrain {
 }
 
 extension VBrain {
+    func drawBiases(_ neuron: Translators.Neuron, _ vNeuron: SKShapeNode) {
+        let b = SKLabelNode(text: "B(\(neuron.bias?.value ?? -42.42))")
+        
+//                let colors = [NSColor.blue, NSColor.green, NSColor.yellow, NSColor.red]
+//                let whichColor = Int.random(in: 0..<colors.count)
+        
+        b.position = vNeuron.position
+        b.fontSize = fontSize
+        b.fontColor = NSColor.yellow
+        b.fontName = "Courier New"
+        b.position.x -= b.frame.width
+//                b.position.x += (b.frame.width / 2)
+        b.position.y += startingY
+        startingY += b.frame.height
+        gameScene.addChild(b)
+    }
+
+    func drawWeights(_ neuron: Translators.Neuron, _ vNeuron: SKShapeNode) {
+        for ss in 0..<neuron.weights.count {
+            let w = neuron.weights[ss]
+            let s = SKLabelNode(text: "W(\(ss)) \(w.value)")
+            
+//                    let colors = [NSColor.blue, NSColor.green, NSColor.yellow, NSColor.red]
+//                    let whichColor = Int.random(in: 0..<colors.count)
+            
+            s.position = vNeuron.position
+            s.fontSize = fontSize
+            s.fontColor = NSColor.green
+            s.fontName = "Courier New"
+            s.position.x -= s.frame.width
+            s.position.y += startingY
+            startingY += s.frame.height
+            gameScene.addChild(s)
+        }
+    }
+
     func drawNeuronLayers(_ layers: [Translators.Layer], spacer: Spacer) {
         var previousLayerPoints = [CGPoint]()
     
@@ -135,42 +176,15 @@ extension VBrain {
 
                 if !minusDeadCommLines.isEmpty { drawConnections(from: minusDeadCommLines, to: neuron, at: position) }
                 
-                let fontSize: CGFloat = 8.0
-                var startingY: CGFloat = 0.0
-                for ss in 0..<neuron.weights.count {
-                    let w = neuron.weights[ss]
-                    let s = SKLabelNode(text: "W(\(ss)) \(w.value)")
-                    
-//                    let colors = [NSColor.blue, NSColor.green, NSColor.yellow, NSColor.red]
-//                    let whichColor = Int.random(in: 0..<colors.count)
-
-                    s.position = vNeuron.position
-                    s.fontSize = fontSize
-                    s.fontColor = NSColor.green
-                    s.fontName = "Courier New"
-                    s.position.x -= s.frame.width
-                    s.position.y += startingY
-                    startingY += s.frame.height
-                    gameScene.addChild(s)
-                }
-
-                let b = SKLabelNode(text: "B(\(neuron.bias?.value ?? -42.42))")
-                
-//                let colors = [NSColor.blue, NSColor.green, NSColor.yellow, NSColor.red]
-//                let whichColor = Int.random(in: 0..<colors.count)
-
-                b.position = vNeuron.position
-                b.fontSize = fontSize
-                b.fontColor = NSColor.yellow
-                b.fontName = "Courier New"
-                b.position.x -= b.frame.width
-//                b.position.x += (b.frame.width / 2)
-                b.position.y += startingY
-                startingY += b.frame.height
-                gameScene.addChild(b)
-
                 self.vNeurons.append(vNeuron)
                 gameScene.addChild(vNeuron)
+
+                if !isFinalUpdate {
+                    startingY = 0.0
+                    
+                    drawWeights(neuron, vNeuron)
+                    drawBiases(neuron, vNeuron)
+                }
             }
             
             previousLayerPoints = currentLayerPoints
