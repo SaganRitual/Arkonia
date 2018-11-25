@@ -85,13 +85,13 @@ class Translators: BrainOwnerProtocol {
     func closeLayer() { brain.closeLayer() }
     func closeNeuron() { brain.closeNeuron() }
 
-    func connectLayers() { brain?.connectLayers() }
+    func connectLayers() -> Bool { return brain!.connectLayers() }
 
     func endOfStrand() {
+        defer { reachedEndOfStrand = true }
+        
         brain.endOfStrand()
         connectLayers()
-
-        reachedEndOfStrand = true
     }
 
     func getBrain() -> NeuralNetProtocol {

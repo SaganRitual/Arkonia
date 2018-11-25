@@ -58,7 +58,7 @@ enum RandomnessGenerator {
         }
     }
     
-    static func generateRandomGenome(howManyGenes: Int = 400) -> Genome {
+    static func generateRandomGenome(howManyGenes: Int = 200) -> Genome {
         var newGenome = Genome()
         for _ in 0..<howManyGenes { newGenome += generateRandomGene() }
         return newGenome

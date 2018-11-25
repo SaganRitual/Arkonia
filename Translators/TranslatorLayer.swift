@@ -43,19 +43,16 @@ class Layer: CustomStringConvertible {
     func connectNeurons(howManyInputsAreAvailable: Int, isMotorNeuronLayer: Bool = false) {
         var nextCommLineForMotorNeurons: Int? = isMotorNeuronLayer ? 0 : nil
  
+        var isViableLayer = false
         for neuron in neurons {
             nextCommLineForMotorNeurons =
                 neuron.setInputPorts(howManyInputsAreAvailable: howManyInputsAreAvailable, commLineOverride: nextCommLineForMotorNeurons)
+            
+            if !neuron.inputPortDescriptors.isEmpty { isViableLayer = true }
         }
     }
     
     func endOfStrand() { for neuron in neurons { neuron.endOfStrand() } }
-    
-    func isViableLayer() -> Bool {
-        return neurons.reduce(0, { (runningTotal, neuron) -> Int in
-            runningTotal + neuron.inputPortDescriptors.count
-        }) > 0
-    }
     
     private func makeNeuron() -> Neuron {
         return Neuron(layerSSInBrain: self.layerSSInBrain, neuronSSInLayer: neurons.count)

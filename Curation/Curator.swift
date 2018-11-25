@@ -59,7 +59,7 @@ class Curator {
     let selector: Selector
     var numberOfGenerations = selectionControls.howManyGenerations
     var bestTestSubject: TSHandle?
-    let testInputs = [1.0, 1.0, 1.0, 1.0]
+    let testInputs = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
     var dudCounter = 0
     var promisingLines = [TSArchivableSubject]()
     var studBeingVetted: TSArchivableSubject?
@@ -82,7 +82,7 @@ class Curator {
                 var dag = Genome()
                 for _ in 0..<5 {
                     dag += "L_"
-                    for portNumber in 0..<12 {
+                    for portNumber in 0..<3 {
                         dag += "N_"
                         for _ in 0..<portNumber { dag += "A(false)_" }
                         let granularity = 100000
@@ -95,6 +95,7 @@ class Curator {
             }()
             
             self.aboriginalGenome = sag
+            self.aboriginalGenome = RandomnessGenerator.generateRandomGenome()
         }
         
         testSubjectFactory.setDecoder(self.decoder)
@@ -131,10 +132,10 @@ class Curator {
             let fs = tsRelay.getFitnessScore(for: winner)
             let ffs = Utilities.notOptional(fs, "Something ain't right!")
 
-            for char in FTLearnZoeName.resultsArray {
-                print(String(char), terminator: "")
-            }
-            print()
+//            for char in FTLearnZoeName.resultsArray {
+//                print(String(char), terminator: "")
+//            }
+//            print()
             print("New record by \(winner): \(ffs)")
             self.promisingLines.append(vettee)
             self.studBeingVetted = nil      // In case it makes debugging easier
@@ -142,7 +143,9 @@ class Curator {
         
         let stud = self.testSubjects.testSubjects[winner]!
         let genome = stud.genome
-        let score = stud.getFitnessScore()!
+        guard let score = stud.getFitnessScore() else {
+            return
+        }
 
         self.bestScoreEver = score
         self.bestGenomeEver = genome
@@ -154,7 +157,9 @@ class Curator {
     func getMostInterestingTestSubject() -> NeuralNetProtocol {
         var mostInterestingGenome = String()
         
-        if let bleedingEdge = studBeingVetted {
+        if studGenome.count > 0 {
+            mostInterestingGenome = studGenome
+        } else if let bleedingEdge = studBeingVetted {
             mostInterestingGenome = bleedingEdge.genome
         } else if let reigningChampion = promisingLines.last {
             mostInterestingGenome = reigningChampion.genome
@@ -177,7 +182,6 @@ class Curator {
         
         for _ in 0..<howManySubjectsPerGeneration {
             let testSubject = testSubjectFactory.makeTestSubject(genome: self.studGenome, mutate: mutate)
-            guard testSubject.brain!.isViableBrain() else { continue }
             testSubjects[testSubject.myFishNumber] = testSubject
             generation.addTestSubject(testSubject.myFishNumber)
         }
@@ -245,8 +249,7 @@ class Curator {
 
         if numberOfGenerations > 0 {
             defer { numberOfGenerations -= 1 }
-            
-            print("Test 1 generation")
+
             self.testSubjects.reset()   // New generation; kill off the old one
             let selected = select()
 
@@ -261,10 +264,11 @@ class Curator {
                 return .running
             }
             
-            if isTooMuchDudness() { finalReport(false); return .chokedByDudliness }
-//                print("Trying new random genome")
-//                studGenome = RandomnessGenerator.generateRandomGenome()
-//            }
+            if isTooMuchDudness()// { finalReport(false); return .chokedByDudliness }
+            {
+                print("Trying new random genome")
+                studGenome = RandomnessGenerator.generateRandomGenome()
+            }
             
             return .running
         }

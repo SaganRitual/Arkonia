@@ -108,7 +108,6 @@ protocol SelectionFitnessTester {
 protocol BrainStem {
     var fitnessScore: Double? { get set }
     func stimulate(inputs: [Double]) -> [Double]?
-    func isViableBrain() -> Bool
 }
 
 protocol NeuralNetProtocol: BrainStem & LayerOwnerProtocol {

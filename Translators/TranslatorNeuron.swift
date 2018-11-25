@@ -97,8 +97,11 @@ extension Translators {
         // to start with, to aim for open ones. We really
         // should change the bottom layer to be driven by genes.
         var isMotorNeuronLayer = false
-        if let c = commLineOverride { commLineNumber = c; isMotorNeuronLayer = true }
+        if let c = commLineOverride {
+            commLineNumber = c; isMotorNeuronLayer = true
+        }
         
+        inputPortDescriptors.removeAll()
         while true {
             if activationSS >= activators.count { break }
             if weightSS >= weights.count { break }

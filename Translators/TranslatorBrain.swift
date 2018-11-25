@@ -46,7 +46,7 @@ extension Translators {
             if let u = underConstruction {
                 closeNeuron()
                 
-                if u.isViableLayer() { layers.append(u) }
+                layers.append(u)
                 underConstruction = nil
 //                print("Brain closes layer")
             }
@@ -54,22 +54,20 @@ extension Translators {
         }
         
         func closeNeuron() { underConstruction?.closeNeuron() }
-        
-        func isViableBrain() -> Bool {
-            return layers.reduce(true, { $0 && $1.isViableLayer() })
-        }
 
         func setInputs(_ inputs: [Int]) {
             
         }
         
-        func connectLayers() {
+        func connectLayers(){
             var previousLayer: Layer?
+            
             for (which, layer) in zip(0..., layers) {
                 guard let p = previousLayer else { previousLayer = layer; layer.setTopLayerInputPorts(); continue }
                 let isMotorNeuronLayer = ((which + 1) == self.layers.count)
                 layer.connectNeurons(howManyInputsAreAvailable: p.neurons.count, isMotorNeuronLayer: isMotorNeuronLayer)
-                previousLayer = layer;
+
+                previousLayer = layer
             }
         }
         
