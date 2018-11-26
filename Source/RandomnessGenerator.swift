@@ -39,11 +39,11 @@ enum RandomnessGenerator {
 
         switch geneType {
         case act: return "A(\(Bool.random()))"
-        case bis: return "B(b[\(Double.random(in: -100...100).sTruncate())]v[\(Double.random(in: -100...100).sTruncate())])"
+        case bis: return "B(b[\(Double.random(in: -1...1).sTruncate())]v[\(Double.random(in: -1...1).sTruncate())])"
         case fun: return "F(\(RandomnessGenerator.getRandomOutputFunction()))"
         case lay: return "L"
         case neu: return "N"
-        case wgt: return "W(b[\(Double.random(in: -100...100).sTruncate())]v[\(Double.random(in: -100...100).sTruncate())])"
+        case wgt: return "W(b[\(Double.random(in: -1...1).sTruncate())]v[\(Double.random(in: -1...1).sTruncate())])"
         default: fatalError()
         }
     }

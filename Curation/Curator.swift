@@ -74,7 +74,9 @@ class Curator {
 
     var testSubjects = TSTestGroup()
     
-    init(starter: Genome? = nil, testSubjectFactory: TestSubjectFactory) throws {
+    
+    
+    init?(starter: Genome? = nil, testSubjectFactory: TestSubjectFactory) {
         if let a = starter { self.aboriginalGenome = a }
         else {
 //            let singleNeuronPassThroughPort = "N_A(true)_W(b[1]v[1])_B(b[0]v[0]_"
@@ -85,17 +87,23 @@ class Curator {
                     for portNumber in 0..<2 {
                         dag += "N_"
                         for _ in 0..<portNumber { dag += "A(false)_" }
-                        let granularity = 100000
-                        let randomBia = Int.random(in: -granularity...granularity)
-                        let randomBias = Double(randomBia) / Double(granularity)
-                        dag += "A(true)_F(limiter)_W(b[1]v[1])_B(b[\(randomBias.sTruncate())]v[0])_"
+                        let randomBias = Double.random(in: -1...1).sTruncate()
+                        dag += "A(true)_F(limiter)_W(b[1]v[1])_B(b[\(randomBias)]v[\(randomBias)])_"
+                    }
+                    
+                    dag += "L_"
+                    for portNumber in 0..<"Zoe Bishop".count {
+                        dag += "N_"
+                        for _ in 0..<portNumber { dag += "A(false)_" }
+                        let randomBias = Double.random(in: -1...1).sTruncate()
+                        dag += "A(true)_F(limiter)_W(b[1]v[1])_B(b[\(randomBias)]v[\(randomBias)])_"
                     }
                 }
                 return dag
             }()
             
             self.aboriginalGenome = sag
-            self.aboriginalGenome = RandomnessGenerator.generateRandomGenome()
+//            self.aboriginalGenome = RandomnessGenerator.generateRandomGenome()
         }
         
         testSubjectFactory.setDecoder(self.decoder)
@@ -107,8 +115,9 @@ class Curator {
         // first one to beat. Also good to make sure the aboriginal
         // survives the test.
         let generation = Generation(tsRelay, testSubjects: testSubjects)
-        let aboriginalAncestor =
-            try testSubjectFactory.makeTestSubject(genome: self.aboriginalGenome, mutate: false)
+        guard let aboriginalAncestor =
+            try? testSubjectFactory.makeTestSubject(genome: self.aboriginalGenome, mutate: false)
+            else { return nil }
         
         testSubjects[aboriginalAncestor.myFishNumber] = aboriginalAncestor
 

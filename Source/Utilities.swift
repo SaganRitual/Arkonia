@@ -275,7 +275,7 @@ postfix operator %%
 extension Double {
     func sTruncate() -> String {
         let t = Double(truncating: NSNumber(floatLiteral: self))
-        return String(format: "%.5f", t)
+        return String(format: "%.10f", t)
     }
 
     func dTruncate() -> Double {
