@@ -266,8 +266,10 @@ class Curator {
             
             if isTooMuchDudness()// { finalReport(false); return .chokedByDudliness }
             {
-//                print("Trying new random genome")
                 studGenome = RandomnessGenerator.generateRandomGenome()
+//                let endIndex = studGenome.index(studGenome.startIndex, offsetBy: 50)
+//                let ctRemainingCharacters = studGenome.distance(from: endIndex, to: studGenome.endIndex)
+//                print("Reseeding with \(studGenome[..<endIndex])...(\(ctRemainingCharacters) more characters)")
             }
             
             return .running
