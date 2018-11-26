@@ -105,17 +105,28 @@ class Translators: BrainOwnerProtocol {
     func reset() {}
     
     enum OutputFunctionName: String {
-        case linear = "linear", tanh = "tanh", logistic = "logistic"
+        case limiter = "limiter", logistic = "logistic", linear = "linear", tanh = "tanh"
     }
     
-    static func tanh(_ theDouble: Double) -> Double { print("T", terminator: ""); return CoreGraphics.tanh(theDouble) }
-    static func logistic(_ theDouble: Double) -> Double { print("L", terminator: ""); return 1.0 / (1.0 + exp(-theDouble)) }
+    static func tanh(_ theDouble: Double) -> Double { return CoreGraphics.tanh(theDouble) }
+    static func logistic(_ theDouble: Double) -> Double { return 1.0 / (1.0 + exp(-theDouble)) }
+    static func limiter(_ theDouble: Double) -> Double {
+        let cappedAtPlusOne = min(1.0, theDouble)
+        return max(-1, cappedAtPlusOne)
+    }
 
     func setOutputFunction(_ functionName: String) {
-        switch OutputFunctionName.init(rawValue: functionName)! {
+        guard let fn = OutputFunctionName.init(rawValue: functionName)
+            else { preconditionFailure("Function name not found") }
+        
+        guard !functionName.isEmpty
+            else { preconditionFailure("No function name") }
+
+        switch fn {
+        case .limiter:  self.brain.setOutputFunction(Translators.limiter)
         case .linear: self.brain.setOutputFunction(Neuron.outputFunction)
-        case .tanh:   self.brain.setOutputFunction(Translators.tanh)
         case .logistic: self.brain.setOutputFunction(Translators.logistic)
+        case .tanh:   self.brain.setOutputFunction(Translators.tanh)
         }
     }
 

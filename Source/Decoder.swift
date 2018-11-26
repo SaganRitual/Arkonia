@@ -48,7 +48,7 @@ class Decoder {
     }
 
     fileprivate var decodeState: DecodeState = .noLayer
-    public static let recognizedGeneTokens = "ABHLNRTWX"
+    public static let recognizedGeneTokens = "ABFHLNRW"
 
     func decode() throws {
         self.reset()
@@ -149,10 +149,6 @@ extension Decoder {
             decodeState = .noLayer
             Translators.t.closeLayer()
             return 2
-            
-        case "X":
-            decodeState = .noLayer
-            return 2
 
         default:
             decodeState = .inNeuron
@@ -209,7 +205,7 @@ extension Decoder {
             decodeState = .noLayer
             Translators.t.closeLayer()
             return 2
-
+            
         default:
             return dispatchValueGene(slice)
         }
@@ -238,15 +234,13 @@ extension Decoder: ValueParserProtocol {
     }
     
     func parseDouble(_ slice: GenomeSlice? = nil) -> ValueDoublet {
-        let values = Utilities.getRawComponentSet(for: slice!)
-
-        let baseline = Double(values[ParseSubscript.stubbleBaseline.rawValue])!.dTruncate()
-        let value = Double(values[ParseSubscript.stubbleValue.rawValue])!.dTruncate()
+        let values = Utilities.splitGene(slice!)
+        let baseline = Double(values[0])!.dTruncate()
+        let value = Double(values[1])!.dTruncate()
         
         return ValueDoublet(baseline, value)
     }
     
     func parseInt(_ slice: GenomeSlice? = nil) -> Int { return Int(slice!)! }
-    
     func parseString(_ slice: GenomeSlice?) -> String { return String(slice!) }
 }

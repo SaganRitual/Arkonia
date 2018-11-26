@@ -149,58 +149,81 @@ enum Utilities {
         if let n = isOptional { return String(n) }
         else { return message ?? "Something's broken" }
     }
+    
+    static func splitGenome(_ slice: GenomeSlice) -> [String] {
+        // Because we leave a trailing _ in the string, components()
+        // gives us back an empty entry; ditch it.
+        let sliceThing = String(slice).components(separatedBy: "_").dropLast()
+        let stringThing = sliceThing.map { String($0) }
+        return stringThing
+    }
+    
+    enum GeneSplitType {
+        case markerGene, stringGene, doubletGene, doubletValue
+    }
+    
+    static func splitGene(_ slice: GenomeSlice) -> [String] {
+        var splitResults = [String]()
 
-    static func getRawComponentSets(for genome: Genome) -> [[String]] {
+        for type in [GeneSplitType.markerGene, GeneSplitType.stringGene,
+                     GeneSplitType.doubletGene, GeneSplitType.doubletValue] {
         
-        let reTokenPass = "[LN]_|([ABFHLNW])\\(([^\\(]*)\\)_"
-        
-        var componentSets = [[String]]()
-        let tokenPassResults = genome.searchRegex(regex: reTokenPass)
-        
-        for tokenPassComponent in tokenPassResults {
-            componentSets.append(getRawComponentSet(for: tokenPassComponent))
+            splitResults = splitGene(slice, type)
+            if !splitResults.isEmpty { /*print("type \(type)", slice);*/ return splitResults }
         }
         
-        return componentSets
+        preconditionFailure("No match in '\(slice)'")
     }
     
-    static func getRawComponentSet(for gene: [String], isFullGene: Bool = true) -> [String] {
-        let geneSS = (isFullGene && gene.count > 1) ? 2 : 0
+    static func splitGene(_ slice_: GenomeSlice, _ splitType: GeneSplitType) -> [String] {
+        let slice = String(slice_)
+        var geneComponents = [String]()
         
-        let geneMatch = gene[geneSS]
-        var workingSet = [String]()
+        switch splitType {
+        case .markerGene:
+            let reMarkers = "^([LN])$"
+            let markers = slice.searchRegex(regex: reMarkers)
+            if markers.isEmpty { return geneComponents }
+
+            // Regex result is the match array for the entire input
+            // string. result[0] contains the first match, which
+            // itself is an array of strings. result[0][0] is the
+            // full literal match of the search pattern, and result[0][1]
+            // is the first capture.
+            geneComponents.append(markers[0][1])
+            return geneComponents
+
+        case .stringGene:
+            let reStringGene = "^([AF])\\(([a-z]+)\\)$"
+            let stringGeneComponents = slice.searchRegex(regex: reStringGene)
+            if stringGeneComponents.isEmpty { /*print("Not a string gene", slice);*/ return geneComponents }
+
+            geneComponents.append(stringGeneComponents[0][1])
+            geneComponents.append(stringGeneComponents[0][2])
+//            print("String gene returns \(geneComponents)")
+            return geneComponents
+
+        case .doubletGene:
+            let reDoubletGene = "^([BW])\\(b\\[(-?\\d*\\.?\\d*)\\]v\\[(-?\\d*\\.?\\d*)\\]\\)$"
+            let doubletGeneComponents = slice.searchRegex(regex: reDoubletGene)
+            if doubletGeneComponents.isEmpty { /*print("Not a doublet gene", slice); */return geneComponents }
+
+            // See comments above under markers
+            geneComponents.append(doubletGeneComponents[0][1])
+            geneComponents.append(doubletGeneComponents[0][2])
+            geneComponents.append(doubletGeneComponents[0][3])
+            return geneComponents
         
-        let reValuePass = "b\\[(-?\\d*\\.?\\d*)\\]v\\[(-?\\d*\\.?\\d*)\\]"
-        
-        // This is for markers that don't carry values,
-        // like L_ and N_. Drop the _ and keep the gene
-        // type only.
-        if isFullGene && gene.count == 1 {
-            let t = String(geneMatch.dropLast())
-            workingSet.append(t);
-            return workingSet
+        case .doubletValue:
+            let reDoubletValue = "^b\\[(-?\\d*\\.?\\d*)\\]v\\[(-?\\d*\\.?\\d*)\\]$"
+            let doubletValueComponents = slice.searchRegex(regex: reDoubletValue)
+            if doubletValueComponents.isEmpty { return geneComponents }
+
+            // See comments above under markers
+            geneComponents.append(doubletValueComponents[0][1])
+            geneComponents.append(doubletValueComponents[0][2])
+            return geneComponents
         }
-        
-        let valuePassResults = geneMatch.searchRegex(regex: reValuePass)
-        
-        // This is for activators and functions. No special parsing necessary
-        if isFullGene && valuePassResults.isEmpty {
-            let t = gene.dropFirst()
-            workingSet.append(contentsOf: t)
-            return workingSet
-        }
-        
-        // ValueDoublet
-        if isFullGene { workingSet.append(gene[1]) }
-        else { workingSet.append("X_") } // Not used; just a placeholder
-        
-        workingSet.append(valuePassResults[0][ParseSubscript.stubbleBaseline.rawValue])
-        workingSet.append(valuePassResults[0][ParseSubscript.stubbleValue.rawValue])
-        return workingSet
-    }
-    
-    static func getRawComponentSet(for gene: Substring) -> [String] {
-        return getRawComponentSet(for: [String(gene)], isFullGene: false)
     }
 
     static func getDocumentsDirectory() -> URL {
@@ -322,6 +345,7 @@ extension String {
             }
             return hatches
         } catch {
+            print("regex problem:", error)
             return CaptureGroup()
         }
     }

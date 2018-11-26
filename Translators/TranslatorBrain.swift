@@ -52,7 +52,7 @@ extension Translators {
                 underConstruction = nil
 //                print("Brain closes layer")
             }
-            else { print("unknown layer?") }
+            else { print("👹", terminator: "") }
         }
         
         func closeNeuron() { underConstruction?.closeNeuron() }

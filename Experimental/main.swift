@@ -27,14 +27,22 @@ var testSubjects = TSTestGroup()
 let relay = TSRelay(testSubjects)
 let fitnessTester = FTLearnZoeName()
 let testSubjectFactory = TSZoeFactory(relay, fitnessTester: fitnessTester)
-let curator = Curator(starter: nil, testSubjectFactory: testSubjectFactory)
+var curator: Curator?
 
 var curatorStatus = CuratorStatus.running
 let v = RepeatingTimer(timeInterval: 0.1)
 
-v.eventHandler = { curatorStatus = curator.track() }
+v.eventHandler = { if let c = curator { curatorStatus = c.track() } }
 
 v.resume()
-while curatorStatus == .running { }
+while curatorStatus == .running {
+    do {
+        guard curator == nil else { continue }
+        curator = try Curator(starter: nil, testSubjectFactory: testSubjectFactory)
+    } catch {
+        curator = nil
+        print("caught in main:", error)
+    }
+}
 
 print("\nCompletion state: \(curatorStatus)")

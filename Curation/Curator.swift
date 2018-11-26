@@ -23,11 +23,11 @@ import Foundation
 struct SelectionControls {
     var howManySenses = 5
     var howManyMotorNeurons = 5
-    var howManyGenerations = 100
+    var howManyGenerations = 2000
     var howManyGenes = 200
-    var howManySubjectsPerGeneration = 200
+    var howManySubjectsPerGeneration = 50
     var theFishNumber = 0
-    var dudlinessThreshold = 20
+    var dudlinessThreshold = 5
 }
 
 var selectionControls = SelectionControls()
@@ -88,7 +88,7 @@ class Curator {
                         let granularity = 100000
                         let randomBia = Int.random(in: -granularity...granularity)
                         let randomBias = Double(randomBia) / Double(granularity)
-                        dag += "A(true)_W(b[1]v[1])_B(b[\(randomBias.sTruncate())]v[0])_"
+                        dag += "A(true)_F(limiter)_W(b[1]v[1])_B(b[\(randomBias.sTruncate())]v[0])_"
                     }
                 }
                 return dag

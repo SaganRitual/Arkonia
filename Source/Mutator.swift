@@ -24,7 +24,7 @@ import Foundation
 typealias Tenome = Array<Tene>
 typealias Tegment = ArraySlice<Tene>
 
-class Tene {
+class Tene: CustomStringConvertible {
     // The components are the results of a regex. For each tene,
     // we get the submatches from this array, which represent
     // the token and the value, respectively.
@@ -49,7 +49,7 @@ class Tene {
             self.value = String(Bool.random()); return
         }
         
-        let outputFunctions: [Translators.OutputFunctionName] = [.linear, .logistic, .tanh]
+        let outputFunctions: [Translators.OutputFunctionName] = [.limiter, .linear, .logistic, .tanh]
         if let f = Translators.OutputFunctionName(rawValue: self.value),
             outputFunctions.contains(f) {
             
@@ -85,7 +85,7 @@ class Mutator {
         
         for tene in workingTenome {
             if tene.token == lay || tene.token == neu {
-                genome += String(tene.token) + "_"
+                genome += String(tene.token)
                 continue
             }
             
@@ -93,11 +93,13 @@ class Mutator {
             
             if (bis ++ thr ++ wgt).contains(tene.token) {
                 genome += "b[\(tene.baseline)]v[\(tene.value)]"
-            } else if tene.token == act {
+            } else if tene.token == act || tene.token == fun {
                 genome += tene.value
+            } else {
+                preconditionFailure("where the hell did this '\(tene.token)' come from?")
             }
             
-            genome += ")_"
+            genome += ")"
         }
         
         return genome
@@ -110,6 +112,8 @@ class Mutator {
     
     private func deleteGenes() {
         let howManyChances = getWeightedRandomLogThing(from: 10)
+        if howManyChances == 0 || workingTenome.isEmpty { return }
+        
         for _ in 0..<Int.random(in: 0..<howManyChances) {
             let ix = Int.random(in: 0..<workingTenome.count)
             workingTenome.remove(at: ix)
@@ -123,6 +127,9 @@ class Mutator {
     }
     
     private func getRandomCuts(segmentLength: Int) -> (Int, Int) {
+        // okToSnip() function will catch this and discard it
+        guard segmentLength > 0 else { return (0, 0) }
+        
         let leftCut = Int.random(in: 0..<segmentLength)
         let rightCut = getWeightedRandomLogThing(from: leftCut, min: Double(leftCut), max: Double(segmentLength))
         return (leftCut, rightCut)
@@ -193,7 +200,7 @@ class Mutator {
             let newTene = Mutator.generateRandomTene()
             snippet.append(newTene)
         }
-        
+
         // Notice: closed range, including one past the end. Doc says
         // you must use a valid index, but then says the endIndex value
         // is legal too. I guess that's how you can insert anywhere into
@@ -250,25 +257,28 @@ class Mutator {
 
     func setInputGenome(_ inputGenome: Genome) -> Mutator {
         self.inputGenome = Utilities.stripInterfaces(from: inputGenome)
-        let rawComponentSets = Utilities.getRawComponentSets(for: self.inputGenome!)
+        let genes = Utilities.splitGenome(self.inputGenome![...])
+        
         workingTenome = Tenome()
         
-        for rawComponentSet in rawComponentSets {
-            let token = String(rawComponentSet[0])
+        for gene in genes {
+            let components = Utilities.splitGene(gene[...])
+            let token = components[0]
             
-            if token.first! == act || token.first! == fun
-                { workingTenome.append(Tene(token, value: rawComponentSet[1])); continue }
-            
-            if token.first! == neu || token.first! == lay
-                { workingTenome.append(Tene(token, value: "")); continue }
-            
-            var r = ParseSubscript.stubbleBaseline.rawValue
-            let baseline = rawComponentSet[r]
-
-            r = ParseSubscript.stubbleValue.rawValue
-            let value = rawComponentSet[r]
-            
-            workingTenome.append(Tene(String(token), value: value, baseline: baseline))
+            switch Character(token) {
+            case act: fallthrough
+            case fun: workingTenome.append(Tene(token, value: components[1]))
+                
+            case neu: fallthrough
+            case lay: workingTenome.append(Tene(token, value: ""))
+                
+            case bis: fallthrough
+            case wgt:
+                let b = components[1], v = components[2]
+                workingTenome.append(Tene(token, value: v, baseline: b))
+                
+            default: preconditionFailure()
+            }
         }
         
         return Mutator.m
@@ -381,11 +391,23 @@ class Mutator {
 extension Mutator {
     private static func generateRandomTene() -> Tene {
         let gene = RandomnessGenerator.generateRandomGene()
-        let rawComponentSets = Utilities.getRawComponentSets(for: gene)
-        var rawComponentSet = rawComponentSets[0]
-        let literalMatch = rawComponentSet.removeFirst()
-        let token = (rawComponentSet.isEmpty) ? literalMatch : rawComponentSet.removeFirst()
-        let value = (rawComponentSet.isEmpty) ? "V" : rawComponentSet.removeFirst()
-        return Tene(String(token), value: value)
+        let components = Utilities.splitGene(gene[...])
+
+        let token = components[0]
+
+        switch Character(token) {
+        case act: fallthrough
+        case fun: return Tene(token, value: components[1])
+            
+        case neu: fallthrough
+        case lay: return Tene(token, value: "")
+            
+        case bis: fallthrough
+        case wgt:
+            let b = components[1], v = components[2]
+            return Tene(token, value: v, baseline: b)
+            
+        default: preconditionFailure()
+        }
     }
 }
