@@ -112,7 +112,7 @@ class Mutator {
     
     private func deleteGenes() {
         let howManyChances = getWeightedRandomLogThing(from: 10)
-        if howManyChances == 0 || workingTenome.isEmpty { return }
+        if howManyChances <= 0 || workingTenome.isEmpty { return }
         
         for _ in 0..<Int.random(in: 0..<howManyChances) {
             let ix = Int.random(in: 0..<workingTenome.count)
@@ -156,8 +156,10 @@ class Mutator {
     }
 
     fileprivate func getWeightedRandomLogThing(from startingValue: Double, min min_: Double? = nil, max max_: Double? = nil) -> Double {
-        let min = (min_ == nil) ? -100 : min_!
-        let max = (max_ == nil) ? 100 : max_!
+        let min = (min_ == nil) ? 0 : min_!
+        let max = (max_ == nil) ? 1 : max_!
+        
+        if min == max { return startingValue }
 
         let randomPercentage = Double.random(in: min..<max)
         if randomPercentage == 0 { return 1 }
@@ -169,7 +171,7 @@ class Mutator {
     private func getWeightedRandomMutationType() -> MutationType  {
         let weightMap: [MutationType : Int] = [
             .deleteRandom : 1, .deleteSequence : 1, .insertRandom : 1, .insertSequence : 1,
-            .mutateGenes : 100, .snipAndMoveSequence : 1, .snipAndCopySequence : 1,
+            .mutateGenes : 50, .snipAndMoveSequence : 1, .snipAndCopySequence : 1,
             .snipAndMoveReversedSequence : 1, .snipAndCopyReversedSequence : 1
         ]
         
