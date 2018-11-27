@@ -100,8 +100,8 @@ protocol SelectionTestSubjectFactory {
 }
 
 protocol SelectionFitnessTester {
-    func administerTest(to testSubject: TSTestSubject, for sensoryInput: [Double]) -> ([Double], String)?
-    func calculateFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) -> (Double, String)?
+    func administerTest(to testSubject: TSTestSubject, for sensoryInput: [Double]) -> [Double]?
+    func calculateFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?)
     func getFitnessScore(for testSubject: TSTestSubject) -> Double?
 }
 

@@ -29,7 +29,7 @@ class TSRelay {
         self.testSubjects = testSubjects
     }
     
-    func administerTest(to which: TSHandle, for inputs: [Double]) -> ([Double], Double)? {
+    func administerTest(to which: TSHandle, for inputs: [Double]) -> [Double]? {
         guard let ts = testSubjects[which] else
             { preconditionFailure("Can't find subject \(which)") }
 

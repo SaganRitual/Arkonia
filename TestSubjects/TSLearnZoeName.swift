@@ -61,22 +61,20 @@ class FTLearnZoeName: TestSubjectFitnessTester {
 
     var charactersMatched = 0
     
-    override func calculateFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) -> (Double, String)? {
-        guard let outputs = outputs else { return nil }
+    override func calculateFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) {
+        guard let outputs = outputs else { return }
 
         var scoreForTheseOutputs = 0.0
 
         let scorer = Scorer(zName, outputs: outputs)
-        let testResults = scorer.calculateScore()
-        scoreForTheseOutputs += testResults.0
+        scoreForTheseOutputs += scorer.calculateScore()
         
         if scoreForTheseOutputs == 0 {
             charactersMatched += 1
             scoreForTheseOutputs = Double(abs(zName.count - charactersMatched))
         }
         
-        testSubject.setFitnessScore(scoreForTheseOutputs)
-        return (scoreForTheseOutputs, testResults.1)
+        testSubject.calculateFitnessScore(scoreForTheseOutputs)
     }
 }
 
@@ -117,7 +115,7 @@ fileprivate class Scorer {
         return whichCase
     }
 
-    func calculateScore() -> (Double, String) {
+    func calculateScore() -> Double {
         var testOutput = String()
         
         for (expectedCharacter, ss) in zip(zName, 0..<outputs.count) {
@@ -150,7 +148,7 @@ fileprivate class Scorer {
             scoreForTheseOutputs += Double(abs(distance)).dTruncate()
         }
         
-        return (scoreForTheseOutputs, testOutput)
+        return scoreForTheseOutputs
     }
     
     private static func makeSymbolCase() -> String{

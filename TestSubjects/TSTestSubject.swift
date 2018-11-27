@@ -42,10 +42,12 @@ class TSTestSubject {
     }
     
     func setBrain(_ brain: BrainStem) { self.brain = brain }
+
+    func calculateFitnessScore(_ score: Double) { self.brain!.fitnessScore = score }
     
-    func setFitnessScore(_ score: Double) { self.brain!.fitnessScore = score }
-    
-    func submitToTest(for sensoryInput: [Double]) -> ([Double], Double)? {
-        return fitnessTester.administerTest(to: self, for: sensoryInput)
+    func submitToTest(for sensoryInput: [Double]) -> [Double]? {
+        let testOutputs = fitnessTester.administerTest(to: self, for: sensoryInput)
+        let _ = fitnessTester.calculateFitnessScore(for: self, outputs: testOutputs)
+        return testOutputs
     }
 }
