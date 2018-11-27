@@ -32,7 +32,7 @@ var curator: Curator?
 var curatorStatus = CuratorStatus.running
 let v = RepeatingTimer(timeInterval: 0.1)
 
-v.eventHandler = { if let c = curator { curatorStatus = c.track() } }
+v.eventHandler = { if let c = curator { curatorStatus = c.track(); curatorStatus = .finished } }
 
 v.resume()
 while curatorStatus == .running {
