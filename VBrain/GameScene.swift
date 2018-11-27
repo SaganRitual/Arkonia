@@ -49,10 +49,10 @@ class GameScene: SKScene {
         
         let testSubjects = TSTestGroup()
         let relay = TSRelay(testSubjects)
-        let fitnessTester = FTLearnZoeName()
-        let testSubjectFactory = TSZoeFactory(relay, fitnessTester: fitnessTester)
-//        let fitnessTester = TestSubjectFitnessTester()
-//        let testSubjectFactory = TestSubjectFactory(relay, fitnessTester: fitnessTester)
+//        let fitnessTester = FTLearnZoeName()
+//        let testSubjectFactory = TSZoeFactory(relay, fitnessTester: fitnessTester)
+        let fitnessTester = TestSubjectFitnessTester()
+        let testSubjectFactory = TestSubjectFactory(relay, fitnessTester: fitnessTester)
         self.curator = Curator(starter: nil, testSubjectFactory: testSubjectFactory)
     }
     
