@@ -29,6 +29,8 @@
 		D43E820221AA355700867037 /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B137D521A8DF0700CB6E87 /* TSRelay.swift */; };
 		D43E820421AA387700867037 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E820321AA387700867037 /* TSTestSubject.swift */; };
 		D43E820521AA387700867037 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E820321AA387700867037 /* TSTestSubject.swift */; };
+		D43F98E521ABDCE0006371D8 /* TSMultiplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43F98E421ABDCE0006371D8 /* TSMultiplier.swift */; };
+		D43F98E621ABDCE0006371D8 /* TSMultiplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43F98E421ABDCE0006371D8 /* TSMultiplier.swift */; };
 		D44B549B2197EE9900FB94FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B549A2197EE9900FB94FC /* AppDelegate.swift */; };
 		D44B549D2197EE9900FB94FC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549C2197EE9900FB94FC /* GameScene.sks */; };
 		D44B549F2197EE9900FB94FC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549E2197EE9900FB94FC /* Actions.sks */; };
@@ -100,6 +102,7 @@
 		D43E81F521AA258600867037 /* TSFitnessTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSFitnessTester.swift; sourceTree = "<group>"; };
 		D43E81F821AA25AD00867037 /* TSFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSFactory.swift; sourceTree = "<group>"; };
 		D43E820321AA387700867037 /* TSTestSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSTestSubject.swift; sourceTree = "<group>"; };
+		D43F98E421ABDCE0006371D8 /* TSMultiplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSMultiplier.swift; sourceTree = "<group>"; };
 		D44B54972197EE9900FB94FC /* XCodeClutter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCodeClutter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D44B549A2197EE9900FB94FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D44B549C2197EE9900FB94FC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -297,6 +300,7 @@
 				D43E81F821AA25AD00867037 /* TSFactory.swift */,
 				D43E81F521AA258600867037 /* TSFitnessTester.swift */,
 				D47D874B21AA65CD00ED70AC /* TSLearnZoeName.swift */,
+				D43F98E421ABDCE0006371D8 /* TSMultiplier.swift */,
 				D4B137D521A8DF0700CB6E87 /* TSRelay.swift */,
 				D43E820321AA387700867037 /* TSTestSubject.swift */,
 			);
@@ -524,6 +528,7 @@
 				D4C957BC21A3BA7F00AF0CF6 /* RandomnessGenerator.swift in Sources */,
 				D47D874C21AA65CD00ED70AC /* TSLearnZoeName.swift in Sources */,
 				D40593EB21A0F294008C5FE8 /* TranslatorBrain.swift in Sources */,
+				D43F98E521ABDCE0006371D8 /* TSMultiplier.swift in Sources */,
 				D4B137D421A8C2CB00CB6E87 /* Curator.swift in Sources */,
 				D48AB385219E718600624000 /* Mutator.swift in Sources */,
 				D43E81F621AA258600867037 /* TSFitnessTester.swift in Sources */,
@@ -548,6 +553,7 @@
 				D4C957C921A5D34800AF0CF6 /* RandomnessGenerator.swift in Sources */,
 				D48AB363219DDE6900624000 /* AppDelegate.swift in Sources */,
 				D43E820121AA31AC00867037 /* VBrain.swift in Sources */,
+				D43F98E621ABDCE0006371D8 /* TSMultiplier.swift in Sources */,
 				D43E81F721AA258600867037 /* TSFitnessTester.swift in Sources */,
 				D4029F2121A2006C00BDDB7A /* TranslatorBrain.swift in Sources */,
 				D4029F2221A2006C00BDDB7A /* TranslatorLayer.swift in Sources */,

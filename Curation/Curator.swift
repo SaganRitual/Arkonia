@@ -74,37 +74,29 @@ class Curator {
 
     var testSubjects = TSTestGroup()
     
+    static private func makeOneLayer(_ protoGenome_: Genome, _ ctNeurons: Int) -> Genome {
+        var protoGenome = protoGenome_ + "L_"
+        
+        for portNumber in 0..<ctNeurons {
+            protoGenome += "N_"
+            for _ in 0..<portNumber { protoGenome += "A(false)_" }
+            let randomBias = Double.random(in: -1...1).sTruncate()
+            protoGenome += "A(true)_F(limiter)_W(b[1]v[1])_B(b[\(randomBias)]v[\(randomBias)])_"
+        }
+        
+        return protoGenome
+    }
     
+    static func getPromisingStarterGenome() -> Genome {
+        var dag = Genome()
+        for _ in 0..<3 { dag = makeOneLayer(dag, 5) }
+        dag = makeOneLayer(dag, selectionControls.howManyMotorNeurons)
+        return dag
+    }
     
     init?(starter: Genome? = nil, testSubjectFactory: TestSubjectFactory) {
         if let a = starter { self.aboriginalGenome = a }
-        else {
-//            let singleNeuronPassThroughPort = "N_A(true)_W(b[1]v[1])_B(b[0]v[0]_"
-            let sag: Genome = { () -> Genome in
-                var dag = Genome()
-                for _ in 0..<3 {
-                    dag += "L_"
-                    for portNumber in 0..<2 {
-                        dag += "N_"
-                        for _ in 0..<portNumber { dag += "A(false)_" }
-                        let randomBias = Double.random(in: -1...1).sTruncate()
-                        dag += "A(true)_F(limiter)_W(b[1]v[1])_B(b[\(randomBias)]v[\(randomBias)])_"
-                    }
-                    
-                    dag += "L_"
-                    for portNumber in 0..<"Zoe Bishop".count {
-                        dag += "N_"
-                        for _ in 0..<portNumber { dag += "A(false)_" }
-                        let randomBias = Double.random(in: -1...1).sTruncate()
-                        dag += "A(true)_F(limiter)_W(b[1]v[1])_B(b[\(randomBias)]v[\(randomBias)])_"
-                    }
-                }
-                return dag
-            }()
-            
-            self.aboriginalGenome = sag
-//            self.aboriginalGenome = RandomnessGenerator.generateRandomGenome()
-        }
+        else { self.aboriginalGenome = Curator.getPromisingStarterGenome() }
         
         testSubjectFactory.setDecoder(self.decoder)
         self.testSubjectFactory = testSubjectFactory
@@ -275,7 +267,8 @@ class Curator {
             
             if isTooMuchDudness()// { finalReport(false); return .chokedByDudliness }
             {
-                studGenome = RandomnessGenerator.generateRandomGenome()
+                studGenome = Curator.getPromisingStarterGenome()
+//                studGenome = RandomnessGenerator.generateRandomGenome()
 //                let endIndex = studGenome.index(studGenome.startIndex, offsetBy: 50)
 //                let ctRemainingCharacters = studGenome.distance(from: endIndex, to: studGenome.endIndex)
 //                print("Reseeding with \(studGenome[..<endIndex])...(\(ctRemainingCharacters) more characters)")
