@@ -7,82 +7,69 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D4029F2021A2006C00BDDB7A /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2253C219FC3FB004A011A /* GenomeTranslators.swift */; };
-		D4029F2121A2006C00BDDB7A /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EA21A0F294008C5FE8 /* TranslatorBrain.swift */; };
-		D4029F2221A2006C00BDDB7A /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */; };
-		D4029F2321A2006C00BDDB7A /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */; };
-		D4029F2421A2007400BDDB7A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2253E21A072EF004A011A /* Protocols.swift */; };
-		D40593EB21A0F294008C5FE8 /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EA21A0F294008C5FE8 /* TranslatorBrain.swift */; };
-		D40593ED21A0F319008C5FE8 /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */; };
-		D40593EF21A0F34E008C5FE8 /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */; };
-		D41BA59F21A36851009A2648 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41BA59E21A36851009A2648 /* RepeatingTimer.swift */; };
-		D43E81F321AA24C900867037 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F221AA24C900867037 /* Selector.swift */; };
-		D43E81F421AA24C900867037 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F221AA24C900867037 /* Selector.swift */; };
-		D43E81F621AA258600867037 /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F521AA258600867037 /* TSFitnessTester.swift */; };
-		D43E81F721AA258600867037 /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F521AA258600867037 /* TSFitnessTester.swift */; };
-		D43E81F921AA25AD00867037 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F821AA25AD00867037 /* TSFactory.swift */; };
-		D43E81FA21AA25AD00867037 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E81F821AA25AD00867037 /* TSFactory.swift */; };
-		D43E81FB21AA2A1900867037 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B137D821A8E11D00CB6E87 /* Generation.swift */; };
-		D43E81FC21AA2E3B00867037 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464FD2E21A7E97C00887C2C /* Curator.swift */; };
-		D43E820021AA318500867037 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D483816F2197F4A400B3648A /* main.swift */; };
-		D43E820121AA31AC00867037 /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB377219DDFBC00624000 /* VBrain.swift */; };
-		D43E820221AA355700867037 /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B137D521A8DF0700CB6E87 /* TSRelay.swift */; };
-		D43E820421AA387700867037 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E820321AA387700867037 /* TSTestSubject.swift */; };
-		D43E820521AA387700867037 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43E820321AA387700867037 /* TSTestSubject.swift */; };
-		D43F98E521ABDCE0006371D8 /* TSMultiplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43F98E421ABDCE0006371D8 /* TSMultiplier.swift */; };
-		D43F98E621ABDCE0006371D8 /* TSMultiplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43F98E421ABDCE0006371D8 /* TSMultiplier.swift */; };
-		D44B549B2197EE9900FB94FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B549A2197EE9900FB94FC /* AppDelegate.swift */; };
-		D44B549D2197EE9900FB94FC /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549C2197EE9900FB94FC /* GameScene.sks */; };
-		D44B549F2197EE9900FB94FC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D44B549E2197EE9900FB94FC /* Actions.sks */; };
-		D44B54A12197EE9900FB94FC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B54A02197EE9900FB94FC /* GameScene.swift */; };
-		D44B54A32197EE9900FB94FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B54A22197EE9900FB94FC /* ViewController.swift */; };
-		D44B54A52197EE9A00FB94FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D44B54A42197EE9A00FB94FC /* Assets.xcassets */; };
-		D44B54A82197EE9A00FB94FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D44B54A62197EE9A00FB94FC /* Main.storyboard */; };
-		D44B54B42197EE9A00FB94FC /* XCodeClutterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B54B32197EE9A00FB94FC /* XCodeClutterTests.swift */; };
-		D47D874C21AA65CD00ED70AC /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D874B21AA65CD00ED70AC /* TSLearnZoeName.swift */; };
-		D47D874D21AA65CD00ED70AC /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47D874B21AA65CD00ED70AC /* TSLearnZoeName.swift */; };
-		D4838186219A956400B3648A /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838185219A956400B3648A /* Decoder.swift */; };
-		D48AB363219DDE6900624000 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB362219DDE6900624000 /* AppDelegate.swift */; };
-		D48AB365219DDE6900624000 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D48AB364219DDE6900624000 /* GameScene.sks */; };
-		D48AB367219DDE6900624000 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D48AB366219DDE6900624000 /* Actions.sks */; };
-		D48AB369219DDE6900624000 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB368219DDE6900624000 /* GameScene.swift */; };
-		D48AB36B219DDE6900624000 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB36A219DDE6900624000 /* ViewController.swift */; };
-		D48AB36D219DDE6A00624000 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D48AB36C219DDE6A00624000 /* Assets.xcassets */; };
-		D48AB370219DDE6A00624000 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D48AB36E219DDE6A00624000 /* Main.storyboard */; };
-		D48AB37B219DE4A800624000 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4838185219A956400B3648A /* Decoder.swift */; };
-		D48AB382219E484000624000 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB381219E484000624000 /* Utilities.swift */; };
-		D48AB383219E484000624000 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB381219E484000624000 /* Utilities.swift */; };
-		D48AB385219E718600624000 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB384219E718600624000 /* Mutator.swift */; };
-		D48AB386219E718600624000 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48AB384219E718600624000 /* Mutator.swift */; };
-		D4B137D421A8C2CB00CB6E87 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464FD2E21A7E97C00887C2C /* Curator.swift */; };
-		D4B137D621A8DF0700CB6E87 /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B137D521A8DF0700CB6E87 /* TSRelay.swift */; };
-		D4B137D921A8E11D00CB6E87 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B137D821A8E11D00CB6E87 /* Generation.swift */; };
-		D4C2253D219FC3FB004A011A /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2253C219FC3FB004A011A /* GenomeTranslators.swift */; };
-		D4C2253F21A072EF004A011A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2253E21A072EF004A011A /* Protocols.swift */; };
-		D4C957BC21A3BA7F00AF0CF6 /* RandomnessGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */; };
-		D4C957C921A5D34800AF0CF6 /* RandomnessGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */; };
-		D4FBB7BF21A7863400722AFF /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41BA59E21A36851009A2648 /* RepeatingTimer.swift */; };
+		D4183C0C21AD02130038F9CF /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C0921AD02130038F9CF /* Generation.swift */; };
+		D4183C0D21AD02130038F9CF /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C0A21AD02130038F9CF /* Curator.swift */; };
+		D4183C0E21AD02130038F9CF /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C0B21AD02130038F9CF /* Selector.swift */; };
+		D4183C1821AD023C0038F9CF /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1021AD023C0038F9CF /* Mutator.swift */; };
+		D4183C1921AD023C0038F9CF /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1121AD023C0038F9CF /* RepeatingTimer.swift */; };
+		D4183C1B21AD023C0038F9CF /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1321AD023C0038F9CF /* RandomnessGenerators.swift */; };
+		D4183C1C21AD023C0038F9CF /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1421AD023C0038F9CF /* Utilities.swift */; };
+		D4183C1D21AD023C0038F9CF /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1521AD023C0038F9CF /* Decoder.swift */; };
+		D4183C1E21AD023C0038F9CF /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1621AD023C0038F9CF /* Protocols.swift */; };
+		D4183C2A21AD02730038F9CF /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2121AD02730038F9CF /* TSFactory.swift */; };
+		D4183C2B21AD02730038F9CF /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2221AD02730038F9CF /* TSFitnessTester.swift */; };
+		D4183C2C21AD02730038F9CF /* TSMultiplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2321AD02730038F9CF /* TSMultiplier.swift */; };
+		D4183C2F21AD02730038F9CF /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2621AD02730038F9CF /* TSRelay.swift */; };
+		D4183C3021AD02730038F9CF /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2721AD02730038F9CF /* TSTestSubject.swift */; };
+		D4183C3121AD02730038F9CF /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2821AD02730038F9CF /* TSLearnZoeName.swift */; };
+		D4183C3821AD02A90038F9CF /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3421AD02A80038F9CF /* TranslatorLayer.swift */; };
+		D4183C3921AD02A90038F9CF /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3521AD02A80038F9CF /* GenomeTranslators.swift */; };
+		D4183C3A21AD02A90038F9CF /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3621AD02A90038F9CF /* TranslatorBrain.swift */; };
+		D4183C3B21AD02A90038F9CF /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3721AD02A90038F9CF /* TranslatorNeuron.swift */; };
+		D4183C7321AD0E760038F9CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C7221AD0E760038F9CF /* AppDelegate.swift */; };
+		D4183C7521AD0E760038F9CF /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4183C7421AD0E760038F9CF /* GameScene.sks */; };
+		D4183C7721AD0E760038F9CF /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4183C7621AD0E760038F9CF /* Actions.sks */; };
+		D4183C7921AD0E760038F9CF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C7821AD0E760038F9CF /* GameScene.swift */; };
+		D4183C7B21AD0E760038F9CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C7A21AD0E760038F9CF /* ViewController.swift */; };
+		D4183C7D21AD0E760038F9CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4183C7C21AD0E760038F9CF /* Assets.xcassets */; };
+		D4183C8021AD0E760038F9CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4183C7E21AD0E760038F9CF /* Main.storyboard */; };
+		D4183C8C21AD0E760038F9CF /* VBrainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C8B21AD0E760038F9CF /* VBrainTests.swift */; };
+		D4183C9421AD0EB20038F9CF /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3521AD02A80038F9CF /* GenomeTranslators.swift */; };
+		D4183C9521AD0EB20038F9CF /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3621AD02A90038F9CF /* TranslatorBrain.swift */; };
+		D4183C9621AD0EB20038F9CF /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3421AD02A80038F9CF /* TranslatorLayer.swift */; };
+		D4183C9721AD0EB20038F9CF /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3721AD02A90038F9CF /* TranslatorNeuron.swift */; };
+		D4183C9821AD0EC00038F9CF /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2121AD02730038F9CF /* TSFactory.swift */; };
+		D4183C9921AD0EC00038F9CF /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2221AD02730038F9CF /* TSFitnessTester.swift */; };
+		D4183C9A21AD0EC00038F9CF /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2821AD02730038F9CF /* TSLearnZoeName.swift */; };
+		D4183C9B21AD0EC00038F9CF /* TSMultiplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2321AD02730038F9CF /* TSMultiplier.swift */; };
+		D4183C9F21AD0EC00038F9CF /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2621AD02730038F9CF /* TSRelay.swift */; };
+		D4183CA021AD0EC00038F9CF /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2721AD02730038F9CF /* TSTestSubject.swift */; };
+		D4183CA421AD0ED50038F9CF /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1721AD023C0038F9CF /* VBrain.swift */; };
+		D4183CA521AD0ED60038F9CF /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1521AD023C0038F9CF /* Decoder.swift */; };
+		D4183CA621AD0ED60038F9CF /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1021AD023C0038F9CF /* Mutator.swift */; };
+		D4183CA721AD0ED60038F9CF /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1621AD023C0038F9CF /* Protocols.swift */; };
+		D4183CA821AD0ED60038F9CF /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1321AD023C0038F9CF /* RandomnessGenerators.swift */; };
+		D4183CA921AD0ED60038F9CF /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1121AD023C0038F9CF /* RepeatingTimer.swift */; };
+		D4183CAA21AD0ED60038F9CF /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1421AD023C0038F9CF /* Utilities.swift */; };
+		D4183CAB21AD0ED60038F9CF /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1721AD023C0038F9CF /* VBrain.swift */; };
+		D4183CAC21AD0EE00038F9CF /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C0A21AD02130038F9CF /* Curator.swift */; };
+		D4183CAD21AD0EE00038F9CF /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C0921AD02130038F9CF /* Generation.swift */; };
+		D4183CAE21AD0EE00038F9CF /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C0B21AD02130038F9CF /* Selector.swift */; };
+		D4BB3C0321ACF89A00000002 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB3C0221ACF89A00000002 /* main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D44B54B02197EE9A00FB94FC /* PBXContainerItemProxy */ = {
+		D4183C8821AD0E760038F9CF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D44B548F2197EE9900FB94FC /* Project object */;
+			containerPortal = D4BB3BF721ACF89A00000002 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = D44B54962197EE9900FB94FC;
-			remoteInfo = XCodeClutter;
-		};
-		D4773BE521AA894D00A7866E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D44B548F2197EE9900FB94FC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D48AB35F219DDE6900624000;
+			remoteGlobalIDString = D4183C6F21AD0E750038F9CF;
 			remoteInfo = VBrain;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D483816B2197F4A400B3648A /* CopyFiles */ = {
+		D4BB3BFD21ACF89A00000002 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -94,85 +81,62 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D40593EA21A0F294008C5FE8 /* TranslatorBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorBrain.swift; sourceTree = "<group>"; };
-		D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorLayer.swift; sourceTree = "<group>"; };
-		D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatorNeuron.swift; sourceTree = "<group>"; };
-		D41BA59E21A36851009A2648 /* RepeatingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
-		D43E81F221AA24C900867037 /* Selector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selector.swift; sourceTree = "<group>"; };
-		D43E81F521AA258600867037 /* TSFitnessTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSFitnessTester.swift; sourceTree = "<group>"; };
-		D43E81F821AA25AD00867037 /* TSFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSFactory.swift; sourceTree = "<group>"; };
-		D43E820321AA387700867037 /* TSTestSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSTestSubject.swift; sourceTree = "<group>"; };
-		D43F98E421ABDCE0006371D8 /* TSMultiplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSMultiplier.swift; sourceTree = "<group>"; };
-		D44B54972197EE9900FB94FC /* XCodeClutter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCodeClutter.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D44B549A2197EE9900FB94FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D44B549C2197EE9900FB94FC /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D44B549E2197EE9900FB94FC /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		D44B54A02197EE9900FB94FC /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		D44B54A22197EE9900FB94FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D44B54A42197EE9A00FB94FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D44B54A72197EE9A00FB94FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D44B54A92197EE9A00FB94FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D44B54AA2197EE9A00FB94FC /* XCodeClutter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XCodeClutter.entitlements; sourceTree = "<group>"; };
-		D44B54AF2197EE9A00FB94FC /* XCodeClutterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XCodeClutterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D44B54B32197EE9A00FB94FC /* XCodeClutterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCodeClutterTests.swift; sourceTree = "<group>"; };
-		D44B54B52197EE9A00FB94FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D464FD2E21A7E97C00887C2C /* Curator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Curator.swift; sourceTree = "<group>"; };
-		D4773BE021AA894D00A7866E /* VBrainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VBrainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D47D874B21AA65CD00ED70AC /* TSLearnZoeName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSLearnZoeName.swift; sourceTree = "<group>"; };
-		D483816D2197F4A400B3648A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
-		D483816F2197F4A400B3648A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		D4838185219A956400B3648A /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
-		D48AB360219DDE6900624000 /* VBrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VBrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D48AB362219DDE6900624000 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D48AB364219DDE6900624000 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D48AB366219DDE6900624000 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		D48AB368219DDE6900624000 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		D48AB36A219DDE6900624000 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D48AB36C219DDE6A00624000 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D48AB36F219DDE6A00624000 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D48AB371219DDE6A00624000 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D48AB372219DDE6A00624000 /* VBrain.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VBrain.entitlements; sourceTree = "<group>"; };
-		D48AB377219DDFBC00624000 /* VBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
-		D48AB381219E484000624000 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		D48AB384219E718600624000 /* Mutator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
-		D4A0362E219B926C00EC171E /* Hell.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = Hell.playground; path = XCodeClutter/Hell.playground; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		D4B137D521A8DF0700CB6E87 /* TSRelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TSRelay.swift; sourceTree = "<group>"; };
-		D4B137D821A8E11D00CB6E87 /* Generation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Generation.swift; sourceTree = "<group>"; };
-		D4C2253C219FC3FB004A011A /* GenomeTranslators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeTranslators.swift; sourceTree = "<group>"; };
-		D4C2253E21A072EF004A011A /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
-		D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomnessGenerator.swift; sourceTree = "<group>"; };
+		D4183C0921AD02130038F9CF /* Generation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Generation.swift; sourceTree = "<group>"; };
+		D4183C0A21AD02130038F9CF /* Curator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curator.swift; sourceTree = "<group>"; };
+		D4183C0B21AD02130038F9CF /* Selector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Selector.swift; sourceTree = "<group>"; };
+		D4183C1021AD023C0038F9CF /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
+		D4183C1121AD023C0038F9CF /* RepeatingTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatingTimer.swift; sourceTree = "<group>"; };
+		D4183C1321AD023C0038F9CF /* RandomnessGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomnessGenerators.swift; sourceTree = "<group>"; };
+		D4183C1421AD023C0038F9CF /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		D4183C1521AD023C0038F9CF /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
+		D4183C1621AD023C0038F9CF /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		D4183C1721AD023C0038F9CF /* VBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
+		D4183C2121AD02730038F9CF /* TSFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSFactory.swift; sourceTree = "<group>"; };
+		D4183C2221AD02730038F9CF /* TSFitnessTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSFitnessTester.swift; sourceTree = "<group>"; };
+		D4183C2321AD02730038F9CF /* TSMultiplier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSMultiplier.swift; sourceTree = "<group>"; };
+		D4183C2421AD02730038F9CF /* TSNumberGuesser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSNumberGuesser.swift; sourceTree = "<group>"; };
+		D4183C2521AD02730038F9CF /* TSRandomOutputs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSRandomOutputs.swift; sourceTree = "<group>"; };
+		D4183C2621AD02730038F9CF /* TSRelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSRelay.swift; sourceTree = "<group>"; };
+		D4183C2721AD02730038F9CF /* TSTestSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSTestSubject.swift; sourceTree = "<group>"; };
+		D4183C2821AD02730038F9CF /* TSLearnZoeName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSLearnZoeName.swift; sourceTree = "<group>"; };
+		D4183C2921AD02730038F9CF /* TSPassThrough.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TSPassThrough.swift; sourceTree = "<group>"; };
+		D4183C3421AD02A80038F9CF /* TranslatorLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslatorLayer.swift; sourceTree = "<group>"; };
+		D4183C3521AD02A80038F9CF /* GenomeTranslators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenomeTranslators.swift; sourceTree = "<group>"; };
+		D4183C3621AD02A90038F9CF /* TranslatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslatorBrain.swift; sourceTree = "<group>"; };
+		D4183C3721AD02A90038F9CF /* TranslatorNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranslatorNeuron.swift; sourceTree = "<group>"; };
+		D4183C7021AD0E750038F9CF /* VBrain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VBrain.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4183C7221AD0E760038F9CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D4183C7421AD0E760038F9CF /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		D4183C7621AD0E760038F9CF /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		D4183C7821AD0E760038F9CF /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		D4183C7A21AD0E760038F9CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D4183C7C21AD0E760038F9CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D4183C7F21AD0E760038F9CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D4183C8121AD0E760038F9CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4183C8221AD0E760038F9CF /* VBrain.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VBrain.entitlements; sourceTree = "<group>"; };
+		D4183C8721AD0E760038F9CF /* VBrainTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VBrainTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4183C8B21AD0E760038F9CF /* VBrainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VBrainTests.swift; sourceTree = "<group>"; };
+		D4183C8D21AD0E760038F9CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4BB3BFF21ACF89A00000002 /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4BB3C0221ACF89A00000002 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D44B54942197EE9900FB94FC /* Frameworks */ = {
+		D4183C6D21AD0E750038F9CF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D44B54AC2197EE9A00FB94FC /* Frameworks */ = {
+		D4183C8421AD0E760038F9CF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4773BDD21AA894D00A7866E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D483816A2197F4A400B3648A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D48AB35D219DDE6900624000 /* Frameworks */ = {
+		D4BB3BFC21ACF89A00000002 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -182,211 +146,124 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D43E81FD21AA2E6D00867037 /* Translators */ = {
+		D4183C0821AD01F40038F9CF /* Curation */ = {
 			isa = PBXGroup;
 			children = (
-				D4C2253C219FC3FB004A011A /* GenomeTranslators.swift */,
-				D40593EA21A0F294008C5FE8 /* TranslatorBrain.swift */,
-				D40593EC21A0F319008C5FE8 /* TranslatorLayer.swift */,
-				D40593EE21A0F34E008C5FE8 /* TranslatorNeuron.swift */,
-			);
-			path = Translators;
-			sourceTree = "<group>";
-		};
-		D44B548E2197EE9900FB94FC = {
-			isa = PBXGroup;
-			children = (
-				D4B137D721A8E10600CB6E87 /* Curation */,
-				D483816E2197F4A400B3648A /* Experimental */,
-				D48AB380219E47EC00624000 /* Source */,
-				D4C957BF21A5133900AF0CF6 /* TestSubjects */,
-				D43E81FD21AA2E6D00867037 /* Translators */,
-				D48AB361219DDE6900624000 /* VBrain */,
-				D44B54992197EE9900FB94FC /* XCodeClutter */,
-				D44B54B22197EE9A00FB94FC /* XCodeClutterTests */,
-				D44B54982197EE9900FB94FC /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		D44B54982197EE9900FB94FC /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D44B54972197EE9900FB94FC /* XCodeClutter.app */,
-				D44B54AF2197EE9A00FB94FC /* XCodeClutterTests.xctest */,
-				D483816D2197F4A400B3648A /* Experimental */,
-				D48AB360219DDE6900624000 /* VBrain.app */,
-				D4773BE021AA894D00A7866E /* VBrainTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		D44B54992197EE9900FB94FC /* XCodeClutter */ = {
-			isa = PBXGroup;
-			children = (
-				D44B549A2197EE9900FB94FC /* AppDelegate.swift */,
-				D44B549C2197EE9900FB94FC /* GameScene.sks */,
-				D44B549E2197EE9900FB94FC /* Actions.sks */,
-				D44B54A02197EE9900FB94FC /* GameScene.swift */,
-				D44B54A22197EE9900FB94FC /* ViewController.swift */,
-				D44B54A42197EE9A00FB94FC /* Assets.xcassets */,
-				D44B54A62197EE9A00FB94FC /* Main.storyboard */,
-				D44B54A92197EE9A00FB94FC /* Info.plist */,
-				D44B54AA2197EE9A00FB94FC /* XCodeClutter.entitlements */,
-			);
-			path = XCodeClutter;
-			sourceTree = "<group>";
-		};
-		D44B54B22197EE9A00FB94FC /* XCodeClutterTests */ = {
-			isa = PBXGroup;
-			children = (
-				D44B54B32197EE9A00FB94FC /* XCodeClutterTests.swift */,
-				D44B54B52197EE9A00FB94FC /* Info.plist */,
-			);
-			path = XCodeClutterTests;
-			sourceTree = "<group>";
-		};
-		D483816E2197F4A400B3648A /* Experimental */ = {
-			isa = PBXGroup;
-			children = (
-				D4A0362E219B926C00EC171E /* Hell.playground */,
-				D483816F2197F4A400B3648A /* main.swift */,
-			);
-			path = Experimental;
-			sourceTree = "<group>";
-		};
-		D48AB361219DDE6900624000 /* VBrain */ = {
-			isa = PBXGroup;
-			children = (
-				D48AB362219DDE6900624000 /* AppDelegate.swift */,
-				D48AB364219DDE6900624000 /* GameScene.sks */,
-				D48AB366219DDE6900624000 /* Actions.sks */,
-				D48AB368219DDE6900624000 /* GameScene.swift */,
-				D48AB36A219DDE6900624000 /* ViewController.swift */,
-				D48AB36C219DDE6A00624000 /* Assets.xcassets */,
-				D48AB36E219DDE6A00624000 /* Main.storyboard */,
-				D48AB371219DDE6A00624000 /* Info.plist */,
-				D48AB372219DDE6A00624000 /* VBrain.entitlements */,
-			);
-			path = VBrain;
-			sourceTree = "<group>";
-		};
-		D48AB380219E47EC00624000 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				D4838185219A956400B3648A /* Decoder.swift */,
-				D48AB384219E718600624000 /* Mutator.swift */,
-				D4C2253E21A072EF004A011A /* Protocols.swift */,
-				D4C957BB21A3BA7F00AF0CF6 /* RandomnessGenerator.swift */,
-				D41BA59E21A36851009A2648 /* RepeatingTimer.swift */,
-				D48AB381219E484000624000 /* Utilities.swift */,
-				D48AB377219DDFBC00624000 /* VBrain.swift */,
-			);
-			path = Source;
-			sourceTree = "<group>";
-		};
-		D4B137D721A8E10600CB6E87 /* Curation */ = {
-			isa = PBXGroup;
-			children = (
-				D464FD2E21A7E97C00887C2C /* Curator.swift */,
-				D4B137D821A8E11D00CB6E87 /* Generation.swift */,
-				D43E81F221AA24C900867037 /* Selector.swift */,
+				D4183C0A21AD02130038F9CF /* Curator.swift */,
+				D4183C0921AD02130038F9CF /* Generation.swift */,
+				D4183C0B21AD02130038F9CF /* Selector.swift */,
 			);
 			path = Curation;
 			sourceTree = "<group>";
 		};
-		D4C957BF21A5133900AF0CF6 /* TestSubjects */ = {
+		D4183C0F21AD021D0038F9CF /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				D43E81F821AA25AD00867037 /* TSFactory.swift */,
-				D43E81F521AA258600867037 /* TSFitnessTester.swift */,
-				D47D874B21AA65CD00ED70AC /* TSLearnZoeName.swift */,
-				D43F98E421ABDCE0006371D8 /* TSMultiplier.swift */,
-				D4B137D521A8DF0700CB6E87 /* TSRelay.swift */,
-				D43E820321AA387700867037 /* TSTestSubject.swift */,
+				D4183C1521AD023C0038F9CF /* Decoder.swift */,
+				D4183C1021AD023C0038F9CF /* Mutator.swift */,
+				D4183C1621AD023C0038F9CF /* Protocols.swift */,
+				D4183C1321AD023C0038F9CF /* RandomnessGenerators.swift */,
+				D4183C1121AD023C0038F9CF /* RepeatingTimer.swift */,
+				D4183C1421AD023C0038F9CF /* Utilities.swift */,
+				D4183C1721AD023C0038F9CF /* VBrain.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		D4183C2021AD02520038F9CF /* TestSubjects */ = {
+			isa = PBXGroup;
+			children = (
+				D4183C2121AD02730038F9CF /* TSFactory.swift */,
+				D4183C2221AD02730038F9CF /* TSFitnessTester.swift */,
+				D4183C2821AD02730038F9CF /* TSLearnZoeName.swift */,
+				D4183C2321AD02730038F9CF /* TSMultiplier.swift */,
+				D4183C2421AD02730038F9CF /* TSNumberGuesser.swift */,
+				D4183C2921AD02730038F9CF /* TSPassThrough.swift */,
+				D4183C2521AD02730038F9CF /* TSRandomOutputs.swift */,
+				D4183C2621AD02730038F9CF /* TSRelay.swift */,
+				D4183C2721AD02730038F9CF /* TSTestSubject.swift */,
 			);
 			path = TestSubjects;
+			sourceTree = "<group>";
+		};
+		D4183C3321AD02880038F9CF /* Translators */ = {
+			isa = PBXGroup;
+			children = (
+				D4183C3521AD02A80038F9CF /* GenomeTranslators.swift */,
+				D4183C3621AD02A90038F9CF /* TranslatorBrain.swift */,
+				D4183C3421AD02A80038F9CF /* TranslatorLayer.swift */,
+				D4183C3721AD02A90038F9CF /* TranslatorNeuron.swift */,
+			);
+			path = Translators;
+			sourceTree = "<group>";
+		};
+		D4183C7121AD0E750038F9CF /* VBrain */ = {
+			isa = PBXGroup;
+			children = (
+				D4183C7221AD0E760038F9CF /* AppDelegate.swift */,
+				D4183C7421AD0E760038F9CF /* GameScene.sks */,
+				D4183C7621AD0E760038F9CF /* Actions.sks */,
+				D4183C7821AD0E760038F9CF /* GameScene.swift */,
+				D4183C7A21AD0E760038F9CF /* ViewController.swift */,
+				D4183C7C21AD0E760038F9CF /* Assets.xcassets */,
+				D4183C7E21AD0E760038F9CF /* Main.storyboard */,
+				D4183C8121AD0E760038F9CF /* Info.plist */,
+				D4183C8221AD0E760038F9CF /* VBrain.entitlements */,
+			);
+			path = VBrain;
+			sourceTree = "<group>";
+		};
+		D4183C8A21AD0E760038F9CF /* VBrainTests */ = {
+			isa = PBXGroup;
+			children = (
+				D4183C8B21AD0E760038F9CF /* VBrainTests.swift */,
+				D4183C8D21AD0E760038F9CF /* Info.plist */,
+			);
+			path = VBrainTests;
+			sourceTree = "<group>";
+		};
+		D4BB3BF621ACF89A00000002 = {
+			isa = PBXGroup;
+			children = (
+				D4183C0821AD01F40038F9CF /* Curation */,
+				D4BB3C0121ACF89A00000002 /* Experimental */,
+				D4183C0F21AD021D0038F9CF /* Source */,
+				D4183C2021AD02520038F9CF /* TestSubjects */,
+				D4183C3321AD02880038F9CF /* Translators */,
+				D4183C7121AD0E750038F9CF /* VBrain */,
+				D4183C8A21AD0E760038F9CF /* VBrainTests */,
+				D4BB3C0021ACF89A00000002 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D4BB3C0021ACF89A00000002 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D4BB3BFF21ACF89A00000002 /* Experimental */,
+				D4183C7021AD0E750038F9CF /* VBrain.app */,
+				D4183C8721AD0E760038F9CF /* VBrainTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D4BB3C0121ACF89A00000002 /* Experimental */ = {
+			isa = PBXGroup;
+			children = (
+				D4BB3C0221ACF89A00000002 /* main.swift */,
+			);
+			path = Experimental;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D44B54962197EE9900FB94FC /* XCodeClutter */ = {
+		D4183C6F21AD0E750038F9CF /* VBrain */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D44B54B82197EE9A00FB94FC /* Build configuration list for PBXNativeTarget "XCodeClutter" */;
+			buildConfigurationList = D4183C8E21AD0E760038F9CF /* Build configuration list for PBXNativeTarget "VBrain" */;
 			buildPhases = (
-				D44B54932197EE9900FB94FC /* Sources */,
-				D44B54942197EE9900FB94FC /* Frameworks */,
-				D44B54952197EE9900FB94FC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = XCodeClutter;
-			productName = XCodeClutter;
-			productReference = D44B54972197EE9900FB94FC /* XCodeClutter.app */;
-			productType = "com.apple.product-type.application";
-		};
-		D44B54AE2197EE9A00FB94FC /* XCodeClutterTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D44B54BB2197EE9A00FB94FC /* Build configuration list for PBXNativeTarget "XCodeClutterTests" */;
-			buildPhases = (
-				D44B54AB2197EE9A00FB94FC /* Sources */,
-				D44B54AC2197EE9A00FB94FC /* Frameworks */,
-				D44B54AD2197EE9A00FB94FC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D44B54B12197EE9A00FB94FC /* PBXTargetDependency */,
-			);
-			name = XCodeClutterTests;
-			productName = XCodeClutterTests;
-			productReference = D44B54AF2197EE9A00FB94FC /* XCodeClutterTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		D4773BDF21AA894D00A7866E /* VBrainTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4773BE921AA894D00A7866E /* Build configuration list for PBXNativeTarget "VBrainTests" */;
-			buildPhases = (
-				D4773BDC21AA894D00A7866E /* Sources */,
-				D4773BDD21AA894D00A7866E /* Frameworks */,
-				D4773BDE21AA894D00A7866E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D4773BE621AA894D00A7866E /* PBXTargetDependency */,
-			);
-			name = VBrainTests;
-			productName = VBrainTests;
-			productReference = D4773BE021AA894D00A7866E /* VBrainTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		D483816C2197F4A400B3648A /* Experimental */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D48381732197F4A400B3648A /* Build configuration list for PBXNativeTarget "Experimental" */;
-			buildPhases = (
-				D48381692197F4A400B3648A /* Sources */,
-				D483816A2197F4A400B3648A /* Frameworks */,
-				D483816B2197F4A400B3648A /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Experimental;
-			productName = Experimental;
-			productReference = D483816D2197F4A400B3648A /* Experimental */;
-			productType = "com.apple.product-type.tool";
-		};
-		D48AB35F219DDE6900624000 /* VBrain */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D48AB373219DDE6A00624000 /* Build configuration list for PBXNativeTarget "VBrain" */;
-			buildPhases = (
-				D48AB35C219DDE6900624000 /* Sources */,
-				D48AB35D219DDE6900624000 /* Frameworks */,
-				D48AB35E219DDE6900624000 /* Resources */,
+				D4183C6C21AD0E750038F9CF /* Sources */,
+				D4183C6D21AD0E750038F9CF /* Frameworks */,
+				D4183C6E21AD0E750038F9CF /* Resources */,
 			);
 			buildRules = (
 			);
@@ -394,39 +271,67 @@
 			);
 			name = VBrain;
 			productName = VBrain;
-			productReference = D48AB360219DDE6900624000 /* VBrain.app */;
+			productReference = D4183C7021AD0E750038F9CF /* VBrain.app */;
 			productType = "com.apple.product-type.application";
+		};
+		D4183C8621AD0E760038F9CF /* VBrainTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4183C9121AD0E760038F9CF /* Build configuration list for PBXNativeTarget "VBrainTests" */;
+			buildPhases = (
+				D4183C8321AD0E760038F9CF /* Sources */,
+				D4183C8421AD0E760038F9CF /* Frameworks */,
+				D4183C8521AD0E760038F9CF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D4183C8921AD0E760038F9CF /* PBXTargetDependency */,
+			);
+			name = VBrainTests;
+			productName = VBrainTests;
+			productReference = D4183C8721AD0E760038F9CF /* VBrainTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D4BB3BFE21ACF89A00000002 /* Experimental */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4BB3C0621ACF89A00000002 /* Build configuration list for PBXNativeTarget "Experimental" */;
+			buildPhases = (
+				D4BB3BFB21ACF89A00000002 /* Sources */,
+				D4BB3BFC21ACF89A00000002 /* Frameworks */,
+				D4BB3BFD21ACF89A00000002 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Experimental;
+			productName = Experimental;
+			productReference = D4BB3BFF21ACF89A00000002 /* Experimental */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		D44B548F2197EE9900FB94FC /* Project object */ = {
+		D4BB3BF721ACF89A00000002 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Rob Bishop";
 				TargetAttributes = {
-					D44B54962197EE9900FB94FC = {
+					D4183C6F21AD0E750038F9CF = {
 						CreatedOnToolsVersion = 10.1;
 					};
-					D44B54AE2197EE9A00FB94FC = {
+					D4183C8621AD0E760038F9CF = {
 						CreatedOnToolsVersion = 10.1;
-						TestTargetID = D44B54962197EE9900FB94FC;
+						TestTargetID = D4183C6F21AD0E750038F9CF;
 					};
-					D4773BDF21AA894D00A7866E = {
-						CreatedOnToolsVersion = 10.1;
-						TestTargetID = D48AB35F219DDE6900624000;
-					};
-					D483816C2197F4A400B3648A = {
-						CreatedOnToolsVersion = 10.1;
-					};
-					D48AB35F219DDE6900624000 = {
+					D4BB3BFE21ACF89A00000002 = {
 						CreatedOnToolsVersion = 10.1;
 					};
 				};
 			};
-			buildConfigurationList = D44B54922197EE9900FB94FC /* Build configuration list for PBXProject "Hell" */;
+			buildConfigurationList = D4BB3BFA21ACF89A00000002 /* Build configuration list for PBXProject "Hell" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -434,170 +339,121 @@
 				en,
 				Base,
 			);
-			mainGroup = D44B548E2197EE9900FB94FC;
-			productRefGroup = D44B54982197EE9900FB94FC /* Products */;
+			mainGroup = D4BB3BF621ACF89A00000002;
+			productRefGroup = D4BB3C0021ACF89A00000002 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D44B54962197EE9900FB94FC /* XCodeClutter */,
-				D44B54AE2197EE9A00FB94FC /* XCodeClutterTests */,
-				D483816C2197F4A400B3648A /* Experimental */,
-				D48AB35F219DDE6900624000 /* VBrain */,
-				D4773BDF21AA894D00A7866E /* VBrainTests */,
+				D4BB3BFE21ACF89A00000002 /* Experimental */,
+				D4183C6F21AD0E750038F9CF /* VBrain */,
+				D4183C8621AD0E760038F9CF /* VBrainTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D44B54952197EE9900FB94FC /* Resources */ = {
+		D4183C6E21AD0E750038F9CF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D44B549D2197EE9900FB94FC /* GameScene.sks in Resources */,
-				D44B54A52197EE9A00FB94FC /* Assets.xcassets in Resources */,
-				D44B549F2197EE9900FB94FC /* Actions.sks in Resources */,
-				D44B54A82197EE9A00FB94FC /* Main.storyboard in Resources */,
+				D4183C7521AD0E760038F9CF /* GameScene.sks in Resources */,
+				D4183C7D21AD0E760038F9CF /* Assets.xcassets in Resources */,
+				D4183C7721AD0E760038F9CF /* Actions.sks in Resources */,
+				D4183C8021AD0E760038F9CF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D44B54AD2197EE9A00FB94FC /* Resources */ = {
+		D4183C8521AD0E760038F9CF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4773BDE21AA894D00A7866E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D48AB35E219DDE6900624000 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D48AB365219DDE6900624000 /* GameScene.sks in Resources */,
-				D48AB36D219DDE6A00624000 /* Assets.xcassets in Resources */,
-				D48AB367219DDE6900624000 /* Actions.sks in Resources */,
-				D48AB370219DDE6A00624000 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		D44B54932197EE9900FB94FC /* Sources */ = {
+		D4183C6C21AD0E750038F9CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D44B54A32197EE9900FB94FC /* ViewController.swift in Sources */,
-				D44B54A12197EE9900FB94FC /* GameScene.swift in Sources */,
-				D44B549B2197EE9900FB94FC /* AppDelegate.swift in Sources */,
+				D4183CA521AD0ED60038F9CF /* Decoder.swift in Sources */,
+				D4183C7B21AD0E760038F9CF /* ViewController.swift in Sources */,
+				D4183CAA21AD0ED60038F9CF /* Utilities.swift in Sources */,
+				D4183C9B21AD0EC00038F9CF /* TSMultiplier.swift in Sources */,
+				D4183CA821AD0ED60038F9CF /* RandomnessGenerators.swift in Sources */,
+				D4183C9821AD0EC00038F9CF /* TSFactory.swift in Sources */,
+				D4183CA621AD0ED60038F9CF /* Mutator.swift in Sources */,
+				D4183CA021AD0EC00038F9CF /* TSTestSubject.swift in Sources */,
+				D4183CAE21AD0EE00038F9CF /* Selector.swift in Sources */,
+				D4183C9621AD0EB20038F9CF /* TranslatorLayer.swift in Sources */,
+				D4183CA721AD0ED60038F9CF /* Protocols.swift in Sources */,
+				D4183C7921AD0E760038F9CF /* GameScene.swift in Sources */,
+				D4183C9421AD0EB20038F9CF /* GenomeTranslators.swift in Sources */,
+				D4183CAB21AD0ED60038F9CF /* VBrain.swift in Sources */,
+				D4183C9A21AD0EC00038F9CF /* TSLearnZoeName.swift in Sources */,
+				D4183CAC21AD0EE00038F9CF /* Curator.swift in Sources */,
+				D4183C9521AD0EB20038F9CF /* TranslatorBrain.swift in Sources */,
+				D4183C9921AD0EC00038F9CF /* TSFitnessTester.swift in Sources */,
+				D4183C7321AD0E760038F9CF /* AppDelegate.swift in Sources */,
+				D4183C9721AD0EB20038F9CF /* TranslatorNeuron.swift in Sources */,
+				D4183CA921AD0ED60038F9CF /* RepeatingTimer.swift in Sources */,
+				D4183C9F21AD0EC00038F9CF /* TSRelay.swift in Sources */,
+				D4183CAD21AD0EE00038F9CF /* Generation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D44B54AB2197EE9A00FB94FC /* Sources */ = {
+		D4183C8321AD0E760038F9CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D44B54B42197EE9A00FB94FC /* XCodeClutterTests.swift in Sources */,
+				D4183C8C21AD0E760038F9CF /* VBrainTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4773BDC21AA894D00A7866E /* Sources */ = {
+		D4BB3BFB21ACF89A00000002 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D48381692197F4A400B3648A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4838186219A956400B3648A /* Decoder.swift in Sources */,
-				D43E820421AA387700867037 /* TSTestSubject.swift in Sources */,
-				D43E81F321AA24C900867037 /* Selector.swift in Sources */,
-				D43E820021AA318500867037 /* main.swift in Sources */,
-				D4C2253F21A072EF004A011A /* Protocols.swift in Sources */,
-				D40593ED21A0F319008C5FE8 /* TranslatorLayer.swift in Sources */,
-				D41BA59F21A36851009A2648 /* RepeatingTimer.swift in Sources */,
-				D40593EF21A0F34E008C5FE8 /* TranslatorNeuron.swift in Sources */,
-				D4C957BC21A3BA7F00AF0CF6 /* RandomnessGenerator.swift in Sources */,
-				D47D874C21AA65CD00ED70AC /* TSLearnZoeName.swift in Sources */,
-				D40593EB21A0F294008C5FE8 /* TranslatorBrain.swift in Sources */,
-				D43F98E521ABDCE0006371D8 /* TSMultiplier.swift in Sources */,
-				D4B137D421A8C2CB00CB6E87 /* Curator.swift in Sources */,
-				D48AB385219E718600624000 /* Mutator.swift in Sources */,
-				D43E81F621AA258600867037 /* TSFitnessTester.swift in Sources */,
-				D4B137D621A8DF0700CB6E87 /* TSRelay.swift in Sources */,
-				D4C2253D219FC3FB004A011A /* GenomeTranslators.swift in Sources */,
-				D4B137D921A8E11D00CB6E87 /* Generation.swift in Sources */,
-				D43E81F921AA25AD00867037 /* TSFactory.swift in Sources */,
-				D48AB382219E484000624000 /* Utilities.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D48AB35C219DDE6900624000 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D48AB36B219DDE6900624000 /* ViewController.swift in Sources */,
-				D48AB369219DDE6900624000 /* GameScene.swift in Sources */,
-				D4029F2021A2006C00BDDB7A /* GenomeTranslators.swift in Sources */,
-				D4029F2321A2006C00BDDB7A /* TranslatorNeuron.swift in Sources */,
-				D43E820221AA355700867037 /* TSRelay.swift in Sources */,
-				D47D874D21AA65CD00ED70AC /* TSLearnZoeName.swift in Sources */,
-				D4C957C921A5D34800AF0CF6 /* RandomnessGenerator.swift in Sources */,
-				D48AB363219DDE6900624000 /* AppDelegate.swift in Sources */,
-				D43E820121AA31AC00867037 /* VBrain.swift in Sources */,
-				D43F98E621ABDCE0006371D8 /* TSMultiplier.swift in Sources */,
-				D43E81F721AA258600867037 /* TSFitnessTester.swift in Sources */,
-				D4029F2121A2006C00BDDB7A /* TranslatorBrain.swift in Sources */,
-				D4029F2221A2006C00BDDB7A /* TranslatorLayer.swift in Sources */,
-				D43E81FA21AA25AD00867037 /* TSFactory.swift in Sources */,
-				D4029F2421A2007400BDDB7A /* Protocols.swift in Sources */,
-				D43E81FC21AA2E3B00867037 /* Curator.swift in Sources */,
-				D48AB37B219DE4A800624000 /* Decoder.swift in Sources */,
-				D4FBB7BF21A7863400722AFF /* RepeatingTimer.swift in Sources */,
-				D43E820521AA387700867037 /* TSTestSubject.swift in Sources */,
-				D48AB383219E484000624000 /* Utilities.swift in Sources */,
-				D48AB386219E718600624000 /* Mutator.swift in Sources */,
-				D43E81F421AA24C900867037 /* Selector.swift in Sources */,
-				D43E81FB21AA2A1900867037 /* Generation.swift in Sources */,
+				D4BB3C0321ACF89A00000002 /* main.swift in Sources */,
+				D4183C3B21AD02A90038F9CF /* TranslatorNeuron.swift in Sources */,
+				D4183C1B21AD023C0038F9CF /* RandomnessGenerators.swift in Sources */,
+				D4183C1921AD023C0038F9CF /* RepeatingTimer.swift in Sources */,
+				D4183C2A21AD02730038F9CF /* TSFactory.swift in Sources */,
+				D4183C3A21AD02A90038F9CF /* TranslatorBrain.swift in Sources */,
+				D4183C1E21AD023C0038F9CF /* Protocols.swift in Sources */,
+				D4183C0D21AD02130038F9CF /* Curator.swift in Sources */,
+				D4183C2F21AD02730038F9CF /* TSRelay.swift in Sources */,
+				D4183CA421AD0ED50038F9CF /* VBrain.swift in Sources */,
+				D4183C0E21AD02130038F9CF /* Selector.swift in Sources */,
+				D4183C2B21AD02730038F9CF /* TSFitnessTester.swift in Sources */,
+				D4183C1C21AD023C0038F9CF /* Utilities.swift in Sources */,
+				D4183C1821AD023C0038F9CF /* Mutator.swift in Sources */,
+				D4183C2C21AD02730038F9CF /* TSMultiplier.swift in Sources */,
+				D4183C3921AD02A90038F9CF /* GenomeTranslators.swift in Sources */,
+				D4183C3021AD02730038F9CF /* TSTestSubject.swift in Sources */,
+				D4183C3121AD02730038F9CF /* TSLearnZoeName.swift in Sources */,
+				D4183C1D21AD023C0038F9CF /* Decoder.swift in Sources */,
+				D4183C3821AD02A90038F9CF /* TranslatorLayer.swift in Sources */,
+				D4183C0C21AD02130038F9CF /* Generation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		D44B54B12197EE9A00FB94FC /* PBXTargetDependency */ = {
+		D4183C8921AD0E760038F9CF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D44B54962197EE9900FB94FC /* XCodeClutter */;
-			targetProxy = D44B54B02197EE9A00FB94FC /* PBXContainerItemProxy */;
-		};
-		D4773BE621AA894D00A7866E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D48AB35F219DDE6900624000 /* VBrain */;
-			targetProxy = D4773BE521AA894D00A7866E /* PBXContainerItemProxy */;
+			target = D4183C6F21AD0E750038F9CF /* VBrain */;
+			targetProxy = D4183C8821AD0E760038F9CF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		D44B54A62197EE9A00FB94FC /* Main.storyboard */ = {
+		D4183C7E21AD0E760038F9CF /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D44B54A72197EE9A00FB94FC /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		D48AB36E219DDE6A00624000 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D48AB36F219DDE6A00624000 /* Base */,
+				D4183C7F21AD0E760038F9CF /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -605,7 +461,87 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		D44B54B62197EE9A00FB94FC /* Debug */ = {
+		D4183C8F21AD0E760038F9CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VBrain/VBrain.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = VBrain/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.VBrain;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D4183C9021AD0E760038F9CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VBrain/VBrain.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = VBrain/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.VBrain;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D4183C9221AD0E760038F9CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = VBrainTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.VBrainTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VBrain.app/Contents/MacOS/VBrain";
+			};
+			name = Debug;
+		};
+		D4183C9321AD0E760038F9CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = VBrainTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.VBrainTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VBrain.app/Contents/MacOS/VBrain";
+			};
+			name = Release;
+		};
+		D4BB3C0421ACF89A00000002 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -666,7 +602,7 @@
 			};
 			name = Debug;
 		};
-		D44B54B72197EE9A00FB94FC /* Release */ = {
+		D4BB3C0521ACF89A00000002 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -720,180 +656,26 @@
 			};
 			name = Release;
 		};
-		D44B54B92197EE9A00FB94FC /* Debug */ = {
+		D4BB3C0721ACF89A00000002 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = XCodeClutter/XCodeClutter.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = XCodeClutter/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.XCodeClutter;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
-		D44B54BA2197EE9A00FB94FC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = XCodeClutter/XCodeClutter.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = XCodeClutter/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.XCodeClutter;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D44B54BC2197EE9A00FB94FC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = XCodeClutterTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.XCodeClutterTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XCodeClutter.app/Contents/MacOS/XCodeClutter";
-			};
-			name = Debug;
-		};
-		D44B54BD2197EE9A00FB94FC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = XCodeClutterTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.XCodeClutterTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XCodeClutter.app/Contents/MacOS/XCodeClutter";
-			};
-			name = Release;
-		};
-		D4773BE721AA894D00A7866E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = VBrainTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.VBrainTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VBrain.app/Contents/MacOS/VBrain";
-			};
-			name = Debug;
-		};
-		D4773BE821AA894D00A7866E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = VBrainTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.VBrainTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VBrain.app/Contents/MacOS/VBrain";
-			};
-			name = Release;
-		};
-		D48381712197F4A400B3648A /* Debug */ = {
+		D4BB3C0821ACF89A00000002 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DD983V4X84;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D48381722197F4A400B3648A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D48AB374219DDE6A00624000 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = VBrain/VBrain.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = VBrain/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.VBrain;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D48AB375219DDE6A00624000 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = VBrain/VBrain.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = VBrain/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.VBrain;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -901,61 +683,43 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D44B54922197EE9900FB94FC /* Build configuration list for PBXProject "Hell" */ = {
+		D4183C8E21AD0E760038F9CF /* Build configuration list for PBXNativeTarget "VBrain" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D44B54B62197EE9A00FB94FC /* Debug */,
-				D44B54B72197EE9A00FB94FC /* Release */,
+				D4183C8F21AD0E760038F9CF /* Debug */,
+				D4183C9021AD0E760038F9CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D44B54B82197EE9A00FB94FC /* Build configuration list for PBXNativeTarget "XCodeClutter" */ = {
+		D4183C9121AD0E760038F9CF /* Build configuration list for PBXNativeTarget "VBrainTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D44B54B92197EE9A00FB94FC /* Debug */,
-				D44B54BA2197EE9A00FB94FC /* Release */,
+				D4183C9221AD0E760038F9CF /* Debug */,
+				D4183C9321AD0E760038F9CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D44B54BB2197EE9A00FB94FC /* Build configuration list for PBXNativeTarget "XCodeClutterTests" */ = {
+		D4BB3BFA21ACF89A00000002 /* Build configuration list for PBXProject "Hell" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D44B54BC2197EE9A00FB94FC /* Debug */,
-				D44B54BD2197EE9A00FB94FC /* Release */,
+				D4BB3C0421ACF89A00000002 /* Debug */,
+				D4BB3C0521ACF89A00000002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4773BE921AA894D00A7866E /* Build configuration list for PBXNativeTarget "VBrainTests" */ = {
+		D4BB3C0621ACF89A00000002 /* Build configuration list for PBXNativeTarget "Experimental" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D4773BE721AA894D00A7866E /* Debug */,
-				D4773BE821AA894D00A7866E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D48381732197F4A400B3648A /* Build configuration list for PBXNativeTarget "Experimental" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D48381712197F4A400B3648A /* Debug */,
-				D48381722197F4A400B3648A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D48AB373219DDE6A00624000 /* Build configuration list for PBXNativeTarget "VBrain" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D48AB374219DDE6A00624000 /* Debug */,
-				D48AB375219DDE6A00624000 /* Release */,
+				D4BB3C0721ACF89A00000002 /* Debug */,
+				D4BB3C0821ACF89A00000002 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = D44B548F2197EE9900FB94FC /* Project object */;
+	rootObject = D4BB3BF721ACF89A00000002 /* Project object */;
 }
