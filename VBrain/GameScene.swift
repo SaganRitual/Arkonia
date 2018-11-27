@@ -32,6 +32,11 @@ class GameScene: SKScene {
     var brain: NeuralNetProtocol!
 
     override func didMove(to view: SKView) {
+        let testSubjects = TSTestGroup()
+        let relay = TSRelay(testSubjects)
+        let fitnessTester = FTLearnZoeName()
+        let testSubjectFactory = TSZoeFactory(relay, fitnessTester: fitnessTester)
+        self.curator = Curator(starter: nil, testSubjectFactory: testSubjectFactory)
     }
    
     // With deepest gratitude to Stack Overflow dude
@@ -44,26 +49,9 @@ class GameScene: SKScene {
         return nil
     }
     
-    func getCurator() throws {
-        guard self.curator == nil else { return }
-        
-        let testSubjects = TSTestGroup()
-        let relay = TSRelay(testSubjects)
-//        let fitnessTester = FTLearnZoeName()
-//        let testSubjectFactory = TSZoeFactory(relay, fitnessTester: fitnessTester)
-        let fitnessTester = TestSubjectFitnessTester()
-        let testSubjectFactory = TestSubjectFactory(relay, fitnessTester: fitnessTester)
-        self.curator = Curator(starter: nil, testSubjectFactory: testSubjectFactory)
-    }
-    
     var completionDisplayed = false
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
-        
-        do { try getCurator() }
-        catch { return }
-        
-        guard let curator = self.curator else { return }
         
         guard self.curatorStatus == .running else {
             if !completionDisplayed {
@@ -87,11 +75,7 @@ class GameScene: SKScene {
 //        print("?", terminator: "")
 //        frameCount = 0
 
-        guard let brainOk = try? curator.getMostInterestingTestSubject() else {
-            return
-        }
-        
-        self.brain = brainOk
+        self.brain = curator.getMostInterestingTestSubject()
 
         vBrain = VBrain(gameScene: self, brain: self.brain)
         vBrain.displayBrain(self.brain)
