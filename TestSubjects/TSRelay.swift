@@ -36,11 +36,22 @@ class TSRelay {
         return ts.submitToTest(for: inputs)
     }
     
+    func getBrain(of which: TSHandle) -> BrainStem? {
+        return testSubjects[which]!.brain
+    }
+    
     func getFitnessScore(for which: TSHandle) -> Double? {
         guard let ts = testSubjects[which] else
         { preconditionFailure("Can't find subject \(which)") }
         
         return ts.getFitnessScore()
+    }
+    
+    func getFitnessReport(for which: TSHandle) -> String? {
+        guard let ts = testSubjects[which] else
+        { preconditionFailure("Can't find subject \(which)") }
+        
+        return ts.getFitnessReport()
     }
 
     func getFishNumber(for which: TSHandle) -> Int {

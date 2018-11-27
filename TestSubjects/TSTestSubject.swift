@@ -36,14 +36,21 @@ class TSTestSubject {
         TSTestSubject.theFishNumber += 1
     }
     
+    func getFitnessReport() -> String? {
+        guard let b = self.brain else { preconditionFailure("No brain, no report.") }
+        return b.fitnessReport
+    }
+    
     func getFitnessScore() -> Double? {
         guard let b = self.brain else { preconditionFailure("No brain, no score.") }
         return b.fitnessScore
     }
-    
+
     func setBrain(_ brain: BrainStem) { self.brain = brain }
 
-    func calculateFitnessScore(_ score: Double) { self.brain!.fitnessScore = score }
+    func calculateFitnessScore(_ score: Double,_ report: String) {
+        self.brain!.fitnessScore = score; self.brain!.fitnessReport = report
+    }
     
     func submitToTest(for sensoryInput: [Double]) -> [Double]? {
         let testOutputs = fitnessTester.administerTest(to: self, for: sensoryInput)

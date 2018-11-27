@@ -107,6 +107,8 @@ protocol SelectionFitnessTester {
 
 protocol BrainStem {
     var fitnessScore: Double? { get set }
+    var fitnessReport: String? { get set }
+    
     func stimulate(inputs: [Double]) -> [Double]?
 }
 

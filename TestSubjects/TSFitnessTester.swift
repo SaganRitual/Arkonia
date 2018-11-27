@@ -29,12 +29,16 @@ class TestSubjectFitnessTester: SelectionFitnessTester {
     }
     
     func getFitnessScore(for testSubject: TSTestSubject) -> Double?
-    { return testSubject.getFitnessScore() }
+        { return testSubject.getFitnessScore() }
     
     func calculateFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) {
         guard let outputs = outputs else { return }
         let totalOutput = outputs.reduce(0, +)
         let score = abs(totalOutput - 17)
-        testSubject.calculateFitnessScore(score)    // The number I want the brains to guess
+        testSubject.calculateFitnessScore(score, "")    // The number I want the brains to guess
+    }
+    
+    func calculateFitnessScore(_ score: Double, _ progressReport: String) {
+
     }
 }

@@ -32,6 +32,30 @@ struct SelectionControls {
 
 var selectionControls = SelectionControls()
 
+// With deepest gratitude to Stack Overflow dude
+// https://stackoverflow.com/users/3441734/user3441734
+// https://stackoverflow.com/a/44541541/1610473
+struct Log: TextOutputStream {
+
+    static var L = Log()
+
+    func write(_ string: String) {
+        #if true
+        return
+        #else
+        let fm = FileManager.default
+        let log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("roblog.txt")
+        if let handle = try? FileHandle(forWritingTo: log) {
+            handle.seekToEndOfFile()
+            handle.write(string.data(using: .utf8)!)
+            handle.closeFile()
+        } else {
+            try? string.data(using: .utf8)?.write(to: log)
+        }
+        #endif
+    }
+}
+
 enum CuratorStatus {
     case running, finished, chokedByDudliness
 }
@@ -48,10 +72,13 @@ class TSTestGroup {
 struct TSArchivableSubject: Hashable {
     let tsHandle: TSHandle
     let genome: Genome
-    let score: Double
+    var fitnessScore: Double?
+    var fitnessReport: String?
     
-    init(tsHandle: TSHandle, genome: Genome, score: Double) {
-        self.tsHandle = tsHandle; self.genome = genome; self.score = score
+    init(tsHandle: TSHandle, genome: Genome, brain: BrainStem) {
+        self.tsHandle = tsHandle; self.genome = genome;
+        
+        self.fitnessScore = brain.fitnessScore; self.fitnessReport = brain.fitnessReport
     }
 }
 
@@ -70,6 +97,7 @@ class Curator {
     let testSubjectFactory: TestSubjectFactory
     var studGenome: Genome
     var bestScoreEver = Double.infinity
+    var bestReportEver = String()
     var bestGenomeEver = Genome()
 
     var testSubjects = TSTestGroup()
@@ -134,10 +162,8 @@ class Curator {
             let fs = tsRelay.getFitnessScore(for: winner)
             let ffs = Utilities.notOptional(fs, "Something ain't right!")
 
-            for char in FTLearnZoeName.resultsArray {
-                print(String(char), terminator: "")
-            }
-            print()
+            print("Found '\(self.bestReportEver)'")
+
             print("New record by \(winner): \(ffs)")
             self.promisingLines.append(vettee)
             self.studBeingVetted = nil      // In case it makes debugging easier
@@ -145,14 +171,17 @@ class Curator {
         
         let stud = self.testSubjects.testSubjects[winner]!
         let genome = stud.genome
-        guard let score = stud.getFitnessScore() else {
+        guard let score = stud.getFitnessScore(), let report = stud.getFitnessReport() else {
             return
         }
 
+        self.bestReportEver = report
         self.bestScoreEver = score
         self.bestGenomeEver = genome
+        
+        let brain = tsRelay.getBrain(of: winner)!
 
-        let forArchival = TSArchivableSubject(tsHandle: winner, genome: genome, score: score)
+        let forArchival = TSArchivableSubject(tsHandle: winner, genome: genome, brain: brain)
         self.studBeingVetted = forArchival
     }
     
@@ -206,7 +235,8 @@ class Curator {
             preconditionFailure("Generation returned a candidate that appears to have died during the test")
         }
 
-        return (candidateScore < reigningChampion.score) ? candidate : reigningChampion.tsHandle
+        return (candidateScore < (reigningChampion.fitnessScore ?? Double.infinity))
+                ? candidate : reigningChampion.tsHandle
     }
     
     func track() -> CuratorStatus {
@@ -246,7 +276,7 @@ class Curator {
             print("\(message) \(generationsTested) generations")
             print("Best genome: \(self.bestGenomeEver)")
 
-            print("Best score from this run ~ \(self.bestScoreEver)\n")
+            print("Best score from this run ~ \(self.bestScoreEver), best attempt = \(self.bestReportEver)\n")
         }
 
         if numberOfGenerations > 0 {

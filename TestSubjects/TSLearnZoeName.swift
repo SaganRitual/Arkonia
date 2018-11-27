@@ -51,14 +51,6 @@ class TSZoeFactory: TestSubjectFactory {
 class FTLearnZoeName: TestSubjectFitnessTester {
     let zName = "Zoe Bishop"
 
-    static var resultsArray = [Character("."), Character("."), Character("."), Character("."),
-                        Character("."), Character("."), Character("."), Character("."),
-                        Character("."), Character(".")]
-
-    static var stagingArray = [Character("."), Character("."), Character("."), Character("."),
-                               Character("."), Character("."), Character("."), Character("."),
-                               Character("."), Character(".")]
-
     var charactersMatched = 0
     
     override func calculateFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) {
@@ -67,14 +59,17 @@ class FTLearnZoeName: TestSubjectFitnessTester {
         var scoreForTheseOutputs = 0.0
 
         let scorer = Scorer(zName, outputs: outputs)
-        scoreForTheseOutputs += scorer.calculateScore()
+        let (s, progressReport) = scorer.calculateScore()
+
+        scoreForTheseOutputs += s
         
         if scoreForTheseOutputs == 0 {
             charactersMatched += 1
             scoreForTheseOutputs = Double(abs(zName.count - charactersMatched))
         }
         
-        testSubject.calculateFitnessScore(scoreForTheseOutputs)
+        testSubject.calculateFitnessScore(scoreForTheseOutputs, progressReport)
+        super.calculateFitnessScore(scoreForTheseOutputs, progressReport)
     }
 }
 
@@ -115,47 +110,70 @@ fileprivate class Scorer {
         return whichCase
     }
 
-    func calculateScore() -> Double {
+    func calculateScore() -> (Double, String) {
         var testOutput = String()
+        let symbolLookup: String = {
+            var s = String()
+            for i in 0..<32 { s.append(String(UnicodeScalar(i) ?? "🔧")) }
+            return s
+        }()
         
         for (expectedCharacter, ss) in zip(zName, 0..<outputs.count) {
             if outputs[ss] > Double(Int.max) { modulo = Int.max }
             if outputs[ss] < Double(-Int.max) { modulo = Int.min }
+            
+            var whichCase = getCase(expectedCharacter, ss)
 
-            modulo %= 26
+            modulo %= (whichCase == symbolcase) ? 32 : 26
             amodulo = abs(modulo)
             
             inputCharacterValue = UnicodeScalar(amodulo)!.value
             inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
             
             if let p = previousCharacterValue, inputCharacterValue == p {
-                scoreForTheseOutputs += 20
+                scoreForTheseOutputs += 10
+                print("Repeat \(inputCharacterValue) costs 10: \(scoreForTheseOutputs)", to: &Log.L)
             }
-            
+
             previousCharacterValue = Int(inputCharacterValue)
-            
-            let whichCase = getCase(expectedCharacter, ss)
             
             inputCharacterValue += UnicodeScalar(String(whichCase.first!))!.value
             inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
             
+            print("\(inputCharacterValue)", to: &Log.L)
             testOutput.append(inputCharacter)
             
             let zCharOffset = whichCase.firstIndex(of: expectedCharacter)!
-            let iCharOffset = whichCase.firstIndex(of: inputCharacter)!
+            var iCharOffset = whichCase.startIndex
+            
+            if let iCharOffset_ = whichCase.firstIndex(of: inputCharacter) {
+                iCharOffset = iCharOffset_
+            } else {
+                whichCase = symbolLookup
+                iCharOffset = whichCase.index(whichCase.startIndex, offsetBy: Int(inputCharacterValue))
+            }
+
             let distance = whichCase.distance(from: zCharOffset, to: iCharOffset)
             
-            scoreForTheseOutputs += Double(abs(distance)).dTruncate()
+            let count = Double(abs(distance)).dTruncate()
+            scoreForTheseOutputs += count
+            print("Normal cost for \(count) -> \(scoreForTheseOutputs)", to: &Log.L)
         }
         
-        return scoreForTheseOutputs
+        scoreForTheseOutputs += Double(20 * ("Zoe Bishop".count - testOutput.count))
+        print("Shortening cost for \(("Zoe Bishop".count - testOutput.count)) -> \(scoreForTheseOutputs)", to: &Log.L)
+
+        return (scoreForTheseOutputs, testOutput)
     }
     
     private static func makeSymbolCase() -> String{
         var symbolcase = [Character]()
         
-        for charCode in 0...32 {    // Closed range; space is code 32
-            let char = Character(UnicodeScalar(charCode)!)
+        let symbols = " !\"#$%&'()*+,-./0123456789:;<=>"
+        for charCode in 0..<symbols.count {    // Closed range; space is code 32
+            let offset = symbols.index(symbols.startIndex, offsetBy: charCode)
+            let symbol = String(symbols[offset])
+            let char = Character(symbol)
             symbolcase.append(char)
         }
         
