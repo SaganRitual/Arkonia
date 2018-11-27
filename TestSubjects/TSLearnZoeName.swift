@@ -55,14 +55,20 @@ class FTLearnZoeName: TestSubjectFitnessTester {
                         Character("."), Character("."), Character("."), Character("."),
                         Character("."), Character(".")]
 
+    static var stagingArray = [Character("."), Character("."), Character("."), Character("."),
+                               Character("."), Character("."), Character("."), Character("."),
+                               Character("."), Character(".")]
+
     var charactersMatched = 0
-    override func setFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) {
-        guard let outputs = outputs else { return }
+    
+    override func calculateFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) -> (Double, String)? {
+        guard let outputs = outputs else { return nil }
 
         var scoreForTheseOutputs = 0.0
 
         let scorer = Scorer(zName, outputs: outputs)
-        scoreForTheseOutputs += scorer.getScore()
+        let testResults = scorer.calculateScore()
+        scoreForTheseOutputs += testResults.0
         
         if scoreForTheseOutputs == 0 {
             charactersMatched += 1
@@ -70,6 +76,7 @@ class FTLearnZoeName: TestSubjectFitnessTester {
         }
         
         testSubject.setFitnessScore(scoreForTheseOutputs)
+        return (scoreForTheseOutputs, testResults.1)
     }
 }
 
@@ -110,7 +117,9 @@ fileprivate class Scorer {
         return whichCase
     }
 
-    func getScore() -> Double {
+    func calculateScore() -> (Double, String) {
+        var testOutput = String()
+        
         for (expectedCharacter, ss) in zip(zName, 0..<outputs.count) {
             if outputs[ss] > Double(Int.max) { modulo = Int.max }
             if outputs[ss] < Double(-Int.max) { modulo = Int.min }
@@ -132,7 +141,7 @@ fileprivate class Scorer {
             inputCharacterValue += UnicodeScalar(String(whichCase.first!))!.value
             inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
             
-            FTLearnZoeName.resultsArray[ss] = inputCharacter
+            testOutput.append(inputCharacter)
             
             let zCharOffset = whichCase.firstIndex(of: expectedCharacter)!
             let iCharOffset = whichCase.firstIndex(of: inputCharacter)!
@@ -141,7 +150,7 @@ fileprivate class Scorer {
             scoreForTheseOutputs += Double(abs(distance)).dTruncate()
         }
         
-        return scoreForTheseOutputs
+        return (scoreForTheseOutputs, testOutput)
     }
     
     private static func makeSymbolCase() -> String{

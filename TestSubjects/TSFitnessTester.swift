@@ -21,19 +21,22 @@
 import Foundation
 
 class TestSubjectFitnessTester: SelectionFitnessTester {
-    func administerTest(to testSubject: TSTestSubject, for sensoryInput: [Double]) -> [Double]? {
+    func administerTest(to testSubject: TSTestSubject, for sensoryInput: [Double]) -> ([Double], String)? {
         guard let b = testSubject.brain else { preconditionFailure("No brain, no test.") }
         let outputs = b.stimulate(inputs: sensoryInput)
-        setFitnessScore(for: testSubject, outputs: outputs)
-        return outputs
+        let testResults = calculateFitnessScore(for: testSubject, outputs: outputs)
+        guard let p = outputs, let r = testResults else { return nil }
+        return (p, r.1)
     }
     
     func getFitnessScore(for testSubject: TSTestSubject) -> Double?
     { return testSubject.getFitnessScore() }
     
-    func setFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) {
+    func calculateFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) -> (Double, String)? {
         guard let outputs = outputs else { return }
         let totalOutput = outputs.reduce(0, +)
-        testSubject.setFitnessScore(abs(totalOutput - 17))    // The number I want the brains to guess
+        let score = abs(totalOutput - 17)
+        testSubject.setFitnessScore(score)    // The number I want the brains to guess
+        return
     }
 }

@@ -22,10 +22,10 @@ import Foundation
 
 struct SelectionControls {
     var howManySenses = 5
-    var howManyMotorNeurons = 5
-    var howManyGenerations = 2000
+    var howManyMotorNeurons = "Zoe Bishop".count
+    var howManyGenerations = 30000
     var howManyGenes = 200
-    var howManySubjectsPerGeneration = 50
+    var howManySubjectsPerGeneration = 200
     var theFishNumber = 0
     var dudlinessThreshold = 5
 }
@@ -59,7 +59,7 @@ class Curator {
     let selector: Selector
     var numberOfGenerations = selectionControls.howManyGenerations
     var bestTestSubject: TSHandle?
-    let testInputs = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    let testInputs = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
     var dudCounter = 0
     var promisingLines = [TSArchivableSubject]()
     var studBeingVetted: TSArchivableSubject?
@@ -81,7 +81,8 @@ class Curator {
             protoGenome += "N_"
             for _ in 0..<portNumber { protoGenome += "A(false)_" }
             let randomBias = Double.random(in: -1...1).sTruncate()
-            protoGenome += "A(true)_F(limiter)_W(b[1]v[1])_B(b[\(randomBias)]v[\(randomBias)])_"
+            let randomWeight = Double.random(in: -1...1).sTruncate()
+            protoGenome += "A(true)_F(limiter)_W(b[\(randomWeight)]v[\(randomWeight)])_B(b[\(randomBias)]v[\(randomBias)])_"
         }
         
         return protoGenome

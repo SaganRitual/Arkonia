@@ -32,7 +32,7 @@ class Tene: CustomStringConvertible {
     let token: Character
     var value: String
     var baseline: String
-    
+
     var description: String { get {
         if token == lay || token == neu { return "MarkerGene: \(token)" }
         else { return "\(token) gene: \(value) baseline: \(baseline)" }
@@ -56,10 +56,10 @@ class Tene: CustomStringConvertible {
             self.value = RandomnessGenerator.getRandomOutputFunction(); return
         }
         
-        let b = Mutator.m.getWeightedRandomLogThing(from: Double(self.baseline)!)
+        let b = Mutator.normalDistribution.mutate(from: Double(self.baseline)!)
         self.baseline = String(b.dTruncate())
 
-        let v = Mutator.m.getWeightedRandomLogThing(from: Double(self.value)!)
+        let v = Mutator.normalDistribution.mutate(from: self.value)
         if abs(v) < abs(b) { self.value = self.baseline }
         else { self.value = String(v.dTruncate()) }
     }
@@ -67,7 +67,8 @@ class Tene: CustomStringConvertible {
 
 class Mutator {
     public static var m = Mutator()
-    
+    static fileprivate let normalDistribution = BellCurve()
+
     var e = Translators.t
     var inputGenome: Genome?
     var workingTenome = Tenome()
@@ -111,7 +112,7 @@ class Mutator {
     }
     
     private func deleteGenes() {
-        let howManyChances = getWeightedRandomLogThing(from: 10)
+        let howManyChances = 10
         if howManyChances <= 0 || workingTenome.isEmpty { return }
         
         for _ in 0..<Int.random(in: 0..<howManyChances) {
@@ -126,12 +127,22 @@ class Mutator {
         workingTenome.removeSubrange(leftCut..<rightCut)
     }
     
+    private func fixOrder(_ lhs: Int, _ rhs: Int) -> (Int, Int) {
+        var left = lhs, right = lhs
+        if lhs < rhs { right = rhs } else { left = rhs }
+        return (left, right)
+    }
+
     private func getRandomCuts(segmentLength: Int) -> (Int, Int) {
         // okToSnip() function will catch this and discard it
         guard segmentLength > 0 else { return (0, 0) }
         
-        let leftCut = Int.random(in: 0..<segmentLength)
-        let rightCut = getWeightedRandomLogThing(from: leftCut, min: Double(leftCut), max: Double(segmentLength))
+        var leftCut = Int.random(in: 0..<segmentLength)
+        var rightCut = Int.random(in: leftCut..<segmentLength)
+        
+        (leftCut, rightCut) = fixOrder(leftCut, rightCut)
+        rightCut = min(rightCut, segmentLength)
+
         return (leftCut, rightCut)
     }
     
@@ -139,39 +150,13 @@ class Mutator {
         if workingTenome.isEmpty { return (0, 0) }
         
         let (leftCut, rightCut) = getRandomCuts(segmentLength: workingTenome.count)
-        return (leftCut, rightCut)
-    }
-    
-    // Big changes happen very rarely, little ones more often
-    func getWeightedRandomLogThing(from startingValue: Int, min min_: Double? = nil, max max_: Double? = nil) -> Int {
-        let min = (min_ == nil) ? -100 : min_!
-        let max = (max_ == nil) ? 100 : max_!
-        
-        let randomPercentage = Double.random(in: min..<max)
-        if randomPercentage == 0 { return 1 }
-        
-        let d = ((0.01 / randomPercentage) * Double(startingValue)).rounded(.towardZero)
-        
-        return startingValue + Int(d)
-    }
-
-    fileprivate func getWeightedRandomLogThing(from startingValue: Double, min min_: Double? = nil, max max_: Double? = nil) -> Double {
-        let min = (min_ == nil) ? 0 : min_!
-        let max = (max_ == nil) ? 1 : max_!
-        
-        if min == max { return startingValue }
-
-        let randomPercentage = Double.random(in: min..<max)
-        if randomPercentage == 0 { return 1 }
-
-        let i = (1 / randomPercentage) * startingValue
-        return startingValue + i
+        return fixOrder(leftCut, rightCut)
     }
     
     private func getWeightedRandomMutationType() -> MutationType  {
         let weightMap: [MutationType : Int] = [
             .deleteRandom : 1, .deleteSequence : 1, .insertRandom : 1, .insertSequence : 1,
-            .mutateGenes : 50, .snipAndMoveSequence : 1, .snipAndCopySequence : 1,
+            .mutateGenes : 100, .snipAndMoveSequence : 1, .snipAndCopySequence : 1,
             .snipAndMoveReversedSequence : 1, .snipAndCopyReversedSequence : 1
         ]
         
@@ -252,11 +237,44 @@ class Mutator {
     }
     
     private func okToSnip(_ leftCut: Int, _ rightCut: Int, insertPoint: Int) -> Bool {
-        return okToSnip(leftCut, rightCut) &&
-            
-            !((leftCut..<rightCut).contains(insertPoint) || insertPoint == leftCut || insertPoint == rightCut)
+        return
+            okToSnip(leftCut, rightCut) &&
+            (leftCut + insertPoint) < rightCut &&
+            (leftCut..<rightCut).contains(insertPoint)
     }
-
+    
+    private func reassembleSlices(leftCut: Int, rightCut: Int, insertPoint: Int) -> [Tegment] {
+        
+        let theSnippet = Tegment(workingTenome[leftCut..<rightCut].reversed())
+        
+        var reassembledSlices = [Tegment]()
+        if insertPoint < leftCut {
+            reassembledSlices.append(workingTenome[..<insertPoint])
+            reassembledSlices.append(theSnippet)
+            reassembledSlices.append(workingTenome[insertPoint..<leftCut])
+            reassembledSlices.append(workingTenome[rightCut...])
+        } else if insertPoint > rightCut {
+            reassembledSlices.append(workingTenome[..<insertPoint])
+            reassembledSlices.append(theSnippet)
+            reassembledSlices.append(workingTenome[insertPoint...])
+        } else if insertPoint == leftCut {
+            reassembledSlices.append(workingTenome[..<leftCut])
+            reassembledSlices.append(theSnippet)
+            reassembledSlices.append(workingTenome[leftCut...])
+        } else if insertPoint == rightCut {
+            reassembledSlices.append(workingTenome[..<insertPoint])
+            reassembledSlices.append(theSnippet)
+            reassembledSlices.append(workingTenome[insertPoint...])
+        } else {
+            reassembledSlices.append(workingTenome[..<insertPoint])
+            reassembledSlices.append(theSnippet)
+            reassembledSlices.append(workingTenome[insertPoint...])
+        }
+        
+        return reassembledSlices
+    }
+    
+    
     func setInputGenome(_ inputGenome: Genome) -> Mutator {
         self.inputGenome = Utilities.stripInterfaces(from: inputGenome)
         let genes = Utilities.splitGenome(self.inputGenome![...])
@@ -303,14 +321,10 @@ class Mutator {
 
         if !okToSnip(leftCut, rightCut, insertPoint: insertPoint) { return workingTenome }
         
-        var reassembledSlices = [Tegment]()
-        reassembledSlices.append(workingTenome[..<insertPoint])
-        reassembledSlices.append(workingTenome[leftCut..<rightCut])
-        reassembledSlices.append(workingTenome[insertPoint...])
-        reassembledSlices.append(workingTenome[rightCut...])
+        let slices = reassembleSlices(leftCut: leftCut, rightCut: rightCut, insertPoint: insertPoint)
         
         var outputTegment = Tenome()
-        for slice in reassembledSlices { outputTegment.append(contentsOf: slice) }
+        for slice in slices { outputTegment.append(contentsOf: slice) }
         return outputTegment
     }
     
@@ -324,21 +338,10 @@ class Mutator {
             return workingTenome
         }
         
-        var reassembledSlices = [Tegment]()
-        if insertPoint < leftCut {
-            reassembledSlices.append(workingTenome[..<insertPoint])
-            reassembledSlices.append(workingTenome[leftCut..<rightCut])
-            reassembledSlices.append(workingTenome[insertPoint..<leftCut])
-            reassembledSlices.append(workingTenome[rightCut...])
-        } else {
-            reassembledSlices.append(workingTenome[..<leftCut])
-            reassembledSlices.append(workingTenome[leftCut..<rightCut])
-            reassembledSlices.append(workingTenome[rightCut..<insertPoint])
-            reassembledSlices.append(workingTenome[insertPoint...])
-        }
-        
+        let slices = reassembleSlices(leftCut: leftCut, rightCut: rightCut, insertPoint: insertPoint)
+
         var outputTegment = Tenome()
-        for slice in reassembledSlices { outputTegment.append(contentsOf: slice) }
+        for slice in slices { outputTegment.append(contentsOf: slice) }
         return outputTegment
     }
     
@@ -349,42 +352,23 @@ class Mutator {
         let insertPoint = Int.random(in: 0..<workingTenome.count)
         if !okToSnip(leftCut, rightCut, insertPoint: insertPoint) { return workingTenome }
 
-        let theSnippet = Tegment(workingTenome[leftCut..<rightCut].reversed())
-        
-        var reassembledSlices = [Tegment]()
-        reassembledSlices.append(workingTenome[..<insertPoint])
-        reassembledSlices.append(theSnippet)
-        reassembledSlices.append(workingTenome[insertPoint...])
-        
+        let slices = reassembleSlices(leftCut: leftCut, rightCut: rightCut, insertPoint: insertPoint)
+
         var outputTegment = Tenome()
-        for slice in reassembledSlices { outputTegment.append(contentsOf: slice) }
+        for slice in slices { outputTegment.append(contentsOf: slice) }
         return outputTegment
     }
-    
-    private func snipAndMoveReversedSequence() -> Tenome {
+   private func snipAndMoveReversedSequence() -> Tenome {
         if workingTenome.isEmpty { return workingTenome }
         
         let (leftCut, rightCut) = getRandomSnipRange()
         let insertPoint = Int.random(in: 0..<workingTenome.count)
         if !okToSnip(leftCut, rightCut, insertPoint: insertPoint) { return workingTenome }
-        
-        let theSnippet = Tegment(workingTenome[leftCut..<rightCut].reversed())
-        
-        var reassembledSlices = [Tegment]()
-        if insertPoint < leftCut {
-            reassembledSlices.append(workingTenome[..<insertPoint])
-            reassembledSlices.append(theSnippet)
-            reassembledSlices.append(workingTenome[insertPoint..<leftCut])
-            reassembledSlices.append(workingTenome[rightCut...])
-        } else {
-            reassembledSlices.append(workingTenome[..<leftCut])
-            reassembledSlices.append(theSnippet)
-            reassembledSlices.append(workingTenome[rightCut..<insertPoint])
-            reassembledSlices.append(workingTenome[insertPoint...])
-        }
+
+        let slices = reassembleSlices(leftCut: leftCut, rightCut: rightCut, insertPoint: insertPoint)
         
         var outputTegment = Tenome()
-        for slice in reassembledSlices { outputTegment.append(contentsOf: slice) }
+        for slice in slices { outputTegment.append(contentsOf: slice) }
         return outputTegment
     }
     
