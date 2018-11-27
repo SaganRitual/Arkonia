@@ -55,6 +55,27 @@
 		D456858821AD98BB00F9276F /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3621AD02A90038F9CF /* TranslatorBrain.swift */; };
 		D456858921AD98BB00F9276F /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3421AD02A80038F9CF /* TranslatorLayer.swift */; };
 		D456858A21AD98BB00F9276F /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3721AD02A90038F9CF /* TranslatorNeuron.swift */; };
+		D467FC1121AD9A97007594F2 /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3521AD02A80038F9CF /* GenomeTranslators.swift */; };
+		D467FC1221AD9A97007594F2 /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3621AD02A90038F9CF /* TranslatorBrain.swift */; };
+		D467FC1321AD9A97007594F2 /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3421AD02A80038F9CF /* TranslatorLayer.swift */; };
+		D467FC1421AD9A97007594F2 /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C3721AD02A90038F9CF /* TranslatorNeuron.swift */; };
+		D467FC1521AD9AA2007594F2 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2121AD02730038F9CF /* TSFactory.swift */; };
+		D467FC1621AD9AA2007594F2 /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2221AD02730038F9CF /* TSFitnessTester.swift */; };
+		D467FC1721AD9AA2007594F2 /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2821AD02730038F9CF /* TSLearnZoeName.swift */; };
+		D467FC1821AD9AA2007594F2 /* TSMultiplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2321AD02730038F9CF /* TSMultiplier.swift */; };
+		D467FC1921AD9AAA007594F2 /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2621AD02730038F9CF /* TSRelay.swift */; };
+		D467FC1A21AD9AAA007594F2 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C2721AD02730038F9CF /* TSTestSubject.swift */; };
+		D467FC1B21AD9AB3007594F2 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1521AD023C0038F9CF /* Decoder.swift */; };
+		D467FC1C21AD9AB3007594F2 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1021AD023C0038F9CF /* Mutator.swift */; };
+		D467FC1D21AD9AB3007594F2 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1621AD023C0038F9CF /* Protocols.swift */; };
+		D467FC1E21AD9AB3007594F2 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1321AD023C0038F9CF /* RandomnessGenerators.swift */; };
+		D467FC1F21AD9AB3007594F2 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1121AD023C0038F9CF /* RepeatingTimer.swift */; };
+		D467FC2021AD9AB3007594F2 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1421AD023C0038F9CF /* Utilities.swift */; };
+		D467FC2221AD9ABB007594F2 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C0A21AD02130038F9CF /* Curator.swift */; };
+		D467FC2321AD9ABB007594F2 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C0921AD02130038F9CF /* Generation.swift */; };
+		D467FC2421AD9ABB007594F2 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C0B21AD02130038F9CF /* Selector.swift */; };
+		D467FC4D21AD9DA8007594F2 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D456855A21AD971800F9276F /* GameScene.swift */; };
+		D467FC4E21AD9E61007594F2 /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4183C1721AD023C0038F9CF /* VBrain.swift */; };
 		D4BB3C0321ACF89A00000002 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB3C0221ACF89A00000002 /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +138,17 @@
 		D456856921AD971800F9276F /* GameSceneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameSceneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D456856D21AD971800F9276F /* GameSceneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneTests.swift; sourceTree = "<group>"; };
 		D456856F21AD971800F9276F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D467FC2B21AD9C73007594F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D467FC2D21AD9C73007594F2 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		D467FC2F21AD9C73007594F2 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		D467FC3121AD9C73007594F2 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		D467FC3321AD9C73007594F2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D467FC3521AD9C74007594F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D467FC3821AD9C74007594F2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D467FC3A21AD9C74007594F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D467FC3B21AD9C74007594F2 /* Fuckwaddery.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fuckwaddery.entitlements; sourceTree = "<group>"; };
+		D467FC4421AD9C74007594F2 /* FuckwadderyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuckwadderyTests.swift; sourceTree = "<group>"; };
+		D467FC4621AD9C74007594F2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4BB3BFF21ACF89A00000002 /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB3C0221ACF89A00000002 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -222,6 +254,31 @@
 			path = GameSceneTests;
 			sourceTree = "<group>";
 		};
+		D467FC2A21AD9C73007594F2 /* Fuckwaddery */ = {
+			isa = PBXGroup;
+			children = (
+				D467FC2B21AD9C73007594F2 /* AppDelegate.swift */,
+				D467FC2D21AD9C73007594F2 /* GameScene.sks */,
+				D467FC2F21AD9C73007594F2 /* Actions.sks */,
+				D467FC3121AD9C73007594F2 /* GameScene.swift */,
+				D467FC3321AD9C73007594F2 /* ViewController.swift */,
+				D467FC3521AD9C74007594F2 /* Assets.xcassets */,
+				D467FC3721AD9C74007594F2 /* Main.storyboard */,
+				D467FC3A21AD9C74007594F2 /* Info.plist */,
+				D467FC3B21AD9C74007594F2 /* Fuckwaddery.entitlements */,
+			);
+			path = Fuckwaddery;
+			sourceTree = "<group>";
+		};
+		D467FC4321AD9C74007594F2 /* FuckwadderyTests */ = {
+			isa = PBXGroup;
+			children = (
+				D467FC4421AD9C74007594F2 /* FuckwadderyTests.swift */,
+				D467FC4621AD9C74007594F2 /* Info.plist */,
+			);
+			path = FuckwadderyTests;
+			sourceTree = "<group>";
+		};
 		D47D395421AD930300E2B3C1 /* Display */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +297,8 @@
 				D4183C3321AD02880038F9CF /* Translators */,
 				D456855321AD971800F9276F /* GameScene */,
 				D456856C21AD971800F9276F /* GameSceneTests */,
+				D467FC2A21AD9C73007594F2 /* Fuckwaddery */,
+				D467FC4321AD9C74007594F2 /* FuckwadderyTests */,
 				D4BB3C0021ACF89A00000002 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -415,7 +474,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D467FC1E21AD9AB3007594F2 /* RandomnessGenerators.swift in Sources */,
+				D467FC4E21AD9E61007594F2 /* VBrain.swift in Sources */,
+				D467FC1221AD9A97007594F2 /* TranslatorBrain.swift in Sources */,
+				D467FC1621AD9AA2007594F2 /* TSFitnessTester.swift in Sources */,
+				D467FC1821AD9AA2007594F2 /* TSMultiplier.swift in Sources */,
+				D467FC1521AD9AA2007594F2 /* TSFactory.swift in Sources */,
+				D467FC1C21AD9AB3007594F2 /* Mutator.swift in Sources */,
+				D467FC1921AD9AAA007594F2 /* TSRelay.swift in Sources */,
+				D467FC1121AD9A97007594F2 /* GenomeTranslators.swift in Sources */,
+				D467FC1421AD9A97007594F2 /* TranslatorNeuron.swift in Sources */,
+				D467FC2221AD9ABB007594F2 /* Curator.swift in Sources */,
 				D456856E21AD971800F9276F /* GameSceneTests.swift in Sources */,
+				D467FC2021AD9AB3007594F2 /* Utilities.swift in Sources */,
+				D467FC4D21AD9DA8007594F2 /* GameScene.swift in Sources */,
+				D467FC1D21AD9AB3007594F2 /* Protocols.swift in Sources */,
+				D467FC1321AD9A97007594F2 /* TranslatorLayer.swift in Sources */,
+				D467FC1A21AD9AAA007594F2 /* TSTestSubject.swift in Sources */,
+				D467FC1B21AD9AB3007594F2 /* Decoder.swift in Sources */,
+				D467FC1721AD9AA2007594F2 /* TSLearnZoeName.swift in Sources */,
+				D467FC1F21AD9AB3007594F2 /* RepeatingTimer.swift in Sources */,
+				D467FC2321AD9ABB007594F2 /* Generation.swift in Sources */,
+				D467FC2421AD9ABB007594F2 /* Selector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +546,14 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
+		D467FC3721AD9C74007594F2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D467FC3821AD9C74007594F2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -512,7 +600,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
 				INFOPLIST_FILE = GameSceneTests/Info.plist;
@@ -533,7 +622,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
 				INFOPLIST_FILE = GameSceneTests/Info.plist;

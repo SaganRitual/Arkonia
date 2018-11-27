@@ -23,9 +23,14 @@ import XCTest
 @testable import GameScene
 
 class GameSceneTests: XCTestCase {
+    var curator: Curator!
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        let testSubjects = TSTestGroup()
+        let relay = TSRelay(testSubjects)
+        let fitnessTester = FTLearnZoeName()
+        let testSubjectFactory = TSZoeFactory(relay, fitnessTester: fitnessTester)
+        self.curator = Curator(starter: nil, testSubjectFactory: testSubjectFactory)
     }
 
     override func tearDown() {
@@ -40,7 +45,9 @@ class GameSceneTests: XCTestCase {
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
-            // Put the code you want to measure the time of here.
+            for _ in 0..<10 {
+                if curator.track() != .running { break }
+            }
         }
     }
 
