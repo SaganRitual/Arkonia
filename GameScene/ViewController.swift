@@ -23,37 +23,51 @@ import Cocoa
 import SpriteKit
 import GameplayKit
 
+class WildGuessWindowController: NSWindowController {
+    static var windowDimensions = CGSize()
+    
+    override func windowDidLoad() {
+        if let screenSize = window?.screen?.frame {
+            let newHeight = screenSize.height * 0.7
+            let newWidth = screenSize.width * 0.7
+            let newX = -100//(screenSize.width - newWidth) / 2        // (-100, 500) is in the upper left corner
+            let newY = 500.0 //2 * (screenSize.height - newHeight) / 3
+            
+            let newSize = CGSize(width: newWidth, height: newHeight)
+            let newOrigin = CGPoint(x: CGFloat(newX), y: CGFloat(newY))
+            
+            let newFrame = NSRect(origin: newOrigin, size: newSize)
+            WildGuessWindowController.windowDimensions = newSize
+            
+            window!.setFrame(newFrame, display: true)
+        }
+        
+        super.windowDidLoad()
+    }
+}
+
 class ViewController: NSViewController {
 
     @IBOutlet var skView: SKView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Load 'GameScene.sks' as a GKScene. This provides gameplay related content
-        // including entities and graphs.
-        if let scene = GKScene(fileNamed: "GameScene") {
-            
-            // Get the SKScene from the loaded GKScene
-            if let sceneNode = scene.rootNode as! GameScene? {
-                
-                // Copy gameplay related content over to the scene
-                sceneNode.entities = scene.entities
-                sceneNode.graphs = scene.graphs
-                
+
+        if let view = self.skView {
+            // Load the SKScene from 'GameScene.sks'
+            if let scene = SKScene(fileNamed: "GameScene") {
                 // Set the scale mode to scale to fit the window
-                sceneNode.scaleMode = .aspectFill
-                
+                scene.scaleMode = .aspectFill
+                scene.size = view.frame.size
+
                 // Present the scene
-                if let view = self.skView {
-                    view.presentScene(sceneNode)
-                    
-                    view.ignoresSiblingOrder = true
-                    
-                    view.showsFPS = true
-                    view.showsNodeCount = true
-                }
+                view.presentScene(scene)
             }
+
+            view.ignoresSiblingOrder = true
+
+            view.showsFPS = true
+            view.showsNodeCount = true
         }
     }
 }

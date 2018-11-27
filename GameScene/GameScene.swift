@@ -61,6 +61,10 @@ class GameScene: SKScene {
             return
         }
         
+        guard let brain = try? curator.getMostInterestingTestSubject() else { return }
+
+        self.brain = brain
+
         self.curatorStatus = curator.track()
 
         switch self.curatorStatus {
@@ -74,8 +78,6 @@ class GameScene: SKScene {
 //        if frameCount < 60 { return }
 //        print("?", terminator: "")
 //        frameCount = 0
-
-        self.brain = curator.getMostInterestingTestSubject()
 
         vBrain = VBrain(gameScene: self, brain: self.brain)
         vBrain.displayBrain(self.brain)
