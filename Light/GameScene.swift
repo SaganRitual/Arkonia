@@ -23,17 +23,52 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
+
+#if BELL_CURVE
+    
+    let bellCurve = BellCurve()
+    var hSpacing = CGFloat(0.0)
+    var vSpacing = CGFloat(0.0)
+    var maxY = CGFloat(1.0)
+    let hResolution = CGFloat(1000.0)
+    var buckets = Array<Int>()
+    
+    override func didMove(to view: SKView) {
+        hSpacing = view.frame.size.width / hResolution
+        vSpacing = view.frame.size.height
+
+        buckets = Array(repeating: 0, count: Int(hResolution))
+    }
+
+    override func update(_ currentTime: TimeInterval) {
+        let d = CGFloat(bellCurve.getDouble())
+        let marker = SKShapeNode(circleOfRadius: CGFloat(5.0))
+        
+        let f = (d / hSpacing).rounded(.toNearestOrEven) - 0.5
+        let ssBucket = Int(f)
+        buckets[ssBucket] += 1
+
+        marker.position.x = (d / hSpacing) - 1.0
+        
+        let fBucketHeight = CGFloat(buckets[ssBucket])
+        if fBucketHeight > maxY { maxY = fBucketHeight }
+        
+        vSpacing = 1 / (maxY / 100.0)
+        
+        marker.position.y = vSpacing * fBucketHeight
+        
+        self.addChild(marker)
+    }
+
+#else
     
     private var vBrain: VBrain!
-
+    
     var frameCount = 0
     var curator: Curator!
     var curatorStatus = CuratorStatus.running
     var brain: NeuralNetProtocol!
 
-    override func didMove(to view: SKView) {
-    }
-   
     // With deepest gratitude to Stack Overflow dude
     // https://stackoverflow.com/users/2346164/gilian-joosen
     // https://stackoverflow.com/a/26787701/1610473
@@ -43,7 +78,17 @@ class GameScene: SKScene {
         for char in s{ return char }
         return nil
     }
-    
+
+    // With deepest gratitude to Stack Overflow dude
+    // https://stackoverflow.com/users/2346164/gilian-joosen
+    // https://stackoverflow.com/a/26787701/1610473
+    //
+    func returnChar(_ theEvent: NSEvent) -> Character? {
+        let s: String = theEvent.characters!
+        for char in s{ return char }
+        return nil
+    }
+
     func getCurator() throws {
         guard self.curator == nil else { return }
         
@@ -96,6 +141,8 @@ class GameScene: SKScene {
         vBrain = VBrain(gameScene: self, brain: self.brain)
         vBrain.displayBrain(self.brain)
     }
+    
+#endif
 
 }
 
