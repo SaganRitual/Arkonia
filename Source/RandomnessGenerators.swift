@@ -76,9 +76,33 @@ enum RandomnessGenerator {
 // https://stackoverflow.com/a/44535176/1610473
 
 
-class BellCurve {
+class BellCurve_ {
     static let randomSource = GKARC4RandomSource()
-    static let randomDistribution = GKGaussianDistribution(randomSource: randomSource, mean: 0.0, deviation: 3)
+    static var randomDistribution = GKGaussianDistribution(randomSource: randomSource, mean: 0.0, deviation: 3)
 
-    static func getRandom() -> Double { return Double(randomDistribution.nextUniform()) }
+    static func getRandom() -> Double {
+        let u = randomDistribution.nextUniform()
+        print("u = \(u), ", terminator: "")
+        let du = Double(u)
+        print("du = \(du)")
+        return du
+    }
+}
+
+// With deepest gratitude to Stack Overflow dude
+// https://stackoverflow.com/users/2538939/code-different
+// https://stackoverflow.com/a/49471411/1610473
+class BellCurve {
+    private let randomSource = GKARC4RandomSource()
+    
+    func nextFloat() -> Float {
+        let mean: Float = 0.0, deviation: Float = 3.0
+        let x1 = randomSource.nextUniform() // a random number between 0 and 1
+        let x2 = randomSource.nextUniform() // a random number between 0 and 1
+        let z1 = sqrt(-2 * log(x1)) * cos(2 * Float.pi * x2) // z1 is normally distributed
+        
+        // Convert z1 from the Standard Normal Distribution to our Normal Distribution
+        // Note that the conversion will give us a range of -10..<10. I still want -1..<1
+        return (z1 * deviation + mean) / 10
+    }
 }

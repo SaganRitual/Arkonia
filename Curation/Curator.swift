@@ -40,7 +40,7 @@ struct Log: TextOutputStream {
     static var L = Log()
 
     func write(_ string: String) {
-        #if true
+        #if false
         return
         #else
         let fm = FileManager.default

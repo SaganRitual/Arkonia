@@ -169,7 +169,7 @@ enum Utilities {
                      GeneSplitType.doubletGene, GeneSplitType.doubletValue] {
         
             splitResults = splitGene(slice, type)
-            if !splitResults.isEmpty { /*print("type \(type)", slice);*/ return splitResults }
+                        if !splitResults.isEmpty { /*print("match; type \(type)", slice); */return splitResults }
         }
         
         preconditionFailure("No match in '\(slice)'")
@@ -204,9 +204,16 @@ enum Utilities {
             return geneComponents
 
         case .doubletGene:
-            let reDoubletGene = "^([BW])\\(b\\[(-?\\d*\\.?\\d*)\\]v\\[(-?\\d*\\.?\\d*)\\]\\)$"
+            let reDoubletGene = "([BW])\\(b\\[([^\\]]+)\\]v\\[([^\\]]+)\\]\\)"
             let doubletGeneComponents = slice.searchRegex(regex: reDoubletGene)
-            if doubletGeneComponents.isEmpty { /*print("Not a doublet gene", slice); */return geneComponents }
+            if doubletGeneComponents.isEmpty { /*print("Not a doublet gene", slice);*/ return geneComponents }
+            
+            // reDoubletGene will capture both a doublet gene and a doublet
+            // value. But here I'll discard the result if it's a doublet,
+            // because it is a bit more straightforward to allow the .doubletValue
+            // case to handle partial genes, that is, doublet values.
+            if doubletGeneComponents[0].count != 4 { return geneComponents }
+//            print("is a doublet: \(doubletGeneComponents)")
 
             // See comments above under markers
             geneComponents.append(doubletGeneComponents[0][1])
@@ -215,7 +222,7 @@ enum Utilities {
             return geneComponents
         
         case .doubletValue:
-            let reDoubletValue = "^b\\[(-?\\d*\\.?\\d*)\\]v\\[(-?\\d*\\.?\\d*)\\]$"
+            let reDoubletValue = "b\\[([^\\]]+)\\]v\\[([^\\]]+)\\]"
             let doubletValueComponents = slice.searchRegex(regex: reDoubletValue)
             if doubletValueComponents.isEmpty { return geneComponents }
 

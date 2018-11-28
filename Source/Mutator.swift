@@ -71,6 +71,7 @@ class Mutator {
     var e = Translators.t
     var inputGenome: Genome?
     var workingTenome = Tenome()
+    var bellCurve = BellCurve()
     
     enum MutationType: Int {
         case insertRandom, insertSequence, deleteRandom, deleteSequence,
@@ -111,13 +112,13 @@ class Mutator {
     }
     
     private func deleteGenes() {
+        if workingTenome.isEmpty { return }
+
         let howManyChances = mutate(from: 10)
-        
         if howManyChances <= 0 { return }
         
         for _ in 0..<Int.random(in: 0..<howManyChances) {
-            var ix = Mutator.m.mutate(index: workingTenome.count)
-            ix = max(ix, 0); ix = min(ix, workingTenome.count)
+            let ix = mutate(index: workingTenome.count)
             workingTenome.remove(at: ix)
             if workingTenome.isEmpty { break }
         }
@@ -174,7 +175,11 @@ class Mutator {
     }
 
     private func insertGenes() {
-        for _ in 0...Int.random(in: 0..<10) {
+        var howManyChances = mutate(index: 10)
+        howManyChances = min(howManyChances, 0);
+        howManyChances = max(howManyChances, workingTenome.count - 1)
+
+        for _ in 0...Int.random(in: 0..<howManyChances) {
             let insertPoint = Int.random(in: 0...workingTenome.count)    // Note closed range
             let newTene = Mutator.generateRandomTene()
             workingTenome.insert(newTene, at: insertPoint)
@@ -182,9 +187,13 @@ class Mutator {
     }
     
     private func insertSequence() {
+        var howManyChances = mutate(index: 10)
+        howManyChances = min(howManyChances, 0);
+        howManyChances = max(howManyChances, workingTenome.count - 1)
+
         var snippet = Tenome()
         
-        for _ in 0..<Int.random(in: 1...10) {
+        for _ in 0..<howManyChances {
             let newTene = Mutator.generateRandomTene()
             snippet.append(newTene)
         }
@@ -221,23 +230,6 @@ class Mutator {
         }
         
         return outputTegment
-    }
-
-    private func mutate(index: Int) -> Int {
-        var length = mutate(from: workingTenome.count)
-        length = max(length, 0); length = min(length, workingTenome.count - 1)
-        return length
-    }
-    
-    private func mutateGenes() {
-        let howManyChances = mutate(from: 10)
-        
-        for _ in 0..<howManyChances {
-            let ix = self.mutate(index: workingTenome.count)
-            if workingTenome[ix].value.first != "<" {   // "<nil>"
-                workingTenome[ix].mutate()
-            }
-        }
     }
     
     private func okToSnip(_ leftCut: Int, _ rightCut: Int) -> Bool {
@@ -382,6 +374,44 @@ class Mutator {
     
 }
 
+fileprivate extension Mutator {
+    func mutate(index: Int) -> Int {
+        var length = mutate(from: workingTenome.count)
+        length = max(length, 0); length = min(length, workingTenome.count - 1)
+        return length
+    }
+    
+    func mutateGenes() {
+        guard workingTenome.count > 0 else { return }
+
+        var howManyChances = mutate(index: 10)
+        howManyChances = min(howManyChances, 0);
+        howManyChances = max(howManyChances, workingTenome.count - 1)
+        guard howManyChances > 0 else { return }
+
+        for _ in 0..<howManyChances {
+            let ix = Int.random(in: 0..<workingTenome.count)
+            if workingTenome[ix].value.first != "<" {   // "<nil>"
+                workingTenome[ix].mutate()
+            }
+        }
+    }
+    
+    func mutate(from value: Int) -> Int {
+        let proposedValue = mutate(from: Double(value))
+        return Int(proposedValue)
+    }
+    
+    func mutate(from value: Double) -> Double {
+        let percentage = bellCurve.nextFloat()
+        return (Double(1.0 - percentage) * value).dTruncate()
+    }
+    
+    func mutate(from value: String) -> Double {
+        return mutate(from: Double(value)!)
+    }
+}
+
 extension Mutator {
     private static func generateRandomTene() -> Tene {
         let gene = RandomnessGenerator.generateRandomGene()
@@ -403,19 +433,5 @@ extension Mutator {
             
         default: preconditionFailure()
         }
-    }
-    
-    func mutate(from value: Int) -> Int {
-        let proposedValue = mutate(from: Double(value))
-        return Int(proposedValue)
-    }
-    
-    func mutate(from value: Double) -> Double {
-        let percentage = BellCurve.getRandom()
-        return ((1 - percentage) * value).dTruncate()
-    }
-    
-    func mutate(from value: String) -> Double {
-        return mutate(from: Double(value)!)
     }
 }
