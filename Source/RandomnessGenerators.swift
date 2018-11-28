@@ -85,12 +85,11 @@ class BellCurve {
     let scale = 1.0
     let mean: Double
     let toPercentage: Double
-    let shiftMedian: Double
+    let shiftMedian = 50.0
     
     init() {
-        self.mean = self.scale * 50.0
+        self.mean = self.scale * shiftMedian
         self.toPercentage = self.scale * 100.0
-        self.shiftMedian = self.mean / 100.0
         
         let arr = BellCurve.generateBellCurve(count: 100_000, mean: Int(self.mean), deviation: 16)
         let summary = NSCountedSet(array: arr)
@@ -128,7 +127,11 @@ class BellCurve {
             if indexer < 0 { normalRandom = slotSS; break }
         }
         
-        return 1.0 - (Double(normalRandom) / self.toPercentage)
+        normalRandom -= Int(shiftMedian)
+        
+//        print("getDouble() -> \(reallyRandom), \(indexer), \(normalRandom)")
+//        return 1.0 - (Double(normalRandom) / self.toPercentage)
+        return (Double(normalRandom) - self.mean) / 100.0
     }
     
     func mutate(from value: Int) -> Int {

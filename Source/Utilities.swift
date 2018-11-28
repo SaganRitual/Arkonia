@@ -285,6 +285,18 @@ extension Double {
     static postfix func %%(_ me: Double) -> String { return me.sTruncate() }
 }
 
+extension CGFloat {
+    func sTruncate() -> String {
+        return Double(self).sTruncate()
+    }
+    
+    func dTruncate() -> Double {
+        return Double(self).dTruncate()
+    }
+    
+    static postfix func %%(_ me: CGFloat) -> String { return me.sTruncate() }
+}
+
 infix operator ~~=
 infix operator ~~+
 extension String {

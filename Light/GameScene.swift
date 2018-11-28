@@ -32,32 +32,37 @@ class GameScene: SKScene {
     var maxY = CGFloat(1.0)
     let hResolution = CGFloat(1000.0)
     var buckets = Array<Int>()
+    var markers = Array<SKShapeNode>()
     
     override func didMove(to view: SKView) {
         hSpacing = view.frame.size.width / hResolution
         vSpacing = view.frame.size.height
 
         buckets = Array(repeating: 0, count: Int(hResolution))
+
+        for _ in buckets {
+            let s = SKShapeNode(circleOfRadius: CGFloat(5.0))
+            markers.append(s)
+            self.addChild(s)
+        }
     }
 
     override func update(_ currentTime: TimeInterval) {
         let d = CGFloat(bellCurve.getDouble())
-        let marker = SKShapeNode(circleOfRadius: CGFloat(5.0))
         
-        let f = (d / hSpacing).rounded(.toNearestOrEven) - 0.5
+        let f = (d / hSpacing).rounded(.toNearestOrEven) - (0.5 / 100.0)
         let ssBucket = Int(f)
         buckets[ssBucket] += 1
-
-        marker.position.x = (d / hSpacing) - 1.0
+        markers[ssBucket].position.x = (d / hSpacing) - 1.0
         
         let fBucketHeight = CGFloat(buckets[ssBucket])
         if fBucketHeight > maxY { maxY = fBucketHeight }
         
         vSpacing = 1 / (maxY / 100.0)
         
-        marker.position.y = vSpacing * fBucketHeight
+        markers[ssBucket].position.y = vSpacing * fBucketHeight
         
-        self.addChild(marker)
+        print("\(d.sTruncate()), \(f), \(ssBucket), \(fBucketHeight), \(hSpacing.sTruncate()), \(vSpacing.sTruncate()), \(maxY.sTruncate())")
     }
 
 #else
