@@ -241,7 +241,6 @@
 		D4FE84FB21AE7AB600C9192F /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D4FE84FC21AE7AB600C9192F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D4FE852621AE7C0500C9192F /* GameScene-R.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GameScene-R.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4FE852721AE7C0500C9192F /* GameScene copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GameScene copy-Info.plist"; path = "/Users/rob/Projects/Hell/GameScene copy-Info.plist"; sourceTree = "<absolute>"; };
 		D4FE854221AEB20500C9192F /* BellCurveDark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BellCurveDark; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -319,7 +318,6 @@
 				D4C0A14B21AE2E63009D6011 /* GameScene */,
 				D4C0A16421AE2E64009D6011 /* GameSceneTests */,
 				D4C0A0FB21ADF3CC009D6011 /* Products */,
-				D4FE852721AE7C0500C9192F /* GameScene copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};

@@ -160,8 +160,9 @@ fileprivate class Scorer {
             print("Normal cost for \(count) -> \(scoreForTheseOutputs)", to: &Log.L)
         }
         
-        scoreForTheseOutputs += Double(20 * ("Zoe Bishop".count - testOutput.count))
-        print("Shortening cost for \(("Zoe Bishop".count - testOutput.count)) -> \(scoreForTheseOutputs)", to: &Log.L)
+        let shorteningCost = Double(20 * ("Zoe Bishop".count - testOutput.count))
+        scoreForTheseOutputs += shorteningCost
+        print("Shortening cost for \(("Zoe Bishop".count - testOutput.count)) -> \(shorteningCost)", to: &Log.L)
 
         return (scoreForTheseOutputs, testOutput)
     }
