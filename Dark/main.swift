@@ -17,7 +17,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-  
 
 import Foundation
 
@@ -38,3 +37,27 @@ print("running dark")
 #else
 print("running nil")
 #endif
+
+let pointOhOneSix =  "L_N_A(true)_W(b[0.85008]v[0.85008])_N_A(true)_W(b[0.91789]v[1.032])_N_A(false)_W(b[1.0261]v[1.08621])_N_A(true)_W(b[1]v[1])_N_A(true)_W(b[0.97173]v[1.01098])_"
+let pointOhOhEight = "L_N_A(true)_W(b[0.81439]v[0.84956])_N_A(false)_W(b[1]v[1])_N_A(true)_W(b[0.98591]v[1.01923])_N_A(true)_W(b[0.97715]v[3.41965])_N_A(true)_W(b[1]v[1])_"
+
+var testSubjects = TSTestGroup()
+let relay = TSRelay(testSubjects)
+let fitnessTester = FTLearnZoeName()
+let testSubjectFactory = TSZoeFactory(relay, fitnessTester: fitnessTester)
+var curator: Curator?
+
+var curatorStatus = CuratorStatus.running
+let v = RepeatingTimer(timeInterval: 0.1)
+
+v.eventHandler = { if let c = curator { curatorStatus = c.track(); curatorStatus = .finished } }
+
+v.resume()
+while curatorStatus == .running {
+    while true {
+        guard curator == nil else { continue }
+        curator = Curator(starter: nil, testSubjectFactory: testSubjectFactory)
+    }
+}
+
+print("\nCompletion state: \(curatorStatus)")
