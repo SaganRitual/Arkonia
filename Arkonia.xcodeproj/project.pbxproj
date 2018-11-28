@@ -50,12 +50,6 @@
 		D45E641F21AE3A860078CB8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
 		D45E642021AE3A860078CB8E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
 		D45E642121AE3A860078CB8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15821AE2E64009D6011 /* Main.storyboard */; };
-		D45E642A21AE41ED0078CB8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E642821AE41ED0078CB8E /* ViewController.swift */; };
-		D45E642B21AE41ED0078CB8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E642821AE41ED0078CB8E /* ViewController.swift */; };
-		D45E642C21AE41ED0078CB8E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E642821AE41ED0078CB8E /* ViewController.swift */; };
-		D45E642D21AE41ED0078CB8E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E642921AE41ED0078CB8E /* GameScene.swift */; };
-		D45E642E21AE41ED0078CB8E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E642921AE41ED0078CB8E /* GameScene.swift */; };
-		D45E642F21AE41ED0078CB8E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E642921AE41ED0078CB8E /* GameScene.swift */; };
 		D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
 		D4C0A11721AE2332009D6011 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10E21AE2331009D6011 /* TSFactory.swift */; };
 		D4C0A11A21AE2332009D6011 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
@@ -157,9 +151,6 @@
 /* Begin PBXFileReference section */
 		D45E63FB21AE39940078CB8E /* Dark-R */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Dark-R"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D45E642621AE3A860078CB8E /* GameScene copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GameScene copy-Info.plist"; path = "/Users/rob/Projects/Arkonia/GameScene copy-Info.plist"; sourceTree = "<absolute>"; };
-		D45E642821AE41ED0078CB8E /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Light/ViewController.swift; sourceTree = SOURCE_ROOT; };
-		D45E642921AE41ED0078CB8E /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameScene.swift; path = Light/GameScene.swift; sourceTree = SOURCE_ROOT; };
 		D4C0A0FA21ADF3CC009D6011 /* Dark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Dark; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C0A0FD21ADF3CC009D6011 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4C0A10C21ADF435009D6011 /* BellCurve */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BellCurve; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -245,29 +236,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D45E642721AE41260078CB8E /* Light */ = {
+		D4ABEB1121AE645B00F3C5D5 /* Light */ = {
 			isa = PBXGroup;
 			children = (
-				D45E642921AE41ED0078CB8E /* GameScene.swift */,
-				D45E642821AE41ED0078CB8E /* ViewController.swift */,
 			);
-			name = Light;
-			path = "New Group";
+			path = Light;
 			sourceTree = "<group>";
 		};
 		D4C0A0F121ADF3CC009D6011 = {
 			isa = PBXGroup;
 			children = (
+				D4ABEB1121AE645B00F3C5D5 /* Light */,
 				D4C0A12021AE2374009D6011 /* Curation */,
 				D4C0A0FC21ADF3CC009D6011 /* Dark */,
-				D45E642721AE41260078CB8E /* Light */,
 				D4C0A12121AE23BA009D6011 /* Source */,
 				D4C0A10D21AE231A009D6011 /* TestSubjects */,
 				D4C0A12221AE23DF009D6011 /* Translators */,
 				D4C0A14B21AE2E63009D6011 /* GameScene */,
 				D4C0A16421AE2E64009D6011 /* GameSceneTests */,
 				D4C0A0FB21ADF3CC009D6011 /* Products */,
-				D45E642621AE3A860078CB8E /* GameScene copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -596,10 +583,8 @@
 				D45E641521AE3A860078CB8E /* Mutator.swift in Sources */,
 				D45E641621AE3A860078CB8E /* TSFactory.swift in Sources */,
 				D45E641721AE3A860078CB8E /* Curator.swift in Sources */,
-				D45E642E21AE41ED0078CB8E /* GameScene.swift in Sources */,
 				D45E641821AE3A860078CB8E /* TSLearnZoeName.swift in Sources */,
 				D45E641921AE3A860078CB8E /* Decoder.swift in Sources */,
-				D45E642B21AE41ED0078CB8E /* ViewController.swift in Sources */,
 				D45E641A21AE3A860078CB8E /* Generation.swift in Sources */,
 				D45E641B21AE3A860078CB8E /* RepeatingTimer.swift in Sources */,
 			);
@@ -658,10 +643,8 @@
 				D4C0A18621AE315E009D6011 /* Mutator.swift in Sources */,
 				D4C0A17F21AE3151009D6011 /* TSFactory.swift in Sources */,
 				D4C0A19321AE3178009D6011 /* Curator.swift in Sources */,
-				D45E642D21AE41ED0078CB8E /* GameScene.swift in Sources */,
 				D4C0A18121AE3151009D6011 /* TSLearnZoeName.swift in Sources */,
 				D4C0A18521AE315E009D6011 /* Decoder.swift in Sources */,
-				D45E642A21AE41ED0078CB8E /* ViewController.swift in Sources */,
 				D4C0A19421AE3178009D6011 /* Generation.swift in Sources */,
 				D4C0A18921AE315E009D6011 /* RepeatingTimer.swift in Sources */,
 			);
@@ -671,12 +654,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D45E642F21AE41ED0078CB8E /* GameScene.swift in Sources */,
 				D4C0A18321AE3152009D6011 /* TSFitnessTester.swift in Sources */,
 				D4C0A18221AE3152009D6011 /* TSFactory.swift in Sources */,
 				D4C0A18D21AE315F009D6011 /* Protocols.swift in Sources */,
 				D4C0A19721AE3178009D6011 /* Generation.swift in Sources */,
-				D45E642C21AE41ED0078CB8E /* ViewController.swift in Sources */,
 				D4C0A19621AE3178009D6011 /* Curator.swift in Sources */,
 				D4C0A19221AE3164009D6011 /* VBrain.swift in Sources */,
 				D4C0A19021AE315F009D6011 /* Utilities.swift in Sources */,
