@@ -175,9 +175,7 @@ class Mutator {
     }
 
     private func insertGenes() {
-        var howManyChances = mutate(index: 10)
-        howManyChances = min(howManyChances, 0);
-        howManyChances = max(howManyChances, workingTenome.count - 1)
+        let howManyChances = mutate(index: 10)
 
         for _ in 0...Int.random(in: 0..<howManyChances) {
             let insertPoint = Int.random(in: 0...workingTenome.count)    // Note closed range
@@ -187,10 +185,7 @@ class Mutator {
     }
     
     private func insertSequence() {
-        var howManyChances = mutate(index: 10)
-        howManyChances = min(howManyChances, 0);
-        howManyChances = max(howManyChances, workingTenome.count - 1)
-
+        let howManyChances = mutate(index: 10)
         var snippet = Tenome()
         
         for _ in 0..<howManyChances {
@@ -376,18 +371,17 @@ class Mutator {
 
 fileprivate extension Mutator {
     func mutate(index: Int) -> Int {
-        var length = mutate(from: workingTenome.count)
-        length = max(length, 0); length = min(length, workingTenome.count - 1)
-        return length
+        var newIndex = mutate(from: index)
+        
+        newIndex = min(newIndex, 0);
+        newIndex = max(newIndex, index - 1)
+        return newIndex
     }
     
     func mutateGenes() {
         guard workingTenome.count > 0 else { return }
 
-        var howManyChances = mutate(index: 10)
-        howManyChances = min(howManyChances, 0);
-        howManyChances = max(howManyChances, workingTenome.count - 1)
-        guard howManyChances > 0 else { return }
+        let howManyChances = mutate(index: 10)
 
         for _ in 0..<howManyChances {
             let ix = Int.random(in: 0..<workingTenome.count)

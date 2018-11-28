@@ -35,20 +35,33 @@ var selectionControls = SelectionControls()
 // With deepest gratitude to Stack Overflow dude
 // https://stackoverflow.com/users/3441734/user3441734
 // https://stackoverflow.com/a/44541541/1610473
-struct Log: TextOutputStream {
+class Log: TextOutputStream {
 
     static var L = Log()
+    
+    var fm = FileManager.default
+    let log: URL
+    var handle: FileHandle?
+    
+    init() {
+        log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("roblog.txt")
+        if let h = try? FileHandle(forWritingTo: log) {
+            h.seekToEndOfFile()
+            self.handle = h
+        } else {
+            print("Couldn't open logfile")
+        }
+    }
+    
+    deinit { handle?.closeFile() }
 
     func write(_ string: String) {
         #if false
         return
         #else
-        let fm = FileManager.default
-        let log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("roblog.txt")
-        if let handle = try? FileHandle(forWritingTo: log) {
-            handle.seekToEndOfFile()
-            handle.write(string.data(using: .utf8)!)
-            handle.closeFile()
+
+        if let h = self.handle {
+            h.write(string.data(using: .utf8)!)
         } else {
             try? string.data(using: .utf8)?.write(to: log)
         }
@@ -178,6 +191,8 @@ class Curator {
         self.bestReportEver = report
         self.bestScoreEver = score
         self.bestGenomeEver = genome
+        
+        print("The following genome scored \(bestScoreEver) with '\(report)'", genome, to: &Log.L)
         
         let brain = tsRelay.getBrain(of: winner)!
 
