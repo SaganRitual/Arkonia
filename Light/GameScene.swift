@@ -84,16 +84,6 @@ class GameScene: SKScene {
         return nil
     }
 
-    // With deepest gratitude to Stack Overflow dude
-    // https://stackoverflow.com/users/2346164/gilian-joosen
-    // https://stackoverflow.com/a/26787701/1610473
-    //
-    func returnChar(_ theEvent: NSEvent) -> Character? {
-        let s: String = theEvent.characters!
-        for char in s{ return char }
-        return nil
-    }
-
     func getCurator() throws {
         guard self.curator == nil else { return }
         

@@ -225,7 +225,7 @@ class Mutator {
 
     private func mutate(index: Int) -> Int {
         var length = mutate(from: workingTenome.count)
-        length = max(length, 0); length = min(length, workingTenome.count)
+        length = max(length, 0); length = min(length, workingTenome.count - 1)
         return length
     }
     
