@@ -1,0 +1,13 @@
+.DS_Store
+assets/
+build/
+node_modules/
+deps.js/
+test/
+xcuserdata/
+graveyard/
+xcshareddata/
+*playground/
+*.app
+DerivedData*
+*.playground
