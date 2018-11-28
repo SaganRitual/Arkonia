@@ -19,33 +19,8 @@
 //
 
 import Foundation
+import GameKit
 
-#if !BELL_CURVE
-
-let bellCurve = BellCurve()
-let hSpacing = CGFloat(1.0)
-var vSpacing = CGFloat(0.0)
-var buckets = Array(repeating: 0, count: 1000)
-var maxY = CGFloat(1.0)
-
-while true {
-    let d = CGFloat(bellCurve.getDouble())
-    
-    let f = (d / hSpacing + 0.5).rounded(.toNearestOrEven)
-    let ssBucket = Int(f)
-    buckets[ssBucket] += 1
-    
-    let fBucketHeight = CGFloat(buckets[ssBucket])
-    if fBucketHeight > maxY { maxY = fBucketHeight }
-    
-    vSpacing = 1 / (maxY / 100.0)
-    
-//    markers[ssBucket].position.y = vSpacing * fBucketHeight
-    
-    print("\(d.sTruncate()), \(f), \(ssBucket), \(fBucketHeight), \(hSpacing.sTruncate()), \(vSpacing.sTruncate()), \(maxY.sTruncate())")
-}
-
-#else
 let pointOhOneSix =  "L_N_A(true)_W(b[0.85008]v[0.85008])_N_A(true)_W(b[0.91789]v[1.032])_N_A(false)_W(b[1.0261]v[1.08621])_N_A(true)_W(b[1]v[1])_N_A(true)_W(b[0.97173]v[1.01098])_"
 let pointOhOhEight = "L_N_A(true)_W(b[0.81439]v[0.84956])_N_A(false)_W(b[1]v[1])_N_A(true)_W(b[0.98591]v[1.01923])_N_A(true)_W(b[0.97715]v[3.41965])_N_A(true)_W(b[1]v[1])_"
 
@@ -69,4 +44,3 @@ while curatorStatus == .running {
 }
 
 print("\nCompletion state: \(curatorStatus)")
-#endif

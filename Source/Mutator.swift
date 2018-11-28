@@ -56,10 +56,10 @@ class Tene: CustomStringConvertible {
             self.value = RandomnessGenerator.getRandomOutputFunction(); return
         }
         
-        let b = Mutator.normalDistribution.mutate(from: Double(self.baseline)!)
+        let b = Mutator.m.mutate(from: Double(self.baseline)!)
         self.baseline = String(b.dTruncate())
 
-        let v = Mutator.normalDistribution.mutate(from: self.value)
+        let v = Mutator.m.mutate(from: self.value)
         if abs(v) < abs(b) { self.value = self.baseline }
         else { self.value = String(v.dTruncate()) }
     }
@@ -67,7 +67,6 @@ class Tene: CustomStringConvertible {
 
 class Mutator {
     public static var m = Mutator()
-    static fileprivate let normalDistribution = BellCurve()
 
     var e = Translators.t
     var inputGenome: Genome?
@@ -112,11 +111,13 @@ class Mutator {
     }
     
     private func deleteGenes() {
-        let howManyChances = 10
-        if howManyChances <= 0 || workingTenome.isEmpty { return }
+        let howManyChances = mutate(from: 10)
+        
+        if howManyChances <= 0 { return }
         
         for _ in 0..<Int.random(in: 0..<howManyChances) {
-            let ix = Int.random(in: 0..<workingTenome.count)
+            var ix = Mutator.m.mutate(index: workingTenome.count)
+            ix = max(ix, 0); ix = min(ix, workingTenome.count)
             workingTenome.remove(at: ix)
             if workingTenome.isEmpty { break }
         }
@@ -221,11 +222,18 @@ class Mutator {
         
         return outputTegment
     }
+
+    private func mutate(index: Int) -> Int {
+        var length = mutate(from: workingTenome.count)
+        length = max(length, 0); length = min(length, workingTenome.count)
+        return length
+    }
     
     private func mutateGenes() {
-        if workingTenome.isEmpty { return }
-        for _ in 0...Int.random(in: 0..<10) {
-            let ix = Int.random(in: 0..<workingTenome.count)
+        let howManyChances = mutate(from: 10)
+        
+        for _ in 0..<howManyChances {
+            let ix = self.mutate(index: workingTenome.count)
             if workingTenome[ix].value.first != "<" {   // "<nil>"
                 workingTenome[ix].mutate()
             }
@@ -395,5 +403,19 @@ extension Mutator {
             
         default: preconditionFailure()
         }
+    }
+    
+    func mutate(from value: Int) -> Int {
+        let proposedValue = mutate(from: Double(value))
+        return Int(proposedValue)
+    }
+    
+    func mutate(from value: Double) -> Double {
+        let percentage = BellCurve.getRandom()
+        return ((1 - percentage) * value).dTruncate()
+    }
+    
+    func mutate(from value: String) -> Double {
+        return mutate(from: Double(value)!)
     }
 }
