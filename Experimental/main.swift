@@ -17,14 +17,38 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
+  
 
 import Foundation
 
-class FTPassThrough: TestSubjectFitnessTester {
+#if EXPERIMENTAL
+print("Experimental")
+#endif
+
+#if RUN_DARK
+print("Run dark")
+#endif
+
+protocol TSTestSubjectProtocol {
+    
 }
 
-class SFPassThrough: TestSubjectFactory {
+protocol SFSubjectFactoryProtocol {
+    
 }
 
-class TSPassThrough: TSTestSubject {
+protocol FTFitnessTesterProtocol {
+    
+}
+
+class TSTestSubject: TSTestSubjectProtocol {
+    
+}
+
+class SFSubjectFactory: SFSubjectFactoryProtocol {
+    
+}
+
+class FTFitnessTester: FTFitnessTesterProtocol {
+    
 }

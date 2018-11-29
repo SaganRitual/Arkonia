@@ -50,6 +50,8 @@
 		D45E641F21AE3A860078CB8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
 		D45E642021AE3A860078CB8E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
 		D45E642121AE3A860078CB8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15821AE2E64009D6011 /* Main.storyboard */; };
+		D4B517C421AFA52F00F4C88A /* TSPassThrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11021AE2331009D6011 /* TSPassThrough.swift */; };
+		D4B517E821AFAC3200F4C88A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B517E721AFAC3200F4C88A /* main.swift */; };
 		D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
 		D4C0A11721AE2332009D6011 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10E21AE2331009D6011 /* TSFactory.swift */; };
 		D4C0A11A21AE2332009D6011 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
@@ -179,6 +181,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		D4B517E321AFAC3200F4C88A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		D4C0A0F821ADF3CC009D6011 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -202,6 +213,8 @@
 /* Begin PBXFileReference section */
 		D45E63FB21AE39940078CB8E /* Dark-R */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Dark-R"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4B517E521AFAC3200F4C88A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4B517E721AFAC3200F4C88A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4C0A0FA21ADF3CC009D6011 /* Dark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Dark; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C0A0FD21ADF3CC009D6011 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4C0A10E21AE2331009D6011 /* TSFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TSFactory.swift; path = TestSubjects/TSFactory.swift; sourceTree = "<group>"; };
@@ -259,6 +272,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D4B517E221AFAC3200F4C88A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4C0A0F721ADF3CC009D6011 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -306,11 +326,20 @@
 			path = Light;
 			sourceTree = "<group>";
 		};
+		D4B517E621AFAC3200F4C88A /* Experimental */ = {
+			isa = PBXGroup;
+			children = (
+				D4B517E721AFAC3200F4C88A /* main.swift */,
+			);
+			path = Experimental;
+			sourceTree = "<group>";
+		};
 		D4C0A0F121ADF3CC009D6011 = {
 			isa = PBXGroup;
 			children = (
 				D4C0A12021AE2374009D6011 /* Curation */,
 				D4C0A0FC21ADF3CC009D6011 /* Dark */,
+				D4B517E621AFAC3200F4C88A /* Experimental */,
 				D4ABEB1121AE645B00F3C5D5 /* Light */,
 				D4C0A12121AE23BA009D6011 /* Source */,
 				D4C0A10D21AE231A009D6011 /* TestSubjects */,
@@ -331,6 +360,7 @@
 				D45E642521AE3A860078CB8E /* BellCurveLight.app */,
 				D4FE852621AE7C0500C9192F /* GameScene-R.app */,
 				D4FE854221AEB20500C9192F /* BellCurveDark */,
+				D4B517E521AFAC3200F4C88A /* Experimental */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -454,6 +484,23 @@
 			productReference = D45E642521AE3A860078CB8E /* BellCurveLight.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D4B517E421AFAC3200F4C88A /* Experimental */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4B517E921AFAC3200F4C88A /* Build configuration list for PBXNativeTarget "Experimental" */;
+			buildPhases = (
+				D4B517E121AFAC3200F4C88A /* Sources */,
+				D4B517E221AFAC3200F4C88A /* Frameworks */,
+				D4B517E321AFAC3200F4C88A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Experimental;
+			productName = Experimental;
+			productReference = D4B517E521AFAC3200F4C88A /* Experimental */;
+			productType = "com.apple.product-type.tool";
+		};
 		D4C0A0F921ADF3CC009D6011 /* Dark */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4C0A10121ADF3CC009D6011 /* Build configuration list for PBXNativeTarget "Dark" */;
@@ -550,6 +597,9 @@
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Rob Bishop";
 				TargetAttributes = {
+					D4B517E421AFAC3200F4C88A = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					D4C0A0F921ADF3CC009D6011 = {
 						CreatedOnToolsVersion = 10.1;
 					};
@@ -578,6 +628,7 @@
 				D4FE852821AEB20500C9192F /* BellCurveDark */,
 				D4C0A0F921ADF3CC009D6011 /* Dark */,
 				D45E63E121AE39940078CB8E /* Dark-R */,
+				D4B517E421AFAC3200F4C88A /* Experimental */,
 				D45E640421AE3A860078CB8E /* BellCurveLight */,
 				D4C0A14921AE2E62009D6011 /* GameScene */,
 				D4FE850521AE7C0500C9192F /* GameScene-R */,
@@ -685,6 +736,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D4B517E121AFAC3200F4C88A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4B517E821AFAC3200F4C88A /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4C0A0F621ADF3CC009D6011 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -706,6 +765,7 @@
 				D4C0A12821AE23F4009D6011 /* Selector.swift in Sources */,
 				D4C0A13221AE2405009D6011 /* Decoder.swift in Sources */,
 				D4C0A11C21AE2332009D6011 /* TSLearnZoeName.swift in Sources */,
+				D4B517C421AFA52F00F4C88A /* TSPassThrough.swift in Sources */,
 				D4C0A13D21AE2415009D6011 /* TranslatorNeuron.swift in Sources */,
 				D4C0A13621AE2405009D6011 /* RepeatingTimer.swift in Sources */,
 			);
@@ -907,6 +967,28 @@
 			};
 			name = Release;
 		};
+		D4B517EA21AFAC3200F4C88A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "EXPERIMENTAL RUN_DARK";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D4B517EB21AFAC3200F4C88A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "EXPERIMENTAL RUN_DARK";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 		D4C0A0FF21ADF3CC009D6011 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1104,6 +1186,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GameScene.app/Contents/MacOS/GameScene";
 			};
@@ -1125,6 +1208,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GameScene.app/Contents/MacOS/GameScene";
 			};
@@ -1215,6 +1299,15 @@
 			buildConfigurations = (
 				D45E642321AE3A860078CB8E /* Debug */,
 				D45E642421AE3A860078CB8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4B517E921AFAC3200F4C88A /* Build configuration list for PBXNativeTarget "Experimental" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4B517EA21AFAC3200F4C88A /* Debug */,
+				D4B517EB21AFAC3200F4C88A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
