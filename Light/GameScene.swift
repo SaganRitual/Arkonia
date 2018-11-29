@@ -23,50 +23,7 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-
-#if BELL_CURVE
-    
-    let bellCurve = BellCurve()
-    var hSpacing = CGFloat(0.0)
-    var vSpacing = CGFloat(0.0)
-    var maxY = CGFloat(1.0)
-    let hResolution = CGFloat(1000.0)
-    var buckets = Array<Int>()
-    var markers = Array<SKShapeNode>()
-    
-    override func didMove(to view: SKView) {
-        hSpacing = view.frame.size.width / hResolution
-        vSpacing = view.frame.size.height
-
-        buckets = Array(repeating: 0, count: Int(hResolution))
-
-        for _ in buckets {
-            let s = SKShapeNode(circleOfRadius: CGFloat(5.0))
-            markers.append(s)
-            self.addChild(s)
-        }
-    }
-
-    override func update(_ currentTime: TimeInterval) {
-        let d = CGFloat(bellCurve.getDouble())
-        
-        let f = (d / hSpacing).rounded(.toNearestOrEven) - (0.5 / 100.0)
-        let ssBucket = Int(f)
-        buckets[ssBucket] += 1
-        markers[ssBucket].position.x = (d / hSpacing) - 1.0
-        
-        let fBucketHeight = CGFloat(buckets[ssBucket])
-        if fBucketHeight > maxY { maxY = fBucketHeight }
-        
-        vSpacing = 1 / (maxY / 100.0)
-        
-        markers[ssBucket].position.y = vSpacing * fBucketHeight
-        
-        print("\(d.sTruncate()), \(f), \(ssBucket), \(fBucketHeight), \(hSpacing.sTruncate()), \(vSpacing.sTruncate()), \(maxY.sTruncate())")
-    }
-
-#else
-    
+   
     private var vBrain: VBrain!
     
     var frameCount = 0
@@ -105,7 +62,10 @@ class GameScene: SKScene {
         
         guard let curator = self.curator else { return }
         
-        guard self.curatorStatus == .running else {
+        let paused: Bool = { if case CuratorStatus.paused = self.curatorStatus { return true } else { return false} }()
+        let running: Bool = { if case CuratorStatus.running = self.curatorStatus { return true } else { return false} }()
+
+        guard running || paused else {
             if !completionDisplayed {
                 vBrain.displayBrain(self.brain, isFinalUpdate: true)
                 completionDisplayed = true
@@ -113,14 +73,18 @@ class GameScene: SKScene {
             return
         }
         
-        self.curatorStatus = curator.track()
+        let referenceTime = DispatchTime.now().uptimeNanoseconds
+        self.curatorStatus = curator.track(referenceTime: referenceTime)
 
         switch self.curatorStatus {
+        case .paused:  return   // Yield the cpu; we'll try again on the next tick
         case .running: break
             
         case .finished: fallthrough
         case .chokedByDudliness:
             print("\nCompletion state: \(curatorStatus)")
+            
+        case .results: fatalError()     // Curator shouldn't be returning tsHandles to us
         }
 
 //        if frameCount < 60 { return }
@@ -136,8 +100,6 @@ class GameScene: SKScene {
         vBrain = VBrain(gameScene: self, brain: self.brain)
         vBrain.displayBrain(self.brain)
     }
-    
-#endif
 
 }
 

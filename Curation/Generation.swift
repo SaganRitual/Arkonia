@@ -24,7 +24,10 @@ class Generation {
     var bestTestSubject: TSHandle?
     var testSubjects: [TSHandle]
     let tsRelay: TSRelay
-    
+    var entryTime = TimeInterval(0.0)
+    var selectionStatus = SelectionStatus.running
+    var ssNextSubject: Int?
+
     init(_ tsRelay: TSRelay, testSubjects: TSTestGroup) {
         self.tsRelay = tsRelay
         self.testSubjects = Array(testSubjects.testSubjects.keys)
@@ -55,18 +58,32 @@ class Generation {
         
         return fitnessScore
     }
-    
-    func reset() { testSubjects = [] }
 
-    private func select(for inputs: [Double]) -> TSHandle? {
-        for testSubject in self.testSubjects {
-            let _ = self.administerTest(to: testSubject, for: inputs)
+    private func select(for inputs: [Double], referenceTime: UInt64) -> CuratorStatus {
+        var ss = 0
+        if let startFrom = self.ssNextSubject { ss = startFrom }
+        
+        for ix in ss..<self.testSubjects.count {
+
+            if timeToYield(referenceTime: referenceTime) {
+                self.ssNextSubject = ix
+                return .paused
+            }
+            
+            let _ = self.administerTest(to: testSubjects[ix], for: inputs)
         }
         
-        return self.bestTestSubject
+        print("G.select -> results", to: &Log.L)
+        self.ssNextSubject = nil // This generation is finished; ready for a new one
+        return .results(self.bestTestSubject)
+    }
+
+    func submitToTest(with sensoryInput: [Double], referenceTime: UInt64) -> CuratorStatus {
+        return select(for: sensoryInput, referenceTime: referenceTime)
     }
     
-    func submitToTest(with sensoryInput: [Double]) -> TSHandle? {
-        return select(for: sensoryInput)
+    func timeToYield(referenceTime: UInt64) -> Bool {
+        let diff = DispatchTime.now().uptimeNanoseconds - referenceTime
+        return diff > UInt64(1e6 * 15)  // 16ms keeps pushing us over the limit
     }
 }

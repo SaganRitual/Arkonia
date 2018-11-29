@@ -107,6 +107,40 @@ let testGenomes = [
     "L_N_A(false)_W(b[1]v[1])_B(b[1]v[1])_B(b[37]v[37])_T(b[12]v[12])_T(b[1107]v[1107])_N_A(true)_W(b[2]v[2])_A(false)_W(b[3]v[3])_N_A(false)_W(b[4]v[4])_A(false)_W(b[5]v[5])_A(true)_W(b[6]v[6])_A(true)_B(b[2]v[2])_T(b[100]v[100])_"
 ]
 
+// With deepest gratitude to Stack Overflow dude
+// https://stackoverflow.com/users/3441734/user3441734
+// https://stackoverflow.com/a/44541541/1610473
+class Log: TextOutputStream {
+    
+    static var L = Log()
+    
+    var fm = FileManager.default
+    let log: URL
+    var handle: FileHandle?
+    
+    init() {
+        log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("roblog.txt")
+        print("Logfile at \(log)")
+        if let h = try? FileHandle(forWritingTo: log) {
+            h.truncateFile(atOffset: 0)
+            h.seekToEndOfFile()
+            self.handle = h
+        } else {
+            print("Couldn't open logfile")
+        }
+    }
+    
+    deinit { handle?.closeFile() }
+
+    func write(_ string: String) {
+        if let h = self.handle {
+            h.write(string.data(using: .utf8)!)
+        } else {
+            try? string.data(using: .utf8)?.write(to: log)
+        }
+    }
+}
+
 precedencegroup CharacterAdditionPrecedence {
     assignment: true
     lowerThan: AdditionPrecedence

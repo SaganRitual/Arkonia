@@ -141,6 +141,7 @@ class Neuron: CustomStringConvertible {
     }
     
     func stimulate(inputs: [Double]) -> Double? {
+//        print("stimulate; \(inputPortDescriptors.count) ports, layer \(self.layerSSInBrain), neuron \(self.neuronSSInLayer)")
         if inputs.isEmpty { fatalError("stimulate() doesn't like empty inputs") }
         if inputPortDescriptors.isEmpty { return nil }
         

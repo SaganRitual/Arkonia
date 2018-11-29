@@ -32,51 +32,19 @@ struct SelectionControls {
 
 var selectionControls = SelectionControls()
 
-// With deepest gratitude to Stack Overflow dude
-// https://stackoverflow.com/users/3441734/user3441734
-// https://stackoverflow.com/a/44541541/1610473
-class Log: TextOutputStream {
-
-    static var L = Log()
-    
-    var fm = FileManager.default
-    let log: URL
-    var handle: FileHandle?
-    
-    init() {
-        log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("roblog.txt")
-        if let h = try? FileHandle(forWritingTo: log) {
-            h.seekToEndOfFile()
-            self.handle = h
-        } else {
-            print("Couldn't open logfile")
-        }
-    }
-    
-    deinit { handle?.closeFile() }
-
-    func write(_ string: String) {
-        #if false
-        return
-        #else
-
-        if let h = self.handle {
-            h.write(string.data(using: .utf8)!)
-        } else {
-            try? string.data(using: .utf8)?.write(to: log)
-        }
-        #endif
-    }
+enum CuratorStatus {
+    case chokedByDudliness, finished, paused, results(TSHandle?), running
 }
 
-enum CuratorStatus {
-    case running, finished, chokedByDudliness
+enum SelectionStatus {
+    case paused
+    case running(TSHandle?)
 }
 
 class TSTestGroup {
     var testSubjects = [TSHandle : TSTestSubject]()
     
-    func reset() { testSubjects = [:] }
+    func reset() { testSubjects.removeAll() }
     
     subscript(which: TSHandle) -> TSTestSubject? {
         get { return testSubjects[which] } set { testSubjects[which] = newValue } }
@@ -96,6 +64,18 @@ struct TSArchivableSubject: Hashable {
 }
 
 class Curator {
+    var status_ = CuratorStatus.running
+    var status: CuratorStatus {
+        get {
+            print("get status -> \(status_)", to: &Log.L)
+            return status_
+        }
+        
+        set {
+            print("status = \(status_)", to: &Log.L)
+            status_ = newValue
+        }
+    }
     let selector: Selector
     var numberOfGenerations = selectionControls.howManyGenerations
     var bestTestSubject: TSHandle?
@@ -114,6 +94,7 @@ class Curator {
     var bestGenomeEver = Genome()
 
     var testSubjects = TSTestGroup()
+    var generation: Generation
     
     static private func makeOneLayer(_ protoGenome_: Genome, _ ctNeurons: Int) -> Genome {
         var protoGenome = protoGenome_ + "L_"
@@ -123,7 +104,7 @@ class Curator {
             for _ in 0..<portNumber { protoGenome += "A(false)_" }
             let randomBias = Double.random(in: -1...1).sTruncate()
             let randomWeight = Double.random(in: -1...1).sTruncate()
-            protoGenome += "A(true)_F(limiter)_W(b[\(randomWeight)]v[\(randomWeight)])_B(b[\(randomBias)]v[\(randomBias)])_"
+            protoGenome += "A(true)_F(tanh)_W(b[\(randomWeight)]v[\(randomWeight)])_B(b[\(randomBias)]v[\(randomBias)])_"
         }
         
         return protoGenome
@@ -148,7 +129,7 @@ class Curator {
         // Get the aboriginal's fitness score as the
         // first one to beat. Also good to make sure the aboriginal
         // survives the test.
-        let generation = Generation(tsRelay, testSubjects: testSubjects)
+        self.generation = Generation(tsRelay, testSubjects: testSubjects)
         guard let aboriginalAncestor =
             try? testSubjectFactory.makeTestSubject(genome: self.aboriginalGenome, mutate: false)
             else { return nil }
@@ -156,7 +137,12 @@ class Curator {
         testSubjects[aboriginalAncestor.myFishNumber] = aboriginalAncestor
 
         let _ = generation.addTestSubject(aboriginalAncestor.myFishNumber)
-        self.bestTestSubject = generation.submitToTest(with: testInputs)
+        let referenceTime = DispatchTime.now().uptimeNanoseconds
+        
+        if case let CuratorStatus.results(candidate) =
+            generation.submitToTest(with: testInputs, referenceTime: referenceTime) {
+            self.bestTestSubject = candidate
+        }
         
         // aboriginalGenome is definitely set, at the entry to
         // this function, and so far he's the best thing going.
@@ -221,10 +207,17 @@ class Curator {
     }
 
     func makeGeneration(mutate: Bool = true, force thisMany: Int? = nil) throws -> Generation {
+        if case CuratorStatus.paused = self.status {
+            print("makeGeneration() exits for pause mode", to: &Log.L)
+            return self.generation
+        }
+        
+        print("makeGeneration() makes a generation", to: &Log.L)
+
+        self.generation = Generation(tsRelay, testSubjects: testSubjects)
+
         let howManySubjectsPerGeneration = (thisMany == nil) ?
             selectionControls.howManySubjectsPerGeneration : thisMany!
-        
-        let generation = Generation(tsRelay, testSubjects: testSubjects)
         
         for _ in 0..<howManySubjectsPerGeneration {
             let testSubject = try testSubjectFactory.makeTestSubject(genome: self.studGenome, mutate: mutate)
@@ -232,17 +225,34 @@ class Curator {
             generation.addTestSubject(testSubject.myFishNumber)
         }
         
-        return generation //Generation(tsRelay, testSubjects: testSubjects)
+        return generation
     }
     
-    func select() -> TSHandle? {
-        guard let generation = try? makeGeneration() else { return nil }
+    func select() -> CuratorStatus {
+        guard let generation = try? makeGeneration() else { return .results(nil) }
         
+        let referenceTime = DispatchTime.now().uptimeNanoseconds
+
         // At least one survived in this generation
-        guard let candidate = selector.select(from: generation, for: testInputs) else { return nil }
+        var c: TSHandle?
+        let s = selector.select(from: generation, for: testInputs, referenceTime: referenceTime)
+        print("C calls S.select() -> \(s)", to: &Log.L)
+        if case CuratorStatus.results(let r) = s, r == nil { return .results(nil) }
+        if case CuratorStatus.paused = s { return .paused }
+
+        switch s {
+        case CuratorStatus.chokedByDudliness: fallthrough
+        case CuratorStatus.finished:          fallthrough
+        case CuratorStatus.running:           fatalError("Only the Curator can decide these things")
+        case CuratorStatus.paused:            print("C.select() -> paused", to: &Log.L); return CuratorStatus.paused
+        case CuratorStatus.results(let t):    c = t
+        }
+        
+        precondition(c != nil)
+        let candidate = c!
 
         // If I'm not vetting anyone yet (meaning, we just started with the aboriginal alone)
-        guard let reigningChampion = self.studBeingVetted else { return candidate }
+        guard let reigningChampion = self.studBeingVetted else { return .results(candidate) }
 
         precondition(candidate != reigningChampion.tsHandle, "Sanity check")
 
@@ -251,10 +261,10 @@ class Curator {
         }
 
         return (candidateScore < (reigningChampion.fitnessScore ?? Double.infinity))
-                ? candidate : reigningChampion.tsHandle
+                ? CuratorStatus.results(candidate) : CuratorStatus.results(reigningChampion.tsHandle)
     }
     
-    func track() -> CuratorStatus {
+    func track(referenceTime: UInt64) -> CuratorStatus {
         let dudIfSameGuy = { (_ newGuy: TSHandle, _ currentGuy: TSHandle) -> Void in
             if newGuy == currentGuy { self.dudCounter += 1 }
             else { self.dudCounter = 0 }
@@ -295,10 +305,20 @@ class Curator {
         }
 
         if numberOfGenerations > 0 {
+            print("nog: \(self.status)", to: &Log.L);
             defer { numberOfGenerations -= 1 }
 
-            self.testSubjects.reset()   // New generation; kill off the old one
-            let selected = select()
+            if case CuratorStatus.running = self.status {
+                self.testSubjects.reset()   // New generation; kill off the old one
+            }
+            
+            let s = select()
+            var selected: Int?
+            switch s {
+            case .results(let ss): selected = ss; break
+            case .paused:          self.status = .paused; print("nog2: \(selected ?? -42)", to: &Log.L); return .paused
+            default: fatalError()
+            }
 
             trackDudness(selected)
 

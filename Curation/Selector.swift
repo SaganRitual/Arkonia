@@ -28,23 +28,33 @@ class Selector {
     var generationCounter = 0
     var tsRelay: TSRelay
     var testGroup: TSTestGroup
+    var debugResults = CuratorStatus.running
     
     init(_ tsRelay: TSRelay, testGroup: TSTestGroup) { self.tsRelay = tsRelay; self.testGroup = testGroup }
     
-    private func administerTest(to generation: Generation, for inputs: [Double]) -> TSHandle? {
-        guard let bestSubjectOfGeneration = generation.submitToTest(with: inputs) else { return nil }
+    private func administerTest(to generation: Generation, for inputs: [Double], referenceTime: UInt64) -> CuratorStatus {
+        let results = generation.submitToTest(with: inputs, referenceTime: referenceTime)
+        
+        if case CuratorStatus.paused = results {
+            debugResults = CuratorStatus.paused
+            return .paused
+        }
+        
+        debugResults = results
+
+        guard case let CuratorStatus.results(bestSubjectOfGeneration) = results else { return .results(nil) }
         
         if self.bestTestSubject == nil {
-            self.bestTestSubject = bestSubjectOfGeneration
-            self.fullDetails = testGroup.testSubjects[bestSubjectOfGeneration]
-            return self.bestTestSubject
+            self.bestTestSubject = bestSubjectOfGeneration!
+            self.fullDetails = testGroup.testSubjects[bestSubjectOfGeneration!]
+            return .results(self.bestTestSubject)
         }
         
         guard let fullDetailsOfMyBest = self.fullDetails else {
             preconditionFailure("Best test subject is set, but no full details")
         }
         
-        guard let hisScore = tsRelay.getFitnessScore(for: bestSubjectOfGeneration) else {
+        guard let hisScore = tsRelay.getFitnessScore(for: bestSubjectOfGeneration!) else {
             preconditionFailure("Shouldn't get a winner with a nil score")
         }
         
@@ -54,14 +64,14 @@ class Selector {
         
         if hisScore < myScore {
             self.bestTestSubject = bestSubjectOfGeneration
-            self.fullDetails = testGroup.testSubjects[bestSubjectOfGeneration]
-            return self.bestTestSubject
+            self.fullDetails = testGroup.testSubjects[bestSubjectOfGeneration!]
+            return .results(self.bestTestSubject)
         }
         
-        return nil
+        return .results(nil)
     }
     
-    func select(from generation: Generation, for inputs: [Double]) -> TSHandle? {
-        return administerTest(to: generation, for: inputs)
+    func select(from generation: Generation, for inputs: [Double], referenceTime: UInt64) -> CuratorStatus {
+        return administerTest(to: generation, for: inputs, referenceTime: referenceTime)
     }
 }

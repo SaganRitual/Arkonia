@@ -132,7 +132,7 @@ fileprivate class Scorer {
             
             if let p = previousCharacterValue, inputCharacterValue == p {
                 scoreForTheseOutputs += 10
-                print("Repeat \(inputCharacterValue) costs 10: \(scoreForTheseOutputs)", to: &Log.L)
+//                print("Repeat \(inputCharacterValue) costs 10: \(scoreForTheseOutputs)", to: &Log.L)
             }
 
             previousCharacterValue = Int(inputCharacterValue)
@@ -140,7 +140,7 @@ fileprivate class Scorer {
             inputCharacterValue += UnicodeScalar(String(whichCase.first!))!.value
             inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
             
-            print("Character \(inputCharacterValue) to \(testOutput)", to: &Log.L)
+//            print("Character \(inputCharacterValue) to \(testOutput)", to: &Log.L)
             testOutput.append(inputCharacter)
             
             let zCharOffset = whichCase.firstIndex(of: expectedCharacter)!
@@ -157,13 +157,13 @@ fileprivate class Scorer {
             
             let count = Double(abs(distance)).dTruncate()
             scoreForTheseOutputs += count
-            print("Normal cost for \(count) from \(ss) outputs -> \(scoreForTheseOutputs)", to: &Log.L)
+//            print("Normal cost for \(count) from \(ss + 1) outputs \(outputs.count) -> \(scoreForTheseOutputs)", to: &Log.L)
         }
         
         let shorteningCost = Double(26 * ("Zoe Bishop".count - testOutput.count))
         scoreForTheseOutputs += shorteningCost
-        let p1 = "Zoe Bishop".count - testOutput.count
-        print("Cost for dropping \(p1) characters -> \(shorteningCost); total = \(scoreForTheseOutputs)", to: &Log.L)
+//        let p1 = "Zoe Bishop".count - testOutput.count
+//        print("Cost for dropping \(p1) characters -> \(shorteningCost); total = \(scoreForTheseOutputs)", to: &Log.L)
 
         return (scoreForTheseOutputs, testOutput)
     }
