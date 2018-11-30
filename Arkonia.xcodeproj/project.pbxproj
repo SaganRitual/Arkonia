@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D41492DE21B247FB0091A916 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41492DD21B247FB0091A916 /* Stack.swift */; };
 		D45E63E321AE39940078CB8E /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
 		D45E63E421AE39940078CB8E /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
 		D45E63E521AE39940078CB8E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
@@ -14,9 +15,7 @@
 		D45E63E721AE39940078CB8E /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
 		D45E63E821AE39940078CB8E /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
 		D45E63E921AE39940078CB8E /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
-		D45E63EA21AE39940078CB8E /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11221AE2331009D6011 /* TSRelay.swift */; };
 		D45E63EB21AE39940078CB8E /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
-		D45E63EC21AE39940078CB8E /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12421AE23F4009D6011 /* Generation.swift */; };
 		D45E63ED21AE39940078CB8E /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D45E63EE21AE39940078CB8E /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10E21AE2331009D6011 /* TSFactory.swift */; };
 		D45E63EF21AE39940078CB8E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
@@ -33,7 +32,6 @@
 		D45E640C21AE3A860078CB8E /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12C21AE2404009D6011 /* VBrain.swift */; };
 		D45E640D21AE3A860078CB8E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
 		D45E640E21AE3A860078CB8E /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
-		D45E640F21AE3A860078CB8E /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11221AE2331009D6011 /* TSRelay.swift */; };
 		D45E641021AE3A860078CB8E /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
 		D45E641121AE3A860078CB8E /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
 		D45E641221AE3A860078CB8E /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
@@ -44,23 +42,36 @@
 		D45E641721AE3A860078CB8E /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D45E641821AE3A860078CB8E /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11321AE2331009D6011 /* TSLearnZoeName.swift */; };
 		D45E641921AE3A860078CB8E /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D45E641A21AE3A860078CB8E /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12421AE23F4009D6011 /* Generation.swift */; };
 		D45E641B21AE3A860078CB8E /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 		D45E641E21AE3A860078CB8E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A14E21AE2E63009D6011 /* GameScene.sks */; };
 		D45E641F21AE3A860078CB8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
 		D45E642021AE3A860078CB8E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
 		D45E642121AE3A860078CB8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15821AE2E64009D6011 /* Main.storyboard */; };
+		D46540F221B1417B00445B69 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12D21AE2404009D6011 /* Protocols.swift */; };
+		D46540F321B1418400445B69 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
+		D46540F421B141A400445B69 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
+		D46540F521B149F600445B69 /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11321AE2331009D6011 /* TSLearnZoeName.swift */; };
+		D46540F621B150E100445B69 /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
+		D482FD9521B11EAF00FF9EE9 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
+		D482FD9621B11EBA00FF9EE9 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
+		D482FD9721B120A900FF9EE9 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10E21AE2331009D6011 /* TSFactory.swift */; };
+		D482FD9821B120C100FF9EE9 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
+		D482FD9921B1216500FF9EE9 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
+		D482FD9A21B121B000FF9EE9 /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
+		D482FD9B21B121B000FF9EE9 /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
+		D482FD9C21B121B000FF9EE9 /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
+		D482FD9D21B121B000FF9EE9 /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13921AE2415009D6011 /* TranslatorNeuron.swift */; };
+		D482FD9E21B13A9400FF9EE9 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
+		D48DA54421B1B18C0056496A /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10F21AE2331009D6011 /* TSNumberGuesser.swift */; };
 		D4B517C421AFA52F00F4C88A /* TSPassThrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11021AE2331009D6011 /* TSPassThrough.swift */; };
 		D4B517E821AFAC3200F4C88A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B517E721AFAC3200F4C88A /* main.swift */; };
 		D4B517EC21AFBABC00F4C88A /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 		D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
 		D4C0A11721AE2332009D6011 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10E21AE2331009D6011 /* TSFactory.swift */; };
 		D4C0A11A21AE2332009D6011 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
-		D4C0A11B21AE2332009D6011 /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11221AE2331009D6011 /* TSRelay.swift */; };
 		D4C0A11C21AE2332009D6011 /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11321AE2331009D6011 /* TSLearnZoeName.swift */; };
 		D4C0A11F21AE2332009D6011 /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
 		D4C0A12621AE23F4009D6011 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
-		D4C0A12721AE23F4009D6011 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12421AE23F4009D6011 /* Generation.swift */; };
 		D4C0A12821AE23F4009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4C0A13021AE2405009D6011 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
 		D4C0A13121AE2405009D6011 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
@@ -82,7 +93,6 @@
 		D4C0A17A21AE313F009D6011 /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
 		D4C0A17B21AE313F009D6011 /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
 		D4C0A17C21AE313F009D6011 /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13921AE2415009D6011 /* TranslatorNeuron.swift */; };
-		D4C0A17D21AE3148009D6011 /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11221AE2331009D6011 /* TSRelay.swift */; };
 		D4C0A17E21AE3148009D6011 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
 		D4C0A17F21AE3151009D6011 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10E21AE2331009D6011 /* TSFactory.swift */; };
 		D4C0A18021AE3151009D6011 /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
@@ -104,10 +114,8 @@
 		D4C0A19121AE3163009D6011 /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12C21AE2404009D6011 /* VBrain.swift */; };
 		D4C0A19221AE3164009D6011 /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12C21AE2404009D6011 /* VBrain.swift */; };
 		D4C0A19321AE3178009D6011 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
-		D4C0A19421AE3178009D6011 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12421AE23F4009D6011 /* Generation.swift */; };
 		D4C0A19521AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4C0A19621AE3178009D6011 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
-		D4C0A19721AE3178009D6011 /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12421AE23F4009D6011 /* Generation.swift */; };
 		D4C0A19821AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4FE84FF21AE7AC000C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
 		D4FE850021AE7AC000C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
@@ -123,7 +131,6 @@
 		D4FE850C21AE7C0500C9192F /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12C21AE2404009D6011 /* VBrain.swift */; };
 		D4FE850D21AE7C0500C9192F /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
 		D4FE850E21AE7C0500C9192F /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
-		D4FE850F21AE7C0500C9192F /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11221AE2331009D6011 /* TSRelay.swift */; };
 		D4FE851021AE7C0500C9192F /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
 		D4FE851121AE7C0500C9192F /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
 		D4FE851221AE7C0500C9192F /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
@@ -135,7 +142,6 @@
 		D4FE851821AE7C0500C9192F /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D4FE851921AE7C0500C9192F /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11321AE2331009D6011 /* TSLearnZoeName.swift */; };
 		D4FE851A21AE7C0500C9192F /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D4FE851B21AE7C0500C9192F /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12421AE23F4009D6011 /* Generation.swift */; };
 		D4FE851C21AE7C0500C9192F /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 		D4FE851F21AE7C0500C9192F /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A14E21AE2E63009D6011 /* GameScene.sks */; };
 		D4FE852021AE7C0500C9192F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
@@ -148,9 +154,7 @@
 		D4FE852E21AEB20500C9192F /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
 		D4FE852F21AEB20500C9192F /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
 		D4FE853021AEB20500C9192F /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
-		D4FE853121AEB20500C9192F /* TSRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11221AE2331009D6011 /* TSRelay.swift */; };
 		D4FE853221AEB20500C9192F /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
-		D4FE853321AEB20500C9192F /* Generation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12421AE23F4009D6011 /* Generation.swift */; };
 		D4FE853421AEB20500C9192F /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D4FE853521AEB20500C9192F /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10E21AE2331009D6011 /* TSFactory.swift */; };
 		D4FE853621AEB20500C9192F /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
@@ -212,6 +216,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D41492DD21B247FB0091A916 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		D45E63FB21AE39940078CB8E /* Dark-R */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Dark-R"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B517E521AFAC3200F4C88A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -222,13 +227,11 @@
 		D4C0A10F21AE2331009D6011 /* TSNumberGuesser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TSNumberGuesser.swift; path = TestSubjects/TSNumberGuesser.swift; sourceTree = "<group>"; };
 		D4C0A11021AE2331009D6011 /* TSPassThrough.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TSPassThrough.swift; path = TestSubjects/TSPassThrough.swift; sourceTree = "<group>"; };
 		D4C0A11121AE2331009D6011 /* TSTestSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TSTestSubject.swift; path = TestSubjects/TSTestSubject.swift; sourceTree = "<group>"; };
-		D4C0A11221AE2331009D6011 /* TSRelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TSRelay.swift; path = TestSubjects/TSRelay.swift; sourceTree = "<group>"; };
 		D4C0A11321AE2331009D6011 /* TSLearnZoeName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TSLearnZoeName.swift; path = TestSubjects/TSLearnZoeName.swift; sourceTree = "<group>"; };
 		D4C0A11421AE2331009D6011 /* TSRandomOutputs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TSRandomOutputs.swift; path = TestSubjects/TSRandomOutputs.swift; sourceTree = "<group>"; };
 		D4C0A11521AE2331009D6011 /* TSMultiplier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TSMultiplier.swift; path = TestSubjects/TSMultiplier.swift; sourceTree = "<group>"; };
 		D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TSFitnessTester.swift; path = TestSubjects/TSFitnessTester.swift; sourceTree = "<group>"; };
 		D4C0A12321AE23F4009D6011 /* Curator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Curator.swift; path = Curation/Curator.swift; sourceTree = "<group>"; };
-		D4C0A12421AE23F4009D6011 /* Generation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Generation.swift; path = Curation/Generation.swift; sourceTree = "<group>"; };
 		D4C0A12521AE23F4009D6011 /* Selector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Selector.swift; path = Curation/Selector.swift; sourceTree = "<group>"; };
 		D4C0A12921AE2404009D6011 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mutator.swift; path = Source/Mutator.swift; sourceTree = "<group>"; };
 		D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomnessGenerators.swift; path = Source/RandomnessGenerators.swift; sourceTree = "<group>"; };
@@ -384,7 +387,6 @@
 				D4C0A10F21AE2331009D6011 /* TSNumberGuesser.swift */,
 				D4C0A11021AE2331009D6011 /* TSPassThrough.swift */,
 				D4C0A11421AE2331009D6011 /* TSRandomOutputs.swift */,
-				D4C0A11221AE2331009D6011 /* TSRelay.swift */,
 				D4C0A11121AE2331009D6011 /* TSTestSubject.swift */,
 			);
 			name = TestSubjects;
@@ -394,8 +396,8 @@
 			isa = PBXGroup;
 			children = (
 				D4C0A12321AE23F4009D6011 /* Curator.swift */,
-				D4C0A12421AE23F4009D6011 /* Generation.swift */,
 				D4C0A12521AE23F4009D6011 /* Selector.swift */,
+				D41492DD21B247FB0091A916 /* Stack.swift */,
 			);
 			name = Curation;
 			sourceTree = "<group>";
@@ -693,9 +695,7 @@
 				D45E63E721AE39940078CB8E /* GenomeTranslators.swift in Sources */,
 				D45E63E821AE39940078CB8E /* TranslatorBrain.swift in Sources */,
 				D45E63E921AE39940078CB8E /* TranslatorLayer.swift in Sources */,
-				D45E63EA21AE39940078CB8E /* TSRelay.swift in Sources */,
 				D45E63EB21AE39940078CB8E /* TSTestSubject.swift in Sources */,
-				D45E63EC21AE39940078CB8E /* Generation.swift in Sources */,
 				D45E63ED21AE39940078CB8E /* Curator.swift in Sources */,
 				D45E63EE21AE39940078CB8E /* TSFactory.swift in Sources */,
 				D45E63EF21AE39940078CB8E /* Utilities.swift in Sources */,
@@ -720,7 +720,6 @@
 				D45E640C21AE3A860078CB8E /* VBrain.swift in Sources */,
 				D45E640D21AE3A860078CB8E /* Utilities.swift in Sources */,
 				D45E640E21AE3A860078CB8E /* GenomeTranslators.swift in Sources */,
-				D45E640F21AE3A860078CB8E /* TSRelay.swift in Sources */,
 				D45E641021AE3A860078CB8E /* TranslatorBrain.swift in Sources */,
 				D45E641121AE3A860078CB8E /* RandomnessGenerators.swift in Sources */,
 				D45E641221AE3A860078CB8E /* Selector.swift in Sources */,
@@ -732,7 +731,6 @@
 				D45E641721AE3A860078CB8E /* Curator.swift in Sources */,
 				D45E641821AE3A860078CB8E /* TSLearnZoeName.swift in Sources */,
 				D45E641921AE3A860078CB8E /* Decoder.swift in Sources */,
-				D45E641A21AE3A860078CB8E /* Generation.swift in Sources */,
 				D45E641B21AE3A860078CB8E /* RepeatingTimer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -741,8 +739,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D46540F421B141A400445B69 /* RandomnessGenerators.swift in Sources */,
+				D482FD9D21B121B000FF9EE9 /* TranslatorNeuron.swift in Sources */,
+				D482FD9E21B13A9400FF9EE9 /* TSTestSubject.swift in Sources */,
+				D46540F321B1418400445B69 /* Utilities.swift in Sources */,
+				D41492DE21B247FB0091A916 /* Stack.swift in Sources */,
+				D482FD9B21B121B000FF9EE9 /* TranslatorBrain.swift in Sources */,
+				D482FD9C21B121B000FF9EE9 /* TranslatorLayer.swift in Sources */,
+				D46540F621B150E100445B69 /* TSFitnessTester.swift in Sources */,
+				D482FD9821B120C100FF9EE9 /* Mutator.swift in Sources */,
+				D46540F521B149F600445B69 /* TSLearnZoeName.swift in Sources */,
+				D482FD9621B11EBA00FF9EE9 /* Curator.swift in Sources */,
+				D482FD9A21B121B000FF9EE9 /* GenomeTranslators.swift in Sources */,
 				D4B517E821AFAC3200F4C88A /* main.swift in Sources */,
 				D4B517EC21AFBABC00F4C88A /* RepeatingTimer.swift in Sources */,
+				D46540F221B1417B00445B69 /* Protocols.swift in Sources */,
+				D48DA54421B1B18C0056496A /* TSNumberGuesser.swift in Sources */,
+				D482FD9921B1216500FF9EE9 /* Decoder.swift in Sources */,
+				D482FD9521B11EAF00FF9EE9 /* Selector.swift in Sources */,
+				D482FD9721B120A900FF9EE9 /* TSFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,9 +772,7 @@
 				D4C0A13C21AE2415009D6011 /* GenomeTranslators.swift in Sources */,
 				D4C0A13E21AE2415009D6011 /* TranslatorBrain.swift in Sources */,
 				D4C0A13B21AE2415009D6011 /* TranslatorLayer.swift in Sources */,
-				D4C0A11B21AE2332009D6011 /* TSRelay.swift in Sources */,
 				D4C0A11A21AE2332009D6011 /* TSTestSubject.swift in Sources */,
-				D4C0A12721AE23F4009D6011 /* Generation.swift in Sources */,
 				D4C0A12621AE23F4009D6011 /* Curator.swift in Sources */,
 				D4C0A11721AE2332009D6011 /* TSFactory.swift in Sources */,
 				D4C0A13521AE2405009D6011 /* Utilities.swift in Sources */,
@@ -785,7 +798,6 @@
 				D4C0A19121AE3163009D6011 /* VBrain.swift in Sources */,
 				D4C0A18A21AE315E009D6011 /* Utilities.swift in Sources */,
 				D4C0A17921AE313F009D6011 /* GenomeTranslators.swift in Sources */,
-				D4C0A17D21AE3148009D6011 /* TSRelay.swift in Sources */,
 				D4C0A17A21AE313F009D6011 /* TranslatorBrain.swift in Sources */,
 				D4C0A18821AE315E009D6011 /* RandomnessGenerators.swift in Sources */,
 				D4C0A19521AE3178009D6011 /* Selector.swift in Sources */,
@@ -797,7 +809,6 @@
 				D4C0A19321AE3178009D6011 /* Curator.swift in Sources */,
 				D4C0A18121AE3151009D6011 /* TSLearnZoeName.swift in Sources */,
 				D4C0A18521AE315E009D6011 /* Decoder.swift in Sources */,
-				D4C0A19421AE3178009D6011 /* Generation.swift in Sources */,
 				D4C0A18921AE315E009D6011 /* RepeatingTimer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -810,7 +821,6 @@
 				D4C0A18321AE3152009D6011 /* TSFitnessTester.swift in Sources */,
 				D4C0A18221AE3152009D6011 /* TSFactory.swift in Sources */,
 				D4C0A18D21AE315F009D6011 /* Protocols.swift in Sources */,
-				D4C0A19721AE3178009D6011 /* Generation.swift in Sources */,
 				D4C0A19621AE3178009D6011 /* Curator.swift in Sources */,
 				D4C0A19221AE3164009D6011 /* VBrain.swift in Sources */,
 				D4C0A19021AE315F009D6011 /* Utilities.swift in Sources */,
@@ -836,7 +846,6 @@
 				D4FE850C21AE7C0500C9192F /* VBrain.swift in Sources */,
 				D4FE850D21AE7C0500C9192F /* Utilities.swift in Sources */,
 				D4FE850E21AE7C0500C9192F /* GenomeTranslators.swift in Sources */,
-				D4FE850F21AE7C0500C9192F /* TSRelay.swift in Sources */,
 				D4FE851021AE7C0500C9192F /* TranslatorBrain.swift in Sources */,
 				D4FE851121AE7C0500C9192F /* RandomnessGenerators.swift in Sources */,
 				D4FE851221AE7C0500C9192F /* Selector.swift in Sources */,
@@ -848,7 +857,6 @@
 				D4FE851821AE7C0500C9192F /* Curator.swift in Sources */,
 				D4FE851921AE7C0500C9192F /* TSLearnZoeName.swift in Sources */,
 				D4FE851A21AE7C0500C9192F /* Decoder.swift in Sources */,
-				D4FE851B21AE7C0500C9192F /* Generation.swift in Sources */,
 				D4FE851C21AE7C0500C9192F /* RepeatingTimer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -864,9 +872,7 @@
 				D4FE852E21AEB20500C9192F /* GenomeTranslators.swift in Sources */,
 				D4FE852F21AEB20500C9192F /* TranslatorBrain.swift in Sources */,
 				D4FE853021AEB20500C9192F /* TranslatorLayer.swift in Sources */,
-				D4FE853121AEB20500C9192F /* TSRelay.swift in Sources */,
 				D4FE853221AEB20500C9192F /* TSTestSubject.swift in Sources */,
-				D4FE853321AEB20500C9192F /* Generation.swift in Sources */,
 				D4FE853421AEB20500C9192F /* Curator.swift in Sources */,
 				D4FE853521AEB20500C9192F /* TSFactory.swift in Sources */,
 				D4FE853621AEB20500C9192F /* Utilities.swift in Sources */,
@@ -976,6 +982,7 @@
 				DEVELOPMENT_TEAM = DD983V4X84;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "EXPERIMENTAL RUN_DARK";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -987,6 +994,7 @@
 				DEVELOPMENT_TEAM = DD983V4X84;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "EXPERIMENTAL RUN_DARK";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;

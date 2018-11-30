@@ -29,9 +29,14 @@ print("Experimental")
 print("Run dark")
 #endif
 
-#if true// THIS_WORKS_WITH_MY_GLOBAL_AND_MY_SLEEP_NOT_HIS_MAIN
+let f = TSNumberGuesserFactory()
+let c = Curator(tsFactory: f)
+let x = c.select()
+
+#if THIS_WORKS_WITH_MY_GLOBAL_AND_MY_SLEEP_NOT_HIS_MAIN
 let group = DispatchGroup()
-let queue = DispatchQueue(label: "com.theswiftdev.queues.serial")
+let queue = DispatchQueue.global()
+//let queue = DispatchQueue(label: "com.theswiftdev.queues.serial")
 let workItem = DispatchWorkItem {
     print("start")
 //    sleep(1)
@@ -45,7 +50,7 @@ queue.async(group: group) {
 }
 
 queue.async(group: group) { print("fuck this too!") }
-DispatchQueue.global().async(group: group, execute: workItem)
+queue.async(group: group, execute: workItem)
 
 // you can block your current queue and wait until the group is ready
 // a better way is to use a notification block instead of blocking
@@ -169,49 +174,79 @@ group.notify(queue: .global()) {
 //    }
 //}
 //
-#if MY_CODE_NO_FUCKING_WORKEE
-var defaultDQ = DispatchQueue.global()
-
-class FTFitnessTester {
-    let id: Int
-    let dg: DispatchGroup
-    var sp: DispatchWorkItem!
-
-    init(_ id: Int, dispatchGroup: DispatchGroup) {
-        self.id = id
-        self.dg = dispatchGroup
-    }
-
-    func go() {
-        sp = DispatchWorkItem(block: self.spawn)
-        sp.notify(queue: defaultDQ, execute: { print("Why am I not high?") })
-    }
-
-    func spawn() {
-        dg.enter(); print("FT \(id) spawning"); dg.leave()
-    }
+#if TEMPLATE_THAT_SUPPOSEDLY_WORKS
+let group = DispatchGroup()
+let queue = DispatchQueue.global()
+//let queue = DispatchQueue(label: "com.theswiftdev.queues.serial")
+let workItem = DispatchWorkItem {
+    print("start")
+    //    sleep(1)
+    print("end")
 }
 
-func spawnTester() {
-
+queue.async(group: group) {
+    print("group start")
+    //    sleep(2)
+    print("group end")
 }
 
-let dg = DispatchGroup()
-var testers = [FTFitnessTester]()
+queue.async(group: group) { print("fuck this too!") }
+queue.async(group: group, execute: workItem)
 
-for fishNumber in 0..<10 {
-    let ft = FTFitnessTester(fishNumber, dispatchGroup: dg)
-    testers.append(ft)
-    ft.go()
+// you can block your current queue and wait until the group is ready
+// a better way is to use a notification block instead of blocking
+//group.wait(timeout: .now() + .seconds(3))
+//print("done")
+
+group.notify(queue: queue) {
+    print("done")
 }
+sleep(1)
+#endif
 
-dg.notify(queue: defaultDQ, execute: { print("always!") })
+#if true
 
-print("hell")
-//dg.activate()
-print("0")
-dg.wait()
-print("5h34")
+//typealias Genome = String
+
+
+//class FTFitnessTester {
+//    let id: Int
+//    let dg: DispatchGroup
+//    let dq: DispatchQueue
+//    var sp: DispatchWorkItem!
+//
+//    init(_ id: Int, dg: DispatchGroup, dq: DispatchQueue) {
+//        self.id = id
+//        self.dg = dg
+//        self.dq = dq
+//    }
+//
+//    func go() {
+//        sp = DispatchWorkItem(block: self.spawn)
+//        dq.async(execute: sp)
+//    }
+//
+//    func spawn() {
+//        print("FT \(id) spawning")
+//    }
+//}
+//
+//let dq = DispatchQueue.global()
+//let dg = DispatchGroup()
+//var testers = [FTFitnessTester]()
+//
+//for fishNumber in 0..<10 {
+//    let ft = FTFitnessTester(fishNumber, dg: dg, dq: dq)
+//    testers.append(ft)
+//    ft.go()
+//}
+//
+//dg.notify(queue: dq) { print("close?") }
+//
+//print("hell")
+//dg.wait()
+//print("5h34")
+//sleep(1)
 #endif
 //print("a", terminator: "")
 ////let ts = ThreadStuff()

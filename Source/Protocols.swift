@@ -28,10 +28,6 @@ protocol ValueParserProtocol {
     func setDefaultInput() -> ValueParserProtocol
 }
 
-protocol NeuronProtocol {
-    func setInputPorts(ctAvailableInputs: Int)
-}
-
 protocol NeuronOwnerProtocol {
     func addActivator(_ active: Bool)
     func addWeight(_ value: ValueDoublet)
@@ -51,12 +47,10 @@ protocol NeuronOwnerProtocol {
 
 protocol LayerOwnerProtocol {
     var layers: [Translators.Layer] { get set }
-    var fitnessScore: Double? { get set }
 
     func addActivator(_ active: Bool)
     func addWeight(_ value: ValueDoublet)
     func addWeight(_ baseline: Double, _ value: Double)
-    func connectLayers() throws
     func closeLayer()
     func closeNeuron()
     func endOfStrand() throws
@@ -105,14 +99,12 @@ protocol SelectionFitnessTester {
     func getFitnessScore(for testSubject: TSTestSubject) -> Double?
 }
 
-protocol BrainStem {
-    var fitnessScore: Double? { get set }
-    var fitnessReport: String? { get set }
+protocol NeuralNetProtocol: LayerOwnerProtocol {
     
-    func stimulate(inputs: [Double]) -> [Double]?
 }
 
-protocol NeuralNetProtocol: BrainStem & LayerOwnerProtocol {
-    
-}
+typealias TSArray = Array<TSTestSubject>
+typealias TSArrayIndex = TSArray.Index
+typealias TSArraySlice = ArraySlice<TSTestSubject>
+
 

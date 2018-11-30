@@ -21,57 +21,97 @@
 import Foundation
 
 class Selector {
-    var bestTestSubject: TSHandle?
-    var fullDetails: TSTestSubject?
-    var generations = [Generation]()
-    var testInputs = [Double]()
-    var generationCounter = 0
-    var tsRelay: TSRelay
-    var testGroup: TSTestGroup
-    var debugResults = CuratorStatus.running
+    public var stud: TSTestSubject?
+    private let ctOffspring: Int
+    private var tsFactory: TestSubjectFactory
+    private var fitnessTester: FTFitnessTester!
     
-    init(_ tsRelay: TSRelay, testGroup: TSTestGroup) { self.tsRelay = tsRelay; self.testGroup = testGroup }
-    
-    private func administerTest(to generation: Generation, for inputs: [Double], referenceTime: UInt64) -> CuratorStatus {
-        let results = generation.submitToTest(with: inputs, referenceTime: referenceTime)
+    init(tsFactory: TestSubjectFactory) {
+        self.tsFactory = tsFactory
+        self.fitnessTester = tsFactory.makeFitnessTester()
         
-        if case CuratorStatus.paused = results {
-            debugResults = CuratorStatus.paused
-            return .paused
-        }
-        
-        debugResults = results
+        // Do this after creating the fitness tester; the fitness
+        // tester is the one that sets the selection controls. Ugly. Fix it.
+        self.ctOffspring = selectionControls.howManySubjectsPerGeneration
+    }
 
-        guard case let CuratorStatus.results(bestSubjectOfGeneration) = results else { return .results(nil) }
-        
-        if self.bestTestSubject == nil {
-            self.bestTestSubject = bestSubjectOfGeneration!
-            self.fullDetails = testGroup.testSubjects[bestSubjectOfGeneration!]
-            return .results(self.bestTestSubject)
-        }
-        
-        guard let fullDetailsOfMyBest = self.fullDetails else {
-            preconditionFailure("Best test subject is set, but no full details")
-        }
-        
-        guard let hisScore = tsRelay.getFitnessScore(for: bestSubjectOfGeneration!) else {
-            preconditionFailure("Shouldn't get a winner with a nil score")
-        }
-        
-        guard let myScore = fullDetailsOfMyBest.getFitnessScore() else {
-            preconditionFailure("Our best test subject has lost his score")
-        }
-        
-        if hisScore < myScore {
-            self.bestTestSubject = bestSubjectOfGeneration
-            self.fullDetails = testGroup.testSubjects[bestSubjectOfGeneration!]
-            return .results(self.bestTestSubject)
-        }
-        
-        return .results(nil)
+    func scoreAboriginal(_ aboriginal: TSTestSubject) {
+        guard let score = fitnessTester.administerTest(to: aboriginal)
+            else { fatalError() }
+
+        aboriginal.fitnessScore = score
     }
     
-    func select(from generation: Generation, for inputs: [Double], referenceTime: UInt64) -> CuratorStatus {
-        return administerTest(to: generation, for: inputs, referenceTime: referenceTime)
+    func select(eqTest: Curator.EQTest, against stud: TSTestSubject) -> [TSTestSubject]? {
+        switch eqTest {
+        case .gt: return selectBt(against: stud)
+        case .ge: return selectBe(against: stud)
+        }
+    }
+
+    private func selectBt(against stud: TSTestSubject) -> [TSTestSubject]? {
+        guard let ge = select(eqTest: .ge, against: stud) else { return nil }
+        
+        var stemTheFlood = TSArray()
+        
+        guard let ssScore = stud.fitnessScore else { fatalError() }
+
+        for gge in ge {
+            guard let tsScore = gge.fitnessScore else { fatalError() }
+            
+            let scoreToBeat = stemTheFlood.isEmpty ? ssScore : stemTheFlood[0].fitnessScore!
+            if tsScore >= scoreToBeat { continue }
+
+            stemTheFlood.push(gge)
+            
+            if stemTheFlood.count >= 5 {
+                stemTheFlood.popBack()
+            }
+        }
+        
+//        if !stemTheFlood.isEmpty { print("selectBt returns best score \(stemTheFlood[0].fitnessScore!)") }
+//        else { print("selectBt returns nil") }
+        return stemTheFlood.isEmpty ? nil : stemTheFlood
+    }
+
+    private func selectBe(against stud: TSTestSubject) -> [TSTestSubject]? {
+//        print("Q", terminator: "")
+        var bestScore = stud.fitnessScore
+        var btMode = false
+
+        var stemTheFlood = [TSTestSubject]()
+        for _ in 0..<ctOffspring {
+//            print("R", terminator: "")
+            guard let ts = tsFactory.makeTestSubject(parent: stud, mutate: true)
+                else { print("S", terminator: ""); continue }
+//            let endIndex = ts.genome.index(ts.genome.startIndex, offsetBy: 40)
+//            print("S(\(ts.genome[..<endIndex]))")
+
+            // No point keeping exact copies
+            if ts.genome == stud.genome { continue }
+
+//            print("T", terminator: "")
+            guard let score = fitnessTester.administerTest(to: ts)
+                else { continue }
+
+//            print("U(\(score))", terminator: "")
+
+            ts.fitnessScore = score
+            if score > bestScore! { continue }
+            if score == bestScore! && btMode { continue }
+            
+            // This is select .be, so if it's not worse
+            // than the target score, we'll take it.
+            bestScore = score
+
+            // Set btMode to stop accepting equal scores 
+            if stemTheFlood.count >= 5 { btMode = true; stemTheFlood.popBack() }
+            stemTheFlood.push(ts)
+        }
+//        print("Z", terminator: "")
+
+//        if !stemTheFlood.isEmpty { print("selectBe returns best score \(stemTheFlood[0].fitnessScore!)") }
+//        else { print("selectBe returns nil") }
+        return stemTheFlood.isEmpty ? nil : stemTheFlood
     }
 }

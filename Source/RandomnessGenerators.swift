@@ -55,10 +55,6 @@ enum RandomnessGenerator {
         return newGenome
     }
     
-    static func generateRandomTestSubject(howManyGenes: Int) -> TSHandle {
-        fatalError()
-    }
-    
     static func getRandomOutputFunction() -> String {
         let blank = outputFunctions[Int.random(in: 0..<outputFunctions.count)].rawValue
         return blank
@@ -96,13 +92,20 @@ class BellCurve {
     private let randomSource = GKARC4RandomSource()
     
     func nextFloat() -> Float {
-        let mean: Float = 0.0, deviation: Float = 3.0
+        let mean: Float = 0.0, deviation: Float = 2.0
         let x1 = randomSource.nextUniform() // a random number between 0 and 1
         let x2 = randomSource.nextUniform() // a random number between 0 and 1
         let z1 = sqrt(-2 * log(x1)) * cos(2 * Float.pi * x2) // z1 is normally distributed
         
         // Convert z1 from the Standard Normal Distribution to our Normal Distribution
         // Note that the conversion will give us a range of -10..<10. I still want -1..<1
-        return (z1 * deviation + mean) / 10
+//        print((z1 * deviation + mean).sTruncate())
+        return (z1 * deviation + mean) / 10.0
+    }
+}
+
+extension Float {
+    func sTruncate() -> String {
+        return Double(self).sTruncate()
     }
 }

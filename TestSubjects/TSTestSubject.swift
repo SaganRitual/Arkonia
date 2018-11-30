@@ -20,6 +20,34 @@
 
 import Foundation
 
+class TSTestSubject: Hashable, Equatable {
+    private static var theFishNumber = 0
+    
+    private(set) var brain: NeuralNetProtocol
+    private(set) var fishNumber: Int
+    private(set) var genome: Genome
+    public var fitnessScore: Double?
+    private let fitnessTester = FTFitnessTester()
+    
+    init(genome: Genome, brain: NeuralNetProtocol) {
+        self.genome = genome
+        self.brain = brain
+        fishNumber = TSTestSubject.theFishNumber
+        TSTestSubject.theFishNumber += 1
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.genome)
+    }
+    
+    public func submitToTest() -> Double? { return nil }
+    
+    static func == (lhs: TSTestSubject, rhs: TSTestSubject) -> Bool {
+        return lhs.genome == rhs.genome
+    }
+}
+
+#if OLD_TEST_SUBJECT
 class TSTestSubject {
     static var theFishNumber = 0
     
@@ -58,3 +86,4 @@ class TSTestSubject {
         return testOutputs
     }
 }
+#endif

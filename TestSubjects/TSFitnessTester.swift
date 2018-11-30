@@ -20,6 +20,22 @@
 
 import Foundation
 
+class FTFitnessTester {
+    public func administerTest(to ts: TSTestSubject) -> Double? {
+        let inputs = Array(repeating: 1.0, count: 10)
+
+        guard let outputs = ts.brain.stimulate(inputs: inputs)
+            else { return nil }
+
+        return doScoringStuff(ts, outputs)
+    }
+    
+    func doScoringStuff(_ ts: TSTestSubject, _ outputs: [Double]) -> Double? {
+        return nil
+    }
+}
+
+#if OLD_FITNESS_TESTER
 class TestSubjectFitnessTester: SelectionFitnessTester {
     func administerTest(to testSubject: TSTestSubject, for sensoryInput: [Double]) -> [Double]? {
         guard let b = testSubject.brain else { preconditionFailure("No brain, no test.") }
@@ -42,3 +58,4 @@ class TestSubjectFitnessTester: SelectionFitnessTester {
 
     }
 }
+#endif

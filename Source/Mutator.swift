@@ -86,7 +86,7 @@ class Mutator {
         
         for tene in workingTenome {
             if tene.token == lay || tene.token == neu {
-                genome += String(tene.token)
+                genome += String(tene.token) + "_"
                 continue
             }
             
@@ -100,7 +100,7 @@ class Mutator {
                 preconditionFailure("where the hell did this '\(tene.token)' come from?")
             }
             
-            genome += ")"
+            genome += ")_"
         }
         
         return genome

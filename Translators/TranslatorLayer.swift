@@ -40,22 +40,6 @@ class Layer: CustomStringConvertible {
     
     func closeNeuron() { if let u = underConstruction { neurons.append(u) }; underConstruction = nil }
     
-    func connectNeurons(ctAvailableInputs: Int, previousLayer: Layer?, isMotorNeuronLayer: Bool = false) throws {
-        let nextCommLineForMotorNeurons: Int? = isMotorNeuronLayer ? 0 : nil
- 
-        var isViableLayer = false
-        var ncl = nextCommLineForMotorNeurons
-        let ctAI = ctAvailableInputs
-
-        for neuron in neurons {
-            ncl = neuron.setInputPorts(ctAvailableInputs: ctAI, previousLayer: previousLayer, commLineOverride: ncl)
-            
-            if !neuron.inputPortDescriptors.isEmpty { isViableLayer = true }
-        }
-        
-        if !isViableLayer { throw SelectionError.nonViableBrain }
-    }
-    
     func endOfStrand() { for neuron in neurons { neuron.endOfStrand() } }
     
     private func makeNeuron() -> Neuron {

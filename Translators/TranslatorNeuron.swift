@@ -34,9 +34,21 @@ struct ValueDoublet {
 
 typealias NeuronOutputFunction = (Double) -> Double
 
-extension Translators {
+protocol NeuronPulseProtocol {
+    var neuron: Translators.Neuron? { get set }
+}
 
-class Neuron: CustomStringConvertible {
+extension Translators {
+    
+    class NeuronPulse: NeuronPulseProtocol {
+        var neuron: Neuron?
+        init(_ pulsable: NeuronPulse) {
+            if let p = pulsable as? Translators.Neuron
+                { self.neuron = p }
+        }
+    }
+
+class Neuron: NeuronPulse, CustomStringConvertible {
     var activators = [Bool]()
     var weights = [ValueDoublet]()
     var bias: ValueDoublet?, threshold: ValueDoublet?
@@ -74,55 +86,22 @@ class Neuron: CustomStringConvertible {
     
     func endOfStrand() {}
     
-    public func output() -> Double {
-        let ws = weightedSum(), b = bias ?? ValueDoublet(0.0, 0.0)
-        let biased = ws + b.value
+    public func output(_ inputs: [WeightSignal]) -> Double {
+        var weightedSum = 0.0
+        for input in inputs {
+            guard let w = input.weight else { continue }
+            weightedSum += input.input * w.value
+        }
         
-        let result = outputFunction(biased)
+        let bias = { () -> Double in if let b = self.bias { return b.value }; return 0.0 }()
+        
+        let result = outputFunction(weightedSum + bias)
         return result
     }
     
     func setBias(_ bias: ValueDoublet) { self.bias = bias }
     func setBias(_ baseline: Double, _ value: Double) { bias = ValueDoublet(baseline, value) }
 
-    func setInputPorts(ctAvailableInputs: Int, previousLayer: Layer?, commLineOverride: Int? = nil) -> Int? {
-        guard ctAvailableInputs > 0 else { return nil }
-        
-        var activationSS = 0, weightSS = 0, commLineNumber = 0
-        
-        // This allows the layer to tell me which comm line
-        // to start with, to aim for open ones. We really
-        // should change the bottom layer to be driven by genes.
-        var isMotorNeuronLayer = false
-        if let c = commLineOverride {
-            commLineNumber = c; isMotorNeuronLayer = true
-        }
-        
-        inputPortDescriptors.removeAll()
-        while true {
-            if activationSS >= activators.count { break }
-            if weightSS >= weights.count { break }
-            if commLineNumber >= ctAvailableInputs { commLineNumber = 0 }
-
-            defer { activationSS += 1; commLineNumber += 1 }
-
-            guard let pell = previousLayer else { preconditionFailure("The top layer always counts as the first previous") }
-            guard pell.neurons[commLineNumber].foundViableInput else { continue }
-            
-            if activators[activationSS] || isMotorNeuronLayer {
-                if !Utilities.thereBeNoShowing {
-                    print("\(self) attaches port \(inputPortDescriptors.count) to commLine \(commLineNumber) in older sib of \(self.layerSSInBrain)")
-                }
-                inputPortDescriptors.append(commLineNumber)
-                inputPorts.append(0)    // Make room for another input
-                weightSS += 1
-            }
-        }
-        
-        self.foundViableInput = !inputPortDescriptors.isEmpty
-        return commLineNumber
-    }
-        
     func setOutputFunction(_ function: @escaping NeuronOutputFunction) { self.outputFunction = function }
 
     func setThreshold(_ threshold: ValueDoublet) { self.threshold = threshold }
@@ -140,20 +119,44 @@ class Neuron: CustomStringConvertible {
         print(tabs + "\n\t\tN. ports = \(inputPortDescriptors.count): \(inputPortDescriptors) -- \(self)", terminator: "")
     }
     
+    struct WeightSignal {
+        var weight: ValueDoublet?
+        var input = 0.0
+        init() {}
+        init(_ weight: ValueDoublet) { self.weight = weight }
+    }
+    
     func stimulate(inputs: [Double]) -> Double? {
-//        print("stimulate; \(inputPortDescriptors.count) ports, layer \(self.layerSSInBrain), neuron \(self.neuronSSInLayer)")
         if inputs.isEmpty { fatalError("stimulate() doesn't like empty inputs") }
-        if inputPortDescriptors.isEmpty { return nil }
-        
-        // We might have a lot of input ports, but we're
-        // dependent on how many inputs are available
-        let adjustedInputCount = min(inputPortDescriptors.count, inputs.count)
-        
-        for portNumber in 0..<adjustedInputCount {
-            inputPorts[portNumber] = inputs[portNumber]
+        if weights.isEmpty { return nil }
+
+        var myInputPorts = [WeightSignal]()
+        var tWeights = Array(weights)
+        if tWeights.isEmpty {
+            print("wtf")
+        }
+        for (a, _) in zip(activators, weights) {
+            
+            let ws: WeightSignal = { () -> WeightSignal in
+                if a { let p = tWeights.pop(); return WeightSignal(p) }
+                else { return WeightSignal() }
+            }()
+            
+            myInputPorts.append(ws)
         }
         
-        return self.output()
+        var ssMyInputPorts = 0, ssInputs = 0
+
+        while ssMyInputPorts < myInputPorts.count {
+            
+            if myInputPorts[ssMyInputPorts].weight != nil {
+                myInputPorts[ssMyInputPorts].input = inputs[ssInputs]
+            }
+
+            ssMyInputPorts += 1; ssInputs = (ssInputs + 1) % inputs.count
+        }
+        
+        return self.output(myInputPorts)
     }
     
     private func weightedSum() -> Double {

@@ -20,27 +20,28 @@
 
 import Foundation
 
-class TestSubjectFactory: SelectionTestSubjectFactory {
-    let tsRelay: TSRelay
-    var decoder: Decoder!
-    let fitnessTester: TestSubjectFitnessTester
+class TestSubjectFactory {
+    var decoder = Decoder()
     
-    init(_ tsRelay: TSRelay, fitnessTester: TestSubjectFitnessTester) {
-        self.tsRelay = tsRelay; self.fitnessTester = fitnessTester
+    func makeFitnessTester() -> FTFitnessTester {
+        return FTFitnessTester()
     }
     
-    func makeTestSubject(genome: Genome, mutate: Bool) throws -> TSTestSubject {
-        var maybeMutated = genome
+    func makeTestSubject(parent: TSTestSubject, mutate: Bool) -> TSTestSubject? {
+        return makeTestSubject(parentGenome: parent.genome, mutate: mutate)
+    }
+
+    func makeTestSubject(parentGenome: Genome, mutate: Bool) -> TSTestSubject? {
+        var maybeMutated = parentGenome
         if mutate {
-            let _ = Mutator.m.setInputGenome(genome).mutate()
+            let _ = Mutator.m.setInputGenome(parentGenome).mutate()
             maybeMutated = Mutator.m.convertToGenome()
         }
+
+        do { try decoder.setInput(to: maybeMutated).decode() }
+        catch { return nil }
         
-        try decoder.setInput(to: maybeMutated).decode()
         let brain = Translators.t.getBrain()
-        
-        return TSTestSubject(with: maybeMutated, brain: brain, fitnessTester: fitnessTester)
+        return TSTestSubject(genome: parentGenome, brain: brain)
     }
-    
-    func setDecoder(_ decoder: Decoder) { self.decoder = decoder }
 }

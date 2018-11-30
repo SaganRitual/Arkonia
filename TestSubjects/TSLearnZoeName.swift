@@ -21,8 +21,10 @@
 import Foundation
 
 class TSLearnZoeName: TSTestSubject {
-    override init(with genome: Genome, brain: BrainStem?, fitnessTester: TestSubjectFitnessTester) {
-        super.init(with: genome, brain: brain, fitnessTester: fitnessTester)
+    var attemptedZName = String()
+    
+    override init(genome: Genome, brain: NeuralNetProtocol) {
+        super.init(genome: genome, brain: brain)
 
         setSelectionControls()
     }
@@ -34,42 +36,46 @@ class TSLearnZoeName: TSTestSubject {
 }
 
 class TSZoeFactory: TestSubjectFactory {
-    override func makeTestSubject(genome: Genome, mutate: Bool) throws -> TSLearnZoeName {
-        var maybeMutated = genome
-        if mutate {
-            let _ = Mutator.m.setInputGenome(genome).mutate()
+    override func makeFitnessTester() -> FTFitnessTester {
+        return FTLearnZoeName()
+    }
+    
+    override func makeTestSubject(parent: TSTestSubject, mutate: Bool) -> TSTestSubject? {
+        return makeTestSubject(parentGenome: parent.genome, mutate: mutate)
+    }
+
+    override func makeTestSubject(parentGenome: Genome, mutate: Bool) -> TSTestSubject? {
+        var maybeMutated = parentGenome
+        
+        while mutate && maybeMutated == parentGenome {
+            let _ = Mutator.m.setInputGenome(parentGenome).mutate()
             maybeMutated = Mutator.m.convertToGenome()
         }
         
-        try decoder.setInput(to: maybeMutated).decode()
+        do{ try decoder.setInput(to: maybeMutated).decode() }
+        catch { return nil }
+
         let brain = Translators.t.getBrain()
-        
-        return TSLearnZoeName(with: maybeMutated, brain: brain, fitnessTester: fitnessTester)
+        return TSLearnZoeName(genome: maybeMutated, brain: brain)
     }
 }
 
-class FTLearnZoeName: TestSubjectFitnessTester {
-    let zName = "Zoe Bishop"
-
+class FTLearnZoeName: FTFitnessTester {
     var charactersMatched = 0
     
-    override func calculateFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) {
-        guard let outputs = outputs else { return }
+    override func doScoringStuff(_ ts: TSTestSubject, _ outputs: [Double]) -> Double {
+        guard let tz = ts as? TSLearnZoeName else { fatalError() }
 
         var scoreForTheseOutputs = 0.0
-
-        let scorer = Scorer(zName, outputs: outputs)
-        let (s, progressReport) = scorer.calculateScore()
-
-        scoreForTheseOutputs += s
         
-        if scoreForTheseOutputs == 0 {
-            charactersMatched += 1
-            scoreForTheseOutputs = Double(abs(zName.count - charactersMatched))
-        }
+        let scorer = Scorer(outputs: outputs)
+        let score = scorer.calculateScore()
         
-        testSubject.calculateFitnessScore(scoreForTheseOutputs, progressReport)
-        super.calculateFitnessScore(scoreForTheseOutputs, progressReport)
+        scoreForTheseOutputs += score
+        tz.attemptedZName = scorer.attemptedZName
+//        print(tz.attemptedZName, scoreForTheseOutputs)
+        
+        return scoreForTheseOutputs
     }
 }
 
@@ -79,7 +85,8 @@ fileprivate class Scorer {
     var symbolcase = Scorer.makeSymbolCase()
     var whichCase: String
 
-    let zName: String
+    let zName = "Zoe Bishop"
+    var attemptedZName = String()
     var charactersMatched = 0
     var outputs: [Double]
     var previousCharacterValue: Int? = nil
@@ -90,8 +97,8 @@ fileprivate class Scorer {
     var inputCharacterValue: UInt32 = 0
     var inputCharacter: Character!
 
-    init(_ zName: String, outputs: [Double]) {
-        self.zName = zName; self.outputs = outputs; self.whichCase = uppercase
+    init(outputs: [Double]) {
+        self.outputs = outputs; self.whichCase = uppercase
     }
     
     func getCase(_ expectedCharacter: Character, _ ss: Int) -> String {
@@ -110,8 +117,7 @@ fileprivate class Scorer {
         return whichCase
     }
 
-    func calculateScore() -> (Double, String) {
-        var testOutput = String()
+    func calculateScore() -> Double {
         let symbolLookup: String = {
             var s = String()
             for i in 0..<32 { s.append(String(UnicodeScalar(i) ?? "🔧")) }
@@ -141,7 +147,7 @@ fileprivate class Scorer {
             inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
             
 //            print("Character \(inputCharacterValue) to \(testOutput)", to: &Log.L)
-            testOutput.append(inputCharacter)
+            self.attemptedZName.append(inputCharacter)
             
             let zCharOffset = whichCase.firstIndex(of: expectedCharacter)!
             var iCharOffset = whichCase.startIndex
@@ -160,12 +166,12 @@ fileprivate class Scorer {
 //            print("Normal cost for \(count) from \(ss + 1) outputs \(outputs.count) -> \(scoreForTheseOutputs)", to: &Log.L)
         }
         
-        let shorteningCost = Double(26 * ("Zoe Bishop".count - testOutput.count))
+        let shorteningCost = Double(26 * (zName.count - attemptedZName.count))
         scoreForTheseOutputs += shorteningCost
 //        let p1 = "Zoe Bishop".count - testOutput.count
 //        print("Cost for dropping \(p1) characters -> \(shorteningCost); total = \(scoreForTheseOutputs)", to: &Log.L)
 
-        return (scoreForTheseOutputs, testOutput)
+        return scoreForTheseOutputs
     }
     
     private static func makeSymbolCase() -> String{

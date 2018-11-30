@@ -22,8 +22,6 @@ import Foundation
 
 extension Translators {
     class Brain: NeuralNetProtocol {
-        var fitnessReport: String?
-        var fitnessScore: Double?
         
         func generateRandomSensoryInput() -> [Double] {
             return [0]
@@ -61,32 +59,9 @@ extension Translators {
             
         }
         
-        func connectLayers() throws {
-            var previousLayer: Layer?
-            
-            for (which, layer) in zip(0..., layers) {
-                guard let p = previousLayer else { previousLayer = layer; layer.setTopLayerInputPorts(); continue }
-                let isMotorNeuronLayer = ((which + 1) == self.layers.count)
-                
-                let ctNeurons = p.neurons.count
-                let pell = previousLayer
-                let ismnl = isMotorNeuronLayer
-                try layer.connectNeurons(ctAvailableInputs: ctNeurons, previousLayer: pell, isMotorNeuronLayer: ismnl)
-
-                previousLayer = layer
-            }
-        }
-        
         func endOfStrand() throws {
             closeNeuron()
             closeLayer()
-            
-            if layers.isEmpty { throw SelectionError.nonViableBrain }
-
-            for layer in layers {
-                guard !layer.neurons.isEmpty else { throw SelectionError.nonViableBrain }
-                layer.endOfStrand()
-            }
         }
         
         func newLayer() {
@@ -120,6 +95,8 @@ extension Translators {
 
                 previousLayerOutputs =
                     layer.stimulate(inputs: previousLayerOutputs)
+                
+//                print("Layer \(layer.layerSSInBrain) stimulate -> \(layer.neurons.count) outputs")
             }
             
             if previousLayerOutputs.isEmpty { return nil }

@@ -95,7 +95,8 @@ class Decoder {
             slice = slice.dropFirst(symbolsConsumed)
         }
 
-        try Translators.t.endOfStrand()
+        do { try Translators.t.endOfStrand() }
+        catch { print("3", terminator: ""); print( Utilities.applyInterfaces(to: inputGenome)); throw error }
 //        Translators.t.getBrain().show(tabs: "", override: true)
     }
     

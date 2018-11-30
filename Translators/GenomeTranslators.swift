@@ -62,7 +62,7 @@ import Foundation
 //    func show(tabs: String, override: Bool = false) { }
 //}
 
-import CoreGraphics
+import CoreGraphics // For the math functions
 class Translators: BrainOwnerProtocol {
     static let t = Translators()
 
@@ -85,13 +85,10 @@ class Translators: BrainOwnerProtocol {
     func closeLayer() { brain.closeLayer() }
     func closeNeuron() { brain.closeNeuron() }
 
-    func connectLayers() throws { try brain!.connectLayers() }
-
     func endOfStrand() throws {
         defer { reachedEndOfStrand = true }
         
         try brain.endOfStrand()
-        try connectLayers()
     }
 
     func getBrain() -> NeuralNetProtocol {
