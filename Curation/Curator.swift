@@ -46,9 +46,12 @@ class Curator {
     var testSubjects = [TSTestSubject]()
     let tsFactory: TestSubjectFactory
 
+    let group = DispatchGroup()
+    let queue = DispatchQueue.global()
+    
     init(tsFactory: TestSubjectFactory) {
         self.tsFactory = tsFactory
-        self.selector = Selector(tsFactory: tsFactory)
+        self.selector = Selector(tsFactory: tsFactory, dQueue: queue, dGroup: group)
         
         // This has to happen after the Selector init,
         // because the Selector calls into the tsFactory

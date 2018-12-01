@@ -25,9 +25,14 @@ class Selector {
     private let ctOffspring: Int
     private var tsFactory: TestSubjectFactory
     private var fitnessTester: FTFitnessTester!
-    
-    init(tsFactory: TestSubjectFactory) {
+    unowned private var dQueue: DispatchQueue
+    unowned private var dGroup: DispatchGroup
+
+    init(tsFactory: TestSubjectFactory, dQueue: DispatchQueue, dGroup: DispatchGroup) {
         self.tsFactory = tsFactory
+        self.dQueue = dQueue
+        self.dGroup = dGroup
+        
         self.fitnessTester = tsFactory.makeFitnessTester()
         
         // Do this after creating the fitness tester; the fitness
@@ -43,10 +48,17 @@ class Selector {
     }
     
     func select(eqTest: Curator.EQTest, against stud: TSTestSubject) -> [TSTestSubject]? {
-        switch eqTest {
-        case .gt: return selectBt(against: stud)
-        case .ge: return selectBe(against: stud)
+        var results = TSArray()
+        dQueue.async(group: dGroup) {
+            switch eqTest {
+            case .gt: if let r = self.selectBt(against: stud) { results = r }
+            case .ge: if let r = self.selectBe(against: stud) { results = r }
+            }
         }
+        
+        dGroup.notify(queue: dQueue) {}
+        
+        return results
     }
 
     private func selectBt(against stud: TSTestSubject) -> [TSTestSubject]? {
@@ -83,7 +95,7 @@ class Selector {
         for _ in 0..<ctOffspring {
 //            print("R", terminator: "")
             guard let ts = tsFactory.makeTestSubject(parent: stud, mutate: true)
-                else { print("S", terminator: ""); continue }
+                else { continue }
 //            let endIndex = ts.genome.index(ts.genome.startIndex, offsetBy: 40)
 //            print("S(\(ts.genome[..<endIndex]))")
 
