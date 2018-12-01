@@ -33,6 +33,10 @@ struct SelectionControls {
 
 var selectionControls = SelectionControls()
 
+enum NotificationType: String {
+    case selectComplete = "selectComplete", select = "select", setSelectionParameters = "setSelectionParameters"
+}
+
 class Curator {
     typealias TSSet = Set<TSTestSubject>
 
@@ -40,21 +44,39 @@ class Curator {
 
     var aboriginal: TSTestSubject!
     var bestTestSubject: TSTestSubject!
+    let notificationCenter = NotificationCenter.default
     var remainingGenerations = 0
     let selector: Selector
+    let semaphore = DispatchSemaphore(value: 0)
     let stack = Stack()
     var testSubjects = [TSTestSubject]()
     let tsFactory: TestSubjectFactory
 
     init(tsFactory: TestSubjectFactory) {
         self.tsFactory = tsFactory
-        self.selector = Selector(tsFactory: tsFactory)
+        self.selector = Selector(tsFactory: tsFactory, semaphore: semaphore)
         
         // This has to happen after the Selector init,
         // because the Selector calls into the tsFactory
         // which inits the fitness tester, which sets the
         // controls. Seems rather ugly. Come back to it.
         self.remainingGenerations = selectionControls.howManyGenerations
+        
+        let n = Foundation.Notification.Name.selectComplete
+        let s = #selector(selectComplete)
+        notificationCenter.addObserver(self, selector: s, name: n, object: nil)
+        
+        self.selector.startThread()
+    }
+    
+    deinit { notificationCenter.removeObserver(self) }
+    
+    @objc func selectComplete(_ notification: Notification) {
+        guard let u = notification.userInfo,
+              let p = u[NotificationType.selectComplete] as? TSArray
+        else { preconditionFailure() }
+        
+        stack.stack(p)
     }
 
     func select() -> TSTestSubject? {
@@ -68,22 +90,37 @@ class Curator {
         selector.scoreAboriginal(a)
         print("Aboriginal score = \(a.fitnessScore!)")
         
-        while remainingGenerations > 0 && a.fitnessScore! != 0 {
+        var firstPass = true
+        
+        while remainingGenerations > 0 {
             defer { remainingGenerations -= 1 }
+            
+            // We skip waiting on the first pass because the thread is
+            // currently waiting for it; we don't want to block. After this
+            // pass, the Curator and the thread will take turns by passing
+            // the semaphore back and forth.
+            if !firstPass { semaphore.wait() }
 
-            let (eqTest, newTestSubject) = stack.getSelectionParameters()
+            let newTestSubject = stack.getSelectionParameters()
 
             if newTestSubject.fitnessScore! != self.bestTestSubject.fitnessScore! {
                 print("New record by \(newTestSubject.fishNumber): \((newTestSubject.fitnessScore!))")
-            }// else { print(".\(eqTest)", terminator: "") }
+            }
             
             self.bestTestSubject = newTestSubject
-            
-            guard let newPotentials = selector.select(eqTest: eqTest, against: self.bestTestSubject)
-                else { fatalError() }
-            
-            stack.stack(newPotentials)
-            
+            let n1 = Foundation.Notification.Name.setSelectionParameters
+            let q1 = [NotificationType.select : newTestSubject]
+            let p1 = Foundation.Notification(name: n1, object: nil, userInfo: q1)
+
+            let n2 = Foundation.Notification.Name.select
+            let p2 = Foundation.Notification(name: n2, object: nil, userInfo: nil)
+
+            notificationCenter.post(p1)
+            notificationCenter.post(p2)
+
+            semaphore.signal()  // Everything is in place; start the selector running
+
+            firstPass = false
             if self.bestTestSubject.fitnessScore! == 0.0 { break }
         }
         

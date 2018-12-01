@@ -45,6 +45,20 @@ class TSTestSubject: Hashable, Equatable {
     static func == (lhs: TSTestSubject, rhs: TSTestSubject) -> Bool {
         return lhs.genome == rhs.genome
     }
+    
+    static func <= (lhs: TSTestSubject, rhs: TSTestSubject) -> Bool {
+        guard let Ls = lhs.fitnessScore,
+              let Rs = rhs.fitnessScore else { preconditionFailure() }
+        
+        return Ls < Rs || Ls == Rs
+    }
+    
+    static func < (lhs: TSTestSubject, rhs: TSTestSubject) -> Bool {
+        guard let Ls = lhs.fitnessScore,
+            let Rs = rhs.fitnessScore else { preconditionFailure() }
+        
+        return Ls < Rs
+    }
 }
 
 #if OLD_TEST_SUBJECT

@@ -20,98 +20,102 @@
 
 import Foundation
 
-class Selector {
-    public var stud: TSTestSubject?
-    private let ctOffspring: Int
-    private var tsFactory: TestSubjectFactory
-    private var fitnessTester: FTFitnessTester!
+struct SelectionParameters {
+    var stud: TSTestSubject
     
-    init(tsFactory: TestSubjectFactory) {
+    // "be" and "bt" for "better than or equal", and "better than", because
+    // the best score is the lowest score. So "be" and "bt" mean <= and <
+    static func eq(_ L: TSTestSubject, _ R: TSTestSubject) -> Bool { return L == R }
+    static func be(_ L: TSTestSubject, _ R: TSTestSubject) -> Bool { return L <= R }
+    static func bt(_ L: TSTestSubject, _ R: TSTestSubject) -> Bool { return L < R }
+}
+
+extension Foundation.Notification.Name {
+    static let select = Foundation.Notification.Name("select")
+    static let selectComplete = Foundation.Notification.Name("selectComplete")
+    static let setSelectionParameters = Foundation.Notification.Name("setSelectionParameters")
+}
+
+class Selector {
+    private var fitnessTester: FTFitnessTester!
+    private let notificationCenter = NotificationCenter.default
+    private let semaphore: DispatchSemaphore
+    public  var stud: TSTestSubject?
+    private var tsFactory: TestSubjectFactory
+
+    init(tsFactory: TestSubjectFactory, semaphore: DispatchSemaphore) {
         self.tsFactory = tsFactory
         self.fitnessTester = tsFactory.makeFitnessTester()
+        self.semaphore = semaphore
+        self.tsFactory = tsFactory
         
-        // Do this after creating the fitness tester; the fitness
-        // tester is the one that sets the selection controls. Ugly. Fix it.
-        self.ctOffspring = selectionControls.howManySubjectsPerGeneration
-    }
-
-    func scoreAboriginal(_ aboriginal: TSTestSubject) {
-        guard let score = fitnessTester.administerTest(to: aboriginal)
-            else { fatalError() }
-
-        aboriginal.fitnessScore = score
+        let n = Foundation.Notification.Name.setSelectionParameters
+        let s = #selector(setSelectionParameters)
+        notificationCenter.addObserver(self, selector: s, name: n, object: nil)
     }
     
-    func select(eqTest: Curator.EQTest, against stud: TSTestSubject) -> [TSTestSubject]? {
-        switch eqTest {
-        case .gt: return selectBt(against: stud)
-        case .ge: return selectBe(against: stud)
-        }
+    deinit { notificationCenter.removeObserver(self) }
+    
+    @objc private func setSelectionParameters(_ notification: Notification) {
+        guard let u = notification.userInfo,
+              let p = u[NotificationType.select] as? TSTestSubject else { preconditionFailure() }
+        
+        self.stud = p
     }
 
-    private func selectBt(against stud: TSTestSubject) -> [TSTestSubject]? {
-        guard let ge = select(eqTest: .ge, against: stud) else { return nil }
-        
-        var stemTheFlood = TSArray()
-        
-        guard let ssScore = stud.fitnessScore else { fatalError() }
+    private func rLoop() {
+        while true {
+            print("1")
+            semaphore.wait()
+            print("2")
 
-        for gge in ge {
-            guard let tsScore = gge.fitnessScore else { fatalError() }
-            
-            let scoreToBeat = stemTheFlood.isEmpty ? ssScore : stemTheFlood[0].fitnessScore!
-            if tsScore >= scoreToBeat { continue }
+            let newSurvivors = select(against: self.stud!)
+            let selectionResults = [NotificationType.selectComplete : newSurvivors]
+            let n = Foundation.Notification.Name.selectComplete
+            print("3")
 
-            stemTheFlood.push(gge)
-            
-            if stemTheFlood.count >= 5 {
-                stemTheFlood.popBack()
-            }
+            notificationCenter.post(name: n, object: self, userInfo: selectionResults as [AnyHashable : Any])
+            print("4")
+
+            semaphore.signal()  // Give control back to the main thread
+            print("5")
         }
+    }
+    
+    public func scoreAboriginal(_ aboriginal: TSTestSubject) {
+        guard let score = fitnessTester.administerTest(to: aboriginal)
+            else { fatalError() }
         
-//        if !stemTheFlood.isEmpty { print("selectBt returns best score \(stemTheFlood[0].fitnessScore!)") }
-//        else { print("selectBt returns nil") }
-        return stemTheFlood.isEmpty ? nil : stemTheFlood
+        aboriginal.fitnessScore = score
     }
 
-    private func selectBe(against stud: TSTestSubject) -> [TSTestSubject]? {
-//        print("Q", terminator: "")
+    private func select(against stud: TSTestSubject) -> [TSTestSubject]? {
         var bestScore = stud.fitnessScore
-        var btMode = false
-
+        
         var stemTheFlood = [TSTestSubject]()
-        for _ in 0..<ctOffspring {
-//            print("R", terminator: "")
+        for _ in 0..<selectionControls.howManySubjectsPerGeneration {
+
             guard let ts = tsFactory.makeTestSubject(parent: stud, mutate: true)
-                else { print("S", terminator: ""); continue }
-//            let endIndex = ts.genome.index(ts.genome.startIndex, offsetBy: 40)
-//            print("S(\(ts.genome[..<endIndex]))")
-
-            // No point keeping exact copies
+                else { continue }
+            
             if ts.genome == stud.genome { continue }
-
-//            print("T", terminator: "")
+            
             guard let score = fitnessTester.administerTest(to: ts)
                 else { continue }
-
-//            print("U(\(score))", terminator: "")
-
+            
             ts.fitnessScore = score
             if score > bestScore! { continue }
-            if score == bestScore! && btMode { continue }
             
-            // This is select .be, so if it's not worse
-            // than the target score, we'll take it.
-            bestScore = score
-
-            // Set btMode to stop accepting equal scores 
-            if stemTheFlood.count >= 5 { btMode = true; stemTheFlood.popBack() }
+            if score < bestScore! { bestScore = score }
+            
+            // Start getting rid of the less promising candidates
+            if stemTheFlood.count >= 5 { stemTheFlood.popBack() }
             stemTheFlood.push(ts)
         }
-//        print("Z", terminator: "")
 
-//        if !stemTheFlood.isEmpty { print("selectBe returns best score \(stemTheFlood[0].fitnessScore!)") }
-//        else { print("selectBe returns nil") }
         return stemTheFlood.isEmpty ? nil : stemTheFlood
     }
+   
+    public func startThread() { DispatchQueue.global().async { self.rLoop() } }
+
 }
