@@ -83,7 +83,6 @@ class Stack {
             // matching scores, or if we're processing test subjects
             // that have better scores
 //            print("Stack.push( \(newArrival.fishNumber): \(newArrival.fitnessScore!))")
-            print("u", terminator: "")
             theStack.push(newArrival)
         }
         
@@ -91,12 +90,10 @@ class Stack {
             let ctBeatingScore = theStack.filter { beatScore($0, bestOfNew) }.count
 
             eqTest = ctBeatingScore >= selectionControls.stackNoobsLimit ? .gt : .ge
-            print("b", terminator: "")
             theStack.popBack()
         }
         
         currentBest = theStack.pop()
-        print("p(\(theStack.count))", terminator: "")
 //        print("Stack.pop() -> \(currentBest!.fishNumber) : \(currentBest!.fitnessScore!)")
     }
 }

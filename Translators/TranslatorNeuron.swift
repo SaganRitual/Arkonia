@@ -34,21 +34,9 @@ struct ValueDoublet {
 
 typealias NeuronOutputFunction = (Double) -> Double
 
-protocol NeuronPulseProtocol {
-    var neuron: Translators.Neuron? { get set }
-}
-
 extension Translators {
-    
-    class NeuronPulse: NeuronPulseProtocol {
-        var neuron: Neuron?
-        init(_ pulsable: NeuronPulse) {
-            if let p = pulsable as? Translators.Neuron
-                { self.neuron = p }
-        }
-    }
 
-class Neuron: NeuronPulse, CustomStringConvertible {
+class Neuron: CustomStringConvertible {
     var activators = [Bool]()
     var weights = [ValueDoublet]()
     var bias: ValueDoublet?, threshold: ValueDoublet?
