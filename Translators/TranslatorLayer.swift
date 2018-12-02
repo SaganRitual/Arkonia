@@ -55,13 +55,6 @@ class Layer: CustomStringConvertible {
 
     func setThreshold(_ value: ValueDoublet) { underConstruction?.setThreshold(value) }
     func setThreshold(_ baseline: Double, _ value: Double) { underConstruction?.setThreshold(baseline, value) }
-    
-    func setTopLayerInputPorts() {
-        for (ss, neuron) in zip(0..., neurons) {
-            neuron.foundViableInput = true  // The top layer always works
-            neuron.setTopLayerInputPort(whichUpperLayerNeuron: ss)
-        }
-    }
 
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }

@@ -25,11 +25,10 @@ import GameplayKit
 class GameScene: SKScene {
    
     private var vBrain: VBrain!
-    
+    let tsFactory = TSNumberGuesserFactory()
+
     var frameCount = 0
     var curator: Curator!
-    var curatorStatus = CuratorStatus.running
-    var brain: NeuralNetProtocol!
 
     // With deepest gratitude to Stack Overflow dude
     // https://stackoverflow.com/users/2346164/gilian-joosen
@@ -43,62 +42,25 @@ class GameScene: SKScene {
 
     func getCurator() throws {
         guard self.curator == nil else { return }
-        
-        let testSubjects = TSTestGroup()
-        let relay = TSRelay(testSubjects)
-        let fitnessTester = FTLearnZoeName()
-        let testSubjectFactory = TSZoeFactory(relay, fitnessTester: fitnessTester)
-//        let fitnessTester = TestSubjectFitnessTester()
-//        let testSubjectFactory = TestSubjectFactory(relay, fitnessTester: fitnessTester)
-        self.curator = Curator(starter: nil, testSubjectFactory: testSubjectFactory)
+
+        self.curator = Curator(tsFactory: tsFactory)
+        DispatchQueue.global(qos: .background).async {
+            let _ = self.curator.select()
+        }
     }
     
-    var completionDisplayed = false
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
         
         do { try getCurator() }
         catch { return }
+
+        guard let c = self.curator else { return }
+        guard let t = c.getBestTestSubject() else { return }
         
-        guard let curator = self.curator else { return }
-        
-        let paused: Bool = { if case CuratorStatus.paused = self.curatorStatus { return true } else { return false} }()
-        let running: Bool = { if case CuratorStatus.running = self.curatorStatus { return true } else { return false} }()
-
-        guard running || paused else {
-            if !completionDisplayed {
-                vBrain.displayBrain(self.brain, isFinalUpdate: true)
-                completionDisplayed = true
-            }
-            return
-        }
-        
-        let referenceTime = DispatchTime.now().uptimeNanoseconds
-        self.curatorStatus = curator.track(referenceTime: referenceTime)
-
-        switch self.curatorStatus {
-        case .paused:  return   // Yield the cpu; we'll try again on the next tick
-        case .running: break
-            
-        case .finished: fallthrough
-        case .chokedByDudliness:
-            print("\nCompletion state: \(curatorStatus)")
-            
-        case .results: fatalError()     // Curator shouldn't be returning tsHandles to us
-        }
-
-//        if frameCount < 60 { return }
-//        print("?", terminator: "")
-//        frameCount = 0
-
-        guard let brainOk = try? curator.getMostInterestingTestSubject() else {
-            return
-        }
-        
-        self.brain = brainOk
-
-        vBrain = VBrain(gameScene: self, brain: self.brain)
-        vBrain.displayBrain(self.brain)
+        vBrain = VBrain(gameScene: self, brain: t.brain)
+        vBrain.displayBrain(t.brain)
+        t.brain.show(tabs: "", override: false)
     }
 
 }

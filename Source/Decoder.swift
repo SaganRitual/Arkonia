@@ -96,8 +96,9 @@ class Decoder {
         }
 
         do { try Translators.t.endOfStrand() }
-        catch { print("3", terminator: ""); print( Utilities.applyInterfaces(to: inputGenome)); throw error }
+        catch { throw error }
 //        Translators.t.getBrain().show(tabs: "", override: true)
+//        print(inputGenome)
     }
     
     func newBrain() { Translators.t.newBrain() }

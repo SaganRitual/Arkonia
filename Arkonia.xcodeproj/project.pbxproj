@@ -28,7 +28,6 @@
 		D45E640821AE3A860078CB8E /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
 		D45E640921AE3A860078CB8E /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
 		D45E640A21AE3A860078CB8E /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
-		D45E640C21AE3A860078CB8E /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12C21AE2404009D6011 /* VBrain.swift */; };
 		D45E640D21AE3A860078CB8E /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
 		D45E640E21AE3A860078CB8E /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
 		D45E641021AE3A860078CB8E /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
@@ -52,6 +51,9 @@
 		D46540F421B141A400445B69 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
 		D46540F521B149F600445B69 /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11321AE2331009D6011 /* TSLearnZoeName.swift */; };
 		D46540F621B150E100445B69 /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
+		D471173621B3D5440076DD2A /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D471173421B3D5350076DD2A /* VBrain.swift */; };
+		D471173721B3D5780076DD2A /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D460041921B3529C008190B0 /* Stack.swift */; };
+		D471173821B3D5E00076DD2A /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10F21AE2331009D6011 /* TSNumberGuesser.swift */; };
 		D482FD9521B11EAF00FF9EE9 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D482FD9621B11EBA00FF9EE9 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D482FD9721B120A900FF9EE9 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10E21AE2331009D6011 /* TSFactory.swift */; };
@@ -111,8 +113,6 @@
 		D4C0A18D21AE315F009D6011 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12D21AE2404009D6011 /* Protocols.swift */; };
 		D4C0A18F21AE315F009D6011 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 		D4C0A19021AE315F009D6011 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
-		D4C0A19121AE3163009D6011 /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12C21AE2404009D6011 /* VBrain.swift */; };
-		D4C0A19221AE3164009D6011 /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12C21AE2404009D6011 /* VBrain.swift */; };
 		D4C0A19321AE3178009D6011 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D4C0A19521AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4C0A19621AE3178009D6011 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
@@ -128,7 +128,6 @@
 		D4FE850921AE7C0500C9192F /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
 		D4FE850A21AE7C0500C9192F /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
 		D4FE850B21AE7C0500C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
-		D4FE850C21AE7C0500C9192F /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12C21AE2404009D6011 /* VBrain.swift */; };
 		D4FE850D21AE7C0500C9192F /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
 		D4FE850E21AE7C0500C9192F /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
 		D4FE851021AE7C0500C9192F /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
@@ -219,6 +218,7 @@
 		D45E63FB21AE39940078CB8E /* Dark-R */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Dark-R"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D460041921B3529C008190B0 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stack.swift; path = Curation/Stack.swift; sourceTree = "<group>"; };
+		D471173421B3D5350076DD2A /* VBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
 		D4B517E521AFAC3200F4C88A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B517E721AFAC3200F4C88A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4C0A0FA21ADF3CC009D6011 /* Dark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Dark; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -236,7 +236,6 @@
 		D4C0A12921AE2404009D6011 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mutator.swift; path = Source/Mutator.swift; sourceTree = "<group>"; };
 		D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomnessGenerators.swift; path = Source/RandomnessGenerators.swift; sourceTree = "<group>"; };
 		D4C0A12B21AE2404009D6011 /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Decoder.swift; path = Source/Decoder.swift; sourceTree = "<group>"; };
-		D4C0A12C21AE2404009D6011 /* VBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VBrain.swift; path = Source/VBrain.swift; sourceTree = "<group>"; };
 		D4C0A12D21AE2404009D6011 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Protocols.swift; path = Source/Protocols.swift; sourceTree = "<group>"; };
 		D4C0A12E21AE2404009D6011 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = Source/Utilities.swift; sourceTree = "<group>"; };
 		D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepeatingTimer.swift; path = Source/RepeatingTimer.swift; sourceTree = "<group>"; };
@@ -325,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				D4FE84FB21AE7AB600C9192F /* GameScene.swift */,
+				D471173421B3D5350076DD2A /* VBrain.swift */,
 				D4FE84FC21AE7AB600C9192F /* ViewController.swift */,
 			);
 			path = Light;
@@ -411,7 +411,6 @@
 				D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */,
 				D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */,
 				D4C0A12E21AE2404009D6011 /* Utilities.swift */,
-				D4C0A12C21AE2404009D6011 /* VBrain.swift */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -717,7 +716,6 @@
 				D45E640921AE3A860078CB8E /* TSFitnessTester.swift in Sources */,
 				D45E640A21AE3A860078CB8E /* TranslatorLayer.swift in Sources */,
 				D4FE850021AE7AC000C9192F /* ViewController.swift in Sources */,
-				D45E640C21AE3A860078CB8E /* VBrain.swift in Sources */,
 				D45E640D21AE3A860078CB8E /* Utilities.swift in Sources */,
 				D45E640E21AE3A860078CB8E /* GenomeTranslators.swift in Sources */,
 				D45E641021AE3A860078CB8E /* TranslatorBrain.swift in Sources */,
@@ -795,7 +793,6 @@
 				D4C0A18021AE3151009D6011 /* TSFitnessTester.swift in Sources */,
 				D4C0A17B21AE313F009D6011 /* TranslatorLayer.swift in Sources */,
 				D4FE850221AE7AC100C9192F /* ViewController.swift in Sources */,
-				D4C0A19121AE3163009D6011 /* VBrain.swift in Sources */,
 				D4C0A18A21AE315E009D6011 /* Utilities.swift in Sources */,
 				D4C0A17921AE313F009D6011 /* GenomeTranslators.swift in Sources */,
 				D4C0A17A21AE313F009D6011 /* TranslatorBrain.swift in Sources */,
@@ -804,8 +801,11 @@
 				D4C0A14D21AE2E63009D6011 /* AppDelegate.swift in Sources */,
 				D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */,
 				D4C0A17C21AE313F009D6011 /* TranslatorNeuron.swift in Sources */,
+				D471173621B3D5440076DD2A /* VBrain.swift in Sources */,
+				D471173821B3D5E00076DD2A /* TSNumberGuesser.swift in Sources */,
 				D4C0A18621AE315E009D6011 /* Mutator.swift in Sources */,
 				D4C0A17F21AE3151009D6011 /* TSFactory.swift in Sources */,
+				D471173721B3D5780076DD2A /* Stack.swift in Sources */,
 				D4C0A19321AE3178009D6011 /* Curator.swift in Sources */,
 				D4C0A18121AE3151009D6011 /* TSLearnZoeName.swift in Sources */,
 				D4C0A18521AE315E009D6011 /* Decoder.swift in Sources */,
@@ -822,7 +822,6 @@
 				D4C0A18221AE3152009D6011 /* TSFactory.swift in Sources */,
 				D4C0A18D21AE315F009D6011 /* Protocols.swift in Sources */,
 				D4C0A19621AE3178009D6011 /* Curator.swift in Sources */,
-				D4C0A19221AE3164009D6011 /* VBrain.swift in Sources */,
 				D4C0A19021AE315F009D6011 /* Utilities.swift in Sources */,
 				D4C0A19821AE3178009D6011 /* Selector.swift in Sources */,
 				D4C0A18C21AE315F009D6011 /* Mutator.swift in Sources */,
@@ -843,7 +842,6 @@
 				D4FE850921AE7C0500C9192F /* TSFitnessTester.swift in Sources */,
 				D4FE850A21AE7C0500C9192F /* TranslatorLayer.swift in Sources */,
 				D4FE850B21AE7C0500C9192F /* ViewController.swift in Sources */,
-				D4FE850C21AE7C0500C9192F /* VBrain.swift in Sources */,
 				D4FE850D21AE7C0500C9192F /* Utilities.swift in Sources */,
 				D4FE850E21AE7C0500C9192F /* GenomeTranslators.swift in Sources */,
 				D4FE851021AE7C0500C9192F /* TranslatorBrain.swift in Sources */,

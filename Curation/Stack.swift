@@ -22,11 +22,13 @@ import Foundation
 
 class Stack {
     private var currentBest: TSTestSubject? // Not on the stack
-    private var eqTest = Curator.EQTest.ge
     private var theStack = TSArray()
 
     private var newArrivals = TSArray()
     private var maxEQScores = selectionControls.stackNoobsLimit
+    private var retreatLock: Double?
+    
+    public var count: Int { get { return theStack.count } }
 
     public func pop() -> TSTestSubject { return theStack.pop() }
     public func push(_ ts: TSTestSubject) { theStack.push(ts) }
@@ -62,8 +64,10 @@ class Stack {
     }
     
     func stack(_ na: TSArray) {
+        var currentBestScore = Double.infinity
         if let cb = currentBest {
             theStack.push(cb)
+            currentBestScore = cb.fitnessScore!
 //            print("Stack.pushCB( \(cb): \(cb.fitnessScore!))")
         }
         currentBest = nil
@@ -73,11 +77,16 @@ class Stack {
         // preprocess sorts in descending order, so we'll get the matchers
         // first, if there are any.
         var eqTester = matchScore
-        for newArrival in newArrivals {
+        var retreated = true
+        for newArrival in newArrivals where theStack.count < (selectionControls.stackNoobsLimit + 1) {
+            guard let score = newArrival.fitnessScore else { preconditionFailure() }
+            if let rL = retreatLock, score >= rL { continue }
+            
             let ctMatchingScore = theStack.filter { eqTester($0, newArrival) }.count
             guard ctMatchingScore < selectionControls.stackNoobsLimit else { continue }
 
             eqTester = beatScore
+            retreated = false
 
             // We come here if we're still under the limit for
             // matching scores, or if we're processing test subjects
@@ -86,14 +95,21 @@ class Stack {
             theStack.push(newArrival)
         }
         
-        if let bestOfNew = newArrivals.last {
-            let ctBeatingScore = theStack.filter { beatScore($0, bestOfNew) }.count
-
-            eqTest = ctBeatingScore >= selectionControls.stackNoobsLimit ? .gt : .ge
+        if newArrivals.last != nil {
             theStack.popBack()
         }
         
         currentBest = theStack.pop()
+        
+        if retreated {
+            print("Could not beat \(currentBestScore); retreating to ", terminator: "")
+            if retreatLock == nil { if !theStack.isEmpty { print("subject \(theStack.count - 1)") }; retreatLock = currentBest!.fitnessScore! }
+            if theStack.isEmpty { print("aboriginal"); retreatLock = nil }
+        } else {
+            print("Trying to match/beat \(currentBestScore)")
+            retreatLock = nil
+        }
+
 //        print("Stack.pop() -> \(currentBest!.fishNumber) : \(currentBest!.fitnessScore!)")
     }
 }

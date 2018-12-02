@@ -429,13 +429,24 @@ extension Utilities {
 
     static func makeSensesInterface() -> Genome {
         var g = Genome(); g += layb
-        for _ in 0..<selectionControls.howManySenses { g += "N_A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_" }
+        
+        for portNumber in 0..<selectionControls.howManySenses {
+            g += neub
+            for _ in 0..<portNumber { g += "A(false)_" }
+            
+            g += "A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_"
+        }
+
         g += ifmb; return g
     }
     
     static func makeOutputsInterface() -> Genome {
         var g = Genome(); g += ifmb + layb
-        for _ in 0..<selectionControls.howManyMotorNeurons { g += "N_A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_" }
+        for portNumber in 0..<selectionControls.howManyMotorNeurons {
+            g += neub
+            for _ in 0..<portNumber { g += "A(false)_" }
+            g += "A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_"
+        }
         return g
     }
     

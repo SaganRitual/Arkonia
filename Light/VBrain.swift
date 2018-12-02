@@ -164,24 +164,14 @@ extension VBrain {
                 vNeuron.position = position
                 currentLayerPoints.append(position)
 
-                var minusDeadCommLines = [CGPoint]()
-                let cap = min(neuron.inputPortDescriptors.count, previousLayerPoints.count)
-                for ss in 0..<cap {
-                    let commLineNumber = neuron.inputPortDescriptors[ss]
-                    minusDeadCommLines.append(previousLayerPoints[commLineNumber])
-                }
-                
-//                print("m", minusDeadCommLines, "was", previousLayerPoints, "descriptor", neuron.inputPortDescriptors,
-//                      "plp count", previousLayerPoints.count, "ipd count", neuron.inputPortDescriptors.count)
-
-                if !minusDeadCommLines.isEmpty { drawConnections(from: minusDeadCommLines, to: neuron, at: position) }
+                drawConnections(from: previousLayerPoints, to: neuron, at: position)
                 
                 self.vNeurons.append(vNeuron)
                 gameScene.addChild(vNeuron)
 
                 if !isFinalUpdate {
                     startingY = 0.0
-                    
+
                     drawWeights(neuron, vNeuron)
                     drawBiases(neuron, vNeuron)
                 }
@@ -193,10 +183,12 @@ extension VBrain {
     }
     
     func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Translators.Neuron, at neuronPosition: CGPoint) {
-        for previousLayerPoint in previousLayerPoints {
+        if previousLayerPoints.isEmpty { return }
+        for commLine in neuron.displayHelper {
             let linePath = CGMutablePath()
+
             linePath.move(to: neuronPosition)
-            linePath.addLine(to: previousLayerPoint)
+            linePath.addLine(to: previousLayerPoints[commLine])
             
             let line = SKShapeNode(path: linePath)
             line.strokeColor = .green

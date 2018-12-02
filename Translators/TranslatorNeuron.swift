@@ -21,15 +21,20 @@
 import Foundation
 
 struct ValueDoublet {
-    var baseline: Double, value: Double
-    
+    var baseline = 0.0
+    var value = 0.0
+
     init() { baseline = 0.0; value = 0.0 }
+    init(_ iffy: ValueDoublet?) { baseline = iffy?.baseline ?? 0.0; value = iffy?.value ?? 0.0 }
+    init(_ halflet: Double) { self.baseline = 0; self.value = halflet }
     init(_ doublet: ValueDoublet) { self.baseline = doublet.baseline; self.value = doublet.value }
     init(_ baseline: Double, _ value: Double) { self.baseline = baseline; self.value = value }
     init(_ baseline: Int, _ value: Int) { self.baseline = Double(baseline); self.value = Double(value) }
 
     static func ==(_ lhs: ValueDoublet, _ rhs: Double) -> Bool { return lhs.value == rhs }
     static func !=(_ lhs: ValueDoublet, _ rhs: Double) -> Bool { return !(lhs == rhs) }
+    static func  +(_ lhs: ValueDoublet, _ rhs: Double) -> Double { return lhs.value + rhs }
+    static func  +(_ lhs: Double, _ rhs: ValueDoublet) -> Double { return rhs + lhs }
 }
 
 typealias NeuronOutputFunction = (Double) -> Double
@@ -40,16 +45,11 @@ class Neuron: CustomStringConvertible {
     var activators = [Bool]()
     var weights = [ValueDoublet]()
     var bias: ValueDoublet?, threshold: ValueDoublet?
+    var displayHelper = Set<Int>()
     
     var layerSSInBrain = 0
     var neuronSSInLayer = 0
     
-    // Input port means the place where the stimulator
-    // signals me. The position in the array indicates
-    // which port to use, while the value in the array
-    // indicates from which connection in the upper layer
-    // to receive the input.
-    var inputPortDescriptors = [Int]()
     var foundViableInput = false
     
     // This is where the breeder stores the data from
@@ -74,15 +74,11 @@ class Neuron: CustomStringConvertible {
     
     func endOfStrand() {}
     
-    public func output(_ inputs: [WeightSignal]) -> Double {
-        var weightedSum = 0.0
-        for input in inputs {
-            guard let w = input.weight else { continue }
-            weightedSum += input.input * w.value
-        }
-        
-        let bias = { () -> Double in if let b = self.bias { return b.value }; return 0.0 }()
-        
+    public func output(_ inputs: [(Double, Double)]) -> Double {
+        let weightedSum = inputs.reduce(0.0) { $0 + ($1.0 * $1.1) }
+
+        let bias = ValueDoublet(self.bias)
+
         let result = outputFunction(weightedSum + bias)
         return result
     }
@@ -94,89 +90,64 @@ class Neuron: CustomStringConvertible {
 
     func setThreshold(_ threshold: ValueDoublet) { self.threshold = threshold }
     func setThreshold(_ baseline: Double, _ value: Double) { threshold = ValueDoublet(baseline, value) }
-        
-    func setTopLayerInputPort(whichUpperLayerNeuron: Int) {
-        inputPortDescriptors.append(whichUpperLayerNeuron)
-        activators.append(true)
-        inputPorts.append(0)
-        self.weights.append(ValueDoublet(1, 1))
-    }
 
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }
-        print(tabs + "\n\t\tN. ports = \(inputPortDescriptors.count): \(inputPortDescriptors) -- \(self)", terminator: "")
+        print(tabs + "\n\t\tN. \(displayHelper)(\(activators)) -- \(self)", terminator: "")
     }
     
-    struct WeightSignal {
+    struct WeightSignal: CustomStringConvertible {
         var weight: ValueDoublet?
-        var input = 0.0
+        var input_: Double?
+        var input: Double {
+            get { guard let i = input_ else { preconditionFailure() }; return i }
+            set { input_ = newValue}
+        }
+        
+        var description: String {
+            var full = "WS: "
+            guard let w = weight else { full += "<nil>"; return full }
+            full +=  "W(b[\(w.baseline)]v[\(w.value)])_"
+            return full
+        }
+        
         init() {}
+        init(_ weight: Double) { self.weight = ValueDoublet(weight) }
         init(_ weight: ValueDoublet) { self.weight = weight }
     }
     
-    func stimulate(inputs: [Double]) -> Double? {
-        if inputs.isEmpty { fatalError("stimulate() doesn't like empty inputs") }
+    func stimulate(inputs inputs_: [Double]) -> Double? {
         if weights.isEmpty { return nil }
+        
+//        print("L \(layerSSInBrain):\(neuronSSInLayer) \(inputs_.count)")
+        // My lazy, stop-gap way of simulating input
+        
+        let hm = min(selectionControls.howManySenses, inputs_.count)
+        let inputs = inputs_.isEmpty ?
+            Array(repeating: 0.5, count: hm) : Array(inputs_[..<hm])
 
-        var myInputPorts = [WeightSignal]()
         var tWeights = Array(weights)
-        if tWeights.isEmpty {
-            print("wtf")
-        }
-        for (a, _) in zip(activators, weights) {
-            
-            let ws: WeightSignal = { () -> WeightSignal in
-                if a { let p = tWeights.pop(); return WeightSignal(p) }
-                else { return WeightSignal() }
-            }()
-            
-            myInputPorts.append(ws)
-        }
-        
-        var ssMyInputPorts = 0, ssInputs = 0
 
-        while ssMyInputPorts < myInputPorts.count {
-            
-            if myInputPorts[ssMyInputPorts].weight != nil {
-                myInputPorts[ssMyInputPorts].input = inputs[ssInputs]
-            }
+        var myInputPorts: [(Double, Double)]?
+        var commLine = 0
+        for a in activators {
+            defer { commLine = (commLine + 1) % inputs.count }
 
-            ssMyInputPorts += 1; ssInputs = (ssInputs + 1) % inputs.count
+            guard a else { continue }
+            if tWeights.isEmpty { break }
+
+            displayHelper.insert(commLine)
+            
+            if myInputPorts == nil { myInputPorts = [] }
+            myInputPorts!.append((tWeights.pop().value, inputs[commLine]))
         }
-        
-        return self.output(myInputPorts)
-    }
-    
-    private func weightedSum() -> Double {
-        var output: Double = 0
-        
-        var inputLinesDiag = [Int]()
-        var diagString = String()
-        for (ss, inputPortDescriptor) in zip(0..., self.inputPortDescriptors) {
-            diagString += "neuron \(inputPortDescriptor) sending to me on my port \(ss)"
-            inputLinesDiag.append(inputPortDescriptor)
-        }
-        
-        for (portNumberWhereIGetTheDataFromHim, theNeuronGivingMeInputOnThisPort)
-            in zip(0..., self.inputPortDescriptors) {
-                
-                let theDataFromHim = self.inputPorts[portNumberWhereIGetTheDataFromHim]
-                let ssIntoWeightsArrayCoincidentallyIs = portNumberWhereIGetTheDataFromHim
-                let theWeightValue = weights[ssIntoWeightsArrayCoincidentallyIs]
-                
-                let theWeightedSum = theDataFromHim * theWeightValue.value
-                
-                output += theWeightedSum
-                
-                let _ = "port(\(portNumberWhereIGetTheDataFromHim))"
-                let _ = "from neuron(\(theNeuronGivingMeInputOnThisPort)) -> \(theDataFromHim)"
-                let _ = "weight(\(ssIntoWeightsArrayCoincidentallyIs)) -> \(theWeightValue)"
-                let _ = "yield(\(theDataFromHim) * \(theWeightValue)) -> running total(\(output))"
-                
-//                print(p + " " + f + " " + y + " " + w)
-        }
-        
-        return output
+
+        if let ip = myInputPorts { return self.output(ip) }
+        else { return nil }
+//        let result = (myInputPorts == nil) ? nil : self.output(myInputPorts!)
+//        var m = ""; if let mm = myInputPorts, let mmm = mm[0].weight { m = "(\(mmm.baseline), \(mmm.value))" } else { m = "<nil>" }
+//        var w = ""; if let ww = myInputPorts, let www = ww[0].weight { w = "(\(www.baseline), \(www.value))" } else { w = "<nil>" }
+//        print("N(\(m)) = \(w), ", terminator: "")
     }
 }
 }

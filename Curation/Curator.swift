@@ -23,7 +23,7 @@ import Foundation
 struct SelectionControls {
     var howManySenses = 5
     var howManyMotorNeurons = "Zoe Bishop".count
-    var howManyGenerations = 30000
+    var howManyGenerations = 25
     var howManyGenes = 200
     var howManySubjectsPerGeneration = 200
     var theFishNumber = 0
@@ -38,10 +38,6 @@ enum NotificationType: String {
 }
 
 class Curator {
-    typealias TSSet = Set<TSTestSubject>
-
-    enum EQTest { case ge, gt }
-
     var aboriginal: TSTestSubject!
     var bestTestSubject: TSTestSubject!
     let notificationCenter = NotificationCenter.default
@@ -52,9 +48,6 @@ class Curator {
     var testSubjects = [TSTestSubject]()
     let tsFactory: TestSubjectFactory
 
-    let group = DispatchGroup()
-    let queue = DispatchQueue.global()
-    
     init(tsFactory: TestSubjectFactory) {
         self.tsFactory = tsFactory
         self.selector = Selector(tsFactory: tsFactory, semaphore: semaphore)
@@ -72,18 +65,15 @@ class Curator {
         self.selector.startThread()
     }
     
-    deinit { notificationCenter.removeObserver(self) }
+    deinit { notificationCenter.removeObserver(self);  }
     
-    @objc func selectComplete(_ notification: Notification) {
-        guard let u = notification.userInfo,
-              let p = u[NotificationType.selectComplete] as? TSArray
-        else { preconditionFailure() }
-        
-        stack.stack(p)
+    func getBestTestSubject() -> TSTestSubject? {
+        return self.bestTestSubject
     }
 
     func select() -> TSTestSubject? {
-        guard let a = Curator.makePromisingAboriginal(using: tsFactory)
+        let dag = "L_N_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_"
+        guard let a = tsFactory.makeTestSubject(parentGenome: dag, mutate: false)
             else { return nil }
 
         stack.postInit(aboriginal: a)
@@ -107,7 +97,10 @@ class Curator {
             let newTestSubject = stack.getSelectionParameters()
 
             if newTestSubject.fitnessScore! != self.bestTestSubject.fitnessScore! {
-                print("New record by \(newTestSubject.fishNumber): \((newTestSubject.fitnessScore!))")
+                print("New record by \(newTestSubject.fishNumber): \(newTestSubject.fitnessScore!)")
+            } else {
+//                print("\(newTestSubject.fishNumber): \((newTestSubject.fitnessScore!)) -- stack \(stack.count) elements deep")
+                
             }
             
             self.bestTestSubject = newTestSubject
@@ -127,8 +120,21 @@ class Curator {
             if self.bestTestSubject.fitnessScore! == 0.0 { break }
         }
         
+        selector.cancel()
         print("Best score \(self.bestTestSubject.fitnessScore!) from \(self.bestTestSubject.fishNumber), genome \(bestTestSubject.genome)")
         return self.bestTestSubject
+    }
+    
+    @objc func selectComplete(_ notification: Notification) {
+        guard let u = notification.userInfo,
+            let p = u[NotificationType.selectComplete] as? TSArray
+            else {
+                if self.selector.isCanceled { return }
+                preconditionFailure()
+            }
+        
+        stack.stack(p)
+        print("(\(stack.count) items on stack)")
     }
 }
 

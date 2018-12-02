@@ -58,10 +58,15 @@ class Tene: CustomStringConvertible {
         
         let b = Mutator.m.mutate(from: Double(self.baseline)!)
         self.baseline = String(b.dTruncate())
+        
+        // In case anyone gets stuck at zero
+        if Double(self.baseline)! == 0.0 { self.baseline = String((1.0).dTruncate()) }
 
         let v = Mutator.m.mutate(from: self.value)
         if abs(v) < abs(b) { self.value = self.baseline }
         else { self.value = String(v.dTruncate()) }
+        
+//        print("mf \(self.value) -> \(v)")
     }
 }
 
@@ -396,8 +401,11 @@ fileprivate extension Mutator {
         return Int(proposedValue)
     }
     
-    func mutate(from value: Double) -> Double {
+    func mutate(from value_: Double) -> Double {
         let percentage = bellCurve.nextFloat()
+        // If anyone gets stuck at zero on their
+        // value, give them a new start. Probably will kill them.
+        let value = (value_ == 0) ? 1 : value_
         return (Double(1.0 - percentage) * value).dTruncate()
     }
     
