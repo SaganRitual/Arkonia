@@ -45,9 +45,6 @@ class Selector {
 
     init(tsFactory: TestSubjectFactory, semaphore: DispatchSemaphore) {
         self.tsFactory = tsFactory
-        self.dQueue = dQueue
-        self.dGroup = dGroup
-        
         self.fitnessTester = tsFactory.makeFitnessTester()
         self.semaphore = semaphore
         self.tsFactory = tsFactory
@@ -68,20 +65,15 @@ class Selector {
 
     private func rLoop() {
         while true {
-            print("1")
             semaphore.wait()
-            print("2")
 
             let newSurvivors = select(against: self.stud!)
             let selectionResults = [NotificationType.selectComplete : newSurvivors]
             let n = Foundation.Notification.Name.selectComplete
-            print("3")
 
             notificationCenter.post(name: n, object: self, userInfo: selectionResults as [AnyHashable : Any])
-            print("4")
 
             semaphore.signal()  // Give control back to the main thread
-            print("5")
         }
     }
     
