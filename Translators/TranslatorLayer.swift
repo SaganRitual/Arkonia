@@ -68,9 +68,11 @@ class Layer: CustomStringConvertible {
         var outputs = [Double]()
 //        print("Layer (\(self.myID)) ")
         for n in self.neurons {
-            guard let r = n.stimulate(inputs: inputs)  else { continue }
+            guard let r = n.stimulate(inputs)  else { continue }
+            if !n.foundViableInput { continue }
             outputs.append(r)
         }
+
         return outputs
     }
 }

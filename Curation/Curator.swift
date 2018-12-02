@@ -27,8 +27,8 @@ struct SelectionControls {
     var howManyGenes = 200
     var howManySubjectsPerGeneration = 200
     var theFishNumber = 0
-    var dudlinessThreshold = 5
-    var stackNoobsLimit = 5
+    var dudlinessThreshold = 1
+    var stackNoobsLimit = 1
 }
 
 var selectionControls = SelectionControls()
@@ -37,8 +37,13 @@ enum NotificationType: String {
     case selectComplete = "selectComplete", select = "select", setSelectionParameters = "setSelectionParameters"
 }
 
+enum CuratorStatus { case running, finished }
+
+enum CandidateFilter: String { case be = "BE", bt = "BT" }
+
 class Curator {
     var aboriginal: TSTestSubject!
+    var atLeastOneTSHasSurvived = false
     var bestTestSubject: TSTestSubject!
     let notificationCenter = NotificationCenter.default
     var remainingGenerations = 0
@@ -47,6 +52,7 @@ class Curator {
     let stack = Stack()
     var testSubjects = [TSTestSubject]()
     let tsFactory: TestSubjectFactory
+    public var status = CuratorStatus.running
 
     init(tsFactory: TestSubjectFactory) {
         self.tsFactory = tsFactory
@@ -68,12 +74,21 @@ class Curator {
     deinit { notificationCenter.removeObserver(self);  }
     
     func getBestTestSubject() -> TSTestSubject? {
-        return self.bestTestSubject
+        return bestTestSubject
     }
 
     func select() -> TSTestSubject? {
-        let dag = "L_N_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_"
-        guard let a = tsFactory.makeTestSubject(parentGenome: dag, mutate: false)
+//         This genome produces the number 6. Saving it because although
+//         it's interesting, it's also easy to understand from reading the
+//         genome or looking at its display representation.
+//        let dag = "L_N_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_"
+//        guard let a = tsFactory.makeTestSubject(parent: aboriginal, mutate: false)
+//            else { return nil }
+        
+//         This one is much longer, but it also produces exactly 6.
+//         let dag = "L_N_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_"
+
+        guard let a = Curator.makePromisingAboriginal(using: tsFactory)
             else { return nil }
 
         stack.postInit(aboriginal: a)
@@ -81,6 +96,7 @@ class Curator {
         self.aboriginal = a
         self.bestTestSubject = a
         selector.scoreAboriginal(a)
+        self.atLeastOneTSHasSurvived = true
         print("Aboriginal score = \(a.fitnessScore!)")
         
         var firstPass = true
@@ -94,18 +110,15 @@ class Curator {
             // the semaphore back and forth.
             if !firstPass { semaphore.wait() }
 
-            let newTestSubject = stack.getSelectionParameters()
+            let (newTestSubject, candidateFilterType) = stack.getSelectionParameters()
 
             if newTestSubject.fitnessScore! != self.bestTestSubject.fitnessScore! {
                 print("New record by \(newTestSubject.fishNumber): \(newTestSubject.fitnessScore!)")
-            } else {
-//                print("\(newTestSubject.fishNumber): \((newTestSubject.fitnessScore!)) -- stack \(stack.count) elements deep")
-                
             }
             
             self.bestTestSubject = newTestSubject
             let n1 = Foundation.Notification.Name.setSelectionParameters
-            let q1 = [NotificationType.select : newTestSubject]
+            let q1 = [NotificationType.select : newTestSubject, "candidateFilter" : candidateFilterType] as [AnyHashable : Any]
             let p1 = Foundation.Notification(name: n1, object: nil, userInfo: q1)
 
             let n2 = Foundation.Notification.Name.select
@@ -120,7 +133,12 @@ class Curator {
             if self.bestTestSubject.fitnessScore! == 0.0 { break }
         }
         
+        // We're moving, of course, so the selector will be
+        // waiting for the semaphore
+        
+        semaphore.signal()
         selector.cancel()
+        status = .finished
         print("Best score \(self.bestTestSubject.fitnessScore!) from \(self.bestTestSubject.fishNumber), genome \(bestTestSubject.genome)")
         return self.bestTestSubject
     }
@@ -134,7 +152,9 @@ class Curator {
             }
         
         stack.stack(p)
-        print("(\(stack.count) items on stack)")
+//        print("(\(stack.count) items on stack)")
+
+        self.atLeastOneTSHasSurvived = true
     }
 }
 
@@ -171,5 +191,6 @@ extension Array {
     // It's easier for me to think about the breeders as a stack
     mutating func pop() -> Element { return self.removeFirst() }
     mutating func push(_ e: Element) { self.insert(e, at: 0) }
-    mutating func popBack() { _ = self.removeLast() }
+    mutating func popBack() -> Element { return self.removeLast() }
+    mutating func pushFront(_ e: Element) { push(e) }
 }

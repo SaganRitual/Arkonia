@@ -184,7 +184,7 @@ extension VBrain {
     
     func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Translators.Neuron, at neuronPosition: CGPoint) {
         if previousLayerPoints.isEmpty { return }
-        for commLine in neuron.displayHelper {
+        for commLine in neuron.inputPortDescriptors {
             let linePath = CGMutablePath()
 
             linePath.move(to: neuronPosition)

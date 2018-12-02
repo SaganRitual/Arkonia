@@ -20,14 +20,24 @@
 
 import Foundation
 
-class TSTestSubject: Hashable, Equatable {
+class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
     private static var theFishNumber = 0
     
     private(set) var brain: NeuralNetProtocol
+    public var debugMarker = 0
     private(set) var fishNumber: Int
     private(set) var genome: Genome
     public var fitnessScore: Double?
     private let fitnessTester = FTFitnessTester()
+    
+    public var description: String {
+        var fs = "<nil>"
+        if let fitnessString = fitnessScore
+            { fs = "\(fitnessString)" }
+
+        
+        return "Test subject \(fishNumber); score \(fs)"
+    }
     
     init(genome: Genome, brain: NeuralNetProtocol) {
         self.genome = genome

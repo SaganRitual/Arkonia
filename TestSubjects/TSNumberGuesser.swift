@@ -46,7 +46,7 @@ class TSNumberGuesserFactory: TestSubjectFactory {
         }
         
         do{ try decoder.setInput(to: maybeMutated).decode() }
-        catch { print("5", terminator: ""); return nil }
+        catch { return nil }
         
         let brain = Translators.t.getBrain()
         return TSNumberGuesser(genome: maybeMutated, brain: brain)
@@ -59,7 +59,7 @@ class FTNumberGuesser: FTFitnessTester {
         
         let guess = outputs.reduce(0.0, +)
         tg.guessedNumber = guess
-        let finalScore = abs(guess - 6.0)
+        let finalScore = abs(guess - (-27.5))  // Try for -27.5
 //        print("Subject \(ts.fishNumber) produced \(guess); score is \(finalScore)")
         return finalScore
     }

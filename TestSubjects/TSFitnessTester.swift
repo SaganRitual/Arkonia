@@ -20,6 +20,7 @@
 
 import Foundation
 
+var brokenBrainMarker = 0
 class FTFitnessTester {
     public func administerTest(to ts: TSTestSubject) -> Double? {
         let inputs = Array(repeating: 1.0, count: 10)

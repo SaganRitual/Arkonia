@@ -20,16 +20,6 @@
 
 import Foundation
 
-struct SelectionParameters {
-    var stud: TSTestSubject
-    
-    // "be" and "bt" for "better than or equal", and "better than", because
-    // the best score is the lowest score. So "be" and "bt" mean <= and <
-    static func eq(_ L: TSTestSubject, _ R: TSTestSubject) -> Bool { return L == R }
-    static func be(_ L: TSTestSubject, _ R: TSTestSubject) -> Bool { return L <= R }
-    static func bt(_ L: TSTestSubject, _ R: TSTestSubject) -> Bool { return L < R }
-}
-
 extension Foundation.Notification.Name {
     static let select = Foundation.Notification.Name("select")
     static let selectComplete = Foundation.Notification.Name("selectComplete")
@@ -43,6 +33,7 @@ class Selector {
     public  var stud: TSTestSubject?
     private var tsFactory: TestSubjectFactory
     private var selectorWorkItem: DispatchWorkItem!
+    private var thisGenerationNumber = 0
 
     init(tsFactory: TestSubjectFactory, semaphore: DispatchSemaphore) {
         self.tsFactory = tsFactory
@@ -56,19 +47,19 @@ class Selector {
     }
     
     deinit {
+        print("Selector deinit")
+        selectorWorkItem = nil
         notificationCenter.removeObserver(self)
-        semaphore.signal()
-        selectorWorkItem.cancel()
     }
     
-    func cancel() { selectorWorkItem.cancel() }
+    func cancel() { semaphore.signal(); selectorWorkItem.cancel(); }
     var isCanceled: Bool { get { return selectorWorkItem.isCancelled } }
 
     private func rLoop() {
         while true {
             semaphore.wait()
             
-            if selectorWorkItem.isCancelled { break }
+            if selectorWorkItem.isCancelled { print("rLoop detects cancel"); break }
 
             let newSurvivors = select(against: self.stud!)
             let selectionResults = [NotificationType.selectComplete : newSurvivors]
@@ -88,6 +79,8 @@ class Selector {
     }
 
     private func select(against stud: TSTestSubject) -> [TSTestSubject]? {
+        thisGenerationNumber += 1
+
         var bestScore = stud.fitnessScore
         
         var stemTheFlood = [TSTestSubject]()
@@ -99,32 +92,41 @@ class Selector {
             if ts.genome == stud.genome { continue }
             
             guard let score = fitnessTester.administerTest(to: ts)
-                else { continue }
+                else {
+                    ts.debugMarker = brokenBrainMarker
+                    brokenBrainMarker += 1
+                    continue
+                }
+            ts.debugMarker = 424242
             
             ts.fitnessScore = score
             if score > bestScore! { continue }
             if score < bestScore! { bestScore = score }
             
             // Start getting rid of the less promising candidates
-            if stemTheFlood.count >= 5 { stemTheFlood.popBack() }
+            if stemTheFlood.count >= 5 { _ = stemTheFlood.popBack() }
             stemTheFlood.push(ts)
         }
-        
-        let bs = (bestScore == nil) ? "nil" : bestScore!.sTruncate()
-        print("Selector best score = \(bs)")
 
-        return stemTheFlood.isEmpty ? nil : stemTheFlood
+        if stemTheFlood.isEmpty { print("No survivors in \(thisGenerationNumber)"); return nil }
+        return stemTheFlood
     }
+    
+    var candidateFilterType = CandidateFilter.be
     
     @objc private func setSelectionParameters(_ notification: Notification) {
         guard let u = notification.userInfo,
-            let p = u[NotificationType.select] as? TSTestSubject else { preconditionFailure() }
+            let p = u[NotificationType.select] as? TSTestSubject,
+            let e = u["candidateFilter"] else { preconditionFailure() }
         
         self.stud = p
+        candidateFilterType = e as! CandidateFilter
     }
 
     public func startThread() {
-        self.selectorWorkItem = DispatchWorkItem { [weak self] in self?.rLoop() }
+        
+        self.selectorWorkItem = DispatchWorkItem { [weak self] in self?.rLoop();
+            self?.selectorWorkItem = nil}
         DispatchQueue.global(qos: .background).async(execute: selectorWorkItem)
     }
 

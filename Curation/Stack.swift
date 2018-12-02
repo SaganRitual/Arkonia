@@ -32,19 +32,39 @@ class Stack {
 
     public func pop() -> TSTestSubject { return theStack.pop() }
     public func push(_ ts: TSTestSubject) { theStack.push(ts) }
-    public func popBack() { theStack.popBack() }
-
-    func beatScore(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
-        return lhs.fitnessScore! < rhs.fitnessScore!
+    public func popBack() { _ = theStack.popBack() }
+    
+    // Start off accepting candidates who merely tied
+    public func candidateFilter(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
+        switch self.candidateFilterType {
+        case .bt: return winningScore(lhs, rhs)
+        case .be: return nonLosingScore(lhs, rhs)
+        }
     }
 
-    public func getSelectionParameters() -> TSTestSubject {
+    private func winningScore(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
+        guard let Lf = lhs.fitnessScore, let Rf = rhs.fitnessScore else {
+            preconditionFailure() }
+//            print("wtf"); return false }
+        return Lf < Rf
+    }
+    
+    private func nonLosingScore(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
+        guard let Lf = lhs.fitnessScore, let Rf = rhs.fitnessScore else {
+            preconditionFailure() }
+//            print("wtf2"); return false }
+        return Lf <= Rf
+    }
+    
+
+    private var retreatTimer = 0
+    
+    var candidateFilterType = CandidateFilter.be
+    
+    public func getSelectionParameters() -> (TSTestSubject, CandidateFilter) {
         guard let cb = currentBest else { fatalError() }
-        return cb
-    }
-
-    func matchScore(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
-        return lhs.fitnessScore! == rhs.fitnessScore!
+        let cf = self.candidateFilterType
+        return (cb, cf)
     }
     
     func postInit(aboriginal: TSTestSubject) {
@@ -52,41 +72,76 @@ class Stack {
     }
     
     func sortAscending(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
-        return lhs.fitnessScore! < rhs.fitnessScore!
+        let Ls = lhs.fitnessScore!, Rs = rhs.fitnessScore!
+        let Lf = lhs.fishNumber, Rf = rhs.fishNumber
+
+        // If the scores are equal, sort by fish number
+        if Ls == Rs { return Lf < Rf }
+        
+        // If not eq, sort by score
+        return Ls < Rs
     }
     
     func sortDescending(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
-        return lhs.fitnessScore! > rhs.fitnessScore!
+        let Ls = lhs.fitnessScore!, Rs = rhs.fitnessScore!
+        let Lf = lhs.fishNumber, Rf = rhs.fishNumber
+        
+        // If the scores are equal, sort by fish number
+        if Ls == Rs { return Lf > Rf }
+        
+        // If not eq, sort by score
+        return Ls > Rs
     }
 
-    func preprocessNewArrivals(_ newArrivals: TSArray) -> TSArray {
-        return Array(newArrivals).sorted { sortDescending($0, $1) }
-    }
-    
     func stack(_ na: TSArray) {
         var currentBestScore = Double.infinity
         if let cb = currentBest {
             theStack.push(cb)
             currentBestScore = cb.fitnessScore!
-//            print("Stack.pushCB( \(cb): \(cb.fitnessScore!))")
+//            print("Stack.pushCB(\(cb))")
         }
         currentBest = nil
         
-        let newArrivals = preprocessNewArrivals(na)
-        
         // preprocess sorts in descending order, so we'll get the matchers
         // first, if there are any.
-        var eqTester = matchScore
+        let newArrivals =
+            Array(na).sorted { sortDescending($0, $1) }
+        
         var retreated = true
-        for newArrival in newArrivals where theStack.count < (selectionControls.stackNoobsLimit + 1) {
+        var stackMarker = theStack.count
+        var acceptingNewEQs: Bool {
+            return self.theStack.count - stackMarker < (maxEQScores + 1)
+        }
+        
+        func canAcceptCandidate(_ newArrival: TSTestSubject) -> Bool {
+
+            let ctMatchingScore = theStack.filter {
+                candidateFilter($0, newArrival)
+            }.count
+
+            return ctMatchingScore < maxEQScores
+        }
+        
+//        print("theStack", theStack)
+//        print("newArrivals", newArrivals)
+
+        candidateFilterType = .be
+        for newArrival in newArrivals where canAcceptCandidate(newArrival) {
             guard let score = newArrival.fitnessScore else { preconditionFailure() }
             if let rL = retreatLock, score >= rL { continue }
-            
-            let ctMatchingScore = theStack.filter { eqTester($0, newArrival) }.count
-            guard ctMatchingScore < selectionControls.stackNoobsLimit else { continue }
 
-            eqTester = beatScore
+            // We're full up on people matching the current
+            // score; ignore everyone until we get one that
+            // beats it.
+            candidateFilterType = .bt
             retreated = false
+            retreatLock = nil
+
+            let ctMatchingScore = theStack.filter {
+                candidateFilter($0, newArrival)
+            }.count
+
+            guard ctMatchingScore < maxEQScores else { continue }
 
             // We come here if we're still under the limit for
             // matching scores, or if we're processing test subjects
@@ -94,19 +149,17 @@ class Stack {
 //            print("Stack.push( \(newArrival.fishNumber): \(newArrival.fitnessScore!))")
             theStack.push(newArrival)
         }
-        
-        if newArrivals.last != nil {
-            theStack.popBack()
-        }
-        
+
+//        print("theStack after, sort of", theStack)
         currentBest = theStack.pop()
+        currentBestScore = currentBest!.fitnessScore!
         
         if retreated {
-            print("Could not beat \(currentBestScore); retreating to ", terminator: "")
+            print("Could not get \(candidateFilterType.rawValue) for \(currentBestScore); retreating to ", terminator: "")
             if retreatLock == nil { if !theStack.isEmpty { print("subject \(theStack.count - 1)") }; retreatLock = currentBest!.fitnessScore! }
             if theStack.isEmpty { print("aboriginal"); retreatLock = nil }
         } else {
-            print("Trying to match/beat \(currentBestScore)")
+//            print("Trying to match/beat \(currentBestScore) or whaatevs \(wtfScore)")
             retreatLock = nil
         }
 

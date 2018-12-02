@@ -25,10 +25,20 @@ import GameplayKit
 class GameScene: SKScene {
    
     private var vBrain: VBrain!
+
     let tsFactory = TSNumberGuesserFactory()
 
     var frameCount = 0
-    var curator: Curator!
+    var curator: Curator?
+    var workItem: DispatchWorkItem!
+
+    var myCuratorStatus = CuratorStatus.running
+
+    override func sceneDidLoad() {
+        self.curator = Curator(tsFactory: tsFactory)
+        self.workItem = DispatchWorkItem { [weak self] in let _ = self!.curator!.select() }
+        DispatchQueue.global(qos: .background).async(execute: self.workItem)
+    }
 
     // With deepest gratitude to Stack Overflow dude
     // https://stackoverflow.com/users/2346164/gilian-joosen
@@ -39,28 +49,25 @@ class GameScene: SKScene {
         for char in s{ return char }
         return nil
     }
-
-    func getCurator() throws {
-        guard self.curator == nil else { return }
-
-        self.curator = Curator(tsFactory: tsFactory)
-        DispatchQueue.global(qos: .background).async {
-            let _ = self.curator.select()
-        }
-    }
     
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
-        
-        do { try getCurator() }
-        catch { return }
 
-        guard let c = self.curator else { return }
-        guard let t = c.getBestTestSubject() else { return }
+        guard let curator = self.curator else { return }
+        guard myCuratorStatus == .running else { return }
+
+        guard curator.status == .running else {
+            myCuratorStatus = curator.status
+            workItem.cancel()
+            self.curator = nil
+            return
+        }
+
+        guard let bestTestSubject = curator.getBestTestSubject() else { return }
         
-        vBrain = VBrain(gameScene: self, brain: t.brain)
-        vBrain.displayBrain(t.brain)
-        t.brain.show(tabs: "", override: false)
+        vBrain = VBrain(gameScene: self, brain: bestTestSubject.brain)
+        vBrain.displayBrain(bestTestSubject.brain)
+        bestTestSubject.brain.show(tabs: "", override: false)
     }
 
 }

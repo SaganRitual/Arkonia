@@ -45,7 +45,6 @@ class Neuron: CustomStringConvertible {
     var activators = [Bool]()
     var weights = [ValueDoublet]()
     var bias: ValueDoublet?, threshold: ValueDoublet?
-    var displayHelper = Set<Int>()
     
     var layerSSInBrain = 0
     var neuronSSInLayer = 0
@@ -56,6 +55,8 @@ class Neuron: CustomStringConvertible {
     // the upper layer for stimulating this neuron.
     var inputPorts = [Double]()
     
+    var inputPortDescriptors = [Int]()
+
     static let outputFunction: NeuronOutputFunction =
             { (_ input: Double) -> Double in return input }
     
@@ -74,8 +75,13 @@ class Neuron: CustomStringConvertible {
     
     func endOfStrand() {}
     
-    public func output(_ inputs: [(Double, Double)]) -> Double {
-        let weightedSum = inputs.reduce(0.0) { $0 + ($1.0 * $1.1) }
+    public func output(_ inputs: [(Double, Double)?]) -> Double? {
+        let cm: [Double] = inputs.compactMap
+            { if let d = $0 { return d.0 * d.1 } else { return nil } }
+
+        if cm.isEmpty { /*print("c", terminator: "");*/ return nil }
+
+        let weightedSum = cm.reduce(0.0) { $0 + $1 }
 
         let bias = ValueDoublet(self.bias)
 
@@ -93,7 +99,7 @@ class Neuron: CustomStringConvertible {
 
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }
-        print(tabs + "\n\t\tN. \(displayHelper)(\(activators)) -- \(self)", terminator: "")
+        print(tabs + "\n\t\tN. \(inputPortDescriptors):(\(activators)) -- \(self)", terminator: "")
     }
     
     struct WeightSignal: CustomStringConvertible {
@@ -116,38 +122,38 @@ class Neuron: CustomStringConvertible {
         init(_ weight: ValueDoublet) { self.weight = weight }
     }
     
-    func stimulate(inputs inputs_: [Double]) -> Double? {
-        if weights.isEmpty { return nil }
+    func stimulate(_ inputs: [Double?]) -> Double? {
+        if weights.isEmpty || activators.isEmpty || inputs.isEmpty { return nil }
         
-//        print("L \(layerSSInBrain):\(neuronSSInLayer) \(inputs_.count)")
-        // My lazy, stop-gap way of simulating input
-        
-        let hm = min(selectionControls.howManySenses, inputs_.count)
-        let inputs = inputs_.isEmpty ?
-            Array(repeating: 0.5, count: hm) : Array(inputs_[..<hm])
-
-        var tWeights = Array(weights)
-
-        var myInputPorts: [(Double, Double)]?
+        var ssWeight = 0
         var commLine = 0
-        for a in activators {
+        
+        var signals = [(Double, Double)]()
+        for activator in activators {
             defer { commLine = (commLine + 1) % inputs.count }
-
-            guard a else { continue }
-            if tWeights.isEmpty { break }
-
-            displayHelper.insert(commLine)
             
-            if myInputPorts == nil { myInputPorts = [] }
-            myInputPorts!.append((tWeights.pop().value, inputs[commLine]))
-        }
+            if activator {
+                if let input = inputs[commLine] {
+                    
+//                    print("N(\(layerSSInBrain):\(neuronSSInLayer)) weight \(ssWeight) goes to comm line \(commLine)")
 
-        if let ip = myInputPorts { return self.output(ip) }
-        else { return nil }
-//        let result = (myInputPorts == nil) ? nil : self.output(myInputPorts!)
-//        var m = ""; if let mm = myInputPorts, let mmm = mm[0].weight { m = "(\(mmm.baseline), \(mmm.value))" } else { m = "<nil>" }
-//        var w = ""; if let ww = myInputPorts, let www = ww[0].weight { w = "(\(www.baseline), \(www.value))" } else { w = "<nil>" }
-//        print("N(\(m)) = \(w), ", terminator: "")
+                    // The input port descriptors have been demoted to
+                    // just a helper for the UI. We don't use them for
+                    // anything else, but instead we send our weight+input
+                    // pairs directly to the ouput() function. This comment
+                    // was correct on 3 Dec 2018
+                    self.inputPortDescriptors.append(commLine)
+                    signals.append((weights[ssWeight].baseline, input))
+                    
+                    foundViableInput = true
+
+                    ssWeight += 1
+                    if ssWeight >= weights.count { break }
+                }
+            }
+        }
+        
+        return output(signals)
     }
 }
 }

@@ -91,7 +91,8 @@ extension Translators {
             var previousLayerOutputs = inputs
             
             for layer in self.layers {
-                if previousLayerOutputs.isEmpty { return nil }
+                if previousLayerOutputs.isEmpty {
+                    print("EL1", terminator: ""); return nil }
 
                 previousLayerOutputs =
                     layer.stimulate(inputs: previousLayerOutputs)
@@ -99,7 +100,8 @@ extension Translators {
 //                print("Layer \(layer.layerSSInBrain) stimulate -> \(layer.neurons.count) outputs")
             }
             
-            if previousLayerOutputs.isEmpty { return nil }
+            if previousLayerOutputs.isEmpty {
+                print("EL2", terminator: ""); return nil }
             return previousLayerOutputs
         }
     }
