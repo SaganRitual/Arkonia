@@ -33,6 +33,36 @@ let f = TSNumberGuesserFactory()
 let c = Curator(tsFactory: f)
 let x = c.select()
 
+#if false
+let group = DispatchGroup()
+let queue = DispatchQueue.global()
+//let queue = DispatchQueue(label: "com.theswiftdev.queues.serial")
+let workItem = DispatchWorkItem {
+    print("start")
+    //    sleep(1)
+    print("end")
+}
+
+queue.async(group: group) {
+    print("group start")
+    //    sleep(2)
+    print("group end")
+}
+
+queue.async(group: group) { print("fuck this too!") }
+queue.async(group: group, execute: workItem)
+
+// you can block your current queue and wait until the group is ready
+// a better way is to use a notification block instead of blocking
+//group.wait(timeout: .now() + .seconds(3))
+//print("done")
+
+group.notify(queue: queue) {
+    print("done")
+}
+sleep(1)
+#endif
+
 #if THIS_WORKS_WITH_MY_GLOBAL_AND_MY_SLEEP_NOT_HIS_MAIN
 let group = DispatchGroup()
 let queue = DispatchQueue.global()

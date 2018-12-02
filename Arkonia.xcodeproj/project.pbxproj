@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D41492DE21B247FB0091A916 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41492DD21B247FB0091A916 /* Stack.swift */; };
 		D45E63E321AE39940078CB8E /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
 		D45E63E421AE39940078CB8E /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
 		D45E63E521AE39940078CB8E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
@@ -47,6 +46,7 @@
 		D45E641F21AE3A860078CB8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
 		D45E642021AE3A860078CB8E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
 		D45E642121AE3A860078CB8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15821AE2E64009D6011 /* Main.storyboard */; };
+		D460041A21B3529C008190B0 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D460041921B3529C008190B0 /* Stack.swift */; };
 		D46540F221B1417B00445B69 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12D21AE2404009D6011 /* Protocols.swift */; };
 		D46540F321B1418400445B69 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
 		D46540F421B141A400445B69 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
@@ -216,9 +216,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D41492DD21B247FB0091A916 /* Stack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stack.swift; sourceTree = "<group>"; };
 		D45E63FB21AE39940078CB8E /* Dark-R */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Dark-R"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D460041921B3529C008190B0 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stack.swift; path = Curation/Stack.swift; sourceTree = "<group>"; };
 		D4B517E521AFAC3200F4C88A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B517E721AFAC3200F4C88A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4C0A0FA21ADF3CC009D6011 /* Dark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Dark; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -397,7 +397,7 @@
 			children = (
 				D4C0A12321AE23F4009D6011 /* Curator.swift */,
 				D4C0A12521AE23F4009D6011 /* Selector.swift */,
-				D41492DD21B247FB0091A916 /* Stack.swift */,
+				D460041921B3529C008190B0 /* Stack.swift */,
 			);
 			name = Curation;
 			sourceTree = "<group>";
@@ -743,7 +743,6 @@
 				D482FD9D21B121B000FF9EE9 /* TranslatorNeuron.swift in Sources */,
 				D482FD9E21B13A9400FF9EE9 /* TSTestSubject.swift in Sources */,
 				D46540F321B1418400445B69 /* Utilities.swift in Sources */,
-				D41492DE21B247FB0091A916 /* Stack.swift in Sources */,
 				D482FD9B21B121B000FF9EE9 /* TranslatorBrain.swift in Sources */,
 				D482FD9C21B121B000FF9EE9 /* TranslatorLayer.swift in Sources */,
 				D46540F621B150E100445B69 /* TSFitnessTester.swift in Sources */,
@@ -755,6 +754,7 @@
 				D4B517EC21AFBABC00F4C88A /* RepeatingTimer.swift in Sources */,
 				D46540F221B1417B00445B69 /* Protocols.swift in Sources */,
 				D48DA54421B1B18C0056496A /* TSNumberGuesser.swift in Sources */,
+				D460041A21B3529C008190B0 /* Stack.swift in Sources */,
 				D482FD9921B1216500FF9EE9 /* Decoder.swift in Sources */,
 				D482FD9521B11EAF00FF9EE9 /* Selector.swift in Sources */,
 				D482FD9721B120A900FF9EE9 /* TSFactory.swift in Sources */,

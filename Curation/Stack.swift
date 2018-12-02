@@ -36,9 +36,9 @@ class Stack {
         return lhs.fitnessScore! < rhs.fitnessScore!
     }
 
-    public func getSelectionParameters() -> (Curator.EQTest, TSTestSubject) {
+    public func getSelectionParameters() -> TSTestSubject {
         guard let cb = currentBest else { fatalError() }
-        return (eqTest, cb)
+        return cb
     }
 
     func matchScore(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
