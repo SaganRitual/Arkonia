@@ -100,7 +100,7 @@ protocol SelectionFitnessTester {
 }
 
 protocol NeuralNetProtocol: LayerOwnerProtocol {
-    
+    var allLayersConnected: Bool { get set }
 }
 
 typealias TSArray = Array<TSTestSubject>

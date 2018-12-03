@@ -42,7 +42,7 @@ class VBrain {
         self.brain = brain
     }
     
-    func displayBrain(_ brain: NeuralNetProtocol? = nil, isFinalUpdate: Bool = false) {
+    func displayBrain(_ brain: NeuralNetProtocol? = nil, isFinalUpdate: Bool = false, fishNumber: Int) {
         self.isFinalUpdate = isFinalUpdate
         
         gameScene.removeAllChildren()
@@ -52,6 +52,9 @@ class VBrain {
 
         self.spacer = Spacer(layersCount: self.layers.count, displaySize: gameScene.size)
         drawNeuronLayers(self.layers, spacer: spacer)
+        
+        let fishIDNode = SKLabelNode(text: "F(\(fishNumber))")
+        gameScene.addChild(fishIDNode)
     }
     
     func reset() {
@@ -150,7 +153,7 @@ extension VBrain {
         var previousLayerPoints = [CGPoint]()
     
         for (i, layer) in zip(0..., layers) {
-            if layer.neurons.isEmpty { print("No neurons in this layer"); continue }
+            precondition(layer.foundViableInput && !layer.neurons.isEmpty)
             
             let spacer = Spacer(layersCount: layers.count, displaySize: gameScene.frame.size)
             
@@ -158,7 +161,12 @@ extension VBrain {
             
             for (j, neuron) in zip(0..<layer.neurons.count, layer.neurons) {
                 let vNeuron = SKShapeNode(circleOfRadius: 2)
-                vNeuron.fillColor = .yellow
+                if neuron.foundViableInput {
+                    if neuron.hasClients { vNeuron.fillColor = .yellow }
+                    else { vNeuron.fillColor = .purple}
+                } else {
+                    vNeuron.fillColor = .black
+                }
                 
                 let position = spacer.getPosition(neuronsThisLayer: layer.neurons.count, xIndex: j, yIndex: i)
                 vNeuron.position = position
@@ -183,7 +191,6 @@ extension VBrain {
     }
     
     func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Translators.Neuron, at neuronPosition: CGPoint) {
-        precondition(neuron.foundViableInput)
         if previousLayerPoints.isEmpty { return }
         for commLine in neuron.inputPortDescriptors {
             let linePath = CGMutablePath()
@@ -193,6 +200,11 @@ extension VBrain {
             
             let line = SKShapeNode(path: linePath)
             line.strokeColor = .green
+            
+            if neuron.inputPortDescriptors.isEmpty { line.strokeColor = .red }
+            if !neuron.foundViableInput { line.strokeColor = .blue }
+            if !neuron.hasClients { line.strokeColor = .purple }
+            
             gameScene.addChild(line)
         }
     }

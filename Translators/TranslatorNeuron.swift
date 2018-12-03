@@ -49,7 +49,8 @@ class Neuron: CustomStringConvertible {
     var layerSSInBrain = 0
     var neuronSSInLayer = 0
     
-    var foundViableInput = false
+    var foundViableInput = false    // My genes caused me not to have inputs
+    var hasClients = true           // Even if I have inputs, no one below connected to me
     
     // This is where the breeder stores the data from
     // the upper layer for stimulating this neuron.
@@ -133,6 +134,8 @@ class Neuron: CustomStringConvertible {
             defer { commLine = (commLine + 1) % inputs.count }
             
             if activator {
+                if ssWeight >= weights.count { break }
+
                 if let input = inputs[commLine] {
                     
 //                    print("N(\(layerSSInBrain):\(neuronSSInLayer)) weight \(ssWeight) goes to comm line \(commLine)")
@@ -148,7 +151,6 @@ class Neuron: CustomStringConvertible {
                     foundViableInput = true
 
                     ssWeight += 1
-                    if ssWeight >= weights.count { break }
                 }
             }
         }

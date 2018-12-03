@@ -71,7 +71,7 @@ class Curator {
         self.selector.startThread()
     }
     
-    deinit { notificationCenter.removeObserver(self);  }
+    deinit { notificationCenter.removeObserver(self); print("Curator deinit") }
     
     func getBestTestSubject() -> TSTestSubject? {
         return bestTestSubject

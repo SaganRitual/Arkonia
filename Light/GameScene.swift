@@ -50,6 +50,8 @@ class GameScene: SKScene {
         return nil
     }
     
+    var subjectToDisplay: TSTestSubject?
+    
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
 
@@ -63,11 +65,15 @@ class GameScene: SKScene {
             return
         }
 
-        guard let bestTestSubject = curator.getBestTestSubject() else { return }
+        guard let bestTestSubject = curator.getBestTestSubject() else { print("nil", terminator: ""); return }
+        if subjectToDisplay == nil { subjectToDisplay = bestTestSubject; print("iDisplay \(subjectToDisplay!.fishNumber)") }
+        else if subjectToDisplay!.fishNumber == bestTestSubject.fishNumber { print(".", terminator: ""); return }
         
-        vBrain = VBrain(gameScene: self, brain: bestTestSubject.brain)
-        vBrain.displayBrain(bestTestSubject.brain)
-        bestTestSubject.brain.show(tabs: "", override: false)
+        print("N(\(bestTestSubject.fishNumber)) O(\(subjectToDisplay!.fishNumber))")
+        subjectToDisplay = bestTestSubject
+        vBrain = VBrain(gameScene: self, brain: subjectToDisplay!.brain)
+        vBrain.displayBrain(subjectToDisplay!.brain, fishNumber: subjectToDisplay!.fishNumber)
+        subjectToDisplay!.brain.show(tabs: "", override: false)
     }
 
 }

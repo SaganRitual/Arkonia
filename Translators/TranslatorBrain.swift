@@ -22,7 +22,8 @@ import Foundation
 
 extension Translators {
     class Brain: NeuralNetProtocol {
-        
+        public var allLayersConnected = false
+
         func generateRandomSensoryInput() -> [Double] {
             return [0]
         }
@@ -87,8 +88,35 @@ extension Translators {
             print()
         }
         
+        func theseLayersCommunicate(_ lower: Layer, _ upper: Layer?) -> Bool {
+            if upper == nil { return false }
+
+            // Get the comm lines being used by this layer
+            var usedCommLines = Set<Int>()
+            for n in lower.neurons {
+                for ipd in n.inputPortDescriptors { usedCommLines.insert(ipd) }
+            }
+            
+            // Now check for any neurons (comm lines) above to
+            // whom no one is connecting. Those are just as dead
+            // as the ones that don't have any input ports.
+            var atLeastOneConnectionToUpperLayer = false
+            for commLine in 0..<usedCommLines.count {
+                if usedCommLines.contains(commLine) {
+                    atLeastOneConnectionToUpperLayer = true
+                    break
+                }
+            }
+            
+            if !atLeastOneConnectionToUpperLayer {
+                print("🌈", terminator: "") }
+            
+            return atLeastOneConnectionToUpperLayer
+        }
+        
         func stimulate(inputs: [Double]) -> [Double]? {
             var previousLayerOutputs = inputs
+            var previousLayer: Layer? = nil
             
             for layer in self.layers {
                 if previousLayerOutputs.isEmpty {
@@ -97,7 +125,12 @@ extension Translators {
                 previousLayerOutputs =
                     layer.stimulate(inputs: previousLayerOutputs)
                 
-                guard layer.foundViableInput else { print("EL3", terminator: ""); return nil }
+                if !theseLayersCommunicate(layer, previousLayer) { return nil }
+                
+                previousLayer = layer
+                
+                guard layer.foundViableInput else
+                    { print("EL3 ", terminator: ""); return nil }
                 
 //                print("Layer \(layer.layerSSInBrain) stimulate -> \(layer.neurons.count) outputs")
             }

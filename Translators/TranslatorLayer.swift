@@ -65,6 +65,7 @@ class Layer: CustomStringConvertible {
     }
     
     var foundViableInput = false
+//    var hasClients = true
     
     func stimulate(inputs: [Double]) -> [Double] {
         var outputs = [Double]()
@@ -74,8 +75,9 @@ class Layer: CustomStringConvertible {
         for n in self.neurons {
             guard let r = n.stimulate(inputs)  else { continue }
 
-            if n.foundViableInput { self.foundViableInput = true }
-            else { continue }
+            if !foundViableInput { foundViableInput = n.foundViableInput }
+//            if n.foundViableInput { self.foundViableInput = true }
+//            else { continue }
 
             outputs.append(r)
         }

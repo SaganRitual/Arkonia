@@ -21,7 +21,8 @@
 import Foundation
 
 class Stack {
-    private var currentBest: TSTestSubject? // Not on the stack
+    private var highWaterHolder: TSTestSubject?
+    private var currentBenchmarkHolder: TSTestSubject? // Not on the stack
     private var theStack = TSArray()
 
     private var newArrivals = TSArray()
@@ -62,13 +63,14 @@ class Stack {
     var candidateFilterType = CandidateFilter.be
     
     public func getSelectionParameters() -> (TSTestSubject, CandidateFilter) {
-        guard let cb = currentBest else { fatalError() }
+        guard let cb = currentBenchmarkHolder else { fatalError() }
         let cf = self.candidateFilterType
         return (cb, cf)
     }
     
     func postInit(aboriginal: TSTestSubject) {
-        currentBest = aboriginal
+        currentBenchmarkHolder = aboriginal
+        highWaterHolder = aboriginal
     }
     
     func sortAscending(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
@@ -95,12 +97,15 @@ class Stack {
 
     func stack(_ na: TSArray) {
         var currentBestScore = Double.infinity
-        if let cb = currentBest {
+        if let cb = currentBenchmarkHolder {
             theStack.push(cb)
             currentBestScore = cb.fitnessScore!
+            if currentBestScore < highWaterHolder!.fitnessScore! {
+                highWaterHolder = cb
+            }
 //            print("Stack.pushCB(\(cb))")
         }
-        currentBest = nil
+        currentBenchmarkHolder = nil
         
         // preprocess sorts in descending order, so we'll get the matchers
         // first, if there are any.
@@ -108,10 +113,6 @@ class Stack {
             Array(na).sorted { sortDescending($0, $1) }
         
         var retreated = true
-        var stackMarker = theStack.count
-        var acceptingNewEQs: Bool {
-            return self.theStack.count - stackMarker < (maxEQScores + 1)
-        }
         
         func canAcceptCandidate(_ newArrival: TSTestSubject) -> Bool {
 
@@ -147,16 +148,18 @@ class Stack {
             // matching scores, or if we're processing test subjects
             // that have better scores
 //            print("Stack.push( \(newArrival.fishNumber): \(newArrival.fitnessScore!))")
+            precondition(newArrival.debugMarker == 424242)
+            print("f(\(newArrival.fishNumber)), V(\(newArrival.brain.allLayersConnected)) ", terminator: "")
             theStack.push(newArrival)
         }
 
 //        print("theStack after, sort of", theStack)
-        currentBest = theStack.pop()
-        currentBestScore = currentBest!.fitnessScore!
+        currentBenchmarkHolder = theStack.pop()
+        currentBestScore = currentBenchmarkHolder!.fitnessScore!
         
         if retreated {
             print("Could not get \(candidateFilterType.rawValue) for \(currentBestScore); retreating to ", terminator: "")
-            if retreatLock == nil { if !theStack.isEmpty { print("subject \(theStack.count - 1)") }; retreatLock = currentBest!.fitnessScore! }
+            if retreatLock == nil { if !theStack.isEmpty { print("subject \(currentBenchmarkHolder!.fishNumber)") }; retreatLock = currentBenchmarkHolder!.fitnessScore! }
             if theStack.isEmpty { print("aboriginal"); retreatLock = nil }
         } else {
 //            print("Trying to match/beat \(currentBestScore) or whaatevs \(wtfScore)")
