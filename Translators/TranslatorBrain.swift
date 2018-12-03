@@ -97,6 +97,8 @@ extension Translators {
                 previousLayerOutputs =
                     layer.stimulate(inputs: previousLayerOutputs)
                 
+                guard layer.foundViableInput else { print("EL3", terminator: ""); return nil }
+                
 //                print("Layer \(layer.layerSSInBrain) stimulate -> \(layer.neurons.count) outputs")
             }
             
