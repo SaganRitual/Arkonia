@@ -30,7 +30,7 @@ class Selector {
     private var fitnessTester: FTFitnessTester!
     private let notificationCenter = NotificationCenter.default
     private let semaphore: DispatchSemaphore
-    public  var stud: TSTestSubject?
+    weak public  var stud: TSTestSubject?
     private var tsFactory: TestSubjectFactory
     private var selectorWorkItem: DispatchWorkItem!
     private var thisGenerationNumber = 0
@@ -58,7 +58,7 @@ class Selector {
     private func rLoop() {
         while true {
             semaphore.wait()
-            
+
             if selectorWorkItem.isCancelled { print("rLoop detects cancel"); break }
 
             let newSurvivors = select(against: self.stud!)
@@ -79,6 +79,7 @@ class Selector {
     }
 
     private func select(against stud: TSTestSubject) -> [TSTestSubject]? {
+        let startMemory = Utilities.report_memory()
         thisGenerationNumber += 1
 
         var bestScore = stud.fitnessScore
@@ -109,6 +110,8 @@ class Selector {
             stemTheFlood.push(ts)
         }
 
+        let memoryUsedThisPass = Utilities.report_memory() - startMemory
+        print("Memory used this pass = \(memoryUsedThisPass)")
         if stemTheFlood.isEmpty { print("No survivors in \(thisGenerationNumber)"); return nil }
         return stemTheFlood
     }
@@ -127,7 +130,7 @@ class Selector {
     public func startThread() {
         
         self.selectorWorkItem = DispatchWorkItem { [weak self] in self?.rLoop();
-            self?.selectorWorkItem = nil}
+            self?.selectorWorkItem = nil }
         DispatchQueue.global(qos: .background).async(execute: selectorWorkItem)
     }
 

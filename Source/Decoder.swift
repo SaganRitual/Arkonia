@@ -246,3 +246,4 @@ extension Decoder: ValueParserProtocol {
     func parseInt(_ slice: GenomeSlice? = nil) -> Int { return Int(slice!)! }
     func parseString(_ slice: GenomeSlice?) -> String { return String(slice!) }
 }
+

@@ -50,7 +50,6 @@ class Curator {
     let selector: Selector
     let semaphore = DispatchSemaphore(value: 0)
     let stack = Stack()
-    var testSubjects = [TSTestSubject]()
     let tsFactory: TestSubjectFactory
     public var status = CuratorStatus.running
 

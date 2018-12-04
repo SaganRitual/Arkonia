@@ -50,7 +50,7 @@ class GameScene: SKScene {
         return nil
     }
     
-    var subjectToDisplay: TSTestSubject?
+    weak private var subjectToDisplay: TSTestSubject?
     
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1

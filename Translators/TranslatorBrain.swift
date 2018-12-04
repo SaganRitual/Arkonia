@@ -23,6 +23,8 @@ import Foundation
 extension Translators {
     class Brain: NeuralNetProtocol {
         public var allLayersConnected = true
+        
+        deinit { print("Brain deinit") }
 
         func generateRandomSensoryInput() -> [Double] {
             return [0]

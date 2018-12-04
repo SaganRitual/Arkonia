@@ -32,6 +32,7 @@ class TestSubjectFactory {
     }
 
     func makeTestSubject(parentGenome: Genome, mutate: Bool) -> TSTestSubject? {
+        let m = Utilities.report_memory()
         var maybeMutated = parentGenome
         if mutate {
             let _ = Mutator.m.setInputGenome(parentGenome).mutate()
@@ -42,6 +43,13 @@ class TestSubjectFactory {
         catch { return nil }
         
         let brain = Translators.t.getBrain()
+
+        defer {
+            let t = Utilities.report_memory()
+            let mm = t - m
+            print("total \(t), current \(mm)")
+        }
+
         return TSTestSubject(genome: parentGenome, brain: brain)
     }
 }

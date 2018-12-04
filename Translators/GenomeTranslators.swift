@@ -72,7 +72,7 @@ class Translators: BrainOwnerProtocol {
     func setThreshold(_ value: ValueDoublet) { brain.setThreshold(value) }
     func setThreshold(_ baseline: Double, _ value: Double) { brain.setThreshold(baseline, value) }
 
-    var brain: Brain!
+    private var brain: Brain!
     var layers = [Layer]()
     var reachedEndOfStrand: Bool = true
 
@@ -92,7 +92,8 @@ class Translators: BrainOwnerProtocol {
     }
 
     func getBrain() -> NeuralNetProtocol {
-        return brain as NeuralNetProtocol
+        defer { self.brain = nil }
+        return self.brain
     }
 
     func newBrain() { self.brain = Brain() }

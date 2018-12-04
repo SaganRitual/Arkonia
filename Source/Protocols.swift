@@ -78,7 +78,6 @@ protocol BrainOwnerProtocol {
     func closeNeuron()
     func endOfStrand() throws
     func getBrain() -> NeuralNetProtocol
-    func newBrain()
     func newLayer()
     func newNeuron()
     func reset()
@@ -99,7 +98,7 @@ protocol SelectionFitnessTester {
     func getFitnessScore(for testSubject: TSTestSubject) -> Double?
 }
 
-protocol NeuralNetProtocol: LayerOwnerProtocol {
+protocol NeuralNetProtocol: class, LayerOwnerProtocol {
     var allLayersConnected: Bool { get set }
 }
 

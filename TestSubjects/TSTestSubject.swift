@@ -23,7 +23,7 @@ import Foundation
 class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
     private static var theFishNumber = 0
     
-    private(set) var brain: NeuralNetProtocol
+    weak private(set) var brain: NeuralNetProtocol!
     public var debugMarker = 0
     private(set) var fishNumber: Int
     private(set) var genome: Genome
@@ -40,10 +40,17 @@ class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
     }
     
     init(genome: Genome, brain: NeuralNetProtocol) {
+        let memoryUsage = Utilities.report_memory()
         self.genome = genome
         self.brain = brain
         fishNumber = TSTestSubject.theFishNumber
         TSTestSubject.theFishNumber += 1
+        let sizeOfTS = Utilities.report_memory() - memoryUsage
+        print("i(\(fishNumber)) takes \(sizeOfTS) bytes ", terminator: "")
+    }
+    
+    deinit {
+        print("Test subject \(fishNumber) deinit")
     }
     
     func hash(into hasher: inout Hasher) {

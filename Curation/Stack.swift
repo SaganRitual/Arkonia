@@ -21,8 +21,8 @@
 import Foundation
 
 class Stack {
-    private var highWaterHolder: TSTestSubject?
-    private var currentBenchmarkHolder: TSTestSubject? // Not on the stack
+    weak private var highWaterHolder: TSTestSubject?
+    weak private var currentBenchmarkHolder: TSTestSubject? // Not on the stack
     private var theStack = TSArray()
 
     private var newArrivals = TSArray()

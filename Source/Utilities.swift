@@ -199,64 +199,102 @@ enum Utilities {
         preconditionFailure("No match in '\(slice)'")
     }
     
-    static func splitGene(_ slice_: GenomeSlice, _ splitType: GeneSplitType) -> [String] {
-        let slice = String(slice_)
+    static func splitGene(_ slice: GenomeSlice, _ splitType: GeneSplitType) -> [String] {
         var geneComponents = [String]()
         
         switch splitType {
         case .markerGene:
-            let reMarkers = "^([LN])$"
-            let markers = slice.searchRegex(regex: reMarkers)
-            if markers.isEmpty { return geneComponents }
-
-            // Regex result is the match array for the entire input
-            // string. result[0] contains the first match, which
-            // itself is an array of strings. result[0][0] is the
-            // full literal match of the search pattern, and result[0][1]
-            // is the first capture.
-            geneComponents.append(markers[0][1])
+            guard let first = slice.first(where: { $0 == "L" || $0 == "N" })
+                else { return geneComponents }
+            
+            geneComponents.append(String(first))
             return geneComponents
-
+            
         case .stringGene:
-            let reStringGene = "^([AF])\\(([a-z]+)\\)$"
-            let stringGeneComponents = slice.searchRegex(regex: reStringGene)
-            if stringGeneComponents.isEmpty { /*print("Not a string gene", slice);*/ return geneComponents }
-
-            geneComponents.append(stringGeneComponents[0][1])
-            geneComponents.append(stringGeneComponents[0][2])
-//            print("String gene returns \(geneComponents)")
+            guard let fmi = slice.firstIndex(where: { $0 == "A" || $0 == "F" })
+                else { return geneComponents }
+            
+            let fsi = slice.index(fmi, offsetBy: 2)   // Point to the meat
+            
+            guard let eos = slice.lastIndex(of: ")")
+                else { return geneComponents }
+            
+            geneComponents.append(String(slice[fmi]))
+            geneComponents.append(String(slice[fsi..<eos]))
             return geneComponents
 
         case .doubletGene:
-            let reDoubletGene = "([BW])\\(b\\[([^\\]]+)\\]v\\[([^\\]]+)\\]\\)"
-            let doubletGeneComponents = slice.searchRegex(regex: reDoubletGene)
-            if doubletGeneComponents.isEmpty { /*print("Not a doublet gene", slice);*/ return geneComponents }
+            guard let fmi = slice.firstIndex(where: { $0 == "B" || $0 == "W" })
+                else { return geneComponents }
             
             // reDoubletGene will capture both a doublet gene and a doublet
             // value. But here I'll discard the result if it's a doublet,
             // because it is a bit more straightforward to allow the .doubletValue
             // case to handle partial genes, that is, doublet values.
-            if doubletGeneComponents[0].count != 4 { return geneComponents }
-//            print("is a doublet: \(doubletGeneComponents)")
+            let bmi = slice.index(fmi, offsetBy: 4)   // Point to the base meat
+            guard let eob = slice[bmi...].firstIndex(of: "]") else { return geneComponents }
+            
+            let vmi = slice.index(eob, offsetBy: 3)     // Point to the value meat
+            guard let eov = slice[vmi...].firstIndex(of: "]") else { return geneComponents }
+            
+            let marker = String(slice[fmi])
+            let baseline = String(slice[bmi..<eob])
+            let value = String(slice[vmi..<eov])
 
             // See comments above under markers
-            geneComponents.append(doubletGeneComponents[0][1])
-            geneComponents.append(doubletGeneComponents[0][2])
-            geneComponents.append(doubletGeneComponents[0][3])
+            geneComponents.append(marker)
+            geneComponents.append(baseline)
+            geneComponents.append(value)
             return geneComponents
-        
-        case .doubletValue:
-            let reDoubletValue = "b\\[([^\\]]+)\\]v\\[([^\\]]+)\\]"
-            let doubletValueComponents = slice.searchRegex(regex: reDoubletValue)
-            if doubletValueComponents.isEmpty { return geneComponents }
 
+        case .doubletValue:
+            let fmi = slice.startIndex
+            
+            let bmi = slice.index(fmi, offsetBy: 2)   // Point to the base meat
+            guard let eob = slice[bmi...].firstIndex(of: "]") else { return geneComponents }
+            
+            let vmi = slice.index(eob, offsetBy: 3)     // Point to the value meat
+            guard let eov = slice[vmi...].firstIndex(of: "]") else { return geneComponents }
+            
+            let baseline = String(slice[bmi..<eob])
+            let value = String(slice[vmi..<eov])
+            
             // See comments above under markers
-            geneComponents.append(doubletValueComponents[0][1])
-            geneComponents.append(doubletValueComponents[0][2])
+            geneComponents.append(baseline)
+            geneComponents.append(value)
             return geneComponents
         }
     }
-
+    
+    // With deepest gratitude to Stack Overflow dude
+    // https://stackoverflow.com/users/151279/jerry
+    // https://stackoverflow.com/a/39048651/1610473
+    static func report_memory() -> mach_vm_size_t {
+        var info = mach_task_basic_info()
+        let MACH_TASK_BASIC_INFO_COUNT = MemoryLayout<mach_task_basic_info>.stride/MemoryLayout<natural_t>.stride
+        var count = mach_msg_type_number_t(MACH_TASK_BASIC_INFO_COUNT)
+        
+        let kerr: kern_return_t = withUnsafeMutablePointer(to: &info) {
+            $0.withMemoryRebound(to: integer_t.self, capacity: MACH_TASK_BASIC_INFO_COUNT) {
+                task_info(mach_task_self_,
+                          task_flavor_t(MACH_TASK_BASIC_INFO),
+                          $0,
+                          &count)
+            }
+        }
+        
+        if kerr == KERN_SUCCESS {
+            print("Memory in use (in bytes): \(info.resident_size)")
+            return info.resident_size
+        }
+        else {
+            print("Error with task_info(): " +
+                (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
+        }
+        
+        return 0
+    }
+    
     static func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
