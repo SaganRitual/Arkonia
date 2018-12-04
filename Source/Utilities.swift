@@ -287,7 +287,7 @@ enum Utilities {
         }
 
         if kerr == KERN_SUCCESS {
-            print("Memory in use (in bytes): \(info.resident_size)")
+//            print("Memory in use (in bytes): \(info.resident_size)")
             return info.resident_size
         }
         else {

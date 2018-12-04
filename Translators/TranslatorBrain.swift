@@ -24,14 +24,16 @@ extension Translators {
     class Brain: NeuralNetProtocol {
         public var allLayersConnected = true
 
-        deinit { print("Brain deinit") }
-
         func generateRandomSensoryInput() -> [Double] {
             return [0]
         }
 
         var layers = [Translators.Layer]()
-        var underConstruction: Translators.Layer!
+        weak var underConstruction: Translators.Layer!
+        var mc: MemoryCheck
+        
+        init() { mc = MemoryCheck("Brain") }
+        deinit { print("~B~", terminator: "") }
 
         var firstLayer = true
 
@@ -51,7 +53,7 @@ extension Translators {
                 // Just discard empty layers
                 if !u.neurons.isEmpty { layers.append(u) }
 
-                underConstruction = nil
+//                underConstruction = nil
 //                print("Brain closes layer")
             }
         }
@@ -65,6 +67,7 @@ extension Translators {
         func endOfStrand() throws {
             closeNeuron()
             closeLayer()
+            mc.report()
         }
 
         func newLayer() {

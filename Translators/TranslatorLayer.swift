@@ -26,12 +26,14 @@ class Layer: CustomStringConvertible {
     var howManyNeuronsInSensesLayer = 0
     var howManyNeuronsInOutputsLayer = 0
     var underConstruction: Neuron?
+    var mc: MemoryCheck
 
     var layerSSInBrain = 0
 
     var description: String { return "Layer(\(self.layerSSInBrain))" }
 
-    init(layerSSInBrain: Int) { self.layerSSInBrain = layerSSInBrain }
+    init(layerSSInBrain: Int) { mc = MemoryCheck("L(\(layerSSInBrain))"); self.layerSSInBrain = layerSSInBrain }
+    deinit { print("~L~", terminator: "") }
 
     func addActivator(_ active: Bool) { underConstruction?.addActivator(active) }
 
@@ -40,7 +42,7 @@ class Layer: CustomStringConvertible {
 
     func closeNeuron() { if let u = underConstruction { neurons.append(u) }; underConstruction = nil }
 
-    func endOfStrand() { for neuron in neurons { neuron.endOfStrand() } }
+    func endOfStrand() { for neuron in neurons { neuron.endOfStrand() }; mc.report(); }
 
     private func makeNeuron() -> Neuron {
         return Neuron(layerSSInBrain: self.layerSSInBrain, neuronSSInLayer: neurons.count)

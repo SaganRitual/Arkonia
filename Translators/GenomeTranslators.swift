@@ -65,6 +65,8 @@ import Foundation
 import CoreGraphics // For the math functions
 class Translators: BrainOwnerProtocol {
     static let t = Translators()
+    var mc: MemoryCheck?
+    var bc: MemoryCheck?
 
     func setBias(_ value: ValueDoublet) { brain.setBias(value) }
     func setBias(_ baseline: Double, _ value: Double) { brain.setBias(baseline, value) }
@@ -81,8 +83,8 @@ class Translators: BrainOwnerProtocol {
     func addWeight(_ value: ValueDoublet) { brain.addWeight(value) }
     func addWeight(_ baseline: Double, _ value: Double) { brain?.addWeight(baseline, value) }
 
-    func closeBrain() { self.closeLayer() }
-    func closeLayer() { brain.closeLayer() }
+    func closeBrain() { bc?.report(); self.closeLayer() }
+    func closeLayer() { mc?.report(); brain.closeLayer() }
     func closeNeuron() { brain.closeNeuron() }
 
     func endOfStrand() throws {
@@ -96,8 +98,8 @@ class Translators: BrainOwnerProtocol {
         return self.brain
     }
 
-    func newBrain() { self.brain = Brain() }
-    func newLayer() { self.brain.newLayer() }
+    func newBrain() { bc = MemoryCheck("Brain"); self.brain = Brain() }
+    func newLayer() { mc = MemoryCheck("Layer"); self.brain.newLayer() }
     func newNeuron() { self.brain.newNeuron() }
 
     func reset() {}
