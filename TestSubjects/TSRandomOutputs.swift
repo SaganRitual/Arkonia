@@ -26,7 +26,7 @@ class TSRandomOutputs: BreederTestSubject {
             return TSRandomOutputs.makeTestSubject()
         }
     }
-    
+
     override init() { super.init() }
     override init(genome: Genome) { super.init(genome: genome) }
     override init(genome: Genome, int: Int) {  }
@@ -34,11 +34,11 @@ class TSRandomOutputs: BreederTestSubject {
     override class func makeTestSubject() -> BreederTestSubject {
         return TSRandomOutputs(genome: Genome(), Int.random(in: -10000...10000))
     }
-    
+
     class func setBreederTestSubjectFactory() {
         _ = Breeder.bb.setTestSubjectFactory(TSF())
     }
-    
+
     override func spawn() -> BreederTestSubject? {
         return TSRandomOutputs.makeTestSubject()
     }
@@ -48,9 +48,9 @@ class FTRandomOutputs: BreederFitnessTester {
     func getFitnessScore(for outputs: [Double]) -> (Double, String) {
         return (0, "This stub seems a bit ugly")
     }
-    
+
     func administerTest(to testSubject: BreederTestSubject) -> (Double, String)? {
-        let d = Double((testSubject as! TSRandomOutputs).myFishNumber)
+        guard let d = Double((testSubject as? TSRandomOutputs).myFishNumber)
         return (abs(d), "I have nothing to say")
     }
 }

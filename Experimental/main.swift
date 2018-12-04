@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-  
+
 import Dispatch
 import Foundation
 
@@ -136,7 +136,6 @@ group.notify(queue: .global()) {
 //}
 //print(text)
 
-
 //var workItem: DispatchWorkItem?
 //workItem = DispatchWorkItem {
 //    for i in 1..<6 {
@@ -237,7 +236,6 @@ sleep(1)
 #if true
 
 //typealias Genome = String
-
 
 //class FTFitnessTester {
 //    let id: Int

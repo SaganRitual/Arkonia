@@ -23,10 +23,10 @@ import Foundation
 class TSMultiplier: TSTestSubject {
     override init(with genome: Genome, brain: BrainStem?, fitnessTester: TestSubjectFitnessTester) {
         super.init(with: genome, brain: brain, fitnessTester: fitnessTester)
-        
+
         setSelectionControls()
     }
-    
+
     func setSelectionControls() {
         selectionControls.howManySenses = 2
         selectionControls.howManyMotorNeurons = 1
@@ -37,13 +37,13 @@ class TSMultiplierFactory: TestSubjectFactory {
     override func makeTestSubject(genome: Genome, mutate: Bool) throws -> TSMultiplier {
         var maybeMutated = genome
         if mutate {
-            let _ = Mutator.m.setInputGenome(genome).mutate()
+            _ = Mutator.m.setInputGenome(genome).mutate()
             maybeMutated = Mutator.m.convertToGenome()
         }
-        
+
         try decoder.setInput(to: maybeMutated).decode()
         let brain = Translators.t.getBrain()
-        
+
         return TSMultiplier(with: maybeMutated, brain: brain, fitnessTester: fitnessTester)
     }
 }
@@ -53,17 +53,17 @@ class FTMultiplier: TestSubjectFitnessTester {
     var charactersMatched = 0
     override func setFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) {
         guard let outputs = outputs else { return }
-        
+
         var scoreForTheseOutputs = 0.0
-        
+
         let scorer = Scorer(zName, outputs: outputs)
         scoreForTheseOutputs += scorer.getScore()
-        
+
         if scoreForTheseOutputs == 0 {
             charactersMatched += 1
             scoreForTheseOutputs = Double(abs(zName.count - charactersMatched))
         }
-        
+
         testSubject.setFitnessScore(scoreForTheseOutputs)
     }
 }

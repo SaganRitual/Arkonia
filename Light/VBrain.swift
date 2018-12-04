@@ -34,17 +34,17 @@ class VBrain {
     var startingY: CGFloat = 0.0
 
     init(gameScene: GameScene, brain: NeuralNetProtocol) {
-        guard let _ = NSScreen.main?.frame else {
+        if NSScreen.main?.frame == nil {
             fatalError("Something isn't working with the screen size")
         }
-        
+
         self.gameScene = gameScene
         self.brain = brain
     }
-    
+
     func displayBrain(_ brain: NeuralNetProtocol? = nil, isFinalUpdate: Bool = false, fishNumber: Int) {
         self.isFinalUpdate = isFinalUpdate
-        
+
         gameScene.removeAllChildren()
 
         if let b = brain { self.layers = b.layers }
@@ -56,28 +56,28 @@ class VBrain {
 //        let fishIDNode = SKLabelNode(text: "F(\(fishNumber))")
 //        gameScene.addChild(fishIDNode)
     }
-    
+
     func reset() {
         brain = nil
         vNeurons = [SKShapeNode]()
         vTestInputs = [SKLabelNode]()
         vTestOutputs = [SKLabelNode]()
     }
-    
+
     func setBrain(_ brain: NeuralNetProtocol) {
         self.brain = brain
     }
-    
+
     func tick(inputs: [Double], outputs: [Double]) {
         gameScene.removeChildren(in: vTestInputs + vTestOutputs)
-        
-        let lambda = { (inputs: [Double], yIndex: Int) -> () in
+
+        let lambda = { (inputs: [Double], yIndex: Int) -> Void in
             for (ix, input) in zip(0..., inputs) {
                 let p = self.spacer.getPosition(neuronsThisLayer: inputs.count, xIndex: ix, yIndex: yIndex)
                 let n = SKLabelNode(text: String(input))
-                
+
                 n.position = p
-                
+
                 self.vTestOutputs.append(n)
                 self.gameScene.addChild(n)
             }
@@ -86,27 +86,27 @@ class VBrain {
         lambda(inputs, 0)
         lambda(outputs, outputs.count - 1)
     }
-    
+
     struct Spacer {
         let layersCount: Int
         let displaySize: CGSize
-        
+
         init(layersCount: Int, displaySize: CGSize) {
             self.layersCount = layersCount
             self.displaySize = displaySize
         }
-        
+
         func getVSpacing() -> Int {
             return Int(displaySize.height) / (layersCount + 1)
         }
-        
+
         func getPosition(neuronsThisLayer: Int, xIndex: Int, yIndex: Int) -> CGPoint {
             let vSpacing = getVSpacing()
             let vTop = Int(displaySize.height) / 2 - vSpacing
-            
+
             let hSpacing = Int(displaySize.width) / neuronsThisLayer
             let hLeft = (Int(-displaySize.width) + hSpacing) / 2
-            
+
             return CGPoint(x: hLeft + xIndex * hSpacing, y: vTop - yIndex * vSpacing)
         }
     }
@@ -115,10 +115,10 @@ class VBrain {
 extension VBrain {
     func drawBiases(_ neuron: Translators.Neuron, _ vNeuron: SKShapeNode) {
         let b = SKLabelNode(text: "B(\(neuron.bias?.value ?? -42.42))")
-        
+
 //                let colors = [NSColor.blue, NSColor.green, NSColor.yellow, NSColor.red]
 //                let whichColor = Int.random(in: 0..<colors.count)
-        
+
         b.position = vNeuron.position
         b.fontSize = fontSize
         b.fontColor = NSColor.yellow
@@ -134,10 +134,10 @@ extension VBrain {
         for ss in 0..<neuron.weights.count {
             let w = neuron.weights[ss]
             let s = SKLabelNode(text: "W(\(ss)) \(w.value)")
-            
+
 //                    let colors = [NSColor.blue, NSColor.green, NSColor.yellow, NSColor.red]
 //                    let whichColor = Int.random(in: 0..<colors.count)
-            
+
             s.position = vNeuron.position
             s.fontSize = fontSize
             s.fontColor = NSColor.green
@@ -151,14 +151,14 @@ extension VBrain {
 
     func drawNeuronLayers(_ layers: [Translators.Layer], spacer: Spacer) {
         var previousLayerPoints = [CGPoint]()
-    
+
         for (i, layer) in zip(0..., layers) {
             precondition(layer.foundViableInput && !layer.neurons.isEmpty)
-            
+
             let spacer = Spacer(layersCount: layers.count, displaySize: gameScene.frame.size)
-            
+
             var currentLayerPoints = [CGPoint]()
-            
+
             for (j, neuron) in zip(0..<layer.neurons.count, layer.neurons) {
                 let vNeuron = SKShapeNode(circleOfRadius: 2)
                 if neuron.foundViableInput {
@@ -167,13 +167,13 @@ extension VBrain {
                 } else {
                     vNeuron.fillColor = .black
                 }
-                
+
                 let position = spacer.getPosition(neuronsThisLayer: layer.neurons.count, xIndex: j, yIndex: i)
                 vNeuron.position = position
                 currentLayerPoints.append(position)
 
                 drawConnections(from: previousLayerPoints, to: neuron, at: position)
-                
+
                 self.vNeurons.append(vNeuron)
                 gameScene.addChild(vNeuron)
 
@@ -184,12 +184,12 @@ extension VBrain {
                     drawBiases(neuron, vNeuron)
                 }
             }
-            
+
             previousLayerPoints = currentLayerPoints
 //            print("p", previousLayerPoints)
         }
     }
-    
+
     func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Translators.Neuron, at neuronPosition: CGPoint) {
         if previousLayerPoints.isEmpty { return }
         for commLine in neuron.inputPortDescriptors {
@@ -197,14 +197,14 @@ extension VBrain {
 
             linePath.move(to: neuronPosition)
             linePath.addLine(to: previousLayerPoints[commLine])
-            
+
             let line = SKShapeNode(path: linePath)
             line.strokeColor = .green
-            
+
             if neuron.inputPortDescriptors.isEmpty { line.strokeColor = .red }
             if !neuron.foundViableInput { line.strokeColor = .blue }
             if !neuron.hasClients { line.strokeColor = .purple }
-            
+
             gameScene.addChild(line)
         }
     }

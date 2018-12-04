@@ -26,28 +26,28 @@ class TSNumberGuesser: TSTestSubject {
 
 class TSNumberGuesserFactory: TestSubjectFactory {
     override func makeFitnessTester() -> FTFitnessTester {
-        
+
         selectionControls.howManySenses = 5
         selectionControls.howManyMotorNeurons = 5
-        
+
         return FTNumberGuesser()
     }
-    
+
     override func makeTestSubject(parent: TSTestSubject, mutate: Bool) -> TSTestSubject? {
         return makeTestSubject(parentGenome: parent.genome, mutate: mutate)
     }
-    
+
     override func makeTestSubject(parentGenome: Genome, mutate: Bool) -> TSTestSubject? {
         let m = Utilities.report_memory()
 
         var maybeMutated = parentGenome
-        
+
         while mutate && maybeMutated == parentGenome {
-            let _ = Mutator.m.setInputGenome(parentGenome).mutate()
+            _ = Mutator.m.setInputGenome(parentGenome).mutate()
             maybeMutated = Mutator.m.convertToGenome()
         }
-        
-        do{ try decoder.setInput(to: maybeMutated).decode() }
+
+        do { try decoder.setInput(to: maybeMutated).decode() }
         catch { return nil }
 
         defer {
@@ -64,7 +64,7 @@ class TSNumberGuesserFactory: TestSubjectFactory {
 class FTNumberGuesser: FTFitnessTester {
     override func doScoringStuff(_ ts: TSTestSubject, _ outputs: [Double]) -> Double {
         guard let tg = ts as? TSNumberGuesser else { fatalError() }
-        
+
         let guess = outputs.reduce(0.0, +)
         tg.guessedNumber = guess
         let finalScore = abs(guess - (-27.5))  // Try for -27.5

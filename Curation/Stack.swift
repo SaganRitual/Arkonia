@@ -28,13 +28,13 @@ class Stack {
     private var newArrivals = TSArray()
     private var maxEQScores = selectionControls.stackNoobsLimit
     private var retreatLock: Double?
-    
-    public var count: Int { get { return theStack.count } }
+
+    public var count: Int { return theStack.count }
 
     public func pop() -> TSTestSubject { return theStack.pop() }
     public func push(_ ts: TSTestSubject) { theStack.push(ts) }
     public func popBack() { _ = theStack.popBack() }
-    
+
     // Start off accepting candidates who merely tied
     public func candidateFilter(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
         switch self.candidateFilterType {
@@ -49,48 +49,47 @@ class Stack {
 //            print("wtf"); return false }
         return Lf < Rf
     }
-    
+
     private func nonLosingScore(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
         guard let Lf = lhs.fitnessScore, let Rf = rhs.fitnessScore else {
             preconditionFailure() }
 //            print("wtf2"); return false }
         return Lf <= Rf
     }
-    
 
     private var retreatTimer = 0
-    
+
     var candidateFilterType = CandidateFilter.be
-    
+
     public func getSelectionParameters() -> (TSTestSubject, CandidateFilter) {
         guard let cb = currentBenchmarkHolder else { fatalError() }
         let cf = self.candidateFilterType
         return (cb, cf)
     }
-    
+
     func postInit(aboriginal: TSTestSubject) {
         currentBenchmarkHolder = aboriginal
         highWaterHolder = aboriginal
     }
-    
+
     func sortAscending(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
         let Ls = lhs.fitnessScore!, Rs = rhs.fitnessScore!
         let Lf = lhs.fishNumber, Rf = rhs.fishNumber
 
         // If the scores are equal, sort by fish number
         if Ls == Rs { return Lf < Rf }
-        
+
         // If not eq, sort by score
         return Ls < Rs
     }
-    
+
     func sortDescending(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
         let Ls = lhs.fitnessScore!, Rs = rhs.fitnessScore!
         let Lf = lhs.fishNumber, Rf = rhs.fishNumber
-        
+
         // If the scores are equal, sort by fish number
         if Ls == Rs { return Lf > Rf }
-        
+
         // If not eq, sort by score
         return Ls > Rs
     }
@@ -106,14 +105,14 @@ class Stack {
 //            print("Stack.pushCB(\(cb))")
         }
         currentBenchmarkHolder = nil
-        
+
         // preprocess sorts in descending order, so we'll get the matchers
         // first, if there are any.
         let newArrivals =
             Array(na).sorted { sortDescending($0, $1) }
-        
+
         var retreated = true
-        
+
         func canAcceptCandidate(_ newArrival: TSTestSubject) -> Bool {
 
             let ctMatchingScore = theStack.filter {
@@ -122,7 +121,7 @@ class Stack {
 
             return ctMatchingScore < maxEQScores
         }
-        
+
 //        print("theStack", theStack)
 //        print("newArrivals", newArrivals)
 
@@ -156,7 +155,7 @@ class Stack {
 //        print("theStack after, sort of", theStack)
         currentBenchmarkHolder = theStack.pop()
         currentBestScore = currentBenchmarkHolder!.fitnessScore!
-        
+
         if retreated {
             print("Could not get \(candidateFilterType.rawValue) for \(currentBestScore); retreating to ", terminator: "")
             if retreatLock == nil { if !theStack.isEmpty { print("subject \(currentBenchmarkHolder!.fishNumber)") }; retreatLock = currentBenchmarkHolder!.fitnessScore! }

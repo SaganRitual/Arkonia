@@ -22,11 +22,11 @@ import Foundation
 
 class TestSubjectFactory {
     var decoder = Decoder()
-    
+
     func makeFitnessTester() -> FTFitnessTester {
         return FTFitnessTester()
     }
-    
+
     func makeTestSubject(parent: TSTestSubject, mutate: Bool) -> TSTestSubject? {
         return makeTestSubject(parentGenome: parent.genome, mutate: mutate)
     }
@@ -35,13 +35,13 @@ class TestSubjectFactory {
         let m = Utilities.report_memory()
         var maybeMutated = parentGenome
         if mutate {
-            let _ = Mutator.m.setInputGenome(parentGenome).mutate()
+            _ = Mutator.m.setInputGenome(parentGenome).mutate()
             maybeMutated = Mutator.m.convertToGenome()
         }
 
         do { try decoder.setInput(to: maybeMutated).decode() }
         catch { return nil }
-        
+
         let brain = Translators.t.getBrain()
 
         defer {

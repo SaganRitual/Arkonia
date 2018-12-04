@@ -23,73 +23,73 @@ import Foundation
 extension Translators {
     class Brain: NeuralNetProtocol {
         public var allLayersConnected = true
-        
+
         deinit { print("Brain deinit") }
 
         func generateRandomSensoryInput() -> [Double] {
             return [0]
         }
-        
+
         var layers = [Translators.Layer]()
         var underConstruction: Translators.Layer!
-        
+
         var firstLayer = true
-        
+
         func makeLayer() -> Layer {
             return Layer(layerSSInBrain: layers.count)
         }
-        
+
         func addActivator(_ active: Bool) { underConstruction?.addActivator(active) }
-        
+
         func addWeight(_ value: ValueDoublet) { underConstruction?.addWeight(value) }
         func addWeight(_ baseline: Double, _ value: Double) { underConstruction?.addWeight(baseline, value) }
 
         func closeLayer() {
             if let u = underConstruction {
                 closeNeuron()
-                
+
                 // Just discard empty layers
                 if !u.neurons.isEmpty { layers.append(u) }
-                
+
                 underConstruction = nil
 //                print("Brain closes layer")
             }
         }
-        
+
         func closeNeuron() { underConstruction?.closeNeuron() }
 
         func setInputs(_ inputs: [Int]) {
-            
+
         }
-        
+
         func endOfStrand() throws {
             closeNeuron()
             closeLayer()
         }
-        
+
         func newLayer() {
             guard underConstruction == nil else { fatalError() }
             underConstruction = makeLayer()
 //            print("Brain creates Layer(\(underConstruction!))")
         }
-        
+
         func newNeuron() { underConstruction?.newNeuron() }
 
         func setBias(_ value: ValueDoublet) { underConstruction?.setBias(value) }
         func setBias(_ baseline: Double, _ value: Double) { underConstruction?.setBias(baseline, value) }
-        
+
         func setOutputFunction(_ function: @escaping NeuronOutputFunction) { underConstruction?.setOutputFunction(function) }
 
         func setThreshold(_ value: ValueDoublet) { underConstruction?.setThreshold(value) }
         func setThreshold(_ baseline: Double, _ value: Double) { underConstruction?.setThreshold(baseline, value) }
-        
+
         func show(tabs: String, override: Bool = false) {
             if Utilities.thereBeNoShowing && !override { return }
             print("Brain: ")
             for layer in layers { layer.show(tabs: "", override: override) }
             print()
         }
-        
+
         func theseLayersCommunicate(_ lower: Layer, _ upper: Layer?) -> Bool {
             if upper == nil { return false }
 
@@ -98,7 +98,7 @@ extension Translators {
             for n in lower.neurons {
                 for ipd in n.inputPortDescriptors { usedCommLines.insert(ipd) }
             }
-            
+
             // Now check for any neurons (comm lines) above to
             // whom no one is connecting. Those are just as dead
             // as the ones that don't have any input ports.
@@ -109,18 +109,18 @@ extension Translators {
                     break
                 }
             }
-            
+
             if !atLeastOneConnectionToUpperLayer {
 //                print("🌈", terminator: "")
             }
-            
+
             return atLeastOneConnectionToUpperLayer
         }
-        
+
         func stimulate(inputs: [Double]) -> [Double]? {
             var previousLayerOutputs = inputs
-            var previousLayer: Layer? = nil
-            
+            var previousLayer: Layer?
+
             for layer in self.layers {
                 let sensesLayer = (layer.layerSSInBrain == 0)
 
@@ -128,19 +128,19 @@ extension Translators {
 
                 previousLayerOutputs =
                     layer.stimulate(inputs: previousLayerOutputs)
-                
+
                 if !sensesLayer {
                     if !theseLayersCommunicate(layer, previousLayer)
                         { allLayersConnected = false; return nil }
                 }
-                
+
                 previousLayer = layer
-                
+
                 guard layer.foundViableInput else { return nil }
-                
+
 //                print("Layer \(layer.layerSSInBrain) stimulate -> \(layer.neurons.count) outputs")
             }
-            
+
             if previousLayerOutputs.isEmpty { return nil }
             return previousLayerOutputs
         }

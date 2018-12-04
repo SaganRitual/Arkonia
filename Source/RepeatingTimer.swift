@@ -27,13 +27,13 @@ import Foundation
 /// crashes that occur from calling resume multiple times on a timer that is
 /// already resumed (noted by https://github.com/SiftScience/sift-ios/issues/52
 class RepeatingTimer {
-    
+
     let timeInterval: TimeInterval
-    
+
     init(timeInterval: TimeInterval) {
         self.timeInterval = timeInterval
     }
-    
+
     private lazy var timer: DispatchSourceTimer = {
         let t = DispatchSource.makeTimerSource()
         t.schedule(deadline: .now() + self.timeInterval, repeating: self.timeInterval)
@@ -42,16 +42,16 @@ class RepeatingTimer {
         })
         return t
     }()
-    
+
     var eventHandler: (() -> Void)?
-    
+
     private enum State {
         case suspended
         case resumed
     }
-    
+
     private var state: State = .suspended
-    
+
     deinit {
         timer.setEventHandler {}
         timer.cancel()
@@ -62,7 +62,7 @@ class RepeatingTimer {
         resume()
         eventHandler = nil
     }
-    
+
     func resume() {
         if state == .resumed {
             return
@@ -70,7 +70,7 @@ class RepeatingTimer {
         state = .resumed
         timer.resume()
     }
-    
+
     func suspend() {
         if state == .suspended {
             return

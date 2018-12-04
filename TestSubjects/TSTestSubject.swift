@@ -22,23 +22,22 @@ import Foundation
 
 class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
     private static var theFishNumber = 0
-    
+
     weak private(set) var brain: NeuralNetProtocol!
     public var debugMarker = 0
     private(set) var fishNumber: Int
     private(set) var genome: Genome
     public var fitnessScore: Double?
     private let fitnessTester = FTFitnessTester()
-    
+
     public var description: String {
         var fs = "<nil>"
         if let fitnessString = fitnessScore
             { fs = "\(fitnessString)" }
 
-        
         return "Test subject \(fishNumber); score \(fs)"
     }
-    
+
     init(genome: Genome, brain: NeuralNetProtocol) {
         let memoryUsage = Utilities.report_memory()
         self.genome = genome
@@ -48,32 +47,32 @@ class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
         let sizeOfTS = Utilities.report_memory() - memoryUsage
         print("i(\(fishNumber)) takes \(sizeOfTS) bytes ", terminator: "")
     }
-    
+
     deinit {
         print("Test subject \(fishNumber) deinit")
     }
-    
+
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.genome)
     }
-    
+
     public func submitToTest() -> Double? { return nil }
-    
+
     static func == (lhs: TSTestSubject, rhs: TSTestSubject) -> Bool {
         return lhs.genome == rhs.genome
     }
-    
+
     static func <= (lhs: TSTestSubject, rhs: TSTestSubject) -> Bool {
         guard let Ls = lhs.fitnessScore,
               let Rs = rhs.fitnessScore else { preconditionFailure() }
-        
+
         return Ls < Rs || Ls == Rs
     }
-    
+
     static func < (lhs: TSTestSubject, rhs: TSTestSubject) -> Bool {
         guard let Ls = lhs.fitnessScore,
             let Rs = rhs.fitnessScore else { preconditionFailure() }
-        
+
         return Ls < Rs
     }
 }
@@ -81,12 +80,12 @@ class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
 #if OLD_TEST_SUBJECT
 class TSTestSubject {
     static var theFishNumber = 0
-    
+
     private(set) var myFishNumber: Int
     private(set) var brain: BrainStem?
     private(set) var genome: Genome
     private let fitnessTester: TestSubjectFitnessTester
-    
+
     init(with genome: Genome, brain: BrainStem? = nil, fitnessTester: TestSubjectFitnessTester) {
         self.brain = brain
         self.genome = genome
@@ -94,12 +93,12 @@ class TSTestSubject {
         self.myFishNumber = TSTestSubject.theFishNumber
         TSTestSubject.theFishNumber += 1
     }
-    
+
     func getFitnessReport() -> String? {
         guard let b = self.brain else { preconditionFailure("No brain, no report.") }
         return b.fitnessReport
     }
-    
+
     func getFitnessScore() -> Double? {
         guard let b = self.brain else { preconditionFailure("No brain, no score.") }
         return b.fitnessScore
@@ -110,10 +109,10 @@ class TSTestSubject {
     func calculateFitnessScore(_ score: Double,_ report: String) {
         self.brain!.fitnessScore = score; self.brain!.fitnessReport = report
     }
-    
+
     func submitToTest(for sensoryInput: [Double]) -> [Double]? {
         let testOutputs = fitnessTester.administerTest(to: self, for: sensoryInput)
-        let _ = fitnessTester.calculateFitnessScore(for: self, outputs: testOutputs)
+        _ = fitnessTester.calculateFitnessScore(for: self, outputs: testOutputs)
         return testOutputs
     }
 }

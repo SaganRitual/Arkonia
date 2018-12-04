@@ -26,11 +26,11 @@ enum Barf {
 }
 
 func hairy(which: Barf) -> Barf {
-    
+
 }
 
 func chunky(which: Barf) -> Double {
-    
+
 }
 
 func projectile(which: Barf) -> Barf {
@@ -60,7 +60,7 @@ while curatorStatus == .running {
         curator = Curator(starter: nil, testSubjectFactory: testSubjectFactory)
         continue
     }
-    
+
     c.track()
 }
 

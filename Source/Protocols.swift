@@ -63,7 +63,7 @@ protocol LayerOwnerProtocol {
     func setThreshold(_ baseline: Double, _ value: Double)
     func show(tabs: String, override: Bool)
     func stimulate(inputs: [Double]) -> [Double]?
-    
+
     func generateRandomSensoryInput() -> [Double]
 }
 
@@ -102,8 +102,6 @@ protocol NeuralNetProtocol: class, LayerOwnerProtocol {
     var allLayersConnected: Bool { get set }
 }
 
-typealias TSArray = Array<TSTestSubject>
+typealias TSArray = [TSTestSubject]
 typealias TSArrayIndex = TSArray.Index
 typealias TSArraySlice = ArraySlice<TSTestSubject>
-
-

@@ -87,7 +87,7 @@ class Translators: BrainOwnerProtocol {
 
     func endOfStrand() throws {
         defer { reachedEndOfStrand = true }
-        
+
         try brain.endOfStrand()
     }
 
@@ -101,11 +101,11 @@ class Translators: BrainOwnerProtocol {
     func newNeuron() { self.brain.newNeuron() }
 
     func reset() {}
-    
+
     enum OutputFunctionName: String {
-        case limiter = "limiter", logistic = "logistic", linear = "linear", tanh = "tanh"
+        case limiter, logistic, linear, tanh
     }
-    
+
     static func tanh(_ theDouble: Double) -> Double { return CoreGraphics.tanh(theDouble) }
     static func logistic(_ theDouble: Double) -> Double { return 1.0 / (1.0 + exp(-theDouble)) }
     static func limiter(_ theDouble: Double) -> Double {
@@ -116,7 +116,7 @@ class Translators: BrainOwnerProtocol {
     func setOutputFunction(_ functionName: String) {
         guard let fn = OutputFunctionName.init(rawValue: functionName)
             else { preconditionFailure("Function name not found") }
-        
+
         guard !functionName.isEmpty
             else { preconditionFailure("No function name") }
 

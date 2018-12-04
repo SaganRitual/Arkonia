@@ -26,7 +26,7 @@ enum RandomnessGenerator {
         // The map is so we can weight the gene types differently, so we
         // don't end up with one neuron per layer, or something silly like that.
         let geneSelector = [act : 10, bis : 5, fun : 5, hox: 0, lay : 2, neu : 3, wgt : 10]
-        
+
         var weightedGeneSelector: [Character] = {
             var t = [Character]()
             for (geneType, weight) in geneSelector {
@@ -34,7 +34,7 @@ enum RandomnessGenerator {
             }
             return t
         }()
-        
+
         let geneSS = Int.random(in: 0..<weightedGeneSelector.count)
         let geneType = weightedGeneSelector[geneSS]
 
@@ -48,13 +48,13 @@ enum RandomnessGenerator {
         default: fatalError()
         }
     }
-    
+
     static func generateRandomGenome(howManyGenes: Int = 75) -> Genome {
         var newGenome = Genome()
         for _ in 0..<howManyGenes { newGenome += generateRandomGene() }
         return newGenome
     }
-    
+
     static func getRandomOutputFunction() -> String {
         let blank = outputFunctions[Int.random(in: 0..<outputFunctions.count)].rawValue
         return blank
@@ -66,11 +66,9 @@ enum RandomnessGenerator {
     ]
 }
 
-
 // With deepest gratitude to Stack Overflow dude
 // https://stackoverflow.com/users/2538939/code-different
 // https://stackoverflow.com/a/44535176/1610473
-
 
 class BellCurve_ {
     static let randomSource = GKARC4RandomSource()
@@ -90,13 +88,13 @@ class BellCurve_ {
 // https://stackoverflow.com/a/49471411/1610473
 class BellCurve {
     private let randomSource = GKARC4RandomSource()
-    
+
     func nextFloat() -> Float {
         let mean: Float = 0.0, deviation: Float = 2.0
         let x1 = randomSource.nextUniform() // a random number between 0 and 1
         let x2 = randomSource.nextUniform() // a random number between 0 and 1
         let z1 = sqrt(-2 * log(x1)) * cos(2 * Float.pi * x2) // z1 is normally distributed
-        
+
         // Convert z1 from the Standard Normal Distribution to our Normal Distribution
         // Note that the conversion will give us a range of -10..<10. I still want -1..<1
 //        print((z1 * deviation + mean).sTruncate())

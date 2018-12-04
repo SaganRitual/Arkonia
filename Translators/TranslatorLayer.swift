@@ -26,7 +26,7 @@ class Layer: CustomStringConvertible {
     var howManyNeuronsInSensesLayer = 0
     var howManyNeuronsInOutputsLayer = 0
     var underConstruction: Neuron?
-    
+
     var layerSSInBrain = 0
 
     var description: String { return "Layer(\(self.layerSSInBrain))" }
@@ -34,23 +34,23 @@ class Layer: CustomStringConvertible {
     init(layerSSInBrain: Int) { self.layerSSInBrain = layerSSInBrain }
 
     func addActivator(_ active: Bool) { underConstruction?.addActivator(active) }
-    
+
     func addWeight(_ value: ValueDoublet) { underConstruction?.addWeight(value) }
     func addWeight(_ baseline: Double, _ value: Double) { underConstruction?.addWeight(baseline, value) }
-    
+
     func closeNeuron() { if let u = underConstruction { neurons.append(u) }; underConstruction = nil }
-    
+
     func endOfStrand() { for neuron in neurons { neuron.endOfStrand() } }
-    
+
     private func makeNeuron() -> Neuron {
         return Neuron(layerSSInBrain: self.layerSSInBrain, neuronSSInLayer: neurons.count)
     }
-    
+
     func newNeuron() { underConstruction = makeNeuron() }
 
     func setBias(_ value: ValueDoublet) { underConstruction?.setBias(value) }
     func setBias(_ baseline: Double, _ value: Double) { underConstruction?.setBias(baseline, value) }
-    
+
     func setOutputFunction(_ function: @escaping NeuronOutputFunction) { underConstruction?.setOutputFunction(function) }
 
     func setThreshold(_ value: ValueDoublet) { underConstruction?.setThreshold(value) }
@@ -63,13 +63,13 @@ class Layer: CustomStringConvertible {
             neuron.show(tabs: tabs + "", override: override)
         }
     }
-    
+
     var foundViableInput = false
 //    var hasClients = true
-    
+
     func stimulate(inputs: [Double]) -> [Double] {
         var outputs = [Double]()
-        
+
 //        print("Layer (\(self.myID)) ")
 
         for n in self.neurons {

@@ -40,20 +40,20 @@ class Selector {
         self.fitnessTester = tsFactory.makeFitnessTester()
         self.semaphore = semaphore
         self.tsFactory = tsFactory
-        
+
         let n = Foundation.Notification.Name.setSelectionParameters
         let s = #selector(setSelectionParameters)
         notificationCenter.addObserver(self, selector: s, name: n, object: nil)
     }
-    
+
     deinit {
         print("Selector deinit")
         selectorWorkItem = nil
         notificationCenter.removeObserver(self)
     }
-    
+
     func cancel() { semaphore.signal(); selectorWorkItem.cancel(); }
-    var isCanceled: Bool { get { return selectorWorkItem.isCancelled } }
+    var isCanceled: Bool { return selectorWorkItem.isCancelled }
 
     private func rLoop() {
         while true {
@@ -70,11 +70,11 @@ class Selector {
             semaphore.signal()  // Give control back to the main thread
         }
     }
-    
+
     public func scoreAboriginal(_ aboriginal: TSTestSubject) {
         guard let score = fitnessTester.administerTest(to: aboriginal)
             else { fatalError() }
-        
+
         aboriginal.fitnessScore = score
     }
 
@@ -83,15 +83,15 @@ class Selector {
         thisGenerationNumber += 1
 
         var bestScore = stud.fitnessScore
-        
+
         var stemTheFlood = [TSTestSubject]()
         for _ in 0..<selectionControls.howManySubjectsPerGeneration {
             guard let ts = tsFactory.makeTestSubject(parent: stud, mutate: true)
                 else { continue }
-            
+
             if selectorWorkItem.isCancelled { break }
             if ts.genome == stud.genome { continue }
-            
+
             guard let score = fitnessTester.administerTest(to: ts)
                 else {
 //                    print("broken1 \(ts.fishNumber)",brokenBrainMarker)
@@ -100,11 +100,11 @@ class Selector {
                     continue
                 }
             ts.debugMarker = 424242
-            
+
             ts.fitnessScore = score
             if score > bestScore! { continue }
             if score < bestScore! { bestScore = score }
-            
+
             // Start getting rid of the less promising candidates
             if stemTheFlood.count >= 5 { _ = stemTheFlood.popBack() }
             stemTheFlood.push(ts)
@@ -115,22 +115,26 @@ class Selector {
         if stemTheFlood.isEmpty { print("No survivors in \(thisGenerationNumber)"); return nil }
         return stemTheFlood
     }
-    
+
     var candidateFilterType = CandidateFilter.be
-    
+
     @objc private func setSelectionParameters(_ notification: Notification) {
         guard let u = notification.userInfo,
             let p = u[NotificationType.select] as? TSTestSubject,
             let e = u["candidateFilter"] else { preconditionFailure() }
-        
+
         self.stud = p
-        candidateFilterType = e as! CandidateFilter
+
+        guard let c = e as? CandidateFilter else { preconditionFailure() }
+        candidateFilterType = c
     }
 
     public func startThread() {
-        
-        self.selectorWorkItem = DispatchWorkItem { [weak self] in self?.rLoop();
-            self?.selectorWorkItem = nil }
+
+        self.selectorWorkItem = DispatchWorkItem { [weak self] in self?.rLoop()
+            self?.selectorWorkItem = nil
+        }
+
         DispatchQueue.global(qos: .background).async(execute: selectorWorkItem)
     }
 

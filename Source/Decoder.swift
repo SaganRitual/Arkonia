@@ -20,7 +20,7 @@
 
 import Foundation
 
-fileprivate enum DecodeState {
+private enum DecodeState {
     case diagnostics, endOfStrand, inLayer, inNeuron, noLayer
 }
 
@@ -43,33 +43,35 @@ class Decoder {
 
         if let p = parser { self.parser = p }
         else { self.parser = self }
-        
+
         Decoder.d = self
     }
 
     fileprivate var decodeState: DecodeState = .noLayer
     public static let recognizedGeneTokens = "ABFHLNRW"
 
+// swiftlint:disable cyclomatic_complexity
+
     func decode() throws {
         self.reset()
         Translators.t.reset()
         Translators.t.newBrain()
-        
+
         var slice = Utilities.applyInterfaces(to: inputGenome)
-        
+
         let skipBadTokens = { (_ slice: GenomeSlice) -> GenomeSlice.Index in
             if let r = slice.firstIndex(where: { return Decoder.recognizedGeneTokens.contains($0) }) {
                 return r
             } else {
                 self.decodeState = .endOfStrand
             }
-            
+
             return slice.startIndex
         }
-        
+
         let discardAnyGarbage = { (_ slice: GenomeSlice) -> GenomeSlice.Index in
             guard let s = slice.first else { return slice.endIndex }
-            
+
             if Decoder.recognizedGeneTokens.contains(s) { return slice.startIndex }
             else { return skipBadTokens(slice) }
         }
@@ -89,7 +91,7 @@ class Decoder {
             case .noLayer: symbolsConsumed = dispatch_noLayer(slice)
             case .inLayer: symbolsConsumed = dispatch_inLayer(slice)
             case .inNeuron: symbolsConsumed = dispatch_inNeuron(slice)
-            case .endOfStrand: break;
+            case .endOfStrand: break
             }
 
             slice = slice.dropFirst(symbolsConsumed)
@@ -100,9 +102,11 @@ class Decoder {
 //        Translators.t.getBrain().show(tabs: "", override: true)
 //        print(inputGenome)
     }
-    
+
+    // swiftlint:enable cyclomatic_complexity
+
     func newBrain() { Translators.t.newBrain() }
-    
+
     func reset() { self.decodeState = .noLayer }
 }
 
@@ -132,7 +136,7 @@ extension Decoder {
 }
 
 extension Decoder {
-    
+
     func dispatch_noLayer(_ slice: GenomeSlice) -> Int {
         guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
@@ -140,13 +144,13 @@ extension Decoder {
             decodeState = .inLayer
             Translators.t.newLayer()
             return 2
-            
+
         case neu:
             decodeState = .inNeuron
             Translators.t.newLayer()
             Translators.t.newNeuron()
             return 2
-            
+
         case ifm:
             decodeState = .noLayer
             Translators.t.closeLayer()
@@ -156,11 +160,11 @@ extension Decoder {
             decodeState = .inNeuron
             Translators.t.newLayer()
             Translators.t.newNeuron()
-            
+
             return dispatchValueGene(slice)
         }
     }
-    
+
     func dispatch_inLayer(_ slice: GenomeSlice) -> Int {
         guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
@@ -169,12 +173,12 @@ extension Decoder {
             // cause this one to be empty. Just ignore it.
             decodeState = .inLayer
             return 2
-            
+
         case neu:
             decodeState = .inNeuron
             Translators.t.newNeuron()
             return 2
-            
+
         case ifm:
             decodeState = .noLayer
             Translators.t.closeLayer()
@@ -196,18 +200,18 @@ extension Decoder {
             Translators.t.closeLayer()
             Translators.t.newLayer()
             return 2
-            
+
         case neu:
             decodeState = .inNeuron
             Translators.t.closeNeuron()
             Translators.t.newNeuron()
             return 2
-            
+
         case ifm:
             decodeState = .noLayer
             Translators.t.closeLayer()
             return 2
-            
+
         default:
             return dispatchValueGene(slice)
         }
@@ -219,13 +223,13 @@ extension Decoder: ValueParserProtocol {
         self.inputGenome = inputGenome
         return self
     }
-    
+
     func setDefaultInput() -> ValueParserProtocol { return self }
 
     func parse<PrimitiveType>(_ slice: GenomeSlice? = nil) -> PrimitiveType {
         fatalError("Should never come here")
     }
-    
+
     func parseBool(_ slice: GenomeSlice? = nil) -> Bool {
         let truthy = "true", falsy = "false", stringy = String(slice!)
         switch stringy {
@@ -234,16 +238,15 @@ extension Decoder: ValueParserProtocol {
         default: fatalError("Bad data! You said it would never be bad.")
         }
     }
-    
+
     func parseDouble(_ slice: GenomeSlice? = nil) -> ValueDoublet {
         let values = Utilities.splitGene(slice!)
         let baseline = Double(values[0])!.dTruncate()
         let value = Double(values[1])!.dTruncate()
-        
+
         return ValueDoublet(baseline, value)
     }
-    
+
     func parseInt(_ slice: GenomeSlice? = nil) -> Int { return Int(slice!)! }
     func parseString(_ slice: GenomeSlice?) -> String { return String(slice!) }
 }
-

@@ -20,6 +20,8 @@
 
 import Foundation
 
+// swiftlint:disable file_length
+
 typealias Gene = String
 typealias Genome = String
 typealias GenomeSlice = Substring
@@ -71,7 +73,7 @@ let testGenomes = [
     "L_N_" + makeInputPorts(3),
     "L_N_" + makeInputPorts(4),
     "L_N_" + makeInputPorts(5),
-    
+
     //One layer, multiple neurons, perfect comm units, so they
     // all aim for the first neuron
     "L_N_" + makeInputPorts(2) + "N_" + makeInputPorts(2),
@@ -90,13 +92,12 @@ let testGenomes = [
     "L_N_" + makeInputPorts(1) + makeInputPorts(9),
 
     "L_N_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(false)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_",
-    
+
     "L_N_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_",
-    
+
     "L_N_A(true)_A(true)_W(b[2]v[2])_W(b[2]v[2])_W(b[2]v[2])_B(b[8]v[8])_T(b[8]v[8])_",
     "L_N_A(true)_A(true)_A(true)_W(b[2]v[2])_W(b[2]v[2])_W(b[1]v[1])_B(b[7]v[7])_T(b[7]v[7])_",
-    
-    
+
     "L_N_A(false)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_A(true)_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_", "L_N_A(true)_W(b[1]v[1])_W(b[1]v[1])_B(b[-4]v[-4])_T(b[2]v[2])_",
 
     "L_N_A(true)_A(true)_W(b[1]v[1])_B(b[1]v[1])_T(b[2]v[2])_", "L_N_A(true)_A(true)_W(b[1]v[1])_W(b[1]v[1])_B(b[1]v[1])_T(b[2]v[2])",
@@ -111,13 +112,13 @@ let testGenomes = [
 // https://stackoverflow.com/users/3441734/user3441734
 // https://stackoverflow.com/a/44541541/1610473
 class Log: TextOutputStream {
-    
+
     static var L = Log()
-    
+
     var fm = FileManager.default
     let log: URL
     var handle: FileHandle?
-    
+
     init() {
         log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("roblog.txt")
         print("Logfile at \(log)")
@@ -129,7 +130,7 @@ class Log: TextOutputStream {
             print("Couldn't open logfile")
         }
     }
-    
+
     deinit { handle?.closeFile() }
 
     func write(_ string: String) {
@@ -151,15 +152,15 @@ precedencegroup CharacterAdditionPrecedence {
 infix operator ++: CharacterAdditionPrecedence
 
 extension Character {
-    static func ++(_ lhs: Character, _ rhs: Character) -> String {
+    static func ++ (_ lhs: Character, _ rhs: Character) -> String {
         return String(lhs) + String(rhs)
     }
-    
-    static func ++(_ lhs: Character, _ rhs: String) -> String {
+
+    static func ++ (_ lhs: Character, _ rhs: String) -> String {
         return String(lhs) + rhs
     }
-    
-    static func ++(_ lhs: String, _ rhs: Character) -> String {
+
+    static func ++ (_ lhs: String, _ rhs: Character) -> String {
         return lhs + String(rhs)
     }
 }
@@ -171,9 +172,9 @@ enum SelectionError: Error {
 enum Utilities {
     static var filenameSerialNumber = 0
     static var thereBeNoShowing = true
-    
+
     static func clobbered(_ message: String) { print(message); fatalError(message) }
-        
+
     static func splitGenome(_ slice: GenomeSlice) -> [String] {
         // Because we leave a trailing _ in the string, components()
         // gives us back an empty entry; ditch it.
@@ -181,62 +182,62 @@ enum Utilities {
         let stringThing = sliceThing.map { String($0) }
         return stringThing
     }
-    
+
     enum GeneSplitType {
         case markerGene, stringGene, doubletGene, doubletValue
     }
-    
+
     static func splitGene(_ slice: GenomeSlice) -> [String] {
         var splitResults = [String]()
 
         for type in [GeneSplitType.markerGene, GeneSplitType.stringGene,
                      GeneSplitType.doubletGene, GeneSplitType.doubletValue] {
-        
+
             splitResults = splitGene(slice, type)
                         if !splitResults.isEmpty { /*print("match; type \(type)", slice); */return splitResults }
         }
-        
+
         preconditionFailure("No match in '\(slice)'")
     }
-    
+
+    // swiftlint:disable cyclomatic_complexity
+
     static func splitGene(_ slice: GenomeSlice, _ splitType: GeneSplitType) -> [String] {
         var geneComponents = [String]()
-        
+
         switch splitType {
         case .markerGene:
             guard let first = slice.first(where: { $0 == "L" || $0 == "N" })
-                else { return geneComponents }
-            
+                else { break }
+
             geneComponents.append(String(first))
-            return geneComponents
-            
+
         case .stringGene:
             guard let fmi = slice.firstIndex(where: { $0 == "A" || $0 == "F" })
-                else { return geneComponents }
-            
+                else { break }
+
             let fsi = slice.index(fmi, offsetBy: 2)   // Point to the meat
-            
+
             guard let eos = slice.lastIndex(of: ")")
-                else { return geneComponents }
-            
+                else { break }
+
             geneComponents.append(String(slice[fmi]))
             geneComponents.append(String(slice[fsi..<eos]))
-            return geneComponents
 
         case .doubletGene:
             guard let fmi = slice.firstIndex(where: { $0 == "B" || $0 == "W" })
-                else { return geneComponents }
-            
+                else { break }
+
             // reDoubletGene will capture both a doublet gene and a doublet
             // value. But here I'll discard the result if it's a doublet,
             // because it is a bit more straightforward to allow the .doubletValue
             // case to handle partial genes, that is, doublet values.
             let bmi = slice.index(fmi, offsetBy: 4)   // Point to the base meat
-            guard let eob = slice[bmi...].firstIndex(of: "]") else { return geneComponents }
-            
+            guard let eob = slice[bmi...].firstIndex(of: "]") else { break }
+
             let vmi = slice.index(eob, offsetBy: 3)     // Point to the value meat
-            guard let eov = slice[vmi...].firstIndex(of: "]") else { return geneComponents }
-            
+            guard let eov = slice[vmi...].firstIndex(of: "]") else { break }
+
             let marker = String(slice[fmi])
             let baseline = String(slice[bmi..<eob])
             let value = String(slice[vmi..<eov])
@@ -245,27 +246,29 @@ enum Utilities {
             geneComponents.append(marker)
             geneComponents.append(baseline)
             geneComponents.append(value)
-            return geneComponents
 
         case .doubletValue:
             let fmi = slice.startIndex
-            
+
             let bmi = slice.index(fmi, offsetBy: 2)   // Point to the base meat
-            guard let eob = slice[bmi...].firstIndex(of: "]") else { return geneComponents }
-            
+            guard let eob = slice[bmi...].firstIndex(of: "]") else { break }
+
             let vmi = slice.index(eob, offsetBy: 3)     // Point to the value meat
-            guard let eov = slice[vmi...].firstIndex(of: "]") else { return geneComponents }
-            
+            guard let eov = slice[vmi...].firstIndex(of: "]") else { break }
+
             let baseline = String(slice[bmi..<eob])
             let value = String(slice[vmi..<eov])
-            
+
             // See comments above under markers
             geneComponents.append(baseline)
             geneComponents.append(value)
-            return geneComponents
         }
+
+        return geneComponents
     }
-    
+
+    // swiftlint:enable cyclomatic_complexity
+
     // With deepest gratitude to Stack Overflow dude
     // https://stackoverflow.com/users/151279/jerry
     // https://stackoverflow.com/a/39048651/1610473
@@ -273,7 +276,7 @@ enum Utilities {
         var info = mach_task_basic_info()
         let MACH_TASK_BASIC_INFO_COUNT = MemoryLayout<mach_task_basic_info>.stride/MemoryLayout<natural_t>.stride
         var count = mach_msg_type_number_t(MACH_TASK_BASIC_INFO_COUNT)
-        
+
         let kerr: kern_return_t = withUnsafeMutablePointer(to: &info) {
             $0.withMemoryRebound(to: integer_t.self, capacity: MACH_TASK_BASIC_INFO_COUNT) {
                 task_info(mach_task_self_,
@@ -282,7 +285,7 @@ enum Utilities {
                           &count)
             }
         }
-        
+
         if kerr == KERN_SUCCESS {
             print("Memory in use (in bytes): \(info.resident_size)")
             return info.resident_size
@@ -291,30 +294,30 @@ enum Utilities {
             print("Error with task_info(): " +
                 (String(cString: mach_error_string(kerr), encoding: String.Encoding.ascii) ?? "unknown error"))
         }
-        
+
         return 0
     }
-    
+
     static func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }
-    
+
     static func makeFullPath(_ filename: URL) -> URL {
         let filename = String(format: "txt%04d.txt", filenameSerialNumber)
         let fullPath = Utilities.getDocumentsDirectory().appendingPathComponent(filename)
-        
+
         filenameSerialNumber += 1
         return fullPath
     }
 
     static func hurl(_ exception: SelectionError) throws { throw exception }
-    
+
     static func load(filename: String) -> [Genome] {
         do {
             let fullPathURL = Utilities.getDocumentsDirectory().appendingPathComponent(filename)
             let jsonString = try String(contentsOf: fullPathURL)
-            
+
             let strands = try JSONDecoder().decode([Genome].self, from: jsonString.data(using: .utf8)!)
             return strands
         } catch {
@@ -322,15 +325,15 @@ enum Utilities {
             fatalError()
         }
     }
-    
+
     static func save(_ strands: [Genome], to filename: String) -> String {
         do {
             let json = try JSONEncoder().encode(strands)
-            
+
             let fullPath = Utilities.getDocumentsDirectory().appendingPathComponent(filename)
-            
+
             filenameSerialNumber += 1
-            
+
             try json.write(to: fullPath)
             return fullPath.absoluteString
         } catch {
@@ -343,27 +346,27 @@ enum Utilities {
 postfix operator %%
 extension Double {
     func sTruncate() -> String {
-        let t = Double(truncating: NSNumber(floatLiteral: self))
+        let t = Double(truncating: self as NSNumber)
         return String(format: "%.10f", t)
     }
 
     func dTruncate() -> Double {
         return Double(sTruncate())!
     }
-    
-    static postfix func %%(_ me: Double) -> String { return me.sTruncate() }
+
+    static postfix func %% (_ me: Double) -> String { return me.sTruncate() }
 }
 
 extension CGFloat {
     func sTruncate() -> String {
         return Double(self).sTruncate()
     }
-    
+
     func dTruncate() -> Double {
         return Double(self).dTruncate()
     }
-    
-    static postfix func %%(_ me: CGFloat) -> String { return me.sTruncate() }
+
+    static postfix func %% (_ me: CGFloat) -> String { return me.sTruncate() }
 }
 
 infix operator ~~=
@@ -378,7 +381,7 @@ extension String {
         let range = NSRange(location: 0, length: lhs.utf16.count)
         return regex.firstMatch(in: lhs, options: [], range: range) != nil
     }
-    
+
     // With deepest gratitude to StackOverflow denizen Martn R
     // https://stackoverflow.com/users/1187415/martin-r
     // https://stackoverflow.com/a/27880748/1610473
@@ -403,17 +406,17 @@ extension String {
 // https://stackoverflow.com/users/59541/nate-cook
 // https://stackoverflow.com/questions/33290955/regex-capture-group-swift
 extension String {
-    typealias CaptureElement = Array<String>
-    typealias CaptureGroup = Array<CaptureElement>
+    typealias CaptureElement = [String]
+    typealias CaptureGroup = [CaptureElement]
     func searchRegex (regex: String) -> CaptureGroup {
         do {
             let regex = try NSRegularExpression(pattern: regex, options: NSRegularExpression.Options(rawValue: 0))
             let nsstr = self as NSString
             let all = NSRange(location: 0, length: nsstr.length)
             var hatches = CaptureGroup()
-            regex.enumerateMatches(in: self, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: all)
-            {(result : NSTextCheckingResult?, _, _) in
-                
+            regex.enumerateMatches(in: self, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: all) {
+                (result : NSTextCheckingResult?, _, _) in
+
                 if let r = result?.groups(testedString: self) {
                     hatches.append(r)
                 }
@@ -452,7 +455,7 @@ extension String {
         let captureGroup = inputArray.searchRegex(regex: "[A-Z]")
         return !captureGroup.isEmpty
     }
-    
+
     func isLowercase(_ inputCharacter: Character) -> Bool {
         let inputArray = String(inputCharacter)
         let captureGroup = inputArray.searchRegex(regex: "[a-z]")
@@ -467,17 +470,17 @@ extension Utilities {
 
     static func makeSensesInterface() -> Genome {
         var g = Genome(); g += layb
-        
+
         for portNumber in 0..<selectionControls.howManySenses {
             g += neub
             for _ in 0..<portNumber { g += "A(false)_" }
-            
+
             g += "A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_"
         }
 
         g += ifmb; return g
     }
-    
+
     static func makeOutputsInterface() -> Genome {
         var g = Genome(); g += ifmb + layb
         for portNumber in 0..<selectionControls.howManyMotorNeurons {
@@ -487,20 +490,21 @@ extension Utilities {
         }
         return g
     }
-    
+
     static func stripInterfaces(from genome: Genome) -> Genome {
         var stripped = genome[...]
-        
+
         if let headless = stripped.firstIndex(of: ifm) {
             let tailless = stripped.lastIndex(of: ifm)
-            
+
             // Shouldn't have a lone "R"
             if headless == tailless { fatalError() }
             stripped = stripped[headless..<tailless!]
             return Genome(stripped)
         }
-        
+
         return genome
     }
 }
 
+// swiftlint:enable file_length
