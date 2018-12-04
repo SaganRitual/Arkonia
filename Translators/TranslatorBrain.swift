@@ -22,7 +22,7 @@ import Foundation
 
 extension Translators {
     class Brain: NeuralNetProtocol {
-        public var allLayersConnected = false
+        public var allLayersConnected = true
 
         func generateRandomSensoryInput() -> [Double] {
             return [0]
@@ -119,13 +119,18 @@ extension Translators {
             var previousLayer: Layer? = nil
             
             for layer in self.layers {
-                if previousLayerOutputs.isEmpty {
+                let sensesLayer = (layer.layerSSInBrain == 0)
+
+                if previousLayerOutputs.isEmpty && !sensesLayer {
                     print("EL1", terminator: ""); return nil }
 
                 previousLayerOutputs =
                     layer.stimulate(inputs: previousLayerOutputs)
                 
-                if !theseLayersCommunicate(layer, previousLayer) { return nil }
+                if !sensesLayer {
+                    if !theseLayersCommunicate(layer, previousLayer)
+                        { allLayersConnected = false; return nil }
+                }
                 
                 previousLayer = layer
                 
