@@ -65,9 +65,9 @@ class GameScene: SKScene {
             return
         }
 
-        guard let bestTestSubject = curator.getBestTestSubject() else { print("nil", terminator: ""); return }
-        if subjectToDisplay == nil { subjectToDisplay = bestTestSubject; print("iDisplay \(subjectToDisplay!.fishNumber)") }
-        else if subjectToDisplay!.fishNumber == bestTestSubject.fishNumber { print(".", terminator: ""); return }
+        guard let bestTestSubject = curator.getBestTestSubject() else { print("GS: nothing to display"); return }
+        if subjectToDisplay == nil { subjectToDisplay = bestTestSubject; print("GS: first display \(subjectToDisplay!.fishNumber)") }
+        else if subjectToDisplay!.fishNumber == bestTestSubject.fishNumber { /*print(".", terminator: ""); */return }
         
         print("N(\(bestTestSubject.fishNumber)) O(\(subjectToDisplay!.fishNumber))")
         subjectToDisplay = bestTestSubject

@@ -93,7 +93,7 @@ class Selector {
             
             guard let score = fitnessTester.administerTest(to: ts)
                 else {
-                    print("broken1 \(ts.fishNumber)",brokenBrainMarker)
+//                    print("broken1 \(ts.fishNumber)",brokenBrainMarker)
                     ts.debugMarker = brokenBrainMarker
                     brokenBrainMarker += 1
                     continue

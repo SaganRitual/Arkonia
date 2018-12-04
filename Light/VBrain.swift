@@ -52,9 +52,9 @@ class VBrain {
 
         self.spacer = Spacer(layersCount: self.layers.count, displaySize: gameScene.size)
         drawNeuronLayers(self.layers, spacer: spacer)
-        
-        let fishIDNode = SKLabelNode(text: "F(\(fishNumber))")
-        gameScene.addChild(fishIDNode)
+//        
+//        let fishIDNode = SKLabelNode(text: "F(\(fishNumber))")
+//        gameScene.addChild(fishIDNode)
     }
     
     func reset() {

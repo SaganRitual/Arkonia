@@ -26,7 +26,7 @@ class FTFitnessTester {
         let inputs = Array(repeating: 1.0, count: 10)
 
         guard let outputs = ts.brain.stimulate(inputs: inputs),
-            ts.brain.allLayersConnected else { print("\(ts.fishNumber) died?"); return nil }
+            ts.brain.allLayersConnected else { /*print("\(ts.fishNumber) died?");*/ return nil }
 
         return doScoringStuff(ts, outputs)
     }

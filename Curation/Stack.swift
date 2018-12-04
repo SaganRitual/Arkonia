@@ -149,7 +149,7 @@ class Stack {
             // that have better scores
 //            print("Stack.push( \(newArrival.fishNumber): \(newArrival.fitnessScore!))")
             precondition(newArrival.debugMarker == 424242)
-            print("f(\(newArrival.fishNumber)), V(\(newArrival.brain.allLayersConnected)) ", terminator: "")
+//            print("f(\(newArrival.fishNumber)), V(\(newArrival.brain.allLayersConnected)) ", terminator: "")
             theStack.push(newArrival)
         }
 

@@ -109,7 +109,8 @@ extension Translators {
             }
             
             if !atLeastOneConnectionToUpperLayer {
-                print("🌈", terminator: "") }
+//                print("🌈", terminator: "")
+            }
             
             return atLeastOneConnectionToUpperLayer
         }
@@ -121,8 +122,7 @@ extension Translators {
             for layer in self.layers {
                 let sensesLayer = (layer.layerSSInBrain == 0)
 
-                if previousLayerOutputs.isEmpty && !sensesLayer {
-                    print("EL1", terminator: ""); return nil }
+                if previousLayerOutputs.isEmpty && !sensesLayer { return nil }
 
                 previousLayerOutputs =
                     layer.stimulate(inputs: previousLayerOutputs)
@@ -134,14 +134,12 @@ extension Translators {
                 
                 previousLayer = layer
                 
-                guard layer.foundViableInput else
-                    { print("EL3 ", terminator: ""); return nil }
+                guard layer.foundViableInput else { return nil }
                 
 //                print("Layer \(layer.layerSSInBrain) stimulate -> \(layer.neurons.count) outputs")
             }
             
-            if previousLayerOutputs.isEmpty {
-                print("EL2", terminator: ""); return nil }
+            if previousLayerOutputs.isEmpty { return nil }
             return previousLayerOutputs
         }
     }
