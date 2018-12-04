@@ -59,7 +59,7 @@ class Decoder {
 
         var slice = Utilities.applyInterfaces(to: inputGenome)
 
-        let skipBadTokens = { (_ slice: GenomeSlice) -> GenomeSlice.Index in
+        let skipBadTokens = { [unowned self] (_ slice: GenomeSlice) -> GenomeSlice.Index in
             if let r = slice.firstIndex(where: { return Decoder.recognizedGeneTokens.contains($0) }) {
                 return r
             } else {

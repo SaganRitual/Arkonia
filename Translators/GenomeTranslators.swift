@@ -83,8 +83,8 @@ class Translators: BrainOwnerProtocol {
     func addWeight(_ value: ValueDoublet) { brain.addWeight(value) }
     func addWeight(_ baseline: Double, _ value: Double) { brain?.addWeight(baseline, value) }
 
-    func closeBrain() { bc?.report(); self.closeLayer() }
-    func closeLayer() { mc?.report(); brain.closeLayer() }
+    func closeBrain() { /*bc?.report(); */self.closeLayer() }
+    func closeLayer() { /*mc?.report();*/ brain.closeLayer() }
     func closeNeuron() { brain.closeNeuron() }
 
     func endOfStrand() throws {

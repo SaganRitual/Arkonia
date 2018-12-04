@@ -22,13 +22,12 @@ import Foundation
 import SpriteKit
 
 class VBrain {
-    var brain: NeuralNetProtocol!
-    let gameScene: GameScene
+    weak var brain: NeuralNetProtocol!
+    weak var gameScene: GameScene
     var spacer: Spacer!
     var vNeurons = [SKShapeNode]()
     var vTestInputs = [SKLabelNode]()
     var vTestOutputs = [SKLabelNode]()
-    var layers = [Translators.Layer]()
     var isFinalUpdate = false
     let fontSize: CGFloat = 8.0
     var startingY: CGFloat = 0.0
@@ -71,7 +70,7 @@ class VBrain {
     func tick(inputs: [Double], outputs: [Double]) {
         gameScene.removeChildren(in: vTestInputs + vTestOutputs)
 
-        let lambda = { (inputs: [Double], yIndex: Int) -> Void in
+        let lambda = { [weak self] (inputs: [Double], yIndex: Int) -> Void in
             for (ix, input) in zip(0..., inputs) {
                 let p = self.spacer.getPosition(neuronsThisLayer: inputs.count, xIndex: ix, yIndex: yIndex)
                 let n = SKLabelNode(text: String(input))

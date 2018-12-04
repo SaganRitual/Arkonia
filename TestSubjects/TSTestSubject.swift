@@ -28,7 +28,6 @@ class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
     private(set) var fishNumber: Int
     private(set) var genome: Genome
     public var fitnessScore: Double?
-    private let fitnessTester = FTFitnessTester()
 
     public var description: String {
         var fs = "<nil>"
@@ -37,6 +36,8 @@ class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
 
         return "Test subject \(fishNumber); score \(fs)"
     }
+    
+    deinit { print("~T(\(fishNumber))", terminator: "") }
 
     init(genome: Genome, brain: NeuralNetProtocol) {
         self.genome = genome

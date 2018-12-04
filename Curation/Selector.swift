@@ -60,7 +60,7 @@ class Selector {
             if selectorWorkItem.isCancelled { print("rLoop detects cancel"); break }
 
             semaphore.wait()
-            let mc = MemoryCheck("rLoop")
+//            let mc = MemoryCheck("rLoop")
             let newSurvivors = select(against: self.stud!)
             let selectionResults = [NotificationType.selectComplete : newSurvivors]
             let n = Foundation.Notification.Name.selectComplete
@@ -68,7 +68,7 @@ class Selector {
             notificationCenter.post(name: n, object: self, userInfo: selectionResults as [AnyHashable : Any])
 
             semaphore.signal()  // Give control back to the main thread
-            mc.report()
+//            mc.report()
         }
     }
 
@@ -86,6 +86,7 @@ class Selector {
 
         var stemTheFlood = [TSTestSubject]()
         for _ in 0..<selectionControls.howManySubjectsPerGeneration {
+            let mc = MemoryCheck("makeTestSubject")
             var nts = tsFactory.makeTestSubject(parent: stud, mutate: true)
             guard let ts = nts
                 else { continue }
@@ -93,23 +94,27 @@ class Selector {
             if selectorWorkItem.isCancelled { nts = nil; break }
             if ts.genome == stud.genome { nts = nil; continue }
 
+//            let mc = MemoryCheck("Administer test")
             guard let score = fitnessTester.administerTest(to: ts)
                 else {
-//                    print("broken1 \(ts.fishNumber)",brokenBrainMarker)
+                    print("broken1 \(ts.fishNumber)",brokenBrainMarker)
+//                    mc.report()
                     ts.debugMarker = brokenBrainMarker
                     nts = nil
                     brokenBrainMarker += 1
                     continue
                 }
+//            mc.report()
             ts.debugMarker = 424242
 
             ts.fitnessScore = score
-            if score > bestScore! { nts = nil; continue }
+            if score > bestScore! { nts = nil; print("$", terminator: ""); continue }
             if score < bestScore! { bestScore = score }
 
             // Start getting rid of the less promising candidates
-            if stemTheFlood.count >= 5 { _ = stemTheFlood.popBack(); nts = nil }
+            if stemTheFlood.count >= 5 { print("<", terminator: ""); _ = stemTheFlood.popBack(); nts = nil; print(">", terminator: ""); }
             stemTheFlood.push(ts)
+            print("\(ts.fishNumber) ", terminator: ""); mc.report()
         }
 
         if stemTheFlood.isEmpty { print("No survivors in \(thisGenerationNumber)"); return nil }

@@ -33,7 +33,7 @@ extension Translators {
         var mc: MemoryCheck
         
         init() { mc = MemoryCheck("Brain") }
-        deinit { print("~B~", terminator: "") }
+//        deinit { print("~B~", terminator: "") }
 
         var firstLayer = true
 
@@ -53,7 +53,7 @@ extension Translators {
                 // Just discard empty layers
                 if !u.neurons.isEmpty { layers.append(u) }
 
-//                underConstruction = nil
+                underConstruction = nil
 //                print("Brain closes layer")
             }
         }
@@ -67,7 +67,7 @@ extension Translators {
         func endOfStrand() throws {
             closeNeuron()
             closeLayer()
-            mc.report()
+//            mc.report()
         }
 
         func newLayer() {
