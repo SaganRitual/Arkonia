@@ -34,6 +34,7 @@ class Selector {
     private var tsFactory: TestSubjectFactory
     private var selectorWorkItem: DispatchWorkItem!
     private var thisGenerationNumber = 0
+    private var observerHandle: NSObjectProtocol?
 
     init(tsFactory: TestSubjectFactory, semaphore: DispatchSemaphore) {
         self.tsFactory = tsFactory
@@ -42,14 +43,16 @@ class Selector {
         self.tsFactory = tsFactory
 
         let n = Foundation.Notification.Name.setSelectionParameters
-        let s = #selector(setSelectionParameters)
-        notificationCenter.addObserver(self, selector: s, name: n, object: nil)
+        
+        observerHandle = notificationCenter.addObserver(forName: n, object: nil, queue: nil) {
+            [unowned self] n in self.setSelectionParameters(n)
+        }
     }
 
     deinit {
         print("Selector deinit")
         selectorWorkItem = nil
-        notificationCenter.removeObserver(self)
+        if let ohMy = observerHandle { notificationCenter.removeObserver(ohMy) }
     }
 
     func cancel() { semaphore.signal(); selectorWorkItem.cancel(); }

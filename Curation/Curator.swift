@@ -51,6 +51,7 @@ class Curator {
     let semaphore = DispatchSemaphore(value: 0)
     let stack = Stack()
     let tsFactory: TestSubjectFactory
+    private var observerHandle: NSObjectProtocol?
     public var status = CuratorStatus.running
 
     init(tsFactory: TestSubjectFactory) {
@@ -62,15 +63,20 @@ class Curator {
         // which inits the fitness tester, which sets the
         // controls. Seems rather ugly. Come back to it.
         self.remainingGenerations = selectionControls.howManyGenerations
-
+        
         let n = Foundation.Notification.Name.selectComplete
-        let s = #selector(selectComplete)
-        notificationCenter.addObserver(self, selector: s, name: n, object: nil)
+        observerHandle = notificationCenter.addObserver(forName: n, object: selector, queue: nil) {
+            [unowned self] notification in self.selectComplete(notification)
+        }
 
         self.selector.startThread()
     }
 
-    deinit { notificationCenter.removeObserver(self); print("Curator deinit") }
+    deinit {
+        if let oh = observerHandle {
+            notificationCenter.removeObserver(oh); print("Curator deinit")
+        }
+    }
 
     func getBestTestSubject() -> TSTestSubject? {
         return bestTestSubject
