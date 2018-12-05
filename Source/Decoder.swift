@@ -35,6 +35,7 @@ class Decoder {
     var parser: ValueParserProtocol!
 
     init() {
+        precondition(Decoder.d == nil)
         // The genomoe can be set or reset at any time.
         // Here, if the caller hasn't specified an input
         // genome, then we just sit idle until we get
@@ -59,7 +60,7 @@ class Decoder {
 
         var slice = Utilities.applyInterfaces(to: inputGenome)
 
-        let skipBadTokens = { (_ slice: GenomeSlice) -> GenomeSlice.Index in
+        let skipBadTokens = { [unowned self] (_ slice: GenomeSlice) -> GenomeSlice.Index in
             if let r = slice.firstIndex(where: { return Decoder.recognizedGeneTokens.contains($0) }) {
                 return r
             } else {

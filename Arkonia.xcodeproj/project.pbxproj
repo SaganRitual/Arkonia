@@ -23,7 +23,6 @@
 		D45E63F221AE39940078CB8E /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
 		D45E63F321AE39940078CB8E /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11321AE2331009D6011 /* TSLearnZoeName.swift */; };
 		D45E63F421AE39940078CB8E /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13921AE2415009D6011 /* TranslatorNeuron.swift */; };
-		D45E63F521AE39940078CB8E /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 		D45E640621AE3A860078CB8E /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12D21AE2404009D6011 /* Protocols.swift */; };
 		D45E640821AE3A860078CB8E /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
 		D45E640921AE3A860078CB8E /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
@@ -40,7 +39,6 @@
 		D45E641721AE3A860078CB8E /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D45E641821AE3A860078CB8E /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11321AE2331009D6011 /* TSLearnZoeName.swift */; };
 		D45E641921AE3A860078CB8E /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D45E641B21AE3A860078CB8E /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 		D45E641E21AE3A860078CB8E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A14E21AE2E63009D6011 /* GameScene.sks */; };
 		D45E641F21AE3A860078CB8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
 		D45E642021AE3A860078CB8E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
@@ -67,7 +65,6 @@
 		D48DA54421B1B18C0056496A /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10F21AE2331009D6011 /* TSNumberGuesser.swift */; };
 		D4B517C421AFA52F00F4C88A /* TSPassThrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11021AE2331009D6011 /* TSPassThrough.swift */; };
 		D4B517E821AFAC3200F4C88A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B517E721AFAC3200F4C88A /* main.swift */; };
-		D4B517EC21AFBABC00F4C88A /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 		D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
 		D4C0A11721AE2332009D6011 /* TSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10E21AE2331009D6011 /* TSFactory.swift */; };
 		D4C0A11A21AE2332009D6011 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
@@ -80,7 +77,6 @@
 		D4C0A13221AE2405009D6011 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
 		D4C0A13421AE2405009D6011 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12D21AE2404009D6011 /* Protocols.swift */; };
 		D4C0A13521AE2405009D6011 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
-		D4C0A13621AE2405009D6011 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 		D4C0A13B21AE2415009D6011 /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
 		D4C0A13C21AE2415009D6011 /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
 		D4C0A13D21AE2415009D6011 /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13921AE2415009D6011 /* TranslatorNeuron.swift */; };
@@ -106,12 +102,10 @@
 		D4C0A18621AE315E009D6011 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
 		D4C0A18721AE315E009D6011 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12D21AE2404009D6011 /* Protocols.swift */; };
 		D4C0A18821AE315E009D6011 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
-		D4C0A18921AE315E009D6011 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 		D4C0A18A21AE315E009D6011 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
 		D4C0A18B21AE315F009D6011 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
 		D4C0A18C21AE315F009D6011 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
 		D4C0A18D21AE315F009D6011 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12D21AE2404009D6011 /* Protocols.swift */; };
-		D4C0A18F21AE315F009D6011 /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 		D4C0A19021AE315F009D6011 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
 		D4C0A19321AE3178009D6011 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D4C0A19521AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
@@ -141,7 +135,6 @@
 		D4FE851821AE7C0500C9192F /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D4FE851921AE7C0500C9192F /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11321AE2331009D6011 /* TSLearnZoeName.swift */; };
 		D4FE851A21AE7C0500C9192F /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D4FE851C21AE7C0500C9192F /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 		D4FE851F21AE7C0500C9192F /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A14E21AE2E63009D6011 /* GameScene.sks */; };
 		D4FE852021AE7C0500C9192F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
 		D4FE852121AE7C0500C9192F /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
@@ -162,7 +155,6 @@
 		D4FE853921AEB20500C9192F /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
 		D4FE853A21AEB20500C9192F /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11321AE2331009D6011 /* TSLearnZoeName.swift */; };
 		D4FE853B21AEB20500C9192F /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13921AE2415009D6011 /* TranslatorNeuron.swift */; };
-		D4FE853C21AEB20500C9192F /* RepeatingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -238,7 +230,6 @@
 		D4C0A12B21AE2404009D6011 /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Decoder.swift; path = Source/Decoder.swift; sourceTree = "<group>"; };
 		D4C0A12D21AE2404009D6011 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Protocols.swift; path = Source/Protocols.swift; sourceTree = "<group>"; };
 		D4C0A12E21AE2404009D6011 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = Source/Utilities.swift; sourceTree = "<group>"; };
-		D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RepeatingTimer.swift; path = Source/RepeatingTimer.swift; sourceTree = "<group>"; };
 		D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TranslatorLayer.swift; path = Translators/TranslatorLayer.swift; sourceTree = "<group>"; };
 		D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GenomeTranslators.swift; path = Translators/GenomeTranslators.swift; sourceTree = "<group>"; };
 		D4C0A13921AE2415009D6011 /* TranslatorNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TranslatorNeuron.swift; path = Translators/TranslatorNeuron.swift; sourceTree = "<group>"; };
@@ -409,7 +400,6 @@
 				D4C0A12921AE2404009D6011 /* Mutator.swift */,
 				D4C0A12D21AE2404009D6011 /* Protocols.swift */,
 				D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */,
-				D4C0A12F21AE2404009D6011 /* RepeatingTimer.swift */,
 				D4C0A12E21AE2404009D6011 /* Utilities.swift */,
 			);
 			name = Source;
@@ -703,7 +693,6 @@
 				D45E63F221AE39940078CB8E /* Decoder.swift in Sources */,
 				D45E63F321AE39940078CB8E /* TSLearnZoeName.swift in Sources */,
 				D45E63F421AE39940078CB8E /* TranslatorNeuron.swift in Sources */,
-				D45E63F521AE39940078CB8E /* RepeatingTimer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -729,7 +718,6 @@
 				D45E641721AE3A860078CB8E /* Curator.swift in Sources */,
 				D45E641821AE3A860078CB8E /* TSLearnZoeName.swift in Sources */,
 				D45E641921AE3A860078CB8E /* Decoder.swift in Sources */,
-				D45E641B21AE3A860078CB8E /* RepeatingTimer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -749,7 +737,6 @@
 				D482FD9621B11EBA00FF9EE9 /* Curator.swift in Sources */,
 				D482FD9A21B121B000FF9EE9 /* GenomeTranslators.swift in Sources */,
 				D4B517E821AFAC3200F4C88A /* main.swift in Sources */,
-				D4B517EC21AFBABC00F4C88A /* RepeatingTimer.swift in Sources */,
 				D46540F221B1417B00445B69 /* Protocols.swift in Sources */,
 				D48DA54421B1B18C0056496A /* TSNumberGuesser.swift in Sources */,
 				D460041A21B3529C008190B0 /* Stack.swift in Sources */,
@@ -780,7 +767,6 @@
 				D4C0A11C21AE2332009D6011 /* TSLearnZoeName.swift in Sources */,
 				D4B517C421AFA52F00F4C88A /* TSPassThrough.swift in Sources */,
 				D4C0A13D21AE2415009D6011 /* TranslatorNeuron.swift in Sources */,
-				D4C0A13621AE2405009D6011 /* RepeatingTimer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -809,7 +795,6 @@
 				D4C0A19321AE3178009D6011 /* Curator.swift in Sources */,
 				D4C0A18121AE3151009D6011 /* TSLearnZoeName.swift in Sources */,
 				D4C0A18521AE315E009D6011 /* Decoder.swift in Sources */,
-				D4C0A18921AE315E009D6011 /* RepeatingTimer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -827,7 +812,6 @@
 				D4C0A18C21AE315F009D6011 /* Mutator.swift in Sources */,
 				D4C0A18B21AE315F009D6011 /* Decoder.swift in Sources */,
 				D4C0A16621AE2E64009D6011 /* GameSceneTests.swift in Sources */,
-				D4C0A18F21AE315F009D6011 /* RepeatingTimer.swift in Sources */,
 				D4FE850321AE7AC600C9192F /* GameScene.swift in Sources */,
 				D4C0A18421AE3152009D6011 /* TSLearnZoeName.swift in Sources */,
 			);
@@ -855,7 +839,6 @@
 				D4FE851821AE7C0500C9192F /* Curator.swift in Sources */,
 				D4FE851921AE7C0500C9192F /* TSLearnZoeName.swift in Sources */,
 				D4FE851A21AE7C0500C9192F /* Decoder.swift in Sources */,
-				D4FE851C21AE7C0500C9192F /* RepeatingTimer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -879,7 +862,6 @@
 				D4FE853921AEB20500C9192F /* Decoder.swift in Sources */,
 				D4FE853A21AEB20500C9192F /* TSLearnZoeName.swift in Sources */,
 				D4FE853B21AEB20500C9192F /* TranslatorNeuron.swift in Sources */,
-				D4FE853C21AEB20500C9192F /* RepeatingTimer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

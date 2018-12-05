@@ -113,7 +113,7 @@ let testGenomes = [
 // https://stackoverflow.com/a/44541541/1610473
 class Log: TextOutputStream {
 
-    static var L = Log()
+   static var L = Log()
 
     var fm = FileManager.default
     let log: URL
@@ -287,7 +287,7 @@ enum Utilities {
         }
 
         if kerr == KERN_SUCCESS {
-            print("Memory in use (in bytes): \(info.resident_size)")
+//            print("Memory in use (in bytes): \(info.resident_size)")
             return info.resident_size
         }
         else {
@@ -369,97 +369,14 @@ extension CGFloat {
     static postfix func %% (_ me: CGFloat) -> String { return me.sTruncate() }
 }
 
-infix operator ~~=
-infix operator ~~+
-extension String {
-    // With deepest gratitude to Paul Hudson
-    // https://twitter.com/twostraws
-    // https://www.hackingwithswift.com/articles/108/how-to-use-regular-expressions-in-swift
-    //
-    static func ~= (lhs: String, rhs: String) -> Bool {
-        guard let regex = try? NSRegularExpression(pattern: rhs) else { return false }
-        let range = NSRange(location: 0, length: lhs.utf16.count)
-        return regex.firstMatch(in: lhs, options: [], range: range) != nil
-    }
-
-    // With deepest gratitude to StackOverflow denizen Martn R
-    // https://stackoverflow.com/users/1187415/martin-r
-    // https://stackoverflow.com/a/27880748/1610473
-    //
-    static func ~~= (stringToSearch: String, patternToMatch: String) -> [String] {
-        do {
-            let regex = try NSRegularExpression(pattern: patternToMatch)
-            let results = regex.matches(in: stringToSearch,
-                                        range: NSRange(stringToSearch.startIndex..., in: stringToSearch))
-            return results.map {
-                String(stringToSearch[Range($0.range, in: stringToSearch)!])
-            }
-        } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
-            return []
-        }
-    }
-}
-
-// With deepest gratitude to StackOverflow dudes
-// https://stackoverflow.com/users/1786016/arti
-// https://stackoverflow.com/users/59541/nate-cook
-// https://stackoverflow.com/questions/33290955/regex-capture-group-swift
-extension String {
-    typealias CaptureElement = [String]
-    typealias CaptureGroup = [CaptureElement]
-    func searchRegex (regex: String) -> CaptureGroup {
-        do {
-            let regex = try NSRegularExpression(pattern: regex, options: NSRegularExpression.Options(rawValue: 0))
-            let nsstr = self as NSString
-            let all = NSRange(location: 0, length: nsstr.length)
-            var hatches = CaptureGroup()
-            regex.enumerateMatches(in: self, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: all) {
-                (result : NSTextCheckingResult?, _, _) in
-
-                if let r = result?.groups(testedString: self) {
-                    hatches.append(r)
-                }
-//                print("rob", result?.groups(testedString: self))
-//                let capturedRange = result!.range(at: 1)
-//                if !NSEqualRanges(capturedRange, NSMakeRange(NSNotFound, 0)) {
-//                    let theResult = nsstr.substring(with: result!.range(at: 1))
-//                    hatches.append(theResult)
-//                }
-            }
-            return hatches
-        } catch {
-            print("regex problem:", error)
-            return CaptureGroup()
-        }
-    }
-}
-
-extension NSTextCheckingResult {
-    func groups(testedString:String) -> [String] {
-        var groups = [String]()
-        for i in  0 ..< self.numberOfRanges {
-            let thisRange = self.range(at: i)
-            guard let r = Range(thisRange, in: testedString) else { return groups }
-
-            let group = String(testedString[r])
-            groups.append(group)
-        }
-        return groups
-    }
-}
 
 extension String {
     func isUppercase(_ inputCharacter: Character) -> Bool {
-        let inputArray = String(inputCharacter)
-        let captureGroup = inputArray.searchRegex(regex: "[A-Z]")
-        return !captureGroup.isEmpty
+        return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".contains(inputCharacter)
     }
 
     func isLowercase(_ inputCharacter: Character) -> Bool {
-        let inputArray = String(inputCharacter)
-        let captureGroup = inputArray.searchRegex(regex: "[a-z]")
-        return !captureGroup.isEmpty
+        return "abcdefghijklmnopqrstuvwxyz".contains(inputCharacter)
     }
 }
 

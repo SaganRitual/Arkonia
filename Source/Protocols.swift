@@ -28,7 +28,7 @@ protocol ValueParserProtocol {
     func setDefaultInput() -> ValueParserProtocol
 }
 
-protocol NeuronOwnerProtocol {
+protocol NeuronOwnerProtocol: class {
     func addActivator(_ active: Bool)
     func addWeight(_ value: ValueDoublet)
     func addWeight(_ baseline: Double, _ value: Double)
@@ -67,7 +67,7 @@ protocol LayerOwnerProtocol {
     func generateRandomSensoryInput() -> [Double]
 }
 
-protocol BrainOwnerProtocol {
+protocol BrainOwnerProtocol: class {
     var reachedEndOfStrand: Bool { get set }
 
     func addActivator(_ value: Bool)

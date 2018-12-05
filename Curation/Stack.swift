@@ -21,11 +21,13 @@
 import Foundation
 
 class Stack {
-    weak private var highWaterHolder: TSTestSubject?
-    weak private var currentBenchmarkHolder: TSTestSubject? // Not on the stack
+    // These two are strong references. The Curator will forget about
+    // them when it's not testing them.
+    private var highWaterHolder: TSTestSubject?
+    private var currentBenchmarkHolder: TSTestSubject? // Not on the stack
+
     private var theStack = TSArray()
 
-    private var newArrivals = TSArray()
     private var maxEQScores = selectionControls.stackNoobsLimit
     private var retreatLock: Double?
 
@@ -156,14 +158,14 @@ class Stack {
         currentBenchmarkHolder = theStack.pop()
         currentBestScore = currentBenchmarkHolder!.fitnessScore!
 
-        if retreated {
-            print("Could not get \(candidateFilterType.rawValue) for \(currentBestScore); retreating to ", terminator: "")
-            if retreatLock == nil { if !theStack.isEmpty { print("subject \(currentBenchmarkHolder!.fishNumber)") }; retreatLock = currentBenchmarkHolder!.fitnessScore! }
-            if theStack.isEmpty { print("aboriginal"); retreatLock = nil }
-        } else {
+       if retreated {
+           print("Could not get \(candidateFilterType.rawValue) for \(currentBestScore); retreating to ", terminator: "")
+           if retreatLock == nil { if !theStack.isEmpty { print("subject \(currentBenchmarkHolder!.fishNumber)") }; retreatLock = currentBenchmarkHolder!.fitnessScore! }
+           if theStack.isEmpty { print("aboriginal"); retreatLock = nil }
+       } else {
 //            print("Trying to match/beat \(currentBestScore) or whaatevs \(wtfScore)")
-            retreatLock = nil
-        }
+           retreatLock = nil
+       }
 
 //        print("Stack.pop() -> \(currentBest!.fishNumber) : \(currentBest!.fitnessScore!)")
     }

@@ -29,9 +29,37 @@ print("Experimental")
 print("Run dark")
 #endif
 
+class MemoryCheck {
+    let memoryInUseBefore: mach_vm_size_t
+    let name: String
+    
+    init(_ name: String) {
+        memoryInUseBefore = Utilities.report_memory()
+        self.name = name
+    }
+    
+    func report() {
+        let memoryInUseAfter = Utilities.report_memory()
+        let total = memoryInUseAfter
+        let forThisObject = memoryInUseAfter - memoryInUseBefore
+        print("Total \(total), for '\(name)' \(forThisObject)")
+    }
+}
+
+let m1 = Utilities.report_memory()
+print("Before we do anything, \(m1 / 1024 / 1024) MB used")
 let f = TSNumberGuesserFactory()
+let m2 = Utilities.report_memory()
+let c1 = m2 - m1
+print("TSNumberGuesserFactory uses \(c1) bytes")
 let c = Curator(tsFactory: f)
+let m3 = Utilities.report_memory()
+let c2 = m3 - m2
+print("Curator uses \(c1) bytes")
 let x = c.select()
+let m4 = Utilities.report_memory()
+let c3 = m4 - m3
+print("select, or whatever, uses \(c1) bytes")
 
 #if false
 let group = DispatchGroup()

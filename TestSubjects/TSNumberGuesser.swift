@@ -38,8 +38,6 @@ class TSNumberGuesserFactory: TestSubjectFactory {
     }
 
     override func makeTestSubject(parentGenome: Genome, mutate: Bool) -> TSTestSubject? {
-        let m = Utilities.report_memory()
-
         var maybeMutated = parentGenome
 
         while mutate && maybeMutated == parentGenome {
@@ -48,16 +46,12 @@ class TSNumberGuesserFactory: TestSubjectFactory {
         }
 
         do { try decoder.setInput(to: maybeMutated).decode() }
-        catch { return nil }
-
-        defer {
-            let t = Utilities.report_memory()
-            let mm = t - m
-            print("total \(t), current \(mm)")
-        }
+        catch { print("\n(Died)"); return nil }
 
         let brain = Translators.t.getBrain()
-        return TSNumberGuesser(genome: maybeMutated, brain: brain)
+        // Translators.t.reset() -- add while debugging mem; does it matter whether we reset?
+        let guesser = TSNumberGuesser(genome: maybeMutated, brain: brain)
+        return guesser
     }
 }
 

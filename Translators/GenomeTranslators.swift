@@ -92,7 +92,7 @@ class Translators: BrainOwnerProtocol {
     }
 
     func getBrain() -> NeuralNetProtocol {
-        defer { self.brain = nil }
+//        defer { self.brain = nil }
         return self.brain
     }
 
@@ -100,7 +100,7 @@ class Translators: BrainOwnerProtocol {
     func newLayer() { self.brain.newLayer() }
     func newNeuron() { self.brain.newNeuron() }
 
-    func reset() {}
+    public func reset() { brain = nil }
 
     enum OutputFunctionName: String {
         case limiter, logistic, linear, tanh

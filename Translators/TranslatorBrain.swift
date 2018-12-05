@@ -24,14 +24,19 @@ extension Translators {
     class Brain: NeuralNetProtocol {
         public var allLayersConnected = true
 
-        deinit { print("Brain deinit") }
-
         func generateRandomSensoryInput() -> [Double] {
             return [0]
         }
 
         var layers = [Translators.Layer]()
-        var underConstruction: Translators.Layer!
+        var underConstruction: Translators.Layer?
+        
+        static var count = 0
+        init() {
+            Brain.count += 1
+        }
+        
+        deinit { Brain.count -= 1 }
 
         var firstLayer = true
 
@@ -68,8 +73,8 @@ extension Translators {
         }
 
         func newLayer() {
-            guard underConstruction == nil else { fatalError() }
-            underConstruction = makeLayer()
+           precondition(underConstruction == nil)
+           underConstruction = makeLayer()
 //            print("Brain creates Layer(\(underConstruction!))")
         }
 
@@ -121,6 +126,7 @@ extension Translators {
             var previousLayerOutputs = inputs
             var previousLayer: Layer?
 
+//            print("\(self.layers.count) layers")
             for layer in self.layers {
                 let sensesLayer = (layer.layerSSInBrain == 0)
 
