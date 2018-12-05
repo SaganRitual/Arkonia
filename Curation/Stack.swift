@@ -21,11 +21,13 @@
 import Foundation
 
 class Stack {
+    // These two are strong references. The Curator will forget about
+    // them when it's not testing them.
     private var highWaterHolder: TSTestSubject?
     private var currentBenchmarkHolder: TSTestSubject? // Not on the stack
+
     private var theStack = TSArray()
 
-    private var newArrivals = TSArray()
     private var maxEQScores = selectionControls.stackNoobsLimit
     private var retreatLock: Double?
 
@@ -155,15 +157,17 @@ class Stack {
 //        print("theStack after, sort of", theStack)
         currentBenchmarkHolder = theStack.pop()
         currentBestScore = currentBenchmarkHolder!.fitnessScore!
+        
+        print("Stack is \(theStack.count) elements deep")
 
-        if retreated {
-            print("Could not get \(candidateFilterType.rawValue) for \(currentBestScore); retreating to ", terminator: "")
-            if retreatLock == nil { if !theStack.isEmpty { print("subject \(currentBenchmarkHolder!.fishNumber)") }; retreatLock = currentBenchmarkHolder!.fitnessScore! }
-            if theStack.isEmpty { print("aboriginal"); retreatLock = nil }
-        } else {
-//            print("Trying to match/beat \(currentBestScore) or whaatevs \(wtfScore)")
-            retreatLock = nil
-        }
+//        if retreated {
+//            print("Could not get \(candidateFilterType.rawValue) for \(currentBestScore); retreating to ", terminator: "")
+//            if retreatLock == nil { if !theStack.isEmpty { print("subject \(currentBenchmarkHolder!.fishNumber)") }; retreatLock = currentBenchmarkHolder!.fitnessScore! }
+//            if theStack.isEmpty { print("aboriginal"); retreatLock = nil }
+//        } else {
+////            print("Trying to match/beat \(currentBestScore) or whaatevs \(wtfScore)")
+//            retreatLock = nil
+//        }
 
 //        print("Stack.pop() -> \(currentBest!.fishNumber) : \(currentBest!.fitnessScore!)")
     }

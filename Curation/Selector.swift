@@ -60,15 +60,15 @@ class Selector {
             if selectorWorkItem.isCancelled { print("rLoop detects cancel"); break }
 
             semaphore.wait()
-//            let mc = MemoryCheck("rLoop")
             let newSurvivors = select(against: self.stud!)
             let selectionResults = [NotificationType.selectComplete : newSurvivors]
             let n = Foundation.Notification.Name.selectComplete
 
+//            let mc = MemoryCheck("nCent")
             notificationCenter.post(name: n, object: self, userInfo: selectionResults as [AnyHashable : Any])
+//            mc.report()
 
             semaphore.signal()  // Give control back to the main thread
-//            mc.report()
         }
     }
 
@@ -79,14 +79,19 @@ class Selector {
         aboriginal.fitnessScore = score
     }
 
+    var fakeTS = [TSTestSubject]()
     private func select(against stud: TSTestSubject) -> [TSTestSubject]? {
         thisGenerationNumber += 1
 
         var bestScore = stud.fitnessScore
+        
+        if fakeTS.count >= 5 {
+            print(">"); return fakeTS }
 
         var stemTheFlood = [TSTestSubject]()
+
         for _ in 0..<selectionControls.howManySubjectsPerGeneration {
-            let mc = MemoryCheck("makeTestSubject")
+//            let mc = MemoryCheck("makeTestSubject")
             var nts = tsFactory.makeTestSubject(parent: stud, mutate: true)
             guard let ts = nts
                 else { continue }
@@ -112,11 +117,23 @@ class Selector {
             if score < bestScore! { bestScore = score }
 
             // Start getting rid of the less promising candidates
-            if stemTheFlood.count >= 5 { print("<", terminator: ""); _ = stemTheFlood.popBack(); nts = nil; print(">", terminator: ""); }
+            if stemTheFlood.count >= selectionControls.keepersPerGenerationLimit {
+//                let m = Utilities.report_memory()
+//                print("<", terminator: "")
+                _ = stemTheFlood.popBack()
+//                nts = nil
+//                let n = Utilities.report_memory()
+//                let tf = m >= n ? "\(m - n)" : "<\(n - m)>"
+//                print("(\(n),\(tf))>", terminator: "")
+            }
+
             stemTheFlood.push(ts)
-            print("\(ts.fishNumber) ", terminator: ""); mc.report()
+            fakeTS.push(ts)
+//            print("FN: \(ts.fishNumber) ", terminator: ""); mc.report()
         }
 
+        let m = Utilities.report_memory()
+        print("\(m) bytes in use")
         if stemTheFlood.isEmpty { print("No survivors in \(thisGenerationNumber)"); return nil }
         return stemTheFlood
     }
@@ -136,8 +153,8 @@ class Selector {
 
     public func startThread() {
 
-        self.selectorWorkItem = DispatchWorkItem { [weak self] in self?.rLoop()
-            self?.selectorWorkItem = nil
+        self.selectorWorkItem = DispatchWorkItem { [weak self] in self!.rLoop()
+            self!.selectorWorkItem = nil
         }
 
         DispatchQueue.global(qos: .background).async(execute: selectorWorkItem)

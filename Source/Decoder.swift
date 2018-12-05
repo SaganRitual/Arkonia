@@ -35,6 +35,7 @@ class Decoder {
     var parser: ValueParserProtocol!
 
     init() {
+        precondition(Decoder.d == nil)
         // The genomoe can be set or reset at any time.
         // Here, if the caller hasn't specified an input
         // genome, then we just sit idle until we get

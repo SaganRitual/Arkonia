@@ -37,7 +37,7 @@ class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
         return "Test subject \(fishNumber); score \(fs)"
     }
     
-    deinit { print("~T(\(fishNumber))", terminator: "") }
+//    deinit { print("~T(\(fishNumber))", terminator: "") }
 
     init(genome: Genome, brain: NeuralNetProtocol) {
         self.genome = genome
@@ -70,44 +70,3 @@ class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
         return Ls < Rs
     }
 }
-
-#if OLD_TEST_SUBJECT
-class TSTestSubject {
-    static var theFishNumber = 0
-
-    private(set) var myFishNumber: Int
-    private(set) var brain: BrainStem?
-    private(set) var genome: Genome
-    private let fitnessTester: TestSubjectFitnessTester
-
-    init(with genome: Genome, brain: BrainStem? = nil, fitnessTester: TestSubjectFitnessTester) {
-        self.brain = brain
-        self.genome = genome
-        self.fitnessTester = fitnessTester
-        self.myFishNumber = TSTestSubject.theFishNumber
-        TSTestSubject.theFishNumber += 1
-    }
-
-    func getFitnessReport() -> String? {
-        guard let b = self.brain else { preconditionFailure("No brain, no report.") }
-        return b.fitnessReport
-    }
-
-    func getFitnessScore() -> Double? {
-        guard let b = self.brain else { preconditionFailure("No brain, no score.") }
-        return b.fitnessScore
-    }
-
-    func setBrain(_ brain: BrainStem) { self.brain = brain }
-
-    func calculateFitnessScore(_ score: Double,_ report: String) {
-        self.brain!.fitnessScore = score; self.brain!.fitnessReport = report
-    }
-
-    func submitToTest(for sensoryInput: [Double]) -> [Double]? {
-        let testOutputs = fitnessTester.administerTest(to: self, for: sensoryInput)
-        _ = fitnessTester.calculateFitnessScore(for: self, outputs: testOutputs)
-        return testOutputs
-    }
-}
-#endif

@@ -36,27 +36,3 @@ class FTFitnessTester {
     }
 }
 
-#if OLD_FITNESS_TESTER
-class TestSubjectFitnessTester: SelectionFitnessTester {
-    func administerTest(to testSubject: TSTestSubject, for sensoryInput: [Double]) -> [Double]? {
-        guard let b = testSubject.brain else { preconditionFailure("No brain, no test.") }
-        let outputs = b.stimulate(inputs: sensoryInput)
-        _ = calculateFitnessScore(for: testSubject, outputs: outputs)
-        return outputs
-    }
-
-    func getFitnessScore(for testSubject: TSTestSubject) -> Double?
-        { return testSubject.getFitnessScore() }
-
-    func calculateFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?) {
-        guard let outputs = outputs else { return }
-        let totalOutput = outputs.reduce(0, +)
-        let score = abs(totalOutput - 17)
-        testSubject.calculateFitnessScore(score, "")    // The number I want the brains to guess
-    }
-
-    func calculateFitnessScore(_ score: Double, _ progressReport: String) {
-
-    }
-}
-#endif

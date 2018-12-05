@@ -113,7 +113,7 @@ let testGenomes = [
 // https://stackoverflow.com/a/44541541/1610473
 class Log: TextOutputStream {
 
-    static var L = Log()
+//    static var L = Log()
 
     var fm = FileManager.default
     let log: URL

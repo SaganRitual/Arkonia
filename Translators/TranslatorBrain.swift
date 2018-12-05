@@ -29,11 +29,16 @@ extension Translators {
         }
 
         var layers = [Translators.Layer]()
-        weak var underConstruction: Translators.Layer!
+        var underConstruction: Translators.Layer!
         var mc: MemoryCheck
         
-        init() { mc = MemoryCheck("Brain") }
-//        deinit { print("~B~", terminator: "") }
+        static var count = 0
+        init() {
+            Brain.count += 1
+            mc = MemoryCheck("Brain")
+        }
+        
+        deinit { Brain.count -= 1; print("B(\(Brain.count))", terminator: "") }
 
         var firstLayer = true
 
@@ -71,9 +76,9 @@ extension Translators {
         }
 
         func newLayer() {
-            guard underConstruction == nil else { fatalError() }
-            underConstruction = makeLayer()
-//            print("Brain creates Layer(\(underConstruction!))")
+//            precondition(underConstruction == nil)
+//            underConstruction = makeLayer()
+////            print("Brain creates Layer(\(underConstruction!))")
         }
 
         func newNeuron() { underConstruction?.newNeuron() }
@@ -124,6 +129,7 @@ extension Translators {
             var previousLayerOutputs = inputs
             var previousLayer: Layer?
 
+//            print("\(self.layers.count) layers")
             for layer in self.layers {
                 let sensesLayer = (layer.layerSSInBrain == 0)
 

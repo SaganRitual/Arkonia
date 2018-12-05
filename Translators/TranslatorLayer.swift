@@ -32,7 +32,12 @@ class Layer: CustomStringConvertible {
 
     var description: String { return "Layer(\(self.layerSSInBrain))" }
 
-    init(layerSSInBrain: Int) { mc = MemoryCheck("L(\(layerSSInBrain))"); self.layerSSInBrain = layerSSInBrain }
+    private static var count = 0
+    init(layerSSInBrain: Int) {
+        Layer.count += 1; //print("\(Layer.count) layers")
+        mc = MemoryCheck("L(\(layerSSInBrain))"); self.layerSSInBrain = layerSSInBrain }
+
+    deinit { Layer.count -= 1; print("~L~", terminator: "") }
 
     func addActivator(_ active: Bool) { underConstruction?.addActivator(active) }
 
@@ -47,7 +52,10 @@ class Layer: CustomStringConvertible {
         return Neuron(layerSSInBrain: self.layerSSInBrain, neuronSSInLayer: neurons.count)
     }
 
-    func newNeuron() { underConstruction = makeNeuron() }
+    func newNeuron() {
+        precondition(underConstruction == nil)
+        underConstruction = makeNeuron()
+    }
 
     func setBias(_ value: ValueDoublet) { underConstruction?.setBias(value) }
     func setBias(_ baseline: Double, _ value: Double) { underConstruction?.setBias(baseline, value) }

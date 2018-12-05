@@ -23,12 +23,13 @@ import Foundation
 struct SelectionControls {
     var howManySenses = 5
     var howManyMotorNeurons = "Zoe Bishop".count
-    var howManyGenerations = 25
+    var howManyGenerations = 30000
     var howManyGenes = 200
     var howManySubjectsPerGeneration = 200
     var theFishNumber = 0
     var dudlinessThreshold = 1
-    var stackNoobsLimit = 1
+    var stackNoobsLimit = 10
+    var keepersPerGenerationLimit = 5
 }
 
 var selectionControls = SelectionControls()
@@ -147,7 +148,8 @@ class Curator {
             let p = u[NotificationType.selectComplete] as? TSArray
             else {
                 if self.selector.isCanceled { return }
-                preconditionFailure()
+                print(".", terminator: ""); return
+//                preconditionFailure()
             }
 
         stack.stack(p)

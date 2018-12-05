@@ -40,7 +40,7 @@ class Tene: CustomStringConvertible {
     init(_ token: String, value: String, baseline: String = "") {
         self.token = token.first!; self.value = value; self.baseline = baseline
     }
-
+    
     func mutate() {
         if [lay, neu, ifm].contains(self.token) { return }
 

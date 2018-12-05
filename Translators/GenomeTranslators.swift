@@ -94,15 +94,15 @@ class Translators: BrainOwnerProtocol {
     }
 
     func getBrain() -> NeuralNetProtocol {
-        defer { self.brain = nil }
+//        defer { self.brain = nil }
         return self.brain
     }
 
-    func newBrain() { bc = MemoryCheck("Brain"); self.brain = Brain() }
+    func newBrain() { bc = MemoryCheck("Brain"); if self.brain == nil { self.brain = Brain() } }
     func newLayer() { mc = MemoryCheck("Layer"); self.brain.newLayer() }
     func newNeuron() { self.brain.newNeuron() }
 
-    func reset() {}
+    public func reset() { /*brain = nil*/ }
 
     enum OutputFunctionName: String {
         case limiter, logistic, linear, tanh
