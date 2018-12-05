@@ -20,9 +20,13 @@
 
 import Foundation
 
-struct ValueDoublet {
+struct ValueDoublet: CustomStringConvertible {
     var baseline = 0.0
     var value = 0.0
+    
+    var description: String {
+        return "(b[\(baseline.dTruncate())]v[\(value.dTruncate())])"
+    }
 
     init() { baseline = 0.0; value = 0.0 }
     init(_ iffy: ValueDoublet?) { baseline = iffy?.baseline ?? 0.0; value = iffy?.value ?? 0.0 }
@@ -100,7 +104,12 @@ class Neuron: CustomStringConvertible {
 
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }
-        print(tabs + "\n\t\tN. \(inputPortDescriptors):(\(activators)) -- \(self)", terminator: "")
+        print(tabs + "\n\t\tN. \(self) ", terminator: "")
+        var separator = ""
+        weights.forEach {
+            print("\(separator)\($0)", terminator: "")
+            separator = ", "
+        }
     }
 
     // swiftlint:disable nesting
@@ -114,9 +123,9 @@ class Neuron: CustomStringConvertible {
         }
 
         var description: String {
-            var full = "WS: "
+            var full = "W"
             guard let w = weight else { full += "<nil>"; return full }
-            full +=  "W(b[\(w.baseline)]v[\(w.value)])_"
+            full += w.description
             return full
         }
 

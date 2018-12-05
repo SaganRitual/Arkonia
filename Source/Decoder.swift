@@ -31,84 +31,91 @@ class Decoder {
         case emptyLayer
     }
 
-    var inputGenome: Genome!
-    var parser: ValueParserProtocol!
+    var inputGenome: GenomeSlice!
+    
+    enum InputMode { case head, meat, tail }
+    var inputMode = InputMode.head
 
     init() {
         precondition(Decoder.d == nil)
-        // The genomoe can be set or reset at any time.
-        // Here, if the caller hasn't specified an input
-        // genome, then we just sit idle until we get
-        // further instructions
-        if let g = inputGenome { self.inputGenome = g }
-
-        if let p = parser { self.parser = p }
-        else { self.parser = self }
-
         Decoder.d = self
     }
 
     fileprivate var decodeState: DecodeState = .noLayer
-    public static let recognizedGeneTokens = "ABFHLNRW"
-
-// swiftlint:disable cyclomatic_complexity
 
     func decode() throws {
         self.reset()
         Translators.t.reset()
         Translators.t.newBrain()
-
-        var slice = Utilities.applyInterfaces(to: inputGenome)
-
-        let skipBadTokens = { [unowned self] (_ slice: GenomeSlice) -> GenomeSlice.Index in
-            if let r = slice.firstIndex(where: { return Decoder.recognizedGeneTokens.contains($0) }) {
-                return r
-            } else {
-                self.decodeState = .endOfStrand
-            }
-
-            return slice.startIndex
-        }
-
-        let discardAnyGarbage = { (_ slice: GenomeSlice) -> GenomeSlice.Index in
-            guard let s = slice.first else { return slice.endIndex }
-
-            if Decoder.recognizedGeneTokens.contains(s) { return slice.startIndex }
-            else { return skipBadTokens(slice) }
-        }
-
-        while decodeState != .endOfStrand {
-            // Just ignore any unrecognized characters, in case I screw up the data
-            let nextValidTokenIndex = slice.startIndex
-            let goodDataIndex = discardAnyGarbage(slice)
-            if goodDataIndex == slice.endIndex { decodeState = .endOfStrand; break }
-            if goodDataIndex != nextValidTokenIndex { slice = slice[goodDataIndex...] }
-
-            var symbolsConsumed = 0
-            switch decodeState {
-                // Skip the diagnostics, or the decoder will create
-                // a nice new layer for us, with a single neuron
-            case .diagnostics: symbolsConsumed = dispatch_noLayer(slice)
-            case .noLayer: symbolsConsumed = dispatch_noLayer(slice)
-            case .inLayer: symbolsConsumed = dispatch_inLayer(slice)
-            case .inNeuron: symbolsConsumed = dispatch_inNeuron(slice)
-            case .endOfStrand: break
-            }
-
-            slice = slice.dropFirst(symbolsConsumed)
-        }
+        
+        decodeLayers(Statics.s.sensesInterface)
+        decodeLayers(self.inputGenome)
+        decodeLayers(Statics.s.outputsInterface)
 
         do { try Translators.t.endOfStrand() }
         catch { throw error }
+        
 //        Translators.t.getBrain().show(tabs: "", override: true)
 //        print(inputGenome)
     }
 
-    // swiftlint:enable cyclomatic_complexity
-
     func newBrain() { Translators.t.newBrain() }
 
-    func reset() { self.decodeState = .noLayer }
+    func reset() {
+        self.decodeState = .noLayer
+        self.inputMode = .head
+    }
+}
+
+private extension Decoder {
+    func decodeLayers(_ slice: GenomeSlice) {
+        var start = slice.startIndex
+        let end = slice.endIndex
+        
+        while start != end {
+            start = decodeOneGene(slice[start...])
+        }
+    }
+    
+    func decodeOneGene(_ slice_: GenomeSlice) -> GenomeSlice.Index {
+        var slice = slice_[...]
+        
+        // Just ignore any unrecognized characters, in case I screw up the data
+        let nextValidTokenIndex = slice.startIndex
+        let goodDataIndex = discardAnyGarbage(slice)
+        if goodDataIndex == slice.endIndex { decodeState = .endOfStrand }
+        if goodDataIndex != nextValidTokenIndex { slice = slice[goodDataIndex...] }
+        
+        var symbolsConsumed = 0
+        switch decodeState {
+            // Skip the diagnostics, or the decoder will create
+        // a nice new layer for us, with a single neuron
+        case .diagnostics: symbolsConsumed = dispatch_noLayer(slice)
+        case .noLayer: symbolsConsumed = dispatch_noLayer(slice)
+        case .inLayer: symbolsConsumed = dispatch_inLayer(slice)
+        case .inNeuron: symbolsConsumed = dispatch_inNeuron(slice)
+        case .endOfStrand: break
+        }
+        
+        slice = slice.dropFirst(symbolsConsumed)
+        return slice.startIndex
+    }
+
+    func skipBadTokens(_ slice: GenomeSlice) -> GenomeSlice.Index {
+        if let r = slice.firstIndex(where: { Statics.s.recognizedTokens.contains($0) }) {
+            return r
+        }
+        
+        self.decodeState = .endOfStrand
+        return slice.startIndex
+    }
+    
+    func discardAnyGarbage(_ slice: GenomeSlice) -> GenomeSlice.Index {
+        guard let s = slice.first else { return slice.endIndex }
+        
+        if Statics.s.recognizedTokens.contains(s) { return slice.startIndex }
+        else { return skipBadTokens(slice) }
+    }
 }
 
 extension Decoder {
@@ -123,11 +130,10 @@ extension Decoder {
         let meatSlice = tSlice[..<ixOfCloseParen]
 
         switch token {
-        case act: Translators.t.addActivator(parseBool(meatSlice))
-        case bis: Translators.t.setBias(parseDouble(meatSlice))
-        case fun: Translators.t.setOutputFunction(parseString(meatSlice))
-        case thr: Translators.t.setThreshold(parseDouble(meatSlice))
-        case wgt: Translators.t.addWeight(parseDouble(meatSlice))
+        case act: Translators.t.addActivator(parse(meatSlice))
+        case bis: Translators.t.setBias(parse(meatSlice))
+        case fun: Translators.t.setOutputFunction(parse(meatSlice))
+        case wgt: Translators.t.addWeight(parse(meatSlice))
         default: print("Decoder says '\(token)' is an unknown token: "); return 2
         }
 
@@ -219,19 +225,17 @@ extension Decoder {
     }
 }
 
-extension Decoder: ValueParserProtocol {
-    func setInput(to inputGenome: Genome) -> Decoder {
+extension Decoder {
+    func setInput(to inputGenome: GenomeSlice) -> Decoder {
         self.inputGenome = inputGenome
         return self
     }
-
-    func setDefaultInput() -> ValueParserProtocol { return self }
 
     func parse<PrimitiveType>(_ slice: GenomeSlice? = nil) -> PrimitiveType {
         fatalError("Should never come here")
     }
 
-    func parseBool(_ slice: GenomeSlice? = nil) -> Bool {
+    func parse(_ slice: GenomeSlice? = nil) -> Bool {
         let truthy = "true", falsy = "false", stringy = String(slice!)
         switch stringy {
         case truthy: return true
@@ -240,7 +244,7 @@ extension Decoder: ValueParserProtocol {
         }
     }
 
-    func parseDouble(_ slice: GenomeSlice? = nil) -> ValueDoublet {
+    func parse(_ slice: GenomeSlice? = nil) -> ValueDoublet {
         let values = Utilities.splitGene(slice!)
         let baseline = Double(values[0])!.dTruncate()
         let value = Double(values[1])!.dTruncate()
@@ -248,6 +252,6 @@ extension Decoder: ValueParserProtocol {
         return ValueDoublet(baseline, value)
     }
 
-    func parseInt(_ slice: GenomeSlice? = nil) -> Int { return Int(slice!)! }
-    func parseString(_ slice: GenomeSlice?) -> String { return String(slice!) }
+    func parse(_ slice: GenomeSlice? = nil) -> Int { return Int(slice!)! }
+    func parse(_ slice: GenomeSlice?) -> String { return String(slice!) }
 }

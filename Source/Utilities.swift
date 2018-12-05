@@ -20,9 +20,6 @@
 
 import Foundation
 
-// swiftlint:disable file_length
-
-typealias Gene = String
 typealias Genome = String
 typealias GenomeSlice = Substring
 typealias GenomeIndex = String.Index
@@ -174,27 +171,19 @@ enum Utilities {
     static var thereBeNoShowing = true
 
     static func clobbered(_ message: String) { print(message); fatalError(message) }
-
-    static func splitGenome(_ slice: GenomeSlice) -> [String] {
-        // Because we leave a trailing _ in the string, components()
-        // gives us back an empty entry; ditch it.
-        let sliceThing = String(slice).components(separatedBy: "_").dropLast()
-        let stringThing = sliceThing.map { String($0) }
-        return stringThing
-    }
-
     enum GeneSplitType {
         case markerGene, stringGene, doubletGene, doubletValue
     }
 
-    static func splitGene(_ slice: GenomeSlice) -> [String] {
-        var splitResults = [String]()
+    static func splitGene(_ slice: GenomeSlice) -> [GeneComponent] {
+        var splitResults = [GeneComponent]()
 
         for type in [GeneSplitType.markerGene, GeneSplitType.stringGene,
                      GeneSplitType.doubletGene, GeneSplitType.doubletValue] {
 
             splitResults = splitGene(slice, type)
-                        if !splitResults.isEmpty { /*print("match; type \(type)", slice); */return splitResults }
+                        
+            if !splitResults.isEmpty { return splitResults }
         }
 
         preconditionFailure("No match in '\(slice)'")
@@ -202,18 +191,18 @@ enum Utilities {
 
     // swiftlint:disable cyclomatic_complexity
 
-    static func splitGene(_ slice: GenomeSlice, _ splitType: GeneSplitType) -> [String] {
-        var geneComponents = [String]()
+    static func splitGene(_ slice: GenomeSlice, _ splitType: GeneSplitType) -> [GeneComponent] {
+        var geneComponents = [GeneComponent]()
 
         switch splitType {
         case .markerGene:
-            guard let first = slice.first(where: { $0 == "L" || $0 == "N" })
+            guard let first = slice.firstIndex(where: { "LN".contains($0) })
                 else { break }
 
-            geneComponents.append(String(first))
+            geneComponents.append(slice[first...first])
 
         case .stringGene:
-            guard let fmi = slice.firstIndex(where: { $0 == "A" || $0 == "F" })
+            guard let fmi = slice.firstIndex(where: { "AF".contains($0) })
                 else { break }
 
             let fsi = slice.index(fmi, offsetBy: 2)   // Point to the meat
@@ -221,11 +210,11 @@ enum Utilities {
             guard let eos = slice.lastIndex(of: ")")
                 else { break }
 
-            geneComponents.append(String(slice[fmi]))
-            geneComponents.append(String(slice[fsi..<eos]))
+            geneComponents.append(slice[fmi...fmi])
+            geneComponents.append(slice[fsi..<eos])
 
         case .doubletGene:
-            guard let fmi = slice.firstIndex(where: { $0 == "B" || $0 == "W" })
+            guard let fmi = slice.firstIndex(where: { "BW".contains($0) })
                 else { break }
 
             // reDoubletGene will capture both a doublet gene and a doublet
@@ -238,9 +227,9 @@ enum Utilities {
             let vmi = slice.index(eob, offsetBy: 3)     // Point to the value meat
             guard let eov = slice[vmi...].firstIndex(of: "]") else { break }
 
-            let marker = String(slice[fmi])
-            let baseline = String(slice[bmi..<eob])
-            let value = String(slice[vmi..<eov])
+            let marker = slice[fmi...fmi]
+            let baseline = slice[bmi..<eob]
+            let value = slice[vmi..<eov]
 
             // See comments above under markers
             geneComponents.append(marker)
@@ -256,8 +245,8 @@ enum Utilities {
             let vmi = slice.index(eob, offsetBy: 3)     // Point to the value meat
             guard let eov = slice[vmi...].firstIndex(of: "]") else { break }
 
-            let baseline = String(slice[bmi..<eob])
-            let value = String(slice[vmi..<eov])
+            let baseline = slice[bmi..<eob]
+            let value = slice[vmi..<eov]
 
             // See comments above under markers
             geneComponents.append(baseline)
@@ -380,48 +369,41 @@ extension String {
     }
 }
 
-extension Utilities {
-    static func applyInterfaces(to genome: Genome) -> GenomeSlice {
-        return makeSensesInterface() + genome[...] + makeOutputsInterface()
+typealias Gene = Substring
+typealias GeneComponent = Substring
+struct GenomeIterator: IteratorProtocol, Sequence {
+    typealias Element = Gene
+    
+    let genome: GenomeSlice
+    let recognizedTokens: Substring
+    var currentIndex: Gene.Index
+    
+    init(_ genome: GenomeSlice) {
+        self.genome = genome
+        self.currentIndex = genome.startIndex;
+        self.recognizedTokens = Statics.s.recognizedTokens[...]
     }
-
-    static func makeSensesInterface() -> Genome {
-        var g = Genome(); g += layb
-
-        for portNumber in 0..<selectionControls.howManySenses {
-            g += neub
-            for _ in 0..<portNumber { g += "A(false)_" }
-
-            g += "A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_"
-        }
-
-        g += ifmb; return g
-    }
-
-    static func makeOutputsInterface() -> Genome {
-        var g = Genome(); g += ifmb + layb
-        for portNumber in 0..<selectionControls.howManyMotorNeurons {
-            g += neub
-            for _ in 0..<portNumber { g += "A(false)_" }
-            g += "A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_"
-        }
-        return g
-    }
-
-    static func stripInterfaces(from genome: Genome) -> Genome {
-        var stripped = genome[...]
-
-        if let headless = stripped.firstIndex(of: ifm) {
-            let tailless = stripped.lastIndex(of: ifm)
-
-            // Shouldn't have a lone "R"
-            if headless == tailless { fatalError() }
-            stripped = stripped[headless..<tailless!]
-            return Genome(stripped)
-        }
-
-        return genome
+    
+    public mutating func next() -> Element? {
+        guard let c = genome[currentIndex...].firstIndex(where: {
+            recognizedTokens.contains($0)
+        }) else { return nil }
+        
+        guard let end = genome[c...].firstIndex(of: "_") else { preconditionFailure() }
+        
+        defer { currentIndex = genome.index(after: end) }
+        return genome[c..<end]
     }
 }
 
-// swiftlint:enable file_length
+func getMeatySlice(_ genome: GenomeSlice) -> GenomeSlice {
+    guard let start_ = genome.firstIndex(of: ifm),
+          let end = genome.lastIndex(of: ifm) else {
+            
+        return genome
+    }
+    
+    let start = genome.index(start_, offsetBy: 2)
+    
+    return genome[start..<end]
+}

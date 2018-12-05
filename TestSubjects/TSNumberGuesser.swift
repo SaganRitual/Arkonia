@@ -34,18 +34,18 @@ class TSNumberGuesserFactory: TestSubjectFactory {
     }
 
     override func makeTestSubject(parent: TSTestSubject, mutate: Bool) -> TSTestSubject? {
-        return makeTestSubject(parentGenome: parent.genome, mutate: mutate)
+        return makeTestSubject(parentGenome: parent.genome[...], mutate: mutate)
     }
 
-    override func makeTestSubject(parentGenome: Genome, mutate: Bool) -> TSTestSubject? {
-        var maybeMutated = parentGenome
+    override func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) -> TSTestSubject? {
+        maybeMutated = String(parentGenome)
 
         while mutate && maybeMutated == parentGenome {
-            _ = Mutator.m.setInputGenome(parentGenome).mutate()
+            _ = Mutator.m.setInputGenome(parentGenome[...]).mutate()
             maybeMutated = Mutator.m.convertToGenome()
         }
 
-        do { try decoder.setInput(to: maybeMutated).decode() }
+        do { try decoder.setInput(to: maybeMutated[...]).decode() }
         catch { print("\n(Died)"); return nil }
 
         let brain = Translators.t.getBrain()

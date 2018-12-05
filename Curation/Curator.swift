@@ -28,11 +28,105 @@ struct SelectionControls {
     var howManySubjectsPerGeneration = 200
     var theFishNumber = 0
     var dudlinessThreshold = 1
-    var stackNoobsLimit = 10
-    var keepersPerGenerationLimit = 5
+    var stackTieScoresLimit = 5
+    var keepersPerGenerationLimit = 3
 }
 
 var selectionControls = SelectionControls()
+
+class Statics {
+    static let s = Statics()
+    
+    private let sensesInterface_: Genome!
+    private let outputsInterface_: Genome!
+    private let aboriginalGenome: Genome
+
+    public let sensesInterface: GenomeSlice
+    public let outputsInterface: GenomeSlice
+    public let recognizedTokens: String = "ABFHLNRW"
+    
+    init() {
+        sensesInterface_ = Statics.makeSensesInterface()
+        outputsInterface_ = Statics.makeOutputsInterface()
+        sensesInterface = sensesInterface_[...]
+        outputsInterface = outputsInterface_[...]
+        aboriginalGenome = Statics.makeAboriginalGenome(3)
+    }
+
+    var act_s: GenomeSlice { return token("A") } // Activator -- Bool
+    var bis_s: GenomeSlice { return token("B") } // Bias -- Stubble
+    var fun_s: GenomeSlice { return token("F") } // Function -- string
+    var hox_s: GenomeSlice { return token("H") } // Hox gene -- haven't worked out the type yet
+    var lay_s: GenomeSlice { return token("L") } // Layer
+    var neu_s: GenomeSlice { return token("N") } // Neuron
+    var ifm_s: GenomeSlice { return token("R") } // Interface marker
+    var wgt_s: GenomeSlice { return token("W") } // Weight -- Stubble
+
+    public func token(_ character: Character) -> GenomeSlice {
+        guard let start = recognizedTokens.firstIndex(of: character) else {
+            preconditionFailure()
+        }
+        
+        return recognizedTokens[start...start]
+    }
+    
+    public func getAboriginalGenome() -> GenomeSlice {
+        return Statics.s.aboriginalGenome[...]
+    }
+    
+    private static func makeAboriginalGenome(_ hmLayers: Int) -> Genome {
+        var dag = Genome()
+        for _ in 0..<hmLayers { dag = makeOneLayer(dag, ctNeurons: 5) }
+        return dag
+    }
+
+    private static func makeSensesInterface() -> Genome {
+        var g = Genome(); g += layb
+        
+        for portNumber in 0..<selectionControls.howManySenses {
+            g += neub
+            for _ in 0..<portNumber { g += "A(false)_" }
+            
+            g += "A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_"
+        }
+        
+        g += ifmb; return g
+    }
+
+    public static func makePromisingAboriginal(factory: TestSubjectFactory) -> TSTestSubject? {
+        let p = Statics.s.getAboriginalGenome()
+        return factory.makeTestSubject(parentGenome: p, mutate: false)
+    }
+    
+    private static func makeOneLayer(_ protoGenome_: Genome, ctNeurons: Int) -> Genome {
+        var protoGenome = protoGenome_ + "L_"
+        
+        for portNumber in 0..<ctNeurons {
+            protoGenome += "N_"
+            for _ in 0..<portNumber { protoGenome += "A(false)_" }
+            
+            #if PROMISING_GENOME_FOR_ZOE
+            let randomBias = Double.random(in: -1...1).sTruncate()
+            let randomWeight = Double.random(in: -1...1).sTruncate()
+            protoGenome += "A(true)_F(linear)_W(b[\(randomWeight)]v[\(randomWeight)])_B(b[\(randomBias)]v[\(randomBias)])_"
+            #else
+            protoGenome += "A(true)_F(linear)_W(b[\(1)]v[\(1)])_B(b[\(0)]v[\(0)])_"
+            #endif
+        }
+        
+        return protoGenome
+    }
+
+    private static func makeOutputsInterface() -> Genome {
+        var g = Genome(); g += ifmb + layb
+        for portNumber in 0..<selectionControls.howManyMotorNeurons {
+            g += neub
+            for _ in 0..<portNumber { g += "A(false)_" }
+            g += "A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_"
+        }
+        return g
+    }
+}
 
 enum NotificationType: String {
     case selectComplete, select, setSelectionParameters
@@ -56,6 +150,7 @@ class Curator {
     public var status = CuratorStatus.running
 
     init(tsFactory: TestSubjectFactory) {
+        
         self.tsFactory = tsFactory
         self.selector = Selector(tsFactory: tsFactory, semaphore: semaphore)
 
@@ -94,7 +189,7 @@ class Curator {
 //         This one is much longer, but it also produces exactly 6.
 //         let dag = "L_N_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_"
 
-        guard let a = Curator.makePromisingAboriginal(using: tsFactory)
+        guard let a = Statics.makePromisingAboriginal(factory: tsFactory)
             else { return nil }
 
         stack.postInit(aboriginal: a)
@@ -153,7 +248,7 @@ class Curator {
         guard let u = notification.userInfo,
             let p = u[NotificationType.selectComplete] as? TSArray
             else {
-                if self.selector.isCanceled { return }
+                if !self.selector.isCanceled { return }
                 preconditionFailure()
             }
 
@@ -161,35 +256,6 @@ class Curator {
 //        print("(\(stack.count) items on stack)")
 
         self.atLeastOneTSHasSurvived = true
-    }
-}
-
-private extension Curator {
-    static func makeOneLayer(_ protoGenome_: Genome, ctNeurons: Int) -> Genome {
-        var protoGenome = protoGenome_ + "L_"
-
-        for portNumber in 0..<ctNeurons {
-            protoGenome += "N_"
-            for _ in 0..<portNumber { protoGenome += "A(false)_" }
-
-#if PROMISING_GENOME_FOR_ZOE
-            let randomBias = Double.random(in: -1...1).sTruncate()
-            let randomWeight = Double.random(in: -1...1).sTruncate()
-            protoGenome += "A(true)_F(linear)_W(b[\(randomWeight)]v[\(randomWeight)])_B(b[\(randomBias)]v[\(randomBias)])_"
-#else
-            protoGenome += "A(true)_F(linear)_W(b[\(1)]v[\(1)])_B(b[\(0)]v[\(0)])_"
-#endif
-        }
-
-        return protoGenome
-    }
-
-    static func makePromisingAboriginal(using factory: TestSubjectFactory) -> TSTestSubject? {
-        var dag = Genome()
-        for _ in 0..<3 { dag = makeOneLayer(dag, ctNeurons: 5) }
-        dag = makeOneLayer(dag, ctNeurons: selectionControls.howManyMotorNeurons)
-
-        return factory.makeTestSubject(parentGenome: dag, mutate: false)
     }
 }
 

@@ -23,10 +23,10 @@ import Foundation
 class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
     private static var theFishNumber = 0
 
-    private(set) var brain: NeuralNetProtocol!
+    private(set) var brain: NeuralNetProtocol!  // Strong ref; I own my brain
     public var debugMarker = 0
     private(set) var fishNumber: Int
-    private(set) var genome: Genome
+    private(set) var genome: Genome    // Strong ref; I own my genome
     public var fitnessScore: Double?
 
     public var description: String {

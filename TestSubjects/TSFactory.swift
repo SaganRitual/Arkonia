@@ -20,36 +20,31 @@
 
 import Foundation
 
-class TestSubjectFactory {
+class TestSubjectFactory: SelectionTestSubjectFactory {
     var decoder = Decoder()
+    var maybeMutated = String()
 
     func makeFitnessTester() -> FTFitnessTester {
         return FTFitnessTester()
     }
 
     func makeTestSubject(parent: TSTestSubject, mutate: Bool) -> TSTestSubject? {
-        return makeTestSubject(parentGenome: parent.genome, mutate: mutate)
+        return makeTestSubject(parentGenome: parent.genome[...], mutate: mutate)
     }
 
-    func makeTestSubject(parentGenome: Genome, mutate: Bool) -> TSTestSubject? {
-        let m = Utilities.report_memory()
-        var maybeMutated = parentGenome
+    func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) -> TSTestSubject? {
+        maybeMutated.removeAll(keepingCapacity: true)
+
         if mutate {
-            _ = Mutator.m.setInputGenome(parentGenome).mutate()
+            _ = Mutator.m.setInputGenome(parentGenome[...]).mutate()
             maybeMutated = Mutator.m.convertToGenome()
         }
 
-        do { try decoder.setInput(to: maybeMutated).decode() }
+        do { try decoder.setInput(to: maybeMutated[...]).decode() }
         catch { return nil }
 
         let brain = Translators.t.getBrain()
 
-        defer {
-            let t = Utilities.report_memory()
-            let mm = t - m
-            print("total \(t), current \(mm)")
-        }
-
-        return TSTestSubject(genome: parentGenome, brain: brain)
+        return TSTestSubject(genome: maybeMutated, brain: brain)
     }
 }

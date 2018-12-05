@@ -27,22 +27,21 @@ class Tene: CustomStringConvertible {
     // The components are the results of a regex. For each tene,
     // we get the submatches from this array, which represent
     // the token and the value, respectively.
-    let components = [String]()
-    let token: Character
+    let token: GenomeSlice
     var value: String
     var baseline: String
 
     var description: String {
-        if token == lay || token == neu { return "MarkerGene: \(token)" }
+        if token == Statics.s.lay_s || token == Statics.s.neu_s { return "MarkerGene: \(token)" }
         else { return "\(token) gene: \(value) baseline: \(baseline)" }
     }
 
-    init(_ token: String, value: String, baseline: String = "") {
-        self.token = token.first!; self.value = value; self.baseline = baseline
+    init(_ token: GenomeSlice, value: String, baseline: String = "") {
+        self.token = token; self.value = value; self.baseline = baseline
     }
     
     func mutate() {
-        if [lay, neu, ifm].contains(self.token) { return }
+        if [Statics.s.lay_s, Statics.s.neu_s, Statics.s.ifm_s].contains(self.token) { return }
 
         if self.value == "true" || self.value == "false" {
             self.value = String(Bool.random()); return
@@ -59,7 +58,7 @@ class Tene: CustomStringConvertible {
         self.baseline = String(b.dTruncate())
 
         // In case anyone gets stuck at zero
-        if Double(self.baseline)! == 0.0 { self.baseline = String((1.0).dTruncate()) }
+        if Double(self.baseline)! == 0.0 { self.baseline = (1.0).sTruncate() }
 
         let v = Mutator.m.mutate(from: self.value)
         if abs(v) < abs(b) { self.value = self.baseline }
@@ -73,9 +72,10 @@ class Mutator {
     public static var m = Mutator()
 
     var e = Translators.t
-    var inputGenome: Genome?
+    var inputGenome: GenomeSlice?
     var workingTenome = Tenome()
     var bellCurve = BellCurve()
+    var workingOutputGenome = String()
 
     enum MutationType: Int {
         case insertRandom, insertSequence, deleteRandom, deleteSequence,
@@ -86,28 +86,26 @@ class Mutator {
     }
 
     public func convertToGenome() -> Genome {
-        var genome = Genome()
-
         for tene in workingTenome {
-            if tene.token == lay || tene.token == neu {
-                genome += String(tene.token) + "_"
+            if tene.token == Statics.s.lay_s || tene.token == Statics.s.neu_s {
+                workingOutputGenome += String(tene.token) + "_"
                 continue
             }
 
-            genome += String(tene.token) + "("
+            workingOutputGenome += String(tene.token) + "("
 
-            if (bis ++ thr ++ wgt).contains(tene.token) {
-                genome += "b[\(tene.baseline)]v[\(tene.value)]"
-            } else if tene.token == act || tene.token == fun {
-                genome += tene.value
+            if [Statics.s.bis_s, Statics.s.wgt_s].contains(tene.token) {
+                workingOutputGenome += "b[\(tene.baseline)]v[\(tene.value)]"
+            } else if tene.token == Statics.s.act_s || tene.token == Statics.s.fun_s {
+                workingOutputGenome += tene.value
             } else {
                 preconditionFailure("where the hell did this '\(tene.token)' come from?")
             }
 
-            genome += ")_"
+            workingOutputGenome += ")_"
         }
 
-        return genome
+        return workingOutputGenome
     }
 
     private func copySegment() -> Tegment {
@@ -273,26 +271,27 @@ class Mutator {
         return reassembledSlices
     }
 
-    func setInputGenome(_ inputGenome: Genome) -> Mutator {
-        self.inputGenome = Utilities.stripInterfaces(from: inputGenome)
-        let genes = Utilities.splitGenome(self.inputGenome![...])
+    func setInputGenome(_ inputGenome: GenomeSlice) -> Mutator {
+        workingOutputGenome.removeAll(keepingCapacity: true)
+        
+        self.inputGenome = getMeatySlice(inputGenome)
 
         workingTenome = Tenome()
-
-        for gene in genes {
-            let components = Utilities.splitGene(gene[...])
+        
+        for gene in GenomeIterator(self.inputGenome!) {
+            let components = Utilities.splitGene(gene)
             let token = components[0]
 
-            switch Character(token) {
-            case act: fallthrough
-            case fun: workingTenome.append(Tene(token, value: components[1]))
+            switch token {
+            case Statics.s.act_s: fallthrough
+            case Statics.s.fun_s: workingTenome.append(Tene(token, value: String(components[1])))
 
-            case neu: fallthrough
-            case lay: workingTenome.append(Tene(token, value: ""))
+            case Statics.s.neu_s: fallthrough
+            case Statics.s.lay_s: workingTenome.append(Tene(token, value: ""))
 
-            case bis: fallthrough
-            case wgt:
-                let b = components[1], v = components[2]
+            case Statics.s.bis_s: fallthrough
+            case Statics.s.wgt_s:
+                let b = String(components[1]), v = String(components[2])
                 workingTenome.append(Tene(token, value: v, baseline: b))
 
             default: preconditionFailure()
@@ -419,16 +418,16 @@ extension Mutator {
 
         let token = components[0]
 
-        switch Character(token) {
-        case act: fallthrough
-        case fun: return Tene(token, value: components[1])
+        switch token {
+        case Statics.s.act_s: fallthrough
+        case Statics.s.fun_s: return Tene(token, value: String(components[1]))
 
-        case neu: fallthrough
-        case lay: return Tene(token, value: "")
+        case Statics.s.neu_s: fallthrough
+        case Statics.s.lay_s: return Tene(token, value: "")
 
-        case bis: fallthrough
-        case wgt:
-            let b = components[1], v = components[2]
+        case Statics.s.bis_s: fallthrough
+        case Statics.s.wgt_s:
+            let b = String(components[1]), v = String(components[2])
             return Tene(token, value: v, baseline: b)
 
         default: preconditionFailure()

@@ -20,14 +20,6 @@
 
 import Foundation
 
-protocol ValueParserProtocol {
-    func parseBool(_ slice: GenomeSlice?) -> Bool
-    func parseDouble(_ slice: GenomeSlice?) -> ValueDoublet
-    func parseInt(_ slice: GenomeSlice?) -> Int
-    func parseString(_ slice: GenomeSlice?) -> String
-    func setDefaultInput() -> ValueParserProtocol
-}
-
 protocol NeuronOwnerProtocol: class {
     func addActivator(_ active: Bool)
     func addWeight(_ value: ValueDoublet)
@@ -89,7 +81,7 @@ protocol BrainOwnerProtocol: class {
 }
 
 protocol SelectionTestSubjectFactory {
-    func makeTestSubject(genome: Genome, mutate: Bool) throws -> TSTestSubject
+    func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) throws -> TSTestSubject?
 }
 
 protocol SelectionFitnessTester {
