@@ -29,7 +29,7 @@ extension Translators {
         }
 
         var layers = [Translators.Layer]()
-        var underConstruction: Translators.Layer!
+        var underConstruction: Translators.Layer?
         
         static var count = 0
         init() {

@@ -84,18 +84,16 @@ class Selector {
         var stemTheFlood = [TSTestSubject]()
 
         for _ in 0..<selectionControls.howManySubjectsPerGeneration {
-            var nts = tsFactory.makeTestSubject(parent: stud, mutate: true)
-            guard let ts = nts
+            guard let ts = tsFactory.makeTestSubject(parent: stud, mutate: true)
                 else { continue }
 
-            if selectorWorkItem.isCancelled { nts = nil; break }
-            if ts.genome == stud.genome { nts = nil; continue }
+            if selectorWorkItem.isCancelled { break }
+            if ts.genome == stud.genome { continue }
 
             guard let score = fitnessTester.administerTest(to: ts)
                 else {
                     print("broken1 \(ts.fishNumber)",brokenBrainMarker)
                     ts.debugMarker = brokenBrainMarker
-                    nts = nil
                     brokenBrainMarker += 1
                     continue
                 }
@@ -103,7 +101,7 @@ class Selector {
             ts.debugMarker = 424242
 
             ts.fitnessScore = score
-            if score > bestScore! { nts = nil; print("$", terminator: ""); continue }
+            if score > bestScore! { continue }
             if score < bestScore! { bestScore = score }
 
             // Start getting rid of the less promising candidates
@@ -112,7 +110,6 @@ class Selector {
             }
 
             stemTheFlood.push(ts)
-            fakeTS.push(ts)
         }
 
         if stemTheFlood.isEmpty { print("No survivors in \(thisGenerationNumber)"); return nil }

@@ -37,7 +37,7 @@ class Layer: CustomStringConvertible {
         self.layerSSInBrain = layerSSInBrain
     }
 
-    deinit { Layer.count -= 1; print("~L~", terminator: "") }
+    deinit { Layer.count -= 1 }
 
     func addActivator(_ active: Bool) { underConstruction?.addActivator(active) }
 

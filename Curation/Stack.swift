@@ -157,8 +157,6 @@ class Stack {
 //        print("theStack after, sort of", theStack)
         currentBenchmarkHolder = theStack.pop()
         currentBestScore = currentBenchmarkHolder!.fitnessScore!
-        
-        print("Stack is \(theStack.count) elements deep")
 
        if retreated {
            print("Could not get \(candidateFilterType.rawValue) for \(currentBestScore); retreating to ", terminator: "")
