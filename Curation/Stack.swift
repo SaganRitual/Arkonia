@@ -160,14 +160,14 @@ class Stack {
         
         print("Stack is \(theStack.count) elements deep")
 
-//        if retreated {
-//            print("Could not get \(candidateFilterType.rawValue) for \(currentBestScore); retreating to ", terminator: "")
-//            if retreatLock == nil { if !theStack.isEmpty { print("subject \(currentBenchmarkHolder!.fishNumber)") }; retreatLock = currentBenchmarkHolder!.fitnessScore! }
-//            if theStack.isEmpty { print("aboriginal"); retreatLock = nil }
-//        } else {
-////            print("Trying to match/beat \(currentBestScore) or whaatevs \(wtfScore)")
-//            retreatLock = nil
-//        }
+       if retreated {
+           print("Could not get \(candidateFilterType.rawValue) for \(currentBestScore); retreating to ", terminator: "")
+           if retreatLock == nil { if !theStack.isEmpty { print("subject \(currentBenchmarkHolder!.fishNumber)") }; retreatLock = currentBenchmarkHolder!.fitnessScore! }
+           if theStack.isEmpty { print("aboriginal"); retreatLock = nil }
+       } else {
+//            print("Trying to match/beat \(currentBestScore) or whaatevs \(wtfScore)")
+           retreatLock = nil
+       }
 
 //        print("Stack.pop() -> \(currentBest!.fishNumber) : \(currentBest!.fitnessScore!)")
     }

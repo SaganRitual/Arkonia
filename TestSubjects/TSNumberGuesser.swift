@@ -45,14 +45,12 @@ class TSNumberGuesserFactory: TestSubjectFactory {
             maybeMutated = Mutator.m.convertToGenome()
         }
 
-        let mc = MemoryCheck("decode + getBrain + TSNumberGuesser")
         do { try decoder.setInput(to: maybeMutated).decode() }
         catch { print("\n(Died)"); return nil }
 
         let brain = Translators.t.getBrain()
-        Translators.t.reset()
+        // Translators.t.reset() -- add while debugging mem; does it matter whether we reset?
         let guesser = TSNumberGuesser(genome: maybeMutated, brain: brain)
-        mc.report()
         return guesser
     }
 }

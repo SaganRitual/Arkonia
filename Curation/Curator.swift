@@ -148,8 +148,7 @@ class Curator {
             let p = u[NotificationType.selectComplete] as? TSArray
             else {
                 if self.selector.isCanceled { return }
-                print(".", terminator: ""); return
-//                preconditionFailure()
+                preconditionFailure()
             }
 
         stack.stack(p)

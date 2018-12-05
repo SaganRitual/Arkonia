@@ -30,15 +30,13 @@ extension Translators {
 
         var layers = [Translators.Layer]()
         var underConstruction: Translators.Layer!
-        var mc: MemoryCheck
         
         static var count = 0
         init() {
             Brain.count += 1
-            mc = MemoryCheck("Brain")
         }
         
-        deinit { Brain.count -= 1; print("B(\(Brain.count))", terminator: "") }
+        deinit { Brain.count -= 1 }
 
         var firstLayer = true
 
@@ -72,13 +70,12 @@ extension Translators {
         func endOfStrand() throws {
             closeNeuron()
             closeLayer()
-//            mc.report()
         }
 
         func newLayer() {
-//            precondition(underConstruction == nil)
-//            underConstruction = makeLayer()
-////            print("Brain creates Layer(\(underConstruction!))")
+           precondition(underConstruction == nil)
+           underConstruction = makeLayer()
+//            print("Brain creates Layer(\(underConstruction!))")
         }
 
         func newNeuron() { underConstruction?.newNeuron() }

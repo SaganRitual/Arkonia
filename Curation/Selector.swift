@@ -64,9 +64,7 @@ class Selector {
             let selectionResults = [NotificationType.selectComplete : newSurvivors]
             let n = Foundation.Notification.Name.selectComplete
 
-//            let mc = MemoryCheck("nCent")
             notificationCenter.post(name: n, object: self, userInfo: selectionResults as [AnyHashable : Any])
-//            mc.report()
 
             semaphore.signal()  // Give control back to the main thread
         }
@@ -79,19 +77,13 @@ class Selector {
         aboriginal.fitnessScore = score
     }
 
-    var fakeTS = [TSTestSubject]()
     private func select(against stud: TSTestSubject) -> [TSTestSubject]? {
         thisGenerationNumber += 1
 
         var bestScore = stud.fitnessScore
-        
-        if fakeTS.count >= 5 {
-            print(">"); return fakeTS }
-
         var stemTheFlood = [TSTestSubject]()
 
         for _ in 0..<selectionControls.howManySubjectsPerGeneration {
-//            let mc = MemoryCheck("makeTestSubject")
             var nts = tsFactory.makeTestSubject(parent: stud, mutate: true)
             guard let ts = nts
                 else { continue }
@@ -99,17 +91,15 @@ class Selector {
             if selectorWorkItem.isCancelled { nts = nil; break }
             if ts.genome == stud.genome { nts = nil; continue }
 
-//            let mc = MemoryCheck("Administer test")
             guard let score = fitnessTester.administerTest(to: ts)
                 else {
                     print("broken1 \(ts.fishNumber)",brokenBrainMarker)
-//                    mc.report()
                     ts.debugMarker = brokenBrainMarker
                     nts = nil
                     brokenBrainMarker += 1
                     continue
                 }
-//            mc.report()
+
             ts.debugMarker = 424242
 
             ts.fitnessScore = score
@@ -118,22 +108,13 @@ class Selector {
 
             // Start getting rid of the less promising candidates
             if stemTheFlood.count >= selectionControls.keepersPerGenerationLimit {
-//                let m = Utilities.report_memory()
-//                print("<", terminator: "")
                 _ = stemTheFlood.popBack()
-//                nts = nil
-//                let n = Utilities.report_memory()
-//                let tf = m >= n ? "\(m - n)" : "<\(n - m)>"
-//                print("(\(n),\(tf))>", terminator: "")
             }
 
             stemTheFlood.push(ts)
             fakeTS.push(ts)
-//            print("FN: \(ts.fishNumber) ", terminator: ""); mc.report()
         }
 
-        let m = Utilities.report_memory()
-        print("\(m) bytes in use")
         if stemTheFlood.isEmpty { print("No survivors in \(thisGenerationNumber)"); return nil }
         return stemTheFlood
     }

@@ -98,8 +98,8 @@ class Translators: BrainOwnerProtocol {
         return self.brain
     }
 
-    func newBrain() { bc = MemoryCheck("Brain"); if self.brain == nil { self.brain = Brain() } }
-    func newLayer() { mc = MemoryCheck("Layer"); self.brain.newLayer() }
+    func newBrain() { self.brain = Brain() }
+    func newLayer() { self.brain.newLayer() }
     func newNeuron() { self.brain.newNeuron() }
 
     public func reset() { /*brain = nil*/ }
