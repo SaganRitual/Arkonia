@@ -17,12 +17,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
+  
 
 import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-
+   
     private var vBrain: VBrain!
 
     let tsFactory = TSNumberGuesserFactory()
@@ -35,7 +36,7 @@ class GameScene: SKScene {
 
     override func sceneDidLoad() {
         self.curator = Curator(tsFactory: tsFactory)
-        self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator!.select() }
+        self.workItem = DispatchWorkItem { [weak self] in let _ = self!.curator!.select() }
         DispatchQueue.global(qos: .background).async(execute: self.workItem)
     }
 
@@ -45,12 +46,10 @@ class GameScene: SKScene {
     //
     func returnChar(_ theEvent: NSEvent) -> Character? {
         let s: String = theEvent.characters!
-        for char in s { return char }
+        for char in s{ return char }
         return nil
     }
-
-    weak private var subjectToDisplay: TSTestSubject?
-
+    
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
 
@@ -64,15 +63,12 @@ class GameScene: SKScene {
             return
         }
 
-        guard let bestTestSubject = curator.getBestTestSubject() else { print("GS: nothing to display"); return }
-        if subjectToDisplay == nil { subjectToDisplay = bestTestSubject; print("GS: first display \(subjectToDisplay!.fishNumber)") }
-        else if subjectToDisplay!.fishNumber == bestTestSubject.fishNumber { /*print(".", terminator: ""); */return }
-
-        print("N(\(bestTestSubject.fishNumber)) O(\(subjectToDisplay!.fishNumber))")
-        subjectToDisplay = bestTestSubject
-        vBrain = VBrain(gameScene: self, brain: subjectToDisplay!.brain)
-        vBrain.displayBrain(subjectToDisplay!.brain, fishNumber: subjectToDisplay!.fishNumber)
-        subjectToDisplay!.brain.show(tabs: "", override: false)
+        guard let bestTestSubject = curator.getBestTestSubject() else { return }
+        
+        vBrain = VBrain(gameScene: self, brain: bestTestSubject.brain)
+        vBrain.displayBrain(bestTestSubject.brain)
+        bestTestSubject.brain.show(tabs: "", override: false)
     }
 
 }
+
