@@ -22,9 +22,11 @@ import Foundation
 import SpriteKit
 
 class VBrain {
+    var testSubject: TSTestSubject!
     var brain: NeuralNetProtocol!
     let gameScene: GameScene
     var spacer: Spacer!
+    var fishNumber = SKLabelNode()
     var vNeurons = [SKShapeNode]()
     var vTestInputs = [SKLabelNode]()
     var vTestOutputs = [SKLabelNode]()
@@ -33,13 +35,14 @@ class VBrain {
     let fontSize: CGFloat = 8.0
     var startingY: CGFloat = 0.0
 
-    init(gameScene: GameScene, brain: NeuralNetProtocol) {
+    init(gameScene: GameScene, testSubject: TSTestSubject) {
         guard let _ = NSScreen.main?.frame else {
             fatalError("Something isn't working with the screen size")
         }
         
         self.gameScene = gameScene
-        self.brain = brain
+        self.testSubject = testSubject
+        self.brain = testSubject.brain
     }
     
     func displayBrain(_ brain: NeuralNetProtocol? = nil, isFinalUpdate: Bool = false) {
@@ -52,6 +55,9 @@ class VBrain {
 
         self.spacer = Spacer(layersCount: self.layers.count, displaySize: gameScene.size)
         drawNeuronLayers(self.layers, spacer: spacer)
+
+        fishNumber = SKLabelNode(text: "\(testSubject.fishNumber)")
+        gameScene.addChild(fishNumber)
     }
     
     func reset() {
@@ -64,26 +70,7 @@ class VBrain {
     func setBrain(_ brain: NeuralNetProtocol) {
         self.brain = brain
     }
-    
-    func tick(inputs: [Double], outputs: [Double]) {
-        gameScene.removeChildren(in: vTestInputs + vTestOutputs)
-        
-        let lambda = { (inputs: [Double], yIndex: Int) -> () in
-            for (ix, input) in zip(0..., inputs) {
-                let p = self.spacer.getPosition(neuronsThisLayer: inputs.count, xIndex: ix, yIndex: yIndex)
-                let n = SKLabelNode(text: String(input))
-                
-                n.position = p
-                
-                self.vTestOutputs.append(n)
-                self.gameScene.addChild(n)
-            }
-        }
 
-        lambda(inputs, 0)
-        lambda(outputs, outputs.count - 1)
-    }
-    
     struct Spacer {
         let layersCount: Int
         let displaySize: CGSize
@@ -150,7 +137,7 @@ extension VBrain {
         var previousLayerPoints = [CGPoint]()
     
         for (i, layer) in zip(0..., layers) {
-            if layer.neurons.isEmpty { print("No neurons in this layer"); continue }
+            precondition(!layer.neurons.isEmpty, "Dead brain should not have come this far")
             
             let spacer = Spacer(layersCount: layers.count, displaySize: gameScene.frame.size)
             
@@ -169,12 +156,12 @@ extension VBrain {
                 self.vNeurons.append(vNeuron)
                 gameScene.addChild(vNeuron)
 
-                if !isFinalUpdate {
-                    startingY = 0.0
-
-                    drawWeights(neuron, vNeuron)
-                    drawBiases(neuron, vNeuron)
-                }
+//                if !isFinalUpdate {
+//                    startingY = 0.0
+//
+//                    drawWeights(neuron, vNeuron)
+//                    drawBiases(neuron, vNeuron)
+//                }
             }
             
             previousLayerPoints = currentLayerPoints
@@ -184,7 +171,7 @@ extension VBrain {
     
     func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Translators.Neuron, at neuronPosition: CGPoint) {
         if previousLayerPoints.isEmpty { return }
-        for commLine in neuron.inputPortDescriptors {
+        for commLine in neuron.commLinesUsed {
             let linePath = CGMutablePath()
 
             linePath.move(to: neuronPosition)

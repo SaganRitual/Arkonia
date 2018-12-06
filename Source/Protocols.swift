@@ -45,7 +45,7 @@ protocol LayerOwnerProtocol {
     func addWeight(_ baseline: Double, _ value: Double)
     func closeLayer()
     func closeNeuron()
-    func endOfStrand() throws
+    func endOfStrand()
     func newLayer()
     func newNeuron()
     func setBias(_ value: ValueDoublet)
@@ -54,7 +54,7 @@ protocol LayerOwnerProtocol {
     func setThreshold(_ value: ValueDoublet)
     func setThreshold(_ baseline: Double, _ value: Double)
     func show(tabs: String, override: Bool)
-    func stimulate(inputs: [Double]) -> [Double]?
+    func stimulate(sensoryInputs: [Double]) -> [Double?]
 
     func generateRandomSensoryInput() -> [Double]
 }
@@ -68,7 +68,7 @@ protocol BrainOwnerProtocol: class {
     func closeBrain()
     func closeLayer()
     func closeNeuron()
-    func endOfStrand() throws
+    func endOfStrand()
     func getBrain() -> NeuralNetProtocol
     func newLayer()
     func newNeuron()
@@ -81,7 +81,7 @@ protocol BrainOwnerProtocol: class {
 }
 
 protocol SelectionTestSubjectFactory {
-    func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) throws -> TSTestSubject?
+    func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) -> TSTestSubject?
 }
 
 protocol SelectionFitnessTester {
@@ -91,7 +91,6 @@ protocol SelectionFitnessTester {
 }
 
 protocol NeuralNetProtocol: class, LayerOwnerProtocol {
-    var allLayersConnected: Bool { get set }
 }
 
 typealias TSArray = [TSTestSubject]

@@ -20,18 +20,27 @@
 
 import Foundation
 
-class FTFitnessTester {
-    public func administerTest(to ts: TSTestSubject) -> Double? {
-        let inputs = Array(repeating: 1.0, count: selectionControls.howManySenses)
+enum Stimulators {
 
-        let motorOutputs = ts.brain.stimulate(sensoryInputs: inputs)
-        if motorOutputs.compactMap({$0}).isEmpty { return nil }
+    class Brain {
+        var layers = [Layer]()
+        
+        public func report() {
+            print("Brain report: discontinued, worker strike")
+        }
+        
+        func stimulate(sensoryInputs: [Double]) -> [Double?] {
 
-        return doScoringStuff(ts, motorOutputs)
-    }
+            var inputsForNextLayer: [Double?] = Array(sensoryInputs)
+            for layer in layers {
+                let i = inputsForNextLayer
+                inputsForNextLayer = layer.stimulate(inputsFromPreviousLayer: i)
 
-    func doScoringStuff(_ ts: TSTestSubject, _ outputs: [Double?]) -> Double? {
-        return nil
+                if inputsForNextLayer.compactMap({$0}).isEmpty
+                    { return inputsForNextLayer }
+            }
+            
+            return inputsForNextLayer
+        }
     }
 }
-

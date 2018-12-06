@@ -67,7 +67,7 @@ extension Translators {
 
         }
 
-        func endOfStrand() throws {
+        func endOfStrand() {
             closeNeuron()
             closeLayer()
         }
@@ -94,61 +94,21 @@ extension Translators {
             for layer in layers { layer.show(tabs: "", override: override) }
             print()
         }
+    }
+}
 
-        func theseLayersCommunicate(_ lower: Layer, _ upper: Layer?) -> Bool {
-            if upper == nil { return false }
+extension Translators.Brain {
+    func stimulate(sensoryInputs: [Double]) -> [Double?] {
 
-            // Get the comm lines being used by this layer
-            var usedCommLines = Set<Int>()
-            for n in lower.neurons {
-                for ipd in n.inputPortDescriptors { usedCommLines.insert(ipd) }
-            }
+        var inputsForNextLayer: [Double?] = Array(sensoryInputs)
+        for layer in layers {
+            let i = inputsForNextLayer
+            inputsForNextLayer = layer.stimulate(inputsFromPreviousLayer: i)
 
-            // Now check for any neurons (comm lines) above to
-            // whom no one is connecting. Those are just as dead
-            // as the ones that don't have any input ports.
-            var atLeastOneConnectionToUpperLayer = false
-            for commLine in 0..<usedCommLines.count {
-                if usedCommLines.contains(commLine) {
-                    atLeastOneConnectionToUpperLayer = true
-                    break
-                }
-            }
-
-            if !atLeastOneConnectionToUpperLayer {
-//                print("🌈", terminator: "")
-            }
-
-            return atLeastOneConnectionToUpperLayer
+            if inputsForNextLayer.compactMap({$0}).isEmpty
+                { return inputsForNextLayer }
         }
 
-        func stimulate(inputs: [Double]) -> [Double]? {
-            var previousLayerOutputs = inputs
-            var previousLayer: Layer?
-
-//            print("\(self.layers.count) layers")
-            for layer in self.layers {
-                let sensesLayer = (layer.layerSSInBrain == 0)
-
-                if previousLayerOutputs.isEmpty && !sensesLayer { return nil }
-
-                previousLayerOutputs =
-                    layer.stimulate(inputs: previousLayerOutputs)
-
-                if !sensesLayer {
-                    if !theseLayersCommunicate(layer, previousLayer)
-                        { allLayersConnected = false; return nil }
-                }
-
-                previousLayer = layer
-
-                guard layer.foundViableInput else { return nil }
-
-//                print("Layer \(layer.layerSSInBrain) stimulate -> \(layer.neurons.count) outputs")
-            }
-
-            if previousLayerOutputs.isEmpty { return nil }
-            return previousLayerOutputs
-        }
+        return inputsForNextLayer
     }
 }

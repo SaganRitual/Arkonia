@@ -94,12 +94,7 @@ class Selector {
             if ts.genome == stud.genome { continue }
 
             guard let score = fitnessTester.administerTest(to: ts)
-                else {
-//                    print("broken1 \(ts.fishNumber)",brokenBrainMarker)
-                    ts.debugMarker = brokenBrainMarker
-                    brokenBrainMarker += 1
-                    continue
-                }
+                else { continue }
 
             ts.debugMarker = 424242
 

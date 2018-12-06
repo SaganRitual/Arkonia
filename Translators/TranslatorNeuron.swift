@@ -49,18 +49,10 @@ class Neuron: CustomStringConvertible {
     var activators = [Bool]()
     var weights = [ValueDoublet]()
     var bias: ValueDoublet?, threshold: ValueDoublet?
+    var commLinesUsed = [Int]() // Strictly for VBrain's display purposes
 
     var layerSSInBrain = 0
     var neuronSSInLayer = 0
-
-    var foundViableInput = false    // My genes caused me not to have inputs
-    var hasClients = true           // Even if I have inputs, no one below connected to me
-
-    // This is where the breeder stores the data from
-    // the upper layer for stimulating this neuron.
-    var inputPorts = [Double]()
-
-    var inputPortDescriptors = [Int]()
 
     static let outputFunction: NeuronOutputFunction =
             { (_ input: Double) -> Double in return input }
@@ -112,63 +104,39 @@ class Neuron: CustomStringConvertible {
         }
     }
 
-    // swiftlint:disable nesting
+    public func stimulate(inputSources: [Double?]) -> Double? {
+        var outputSansBias: Double?
+        var commLine_ = 0
 
-    struct WeightSignal: CustomStringConvertible {
-        var weight: ValueDoublet?
-        var input_: Double?
-        var input: Double {
-            get { guard let i = input_ else { preconditionFailure() }; return i }
-            set { input_ = newValue}
+        var commLine: Int {
+            get { return commLine_ % inputSources.count }
+            set { commLine_ = newValue }
         }
 
-        var description: String {
-            var full = "W"
-            guard let w = weight else { full += "<nil>"; return full }
-            full += w.description
-            return full
-        }
-
-        init() {}
-        init(_ weight: Double) { self.weight = ValueDoublet(weight) }
-        init(_ weight: ValueDoublet) { self.weight = weight }
-    }
-
-    // swiftlint:enable nesting
-
-    func stimulate(_ inputs: [Double?]) -> Double? {
-        if weights.isEmpty || activators.isEmpty || inputs.isEmpty { return nil }
-
-        var ssWeight = 0
-        var commLine = 0
-
-        var signals = [(Double, Double)]()
-        for activator in activators {
-            defer { commLine = (commLine + 1) % inputs.count }
-
-            if activator {
-                if ssWeight >= weights.count { break }
-
-                if let input = inputs[commLine] {
-
-//                    print("N(\(layerSSInBrain):\(neuronSSInLayer)) weight \(ssWeight) goes to comm line \(commLine)")
-
-                    // The input port descriptors have been demoted to
-                    // just a helper for the UI. We don't use them for
-                    // anything else, but instead we send our weight+input
-                    // pairs directly to the ouput() function. This comment
-                    // was correct on 3 Dec 2018
-                    self.inputPortDescriptors.append(commLine)
-                    signals.append((weights[ssWeight].baseline, input))
-
-                    foundViableInput = true
-
-                    ssWeight += 1
+                func nextCommLine(_ preAdvance: Bool) {
+                    if preAdvance { commLine += 1 }
+                    while inputSources[commLine] == nil
+                        { commLine += 1 }
                 }
+
+        nextCommLine(false)  // Primer
+        for activator in activators {
+            if activator {
+                if weights.isEmpty { break }
+                guard let inputValue = inputSources[commLine]
+                    else { preconditionFailure("We're not supposed to get nil from nextCommLine()") }
+
+                outputSansBias = (outputSansBias ?? 0.0) + weights.pop().value * inputValue
+
+                commLinesUsed.append(commLine)  // Remember for the VBrain display
             }
+
+            nextCommLine(true)
         }
 
-        return output(signals)
+//        print("N(\(layerSSInBrain):\(neuronSSInLayer)) input \(commLinesUsed) output \(outputSansBias ?? -42.42)")
+
+        return outputSansBias
     }
 }
 }

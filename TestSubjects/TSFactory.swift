@@ -40,8 +40,7 @@ class TestSubjectFactory: SelectionTestSubjectFactory {
             maybeMutated = Mutator.m.convertToGenome()
         }
 
-        do { try decoder.setInput(to: maybeMutated[...]).decode() }
-        catch { return nil }
+        guard decoder.setInput(to: maybeMutated[...]).decode() else { return nil }
 
         let brain = Translators.t.getBrain()
 

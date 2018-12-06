@@ -34,7 +34,7 @@ class TSMultiplier: TSTestSubject {
 }
 
 class TSMultiplierFactory: TestSubjectFactory {
-    override func makeTestSubject(genome: Genome, mutate: Bool) throws -> TSMultiplier {
+    override func makeTestSubject(genome: Genome, mutate: Bool) -> TSMultiplier {
         var maybeMutated = genome
         if mutate {
             _ = Mutator.m.setInputGenome(genome).mutate()

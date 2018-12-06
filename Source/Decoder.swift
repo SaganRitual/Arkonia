@@ -43,17 +43,46 @@ class Decoder {
 
     fileprivate var decodeState: DecodeState = .noLayer
 
-    func decode() throws {
+    func decode() -> Bool {
         self.reset()
         Translators.t.reset()
         Translators.t.newBrain()
-        
-        decodeLayers(Statics.s.sensesInterface)
-        decodeLayers(self.inputGenome)
-        decodeLayers(Statics.s.outputsInterface)
 
-        do { try Translators.t.endOfStrand() }
-        catch { throw error }
+        var hmCommandeeredNeurons = 0
+        let reversed = self.inputGenome.reversed()
+        guard var rLayerInsertionPoint = reversed.firstIndex(where: {
+            if $0 == neu { hmCommandeeredNeurons += 1 }
+
+            return hmCommandeeredNeurons >= selectionControls.howManyMotorNeurons
+        }) else { /*print("Test subject did not survive birth");*/ return false }
+
+        // Reversed, searched to find the nth neuron
+        // Remember: reversing A(true)L_N_F(linear)_ does not result in F(linear)_N_L_A(true).
+        //      it results in _)raenil(F_N_L)eurt(A. Which is ok, because it flips back to
+        //      normal, but it means it's confusing and think about it a lot before changing it. Or not.
+        //
+        // We're scanning for N, which will look like _N.
+        //
+        rLayerInsertionPoint = reversed.index(after: rLayerInsertionPoint)
+
+        let distance = reversed.distance(from: rLayerInsertionPoint, to: reversed.endIndex)
+
+        let fLayerInsertionPoint = inputGenome.index(inputGenome.startIndex, offsetBy: distance)
+
+        // To get it back to normal, reverse the segments and put them
+        // back in reverse order: 1234567890 reversed -> 0987654321, split
+        // into 0987 and 654321, reassembled as 1234567 and 7890, with the
+        // marker in between them, of course.
+        let commandeeredGenome = inputGenome[fLayerInsertionPoint...] + layb[...] +
+                inputGenome[..<fLayerInsertionPoint]
+
+
+//        decodeLayers(Statics.s.sensesInterface)
+        decodeLayers(commandeeredGenome)
+//        decodeLayers(Statics.s.outputsInterface)
+
+        Translators.t.endOfStrand()
+        return true // The test subject survived birth
         
 //        Translators.t.getBrain().show(tabs: "", override: true)
 //        print(inputGenome)

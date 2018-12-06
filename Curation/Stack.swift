@@ -34,11 +34,11 @@ class Stack {
 
     public var count: Int { return theStack.count }
 
-    public func pop() -> TSTestSubject { return theStack.pop() }
+    public func pop() -> TSTestSubject { let f = theStack.pop(); return f }
     public func push(_ ts: TSTestSubject) { theStack.push(ts) }
     public func popBack() { _ = theStack.popBack() }
 
-    private var retreated = false
+    private var retreatNeeded = false
     
     private var candidateFilterType = CandidateFilter.be
     
@@ -53,12 +53,10 @@ class Stack {
         highWaterHolder = aboriginal
     }
 
-    public func setRetreatLock() {
-        retreatLock = currentBenchmarkHolder!.fitnessScore!
-        retreated = true
-    }
-
     public func stack(_ na: TSArray) {
+        let debugCBH = currentBenchmarkHolder
+        let debugCBS = currentBestScore
+
         currentBestScore = Double.infinity
         
         if let cb = currentBenchmarkHolder {
@@ -78,11 +76,11 @@ class Stack {
             Array(na).sorted { sortDescending($0, $1) }
 
         keepKeepers(newArrivals)
-        
+
         currentBenchmarkHolder = theStack.pop()
         currentBestScore = currentBenchmarkHolder!.fitnessScore!
-        
-        updateRetreatStatus()
+
+        updateRetreatStatus(debugCBH, debugCBS)
     }
 }
 
@@ -90,18 +88,19 @@ private extension Stack {
     
     func keepKeepers(_ newArrivals: TSArray) {
         
-        retreated = true
+        retreatNeeded = true
+        var miniStack = [TSTestSubject]()
         
         candidateFilterType = .be
         for newArrival in newArrivals where canAcceptCandidate(newArrival) {
             guard let score = newArrival.fitnessScore else { preconditionFailure() }
-            if let rL = retreatLock, score >= rL { continue }
+            if let rL = retreatLock, score >= rL { _ = theStack.pop(); continue }
             
             // We're full up on people matching the current
             // score; ignore everyone until we get one that
             // beats it.
             candidateFilterType = .bt
-            retreated = false
+            retreatNeeded = false
             retreatLock = nil
             
             let ctMatchingScore = theStack.filter {
@@ -114,27 +113,46 @@ private extension Stack {
             // matching scores, or if we're processing test subjects
             // that have better scores
             //            print("Stack.push( \(newArrival.fishNumber): \(newArrival.fitnessScore!))")
-            precondition(newArrival.debugMarker == 424242)
             //            print("f(\(newArrival.fishNumber)), V(\(newArrival.brain.allLayersConnected)) ", terminator: "")
-            theStack.push(newArrival)
+
+//            print("push(\(newArrival))")
+            miniStack.append(newArrival)
             //        print("Stack.pop() -> \(currentBest!.fishNumber) : \(currentBest!.fitnessScore!)")
         }
-        
+
+        // String everyone back together such that
+        // the guy on top is the same guy who was there before.
+        mergeStack(with: miniStack)
+
+        // If we're in retreat mode, then we're looking for the most
+        // recent branch in the lineage that will breed better. So
+        // no tying scores are accepted.
+        if retreatNeeded { candidateFilterType = .bt }
     }
 
-    func updateRetreatStatus() {
-        if retreated {
-            print("Could not get \(candidateFilterType.rawValue) for \(currentBestScore); retreating to ", terminator: "")
-            
-            if retreatLock == nil {
-                if !theStack.isEmpty {
-                    print("subject \(currentBenchmarkHolder!.fishNumber)")
-                }
-                
-                retreatLock = currentBenchmarkHolder!.fitnessScore!
-            }
-            
-            if theStack.isEmpty { print("aboriginal"); retreatLock = nil }
+    func mergeStack(with miniStack_: [TSTestSubject]) {
+        if miniStack_.isEmpty { return }
+
+        var miniStack = miniStack_.sorted { sortAscending($0, $1) }
+
+        while theStack.first!.fitnessScore! <= miniStack.first!.fitnessScore! {
+            miniStack.append(theStack.pop())
+        }
+
+        theStack.insert(contentsOf: miniStack, at: 0)
+    }
+
+    func updateRetreatStatus(_ formerBenchmarkHolder: TSTestSubject?, _ formerBestScore: Double?) {
+        if retreatNeeded {
+            var h = "huh?"; if let hh = formerBenchmarkHolder { h = hh.description }
+            var s = "sus?"; if let ss = formerBestScore { s = ss.sTruncate() }
+            let a = "Could not get \(candidateFilterType.rawValue) for"
+            let b = " \(s); discard \(h), retreat to "
+            let c = "subject \(currentBenchmarkHolder!.fishNumber)"
+            print("\(a)\(b)\(c)")
+
+            retreatLock = currentBenchmarkHolder!.fitnessScore!
+            print(retreatLock ?? -43.42, theStack.pop().fitnessScore ?? -42.43)
         } else {
             retreatLock = nil
         }
@@ -185,15 +203,21 @@ private extension Stack {
         // If not eq, sort by score
         return Ls < Rs
     }
-    
+
+    // Note!!!! Still sort asc on fish number--we want the
+    // first guy who comes in with score n to always be
+    // the one we pick first when we have to retreat. Or not.
     func sortDescending(_ lhs: TSTestSubject, _ rhs: TSTestSubject) -> Bool {
         let Ls = lhs.fitnessScore!, Rs = rhs.fitnessScore!
         let Lf = lhs.fishNumber, Rf = rhs.fishNumber
         
-        // If the scores are equal, sort by fish number
-        if Ls == Rs { return Lf > Rf }
+        if Ls == Rs {
+            //print("\(Ls) == \(Rs), \(Lf) > \(Rf)");
+            return Lf > Rf
+        }
         
         // If not eq, sort by score
+//        print("\(Ls) > \(Rs))")
         return Ls > Rs
     }
 }

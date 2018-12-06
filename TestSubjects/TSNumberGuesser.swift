@@ -45,8 +45,7 @@ class TSNumberGuesserFactory: TestSubjectFactory {
             maybeMutated = Mutator.m.convertToGenome()
         }
 
-        do { try decoder.setInput(to: maybeMutated[...]).decode() }
-        catch { print("\n(Died)"); return nil }
+        guard decoder.setInput(to: maybeMutated[...]).decode() else { return nil }
 
         let brain = Translators.t.getBrain()
         // Translators.t.reset() -- add while debugging mem; does it matter whether we reset?
@@ -56,10 +55,11 @@ class TSNumberGuesserFactory: TestSubjectFactory {
 }
 
 class FTNumberGuesser: FTFitnessTester {
-    override func doScoringStuff(_ ts: TSTestSubject, _ outputs: [Double]) -> Double {
+    override func doScoringStuff(_ ts: TSTestSubject, _ outputs: [Double?]) -> Double {
         guard let tg = ts as? TSNumberGuesser else { fatalError() }
 
-        let guess = outputs.reduce(0.0, +)
+
+        let guess = outputs.compactMap({$0}).reduce(0.0, +)
         tg.guessedNumber = guess
         let finalScore = abs(guess - (-27.5))  // Try for -27.5
 //        print("Subject \(ts.fishNumber) produced \(guess); score is \(finalScore)")

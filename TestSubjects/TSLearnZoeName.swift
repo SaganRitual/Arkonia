@@ -50,8 +50,7 @@ class TSZoeFactory: TestSubjectFactory {
             maybeMutated = Mutator.m.convertToGenome()
         }
 
-        do { try decoder.setInput(to: maybeMutated[...]).decode() }
-        catch { return nil }
+        guard decoder.setInput(to: maybeMutated[...]).decode() else { return nil }
 
         let brain = Translators.t.getBrain()
         return TSLearnZoeName(genome: maybeMutated, brain: brain)
@@ -61,7 +60,7 @@ class TSZoeFactory: TestSubjectFactory {
 class FTLearnZoeName: FTFitnessTester {
     var charactersMatched = 0
 
-    override func doScoringStuff(_ ts: TSTestSubject, _ outputs: [Double]) -> Double {
+    override func doScoringStuff(_ ts: TSTestSubject, _ outputs: [Double?]) -> Double {
         guard let tz = ts as? TSLearnZoeName else { fatalError() }
 
         var scoreForTheseOutputs = 0.0
@@ -95,8 +94,13 @@ private class Scorer {
     var inputCharacterValue: UInt32 = 0
     var inputCharacter: Character!
 
-    init(outputs: [Double]) {
-        self.outputs = outputs; self.whichCase = uppercase
+    init(outputs: [Double?]) {
+        self.outputs = outputs.map({
+            guard let output = $0 else { preconditionFailure() }
+            return output
+        })
+
+        self.whichCase = uppercase
     }
 
     func getCase(_ expectedCharacter: Character, _ ss: Int) -> String {

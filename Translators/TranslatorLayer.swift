@@ -23,8 +23,6 @@ import Foundation
 extension Translators {
 class Layer: CustomStringConvertible {
     var neurons = [Neuron]()
-    var howManyNeuronsInSensesLayer = 0
-    var howManyNeuronsInOutputsLayer = 0
     var underConstruction: Neuron?
 
     var layerSSInBrain = 0
@@ -72,28 +70,27 @@ class Layer: CustomStringConvertible {
             neuron.show(tabs: tabs + "", override: override)
         }
     }
+}
 
-    var foundViableInput = false
-//    var hasClients = true
+}
 
-    func stimulate(inputs: [Double]) -> [Double] {
-        var outputs = [Double]()
+extension Translators.Layer {
 
-//        print("Layer (\(self.myID)) ")
 
-        for n in self.neurons {
-            guard let r = n.stimulate(inputs)  else { continue }
+    public func stimulate(inputsFromPreviousLayer: [Double?]) -> [Double?] {
+        if inputsFromPreviousLayer.compactMap({$0}).isEmpty
+            { return inputsFromPreviousLayer }
 
-            if !foundViableInput {
-                foundViableInput = n.foundViableInput }
-//            if n.foundViableInput { self.foundViableInput = true }
-//            else { continue }
+        var inputsForNextLayer: [Double?] = Array(repeating: nil, count: neurons.count)
 
-            outputs.append(r)
+        for (whichNeuron, neuron) in zip(0..., neurons) {
+            guard let neuronOutput = neuron.stimulate(inputSources: inputsFromPreviousLayer)
+                else { continue }
+            
+            inputsForNextLayer[whichNeuron] = neuronOutput + (neuron.bias?.value ?? 0.0)
         }
 
-        return outputs
+        return inputsForNextLayer
     }
-}
 
 }

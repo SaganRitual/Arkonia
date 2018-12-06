@@ -85,10 +85,9 @@ class Translators: BrainOwnerProtocol {
     func closeLayer() { brain.closeLayer() }
     func closeNeuron() { brain.closeNeuron() }
 
-    func endOfStrand() throws {
+    func endOfStrand() {
         defer { reachedEndOfStrand = true }
-
-        try brain.endOfStrand()
+        brain.endOfStrand()
     }
 
     func getBrain() -> NeuralNetProtocol {

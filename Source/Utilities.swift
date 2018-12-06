@@ -300,8 +300,6 @@ enum Utilities {
         return fullPath
     }
 
-    static func hurl(_ exception: SelectionError) throws { throw exception }
-
     static func load(filename: String) -> [Genome] {
         do {
             let fullPathURL = Utilities.getDocumentsDirectory().appendingPathComponent(filename)
@@ -336,7 +334,7 @@ postfix operator %%
 extension Double {
     func sTruncate() -> String {
         let t = Double(truncating: self as NSNumber)
-        return String(format: "%.10f", t)
+        return String(format: "%.20f", t)
     }
 
     func dTruncate() -> Double {
