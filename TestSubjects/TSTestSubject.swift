@@ -28,6 +28,7 @@ class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
     private(set) var fishNumber: Int
     private(set) var genome: Genome    // Strong ref; I own my genome
     public var fitnessScore: Double?
+    public var hmSpawnAttempts = 0
 
     public var description: String {
         var fs = "<nil>"

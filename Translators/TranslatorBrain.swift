@@ -99,7 +99,6 @@ extension Translators {
 
 extension Translators.Brain {
     func stimulate(sensoryInputs: [Double]) -> [Double?] {
-
         var inputsForNextLayer: [Double?] = Array(sensoryInputs)
         for layer in layers {
             let i = inputsForNextLayer

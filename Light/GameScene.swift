@@ -64,7 +64,7 @@ class GameScene: SKScene {
             return
         }
 
-        guard let his = curator.getBestTestSubject() else { return }
+        guard let his = curator.currentTS else { return }
 
         var firstPass = true
         if myBestTestSubject == nil { myBestTestSubject = his; firstPass = false }
