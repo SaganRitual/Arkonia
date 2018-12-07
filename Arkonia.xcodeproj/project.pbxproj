@@ -210,8 +210,6 @@
 
 /* Begin PBXFileReference section */
 		D42BED7121BA405800888C37 /* Statics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statics.swift; sourceTree = "<group>"; };
-		D454741121B9D8FE004AA7DE /* StimulatorLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StimulatorLayer.swift; sourceTree = "<group>"; };
-		D454741321B9E67E004AA7DE /* StimulatorBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StimulatorBrain.swift; sourceTree = "<group>"; };
 		D45E63FB21AE39940078CB8E /* Dark-R */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Dark-R"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D460041921B3529C008190B0 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stack.swift; path = Curation/Stack.swift; sourceTree = "<group>"; };
@@ -250,7 +248,6 @@
 		D4C0A16121AE2E64009D6011 /* GameSceneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameSceneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C0A16521AE2E64009D6011 /* GameSceneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneTests.swift; sourceTree = "<group>"; };
 		D4C0A16721AE2E64009D6011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4D7CE6921B999340006A3EF /* StimulatorNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StimulatorNeuron.swift; sourceTree = "<group>"; };
 		D4FE84FB21AE7AB600C9192F /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D4FE84FC21AE7AB600C9192F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D4FE852621AE7C0500C9192F /* GameScene-R.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GameScene-R.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -331,9 +328,6 @@
 			isa = PBXGroup;
 			children = (
 				D4B517E721AFAC3200F4C88A /* main.swift */,
-				D454741121B9D8FE004AA7DE /* StimulatorLayer.swift */,
-				D4D7CE6921B999340006A3EF /* StimulatorNeuron.swift */,
-				D454741321B9E67E004AA7DE /* StimulatorBrain.swift */,
 			);
 			path = Experimental;
 			sourceTree = "<group>";
