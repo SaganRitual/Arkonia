@@ -110,8 +110,8 @@ class Tracker {
 
     private func backtrack() -> (TSTestSubject, TestSubjectDisposition) {
         compareFunctionOperator = .BT   // While backtracking, we don't take ties
-        let loafer = stack.pop()
-        currentBenchmark = stack.top(); print("popped \(loafer.fishNumber), score \(loafer.fitnessScore!)")
+        _ = stack.pop() // Get rid of the loafer
+        currentBenchmark = stack.top()//; print("popped \(loafer.fishNumber), score \(loafer.fitnessScore!)")
         dudlinessCount = 0      // Give the guy a chance to prove himself
         testSubjectDisposition = .backtrack
 
@@ -150,7 +150,7 @@ class Tracker {
         miniStack.sort { sortDescending($0, $1) }
         stack.multiPush(miniStack)
 
-        print("after mp", stack)
+//        print("after mp", stack)
 
         miniStack.removeAll(keepingCapacity: true)
 
@@ -159,21 +159,29 @@ class Tracker {
             dudlinessCount += 1
             testSubjectDisposition = .sameGuy
         } else {
-            currentBenchmark = ts
             dudlinessCount = 0
             testSubjectDisposition = .winner
+            if ts.fitnessScore! < highWaterMark.fitnessScore! {
+                highWaterMark.fitnessScore = ts.fitnessScore
+            }
         }
 
-        var newCurrentTestSubject = stack.top(), disposition = testSubjectDisposition
+        var newCurrentTestSubject = ts, disposition = testSubjectDisposition,
+            newCompareFunctionOperator = CompareFunctionOperator.BE
+
         if dudlinessCount >= selectionControls.dudlinessThreshold {
             (newCurrentTestSubject, disposition) = backtrack()
+
+            // When backtracking, ignore equal scores. To be worth
+            // pursuing their lineage, they have to produce someone
+            // who can beat the record set by their cousins.
+            newCompareFunctionOperator = .BT
         }
 
-        // We've found someone who meets our standards and quotas,
-        // so we can relax the entry requirements.
-        compareFunctionOperator = .BE
+        currentBenchmark = newCurrentTestSubject
+        compareFunctionOperator = newCompareFunctionOperator
 
-        print("top", newCurrentTestSubject)
+        print("top: \(newCurrentTestSubject)")
         return (newCurrentTestSubject, disposition)
     }
 
