@@ -27,7 +27,7 @@ struct SelectionControls {
     var howManyGenes = 200
     var howManySubjectsPerGeneration = 200
     var theFishNumber = 0
-    var dudlinessThreshold = 1
+    var dudlinessThreshold = 1  // How many times we'll attempt to breed a subject before giving up on him
     var stackTieScoresLimit = 5
     var keepersPerGenerationLimit = 3
 }

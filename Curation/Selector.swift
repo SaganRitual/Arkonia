@@ -35,6 +35,7 @@ class Selector {
     private var selectorWorkItem: DispatchWorkItem!
     private var thisGenerationNumber = 0
     private var observerHandle: NSObjectProtocol?
+    private var compareFunctionOperator = CompareFunctionOperator.BE
 
     init(tsFactory: TestSubjectFactory, semaphore: DispatchSemaphore) {
         self.tsFactory = tsFactory
@@ -100,7 +101,14 @@ class Selector {
 
             ts.fitnessScore = score
             if score > bestScore! { continue }
-            if score < bestScore! { bestScore = score }
+
+            if compareFunctionOperator == .BE {
+                if score <= bestScore! { bestScore = score }
+                else { continue }
+            } else {
+                if score < bestScore! { bestScore = score }
+                else { continue }
+            }
 
             // Start getting rid of the less promising candidates
             if stemTheFlood.count >= selectionControls.keepersPerGenerationLimit {
@@ -114,17 +122,15 @@ class Selector {
         return stemTheFlood
     }
 
-    var candidateFilterType = CandidateFilter.be
-
     @objc private func setSelectionParameters(_ notification: Notification) {
         guard let u = notification.userInfo,
             let p = u[NotificationType.select] as? TSTestSubject,
-            let e = u["candidateFilter"] else { preconditionFailure() }
+            let e = u["compareFunctionOperator"] else { preconditionFailure() }
 
         self.stud = p
 
-        guard let c = e as? CandidateFilter else { preconditionFailure() }
-        candidateFilterType = c
+        guard let c = e as? CompareFunctionOperator else { preconditionFailure() }
+        self.compareFunctionOperator = c
     }
 
     public func startThread() {
