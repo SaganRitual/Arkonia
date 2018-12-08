@@ -55,11 +55,23 @@ fileprivate class Stack: CustomStringConvertible {
     // Famous last words: 25 generations will be far more than enough
     private let stackSize = selectionControls.keepersPerGenerationLimit * 25
     private var theStack = [TSTestSubject?]()
+    private var description_ = String()
 
     var count: Int { return theStack.count }
     var isEmpty: Bool { return theStack.isEmpty }
 
-    var description: String { return "\(theStack)"}
+    var description: String {
+        description_.removeAll(keepingCapacity: true)
+
+        description_ += "Stack -- depth \(theStack.count)\n"
+        theStack.forEach {
+            guard let ts = $0 else { preconditionFailure() }
+
+            description_ += "TS \(ts.fishNumber) score \(ts.fitnessScore!)\n"
+        }
+
+        return description_
+    }
 
     init() { theStack.reserveCapacity(stackSize) }
 
@@ -83,9 +95,7 @@ fileprivate class Stack: CustomStringConvertible {
 
     public func pop() -> TSTestSubject { return theStack.removeLast()! }
 
-    public func postInit(aboriginal: TSTestSubject) {
-        theStack.push(aboriginal)
-    }
+    public func postInit(aboriginal: TSTestSubject) { push(aboriginal) }
 
     public func push(_ testSubject: TSTestSubject) { theStack.append(testSubject) }
 
@@ -114,6 +124,9 @@ class Tracker {
         currentBenchmark = stack.top()//; print("popped \(loafer.fishNumber), score \(loafer.fitnessScore!)")
         dudlinessCount = 0      // Give the guy a chance to prove himself
         testSubjectDisposition = .backtrack
+        backtracking = true
+
+        print("Backtracked to \(currentBenchmark.fishNumber)\n\(stack)")
 
         return (currentBenchmark, testSubjectDisposition)
     }
@@ -123,11 +136,11 @@ class Tracker {
     }
 
     fileprivate func isKeeper(_ testSubject: TSTestSubject) -> Bool {
-        return stack.isAcceptable(testSubject, op: compareFunctionOperator, against: currentBenchmark.fitnessScore!)
+        return isKeeper(testSubject, op: compareFunctionOperator, against: currentBenchmark.fitnessScore!)
     }
 
-    fileprivate func isKeeper(_ testSubject: TSTestSubject, against score: Double) -> Bool {
-        return isKeeper(testSubject)
+    fileprivate func isKeeper(_ testSubject: TSTestSubject, op: CompareFunctionOperator, against score: Double) -> Bool {
+        return stack.isAcceptable(testSubject, op: op, against: score)
     }
 
     public func postInit(aboriginal: TSTestSubject) {
@@ -137,6 +150,8 @@ class Tracker {
         stack.postInit(aboriginal: aboriginal)
     }
 
+    var backtracking = false
+
     public func track(_ newGuys: [TSTestSubject]) -> (TSTestSubject, TestSubjectDisposition) {
         let c = compareFunctionOperator
         let s = currentBenchmark.fitnessScore!
@@ -145,12 +160,13 @@ class Tracker {
             miniStack.append(newGuy)
         }
 
-        while !stack.isEmpty && isKeeper(stack.top()) { miniStack.append(stack.pop()) }
+        while !stack.isEmpty && isKeeper(stack.top()) {
+            let p = stack.pop()
+            miniStack.append(p)
+        }
 
         miniStack.sort { sortDescending($0, $1) }
         stack.multiPush(miniStack)
-
-//        print("after mp", stack)
 
         miniStack.removeAll(keepingCapacity: true)
 
@@ -159,10 +175,11 @@ class Tracker {
             dudlinessCount += 1
             testSubjectDisposition = .sameGuy
         } else {
+            backtracking = false
             dudlinessCount = 0
             testSubjectDisposition = .winner
             if ts.fitnessScore! < highWaterMark.fitnessScore! {
-                highWaterMark.fitnessScore = ts.fitnessScore
+                highWaterMark = ts
             }
         }
 

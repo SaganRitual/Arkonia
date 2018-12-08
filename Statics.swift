@@ -29,7 +29,7 @@ struct SelectionControls {
     var theFishNumber = 0
     var dudlinessThreshold = 1  // How many times we'll attempt to breed a subject before giving up on him
     var stackTieScoresLimit = 2
-    var keepersPerGenerationLimit = 3
+    var keepersPerGenerationLimit = 2
 }
 
 var selectionControls = SelectionControls()

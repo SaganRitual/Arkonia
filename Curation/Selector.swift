@@ -99,7 +99,7 @@ class Selector {
 
             ts.debugMarker = 424242
 
-            ts.fitnessScore = score
+//            ts.fitnessScore = score
             if score > bestScore! { continue }
 
             if compareFunctionOperator == .BE {
@@ -112,10 +112,10 @@ class Selector {
 
             // Start getting rid of the less promising candidates
             if stemTheFlood.count >= selectionControls.keepersPerGenerationLimit {
-                _ = stemTheFlood.popBack()
+                _ = stemTheFlood.popLast()
             }
 
-            stemTheFlood.push(ts)
+            stemTheFlood.append(ts)
         }
 
         if stemTheFlood.isEmpty { /*print("No survivors in \(thisGenerationNumber)");*/ return nil }

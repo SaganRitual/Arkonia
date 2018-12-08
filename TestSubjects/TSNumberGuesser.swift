@@ -38,11 +38,14 @@ class TSNumberGuesserFactory: TestSubjectFactory {
     }
 
     override func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) -> TSTestSubject? {
-        maybeMutated = String(parentGenome)
+        maybeMutated.removeAll(keepingCapacity: true)
+        maybeMutated += String(parentGenome)
 
         while mutate && maybeMutated == parentGenome {
             _ = Mutator.m.setInputGenome(parentGenome[...]).mutate()
-            maybeMutated = Mutator.m.convertToGenome()
+
+            maybeMutated.removeAll(keepingCapacity: true)
+            maybeMutated += Mutator.m.convertToGenome()
         }
 
         guard decoder.setInput(to: maybeMutated[...]).decode() else { return nil }
@@ -61,8 +64,8 @@ class FTNumberGuesser: FTFitnessTester {
 
         let guess = outputs.compactMap({$0}).reduce(0.0, +)
         tg.guessedNumber = guess
-        let finalScore = abs(guess - (-27.5))  // Try for -27.5
+        tg.fitnessScore = abs(guess - (-27.5))  // Try for -27.5
 //        print("Subject \(ts.fishNumber) produced \(guess); score is \(finalScore)")
-        return finalScore
+        return tg.fitnessScore!
     }
 }

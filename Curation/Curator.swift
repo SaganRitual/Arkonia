@@ -94,6 +94,7 @@ class Curator {
 
             let (newTestSubject, compareFunctionOperator, testSubjectDisposition) = tracker.getSelectionParameters()
 
+            print("0) prev: \(previousBest.fishNumber), new: \(newTestSubject.fishNumber)")
             switch testSubjectDisposition {
             case .backtrack:
                 print("No successful progeny for \(previousBest.fishNumber); backtracking to \(newTestSubject.fishNumber)")
@@ -102,6 +103,7 @@ class Curator {
             }
 
             previousBest = newTestSubject
+            print("1) prev: \(previousBest.fishNumber), new: \(newTestSubject.fishNumber)")
 
             let n1 = Foundation.Notification.Name.setSelectionParameters
             let q1 = [NotificationType.select : newTestSubject, "compareFunctionOperator" : compareFunctionOperator] as [AnyHashable : Any]
@@ -140,12 +142,4 @@ class Curator {
 
         (currentTestSubject!, testSubjectDisposition) = tracker.track(p)
     }
-}
-
-extension Array {
-    // It's easier for me to think about the breeders as a stack
-    mutating func pop() -> Element { return self.removeFirst() }
-    mutating func push(_ e: Element) { self.insert(e, at: 0) }
-    mutating func popBack() -> Element { return self.removeLast() }
-    mutating func pushFront(_ e: Element) { push(e) }
 }
