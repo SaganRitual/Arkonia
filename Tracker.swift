@@ -21,8 +21,7 @@
 import Foundation
 
 public enum CompareFunctionOperator: String { case BE, BT, EQ }
-
-fileprivate typealias CompareFunction = (TSTestSubject, TSTestSubject) -> Bool
+public enum TestSubjectDisposition: String { case winner, sameGuy, backtrack }
 
 fileprivate extension Array where Element == TSTestSubject {
 
@@ -91,26 +90,27 @@ fileprivate class Stack: CustomStringConvertible {
         return theStack.compactMap({$0}).isAcceptable(testSubject, op: op, against: score)
     }
 
-    public func multiPush(_ pushees: [TSTestSubject]) { theStack.append(contentsOf: pushees) }
+    public func multiPush(_ pushees: [TSTestSubject]) { print("multiPush(\(pushees))"); theStack.append(contentsOf: pushees) }
 
-    public func pop() -> TSTestSubject { return theStack.removeLast()! }
+    public func pop() -> TSTestSubject { let s = theStack.removeLast()!; print("pop() -> \(s)"); return s }
 
     public func postInit(aboriginal: TSTestSubject) { push(aboriginal) }
 
-    public func push(_ testSubject: TSTestSubject) { theStack.append(testSubject) }
+    public func push(_ testSubject: TSTestSubject) { print("push(\(testSubject))"); theStack.append(testSubject) }
 
     public func top() -> TSTestSubject { return theStack.last!! }
 }
 
 class Tracker {
+    private var backtracking = false
     private var compareFunctionOperator = CompareFunctionOperator.BE
     private var currentBenchmark: TSTestSubject!
-    private var testSubjectDisposition = TestSubjectDisposition.winner
     private var dudlinessCount = 0
     private var highWaterMark: TSTestSubject!
     private let maxNonLosersPerScore = selectionControls.stackTieScoresLimit
     private var miniStack = [TSTestSubject]()
     private let miniStackCapacity: Int
+    private(set) var selectionParameters = SelectionParameters()
     private var stack = Stack()
 
     init() {
@@ -118,21 +118,21 @@ class Tracker {
         miniStack.reserveCapacity(miniStackCapacity)
     }
 
-    private func backtrack() -> (TSTestSubject, TestSubjectDisposition) {
+    private func backtrack() {
+        selectionParameters.previousTestSubject = currentBenchmark
+
+        _ = stack.pop()                 // Get rid of the loafer
+        currentBenchmark = stack.pop()  //; print("popped \(loafer.fishNumber), score \(loafer.fitnessScore!)")
         compareFunctionOperator = .BT   // While backtracking, we don't take ties
-        _ = stack.pop() // Get rid of the loafer
-        currentBenchmark = stack.top()//; print("popped \(loafer.fishNumber), score \(loafer.fitnessScore!)")
-        dudlinessCount = 0      // Give the guy a chance to prove himself
-        testSubjectDisposition = .backtrack
-        backtracking = true
+
+        dudlinessCount = 0              // Give the guy a chance to prove himself
+        backtracking = false
+
+        selectionParameters.compareFunctionOperator = compareFunctionOperator
+        selectionParameters.newTestSubject = currentBenchmark
+        selectionParameters.newTestSubjectDisposition = .backtrack
 
         print("Backtracked to \(currentBenchmark.fishNumber)\n\(stack)")
-
-        return (currentBenchmark, testSubjectDisposition)
-    }
-
-    public func getSelectionParameters() -> (TSTestSubject, CompareFunctionOperator, TestSubjectDisposition) {
-        return (currentBenchmark, compareFunctionOperator, self.testSubjectDisposition)
     }
 
     fileprivate func isKeeper(_ testSubject: TSTestSubject) -> Bool {
@@ -146,13 +146,14 @@ class Tracker {
     public func postInit(aboriginal: TSTestSubject) {
         currentBenchmark = aboriginal
         highWaterMark = aboriginal
+        selectionParameters.compareFunctionOperator = .BE
+        selectionParameters.newTestSubject = aboriginal
+        selectionParameters.newTestSubjectDisposition = .winner
 
         stack.postInit(aboriginal: aboriginal)
     }
 
-    var backtracking = false
-
-    public func track(_ newGuys: [TSTestSubject]) -> (TSTestSubject, TestSubjectDisposition) {
+    public func track(_ newGuys: [TSTestSubject]) {
         let c = compareFunctionOperator
         let s = currentBenchmark.fitnessScore!
         for newGuy in newGuys
@@ -170,36 +171,33 @@ class Tracker {
 
         miniStack.removeAll(keepingCapacity: true)
 
+        selectionParameters.previousTestSubject = selectionParameters.newTestSubject
+
         let ts = stack.top()
         if ts == currentBenchmark {
             dudlinessCount += 1
-            testSubjectDisposition = .sameGuy
+            selectionParameters.newTestSubjectDisposition = .sameGuy
         } else {
             backtracking = false
             dudlinessCount = 0
-            testSubjectDisposition = .winner
+            selectionParameters.previousTestSubject = selectionParameters.newTestSubject
+            selectionParameters.newTestSubjectDisposition = .winner
+            selectionParameters.compareFunctionOperator = .BE
+            selectionParameters.newTestSubject = ts
+
             if ts.fitnessScore! < highWaterMark.fitnessScore! {
                 highWaterMark = ts
             }
         }
 
-        var newCurrentTestSubject = ts, disposition = testSubjectDisposition,
-            newCompareFunctionOperator = CompareFunctionOperator.BE
+        currentBenchmark = ts
+        if dudlinessCount >= selectionControls.dudlinessThreshold { backtrack(); _ = stack.pop() }
 
-        if dudlinessCount >= selectionControls.dudlinessThreshold {
-            (newCurrentTestSubject, disposition) = backtrack()
+        compareFunctionOperator = selectionParameters.compareFunctionOperator
 
-            // When backtracking, ignore equal scores. To be worth
-            // pursuing their lineage, they have to produce someone
-            // who can beat the record set by their cousins.
-            newCompareFunctionOperator = .BT
-        }
-
-        currentBenchmark = newCurrentTestSubject
-        compareFunctionOperator = newCompareFunctionOperator
-
-        print("top: \(newCurrentTestSubject)")
-        return (newCurrentTestSubject, disposition)
+        var sTestSubject = "<huh?>"
+        if let tts = selectionParameters.newTestSubject { sTestSubject = "\(tts)" }
+        print("top: \(sTestSubject)")
     }
 
     private func withinKeeperQuotas(_ testSubject: TSTestSubject) -> Bool {
@@ -217,8 +215,15 @@ class Tracker {
 }
 
 extension Tracker {
-    enum TestSubjectDisposition: String { case winner, sameGuy, backtrack }
+    class SelectionParameters {
+        var previousTestSubject: TSTestSubject?
+        var newTestSubject: TSTestSubject?
+        var compareFunctionOperator = CompareFunctionOperator.BE
+        var newTestSubjectDisposition = TestSubjectDisposition.winner
+    }
+}
 
+extension Tracker {
     private func countKeepers(_ testSubject: TSTestSubject, _ op: CompareFunctionOperator) -> Int {
         return stack.countKeepers(against: testSubject, op)
     }

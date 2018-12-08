@@ -29,7 +29,7 @@ enum CuratorStatus { case running, finished }
 class Curator {
     private var aboriginal: TSTestSubject!
     private var currentTestSubject: TSTestSubject?
-    private var testSubjectDisposition = Tracker.TestSubjectDisposition.winner
+    private var testSubjectDisposition = TestSubjectDisposition.winner
     private let notificationCenter = NotificationCenter.default
     private var observerHandle: NSObjectProtocol?
     private var remainingGenerations = 0
@@ -65,7 +65,7 @@ class Curator {
     }
 
     func getBestTestSubject() -> TSTestSubject? {
-        return currentTestSubject
+        return tracker.selectionParameters.newTestSubject
     }
 
     func select() -> TSTestSubject? {
@@ -92,21 +92,23 @@ class Curator {
             // the semaphore back and forth.
             if !firstPass { semaphore.wait() }
 
-            let (newTestSubject, compareFunctionOperator, testSubjectDisposition) = tracker.getSelectionParameters()
+            let sp = tracker.selectionParameters
+            var noPrev = "<no prev>", noNew = "<no new>", noScore = "<no score>"
+            if let ps = sp.previousTestSubject { noPrev = "\(ps.fishNumber)" }
+            if let ns = sp.newTestSubject { noNew = "\(ns.fishNumber)"; noScore = "\(ns.fitnessScore ?? -42.42)" }
 
-            print("0) prev: \(previousBest.fishNumber), new: \(newTestSubject.fishNumber)")
-            switch testSubjectDisposition {
+            print("0) prev: \(noPrev), new: \(noNew)")
+            switch sp.newTestSubjectDisposition {
             case .backtrack:
-                print("No successful progeny for \(previousBest.fishNumber); backtracking to \(newTestSubject.fishNumber)")
+                print("No successful progeny for \(noPrev); backtracking to \(noNew)")
             case .sameGuy: break
-            case .winner: print("New record by \(newTestSubject.fishNumber): \(newTestSubject.fitnessScore!)")
+            case .winner: print("New record by \(noNew): \(noScore)")
             }
 
-            previousBest = newTestSubject
-            print("1) prev: \(previousBest.fishNumber), new: \(newTestSubject.fishNumber)")
+            print("1) prev: \(noPrev), new: \(noNew)")
 
             let n1 = Foundation.Notification.Name.setSelectionParameters
-            let q1 = [NotificationType.select : newTestSubject, "compareFunctionOperator" : compareFunctionOperator] as [AnyHashable : Any]
+            let q1 = [NotificationType.select : sp.newTestSubject!, "compareFunctionOperator" : sp.compareFunctionOperator] as [AnyHashable : Any]
             let p1 = Foundation.Notification(name: n1, object: nil, userInfo: q1)
 
             let n2 = Foundation.Notification.Name.select
@@ -140,6 +142,6 @@ class Curator {
                 preconditionFailure()
             }
 
-        (currentTestSubject!, testSubjectDisposition) = tracker.track(p)
+        tracker.track(p)
     }
 }
