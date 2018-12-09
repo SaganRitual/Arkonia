@@ -29,7 +29,8 @@ struct SelectionControls {
     var theFishNumber = 0
     var dudlinessThreshold = 1
     var stackTieScoresLimit = 5
-    var keepersPerGenerationLimit = 3
+    var maxKeepersPerGeneration = 3
+    var hmSpawnAttempts = 2
 }
 
 var selectionControls = SelectionControls()
