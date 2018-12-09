@@ -126,7 +126,7 @@ class Neuron: CustomStringConvertible {
                 guard let inputValue = inputSources[commLine]
                     else { preconditionFailure("We're not supposed to get nil from nextCommLine()") }
 
-                outputSansBias = (outputSansBias ?? 0.0) + weights.popLast()!.value * inputValue
+                outputSansBias = (outputSansBias ?? 0.0) + weights.pop().value * inputValue
 
                 commLinesUsed.append(commLine)  // Remember for the VBrain display
             }

@@ -26,18 +26,20 @@ enum NotificationType: String {
 
 enum CuratorStatus { case running, finished }
 
+enum CandidateFilter: String { case be = "BE", bt = "BT" }
+
 class Curator {
-    private var aboriginal: TSTestSubject!
-    private var currentTestSubject: TSTestSubject?
-    private var testSubjectDisposition = TestSubjectDisposition.winner
-    private let notificationCenter = NotificationCenter.default
+    var aboriginal: TSTestSubject!
+    var atLeastOneTSHasSurvived = false
+    var bestTestSubject: TSTestSubject?
+    let notificationCenter = NotificationCenter.default
+    var remainingGenerations = 0
+    let selector: Selector
+    let semaphore = DispatchSemaphore(value: 0)
+    let stack = Stack()
+    let tsFactory: TestSubjectFactory
     private var observerHandle: NSObjectProtocol?
-    private var remainingGenerations = 0
-    private let selector: Selector
-    private let semaphore = DispatchSemaphore(value: 0)
     public var status = CuratorStatus.running
-    private let tracker = Tracker()
-    private let tsFactory: TestSubjectFactory
 
     init(tsFactory: TestSubjectFactory) {
         
@@ -65,23 +67,32 @@ class Curator {
     }
 
     func getBestTestSubject() -> TSTestSubject? {
-        return tracker.selectionParameters.newTestSubject
+        return bestTestSubject
     }
 
     func select() -> TSTestSubject? {
+//         This genome produces the number 6. Saving it because although
+//         it's interesting, it's also easy to understand from reading the
+//         genome or looking at its display representation.
+//        let dag = "L_N_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_"
+//        guard let a = tsFactory.makeTestSubject(parent: aboriginal, mutate: false)
+//            else { return nil }
+
+//         This one is much longer, but it also produces exactly 6.
+//         let dag = "L_N_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_N_A(false)_A(false)_A(false)_A(false)_A(true)_F(linear)_W(b[1]v[1])_B(b[0]v[0])_"
+
         guard let a = Statics.makePromisingAboriginal(factory: tsFactory)
             else { return nil }
 
-        tracker.postInit(aboriginal: a)
+        stack.postInit(aboriginal: a)
 
         self.aboriginal = a
-        self.currentTestSubject = a
+        self.bestTestSubject = a
         selector.scoreAboriginal(a)
+        self.atLeastOneTSHasSurvived = true
         print("Aboriginal score = \(a.fitnessScore!)")
 
         var firstPass = true
-
-        var previousBest = currentTestSubject!
 
         while remainingGenerations > 0 {
             defer { remainingGenerations -= 1 }
@@ -92,23 +103,17 @@ class Curator {
             // the semaphore back and forth.
             if !firstPass { semaphore.wait() }
 
-            let sp = tracker.selectionParameters
-            var noPrev = "<no prev>", noNew = "<no new>", noScore = "<no score>"
-            if let ps = sp.previousTestSubject { noPrev = "\(ps.fishNumber)" }
-            if let ns = sp.newTestSubject { noNew = "\(ns.fishNumber)"; noScore = "\(ns.fitnessScore ?? -42.42)" }
+            let (newTestSubject, candidateFilterType) = stack.getSelectionParameters()
 
-            print("0) prev: \(noPrev), new: \(noNew)")
-            switch sp.newTestSubjectDisposition {
-            case .backtrack:
-                print("No successful progeny for \(noPrev); backtracking to \(noNew)")
-            case .sameGuy: break
-            case .winner: print("New record by \(noNew): \(noScore)")
+            let newScore = newTestSubject.fitnessScore ?? -Double.infinity
+            let oldScore = self.bestTestSubject?.fitnessScore ?? Double.infinity
+            if newScore != oldScore {
+                print("New record by \(newTestSubject.fishNumber): \(newTestSubject.fitnessScore!)")
             }
 
-            print("1) prev: \(noPrev), new: \(noNew)")
-
+            self.bestTestSubject = newTestSubject
             let n1 = Foundation.Notification.Name.setSelectionParameters
-            let q1 = [NotificationType.select : sp.newTestSubject!, "compareFunctionOperator" : sp.compareFunctionOperator] as [AnyHashable : Any]
+            let q1 = [NotificationType.select : newTestSubject, "candidateFilter" : candidateFilterType] as [AnyHashable : Any]
             let p1 = Foundation.Notification(name: n1, object: nil, userInfo: q1)
 
             let n2 = Foundation.Notification.Name.select
@@ -120,6 +125,7 @@ class Curator {
             semaphore.signal()  // Everything is in place; start the selector running
 
             firstPass = false
+            if let f = self.bestTestSubject?.fitnessScore, f == 0.0 { break }
         }
 
         // We're moving, of course, so the selector will be
@@ -128,10 +134,10 @@ class Curator {
         semaphore.signal()
         selector.cancel()
         status = .finished
-        print("Best score \(self.currentTestSubject?.fitnessScore ?? -42.4242)" +
-                " from \(self.currentTestSubject?.fishNumber ?? 424242)," +
-                " genome \(currentTestSubject?.genome ?? "<no genome?>")")
-        return self.currentTestSubject
+        print("Best score \(self.bestTestSubject?.fitnessScore ?? -42.4242)" +
+                " from \(self.bestTestSubject?.fishNumber ?? 424242)," +
+                " genome \(bestTestSubject?.genome ?? "<no genome?>")")
+        return self.bestTestSubject
     }
 
     @objc func selectComplete(_ notification: Notification) {
@@ -142,6 +148,17 @@ class Curator {
                 preconditionFailure()
             }
 
-        tracker.track(p)
+        stack.stack(p)
+//        print("(\(stack.count) items on stack)")
+
+        self.atLeastOneTSHasSurvived = true
     }
+}
+
+extension Array {
+    // It's easier for me to think about the breeders as a stack
+    mutating func pop() -> Element { return self.removeFirst() }
+    mutating func push(_ e: Element) { self.insert(e, at: 0) }
+    mutating func popBack() -> Element { return self.removeLast() }
+    mutating func pushFront(_ e: Element) { push(e) }
 }
