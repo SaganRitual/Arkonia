@@ -153,16 +153,25 @@ extension VBrain {
             return
         }
 
-        let s = SKLabelNode(text: "N(\(neuron.layerSSInBrain):\(neuron.neuronSSInLayer)) \(hisOutput)")
+        if hisOutput == 0 {
+            vNeuron.fillColor = .green
+            vNeuron.strokeColor = .green
+            return
+        }
+
+//        let nid = "N(\(neuron.layerSSInBrain):\(neuron.neuronSSInLayer))"
+        let output = "\(hisOutput.sTruncate(5))"
+        let s = SKLabelNode(text: output)
 
         s.fontSize = fontSize
         s.fontColor = NSColor.yellow
         s.fontName = "Courier New"
 
         let sklackground = SKShapeNode(rect: s.frame)
-        sklackground.position = vNeuron.position
-        sklackground.fillColor = .black
-        sklackground.strokeColor = .black
+        sklackground.zPosition = CGFloat(2.0)
+        sklackground.position = CGPoint()
+        sklackground.fillColor = gameScene.backgroundColor
+        sklackground.strokeColor = gameScene.backgroundColor
         sklackground.position.y = -(vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
         sklackground.addChild(s)
         vNeuron.addChild(sklackground)

@@ -91,6 +91,7 @@ extension Translators.Layer {
             neuron.myTotalOutput = neuronOutput + (neuron.bias?.value ?? 0.0)
 
             inputsForNextLayer[whichNeuron] = neuron.myTotalOutput
+//            print("N(\(layerSSInBrain):\(neuron.neuronSSInLayer))")
         }
 
         return inputsForNextLayer
