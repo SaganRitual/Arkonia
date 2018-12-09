@@ -23,16 +23,26 @@ import Foundation
 class TestSubjectFactory: SelectionTestSubjectFactory {
     var decoder = Decoder()
     var maybeMutated = String()
+    var selectionControlsSet = false
+
+    func setSelectionControls() {
+        // Override this function to get the
+        // global controls set up
+        selectionControlsSet = true
+    }
 
     func makeFitnessTester() -> FTFitnessTester {
+        precondition(selectionControlsSet)
         return FTFitnessTester()
     }
 
     func makeTestSubject(parent: TSTestSubject, mutate: Bool) -> TSTestSubject? {
+        precondition(selectionControlsSet)
         return makeTestSubject(parentGenome: parent.genome[...], mutate: mutate)
     }
 
     func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) -> TSTestSubject? {
+        precondition(selectionControlsSet)
         maybeMutated.removeAll(keepingCapacity: true)
 
         if mutate {
