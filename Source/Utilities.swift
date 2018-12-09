@@ -337,6 +337,11 @@ extension Double {
         return String(format: "%.20f", t)
     }
 
+    func sTruncate(_ length: Int) -> String {
+        let t = Double(truncating: self as NSNumber)
+        return String(format: "%.\(length)f", t)
+    }
+
     func dTruncate() -> Double {
         return Double(sTruncate())!
     }
