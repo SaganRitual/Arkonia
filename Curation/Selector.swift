@@ -44,7 +44,7 @@ class Selector {
         self.tsFactory = tsFactory
 
         let n = Foundation.Notification.Name.setSelectionParameters
-        
+
         observerHandle = notificationCenter.addObserver(forName: n, object: nil, queue: nil) {
             [unowned self] n in self.setSelectionParameters(n)
         }

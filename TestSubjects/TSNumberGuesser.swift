@@ -61,7 +61,6 @@ class FTNumberGuesser: FTFitnessTester {
     override func doScoringStuff(_ ts: TSTestSubject, _ outputs: [Double?]) -> Double {
         guard let tg = ts as? TSNumberGuesser else { fatalError() }
 
-
         let guess = outputs.compactMap({$0}).reduce(0.0, +)
         tg.guessedNumber = guess
         tg.fitnessScore = abs(guess - (-27.5))  // Try for -27.5

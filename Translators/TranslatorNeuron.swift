@@ -23,7 +23,7 @@ import Foundation
 struct ValueDoublet: CustomStringConvertible {
     var baseline = 0.0
     var value = 0.0
-    
+
     var description: String {
         return "(b[\(baseline.dTruncate())]v[\(value.dTruncate())])"
     }

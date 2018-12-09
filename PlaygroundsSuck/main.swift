@@ -140,7 +140,7 @@ private extension Archive {
         if peerGroupIsFull(ts) { return }
 
         defer { advance(ts) }
-        
+
         let hash = makeHash(ts)
         if theArchive[hash] == nil { newGroup(ts) }
     }
@@ -181,7 +181,7 @@ let archive = Archive()
 let ts = [
     TSTestSubject(42.0), TSTestSubject(41.0), TSTestSubject(40.0), TSTestSubject(39.0),
     TSTestSubject(41.0), TSTestSubject(41.0), TSTestSubject(39.0), TSTestSubject(39.0),
-    TSTestSubject(39.0), TSTestSubject(39.0), TSTestSubject(39.0), TSTestSubject(42.0),
+    TSTestSubject(39.0), TSTestSubject(39.0), TSTestSubject(39.0), TSTestSubject(42.0)
 ]
 
 archive.postInit(aboriginal: ts[0])

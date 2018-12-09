@@ -30,12 +30,12 @@ extension Translators {
 
         var layers = [Translators.Layer]()
         var underConstruction: Translators.Layer?
-        
+
         static var count = 0
         init() {
             Brain.count += 1
         }
-        
+
         deinit { Brain.count -= 1 }
 
         var firstLayer = true

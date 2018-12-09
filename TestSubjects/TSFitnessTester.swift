@@ -34,4 +34,3 @@ class FTFitnessTester {
         return nil
     }
 }
-

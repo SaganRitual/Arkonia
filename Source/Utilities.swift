@@ -182,7 +182,7 @@ enum Utilities {
                      GeneSplitType.doubletGene, GeneSplitType.doubletValue] {
 
             splitResults = splitGene(slice, type)
-                        
+
             if !splitResults.isEmpty { return splitResults }
         }
 
@@ -361,7 +361,6 @@ extension CGFloat {
     static postfix func %% (_ me: CGFloat) -> String { return me.sTruncate() }
 }
 
-
 extension String {
     func isUppercase(_ inputCharacter: Character) -> Bool {
         return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".contains(inputCharacter)
@@ -376,24 +375,24 @@ typealias Gene = Substring
 typealias GeneComponent = Substring
 struct GenomeIterator: IteratorProtocol, Sequence {
     typealias Element = Gene
-    
+
     let genome: GenomeSlice
     let recognizedTokens: Substring
     var currentIndex: Gene.Index
-    
+
     init(_ genome: GenomeSlice) {
         self.genome = genome
-        self.currentIndex = genome.startIndex;
+        self.currentIndex = genome.startIndex
         self.recognizedTokens = Statics.s.recognizedTokens[...]
     }
-    
+
     public mutating func next() -> Element? {
         guard let c = genome[currentIndex...].firstIndex(where: {
             recognizedTokens.contains($0)
         }) else { return nil }
-        
+
         guard let end = genome[c...].firstIndex(of: "_") else { preconditionFailure() }
-        
+
         defer { currentIndex = genome.index(after: end) }
         return genome[c..<end]
     }
@@ -402,11 +401,11 @@ struct GenomeIterator: IteratorProtocol, Sequence {
 func getMeatySlice(_ genome: GenomeSlice) -> GenomeSlice {
     guard let start_ = genome.firstIndex(of: ifm),
           let end = genome.lastIndex(of: ifm) else {
-            
+
         return genome
     }
-    
+
     let start = genome.index(start_, offsetBy: 2)
-    
+
     return genome[start..<end]
 }

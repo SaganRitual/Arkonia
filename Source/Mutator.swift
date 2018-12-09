@@ -39,7 +39,7 @@ class Tene: CustomStringConvertible {
     init(_ token: GenomeSlice, value: String, baseline: String = "") {
         self.token = token; self.value = value; self.baseline = baseline
     }
-    
+
     func mutate() {
         if [Statics.s.lay_s, Statics.s.neu_s, Statics.s.ifm_s].contains(self.token) { return }
 
@@ -273,11 +273,11 @@ class Mutator {
 
     func setInputGenome(_ inputGenome: GenomeSlice) -> Mutator {
         workingOutputGenome.removeAll(keepingCapacity: true)
-        
+
         self.inputGenome = getMeatySlice(inputGenome)
 
         workingTenome = Tenome()
-        
+
         for gene in GenomeIterator(self.inputGenome!) {
             let components = Utilities.splitGene(gene)
             let token = components[0]

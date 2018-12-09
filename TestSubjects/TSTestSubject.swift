@@ -37,7 +37,7 @@ class TSTestSubject: Hashable, Equatable, CustomStringConvertible {
 
         return "Test subject \(fishNumber); score \(fs)"
     }
-    
+
 //    deinit { print("~T(\(fishNumber))", terminator: "") }
 
     init(genome: Genome, brain: NeuralNetProtocol) {
