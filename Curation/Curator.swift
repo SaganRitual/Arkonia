@@ -44,7 +44,7 @@ class Curator {
     private let tracker = Tracker()
     private let tsFactory: TestSubjectFactory
 
-    public var currentTS: TSTestSubject? { return archive.referenceTS }
+    public var currentProgenitor: TSTestSubject? { return archive.currentProgenitor }
 
     init(tsFactory: TestSubjectFactory) {
         
@@ -118,7 +118,7 @@ class Curator {
 
             firstPass = false
 
-            if let f = self.currentTS?.fitnessScore, f == 0.0 { break }
+            if let f = self.currentProgenitor?.fitnessScore, f == 0.0 { break }
         }
 
         // We're moving, of course, so the selector will be
@@ -128,10 +128,11 @@ class Curator {
         selector.cancel()
         status = .finished
 
-        print("Best score \(self.currentTS?.fitnessScore ?? -42.4242)" +
-                " from \(self.currentTS?.fishNumber ?? 424242)," +
-                " genome \(currentTS?.genome ?? "<no genome?>")")
-        return self.currentTS
+        print("Best score \(self.currentProgenitor?.fitnessScore ?? -42.4242)" +
+                " from \(self.currentProgenitor?.fishNumber ?? 424242)," +
+                " genome \(currentProgenitor?.genome ?? "<no genome?>")")
+
+        return self.currentProgenitor
     }
 
     @objc func selectComplete(_ notification: Notification) {
