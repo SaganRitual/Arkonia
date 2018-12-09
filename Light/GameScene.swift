@@ -31,7 +31,7 @@ class GameScene: SKScene {
     var frameCount = 0
     var curator: Curator?
     var workItem: DispatchWorkItem!
-    var myBestTestSubject: TSTestSubject?
+    var currentProgenitor: TSTestSubject?
 
     var myCuratorStatus = CuratorStatus.running
 
@@ -64,14 +64,14 @@ class GameScene: SKScene {
             return
         }
 
-        guard let his = curator.currentTS else { return }
+        guard let his = curator.currentProgenitor else { return }
 
         var firstPass = true
-        if myBestTestSubject == nil { myBestTestSubject = his; firstPass = false }
+        if self.currentProgenitor == nil { self.currentProgenitor = his; firstPass = false }
 
-        guard let mine = myBestTestSubject, (mine.fishNumber != his.fishNumber) || firstPass else { return }
-        myBestTestSubject = his
-
+        guard let mine = self.currentProgenitor, (mine.fishNumber != his.fishNumber) || firstPass else { return }
+        self.currentProgenitor = his
+        
         vBrain = VBrain(gameScene: self, testSubject: his)
         vBrain.displayBrain(his.brain)
 //        his.brain.show(tabs: "", override: true)

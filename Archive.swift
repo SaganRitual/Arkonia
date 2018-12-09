@@ -79,25 +79,28 @@ class PeerGroup: CustomStringConvertible {
 }
 
 class Archive: CustomStringConvertible {
-//    typealias PeerGroup = [TSTestSubject]
+
     typealias GroupIndex = Int
     typealias TheArchive = [Int : PeerGroup]
 
     public enum Comparison: String { case BT, BE, EQ }
-//    enum Disposition: String { case backtrack, nonLoser, sameGuy, winner }
 
     public var description: String { return getDescription() }
 
     private(set) var comparisonMode = Comparison.BT
-//    private(set) var disposition = Disposition.winner
     private var theArchive = TheArchive()
     private var theIndex = [GroupIndex]()
     private(set) var referenceTS: TSTestSubject?
 
+    public var currentProgenitor: TSTestSubject? {
+        guard let ts: TSTestSubject = getTop() else { return nil }
+        return ts
+    }
+
     public func newCandidate(_ ts: TSTestSubject) { keepIfKeeper(ts) }
 
     public func nextProgenitor() -> TSTestSubject {
-        var ts: TSTestSubject = getTop()
+        guard var ts: TSTestSubject = getTop() else { preconditionFailure() }
         while isTooDudly(ts) { ts = backtrack() }
         ts.hmSpawnAttempts += 1
         return ts
@@ -137,7 +140,7 @@ private extension Archive {
     }
 
     func backtrack() -> TSTestSubject {
-        let (topHash, topGroup) = getTop()
+        guard let (topHash, topGroup): (GroupIndex, PeerGroup) = getTop() else { preconditionFailure() }
 
         let loafer = theArchive[topHash]!.popFront()
 
@@ -146,20 +149,22 @@ private extension Archive {
         }
 
         // No ties allowed when we have to back up
-        let ts: TSTestSubject = getTop()
+        guard let ts: TSTestSubject = getTop() else { preconditionFailure() }
         setQualifications(reference: ts, op: .BT)
         print("Back up from \(loafer) to \(ts)")
         return ts
     }
 
-    func getTop() -> TSTestSubject {
-        let (_, topGroup) = getTop()
+    func getTop() -> TSTestSubject? {
+        guard let (_, topGroup): (GroupIndex, PeerGroup) = getTop() else { return nil }
         let ts = topGroup.peekFront()
         return ts
     }
 
-    func getTop() -> (GroupIndex, PeerGroup) {
-        guard let topHash = theIndex.last else { preconditionFailure() }
+    func getTop() -> (GroupIndex, PeerGroup)? {
+        // Ok if no hash yet; we come here before we've
+        // established the aboriginal ancestor.
+        guard let topHash = theIndex.last else { return nil }
         guard let topGroup = theArchive[topHash] else { preconditionFailure() }
         return (topHash, topGroup)
     }
@@ -187,10 +192,7 @@ private extension Archive {
     func newGroup(_ ts: TSTestSubject) {
         let hash = makeHash(ts)
 
-        defer {
-            let hex = String(format: "0x%08X", hash)
-            theArchive[hash] = PeerGroup(initialTS: ts)
-        }
+        defer { theArchive[hash] = PeerGroup(initialTS: ts) }
 
         // Keep the index in the proper order
         let currentTS: TSTestSubject? = theIndex.isEmpty ? nil : getTop()

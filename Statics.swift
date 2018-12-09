@@ -25,11 +25,11 @@ struct SelectionControls {
     var howManyMotorNeurons = "Zoe Bishop".count
     var howManyGenerations = 30000
     var howManyGenes = 200
-    var howManySubjectsPerGeneration = 200
+    var howManySubjectsPerGeneration = 100
     var theFishNumber = 0
     var dudlinessThreshold = 1
-    var stackTieScoresLimit = 5
-    var maxKeepersPerGeneration = 3
+    var stackTieScoresLimit = 2
+    var maxKeepersPerGeneration = 2
     var hmSpawnAttempts = 2
 }
 
