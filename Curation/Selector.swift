@@ -103,7 +103,7 @@ class Selector {
             if score < bestScore! { bestScore = score }
 
             // Start getting rid of the less promising candidates
-            if stemTheFlood.count >= selectionControls.keepersPerGenerationLimit {
+            if stemTheFlood.count >= selectionControls.maxKeepersPerGeneration {
                 _ = stemTheFlood.popBack()
             }
 
@@ -114,17 +114,17 @@ class Selector {
         return stemTheFlood
     }
 
-    var candidateFilterType = CandidateFilter.be
+    var comparisonMode = Archive.Comparison.BE
 
     @objc private func setSelectionParameters(_ notification: Notification) {
         guard let u = notification.userInfo,
             let p = u[NotificationType.select] as? TSTestSubject,
-            let e = u["candidateFilter"] else { preconditionFailure() }
+            let e = u["comparisonMode"] else { preconditionFailure() }
 
         self.stud = p
 
-        guard let c = e as? CandidateFilter else { preconditionFailure() }
-        candidateFilterType = c
+        guard let c = e as? Archive.Comparison else { preconditionFailure() }
+        comparisonMode = c
     }
 
     public func startThread() {

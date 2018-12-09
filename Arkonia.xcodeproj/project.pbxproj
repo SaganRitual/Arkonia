@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D42BED7221BA405800888C37 /* Statics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42BED7121BA405800888C37 /* Statics.swift */; };
 		D42BED7321BA405800888C37 /* Statics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42BED7121BA405800888C37 /* Statics.swift */; };
+		D44EE50821BCE584006E1A12 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EE50721BCE584006E1A12 /* main.swift */; };
 		D45E63E321AE39940078CB8E /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
 		D45E63E421AE39940078CB8E /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
 		D45E63E521AE39940078CB8E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
@@ -45,14 +46,12 @@
 		D45E641F21AE3A860078CB8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
 		D45E642021AE3A860078CB8E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
 		D45E642121AE3A860078CB8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15821AE2E64009D6011 /* Main.storyboard */; };
-		D460041A21B3529C008190B0 /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D460041921B3529C008190B0 /* Stack.swift */; };
 		D46540F221B1417B00445B69 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12D21AE2404009D6011 /* Protocols.swift */; };
 		D46540F321B1418400445B69 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
 		D46540F421B141A400445B69 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
 		D46540F521B149F600445B69 /* TSLearnZoeName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11321AE2331009D6011 /* TSLearnZoeName.swift */; };
 		D46540F621B150E100445B69 /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
 		D471173621B3D5440076DD2A /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D471173421B3D5350076DD2A /* VBrain.swift */; };
-		D471173721B3D5780076DD2A /* Stack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D460041921B3529C008190B0 /* Stack.swift */; };
 		D471173821B3D5E00076DD2A /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10F21AE2331009D6011 /* TSNumberGuesser.swift */; };
 		D482FD9521B11EAF00FF9EE9 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D482FD9621B11EBA00FF9EE9 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
@@ -65,6 +64,8 @@
 		D482FD9D21B121B000FF9EE9 /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13921AE2415009D6011 /* TranslatorNeuron.swift */; };
 		D482FD9E21B13A9400FF9EE9 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
 		D48DA54421B1B18C0056496A /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10F21AE2331009D6011 /* TSNumberGuesser.swift */; };
+		D49DBEB421BCB8E60022BD85 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49DBEB321BCB8E60022BD85 /* Archive.swift */; };
+		D49DBEB521BCB8E60022BD85 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49DBEB321BCB8E60022BD85 /* Archive.swift */; };
 		D4B517C421AFA52F00F4C88A /* TSPassThrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11021AE2331009D6011 /* TSPassThrough.swift */; };
 		D4B517E821AFAC3200F4C88A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B517E721AFAC3200F4C88A /* main.swift */; };
 		D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
@@ -170,6 +171,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		D44EE50321BCE584006E1A12 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		D45E63F721AE39940078CB8E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -210,10 +220,12 @@
 
 /* Begin PBXFileReference section */
 		D42BED7121BA405800888C37 /* Statics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statics.swift; sourceTree = "<group>"; };
+		D44EE50521BCE584006E1A12 /* PlaygroundsSuck */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlaygroundsSuck; sourceTree = BUILT_PRODUCTS_DIR; };
+		D44EE50721BCE584006E1A12 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D45E63FB21AE39940078CB8E /* Dark-R */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Dark-R"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D460041921B3529C008190B0 /* Stack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Stack.swift; path = Curation/Stack.swift; sourceTree = "<group>"; };
 		D471173421B3D5350076DD2A /* VBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
+		D49DBEB321BCB8E60022BD85 /* Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
 		D4B517E521AFAC3200F4C88A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B517E721AFAC3200F4C88A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4C0A0FA21ADF3CC009D6011 /* Dark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Dark; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -255,6 +267,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D44EE50221BCE584006E1A12 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D45E63F621AE39940078CB8E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -314,6 +333,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D44EE50621BCE584006E1A12 /* PlaygroundsSuck */ = {
+			isa = PBXGroup;
+			children = (
+				D44EE50721BCE584006E1A12 /* main.swift */,
+			);
+			path = PlaygroundsSuck;
+			sourceTree = "<group>";
+		};
 		D4ABEB1121AE645B00F3C5D5 /* Light */ = {
 			isa = PBXGroup;
 			children = (
@@ -339,6 +366,7 @@
 				D4C0A0FC21ADF3CC009D6011 /* Dark */,
 				D4B517E621AFAC3200F4C88A /* Experimental */,
 				D4ABEB1121AE645B00F3C5D5 /* Light */,
+				D44EE50621BCE584006E1A12 /* PlaygroundsSuck */,
 				D4C0A12121AE23BA009D6011 /* Source */,
 				D4C0A10D21AE231A009D6011 /* TestSubjects */,
 				D4C0A12221AE23DF009D6011 /* Translators */,
@@ -359,6 +387,7 @@
 				D4FE852621AE7C0500C9192F /* GameScene-R.app */,
 				D4FE854221AEB20500C9192F /* BellCurveDark */,
 				D4B517E521AFAC3200F4C88A /* Experimental */,
+				D44EE50521BCE584006E1A12 /* PlaygroundsSuck */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -389,9 +418,9 @@
 		D4C0A12021AE2374009D6011 /* Curation */ = {
 			isa = PBXGroup;
 			children = (
+				D49DBEB321BCB8E60022BD85 /* Archive.swift */,
 				D4C0A12321AE23F4009D6011 /* Curator.swift */,
 				D4C0A12521AE23F4009D6011 /* Selector.swift */,
-				D460041921B3529C008190B0 /* Stack.swift */,
 			);
 			name = Curation;
 			sourceTree = "<group>";
@@ -446,6 +475,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D44EE50421BCE584006E1A12 /* PlaygroundsSuck */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D44EE50B21BCE584006E1A12 /* Build configuration list for PBXNativeTarget "PlaygroundsSuck" */;
+			buildPhases = (
+				D44EE50121BCE584006E1A12 /* Sources */,
+				D44EE50221BCE584006E1A12 /* Frameworks */,
+				D44EE50321BCE584006E1A12 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlaygroundsSuck;
+			productName = PlaygroundsSuck;
+			productReference = D44EE50521BCE584006E1A12 /* PlaygroundsSuck */;
+			productType = "com.apple.product-type.tool";
+		};
 		D45E63E121AE39940078CB8E /* Dark-R */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D45E63F821AE39940078CB8E /* Build configuration list for PBXNativeTarget "Dark-R" */;
@@ -593,6 +639,9 @@
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Rob Bishop";
 				TargetAttributes = {
+					D44EE50421BCE584006E1A12 = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					D4B517E421AFAC3200F4C88A = {
 						CreatedOnToolsVersion = 10.1;
 					};
@@ -629,6 +678,7 @@
 				D4C0A14921AE2E62009D6011 /* GameScene */,
 				D4FE850521AE7C0500C9192F /* GameScene-R */,
 				D4C0A16021AE2E64009D6011 /* GameSceneTests */,
+				D44EE50421BCE584006E1A12 /* PlaygroundsSuck */,
 			);
 		};
 /* End PBXProject section */
@@ -677,6 +727,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D44EE50121BCE584006E1A12 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D44EE50821BCE584006E1A12 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D45E63E221AE39940078CB8E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -739,11 +797,11 @@
 				D482FD9821B120C100FF9EE9 /* Mutator.swift in Sources */,
 				D46540F521B149F600445B69 /* TSLearnZoeName.swift in Sources */,
 				D482FD9621B11EBA00FF9EE9 /* Curator.swift in Sources */,
+				D49DBEB421BCB8E60022BD85 /* Archive.swift in Sources */,
 				D482FD9A21B121B000FF9EE9 /* GenomeTranslators.swift in Sources */,
 				D4B517E821AFAC3200F4C88A /* main.swift in Sources */,
 				D46540F221B1417B00445B69 /* Protocols.swift in Sources */,
 				D48DA54421B1B18C0056496A /* TSNumberGuesser.swift in Sources */,
-				D460041A21B3529C008190B0 /* Stack.swift in Sources */,
 				D482FD9921B1216500FF9EE9 /* Decoder.swift in Sources */,
 				D482FD9521B11EAF00FF9EE9 /* Selector.swift in Sources */,
 				D42BED7221BA405800888C37 /* Statics.swift in Sources */,
@@ -797,7 +855,7 @@
 				D42BED7321BA405800888C37 /* Statics.swift in Sources */,
 				D4C0A18621AE315E009D6011 /* Mutator.swift in Sources */,
 				D4C0A17F21AE3151009D6011 /* TSFactory.swift in Sources */,
-				D471173721B3D5780076DD2A /* Stack.swift in Sources */,
+				D49DBEB521BCB8E60022BD85 /* Archive.swift in Sources */,
 				D4C0A19321AE3178009D6011 /* Curator.swift in Sources */,
 				D4C0A18121AE3151009D6011 /* TSLearnZoeName.swift in Sources */,
 				D4C0A18521AE315E009D6011 /* Decoder.swift in Sources */,
@@ -893,6 +951,26 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D44EE50921BCE584006E1A12 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D44EE50A21BCE584006E1A12 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 		D45E63F921AE39940078CB8E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1281,6 +1359,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D44EE50B21BCE584006E1A12 /* Build configuration list for PBXNativeTarget "PlaygroundsSuck" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D44EE50921BCE584006E1A12 /* Debug */,
+				D44EE50A21BCE584006E1A12 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D45E63F821AE39940078CB8E /* Build configuration list for PBXNativeTarget "Dark-R" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
