@@ -86,8 +86,11 @@ extension Translators.Layer {
         for (whichNeuron, neuron) in zip(0..., neurons) {
             guard let neuronOutput = neuron.stimulate(inputSources: inputsFromPreviousLayer)
                 else { continue }
-            
-            inputsForNextLayer[whichNeuron] = neuronOutput + (neuron.bias?.value ?? 0.0)
+
+            // This is so the display can show the outputs for each neuron
+            neuron.myTotalOutput = neuronOutput + (neuron.bias?.value ?? 0.0)
+
+            inputsForNextLayer[whichNeuron] = neuron.myTotalOutput
         }
 
         return inputsForNextLayer

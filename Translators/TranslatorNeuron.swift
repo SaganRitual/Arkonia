@@ -52,6 +52,7 @@ class Neuron: CustomStringConvertible {
     var commLinesUsed = [Int]() // Strictly for VBrain's display purposes
 
     var layerSSInBrain = 0
+    var myTotalOutput: Double?
     var neuronSSInLayer = 0
 
     static let outputFunction: NeuronOutputFunction =
@@ -82,8 +83,8 @@ class Neuron: CustomStringConvertible {
 
         let bias = ValueDoublet(self.bias)
 
-        let result = outputFunction(weightedSum + bias)
-        return result
+        myTotalOutput = outputFunction(weightedSum + bias)
+        return myTotalOutput
     }
 
     func setBias(_ bias: ValueDoublet) { self.bias = bias }
