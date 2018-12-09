@@ -32,7 +32,7 @@ class VBrain {
     var vTestOutputs = [SKLabelNode]()
     var layers = [Translators.Layer]()
     var isFinalUpdate = false
-    let fontSize: CGFloat = 8.0
+    let fontSize: CGFloat = 12.0
     var startingY: CGFloat = 0.0
 
     init(gameScene: GameScene, testSubject: TSTestSubject) {
@@ -57,7 +57,11 @@ class VBrain {
         drawNeuronLayers(self.layers, spacer: spacer)
 
         fishNumber = SKLabelNode(text: "\(testSubject.fishNumber)")
-        gameScene.addChild(fishNumber)
+        let sklackground = SKShapeNode(rect: fishNumber.frame)
+        sklackground.fillColor = .black
+        sklackground.strokeColor = .black
+        sklackground.addChild(fishNumber)
+        gameScene.addChild(sklackground)
     }
     
     func reset() {
@@ -97,39 +101,18 @@ class VBrain {
 }
 
 extension VBrain {
-    func drawBiases(_ neuron: Translators.Neuron, _ vNeuron: SKShapeNode) {
-        let b = SKLabelNode(text: "B(\(neuron.bias?.value ?? -42.42))")
-        
-//                let colors = [NSColor.blue, NSColor.green, NSColor.yellow, NSColor.red]
-//                let whichColor = Int.random(in: 0..<colors.count)
-        
-        b.position = vNeuron.position
-        b.fontSize = fontSize
-        b.fontColor = NSColor.yellow
-        b.fontName = "Courier New"
-        b.position.x -= b.frame.width
-//                b.position.x += (b.frame.width / 2)
-        b.position.y += startingY
-        startingY += b.frame.height
-        gameScene.addChild(b)
-    }
 
-    func drawWeights(_ neuron: Translators.Neuron, _ vNeuron: SKShapeNode) {
-        for ss in 0..<neuron.weights.count {
-            let w = neuron.weights[ss]
-            let s = SKLabelNode(text: "W(\(ss)) \(w.value)")
-            
-//                    let colors = [NSColor.blue, NSColor.green, NSColor.yellow, NSColor.red]
-//                    let whichColor = Int.random(in: 0..<colors.count)
-            
-            s.position = vNeuron.position
-            s.fontSize = fontSize
-            s.fontColor = NSColor.green
-            s.fontName = "Courier New"
-            s.position.x -= s.frame.width
-            s.position.y += startingY
-            startingY += s.frame.height
-            gameScene.addChild(s)
+    func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Translators.Neuron, at neuronPosition: CGPoint) {
+        if previousLayerPoints.isEmpty { return }
+        for commLine in neuron.commLinesUsed {
+            let linePath = CGMutablePath()
+
+            linePath.move(to: neuronPosition)
+            linePath.addLine(to: previousLayerPoints[commLine])
+
+            let line = SKShapeNode(path: linePath)
+            line.strokeColor = .green
+            gameScene.addChild(line)
         }
     }
 
@@ -152,34 +135,36 @@ extension VBrain {
                 currentLayerPoints.append(position)
 
                 drawConnections(from: previousLayerPoints, to: neuron, at: position)
-                
+                drawOutputs(neuron, vNeuron)
+
                 self.vNeurons.append(vNeuron)
                 gameScene.addChild(vNeuron)
-
-//                if !isFinalUpdate {
-//                    startingY = 0.0
-//
-//                    drawWeights(neuron, vNeuron)
-//                    drawBiases(neuron, vNeuron)
-//                }
             }
             
             previousLayerPoints = currentLayerPoints
 //            print("p", previousLayerPoints)
         }
     }
-    
-    func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Translators.Neuron, at neuronPosition: CGPoint) {
-        if previousLayerPoints.isEmpty { return }
-        for commLine in neuron.commLinesUsed {
-            let linePath = CGMutablePath()
 
-            linePath.move(to: neuronPosition)
-            linePath.addLine(to: previousLayerPoints[commLine])
-            
-            let line = SKShapeNode(path: linePath)
-            line.strokeColor = .green
-            gameScene.addChild(line)
+    func drawOutputs(_ neuron: Translators.Neuron, _ vNeuron: SKShapeNode) {
+        guard let hisOutput = neuron.myTotalOutput else {
+            vNeuron.fillColor = .red
+            vNeuron.strokeColor = .red
+            return
         }
+
+        let s = SKLabelNode(text: "N(\(neuron.layerSSInBrain):\(neuron.neuronSSInLayer)) \(hisOutput)")
+
+        s.fontSize = fontSize
+        s.fontColor = NSColor.yellow
+        s.fontName = "Courier New"
+
+        let sklackground = SKShapeNode(rect: s.frame)
+        sklackground.position = vNeuron.position
+        sklackground.fillColor = .black
+        sklackground.strokeColor = .black
+        sklackground.position.y = -(vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
+        sklackground.addChild(s)
+        vNeuron.addChild(sklackground)
     }
 }
