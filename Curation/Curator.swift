@@ -47,6 +47,8 @@ class Curator {
     public var currentProgenitor: TSTestSubject? { return archive.currentProgenitor }
 
     init(tsFactory: TestSubjectFactory) {
+        // Give the driver a chance to set the global controls
+        tsFactory.setSelectionControls()
 
         self.tsFactory = tsFactory
         self.selector = Selector(tsFactory: tsFactory, semaphore: semaphore)
@@ -72,7 +74,6 @@ class Curator {
     }
 
     func select() -> TSTestSubject? {
-
         guard let a = Statics.makePromisingAboriginal(factory: tsFactory)
             else { return nil }
 

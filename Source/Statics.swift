@@ -22,7 +22,7 @@ import Foundation
 
 struct SelectionControls {
     var howManySenses = 5
-    var howManyMotorNeurons = "Zoe Bishop".count
+    var howManyMotorNeurons = 15// "Zoe Bishop".count
     var howManyGenerations = 30000
     var howManyGenes = 200
     var howManySubjectsPerGeneration = 100
@@ -38,19 +38,11 @@ var selectionControls = SelectionControls()
 class Statics {
     static let s = Statics()
 
-    private let sensesInterface_: Genome!
-    private let outputsInterface_: Genome!
     private let aboriginalGenome: Genome
 
-    public let sensesInterface: GenomeSlice
-    public let outputsInterface: GenomeSlice
     public let recognizedTokens: String = "ABFHLNRW"
 
     init() {
-        sensesInterface_ = Statics.makeSensesInterface()
-        outputsInterface_ = Statics.makeOutputsInterface()
-        sensesInterface = sensesInterface_[...]
-        outputsInterface = outputsInterface_[...]
         aboriginalGenome = Statics.makeAboriginalGenome(3)
     }
 
@@ -81,21 +73,8 @@ class Statics {
         return dag
     }
 
-    private static func makeSensesInterface() -> Genome {
-        var g = Genome(); g += layb
-
-        for portNumber in 0..<selectionControls.howManySenses {
-            g += neub
-            for _ in 0..<portNumber { g += "A(false)_" }
-
-            g += "A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_"
-        }
-
-        g += ifmb; return g
-    }
-
     public static func makePromisingAboriginal(factory: TestSubjectFactory) -> TSTestSubject? {
-        let p = Statics.s.getAboriginalGenome() + Statics.s.outputsInterface
+        let p = Statics.s.getAboriginalGenome()
         return factory.makeTestSubject(parentGenome: p, mutate: false)
     }
 
@@ -116,15 +95,5 @@ class Statics {
         }
 
         return protoGenome
-    }
-
-    private static func makeOutputsInterface() -> Genome {
-        var g = Genome(); g += layb
-        for whichNeuron in 0..<selectionControls.howManyMotorNeurons {
-            g += neub
-            for _ in 0..<whichNeuron { g += "A(false)_" }
-            g += "A(true)_W(b[1.0]v[1.0])_B(b[0.0]v[0.0])_"
-        }
-        return g
     }
 }

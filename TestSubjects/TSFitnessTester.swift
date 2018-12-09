@@ -21,6 +21,7 @@
 import Foundation
 
 class FTFitnessTester {
+
     public func administerTest(to ts: TSTestSubject) -> Double? {
         let inputs = Array(repeating: 1.0, count: selectionControls.howManySenses)
 
@@ -33,4 +34,5 @@ class FTFitnessTester {
     func doScoringStuff(_ ts: TSTestSubject, _ outputs: [Double?]) -> Double? {
         return nil
     }
+
 }
