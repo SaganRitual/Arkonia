@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D42BED7221BA405800888C37 /* Statics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42BED7121BA405800888C37 /* Statics.swift */; };
-		D42BED7321BA405800888C37 /* Statics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42BED7121BA405800888C37 /* Statics.swift */; };
 		D44EE50821BCE584006E1A12 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EE50721BCE584006E1A12 /* main.swift */; };
 		D45E63E321AE39940078CB8E /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
 		D45E63E421AE39940078CB8E /* TSFitnessTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11621AE2332009D6011 /* TSFitnessTester.swift */; };
@@ -64,8 +62,6 @@
 		D482FD9D21B121B000FF9EE9 /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13921AE2415009D6011 /* TranslatorNeuron.swift */; };
 		D482FD9E21B13A9400FF9EE9 /* TSTestSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11121AE2331009D6011 /* TSTestSubject.swift */; };
 		D48DA54421B1B18C0056496A /* TSNumberGuesser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A10F21AE2331009D6011 /* TSNumberGuesser.swift */; };
-		D49DBEB421BCB8E60022BD85 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49DBEB321BCB8E60022BD85 /* Archive.swift */; };
-		D49DBEB521BCB8E60022BD85 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49DBEB321BCB8E60022BD85 /* Archive.swift */; };
 		D4B517C421AFA52F00F4C88A /* TSPassThrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A11021AE2331009D6011 /* TSPassThrough.swift */; };
 		D4B517E821AFAC3200F4C88A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B517E721AFAC3200F4C88A /* main.swift */; };
 		D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
@@ -114,6 +110,10 @@
 		D4C0A19521AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4C0A19621AE3178009D6011 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D4C0A19821AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
+		D4C54C8F21BDA23C00FA6549 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C8E21BDA23C00FA6549 /* Archive.swift */; };
+		D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C8E21BDA23C00FA6549 /* Archive.swift */; };
+		D4C54C9221BDA29F00FA6549 /* Statics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C9121BDA29F00FA6549 /* Statics.swift */; };
+		D4C54C9321BDA29F00FA6549 /* Statics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C9121BDA29F00FA6549 /* Statics.swift */; };
 		D4FE84FF21AE7AC000C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
 		D4FE850021AE7AC000C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
 		D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
@@ -219,13 +219,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D42BED7121BA405800888C37 /* Statics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statics.swift; sourceTree = "<group>"; };
 		D44EE50521BCE584006E1A12 /* PlaygroundsSuck */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlaygroundsSuck; sourceTree = BUILT_PRODUCTS_DIR; };
 		D44EE50721BCE584006E1A12 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D45E63FB21AE39940078CB8E /* Dark-R */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Dark-R"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D471173421B3D5350076DD2A /* VBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
-		D49DBEB321BCB8E60022BD85 /* Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
 		D4B517E521AFAC3200F4C88A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B517E721AFAC3200F4C88A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4C0A0FA21ADF3CC009D6011 /* Dark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Dark; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,6 +258,8 @@
 		D4C0A16121AE2E64009D6011 /* GameSceneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameSceneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C0A16521AE2E64009D6011 /* GameSceneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneTests.swift; sourceTree = "<group>"; };
 		D4C0A16721AE2E64009D6011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4C54C8E21BDA23C00FA6549 /* Archive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Archive.swift; path = Curation/Archive.swift; sourceTree = "<group>"; };
+		D4C54C9121BDA29F00FA6549 /* Statics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Statics.swift; path = Source/Statics.swift; sourceTree = "<group>"; };
 		D4FE84FB21AE7AB600C9192F /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D4FE84FC21AE7AB600C9192F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D4FE852621AE7C0500C9192F /* GameScene-R.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GameScene-R.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -418,7 +418,7 @@
 		D4C0A12021AE2374009D6011 /* Curation */ = {
 			isa = PBXGroup;
 			children = (
-				D49DBEB321BCB8E60022BD85 /* Archive.swift */,
+				D4C54C8E21BDA23C00FA6549 /* Archive.swift */,
 				D4C0A12321AE23F4009D6011 /* Curator.swift */,
 				D4C0A12521AE23F4009D6011 /* Selector.swift */,
 			);
@@ -432,7 +432,7 @@
 				D4C0A12921AE2404009D6011 /* Mutator.swift */,
 				D4C0A12D21AE2404009D6011 /* Protocols.swift */,
 				D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */,
-				D42BED7121BA405800888C37 /* Statics.swift */,
+				D4C54C9121BDA29F00FA6549 /* Statics.swift */,
 				D4C0A12E21AE2404009D6011 /* Utilities.swift */,
 			);
 			name = Source;
@@ -794,17 +794,17 @@
 				D482FD9B21B121B000FF9EE9 /* TranslatorBrain.swift in Sources */,
 				D482FD9C21B121B000FF9EE9 /* TranslatorLayer.swift in Sources */,
 				D46540F621B150E100445B69 /* TSFitnessTester.swift in Sources */,
+				D4C54C8F21BDA23C00FA6549 /* Archive.swift in Sources */,
 				D482FD9821B120C100FF9EE9 /* Mutator.swift in Sources */,
 				D46540F521B149F600445B69 /* TSLearnZoeName.swift in Sources */,
 				D482FD9621B11EBA00FF9EE9 /* Curator.swift in Sources */,
-				D49DBEB421BCB8E60022BD85 /* Archive.swift in Sources */,
 				D482FD9A21B121B000FF9EE9 /* GenomeTranslators.swift in Sources */,
 				D4B517E821AFAC3200F4C88A /* main.swift in Sources */,
 				D46540F221B1417B00445B69 /* Protocols.swift in Sources */,
 				D48DA54421B1B18C0056496A /* TSNumberGuesser.swift in Sources */,
 				D482FD9921B1216500FF9EE9 /* Decoder.swift in Sources */,
 				D482FD9521B11EAF00FF9EE9 /* Selector.swift in Sources */,
-				D42BED7221BA405800888C37 /* Statics.swift in Sources */,
+				D4C54C9221BDA29F00FA6549 /* Statics.swift in Sources */,
 				D482FD9721B120A900FF9EE9 /* TSFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -847,15 +847,15 @@
 				D4C0A17A21AE313F009D6011 /* TranslatorBrain.swift in Sources */,
 				D4C0A18821AE315E009D6011 /* RandomnessGenerators.swift in Sources */,
 				D4C0A19521AE3178009D6011 /* Selector.swift in Sources */,
+				D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */,
 				D4C0A14D21AE2E63009D6011 /* AppDelegate.swift in Sources */,
 				D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */,
 				D4C0A17C21AE313F009D6011 /* TranslatorNeuron.swift in Sources */,
 				D471173621B3D5440076DD2A /* VBrain.swift in Sources */,
+				D4C54C9321BDA29F00FA6549 /* Statics.swift in Sources */,
 				D471173821B3D5E00076DD2A /* TSNumberGuesser.swift in Sources */,
-				D42BED7321BA405800888C37 /* Statics.swift in Sources */,
 				D4C0A18621AE315E009D6011 /* Mutator.swift in Sources */,
 				D4C0A17F21AE3151009D6011 /* TSFactory.swift in Sources */,
-				D49DBEB521BCB8E60022BD85 /* Archive.swift in Sources */,
 				D4C0A19321AE3178009D6011 /* Curator.swift in Sources */,
 				D4C0A18121AE3151009D6011 /* TSLearnZoeName.swift in Sources */,
 				D4C0A18521AE315E009D6011 /* Decoder.swift in Sources */,

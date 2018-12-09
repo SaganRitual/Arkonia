@@ -9,6 +9,7 @@ disabled_rules: # rule identifiers to exclude from running
   - no_fallthrough_only
   - closure_parameter_position
   - opening_brace
+  - implicit_getter
 opt_in_rules: # some rules are only opt-in
   - empty_count
   # Find all the available rules by running:
@@ -19,6 +20,7 @@ excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Dark
   - Experimental
   - GameScene
+  - '*.playground'
 analyzer_rules: # Rules run by `swiftlint analyze` (experimental)
   - explicit_self
 

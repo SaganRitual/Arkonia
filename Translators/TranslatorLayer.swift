@@ -76,7 +76,6 @@ class Layer: CustomStringConvertible {
 
 extension Translators.Layer {
 
-
     public func stimulate(inputsFromPreviousLayer: [Double?]) -> [Double?] {
         if inputsFromPreviousLayer.compactMap({$0}).isEmpty
             { return inputsFromPreviousLayer }

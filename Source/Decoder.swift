@@ -32,7 +32,7 @@ class Decoder {
     }
 
     var inputGenome: GenomeSlice!
-    
+
     enum InputMode { case head, meat, tail }
     var inputMode = InputMode.head
 
@@ -76,14 +76,13 @@ class Decoder {
         let commandeeredGenome = inputGenome[fLayerInsertionPoint...] + layb[...] +
                 inputGenome[..<fLayerInsertionPoint]
 
-
 //        decodeLayers(Statics.s.sensesInterface)
         decodeLayers(commandeeredGenome)
 //        decodeLayers(Statics.s.outputsInterface)
 
         Translators.t.endOfStrand()
         return true // The test subject survived birth
-        
+
 //        Translators.t.getBrain().show(tabs: "", override: true)
 //        print(inputGenome)
     }
@@ -100,21 +99,21 @@ private extension Decoder {
     func decodeLayers(_ slice: GenomeSlice) {
         var start = slice.startIndex
         let end = slice.endIndex
-        
+
         while start != end {
             start = decodeOneGene(slice[start...])
         }
     }
-    
+
     func decodeOneGene(_ slice_: GenomeSlice) -> GenomeSlice.Index {
         var slice = slice_[...]
-        
+
         // Just ignore any unrecognized characters, in case I screw up the data
         let nextValidTokenIndex = slice.startIndex
         let goodDataIndex = discardAnyGarbage(slice)
         if goodDataIndex == slice.endIndex { decodeState = .endOfStrand }
         if goodDataIndex != nextValidTokenIndex { slice = slice[goodDataIndex...] }
-        
+
         var symbolsConsumed = 0
         switch decodeState {
             // Skip the diagnostics, or the decoder will create
@@ -125,7 +124,7 @@ private extension Decoder {
         case .inNeuron: symbolsConsumed = dispatch_inNeuron(slice)
         case .endOfStrand: break
         }
-        
+
         slice = slice.dropFirst(symbolsConsumed)
         return slice.startIndex
     }
@@ -134,14 +133,14 @@ private extension Decoder {
         if let r = slice.firstIndex(where: { Statics.s.recognizedTokens.contains($0) }) {
             return r
         }
-        
+
         self.decodeState = .endOfStrand
         return slice.startIndex
     }
-    
+
     func discardAnyGarbage(_ slice: GenomeSlice) -> GenomeSlice.Index {
         guard let s = slice.first else { return slice.endIndex }
-        
+
         if Statics.s.recognizedTokens.contains(s) { return slice.startIndex }
         else { return skipBadTokens(slice) }
     }

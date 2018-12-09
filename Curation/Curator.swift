@@ -41,7 +41,7 @@ class Curator {
     public var currentProgenitor: TSTestSubject? { return archive.currentProgenitor }
 
     init(tsFactory: TestSubjectFactory) {
-        
+
         self.tsFactory = tsFactory
         self.selector = Selector(tsFactory: tsFactory, semaphore: semaphore)
 
@@ -50,7 +50,7 @@ class Curator {
         // which inits the fitness tester, which sets the
         // controls. Seems rather ugly. Come back to it.
         self.remainingGenerations = selectionControls.howManyGenerations
-        
+
         let n = Foundation.Notification.Name.selectComplete
         observerHandle = notificationCenter.addObserver(forName: n, object: selector, queue: nil) {
             [unowned self] notification in self.selectComplete(notification)

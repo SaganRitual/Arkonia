@@ -17,13 +17,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-  
 
 import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-   
+
     private var vBrain: VBrain!
 
     let tsFactory = TSNumberGuesserFactory()
@@ -37,7 +36,7 @@ class GameScene: SKScene {
 
     override func sceneDidLoad() {
         self.curator = Curator(tsFactory: tsFactory)
-        self.workItem = DispatchWorkItem { [weak self] in let _ = self!.curator!.select() }
+        self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator!.select() }
         DispatchQueue.global(qos: .background).async(execute: self.workItem)
     }
 
@@ -50,7 +49,7 @@ class GameScene: SKScene {
         for char in s{ return char }
         return nil
     }
-    
+
     override func update(_ currentTime: TimeInterval) {
         frameCount += 1
 
@@ -71,7 +70,7 @@ class GameScene: SKScene {
 
         guard let mine = self.currentProgenitor, (mine.fishNumber != his.fishNumber) || firstPass else { return }
         self.currentProgenitor = his
-        
+
         vBrain = VBrain(gameScene: self, testSubject: his)
         vBrain.displayBrain(his.brain)
 //        his.brain.show(tabs: "", override: true)
@@ -79,4 +78,3 @@ class GameScene: SKScene {
     }
 
 }
-
