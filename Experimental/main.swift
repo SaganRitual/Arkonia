@@ -29,6 +29,6 @@ print("Experimental")
 print("Run dark")
 #endif
 
-let f = TSNumberGuesserFactory()
+let f = TSZoeFactory()
 let c = Curator(tsFactory: f)
 _ = c.select()

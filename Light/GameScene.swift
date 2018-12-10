@@ -25,7 +25,8 @@ class GameScene: SKScene {
 
     private var vBrain: VBrain!
 
-    let tsFactory = TSNumberGuesserFactory()
+    let tsFactory = TSZoeFactory()
+//    let tsFactory = TSNumberGuesserFactory()
 
     var frameCount = 0
     var curator: Curator?

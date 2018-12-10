@@ -37,14 +37,9 @@ class TSNumberGuesserFactory: TestSubjectFactory {
 
     override func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) -> TSTestSubject? {
         precondition(selectionControlsSet)
-        maybeMutated = String(parentGenome)
+        let mutated = super.mutate(parentGenome: parentGenome[...])
 
-        while mutate && maybeMutated == parentGenome {
-            _ = Mutator.m.setInputGenome(parentGenome[...]).mutate()
-            maybeMutated = Mutator.m.convertToGenome()
-        }
-
-        guard decoder.setInput(to: maybeMutated[...]).decode() else { return nil }
+        guard decoder.setInput(to: mutated[...]).decode() else { return nil }
 
         let brain = Translators.t.getBrain()
         // Translators.t.reset() -- add while debugging mem; does it matter whether we reset?

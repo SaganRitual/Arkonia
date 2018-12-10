@@ -43,17 +43,23 @@ class TestSubjectFactory: SelectionTestSubjectFactory {
 
     func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) -> TSTestSubject? {
         precondition(selectionControlsSet)
-        maybeMutated.removeAll(keepingCapacity: true)
-
-        if mutate {
-            _ = Mutator.m.setInputGenome(parentGenome[...]).mutate()
-            maybeMutated = Mutator.m.convertToGenome()
-        }
 
         guard decoder.setInput(to: maybeMutated[...]).decode() else { return nil }
 
         let brain = Translators.t.getBrain()
 
         return TSTestSubject(genome: maybeMutated, brain: brain)
+    }
+
+    func mutate(parentGenome: GenomeSlice) -> GenomeSlice {
+
+        repeat {
+            _ = Mutator.m.setInputGenome(parentGenome).mutate()
+
+            maybeMutated.removeAll(keepingCapacity: true)
+            maybeMutated += Mutator.m.convertToGenome()
+        } while maybeMutated == parentGenome
+
+        return maybeMutated[...]
     }
 }

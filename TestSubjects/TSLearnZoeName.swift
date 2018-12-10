@@ -31,29 +31,30 @@ class TSLearnZoeName: TSTestSubject {
 
     func setSelectionControls() {
         selectionControls.howManySenses = 5
+        selectionControls.howManyLayersInStarter = 5
         selectionControls.howManyMotorNeurons = "Zoe Bishop".count
     }
 }
 
 class TSZoeFactory: TestSubjectFactory {
     override func makeFitnessTester() -> FTFitnessTester {
+        precondition(selectionControlsSet)
         return FTLearnZoeName()
     }
 
     override func makeTestSubject(parent: TSTestSubject, mutate: Bool) -> TSTestSubject? {
+        precondition(selectionControlsSet)
         return makeTestSubject(parentGenome: parent.genome[...], mutate: mutate)
     }
 
     override func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) -> TSTestSubject? {
-        while mutate && maybeMutated == parentGenome {
-            _ = Mutator.m.setInputGenome(parentGenome[...]).mutate()
-            maybeMutated = Mutator.m.convertToGenome()
-        }
+        precondition(selectionControlsSet)
+        let mutated = super.mutate(parentGenome: parentGenome)
 
-        guard decoder.setInput(to: maybeMutated[...]).decode() else { return nil }
+        guard decoder.setInput(to: mutated).decode() else { return nil }
 
         let brain = Translators.t.getBrain()
-        return TSLearnZoeName(genome: maybeMutated, brain: brain)
+        return TSLearnZoeName(genome: String(mutated), brain: brain)
     }
 }
 
@@ -95,11 +96,7 @@ private class Scorer {
     var inputCharacter: Character!
 
     init(outputs: [Double?]) {
-        self.outputs = outputs.map({
-            guard let output = $0 else { preconditionFailure() }
-            return output
-        })
-
+        self.outputs = outputs.compactMap({$0})
         self.whichCase = uppercase
     }
 
