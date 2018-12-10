@@ -25,6 +25,7 @@ struct SelectionControls {
     var howManyMotorNeurons = 15// "Zoe Bishop".count
     var howManyGenerations = 30000
     var howManyGenes = 200
+    var howManyLayersInStarter = 5
     var howManySubjectsPerGeneration = 100
     var theFishNumber = 0
     var dudlinessThreshold = 1
@@ -43,7 +44,7 @@ class Statics {
     public let recognizedTokens: String = "ABFHLNRW"
 
     init() {
-        aboriginalGenome = Statics.makeAboriginalGenome(3)
+        aboriginalGenome = Statics.makeAboriginalGenome(selectionControls.howManyLayersInStarter)
     }
 
     var act_s: GenomeSlice { return token("A") } // Activator -- Bool
@@ -85,13 +86,7 @@ class Statics {
             protoGenome += "N_"
             for _ in 0..<portNumber { protoGenome += "A(false)_" }
 
-            #if PROMISING_GENOME_FOR_ZOE
-            let randomBias = Double.random(in: -1...1).sTruncate()
-            let randomWeight = Double.random(in: -1...1).sTruncate()
-            protoGenome += "A(true)_F(linear)_W(b[\(randomWeight)]v[\(randomWeight)])_B(b[\(randomBias)]v[\(randomBias)])_"
-            #else
             protoGenome += "A(true)_F(linear)_W(b[\(1)]v[\(1)])_B(b[\(0)]v[\(0)])_"
-            #endif
         }
 
         return protoGenome

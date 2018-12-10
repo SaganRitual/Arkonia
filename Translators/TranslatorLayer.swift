@@ -76,15 +76,22 @@ class Layer: CustomStringConvertible {
 
 extension Translators.Layer {
 
-    public func stimulate(inputsFromPreviousLayer: [Double?]) -> [Double?] {
-        if inputsFromPreviousLayer.compactMap({$0}).isEmpty
-            { return inputsFromPreviousLayer }
+    public func markActiveLines(_ activeCommLines: [Int]) {
+        activeCommLines.forEach { neurons[$0].hasClients = true }
+    }
 
+    public func stimulate(inputsFromPreviousLayer: [Double?]) -> ([Double?], [Int]) {
+        if inputsFromPreviousLayer.compactMap({$0}).isEmpty
+            { return (inputsFromPreviousLayer, []) }
+
+        var commLinesUsed = Set<Int>()
         var inputsForNextLayer: [Double?] = Array(repeating: nil, count: neurons.count)
 
         for (whichNeuron, neuron) in zip(0..., neurons) {
             guard let neuronOutput = neuron.stimulate(inputSources: inputsFromPreviousLayer)
                 else { continue }
+
+            neuron.commLinesUsed.forEach { commLinesUsed.insert($0) }
 
             // This is so the display can show the outputs for each neuron
             neuron.myTotalOutput = neuronOutput + (neuron.bias?.value ?? 0.0)
@@ -93,7 +100,7 @@ extension Translators.Layer {
 //            print("N(\(layerSSInBrain):\(neuron.neuronSSInLayer))")
         }
 
-        return inputsForNextLayer
+        return (inputsForNextLayer, Array(commLinesUsed))
     }
 
 }

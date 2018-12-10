@@ -54,6 +54,10 @@ class Neuron: CustomStringConvertible {
     var layerSSInBrain = 0
     var myTotalOutput: Double?
     var neuronSSInLayer = 0
+    var hasClients = false
+    var isMotorNeuron = false
+
+    var hasOutput: Bool { return myTotalOutput != nil }
 
     static let outputFunction: NeuronOutputFunction =
             { (_ input: Double) -> Double in return input }
