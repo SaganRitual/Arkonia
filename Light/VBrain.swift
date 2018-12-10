@@ -104,6 +104,7 @@ extension VBrain {
 
     func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Translators.Neuron, at neuronPosition: CGPoint) {
         if previousLayerPoints.isEmpty { return }
+
         for commLine in neuron.commLinesUsed {
             let linePath = CGMutablePath()
 
@@ -111,7 +112,9 @@ extension VBrain {
             linePath.addLine(to: previousLayerPoints[commLine])
 
             let line = SKShapeNode(path: linePath)
-            line.strokeColor = .green
+
+            setConnectionColor(neuron, line)
+
             gameScene.addChild(line)
         }
     }
@@ -128,7 +131,7 @@ extension VBrain {
 
             for (j, neuron) in zip(0..<layer.neurons.count, layer.neurons) {
                 let vNeuron = SKShapeNode(circleOfRadius: 2)
-                vNeuron.fillColor = .yellow
+                setNeuronColor(neuron, vNeuron)
 
                 let position = spacer.getPosition(neuronsThisLayer: layer.neurons.count, xIndex: j, yIndex: i)
                 vNeuron.position = position
@@ -175,5 +178,28 @@ extension VBrain {
         sklackground.position.y = -(vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
         sklackground.addChild(s)
         vNeuron.addChild(sklackground)
+    }
+
+    func setConnectionColor(_ neuron: Translators.Neuron, _ line: SKShapeNode) {
+        if (neuron.hasClients && neuron.hasOutput) || neuron.isMotorNeuron {
+            line.strokeColor = .green
+        } else if !neuron.hasOutput {
+            line.strokeColor = .red// I think this won't happen
+        } else if !neuron.hasClients {
+            line.strokeColor = .gray
+        }
+    }
+
+    func setNeuronColor(_ neuron: Translators.Neuron, _ vNeuron: SKShapeNode) {
+        if (neuron.hasOutput && neuron.hasClients) || neuron.isMotorNeuron {
+            vNeuron.fillColor = .yellow
+            vNeuron.strokeColor = .white
+        } else if !neuron.hasOutput {
+            vNeuron.fillColor = .red
+            vNeuron.strokeColor = .red
+        } else {  // No clients
+            vNeuron.fillColor = .blue
+            vNeuron.strokeColor = .blue
+        }
     }
 }

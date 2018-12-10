@@ -100,10 +100,19 @@ extension Translators {
 extension Translators.Brain {
     func stimulate(sensoryInputs: [Double]) -> [Double?] {
 
+        var previousLayer: Translators.Layer?
         var inputsForNextLayer: [Double?] = Array(sensoryInputs)
         for layer in layers {
             let i = inputsForNextLayer
-            inputsForNextLayer = layer.stimulate(inputsFromPreviousLayer: i)
+            var commLinesUsed = [Int]()
+
+            (inputsForNextLayer, commLinesUsed) = layer.stimulate(inputsFromPreviousLayer: i)
+            if layer.layerSSInBrain == layers.count - 1 {
+                layer.neurons.forEach { $0.isMotorNeuron = true }
+            }
+            
+            previousLayer?.markActiveLines(commLinesUsed)
+            previousLayer = layer
 
             if inputsForNextLayer.compactMap({$0}).isEmpty
                 { return inputsForNextLayer }
