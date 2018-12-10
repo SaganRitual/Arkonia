@@ -35,6 +35,8 @@ class Decoder {
 
     enum InputMode { case head, meat, tail }
     var inputMode = InputMode.head
+    var aTrue = 0
+    var aFalse = 0
 
     fileprivate var decodeState: DecodeState = .noLayer
     var workspace = String()
@@ -150,7 +152,11 @@ extension Decoder {
         let meatSlice = tSlice[..<ixOfCloseParen]
 
         switch token {
-        case act: Translators.t.addActivator(parse(meatSlice))
+        case act:
+            let result: Bool = parse(meatSlice)
+            if result { aTrue += 1 } else { aFalse += 1 }
+            Translators.t.addActivator(result)
+            
         case bis: Translators.t.setBias(parse(meatSlice))
         case fun: Translators.t.setOutputFunction(parse(meatSlice))
         case wgt: Translators.t.addWeight(parse(meatSlice))

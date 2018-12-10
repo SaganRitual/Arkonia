@@ -25,7 +25,7 @@ enum RandomnessGenerator {
     static func generateRandomGene() -> String {
         // The map is so we can weight the gene types differently, so we
         // don't end up with one neuron per layer, or something silly like that.
-        let geneSelector = [act : 10, bis : 5, fun : 5, hox: 0, lay : 2, neu : 3, wgt : 10]
+        let geneSelector = [act : 10, bis : 5, fun : 5, hox: 0, lay : 2, neu : 3, wgt : 20]
 
         var weightedGeneSelector: [Character] = {
             var t = [Character]()
@@ -39,7 +39,7 @@ enum RandomnessGenerator {
         let geneType = weightedGeneSelector[geneSS]
 
         switch geneType {
-        case act: return "A(\(abs(Mutator.m.bellCurve.nextFloat()) < 0.75))"
+        case act: return "A(\(abs(Mutator.m.bellCurve.nextFloat()) > 0.5))"
         case bis: return "B(b[\(Double.random(in: -1...1).sTruncate())]v[\(Double.random(in: -1...1).sTruncate())])"
         case fun: return "F(\(RandomnessGenerator.getRandomOutputFunction()))"
         case lay: return "L"

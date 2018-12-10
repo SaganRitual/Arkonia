@@ -32,7 +32,7 @@ class VBrain {
     var vTestOutputs = [SKLabelNode]()
     var layers = [Translators.Layer]()
     var isFinalUpdate = false
-    let fontSize: CGFloat = 12.0
+    let fontSize: CGFloat = 8.0
     var startingY: CGFloat = 0.0
 
     var vBrainSceneSize = CGSize()
@@ -86,12 +86,12 @@ class VBrain {
         let displaySize: CGSize
 
         init(layersCount: Int, displaySize: CGSize) {
-            self.layersCount = layersCount
+            self.layersCount = layersCount + 1
             self.displaySize = displaySize
         }
 
         func getVSpacing() -> Int {
-            return Int(displaySize.height) / (layersCount + 1)
+            return Int(displaySize.height) / layersCount
         }
 
         func getPosition(neuronsThisLayer: Int, xIndex: Int, yIndex: Int) -> CGPoint {
@@ -154,7 +154,8 @@ extension VBrain {
     }
 
     func drawOutputs(_ neuron: Translators.Neuron, _ vNeuron: SKShapeNode) {
-        guard neuron.hasOutput, neuron.hasClients, let hisOutput = neuron.myTotalOutput else { return }
+        guard ((neuron.hasOutput && neuron.hasClients) || neuron.isMotorNeuron),
+                let hisOutput = neuron.myTotalOutput else { return }
 
         let output = "\(hisOutput.sciTruncate(5))"
         let s = SKLabelNode(text: output)
