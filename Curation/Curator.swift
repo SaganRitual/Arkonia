@@ -93,7 +93,11 @@ class Curator {
             let newScore = ts.fitnessScore ?? -Double.infinity
             let oldScore = archive.referenceTS?.fitnessScore ?? Double.infinity
             if newScore != oldScore {
-                print("New record by \(ts.fishNumber): \(ts.fitnessScore!)")
+                if let zts = ts as? TSLearnZoeName {
+                    print("New record by \(ts.fishNumber): \"\(zts.attemptedZName)\"")
+                } else {
+                    print("New record by \(ts.fishNumber): \(ts.fitnessScore!)")
+                }
             }
 
             let n1 = Foundation.Notification.Name.setSelectionParameters

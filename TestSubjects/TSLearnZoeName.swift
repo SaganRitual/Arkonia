@@ -19,6 +19,7 @@
 //
 
 import Foundation
+//import CoreGraphics // For the math functions
 
 class TSLearnZoeName: TSTestSubject {
     var attemptedZName = String()
@@ -62,128 +63,64 @@ class FTLearnZoeName: FTFitnessTester {
     var charactersMatched = 0
 
     override func doScoringStuff(_ ts: TSTestSubject, _ outputs: [Double?]) -> Double {
-        guard let tz = ts as? TSLearnZoeName else { fatalError() }
-
-        var scoreForTheseOutputs = 0.0
-
         let scorer = Scorer(outputs: outputs)
-        let score = scorer.calculateScore()
+        let (score, decodedGuess) = scorer.calculateScore()
+        ts.fitnessScore = score
+        (ts as! TSLearnZoeName).attemptedZName = decodedGuess
+        return score
+    }
+}
 
-        scoreForTheseOutputs += score
-        tz.attemptedZName = scorer.attemptedZName
-//        print(tz.attemptedZName, scoreForTheseOutputs)
-
-        return scoreForTheseOutputs
+extension Character {
+    var asciiValue: Int {
+        get {
+            let s = String(self).unicodeScalars
+            return Int(s[s.startIndex].value)
+        }
     }
 }
 
 private class Scorer {
-    let uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    let lowercase = "abcdefghijklmnopqrstuvwxyz"
-    var symbolcase = Scorer.makeSymbolCase()
-    var whichCase: String
-
-    let zName = "Zoe Bishop"
-    var attemptedZName = String()
-    var charactersMatched = 0
-    var outputs: [Double]
-    var previousCharacterValue: Int?
-    var scoreForTheseOutputs = 0.0
-
-    var modulo = 0
-    var amodulo = 0
-    var inputCharacterValue: UInt32 = 0
-    var inputCharacter: Character!
+    let guess: UInt64
+    var huffZoe: UInt64 = 0
+//    let zName = "Zoe Bishop"
+    let zName = "Christian H"
+    let zNameCount: UInt64
+    let zero: UInt64 = 0
 
     init(outputs: [Double?]) {
-        self.outputs = outputs.compactMap({$0})
-        self.whichCase = uppercase
-    }
+        zNameCount = UInt64(zName.count)
+        for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
 
-    func getCase(_ expectedCharacter: Character, _ ss: Int) -> String {
-        if String().isUppercase(expectedCharacter) {
-            whichCase = uppercase
-        } else if String().isLowercase(expectedCharacter) {
-            whichCase = lowercase
+        let guess: Double = outputs.compactMap({$0}).reduce(0.0, +)
+        if guess == Double.nan || guess == Double.infinity || guess == -Double.infinity || guess < 0 {
+            self.guess = 0
         } else {
-            whichCase = symbolcase
-            modulo = Int(outputs[ss]) % 32
-            amodulo = abs(modulo)
-            inputCharacterValue = UnicodeScalar(amodulo)!.value
-            inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
+            self.guess = UInt64(ceil(guess))
         }
-
-        return whichCase
     }
 
-    func calculateScore() -> Double {
-        let symbolLookup: String = {
-            var s = String()
-            for i in 0..<32 { s.append(String(UnicodeScalar(i) ?? "🔧")) }
-            return s
-        }()
+    func calculateScore() -> (Double, String) {
+//        let s = String(format: "0x%qX", huffZoe)
+//        print(s)
 
-        for (expectedCharacter, ss) in zip(zName, 0..<outputs.count) {
-            if outputs[ss] > Double(Int.max) { modulo = Int.max }
-            if outputs[ss] < Double(-Int.max) { modulo = Int.min }
+        var decoded = String()
+        var workingCopy = huffZoe
 
-            var whichCase = getCase(expectedCharacter, ss)
+        workingCopy = guess
+        decoded.removeAll(keepingCapacity: true)
+        for _ in zero..<zNameCount {
+            let ibs = Int(workingCopy & UInt64(0x0F)) % zName.count
+            let indexToBitString = zName.index(zName.startIndex, offsetBy: ibs)
+            workingCopy >>= 4;
 
-            modulo %= (whichCase == symbolcase) ? 32 : 26
-            amodulo = abs(modulo)
-
-            inputCharacterValue = UnicodeScalar(amodulo)!.value
-            inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
-
-            if let p = previousCharacterValue, inputCharacterValue == p {
-                scoreForTheseOutputs += 10
-//                print("Repeat \(inputCharacterValue) costs 10: \(scoreForTheseOutputs)", to: &Log.L)
-            }
-
-            previousCharacterValue = Int(inputCharacterValue)
-
-            inputCharacterValue += UnicodeScalar(String(whichCase.first!))!.value
-            inputCharacter = Character(UnicodeScalar(inputCharacterValue)!)
-
-//            print("Character \(inputCharacterValue) to \(testOutput)", to: &Log.L)
-            self.attemptedZName.append(inputCharacter)
-
-            let zCharOffset = whichCase.firstIndex(of: expectedCharacter)!
-            var iCharOffset = whichCase.startIndex
-
-            if let iCharOffset_ = whichCase.firstIndex(of: inputCharacter) {
-                iCharOffset = iCharOffset_
-            } else {
-                whichCase = symbolLookup
-                iCharOffset = whichCase.index(whichCase.startIndex, offsetBy: Int(inputCharacterValue))
-            }
-
-            let distance = whichCase.distance(from: zCharOffset, to: iCharOffset)
-
-            let count = Double(abs(distance)).dTruncate()
-            scoreForTheseOutputs += count
-//            print("Normal cost for \(count) from \(ss + 1) outputs \(outputs.count) -> \(scoreForTheseOutputs)", to: &Log.L)
+            decoded.insert(Character(String(zName[indexToBitString...indexToBitString])), at: decoded.startIndex)
         }
 
-        let shorteningCost = Double(26 * (zName.count - attemptedZName.count))
-        scoreForTheseOutputs += shorteningCost
-//        let p1 = "Zoe Bishop".count - testOutput.count
-//        print("Cost for dropping \(p1) characters -> \(shorteningCost); total = \(scoreForTheseOutputs)", to: &Log.L)
+//        let t = String(format: "0x%qX", guess)
+//        print(t, decoded)
 
-        return scoreForTheseOutputs
-    }
-
-    private static func makeSymbolCase() -> String {
-        var symbolcase = [Character]()
-
-        let symbols = " !\"#$%&'()*+,-./0123456789:;<=>"
-        for charCode in 0..<symbols.count {    // Closed range; space is code 32
-            let offset = symbols.index(symbols.startIndex, offsetBy: charCode)
-            let symbol = String(symbols[offset])
-            let char = Character(symbol)
-            symbolcase.append(char)
-        }
-
-        return String(symbolcase)
+        let finalScore = abs(Double(guess) - Double(huffZoe))  // Try for -27.5
+        return (finalScore, decoded)
     }
 }
