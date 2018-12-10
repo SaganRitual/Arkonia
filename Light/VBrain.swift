@@ -35,6 +35,8 @@ class VBrain {
     let fontSize: CGFloat = 12.0
     var startingY: CGFloat = 0.0
 
+    var vBrainSceneSize = CGSize()
+
     init(gameScene: GameScene, testSubject: TSTestSubject) {
         if NSScreen.main?.frame == nil {
             fatalError("Something isn't working with the screen size")
@@ -53,7 +55,10 @@ class VBrain {
         if let b = brain { self.layers = b.layers }
         else { preconditionFailure("What the hell?") }
 
-        self.spacer = Spacer(layersCount: self.layers.count, displaySize: gameScene.size)
+        vBrainSceneSize = gameScene.size; vBrainSceneSize.height *= 0.9; vBrainSceneSize.width *= 0.9
+//        print("gameScene.size = (\(vBrainSceneSize.width), \(vBrainSceneSize.height))")
+
+        self.spacer = Spacer(layersCount: self.layers.count, displaySize: vBrainSceneSize)
         drawNeuronLayers(self.layers, spacer: spacer)
 
         fishNumber = SKLabelNode(text: "\(testSubject.fishNumber)")
@@ -61,6 +66,7 @@ class VBrain {
         sklackground.fillColor = .black
         sklackground.strokeColor = .black
         sklackground.addChild(fishNumber)
+        sklackground.zPosition = CGFloat(3.0)
         gameScene.addChild(sklackground)
     }
 
@@ -125,8 +131,6 @@ extension VBrain {
         for (i, layer) in zip(0..., layers) {
             precondition(!layer.neurons.isEmpty, "Dead brain should not have come this far")
 
-            let spacer = Spacer(layersCount: layers.count, displaySize: gameScene.frame.size)
-
             var currentLayerPoints = [CGPoint]()
 
             for (j, neuron) in zip(0..<layer.neurons.count, layer.neurons) {
@@ -150,20 +154,9 @@ extension VBrain {
     }
 
     func drawOutputs(_ neuron: Translators.Neuron, _ vNeuron: SKShapeNode) {
-        guard let hisOutput = neuron.myTotalOutput else {
-            vNeuron.fillColor = .red
-            vNeuron.strokeColor = .red
-            return
-        }
+        guard neuron.hasOutput, neuron.hasClients, let hisOutput = neuron.myTotalOutput else { return }
 
-        if hisOutput == 0 {
-            vNeuron.fillColor = .green
-            vNeuron.strokeColor = .green
-            return
-        }
-
-//        let nid = "N(\(neuron.layerSSInBrain):\(neuron.neuronSSInLayer))"
-        let output = "\(hisOutput.sTruncate(5))"
+        let output = "\(hisOutput.sciTruncate(5))"
         let s = SKLabelNode(text: output)
 
         s.fontSize = fontSize

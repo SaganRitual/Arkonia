@@ -22,7 +22,7 @@ import Foundation
 
 struct SelectionControls {
     var howManySenses = 5
-    var howManyMotorNeurons = 15// "Zoe Bishop".count
+    var howManyMotorNeurons = 20
     var howManyGenerations = 30000
     var howManyGenes = 200
     var howManyLayersInStarter = 5
@@ -34,7 +34,7 @@ struct SelectionControls {
     var hmSpawnAttempts = 2
 }
 
-var selectionControls = SelectionControls()
+var selectionControls: SelectionControls!
 
 class Statics {
     static let s = Statics()
@@ -44,7 +44,7 @@ class Statics {
     public let recognizedTokens: String = "ABFHLNRW"
 
     init() {
-        aboriginalGenome = Statics.makeAboriginalGenome(selectionControls.howManyLayersInStarter)
+        aboriginalGenome = Statics.makeAboriginalGenome(selectionControls!.howManyLayersInStarter)
     }
 
     var act_s: GenomeSlice { return token("A") } // Activator -- Bool
@@ -70,7 +70,8 @@ class Statics {
 
     private static func makeAboriginalGenome(_ hmLayers: Int) -> Genome {
         var dag = Genome()
-        for _ in 0..<hmLayers { dag = makeOneLayer(dag, ctNeurons: 5) }
+        for _ in 0..<hmLayers { dag = makeOneLayer(dag, hmNeurons: selectionControls.howManySenses) }
+        dag = makeOneLayer(dag, hmNeurons: selectionControls.howManyMotorNeurons)
         return dag
     }
 
@@ -79,10 +80,10 @@ class Statics {
         return factory.makeTestSubject(parentGenome: p, mutate: false)
     }
 
-    private static func makeOneLayer(_ protoGenome_: Genome, ctNeurons: Int) -> Genome {
+    private static func makeOneLayer(_ protoGenome_: Genome, hmNeurons: Int) -> Genome {
         var protoGenome = protoGenome_ + "L_"
 
-        for portNumber in 0..<ctNeurons {
+        for portNumber in 0..<hmNeurons {
             protoGenome += "N_"
             for _ in 0..<portNumber { protoGenome += "A(false)_" }
 

@@ -110,7 +110,7 @@ extension Translators.Brain {
             if layer.layerSSInBrain == layers.count - 1 {
                 layer.neurons.forEach { $0.isMotorNeuron = true }
             }
-            
+
             previousLayer?.markActiveLines(commLinesUsed)
             previousLayer = layer
 

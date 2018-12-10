@@ -26,25 +26,21 @@ class TSNumberGuesser: TSTestSubject {
 
 class TSNumberGuesserFactory: TestSubjectFactory {
     override func makeFitnessTester() -> FTFitnessTester {
-        precondition(selectionControlsSet)
         return FTNumberGuesser()
     }
 
     override func makeTestSubject(parent: TSTestSubject, mutate: Bool) -> TSTestSubject? {
-        precondition(selectionControlsSet)
         return makeTestSubject(parentGenome: parent.genome[...], mutate: mutate)
     }
 
     override func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) -> TSTestSubject? {
-        precondition(selectionControlsSet)
         let mutated = super.mutate(parentGenome: parentGenome[...])
 
         guard decoder.setInput(to: mutated[...]).decode() else { return nil }
 
         let brain = Translators.t.getBrain()
         // Translators.t.reset() -- add while debugging mem; does it matter whether we reset?
-        let guesser = TSNumberGuesser(genome: maybeMutated, brain: brain)
-        return guesser
+        return TSNumberGuesser(genome: maybeMutated, brain: brain)
     }
 
     override func setSelectionControls() {

@@ -23,39 +23,32 @@ import Foundation
 
 class TSLearnZoeName: TSTestSubject {
     var attemptedZName = String()
-
-    override init(genome: Genome, brain: NeuralNetProtocol) {
-        super.init(genome: genome, brain: brain)
-
-        setSelectionControls()
-    }
-
-    func setSelectionControls() {
-        selectionControls.howManySenses = 5
-        selectionControls.howManyLayersInStarter = 5
-        selectionControls.howManyMotorNeurons = "Zoe Bishop".count
-    }
 }
 
 class TSZoeFactory: TestSubjectFactory {
     override func makeFitnessTester() -> FTFitnessTester {
-        precondition(selectionControlsSet)
         return FTLearnZoeName()
     }
 
     override func makeTestSubject(parent: TSTestSubject, mutate: Bool) -> TSTestSubject? {
-        precondition(selectionControlsSet)
         return makeTestSubject(parentGenome: parent.genome[...], mutate: mutate)
     }
 
     override func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) -> TSTestSubject? {
-        precondition(selectionControlsSet)
-        let mutated = super.mutate(parentGenome: parentGenome)
+        let mutated = mutate ? super.mutate(parentGenome: parentGenome) : parentGenome
 
         guard decoder.setInput(to: mutated).decode() else { return nil }
 
         let brain = Translators.t.getBrain()
         return TSLearnZoeName(genome: String(mutated), brain: brain)
+    }
+
+    override func setSelectionControls() {
+        super.setSelectionControls()    // Setup defaults
+
+        selectionControls.howManySenses = 5
+        selectionControls.howManyLayersInStarter = 5
+        selectionControls.howManyMotorNeurons = "Zoe Bishop".count
     }
 }
 
@@ -66,7 +59,8 @@ class FTLearnZoeName: FTFitnessTester {
         let scorer = Scorer(outputs: outputs)
         let (score, decodedGuess) = scorer.calculateScore()
         ts.fitnessScore = score
-        (ts as! TSLearnZoeName).attemptedZName = decodedGuess
+        guard let tz = ts as? TSLearnZoeName else { preconditionFailure() }
+        tz.attemptedZName = decodedGuess
         return score
     }
 }
@@ -112,7 +106,7 @@ private class Scorer {
         for _ in zero..<zNameCount {
             let ibs = Int(workingCopy & UInt64(0x0F)) % zName.count
             let indexToBitString = zName.index(zName.startIndex, offsetBy: ibs)
-            workingCopy >>= 4;
+            workingCopy >>= 4
 
             decoded.insert(Character(String(zName[indexToBitString...indexToBitString])), at: decoded.startIndex)
         }

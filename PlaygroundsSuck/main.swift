@@ -52,7 +52,7 @@ for guess in (huffZoe - ten)..<(huffZoe + ten) {
     for _ in zero..<zNameCount {
         let ibs = Int(workingCopy & UInt64(0x0F)) % zName.count
         let indexToBitString = zName.index(zName.startIndex, offsetBy: ibs)
-        workingCopy >>= 4;
+        workingCopy >>= 4
 
         decoded.insert(Character(String(zName[indexToBitString...indexToBitString])), at: decoded.startIndex)
     }

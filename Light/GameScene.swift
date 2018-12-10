@@ -34,6 +34,7 @@ class GameScene: SKScene {
     var currentProgenitor: TSTestSubject?
 
     var myCuratorStatus = CuratorStatus.running
+    var firstPass = true
 
     override func sceneDidLoad() {
         self.curator = Curator(tsFactory: tsFactory)
@@ -66,14 +67,18 @@ class GameScene: SKScene {
 
         guard let his = curator.currentProgenitor else { return }
 
-        var firstPass = true
-        if self.currentProgenitor == nil { self.currentProgenitor = his; firstPass = false }
+        if self.currentProgenitor == nil { self.currentProgenitor = his }
+        guard let mine = self.currentProgenitor else { preconditionFailure() }
 
-        guard let mine = self.currentProgenitor, (mine.fishNumber != his.fishNumber) || firstPass else { return }
+        if mine.fishNumber == his.fishNumber && !firstPass { return }
+
+//        print(".(\(self.currentProgenitor!.fishNumber):\(his.fishNumber))")
         self.currentProgenitor = his
 
         vBrain = VBrain(gameScene: self, testSubject: his)
         vBrain.displayBrain(his.brain)
+
+        firstPass = false
 //        his.brain.show(tabs: "", override: true)
 //        print(his.genome)
     }

@@ -160,7 +160,7 @@ class Mutator {
     private func getWeightedRandomMutationType() -> MutationType {
         let weightMap: [MutationType : Int] = [
             .deleteRandom : 1, .deleteSequence : 1, .insertRandom : 1, .insertSequence : 1,
-            .mutateGenes : 100, .snipAndMoveSequence : 1, .snipAndCopySequence : 1,
+            .mutateGenes : 10, .snipAndMoveSequence : 1, .snipAndCopySequence : 1,
             .snipAndMoveReversedSequence : 1, .snipAndCopyReversedSequence : 1
         ]
 
@@ -177,7 +177,7 @@ class Mutator {
     }
 
     private func insertGenes() {
-        let howManyChances = mutate(index: 10)
+        let howManyChances = mutate(index: 30)
 
         for _ in 0...Int.random(in: 0..<howManyChances) {
             let insertPoint = Int.random(in: 0...workingTenome.count)    // Note closed range
@@ -187,7 +187,7 @@ class Mutator {
     }
 
     private func insertSequence() {
-        let howManyChances = mutate(index: 10)
+        let howManyChances = mutate(index: 30)
         var snippet = Tenome()
 
         for _ in 0..<howManyChances {
@@ -383,7 +383,7 @@ fileprivate extension Mutator {
     func mutateGenes() {
         if workingTenome.isEmpty { return }
 
-        let howManyChances = mutate(index: 10)
+        let howManyChances = mutate(index: 30)
 
         for _ in 0..<howManyChances {
             let ix = Int.random(in: 0..<workingTenome.count)

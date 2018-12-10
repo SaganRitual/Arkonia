@@ -353,6 +353,11 @@ enum Utilities {
 
 postfix operator %%
 extension Double {
+    func sciTruncate(_ length: Int) -> String {
+        let t = Double(truncating: self as NSNumber)
+        return String(format: "%.\(length)e", t)
+    }
+
     func sTruncate() -> String {
         let t = Double(truncating: self as NSNumber)
         return String(format: "%.20f", t)
