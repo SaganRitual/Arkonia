@@ -256,6 +256,27 @@ enum Utilities {
         return geneComponents
     }
 
+    class MemoryTracker {
+        let idString: String
+        var start: mach_vm_size_t? = Utilities.report_memory()
+
+        init(_ idString: String = "Memory") {
+            self.idString = idString
+        }
+
+        func close(_ idString: String = "Memory") {
+            guard let s = start else { return }
+            let end = Utilities.report_memory()
+            var sign = 1
+            let used = (s > end) ? s - end : end - s
+            if s > end { sign = -1 }
+            start = nil
+            print("Total: \(end / 1024 / 1024)MB, memory used in \(idString) \(sign > 0 ? "" : "-")\(used)")
+        }
+
+        deinit { close() }
+    }
+
     // swiftlint:enable cyclomatic_complexity
 
     // With deepest gratitude to Stack Overflow dude

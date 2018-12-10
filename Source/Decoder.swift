@@ -37,10 +37,13 @@ class Decoder {
     var inputMode = InputMode.head
 
     fileprivate var decodeState: DecodeState = .noLayer
+    var workspace = String()
 
     init() {
         precondition(Decoder.d == nil)
         Decoder.d = self
+
+        workspace.reserveCapacity(1024 * 1024)
     }
 
     func decode() -> Bool {
@@ -64,11 +67,10 @@ class Decoder {
         let distance = reversed.distance(from: rLayerInsertionPoint, to: reversed.endIndex)
         let fLayerInsertionPoint = inputGenome.index(inputGenome.startIndex, offsetBy: distance)
 
-        let commandeeredGenome = inputGenome[..<fLayerInsertionPoint] + layb[...] +
+        workspace += inputGenome[..<fLayerInsertionPoint] + layb[...] +
                 inputGenome[fLayerInsertionPoint...].replacingOccurrences(of: layb, with: "")
 
-        decodeLayers(commandeeredGenome[...])
-
+        decodeLayers(workspace[...])
         Translators.t.endOfStrand()
         return true // The test subject survived birth
 
@@ -81,6 +83,7 @@ class Decoder {
     func reset() {
         self.decodeState = .noLayer
         self.inputMode = .head
+        self.workspace.removeAll(keepingCapacity: true)
     }
 }
 
