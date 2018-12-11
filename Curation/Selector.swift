@@ -27,20 +27,18 @@ extension Foundation.Notification.Name {
 }
 
 class Selector {
-    private var fitnessTester: FTFitnessTester!
+    unowned private var goalSuite: GSGoalSuite
     private let notificationCenter = NotificationCenter.default
-    private let semaphore: DispatchSemaphore
-    weak public  var stud: TSTestSubject?
-    private var tsFactory: TestSubjectFactory
+    unowned private let semaphore: DispatchSemaphore
+    weak private var stud: GSSubject!
     private var selectorWorkItem: DispatchWorkItem!
     private var thisGenerationNumber = 0
     private var observerHandle: NSObjectProtocol?
 
-    init(tsFactory: TestSubjectFactory, semaphore: DispatchSemaphore) {
-        self.tsFactory = tsFactory
-        self.fitnessTester = tsFactory.makeFitnessTester()
+    init(goalSuite: GSGoalSuite, semaphore: DispatchSemaphore) {
+        self.goalSuite = goalSuite
         self.semaphore = semaphore
-        self.tsFactory = tsFactory
+//        self.stud = goalSuite.factory.getAboriginal()
 
         let n = Foundation.Notification.Name.setSelectionParameters
 
@@ -55,15 +53,15 @@ class Selector {
         if let ohMy = observerHandle { notificationCenter.removeObserver(ohMy) }
     }
 
-    func cancel() { semaphore.signal(); selectorWorkItem.cancel(); }
-    var isCanceled: Bool { return selectorWorkItem.isCancelled }
+    public func cancel() { semaphore.signal(); selectorWorkItem.cancel(); }
+    public var isCanceled: Bool { return selectorWorkItem.isCancelled }
 
     private func rLoop() {
         while true {
             if selectorWorkItem.isCancelled { print("rLoop detects cancel"); break }
 
             semaphore.wait()
-            let newSurvivors = select(against: self.stud!)
+            let newSurvivors = select(against: self.stud)
             let selectionResults = [NotificationType.selectComplete : newSurvivors]
             let n = Foundation.Notification.Name.selectComplete
 
@@ -73,57 +71,50 @@ class Selector {
         }
     }
 
-    public func scoreAboriginal(_ aboriginal: TSTestSubject) {
-        guard let score = fitnessTester.administerTest(to: aboriginal)
-            else { fatalError() }
-
-        aboriginal.fitnessScore = score
+    public func scoreAboriginal(_ aboriginal: GSSubject) {
+        if goalSuite.tester.administerTest(to: aboriginal) == nil { preconditionFailure() }
     }
 
-    private func select(against stud: TSTestSubject) -> [TSTestSubject]? {
+    private func select(against stud: GSSubject) -> [GSSubject]? {
         thisGenerationNumber += 1
 
-        var bestScore = stud.fitnessScore
-        var stemTheFlood = [TSTestSubject]()
+        var bestScore = stud.results.fitnessScore
+        var stemTheFlood = [GSSubject]()
 
-        for _ in 0..<selectionControls.howManySubjectsPerGeneration {
-            guard let ts = tsFactory.makeTestSubject(parent: stud, mutate: true)
-                else { continue }
+        for _ in 0..<goalSuite.selectionControls.howManySubjectsPerGeneration {
+            let gs = goalSuite.factory.makeArkon(genome: stud.genome[...])
 
             if selectorWorkItem.isCancelled { break }
-            if ts.genome == stud.genome { continue }
+            if gs.genome == stud.genome { continue }
 
-            guard let score = fitnessTester.administerTest(to: ts)
+            guard let score = goalSuite.tester.administerTest(to: gs)
                 else { continue }
 
-            ts.debugMarker = 424242
-
-            ts.fitnessScore = score
-            if score > bestScore! { continue }
-            if score < bestScore! { bestScore = score }
+            if score > bestScore { continue }
+            if score < bestScore { bestScore = score }
 
             // Start getting rid of the less promising candidates
-            if stemTheFlood.count >= selectionControls.maxKeepersPerGeneration {
+            if stemTheFlood.count >= goalSuite.selectionControls.maxKeepersPerGeneration {
                 _ = stemTheFlood.popBack()
             }
 
-            stemTheFlood.push(ts)
+            stemTheFlood.push(gs)
         }
 
         if stemTheFlood.isEmpty { /*print("No survivors in \(thisGenerationNumber)");*/ return nil }
         return stemTheFlood
     }
 
-    var comparisonMode = Archive.Comparison.BE
+    var comparisonMode = GSGoalSuite.Comparison.BE
 
     @objc private func setSelectionParameters(_ notification: Notification) {
         guard let u = notification.userInfo,
-            let p = u[NotificationType.select] as? TSTestSubject,
+            let p = u[NotificationType.select] as? GSSubject,
             let e = u["comparisonMode"] else { preconditionFailure() }
 
         self.stud = p
 
-        guard let c = e as? Archive.Comparison else { preconditionFailure() }
+        guard let c = e as? GSGoalSuite.Comparison else { preconditionFailure() }
         comparisonMode = c
     }
 

@@ -20,37 +20,39 @@
 
 import Foundation
 
-class TSRandomOutputs: BreederTestSubject {
-    class TSF: BreederTestSubjectFactory {
-        func makeTestSubject() -> BreederTestSubject {
-            return TSRandomOutputs.makeTestSubject()
-        }
-    }
+protocol GSTesterProtocol: class, CustomStringConvertible {
+    var inputs: [Double] { get }
 
-    override init() { super.init() }
-    override init(genome: Genome) { super.init(genome: genome) }
-    override init(genome: Genome, int: Int) {  }
-
-    override class func makeTestSubject() -> BreederTestSubject {
-        return TSRandomOutputs(genome: Genome(), Int.random(in: -10000...10000))
-    }
-
-    class func setBreederTestSubjectFactory() {
-        _ = Breeder.bb.setTestSubjectFactory(TSF())
-    }
-
-    override func spawn() -> BreederTestSubject? {
-        return TSRandomOutputs.makeTestSubject()
-    }
+    func administerTest(to gs: GSSubject) -> Double?
 }
 
-class FTRandomOutputs: BreederFitnessTester {
-    func getFitnessScore(for outputs: [Double]) -> (Double, String) {
-        return (0, "This stub seems a bit ugly")
+class GSTester: GSTesterProtocol {
+    var inputs: [Double]
+    var outputs: [Double?]
+    var theNumber: Double
+
+    var description: String {
+        return "GSTester; Arkon goal: guess the number \(theNumber) -- generating neutral inputs for test." }
+
+    required init(guess theNumber: Double) {
+        let inputsCount = GSGoalSuite.selectionControls.howManySenses
+        let outputsCount = GSGoalSuite.selectionControls.howManyMotorNeurons
+
+        inputs = Array(repeating: 1.0, count: inputsCount)
+        outputs = Array(repeating: nil, count: outputsCount)
+        self.theNumber = theNumber
+
+        print(self)
     }
 
-    func administerTest(to testSubject: BreederTestSubject) -> (Double, String)? {
-        guard let d = Double((testSubject as? TSRandomOutputs).myFishNumber)
-        return (abs(d), "I have nothing to say")
+    func administerTest(to gs: GSSubject) -> Double? {
+        precondition(!inputs.isEmpty, "No input available")
+
+        outputs = gs.brain.stimulate(sensoryInputs: inputs)
+
+        let guess = outputs.compactMap({$0}).reduce(0.0, +)
+        gs.results.fitnessScore = abs(guess - self.theNumber)
+
+        return gs.results.fitnessScore
     }
 }

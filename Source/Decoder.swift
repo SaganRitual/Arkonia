@@ -57,7 +57,8 @@ class Decoder {
         let reversed = self.inputGenome.reversed()
 
         guard let rLayerInsertionPoint = reversed.firstIndex(where: {
-            let found = hmCommandeeredNeurons >= selectionControls.howManyMotorNeurons
+            let c = GSGoalSuite.selectionControls.howManyMotorNeurons
+            let found = hmCommandeeredNeurons >= c
 
             if $0 == neu {
                 hmCommandeeredNeurons += 1
@@ -124,7 +125,8 @@ private extension Decoder {
     }
 
     func skipBadTokens(_ slice: GenomeSlice) -> GenomeSlice.Index {
-        if let r = slice.firstIndex(where: { Statics.s.recognizedTokens.contains($0) }) {
+        let r = GSFactory.recognizedTokens
+        if let r = slice.firstIndex(where: { r.contains($0) }) {
             return r
         }
 
@@ -135,7 +137,8 @@ private extension Decoder {
     func discardAnyGarbage(_ slice: GenomeSlice) -> GenomeSlice.Index {
         guard let s = slice.first else { return slice.endIndex }
 
-        if Statics.s.recognizedTokens.contains(s) { return slice.startIndex }
+        let r = GSFactory.recognizedTokens
+        if r.contains(s) { return slice.startIndex }
         else { return skipBadTokens(slice) }
     }
 }
@@ -156,7 +159,7 @@ extension Decoder {
             let result: Bool = parse(meatSlice)
             if result { aTrue += 1 } else { aFalse += 1 }
             Translators.t.addActivator(result)
-            
+
         case bis: Translators.t.setBias(parse(meatSlice))
         case fun: Translators.t.setOutputFunction(parse(meatSlice))
         case wgt: Translators.t.addWeight(parse(meatSlice))

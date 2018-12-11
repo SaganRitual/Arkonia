@@ -90,7 +90,7 @@ class Translators: BrainOwnerProtocol {
         brain.endOfStrand()
     }
 
-    func getBrain() -> NeuralNetProtocol {
+    func getBrain() -> Brain {
 //        defer { self.brain = nil }
         return self.brain
     }

@@ -29,6 +29,6 @@ print("Experimental")
 print("Run dark")
 #endif
 
-let f = TSZoeFactory()
-let c = Curator(tsFactory: f)
-_ = c.select()
+let driver = TDAdder()
+let curator = Curator(driver: driver)
+_ = curator.select()

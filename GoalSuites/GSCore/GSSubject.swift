@@ -20,58 +20,47 @@
 
 import Foundation
 
-class GoalSuite {
-    var factory_: Factory?
-    var tester_: Tester?
+protocol GSSubjectProtocol: class, CustomStringConvertible {
+    var brain: Translators.Brain { get }
+    var fishNumber: Int { get }
+    var genome: Genome { get }
+    var score: Double { get }
+    var results: GSResults { get }
 
-    var factory: Factory { return factory_! }
-    var tester: Tester { return tester_! }
+    init(genome: GenomeSlice, brain: Translators.Brain)
+}
 
-    required init() {
-        print("GoalSuite")
+class GSSubject: GSSubjectProtocol {
+    static var theFishNumber = 0
 
-        factory_ = Factory()
-        tester_ = Tester()
+    let brain: Translators.Brain
+    let fishNumber: Int
+    let genome: Genome
+    let results = GSResults()
+
+    public var description: String {
+        return "Test subject \(fishNumber); score \(score)"
     }
 
-    class Factory {
-        init() { print("GoalSuite.Factory") }
+    public var score: Double {
+        get { return results.scoreCore.score }
+        set { results.scoreCore.score = newValue }
     }
 
-    class GSSubject {
-        init() { print("GoalSuite.GSSubject") }
-    }
-
-    class Tester {
-        init() { print("GoalSuite.Tester") }
+    required init(genome: GenomeSlice, brain: Translators.Brain) {
+        self.brain = brain; self.genome = String(genome)
+        fishNumber = GSSubject.theFishNumber; GSSubject.theFishNumber += 1
     }
 }
 
-class TDAdder: GoalSuite {
-    var factory_: TDAdder.Factory?
-    var tester_: TDAdder.Tester?
+extension GSSubject: Hashable {
 
-    var factory: TDAdder.Factory { return factory_! }
-    var tester: TDAdder.Tester { return tester_! }
-
-    required init() {
-        print("GoalSuite")
-
-        factory_ = Factory()
-        tester_ = Tester()
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.genome)
     }
 
-    class Factory {
-        init() { print("GoalSuite.Factory") }
+    static func == (lhs: GSSubject, rhs: GSSubject) -> Bool {
+        return lhs.genome == rhs.genome
     }
 
-    class GSSubject {
-        init() { print("GoalSuite.GSSubject") }
-    }
-
-    class Tester {
-        init() { print("GoalSuite.Tester") }
-    }
 }
-
-let t = GoalSuite()

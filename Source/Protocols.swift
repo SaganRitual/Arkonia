@@ -69,7 +69,7 @@ protocol BrainOwnerProtocol: class {
     func closeLayer()
     func closeNeuron()
     func endOfStrand()
-    func getBrain() -> NeuralNetProtocol
+    func getBrain() -> Translators.Brain
     func newLayer()
     func newNeuron()
     func reset()
@@ -80,19 +80,8 @@ protocol BrainOwnerProtocol: class {
     func show(tabs: String, override: Bool)
 }
 
-protocol SelectionTestSubjectFactory {
-    func makeTestSubject(parentGenome: GenomeSlice, mutate: Bool) -> TSTestSubject?
-}
+protocol NeuralNetProtocol: class, LayerOwnerProtocol { }
 
-protocol SelectionFitnessTester {
-    func administerTest(to testSubject: TSTestSubject, for sensoryInput: [Double]) -> [Double]?
-    func calculateFitnessScore(for testSubject: TSTestSubject, outputs: [Double]?)
-    func getFitnessScore(for testSubject: TSTestSubject) -> Double?
-}
-
-protocol NeuralNetProtocol: class, LayerOwnerProtocol {
-}
-
-typealias TSArray = [TSTestSubject]
+typealias TSArray = [GSSubject]
 typealias TSArrayIndex = TSArray.Index
-typealias TSArraySlice = ArraySlice<TSTestSubject>
+typealias TSArraySlice = ArraySlice<GSSubject>

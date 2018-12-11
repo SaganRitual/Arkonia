@@ -25,19 +25,20 @@ class GameScene: SKScene {
 
     private var vBrain: VBrain!
 
-    let tsFactory = TSZoeFactory()
+//    let tsFactory = TSZoeFactory()
 //    let tsFactory = TSNumberGuesserFactory()
+    let goalSuite = GSGoalSuite(guess: 27)
 
     var frameCount = 0
     var curator: Curator?
     var workItem: DispatchWorkItem!
-    var currentProgenitor: TSTestSubject?
+    var currentProgenitor: GSSubject?
 
     var myCuratorStatus = CuratorStatus.running
     var firstPass = true
 
     override func sceneDidLoad() {
-        self.curator = Curator(tsFactory: tsFactory)
+        self.curator = Curator(goalSuite: goalSuite)
         self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator!.select() }
         DispatchQueue.global(qos: .background).async(execute: self.workItem)
     }
@@ -72,15 +73,12 @@ class GameScene: SKScene {
 
         if mine.fishNumber == his.fishNumber && !firstPass { return }
 
-//        print(".(\(self.currentProgenitor!.fishNumber):\(his.fishNumber))")
         self.currentProgenitor = his
 
-        vBrain = VBrain(gameScene: self, testSubject: his)
+        vBrain = VBrain(gameScene: self, arkon: his)
         vBrain.displayBrain(his.brain)
 
         firstPass = false
-//        his.brain.show(tabs: "", override: true)
-//        print(his.genome)
     }
 
 }

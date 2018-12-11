@@ -32,7 +32,9 @@ class Tene: CustomStringConvertible {
     var baseline: String
 
     var description: String {
-        if token == Statics.s.lay_s || token == Statics.s.neu_s { return "MarkerGene: \(token)" }
+        let L = Mutator.lay_s
+        let N = Mutator.neu_s
+        if token == L || token == N { return "MarkerGene: \(token)" }
         else { return "\(token) gene: \(value) baseline: \(baseline)" }
     }
 
@@ -41,7 +43,7 @@ class Tene: CustomStringConvertible {
     }
 
     func mutate() {
-        if [Statics.s.lay_s, Statics.s.neu_s, Statics.s.ifm_s].contains(self.token) { return }
+        if [Mutator.lay_s, Mutator.neu_s, Mutator.ifm_s].contains(self.token) { return }
 
         if self.value == "true" || self.value == "false" {
             self.value = String(Bool.random()); return
@@ -75,7 +77,7 @@ class Mutator {
     var inputGenome: GenomeSlice?
     var workingTenome = Tenome()
     var bellCurve = BellCurve()
-    var workingOutputGenome = String()
+    weak var workspaceOwner: GSFactoryProtocol!
 
     enum MutationType: Int {
         case insertRandom, insertSequence, deleteRandom, deleteSequence,
@@ -86,26 +88,28 @@ class Mutator {
     }
 
     public func convertToGenome() -> Genome {
+        workspaceOwner.genomeWorkspace.removeAll(keepingCapacity: true)
+
         for tene in workingTenome {
-            if tene.token == Statics.s.lay_s || tene.token == Statics.s.neu_s {
-                workingOutputGenome += String(tene.token) + "_"
+            if tene.token == Mutator.lay_s || tene.token == Mutator.neu_s {
+                workspaceOwner.genomeWorkspace += String(tene.token) + "_"
                 continue
             }
 
-            workingOutputGenome += String(tene.token) + "("
+            workspaceOwner.genomeWorkspace += String(tene.token) + "("
 
-            if [Statics.s.bis_s, Statics.s.wgt_s].contains(tene.token) {
-                workingOutputGenome += "b[\(tene.baseline)]v[\(tene.value)]"
-            } else if tene.token == Statics.s.act_s || tene.token == Statics.s.fun_s {
-                workingOutputGenome += tene.value
+            if [Mutator.bis_s, Mutator.wgt_s].contains(tene.token) {
+                workspaceOwner.genomeWorkspace += "b[\(tene.baseline)]v[\(tene.value)]"
+            } else if tene.token == Mutator.act_s || tene.token == Mutator.fun_s {
+                workspaceOwner.genomeWorkspace += tene.value
             } else {
                 preconditionFailure("where the hell did this '\(tene.token)' come from?")
             }
 
-            workingOutputGenome += ")_"
+            workspaceOwner.genomeWorkspace += ")_"
         }
 
-        return workingOutputGenome
+        return workspaceOwner.genomeWorkspace
     }
 
     private func copySegment() -> Tegment {
@@ -204,7 +208,12 @@ class Mutator {
         workingTenome.insert(contentsOf: snippet, at: insertPoint)
     }
 
-    func mutate(mutationType: MutationType? = nil) -> Tenome {
+    public func mutate(mutationType: MutationType? = nil) -> GenomeSlice {
+        let _: Tenome = mutate(mutationType: mutationType)
+        return workspaceOwner.genomeWorkspace[...]
+    }
+
+    private func mutate(mutationType: MutationType? = nil) -> Tenome {
         let m = getWeightedRandomMutationType()
         var outputTegment = Tenome(workingTenome)
 
@@ -272,8 +281,6 @@ class Mutator {
     }
 
     func setInputGenome(_ inputGenome: GenomeSlice) -> Mutator {
-        workingOutputGenome.removeAll(keepingCapacity: true)
-
         self.inputGenome = getMeatySlice(inputGenome)
 
         workingTenome = Tenome()
@@ -283,14 +290,14 @@ class Mutator {
             let token = components[0]
 
             switch token {
-            case Statics.s.act_s: fallthrough
-            case Statics.s.fun_s: workingTenome.append(Tene(token, value: String(components[1])))
+            case Mutator.act_s: fallthrough
+            case Mutator.fun_s: workingTenome.append(Tene(token, value: String(components[1])))
 
-            case Statics.s.neu_s: fallthrough
-            case Statics.s.lay_s: workingTenome.append(Tene(token, value: ""))
+            case Mutator.neu_s: fallthrough
+            case Mutator.lay_s: workingTenome.append(Tene(token, value: ""))
 
-            case Statics.s.bis_s: fallthrough
-            case Statics.s.wgt_s:
+            case Mutator.bis_s: fallthrough
+            case Mutator.wgt_s:
                 let b = String(components[1]), v = String(components[2])
                 workingTenome.append(Tene(token, value: v, baseline: b))
 
@@ -419,18 +426,44 @@ extension Mutator {
         let token = components[0]
 
         switch token {
-        case Statics.s.act_s: fallthrough
-        case Statics.s.fun_s: return Tene(token, value: String(components[1]))
+        case Mutator.act_s: fallthrough
+        case Mutator.fun_s: return Tene(token, value: String(components[1]))
 
-        case Statics.s.neu_s: fallthrough
-        case Statics.s.lay_s: return Tene(token, value: "")
+        case Mutator.neu_s: fallthrough
+        case Mutator.lay_s: return Tene(token, value: "")
 
-        case Statics.s.bis_s: fallthrough
-        case Statics.s.wgt_s:
+        case Mutator.bis_s: fallthrough
+        case Mutator.wgt_s:
             let b = String(components[1]), v = String(components[2])
             return Tene(token, value: v, baseline: b)
 
         default: preconditionFailure()
         }
+    }
+}
+
+extension Mutator {
+    func setGenomeWorkspaceOwner(_ factory: GSFactoryProtocol) {
+        self.workspaceOwner = factory
+    }
+}
+
+extension Mutator {
+    static public var act_s: GenomeSlice { return token("A") } // Activator -- Bool
+    static public var bis_s: GenomeSlice { return token("B") } // Bias -- Stubble
+    static public var fun_s: GenomeSlice { return token("F") } // Function -- string
+    static public var hox_s: GenomeSlice { return token("H") } // Hox gene -- haven't worked out the type yet
+    static public var lay_s: GenomeSlice { return token("L") } // Layer
+    static public var neu_s: GenomeSlice { return token("N") } // Neuron
+    static public var ifm_s: GenomeSlice { return token("R") } // Interface marker
+    static public var wgt_s: GenomeSlice { return token("W") } // Weight -- Stubble
+
+    static public func token(_ character: Character) -> GenomeSlice {
+        let t = GSFactory.recognizedTokens
+        guard let start = t.firstIndex(of: character) else {
+            preconditionFailure()
+        }
+
+        return t[start...start]
     }
 }

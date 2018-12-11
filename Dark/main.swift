@@ -18,23 +18,38 @@
 // IN THE SOFTWARE.
 //
 
+import Dispatch
 import Foundation
 import GameKit
 
-enum Barf {
-    case vomit, spittle, ralph(Int?)
+#if EXPERIMENTAL
+print("Experimental")
+#endif
+
+#if RUN_DARK
+print("Run dark")
+#endif
+
+enum ArkonGoal {
+    case guessNumber(theNumber: Double)
 }
 
-func hairy(which: Barf) -> Barf {
+struct Chucker {
+    let goalSuite: GSGoalSuite
 
+    init(_ goal: ArkonGoal) {
+        switch goal {
+        case let .guessNumber(theNumber):
+            goalSuite = GSGoalSuite(guess: theNumber)
+        }
+    }
+
+    func run() -> GSSubject? { return goalSuite.run() }
 }
 
-func chunky(which: Barf) -> Double {
-
-}
-
-func projectile(which: Barf) -> Barf {
-    guard case let Barf.ralph(ss)                   = hairy(which) else { return .vomit }
-    guard let score = chunky(which: .ralph(ss)) else { return .ralph(nil)}
-//    guard case let CuratorStatus.results(candidate) = selector.select(from: generation, for: testInputs, referenceTime: referenceTime)
+let chucker = Chucker(.guessNumber(theNumber: 42.4242))
+if let winner = chucker.run() {
+    print(winner)
+} else {
+    print("No winner--they all died, and you're a bad person.")
 }

@@ -27,31 +27,25 @@ enum NotificationType: String {
 enum CuratorStatus { case running, finished }
 
 class Curator {
-    var aboriginal: TSTestSubject!
-    var archive = Archive()
+    var aboriginal: GSSubject?
+    var archive: Archive
     var atLeastOneTSHasSurvived = false
+    var goalSuite: GSGoalSuite
     let notificationCenter = NotificationCenter.default
     var remainingGenerations = 0
     let selector: Selector
     let semaphore = DispatchSemaphore(value: 0)
-    let tsFactory: TestSubjectFactory
+
     private var observerHandle: NSObjectProtocol?
     public var status = CuratorStatus.running
 
-    public var currentProgenitor: TSTestSubject? { return archive.currentProgenitor }
+    public var currentProgenitor: GSSubject? { return archive.currentProgenitor }
 
-    init(tsFactory: TestSubjectFactory) {
-        // Give the driver a chance to set the global controls
-        tsFactory.setSelectionControls()
-
-        self.tsFactory = tsFactory
-        self.selector = Selector(tsFactory: tsFactory, semaphore: semaphore)
-
-        // This has to happen after the Selector init,
-        // because the Selector calls into the tsFactory
-        // which inits the fitness tester, which sets the
-        // controls. Seems rather ugly. Come back to it.
-        self.remainingGenerations = selectionControls.howManyGenerations
+    init(goalSuite: GSGoalSuite) {
+        self.selector = Selector(goalSuite: goalSuite, semaphore: semaphore)
+        self.goalSuite = goalSuite
+        self.archive = Archive(goalSuite: goalSuite)
+        self.remainingGenerations = goalSuite.selectionControls.howManyGenerations
 
         let n = Foundation.Notification.Name.selectComplete
         observerHandle = notificationCenter.addObserver(forName: n, object: selector, queue: nil) {
@@ -67,16 +61,15 @@ class Curator {
         }
     }
 
-    func select() -> TSTestSubject? {
-        guard let a = Statics.makePromisingAboriginal(factory: tsFactory)
-            else { return nil }
+    func select() -> GSSubject? {
+        let a = goalSuite.factory.getAboriginal()
 
         selector.scoreAboriginal(a)
         archive.postInit(aboriginal: a)
 
         self.aboriginal = a
         self.atLeastOneTSHasSurvived = true
-        print("Aboriginal score = \(a.fitnessScore!)")
+        print("Aboriginal score = \(a.results.fitnessScore)")
 
         var firstPass = true
 
@@ -89,19 +82,20 @@ class Curator {
             // the semaphore back and forth.
             if !firstPass { semaphore.wait() }
 
-            let ts = archive.nextProgenitor()
-            let newScore = ts.fitnessScore ?? -Double.infinity
-            let oldScore = archive.referenceTS?.fitnessScore ?? Double.infinity
+            guard let gs = archive.nextProgenitor() else { print("???"); return nil }
+
+            let newScore = gs.results.fitnessScore
+            let oldScore = archive.referenceTS!.results.fitnessScore
             if newScore != oldScore {
-                if let zts = ts as? TSLearnZoeName {
-                    print("New record by \(ts.fishNumber): \"\(zts.attemptedZName)\"")
-                } else {
-                    print("New record by \(ts.fishNumber): \(ts.fitnessScore!)")
-                }
+//                if let zts = gs as? TSLearnZoeName {
+//                    print("New record by \(gs.fishNumber): \"\(zts.attemptedZName)\"")
+//                } else {
+                    print("New record by \(gs.fishNumber): \(gs.results.fitnessScore)")
+//                }
             }
 
             let n1 = Foundation.Notification.Name.setSelectionParameters
-            let q1 = [NotificationType.select : ts, "comparisonMode" : archive.comparisonMode] as [AnyHashable : Any]
+            let q1 = [NotificationType.select : gs, "comparisonMode" : archive.comparisonMode] as [AnyHashable : Any]
             let p1 = Foundation.Notification(name: n1, object: nil, userInfo: q1)
 
             let n2 = Foundation.Notification.Name.select
@@ -113,7 +107,7 @@ class Curator {
             semaphore.signal()  // Everything is in place; start the selector running
 
             firstPass = false
-            if let f = self.currentProgenitor?.fitnessScore, f == 0.0 { break }
+            if let f = self.currentProgenitor?.results.fitnessScore, f == 0.0 { break }
         }
 
         // We're moving, of course, so the selector will be
@@ -122,7 +116,7 @@ class Curator {
         semaphore.signal()
         selector.cancel()
         status = .finished
-        print("Best score \(self.currentProgenitor?.fitnessScore ?? -42.4242)" +
+        print("Best score \(self.currentProgenitor?.results.fitnessScore ?? -42.4242)" +
                 " from \(self.currentProgenitor?.fishNumber ?? 424242)," +
                 " genome \(currentProgenitor?.genome ?? "<no genome?>")")
         return self.currentProgenitor

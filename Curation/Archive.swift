@@ -20,95 +20,149 @@
 
 import Foundation
 
-class PeerGroup: CustomStringConvertible {
-    private(set) var theGroup: [TSTestSubject]
-    private var indexDistance = 0
-    private var pushIndex = 0
-    private var popIndex = 0
-    private let groupSize = selectionControls.stackTieScoresLimit
-
-    var count: Int { return indexDistance }
-
-    var description: String {
-        var d = ""
-        var sep = ""
-        for progenitor in theGroup { d += sep + "\(progenitor)"; sep = ", " }
-
-        return d + "\n"
-    }
-
-    public var stackEmpty: Bool { return indexDistance == 0 }
-
-    init(initialTS: TSTestSubject) {
-        theGroup = []
-        theGroup.reserveCapacity(groupSize)
-
-        pushBack(initialTS)
-    }
-
-    fileprivate func peekFront() -> TSTestSubject {
-        precondition(indexDistance > 0, "Stack empty")
-        return theGroup[popIndex]
-    }
-
-    fileprivate func popFront() -> TSTestSubject {
-        precondition(indexDistance > 0, "Stack empty")
-
-        defer {
-            popIndex = (popIndex + 1) % groupSize
-            indexDistance -= 1
-        }
-
-        return theGroup[popIndex]
-    }
-
-    fileprivate func pushBack(_ ts: TSTestSubject) {
-        precondition(indexDistance <= groupSize, "Stack overflow")
-
-        if theGroup.count < groupSize {
-            theGroup.append(ts)
-        }
-
-        defer {
-            pushIndex = (pushIndex + 1) % groupSize
-            indexDistance += 1
-        }
-
-        theGroup[pushIndex] = ts
-    }
-}
-
 class Archive: CustomStringConvertible {
 
     typealias GroupIndex = Int
     typealias TheArchive = [Int : PeerGroup]
 
-    public enum Comparison: String { case BT, BE, EQ }
-
     public var description: String { return getDescription() }
 
-    private(set) var comparisonMode = Comparison.BT
+    private(set) var comparisonMode = GSGoalSuite.Comparison.BT
+    unowned private let goalSuite: GSGoalSuite
+    private(set) var referenceTS: GSSubject?
     private var theArchive = TheArchive()
     private var theIndex = [GroupIndex]()
-    private(set) var referenceTS: TSTestSubject?
 
-    public var currentProgenitor: TSTestSubject? {
-        guard let ts: TSTestSubject = getTop() else { return nil }
-        return ts
+    init(goalSuite: GSGoalSuite) {
+        self.goalSuite = goalSuite
     }
 
-    public func newCandidate(_ ts: TSTestSubject) { keepIfKeeper(ts) }
-
-    public func nextProgenitor() -> TSTestSubject {
-        guard var ts: TSTestSubject = getTop() else { preconditionFailure() }
-        while isTooDudly(ts) { ts = backtrack() }
-        ts.hmSpawnAttempts += 1
-        return ts
+    public var currentProgenitor: GSSubject? {
+        guard let gs: GSSubject = getTop() else { return nil }
+        return gs
     }
 
-    public func postInit(aboriginal: TSTestSubject) {
+    public func newCandidate(_ gs: GSSubject) { keepIfKeeper(gs) }
+
+    public func nextProgenitor() -> GSSubject? {
+        guard var gs: GSSubject = getTop() else { return nil }
+        while isTooDudly(gs) {
+            // If there's no one left to backtrack to, give up completely
+            guard let t = backtrack() else { return nil }
+            gs = t
+        }
+
+        // Whoever we finally land on, he's getting another
+        // chance to breed.
+        gs.results.spawnCount += 1
+        return gs
+    }
+
+    public func postInit(aboriginal: GSSubject) {
         newGroup(aboriginal)
         setQualifications(reference: aboriginal, op: .BT)
+    }
+}
+
+private extension Archive {
+
+    func advance(_ gs: GSSubject) {
+        let hash = makeHash(gs)
+
+        theArchive[hash]!.pushBack(gs)
+
+        // Accept ties until our bucket for this hash is full
+        setQualifications(reference: gs, op: .BE)
+    }
+
+    func backtrack() -> GSSubject? {
+        guard let (topHash, topGroup): (GroupIndex, PeerGroup) = getTop() else { preconditionFailure() }
+
+        let loafer = theArchive[topHash]!.popFront()
+
+        if topGroup.stackEmpty {
+            // If the group at the top is empty, discard it and get the
+            // first guy from the next group down.
+            theIndex.removeLast(); theArchive.removeValue(forKey: topHash)
+        }
+
+        // We backtracked all the way to the beginning and even didn't
+        // like the aboriginal. At this point we can either crash or
+        // return a nil to main so it can print a friendly message.
+        guard let gs: GSSubject = getTop() else { return nil }
+
+        // No ties allowed when we have to back up
+        setQualifications(reference: gs, op: .BT)
+        print("Back up from \(loafer) to \(gs)")
+        return gs
+    }
+
+    func getTop() -> GSSubject? {
+        guard let (_, topGroup): (GroupIndex, PeerGroup) = getTop() else { return nil }
+        let ts = topGroup.peekFront()
+        return ts
+    }
+
+    func getTop() -> (GroupIndex, PeerGroup)? {
+        // Ok if no hash yet; we come here before we've
+        // established the aboriginal ancestor.
+        guard let topHash = theIndex.last else { return nil }
+        guard let topGroup = theArchive[topHash] else { preconditionFailure() }
+        return (topHash, topGroup)
+    }
+
+    func keepIfKeeper(_ gs: GSSubject) {
+        guard let ref = referenceTS else { return }
+        guard gs.results.passesCompare(comparisonMode, against: ref) else { return }
+        if peerGroupIsFull(gs) { return }
+
+        let hash = makeHash(gs)
+        if theArchive[hash] == nil { newGroup(gs) }
+        else { advance(gs) }
+    }
+
+    func isTooDudly(_ gs: GSSubject) -> Bool {
+        return gs.results.spawnCount >= goalSuite.selectionControls.hmSpawnAttempts
+    }
+
+    func makeHash(_ gs: GSSubject) -> Int {
+        var hasher = Hasher()
+        hasher.combine(gs.results.fitnessScore)
+        return hasher.finalize()
+    }
+
+    func newGroup(_ gs: GSSubject) {
+        let hash = makeHash(gs)
+
+        defer { theArchive[hash] = PeerGroup(initialTS: gs, goalSuite: goalSuite) }
+
+        // Keep the index in the proper order
+        let currentTS: GSSubject? = theIndex.isEmpty ? nil : getTop()
+        if currentTS == nil { theIndex.append(hash); return  }
+
+        if let c = currentTS {
+            if c.results.fitnessScore >= gs.results.fitnessScore {
+                theIndex.append(hash)
+            } else {
+                if let ip = theIndex.firstIndex(where: { group in
+                    return theArchive[group]!.theGroup[0].results.fitnessScore <= gs.results.fitnessScore
+                }) {
+                    theIndex.insert(hash, at: ip)
+                } else {
+                    theIndex.insert(hash, at: theIndex.endIndex)
+                }
+            }
+        }
+    }
+
+    func peerGroupIsFull(_ gs: GSSubject) -> Bool {
+        let hash = makeHash(gs)
+        guard let peerGroup = theArchive[hash] else { return false }
+        return peerGroup.count >= GSGoalSuite.selectionControls.maxKeepersPerGeneration
+    }
+
+    private func setQualifications(reference gs: GSSubject, op: GSGoalSuite.Comparison) {
+        referenceTS = gs; comparisonMode = op
     }
 }
 
@@ -126,109 +180,4 @@ private extension Archive {
 
         return d
     }
-}
-
-private extension Archive {
-
-    func advance(_ ts: TSTestSubject) {
-        let hash = makeHash(ts)
-
-        theArchive[hash]!.pushBack(ts)
-
-        // Accept ties until our bucket for this hash is full
-        setQualifications(reference: ts, op: .BE)
-    }
-
-    func backtrack() -> TSTestSubject {
-        guard let (topHash, topGroup): (GroupIndex, PeerGroup) = getTop() else { preconditionFailure() }
-
-        let loafer = theArchive[topHash]!.popFront()
-
-        if topGroup.stackEmpty {
-            theIndex.removeLast(); theArchive.removeValue(forKey: topHash)
-        }
-
-        // No ties allowed when we have to back up
-        guard let ts: TSTestSubject = getTop() else { preconditionFailure() }
-        setQualifications(reference: ts, op: .BT)
-        print("Back up from \(loafer) to \(ts)")
-        return ts
-    }
-
-    func getTop() -> TSTestSubject? {
-        guard let (_, topGroup): (GroupIndex, PeerGroup) = getTop() else { return nil }
-        let ts = topGroup.peekFront()
-        return ts
-    }
-
-    func getTop() -> (GroupIndex, PeerGroup)? {
-        // Ok if no hash yet; we come here before we've
-        // established the aboriginal ancestor.
-        guard let topHash = theIndex.last else { return nil }
-        guard let topGroup = theArchive[topHash] else { preconditionFailure() }
-        return (topHash, topGroup)
-    }
-
-    func isTooDudly(_ ts: TSTestSubject) -> Bool {
-        return ts.hmSpawnAttempts >= selectionControls.hmSpawnAttempts
-    }
-
-    func keepIfKeeper(_ ts: TSTestSubject) {
-        guard let ref = referenceTS else { return }
-        guard passesCompare(ts, comparisonMode, ref) else { return }
-        if peerGroupIsFull(ts) { return }
-
-        let hash = makeHash(ts)
-        if theArchive[hash] == nil { newGroup(ts) }
-        else { advance(ts) }
-    }
-
-    func makeHash(_ ts: TSTestSubject) -> Int {
-        var hasher = Hasher()
-        hasher.combine(ts.fitnessScore!)
-        return hasher.finalize()
-    }
-
-    func newGroup(_ ts: TSTestSubject) {
-        let hash = makeHash(ts)
-
-        defer { theArchive[hash] = PeerGroup(initialTS: ts) }
-
-        // Keep the index in the proper order
-        let currentTS: TSTestSubject? = theIndex.isEmpty ? nil : getTop()
-        if currentTS == nil { theIndex.append(hash); return  }
-
-        if let c = currentTS {
-            if c.fitnessScore! >= ts.fitnessScore! {
-                theIndex.append(hash)
-            } else {
-                if let ip = theIndex.firstIndex(where: { group in
-                    return theArchive[group]!.theGroup[0].fitnessScore! <= ts.fitnessScore!
-                }) {
-                    theIndex.insert(hash, at: ip)
-                } else {
-                    theIndex.insert(hash, at: theIndex.endIndex)
-                }
-            }
-        }
-    }
-
-    func passesCompare(_ lhs: TSTestSubject, _ op: Comparison, _ rhs: TSTestSubject) -> Bool {
-        switch op {
-        case .BE: return lhs.fitnessScore! <= rhs.fitnessScore!
-        case .BT: return lhs.fitnessScore! < rhs.fitnessScore!
-        case .EQ: return lhs.fitnessScore! == rhs.fitnessScore!
-        }
-    }
-
-    func peerGroupIsFull(_ ts: TSTestSubject) -> Bool {
-        let hash = makeHash(ts)
-        guard let peerGroup = theArchive[hash] else { return false }
-        return peerGroup.count >= selectionControls.maxKeepersPerGeneration
-    }
-
-    private func setQualifications(reference ts: TSTestSubject, op: Comparison) {
-        referenceTS = ts; comparisonMode = op
-    }
-
 }

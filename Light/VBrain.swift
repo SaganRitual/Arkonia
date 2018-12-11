@@ -22,7 +22,7 @@ import Foundation
 import SpriteKit
 
 class VBrain {
-    var testSubject: TSTestSubject!
+    var arkon: GSSubject!
     var brain: NeuralNetProtocol!
     let gameScene: GameScene
     var spacer: Spacer!
@@ -37,14 +37,14 @@ class VBrain {
 
     var vBrainSceneSize = CGSize()
 
-    init(gameScene: GameScene, testSubject: TSTestSubject) {
+    init(gameScene: GameScene, arkon: GSSubject) {
         if NSScreen.main?.frame == nil {
             fatalError("Something isn't working with the screen size")
         }
 
         self.gameScene = gameScene
-        self.testSubject = testSubject
-        self.brain = testSubject.brain
+        self.arkon = arkon
+        self.brain = arkon.brain
     }
 
     func displayBrain(_ brain: NeuralNetProtocol? = nil, isFinalUpdate: Bool = false) {
@@ -61,7 +61,7 @@ class VBrain {
         self.spacer = Spacer(layersCount: self.layers.count, displaySize: vBrainSceneSize)
         drawNeuronLayers(self.layers, spacer: spacer)
 
-        fishNumber = SKLabelNode(text: "\(testSubject.fishNumber)")
+        fishNumber = SKLabelNode(text: "\(arkon.fishNumber)")
         let sklackground = SKShapeNode(rect: fishNumber.frame)
         sklackground.fillColor = .black
         sklackground.strokeColor = .black
@@ -149,7 +149,6 @@ extension VBrain {
             }
 
             previousLayerPoints = currentLayerPoints
-//            print("p", previousLayerPoints)
         }
     }
 

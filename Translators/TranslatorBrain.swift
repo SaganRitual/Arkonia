@@ -57,7 +57,6 @@ extension Translators {
                 if !u.neurons.isEmpty { layers.append(u) }
 
                 underConstruction = nil
-//                print("Brain closes layer")
             }
         }
 
@@ -75,7 +74,6 @@ extension Translators {
         func newLayer() {
            precondition(underConstruction == nil)
            underConstruction = makeLayer()
-//            print("Brain creates Layer(\(underConstruction!))")
         }
 
         func newNeuron() { underConstruction?.newNeuron() }

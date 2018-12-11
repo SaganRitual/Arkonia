@@ -409,7 +409,7 @@ struct GenomeIterator: IteratorProtocol, Sequence {
     init(_ genome: GenomeSlice) {
         self.genome = genome
         self.currentIndex = genome.startIndex
-        self.recognizedTokens = Statics.s.recognizedTokens[...]
+        self.recognizedTokens = GSFactory.recognizedTokens[...]
     }
 
     public mutating func next() -> Element? {
