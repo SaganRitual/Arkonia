@@ -66,6 +66,12 @@
 		D46540F221B1417B00445B69 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12D21AE2404009D6011 /* Protocols.swift */; };
 		D46540F321B1418400445B69 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12E21AE2404009D6011 /* Utilities.swift */; };
 		D46540F421B141A400445B69 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */; };
+		D4684CC421C2D1C900D13964 /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC321C2D1C900D13964 /* Manipulator.swift */; };
+		D4684CC521C2D1C900D13964 /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC321C2D1C900D13964 /* Manipulator.swift */; };
+		D4684CC621C2D1C900D13964 /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC321C2D1C900D13964 /* Manipulator.swift */; };
+		D4684CC821C2D55F00D13964 /* Tene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC721C2D55F00D13964 /* Tene.swift */; };
+		D4684CC921C2D55F00D13964 /* Tene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC721C2D55F00D13964 /* Tene.swift */; };
+		D4684CCA21C2D55F00D13964 /* Tene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC721C2D55F00D13964 /* Tene.swift */; };
 		D471173621B3D5440076DD2A /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D471173421B3D5350076DD2A /* VBrain.swift */; };
 		D482FD9521B11EAF00FF9EE9 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D482FD9621B11EBA00FF9EE9 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
@@ -218,6 +224,8 @@
 		D452A32F21C1C2960049E3A5 /* PeerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PeerGroup.swift; path = Curation/PeerGroup.swift; sourceTree = "<group>"; };
 		D45E63FB21AE39940078CB8E /* Dark-R */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Dark-R"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4684CC321C2D1C900D13964 /* Manipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manipulator.swift; sourceTree = "<group>"; };
+		D4684CC721C2D55F00D13964 /* Tene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tene.swift; sourceTree = "<group>"; };
 		D471173421B3D5350076DD2A /* VBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
 		D4B517E521AFAC3200F4C88A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B517E721AFAC3200F4C88A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -225,9 +233,9 @@
 		D4C0A0FD21ADF3CC009D6011 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4C0A12321AE23F4009D6011 /* Curator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Curator.swift; path = Curation/Curator.swift; sourceTree = "<group>"; };
 		D4C0A12521AE23F4009D6011 /* Selector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Selector.swift; path = Curation/Selector.swift; sourceTree = "<group>"; };
-		D4C0A12921AE2404009D6011 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mutator.swift; path = Source/Mutator.swift; sourceTree = "<group>"; };
+		D4C0A12921AE2404009D6011 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomnessGenerators.swift; path = Source/RandomnessGenerators.swift; sourceTree = "<group>"; };
-		D4C0A12B21AE2404009D6011 /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Decoder.swift; path = Source/Decoder.swift; sourceTree = "<group>"; };
+		D4C0A12B21AE2404009D6011 /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
 		D4C0A12D21AE2404009D6011 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Protocols.swift; path = Source/Protocols.swift; sourceTree = "<group>"; };
 		D4C0A12E21AE2404009D6011 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = Source/Utilities.swift; sourceTree = "<group>"; };
 		D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TranslatorLayer.swift; path = Translators/TranslatorLayer.swift; sourceTree = "<group>"; };
@@ -347,6 +355,17 @@
 			path = GSCore;
 			sourceTree = "<group>";
 		};
+		D4684CC221C2D17100D13964 /* Genome */ = {
+			isa = PBXGroup;
+			children = (
+				D4C0A12B21AE2404009D6011 /* Decoder.swift */,
+				D4684CC321C2D1C900D13964 /* Manipulator.swift */,
+				D4C0A12921AE2404009D6011 /* Mutator.swift */,
+				D4684CC721C2D55F00D13964 /* Tene.swift */,
+			);
+			path = Genome;
+			sourceTree = "<group>";
+		};
 		D4ABEB1121AE645B00F3C5D5 /* Light */ = {
 			isa = PBXGroup;
 			children = (
@@ -371,11 +390,12 @@
 				D4C0A12021AE2374009D6011 /* Curation */,
 				D4C0A0FC21ADF3CC009D6011 /* Dark */,
 				D4B517E621AFAC3200F4C88A /* Experimental */,
+				D4684CC221C2D17100D13964 /* Genome */,
 				D452A30021C1004A0049E3A5 /* GoalSuites */,
 				D4ABEB1121AE645B00F3C5D5 /* Light */,
 				D44EE50621BCE584006E1A12 /* PlaygroundsSuck */,
-				D4C0A12121AE23BA009D6011 /* Source */,
 				D4C0A12221AE23DF009D6011 /* Translators */,
+				D4C0A12121AE23BA009D6011 /* Utilities */,
 				D4C0A14B21AE2E63009D6011 /* GameScene */,
 				D4C0A16421AE2E64009D6011 /* GameSceneTests */,
 				D4C0A0FB21ADF3CC009D6011 /* Products */,
@@ -417,16 +437,14 @@
 			name = Curation;
 			sourceTree = "<group>";
 		};
-		D4C0A12121AE23BA009D6011 /* Source */ = {
+		D4C0A12121AE23BA009D6011 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				D4C0A12B21AE2404009D6011 /* Decoder.swift */,
-				D4C0A12921AE2404009D6011 /* Mutator.swift */,
 				D4C0A12D21AE2404009D6011 /* Protocols.swift */,
 				D4C0A12A21AE2404009D6011 /* RandomnessGenerators.swift */,
 				D4C0A12E21AE2404009D6011 /* Utilities.swift */,
 			);
-			name = Source;
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		D4C0A12221AE23DF009D6011 /* Translators */ = {
@@ -781,11 +799,13 @@
 				D452A32821C192170049E3A5 /* GSFactory.swift in Sources */,
 				D46540F321B1418400445B69 /* Utilities.swift in Sources */,
 				D452A31B21C142810049E3A5 /* GSTester.swift in Sources */,
+				D4684CC521C2D1C900D13964 /* Manipulator.swift in Sources */,
 				D482FD9B21B121B000FF9EE9 /* TranslatorBrain.swift in Sources */,
 				D482FD9C21B121B000FF9EE9 /* TranslatorLayer.swift in Sources */,
 				D452A32021C18EDB0049E3A5 /* GSSubject.swift in Sources */,
 				D4C54C8F21BDA23C00FA6549 /* Archive.swift in Sources */,
 				D452A32421C190200049E3A5 /* GSResults.swift in Sources */,
+				D4684CC921C2D55F00D13964 /* Tene.swift in Sources */,
 				D482FD9821B120C100FF9EE9 /* Mutator.swift in Sources */,
 				D452A30B21C10B230049E3A5 /* GSGoalSuite.swift in Sources */,
 				D482FD9621B11EBA00FF9EE9 /* Curator.swift in Sources */,
@@ -807,11 +827,13 @@
 				D452A33921C1ED000049E3A5 /* GSFactory.swift in Sources */,
 				D452A33A21C1ED000049E3A5 /* GSGoalSuite.swift in Sources */,
 				D452A33C21C1ED000049E3A5 /* GSSubject.swift in Sources */,
+				D4684CC421C2D1C900D13964 /* Manipulator.swift in Sources */,
 				D4C0A13421AE2405009D6011 /* Protocols.swift in Sources */,
 				D4C0A13C21AE2415009D6011 /* GenomeTranslators.swift in Sources */,
 				D452A33621C1ECE10049E3A5 /* Curator.swift in Sources */,
 				D452A33D21C1ED000049E3A5 /* GSTester.swift in Sources */,
 				D4C0A13E21AE2415009D6011 /* TranslatorBrain.swift in Sources */,
+				D4684CC821C2D55F00D13964 /* Tene.swift in Sources */,
 				D452A33821C1ECE10049E3A5 /* Selector.swift in Sources */,
 				D452A33B21C1ED000049E3A5 /* GSResults.swift in Sources */,
 				D4C0A13B21AE2415009D6011 /* TranslatorLayer.swift in Sources */,
@@ -834,6 +856,7 @@
 				D4FE850221AE7AC100C9192F /* ViewController.swift in Sources */,
 				D4C0A18A21AE315E009D6011 /* Utilities.swift in Sources */,
 				D452A32121C18EDB0049E3A5 /* GSSubject.swift in Sources */,
+				D4684CC621C2D1C900D13964 /* Manipulator.swift in Sources */,
 				D4C0A17921AE313F009D6011 /* GenomeTranslators.swift in Sources */,
 				D452A32921C192170049E3A5 /* GSFactory.swift in Sources */,
 				D452A33121C1C2960049E3A5 /* PeerGroup.swift in Sources */,
@@ -844,6 +867,7 @@
 				D4C0A14D21AE2E63009D6011 /* AppDelegate.swift in Sources */,
 				D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */,
 				D452A30C21C10B230049E3A5 /* GSGoalSuite.swift in Sources */,
+				D4684CCA21C2D55F00D13964 /* Tene.swift in Sources */,
 				D4C0A17C21AE313F009D6011 /* TranslatorNeuron.swift in Sources */,
 				D471173621B3D5440076DD2A /* VBrain.swift in Sources */,
 				D452A31C21C142810049E3A5 /* GSTester.swift in Sources */,

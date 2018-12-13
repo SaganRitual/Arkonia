@@ -37,6 +37,8 @@ class Layer: CustomStringConvertible {
 
     deinit { Layer.count -= 1 }
 
+    func accumulateBias(_ value: Double) { underConstruction?.accumulateBias(value) }
+
     func addActivator(_ active: Bool) { underConstruction?.addActivator(active) }
 
     func addWeight(_ value: ValueDoublet) { underConstruction?.addWeight(value) }
@@ -55,13 +57,7 @@ class Layer: CustomStringConvertible {
         underConstruction = makeNeuron()
     }
 
-    func setBias(_ value: ValueDoublet) { underConstruction?.setBias(value) }
-    func setBias(_ baseline: Double, _ value: Double) { underConstruction?.setBias(baseline, value) }
-
     func setOutputFunction(_ function: @escaping NeuronOutputFunction) { underConstruction?.setOutputFunction(function) }
-
-    func setThreshold(_ value: ValueDoublet) { underConstruction?.setThreshold(value) }
-    func setThreshold(_ baseline: Double, _ value: Double) { underConstruction?.setThreshold(baseline, value) }
 
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }
@@ -93,8 +89,7 @@ extension Translators.Layer {
 
             neuron.commLinesUsed.forEach { commLinesUsed.insert($0) }
 
-            // This is so the display can show the outputs for each neuron
-            neuron.myTotalOutput = neuronOutput + (neuron.bias?.value ?? 0.0)
+            neuron.myTotalOutput = neuronOutput + neuron.bias
 
             inputsForNextLayer[whichNeuron] = neuron.myTotalOutput
 //            print("N(\(layerSSInBrain):\(neuron.neuronSSInLayer))")

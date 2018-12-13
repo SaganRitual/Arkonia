@@ -92,7 +92,7 @@ extension GSFactory {
             protoGenome += "N_"
             for _ in 0..<portNumber { protoGenome += "A(false)_" }
 
-            protoGenome += "A(true)_F(linear)_W(b[\(1)]v[\(1)])_B(b[\(0)]v[\(0)])_"
+            protoGenome += "A(true)_F(linear)_W(b[\(1)]v[\(1)])_B(0)_"
         }
 
         return protoGenome

@@ -27,14 +27,6 @@ import Foundation
 //    static var numberOfSenses = 5
 //    static var numberOfMotorNeurons = 5// "Zoe Bishop".count
 //
-//    func setBias(_ value: ValueDoublet) { print("B(\(value))).", terminator: "") }
-//    func setBias(_ baseline: Double, _ value: Double)
-//        { setBias(ValueDoublet(baseline, value)) }
-//
-//    func setThreshold(_ value: ValueDoublet) { print("T(\(value)).", terminator: "") }
-//    func setThreshold(_ baseline: Double, _ value: Double)
-//        { setThreshold(ValueDoublet(baseline, value)) }
-//
 //    var reachedEndOfStrand: Bool = true
 //
 //    func addActivator(_ active: Bool) { print("\n\t\t\tA(\(String(active))).", terminator: "") }
@@ -66,15 +58,13 @@ import CoreGraphics // For the math functions
 class Translators: BrainOwnerProtocol {
     static let t = Translators()
 
-    func setBias(_ value: ValueDoublet) { brain.setBias(value) }
-    func setBias(_ baseline: Double, _ value: Double) { brain.setBias(baseline, value) }
     func setOutputFunction(_ function: @escaping NeuronOutputFunction) { brain.setOutputFunction(function) }
-    func setThreshold(_ value: ValueDoublet) { brain.setThreshold(value) }
-    func setThreshold(_ baseline: Double, _ value: Double) { brain.setThreshold(baseline, value) }
 
     private var brain: Brain!
     var layers = [Layer]()
     var reachedEndOfStrand: Bool = true
+
+    func accumulateBias(_ value: Double) { brain.accumulateBias(value) }
 
     func addActivator(_ active: Bool) { brain.addActivator(active) }
 

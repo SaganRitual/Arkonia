@@ -25,7 +25,10 @@ enum RandomnessGenerator {
     static func generateRandomGene() -> String {
         // The map is so we can weight the gene types differently, so we
         // don't end up with one neuron per layer, or something silly like that.
-        let geneSelector = [act : 10, bis : 5, fun : 5, hox: 0, lay : 2, neu : 3, wgt : 20]
+        let geneSelector = [
+          Manipulator.act : 10, Manipulator.bis : 5, Manipulator.fun : 5,
+          Manipulator.hox: 0, Manipulator.lay : 2, Manipulator.neu : 3, Manipulator.wgt : 20
+        ]
 
         var weightedGeneSelector: [Character] = {
             var t = [Character]()
@@ -39,12 +42,12 @@ enum RandomnessGenerator {
         let geneType = weightedGeneSelector[geneSS]
 
         switch geneType {
-        case act: return "A(\(abs(Mutator.m.bellCurve.nextFloat()) > 0.5))"
-        case bis: return "B(b[\(Double.random(in: -1...1).sTruncate())]v[\(Double.random(in: -1...1).sTruncate())])"
-        case fun: return "F(\(RandomnessGenerator.getRandomOutputFunction()))"
-        case lay: return "L"
-        case neu: return "N"
-        case wgt: return "W(b[\(Double.random(in: -1...1).sTruncate())]v[\(Double.random(in: -1...1).sTruncate())])"
+        case Manipulator.act: return "A(\(abs(Mutator.m.bellCurve.nextFloat()) > 0.5))"
+        case Manipulator.bis: return "B(\(Double.random(in: -1...1)))"
+        case Manipulator.fun: return "F(\(RandomnessGenerator.getRandomOutputFunction()))"
+        case Manipulator.lay: return "L"
+        case Manipulator.neu: return "N"
+        case Manipulator.wgt: return "W(b[\(Double.random(in: -1...1).sTruncate())]v[\(Double.random(in: -1...1).sTruncate())])"
         default: fatalError()
         }
     }

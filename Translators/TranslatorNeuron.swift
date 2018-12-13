@@ -47,8 +47,8 @@ extension Translators {
 
 class Neuron: CustomStringConvertible {
     var activators = [Bool]()
+    var bias = 0.0
     var weights = [ValueDoublet]()
-    var bias: ValueDoublet?, threshold: ValueDoublet?
     var commLinesUsed = [Int]() // Strictly for VBrain's display purposes
 
     var layerSSInBrain = 0
@@ -71,6 +71,7 @@ class Neuron: CustomStringConvertible {
         self.neuronSSInLayer = neuronSSInLayer
     }
 
+    func accumulateBias(_ value: Double) { bias += value }
     func addWeight(_ value: ValueDoublet) { weights.append(value) }
     func addWeight(_ baseline: Double, _ value: Double) { weights.append(ValueDoublet(baseline, value)) }
     func addActivator(_ active: Bool) { activators.append(active) }
@@ -91,13 +92,7 @@ class Neuron: CustomStringConvertible {
         return myTotalOutput
     }
 
-    func setBias(_ bias: ValueDoublet) { self.bias = bias }
-    func setBias(_ baseline: Double, _ value: Double) { bias = ValueDoublet(baseline, value) }
-
     func setOutputFunction(_ function: @escaping NeuronOutputFunction) { self.outputFunction = function }
-
-    func setThreshold(_ threshold: ValueDoublet) { self.threshold = threshold }
-    func setThreshold(_ baseline: Double, _ value: Double) { threshold = ValueDoublet(baseline, value) }
 
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }

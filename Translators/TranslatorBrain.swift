@@ -44,6 +44,8 @@ extension Translators {
             return Layer(layerSSInBrain: layers.count)
         }
 
+        func accumulateBias(_ value: Double) { underConstruction?.accumulateBias(value) }
+
         func addActivator(_ active: Bool) { underConstruction?.addActivator(active) }
 
         func addWeight(_ value: ValueDoublet) { underConstruction?.addWeight(value) }
@@ -78,13 +80,7 @@ extension Translators {
 
         func newNeuron() { underConstruction?.newNeuron() }
 
-        func setBias(_ value: ValueDoublet) { underConstruction?.setBias(value) }
-        func setBias(_ baseline: Double, _ value: Double) { underConstruction?.setBias(baseline, value) }
-
         func setOutputFunction(_ function: @escaping NeuronOutputFunction) { underConstruction?.setOutputFunction(function) }
-
-        func setThreshold(_ value: ValueDoublet) { underConstruction?.setThreshold(value) }
-        func setThreshold(_ baseline: Double, _ value: Double) { underConstruction?.setThreshold(baseline, value) }
 
         func show(tabs: String, override: Bool = false) {
             if Utilities.thereBeNoShowing && !override { return }

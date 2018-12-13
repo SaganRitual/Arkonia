@@ -21,6 +21,7 @@
 import Foundation
 
 protocol NeuronOwnerProtocol: class {
+    func accumulateBias(_ value: Double)
     func addActivator(_ active: Bool)
     func addWeight(_ value: ValueDoublet)
     func addWeight(_ baseline: Double, _ value: Double)
@@ -30,16 +31,13 @@ protocol NeuronOwnerProtocol: class {
     func constructTopLayer(howManyNeurons: Int)
     func endOfStrand()
     func newNeuron()
-    func setBias(_ value: ValueDoublet)
-    func setBias(_ baseline: Double, _ value: Double)
-    func setThreshold(_ value: ValueDoublet)
-    func setThreshold(_ baseline: Double, _ value: Double)
     func show(tabs: String, override: Bool)
 }
 
 protocol LayerOwnerProtocol {
     var layers: [Translators.Layer] { get set }
 
+    func accumulateBias(_ value: Double)
     func addActivator(_ active: Bool)
     func addWeight(_ value: ValueDoublet)
     func addWeight(_ baseline: Double, _ value: Double)
@@ -48,11 +46,7 @@ protocol LayerOwnerProtocol {
     func endOfStrand()
     func newLayer()
     func newNeuron()
-    func setBias(_ value: ValueDoublet)
-    func setBias(_ baseline: Double, _ value: Double)
     func setInputs(_ inputs: [Int])
-    func setThreshold(_ value: ValueDoublet)
-    func setThreshold(_ baseline: Double, _ value: Double)
     func show(tabs: String, override: Bool)
     func stimulate(sensoryInputs: [Double]) -> [Double?]
 
@@ -62,6 +56,7 @@ protocol LayerOwnerProtocol {
 protocol BrainOwnerProtocol: class {
     var reachedEndOfStrand: Bool { get set }
 
+    func accumulateBias(_ value: Double)
     func addActivator(_ value: Bool)
     func addWeight(_ value: ValueDoublet)
     func addWeight(_ baseline: Double, _ value: Double)
@@ -73,15 +68,7 @@ protocol BrainOwnerProtocol: class {
     func newLayer()
     func newNeuron()
     func reset()
-    func setBias(_ value: ValueDoublet)
-    func setBias(_ baseline: Double, _ value: Double)
-    func setThreshold(_ value: ValueDoublet)
-    func setThreshold(_ baseline: Double, _ value: Double)
     func show(tabs: String, override: Bool)
 }
 
 protocol NeuralNetProtocol: class, LayerOwnerProtocol { }
-
-typealias TSArray = [GSSubject]
-typealias TSArrayIndex = TSArray.Index
-typealias TSArraySlice = ArraySlice<GSSubject>

@@ -124,7 +124,7 @@ class Curator {
 
     @objc func selectComplete(_ notification: Notification) {
         guard let u = notification.userInfo,
-            let p = u[NotificationType.selectComplete] as? TSArray
+            let p = u[NotificationType.selectComplete] as? [GSSubject]
             else {
                 if !self.selector.isCanceled { return }
                 preconditionFailure()

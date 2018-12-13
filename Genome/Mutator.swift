@@ -20,56 +20,6 @@
 
 import Foundation
 
-typealias Tenome = [Tene]
-typealias Tegment = ArraySlice<Tene>
-
-class Tene: CustomStringConvertible {
-    // The components are the results of a regex. For each tene,
-    // we get the submatches from this array, which represent
-    // the token and the value, respectively.
-    let token: GenomeSlice
-    var value: String
-    var baseline: String
-
-    var description: String {
-        let L = Mutator.lay_s
-        let N = Mutator.neu_s
-        if token == L || token == N { return "MarkerGene: \(token)" }
-        else { return "\(token) gene: \(value) baseline: \(baseline)" }
-    }
-
-    init(_ token: GenomeSlice, value: String, baseline: String = "") {
-        self.token = token; self.value = value; self.baseline = baseline
-    }
-
-    func mutate() {
-        if [Mutator.lay_s, Mutator.neu_s, Mutator.ifm_s].contains(self.token) { return }
-
-        if self.value == "true" || self.value == "false" {
-            self.value = String(Bool.random()); return
-        }
-
-        let outputFunctions: [Translators.OutputFunctionName] = [.limiter, .linear, .logistic, .tanh]
-        if let f = Translators.OutputFunctionName(rawValue: self.value),
-            outputFunctions.contains(f) {
-
-            self.value = RandomnessGenerator.getRandomOutputFunction(); return
-        }
-
-        let b = Mutator.m.mutate(from: Double(self.baseline)!)
-        self.baseline = String(b.dTruncate())
-
-        // In case anyone gets stuck at zero
-        if Double(self.baseline)! == 0.0 { self.baseline = (1.0).sTruncate() }
-
-        let v = Mutator.m.mutate(from: self.value)
-        if abs(v) < abs(b) { self.value = self.baseline }
-        else { self.value = String(v.dTruncate()) }
-
-//        print("mf \(self.value) -> \(v)")
-    }
-}
-
 class Mutator {
     public static var m = Mutator()
 
@@ -91,16 +41,16 @@ class Mutator {
         workspaceOwner.genomeWorkspace.removeAll(keepingCapacity: true)
 
         for tene in workingTenome {
-            if tene.token == Mutator.lay_s || tene.token == Mutator.neu_s {
+            if tene.token == Manipulator.lay_s || tene.token == Manipulator.neu_s {
                 workspaceOwner.genomeWorkspace += String(tene.token) + "_"
                 continue
             }
 
             workspaceOwner.genomeWorkspace += String(tene.token) + "("
 
-            if [Mutator.bis_s, Mutator.wgt_s].contains(tene.token) {
+            if [Manipulator.wgt_s].contains(tene.token) {
                 workspaceOwner.genomeWorkspace += "b[\(tene.baseline)]v[\(tene.value)]"
-            } else if tene.token == Mutator.act_s || tene.token == Mutator.fun_s {
+            } else if [Manipulator.act_s, Manipulator.bis_s, Manipulator.fun_s].contains(tene.token) {
                 workspaceOwner.genomeWorkspace += tene.value
             } else {
                 preconditionFailure("where the hell did this '\(tene.token)' come from?")
@@ -139,6 +89,18 @@ class Mutator {
         var left = lhs, right = lhs
         if lhs < rhs { right = rhs } else { left = rhs }
         return (left, right)
+    }
+
+    private func getMeatySlice(_ genome: GenomeSlice) -> GenomeSlice {
+        guard let start_ = genome.firstIndex(of: Manipulator.ifm),
+            let end = genome.lastIndex(of: Manipulator.ifm) else {
+
+                return genome
+        }
+
+        let start = genome.index(start_, offsetBy: 2)
+
+        return genome[start..<end]
     }
 
     private func getRandomCuts(segmentLength: Int) -> (Int, Int) {
@@ -285,19 +247,19 @@ class Mutator {
 
         workingTenome = Tenome()
 
-        for gene in GenomeIterator(self.inputGenome!) {
-            let components = Utilities.splitGene(gene)
+        for gene in Manipulator.GenomeIterator(self.inputGenome!) {
+            let components = Manipulator.splitGene(gene)
             let token = components[0]
 
             switch token {
-            case Mutator.act_s: fallthrough
-            case Mutator.fun_s: workingTenome.append(Tene(token, value: String(components[1])))
+            case Manipulator.act_s: fallthrough
+            case Manipulator.bis_s: fallthrough
+            case Manipulator.fun_s: workingTenome.append(Tene(token, value: String(components[1])))
 
-            case Mutator.neu_s: fallthrough
-            case Mutator.lay_s: workingTenome.append(Tene(token, value: ""))
+            case Manipulator.neu_s: fallthrough
+            case Manipulator.lay_s: workingTenome.append(Tene(token, value: ""))
 
-            case Mutator.bis_s: fallthrough
-            case Mutator.wgt_s:
+            case Manipulator.wgt_s:
                 let b = String(components[1]), v = String(components[2])
                 workingTenome.append(Tene(token, value: v, baseline: b))
 
@@ -362,7 +324,8 @@ class Mutator {
         for slice in slices { outputTegment.append(contentsOf: slice) }
         return outputTegment
     }
-   private func snipAndMoveReversedSequence() -> Tenome {
+
+    private func snipAndMoveReversedSequence() -> Tenome {
         if workingTenome.isEmpty { return workingTenome }
 
         let (leftCut, rightCut) = getRandomSnipRange()
@@ -378,7 +341,7 @@ class Mutator {
 
 }
 
-fileprivate extension Mutator {
+extension Mutator {
     func mutate(index: Int) -> Int {
         var newIndex = mutate(from: index)
 
@@ -421,19 +384,19 @@ fileprivate extension Mutator {
 extension Mutator {
     private static func generateRandomTene() -> Tene {
         let gene = RandomnessGenerator.generateRandomGene()
-        let components = Utilities.splitGene(gene[...])
+        let components = Manipulator.splitGene(gene[...])
 
         let token = components[0]
 
         switch token {
-        case Mutator.act_s: fallthrough
-        case Mutator.fun_s: return Tene(token, value: String(components[1]))
+        case Manipulator.act_s: fallthrough
+        case Manipulator.bis_s: fallthrough
+        case Manipulator.fun_s: return Tene(token, value: String(components[1]))
 
-        case Mutator.neu_s: fallthrough
-        case Mutator.lay_s: return Tene(token, value: "")
+        case Manipulator.neu_s: fallthrough
+        case Manipulator.lay_s: return Tene(token, value: "")
 
-        case Mutator.bis_s: fallthrough
-        case Mutator.wgt_s:
+        case Manipulator.wgt_s:
             let b = String(components[1]), v = String(components[2])
             return Tene(token, value: v, baseline: b)
 
@@ -445,25 +408,5 @@ extension Mutator {
 extension Mutator {
     func setGenomeWorkspaceOwner(_ factory: GSFactoryProtocol) {
         self.workspaceOwner = factory
-    }
-}
-
-extension Mutator {
-    static public var act_s: GenomeSlice { return token("A") } // Activator -- Bool
-    static public var bis_s: GenomeSlice { return token("B") } // Bias -- Stubble
-    static public var fun_s: GenomeSlice { return token("F") } // Function -- string
-    static public var hox_s: GenomeSlice { return token("H") } // Hox gene -- haven't worked out the type yet
-    static public var lay_s: GenomeSlice { return token("L") } // Layer
-    static public var neu_s: GenomeSlice { return token("N") } // Neuron
-    static public var ifm_s: GenomeSlice { return token("R") } // Interface marker
-    static public var wgt_s: GenomeSlice { return token("W") } // Weight -- Stubble
-
-    static public func token(_ character: Character) -> GenomeSlice {
-        let t = GSFactory.recognizedTokens
-        guard let start = t.firstIndex(of: character) else {
-            preconditionFailure()
-        }
-
-        return t[start...start]
     }
 }
