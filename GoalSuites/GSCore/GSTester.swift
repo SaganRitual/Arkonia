@@ -29,18 +29,18 @@ protocol GSTesterProtocol: class, CustomStringConvertible {
 class GSTester: GSTesterProtocol {
     var inputs: [Double]
     var outputs: [Double?]
-    var theNumber: Double
+    var expectedOutput: Double
 
     var description: String {
-        return "GSTester; Arkon goal: guess the number \(theNumber) -- generating neutral inputs for test." }
+        return "GSTester; Arkon goal: guess the number \(expectedOutput) -- generating neutral inputs for test." }
 
-    required init(guess theNumber: Double) {
+    required init(expectedOutput: Double) {
         let inputsCount = GSGoalSuite.selectionControls.howManySenses
         let outputsCount = GSGoalSuite.selectionControls.howManyMotorNeurons
 
         inputs = Array(repeating: 1.0, count: inputsCount)
         outputs = Array(repeating: nil, count: outputsCount)
-        self.theNumber = theNumber
+        self.expectedOutput = expectedOutput
 
         print(self)
     }
@@ -50,8 +50,8 @@ class GSTester: GSTesterProtocol {
 
         outputs = gs.brain.stimulate(sensoryInputs: inputs)
 
-        let guess = outputs.compactMap({$0}).reduce(0.0, +)
-        gs.results.fitnessScore = abs(guess - self.theNumber)
+        gs.results.actualOutput = outputs.compactMap({$0}).reduce(0.0, +)
+        gs.results.fitnessScore = abs(gs.results.actualOutput - self.expectedOutput)
 
         return gs.results.fitnessScore
     }

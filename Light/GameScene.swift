@@ -27,7 +27,7 @@ class GameScene: SKScene {
 
 //    let tsFactory = TSZoeFactory()
 //    let tsFactory = TSNumberGuesserFactory()
-    let goalSuite = GSGoalSuite(guess: 27)
+    let goalSuite = GSGoalSuite(expectedOutput: 27.0)
 
     var frameCount = 0
     var curator: Curator?

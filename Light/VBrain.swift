@@ -32,7 +32,8 @@ class VBrain {
     var vTestOutputs = [SKLabelNode]()
     var layers = [Translators.Layer]()
     var isFinalUpdate = false
-    let fontSize: CGFloat = 8.0
+    let fontSizeForBrainLabel: CGFloat = 16.0
+    let fontSizeForNeuronLabels: CGFloat = 12.0
     var startingY: CGFloat = 0.0
 
     var vBrainSceneSize = CGSize()
@@ -55,19 +56,23 @@ class VBrain {
         if let b = brain { self.layers = b.layers }
         else { preconditionFailure("What the hell?") }
 
-        vBrainSceneSize = gameScene.size; vBrainSceneSize.height *= 0.9; vBrainSceneSize.width *= 0.9
-//        print("gameScene.size = (\(vBrainSceneSize.width), \(vBrainSceneSize.height))")
+        vBrainSceneSize = gameScene.size
 
         self.spacer = Spacer(layersCount: self.layers.count, displaySize: vBrainSceneSize)
         drawNeuronLayers(self.layers, spacer: spacer)
 
-        fishNumber = SKLabelNode(text: "\(arkon.fishNumber)")
-        let sklackground = SKShapeNode(rect: fishNumber.frame)
-        sklackground.fillColor = .black
-        sklackground.strokeColor = .black
-        sklackground.addChild(fishNumber)
-        sklackground.zPosition = CGFloat(3.0)
-        gameScene.addChild(sklackground)
+        let lightLabel = SKLabelNode(text: arkon.lightLabel)
+        lightLabel.fontSize = fontSizeForBrainLabel
+        lightLabel.fontColor = .yellow
+        lightLabel.fontName = "Courier New"
+
+        let llackground = SKShapeNode(rect: lightLabel.frame)
+        llackground.fillColor = gameScene.backgroundColor
+        llackground.strokeColor = gameScene.backgroundColor
+        llackground.addChild(lightLabel)
+        llackground.position.y = -(gameScene.frame.size.height / 2.0) + llackground.frame.height
+        llackground.zPosition = CGFloat(4.0)
+        gameScene.addChild(llackground)
     }
 
     func reset() {
@@ -86,22 +91,22 @@ class VBrain {
         let displaySize: CGSize
 
         init(layersCount: Int, displaySize: CGSize) {
-            self.layersCount = layersCount + 1
+            self.layersCount = layersCount
             self.displaySize = displaySize
         }
 
-        func getVSpacing() -> Int {
-            return Int(displaySize.height) / layersCount
+        func getVSpacing() -> CGFloat {
+            return displaySize.height / CGFloat(layersCount)
         }
 
         func getPosition(neuronsThisLayer: Int, xIndex: Int, yIndex: Int) -> CGPoint {
             let vSpacing = getVSpacing()
-            let vTop = Int(displaySize.height) / 2 - vSpacing
+            let vTop = (displaySize.height / 2.0) - (CGFloat(vSpacing) / 4.0)
 
-            let hSpacing = Int(displaySize.width) / neuronsThisLayer
-            let hLeft = (Int(-displaySize.width) + hSpacing) / 2
+            let hSpacing = displaySize.width / CGFloat(neuronsThisLayer)
+            let hLeft = (-displaySize.width + hSpacing) / 2.0
 
-            return CGPoint(x: hLeft + xIndex * hSpacing, y: vTop - yIndex * vSpacing)
+            return CGPoint(x: hLeft + CGFloat(xIndex) * hSpacing, y: vTop - CGFloat(yIndex) * vSpacing)
         }
     }
 }
@@ -159,7 +164,7 @@ extension VBrain {
         let output = "\(hisOutput.sciTruncate(5))"
         let s = SKLabelNode(text: output)
 
-        s.fontSize = fontSize
+        s.fontSize = fontSizeForNeuronLabels
         s.fontColor = NSColor.yellow
         s.fontName = "Courier New"
 

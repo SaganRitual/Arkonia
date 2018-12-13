@@ -46,7 +46,7 @@ class GSScore: CustomStringConvertible, Hashable {
     static func == (_ lhs: GSScore, _ rhs: GSScore) -> Bool { return lhs.score == rhs.score }
 }
 
-class GSResults: GSResultsProtocol {
+class GSResults: GSResultsProtocol, HasLightLabelProtocol {
     var actualOutput: Double = 0.0
     var expectedOutput: Double = 0.0
     var scoreCore = GSScore()
@@ -55,6 +55,10 @@ class GSResults: GSResultsProtocol {
     var description: String {
         return "Expected \(expectedOutput), actual \(actualOutput), " +
                 "score \(scoreCore), spawnCount \(spawnCount)"
+    }
+
+    var lightLabel: String {
+        return ", guess: \(actualOutput.sciTruncate(5))"
     }
 
     var fitnessScore: Double {

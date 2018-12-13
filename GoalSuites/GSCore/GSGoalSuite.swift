@@ -37,9 +37,9 @@ class GSGoalSuite {
         return GSGoalSuite.selectionControls_!
     }
 
-    init(guess theNumber: Double) {
+    init(expectedOutput: Double) {
         factory = GSFactory()
-        tester = GSTester(guess: theNumber)
+        tester = GSTester(expectedOutput: expectedOutput)
     }
 
     func run() -> GSSubject? {
