@@ -24,8 +24,8 @@ class GSGoalSuite {
     public enum Comparison: String { case BT, BE, EQ }
 
     private(set) var curator: Curator?
-    private(set) var factory: GSFactory
-    private(set) var tester: GSTester
+    public var factory: GSFactory
+    public var tester: GSTester
 
     var selectionControls: SelectionControls { return GSGoalSuite.selectionControls }
 
@@ -37,16 +37,24 @@ class GSGoalSuite {
         return GSGoalSuite.selectionControls_!
     }
 
-    init(expectedOutput: Double) {
-        factory = GSFactory()
-        tester = GSTester(expectedOutput: expectedOutput)
+    init(factory: GSFactory, tester: GSTester) {
+        self.factory = factory; self.tester = tester
     }
 
-    func run() -> GSSubject? {
+    convenience init(expectedOutput: Double) {
+        let f = GSFactory()
+        let t = GSTester(expectedOutput: expectedOutput)
+
+        self.init(factory: f, tester: t)
+    }
+
+    public func run() -> GSSubject? {
         curator = Curator(goalSuite: self)
         return curator!.select()
     }
+}
 
+extension GSGoalSuite {
     private class func setSelectionControls() {
         var sc = SelectionControls()
 

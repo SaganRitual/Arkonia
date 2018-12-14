@@ -20,7 +20,7 @@
 
 import Foundation
 
-protocol HasLightLabelProtocol {
+protocol LightLabelProtocol {
     var lightLabel: String { get }
 }
 
@@ -34,13 +34,21 @@ protocol GSSubjectProtocol: class, CustomStringConvertible {
     init(genome: GenomeSlice, brain: Translators.Brain)
 }
 
-class GSSubject: GSSubjectProtocol, HasLightLabelProtocol {
+class GSSubject: GSSubjectProtocol, LightLabelProtocol {
     static var theFishNumber = 0
 
     let brain: Translators.Brain
     let fishNumber: Int
     let genome: Genome
-    let results = GSResults()
+
+    private var results_: GSResults?
+    public var results: GSResults {
+        if let r = results_ { return r }
+        else {
+            results_ = makeResults()
+            return results_!
+        }
+    }
 
     public var description: String {
         return "Arkon \(fishNumber) score \(score.sciTruncate(5))"
@@ -57,6 +65,8 @@ class GSSubject: GSSubjectProtocol, HasLightLabelProtocol {
         self.brain = brain; self.genome = String(genome)
         fishNumber = GSSubject.theFishNumber; GSSubject.theFishNumber += 1
     }
+
+    func makeResults() -> GSResults { return GSResults() }
 }
 
 extension GSSubject: Hashable {

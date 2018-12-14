@@ -82,7 +82,7 @@ class Selector {
         var stemTheFlood = [GSSubject]()
 
         for _ in 0..<goalSuite.selectionControls.howManySubjectsPerGeneration {
-            let gs = goalSuite.factory.makeArkon(genome: stud.genome[...])
+            guard let gs = goalSuite.factory.makeArkon(genome: stud.genome[...]) else { continue }
 
             if selectorWorkItem.isCancelled { break }
             if gs.genome == stud.genome { continue }

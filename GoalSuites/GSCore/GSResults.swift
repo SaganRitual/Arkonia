@@ -46,7 +46,7 @@ class GSScore: CustomStringConvertible, Hashable {
     static func == (_ lhs: GSScore, _ rhs: GSScore) -> Bool { return lhs.score == rhs.score }
 }
 
-class GSResults: GSResultsProtocol, HasLightLabelProtocol {
+class GSResults: GSResultsProtocol, LightLabelProtocol {
     var actualOutput: Double = 0.0
     var expectedOutput: Double = 0.0
     var scoreCore = GSScore()

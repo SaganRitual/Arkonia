@@ -20,13 +20,26 @@
 
 import Foundation
 
-class Base {
-    class func Crunk() { print("Crunk") }
-}
+class NGGoalSuite: GSGoalSuite {
+    var huffZoe: UInt64 = 0
+    var zero: UInt64 = 0, zNameCount: UInt64 = 0
 
-class Sub: Base {
-//    override class func Crunk() { print("SubCrunk") }
-}
+    init(_ nameToGuess: String) {
+        zNameCount = UInt64(nameToGuess.count)
+        for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
 
-Base.Crunk()
-Sub.Crunk()
+        let e = Double(huffZoe)
+        let factory = NGGoalSuite.makeFactory(nameToGuess: nameToGuess)
+        let tester = NGGoalSuite.makeTester(expectedOutput: e)
+
+        super.init(factory: factory, tester: tester)
+    }
+
+    private static func makeFactory(nameToGuess: String) -> NGFactory {
+        let factory = NGFactory(nameToGuess: nameToGuess)
+        return factory
+    }
+
+    private static func makeTester(expectedOutput: Double) -> GSTester
+        { return GSTester(expectedOutput: expectedOutput) }
+}

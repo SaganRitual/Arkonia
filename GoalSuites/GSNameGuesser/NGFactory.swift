@@ -20,13 +20,13 @@
 
 import Foundation
 
-class Base {
-    class func Crunk() { print("Crunk") }
-}
+class NGFactory: GSFactory {
+    let nameToGuess: String
 
-class Sub: Base {
-//    override class func Crunk() { print("SubCrunk") }
-}
+    init(nameToGuess: String) { self.nameToGuess = nameToGuess; super.init() }
 
-Base.Crunk()
-Sub.Crunk()
+    override public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> GSSubject {
+        guard let brain = makeBrain(genome: genome, mutate: mutate) else { preconditionFailure() }
+        return NGSubject(genome: genomeWorkspace[...], brain: brain, nameToGuess: nameToGuess)
+    }
+}

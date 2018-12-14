@@ -101,7 +101,7 @@ class VBrain {
 
         func getPosition(neuronsThisLayer: Int, xIndex: Int, yIndex: Int) -> CGPoint {
             let vSpacing = getVSpacing()
-            let vTop = (displaySize.height / 2.0) - (CGFloat(vSpacing) / 4.0)
+            let vTop = (displaySize.height / 2.0) - (CGFloat(vSpacing) / 3.0)
 
             let hSpacing = displaySize.width / CGFloat(neuronsThisLayer)
             let hLeft = (-displaySize.width + hSpacing) / 2.0

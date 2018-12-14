@@ -25,7 +25,7 @@ protocol GSFactoryProtocol: class, CustomStringConvertible {
     var genomeWorkspace: String { get set }
 
     func getAboriginal() -> GSSubject
-    func makeArkon(genome: GenomeSlice, mutate: Bool) -> GSSubject
+    func makeArkon(genome: GenomeSlice, mutate: Bool) -> GSSubject?
     func mutate(from: GenomeSlice)
 }
 
@@ -49,30 +49,36 @@ class GSFactory: GSFactoryProtocol {
         Mutator.m.setGenomeWorkspaceOwner(self)
     }
 
-    public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> GSSubject {
-        let brain = makeBrain(genome: genome, mutate: mutate)
+    public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> GSSubject? {
+        guard let brain = makeBrain(genome: genome, mutate: mutate) else { return nil }
+
         return GSSubject(genome: genomeWorkspace[...], brain: brain)
     }
 
-    func makeBrain(genome: GenomeSlice, mutate: Bool) -> Translators.Brain {
+    func makeBrain(genome: GenomeSlice, mutate: Bool) -> Translators.Brain? {
         if mutate { self.mutate(from: genome)  }
         else { genomeWorkspace.append(String(genome))}
 
-        guard decoder.setInput(to: genomeWorkspace[...]).decode() else { preconditionFailure() }
+        guard decoder.setInput(to: genomeWorkspace[...]).decode() else { return nil }
         return Translators.t.getBrain()
     }
 
     public func mutate(from reference: GenomeSlice) {
         repeat {
-            _ = Mutator.m.setInputGenome(reference).mutate()
-            _ = Mutator.m.convertToGenome()
+            Mutator.m.setInputGenome(reference).mutate()
+            Mutator.m.convertToGenome()
         } while genomeWorkspace.elementsEqual(reference)
     }
 }
 
 extension GSFactory {
     public func getAboriginal() -> GSSubject {
-        return makeArkon(genome: GSFactory.aboriginalGenome![...], mutate: false)
+        let ag = GSFactory.aboriginalGenome![...]
+
+        guard let aboriginal = makeArkon(genome: ag, mutate: false)
+            else { preconditionFailure("Aboriginal should survive birth") }
+
+        return aboriginal
     }
 
     static private func makePassThruGenome(hmLayers: Int) -> Genome {

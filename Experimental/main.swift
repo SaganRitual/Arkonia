@@ -29,6 +29,12 @@ print("Experimental")
 print("Run dark")
 #endif
 
-let driver = TDAdder()
-let curator = Curator(driver: driver)
-_ = curator.select()
+class Base {
+    class func Crunk() { print("Crunk") }
+}
+
+class Sub: Base {
+    override class func Crunk() { print("SubCrunk") }
+}
+
+Base.Crunk()

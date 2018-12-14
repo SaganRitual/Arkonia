@@ -37,6 +37,7 @@ class Mutator {
         case endIndex = 9   // Acts as an npos like in C++
     }
 
+    @discardableResult
     public func convertToGenome() -> Genome {
         workspaceOwner.genomeWorkspace.removeAll(keepingCapacity: true)
 
@@ -170,6 +171,7 @@ class Mutator {
         workingTenome.insert(contentsOf: snippet, at: insertPoint)
     }
 
+    @discardableResult
     public func mutate(mutationType: MutationType? = nil) -> GenomeSlice {
         let _: Tenome = mutate(mutationType: mutationType)
         return workspaceOwner.genomeWorkspace[...]
