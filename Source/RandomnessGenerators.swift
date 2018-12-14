@@ -42,7 +42,7 @@ enum RandomnessGenerator {
         let geneType = weightedGeneSelector[geneSS]
 
         switch geneType {
-        case Manipulator.act: return "A(\(abs(Mutator.m.bellCurve.nextFloat()) > 0.5))"
+        case Manipulator.act: return "A(\(Bool.random()))"
         case Manipulator.bis: return "B(\(Double.random(in: -1...1)))"
         case Manipulator.fun: return "F(\(RandomnessGenerator.getRandomOutputFunction()))"
         case Manipulator.lay: return "L"

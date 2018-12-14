@@ -113,25 +113,37 @@ class Neuron: CustomStringConvertible {
             set { commLine_ = newValue }
         }
 
+        var rCommLine = inputSources.count
+
                 func nextCommLine(_ preAdvance: Bool) {
                     if preAdvance { commLine += 1 }
                     while inputSources[commLine] == nil
                         { commLine += 1 }
                 }
 
+                func rNextCommLine(_ preAdvance: Bool) {
+                    if preAdvance { rCommLine -= 1; if rCommLine == -1 { rCommLine = inputSources.count - 1 } }
+                    while inputSources[rCommLine] == nil
+                        { rCommLine -= 1; if rCommLine == -1 { rCommLine = inputSources.count - 1 } }
+                }
+
         nextCommLine(false)  // Primer
+        rNextCommLine(true)  // Primer
+        var tWeights = Array(weights)
         for activator in activators {
-            if activator {
-                if weights.isEmpty { break }
-                guard let inputValue = inputSources[commLine]
-                    else { preconditionFailure("We're not supposed to get nil from nextCommLine()") }
+            if tWeights.isEmpty { break }
 
-                outputSansBias = (outputSansBias ?? 0.0) + weights.pop().value * inputValue
+            let whichLine = activator ? commLine : rCommLine
 
-                commLinesUsed.append(commLine)  // Remember for the VBrain display
-            }
+            guard let inputValue = inputSources[whichLine]
+                else { preconditionFailure("We're not supposed to get nil from nextCommLine()") }
+
+            outputSansBias = (outputSansBias ?? 0.0) + tWeights.pop().value * inputValue
+
+            commLinesUsed.append(whichLine)  // Remember for the VBrain display
 
             nextCommLine(true)
+            rNextCommLine(false)
         }
 
 //        print("N(\(layerSSInBrain):\(neuronSSInLayer)) input \(commLinesUsed) output \(outputSansBias ?? -42.42)")

@@ -44,7 +44,7 @@ class GSFactory: GSFactoryProtocol {
         genomeWorkspace.reserveCapacity(1024 * 1024)
 
         let h = GSGoalSuite.selectionControls.howManyLayersInStarter
-        GSFactory.aboriginalGenome = GSFactory.makePassThruGenome(hmLayers: h)
+        GSFactory.aboriginalGenome = Manipulator.makePassThruGenome(hmLayers: h)
 
         Mutator.m.setGenomeWorkspaceOwner(self)
     }
@@ -79,28 +79,5 @@ extension GSFactory {
             else { preconditionFailure("Aboriginal should survive birth") }
 
         return aboriginal
-    }
-
-    static private func makePassThruGenome(hmLayers: Int) -> Genome {
-        var dag = Genome()
-        for _ in 0..<hmLayers {
-            dag = makeOneLayer(dag, hmNeurons: GSGoalSuite.selectionControls.howManySenses)
-        }
-
-        dag = makeOneLayer(dag, hmNeurons: GSGoalSuite.selectionControls.howManyMotorNeurons)
-        return dag
-    }
-
-    static private func makeOneLayer(_ protoGenome_: Genome, hmNeurons: Int) -> Genome {
-        var protoGenome = protoGenome_ + "L_"
-
-        for portNumber in 0..<hmNeurons {
-            protoGenome += "N_"
-            for _ in 0..<portNumber { protoGenome += "A(false)_" }
-
-            protoGenome += "A(true)_F(linear)_W(b[\(1)]v[\(1)])_B(0)_"
-        }
-
-        return protoGenome
     }
 }

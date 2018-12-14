@@ -29,12 +29,6 @@ print("Experimental")
 print("Run dark")
 #endif
 
-class Base {
-    class func Crunk() { print("Crunk") }
+for i in -10...0 {
+    print(i % 5)
 }
-
-class Sub: Base {
-    override class func Crunk() { print("SubCrunk") }
-}
-
-Base.Crunk()

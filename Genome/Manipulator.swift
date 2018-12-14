@@ -204,7 +204,7 @@ extension Manipulator {
 
 extension Manipulator {
 
-    static private func makePassThruGenome(hmLayers: Int) -> Genome {
+    static public func makePassThruGenome(hmLayers: Int) -> Genome {
         var dag = Genome()
         for _ in 0..<hmLayers {
             dag = makeOneLayer(dag, hmNeurons: GSGoalSuite.selectionControls.howManySenses)
