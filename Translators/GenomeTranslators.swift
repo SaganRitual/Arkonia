@@ -80,10 +80,8 @@ class Translators: BrainOwnerProtocol {
         brain.endOfStrand()
     }
 
-    func getBrain() -> Brain {
-//        defer { self.brain = nil }
-        return self.brain
-    }
+    func getBrain() -> AKNet { return self.brain.net! }
+    func getBrain() -> Translators.Brain { return self.brain }
 
     func newBrain() { self.brain = Brain() }
     func newLayer() { self.brain.newLayer() }
@@ -118,7 +116,7 @@ class Translators: BrainOwnerProtocol {
     }
 
     func show(tabs: String, override: Bool = false) {
-        if Utilities.thereBeNoShowing || !override { return }
-        getBrain().show(tabs: "\t", override: override)
+//        if Utilities.thereBeNoShowing || !override { return }
+//        getBrain().show(tabs: "\t", override: override)
     }
 }

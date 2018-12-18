@@ -23,20 +23,19 @@ import SpriteKit
 
 class VBrain {
     var arkon: GSSubject!
-    var brain: NeuralNetProtocol!
-    let gameScene: GameScene
-    var spacer: Spacer!
     var fishNumber = SKLabelNode()
+    let fontSizeForBrainLabel: CGFloat = 16.0
+    let fontSizeForNeuronLabels: CGFloat = 12.0
+    let gameScene: GameScene
+    var isFinalUpdate = false
+    var layers = [AKLayer]()
+    var net: AKNet!
+    var spacer: Spacer!
+    var startingY: CGFloat = 0.0
+    var vBrainSceneSize = CGSize()
     var vNeurons = [SKShapeNode]()
     var vTestInputs = [SKLabelNode]()
     var vTestOutputs = [SKLabelNode]()
-    var layers = [Translators.Layer]()
-    var isFinalUpdate = false
-    let fontSizeForBrainLabel: CGFloat = 16.0
-    let fontSizeForNeuronLabels: CGFloat = 12.0
-    var startingY: CGFloat = 0.0
-
-    var vBrainSceneSize = CGSize()
 
     init(gameScene: GameScene, arkon: GSSubject) {
         if NSScreen.main?.frame == nil {
@@ -45,21 +44,18 @@ class VBrain {
 
         self.gameScene = gameScene
         self.arkon = arkon
-        self.brain = arkon.brain
+        self.net = arkon.brain.net!
     }
 
-    func displayBrain(_ brain: NeuralNetProtocol? = nil, isFinalUpdate: Bool = false) {
+    func displayBrain(_ net: AKNet? = nil, isFinalUpdate: Bool = false) {
         self.isFinalUpdate = isFinalUpdate
 
         gameScene.removeAllChildren()
 
-        if let b = brain { self.layers = b.layers }
-        else { preconditionFailure("What the hell?") }
-
         vBrainSceneSize = gameScene.size
 
-        self.spacer = Spacer(layersCount: self.layers.count, displaySize: vBrainSceneSize)
-        drawNeuronLayers(self.layers, spacer: spacer)
+        self.spacer = Spacer(layersCount: self.net.layers.count, displaySize: vBrainSceneSize)
+        drawNeuronLayers(self.net.layers, spacer: spacer)
 
         let lightLabel = SKLabelNode(text: arkon.lightLabel)
         lightLabel.fontSize = fontSizeForBrainLabel
@@ -76,14 +72,10 @@ class VBrain {
     }
 
     func reset() {
-        brain = nil
+        net = nil
         vNeurons = [SKShapeNode]()
         vTestInputs = [SKLabelNode]()
         vTestOutputs = [SKLabelNode]()
-    }
-
-    func setBrain(_ brain: NeuralNetProtocol) {
-        self.brain = brain
     }
 
     struct Spacer {
@@ -113,36 +105,36 @@ class VBrain {
 
 extension VBrain {
 
-    func drawConnections(from previousLayerPoints: [CGPoint], to neuron: Translators.Neuron, at neuronPosition: CGPoint) {
+    func drawConnections(from previousLayerPoints: [CGPoint], to neuron: AKNeuron, at neuronPosition: CGPoint) {
         if previousLayerPoints.isEmpty { return }
+        guard let relay = neuron.relay else { return }
 
-        for commLine in neuron.commLinesUsed {
+        relay.inputs.forEach { relayAnchor in
             let linePath = CGMutablePath()
 
             linePath.move(to: neuronPosition)
-            linePath.addLine(to: previousLayerPoints[commLine])
+            linePath.addLine(to: previousLayerPoints[relayAnchor.neuron.neuronID])
 
             let line = SKShapeNode(path: linePath)
 
-            setConnectionColor(neuron, line)
-
+            line.strokeColor = .green
             gameScene.addChild(line)
         }
     }
 
-    func drawNeuronLayers(_ layers: [Translators.Layer], spacer: Spacer) {
+    func drawNeuronLayers(_ layers: [AKLayer], spacer: Spacer) {
         var previousLayerPoints = [CGPoint]()
 
-        for (i, layer) in zip(0..., layers) {
+        layers.enumerated().forEach { layerSS, layer in
             precondition(!layer.neurons.isEmpty, "Dead brain should not have come this far")
 
             var currentLayerPoints = [CGPoint]()
 
-            for (j, neuron) in zip(0..<layer.neurons.count, layer.neurons) {
+            layer.neurons.enumerated().forEach { neuronSS, neuron in
                 let vNeuron = SKShapeNode(circleOfRadius: 2)
                 setNeuronColor(neuron, vNeuron)
 
-                let position = spacer.getPosition(neuronsThisLayer: layer.neurons.count, xIndex: j, yIndex: i)
+                let position = spacer.getPosition(neuronsThisLayer: layer.neurons.count, xIndex: neuronSS, yIndex: layerSS)
                 vNeuron.position = position
                 currentLayerPoints.append(position)
 
@@ -157,47 +149,34 @@ extension VBrain {
         }
     }
 
-    func drawOutputs(_ neuron: Translators.Neuron, _ vNeuron: SKShapeNode) {
-        guard ((neuron.hasOutput && neuron.hasClients) || neuron.isMotorNeuron),
-                let hisOutput = neuron.myTotalOutput else { return }
-
-        let output = "\(hisOutput.sciTruncate(5))"
-        let s = SKLabelNode(text: output)
-
-        s.fontSize = fontSizeForNeuronLabels
-        s.fontColor = NSColor.yellow
-        s.fontName = "Courier New"
-
-        let sklackground = SKShapeNode(rect: s.frame)
-        sklackground.zPosition = CGFloat(2.0)
-        sklackground.position = CGPoint()
-        sklackground.fillColor = gameScene.backgroundColor
-        sklackground.strokeColor = gameScene.backgroundColor
-        sklackground.position.y = -(vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
-        sklackground.addChild(s)
-        vNeuron.addChild(sklackground)
+    func drawOutputs(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {
+//        guard ((neuron.hasOutput && neuron.hasClients) || neuron.isMotorNeuron),
+//                let hisOutput = neuron.myTotalOutput else { return }
+//
+//        let output = "\(hisOutput.sciTruncate(5))"
+//        let s = SKLabelNode(text: output)
+//
+//        s.fontSize = fontSizeForNeuronLabels
+//        s.fontColor = NSColor.yellow
+//        s.fontName = "Courier New"
+//
+//        let sklackground = SKShapeNode(rect: s.frame)
+//        sklackground.zPosition = CGFloat(2.0)
+//        sklackground.position = CGPoint()
+//        sklackground.fillColor = gameScene.backgroundColor
+//        sklackground.strokeColor = gameScene.backgroundColor
+//        sklackground.position.y = -(vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
+//        sklackground.addChild(s)
+//        vNeuron.addChild(sklackground)
     }
 
-    func setConnectionColor(_ neuron: Translators.Neuron, _ line: SKShapeNode) {
-        if (neuron.hasClients && neuron.hasOutput) || neuron.isMotorNeuron {
-            line.strokeColor = .green
-        } else if !neuron.hasOutput {
-            line.strokeColor = .red// I think this won't happen
-        } else if !neuron.hasClients {
-            line.strokeColor = .gray
-        }
-    }
-
-    func setNeuronColor(_ neuron: Translators.Neuron, _ vNeuron: SKShapeNode) {
-        if (neuron.hasOutput && neuron.hasClients) || neuron.isMotorNeuron {
+    func setNeuronColor(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {
+        if neuron.relay == nil {
+            vNeuron.fillColor = .clear
+            vNeuron.strokeColor = .clear
+        } else {
             vNeuron.fillColor = .yellow
             vNeuron.strokeColor = .white
-        } else if !neuron.hasOutput {
-            vNeuron.fillColor = .red
-            vNeuron.strokeColor = .red
-        } else {  // No clients
-            vNeuron.fillColor = .blue
-            vNeuron.strokeColor = .blue
         }
     }
 }

@@ -29,6 +29,4 @@ print("Experimental")
 print("Run dark")
 #endif
 
-for i in -10...0 {
-    print(i % 5)
-}
+

@@ -18,38 +18,46 @@
 // IN THE SOFTWARE.
 //
 
-import Dispatch
 import Foundation
-import GameKit
 
-#if EXPERIMENTAL
-print("Experimental")
-#endif
+class AKLayer {
+    let layerID: Int
+    var neurons = [AKNeuron]()
+    var relays = [NeuronRelay?]()
 
-#if RUN_DARK
-print("Run dark")
-#endif
+    var relayID = 0
+    var neuronID = 0
 
-enum ArkonGoal {
-    case guessNumber(theNumber: Double)
-}
+    var count: Int { return neurons.count }
 
-struct Chucker {
-    let goalSuite: GSGoalSuite
+    init(_ xLayer: Translators.Layer, _ idNumber: Int) {
+        self.layerID = idNumber
 
-    init(_ goal: ArkonGoal) {
-        switch goal {
-        case let .guessNumber(theNumber):
-            goalSuite = GSGoalSuite(expectedOutput: theNumber)
+        neurons = xLayer.neurons.map { xNeuron in
+            defer { neuronID += 1 }
+            let n = AKNeuron(xNeuron, layerID, neuronID)
+            return n
+        }
+
+        relays = neurons.map { neuron in
+            defer { relayID += 1 }
+            let newRelay = NeuronRelay(layerID, relayID)
+            neuron.relay = newRelay
+            return neuron.relay
         }
     }
 
-    func run() -> GSSubject? { return goalSuite.run() }
-}
+    func driveSensoryInputs(_ inputs: [Double]) {
+        zip(neurons, inputs).forEach {
+            (z) in let (neuron, input) = z; neuron.driveSensoryInput(input)
+        }
+    }
 
-let chucker = Chucker(.guessNumber(theNumber: 42.4242))
-if let winner = chucker.run() {
-    print(winner)
-} else {
-    print("No winner--they all died, and you're a bad person.")
+    func driveSignal(from upperLayer: AKLayer) {
+        neurons.forEach { $0.relaySignal(from: upperLayer); $0.driveSignal() }
+    }
+
+    func scenario() {
+        neurons.remove(at: 5)
+    }
 }

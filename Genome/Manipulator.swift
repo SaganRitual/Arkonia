@@ -210,20 +210,19 @@ extension Manipulator {
             dag = makeOneLayer(dag, hmNeurons: GSGoalSuite.selectionControls.howManySenses)
         }
 
-        dag = makeOneLayer(dag, hmNeurons: GSGoalSuite.selectionControls.howManyMotorNeurons)
+        let daglet = makeOneLayer(dag, hmNeurons: GSGoalSuite.selectionControls.howManyMotorNeurons)
+
+        [0..<hmLayers].forEach { _ in dag += daglet }
         return dag
     }
 
     static private func makeOneLayer(_ protoGenome_: Genome, hmNeurons: Int) -> Genome {
         var protoGenome = protoGenome_ + "L_"
-
-        for portNumber in 0..<hmNeurons {
-            protoGenome += "N_"
-            for _ in 0..<portNumber { protoGenome += "A(false)_" }
-
-            protoGenome += "A(true)_F(linear)_W(b[\(1)]v[\(1)])_B(0)_"
+        var bias = 1.0
+        for _ in 0..<hmNeurons {
+            protoGenome += "N_A(true)_F(linear)_W(b[\(1)]v[\(1)])_B(\(bias))_"
+            bias *= -1
         }
-
         return protoGenome
     }
 

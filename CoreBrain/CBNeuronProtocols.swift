@@ -18,38 +18,32 @@
 // IN THE SOFTWARE.
 //
 
-import Dispatch
 import Foundation
-import GameKit
 
-#if EXPERIMENTAL
-print("Experimental")
-#endif
-
-#if RUN_DARK
-print("Run dark")
-#endif
-
-enum ArkonGoal {
-    case guessNumber(theNumber: Double)
+protocol CBNeuronBuilderAPI: class {
+    func accumulateBias(_ value: Double)
+    func addActivator(_ active: Bool)
+    func addWeight(_ value: ValueDoublet)
+    func addWeight(_ baseline: Double, _ value: Double)
+    func setOutputFunction(_ function: @escaping NeuronOutputFunction)
 }
 
-struct Chucker {
-    let goalSuite: GSGoalSuite
+protocol CBNeuronDebugProtocol: class, CustomStringConvertible {
+    var description: String { get }
+    var layerSSInBrain: Int { get }
+    var neuronSSInLayer: Int { get }
 
-    init(_ goal: ArkonGoal) {
-        switch goal {
-        case let .guessNumber(theNumber):
-            goalSuite = GSGoalSuite(expectedOutput: theNumber)
-        }
-    }
-
-    func run() -> GSSubject? { return goalSuite.run() }
+    func show(tabs: String, override: Bool)
 }
 
-let chucker = Chucker(.guessNumber(theNumber: 42.4242))
-if let winner = chucker.run() {
-    print(winner)
-} else {
-    print("No winner--they all died, and you're a bad person.")
+protocol CBNeuronSignalProtocol: class {
+    var commLinesUsed: [Int] { get }
+    var myTotalOutput: Double? { get }
+
+    func driveSignal(upperNeuron: CBNeuronSignalProtocol) -> CBNeuronResults?
+}
+
+struct CBNeuronResults {
+    var totalOutput: Double
+    var commLinesUsed: [CBNeuron]
 }

@@ -64,6 +64,7 @@ protocol BrainOwnerProtocol: class {
     func closeLayer()
     func closeNeuron()
     func endOfStrand()
+    func getBrain() -> AKNet
     func getBrain() -> Translators.Brain
     func newLayer()
     func newNeuron()

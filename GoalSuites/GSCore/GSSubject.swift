@@ -62,8 +62,10 @@ class GSSubject: GSSubjectProtocol, LightLabelProtocol {
     }
 
     required init(genome: GenomeSlice, brain: Translators.Brain) {
-        self.brain = brain; self.genome = String(genome)
         fishNumber = GSSubject.theFishNumber; GSSubject.theFishNumber += 1
+
+        self.brain = brain; self.genome = String(genome)
+        brain.fishNumber = self.fishNumber
     }
 
     func makeResults() -> GSResults { return GSResults() }

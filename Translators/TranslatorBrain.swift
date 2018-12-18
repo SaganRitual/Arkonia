@@ -23,6 +23,8 @@ import Foundation
 extension Translators {
     class Brain: NeuralNetProtocol {
         public var allLayersConnected = true
+        var fishNumber = 0
+        var net: AKNet?
 
         func generateRandomSensoryInput() -> [Double] {
             return [0]
@@ -93,25 +95,7 @@ extension Translators {
 
 extension Translators.Brain {
     func stimulate(sensoryInputs: [Double]) -> [Double?] {
-
-        var previousLayer: Translators.Layer?
-        var inputsForNextLayer: [Double?] = Array(sensoryInputs)
-        for layer in layers {
-            let i = inputsForNextLayer
-            var commLinesUsed = [Int]()
-
-            (inputsForNextLayer, commLinesUsed) = layer.stimulate(inputsFromPreviousLayer: i)
-            if layer.layerSSInBrain == layers.count - 1 {
-                layer.neurons.forEach { $0.isMotorNeuron = true }
-            }
-
-            previousLayer?.markActiveLines(commLinesUsed)
-            previousLayer = layer
-
-            if inputsForNextLayer.compactMap({$0}).isEmpty
-                { return inputsForNextLayer }
-        }
-
-        return inputsForNextLayer
+        self.net = AKNet(self.layers)
+        return self.net!.driveSignal(sensoryInputs)
     }
 }

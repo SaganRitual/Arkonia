@@ -182,6 +182,16 @@ enum Utilities {
     }
 }
 
+postfix operator <!>
+
+// This is the make-no-mistake-I-intend-a-crash way to force unwrap
+postfix func <!><T> (_ theThing: Optional<T>) -> T {
+    switch theThing {
+    case .some(let good): return good
+    case .none: preconditionFailure("Bang!")
+    }
+}
+
 postfix operator %%
 extension Double {
     func sciTruncate(_ length: Int) -> String {

@@ -76,7 +76,7 @@ class GameScene: SKScene {
         self.currentProgenitor = his
 
         vBrain = VBrain(gameScene: self, arkon: his)
-        vBrain.displayBrain(his.brain)
+        vBrain.displayBrain(his.brain.net)
 
         firstPass = false
     }

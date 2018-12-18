@@ -75,10 +75,10 @@ class Decoder {
 
         decodeLayers(workspace[...])
         Translators.t.endOfStrand()
-        return true // The test subject survived birth
 
 //        Translators.t.getBrain().show(tabs: "", override: true)
 //        print(inputGenome)
+        return true
     }
 
     func newBrain() { Translators.t.newBrain() }
