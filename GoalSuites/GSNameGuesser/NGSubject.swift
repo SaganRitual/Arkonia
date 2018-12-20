@@ -34,4 +34,3 @@ class NGSubject: GSSubject {
     override func makeResults() -> GSResults
         { return NGResults(nameToGuess: nameToGuess) }
 }
-

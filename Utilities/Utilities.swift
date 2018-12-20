@@ -185,7 +185,7 @@ enum Utilities {
 postfix operator <!>
 
 // This is the make-no-mistake-I-intend-a-crash way to force unwrap
-postfix func <!><T> (_ theThing: Optional<T>) -> T {
+postfix func <!><T> (_ theThing: T?) -> T {
     switch theThing {
     case .some(let good): return good
     case .none: preconditionFailure("Bang!")

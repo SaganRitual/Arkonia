@@ -74,6 +74,8 @@ class Manipulator {
     }
 }
 
+// swiftlint:disable nesting
+
 extension Manipulator {
 
     typealias Gene = Substring
@@ -104,6 +106,7 @@ extension Manipulator {
     }
 
 }
+// swiftlint:enable nesting
 
 extension Manipulator {
     enum GeneSplitType {
@@ -125,6 +128,7 @@ extension Manipulator {
     }
 
     // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable function_body_length
 
     static func splitGene(_ slice: GenomeSlice, _ splitType: GeneSplitType) -> [GeneComponent] {
         var geneComponents = [GeneComponent]()
@@ -142,7 +146,6 @@ extension Manipulator {
 
             geneComponents.append(slice[fmi...fmi])
             geneComponents.append(slice[fsi..<eos])
-            break
 
         case .doubletGene:
             guard let fmi = slice.firstIndex(where: { "W".contains($0) })
@@ -200,6 +203,8 @@ extension Manipulator {
 
         return geneComponents
     }
+    // swiftlint:enable cyclomatic_complexity
+    // swiftlint:enable function_body_length
 }
 
 extension Manipulator {
