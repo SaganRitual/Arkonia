@@ -107,7 +107,8 @@ extension VBrain {
 
     func drawConnections(from previousLayerPoints: [CGPoint], to neuron: AKNeuron, at neuronPosition: CGPoint) {
         if previousLayerPoints.isEmpty { return }
-        guard let relay = neuron.relay else { return }
+        guard let relay = neuron.relay else {print("a", terminator: ""); return }
+        print("b", terminator: "")
 
         relay.inputs.forEach { relayAnchor in
             let linePath = CGMutablePath()
@@ -149,31 +150,34 @@ extension VBrain {
         }
     }
 
+    func nilstr<T: CustomStringConvertible>(_ theOptional: T?, defaultString: String = "<nil>") -> String {
+        var output = defaultString
+        if let t = theOptional { output = "\(t)" }
+        return output
+    }
+
     func drawOutputs(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {
-//        guard ((neuron.hasOutput && neuron.hasClients) || neuron.isMotorNeuron),
-//                let hisOutput = neuron.myTotalOutput else { return }
-//
-//        let output = "\(hisOutput.sciTruncate(5))"
-//        let s = SKLabelNode(text: output)
-//
-//        s.fontSize = fontSizeForNeuronLabels
-//        s.fontColor = NSColor.yellow
-//        s.fontName = "Courier New"
-//
-//        let sklackground = SKShapeNode(rect: s.frame)
-//        sklackground.zPosition = CGFloat(2.0)
-//        sklackground.position = CGPoint()
-//        sklackground.fillColor = gameScene.backgroundColor
-//        sklackground.strokeColor = gameScene.backgroundColor
-//        sklackground.position.y = -(vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
-//        sklackground.addChild(s)
-//        vNeuron.addChild(sklackground)
+        let output = nilstr(neuron.relay?.output.sciTruncate(5), defaultString: "")
+        let s = SKLabelNode(text: output)
+
+        s.fontSize = fontSizeForNeuronLabels
+        s.fontColor = NSColor.yellow
+        s.fontName = "Courier New"
+
+        let sklackground = SKShapeNode(rect: s.frame)
+        sklackground.zPosition = CGFloat(2.0)
+        sklackground.position = CGPoint()
+        sklackground.fillColor = gameScene.backgroundColor
+        sklackground.strokeColor = gameScene.backgroundColor
+        sklackground.position.y = -(vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
+        sklackground.addChild(s)
+        vNeuron.addChild(sklackground)
     }
 
     func setNeuronColor(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {
         if neuron.relay == nil {
-            vNeuron.fillColor = .clear
-            vNeuron.strokeColor = .clear
+            vNeuron.fillColor = .darkGray
+            vNeuron.strokeColor = .darkGray
         } else {
             vNeuron.fillColor = .yellow
             vNeuron.strokeColor = .white

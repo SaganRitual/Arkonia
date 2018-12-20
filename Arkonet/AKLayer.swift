@@ -48,16 +48,17 @@ class AKLayer {
     }
 
     func driveSensoryInputs(_ inputs: [Double]) {
-        zip(neurons, inputs).forEach {
-            (z) in let (neuron, input) = z; neuron.driveSensoryInput(input)
+        for (neuron, input) in zip(neurons, inputs) {
+            neuron.driveSensoryInput(input)
         }
     }
 
-    func driveSignal(from upperLayer: AKLayer) {
-        neurons.forEach { $0.relaySignal(from: upperLayer); $0.driveSignal() }
-    }
+    func driveSignal(from upperLayer: AKLayer) -> AKLayer? {
+        for neuron in neurons {
+            guard neuron.relaySignal(from: upperLayer) else { return nil }
+            guard neuron.driveSignal() else { return nil }
+        }
 
-    func scenario() {
-        neurons.remove(at: 5)
+        return self
     }
 }

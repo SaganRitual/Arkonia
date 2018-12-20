@@ -60,7 +60,7 @@ extension GSGoalSuite {
 
         sc.howManySenses = 5
         sc.howManyLayersInStarter = 5
-        sc.howManyMotorNeurons = 2
+        sc.howManyMotorNeurons = 5
         sc.howManyGenerations = 100
 
         GSGoalSuite.selectionControls_ = sc

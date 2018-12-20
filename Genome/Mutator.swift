@@ -28,6 +28,7 @@ class Mutator {
     var workingTenome = Tenome()
     var bellCurve = BellCurve()
     weak var workspaceOwner: GSFactoryProtocol!
+    var isFive = false
 
     enum MutationType: Int {
         case insertRandom, insertSequence, deleteRandom, deleteSequence,
@@ -59,6 +60,17 @@ class Mutator {
 
             workspaceOwner.genomeWorkspace += ")_"
         }
+
+//        let ss2 = workspaceOwner!.genomeWorkspace as NSString
+//        let ss1 = inputGenome! as NSString
+//        let firstDiff = firstDifferenceBetweenStrings(s1: ss1, s2: ss2)
+//        if case FirstDifferenceResult.DifferenceAtIndex( _) = firstDiff {
+//            if !isFive {
+//                print("diff", ss1, ss2)
+//            }
+//        }
+
+        isFive = false
 
         return workspaceOwner.genomeWorkspace
     }
@@ -182,19 +194,19 @@ class Mutator {
         var outputTegment = Tenome(workingTenome)
 
         switch m {
-        case .deleteRandom:          /* print("(1)"); */ deleteGenes()
-        case .deleteSequence:        /* print("(2)"); */ deleteSequence()
+        case .deleteRandom:          /*print("(1)");*/  deleteGenes()
+        case .deleteSequence:        /*print("(2)");*/  deleteSequence()
 
-        case .insertRandom:         /* print("(3)"); */ insertGenes()
-        case .insertSequence:       /* print("(4)"); */ insertSequence()
+        case .insertRandom:         /*print("(3)");*/  insertGenes()
+        case .insertSequence:       /*print("(4)");*/  insertSequence()
 
-        case .mutateGenes:          /* print("(five)"); */ mutateGenes()
+        case .mutateGenes:          /*print("(five)");*/ isFive = true; mutateGenes()
 
-        case .snipAndMoveSequence:  /* print("(6)"); */ outputTegment = snipAndMoveSequence()
-        case .snipAndCopySequence:  /* print("(7)"); */ outputTegment = snipAndCopySequence()
+        case .snipAndMoveSequence:  /*print("(6)");*/  outputTegment = snipAndMoveSequence()
+        case .snipAndCopySequence:  /*print("(7)");*/  outputTegment = snipAndCopySequence()
 
-        case .snipAndMoveReversedSequence: /* print("(8)"); */ outputTegment = snipAndMoveReversedSequence()
-        case .snipAndCopyReversedSequence: /* print("(9)"); */ outputTegment = snipAndCopyReversedSequence()
+        case .snipAndMoveReversedSequence: /*print("(8)");*/  outputTegment = snipAndMoveReversedSequence()
+        case .snipAndCopyReversedSequence: /*print("(9)");*/  outputTegment = snipAndCopyReversedSequence()
 
         case .endIndex: fatalError("😭😭😭😭😭 Swift is broken 😭😭😭😭😭")
         }

@@ -29,6 +29,8 @@ class NeuronRelay {
     var output: Double = 0.0
     var inputs = [RelayAnchor]()
 
+    var isTopLayer: Bool { return layerID == 0 }
+
     init(_ layerID: Int, _ relayID: Int) { self.layerID = layerID; self.relayID = relayID }
     deinit {
 //        print("Relay(\(layerID):\(relayID)) destruct")
@@ -68,9 +70,6 @@ class AKNeuron: CustomStringConvertible, LoopIterable {
         self.loopIterableSelf = self
     }
 
-    // Client neuron takes ownership of the relay. If all the
-    // clients go away, the relay does too, and so does the neuron,
-    // because the relay is the final owner.
     func connectToOutput(of neuron: AKNeuron, weight: Double) {
         relay<!>.inputs.append(RelayAnchor(neuron, neuron.relay<!>))
         weights[neuron.neuronID] = weight
@@ -78,39 +77,61 @@ class AKNeuron: CustomStringConvertible, LoopIterable {
 
     func driveSensoryInput(_ input: Double) { relay<!>.output = input }
 
-    func driveSignal() {
+    func driveSignal() -> Bool {
+        var didReceiveInput = false
+
+//        print("driveSignal to \(self) from...", terminator: "")
+
         for (inputNeuron, anchorRelay_) in relay<!>.inputs {
+//            print("\(inputNeuron), ", terminator: "")
             guard let anchorRelay = anchorRelay_ else { continue }
             guard let inputRelay = inputNeuron.relay else { preconditionFailure() }
             guard let weight = weights[inputNeuron.neuronID] else { preconditionFailure() }
 
             anchorRelay.output += weight * inputRelay.output
-//            print("\(self)(\(anchorRelay.relayID)) reads \(inputRelay.output) from \(inputNeuron)")
+            didReceiveInput = true
+//            print("\(self) reads \(inputRelay.output) from \(inputNeuron)")
         }
+//        print()
 
+        guard didReceiveInput else { return false }
         guard let r = self.relay else { preconditionFailure() }
         r.output = relay<!>.inputs.reduce(bias, {
             subtotal, inputSource in subtotal + inputSource.relay<!>.output
         })
+
+        return didReceiveInput
     }
 
-    func relaySignal(from upperLayer: AKLayer) {
+    func relaySignal(from upperLayer: AKLayer) -> Bool {
         let fIter = ForwardLoopIterator(upperLayer.neurons, min(neuronID, upperLayer.count - 1))
         let rIter = ReverseLoopIterator(upperLayer.neurons, min(neuronID, upperLayer.count - 1))
 
-        zip(activators, weightDoublets).forEach { activator, weightDoublet in
-            let sourceNeuron: AKNeuron = activator ? skipDeadNeurons(fIter) : skipDeadNeurons(rIter)
+        for (activator, weightDoublet) in zip(activators, weightDoublets) {
+            let iter = activator ? fIter : rIter
+            guard let sourceNeuron = skipDeadNeurons(iter) else { return false }
+
+//            print("\(self) connecting to \(sourceNeuron)")
             connectToOutput(of: sourceNeuron, weight: weightDoublet.value)
         }
+
+        return true
     }
 
-    func skipDeadNeurons(_ iter: LoopIterator<[AKNeuron]>) -> AKNeuron {
+    func skipDeadNeurons(_ iter: LoopIterator<[AKNeuron]>) -> AKNeuron? {
+        var boundsChecker = 0
         repeat {
 
             let neuron = iter.compactNext()
-            if neuron.relay == nil { continue }
+            guard let r = neuron.relay else { continue }
+            if r.inputs.isEmpty && !r.isTopLayer { continue }
+
+            boundsChecker += 1
+
             return neuron
 
-        } while true
+        } while boundsChecker < iter.count
+
+        return nil
     }
 }

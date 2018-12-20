@@ -223,7 +223,7 @@ extension Manipulator {
     static private func makeOneLayer(_ protoGenome_: Genome, hmNeurons: Int) -> Genome {
         var protoGenome = protoGenome_ + "L_"
         var bias = 1.0
-        var scanRight = false
+        var scanRight = true
         for _ in 0..<hmNeurons {
             protoGenome += "N_A(\(scanRight))_F(linear)_W(b[\(1)]v[\(1)])_B(\(bias))_"
             bias *= -1

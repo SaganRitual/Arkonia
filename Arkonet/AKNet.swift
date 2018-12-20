@@ -41,8 +41,10 @@ class AKNet {
         var upperLayer = iter.next()!
         upperLayer.driveSensoryInputs(sensoryInputs)
 
-        for lowerLayer in iter {
-            lowerLayer.driveSignal(from: upperLayer)
+        for LL in iter {
+            guard let lowerLayer = LL.driveSignal(from: upperLayer)
+                else { return [Double?](repeating: nil, count: 50) }
+
 //            print("removing from layer \(upperLayer.layerID)")
             upperLayer.relays.removeAll()
 //            print("removed from layer \(upperLayer.layerID)")

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D4071DD121CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4071DD021CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift */; };
+		D4071DD221CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4071DD021CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift */; };
+		D4071DD321CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4071DD021CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift */; };
 		D44547BF21CB151800247429 /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BB21CB151700247429 /* LoopIterator.swift */; };
 		D44547C021CB151800247429 /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BB21CB151700247429 /* LoopIterator.swift */; };
 		D44547C121CB151800247429 /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BB21CB151700247429 /* LoopIterator.swift */; };
@@ -214,6 +217,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D4071DD021CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = firstDifferenceBetweenStrings.swift; sourceTree = "<group>"; };
 		D44547BB21CB151700247429 /* LoopIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoopIterator.swift; path = Utilities/LoopIterator.swift; sourceTree = "<group>"; };
 		D44547BC21CB151700247429 /* RandomnessGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RandomnessGenerators.swift; path = Utilities/RandomnessGenerators.swift; sourceTree = "<group>"; };
 		D44547BD21CB151700247429 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = Utilities/Utilities.swift; sourceTree = "<group>"; };
@@ -410,6 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				D4B517E721AFAC3200F4C88A /* main.swift */,
+				D4071DD021CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift */,
 			);
 			path = Experimental;
 			sourceTree = "<group>";
@@ -854,6 +859,7 @@
 				D482FD9821B120C100FF9EE9 /* Mutator.swift in Sources */,
 				D48F2FBA21C31C06008EA8DA /* NGGoalSuite.swift in Sources */,
 				D452A30B21C10B230049E3A5 /* GSGoalSuite.swift in Sources */,
+				D4071DD221CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift in Sources */,
 				D482FD9621B11EBA00FF9EE9 /* Curator.swift in Sources */,
 				D482FD9A21B121B000FF9EE9 /* GenomeTranslators.swift in Sources */,
 				D4B517E821AFAC3200F4C88A /* main.swift in Sources */,
@@ -890,6 +896,7 @@
 				D4684CC821C2D55F00D13964 /* Tene.swift in Sources */,
 				D452A33821C1ECE10049E3A5 /* Selector.swift in Sources */,
 				D48F2FB921C31C06008EA8DA /* NGGoalSuite.swift in Sources */,
+				D4071DD121CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift in Sources */,
 				D452A33B21C1ED000049E3A5 /* GSResults.swift in Sources */,
 				D4C0A13B21AE2415009D6011 /* TranslatorLayer.swift in Sources */,
 				D452A33721C1ECE10049E3A5 /* PeerGroup.swift in Sources */,
@@ -914,6 +921,7 @@
 				D4A5C4D321C937FA002105DB /* TranslatorNeuron.swift in Sources */,
 				D452A32121C18EDB0049E3A5 /* GSSubject.swift in Sources */,
 				D4684CC621C2D1C900D13964 /* Manipulator.swift in Sources */,
+				D4071DD321CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift in Sources */,
 				D4A5C4DF21CAA98E002105DB /* AKNet.swift in Sources */,
 				D4C0A17921AE313F009D6011 /* GenomeTranslators.swift in Sources */,
 				D48F2FB721C31587008EA8DA /* NGResults.swift in Sources */,
@@ -1274,6 +1282,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "-DINSPECTION";
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameScene;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -1294,6 +1303,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "-DINSPECTION";
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameScene;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;

@@ -61,6 +61,20 @@ class Curator {
         }
     }
 
+    func deploySelector(reference gs: GSSubject) {
+        let n1 = Foundation.Notification.Name.setSelectionParameters
+        let q1 = [NotificationType.select : gs, "comparisonMode" : archive.comparisonMode] as [AnyHashable : Any]
+        let p1 = Foundation.Notification(name: n1, object: nil, userInfo: q1)
+
+        let n2 = Foundation.Notification.Name.select
+        let p2 = Foundation.Notification(name: n2, object: nil, userInfo: nil)
+
+        notificationCenter.post(p1)
+        notificationCenter.post(p2)
+
+        semaphore.signal()  // Everything is in place; selector, go fetch
+    }
+
     func select() -> GSSubject? {
         let a = goalSuite.factory.getAboriginal()
 
@@ -91,20 +105,11 @@ class Curator {
 //                    print("New record by \(gs.fishNumber): \"\(zts.attemptedZName)\"")
 //                } else {
                     print("New record by \(gs.fishNumber): \(gs.results.fitnessScore)")
+//                print(gs.genome)
 //                }
             }
 
-            let n1 = Foundation.Notification.Name.setSelectionParameters
-            let q1 = [NotificationType.select : gs, "comparisonMode" : archive.comparisonMode] as [AnyHashable : Any]
-            let p1 = Foundation.Notification(name: n1, object: nil, userInfo: q1)
-
-            let n2 = Foundation.Notification.Name.select
-            let p2 = Foundation.Notification(name: n2, object: nil, userInfo: nil)
-
-            notificationCenter.post(p1)
-            notificationCenter.post(p2)
-
-            semaphore.signal()  // Everything is in place; start the selector running
+            deploySelector(reference: gs)
 
             firstPass = false
             if let f = self.currentProgenitor?.results.fitnessScore, f == 0.0 { break }

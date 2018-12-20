@@ -29,6 +29,8 @@ public class LoopIterator<Base: Collection>: IteratorProtocol {
     let collection: Base
     var index: Base.Index
 
+    var count: Int { return collection.count }
+
     public init(_ collection: Base, _ startOffset: Int = 0) {
         self.collection = collection
 
