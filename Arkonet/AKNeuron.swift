@@ -72,7 +72,8 @@ class AKNeuron: CustomStringConvertible, LoopIterable {
     }
 
     func connectToOutput(of neuron: AKNeuron, weight: Double) {
-        relay<!>.inputs.append(RelayAnchor(neuron, neuron.relay<!>))
+        let ra = RelayAnchor(neuron, neuron.relay<!>)
+        relay<!>.inputs.append(ra)
         weights[neuron.neuronID] = weight
     }
 
@@ -83,13 +84,14 @@ class AKNeuron: CustomStringConvertible, LoopIterable {
 
 //        print("driveSignal to \(self) from...", terminator: "")
 
-        for (inputNeuron, anchorRelay_) in relay<!>.inputs {
+        for (inputNeuron, _) in relay<!>.inputs {
 //            print("\(inputNeuron), ", terminator: "")
-            guard let anchorRelay = anchorRelay_ else { continue }
+//            guard let anchorRelay = anchorRelay_ else { continue }
             guard let inputRelay = inputNeuron.relay else { preconditionFailure() }
             guard let weight = weights[inputNeuron.neuronID] else { preconditionFailure() }
 
-            anchorRelay.output += weight * inputRelay.output
+            relay<!>.output += weight * inputRelay.output
+//            print("\(inputNeuron): w(\(weight)) * o(\(inputRelay.output)) = ao(\(relay<!>.output))")
             didReceiveInput = true
 //            print("\(self) reads \(inputRelay.output) from \(inputNeuron)")
         }

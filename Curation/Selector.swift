@@ -60,14 +60,14 @@ class Selector {
         while true {
             if selectorWorkItem.isCancelled { print("rLoop detects cancel"); break }
 
+            defer { semaphore.signal() }
+
             semaphore.wait()
-            let newSurvivors = select(against: self.stud)
+            guard let newSurvivors = select(against: self.stud) else { continue }
             let selectionResults = [NotificationType.selectComplete : newSurvivors]
             let n = Foundation.Notification.Name.selectComplete
 
             notificationCenter.post(name: n, object: self, userInfo: selectionResults as [AnyHashable : Any])
-
-            semaphore.signal()  // Give control back to the main thread
         }
     }
 

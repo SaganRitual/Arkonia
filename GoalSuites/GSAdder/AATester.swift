@@ -21,10 +21,12 @@
 import Foundation
 
 final class AATester: GSTesterProtocol {
-    let testInputSets = [
-        [1.0, 1.0], [10.0, 10.0], [100.0, 100.0], [1000.0, 1000.0],
-        [5.0, 995.0], [47.0, 357.0], [756.0, 22.0], [1111.0, 1066.0]
-    ]
+//    let testInputSets = [
+//        [1.0, 1.0], [10.0, 10.0], [100.0, 100.0], [1000.0, 1000.0],
+//        [5.0, 995.0], [47.0, 357.0], [756.0, 22.0], [1111.0, 1066.0]
+//    ]
+
+    let testInputSets = [ [1.0, 1.0] ]
 
     var expectedOutput = 0.0
     var reducedInput = [0.0, 0.0]
@@ -42,7 +44,7 @@ final class AATester: GSTesterProtocol {
     init() {
         for set in testInputSets { reducedInput[0] += set[0]; reducedInput[1] += set[1] }
 
-        expectedOutput = testInputSets.map { $0[0] + $0[1] }.reduce(0.0, +)
+        expectedOutput = testInputSets.map { $0[0] - $0[1] }.reduce(0.0, +)
     }
 
     func postInit(suite: GSGoalSuite) { self.suite = suite }
@@ -53,6 +55,7 @@ final class AATester: GSTesterProtocol {
             reducedOutput = rawOutputs.compactMap({$0}).reduce(reducedOutput, +)
         }
 
+//        print("well? \(reducedOutput) - \(expectedOutput)")
         gs.fitnessScore = abs(reducedOutput - expectedOutput) / Double(testInputSets.count)
 
         return gs.fitnessScore

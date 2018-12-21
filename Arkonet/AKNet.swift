@@ -53,9 +53,4 @@ class AKNet {
 
         return layers.last!.relays.map { r in if let relay = r { return relay.output } else { return nil } }
     }
-
-    func showOutputs() {
-        print("Reading \(layers.last!.relays.count) output signals")
-        layers.last!.relays.forEach { if let has = $0 { print(has.output) } else { print("nil") } }
-    }
 }
