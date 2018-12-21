@@ -80,6 +80,20 @@
 		D4684CC921C2D55F00D13964 /* Tene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC721C2D55F00D13964 /* Tene.swift */; };
 		D4684CCA21C2D55F00D13964 /* Tene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC721C2D55F00D13964 /* Tene.swift */; };
 		D471173621B3D5440076DD2A /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D471173421B3D5350076DD2A /* VBrain.swift */; };
+		D47995FF21CD8B8700EB7A9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */; };
+		D479960121CD8B8700EB7A9A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D479960021CD8B8700EB7A9A /* GameScene.sks */; };
+		D479960321CD8B8700EB7A9A /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D479960221CD8B8700EB7A9A /* Actions.sks */; };
+		D479960521CD8B8700EB7A9A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479960421CD8B8700EB7A9A /* GameScene.swift */; };
+		D479960721CD8B8700EB7A9A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479960621CD8B8700EB7A9A /* ViewController.swift */; };
+		D479960921CD8B8800EB7A9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D479960821CD8B8800EB7A9A /* Assets.xcassets */; };
+		D479960C21CD8B8800EB7A9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D479960A21CD8B8800EB7A9A /* Main.storyboard */; };
+		D479961821CD8B8800EB7A9A /* PlaygroundsSuck_LightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479961721CD8B8800EB7A9A /* PlaygroundsSuck_LightTests.swift */; };
+		D479962121CD8C3A00EB7A9A /* Vnet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962021CD8C3A00EB7A9A /* Vnet.swift */; };
+		D479962321CD959900EB7A9A /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962221CD959900EB7A9A /* CGConversions.swift */; };
+		D479962521CDC64600EB7A9A /* Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962421CDC64600EB7A9A /* Spacer.swift */; };
+		D479962621CE0C0100EB7A9A /* Vnet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962021CD8C3A00EB7A9A /* Vnet.swift */; };
+		D479962721CE0C0100EB7A9A /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962221CD959900EB7A9A /* CGConversions.swift */; };
+		D479962821CE0C0100EB7A9A /* Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962421CDC64600EB7A9A /* Spacer.swift */; };
 		D482FD9521B11EAF00FF9EE9 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D482FD9621B11EBA00FF9EE9 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D482FD9821B120C100FF9EE9 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
@@ -168,6 +182,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		D479961421CD8B8800EB7A9A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4C0A0F221ADF3CC009D6011 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D47995FB21CD8B8700EB7A9A;
+			remoteInfo = "PlaygroundsSuck-Light";
+		};
 		D4C0A16221AE2E64009D6011 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D4C0A0F221ADF3CC009D6011 /* Project object */;
@@ -247,6 +268,22 @@
 		D4684CC321C2D1C900D13964 /* Manipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manipulator.swift; sourceTree = "<group>"; };
 		D4684CC721C2D55F00D13964 /* Tene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tene.swift; sourceTree = "<group>"; };
 		D471173421B3D5350076DD2A /* VBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
+		D47995FC21CD8B8700EB7A9A /* PlaygroundsSuck-Light.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaygroundsSuck-Light.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D479960021CD8B8700EB7A9A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		D479960221CD8B8700EB7A9A /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		D479960421CD8B8700EB7A9A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		D479960621CD8B8700EB7A9A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D479960821CD8B8800EB7A9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D479960B21CD8B8800EB7A9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D479960D21CD8B8800EB7A9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D479960E21CD8B8800EB7A9A /* PlaygroundsSuck_Light.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PlaygroundsSuck_Light.entitlements; sourceTree = "<group>"; };
+		D479961321CD8B8800EB7A9A /* PlaygroundsSuck-LightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlaygroundsSuck-LightTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D479961721CD8B8800EB7A9A /* PlaygroundsSuck_LightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundsSuck_LightTests.swift; sourceTree = "<group>"; };
+		D479961921CD8B8800EB7A9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D479962021CD8C3A00EB7A9A /* Vnet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vnet.swift; sourceTree = "<group>"; };
+		D479962221CD959900EB7A9A /* CGConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGConversions.swift; sourceTree = "<group>"; };
+		D479962421CDC64600EB7A9A /* Spacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacer.swift; sourceTree = "<group>"; };
 		D48F2FB421C31587008EA8DA /* NGResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGResults.swift; sourceTree = "<group>"; };
 		D48F2FB821C31C06008EA8DA /* NGGoalSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGGoalSuite.swift; sourceTree = "<group>"; };
 		D48F2FBC21C31C56008EA8DA /* NGFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGFactory.swift; sourceTree = "<group>"; };
@@ -300,6 +337,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D45E641C21AE3A860078CB8E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D47995F921CD8B8700EB7A9A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D479961021CD8B8800EB7A9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -402,6 +453,31 @@
 			path = Genome;
 			sourceTree = "<group>";
 		};
+		D47995FD21CD8B8700EB7A9A /* PlaygroundsSuck-Light */ = {
+			isa = PBXGroup;
+			children = (
+				D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */,
+				D479960021CD8B8700EB7A9A /* GameScene.sks */,
+				D479960221CD8B8700EB7A9A /* Actions.sks */,
+				D479960421CD8B8700EB7A9A /* GameScene.swift */,
+				D479960621CD8B8700EB7A9A /* ViewController.swift */,
+				D479960821CD8B8800EB7A9A /* Assets.xcassets */,
+				D479960A21CD8B8800EB7A9A /* Main.storyboard */,
+				D479960D21CD8B8800EB7A9A /* Info.plist */,
+				D479960E21CD8B8800EB7A9A /* PlaygroundsSuck_Light.entitlements */,
+			);
+			path = "PlaygroundsSuck-Light";
+			sourceTree = "<group>";
+		};
+		D479961621CD8B8800EB7A9A /* PlaygroundsSuck-LightTests */ = {
+			isa = PBXGroup;
+			children = (
+				D479961721CD8B8800EB7A9A /* PlaygroundsSuck_LightTests.swift */,
+				D479961921CD8B8800EB7A9A /* Info.plist */,
+			);
+			path = "PlaygroundsSuck-LightTests";
+			sourceTree = "<group>";
+		};
 		D48F2FB321C3155F008EA8DA /* GSNameGuesser */ = {
 			isa = PBXGroup;
 			children = (
@@ -426,9 +502,12 @@
 		D4ABEB1121AE645B00F3C5D5 /* Light */ = {
 			isa = PBXGroup;
 			children = (
+				D479962221CD959900EB7A9A /* CGConversions.swift */,
 				D4FE84FB21AE7AB600C9192F /* GameScene.swift */,
+				D479962421CDC64600EB7A9A /* Spacer.swift */,
 				D471173421B3D5350076DD2A /* VBrain.swift */,
 				D4FE84FC21AE7AB600C9192F /* ViewController.swift */,
+				D479962021CD8C3A00EB7A9A /* Vnet.swift */,
 			);
 			path = Light;
 			sourceTree = "<group>";
@@ -453,10 +532,12 @@
 				D452A30021C1004A0049E3A5 /* GoalSuites */,
 				D4ABEB1121AE645B00F3C5D5 /* Light */,
 				D44EE50621BCE584006E1A12 /* PlaygroundsSuck */,
+				D47995FD21CD8B8700EB7A9A /* PlaygroundsSuck-Light */,
 				D4C0A12221AE23DF009D6011 /* Translators */,
 				D4C0A12121AE23BA009D6011 /* Utilities */,
 				D4C0A14B21AE2E63009D6011 /* GameScene */,
 				D4C0A16421AE2E64009D6011 /* GameSceneTests */,
+				D479961621CD8B8800EB7A9A /* PlaygroundsSuck-LightTests */,
 				D4C0A0FB21ADF3CC009D6011 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -473,6 +554,8 @@
 				D4FE854221AEB20500C9192F /* BellCurveDark */,
 				D4B517E521AFAC3200F4C88A /* Experimental */,
 				D44EE50521BCE584006E1A12 /* PlaygroundsSuck */,
+				D47995FC21CD8B8700EB7A9A /* PlaygroundsSuck-Light.app */,
+				D479961321CD8B8800EB7A9A /* PlaygroundsSuck-LightTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -595,6 +678,41 @@
 			productReference = D45E642521AE3A860078CB8E /* BellCurveLight.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D47995FB21CD8B8700EB7A9A /* PlaygroundsSuck-Light */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D479961E21CD8B8800EB7A9A /* Build configuration list for PBXNativeTarget "PlaygroundsSuck-Light" */;
+			buildPhases = (
+				D47995F821CD8B8700EB7A9A /* Sources */,
+				D47995F921CD8B8700EB7A9A /* Frameworks */,
+				D47995FA21CD8B8700EB7A9A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PlaygroundsSuck-Light";
+			productName = "PlaygroundsSuck-Light";
+			productReference = D47995FC21CD8B8700EB7A9A /* PlaygroundsSuck-Light.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D479961221CD8B8800EB7A9A /* PlaygroundsSuck-LightTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D479961F21CD8B8800EB7A9A /* Build configuration list for PBXNativeTarget "PlaygroundsSuck-LightTests" */;
+			buildPhases = (
+				D479960F21CD8B8800EB7A9A /* Sources */,
+				D479961021CD8B8800EB7A9A /* Frameworks */,
+				D479961121CD8B8800EB7A9A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D479961521CD8B8800EB7A9A /* PBXTargetDependency */,
+			);
+			name = "PlaygroundsSuck-LightTests";
+			productName = "PlaygroundsSuck-LightTests";
+			productReference = D479961321CD8B8800EB7A9A /* PlaygroundsSuck-LightTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D4B517E421AFAC3200F4C88A /* Experimental */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4B517E921AFAC3200F4C88A /* Build configuration list for PBXNativeTarget "Experimental" */;
@@ -712,6 +830,13 @@
 					D44EE50421BCE584006E1A12 = {
 						CreatedOnToolsVersion = 10.1;
 					};
+					D47995FB21CD8B8700EB7A9A = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					D479961221CD8B8800EB7A9A = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = D47995FB21CD8B8700EB7A9A;
+					};
 					D4B517E421AFAC3200F4C88A = {
 						CreatedOnToolsVersion = 10.1;
 					};
@@ -749,6 +874,8 @@
 				D4FE850521AE7C0500C9192F /* GameScene-R */,
 				D4C0A16021AE2E64009D6011 /* GameSceneTests */,
 				D44EE50421BCE584006E1A12 /* PlaygroundsSuck */,
+				D47995FB21CD8B8700EB7A9A /* PlaygroundsSuck-Light */,
+				D479961221CD8B8800EB7A9A /* PlaygroundsSuck-LightTests */,
 			);
 		};
 /* End PBXProject section */
@@ -762,6 +889,24 @@
 				D45E641F21AE3A860078CB8E /* Assets.xcassets in Resources */,
 				D45E642021AE3A860078CB8E /* Actions.sks in Resources */,
 				D45E642121AE3A860078CB8E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D47995FA21CD8B8700EB7A9A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D479960121CD8B8700EB7A9A /* GameScene.sks in Resources */,
+				D479960921CD8B8800EB7A9A /* Assets.xcassets in Resources */,
+				D479960321CD8B8700EB7A9A /* Actions.sks in Resources */,
+				D479960C21CD8B8800EB7A9A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D479961121CD8B8800EB7A9A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,6 +999,27 @@
 				D45E641521AE3A860078CB8E /* Mutator.swift in Sources */,
 				D45E641721AE3A860078CB8E /* Curator.swift in Sources */,
 				D45E641921AE3A860078CB8E /* Decoder.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D47995F821CD8B8700EB7A9A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D479960721CD8B8700EB7A9A /* ViewController.swift in Sources */,
+				D479962521CDC64600EB7A9A /* Spacer.swift in Sources */,
+				D479960521CD8B8700EB7A9A /* GameScene.swift in Sources */,
+				D479962321CD959900EB7A9A /* CGConversions.swift in Sources */,
+				D479962121CD8C3A00EB7A9A /* Vnet.swift in Sources */,
+				D47995FF21CD8B8700EB7A9A /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D479960F21CD8B8800EB7A9A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D479961821CD8B8800EB7A9A /* PlaygroundsSuck_LightTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -953,6 +1119,8 @@
 				D4071DD321CBBEC900C0D380 /* firstDifferenceBetweenStrings.swift in Sources */,
 				D4A5C4DF21CAA98E002105DB /* AKNet.swift in Sources */,
 				D4C0A17921AE313F009D6011 /* GenomeTranslators.swift in Sources */,
+				D479962721CE0C0100EB7A9A /* CGConversions.swift in Sources */,
+				D479962821CE0C0100EB7A9A /* Spacer.swift in Sources */,
 				D48F2FB721C31587008EA8DA /* NGResults.swift in Sources */,
 				D452A32921C192170049E3A5 /* GSFactory.swift in Sources */,
 				D452A33121C1C2960049E3A5 /* PeerGroup.swift in Sources */,
@@ -965,6 +1133,7 @@
 				D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */,
 				D4C0A14D21AE2E63009D6011 /* AppDelegate.swift in Sources */,
 				D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */,
+				D479962621CE0C0100EB7A9A /* Vnet.swift in Sources */,
 				D452A30C21C10B230049E3A5 /* GSGoalSuite.swift in Sources */,
 				D4684CCA21C2D55F00D13964 /* Tene.swift in Sources */,
 				D48F2FBB21C31C06008EA8DA /* NGGoalSuite.swift in Sources */,
@@ -1029,6 +1198,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D479961521CD8B8800EB7A9A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D47995FB21CD8B8700EB7A9A /* PlaygroundsSuck-Light */;
+			targetProxy = D479961421CD8B8800EB7A9A /* PBXContainerItemProxy */;
+		};
 		D4C0A16321AE2E64009D6011 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D4C0A14921AE2E62009D6011 /* GameScene */;
@@ -1037,6 +1211,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		D479960A21CD8B8800EB7A9A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D479960B21CD8B8800EB7A9A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 		D4C0A15821AE2E64009D6011 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1133,6 +1315,86 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = BELL_CURVE;
 				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D479961A21CD8B8800EB7A9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "PlaygroundsSuck-Light/PlaygroundsSuck_Light.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = "PlaygroundsSuck-Light/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-Light";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D479961B21CD8B8800EB7A9A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "PlaygroundsSuck-Light/PlaygroundsSuck_Light.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = "PlaygroundsSuck-Light/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-Light";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D479961C21CD8B8800EB7A9A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = "PlaygroundsSuck-LightTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-LightTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaygroundsSuck-Light.app/Contents/MacOS/PlaygroundsSuck-Light";
+			};
+			name = Debug;
+		};
+		D479961D21CD8B8800EB7A9A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = "PlaygroundsSuck-LightTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-LightTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaygroundsSuck-Light.app/Contents/MacOS/PlaygroundsSuck-Light";
 			};
 			name = Release;
 		};
@@ -1481,6 +1743,24 @@
 			buildConfigurations = (
 				D45E642321AE3A860078CB8E /* Debug */,
 				D45E642421AE3A860078CB8E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D479961E21CD8B8800EB7A9A /* Build configuration list for PBXNativeTarget "PlaygroundsSuck-Light" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D479961A21CD8B8800EB7A9A /* Debug */,
+				D479961B21CD8B8800EB7A9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D479961F21CD8B8800EB7A9A /* Build configuration list for PBXNativeTarget "PlaygroundsSuck-LightTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D479961C21CD8B8800EB7A9A /* Debug */,
+				D479961D21CD8B8800EB7A9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
