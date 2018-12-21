@@ -182,6 +182,12 @@ enum Utilities {
     }
 }
 
+func nilstr<T: CustomStringConvertible>(_ theOptional: T?, defaultString: String = "<nil>") -> String {
+    var output = defaultString
+    if let t = theOptional { output = "\(t)" }
+    return output
+}
+
 postfix operator <!>
 
 // This is the make-no-mistake-I-intend-a-crash way to force unwrap

@@ -58,7 +58,8 @@ class AKNeuron: CustomStringConvertible, LoopIterable {
     var description: String {
         var relayDisplay = "<released>"
         if let r = relay { relayDisplay = "\(r.relayID)" }
-        return "AKNeuron(\(layerID):\(neuronID))(\(relayDisplay))" }
+        return "AKNeuron(\(layerID):\(neuronID))(\(relayDisplay))"
+    }
 
     init(_ xNeuron: Translators.Neuron, _ layerID: Int, _ neuronID: Int) {
         self.neuronID = neuronID
@@ -109,7 +110,7 @@ class AKNeuron: CustomStringConvertible, LoopIterable {
 
         for (activator, weightDoublet) in zip(activators, weightDoublets) {
             let iter = activator ? fIter : rIter
-            guard let sourceNeuron = skipDeadNeurons(iter) else { return false }
+            guard let sourceNeuron = skipDeadNeurons(iter) else { print("!"); return false }
 
 //            print("\(self) connecting to \(sourceNeuron)")
             connectToOutput(of: sourceNeuron, weight: weightDoublet.value)

@@ -21,41 +21,32 @@
 import Foundation
 
 class GSGoalSuite {
+    static var selectionControls: SelectionControls!
+
     public enum Comparison: String { case BT, BE, EQ }
 
     private(set) var curator: Curator?
     public var factory: GSFactory
-    public var tester: GSTester
+    public var tester: GSTesterProtocol
 
-    var selectionControls: SelectionControls { return GSGoalSuite.selectionControls }
+    public var selectionControls: SelectionControls { return GSGoalSuite.selectionControls }
 
-    static var selectionControls_: GSGoalSuite.SelectionControls?
-    static var selectionControls: SelectionControls {
-        if let sc = GSGoalSuite.selectionControls_ { return sc }
+    init(factory: GSFactory, tester: GSTesterProtocol) {
+        self.factory = factory
+        self.tester = tester
 
-        GSGoalSuite.setSelectionControls()
-        return GSGoalSuite.selectionControls_!
-    }
+        GSGoalSuite.selectionControls = setSelectionControls()
 
-    init(factory: GSFactory, tester: GSTester) {
-        self.factory = factory; self.tester = tester
-    }
-
-    convenience init(expectedOutput: Double) {
-        let f = GSFactory()
-        let t = GSTester(expectedOutput: expectedOutput)
-
-        self.init(factory: f, tester: t)
+        factory.postInit(suite: self)
+        tester.postInit(suite: self)
     }
 
     public func run() -> GSSubject? {
         curator = Curator(goalSuite: self)
         return curator!.select()
     }
-}
 
-extension GSGoalSuite {
-    private class func setSelectionControls() {
+    public func setSelectionControls() -> SelectionControls {
         var sc = SelectionControls()
 
         sc.howManySenses = 5
@@ -63,7 +54,7 @@ extension GSGoalSuite {
         sc.howManyMotorNeurons = 5
         sc.howManyGenerations = 100
 
-        GSGoalSuite.selectionControls_ = sc
+        return sc
     }
 }
 

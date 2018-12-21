@@ -21,7 +21,6 @@
 import Foundation
 
 protocol GSFactoryProtocol: class, CustomStringConvertible {
-    var decoder: Decoder { get }
     var genomeWorkspace: String { get set }
 
     func getAboriginal() -> GSSubject
@@ -30,11 +29,11 @@ protocol GSFactoryProtocol: class, CustomStringConvertible {
 }
 
 class GSFactory: GSFactoryProtocol {
-    static private var aboriginalGenome: Genome?
-    static public let recognizedTokens: String = "ABFHLNRW"
+    static var aboriginalGenome: Genome?
 
-    internal var decoder: Decoder
+    private var decoder: Decoder
     var genomeWorkspace = String()
+    weak var suite: GSGoalSuite?
 
     var description: String { return "GSFactory; functioning within standard operational parameters" }
 
@@ -42,11 +41,13 @@ class GSFactory: GSFactoryProtocol {
         decoder = Decoder()
 
         genomeWorkspace.reserveCapacity(1024 * 1024)
-
-        let h = GSGoalSuite.selectionControls.howManyLayersInStarter
-        GSFactory.aboriginalGenome = Manipulator.makePassThruGenome(hmLayers: h)
-
         Mutator.m.setGenomeWorkspaceOwner(self)
+    }
+
+    public func postInit(suite: GSGoalSuite) {
+        self.suite = suite
+        let h = suite.selectionControls.howManyLayersInStarter
+        GSFactory.aboriginalGenome = Manipulator.makePassThruGenome(hmLayers: h)
     }
 
     public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> GSSubject? {

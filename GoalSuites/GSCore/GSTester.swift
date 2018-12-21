@@ -20,21 +20,37 @@
 
 import Foundation
 
-protocol GSTesterProtocol: class, CustomStringConvertible {
-    var inputs: [Double] { get }
-
+protocol GSTesterProtocol: class, LightLabelProtocol {
     func administerTest(to gs: GSSubject) -> Double?
+    func postInit(suite: GSGoalSuite)
+}
+
+class GSScore: CustomStringConvertible, Hashable {
+    var score = 0.0
+
+    public var description: String {
+        return score.sTruncate()
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(score)
+    }
+
+    static func == (_ lhs: GSScore, _ rhs: GSScore) -> Bool { return lhs.score == rhs.score }
 }
 
 class GSTester: GSTesterProtocol {
+    var actualOutput: Double!
+    var expectedOutput: Double
     var inputs: [Double]
     var outputs: [Double?]
-    var expectedOutput: Double
+    weak var suite: GSGoalSuite?
 
-    var description: String {
-        return "GSTester; Arkon goal: guess the number \(expectedOutput) -- generating neutral inputs for test." }
+    var lightLabel: String {
+        return ", guess: \(actualOutput.sciTruncate(5))"
+    }
 
-    required init(expectedOutput: Double) {
+    init(expectedOutput: Double) {
         let inputsCount = GSGoalSuite.selectionControls.howManySenses
         let outputsCount = GSGoalSuite.selectionControls.howManyMotorNeurons
 
@@ -45,14 +61,16 @@ class GSTester: GSTesterProtocol {
         print(self)
     }
 
+    func postInit(suite: GSGoalSuite) { self.suite = suite }
+
     func administerTest(to gs: GSSubject) -> Double? {
         precondition(!inputs.isEmpty, "No input available")
 
         outputs = gs.brain.stimulate(sensoryInputs: inputs)
 
-        gs.results.actualOutput = outputs.compactMap({$0}).reduce(0.0, +)
-        gs.results.fitnessScore = abs(gs.results.actualOutput - self.expectedOutput)
+        actualOutput = outputs.compactMap({$0}).reduce(0.0, +)
+        gs.fitnessScore = abs(actualOutput - expectedOutput)
 
-        return gs.results.fitnessScore
+        return gs.fitnessScore
     }
 }

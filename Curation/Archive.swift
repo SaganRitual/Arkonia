@@ -54,7 +54,7 @@ class Archive: CustomStringConvertible {
 
         // Whoever we finally land on, he's getting another
         // chance to breed.
-        gs.results.spawnCount += 1
+        gs.spawnCount += 1
         return gs
     }
 
@@ -113,7 +113,7 @@ private extension Archive {
 
     func keepIfKeeper(_ gs: GSSubject) {
         guard let ref = referenceTS else { return }
-        guard gs.results.passesCompare(comparisonMode, against: ref) else { return }
+        guard passesCompare(gs, comparisonMode, against: ref) else { return }
         if peerGroupIsFull(gs) { return }
 
         let hash = makeHash(gs)
@@ -122,12 +122,14 @@ private extension Archive {
     }
 
     func isTooDudly(_ gs: GSSubject) -> Bool {
-        return gs.results.spawnCount >= goalSuite.selectionControls.hmSpawnAttempts
+        // Never try to back up from thes aboriginal
+        if gs.fishNumber == 0 { return false }
+        return gs.spawnCount >= goalSuite.selectionControls.hmSpawnAttempts
     }
 
     func makeHash(_ gs: GSSubject) -> Int {
         var hasher = Hasher()
-        hasher.combine(gs.results.fitnessScore)
+        hasher.combine(gs.fitnessScore)
         return hasher.finalize()
     }
 
@@ -141,11 +143,11 @@ private extension Archive {
         if currentTS == nil { theIndex.append(hash); return  }
 
         if let c = currentTS {
-            if c.results.fitnessScore >= gs.results.fitnessScore {
+            if c.fitnessScore >= gs.fitnessScore {
                 theIndex.append(hash)
             } else {
                 if let ip = theIndex.firstIndex(where: { group in
-                    return theArchive[group]!.theGroup[0].results.fitnessScore <= gs.results.fitnessScore
+                    return theArchive[group]!.theGroup[0].fitnessScore <= gs.fitnessScore
                 }) {
                     theIndex.insert(hash, at: ip)
                 } else {
@@ -155,10 +157,18 @@ private extension Archive {
         }
     }
 
+    func passesCompare(_ subject: GSSubject, _ op: GSGoalSuite.Comparison, against rhs: GSSubject) -> Bool {
+        switch op {
+        case .BE: return subject.fitnessScore <= rhs.fitnessScore
+        case .BT: return subject.fitnessScore <  rhs.fitnessScore
+        case .EQ: return subject.fitnessScore == rhs.fitnessScore
+        }
+    }
+
     func peerGroupIsFull(_ gs: GSSubject) -> Bool {
         let hash = makeHash(gs)
         guard let peerGroup = theArchive[hash] else { return false }
-        return peerGroup.count >= GSGoalSuite.selectionControls.maxKeepersPerGeneration
+        return peerGroup.count >= goalSuite.selectionControls.maxKeepersPerGeneration
     }
 
     private func setQualifications(reference gs: GSSubject, op: GSGoalSuite.Comparison) {

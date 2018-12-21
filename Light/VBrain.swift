@@ -164,12 +164,6 @@ extension VBrain {
         }
     }
 
-    func nilstr<T: CustomStringConvertible>(_ theOptional: T?, defaultString: String = "<nil>") -> String {
-        var output = defaultString
-        if let t = theOptional { output = "\(t)" }
-        return output
-    }
-
     func drawOutputs(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {
         let output = nilstr(neuron.relay?.output.sciTruncate(5), defaultString: "")
         let s = SKLabelNode(text: output)

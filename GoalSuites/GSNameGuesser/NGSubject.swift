@@ -27,10 +27,4 @@ class NGSubject: GSSubject {
         self.nameToGuess = nameToGuess
         super.init(genome: genome, brain: brain)
     }
-
-    required init(genome: GenomeSlice, brain: Translators.Brain)
-        { preconditionFailure("No one should be calling this, I think?") }
-
-    override func makeResults() -> GSResults
-        { return NGResults(nameToGuess: nameToGuess) }
 }

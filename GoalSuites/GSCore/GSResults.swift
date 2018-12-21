@@ -21,10 +21,13 @@
 import Foundation
 
 protocol GSResultsProtocol: class, CustomStringConvertible {
+    associatedtype OutputType: Numeric
+
     var actualOutput: Double { get }
     var expectedOutput: Double { get }
     var fitnessScore: Double { get }
     var scoreCore: GSScore { get set }
+    var sensoryInput: [Double] { get set }
     var spawnCount: Int { get }
 
     func passesCompare(_ op: GSGoalSuite.Comparison, against rhs: GSSubject) -> Bool
@@ -47,8 +50,11 @@ class GSScore: CustomStringConvertible, Hashable {
 }
 
 class GSResults: GSResultsProtocol, LightLabelProtocol {
-    var actualOutput: Double = 0.0
-    var expectedOutput: Double = 0.0
+    typealias OutputType = Double
+
+    var actualOutput = OutputType()
+    var expectedOutput = OutputType()
+    var sensoryInput = [Double]()
     var scoreCore = GSScore()
     var spawnCount: Int = 0
 

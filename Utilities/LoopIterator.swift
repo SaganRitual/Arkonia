@@ -28,6 +28,7 @@ public class LoopIterator<Base: Collection>: IteratorProtocol {
 
     let collection: Base
     var index: Base.Index
+    var primedForCompact = false
 
     var count: Int { return collection.count }
 
@@ -65,11 +66,23 @@ extension Optional: LoopIterable {
 extension LoopIterator where Base.Element: LoopIterable {
 
     internal func compactNext() -> Base.Element.Wrapped {
-        repeat {
+        if !primedForCompact { return primeForCompact() }
+
+        while true {
             if let wrapper = next(), let meat = wrapper.loopIterableSelf {
                 return meat
             }
-        } while true
+        }
+    }
+
+    internal func primeForCompact() -> Base.Element.Wrapped {
+        primedForCompact = true
+
+        if let wrapper = next(), let meat = wrapper.loopIterableSelf {
+            return meat
+        }
+
+        return compactNext()
     }
 
 }
@@ -93,12 +106,14 @@ public class ReverseLoopIterator<Base: Collection>: LoopIterator<Base> {
     public override func next() -> Base.Iterator.Element? {
         guard !collection.isEmpty else { return nil }
 
-        let d = collection.distance(from: collection.startIndex, to: index)
-        let e = (d + collection.count - 1) % collection.count
+        defer {
+            if index == collection.startIndex { index = collection.endIndex }
 
-        if index == collection.startIndex { index = collection.endIndex }
+            let d = collection.distance(from: collection.startIndex, to: index)
+            let e = (d + collection.count - 1) % collection.count
 
-        index = collection.index(collection.startIndex, offsetBy: e)
+            index = collection.index(collection.startIndex, offsetBy: e)
+        }
 
         return collection[index]
     }

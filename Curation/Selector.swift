@@ -78,7 +78,7 @@ class Selector {
     private func select(against stud: GSSubject) -> [GSSubject]? {
         thisGenerationNumber += 1
 
-        var bestScore = stud.results.fitnessScore
+        var bestScore = stud.fitnessScore
         var stemTheFlood = [GSSubject]()
 
         for _ in 0..<goalSuite.selectionControls.howManySubjectsPerGeneration {

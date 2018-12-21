@@ -20,7 +20,7 @@
 
 import Foundation
 
-class NGResults: GSResults {
+class NGTester: GSTester {
     private var expectedOutputEncoded: UInt64 = 0
 
     private let zName: String
@@ -34,7 +34,10 @@ class NGResults: GSResults {
 
     init(nameToGuess: String) {
         self.zName = nameToGuess; self.zNameCount = UInt64(nameToGuess.count)
-        super.init()
+
+        for vc: UInt64 in zero..<zNameCount { expectedOutputEncoded <<= 4; expectedOutputEncoded |= vc }
+
+        super.init(expectedOutput: Double(expectedOutputEncoded))
     }
 
     private func decodeGuess() -> String {
@@ -61,55 +64,4 @@ class NGResults: GSResults {
         return decoded
     }
 
-    public override func setTestResults(_ score: Double, _ expectedOutput: Double, _ actualOutput: Double) {
-        expectedOutputEncoded = UInt64(expectedOutput)
-        super.setTestResults(score, expectedOutput, actualOutput)
-    }
-
 }
-#if false
-private class Scorer {
-    let guess: UInt64
-    var expectedOutputEncoded: UInt64 = 0
-    //    let zName = "Zoe Bishop"
-    let zName = "Christian H"
-    let zNameCount: UInt64
-    let zero: UInt64 = 0
-
-    init(outputs: [Double?]) {
-        zNameCount = UInt64(zName.count)
-        for vc: UInt64 in zero..<zNameCount { expectedOutputEncoded <<= 4; expectedOutputEncoded |= vc }
-
-        let guess: Double = outputs.compactMap({$0}).reduce(0.0, +)
-        if guess == Double.nan || guess == Double.infinity || guess == -Double.infinity || guess < 0 {
-            self.guess = 0
-        } else {
-            self.guess = UInt64(ceil(guess))
-        }
-    }
-
-    func calculateScore() -> (Double, String) {
-        //        let s = String(format: "0x%qX", expectedOutputEncoded)
-        //        print(s)
-
-        var decoded = String()
-        var workingCopy = expectedOutputEncoded
-
-        workingCopy = guess
-        decoded.removeAll(keepingCapacity: true)
-        for _ in zero..<zNameCount {
-            let ibs = Int(workingCopy & UInt64(0x0F)) % zName.count
-            let indexToBitString = zName.index(zName.startIndex, offsetBy: ibs)
-            workingCopy >>= 4
-
-            decoded.insert(Character(String(zName[indexToBitString...indexToBitString])), at: decoded.startIndex)
-        }
-
-        //        let t = String(format: "0x%qX", guess)
-        //        print(t, decoded)
-
-        let finalScore = abs(Double(guess) - Double(expectedOutputEncoded))  // Try for -27.5
-        return (finalScore, decoded)
-    }
-}
-#endif

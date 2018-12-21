@@ -20,18 +20,22 @@
 
 import Foundation
 
-class NGGoalSuite: GSGoalSuite {
-    var huffZoe: UInt64 = 0
-    var zero: UInt64 = 0, zNameCount: UInt64 = 0
-
-    init(_ nameToGuess: String) {
-        zNameCount = UInt64(nameToGuess.count)
-        for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
-
-        let e = Double(huffZoe)
-        let factory = NGFactory(nameToGuess: nameToGuess)
-        let tester = GSTester(expectedOutput: e)
+class AAGoalSuite: GSGoalSuite {
+    init() {
+        let tester = AATester()
+        let factory = AAFactory()
 
         super.init(factory: factory, tester: tester)
+    }
+
+    override func setSelectionControls() -> SelectionControls {
+        var sc = SelectionControls()
+
+        sc.howManySenses = 2
+        sc.howManyLayersInStarter = 5
+        sc.howManyMotorNeurons = 1
+        sc.howManyGenerations = 100
+
+        return sc
     }
 }

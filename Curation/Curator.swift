@@ -77,13 +77,14 @@ class Curator {
 
     func select() -> GSSubject? {
         let a = goalSuite.factory.getAboriginal()
+        print(a.genome)
 
         selector.scoreAboriginal(a)
         archive.postInit(aboriginal: a)
 
         self.aboriginal = a
         self.atLeastOneTSHasSurvived = true
-        print("Aboriginal score = \(a.results.fitnessScore)")
+        print("Aboriginal score = \(a.fitnessScore)")
 
         var firstPass = true
 
@@ -96,15 +97,16 @@ class Curator {
             // the semaphore back and forth.
             if !firstPass { semaphore.wait() }
 
-            guard let gs = archive.nextProgenitor() else { print("???"); return nil }
+            guard let gs = archive.nextProgenitor() else {
+                print("???"); return nil }
 
-            let newScore = gs.results.fitnessScore
-            let oldScore = archive.referenceTS!.results.fitnessScore
+            let newScore = gs.fitnessScore
+            let oldScore = archive.referenceTS!.fitnessScore
             if newScore != oldScore {
 //                if let zts = gs as? TSLearnZoeName {
 //                    print("New record by \(gs.fishNumber): \"\(zts.attemptedZName)\"")
 //                } else {
-                    print("New record by \(gs.fishNumber): \(gs.results.fitnessScore)")
+                    print("New record by \(gs.fishNumber): \(gs.fitnessScore)")
 //                print(gs.genome)
 //                }
             }
@@ -112,7 +114,7 @@ class Curator {
             deploySelector(reference: gs)
 
             firstPass = false
-            if let f = self.currentProgenitor?.results.fitnessScore, f == 0.0 { break }
+            if let f = self.currentProgenitor?.fitnessScore, f == 0.0 { break }
         }
 
         // We're moving, of course, so the selector will be
@@ -121,7 +123,7 @@ class Curator {
         semaphore.signal()
         selector.cancel()
         status = .finished
-        print("Best score \(self.currentProgenitor?.results.fitnessScore ?? -42.4242)" +
+        print("Best score \(self.currentProgenitor?.fitnessScore ?? -42.4242)" +
                 " from \(self.currentProgenitor?.fishNumber ?? 424242)," +
                 " genome \(currentProgenitor?.genome ?? "<no genome?>")")
         return self.currentProgenitor

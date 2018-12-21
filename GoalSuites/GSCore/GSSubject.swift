@@ -25,13 +25,8 @@ protocol LightLabelProtocol {
 }
 
 protocol GSSubjectProtocol: class, CustomStringConvertible {
-    var brain: Translators.Brain { get }
-    var fishNumber: Int { get }
-    var genome: Genome { get }
-    var score: Double { get }
-    var results: GSResults { get }
-
-    init(genome: GenomeSlice, brain: Translators.Brain)
+    var fitnessScore: Double { get }
+    func postInit(suite: GSGoalSuite)
 }
 
 class GSSubject: GSSubjectProtocol, LightLabelProtocol {
@@ -40,35 +35,30 @@ class GSSubject: GSSubjectProtocol, LightLabelProtocol {
     let brain: Translators.Brain
     let fishNumber: Int
     let genome: Genome
-
-    private var results_: GSResults?
-    public var results: GSResults {
-        if let r = results_ { return r }
-        else {
-            results_ = makeResults()
-            return results_!
-        }
-    }
+    var scoreCore = GSScore()
+    var spawnCount: Int = 0
+    var suite: GSGoalSuite?
 
     public var description: String {
-        return "Arkon \(fishNumber) score \(score.sciTruncate(5))"
+        return "Arkon \(fishNumber) score \(fitnessScore.sciTruncate(5))"
     }
 
-    public var lightLabel: String { return description + results.lightLabel }
+    public var lightLabel: String {
+        return description + "Inputs: (something), outputs (smetghing else)" }
 
-    public var score: Double {
-        get { return results.scoreCore.score }
-        set { results.scoreCore.score = newValue }
+    public var fitnessScore: Double {
+        get { return scoreCore.score }
+        set { scoreCore.score = newValue }
     }
 
-    required init(genome: GenomeSlice, brain: Translators.Brain) {
+    init(genome: GenomeSlice, brain: Translators.Brain) {
         fishNumber = GSSubject.theFishNumber; GSSubject.theFishNumber += 1
 
         self.brain = brain; self.genome = String(genome)
         brain.fishNumber = self.fishNumber
     }
 
-    func makeResults() -> GSResults { return GSResults() }
+    func postInit(suite: GSGoalSuite) { self.suite = suite }
 }
 
 extension GSSubject: Hashable {
@@ -80,5 +70,12 @@ extension GSSubject: Hashable {
     static func == (lhs: GSSubject, rhs: GSSubject) -> Bool {
         return lhs.genome == rhs.genome
     }
+
+    static func <= (lhs: Double, rhs: GSSubject) -> Bool {
+        return lhs < rhs.fitnessScore || lhs == rhs.fitnessScore
+    }
+
+    static func < (lhs: Double, rhs: GSSubject) -> Bool { return lhs < rhs.fitnessScore }
+    static func == (lhs: Double, rhs: GSSubject) -> Bool { return lhs == rhs.fitnessScore }
 
 }

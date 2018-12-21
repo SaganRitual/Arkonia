@@ -20,18 +20,10 @@
 
 import Foundation
 
-class NGGoalSuite: GSGoalSuite {
-    var huffZoe: UInt64 = 0
-    var zero: UInt64 = 0, zNameCount: UInt64 = 0
-
-    init(_ nameToGuess: String) {
-        zNameCount = UInt64(nameToGuess.count)
-        for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
-
-        let e = Double(huffZoe)
-        let factory = NGFactory(nameToGuess: nameToGuess)
-        let tester = GSTester(expectedOutput: e)
-
-        super.init(factory: factory, tester: tester)
+class AASubject: GSSubject {
+    override public var description: String {
+        return "Arkon \(fishNumber) score \(fitnessScore.sTruncate(5)): "
     }
+
+    public override var lightLabel: String { return description + suite<!>.tester.lightLabel }
 }
