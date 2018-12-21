@@ -35,8 +35,6 @@ class GSGoalSuite {
         self.factory = factory
         self.tester = tester
 
-        GSGoalSuite.selectionControls = setSelectionControls()
-
         factory.postInit(suite: self)
         tester.postInit(suite: self)
     }
@@ -46,15 +44,8 @@ class GSGoalSuite {
         return curator!.select()
     }
 
-    public func setSelectionControls() -> SelectionControls {
-        var sc = SelectionControls()
-
-        sc.howManySenses = 5
-        sc.howManyLayersInStarter = 5
-        sc.howManyMotorNeurons = 5
-        sc.howManyGenerations = 100
-
-        return sc
+    class func setSelectionControls() -> SelectionControls {
+        preconditionFailure("Subclasses must override this function")
     }
 }
 

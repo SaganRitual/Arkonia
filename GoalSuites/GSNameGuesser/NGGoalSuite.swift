@@ -25,6 +25,8 @@ class NGGoalSuite: GSGoalSuite {
     var zero: UInt64 = 0, zNameCount: UInt64 = 0
 
     init(_ nameToGuess: String) {
+        GSGoalSuite.selectionControls = NGGoalSuite.setSelectionControls()
+
         zNameCount = UInt64(nameToGuess.count)
         for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
 
@@ -33,5 +35,16 @@ class NGGoalSuite: GSGoalSuite {
         let tester = GSTester(expectedOutput: e)
 
         super.init(factory: factory, tester: tester)
+    }
+
+    override class func setSelectionControls() -> SelectionControls {
+        var sc = SelectionControls()
+
+        sc.howManySenses = 5
+        sc.howManyLayersInStarter = 5
+        sc.howManyMotorNeurons = 5
+        sc.howManyGenerations = 100
+
+        return sc
     }
 }
