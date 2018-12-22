@@ -24,8 +24,8 @@ import SpriteKit
 class VBrain {
     var arkon: GSSubject!
     var fishNumber = SKLabelNode()
-    let fontSizeForBrainLabel: CGFloat = 16.0
-    let fontSizeForNeuronLabels: CGFloat = 12.0
+    let fontSizeForBrainLabel: CGFloat = 30.0
+    let fontSizeForNeuronLabels: CGFloat = 30.0
     let gameScene: GameScene
     var isFinalUpdate = false
     var labelBackground: SKShapeNode!
@@ -125,7 +125,7 @@ extension VBrain {
                 currentLayerPoints.append(position)
 
                 drawConnections(from: previousLayerPoints, to: neuron, at: position)
-//                drawOutputs(neuron, vNeuron)
+                drawOutputs(neuron, vNeuron)
 
                 self.vNeurons.append(vNeuron)
                 netcam.addChild(vNeuron)
@@ -136,6 +136,7 @@ extension VBrain {
     }
 
     func drawOutputs(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {
+        let outputNetcam = vnet.netcams[3]
         let output = nilstr(neuron.relay?.output.sciTruncate(5), defaultString: "")
         let s = SKLabelNode(text: output)
 
@@ -144,13 +145,12 @@ extension VBrain {
         s.fontName = "Courier New"
 
         let sklackground = SKShapeNode(rect: s.frame)
-        sklackground.zPosition = CGFloat(2.0)
-        sklackground.position = CGPoint()
+        sklackground.position = vNeuron.position
         sklackground.fillColor = gameScene.backgroundColor
         sklackground.strokeColor = gameScene.backgroundColor
-        sklackground.position.y = -(vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
+        sklackground.position.y -= (vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
         sklackground.addChild(s)
-        vNeuron.addChild(sklackground)
+        outputNetcam.addChild(sklackground)
     }
 
     func setNeuronColor(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {

@@ -25,8 +25,8 @@ class GameScene: SKScene {
 
     private var vBrain: VBrain!
 
-    let goalSuite = NGGoalSuite("Zoe Bishop")
-//    let goalSuite = AAGoalSuite()
+//    let goalSuite = NGGoalSuite("Zoe Bishop")
+    let goalSuite = AAGoalSuite()
 
     var frameCount = 0
     var curator: Curator?

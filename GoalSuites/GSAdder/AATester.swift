@@ -35,7 +35,7 @@ final class AATester: GSTesterProtocol {
     var suite: GSGoalSuite?
 
     var lightLabel: String {
-        return "\(reducedInput[0]) + \(reducedInput[1]) ?= \(reducedOutput)" }
+        return "\(reducedInput[0]) + \(reducedInput[1]) ?= \(reducedOutput.sTruncate(1))" }
 
     var description: String { return "AATester; Arkon goal: add two numbers" }
 

@@ -22,7 +22,7 @@ import Foundation
 
 class AASubject: GSSubject {
     override public var description: String {
-        return "Arkon \(fishNumber) score \(fitnessScore.sTruncate(5)): "
+        return "Arkon \(fishNumber) score \(fitnessScore.sTruncate(1)): "
     }
 
     public override var lightLabel: String { return description + suite<!>.tester.lightLabel }
