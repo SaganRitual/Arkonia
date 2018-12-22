@@ -48,6 +48,10 @@ class GameScene: SKScene {
         DispatchQueue.global(qos: .background).async(execute: self.workItem)
     }
 
+    override func didChangeSize(_ oldSize: CGSize) {
+        self.vBrain = VBrain(gameScene: self)
+    }
+
     override func update(_ currentTime: TimeInterval) {
 
         frameCount += 1
@@ -70,9 +74,7 @@ class GameScene: SKScene {
         if mine.fishNumber == his.fishNumber && !firstPass { return }
 
         self.currentProgenitor = his
-
-        vBrain = VBrain(gameScene: self, arkon: his)
-        vBrain.displayBrain(his.brain.net)
+        vBrain.displayBrain(his)
 
         firstPass = false
     }

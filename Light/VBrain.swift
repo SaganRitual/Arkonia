@@ -30,7 +30,6 @@ class VBrain {
     var isFinalUpdate = false
     var labelBackground: SKShapeNode!
     var layers = [AKLayer]()
-    var net: AKNet!
     let netcam: SKShapeNode!
     var spacer: Spacer!
     var startingY: CGFloat = 0.0
@@ -40,21 +39,19 @@ class VBrain {
     var vTestInputs = [SKLabelNode]()
     var vTestOutputs = [SKLabelNode]()
 
-    init(gameScene: GameScene, arkon: GSSubject) {
+    init(gameScene: GameScene) {
         if NSScreen.main?.frame == nil {
             fatalError("Something isn't working with the screen size")
         }
 
-        self.arkon = arkon
         self.gameScene = gameScene
-        self.net = arkon.brain.net!
         self.vnet = Vnet(gameScene: gameScene)
         self.netcam = self.vnet.netcams[0]
     }
 
     deinit { for netcam in vnet.netcams { netcam.removeAllChildren() } }
 
-    func makeLightLabel() -> SKShapeNode {
+    func makeLightLabel(_ arkon: GSSubject) -> SKShapeNode {
         let lightLabel = SKLabelNode(text: arkon.lightLabel)
         lightLabel.fontSize = fontSizeForBrainLabel
         lightLabel.fontColor = .yellow
@@ -70,19 +67,19 @@ class VBrain {
         return labelBackground
     }
 
-    func displayBrain(_ net: AKNet? = nil, isFinalUpdate: Bool = false) {
+    func displayBrain(_ arkon: GSSubject, isFinalUpdate: Bool = false) {
         self.isFinalUpdate = isFinalUpdate
 
-        let labelBackground = makeLightLabel()
+        let labelBackground = makeLightLabel(arkon)
 
         vBrainSceneSize = {
-            var g = netcam.frame.size; g.height -= labelBackground.frame.height * 1.5; return g
+            var g = netcam.frame.size; g.height -= labelBackground.frame.height / CGFloat(1.5); return g
         }()
 
         netcam.addChild(labelBackground)
-        spacer = Spacer(netcam: netcam, layersCount: self.net.layers.count)
+        spacer = Spacer(netcam: netcam, layersCount: arkon.brain.net<!>.layers.count)
 
-        drawNeuronLayers(self.net.layers, spacer: spacer)
+        drawNeuronLayers(arkon.brain.net<!>.layers, spacer: spacer)
     }
 }
 
