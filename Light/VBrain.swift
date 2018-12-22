@@ -24,94 +24,62 @@ import SpriteKit
 class VBrain {
     var arkon: GSSubject!
     var fishNumber = SKLabelNode()
-    let fontSizeForBrainLabel: CGFloat = 16.0
-    let fontSizeForNeuronLabels: CGFloat = 12.0
+    let fontSizeForBrainLabel: CGFloat = 30.0
+    let fontSizeForNeuronLabels: CGFloat = 30.0
     let gameScene: GameScene
     var isFinalUpdate = false
+    var labelBackground: SKShapeNode!
     var layers = [AKLayer]()
-    var net: AKNet!
+    let netcam: SKShapeNode!
     var spacer: Spacer!
     var startingY: CGFloat = 0.0
     var vBrainSceneSize = CGSize()
+    var vnet: Vnet
     var vNeurons = [SKShapeNode]()
     var vTestInputs = [SKLabelNode]()
     var vTestOutputs = [SKLabelNode]()
 
-    init(gameScene: GameScene, arkon: GSSubject) {
+    init(gameScene: GameScene) {
         if NSScreen.main?.frame == nil {
             fatalError("Something isn't working with the screen size")
         }
 
         self.gameScene = gameScene
-        self.arkon = arkon
-        self.net = arkon.brain.net!
+        self.vnet = Vnet(gameScene: gameScene)
+        self.netcam = self.vnet.netcams[0]
     }
 
-    func makeLightLabel() -> SKShapeNode {
+    deinit { for netcam in vnet.netcams { netcam.removeAllChildren() } }
+
+    func makeLightLabel(_ arkon: GSSubject) -> SKShapeNode {
         let lightLabel = SKLabelNode(text: arkon.lightLabel)
         lightLabel.fontSize = fontSizeForBrainLabel
         lightLabel.fontColor = .yellow
         lightLabel.fontName = "Courier New"
 
-        let labelBackground = SKShapeNode(rect: lightLabel.frame)
+        labelBackground = SKShapeNode(rect: lightLabel.frame)
         labelBackground.fillColor = gameScene.backgroundColor
         labelBackground.strokeColor = gameScene.backgroundColor
         labelBackground.addChild(lightLabel)
-        labelBackground.position.y = -(gameScene.frame.size.height / 2.0) + labelBackground.frame.height
+        labelBackground.position.y = -netcam.frame.size.height + labelBackground.frame.height
         labelBackground.zPosition = CGFloat(4.0)
-
-        labelBackground.name = "labelBackground"
 
         return labelBackground
     }
 
-    func displayBrain(_ net: AKNet? = nil, isFinalUpdate: Bool = false) {
+    func displayBrain(_ arkon: GSSubject, isFinalUpdate: Bool = false) {
         self.isFinalUpdate = isFinalUpdate
 
-        let labelBackground = makeLightLabel()
+        let labelBackground = makeLightLabel(arkon)
 
         vBrainSceneSize = {
-            var g = gameScene.size; g.height -= labelBackground.frame.height * 1.5; return g
+            var g = netcam.frame.size; g.height -= labelBackground.frame.height / CGFloat(1.5); return g
         }()
 
-        gameScene.removeAllChildren()
-        gameScene.addChild(labelBackground)
+        netcam.addChild(labelBackground)
+        spacer = Spacer(netcam: netcam, layersCount: arkon.brain.net<!>.layers.count)
 
-        self.spacer = Spacer(layersCount: self.net.layers.count, displaySize: vBrainSceneSize)
-        drawNeuronLayers(self.net.layers, spacer: spacer)
-    }
-
-    func reset() {
-        net = nil
-        vNeurons = [SKShapeNode]()
-        vTestInputs = [SKLabelNode]()
-        vTestOutputs = [SKLabelNode]()
-    }
-
-    struct Spacer {
-        let layersCount: Int
-        let displaySize: CGSize
-
-        init(layersCount: Int, displaySize: CGSize) {
-            self.layersCount = layersCount
-            self.displaySize = displaySize
-        }
-
-        func getVSpacing() -> CGFloat {
-            return displaySize.height / CGFloat(layersCount)
-        }
-
-        func getPosition(gameScene: GameScene, neuronsThisLayer: Int, xIndex: Int, yIndex: Int) -> CGPoint {
-            guard let labelBackground = gameScene.childNode(withName: "labelBackground") else { preconditionFailure() }
-
-            let vSpacing = getVSpacing()
-            let vTop = (displaySize.height / 2.0) - (CGFloat(vSpacing) / 3.0) + labelBackground.frame.height
-
-            let hSpacing = displaySize.width / CGFloat(neuronsThisLayer)
-            let hLeft = (-displaySize.width + hSpacing) / 2.0
-
-            return CGPoint(x: hLeft + CGFloat(xIndex) * hSpacing, y: vTop - CGFloat(yIndex) * vSpacing)
-        }
+        drawNeuronLayers(arkon.brain.net<!>.layers, spacer: spacer)
     }
 }
 
@@ -130,7 +98,7 @@ extension VBrain {
             let line = SKShapeNode(path: linePath)
 
             line.strokeColor = .green
-            gameScene.addChild(line)
+            netcam.addChild(line)
         }
     }
 
@@ -147,7 +115,7 @@ extension VBrain {
                 setNeuronColor(neuron, vNeuron)
 
                 let position = spacer.getPosition(
-                    gameScene: gameScene, neuronsThisLayer: layer.neurons.count, xIndex: neuronSS, yIndex: layerSS
+                    neuronsThisLayer: layer.neurons.count, xIndex: neuronSS, yIndex: layerSS
                 )
 
                 vNeuron.position = position
@@ -157,7 +125,7 @@ extension VBrain {
                 drawOutputs(neuron, vNeuron)
 
                 self.vNeurons.append(vNeuron)
-                gameScene.addChild(vNeuron)
+                netcam.addChild(vNeuron)
             }
 
             previousLayerPoints = currentLayerPoints
@@ -165,6 +133,7 @@ extension VBrain {
     }
 
     func drawOutputs(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {
+        let outputNetcam = vnet.netcams[3]
         let output = nilstr(neuron.relay?.output.sciTruncate(5), defaultString: "")
         let s = SKLabelNode(text: output)
 
@@ -173,13 +142,12 @@ extension VBrain {
         s.fontName = "Courier New"
 
         let sklackground = SKShapeNode(rect: s.frame)
-        sklackground.zPosition = CGFloat(2.0)
-        sklackground.position = CGPoint()
+        sklackground.position = vNeuron.position
         sklackground.fillColor = gameScene.backgroundColor
         sklackground.strokeColor = gameScene.backgroundColor
-        sklackground.position.y = -(vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
+        sklackground.position.y -= (vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
         sklackground.addChild(s)
-        vNeuron.addChild(sklackground)
+        outputNetcam.addChild(sklackground)
     }
 
     func setNeuronColor(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {

@@ -22,13 +22,15 @@ import Foundation
 
 class AAGoalSuite: GSGoalSuite {
     init() {
+        GSGoalSuite.selectionControls = AAGoalSuite.setSelectionControls()
+
         let tester = AATester()
         let factory = AAFactory()
 
         super.init(factory: factory, tester: tester)
     }
 
-    override func setSelectionControls() -> SelectionControls {
+    override class func setSelectionControls() -> SelectionControls {
         var sc = SelectionControls()
 
         sc.howManySenses = 2

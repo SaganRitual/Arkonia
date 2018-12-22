@@ -17,34 +17,22 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
+  
 
-import Foundation
 
-class NGGoalSuite: GSGoalSuite {
-    var huffZoe: UInt64 = 0
-    var zero: UInt64 = 0, zNameCount: UInt64 = 0
+import Cocoa
 
-    init(_ nameToGuess: String) {
-        GSGoalSuite.selectionControls = NGGoalSuite.setSelectionControls()
-
-        zNameCount = UInt64(nameToGuess.count)
-        for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
-
-        let e = Double(huffZoe)
-        let factory = NGFactory(nameToGuess: nameToGuess)
-        let tester = GSTester(expectedOutput: e)
-
-        super.init(factory: factory, tester: tester)
+@NSApplicationMain
+class AppDelegate: NSObject, NSApplicationDelegate {
+    
+    
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        // Insert code here to initialize your application
     }
-
-    override class func setSelectionControls() -> SelectionControls {
-        var sc = SelectionControls()
-
-        sc.howManySenses = 5
-        sc.howManyLayersInStarter = 5
-        sc.howManyMotorNeurons = 5
-        sc.howManyGenerations = 100
-
-        return sc
+    
+    func applicationWillTerminate(_ aNotification: Notification) {
+        // Insert code here to tear down your application
     }
+    
+    
 }
