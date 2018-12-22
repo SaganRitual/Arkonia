@@ -21,6 +21,9 @@ excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Experimental
   - GameScene
   - '*.playground'
+  - PlaygroundsSuck
+  - 'PlaygroundsSuck-Light'
+  - 'PlaygroundsSuck-LightTests'
 analyzer_rules: # Rules run by `swiftlint analyze` (experimental)
   - explicit_self
 
