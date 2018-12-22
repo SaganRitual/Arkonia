@@ -65,7 +65,7 @@ class Decoder {
             }
 
             return found
-        }) else { print("Test subject did not survive birth; genome:", self.inputGenome); return false }
+        }) else { /*print("Test subject did not survive birth; genome:", self.inputGenome);*/ return false }
 
         let distance = reversed.distance(from: rLayerInsertionPoint, to: reversed.endIndex)
         let fLayerInsertionPoint = inputGenome.index(inputGenome.startIndex, offsetBy: distance)

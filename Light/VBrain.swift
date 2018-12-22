@@ -30,7 +30,7 @@ class VBrain {
     var isFinalUpdate = false
     var labelBackground: SKShapeNode!
     var layers = [AKLayer]()
-    let netcam: SKShapeNode!
+    var netcam: SKShapeNode!
     var spacer: Spacer!
     var startingY: CGFloat = 0.0
     var vBrainSceneSize = CGSize()
@@ -46,10 +46,11 @@ class VBrain {
 
         self.gameScene = gameScene
         self.vnet = Vnet(gameScene: gameScene)
-        self.netcam = self.vnet.netcams[0]
-    }
 
-    deinit { for netcam in vnet.netcams { netcam.removeAllChildren() } }
+        let rv = Vnet.Quadrant.one.rawValue
+        self.netcam = vnet.netcams[rv]
+        self.netcam.userData = ["myCamera" : rv]
+    }
 
     func makeLightLabel(_ arkon: GSSubject) -> SKShapeNode {
         let lightLabel = SKLabelNode(text: arkon.lightLabel)
@@ -67,15 +68,18 @@ class VBrain {
         return labelBackground
     }
 
-    func displayBrain(_ arkon: GSSubject, isFinalUpdate: Bool = false) {
+    func displayBrain(_ arkon: GSSubject, _ cameraID: Vnet.Quadrant, isFinalUpdate: Bool = false) {
         self.isFinalUpdate = isFinalUpdate
 
         let labelBackground = makeLightLabel(arkon)
+
+        netcam = vnet.netcams[cameraID.rawValue]
 
         vBrainSceneSize = {
             var g = netcam.frame.size; g.height -= labelBackground.frame.height / CGFloat(1.5); return g
         }()
 
+        netcam.removeAllChildren()
         netcam.addChild(labelBackground)
         spacer = Spacer(netcam: netcam, layersCount: arkon.brain.net<!>.layers.count)
 
@@ -104,6 +108,9 @@ extension VBrain {
 
     func drawNeuronLayers(_ layers: [AKLayer], spacer: Spacer) {
         var previousLayerPoints = [CGPoint]()
+        let outputNetcam = vnet.netcams[Vnet.Quadrant.four.rawValue]
+
+        outputNetcam.removeAllChildren()
 
         layers.enumerated().forEach { layerSS, layer in
             precondition(!layer.neurons.isEmpty, "Dead brain should not have come this far")
@@ -133,7 +140,7 @@ extension VBrain {
     }
 
     func drawOutputs(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {
-        let outputNetcam = vnet.netcams[3]
+        let outputNetcam = vnet.netcams[Vnet.Quadrant.four.rawValue]
         let output = nilstr(neuron.relay?.output.sciTruncate(5), defaultString: "")
         let s = SKLabelNode(text: output)
 
@@ -147,6 +154,7 @@ extension VBrain {
         sklackground.strokeColor = gameScene.backgroundColor
         sklackground.position.y -= (vNeuron.frame.size.height + sklackground.frame.size.height) / CGFloat(1.5)
         sklackground.addChild(s)
+
         outputNetcam.addChild(sklackground)
     }
 

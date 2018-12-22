@@ -32,6 +32,7 @@ class Curator {
     var atLeastOneTSHasSurvived = false
     var goalSuite: GSGoalSuite
     let notificationCenter = NotificationCenter.default
+    var randomArkonForDisplay: GSSubject!
     var remainingGenerations = 0
     let selector: Selector
     let semaphore = DispatchSemaphore(value: 0)
@@ -56,6 +57,8 @@ class Curator {
     }
 
     deinit {
+        selector.cancel()
+
         if let oh = observerHandle {
             notificationCenter.removeObserver(oh); print("Curator deinit")
         }
@@ -77,8 +80,6 @@ class Curator {
 
     func select() -> GSSubject? {
         let a = goalSuite.factory.getAboriginal()
-        print(a.genome)
-
         selector.scoreAboriginal(a)
         archive.postInit(aboriginal: a)
 
@@ -137,6 +138,7 @@ class Curator {
                 preconditionFailure()
             }
 
+        if let d = p.last { randomArkonForDisplay = d }
         p.forEach { archive.newCandidate($0) }
         self.atLeastOneTSHasSurvived = true
     }

@@ -58,7 +58,7 @@ class GSTester: GSTesterProtocol {
         outputs = Array(repeating: nil, count: outputsCount)
         self.expectedOutput = expectedOutput
 
-        print(self)
+//        print(self)
     }
 
     func postInit(suite: GSGoalSuite) { self.suite = suite }

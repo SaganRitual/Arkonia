@@ -38,7 +38,6 @@ class Selector {
     init(goalSuite: GSGoalSuite, semaphore: DispatchSemaphore) {
         self.goalSuite = goalSuite
         self.semaphore = semaphore
-//        self.stud = goalSuite.factory.getAboriginal()
 
         let n = Foundation.Notification.Name.setSelectionParameters
 
@@ -53,7 +52,7 @@ class Selector {
         if let ohMy = observerHandle { notificationCenter.removeObserver(ohMy) }
     }
 
-    public func cancel() { semaphore.signal(); selectorWorkItem.cancel(); }
+    public func cancel() { semaphore.signal(); selectorWorkItem?.cancel(); }
     public var isCanceled: Bool { return selectorWorkItem.isCancelled }
 
     private func rLoop() {
@@ -90,8 +89,8 @@ class Selector {
             guard let score = goalSuite.tester.administerTest(to: gs)
                 else { continue }
 
-            if score > bestScore { continue }
             if score < bestScore { bestScore = score }
+            else { continue }
 
             // Start getting rid of the less promising candidates
             if stemTheFlood.count >= goalSuite.selectionControls.maxKeepersPerGeneration {
@@ -101,7 +100,8 @@ class Selector {
             stemTheFlood.push(gs)
         }
 
-        if stemTheFlood.isEmpty { /*print("No survivors in \(thisGenerationNumber)");*/ return nil }
+        if stemTheFlood.isEmpty { return nil }  // No qualifiers, perhaps even no survivors
+
         return stemTheFlood
     }
 

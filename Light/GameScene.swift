@@ -74,7 +74,11 @@ class GameScene: SKScene {
         if mine.fishNumber == his.fishNumber && !firstPass { return }
 
         self.currentProgenitor = his
-        vBrain.displayBrain(his)
+        vBrain.displayBrain(his, .one)
+
+        if let randomCandidate = curator.randomArkonForDisplay {
+            vBrain.displayBrain(randomCandidate, .two)
+        }
 
         firstPass = false
     }

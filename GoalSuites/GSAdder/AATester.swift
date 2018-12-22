@@ -26,7 +26,7 @@ final class AATester: GSTesterProtocol {
 //        [5.0, 995.0], [47.0, 357.0], [756.0, 22.0], [1111.0, 1066.0]
 //    ]
 
-    let testInputSets = [ [1.0, 1.0] ]
+    let testInputSets = [ [5.0, 7.0], [12.0, 13.0] ]
 
     var expectedOutput = 0.0
     var reducedInput = [0.0, 0.0]
@@ -52,7 +52,7 @@ final class AATester: GSTesterProtocol {
     func administerTest(to gs: GSSubject) -> Double? {
         for inputSet in testInputSets {
             rawOutputs = gs.brain.stimulate(sensoryInputs: inputSet)
-            reducedOutput = rawOutputs.compactMap({$0}).reduce(reducedOutput, +)
+            reducedOutput = rawOutputs.compactMap({$0}).reduce(0.0, +)
         }
 
 //        print("well? \(reducedOutput) - \(expectedOutput)")

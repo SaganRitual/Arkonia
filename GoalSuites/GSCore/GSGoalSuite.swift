@@ -23,7 +23,7 @@ import Foundation
 class GSGoalSuite {
     static var selectionControls: SelectionControls!
 
-    public enum Comparison: String { case BT, BE, EQ }
+    public enum Comparison: String { case ANY, BE, BT, EQ }
 
     private(set) var curator: Curator?
     public var factory: GSFactory

@@ -19,3 +19,31 @@
 //
 
 import Foundation
+
+class RollingAverage {
+    let depth = 10
+    var values: [Double]
+
+    var ss_ = 0
+    var ss: Int {
+        get { return ss_ }
+        set { ss_ = newValue % depth }
+    }
+
+    init() { values = [Double](repeating: 0.0, count: depth) }
+
+    func addSample(_ newValue: Double) -> Double {
+        values[ss] = newValue; ss += 1
+        return values.reduce(0.0, +) / Double(depth)
+    }
+}
+
+var ra = RollingAverage()
+
+for _ in 0..<100 {
+    let sampleValue = Double.random(in: 0..<100)
+    print(sampleValue, terminator: "")
+
+    let average = ra.addSample(sampleValue)
+    print(" ", average)
+}

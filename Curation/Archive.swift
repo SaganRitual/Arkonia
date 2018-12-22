@@ -114,6 +114,7 @@ private extension Archive {
     func keepIfKeeper(_ gs: GSSubject) {
         guard let ref = referenceTS else { return }
         guard passesCompare(gs, comparisonMode, against: ref) else { return }
+
         if peerGroupIsFull(gs) { return }
 
         let hash = makeHash(gs)
@@ -162,6 +163,7 @@ private extension Archive {
         case .BE: return subject.fitnessScore <= rhs.fitnessScore
         case .BT: return subject.fitnessScore <  rhs.fitnessScore
         case .EQ: return subject.fitnessScore == rhs.fitnessScore
+        case .ANY: return true
         }
     }
 

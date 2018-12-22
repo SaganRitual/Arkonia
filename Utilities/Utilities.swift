@@ -20,6 +20,33 @@
 
 import Foundation
 
+class RollingAverage {
+    let depth: Int
+    var values = [Double]()
+
+    var ss_ = 0
+    var ss: Int {
+        get { return ss_ }
+        set { ss_ = newValue % depth }
+    }
+
+    init(depth: Int) {
+        self.depth = depth
+    }
+
+    func addSample(_ newValue: Double) -> Double? {
+        if values.count < depth {
+            values.append(newValue)
+            print("nv", newValue)
+            return nil
+        }
+
+        values[ss] = newValue; ss += 1
+//        print("valsodfdl", values.sorted().dropFirst(2))
+        return values.sorted().dropFirst(2).reduce(0.0, +) / Double(depth - 2)
+    }
+}
+
 // With deepest gratitude to Stack Overflow dude
 // https://stackoverflow.com/users/3441734/user3441734
 // https://stackoverflow.com/a/44541541/1610473
