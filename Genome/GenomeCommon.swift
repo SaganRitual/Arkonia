@@ -20,31 +20,6 @@
 
 import Foundation
 
-class NGGoalSuite: GSGoalSuite {
-    var huffZoe: UInt64 = 0
-    var zero: UInt64 = 0, zNameCount: UInt64 = 0
-
-    init(_ nameToGuess: String) {
-        GSGoalSuite.selectionControls = NGGoalSuite.setSelectionControls()
-
-        zNameCount = UInt64(nameToGuess.count)
-        for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
-
-        let e = Double(huffZoe)
-        let factory = NGFactory(nameToGuess: nameToGuess)
-        let tester = GSTester(expectedOutput: e)
-
-        super.init(factory: factory, tester: tester)
-    }
-
-    override class func setSelectionControls() -> GSSelectionControls {
-        var sc = GSSelectionControls()
-
-        sc.howManySenses = 5
-        sc.howManyLayersInStarter = 5
-        sc.howManyMotorNeurons = 5
-        sc.howManyGenerations = 100
-
-        return sc
-    }
-}
+typealias Genome = String
+typealias GenomeSlice = Substring
+typealias GenomeIndex = String.Index

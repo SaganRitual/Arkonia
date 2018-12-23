@@ -125,6 +125,12 @@
 		D4A5C4DE21CAA98E002105DB /* AKLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4CC21C8BD27002105DB /* AKLayer.swift */; };
 		D4A5C4DF21CAA98E002105DB /* AKNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4CA21C8BCDF002105DB /* AKNet.swift */; };
 		D4A5C4E021CAA98E002105DB /* AKNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4C621C8A413002105DB /* AKNeuron.swift */; };
+		D4B4CC0E21CF6EBF00AE6912 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
+		D4B4CC1021CF6F8200AE6912 /* SelectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC0F21CF6F8200AE6912 /* SelectorTests.swift */; };
+		D4B4CC1221CF70B300AE6912 /* GSCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1121CF70B300AE6912 /* GSCommon.swift */; };
+		D4B4CC1421CF710500AE6912 /* GenomeCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */; };
+		D4B4CC1921CF81AF00AE6912 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1821CF81AF00AE6912 /* Common.swift */; };
+		D4B4CC1B21CF898900AE6912 /* CUCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1A21CF898900AE6912 /* CUCommon.swift */; };
 		D4B517E821AFAC3200F4C88A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B517E721AFAC3200F4C88A /* main.swift */; };
 		D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
 		D4C0A13021AE2405009D6011 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
@@ -151,8 +157,6 @@
 		D4C0A19821AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4C54C8F21BDA23C00FA6549 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C8E21BDA23C00FA6549 /* Archive.swift */; };
 		D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C8E21BDA23C00FA6549 /* Archive.swift */; };
-		D4FD1ED521CEEF9A00D2E62C /* PeerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A32F21C1C2960049E3A5 /* PeerGroup.swift */; };
-		D4FD1ED921CF244000D2E62C /* PeerGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FD1ED821CF244000D2E62C /* PeerGroupTests.swift */; };
 		D4FE84FF21AE7AC000C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
 		D4FE850021AE7AC000C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
 		D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
@@ -294,6 +298,11 @@
 		D4A5C4CA21C8BCDF002105DB /* AKNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKNet.swift; sourceTree = "<group>"; };
 		D4A5C4CC21C8BD27002105DB /* AKLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKLayer.swift; sourceTree = "<group>"; };
 		D4A5C4D021C937FA002105DB /* TranslatorNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TranslatorNeuron.swift; path = Translators/TranslatorNeuron.swift; sourceTree = "<group>"; };
+		D4B4CC0F21CF6F8200AE6912 /* SelectorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectorTests.swift; path = Curation/SelectorTests.swift; sourceTree = "<group>"; };
+		D4B4CC1121CF70B300AE6912 /* GSCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSCommon.swift; sourceTree = "<group>"; };
+		D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeCommon.swift; sourceTree = "<group>"; };
+		D4B4CC1821CF81AF00AE6912 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		D4B4CC1A21CF898900AE6912 /* CUCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CUCommon.swift; sourceTree = "<group>"; };
 		D4B517E521AFAC3200F4C88A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B517E721AFAC3200F4C88A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4C0A0FA21ADF3CC009D6011 /* Dark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Dark; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -437,6 +446,7 @@
 		D452A31E21C18E7E0049E3A5 /* GSCore */ = {
 			isa = PBXGroup;
 			children = (
+				D4B4CC1121CF70B300AE6912 /* GSCommon.swift */,
 				D452A32721C192170049E3A5 /* GSFactory.swift */,
 				D452A30A21C10B230049E3A5 /* GSGoalSuite.swift */,
 				D452A31F21C18EDB0049E3A5 /* GSSubject.swift */,
@@ -449,6 +459,7 @@
 			isa = PBXGroup;
 			children = (
 				D4C0A12B21AE2404009D6011 /* Decoder.swift */,
+				D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */,
 				D4684CC321C2D1C900D13964 /* Manipulator.swift */,
 				D4C0A12921AE2404009D6011 /* Mutator.swift */,
 				D4684CC721C2D55F00D13964 /* Tene.swift */,
@@ -515,6 +526,14 @@
 			path = Light;
 			sourceTree = "<group>";
 		};
+		D4B4CC1721CF816000AE6912 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D4B4CC1821CF81AF00AE6912 /* Common.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		D4B517E621AFAC3200F4C88A /* Experimental */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,6 +547,7 @@
 			isa = PBXGroup;
 			children = (
 				D4A5C4C521C8A3F0002105DB /* Arkonet */,
+				D4B4CC1721CF816000AE6912 /* Common */,
 				D4C0A12021AE2374009D6011 /* Curation */,
 				D4C0A0FC21ADF3CC009D6011 /* Dark */,
 				D4B517E621AFAC3200F4C88A /* Experimental */,
@@ -575,10 +595,12 @@
 			isa = PBXGroup;
 			children = (
 				D4C54C8E21BDA23C00FA6549 /* Archive.swift */,
+				D4B4CC1A21CF898900AE6912 /* CUCommon.swift */,
 				D4C0A12321AE23F4009D6011 /* Curator.swift */,
 				D452A32F21C1C2960049E3A5 /* PeerGroup.swift */,
 				D4FD1ED821CF244000D2E62C /* PeerGroupTests.swift */,
 				D4C0A12521AE23F4009D6011 /* Selector.swift */,
+				D4B4CC0F21CF6F8200AE6912 /* SelectorTests.swift */,
 			);
 			name = Curation;
 			sourceTree = "<group>";
@@ -970,9 +992,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4B4CC1021CF6F8200AE6912 /* SelectorTests.swift in Sources */,
 				D44EE50821BCE584006E1A12 /* main.swift in Sources */,
-				D4FD1ED921CF244000D2E62C /* PeerGroupTests.swift in Sources */,
-				D4FD1ED521CEEF9A00D2E62C /* PeerGroup.swift in Sources */,
+				D4B4CC1B21CF898900AE6912 /* CUCommon.swift in Sources */,
+				D4B4CC1221CF70B300AE6912 /* GSCommon.swift in Sources */,
+				D4B4CC0E21CF6EBF00AE6912 /* Selector.swift in Sources */,
+				D4B4CC1921CF81AF00AE6912 /* Common.swift in Sources */,
+				D4B4CC1421CF710500AE6912 /* GenomeCommon.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -20,15 +20,6 @@
 
 import Foundation
 
-protocol LightLabelProtocol {
-    var lightLabel: String { get }
-}
-
-protocol GSSubjectProtocol: class, CustomStringConvertible {
-    var fitnessScore: Double { get }
-    func postInit(suite: GSGoalSuite)
-}
-
 class GSSubject: GSSubjectProtocol, LightLabelProtocol {
     static var theFishNumber = 0
 

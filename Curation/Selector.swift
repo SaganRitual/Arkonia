@@ -27,15 +27,15 @@ extension Foundation.Notification.Name {
 }
 
 class Selector {
-    unowned private var goalSuite: GSGoalSuite
+    unowned private var goalSuite: GSGoalSuiteProtocol
     private let notificationCenter = NotificationCenter.default
     unowned private let semaphore: DispatchSemaphore
-    weak private var stud: GSSubject!
+    weak private var stud: GSSubjectProtocol!
     private var selectorWorkItem: DispatchWorkItem!
     private var thisGenerationNumber = 0
     private var observerHandle: NSObjectProtocol?
 
-    init(goalSuite: GSGoalSuite, semaphore: DispatchSemaphore) {
+    init(goalSuite: GSGoalSuiteProtocol, semaphore: DispatchSemaphore) {
         self.goalSuite = goalSuite
         self.semaphore = semaphore
 
@@ -62,6 +62,7 @@ class Selector {
             defer { semaphore.signal() }
 
             semaphore.wait()
+
             guard let newSurvivors = select(against: self.stud) else { continue }
             let selectionResults = [NotificationType.selectComplete : newSurvivors]
             let n = Foundation.Notification.Name.selectComplete
@@ -70,18 +71,18 @@ class Selector {
         }
     }
 
-    public func scoreAboriginal(_ aboriginal: GSSubject) {
+    public func scoreAboriginal(_ aboriginal: GSSubjectProtocol) {
         if goalSuite.tester.administerTest(to: aboriginal) == nil { preconditionFailure() }
     }
 
-    private func select(against stud: GSSubject) -> [GSSubject]? {
+    private func select(against stud: GSSubjectProtocol) -> [GSSubjectProtocol]? {
         thisGenerationNumber += 1
 
         var bestScore = stud.fitnessScore
-        var stemTheFlood = [GSSubject]()
+        var stemTheFlood = [GSSubjectProtocol]()
 
         for _ in 0..<goalSuite.selectionControls.howManySubjectsPerGeneration {
-            guard let gs = goalSuite.factory.makeArkon(genome: stud.genome[...]) else { continue }
+            guard let gs = goalSuite.factory.makeArkon(genome: stud.genome[...], mutate: true) else { continue }
 
             if selectorWorkItem.isCancelled { break }
             if gs.genome == stud.genome { continue }
@@ -105,16 +106,16 @@ class Selector {
         return stemTheFlood
     }
 
-    var comparisonMode = GSGoalSuite.Comparison.BE
+    var comparisonMode = GSComparison.BE
 
     @objc private func setSelectionParameters(_ notification: Notification) {
         guard let u = notification.userInfo,
-            let p = u[NotificationType.select] as? GSSubject,
+            let p = u[NotificationType.select] as? GSSubjectProtocol,
             let e = u["comparisonMode"] else { preconditionFailure() }
 
         self.stud = p
 
-        guard let c = e as? GSGoalSuite.Comparison else { preconditionFailure() }
+        guard let c = e as? GSComparison else { preconditionFailure() }
         comparisonMode = c
     }
 

@@ -20,31 +20,24 @@
 
 import Foundation
 
-class NGGoalSuite: GSGoalSuite {
-    var huffZoe: UInt64 = 0
-    var zero: UInt64 = 0, zNameCount: UInt64 = 0
+struct GSSelectionControls {
+    var howManySenses = 5
+    var howManyMotorNeurons = 20
+    var howManyGenerations = 30000
+    var howManyGenes = 200
+    var howManyLayersInStarter = 5
+    var howManySubjectsPerGeneration = 100
+    var theFishNumber = 0
+    var dudlinessThreshold = 1
+    var peerGroupLimit = 2
+    var maxKeepersPerGeneration = 2
+    var hmSpawnAttempts = 2
+}
 
-    init(_ nameToGuess: String) {
-        GSGoalSuite.selectionControls = NGGoalSuite.setSelectionControls()
-
-        zNameCount = UInt64(nameToGuess.count)
-        for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
-
-        let e = Double(huffZoe)
-        let factory = NGFactory(nameToGuess: nameToGuess)
-        let tester = GSTester(expectedOutput: e)
-
-        super.init(factory: factory, tester: tester)
-    }
-
-    override class func setSelectionControls() -> GSSelectionControls {
-        var sc = GSSelectionControls()
-
-        sc.howManySenses = 5
-        sc.howManyLayersInStarter = 5
-        sc.howManyMotorNeurons = 5
-        sc.howManyGenerations = 100
-
-        return sc
-    }
+extension Array {
+    // It's easier for me to think about the breeders as a stack
+    mutating func pop() -> Element { return self.removeFirst() }
+    mutating func push(_ e: Element) { self.insert(e, at: 0) }
+    mutating func popBack() -> Element { return self.removeLast() }
+    mutating func pushFront(_ e: Element) { push(e) }
 }

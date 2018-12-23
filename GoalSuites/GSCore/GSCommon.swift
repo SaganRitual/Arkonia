@@ -20,31 +20,38 @@
 
 import Foundation
 
-class NGGoalSuite: GSGoalSuite {
-    var huffZoe: UInt64 = 0
-    var zero: UInt64 = 0, zNameCount: UInt64 = 0
+enum GSComparison: String { case ANY, BE, BT, EQ }
 
-    init(_ nameToGuess: String) {
-        GSGoalSuite.selectionControls = NGGoalSuite.setSelectionControls()
+protocol GSFactoryProtocol: class, CustomStringConvertible {
+    var genomeWorkspace: String { get set }
 
-        zNameCount = UInt64(nameToGuess.count)
-        for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
+    func getAboriginal() -> GSSubjectProtocol
+    func makeArkon(genome: GenomeSlice, mutate: Bool) -> GSSubjectProtocol?
+    func mutate(from: GenomeSlice)
+}
 
-        let e = Double(huffZoe)
-        let factory = NGFactory(nameToGuess: nameToGuess)
-        let tester = GSTester(expectedOutput: e)
+protocol GSGoalSuiteProtocol: class, CustomStringConvertible {
+    var factory: GSFactoryProtocol { get }
+    var tester: GSTesterProtocol { get }
 
-        super.init(factory: factory, tester: tester)
-    }
+    var selectionControls: GSSelectionControls { get set }
+}
 
-    override class func setSelectionControls() -> GSSelectionControls {
-        var sc = GSSelectionControls()
+protocol GSSubjectProtocol: class, CustomStringConvertible {
+    var fishNumber: Int { get }
+    var fitnessScore: Double { get set }
+    var genome: Genome { get set }
+    var suite: GSGoalSuiteProtocol? { get set }
 
-        sc.howManySenses = 5
-        sc.howManyLayersInStarter = 5
-        sc.howManyMotorNeurons = 5
-        sc.howManyGenerations = 100
+    init()
+    func postInit(suite: GSGoalSuiteProtocol)
+}
 
-        return sc
-    }
+protocol GSTesterProtocol: class, LightLabelProtocol {
+    func administerTest(to gs: GSSubjectProtocol) -> Double?
+    func postInit(suite: GSGoalSuiteProtocol)
+}
+
+protocol LightLabelProtocol {
+    var lightLabel: String { get }
 }

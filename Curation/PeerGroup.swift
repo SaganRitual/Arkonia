@@ -22,7 +22,7 @@ import Foundation
 
 extension Archive {
 
-public class PeerGroup: CustomStringConvertible {
+public class PeerGroup: PeerGroupProtocol CustomStringConvertible {
 
     private(set) var theGroup = [GSSubject]()
     unowned private let goalSuite: GSGoalSuite

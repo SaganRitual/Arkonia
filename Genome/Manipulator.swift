@@ -20,10 +20,6 @@
 
 import Foundation
 
-typealias Genome = String
-typealias GenomeSlice = Substring
-typealias GenomeIndex = String.Index
-
 class Manipulator {
     static public let recognizedTokens: String = "ABFHLNRW"
 

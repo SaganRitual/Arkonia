@@ -20,8 +20,8 @@
 
 import Foundation
 
-class GSGoalSuite {
-    static var selectionControls: SelectionControls!
+class GSGoalSuite: GSGoalSuiteProtocol {
+    static var selectionControls: GSSelectionControls!
 
     public enum Comparison: String { case ANY, BE, BT, EQ }
 
@@ -29,7 +29,7 @@ class GSGoalSuite {
     public var factory: GSFactory
     public var tester: GSTesterProtocol
 
-    public var selectionControls: SelectionControls { return GSGoalSuite.selectionControls }
+    public var selectionControls: GSSelectionControls { return GSGoalSuite.selectionControls }
 
     init(factory: GSFactory, tester: GSTesterProtocol) {
         self.factory = factory
@@ -44,23 +44,7 @@ class GSGoalSuite {
         return curator!.select()
     }
 
-    class func setSelectionControls() -> SelectionControls {
+    class func setSelectionControls() -> GSSelectionControls {
         preconditionFailure("Subclasses must override this function")
-    }
-}
-
-extension GSGoalSuite {
-    struct SelectionControls {
-        var howManySenses = 5
-        var howManyMotorNeurons = 20
-        var howManyGenerations = 30000
-        var howManyGenes = 200
-        var howManyLayersInStarter = 5
-        var howManySubjectsPerGeneration = 100
-        var theFishNumber = 0
-        var dudlinessThreshold = 1
-        var peerGroupLimit = 2
-        var maxKeepersPerGeneration = 2
-        var hmSpawnAttempts = 2
     }
 }

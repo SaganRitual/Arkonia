@@ -20,31 +20,21 @@
 
 import Foundation
 
-class NGGoalSuite: GSGoalSuite {
-    var huffZoe: UInt64 = 0
-    var zero: UInt64 = 0, zNameCount: UInt64 = 0
+protocol ArchiveProtocol {
 
-    init(_ nameToGuess: String) {
-        GSGoalSuite.selectionControls = NGGoalSuite.setSelectionControls()
+    typealias GroupIndex = Int
+    typealias TheArchive = [Int : PeerGroupProtocol]
 
-        zNameCount = UInt64(nameToGuess.count)
-        for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
+    var comparisonMode: GSComparison { get }
+    var referenceTS: GSSubjectProtocol? { get }
 
-        let e = Double(huffZoe)
-        let factory = NGFactory(nameToGuess: nameToGuess)
-        let tester = GSTester(expectedOutput: e)
+    init(goalSuite: GSGoalSuiteProtocol)
+    var currentProgenitor: GSSubjectProtocol? { get }
+    func nextProgenitor() -> GSSubjectProtocol?
+    func newCandidate(_ gs: GSSubjectProtocol)
+    func postInit(aboriginal: GSSubjectProtocol)
+}
 
-        super.init(factory: factory, tester: tester)
-    }
-
-    override class func setSelectionControls() -> GSSelectionControls {
-        var sc = GSSelectionControls()
-
-        sc.howManySenses = 5
-        sc.howManyLayersInStarter = 5
-        sc.howManyMotorNeurons = 5
-        sc.howManyGenerations = 100
-
-        return sc
-    }
+protocol PeerGroupProtocol {
+    func peekFront() -> GSSubjectProtocol
 }

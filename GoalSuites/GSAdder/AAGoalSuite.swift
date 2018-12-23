@@ -30,8 +30,8 @@ class AAGoalSuite: GSGoalSuite {
         super.init(factory: factory, tester: tester)
     }
 
-    override class func setSelectionControls() -> SelectionControls {
-        var sc = SelectionControls()
+    override class func setSelectionControls() -> GSSelectionControls {
+        var sc = GSSelectionControls()
 
         sc.howManySenses = 2
         sc.howManyLayersInStarter = 5

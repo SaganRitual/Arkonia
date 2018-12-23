@@ -20,11 +20,6 @@
 
 import Foundation
 
-protocol GSTesterProtocol: class, LightLabelProtocol {
-    func administerTest(to gs: GSSubject) -> Double?
-    func postInit(suite: GSGoalSuite)
-}
-
 class GSScore: CustomStringConvertible, Hashable {
     var score = 0.0
 
@@ -44,7 +39,7 @@ class GSTester: GSTesterProtocol {
     var expectedOutput: Double
     var inputs: [Double]
     var outputs: [Double?]
-    weak var suite: GSGoalSuite?
+    private weak var suite: GSGoalSuite?
 
     var lightLabel: String {
         return ", guess: \(actualOutput.sciTruncate(5))"

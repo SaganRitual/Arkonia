@@ -31,10 +31,10 @@ public class GSSubject {
 }
 
 public class GSGoalSuite {
-    var selectionControls = SelectionControls()
+    var selectionControls = GSSelectionControls()
 }
 
-public class SelectionControls {
+public class GSSelectionControls {
     let peerGroupLimit = 5
 }
 

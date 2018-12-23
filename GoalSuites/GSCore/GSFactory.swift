@@ -20,21 +20,7 @@
 
 import Foundation
 
-protocol GSFactoryProtocol: class, CustomStringConvertible {
-    var genomeWorkspace: String { get set }
-
-    func getAboriginal() -> GSSubject
-    func makeArkon(genome: GenomeSlice, mutate: Bool) -> GSSubject?
-    func mutate(from: GenomeSlice)
-}
-
-class GSFactory: GSFactoryProtocol {
-    static var aboriginalGenome: Genome?
-
-    private var decoder: Decoder
-    var genomeWorkspace = String()
-    weak var suite: GSGoalSuite?
-
+extension GSFactoryProtocol {
     var description: String { return "GSFactory; functioning within standard operational parameters" }
 
     public init() {
@@ -48,12 +34,6 @@ class GSFactory: GSFactoryProtocol {
         self.suite = suite
         let h = suite.selectionControls.howManyLayersInStarter
         GSFactory.aboriginalGenome = Manipulator.makePassThruGenome(hmLayers: h)
-    }
-
-    public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> GSSubject? {
-        guard let brain = makeBrain(genome: genome, mutate: mutate) else { return nil }
-
-        return GSSubject(genome: genomeWorkspace[...], brain: brain)
     }
 
     func makeBrain(genome: GenomeSlice, mutate: Bool) -> Translators.Brain? {
@@ -72,12 +52,23 @@ class GSFactory: GSFactoryProtocol {
     }
 }
 
+class GSFactory: GSFactoryProtocol {
+    static var aboriginalGenome: Genome?
+
+    private var decoder: Decoder
+    var genomeWorkspace = String()
+    weak var suite: GSGoalSuite?
+}
+
 extension GSFactory {
     public func getAboriginal() -> GSSubject {
+        print("getAboriginal(0)")
         let ag = GSFactory.aboriginalGenome![...]
+        print("getAboriginal(1)")
 
         guard let aboriginal = makeArkon(genome: ag, mutate: false)
             else { preconditionFailure("Aboriginal should survive birth") }
+        print("getAboriginal(2)")
 
         return aboriginal
     }

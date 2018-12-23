@@ -143,11 +143,3 @@ class Curator {
         self.atLeastOneTSHasSurvived = true
     }
 }
-
-extension Array {
-    // It's easier for me to think about the breeders as a stack
-    mutating func pop() -> Element { return self.removeFirst() }
-    mutating func push(_ e: Element) { self.insert(e, at: 0) }
-    mutating func popBack() -> Element { return self.removeLast() }
-    mutating func pushFront(_ e: Element) { push(e) }
-}

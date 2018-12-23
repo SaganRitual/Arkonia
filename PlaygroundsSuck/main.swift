@@ -20,7 +20,8 @@
 
 import Foundation
 
-let tester = PeerGroupTests()
+let tester = SelectorTests()
 print(tester)
 
 tester.test()
+print("All done")
