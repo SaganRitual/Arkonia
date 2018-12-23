@@ -81,7 +81,9 @@ class Curator {
     func select() -> GSSubject? {
         let a = goalSuite.factory.getAboriginal()
         selector.scoreAboriginal(a)
-        archive.postInit(aboriginal: a)
+
+        let p = PeerGroupFactory()
+        archive.postInit(aboriginal: a, peerGroupFactory: p)
 
         self.aboriginal = a
         self.atLeastOneTSHasSurvived = true

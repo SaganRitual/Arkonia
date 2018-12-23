@@ -236,13 +236,6 @@ class MockGoalSuite: GSGoalSuiteProtocol {
     }
 }
 
-class MockPeerGroup: PeerGroupProtocol {
-    var peerArchive = [Int : GSSubjectProtocol]()
-    func peekFront() -> GSSubjectProtocol {
-        return peerArchive[0]!
-    }
-}
-
 class MockSubject: GSSubjectProtocol {
     private static var theFishNumber = 0
 
@@ -250,6 +243,7 @@ class MockSubject: GSSubjectProtocol {
     var fishNumber: Int
     var fitnessScore = 0.0
     var genome = Genome()
+    var spawnCount = 0
     var suite: GSGoalSuiteProtocol?
 
     required init() {

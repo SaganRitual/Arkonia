@@ -22,10 +22,10 @@ import Foundation
 
 extension Archive {
 
-public class PeerGroup: PeerGroupProtocol CustomStringConvertible {
+public class PeerGroup: CustomStringConvertible {
 
-    private(set) var theGroup = [GSSubject]()
-    unowned private let goalSuite: GSGoalSuite
+    internal(set) var theGroup = [GSSubjectProtocol]()
+    unowned private let goalSuite: GSGoalSuiteProtocol
     private var indexDistance = 0
     private var pushIndex = 0
     private var popIndex = 0
@@ -43,7 +43,7 @@ public class PeerGroup: PeerGroupProtocol CustomStringConvertible {
 
     public var stackEmpty: Bool { return indexDistance == 0 }
 
-    init(initialTS: GSSubject, goalSuite: GSGoalSuite) {
+    init(initialTS: GSSubjectProtocol, goalSuite: GSGoalSuiteProtocol) {
         self.goalSuite = goalSuite
         peerGroupLimit = goalSuite.selectionControls.peerGroupLimit
         theGroup.reserveCapacity(peerGroupLimit)
@@ -51,12 +51,12 @@ public class PeerGroup: PeerGroupProtocol CustomStringConvertible {
         pushBack(initialTS)
     }
 
-    public func peekFront() -> GSSubject {
+    public func peekFront() -> GSSubjectProtocol {
         precondition(indexDistance > 0, "Stack empty")
         return theGroup[popIndex]
     }
 
-    public func popFront() -> GSSubject {
+    public func popFront() -> GSSubjectProtocol {
         precondition(indexDistance > 0, "Stack empty")
 
         defer {
@@ -67,7 +67,7 @@ public class PeerGroup: PeerGroupProtocol CustomStringConvertible {
         return theGroup[popIndex]
     }
 
-    public func pushBack(_ gs: GSSubject) {
+    public func pushBack(_ gs: GSSubjectProtocol) {
         precondition(indexDistance <= peerGroupLimit, "Stack overflow")
 
         if theGroup.count < peerGroupLimit {

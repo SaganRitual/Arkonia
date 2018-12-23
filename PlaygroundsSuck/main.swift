@@ -20,7 +20,7 @@
 
 import Foundation
 
-let tester = SelectorTests()
+let tester = ArchiveTests()
 print(tester)
 
 tester.test()

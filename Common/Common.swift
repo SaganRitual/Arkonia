@@ -28,10 +28,36 @@ struct GSSelectionControls {
     var howManyLayersInStarter = 5
     var howManySubjectsPerGeneration = 100
     var theFishNumber = 0
-    var dudlinessThreshold = 1
     var peerGroupLimit = 2
     var maxKeepersPerGeneration = 2
     var hmSpawnAttempts = 2
+}
+
+struct SetOnce<T> {
+    private var meat: T?
+    private var isLocked = false
+
+    init() {}
+
+    // Note: we don't set isLocked; we'll return the default
+    // value forever until someone explicitly calls set().
+    // After that we're no longer settable.
+    init(defaultValue: T) { meat = defaultValue }
+
+    public func get() -> T {
+        precondition(meat != nil, "Not set")
+        return meat!
+    }
+
+    // Note: we don't check isLocked. If there's a default
+    // value, we want to report that we're meaty.
+    public func has() -> Bool { return meat != nil }
+
+    public mutating func set(_ newValue: T) {
+        precondition(!isLocked, "Can be set only once")
+        isLocked = true
+        meat = newValue
+    }
 }
 
 extension Array {

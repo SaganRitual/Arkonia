@@ -41,6 +41,8 @@ protocol GSSubjectProtocol: class, CustomStringConvertible {
     var fishNumber: Int { get }
     var fitnessScore: Double { get set }
     var genome: Genome { get set }
+    var hashedAlready: SetOnce<Int> { get set }
+    var spawnCount: Int { get set }
     var suite: GSGoalSuiteProtocol? { get set }
 
     init()

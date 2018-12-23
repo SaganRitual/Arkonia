@@ -20,10 +20,10 @@
 
 import Foundation
 
-protocol ArchiveProtocol {
+protocol ArchiveProtocol: class {
 
     typealias GroupIndex = Int
-    typealias TheArchive = [Int : PeerGroupProtocol]
+    typealias TheArchive = [Int : Archive.PeerGroup]
 
     var comparisonMode: GSComparison { get }
     var referenceTS: GSSubjectProtocol? { get }
@@ -33,8 +33,4 @@ protocol ArchiveProtocol {
     func nextProgenitor() -> GSSubjectProtocol?
     func newCandidate(_ gs: GSSubjectProtocol)
     func postInit(aboriginal: GSSubjectProtocol)
-}
-
-protocol PeerGroupProtocol {
-    func peekFront() -> GSSubjectProtocol
 }

@@ -26,6 +26,7 @@ class GSSubject: GSSubjectProtocol, LightLabelProtocol {
     let brain: Translators.Brain
     let fishNumber: Int
     let genome: Genome
+    var hashedAlready = SetOnce<Int>()
     var scoreCore = GSScore()
     var spawnCount: Int = 0
     var suite: GSGoalSuite?
@@ -52,11 +53,7 @@ class GSSubject: GSSubjectProtocol, LightLabelProtocol {
     func postInit(suite: GSGoalSuite) { self.suite = suite }
 }
 
-extension GSSubject: Hashable {
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(self.genome)
-    }
+extension GSSubject {
 
     static func == (lhs: GSSubject, rhs: GSSubject) -> Bool {
         return lhs.genome == rhs.genome

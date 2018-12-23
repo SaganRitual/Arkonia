@@ -21,14 +21,14 @@
 import Foundation
 
 class GSScore: CustomStringConvertible, Hashable {
-    var score = 0.0
+    let score = SetOnce<Double>()
 
     public var description: String {
-        return score.sTruncate()
+        return score.get().sTruncate()
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(score)
+        hasher.combine(score.get())
     }
 
     static func == (_ lhs: GSScore, _ rhs: GSScore) -> Bool { return lhs.score == rhs.score }
