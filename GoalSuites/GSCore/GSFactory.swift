@@ -20,7 +20,7 @@
 
 import Foundation
 
-extension GSFactoryProtocol {
+extension GSFactory {
     var description: String { return "GSFactory; functioning within standard operational parameters" }
 
     public init() {
@@ -52,23 +52,24 @@ extension GSFactoryProtocol {
     }
 }
 
-class GSFactory: GSFactoryProtocol {
+class GSFactory: GSFactory {
     static var aboriginalGenome: Genome?
 
-    private var decoder: Decoder
+    internal var decoder = Decoder()
     var genomeWorkspace = String()
     weak var suite: GSGoalSuite?
+
+    func makeArkon(genome: GenomeSlice, mutate: Bool) -> GSSubject? {
+        preconditionFailure("Must be implemented in subclass")
+    }
 }
 
 extension GSFactory {
     public func getAboriginal() -> GSSubject {
-        print("getAboriginal(0)")
         let ag = GSFactory.aboriginalGenome![...]
-        print("getAboriginal(1)")
 
         guard let aboriginal = makeArkon(genome: ag, mutate: false)
             else { preconditionFailure("Aboriginal should survive birth") }
-        print("getAboriginal(2)")
 
         return aboriginal
     }

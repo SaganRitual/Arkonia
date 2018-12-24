@@ -27,7 +27,7 @@ class Mutator {
     var inputGenome: GenomeSlice?
     var workingTenome = Tenome()
     var bellCurve = BellCurve()
-    weak var workspaceOwner: GSFactoryProtocol!
+    weak var workspaceOwner: GSFactory!
     var isFive = false
 
     enum MutationType: Int {
@@ -420,7 +420,7 @@ extension Mutator {
 }
 
 extension Mutator {
-    func setGenomeWorkspaceOwner(_ factory: GSFactoryProtocol) {
+    func setGenomeWorkspaceOwner(_ factory: GSFactory) {
         self.workspaceOwner = factory
     }
 }

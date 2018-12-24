@@ -20,7 +20,7 @@
 
 import Foundation
 
-class GSSubject: GSSubjectProtocol, LightLabelProtocol {
+class GSSubject: GSSubject, LightLabelProtocol {
     static var theFishNumber = 0
 
     let brain: Translators.Brain

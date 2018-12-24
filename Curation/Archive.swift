@@ -20,7 +20,7 @@
 
 import Foundation
 
-class Archive: ArchiveProtocol, CustomStringConvertible {
+class Archive: Archive, CustomStringConvertible {
 
     typealias GroupIndex = Int
     typealias TheArchive = [Int : PeerGroup]
@@ -28,24 +28,24 @@ class Archive: ArchiveProtocol, CustomStringConvertible {
     public var description: String { return getDescription() }
 
     private(set) var comparisonMode = GSComparison.BT
-    unowned private let goalSuite: GSGoalSuiteProtocol
-    private(set) var referenceTS: GSSubjectProtocol?
+    unowned private let goalSuite: GSGoalSuite
+    private(set) var referenceTS: GSSubject?
     private var theArchive = TheArchive()
     private var theIndex = [GroupIndex]()
 
-    required init(goalSuite: GSGoalSuiteProtocol) {
+    required init(goalSuite: GSGoalSuite) {
         self.goalSuite = goalSuite
     }
 
-    public var currentProgenitor: GSSubjectProtocol? {
-        guard let gs: GSSubjectProtocol = getTop() else { return nil }
+    public var currentProgenitor: GSSubject? {
+        guard let gs: GSSubject = getTop() else { return nil }
         return gs
     }
 
-    public func newCandidate(_ gs: GSSubjectProtocol) { keepIfKeeper(gs) }
+    public func newCandidate(_ gs: GSSubject) { keepIfKeeper(gs) }
 
-    public func nextProgenitor() -> GSSubjectProtocol? {
-        guard var gs: GSSubjectProtocol = getTop() else { return nil }
+    public func nextProgenitor() -> GSSubject? {
+        guard var gs: GSSubject = getTop() else { return nil }
         while isTooDudly(gs) {
             // If there's no one left to backtrack to, give up completely
             guard let t = backtrack() else { return nil }
@@ -58,7 +58,7 @@ class Archive: ArchiveProtocol, CustomStringConvertible {
         return gs
     }
 
-    public func postInit(aboriginal: GSSubjectProtocol) {
+    public func postInit(aboriginal: GSSubject) {
         newGroup(aboriginal)
         setQualifications(reference: aboriginal, op: .BT)
     }
@@ -66,7 +66,7 @@ class Archive: ArchiveProtocol, CustomStringConvertible {
 
 private extension Archive {
 
-    func advance(_ gs: GSSubjectProtocol) {
+    func advance(_ gs: GSSubject) {
         let hash = makeHash(gs)
 
         theArchive[hash]!.pushBack(gs)
@@ -75,7 +75,7 @@ private extension Archive {
         setQualifications(reference: gs, op: .BE)
     }
 
-    func backtrack() -> GSSubjectProtocol? {
+    func backtrack() -> GSSubject? {
         guard let (topHash, topGroup): (GroupIndex, PeerGroup) = getTop() else { preconditionFailure() }
 
         let loafer = theArchive[topHash]!.popFront()
@@ -89,7 +89,7 @@ private extension Archive {
         // We backtracked all the way to the beginning and even didn't
         // like the aboriginal. At this point we can either crash or
         // return a nil to main so it can print a friendly message.
-        guard let gs: GSSubjectProtocol = getTop() else { return nil }
+        guard let gs: GSSubject = getTop() else { return nil }
 
         // No ties allowed when we have to back up
         setQualifications(reference: gs, op: .BT)
@@ -97,7 +97,7 @@ private extension Archive {
         return gs
     }
 
-    func getTop() -> GSSubjectProtocol? {
+    func getTop() -> GSSubject? {
         guard let (_, topGroup): (GroupIndex, PeerGroup) = getTop() else { return nil }
         let ts = topGroup.peekFront()
         return ts
@@ -111,7 +111,7 @@ private extension Archive {
         return (topHash, topGroup)
     }
 
-    func keepIfKeeper(_ gs: GSSubjectProtocol) {
+    func keepIfKeeper(_ gs: GSSubject) {
         guard let ref = referenceTS else { return }
         guard passesCompare(gs, comparisonMode, against: ref) else { return }
 
@@ -122,13 +122,13 @@ private extension Archive {
         else { advance(gs) }
     }
 
-    func isTooDudly(_ gs: GSSubjectProtocol) -> Bool {
+    func isTooDudly(_ gs: GSSubject) -> Bool {
         // Never try to back up from the aboriginal
         if gs.fishNumber == 0 { return false }
         return gs.spawnCount >= goalSuite.selectionControls.hmSpawnAttempts
     }
 
-    func makeHash(_ gs: GSSubjectProtocol) -> Int {
+    func makeHash(_ gs: GSSubject) -> Int {
         var h = gs.hashedAlready
 //        if h.has() { return h.get() }
 
@@ -138,13 +138,13 @@ private extension Archive {
         return h.get()
     }
 
-    func newGroup(_ gs: GSSubjectProtocol) {
+    func newGroup(_ gs: GSSubject) {
         let hash = makeHash(gs)
 
         defer { theArchive[hash] = PeerGroup(initialTS: gs, goalSuite: goalSuite) }
 
         // Keep the index in the proper order
-        let currentTS: GSSubjectProtocol? = theIndex.isEmpty ? nil : getTop()
+        let currentTS: GSSubject? = theIndex.isEmpty ? nil : getTop()
         if currentTS == nil { theIndex.append(hash); return  }
 
         if let c = currentTS {
@@ -162,7 +162,7 @@ private extension Archive {
         }
     }
 
-    func passesCompare(_ subject: GSSubjectProtocol, _ op: GSComparison, against rhs: GSSubjectProtocol) -> Bool {
+    func passesCompare(_ subject: GSSubject, _ op: GSComparison, against rhs: GSSubject) -> Bool {
         switch op {
         case .BE: return subject.fitnessScore <= rhs.fitnessScore
         case .BT: return subject.fitnessScore <  rhs.fitnessScore
@@ -171,13 +171,13 @@ private extension Archive {
         }
     }
 
-    func peerGroupIsFull(_ gs: GSSubjectProtocol) -> Bool {
+    func peerGroupIsFull(_ gs: GSSubject) -> Bool {
         let hash = makeHash(gs)
         guard let peerGroup = theArchive[hash] else { return false }
         return peerGroup.count >= goalSuite.selectionControls.peerGroupLimit
     }
 
-    private func setQualifications(reference gs: GSSubjectProtocol, op: GSComparison) {
+    private func setQualifications(reference gs: GSSubject, op: GSComparison) {
         referenceTS = gs; comparisonMode = op
     }
 }
