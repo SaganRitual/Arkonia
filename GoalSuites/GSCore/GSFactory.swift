@@ -20,20 +20,31 @@
 
 import Foundation
 
-extension GSFactory {
+class GSFactory {
+    static var aboriginalGenome: Genome?
+
+    internal var decoder = Decoder()
+    var genomeWorkspace = String()
+    weak var suite: GSGoalSuite?
+
     var description: String { return "GSFactory; functioning within standard operational parameters" }
 
     public init() {
-        decoder = Decoder()
-
         genomeWorkspace.reserveCapacity(1024 * 1024)
         Mutator.m.setGenomeWorkspaceOwner(self)
     }
 
-    public func postInit(suite: GSGoalSuite) {
-        self.suite = suite
-        let h = suite.selectionControls.howManyLayersInStarter
-        GSFactory.aboriginalGenome = Manipulator.makePassThruGenome(hmLayers: h)
+    public func getAboriginal() -> GSSubject {
+        let ag = GSFactory.aboriginalGenome![...]
+
+        guard let aboriginal = makeArkon(genome: ag, mutate: false)
+            else { preconditionFailure("Aboriginal should survive birth") }
+
+        return aboriginal
+    }
+
+    func makeArkon(genome: GenomeSlice, mutate: Bool) -> GSSubject? {
+        preconditionFailure("Must be implemented in subclass")
     }
 
     func makeBrain(genome: GenomeSlice, mutate: Bool) -> Translators.Brain? {
@@ -50,27 +61,10 @@ extension GSFactory {
             Mutator.m.convertToGenome()
         } while genomeWorkspace.elementsEqual(reference)
     }
-}
 
-class GSFactory: GSFactory {
-    static var aboriginalGenome: Genome?
-
-    internal var decoder = Decoder()
-    var genomeWorkspace = String()
-    weak var suite: GSGoalSuite?
-
-    func makeArkon(genome: GenomeSlice, mutate: Bool) -> GSSubject? {
-        preconditionFailure("Must be implemented in subclass")
-    }
-}
-
-extension GSFactory {
-    public func getAboriginal() -> GSSubject {
-        let ag = GSFactory.aboriginalGenome![...]
-
-        guard let aboriginal = makeArkon(genome: ag, mutate: false)
-            else { preconditionFailure("Aboriginal should survive birth") }
-
-        return aboriginal
+    public func postInit(suite: GSGoalSuite) {
+        self.suite = suite
+        let h = suite.selectionControls.howManyLayersInStarter
+        GSFactory.aboriginalGenome = Manipulator.makePassThruGenome(hmLayers: h)
     }
 }

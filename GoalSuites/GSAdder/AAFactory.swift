@@ -21,9 +21,9 @@
 import Foundation
 
 class AAFactory: GSFactory {
-    var description: String { return "AAFactory; functioning within standard operational parameters" }
+    override var description: String { return "AAFactory; functioning within standard operational parameters" }
 
-    public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> AASubject? {
+    override public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> AASubject? {
         guard let brain = makeBrain(genome: genome, mutate: mutate) else { return nil }
 
         let a = AASubject(genome: genomeWorkspace[...], brain: brain)
@@ -31,7 +31,7 @@ class AAFactory: GSFactory {
         return a
     }
 
-    func postInit(suite: GSGoalSuite) {
+    override func postInit(suite: GSGoalSuite) {
         self.suite = suite
         let h = suite.selectionControls.howManyLayersInStarter
         GSFactory.aboriginalGenome = makePassThruGenome(hmLayers: h)

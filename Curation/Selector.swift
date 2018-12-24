@@ -106,7 +106,7 @@ class Selector {
         return stemTheFlood
     }
 
-    var comparisonMode = GSComparison.BE
+    var comparisonMode = GSGoalSuite.Comparison.BE
 
     @objc private func setSelectionParameters(_ notification: Notification) {
         guard let u = notification.userInfo,
@@ -115,7 +115,7 @@ class Selector {
 
         self.stud = p
 
-        guard let c = e as? GSComparison else { preconditionFailure() }
+        guard let c = e as? GSGoalSuite.Comparison else { preconditionFailure() }
         comparisonMode = c
     }
 

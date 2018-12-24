@@ -20,13 +20,12 @@
 
 import Foundation
 
-class GSSubject: GSSubject, LightLabelProtocol {
+class GSSubject: LightLabelProtocol, CustomStringConvertible {
     static var theFishNumber = 0
 
     let brain: Translators.Brain
     let fishNumber: Int
     let genome: Genome
-    var hashedAlready = SetOnce<Int>()
     var scoreCore = GSScore()
     var spawnCount: Int = 0
     var suite: GSGoalSuite?

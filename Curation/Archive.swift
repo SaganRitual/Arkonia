@@ -20,14 +20,14 @@
 
 import Foundation
 
-class Archive: Archive, CustomStringConvertible {
+class Archive: CustomStringConvertible {
 
     typealias GroupIndex = Int
     typealias TheArchive = [Int : PeerGroup]
 
     public var description: String { return getDescription() }
 
-    private(set) var comparisonMode = GSComparison.BT
+    private(set) var comparisonMode = GSGoalSuite.Comparison.BT
     unowned private let goalSuite: GSGoalSuite
     private(set) var referenceTS: GSSubject?
     private var theArchive = TheArchive()
@@ -129,13 +129,9 @@ private extension Archive {
     }
 
     func makeHash(_ gs: GSSubject) -> Int {
-        var h = gs.hashedAlready
-//        if h.has() { return h.get() }
-
         var hasher = Hasher()
         hasher.combine(gs.fitnessScore)
-        h.set(hasher.finalize())
-        return h.get()
+        return hasher.finalize()
     }
 
     func newGroup(_ gs: GSSubject) {
@@ -162,7 +158,7 @@ private extension Archive {
         }
     }
 
-    func passesCompare(_ subject: GSSubject, _ op: GSComparison, against rhs: GSSubject) -> Bool {
+    func passesCompare(_ subject: GSSubject, _ op: GSGoalSuite.Comparison, against rhs: GSSubject) -> Bool {
         switch op {
         case .BE: return subject.fitnessScore <= rhs.fitnessScore
         case .BT: return subject.fitnessScore <  rhs.fitnessScore
@@ -177,7 +173,7 @@ private extension Archive {
         return peerGroup.count >= goalSuite.selectionControls.peerGroupLimit
     }
 
-    private func setQualifications(reference gs: GSSubject, op: GSComparison) {
+    private func setQualifications(reference gs: GSSubject, op: GSGoalSuite.Comparison) {
         referenceTS = gs; comparisonMode = op
     }
 }

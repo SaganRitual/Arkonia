@@ -20,21 +20,26 @@
 
 import Foundation
 
+protocol GSTesterProtocol: class, LightLabelProtocol {
+    func administerTest(to gs: GSSubject) -> Double?
+    func postInit(suite: GSGoalSuite)
+}
+
 class GSScore: CustomStringConvertible, Hashable {
-    let score = SetOnce<Double>()
+    var score = 0.0
 
     public var description: String {
-        return score.get().sTruncate()
+        return score.sTruncate()
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(score.get())
+        hasher.combine(score)
     }
 
     static func == (_ lhs: GSScore, _ rhs: GSScore) -> Bool { return lhs.score == rhs.score }
 }
 
-class GSTester: GSTester {
+class GSTester: GSTesterProtocol {
     var actualOutput: Double!
     var expectedOutput: Double
     var inputs: [Double]

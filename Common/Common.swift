@@ -33,6 +33,10 @@ struct GSSelectionControls {
     var hmSpawnAttempts = 2
 }
 
+protocol LightLabelProtocol {
+    var lightLabel: String { get }
+}
+
 struct SetOnce<T> {
     private var meat: T?
     private var isLocked = false

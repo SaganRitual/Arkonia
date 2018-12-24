@@ -20,19 +20,19 @@
 
 import Foundation
 
-class GSGoalSuite: GSGoalSuite {
+class GSGoalSuite {
     static var selectionControls: GSSelectionControls!
 
     public enum Comparison: String { case ANY, BE, BT, EQ }
 
     private(set) var curator: Curator?
     public var factory: GSFactory
-    public var tester: GSTester
+    public var tester: GSTesterProtocol
 
     public var description: String { return "GSGoalSuite" }
     public var selectionControls: GSSelectionControls { return GSGoalSuite.selectionControls }
 
-    init(factory: GSFactory, tester: GSTester) {
+    init(factory: GSFactory, tester: GSTesterProtocol) {
         self.factory = factory
         self.tester = tester
 

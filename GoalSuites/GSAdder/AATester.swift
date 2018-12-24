@@ -20,7 +20,7 @@
 
 import Foundation
 
-final class AATester: GSTester {
+final class AATester: GSTesterProtocol {
 //    let testInputSets = [
 //        [1.0, 1.0], [10.0, 10.0], [100.0, 100.0], [1000.0, 1000.0],
 //        [5.0, 995.0], [47.0, 357.0], [756.0, 22.0], [1111.0, 1066.0]

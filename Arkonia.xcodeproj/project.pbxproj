@@ -58,6 +58,9 @@
 		D452A33A21C1ED000049E3A5 /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A30A21C10B230049E3A5 /* GSGoalSuite.swift */; };
 		D452A33C21C1ED000049E3A5 /* GSSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A31F21C18EDB0049E3A5 /* GSSubject.swift */; };
 		D452A33D21C1ED000049E3A5 /* GSTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A31A21C142810049E3A5 /* GSTester.swift */; };
+		D4553E0621D143D700B474A7 /* PeerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4553E0521D143D700B474A7 /* PeerGroup.swift */; };
+		D4553E0721D143D700B474A7 /* PeerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4553E0521D143D700B474A7 /* PeerGroup.swift */; };
+		D4553E0821D143D700B474A7 /* PeerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4553E0521D143D700B474A7 /* PeerGroup.swift */; };
 		D45E63E521AE39940078CB8E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
 		D45E63E721AE39940078CB8E /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
 		D45E63E821AE39940078CB8E /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
@@ -268,6 +271,7 @@
 		D452A31A21C142810049E3A5 /* GSTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTester.swift; sourceTree = "<group>"; };
 		D452A31F21C18EDB0049E3A5 /* GSSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSubject.swift; sourceTree = "<group>"; };
 		D452A32721C192170049E3A5 /* GSFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSFactory.swift; sourceTree = "<group>"; };
+		D4553E0521D143D700B474A7 /* PeerGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PeerGroup.swift; path = Curation/PeerGroup.swift; sourceTree = "<group>"; };
 		D45E63FB21AE39940078CB8E /* Dark-R */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Dark-R"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4684CC321C2D1C900D13964 /* Manipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manipulator.swift; sourceTree = "<group>"; };
@@ -592,6 +596,7 @@
 			children = (
 				D4C54C8E21BDA23C00FA6549 /* Archive.swift */,
 				D4C0A12321AE23F4009D6011 /* Curator.swift */,
+				D4553E0521D143D700B474A7 /* PeerGroup.swift */,
 				D4C0A12521AE23F4009D6011 /* Selector.swift */,
 			);
 			name = Curation;
@@ -1074,6 +1079,7 @@
 				D482FD9921B1216500FF9EE9 /* Decoder.swift in Sources */,
 				D482FD9521B11EAF00FF9EE9 /* Selector.swift in Sources */,
 				D4A5C4DB21CAA98B002105DB /* AKLayer.swift in Sources */,
+				D4553E0721D143D700B474A7 /* PeerGroup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1114,6 +1120,7 @@
 				D4A5C4D421C9385E002105DB /* AKLayer.swift in Sources */,
 				D4C0A13221AE2405009D6011 /* Decoder.swift in Sources */,
 				D452A33521C1ECE10049E3A5 /* Archive.swift in Sources */,
+				D4553E0621D143D700B474A7 /* PeerGroup.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1148,6 +1155,7 @@
 				D479962621CE0C0100EB7A9A /* Vnet.swift in Sources */,
 				D452A30C21C10B230049E3A5 /* GSGoalSuite.swift in Sources */,
 				D4684CCA21C2D55F00D13964 /* Tene.swift in Sources */,
+				D4553E0821D143D700B474A7 /* PeerGroup.swift in Sources */,
 				D408A41321D0CF240061D7A6 /* Common.swift in Sources */,
 				D48F2FBB21C31C06008EA8DA /* NGGoalSuite.swift in Sources */,
 				D471173621B3D5440076DD2A /* VBrain.swift in Sources */,
