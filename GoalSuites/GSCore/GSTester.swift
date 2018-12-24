@@ -34,7 +34,7 @@ class GSScore: CustomStringConvertible, Hashable {
     static func == (_ lhs: GSScore, _ rhs: GSScore) -> Bool { return lhs.score == rhs.score }
 }
 
-class GSTester: GSTesterProtocol {
+class GSTester: GSTester {
     var actualOutput: Double!
     var expectedOutput: Double
     var inputs: [Double]

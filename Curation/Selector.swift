@@ -27,15 +27,15 @@ extension Foundation.Notification.Name {
 }
 
 class Selector {
-    unowned private var goalSuite: GSGoalSuiteProtocol
+    unowned private var goalSuite: GSGoalSuite
     private let notificationCenter = NotificationCenter.default
     unowned private let semaphore: DispatchSemaphore
-    weak private var stud: GSSubjectProtocol!
+    weak private var stud: GSSubject!
     private var selectorWorkItem: DispatchWorkItem!
     private var thisGenerationNumber = 0
     private var observerHandle: NSObjectProtocol?
 
-    init(goalSuite: GSGoalSuiteProtocol, semaphore: DispatchSemaphore) {
+    init(goalSuite: GSGoalSuite, semaphore: DispatchSemaphore) {
         self.goalSuite = goalSuite
         self.semaphore = semaphore
 
@@ -71,15 +71,15 @@ class Selector {
         }
     }
 
-    public func scoreAboriginal(_ aboriginal: GSSubjectProtocol) {
+    public func scoreAboriginal(_ aboriginal: GSSubject) {
         if goalSuite.tester.administerTest(to: aboriginal) == nil { preconditionFailure() }
     }
 
-    private func select(against stud: GSSubjectProtocol) -> [GSSubjectProtocol]? {
+    private func select(against stud: GSSubject) -> [GSSubject]? {
         thisGenerationNumber += 1
 
         var bestScore = stud.fitnessScore
-        var stemTheFlood = [GSSubjectProtocol]()
+        var stemTheFlood = [GSSubject]()
 
         for _ in 0..<goalSuite.selectionControls.howManySubjectsPerGeneration {
             guard let gs = goalSuite.factory.makeArkon(genome: stud.genome[...], mutate: true) else { continue }
@@ -110,7 +110,7 @@ class Selector {
 
     @objc private func setSelectionParameters(_ notification: Notification) {
         guard let u = notification.userInfo,
-            let p = u[NotificationType.select] as? GSSubjectProtocol,
+            let p = u[NotificationType.select] as? GSSubject,
             let e = u["comparisonMode"] else { preconditionFailure() }
 
         self.stud = p

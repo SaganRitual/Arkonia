@@ -40,7 +40,7 @@ class Curator {
     private var observerHandle: NSObjectProtocol?
     public var status = CuratorStatus.running
 
-    public var currentProgenitor: GSSubject? { return archive.currentProgenitor }
+    public var currentProgenitor: GSSubject? { return (archive.currentProgenitor as! GSSubject) }
 
     init(goalSuite: GSGoalSuite) {
         self.selector = Selector(goalSuite: goalSuite, semaphore: semaphore)
@@ -82,10 +82,9 @@ class Curator {
         let a = goalSuite.factory.getAboriginal()
         selector.scoreAboriginal(a)
 
-        let p = PeerGroupFactory()
-        archive.postInit(aboriginal: a, peerGroupFactory: p)
+        archive.postInit(aboriginal: a)
 
-        self.aboriginal = a
+        self.aboriginal = (a as! GSSubject)
         self.atLeastOneTSHasSurvived = true
         print("Aboriginal score = \(a.fitnessScore)")
 
