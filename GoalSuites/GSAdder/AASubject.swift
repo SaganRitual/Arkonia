@@ -21,6 +21,7 @@
 import Foundation
 
 class AASubject: GSSubject {
+    public var debugOutput = ""
     override public var description: String {
         return "(\(fishNumber)) score \(fitnessScore.sciTruncate(5))"
     }

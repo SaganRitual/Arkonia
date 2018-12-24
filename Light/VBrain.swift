@@ -24,7 +24,7 @@ import SpriteKit
 class VBrain {
     var arkon: GSSubject!
     var fishNumber = SKLabelNode()
-    let fontSizeForBrainLabel: CGFloat = 30.0
+    var fontSizeForBrainLabel: CGFloat = 30.0
     let fontSizeForNeuronLabels: CGFloat = 30.0
     let gameScene: GameScene
     var isFinalUpdate = false
@@ -52,6 +52,8 @@ class VBrain {
         self.netcam.userData = ["myCamera" : rv]
     }
 
+    var labelScaler: CGFloat = 1.0
+
     func makeLightLabel(_ arkon: GSSubject) -> SKShapeNode {
         let lightLabel = SKLabelNode(text: arkon.lightLabel)
         lightLabel.fontSize = fontSizeForBrainLabel
@@ -59,11 +61,12 @@ class VBrain {
         lightLabel.fontName = "Courier New"
 
         labelBackground = SKShapeNode(rect: lightLabel.frame)
-        labelBackground.fillColor = gameScene.backgroundColor
+        labelBackground.fillColor = .blue// gameScene.backgroundColor
         labelBackground.strokeColor = gameScene.backgroundColor
         labelBackground.addChild(lightLabel)
         labelBackground.position.y = -netcam.frame.size.height + labelBackground.frame.height
         labelBackground.zPosition = CGFloat(4.0)
+        labelBackground.setScale(labelScaler)
 
         return labelBackground
     }
@@ -74,6 +77,11 @@ class VBrain {
         let labelBackground = makeLightLabel(arkon)
 
         netcam = vnet.netcams[cameraID.rawValue]
+
+        while labelBackground.frame.width > CGFloat(2.0) * netcam.frame.width {
+            labelScaler *= CGFloat(0.95)
+            labelBackground.setScale(labelScaler)
+        }
 
         vBrainSceneSize = {
             var g = netcam.frame.size; g.height -= labelBackground.frame.height / CGFloat(1.5); return g

@@ -48,7 +48,6 @@ protocol LayerOwnerProtocol {
     func newNeuron()
     func setInputs(_ inputs: [Int])
     func show(tabs: String, override: Bool)
-    func stimulate(sensoryInputs: [Double]) -> [Double?]
 
     func generateRandomSensoryInput() -> [Double]
 }

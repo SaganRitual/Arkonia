@@ -41,8 +41,8 @@ class AKLayer {
 
         relays = neurons.map { neuron in
             defer { relayID += 1 }
-            let newRelay = NeuronRelay(layerID, relayID)
-            neuron.relay = newRelay
+            let newRelay = NeuronRelay.makeNeuronRelay(layerID, relayID)
+            neuron.relay = newRelay // weak ref
             return neuron.relay
         }
     }
@@ -53,12 +53,18 @@ class AKLayer {
         }
     }
 
-    func driveSignal(from upperLayer: AKLayer) -> AKLayer? {
+    func driveSignal(from upperLayer: AKLayer, _ establishConnections: Bool) -> AKLayer? {
+        var signalPassed = false
+
         for neuron in neurons {
-            guard neuron.relaySignal(from: upperLayer) else { return nil }
-            guard neuron.driveSignal() else { return nil }
+            if establishConnections {
+                guard neuron.connectToOutputs(from: upperLayer) else { return nil }
+            }
+
+            guard neuron.driveSignal() else { continue }
+            signalPassed = true
         }
 
-        return self
+        return signalPassed ? self : nil
     }
 }

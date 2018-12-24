@@ -22,18 +22,14 @@ import Foundation
 
 class AKNet {
     var arkonID: Int?
+    var connectionsAreEstablished = false
     var layers = [AKLayer]()
 
     init(_ xLayers: [Translators.Layer]) {
         layers = xLayers.enumerated().map { (arkonID, xLayer) in AKLayer(xLayer, arkonID) }
     }
 
-    func attachRelay(_ sink: (y: Int, x: Int), to source: (y: Int, x: Int)) {
-        let sourceNeuron = layers[source.y].neurons[source.x]
-        let sinkNeuron = layers[sink.y].neurons[sink.x]
-
-        sinkNeuron.connectToOutput(of: sourceNeuron, weight: 42.42)
-    }
+//    deinit { print("~AKNet", nilstr(arkonID)) }
 
     func driveSignal(_ sensoryInputs: [Double]) -> [Double?] {
         var iter = layers.makeIterator()
@@ -42,14 +38,21 @@ class AKNet {
         upperLayer.driveSensoryInputs(sensoryInputs)
 
         for LL in iter {
-            guard let lowerLayer = LL.driveSignal(from: upperLayer)
+            let establishConnections = !connectionsAreEstablished
+            guard let lowerLayer = LL.driveSignal(from: upperLayer, establishConnections)
                 else { return [Double?](repeating: nil, count: 50) }
 
-//            print("removing from layer \(upperLayer.layerID)")
-            upperLayer.relays.removeAll()
-//            print("removed from layer \(upperLayer.layerID)")
+            // It would be ok to call remove() even if it were empty. I'm leaving
+            // this here as a reminder to myself that we're re-using the
+            // same layers from the previous stim pass, not creating new
+            // ones every time--concerning which, I have no idea how it
+            // ever even seemed to work.
+            if !upperLayer.relays.isEmpty { upperLayer.relays.removeAll() }
+
             upperLayer = lowerLayer
         }
+
+        connectionsAreEstablished = true    // Subsequent passes use the existing grid
 
         return layers.last!.relays.map { r in if let relay = r { return relay.output } else { return nil } }
     }

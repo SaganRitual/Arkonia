@@ -33,7 +33,7 @@ class AAGoalSuite: GSGoalSuite {
     override class func setSelectionControls() -> GSSelectionControls {
         var sc = GSSelectionControls()
 
-        sc.howManySenses = 2
+        sc.howManySenses = 3
         sc.howManyLayersInStarter = 5
         sc.howManyMotorNeurons = 1
         sc.howManyGenerations = 100

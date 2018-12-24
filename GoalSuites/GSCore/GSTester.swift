@@ -57,19 +57,22 @@ class GSTester: GSTesterProtocol {
         inputs = Array(repeating: 1.0, count: inputsCount)
         outputs = Array(repeating: nil, count: outputsCount)
         self.expectedOutput = expectedOutput
-
-//        print(self)
     }
 
     func postInit(suite: GSGoalSuite) { self.suite = suite }
 
     func administerTest(to gs: GSSubject) -> Double? {
-        precondition(!inputs.isEmpty, "No input available")
+        gs.fitnessScore = 0.0
 
-        outputs = gs.brain.stimulate(sensoryInputs: inputs)
+        let net = AKNet(gs.brain.layers)
 
-        actualOutput = outputs.compactMap({$0}).reduce(0.0, +)
-        gs.fitnessScore = abs(actualOutput - expectedOutput)
+        outputs = net.driveSignal(inputs)
+
+        let nonils = outputs.compactMap({$0})
+        if nonils.isEmpty { return nil }
+
+        let result = nonils.reduce(0.0, +)
+        gs.fitnessScore = abs(result - expectedOutput)
 
         return gs.fitnessScore
     }

@@ -29,12 +29,13 @@ extension Foundation.Notification.Name {
 class Selector {
     unowned private var goalSuite: GSGoalSuite
     private let notificationCenter = NotificationCenter.default
+    private var observerHandle: NSObjectProtocol?
     private(set) var randomArkonForDisplay: GSSubject?
     unowned private let semaphore: DispatchSemaphore
     weak private var stud: GSSubject!
     private var selectorWorkItem: DispatchWorkItem!
     private var thisGenerationNumber = 0
-    private var observerHandle: NSObjectProtocol?
+    private var trackRandomArkon = 0
 
     init(goalSuite: GSGoalSuite, semaphore: DispatchSemaphore) {
         self.goalSuite = goalSuite
@@ -88,26 +89,25 @@ class Selector {
 
         var bestScore = stud.fitnessScore
         var stemTheFlood = [GSSubject]()
-        var trackRandomArkon = 0
 
+        randomArkonForDisplay?.brain.net?.layers.last?.relays.removeAll()
         randomArkonForDisplay = nil
 
         for _ in 0..<goalSuite.selectionControls.howManySubjectsPerGeneration {
             guard let gs = goalSuite.factory.makeArkon(genome: stud.genome[...], mutate: true) else { continue }
 
-            defer {
-                trackRandomArkon += 1
-                if (trackRandomArkon % 20) == 0 { randomArkonForDisplay = gs }
-            }
+            trackRandomArkon += 1
+            if (trackRandomArkon % 20) == 0 && gs.brain.net != nil
+                { randomArkonForDisplay = gs }
 
             if selectorWorkItem.isCancelled { break }
             if gs.genome == stud.genome { continue }
 
             guard let score = goalSuite.tester.administerTest(to: gs)
-                else { continue }
+                else { print("!", terminator: ""); gs.brain.net = nil; continue }
 
             if score < bestScore { bestScore = score }
-            else { continue }
+            else { /*print("#", terminator: "");*/ gs.brain.net = nil; continue }
 
             // Start getting rid of the less promising candidates
             if stemTheFlood.count >= goalSuite.selectionControls.maxKeepersPerGeneration {

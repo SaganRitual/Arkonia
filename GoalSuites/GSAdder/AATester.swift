@@ -26,40 +26,41 @@ final class AATester: GSTesterProtocol {
 //        [5.0, 995.0], [47.0, 357.0], [756.0, 22.0], [1111.0, 1066.0]
 //    ]
 
-    let testInputSets = [ [5.0, 7.0] ]
-
-    var expectedOutput = 0.0
-    var reducedInput = [0.0, 0.0]
-
+    let testInputSets = [ [5.0, 7.0, 1.0], [3.0, 11.0, -1.0] ]
+    let expectedOutputs = [12.0, -8.0]
+    var cookedOutputs = [Double]()
     var rawOutputs = [Double?]()
-    var reducedOutput = 0.0
 
     var suite: GSGoalSuite?
 
     var lightLabel: String {
-        return ": \(reducedInput[0]) + \(reducedInput[1]) ?= \(reducedOutput.sTruncate(1))" }
+        return ": not sure yet"
+    }
 
     var description: String { return "AATester; Arkon goal: add two numbers" }
-
-    init() {
-        for set in testInputSets { reducedInput[0] += set[0]; reducedInput[1] += set[1] }
-
-        expectedOutput = testInputSets.map { $0[0] - $0[1] }.reduce(0.0, +)
-    }
 
     func postInit(suite: GSGoalSuite) { self.suite = suite }
 
     func administerTest(to gs: GSSubject) -> Double? {
-        reducedOutput = 0.0
+        gs.fitnessScore = 0.0
 
-        for inputSet in testInputSets {
-            rawOutputs = gs.brain.stimulate(sensoryInputs: inputSet)
-            reducedOutput = rawOutputs.compactMap({$0}).reduce(reducedOutput, +)
+        let net = gs.brain.getNet()
+
+        for (ss, inputSet) in testInputSets.enumerated() {
+            rawOutputs = net.driveSignal(inputSet)
+
+            let nonils = rawOutputs.compactMap({$0})
+            if nonils.isEmpty { gs.brain.net?.layers.last!.relays.removeAll(); return nil }
+
+            let result = nonils.reduce(0.0, +)
+            cookedOutputs.append(result)
+
+            let error = abs(1.0 - (cookedOutputs[ss] / expectedOutputs[ss]))
+            gs.fitnessScore += error
+
+//            print(".gsf", gs.fishNumber, error, cookedOutputs[ss], expectedOutputs[ss], (cookedOutputs[ss] / expectedOutputs[ss]))
         }
-
-//        print("well? \(reducedOutput) - \(expectedOutput)")
-        gs.fitnessScore = abs(reducedOutput - expectedOutput) / Double(testInputSets.count)
-//        print("A(\(gs.fishNumber)) score \(gs.fitnessScore) for \(reducedInput[0]) + \(reducedInput[1]) = \(reducedOutput)")
+//        print("gsf", gs.fishNumber, gs.fitnessScore)
 
         return gs.fitnessScore
     }

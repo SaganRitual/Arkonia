@@ -105,12 +105,8 @@ class Curator {
             let newScore = gs.fitnessScore
             let oldScore = archive.referenceTS!.fitnessScore
             if newScore != oldScore {
-//                if let zts = gs as? TSLearnZoeName {
-//                    print("New record by \(gs.fishNumber): \"\(zts.attemptedZName)\"")
-//                } else {
-                    print("New record by \(gs.fishNumber): \(gs.fitnessScore)")
-//                print(gs.genome)
-//                }
+                print("New record by \(gs.fishNumber): \(gs.fitnessScore)")
+//                print((self.currentProgenitor as! AASubject).debugOutput)
             }
 
             deploySelector(reference: gs)
@@ -128,6 +124,9 @@ class Curator {
         print("Best score \(self.currentProgenitor?.fitnessScore ?? -42.4242)" +
                 " from \(self.currentProgenitor?.fishNumber ?? 424242)," +
                 " genome \(currentProgenitor?.genome ?? "<no genome?>")")
+
+//        print((self.currentProgenitor as! AASubject).debugOutput)
+
         return self.currentProgenitor
     }
 
