@@ -29,6 +29,7 @@ extension Foundation.Notification.Name {
 class Selector {
     unowned private var goalSuite: GSGoalSuite
     private let notificationCenter = NotificationCenter.default
+    private(set) var randomArkonForDisplay: GSSubject?
     unowned private let semaphore: DispatchSemaphore
     weak private var stud: GSSubject!
     private var selectorWorkItem: DispatchWorkItem!
@@ -64,10 +65,17 @@ class Selector {
             semaphore.wait()
 
             guard let newSurvivors = select(against: self.stud) else { continue }
-            let selectionResults = [NotificationType.selectComplete : newSurvivors]
+            var selectionResults: [AnyHashable : Any] = [
+                NotificationType.selectComplete : newSurvivors
+            ]
+
+            if let r = randomArkonForDisplay {
+                selectionResults["randomArkonForDisplay"] = r
+            }
+
             let n = Foundation.Notification.Name.selectComplete
 
-            notificationCenter.post(name: n, object: self, userInfo: selectionResults as [AnyHashable : Any])
+            notificationCenter.post(name: n, object: self, userInfo: selectionResults)
         }
     }
 
@@ -76,13 +84,21 @@ class Selector {
     }
 
     private func select(against stud: GSSubject) -> [GSSubject]? {
-        thisGenerationNumber += 1
+        defer { thisGenerationNumber += 1 }
 
         var bestScore = stud.fitnessScore
         var stemTheFlood = [GSSubject]()
+        var trackRandomArkon = 0
+
+        randomArkonForDisplay = nil
 
         for _ in 0..<goalSuite.selectionControls.howManySubjectsPerGeneration {
             guard let gs = goalSuite.factory.makeArkon(genome: stud.genome[...], mutate: true) else { continue }
+
+            defer {
+                trackRandomArkon += 1
+                if (trackRandomArkon % 20) == 0 { randomArkonForDisplay = gs }
+            }
 
             if selectorWorkItem.isCancelled { break }
             if gs.genome == stud.genome { continue }
@@ -101,7 +117,10 @@ class Selector {
             stemTheFlood.push(gs)
         }
 
-        if stemTheFlood.isEmpty { return nil }  // No qualifiers, perhaps even no survivors
+        if stemTheFlood.isEmpty {
+            print("No survivors in generation \(thisGenerationNumber)")
+            return nil  // No qualifiers, perhaps even no survivors
+        }
 
         return stemTheFlood
     }

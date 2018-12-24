@@ -26,7 +26,7 @@ final class AATester: GSTesterProtocol {
 //        [5.0, 995.0], [47.0, 357.0], [756.0, 22.0], [1111.0, 1066.0]
 //    ]
 
-    let testInputSets = [ [5.0, 7.0], [12.0, 13.0] ]
+    let testInputSets = [ [5.0, 7.0] ]
 
     var expectedOutput = 0.0
     var reducedInput = [0.0, 0.0]
@@ -37,7 +37,7 @@ final class AATester: GSTesterProtocol {
     var suite: GSGoalSuite?
 
     var lightLabel: String {
-        return "\(reducedInput[0]) + \(reducedInput[1]) ?= \(reducedOutput.sTruncate(1))" }
+        return ": \(reducedInput[0]) + \(reducedInput[1]) ?= \(reducedOutput.sTruncate(1))" }
 
     var description: String { return "AATester; Arkon goal: add two numbers" }
 
@@ -50,13 +50,16 @@ final class AATester: GSTesterProtocol {
     func postInit(suite: GSGoalSuite) { self.suite = suite }
 
     func administerTest(to gs: GSSubject) -> Double? {
+        reducedOutput = 0.0
+
         for inputSet in testInputSets {
             rawOutputs = gs.brain.stimulate(sensoryInputs: inputSet)
-            reducedOutput = rawOutputs.compactMap({$0}).reduce(0.0, +)
+            reducedOutput = rawOutputs.compactMap({$0}).reduce(reducedOutput, +)
         }
 
 //        print("well? \(reducedOutput) - \(expectedOutput)")
         gs.fitnessScore = abs(reducedOutput - expectedOutput) / Double(testInputSets.count)
+//        print("A(\(gs.fishNumber)) score \(gs.fitnessScore) for \(reducedInput[0]) + \(reducedInput[1]) = \(reducedOutput)")
 
         return gs.fitnessScore
     }

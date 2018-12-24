@@ -110,7 +110,9 @@ extension VBrain {
         var previousLayerPoints = [CGPoint]()
         let outputNetcam = vnet.netcams[Vnet.Quadrant.four.rawValue]
 
-        outputNetcam.removeAllChildren()
+        let neuronOutputsNeedUpdate = (netcam == vnet.netcams[Vnet.Quadrant.one.rawValue])
+
+        if neuronOutputsNeedUpdate { outputNetcam.removeAllChildren() }
 
         layers.enumerated().forEach { layerSS, layer in
             precondition(!layer.neurons.isEmpty, "Dead brain should not have come this far")
@@ -129,7 +131,11 @@ extension VBrain {
                 currentLayerPoints.append(position)
 
                 drawConnections(from: previousLayerPoints, to: neuron, at: position)
-                drawOutputs(neuron, vNeuron)
+
+                // Draw outputs only for the vbrain in Q1
+                if neuronOutputsNeedUpdate {
+                    drawOutputs(neuron, vNeuron)
+                }
 
                 self.vNeurons.append(vNeuron)
                 netcam.addChild(vNeuron)

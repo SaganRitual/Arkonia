@@ -25,13 +25,14 @@ class GameScene: SKScene {
 
     private var vBrain: VBrain!
 
-//    let goalSuite = NGGoalSuite("Zoe Bishop")
-    let goalSuite = AAGoalSuite()
+    let goalSuite = NGGoalSuite("Zoe Bishop")
+//    let goalSuite = AAGoalSuite()
 
     var frameCount = 0
     var curator: Curator?
     var workItem: DispatchWorkItem!
     var currentProgenitor: GSSubject?
+    var nowShowingRandomCandidate: GSSubject?
 
     var myCuratorStatus = CuratorStatus.running
     var firstPass = true
@@ -71,16 +72,30 @@ class GameScene: SKScene {
         if self.currentProgenitor == nil { self.currentProgenitor = his }
         guard let mine = self.currentProgenitor else { preconditionFailure() }
 
+        updateRandomDisplay()
+
         if mine.fishNumber == his.fishNumber && !firstPass { return }
 
         self.currentProgenitor = his
         vBrain.displayBrain(his, .one)
 
-        if let randomCandidate = curator.randomArkonForDisplay {
-            vBrain.displayBrain(randomCandidate, .two)
+        firstPass = false
+    }
+
+    var primeRandomUpdate = true
+    func updateRandomDisplay() {
+        guard let toDisplay = curator<!>.selector.randomArkonForDisplay else { return }
+
+        var update = primeRandomUpdate
+        if let c = nowShowingRandomCandidate {
+            update = update || (c.fishNumber != toDisplay.fishNumber)
         }
 
-        firstPass = false
+        if update {
+            vBrain.displayBrain(toDisplay, .two)
+            nowShowingRandomCandidate = toDisplay
+            primeRandomUpdate = false
+        }
     }
 
 }

@@ -133,13 +133,14 @@ class Curator {
 
     @objc func selectComplete(_ notification: Notification) {
         guard let u = notification.userInfo,
-            let p = u[NotificationType.selectComplete] as? [GSSubject]
+            let p = u[NotificationType.selectComplete] as? [GSSubject],
+            let q = u["randomArkonForDisplay"] as? GSSubject
             else {
                 if !self.selector.isCanceled { return }
                 preconditionFailure()
             }
 
-        if let d = p.last { randomArkonForDisplay = d }
+        randomArkonForDisplay = q
         p.forEach { archive.newCandidate($0) }
         self.atLeastOneTSHasSurvived = true
     }
