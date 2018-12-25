@@ -58,7 +58,9 @@ import CoreGraphics // For the math functions
 class Translators: BrainOwnerProtocol {
     static let t = Translators()
 
-    func setOutputFunction(_ function: @escaping NeuronOutputFunction) { brain.setOutputFunction(function) }
+    func setOutputFunction(_ functionName: String) {
+        AFn.setOutputFunction(functionName, for: brain)
+    }
 
     private var brain: Brain!
     var layers = [Layer]()
@@ -88,32 +90,6 @@ class Translators: BrainOwnerProtocol {
     func newNeuron() { self.brain.newNeuron() }
 
     public func reset() { brain = nil }
-
-    enum OutputFunctionName: String {
-        case limiter, logistic, linear, tanh
-    }
-
-    static func tanh(_ theDouble: Double) -> Double { return CoreGraphics.tanh(theDouble) }
-    static func logistic(_ theDouble: Double) -> Double { return 1.0 / (1.0 + exp(-theDouble)) }
-    static func limiter(_ theDouble: Double) -> Double {
-        let cappedAtPlusOne = min(1.0, theDouble)
-        return max(-1, cappedAtPlusOne)
-    }
-
-    func setOutputFunction(_ functionName: String) {
-        guard let fn = OutputFunctionName.init(rawValue: functionName)
-            else { preconditionFailure("Function name not found") }
-
-        guard !functionName.isEmpty
-            else { preconditionFailure("No function name") }
-
-        switch fn {
-        case .limiter:  self.brain.setOutputFunction(Translators.limiter)
-        case .linear: self.brain.setOutputFunction(Neuron.outputFunction)
-        case .logistic: self.brain.setOutputFunction(Translators.logistic)
-        case .tanh:   self.brain.setOutputFunction(Translators.tanh)
-        }
-    }
 
     func show(tabs: String, override: Bool = false) {
 //        if Utilities.thereBeNoShowing || !override { return }

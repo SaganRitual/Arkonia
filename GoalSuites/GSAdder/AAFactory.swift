@@ -33,6 +33,11 @@ class AAFactory: GSFactory {
 
     override func postInit(suite: GSGoalSuite) {
         self.suite = suite
+
+        GSGoalSuite.selectionControls.howManyMotorNeurons = 5
+        GSGoalSuite.selectionControls.howManySenses = 5
+        GSGoalSuite.selectionControls.howManyLayersInStarter = 5
+
         let h = suite.selectionControls.howManyLayersInStarter
         GSFactory.aboriginalGenome = makePassThruGenome(hmLayers: h)
     }
@@ -43,9 +48,9 @@ class AAFactory: GSFactory {
             dag = makeOneLayer(dag, hmNeurons: GSGoalSuite.selectionControls.howManySenses)
         }
 
-        dag += "L_N_"
-        dag += "A(\(true))_F(linear)_W(b[\(1)]v[\(1)])_B(\(1))_"
-        dag += "A(\(true))_F(linear)_W(b[\(1)]v[\(1)])_B(\(-1))_"
+//        dag += "L_N_"
+//        dag += "A(\(true))_F(identity)_W(b[\(1)]v[\(1)])_B(\(1))_"
+//        dag += "A(\(true))_F(identity)_W(b[\(1)]v[\(1)])_B(\(-1))_"
 
         return dag
     }
@@ -55,7 +60,7 @@ class AAFactory: GSFactory {
         var bias = 1.0
         var scanRight = true
         for _ in 0..<hmNeurons {
-            protoGenome += "N_A(\(scanRight))_F(linear)_W(b[\(1)]v[\(1)])_B(\(bias))_"
+            protoGenome += "N_A(\(scanRight))_F(identity)_W(b[\(1)]v[\(1)])_B(\(bias))_"
             bias *= -1
             scanRight = !scanRight
         }

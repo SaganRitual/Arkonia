@@ -104,7 +104,7 @@ class Selector {
             if gs.genome == stud.genome { continue }
 
             guard let score = goalSuite.tester.administerTest(to: gs)
-                else { print("!", terminator: ""); gs.brain.net = nil; continue }
+                else { /*print("!", terminator: "");*/ gs.brain.net = nil; continue }
 
             if score < bestScore { bestScore = score }
             else { /*print("#", terminator: "");*/ gs.brain.net = nil; continue }

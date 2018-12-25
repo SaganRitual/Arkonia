@@ -26,8 +26,8 @@ final class AATester: GSTesterProtocol {
 //        [5.0, 995.0], [47.0, 357.0], [756.0, 22.0], [1111.0, 1066.0]
 //    ]
 
-    let testInputSets = [ [5.0, 7.0, 1.0], [3.0, 11.0, -1.0] ]
-    let expectedOutputs = [12.0, -8.0]
+    let testInputSets = [ [5.0, 1.0, 7.0, 1.0, 11.0] ]
+    let expectedOutputs = [23.0]
     var cookedOutputs = [Double]()
     var rawOutputs = [Double?]()
 

@@ -57,7 +57,7 @@ class Layer: CustomStringConvertible {
         underConstruction = makeNeuron()
     }
 
-    func setOutputFunction(_ function: @escaping NeuronOutputFunction) { underConstruction?.setOutputFunction(function) }
+    func setOutputFunction(_ function: @escaping AFn.NeuronOutputFunction) { underConstruction?.setOutputFunction(function) }
 
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }

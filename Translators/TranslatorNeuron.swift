@@ -41,8 +41,6 @@ struct ValueDoublet: CustomStringConvertible {
     static func + (_ lhs: Double, _ rhs: ValueDoublet) -> Double { return rhs + lhs }
 }
 
-typealias NeuronOutputFunction = (Double) -> Double
-
 extension Translators {
 
 class Neuron: CustomStringConvertible {
@@ -59,7 +57,7 @@ class Neuron: CustomStringConvertible {
 
     var hasOutput: Bool { return myTotalOutput != nil }
 
-    static let outputFunction: NeuronOutputFunction =
+    static let outputFunction: AFn.NeuronOutputFunction =
             { (_ input: Double) -> Double in return input }
 
     var outputFunction = Neuron.outputFunction
@@ -92,7 +90,7 @@ class Neuron: CustomStringConvertible {
         return myTotalOutput
     }
 
-    func setOutputFunction(_ function: @escaping NeuronOutputFunction) { self.outputFunction = function }
+    func setOutputFunction(_ function: @escaping AFn.NeuronOutputFunction) { self.outputFunction = function }
 
     func show(tabs: String, override: Bool = false) {
         if Utilities.thereBeNoShowing && !override { return }

@@ -221,7 +221,7 @@ extension Manipulator {
         var bias = 1.0
         var scanRight = true
         for _ in 0..<hmNeurons {
-            protoGenome += "N_A(\(scanRight))_F(linear)_W(b[\(1)]v[\(1)])_B(\(bias))_"
+            protoGenome += "N_A(\(scanRight))_F(identity)_W(b[\(1)]v[\(1)])_B(\(bias))_"
             bias *= -1
             scanRight = !scanRight
         }

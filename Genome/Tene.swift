@@ -55,11 +55,11 @@ class Tene: CustomStringConvertible {
             self.value = String(Bool.random()); return
         }
 
-        let outputFunctions: [Translators.OutputFunctionName] = [.limiter, .linear, .logistic, .tanh]
-        if let f = Translators.OutputFunctionName(rawValue: self.value),
-            outputFunctions.contains(f) {
+        // A rather ugly way of finding out whether we're an F tene.
+        if let functionName = AFn.FunctionName(rawValue: self.value),
+            AFn.lookup[functionName] != nil {
 
-            self.value = RandomnessGenerator.getRandomOutputFunction(); return
+            self.value = AFn.getRandomOutputFunction(); return
         }
 
         let b = Mutator.m.mutate(from: Double(self.baseline)!)

@@ -44,7 +44,7 @@ enum RandomnessGenerator {
         switch geneType {
         case Manipulator.act: return "A(\(Bool.random()))"
         case Manipulator.bis: return "B(\(Double.random(in: -1...1)))"
-        case Manipulator.fun: return "F(\(RandomnessGenerator.getRandomOutputFunction()))"
+        case Manipulator.fun: return "F(\(AFn.getRandomOutputFunction()))"
         case Manipulator.lay: return "L"
         case Manipulator.neu: return "N"
         case Manipulator.wgt: return "W(b[\(Double.random(in: -1...1).sTruncate())]v[\(Double.random(in: -1...1).sTruncate())])"
@@ -57,16 +57,6 @@ enum RandomnessGenerator {
         for _ in 0..<howManyGenes { newGenome += generateRandomGene() }
         return newGenome
     }
-
-    static func getRandomOutputFunction() -> String {
-        let blank = outputFunctions[Int.random(in: 0..<outputFunctions.count)].rawValue
-        return blank
-    }
-
-    static let outputFunctions = [
-        Translators.OutputFunctionName.limiter, Translators.OutputFunctionName.linear,
-        Translators.OutputFunctionName.logistic, Translators.OutputFunctionName.tanh
-    ]
 }
 
 // With deepest gratitude to Stack Overflow dude

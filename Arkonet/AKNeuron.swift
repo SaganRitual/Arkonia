@@ -103,7 +103,7 @@ class AKNeuron: CustomStringConvertible, LoopIterable {
 
         for (activator, weightDoublet) in zip(activators, weightDoublets) {
             let iter = activator ? fIter : rIter
-            guard let sourceNeuron = skipDeadNeurons(iter) else { print("!"); return false }
+            guard let sourceNeuron = skipDeadNeurons(iter) else { /*print("!"); */return false }
 
             //            print("\(self) connecting to \(sourceNeuron)")
             connectToOutput(of: sourceNeuron, weight: weightDoublet.value)

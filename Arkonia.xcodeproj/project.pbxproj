@@ -161,6 +161,9 @@
 		D4C0A19821AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4C54C8F21BDA23C00FA6549 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C8E21BDA23C00FA6549 /* Archive.swift */; };
 		D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C8E21BDA23C00FA6549 /* Archive.swift */; };
+		D4E6741E21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
+		D4E6741F21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
+		D4E6742021D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
 		D4FE84FF21AE7AC000C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
 		D4FE850021AE7AC000C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
 		D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
@@ -326,6 +329,7 @@
 		D4C0A16521AE2E64009D6011 /* GameSceneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneTests.swift; sourceTree = "<group>"; };
 		D4C0A16721AE2E64009D6011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4C54C8E21BDA23C00FA6549 /* Archive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Archive.swift; path = Curation/Archive.swift; sourceTree = "<group>"; };
+		D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivatorFunctions.swift; sourceTree = "<group>"; };
 		D4FE84FB21AE7AB600C9192F /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D4FE84FC21AE7AB600C9192F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D4FE852621AE7C0500C9192F /* GameScene-R.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GameScene-R.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -527,6 +531,7 @@
 		D4B4CC1721CF816000AE6912 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */,
 				D4B4CC1821CF81AF00AE6912 /* Common.swift */,
 				D44547BB21CB151700247429 /* LoopIterator.swift */,
 				D44547BE21CB151700247429 /* Protocols.swift */,
@@ -1064,6 +1069,7 @@
 				D4C54C8F21BDA23C00FA6549 /* Archive.swift in Sources */,
 				D4684CC921C2D55F00D13964 /* Tene.swift in Sources */,
 				D4A5C4DD21CAA98B002105DB /* AKNeuron.swift in Sources */,
+				D4E6741F21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */,
 				D44547C021CB151800247429 /* LoopIterator.swift in Sources */,
 				D482FD9821B120C100FF9EE9 /* Mutator.swift in Sources */,
 				D48F2FBA21C31C06008EA8DA /* NGGoalSuite.swift in Sources */,
@@ -1105,6 +1111,7 @@
 				D4A5C4D521C9385E002105DB /* AKNet.swift in Sources */,
 				D4A5C4D621C9385E002105DB /* AKNeuron.swift in Sources */,
 				D452A33D21C1ED000049E3A5 /* GSTester.swift in Sources */,
+				D4E6741E21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */,
 				D4C0A13E21AE2415009D6011 /* TranslatorBrain.swift in Sources */,
 				D44547BF21CB151800247429 /* LoopIterator.swift in Sources */,
 				D4684CC821C2D55F00D13964 /* Tene.swift in Sources */,
@@ -1168,6 +1175,7 @@
 				D4C0A18521AE315E009D6011 /* Decoder.swift in Sources */,
 				D441298721CC26D50086E1AC /* AAGoalSuite.swift in Sources */,
 				D408A41F21D0CF610061D7A6 /* GenomeCommon.swift in Sources */,
+				D4E6742021D23A2000A34D60 /* ActivatorFunctions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
