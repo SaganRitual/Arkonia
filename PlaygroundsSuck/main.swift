@@ -20,8 +20,24 @@
 
 import Foundation
 
-let tester = ArchiveTests()
-print(tester)
+let senseSpecs = [
+    ConnectionSpec(targets: [GridXY(0, -1)]),
+    ConnectionSpec(targets: [GridXY(1, -2)]),
+    ConnectionSpec(targets: [GridXY(2, -3)]),
+    ConnectionSpec(targets: [GridXY(3, -4)]),
+    ConnectionSpec(targets: [GridXY(4, -5)])
+]
 
-tester.test()
+let theNet = KNet.makeNet(0, cLayers: cLayers)
+let sensoryInputs: [KSignalRelay] = (0..<cNeurons as Range<Int>).map {
+    let k = KSignalRelay(KIdentifier("Sense", $0))
+    k.output = 1.0
+    return k
+}
+
+theNet.driveSignal(sensoryInputs)
+print("Releasing output layer relays")
+
+theNet.gridAnchors.forEach { print($0.output) }
+theNet.gridAnchors.removeAll()
 print("All done")

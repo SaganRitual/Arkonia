@@ -50,7 +50,7 @@ final class AATester: GSTesterProtocol {
             rawOutputs = net.driveSignal(inputSet)
 
             let nonils = rawOutputs.compactMap({$0})
-            if nonils.isEmpty { gs.brain.net?.layers.last!.relays.removeAll(); return nil }
+            if nonils.isEmpty { return nil }
 
             let result = nonils.reduce(0.0, +)
             cookedOutputs.append(result)

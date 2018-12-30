@@ -99,13 +99,13 @@ extension VBrain {
 
     func drawConnections(from previousLayerPoints: [CGPoint], to neuron: AKNeuron, at neuronPosition: CGPoint) {
         if previousLayerPoints.isEmpty { return }
-        guard let relay = neuron.relay else { return }
+        if neuron.gridScaffolding == nil { return }
 
-        relay.inputs.forEach { relayAnchor in
+        neuron.pulses.forEach { pulse in
             let linePath = CGMutablePath()
 
             linePath.move(to: neuronPosition)
-            linePath.addLine(to: previousLayerPoints[relayAnchor.neuron.neuronID])
+            linePath.addLine(to: previousLayerPoints[pulse.neuron.neuronID])
 
             let line = SKShapeNode(path: linePath)
 
@@ -155,7 +155,7 @@ extension VBrain {
 
     func drawOutputs(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {
         let outputNetcam = vnet.netcams[Vnet.Quadrant.four.rawValue]
-        let output = nilstr(neuron.relay?.output.sciTruncate(5), defaultString: "")
+        let output = (neuron.gridScaffolding == nil) ? "" : neuron.output.sciTruncate(5)
         let s = SKLabelNode(text: output)
 
         s.fontSize = fontSizeForNeuronLabels
@@ -173,7 +173,7 @@ extension VBrain {
     }
 
     func setNeuronColor(_ neuron: AKNeuron, _ vNeuron: SKShapeNode) {
-        if neuron.relay == nil {
+        if neuron.gridScaffolding == nil {
             vNeuron.fillColor = .darkGray
             vNeuron.strokeColor = .darkGray
         } else {

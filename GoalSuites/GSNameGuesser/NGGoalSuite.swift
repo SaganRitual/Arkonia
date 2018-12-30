@@ -40,9 +40,9 @@ class NGGoalSuite: GSGoalSuite {
     override class func setSelectionControls() -> GSSelectionControls {
         var sc = GSSelectionControls()
 
-        sc.howManySenses = 5
+        sc.howManySenses = 4
         sc.howManyLayersInStarter = 5
-        sc.howManyMotorNeurons = 5
+        sc.howManyMotorNeurons = "Zoe Bishop".count
         sc.howManyGenerations = 100
 
         return sc

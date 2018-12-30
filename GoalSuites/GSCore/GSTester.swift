@@ -41,6 +41,7 @@ class GSScore: CustomStringConvertible, Hashable {
 
 class GSTester: GSTesterProtocol {
     var actualOutput: Double!
+    var anchorLayer: [K2GridScaffolding]!
     var expectedOutput: Double
     var inputs: [Double]
     var outputs: [Double?]
@@ -66,6 +67,7 @@ class GSTester: GSTesterProtocol {
 
         let net = AKNet(gs.brain.layers)
 
+        anchorLayer = net.setupSignalGrid()
         outputs = net.driveSignal(inputs)
 
         let nonils = outputs.compactMap({$0})

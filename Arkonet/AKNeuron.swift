@@ -20,37 +20,12 @@
 
 import Foundation
 
-typealias RelayAnchor = (neuron: AKNeuron, relay: NeuronRelay?)
+class AKPulse {
+    weak var neuron: AKNeuron!
+    let weight: Double
 
-class NeuronRelay {
-    let relayID: Int
-    let layerID: Int
-
-    var output: Double = 0.0
-    var inputs = [RelayAnchor]()
-
-    var isTopLayer: Bool { return layerID == 0 }
-
-    public func getReference() -> NeuronRelay {
-//        print("+\(layerID):\(relayID) ", terminator: "")
-//        print("+", terminator: "")
-        return self
-    }
-
-    public static func makeNeuronRelay(_ layerID: Int, _ relayID: Int) -> NeuronRelay {
-//        print("$", terminator: "")
-//        print("$\(layerID):\(relayID) ", terminator: "")
-        return NeuronRelay(layerID, relayID)
-    }
-
-    private init(_ layerID: Int, _ relayID: Int) {
-        self.layerID = layerID; self.relayID = relayID
-//        print("Relay(\(layerID):\(relayID)) init")
-    }
-
-    deinit {
-//        print("-\(layerID):\(relayID) ", terminator: "")
-//        print("-", terminator: "")
+    init(_ neuron: AKNeuron, _ weight: Double) {
+        self.neuron = neuron; self.weight = weight
     }
 }
 
@@ -58,25 +33,20 @@ class AKNeuron: CustomStringConvertible, LoopIterable {
 
     let activators: [Bool]
     let bias: Double
+    weak var gridScaffolding: K2GridScaffolding?
     let layerID: Int
     weak var loopIterableSelf: AKNeuron?
     let neuronID: Int
-    var weights: [Int : Double]
+    var output = 0.0
+    var pulses = [AKPulse]()
+    var weights: [Int : [Double]]
     let weightDoublets: [ValueDoublet]
 
-    // A neuron never owns its relay. The layer that created
-    // the neuron temporarily holds the relay, until the whole
-    // grid is set up. then the layer releases it, and the
-    // only owner(s) will be the client(s) of the neuron. If
-    // it has no owners, it will destruct, causing a chain
-    // reaction, potentially all the way up.
-    weak var relay: NeuronRelay?
-
     var description: String {
-        var relayDisplay = "<released>"
-        if let r = relay { relayDisplay = "\(r.relayID)" }
-        return "AKNeuron(\(layerID):\(neuronID))(\(relayDisplay))"
+        return "AKNeuron(\(layerID):\(neuronID))"
     }
+
+    var isTopLayer: Bool { return layerID == 0 }
 
     init(_ xNeuron: Translators.Neuron, _ layerID: Int, _ neuronID: Int) {
         self.neuronID = neuronID
@@ -86,15 +56,16 @@ class AKNeuron: CustomStringConvertible, LoopIterable {
         self.bias = xNeuron.bias
         self.activators = xNeuron.activators
         self.loopIterableSelf = self
+
+        K2SignalGrid.signalGrid.nextNeuron(neuronID)
+
+        // Weak ref to grid so display can tell whether to draw lines
+        gridScaffolding = K2SignalGrid.signalGrid.lowerLayer[neuronID]
     }
 
-    deinit { relay?.inputs.removeAll() }
-
     func connectToOutput(of neuron: AKNeuron, weight: Double) {
-        let ra = RelayAnchor(neuron, neuron.relay<!>.getReference())
-        relay<!>.inputs.append(ra)
-//        print("c", terminator: "")
-        weights[neuron.neuronID] = weight
+        K2SignalGrid.signalGrid.attach(self.neuronID, to: neuron.neuronID)
+        pulses.append(AKPulse(neuron, weight))
     }
 
     func connectToOutputs(from upperLayer: AKLayer) -> Bool {
@@ -103,28 +74,23 @@ class AKNeuron: CustomStringConvertible, LoopIterable {
 
         for (activator, weightDoublet) in zip(activators, weightDoublets) {
             let iter = activator ? fIter : rIter
-            guard let sourceNeuron = skipDeadNeurons(iter) else { /*print("!"); */return false }
+            guard let sourceNeuron = skipDeadNeurons(iter) else { return false }
 
-            //            print("\(self) connecting to \(sourceNeuron)")
             connectToOutput(of: sourceNeuron, weight: weightDoublet.value)
         }
 
         return true
     }
 
-    func driveSensoryInput(_ input: Double) { relay?.output = input }
+    // Called only for the sense layer; all the others go by driveSignal()
+    func driveSensoryInput(_ input: Double) { self.output = input }
 
     func driveSignal() -> Bool {
-        guard let relay = self.relay else { return false }
+        guard isTopLayer || K2SignalGrid.signalGrid.hasInputs(neuronID) else { return false }
 
-        if relay.inputs.isEmpty { return false }
-
-        relay.output = relay.inputs.reduce(bias, {
-            subtotal, inputSource in
-
-            let r = inputSource.relay<!>
-            return subtotal + r.output * self.weights[inputSource.neuron.neuronID]<!>
-        })
+        output = pulses.reduce(bias) { subtotal, pulse in
+            return subtotal + pulse.neuron.output * pulse.weight
+        }
 
         return true
     }
@@ -133,11 +99,11 @@ class AKNeuron: CustomStringConvertible, LoopIterable {
         var boundsChecker = 0
         repeat {
 
-            let neuron = iter.compactNext()
-            guard let r = neuron.relay else { continue }
-            if r.inputs.isEmpty && !r.isTopLayer { continue }
+            defer { boundsChecker += 1 }
 
-            boundsChecker += 1
+            let neuron = iter.compactNext()
+            guard neuron.isTopLayer || K2SignalGrid.signalGrid.hasInputs(neuron.neuronID)
+                else { continue }
 
             return neuron
 

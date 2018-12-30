@@ -20,44 +20,31 @@
 
 import Foundation
 
-class AKLayer {
-    let layerID: Int
-    var neurons = [AKNeuron]()
+protocol KIdentifiable: CustomStringConvertible {
+    var id: KIdentifier { get }
+}
 
-    var neuronID = 0
+protocol KIdentifierProtocol: CustomStringConvertible {
+    var description: String { get }
+    var familyID: [Int] { get }
+    var myID: Int { get }
 
-    var count: Int { return neurons.count }
+    init(_ type: String, _ familyID: [Int], _ myID: Int)
+}
 
-    init(_ xLayer: Translators.Layer, _ idNumber: Int) {
-        K2SignalGrid.signalGrid.nextLayer()
+protocol KInputProtocol {
+    var inputRelays: [KSignalRelay] { get set }
+}
 
-        self.layerID = idNumber
+protocol KOutputProtocol {
+    var output: Double { get }
+}
 
-        neurons = xLayer.neurons.map { xNeuron in
-            defer { neuronID += 1 }
-            let n = AKNeuron(xNeuron, layerID, neuronID)
-            return n
-        }
-    }
+protocol KRelayProtocol: class, KInputProtocol, KOutputProtocol {
+    var breaker: KSignalRelay? { get set }
+    var isOperational: Bool { get }
+}
 
-    func driveSensoryInputs(_ inputs: [Double]) {
-        for (neuron, input) in zip(neurons, inputs) {
-            neuron.driveSensoryInput(input)
-        }
-    }
-
-    func driveSignal(from upperLayer: AKLayer, _ establishConnections: Bool) -> AKLayer? {
-        var signalPassed = false
-
-        for neuron in neurons {
-            if establishConnections {
-                guard neuron.connectToOutputs(from: upperLayer) else { return nil }
-            }
-
-            guard neuron.driveSignal() else { continue }
-            signalPassed = true
-        }
-
-        return signalPassed ? self : nil
-    }
+extension Double: KOutputProtocol {
+    var output: Double { return self }
 }

@@ -90,9 +90,6 @@ class Selector {
         var bestScore = stud.fitnessScore
         var stemTheFlood = [GSSubject]()
 
-        randomArkonForDisplay?.brain.net?.layers.last?.relays.removeAll()
-        randomArkonForDisplay = nil
-
         for _ in 0..<goalSuite.selectionControls.howManySubjectsPerGeneration {
             guard let gs = goalSuite.factory.makeArkon(genome: stud.genome[...], mutate: true) else { continue }
 

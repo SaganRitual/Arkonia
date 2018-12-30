@@ -30,24 +30,21 @@ print("Experimental")
 print("Run dark")
 #endif
 
-enum ArkonGoal {
-    case guessNumber(theNumber: Double)
-}
+class Chucker {
+    let curator: Curator
+    let goalSuite = NGGoalSuite("Zoe Bishop")
+    var workItem: DispatchWorkItem?
 
-struct Chucker {
-    let goalSuite: GSGoalSuite
-
-    init(_ goal: ArkonGoal) {
-        switch goal {
-        case let .guessNumber(theNumber):
-            goalSuite = GSGoalSuite(expectedOutput: theNumber)
-        }
+    init() {
+        self.curator = Curator(goalSuite: goalSuite)
+        self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator.select() }
+        DispatchQueue.global(qos: .background).async(execute: self.workItem!)
     }
 
     func run() -> GSSubject? { return goalSuite.run() }
 }
 
-let chucker = Chucker(.guessNumber(theNumber: 42.4242))
+let chucker = Chucker()
 if let winner = chucker.run() {
     print(winner)
 } else {

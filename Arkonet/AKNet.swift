@@ -24,12 +24,11 @@ class AKNet {
     var arkonID: Int?
     var connectionsAreEstablished = false
     var layers = [AKLayer]()
+    var gridAnchors = [K2GridScaffolding]()
 
     init(_ xLayers: [Translators.Layer]) {
         layers = xLayers.enumerated().map { (arkonID, xLayer) in AKLayer(xLayer, arkonID) }
     }
-
-//    deinit { print("~AKNet", nilstr(arkonID)) }
 
     func driveSignal(_ sensoryInputs: [Double]) -> [Double?] {
         var iter = layers.makeIterator()
@@ -38,22 +37,28 @@ class AKNet {
         upperLayer.driveSensoryInputs(sensoryInputs)
 
         for LL in iter {
-            let establishConnections = !connectionsAreEstablished
-            guard let lowerLayer = LL.driveSignal(from: upperLayer, establishConnections)
+            guard let lowerLayer = LL.driveSignal(from: upperLayer)
                 else { return [Double?](repeating: nil, count: 50) }
-
-            // It would be ok to call remove() even if it were empty. I'm leaving
-            // this here as a reminder to myself that we're re-using the
-            // same layers from the previous stim pass, not creating new
-            // ones every time--concerning which, I have no idea how it
-            // ever even seemed to work.
-            if !upperLayer.relays.isEmpty { upperLayer.relays.removeAll() }
 
             upperLayer = lowerLayer
         }
 
         connectionsAreEstablished = true    // Subsequent passes use the existing grid
 
-        return layers.last!.relays.map { r in if let relay = r { return relay.output } else { return nil } }
+        gridAnchors = K2SignalGrid.signalGrid.removeScaffolding()
+    }
+
+    func setupSignalGrid(_ sensoryInputs: [Double]) -> [Double?] {
+        var firstPass = true
+
+        for lowerLayer in layers {
+            defer { upperLayer = lowerLayer; firstPass = false }
+            var upperLayer = setupSignalGrid(from: upperLayer)
+
+            if firstPass { continue }
+
+            let lowerLayer = LL.setupSignalGrid(from: upperLayer)
+            upperLayer = lowerLayer
+        }
     }
 }
