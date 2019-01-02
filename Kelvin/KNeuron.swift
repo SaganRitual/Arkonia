@@ -46,6 +46,16 @@ extension KNeuron {
         relay?.connect(to: targetNeurons, in: upperLayer)
     }
 
+    // We're using dummy connection specs. When we get back to the land
+    // of the living, the connection info will be based on the weights
+    // that the receiving neuron got from its genes.
+    func mockConnect(to upperLayer: KLayer) {
+        guard let relay = relay else { preconditionFailure() }
+        let neuronIDs = KConnectoid.getConnections(relay, to: upperLayer)
+        relay.connect(to: neuronIDs, in: upperLayer)
+        //        print("\(self) c\(inputRelays)")
+    }
+
     func driveSignal() {
         guard let relay = relay else { preconditionFailure() }
 
