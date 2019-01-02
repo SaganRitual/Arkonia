@@ -34,7 +34,7 @@ struct ConnectionSpec {
 let cLayers = 5
 let cNeurons = 5
 
-enum KConnector {
+enum KConnectoid {
     static func getConnections(_ relay: KSignalRelay, to upperLayer: KLayer) -> [Int] {
         let x = relay.id.myID, y = upperLayer.id.myID
         let connections = inputSpecs[x][y]
@@ -86,7 +86,10 @@ class KSignalRelay: KIdentifiable, KRelayProtocol {
     var inputRelays = [KSignalRelay]()
     var output: Double = 0.0
 
-    var isOperational: Bool { return !inputRelays.isEmpty }
+    var overriddenState: Bool?
+    var isOperational: Bool {
+        return (overriddenState == nil) ? !inputRelays.isEmpty : overriddenState!
+    }
 
     // All swim
     init(_ id: KIdentifier) {
@@ -106,9 +109,10 @@ extension KSignalRelay {
         return KSignalRelay(id)
     }
 
-    func connect(to upperLayer: KLayer) {
-        let neuronIDs = KConnector.getConnections(self, to: upperLayer)
-        inputRelays = neuronIDs.map { upperLayer.neurons[$0].relay! }
+    func connect(to targetNeurons: [Int], in upperLayer: KLayer) {
+        inputRelays = targetNeurons.map { upperLayer.neurons[$0].relay! }
 //        print("\(self) c\(inputRelays)")
     }
+
+    func overrideState(operational: Bool) { overriddenState = operational }
 }

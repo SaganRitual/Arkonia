@@ -20,15 +20,17 @@
 
 import Foundation
 
-class KNeuron: KIdentifiable {
+class KNeuron: KIdentifiable, LoopIterable {
+    let activators = Array(repeatElement(true, count: cLayers))
     let bias = 0.0
     var description: String { return id.description }
     let id: KIdentifier
     var inputs: [Double]!
+    weak var loopIterableSelf: KNeuron?
     weak var relay: KSignalRelay?
     let weights = Array(repeatElement(1.0, count: cLayers))
 
-    init(_ id: KIdentifier) { self.id = id }
+    init(_ id: KIdentifier) { self.id = id; loopIterableSelf = self }
 }
 
 extension KNeuron {
@@ -38,7 +40,10 @@ extension KNeuron {
     }
 
     func connect(to upperLayer: KLayer) {
-        relay?.connect(to: upperLayer)
+        let connector = KConnector(self)
+        let targetNeurons = connector.selectOutputs(from: upperLayer)
+
+        relay?.connect(to: targetNeurons, in: upperLayer)
     }
 
     func driveSignal() {
