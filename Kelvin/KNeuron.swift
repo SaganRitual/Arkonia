@@ -20,15 +20,17 @@
 
 import Foundation
 
-class KNeuron: KIdentifiable {
+class KNeuron: KIdentifiable, LoopIterable {
+    let activators = Array(repeatElement(true, count: cLayers))
     let bias = 0.0
     var description: String { return id.description }
     let id: KIdentifier
     var inputs: [Double]!
+    weak var loopIterableSelf: KNeuron?
     weak var relay: KSignalRelay?
     let weights = Array(repeatElement(1.0, count: cLayers))
 
-    init(_ id: KIdentifier) { self.id = id }
+    init(_ id: KIdentifier) { self.id = id; loopIterableSelf = self }
 }
 
 extension KNeuron {
@@ -38,7 +40,20 @@ extension KNeuron {
     }
 
     func connect(to upperLayer: KLayer) {
-        relay?.connect(to: upperLayer)
+        let connector = KConnector(self)
+        let targetNeurons = connector.selectOutputs(from: upperLayer)
+
+        relay?.connect(to: targetNeurons, in: upperLayer)
+    }
+
+    // We're using dummy connection specs. When we get back to the land
+    // of the living, the connection info will be based on the weights
+    // that the receiving neuron got from its genes.
+    func mockConnect(to upperLayer: KLayer) {
+        guard let relay = relay else { preconditionFailure() }
+        let neuronIDs = KConnectoid.getConnections(relay, to: upperLayer)
+        relay.connect(to: neuronIDs, in: upperLayer)
+        //        print("\(self) c\(inputRelays)")
     }
 
     func driveSignal() {

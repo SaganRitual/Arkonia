@@ -35,7 +35,7 @@ class KLayer: KIdentifiable {
 
 extension KLayer {
     func connect(to upperLayer: KLayer) {
-        neurons.forEach { $0.connect(to: upperLayer) }
+        neurons.forEach { $0.mockConnect(to: upperLayer) }
     }
 
     func decoupleFromGrid() {

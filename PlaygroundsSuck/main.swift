@@ -31,6 +31,7 @@ let senseSpecs = [
 let theNet = KNet.makeNet(0, cLayers: cLayers)
 let sensoryInputs: [KSignalRelay] = (0..<cNeurons as Range<Int>).map {
     let k = KSignalRelay(KIdentifier("Sense", $0))
+    k.overrideState(operational: true)
     k.output = 1.0
     return k
 }

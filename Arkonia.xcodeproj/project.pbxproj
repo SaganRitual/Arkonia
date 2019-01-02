@@ -93,6 +93,10 @@
 		D4684CC821C2D55F00D13964 /* Tene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC721C2D55F00D13964 /* Tene.swift */; };
 		D4684CC921C2D55F00D13964 /* Tene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC721C2D55F00D13964 /* Tene.swift */; };
 		D4684CCA21C2D55F00D13964 /* Tene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC721C2D55F00D13964 /* Tene.swift */; };
+		D4686DD821DD1EA400149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
+		D4686DD921DD1EA400149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
+		D4686DDA21DD1EA400149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
+		D4686DDB21DD1EA500149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
 		D471173621B3D5440076DD2A /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D471173421B3D5350076DD2A /* VBrain.swift */; };
 		D47995FF21CD8B8700EB7A9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */; };
 		D479960121CD8B8700EB7A9A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D479960021CD8B8700EB7A9A /* GameScene.sks */; };
@@ -302,6 +306,7 @@
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4684CC321C2D1C900D13964 /* Manipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manipulator.swift; sourceTree = "<group>"; };
 		D4684CC721C2D55F00D13964 /* Tene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tene.swift; sourceTree = "<group>"; };
+		D4686DD721DD1EA400149745 /* KConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KConnector.swift; sourceTree = "<group>"; };
 		D471173421B3D5350076DD2A /* VBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
 		D47995FC21CD8B8700EB7A9A /* PlaygroundsSuck-Light.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaygroundsSuck-Light.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -674,6 +679,7 @@
 		D4C2C53421D89ED400367902 /* Kelvin */ = {
 			isa = PBXGroup;
 			children = (
+				D4686DD721DD1EA400149745 /* KConnector.swift */,
 				D4C2C53521D89EFC00367902 /* KIdentifier.swift */,
 				D48F734921DB259B001CC961 /* KLayer.swift */,
 				D48F734421DB24EC001CC961 /* KNet.swift */,
@@ -1027,6 +1033,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D48F734D21DB259B001CC961 /* KLayer.swift in Sources */,
+				D4686DDB21DD1EA500149745 /* KConnector.swift in Sources */,
 				D41D113021DC04C40042055B /* KSignalRelay.swift in Sources */,
 				D4C2C53621D89EFC00367902 /* KIdentifier.swift in Sources */,
 				D408A41621D0CF2B0061D7A6 /* Common.swift in Sources */,
@@ -1104,6 +1111,7 @@
 				D44547C621CB151800247429 /* Utilities.swift in Sources */,
 				D4A5C4D221C937FA002105DB /* TranslatorNeuron.swift in Sources */,
 				D408A41521D0CF270061D7A6 /* Common.swift in Sources */,
+				D4686DD921DD1EA400149745 /* KConnector.swift in Sources */,
 				D48F2FB621C31587008EA8DA /* NGResults.swift in Sources */,
 				D452A31B21C142810049E3A5 /* GSTester.swift in Sources */,
 				D48F2FC221C31CEE008EA8DA /* NGSubject.swift in Sources */,
@@ -1152,6 +1160,7 @@
 				D44547C521CB151800247429 /* Utilities.swift in Sources */,
 				D4A5C4D121C937FA002105DB /* TranslatorNeuron.swift in Sources */,
 				D408A41421D0CF260061D7A6 /* Common.swift in Sources */,
+				D4686DD821DD1EA400149745 /* KConnector.swift in Sources */,
 				D452A33921C1ED000049E3A5 /* GSFactory.swift in Sources */,
 				D48F2FB521C31587008EA8DA /* NGResults.swift in Sources */,
 				D452A33A21C1ED000049E3A5 /* GSGoalSuite.swift in Sources */,
@@ -1194,6 +1203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4C0A17B21AE313F009D6011 /* TranslatorLayer.swift in Sources */,
+				D4686DDA21DD1EA400149745 /* KConnector.swift in Sources */,
 				D441298F21CC2CEB0086E1AC /* AAFactory.swift in Sources */,
 				D4FE850221AE7AC100C9192F /* ViewController.swift in Sources */,
 				D4A5C4E021CAA98E002105DB /* AKNeuron.swift in Sources */,
