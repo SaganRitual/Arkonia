@@ -20,5 +20,12 @@
 
 import Foundation
 
-let driver = KDriver()
-driver.drive()
+// With deepest gratitude--yet again--to Martin R
+// https://stackoverflow.com/users/1187415/martin-r
+// https://stackoverflow.com/a/29109176/1610473
+//
+extension Set {
+    func setmap<U>(transform: (Element) -> U) -> Set<U> {
+        return Set<U>(self.lazy.map(transform))
+    }
+}

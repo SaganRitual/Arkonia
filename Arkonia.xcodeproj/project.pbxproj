@@ -97,6 +97,7 @@
 		D4686DD921DD1EA400149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
 		D4686DDA21DD1EA400149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
 		D4686DDB21DD1EA500149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
+		D4686DDD21DDBD0D00149745 /* MockSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DDC21DDBD0D00149745 /* MockSupport.swift */; };
 		D471173621B3D5440076DD2A /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D471173421B3D5350076DD2A /* VBrain.swift */; };
 		D47995FF21CD8B8700EB7A9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */; };
 		D479960121CD8B8700EB7A9A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D479960021CD8B8700EB7A9A /* GameScene.sks */; };
@@ -217,6 +218,21 @@
 		D4FE853721AEB20500C9192F /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
 		D4FE853821AEB20500C9192F /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4FE853921AEB20500C9192F /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
+		D4FFA1DE21DDE4D600537D5F /* TestPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1DD21DDE4D600537D5F /* TestPattern.swift */; };
+		D4FFA1E121DDEE8500537D5F /* GridDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1E021DDEE8500537D5F /* GridDiagnostics.swift */; };
+		D4FFA1E221DDF05600537D5F /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
+		D4FFA1E321DDF05600537D5F /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
+		D4FFA1E421DDF05600537D5F /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734921DB259B001CC961 /* KLayer.swift */; };
+		D4FFA1E521DDF05600537D5F /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734421DB24EC001CC961 /* KNet.swift */; };
+		D4FFA1E621DDF05600537D5F /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734E21DB2670001CC961 /* KNeuron.swift */; };
+		D4FFA1E721DDF05600537D5F /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
+		D4FFA1E821DDF05600537D5F /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
+		D4FFA1E921DE4D4900537D5F /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BB21CB151700247429 /* LoopIterator.swift */; };
+		D4FFA1EB21DE755900537D5F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1EA21DE755900537D5F /* Extensions.swift */; };
+		D4FFA1EC21DE755900537D5F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1EA21DE755900537D5F /* Extensions.swift */; };
+		D4FFA1ED21DE755900537D5F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1EA21DE755900537D5F /* Extensions.swift */; };
+		D4FFA1EE21DE755900537D5F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1EA21DE755900537D5F /* Extensions.swift */; };
+		D4FFA1EF21DE80E800537D5F /* MockSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DDC21DDBD0D00149745 /* MockSupport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -307,6 +323,7 @@
 		D4684CC321C2D1C900D13964 /* Manipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manipulator.swift; sourceTree = "<group>"; };
 		D4684CC721C2D55F00D13964 /* Tene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tene.swift; sourceTree = "<group>"; };
 		D4686DD721DD1EA400149745 /* KConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KConnector.swift; sourceTree = "<group>"; };
+		D4686DDC21DDBD0D00149745 /* MockSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSupport.swift; sourceTree = "<group>"; };
 		D471173421B3D5350076DD2A /* VBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
 		D47995FC21CD8B8700EB7A9A /* PlaygroundsSuck-Light.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaygroundsSuck-Light.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -367,6 +384,9 @@
 		D4FE84FC21AE7AB600C9192F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D4FE852621AE7C0500C9192F /* GameScene-R.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GameScene-R.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4FE854221AEB20500C9192F /* BellCurveDark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BellCurveDark; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4FFA1DD21DDE4D600537D5F /* TestPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPattern.swift; sourceTree = "<group>"; };
+		D4FFA1E021DDEE8500537D5F /* GridDiagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDiagnostics.swift; sourceTree = "<group>"; };
+		D4FFA1EA21DE755900537D5F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -465,6 +485,7 @@
 			isa = PBXGroup;
 			children = (
 				D44EE50721BCE584006E1A12 /* main.swift */,
+				D4686DDC21DDBD0D00149745 /* MockSupport.swift */,
 			);
 			path = PlaygroundsSuck;
 			sourceTree = "<group>";
@@ -505,6 +526,7 @@
 		D47995FD21CD8B8700EB7A9A /* PlaygroundsSuck-Light */ = {
 			isa = PBXGroup;
 			children = (
+				D4FFA1DF21DDEE1800537D5F /* MockSupport */,
 				D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */,
 				D479960021CD8B8700EB7A9A /* GameScene.sks */,
 				D479960221CD8B8700EB7A9A /* Actions.sks */,
@@ -567,6 +589,7 @@
 			children = (
 				D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */,
 				D4B4CC1821CF81AF00AE6912 /* Common.swift */,
+				D4FFA1EA21DE755900537D5F /* Extensions.swift */,
 				D44547BB21CB151700247429 /* LoopIterator.swift */,
 				D44547BE21CB151700247429 /* Protocols.swift */,
 				D44547BC21CB151700247429 /* RandomnessGenerators.swift */,
@@ -688,6 +711,15 @@
 				D41D112B21DC04C40042055B /* KSignalRelay.swift */,
 			);
 			path = Kelvin;
+			sourceTree = "<group>";
+		};
+		D4FFA1DF21DDEE1800537D5F /* MockSupport */ = {
+			isa = PBXGroup;
+			children = (
+				D4FFA1DD21DDE4D600537D5F /* TestPattern.swift */,
+				D4FFA1E021DDEE8500537D5F /* GridDiagnostics.swift */,
+			);
+			path = MockSupport;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1040,6 +1072,7 @@
 				D48F735221DB2670001CC961 /* KNeuron.swift in Sources */,
 				D408A42121D0D6C70061D7A6 /* LoopIterator.swift in Sources */,
 				D44EE50821BCE584006E1A12 /* main.swift in Sources */,
+				D4686DDD21DDBD0D00149745 /* MockSupport.swift in Sources */,
 				D4B4CC1421CF710500AE6912 /* GenomeCommon.swift in Sources */,
 				D408A42321D0D6C70061D7A6 /* Utilities.swift in Sources */,
 				D48F734821DB2557001CC961 /* KNet.swift in Sources */,
@@ -1083,12 +1116,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4FFA1E621DDF05600537D5F /* KNeuron.swift in Sources */,
+				D4FFA1E921DE4D4900537D5F /* LoopIterator.swift in Sources */,
 				D479960721CD8B8700EB7A9A /* ViewController.swift in Sources */,
+				D4FFA1DE21DDE4D600537D5F /* TestPattern.swift in Sources */,
 				D479962521CDC64600EB7A9A /* Spacer.swift in Sources */,
+				D4FFA1E521DDF05600537D5F /* KNet.swift in Sources */,
+				D4FFA1E721DDF05600537D5F /* KProtocols.swift in Sources */,
 				D479960521CD8B8700EB7A9A /* GameScene.swift in Sources */,
 				D479962321CD959900EB7A9A /* CGConversions.swift in Sources */,
 				D479962121CD8C3A00EB7A9A /* Vnet.swift in Sources */,
+				D4FFA1E121DDEE8500537D5F /* GridDiagnostics.swift in Sources */,
+				D4FFA1EF21DE80E800537D5F /* MockSupport.swift in Sources */,
+				D4FFA1E221DDF05600537D5F /* KConnector.swift in Sources */,
+				D4FFA1E821DDF05600537D5F /* KSignalRelay.swift in Sources */,
+				D4FFA1E321DDF05600537D5F /* KIdentifier.swift in Sources */,
+				D4FFA1EE21DE755900537D5F /* Extensions.swift in Sources */,
 				D47995FF21CD8B8700EB7A9A /* AppDelegate.swift in Sources */,
+				D4FFA1E421DDF05600537D5F /* KLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1123,6 +1168,7 @@
 				D48F734B21DB259B001CC961 /* KLayer.swift in Sources */,
 				D482FD9B21B121B000FF9EE9 /* TranslatorBrain.swift in Sources */,
 				D482FD9C21B121B000FF9EE9 /* TranslatorLayer.swift in Sources */,
+				D4FFA1EC21DE755900537D5F /* Extensions.swift in Sources */,
 				D452A32021C18EDB0049E3A5 /* GSSubject.swift in Sources */,
 				D4A5C4DC21CAA98B002105DB /* AKNet.swift in Sources */,
 				D4C54C8F21BDA23C00FA6549 /* Archive.swift in Sources */,
@@ -1172,6 +1218,7 @@
 				D48F734A21DB259B001CC961 /* KLayer.swift in Sources */,
 				D4684CC421C2D1C900D13964 /* Manipulator.swift in Sources */,
 				D48F2FBD21C31C56008EA8DA /* NGFactory.swift in Sources */,
+				D4FFA1EB21DE755900537D5F /* Extensions.swift in Sources */,
 				D4C0A13C21AE2415009D6011 /* GenomeTranslators.swift in Sources */,
 				D452A33621C1ECE10049E3A5 /* Curator.swift in Sources */,
 				D4A5C4D521C9385E002105DB /* AKNet.swift in Sources */,
@@ -1250,6 +1297,7 @@
 				D408A41F21D0CF610061D7A6 /* GenomeCommon.swift in Sources */,
 				D4E6742021D23A2000A34D60 /* ActivatorFunctions.swift in Sources */,
 				D48F734C21DB259B001CC961 /* KLayer.swift in Sources */,
+				D4FFA1ED21DE755900537D5F /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1437,6 +1485,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-Light";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "xNETCAMS_SMOKE_TEST SIGNAL_GRID_DIAGNOSTICS";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -1456,6 +1505,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-Light";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "xNETCAMS_SMOKE_TEST SIGNAL_GRID_DIAGNOSTICS";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
