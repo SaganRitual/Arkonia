@@ -39,6 +39,7 @@ class Vnet {
 
     let gameScene: GameScene
     var netcams = [SKShapeNode]()
+    let scale: CGFloat
 
     init(gameScene: GameScene) {
         self.gameScene = gameScene
@@ -48,12 +49,14 @@ class Vnet {
 
         let quadrantMultipliers: [QuadrantMultiplier] = [(1, 1), (-1, 1), (-1, -1), (1, -1)]
 
+        scale = CGFloat(2.0 * (1.0 / CGFloat(numberOfquadrantMultipliers)))
+
         for qm in quadrantMultipliers {
             let netcam = SKShapeNode(rectOf: gameScene.size)
             netcam.position = quarterOrigin * qm
             netcam.fillColor = gameScene.backgroundColor
             netcams.append(netcam)
-            netcam.setScale(CGFloat(2.0 * (1.0 / CGFloat(numberOfquadrantMultipliers))))
+            netcam.setScale(scale)
             gameScene.addChild(netcam)
         }
     }

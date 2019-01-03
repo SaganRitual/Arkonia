@@ -31,17 +31,33 @@ class GameScene: SKScene {
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
 
-    private var vnet: Vnet!
-    
+    #if NETCAMS_SMOKE_TEST
+    var vnet: Vnet!
+    var whichNetcam = Vnet.Quadrant.one
+    var camtrack = 0
+
+    override func sceneDidLoad() { vnet = Vnet(gameScene: self) }
+    #endif
+
+    #if SIGNAL_GRID_DIAGNOSTICS
+    static var gameScene: GameScene!
+    var gridAnchors: [KSignalRelay]!
+    var gridDisplayed = false
+    var kDriver: KDriver!
+    var vGrid: VGrid!
+
     override func sceneDidLoad() {
-        
-        self.lastUpdateTime = 0
-
-        vnet = Vnet(gameScene: self)
-
+        GameScene.gameScene = self
+        kDriver = KDriver()
+        kDriver.drive()
+        gridAnchors = kDriver.transferGridAnchors()
     }
-    
-    
+
+    func makeVGrid(_ kNet: KNet) {
+        vGrid = VGrid(gameScene: self, kNet: kNet, sceneSize: self.frame.size)
+    }
+    #endif
+
     func touchDown(atPoint pos : CGPoint) {
         if let n = self.spinnyNode?.copy() as! SKShapeNode? {
             n.position = pos
@@ -89,64 +105,29 @@ class GameScene: SKScene {
         }
     }
     
-    var whichNetcam = Vnet.Quadrant.one
-    var camtrack = 0
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-        
         // Initialize _lastUpdateTime if it has not already been
         if (self.lastUpdateTime == 0) {
             self.lastUpdateTime = currentTime
         }
-        
+
         // Calculate time since last update
         let dt = currentTime - self.lastUpdateTime
-        
+
         // Update entities
         for entity in self.entities {
             entity.update(deltaTime: dt)
         }
-        
+
         self.lastUpdateTime = currentTime
-        if camtrack > 3 { return }
 
-        let label = SKLabelNode(text: "Quadrant \(whichNetcam)")
-        let netcam = vnet.getNetcam(whichNetcam)
-        netcam.addChild(label)
-
-        let layersCount = 12
-        let neuronsPerLayerCount = 4
-        let spacer = Spacer(netcam: netcam, layersCount: layersCount)
-        var opacity = CGFloat(0.0)
-        for y in 0..<layersCount {
-            for x in 0..<neuronsPerLayerCount {
-                let position = spacer.getPosition(neuronsThisLayer: neuronsPerLayerCount, xIndex: x, yIndex: y)
-
-                let vNeuron = SKShapeNode(circleOfRadius: CGFloat(15.0))
-                vNeuron.position = position
-
-                vNeuron.alpha = opacity
-                opacity += CGFloat(1.0) / CGFloat(layersCount * neuronsPerLayerCount)
-
-                switch whichNetcam {
-                case .one: vNeuron.fillColor = .blue
-                case .two: vNeuron.fillColor = .green
-                case .three: vNeuron.fillColor = .yellow
-                case .four: vNeuron.fillColor = .purple
-                }
-
-                netcam.addChild(vNeuron)
-
-                let label = SKLabelNode(text: "\(y):\(x)")
-                label.fontColor = .black
-                label.fontSize = 8
-                label.fontName = "Courier New"
-                label.position.x -= CGFloat(label.frame.width / 2)
-                vNeuron.addChild(label)
-            }
+        #if NETCAMS_SMOKE_TEST
+        displayTestPattern()
+        #elseif SIGNAL_GRID_DIAGNOSTICS
+        if vGrid != nil && gridDisplayed == false{
+            displaySignalGrid()
+            gridDisplayed = true
         }
-
-        whichNetcam = whichNetcam.nextQuadrant(whichNetcam)
-        camtrack += 1
+        #endif
     }
 }

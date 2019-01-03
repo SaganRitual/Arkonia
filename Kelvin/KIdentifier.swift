@@ -20,7 +20,7 @@
 
 import Foundation
 
-struct KIdentifier: KIdentifierProtocol {
+struct KIdentifier: Hashable, KIdentifierProtocol {
     var description: String
     let familyID: [Int]
     let myID: Int

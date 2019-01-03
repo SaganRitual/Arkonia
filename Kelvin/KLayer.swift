@@ -35,14 +35,14 @@ class KLayer: KIdentifiable {
 
 extension KLayer {
     func connect(to upperLayer: KLayer) {
-        neurons.forEach { $0.mockConnect(to: upperLayer) }
+        neurons.forEach { $0.connect(to: upperLayer) }
     }
 
     func decoupleFromGrid() {
         while !signalRelays.isEmpty {
             let r = signalRelays.removeLast()
-//            if r.breaker != nil { print("decoupleFromGrid(\(r))") }
-//            else { print("decouple dead neuron(\(r))") }
+            if r.breaker != nil { print("decoupleFromGrid(\(r))") }
+            else { print("decouple dead neuron(\(r))") }
 
             r.breaker = nil
         }
@@ -50,10 +50,6 @@ extension KLayer {
 
     func driveSignal() {
         neurons.forEach { $0.driveSignal() }
-    }
-
-    func driveSignal(from upperLayer: [KSignalRelay]) {
-        neurons.forEach { $0.driveSignal(from: upperLayer) }
     }
 
     static func makeLayer(_ family: KIdentifier, _ me: Int, cNeurons: Int) -> KLayer {

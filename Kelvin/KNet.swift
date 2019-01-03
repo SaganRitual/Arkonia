@@ -42,14 +42,23 @@ extension KNet {
             return newLayer
         }
 
-        return KNet(id, layers)
+        let kNet = KNet(id, layers)
+
+        #if SIGNAL_GRID_DIAGNOSTICS
+        let gs = GameScene.gameScene!
+        gs.makeVGrid(kNet)
+        #endif
+
+        return kNet
     }
 
-    func driveSignal(_ inputs: [KSignalRelay]) {
+    func driveSignal(_ sensoryLayer: KLayer) {
         var iter = layers.makeIterator()
-        var upperLayer = iter.next()<!>
+        var upperLayer = iter.next()!
 
-        upperLayer.driveSignal(from: inputs)
+        upperLayer.connect(to: sensoryLayer)
+        sensoryLayer.decoupleFromGrid()
+        upperLayer.driveSignal()
 
         for lowerLayer in iter {
             lowerLayer.connect(to: upperLayer)

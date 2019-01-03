@@ -22,22 +22,46 @@ import Foundation
 import SpriteKit
 
 struct Spacer {
+    var cNeurons: Int!
+    var forSenseLayer = false
     let layersCount: Int
-    let netcam: SKShapeNode
+    let netcam: SKNode
+    let scaledHeight: CGFloat
+    let scaledWidth: CGFloat
     let vSpacing: CGFloat
+    let vTop: CGFloat
 
-    init(netcam: SKShapeNode, layersCount: Int) {
+    init(netcam: SKNode, layersCount: Int, cNeurons: Int? = nil) {
         self.layersCount = layersCount
         self.netcam = netcam
-        self.vSpacing = 2 * netcam.frame.height / CGFloat(layersCount + 1)
+
+        let scaledWidth = netcam.frame.width / netcam.xScale
+        let scaledHeight = netcam.frame.height / netcam.yScale
+
+        self.vSpacing = scaledHeight / CGFloat(layersCount + 1)
+        self.vTop = scaledHeight / 2.0
+        self.cNeurons = cNeurons
+
+        self.scaledHeight = scaledHeight
+        self.scaledWidth = scaledWidth
     }
 
-    func getPosition(neuronsThisLayer: Int, xIndex: Int, yIndex: Int) -> CGPoint {
-        let vTop = (netcam.frame.height - CGFloat(vSpacing))
-
-        let hSpacing = 2 * netcam.frame.width / CGFloat(neuronsThisLayer + 1)
-        let hLeft = -netcam.frame.width + hSpacing
-
-        return CGPoint(x: hLeft + CGFloat(xIndex) * hSpacing, y: vTop - CGFloat(yIndex) * vSpacing)
+    func getPosition(xSS: Int, ySS: Int) -> CGPoint {
+        return getPosition(cNeurons: self.cNeurons, xSS: xSS, ySS: ySS)
     }
+
+    func getPosition(cNeurons: Int, xSS: Int, ySS: Int) -> CGPoint {
+        let offset = forSenseLayer ? 0 : CGFloat(ySS + 1) * vSpacing
+
+        return CGPoint(x: getX(xSS: xSS), y: vTop - offset)
+    }
+
+    private func getX(xSS: Int) -> CGFloat {
+        let hSpacing = scaledWidth / CGFloat(cNeurons + 1)
+        let hLeft = -scaledWidth / 2.0
+
+        return hLeft + CGFloat(xSS + 1) * hSpacing
+    }
+
+    mutating func setDefaultCNeurons(_ cNeurons: Int) { self.cNeurons = cNeurons }
 }
