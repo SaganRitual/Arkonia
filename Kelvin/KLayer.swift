@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-
+#if SIGNAL_GRID_DIAGNOSTICS
 import Foundation
 
 class KLayer: KIdentifiable {
@@ -93,4 +93,4 @@ func %% (_ a: Int, _ n: Int) -> Int {
     let r = a % n
     return r >= 0 ? r : r + n
 }
-
+#endif

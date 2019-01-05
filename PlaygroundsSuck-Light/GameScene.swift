@@ -23,7 +23,8 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-    
+    static var gameScene: GameScene!
+
     var entities = [GKEntity]()
     var graphs = [String : GKGraph]()
     
@@ -40,7 +41,6 @@ class GameScene: SKScene {
     #endif
 
     #if SIGNAL_GRID_DIAGNOSTICS
-    static var gameScene: GameScene!
     var gridAnchors: [KSignalRelay]!
     var gridDisplayed = false
     var kDriver: KDriver!

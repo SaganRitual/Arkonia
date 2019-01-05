@@ -91,7 +91,7 @@ extension String {
     }
 }
 
-#if !SIGNAL_GRID_DIAGNOSTICS
+#if !SIGNAL_GRID_DIAGNOSTICS && !NETCAMS_SMOKE_TEST
 class RollingAverage {
     let depth: Int
     var values = [Double]()

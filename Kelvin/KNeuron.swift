@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-
+#if SIGNAL_GRID_DIAGNOSTICS
 import Foundation
 
 class KNeuron: KIdentifiable, LoopIterable {
@@ -34,7 +34,7 @@ class KNeuron: KIdentifiable, LoopIterable {
     init(_ id: KIdentifier) {
         self.id = id
         self.weights = mockWeights[id.parentID][id.myID].weights
-        self.downs = [Int](0..<cMotorOutputs)
+        self.downs = [Int](0..<KNetDimensions.cMotorOutputs)
         loopIterableSelf = self
     }
 }
@@ -76,3 +76,4 @@ extension KNeuron {
         print("\(self) output = \(relay?.output ?? -42.0)")
     }
 }
+#endif

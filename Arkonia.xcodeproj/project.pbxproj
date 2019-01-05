@@ -1485,6 +1485,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-Light";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "xNETCAMS_SMOKE_TEST SIGNAL_GRID_DIAGNOSTICS";
@@ -1505,6 +1506,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-Light";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "xNETCAMS_SMOKE_TEST SIGNAL_GRID_DIAGNOSTICS";

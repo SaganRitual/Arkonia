@@ -36,7 +36,9 @@ extension GameScene {
 
         let layersCount = 12
         let neuronsPerLayerCount = 4
-        let spacer = Spacer(netcam: netcam, layersCount: layersCount)
+        var spacer = Spacer(netcam: netcam, layersCount: layersCount)
+        spacer.setDefaultCNeurons(neuronsPerLayerCount)
+
         var opacity = CGFloat(0.0)
         for y in 0..<layersCount {
             for x in 0..<neuronsPerLayerCount {

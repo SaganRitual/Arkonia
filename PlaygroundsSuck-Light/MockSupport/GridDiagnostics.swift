@@ -59,11 +59,8 @@ extension VGridProtocol {
     }
 
     func displayLayers(_ senseLayer: KLayer, _ kLayers: [KLayer], _ motorLayer: KLayer) {
-        var iter = kLayers.makeIterator()
-        let primer = iter.next()!
-
         var spacer = Spacer(netcam: gameScene, layersCount: kLayers.count)
-        spacer.setDefaultCNeurons(primer.neurons.count)
+        spacer.setDefaultCNeurons(senseLayer.neurons.count)
         spacer.layerType = .sensoryInputs
 
         var upperLayer = makeVLayer(kLayer: senseLayer, spacer: spacer)
@@ -84,7 +81,7 @@ extension VGridProtocol {
         }
 
         spacer.layerType = .motorOutputs
-        spacer.setDefaultCNeurons(cMotorOutputs)
+        spacer.setDefaultCNeurons(KNetDimensions.cMotorOutputs)
 
         let bottomLayer = makeVLayer(kLayer: motorLayer, spacer: spacer)
         bottomLayer.drawConnections(to: upperLayer)

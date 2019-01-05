@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-
+#if SIGNAL_GRID_DIAGNOSTICS
 import Foundation
 
 class KNet: KIdentifiable {
@@ -38,7 +38,7 @@ extension KNet {
         let id = KIdentifier("KNet", me)
 
         let layers = (0..<cLayers).map { (layerIDNumber: Int) -> KLayer in
-            let newLayer = KLayer.makeLayer(id, layerIDNumber, cNeurons: cNeurons)
+            let newLayer = KLayer.makeLayer(id, layerIDNumber, cNeurons: KNetDimensions.cNeurons)
             return newLayer
         }
 
@@ -70,3 +70,4 @@ extension KNet {
         gridAnchors = motorLayer.neurons.map { $0.relay! }
     }
 }
+#endif

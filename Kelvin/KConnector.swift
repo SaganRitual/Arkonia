@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-
+#if SIGNAL_GRID_DIAGNOSTICS
 import Foundation
 
 struct KConnector {
@@ -67,3 +67,4 @@ struct KConnector {
         return nil
     }
 }
+#endif

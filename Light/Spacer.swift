@@ -33,7 +33,7 @@ struct Spacer {
     let vSpacing: CGFloat
     let vTop: CGFloat
 
-    init(netcam: SKNode, layersCount: Int, cNeurons: Int? = nil) {
+    init(netcam: SKNode, layersCount: Int) {
         self.layersCount = layersCount
         self.netcam = netcam
 
@@ -42,7 +42,7 @@ struct Spacer {
 
         self.vSpacing = scaledHeight / CGFloat(layersCount + 1)
         self.vTop = scaledHeight / 2.0
-        self.cNeurons = cNeurons
+        self.cNeurons = KNetDimensions.cNeurons
 
         self.scaledHeight = scaledHeight
         self.scaledWidth = scaledWidth

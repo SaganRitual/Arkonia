@@ -20,6 +20,14 @@
 
 import Foundation
 
+struct KNetDimensions {
+    static let cLayers = 4
+    static let cMotorOutputs = 3
+    static let cNeurons = 2
+    static let cSensoryInputs = 5
+}
+
+#if SIGNAL_GRID_DIAGNOSTICS
 struct KDriver  {
     var motorLayer: KLayer
     let motorLayerID: KIdentifier
@@ -30,11 +38,11 @@ struct KDriver  {
     let theNet: KNet
 
     init() {
-        theNet = KNet.makeNet(0, cLayers: cLayers)
+        theNet = KNet.makeNet(0, cLayers: KNetDimensions.cLayers)
         senseLayerID = KIdentifier("Senses", [], -1)
-        senseLayer = KLayer.makeLayer(senseLayerID, 0, cNeurons: cNeurons)
+        senseLayer = KLayer.makeLayer(senseLayerID, 0, cNeurons: KNetDimensions.cSensoryInputs)
         motorLayerID = KIdentifier("Senses", [], -2)
-        motorLayer = KLayer.makeLayer(motorLayerID, 0, cNeurons: cMotorOutputs)
+        motorLayer = KLayer.makeLayer(motorLayerID, 0, cNeurons: KNetDimensions.cMotorOutputs)
     }
 
     func drive() {
@@ -74,11 +82,6 @@ struct WeightSpec {
     var weights: [Double]
 }
 
-let cLayers = 2
-let cMotorOutputs = 2
-let cNeurons = 2
-let cSensoryInputs = 2
-
 let mockWeights: [[WeightSpec]] = [
     [
         WeightSpec(weights: [1.0, 1.0]),
@@ -88,8 +91,8 @@ let mockWeights: [[WeightSpec]] = [
         WeightSpec(weights: [1.0]),
     ], [
         WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0, 1.0]),
+        WeightSpec(weights: [1.0, 1.1]),
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),
     ], [
@@ -112,3 +115,4 @@ let mockWeights: [[WeightSpec]] = [
         WeightSpec(weights: [1.0]),
     ],
 ]
+#endif

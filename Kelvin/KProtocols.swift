@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-
+#if SIGNAL_GRID_DIAGNOSTICS
 import Foundation
 
 protocol KIdentifiable: CustomStringConvertible {
@@ -44,3 +44,4 @@ protocol KRelayProtocol: class, KInputProtocol, KOutputProtocol {
     var breaker: KSignalRelay? { get set }
     var isOperational: Bool { get }
 }
+#endif

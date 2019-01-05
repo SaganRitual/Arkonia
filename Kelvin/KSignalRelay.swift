@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-
+#if SIGNAL_GRID_DIAGNOSTICS
 import Foundation
 
 class KSignalRelay: KIdentifiable, KRelayProtocol {
@@ -60,3 +60,4 @@ extension KSignalRelay {
 
     func overrideState(operational: Bool) { overriddenState = operational }
 }
+#endif
