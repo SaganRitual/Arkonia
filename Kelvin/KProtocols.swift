@@ -44,7 +44,3 @@ protocol KRelayProtocol: class, KInputProtocol, KOutputProtocol {
     var breaker: KSignalRelay? { get set }
     var isOperational: Bool { get }
 }
-
-extension Double: KOutputProtocol {
-    var output: Double { return self }
-}

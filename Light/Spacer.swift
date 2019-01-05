@@ -22,9 +22,11 @@ import Foundation
 import SpriteKit
 
 struct Spacer {
+    enum LayerType { case sensoryInputs, hidden, motorOutputs }
+
     var cNeurons: Int!
-    var forSenseLayer = false
     let layersCount: Int
+    var layerType = LayerType.hidden
     let netcam: SKNode
     let scaledHeight: CGFloat
     let scaledWidth: CGFloat
@@ -51,9 +53,15 @@ struct Spacer {
     }
 
     func getPosition(cNeurons: Int, xSS: Int, ySS: Int) -> CGPoint {
-        let offset = forSenseLayer ? 0 : CGFloat(ySS + 1) * vSpacing
+        let yOffset: CGFloat = {
+            switch self.layerType {
+            case .motorOutputs:  return scaledHeight
+            case .hidden:        return CGFloat(ySS + 1) * vSpacing
+            case .sensoryInputs: return 0
+            }
+        }()
 
-        return CGPoint(x: getX(xSS: xSS), y: vTop - offset)
+        return CGPoint(x: getX(xSS: xSS), y: vTop - yOffset)
     }
 
     private func getX(xSS: Int) -> CGFloat {

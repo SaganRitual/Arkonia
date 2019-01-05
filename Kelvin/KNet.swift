@@ -44,15 +44,10 @@ extension KNet {
 
         let kNet = KNet(id, layers)
 
-        #if SIGNAL_GRID_DIAGNOSTICS
-        let gs = GameScene.gameScene!
-        gs.makeVGrid(kNet)
-        #endif
-
         return kNet
     }
 
-    func driveSignal(_ sensoryLayer: KLayer) {
+    func driveSignal(_ sensoryLayer: KLayer, _ motorLayer: KLayer) {
         var iter = layers.makeIterator()
         var upperLayer = iter.next()!
 
@@ -68,7 +63,10 @@ extension KNet {
             upperLayer = lowerLayer
         }
 
-        gridAnchors = upperLayer.neurons.map { $0.relay! }
+        motorLayer.reverseConnect(upperLayer)
         upperLayer.decoupleFromGrid()
+        motorLayer.driveSignal()
+
+        gridAnchors = motorLayer.neurons.map { $0.relay! }
     }
 }

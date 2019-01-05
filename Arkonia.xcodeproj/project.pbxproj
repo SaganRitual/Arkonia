@@ -49,6 +49,7 @@
 		D44547C921CB151800247429 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BE21CB151700247429 /* Protocols.swift */; };
 		D44547CA21CB151800247429 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BE21CB151700247429 /* Protocols.swift */; };
 		D44EE50821BCE584006E1A12 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EE50721BCE584006E1A12 /* main.swift */; };
+		D450080921DFF576002FDDD6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
 		D452A30B21C10B230049E3A5 /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A30A21C10B230049E3A5 /* GSGoalSuite.swift */; };
 		D452A30C21C10B230049E3A5 /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A30A21C10B230049E3A5 /* GSGoalSuite.swift */; };
 		D452A31B21C142810049E3A5 /* GSTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A31A21C142810049E3A5 /* GSTester.swift */; };
@@ -1129,6 +1130,7 @@
 				D4FFA1E121DDEE8500537D5F /* GridDiagnostics.swift in Sources */,
 				D4FFA1EF21DE80E800537D5F /* MockSupport.swift in Sources */,
 				D4FFA1E221DDF05600537D5F /* KConnector.swift in Sources */,
+				D450080921DFF576002FDDD6 /* Utilities.swift in Sources */,
 				D4FFA1E821DDF05600537D5F /* KSignalRelay.swift in Sources */,
 				D4FFA1E321DDF05600537D5F /* KIdentifier.swift in Sources */,
 				D4FFA1EE21DE755900537D5F /* Extensions.swift in Sources */,

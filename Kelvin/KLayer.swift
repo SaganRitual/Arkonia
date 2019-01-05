@@ -68,4 +68,29 @@ extension KLayer {
 
         return KLayer(id, neurons, signalRelays)
     }
+
+    func reverseConnect(_ lastHiddenLayer: KLayer) {
+        lastHiddenLayer.neurons.forEach({ upperNeuron in
+            upperNeuron.downs.forEach { down in
+                let outputNeuronSS = down %% self.neurons.count
+                let outputNeuron = self.neurons[outputNeuronSS]
+
+                outputNeuron.relay!.inputRelays.append(upperNeuron.relay!)
+            }
+        })
+    }
 }
+
+// With profound gratitude to Martin R
+// https://stackoverflow.com/users/1187415/martin-r
+// https://stackoverflow.com/a/41180619/1610473
+//
+// A proper modulo operator; Swift's is different from the
+// modulo operator of every other language I know.
+infix operator %%
+func %% (_ a: Int, _ n: Int) -> Int {
+    precondition(n > 0, "modulus must be positive")
+    let r = a % n
+    return r >= 0 ? r : r + n
+}
+

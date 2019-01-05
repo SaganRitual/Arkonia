@@ -47,8 +47,6 @@ struct KIdentifier: Hashable, KIdentifierProtocol {
         }
     }
 
-    private func asInt() -> Int { return familyID.reduce(0) { ($0 * 10) + $1 } }
-
     private static func getFullID(_ type: String, _ family: [Int], _ me: Int) -> String {
         var separators = ["", ":", ":", "."]
         var fullID = "\(type)("
@@ -60,11 +58,7 @@ struct KIdentifier: Hashable, KIdentifierProtocol {
         return fullID + ")"
     }
 
-    static func < (_ lhs: KIdentifier, _ rhs: KIdentifier) -> Bool {
-        return lhs.asInt() < rhs.asInt()
-    }
-
     static func == (_ lhs: KIdentifier, _ rhs: KIdentifier) -> Bool {
-        return lhs.asInt() == rhs.asInt()
+        return lhs.hashValue == rhs.hashValue
     }
 }

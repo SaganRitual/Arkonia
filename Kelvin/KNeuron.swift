@@ -24,6 +24,7 @@ class KNeuron: KIdentifiable, LoopIterable {
     let activators = repeatElement(true, count: 5)
     let bias = 0.42
     var description: String { return id.description }
+    var downs: [Int]
     let id: KIdentifier
     var inputs: [Double]!
     weak var loopIterableSelf: KNeuron?
@@ -33,6 +34,7 @@ class KNeuron: KIdentifiable, LoopIterable {
     init(_ id: KIdentifier) {
         self.id = id
         self.weights = mockWeights[id.parentID][id.myID].weights
+        self.downs = [Int](0..<cMotorOutputs)
         loopIterableSelf = self
     }
 }

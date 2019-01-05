@@ -23,7 +23,7 @@ import SpriteKit
 
 extension GameScene {
     #if SIGNAL_GRID_DIAGNOSTICS
-    func displaySignalGrid() { vGrid.displayGrid(self.kDriver.senseLayer) }
+    func displaySignalGrid() { vGrid.displayGrid(self.kDriver.senseLayer, self.kDriver.motorLayer) }
     #endif
 
     #if NETCAMS_SMOKE_TEST

@@ -45,6 +45,7 @@ class GameScene: SKScene {
     var gridDisplayed = false
     var kDriver: KDriver!
     var vGrid: VGrid!
+    var vGridComplete = false
 
     override func sceneDidLoad() {
         GameScene.gameScene = self
@@ -55,6 +56,7 @@ class GameScene: SKScene {
 
     func makeVGrid(_ kNet: KNet) {
         vGrid = VGrid(gameScene: self, kNet: kNet, sceneSize: self.frame.size)
+        vGridComplete = true
     }
     #endif
 
@@ -124,7 +126,7 @@ class GameScene: SKScene {
         #if NETCAMS_SMOKE_TEST
         displayTestPattern()
         #elseif SIGNAL_GRID_DIAGNOSTICS
-        if vGrid != nil && gridDisplayed == false{
+        if vGridComplete == true && gridDisplayed == false {
             displaySignalGrid()
             gridDisplayed = true
         }

@@ -20,6 +20,78 @@
 
 import Foundation
 
+func nilstr<T: CustomStringConvertible>(_ theOptional: T?, defaultString: String = "<nil>") -> String {
+    var output = defaultString
+    if let t = theOptional { output = "\(t)" }
+    return output
+}
+
+postfix operator <!>
+
+// This is the make-no-mistake-I-intend-a-crash way to force unwrap
+postfix func <!><T> (_ theThing: T?) -> T {
+    switch theThing {
+    case .some(let good): return good
+    case .none: preconditionFailure("Bang!")
+    }
+}
+
+extension Double {
+    func iTruncate() -> Int {
+        return Int(self)
+    }
+
+    func sciTruncate(_ length: Int) -> String {
+        let t = Double(truncating: self as NSNumber)
+        return String(format: "%.\(length)e", t)
+    }
+
+    func sTruncate() -> String {
+        let t = Double(truncating: self as NSNumber)
+        return String(format: "%.20f", t)
+    }
+
+    func sTruncate(_ length: Int) -> String {
+        let t = Double(truncating: self as NSNumber)
+        return String(format: "%.\(length)f", t)
+    }
+
+    func dTruncate() -> Double {
+        return Double(sTruncate())!
+    }
+}
+
+extension CGFloat {
+    func iTruncate() -> Int {
+        return Double(self).iTruncate()
+    }
+
+    func dTruncate() -> Double {
+        return Double(self).dTruncate()
+    }
+
+    func sTruncate() -> String {
+        return Double(self).sTruncate()
+    }
+}
+
+extension CGPoint {
+    func iTruncate() -> CGPoint {
+        return CGPoint(x: self.x.iTruncate(), y: self.y.iTruncate())
+    }
+}
+
+extension String {
+    func isUppercase(_ inputCharacter: Character) -> Bool {
+        return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".contains(inputCharacter)
+    }
+
+    func isLowercase(_ inputCharacter: Character) -> Bool {
+        return "abcdefghijklmnopqrstuvwxyz".contains(inputCharacter)
+    }
+}
+
+#if !SIGNAL_GRID_DIAGNOSTICS
 class RollingAverage {
     let depth: Int
     var values = [Double]()
@@ -208,65 +280,4 @@ enum Utilities {
         }
     }
 }
-
-func nilstr<T: CustomStringConvertible>(_ theOptional: T?, defaultString: String = "<nil>") -> String {
-    var output = defaultString
-    if let t = theOptional { output = "\(t)" }
-    return output
-}
-
-postfix operator <!>
-
-// This is the make-no-mistake-I-intend-a-crash way to force unwrap
-postfix func <!><T> (_ theThing: T?) -> T {
-    switch theThing {
-    case .some(let good): return good
-    case .none: preconditionFailure("Bang!")
-    }
-}
-
-postfix operator %%
-extension Double {
-    func sciTruncate(_ length: Int) -> String {
-        let t = Double(truncating: self as NSNumber)
-        return String(format: "%.\(length)e", t)
-    }
-
-    func sTruncate() -> String {
-        let t = Double(truncating: self as NSNumber)
-        return String(format: "%.20f", t)
-    }
-
-    func sTruncate(_ length: Int) -> String {
-        let t = Double(truncating: self as NSNumber)
-        return String(format: "%.\(length)f", t)
-    }
-
-    func dTruncate() -> Double {
-        return Double(sTruncate())!
-    }
-
-    static postfix func %% (_ me: Double) -> String { return me.sTruncate() }
-}
-
-extension CGFloat {
-    func sTruncate() -> String {
-        return Double(self).sTruncate()
-    }
-
-    func dTruncate() -> Double {
-        return Double(self).dTruncate()
-    }
-
-    static postfix func %% (_ me: CGFloat) -> String { return me.sTruncate() }
-}
-
-extension String {
-    func isUppercase(_ inputCharacter: Character) -> Bool {
-        return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".contains(inputCharacter)
-    }
-
-    func isLowercase(_ inputCharacter: Character) -> Bool {
-        return "abcdefghijklmnopqrstuvwxyz".contains(inputCharacter)
-    }
-}
+#endif

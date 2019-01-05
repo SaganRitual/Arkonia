@@ -21,6 +21,9 @@
 import Foundation
 
 struct KDriver  {
+    var motorLayer: KLayer
+    let motorLayerID: KIdentifier
+    var motorOutputs: [Double]!
     let senseLayer: KLayer
     let senseLayerID: KIdentifier
     let sensoryInputs = [1.0, 1.0, 1.0, 1.0, 1.0]
@@ -30,6 +33,8 @@ struct KDriver  {
         theNet = KNet.makeNet(0, cLayers: cLayers)
         senseLayerID = KIdentifier("Senses", [], -1)
         senseLayer = KLayer.makeLayer(senseLayerID, 0, cNeurons: cNeurons)
+        motorLayerID = KIdentifier("Senses", [], -2)
+        motorLayer = KLayer.makeLayer(motorLayerID, 0, cNeurons: cMotorOutputs)
     }
 
     func drive() {
@@ -38,8 +43,11 @@ struct KDriver  {
             relay.output = sensoryInputs[whichInput]
         }
 
-        theNet.driveSignal(senseLayer)
+        theNet.driveSignal(senseLayer, motorLayer)
         print("Releasing output layer relays")
+
+        let gs = GameScene.gameScene!
+        gs.makeVGrid(theNet)
 
         theNet.gridAnchors.forEach { print($0.output) }
         print("All done")
@@ -67,12 +75,14 @@ struct WeightSpec {
 }
 
 let cLayers = 2
+let cMotorOutputs = 2
 let cNeurons = 2
+let cSensoryInputs = 2
 
 let mockWeights: [[WeightSpec]] = [
     [
-        WeightSpec(weights: [2.0, 1.0]),
-        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0, 1.0]),
+        WeightSpec(weights: [1.0, 1.0]),
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),

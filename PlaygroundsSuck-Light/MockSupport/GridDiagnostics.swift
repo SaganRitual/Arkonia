@@ -36,10 +36,10 @@ protocol VGridProtocol {
 
     init(gameScene: GameScene, kNet: KNet, sceneSize: CGSize)
 
-    func displayGrid(_ sensoryInputs: KLayer)
-    func displayNet(_ sensoryInputs: KLayer, _ kNet: KNet)
-    func displayLayers(_ sensoryInput: KLayer, _ kLayers: [KLayer])
+    func displayGrid(_ sensoryInputs: KLayer, _ motorOutputs: KLayer)
+    func displayNet(_ sensoryInputs: KLayer, _ kNet: KNet, _ motorOutputs: KLayer)
 
+    func displayLayers(_ sensoryInputs: KLayer, _ kLayers: [KLayer], _ motorOutputs: KLayer)
     func makeVLayer(kLayer: KLayer, spacer: Spacer) -> VLayerProtocol
 }
 
@@ -52,33 +52,43 @@ protocol VLayerProtocol {
 }
 
 extension VGridProtocol {
-    func displayGrid(_ sensoryInputs: KLayer) { displayNet(sensoryInputs, kNet) }
+    func displayGrid(_ senseLayer: KLayer, _ motorLayer: KLayer) { displayNet(senseLayer, kNet, motorLayer) }
 
-    func displayNet(_ sensoryInputs: KLayer, _ kNet: KNet) {
-        displayLayers(sensoryInputs, kNet.layers)
+    func displayNet(_ senseLayer: KLayer, _ kNet: KNet, _ motorLayer: KLayer) {
+        displayLayers(senseLayer, kNet.layers, motorLayer)
     }
 
-    func displayLayers(_ sensoryInput: KLayer, _ kLayers: [KLayer]) {
+    func displayLayers(_ senseLayer: KLayer, _ kLayers: [KLayer], _ motorLayer: KLayer) {
         var iter = kLayers.makeIterator()
-        let prime = iter.next()!
+        let primer = iter.next()!
 
         var spacer = Spacer(netcam: gameScene, layersCount: kLayers.count)
-        spacer.setDefaultCNeurons(prime.neurons.count)
-        spacer.forSenseLayer = true
+        spacer.setDefaultCNeurons(primer.neurons.count)
+        spacer.layerType = .sensoryInputs
 
-        var upperLayer = makeVLayer(kLayer: sensoryInput, spacer: spacer)
+        var upperLayer = makeVLayer(kLayer: senseLayer, spacer: spacer)
         upperLayer.drawNeurons()
 
         // Changes only the local copy, not the one we passed into
         // the upperLayer above.
-        spacer.forSenseLayer = false
+        spacer.layerType = .hidden
 
         kLayers.forEach {
+            spacer.setDefaultCNeurons($0.neurons.count)
+
             let lowerLayer = makeVLayer(kLayer: $0, spacer: spacer)
             lowerLayer.drawConnections(to: upperLayer)
             lowerLayer.drawNeurons()
+
             upperLayer = lowerLayer
         }
+
+        spacer.layerType = .motorOutputs
+        spacer.setDefaultCNeurons(cMotorOutputs)
+
+        let bottomLayer = makeVLayer(kLayer: motorLayer, spacer: spacer)
+        bottomLayer.drawConnections(to: upperLayer)
+        bottomLayer.drawNeurons()
     }
 }
 
@@ -121,8 +131,6 @@ struct VGLayer: VLayerProtocol {
         let start = spacer.getPosition(xSS: from.myID, ySS: from.parentID)
         let end = upperLayerSpacer.getPosition(xSS: to.myID, ySS: to.parentID)
 
-        print("from \(start) to \(end)")
-
         let linePath = CGMutablePath()
 
         linePath.move(to: start)
@@ -135,16 +143,14 @@ struct VGLayer: VLayerProtocol {
     }
 
     func drawConnections(to upperLayer: VLayerProtocol) {
-        kLayer.neurons.compactMap({
-            neuron in neuron.relay
+        kLayer.neurons.compactMap({ (neuron) -> KSignalRelay? in
+            neuron.relay
         }).forEach { relay in
             var uniqueIDs = Set<KIdentifier>()
 
             relay.inputRelays.forEach { inputRelay in
                 uniqueIDs.insert(inputRelay.id)
             }
-
-            print("uid \(uniqueIDs)")
 
             uniqueIDs.forEach { inputRelayID in
                 drawConnection(from: relay.id, to: inputRelayID, with: upperLayer.spacer)
@@ -156,9 +162,17 @@ struct VGLayer: VLayerProtocol {
         kLayer.neurons.forEach { neuron in
             let vNeuron = SKShapeNode(circleOfRadius: 10)
 
-            vNeuron.fillColor = spacer.forSenseLayer ? .orange : .blue
-            vNeuron.position = spacer.getPosition(xSS: neuron.id.myID, ySS: neuron.id.parentID)
             vNeuron.zPosition = 1.0
+            vNeuron.fillColor = {
+                switch spacer.layerType {
+                case .hidden:         return .blue
+                case .motorOutputs:   return .green
+                case .sensoryInputs:  return .orange
+                }
+            }()
+
+            vNeuron.position = spacer.getPosition(xSS: neuron.id.myID, ySS: neuron.id.parentID)
+
             gameScene.addChild(vNeuron)
         }
     }
