@@ -20,12 +20,13 @@
 #if SIGNAL_GRID_DIAGNOSTICS
 import Foundation
 
-struct KIdentifier: Hashable, KIdentifierProtocol {
+struct KIdentifier: CustomDebugStringConvertible, Hashable, KIdentifierProtocol {
     var description: String
     let familyID: [Int]
     let myID: Int
     let type: String
 
+    var debugDescription: String { return description }
     var parentID: Int { return familyID.last! }
 
     init(_ type: String, _ familyID: [Int], _ myID: Int) {

@@ -36,6 +36,12 @@ protocol SizelikeProtocol {
     init(_ width: Double, _ height: Double)
 }
 
+extension CGRect {
+    static func * (_ rect: CGRect, _ multiplier: Double) -> CGRect {
+        return CGRect(origin: rect.origin, size: rect.size * multiplier)
+    }
+}
+
 extension CGSize: SizelikeProtocol {
     init(_ width: Double, _ height: Double) {
         self = CGSize.make(width, height)
@@ -68,6 +74,13 @@ extension CGSize: SizelikeProtocol {
         var newSize = size
         newSize.width /= CGFloat(divisor)
         newSize.height /= CGFloat(divisor)
+        return newSize
+    }
+
+    static func * (_ size: CGSize, _ multiplier: Double) -> CGSize {
+        var newSize = size
+        newSize.width *= CGFloat(multiplier)
+        newSize.height *= CGFloat(multiplier)
         return newSize
     }
 }

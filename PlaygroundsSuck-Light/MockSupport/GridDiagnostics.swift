@@ -48,7 +48,8 @@ protocol VLayerProtocol {
     var spacer: Spacer { get }
 
     func drawConnections(to upperLayer: VLayerProtocol)
-    func drawNeurons()
+    func drawNeurons() -> [SKShapeNode]
+    func drawParameters(on nodeLayer: [SKShapeNode], isSenseLayer: Bool)
 }
 
 extension VGridProtocol {
@@ -64,7 +65,8 @@ extension VGridProtocol {
         spacer.layerType = .sensoryInputs
 
         var upperLayer = makeVLayer(kLayer: senseLayer, spacer: spacer)
-        upperLayer.drawNeurons()
+        var nodeLayer = upperLayer.drawNeurons()
+        upperLayer.drawParameters(on: nodeLayer, isSenseLayer: true)
 
         // Changes only the local copy, not the one we passed into
         // the upperLayer above.
@@ -75,7 +77,9 @@ extension VGridProtocol {
 
             let lowerLayer = makeVLayer(kLayer: $0, spacer: spacer)
             lowerLayer.drawConnections(to: upperLayer)
-            lowerLayer.drawNeurons()
+
+            nodeLayer = lowerLayer.drawNeurons()
+            lowerLayer.drawParameters(on: nodeLayer, isSenseLayer: false)
 
             upperLayer = lowerLayer
         }
@@ -85,7 +89,7 @@ extension VGridProtocol {
 
         let bottomLayer = makeVLayer(kLayer: motorLayer, spacer: spacer)
         bottomLayer.drawConnections(to: upperLayer)
-        bottomLayer.drawNeurons()
+        _ = bottomLayer.drawNeurons()
     }
 }
 
@@ -124,6 +128,39 @@ struct VGLayer: VLayerProtocol {
         self.gameScene = netcam; self.kLayer = kLayer; self.spacer = spacer
     }
 
+    private func addNumericLabel(neuron: KNeuron, node: SKShapeNode, number: String, yOffset: CGFloat, drawAbove: Bool) -> CGFloat {
+        let label = SKLabelNode(text: number)
+        label.fontColor = .yellow
+        label.fontName = "Courier New"
+        label.fontSize = 16
+
+        let background = SKShapeNode(rect: label.frame * 1.1)
+        background.fillColor = gameScene.backgroundColor
+        background.strokeColor = gameScene.backgroundColor
+        background.position.y = yOffset - (2 * background.lineWidth) + (drawAbove ? background.frame.height : 0)
+
+        background.addChild(label)
+        node.addChild(background)
+
+        return background.position.y
+    }
+
+    private func addBiasLabel(neuronSS: Int, node: SKShapeNode, yOffset: CGFloat) -> CGFloat {
+        let neuron = kLayer.neurons[neuronSS]
+        let bias = neuron.bias
+        let biasString = bias.sciTruncate(5)
+
+        return addNumericLabel(neuron: neuron, node: node, number: biasString, yOffset: yOffset, drawAbove: false)
+    }
+
+    private func addWeightLabel(neuronSS: Int, node: SKShapeNode, inputLine: Int, yOffset: CGFloat) -> CGFloat {
+        let neuron = kLayer.neurons[neuronSS]
+        let weight = neuron.weights[inputLine]
+        let weightString = weight.sciTruncate(5)
+
+        return addNumericLabel(neuron: neuron, node: node, number: weightString, yOffset: yOffset, drawAbove: true)
+    }
+
     func drawConnection(from: KIdentifier, to: KIdentifier, with upperLayerSpacer: Spacer) {
         let start = spacer.getPosition(xSS: from.myID, ySS: from.parentID)
         let end = upperLayerSpacer.getPosition(xSS: to.myID, ySS: to.parentID)
@@ -155,12 +192,14 @@ struct VGLayer: VLayerProtocol {
         }
     }
 
-    func drawNeurons() {
-        kLayer.neurons.forEach { neuron in
+    func drawNeurons() -> [SKShapeNode] {
+        return kLayer.neurons.map { neuron in
             let vNeuron = SKShapeNode(circleOfRadius: 10)
 
             vNeuron.zPosition = 1.0
             vNeuron.fillColor = {
+                if neuron.relay == nil { return .gray }
+
                 switch spacer.layerType {
                 case .hidden:         return .blue
                 case .motorOutputs:   return .green
@@ -169,8 +208,30 @@ struct VGLayer: VLayerProtocol {
             }()
 
             vNeuron.position = spacer.getPosition(xSS: neuron.id.myID, ySS: neuron.id.parentID)
-
             gameScene.addChild(vNeuron)
+
+            return vNeuron
+        }
+    }
+
+    func drawParameters(on nodeLayer: [SKShapeNode], isSenseLayer: Bool = false) {
+        kLayer.neurons.compactMap({ (neuron) -> KSignalRelay? in
+            neuron.relay
+        }).enumerated().forEach { whichNeuron, relay in
+            var yOffset = CGFloat(0.0)
+            let node = nodeLayer[whichNeuron]
+
+            if !isSenseLayer {
+                for whichInput in 0..<relay.inputRelays.count {
+                    yOffset = addWeightLabel(neuronSS: whichNeuron, node: node, inputLine: whichInput, yOffset: yOffset)
+                }
+
+                yOffset = addBiasLabel(neuronSS: whichNeuron, node: node, yOffset: -node.frame.height)
+            }
+
+            let thisIsUgly = kLayer.neurons[whichNeuron]
+            let output = relay.output.sciTruncate(5)
+            _ = addNumericLabel(neuron: thisIsUgly, node: node, number: output, yOffset: yOffset - node.frame.height, drawAbove: false)
         }
     }
 }

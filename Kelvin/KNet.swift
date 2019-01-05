@@ -38,7 +38,7 @@ extension KNet {
         let id = KIdentifier("KNet", me)
 
         let layers = (0..<cLayers).map { (layerIDNumber: Int) -> KLayer in
-            let newLayer = KLayer.makeLayer(id, layerIDNumber, cNeurons: KNetDimensions.cNeurons)
+            let newLayer = KLayer.makeLayer(id, layerIDNumber, cNeurons: KNetDimensions.cNeurons[layerIDNumber])
             return newLayer
         }
 

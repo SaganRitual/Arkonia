@@ -22,9 +22,9 @@ import Foundation
 
 struct KNetDimensions {
     static let cLayers = 4
-    static let cMotorOutputs = 3
-    static let cNeurons = 2
-    static let cSensoryInputs = 5
+    static let cMotorOutputs = 9
+    static let cNeurons = [3, 5, 1, 7]
+    static let cSensoryInputs = 7
 }
 
 #if SIGNAL_GRID_DIAGNOSTICS
@@ -34,7 +34,7 @@ struct KDriver  {
     var motorOutputs: [Double]!
     let senseLayer: KLayer
     let senseLayerID: KIdentifier
-    let sensoryInputs = [1.0, 1.0, 1.0, 1.0, 1.0]
+    let sensoryInputs = Array(repeating: 1.0, count: KNetDimensions.cSensoryInputs)
     let theNet: KNet
 
     init() {
@@ -85,6 +85,10 @@ struct WeightSpec {
 let mockWeights: [[WeightSpec]] = [
     [
         WeightSpec(weights: [1.0, 1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0, 1.0]),
         WeightSpec(weights: [1.0, 1.0]),
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),
@@ -92,10 +96,18 @@ let mockWeights: [[WeightSpec]] = [
     ], [
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0, 1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0, 1.1]),
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),
     ], [
+        WeightSpec(weights: [1.0, 2.0, 1.0, 0.5]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),
@@ -107,7 +119,15 @@ let mockWeights: [[WeightSpec]] = [
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
     ], [
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
+        WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),
         WeightSpec(weights: [1.0]),

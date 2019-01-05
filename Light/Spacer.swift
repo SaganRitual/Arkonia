@@ -42,7 +42,7 @@ struct Spacer {
 
         self.vSpacing = scaledHeight / CGFloat(layersCount + 1)
         self.vTop = scaledHeight / 2.0
-        self.cNeurons = KNetDimensions.cNeurons
+        self.cNeurons = KNetDimensions.cNeurons[0]
 
         self.scaledHeight = scaledHeight
         self.scaledWidth = scaledWidth
