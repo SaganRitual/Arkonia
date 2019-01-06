@@ -41,9 +41,6 @@
 		D44547C521CB151800247429 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
 		D44547C621CB151800247429 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
 		D44547C721CB151800247429 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
-		D44547C821CB151800247429 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BE21CB151700247429 /* Protocols.swift */; };
-		D44547C921CB151800247429 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BE21CB151700247429 /* Protocols.swift */; };
-		D44547CA21CB151800247429 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BE21CB151700247429 /* Protocols.swift */; };
 		D44EE50821BCE584006E1A12 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EE50721BCE584006E1A12 /* main.swift */; };
 		D450080921DFF576002FDDD6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
 		D452A30C21C10B230049E3A5 /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A30A21C10B230049E3A5 /* GSGoalSuite.swift */; };
@@ -60,16 +57,10 @@
 		D4553E0621D143D700B474A7 /* PeerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4553E0521D143D700B474A7 /* PeerGroup.swift */; };
 		D4553E0821D143D700B474A7 /* PeerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4553E0521D143D700B474A7 /* PeerGroup.swift */; };
 		D45E63E521AE39940078CB8E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
-		D45E63E721AE39940078CB8E /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
-		D45E63E821AE39940078CB8E /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
-		D45E63E921AE39940078CB8E /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
 		D45E63ED21AE39940078CB8E /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D45E63F021AE39940078CB8E /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
 		D45E63F121AE39940078CB8E /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D45E63F221AE39940078CB8E /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D45E640A21AE3A860078CB8E /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
-		D45E640E21AE3A860078CB8E /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
-		D45E641021AE3A860078CB8E /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
 		D45E641221AE3A860078CB8E /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D45E641321AE3A860078CB8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A14C21AE2E63009D6011 /* AppDelegate.swift */; };
 		D45E641521AE3A860078CB8E /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
@@ -104,13 +95,7 @@
 		D479962621CE0C0100EB7A9A /* Vnet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962021CD8C3A00EB7A9A /* Vnet.swift */; };
 		D479962721CE0C0100EB7A9A /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962221CD959900EB7A9A /* CGConversions.swift */; };
 		D479962821CE0C0100EB7A9A /* Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962421CDC64600EB7A9A /* Spacer.swift */; };
-		D47C39E621E15728001F4A84 /* TProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47C39E521E15728001F4A84 /* TProtocols.swift */; };
-		D47C39E721E15728001F4A84 /* TProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47C39E521E15728001F4A84 /* TProtocols.swift */; };
-		D47C39E821E15728001F4A84 /* TProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47C39E521E15728001F4A84 /* TProtocols.swift */; };
 		D482FD9921B1216500FF9EE9 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D482FD9A21B121B000FF9EE9 /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
-		D482FD9B21B121B000FF9EE9 /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
-		D482FD9C21B121B000FF9EE9 /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
 		D48F2FB521C31587008EA8DA /* NGResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FB421C31587008EA8DA /* NGResults.swift */; };
 		D48F2FB721C31587008EA8DA /* NGResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FB421C31587008EA8DA /* NGResults.swift */; };
 		D48F2FB921C31C06008EA8DA /* NGGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FB821C31C06008EA8DA /* NGGoalSuite.swift */; };
@@ -140,35 +125,17 @@
 		D48F875721E1AA2B0094571A /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875621E1AA2B0094571A /* TNet.swift */; };
 		D48F875821E1AA2B0094571A /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875621E1AA2B0094571A /* TNet.swift */; };
 		D48F875921E1AA2B0094571A /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875621E1AA2B0094571A /* TNet.swift */; };
-		D48F875B21E1AACA0094571A /* TArkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875A21E1AACA0094571A /* TArkon.swift */; };
-		D48F875C21E1AACA0094571A /* TArkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875A21E1AACA0094571A /* TArkon.swift */; };
-		D48F875D21E1AACA0094571A /* TArkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875A21E1AACA0094571A /* TArkon.swift */; };
-		D4A5C4D121C937FA002105DB /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4D021C937FA002105DB /* TranslatorNeuron.swift */; };
-		D4A5C4D221C937FA002105DB /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4D021C937FA002105DB /* TranslatorNeuron.swift */; };
-		D4A5C4D321C937FA002105DB /* TranslatorNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4D021C937FA002105DB /* TranslatorNeuron.swift */; };
-		D4A5C4D421C9385E002105DB /* AKLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4CC21C8BD27002105DB /* AKLayer.swift */; };
-		D4A5C4D521C9385E002105DB /* AKNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4CA21C8BCDF002105DB /* AKNet.swift */; };
-		D4A5C4D621C9385E002105DB /* AKNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4C621C8A413002105DB /* AKNeuron.swift */; };
-		D4A5C4DE21CAA98E002105DB /* AKLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4CC21C8BD27002105DB /* AKLayer.swift */; };
-		D4A5C4DF21CAA98E002105DB /* AKNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4CA21C8BCDF002105DB /* AKNet.swift */; };
-		D4A5C4E021CAA98E002105DB /* AKNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A5C4C621C8A413002105DB /* AKNeuron.swift */; };
 		D4B4CC1421CF710500AE6912 /* GenomeCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */; };
 		D4B517E821AFAC3200F4C88A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B517E721AFAC3200F4C88A /* main.swift */; };
 		D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
 		D4C0A13021AE2405009D6011 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
 		D4C0A13221AE2405009D6011 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D4C0A13B21AE2415009D6011 /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
-		D4C0A13C21AE2415009D6011 /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
-		D4C0A13E21AE2415009D6011 /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
 		D4C0A14D21AE2E63009D6011 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A14C21AE2E63009D6011 /* AppDelegate.swift */; };
 		D4C0A14F21AE2E63009D6011 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A14E21AE2E63009D6011 /* GameScene.sks */; };
 		D4C0A15121AE2E63009D6011 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
 		D4C0A15721AE2E64009D6011 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
 		D4C0A15A21AE2E64009D6011 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15821AE2E64009D6011 /* Main.storyboard */; };
 		D4C0A16621AE2E64009D6011 /* GameSceneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A16521AE2E64009D6011 /* GameSceneTests.swift */; };
-		D4C0A17921AE313F009D6011 /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
-		D4C0A17A21AE313F009D6011 /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
-		D4C0A17B21AE313F009D6011 /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
 		D4C0A18521AE315E009D6011 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
 		D4C0A18621AE315E009D6011 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
 		D4C0A18B21AE315F009D6011 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
@@ -178,8 +145,6 @@
 		D4C0A19621AE3178009D6011 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D4C0A19821AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4C2C53621D89EFC00367902 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
-		D4C2C53821D8B7B300367902 /* AKSignalGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53721D8B7B300367902 /* AKSignalGrid.swift */; };
-		D4C2C53A21D8B7B300367902 /* AKSignalGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53721D8B7B300367902 /* AKSignalGrid.swift */; };
 		D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C8E21BDA23C00FA6549 /* Archive.swift */; };
 		D4E6741E21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
 		D4E6741F21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
@@ -190,10 +155,7 @@
 		D4FE850221AE7AC100C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
 		D4FE850321AE7AC600C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
 		D4FE850421AE7AC600C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
-		D4FE850A21AE7C0500C9192F /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
 		D4FE850B21AE7C0500C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
-		D4FE850E21AE7C0500C9192F /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
-		D4FE851021AE7C0500C9192F /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
 		D4FE851221AE7C0500C9192F /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4FE851321AE7C0500C9192F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A14C21AE2E63009D6011 /* AppDelegate.swift */; };
 		D4FE851421AE7C0500C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
@@ -205,9 +167,6 @@
 		D4FE852121AE7C0500C9192F /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
 		D4FE852221AE7C0500C9192F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15821AE2E64009D6011 /* Main.storyboard */; };
 		D4FE852C21AEB20500C9192F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
-		D4FE852E21AEB20500C9192F /* GenomeTranslators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */; };
-		D4FE852F21AEB20500C9192F /* TranslatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */; };
-		D4FE853021AEB20500C9192F /* TranslatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */; };
 		D4FE853421AEB20500C9192F /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D4FE853721AEB20500C9192F /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
 		D4FE853821AEB20500C9192F /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
@@ -304,7 +263,6 @@
 		D44547BB21CB151700247429 /* LoopIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoopIterator.swift; sourceTree = "<group>"; };
 		D44547BC21CB151700247429 /* RandomnessGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomnessGenerators.swift; sourceTree = "<group>"; };
 		D44547BD21CB151700247429 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		D44547BE21CB151700247429 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		D44EE50521BCE584006E1A12 /* PlaygroundsSuck */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlaygroundsSuck; sourceTree = BUILT_PRODUCTS_DIR; };
 		D44EE50721BCE584006E1A12 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D452A30A21C10B230049E3A5 /* GSGoalSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSGoalSuite.swift; sourceTree = "<group>"; };
@@ -335,7 +293,6 @@
 		D479962021CD8C3A00EB7A9A /* Vnet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vnet.swift; sourceTree = "<group>"; };
 		D479962221CD959900EB7A9A /* CGConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGConversions.swift; sourceTree = "<group>"; };
 		D479962421CDC64600EB7A9A /* Spacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacer.swift; sourceTree = "<group>"; };
-		D47C39E521E15728001F4A84 /* TProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TProtocols.swift; sourceTree = "<group>"; };
 		D48F2FB421C31587008EA8DA /* NGResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGResults.swift; sourceTree = "<group>"; };
 		D48F2FB821C31C06008EA8DA /* NGGoalSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGGoalSuite.swift; sourceTree = "<group>"; };
 		D48F2FBC21C31C56008EA8DA /* NGFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGFactory.swift; sourceTree = "<group>"; };
@@ -346,11 +303,6 @@
 		D48F874E21E1A7A60094571A /* TNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNeuron.swift; sourceTree = "<group>"; };
 		D48F875221E1A8F80094571A /* TLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLayer.swift; sourceTree = "<group>"; };
 		D48F875621E1AA2B0094571A /* TNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNet.swift; sourceTree = "<group>"; };
-		D48F875A21E1AACA0094571A /* TArkon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TArkon.swift; sourceTree = "<group>"; };
-		D4A5C4C621C8A413002105DB /* AKNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKNeuron.swift; sourceTree = "<group>"; };
-		D4A5C4CA21C8BCDF002105DB /* AKNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKNet.swift; sourceTree = "<group>"; };
-		D4A5C4CC21C8BD27002105DB /* AKLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKLayer.swift; sourceTree = "<group>"; };
-		D4A5C4D021C937FA002105DB /* TranslatorNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TranslatorNeuron.swift; path = Translators/TranslatorNeuron.swift; sourceTree = "<group>"; };
 		D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeCommon.swift; sourceTree = "<group>"; };
 		D4B4CC1821CF81AF00AE6912 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		D4B517E521AFAC3200F4C88A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -361,9 +313,6 @@
 		D4C0A12521AE23F4009D6011 /* Selector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Selector.swift; path = Curation/Selector.swift; sourceTree = "<group>"; };
 		D4C0A12921AE2404009D6011 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4C0A12B21AE2404009D6011 /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
-		D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TranslatorLayer.swift; path = Translators/TranslatorLayer.swift; sourceTree = "<group>"; };
-		D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GenomeTranslators.swift; path = Translators/GenomeTranslators.swift; sourceTree = "<group>"; };
-		D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TranslatorBrain.swift; path = Translators/TranslatorBrain.swift; sourceTree = "<group>"; };
 		D4C0A14A21AE2E62009D6011 /* GameScene.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameScene.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C0A14C21AE2E63009D6011 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4C0A14E21AE2E63009D6011 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -376,7 +325,6 @@
 		D4C0A16521AE2E64009D6011 /* GameSceneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneTests.swift; sourceTree = "<group>"; };
 		D4C0A16721AE2E64009D6011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4C2C53521D89EFC00367902 /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
-		D4C2C53721D8B7B300367902 /* AKSignalGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKSignalGrid.swift; sourceTree = "<group>"; };
 		D4C54C8E21BDA23C00FA6549 /* Archive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Archive.swift; path = Curation/Archive.swift; sourceTree = "<group>"; };
 		D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivatorFunctions.swift; sourceTree = "<group>"; };
 		D4FE84FB21AE7AB600C9192F /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -551,11 +499,9 @@
 		D47C39E421E156FE001F4A84 /* Thomson */ = {
 			isa = PBXGroup;
 			children = (
-				D48F875A21E1AACA0094571A /* TArkon.swift */,
 				D48F875221E1A8F80094571A /* TLayer.swift */,
 				D48F875621E1AA2B0094571A /* TNet.swift */,
 				D48F874E21E1A7A60094571A /* TNeuron.swift */,
-				D47C39E521E15728001F4A84 /* TProtocols.swift */,
 			);
 			path = Thomson;
 			sourceTree = "<group>";
@@ -569,17 +515,6 @@
 				D48F2FC021C31CEE008EA8DA /* NGSubject.swift */,
 			);
 			path = GSNameGuesser;
-			sourceTree = "<group>";
-		};
-		D4A5C4C521C8A3F0002105DB /* Arkonet */ = {
-			isa = PBXGroup;
-			children = (
-				D4A5C4CC21C8BD27002105DB /* AKLayer.swift */,
-				D4A5C4CA21C8BCDF002105DB /* AKNet.swift */,
-				D4A5C4C621C8A413002105DB /* AKNeuron.swift */,
-				D4C2C53721D8B7B300367902 /* AKSignalGrid.swift */,
-			);
-			path = Arkonet;
 			sourceTree = "<group>";
 		};
 		D4ABEB1121AE645B00F3C5D5 /* Light */ = {
@@ -602,7 +537,6 @@
 				D4B4CC1821CF81AF00AE6912 /* Common.swift */,
 				D4FFA1EA21DE755900537D5F /* Extensions.swift */,
 				D44547BB21CB151700247429 /* LoopIterator.swift */,
-				D44547BE21CB151700247429 /* Protocols.swift */,
 				D44547BC21CB151700247429 /* RandomnessGenerators.swift */,
 				D44547BD21CB151700247429 /* Utilities.swift */,
 			);
@@ -620,7 +554,6 @@
 		D4C0A0F121ADF3CC009D6011 = {
 			isa = PBXGroup;
 			children = (
-				D4A5C4C521C8A3F0002105DB /* Arkonet */,
 				D4B4CC1721CF816000AE6912 /* Common */,
 				D4C0A12021AE2374009D6011 /* Curation */,
 				D4C0A0FC21ADF3CC009D6011 /* Dark */,
@@ -632,7 +565,6 @@
 				D44EE50621BCE584006E1A12 /* PlaygroundsSuck */,
 				D47995FD21CD8B8700EB7A9A /* PlaygroundsSuck-Light */,
 				D47C39E421E156FE001F4A84 /* Thomson */,
-				D4C0A12221AE23DF009D6011 /* Translators */,
 				D4C0A14B21AE2E63009D6011 /* GameScene */,
 				D4C0A16421AE2E64009D6011 /* GameSceneTests */,
 				D479961621CD8B8800EB7A9A /* PlaygroundsSuck-LightTests */,
@@ -675,17 +607,6 @@
 				D4C0A12521AE23F4009D6011 /* Selector.swift */,
 			);
 			name = Curation;
-			sourceTree = "<group>";
-		};
-		D4C0A12221AE23DF009D6011 /* Translators */ = {
-			isa = PBXGroup;
-			children = (
-				D4C0A13821AE2415009D6011 /* GenomeTranslators.swift */,
-				D4C0A13A21AE2415009D6011 /* TranslatorBrain.swift */,
-				D4C0A13721AE2415009D6011 /* TranslatorLayer.swift */,
-				D4A5C4D021C937FA002105DB /* TranslatorNeuron.swift */,
-			);
-			name = Translators;
 			sourceTree = "<group>";
 		};
 		D4C0A14B21AE2E63009D6011 /* GameScene */ = {
@@ -1097,9 +1018,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D45E63E521AE39940078CB8E /* main.swift in Sources */,
-				D45E63E721AE39940078CB8E /* GenomeTranslators.swift in Sources */,
-				D45E63E821AE39940078CB8E /* TranslatorBrain.swift in Sources */,
-				D45E63E921AE39940078CB8E /* TranslatorLayer.swift in Sources */,
 				D45E63ED21AE39940078CB8E /* Curator.swift in Sources */,
 				D45E63F021AE39940078CB8E /* Mutator.swift in Sources */,
 				D45E63F121AE39940078CB8E /* Selector.swift in Sources */,
@@ -1111,10 +1029,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D45E640A21AE3A860078CB8E /* TranslatorLayer.swift in Sources */,
 				D4FE850021AE7AC000C9192F /* ViewController.swift in Sources */,
-				D45E640E21AE3A860078CB8E /* GenomeTranslators.swift in Sources */,
-				D45E641021AE3A860078CB8E /* TranslatorBrain.swift in Sources */,
 				D45E641221AE3A860078CB8E /* Selector.swift in Sources */,
 				D45E641321AE3A860078CB8E /* AppDelegate.swift in Sources */,
 				D4FE84FF21AE7AC000C9192F /* GameScene.swift in Sources */,
@@ -1168,24 +1083,17 @@
 				D48F734621DB24EC001CC961 /* KNet.swift in Sources */,
 				D48F875821E1AA2B0094571A /* TNet.swift in Sources */,
 				D44547C621CB151800247429 /* Utilities.swift in Sources */,
-				D4A5C4D221C937FA002105DB /* TranslatorNeuron.swift in Sources */,
 				D408A41521D0CF270061D7A6 /* Common.swift in Sources */,
-				D48F875C21E1AACA0094571A /* TArkon.swift in Sources */,
 				D4686DD921DD1EA400149745 /* KConnector.swift in Sources */,
-				D47C39E721E15728001F4A84 /* TProtocols.swift in Sources */,
 				D4684CC521C2D1C900D13964 /* Manipulator.swift in Sources */,
 				D41D112E21DC04C40042055B /* KSignalRelay.swift in Sources */,
 				D48F735021DB2670001CC961 /* KNeuron.swift in Sources */,
 				D48F734B21DB259B001CC961 /* KLayer.swift in Sources */,
-				D482FD9B21B121B000FF9EE9 /* TranslatorBrain.swift in Sources */,
-				D482FD9C21B121B000FF9EE9 /* TranslatorLayer.swift in Sources */,
 				D4FFA1EC21DE755900537D5F /* Extensions.swift in Sources */,
 				D41D113221DC04C40042055B /* KProtocols.swift in Sources */,
 				D4E6741F21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */,
 				D44547C021CB151800247429 /* LoopIterator.swift in Sources */,
-				D482FD9A21B121B000FF9EE9 /* GenomeTranslators.swift in Sources */,
 				D4B517E821AFAC3200F4C88A /* main.swift in Sources */,
-				D44547C921CB151800247429 /* Protocols.swift in Sources */,
 				D408A41E21D0CF5F0061D7A6 /* GenomeCommon.swift in Sources */,
 				D482FD9921B1216500FF9EE9 /* Decoder.swift in Sources */,
 			);
@@ -1198,10 +1106,8 @@
 				D44547C221CB151800247429 /* RandomnessGenerators.swift in Sources */,
 				D48F734521DB24EC001CC961 /* KNet.swift in Sources */,
 				D48F875321E1A8F80094571A /* TLayer.swift in Sources */,
-				D4C2C53821D8B7B300367902 /* AKSignalGrid.swift in Sources */,
 				D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */,
 				D44547C521CB151800247429 /* Utilities.swift in Sources */,
-				D4A5C4D121C937FA002105DB /* TranslatorNeuron.swift in Sources */,
 				D408A41421D0CF260061D7A6 /* Common.swift in Sources */,
 				D4686DD821DD1EA400149745 /* KConnector.swift in Sources */,
 				D452A33921C1ED000049E3A5 /* GSFactory.swift in Sources */,
@@ -1217,29 +1123,20 @@
 				D48F874F21E1A7A60094571A /* TNeuron.swift in Sources */,
 				D4684CC421C2D1C900D13964 /* Manipulator.swift in Sources */,
 				D48F2FBD21C31C56008EA8DA /* NGFactory.swift in Sources */,
-				D48F875B21E1AACA0094571A /* TArkon.swift in Sources */,
 				D4FFA1EB21DE755900537D5F /* Extensions.swift in Sources */,
-				D4C0A13C21AE2415009D6011 /* GenomeTranslators.swift in Sources */,
 				D452A33621C1ECE10049E3A5 /* Curator.swift in Sources */,
-				D4A5C4D521C9385E002105DB /* AKNet.swift in Sources */,
 				D41D113121DC04C40042055B /* KProtocols.swift in Sources */,
-				D4A5C4D621C9385E002105DB /* AKNeuron.swift in Sources */,
 				D452A33D21C1ED000049E3A5 /* GSTester.swift in Sources */,
 				D4E6741E21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */,
-				D4C0A13E21AE2415009D6011 /* TranslatorBrain.swift in Sources */,
-				D47C39E621E15728001F4A84 /* TProtocols.swift in Sources */,
 				D44547BF21CB151800247429 /* LoopIterator.swift in Sources */,
 				D4684CC821C2D55F00D13964 /* Tene.swift in Sources */,
 				D452A33821C1ECE10049E3A5 /* Selector.swift in Sources */,
 				D48F2FB921C31C06008EA8DA /* NGGoalSuite.swift in Sources */,
 				D441297D21CC07580086E1AC /* AATester.swift in Sources */,
-				D4C0A13B21AE2415009D6011 /* TranslatorLayer.swift in Sources */,
-				D44547C821CB151800247429 /* Protocols.swift in Sources */,
 				D408A41D21D0CF5F0061D7A6 /* GenomeCommon.swift in Sources */,
 				D441298D21CC2CEB0086E1AC /* AAFactory.swift in Sources */,
 				D4C0A13021AE2405009D6011 /* Mutator.swift in Sources */,
 				D441298521CC26D50086E1AC /* AAGoalSuite.swift in Sources */,
-				D4A5C4D421C9385E002105DB /* AKLayer.swift in Sources */,
 				D4C0A13221AE2405009D6011 /* Decoder.swift in Sources */,
 				D452A33521C1ECE10049E3A5 /* Archive.swift in Sources */,
 				D4553E0621D143D700B474A7 /* PeerGroup.swift in Sources */,
@@ -1250,32 +1147,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4C0A17B21AE313F009D6011 /* TranslatorLayer.swift in Sources */,
 				D4686DDA21DD1EA400149745 /* KConnector.swift in Sources */,
 				D441298F21CC2CEB0086E1AC /* AAFactory.swift in Sources */,
 				D4FE850221AE7AC100C9192F /* ViewController.swift in Sources */,
-				D4A5C4E021CAA98E002105DB /* AKNeuron.swift in Sources */,
 				D44547C721CB151800247429 /* Utilities.swift in Sources */,
 				D48F2FBF21C31C56008EA8DA /* NGFactory.swift in Sources */,
-				D4A5C4D321C937FA002105DB /* TranslatorNeuron.swift in Sources */,
 				D452A32121C18EDB0049E3A5 /* GSSubject.swift in Sources */,
 				D4684CC621C2D1C900D13964 /* Manipulator.swift in Sources */,
-				D4A5C4DF21CAA98E002105DB /* AKNet.swift in Sources */,
-				D4C0A17921AE313F009D6011 /* GenomeTranslators.swift in Sources */,
 				D479962721CE0C0100EB7A9A /* CGConversions.swift in Sources */,
 				D479962821CE0C0100EB7A9A /* Spacer.swift in Sources */,
 				D48F2FB721C31587008EA8DA /* NGResults.swift in Sources */,
 				D452A32921C192170049E3A5 /* GSFactory.swift in Sources */,
 				D48F875921E1AA2B0094571A /* TNet.swift in Sources */,
-				D4C0A17A21AE313F009D6011 /* TranslatorBrain.swift in Sources */,
-				D44547CA21CB151800247429 /* Protocols.swift in Sources */,
-				D47C39E821E15728001F4A84 /* TProtocols.swift in Sources */,
 				D4C0A19521AE3178009D6011 /* Selector.swift in Sources */,
 				D44547C421CB151800247429 /* RandomnessGenerators.swift in Sources */,
-				D4C2C53A21D8B7B300367902 /* AKSignalGrid.swift in Sources */,
 				D48F2FC321C31CEE008EA8DA /* NGSubject.swift in Sources */,
 				D41D113321DC04C40042055B /* KProtocols.swift in Sources */,
-				D4A5C4DE21CAA98E002105DB /* AKLayer.swift in Sources */,
 				D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */,
 				D4C0A14D21AE2E63009D6011 /* AppDelegate.swift in Sources */,
 				D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */,
@@ -1290,7 +1177,6 @@
 				D471173621B3D5440076DD2A /* VBrain.swift in Sources */,
 				D452A31C21C142810049E3A5 /* GSTester.swift in Sources */,
 				D441299321CC2D870086E1AC /* AASubject.swift in Sources */,
-				D48F875D21E1AACA0094571A /* TArkon.swift in Sources */,
 				D48F735121DB2670001CC961 /* KNeuron.swift in Sources */,
 				D44547C121CB151800247429 /* LoopIterator.swift in Sources */,
 				D441297F21CC07580086E1AC /* AATester.swift in Sources */,
@@ -1325,10 +1211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4FE850A21AE7C0500C9192F /* TranslatorLayer.swift in Sources */,
 				D4FE850B21AE7C0500C9192F /* ViewController.swift in Sources */,
-				D4FE850E21AE7C0500C9192F /* GenomeTranslators.swift in Sources */,
-				D4FE851021AE7C0500C9192F /* TranslatorBrain.swift in Sources */,
 				D4FE851221AE7C0500C9192F /* Selector.swift in Sources */,
 				D4FE851321AE7C0500C9192F /* AppDelegate.swift in Sources */,
 				D4FE851421AE7C0500C9192F /* GameScene.swift in Sources */,
@@ -1343,9 +1226,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4FE852C21AEB20500C9192F /* main.swift in Sources */,
-				D4FE852E21AEB20500C9192F /* GenomeTranslators.swift in Sources */,
-				D4FE852F21AEB20500C9192F /* TranslatorBrain.swift in Sources */,
-				D4FE853021AEB20500C9192F /* TranslatorLayer.swift in Sources */,
 				D4FE853421AEB20500C9192F /* Curator.swift in Sources */,
 				D4FE853721AEB20500C9192F /* Mutator.swift in Sources */,
 				D4FE853821AEB20500C9192F /* Selector.swift in Sources */,

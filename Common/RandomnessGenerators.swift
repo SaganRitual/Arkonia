@@ -23,11 +23,10 @@ import GameKit
 
 enum RandomnessGenerator {
     static func generateRandomGene() -> String {
-        // The map is so we can weight the gene types differently, so we
-        // don't end up with one neuron per layer, or something silly like that.
         let geneSelector = [
-          Manipulator.act : 10, Manipulator.bis : 5, Manipulator.fun : 5,
-          Manipulator.hox: 0, Manipulator.lay : 2, Manipulator.neu : 3, Manipulator.wgt : 20
+            Manipulator.gAct : 5, Manipulator.gBis : 5, Manipulator.gDwn : 3, Manipulator.gInt : 20,
+            Manipulator.gHox: 0, Manipulator.gLay : 2, Manipulator.gNeu : 3, Manipulator.gWgt : 20,
+            Manipulator.gPol : 0
         ]
 
         var weightedGeneSelector: [Character] = {
@@ -42,13 +41,11 @@ enum RandomnessGenerator {
         let geneType = weightedGeneSelector[geneSS]
 
         switch geneType {
-        case Manipulator.act: return "A(\(Bool.random()))"
-        case Manipulator.bis: return "B(\(Double.random(in: -1...1)))"
-        case Manipulator.fun: return "F(\(AFn.getRandomOutputFunction()))"
-        case Manipulator.lay: return "L"
-        case Manipulator.neu: return "N"
-        case Manipulator.wgt: return "W(b[\(Double.random(in: -1...1).sTruncate())]v[\(Double.random(in: -1...1).sTruncate())])"
-        default: fatalError()
+        case Manipulator.gAct: return "A(\(AFn.getRandomOutputFunction()))"
+        case Manipulator.gBis: return "B(\(Double.random(in: -1...1)))"
+        case Manipulator.gInt: return "I(\(Int.random(in: Int.min...Int.max)))"
+        case Manipulator.gWgt: return "W(\(Double.random(in: -1...1)))"
+        default: return String(geneType)
         }
     }
 

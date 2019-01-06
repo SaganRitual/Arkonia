@@ -23,7 +23,6 @@ import Foundation
 enum ArkonCentral {
     static var dec: Decoder?
 //    static var mut: Mutator?
-    static var tr: Translators?
 }
 
 struct GSSelectionControls {

@@ -94,14 +94,4 @@ enum AFn {
     static func getRandomOutputFunction() -> String {
         return FunctionName.init(rawValue: lookup.keys.randomElement()<!>.rawValue)!.rawValue
     }
-
-    static func setOutputFunction(_ functionName_: String, for brain: Translators.Brain) {
-        if functionName_.isEmpty { preconditionFailure("No function name") }
-
-        guard let functionName = FunctionName.init(rawValue: functionName_)
-            else { preconditionFailure("Function name not found") }
-
-        brain.setOutputFunction(lookup[functionName]!)
-    }
-
 }

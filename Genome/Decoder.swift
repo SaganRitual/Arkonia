@@ -20,78 +20,37 @@
 
 import Foundation
 
-private enum DecodeState {
+enum DecodeState {
     case diagnostics, endOfStrand, inLayer, inNeuron, noLayer
 }
 
 class Decoder {
-    static var d: Decoder!
-
-    enum BirthDefect: Error {
-        case emptyLayer
-    }
-
+    var decodeState: DecodeState = .noLayer
     var inputGenome: GenomeSlice!
-
-    enum InputMode { case head, meat, tail }
-    var inputMode = InputMode.head
-    var aTrue = 0
-    var aFalse = 0
-
-    fileprivate var decodeState: DecodeState = .noLayer
-    var workspace = String()
+    var net: TNet!
+    var layerUnderConstruction: TLayer?
+    var neuronUnderConstruction: TNeuron?
 
     init() {
-        precondition(Decoder.d == nil)
-        Decoder.d = self
-
-        workspace.reserveCapacity(1024 * 1024)
+        precondition(ArkonCentral.dec == nil)
+        ArkonCentral.dec = self
     }
 
-    func decode() -> Bool {
-        self.reset()
-        Translators.t.reset()
-        Translators.t.newBrain()
+    func decode() {
+        net = TNet()
 
-        var hmCommandeeredNeurons = 0
-        let reversed = self.inputGenome.reversed()
+        decodeLayers(inputGenome[...])
 
-        guard let rLayerInsertionPoint = reversed.firstIndex(where: {
-            let c = GSGoalSuite.selectionControls.howManyMotorNeurons
-            let found = hmCommandeeredNeurons >= c
-
-            if $0 == Manipulator.neu {
-                hmCommandeeredNeurons += 1
-            }
-
-            return found
-        }) else { /*print("Test subject did not survive birth; genome:", self.inputGenome);*/ return false }
-
-        let distance = reversed.distance(from: rLayerInsertionPoint, to: reversed.endIndex)
-        let fLayerInsertionPoint = inputGenome.index(inputGenome.startIndex, offsetBy: distance)
-
-        workspace += inputGenome[..<fLayerInsertionPoint] + Manipulator.layb[...] +
-                inputGenome[fLayerInsertionPoint...].replacingOccurrences(of: Manipulator.layb, with: "")
-
-        decodeLayers(workspace[...])
-        Translators.t.endOfStrand()
-
-//        Translators.t.getBrain().show(tabs: "", override: true)
-//        print(inputGenome)
-        return true
+        layerUnderConstruction?.finalizeNeuron()
+        net.finalizeLayer()
     }
 
-    func newBrain() { Translators.t.newBrain() }
-
-    func reset() {
-        self.decodeState = .noLayer
-        self.inputMode = .head
-        self.workspace.removeAll(keepingCapacity: true)
-    }
+    func reset() { self.decodeState = .noLayer }
 }
 
-private extension Decoder {
+extension Decoder {
     func decodeLayers(_ slice: GenomeSlice) {
+        print("Tnet has \(net.layers.count) layers")
         var start = slice.startIndex
         let end = slice.endIndex
 
@@ -108,6 +67,8 @@ private extension Decoder {
         let goodDataIndex = discardAnyGarbage(slice)
         if goodDataIndex == slice.endIndex { decodeState = .endOfStrand }
         if goodDataIndex != nextValidTokenIndex { slice = slice[goodDataIndex...] }
+
+        print("og \(String(slice.first!))")
 
         var symbolsConsumed = 0
         switch decodeState {
@@ -145,6 +106,8 @@ private extension Decoder {
 
 extension Decoder {
     func dispatchValueGene(_ slice: GenomeSlice) -> Int {
+        guard let neuron = neuronUnderConstruction else { preconditionFailure() }
+
         var symbolsConsumed = 0
         var tSlice = slice
         let token = tSlice.first!
@@ -155,14 +118,10 @@ extension Decoder {
         let meatSlice = tSlice[..<ixOfCloseParen]
 
         switch token {
-        case Manipulator.act:
-            let result: Bool = parse(meatSlice)
-            if result { aTrue += 1 } else { aFalse += 1 }
-            Translators.t.addActivator(result)
-
-        case Manipulator.bis: Translators.t.accumulateBias(parse(meatSlice))
-        case Manipulator.fun: Translators.t.setOutputFunction(parse(meatSlice))
-        case Manipulator.wgt: Translators.t.addWeight(parse(meatSlice))
+        case Manipulator.gAct: neuron.activator(parse(meatSlice))
+        case Manipulator.gBis: neuron.bias(parse(meatSlice))
+        case Manipulator.gInt: neuron.floater(parse(meatSlice))
+        case Manipulator.gWgt: neuron.weight(parse(meatSlice))
         default: print("Decoder says '\(token)' is an unknown token: "); return 2
         }
 
@@ -176,26 +135,26 @@ extension Decoder {
     func dispatch_noLayer(_ slice: GenomeSlice) -> Int {
         guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
-        case Manipulator.lay:
+        case Manipulator.gLay:
             decodeState = .inLayer
-            Translators.t.newLayer()
+            layerUnderConstruction = net.beginNewLayer()
             return 2
 
-        case Manipulator.neu:
+        case Manipulator.gNeu:
             decodeState = .inNeuron
-            Translators.t.newLayer()
-            Translators.t.newNeuron()
-            return 2
-
-        case Manipulator.ifm:
-            decodeState = .noLayer
-            Translators.t.closeLayer()
+            layerUnderConstruction = net.beginNewLayer()
+            neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
             return 2
 
         default:
             decodeState = .inNeuron
-            Translators.t.newLayer()
-            Translators.t.newNeuron()
+            layerUnderConstruction = net.beginNewLayer()
+            neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
+
+            if first == Manipulator.gDwn {
+                neuronUnderConstruction!.down()
+                return 2
+            }
 
             return dispatchValueGene(slice)
         }
@@ -204,25 +163,26 @@ extension Decoder {
     func dispatch_inLayer(_ slice: GenomeSlice) -> Int {
         guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
-        case Manipulator.lay:
+        case Manipulator.gLay:
             // Got another layer marker, but it would
             // cause this one to be empty. Just ignore it.
             decodeState = .inLayer
             return 2
 
-        case Manipulator.neu:
+        case Manipulator.gNeu:
             decodeState = .inNeuron
-            Translators.t.newNeuron()
-            return 2
-
-        case Manipulator.ifm:
-            decodeState = .noLayer
-            Translators.t.closeLayer()
+            neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
             return 2
 
         default:
             decodeState = .inNeuron
-            Translators.t.newNeuron()
+            neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
+
+            if first == Manipulator.gDwn {
+                neuronUnderConstruction!.down()
+                return 2
+            }
+
             return dispatchValueGene(slice)
         }
     }
@@ -230,25 +190,25 @@ extension Decoder {
     func dispatch_inNeuron(_ slice: GenomeSlice) -> Int {
         guard let first = slice.first else { fatalError("Thought we had a slice, but it's gone now?") }
         switch first {
-        case Manipulator.lay:
+        case Manipulator.gLay:
             decodeState = .inLayer
-            Translators.t.closeNeuron()
-            Translators.t.closeLayer()
-            Translators.t.newLayer()
+            layerUnderConstruction!.finalizeNeuron()
+            net.finalizeLayer()
+            layerUnderConstruction = net.beginNewLayer()
             return 2
 
-        case Manipulator.neu:
+        case Manipulator.gNeu:
             decodeState = .inNeuron
-            Translators.t.closeNeuron()
-            Translators.t.newNeuron()
-            return 2
-
-        case Manipulator.ifm:
-            decodeState = .noLayer
-            Translators.t.closeLayer()
+            layerUnderConstruction!.finalizeNeuron()
+            neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
             return 2
 
         default:
+            if first == Manipulator.gDwn {
+                neuronUnderConstruction!.down()
+                return 2
+            }
+
             return dispatchValueGene(slice)
         }
     }
@@ -264,25 +224,8 @@ extension Decoder {
         fatalError("Should never come here")
     }
 
-    func parse(_ slice: GenomeSlice? = nil) -> Bool {
-        let truthy = "true", falsy = "false", stringy = String(slice!)
-        switch stringy {
-        case truthy: return true
-        case falsy:  return false
-        default: fatalError("Bad data! You said it would never be bad.")
-        }
-    }
-
     func parse(_ slice: GenomeSlice? = nil) -> Double {
         return Double(slice!)!.dTruncate()
-    }
-
-    func parse(_ slice: GenomeSlice? = nil) -> ValueDoublet {
-        let values = Manipulator.splitGene(slice!)
-        let baseline = Double(values[0])!.dTruncate()
-        let value = Double(values[1])!.dTruncate()
-
-        return ValueDoublet(baseline, value)
     }
 
     func parse(_ slice: GenomeSlice? = nil) -> Int { return Int(slice!)! }

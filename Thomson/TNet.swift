@@ -20,11 +20,28 @@
 
 import Foundation
 
-struct TNet: TNetProtocol {
-    typealias Product = TLayer
+class TNet {
+    var layers = [TLayer]()
+    var underConstruction: TLayer?
 
     init() { }
-    
-    var completedProduct = [TLayer]()
-    var underConstruction: TLayer?
+
+    func beginNewLayer() -> TLayer {
+        if underConstruction != nil {
+            finalizeLayer()
+            underConstruction = nil
+        }
+
+        underConstruction = TLayer()
+        return underConstruction!
+    }
+
+    func finalizeLayer() {
+        guard let u = underConstruction else { return }
+        u.finalizeNeuron()
+        layers.append(u)
+        underConstruction = nil
+    }
+
+    func report() { print("TNet report"); layers.forEach { $0.report() } }
 }

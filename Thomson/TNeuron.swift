@@ -20,14 +20,27 @@
 
 import Foundation
 
-struct TNeuron: TNeuronProtocol {
+class TNeuron {
     var activator = AFn.FunctionName.identity
     var bias = 0.0
-    var connectors = [Int]()
+    var cDowns = 0
+    var floaters = [Int]()
     var weights = [Double]()
 
-    mutating func activator(_ fn: AFn.FunctionName) { self.activator = fn }
-    mutating func bias(_ bias: Double) { self.bias += bias }
-    mutating func connector(_ connector: Int) { self.connectors.append(connector) }
-    mutating func weight(_ weight: Double) { self.weights.append(weight) }
+    func report() {
+        print("Neuron:")
+        print("A: \(activator.rawValue)")
+        print("B: \(bias.sciTruncate(5))")
+        print("D: \(cDowns)")
+
+        floaters.forEach { print("I: \($0)") }
+        weights.forEach { print("W: \($0.sciTruncate(5))") }
+        print()
+    }
+
+    func activator(_ fn: String) { self.activator = AFn.FunctionName(rawValue: fn)! }
+    func bias(_ bias: Double) { self.bias += bias }
+    func down() { cDowns += 1 }
+    func floater(_ floater: Int) { self.floaters.append(floater) }
+    func weight(_ weight: Double) { self.weights.append(weight) }
 }

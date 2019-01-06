@@ -39,5 +39,5 @@ struct GSGoalSuite {
 let manipulator = Manipulator()
 let decoder = Decoder()
 
-let result = decoder.setInput(to: manipulator.passthruGenome).decode()
-print("Result: \(result)")
+decoder.setInput(to: manipulator.passthruGenome).decode()
+decoder.net.report()

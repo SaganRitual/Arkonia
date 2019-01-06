@@ -20,14 +20,35 @@
 
 import Foundation
 
-struct TLayer: TLayerProtocol {
-    typealias Product = TNeuron
+class TLayer {
+    var neurons = [TNeuron]()
+    var underConstruction: TNeuron?
 
     init() { }
 
-    var completedProduct = [TNeuron]()
-    var underConstruction: TNeuron?
+    var count: Int { return neurons.count }
+    var isEmpty: Bool { return neurons.isEmpty }
 
-    var count: Int { return completedProduct.count }
-    var isEmpty: Bool { return completedProduct.isEmpty }
+    func beginNewNeuron() -> TNeuron {
+        if underConstruction != nil {
+            finalizeNeuron()
+            underConstruction = nil
+        }
+
+        underConstruction = TNeuron()
+        return underConstruction!
+    }
+
+    func finalizeNeuron() {
+        guard let u = underConstruction else { return }
+        neurons.append(u)
+        underConstruction = nil
+    }
+
+    func report() {
+         print("TLayer report");
+        neurons.forEach {
+            $0.report()
+        }
+    }
 }
