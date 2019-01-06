@@ -65,7 +65,7 @@ extension Translators {
         func closeNeuron() { underConstruction?.closeNeuron() }
 
         func getNet() -> AKNet {
-            if let n = net { return n }; net = AKNet(layers); return net!
+            if let n = net { return n }; net = AKNet(); return net!
         }
 
         func setInputs(_ inputs: [Int]) {

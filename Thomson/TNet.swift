@@ -20,24 +20,11 @@
 
 import Foundation
 
-#if EXPERIMENTAL
-print("Experimental")
-#endif
+struct TNet: TNetProtocol {
+    typealias Product = TLayer
 
-#if RUN_DARK
-print("Run dark")
-#endif
-
-struct GSGoalSuite {
-    static var selectionControls = GSGoalSuite()
-
-    let howManyMotorNeurons = 5
-    let howManyLayersInStarter = 5
-    let howManySenses = 5
+    init() { }
+    
+    var completedProduct = [TLayer]()
+    var underConstruction: TLayer?
 }
-
-let manipulator = Manipulator()
-let decoder = Decoder()
-
-let result = decoder.setInput(to: manipulator.passthruGenome).decode()
-print("Result: \(result)")

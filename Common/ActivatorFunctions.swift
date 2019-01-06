@@ -26,9 +26,9 @@ enum AFn {
 
     enum FunctionName: String {
         case identity, binarystep, logistic, tanh, arctan, softsign, isru, isrlu, sqnl
-        case relu, brelu, leakyrelu, prelu, rrelu, elu, selu, srelu, apl, softplus
+        case relu, brelu, leakyrelu, boundleakyrelu, prelu, rrelu, elu, selu, srelu, apl, softplus
         case bentidentity, swish, softexponential, softclipping, sinusoid, sinc, gaussian
-        case limiter, boundidentity, boundbentidentity
+        case limiter, boundidentity, boundbentidentity, boundsoftplus
     }
 
     static let lookup: [FunctionName: NeuronOutputFunction] = [

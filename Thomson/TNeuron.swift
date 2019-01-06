@@ -20,24 +20,14 @@
 
 import Foundation
 
-#if EXPERIMENTAL
-print("Experimental")
-#endif
+struct TNeuron: TNeuronProtocol {
+    var activator = AFn.FunctionName.identity
+    var bias = 0.0
+    var connectors = [Int]()
+    var weights = [Double]()
 
-#if RUN_DARK
-print("Run dark")
-#endif
-
-struct GSGoalSuite {
-    static var selectionControls = GSGoalSuite()
-
-    let howManyMotorNeurons = 5
-    let howManyLayersInStarter = 5
-    let howManySenses = 5
+    mutating func activator(_ fn: AFn.FunctionName) { self.activator = fn }
+    mutating func bias(_ bias: Double) { self.bias += bias }
+    mutating func connector(_ connector: Int) { self.connectors.append(connector) }
+    mutating func weight(_ weight: Double) { self.weights.append(weight) }
 }
-
-let manipulator = Manipulator()
-let decoder = Decoder()
-
-let result = decoder.setInput(to: manipulator.passthruGenome).decode()
-print("Result: \(result)")

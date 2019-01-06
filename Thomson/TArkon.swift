@@ -20,24 +20,9 @@
 
 import Foundation
 
-#if EXPERIMENTAL
-print("Experimental")
-#endif
+struct TArkon {
+    var underConstruction: TNet?
 
-#if RUN_DARK
-print("Run dark")
-#endif
-
-struct GSGoalSuite {
-    static var selectionControls = GSGoalSuite()
-
-    let howManyMotorNeurons = 5
-    let howManyLayersInStarter = 5
-    let howManySenses = 5
+    mutating func closeNet() { underConstruction = nil }
+    mutating func newNet() { underConstruction = TNet() }
 }
-
-let manipulator = Manipulator()
-let decoder = Decoder()
-
-let result = decoder.setInput(to: manipulator.passthruGenome).decode()
-print("Result: \(result)")
