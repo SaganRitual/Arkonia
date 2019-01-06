@@ -41,6 +41,14 @@
 		D44547C521CB151800247429 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
 		D44547C621CB151800247429 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
 		D44547C721CB151800247429 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
+		D4470FC621E23AEF00F8319F /* TLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875221E1A8F80094571A /* TLayer.swift */; };
+		D4470FC721E23AEF00F8319F /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875621E1AA2B0094571A /* TNet.swift */; };
+		D4470FC821E23AEF00F8319F /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F874E21E1A7A60094571A /* TNeuron.swift */; };
+		D4470FC921E23E8600F8319F /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC321C2D1C900D13964 /* Manipulator.swift */; };
+		D4470FCA21E23F2700F8319F /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
+		D4470FCB21E2451900F8319F /* GenomeCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */; };
+		D4470FCD21E248E200F8319F /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
+		D4470FCE21E2492200F8319F /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1821CF81AF00AE6912 /* Common.swift */; };
 		D44EE50821BCE584006E1A12 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EE50721BCE584006E1A12 /* main.swift */; };
 		D450080921DFF576002FDDD6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
 		D452A30C21C10B230049E3A5 /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A30A21C10B230049E3A5 /* GSGoalSuite.swift */; };
@@ -1044,22 +1052,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4FFA1E621DDF05600537D5F /* KNeuron.swift in Sources */,
+				D4470FCA21E23F2700F8319F /* ActivatorFunctions.swift in Sources */,
+				D4470FC921E23E8600F8319F /* Manipulator.swift in Sources */,
 				D4FFA1E921DE4D4900537D5F /* LoopIterator.swift in Sources */,
 				D479960721CD8B8700EB7A9A /* ViewController.swift in Sources */,
 				D4FFA1DE21DDE4D600537D5F /* TestPattern.swift in Sources */,
+				D4470FC721E23AEF00F8319F /* TNet.swift in Sources */,
 				D479962521CDC64600EB7A9A /* Spacer.swift in Sources */,
 				D4FFA1E521DDF05600537D5F /* KNet.swift in Sources */,
 				D4FFA1E721DDF05600537D5F /* KProtocols.swift in Sources */,
 				D479960521CD8B8700EB7A9A /* GameScene.swift in Sources */,
+				D4470FC621E23AEF00F8319F /* TLayer.swift in Sources */,
 				D479962321CD959900EB7A9A /* CGConversions.swift in Sources */,
 				D479962121CD8C3A00EB7A9A /* Vnet.swift in Sources */,
 				D4FFA1E121DDEE8500537D5F /* GridDiagnostics.swift in Sources */,
 				D4FFA1EF21DE80E800537D5F /* MockSupport.swift in Sources */,
+				D4470FCB21E2451900F8319F /* GenomeCommon.swift in Sources */,
 				D4FFA1E221DDF05600537D5F /* KConnector.swift in Sources */,
 				D450080921DFF576002FDDD6 /* Utilities.swift in Sources */,
 				D4FFA1E821DDF05600537D5F /* KSignalRelay.swift in Sources */,
+				D4470FCE21E2492200F8319F /* Common.swift in Sources */,
 				D4FFA1E321DDF05600537D5F /* KIdentifier.swift in Sources */,
+				D4470FCD21E248E200F8319F /* Decoder.swift in Sources */,
 				D4FFA1EE21DE755900537D5F /* Extensions.swift in Sources */,
+				D4470FC821E23AEF00F8319F /* TNeuron.swift in Sources */,
 				D47995FF21CD8B8700EB7A9A /* AppDelegate.swift in Sources */,
 				D4FFA1E421DDF05600537D5F /* KLayer.swift in Sources */,
 			);

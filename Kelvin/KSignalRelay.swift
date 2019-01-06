@@ -55,7 +55,6 @@ extension KSignalRelay {
 
     func connect(to targetNeurons: [Int], in upperLayer: KLayer) {
         inputRelays = targetNeurons.map { upperLayer.neurons[$0].relay! }
-        print("\(self) c\(inputRelays)")
     }
 
     func overrideState(operational: Bool) { overriddenState = operational }

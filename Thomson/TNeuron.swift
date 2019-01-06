@@ -23,24 +23,11 @@ import Foundation
 class TNeuron {
     var activator = AFn.FunctionName.identity
     var bias = 0.0
-    var cDowns = 0
-    var floaters = [Int]()
-    var weights = [Double]()
-
-    func report() {
-        print("Neuron:")
-        print("A: \(activator.rawValue)")
-        print("B: \(bias.sciTruncate(5))")
-        print("D: \(cDowns)")
-
-        floaters.forEach { print("I: \($0)") }
-        weights.forEach { print("W: \($0.sciTruncate(5))") }
-        print()
-    }
+    var downConnectors = [Int]()
+    var upConnectors = [UpConnector]()
 
     func activator(_ fn: String) { self.activator = AFn.FunctionName(rawValue: fn)! }
     func bias(_ bias: Double) { self.bias += bias }
-    func down() { cDowns += 1 }
-    func floater(_ floater: Int) { self.floaters.append(floater) }
-    func weight(_ weight: Double) { self.weights.append(weight) }
+    func downConnector(_ channel: Int) { self.downConnectors.append(channel) }
+    func upConnector(_ connector: UpConnector) { self.upConnectors.append(connector) }
 }

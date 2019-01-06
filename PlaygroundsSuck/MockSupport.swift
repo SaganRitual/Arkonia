@@ -20,12 +20,12 @@
 
 import Foundation
 
-struct KNetDimensions {
-    static let cLayers = 4
-    static let cMotorOutputs = 9
-    static let cNeurons = [3, 5, 1, 7]
-    static let cSensoryInputs = 7
-}
+//struct KNetDimensions {
+//    static let cLayers = 4
+//    static let cMotorOutputs = 9
+//    static let cNeurons = [3, 5, 1, 7]
+//    static let cSensoryInputs = 7
+//}
 
 #if SIGNAL_GRID_DIAGNOSTICS
 struct KDriver  {
@@ -34,15 +34,15 @@ struct KDriver  {
     var motorOutputs: [Double]!
     let senseLayer: KLayer
     let senseLayerID: KIdentifier
-    let sensoryInputs = Array(repeating: 1.0, count: KNetDimensions.cSensoryInputs)
+    let sensoryInputs = Array(repeating: 1.0, count: GSSelectionControls().howManySenses)
     let theNet: KNet
 
-    init() {
-        theNet = KNet.makeNet(0, cLayers: KNetDimensions.cLayers)
+    init(tNet: TNet) {
+        theNet = KNet.makeNet(0, tNet: tNet)
         senseLayerID = KIdentifier("Senses", [], -1)
-        senseLayer = KLayer.makeLayer(senseLayerID, 0, cNeurons: KNetDimensions.cSensoryInputs)
-        motorLayerID = KIdentifier("Senses", [], -2)
-        motorLayer = KLayer.makeLayer(motorLayerID, 0, cNeurons: KNetDimensions.cMotorOutputs)
+        senseLayer = KLayer.makeLayer(senseLayerID, 0, cNeurons: GSSelectionControls().howManySenses)
+        motorLayerID = KIdentifier("Motors", [], -2)
+        motorLayer = KLayer.makeLayer(motorLayerID, 0, cNeurons: GSSelectionControls().howManyMotorNeurons)
     }
 
     func drive() {
@@ -78,61 +78,61 @@ struct ConnectionSpec {
     var weights: [GridXY]
 }
 
-struct WeightSpec {
+struct GrapeSpec {
     var weights: [Double]
 }
 
-let mockWeights: [[WeightSpec]] = [
+let mockWeights: [[GrapeSpec]] = [
     [
-        WeightSpec(weights: [1.0, 1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0, 1.0]),
-        WeightSpec(weights: [1.0, 1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0, 1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0, 1.0]),
+        GrapeSpec(weights: [1.0, 1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
     ], [
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0, 1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0, 1.1]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0, 1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0, 1.1]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
     ], [
-        WeightSpec(weights: [1.0, 2.0, 1.0, 0.5]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0, 2.0, 1.0, 0.5]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
     ], [
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
     ], [
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
-        WeightSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
+        GrapeSpec(weights: [1.0]),
     ],
 ]
 #endif

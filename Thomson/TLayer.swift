@@ -44,11 +44,4 @@ class TLayer {
         neurons.append(u)
         underConstruction = nil
     }
-
-    func report() {
-         print("TLayer report");
-        neurons.forEach {
-            $0.report()
-        }
-    }
 }

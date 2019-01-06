@@ -34,12 +34,12 @@ class KNet: KIdentifiable {
 }
 
 extension KNet {
-    static func makeNet(_ me: Int, cLayers: Int) -> KNet {
+    static func makeNet(_ me: Int, tNet: TNet) -> KNet {
         let id = KIdentifier("KNet", me)
 
-        let layers = (0..<cLayers).map { (layerIDNumber: Int) -> KLayer in
-            let newLayer = KLayer.makeLayer(id, layerIDNumber, cNeurons: KNetDimensions.cNeurons[layerIDNumber])
-            return newLayer
+        let layers = tNet.layers.enumerated().map { (myID: Int, tLayer: TLayer) -> KLayer in
+            let newKLayer = KLayer.makeLayer(id, myID, tLayer)
+            return newKLayer
         }
 
         let kNet = KNet(id, layers)

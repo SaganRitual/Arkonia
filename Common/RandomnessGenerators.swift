@@ -43,8 +43,11 @@ enum RandomnessGenerator {
         switch geneType {
         case Manipulator.gAct: return "A(\(AFn.getRandomOutputFunction()))"
         case Manipulator.gBis: return "B(\(Double.random(in: -1...1)))"
-        case Manipulator.gInt: return "I(\(Int.random(in: Int.min...Int.max)))"
-        case Manipulator.gWgt: return "W(\(Double.random(in: -1...1)))"
+        case Manipulator.gWgt:
+          let weight = Double.random(in: -1...1)
+          let channel = Int.random(in: Int.min...Int.max)
+          return "U(w[\(weight)]c[\(channel)])"
+          
         default: return String(geneType)
         }
     }

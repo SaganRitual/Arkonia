@@ -28,20 +28,21 @@ struct KConnector {
     }
 
     func selectOutputs(from upperLayer: KLayer) -> [Int] {
+        // Check for empty and grab the last entry at the same time
+        guard let startingTarget = connectingNeuron.upConnectors.last else { return [] }
+
         let upperNeurons = upperLayer.neurons
-        let connectingNeuronID = connectingNeuron.id.myID
-        let startingTarget = min(connectingNeuronID, upperNeurons.count - 1)
 
-        let fIter = ForwardLoopIterator(upperNeurons, startingTarget)
-        let rIter = ReverseLoopIterator(upperNeurons, startingTarget)
-
-        let activators = connectingNeuron.activators
-        let weights = connectingNeuron.weights
+        let fIter = ForwardLoopIterator(upperNeurons, startingTarget.channel)
+        let rIter = ReverseLoopIterator(upperNeurons, startingTarget.channel)
 
         var inputIDs = [Int]()
 
-        for (scanRight, _): (Bool, Double) in zip(activators, weights) {
-            let iter: LoopIterator<[KNeuron]> = scanRight ? fIter : rIter
+        for _ in 0..<connectingNeuron.upConnectors.count {
+            let target = connectingNeuron.upConnectors.removeLast()
+            connectingNeuron.weights.append(target.weight)  // save weight for the signaling step
+
+            let iter: LoopIterator<[KNeuron]> = (target.channel >= 0) ? fIter : rIter
 
             guard let inputNeuron = skipDeadNeurons(iter) else { return inputIDs }
             inputIDs.append(inputNeuron.id.myID)

@@ -23,3 +23,17 @@ import Foundation
 typealias Genome = String
 typealias GenomeSlice = Substring
 typealias GenomeIndex = String.Index
+
+struct UpConnector: CustomStringConvertible {
+    var channel = 0
+    var weight = 0.0
+
+    var description: String {
+        return "(w[\(weight.dTruncate())]c[\(channel)])"
+    }
+
+    init() { channel = 0; weight = 0.0 }
+    init(_ pair: UpConnector) { self.channel = pair.channel; self.weight = pair.weight }
+    init(_ weight: Double, _ channel: Int) { self.weight = weight; self.channel = channel }
+    init(_ weight: Int, _ channel: Int) { self.weight = Double(weight); self.channel = channel }
+}

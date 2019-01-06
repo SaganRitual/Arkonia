@@ -26,8 +26,8 @@ enum ArkonCentral {
 }
 
 struct GSSelectionControls {
-    var howManySenses = 5
-    var howManyMotorNeurons = 20
+    var howManySenses = 7
+    var howManyMotorNeurons = 6
     var howManyGenerations = 30000
     var howManyGenes = 200
     var howManyLayersInStarter = 5

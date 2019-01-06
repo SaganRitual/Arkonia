@@ -27,7 +27,7 @@ enum DecodeState {
 class Decoder {
     var decodeState: DecodeState = .noLayer
     var inputGenome: GenomeSlice!
-    var net: TNet!
+    var tNet: TNet!
     var layerUnderConstruction: TLayer?
     var neuronUnderConstruction: TNeuron?
 
@@ -37,12 +37,12 @@ class Decoder {
     }
 
     func decode() {
-        net = TNet()
+        tNet = TNet()
 
         decodeLayers(inputGenome[...])
 
         layerUnderConstruction?.finalizeNeuron()
-        net.finalizeLayer()
+        tNet.finalizeLayer()
     }
 
     func reset() { self.decodeState = .noLayer }
@@ -50,7 +50,6 @@ class Decoder {
 
 extension Decoder {
     func decodeLayers(_ slice: GenomeSlice) {
-        print("Tnet has \(net.layers.count) layers")
         var start = slice.startIndex
         let end = slice.endIndex
 
@@ -67,8 +66,6 @@ extension Decoder {
         let goodDataIndex = discardAnyGarbage(slice)
         if goodDataIndex == slice.endIndex { decodeState = .endOfStrand }
         if goodDataIndex != nextValidTokenIndex { slice = slice[goodDataIndex...] }
-
-        print("og \(String(slice.first!))")
 
         var symbolsConsumed = 0
         switch decodeState {
@@ -120,8 +117,8 @@ extension Decoder {
         switch token {
         case Manipulator.gAct: neuron.activator(parse(meatSlice))
         case Manipulator.gBis: neuron.bias(parse(meatSlice))
-        case Manipulator.gInt: neuron.floater(parse(meatSlice))
-        case Manipulator.gWgt: neuron.weight(parse(meatSlice))
+        case Manipulator.gDnc: neuron.downConnector(parse(meatSlice))
+        case Manipulator.gUpc: neuron.upConnector(parse(meatSlice))
         default: print("Decoder says '\(token)' is an unknown token: "); return 2
         }
 
@@ -137,24 +134,19 @@ extension Decoder {
         switch first {
         case Manipulator.gLay:
             decodeState = .inLayer
-            layerUnderConstruction = net.beginNewLayer()
+            layerUnderConstruction = tNet.beginNewLayer()
             return 2
 
         case Manipulator.gNeu:
             decodeState = .inNeuron
-            layerUnderConstruction = net.beginNewLayer()
+            layerUnderConstruction = tNet.beginNewLayer()
             neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
             return 2
 
         default:
             decodeState = .inNeuron
-            layerUnderConstruction = net.beginNewLayer()
+            layerUnderConstruction = tNet.beginNewLayer()
             neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
-
-            if first == Manipulator.gDwn {
-                neuronUnderConstruction!.down()
-                return 2
-            }
 
             return dispatchValueGene(slice)
         }
@@ -177,12 +169,6 @@ extension Decoder {
         default:
             decodeState = .inNeuron
             neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
-
-            if first == Manipulator.gDwn {
-                neuronUnderConstruction!.down()
-                return 2
-            }
-
             return dispatchValueGene(slice)
         }
     }
@@ -193,8 +179,8 @@ extension Decoder {
         case Manipulator.gLay:
             decodeState = .inLayer
             layerUnderConstruction!.finalizeNeuron()
-            net.finalizeLayer()
-            layerUnderConstruction = net.beginNewLayer()
+            tNet.finalizeLayer()
+            layerUnderConstruction = tNet.beginNewLayer()
             return 2
 
         case Manipulator.gNeu:
@@ -204,11 +190,6 @@ extension Decoder {
             return 2
 
         default:
-            if first == Manipulator.gDwn {
-                neuronUnderConstruction!.down()
-                return 2
-            }
-
             return dispatchValueGene(slice)
         }
     }
@@ -222,6 +203,14 @@ extension Decoder {
 
     func parse<PrimitiveType>(_ slice: GenomeSlice? = nil) -> PrimitiveType {
         fatalError("Should never come here")
+    }
+
+    func parse(_ slice: GenomeSlice? = nil) -> UpConnector {
+        let values = Manipulator.splitGene(slice!)
+        let weight = Double(values[0])!.dTruncate()
+        let channel = Int(values[1])!
+
+        return UpConnector(weight, channel)
     }
 
     func parse(_ slice: GenomeSlice? = nil) -> Double {

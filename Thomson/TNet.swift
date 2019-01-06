@@ -42,6 +42,4 @@ class TNet {
         layers.append(u)
         underConstruction = nil
     }
-
-    func report() { print("TNet report"); layers.forEach { $0.report() } }
 }

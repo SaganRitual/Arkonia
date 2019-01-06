@@ -24,34 +24,32 @@ class Manipulator {
     private var passthruGenome_: Genome?
     public var passthruGenome: GenomeSlice {
         if let p = passthruGenome_ { return p[...] }
-        let hm = GSGoalSuite.selectionControls.howManyLayersInStarter
+        let hm = GSSelectionControls().howManyLayersInStarter
         passthruGenome_ = Manipulator.makePassThruGenome(hmLayers: hm)
         return passthruGenome_![...]
     }
 
-    static public let recognizedTokens = "ABDHIKLNPW"
+    static public let recognizedTokens = "ABDHIKLNPU"
 
     static public var gAct: Character { return "A" } // Activator -- AFn.FunctionName
     static public var gBis: Character { return "B" } // Bias -- Double
-    static public var gDwn: Character { return "D" } // Down -- Void
+    static public var gDnc: Character { return "D" } // Down connector -- Int
     static public var gHox: Character { return "H" } // Hox gene -- (cGenesToCopy: Int, cCopiesToMake: Int)
-    static public var gInt: Character { return "I" } // Multi-purpose int -- Int
     static public var gLok: Character { return "K" } // Lock -- cGenesToLock: Int
     static public var gLay: Character { return "L" } // Layer -- Void
     static public var gNeu: Character { return "N" } // Neuron -- Void
     static public var gPol: Character { return "P" } // Policy -- PolicyName (or something)
-    static public var gWgt: Character { return "W" } // Weight -- Double
+    static public var gUpc: Character { return "U" } // Up connector -- weight: Double, line: Int
 
     static public var sAct: GenomeSlice { return token("A") } // Activator -- AFn.FunctionName
     static public var sBis: GenomeSlice { return token("B") } // Bias -- Double
-    static public var sDwn: GenomeSlice { return token("D") } // Down -- Void
+    static public var sDnc: GenomeSlice { return token("D") } // Down connector -- Int
     static public var sHox: GenomeSlice { return token("H") } // Hox gene -- (cGenesToCopy: Int, cCopiesToMake: Int)
-    static public var sInt: GenomeSlice { return token("I") } // Multi-purpose int -- Int
     static public var sLok: GenomeSlice { return token("K") } // Lock -- cGenesToLock: Int
     static public var sLay: GenomeSlice { return token("L") } // Layer -- Void
     static public var sNeu: GenomeSlice { return token("N") } // Neuron -- Void
     static public var sPol: GenomeSlice { return token("P") } // Policy -- PolicyName (or something)
-    static public var sWgt: GenomeSlice { return token("W") } // Weight -- Double
+    static public var sUpc: GenomeSlice { return token("U") } // Up connector -- weight: Double, line: Int
 
     static public func token(_ character: Character) -> GenomeSlice {
         let t = Manipulator.recognizedTokens
@@ -99,7 +97,7 @@ extension Manipulator {
 
 extension Manipulator {
     enum GeneSplitType {
-        case numberGene, stringGene, voidGene
+        case numberGene, stringGene, upConnectorGene, upConnectorValue, voidGene
     }
 
     static func splitGene(_ slice: GenomeSlice) -> [GeneComponent] {
@@ -107,10 +105,11 @@ extension Manipulator {
 
         for type in [GeneSplitType.numberGene,
                      GeneSplitType.stringGene,
+                     GeneSplitType.upConnectorGene,
+                     GeneSplitType.upConnectorValue,
                      GeneSplitType.voidGene] {
 
             splitResults = splitGene(slice, type)
-
             if !splitResults.isEmpty { return splitResults }
         }
 
@@ -126,7 +125,7 @@ extension Manipulator {
         switch splitType {
 
         case .numberGene:
-            guard let fmi = slice.firstIndex(where: { "BIW".contains($0) })
+            guard let fmi = slice.firstIndex(where: { "BD".contains($0) })
                 else { break }
 
             let fsi = slice.index(fmi, offsetBy: 2)   // Point to the meat
@@ -149,8 +148,42 @@ extension Manipulator {
             geneComponents.append(slice[fmi...fmi])
             geneComponents.append(slice[fsi..<eos])
 
+        case .upConnectorGene:
+            guard let fmi = slice.firstIndex(where: { "U".contains($0) })
+                else { break }
+
+            let bmi = slice.index(fmi, offsetBy: 4)   // Point to the base meat
+            guard let eob = slice[bmi...].firstIndex(of: "]") else { break }
+
+            let vmi = slice.index(eob, offsetBy: 3)     // Point to the value meat
+            guard let eov = slice[vmi...].firstIndex(of: "]") else { break }
+
+            let marker = slice[fmi...fmi]
+            let weight = slice[bmi..<eob]
+            let channel = slice[vmi..<eov]
+
+            geneComponents.append(marker)
+            geneComponents.append(weight)
+            geneComponents.append(channel)
+
+        case .upConnectorValue:
+            let fmi = slice.startIndex
+
+            let bmi = slice.index(fmi, offsetBy: 2)   // Point to the base meat
+            guard let eob = slice[bmi...].firstIndex(of: "]") else { break }
+
+            let vmi = slice.index(eob, offsetBy: 3)     // Point to the value meat
+            guard let eov = slice[vmi...].firstIndex(of: "]") else { break }
+
+            let weight = slice[bmi..<eob]
+            let channel = slice[vmi..<eov]
+
+            // See comments above under markers
+            geneComponents.append(weight)
+            geneComponents.append(channel)
+
         case .voidGene:
-            guard let first = slice.firstIndex(where: { "DLN".contains($0) })
+            guard let first = slice.firstIndex(where: { "LN".contains($0) })
                 else { break }
 
             geneComponents.append(slice[first...first])
@@ -166,24 +199,48 @@ extension Manipulator {
 
     static public func makePassThruGenome(hmLayers: Int) -> Genome {
         var dag = Genome()
-        for _ in 0..<hmLayers {
-            dag = makeOneLayer(dag, cNeurons: GSGoalSuite.selectionControls.howManySenses)
+        for _ in 0..<hmLayers - 1 {
+            dag = makeOneLayer(dag, cNeurons: GSSelectionControls().howManySenses)
         }
 
-        let totalDag = makeOneLayer(dag, cNeurons: GSGoalSuite.selectionControls.howManyMotorNeurons)
+        dag = makeLastHiddenLayer(
+            dag, cNeurons: GSSelectionControls().howManySenses, oNeurons: GSSelectionControls().howManyMotorNeurons
+        )
 
-        return totalDag
+        return dag
+    }
+
+    static func baseNeuronSnippet(_ channel: Int) -> Genome {
+        return "N_A(\(AFn.FunctionName.boundidentity.rawValue))_U(w[1.0]c[\(channel)])_B(0.0)_"
+    }
+
+    static private func makeLastHiddenLayer(_ protoGenome_: Genome, cNeurons: Int, oNeurons: Int) -> Genome {
+        var protoGenome = protoGenome_ + "L_"
+
+        var downsPerNeuron = oNeurons / cNeurons
+        if downsPerNeuron == 0 { downsPerNeuron = cNeurons / oNeurons }
+
+        var remainder = oNeurons * cNeurons - downsPerNeuron
+
+        var channel = 0
+        for c in 0..<cNeurons {
+            protoGenome += baseNeuronSnippet(c)
+
+            let r = remainder > 0 ? 1 : 0
+            remainder -= r  // Stops at zero, because I'm so clever
+
+            for _ in 0..<(downsPerNeuron + r) {
+                protoGenome += "D(\(channel))_"
+                channel += 1
+            }
+        }
+
+        return protoGenome
     }
 
     static private func makeOneLayer(_ protoGenome_: Genome, cNeurons: Int) -> Genome {
         var protoGenome = protoGenome_ + "L_"
-        for c in 0..<cNeurons {
-            protoGenome += "N_A(\(AFn.FunctionName.boundidentity.rawValue))_I(\(c))_W(1.0)_B(0.0)_"
-
-            for d in 0..<GSGoalSuite.selectionControls.howManyMotorNeurons {
-                protoGenome += "I(\(d))_D_"
-            }
-        }
+        for c in 0..<cNeurons { protoGenome += baseNeuronSnippet(c) }
         return protoGenome
     }
 

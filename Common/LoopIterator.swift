@@ -35,7 +35,8 @@ public class LoopIterator<Base: Collection>: IteratorProtocol {
     public init(_ collection: Base, _ startOffset: Int = 0) {
         self.collection = collection
 
-        let s = startOffset % collection.count
+        // Proper behavior for modulo--Swift does it wrong
+        let s = startOffset %% collection.count
         self.index = collection.index(collection.startIndex, offsetBy: s)
     }
 
@@ -69,9 +70,10 @@ extension LoopIterator where Base.Element: LoopIterable {
         if !primedForCompact { return primeForCompact() }
 
         while true {
-            if let wrapper = next(), let meat = wrapper.loopIterableSelf {
-                return meat
-            }
+            guard let wrapper = next() else { continue }
+            guard let meat = wrapper.loopIterableSelf else { preconditionFailure() }
+
+            return meat
         }
     }
 

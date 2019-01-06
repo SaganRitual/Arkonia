@@ -85,7 +85,7 @@ extension VGridProtocol {
         }
 
         spacer.layerType = .motorOutputs
-        spacer.setDefaultCNeurons(KNetDimensions.cMotorOutputs)
+        spacer.setDefaultCNeurons(GSSelectionControls().howManyMotorNeurons)
 
         let bottomLayer = makeVLayer(kLayer: motorLayer, spacer: spacer)
         bottomLayer.drawConnections(to: upperLayer)
@@ -155,8 +155,7 @@ struct VGLayer: VLayerProtocol {
 
     private func addWeightLabel(neuronSS: Int, node: SKShapeNode, inputLine: Int, yOffset: CGFloat) -> CGFloat {
         let neuron = kLayer.neurons[neuronSS]
-        let weight = neuron.weights[inputLine]
-        let weightString = weight.sciTruncate(5)
+        let weightString = neuron.weights[inputLine].sciTruncate(5)
 
         return addNumericLabel(neuron: neuron, node: node, number: weightString, yOffset: yOffset, drawAbove: true)
     }

@@ -21,30 +21,55 @@
 import Foundation
 
 class KNeuron: KIdentifiable, LoopIterable {
-    let activators = repeatElement(true, count: 5)
-    let bias = 0.42
-    var description: String { return id.description }
-    var downs: [Int]
+    let activator: AFn.FunctionName
+    let bias: Double
+    var downConnectors: [Int]
     let id: KIdentifier
     var inputs: [Double]!
     weak var loopIterableSelf: KNeuron?
     weak var relay: KSignalRelay?
-    let weights: [Double]
+    var upConnectors: [UpConnector]
+    var weights = [Double]()
+
+    var description: String { return id.description + ", \(upConnectors), \(downConnectors)" }
 
     init(_ id: KIdentifier) {
         self.id = id
-        self.weights = mockWeights[id.parentID][id.myID].weights
-        self.downs = [Int](0..<KNetDimensions.cMotorOutputs)
+        self.activator = AFn.FunctionName.boundidentity
+        self.bias = 0.0
+        self.downConnectors = []
+        self.inputs = []
+        self.upConnectors = []
+        loopIterableSelf = self
+    }
+
+    init(_ id: KIdentifier, activator: AFn.FunctionName, bias: Double, downConnectors: [Int], upConnectors: [UpConnector]) {
+        self.id = id
+        self.activator = activator
+        self.bias = bias
+        self.downConnectors = downConnectors
+        self.upConnectors = upConnectors
         loopIterableSelf = self
     }
 }
 
 extension KNeuron {
+    static func makeNeuron(_ family: KIdentifier, _ me: Int, _ tNeuron: TNeuron) -> KNeuron {
+        let id = family.add(me, as: .neuron)
+        return KNeuron(
+            id, activator: tNeuron.activator, bias: tNeuron.bias,
+            downConnectors: tNeuron.downConnectors, upConnectors: tNeuron.upConnectors
+        )
+    }
+
+    // For sensory layer and motor layer.
     static func makeNeuron(_ family: KIdentifier, _ me: Int) -> KNeuron {
         let id = family.add(me, as: .neuron)
         return KNeuron(id)
     }
+}
 
+extension KNeuron {
     func connect(to upperLayer: KLayer) {
         let connector = KConnector(self)
         let targetNeurons = connector.selectOutputs(from: upperLayer)
@@ -55,25 +80,22 @@ extension KNeuron {
     func driveSignal() {
         guard let relay = relay else { preconditionFailure() }
 
-        let weighted: [Double] = zip(relay.inputRelays, weights).compactMap {
-            (pair: (KSignalRelay, Double)) -> Double? in
-                let (relay, weight) = pair; return relay.output * weight
+        let weighted: [Double] = zip(relay.inputRelays, upConnectors).compactMap {
+            (pair: (KSignalRelay, UpConnector)) -> Double? in let (relay, connector) = pair
+            return relay.output * connector.weight
         }
 
         relay.output = weighted.reduce(bias, +)
-        print("\(self) output = \(relay.output)")
     }
 
     func driveSignal(from upperLayer: [KSignalRelay]) {
-        let weighted: [Double] = zip(upperLayer, weights).map {
-            (pair: (KSignalRelay, Double)) -> Double in
-            let (relay, weight) = pair
-            print("\(self) input = \(relay.output) * \(weight) = \(relay.output * weight)")
-            return relay.output * weight
+        let weighted: [Double] = zip(upperLayer, upConnectors).map {
+            (pair: (KSignalRelay, UpConnector)) -> Double in
+            let (relay, connector) = pair
+            return relay.output * connector.weight
         }
 
         relay?.output = weighted.reduce(bias, +)
-        print("\(self) output = \(relay?.output ?? -42.0)")
     }
 }
 #endif

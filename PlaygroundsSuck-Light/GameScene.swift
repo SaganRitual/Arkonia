@@ -41,6 +41,7 @@ class GameScene: SKScene {
     #endif
 
     #if SIGNAL_GRID_DIAGNOSTICS
+    var decoder = Decoder()
     var gridAnchors: [KSignalRelay]!
     var gridDisplayed = false
     var kDriver: KDriver!
@@ -49,7 +50,10 @@ class GameScene: SKScene {
 
     override func sceneDidLoad() {
         GameScene.gameScene = self
-        kDriver = KDriver()
+
+        let genome = Manipulator.makePassThruGenome(hmLayers: GSSelectionControls().howManyLayersInStarter)
+        decoder.setInput(to: genome[...]).decode()
+        kDriver = KDriver(tNet: decoder.tNet)
         kDriver.drive()
         gridAnchors = kDriver.transferGridAnchors()
     }

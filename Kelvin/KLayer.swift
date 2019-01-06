@@ -35,14 +35,16 @@ class KLayer: KIdentifiable {
 
 extension KLayer {
     func connect(to upperLayer: KLayer) {
-        neurons.forEach { $0.connect(to: upperLayer) }
+        neurons.forEach {
+            $0.connect(to: upperLayer)
+        }
     }
 
     func decoupleFromGrid() {
         while !signalRelays.isEmpty {
             let r = signalRelays.removeLast()
-            if r.breaker != nil { print("decoupleFromGrid(\(r))") }
-            else { print("decouple dead neuron(\(r))") }
+//            if r.breaker != nil { print("decoupleFromGrid(\(r))") }
+//            else { print("decouple dead neuron(\(r))") }
 
             r.breaker = nil
         }
@@ -57,10 +59,25 @@ extension KLayer {
 
         let signalRelays = (0..<cNeurons).map { KSignalRelay.makeRelay(id, $0) }
 
-        let neurons = zip(0..., signalRelays).map {
-            (idNumber: Int, relay: KSignalRelay) -> KNeuron in
-
+        let neurons: [KNeuron] = signalRelays.enumerated().map { idNumber, relay in
             let newNeuron = KNeuron.makeNeuron(id, idNumber)
+            newNeuron.relay = relay
+            relay.breaker = relay
+            return newNeuron
+        }
+
+        return KLayer(id, neurons, signalRelays)
+    }
+
+    static func makeLayer(_ family: KIdentifier, _ me: Int, _ tLayer: TLayer) -> KLayer {
+        let id = family.add(me, as: .layer)
+
+        let signalRelays = (0..<tLayer.neurons.count).map { KSignalRelay.makeRelay(id, $0) }
+
+        let neurons: [KNeuron] = zip(signalRelays, tLayer.neurons).enumerated().map {
+            (arg) in let (idNumber, pair) = arg, relay = pair.0, tNeuron = pair.1
+
+            let newNeuron = KNeuron.makeNeuron(id, idNumber, tNeuron)
             newNeuron.relay = relay
             relay.breaker = relay
             return newNeuron
@@ -71,8 +88,11 @@ extension KLayer {
 
     func reverseConnect(_ lastHiddenLayer: KLayer) {
         lastHiddenLayer.neurons.forEach({ upperNeuron in
-            upperNeuron.downs.forEach { down in
-                let outputNeuronSS = down %% self.neurons.count
+            for _ in 0..<upperNeuron.downConnectors.count {
+                if upperNeuron.downConnectors.isEmpty { return }
+
+                let connector = upperNeuron.downConnectors.removeLast()
+                let outputNeuronSS = connector %% self.neurons.count
                 let outputNeuron = self.neurons[outputNeuronSS]
 
                 outputNeuron.relay!.inputRelays.append(upperNeuron.relay!)
