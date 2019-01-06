@@ -28,12 +28,16 @@ enum AFn {
         case identity, binarystep, logistic, tanh, arctan, softsign, isru, isrlu, sqnl
         case relu, brelu, leakyrelu, prelu, rrelu, elu, selu, srelu, apl, softplus
         case bentidentity, swish, softexponential, softclipping, sinusoid, sinc, gaussian
-        case limiter
+        case limiter, boundidentity, boundbentidentity
     }
 
     static let lookup: [FunctionName: NeuronOutputFunction] = [
         .arctan: arctan,
         .bentidentity: bentidentity,
+        .boundbentidentity: boundbentidentity,
+        .boundidentity: boundidentity,
+        .boundleakyrelu: boundleakyrelu,
+        .boundsoftplus: boundsoftplus,
         .binarystep: binarystep,
         .gaussian: gaussian,
         .identity: identity,
@@ -47,22 +51,36 @@ enum AFn {
         .tanh: tanh
     ]
 
-    static func limiter(_ theDouble: Double) -> Double {
+    static func bound(_ theDouble: Double) -> Double {
         let cappedAtPlusOne = min(1.0, theDouble)
         return max(-1, cappedAtPlusOne)
     }
 
+    // We have a bound function only for the functions that might return
+    // something outside the range -1 <= x <= 1. No need to bound those that
+    // already return in that range.
     static func arctan(_ x: Double) -> Double { return atan(x) }
-    static func bentidentity(_ x: Double) -> Double { return ((sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
+
     static func binarystep(_ x: Double) -> Double { return x < 0.0 ? 0.0 : 1.0 }
     static func gaussian(_ x: Double) -> Double { return exp(-(x * x)) }
     static func identity(_ x: Double) -> Double { return x }
-    static func leakyrelu(_ x: Double) -> Double { return x < 0.0 ? (0.01 * x) : x }
-    static func logistic(_ x: Double) -> Double { return 1.0 / (1.0 + exp(-x)) }
+
     static func sinc(_ x: Double) -> Double { return x == 0.0 ? 1.0 : sin(x) / x }
     static func sinusoid(_ x: Double) -> Double { return sin(x) }
-    static func softplus(_ x: Double) -> Double { return log(1.0 + exp(x)) }
+
     static func softsign(_ x: Double) -> Double { return x / (1 + abs(x)) }
+
+    static func bentidentity(_ x: Double) -> Double { return ((sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
+    static func boundbentidentity(_ x: Double) -> Double { return bound(bentidentity(x)) }
+
+    static func boundidentity(_ x: Double) -> Double { return bound(identity(x)) }
+    static func leakyrelu(_ x: Double) -> Double { return x < 0.0 ? (0.01 * x) : x }
+
+    static func boundleakyrelu(_ x: Double) -> Double { return bound(leakyrelu(x)) }
+    static func logistic(_ x: Double) -> Double { return 1.0 / (1.0 + exp(-x)) }
+
+    static func boundsoftplus(_ x: Double) -> Double { return bound(softplus(x)) }
+    static func softplus(_ x: Double) -> Double { return log(1.0 + exp(x)) }
 
     static func sqnl(_ x: Double) -> Double {
         if x > 2.0 { return 1.0 }
