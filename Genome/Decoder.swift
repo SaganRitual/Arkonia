@@ -39,6 +39,7 @@ class Decoder {
     func decode() {
         tNet = TNet()
 
+//        print(inputGenome)
         decodeLayers(inputGenome[...])
 
         layerUnderConstruction?.finalizeNeuron()
@@ -54,6 +55,8 @@ extension Decoder {
         let end = slice.endIndex
 
         while start != end {
+//            let showend = slice.index(start, offsetBy: 10)
+//            print("D: \(slice[start..<showend])")
             start = decodeOneGene(slice[start...])
         }
     }

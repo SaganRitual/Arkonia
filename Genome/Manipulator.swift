@@ -29,7 +29,7 @@ class Manipulator {
         return passthruGenome_![...]
     }
 
-    static public let recognizedTokens = "ABDHIKLNPU"
+    static public let recognizedTokens = "ABDHKLNPU"
 
     static public var gAct: Character { return "A" } // Activator -- AFn.FunctionName
     static public var gBis: Character { return "B" } // Bias -- Double

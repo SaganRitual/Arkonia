@@ -24,8 +24,8 @@ import GameKit
 enum RandomnessGenerator {
     static func generateRandomGene() -> String {
         let geneSelector = [
-            Manipulator.gAct : 5, Manipulator.gBis : 5, Manipulator.gDwn : 3, Manipulator.gInt : 20,
-            Manipulator.gHox: 0, Manipulator.gLay : 2, Manipulator.gNeu : 3, Manipulator.gWgt : 20,
+            Manipulator.gAct : 5, Manipulator.gBis : 5, Manipulator.gDnc : 3, Manipulator.gUpc : 20,
+            Manipulator.gHox: 0, Manipulator.gLay : 2, Manipulator.gNeu : 3,
             Manipulator.gPol : 0
         ]
 
@@ -40,22 +40,23 @@ enum RandomnessGenerator {
         let geneSS = Int.random(in: 0..<weightedGeneSelector.count)
         let geneType = weightedGeneSelector[geneSS]
 
+        let dd = Double.random(in: -1...1)
+        let ii = Int.random(in: Int.min...Int.max)
+
         switch geneType {
-        case Manipulator.gAct: return "A(\(AFn.getRandomOutputFunction()))"
-        case Manipulator.gBis: return "B(\(Double.random(in: -1...1)))"
-        case Manipulator.gWgt:
-          let weight = Double.random(in: -1...1)
-          let channel = Int.random(in: Int.min...Int.max)
-          return "U(w[\(weight)]c[\(channel)])"
-          
-        default: return String(geneType)
+        case Manipulator.gAct: return "A(\(AFn.getRandomOutputFunction()))_"
+        case Manipulator.gBis: return "B(\(dd))_"
+        case Manipulator.gDnc: return "D(\(ii))_"
+        case Manipulator.gUpc: return "U(w[\(dd)]c[\(ii)])_"
+
+        default: return String(geneType) + "_"
         }
     }
 
-    static func generateRandomGenome(howManyGenes: Int = 75) -> Genome {
-        var newGenome = Genome()
-        for _ in 0..<howManyGenes { newGenome += generateRandomGene() }
-        return newGenome
+    static func generateRandomGenome(cGenes: Int = 75) -> Genome {
+        var g = Genome()
+        for _ in 0..<cGenes { g += generateRandomGene() }
+        return g
     }
 }
 

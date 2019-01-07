@@ -157,6 +157,7 @@
 		D4E6741E21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
 		D4E6741F21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
 		D4E6742021D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
+		D4F5AC9621E328CD006D4B70 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BC21CB151700247429 /* RandomnessGenerators.swift */; };
 		D4FE84FF21AE7AC000C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
 		D4FE850021AE7AC000C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
 		D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
@@ -1072,6 +1073,7 @@
 				D450080921DFF576002FDDD6 /* Utilities.swift in Sources */,
 				D4FFA1E821DDF05600537D5F /* KSignalRelay.swift in Sources */,
 				D4470FCE21E2492200F8319F /* Common.swift in Sources */,
+				D4F5AC9621E328CD006D4B70 /* RandomnessGenerators.swift in Sources */,
 				D4FFA1E321DDF05600537D5F /* KIdentifier.swift in Sources */,
 				D4470FCD21E248E200F8319F /* Decoder.swift in Sources */,
 				D4FFA1EE21DE755900537D5F /* Extensions.swift in Sources */,

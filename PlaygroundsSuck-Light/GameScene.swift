@@ -50,12 +50,6 @@ class GameScene: SKScene {
 
     override func sceneDidLoad() {
         GameScene.gameScene = self
-
-        let genome = Manipulator.makePassThruGenome(hmLayers: GSSelectionControls().howManyLayersInStarter)
-        decoder.setInput(to: genome[...]).decode()
-        kDriver = KDriver(tNet: decoder.tNet)
-        kDriver.drive()
-        gridAnchors = kDriver.transferGridAnchors()
     }
 
     func makeVGrid(_ kNet: KNet) {
@@ -110,30 +104,39 @@ class GameScene: SKScene {
             print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
         }
     }
-    
+
+    var frameCount = 0
     override func update(_ currentTime: TimeInterval) {
-        // Initialize _lastUpdateTime if it has not already been
-        if (self.lastUpdateTime == 0) {
+        defer {
+            frameCount += 1
             self.lastUpdateTime = currentTime
         }
+
+        // Initialize _lastUpdateTime if it has not already been
+        if (self.lastUpdateTime == 0) { self.lastUpdateTime = currentTime }
 
         // Calculate time since last update
         let dt = currentTime - self.lastUpdateTime
 
         // Update entities
-        for entity in self.entities {
-            entity.update(deltaTime: dt)
-        }
-
-        self.lastUpdateTime = currentTime
+        for entity in self.entities { entity.update(deltaTime: dt) }
 
         #if NETCAMS_SMOKE_TEST
         displayTestPattern()
         #elseif SIGNAL_GRID_DIAGNOSTICS
-        if vGridComplete == true && gridDisplayed == false {
-            displaySignalGrid()
-            gridDisplayed = true
-        }
+        guard frameCount >= 120 && frameCount % 60 == 0 else { return }
+        frameCount = 0  // Display only once for now
+
+        self.removeAllChildren()
+
+        let genome = Manipulator.makePassThruGenome(hmLayers: 5)// RandomnessGenerator.generateRandomGenome(cGenes: 200)
+        decoder.setInput(to: genome[...]).decode()
+
+        kDriver = KDriver(tNet: decoder.tNet)
+        kDriver.drive()
+
+        gridAnchors = kDriver.transferGridAnchors()
+        displaySignalGrid()
         #endif
     }
 }
