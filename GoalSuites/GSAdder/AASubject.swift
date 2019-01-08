@@ -26,5 +26,5 @@ class AASubject: GSSubject {
         return "(\(fishNumber)) score \(fitnessScore.sciTruncate(5))"
     }
 
-    public override var lightLabel: String { return description + suite<!>.tester.lightLabel }
+    public override var lightLabel: String { return description }
 }

@@ -17,20 +17,25 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-#if SIGNAL_GRID_DIAGNOSTICS
+#if !NETCAMS_SMOKE_TEST
 import Foundation
 
 class KNet: KIdentifiable {
     var description: String { return id.description }
+    var gridAnchors: [KSignalRelay]!
     let id: KIdentifier
     var layers: [KLayer]
-    var gridAnchors: [KSignalRelay]!
+    var motorLayer: KLayer!
+    var senseLayer: KLayer!
 
     private init(_ id: KIdentifier, _ layers: [KLayer]) {
         self.id = id; self.layers = layers
     }
 
-    deinit { while !layers.isEmpty { layers.removeLast() } }
+    deinit {
+//        print("~\(self)");
+        while !layers.isEmpty { layers.removeLast() }
+    }
 }
 
 extension KNet {
@@ -47,12 +52,14 @@ extension KNet {
         return kNet
     }
 
-    func driveSignal(_ sensoryLayer: KLayer, _ motorLayer: KLayer) {
+    func driveSignal(_ senseLayer: KLayer, _ motorLayer: KLayer) {
+        self.senseLayer = senseLayer; self.motorLayer = motorLayer
+
         var iter = layers.makeIterator()
         var upperLayer = iter.next()!
 
-        upperLayer.connect(to: sensoryLayer)
-        sensoryLayer.decoupleFromGrid()
+        upperLayer.connect(to: senseLayer)
+        senseLayer.decoupleFromGrid()
         upperLayer.driveSignal()
 
         for lowerLayer in iter {

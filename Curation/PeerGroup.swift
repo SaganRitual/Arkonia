@@ -45,7 +45,7 @@ public class PeerGroup: CustomStringConvertible {
 
     init(initialTS: GSSubject, goalSuite: GSGoalSuite) {
         self.goalSuite = goalSuite
-        peerGroupLimit = goalSuite.selectionControls.peerGroupLimit
+        peerGroupLimit = ArkonCentral.sel.peerGroupLimit
         theGroup.reserveCapacity(peerGroupLimit)
 
         pushBack(initialTS)

@@ -21,6 +21,7 @@
 import Foundation
 
 class TNet {
+    var fishNumber: Int?
     var layers = [TLayer]()
     var underConstruction: TLayer?
 

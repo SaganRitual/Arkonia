@@ -22,7 +22,7 @@ import Foundation
 
 class AAGoalSuite: GSGoalSuite {
     init() {
-        GSGoalSuite.selectionControls = AAGoalSuite.setSelectionControls()
+        ArkonCentral.sel = AAGoalSuite.setSelectionControls()
 
         let tester = AATester()
         let factory = AAFactory()
@@ -31,13 +31,11 @@ class AAGoalSuite: GSGoalSuite {
     }
 
     override class func setSelectionControls() -> GSSelectionControls {
-        var sc = GSSelectionControls()
+        ArkonCentral.sel.howManySenses = 3
+        ArkonCentral.sel.howManyLayersInStarter = 5
+        ArkonCentral.sel.howManyMotorNeurons = 1
+        ArkonCentral.sel.howManyGenerations = 100
 
-        sc.howManySenses = 3
-        sc.howManyLayersInStarter = 5
-        sc.howManyMotorNeurons = 1
-        sc.howManyGenerations = 100
-
-        return sc
+        return ArkonCentral.sel
     }
 }

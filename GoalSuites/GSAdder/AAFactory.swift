@@ -24,28 +24,28 @@ class AAFactory: GSFactory {
     override var description: String { return "AAFactory; functioning within standard operational parameters" }
 
     override public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> AASubject? {
-        guard let brain = makeBrain(genome: genome, mutate: mutate) else { return nil }
+        guard let tNet = makeNet(genome: genome, mutate: mutate) else { return nil }
 
-        let a = AASubject(genome: genomeWorkspace[...], brain: brain)
-        a.postInit(suite: suite<!>)
+        let a = AASubject(genome: genomeWorkspace[...])
+        a.postInit(tNet: tNet)
         return a
     }
 
     override func postInit(suite: GSGoalSuite) {
         self.suite = suite
 
-        GSGoalSuite.selectionControls.howManyMotorNeurons = 5
-        GSGoalSuite.selectionControls.howManySenses = 5
-        GSGoalSuite.selectionControls.howManyLayersInStarter = 5
+        ArkonCentral.sel.howManyMotorNeurons = 5
+        ArkonCentral.sel.howManySenses = 5
+        ArkonCentral.sel.howManyLayersInStarter = 5
 
-        let h = suite.selectionControls.howManyLayersInStarter
+        let h = ArkonCentral.sel.howManyLayersInStarter
         GSFactory.aboriginalGenome = makePassThruGenome(hmLayers: h)
     }
 
     private func makePassThruGenome(hmLayers: Int) -> Genome {
         var dag = Genome()
         for _ in 0..<hmLayers {
-            dag = makeOneLayer(dag, hmNeurons: GSGoalSuite.selectionControls.howManySenses)
+            dag = makeOneLayer(dag, hmNeurons: ArkonCentral.sel.howManySenses)
         }
 
 //        dag += "L_N_"

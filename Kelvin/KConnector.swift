@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-#if SIGNAL_GRID_DIAGNOSTICS
+#if !NETCAMS_SMOKE_TEST
 import Foundation
 
 struct KConnector {
@@ -41,6 +41,7 @@ struct KConnector {
         for _ in 0..<connectingNeuron.upConnectors.count {
             let target = connectingNeuron.upConnectors.removeLast()
             connectingNeuron.weights.append(target.weight)  // save weight for the signaling step
+//            print("uuu \(connectingNeuron)")
 
             let iter: LoopIterator<[KNeuron]> = (target.channel >= 0) ? fIter : rIter
 
@@ -58,8 +59,7 @@ struct KConnector {
             defer { boundsChecker += 1 }
 
             let targetNeuron = iter.compactNext()
-            guard let connectible = targetNeuron.relay?.isOperational, connectible == true
-                else { continue }
+            guard targetNeuron.relay?.isOperational ?? false else { continue }
 
             return targetNeuron
 

@@ -22,20 +22,23 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene {
-
-    private var vBrain: VBrain!
-
+    var curator: Curator?
+    var currentProgenitor: GSSubject?
+    var firstPass = true
+    var frameCount = 0
     let goalSuite = NGGoalSuite("Zoe Bishop")
 //    let goalSuite = AAGoalSuite()
-
-    var frameCount = 0
-    var curator: Curator?
-    var workItem: DispatchWorkItem!
-    var currentProgenitor: GSSubject?
-    var nowShowingRandomCandidate: GSSubject?
+    var kNet: KNet!
 
     var myCuratorStatus = CuratorStatus.running
-    var firstPass = true
+    var nowShowingRandomCandidate: GSSubject?
+    var vGrid: VGrid!
+    var workItem: DispatchWorkItem!
+
+    func makeVGrid(_ kNet: KNet) {
+        self.kNet = kNet
+        vGrid = VGrid(gameScene: self, kNet: kNet, sceneSize: self.frame.size)
+    }
 
 #if INSPECTION
     override func mouseUp(with event: NSEvent) {
@@ -43,18 +46,16 @@ class GameScene: SKScene {
     }
 #endif
 
-    override func sceneDidLoad() {
+    override func didChangeSize(_ oldSize: CGSize) {
+        guard ArkonCentral.gScene == nil else { return }
+        ArkonCentral.gScene = self
+
         self.curator = Curator(goalSuite: goalSuite)
         self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator!.select() }
         DispatchQueue.global(qos: .background).async(execute: self.workItem)
     }
 
-    override func didChangeSize(_ oldSize: CGSize) {
-        self.vBrain = VBrain(gameScene: self)
-    }
-
     override func update(_ currentTime: TimeInterval) {
-
         frameCount += 1
 
         guard let curator = self.curator else { return }
@@ -72,30 +73,35 @@ class GameScene: SKScene {
         if self.currentProgenitor == nil { self.currentProgenitor = his }
         guard let mine = self.currentProgenitor else { preconditionFailure() }
 
-        updateRandomDisplay()
+//        updateRandomDisplay()
 
         if mine.fishNumber == his.fishNumber && !firstPass { return }
 
         self.currentProgenitor = his
-        vBrain.displayBrain(his, .one)
+//        print("vvv: \(vGrid != nil)", terminator: "")
+        self.removeAllChildren()
+        vGrid?.displayGrid(kNet.senseLayer, kNet.motorLayer)
+        vGrid = nil
+        kNet = nil
+        mine.tNet = nil
 
         firstPass = false
     }
 
-    var primeRandomUpdate = true
-    func updateRandomDisplay() {
-        guard let toDisplay = curator<!>.selector.randomArkonForDisplay else { return }
-
-        var update = primeRandomUpdate
-        if let c = nowShowingRandomCandidate {
-            update = update || (c.fishNumber != toDisplay.fishNumber)
-        }
-
-        if update {
-            vBrain.displayBrain(toDisplay, .two)
-            nowShowingRandomCandidate = toDisplay
-            primeRandomUpdate = false
-        }
-    }
+//    var primeRandomUpdate = true
+//    func updateRandomDisplay() {
+//        guard let toDisplay = curator<!>.selector.randomArkonForDisplay else { return }
+//
+//        var update = primeRandomUpdate
+//        if let c = nowShowingRandomCandidate {
+//            update = update || (c.fishNumber != toDisplay.fishNumber)
+//        }
+//
+//        if update {
+//            vBrain.displayBrain(toDisplay, .two)
+//            nowShowingRandomCandidate = toDisplay
+//            primeRandomUpdate = false
+//        }
+//    }
 
 }

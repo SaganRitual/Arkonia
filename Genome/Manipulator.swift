@@ -21,14 +21,6 @@
 import Foundation
 
 class Manipulator {
-    private var passthruGenome_: Genome?
-    public var passthruGenome: GenomeSlice {
-        if let p = passthruGenome_ { return p[...] }
-        let hm = GSSelectionControls().howManyLayersInStarter
-        passthruGenome_ = Manipulator.makePassThruGenome(hmLayers: hm)
-        return passthruGenome_![...]
-    }
-
     static public let recognizedTokens = "ABDHKLNPU"
 
     static public var gAct: Character { return "A" } // Activator -- AFn.FunctionName
@@ -167,7 +159,8 @@ extension Manipulator {
             geneComponents.append(channel)
 
         case .upConnectorValue:
-            let fmi = slice.startIndex
+            guard let fmi = slice.firstIndex(where: { "w".contains($0) })
+                else { break }
 
             let bmi = slice.index(fmi, offsetBy: 2)   // Point to the base meat
             guard let eob = slice[bmi...].firstIndex(of: "]") else { break }
@@ -200,11 +193,11 @@ extension Manipulator {
     static public func makePassThruGenome(hmLayers: Int) -> Genome {
         var dag = Genome()
         for _ in 0..<hmLayers - 1 {
-            dag = makeOneLayer(dag, cNeurons: GSSelectionControls().howManySenses)
+            dag = makeOneLayer(dag, cNeurons: ArkonCentral.sel.howManySenses)
         }
 
         dag = makeLastHiddenLayer(
-            dag, cNeurons: GSSelectionControls().howManySenses, oNeurons: GSSelectionControls().howManyMotorNeurons
+            dag, cNeurons: ArkonCentral.sel.howManySenses, oNeurons: ArkonCentral.sel.howManyMotorNeurons
         )
 
         return dag

@@ -46,7 +46,7 @@ class Curator {
         self.selector = Selector(goalSuite: goalSuite, semaphore: semaphore)
         self.goalSuite = goalSuite
         self.archive = Archive(goalSuite: goalSuite)
-        self.remainingGenerations = goalSuite.selectionControls.howManyGenerations
+        self.remainingGenerations = ArkonCentral.sel.howManyGenerations
 
         let n = Foundation.Notification.Name.selectComplete
         observerHandle = notificationCenter.addObserver(forName: n, object: selector, queue: nil) {
@@ -88,6 +88,9 @@ class Curator {
         self.atLeastOneTSHasSurvived = true
         print("Aboriginal score = \(a.fitnessScore)")
 
+        let gameScene = ArkonCentral.gScene!
+        gameScene.makeVGrid(self.aboriginal!.kNet!)
+
         var firstPass = true
 
         while remainingGenerations > 0 {
@@ -106,6 +109,10 @@ class Curator {
             let oldScore = archive.referenceTS!.fitnessScore
             if newScore != oldScore {
                 print("New record by \(gs.fishNumber): \(gs.fitnessScore)")
+
+                let gameScene = ArkonCentral.gScene!
+                gameScene.makeVGrid(gs.kNet!)
+
 //                print((self.currentProgenitor as! AASubject).debugOutput)
             }
 
@@ -132,14 +139,16 @@ class Curator {
 
     @objc func selectComplete(_ notification: Notification) {
         guard let u = notification.userInfo,
-            let p = u[NotificationType.selectComplete] as? [GSSubject],
-            let q = u["randomArkonForDisplay"] as? GSSubject
+            let p = u[NotificationType.selectComplete] as? [GSSubject]
+//            let q = u["randomArkonForDisplay"] as? GSSubject
             else {
+                print("u", terminator: "")
                 if !self.selector.isCanceled { return }
                 preconditionFailure()
             }
 
-        randomArkonForDisplay = q
+        print("s", terminator: "")
+//        randomArkonForDisplay = q
         p.forEach { archive.newCandidate($0) }
         self.atLeastOneTSHasSurvived = true
     }

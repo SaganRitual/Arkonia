@@ -42,7 +42,7 @@ class Archive: CustomStringConvertible {
         return gs
     }
 
-    public func newCandidate(_ gs: GSSubject) { keepIfKeeper(gs) }
+    public func newCandidate(_ gs: GSSubject) { print("r", terminator: ""); keepIfKeeper(gs) }
 
     public func nextProgenitor() -> GSSubject? {
         guard var gs: GSSubject = getTop() else { return nil }
@@ -112,20 +112,24 @@ private extension Archive {
     }
 
     func keepIfKeeper(_ gs: GSSubject) {
+        print("k", terminator: "")
         guard let ref = referenceTS else { return }
+        print("L", terminator: "")
         guard passesCompare(gs, comparisonMode, against: ref) else { return }
+        print("M", terminator: "")
 
         if peerGroupIsFull(gs) { return }
+        print("N", terminator: "")
 
         let hash = makeHash(gs)
-        if theArchive[hash] == nil { newGroup(gs) }
-        else { advance(gs) }
+        if theArchive[hash] == nil { print("p", terminator: ""); newGroup(gs) }
+        else { print("q", terminator: ""); advance(gs) }
     }
 
     func isTooDudly(_ gs: GSSubject) -> Bool {
         // Never try to back up from the aboriginal
         if gs.fishNumber == 0 { return false }
-        return gs.spawnCount >= goalSuite.selectionControls.hmSpawnAttempts
+        return gs.spawnCount >= ArkonCentral.sel.hmSpawnAttempts
     }
 
     func makeHash(_ gs: GSSubject) -> Int {
@@ -170,7 +174,7 @@ private extension Archive {
     func peerGroupIsFull(_ gs: GSSubject) -> Bool {
         let hash = makeHash(gs)
         guard let peerGroup = theArchive[hash] else { return false }
-        return peerGroup.count >= goalSuite.selectionControls.peerGroupLimit
+        return peerGroup.count >= ArkonCentral.sel.peerGroupLimit
     }
 
     private func setQualifications(reference gs: GSSubject, op: GSGoalSuite.Comparison) {

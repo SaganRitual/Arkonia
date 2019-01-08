@@ -18,11 +18,9 @@
 		D408A42321D0D6C70061D7A6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
 		D41D112D21DC04C40042055B /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
 		D41D112E21DC04C40042055B /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
-		D41D112F21DC04C40042055B /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
 		D41D113021DC04C40042055B /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
 		D41D113121DC04C40042055B /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
 		D41D113221DC04C40042055B /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
-		D41D113321DC04C40042055B /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
 		D41D113421DC04C40042055B /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
 		D441297D21CC07580086E1AC /* AATester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441297C21CC07580086E1AC /* AATester.swift */; };
 		D441297F21CC07580086E1AC /* AATester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441297C21CC07580086E1AC /* AATester.swift */; };
@@ -85,10 +83,8 @@
 		D4684CCA21C2D55F00D13964 /* Tene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC721C2D55F00D13964 /* Tene.swift */; };
 		D4686DD821DD1EA400149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
 		D4686DD921DD1EA400149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
-		D4686DDA21DD1EA400149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
 		D4686DDB21DD1EA500149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
 		D4686DDD21DDBD0D00149745 /* MockSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DDC21DDBD0D00149745 /* MockSupport.swift */; };
-		D471173621B3D5440076DD2A /* VBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = D471173421B3D5350076DD2A /* VBrain.swift */; };
 		D47995FF21CD8B8700EB7A9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */; };
 		D479960121CD8B8700EB7A9A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D479960021CD8B8700EB7A9A /* GameScene.sks */; };
 		D479960321CD8B8700EB7A9A /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D479960221CD8B8700EB7A9A /* Actions.sks */; };
@@ -114,15 +110,12 @@
 		D48F2FC321C31CEE008EA8DA /* NGSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FC021C31CEE008EA8DA /* NGSubject.swift */; };
 		D48F734521DB24EC001CC961 /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734421DB24EC001CC961 /* KNet.swift */; };
 		D48F734621DB24EC001CC961 /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734421DB24EC001CC961 /* KNet.swift */; };
-		D48F734721DB24EC001CC961 /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734421DB24EC001CC961 /* KNet.swift */; };
 		D48F734821DB2557001CC961 /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734421DB24EC001CC961 /* KNet.swift */; };
 		D48F734A21DB259B001CC961 /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734921DB259B001CC961 /* KLayer.swift */; };
 		D48F734B21DB259B001CC961 /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734921DB259B001CC961 /* KLayer.swift */; };
-		D48F734C21DB259B001CC961 /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734921DB259B001CC961 /* KLayer.swift */; };
 		D48F734D21DB259B001CC961 /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734921DB259B001CC961 /* KLayer.swift */; };
 		D48F734F21DB2670001CC961 /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734E21DB2670001CC961 /* KNeuron.swift */; };
 		D48F735021DB2670001CC961 /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734E21DB2670001CC961 /* KNeuron.swift */; };
-		D48F735121DB2670001CC961 /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734E21DB2670001CC961 /* KNeuron.swift */; };
 		D48F735221DB2670001CC961 /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734E21DB2670001CC961 /* KNeuron.swift */; };
 		D48F874F21E1A7A60094571A /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F874E21E1A7A60094571A /* TNeuron.swift */; };
 		D48F875021E1A7A60094571A /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F874E21E1A7A60094571A /* TNeuron.swift */; };
@@ -180,6 +173,18 @@
 		D4FE853721AEB20500C9192F /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
 		D4FE853821AEB20500C9192F /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4FE853921AEB20500C9192F /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
+		D4FE934521E4437F0060C785 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
+		D4FE934621E4437F0060C785 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
+		D4FE934721E4437F0060C785 /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734921DB259B001CC961 /* KLayer.swift */; };
+		D4FE934821E4437F0060C785 /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734421DB24EC001CC961 /* KNet.swift */; };
+		D4FE934921E4437F0060C785 /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734E21DB2670001CC961 /* KNeuron.swift */; };
+		D4FE934A21E4437F0060C785 /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
+		D4FE934B21E4437F0060C785 /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
+		D4FE934D21E45C3A0060C785 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE934C21E45C3A0060C785 /* KDriver.swift */; };
+		D4FE934E21E45C3A0060C785 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE934C21E45C3A0060C785 /* KDriver.swift */; };
+		D4FE934F21E45C3A0060C785 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE934C21E45C3A0060C785 /* KDriver.swift */; };
+		D4FE935021E45C3A0060C785 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE934C21E45C3A0060C785 /* KDriver.swift */; };
+		D4FE935121E462E90060C785 /* GridDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1E021DDEE8500537D5F /* GridDiagnostics.swift */; };
 		D4FFA1DE21DDE4D600537D5F /* TestPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1DD21DDE4D600537D5F /* TestPattern.swift */; };
 		D4FFA1E121DDEE8500537D5F /* GridDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1E021DDEE8500537D5F /* GridDiagnostics.swift */; };
 		D4FFA1E221DDF05600537D5F /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
@@ -340,6 +345,7 @@
 		D4FE84FC21AE7AB600C9192F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D4FE852621AE7C0500C9192F /* GameScene-R.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GameScene-R.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4FE854221AEB20500C9192F /* BellCurveDark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BellCurveDark; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4FE934C21E45C3A0060C785 /* KDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDriver.swift; sourceTree = "<group>"; };
 		D4FFA1DD21DDE4D600537D5F /* TestPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPattern.swift; sourceTree = "<group>"; };
 		D4FFA1E021DDEE8500537D5F /* GridDiagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDiagnostics.swift; sourceTree = "<group>"; };
 		D4FFA1EA21DE755900537D5F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -645,6 +651,7 @@
 			isa = PBXGroup;
 			children = (
 				D4686DD721DD1EA400149745 /* KConnector.swift */,
+				D4FE934C21E45C3A0060C785 /* KDriver.swift */,
 				D4C2C53521D89EFC00367902 /* KIdentifier.swift */,
 				D48F734921DB259B001CC961 /* KLayer.swift */,
 				D48F734421DB24EC001CC961 /* KNet.swift */,
@@ -1052,6 +1059,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4FE935021E45C3A0060C785 /* KDriver.swift in Sources */,
 				D4FFA1E621DDF05600537D5F /* KNeuron.swift in Sources */,
 				D4470FCA21E23F2700F8319F /* ActivatorFunctions.swift in Sources */,
 				D4470FC921E23E8600F8319F /* Manipulator.swift in Sources */,
@@ -1102,6 +1110,7 @@
 				D48F875821E1AA2B0094571A /* TNet.swift in Sources */,
 				D44547C621CB151800247429 /* Utilities.swift in Sources */,
 				D408A41521D0CF270061D7A6 /* Common.swift in Sources */,
+				D4FE934E21E45C3A0060C785 /* KDriver.swift in Sources */,
 				D4686DD921DD1EA400149745 /* KConnector.swift in Sources */,
 				D4684CC521C2D1C900D13964 /* Manipulator.swift in Sources */,
 				D41D112E21DC04C40042055B /* KSignalRelay.swift in Sources */,
@@ -1126,6 +1135,7 @@
 				D48F875321E1A8F80094571A /* TLayer.swift in Sources */,
 				D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */,
 				D44547C521CB151800247429 /* Utilities.swift in Sources */,
+				D4FE934D21E45C3A0060C785 /* KDriver.swift in Sources */,
 				D408A41421D0CF260061D7A6 /* Common.swift in Sources */,
 				D4686DD821DD1EA400149745 /* KConnector.swift in Sources */,
 				D452A33921C1ED000049E3A5 /* GSFactory.swift in Sources */,
@@ -1165,11 +1175,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4686DDA21DD1EA400149745 /* KConnector.swift in Sources */,
 				D441298F21CC2CEB0086E1AC /* AAFactory.swift in Sources */,
 				D4FE850221AE7AC100C9192F /* ViewController.swift in Sources */,
 				D44547C721CB151800247429 /* Utilities.swift in Sources */,
 				D48F2FBF21C31C56008EA8DA /* NGFactory.swift in Sources */,
+				D4FE934921E4437F0060C785 /* KNeuron.swift in Sources */,
+				D4FE934A21E4437F0060C785 /* KProtocols.swift in Sources */,
 				D452A32121C18EDB0049E3A5 /* GSSubject.swift in Sources */,
 				D4684CC621C2D1C900D13964 /* Manipulator.swift in Sources */,
 				D479962721CE0C0100EB7A9A /* CGConversions.swift in Sources */,
@@ -1179,12 +1190,15 @@
 				D48F875921E1AA2B0094571A /* TNet.swift in Sources */,
 				D4C0A19521AE3178009D6011 /* Selector.swift in Sources */,
 				D44547C421CB151800247429 /* RandomnessGenerators.swift in Sources */,
+				D4FE934B21E4437F0060C785 /* KSignalRelay.swift in Sources */,
 				D48F2FC321C31CEE008EA8DA /* NGSubject.swift in Sources */,
-				D41D113321DC04C40042055B /* KProtocols.swift in Sources */,
 				D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */,
+				D4FE934521E4437F0060C785 /* KConnector.swift in Sources */,
+				D4FE935121E462E90060C785 /* GridDiagnostics.swift in Sources */,
 				D4C0A14D21AE2E63009D6011 /* AppDelegate.swift in Sources */,
 				D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */,
 				D48F875521E1A8F80094571A /* TLayer.swift in Sources */,
+				D4FE934821E4437F0060C785 /* KNet.swift in Sources */,
 				D479962621CE0C0100EB7A9A /* Vnet.swift in Sources */,
 				D452A30C21C10B230049E3A5 /* GSGoalSuite.swift in Sources */,
 				D4684CCA21C2D55F00D13964 /* Tene.swift in Sources */,
@@ -1192,21 +1206,19 @@
 				D48F875121E1A7A60094571A /* TNeuron.swift in Sources */,
 				D408A41321D0CF240061D7A6 /* Common.swift in Sources */,
 				D48F2FBB21C31C06008EA8DA /* NGGoalSuite.swift in Sources */,
-				D471173621B3D5440076DD2A /* VBrain.swift in Sources */,
 				D452A31C21C142810049E3A5 /* GSTester.swift in Sources */,
+				D4FE934F21E45C3A0060C785 /* KDriver.swift in Sources */,
 				D441299321CC2D870086E1AC /* AASubject.swift in Sources */,
-				D48F735121DB2670001CC961 /* KNeuron.swift in Sources */,
 				D44547C121CB151800247429 /* LoopIterator.swift in Sources */,
 				D441297F21CC07580086E1AC /* AATester.swift in Sources */,
-				D48F734721DB24EC001CC961 /* KNet.swift in Sources */,
+				D4FE934721E4437F0060C785 /* KLayer.swift in Sources */,
 				D4C0A18621AE315E009D6011 /* Mutator.swift in Sources */,
 				D4C0A19321AE3178009D6011 /* Curator.swift in Sources */,
+				D4FE934621E4437F0060C785 /* KIdentifier.swift in Sources */,
 				D4C0A18521AE315E009D6011 /* Decoder.swift in Sources */,
-				D41D112F21DC04C40042055B /* KSignalRelay.swift in Sources */,
 				D441298721CC26D50086E1AC /* AAGoalSuite.swift in Sources */,
 				D408A41F21D0CF610061D7A6 /* GenomeCommon.swift in Sources */,
 				D4E6742021D23A2000A34D60 /* ActivatorFunctions.swift in Sources */,
-				D48F734C21DB259B001CC961 /* KLayer.swift in Sources */,
 				D4FFA1ED21DE755900537D5F /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -31,7 +31,7 @@ class GSFactory {
 
     public init() {
         genomeWorkspace.reserveCapacity(1024 * 1024)
-        Mutator.m.setGenomeWorkspaceOwner(self)
+        ArkonCentral.mut.setGenomeWorkspaceOwner(self)
     }
 
     public func getAboriginal() -> GSSubject {
@@ -47,24 +47,23 @@ class GSFactory {
         preconditionFailure("Must be implemented in subclass")
     }
 
-    func makeBrain(genome: GenomeSlice, mutate: Bool) -> Translators.Brain? {
-        if mutate { self.mutate(from: genome)  }
-        else { genomeWorkspace.append(String(genome))}
+    func makeNet(genome: GenomeSlice, mutate: Bool) -> TNet? {
+        if mutate { self.mutate(from: genome) }
+        else { genomeWorkspace.append(String(genome)) }
 
-        guard decoder.setInput(to: genomeWorkspace[...]).decode() else { return nil }
-        return Translators.t.getBrain()
+        return decoder.setInput(to: genomeWorkspace[...]).decode()
     }
 
     public func mutate(from reference: GenomeSlice) {
         repeat {
-            Mutator.m.setInputGenome(reference).mutate()
-            Mutator.m.convertToGenome()
+            ArkonCentral.mut.setInputGenome(reference).mutate()
+            ArkonCentral.mut.convertToGenome()
         } while genomeWorkspace.elementsEqual(reference)
     }
 
     public func postInit(suite: GSGoalSuite) {
         self.suite = suite
-        let h = suite.selectionControls.howManyLayersInStarter
+        let h = ArkonCentral.sel.howManyLayersInStarter
         GSFactory.aboriginalGenome = Manipulator.makePassThruGenome(hmLayers: h)
     }
 }

@@ -21,8 +21,6 @@
 import Foundation
 
 class GSGoalSuite {
-    static var selectionControls: GSSelectionControls!
-
     public enum Comparison: String { case ANY, BE, BT, EQ }
 
     private(set) var curator: Curator?
@@ -30,7 +28,7 @@ class GSGoalSuite {
     public var tester: GSTesterProtocol
 
     public var description: String { return "GSGoalSuite" }
-    public var selectionControls: GSSelectionControls { return GSGoalSuite.selectionControls }
+    public var selectionControls: GSSelectionControls { return ArkonCentral.sel }
 
     init(factory: GSFactory, tester: GSTesterProtocol) {
         self.factory = factory

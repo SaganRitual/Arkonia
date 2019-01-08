@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-#if SIGNAL_GRID_DIAGNOSTICS
+#if !NETCAMS_SMOKE_TEST
 import Foundation
 
 class KNeuron: KIdentifiable, LoopIterable {
@@ -31,7 +31,7 @@ class KNeuron: KIdentifiable, LoopIterable {
     var upConnectors: [UpConnector]
     var weights = [Double]()
 
-    var description: String { return id.description + ", \(upConnectors), \(downConnectors)" }
+    var description: String { return id.description + ", \(weights), \(downConnectors)" }
 
     init(_ id: KIdentifier) {
         self.id = id
@@ -51,6 +51,10 @@ class KNeuron: KIdentifiable, LoopIterable {
         self.upConnectors = upConnectors
         loopIterableSelf = self
     }
+
+//    deinit {
+//        print("~\(self)")
+//    }
 }
 
 extension KNeuron {
@@ -77,15 +81,19 @@ extension KNeuron {
         relay?.connect(to: targetNeurons, in: upperLayer)
     }
 
-    func driveSignal() {
+    func driveSignal(isMotorLayer: Bool) {
         guard let relay = relay else { preconditionFailure() }
 
-        let weighted: [Double] = zip(relay.inputRelays, upConnectors).compactMap {
-            (pair: (KSignalRelay, UpConnector)) -> Double? in let (relay, connector) = pair
-            return relay.output * connector.weight
+        if isMotorLayer { weights = [1.0] }
+
+        let weighted: [Double] = zip(relay.inputRelays, weights).compactMap {
+            (pair: (KSignalRelay, Double)) -> Double? in let (relay, weight) = pair
+            return relay.output * weight
         }
 
         relay.output = weighted.reduce(bias, +)
+
+//        print("\(self) -> \(relay.output)")
     }
 
     func driveSignal(from upperLayer: [KSignalRelay]) {

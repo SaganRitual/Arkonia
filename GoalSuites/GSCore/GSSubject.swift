@@ -23,12 +23,12 @@ import Foundation
 class GSSubject: LightLabelProtocol, CustomStringConvertible {
     static var theFishNumber = 0
 
-    let brain: Translators.Brain
     let fishNumber: Int
+    var kNet: KNet?
     let genome: Genome
+    weak var tNet: TNet?
     var scoreCore = GSScore()
     var spawnCount: Int = 0
-    var suite: GSGoalSuite?
 
     public var description: String {
         return "Arkon \(fishNumber) score \(fitnessScore.sciTruncate(5))"
@@ -42,14 +42,12 @@ class GSSubject: LightLabelProtocol, CustomStringConvertible {
         set { scoreCore.score = newValue }
     }
 
-    init(genome: GenomeSlice, brain: Translators.Brain) {
+    init(genome: GenomeSlice) {
         fishNumber = GSSubject.theFishNumber; GSSubject.theFishNumber += 1
-
-        self.brain = brain; self.genome = String(genome)
-        brain.fishNumber = self.fishNumber
+        self.genome = String(genome)
     }
 
-    func postInit(suite: GSGoalSuite) { self.suite = suite }
+    func postInit(tNet: TNet) { self.tNet = tNet }
 }
 
 extension GSSubject {

@@ -28,25 +28,25 @@ class Decoder {
     var decodeState: DecodeState = .noLayer
     var inputGenome: GenomeSlice!
     var tNet: TNet!
-    var layerUnderConstruction: TLayer?
-    var neuronUnderConstruction: TNeuron?
+    weak var layerUnderConstruction: TLayer?
+    weak var neuronUnderConstruction: TNeuron?
 
     init() {
         precondition(ArkonCentral.dec == nil)
         ArkonCentral.dec = self
     }
 
-    func decode() {
+    func decode() -> TNet {
         tNet = TNet()
 
-//        print(inputGenome)
         decodeLayers(inputGenome[...])
 
         layerUnderConstruction?.finalizeNeuron()
         tNet.finalizeLayer()
+        return tNet
     }
 
-    func reset() { self.decodeState = .noLayer }
+    func reset() { self.decodeState = .noLayer; tNet = nil }
 }
 
 extension Decoder {
@@ -200,6 +200,7 @@ extension Decoder {
 
 extension Decoder {
     func setInput(to inputGenome: GenomeSlice) -> Decoder {
+        self.reset()
         self.inputGenome = inputGenome
         return self
     }

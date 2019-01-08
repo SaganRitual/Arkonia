@@ -41,7 +41,7 @@ enum RandomnessGenerator {
         let geneType = weightedGeneSelector[geneSS]
 
         let dd = Double.random(in: -1...1)
-        let ii = Int.random(in: Int.min...Int.max)
+        let ii = Int.random(in: -1000...1000)
 
         switch geneType {
         case Manipulator.gAct: return "A(\(AFn.getRandomOutputFunction()))_"

@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-#if SIGNAL_GRID_DIAGNOSTICS
+#if !NETCAMS_SMOKE_TEST
 import Foundation
 
 class KSignalRelay: KIdentifiable, KRelayProtocol {
@@ -31,18 +31,16 @@ class KSignalRelay: KIdentifiable, KRelayProtocol {
     var output: Double = 0.0
 
     var overriddenState: Bool?
-    var isOperational: Bool {
-        return (overriddenState == nil) ? !inputRelays.isEmpty : overriddenState!
-    }
+    var isOperational: Bool { return (overriddenState == nil) ? !inputRelays.isEmpty : overriddenState! }
 
     // All swim
     init(_ id: KIdentifier) {
         self.id = id
-        print("+\(self)")
+//        print("+\(self)")
     }
 
     deinit {
-        print("~\(self)")
+//        print("~\(self)")
         while !inputRelays.isEmpty { inputRelays.removeLast() }
     }
 }
@@ -54,7 +52,11 @@ extension KSignalRelay {
     }
 
     func connect(to targetNeurons: [Int], in upperLayer: KLayer) {
-        inputRelays = targetNeurons.map { upperLayer.neurons[$0].relay! }
+        inputRelays = targetNeurons.map {
+            upperLayer.neurons[$0].relay!
+        }
+
+//        print("\(self) connects to \(inputRelays)")
     }
 
     func overrideState(operational: Bool) { overriddenState = operational }

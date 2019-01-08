@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-#if SIGNAL_GRID_DIAGNOSTICS
+#if !NETCAMS_SMOKE_TEST
 import Foundation
 
 struct KIdentifier: CustomDebugStringConvertible, Hashable, KIdentifierProtocol {
@@ -38,13 +38,15 @@ struct KIdentifier: CustomDebugStringConvertible, Hashable, KIdentifierProtocol 
 
     init(_ type: String, _ myID: Int) { self.init(type, [], myID) }
 
-    enum KType { case signalRelay, layer, net, neuron }
+    enum KType { case signalRelay, layer, net, neuron, senseLayer, motorLayer }
     func add(_ newChild: Int, as kType: KType) -> KIdentifier {
         switch kType {
-        case .signalRelay: return     KIdentifier("KRelay  ", familyID + [myID], newChild)
         case .layer: return           KIdentifier("KLayer  ", familyID + [myID], newChild)
         case .net: return             KIdentifier("KNet    ", [], newChild)
         case .neuron: return          KIdentifier("KNeuron ", familyID + [myID], newChild)
+        case .signalRelay: return     KIdentifier("KRelay  ", familyID + [myID], newChild)
+        case .senseLayer: return      KIdentifier("Sense   ", familyID + [myID], newChild)
+        case .motorLayer: return      KIdentifier("Motor   ", familyID + [myID], newChild)
         }
     }
 

@@ -24,54 +24,54 @@ typealias Tenome = [Tene]
 typealias Tegment = ArraySlice<Tene>
 
 class Tene: CustomStringConvertible {
-    // The components are the results of a regex. For each tene,
-    // we get the submatches from this array, which represent
-    // the token and the value, respectively.
     let token: GenomeSlice
-    var value: String
-    var baseline: String
+    var baseValue: String
+    var secondaryValue: String
 
     var description: String {
-        let L = Manipulator.lay_s
-        let N = Manipulator.neu_s
-        if token == L || token == N { return "MarkerGene: \(token)" }
-        else { return "\(token) gene: \(value) baseline: \(baseline)" }
+        if token == Manipulator.sLay || token == Manipulator.sNeu { return "MarkerGene: \(token)" }
+        else { return "\(token) weight: \(baseValue) channel: \(secondaryValue)" }
     }
 
-    init(_ token: GenomeSlice, value: String, baseline: String = "") {
-        self.token = token; self.value = value; self.baseline = baseline
+    init(_ token: GenomeSlice, baseValue: String, secondaryValue: String = "") {
+        self.token = token; self.baseValue = baseValue; self.secondaryValue = secondaryValue
     }
 
     func mutate() {
-        if [Manipulator.lay_s, Manipulator.neu_s, Manipulator.ifm_s].contains(self.token) { return }
+        // Layer and Neuron are void genes
+        if [Manipulator.sLay, Manipulator.sNeu].contains(self.token) { return }
 
-        if [Manipulator.bis_s].contains(self.token) {
-            let b = Mutator.m.mutate(from: Double(self.value)!)
-            self.value = String(b.dTruncate())
+        // Bias is a Double
+        if [Manipulator.sBis].contains(self.token) {
+            let b = ArkonCentral.mut.mutate(from: Double(self.baseValue)!)
+            self.baseValue = String(b.dTruncate())
             return
         }
 
-        if self.value == "true" || self.value == "false" {
-            self.value = String(Bool.random()); return
+        // Down connector is an Int
+        if [Manipulator.sDnc].contains(self.token) {
+            let d = ArkonCentral.mut.mutate(from: Int(self.baseValue)!)
+            self.baseValue = String(d)
+            return
         }
 
-        // A rather ugly way of finding out whether we're an F tene.
-        if let functionName = AFn.FunctionName(rawValue: self.value),
+        // Activator function
+        if let functionName = AFn.FunctionName(rawValue: self.baseValue),
             AFn.lookup[functionName] != nil {
-
-            self.value = AFn.getRandomOutputFunction(); return
+            self.baseValue = AFn.getRandomOutputFunction()
+            return
         }
 
-        let b = Mutator.m.mutate(from: Double(self.baseline)!)
-        self.baseline = String(b.dTruncate())
+        // Up connector is an UpConnector
+        if [Manipulator.sUpc].contains(self.token) {
+            let weight = ArkonCentral.mut.mutate(from: Double(self.baseValue)!)
+            let channel = ArkonCentral.mut.mutate(from: Int(self.secondaryValue)!)
 
-        // In case anyone gets stuck at zero
-        if Double(self.baseline)! == 0.0 { self.baseline = (1.0).sTruncate() }
+            self.baseValue = String(weight.dTruncate())
+            self.secondaryValue = String(channel)
+            return
+        }
 
-        let v = Mutator.m.mutate(from: self.value)
-        if abs(v) < abs(b) { self.value = self.baseline }
-        else { self.value = String(v.dTruncate()) }
-
-        //        print("mf \(self.value) -> \(v)")
+        preconditionFailure("Didn't expect to see me here")
     }
 }

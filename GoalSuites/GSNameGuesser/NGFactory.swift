@@ -25,8 +25,15 @@ class NGFactory: GSFactory {
 
     init(nameToGuess: String) { self.nameToGuess = nameToGuess; super.init() }
 
-    override public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> GSSubject? {
-        guard let brain = makeBrain(genome: genome, mutate: mutate) else { return nil  }
-        return NGSubject(genome: genomeWorkspace[...], brain: brain, nameToGuess: nameToGuess)
+    override public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> NGSubject? {
+        guard let tNet = makeNet(genome: genome, mutate: mutate) else { return nil }
+
+        let gs = NGSubject(genome: genomeWorkspace[...], nameToGuess: nameToGuess)
+        gs.postInit(tNet: tNet)
+        return gs
     }
+
+//    override public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> GSSubject? {
+//        return NGSubject(genome: genomeWorkspace[...], nameToGuess: nameToGuess)
+//    }
 }

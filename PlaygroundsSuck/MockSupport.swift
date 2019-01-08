@@ -27,22 +27,22 @@ import Foundation
 //    static let cSensoryInputs = 7
 //}
 
-#if SIGNAL_GRID_DIAGNOSTICS
+#if !NETCAMS_SMOKE_TEST
 struct KDriver  {
     var motorLayer: KLayer
     let motorLayerID: KIdentifier
     var motorOutputs: [Double]!
     let senseLayer: KLayer
     let senseLayerID: KIdentifier
-    let sensoryInputs = Array(repeating: 1.0, count: GSSelectionControls().howManySenses)
+    let sensoryInputs = Array(repeating: 1.0, count: ArkonCentral.sel.howManySenses)
     let theNet: KNet
 
     init(tNet: TNet) {
         theNet = KNet.makeNet(0, tNet: tNet)
         senseLayerID = KIdentifier("Senses", [], -1)
-        senseLayer = KLayer.makeLayer(senseLayerID, 0, cNeurons: GSSelectionControls().howManySenses)
+        senseLayer = KLayer.makeLayer(senseLayerID, 0, cNeurons: ArkonCentral.sel.howManySenses)
         motorLayerID = KIdentifier("Motors", [], -2)
-        motorLayer = KLayer.makeLayer(motorLayerID, 0, cNeurons: GSSelectionControls().howManyMotorNeurons)
+        motorLayer = KLayer.makeLayer(motorLayerID, 0, cNeurons: ArkonCentral.sel.howManyMotorNeurons)
     }
 
     func drive() {
@@ -54,7 +54,7 @@ struct KDriver  {
         theNet.driveSignal(senseLayer, motorLayer)
         print("Releasing output layer relays")
 
-        let gs = GameScene.gameScene!
+        let gs = ArkonCentral.gScene!
         gs.makeVGrid(theNet)
 
         theNet.gridAnchors.forEach { print($0.output) }

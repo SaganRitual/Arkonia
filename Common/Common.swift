@@ -21,8 +21,11 @@
 import Foundation
 
 enum ArkonCentral {
-    static var dec: Decoder?
-//    static var mut: Mutator?
+    static var dec: Decoder!
+    static var gScene: GameScene!
+    static let mut = Mutator()
+
+    static var sel = GSSelectionControls()
 }
 
 struct GSSelectionControls {

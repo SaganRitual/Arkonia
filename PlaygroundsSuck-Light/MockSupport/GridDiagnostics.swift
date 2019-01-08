@@ -21,7 +21,7 @@
 import Foundation
 import SpriteKit
 
-#if SIGNAL_GRID_DIAGNOSTICS
+#if !NETCAMS_SMOKE_TEST
 extension GameScene {
     
 }
@@ -85,7 +85,7 @@ extension VGridProtocol {
         }
 
         spacer.layerType = .motorOutputs
-        spacer.setDefaultCNeurons(GSSelectionControls().howManyMotorNeurons)
+        spacer.setDefaultCNeurons(ArkonCentral.sel.howManyMotorNeurons)
 
         let bottomLayer = makeVLayer(kLayer: motorLayer, spacer: spacer)
         bottomLayer.drawConnections(to: upperLayer)
@@ -155,6 +155,8 @@ struct VGLayer: VLayerProtocol {
 
     private func addWeightLabel(neuronSS: Int, node: SKShapeNode, inputLine: Int, yOffset: CGFloat) -> CGFloat {
         let neuron = kLayer.neurons[neuronSS]
+//        print("www \(neuron), ", terminator: "")
+//        print("\(neuron.relay!.inputRelays)")
         let weightString = neuron.weights[inputLine].sciTruncate(5)
 
         return addNumericLabel(neuron: neuron, node: node, number: weightString, yOffset: yOffset, drawAbove: true)
@@ -214,9 +216,10 @@ struct VGLayer: VLayerProtocol {
     }
 
     func drawParameters(on nodeLayer: [SKShapeNode], isSenseLayer: Bool = false) {
-        kLayer.neurons.compactMap({ (neuron) -> KSignalRelay? in
-            neuron.relay
-        }).enumerated().forEach { whichNeuron, relay in
+        kLayer.neurons.map({$0.relay})
+        .enumerated().forEach { whichNeuron, relay_ in
+            guard let relay = relay_ else { return }
+
             var yOffset = CGFloat(0.0)
             let node = nodeLayer[whichNeuron]
 

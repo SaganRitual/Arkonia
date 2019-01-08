@@ -29,6 +29,7 @@ final class AATester: GSTesterProtocol {
     let testInputSets = [ [5.0, 1.0, 7.0, 1.0, 11.0] ]
     let expectedOutputs = [23.0]
     var cookedOutputs = [Double]()
+    var kNet: KNet?
     var rawOutputs = [Double?]()
 
     var suite: GSGoalSuite?
@@ -44,10 +45,11 @@ final class AATester: GSTesterProtocol {
     func administerTest(to gs: GSSubject) -> Double? {
         gs.fitnessScore = 0.0
 
-        let net = gs.brain.getNet()
+        let kDriver = KDriver(tNet: gs.tNet!)
+        gs.kNet = kDriver.kNet
 
-        for (ss, inputSet) in testInputSets.enumerated() {
-            rawOutputs = net.driveSignal(inputSet)
+        for (ss, _/*inputSet*/) in testInputSets.enumerated() {
+            kDriver.drive(sensoryInputs: testInputSets[0])
 
             let nonils = rawOutputs.compactMap({$0})
             if nonils.isEmpty { return nil }

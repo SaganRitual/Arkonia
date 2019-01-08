@@ -17,7 +17,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-#if SIGNAL_GRID_DIAGNOSTICS
+#if !NETCAMS_SMOKE_TEST
 import Foundation
 
 class KLayer: KIdentifiable {
@@ -31,6 +31,11 @@ class KLayer: KIdentifiable {
     }
 
     deinit { decoupleFromGrid() }
+}
+
+extension KLayer {
+    static let isMotorLayer = -2
+    static let isSenseLayer = -1
 }
 
 extension KLayer {
@@ -51,7 +56,7 @@ extension KLayer {
     }
 
     func driveSignal() {
-        neurons.forEach { $0.driveSignal() }
+        neurons.forEach { $0.driveSignal(isMotorLayer: id.myID == KLayer.isMotorLayer) }
     }
 
     static func makeLayer(_ family: KIdentifier, _ me: Int, cNeurons: Int) -> KLayer {
@@ -96,6 +101,7 @@ extension KLayer {
                 let outputNeuron = self.neurons[outputNeuronSS]
 
                 outputNeuron.relay!.inputRelays.append(upperNeuron.relay!)
+//                print("\(outputNeuron.relay!) connects to \(outputNeuron.relay!.inputRelays)")
             }
         })
     }

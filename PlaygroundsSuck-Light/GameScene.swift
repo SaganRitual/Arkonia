@@ -49,7 +49,7 @@ class GameScene: SKScene {
     var vGridComplete = false
 
     override func sceneDidLoad() {
-        GameScene.gameScene = self
+        ArkonCentral.gScene = self
     }
 
     func makeVGrid(_ kNet: KNet) {

@@ -41,7 +41,6 @@ class GSScore: CustomStringConvertible, Hashable {
 
 class GSTester: GSTesterProtocol {
     var actualOutput: Double!
-    var anchorLayer: [K2GridScaffolding]!
     var expectedOutput: Double
     var inputs: [Double]
     var outputs: [Double?]
@@ -52,8 +51,8 @@ class GSTester: GSTesterProtocol {
     }
 
     init(expectedOutput: Double) {
-        let inputsCount = GSGoalSuite.selectionControls.howManySenses
-        let outputsCount = GSGoalSuite.selectionControls.howManyMotorNeurons
+        let inputsCount = ArkonCentral.sel.howManySenses
+        let outputsCount = ArkonCentral.sel.howManyMotorNeurons
 
         inputs = Array(repeating: 1.0, count: inputsCount)
         outputs = Array(repeating: nil, count: outputsCount)
@@ -65,12 +64,11 @@ class GSTester: GSTesterProtocol {
     func administerTest(to gs: GSSubject) -> Double? {
         gs.fitnessScore = 0.0
 
-        let net = AKNet(gs.brain.layers)
+        let kDriver = KDriver(tNet: gs.tNet!)
+        gs.kNet = kDriver.kNet
+        kDriver.drive(sensoryInputs: inputs)
 
-        anchorLayer = net.setupSignalGrid()
-        outputs = net.driveSignal(inputs)
-
-        let nonils = outputs.compactMap({$0})
+        let nonils = kDriver.motorOutputs.compactMap({$0})
         if nonils.isEmpty { return nil }
 
         let result = nonils.reduce(0.0, +)

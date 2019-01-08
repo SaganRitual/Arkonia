@@ -84,30 +84,33 @@ class Selector {
         if goalSuite.tester.administerTest(to: aboriginal) == nil { preconditionFailure() }
     }
 
+    // swiftlint:disable cyclomatic_complexity
+
     private func select(against stud: GSSubject) -> [GSSubject]? {
         defer { thisGenerationNumber += 1 }
 
         var bestScore = stud.fitnessScore
         var stemTheFlood = [GSSubject]()
 
-        for _ in 0..<goalSuite.selectionControls.howManySubjectsPerGeneration {
+        for _ in 0..<ArkonCentral.sel.howManySubjectsPerGeneration {
             guard let gs = goalSuite.factory.makeArkon(genome: stud.genome[...], mutate: true) else { continue }
-
-            trackRandomArkon += 1
-            if (trackRandomArkon % 20) == 0 && gs.brain.net != nil
-                { randomArkonForDisplay = gs }
 
             if selectorWorkItem.isCancelled { break }
             if gs.genome == stud.genome { continue }
 
-            guard let score = goalSuite.tester.administerTest(to: gs)
-                else { /*print("!", terminator: "");*/ gs.brain.net = nil; continue }
+            guard let score = goalSuite.tester.administerTest(to: gs) else { continue }
+
+            switch comparisonMode {
+            case .ANY: break
+            case .BE:  if score > bestScore { continue }
+            case .BT:  if score == bestScore { continue }
+            case .EQ:  if score != bestScore { continue }
+            }
 
             if score < bestScore { bestScore = score }
-            else { /*print("#", terminator: "");*/ gs.brain.net = nil; continue }
 
             // Start getting rid of the less promising candidates
-            if stemTheFlood.count >= goalSuite.selectionControls.maxKeepersPerGeneration {
+            if stemTheFlood.count >= ArkonCentral.sel.maxKeepersPerGeneration {
                 _ = stemTheFlood.popBack()
             }
 
@@ -119,8 +122,11 @@ class Selector {
             return nil  // No qualifiers, perhaps even no survivors
         }
 
+//        print("Return \(stemTheFlood.count) test subjects")
         return stemTheFlood
     }
+
+    // swiftlint:enable cyclomatic_complexity
 
     var comparisonMode = GSGoalSuite.Comparison.BE
 
