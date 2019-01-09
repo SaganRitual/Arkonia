@@ -32,8 +32,4 @@ class NGFactory: GSFactory {
         gs.postInit(tNet: tNet)
         return gs
     }
-
-//    override public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> GSSubject? {
-//        return NGSubject(genome: genomeWorkspace[...], nameToGuess: nameToGuess)
-//    }
 }

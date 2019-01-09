@@ -36,6 +36,8 @@ class GSGoalSuite {
 
         factory.postInit(suite: self)
         tester.postInit(suite: self)
+
+        ArkonCentral.goalSuite = self
     }
 
     public func run() -> GSSubject? {

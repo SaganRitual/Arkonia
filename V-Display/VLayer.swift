@@ -113,7 +113,7 @@ struct VLayer {
                 }
             }()
 
-            print("drawNeurons() - layer \(kLayer) neurons \(kLayer.neurons.count) spacer \(spacer.cNeurons!) x = \(neuron.id.myID)")
+//            print("drawNeurons() - layer \(kLayer) neurons \(kLayer.neurons.count) spacer \(spacer.cNeurons!) x = \(neuron.id.myID)")
             vNeuron.position = spacer.getPosition(xSS: neuron.id.myID, ySS: neuron.id.parentID)
             gameScene.addChild(vNeuron)
 

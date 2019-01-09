@@ -215,7 +215,7 @@ extension Manipulator {
 
         var remainder = oNeurons * cNeurons - downsPerNeuron
 
-        var channel = 0
+        var channel = (100 / cNeurons) + cNeurons
         for c in 0..<cNeurons {
             protoGenome += baseNeuronSnippet(c)
 

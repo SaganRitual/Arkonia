@@ -125,5 +125,22 @@ extension VGrid {
         let bottomLayer = makeVLayer(kLayer: motorLayer, spacer: spacer)
         bottomLayer.drawConnections(to: upperLayer)
         _ = bottomLayer.drawNeurons()
+
+        guard let t = ArkonCentral.goalSuite.tester as? GSTester
+            else { preconditionFailure() }
+
+        let name = t.decodedGuess
+        let snabel = SKLabelNode(text: name)
+        let bgSize = snabel.frame.size * 1.2
+        let background = SKShapeNode(rect: CGRect(origin: snabel.frame.origin, size: bgSize))
+        snabel.fontColor = .yellow
+        snabel.fontName = "Courier New"
+        background.fillColor = gameScene.backgroundColor
+        background.strokeColor = gameScene.backgroundColor
+        gameScene.addChild(background)
+        background.addChild(snabel)
+        background.zPosition = 5.0
+        snabel.zPosition = 5.1
+        snabel.position.y += (background.frame.height - snabel.frame.height) / 4
     }
 }

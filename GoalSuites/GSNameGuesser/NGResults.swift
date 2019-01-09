@@ -21,26 +21,22 @@
 import Foundation
 
 class NGTester: GSTester {
-    private var expectedOutputEncoded: UInt64 = 0
+    static private var expectedOutputEncoded: UInt64 = 0
 
-    private let zName: String
-    private let zNameCount: UInt64
-    private let zero: UInt64 = 0
-    private let exxEff: UInt64 = 0x0F
+    static private var zName: String!
+    static private var zNameCount: UInt64!
+    static private var zero: UInt64 = 0
+    static private var exxEff: UInt64 = 0x0F
 
-    public override var lightLabel: String {
-        return ", guess: \"\(decodeGuess())\""
-    }
+    public override var lightLabel: String { return "not available" }
 
-    init(nameToGuess: String) {
-        self.zName = nameToGuess; self.zNameCount = UInt64(nameToGuess.count)
+    static func zSetup(nameToGuess: String) {
+        zName = nameToGuess; zNameCount = UInt64(nameToGuess.count)
 
         for vc: UInt64 in zero..<zNameCount { expectedOutputEncoded <<= 4; expectedOutputEncoded |= vc }
-
-        super.init(expectedOutput: Double(expectedOutputEncoded))
     }
 
-    private func decodeGuess() -> String {
+    static func decodeGuess(_ actualOutput: Double) -> String {
         var guess: UInt64 = 0
 
         if actualOutput == Double.nan || actualOutput == Double.infinity ||

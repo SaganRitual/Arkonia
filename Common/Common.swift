@@ -22,10 +22,20 @@ import Foundation
 
 enum ArkonCentral {
     static var dec: Decoder!
+    static var goalSuite: GSGoalSuite!
     static var gScene: GameScene!
     static let mut = Mutator()
 
     static var sel = GSSelectionControls()
+
+//    static var zName = "MAGA! Trump!"
+//    static var zNumber: UInt64 = 0x1232_4567_89a4
+
+//    static var zName =  "Zoe Bishop"
+//    static var zNumber = 0x1234567829
+
+    static var zName = "Sue Robertson"
+    static var zNumber: Double = 3.20_255_968_189_035
 }
 
 struct GSSelectionControls {

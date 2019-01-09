@@ -60,7 +60,6 @@ struct Spacer {
         }()
 
         let p = CGPoint(x: getX(xSS: xSS), y: vTop - yOffset)
-        print("getPosition(\(xSS), \(ySS)) -> ")
         return p
     }
 
@@ -69,7 +68,6 @@ struct Spacer {
     }
 
     mutating func setHorizontalSpacing(_ neuronsMap: [Int : Int]) {
-        print("shs \(neuronsMap)")
         self.neuronsMap = neuronsMap
         self.cNeurons = neuronsMap.count
         self.hLeft = -scaledWidth / 2.0

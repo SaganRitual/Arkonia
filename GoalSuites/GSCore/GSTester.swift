@@ -41,6 +41,7 @@ class GSScore: CustomStringConvertible, Hashable {
 
 class GSTester: GSTesterProtocol {
     var actualOutput: Double!
+    var decodedGuess: String!
     var expectedOutput: Double
     var inputs: [Double]
     var outputs: [Double?]
@@ -56,7 +57,11 @@ class GSTester: GSTesterProtocol {
 
         inputs = Array(repeating: 1.0, count: inputsCount)
         outputs = Array(repeating: nil, count: outputsCount)
-        self.expectedOutput = expectedOutput
+
+//        self.expectedOutput = expectedOutput
+
+        NGTester.zSetup(nameToGuess: ArkonCentral.zName)
+        self.expectedOutput = Double(ArkonCentral.zNumber)
     }
 
     func postInit(suite: GSGoalSuite) { self.suite = suite }
@@ -73,6 +78,8 @@ class GSTester: GSTesterProtocol {
 
         let result = nonils.reduce(0.0, +)
         gs.fitnessScore = abs(result - expectedOutput)
+
+        decodedGuess = NGTester.decodeGuess(result * 1e14)
 
         return gs.fitnessScore
     }

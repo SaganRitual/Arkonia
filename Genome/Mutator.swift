@@ -343,12 +343,14 @@ extension Mutator {
     }
 
     func mutate(from value: Int) -> Int {
-        return Int(mutate(from: Double(value * 100)) / 100.0)
+        let i = Int(mutate(from: Double(value * 100)) / 100.0)
+        return abs(i) < 1 ? i * 100 : i
     }
 
     func mutate(from value: Double) -> Double {
         let percentage = bellCurve.nextFloat()
-        return (Double(1.0 - percentage) * value).dTruncate()
+        let v = (value == 0.0) ? Double.random(in: -1...1) : value
+        return (Double(1.0 - percentage) * v).dTruncate()
     }
 
     func mutate(from value: String) -> Double {
