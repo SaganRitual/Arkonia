@@ -23,7 +23,7 @@ import Foundation
 class KLayer: KIdentifiable {
     var description: String { return id.description }
     let id: KIdentifier
-    let neurons: [KNeuron]
+    var neurons: [KNeuron]
     var signalRelays: [KSignalRelay]
 
     private init(_ id: KIdentifier, _ neurons: [KNeuron], _ signalRelays: [KSignalRelay]) {

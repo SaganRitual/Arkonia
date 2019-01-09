@@ -128,6 +128,8 @@
 		D48F875921E1AA2B0094571A /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875621E1AA2B0094571A /* TNet.swift */; };
 		D4B4CC1421CF710500AE6912 /* GenomeCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */; };
 		D4B517E821AFAC3200F4C88A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B517E721AFAC3200F4C88A /* main.swift */; };
+		D4BAC12E21E5E8A400E54DB6 /* VGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAC12D21E5E8A400E54DB6 /* VGrid.swift */; };
+		D4BAC13021E5E8E000E54DB6 /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAC12F21E5E8E000E54DB6 /* VLayer.swift */; };
 		D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
 		D4C0A13021AE2405009D6011 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
 		D4C0A13221AE2405009D6011 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
@@ -184,9 +186,7 @@
 		D4FE934E21E45C3A0060C785 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE934C21E45C3A0060C785 /* KDriver.swift */; };
 		D4FE934F21E45C3A0060C785 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE934C21E45C3A0060C785 /* KDriver.swift */; };
 		D4FE935021E45C3A0060C785 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE934C21E45C3A0060C785 /* KDriver.swift */; };
-		D4FE935121E462E90060C785 /* GridDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1E021DDEE8500537D5F /* GridDiagnostics.swift */; };
 		D4FFA1DE21DDE4D600537D5F /* TestPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1DD21DDE4D600537D5F /* TestPattern.swift */; };
-		D4FFA1E121DDEE8500537D5F /* GridDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1E021DDEE8500537D5F /* GridDiagnostics.swift */; };
 		D4FFA1E221DDF05600537D5F /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
 		D4FFA1E321DDF05600537D5F /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
 		D4FFA1E421DDF05600537D5F /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734921DB259B001CC961 /* KLayer.swift */; };
@@ -321,6 +321,9 @@
 		D4B4CC1821CF81AF00AE6912 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		D4B517E521AFAC3200F4C88A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B517E721AFAC3200F4C88A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D4BAC12B21E5E83100E54DB6 /* VProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VProtocols.swift; sourceTree = "<group>"; };
+		D4BAC12D21E5E8A400E54DB6 /* VGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VGrid.swift; sourceTree = "<group>"; };
+		D4BAC12F21E5E8E000E54DB6 /* VLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLayer.swift; sourceTree = "<group>"; };
 		D4C0A0FA21ADF3CC009D6011 /* Dark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Dark; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4C0A0FD21ADF3CC009D6011 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4C0A12321AE23F4009D6011 /* Curator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Curator.swift; path = Curation/Curator.swift; sourceTree = "<group>"; };
@@ -347,7 +350,6 @@
 		D4FE854221AEB20500C9192F /* BellCurveDark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BellCurveDark; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4FE934C21E45C3A0060C785 /* KDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDriver.swift; sourceTree = "<group>"; };
 		D4FFA1DD21DDE4D600537D5F /* TestPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPattern.swift; sourceTree = "<group>"; };
-		D4FFA1E021DDEE8500537D5F /* GridDiagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDiagnostics.swift; sourceTree = "<group>"; };
 		D4FFA1EA21DE755900537D5F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -511,14 +513,14 @@
 			path = "PlaygroundsSuck-LightTests";
 			sourceTree = "<group>";
 		};
-		D47C39E421E156FE001F4A84 /* Thomson */ = {
+		D47C39E421E156FE001F4A84 /* T-Scaffolding */ = {
 			isa = PBXGroup;
 			children = (
 				D48F875221E1A8F80094571A /* TLayer.swift */,
 				D48F875621E1AA2B0094571A /* TNet.swift */,
 				D48F874E21E1A7A60094571A /* TNeuron.swift */,
 			);
-			path = Thomson;
+			path = "T-Scaffolding";
 			sourceTree = "<group>";
 		};
 		D48F2FB321C3155F008EA8DA /* GSNameGuesser */ = {
@@ -566,6 +568,16 @@
 			path = Experimental;
 			sourceTree = "<group>";
 		};
+		D4BAC12A21E5E7F800E54DB6 /* V-Display */ = {
+			isa = PBXGroup;
+			children = (
+				D4BAC12D21E5E8A400E54DB6 /* VGrid.swift */,
+				D4BAC12F21E5E8E000E54DB6 /* VLayer.swift */,
+				D4BAC12B21E5E83100E54DB6 /* VProtocols.swift */,
+			);
+			path = "V-Display";
+			sourceTree = "<group>";
+		};
 		D4C0A0F121ADF3CC009D6011 = {
 			isa = PBXGroup;
 			children = (
@@ -575,11 +587,12 @@
 				D4B517E621AFAC3200F4C88A /* Experimental */,
 				D4684CC221C2D17100D13964 /* Genome */,
 				D452A30021C1004A0049E3A5 /* GoalSuites */,
-				D4C2C53421D89ED400367902 /* Kelvin */,
+				D4C2C53421D89ED400367902 /* K-SignalGrid */,
 				D4ABEB1121AE645B00F3C5D5 /* Light */,
 				D44EE50621BCE584006E1A12 /* PlaygroundsSuck */,
 				D47995FD21CD8B8700EB7A9A /* PlaygroundsSuck-Light */,
-				D47C39E421E156FE001F4A84 /* Thomson */,
+				D47C39E421E156FE001F4A84 /* T-Scaffolding */,
+				D4BAC12A21E5E7F800E54DB6 /* V-Display */,
 				D4C0A14B21AE2E63009D6011 /* GameScene */,
 				D4C0A16421AE2E64009D6011 /* GameSceneTests */,
 				D479961621CD8B8800EB7A9A /* PlaygroundsSuck-LightTests */,
@@ -647,7 +660,7 @@
 			path = GameSceneTests;
 			sourceTree = "<group>";
 		};
-		D4C2C53421D89ED400367902 /* Kelvin */ = {
+		D4C2C53421D89ED400367902 /* K-SignalGrid */ = {
 			isa = PBXGroup;
 			children = (
 				D4686DD721DD1EA400149745 /* KConnector.swift */,
@@ -659,14 +672,13 @@
 				D41D112C21DC04C40042055B /* KProtocols.swift */,
 				D41D112B21DC04C40042055B /* KSignalRelay.swift */,
 			);
-			path = Kelvin;
+			path = "K-SignalGrid";
 			sourceTree = "<group>";
 		};
 		D4FFA1DF21DDEE1800537D5F /* MockSupport */ = {
 			isa = PBXGroup;
 			children = (
 				D4FFA1DD21DDE4D600537D5F /* TestPattern.swift */,
-				D4FFA1E021DDEE8500537D5F /* GridDiagnostics.swift */,
 			);
 			path = MockSupport;
 			sourceTree = "<group>";
@@ -1074,7 +1086,6 @@
 				D4470FC621E23AEF00F8319F /* TLayer.swift in Sources */,
 				D479962321CD959900EB7A9A /* CGConversions.swift in Sources */,
 				D479962121CD8C3A00EB7A9A /* Vnet.swift in Sources */,
-				D4FFA1E121DDEE8500537D5F /* GridDiagnostics.swift in Sources */,
 				D4FFA1EF21DE80E800537D5F /* MockSupport.swift in Sources */,
 				D4470FCB21E2451900F8319F /* GenomeCommon.swift in Sources */,
 				D4FFA1E221DDF05600537D5F /* KConnector.swift in Sources */,
@@ -1179,11 +1190,13 @@
 				D4FE850221AE7AC100C9192F /* ViewController.swift in Sources */,
 				D44547C721CB151800247429 /* Utilities.swift in Sources */,
 				D48F2FBF21C31C56008EA8DA /* NGFactory.swift in Sources */,
+				D4BAC13021E5E8E000E54DB6 /* VLayer.swift in Sources */,
 				D4FE934921E4437F0060C785 /* KNeuron.swift in Sources */,
 				D4FE934A21E4437F0060C785 /* KProtocols.swift in Sources */,
 				D452A32121C18EDB0049E3A5 /* GSSubject.swift in Sources */,
 				D4684CC621C2D1C900D13964 /* Manipulator.swift in Sources */,
 				D479962721CE0C0100EB7A9A /* CGConversions.swift in Sources */,
+				D4BAC12E21E5E8A400E54DB6 /* VGrid.swift in Sources */,
 				D479962821CE0C0100EB7A9A /* Spacer.swift in Sources */,
 				D48F2FB721C31587008EA8DA /* NGResults.swift in Sources */,
 				D452A32921C192170049E3A5 /* GSFactory.swift in Sources */,
@@ -1194,7 +1207,6 @@
 				D48F2FC321C31CEE008EA8DA /* NGSubject.swift in Sources */,
 				D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */,
 				D4FE934521E4437F0060C785 /* KConnector.swift in Sources */,
-				D4FE935121E462E90060C785 /* GridDiagnostics.swift in Sources */,
 				D4C0A14D21AE2E63009D6011 /* AppDelegate.swift in Sources */,
 				D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */,
 				D48F875521E1A8F80094571A /* TLayer.swift in Sources */,

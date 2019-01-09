@@ -25,9 +25,12 @@ struct Spacer {
     enum LayerType { case sensoryInputs, hidden, motorOutputs }
 
     var cNeurons: Int!
+    var hLeft = CGFloat(0.0)
+    var hSpacing = CGFloat(0.0)
     let layersCount: Int
     var layerType = LayerType.hidden
     let netcam: SKNode
+    var neuronsMap = [Int : Int]()
     let scaledHeight: CGFloat
     let scaledWidth: CGFloat
     let vSpacing: CGFloat
@@ -48,10 +51,6 @@ struct Spacer {
     }
 
     func getPosition(xSS: Int, ySS: Int) -> CGPoint {
-        return getPosition(cNeurons: self.cNeurons, xSS: xSS, ySS: ySS)
-    }
-
-    func getPosition(cNeurons: Int, xSS: Int, ySS: Int) -> CGPoint {
         let yOffset: CGFloat = {
             switch self.layerType {
             case .motorOutputs:  return scaledHeight
@@ -60,15 +59,20 @@ struct Spacer {
             }
         }()
 
-        return CGPoint(x: getX(xSS: xSS), y: vTop - yOffset)
+        let p = CGPoint(x: getX(xSS: xSS), y: vTop - yOffset)
+        print("getPosition(\(xSS), \(ySS)) -> ")
+        return p
     }
 
     private func getX(xSS: Int) -> CGFloat {
-        let hSpacing = scaledWidth / CGFloat(cNeurons + 1)
-        let hLeft = -scaledWidth / 2.0
-
-        return hLeft + CGFloat(xSS + 1) * hSpacing
+        return hLeft + CGFloat(self.neuronsMap[xSS]! + 1) * hSpacing
     }
 
-    mutating func setDefaultCNeurons(_ cNeurons: Int) { self.cNeurons = cNeurons }
+    mutating func setHorizontalSpacing(_ neuronsMap: [Int : Int]) {
+        print("shs \(neuronsMap)")
+        self.neuronsMap = neuronsMap
+        self.cNeurons = neuronsMap.count
+        self.hLeft = -scaledWidth / 2.0
+        self.hSpacing = scaledWidth / CGFloat(cNeurons + 1)
+    }
 }

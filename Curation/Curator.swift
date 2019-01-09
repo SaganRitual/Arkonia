@@ -142,12 +142,12 @@ class Curator {
             let p = u[NotificationType.selectComplete] as? [GSSubject]
 //            let q = u["randomArkonForDisplay"] as? GSSubject
             else {
-                print("u", terminator: "")
+//                print("u", terminator: "")
                 if !self.selector.isCanceled { return }
                 preconditionFailure()
             }
 
-        print("s", terminator: "")
+//        print("s", terminator: "")
 //        randomArkonForDisplay = q
         p.forEach { archive.newCandidate($0) }
         self.atLeastOneTSHasSurvived = true

@@ -42,7 +42,10 @@ class Archive: CustomStringConvertible {
         return gs
     }
 
-    public func newCandidate(_ gs: GSSubject) { print("r", terminator: ""); keepIfKeeper(gs) }
+    public func newCandidate(_ gs: GSSubject) {
+//        print("r", terminator: "")
+        keepIfKeeper(gs)
+    }
 
     public func nextProgenitor() -> GSSubject? {
         guard var gs: GSSubject = getTop() else { return nil }
@@ -112,18 +115,14 @@ private extension Archive {
     }
 
     func keepIfKeeper(_ gs: GSSubject) {
-        print("k", terminator: "")
         guard let ref = referenceTS else { return }
-        print("L", terminator: "")
         guard passesCompare(gs, comparisonMode, against: ref) else { return }
-        print("M", terminator: "")
 
         if peerGroupIsFull(gs) { return }
-        print("N", terminator: "")
 
         let hash = makeHash(gs)
-        if theArchive[hash] == nil { print("p", terminator: ""); newGroup(gs) }
-        else { print("q", terminator: ""); advance(gs) }
+        if theArchive[hash] == nil { newGroup(gs) }
+        else { advance(gs) }
     }
 
     func isTooDudly(_ gs: GSSubject) -> Bool {
