@@ -18,6 +18,18 @@
 		D41D113021DC04C40042055B /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
 		D41D113121DC04C40042055B /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
 		D41D113421DC04C40042055B /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
+		D41F796B21EF42870055A7B5 /* neuron-orange.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796521EF42860055A7B5 /* neuron-orange.png */; };
+		D41F796C21EF42870055A7B5 /* neuron-orange.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796521EF42860055A7B5 /* neuron-orange.png */; };
+		D41F796D21EF42870055A7B5 /* neuron-orange.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796621EF42860055A7B5 /* neuron-orange.xcf */; };
+		D41F796E21EF42870055A7B5 /* neuron-orange.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796621EF42860055A7B5 /* neuron-orange.xcf */; };
+		D41F796F21EF42870055A7B5 /* neuron-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796721EF42860055A7B5 /* neuron-blue.png */; };
+		D41F797021EF42870055A7B5 /* neuron-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796721EF42860055A7B5 /* neuron-blue.png */; };
+		D41F797121EF42870055A7B5 /* neuron-green.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796821EF42860055A7B5 /* neuron-green.png */; };
+		D41F797221EF42870055A7B5 /* neuron-green.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796821EF42860055A7B5 /* neuron-green.png */; };
+		D41F797321EF42870055A7B5 /* neuron-blue.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796921EF42860055A7B5 /* neuron-blue.xcf */; };
+		D41F797421EF42870055A7B5 /* neuron-blue.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796921EF42860055A7B5 /* neuron-blue.xcf */; };
+		D41F797521EF42870055A7B5 /* neuron-green.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796A21EF42870055A7B5 /* neuron-green.xcf */; };
+		D41F797621EF42870055A7B5 /* neuron-green.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796A21EF42870055A7B5 /* neuron-green.xcf */; };
 		D441297D21CC07580086E1AC /* AATester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441297C21CC07580086E1AC /* AATester.swift */; };
 		D441297F21CC07580086E1AC /* AATester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441297C21CC07580086E1AC /* AATester.swift */; };
 		D441298521CC26D50086E1AC /* AAGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441298421CC26D50086E1AC /* AAGoalSuite.swift */; };
@@ -26,6 +38,16 @@
 		D441298F21CC2CEB0086E1AC /* AAFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441298C21CC2CEB0086E1AC /* AAFactory.swift */; };
 		D441299121CC2D870086E1AC /* AASubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441299021CC2D870086E1AC /* AASubject.swift */; };
 		D441299321CC2D870086E1AC /* AASubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441299021CC2D870086E1AC /* AASubject.swift */; };
+		D444035921E8487200AF7FDD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A7DE9921E6F7B500CE9169 /* ViewController.swift */; };
+		D444035A21E8487200AF7FDD /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAFB21E795C30006CBC0 /* ArkonCentral.swift */; };
+		D444035B21E8487200AF7FDD /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
+		D444035C21E8487200AF7FDD /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAF021E73DE80006CBC0 /* VProtocols.swift */; };
+		D444035D21E8487200AF7FDD /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAF921E78FE40006CBC0 /* VSpacer.swift */; };
+		D444035E21E8487200AF7FDD /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
+		D444035F21E8487200AF7FDD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D462CF5F21E6F4B700F4CCC7 /* AppDelegate.swift */; };
+		D444036221E8487200AF7FDD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D462CF6921E6F4B700F4CCC7 /* Assets.xcassets */; };
+		D444036521E8487200AF7FDD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D462CF6B21E6F4B700F4CCC7 /* Main.storyboard */; };
+		D444036E21E84EC000AF7FDD /* VTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAF521E7433C0006CBC0 /* VTests.swift */; };
 		D44547BF21CB151800247429 /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BB21CB151700247429 /* LoopIterator.swift */; };
 		D44547C121CB151800247429 /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BB21CB151700247429 /* LoopIterator.swift */; };
 		D44547C221CB151800247429 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BC21CB151700247429 /* RandomnessGenerators.swift */; };
@@ -69,9 +91,6 @@
 		D45E642021AE3A860078CB8E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
 		D45E642121AE3A860078CB8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15821AE2E64009D6011 /* Main.storyboard */; };
 		D462CF6021E6F4B700F4CCC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D462CF5F21E6F4B700F4CCC7 /* AppDelegate.swift */; };
-		D462CF6221E6F4B700F4CCC7 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D462CF6121E6F4B700F4CCC7 /* GameScene.sks */; };
-		D462CF6421E6F4B700F4CCC7 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D462CF6321E6F4B700F4CCC7 /* Actions.sks */; };
-		D462CF6621E6F4B700F4CCC7 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D462CF6521E6F4B700F4CCC7 /* GameScene.swift */; };
 		D462CF6A21E6F4B700F4CCC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D462CF6921E6F4B700F4CCC7 /* Assets.xcassets */; };
 		D462CF6D21E6F4B700F4CCC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D462CF6B21E6F4B700F4CCC7 /* Main.storyboard */; };
 		D4684CC421C2D1C900D13964 /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC321C2D1C900D13964 /* Manipulator.swift */; };
@@ -95,6 +114,12 @@
 		D479962621CE0C0100EB7A9A /* Vnet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962021CD8C3A00EB7A9A /* Vnet.swift */; };
 		D479962721CE0C0100EB7A9A /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962221CD959900EB7A9A /* CGConversions.swift */; };
 		D479962821CE0C0100EB7A9A /* Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962421CDC64600EB7A9A /* Spacer.swift */; };
+		D47FBAF121E73DE80006CBC0 /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAF021E73DE80006CBC0 /* VProtocols.swift */; };
+		D47FBAF321E73F0D0006CBC0 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
+		D47FBAF821E749340006CBC0 /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
+		D47FBAFA21E78FE40006CBC0 /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAF921E78FE40006CBC0 /* VSpacer.swift */; };
+		D47FBAFC21E795C30006CBC0 /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAFB21E795C30006CBC0 /* ArkonCentral.swift */; };
+		D482FD9921B1216500FF9EE9 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
 		D48F2FB521C31587008EA8DA /* NGResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FB421C31587008EA8DA /* NGResults.swift */; };
 		D48F2FB721C31587008EA8DA /* NGResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FB421C31587008EA8DA /* NGResults.swift */; };
 		D48F2FB921C31C06008EA8DA /* NGGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FB821C31C06008EA8DA /* NGGoalSuite.swift */; };
@@ -139,6 +164,7 @@
 		D4C0A19821AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4C2C53621D89EFC00367902 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
 		D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C8E21BDA23C00FA6549 /* Archive.swift */; };
+<<<<<<< HEAD
 		D4DC7E1B21ED86AE006A0195 /* DarkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC7E1A21ED86AE006A0195 /* DarkTests.swift */; };
 		D4DC7E2021ED8774006A0195 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41DF56121EC8EC100E721B2 /* Genome.swift */; };
 		D4DC7E2221ED87E3006A0195 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
@@ -148,20 +174,23 @@
 		D4DC7E2C21EE78EE006A0195 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC7E2A21EE78EE006A0195 /* GenomeAdd.swift */; };
 		D4DC7E2E21EE796E006A0195 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC7E2D21EE796E006A0195 /* GenomeSubtract.swift */; };
 		D4DC7E2F21EE796E006A0195 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC7E2D21EE796E006A0195 /* GenomeSubtract.swift */; };
+		D4C8613D21EA3D4F00D2AC6A /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8613C21EA3D4F00D2AC6A /* VNet.swift */; };
+		D4C8613E21EA3D4F00D2AC6A /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8613C21EA3D4F00D2AC6A /* VNet.swift */; };
+		D4C8614021EA3D9300D2AC6A /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8613F21EA3D9300D2AC6A /* VLayer.swift */; };
+		D4C8614121EA3D9300D2AC6A /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8613F21EA3D9300D2AC6A /* VLayer.swift */; };
+		D4C8614321EA3DBE00D2AC6A /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8614221EA3DBE00D2AC6A /* VNeuron.swift */; };
+		D4C8614421EA3DBE00D2AC6A /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8614221EA3DBE00D2AC6A /* VNeuron.swift */; };
+		D4E6741E21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
 		D4E6741F21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
-		D4EE806121EBDCA3001012AF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1EA21DE755900537D5F /* Extensions.swift */; };
-		D4EE806221EBDCA3001012AF /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
+		D4E6742021D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
+		D4F488D521EF2CE600545EA0 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962221CD959900EB7A9A /* CGConversions.swift */; };
 		D4F5AC9621E328CD006D4B70 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BC21CB151700247429 /* RandomnessGenerators.swift */; };
-		D4FE84FF21AE7AC000C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
 		D4FE850021AE7AC000C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
-		D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
 		D4FE850221AE7AC100C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
-		D4FE850321AE7AC600C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
 		D4FE850421AE7AC600C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
 		D4FE850B21AE7C0500C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
 		D4FE851221AE7C0500C9192F /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
 		D4FE851321AE7C0500C9192F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A14C21AE2E63009D6011 /* AppDelegate.swift */; };
-		D4FE851421AE7C0500C9192F /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FB21AE7AB600C9192F /* GameScene.swift */; };
 		D4FE851621AE7C0500C9192F /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
 		D4FE851821AE7C0500C9192F /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
 		D4FE851A21AE7C0500C9192F /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
@@ -277,11 +306,17 @@
 /* Begin PBXFileReference section */
 		D41D112B21DC04C40042055B /* KSignalRelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSignalRelay.swift; sourceTree = "<group>"; };
 		D41D112C21DC04C40042055B /* KProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KProtocols.swift; sourceTree = "<group>"; };
-		D41DF56121EC8EC100E721B2 /* Genome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genome.swift; sourceTree = "<group>"; };
+		D41F796521EF42860055A7B5 /* neuron-orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "neuron-orange.png"; sourceTree = "<group>"; };
+		D41F796621EF42860055A7B5 /* neuron-orange.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neuron-orange.xcf"; sourceTree = "<group>"; };
+		D41F796721EF42860055A7B5 /* neuron-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "neuron-blue.png"; sourceTree = "<group>"; };
+		D41F796821EF42860055A7B5 /* neuron-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "neuron-green.png"; sourceTree = "<group>"; };
+		D41F796921EF42860055A7B5 /* neuron-blue.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neuron-blue.xcf"; sourceTree = "<group>"; };
+		D41F796A21EF42870055A7B5 /* neuron-green.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neuron-green.xcf"; sourceTree = "<group>"; };
 		D441297C21CC07580086E1AC /* AATester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AATester.swift; sourceTree = "<group>"; };
 		D441298421CC26D50086E1AC /* AAGoalSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAGoalSuite.swift; sourceTree = "<group>"; };
 		D441298C21CC2CEB0086E1AC /* AAFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAFactory.swift; sourceTree = "<group>"; };
 		D441299021CC2D870086E1AC /* AASubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AASubject.swift; sourceTree = "<group>"; };
+		D444036921E8487200AF7FDD /* VisualTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisualTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D44547BB21CB151700247429 /* LoopIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoopIterator.swift; sourceTree = "<group>"; };
 		D44547BC21CB151700247429 /* RandomnessGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomnessGenerators.swift; sourceTree = "<group>"; };
 		D44547BD21CB151700247429 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
@@ -296,9 +331,6 @@
 		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D462CF5D21E6F4B700F4CCC7 /* Visual.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Visual.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D462CF5F21E6F4B700F4CCC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D462CF6121E6F4B700F4CCC7 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D462CF6321E6F4B700F4CCC7 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		D462CF6521E6F4B700F4CCC7 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D462CF6921E6F4B700F4CCC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D462CF6C21E6F4B700F4CCC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D462CF6E21E6F4B700F4CCC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -324,6 +356,10 @@
 		D479962021CD8C3A00EB7A9A /* Vnet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vnet.swift; sourceTree = "<group>"; };
 		D479962221CD959900EB7A9A /* CGConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGConversions.swift; sourceTree = "<group>"; };
 		D479962421CDC64600EB7A9A /* Spacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacer.swift; sourceTree = "<group>"; };
+		D47FBAF021E73DE80006CBC0 /* VProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VProtocols.swift; sourceTree = "<group>"; };
+		D47FBAF521E7433C0006CBC0 /* VTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTests.swift; sourceTree = "<group>"; };
+		D47FBAF921E78FE40006CBC0 /* VSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VSpacer.swift; sourceTree = "<group>"; };
+		D47FBAFB21E795C30006CBC0 /* ArkonCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentral.swift; sourceTree = "<group>"; };
 		D48F2FB421C31587008EA8DA /* NGResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGResults.swift; sourceTree = "<group>"; };
 		D48F2FB821C31C06008EA8DA /* NGGoalSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGGoalSuite.swift; sourceTree = "<group>"; };
 		D48F2FBC21C31C56008EA8DA /* NGFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGFactory.swift; sourceTree = "<group>"; };
@@ -367,8 +403,10 @@
 		D4DC7E2721EDB32B006A0195 /* Gene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gene.swift; sourceTree = "<group>"; };
 		D4DC7E2A21EE78EE006A0195 /* GenomeAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeAdd.swift; sourceTree = "<group>"; };
 		D4DC7E2D21EE796E006A0195 /* GenomeSubtract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeSubtract.swift; sourceTree = "<group>"; };
+		D4C8613C21EA3D4F00D2AC6A /* VNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VNet.swift; sourceTree = "<group>"; };
+		D4C8613F21EA3D9300D2AC6A /* VLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLayer.swift; sourceTree = "<group>"; };
+		D4C8614221EA3DBE00D2AC6A /* VNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VNeuron.swift; sourceTree = "<group>"; };
 		D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivatorFunctions.swift; sourceTree = "<group>"; };
-		D4EE806A21EBDCA3001012AF /* TLinkedList */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TLinkedList; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4FE84FB21AE7AB600C9192F /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D4FE84FC21AE7AB600C9192F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D4FE852621AE7C0500C9192F /* GameScene-R.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GameScene-R.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -379,6 +417,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D444036021E8487200AF7FDD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D44EE50221BCE584006E1A12 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -480,6 +525,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D41F796421EF42510055A7B5 /* OriginalArtwork */ = {
+			isa = PBXGroup;
+			children = (
+				D41F796721EF42860055A7B5 /* neuron-blue.png */,
+				D41F796921EF42860055A7B5 /* neuron-blue.xcf */,
+				D41F796821EF42860055A7B5 /* neuron-green.png */,
+				D41F796A21EF42870055A7B5 /* neuron-green.xcf */,
+				D41F796521EF42860055A7B5 /* neuron-orange.png */,
+				D41F796621EF42860055A7B5 /* neuron-orange.xcf */,
+			);
+			path = OriginalArtwork;
+			sourceTree = "<group>";
+		};
 		D441297B21CC06790086E1AC /* GSAdder */ = {
 			isa = PBXGroup;
 			children = (
@@ -524,8 +582,15 @@
 		D462CF5821E6F45B00F4CCC7 /* Visual */ = {
 			isa = PBXGroup;
 			children = (
-				D4A7DE9921E6F7B500CE9169 /* ViewController.swift */,
 				D462CF5E21E6F4B700F4CCC7 /* GameSceneSupport */,
+				D41F796421EF42510055A7B5 /* OriginalArtwork */,
+				D4A7DE9921E6F7B500CE9169 /* ViewController.swift */,
+				D4C8613F21EA3D9300D2AC6A /* VLayer.swift */,
+				D4C8613C21EA3D4F00D2AC6A /* VNet.swift */,
+				D4C8614221EA3DBE00D2AC6A /* VNeuron.swift */,
+				D47FBAF021E73DE80006CBC0 /* VProtocols.swift */,
+				D47FBAF921E78FE40006CBC0 /* VSpacer.swift */,
+				D47FBAF521E7433C0006CBC0 /* VTests.swift */,
 			);
 			path = Visual;
 			sourceTree = "<group>";
@@ -534,10 +599,7 @@
 			isa = PBXGroup;
 			children = (
 				D462CF6921E6F4B700F4CCC7 /* Assets.xcassets */,
-				D462CF6321E6F4B700F4CCC7 /* Actions.sks */,
 				D462CF5F21E6F4B700F4CCC7 /* AppDelegate.swift */,
-				D462CF6121E6F4B700F4CCC7 /* GameScene.sks */,
-				D462CF6521E6F4B700F4CCC7 /* GameScene.swift */,
 				D462CF6F21E6F4B700F4CCC7 /* GameSceneSupport.entitlements */,
 				D462CF6E21E6F4B700F4CCC7 /* Info.plist */,
 				D462CF6B21E6F4B700F4CCC7 /* Main.storyboard */,
@@ -593,6 +655,16 @@
 			path = "T-Scaffolding";
 			sourceTree = "<group>";
 		};
+		D47FBAF221E73E7F0006CBC0 /* ArkonCentral */ = {
+			isa = PBXGroup;
+			children = (
+				D47FBAFB21E795C30006CBC0 /* ArkonCentral.swift */,
+				D4C2C53521D89EFC00367902 /* KIdentifier.swift */,
+				D41D112B21DC04C40042055B /* KSignalRelay.swift */,
+			);
+			path = ArkonCentral;
+			sourceTree = "<group>";
+		};
 		D48F2FB321C3155F008EA8DA /* GSNameGuesser */ = {
 			isa = PBXGroup;
 			children = (
@@ -608,7 +680,6 @@
 			isa = PBXGroup;
 			children = (
 				D479962221CD959900EB7A9A /* CGConversions.swift */,
-				D4FE84FB21AE7AB600C9192F /* GameScene.swift */,
 				D479962421CDC64600EB7A9A /* Spacer.swift */,
 				D471173421B3D5350076DD2A /* VBrain.swift */,
 				D4FE84FC21AE7AB600C9192F /* ViewController.swift */,
@@ -655,6 +726,7 @@
 		D4C0A0F121ADF3CC009D6011 = {
 			isa = PBXGroup;
 			children = (
+				D47FBAF221E73E7F0006CBC0 /* ArkonCentral */,
 				D462CF5821E6F45B00F4CCC7 /* Visual */,
 				D4B4CC1721CF816000AE6912 /* Common */,
 				D4C0A12021AE2374009D6011 /* Curation */,
@@ -691,8 +763,8 @@
 				D47995FC21CD8B8700EB7A9A /* PlaygroundsSuck-Light.app */,
 				D479961321CD8B8800EB7A9A /* PlaygroundsSuck-LightTests.xctest */,
 				D462CF5D21E6F4B700F4CCC7 /* Visual.app */,
-				D4EE806A21EBDCA3001012AF /* TLinkedList */,
 				D4DC7E1821ED86AE006A0195 /* DarkTests.xctest */,
+				D444036921E8487200AF7FDD /* VisualTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -744,12 +816,10 @@
 			children = (
 				D4686DD721DD1EA400149745 /* KConnector.swift */,
 				D4FE934C21E45C3A0060C785 /* KDriver.swift */,
-				D4C2C53521D89EFC00367902 /* KIdentifier.swift */,
 				D48F734921DB259B001CC961 /* KLayer.swift */,
 				D48F734421DB24EC001CC961 /* KNet.swift */,
 				D48F734E21DB2670001CC961 /* KNeuron.swift */,
 				D41D112C21DC04C40042055B /* KProtocols.swift */,
-				D41D112B21DC04C40042055B /* KSignalRelay.swift */,
 			);
 			path = "K-SignalGrid";
 			sourceTree = "<group>";
@@ -774,6 +844,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D444035721E8487200AF7FDD /* VisualTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D444036621E8487200AF7FDD /* Build configuration list for PBXNativeTarget "VisualTest" */;
+			buildPhases = (
+				D444035821E8487200AF7FDD /* Sources */,
+				D444036021E8487200AF7FDD /* Frameworks */,
+				D444036121E8487200AF7FDD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VisualTest;
+			productName = GameSceneSupport;
+			productReference = D444036921E8487200AF7FDD /* VisualTest.app */;
+			productType = "com.apple.product-type.application";
+		};
 		D44EE50421BCE584006E1A12 /* PlaygroundsSuck */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D44EE50B21BCE584006E1A12 /* Build configuration list for PBXNativeTarget "PlaygroundsSuck" */;
@@ -1081,13 +1168,28 @@
 				D47995FB21CD8B8700EB7A9A /* PlaygroundsSuck-Light */,
 				D479961221CD8B8800EB7A9A /* PlaygroundsSuck-LightTests */,
 				D462CF5C21E6F4B600F4CCC7 /* Visual */,
-				D4EE805E21EBDCA3001012AF /* TLinkedList */,
 				D4DC7E1721ED86AE006A0195 /* DarkTests */,
+				D444035721E8487200AF7FDD /* VisualTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D444036121E8487200AF7FDD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D41F796E21EF42870055A7B5 /* neuron-orange.xcf in Resources */,
+				D41F797021EF42870055A7B5 /* neuron-blue.png in Resources */,
+				D41F797221EF42870055A7B5 /* neuron-green.png in Resources */,
+				D444036221E8487200AF7FDD /* Assets.xcassets in Resources */,
+				D41F797621EF42870055A7B5 /* neuron-green.xcf in Resources */,
+				D444036521E8487200AF7FDD /* Main.storyboard in Resources */,
+				D41F796C21EF42870055A7B5 /* neuron-orange.png in Resources */,
+				D41F797421EF42870055A7B5 /* neuron-blue.xcf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D45E641D21AE3A860078CB8E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1103,10 +1205,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D462CF6221E6F4B700F4CCC7 /* GameScene.sks in Resources */,
+				D41F796D21EF42870055A7B5 /* neuron-orange.xcf in Resources */,
+				D41F796F21EF42870055A7B5 /* neuron-blue.png in Resources */,
+				D41F797121EF42870055A7B5 /* neuron-green.png in Resources */,
 				D462CF6A21E6F4B700F4CCC7 /* Assets.xcassets in Resources */,
-				D462CF6421E6F4B700F4CCC7 /* Actions.sks in Resources */,
+				D41F797521EF42870055A7B5 /* neuron-green.xcf in Resources */,
 				D462CF6D21E6F4B700F4CCC7 /* Main.storyboard in Resources */,
+				D41F796B21EF42870055A7B5 /* neuron-orange.png in Resources */,
+				D41F797321EF42870055A7B5 /* neuron-blue.xcf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1187,6 +1293,25 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D444035821E8487200AF7FDD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D444036E21E84EC000AF7FDD /* VTests.swift in Sources */,
+				D444035921E8487200AF7FDD /* ViewController.swift in Sources */,
+				D444035A21E8487200AF7FDD /* ArkonCentral.swift in Sources */,
+				D444035B21E8487200AF7FDD /* KSignalRelay.swift in Sources */,
+				D4C8614421EA3DBE00D2AC6A /* VNeuron.swift in Sources */,
+				D444035C21E8487200AF7FDD /* VProtocols.swift in Sources */,
+				D444035D21E8487200AF7FDD /* VSpacer.swift in Sources */,
+				D4F488D521EF2CE600545EA0 /* CGConversions.swift in Sources */,
+				D4C8614121EA3D9300D2AC6A /* VLayer.swift in Sources */,
+				D444035E21E8487200AF7FDD /* KIdentifier.swift in Sources */,
+				D4C8613E21EA3D4F00D2AC6A /* VNet.swift in Sources */,
+				D444035F21E8487200AF7FDD /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D44EE50121BCE584006E1A12 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1226,7 +1351,6 @@
 				D4FE850021AE7AC000C9192F /* ViewController.swift in Sources */,
 				D45E641221AE3A860078CB8E /* Selector.swift in Sources */,
 				D45E641321AE3A860078CB8E /* AppDelegate.swift in Sources */,
-				D4FE84FF21AE7AC000C9192F /* GameScene.swift in Sources */,
 				D45E641521AE3A860078CB8E /* Mutator.swift in Sources */,
 				D45E641721AE3A860078CB8E /* Curator.swift in Sources */,
 				D45E641921AE3A860078CB8E /* Decoder.swift in Sources */,
@@ -1237,8 +1361,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D462CF6621E6F4B700F4CCC7 /* GameScene.swift in Sources */,
 				D4A7DE9A21E6F7B500CE9169 /* ViewController.swift in Sources */,
+				D47FBAFC21E795C30006CBC0 /* ArkonCentral.swift in Sources */,
+				D4C8613D21EA3D4F00D2AC6A /* VNet.swift in Sources */,
+				D4C8614021EA3D9300D2AC6A /* VLayer.swift in Sources */,
+				D47FBAF821E749340006CBC0 /* KSignalRelay.swift in Sources */,
+				D4C8614321EA3DBE00D2AC6A /* VNeuron.swift in Sources */,
+				D47FBAF121E73DE80006CBC0 /* VProtocols.swift in Sources */,
+				D47FBAFA21E78FE40006CBC0 /* VSpacer.swift in Sources */,
+				D47FBAF321E73F0D0006CBC0 /* KIdentifier.swift in Sources */,
 				D462CF6021E6F4B700F4CCC7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1289,6 +1420,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D48F875421E1A8F80094571A /* TLayer.swift in Sources */,
+				D48F875021E1A7A60094571A /* TNeuron.swift in Sources */,
+				D44547C321CB151800247429 /* RandomnessGenerators.swift in Sources */,
+				D48F734621DB24EC001CC961 /* KNet.swift in Sources */,
+				D48F875821E1AA2B0094571A /* TNet.swift in Sources */,
+				D44547C621CB151800247429 /* Utilities.swift in Sources */,
+				D408A41521D0CF270061D7A6 /* Common.swift in Sources */,
+				D4FE934E21E45C3A0060C785 /* KDriver.swift in Sources */,
+				D4686DD921DD1EA400149745 /* KConnector.swift in Sources */,
+				D4684CC521C2D1C900D13964 /* Manipulator.swift in Sources */,
+				D41D112E21DC04C40042055B /* KSignalRelay.swift in Sources */,
+				D48F735021DB2670001CC961 /* KNeuron.swift in Sources */,
+				D48F734B21DB259B001CC961 /* KLayer.swift in Sources */,
 				D4FFA1EC21DE755900537D5F /* Extensions.swift in Sources */,
 				D4E6741F21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */,
 				D4B517E821AFAC3200F4C88A /* main.swift in Sources */,
@@ -1311,7 +1455,6 @@
 				D48F2FB521C31587008EA8DA /* NGResults.swift in Sources */,
 				D452A33A21C1ED000049E3A5 /* GSGoalSuite.swift in Sources */,
 				D452A33C21C1ED000049E3A5 /* GSSubject.swift in Sources */,
-				D41D112D21DC04C40042055B /* KSignalRelay.swift in Sources */,
 				D48F2FC121C31CEE008EA8DA /* NGSubject.swift in Sources */,
 				D441299121CC2D870086E1AC /* AASubject.swift in Sources */,
 				D48F734F21DB2670001CC961 /* KNeuron.swift in Sources */,
@@ -1365,7 +1508,6 @@
 				D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */,
 				D4FE934521E4437F0060C785 /* KConnector.swift in Sources */,
 				D4C0A14D21AE2E63009D6011 /* AppDelegate.swift in Sources */,
-				D4FE850121AE7AC100C9192F /* GameScene.swift in Sources */,
 				D48F875521E1A8F80094571A /* TLayer.swift in Sources */,
 				D4FE934821E4437F0060C785 /* KNet.swift in Sources */,
 				D479962621CE0C0100EB7A9A /* Vnet.swift in Sources */,
@@ -1401,7 +1543,6 @@
 				D4C0A18C21AE315F009D6011 /* Mutator.swift in Sources */,
 				D4C0A18B21AE315F009D6011 /* Decoder.swift in Sources */,
 				D4C0A16621AE2E64009D6011 /* GameSceneTests.swift in Sources */,
-				D4FE850321AE7AC600C9192F /* GameScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1437,7 +1578,6 @@
 				D4FE850B21AE7C0500C9192F /* ViewController.swift in Sources */,
 				D4FE851221AE7C0500C9192F /* Selector.swift in Sources */,
 				D4FE851321AE7C0500C9192F /* AppDelegate.swift in Sources */,
-				D4FE851421AE7C0500C9192F /* GameScene.swift in Sources */,
 				D4FE851621AE7C0500C9192F /* Mutator.swift in Sources */,
 				D4FE851821AE7C0500C9192F /* Curator.swift in Sources */,
 				D4FE851A21AE7C0500C9192F /* Decoder.swift in Sources */,
@@ -1499,6 +1639,50 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D444036721E8487200AF7FDD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Visual/GameSceneSupport/GameSceneSupport.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = Visual/GameSceneSupport/info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneSupport;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = VISUAL_TEST;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D444036821E8487200AF7FDD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Visual/GameSceneSupport/GameSceneSupport.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = Visual/GameSceneSupport/info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneSupport;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = VISUAL_TEST;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 		D44EE50921BCE584006E1A12 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1600,8 +1784,11 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneSupport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = VISUAL_LIVE;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -1619,8 +1806,11 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneSupport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = VISUAL_LIVE;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -2091,6 +2281,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D444036621E8487200AF7FDD /* Build configuration list for PBXNativeTarget "VisualTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D444036721E8487200AF7FDD /* Debug */,
+				D444036821E8487200AF7FDD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D44EE50B21BCE584006E1A12 /* Build configuration list for PBXNativeTarget "PlaygroundsSuck" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

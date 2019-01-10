@@ -17,16 +17,32 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-#if !NETCAMS_SMOKE_TEST
+
 import Foundation
 
-struct KIdentifier: CustomDebugStringConvertible, Hashable, KIdentifierProtocol {
-    var description: String
+protocol KIdentifiable: CustomStringConvertible, CustomDebugStringConvertible {
+    var id: KIdentifier { get }
+}
+
+extension KIdentifiable {
+    var description: String { return String(describing: id) }
+    var debugDescription: String { return String(reflecting: id) }
+}
+
+protocol KIdentifierProtocol: CustomStringConvertible {
+    var description: String { get }
+    var familyID: [Int] { get }
+    var myID: Int { get }
+
+    init(_ type: String, _ familyID: [Int], _ myID: Int)
+}
+
+struct KIdentifier: Hashable, KIdentifierProtocol {
+    let description: String
     let familyID: [Int]
     let myID: Int
     let type: String
 
-    var debugDescription: String { return description }
     var parentID: Int { return familyID.last! }
 
     init(_ type: String, _ familyID: [Int], _ myID: Int) {
@@ -38,15 +54,15 @@ struct KIdentifier: CustomDebugStringConvertible, Hashable, KIdentifierProtocol 
 
     init(_ type: String, _ myID: Int) { self.init(type, [], myID) }
 
-    enum KType { case signalRelay, layer, net, neuron, senseLayer, motorLayer }
+    enum KType { case hiddenLayer, net, neuron, senseLayer, motorLayer, signalRelay }
     func add(_ newChild: Int, as kType: KType) -> KIdentifier {
         switch kType {
-        case .layer: return           KIdentifier("KLayer  ", familyID + [myID], newChild)
+        case .hiddenLayer: return     KIdentifier("KLayer  ", familyID + [myID], newChild)
+        case .motorLayer: return      KIdentifier("Motor   ", familyID + [myID], newChild)
         case .net: return             KIdentifier("KNet    ", [], newChild)
         case .neuron: return          KIdentifier("KNeuron ", familyID + [myID], newChild)
-        case .signalRelay: return     KIdentifier("KRelay  ", familyID + [myID], newChild)
         case .senseLayer: return      KIdentifier("Sense   ", familyID + [myID], newChild)
-        case .motorLayer: return      KIdentifier("Motor   ", familyID + [myID], newChild)
+        case .signalRelay: return     KIdentifier("KRelay  ", familyID + [myID], newChild)
         }
     }
 
@@ -55,7 +71,15 @@ struct KIdentifier: CustomDebugStringConvertible, Hashable, KIdentifierProtocol 
         var fullID = "\(type)("
 
         for (separator, member) in (family + [me]).enumerated() {
-            fullID += separators[separator] + "\(member)"
+            let m: String = {
+                switch member {
+                case -2: return "b"
+                case -1: return "t"
+                default: return String(member)
+                }
+            }()
+
+            fullID += separators[separator] + "\(m)"
         }
 
         return fullID + ")"
@@ -65,4 +89,3 @@ struct KIdentifier: CustomDebugStringConvertible, Hashable, KIdentifierProtocol 
         return lhs.hashValue == rhs.hashValue
     }
 }
-#endif

@@ -17,18 +17,32 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-#if !NETCAMS_SMOKE_TEST
+
 import Foundation
+
+protocol KInputProtocol {
+    var inputRelays: [KSignalRelay] { get set }
+}
+
+protocol KOutputProtocol {
+    var output: Double { get }
+}
+
+protocol KRelayProtocol: class, KInputProtocol, KOutputProtocol {
+    var breaker: KSignalRelay? { get set }
+    var isOperational: Bool { get }
+}
 
 class KSignalRelay: KIdentifiable, KRelayProtocol {
     // KIdentifiable
-    var description: String { return id.description }
     let id: KIdentifier
 
     // KRelayProtocol
     weak var breaker: KSignalRelay?
     var inputRelays = [KSignalRelay]()
     var output: Double = 0.0
+
+    var debugDescription: String { return "isOperational = \(isOperational)" }
 
     var overriddenState: Bool?
     var isOperational: Bool { return (overriddenState == nil) ? !inputRelays.isEmpty : overriddenState! }
@@ -45,20 +59,19 @@ class KSignalRelay: KIdentifiable, KRelayProtocol {
     }
 }
 
-extension KSignalRelay {
-    static func makeRelay(_ family: KIdentifier, _ me: Int) -> KSignalRelay {
-        let id = family.add(me, as: .signalRelay)
-        return KSignalRelay(id)
-    }
-
-    func connect(to targetNeurons: [Int], in upperLayer: KLayer) {
-        inputRelays = targetNeurons.map {
-            upperLayer.neurons[$0].relay!
-        }
-
-//        print("\(self) connects to \(inputRelays)")
-    }
-
-    func overrideState(operational: Bool) { overriddenState = operational }
-}
-#endif
+//extension KSignalRelay {
+//    static func makeRelay(_ family: KIdentifier, _ me: Int) -> KSignalRelay {
+//        let id = family.add(me, as: .signalRelay)
+//        return KSignalRelay(id)
+//    }
+//
+//    func connect(to targetNeurons: [Int], in upperLayer: KLayer) {
+//        inputRelays = targetNeurons.map {
+//            upperLayer.neurons[$0].relay!
+//        }
+//
+////        print("\(self) connects to \(inputRelays)")
+//    }
+//
+//    func overrideState(operational: Bool) { overriddenState = operational }
+//}

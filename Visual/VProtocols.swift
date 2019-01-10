@@ -17,19 +17,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-  
 
+import Foundation
+import SpriteKit
 
-import Cocoa
+protocol VDisplayable: KIdentifiable {
+    var bias: Double { get }
+    var inputSources: [VInputSource] { get }
+    var output: Double { get }
+    var position: CGPoint? { get }
+}
 
-@NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
-    static var finishedLaunching = false
-    
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        AppDelegate.finishedLaunching = true
-    }
-    
-    func applicationWillTerminate(_ aNotification: Notification) {
-    }
+struct VInputSource {
+    let source: VDisplayable
+    let weight: Double
 }

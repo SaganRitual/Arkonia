@@ -51,23 +51,64 @@ class ViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let view = view as? SKView {
+            // Create the scene programmatically
+            //            #if VISUAL_TEST
+            //            let sks = "VisualizerTest"
+            //            guard let scene = VisualizerTest(fileNamed: sks) else { preconditionFailure() }
+            //            #elseif VISUAL_LIVE
+            //            let sks = "Visualizer"
+            ////            guard let scene = Visualizer(fileNamed: sks) else { preconditionFailure() }
+            //            #else
+            //            preconditionFailure("We don't use GameScene any more")
+            //            #endif
 
-        if let view = self.skView {
-            // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .resizeFill
-                scene.size = view.frame.size
+            #if VISUAL_TEST
+            let scene = VisualizerTest(size: view.frame.size)
+            #elseif VISUAL_LIVE
+//            guard let scene = Visualizer(fileNamed: sks) else { preconditionFailure() }
+            #else
+            preconditionFailure("A Bad Thing™ happened")
+            #endif
 
-                // Present the scene
-                view.presentScene(scene)
-            }
+            // Set the scale mode to scale to fit the window
+            scene.scaleMode = .resizeFill
+            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            scene.size = view.frame.size
 
             view.ignoresSiblingOrder = true
-
-            view.preferredFramesPerSecond = 60
             view.showsFPS = true
             view.showsNodeCount = true
+
+            view.presentScene(scene)
         }
     }
+
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//
+//        if let view = self.skView {
+//
+//            #if VISUAL_TEST
+//            let sks = "VisualizerTest"
+//            guard let scene = VisualizerTest(fileNamed: sks) else { preconditionFailure() }
+//            #elseif VISUAL_LIVE
+//            let sks = "Visualizer"
+////            guard let scene = Visualizer(fileNamed: sks) else { preconditionFailure() }
+//            #else
+//            preconditionFailure("We don't use GameScene any more")
+//            #endif
+//
+//            // Set the scale mode to scale to fit the window
+//            scene.scaleMode = .resizeFill
+//            scene.size = view.frame.size
+//
+//            // Present the scene
+//            view.presentScene(scene)
+//
+//            view.ignoresSiblingOrder = true
+//            view.showsFPS = true
+//            view.showsNodeCount = true
+//        }
+//    }
 }

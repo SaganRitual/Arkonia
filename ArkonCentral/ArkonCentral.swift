@@ -17,19 +17,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-  
 
+import Foundation
+import SpriteKit
 
-import Cocoa
-
-@NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
-    static var finishedLaunching = false
-    
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        AppDelegate.finishedLaunching = true
-    }
-    
-    func applicationWillTerminate(_ aNotification: Notification) {
-    }
+enum ArkonCentral {
+    static var visualizer: SKNode!
+    static var neuronSpriteTexture: SKTexture!
+    static var orangeNeuronSpriteTexture: SKTexture!
+    static var blueNeuronSpriteTexture: SKTexture!
+    static var greenNeuronSpriteTexture: SKTexture!
 }

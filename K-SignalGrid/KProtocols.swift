@@ -17,20 +17,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-#if !NETCAMS_SMOKE_TEST
+
 import Foundation
-
-protocol KIdentifiable: CustomStringConvertible {
-    var id: KIdentifier { get }
-}
-
-protocol KIdentifierProtocol: CustomStringConvertible {
-    var description: String { get }
-    var familyID: [Int] { get }
-    var myID: Int { get }
-
-    init(_ type: String, _ familyID: [Int], _ myID: Int)
-}
 
 protocol KInputProtocol {
     var inputRelays: [KSignalRelay] { get set }
@@ -44,4 +32,4 @@ protocol KRelayProtocol: class, KInputProtocol, KOutputProtocol {
     var breaker: KSignalRelay? { get set }
     var isOperational: Bool { get }
 }
-#endif
+
