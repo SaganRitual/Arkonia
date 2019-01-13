@@ -129,7 +129,7 @@ class GameScene: SKScene {
 
         self.removeAllChildren()
 
-        let genome = Manipulator.makePassThruGenome(hmLayers: 5)// RandomnessGenerator.generateRandomGenome(cGenes: 200)
+        let genome = Manipulator.makePassThruGenome(cLayers: 5)// RandomnessGenerator.generateRandomGenome(cGenes: 200)
         decoder.setInput(to: genome[...]).decode()
 
         kDriver = KDriver(tNet: decoder.tNet)

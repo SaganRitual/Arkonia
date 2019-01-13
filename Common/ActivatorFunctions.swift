@@ -24,74 +24,55 @@ import Foundation
 enum AFn {
     typealias NeuronOutputFunction = (Double) -> Double
 
-    enum FunctionName: String {
+    enum FunctionName: String, CaseIterable {
         case identity, binarystep, logistic, tanh, arctan, softsign, isru, isrlu, sqnl
         case relu, brelu, leakyrelu, boundleakyrelu, prelu, rrelu, elu, selu, srelu, apl, softplus
         case bentidentity, swish, softexponential, softclipping, sinusoid, sinc, gaussian
         case limiter, boundidentity, boundbentidentity, boundsoftplus
     }
 
-    static let lookup: [FunctionName: NeuronOutputFunction] = [
-        .arctan: arctan,
-        .bentidentity: bentidentity,
-        .boundbentidentity: boundbentidentity,
-        .boundidentity: boundidentity,
-        .boundleakyrelu: boundleakyrelu,
-        .boundsoftplus: boundsoftplus,
-        .binarystep: binarystep,
-        .gaussian: gaussian,
-        .identity: identity,
-        .leakyrelu: leakyrelu,
-        .logistic: logistic,
-        .sinc: sinc,
-        .sinusoid: sinusoid,
-        .softplus: softplus,
-        .softsign: softsign,
-        .sqnl: sqnl,
-        .tanh: tanh
-    ]
-
-    static func bound(_ theDouble: Double) -> Double {
-        let cappedAtPlusOne = min(1.0, theDouble)
+    static func bound(_ theFunction: AFn.FunctionName, _ theDouble: Double) -> Double {
+        let rawValue = AFn.function[theFunction]!(theDouble)
+        let cappedAtPlusOne = min(1.0, rawValue)
         return max(-1, cappedAtPlusOne)
     }
 
     // We have a bound function only for the functions that might return
     // something outside the range -1 <= x <= 1. No need to bound those that
     // already return in that range.
-    static func arctan(_ x: Double) -> Double { return atan(x) }
+    static let function: [FunctionName: NeuronOutputFunction] = [
+        .arctan : { return atan($0) },
+        .binarystep : { return $0 < 0.0 ? 0.0 : 1.0 },
+        .gaussian : { return exp(-($0 * $0)) },
+        .identity : { return $0 },
 
-    static func binarystep(_ x: Double) -> Double { return x < 0.0 ? 0.0 : 1.0 }
-    static func gaussian(_ x: Double) -> Double { return exp(-(x * x)) }
-    static func identity(_ x: Double) -> Double { return x }
+        .sinc : { return $0 == 0.0 ? 1.0 : sin($0) / $0 },
+        .sinusoid : { return sin($0) },
 
-    static func sinc(_ x: Double) -> Double { return x == 0.0 ? 1.0 : sin(x) / x }
-    static func sinusoid(_ x: Double) -> Double { return sin(x) }
+        .softsign : { return $0 / (1 + abs($0)) },
 
-    static func softsign(_ x: Double) -> Double { return x / (1 + abs(x)) }
+        .bentidentity : { return ((sqrt($0 * $0 + 1.0) - 1.0) / 2.0) + $0 },
+        .boundbentidentity : { return bound(.bentidentity, $0) },
 
-    static func bentidentity(_ x: Double) -> Double { return ((sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
-    static func boundbentidentity(_ x: Double) -> Double { return bound(bentidentity(x)) }
+        .boundidentity : { return bound(.identity, $0) },
+        .leakyrelu : { return $0 < 0.0 ? (0.01 * $0) : $0 },
 
-    static func boundidentity(_ x: Double) -> Double { return bound(identity(x)) }
-    static func leakyrelu(_ x: Double) -> Double { return x < 0.0 ? (0.01 * x) : x }
+        .boundleakyrelu : { return bound(.leakyrelu, $0) },
+        .logistic : { return 1.0 / (1.0 + exp(-$0)) },
 
-    static func boundleakyrelu(_ x: Double) -> Double { return bound(leakyrelu(x)) }
-    static func logistic(_ x: Double) -> Double { return 1.0 / (1.0 + exp(-x)) }
+        .boundsoftplus : { return bound(.softplus, $0) },
+        .softplus : { return log(1.0 + exp($0)) },
 
-    static func boundsoftplus(_ x: Double) -> Double { return bound(softplus(x)) }
-    static func softplus(_ x: Double) -> Double { return log(1.0 + exp(x)) }
+        .tanh : { return CoreGraphics.tanh($0) },
+        .sqnl : {
+            if $0 > 2.0 { return 1.0 }
+            if $0 >= 0.0 { return $0 - $0 * $0 / 4.0 }
+            if $0 >= -2.0 { return $0 + $0 * $0 / 4.0 }
+            return -1.0
+        }
+    ]
 
-    static func sqnl(_ x: Double) -> Double {
-        if x > 2.0 { return 1.0 }
-        if x >= 0.0 { return x - x * x / 4.0 }
-        if x >= -2.0 { return x + x * x / 4.0 }
-        return -1.0
-    }
-
-    static func tanh(_ x: Double) -> Double { return CoreGraphics.tanh(x) }
-
-    static func getRandomOutputFunction() -> String {
-        return FunctionName.init(rawValue: lookup.keys.randomElement()<!>.rawValue)!.rawValue
+    static func getRandomOutputFunction() -> FunctionName {
+        return FunctionName.allCases.randomElement()!
     }
 }

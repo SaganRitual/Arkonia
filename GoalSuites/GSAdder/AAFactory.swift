@@ -34,18 +34,18 @@ class AAFactory: GSFactory {
     override func postInit(suite: GSGoalSuite) {
         self.suite = suite
 
-        ArkonCentral.sel.howManyMotorNeurons = 5
-        ArkonCentral.sel.howManySenses = 5
-        ArkonCentral.sel.howManyLayersInStarter = 5
+        ArkonCentral.sel.cMotorNeurons = 5
+        ArkonCentral.sel.cSenseNeurons = 5
+        ArkonCentral.sel.cLayersInStarter = 5
 
-        let h = ArkonCentral.sel.howManyLayersInStarter
-        GSFactory.aboriginalGenome = makePassThruGenome(hmLayers: h)
+        let h = ArkonCentral.sel.cLayersInStarter
+        GSFactory.aboriginalGenome = makePassThruGenome(cLayers: h)
     }
 
-    private func makePassThruGenome(hmLayers: Int) -> Genome {
+    private func makePassThruGenome(cLayers: Int) -> Genome {
         var dag = Genome()
-        for _ in 0..<hmLayers {
-            dag = makeOneLayer(dag, hmNeurons: ArkonCentral.sel.howManySenses)
+        for _ in 0..<cLayers {
+            dag = makeOneLayer(dag, hmNeurons: ArkonCentral.sel.cSenseNeurons)
         }
 
 //        dag += "L_N_"

@@ -52,8 +52,8 @@ class GSTester: GSTesterProtocol {
     }
 
     init(expectedOutput: Double) {
-        let inputsCount = ArkonCentral.sel.howManySenses
-        let outputsCount = ArkonCentral.sel.howManyMotorNeurons
+        let inputsCount = ArkonCentral.sel.cSenseNeurons
+        let outputsCount = ArkonCentral.sel.cMotorNeurons
 
         inputs = Array(repeating: 1.0, count: inputsCount)
         outputs = Array(repeating: nil, count: outputsCount)

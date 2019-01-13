@@ -39,11 +39,11 @@ enum ArkonCentral {
 }
 
 struct GSSelectionControls {
-    var howManySenses = 7
-    var howManyMotorNeurons = 6
+    var cSenseNeurons = 7
+    var cMotorNeurons = 6
     var howManyGenerations = 30000
     var howManyGenes = 200
-    var howManyLayersInStarter = 5
+    var cLayersInStarter = 5
     var howManySubjectsPerGeneration = 100
     var theFishNumber = 0
     var peerGroupLimit = 2

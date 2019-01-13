@@ -28,16 +28,74 @@ print("Experimental")
 print("Run dark")
 #endif
 
-struct GSGoalSuite {
-    static var selectionControls = GSGoalSuite()
-
-    let howManyMotorNeurons = 5
-    let howManyLayersInStarter = 5
-    let howManySenses = 5
+enum ArkonCentral {
+    enum sel {
+        static let cSenseNeurons = 5
+        static let cMotorNeurons = 5
+    }
 }
 
-let manipulator = Manipulator()
-let decoder = Decoder()
+enum Manipulator {
 
-decoder.setInput(to: manipulator.passthruGenome).decode()
-decoder.net.report()
+static public func makePassThruGenome(cLayers: Int) -> Genome {
+    var dag = Genome()
+    for _ in 0..<cLayers - 1 {
+        dag += makeOneLayer(cNeurons: ArkonCentral.sel.cSenseNeurons)
+    }
+
+    dag += makeLastHiddenLayer(
+        cNeurons: ArkonCentral.sel.cSenseNeurons, oNeurons: ArkonCentral.sel.cMotorNeurons
+    )
+
+    return dag
+}
+
+static func baseNeuronSnippet(channel: Int) -> Genome {
+    return Genome([
+        gNeuron(),
+        gActivatorFunction(.boundidentity),
+        gUpConnector((1.0, channel)),
+        gBias(0.0)
+    ])
+}
+
+static private func makeLastHiddenLayer(cNeurons: Int, oNeurons: Int) -> Genome {
+    var protoGenome = Genome(gLayer())
+
+    var downsPerNeuron = oNeurons / cNeurons
+    if downsPerNeuron == 0 { downsPerNeuron = cNeurons / oNeurons }
+
+    var remainder = oNeurons * cNeurons - downsPerNeuron
+
+    var channel = (100 / cNeurons) + cNeurons
+    for c in 0..<cNeurons {
+        protoGenome += baseNeuronSnippet(channel: c)
+
+        let r = remainder > 0 ? 1 : 0
+        remainder -= r  // Stops at zero, because I'm so clever
+
+        for _ in 0..<(downsPerNeuron + r) {
+            protoGenome += gDownConnector(channel)
+            channel += 1
+        }
+    }
+
+    return protoGenome
+}
+
+static private func makeOneLayer(cNeurons: Int) -> Genome {
+    return Genome(gLayer()) + (0..<cNeurons).map { baseNeuronSnippet(channel: $0) }
+}
+
+}
+
+//typealias Genome = Genome<Gene>
+//var theGenome = Manipulator.makePassThruGenome(cLayers: 7)
+//
+////theGenome.append(gBias(42.42))
+////theGenome.append(gActivatorFunction(.arctan))
+////theGenome.append(gUpConnector((1.0, -17)))
+////theGenome.append(gDownConnector(7))
+//
+//theGenome.makeIterator().forEach { print($0) }
+

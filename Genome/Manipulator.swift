@@ -190,14 +190,14 @@ extension Manipulator {
 
 extension Manipulator {
 
-    static public func makePassThruGenome(hmLayers: Int) -> Genome {
+    static public func makePassThruGenome(cLayers: Int) -> Genome {
         var dag = Genome()
-        for _ in 0..<hmLayers - 1 {
-            dag = makeOneLayer(dag, cNeurons: ArkonCentral.sel.howManySenses)
+        for _ in 0..<cLayers - 1 {
+            dag = makeOneLayer(dag, cNeurons: ArkonCentral.sel.cSenseNeurons)
         }
 
         dag = makeLastHiddenLayer(
-            dag, cNeurons: ArkonCentral.sel.howManySenses, oNeurons: ArkonCentral.sel.howManyMotorNeurons
+            dag, cNeurons: ArkonCentral.sel.cSenseNeurons, oNeurons: ArkonCentral.sel.cMotorNeurons
         )
 
         return dag
@@ -231,8 +231,8 @@ extension Manipulator {
         return protoGenome
     }
 
-    static private func makeOneLayer(_ protoGenome_: Genome, cNeurons: Int) -> Genome {
-        var protoGenome = protoGenome_ + "L_"
+    static private func makeOneLayer(cNeurons: Int) -> Genome {
+        var protoGenome = Genome(gLayer())
         for c in 0..<cNeurons { protoGenome += baseNeuronSnippet(c) }
         return protoGenome
     }

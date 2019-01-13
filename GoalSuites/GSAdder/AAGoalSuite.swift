@@ -31,9 +31,9 @@ class AAGoalSuite: GSGoalSuite {
     }
 
     override class func setSelectionControls() -> GSSelectionControls {
-        ArkonCentral.sel.howManySenses = 3
-        ArkonCentral.sel.howManyLayersInStarter = 5
-        ArkonCentral.sel.howManyMotorNeurons = 1
+        ArkonCentral.sel.cSenseNeurons = 3
+        ArkonCentral.sel.cLayersInStarter = 5
+        ArkonCentral.sel.cMotorNeurons = 1
         ArkonCentral.sel.howManyGenerations = 100
 
         return ArkonCentral.sel

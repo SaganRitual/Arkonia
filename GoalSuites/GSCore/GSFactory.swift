@@ -63,7 +63,7 @@ class GSFactory {
 
     public func postInit(suite: GSGoalSuite) {
         self.suite = suite
-        let h = ArkonCentral.sel.howManyLayersInStarter
-        GSFactory.aboriginalGenome = Manipulator.makePassThruGenome(hmLayers: h)
+        let h = ArkonCentral.sel.cLayersInStarter
+        GSFactory.aboriginalGenome = Manipulator.makePassThruGenome(cLayers: h)
     }
 }

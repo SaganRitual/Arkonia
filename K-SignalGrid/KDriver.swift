@@ -35,9 +35,9 @@ class KDriver  {
 
         kNet = KNet.makeNet(KDriver.fishNumber, tNet: tNet)
         senseLayerID = KIdentifier("Sense", kNet.id.myID)
-        senseLayer = KLayer.makeLayer(senseLayerID, KLayer.isSenseLayer, cNeurons: ArkonCentral.sel.howManySenses)
+        senseLayer = KLayer.makeLayer(senseLayerID, KLayer.isSenseLayer, cNeurons: ArkonCentral.sel.cSenseNeurons)
         motorLayerID = KIdentifier("Motor", kNet.id.myID)
-        motorLayer = KLayer.makeLayer(motorLayerID, KLayer.isMotorLayer, cNeurons: ArkonCentral.sel.howManyMotorNeurons)
+        motorLayer = KLayer.makeLayer(motorLayerID, KLayer.isMotorLayer, cNeurons: ArkonCentral.sel.cMotorNeurons)
     }
 
 //    deinit {

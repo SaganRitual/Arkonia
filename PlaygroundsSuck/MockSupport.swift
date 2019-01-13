@@ -34,15 +34,15 @@ struct KDriver  {
     var motorOutputs: [Double]!
     let senseLayer: KLayer
     let senseLayerID: KIdentifier
-    let sensoryInputs = Array(repeating: 1.0, count: ArkonCentral.sel.howManySenses)
+    let sensoryInputs = Array(repeating: 1.0, count: ArkonCentral.sel.cSenseNeurons)
     let theNet: KNet
 
     init(tNet: TNet) {
         theNet = KNet.makeNet(0, tNet: tNet)
         senseLayerID = KIdentifier("Senses", [], -1)
-        senseLayer = KLayer.makeLayer(senseLayerID, 0, cNeurons: ArkonCentral.sel.howManySenses)
+        senseLayer = KLayer.makeLayer(senseLayerID, 0, cNeurons: ArkonCentral.sel.cSenseNeurons)
         motorLayerID = KIdentifier("Motors", [], -2)
-        motorLayer = KLayer.makeLayer(motorLayerID, 0, cNeurons: ArkonCentral.sel.howManyMotorNeurons)
+        motorLayer = KLayer.makeLayer(motorLayerID, 0, cNeurons: ArkonCentral.sel.cMotorNeurons)
     }
 
     func drive() {
