@@ -7,247 +7,59 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D408A41321D0CF240061D7A6 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1821CF81AF00AE6912 /* Common.swift */; };
-		D408A41421D0CF260061D7A6 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1821CF81AF00AE6912 /* Common.swift */; };
-		D408A41621D0CF2B0061D7A6 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1821CF81AF00AE6912 /* Common.swift */; };
-		D408A41D21D0CF5F0061D7A6 /* GenomeCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */; };
-		D408A41F21D0CF610061D7A6 /* GenomeCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */; };
-		D408A42121D0D6C70061D7A6 /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BB21CB151700247429 /* LoopIterator.swift */; };
-		D408A42321D0D6C70061D7A6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
-		D41D112D21DC04C40042055B /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
-		D41D113021DC04C40042055B /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
-		D41D113121DC04C40042055B /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
-		D41D113421DC04C40042055B /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
-		D41F796B21EF42870055A7B5 /* neuron-orange.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796521EF42860055A7B5 /* neuron-orange.png */; };
-		D41F796C21EF42870055A7B5 /* neuron-orange.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796521EF42860055A7B5 /* neuron-orange.png */; };
-		D41F796D21EF42870055A7B5 /* neuron-orange.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796621EF42860055A7B5 /* neuron-orange.xcf */; };
-		D41F796E21EF42870055A7B5 /* neuron-orange.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796621EF42860055A7B5 /* neuron-orange.xcf */; };
-		D41F796F21EF42870055A7B5 /* neuron-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796721EF42860055A7B5 /* neuron-blue.png */; };
-		D41F797021EF42870055A7B5 /* neuron-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796721EF42860055A7B5 /* neuron-blue.png */; };
-		D41F797121EF42870055A7B5 /* neuron-green.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796821EF42860055A7B5 /* neuron-green.png */; };
-		D41F797221EF42870055A7B5 /* neuron-green.png in Resources */ = {isa = PBXBuildFile; fileRef = D41F796821EF42860055A7B5 /* neuron-green.png */; };
-		D41F797321EF42870055A7B5 /* neuron-blue.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796921EF42860055A7B5 /* neuron-blue.xcf */; };
-		D41F797421EF42870055A7B5 /* neuron-blue.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796921EF42860055A7B5 /* neuron-blue.xcf */; };
-		D41F797521EF42870055A7B5 /* neuron-green.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796A21EF42870055A7B5 /* neuron-green.xcf */; };
-		D41F797621EF42870055A7B5 /* neuron-green.xcf in Resources */ = {isa = PBXBuildFile; fileRef = D41F796A21EF42870055A7B5 /* neuron-green.xcf */; };
-		D441297D21CC07580086E1AC /* AATester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441297C21CC07580086E1AC /* AATester.swift */; };
-		D441297F21CC07580086E1AC /* AATester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441297C21CC07580086E1AC /* AATester.swift */; };
-		D441298521CC26D50086E1AC /* AAGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441298421CC26D50086E1AC /* AAGoalSuite.swift */; };
-		D441298721CC26D50086E1AC /* AAGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441298421CC26D50086E1AC /* AAGoalSuite.swift */; };
-		D441298D21CC2CEB0086E1AC /* AAFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441298C21CC2CEB0086E1AC /* AAFactory.swift */; };
-		D441298F21CC2CEB0086E1AC /* AAFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441298C21CC2CEB0086E1AC /* AAFactory.swift */; };
-		D441299121CC2D870086E1AC /* AASubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441299021CC2D870086E1AC /* AASubject.swift */; };
-		D441299321CC2D870086E1AC /* AASubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441299021CC2D870086E1AC /* AASubject.swift */; };
-		D444035921E8487200AF7FDD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A7DE9921E6F7B500CE9169 /* ViewController.swift */; };
-		D444035A21E8487200AF7FDD /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAFB21E795C30006CBC0 /* ArkonCentral.swift */; };
-		D444035B21E8487200AF7FDD /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
-		D444035C21E8487200AF7FDD /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAF021E73DE80006CBC0 /* VProtocols.swift */; };
-		D444035D21E8487200AF7FDD /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAF921E78FE40006CBC0 /* VSpacer.swift */; };
-		D444035E21E8487200AF7FDD /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
-		D444035F21E8487200AF7FDD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D462CF5F21E6F4B700F4CCC7 /* AppDelegate.swift */; };
-		D444036221E8487200AF7FDD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D462CF6921E6F4B700F4CCC7 /* Assets.xcassets */; };
-		D444036521E8487200AF7FDD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D462CF6B21E6F4B700F4CCC7 /* Main.storyboard */; };
-		D444036E21E84EC000AF7FDD /* VTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAF521E7433C0006CBC0 /* VTests.swift */; };
-		D44547BF21CB151800247429 /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BB21CB151700247429 /* LoopIterator.swift */; };
-		D44547C121CB151800247429 /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BB21CB151700247429 /* LoopIterator.swift */; };
-		D44547C221CB151800247429 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BC21CB151700247429 /* RandomnessGenerators.swift */; };
-		D44547C421CB151800247429 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BC21CB151700247429 /* RandomnessGenerators.swift */; };
-		D44547C521CB151800247429 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
-		D44547C721CB151800247429 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
-		D4470FC621E23AEF00F8319F /* TLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875221E1A8F80094571A /* TLayer.swift */; };
-		D4470FC721E23AEF00F8319F /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875621E1AA2B0094571A /* TNet.swift */; };
-		D4470FC821E23AEF00F8319F /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F874E21E1A7A60094571A /* TNeuron.swift */; };
-		D4470FC921E23E8600F8319F /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC321C2D1C900D13964 /* Manipulator.swift */; };
-		D4470FCB21E2451900F8319F /* GenomeCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */; };
-		D4470FCD21E248E200F8319F /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D4470FCE21E2492200F8319F /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1821CF81AF00AE6912 /* Common.swift */; };
-		D44EE50821BCE584006E1A12 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EE50721BCE584006E1A12 /* main.swift */; };
-		D450080921DFF576002FDDD6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BD21CB151700247429 /* Utilities.swift */; };
-		D452A30C21C10B230049E3A5 /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A30A21C10B230049E3A5 /* GSGoalSuite.swift */; };
-		D452A31C21C142810049E3A5 /* GSTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A31A21C142810049E3A5 /* GSTester.swift */; };
-		D452A32121C18EDB0049E3A5 /* GSSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A31F21C18EDB0049E3A5 /* GSSubject.swift */; };
-		D452A32921C192170049E3A5 /* GSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A32721C192170049E3A5 /* GSFactory.swift */; };
-		D452A33521C1ECE10049E3A5 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C8E21BDA23C00FA6549 /* Archive.swift */; };
-		D452A33621C1ECE10049E3A5 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
-		D452A33821C1ECE10049E3A5 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
-		D452A33921C1ED000049E3A5 /* GSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A32721C192170049E3A5 /* GSFactory.swift */; };
-		D452A33A21C1ED000049E3A5 /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A30A21C10B230049E3A5 /* GSGoalSuite.swift */; };
-		D452A33C21C1ED000049E3A5 /* GSSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A31F21C18EDB0049E3A5 /* GSSubject.swift */; };
-		D452A33D21C1ED000049E3A5 /* GSTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452A31A21C142810049E3A5 /* GSTester.swift */; };
-		D4553E0621D143D700B474A7 /* PeerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4553E0521D143D700B474A7 /* PeerGroup.swift */; };
-		D4553E0821D143D700B474A7 /* PeerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4553E0521D143D700B474A7 /* PeerGroup.swift */; };
-		D45E63E521AE39940078CB8E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
-		D45E63ED21AE39940078CB8E /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
-		D45E63F021AE39940078CB8E /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
-		D45E63F121AE39940078CB8E /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
-		D45E63F221AE39940078CB8E /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D45E641221AE3A860078CB8E /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
-		D45E641321AE3A860078CB8E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A14C21AE2E63009D6011 /* AppDelegate.swift */; };
-		D45E641521AE3A860078CB8E /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
-		D45E641721AE3A860078CB8E /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
-		D45E641921AE3A860078CB8E /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D45E641E21AE3A860078CB8E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A14E21AE2E63009D6011 /* GameScene.sks */; };
-		D45E641F21AE3A860078CB8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
-		D45E642021AE3A860078CB8E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
-		D45E642121AE3A860078CB8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15821AE2E64009D6011 /* Main.storyboard */; };
-		D462CF6021E6F4B700F4CCC7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D462CF5F21E6F4B700F4CCC7 /* AppDelegate.swift */; };
-		D462CF6A21E6F4B700F4CCC7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D462CF6921E6F4B700F4CCC7 /* Assets.xcassets */; };
-		D462CF6D21E6F4B700F4CCC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D462CF6B21E6F4B700F4CCC7 /* Main.storyboard */; };
-		D4684CC421C2D1C900D13964 /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC321C2D1C900D13964 /* Manipulator.swift */; };
-		D4684CC621C2D1C900D13964 /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC321C2D1C900D13964 /* Manipulator.swift */; };
-		D4684CC821C2D55F00D13964 /* Tene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC721C2D55F00D13964 /* Tene.swift */; };
-		D4684CCA21C2D55F00D13964 /* Tene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4684CC721C2D55F00D13964 /* Tene.swift */; };
-		D4686DD821DD1EA400149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
-		D4686DDB21DD1EA500149745 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
-		D4686DDD21DDBD0D00149745 /* MockSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DDC21DDBD0D00149745 /* MockSupport.swift */; };
-		D47995FF21CD8B8700EB7A9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */; };
-		D479960121CD8B8700EB7A9A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D479960021CD8B8700EB7A9A /* GameScene.sks */; };
-		D479960321CD8B8700EB7A9A /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D479960221CD8B8700EB7A9A /* Actions.sks */; };
-		D479960521CD8B8700EB7A9A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479960421CD8B8700EB7A9A /* GameScene.swift */; };
-		D479960721CD8B8700EB7A9A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479960621CD8B8700EB7A9A /* ViewController.swift */; };
-		D479960921CD8B8800EB7A9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D479960821CD8B8800EB7A9A /* Assets.xcassets */; };
-		D479960C21CD8B8800EB7A9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D479960A21CD8B8800EB7A9A /* Main.storyboard */; };
-		D479961821CD8B8800EB7A9A /* PlaygroundsSuck_LightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479961721CD8B8800EB7A9A /* PlaygroundsSuck_LightTests.swift */; };
-		D479962121CD8C3A00EB7A9A /* Vnet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962021CD8C3A00EB7A9A /* Vnet.swift */; };
-		D479962321CD959900EB7A9A /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962221CD959900EB7A9A /* CGConversions.swift */; };
-		D479962521CDC64600EB7A9A /* Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962421CDC64600EB7A9A /* Spacer.swift */; };
-		D479962621CE0C0100EB7A9A /* Vnet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962021CD8C3A00EB7A9A /* Vnet.swift */; };
-		D479962721CE0C0100EB7A9A /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962221CD959900EB7A9A /* CGConversions.swift */; };
-		D479962821CE0C0100EB7A9A /* Spacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962421CDC64600EB7A9A /* Spacer.swift */; };
-		D47FBAF121E73DE80006CBC0 /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAF021E73DE80006CBC0 /* VProtocols.swift */; };
-		D47FBAF321E73F0D0006CBC0 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
-		D47FBAF821E749340006CBC0 /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
-		D47FBAFA21E78FE40006CBC0 /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAF921E78FE40006CBC0 /* VSpacer.swift */; };
-		D47FBAFC21E795C30006CBC0 /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FBAFB21E795C30006CBC0 /* ArkonCentral.swift */; };
-		D482FD9921B1216500FF9EE9 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D48F2FB521C31587008EA8DA /* NGResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FB421C31587008EA8DA /* NGResults.swift */; };
-		D48F2FB721C31587008EA8DA /* NGResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FB421C31587008EA8DA /* NGResults.swift */; };
-		D48F2FB921C31C06008EA8DA /* NGGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FB821C31C06008EA8DA /* NGGoalSuite.swift */; };
-		D48F2FBB21C31C06008EA8DA /* NGGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FB821C31C06008EA8DA /* NGGoalSuite.swift */; };
-		D48F2FBD21C31C56008EA8DA /* NGFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FBC21C31C56008EA8DA /* NGFactory.swift */; };
-		D48F2FBF21C31C56008EA8DA /* NGFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FBC21C31C56008EA8DA /* NGFactory.swift */; };
-		D48F2FC121C31CEE008EA8DA /* NGSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FC021C31CEE008EA8DA /* NGSubject.swift */; };
-		D48F2FC321C31CEE008EA8DA /* NGSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F2FC021C31CEE008EA8DA /* NGSubject.swift */; };
-		D48F734521DB24EC001CC961 /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734421DB24EC001CC961 /* KNet.swift */; };
-		D48F734821DB2557001CC961 /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734421DB24EC001CC961 /* KNet.swift */; };
-		D48F734A21DB259B001CC961 /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734921DB259B001CC961 /* KLayer.swift */; };
-		D48F734D21DB259B001CC961 /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734921DB259B001CC961 /* KLayer.swift */; };
-		D48F734F21DB2670001CC961 /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734E21DB2670001CC961 /* KNeuron.swift */; };
-		D48F735221DB2670001CC961 /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734E21DB2670001CC961 /* KNeuron.swift */; };
-		D48F874F21E1A7A60094571A /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F874E21E1A7A60094571A /* TNeuron.swift */; };
-		D48F875121E1A7A60094571A /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F874E21E1A7A60094571A /* TNeuron.swift */; };
-		D48F875321E1A8F80094571A /* TLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875221E1A8F80094571A /* TLayer.swift */; };
-		D48F875521E1A8F80094571A /* TLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875221E1A8F80094571A /* TLayer.swift */; };
-		D48F875721E1AA2B0094571A /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875621E1AA2B0094571A /* TNet.swift */; };
-		D48F875921E1AA2B0094571A /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F875621E1AA2B0094571A /* TNet.swift */; };
-		D4A7DE9A21E6F7B500CE9169 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A7DE9921E6F7B500CE9169 /* ViewController.swift */; };
-		D4B4CC1421CF710500AE6912 /* GenomeCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */; };
-		D4B517E821AFAC3200F4C88A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B517E721AFAC3200F4C88A /* main.swift */; };
-		D4BAC12E21E5E8A400E54DB6 /* VGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAC12D21E5E8A400E54DB6 /* VGrid.swift */; };
-		D4BAC13021E5E8E000E54DB6 /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAC12F21E5E8E000E54DB6 /* VLayer.swift */; };
-		D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
-		D4C0A13021AE2405009D6011 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
-		D4C0A13221AE2405009D6011 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D4C0A14D21AE2E63009D6011 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A14C21AE2E63009D6011 /* AppDelegate.swift */; };
-		D4C0A14F21AE2E63009D6011 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A14E21AE2E63009D6011 /* GameScene.sks */; };
-		D4C0A15121AE2E63009D6011 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
-		D4C0A15721AE2E64009D6011 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
-		D4C0A15A21AE2E64009D6011 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15821AE2E64009D6011 /* Main.storyboard */; };
-		D4C0A16621AE2E64009D6011 /* GameSceneTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A16521AE2E64009D6011 /* GameSceneTests.swift */; };
-		D4C0A18521AE315E009D6011 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D4C0A18621AE315E009D6011 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
-		D4C0A18B21AE315F009D6011 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D4C0A18C21AE315F009D6011 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
-		D4C0A19321AE3178009D6011 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
-		D4C0A19521AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
-		D4C0A19621AE3178009D6011 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
-		D4C0A19821AE3178009D6011 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
-		D4C2C53621D89EFC00367902 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
-		D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C54C8E21BDA23C00FA6549 /* Archive.swift */; };
-<<<<<<< HEAD
-		D4DC7E1B21ED86AE006A0195 /* DarkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC7E1A21ED86AE006A0195 /* DarkTests.swift */; };
-		D4DC7E2021ED8774006A0195 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41DF56121EC8EC100E721B2 /* Genome.swift */; };
-		D4DC7E2221ED87E3006A0195 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
-		D4DC7E2821EDB32B006A0195 /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC7E2721EDB32B006A0195 /* Gene.swift */; };
-		D4DC7E2921EDB32B006A0195 /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC7E2721EDB32B006A0195 /* Gene.swift */; };
-		D4DC7E2B21EE78EE006A0195 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC7E2A21EE78EE006A0195 /* GenomeAdd.swift */; };
-		D4DC7E2C21EE78EE006A0195 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC7E2A21EE78EE006A0195 /* GenomeAdd.swift */; };
-		D4DC7E2E21EE796E006A0195 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC7E2D21EE796E006A0195 /* GenomeSubtract.swift */; };
-		D4DC7E2F21EE796E006A0195 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC7E2D21EE796E006A0195 /* GenomeSubtract.swift */; };
-		D4C8613D21EA3D4F00D2AC6A /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8613C21EA3D4F00D2AC6A /* VNet.swift */; };
-		D4C8613E21EA3D4F00D2AC6A /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8613C21EA3D4F00D2AC6A /* VNet.swift */; };
-		D4C8614021EA3D9300D2AC6A /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8613F21EA3D9300D2AC6A /* VLayer.swift */; };
-		D4C8614121EA3D9300D2AC6A /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8613F21EA3D9300D2AC6A /* VLayer.swift */; };
-		D4C8614321EA3DBE00D2AC6A /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8614221EA3DBE00D2AC6A /* VNeuron.swift */; };
-		D4C8614421EA3DBE00D2AC6A /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C8614221EA3DBE00D2AC6A /* VNeuron.swift */; };
-		D4E6741E21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
-		D4E6741F21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
-		D4E6742021D23A2000A34D60 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */; };
-		D4F488D521EF2CE600545EA0 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479962221CD959900EB7A9A /* CGConversions.swift */; };
-		D4F5AC9621E328CD006D4B70 /* RandomnessGenerators.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BC21CB151700247429 /* RandomnessGenerators.swift */; };
-		D4FE850021AE7AC000C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
-		D4FE850221AE7AC100C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
-		D4FE850421AE7AC600C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
-		D4FE850B21AE7C0500C9192F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE84FC21AE7AB600C9192F /* ViewController.swift */; };
-		D4FE851221AE7C0500C9192F /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
-		D4FE851321AE7C0500C9192F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A14C21AE2E63009D6011 /* AppDelegate.swift */; };
-		D4FE851621AE7C0500C9192F /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
-		D4FE851821AE7C0500C9192F /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
-		D4FE851A21AE7C0500C9192F /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D4FE851F21AE7C0500C9192F /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A14E21AE2E63009D6011 /* GameScene.sks */; };
-		D4FE852021AE7C0500C9192F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15621AE2E64009D6011 /* Assets.xcassets */; };
-		D4FE852121AE7C0500C9192F /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15021AE2E63009D6011 /* Actions.sks */; };
-		D4FE852221AE7C0500C9192F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4C0A15821AE2E64009D6011 /* Main.storyboard */; };
-		D4FE852C21AEB20500C9192F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A0FD21ADF3CC009D6011 /* main.swift */; };
-		D4FE853421AEB20500C9192F /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12321AE23F4009D6011 /* Curator.swift */; };
-		D4FE853721AEB20500C9192F /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12921AE2404009D6011 /* Mutator.swift */; };
-		D4FE853821AEB20500C9192F /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12521AE23F4009D6011 /* Selector.swift */; };
-		D4FE853921AEB20500C9192F /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0A12B21AE2404009D6011 /* Decoder.swift */; };
-		D4FE934521E4437F0060C785 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
-		D4FE934621E4437F0060C785 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
-		D4FE934721E4437F0060C785 /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734921DB259B001CC961 /* KLayer.swift */; };
-		D4FE934821E4437F0060C785 /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734421DB24EC001CC961 /* KNet.swift */; };
-		D4FE934921E4437F0060C785 /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734E21DB2670001CC961 /* KNeuron.swift */; };
-		D4FE934A21E4437F0060C785 /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
-		D4FE934B21E4437F0060C785 /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
-		D4FE934D21E45C3A0060C785 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE934C21E45C3A0060C785 /* KDriver.swift */; };
-		D4FE934F21E45C3A0060C785 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE934C21E45C3A0060C785 /* KDriver.swift */; };
-		D4FE935021E45C3A0060C785 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE934C21E45C3A0060C785 /* KDriver.swift */; };
-		D4FFA1DE21DDE4D600537D5F /* TestPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1DD21DDE4D600537D5F /* TestPattern.swift */; };
-		D4FFA1E221DDF05600537D5F /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DD721DD1EA400149745 /* KConnector.swift */; };
-		D4FFA1E321DDF05600537D5F /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2C53521D89EFC00367902 /* KIdentifier.swift */; };
-		D4FFA1E421DDF05600537D5F /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734921DB259B001CC961 /* KLayer.swift */; };
-		D4FFA1E521DDF05600537D5F /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734421DB24EC001CC961 /* KNet.swift */; };
-		D4FFA1E621DDF05600537D5F /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F734E21DB2670001CC961 /* KNeuron.swift */; };
-		D4FFA1E721DDF05600537D5F /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112C21DC04C40042055B /* KProtocols.swift */; };
-		D4FFA1E821DDF05600537D5F /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41D112B21DC04C40042055B /* KSignalRelay.swift */; };
-		D4FFA1E921DE4D4900537D5F /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44547BB21CB151700247429 /* LoopIterator.swift */; };
-		D4FFA1EB21DE755900537D5F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1EA21DE755900537D5F /* Extensions.swift */; };
-		D4FFA1EC21DE755900537D5F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1EA21DE755900537D5F /* Extensions.swift */; };
-		D4FFA1ED21DE755900537D5F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1EA21DE755900537D5F /* Extensions.swift */; };
-		D4FFA1EE21DE755900537D5F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFA1EA21DE755900537D5F /* Extensions.swift */; };
-		D4FFA1EF21DE80E800537D5F /* MockSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4686DDC21DDBD0D00149745 /* MockSupport.swift */; };
+		D417067A21EFCE0600BBDC3E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D417067921EFCE0600BBDC3E /* main.swift */; };
+		D4465C1321EFEB0D008B9A3C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C0C21EFEB0D008B9A3C /* ViewController.swift */; };
+		D4465C1421EFEB0D008B9A3C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C0C21EFEB0D008B9A3C /* ViewController.swift */; };
+		D4465C1521EFEB0D008B9A3C /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C0D21EFEB0D008B9A3C /* VProtocols.swift */; };
+		D4465C1621EFEB0D008B9A3C /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C0D21EFEB0D008B9A3C /* VProtocols.swift */; };
+		D4465C1721EFEB0D008B9A3C /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C0E21EFEB0D008B9A3C /* VSpacer.swift */; };
+		D4465C1821EFEB0D008B9A3C /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C0E21EFEB0D008B9A3C /* VSpacer.swift */; };
+		D4465C1921EFEB0D008B9A3C /* VTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C0F21EFEB0D008B9A3C /* VTests.swift */; };
+		D4465C1A21EFEB0D008B9A3C /* VTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C0F21EFEB0D008B9A3C /* VTests.swift */; };
+		D4465C1B21EFEB0D008B9A3C /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C1021EFEB0D008B9A3C /* VNet.swift */; };
+		D4465C1C21EFEB0D008B9A3C /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C1021EFEB0D008B9A3C /* VNet.swift */; };
+		D4465C1D21EFEB0D008B9A3C /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C1121EFEB0D008B9A3C /* VLayer.swift */; };
+		D4465C1E21EFEB0D008B9A3C /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C1121EFEB0D008B9A3C /* VLayer.swift */; };
+		D4465C1F21EFEB0D008B9A3C /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C1221EFEB0D008B9A3C /* VNeuron.swift */; };
+		D4465C2021EFEB0D008B9A3C /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C1221EFEB0D008B9A3C /* VNeuron.swift */; };
+		D4465C2321EFEBCE008B9A3C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C2221EFEBCE008B9A3C /* KIdentifier.swift */; };
+		D4465C2421EFEBCE008B9A3C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C2221EFEBCE008B9A3C /* KIdentifier.swift */; };
+		D4465C2621EFED28008B9A3C /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C2521EFED28008B9A3C /* ArkonCentral.swift */; };
+		D4465C2721EFED3C008B9A3C /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C2521EFED28008B9A3C /* ArkonCentral.swift */; };
+		D4465C2A21EFEFA1008B9A3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C2921EFEFA1008B9A3C /* AppDelegate.swift */; };
+		D4465C2B21EFF39F008B9A3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D481EA1021EFE39F00DD40CB /* Assets.xcassets */; };
+		D4465C2C21EFF3AB008B9A3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D481EA1021EFE39F00DD40CB /* Assets.xcassets */; };
+		D481EA1121EFE39F00DD40CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D481EA1021EFE39F00DD40CB /* Assets.xcassets */; };
+		D481EA1421EFE39F00DD40CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D481EA1221EFE39F00DD40CB /* Main.storyboard */; };
+		D481EA2F21EFE7F600DD40CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D481EA2D21EFE7F600DD40CB /* Main.storyboard */; };
+		D481EA3C21EFE88F00DD40CB /* LightTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D481EA3B21EFE88F00DD40CB /* LightTest.swift */; };
+		D4B9215821EFC3DD0030FF8A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9215721EFC3DD0030FF8A /* main.swift */; };
+		D4B9216021EFC62C0030FF8A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9215F21EFC62C0030FF8A /* main.swift */; };
+		D4B9216921EFC7E70030FF8A /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216521EFC7E70030FF8A /* Genome.swift */; };
+		D4B9216A21EFC7E70030FF8A /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216621EFC7E70030FF8A /* Gene.swift */; };
+		D4B9216B21EFC7E70030FF8A /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216721EFC7E70030FF8A /* GenomeAdd.swift */; };
+		D4B9216C21EFC7E70030FF8A /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216821EFC7E70030FF8A /* GenomeSubtract.swift */; };
+		D4B9216E21EFC8160030FF8A /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216D21EFC8160030FF8A /* ActivatorFunctions.swift */; };
+		D4B9219421EFCC4E0030FF8A /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216D21EFC8160030FF8A /* ActivatorFunctions.swift */; };
+		D4B9219521EFCC4E0030FF8A /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216621EFC7E70030FF8A /* Gene.swift */; };
+		D4B9219621EFCC4E0030FF8A /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216521EFC7E70030FF8A /* Genome.swift */; };
+		D4B9219721EFCC4E0030FF8A /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216721EFC7E70030FF8A /* GenomeAdd.swift */; };
+		D4B9219821EFCC4E0030FF8A /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216821EFC7E70030FF8A /* GenomeSubtract.swift */; };
+		D4B9219921EFCC640030FF8A /* DTGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9217B21EFC9260030FF8A /* DTGenome.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D479961421CD8B8800EB7A9A /* PBXContainerItemProxy */ = {
+		D481EA3E21EFE88F00DD40CB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D4C0A0F221ADF3CC009D6011 /* Project object */;
+			containerPortal = D488FB8A21EFC2FF0081B584 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = D47995FB21CD8B8700EB7A9A;
-			remoteInfo = "PlaygroundsSuck-Light";
-		};
-		D4C0A16221AE2E64009D6011 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4C0A0F221ADF3CC009D6011 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D4C0A14921AE2E62009D6011;
-			remoteInfo = GameScene;
+			remoteGlobalIDString = D481EA0321EFE39E00DD40CB;
+			remoteInfo = LightDev;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D44EE50321BCE584006E1A12 /* CopyFiles */ = {
+		D488FB9021EFC2FF0081B584 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -256,7 +68,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		D45E63F721AE39940078CB8E /* CopyFiles */ = {
+		D4B9215B21EFC62C0030FF8A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -265,34 +77,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		D4B517E321AFAC3200F4C88A /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		D4C0A0F821ADF3CC009D6011 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		D4EE806621EBDCA3001012AF /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-		D4FE853E21AEB20500C9192F /* CopyFiles */ = {
+		D4B9219C21EFCD470030FF8A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -304,218 +89,88 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D41D112B21DC04C40042055B /* KSignalRelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSignalRelay.swift; sourceTree = "<group>"; };
-		D41D112C21DC04C40042055B /* KProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KProtocols.swift; sourceTree = "<group>"; };
-		D41F796521EF42860055A7B5 /* neuron-orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "neuron-orange.png"; sourceTree = "<group>"; };
-		D41F796621EF42860055A7B5 /* neuron-orange.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neuron-orange.xcf"; sourceTree = "<group>"; };
-		D41F796721EF42860055A7B5 /* neuron-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "neuron-blue.png"; sourceTree = "<group>"; };
-		D41F796821EF42860055A7B5 /* neuron-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "neuron-green.png"; sourceTree = "<group>"; };
-		D41F796921EF42860055A7B5 /* neuron-blue.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neuron-blue.xcf"; sourceTree = "<group>"; };
-		D41F796A21EF42870055A7B5 /* neuron-green.xcf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "neuron-green.xcf"; sourceTree = "<group>"; };
-		D441297C21CC07580086E1AC /* AATester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AATester.swift; sourceTree = "<group>"; };
-		D441298421CC26D50086E1AC /* AAGoalSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAGoalSuite.swift; sourceTree = "<group>"; };
-		D441298C21CC2CEB0086E1AC /* AAFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAFactory.swift; sourceTree = "<group>"; };
-		D441299021CC2D870086E1AC /* AASubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AASubject.swift; sourceTree = "<group>"; };
-		D444036921E8487200AF7FDD /* VisualTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisualTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D44547BB21CB151700247429 /* LoopIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoopIterator.swift; sourceTree = "<group>"; };
-		D44547BC21CB151700247429 /* RandomnessGenerators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomnessGenerators.swift; sourceTree = "<group>"; };
-		D44547BD21CB151700247429 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		D44EE50521BCE584006E1A12 /* PlaygroundsSuck */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PlaygroundsSuck; sourceTree = BUILT_PRODUCTS_DIR; };
-		D44EE50721BCE584006E1A12 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		D452A30A21C10B230049E3A5 /* GSGoalSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSGoalSuite.swift; sourceTree = "<group>"; };
-		D452A31A21C142810049E3A5 /* GSTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTester.swift; sourceTree = "<group>"; };
-		D452A31F21C18EDB0049E3A5 /* GSSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSubject.swift; sourceTree = "<group>"; };
-		D452A32721C192170049E3A5 /* GSFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSFactory.swift; sourceTree = "<group>"; };
-		D4553E0521D143D700B474A7 /* PeerGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PeerGroup.swift; path = Curation/PeerGroup.swift; sourceTree = "<group>"; };
-		D45E63FB21AE39940078CB8E /* Dark-R */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Dark-R"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D45E642521AE3A860078CB8E /* BellCurveLight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BellCurveLight.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D462CF5D21E6F4B700F4CCC7 /* Visual.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Visual.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D462CF5F21E6F4B700F4CCC7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D462CF6921E6F4B700F4CCC7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D462CF6C21E6F4B700F4CCC7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D462CF6E21E6F4B700F4CCC7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D462CF6F21E6F4B700F4CCC7 /* GameSceneSupport.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameSceneSupport.entitlements; sourceTree = "<group>"; };
-		D4684CC321C2D1C900D13964 /* Manipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manipulator.swift; sourceTree = "<group>"; };
-		D4684CC721C2D55F00D13964 /* Tene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tene.swift; sourceTree = "<group>"; };
-		D4686DD721DD1EA400149745 /* KConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KConnector.swift; sourceTree = "<group>"; };
-		D4686DDC21DDBD0D00149745 /* MockSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSupport.swift; sourceTree = "<group>"; };
-		D471173421B3D5350076DD2A /* VBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VBrain.swift; sourceTree = "<group>"; };
-		D47995FC21CD8B8700EB7A9A /* PlaygroundsSuck-Light.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PlaygroundsSuck-Light.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D479960021CD8B8700EB7A9A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D479960221CD8B8700EB7A9A /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		D479960421CD8B8700EB7A9A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		D479960621CD8B8700EB7A9A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D479960821CD8B8800EB7A9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D479960B21CD8B8800EB7A9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D479960D21CD8B8800EB7A9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D479960E21CD8B8800EB7A9A /* PlaygroundsSuck_Light.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PlaygroundsSuck_Light.entitlements; sourceTree = "<group>"; };
-		D479961321CD8B8800EB7A9A /* PlaygroundsSuck-LightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PlaygroundsSuck-LightTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D479961721CD8B8800EB7A9A /* PlaygroundsSuck_LightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundsSuck_LightTests.swift; sourceTree = "<group>"; };
-		D479961921CD8B8800EB7A9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D479962021CD8C3A00EB7A9A /* Vnet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vnet.swift; sourceTree = "<group>"; };
-		D479962221CD959900EB7A9A /* CGConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGConversions.swift; sourceTree = "<group>"; };
-		D479962421CDC64600EB7A9A /* Spacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacer.swift; sourceTree = "<group>"; };
-		D47FBAF021E73DE80006CBC0 /* VProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VProtocols.swift; sourceTree = "<group>"; };
-		D47FBAF521E7433C0006CBC0 /* VTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTests.swift; sourceTree = "<group>"; };
-		D47FBAF921E78FE40006CBC0 /* VSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VSpacer.swift; sourceTree = "<group>"; };
-		D47FBAFB21E795C30006CBC0 /* ArkonCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentral.swift; sourceTree = "<group>"; };
-		D48F2FB421C31587008EA8DA /* NGResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGResults.swift; sourceTree = "<group>"; };
-		D48F2FB821C31C06008EA8DA /* NGGoalSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGGoalSuite.swift; sourceTree = "<group>"; };
-		D48F2FBC21C31C56008EA8DA /* NGFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGFactory.swift; sourceTree = "<group>"; };
-		D48F2FC021C31CEE008EA8DA /* NGSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGSubject.swift; sourceTree = "<group>"; };
-		D48F734421DB24EC001CC961 /* KNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KNet.swift; sourceTree = "<group>"; };
-		D48F734921DB259B001CC961 /* KLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLayer.swift; sourceTree = "<group>"; };
-		D48F734E21DB2670001CC961 /* KNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KNeuron.swift; sourceTree = "<group>"; };
-		D48F874E21E1A7A60094571A /* TNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNeuron.swift; sourceTree = "<group>"; };
-		D48F875221E1A8F80094571A /* TLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLayer.swift; sourceTree = "<group>"; };
-		D48F875621E1AA2B0094571A /* TNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNet.swift; sourceTree = "<group>"; };
-		D4A7DE9921E6F7B500CE9169 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeCommon.swift; sourceTree = "<group>"; };
-		D4B4CC1821CF81AF00AE6912 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
-		D4B517E521AFAC3200F4C88A /* Experimental */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Experimental; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4B517E721AFAC3200F4C88A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		D4BAC12B21E5E83100E54DB6 /* VProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VProtocols.swift; sourceTree = "<group>"; };
-		D4BAC12D21E5E8A400E54DB6 /* VGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VGrid.swift; sourceTree = "<group>"; };
-		D4BAC12F21E5E8E000E54DB6 /* VLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLayer.swift; sourceTree = "<group>"; };
-		D4C0A0FA21ADF3CC009D6011 /* Dark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Dark; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4C0A0FD21ADF3CC009D6011 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		D4C0A12321AE23F4009D6011 /* Curator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Curator.swift; path = Curation/Curator.swift; sourceTree = "<group>"; };
-		D4C0A12521AE23F4009D6011 /* Selector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Selector.swift; path = Curation/Selector.swift; sourceTree = "<group>"; };
-		D4C0A12921AE2404009D6011 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
-		D4C0A12B21AE2404009D6011 /* Decoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
-		D4C0A14A21AE2E62009D6011 /* GameScene.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameScene.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4C0A14C21AE2E63009D6011 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D4C0A14E21AE2E63009D6011 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D4C0A15021AE2E63009D6011 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		D4C0A15621AE2E64009D6011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D4C0A15921AE2E64009D6011 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D4C0A15B21AE2E64009D6011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4C0A15C21AE2E64009D6011 /* GameScene.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameScene.entitlements; sourceTree = "<group>"; };
-		D4C0A16121AE2E64009D6011 /* GameSceneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameSceneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4C0A16521AE2E64009D6011 /* GameSceneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSceneTests.swift; sourceTree = "<group>"; };
-		D4C0A16721AE2E64009D6011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4C2C53521D89EFC00367902 /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
-		D4C54C8E21BDA23C00FA6549 /* Archive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Archive.swift; path = Curation/Archive.swift; sourceTree = "<group>"; };
-		D4DC7E1821ED86AE006A0195 /* DarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4DC7E1A21ED86AE006A0195 /* DarkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkTests.swift; sourceTree = "<group>"; };
-		D4DC7E1C21ED86AE006A0195 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4DC7E2721EDB32B006A0195 /* Gene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gene.swift; sourceTree = "<group>"; };
-		D4DC7E2A21EE78EE006A0195 /* GenomeAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeAdd.swift; sourceTree = "<group>"; };
-		D4DC7E2D21EE796E006A0195 /* GenomeSubtract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeSubtract.swift; sourceTree = "<group>"; };
-		D4C8613C21EA3D4F00D2AC6A /* VNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VNet.swift; sourceTree = "<group>"; };
-		D4C8613F21EA3D9300D2AC6A /* VLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLayer.swift; sourceTree = "<group>"; };
-		D4C8614221EA3DBE00D2AC6A /* VNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VNeuron.swift; sourceTree = "<group>"; };
-		D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivatorFunctions.swift; sourceTree = "<group>"; };
-		D4FE84FB21AE7AB600C9192F /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		D4FE84FC21AE7AB600C9192F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D4FE852621AE7C0500C9192F /* GameScene-R.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GameScene-R.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4FE854221AEB20500C9192F /* BellCurveDark */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BellCurveDark; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4FE934C21E45C3A0060C785 /* KDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDriver.swift; sourceTree = "<group>"; };
-		D4FFA1DD21DDE4D600537D5F /* TestPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPattern.swift; sourceTree = "<group>"; };
-		D4FFA1EA21DE755900537D5F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		D417067921EFCE0600BBDC3E /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D4465C0C21EFEB0D008B9A3C /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D4465C0D21EFEB0D008B9A3C /* VProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VProtocols.swift; sourceTree = "<group>"; };
+		D4465C0E21EFEB0D008B9A3C /* VSpacer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VSpacer.swift; sourceTree = "<group>"; };
+		D4465C0F21EFEB0D008B9A3C /* VTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTests.swift; sourceTree = "<group>"; };
+		D4465C1021EFEB0D008B9A3C /* VNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VNet.swift; sourceTree = "<group>"; };
+		D4465C1121EFEB0D008B9A3C /* VLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLayer.swift; sourceTree = "<group>"; };
+		D4465C1221EFEB0D008B9A3C /* VNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VNeuron.swift; sourceTree = "<group>"; };
+		D4465C2221EFEBCE008B9A3C /* KIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
+		D4465C2521EFED28008B9A3C /* ArkonCentral.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArkonCentral.swift; sourceTree = "<group>"; };
+		D4465C2921EFEFA1008B9A3C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D481EA0421EFE39E00DD40CB /* LightDev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightDev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D481EA1021EFE39F00DD40CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D481EA1321EFE39F00DD40CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D481EA1521EFE39F00DD40CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D481EA1621EFE39F00DD40CB /* LightDev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LightDev.entitlements; sourceTree = "<group>"; };
+		D481EA1F21EFE7F500DD40CB /* LightPlayground.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightPlayground.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D481EA2E21EFE7F600DD40CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D481EA3021EFE7F600DD40CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D481EA3121EFE7F600DD40CB /* LightPlayground.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LightPlayground.entitlements; sourceTree = "<group>"; };
+		D481EA3921EFE88E00DD40CB /* LightTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LightTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D481EA3B21EFE88F00DD40CB /* LightTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTest.swift; sourceTree = "<group>"; };
+		D481EA3D21EFE88F00DD40CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D488FB9221EFC2FF0081B584 /* DarkPlayground */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkPlayground; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4B9215721EFC3DD0030FF8A /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D4B9215D21EFC62C0030FF8A /* DarkDev */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkDev; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4B9215F21EFC62C0030FF8A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D4B9216521EFC7E70030FF8A /* Genome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Genome.swift; sourceTree = "<group>"; };
+		D4B9216621EFC7E70030FF8A /* Gene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gene.swift; sourceTree = "<group>"; };
+		D4B9216721EFC7E70030FF8A /* GenomeAdd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenomeAdd.swift; sourceTree = "<group>"; };
+		D4B9216821EFC7E70030FF8A /* GenomeSubtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenomeSubtract.swift; sourceTree = "<group>"; };
+		D4B9216D21EFC8160030FF8A /* ActivatorFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivatorFunctions.swift; sourceTree = "<group>"; };
+		D4B9217B21EFC9260030FF8A /* DTGenome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DTGenome.swift; sourceTree = "<group>"; };
+		D4B9218C21EFCB9A0030FF8A /* DTGenome.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTGenome.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4B9219021EFCB9A0030FF8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4B9219E21EFCD470030FF8A /* DarkTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkTest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D444036021E8487200AF7FDD /* Frameworks */ = {
+		D481EA0121EFE39E00DD40CB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D44EE50221BCE584006E1A12 /* Frameworks */ = {
+		D481EA1C21EFE7F500DD40CB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D45E63F621AE39940078CB8E /* Frameworks */ = {
+		D481EA3621EFE88E00DD40CB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D45E641C21AE3A860078CB8E /* Frameworks */ = {
+		D488FB8F21EFC2FF0081B584 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D462CF5A21E6F4B600F4CCC7 /* Frameworks */ = {
+		D4B9215A21EFC62C0030FF8A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D47995F921CD8B8700EB7A9A /* Frameworks */ = {
+		D4B9218921EFCB9A0030FF8A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D479961021CD8B8800EB7A9A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4B517E221AFAC3200F4C88A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4C0A0F721ADF3CC009D6011 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4C0A14721AE2E62009D6011 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4C0A15E21AE2E64009D6011 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4DC7E1521ED86AE006A0195 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4EE806521EBDCA3001012AF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4FE851D21AE7C0500C9192F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4FE853D21AEB20500C9192F /* Frameworks */ = {
+		D4B9219B21EFCD470030FF8A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -525,625 +180,304 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D41F796421EF42510055A7B5 /* OriginalArtwork */ = {
+		D4465C0B21EFEA4F008B9A3C /* Display */ = {
 			isa = PBXGroup;
 			children = (
-				D41F796721EF42860055A7B5 /* neuron-blue.png */,
-				D41F796921EF42860055A7B5 /* neuron-blue.xcf */,
-				D41F796821EF42860055A7B5 /* neuron-green.png */,
-				D41F796A21EF42870055A7B5 /* neuron-green.xcf */,
-				D41F796521EF42860055A7B5 /* neuron-orange.png */,
-				D41F796621EF42860055A7B5 /* neuron-orange.xcf */,
+				D4465C0C21EFEB0D008B9A3C /* ViewController.swift */,
+				D4465C1121EFEB0D008B9A3C /* VLayer.swift */,
+				D4465C1021EFEB0D008B9A3C /* VNet.swift */,
+				D4465C1221EFEB0D008B9A3C /* VNeuron.swift */,
+				D4465C0D21EFEB0D008B9A3C /* VProtocols.swift */,
+				D4465C0E21EFEB0D008B9A3C /* VSpacer.swift */,
+				D4465C0F21EFEB0D008B9A3C /* VTests.swift */,
 			);
-			path = OriginalArtwork;
+			path = Display;
 			sourceTree = "<group>";
 		};
-		D441297B21CC06790086E1AC /* GSAdder */ = {
+		D4465C2121EFEB89008B9A3C /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				D441298C21CC2CEB0086E1AC /* AAFactory.swift */,
-				D441298421CC26D50086E1AC /* AAGoalSuite.swift */,
-				D441299021CC2D870086E1AC /* AASubject.swift */,
-				D441297C21CC07580086E1AC /* AATester.swift */,
+				D4465C2521EFED28008B9A3C /* ArkonCentral.swift */,
+				D4465C2221EFEBCE008B9A3C /* KIdentifier.swift */,
 			);
-			path = GSAdder;
+			path = Support;
 			sourceTree = "<group>";
 		};
-		D44EE50621BCE584006E1A12 /* PlaygroundsSuck */ = {
+		D481EA0521EFE39E00DD40CB /* LightDev */ = {
 			isa = PBXGroup;
 			children = (
-				D44EE50721BCE584006E1A12 /* main.swift */,
-				D4686DDC21DDBD0D00149745 /* MockSupport.swift */,
+				D4465C2921EFEFA1008B9A3C /* AppDelegate.swift */,
+				D481EA1221EFE39F00DD40CB /* Main.storyboard */,
+				D481EA1521EFE39F00DD40CB /* Info.plist */,
+				D481EA1621EFE39F00DD40CB /* LightDev.entitlements */,
 			);
-			path = PlaygroundsSuck;
+			path = LightDev;
 			sourceTree = "<group>";
 		};
-		D452A30021C1004A0049E3A5 /* GoalSuites */ = {
+		D481EA1A21EFE5F800DD40CB /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				D441297B21CC06790086E1AC /* GSAdder */,
-				D452A31E21C18E7E0049E3A5 /* GSCore */,
-				D48F2FB321C3155F008EA8DA /* GSNameGuesser */,
+				D481EA1021EFE39F00DD40CB /* Assets.xcassets */,
+				D4465C0B21EFEA4F008B9A3C /* Display */,
+				D4B9216421EFC7A30030FF8A /* Genome */,
+				D4465C2121EFEB89008B9A3C /* Support */,
 			);
-			path = GoalSuites;
+			path = Source;
 			sourceTree = "<group>";
 		};
-		D452A31E21C18E7E0049E3A5 /* GSCore */ = {
+		D481EA2021EFE7F500DD40CB /* LightPlayground */ = {
 			isa = PBXGroup;
 			children = (
-				D452A32721C192170049E3A5 /* GSFactory.swift */,
-				D452A30A21C10B230049E3A5 /* GSGoalSuite.swift */,
-				D452A31F21C18EDB0049E3A5 /* GSSubject.swift */,
-				D452A31A21C142810049E3A5 /* GSTester.swift */,
+				D481EA2D21EFE7F600DD40CB /* Main.storyboard */,
+				D481EA3021EFE7F600DD40CB /* Info.plist */,
+				D481EA3121EFE7F600DD40CB /* LightPlayground.entitlements */,
 			);
-			path = GSCore;
+			path = LightPlayground;
 			sourceTree = "<group>";
 		};
-		D462CF5821E6F45B00F4CCC7 /* Visual */ = {
+		D481EA3A21EFE88F00DD40CB /* LightTest */ = {
 			isa = PBXGroup;
 			children = (
-				D462CF5E21E6F4B700F4CCC7 /* GameSceneSupport */,
-				D41F796421EF42510055A7B5 /* OriginalArtwork */,
-				D4A7DE9921E6F7B500CE9169 /* ViewController.swift */,
-				D4C8613F21EA3D9300D2AC6A /* VLayer.swift */,
-				D4C8613C21EA3D4F00D2AC6A /* VNet.swift */,
-				D4C8614221EA3DBE00D2AC6A /* VNeuron.swift */,
-				D47FBAF021E73DE80006CBC0 /* VProtocols.swift */,
-				D47FBAF921E78FE40006CBC0 /* VSpacer.swift */,
-				D47FBAF521E7433C0006CBC0 /* VTests.swift */,
+				D481EA3B21EFE88F00DD40CB /* LightTest.swift */,
+				D481EA3D21EFE88F00DD40CB /* Info.plist */,
 			);
-			path = Visual;
+			path = LightTest;
 			sourceTree = "<group>";
 		};
-		D462CF5E21E6F4B700F4CCC7 /* GameSceneSupport */ = {
+		D488FB8921EFC2FF0081B584 = {
 			isa = PBXGroup;
 			children = (
-				D462CF6921E6F4B700F4CCC7 /* Assets.xcassets */,
-				D462CF5F21E6F4B700F4CCC7 /* AppDelegate.swift */,
-				D462CF6F21E6F4B700F4CCC7 /* GameSceneSupport.entitlements */,
-				D462CF6E21E6F4B700F4CCC7 /* Info.plist */,
-				D462CF6B21E6F4B700F4CCC7 /* Main.storyboard */,
+				D4B9215E21EFC62C0030FF8A /* DarkDev */,
+				D4B9215621EFC3DD0030FF8A /* DarkPlayground */,
+				D4B9219F21EFCD470030FF8A /* DarkTest */,
+				D481EA0521EFE39E00DD40CB /* LightDev */,
+				D481EA2021EFE7F500DD40CB /* LightPlayground */,
+				D481EA3A21EFE88F00DD40CB /* LightTest */,
+				D481EA1A21EFE5F800DD40CB /* Source */,
+				D488FB9321EFC2FF0081B584 /* Z-Products */,
 			);
-			path = GameSceneSupport;
 			sourceTree = "<group>";
 		};
-		D4684CC221C2D17100D13964 /* Genome */ = {
+		D488FB9321EFC2FF0081B584 /* Z-Products */ = {
 			isa = PBXGroup;
 			children = (
-				D4C0A12B21AE2404009D6011 /* Decoder.swift */,
-				D4B4CC1321CF710500AE6912 /* GenomeCommon.swift */,
-				D4684CC321C2D1C900D13964 /* Manipulator.swift */,
-				D4C0A12921AE2404009D6011 /* Mutator.swift */,
-				D4684CC721C2D55F00D13964 /* Tene.swift */,
+				D488FB9221EFC2FF0081B584 /* DarkPlayground */,
+				D4B9215D21EFC62C0030FF8A /* DarkDev */,
+				D4B9218C21EFCB9A0030FF8A /* DTGenome.xctest */,
+				D4B9219E21EFCD470030FF8A /* DarkTest */,
+				D481EA0421EFE39E00DD40CB /* LightDev.app */,
+				D481EA1F21EFE7F500DD40CB /* LightPlayground.app */,
+				D481EA3921EFE88E00DD40CB /* LightTest.xctest */,
+			);
+			name = "Z-Products";
+			sourceTree = "<group>";
+		};
+		D4B9215621EFC3DD0030FF8A /* DarkPlayground */ = {
+			isa = PBXGroup;
+			children = (
+				D4B9215721EFC3DD0030FF8A /* main.swift */,
+			);
+			path = DarkPlayground;
+			sourceTree = "<group>";
+		};
+		D4B9215E21EFC62C0030FF8A /* DarkDev */ = {
+			isa = PBXGroup;
+			children = (
+				D4B9215F21EFC62C0030FF8A /* main.swift */,
+			);
+			path = DarkDev;
+			sourceTree = "<group>";
+		};
+		D4B9216421EFC7A30030FF8A /* Genome */ = {
+			isa = PBXGroup;
+			children = (
+				D4B9216D21EFC8160030FF8A /* ActivatorFunctions.swift */,
+				D4B9216621EFC7E70030FF8A /* Gene.swift */,
+				D4B9216521EFC7E70030FF8A /* Genome.swift */,
+				D4B9216721EFC7E70030FF8A /* GenomeAdd.swift */,
+				D4B9216821EFC7E70030FF8A /* GenomeSubtract.swift */,
 			);
 			path = Genome;
 			sourceTree = "<group>";
 		};
-		D47995FD21CD8B8700EB7A9A /* PlaygroundsSuck-Light */ = {
+		D4B9218D21EFCB9A0030FF8A /* DTGenome */ = {
 			isa = PBXGroup;
 			children = (
-				D4FFA1DF21DDEE1800537D5F /* MockSupport */,
-				D47995FE21CD8B8700EB7A9A /* AppDelegate.swift */,
-				D479960021CD8B8700EB7A9A /* GameScene.sks */,
-				D479960221CD8B8700EB7A9A /* Actions.sks */,
-				D479960421CD8B8700EB7A9A /* GameScene.swift */,
-				D479960621CD8B8700EB7A9A /* ViewController.swift */,
-				D479960821CD8B8800EB7A9A /* Assets.xcassets */,
-				D479960A21CD8B8800EB7A9A /* Main.storyboard */,
-				D479960D21CD8B8800EB7A9A /* Info.plist */,
-				D479960E21CD8B8800EB7A9A /* PlaygroundsSuck_Light.entitlements */,
+				D4B9217B21EFC9260030FF8A /* DTGenome.swift */,
+				D4B9219021EFCB9A0030FF8A /* Info.plist */,
 			);
-			path = "PlaygroundsSuck-Light";
+			path = DTGenome;
 			sourceTree = "<group>";
 		};
-		D479961621CD8B8800EB7A9A /* PlaygroundsSuck-LightTests */ = {
+		D4B9219F21EFCD470030FF8A /* DarkTest */ = {
 			isa = PBXGroup;
 			children = (
-				D479961721CD8B8800EB7A9A /* PlaygroundsSuck_LightTests.swift */,
-				D479961921CD8B8800EB7A9A /* Info.plist */,
+				D4B9218D21EFCB9A0030FF8A /* DTGenome */,
+				D417067921EFCE0600BBDC3E /* main.swift */,
 			);
-			path = "PlaygroundsSuck-LightTests";
-			sourceTree = "<group>";
-		};
-		D47C39E421E156FE001F4A84 /* T-Scaffolding */ = {
-			isa = PBXGroup;
-			children = (
-				D48F875221E1A8F80094571A /* TLayer.swift */,
-				D48F875621E1AA2B0094571A /* TNet.swift */,
-				D48F874E21E1A7A60094571A /* TNeuron.swift */,
-			);
-			path = "T-Scaffolding";
-			sourceTree = "<group>";
-		};
-		D47FBAF221E73E7F0006CBC0 /* ArkonCentral */ = {
-			isa = PBXGroup;
-			children = (
-				D47FBAFB21E795C30006CBC0 /* ArkonCentral.swift */,
-				D4C2C53521D89EFC00367902 /* KIdentifier.swift */,
-				D41D112B21DC04C40042055B /* KSignalRelay.swift */,
-			);
-			path = ArkonCentral;
-			sourceTree = "<group>";
-		};
-		D48F2FB321C3155F008EA8DA /* GSNameGuesser */ = {
-			isa = PBXGroup;
-			children = (
-				D48F2FBC21C31C56008EA8DA /* NGFactory.swift */,
-				D48F2FB821C31C06008EA8DA /* NGGoalSuite.swift */,
-				D48F2FB421C31587008EA8DA /* NGResults.swift */,
-				D48F2FC021C31CEE008EA8DA /* NGSubject.swift */,
-			);
-			path = GSNameGuesser;
-			sourceTree = "<group>";
-		};
-		D4ABEB1121AE645B00F3C5D5 /* Light */ = {
-			isa = PBXGroup;
-			children = (
-				D479962221CD959900EB7A9A /* CGConversions.swift */,
-				D479962421CDC64600EB7A9A /* Spacer.swift */,
-				D471173421B3D5350076DD2A /* VBrain.swift */,
-				D4FE84FC21AE7AB600C9192F /* ViewController.swift */,
-				D479962021CD8C3A00EB7A9A /* Vnet.swift */,
-			);
-			path = Light;
-			sourceTree = "<group>";
-		};
-		D4B4CC1721CF816000AE6912 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				D4E6741D21D23A2000A34D60 /* ActivatorFunctions.swift */,
-				D4B4CC1821CF81AF00AE6912 /* Common.swift */,
-				D4FFA1EA21DE755900537D5F /* Extensions.swift */,
-				D4DC7E2721EDB32B006A0195 /* Gene.swift */,
-				D41DF56121EC8EC100E721B2 /* Genome.swift */,
-				D4DC7E2A21EE78EE006A0195 /* GenomeAdd.swift */,
-				D4DC7E2D21EE796E006A0195 /* GenomeSubtract.swift */,
-				D44547BB21CB151700247429 /* LoopIterator.swift */,
-				D44547BC21CB151700247429 /* RandomnessGenerators.swift */,
-				D44547BD21CB151700247429 /* Utilities.swift */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
-		D4B517E621AFAC3200F4C88A /* Experimental */ = {
-			isa = PBXGroup;
-			children = (
-				D4B517E721AFAC3200F4C88A /* main.swift */,
-			);
-			path = Experimental;
-			sourceTree = "<group>";
-		};
-		D4BAC12A21E5E7F800E54DB6 /* V-Display */ = {
-			isa = PBXGroup;
-			children = (
-				D4BAC12D21E5E8A400E54DB6 /* VGrid.swift */,
-				D4BAC12F21E5E8E000E54DB6 /* VLayer.swift */,
-				D4BAC12B21E5E83100E54DB6 /* VProtocols.swift */,
-			);
-			path = "V-Display";
-			sourceTree = "<group>";
-		};
-		D4C0A0F121ADF3CC009D6011 = {
-			isa = PBXGroup;
-			children = (
-				D47FBAF221E73E7F0006CBC0 /* ArkonCentral */,
-				D462CF5821E6F45B00F4CCC7 /* Visual */,
-				D4B4CC1721CF816000AE6912 /* Common */,
-				D4C0A12021AE2374009D6011 /* Curation */,
-				D4C0A0FC21ADF3CC009D6011 /* Dark */,
-				D4B517E621AFAC3200F4C88A /* Experimental */,
-				D4684CC221C2D17100D13964 /* Genome */,
-				D452A30021C1004A0049E3A5 /* GoalSuites */,
-				D4C2C53421D89ED400367902 /* K-SignalGrid */,
-				D4ABEB1121AE645B00F3C5D5 /* Light */,
-				D44EE50621BCE584006E1A12 /* PlaygroundsSuck */,
-				D47995FD21CD8B8700EB7A9A /* PlaygroundsSuck-Light */,
-				D47C39E421E156FE001F4A84 /* T-Scaffolding */,
-				D4BAC12A21E5E7F800E54DB6 /* V-Display */,
-				D4C0A14B21AE2E63009D6011 /* GameScene */,
-				D4C0A16421AE2E64009D6011 /* GameSceneTests */,
-				D479961621CD8B8800EB7A9A /* PlaygroundsSuck-LightTests */,
-				D4DC7E1921ED86AE006A0195 /* DarkTests */,
-				D4C0A0FB21ADF3CC009D6011 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		D4C0A0FB21ADF3CC009D6011 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D4C0A0FA21ADF3CC009D6011 /* Dark */,
-				D4C0A14A21AE2E62009D6011 /* GameScene.app */,
-				D4C0A16121AE2E64009D6011 /* GameSceneTests.xctest */,
-				D45E63FB21AE39940078CB8E /* Dark-R */,
-				D45E642521AE3A860078CB8E /* BellCurveLight.app */,
-				D4FE852621AE7C0500C9192F /* GameScene-R.app */,
-				D4FE854221AEB20500C9192F /* BellCurveDark */,
-				D4B517E521AFAC3200F4C88A /* Experimental */,
-				D44EE50521BCE584006E1A12 /* PlaygroundsSuck */,
-				D47995FC21CD8B8700EB7A9A /* PlaygroundsSuck-Light.app */,
-				D479961321CD8B8800EB7A9A /* PlaygroundsSuck-LightTests.xctest */,
-				D462CF5D21E6F4B700F4CCC7 /* Visual.app */,
-				D4DC7E1821ED86AE006A0195 /* DarkTests.xctest */,
-				D444036921E8487200AF7FDD /* VisualTest.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		D4C0A0FC21ADF3CC009D6011 /* Dark */ = {
-			isa = PBXGroup;
-			children = (
-				D4C0A0FD21ADF3CC009D6011 /* main.swift */,
-			);
-			path = Dark;
-			sourceTree = "<group>";
-		};
-		D4C0A12021AE2374009D6011 /* Curation */ = {
-			isa = PBXGroup;
-			children = (
-				D4C54C8E21BDA23C00FA6549 /* Archive.swift */,
-				D4C0A12321AE23F4009D6011 /* Curator.swift */,
-				D4553E0521D143D700B474A7 /* PeerGroup.swift */,
-				D4C0A12521AE23F4009D6011 /* Selector.swift */,
-			);
-			name = Curation;
-			sourceTree = "<group>";
-		};
-		D4C0A14B21AE2E63009D6011 /* GameScene */ = {
-			isa = PBXGroup;
-			children = (
-				D4C0A14C21AE2E63009D6011 /* AppDelegate.swift */,
-				D4C0A14E21AE2E63009D6011 /* GameScene.sks */,
-				D4C0A15021AE2E63009D6011 /* Actions.sks */,
-				D4C0A15621AE2E64009D6011 /* Assets.xcassets */,
-				D4C0A15821AE2E64009D6011 /* Main.storyboard */,
-				D4C0A15B21AE2E64009D6011 /* Info.plist */,
-				D4C0A15C21AE2E64009D6011 /* GameScene.entitlements */,
-			);
-			path = GameScene;
-			sourceTree = "<group>";
-		};
-		D4C0A16421AE2E64009D6011 /* GameSceneTests */ = {
-			isa = PBXGroup;
-			children = (
-				D4C0A16521AE2E64009D6011 /* GameSceneTests.swift */,
-				D4C0A16721AE2E64009D6011 /* Info.plist */,
-			);
-			path = GameSceneTests;
-			sourceTree = "<group>";
-		};
-		D4C2C53421D89ED400367902 /* K-SignalGrid */ = {
-			isa = PBXGroup;
-			children = (
-				D4686DD721DD1EA400149745 /* KConnector.swift */,
-				D4FE934C21E45C3A0060C785 /* KDriver.swift */,
-				D48F734921DB259B001CC961 /* KLayer.swift */,
-				D48F734421DB24EC001CC961 /* KNet.swift */,
-				D48F734E21DB2670001CC961 /* KNeuron.swift */,
-				D41D112C21DC04C40042055B /* KProtocols.swift */,
-			);
-			path = "K-SignalGrid";
-			sourceTree = "<group>";
-		};
-		D4DC7E1921ED86AE006A0195 /* DarkTests */ = {
-			isa = PBXGroup;
-			children = (
-				D4DC7E1A21ED86AE006A0195 /* DarkTests.swift */,
-				D4DC7E1C21ED86AE006A0195 /* Info.plist */,
-			);
-			path = DarkTests;
-			sourceTree = "<group>";
-		};
-		D4FFA1DF21DDEE1800537D5F /* MockSupport */ = {
-			isa = PBXGroup;
-			children = (
-				D4FFA1DD21DDE4D600537D5F /* TestPattern.swift */,
-			);
-			path = MockSupport;
+			path = DarkTest;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D444035721E8487200AF7FDD /* VisualTest */ = {
+		D481EA0321EFE39E00DD40CB /* LightDev */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D444036621E8487200AF7FDD /* Build configuration list for PBXNativeTarget "VisualTest" */;
+			buildConfigurationList = D481EA1721EFE39F00DD40CB /* Build configuration list for PBXNativeTarget "LightDev" */;
 			buildPhases = (
-				D444035821E8487200AF7FDD /* Sources */,
-				D444036021E8487200AF7FDD /* Frameworks */,
-				D444036121E8487200AF7FDD /* Resources */,
+				D481EA0021EFE39E00DD40CB /* Sources */,
+				D481EA0121EFE39E00DD40CB /* Frameworks */,
+				D481EA0221EFE39E00DD40CB /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = VisualTest;
-			productName = GameSceneSupport;
-			productReference = D444036921E8487200AF7FDD /* VisualTest.app */;
+			name = LightDev;
+			productName = LightDev;
+			productReference = D481EA0421EFE39E00DD40CB /* LightDev.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D44EE50421BCE584006E1A12 /* PlaygroundsSuck */ = {
+		D481EA1E21EFE7F500DD40CB /* LightPlayground */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D44EE50B21BCE584006E1A12 /* Build configuration list for PBXNativeTarget "PlaygroundsSuck" */;
+			buildConfigurationList = D481EA3221EFE7F600DD40CB /* Build configuration list for PBXNativeTarget "LightPlayground" */;
 			buildPhases = (
-				D44EE50121BCE584006E1A12 /* Sources */,
-				D44EE50221BCE584006E1A12 /* Frameworks */,
-				D44EE50321BCE584006E1A12 /* CopyFiles */,
+				D481EA1B21EFE7F500DD40CB /* Sources */,
+				D481EA1C21EFE7F500DD40CB /* Frameworks */,
+				D481EA1D21EFE7F500DD40CB /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = PlaygroundsSuck;
-			productName = PlaygroundsSuck;
-			productReference = D44EE50521BCE584006E1A12 /* PlaygroundsSuck */;
+			name = LightPlayground;
+			productName = LightPlayground;
+			productReference = D481EA1F21EFE7F500DD40CB /* LightPlayground.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D481EA3821EFE88E00DD40CB /* LightTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D481EA4021EFE88F00DD40CB /* Build configuration list for PBXNativeTarget "LightTest" */;
+			buildPhases = (
+				D481EA3521EFE88E00DD40CB /* Sources */,
+				D481EA3621EFE88E00DD40CB /* Frameworks */,
+				D481EA3721EFE88E00DD40CB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D481EA3F21EFE88F00DD40CB /* PBXTargetDependency */,
+			);
+			name = LightTest;
+			productName = LightTest;
+			productReference = D481EA3921EFE88E00DD40CB /* LightTest.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		D488FB9121EFC2FF0081B584 /* DarkPlayground */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D488FB9921EFC3000081B584 /* Build configuration list for PBXNativeTarget "DarkPlayground" */;
+			buildPhases = (
+				D488FB8E21EFC2FF0081B584 /* Sources */,
+				D488FB8F21EFC2FF0081B584 /* Frameworks */,
+				D488FB9021EFC2FF0081B584 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DarkPlayground;
+			productName = Arkonia;
+			productReference = D488FB9221EFC2FF0081B584 /* DarkPlayground */;
 			productType = "com.apple.product-type.tool";
 		};
-		D45E63E121AE39940078CB8E /* Dark-R */ = {
+		D4B9215C21EFC62C0030FF8A /* DarkDev */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D45E63F821AE39940078CB8E /* Build configuration list for PBXNativeTarget "Dark-R" */;
+			buildConfigurationList = D4B9216121EFC62C0030FF8A /* Build configuration list for PBXNativeTarget "DarkDev" */;
 			buildPhases = (
-				D45E63E221AE39940078CB8E /* Sources */,
-				D45E63F621AE39940078CB8E /* Frameworks */,
-				D45E63F721AE39940078CB8E /* CopyFiles */,
+				D4B9215921EFC62C0030FF8A /* Sources */,
+				D4B9215A21EFC62C0030FF8A /* Frameworks */,
+				D4B9215B21EFC62C0030FF8A /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "Dark-R";
-			productName = Fuckberries;
-			productReference = D45E63FB21AE39940078CB8E /* Dark-R */;
+			name = DarkDev;
+			productName = DarkDev;
+			productReference = D4B9215D21EFC62C0030FF8A /* DarkDev */;
 			productType = "com.apple.product-type.tool";
 		};
-		D45E640421AE3A860078CB8E /* BellCurveLight */ = {
+		D4B9218B21EFCB9A0030FF8A /* DTGenome */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D45E642221AE3A860078CB8E /* Build configuration list for PBXNativeTarget "BellCurveLight" */;
+			buildConfigurationList = D4B9219121EFCB9A0030FF8A /* Build configuration list for PBXNativeTarget "DTGenome" */;
 			buildPhases = (
-				D45E640521AE3A860078CB8E /* Sources */,
-				D45E641C21AE3A860078CB8E /* Frameworks */,
-				D45E641D21AE3A860078CB8E /* Resources */,
+				D4B9218821EFCB9A0030FF8A /* Sources */,
+				D4B9218921EFCB9A0030FF8A /* Frameworks */,
+				D4B9218A21EFCB9A0030FF8A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = BellCurveLight;
-			productName = GameScene;
-			productReference = D45E642521AE3A860078CB8E /* BellCurveLight.app */;
-			productType = "com.apple.product-type.application";
-		};
-		D462CF5C21E6F4B600F4CCC7 /* Visual */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D462CF7021E6F4B700F4CCC7 /* Build configuration list for PBXNativeTarget "Visual" */;
-			buildPhases = (
-				D462CF5921E6F4B600F4CCC7 /* Sources */,
-				D462CF5A21E6F4B600F4CCC7 /* Frameworks */,
-				D462CF5B21E6F4B600F4CCC7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Visual;
-			productName = GameSceneSupport;
-			productReference = D462CF5D21E6F4B700F4CCC7 /* Visual.app */;
-			productType = "com.apple.product-type.application";
-		};
-		D47995FB21CD8B8700EB7A9A /* PlaygroundsSuck-Light */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D479961E21CD8B8800EB7A9A /* Build configuration list for PBXNativeTarget "PlaygroundsSuck-Light" */;
-			buildPhases = (
-				D47995F821CD8B8700EB7A9A /* Sources */,
-				D47995F921CD8B8700EB7A9A /* Frameworks */,
-				D47995FA21CD8B8700EB7A9A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "PlaygroundsSuck-Light";
-			productName = "PlaygroundsSuck-Light";
-			productReference = D47995FC21CD8B8700EB7A9A /* PlaygroundsSuck-Light.app */;
-			productType = "com.apple.product-type.application";
-		};
-		D479961221CD8B8800EB7A9A /* PlaygroundsSuck-LightTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D479961F21CD8B8800EB7A9A /* Build configuration list for PBXNativeTarget "PlaygroundsSuck-LightTests" */;
-			buildPhases = (
-				D479960F21CD8B8800EB7A9A /* Sources */,
-				D479961021CD8B8800EB7A9A /* Frameworks */,
-				D479961121CD8B8800EB7A9A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D479961521CD8B8800EB7A9A /* PBXTargetDependency */,
-			);
-			name = "PlaygroundsSuck-LightTests";
-			productName = "PlaygroundsSuck-LightTests";
-			productReference = D479961321CD8B8800EB7A9A /* PlaygroundsSuck-LightTests.xctest */;
+			name = DTGenome;
+			productName = DTGenome;
+			productReference = D4B9218C21EFCB9A0030FF8A /* DTGenome.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		D4B517E421AFAC3200F4C88A /* Experimental */ = {
+		D4B9219D21EFCD470030FF8A /* DarkTest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D4B517E921AFAC3200F4C88A /* Build configuration list for PBXNativeTarget "Experimental" */;
+			buildConfigurationList = D4B921A221EFCD470030FF8A /* Build configuration list for PBXNativeTarget "DarkTest" */;
 			buildPhases = (
-				D4B517E121AFAC3200F4C88A /* Sources */,
-				D4B517E221AFAC3200F4C88A /* Frameworks */,
-				D4B517E321AFAC3200F4C88A /* CopyFiles */,
+				D4B9219A21EFCD470030FF8A /* Sources */,
+				D4B9219B21EFCD470030FF8A /* Frameworks */,
+				D4B9219C21EFCD470030FF8A /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = Experimental;
-			productName = Experimental;
-			productReference = D4B517E521AFAC3200F4C88A /* Experimental */;
-			productType = "com.apple.product-type.tool";
-		};
-		D4C0A0F921ADF3CC009D6011 /* Dark */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4C0A10121ADF3CC009D6011 /* Build configuration list for PBXNativeTarget "Dark" */;
-			buildPhases = (
-				D4C0A0F621ADF3CC009D6011 /* Sources */,
-				D4C0A0F721ADF3CC009D6011 /* Frameworks */,
-				D4C0A0F821ADF3CC009D6011 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Dark;
-			productName = Fuckberries;
-			productReference = D4C0A0FA21ADF3CC009D6011 /* Dark */;
-			productType = "com.apple.product-type.tool";
-		};
-		D4C0A14921AE2E62009D6011 /* GameScene */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4C0A16821AE2E64009D6011 /* Build configuration list for PBXNativeTarget "GameScene" */;
-			buildPhases = (
-				D4C0A14621AE2E62009D6011 /* Sources */,
-				D4C0A14721AE2E62009D6011 /* Frameworks */,
-				D4C0A14821AE2E62009D6011 /* Resources */,
-				D4C9979821CB54D4005B0264 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = GameScene;
-			productName = GameScene;
-			productReference = D4C0A14A21AE2E62009D6011 /* GameScene.app */;
-			productType = "com.apple.product-type.application";
-		};
-		D4C0A16021AE2E64009D6011 /* GameSceneTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4C0A16B21AE2E64009D6011 /* Build configuration list for PBXNativeTarget "GameSceneTests" */;
-			buildPhases = (
-				D4C0A15D21AE2E64009D6011 /* Sources */,
-				D4C0A15E21AE2E64009D6011 /* Frameworks */,
-				D4C0A15F21AE2E64009D6011 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D4C0A16321AE2E64009D6011 /* PBXTargetDependency */,
-			);
-			name = GameSceneTests;
-			productName = GameSceneTests;
-			productReference = D4C0A16121AE2E64009D6011 /* GameSceneTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		D4DC7E1721ED86AE006A0195 /* DarkTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4DC7E1F21ED86AE006A0195 /* Build configuration list for PBXNativeTarget "DarkTests" */;
-			buildPhases = (
-				D4DC7E1421ED86AE006A0195 /* Sources */,
-				D4DC7E1521ED86AE006A0195 /* Frameworks */,
-				D4DC7E1621ED86AE006A0195 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = DarkTests;
-			productName = DarkTests;
-			productReference = D4DC7E1821ED86AE006A0195 /* DarkTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		D4EE805E21EBDCA3001012AF /* TLinkedList */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4EE806721EBDCA3001012AF /* Build configuration list for PBXNativeTarget "TLinkedList" */;
-			buildPhases = (
-				D4EE805F21EBDCA3001012AF /* Sources */,
-				D4EE806521EBDCA3001012AF /* Frameworks */,
-				D4EE806621EBDCA3001012AF /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = TLinkedList;
-			productName = Experimental;
-			productReference = D4EE806A21EBDCA3001012AF /* TLinkedList */;
-			productType = "com.apple.product-type.tool";
-		};
-		D4FE850521AE7C0500C9192F /* GameScene-R */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4FE852321AE7C0500C9192F /* Build configuration list for PBXNativeTarget "GameScene-R" */;
-			buildPhases = (
-				D4FE850621AE7C0500C9192F /* Sources */,
-				D4FE851D21AE7C0500C9192F /* Frameworks */,
-				D4FE851E21AE7C0500C9192F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "GameScene-R";
-			productName = GameScene;
-			productReference = D4FE852621AE7C0500C9192F /* GameScene-R.app */;
-			productType = "com.apple.product-type.application";
-		};
-		D4FE852821AEB20500C9192F /* BellCurveDark */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4FE853F21AEB20500C9192F /* Build configuration list for PBXNativeTarget "BellCurveDark" */;
-			buildPhases = (
-				D4FE852921AEB20500C9192F /* Sources */,
-				D4FE853D21AEB20500C9192F /* Frameworks */,
-				D4FE853E21AEB20500C9192F /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = BellCurveDark;
-			productName = Fuckberries;
-			productReference = D4FE854221AEB20500C9192F /* BellCurveDark */;
+			name = DarkTest;
+			productName = DarkTest;
+			productReference = D4B9219E21EFCD470030FF8A /* DarkTest */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		D4C0A0F221ADF3CC009D6011 /* Project object */ = {
+		D488FB8A21EFC2FF0081B584 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Rob Bishop";
 				TargetAttributes = {
-					D44EE50421BCE584006E1A12 = {
+					D481EA0321EFE39E00DD40CB = {
+						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
+					};
+					D481EA1E21EFE7F500DD40CB = {
 						CreatedOnToolsVersion = 10.1;
 					};
-					D462CF5C21E6F4B600F4CCC7 = {
+					D481EA3821EFE88E00DD40CB = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = D481EA0321EFE39E00DD40CB;
+					};
+					D488FB9121EFC2FF0081B584 = {
 						CreatedOnToolsVersion = 10.1;
 					};
-					D47995FB21CD8B8700EB7A9A = {
+					D4B9215C21EFC62C0030FF8A = {
 						CreatedOnToolsVersion = 10.1;
 					};
-					D479961221CD8B8800EB7A9A = {
-						CreatedOnToolsVersion = 10.1;
-						TestTargetID = D47995FB21CD8B8700EB7A9A;
-					};
-					D4B517E421AFAC3200F4C88A = {
+					D4B9218B21EFCB9A0030FF8A = {
 						CreatedOnToolsVersion = 10.1;
 					};
-					D4C0A0F921ADF3CC009D6011 = {
+					D4B9219D21EFCD470030FF8A = {
 						CreatedOnToolsVersion = 10.1;
-					};
-					D4C0A14921AE2E62009D6011 = {
-						CreatedOnToolsVersion = 10.1;
-					};
-					D4C0A16021AE2E64009D6011 = {
-						CreatedOnToolsVersion = 10.1;
-						TestTargetID = D4C0A14921AE2E62009D6011;
-					};
-					D4DC7E1721ED86AE006A0195 = {
-						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 					};
 				};
 			};
-			buildConfigurationList = D4C0A0F521ADF3CC009D6011 /* Build configuration list for PBXProject "Arkonia" */;
+			buildConfigurationList = D488FB8D21EFC2FF0081B584 /* Build configuration list for PBXProject "Arkonia" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1151,487 +485,165 @@
 				en,
 				Base,
 			);
-			mainGroup = D4C0A0F121ADF3CC009D6011;
-			productRefGroup = D4C0A0FB21ADF3CC009D6011 /* Products */;
+			mainGroup = D488FB8921EFC2FF0081B584;
+			productRefGroup = D488FB9321EFC2FF0081B584 /* Z-Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D4FE852821AEB20500C9192F /* BellCurveDark */,
-				D4C0A0F921ADF3CC009D6011 /* Dark */,
-				D45E63E121AE39940078CB8E /* Dark-R */,
-				D4B517E421AFAC3200F4C88A /* Experimental */,
-				D45E640421AE3A860078CB8E /* BellCurveLight */,
-				D4C0A14921AE2E62009D6011 /* GameScene */,
-				D4FE850521AE7C0500C9192F /* GameScene-R */,
-				D4C0A16021AE2E64009D6011 /* GameSceneTests */,
-				D44EE50421BCE584006E1A12 /* PlaygroundsSuck */,
-				D47995FB21CD8B8700EB7A9A /* PlaygroundsSuck-Light */,
-				D479961221CD8B8800EB7A9A /* PlaygroundsSuck-LightTests */,
-				D462CF5C21E6F4B600F4CCC7 /* Visual */,
-				D4DC7E1721ED86AE006A0195 /* DarkTests */,
-				D444035721E8487200AF7FDD /* VisualTest */,
+				D4B9215C21EFC62C0030FF8A /* DarkDev */,
+				D488FB9121EFC2FF0081B584 /* DarkPlayground */,
+				D4B9219D21EFCD470030FF8A /* DarkTest */,
+				D4B9218B21EFCB9A0030FF8A /* DTGenome */,
+				D481EA0321EFE39E00DD40CB /* LightDev */,
+				D481EA1E21EFE7F500DD40CB /* LightPlayground */,
+				D481EA3821EFE88E00DD40CB /* LightTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D444036121E8487200AF7FDD /* Resources */ = {
+		D481EA0221EFE39E00DD40CB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D41F796E21EF42870055A7B5 /* neuron-orange.xcf in Resources */,
-				D41F797021EF42870055A7B5 /* neuron-blue.png in Resources */,
-				D41F797221EF42870055A7B5 /* neuron-green.png in Resources */,
-				D444036221E8487200AF7FDD /* Assets.xcassets in Resources */,
-				D41F797621EF42870055A7B5 /* neuron-green.xcf in Resources */,
-				D444036521E8487200AF7FDD /* Main.storyboard in Resources */,
-				D41F796C21EF42870055A7B5 /* neuron-orange.png in Resources */,
-				D41F797421EF42870055A7B5 /* neuron-blue.xcf in Resources */,
+				D481EA1121EFE39F00DD40CB /* Assets.xcassets in Resources */,
+				D481EA1421EFE39F00DD40CB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D45E641D21AE3A860078CB8E /* Resources */ = {
+		D481EA1D21EFE7F500DD40CB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D45E641E21AE3A860078CB8E /* GameScene.sks in Resources */,
-				D45E641F21AE3A860078CB8E /* Assets.xcassets in Resources */,
-				D45E642021AE3A860078CB8E /* Actions.sks in Resources */,
-				D45E642121AE3A860078CB8E /* Main.storyboard in Resources */,
+				D4465C2B21EFF39F008B9A3C /* Assets.xcassets in Resources */,
+				D481EA2F21EFE7F600DD40CB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D462CF5B21E6F4B600F4CCC7 /* Resources */ = {
+		D481EA3721EFE88E00DD40CB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D41F796D21EF42870055A7B5 /* neuron-orange.xcf in Resources */,
-				D41F796F21EF42870055A7B5 /* neuron-blue.png in Resources */,
-				D41F797121EF42870055A7B5 /* neuron-green.png in Resources */,
-				D462CF6A21E6F4B700F4CCC7 /* Assets.xcassets in Resources */,
-				D41F797521EF42870055A7B5 /* neuron-green.xcf in Resources */,
-				D462CF6D21E6F4B700F4CCC7 /* Main.storyboard in Resources */,
-				D41F796B21EF42870055A7B5 /* neuron-orange.png in Resources */,
-				D41F797321EF42870055A7B5 /* neuron-blue.xcf in Resources */,
+				D4465C2C21EFF3AB008B9A3C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D47995FA21CD8B8700EB7A9A /* Resources */ = {
+		D4B9218A21EFCB9A0030FF8A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D479960121CD8B8700EB7A9A /* GameScene.sks in Resources */,
-				D479960921CD8B8800EB7A9A /* Assets.xcassets in Resources */,
-				D479960321CD8B8700EB7A9A /* Actions.sks in Resources */,
-				D479960C21CD8B8800EB7A9A /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D479961121CD8B8800EB7A9A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4C0A14821AE2E62009D6011 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4C0A14F21AE2E63009D6011 /* GameScene.sks in Resources */,
-				D4C0A15721AE2E64009D6011 /* Assets.xcassets in Resources */,
-				D4C0A15121AE2E63009D6011 /* Actions.sks in Resources */,
-				D4C0A15A21AE2E64009D6011 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4C0A15F21AE2E64009D6011 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4DC7E1621ED86AE006A0195 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4FE851E21AE7C0500C9192F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4FE851F21AE7C0500C9192F /* GameScene.sks in Resources */,
-				D4FE852021AE7C0500C9192F /* Assets.xcassets in Resources */,
-				D4FE852121AE7C0500C9192F /* Actions.sks in Resources */,
-				D4FE852221AE7C0500C9192F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		D4C9979821CB54D4005B0264 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "swiftlint\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		D444035821E8487200AF7FDD /* Sources */ = {
+		D481EA0021EFE39E00DD40CB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D444036E21E84EC000AF7FDD /* VTests.swift in Sources */,
-				D444035921E8487200AF7FDD /* ViewController.swift in Sources */,
-				D444035A21E8487200AF7FDD /* ArkonCentral.swift in Sources */,
-				D444035B21E8487200AF7FDD /* KSignalRelay.swift in Sources */,
-				D4C8614421EA3DBE00D2AC6A /* VNeuron.swift in Sources */,
-				D444035C21E8487200AF7FDD /* VProtocols.swift in Sources */,
-				D444035D21E8487200AF7FDD /* VSpacer.swift in Sources */,
-				D4F488D521EF2CE600545EA0 /* CGConversions.swift in Sources */,
-				D4C8614121EA3D9300D2AC6A /* VLayer.swift in Sources */,
-				D444035E21E8487200AF7FDD /* KIdentifier.swift in Sources */,
-				D4C8613E21EA3D4F00D2AC6A /* VNet.swift in Sources */,
-				D444035F21E8487200AF7FDD /* AppDelegate.swift in Sources */,
+				D4465C1D21EFEB0D008B9A3C /* VLayer.swift in Sources */,
+				D4465C1921EFEB0D008B9A3C /* VTests.swift in Sources */,
+				D4465C2721EFED3C008B9A3C /* ArkonCentral.swift in Sources */,
+				D4465C2321EFEBCE008B9A3C /* KIdentifier.swift in Sources */,
+				D4465C1521EFEB0D008B9A3C /* VProtocols.swift in Sources */,
+				D4465C1321EFEB0D008B9A3C /* ViewController.swift in Sources */,
+				D4465C1B21EFEB0D008B9A3C /* VNet.swift in Sources */,
+				D4465C1721EFEB0D008B9A3C /* VSpacer.swift in Sources */,
+				D4465C2A21EFEFA1008B9A3C /* AppDelegate.swift in Sources */,
+				D4465C1F21EFEB0D008B9A3C /* VNeuron.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D44EE50121BCE584006E1A12 /* Sources */ = {
+		D481EA1B21EFE7F500DD40CB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D48F734D21DB259B001CC961 /* KLayer.swift in Sources */,
-				D4686DDB21DD1EA500149745 /* KConnector.swift in Sources */,
-				D41D113021DC04C40042055B /* KSignalRelay.swift in Sources */,
-				D4C2C53621D89EFC00367902 /* KIdentifier.swift in Sources */,
-				D408A41621D0CF2B0061D7A6 /* Common.swift in Sources */,
-				D48F735221DB2670001CC961 /* KNeuron.swift in Sources */,
-				D408A42121D0D6C70061D7A6 /* LoopIterator.swift in Sources */,
-				D44EE50821BCE584006E1A12 /* main.swift in Sources */,
-				D4686DDD21DDBD0D00149745 /* MockSupport.swift in Sources */,
-				D4B4CC1421CF710500AE6912 /* GenomeCommon.swift in Sources */,
-				D408A42321D0D6C70061D7A6 /* Utilities.swift in Sources */,
-				D48F734821DB2557001CC961 /* KNet.swift in Sources */,
-				D41D113421DC04C40042055B /* KProtocols.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D45E63E221AE39940078CB8E /* Sources */ = {
+		D481EA3521EFE88E00DD40CB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D45E63E521AE39940078CB8E /* main.swift in Sources */,
-				D45E63ED21AE39940078CB8E /* Curator.swift in Sources */,
-				D45E63F021AE39940078CB8E /* Mutator.swift in Sources */,
-				D45E63F121AE39940078CB8E /* Selector.swift in Sources */,
-				D45E63F221AE39940078CB8E /* Decoder.swift in Sources */,
+				D4465C1E21EFEB0D008B9A3C /* VLayer.swift in Sources */,
+				D4465C2621EFED28008B9A3C /* ArkonCentral.swift in Sources */,
+				D4465C1821EFEB0D008B9A3C /* VSpacer.swift in Sources */,
+				D4465C1421EFEB0D008B9A3C /* ViewController.swift in Sources */,
+				D4465C2421EFEBCE008B9A3C /* KIdentifier.swift in Sources */,
+				D4465C1C21EFEB0D008B9A3C /* VNet.swift in Sources */,
+				D481EA3C21EFE88F00DD40CB /* LightTest.swift in Sources */,
+				D4465C2021EFEB0D008B9A3C /* VNeuron.swift in Sources */,
+				D4465C1A21EFEB0D008B9A3C /* VTests.swift in Sources */,
+				D4465C1621EFEB0D008B9A3C /* VProtocols.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D45E640521AE3A860078CB8E /* Sources */ = {
+		D488FB8E21EFC2FF0081B584 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4FE850021AE7AC000C9192F /* ViewController.swift in Sources */,
-				D45E641221AE3A860078CB8E /* Selector.swift in Sources */,
-				D45E641321AE3A860078CB8E /* AppDelegate.swift in Sources */,
-				D45E641521AE3A860078CB8E /* Mutator.swift in Sources */,
-				D45E641721AE3A860078CB8E /* Curator.swift in Sources */,
-				D45E641921AE3A860078CB8E /* Decoder.swift in Sources */,
+				D4B9215821EFC3DD0030FF8A /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D462CF5921E6F4B600F4CCC7 /* Sources */ = {
+		D4B9215921EFC62C0030FF8A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4A7DE9A21E6F7B500CE9169 /* ViewController.swift in Sources */,
-				D47FBAFC21E795C30006CBC0 /* ArkonCentral.swift in Sources */,
-				D4C8613D21EA3D4F00D2AC6A /* VNet.swift in Sources */,
-				D4C8614021EA3D9300D2AC6A /* VLayer.swift in Sources */,
-				D47FBAF821E749340006CBC0 /* KSignalRelay.swift in Sources */,
-				D4C8614321EA3DBE00D2AC6A /* VNeuron.swift in Sources */,
-				D47FBAF121E73DE80006CBC0 /* VProtocols.swift in Sources */,
-				D47FBAFA21E78FE40006CBC0 /* VSpacer.swift in Sources */,
-				D47FBAF321E73F0D0006CBC0 /* KIdentifier.swift in Sources */,
-				D462CF6021E6F4B700F4CCC7 /* AppDelegate.swift in Sources */,
+				D4B9216921EFC7E70030FF8A /* Genome.swift in Sources */,
+				D4B9216E21EFC8160030FF8A /* ActivatorFunctions.swift in Sources */,
+				D4B9216C21EFC7E70030FF8A /* GenomeSubtract.swift in Sources */,
+				D4B9216A21EFC7E70030FF8A /* Gene.swift in Sources */,
+				D4B9216B21EFC7E70030FF8A /* GenomeAdd.swift in Sources */,
+				D4B9216021EFC62C0030FF8A /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D47995F821CD8B8700EB7A9A /* Sources */ = {
+		D4B9218821EFCB9A0030FF8A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4FE935021E45C3A0060C785 /* KDriver.swift in Sources */,
-				D4FFA1E621DDF05600537D5F /* KNeuron.swift in Sources */,
-				D4470FC921E23E8600F8319F /* Manipulator.swift in Sources */,
-				D4FFA1E921DE4D4900537D5F /* LoopIterator.swift in Sources */,
-				D479960721CD8B8700EB7A9A /* ViewController.swift in Sources */,
-				D4FFA1DE21DDE4D600537D5F /* TestPattern.swift in Sources */,
-				D4470FC721E23AEF00F8319F /* TNet.swift in Sources */,
-				D479962521CDC64600EB7A9A /* Spacer.swift in Sources */,
-				D4FFA1E521DDF05600537D5F /* KNet.swift in Sources */,
-				D4FFA1E721DDF05600537D5F /* KProtocols.swift in Sources */,
-				D479960521CD8B8700EB7A9A /* GameScene.swift in Sources */,
-				D4470FC621E23AEF00F8319F /* TLayer.swift in Sources */,
-				D479962321CD959900EB7A9A /* CGConversions.swift in Sources */,
-				D479962121CD8C3A00EB7A9A /* Vnet.swift in Sources */,
-				D4FFA1EF21DE80E800537D5F /* MockSupport.swift in Sources */,
-				D4470FCB21E2451900F8319F /* GenomeCommon.swift in Sources */,
-				D4FFA1E221DDF05600537D5F /* KConnector.swift in Sources */,
-				D450080921DFF576002FDDD6 /* Utilities.swift in Sources */,
-				D4FFA1E821DDF05600537D5F /* KSignalRelay.swift in Sources */,
-				D4470FCE21E2492200F8319F /* Common.swift in Sources */,
-				D4F5AC9621E328CD006D4B70 /* RandomnessGenerators.swift in Sources */,
-				D4FFA1E321DDF05600537D5F /* KIdentifier.swift in Sources */,
-				D4470FCD21E248E200F8319F /* Decoder.swift in Sources */,
-				D4FFA1EE21DE755900537D5F /* Extensions.swift in Sources */,
-				D4470FC821E23AEF00F8319F /* TNeuron.swift in Sources */,
-				D47995FF21CD8B8700EB7A9A /* AppDelegate.swift in Sources */,
-				D4FFA1E421DDF05600537D5F /* KLayer.swift in Sources */,
+				D4B9219521EFCC4E0030FF8A /* Gene.swift in Sources */,
+				D4B9219821EFCC4E0030FF8A /* GenomeSubtract.swift in Sources */,
+				D4B9219921EFCC640030FF8A /* DTGenome.swift in Sources */,
+				D4B9219621EFCC4E0030FF8A /* Genome.swift in Sources */,
+				D4B9219721EFCC4E0030FF8A /* GenomeAdd.swift in Sources */,
+				D4B9219421EFCC4E0030FF8A /* ActivatorFunctions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D479960F21CD8B8800EB7A9A /* Sources */ = {
+		D4B9219A21EFCD470030FF8A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D479961821CD8B8800EB7A9A /* PlaygroundsSuck_LightTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4B517E121AFAC3200F4C88A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D48F875421E1A8F80094571A /* TLayer.swift in Sources */,
-				D48F875021E1A7A60094571A /* TNeuron.swift in Sources */,
-				D44547C321CB151800247429 /* RandomnessGenerators.swift in Sources */,
-				D48F734621DB24EC001CC961 /* KNet.swift in Sources */,
-				D48F875821E1AA2B0094571A /* TNet.swift in Sources */,
-				D44547C621CB151800247429 /* Utilities.swift in Sources */,
-				D408A41521D0CF270061D7A6 /* Common.swift in Sources */,
-				D4FE934E21E45C3A0060C785 /* KDriver.swift in Sources */,
-				D4686DD921DD1EA400149745 /* KConnector.swift in Sources */,
-				D4684CC521C2D1C900D13964 /* Manipulator.swift in Sources */,
-				D41D112E21DC04C40042055B /* KSignalRelay.swift in Sources */,
-				D48F735021DB2670001CC961 /* KNeuron.swift in Sources */,
-				D48F734B21DB259B001CC961 /* KLayer.swift in Sources */,
-				D4FFA1EC21DE755900537D5F /* Extensions.swift in Sources */,
-				D4E6741F21D23A2000A34D60 /* ActivatorFunctions.swift in Sources */,
-				D4B517E821AFAC3200F4C88A /* main.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4C0A0F621ADF3CC009D6011 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D44547C221CB151800247429 /* RandomnessGenerators.swift in Sources */,
-				D48F734521DB24EC001CC961 /* KNet.swift in Sources */,
-				D48F875321E1A8F80094571A /* TLayer.swift in Sources */,
-				D4C0A0FE21ADF3CC009D6011 /* main.swift in Sources */,
-				D44547C521CB151800247429 /* Utilities.swift in Sources */,
-				D4FE934D21E45C3A0060C785 /* KDriver.swift in Sources */,
-				D408A41421D0CF260061D7A6 /* Common.swift in Sources */,
-				D4686DD821DD1EA400149745 /* KConnector.swift in Sources */,
-				D452A33921C1ED000049E3A5 /* GSFactory.swift in Sources */,
-				D48F2FB521C31587008EA8DA /* NGResults.swift in Sources */,
-				D452A33A21C1ED000049E3A5 /* GSGoalSuite.swift in Sources */,
-				D452A33C21C1ED000049E3A5 /* GSSubject.swift in Sources */,
-				D48F2FC121C31CEE008EA8DA /* NGSubject.swift in Sources */,
-				D441299121CC2D870086E1AC /* AASubject.swift in Sources */,
-				D48F734F21DB2670001CC961 /* KNeuron.swift in Sources */,
-				D48F875721E1AA2B0094571A /* TNet.swift in Sources */,
-				D48F734A21DB259B001CC961 /* KLayer.swift in Sources */,
-				D48F874F21E1A7A60094571A /* TNeuron.swift in Sources */,
-				D4684CC421C2D1C900D13964 /* Manipulator.swift in Sources */,
-				D48F2FBD21C31C56008EA8DA /* NGFactory.swift in Sources */,
-				D4FFA1EB21DE755900537D5F /* Extensions.swift in Sources */,
-				D452A33621C1ECE10049E3A5 /* Curator.swift in Sources */,
-				D41D113121DC04C40042055B /* KProtocols.swift in Sources */,
-				D452A33D21C1ED000049E3A5 /* GSTester.swift in Sources */,
-				D44547BF21CB151800247429 /* LoopIterator.swift in Sources */,
-				D4684CC821C2D55F00D13964 /* Tene.swift in Sources */,
-				D452A33821C1ECE10049E3A5 /* Selector.swift in Sources */,
-				D48F2FB921C31C06008EA8DA /* NGGoalSuite.swift in Sources */,
-				D441297D21CC07580086E1AC /* AATester.swift in Sources */,
-				D408A41D21D0CF5F0061D7A6 /* GenomeCommon.swift in Sources */,
-				D441298D21CC2CEB0086E1AC /* AAFactory.swift in Sources */,
-				D4C0A13021AE2405009D6011 /* Mutator.swift in Sources */,
-				D441298521CC26D50086E1AC /* AAGoalSuite.swift in Sources */,
-				D4C0A13221AE2405009D6011 /* Decoder.swift in Sources */,
-				D452A33521C1ECE10049E3A5 /* Archive.swift in Sources */,
-				D4553E0621D143D700B474A7 /* PeerGroup.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4C0A14621AE2E62009D6011 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D441298F21CC2CEB0086E1AC /* AAFactory.swift in Sources */,
-				D4FE850221AE7AC100C9192F /* ViewController.swift in Sources */,
-				D44547C721CB151800247429 /* Utilities.swift in Sources */,
-				D48F2FBF21C31C56008EA8DA /* NGFactory.swift in Sources */,
-				D4BAC13021E5E8E000E54DB6 /* VLayer.swift in Sources */,
-				D4FE934921E4437F0060C785 /* KNeuron.swift in Sources */,
-				D4FE934A21E4437F0060C785 /* KProtocols.swift in Sources */,
-				D452A32121C18EDB0049E3A5 /* GSSubject.swift in Sources */,
-				D4684CC621C2D1C900D13964 /* Manipulator.swift in Sources */,
-				D479962721CE0C0100EB7A9A /* CGConversions.swift in Sources */,
-				D4BAC12E21E5E8A400E54DB6 /* VGrid.swift in Sources */,
-				D479962821CE0C0100EB7A9A /* Spacer.swift in Sources */,
-				D48F2FB721C31587008EA8DA /* NGResults.swift in Sources */,
-				D452A32921C192170049E3A5 /* GSFactory.swift in Sources */,
-				D48F875921E1AA2B0094571A /* TNet.swift in Sources */,
-				D4C0A19521AE3178009D6011 /* Selector.swift in Sources */,
-				D44547C421CB151800247429 /* RandomnessGenerators.swift in Sources */,
-				D4FE934B21E4437F0060C785 /* KSignalRelay.swift in Sources */,
-				D48F2FC321C31CEE008EA8DA /* NGSubject.swift in Sources */,
-				D4C54C9021BDA23C00FA6549 /* Archive.swift in Sources */,
-				D4FE934521E4437F0060C785 /* KConnector.swift in Sources */,
-				D4C0A14D21AE2E63009D6011 /* AppDelegate.swift in Sources */,
-				D48F875521E1A8F80094571A /* TLayer.swift in Sources */,
-				D4FE934821E4437F0060C785 /* KNet.swift in Sources */,
-				D479962621CE0C0100EB7A9A /* Vnet.swift in Sources */,
-				D452A30C21C10B230049E3A5 /* GSGoalSuite.swift in Sources */,
-				D4684CCA21C2D55F00D13964 /* Tene.swift in Sources */,
-				D4553E0821D143D700B474A7 /* PeerGroup.swift in Sources */,
-				D48F875121E1A7A60094571A /* TNeuron.swift in Sources */,
-				D408A41321D0CF240061D7A6 /* Common.swift in Sources */,
-				D48F2FBB21C31C06008EA8DA /* NGGoalSuite.swift in Sources */,
-				D452A31C21C142810049E3A5 /* GSTester.swift in Sources */,
-				D4FE934F21E45C3A0060C785 /* KDriver.swift in Sources */,
-				D441299321CC2D870086E1AC /* AASubject.swift in Sources */,
-				D44547C121CB151800247429 /* LoopIterator.swift in Sources */,
-				D441297F21CC07580086E1AC /* AATester.swift in Sources */,
-				D4FE934721E4437F0060C785 /* KLayer.swift in Sources */,
-				D4C0A18621AE315E009D6011 /* Mutator.swift in Sources */,
-				D4C0A19321AE3178009D6011 /* Curator.swift in Sources */,
-				D4FE934621E4437F0060C785 /* KIdentifier.swift in Sources */,
-				D4C0A18521AE315E009D6011 /* Decoder.swift in Sources */,
-				D441298721CC26D50086E1AC /* AAGoalSuite.swift in Sources */,
-				D408A41F21D0CF610061D7A6 /* GenomeCommon.swift in Sources */,
-				D4FFA1ED21DE755900537D5F /* Extensions.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4C0A15D21AE2E64009D6011 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4FE850421AE7AC600C9192F /* ViewController.swift in Sources */,
-				D4C0A19621AE3178009D6011 /* Curator.swift in Sources */,
-				D4C0A19821AE3178009D6011 /* Selector.swift in Sources */,
-				D4C0A18C21AE315F009D6011 /* Mutator.swift in Sources */,
-				D4C0A18B21AE315F009D6011 /* Decoder.swift in Sources */,
-				D4C0A16621AE2E64009D6011 /* GameSceneTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4DC7E1421ED86AE006A0195 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4DC7E2921EDB32B006A0195 /* Gene.swift in Sources */,
-				D4DC7E2C21EE78EE006A0195 /* GenomeAdd.swift in Sources */,
-				D4DC7E2021ED8774006A0195 /* Genome.swift in Sources */,
-				D4DC7E2221ED87E3006A0195 /* ActivatorFunctions.swift in Sources */,
-				D4DC7E2F21EE796E006A0195 /* GenomeSubtract.swift in Sources */,
-				D4DC7E1B21ED86AE006A0195 /* DarkTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4EE805F21EBDCA3001012AF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4DC7E2B21EE78EE006A0195 /* GenomeAdd.swift in Sources */,
-				D4EE806121EBDCA3001012AF /* Extensions.swift in Sources */,
-				D4DC7E2821EDB32B006A0195 /* Gene.swift in Sources */,
-				D4DC7E2E21EE796E006A0195 /* GenomeSubtract.swift in Sources */,
-				D4EE806221EBDCA3001012AF /* ActivatorFunctions.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4FE850621AE7C0500C9192F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4FE850B21AE7C0500C9192F /* ViewController.swift in Sources */,
-				D4FE851221AE7C0500C9192F /* Selector.swift in Sources */,
-				D4FE851321AE7C0500C9192F /* AppDelegate.swift in Sources */,
-				D4FE851621AE7C0500C9192F /* Mutator.swift in Sources */,
-				D4FE851821AE7C0500C9192F /* Curator.swift in Sources */,
-				D4FE851A21AE7C0500C9192F /* Decoder.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4FE852921AEB20500C9192F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4FE852C21AEB20500C9192F /* main.swift in Sources */,
-				D4FE853421AEB20500C9192F /* Curator.swift in Sources */,
-				D4FE853721AEB20500C9192F /* Mutator.swift in Sources */,
-				D4FE853821AEB20500C9192F /* Selector.swift in Sources */,
-				D4FE853921AEB20500C9192F /* Decoder.swift in Sources */,
+				D417067A21EFCE0600BBDC3E /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		D479961521CD8B8800EB7A9A /* PBXTargetDependency */ = {
+		D481EA3F21EFE88F00DD40CB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D47995FB21CD8B8700EB7A9A /* PlaygroundsSuck-Light */;
-			targetProxy = D479961421CD8B8800EB7A9A /* PBXContainerItemProxy */;
-		};
-		D4C0A16321AE2E64009D6011 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D4C0A14921AE2E62009D6011 /* GameScene */;
-			targetProxy = D4C0A16221AE2E64009D6011 /* PBXContainerItemProxy */;
+			target = D481EA0321EFE39E00DD40CB /* LightDev */;
+			targetProxy = D481EA3E21EFE88F00DD40CB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		D462CF6B21E6F4B700F4CCC7 /* Main.storyboard */ = {
+		D481EA1221EFE39F00DD40CB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D462CF6C21E6F4B700F4CCC7 /* Base */,
+				D481EA1321EFE39F00DD40CB /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		D479960A21CD8B8800EB7A9A /* Main.storyboard */ = {
+		D481EA2D21EFE7F600DD40CB /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D479960B21CD8B8800EB7A9A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		D4C0A15821AE2E64009D6011 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D4C0A15921AE2E64009D6011 /* Base */,
+				D481EA2E21EFE7F600DD40CB /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1639,291 +651,132 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		D444036721E8487200AF7FDD /* Debug */ = {
+		D481EA1821EFE39F00DD40CB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Visual/GameSceneSupport/GameSceneSupport.entitlements;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = LightDev/LightDev.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = Visual/GameSceneSupport/info.plist;
+				INFOPLIST_FILE = LightDev/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneSupport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightDev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = VISUAL_TEST;
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_LIGHT LIGHT_DEV";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
-		D444036821E8487200AF7FDD /* Release */ = {
+		D481EA1921EFE39F00DD40CB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Visual/GameSceneSupport/GameSceneSupport.entitlements;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = LightDev/LightDev.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = Visual/GameSceneSupport/info.plist;
+				INFOPLIST_FILE = LightDev/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneSupport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightDev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = VISUAL_TEST;
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_LIGHT LIGHT_DEV";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
-		D44EE50921BCE584006E1A12 /* Debug */ = {
+		D481EA3321EFE7F600DD40CB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LightPlayground/LightPlayground.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = LightPlayground/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightPlayground;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "LIGHT_PLAYGROUND RUN_LIGHT";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
-		D44EE50A21BCE584006E1A12 /* Release */ = {
+		D481EA3421EFE7F600DD40CB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LightPlayground/LightPlayground.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = LightPlayground/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightPlayground;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "LIGHT_PLAYGROUND RUN_LIGHT";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
-		D45E63F921AE39940078CB8E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				DRUNK_DARK = "";
-				OTHER_SWIFT_FLAGS = "-DRUN_DARK";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D45E63FA21AE39940078CB8E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				DRUNK_DARK = "";
-				OTHER_SWIFT_FLAGS = "-DRUN_DARK";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D45E642321AE3A860078CB8E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = GameScene/GameScene.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = "GameScene copy-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameScene;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = BELL_CURVE;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D45E642421AE3A860078CB8E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = GameScene/GameScene.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = "GameScene copy-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameScene;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = BELL_CURVE;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D462CF7121E6F4B700F4CCC7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Visual/GameSceneSupport/GameSceneSupport.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = Visual/GameSceneSupport/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneSupport;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = VISUAL_LIVE;
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D462CF7221E6F4B700F4CCC7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Visual/GameSceneSupport/GameSceneSupport.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = Visual/GameSceneSupport/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneSupport;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = VISUAL_LIVE;
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D479961A21CD8B8800EB7A9A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "PlaygroundsSuck-Light/PlaygroundsSuck_Light.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = "PlaygroundsSuck-Light/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-Light";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "xNETCAMS_SMOKE_TEST SIGNAL_GRID_DIAGNOSTICS";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D479961B21CD8B8800EB7A9A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "PlaygroundsSuck-Light/PlaygroundsSuck_Light.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = "PlaygroundsSuck-Light/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-Light";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "xNETCAMS_SMOKE_TEST SIGNAL_GRID_DIAGNOSTICS";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D479961C21CD8B8800EB7A9A /* Debug */ = {
+		D481EA4121EFE88F00DD40CB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = "PlaygroundsSuck-LightTests/Info.plist";
+				INFOPLIST_FILE = LightTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-LightTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_LIGHT LIGHT_TEST";
 				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaygroundsSuck-Light.app/Contents/MacOS/PlaygroundsSuck-Light";
+				TEST_TARGET_NAME = LightDev;
 			};
 			name = Debug;
 		};
-		D479961D21CD8B8800EB7A9A /* Release */ = {
+		D481EA4221EFE88F00DD40CB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = "PlaygroundsSuck-LightTests/Info.plist";
+				INFOPLIST_FILE = LightTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.BoringSoftware.PlaygroundsSuck-LightTests";
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_LIGHT LIGHT_TEST";
 				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PlaygroundsSuck-Light.app/Contents/MacOS/PlaygroundsSuck-Light";
+				TEST_TARGET_NAME = LightDev;
 			};
 			name = Release;
 		};
-		D4B517EA21AFAC3200F4C88A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "EXPERIMENTAL RUN_DARK";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D4B517EB21AFAC3200F4C88A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "EXPERIMENTAL RUN_DARK";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D4C0A0FF21ADF3CC009D6011 /* Debug */ = {
+		D488FB9721EFC3000081B584 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1984,7 +837,7 @@
 			};
 			name = Debug;
 		};
-		D4C0A10021ADF3CC009D6011 /* Release */ = {
+		D488FB9821EFC3000081B584 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -2038,242 +891,123 @@
 			};
 			name = Release;
 		};
-		D4C0A10221ADF3CC009D6011 /* Debug */ = {
+		D488FB9A21EFC3000081B584 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DRUNK_DARK = "";
-				OTHER_SWIFT_FLAGS = "-DRUN_DARK";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D4C0A10321ADF3CC009D6011 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				DRUNK_DARK = "";
-				OTHER_SWIFT_FLAGS = "-DRUN_DARK";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D4C0A16921AE2E64009D6011 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = GameScene/GameScene.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = GameScene/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				OTHER_SWIFT_FLAGS = "-DINSPECTION";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameScene;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D4C0A16A21AE2E64009D6011 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = GameScene/GameScene.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = GameScene/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				OTHER_SWIFT_FLAGS = "-DINSPECTION";
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameScene;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D4C0A16C21AE2E64009D6011 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = GameSceneTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GameScene.app/Contents/MacOS/GameScene";
-			};
-			name = Debug;
-		};
-		D4C0A16D21AE2E64009D6011 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = GameSceneTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameSceneTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GameScene.app/Contents/MacOS/GameScene";
-			};
-			name = Release;
-		};
-		D4DC7E1D21ED86AE006A0195 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = DarkTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DarkTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D4DC7E1E21ED86AE006A0195 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = DarkTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DarkTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D4EE806821EBDCA3001012AF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_DARK TEST_LINKED_LIST";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D4EE806921EBDCA3001012AF /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_DARK TEST_LINKED_LIST";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D4FE852421AE7C0500C9192F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = GameScene/GameScene.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = "GameScene copy-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameScene;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D4FE852521AE7C0500C9192F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = GameScene/GameScene.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = "GameScene copy-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.GameScene;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D4FE854021AEB20500C9192F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				DRUNK_DARK = "";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "BELL_CURVE RUN_DARK";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DARK_PLAYGROUND;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
-		D4FE854121AEB20500C9192F /* Release */ = {
+		D488FB9B21EFC3000081B584 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DRUNK_DARK = "";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "BELL_CURVE RUN_DARK";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DARK_PLAYGROUND;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D4B9216221EFC62C0030FF8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_DEV RUN_DARK";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D4B9216321EFC62C0030FF8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_DEV RUN_DARK";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D4B9219221EFCB9A0030FF8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = DarkTest/DTGenome/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DT_GENOME RUN_DARK DARK_TEST";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D4B9219321EFCB9A0030FF8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = DarkTest/DTGenome/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DT_GENOME RUN_DARK DARK_TEST";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D4B921A321EFCD470030FF8A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_TEST RUN_DARK";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D4B921A421EFCD470030FF8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_TEST RUN_DARK";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -2281,151 +1015,79 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D444036621E8487200AF7FDD /* Build configuration list for PBXNativeTarget "VisualTest" */ = {
+		D481EA1721EFE39F00DD40CB /* Build configuration list for PBXNativeTarget "LightDev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D444036721E8487200AF7FDD /* Debug */,
-				D444036821E8487200AF7FDD /* Release */,
+				D481EA1821EFE39F00DD40CB /* Debug */,
+				D481EA1921EFE39F00DD40CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D44EE50B21BCE584006E1A12 /* Build configuration list for PBXNativeTarget "PlaygroundsSuck" */ = {
+		D481EA3221EFE7F600DD40CB /* Build configuration list for PBXNativeTarget "LightPlayground" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D44EE50921BCE584006E1A12 /* Debug */,
-				D44EE50A21BCE584006E1A12 /* Release */,
+				D481EA3321EFE7F600DD40CB /* Debug */,
+				D481EA3421EFE7F600DD40CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D45E63F821AE39940078CB8E /* Build configuration list for PBXNativeTarget "Dark-R" */ = {
+		D481EA4021EFE88F00DD40CB /* Build configuration list for PBXNativeTarget "LightTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D45E63F921AE39940078CB8E /* Debug */,
-				D45E63FA21AE39940078CB8E /* Release */,
+				D481EA4121EFE88F00DD40CB /* Debug */,
+				D481EA4221EFE88F00DD40CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D45E642221AE3A860078CB8E /* Build configuration list for PBXNativeTarget "BellCurveLight" */ = {
+		D488FB8D21EFC2FF0081B584 /* Build configuration list for PBXProject "Arkonia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D45E642321AE3A860078CB8E /* Debug */,
-				D45E642421AE3A860078CB8E /* Release */,
+				D488FB9721EFC3000081B584 /* Debug */,
+				D488FB9821EFC3000081B584 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D462CF7021E6F4B700F4CCC7 /* Build configuration list for PBXNativeTarget "Visual" */ = {
+		D488FB9921EFC3000081B584 /* Build configuration list for PBXNativeTarget "DarkPlayground" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D462CF7121E6F4B700F4CCC7 /* Debug */,
-				D462CF7221E6F4B700F4CCC7 /* Release */,
+				D488FB9A21EFC3000081B584 /* Debug */,
+				D488FB9B21EFC3000081B584 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D479961E21CD8B8800EB7A9A /* Build configuration list for PBXNativeTarget "PlaygroundsSuck-Light" */ = {
+		D4B9216121EFC62C0030FF8A /* Build configuration list for PBXNativeTarget "DarkDev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D479961A21CD8B8800EB7A9A /* Debug */,
-				D479961B21CD8B8800EB7A9A /* Release */,
+				D4B9216221EFC62C0030FF8A /* Debug */,
+				D4B9216321EFC62C0030FF8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D479961F21CD8B8800EB7A9A /* Build configuration list for PBXNativeTarget "PlaygroundsSuck-LightTests" */ = {
+		D4B9219121EFCB9A0030FF8A /* Build configuration list for PBXNativeTarget "DTGenome" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D479961C21CD8B8800EB7A9A /* Debug */,
-				D479961D21CD8B8800EB7A9A /* Release */,
+				D4B9219221EFCB9A0030FF8A /* Debug */,
+				D4B9219321EFCB9A0030FF8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4B517E921AFAC3200F4C88A /* Build configuration list for PBXNativeTarget "Experimental" */ = {
+		D4B921A221EFCD470030FF8A /* Build configuration list for PBXNativeTarget "DarkTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D4B517EA21AFAC3200F4C88A /* Debug */,
-				D4B517EB21AFAC3200F4C88A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D4C0A0F521ADF3CC009D6011 /* Build configuration list for PBXProject "Arkonia" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D4C0A0FF21ADF3CC009D6011 /* Debug */,
-				D4C0A10021ADF3CC009D6011 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D4C0A10121ADF3CC009D6011 /* Build configuration list for PBXNativeTarget "Dark" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D4C0A10221ADF3CC009D6011 /* Debug */,
-				D4C0A10321ADF3CC009D6011 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D4C0A16821AE2E64009D6011 /* Build configuration list for PBXNativeTarget "GameScene" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D4C0A16921AE2E64009D6011 /* Debug */,
-				D4C0A16A21AE2E64009D6011 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D4C0A16B21AE2E64009D6011 /* Build configuration list for PBXNativeTarget "GameSceneTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D4C0A16C21AE2E64009D6011 /* Debug */,
-				D4C0A16D21AE2E64009D6011 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D4DC7E1F21ED86AE006A0195 /* Build configuration list for PBXNativeTarget "DarkTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D4DC7E1D21ED86AE006A0195 /* Debug */,
-				D4DC7E1E21ED86AE006A0195 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D4EE806721EBDCA3001012AF /* Build configuration list for PBXNativeTarget "TLinkedList" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D4EE806821EBDCA3001012AF /* Debug */,
-				D4EE806921EBDCA3001012AF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D4FE852321AE7C0500C9192F /* Build configuration list for PBXNativeTarget "GameScene-R" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D4FE852421AE7C0500C9192F /* Debug */,
-				D4FE852521AE7C0500C9192F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D4FE853F21AEB20500C9192F /* Build configuration list for PBXNativeTarget "BellCurveDark" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D4FE854021AEB20500C9192F /* Debug */,
-				D4FE854121AEB20500C9192F /* Release */,
+				D4B921A321EFCD470030FF8A /* Debug */,
+				D4B921A421EFCD470030FF8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = D4C0A0F221ADF3CC009D6011 /* Project object */;
+	rootObject = D488FB8A21EFC2FF0081B584 /* Project object */;
 }

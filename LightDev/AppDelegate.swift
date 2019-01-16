@@ -17,23 +17,19 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
+  
 
-import Foundation
 
-typealias Genome = String
-typealias GenomeSlice = Substring
-typealias GenomeIndex = String.Index
+import Cocoa
 
-struct UpConnector: CustomStringConvertible {
-    var channel = 0
-    var weight = 0.0
-
-    var description: String {
-        return "(w[\(weight.dTruncate())]c[\(channel)])"
+@NSApplicationMain
+class AppDelegate: NSObject, NSApplicationDelegate {
+    static var finishedLaunching = false
+    
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        AppDelegate.finishedLaunching = true
     }
-
-    init() { channel = 0; weight = 0.0 }
-    init(_ pair: UpConnector) { self.channel = pair.channel; self.weight = pair.weight }
-    init(_ weight: Double, _ channel: Int) { self.weight = weight; self.channel = channel }
-    init(_ weight: Int, _ channel: Int) { self.weight = Double(weight); self.channel = channel }
+    
+    func applicationWillTerminate(_ aNotification: Notification) {
+    }
 }

@@ -17,20 +17,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-  
 
 import XCTest
 
-class DarkTests: XCTestCase {
-
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
+class DTGenome: XCTestCase {
     func testGenome() {
         func getGeneValues(_ segment: Segment) -> [Int] {
             return segment.map { return ($0 as! gMockGene).value }
@@ -178,12 +168,5 @@ class DarkTests: XCTestCase {
 
         genome.dump()
     }
-
-//    func testPerformanceExample() {
-//        // This is an example of a performance test case.
-//        self.measure {
-//            // Put the code you want to measure the time of here.
-//        }
-//    }
 
 }

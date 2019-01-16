@@ -52,21 +52,8 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let view = view as? SKView {
-            // Create the scene programmatically
-            //            #if VISUAL_TEST
-            //            let sks = "VisualizerTest"
-            //            guard let scene = VisualizerTest(fileNamed: sks) else { preconditionFailure() }
-            //            #elseif VISUAL_LIVE
-            //            let sks = "Visualizer"
-            ////            guard let scene = Visualizer(fileNamed: sks) else { preconditionFailure() }
-            //            #else
-            //            preconditionFailure("We don't use GameScene any more")
-            //            #endif
-
-            #if VISUAL_TEST
+            #if LIGHT_TEST || LIGHT_DEV
             let scene = VisualizerTest(size: view.frame.size)
-            #elseif VISUAL_LIVE
-//            guard let scene = Visualizer(fileNamed: sks) else { preconditionFailure() }
             #else
             preconditionFailure("A Bad Thing™ happened")
             #endif
@@ -83,32 +70,4 @@ class ViewController: NSViewController {
             view.presentScene(scene)
         }
     }
-
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        if let view = self.skView {
-//
-//            #if VISUAL_TEST
-//            let sks = "VisualizerTest"
-//            guard let scene = VisualizerTest(fileNamed: sks) else { preconditionFailure() }
-//            #elseif VISUAL_LIVE
-//            let sks = "Visualizer"
-////            guard let scene = Visualizer(fileNamed: sks) else { preconditionFailure() }
-//            #else
-//            preconditionFailure("We don't use GameScene any more")
-//            #endif
-//
-//            // Set the scale mode to scale to fit the window
-//            scene.scaleMode = .resizeFill
-//            scene.size = view.frame.size
-//
-//            // Present the scene
-//            view.presentScene(scene)
-//
-//            view.ignoresSiblingOrder = true
-//            view.showsFPS = true
-//            view.showsNodeCount = true
-//        }
-//    }
 }
