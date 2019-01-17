@@ -22,6 +22,10 @@ import XCTest
 
 class DTGenome: XCTestCase {
     func testGenome() {
+        #if DT_GENOME
+        print("DT_GENOME is set")
+        #endif
+
         func getGeneValues(_ segment: Segment) -> [Int] {
             return segment.map { return ($0 as! gMockGene).value }
         }

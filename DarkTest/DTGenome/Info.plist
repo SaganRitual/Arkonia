@@ -18,5 +18,9 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>DT_DECODE</key>
+	<string>$(DT_DECODE)</string>
+	<key>DT_GENOME</key>
+	<string>$(DT_GENOME)</string>
 </dict>
 </plist>

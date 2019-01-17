@@ -33,6 +33,7 @@
 		D481EA1421EFE39F00DD40CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D481EA1221EFE39F00DD40CB /* Main.storyboard */; };
 		D481EA2F21EFE7F600DD40CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D481EA2D21EFE7F600DD40CB /* Main.storyboard */; };
 		D481EA3C21EFE88F00DD40CB /* LightTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D481EA3B21EFE88F00DD40CB /* LightTest.swift */; };
+		D493C2B921F00E0000FF399B /* DTDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D493C2B821F00E0000FF399B /* DTDecoder.swift */; };
 		D4B9215821EFC3DD0030FF8A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9215721EFC3DD0030FF8A /* main.swift */; };
 		D4B9216021EFC62C0030FF8A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9215F21EFC62C0030FF8A /* main.swift */; };
 		D4B9216921EFC7E70030FF8A /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216521EFC7E70030FF8A /* Genome.swift */; };
@@ -113,6 +114,7 @@
 		D481EA3B21EFE88F00DD40CB /* LightTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTest.swift; sourceTree = "<group>"; };
 		D481EA3D21EFE88F00DD40CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D488FB9221EFC2FF0081B584 /* DarkPlayground */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkPlayground; sourceTree = BUILT_PRODUCTS_DIR; };
+		D493C2B821F00E0000FF399B /* DTDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTDecoder.swift; sourceTree = "<group>"; };
 		D4B9215721EFC3DD0030FF8A /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4B9215D21EFC62C0030FF8A /* DarkDev */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkDev; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B9215F21EFC62C0030FF8A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 		D4B9218D21EFCB9A0030FF8A /* DTGenome */ = {
 			isa = PBXGroup;
 			children = (
+				D493C2B821F00E0000FF399B /* DTDecoder.swift */,
 				D4B9217B21EFC9260030FF8A /* DTGenome.swift */,
 				D4B9219021EFCB9A0030FF8A /* Info.plist */,
 			);
@@ -609,6 +612,7 @@
 				D4B9219921EFCC640030FF8A /* DTGenome.swift in Sources */,
 				D4B9219621EFCC4E0030FF8A /* Genome.swift in Sources */,
 				D4B9219721EFCC4E0030FF8A /* GenomeAdd.swift in Sources */,
+				D493C2B921F00E0000FF399B /* DTDecoder.swift in Sources */,
 				D4B9219421EFCC4E0030FF8A /* ActivatorFunctions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -651,6 +655,198 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D438BF6D21F044350065ADF1 /* DTDecode */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG DT_DECODE";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+			};
+			name = DTDecode;
+		};
+		D438BF6E21F044350065ADF1 /* DTDecode */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_DEV RUN_DARK";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTDecode;
+		};
+		D438BF6F21F044350065ADF1 /* DTDecode */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DARK_PLAYGROUND;
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTDecode;
+		};
+		D438BF7021F044350065ADF1 /* DTDecode */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_DECODE = 0;
+				DT_GENOME = 0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_TEST RUN_DARK";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTDecode;
+		};
+		D438BF7121F044350065ADF1 /* DTDecode */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_DECODE = DT_DECODE;
+				DT_GENOME = "";
+				INCLUDED_SOURCE_FILE_NAMES = DTDecoder.swift;
+				INFOPLIST_FILE = DarkTest/DTGenome/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_DARK DARK_TEST";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTDecode;
+		};
+		D438BF7221F044350065ADF1 /* DTDecode */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = LightDev/LightDev.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = LightDev/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightDev;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_LIGHT LIGHT_DEV";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTDecode;
+		};
+		D438BF7321F044350065ADF1 /* DTDecode */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LightPlayground/LightPlayground.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = LightPlayground/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightPlayground;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "LIGHT_PLAYGROUND RUN_LIGHT";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTDecode;
+		};
+		D438BF7421F044350065ADF1 /* DTDecode */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = LightTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_LIGHT LIGHT_TEST";
+				SWIFT_VERSION = 4.2;
+				TEST_TARGET_NAME = LightDev;
+			};
+			name = DTDecode;
+		};
 		D481EA1821EFE39F00DD40CB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -821,6 +1017,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -834,6 +1031,7 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = Debug;
 		};
@@ -876,6 +1074,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -888,6 +1087,7 @@
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = Release;
 		};
@@ -917,6 +1117,197 @@
 			};
 			name = Release;
 		};
+		D493C2BA21F0178D00FF399B /* DTGenome */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG DT_GENOME";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+			};
+			name = DTGenome;
+		};
+		D493C2BB21F0178D00FF399B /* DTGenome */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_DEV RUN_DARK";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTGenome;
+		};
+		D493C2BC21F0178D00FF399B /* DTGenome */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DARK_PLAYGROUND;
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTGenome;
+		};
+		D493C2BD21F0178D00FF399B /* DTGenome */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_DECODE = 0;
+				DT_GENOME = 0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_TEST RUN_DARK";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTGenome;
+		};
+		D493C2BE21F0178D00FF399B /* DTGenome */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_GENOME = DT_GENOME;
+				INCLUDED_SOURCE_FILE_NAMES = DTGenome.swift;
+				INFOPLIST_FILE = DarkTest/DTGenome/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_DARK DARK_TEST";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTGenome;
+		};
+		D493C2BF21F0178D00FF399B /* DTGenome */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = LightDev/LightDev.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = LightDev/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightDev;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_LIGHT LIGHT_DEV";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTGenome;
+		};
+		D493C2C021F0178D00FF399B /* DTGenome */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LightPlayground/LightPlayground.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = LightPlayground/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightPlayground;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "LIGHT_PLAYGROUND RUN_LIGHT";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTGenome;
+		};
+		D493C2C121F0178D00FF399B /* DTGenome */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = LightTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_LIGHT LIGHT_TEST";
+				SWIFT_VERSION = 4.2;
+				TEST_TARGET_NAME = LightDev;
+			};
+			name = DTGenome;
+		};
 		D4B9216221EFC62C0030FF8A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -945,6 +1336,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_DECODE = "";
+				DT_GENOME = "";
 				INFOPLIST_FILE = DarkTest/DTGenome/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -953,7 +1346,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DT_GENOME RUN_DARK DARK_TEST";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_DARK DARK_TEST";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -964,6 +1357,8 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_DECODE = "";
+				DT_GENOME = "";
 				INFOPLIST_FILE = DarkTest/DTGenome/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -972,7 +1367,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DT_GENOME RUN_DARK DARK_TEST";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_DARK DARK_TEST";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -983,6 +1378,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_DECODE = 0;
+				DT_GENOME = 0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1001,6 +1398,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_DECODE = 0;
+				DT_GENOME = 0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1019,6 +1418,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D481EA1821EFE39F00DD40CB /* Debug */,
+				D438BF7221F044350065ADF1 /* DTDecode */,
+				D493C2BF21F0178D00FF399B /* DTGenome */,
 				D481EA1921EFE39F00DD40CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1028,6 +1429,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D481EA3321EFE7F600DD40CB /* Debug */,
+				D438BF7321F044350065ADF1 /* DTDecode */,
+				D493C2C021F0178D00FF399B /* DTGenome */,
 				D481EA3421EFE7F600DD40CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1037,6 +1440,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D481EA4121EFE88F00DD40CB /* Debug */,
+				D438BF7421F044350065ADF1 /* DTDecode */,
+				D493C2C121F0178D00FF399B /* DTGenome */,
 				D481EA4221EFE88F00DD40CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1046,6 +1451,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D488FB9721EFC3000081B584 /* Debug */,
+				D438BF6D21F044350065ADF1 /* DTDecode */,
+				D493C2BA21F0178D00FF399B /* DTGenome */,
 				D488FB9821EFC3000081B584 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1055,6 +1462,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D488FB9A21EFC3000081B584 /* Debug */,
+				D438BF6F21F044350065ADF1 /* DTDecode */,
+				D493C2BC21F0178D00FF399B /* DTGenome */,
 				D488FB9B21EFC3000081B584 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1064,6 +1473,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4B9216221EFC62C0030FF8A /* Debug */,
+				D438BF6E21F044350065ADF1 /* DTDecode */,
+				D493C2BB21F0178D00FF399B /* DTGenome */,
 				D4B9216321EFC62C0030FF8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1073,6 +1484,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4B9219221EFCB9A0030FF8A /* Debug */,
+				D438BF7121F044350065ADF1 /* DTDecode */,
+				D493C2BE21F0178D00FF399B /* DTGenome */,
 				D4B9219321EFCB9A0030FF8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1082,6 +1495,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4B921A321EFCD470030FF8A /* Debug */,
+				D438BF7021F044350065ADF1 /* DTDecode */,
+				D493C2BD21F0178D00FF399B /* DTGenome */,
 				D4B921A421EFCD470030FF8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
