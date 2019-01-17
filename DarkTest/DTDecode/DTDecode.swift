@@ -22,24 +22,80 @@
 import XCTest
 
 class DTDecode: XCTestCase {
-
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func testDecode() {
         #if DT_DECODE
         print("DT_DECODE is set")
-        #elseif DT_GENOME
-        XCTAssert(false, "DT_GENOME for crying out loud")
-        #else
-        XCTAssert(false, "DT_DECODE is not set")
         #endif
 
+        let cLayers = 5
+        let cSenseNeurons = 5
+        let cMotorNeurons = 7
+        ArkonCentral.selectionControls.cLayersInStarter = cLayers
+        ArkonCentral.selectionControls.cSenseNeurons = cSenseNeurons
+        ArkonCentral.selectionControls.cMotorNeurons = cMotorNeurons
+
+        let g = Assembler.makePassThruGenome()
+        var iter = g.makeIterator()
+        let L = iter.filter { $0.type == .layer }
+
+        iter = g.makeIterator()
+        let N = iter.filter { $0.type == .neuron }
+
+        iter = g.makeIterator()
+        let Dv = iter.compactMap { ($0 as? gDownConnector)?.value }
+
+        iter = g.makeIterator()
+        let U = iter.compactMap { ($0 as? gUpConnector)?.weight }
+
+        iter = g.makeIterator()
+        let B = iter.filter { $0.type == .bias }
+
+        iter = g.makeIterator()
+        let A = iter.filter { $0.type == .activator }
+
+        let cDownConnectors = Assembler.computeDownsPerNeuron(
+            cSenseNeurons: cSenseNeurons, cMotorNeurons: cMotorNeurons
+        )
+
+        XCTAssertEqual(L.count, cLayers)
+        XCTAssertEqual(N.count, cLayers * cSenseNeurons)
+
+        // One activator function per neuron
+        XCTAssertEqual(A.count, N.count)
+        // One bias per neuron
+        XCTAssertEqual(B.count, N.count)
+        // One upConnector per neuron
+        XCTAssertEqual(U.count, N.count)
+        // downConnectors are a bit more involved to compute
+        XCTAssertEqual(Dv.count, cDownConnectors)
+
+        let decoder = TDecoder()
+        let tNet = decoder.setInput(to: g).decode()
+        XCTAssertEqual(tNet.layers.count, cLayers)
+
+        let cNeurons = tNet.layers.map { $0.count }.reduce(0) { $0 + $1 }
+        XCTAssertEqual(cNeurons, cLayers * cSenseNeurons)
+
+        tNet.layers.forEach { layer in
+            layer.neurons.forEach { neuron in
+                XCTAssertEqual(neuron.activator, AFn.FunctionName.boundidentity)
+                XCTAssertEqual(neuron.bias, 0.0)
+                XCTAssertEqual(neuron.upConnectors.count, 1)
+            }
+        }
+
+        // One activator function per neuron
+        let cActivators = tNet.layers.map { $0.count }.reduce(0) { $0 + $1 }
+        XCTAssertEqual(cActivators, N.count)
+        // One bias per neuron
+        XCTAssertEqual(B.count, N.count)
+        // One upConnector per neuron
+        XCTAssertEqual(U.count, N.count)
+        // downConnectors are a bit more involved to compute
+        XCTAssertEqual(Dv.count, cDownConnectors)
+
+        let kDriver = KDriver(tNet: tNet)
+        kDriver.drive()
     }
 
 //    func testPerformanceExample() {

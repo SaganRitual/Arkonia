@@ -56,7 +56,7 @@ enum GeneType {
     case upConnector
 }
 
-class Gene {
+class Gene: CustomDebugStringConvertible {
     static var idNumber = 0
 
     let idNumber: Int
@@ -66,6 +66,7 @@ class Gene {
     weak var prev: Gene?
 
     var description: String { return "If you can read this, something has gone haywire." }
+    var debugDescription: String { return description }
 
     static func init_(_ type: GeneType) -> (Int, GeneType) {
         defer { Gene.idNumber += 1 }
@@ -83,7 +84,7 @@ class Gene {
 
 class gActivatorFunction: Gene {
     let value: AFn.FunctionName
-    override var description: String { return "Activator function" }
+    override var description: String { return "Activator function(\(value))" }
     init(_ value: AFn.FunctionName) {
         self.value = value
         super.init(.activator)
@@ -94,7 +95,7 @@ class gActivatorFunction: Gene {
 
 class gBias: Gene {
     let value: Double
-    override var description: String { return "Bias" }
+    override var description: String { return "Bias(\(value))" }
     init(_ value: Double) {
         self.value = value
         super.init(.bias)
@@ -135,15 +136,15 @@ class gLayer: Gene {
     override func copy() -> Gene { return gLayer() }
 }
 
-class gMockGene: Gene, CustomDebugStringConvertible {
+class gMockGene: Gene {
     let value: Int
-    override var description: String { return debugDescription }
-    var debugDescription: String { return "Mock gene: value = \(value)" }
+    override var description: String { return "Mock gene: value = \(value)" }
     init(_ value: Int) { self.value = value; super.init(.mockGene) }
     override func copy() -> Gene { return gMockGene(value) }
 }
 
 class gNeuron: Gene {
+    override var description: String { return "Neuron gene" }
     init() { super.init(.neuron) }
     override func copy() -> Gene { return gNeuron() }
 }
@@ -154,9 +155,15 @@ class gPolicy: Gene { init() {
     override func copy() -> Gene { return gPolicy() }
 }
 
-class gSkipAnyType: gIntGene { init(_ value: Int) { super.init(.skipAnyType, value) } }
+class gSkipAnyType: gIntGene {
+    init(_ value: Int) { super.init(.skipAnyType, value) }
+}
+
 class gSkipOneType: gIntGene {
     let typeToSkip: GeneType
+
+    override var description: String { return "Skip(\(value) \(typeToSkip))" }
+
     init(_ value: Int, typeToSkip: GeneType) {
         self.typeToSkip = typeToSkip
         super.init(.skipOneType, value)
@@ -167,7 +174,7 @@ class gUpConnector: Gene {
     let channel: Int
     let weight: Double
 
-    override var description: String { return "Up connector" }
+    override var description: String { return "Up connector(c = \(channel), w = \(weight))" }
 
     init(_ value: (Double, Int)) {
         (weight, channel) = value

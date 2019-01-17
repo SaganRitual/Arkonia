@@ -23,7 +23,7 @@ import Foundation
 // Makes it easier for me to reason about splicing and slicing
 typealias Segment = Genome
 
-class Genome {
+class Genome: CustomDebugStringConvertible {
     var head: Gene? { didSet { if head == nil { tail = nil; count = 0 } } }
 
     weak var tail: Gene?
@@ -31,15 +31,22 @@ class Genome {
     var count = 0
     var isEmpty: Bool { return count == 0 }
 
-    init() {}
-    init(_ genes: [Gene]) { genes.forEach { asslink($0) } }
-    init(_ segment: Segment) {
-        self.head = segment.head
-        self.tail = segment.tail
-        self.count = segment.count
+    var debugDescription: String {
+        return makeIterator().map { return String(reflecting: $0) + "\n" }.joined()
+    }
 
+    init() {}
+    init(_ gene: Gene) { asslink(gene) }
+    init(_ genes: [Gene]) { genes.forEach { asslink($0) } }
+
+    init(_ segment: Segment) { (head, tail, count) = Genome.init_(segment) }
+
+    init(_ segments: [Segment]) { segments.forEach { asslink($0) } }
+
+    static func init_(_ segment: Segment) -> (Gene?, Gene?, Int) {
         // Take ownership
-        segment.head = nil
+        defer { segment.head = nil }
+        return (segment.head, segment.tail, segment.count)
     }
 
     func releaseGenes() { head = nil }
@@ -100,29 +107,6 @@ extension Genome: Sequence {
 
     func makeIterator() -> GenomeIterator {
         return GenomeIterator(self)
-    }
-}
-
-// MARK: Sequence - Passthru iterator
-
-extension Genome {
-    struct PassthruIterator: IteratorProtocol, Sequence {
-        typealias Iterator = PassthruIterator
-        typealias Element = Gene
-
-        private weak var gene: Gene?
-
-        init(_ genome: Genome) { self.gene = genome.head }
-
-        mutating func next() -> Gene? {
-            guard var curr = gene else { return nil }
-            defer { gene = curr.next }
-            return curr
-        }
-    }
-
-    func makePassthruIterator() -> PassthruIterator {
-        return PassthruIterator(self)
     }
 }
 

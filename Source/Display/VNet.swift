@@ -21,12 +21,16 @@
 import Foundation
 import SpriteKit
 
+typealias QuadrantMultiplier = (x: Double, y: Double)
+
 class VNet: KIdentifiable {
+    public enum Quadrant: Int { case one, two, three, four }
+
     static var sprites = [SKSpriteNode]()
 
     let id: KIdentifier
     var hiddenLayers = [VLayer]()
-    weak var netcam: SKNode!
+    weak var netcam: SKNode?
     var senseLayer: VLayer!
     var motorLayer: VLayer!
 
@@ -41,31 +45,35 @@ class VNet: KIdentifiable {
 
     func addLayer(layerRole: VLayer.LayerRole, layerSSInGrid: Int) -> VLayer {
         if layerRole == .senseLayer {
-            let sID = id.add(-1, as: .senseLayer)
-            senseLayer = VLayer(id: sID, netcam: netcam, layerRole: layerRole, layerSSInGrid: -1)
+            let iss = ArkonCentral.isSenseLayer
+            let sID = id.add(iss, as: .senseLayer)
+            senseLayer = VLayer(id: sID, netcam: netcam!, layerRole: layerRole, layerSSInGrid: iss)
             return senseLayer
         }
 
         if layerRole == .motorLayer {
-            let mID = id.add(-2, as: .motorLayer)
-            motorLayer = VLayer(id: mID, netcam: netcam, layerRole: layerRole, layerSSInGrid: -2)
+            let ism = ArkonCentral.isMotorLayer
+            let mID = id.add(ism, as: .motorLayer)
+            motorLayer = VLayer(id: mID, netcam: netcam!, layerRole: layerRole, layerSSInGrid: ism)
             return motorLayer
         }
 
         let hID = id.add(layerSSInGrid, as: .hiddenLayer)
         hiddenLayers.append(VLayer(
-            id: hID, netcam: netcam, layerRole: layerRole, layerSSInGrid: layerSSInGrid
+            id: hID, netcam: netcam!, layerRole: layerRole, layerSSInGrid: layerSSInGrid
         ))
 
         return hiddenLayers.last!
     }
 
+    func getNetcam(_ quadrant: Quadrant) -> SKNode { return netcam! }
+
     func visualize() {
         precondition(hiddenLayers.isEmpty == false, "At least one hidden layer is required")
 
-        netcam.removeAllChildren()
+        netcam!.removeAllChildren()
 
-        let spacer = VSpacer(netcam: netcam, cLayers: hiddenLayers.count)
+        let spacer = VSpacer(netcam: netcam!, cLayers: hiddenLayers.count)
         senseLayer.visualize(spacer: spacer)
 //        let spazzer = spacer
         hiddenLayers.forEach { $0.visualize(spacer: spacer) }
