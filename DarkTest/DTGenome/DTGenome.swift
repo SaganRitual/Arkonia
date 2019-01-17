@@ -24,6 +24,8 @@ class DTGenome: XCTestCase {
     func testGenome() {
         #if DT_GENOME
         print("DT_GENOME is set")
+        #else
+        XCTAssert(false)
         #endif
 
         func getGeneValues(_ segment: Segment) -> [Int] {

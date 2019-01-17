@@ -17,17 +17,36 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //
-
-import Foundation
+  
 
 import XCTest
 
-class DTDecoder: XCTestCase {
-    func testDecoder() {
-        #if WHICH_DARK_TEST
+class DTDecode: XCTestCase {
+
+    override func setUp() {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
+
+    func testDecode() {
+        #if DT_DECODE
         print("DT_DECODE is set")
         #elseif DT_GENOME
-        print("Goddammit!")
+        XCTAssert(false, "DT_GENOME for crying out loud")
+        #else
+        XCTAssert(false, "DT_DECODE is not set")
         #endif
+
     }
+
+//    func testPerformanceExample() {
+//        // This is an example of a performance test case.
+//        self.measure {
+//            // Put the code you want to measure the time of here.
+//        }
+//    }
+
 }

@@ -55,9 +55,10 @@ enum AFn {
         .boundbentidentity : { return bound(.bentidentity, $0) },
 
         .boundidentity : { return bound(.identity, $0) },
-        .leakyrelu : { return $0 < 0.0 ? (0.01 * $0) : $0 },
 
+        .leakyrelu : { return $0 < 0.0 ? (0.01 * $0) : $0 },
         .boundleakyrelu : { return bound(.leakyrelu, $0) },
+
         .logistic : { return 1.0 / (1.0 + exp(-$0)) },
 
         .boundsoftplus : { return bound(.softplus, $0) },

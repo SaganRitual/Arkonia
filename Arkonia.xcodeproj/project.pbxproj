@@ -7,7 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D414E83D21F0CCE6004462A7 /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216621EFC7E70030FF8A /* Gene.swift */; };
+		D414E83E21F0CCE6004462A7 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216821EFC7E70030FF8A /* GenomeSubtract.swift */; };
+		D414E83F21F0CCE6004462A7 /* DTGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9217B21EFC9260030FF8A /* DTGenome.swift */; };
+		D414E84021F0CCE6004462A7 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216521EFC7E70030FF8A /* Genome.swift */; };
+		D414E84121F0CCE6004462A7 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216721EFC7E70030FF8A /* GenomeAdd.swift */; };
+		D414E84221F0CCE6004462A7 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216D21EFC8160030FF8A /* ActivatorFunctions.swift */; };
 		D417067A21EFCE0600BBDC3E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D417067921EFCE0600BBDC3E /* main.swift */; };
+		D4426A5D21F0C46D002C5071 /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216621EFC7E70030FF8A /* Gene.swift */; };
+		D4426A5E21F0C46D002C5071 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216821EFC7E70030FF8A /* GenomeSubtract.swift */; };
+		D4426A6021F0C46D002C5071 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216521EFC7E70030FF8A /* Genome.swift */; };
+		D4426A6121F0C46D002C5071 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216721EFC7E70030FF8A /* GenomeAdd.swift */; };
+		D4426A6221F0C46D002C5071 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216D21EFC8160030FF8A /* ActivatorFunctions.swift */; };
+		D4426A6C21F0C717002C5071 /* DTDecode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A7C43E21F0B921008F41B1 /* DTDecode.swift */; };
 		D4465C1321EFEB0D008B9A3C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C0C21EFEB0D008B9A3C /* ViewController.swift */; };
 		D4465C1421EFEB0D008B9A3C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C0C21EFEB0D008B9A3C /* ViewController.swift */; };
 		D4465C1521EFEB0D008B9A3C /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4465C0D21EFEB0D008B9A3C /* VProtocols.swift */; };
@@ -33,7 +45,6 @@
 		D481EA1421EFE39F00DD40CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D481EA1221EFE39F00DD40CB /* Main.storyboard */; };
 		D481EA2F21EFE7F600DD40CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D481EA2D21EFE7F600DD40CB /* Main.storyboard */; };
 		D481EA3C21EFE88F00DD40CB /* LightTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D481EA3B21EFE88F00DD40CB /* LightTest.swift */; };
-		D493C2B921F00E0000FF399B /* DTDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D493C2B821F00E0000FF399B /* DTDecoder.swift */; };
 		D4B9215821EFC3DD0030FF8A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9215721EFC3DD0030FF8A /* main.swift */; };
 		D4B9216021EFC62C0030FF8A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9215F21EFC62C0030FF8A /* main.swift */; };
 		D4B9216921EFC7E70030FF8A /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9216521EFC7E70030FF8A /* Genome.swift */; };
@@ -90,7 +101,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D414E84A21F0CCE6004462A7 /* DTGenome copy.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "DTGenome copy.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D414E84B21F0CCE6004462A7 /* DTGenome copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "DTGenome copy-Info.plist"; path = "/Users/rob/Projects/Arkonia/DTGenome copy-Info.plist"; sourceTree = "<absolute>"; };
 		D417067921EFCE0600BBDC3E /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D4426A6A21F0C46D002C5071 /* DTDecode.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTDecode.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4465C0C21EFEB0D008B9A3C /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D4465C0D21EFEB0D008B9A3C /* VProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VProtocols.swift; sourceTree = "<group>"; };
 		D4465C0E21EFEB0D008B9A3C /* VSpacer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VSpacer.swift; sourceTree = "<group>"; };
@@ -114,7 +128,8 @@
 		D481EA3B21EFE88F00DD40CB /* LightTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTest.swift; sourceTree = "<group>"; };
 		D481EA3D21EFE88F00DD40CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D488FB9221EFC2FF0081B584 /* DarkPlayground */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkPlayground; sourceTree = BUILT_PRODUCTS_DIR; };
-		D493C2B821F00E0000FF399B /* DTDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTDecoder.swift; sourceTree = "<group>"; };
+		D4A7C43E21F0B921008F41B1 /* DTDecode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTDecode.swift; sourceTree = "<group>"; };
+		D4A7C44021F0B921008F41B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4B9215721EFC3DD0030FF8A /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4B9215D21EFC62C0030FF8A /* DarkDev */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkDev; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B9215F21EFC62C0030FF8A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -130,6 +145,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D414E84321F0CCE6004462A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4426A6321F0C46D002C5071 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D481EA0121EFE39E00DD40CB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -257,6 +286,7 @@
 				D481EA3A21EFE88F00DD40CB /* LightTest */,
 				D481EA1A21EFE5F800DD40CB /* Source */,
 				D488FB9321EFC2FF0081B584 /* Z-Products */,
+				D414E84B21F0CCE6004462A7 /* DTGenome copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -270,8 +300,19 @@
 				D481EA0421EFE39E00DD40CB /* LightDev.app */,
 				D481EA1F21EFE7F500DD40CB /* LightPlayground.app */,
 				D481EA3921EFE88E00DD40CB /* LightTest.xctest */,
+				D4426A6A21F0C46D002C5071 /* DTDecode.xctest */,
+				D414E84A21F0CCE6004462A7 /* DTGenome copy.xctest */,
 			);
 			name = "Z-Products";
+			sourceTree = "<group>";
+		};
+		D4A7C43D21F0B921008F41B1 /* DTDecode */ = {
+			isa = PBXGroup;
+			children = (
+				D4A7C43E21F0B921008F41B1 /* DTDecode.swift */,
+				D4A7C44021F0B921008F41B1 /* Info.plist */,
+			);
+			path = DTDecode;
 			sourceTree = "<group>";
 		};
 		D4B9215621EFC3DD0030FF8A /* DarkPlayground */ = {
@@ -305,7 +346,6 @@
 		D4B9218D21EFCB9A0030FF8A /* DTGenome */ = {
 			isa = PBXGroup;
 			children = (
-				D493C2B821F00E0000FF399B /* DTDecoder.swift */,
 				D4B9217B21EFC9260030FF8A /* DTGenome.swift */,
 				D4B9219021EFCB9A0030FF8A /* Info.plist */,
 			);
@@ -315,6 +355,7 @@
 		D4B9219F21EFCD470030FF8A /* DarkTest */ = {
 			isa = PBXGroup;
 			children = (
+				D4A7C43D21F0B921008F41B1 /* DTDecode */,
 				D4B9218D21EFCB9A0030FF8A /* DTGenome */,
 				D417067921EFCE0600BBDC3E /* main.swift */,
 			);
@@ -324,6 +365,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D414E83B21F0CCE6004462A7 /* DTGenome copy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D414E84521F0CCE6004462A7 /* Build configuration list for PBXNativeTarget "DTGenome copy" */;
+			buildPhases = (
+				D414E83C21F0CCE6004462A7 /* Sources */,
+				D414E84321F0CCE6004462A7 /* Frameworks */,
+				D414E84421F0CCE6004462A7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "DTGenome copy";
+			productName = DTGenome;
+			productReference = D414E84A21F0CCE6004462A7 /* DTGenome copy.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D4426A5B21F0C46D002C5071 /* DTDecode */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4426A6521F0C46D002C5071 /* Build configuration list for PBXNativeTarget "DTDecode" */;
+			buildPhases = (
+				D4426A5C21F0C46D002C5071 /* Sources */,
+				D4426A6321F0C46D002C5071 /* Frameworks */,
+				D4426A6421F0C46D002C5071 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DTDecode;
+			productName = DTGenome;
+			productReference = D4426A6A21F0C46D002C5071 /* DTDecode.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D481EA0321EFE39E00DD40CB /* LightDev */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D481EA1721EFE39F00DD40CB /* Build configuration list for PBXNativeTarget "LightDev" */;
@@ -496,15 +571,31 @@
 				D4B9215C21EFC62C0030FF8A /* DarkDev */,
 				D488FB9121EFC2FF0081B584 /* DarkPlayground */,
 				D4B9219D21EFCD470030FF8A /* DarkTest */,
+				D4426A5B21F0C46D002C5071 /* DTDecode */,
 				D4B9218B21EFCB9A0030FF8A /* DTGenome */,
 				D481EA0321EFE39E00DD40CB /* LightDev */,
 				D481EA1E21EFE7F500DD40CB /* LightPlayground */,
 				D481EA3821EFE88E00DD40CB /* LightTest */,
+				D414E83B21F0CCE6004462A7 /* DTGenome copy */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D414E84421F0CCE6004462A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4426A6421F0C46D002C5071 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D481EA0221EFE39E00DD40CB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -541,6 +632,32 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D414E83C21F0CCE6004462A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D414E83D21F0CCE6004462A7 /* Gene.swift in Sources */,
+				D414E83E21F0CCE6004462A7 /* GenomeSubtract.swift in Sources */,
+				D414E83F21F0CCE6004462A7 /* DTGenome.swift in Sources */,
+				D414E84021F0CCE6004462A7 /* Genome.swift in Sources */,
+				D414E84121F0CCE6004462A7 /* GenomeAdd.swift in Sources */,
+				D414E84221F0CCE6004462A7 /* ActivatorFunctions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4426A5C21F0C46D002C5071 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4426A5D21F0C46D002C5071 /* Gene.swift in Sources */,
+				D4426A5E21F0C46D002C5071 /* GenomeSubtract.swift in Sources */,
+				D4426A6021F0C46D002C5071 /* Genome.swift in Sources */,
+				D4426A6121F0C46D002C5071 /* GenomeAdd.swift in Sources */,
+				D4426A6221F0C46D002C5071 /* ActivatorFunctions.swift in Sources */,
+				D4426A6C21F0C717002C5071 /* DTDecode.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D481EA0021EFE39E00DD40CB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -612,7 +729,6 @@
 				D4B9219921EFCC640030FF8A /* DTGenome.swift in Sources */,
 				D4B9219621EFCC4E0030FF8A /* Genome.swift in Sources */,
 				D4B9219721EFCC4E0030FF8A /* GenomeAdd.swift in Sources */,
-				D493C2B921F00E0000FF399B /* DTDecoder.swift in Sources */,
 				D4B9219421EFCC4E0030FF8A /* ActivatorFunctions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -655,6 +771,322 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D414E84621F0CCE6004462A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = "DTGenome copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D414E84721F0CCE6004462A7 /* DTDecode */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_DECODE = "";
+				INCLUDED_SOURCE_FILE_NAMES = (
+					ActivatorFunctions.swift,
+					DTDecode.swift,
+					Gene.swift,
+					Genome.swift,
+				);
+				INFOPLIST_FILE = "DTGenome copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTDecode;
+		};
+		D414E84821F0CCE6004462A7 /* DTGenome */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_GENOME = "";
+				INCLUDED_SOURCE_FILE_NAMES = DTGenome.swift;
+				INFOPLIST_FILE = "DTGenome copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DT_GENOME;
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTGenome;
+		};
+		D414E84921F0CCE6004462A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = "DTGenome copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D414E84C21F0CDCB004462A7 /* DTGenome copy */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_TEST RUN_DARK DT_GENOME";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+			};
+			name = "DTGenome copy";
+		};
+		D414E84D21F0CDCB004462A7 /* DTGenome copy */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_DEV RUN_DARK";
+				SWIFT_VERSION = 4.2;
+			};
+			name = "DTGenome copy";
+		};
+		D414E84E21F0CDCB004462A7 /* DTGenome copy */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DARK_PLAYGROUND;
+				SWIFT_VERSION = 4.2;
+			};
+			name = "DTGenome copy";
+		};
+		D414E84F21F0CDCB004462A7 /* DTGenome copy */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_GENOME = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_TEST RUN_DARK";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+			};
+			name = "DTGenome copy";
+		};
+		D414E85021F0CDCB004462A7 /* DTGenome copy */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_GENOME = "";
+				INCLUDED_SOURCE_FILE_NAMES = DTGenome.swift;
+				INFOPLIST_FILE = DarkTest/DTDecode/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTDecode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
+				SWIFT_VERSION = 4.2;
+			};
+			name = "DTGenome copy";
+		};
+		D414E85121F0CDCB004462A7 /* DTGenome copy */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_GENOME = "";
+				INCLUDED_SOURCE_FILE_NAMES = DTGenome.swift;
+				INFOPLIST_FILE = DarkTest/DTGenome/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DT_GENOME;
+				SWIFT_VERSION = 4.2;
+			};
+			name = "DTGenome copy";
+		};
+		D414E85221F0CDCB004462A7 /* DTGenome copy */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = LightDev/LightDev.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = LightDev/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightDev;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_LIGHT LIGHT_DEV";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+			};
+			name = "DTGenome copy";
+		};
+		D414E85321F0CDCB004462A7 /* DTGenome copy */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LightPlayground/LightPlayground.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = LightPlayground/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightPlayground;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "LIGHT_PLAYGROUND RUN_LIGHT";
+				SWIFT_VERSION = 4.2;
+			};
+			name = "DTGenome copy";
+		};
+		D414E85421F0CDCB004462A7 /* DTGenome copy */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = LightTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_LIGHT LIGHT_TEST";
+				SWIFT_VERSION = 4.2;
+				TEST_TARGET_NAME = LightDev;
+			};
+			name = "DTGenome copy";
+		};
+		D414E85521F0CDCB004462A7 /* DTGenome copy */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_GENOME = "";
+				INCLUDED_SOURCE_FILE_NAMES = DTGenome.swift;
+				INFOPLIST_FILE = "DTGenome copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DT_GENOME;
+				SWIFT_VERSION = 4.2;
+			};
+			name = "DTGenome copy";
+		};
 		D438BF6D21F044350065ADF1 /* DTDecode */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -712,7 +1144,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG DT_DECODE";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_TEST RUN_DARK DT_DECODE";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
@@ -748,8 +1180,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_DECODE = 0;
-				DT_GENOME = 0;
+				DT_DECODE = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -768,9 +1199,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_DECODE = DT_DECODE;
-				DT_GENOME = "";
-				INCLUDED_SOURCE_FILE_NAMES = DTDecoder.swift;
+				DT_DECODE = "";
+				INCLUDED_SOURCE_FILE_NAMES = (
+					ActivatorFunctions.swift,
+					DTDecode.swift,
+					Gene.swift,
+					Genome.swift,
+				);
 				INFOPLIST_FILE = DarkTest/DTGenome/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -779,7 +1214,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_DARK DARK_TEST";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
 				SWIFT_VERSION = 4.2;
 			};
 			name = DTDecode;
@@ -846,6 +1281,90 @@
 				TEST_TARGET_NAME = LightDev;
 			};
 			name = DTDecode;
+		};
+		D4426A6621F0C46D002C5071 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = DarkTest/DTDecode/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTDecode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D4426A6721F0C46D002C5071 /* DTDecode */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_DECODE = "";
+				INCLUDED_SOURCE_FILE_NAMES = (
+					ActivatorFunctions.swift,
+					DTDecode.swift,
+					Gene.swift,
+					Genome.swift,
+				);
+				INFOPLIST_FILE = DarkTest/DTDecode/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTDecode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DT_DECODE;
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTDecode;
+		};
+		D4426A6821F0C46D002C5071 /* DTGenome */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_GENOME = "";
+				INCLUDED_SOURCE_FILE_NAMES = DTGenome.swift;
+				INFOPLIST_FILE = DarkTest/DTDecode/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTDecode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
+				SWIFT_VERSION = 4.2;
+			};
+			name = DTGenome;
+		};
+		D4426A6921F0C46D002C5071 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = DarkTest/DTDecode/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTDecode;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
 		};
 		D481EA1821EFE39F00DD40CB /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1029,7 +1548,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG DARK_TEST RUN_DARK";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
@@ -1174,7 +1693,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG DT_GENOME";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DARK_TEST RUN_DARK DT_GENOME";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
@@ -1210,8 +1729,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_DECODE = 0;
-				DT_GENOME = 0;
+				DT_GENOME = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1230,7 +1748,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_GENOME = DT_GENOME;
+				DT_GENOME = "";
 				INCLUDED_SOURCE_FILE_NAMES = DTGenome.swift;
 				INFOPLIST_FILE = DarkTest/DTGenome/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1240,7 +1758,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_DARK DARK_TEST";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DT_GENOME;
 				SWIFT_VERSION = 4.2;
 			};
 			name = DTGenome;
@@ -1336,8 +1854,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_DECODE = "";
-				DT_GENOME = "";
 				INFOPLIST_FILE = DarkTest/DTGenome/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1346,7 +1862,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_DARK DARK_TEST";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -1357,8 +1873,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_DECODE = "";
-				DT_GENOME = "";
 				INFOPLIST_FILE = DarkTest/DTGenome/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1367,7 +1881,6 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "RUN_DARK DARK_TEST";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -1378,8 +1891,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_DECODE = 0;
-				DT_GENOME = 0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1398,8 +1909,6 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_DECODE = 0;
-				DT_GENOME = 0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1414,12 +1923,37 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D414E84521F0CCE6004462A7 /* Build configuration list for PBXNativeTarget "DTGenome copy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D414E84621F0CCE6004462A7 /* Debug */,
+				D414E84721F0CCE6004462A7 /* DTDecode */,
+				D414E84821F0CCE6004462A7 /* DTGenome */,
+				D414E85521F0CDCB004462A7 /* DTGenome copy */,
+				D414E84921F0CCE6004462A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4426A6521F0C46D002C5071 /* Build configuration list for PBXNativeTarget "DTDecode" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4426A6621F0C46D002C5071 /* Debug */,
+				D4426A6721F0C46D002C5071 /* DTDecode */,
+				D4426A6821F0C46D002C5071 /* DTGenome */,
+				D414E85021F0CDCB004462A7 /* DTGenome copy */,
+				D4426A6921F0C46D002C5071 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D481EA1721EFE39F00DD40CB /* Build configuration list for PBXNativeTarget "LightDev" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D481EA1821EFE39F00DD40CB /* Debug */,
 				D438BF7221F044350065ADF1 /* DTDecode */,
 				D493C2BF21F0178D00FF399B /* DTGenome */,
+				D414E85221F0CDCB004462A7 /* DTGenome copy */,
 				D481EA1921EFE39F00DD40CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1431,6 +1965,7 @@
 				D481EA3321EFE7F600DD40CB /* Debug */,
 				D438BF7321F044350065ADF1 /* DTDecode */,
 				D493C2C021F0178D00FF399B /* DTGenome */,
+				D414E85321F0CDCB004462A7 /* DTGenome copy */,
 				D481EA3421EFE7F600DD40CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1442,6 +1977,7 @@
 				D481EA4121EFE88F00DD40CB /* Debug */,
 				D438BF7421F044350065ADF1 /* DTDecode */,
 				D493C2C121F0178D00FF399B /* DTGenome */,
+				D414E85421F0CDCB004462A7 /* DTGenome copy */,
 				D481EA4221EFE88F00DD40CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1453,6 +1989,7 @@
 				D488FB9721EFC3000081B584 /* Debug */,
 				D438BF6D21F044350065ADF1 /* DTDecode */,
 				D493C2BA21F0178D00FF399B /* DTGenome */,
+				D414E84C21F0CDCB004462A7 /* DTGenome copy */,
 				D488FB9821EFC3000081B584 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1464,6 +2001,7 @@
 				D488FB9A21EFC3000081B584 /* Debug */,
 				D438BF6F21F044350065ADF1 /* DTDecode */,
 				D493C2BC21F0178D00FF399B /* DTGenome */,
+				D414E84E21F0CDCB004462A7 /* DTGenome copy */,
 				D488FB9B21EFC3000081B584 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1475,6 +2013,7 @@
 				D4B9216221EFC62C0030FF8A /* Debug */,
 				D438BF6E21F044350065ADF1 /* DTDecode */,
 				D493C2BB21F0178D00FF399B /* DTGenome */,
+				D414E84D21F0CDCB004462A7 /* DTGenome copy */,
 				D4B9216321EFC62C0030FF8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1486,6 +2025,7 @@
 				D4B9219221EFCB9A0030FF8A /* Debug */,
 				D438BF7121F044350065ADF1 /* DTDecode */,
 				D493C2BE21F0178D00FF399B /* DTGenome */,
+				D414E85121F0CDCB004462A7 /* DTGenome copy */,
 				D4B9219321EFCB9A0030FF8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1497,6 +2037,7 @@
 				D4B921A321EFCD470030FF8A /* Debug */,
 				D438BF7021F044350065ADF1 /* DTDecode */,
 				D493C2BD21F0178D00FF399B /* DTGenome */,
+				D414E84F21F0CDCB004462A7 /* DTGenome copy */,
 				D4B921A421EFCD470030FF8A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

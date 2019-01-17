@@ -42,6 +42,16 @@ enum GeneType {
     /// Experimental, set custom behavior or something, I don't know. I'm thinking
     /// something like a "no more than five layers" policy, or something.
     case policy
+    /// Skip over genes as specified, ignoring them completely
+    case skipAnyType
+    /// Skip over one particular type of gene, ignoring them completely.
+    ///
+    /// Like this:
+    ///
+    /// input = `AbbbAcccAbbbAdbc`, cToSkip = 3, typetoSkip = A
+    ///
+    /// output = `bbb ccc bbb Adbc` (sans spaces; that's for readability).
+    case skipOneType
     /// The usual way neurons connect
     case upConnector
 }
@@ -142,6 +152,15 @@ class gNeuron: Gene {
 class gPolicy: Gene { init() {
     super.init(.policy) }
     override func copy() -> Gene { return gPolicy() }
+}
+
+class gSkipAnyType: gIntGene { init(_ value: Int) { super.init(.skipAnyType, value) } }
+class gSkipOneType: gIntGene {
+    let typeToSkip: GeneType
+    init(_ value: Int, typeToSkip: GeneType) {
+        self.typeToSkip = typeToSkip
+        super.init(.skipOneType, value)
+    }
 }
 
 class gUpConnector: Gene {

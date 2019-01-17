@@ -80,12 +80,11 @@ extension Genome {
     }
 }
 
-// MARK: Sequence
+// MARK: Sequence - default iterator
 
 extension Genome: Sequence {
-    typealias Iterator = GenomeIterator
-
     struct GenomeIterator: IteratorProtocol, Sequence {
+        typealias Iterator = GenomeIterator
         typealias Element = Gene
 
         private weak var gene: Gene?
@@ -101,6 +100,29 @@ extension Genome: Sequence {
 
     func makeIterator() -> GenomeIterator {
         return GenomeIterator(self)
+    }
+}
+
+// MARK: Sequence - Passthru iterator
+
+extension Genome {
+    struct PassthruIterator: IteratorProtocol, Sequence {
+        typealias Iterator = PassthruIterator
+        typealias Element = Gene
+
+        private weak var gene: Gene?
+
+        init(_ genome: Genome) { self.gene = genome.head }
+
+        mutating func next() -> Gene? {
+            guard var curr = gene else { return nil }
+            defer { gene = curr.next }
+            return curr
+        }
+    }
+
+    func makePassthruIterator() -> PassthruIterator {
+        return PassthruIterator(self)
     }
 }
 
