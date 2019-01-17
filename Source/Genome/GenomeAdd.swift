@@ -26,6 +26,7 @@ extension Genome {
     // Like append, but transfers ownership away from the segment object.
     func asslink(_ gene: Gene) { inject(gene, before: nil) }
     func asslink(_ segment: Segment) { inject(segment, before: nil) }
+    func asslink(_ segments: [Segment]) { segments.forEach { inject($0, before: nil) } }
 
     // Like prepend, but transfers ownership away from the segment object.
     func headlink(_ gene: Gene) {
