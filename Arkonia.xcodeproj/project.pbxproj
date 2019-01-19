@@ -24,7 +24,7 @@
 		D4276B1521F32C0500862802 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4276B1321F32C0500862802 /* Main.storyboard */; };
 		D4276B1B21F32C1A00862802 /* VisualizerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AE721F3239D00862802 /* VisualizerTest.swift */; };
 		D4276B1C21F32C3B00862802 /* WildGuessWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AA421F3143800862802 /* WildGuessWindowController.swift */; };
-		D4276B1D21F32C4000862802 /* StressTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AE421F3226C00862802 /* StressTestViewController.swift */; };
+		D4276B1D21F32C4000862802 /* VisualizerTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AE421F3226C00862802 /* VisualizerTestViewController.swift */; };
 		D4276B1E21F32C4F00862802 /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF621F3262500862802 /* VLayer.swift */; };
 		D4276B1F21F32C4F00862802 /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF321F3262400862802 /* VNet.swift */; };
 		D4276B2021F32C4F00862802 /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF421F3262500862802 /* VNeuron.swift */; };
@@ -32,6 +32,17 @@
 		D4276B2221F32C4F00862802 /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF521F3262500862802 /* VSpacer.swift */; };
 		D4276B2421F32C5B00862802 /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AEA21F3249100862802 /* ArkonCentral.swift */; };
 		D4276B2521F32C5B00862802 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AFD21F3268900862802 /* KIdentifier.swift */; };
+		D45911DB21F3522400D87ED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45911DA21F3522400D87ED8 /* AppDelegate.swift */; };
+		D45911DD21F3522400D87ED8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D45911DC21F3522400D87ED8 /* GameScene.sks */; };
+		D45911E821F3522400D87ED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D45911E621F3522400D87ED8 /* Main.storyboard */; };
+		D45911EE21F352EE00D87ED8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4CE661521F3368D00B20CFA /* Assets.xcassets */; };
+		D45911EF21F3531C00D87ED8 /* WildGuessWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AA421F3143800862802 /* WildGuessWindowController.swift */; };
+		D45911F021F3533C00D87ED8 /* NetcamTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AD221F31E3200862802 /* NetcamTestViewController.swift */; };
+		D45911F221F3543900D87ED8 /* NetcamTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45911F121F3543800D87ED8 /* NetcamTest.swift */; };
+		D45911F421F3550700D87ED8 /* Visualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45911F321F3550700D87ED8 /* Visualizer.swift */; };
+		D45911F521F3550700D87ED8 /* Visualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45911F321F3550700D87ED8 /* Visualizer.swift */; };
+		D45911F621F3553A00D87ED8 /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AEA21F3249100862802 /* ArkonCentral.swift */; };
+		D45911F721F3554000D87ED8 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AFD21F3268900862802 /* KIdentifier.swift */; };
 		D4887B3F21F300CA00402420 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B3E21F300CA00402420 /* main.swift */; };
 		D4887B4C21F3037D00402420 /* DarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B4B21F3037D00402420 /* DarkTest.swift */; };
 		D4CE661621F336C600B20CFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4CE661521F3368D00B20CFA /* Assets.xcassets */; };
@@ -72,8 +83,8 @@
 		D4276AA921F3143900862802 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4276AAB21F3143900862802 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4276AAC21F3143900862802 /* LightRun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LightRun.entitlements; sourceTree = "<group>"; };
-		D4276AD221F31E3200862802 /* SmokeTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmokeTestViewController.swift; sourceTree = "<group>"; };
-		D4276AE421F3226C00862802 /* StressTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StressTestViewController.swift; sourceTree = "<group>"; };
+		D4276AD221F31E3200862802 /* NetcamTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetcamTestViewController.swift; sourceTree = "<group>"; };
+		D4276AE421F3226C00862802 /* VisualizerTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizerTestViewController.swift; sourceTree = "<group>"; };
 		D4276AE721F3239D00862802 /* VisualizerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizerTest.swift; sourceTree = "<group>"; };
 		D4276AEA21F3249100862802 /* ArkonCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentral.swift; sourceTree = "<group>"; };
 		D4276AF121F3262400862802 /* VProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VProtocols.swift; sourceTree = "<group>"; };
@@ -82,12 +93,20 @@
 		D4276AF521F3262500862802 /* VSpacer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VSpacer.swift; sourceTree = "<group>"; };
 		D4276AF621F3262500862802 /* VLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLayer.swift; sourceTree = "<group>"; };
 		D4276AFD21F3268900862802 /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
-		D4276B0521F32C0500862802 /* StressTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StressTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4276B0521F32C0500862802 /* VisualizerTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisualizerTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4276B0721F32C0500862802 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4276B0921F32C0500862802 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		D4276B1421F32C0500862802 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4276B1621F32C0500862802 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4276B1721F32C0500862802 /* StressTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StressTest.entitlements; sourceTree = "<group>"; };
+		D45911D821F3522400D87ED8 /* NetcamTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetcamTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D45911DA21F3522400D87ED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D45911DC21F3522400D87ED8 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		D45911E721F3522400D87ED8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D45911E921F3522400D87ED8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D45911EA21F3522400D87ED8 /* NetcamTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NetcamTest.entitlements; sourceTree = "<group>"; };
+		D45911F121F3543800D87ED8 /* NetcamTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetcamTest.swift; sourceTree = "<group>"; };
+		D45911F321F3550700D87ED8 /* Visualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visualizer.swift; sourceTree = "<group>"; };
 		D4887B3B21F300CA00402420 /* DarkRun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkRun; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4887B3E21F300CA00402420 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4887B4921F3037D00402420 /* DarkTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DarkTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +131,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D4276B0221F32C0500862802 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D45911D521F3522400D87ED8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -161,7 +187,8 @@
 		D4276AB421F3143900862802 /* LightTest */ = {
 			isa = PBXGroup;
 			children = (
-				D4276B0621F32C0500862802 /* StressTest */,
+				D45911D921F3522400D87ED8 /* NetcamTest */,
+				D4276B0621F32C0500862802 /* VisualizerTest */,
 			);
 			path = LightTest;
 			sourceTree = "<group>";
@@ -181,6 +208,7 @@
 				D4CE661521F3368D00B20CFA /* Assets.xcassets */,
 				D4276AD121F31B8700862802 /* Support */,
 				D4276AE621F3235700862802 /* Test */,
+				D45911F321F3550700D87ED8 /* Visualizer.swift */,
 				D4276AF621F3262500862802 /* VLayer.swift */,
 				D4276AF321F3262400862802 /* VNet.swift */,
 				D4276AF421F3262500862802 /* VNeuron.swift */,
@@ -193,8 +221,8 @@
 		D4276AD121F31B8700862802 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				D4276AD221F31E3200862802 /* SmokeTestViewController.swift */,
-				D4276AE421F3226C00862802 /* StressTestViewController.swift */,
+				D4276AD221F31E3200862802 /* NetcamTestViewController.swift */,
+				D4276AE421F3226C00862802 /* VisualizerTestViewController.swift */,
 				D4276AA421F3143800862802 /* WildGuessWindowController.swift */,
 			);
 			path = Support;
@@ -203,6 +231,7 @@
 		D4276AE621F3235700862802 /* Test */ = {
 			isa = PBXGroup;
 			children = (
+				D45911F121F3543800D87ED8 /* NetcamTest.swift */,
 				D4276AE721F3239D00862802 /* VisualizerTest.swift */,
 			);
 			path = Test;
@@ -217,7 +246,7 @@
 			path = ArkonCentral;
 			sourceTree = "<group>";
 		};
-		D4276B0621F32C0500862802 /* StressTest */ = {
+		D4276B0621F32C0500862802 /* VisualizerTest */ = {
 			isa = PBXGroup;
 			children = (
 				D4276B0721F32C0500862802 /* AppDelegate.swift */,
@@ -226,7 +255,19 @@
 				D4276B1621F32C0500862802 /* Info.plist */,
 				D4276B1721F32C0500862802 /* StressTest.entitlements */,
 			);
-			path = StressTest;
+			path = VisualizerTest;
+			sourceTree = "<group>";
+		};
+		D45911D921F3522400D87ED8 /* NetcamTest */ = {
+			isa = PBXGroup;
+			children = (
+				D45911DA21F3522400D87ED8 /* AppDelegate.swift */,
+				D45911DC21F3522400D87ED8 /* GameScene.sks */,
+				D45911E621F3522400D87ED8 /* Main.storyboard */,
+				D45911E921F3522400D87ED8 /* Info.plist */,
+				D45911EA21F3522400D87ED8 /* NetcamTest.entitlements */,
+			);
+			path = NetcamTest;
 			sourceTree = "<group>";
 		};
 		D4887B3221F300CA00402420 = {
@@ -249,7 +290,8 @@
 				D4887B4921F3037D00402420 /* DarkTest.xctest */,
 				D4276A8E21F3134700862802 /* DarkPlayground */,
 				D4276A9A21F3143800862802 /* LightRun.app */,
-				D4276B0521F32C0500862802 /* StressTest.app */,
+				D4276B0521F32C0500862802 /* VisualizerTest.app */,
+				D45911D821F3522400D87ED8 /* NetcamTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -308,9 +350,9 @@
 			productReference = D4276A9A21F3143800862802 /* LightRun.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D4276B0421F32C0500862802 /* StressTest */ = {
+		D4276B0421F32C0500862802 /* VisualizerTest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D4276B1821F32C0500862802 /* Build configuration list for PBXNativeTarget "StressTest" */;
+			buildConfigurationList = D4276B1821F32C0500862802 /* Build configuration list for PBXNativeTarget "VisualizerTest" */;
 			buildPhases = (
 				D4276B0121F32C0500862802 /* Sources */,
 				D4276B0221F32C0500862802 /* Frameworks */,
@@ -320,9 +362,26 @@
 			);
 			dependencies = (
 			);
-			name = StressTest;
+			name = VisualizerTest;
 			productName = StressTest;
-			productReference = D4276B0521F32C0500862802 /* StressTest.app */;
+			productReference = D4276B0521F32C0500862802 /* VisualizerTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D45911D721F3522400D87ED8 /* NetcamTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D45911EB21F3522400D87ED8 /* Build configuration list for PBXNativeTarget "NetcamTest" */;
+			buildPhases = (
+				D45911D421F3522400D87ED8 /* Sources */,
+				D45911D521F3522400D87ED8 /* Frameworks */,
+				D45911D621F3522400D87ED8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NetcamTest;
+			productName = NetcamTest;
+			productReference = D45911D821F3522400D87ED8 /* NetcamTest.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D4887B3A21F300CA00402420 /* DarkRun */ = {
@@ -378,6 +437,9 @@
 					D4276B0421F32C0500862802 = {
 						CreatedOnToolsVersion = 10.1;
 					};
+					D45911D721F3522400D87ED8 = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					D4887B3A21F300CA00402420 = {
 						CreatedOnToolsVersion = 10.1;
 					};
@@ -403,7 +465,8 @@
 				D4276A8D21F3134700862802 /* DarkPlayground */,
 				D4887B4821F3037D00402420 /* DarkTest */,
 				D4276A9921F3143800862802 /* LightRun */,
-				D4276B0421F32C0500862802 /* StressTest */,
+				D4276B0421F32C0500862802 /* VisualizerTest */,
+				D45911D721F3522400D87ED8 /* NetcamTest */,
 			);
 		};
 /* End PBXProject section */
@@ -428,6 +491,16 @@
 				D4276B0A21F32C0500862802 /* GameScene.sks in Resources */,
 				D4276B1521F32C0500862802 /* Main.storyboard in Resources */,
 				D4CE661621F336C600B20CFA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D45911D621F3522400D87ED8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D45911DD21F3522400D87ED8 /* GameScene.sks in Resources */,
+				D45911EE21F352EE00D87ED8 /* Assets.xcassets in Resources */,
+				D45911E821F3522400D87ED8 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,15 +540,30 @@
 			files = (
 				D4276B1E21F32C4F00862802 /* VLayer.swift in Sources */,
 				D4276B2421F32C5B00862802 /* ArkonCentral.swift in Sources */,
-				D4276B1D21F32C4000862802 /* StressTestViewController.swift in Sources */,
+				D4276B1D21F32C4000862802 /* VisualizerTestViewController.swift in Sources */,
 				D4276B1F21F32C4F00862802 /* VNet.swift in Sources */,
 				D4276B1C21F32C3B00862802 /* WildGuessWindowController.swift in Sources */,
+				D45911F421F3550700D87ED8 /* Visualizer.swift in Sources */,
 				D4276B1B21F32C1A00862802 /* VisualizerTest.swift in Sources */,
 				D4276B0821F32C0500862802 /* AppDelegate.swift in Sources */,
 				D4276B2521F32C5B00862802 /* KIdentifier.swift in Sources */,
 				D4276B2121F32C4F00862802 /* VProtocols.swift in Sources */,
 				D4276B2021F32C4F00862802 /* VNeuron.swift in Sources */,
 				D4276B2221F32C4F00862802 /* VSpacer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D45911D421F3522400D87ED8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D45911DB21F3522400D87ED8 /* AppDelegate.swift in Sources */,
+				D45911EF21F3531C00D87ED8 /* WildGuessWindowController.swift in Sources */,
+				D45911F021F3533C00D87ED8 /* NetcamTestViewController.swift in Sources */,
+				D45911F521F3550700D87ED8 /* Visualizer.swift in Sources */,
+				D45911F221F3543900D87ED8 /* NetcamTest.swift in Sources */,
+				D45911F721F3554000D87ED8 /* KIdentifier.swift in Sources */,
+				D45911F621F3553A00D87ED8 /* ArkonCentral.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,6 +600,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				D4276B1421F32C0500862802 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D45911E621F3522400D87ED8 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D45911E721F3522400D87ED8 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -581,11 +677,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = LightTest/StressTest/StressTest.entitlements;
+				CODE_SIGN_ENTITLEMENTS = LightTest/VisualizerTest/StressTest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = LightTest/StressTest/Info.plist;
+				INFOPLIST_FILE = LightTest/VisualizerTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -600,16 +696,54 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = LightTest/StressTest/StressTest.entitlements;
+				CODE_SIGN_ENTITLEMENTS = LightTest/VisualizerTest/StressTest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = LightTest/StressTest/Info.plist;
+				INFOPLIST_FILE = LightTest/VisualizerTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.StressTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D45911EC21F3522400D87ED8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LightTest/NetcamTest/NetcamTest.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = NetcamTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.NetcamTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D45911ED21F3522400D87ED8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LightTest/NetcamTest/NetcamTest.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = NetcamTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.NetcamTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 			};
@@ -807,11 +941,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4276B1821F32C0500862802 /* Build configuration list for PBXNativeTarget "StressTest" */ = {
+		D4276B1821F32C0500862802 /* Build configuration list for PBXNativeTarget "VisualizerTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4276B1921F32C0500862802 /* Debug */,
 				D4276B1A21F32C0500862802 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D45911EB21F3522400D87ED8 /* Build configuration list for PBXNativeTarget "NetcamTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D45911EC21F3522400D87ED8 /* Debug */,
+				D45911ED21F3522400D87ED8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

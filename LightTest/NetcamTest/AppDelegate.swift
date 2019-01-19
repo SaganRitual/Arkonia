@@ -18,29 +18,20 @@
 // IN THE SOFTWARE.
 //
 
+
 import Cocoa
-import Foundation
-import SpriteKit
 
-class ViewController: NSViewController {
-
-    @IBOutlet var skView: SKView!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if let view = view as? SKView {
-            let scene = VisualizerTest(size: view.frame.size)
-
-            // Set the scale mode to scale to fit the window
-            scene.scaleMode = .resizeFill
-            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            scene.size = view.frame.size
-
-            view.ignoresSiblingOrder = true
-            view.showsFPS = true
-            view.showsNodeCount = true
-
-            view.presentScene(scene)
-        }
+@NSApplicationMain
+class AppDelegate: NSObject, NSApplicationDelegate {
+    
+    
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
+        // Insert code here to initialize your application
     }
+    
+    func applicationWillTerminate(_ aNotification: Notification) {
+        // Insert code here to tear down your application
+    }
+    
+    
 }
