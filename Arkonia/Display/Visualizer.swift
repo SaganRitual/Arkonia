@@ -21,16 +21,21 @@
 import Foundation
 import SpriteKit
 
-class Visualizer : SKScene {
-    var workItem: DispatchWorkItem?
-    var semaphore = DispatchSemaphore(value: 0)
+class Visualizer: SKScene {
+    typealias UpdateCallback = () -> ()
 
     var alreadyDidMoveTo = false
+    var updateCallback: UpdateCallback = { }
+
+    lazy var dashboard = makeDashboard(cChannels: 4, scene: self)
+    lazy var displayChannel = dashboard.getChannel()
+    lazy var vNet = makeNet()
 
     override func didMove(to view: SKView) {
         if alreadyDidMoveTo { return }
 
         let spriteAtlas = SKTextureAtlas(named: "Neurons")
+        ArkonCentral.channelBackgroundTexture = spriteAtlas.textureNamed("channel-background")
         ArkonCentral.orangeNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-orange")
         ArkonCentral.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
         ArkonCentral.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green")
@@ -38,22 +43,44 @@ class Visualizer : SKScene {
         alreadyDidMoveTo = true
     }
 
-    typealias UC = () -> ()
-    var updateCallback: UC?
+    override func didFinishUpdate() {
+        if WildGuessWindowController.windowDimensions == CGSize() { print("!", terminator: ""); return}
+        updateCallback() }
 
-    override func didFinishUpdate() { updateCallback?() }
-
-    func setUpdateCallback(_ updateCallback: @escaping UC) {
+    func setUpdateCallback(_ updateCallback: @escaping UpdateCallback) {
         self.updateCallback = updateCallback
     }
+
+    func makeDashboard(cChannels: Int, scene: SKScene) -> VDashboard {
+        return VDashboard(cChannels: cChannels, scene: scene)
+    }
+
+    func makeNet() -> VNet {
+        let netID = KIdentifier("T-Pattern", 0)
+        return VNet(id: netID, visualizer: self)
+    }
+
+//    required init?(coder aDecoder: NSCoder) { fatalError("Required init in Visualizer?") }
 }
 
-struct VNetDescriptor {
-    let cLayers: Int
-    let cNeurons: [Int]
+extension Visualizer {
+    struct VGridSize {
+        var width: Int
+        var height: Int
 
-    init(_ cLayers: Int, _ cNeurons: [Int]) {
-        self.cLayers = cLayers
-        self.cNeurons = cNeurons
+        init(width: Int, height: Int) {
+            self.width = width
+            self.height = height
+        }
+    }
+
+    struct VGridPosition {
+        var x: Int
+        var y: Int
+
+        init(x: Int, y: Int) {
+            self.x = x
+            self.y = y
+        }
     }
 }

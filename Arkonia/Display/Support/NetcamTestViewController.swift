@@ -29,7 +29,9 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if let view = view as? SKView {
-            let scene = SKScene(size: view.frame.size)
+            let scene = VDashboard(
+                cChannels: 4, displaySize: view.frame.size, spriteTexture: <#T##SKTexture#>, backgroundColor: <#T##SKColor#>)
+                Visualizer(size: view.frame.size)
 
             // Set the scale mode to scale to fit the window
             scene.scaleMode = .resizeFill

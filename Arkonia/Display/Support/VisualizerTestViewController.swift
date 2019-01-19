@@ -25,22 +25,27 @@ import SpriteKit
 class ViewController: NSViewController {
 
     @IBOutlet var skView: SKView!
+    var test: VisualizerTest!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         if let view = view as? SKView {
-            let scene = FullWindowVisualizer(size: view.frame.size)
+            let scene = Visualizer()
 
             // Set the scale mode to scale to fit the window
             scene.scaleMode = .resizeFill
             scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+
             scene.size = view.frame.size
 
             view.ignoresSiblingOrder = true
             view.showsFPS = true
             view.showsNodeCount = true
 
+            view.showsPhysics = true
             view.presentScene(scene)
+
+            self.test = VisualizerTest(scene)
         }
     }
 }

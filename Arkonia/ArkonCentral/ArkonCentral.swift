@@ -26,11 +26,10 @@ protocol DecoderProtocol {}
 enum ArkonCentral {
     static var decoder: DecoderProtocol!
     static var selectionControls = KSelectionControls()
-    static var visualizer: SKNode!
 
+    static var channelBackgroundTexture: SKTexture!
     static var blueNeuronSpriteTexture: SKTexture!
     static var greenNeuronSpriteTexture: SKTexture!
-    static var neuronSpriteTexture: SKTexture!
     static var orangeNeuronSpriteTexture: SKTexture!
 
     static let isMotorLayer = -2

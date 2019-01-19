@@ -21,63 +21,61 @@
 import Foundation
 import SpriteKit
 
-typealias QuadrantMultiplier = (x: Double, y: Double)
-
 class VNet: KIdentifiable {
-    public enum Quadrant: Int { case one, two, three, four }
-
-    static var sprites = [SKSpriteNode]()
-
-    let id: KIdentifier
+    weak var displayChannel: SKNode!
     var hiddenLayers = [VLayer]()
-    weak var netcam: SKNode?
-    var senseLayer: VLayer!
+    let id: KIdentifier
     var motorLayer: VLayer!
+    var senseLayer: VLayer!
+    weak var visualizer: Visualizer?
 
     var debugDescription: String {
         return "\(self): cHiddenLayers = \(hiddenLayers.count)"
     }
 
-    init(id: KIdentifier, netcam: SKNode) {
+    init(id: KIdentifier, visualizer: Visualizer) {
         self.id = id
-        self.netcam = netcam
+        self.visualizer = visualizer
+        self.displayChannel = visualizer.displayChannel
     }
 
     func addLayer(layerRole: VLayer.LayerRole, layerSSInGrid: Int) -> VLayer {
         if layerRole == .senseLayer {
             let iss = ArkonCentral.isSenseLayer
             let sID = id.add(iss, as: .senseLayer)
-            senseLayer = VLayer(id: sID, netcam: netcam!, layerRole: layerRole, layerSSInGrid: iss)
+            senseLayer = VLayer(
+                id: sID, displayChannel: displayChannel, layerRole: layerRole, layerSSInGrid: iss
+            )
             return senseLayer
         }
 
         if layerRole == .motorLayer {
             let ism = ArkonCentral.isMotorLayer
             let mID = id.add(ism, as: .motorLayer)
-            motorLayer = VLayer(id: mID, netcam: netcam!, layerRole: layerRole, layerSSInGrid: ism)
+            motorLayer = VLayer(
+                id: mID, displayChannel: displayChannel, layerRole: layerRole, layerSSInGrid: ism
+            )
             return motorLayer
         }
 
         let hID = id.add(layerSSInGrid, as: .hiddenLayer)
         hiddenLayers.append(VLayer(
-            id: hID, netcam: netcam!, layerRole: layerRole, layerSSInGrid: layerSSInGrid
+            id: hID, displayChannel: displayChannel, layerRole: layerRole,
+            layerSSInGrid: layerSSInGrid
         ))
 
         return hiddenLayers.last!
     }
 
-    func getNetcam(_ quadrant: Quadrant) -> SKNode { return netcam! }
-
     func visualize() {
         precondition(hiddenLayers.isEmpty == false, "At least one hidden layer is required")
 
-        netcam!.removeAllChildren()
+        displayChannel.removeAllChildren()
 
-        let spacer = VSpacer(netcam: netcam!, cLayers: hiddenLayers.count)
+        let spacer = VSpacer(displayChannel: displayChannel, cLayers: hiddenLayers.count)
         senseLayer.visualize(spacer: spacer)
-//        let spazzer = spacer
+
         hiddenLayers.forEach { $0.visualize(spacer: spacer) }
         motorLayer.visualize(spacer: spacer)
-//        motorLayer.visualize(spacer: spazzer)
     }
 }

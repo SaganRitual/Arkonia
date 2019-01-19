@@ -26,16 +26,16 @@ struct VSpacer {
     var hLeft = CGFloat(0.0)
     var hSpacing = CGFloat(0.0)
     var layerRole = VLayer.LayerRole.senseLayer
-    let netcam: SKNode
+    let displayChannel: SKNode
     let scaledHeight: CGFloat
     let scaledWidth: CGFloat
     var vSpacing = CGFloat(0.0)
     var vTop = CGFloat(0.0)
 
-    init(netcam: SKNode, cLayers: Int) {
-        self.netcam = netcam
-        self.scaledHeight = netcam.frame.height / netcam.yScale
-        self.scaledWidth = netcam.frame.width / netcam.xScale
+    init(displayChannel: SKNode, cLayers: Int) {
+        self.displayChannel = displayChannel
+        self.scaledHeight = displayChannel.frame.height / displayChannel.yScale
+        self.scaledWidth = displayChannel.frame.width / displayChannel.xScale
 
         self.setVerticalSpacing(cLayers: cLayers)
     }
@@ -43,19 +43,19 @@ struct VSpacer {
     func getPosition(for neuron: VNeuron) -> CGPoint {
         let xSS = neuron.id.myID
         let ySS = neuron.id.parentID    // The layer
-        return getPosition(xSS: xSS, ySS: ySS)
+        return getPosition(Visualizer.VGridPosition(x: xSS, y: ySS))
     }
 
-    func getPosition(xSS: Int, ySS: Int) -> CGPoint {
+    func getPosition(_ gridPosition: Visualizer.VGridPosition) -> CGPoint {
         let yOffset: CGFloat = {
             switch self.layerRole {
             case .motorLayer:  return scaledHeight
-            case .hiddenLayer: return CGFloat(ySS + 1) * vSpacing
+            case .hiddenLayer: return CGFloat(gridPosition.y + 1) * vSpacing
             case .senseLayer:  return 0
             }
         }()
 
-        let x = getX(xSS)
+        let x = getX(gridPosition.x)
         let y = vTop - yOffset
         return CGPoint(x: x, y: y)
     }

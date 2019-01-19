@@ -27,17 +27,17 @@ class VNeuron: VDisplayable {
     let bias: Double
     let id: KIdentifier
     var inputSources: [VInputSource]
-    weak var netcam: SKNode!
+    weak var displayChannel: SKNode!
     let output: Double
     private(set) var position: CGPoint?
 
-    init(id: KIdentifier, netcam: SKNode, bias: Double, inputSources: [VInputSource],
+    init(id: KIdentifier, displayChannel: SKNode, bias: Double, inputSources: [VInputSource],
          output: Double)
     {
         self.id = id
         self.bias = bias
         self.inputSources = inputSources
-        self.netcam = netcam
+        self.displayChannel = displayChannel
         self.output = output
     }
 
@@ -58,7 +58,7 @@ class VNeuron: VDisplayable {
         let line = SKShapeNode(path: linePath)
 
         line.strokeColor = .green
-        netcam.addChild(line)
+        displayChannel.addChild(line)
     }
 
     func drawMyself(spacer: VSpacer, layerRole: VLayer.LayerRole)
@@ -73,6 +73,7 @@ class VNeuron: VDisplayable {
         }()
 
         let sprite = SKSpriteNode(texture: texture)
+        sprite.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
 
         sprite.scale(to:
             CGSize(width: VNeuron.displayRadius * 4, height: VNeuron.displayRadius * 4)
@@ -80,7 +81,7 @@ class VNeuron: VDisplayable {
 
         sprite.position = spacer.getPosition(for: self)
         self.position = sprite.position
-        netcam.addChild(sprite)
+        displayChannel.addChild(sprite)
         return sprite
     }
 
