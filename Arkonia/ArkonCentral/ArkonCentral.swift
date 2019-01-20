@@ -34,6 +34,9 @@ enum ArkonCentral {
 
     static let isMotorLayer = -2
     static let isSenseLayer = -1
+
+    static let vConnectorZPosition = CGFloat(1.0)
+    static let vNeuronZPosition = CGFloat(2.0)
 }
 
 struct KSelectionControls {

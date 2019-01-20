@@ -58,6 +58,7 @@ class VNeuron: VDisplayable {
         let line = SKShapeNode(path: linePath)
 
         line.strokeColor = .green
+        line.zPosition = ArkonCentral.vConnectorZPosition
         displayChannel.addChild(line)
     }
 
@@ -73,13 +74,14 @@ class VNeuron: VDisplayable {
         }()
 
         let sprite = SKSpriteNode(texture: texture)
-        sprite.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
+//        sprite.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
 
         sprite.scale(to:
             CGSize(width: VNeuron.displayRadius * 4, height: VNeuron.displayRadius * 4)
         )
 
         sprite.position = spacer.getPosition(for: self)
+        sprite.zPosition = ArkonCentral.vNeuronZPosition
         self.position = sprite.position
         displayChannel.addChild(sprite)
         return sprite
