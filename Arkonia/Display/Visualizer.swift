@@ -24,10 +24,11 @@ import SpriteKit
 class Visualizer: SKScene {
     typealias UpdateCallback = () -> ()
 
+    let cChannels = 4
     var alreadyDidMoveTo = false
     var updateCallback: UpdateCallback = { }
 
-    lazy var dashboard = makeDashboard(cChannels: 4, scene: self)
+    lazy var dashboard = makeDashboard(cChannels: cChannels, scene: self)
     lazy var displayChannel = dashboard.getChannel()
     lazy var vNet = makeNet()
 

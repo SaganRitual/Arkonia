@@ -88,11 +88,8 @@ extension VDashboard {
         channel.position = cChannels == 1 ? CGPoint(x: 0, y: 0) :
             quarterOrigin * quadrantMultipliers[channelID.rawValue]
 
-        channel.size = displaySize / 2      // Nearly full screen of white, small neurons
-//        channel.size = scene!.size / 2  // Small white in middle, small neurons
-//        channel.size = scene!.size / 4  // Smaller white, same small neurons
-//        channel.size = scene!.size * 2
-//        channel.scale(to: scene!.size)
+        // This is why we only accept squares
+        channel.size = displaySize / ceil(sqrt(Double(cChannels)))
 
         scene!.addChild(channel)
         return channel
