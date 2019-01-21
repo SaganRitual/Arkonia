@@ -27,7 +27,9 @@ enum ArkonCentral {
     static var decoder: DecoderProtocol!
     static var selectionControls = KSelectionControls()
 
-    static var channelBackgroundTexture: SKTexture!
+    static let cPortals = 1
+
+    static var sceneBackgroundTexture: SKTexture!
     static var blueNeuronSpriteTexture: SKTexture!
     static var greenNeuronSpriteTexture: SKTexture!
     static var orangeNeuronSpriteTexture: SKTexture!

@@ -27,17 +27,17 @@ class VNeuron: VDisplayable {
     let bias: Double
     let id: KIdentifier
     var inputSources: [VInputSource]
-    weak var displayChannel: SKNode!
+    weak var portal: SKNode!
     let output: Double
     private(set) var position: CGPoint?
 
-    init(id: KIdentifier, displayChannel: SKNode, bias: Double, inputSources: [VInputSource],
+    init(id: KIdentifier, portal: SKNode, bias: Double, inputSources: [VInputSource],
          output: Double)
     {
         self.id = id
         self.bias = bias
         self.inputSources = inputSources
-        self.displayChannel = displayChannel
+        self.portal = portal
         self.output = output
     }
 
@@ -59,7 +59,7 @@ class VNeuron: VDisplayable {
 
         line.strokeColor = .green
         line.zPosition = ArkonCentral.vConnectorZPosition
-        displayChannel.addChild(line)
+        portal.addChild(line)
     }
 
     func drawMyself(spacer: VSpacer, layerRole: VLayer.LayerRole)
@@ -83,7 +83,7 @@ class VNeuron: VDisplayable {
         sprite.position = spacer.getPosition(for: self)
         sprite.zPosition = ArkonCentral.vNeuronZPosition
         self.position = sprite.position
-        displayChannel.addChild(sprite)
+        portal.addChild(sprite)
         return sprite
     }
 

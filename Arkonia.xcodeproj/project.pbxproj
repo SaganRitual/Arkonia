@@ -22,7 +22,7 @@
 		D4276B0821F32C0500862802 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276B0721F32C0500862802 /* AppDelegate.swift */; };
 		D4276B0A21F32C0500862802 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4276B0921F32C0500862802 /* GameScene.sks */; };
 		D4276B1521F32C0500862802 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4276B1321F32C0500862802 /* Main.storyboard */; };
-		D4276B1B21F32C1A00862802 /* VisualizerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AE721F3239D00862802 /* VisualizerTest.swift */; };
+		D4276B1B21F32C1A00862802 /* VisionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AE721F3239D00862802 /* VisionTest.swift */; };
 		D4276B1C21F32C3B00862802 /* WildGuessWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AA421F3143800862802 /* WildGuessWindowController.swift */; };
 		D4276B1D21F32C4000862802 /* VisualizerTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AE421F3226C00862802 /* VisualizerTestViewController.swift */; };
 		D4276B1E21F32C4F00862802 /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF621F3262500862802 /* VLayer.swift */; };
@@ -32,10 +32,11 @@
 		D4276B2221F32C4F00862802 /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF521F3262500862802 /* VSpacer.swift */; };
 		D4276B2421F32C5B00862802 /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AEA21F3249100862802 /* ArkonCentral.swift */; };
 		D4276B2521F32C5B00862802 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AFD21F3268900862802 /* KIdentifier.swift */; };
+		D427B6FE21F55BC4003A9DBA /* VSignalDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D427B6FD21F55BC4003A9DBA /* VSignalDriver.swift */; };
 		D451C3CF21F394D700212262 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3CE21F394D700212262 /* Extensions.swift */; };
 		D451C3D121F3953800212262 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D021F3953800212262 /* CGConversions.swift */; };
 		D451C3D321F3B3C200212262 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D021F3953800212262 /* CGConversions.swift */; };
-		D451C3D521F3B9D200212262 /* VDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VDashboard.swift */; };
+		D451C3D521F3B9D200212262 /* VSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VSplitter.swift */; };
 		D45911DB21F3522400D87ED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45911DA21F3522400D87ED8 /* AppDelegate.swift */; };
 		D45911DD21F3522400D87ED8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D45911DC21F3522400D87ED8 /* GameScene.sks */; };
 		D45911E821F3522400D87ED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D45911E621F3522400D87ED8 /* Main.storyboard */; };
@@ -43,8 +44,8 @@
 		D45911EF21F3531C00D87ED8 /* WildGuessWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AA421F3143800862802 /* WildGuessWindowController.swift */; };
 		D45911F021F3533C00D87ED8 /* NetcamTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AD221F31E3200862802 /* NetcamTestViewController.swift */; };
 		D45911F221F3543900D87ED8 /* NetcamTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45911F121F3543800D87ED8 /* NetcamTest.swift */; };
-		D45911F421F3550700D87ED8 /* Visualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45911F321F3550700D87ED8 /* Visualizer.swift */; };
-		D45911F521F3550700D87ED8 /* Visualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45911F321F3550700D87ED8 /* Visualizer.swift */; };
+		D45911F421F3550700D87ED8 /* VScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45911F321F3550700D87ED8 /* VScene.swift */; };
+		D45911F521F3550700D87ED8 /* VScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45911F321F3550700D87ED8 /* VScene.swift */; };
 		D45911F621F3553A00D87ED8 /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AEA21F3249100862802 /* ArkonCentral.swift */; };
 		D45911F721F3554000D87ED8 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AFD21F3268900862802 /* KIdentifier.swift */; };
 		D45911FD21F358BC00D87ED8 /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF621F3262500862802 /* VLayer.swift */; };
@@ -52,7 +53,7 @@
 		D45911FF21F358BC00D87ED8 /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF421F3262500862802 /* VNeuron.swift */; };
 		D459120021F358BC00D87ED8 /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF121F3262400862802 /* VProtocols.swift */; };
 		D459120121F358BC00D87ED8 /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF521F3262500862802 /* VSpacer.swift */; };
-		D45DC78921F3CB46002C9E8A /* VDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VDashboard.swift */; };
+		D45DC78921F3CB46002C9E8A /* VSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VSplitter.swift */; };
 		D4887B3F21F300CA00402420 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B3E21F300CA00402420 /* main.swift */; };
 		D4887B4C21F3037D00402420 /* DarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B4B21F3037D00402420 /* DarkTest.swift */; };
 		D4CE661621F336C600B20CFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4CE661521F3368D00B20CFA /* Assets.xcassets */; };
@@ -95,7 +96,7 @@
 		D4276AAC21F3143900862802 /* LightRun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LightRun.entitlements; sourceTree = "<group>"; };
 		D4276AD221F31E3200862802 /* NetcamTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetcamTestViewController.swift; sourceTree = "<group>"; };
 		D4276AE421F3226C00862802 /* VisualizerTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizerTestViewController.swift; sourceTree = "<group>"; };
-		D4276AE721F3239D00862802 /* VisualizerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizerTest.swift; sourceTree = "<group>"; };
+		D4276AE721F3239D00862802 /* VisionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionTest.swift; sourceTree = "<group>"; };
 		D4276AEA21F3249100862802 /* ArkonCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentral.swift; sourceTree = "<group>"; };
 		D4276AF121F3262400862802 /* VProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VProtocols.swift; sourceTree = "<group>"; };
 		D4276AF321F3262400862802 /* VNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VNet.swift; sourceTree = "<group>"; };
@@ -109,11 +110,12 @@
 		D4276B1421F32C0500862802 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4276B1621F32C0500862802 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4276B1721F32C0500862802 /* StressTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StressTest.entitlements; sourceTree = "<group>"; };
+		D427B6FD21F55BC4003A9DBA /* VSignalDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VSignalDriver.swift; sourceTree = "<group>"; };
 		D451C3CC21F38D3300212262 /* init.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = init.js; sourceTree = "<group>"; };
 		D451C3CD21F38D3300212262 /* klog.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = klog.py; sourceTree = "<group>"; };
 		D451C3CE21F394D700212262 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D451C3D021F3953800212262 /* CGConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGConversions.swift; sourceTree = "<group>"; };
-		D451C3D421F3B9D200212262 /* VDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VDashboard.swift; sourceTree = "<group>"; };
+		D451C3D421F3B9D200212262 /* VSplitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VSplitter.swift; sourceTree = "<group>"; };
 		D45911D821F3522400D87ED8 /* NetcamTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetcamTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45911DA21F3522400D87ED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D45911DC21F3522400D87ED8 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -121,7 +123,7 @@
 		D45911E921F3522400D87ED8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D45911EA21F3522400D87ED8 /* NetcamTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NetcamTest.entitlements; sourceTree = "<group>"; };
 		D45911F121F3543800D87ED8 /* NetcamTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetcamTest.swift; sourceTree = "<group>"; };
-		D45911F321F3550700D87ED8 /* Visualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Visualizer.swift; sourceTree = "<group>"; };
+		D45911F321F3550700D87ED8 /* VScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VScene.swift; sourceTree = "<group>"; };
 		D4887B3B21F300CA00402420 /* DarkRun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkRun; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4887B3E21F300CA00402420 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4887B4921F3037D00402420 /* DarkTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DarkTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,13 +225,14 @@
 				D4CE661521F3368D00B20CFA /* Assets.xcassets */,
 				D4276AD121F31B8700862802 /* Support */,
 				D4276AE621F3235700862802 /* Test */,
-				D451C3D421F3B9D200212262 /* VDashboard.swift */,
-				D45911F321F3550700D87ED8 /* Visualizer.swift */,
 				D4276AF621F3262500862802 /* VLayer.swift */,
 				D4276AF321F3262400862802 /* VNet.swift */,
 				D4276AF421F3262500862802 /* VNeuron.swift */,
 				D4276AF121F3262400862802 /* VProtocols.swift */,
+				D45911F321F3550700D87ED8 /* VScene.swift */,
+				D427B6FD21F55BC4003A9DBA /* VSignalDriver.swift */,
 				D4276AF521F3262500862802 /* VSpacer.swift */,
+				D451C3D421F3B9D200212262 /* VSplitter.swift */,
 			);
 			path = Display;
 			sourceTree = "<group>";
@@ -248,7 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				D45911F121F3543800D87ED8 /* NetcamTest.swift */,
-				D4276AE721F3239D00862802 /* VisualizerTest.swift */,
+				D4276AE721F3239D00862802 /* VisionTest.swift */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -568,13 +571,14 @@
 			files = (
 				D4276B1E21F32C4F00862802 /* VLayer.swift in Sources */,
 				D4276B2421F32C5B00862802 /* ArkonCentral.swift in Sources */,
+				D427B6FE21F55BC4003A9DBA /* VSignalDriver.swift in Sources */,
 				D4276B1D21F32C4000862802 /* VisualizerTestViewController.swift in Sources */,
 				D4276B1F21F32C4F00862802 /* VNet.swift in Sources */,
 				D451C3D321F3B3C200212262 /* CGConversions.swift in Sources */,
-				D45DC78921F3CB46002C9E8A /* VDashboard.swift in Sources */,
+				D45DC78921F3CB46002C9E8A /* VSplitter.swift in Sources */,
 				D4276B1C21F32C3B00862802 /* WildGuessWindowController.swift in Sources */,
-				D45911F421F3550700D87ED8 /* Visualizer.swift in Sources */,
-				D4276B1B21F32C1A00862802 /* VisualizerTest.swift in Sources */,
+				D45911F421F3550700D87ED8 /* VScene.swift in Sources */,
+				D4276B1B21F32C1A00862802 /* VisionTest.swift in Sources */,
 				D4276B0821F32C0500862802 /* AppDelegate.swift in Sources */,
 				D4276B2521F32C5B00862802 /* KIdentifier.swift in Sources */,
 				D4276B2121F32C4F00862802 /* VProtocols.swift in Sources */,
@@ -591,9 +595,9 @@
 				D45911EF21F3531C00D87ED8 /* WildGuessWindowController.swift in Sources */,
 				D45911FD21F358BC00D87ED8 /* VLayer.swift in Sources */,
 				D45911F021F3533C00D87ED8 /* NetcamTestViewController.swift in Sources */,
-				D45911F521F3550700D87ED8 /* Visualizer.swift in Sources */,
+				D45911F521F3550700D87ED8 /* VScene.swift in Sources */,
 				D451C3D121F3953800212262 /* CGConversions.swift in Sources */,
-				D451C3D521F3B9D200212262 /* VDashboard.swift in Sources */,
+				D451C3D521F3B9D200212262 /* VSplitter.swift in Sources */,
 				D45911FF21F358BC00D87ED8 /* VNeuron.swift in Sources */,
 				D45911FE21F358BC00D87ED8 /* VNet.swift in Sources */,
 				D45911F221F3543900D87ED8 /* NetcamTest.swift in Sources */,
@@ -753,6 +757,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_GCD_PERFORMANCE = YES;
 				CODE_SIGN_ENTITLEMENTS = LightTest/NetcamTest/NetcamTest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -772,6 +777,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_GCD_PERFORMANCE = YES;
 				CODE_SIGN_ENTITLEMENTS = LightTest/NetcamTest/NetcamTest.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;

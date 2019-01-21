@@ -27,18 +27,18 @@ class VLayer: KIdentifiable, Equatable {
     let id: KIdentifier
     var layerRole: LayerRole
     var neurons = [VNeuron]()
-    weak var displayChannnel: SKNode!
+    weak var portal: SKNode!
     let layerSSInGrid: Int
 
     var debugDescription: String {
         return "\(self): cNeurons = \(neurons.count)"
     }
 
-    init(id: KIdentifier, displayChannel: SKNode, layerRole: LayerRole, layerSSInGrid: Int) {
+    init(id: KIdentifier, portal: SKNode, layerRole: LayerRole, layerSSInGrid: Int) {
         self.id = id
         self.layerRole = layerRole
         self.layerSSInGrid = layerSSInGrid
-        self.displayChannnel = displayChannel
+        self.portal = portal
     }
 
     @discardableResult
@@ -46,7 +46,7 @@ class VLayer: KIdentifiable, Equatable {
         -> VNeuron
     {
         let nID = self.id.add(neurons.count, as: .neuron)
-        let vN = VNeuron(id: nID, displayChannel: displayChannnel, bias: bias,
+        let vN = VNeuron(id: nID, portal: portal, bias: bias,
                          inputSources: inputSources, output: output)
 
         neurons.append(vN)

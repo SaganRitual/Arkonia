@@ -25,12 +25,13 @@ import SpriteKit
 class ViewController: NSViewController {
 
     @IBOutlet var skView: SKView!
-    var test: VisualizerTest!
+    var scene: SKScene!
+    var visionTest: VisionTest!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         if let view = view as? SKView {
-            let scene = Visualizer()
+            let scene = VScene()
 
             // Set the scale mode to scale to fit the window
             scene.scaleMode = .resizeFill
@@ -45,7 +46,7 @@ class ViewController: NSViewController {
             view.showsPhysics = true
             view.presentScene(scene)
 
-            self.test = VisualizerTest(scene)
+            self.scene = scene
         }
     }
 }

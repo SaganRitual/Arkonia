@@ -4,7 +4,6 @@ assets/
 build/
 node_modules/
 deps.js/
-test/
 graveyard/
 *playground/
 *.app

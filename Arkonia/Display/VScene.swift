@@ -21,22 +21,26 @@
 import Foundation
 import SpriteKit
 
-class Visualizer: SKScene {
+class VScene: SKScene {
     typealias UpdateCallback = () -> ()
 
-    let cChannels = 4
+    // It's not reasonable to depend on the callbacks being called
+    // only one time.
     var alreadyDidMoveTo = false
-    var updateCallback: UpdateCallback = { }
 
-    lazy var dashboard = makeDashboard(cChannels: cChannels, scene: self)
-    lazy var displayChannel = dashboard.getChannel()
-    lazy var vNet = makeNet()
+    // It's not reasonable to depend on the callbacks from happening in
+    // a reasonable order. Let's ignore everything until we've seen a second's
+    // worth of didFinishUpdate(), and then we'll get going.
+    var waitForIt = 0
+
+    var updateCallbacks = [UpdateCallback]()
+    var visionTester: VisionTest!
 
     override func didMove(to view: SKView) {
         if alreadyDidMoveTo { return }
 
         let spriteAtlas = SKTextureAtlas(named: "Neurons")
-        ArkonCentral.channelBackgroundTexture = spriteAtlas.textureNamed("channel-background")
+        ArkonCentral.sceneBackgroundTexture = spriteAtlas.textureNamed("scene-background")
         ArkonCentral.orangeNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-orange")
         ArkonCentral.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
         ArkonCentral.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green")
@@ -45,43 +49,15 @@ class Visualizer: SKScene {
     }
 
     override func didFinishUpdate() {
-        if WildGuessWindowController.windowDimensions == CGSize() { print("!", terminator: ""); return}
-        updateCallback() }
+        waitForIt += 1  // Notes above
+        if waitForIt < 60 { return }
+        if waitForIt == 60 { visionTester = VisionTest(self); return }
 
-    func setUpdateCallback(_ updateCallback: @escaping UpdateCallback) {
-        self.updateCallback = updateCallback
+        updateCallbacks.forEach { $0() }
     }
 
-    func makeDashboard(cChannels: Int, scene: SKScene) -> VDashboard {
-        return VDashboard(cChannels: cChannels, scene: scene)
-    }
-
-    func makeNet() -> VNet {
-        let netID = KIdentifier("T-Pattern", 0)
-        return VNet(id: netID, visualizer: self)
-    }
-
-//    required init?(coder aDecoder: NSCoder) { fatalError("Required init in Visualizer?") }
-}
-
-extension Visualizer {
-    struct VGridSize {
-        var width: Int
-        var height: Int
-
-        init(width: Int, height: Int) {
-            self.width = width
-            self.height = height
-        }
-    }
-
-    struct VGridPosition {
-        var x: Int
-        var y: Int
-
-        init(x: Int, y: Int) {
-            self.x = x
-            self.y = y
-        }
+    func setUpdateCallback(_ cb: @escaping UpdateCallback) {
+        precondition(updateCallbacks.count <= ArkonCentral.cPortals)
+        updateCallbacks.append(cb)
     }
 }

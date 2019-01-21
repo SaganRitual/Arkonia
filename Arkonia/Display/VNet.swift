@@ -22,21 +22,19 @@ import Foundation
 import SpriteKit
 
 class VNet: KIdentifiable {
-    weak var displayChannel: SKNode!
     var hiddenLayers = [VLayer]()
     let id: KIdentifier
     var motorLayer: VLayer!
+    weak var portal: SKNode!
     var senseLayer: VLayer!
-    weak var visualizer: Visualizer?
 
     var debugDescription: String {
         return "\(self): cHiddenLayers = \(hiddenLayers.count)"
     }
 
-    init(id: KIdentifier, visualizer: Visualizer) {
+    init(id: KIdentifier, portal: SKNode) {
         self.id = id
-        self.visualizer = visualizer
-        self.displayChannel = visualizer.displayChannel
+        self.portal = portal
     }
 
     func addLayer(layerRole: VLayer.LayerRole, layerSSInGrid: Int) -> VLayer {
@@ -44,7 +42,7 @@ class VNet: KIdentifiable {
             let iss = ArkonCentral.isSenseLayer
             let sID = id.add(iss, as: .senseLayer)
             senseLayer = VLayer(
-                id: sID, displayChannel: displayChannel, layerRole: layerRole, layerSSInGrid: iss
+                id: sID, portal: portal, layerRole: layerRole, layerSSInGrid: iss
             )
             return senseLayer
         }
@@ -53,14 +51,14 @@ class VNet: KIdentifiable {
             let ism = ArkonCentral.isMotorLayer
             let mID = id.add(ism, as: .motorLayer)
             motorLayer = VLayer(
-                id: mID, displayChannel: displayChannel, layerRole: layerRole, layerSSInGrid: ism
+                id: mID, portal: portal, layerRole: layerRole, layerSSInGrid: ism
             )
             return motorLayer
         }
 
         let hID = id.add(layerSSInGrid, as: .hiddenLayer)
         hiddenLayers.append(VLayer(
-            id: hID, displayChannel: displayChannel, layerRole: layerRole,
+            id: hID, portal: portal, layerRole: layerRole,
             layerSSInGrid: layerSSInGrid
         ))
 
@@ -70,11 +68,11 @@ class VNet: KIdentifiable {
     func visualize() {
         precondition(hiddenLayers.isEmpty == false, "At least one hidden layer is required")
 
-        displayChannel.removeAllChildren()
+        portal.removeAllChildren()
 
-        let spacer = VSpacer(displayChannel: displayChannel, cLayers: hiddenLayers.count)
+        let spacer = VSpacer(portal: portal, cLayers: hiddenLayers.count)
+
         senseLayer.visualize(spacer: spacer)
-
         hiddenLayers.forEach { $0.visualize(spacer: spacer) }
         motorLayer.visualize(spacer: spacer)
     }
