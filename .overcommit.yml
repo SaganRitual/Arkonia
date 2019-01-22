@@ -17,15 +17,27 @@
 
 PreCommit:
   JsHint:
-    enabled: true
+    enabled: false
     on_warn: fail
     exclude:
       - 'test/**/*'
       - 'widgets/tinycolor.js'
       - 'dist/**/*'
 
-CommitMsg:      
+CommitMsg:
+  CapitalizedSubject:
+    enabled: true
+    on_warn: fail
+  SingleLineSubject:
+    enabled: true
+    on_warn: fail
+  TrailingPeriod:
+    enabled: true
+    on_warn: fail
   TextWidth:
+    enabled: true
+    on_warn: fail
+  HardTabs:
     enabled: true
     on_warn: fail
 
