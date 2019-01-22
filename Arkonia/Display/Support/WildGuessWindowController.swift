@@ -23,24 +23,26 @@ import SpriteKit
 import GameplayKit
 
 class WildGuessWindowController: NSWindowController {
-    static var windowDimensions = CGSize()
+    static var windowAlreadyDidLoad = false
 
     override func windowDidLoad() {
-        if let screenSize = window?.screen?.frame {
-            let newHeight = screenSize.height * 0.7
-            let newWidth = screenSize.width * 0.7
-            let newX = -100//(screenSize.width - newWidth) / 2        // (-100, 500) is in the upper left corner
-            let newY = 500.0 //2 * (screenSize.height - newHeight) / 3
+        defer {
+            WildGuessWindowController.windowAlreadyDidLoad = true
+            super.windowDidLoad()
+        }
 
+        if WildGuessWindowController.windowAlreadyDidLoad { return }
+
+        if let frame = window?.screen?.frame {
+            let newHeight = frame.height * 0.7
+            let newWidth = frame.width * 0.7
+
+            // Upper left corner
+            let newOrigin = CGPoint(x: -newWidth / 2.0, y: newHeight)
             let newSize = CGSize(width: newWidth, height: newHeight)
-            let newOrigin = CGPoint(x: CGFloat(newX), y: CGFloat(newY))
-
             let newFrame = NSRect(origin: newOrigin, size: newSize)
-            WildGuessWindowController.windowDimensions = newSize
 
             window!.setFrame(newFrame, display: true)
         }
-
-        super.windowDidLoad()
     }
 }

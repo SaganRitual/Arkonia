@@ -76,10 +76,7 @@ class VNeuron: VDisplayable {
         let sprite = SKSpriteNode(texture: texture)
 //        sprite.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
 
-        sprite.scale(to:
-            CGSize(width: VNeuron.displayRadius * 4, height: VNeuron.displayRadius * 4)
-        )
-
+        sprite.setScale(0.25)   // An arbitrary scale that floats my boat
         sprite.position = spacer.getPosition(for: self)
         sprite.zPosition = ArkonCentral.vNeuronZPosition
         self.position = sprite.position

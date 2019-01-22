@@ -34,10 +34,12 @@ class ViewController: NSViewController {
             let scene = VScene()
 
             // Set the scale mode to scale to fit the window
-            scene.scaleMode = .resizeFill
+            scene.scaleMode = .fill
             scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-
             scene.size = view.frame.size
+
+//            scene.frame = view.window?.frame
+//            scene.size = (view.window?.frame.size)!
 
             view.ignoresSiblingOrder = true
             view.showsFPS = true

@@ -34,8 +34,8 @@ struct VSpacer {
 
     init(portal: SKNode, cLayers: Int) {
         self.portal = portal
-        self.scaledHeight = portal.frame.height / portal.yScale
-        self.scaledWidth = portal.frame.width / portal.xScale
+        self.scaledHeight = portal.frame.height /// portal.yScale
+        self.scaledWidth = portal.frame.width /// portal.xScale
 
         self.setVerticalSpacing(cLayers: cLayers)
     }

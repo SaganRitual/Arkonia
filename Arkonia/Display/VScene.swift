@@ -39,6 +39,8 @@ class VScene: SKScene {
     override func didMove(to view: SKView) {
         if alreadyDidMoveTo { return }
 
+        self.size = view.frame.size
+
         let spriteAtlas = SKTextureAtlas(named: "Neurons")
         ArkonCentral.sceneBackgroundTexture = spriteAtlas.textureNamed("scene-background")
         ArkonCentral.orangeNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-orange")

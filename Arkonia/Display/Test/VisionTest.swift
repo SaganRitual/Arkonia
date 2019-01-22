@@ -22,7 +22,7 @@ import Foundation
 import SpriteKit
 
 final class VisionTest {
-    var odometer = [1, 1, 1]
+    var odometer = [1, 1, 5, 4]
     weak var scene: VScene?
     var portal: SKNode
     var splitter: VSplitter
@@ -43,13 +43,31 @@ final class VisionTest {
     func tickOdometer(rollAt: Int) {
         var carry = 1
 
-        odometer = odometer.map {
+        var iSense = odometer.startIndex
+        var iMotor = odometer.index(after: iSense)
+        var iHiddens = odometer.index(after: iMotor)
+
+        // This lets me envision the odometer as a real one; the upper two
+        // digits are a little funky but the rest of it counts like an odometer does.
+        let easierToReasonAbout: ArraySlice<Int> =
+            odometer[iSense...iSense] +
+            odometer[iMotor...iMotor] +
+            odometer[iHiddens...].reversed()
+
+        let t: [Int] = easierToReasonAbout.map {
             let next = carry + $0
             carry = next / (rollAt + 1)
 
             let maybeZero = next % (rollAt + 1)
             return maybeZero == 0 ? 1 : maybeZero
         }
+
+        // Reconstruct; damn my failing intellect!
+        iSense = t.startIndex
+        iMotor = t.index(after: iSense)
+        iHiddens = t.index(after: iMotor)
+
+        odometer = Array(t[iSense...iSense] + t[iMotor...iMotor] + t[iHiddens...].reversed())
 
         if carry != 0 { odometer.append(1) }
     }

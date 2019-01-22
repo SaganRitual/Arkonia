@@ -51,10 +51,9 @@ class VSplitter {
     public func getPortal(_ portalID: Quadrant) -> SKSpriteNode {
         precondition(portals[portalID] == nil, "Attempt to reuse portal \(portalID)")
 
-        let w = WildGuessWindowController.windowDimensions
         let spriteTexture = ArkonCentral.sceneBackgroundTexture!
         let quadrantMultipliers: [QuadrantMultiplier] = [(1, 1), (-1, 1), (-1, -1), (1, -1)]
-        let quarterOrigin = CGPoint(w / quadrantMultipliers.count)
+        let quarterOrigin = CGPoint(scene!.size / quadrantMultipliers.count)
 
         let portal = SKSpriteNode(texture: spriteTexture)
         portal.color = scene!.backgroundColor
@@ -64,10 +63,10 @@ class VSplitter {
             quarterOrigin * quadrantMultipliers[portalID.rawValue]
 
         // The call to sqrt() is why we only accept squares
-        let scaleFactor = CGFloat(ceil(sqrt(Double(cPortals))))
-        portal.size = w
-        portal.xScale = scaleFactor
-        portal.yScale = scaleFactor
+        precondition(cPortals > 0)
+        let scaleFactor = CGFloat(1.0 / ceil(sqrt(Double(cPortals))))
+        portal.size = scene!.size
+        portal.setScale(scaleFactor)
 
         portals[portalID] = portal
         scene!.addChild(portal)
