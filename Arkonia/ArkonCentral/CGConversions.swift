@@ -113,9 +113,31 @@ extension CGPoint: PointlikeProtocol {
         return newPoint
     }
 
+    static func / (_ point: CGPoint, _ divisor: CGFloat) -> CGPoint {
+        var newPoint = point
+        newPoint.x /= divisor
+        newPoint.y /= divisor
+        return newPoint
+    }
+
+    static func / (_ point: CGPoint, _ divisor: Double) -> CGPoint {
+        return point / CGFloat(divisor)
+    }
+
     static func *= (_ point: inout CGPoint, _ multiplier: (Double, Double)) {
         point.x *= CGFloat(multiplier.0)
         point.y *= CGFloat(multiplier.1)
+    }
+
+    static func * (_ point: CGPoint, _ multiplier: Double) -> CGPoint {
+        return point * CGFloat(multiplier)
+    }
+
+    static func * (_ point: CGPoint, _ multiplier: CGFloat) -> CGPoint {
+        var newPoint = point
+        newPoint.x *= multiplier
+        newPoint.y *= multiplier
+        return newPoint
     }
 
     static func * (_ point: CGPoint, _ multiplier: (Double, Double)) -> CGPoint {

@@ -38,9 +38,6 @@ class ViewController: NSViewController {
             scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             scene.size = view.frame.size
 
-//            scene.frame = view.window?.frame
-//            scene.size = (view.window?.frame.size)!
-
             view.ignoresSiblingOrder = true
             view.showsFPS = true
             view.showsNodeCount = true

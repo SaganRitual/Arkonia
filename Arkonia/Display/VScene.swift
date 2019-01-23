@@ -43,9 +43,9 @@ class VScene: SKScene {
 
         let spriteAtlas = SKTextureAtlas(named: "Neurons")
         ArkonCentral.sceneBackgroundTexture = spriteAtlas.textureNamed("scene-background")
-        ArkonCentral.orangeNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-orange")
+        ArkonCentral.orangeNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-orange-half")
         ArkonCentral.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
-        ArkonCentral.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green")
+        ArkonCentral.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green-half")
 
         alreadyDidMoveTo = true
     }

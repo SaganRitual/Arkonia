@@ -22,8 +22,6 @@ import Foundation
 import SpriteKit
 
 class VNeuron: VDisplayable {
-    static let displayRadius = CGFloat(5.0)
-
     let bias: Double
     let id: KIdentifier
     var inputSources: [VInputSource]
@@ -83,12 +81,16 @@ class VNeuron: VDisplayable {
         let sprite = SKSpriteNode(texture: texture)
 //        sprite.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
 
-        sprite.setScale(0.25)   // An arbitrary scale that floats my boat
-        sprite.position = spacer.getPosition(for: self)
+        sprite.setScale(ArkonCentral.vNeuronScale)
+        sprite.position = unscale(spacer.getPosition(for: self))
         sprite.zPosition = ArkonCentral.vNeuronZPosition
         self.position = sprite.position
         portal.addChild(sprite)
         return sprite
+    }
+
+    func unscale(_ position: CGPoint) -> CGPoint {
+        return position * ArkonCentral.vNeuronAntiscale
     }
 
     func visualize(spacer: VSpacer, layerRole: VLayer.LayerRole) {

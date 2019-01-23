@@ -22,38 +22,42 @@ import Foundation
 import SpriteKit
 
 final class VisionTest {
-    var odometer = [1, 1, 5, 4]
     weak var scene: VScene?
     var portals: VPortals
+    var odometers = [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]]
+    var rolls = [3, 9, 2, 6]
+    var netSelector = [SKNode : Int]()
 
     init(_ scene: VScene) {
         self.scene = scene
         self.portals = VPortals(scene: scene)
 
         (0..<ArkonCentral.cPortals).forEach {
-            self.scene?.setUpdateCallback(self.visualize, portal: self.portals.getPortal($0))
+            let p = self.portals.getPortal($0)
+            netSelector[p] = $0
+            self.scene?.setUpdateCallback(self.visualize, portal: p)
         }
     }
 
-    func tickOdometer(rollAt: Int) {
+    func tickOdometer(which: Int) {
         var carry = 1
 
-        var iSense = odometer.startIndex
-        var iMotor = odometer.index(after: iSense)
-        var iHiddens = odometer.index(after: iMotor)
+        var iSense = odometers[which].startIndex
+        var iMotor = odometers[which].index(after: iSense)
+        var iHiddens = odometers[which].index(after: iMotor)
 
-        // This lets me envision the odometer as a real one; the upper two
-        // digits are a little funky but the rest of it counts like an odometer does.
+        // This lets me envision the odometers[which] as a real one; the upper two
+        // digits are a little funky but the rest of it counts like an odometers[which] does.
         let easierToReasonAbout: ArraySlice<Int> =
-            odometer[iSense...iSense] +
-            odometer[iMotor...iMotor] +
-            odometer[iHiddens...].reversed()
+            odometers[which][iSense...iSense] +
+            odometers[which][iMotor...iMotor] +
+            odometers[which][iHiddens...].reversed()
 
         let t: [Int] = easierToReasonAbout.map {
             let next = carry + $0
-            carry = next / (rollAt + 1)
+            carry = next / (rolls[which] + 1)
 
-            let maybeZero = next % (rollAt + 1)
+            let maybeZero = next % (rolls[which] + 1)
             return maybeZero == 0 ? 1 : maybeZero
         }
 
@@ -62,21 +66,23 @@ final class VisionTest {
         iMotor = t.index(after: iSense)
         iHiddens = t.index(after: iMotor)
 
-        odometer = Array(t[iSense...iSense] + t[iMotor...iMotor] + t[iHiddens...].reversed())
+        odometers[which] = Array(t[iSense...iSense] + t[iMotor...iMotor] + t[iHiddens...].reversed())
 
-        if carry != 0 { odometer.append(1) }
+        if carry != 0 { odometers[which].append(1) }
     }
 
     func visualize(via portal: SKNode) {
         let net = VNet(id: KIdentifier("Crashnburn", 0), portal: portal)
         let signalDriver = VSignalDriver(net)
 
+        let which = netSelector[portal]!
+
         signalDriver.driveSignal(
-            cSenseNeurons: odometer[0], cMotorNeurons: odometer[1],
-            hiddenLayerNeuronCounts: odometer[2...]
+            cSenseNeurons: odometers[which][0], cMotorNeurons: odometers[which][1],
+            hiddenLayerNeuronCounts: odometers[which][2...]
         )
 
         net.visualize()
-        tickOdometer(rollAt: 5)
+        tickOdometer(which: which)
     }
 }

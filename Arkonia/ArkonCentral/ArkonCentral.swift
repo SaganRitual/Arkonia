@@ -41,6 +41,9 @@ enum ArkonCentral {
     static let vConnectorZPosition = CGFloat(1.0)
     static let vNeuronZPosition = CGFloat(2.0)
 
+    static var vNeuronAntiscale = ceil(4.0 / sqrt(Double(cPortals)))
+    static var vNeuronScale: CGFloat = { CGFloat(ArkonCentral.cPortals == 1 ? 0.25 : 0.25) }()
+
     static let vPortalSeparatorsScale = 0.4
 }
 
