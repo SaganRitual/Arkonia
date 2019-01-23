@@ -22,7 +22,7 @@ import Foundation
 import SpriteKit
 
 class VScene: SKScene {
-    typealias UpdateCallback = () -> ()
+    typealias UpdateCallback = (_ portal: SKNode) -> ()
 
     // It's not reasonable to depend on the callbacks being called
     // only one time.
@@ -33,7 +33,7 @@ class VScene: SKScene {
     // worth of didFinishUpdate(), and then we'll get going.
     var waitForIt = 0
 
-    var updateCallbacks = [UpdateCallback]()
+    var updateCallbacks = [() -> ()]()
     var visionTester: VisionTest!
 
     override func didMove(to view: SKView) {
@@ -58,8 +58,7 @@ class VScene: SKScene {
         updateCallbacks.forEach { $0() }
     }
 
-    func setUpdateCallback(_ cb: @escaping UpdateCallback) {
-        precondition(updateCallbacks.count <= ArkonCentral.cPortals)
-        updateCallbacks.append(cb)
+    func setUpdateCallback(_ cb: @escaping UpdateCallback, portal: SKNode) {
+        updateCallbacks.append({ cb(portal) })
     }
 }

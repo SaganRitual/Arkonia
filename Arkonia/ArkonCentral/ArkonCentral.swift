@@ -27,7 +27,7 @@ enum ArkonCentral {
     static var decoder: DecoderProtocol!
     static var selectionControls = KSelectionControls()
 
-    static let cPortals = 1
+    static let cPortals = 4
 
     static var sceneBackgroundTexture: SKTexture!
     static var blueNeuronSpriteTexture: SKTexture!
@@ -37,8 +37,11 @@ enum ArkonCentral {
     static let isMotorLayer = -2
     static let isSenseLayer = -1
 
+    static let vBorderZPosition = CGFloat(3.0)
     static let vConnectorZPosition = CGFloat(1.0)
     static let vNeuronZPosition = CGFloat(2.0)
+
+    static let vPortalSeparatorsScale = 0.4
 }
 
 struct KSelectionControls {

@@ -66,15 +66,19 @@ extension CGSize: SizelikeProtocol {
         return newSize
     }
 
+    static func / (_ size: CGSize, _ divisor: CGFloat) -> CGSize {
+        var newSize = size
+        newSize.width /= divisor
+        newSize.height /= divisor
+        return newSize
+    }
+
     static func / (_ size: CGSize, _ divisor: Int) -> CGSize {
         return size / Double(divisor)
     }
 
     static func / (_ size: CGSize, _ divisor: Double) -> CGSize {
-        var newSize = size
-        newSize.width /= CGFloat(divisor)
-        newSize.height /= CGFloat(divisor)
-        return newSize
+        return size / CGFloat(divisor)
     }
 
     static func * (_ size: CGSize, _ multiplier: Double) -> CGSize {

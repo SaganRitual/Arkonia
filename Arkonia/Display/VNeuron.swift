@@ -50,6 +50,12 @@ class VNeuron: VDisplayable {
     }
 
     func drawLine(from start: CGPoint, to end: CGPoint) {
+        let line = VNeuron.drawLine(from: start, to: end)
+        portal.addChild(line)
+    }
+
+    @discardableResult
+    static func drawLine(from start: CGPoint, to end: CGPoint) -> SKShapeNode {
         let linePath = CGMutablePath()
 
         linePath.move(to: start)
@@ -59,7 +65,8 @@ class VNeuron: VDisplayable {
 
         line.strokeColor = .green
         line.zPosition = ArkonCentral.vConnectorZPosition
-        portal.addChild(line)
+
+        return line
     }
 
     func drawMyself(spacer: VSpacer, layerRole: VLayer.LayerRole)

@@ -36,7 +36,7 @@
 		D451C3CF21F394D700212262 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3CE21F394D700212262 /* Extensions.swift */; };
 		D451C3D121F3953800212262 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D021F3953800212262 /* CGConversions.swift */; };
 		D451C3D321F3B3C200212262 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D021F3953800212262 /* CGConversions.swift */; };
-		D451C3D521F3B9D200212262 /* VSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VSplitter.swift */; };
+		D451C3D521F3B9D200212262 /* VPortals.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VPortals.swift */; };
 		D45911DB21F3522400D87ED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45911DA21F3522400D87ED8 /* AppDelegate.swift */; };
 		D45911DD21F3522400D87ED8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D45911DC21F3522400D87ED8 /* GameScene.sks */; };
 		D45911E821F3522400D87ED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D45911E621F3522400D87ED8 /* Main.storyboard */; };
@@ -53,7 +53,7 @@
 		D45911FF21F358BC00D87ED8 /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF421F3262500862802 /* VNeuron.swift */; };
 		D459120021F358BC00D87ED8 /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF121F3262400862802 /* VProtocols.swift */; };
 		D459120121F358BC00D87ED8 /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF521F3262500862802 /* VSpacer.swift */; };
-		D45DC78921F3CB46002C9E8A /* VSplitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VSplitter.swift */; };
+		D45DC78921F3CB46002C9E8A /* VPortals.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VPortals.swift */; };
 		D4887B3F21F300CA00402420 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B3E21F300CA00402420 /* main.swift */; };
 		D4887B4C21F3037D00402420 /* DarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B4B21F3037D00402420 /* DarkTest.swift */; };
 		D4CE661621F336C600B20CFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4CE661521F3368D00B20CFA /* Assets.xcassets */; };
@@ -115,7 +115,7 @@
 		D451C3CD21F38D3300212262 /* klog.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = klog.py; sourceTree = "<group>"; };
 		D451C3CE21F394D700212262 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D451C3D021F3953800212262 /* CGConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGConversions.swift; sourceTree = "<group>"; };
-		D451C3D421F3B9D200212262 /* VSplitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VSplitter.swift; sourceTree = "<group>"; };
+		D451C3D421F3B9D200212262 /* VPortals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPortals.swift; sourceTree = "<group>"; };
 		D45911D821F3522400D87ED8 /* NetcamTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetcamTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45911DA21F3522400D87ED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D45911DC21F3522400D87ED8 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -228,11 +228,11 @@
 				D4276AF621F3262500862802 /* VLayer.swift */,
 				D4276AF321F3262400862802 /* VNet.swift */,
 				D4276AF421F3262500862802 /* VNeuron.swift */,
+				D451C3D421F3B9D200212262 /* VPortals.swift */,
 				D4276AF121F3262400862802 /* VProtocols.swift */,
 				D45911F321F3550700D87ED8 /* VScene.swift */,
 				D427B6FD21F55BC4003A9DBA /* VSignalDriver.swift */,
 				D4276AF521F3262500862802 /* VSpacer.swift */,
-				D451C3D421F3B9D200212262 /* VSplitter.swift */,
 			);
 			path = Display;
 			sourceTree = "<group>";
@@ -575,7 +575,7 @@
 				D4276B1D21F32C4000862802 /* VisualizerTestViewController.swift in Sources */,
 				D4276B1F21F32C4F00862802 /* VNet.swift in Sources */,
 				D451C3D321F3B3C200212262 /* CGConversions.swift in Sources */,
-				D45DC78921F3CB46002C9E8A /* VSplitter.swift in Sources */,
+				D45DC78921F3CB46002C9E8A /* VPortals.swift in Sources */,
 				D4276B1C21F32C3B00862802 /* WildGuessWindowController.swift in Sources */,
 				D45911F421F3550700D87ED8 /* VScene.swift in Sources */,
 				D4276B1B21F32C1A00862802 /* VisionTest.swift in Sources */,
@@ -597,7 +597,7 @@
 				D45911F021F3533C00D87ED8 /* NetcamTestViewController.swift in Sources */,
 				D45911F521F3550700D87ED8 /* VScene.swift in Sources */,
 				D451C3D121F3953800212262 /* CGConversions.swift in Sources */,
-				D451C3D521F3B9D200212262 /* VSplitter.swift in Sources */,
+				D451C3D521F3B9D200212262 /* VPortals.swift in Sources */,
 				D45911FF21F358BC00D87ED8 /* VNeuron.swift in Sources */,
 				D45911FE21F358BC00D87ED8 /* VNet.swift in Sources */,
 				D45911F221F3543900D87ED8 /* NetcamTest.swift in Sources */,

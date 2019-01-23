@@ -24,20 +24,15 @@ import SpriteKit
 final class VisionTest {
     var odometer = [1, 1, 5, 4]
     weak var scene: VScene?
-    var portal: SKNode
-    var splitter: VSplitter
+    var portals: VPortals
 
     init(_ scene: VScene) {
-        (splitter, portal) = VisionTest.init_(scene)
-
         self.scene = scene
-        self.scene?.setUpdateCallback(self.visualize)
-    }
+        self.portals = VPortals(scene: scene)
 
-    static func init_(_ scene: VScene) -> (VSplitter, SKNode) {
-        let splitter = VSplitter(scene: scene)
-        let portal = splitter.getPortal(.one)
-        return (splitter, portal)
+        (0..<ArkonCentral.cPortals).forEach {
+            self.scene?.setUpdateCallback(self.visualize, portal: self.portals.getPortal($0))
+        }
     }
 
     func tickOdometer(rollAt: Int) {
@@ -72,7 +67,7 @@ final class VisionTest {
         if carry != 0 { odometer.append(1) }
     }
 
-    func visualize() {
+    func visualize(via portal: SKNode) {
         let net = VNet(id: KIdentifier("Crashnburn", 0), portal: portal)
         let signalDriver = VSignalDriver(net)
 

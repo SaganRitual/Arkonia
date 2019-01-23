@@ -23,33 +23,71 @@ import SpriteKit
 
 typealias QuadrantMultiplier = (x: Double, y: Double)
 
-public enum Quadrant: Int, CaseIterable {
-    case one, two, three, four
-
-    func nextQuadrant(_ q: Quadrant) -> Quadrant {
-        switch q {
-        case .one: return .two
-        case .two: return .three
-        case .three: return .four
-        case .four: return .one
-        }
-    }
-}
-
-class VSplitter {
+class VPortals {
     let cPortals = ArkonCentral.cPortals
-    var portals = [Quadrant: SKNode]()
-    var nextAvailablePortal = 0
+    var portals = [Int: SKNode]()
     weak var scene: SKScene?
 
     init(scene: SKScene) {
         precondition(cPortals == 1 || cPortals == 4, "Squares only")
 
         self.scene = scene
+        self.drawPortalSeparators()
     }
 
-    public func getPortal(_ portalID: Quadrant) -> SKSpriteNode {
-        precondition(portals[portalID] == nil, "Attempt to reuse portal \(portalID)")
+    private func drawHorizontals(lineCount: Int) {
+        let size = self.scene!.size
+
+        let vSpacing = size.height / CGFloat(lineCount + 1)
+        let left = -size.width / 2
+        let right = size.width / 2
+
+        for yy in 0..<lineCount {
+            let y = CGFloat(yy + 1) * vSpacing - vSpacing
+
+            let line = addSeparatorLine(
+                from: CGPoint(x: left, y: y), to: CGPoint(x: right, y: y)
+            )
+
+            line.yScale = CGFloat(ArkonCentral.vPortalSeparatorsScale)
+        }
+    }
+
+    private func drawPortalSeparators() {
+        let scaleFactor = CGFloat(1.0 / ceil(sqrt(Double(cPortals))))
+
+        let lineCount = Int(1.0 / scaleFactor) - 1
+        if lineCount == 0 { return }
+
+        let size = self.scene!.size
+
+        let top = size.height / 2
+        let bottom = -size.height / 2
+        let hSpacing = size.width / CGFloat(lineCount + 1)
+
+        for xx in 0..<lineCount {
+            let x = CGFloat(xx + 1) * hSpacing - hSpacing
+
+            let line = addSeparatorLine(from: CGPoint(x: x, y: top), to: CGPoint(x: x, y: bottom))
+            line.xScale = CGFloat(ArkonCentral.vPortalSeparatorsScale)
+
+            drawHorizontals(lineCount: lineCount)
+        }
+    }
+
+    private func addSeparatorLine(from: CGPoint, to: CGPoint) -> SKShapeNode {
+        let line = VNeuron.drawLine(from: from, to: to)
+
+        line.strokeColor = .white
+        line.glowWidth = 0
+        line.zPosition = ArkonCentral.vBorderZPosition
+        self.scene!.addChild(line)
+
+        return line
+    }
+
+    public func getPortal(_ portalNumber: Int) -> SKNode {
+        if let portal = portals[portalNumber] { return portal }
 
         let spriteTexture = ArkonCentral.sceneBackgroundTexture!
         let quadrantMultipliers: [QuadrantMultiplier] = [(1, 1), (-1, 1), (-1, -1), (1, -1)]
@@ -60,7 +98,7 @@ class VSplitter {
         portal.colorBlendFactor = 1.0
 
         portal.position = cPortals == 1 ? CGPoint(x: 0, y: 0) :
-            quarterOrigin * quadrantMultipliers[portalID.rawValue]
+            quarterOrigin * quadrantMultipliers[portalNumber]
 
         // The call to sqrt() is why we only accept squares
         precondition(cPortals > 0)
@@ -68,7 +106,7 @@ class VSplitter {
         portal.size = scene!.size
         portal.setScale(scaleFactor)
 
-        portals[portalID] = portal
+        portals[portalNumber] = portal
         scene!.addChild(portal)
         return portal
     }
