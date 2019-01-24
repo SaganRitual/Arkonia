@@ -25,55 +25,44 @@ class VNet: KIdentifiable {
     var hiddenLayers = [VLayer]()
     let id: KIdentifier
     var motorLayer: VLayer!
-    weak var portal: SKNode!
     var senseLayer: VLayer!
 
     var debugDescription: String {
         return "\(self): cHiddenLayers = \(hiddenLayers.count)"
     }
 
-    init(id: KIdentifier, portal: SKNode) {
-        self.id = id
-        self.portal = portal
-    }
+    init(id: KIdentifier) { self.id = id }
 
     func addLayer(layerRole: VLayer.LayerRole, layerSSInGrid: Int) -> VLayer {
         if layerRole == .senseLayer {
             let iss = ArkonCentral.isSenseLayer
             let sID = id.add(iss, as: .senseLayer)
-            senseLayer = VLayer(
-                id: sID, portal: portal, layerRole: layerRole, layerSSInGrid: iss
-            )
+            senseLayer = VLayer(id: sID, layerRole: layerRole, layerSSInGrid: iss)
             return senseLayer
         }
 
         if layerRole == .motorLayer {
             let ism = ArkonCentral.isMotorLayer
             let mID = id.add(ism, as: .motorLayer)
-            motorLayer = VLayer(
-                id: mID, portal: portal, layerRole: layerRole, layerSSInGrid: ism
-            )
+            motorLayer = VLayer(id: mID, layerRole: layerRole, layerSSInGrid: ism)
             return motorLayer
         }
 
         let hID = id.add(layerSSInGrid, as: .hiddenLayer)
-        hiddenLayers.append(VLayer(
-            id: hID, portal: portal, layerRole: layerRole,
-            layerSSInGrid: layerSSInGrid
-        ))
+        hiddenLayers.append(VLayer(id: hID, layerRole: layerRole, layerSSInGrid: layerSSInGrid))
 
         return hiddenLayers.last!
     }
 
-    func visualize() {
+    func display(on portal: SKNode) {
         precondition(hiddenLayers.isEmpty == false, "At least one hidden layer is required")
 
         portal.removeAllChildren()
 
         let spacer = VSpacer(portal: portal, cLayers: hiddenLayers.count)
 
-        senseLayer.visualize(spacer: spacer)
-        hiddenLayers.forEach { $0.visualize(spacer: spacer) }
-        motorLayer.visualize(spacer: spacer)
+        senseLayer.display(on: portal, spacer: spacer)
+        hiddenLayers.forEach { $0.display(on: portal, spacer: spacer) }
+        motorLayer.display(on: portal, spacer: spacer)
     }
 }

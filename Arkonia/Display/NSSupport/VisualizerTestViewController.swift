@@ -18,45 +18,33 @@
 // IN THE SOFTWARE.
 //
 
+import Cocoa
 import Foundation
 import SpriteKit
 
-protocol DecoderProtocol {}
+class ViewController: NSViewController {
 
-enum ArkonCentral {
-    static var decoder: DecoderProtocol!
-    static var display: VDisplay?
-    static var selectionControls = KSelectionControls()
+    @IBOutlet var skView: SKView!
+    var scene: SKScene!
 
-    static let cPortals = 4
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if let view = view as? SKView {
+            let scene = SKScene()
 
-    static var sceneBackgroundTexture: SKTexture!
-    static var blueNeuronSpriteTexture: SKTexture!
-    static var greenNeuronSpriteTexture: SKTexture!
-    static var orangeNeuronSpriteTexture: SKTexture!
+            // Set the scale mode to scale to fit the window
+            scene.scaleMode = .fill
+            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+            scene.size = view.frame.size
 
-    static let isMotorLayer = -2
-    static let isSenseLayer = -1
+            view.ignoresSiblingOrder = true
+            view.showsFPS = true
+            view.showsNodeCount = true
 
-    static let vBorderZPosition = CGFloat(3.0)
-    static let vLineZPosition = CGFloat(1.0)
-    static let vNeuronZPosition = CGFloat(2.0)
+            view.showsPhysics = true
+            view.presentScene(scene)
 
-    static var vNeuronAntiscale = ceil(sqrt(Double(cPortals)))
-    static var vNeuronScale: CGFloat = (cPortals == 1) ? 0.125 : 0.25
-
-    static let vPortalSeparatorsScale = 0.4
-}
-
-struct KSelectionControls {
-    var cGenerations = 30000
-    var cGenes = 200
-    var cLayersInStarter = 5
-    var cMotorNeurons = 6
-    var cSenseNeurons = 7
-    var cSpawnAttempts = 2
-    var cSubjectsPerGeneration = 100
-    var maxKeepersPerGeneration = 2
-    var peerGroupLimit = 2
-    var theFishNumber = 0
+            self.scene = scene
+        }
+    }
 }

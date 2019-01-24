@@ -18,34 +18,11 @@
 // IN THE SOFTWARE.
 //
 
-import Cocoa
 import Foundation
-import SpriteKit
 
-class ViewController: NSViewController {
-
-    @IBOutlet var skView: SKView!
-    var scene: SKScene!
-    var visionTest: VisionTest!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if let view = view as? SKView {
-            let scene = VScene()
-
-            // Set the scale mode to scale to fit the window
-            scene.scaleMode = .fill
-            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            scene.size = view.frame.size
-
-            view.ignoresSiblingOrder = true
-            view.showsFPS = true
-            view.showsNodeCount = true
-
-            view.showsPhysics = true
-            view.presentScene(scene)
-
-            self.scene = scene
-        }
-    }
+final class VTNeuron: TNeuron {
+    func activator(_ a: AFn.FunctionName) { self.activator = a }
+    func bias(_ b: Double) { self.bias += b }
+    func downConnector(_ c: Int) { self.downConnectors.append(c) }
+    func upConnector(_ c: UpConnectorProtocol) { self.upConnectors.append(c) }
 }

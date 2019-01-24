@@ -25,16 +25,18 @@ import Foundation
  course. This is all for display purposes.
  */
 class VSignalDriver {
-    let vNet: VNet
-    let cSenseNeurons = ArkonCentral.selectionControls.cSenseNeurons
-
     private var inputSources = [VInputSource]()
     private var lowerLayer: VLayer!
     private var motorLayer: VLayer!
     private var senseLayer: VLayer!
     private var upperLayer: VLayer!
+    private var vNet: VNet
+    private let tNet: TNet
 
-    init(_ vNet: VNet) { self.vNet = vNet }
+    init(tNet: TNet) {
+        self.tNet = tNet
+        self.vNet = VNet(id: KIdentifier("Crashnburn", 0))
+    }
 
     @discardableResult
     private func addLayer(role: VLayer.LayerRole, layerSSInGrid: Int) -> VLayer {
@@ -43,46 +45,46 @@ class VSignalDriver {
         return lowerLayer
     }
 
-    func driveSignal(cSenseNeurons: Int, cMotorNeurons: Int,
-                     hiddenLayerNeuronCounts: ArraySlice<Int>)
-    {
-        stimulus(cSenseNeurons)
+    func drive() -> VNet {
+        stimulus()
 
-        hiddenLayerNeuronCounts.enumerated().forEach { (ssLowerLayer, cNeuronsThisLayer) in
-            pullSignalFromTop()
-            addLayer(role: .hiddenLayer, layerSSInGrid: ssLowerLayer)
-            pushSignalToBottom(cNeurons: cNeuronsThisLayer)
+        (0..<tNet.layers.count).forEach {
+            pullSignalFromUpper()
+            addLayer(role: .hiddenLayer, layerSSInGrid: $0)
+            pushSignalToLower(cNeurons: tNet.layers[$0].neurons.count)
         }
 
-        response(cMotorNeurons)
+        response()
+
+        return vNet // For chaining
     }
 
     // Everyone below the sense layer pulls the signal down
     // Everyone in the middle does both: pull first, then push
     // Everyone above the motor layer pushes the signal down
-    private func pullSignalFromTop() {
+    private func pullSignalFromUpper() {
         inputSources = lowerLayer.neurons.map { VInputSource(source: $0, weight: 1.066) }
     }
 
     // Everyone below the sense layer pulls the signal down
     // Everyone in the middle does both: pull first, then push
     // Everyone above the motor layer pushes the signal down
-    private func pushSignalToBottom(cNeurons: Int) {
+    private func pushSignalToLower(cNeurons: Int) {
         (0..<cNeurons).forEach { _ in
             lowerLayer.addNeuron(bias: 42.42, inputSources: inputSources, output: 24.24)
         }
     }
 
-    private func response(_ cMotorNeurons: Int) {
+    private func response() {
         upperLayer = lowerLayer
-        pullSignalFromTop()
+        pullSignalFromUpper()
         motorLayer = addLayer(role: .motorLayer, layerSSInGrid: ArkonCentral.isMotorLayer)
-        pushSignalToBottom(cNeurons: cMotorNeurons)
+        pushSignalToLower(cNeurons: tNet.cMotorNeurons)
     }
 
-    private func stimulus(_ cSenseNeurons: Int) {
+    private func stimulus() {
         senseLayer = addLayer(role: .senseLayer, layerSSInGrid: ArkonCentral.isSenseLayer)
-        pushSignalToBottom(cNeurons: cSenseNeurons)
+        pushSignalToLower(cNeurons: tNet.cSenseNeurons)
         upperLayer = senseLayer
     }
 

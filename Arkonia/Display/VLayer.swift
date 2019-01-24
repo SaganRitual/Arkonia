@@ -27,18 +27,16 @@ class VLayer: KIdentifiable, Equatable {
     let id: KIdentifier
     var layerRole: LayerRole
     var neurons = [VNeuron]()
-    weak var portal: SKNode!
     let layerSSInGrid: Int
 
     var debugDescription: String {
         return "\(self): cNeurons = \(neurons.count)"
     }
 
-    init(id: KIdentifier, portal: SKNode, layerRole: LayerRole, layerSSInGrid: Int) {
+    init(id: KIdentifier, layerRole: LayerRole, layerSSInGrid: Int) {
         self.id = id
         self.layerRole = layerRole
         self.layerSSInGrid = layerSSInGrid
-        self.portal = portal
     }
 
     @discardableResult
@@ -46,21 +44,18 @@ class VLayer: KIdentifiable, Equatable {
         -> VNeuron
     {
         let nID = self.id.add(neurons.count, as: .neuron)
-        let vN = VNeuron(id: nID, portal: portal, bias: bias,
-                         inputSources: inputSources, output: output)
+        let vN = VNeuron(id: nID, bias: bias, inputSources: inputSources, output: output)
 
         neurons.append(vN)
         return neurons.last!
     }
 
-    func visualize(spacer spacer_: VSpacer) {
+    func display(on portal: SKNode, spacer spacer_: VSpacer) {
         var spacer = spacer_
         spacer.setHorizontalSpacing(cNeurons: neurons.count)
         spacer.setLayerRole(layerRole)
 
-        neurons.forEach {
-            $0.visualize(spacer: spacer, layerRole: layerRole)
-        }
+        neurons.forEach { $0.display(on: portal, spacer: spacer, layerRole: layerRole) }
     }
 
     static func == (_ lhs: VLayer, _ rhs: VLayer) -> Bool { return lhs.id == rhs.id }

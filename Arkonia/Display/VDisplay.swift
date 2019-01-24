@@ -21,42 +21,39 @@
 import Foundation
 import SpriteKit
 
-protocol DecoderProtocol {}
+class VDisplay: NSObject, SKSceneDelegate {
+    typealias SceneTickCallback = (_ portal: SKNode) -> ()
 
-enum ArkonCentral {
-    static var decoder: DecoderProtocol!
-    static var display: VDisplay?
-    static var selectionControls = KSelectionControls()
+    var portalNumbers = [SKNode: Int]()
+    var portalServer: VPortalServer
+    private weak var scene: SKScene?
+    private var tickCallbacks = [() -> ()]()
+    private var tNets = [SKNode: TNet]()
 
-    static let cPortals = 4
+    init(_ scene: SKScene) {
+        self.scene = scene
+        self.portalServer = VPortalServer(scene)
+    }
 
-    static var sceneBackgroundTexture: SKTexture!
-    static var blueNeuronSpriteTexture: SKTexture!
-    static var greenNeuronSpriteTexture: SKTexture!
-    static var orangeNeuronSpriteTexture: SKTexture!
+    private func display(via portal: SKNode) {
+        guard let newTNet = self.tNets[portal] else { return }
 
-    static let isMotorLayer = -2
-    static let isSenseLayer = -1
+        VSignalDriver(tNet: newTNet).drive().display(on: portal)
+    }
 
-    static let vBorderZPosition = CGFloat(3.0)
-    static let vLineZPosition = CGFloat(1.0)
-    static let vNeuronZPosition = CGFloat(2.0)
+    func newTNetAvailable(_ tNet: TNet, portal: SKNode) {
+        self.tNets[portal] = tNet
+        display(via: portal)
+        self.tNets[portal] = nil
+    }
 
-    static var vNeuronAntiscale = ceil(sqrt(Double(cPortals)))
-    static var vNeuronScale: CGFloat = (cPortals == 1) ? 0.125 : 0.25
+    func registerForSceneTick(_ cb: @escaping SceneTickCallback, portal: SKNode) {
+        tickCallbacks.append({ cb(portal) })
+    }
 
-    static let vPortalSeparatorsScale = 0.4
-}
+    var frameCount = 0
 
-struct KSelectionControls {
-    var cGenerations = 30000
-    var cGenes = 200
-    var cLayersInStarter = 5
-    var cMotorNeurons = 6
-    var cSenseNeurons = 7
-    var cSpawnAttempts = 2
-    var cSubjectsPerGeneration = 100
-    var maxKeepersPerGeneration = 2
-    var peerGroupLimit = 2
-    var theFishNumber = 0
+    func update(_ currentTime: TimeInterval, for scene: SKScene) {
+        tickCallbacks.forEach { $0() }
+    }
 }

@@ -21,42 +21,19 @@
 import Foundation
 import SpriteKit
 
-protocol DecoderProtocol {}
+enum VSupport {
+    @discardableResult
+    static func drawLine(from start: CGPoint, to end: CGPoint) -> SKShapeNode {
+        let linePath = CGMutablePath()
 
-enum ArkonCentral {
-    static var decoder: DecoderProtocol!
-    static var display: VDisplay?
-    static var selectionControls = KSelectionControls()
+        linePath.move(to: start)
+        linePath.addLine(to: end)
 
-    static let cPortals = 4
+        let line = SKShapeNode(path: linePath)
 
-    static var sceneBackgroundTexture: SKTexture!
-    static var blueNeuronSpriteTexture: SKTexture!
-    static var greenNeuronSpriteTexture: SKTexture!
-    static var orangeNeuronSpriteTexture: SKTexture!
+        line.strokeColor = .green
+        line.zPosition = ArkonCentral.vLineZPosition
 
-    static let isMotorLayer = -2
-    static let isSenseLayer = -1
-
-    static let vBorderZPosition = CGFloat(3.0)
-    static let vLineZPosition = CGFloat(1.0)
-    static let vNeuronZPosition = CGFloat(2.0)
-
-    static var vNeuronAntiscale = ceil(sqrt(Double(cPortals)))
-    static var vNeuronScale: CGFloat = (cPortals == 1) ? 0.125 : 0.25
-
-    static let vPortalSeparatorsScale = 0.4
-}
-
-struct KSelectionControls {
-    var cGenerations = 30000
-    var cGenes = 200
-    var cLayersInStarter = 5
-    var cMotorNeurons = 6
-    var cSenseNeurons = 7
-    var cSpawnAttempts = 2
-    var cSubjectsPerGeneration = 100
-    var maxKeepersPerGeneration = 2
-    var peerGroupLimit = 2
-    var theFishNumber = 0
+        return line
+    }
 }

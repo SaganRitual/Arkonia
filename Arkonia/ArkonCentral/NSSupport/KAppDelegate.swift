@@ -20,18 +20,30 @@
 
 
 import Cocoa
+import SpriteKit
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
-    
-    
+class KAppDelegate: NSObject, NSApplicationDelegate {
+    var displayTest: VDisplayTest?
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+        let spriteAtlas = SKTextureAtlas(named: "Neurons")
+        ArkonCentral.sceneBackgroundTexture = spriteAtlas.textureNamed("scene-background")
+        ArkonCentral.orangeNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-orange-half")
+        ArkonCentral.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
+        ArkonCentral.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green-half")
+
+        guard let view = NSApp.mainWindow?.contentView as? SKView, let scene = view.scene
+            else { preconditionFailure("What now?") }
+
+        ArkonCentral.display = VDisplay(scene)
+        scene.delegate = ArkonCentral.display
+
+        displayTest = VDisplayTest()
+        displayTest!.start()
     }
-    
+
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
-    
-    
 }

@@ -18,31 +18,30 @@
 // IN THE SOFTWARE.
 //
 
-import Cocoa
 import Foundation
-import SpriteKit
 
-class ViewController: NSViewController {
+class TLayer {
+    var neurons = [TNeuron]()
+    var underConstruction: TNeuron?
 
-    @IBOutlet var skView: SKView!
+    init() { }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if let view = view as? SKView {
-            let scene = VDashboard(
-                cChannels: 4, displaySize: view.frame.size, spriteTexture: <#T##SKTexture#>, backgroundColor: <#T##SKColor#>)
-                Visualizer(size: view.frame.size)
+    var count: Int { return neurons.count }
+    var isEmpty: Bool { return neurons.isEmpty }
 
-            // Set the scale mode to scale to fit the window
-            scene.scaleMode = .resizeFill
-            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            scene.size = view.frame.size
-
-            view.ignoresSiblingOrder = true
-            view.showsFPS = true
-            view.showsNodeCount = true
-
-            view.presentScene(scene)
+    func beginNewNeuron() -> TNeuron {
+        if underConstruction != nil {
+            finalizeNeuron()
+            underConstruction = nil
         }
+
+        underConstruction = TNeuron()
+        return underConstruction!
+    }
+
+    func finalizeNeuron() {
+        guard let u = underConstruction else { return }
+        neurons.append(u)
+        underConstruction = nil
     }
 }

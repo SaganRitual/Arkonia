@@ -20,6 +20,25 @@
 
 import Foundation
 
+infix operator !!
+func !!<T> (_ theOptional: T?, _ onError: () -> Never) -> T {
+    guard let unwrapped = theOptional else { onError() }
+    return unwrapped
+}
+
+// With profound gratitude to Martin R
+// https://stackoverflow.com/users/1187415/martin-r
+// https://stackoverflow.com/a/41180619/1610473
+//
+// A proper modulo operator; Swift's is different from the
+// modulo operator of every other language I know.
+infix operator %%
+func %% (_ a: Int, _ n: Int) -> Int {
+    precondition(n > 0, "modulus must be positive")
+    let r = a % n
+    return r >= 0 ? r : r + n
+}
+
 extension Double {
     func iTruncate() -> Int {
         return Int(self)

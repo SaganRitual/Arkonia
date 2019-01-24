@@ -44,5 +44,16 @@ class WildGuessWindowController: NSWindowController {
 
             window!.setFrame(newFrame, display: true)
         }
+
+        // Uncomment to show window on second monitor (for debug)
+        //
+        // With profound gratitude to Kim
+        // https://stackoverflow.com/users/8114750/kim
+        // https://stackoverflow.com/q/44833427/1610473
+        //
+//        var pos = NSPoint()
+//        pos.x = NSScreen.screens[1].visibleFrame.midX
+//        pos.y = NSScreen.screens[1].visibleFrame.midY
+//        self.window?.setFrameOrigin(pos)
     }
 }
