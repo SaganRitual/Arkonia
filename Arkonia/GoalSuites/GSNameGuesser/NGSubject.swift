@@ -19,21 +19,12 @@
 //
 
 import Foundation
-import SpriteKit
 
-enum VSupport {
-    @discardableResult
-    static func drawLine(from start: CGPoint, to end: CGPoint) -> SKShapeNode {
-        let linePath = CGMutablePath()
+class NGSubject: GSSubject {
+    let nameToGuess: String
 
-        linePath.move(to: start)
-        linePath.addLine(to: end)
-
-        let line = SKShapeNode(path: linePath)
-
-        line.strokeColor = .green
-        line.zPosition = ArkonCentralLight.vLineZPosition
-
-        return line
+    init(genome: GenomeSlice, nameToGuess: String) {
+        self.nameToGuess = nameToGuess
+        super.init(genome: genome)
     }
 }

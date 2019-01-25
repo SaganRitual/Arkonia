@@ -19,21 +19,36 @@
 //
 
 import Foundation
-import SpriteKit
 
-enum VSupport {
-    @discardableResult
-    static func drawLine(from start: CGPoint, to end: CGPoint) -> SKShapeNode {
-        let linePath = CGMutablePath()
+enum GSComparison: String { case ANY, BE, BT, EQ }
 
-        linePath.move(to: start)
-        linePath.addLine(to: end)
+protocol GSFactoryProtocol: class, CustomStringConvertible {
+    var genomeWorkspace: String { get set }
 
-        let line = SKShapeNode(path: linePath)
+    func getAboriginal() -> GSSubjectProtocol
+    func makeArkon(genome: Genome, mutate: Bool) -> GSSubjectProtocol?
+    func mutate(from: Genome)
+}
 
-        line.strokeColor = .green
-        line.zPosition = ArkonCentralLight.vLineZPosition
+protocol GSGoalSuiteProtocol: class, CustomStringConvertible {
+    var factory: GSFactoryProtocol { get }
+    var tester: GSTesterProtocol { get }
 
-        return line
-    }
+    var selectionControls: KSelectionControls { get set }
+}
+
+protocol GSSubjectProtocol: class, CustomStringConvertible {
+    var fishNumber: Int { get }
+    var fitnessScore: Double { get set }
+    var genome: Genome { get set }
+    var hashedAlready: SetOnce<Int> { get set }
+    var spawnCount: Int { get set }
+    var suite: GSGoalSuiteProtocol? { get set }
+
+    init()
+    func postInit(suite: GSGoalSuiteProtocol)
+}
+
+protocol LightLabelProtocol {
+    var lightLabel: String { get }
 }

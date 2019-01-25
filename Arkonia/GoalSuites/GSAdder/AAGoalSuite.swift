@@ -19,21 +19,23 @@
 //
 
 import Foundation
-import SpriteKit
 
-enum VSupport {
-    @discardableResult
-    static func drawLine(from start: CGPoint, to end: CGPoint) -> SKShapeNode {
-        let linePath = CGMutablePath()
+class AAGoalSuite: GSGoalSuite {
+    init() {
+        ArkonCentral.sel = AAGoalSuite.setSelectionControls()
 
-        linePath.move(to: start)
-        linePath.addLine(to: end)
+        let tester = AATester()
+        let factory = AAFactory()
 
-        let line = SKShapeNode(path: linePath)
+        super.init(factory: factory, tester: tester)
+    }
 
-        line.strokeColor = .green
-        line.zPosition = ArkonCentralLight.vLineZPosition
+    override class func setSelectionControls() -> KSelectionControls {
+        ArkonCentral.sel.cSenseNeurons = 3
+        ArkonCentral.sel.cLayersInStarter = 5
+        ArkonCentral.sel.cMotorNeurons = 1
+        ArkonCentral.sel.howManyGenerations = 100
 
-        return line
+        return ArkonCentral.sel
     }
 }

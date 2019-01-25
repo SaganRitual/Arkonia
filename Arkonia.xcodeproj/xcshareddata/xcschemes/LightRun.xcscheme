@@ -28,36 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4276AB021F3143900862802"
-               BuildableName = "LightTest.xctest"
-               BlueprintName = "LightTest"
-               ReferencedContainer = "container:Arkonia.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4276AC321F3183300862802"
-               BuildableName = "LTSmoke.xctest"
-               BlueprintName = "LTSmoke"
-               ReferencedContainer = "container:Arkonia.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4276AD821F3212C00862802"
-               BuildableName = "LTStress.xctest"
-               BlueprintName = "LTStress"
-               ReferencedContainer = "container:Arkonia.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

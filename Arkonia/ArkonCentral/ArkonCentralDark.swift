@@ -19,21 +19,26 @@
 //
 
 import Foundation
-import SpriteKit
 
-enum VSupport {
-    @discardableResult
-    static func drawLine(from start: CGPoint, to end: CGPoint) -> SKShapeNode {
-        let linePath = CGMutablePath()
+protocol DecoderProtocol {}
 
-        linePath.move(to: start)
-        linePath.addLine(to: end)
+enum ArkonCentralDark {
+    static var decoder: DecoderProtocol!
+    static var selectionControls = KSelectionControls()
 
-        let line = SKShapeNode(path: linePath)
+    static let isMotorLayer = -2
+    static let isSenseLayer = -1
+}
 
-        line.strokeColor = .green
-        line.zPosition = ArkonCentralLight.vLineZPosition
-
-        return line
-    }
+struct KSelectionControls {
+    var cGenerations = 30000
+    var cGenes = 200
+    var cLayersInStarter = 5
+    var cMotorNeurons = 6
+    var cSenseNeurons = 7
+    var cSpawnAttempts = 2
+    var cSubjectsPerGeneration = 100
+    var maxKeepersPerGeneration = 2
+    var peerGroupLimit = 2
+    var theFishNumber = 0
 }

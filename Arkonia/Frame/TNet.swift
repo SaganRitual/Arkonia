@@ -21,8 +21,8 @@
 import Foundation
 
 class TNet {
-    var cMotorNeurons = ArkonCentral.selectionControls.cMotorNeurons
-    var cSenseNeurons = ArkonCentral.selectionControls.cSenseNeurons
+    var cMotorNeurons = ArkonCentralDark.selectionControls.cMotorNeurons
+    var cSenseNeurons = ArkonCentralDark.selectionControls.cSenseNeurons
     var fishNumber: Int?
     var layers = [TLayer]()
     var underConstruction: TLayer?

@@ -21,9 +21,9 @@ import Foundation
 
 enum Assembler {
     static public func makePassThruGenome() -> Genome {
-        let cMotorNeurons = ArkonCentral.selectionControls.cMotorNeurons
-        let cSenseNeurons = ArkonCentral.selectionControls.cSenseNeurons
-        let cLayers = ArkonCentral.selectionControls.cLayersInStarter
+        let cMotorNeurons = ArkonCentralDark.selectionControls.cMotorNeurons
+        let cSenseNeurons = ArkonCentralDark.selectionControls.cSenseNeurons
+        let cLayers = ArkonCentralDark.selectionControls.cLayersInStarter
 
         let p = Genome((0..<(cLayers - 1)).map { _ in return makeOneLayer(cNeurons: cSenseNeurons) })
         let h = makeLastHiddenLayer(cSenseNeurons: cSenseNeurons, cMotorNeurons: cMotorNeurons)

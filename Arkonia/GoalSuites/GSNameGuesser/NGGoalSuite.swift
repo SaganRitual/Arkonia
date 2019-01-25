@@ -19,21 +19,30 @@
 //
 
 import Foundation
-import SpriteKit
 
-enum VSupport {
-    @discardableResult
-    static func drawLine(from start: CGPoint, to end: CGPoint) -> SKShapeNode {
-        let linePath = CGMutablePath()
+class NGGoalSuite: GSGoalSuite {
+    var huffZoe: UInt64 = 0
+    var zero: UInt64 = 0, zNameCount: UInt64 = 0
 
-        linePath.move(to: start)
-        linePath.addLine(to: end)
+    init(_ nameToGuess: String) {
+        ArkonCentral.sel = NGGoalSuite.setSelectionControls()
 
-        let line = SKShapeNode(path: linePath)
+        zNameCount = UInt64(nameToGuess.count)
+        for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
 
-        line.strokeColor = .green
-        line.zPosition = ArkonCentralLight.vLineZPosition
+        let e = Double(huffZoe)
+        let factory = NGFactory(nameToGuess: nameToGuess)
+        let tester = GSTester(expectedOutput: e)
 
-        return line
+        super.init(factory: factory, tester: tester)
+    }
+
+    override class func setSelectionControls() -> KSelectionControls {
+        ArkonCentral.sel.cSenseNeurons = 4
+        ArkonCentral.sel.cLayersInStarter = 5
+        ArkonCentral.sel.cMotorNeurons = ArkonCentral.zName.count
+        ArkonCentral.sel.howManyGenerations = 10000
+
+        return ArkonCentral.sel
     }
 }

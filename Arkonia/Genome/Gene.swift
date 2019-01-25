@@ -170,7 +170,7 @@ class gSkipOneType: gIntGene {
     }
 }
 
-class gUpConnector: Gene {
+class gUpConnector: Gene, UpConnectorProtocol {
     let channel: Int
     let weight: Double
 

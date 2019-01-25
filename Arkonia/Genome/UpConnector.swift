@@ -21,8 +21,8 @@
 import Foundation
 
 protocol UpConnectorProtocol {
-    var channel: Int { get set }
-    var weight: Double { get set }
+    var channel: Int { get }
+    var weight: Double { get }
 }
 
 struct UpConnector: CustomStringConvertible, UpConnectorProtocol {

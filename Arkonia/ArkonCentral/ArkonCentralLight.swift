@@ -21,12 +21,8 @@
 import Foundation
 import SpriteKit
 
-protocol DecoderProtocol {}
-
-enum ArkonCentral {
-    static var decoder: DecoderProtocol!
+enum ArkonCentralLight {
     static var display: VDisplay?
-    static var selectionControls = KSelectionControls()
 
     static let cPortals = 4
 
@@ -35,28 +31,13 @@ enum ArkonCentral {
     static var greenNeuronSpriteTexture: SKTexture!
     static var orangeNeuronSpriteTexture: SKTexture!
 
-    static let isMotorLayer = -2
-    static let isSenseLayer = -1
-
     static let vBorderZPosition = CGFloat(3.0)
     static let vLineZPosition = CGFloat(1.0)
     static let vNeuronZPosition = CGFloat(2.0)
 
-    static var vNeuronAntiscale = ceil(sqrt(Double(cPortals)))
-    static var vNeuronScale: CGFloat = (cPortals == 1) ? 0.125 : 0.25
+    static var vNeuronAntiscale = CGFloat(ceil(sqrt(Double(cPortals))))
+    static var vNeuronScale = CGFloat((cPortals == 1) ? 0.125 : 0.25)
 
     static let vPortalSeparatorsScale = 0.4
 }
 
-struct KSelectionControls {
-    var cGenerations = 30000
-    var cGenes = 200
-    var cLayersInStarter = 5
-    var cMotorNeurons = 6
-    var cSenseNeurons = 7
-    var cSpawnAttempts = 2
-    var cSubjectsPerGeneration = 100
-    var maxKeepersPerGeneration = 2
-    var peerGroupLimit = 2
-    var theFishNumber = 0
-}

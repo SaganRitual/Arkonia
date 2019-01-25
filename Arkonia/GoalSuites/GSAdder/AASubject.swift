@@ -19,21 +19,12 @@
 //
 
 import Foundation
-import SpriteKit
 
-enum VSupport {
-    @discardableResult
-    static func drawLine(from start: CGPoint, to end: CGPoint) -> SKShapeNode {
-        let linePath = CGMutablePath()
-
-        linePath.move(to: start)
-        linePath.addLine(to: end)
-
-        let line = SKShapeNode(path: linePath)
-
-        line.strokeColor = .green
-        line.zPosition = ArkonCentralLight.vLineZPosition
-
-        return line
+class AASubject: GSSubject {
+    public var debugOutput = ""
+    override public var description: String {
+        return "(\(fishNumber)) score \(fitnessScore.sciTruncate(5))"
     }
+
+    public override var lightLabel: String { return description }
 }

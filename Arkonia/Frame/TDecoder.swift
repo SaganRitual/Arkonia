@@ -24,7 +24,7 @@ enum DecodeState {
     case diagnostics, inLayer, inNeuron, noLayer
 }
 
-class TDecoder {
+class TDecoder: DecoderProtocol {
     var decodeState: DecodeState = .noLayer
     var inputGenome: Genome?
     var tNet: TNet!
@@ -32,8 +32,8 @@ class TDecoder {
     weak var neuronUnderConstruction: TNeuron?
 
     init() {
-        precondition(ArkonCentral.decoder == nil)
-        ArkonCentral.decoder = self
+        precondition(ArkonCentralDark.decoder == nil)
+        ArkonCentralDark.decoder = self
     }
 
     func decode() -> TNet {
@@ -66,13 +66,25 @@ class TDecoder {
 
 extension TDecoder {
     func dispatchValueGene(_ gene: Gene) {
-        guard let neuron = neuronUnderConstruction else { preconditionFailure() }
+        let neuron = neuronUnderConstruction !! { preconditionFailure() }
 
         switch gene.type {
-        case .activator:     neuron.activator(gene as! gActivatorFunction)
-        case .bias:          neuron.bias(gene as! gBias)
-        case .downConnector: neuron.downConnector(gene as! gDownConnector)
-        case .upConnector:   neuron.upConnector(gene as! gUpConnector)
+        case .activator:
+            let g = gene as? NeuronActivatorProtocol !! { preconditionFailure() }
+            neuron.setActivator(g)
+
+        case .bias:
+            let g = gene as? NeuronBiasProtocol !! { preconditionFailure() }
+            neuron.accumulateBias(g)
+
+        case .downConnector:
+            let g = gene as? NeuronDownConnectorProtocol  !! { preconditionFailure() }
+            neuron.addDownConnector(g)
+
+        case .upConnector:
+            let g = gene as? NeuronUpConnectorProtocol  !! { preconditionFailure() }
+            neuron.addUpConnector(g)
+
         default: preconditionFailure("Unknown gene \(gene)?")
         }
     }

@@ -59,9 +59,9 @@ class VNeuron: VDisplayable {
     func drawMyself(spacer: VSpacer, layerRole: VLayer.LayerRole) {
         let texture: SKTexture = {
             switch layerRole {
-            case .hiddenLayer: return ArkonCentral.blueNeuronSpriteTexture
-            case .senseLayer: return ArkonCentral.orangeNeuronSpriteTexture
-            case .motorLayer: return ArkonCentral.greenNeuronSpriteTexture
+            case .hiddenLayer: return ArkonCentralLight.blueNeuronSpriteTexture
+            case .senseLayer: return ArkonCentralLight.orangeNeuronSpriteTexture
+            case .motorLayer: return ArkonCentralLight.greenNeuronSpriteTexture
             }
         }()
 
@@ -77,14 +77,14 @@ class VNeuron: VDisplayable {
 //        sprite.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
 
         sprite.anchorPoint = anchorPoint
-        sprite.setScale(ArkonCentral.vNeuronScale)
+        sprite.setScale(ArkonCentralLight.vNeuronScale)
         sprite.position = unscale(spacer.getPosition(for: self))
-        sprite.zPosition = ArkonCentral.vNeuronZPosition
+        sprite.zPosition = ArkonCentralLight.vNeuronZPosition
         self.position = sprite.position
         portal.addChild(sprite)
     }
 
     func unscale(_ position: CGPoint) -> CGPoint {
-        return position * ArkonCentral.vNeuronAntiscale
+        return position * ArkonCentralLight.vNeuronAntiscale
     }
 }

@@ -18,20 +18,18 @@
 // IN THE SOFTWARE.
 //
 
+import Foundation
 
-import Cocoa
+class NGFactory: GSFactory {
+    let nameToGuess: String
 
-@NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
-    
-    
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+    init(nameToGuess: String) { self.nameToGuess = nameToGuess; super.init() }
+
+    override public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> NGSubject? {
+        guard let tNet = makeNet(genome: genome, mutate: mutate) else { return nil }
+
+        let gs = NGSubject(genome: genomeWorkspace[...], nameToGuess: nameToGuess)
+        gs.postInit(tNet: tNet)
+        return gs
     }
-    
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
-    
-    
 }

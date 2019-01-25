@@ -17,8 +17,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D4887B4821F3037D00402420"
-               BuildableName = "DarkTest.xctest"
-               BlueprintName = "DarkTest"
+               BuildableName = "GenomeTest.xctest"
+               BlueprintName = "GenomeTest"
                ReferencedContainer = "container:Arkonia.xcodeproj">
             </BuildableReference>
          </TestableReference>

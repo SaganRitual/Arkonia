@@ -83,3 +83,38 @@ extension CGPoint {
         return CGPoint(x: self.x.iTruncate(), y: self.y.iTruncate())
     }
 }
+
+extension Array {
+    // It's easier for me to think about the breeders as a stack
+    mutating func pop() -> Element { return self.removeFirst() }
+    mutating func push(_ e: Element) { self.insert(e, at: 0) }
+    mutating func popBack() -> Element { return self.removeLast() }
+    mutating func pushFront(_ e: Element) { push(e) }
+}
+
+struct SetOnce<T> {
+    private var meat: T?
+    private var isLocked = false
+
+    init() {}
+
+    // Note: we don't set isLocked; we'll return the default
+    // value forever until someone explicitly calls set().
+    // After that we're no longer settable.
+    init(defaultValue: T) { meat = defaultValue }
+
+    public func get() -> T {
+        precondition(meat != nil, "Not set")
+        return meat!
+    }
+
+    // Note: we don't check isLocked. If there's a default
+    // value, we want to report that we're meaty.
+    public func has() -> Bool { return meat != nil }
+
+    public mutating func set(_ newValue: T) {
+        precondition(!isLocked, "Can be set only once")
+        isLocked = true
+        meat = newValue
+    }
+}
