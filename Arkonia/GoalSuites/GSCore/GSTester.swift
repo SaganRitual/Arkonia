@@ -44,7 +44,7 @@ class GSTester: GSTesterProtocol {
     var decodedGuess: String!
     var expectedOutput: Double
     var inputs: [Double]
-    var outputs: [Double?]
+//    var outputs: [Double?]
     private weak var suite: GSGoalSuite?
 
     var lightLabel: String {
@@ -52,19 +52,17 @@ class GSTester: GSTesterProtocol {
     }
 
     init(expectedOutput: Double) {
-        let inputsCount = ArkonCentral.sel.cSenseNeurons
-        let outputsCount = ArkonCentral.sel.cMotorNeurons
+        let inputsCount = ArkonCentralDark.selectionControls.cSenseNeurons
+//        let outputsCount = ArkonCentralDark.selectionControls.cMotorNeurons
 
         inputs = Array(repeating: 1.0, count: inputsCount)
-        outputs = Array(repeating: nil, count: outputsCount)
 
-//        self.expectedOutput = expectedOutput
-
-        NGTester.zSetup(nameToGuess: ArkonCentral.zName)
-        self.expectedOutput = Double(ArkonCentral.zNumber)
+        self.expectedOutput = expectedOutput
     }
 
-    func postInit(suite: GSGoalSuite) { self.suite = suite }
+    func postInit(suite: GSGoalSuite) {
+        self.suite = suite
+    }
 
     func administerTest(to gs: GSSubject) -> Double? {
         gs.fitnessScore = 0.0

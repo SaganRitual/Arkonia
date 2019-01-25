@@ -36,8 +36,9 @@ struct VNeuronDownConnector: NeuronDownConnectorProtocol {
 }
 
 struct VNeuronUpConnector: NeuronUpConnectorProtocol {
-    var value: UpConnectorProtocol
-    init(_ value: UpConnectorProtocol) { self.value = value }
+    var value: UpConnectorValue
+
+    init(_ value: UpConnectorValue) { self.value = value }
 }
 
 final class VTNeuron: TNeuron {
@@ -47,5 +48,5 @@ final class VTNeuron: TNeuron {
 
     func accumulateBias(_ b: Double) { super.bias += b }
     func addDownConnector(_ c: Int) { super.downConnectors.append(c) }
-    func addUpConnector(_ c: UpConnector) { super.upConnectors.append(c) }
+    func addUpConnector(_ c: UpConnectorValue) { super.upConnectors.append(c) }
 }

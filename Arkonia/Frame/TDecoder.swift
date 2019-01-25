@@ -36,7 +36,7 @@ class TDecoder: DecoderProtocol {
         ArkonCentralDark.decoder = self
     }
 
-    func decode() -> TNet {
+    func decode() -> TNet? {
         tNet = TNet()
 
         inputGenome!.makeIterator().forEach {
@@ -52,7 +52,7 @@ class TDecoder: DecoderProtocol {
 
         layerUnderConstruction?.finalizeNeuron()
         tNet.finalizeLayer()
-        return tNet
+        return tNet!.subjectSurvived(tNet)
     }
 
     func reset() { self.decodeState = .noLayer; tNet = nil }
@@ -70,22 +70,26 @@ extension TDecoder {
 
         switch gene.type {
         case .activator:
-            let g = gene as? NeuronActivatorProtocol !! { preconditionFailure() }
+            let g = gene as? gActivatorFunction !! { preconditionFailure(String(describing: gene.type)) }
             neuron.setActivator(g)
 
         case .bias:
-            let g = gene as? NeuronBiasProtocol !! { preconditionFailure() }
+            let g = gene as? gBias !! { preconditionFailure(String(describing: gene.type)) }
             neuron.accumulateBias(g)
 
         case .downConnector:
-            let g = gene as? NeuronDownConnectorProtocol  !! { preconditionFailure() }
+            guard let g = gene as? gDownConnector else {
+                print(String(describing: gene))
+                preconditionFailure("\(type(of: gene))")
+            }
+
             neuron.addDownConnector(g)
 
         case .upConnector:
-            let g = gene as? NeuronUpConnectorProtocol  !! { preconditionFailure() }
+            let g = gene as? gUpConnector  !! { preconditionFailure(String(describing: gene.type)) }
             neuron.addUpConnector(g)
 
-        default: preconditionFailure("Unknown gene \(gene)?")
+        default: break; //print("Unknown gene \(gene)?")
         }
     }
 }

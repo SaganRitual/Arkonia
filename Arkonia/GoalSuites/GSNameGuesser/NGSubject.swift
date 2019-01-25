@@ -23,8 +23,8 @@ import Foundation
 class NGSubject: GSSubject {
     let nameToGuess: String
 
-    init(genome: GenomeSlice, nameToGuess: String) {
+    init(tNet myTNet: TNet, genome myGenome: Genome, nameToGuess: String) {
         self.nameToGuess = nameToGuess
-        super.init(genome: genome)
+        super.init(tNet: myTNet, genome: myGenome)
     }
 }

@@ -47,6 +47,13 @@ class VDisplay: NSObject, SKSceneDelegate {
         self.tNets[portal] = nil
     }
 
+    func newTNetAvailable(_ tNet: TNet, portal: Int) {
+        let p = self.portalServer.getPortal(portal)
+        self.tNets[p] = tNet
+        display(via: p)
+        self.tNets[p] = nil
+    }
+
     func registerForSceneTick(_ cb: @escaping SceneTickCallback, portal: SKNode) {
         tickCallbacks.append({ cb(portal) })
     }

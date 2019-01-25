@@ -20,10 +20,15 @@
 
 import Foundation
 
-infix operator !!
+infix operator !!: NilCoalescingPrecedence
 func !!<T> (_ theOptional: T?, _ onError: () -> Never) -> T {
     guard let unwrapped = theOptional else { onError() }
     return unwrapped
+}
+
+func nok<T: Any>(_ theThing: T?) -> T {
+    guard let it = theThing else { preconditionFailure() }
+    return it
 }
 
 // With profound gratitude to Martin R
@@ -61,6 +66,12 @@ extension Double {
 
     func dTruncate() -> Double {
         return Double(sTruncate())!
+    }
+}
+
+extension Float {
+    func sTruncate() -> String {
+        return Double(self).sTruncate()
     }
 }
 

@@ -45,4 +45,8 @@ class TNet {
         layers.append(u)
         underConstruction = nil
     }
+
+    func subjectSurvived(_ tNet: TNet?) -> TNet? {
+        return layers.isEmpty ? nil : tNet
+    }
 }

@@ -44,13 +44,6 @@
 		D4303C2A21FAAA2B00886C05 /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C2421FAAA2B00886C05 /* KNet.swift */; };
 		D4303C2B21FAAA3700886C05 /* KTNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5021F97E920034E3C4 /* KTNeuron.swift */; };
 		D4303C2D21FAADB800886C05 /* DTGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C2C21FAADB800886C05 /* DTGenome.swift */; };
-		D4303C2E21FAAE3F00886C05 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
-		D4303C2F21FAAE3F00886C05 /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5521F97FAA0034E3C4 /* Assembler.swift */; };
-		D4303C3021FAAE3F00886C05 /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5821F97FAA0034E3C4 /* Gene.swift */; };
-		D4303C3121FAAE3F00886C05 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5321F97FAA0034E3C4 /* Genome.swift */; };
-		D4303C3221FAAE3F00886C05 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */; };
-		D4303C3321FAAE3F00886C05 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */; };
-		D4303C3421FAAE3F00886C05 /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5221F97FAA0034E3C4 /* UpConnector.swift */; };
 		D4303C3521FAB18D00886C05 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3CE21F394D700212262 /* Extensions.swift */; };
 		D4303C3721FAB54800886C05 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */; };
 		D4303C3821FABA5100886C05 /* TDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4721F976F30034E3C4 /* TDecoder.swift */; };
@@ -79,9 +72,28 @@
 		D4303C5121FABC4300886C05 /* VTNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5B21F9809C0034E3C4 /* VTNeuron.swift */; };
 		D4303C5221FABCA300886C05 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */; };
 		D4303C5321FAC1A100886C05 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D021F3953800212262 /* CGConversions.swift */; };
+		D43A8DF521FC0853007E99C0 /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF421FC0853007E99C0 /* GeneType.swift */; };
+		D43A8DF721FC08F8007E99C0 /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
+		D43A8DFA21FC1720007E99C0 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
+		D43A8DFB21FC1720007E99C0 /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5521F97FAA0034E3C4 /* Assembler.swift */; };
+		D43A8DFC21FC1720007E99C0 /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5821F97FAA0034E3C4 /* Gene.swift */; };
+		D43A8DFE21FC1721007E99C0 /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF421FC0853007E99C0 /* GeneType.swift */; };
+		D43A8DFF21FC1721007E99C0 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5321F97FAA0034E3C4 /* Genome.swift */; };
+		D43A8E0021FC1721007E99C0 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */; };
+		D43A8E0121FC1721007E99C0 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */; };
+		D43A8E0221FC1721007E99C0 /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5221F97FAA0034E3C4 /* UpConnector.swift */; };
+		D43A8E0321FC172A007E99C0 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082C21FB09B400661D73 /* Mutator.swift */; };
+		D43A8E0421FC172A007E99C0 /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9621FB38580094D212 /* MutatorAdd.swift */; };
+		D43A8E0521FC172A007E99C0 /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9821FB38D60094D212 /* MutatorSubtract.swift */; };
+		D43A8E0621FC1790007E99C0 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082E21FB176B00661D73 /* BellCurve.swift */; };
+		D43A8E0821FC17ED007E99C0 /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
 		D44ACD0021F887E000B9D339 /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44ACCFF21F887E000B9D339 /* KAppDelegate.swift */; };
 		D451C3D321F3B3C200212262 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D021F3953800212262 /* CGConversions.swift */; };
 		D45DC78921F3CB46002C9E8A /* VPortalServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VPortalServer.swift */; };
+		D464082D21FB09B400661D73 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082C21FB09B400661D73 /* Mutator.swift */; };
+		D464082F21FB176B00661D73 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082E21FB176B00661D73 /* BellCurve.swift */; };
+		D4710C9721FB38580094D212 /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9621FB38580094D212 /* MutatorAdd.swift */; };
+		D4710C9921FB38D60094D212 /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9821FB38D60094D212 /* MutatorSubtract.swift */; };
 		D4887B3F21F300CA00402420 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B3E21F300CA00402420 /* main.swift */; };
 		D4887B4C21F3037D00402420 /* DarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B4B21F3037D00402420 /* DarkTest.swift */; };
 		D4AA25A821FAD78900BADD48 /* VisualizerTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AE421F3226C00862802 /* VisualizerTestViewController.swift */; };
@@ -92,7 +104,7 @@
 		D4AA25C221FAFC4F00BADD48 /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B421FAFC4F00BADD48 /* GSGoalSuite.swift */; };
 		D4AA25C321FAFC4F00BADD48 /* GSSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B521FAFC4F00BADD48 /* GSSubject.swift */; };
 		D4AA25C421FAFC4F00BADD48 /* GSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B621FAFC4F00BADD48 /* GSFactory.swift */; };
-		D4AA25C521FAFC4F00BADD48 /* NGResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B821FAFC4F00BADD48 /* NGResults.swift */; };
+		D4AA25C521FAFC4F00BADD48 /* NGTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B821FAFC4F00BADD48 /* NGTester.swift */; };
 		D4AA25C621FAFC4F00BADD48 /* NGSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B921FAFC4F00BADD48 /* NGSubject.swift */; };
 		D4AA25C721FAFC4F00BADD48 /* NGFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25BA21FAFC4F00BADD48 /* NGFactory.swift */; };
 		D4AA25C821FAFC4F00BADD48 /* NGGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25BB21FAFC4F00BADD48 /* NGGoalSuite.swift */; };
@@ -103,6 +115,15 @@
 		D4B953B921F8CCB7006305AD /* VDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B953B821F8CCB7006305AD /* VDisplay.swift */; };
 		D4CE661621F336C600B20CFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4CE661521F3368D00B20CFA /* Assets.xcassets */; };
 		D4CE661721F34B6800B20CFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4CE661521F3368D00B20CFA /* Assets.xcassets */; };
+		D4E6927621FC19B400D17DAE /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
+		D4E6927721FC1A0A00D17DAE /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5821F97FAA0034E3C4 /* Gene.swift */; };
+		D4E6927821FC1B0F00D17DAE /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
+		D4E6927921FC1B0F00D17DAE /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5521F97FAA0034E3C4 /* Assembler.swift */; };
+		D4E6927A21FC1B0F00D17DAE /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF421FC0853007E99C0 /* GeneType.swift */; };
+		D4E6927B21FC1B0F00D17DAE /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5321F97FAA0034E3C4 /* Genome.swift */; };
+		D4E6927C21FC1B0F00D17DAE /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */; };
+		D4E6927D21FC1B0F00D17DAE /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */; };
+		D4E6927E21FC1B0F00D17DAE /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5221F97FAA0034E3C4 /* UpConnector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -176,6 +197,8 @@
 		D4303C2C21FAADB800886C05 /* DTGenome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTGenome.swift; sourceTree = "<group>"; };
 		D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentralDark.swift; sourceTree = "<group>"; };
 		D4303C4521FABC1200886C05 /* LoopIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopIterator.swift; sourceTree = "<group>"; };
+		D43A8DF421FC0853007E99C0 /* GeneType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneType.swift; sourceTree = "<group>"; };
+		D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneLibrary.swift; sourceTree = "<group>"; };
 		D44ACCFF21F887E000B9D339 /* KAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppDelegate.swift; sourceTree = "<group>"; };
 		D451C3CC21F38D3300212262 /* init.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = init.js; sourceTree = "<group>"; };
 		D451C3CD21F38D3300212262 /* klog.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = klog.py; sourceTree = "<group>"; };
@@ -187,6 +210,10 @@
 		D45911E721F3522400D87ED8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D45911E921F3522400D87ED8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D45911EA21F3522400D87ED8 /* NetcamTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NetcamTest.entitlements; sourceTree = "<group>"; };
+		D464082C21FB09B400661D73 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
+		D464082E21FB176B00661D73 /* BellCurve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BellCurve.swift; sourceTree = "<group>"; };
+		D4710C9621FB38580094D212 /* MutatorAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutatorAdd.swift; sourceTree = "<group>"; };
+		D4710C9821FB38D60094D212 /* MutatorSubtract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutatorSubtract.swift; sourceTree = "<group>"; };
 		D4887B3B21F300CA00402420 /* DarkRun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkRun; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4887B3E21F300CA00402420 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4887B4921F3037D00402420 /* GenomeTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GenomeTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,7 +228,7 @@
 		D4AA25B421FAFC4F00BADD48 /* GSGoalSuite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSGoalSuite.swift; sourceTree = "<group>"; };
 		D4AA25B521FAFC4F00BADD48 /* GSSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSSubject.swift; sourceTree = "<group>"; };
 		D4AA25B621FAFC4F00BADD48 /* GSFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSFactory.swift; sourceTree = "<group>"; };
-		D4AA25B821FAFC4F00BADD48 /* NGResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGResults.swift; sourceTree = "<group>"; };
+		D4AA25B821FAFC4F00BADD48 /* NGTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGTester.swift; sourceTree = "<group>"; };
 		D4AA25B921FAFC4F00BADD48 /* NGSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGSubject.swift; sourceTree = "<group>"; };
 		D4AA25BA21FAFC4F00BADD48 /* NGFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGFactory.swift; sourceTree = "<group>"; };
 		D4AA25BB21FAFC4F00BADD48 /* NGGoalSuite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGGoalSuite.swift; sourceTree = "<group>"; };
@@ -283,6 +310,8 @@
 				D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */,
 				D4143B5521F97FAA0034E3C4 /* Assembler.swift */,
 				D4143B5821F97FAA0034E3C4 /* Gene.swift */,
+				D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */,
+				D43A8DF421FC0853007E99C0 /* GeneType.swift */,
 				D4143B5321F97FAA0034E3C4 /* Genome.swift */,
 				D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */,
 				D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */,
@@ -340,6 +369,7 @@
 				D4143B5121F97EFD0034E3C4 /* Genome */,
 				D4AA25AB21FAFC0700BADD48 /* GoalSuites */,
 				D4143B4F21F97E540034E3C4 /* Kinetics */,
+				D4710C9521FB381C0094D212 /* Mutator */,
 			);
 			path = Arkonia;
 			sourceTree = "<group>";
@@ -387,6 +417,7 @@
 				D4143BA121F9E7D20034E3C4 /* NSSupport */,
 				D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */,
 				D4276AEA21F3249100862802 /* ArkonCentralLight.swift */,
+				D464082E21FB176B00661D73 /* BellCurve.swift */,
 				D451C3D021F3953800212262 /* CGConversions.swift */,
 				D451C3CE21F394D700212262 /* Extensions.swift */,
 				D4276AFD21F3268900862802 /* KIdentifier.swift */,
@@ -425,6 +456,16 @@
 				D45911EA21F3522400D87ED8 /* NetcamTest.entitlements */,
 			);
 			path = NetcamTest;
+			sourceTree = "<group>";
+		};
+		D4710C9521FB381C0094D212 /* Mutator */ = {
+			isa = PBXGroup;
+			children = (
+				D464082C21FB09B400661D73 /* Mutator.swift */,
+				D4710C9621FB38580094D212 /* MutatorAdd.swift */,
+				D4710C9821FB38D60094D212 /* MutatorSubtract.swift */,
+			);
+			path = Mutator;
 			sourceTree = "<group>";
 		};
 		D4887B3221F300CA00402420 = {
@@ -507,10 +548,10 @@
 		D4AA25B721FAFC4F00BADD48 /* GSNameGuesser */ = {
 			isa = PBXGroup;
 			children = (
-				D4AA25B821FAFC4F00BADD48 /* NGResults.swift */,
-				D4AA25B921FAFC4F00BADD48 /* NGSubject.swift */,
 				D4AA25BA21FAFC4F00BADD48 /* NGFactory.swift */,
 				D4AA25BB21FAFC4F00BADD48 /* NGGoalSuite.swift */,
+				D4AA25B921FAFC4F00BADD48 /* NGSubject.swift */,
+				D4AA25B821FAFC4F00BADD48 /* NGTester.swift */,
 			);
 			path = GSNameGuesser;
 			sourceTree = "<group>";
@@ -709,9 +750,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4AA25C321FAFC4F00BADD48 /* GSSubject.swift in Sources */,
-				D4AA25C521FAFC4F00BADD48 /* NGResults.swift in Sources */,
+				D4AA25C521FAFC4F00BADD48 /* NGTester.swift in Sources */,
 				D4AA25C821FAFC4F00BADD48 /* NGGoalSuite.swift in Sources */,
 				D4303C4321FABB6700886C05 /* Extensions.swift in Sources */,
+				D464082D21FB09B400661D73 /* Mutator.swift in Sources */,
 				D4303C2B21FAAA3700886C05 /* KTNeuron.swift in Sources */,
 				D4303C4A21FABC4300886C05 /* VNet.swift in Sources */,
 				D4AA25C021FAFC4F00BADD48 /* GSTester.swift in Sources */,
@@ -719,6 +761,7 @@
 				D4AA25C721FAFC4F00BADD48 /* NGFactory.swift in Sources */,
 				D4276AA521F3143800862802 /* WildGuessWindowController.swift in Sources */,
 				D4AA25D121FAFF4F00BADD48 /* Archive.swift in Sources */,
+				D464082F21FB176B00661D73 /* BellCurve.swift in Sources */,
 				D4AA25C621FAFC4F00BADD48 /* NGSubject.swift in Sources */,
 				D4303C4921FABC4300886C05 /* VLayer.swift in Sources */,
 				D4303C3B21FABA5100886C05 /* TNeuron.swift in Sources */,
@@ -740,6 +783,8 @@
 				D4276AEE21F3249100862802 /* ArkonCentralLight.swift in Sources */,
 				D4303C3C21FABA5C00886C05 /* ActivatorFunctions.swift in Sources */,
 				D4AA25A821FAD78900BADD48 /* VisualizerTestViewController.swift in Sources */,
+				D43A8DF521FC0853007E99C0 /* GeneType.swift in Sources */,
+				D4710C9721FB38580094D212 /* MutatorAdd.swift in Sources */,
 				D4303C4F21FABC4300886C05 /* VSpacer.swift in Sources */,
 				D4303C2721FAAA2B00886C05 /* KDriver.swift in Sources */,
 				D4276AA321F3143800862802 /* GameScene.swift in Sources */,
@@ -748,9 +793,11 @@
 				D4AA25D021FAFF4F00BADD48 /* Selector.swift in Sources */,
 				D4303C2521FAAA2B00886C05 /* KNeuron.swift in Sources */,
 				D4303C4821FABC4300886C05 /* VDisplay.swift in Sources */,
+				D43A8DF721FC08F8007E99C0 /* GeneLibrary.swift in Sources */,
 				D4303C5021FABC4300886C05 /* VSupport.swift in Sources */,
 				D4303C5321FAC1A100886C05 /* CGConversions.swift in Sources */,
 				D4303C2621FAAA2B00886C05 /* KSignalRelay.swift in Sources */,
+				D4710C9921FB38D60094D212 /* MutatorSubtract.swift in Sources */,
 				D4303C4D21FABC4300886C05 /* VProtocols.swift in Sources */,
 				D4303C4721FABC1A00886C05 /* LoopIterator.swift in Sources */,
 				D4AA25C121FAFC4F00BADD48 /* GSCommon.swift in Sources */,
@@ -798,6 +845,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4887B3F21F300CA00402420 /* main.swift in Sources */,
+				D4E6927821FC1B0F00D17DAE /* ActivatorFunctions.swift in Sources */,
+				D4E6927A21FC1B0F00D17DAE /* GeneType.swift in Sources */,
+				D4E6927921FC1B0F00D17DAE /* Assembler.swift in Sources */,
+				D4E6927721FC1A0A00D17DAE /* Gene.swift in Sources */,
+				D4E6927B21FC1B0F00D17DAE /* Genome.swift in Sources */,
+				D4E6927C21FC1B0F00D17DAE /* GenomeAdd.swift in Sources */,
+				D4E6927D21FC1B0F00D17DAE /* GenomeSubtract.swift in Sources */,
+				D4E6927E21FC1B0F00D17DAE /* UpConnector.swift in Sources */,
+				D43A8E0821FC17ED007E99C0 /* GeneLibrary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -805,17 +861,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D43A8E0621FC1790007E99C0 /* BellCurve.swift in Sources */,
 				D4887B4C21F3037D00402420 /* DarkTest.swift in Sources */,
-				D4303C2E21FAAE3F00886C05 /* ActivatorFunctions.swift in Sources */,
-				D4303C2F21FAAE3F00886C05 /* Assembler.swift in Sources */,
-				D4303C3021FAAE3F00886C05 /* Gene.swift in Sources */,
-				D4303C3121FAAE3F00886C05 /* Genome.swift in Sources */,
-				D4303C3221FAAE3F00886C05 /* GenomeAdd.swift in Sources */,
-				D4303C3321FAAE3F00886C05 /* GenomeSubtract.swift in Sources */,
-				D4303C3421FAAE3F00886C05 /* UpConnector.swift in Sources */,
+				D43A8DFF21FC1721007E99C0 /* Genome.swift in Sources */,
 				D4303C3521FAB18D00886C05 /* Extensions.swift in Sources */,
+				D43A8E0521FC172A007E99C0 /* MutatorSubtract.swift in Sources */,
 				D4303C2D21FAADB800886C05 /* DTGenome.swift in Sources */,
+				D43A8DFC21FC1720007E99C0 /* Gene.swift in Sources */,
+				D43A8E0021FC1721007E99C0 /* GenomeAdd.swift in Sources */,
+				D43A8DFA21FC1720007E99C0 /* ActivatorFunctions.swift in Sources */,
+				D43A8DFB21FC1720007E99C0 /* Assembler.swift in Sources */,
 				D4303C3721FAB54800886C05 /* ArkonCentralDark.swift in Sources */,
+				D43A8E0421FC172A007E99C0 /* MutatorAdd.swift in Sources */,
+				D4E6927621FC19B400D17DAE /* GeneLibrary.swift in Sources */,
+				D43A8E0321FC172A007E99C0 /* Mutator.swift in Sources */,
+				D43A8E0221FC1721007E99C0 /* UpConnector.swift in Sources */,
+				D43A8E0121FC1721007E99C0 /* GenomeSubtract.swift in Sources */,
+				D43A8DFE21FC1721007E99C0 /* GeneType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

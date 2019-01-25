@@ -56,16 +56,22 @@ extension Genome {
     }
 
     // Like insert, but transfers ownership away from the segment object.
+    // (Except this one, which takes only a gene, which presumes that
+    // there is no segment object, just a single gene.)
     func inject(_ gene: Gene, before ss: Int) {
-        // To inject before zero, call headlink()
-        precondition(ss > 0)
-        inject(gene, before: self[ss])
+        switch ss {
+        case 0:          headlink(gene)
+        case self.count: asslink(gene)
+        default:         inject(gene, before: self[ss])
+        }
     }
 
     func inject(_ segment: Segment, before ss: Int) {
-        // To inject before zero, call headlink()
-        precondition(ss > 0)
-        inject(segment, before: self[ss])
+        switch ss {
+        case 0:          headlink(segment)
+        case self.count: asslink(segment)
+        default:         inject(segment, before: self[ss])
+        }
     }
 
     func inject(_ segment: Segment, before next_: Gene?) {

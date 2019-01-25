@@ -23,9 +23,13 @@ import Foundation
 class NGGoalSuite: GSGoalSuite {
     var huffZoe: UInt64 = 0
     var zero: UInt64 = 0, zNameCount: UInt64 = 0
+    let zName: String
 
     init(_ nameToGuess: String) {
-        ArkonCentral.sel = NGGoalSuite.setSelectionControls()
+        self.zName = nameToGuess
+
+        ArkonCentralDark.selectionControls =
+            NGGoalSuite.setSelectionControls(cMotorNeurons: nameToGuess.count)
 
         zNameCount = UInt64(nameToGuess.count)
         for vc: UInt64 in zero..<zNameCount { huffZoe <<= 4; huffZoe |= vc }
@@ -37,12 +41,12 @@ class NGGoalSuite: GSGoalSuite {
         super.init(factory: factory, tester: tester)
     }
 
-    override class func setSelectionControls() -> KSelectionControls {
-        ArkonCentral.sel.cSenseNeurons = 4
-        ArkonCentral.sel.cLayersInStarter = 5
-        ArkonCentral.sel.cMotorNeurons = ArkonCentral.zName.count
-        ArkonCentral.sel.howManyGenerations = 10000
+    override class func setSelectionControls(cMotorNeurons: Int) -> KSelectionControls {
+        ArkonCentralDark.selectionControls.cSenseNeurons = 4
+        ArkonCentralDark.selectionControls.cLayersInStarter = 5
+        ArkonCentralDark.selectionControls.cMotorNeurons = cMotorNeurons
+        ArkonCentralDark.selectionControls.cGenerations = 10000
 
-        return ArkonCentral.sel
+        return ArkonCentralDark.selectionControls
     }
 }

@@ -21,10 +21,10 @@
 import CoreGraphics // For the math functions
 import Foundation
 
-enum AFn {
+public enum AFn {
     typealias NeuronOutputFunction = (Double) -> Double
 
-    enum FunctionName: String, CaseIterable {
+   public enum FunctionName: String, CaseIterable {
         case identity, binarystep, logistic, tanh, arctan, softsign, isru, isrlu, sqnl
         case relu, brelu, leakyrelu, boundleakyrelu, prelu, rrelu, elu, selu, srelu, apl, softplus
         case bentidentity, swish, softexponential, softclipping, sinusoid, sinc, gaussian

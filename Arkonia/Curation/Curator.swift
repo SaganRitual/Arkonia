@@ -32,6 +32,7 @@ class Curator {
     var atLeastOneTSHasSurvived = false
     var goalSuite: GSGoalSuite
     let notificationCenter = NotificationCenter.default
+    let portalNumber = 0
     var randomArkonForDisplay: GSSubject!
     var remainingGenerations = 0
     let selector: Selector
@@ -46,7 +47,7 @@ class Curator {
         self.selector = Selector(goalSuite: goalSuite, semaphore: semaphore)
         self.goalSuite = goalSuite
         self.archive = Archive(goalSuite: goalSuite)
-        self.remainingGenerations = ArkonCentral.sel.howManyGenerations
+        self.remainingGenerations = ArkonCentralDark.selectionControls.cGenerations
 
         let n = Foundation.Notification.Name.selectComplete
         observerHandle = notificationCenter.addObserver(forName: n, object: selector, queue: nil) {
@@ -88,9 +89,6 @@ class Curator {
         self.atLeastOneTSHasSurvived = true
         print("Aboriginal score = \(a.fitnessScore)")
 
-        let gameScene = ArkonCentral.gScene!
-        gameScene.makeVGrid(self.aboriginal!.kNet!)
-
         var firstPass = true
 
         while remainingGenerations > 0 {
@@ -108,12 +106,8 @@ class Curator {
             let newScore = gs.fitnessScore
             let oldScore = archive.referenceTS!.fitnessScore
             if newScore != oldScore {
+                nok(ArkonCentralLight.display).newTNetAvailable(gs.tNet!, portal: 0)
                 print("New record by \(gs.fishNumber): \(gs.fitnessScore)")
-
-                let gameScene = ArkonCentral.gScene!
-                gameScene.makeVGrid(gs.kNet!)
-
-//                print((self.currentProgenitor as! AASubject).debugOutput)
             }
 
             deploySelector(reference: gs)
@@ -130,7 +124,7 @@ class Curator {
         status = .finished
         print("Best score \(self.currentProgenitor?.fitnessScore ?? -42.4242)" +
                 " from \(self.currentProgenitor?.fishNumber ?? 424242)," +
-                " genome \(currentProgenitor?.genome ?? "<no genome?>")")
+                " genome \(String(describing: currentProgenitor?.genome))")
 
 //        print((self.currentProgenitor as! AASubject).debugOutput)
 

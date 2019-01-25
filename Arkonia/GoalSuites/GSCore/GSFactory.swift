@@ -24,45 +24,32 @@ class GSFactory {
     static var aboriginalGenome: Genome?
 
     internal var decoder = TDecoder()
+    internal var mutator = Mutator()
     weak var suite: GSGoalSuite?
 
     var description: String { return "GSFactory; functioning within standard operational parameters" }
 
-    public init() {
-        genomeWorkspace.reserveCapacity(1024 * 1024)
-        ArkonCentral.mut.setGenomeWorkspaceOwner(self)
-    }
-
     public func getAboriginal() -> GSSubject {
-        let ag = GSFactory.aboriginalGenome![...]
+        let genome = GSFactory.aboriginalGenome !! { preconditionFailure() }
 
-        guard let aboriginal = makeArkon(genome: ag, mutate: false)
-            else { preconditionFailure("Aboriginal should survive birth") }
+        let aboriginal = makeArkon(genome: genome, mutate: false) !!
+            { preconditionFailure("Aboriginal should survive birth") }
 
         return aboriginal
     }
 
-    func makeArkon(genome: GenomeSlice, mutate: Bool) -> GSSubject? {
+    func makeArkon(genome: Genome, mutate: Bool) -> GSSubject? {
         preconditionFailure("Must be implemented in subclass")
     }
 
-    func makeNet(genome: GenomeSlice, mutate: Bool) -> TNet? {
-        if mutate { self.mutate(from: genome) }
-        else { genomeWorkspace.append(String(genome)) }
-
-        return decoder.setInput(to: genomeWorkspace[...]).decode()
-    }
-
-    public func mutate(from reference: GenomeSlice) {
-        repeat {
-            ArkonCentral.mut.setInputGenome(reference).mutate()
-            ArkonCentral.mut.convertToGenome()
-        } while genomeWorkspace.elementsEqual(reference)
+    func makeNet(genome: Genome, mutate: Bool) -> (Genome, TNet?) {
+        var newGenome = genome.copy()
+        if mutate { newGenome = ArkonCentralDark.mutator.setInputGenome(newGenome).mutate() }
+        return (newGenome, decoder.setInput(to: newGenome).decode())
     }
 
     public func postInit(suite: GSGoalSuite) {
         self.suite = suite
-        let h = ArkonCentral.sel.cLayersInStarter
-        GSFactory.aboriginalGenome = Manipulator.makePassThruGenome(cLayers: h)
+        GSFactory.aboriginalGenome = Assembler.makePassThruGenome()
     }
 }

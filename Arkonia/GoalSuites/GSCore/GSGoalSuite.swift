@@ -28,7 +28,6 @@ class GSGoalSuite {
     public var tester: GSTesterProtocol
 
     public var description: String { return "GSGoalSuite" }
-    public var selectionControls: KSelectionControls { return ArkonCentral.sel }
 
     init(factory: GSFactory, tester: GSTesterProtocol) {
         self.factory = factory
@@ -36,8 +35,6 @@ class GSGoalSuite {
 
         factory.postInit(suite: self)
         tester.postInit(suite: self)
-
-        ArkonCentral.goalSuite = self
     }
 
     public func run() -> GSSubject? {
@@ -45,7 +42,7 @@ class GSGoalSuite {
         return curator!.select()
     }
 
-    class func setSelectionControls() -> KSelectionControls {
+    class func setSelectionControls(cMotorNeurons: Int) -> KSelectionControls {
         preconditionFailure("Subclasses must override this function")
     }
 }

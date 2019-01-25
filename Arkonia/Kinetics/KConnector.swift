@@ -33,17 +33,17 @@ struct KConnector {
 
         let upperNeurons = upperLayer.neurons
 
-        let fIter = ForwardLoopIterator(upperNeurons, startingTarget.channel)
-        let rIter = ReverseLoopIterator(upperNeurons, startingTarget.channel)
+        let fIter = ForwardLoopIterator(upperNeurons, startingTarget.0)
+        let rIter = ReverseLoopIterator(upperNeurons, startingTarget.0)
 
         var inputIDs = [Int]()
 
         for _ in 0..<connectingNeuron.upConnectors.count {
             let target = connectingNeuron.upConnectors.removeLast()
-            connectingNeuron.weights.append(target.weight)  // save weight for the signaling step
+            connectingNeuron.weights.append(target.1)  // save weight for the signaling step
 //            print("uuu \(connectingNeuron)")
 
-            let iter: LoopIterator<[KNeuron]> = (target.channel >= 0) ? fIter : rIter
+            let iter: LoopIterator<[KNeuron]> = (target.0 >= 0) ? fIter : rIter
 
             guard let inputNeuron = skipDeadNeurons(iter) else { return inputIDs }
             inputIDs.append(inputNeuron.id.myID)

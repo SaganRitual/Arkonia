@@ -28,7 +28,7 @@ class KNeuron: KIdentifiable, LoopIterable {
     var inputs: [Double]!
     weak var loopIterableSelf: KNeuron?
     weak var relay: KSignalRelay?
-    var upConnectors: [UpConnectorProtocol]
+    var upConnectors: [UpConnectorValue]
     var weights = [Double]()
 
     var description: String { return id.description + ", \(weights), \(downConnectors)" }
@@ -44,7 +44,7 @@ class KNeuron: KIdentifiable, LoopIterable {
     }
 
     init(_ id: KIdentifier, activator: AFn.FunctionName, bias: Double, downConnectors: [Int],
-         upConnectors: [UpConnectorProtocol])
+         upConnectors: [UpConnectorValue])
     {
         self.id = id
         self.activator = activator
@@ -96,9 +96,9 @@ extension KNeuron {
 
     func driveSignal(from upperLayer: [KSignalRelay]) {
         let weighted: [Double] = zip(upperLayer, upConnectors).map {
-            (pair: (KSignalRelay, UpConnectorProtocol)) -> Double in
+            (pair: (KSignalRelay, UpConnectorValue)) -> Double in
             let (relay, connector) = pair
-            return relay.output * connector.weight
+            return relay.output * connector.1
         }
 
         relay?.output = weighted.reduce(bias, +)

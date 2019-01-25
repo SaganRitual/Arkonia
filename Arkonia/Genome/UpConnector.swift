@@ -20,18 +20,12 @@
 
 import Foundation
 
-protocol UpConnectorProtocol {
-    var channel: Int { get }
-    var weight: Double { get }
-}
+public struct UpConnector: CustomStringConvertible, NeuronUpConnectorProtocol {
+    public var value: UpConnectorValue
 
-struct UpConnector: CustomStringConvertible, UpConnectorProtocol {
-    var channel = 0
-    var weight = 0.0
-
-    var description: String {
-        return "(w[\(weight.dTruncate())]c[\(channel)])"
+    public var description: String {
+        return "(w[\(value.1.dTruncate())]c[\(value.0)])"
     }
 
-    init(_ gene: UpConnectorProtocol) { self.channel = gene.channel; self.weight = gene.weight }
+    init(_ gene: NeuronUpConnectorProtocol) { self.value = gene.value }
 }

@@ -24,6 +24,7 @@ protocol DecoderProtocol {}
 
 enum ArkonCentralDark {
     static var decoder: DecoderProtocol!
+    static var mutator: Mutator!
     static var selectionControls = KSelectionControls()
 
     static let isMotorLayer = -2

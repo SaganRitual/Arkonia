@@ -25,11 +25,12 @@ class NGFactory: GSFactory {
 
     init(nameToGuess: String) { self.nameToGuess = nameToGuess; super.init() }
 
-    override public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> NGSubject? {
-        guard let tNet = makeNet(genome: genome, mutate: mutate) else { return nil }
+    override public func makeArkon(genome: Genome, mutate: Bool = true) -> NGSubject? {
+        
+        let (newGenome, tNet_) = makeNet(genome: genome, mutate: mutate)
+        guard let tNet = tNet_, !tNet.layers.isEmpty else { return nil }
 
-        let gs = NGSubject(genome: genomeWorkspace[...], nameToGuess: nameToGuess)
-        gs.postInit(tNet: tNet)
-        return gs
+        // Subject now owns the tNet and the newGenome
+        return NGSubject(tNet: tNet, genome: newGenome, nameToGuess: nameToGuess)
     }
 }

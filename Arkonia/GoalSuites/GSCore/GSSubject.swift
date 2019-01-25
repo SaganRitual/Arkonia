@@ -23,10 +23,14 @@ import Foundation
 class GSSubject: LightLabelProtocol, CustomStringConvertible {
     static var theFishNumber = 0
 
+    // The buck stops here for the genome and the nets. GSSubject
+    // is the brain itself, the Arkon itself. So those components
+    // live here, ie, we own their reference counts. No one else
+    // gets a strong reference.
     let fishNumber: Int
     var kNet: KNet?
     let genome: Genome
-    weak var tNet: TNet?
+    var tNet: TNet?
     var scoreCore = GSScore()
     var spawnCount: Int = 0
 
@@ -42,19 +46,14 @@ class GSSubject: LightLabelProtocol, CustomStringConvertible {
         set { scoreCore.score = newValue }
     }
 
-    init(genome: GenomeSlice) {
+    init(tNet: TNet, genome: Genome) {
         fishNumber = GSSubject.theFishNumber; GSSubject.theFishNumber += 1
-        self.genome = String(genome)
+        self.genome = genome
+        self.tNet = tNet
     }
-
-    func postInit(tNet: TNet) { self.tNet = tNet }
 }
 
 extension GSSubject {
-
-    static func == (lhs: GSSubject, rhs: GSSubject) -> Bool {
-        return lhs.genome == rhs.genome
-    }
 
     static func <= (lhs: Double, rhs: GSSubject) -> Bool {
         return lhs < rhs.fitnessScore || lhs == rhs.fitnessScore

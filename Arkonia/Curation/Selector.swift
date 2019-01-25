@@ -93,10 +93,11 @@ class Selector {
         var stemTheFlood = [GSSubject]()
 
         for _ in 0..<ArkonCentralDark.selectionControls.cSubjectsPerGeneration {
-            guard let gs = goalSuite.factory.makeArkon(genome: stud.genome[...], mutate: true) else { continue }
+            guard let gs = goalSuite.factory.makeArkon(genome: stud.genome, mutate: true)
+                else { continue }
 
             if selectorWorkItem.isCancelled { break }
-            if gs.genome == stud.genome { continue }
+            if gs.genome.isCloneOfParent { continue }
 
             guard let score = goalSuite.tester.administerTest(to: gs) else { continue }
 

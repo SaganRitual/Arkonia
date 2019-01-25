@@ -86,7 +86,9 @@ class DTGenome: XCTestCase {
         XCTAssertEqual(getGeneValues(genome), expectedOutput)
 
         // Append (array-initialized) segment to end
-        genome2.asslink(Genome([Int](137..<150).map { return gMockGene($0) }))
+        XCTAssertEqual(genome.count, 26, "Injected gene should raise count to 26")
+        let ass = Genome([Int](137..<150).map { return gMockGene($0) })
+        genome2.asslink(ass)
 
         XCTAssertEqual(genome2.count, 13, "Asslinked genes should raise count to 13")
         XCTAssertEqual(getGeneValues(genome2), [Int](137..<150))
@@ -172,7 +174,29 @@ class DTGenome: XCTestCase {
         XCTAssertEqual(genome3.count, expectedOutput.count)
         XCTAssertEqual(getGeneValues(genome3), expectedOutput)
 
-        genome.dump()
+        // Found this one in the wild: inject() inserts before
+        // the ss, so the only way to insert at the end is to
+        // specify the (otherwise invalid) eof index. But we pass
+        // that index to the subscript function, which of course
+        // chokes on it.
+        let count = genome3.count
+        genome.asslink(genome3.copy())
+        genome.inject(genome3, before: genome.count)
+
+        // Check that genome3 has released his segment, and
+        // genome has taken proper ownership of it.
+        XCTAssertEqual(genome.count, count * 2)
+        XCTAssert(!genome.isEmpty)
+        XCTAssertEqual(genome3.count, 0)
+        XCTAssert(genome3.isEmpty)
+
+        // Another one from the wild. Remove the head element (!!). I'm shocked
+        // this never showed up in testing.
+        let strideLength = 4
+        for _ in stride(from: 0, to: genome.count, by: strideLength) {
+            genome.removeOne(at: 0)
+            XCTAssertEqual(genome.count, genome.rcount, "\(genome.scount)")
+        }
     }
 
 }
