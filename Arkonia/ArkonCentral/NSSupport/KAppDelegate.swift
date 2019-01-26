@@ -41,25 +41,35 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
         ArkonCentralLight.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
         ArkonCentralLight.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green-half")
 
-        guard let view = NSApp.mainWindow?.contentView as? SKView, let scene = view.scene
-            else { preconditionFailure("Gergely, help!") }
+        KAppController.shared.showMainWindow(withTitle: "VisualizerTest")
 
-        ArkonCentralLight.display = VDisplay(scene)
-        scene.delegate = ArkonCentralLight.display
+        if let scene = KAppController.shared.scene {
 
-        #if LIGHT_RUN
+          ArkonCentral.display = VDisplay(scene)
+          scene.delegate = ArkonCentral.display
 
-        self.curator = Curator(goalSuite: goalSuite)
-        self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator!.select() }
-        DispatchQueue.global(qos: .background).async(execute: self.workItem)
+          displayTest = VDisplayTest()
+          displayTest?.start()
 
-        #elseif LT_DISPLAY
-        displayTest = VDisplayTest()
-        displayTest!.start()
-        #endif
+          #if LIGHT_RUN
+
+          self.curator = Curator(goalSuite: goalSuite)
+          self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator!.select() }
+          DispatchQueue.global(qos: .background).async(execute: self.workItem)
+
+          #elseif LT_DISPLAY
+          displayTest = VDisplayTest()
+          displayTest!.start()
+          #endif
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
+
+	func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+		return true
+	}
+
 }
