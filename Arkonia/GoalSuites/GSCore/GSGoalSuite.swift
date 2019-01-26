@@ -19,21 +19,30 @@
 //
 
 import Foundation
-import SpriteKit
 
-enum VSupport {
-    @discardableResult
-    static func drawLine(from start: CGPoint, to end: CGPoint) -> SKShapeNode {
-        let linePath = CGMutablePath()
+class GSGoalSuite {
+    public enum Comparison: String { case ANY, BE, BT, EQ }
 
-        linePath.move(to: start)
-        linePath.addLine(to: end)
+    private(set) var curator: Curator?
+    public var factory: GSFactory
+    public var tester: GSTesterProtocol
 
-        let line = SKShapeNode(path: linePath)
+    public var description: String { return "GSGoalSuite" }
 
-        line.strokeColor = .green
-        line.zPosition = ArkonCentralLight.vLineZPosition
+    init(factory: GSFactory, tester: GSTesterProtocol) {
+        self.factory = factory
+        self.tester = tester
 
-        return line
+        factory.postInit(suite: self)
+        tester.postInit(suite: self)
+    }
+
+    public func run() -> GSSubject? {
+        curator = Curator(goalSuite: self)
+        return curator!.select()
+    }
+
+    class func setSelectionControls(cMotorNeurons: Int) -> KSelectionControls {
+        preconditionFailure("Subclasses must override this function")
     }
 }

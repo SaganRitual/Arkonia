@@ -24,25 +24,44 @@ import SpriteKit
 
 @NSApplicationMain
 class KAppDelegate: NSObject, NSApplicationDelegate {
+    #if LIGHT_RUN
+
+    var curator: Curator?
+    let goalSuite = NGGoalSuite("Zoe Bishop")
+    var workItem: DispatchWorkItem!
+
+    #elseif LT_DISPLAY
     var displayTest: VDisplayTest?
+    #endif
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let spriteAtlas = SKTextureAtlas(named: "Neurons")
-        ArkonCentral.sceneBackgroundTexture = spriteAtlas.textureNamed("scene-background")
-        ArkonCentral.orangeNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-orange-half")
-        ArkonCentral.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
-        ArkonCentral.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green-half")
+        ArkonCentralLight.sceneBackgroundTexture = spriteAtlas.textureNamed("scene-background")
+        ArkonCentralLight.orangeNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-orange-half")
+        ArkonCentralLight.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
+        ArkonCentralLight.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green-half")
 
-		KAppController.shared.showMainWindow(withTitle: "VisualizerTest")
+        KAppController.shared.showMainWindow(withTitle: "VisualizerTest")
 
-		if let scene = KAppController.shared.scene {
+        if let scene = KAppController.shared.scene {
 
-        	ArkonCentral.display = VDisplay(scene)
-        	scene.delegate = ArkonCentral.display
+          ArkonCentral.display = VDisplay(scene)
+          scene.delegate = ArkonCentral.display
 
-        	displayTest = VDisplayTest()
-        	displayTest?.start()
-		}
+          displayTest = VDisplayTest()
+          displayTest?.start()
+
+          #if LIGHT_RUN
+
+          self.curator = Curator(goalSuite: goalSuite)
+          self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator!.select() }
+          DispatchQueue.global(qos: .background).async(execute: self.workItem)
+
+          #elseif LT_DISPLAY
+          displayTest = VDisplayTest()
+          displayTest!.start()
+          #endif
+        }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

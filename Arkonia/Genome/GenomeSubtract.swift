@@ -46,7 +46,7 @@ extension Genome {
 
     @discardableResult
     func removeFirst() -> Gene? {
-        guard let first = head else { return nil }
+        guard let first = head else { preconditionFailure("Genome is empty") }
         precondition(first.prev == nil, "Segment is corrupted")
 
         head = head?.next
@@ -83,7 +83,7 @@ extension Genome {
 
     @discardableResult
     func removeLast() -> Gene? {
-        guard let last = tail else { return nil }
+        guard let last = tail else { preconditionFailure("Genome is empty") }
         precondition(last.next == nil, "Segment is corrupted")
 
         tail = tail?.prev
@@ -137,6 +137,12 @@ extension Genome {
 
         leftCut?.next = rightCut
         rightCut?.prev = leftCut
+
+        // If we chopped the head, make a new head. Note that
+        // if this causes an empty list, then the head observer
+        // will take care of resetting.
+        if gene == nok(head) { head = rightCut }
+
         count -= 1
 
         return gene

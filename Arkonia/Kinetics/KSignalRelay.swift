@@ -19,21 +19,45 @@
 //
 
 import Foundation
-import SpriteKit
 
-enum VSupport {
-    @discardableResult
-    static func drawLine(from start: CGPoint, to end: CGPoint) -> SKShapeNode {
-        let linePath = CGMutablePath()
+class KSignalRelay: KIdentifiable {
+    // KIdentifiable
+    let id: KIdentifier
 
-        linePath.move(to: start)
-        linePath.addLine(to: end)
+    weak var breaker: KSignalRelay?
+    var inputRelays = [KSignalRelay]()
+    var output: Double = 0.0
 
-        let line = SKShapeNode(path: linePath)
+    var debugDescription: String { return "isOperational = \(isOperational)" }
 
-        line.strokeColor = .green
-        line.zPosition = ArkonCentralLight.vLineZPosition
+    var overriddenState: Bool?
+    var isOperational: Bool { return (overriddenState == nil) ? !inputRelays.isEmpty : overriddenState! }
 
-        return line
+    // All swim
+    init(_ id: KIdentifier) {
+        self.id = id
+//        print("+\(self)")
     }
+
+    deinit {
+//        print("~\(self)")
+        while !inputRelays.isEmpty { inputRelays.removeLast() }
+    }
+}
+
+extension KSignalRelay {
+    static func makeRelay(_ family: KIdentifier, _ me: Int) -> KSignalRelay {
+        let id = family.add(me, as: .signalRelay)
+        return KSignalRelay(id)
+    }
+
+    func connect(to targetNeurons: [Int], in upperLayer: KLayer) {
+        inputRelays = targetNeurons.map {
+            upperLayer.neurons[$0].relay!
+        }
+
+//        print("\(self) connects to \(inputRelays)")
+    }
+
+    func overrideState(operational: Bool) { overriddenState = operational }
 }

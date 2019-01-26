@@ -52,15 +52,15 @@ final class VDisplayTest {
     }
 
     func displayNet(_ portal: SKNode) {
-        let display = ArkonCentral.display !! { preconditionFailure() }
+        let display = ArkonCentralLight.display !! { preconditionFailure() }
 
         tNet = buildTNet(portal)
         display.newTNetAvailable(tNet!, portal: portal)
     }
 
     func start() {
-        let d = ArkonCentral.display !! { preconditionFailure() }
-        (0..<ArkonCentral.cPortals).forEach {
+        let d = ArkonCentralLight.display !! { preconditionFailure() }
+        (0..<ArkonCentralLight.cPortals).forEach {
             let portal = d.portalServer.getPortal($0)
             portalNumbers[portal] = $0
             d.registerForSceneTick(update(_:), portal: portal)

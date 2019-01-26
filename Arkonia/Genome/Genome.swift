@@ -24,11 +24,30 @@ import Foundation
 typealias Segment = Genome
 
 class Genome: CustomDebugStringConvertible {
-    var head: Gene? { didSet { if head == nil { tail = nil; count = 0 } } }
+    enum Caller { case count, head, tail }
+
+    var head: Gene? { didSet { if head == nil { reset(.head) } } }
 
     weak var tail: Gene?
-
     var count = 0
+
+    var rcount: Int {
+        var rr = 0
+        for _ in makeIterator() { rr += 1 }
+        return rr
+    }
+
+    var scount: Int {
+        var ss = 0, cc = head
+        while let curr = cc {
+            ss += 1
+            cc = curr.next
+        }
+
+        return ss
+    }
+
+    var isCloneOfParent = true
     var isEmpty: Bool { return count == 0 }
 
     var debugDescription: String {
@@ -50,13 +69,26 @@ class Genome: CustomDebugStringConvertible {
     }
 
     func releaseGenes() { head = nil }
+
+    var resetting = false
+
+    func reset(_ caller: Caller) {
+        if resetting { return }
+        resetting = true
+        switch caller {
+        case .count: head = nil; tail = nil
+        case .head:  tail = nil; count = 0
+        case .tail:  head = nil; count = 0
+        }
+        resetting = false
+    }
 }
 
 // MARK: copy
 
 extension Genome {
-    func copy() -> Segment {
-        return Segment(makeIterator().map { $0.copy() })
+    func copy(from: Int? = nil, to: Int? = nil) -> Segment {
+        return Segment(makeIterator(from: from, to: to).map { $0.copy() })
     }
 }
 
@@ -80,8 +112,11 @@ extension Genome {
 */
     subscript (_ ss: Int) -> Gene {
         precondition(ss < count, "Subscript \(ss) out of range 0..<\(count)")
-        for (c, gene) in zip(0..., makeIterator()) where c == ss {
-            return gene
+
+        for (c, gene) in zip(0..., makeIterator()) {
+            if c == ss {
+                return gene
+            }
         }
         preconditionFailure("Concession to the compiler. Shouldn't occur.")
     }
@@ -95,18 +130,40 @@ extension Genome: Sequence {
         typealias Element = Gene
 
         private weak var gene: Gene?
+        var primed = false
 
-        init(_ genome: Genome) { self.gene = genome.head }
+        let from: Int
+        let to: Int
+
+        init(_ genome: Genome, from: Int, to: Int) {
+            self.gene = genome.head
+            self.from = from
+            self.to = to
+        }
 
         mutating func next() -> Gene? {
+            if !primed { prime() }
             guard var curr = gene else { return nil }
             defer { gene = curr.next }
             return curr
         }
+
+        private mutating func prime() {
+            primed = true
+
+            (0..<from).forEach { _ in
+                let s = self.next()
+                self.gene = nok(s)
+            }
+        }
     }
 
     func makeIterator() -> GenomeIterator {
-        return GenomeIterator(self)
+        return makeIterator(from: 0, to: self.count)
+    }
+
+    func makeIterator(from: Int? = nil, to: Int? = nil) -> GenomeIterator {
+        return GenomeIterator(self, from: from ?? 0, to: to ?? self.count)
     }
 }
 

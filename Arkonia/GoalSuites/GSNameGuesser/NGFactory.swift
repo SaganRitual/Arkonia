@@ -19,21 +19,18 @@
 //
 
 import Foundation
-import SpriteKit
 
-enum VSupport {
-    @discardableResult
-    static func drawLine(from start: CGPoint, to end: CGPoint) -> SKShapeNode {
-        let linePath = CGMutablePath()
+class NGFactory: GSFactory {
+    let nameToGuess: String
 
-        linePath.move(to: start)
-        linePath.addLine(to: end)
+    init(nameToGuess: String) { self.nameToGuess = nameToGuess; super.init() }
 
-        let line = SKShapeNode(path: linePath)
+    override public func makeArkon(genome: Genome, mutate: Bool = true) -> NGSubject? {
+        
+        let (newGenome, tNet_) = makeNet(genome: genome, mutate: mutate)
+        guard let tNet = tNet_, !tNet.layers.isEmpty else { return nil }
 
-        line.strokeColor = .green
-        line.zPosition = ArkonCentralLight.vLineZPosition
-
-        return line
+        // Subject now owns the tNet and the newGenome
+        return NGSubject(tNet: tNet, genome: newGenome, nameToGuess: nameToGuess)
     }
 }

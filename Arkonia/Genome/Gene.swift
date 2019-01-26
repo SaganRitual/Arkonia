@@ -20,40 +20,22 @@
 
 import Foundation
 
-enum GeneType {
-    /// Activator function
-    case activator
-    /// Bias to add to output signal
-    case bias
-    /// Special connection to the motor layer
-    case downConnector
-    /// Segment multiplier, as in real life
-    case hox
-    /// Experimental segment wrapper, causes the genes to be seen as
-    /// a single gene by the Mutator, such that they never get scrambled
-    /// internally, but move together as a unit
-    case lock
-    /// Container for neurons
-    case layer
-    /// For testing; the payload is an Int
-    case mockGene
-    /// In person
-    case neuron
-    /// Experimental, set custom behavior or something, I don't know. I'm thinking
-    /// something like a "no more than five layers" policy, or something.
-    case policy
-    /// Skip over genes as specified, ignoring them completely
-    case skipAnyType
-    /// Skip over one particular type of gene, ignoring them completely.
-    ///
-    /// Like this:
-    ///
-    /// input = `AbbbAcccAbbbAdbc`, cToSkip = 3, typetoSkip = A
-    ///
-    /// output = `bbb ccc bbb Adbc` (sans spaces; that's for readability).
-    case skipOneType
-    /// The usual way neurons connect
-    case upConnector
+public protocol NeuronActivatorProtocol {
+    var value: AFn.FunctionName { get set }
+}
+
+public protocol NeuronBiasProtocol {
+    var value: Double { get set }
+}
+
+public protocol NeuronDownConnectorProtocol {
+    var value: Int { get set }
+}
+
+public typealias UpConnectorValue = (Int, Double)
+
+public protocol NeuronUpConnectorProtocol {
+    var value: UpConnectorValue { get set }
 }
 
 class Gene: CustomDebugStringConvertible {
@@ -65,7 +47,7 @@ class Gene: CustomDebugStringConvertible {
     var next: Gene?
     weak var prev: Gene?
 
-    var description: String { return "If you can read this, something has gone haywire." }
+    var description: String { Gene.missingOverrideInSubclass() }
     var debugDescription: String { return description }
 
     static func init_(_ type: GeneType) -> (Int, GeneType) {
@@ -75,111 +57,50 @@ class Gene: CustomDebugStringConvertible {
     }
 
     init(_ type: GeneType) { (self.idNumber, self.type) = Gene.init_(type) }
-    init(_ copyFrom: Gene) { preconditionFailure("Subclasses must implement this") }
+    init(_ copyFrom: Gene) { Gene.missingOverrideInSubclass() }
 
-    func copy() -> Gene { preconditionFailure("Subclasses must implement this") }
+    func copy() -> Gene { Gene.missingOverrideInSubclass() }
+
+    class func makeRandomGene() -> Gene {
+        let geneType = nok(GeneType.allCases.randomElement())
+
+        switch geneType {
+        case .activator:     return gActivatorFunction.makeRandomGene()
+        case .bias:          return gBias.makeRandomGene()
+        case .downConnector: return gDownConnector.makeRandomGene()
+        case .hox:           return gHox.makeRandomGene()
+        case .lock:          return gLock.makeRandomGene()
+        case .layer:         return gLayer.makeRandomGene()
+        case .neuron:        return gNeuron.makeRandomGene()
+        case .policy:        return gPolicy.makeRandomGene()
+        case .skipAnyType:   return gSkipAnyType.makeRandomGene()
+        case .skipOneType:   return gSkipOneType.makeRandomGene()
+        case .upConnector:   return gUpConnector.makeRandomGene()
+
+        #if DT_GENOME
+        case .mockGene:      return gMockGene.makeRandomGene()
+        #endif
+        }
+    }
+
+    static func missingOverrideInSubclass() -> Never {
+        preconditionFailure("Subclasses must implement this")
+    }
+
+    func mutate() -> Bool { Gene.missingOverrideInSubclass() }
 
     static func == (_ lhs: Gene, _ rhs: Gene) -> Bool { return lhs.idNumber == rhs.idNumber }
 }
 
-class gActivatorFunction: Gene {
-    let value: AFn.FunctionName
-    override var description: String { return "Activator function(\(value))" }
-    init(_ value: AFn.FunctionName) {
-        self.value = value
-        super.init(.activator)
+extension Gene {
+    func mutate(from value: Int) -> Int {
+        let i = Int(mutate(from: Double(value * 100)) / 100.0)
+        return abs(i) < 1 ? i * 100 : i
     }
 
-    override func copy() -> Gene { return gActivatorFunction(self.value) }
-}
-
-class gBias: Gene {
-    let value: Double
-    override var description: String { return "Bias(\(value))" }
-    init(_ value: Double) {
-        self.value = value
-        super.init(.bias)
+    func mutate(from value: Double) -> Double {
+        let percentage = ArkonCentralDark.mutator.bellCurve.nextFloat()
+        let v = (value == 0.0) ? Double.random(in: -1...1) : value
+        return (Double(1.0 - percentage) * v).dTruncate()
     }
-
-    override func copy() -> Gene { return gBias(self.value) }
-}
-
-class gIntGene: Gene {
-    let value: Int
-
-    override var description: String {
-        var d = ""
-        switch self.type {
-        case .downConnector: d = "Down connector"
-        case .hox: d = "Hox"
-        case .lock: d = "Lock"
-        default: preconditionFailure()
-        }
-
-        return "\(d)(\(value))"
-    }
-
-    init(_ type: GeneType, _ value: Int) {
-        self.value = value
-        super.init(type)
-    }
-
-    override func copy() -> Gene { return gIntGene(self.type, self.value) }
-}
-
-class gDownConnector: gIntGene { init(_ value: Int) { super.init(.downConnector, value) } }
-class gHox: gIntGene { init(_ value: Int) { super.init(.hox, value) } }
-class gLock: gIntGene { init(_ value: Int) { super.init(.lock, value) } }
-
-class gLayer: Gene {
-    init() { super.init(.layer) }
-    override func copy() -> Gene { return gLayer() }
-}
-
-class gMockGene: Gene {
-    let value: Int
-    override var description: String { return "Mock gene: value = \(value)" }
-    init(_ value: Int) { self.value = value; super.init(.mockGene) }
-    override func copy() -> Gene { return gMockGene(value) }
-}
-
-class gNeuron: Gene {
-    override var description: String { return "Neuron gene" }
-    init() { super.init(.neuron) }
-    override func copy() -> Gene { return gNeuron() }
-}
-
-// Doesn't do anything yet
-class gPolicy: Gene { init() {
-    super.init(.policy) }
-    override func copy() -> Gene { return gPolicy() }
-}
-
-class gSkipAnyType: gIntGene {
-    init(_ value: Int) { super.init(.skipAnyType, value) }
-}
-
-class gSkipOneType: gIntGene {
-    let typeToSkip: GeneType
-
-    override var description: String { return "Skip(\(value) \(typeToSkip))" }
-
-    init(_ value: Int, typeToSkip: GeneType) {
-        self.typeToSkip = typeToSkip
-        super.init(.skipOneType, value)
-    }
-}
-
-class gUpConnector: Gene {
-    let channel: Int
-    let weight: Double
-
-    override var description: String { return "Up connector(c = \(channel), w = \(weight))" }
-
-    init(_ value: (Double, Int)) {
-        (weight, channel) = value
-        super.init(.upConnector)
-    }
-
-    override func copy() -> Gene { return gUpConnector((self.weight, self.channel)) }
 }

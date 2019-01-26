@@ -20,33 +20,36 @@
 
 import Foundation
 
-class TNet {
-    var cMotorNeurons = ArkonCentralDark.selectionControls.cMotorNeurons
-    var cSenseNeurons = ArkonCentralDark.selectionControls.cSenseNeurons
-    var fishNumber: Int?
-    var layers = [TLayer]()
-    var underConstruction: TLayer?
+class GSFactory {
+    static var aboriginalGenome: Genome?
 
-    init() { }
+    internal var decoder = TDecoder()
+    internal var mutator = Mutator()
+    weak var suite: GSGoalSuite?
 
-    func beginNewLayer() -> TLayer {
-        if underConstruction != nil {
-            finalizeLayer()
-            underConstruction = nil
-        }
+    var description: String { return "GSFactory; functioning within standard operational parameters" }
 
-        underConstruction = TLayer()
-        return underConstruction!
+    public func getAboriginal() -> GSSubject {
+        let genome = GSFactory.aboriginalGenome !! { preconditionFailure() }
+
+        let aboriginal = makeArkon(genome: genome, mutate: false) !!
+            { preconditionFailure("Aboriginal should survive birth") }
+
+        return aboriginal
     }
 
-    func finalizeLayer() {
-        guard let u = underConstruction else { return }
-        u.finalizeNeuron()
-        layers.append(u)
-        underConstruction = nil
+    func makeArkon(genome: Genome, mutate: Bool) -> GSSubject? {
+        preconditionFailure("Must be implemented in subclass")
     }
 
-    func subjectSurvived(_ tNet: TNet?) -> TNet? {
-        return layers.isEmpty ? nil : tNet
+    func makeNet(genome: Genome, mutate: Bool) -> (Genome, TNet?) {
+        var newGenome = genome.copy()
+        if mutate { newGenome = ArkonCentralDark.mutator.setInputGenome(newGenome).mutate() }
+        return (newGenome, decoder.setInput(to: newGenome).decode())
+    }
+
+    public func postInit(suite: GSGoalSuite) {
+        self.suite = suite
+        GSFactory.aboriginalGenome = Assembler.makePassThruGenome()
     }
 }

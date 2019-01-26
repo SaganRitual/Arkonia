@@ -35,14 +35,14 @@ class VNet: KIdentifiable {
 
     func addLayer(layerRole: VLayer.LayerRole, layerSSInGrid: Int) -> VLayer {
         if layerRole == .senseLayer {
-            let iss = ArkonCentral.isSenseLayer
+            let iss = ArkonCentralDark.isSenseLayer
             let sID = id.add(iss, as: .senseLayer)
             senseLayer = VLayer(id: sID, layerRole: layerRole, layerSSInGrid: iss)
             return senseLayer
         }
 
         if layerRole == .motorLayer {
-            let ism = ArkonCentral.isMotorLayer
+            let ism = ArkonCentralDark.isMotorLayer
             let mID = id.add(ism, as: .motorLayer)
             motorLayer = VLayer(id: mID, layerRole: layerRole, layerSSInGrid: ism)
             return motorLayer

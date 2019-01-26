@@ -18,20 +18,13 @@
 // IN THE SOFTWARE.
 //
 
+import Foundation
 
-import Cocoa
+class NGSubject: GSSubject {
+    let nameToGuess: String
 
-@NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
-    
-    
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+    init(tNet myTNet: TNet, genome myGenome: Genome, nameToGuess: String) {
+        self.nameToGuess = nameToGuess
+        super.init(tNet: myTNet, genome: myGenome)
     }
-    
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
-    
-    
 }

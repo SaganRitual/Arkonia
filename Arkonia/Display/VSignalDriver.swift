@@ -78,12 +78,12 @@ class VSignalDriver {
     private func response() {
         upperLayer = lowerLayer
         pullSignalFromUpper()
-        motorLayer = addLayer(role: .motorLayer, layerSSInGrid: ArkonCentral.isMotorLayer)
+        motorLayer = addLayer(role: .motorLayer, layerSSInGrid: ArkonCentralDark.isMotorLayer)
         pushSignalToLower(cNeurons: tNet.cMotorNeurons)
     }
 
     private func stimulus() {
-        senseLayer = addLayer(role: .senseLayer, layerSSInGrid: ArkonCentral.isSenseLayer)
+        senseLayer = addLayer(role: .senseLayer, layerSSInGrid: ArkonCentralDark.isSenseLayer)
         pushSignalToLower(cNeurons: tNet.cSenseNeurons)
         upperLayer = senseLayer
     }

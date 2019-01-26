@@ -19,33 +19,16 @@
 //
 
 import Foundation
-import SpriteKit
 
 protocol DecoderProtocol {}
 
-enum ArkonCentral {
+enum ArkonCentralDark {
     static var decoder: DecoderProtocol!
-    static var display: VDisplay?
+    static var mutator: Mutator!
     static var selectionControls = KSelectionControls()
-
-    static let cPortals = 4
-
-    static var sceneBackgroundTexture: SKTexture!
-    static var blueNeuronSpriteTexture: SKTexture!
-    static var greenNeuronSpriteTexture: SKTexture!
-    static var orangeNeuronSpriteTexture: SKTexture!
 
     static let isMotorLayer = -2
     static let isSenseLayer = -1
-
-    static let vBorderZPosition = CGFloat(3.0)
-    static let vLineZPosition = CGFloat(1.0)
-    static let vNeuronZPosition = CGFloat(2.0)
-
-    static var vNeuronAntiscale = ceil(sqrt(Double(cPortals)))
-    static var vNeuronScale: CGFloat = (cPortals == 1) ? 0.125 : 0.25
-
-    static let vPortalSeparatorsScale = 0.4
 }
 
 struct KSelectionControls {

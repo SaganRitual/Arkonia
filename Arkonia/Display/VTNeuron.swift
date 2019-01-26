@@ -20,9 +20,33 @@
 
 import Foundation
 
+struct VNeuronActivator: NeuronActivatorProtocol {
+    var value: AFn.FunctionName
+    init(_ value: AFn.FunctionName) { self.value = value }
+}
+
+struct VNeuronBias: NeuronBiasProtocol {
+    var value: Double
+    init(_ value: Double) { self.value = value }
+}
+
+struct VNeuronDownConnector: NeuronDownConnectorProtocol {
+    var value: Int
+    init(_ value: Int) { self.value = value }
+}
+
+struct VNeuronUpConnector: NeuronUpConnectorProtocol {
+    var value: UpConnectorValue
+
+    init(_ value: UpConnectorValue) { self.value = value }
+}
+
 final class VTNeuron: TNeuron {
-    func activator(_ a: AFn.FunctionName) { self.activator = a }
-    func bias(_ b: Double) { self.bias += b }
-    func downConnector(_ c: Int) { self.downConnectors.append(c) }
-    func upConnector(_ c: UpConnectorProtocol) { self.upConnectors.append(c) }
+    func setActivator(_ a: AFn.FunctionName) {
+        super.setActivator(VNeuronActivator(a))
+    }
+
+    func accumulateBias(_ b: Double) { super.bias += b }
+    func addDownConnector(_ c: Int) { super.downConnectors.append(c) }
+    func addUpConnector(_ c: UpConnectorValue) { super.upConnectors.append(c) }
 }

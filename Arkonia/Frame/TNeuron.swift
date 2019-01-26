@@ -20,9 +20,20 @@
 
 import Foundation
 
-class TNeuron {
+public class TNeuron {
     var activator = AFn.FunctionName.identity
     var bias = 0.0
     var downConnectors = [Int]()
-    var upConnectors = [UpConnectorProtocol]()
+    var upConnectors = [UpConnectorValue]()
+
+    func setActivator(_ a: NeuronActivatorProtocol) { self.activator = a.value }
+    func accumulateBias(_ b: NeuronBiasProtocol) { self.bias += b.value }
+
+    func addDownConnector(_ c: NeuronDownConnectorProtocol) {
+        self.downConnectors.append(c.value)
+    }
+
+    func addUpConnector(_ c: NeuronUpConnectorProtocol) {
+        self.upConnectors.append(c.value)
+    }
 }

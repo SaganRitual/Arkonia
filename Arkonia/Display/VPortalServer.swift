@@ -24,7 +24,7 @@ import SpriteKit
 typealias QuadrantMultiplier = (x: Double, y: Double)
 
 class VPortalServer {
-    let cPortals = ArkonCentral.cPortals
+    let cPortals = ArkonCentralLight.cPortals
     var portals = [Int: SKNode]()
     weak var scene: SKScene?
 
@@ -37,7 +37,7 @@ class VPortalServer {
     public func getPortal(_ portalNumber: Int) -> SKNode {
         if let portal = portals[portalNumber] { return portal }
 
-        let spriteTexture = ArkonCentral.sceneBackgroundTexture!
+        let spriteTexture = ArkonCentralLight.sceneBackgroundTexture!
         let quadrantMultipliers: [QuadrantMultiplier] = [(1, 1), (-1, 1), (-1, -1), (1, -1)]
         let quarterOrigin = CGPoint(scene!.size / quadrantMultipliers.count)
 
@@ -70,7 +70,7 @@ extension VPortalServer {
 
         line.strokeColor = .white
         line.glowWidth = 0
-        line.zPosition = ArkonCentral.vBorderZPosition
+        line.zPosition = ArkonCentralLight.vBorderZPosition
         self.scene!.addChild(line)
 
         return line
@@ -90,7 +90,7 @@ extension VPortalServer {
                 from: CGPoint(x: left, y: y), to: CGPoint(x: right, y: y)
             )
 
-            line.yScale = CGFloat(ArkonCentral.vPortalSeparatorsScale)
+            line.yScale = CGFloat(ArkonCentralLight.vPortalSeparatorsScale)
         }
     }
 
@@ -110,7 +110,7 @@ extension VPortalServer {
             let x = CGFloat(xx + 1) * hSpacing - hSpacing
 
             let line = addSeparatorLine(from: CGPoint(x: x, y: top), to: CGPoint(x: x, y: bottom))
-            line.xScale = CGFloat(ArkonCentral.vPortalSeparatorsScale)
+            line.xScale = CGFloat(ArkonCentralLight.vPortalSeparatorsScale)
 
             drawHorizontals(lineCount: lineCount)
         }

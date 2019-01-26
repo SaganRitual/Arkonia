@@ -20,9 +20,4 @@
 
 import Foundation
 
-final class KTNeuron: TNeuron {
-    func activator(_ gene: gActivatorFunction) { self.activator = gene.value }
-    func bias(_ gene: gBias) { self.bias += gene.value }
-    func downConnector(_ gene: gDownConnector) { self.downConnectors.append(gene.value) }
-    func upConnector(_ gene: gUpConnector) { self.upConnectors.append(UpConnector(gene)) }
-}
+final class KTNeuron: TNeuron { }

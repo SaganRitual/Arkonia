@@ -24,7 +24,7 @@ enum DecodeState {
     case diagnostics, inLayer, inNeuron, noLayer
 }
 
-class TDecoder {
+class TDecoder: DecoderProtocol {
     var decodeState: DecodeState = .noLayer
     var inputGenome: Genome?
     var tNet: TNet!
@@ -32,11 +32,11 @@ class TDecoder {
     weak var neuronUnderConstruction: TNeuron?
 
     init() {
-        precondition(ArkonCentral.decoder == nil)
-        ArkonCentral.decoder = self
+        precondition(ArkonCentralDark.decoder == nil)
+        ArkonCentralDark.decoder = self
     }
 
-    func decode() -> TNet {
+    func decode() -> TNet? {
         tNet = TNet()
 
         inputGenome!.makeIterator().forEach {
@@ -52,7 +52,7 @@ class TDecoder {
 
         layerUnderConstruction?.finalizeNeuron()
         tNet.finalizeLayer()
-        return tNet
+        return tNet!.subjectSurvived(tNet)
     }
 
     func reset() { self.decodeState = .noLayer; tNet = nil }
@@ -66,14 +66,30 @@ class TDecoder {
 
 extension TDecoder {
     func dispatchValueGene(_ gene: Gene) {
-        guard let neuron = neuronUnderConstruction else { preconditionFailure() }
+        let neuron = neuronUnderConstruction !! { preconditionFailure() }
 
         switch gene.type {
-        case .activator:     neuron.activator(gene as! gActivatorFunction)
-        case .bias:          neuron.bias(gene as! gBias)
-        case .downConnector: neuron.downConnector(gene as! gDownConnector)
-        case .upConnector:   neuron.upConnector(gene as! gUpConnector)
-        default: preconditionFailure("Unknown gene \(gene)?")
+        case .activator:
+            let g = gene as? gActivatorFunction !! { preconditionFailure(String(describing: gene.type)) }
+            neuron.setActivator(g)
+
+        case .bias:
+            let g = gene as? gBias !! { preconditionFailure(String(describing: gene.type)) }
+            neuron.accumulateBias(g)
+
+        case .downConnector:
+            guard let g = gene as? gDownConnector else {
+                print(String(describing: gene))
+                preconditionFailure("\(type(of: gene))")
+            }
+
+            neuron.addDownConnector(g)
+
+        case .upConnector:
+            let g = gene as? gUpConnector  !! { preconditionFailure(String(describing: gene.type)) }
+            neuron.addUpConnector(g)
+
+        default: break; //print("Unknown gene \(gene)?")
         }
     }
 }
