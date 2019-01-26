@@ -9,10 +9,8 @@
 /* Begin PBXBuildFile section */
 		D4143B4C21F976F30034E3C4 /* TLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4821F976F30034E3C4 /* TLayer.swift */; };
 		D4143B4E21F976F30034E3C4 /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4A21F976F30034E3C4 /* TNet.swift */; };
-		D4143B5921F97FBD0034E3C4 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
 		D4143B5A21F980750034E3C4 /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4921F976F30034E3C4 /* TNeuron.swift */; };
 		D4143B5C21F9809C0034E3C4 /* VTNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5B21F9809C0034E3C4 /* VTNeuron.swift */; };
-		D4143B5D21F981B60034E3C4 /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5221F97FAA0034E3C4 /* UpConnector.swift */; };
 		D4143B9C21F9C86D0034E3C4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3CE21F394D700212262 /* Extensions.swift */; };
 		D4143B9E21F9E7510034E3C4 /* VSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B9D21F9E7510034E3C4 /* VSupport.swift */; };
 		D4276A9121F3134700862802 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276A9021F3134700862802 /* main.swift */; };
@@ -89,6 +87,19 @@
 		D43A8E0821FC17ED007E99C0 /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
 		D44ACD0021F887E000B9D339 /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44ACCFF21F887E000B9D339 /* KAppDelegate.swift */; };
 		D451C3D321F3B3C200212262 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D021F3953800212262 /* CGConversions.swift */; };
+		D4544C3721FD20BF0089784C /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082C21FB09B400661D73 /* Mutator.swift */; };
+		D4544C3821FD20BF0089784C /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9621FB38580094D212 /* MutatorAdd.swift */; };
+		D4544C3921FD20BF0089784C /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9821FB38D60094D212 /* MutatorSubtract.swift */; };
+		D4544C4121FD20DC0089784C /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5521F97FAA0034E3C4 /* Assembler.swift */; };
+		D4544C4221FD20DC0089784C /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5821F97FAA0034E3C4 /* Gene.swift */; };
+		D4544C4321FD20DC0089784C /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
+		D4544C4421FD20DC0089784C /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF421FC0853007E99C0 /* GeneType.swift */; };
+		D4544C4521FD20DC0089784C /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5321F97FAA0034E3C4 /* Genome.swift */; };
+		D4544C4621FD20DC0089784C /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */; };
+		D4544C4721FD20DC0089784C /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */; };
+		D4544C4821FD20DC0089784C /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5221F97FAA0034E3C4 /* UpConnector.swift */; };
+		D4544C4921FD218C0089784C /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
+		D4544C4A21FD219E0089784C /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082E21FB176B00661D73 /* BellCurve.swift */; };
 		D45DC78921F3CB46002C9E8A /* VPortalServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VPortalServer.swift */; };
 		D464082D21FB09B400661D73 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082C21FB09B400661D73 /* Mutator.swift */; };
 		D464082F21FB176B00661D73 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082E21FB176B00661D73 /* BellCurve.swift */; };
@@ -813,27 +824,38 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4544C4821FD20DC0089784C /* UpConnector.swift in Sources */,
 				D4276B1E21F32C4F00862802 /* VLayer.swift in Sources */,
 				D4276B2421F32C5B00862802 /* ArkonCentralLight.swift in Sources */,
 				D4143B5C21F9809C0034E3C4 /* VTNeuron.swift in Sources */,
 				D427B6FE21F55BC4003A9DBA /* VSignalDriver.swift in Sources */,
-				D4143B5D21F981B60034E3C4 /* UpConnector.swift in Sources */,
+				D4544C4121FD20DC0089784C /* Assembler.swift in Sources */,
+				D4544C3721FD20BF0089784C /* Mutator.swift in Sources */,
 				D4276B1D21F32C4000862802 /* VisualizerTestViewController.swift in Sources */,
+				D4544C4721FD20DC0089784C /* GenomeSubtract.swift in Sources */,
+				D4544C3821FD20BF0089784C /* MutatorAdd.swift in Sources */,
 				D4143B9E21F9E7510034E3C4 /* VSupport.swift in Sources */,
 				D4B953B921F8CCB7006305AD /* VDisplay.swift in Sources */,
+				D4544C4321FD20DC0089784C /* GeneLibrary.swift in Sources */,
 				D4276B1F21F32C4F00862802 /* VNet.swift in Sources */,
 				D451C3D321F3B3C200212262 /* CGConversions.swift in Sources */,
+				D4544C4621FD20DC0089784C /* GenomeAdd.swift in Sources */,
+				D4544C3921FD20BF0089784C /* MutatorSubtract.swift in Sources */,
+				D4544C4921FD218C0089784C /* ActivatorFunctions.swift in Sources */,
 				D4143B9C21F9C86D0034E3C4 /* Extensions.swift in Sources */,
-				D4143B5921F97FBD0034E3C4 /* ActivatorFunctions.swift in Sources */,
 				D45DC78921F3CB46002C9E8A /* VPortalServer.swift in Sources */,
 				D4276B1C21F32C3B00862802 /* WildGuessWindowController.swift in Sources */,
 				D4143B4E21F976F30034E3C4 /* TNet.swift in Sources */,
 				D4276B1B21F32C1A00862802 /* VDisplayTest.swift in Sources */,
+				D4544C4421FD20DC0089784C /* GeneType.swift in Sources */,
 				D4276B2521F32C5B00862802 /* KIdentifier.swift in Sources */,
 				D4276B2121F32C4F00862802 /* VProtocols.swift in Sources */,
 				D4276B2021F32C4F00862802 /* VNeuron.swift in Sources */,
+				D4544C4A21FD219E0089784C /* BellCurve.swift in Sources */,
 				D4276B2221F32C4F00862802 /* VSpacer.swift in Sources */,
 				D4143B4C21F976F30034E3C4 /* TLayer.swift in Sources */,
+				D4544C4521FD20DC0089784C /* Genome.swift in Sources */,
+				D4544C4221FD20DC0089784C /* Gene.swift in Sources */,
 				D44ACD0021F887E000B9D339 /* KAppDelegate.swift in Sources */,
 				D4143B5A21F980750034E3C4 /* TNeuron.swift in Sources */,
 				D4AA25AA21FAD91800BADD48 /* ArkonCentralDark.swift in Sources */,
