@@ -22,29 +22,40 @@ import Cocoa
 import Foundation
 import SpriteKit
 
-class ViewController: NSViewController {
+class SceneViewController: NSViewController {
 
-    @IBOutlet var skView: SKView!
-    var scene: SKScene!
+    var scene: SKScene?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if let view = view as? SKView {
-            let scene = SKScene()
+	init(frame: NSRect) {
+		super.init(nibName: nil, bundle: nil)
+		self.view = SKView(frame: frame)
+		initializeScene()
+	}
 
-            // Set the scale mode to scale to fit the window
-            scene.scaleMode = .fill
-            scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-            scene.size = view.frame.size
+	required init?(coder: NSCoder) {
+		super.init(coder: coder)
+		self.view = SKView(frame: self.view.frame)
+		initializeScene()
+	}
 
-            view.ignoresSiblingOrder = true
-            view.showsFPS = true
-            view.showsNodeCount = true
+	private func initializeScene() {
+		guard let view = view as? SKView else { return }
 
-            view.showsPhysics = true
-            view.presentScene(scene)
+		let scene = SKScene()
 
-            self.scene = scene
-        }
-    }
+		// Set the scale mode to scale to fit the window
+		scene.scaleMode = .fill
+		scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+		scene.size = view.frame.size
+
+		view.ignoresSiblingOrder = true
+		view.showsFPS = true
+		view.showsNodeCount = true
+
+		view.showsPhysics = true
+		view.presentScene(scene)
+
+		self.scene = scene
+	}
+
 }

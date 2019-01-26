@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		74AF392921FC8D9A0048A5AD /* KAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AF392821FC8D9A0048A5AD /* KAppController.swift */; };
 		D4143B4C21F976F30034E3C4 /* TLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4821F976F30034E3C4 /* TLayer.swift */; };
 		D4143B4E21F976F30034E3C4 /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4A21F976F30034E3C4 /* TNet.swift */; };
 		D4143B5921F97FBD0034E3C4 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
@@ -20,18 +21,15 @@
 		D4276A9F21F3143800862802 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4276A9E21F3143800862802 /* GameScene.sks */; };
 		D4276AA121F3143800862802 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4276AA021F3143800862802 /* Actions.sks */; };
 		D4276AA321F3143800862802 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AA221F3143800862802 /* GameScene.swift */; };
-		D4276AA521F3143800862802 /* WildGuessWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AA421F3143800862802 /* WildGuessWindowController.swift */; };
 		D4276AA721F3143900862802 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4276AA621F3143900862802 /* Assets.xcassets */; };
 		D4276AAA21F3143900862802 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4276AA821F3143900862802 /* Main.storyboard */; };
 		D4276AEB21F3249100862802 /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AEA21F3249100862802 /* ArkonCentral.swift */; };
 		D4276AEC21F3249100862802 /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AEA21F3249100862802 /* ArkonCentral.swift */; };
 		D4276AED21F3249100862802 /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AEA21F3249100862802 /* ArkonCentral.swift */; };
 		D4276AEE21F3249100862802 /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AEA21F3249100862802 /* ArkonCentral.swift */; };
-		D4276B0A21F32C0500862802 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4276B0921F32C0500862802 /* GameScene.sks */; };
 		D4276B1521F32C0500862802 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4276B1321F32C0500862802 /* Main.storyboard */; };
 		D4276B1B21F32C1A00862802 /* VDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AE721F3239D00862802 /* VDisplayTest.swift */; };
-		D4276B1C21F32C3B00862802 /* WildGuessWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AA421F3143800862802 /* WildGuessWindowController.swift */; };
-		D4276B1D21F32C4000862802 /* VisualizerTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AE421F3226C00862802 /* VisualizerTestViewController.swift */; };
+		D4276B1D21F32C4000862802 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AE421F3226C00862802 /* SceneViewController.swift */; };
 		D4276B1E21F32C4F00862802 /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF621F3262500862802 /* VLayer.swift */; };
 		D4276B1F21F32C4F00862802 /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF321F3262400862802 /* VNet.swift */; };
 		D4276B2021F32C4F00862802 /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF421F3262500862802 /* VNeuron.swift */; };
@@ -48,7 +46,6 @@
 		D45911DD21F3522400D87ED8 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D45911DC21F3522400D87ED8 /* GameScene.sks */; };
 		D45911E821F3522400D87ED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D45911E621F3522400D87ED8 /* Main.storyboard */; };
 		D45911EE21F352EE00D87ED8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4CE661521F3368D00B20CFA /* Assets.xcassets */; };
-		D45911EF21F3531C00D87ED8 /* WildGuessWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AA421F3143800862802 /* WildGuessWindowController.swift */; };
 		D45911F621F3553A00D87ED8 /* ArkonCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AEA21F3249100862802 /* ArkonCentral.swift */; };
 		D45911F721F3554000D87ED8 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AFD21F3268900862802 /* KIdentifier.swift */; };
 		D45911FD21F358BC00D87ED8 /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF621F3262500862802 /* VLayer.swift */; };
@@ -86,6 +83,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		74AF392821FC8D9A0048A5AD /* KAppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KAppController.swift; sourceTree = "<group>"; };
 		D4143B4721F976F30034E3C4 /* TDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDecoder.swift; sourceTree = "<group>"; };
 		D4143B4821F976F30034E3C4 /* TLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLayer.swift; sourceTree = "<group>"; };
 		D4143B4921F976F30034E3C4 /* TNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNeuron.swift; sourceTree = "<group>"; };
@@ -107,12 +105,11 @@
 		D4276A9E21F3143800862802 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		D4276AA021F3143800862802 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		D4276AA221F3143800862802 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		D4276AA421F3143800862802 /* WildGuessWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WildGuessWindowController.swift; sourceTree = "<group>"; };
 		D4276AA621F3143900862802 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4276AA921F3143900862802 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4276AAB21F3143900862802 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4276AAC21F3143900862802 /* LightRun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LightRun.entitlements; sourceTree = "<group>"; };
-		D4276AE421F3226C00862802 /* VisualizerTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualizerTestViewController.swift; sourceTree = "<group>"; };
+		D4276AE421F3226C00862802 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D4276AE721F3239D00862802 /* VDisplayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VDisplayTest.swift; sourceTree = "<group>"; };
 		D4276AEA21F3249100862802 /* ArkonCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentral.swift; sourceTree = "<group>"; };
 		D4276AF121F3262400862802 /* VProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VProtocols.swift; sourceTree = "<group>"; };
@@ -122,7 +119,6 @@
 		D4276AF621F3262500862802 /* VLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLayer.swift; sourceTree = "<group>"; };
 		D4276AFD21F3268900862802 /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
 		D4276B0521F32C0500862802 /* VisualizerTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisualizerTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4276B0921F32C0500862802 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		D4276B1421F32C0500862802 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4276B1621F32C0500862802 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4276B1721F32C0500862802 /* StressTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StressTest.entitlements; sourceTree = "<group>"; };
@@ -231,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				D44ACCFF21F887E000B9D339 /* KAppDelegate.swift */,
+				74AF392821FC8D9A0048A5AD /* KAppController.swift */,
 			);
 			path = NSSupport;
 			sourceTree = "<group>";
@@ -302,8 +299,7 @@
 		D4276AD121F31B8700862802 /* NSSupport */ = {
 			isa = PBXGroup;
 			children = (
-				D4276AE421F3226C00862802 /* VisualizerTestViewController.swift */,
-				D4276AA421F3143800862802 /* WildGuessWindowController.swift */,
+				D4276AE421F3226C00862802 /* SceneViewController.swift */,
 			);
 			path = NSSupport;
 			sourceTree = "<group>";
@@ -331,7 +327,6 @@
 		D4276B0621F32C0500862802 /* VisualizerTest */ = {
 			isa = PBXGroup;
 			children = (
-				D4276B0921F32C0500862802 /* GameScene.sks */,
 				D4276B1321F32C0500862802 /* Main.storyboard */,
 				D4276B1621F32C0500862802 /* Info.plist */,
 				D4276B1721F32C0500862802 /* StressTest.entitlements */,
@@ -579,7 +574,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4276B0A21F32C0500862802 /* GameScene.sks in Resources */,
 				D4276B1521F32C0500862802 /* Main.storyboard in Resources */,
 				D4CE661621F336C600B20CFA /* Assets.xcassets in Resources */,
 			);
@@ -618,7 +612,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4276AA521F3143800862802 /* WildGuessWindowController.swift in Sources */,
 				D4276AEE21F3249100862802 /* ArkonCentral.swift in Sources */,
 				D4276AA321F3143800862802 /* GameScene.swift in Sources */,
 				D4276A9D21F3143800862802 /* AppDelegate.swift in Sources */,
@@ -634,7 +627,7 @@
 				D4143B5C21F9809C0034E3C4 /* VTNeuron.swift in Sources */,
 				D427B6FE21F55BC4003A9DBA /* VSignalDriver.swift in Sources */,
 				D4143B5D21F981B60034E3C4 /* UpConnector.swift in Sources */,
-				D4276B1D21F32C4000862802 /* VisualizerTestViewController.swift in Sources */,
+				D4276B1D21F32C4000862802 /* SceneViewController.swift in Sources */,
 				D4143B9E21F9E7510034E3C4 /* VSupport.swift in Sources */,
 				D4B953B921F8CCB7006305AD /* VDisplay.swift in Sources */,
 				D4276B1F21F32C4F00862802 /* VNet.swift in Sources */,
@@ -642,7 +635,6 @@
 				D4143B9C21F9C86D0034E3C4 /* Extensions.swift in Sources */,
 				D4143B5921F97FBD0034E3C4 /* ActivatorFunctions.swift in Sources */,
 				D45DC78921F3CB46002C9E8A /* VPortalServer.swift in Sources */,
-				D4276B1C21F32C3B00862802 /* WildGuessWindowController.swift in Sources */,
 				D4143B4E21F976F30034E3C4 /* TNet.swift in Sources */,
 				D4276B1B21F32C1A00862802 /* VDisplayTest.swift in Sources */,
 				D4276B2521F32C5B00862802 /* KIdentifier.swift in Sources */,
@@ -652,6 +644,7 @@
 				D4143B4C21F976F30034E3C4 /* TLayer.swift in Sources */,
 				D44ACD0021F887E000B9D339 /* KAppDelegate.swift in Sources */,
 				D4143B5A21F980750034E3C4 /* TNeuron.swift in Sources */,
+				74AF392921FC8D9A0048A5AD /* KAppController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -660,7 +653,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D45911DB21F3522400D87ED8 /* AppDelegate.swift in Sources */,
-				D45911EF21F3531C00D87ED8 /* WildGuessWindowController.swift in Sources */,
 				D45911FD21F358BC00D87ED8 /* VLayer.swift in Sources */,
 				D451C3D121F3953800212262 /* CGConversions.swift in Sources */,
 				D451C3D521F3B9D200212262 /* VPortalServer.swift in Sources */,
@@ -908,7 +900,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -964,7 +956,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;

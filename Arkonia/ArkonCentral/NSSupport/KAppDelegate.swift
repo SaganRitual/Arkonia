@@ -33,17 +33,24 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
         ArkonCentral.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
         ArkonCentral.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green-half")
 
-        guard let view = NSApp.mainWindow?.contentView as? SKView, let scene = view.scene
-            else { preconditionFailure("What now?") }
+		KAppController.shared.showMainWindow(withTitle: "VisualizerTest")
 
-        ArkonCentral.display = VDisplay(scene)
-        scene.delegate = ArkonCentral.display
+		if let scene = KAppController.shared.scene {
 
-        displayTest = VDisplayTest()
-        displayTest!.start()
+        	ArkonCentral.display = VDisplay(scene)
+        	scene.delegate = ArkonCentral.display
+
+        	displayTest = VDisplayTest()
+        	displayTest?.start()
+		}
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
     }
+
+	func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+		return true
+	}
+
 }
