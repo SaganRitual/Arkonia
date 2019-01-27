@@ -45,11 +45,8 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
 
         if let scene = KAppController.shared.scene {
 
-          ArkonCentral.display = VDisplay(scene)
-          scene.delegate = ArkonCentral.display
-
-          displayTest = VDisplayTest()
-          displayTest?.start()
+          ArkonCentralLight.display = VDisplay(scene)
+          scene.delegate = ArkonCentralLight.display
 
           #if LIGHT_RUN
 
