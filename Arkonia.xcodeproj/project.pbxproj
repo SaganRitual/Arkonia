@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D41C5AE822014B0E00E1341A /* TKinetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41C5AE722014B0E00E1341A /* TKinetics.swift */; };
 		D447FB3721FDCF83001BC442 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D45264E521FDC6DE00715889 /* Assets.xcassets */; };
+		D44DB7C121FE4F6B00AA650E /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264EF21FDC6DE00715889 /* KSignalRelay.swift */; };
+		D44DB7C321FE4FEA00AA650E /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264CD21FDC69800715889 /* KIdentifier.swift */; };
+		D44DB7C421FE518300AA650E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D321FDC69800715889 /* Extensions.swift */; };
+		D44DB7C621FE566900AA650E /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44DB7C521FE566900AA650E /* KProtocols.swift */; };
 		D45264B921FDC65300715889 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D47080F221FD7D1500ECCC54 /* TGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080F121FD7D1500ECCC54 /* TGenome.swift */; };
 		D47080F721FD7D3800ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080E621FD7CBB00ECCC54 /* main.swift */; };
 		D47080FA21FD810600ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080E621FD7CBB00ECCC54 /* main.swift */; };
-		D470810D21FD817500ECCC54 /* TKinetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470810C21FD817500ECCC54 /* TKinetics.swift */; };
 		D470811221FD819100ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470810121FD815300ECCC54 /* main.swift */; };
 		D470811321FD820A00ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470810121FD815300ECCC54 /* main.swift */; };
 		D498E92121FDE8DC00BB690E /* VDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E021FDC6DE00715889 /* VDisplayTest.swift */; };
@@ -133,6 +137,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D41C5AE722014B0E00E1341A /* TKinetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TKinetics.swift; sourceTree = "<group>"; };
+		D44DB7C521FE566900AA650E /* KProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KProtocols.swift; sourceTree = "<group>"; };
 		D45264B621FDC65300715889 /* Main.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Main.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45264C721FDC65300715889 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D45264C821FDC65300715889 /* Display.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Display.entitlements; sourceTree = "<group>"; };
@@ -207,7 +213,6 @@
 		D47080FF21FD815300ECCC54 /* Kinetics */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Kinetics; sourceTree = BUILT_PRODUCTS_DIR; };
 		D470810121FD815300ECCC54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D470810A21FD817500ECCC54 /* TKinetics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TKinetics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D470810C21FD817500ECCC54 /* TKinetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TKinetics.swift; sourceTree = "<group>"; };
 		D4A37A7521FDE3AC00B8EB85 /* LiveRun.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = LiveRun.xcconfig; sourceTree = "<group>"; };
 		D4A37A7B21FDE82B00B8EB85 /* TDisplay.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TDisplay.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4A37A7D21FDE82B00B8EB85 /* TDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDisplay.swift; sourceTree = "<group>"; };
@@ -351,6 +356,7 @@
 				D45264F321FDC6DE00715889 /* KLayer.swift */,
 				D45264ED21FDC6DE00715889 /* KNeuron.swift */,
 				D45264EE21FDC6DE00715889 /* KNet.swift */,
+				D44DB7C521FE566900AA650E /* KProtocols.swift */,
 				D45264EF21FDC6DE00715889 /* KSignalRelay.swift */,
 				D45264F221FDC6DE00715889 /* KTNeuron.swift */,
 			);
@@ -511,7 +517,7 @@
 			isa = PBXGroup;
 			children = (
 				D470810121FD815300ECCC54 /* main.swift */,
-				D470810C21FD817500ECCC54 /* TKinetics.swift */,
+				D41C5AE722014B0E00E1341A /* TKinetics.swift */,
 			);
 			path = TKinetics;
 			sourceTree = "<group>";
@@ -814,8 +820,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D44DB7C421FE518300AA650E /* Extensions.swift in Sources */,
 				D470811221FD819100ECCC54 /* main.swift in Sources */,
-				D470810D21FD817500ECCC54 /* TKinetics.swift in Sources */,
+				D44DB7C621FE566900AA650E /* KProtocols.swift in Sources */,
+				D44DB7C321FE4FEA00AA650E /* KIdentifier.swift in Sources */,
+				D41C5AE822014B0E00E1341A /* TKinetics.swift in Sources */,
+				D44DB7C121FE4F6B00AA650E /* KSignalRelay.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,7 +27,10 @@ func !!<T> (_ theOptional: T?, _ onError: () -> Never) -> T {
 }
 
 func nok<T: Any>(_ theThing: T?) -> T {
-    guard let it = theThing else { preconditionFailure() }
+    guard let it = theThing else {
+        preconditionFailure("Found nil, expecting \(type(of: theThing))")
+    }
+
     return it
 }
 

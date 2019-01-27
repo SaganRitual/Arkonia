@@ -20,7 +20,7 @@
 
 import Foundation
 
-class KLayer: KIdentifiable {
+class KLayer: KIdentifiable, KLayerProtocol {
     var description: String { return id.description }
     let id: KIdentifier
     var neurons: [KNeuron]
@@ -46,7 +46,7 @@ extension KLayer {
 //            if r.breaker != nil { print("decoupleFromGrid(\(r))") }
 //            else { print("decouple dead neuron(\(r))") }
 
-            r.breaker = nil
+//            r.breaker = nil
         }
     }
 
@@ -62,7 +62,7 @@ extension KLayer {
         let neurons: [KNeuron] = signalRelays.enumerated().map { idNumber, relay in
             let newNeuron = KNeuron.makeNeuron(myFullID, idNumber)
             newNeuron.relay = relay
-            relay.breaker = relay
+//            relay.breaker = relay
             return newNeuron
         }
 
@@ -77,7 +77,7 @@ extension KLayer {
         let neurons: [KNeuron] = signalRelays.enumerated().map { idNumber, relay in
             let newNeuron = KNeuron.makeNeuron(id, idNumber)
             newNeuron.relay = relay
-            relay.breaker = relay
+//            relay.breaker = relay
             return newNeuron
         }
 
@@ -94,7 +94,7 @@ extension KLayer {
 
             let newNeuron = KNeuron.makeNeuron(id, idNumber, tNeuron)
             newNeuron.relay = relay
-            relay.breaker = relay
+//            relay.breaker = relay
             return newNeuron
         }
 

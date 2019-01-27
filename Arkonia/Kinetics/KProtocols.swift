@@ -20,41 +20,10 @@
 
 import Foundation
 
-class KSignalRelay: KIdentifiable {
-    let id: KIdentifier
-
-    var inputRelays = [KSignalRelay]()
-    var output: Double = 0.0
-
-    var debugDescription: String { return "isOperational = \(isOperational)" }
-
-    var overriddenState: Bool?
-    var isOperational: Bool { return (overriddenState == nil) ? !inputRelays.isEmpty : overriddenState! }
-
-    init(_ id: KIdentifier) {
-        self.id = id
-//        print("+\(self)")
-    }
-
-    deinit {
-//        print("~\(self)")
-        while !inputRelays.isEmpty { inputRelays.removeLast() }
-    }
+protocol KLayerProtocol {
+    var neurons: [KNeuronProtocol] { get set }
 }
 
-extension KSignalRelay {
-    static func makeRelay(_ family: KIdentifier, _ me: Int) -> KSignalRelay {
-        let id = family.add(me, as: .signalRelay)
-        return KSignalRelay(id)
-    }
-
-    func connect(to targetNeurons: [Int], in upperLayer: KLayerProtocol) {
-        inputRelays = targetNeurons.map {
-            upperLayer.neurons[$0].relay!
-        }
-
-//        print("\(self) connects to \(inputRelays)")
-    }
-
-    func overrideState(operational: Bool) { overriddenState = operational }
+protocol KNeuronProtocol {
+    var relay: KSignalRelay? { get set }
 }
