@@ -1,12 +1,10 @@
+xcuserdata/
 .DS_Store
 assets/
 build/
 node_modules/
 deps.js/
-test/
-xcuserdata/
 graveyard/
-xcshareddata/
 *playground/
 *.app
 DerivedData*
@@ -14,3 +12,4 @@ DerivedData*
 logfile
 *.mp4
 t.js
+old*
