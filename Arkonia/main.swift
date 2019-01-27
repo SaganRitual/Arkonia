@@ -20,27 +20,5 @@
 
 import Foundation
 
-protocol DecoderProtocol {}
-protocol MutatorProtocol {}
+print("Hello, World!")
 
-enum ArkonCentralDark {
-    static var decoder: DecoderProtocol!
-    static var mutator: MutatorProtocol!
-    static var selectionControls = KSelectionControls()
-
-    static let isMotorLayer = -2
-    static let isSenseLayer = -1
-}
-
-struct KSelectionControls {
-    var cGenerations = 30000
-    var cGenes = 200
-    var cLayersInStarter = 5
-    var cMotorNeurons = 6
-    var cSenseNeurons = 7
-    var cSpawnAttempts = 2
-    var cSubjectsPerGeneration = 100
-    var maxKeepersPerGeneration = 2
-    var peerGroupLimit = 2
-    var theFishNumber = 0
-}

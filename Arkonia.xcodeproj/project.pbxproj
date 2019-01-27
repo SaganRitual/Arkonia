@@ -7,157 +7,84 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		74AF392921FC8D9A0048A5AD /* KAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AF392821FC8D9A0048A5AD /* KAppController.swift */; };
-		D4143B4C21F976F30034E3C4 /* TLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4821F976F30034E3C4 /* TLayer.swift */; };
-		D4143B4E21F976F30034E3C4 /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4A21F976F30034E3C4 /* TNet.swift */; };
-		D4143B5A21F980750034E3C4 /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4921F976F30034E3C4 /* TNeuron.swift */; };
-		D4143B5C21F9809C0034E3C4 /* VTNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5B21F9809C0034E3C4 /* VTNeuron.swift */; };
-		D4143B9C21F9C86D0034E3C4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3CE21F394D700212262 /* Extensions.swift */; };
-		D4143B9E21F9E7510034E3C4 /* VSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B9D21F9E7510034E3C4 /* VSupport.swift */; };
-		D4276A9121F3134700862802 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276A9021F3134700862802 /* main.swift */; };
-		D4276A9F21F3143800862802 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4276A9E21F3143800862802 /* GameScene.sks */; };
-		D4276AA121F3143800862802 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4276AA021F3143800862802 /* Actions.sks */; };
-		D4276AA721F3143900862802 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4276AA621F3143900862802 /* Assets.xcassets */; };
-		D4276AAA21F3143900862802 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4276AA821F3143900862802 /* Main.storyboard */; };
-		D4276AEE21F3249100862802 /* ArkonCentralLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AEA21F3249100862802 /* ArkonCentralLight.swift */; };
-		D4276B1521F32C0500862802 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4276B1321F32C0500862802 /* Main.storyboard */; };
-		D4276B1B21F32C1A00862802 /* VDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AE721F3239D00862802 /* VDisplayTest.swift */; };
-		D4276B1D21F32C4000862802 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		D4276B1E21F32C4F00862802 /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF621F3262500862802 /* VLayer.swift */; };
-		D4276B1F21F32C4F00862802 /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF321F3262400862802 /* VNet.swift */; };
-		D4276B2021F32C4F00862802 /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF421F3262500862802 /* VNeuron.swift */; };
-		D4276B2121F32C4F00862802 /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF121F3262400862802 /* VProtocols.swift */; };
-		D4276B2221F32C4F00862802 /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF521F3262500862802 /* VSpacer.swift */; };
-		D4276B2421F32C5B00862802 /* ArkonCentralLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AEA21F3249100862802 /* ArkonCentralLight.swift */; };
-		D4276B2521F32C5B00862802 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AFD21F3268900862802 /* KIdentifier.swift */; };
-		D427B6FE21F55BC4003A9DBA /* VSignalDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D427B6FD21F55BC4003A9DBA /* VSignalDriver.swift */; };
-		D4303C2D21FAADB800886C05 /* DTGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C2C21FAADB800886C05 /* DTGenome.swift */; };
-		D4303C3521FAB18D00886C05 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3CE21F394D700212262 /* Extensions.swift */; };
-		D4303C3721FAB54800886C05 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */; };
-		D4303C3821FABA5100886C05 /* TDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4721F976F30034E3C4 /* TDecoder.swift */; };
-		D4303C3921FABA5100886C05 /* TLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4821F976F30034E3C4 /* TLayer.swift */; };
-		D4303C3A21FABA5100886C05 /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4A21F976F30034E3C4 /* TNet.swift */; };
-		D4303C3B21FABA5100886C05 /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B4921F976F30034E3C4 /* TNeuron.swift */; };
-		D4303C3C21FABA5C00886C05 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
-		D4303C3D21FABA5C00886C05 /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5521F97FAA0034E3C4 /* Assembler.swift */; };
-		D4303C3E21FABA5C00886C05 /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5821F97FAA0034E3C4 /* Gene.swift */; };
-		D4303C3F21FABA5C00886C05 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5321F97FAA0034E3C4 /* Genome.swift */; };
-		D4303C4021FABA5C00886C05 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */; };
-		D4303C4121FABA5C00886C05 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */; };
-		D4303C4221FABA5C00886C05 /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5221F97FAA0034E3C4 /* UpConnector.swift */; };
-		D4303C4321FABB6700886C05 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3CE21F394D700212262 /* Extensions.swift */; };
-		D4303C4421FABB8E00886C05 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AFD21F3268900862802 /* KIdentifier.swift */; };
-		D4303C4721FABC1A00886C05 /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C4521FABC1200886C05 /* LoopIterator.swift */; };
-		D4303C4821FABC4300886C05 /* VDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B953B821F8CCB7006305AD /* VDisplay.swift */; };
-		D4303C4921FABC4300886C05 /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF621F3262500862802 /* VLayer.swift */; };
-		D4303C4A21FABC4300886C05 /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF321F3262400862802 /* VNet.swift */; };
-		D4303C4B21FABC4300886C05 /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF421F3262500862802 /* VNeuron.swift */; };
-		D4303C4C21FABC4300886C05 /* VPortalServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VPortalServer.swift */; };
-		D4303C4D21FABC4300886C05 /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF121F3262400862802 /* VProtocols.swift */; };
-		D4303C4E21FABC4300886C05 /* VSignalDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D427B6FD21F55BC4003A9DBA /* VSignalDriver.swift */; };
-		D4303C4F21FABC4300886C05 /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4276AF521F3262500862802 /* VSpacer.swift */; };
-		D4303C5021FABC4300886C05 /* VSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B9D21F9E7510034E3C4 /* VSupport.swift */; };
-		D4303C5121FABC4300886C05 /* VTNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5B21F9809C0034E3C4 /* VTNeuron.swift */; };
-		D4303C5221FABCA300886C05 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */; };
-		D4303C5321FAC1A100886C05 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D021F3953800212262 /* CGConversions.swift */; };
-		D438ACC121FD4283003B4475 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082E21FB176B00661D73 /* BellCurve.swift */; };
-		D438ACC221FD4283003B4475 /* DarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B4B21F3037D00402420 /* DarkTest.swift */; };
-		D438ACC321FD4283003B4475 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5321F97FAA0034E3C4 /* Genome.swift */; };
-		D438ACC421FD4283003B4475 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3CE21F394D700212262 /* Extensions.swift */; };
-		D438ACC521FD4283003B4475 /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9821FB38D60094D212 /* MutatorSubtract.swift */; };
-		D438ACC821FD4283003B4475 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */; };
-		D438ACC921FD4283003B4475 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
-		D438ACCA21FD4283003B4475 /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5521F97FAA0034E3C4 /* Assembler.swift */; };
-		D438ACCB21FD4283003B4475 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */; };
-		D438ACCC21FD4283003B4475 /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9621FB38580094D212 /* MutatorAdd.swift */; };
-		D438ACCD21FD4283003B4475 /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
-		D438ACCE21FD4283003B4475 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082C21FB09B400661D73 /* Mutator.swift */; };
-		D438ACCF21FD4283003B4475 /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5221F97FAA0034E3C4 /* UpConnector.swift */; };
-		D438ACD021FD4283003B4475 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */; };
-		D438ACD121FD4283003B4475 /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF421FC0853007E99C0 /* GeneType.swift */; };
-		D438ACDA21FD4480003B4475 /* DTKinetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D438ACD921FD4480003B4475 /* DTKinetics.swift */; };
-		D438ACDB21FD4480003B4475 /* DTKinetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D438ACD921FD4480003B4475 /* DTKinetics.swift */; };
-		D43A8DF521FC0853007E99C0 /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF421FC0853007E99C0 /* GeneType.swift */; };
-		D43A8DF721FC08F8007E99C0 /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
-		D43A8DFA21FC1720007E99C0 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
-		D43A8DFB21FC1720007E99C0 /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5521F97FAA0034E3C4 /* Assembler.swift */; };
-		D43A8DFC21FC1720007E99C0 /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5821F97FAA0034E3C4 /* Gene.swift */; };
-		D43A8DFE21FC1721007E99C0 /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF421FC0853007E99C0 /* GeneType.swift */; };
-		D43A8DFF21FC1721007E99C0 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5321F97FAA0034E3C4 /* Genome.swift */; };
-		D43A8E0021FC1721007E99C0 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */; };
-		D43A8E0121FC1721007E99C0 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */; };
-		D43A8E0221FC1721007E99C0 /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5221F97FAA0034E3C4 /* UpConnector.swift */; };
-		D43A8E0321FC172A007E99C0 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082C21FB09B400661D73 /* Mutator.swift */; };
-		D43A8E0421FC172A007E99C0 /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9621FB38580094D212 /* MutatorAdd.swift */; };
-		D43A8E0521FC172A007E99C0 /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9821FB38D60094D212 /* MutatorSubtract.swift */; };
-		D43A8E0621FC1790007E99C0 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082E21FB176B00661D73 /* BellCurve.swift */; };
-		D43A8E0821FC17ED007E99C0 /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
-		D44ACD0021F887E000B9D339 /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44ACCFF21F887E000B9D339 /* KAppDelegate.swift */; };
-		D451C3D321F3B3C200212262 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D021F3953800212262 /* CGConversions.swift */; };
-		D4544C3721FD20BF0089784C /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082C21FB09B400661D73 /* Mutator.swift */; };
-		D4544C3821FD20BF0089784C /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9621FB38580094D212 /* MutatorAdd.swift */; };
-		D4544C3921FD20BF0089784C /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9821FB38D60094D212 /* MutatorSubtract.swift */; };
-		D4544C4121FD20DC0089784C /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5521F97FAA0034E3C4 /* Assembler.swift */; };
-		D4544C4221FD20DC0089784C /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5821F97FAA0034E3C4 /* Gene.swift */; };
-		D4544C4321FD20DC0089784C /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
-		D4544C4421FD20DC0089784C /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF421FC0853007E99C0 /* GeneType.swift */; };
-		D4544C4521FD20DC0089784C /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5321F97FAA0034E3C4 /* Genome.swift */; };
-		D4544C4621FD20DC0089784C /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */; };
-		D4544C4721FD20DC0089784C /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */; };
-		D4544C4821FD20DC0089784C /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5221F97FAA0034E3C4 /* UpConnector.swift */; };
-		D4544C4921FD218C0089784C /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
-		D4544C4A21FD219E0089784C /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082E21FB176B00661D73 /* BellCurve.swift */; };
-		D45DC78921F3CB46002C9E8A /* VPortalServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D421F3B9D200212262 /* VPortalServer.swift */; };
-		D464082D21FB09B400661D73 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082C21FB09B400661D73 /* Mutator.swift */; };
-		D464082F21FB176B00661D73 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082E21FB176B00661D73 /* BellCurve.swift */; };
-		D4644E3A21FD278300A306E0 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */; };
-		D4710C9721FB38580094D212 /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9621FB38580094D212 /* MutatorAdd.swift */; };
-		D4710C9921FB38D60094D212 /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9821FB38D60094D212 /* MutatorSubtract.swift */; };
-		D478994221FD4E0100FC7962 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */; };
-		D478994321FD4E2600FC7962 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082C21FB09B400661D73 /* Mutator.swift */; };
-		D478994421FD521C00FC7962 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082E21FB176B00661D73 /* BellCurve.swift */; };
-		D482CCAD21FD288200A93297 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D482CCAC21FD288200A93297 /* SceneViewController.swift */; };
-		D482CCAE21FD288200A93297 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D482CCAC21FD288200A93297 /* SceneViewController.swift */; };
-		D4887B3F21F300CA00402420 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B3E21F300CA00402420 /* main.swift */; };
-		D4887B4C21F3037D00402420 /* DarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B4B21F3037D00402420 /* DarkTest.swift */; };
-		D4AA25A921FAD85300BADD48 /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44ACCFF21F887E000B9D339 /* KAppDelegate.swift */; };
-		D4AA25C021FAFC4F00BADD48 /* GSTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B221FAFC4F00BADD48 /* GSTester.swift */; };
-		D4AA25C121FAFC4F00BADD48 /* GSCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B321FAFC4F00BADD48 /* GSCommon.swift */; };
-		D4AA25C221FAFC4F00BADD48 /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B421FAFC4F00BADD48 /* GSGoalSuite.swift */; };
-		D4AA25C321FAFC4F00BADD48 /* GSSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B521FAFC4F00BADD48 /* GSSubject.swift */; };
-		D4AA25C421FAFC4F00BADD48 /* GSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B621FAFC4F00BADD48 /* GSFactory.swift */; };
-		D4AA25C521FAFC4F00BADD48 /* NGTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B821FAFC4F00BADD48 /* NGTester.swift */; };
-		D4AA25C621FAFC4F00BADD48 /* NGSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25B921FAFC4F00BADD48 /* NGSubject.swift */; };
-		D4AA25C721FAFC4F00BADD48 /* NGFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25BA21FAFC4F00BADD48 /* NGFactory.swift */; };
-		D4AA25C821FAFC4F00BADD48 /* NGGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25BB21FAFC4F00BADD48 /* NGGoalSuite.swift */; };
-		D4AA25CE21FAFF4F00BADD48 /* PeerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25CA21FAFF4F00BADD48 /* PeerGroup.swift */; };
-		D4AA25CF21FAFF4F00BADD48 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25CB21FAFF4F00BADD48 /* Curator.swift */; };
-		D4AA25D021FAFF4F00BADD48 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25CC21FAFF4F00BADD48 /* Selector.swift */; };
-		D4AA25D121FAFF4F00BADD48 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AA25CD21FAFF4F00BADD48 /* Archive.swift */; };
-		D4B953B921F8CCB7006305AD /* VDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B953B821F8CCB7006305AD /* VDisplay.swift */; };
-		D4CE661621F336C600B20CFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4CE661521F3368D00B20CFA /* Assets.xcassets */; };
-		D4CE661721F34B6800B20CFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4CE661521F3368D00B20CFA /* Assets.xcassets */; };
-		D4DC889621FD2A6C00A26DDC /* KAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74AF392821FC8D9A0048A5AD /* KAppController.swift */; };
-		D4DF6B8B21FD2B66008762CF /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C2221FAAA2B00886C05 /* KConnector.swift */; };
-		D4DF6B8C21FD2B66008762CF /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C2121FAAA2B00886C05 /* KDriver.swift */; };
-		D4DF6B8D21FD2B66008762CF /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C2321FAAA2B00886C05 /* KLayer.swift */; };
-		D4DF6B8E21FD2B66008762CF /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C2421FAAA2B00886C05 /* KNet.swift */; };
-		D4DF6B8F21FD2B66008762CF /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C1F21FAAA2B00886C05 /* KNeuron.swift */; };
-		D4DF6B9021FD2B66008762CF /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C2021FAAA2B00886C05 /* KSignalRelay.swift */; };
-		D4DF6B9121FD2B66008762CF /* KTNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5021F97E920034E3C4 /* KTNeuron.swift */; };
-		D4E6927621FC19B400D17DAE /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
-		D4E6927721FC1A0A00D17DAE /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5821F97FAA0034E3C4 /* Gene.swift */; };
-		D4E6927821FC1B0F00D17DAE /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
-		D4E6927921FC1B0F00D17DAE /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5521F97FAA0034E3C4 /* Assembler.swift */; };
-		D4E6927A21FC1B0F00D17DAE /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF421FC0853007E99C0 /* GeneType.swift */; };
-		D4E6927B21FC1B0F00D17DAE /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5321F97FAA0034E3C4 /* Genome.swift */; };
-		D4E6927C21FC1B0F00D17DAE /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */; };
-		D4E6927D21FC1B0F00D17DAE /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */; };
-		D4E6927E21FC1B0F00D17DAE /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5221F97FAA0034E3C4 /* UpConnector.swift */; };
+		D447FB3721FDCF83001BC442 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D45264E521FDC6DE00715889 /* Assets.xcassets */; };
+		D45264B921FDC65300715889 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		D45264BB21FDC65300715889 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D45264BA21FDC65300715889 /* GameScene.sks */; };
+		D45264BD21FDC65300715889 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D45264BC21FDC65300715889 /* Actions.sks */; };
+		D45264BF21FDC65300715889 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264BE21FDC65300715889 /* GameScene.swift */; };
+		D45264C121FDC65300715889 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264C021FDC65300715889 /* ViewController.swift */; };
+		D45264C321FDC65300715889 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D45264C221FDC65300715889 /* Assets.xcassets */; };
+		D45264C621FDC65300715889 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D45264C421FDC65300715889 /* Main.storyboard */; };
+		D47080D821FD7C0900ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080D721FD7C0900ECCC54 /* main.swift */; };
+		D47080F221FD7D1500ECCC54 /* TGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080F121FD7D1500ECCC54 /* TGenome.swift */; };
+		D47080F721FD7D3800ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080E621FD7CBB00ECCC54 /* main.swift */; };
+		D47080FA21FD810600ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080E621FD7CBB00ECCC54 /* main.swift */; };
+		D470810D21FD817500ECCC54 /* TKinetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470810C21FD817500ECCC54 /* TKinetics.swift */; };
+		D470811221FD819100ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470810121FD815300ECCC54 /* main.swift */; };
+		D470811321FD820A00ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470810121FD815300ECCC54 /* main.swift */; };
+		D498E92121FDE8DC00BB690E /* VDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E021FDC6DE00715889 /* VDisplayTest.swift */; };
+		D498E92221FDE8F100BB690E /* TLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D921FDC6DE00715889 /* TLayer.swift */; };
+		D498E92321FDE8F100BB690E /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264DA21FDC6DE00715889 /* TNet.swift */; };
+		D498E92421FDE8F100BB690E /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D821FDC6DE00715889 /* TNeuron.swift */; };
+		D498E92521FDE8FB00BB690E /* VDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E721FDC6DE00715889 /* VDisplay.swift */; };
+		D498E92621FDE8FB00BB690E /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264DD21FDC6DE00715889 /* VLayer.swift */; };
+		D498E92721FDE8FB00BB690E /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E921FDC6DE00715889 /* VNet.swift */; };
+		D498E92821FDE8FB00BB690E /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264EB21FDC6DE00715889 /* VNeuron.swift */; };
+		D498E92921FDE8FB00BB690E /* VPortalServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264DE21FDC6DE00715889 /* VPortalServer.swift */; };
+		D498E92A21FDE8FB00BB690E /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E621FDC6DE00715889 /* VProtocols.swift */; };
+		D498E92B21FDE8FB00BB690E /* VSignalDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E121FDC6DE00715889 /* VSignalDriver.swift */; };
+		D498E92C21FDE8FB00BB690E /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264EA21FDC6DE00715889 /* VSpacer.swift */; };
+		D498E92D21FDE8FB00BB690E /* VSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E821FDC6DE00715889 /* VSupport.swift */; };
+		D498E92E21FDE8FB00BB690E /* VTNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E221FDC6DE00715889 /* VTNeuron.swift */; };
+		D498E92F21FDE90100BB690E /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E421FDC6DE00715889 /* SceneViewController.swift */; };
+		D498E93121FDE90B00BB690E /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D021FDC69800715889 /* KAppDelegate.swift */; };
+		D498E93221FDE90B00BB690E /* KAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D121FDC69800715889 /* KAppController.swift */; };
+		D498E93321FDE95B00BB690E /* ArkonCentralLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D221FDC69800715889 /* ArkonCentralLight.swift */; };
+		D498E93421FDE95F00BB690E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D321FDC69800715889 /* Extensions.swift */; };
+		D498E93521FDE97D00BB690E /* VDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E021FDC6DE00715889 /* VDisplayTest.swift */; };
+		D498E93621FDE99A00BB690E /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264CD21FDC69800715889 /* KIdentifier.swift */; };
+		D498E93721FDE9AF00BB690E /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FB102021FDD4C10031EF39 /* Protocols.swift */; };
+		D498E93821FDE9BD00BB690E /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264CE21FDC69800715889 /* ArkonCentralDark.swift */; };
+		D498E93921FDE9D900BB690E /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264F721FDC6DE00715889 /* ActivatorFunctions.swift */; };
+		D498E93A21FDE9E000BB690E /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D621FDC69800715889 /* CGConversions.swift */; };
+		D4A37A7E21FDE82B00B8EB85 /* TDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A37A7D21FDE82B00B8EB85 /* TDisplay.swift */; };
+		D4FB101221FDD45D0031EF39 /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D021FDC69800715889 /* KAppDelegate.swift */; };
+		D4FB101321FDD4610031EF39 /* KAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D121FDC69800715889 /* KAppController.swift */; };
+		D4FB101421FDD4650031EF39 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E421FDC6DE00715889 /* SceneViewController.swift */; };
+		D4FB101521FDD47B0031EF39 /* ArkonCentralLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D221FDC69800715889 /* ArkonCentralLight.swift */; };
+		D4FB101621FDD4930031EF39 /* VDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E721FDC6DE00715889 /* VDisplay.swift */; };
+		D4FB101721FDD4930031EF39 /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264DD21FDC6DE00715889 /* VLayer.swift */; };
+		D4FB101821FDD4930031EF39 /* VNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E921FDC6DE00715889 /* VNet.swift */; };
+		D4FB101921FDD4930031EF39 /* VNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264EB21FDC6DE00715889 /* VNeuron.swift */; };
+		D4FB101A21FDD4930031EF39 /* VPortalServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264DE21FDC6DE00715889 /* VPortalServer.swift */; };
+		D4FB101B21FDD4930031EF39 /* VProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E621FDC6DE00715889 /* VProtocols.swift */; };
+		D4FB101C21FDD4930031EF39 /* VSignalDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E121FDC6DE00715889 /* VSignalDriver.swift */; };
+		D4FB101D21FDD4930031EF39 /* VSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264EA21FDC6DE00715889 /* VSpacer.swift */; };
+		D4FB101E21FDD4930031EF39 /* VSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E821FDC6DE00715889 /* VSupport.swift */; };
+		D4FB101F21FDD4930031EF39 /* VTNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E221FDC6DE00715889 /* VTNeuron.swift */; };
+		D4FB102121FDD4C10031EF39 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FB102021FDD4C10031EF39 /* Protocols.swift */; };
+		D4FB102221FDD4D50031EF39 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264F721FDC6DE00715889 /* ActivatorFunctions.swift */; };
+		D4FB102321FDD4DA0031EF39 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264CD21FDC69800715889 /* KIdentifier.swift */; };
+		D4FB102521FDD4F00031EF39 /* TLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D921FDC6DE00715889 /* TLayer.swift */; };
+		D4FB102621FDD4F00031EF39 /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264DA21FDC6DE00715889 /* TNet.swift */; };
+		D4FB102721FDD4F00031EF39 /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D821FDC6DE00715889 /* TNeuron.swift */; };
+		D4FB102821FDD4F40031EF39 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D621FDC69800715889 /* CGConversions.swift */; };
+		D4FB102921FDD5180031EF39 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264CE21FDC69800715889 /* ArkonCentralDark.swift */; };
+		D4FB102A21FDD5430031EF39 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D321FDC69800715889 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D4A37A8021FDE82B00B8EB85 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D47080CC21FD7C0900ECCC54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D45264B521FDC65300715889;
+			remoteInfo = Display;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		D4276A8C21F3134700862802 /* CopyFiles */ = {
+		D47080D221FD7C0900ECCC54 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -166,7 +93,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
-		D4887B3921F300CA00402420 /* CopyFiles */ = {
+		D47080E221FD7CBB00ECCC54 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D47080FD21FD815300ECCC54 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -178,136 +114,139 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		74AF392821FC8D9A0048A5AD /* KAppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KAppController.swift; sourceTree = "<group>"; };
-		D4143B4721F976F30034E3C4 /* TDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TDecoder.swift; sourceTree = "<group>"; };
-		D4143B4821F976F30034E3C4 /* TLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TLayer.swift; sourceTree = "<group>"; };
-		D4143B4921F976F30034E3C4 /* TNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNeuron.swift; sourceTree = "<group>"; };
-		D4143B4A21F976F30034E3C4 /* TNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNet.swift; sourceTree = "<group>"; };
-		D4143B5021F97E920034E3C4 /* KTNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KTNeuron.swift; sourceTree = "<group>"; };
-		D4143B5221F97FAA0034E3C4 /* UpConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpConnector.swift; sourceTree = "<group>"; };
-		D4143B5321F97FAA0034E3C4 /* Genome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genome.swift; sourceTree = "<group>"; };
-		D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeAdd.swift; sourceTree = "<group>"; };
-		D4143B5521F97FAA0034E3C4 /* Assembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
-		D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeSubtract.swift; sourceTree = "<group>"; };
-		D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivatorFunctions.swift; sourceTree = "<group>"; };
-		D4143B5821F97FAA0034E3C4 /* Gene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gene.swift; sourceTree = "<group>"; };
-		D4143B5B21F9809C0034E3C4 /* VTNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTNeuron.swift; sourceTree = "<group>"; };
-		D4143B9D21F9E7510034E3C4 /* VSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VSupport.swift; sourceTree = "<group>"; };
-		D4276A8E21F3134700862802 /* DarkPlayground */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkPlayground; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4276A9021F3134700862802 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		D4276A9A21F3143800862802 /* LightRun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LightRun.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4276A9E21F3143800862802 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D4276AA021F3143800862802 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		D4276AA221F3143800862802 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		D4276AA621F3143900862802 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D4276AA921F3143900862802 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D4276AAB21F3143900862802 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4276AAC21F3143900862802 /* LightRun.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LightRun.entitlements; sourceTree = "<group>"; };
-		D4276AE721F3239D00862802 /* VDisplayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VDisplayTest.swift; sourceTree = "<group>"; };
-		D4276AEA21F3249100862802 /* ArkonCentralLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentralLight.swift; sourceTree = "<group>"; };
-		D4276AF121F3262400862802 /* VProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VProtocols.swift; sourceTree = "<group>"; };
-		D4276AF321F3262400862802 /* VNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VNet.swift; sourceTree = "<group>"; };
-		D4276AF421F3262500862802 /* VNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VNeuron.swift; sourceTree = "<group>"; };
-		D4276AF521F3262500862802 /* VSpacer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VSpacer.swift; sourceTree = "<group>"; };
-		D4276AF621F3262500862802 /* VLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VLayer.swift; sourceTree = "<group>"; };
-		D4276AFD21F3268900862802 /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
-		D4276B0521F32C0500862802 /* VisualizerTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisualizerTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4276B1421F32C0500862802 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D4276B1621F32C0500862802 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4276B1721F32C0500862802 /* StressTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StressTest.entitlements; sourceTree = "<group>"; };
-		D427B6FD21F55BC4003A9DBA /* VSignalDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VSignalDriver.swift; sourceTree = "<group>"; };
-		D4303C1F21FAAA2B00886C05 /* KNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KNeuron.swift; sourceTree = "<group>"; };
-		D4303C2021FAAA2B00886C05 /* KSignalRelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSignalRelay.swift; sourceTree = "<group>"; };
-		D4303C2121FAAA2B00886C05 /* KDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDriver.swift; sourceTree = "<group>"; };
-		D4303C2221FAAA2B00886C05 /* KConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KConnector.swift; sourceTree = "<group>"; };
-		D4303C2321FAAA2B00886C05 /* KLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KLayer.swift; sourceTree = "<group>"; };
-		D4303C2421FAAA2B00886C05 /* KNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KNet.swift; sourceTree = "<group>"; };
-		D4303C2C21FAADB800886C05 /* DTGenome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTGenome.swift; sourceTree = "<group>"; };
-		D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentralDark.swift; sourceTree = "<group>"; };
-		D4303C4521FABC1200886C05 /* LoopIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopIterator.swift; sourceTree = "<group>"; };
-		D438ACD721FD4283003B4475 /* KineticsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KineticsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D438ACD921FD4480003B4475 /* DTKinetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTKinetics.swift; sourceTree = "<group>"; };
-		D43A8DF421FC0853007E99C0 /* GeneType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneType.swift; sourceTree = "<group>"; };
-		D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneLibrary.swift; sourceTree = "<group>"; };
-		D44ACCFF21F887E000B9D339 /* KAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppDelegate.swift; sourceTree = "<group>"; };
-		D451C3CC21F38D3300212262 /* init.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = init.js; sourceTree = "<group>"; };
-		D451C3CD21F38D3300212262 /* klog.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = klog.py; sourceTree = "<group>"; };
-		D451C3CE21F394D700212262 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		D451C3D021F3953800212262 /* CGConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGConversions.swift; sourceTree = "<group>"; };
-		D451C3D421F3B9D200212262 /* VPortalServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPortalServer.swift; sourceTree = "<group>"; };
-		D45911DA21F3522400D87ED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D45911DC21F3522400D87ED8 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D45911E721F3522400D87ED8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D45911E921F3522400D87ED8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D45911EA21F3522400D87ED8 /* NetcamTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NetcamTest.entitlements; sourceTree = "<group>"; };
-		D464082C21FB09B400661D73 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
-		D464082E21FB176B00661D73 /* BellCurve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BellCurve.swift; sourceTree = "<group>"; };
-		D4710C9621FB38580094D212 /* MutatorAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutatorAdd.swift; sourceTree = "<group>"; };
-		D4710C9821FB38D60094D212 /* MutatorSubtract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutatorSubtract.swift; sourceTree = "<group>"; };
-		D482CCAC21FD288200A93297 /* SceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
-		D4887B3B21F300CA00402420 /* DarkRun */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DarkRun; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4887B3E21F300CA00402420 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		D4887B4921F3037D00402420 /* GenomeTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GenomeTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4887B4B21F3037D00402420 /* DarkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkTest.swift; sourceTree = "<group>"; };
-		D4887B4D21F3037D00402420 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4AA25AD21FAFC4F00BADD48 /* AASubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AASubject.swift; sourceTree = "<group>"; };
-		D4AA25AE21FAFC4F00BADD48 /* AAFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAFactory.swift; sourceTree = "<group>"; };
-		D4AA25AF21FAFC4F00BADD48 /* AATester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AATester.swift; sourceTree = "<group>"; };
-		D4AA25B021FAFC4F00BADD48 /* AAGoalSuite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAGoalSuite.swift; sourceTree = "<group>"; };
-		D4AA25B221FAFC4F00BADD48 /* GSTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSTester.swift; sourceTree = "<group>"; };
-		D4AA25B321FAFC4F00BADD48 /* GSCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSCommon.swift; sourceTree = "<group>"; };
-		D4AA25B421FAFC4F00BADD48 /* GSGoalSuite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSGoalSuite.swift; sourceTree = "<group>"; };
-		D4AA25B521FAFC4F00BADD48 /* GSSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSSubject.swift; sourceTree = "<group>"; };
-		D4AA25B621FAFC4F00BADD48 /* GSFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSFactory.swift; sourceTree = "<group>"; };
-		D4AA25B821FAFC4F00BADD48 /* NGTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGTester.swift; sourceTree = "<group>"; };
-		D4AA25B921FAFC4F00BADD48 /* NGSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGSubject.swift; sourceTree = "<group>"; };
-		D4AA25BA21FAFC4F00BADD48 /* NGFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGFactory.swift; sourceTree = "<group>"; };
-		D4AA25BB21FAFC4F00BADD48 /* NGGoalSuite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGGoalSuite.swift; sourceTree = "<group>"; };
-		D4AA25CA21FAFF4F00BADD48 /* PeerGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerGroup.swift; sourceTree = "<group>"; };
-		D4AA25CB21FAFF4F00BADD48 /* Curator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curator.swift; sourceTree = "<group>"; };
-		D4AA25CC21FAFF4F00BADD48 /* Selector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Selector.swift; sourceTree = "<group>"; };
-		D4AA25CD21FAFF4F00BADD48 /* Archive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
-		D4B953B821F8CCB7006305AD /* VDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VDisplay.swift; sourceTree = "<group>"; };
-		D4CE661521F3368D00B20CFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D45264B621FDC65300715889 /* Display.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Display.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D45264BA21FDC65300715889 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		D45264BC21FDC65300715889 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		D45264BE21FDC65300715889 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		D45264C021FDC65300715889 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D45264C221FDC65300715889 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D45264C521FDC65300715889 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D45264C721FDC65300715889 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D45264C821FDC65300715889 /* Display.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Display.entitlements; sourceTree = "<group>"; };
+		D45264CD21FDC69800715889 /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
+		D45264CE21FDC69800715889 /* ArkonCentralDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentralDark.swift; sourceTree = "<group>"; };
+		D45264D021FDC69800715889 /* KAppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KAppDelegate.swift; sourceTree = "<group>"; };
+		D45264D121FDC69800715889 /* KAppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KAppController.swift; sourceTree = "<group>"; };
+		D45264D221FDC69800715889 /* ArkonCentralLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentralLight.swift; sourceTree = "<group>"; };
+		D45264D321FDC69800715889 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		D45264D421FDC69800715889 /* LoopIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopIterator.swift; sourceTree = "<group>"; };
+		D45264D521FDC69800715889 /* BellCurve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BellCurve.swift; sourceTree = "<group>"; };
+		D45264D621FDC69800715889 /* CGConversions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGConversions.swift; sourceTree = "<group>"; };
+		D45264D821FDC6DE00715889 /* TNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNeuron.swift; sourceTree = "<group>"; };
+		D45264D921FDC6DE00715889 /* TLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TLayer.swift; sourceTree = "<group>"; };
+		D45264DA21FDC6DE00715889 /* TNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TNet.swift; sourceTree = "<group>"; };
+		D45264DB21FDC6DE00715889 /* TDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDecoder.swift; sourceTree = "<group>"; };
+		D45264DD21FDC6DE00715889 /* VLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VLayer.swift; sourceTree = "<group>"; };
+		D45264DE21FDC6DE00715889 /* VPortalServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPortalServer.swift; sourceTree = "<group>"; };
+		D45264E021FDC6DE00715889 /* VDisplayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VDisplayTest.swift; sourceTree = "<group>"; };
+		D45264E121FDC6DE00715889 /* VSignalDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VSignalDriver.swift; sourceTree = "<group>"; };
+		D45264E221FDC6DE00715889 /* VTNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTNeuron.swift; sourceTree = "<group>"; };
+		D45264E421FDC6DE00715889 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
+		D45264E521FDC6DE00715889 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D45264E621FDC6DE00715889 /* VProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VProtocols.swift; sourceTree = "<group>"; };
+		D45264E721FDC6DE00715889 /* VDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VDisplay.swift; sourceTree = "<group>"; };
+		D45264E821FDC6DE00715889 /* VSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VSupport.swift; sourceTree = "<group>"; };
+		D45264E921FDC6DE00715889 /* VNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VNet.swift; sourceTree = "<group>"; };
+		D45264EA21FDC6DE00715889 /* VSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VSpacer.swift; sourceTree = "<group>"; };
+		D45264EB21FDC6DE00715889 /* VNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VNeuron.swift; sourceTree = "<group>"; };
+		D45264ED21FDC6DE00715889 /* KNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KNeuron.swift; sourceTree = "<group>"; };
+		D45264EE21FDC6DE00715889 /* KNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KNet.swift; sourceTree = "<group>"; };
+		D45264EF21FDC6DE00715889 /* KSignalRelay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KSignalRelay.swift; sourceTree = "<group>"; };
+		D45264F021FDC6DE00715889 /* KConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KConnector.swift; sourceTree = "<group>"; };
+		D45264F121FDC6DE00715889 /* KDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDriver.swift; sourceTree = "<group>"; };
+		D45264F221FDC6DE00715889 /* KTNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KTNeuron.swift; sourceTree = "<group>"; };
+		D45264F321FDC6DE00715889 /* KLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KLayer.swift; sourceTree = "<group>"; };
+		D45264F521FDC6DE00715889 /* UpConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpConnector.swift; sourceTree = "<group>"; };
+		D45264F621FDC6DE00715889 /* GeneType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneType.swift; sourceTree = "<group>"; };
+		D45264F721FDC6DE00715889 /* ActivatorFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivatorFunctions.swift; sourceTree = "<group>"; };
+		D45264F821FDC6DE00715889 /* Gene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gene.swift; sourceTree = "<group>"; };
+		D45264F921FDC6DE00715889 /* GenomeAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeAdd.swift; sourceTree = "<group>"; };
+		D45264FA21FDC6DE00715889 /* GeneLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneLibrary.swift; sourceTree = "<group>"; };
+		D45264FB21FDC6DE00715889 /* Assembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
+		D45264FC21FDC6DE00715889 /* Genome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genome.swift; sourceTree = "<group>"; };
+		D45264FD21FDC6DE00715889 /* GenomeSubtract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenomeSubtract.swift; sourceTree = "<group>"; };
+		D45264FF21FDC6DE00715889 /* Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
+		D452650021FDC6DE00715889 /* PeerGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerGroup.swift; sourceTree = "<group>"; };
+		D452650121FDC6DE00715889 /* Selector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selector.swift; sourceTree = "<group>"; };
+		D452650221FDC6DE00715889 /* Curator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Curator.swift; sourceTree = "<group>"; };
+		D452650521FDC6DE00715889 /* GSTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSTester.swift; sourceTree = "<group>"; };
+		D452650621FDC6DE00715889 /* GSCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSCommon.swift; sourceTree = "<group>"; };
+		D452650721FDC6DE00715889 /* GSGoalSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSGoalSuite.swift; sourceTree = "<group>"; };
+		D452650821FDC6DE00715889 /* GSSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSSubject.swift; sourceTree = "<group>"; };
+		D452650921FDC6DE00715889 /* GSFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GSFactory.swift; sourceTree = "<group>"; };
+		D452650B21FDC6DE00715889 /* AASubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AASubject.swift; sourceTree = "<group>"; };
+		D452650C21FDC6DE00715889 /* AAFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAFactory.swift; sourceTree = "<group>"; };
+		D452650D21FDC6DE00715889 /* AATester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AATester.swift; sourceTree = "<group>"; };
+		D452650E21FDC6DE00715889 /* AAGoalSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAGoalSuite.swift; sourceTree = "<group>"; };
+		D452651021FDC6DE00715889 /* NGTester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGTester.swift; sourceTree = "<group>"; };
+		D452651121FDC6DE00715889 /* NGSubject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGSubject.swift; sourceTree = "<group>"; };
+		D452651221FDC6DE00715889 /* NGFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGFactory.swift; sourceTree = "<group>"; };
+		D452651321FDC6DE00715889 /* NGGoalSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NGGoalSuite.swift; sourceTree = "<group>"; };
+		D452651521FDC6DE00715889 /* Mutator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
+		D452651621FDC6DE00715889 /* MutatorSubtract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutatorSubtract.swift; sourceTree = "<group>"; };
+		D452651721FDC6DE00715889 /* MutatorAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutatorAdd.swift; sourceTree = "<group>"; };
+		D47080D421FD7C0900ECCC54 /* Arkonia */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Arkonia; sourceTree = BUILT_PRODUCTS_DIR; };
+		D47080D721FD7C0900ECCC54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D47080E421FD7CBB00ECCC54 /* Genome */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Genome; sourceTree = BUILT_PRODUCTS_DIR; };
+		D47080E621FD7CBB00ECCC54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D47080EF21FD7D1500ECCC54 /* TGenome.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TGenome.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D47080F121FD7D1500ECCC54 /* TGenome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGenome.swift; sourceTree = "<group>"; };
+		D47080F321FD7D1500ECCC54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D47080FF21FD815300ECCC54 /* Kinetics */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Kinetics; sourceTree = BUILT_PRODUCTS_DIR; };
+		D470810121FD815300ECCC54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D470810A21FD817500ECCC54 /* TKinetics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TKinetics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D470810C21FD817500ECCC54 /* TKinetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TKinetics.swift; sourceTree = "<group>"; };
+		D4A37A7521FDE3AC00B8EB85 /* LiveRun.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = LiveRun.xcconfig; sourceTree = "<group>"; };
+		D4A37A7B21FDE82B00B8EB85 /* TDisplay.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TDisplay.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4A37A7D21FDE82B00B8EB85 /* TDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDisplay.swift; sourceTree = "<group>"; };
+		D4A37A7F21FDE82B00B8EB85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4FB102021FDD4C10031EF39 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D4276A8B21F3134700862802 /* Frameworks */ = {
+		D45264B321FDC65300715889 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4276A9721F3143800862802 /* Frameworks */ = {
+		D47080D121FD7C0900ECCC54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4276B0221F32C0500862802 /* Frameworks */ = {
+		D47080E121FD7CBB00ECCC54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D438ACD221FD4283003B4475 /* Frameworks */ = {
+		D47080EC21FD7D1500ECCC54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4887B3821F300CA00402420 /* Frameworks */ = {
+		D47080FC21FD815300ECCC54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4887B4621F3037D00402420 /* Frameworks */ = {
+		D470810721FD817500ECCC54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4A37A7821FDE82B00B8EB85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -317,428 +256,433 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D4143B4621F975FF0034E3C4 /* Frame */ = {
+		D45264B721FDC65300715889 /* Display */ = {
 			isa = PBXGroup;
 			children = (
-				D4143B4721F976F30034E3C4 /* TDecoder.swift */,
-				D4143B4821F976F30034E3C4 /* TLayer.swift */,
-				D4143B4A21F976F30034E3C4 /* TNet.swift */,
-				D4143B4921F976F30034E3C4 /* TNeuron.swift */,
-			);
-			path = Frame;
-			sourceTree = "<group>";
-		};
-		D4143B4F21F97E540034E3C4 /* Kinetics */ = {
-			isa = PBXGroup;
-			children = (
-				D4303C2221FAAA2B00886C05 /* KConnector.swift */,
-				D4303C2121FAAA2B00886C05 /* KDriver.swift */,
-				D4303C2321FAAA2B00886C05 /* KLayer.swift */,
-				D4303C2421FAAA2B00886C05 /* KNet.swift */,
-				D4303C1F21FAAA2B00886C05 /* KNeuron.swift */,
-				D4303C2021FAAA2B00886C05 /* KSignalRelay.swift */,
-				D4143B5021F97E920034E3C4 /* KTNeuron.swift */,
-			);
-			path = Kinetics;
-			sourceTree = "<group>";
-		};
-		D4143B5121F97EFD0034E3C4 /* Genome */ = {
-			isa = PBXGroup;
-			children = (
-				D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */,
-				D4143B5521F97FAA0034E3C4 /* Assembler.swift */,
-				D4143B5821F97FAA0034E3C4 /* Gene.swift */,
-				D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */,
-				D43A8DF421FC0853007E99C0 /* GeneType.swift */,
-				D4143B5321F97FAA0034E3C4 /* Genome.swift */,
-				D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */,
-				D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */,
-				D4143B5221F97FAA0034E3C4 /* UpConnector.swift */,
-			);
-			path = Genome;
-			sourceTree = "<group>";
-		};
-		D4143BA121F9E7D20034E3C4 /* NSSupport */ = {
-			isa = PBXGroup;
-			children = (
-				D44ACCFF21F887E000B9D339 /* KAppDelegate.swift */,
-				74AF392821FC8D9A0048A5AD /* KAppController.swift */,
-			);
-			path = NSSupport;
-			sourceTree = "<group>";
-		};
-		D4276A8F21F3134700862802 /* DarkPlayground */ = {
-			isa = PBXGroup;
-			children = (
-				D4276A9021F3134700862802 /* main.swift */,
-			);
-			path = DarkPlayground;
-			sourceTree = "<group>";
-		};
-		D4276A9B21F3143800862802 /* LightRun */ = {
-			isa = PBXGroup;
-			children = (
-				D4276A9E21F3143800862802 /* GameScene.sks */,
-				D4276AA021F3143800862802 /* Actions.sks */,
-				D4276AA221F3143800862802 /* GameScene.swift */,
-				D4276AA621F3143900862802 /* Assets.xcassets */,
-				D4276AA821F3143900862802 /* Main.storyboard */,
-				D4276AAB21F3143900862802 /* Info.plist */,
-				D4276AAC21F3143900862802 /* LightRun.entitlements */,
-			);
-			path = LightRun;
-			sourceTree = "<group>";
-		};
-		D4276AB421F3143900862802 /* LightTest */ = {
-			isa = PBXGroup;
-			children = (
-				D45911D921F3522400D87ED8 /* NetcamTest */,
-				D4276B0621F32C0500862802 /* VisualizerTest */,
-			);
-			path = LightTest;
-			sourceTree = "<group>";
-		};
-		D4276ACF21F31B3C00862802 /* Arkonia */ = {
-			isa = PBXGroup;
-			children = (
-				D4276AE921F3240100862802 /* ArkonCentral */,
-				D4AA25C921FAFF2100BADD48 /* Curation */,
-				D4276AD021F31B7800862802 /* Display */,
-				D4143B4621F975FF0034E3C4 /* Frame */,
-				D4143B5121F97EFD0034E3C4 /* Genome */,
-				D4AA25AB21FAFC0700BADD48 /* GoalSuites */,
-				D4143B4F21F97E540034E3C4 /* Kinetics */,
-				D4710C9521FB381C0094D212 /* Mutator */,
-			);
-			path = Arkonia;
-			sourceTree = "<group>";
-		};
-		D4276AD021F31B7800862802 /* Display */ = {
-			isa = PBXGroup;
-			children = (
-				D4CE661521F3368D00B20CFA /* Assets.xcassets */,
-				D4276AD121F31B8700862802 /* NSSupport */,
-				D4276AE621F3235700862802 /* Test */,
-				D4B953B821F8CCB7006305AD /* VDisplay.swift */,
-				D4276AF321F3262400862802 /* VNet.swift */,
-				D4276AF621F3262500862802 /* VLayer.swift */,
-				D4276AF421F3262500862802 /* VNeuron.swift */,
-				D451C3D421F3B9D200212262 /* VPortalServer.swift */,
-				D4276AF121F3262400862802 /* VProtocols.swift */,
-				D427B6FD21F55BC4003A9DBA /* VSignalDriver.swift */,
-				D4276AF521F3262500862802 /* VSpacer.swift */,
-				D4143B9D21F9E7510034E3C4 /* VSupport.swift */,
-				D4143B5B21F9809C0034E3C4 /* VTNeuron.swift */,
+				D45264BA21FDC65300715889 /* GameScene.sks */,
+				D45264BC21FDC65300715889 /* Actions.sks */,
+				D45264BE21FDC65300715889 /* GameScene.swift */,
+				D45264C021FDC65300715889 /* ViewController.swift */,
+				D45264C221FDC65300715889 /* Assets.xcassets */,
+				D45264C421FDC65300715889 /* Main.storyboard */,
+				D45264C721FDC65300715889 /* Info.plist */,
+				D45264C821FDC65300715889 /* Display.entitlements */,
 			);
 			path = Display;
 			sourceTree = "<group>";
 		};
-		D4276AD121F31B8700862802 /* NSSupport */ = {
+		D45264CC21FDC69800715889 /* ArkonCentral */ = {
 			isa = PBXGroup;
 			children = (
-				D482CCAC21FD288200A93297 /* SceneViewController.swift */,
-			);
-			path = NSSupport;
-			sourceTree = "<group>";
-		};
-		D4276AE621F3235700862802 /* Test */ = {
-			isa = PBXGroup;
-			children = (
-				D4276AE721F3239D00862802 /* VDisplayTest.swift */,
-			);
-			path = Test;
-			sourceTree = "<group>";
-		};
-		D4276AE921F3240100862802 /* ArkonCentral */ = {
-			isa = PBXGroup;
-			children = (
-				D4143BA121F9E7D20034E3C4 /* NSSupport */,
-				D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */,
-				D4276AEA21F3249100862802 /* ArkonCentralLight.swift */,
-				D464082E21FB176B00661D73 /* BellCurve.swift */,
-				D451C3D021F3953800212262 /* CGConversions.swift */,
-				D451C3CE21F394D700212262 /* Extensions.swift */,
-				D4276AFD21F3268900862802 /* KIdentifier.swift */,
-				D4303C4521FABC1200886C05 /* LoopIterator.swift */,
+				D45264CF21FDC69800715889 /* NSSupport */,
+				D45264CE21FDC69800715889 /* ArkonCentralDark.swift */,
+				D45264D221FDC69800715889 /* ArkonCentralLight.swift */,
+				D45264D521FDC69800715889 /* BellCurve.swift */,
+				D45264D621FDC69800715889 /* CGConversions.swift */,
+				D45264D321FDC69800715889 /* Extensions.swift */,
+				D45264CD21FDC69800715889 /* KIdentifier.swift */,
+				D45264D421FDC69800715889 /* LoopIterator.swift */,
 			);
 			path = ArkonCentral;
 			sourceTree = "<group>";
 		};
-		D4276B0621F32C0500862802 /* VisualizerTest */ = {
+		D45264CF21FDC69800715889 /* NSSupport */ = {
 			isa = PBXGroup;
 			children = (
-				D4276B1321F32C0500862802 /* Main.storyboard */,
-				D4276B1621F32C0500862802 /* Info.plist */,
-				D4276B1721F32C0500862802 /* StressTest.entitlements */,
+				D45264D021FDC69800715889 /* KAppDelegate.swift */,
+				D45264D121FDC69800715889 /* KAppController.swift */,
 			);
-			path = VisualizerTest;
+			path = NSSupport;
 			sourceTree = "<group>";
 		};
-		D451C3CB21F38CCF00212262 /* Support */ = {
+		D45264D721FDC6DE00715889 /* Frame */ = {
 			isa = PBXGroup;
 			children = (
-				D451C3CC21F38D3300212262 /* init.js */,
-				D451C3CD21F38D3300212262 /* klog.py */,
+				D45264DB21FDC6DE00715889 /* TDecoder.swift */,
+				D45264D921FDC6DE00715889 /* TLayer.swift */,
+				D45264DA21FDC6DE00715889 /* TNet.swift */,
+				D45264D821FDC6DE00715889 /* TNeuron.swift */,
 			);
-			path = Support;
+			path = Frame;
 			sourceTree = "<group>";
 		};
-		D45911D921F3522400D87ED8 /* NetcamTest */ = {
+		D45264DC21FDC6DE00715889 /* Display */ = {
 			isa = PBXGroup;
 			children = (
-				D45911DA21F3522400D87ED8 /* AppDelegate.swift */,
-				D45911DC21F3522400D87ED8 /* GameScene.sks */,
-				D45911E621F3522400D87ED8 /* Main.storyboard */,
-				D45911E921F3522400D87ED8 /* Info.plist */,
-				D45911EA21F3522400D87ED8 /* NetcamTest.entitlements */,
+				D45264E321FDC6DE00715889 /* NSSupport */,
+				D45264DF21FDC6DE00715889 /* Test */,
+				D45264E521FDC6DE00715889 /* Assets.xcassets */,
+				D45264E721FDC6DE00715889 /* VDisplay.swift */,
+				D45264DD21FDC6DE00715889 /* VLayer.swift */,
+				D45264E921FDC6DE00715889 /* VNet.swift */,
+				D45264EB21FDC6DE00715889 /* VNeuron.swift */,
+				D45264DE21FDC6DE00715889 /* VPortalServer.swift */,
+				D45264E621FDC6DE00715889 /* VProtocols.swift */,
+				D45264E121FDC6DE00715889 /* VSignalDriver.swift */,
+				D45264EA21FDC6DE00715889 /* VSpacer.swift */,
+				D45264E821FDC6DE00715889 /* VSupport.swift */,
+				D45264E221FDC6DE00715889 /* VTNeuron.swift */,
 			);
-			path = NetcamTest;
+			path = Display;
 			sourceTree = "<group>";
 		};
-		D4710C9521FB381C0094D212 /* Mutator */ = {
+		D45264DF21FDC6DE00715889 /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				D464082C21FB09B400661D73 /* Mutator.swift */,
-				D4710C9621FB38580094D212 /* MutatorAdd.swift */,
-				D4710C9821FB38D60094D212 /* MutatorSubtract.swift */,
+				D45264E021FDC6DE00715889 /* VDisplayTest.swift */,
 			);
-			path = Mutator;
+			path = Test;
 			sourceTree = "<group>";
 		};
-		D4887B3221F300CA00402420 = {
+		D45264E321FDC6DE00715889 /* NSSupport */ = {
 			isa = PBXGroup;
 			children = (
-				D4276ACF21F31B3C00862802 /* Arkonia */,
-				D4887B3D21F300CA00402420 /* DarkRun */,
-				D4276A8F21F3134700862802 /* DarkPlayground */,
-				D4887B4A21F3037D00402420 /* DarkTest */,
-				D4276A9B21F3143800862802 /* LightRun */,
-				D4276AB421F3143900862802 /* LightTest */,
-				D451C3CB21F38CCF00212262 /* Support */,
-				D4887B3C21F300CA00402420 /* Products */,
+				D45264E421FDC6DE00715889 /* SceneViewController.swift */,
 			);
+			path = NSSupport;
 			sourceTree = "<group>";
 		};
-		D4887B3C21F300CA00402420 /* Products */ = {
+		D45264EC21FDC6DE00715889 /* Kinetics */ = {
 			isa = PBXGroup;
 			children = (
-				D4887B3B21F300CA00402420 /* DarkRun */,
-				D4887B4921F3037D00402420 /* GenomeTest.xctest */,
-				D4276A8E21F3134700862802 /* DarkPlayground */,
-				D4276A9A21F3143800862802 /* LightRun.app */,
-				D4276B0521F32C0500862802 /* VisualizerTest.app */,
-				D438ACD721FD4283003B4475 /* KineticsTest.xctest */,
+				D45264F021FDC6DE00715889 /* KConnector.swift */,
+				D45264F121FDC6DE00715889 /* KDriver.swift */,
+				D45264F321FDC6DE00715889 /* KLayer.swift */,
+				D45264ED21FDC6DE00715889 /* KNeuron.swift */,
+				D45264EE21FDC6DE00715889 /* KNet.swift */,
+				D45264EF21FDC6DE00715889 /* KSignalRelay.swift */,
+				D45264F221FDC6DE00715889 /* KTNeuron.swift */,
 			);
-			name = Products;
+			path = Kinetics;
 			sourceTree = "<group>";
 		};
-		D4887B3D21F300CA00402420 /* DarkRun */ = {
+		D45264F421FDC6DE00715889 /* Genome */ = {
 			isa = PBXGroup;
 			children = (
-				D4887B3E21F300CA00402420 /* main.swift */,
+				D45264FB21FDC6DE00715889 /* Assembler.swift */,
+				D45264F721FDC6DE00715889 /* ActivatorFunctions.swift */,
+				D45264F821FDC6DE00715889 /* Gene.swift */,
+				D45264FA21FDC6DE00715889 /* GeneLibrary.swift */,
+				D45264F621FDC6DE00715889 /* GeneType.swift */,
+				D45264FC21FDC6DE00715889 /* Genome.swift */,
+				D45264F921FDC6DE00715889 /* GenomeAdd.swift */,
+				D45264FD21FDC6DE00715889 /* GenomeSubtract.swift */,
+				D4FB102021FDD4C10031EF39 /* Protocols.swift */,
+				D45264F521FDC6DE00715889 /* UpConnector.swift */,
 			);
-			path = DarkRun;
+			path = Genome;
 			sourceTree = "<group>";
 		};
-		D4887B4A21F3037D00402420 /* DarkTest */ = {
+		D45264FE21FDC6DE00715889 /* Curation */ = {
 			isa = PBXGroup;
 			children = (
-				D4887B4B21F3037D00402420 /* DarkTest.swift */,
-				D4303C2C21FAADB800886C05 /* DTGenome.swift */,
-				D438ACD921FD4480003B4475 /* DTKinetics.swift */,
-				D4887B4D21F3037D00402420 /* Info.plist */,
+				D45264FF21FDC6DE00715889 /* Archive.swift */,
+				D452650221FDC6DE00715889 /* Curator.swift */,
+				D452650021FDC6DE00715889 /* PeerGroup.swift */,
+				D452650121FDC6DE00715889 /* Selector.swift */,
 			);
-			path = DarkTest;
+			path = Curation;
 			sourceTree = "<group>";
 		};
-		D4AA25AB21FAFC0700BADD48 /* GoalSuites */ = {
+		D452650321FDC6DE00715889 /* GoalSuites */ = {
 			isa = PBXGroup;
 			children = (
-				D4AA25AC21FAFC4F00BADD48 /* GSAdder */,
-				D4AA25B121FAFC4F00BADD48 /* GSCore */,
-				D4AA25B721FAFC4F00BADD48 /* GSNameGuesser */,
+				D452650421FDC6DE00715889 /* GSCore */,
+				D452650A21FDC6DE00715889 /* GSAdder */,
+				D452650F21FDC6DE00715889 /* GSNameGuesser */,
 			);
 			path = GoalSuites;
 			sourceTree = "<group>";
 		};
-		D4AA25AC21FAFC4F00BADD48 /* GSAdder */ = {
+		D452650421FDC6DE00715889 /* GSCore */ = {
 			isa = PBXGroup;
 			children = (
-				D4AA25AD21FAFC4F00BADD48 /* AASubject.swift */,
-				D4AA25AE21FAFC4F00BADD48 /* AAFactory.swift */,
-				D4AA25AF21FAFC4F00BADD48 /* AATester.swift */,
-				D4AA25B021FAFC4F00BADD48 /* AAGoalSuite.swift */,
-			);
-			path = GSAdder;
-			sourceTree = "<group>";
-		};
-		D4AA25B121FAFC4F00BADD48 /* GSCore */ = {
-			isa = PBXGroup;
-			children = (
-				D4AA25B221FAFC4F00BADD48 /* GSTester.swift */,
-				D4AA25B321FAFC4F00BADD48 /* GSCommon.swift */,
-				D4AA25B421FAFC4F00BADD48 /* GSGoalSuite.swift */,
-				D4AA25B521FAFC4F00BADD48 /* GSSubject.swift */,
-				D4AA25B621FAFC4F00BADD48 /* GSFactory.swift */,
+				D452650521FDC6DE00715889 /* GSTester.swift */,
+				D452650621FDC6DE00715889 /* GSCommon.swift */,
+				D452650721FDC6DE00715889 /* GSGoalSuite.swift */,
+				D452650821FDC6DE00715889 /* GSSubject.swift */,
+				D452650921FDC6DE00715889 /* GSFactory.swift */,
 			);
 			path = GSCore;
 			sourceTree = "<group>";
 		};
-		D4AA25B721FAFC4F00BADD48 /* GSNameGuesser */ = {
+		D452650A21FDC6DE00715889 /* GSAdder */ = {
 			isa = PBXGroup;
 			children = (
-				D4AA25BA21FAFC4F00BADD48 /* NGFactory.swift */,
-				D4AA25BB21FAFC4F00BADD48 /* NGGoalSuite.swift */,
-				D4AA25B921FAFC4F00BADD48 /* NGSubject.swift */,
-				D4AA25B821FAFC4F00BADD48 /* NGTester.swift */,
+				D452650B21FDC6DE00715889 /* AASubject.swift */,
+				D452650C21FDC6DE00715889 /* AAFactory.swift */,
+				D452650D21FDC6DE00715889 /* AATester.swift */,
+				D452650E21FDC6DE00715889 /* AAGoalSuite.swift */,
+			);
+			path = GSAdder;
+			sourceTree = "<group>";
+		};
+		D452650F21FDC6DE00715889 /* GSNameGuesser */ = {
+			isa = PBXGroup;
+			children = (
+				D452651021FDC6DE00715889 /* NGTester.swift */,
+				D452651121FDC6DE00715889 /* NGSubject.swift */,
+				D452651221FDC6DE00715889 /* NGFactory.swift */,
+				D452651321FDC6DE00715889 /* NGGoalSuite.swift */,
 			);
 			path = GSNameGuesser;
 			sourceTree = "<group>";
 		};
-		D4AA25C921FAFF2100BADD48 /* Curation */ = {
+		D452651421FDC6DE00715889 /* Mutator */ = {
 			isa = PBXGroup;
 			children = (
-				D4AA25CD21FAFF4F00BADD48 /* Archive.swift */,
-				D4AA25CB21FAFF4F00BADD48 /* Curator.swift */,
-				D4AA25CA21FAFF4F00BADD48 /* PeerGroup.swift */,
-				D4AA25CC21FAFF4F00BADD48 /* Selector.swift */,
+				D452651521FDC6DE00715889 /* Mutator.swift */,
+				D452651721FDC6DE00715889 /* MutatorAdd.swift */,
+				D452651621FDC6DE00715889 /* MutatorSubtract.swift */,
 			);
-			path = Curation;
+			path = Mutator;
+			sourceTree = "<group>";
+		};
+		D47080CB21FD7C0900ECCC54 = {
+			isa = PBXGroup;
+			children = (
+				D4A37A7521FDE3AC00B8EB85 /* LiveRun.xcconfig */,
+				D47080D621FD7C0900ECCC54 /* Arkonia */,
+				D47080F821FD7E7C00ECCC54 /* XcodeClutter */,
+				D47080D521FD7C0900ECCC54 /* Z-Products */,
+				D45264B721FDC65300715889 /* Display */,
+				D4A37A7C21FDE82B00B8EB85 /* TDisplay */,
+			);
+			sourceTree = "<group>";
+		};
+		D47080D521FD7C0900ECCC54 /* Z-Products */ = {
+			isa = PBXGroup;
+			children = (
+				D47080D421FD7C0900ECCC54 /* Arkonia */,
+				D47080E421FD7CBB00ECCC54 /* Genome */,
+				D47080EF21FD7D1500ECCC54 /* TGenome.xctest */,
+				D47080FF21FD815300ECCC54 /* Kinetics */,
+				D470810A21FD817500ECCC54 /* TKinetics.xctest */,
+				D45264B621FDC65300715889 /* Display.app */,
+				D4A37A7B21FDE82B00B8EB85 /* TDisplay.xctest */,
+			);
+			name = "Z-Products";
+			sourceTree = "<group>";
+		};
+		D47080D621FD7C0900ECCC54 /* Arkonia */ = {
+			isa = PBXGroup;
+			children = (
+				D45264CC21FDC69800715889 /* ArkonCentral */,
+				D45264FE21FDC6DE00715889 /* Curation */,
+				D45264DC21FDC6DE00715889 /* Display */,
+				D45264D721FDC6DE00715889 /* Frame */,
+				D45264F421FDC6DE00715889 /* Genome */,
+				D452650321FDC6DE00715889 /* GoalSuites */,
+				D45264EC21FDC6DE00715889 /* Kinetics */,
+				D452651421FDC6DE00715889 /* Mutator */,
+				D47080DE21FD7C5200ECCC54 /* Test */,
+				D47080D721FD7C0900ECCC54 /* main.swift */,
+			);
+			path = Arkonia;
+			sourceTree = "<group>";
+		};
+		D47080DE21FD7C5200ECCC54 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				D47080F021FD7D1500ECCC54 /* TGenome */,
+				D470810B21FD817500ECCC54 /* TKinetics */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		D47080F021FD7D1500ECCC54 /* TGenome */ = {
+			isa = PBXGroup;
+			children = (
+				D47080E621FD7CBB00ECCC54 /* main.swift */,
+				D47080F121FD7D1500ECCC54 /* TGenome.swift */,
+			);
+			path = TGenome;
+			sourceTree = "<group>";
+		};
+		D47080F821FD7E7C00ECCC54 /* XcodeClutter */ = {
+			isa = PBXGroup;
+			children = (
+				D47080F321FD7D1500ECCC54 /* Info.plist */,
+			);
+			path = XcodeClutter;
+			sourceTree = "<group>";
+		};
+		D470810B21FD817500ECCC54 /* TKinetics */ = {
+			isa = PBXGroup;
+			children = (
+				D470810121FD815300ECCC54 /* main.swift */,
+				D470810C21FD817500ECCC54 /* TKinetics.swift */,
+			);
+			path = TKinetics;
+			sourceTree = "<group>";
+		};
+		D4A37A7C21FDE82B00B8EB85 /* TDisplay */ = {
+			isa = PBXGroup;
+			children = (
+				D4A37A7D21FDE82B00B8EB85 /* TDisplay.swift */,
+				D4A37A7F21FDE82B00B8EB85 /* Info.plist */,
+			);
+			path = TDisplay;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D4276A8D21F3134700862802 /* DarkPlayground */ = {
+		D45264B521FDC65300715889 /* Display */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D4276A9221F3134700862802 /* Build configuration list for PBXNativeTarget "DarkPlayground" */;
+			buildConfigurationList = D45264CB21FDC65300715889 /* Build configuration list for PBXNativeTarget "Display" */;
 			buildPhases = (
-				D4276A8A21F3134700862802 /* Sources */,
-				D4276A8B21F3134700862802 /* Frameworks */,
-				D4276A8C21F3134700862802 /* CopyFiles */,
+				D45264B221FDC65300715889 /* Sources */,
+				D45264B321FDC65300715889 /* Frameworks */,
+				D45264B421FDC65300715889 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = DarkPlayground;
-			productName = DarkPlayground;
-			productReference = D4276A8E21F3134700862802 /* DarkPlayground */;
-			productType = "com.apple.product-type.tool";
-		};
-		D4276A9921F3143800862802 /* LightRun */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4276AB821F3143900862802 /* Build configuration list for PBXNativeTarget "LightRun" */;
-			buildPhases = (
-				D4276A9621F3143800862802 /* Sources */,
-				D4276A9721F3143800862802 /* Frameworks */,
-				D4276A9821F3143800862802 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = LightRun;
-			productName = LightDev;
-			productReference = D4276A9A21F3143800862802 /* LightRun.app */;
+			name = Display;
+			productName = Display;
+			productReference = D45264B621FDC65300715889 /* Display.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D4276B0421F32C0500862802 /* VisualizerTest */ = {
+		D47080D321FD7C0900ECCC54 /* Arkonia */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D4276B1821F32C0500862802 /* Build configuration list for PBXNativeTarget "VisualizerTest" */;
+			buildConfigurationList = D47080DB21FD7C0900ECCC54 /* Build configuration list for PBXNativeTarget "Arkonia" */;
 			buildPhases = (
-				D4276B0121F32C0500862802 /* Sources */,
-				D4276B0221F32C0500862802 /* Frameworks */,
-				D4276B0321F32C0500862802 /* Resources */,
+				D47080D021FD7C0900ECCC54 /* Sources */,
+				D47080D121FD7C0900ECCC54 /* Frameworks */,
+				D47080D221FD7C0900ECCC54 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = VisualizerTest;
-			productName = StressTest;
-			productReference = D4276B0521F32C0500862802 /* VisualizerTest.app */;
-			productType = "com.apple.product-type.application";
-		};
-		D438ACBF21FD4283003B4475 /* KineticsTest */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D438ACD421FD4283003B4475 /* Build configuration list for PBXNativeTarget "KineticsTest" */;
-			buildPhases = (
-				D438ACC021FD4283003B4475 /* Sources */,
-				D438ACD221FD4283003B4475 /* Frameworks */,
-				D438ACD321FD4283003B4475 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = KineticsTest;
-			productName = DarkTest;
-			productReference = D438ACD721FD4283003B4475 /* KineticsTest.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		D4887B3A21F300CA00402420 /* DarkRun */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4887B4221F300CA00402420 /* Build configuration list for PBXNativeTarget "DarkRun" */;
-			buildPhases = (
-				D4887B3721F300CA00402420 /* Sources */,
-				D4887B3821F300CA00402420 /* Frameworks */,
-				D4887B3921F300CA00402420 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = DarkRun;
+			name = Arkonia;
 			productName = Arkonia;
-			productReference = D4887B3B21F300CA00402420 /* DarkRun */;
+			productReference = D47080D421FD7C0900ECCC54 /* Arkonia */;
 			productType = "com.apple.product-type.tool";
 		};
-		D4887B4821F3037D00402420 /* GenomeTest */ = {
+		D47080E321FD7CBB00ECCC54 /* Genome */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D4887B4E21F3037D00402420 /* Build configuration list for PBXNativeTarget "GenomeTest" */;
+			buildConfigurationList = D47080E821FD7CBB00ECCC54 /* Build configuration list for PBXNativeTarget "Genome" */;
 			buildPhases = (
-				D4887B4521F3037D00402420 /* Sources */,
-				D4887B4621F3037D00402420 /* Frameworks */,
-				D4887B4721F3037D00402420 /* Resources */,
+				D47080E021FD7CBB00ECCC54 /* Sources */,
+				D47080E121FD7CBB00ECCC54 /* Frameworks */,
+				D47080E221FD7CBB00ECCC54 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = GenomeTest;
-			productName = DarkTest;
-			productReference = D4887B4921F3037D00402420 /* GenomeTest.xctest */;
+			name = Genome;
+			productName = Genome;
+			productReference = D47080E421FD7CBB00ECCC54 /* Genome */;
+			productType = "com.apple.product-type.tool";
+		};
+		D47080EE21FD7D1500ECCC54 /* TGenome */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D47080F421FD7D1500ECCC54 /* Build configuration list for PBXNativeTarget "TGenome" */;
+			buildPhases = (
+				D47080EB21FD7D1500ECCC54 /* Sources */,
+				D47080EC21FD7D1500ECCC54 /* Frameworks */,
+				D47080ED21FD7D1500ECCC54 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TGenome;
+			productName = TGenome;
+			productReference = D47080EF21FD7D1500ECCC54 /* TGenome.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D47080FE21FD815300ECCC54 /* Kinetics */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D470810321FD815300ECCC54 /* Build configuration list for PBXNativeTarget "Kinetics" */;
+			buildPhases = (
+				D47080FB21FD815300ECCC54 /* Sources */,
+				D47080FC21FD815300ECCC54 /* Frameworks */,
+				D47080FD21FD815300ECCC54 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Kinetics;
+			productName = Kinetics;
+			productReference = D47080FF21FD815300ECCC54 /* Kinetics */;
+			productType = "com.apple.product-type.tool";
+		};
+		D470810921FD817500ECCC54 /* TKinetics */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D470810F21FD817500ECCC54 /* Build configuration list for PBXNativeTarget "TKinetics" */;
+			buildPhases = (
+				D470810621FD817500ECCC54 /* Sources */,
+				D470810721FD817500ECCC54 /* Frameworks */,
+				D470810821FD817500ECCC54 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TKinetics;
+			productName = TKinetics;
+			productReference = D470810A21FD817500ECCC54 /* TKinetics.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D4A37A7A21FDE82B00B8EB85 /* TDisplay */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4A37A8221FDE82B00B8EB85 /* Build configuration list for PBXNativeTarget "TDisplay" */;
+			buildPhases = (
+				D4A37A7721FDE82B00B8EB85 /* Sources */,
+				D4A37A7821FDE82B00B8EB85 /* Frameworks */,
+				D4A37A7921FDE82B00B8EB85 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D4A37A8121FDE82B00B8EB85 /* PBXTargetDependency */,
+			);
+			name = TDisplay;
+			productName = TDisplay;
+			productReference = D4A37A7B21FDE82B00B8EB85 /* TDisplay.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		D4887B3321F300CA00402420 /* Project object */ = {
+		D47080CC21FD7C0900ECCC54 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Rob Bishop";
 				TargetAttributes = {
-					D4276A8D21F3134700862802 = {
+					D45264B521FDC65300715889 = {
 						CreatedOnToolsVersion = 10.1;
 					};
-					D4276A9921F3143800862802 = {
+					D47080D321FD7C0900ECCC54 = {
 						CreatedOnToolsVersion = 10.1;
 					};
-					D4276B0421F32C0500862802 = {
+					D47080E321FD7CBB00ECCC54 = {
 						CreatedOnToolsVersion = 10.1;
 					};
-					D4887B3A21F300CA00402420 = {
+					D47080EE21FD7D1500ECCC54 = {
 						CreatedOnToolsVersion = 10.1;
 					};
-					D4887B4821F3037D00402420 = {
+					D47080FE21FD815300ECCC54 = {
 						CreatedOnToolsVersion = 10.1;
+					};
+					D470810921FD817500ECCC54 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					D4A37A7A21FDE82B00B8EB85 = {
+						CreatedOnToolsVersion = 10.1;
+						TestTargetID = D45264B521FDC65300715889;
 					};
 				};
 			};
-			buildConfigurationList = D4887B3621F300CA00402420 /* Build configuration list for PBXProject "Arkonia" */;
+			buildConfigurationList = D47080CF21FD7C0900ECCC54 /* Build configuration list for PBXProject "Arkonia" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -746,51 +690,50 @@
 				en,
 				Base,
 			);
-			mainGroup = D4887B3221F300CA00402420;
-			productRefGroup = D4887B3C21F300CA00402420 /* Products */;
+			mainGroup = D47080CB21FD7C0900ECCC54;
+			productRefGroup = D47080D521FD7C0900ECCC54 /* Z-Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D4887B3A21F300CA00402420 /* DarkRun */,
-				D4276A8D21F3134700862802 /* DarkPlayground */,
-				D4887B4821F3037D00402420 /* GenomeTest */,
-				D438ACBF21FD4283003B4475 /* KineticsTest */,
-				D4276A9921F3143800862802 /* LightRun */,
-				D4276B0421F32C0500862802 /* VisualizerTest */,
+				D47080D321FD7C0900ECCC54 /* Arkonia */,
+				D45264B521FDC65300715889 /* Display */,
+				D47080E321FD7CBB00ECCC54 /* Genome */,
+				D47080FE21FD815300ECCC54 /* Kinetics */,
+				D47080EE21FD7D1500ECCC54 /* TGenome */,
+				D470810921FD817500ECCC54 /* TKinetics */,
+				D4A37A7A21FDE82B00B8EB85 /* TDisplay */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D4276A9821F3143800862802 /* Resources */ = {
+		D45264B421FDC65300715889 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4276A9F21F3143800862802 /* GameScene.sks in Resources */,
-				D4276AA721F3143900862802 /* Assets.xcassets in Resources */,
-				D4276AA121F3143800862802 /* Actions.sks in Resources */,
-				D4276AAA21F3143900862802 /* Main.storyboard in Resources */,
-				D4CE661721F34B6800B20CFA /* Assets.xcassets in Resources */,
+				D45264BB21FDC65300715889 /* GameScene.sks in Resources */,
+				D45264C321FDC65300715889 /* Assets.xcassets in Resources */,
+				D45264BD21FDC65300715889 /* Actions.sks in Resources */,
+				D45264C621FDC65300715889 /* Main.storyboard in Resources */,
+				D447FB3721FDCF83001BC442 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4276B0321F32C0500862802 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4276B1521F32C0500862802 /* Main.storyboard in Resources */,
-				D4CE661621F336C600B20CFA /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D438ACD321FD4283003B4475 /* Resources */ = {
+		D47080ED21FD7D1500ECCC54 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4887B4721F3037D00402420 /* Resources */ = {
+		D470810821FD817500ECCC54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4A37A7921FDE82B00B8EB85 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -800,212 +743,129 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		D4276A8A21F3134700862802 /* Sources */ = {
+		D45264B221FDC65300715889 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4276A9121F3134700862802 /* main.swift in Sources */,
+				D4FB101521FDD47B0031EF39 /* ArkonCentralLight.swift in Sources */,
+				D4FB102A21FDD5430031EF39 /* Extensions.swift in Sources */,
+				D498E93521FDE97D00BB690E /* VDisplayTest.swift in Sources */,
+				D4FB101321FDD4610031EF39 /* KAppController.swift in Sources */,
+				D4FB101F21FDD4930031EF39 /* VTNeuron.swift in Sources */,
+				D4FB102921FDD5180031EF39 /* ArkonCentralDark.swift in Sources */,
+				D4FB102121FDD4C10031EF39 /* Protocols.swift in Sources */,
+				D4FB101221FDD45D0031EF39 /* KAppDelegate.swift in Sources */,
+				D4FB101721FDD4930031EF39 /* VLayer.swift in Sources */,
+				D45264C121FDC65300715889 /* ViewController.swift in Sources */,
+				D4FB101D21FDD4930031EF39 /* VSpacer.swift in Sources */,
+				D4FB101921FDD4930031EF39 /* VNeuron.swift in Sources */,
+				D4FB101421FDD4650031EF39 /* SceneViewController.swift in Sources */,
+				D4FB102721FDD4F00031EF39 /* TNeuron.swift in Sources */,
+				D4FB101621FDD4930031EF39 /* VDisplay.swift in Sources */,
+				D4FB102221FDD4D50031EF39 /* ActivatorFunctions.swift in Sources */,
+				D4FB101C21FDD4930031EF39 /* VSignalDriver.swift in Sources */,
+				D45264BF21FDC65300715889 /* GameScene.swift in Sources */,
+				D4FB101A21FDD4930031EF39 /* VPortalServer.swift in Sources */,
+				D4FB101E21FDD4930031EF39 /* VSupport.swift in Sources */,
+				D4FB101821FDD4930031EF39 /* VNet.swift in Sources */,
+				D45264B921FDC65300715889 /* (null) in Sources */,
+				D4FB102321FDD4DA0031EF39 /* KIdentifier.swift in Sources */,
+				D4FB102521FDD4F00031EF39 /* TLayer.swift in Sources */,
+				D4FB102821FDD4F40031EF39 /* CGConversions.swift in Sources */,
+				D4FB102621FDD4F00031EF39 /* TNet.swift in Sources */,
+				D4FB101B21FDD4930031EF39 /* VProtocols.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4276A9621F3143800862802 /* Sources */ = {
+		D47080D021FD7C0900ECCC54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4AA25C321FAFC4F00BADD48 /* GSSubject.swift in Sources */,
-				D4AA25C521FAFC4F00BADD48 /* NGTester.swift in Sources */,
-				D4AA25C821FAFC4F00BADD48 /* NGGoalSuite.swift in Sources */,
-				D4303C4321FABB6700886C05 /* Extensions.swift in Sources */,
-				D464082D21FB09B400661D73 /* Mutator.swift in Sources */,
-				D4303C4A21FABC4300886C05 /* VNet.swift in Sources */,
-				D4AA25C021FAFC4F00BADD48 /* GSTester.swift in Sources */,
-				D4303C4C21FABC4300886C05 /* VPortalServer.swift in Sources */,
-				D4AA25C721FAFC4F00BADD48 /* NGFactory.swift in Sources */,
-				D4AA25D121FAFF4F00BADD48 /* Archive.swift in Sources */,
-				D4DC889621FD2A6C00A26DDC /* KAppController.swift in Sources */,
-				D464082F21FB176B00661D73 /* BellCurve.swift in Sources */,
-				D4AA25C621FAFC4F00BADD48 /* NGSubject.swift in Sources */,
-				D4303C4921FABC4300886C05 /* VLayer.swift in Sources */,
-				D4303C3B21FABA5100886C05 /* TNeuron.swift in Sources */,
-				D4DF6B8B21FD2B66008762CF /* KConnector.swift in Sources */,
-				D4303C5121FABC4300886C05 /* VTNeuron.swift in Sources */,
-				D4DF6B8E21FD2B66008762CF /* KNet.swift in Sources */,
-				D4303C3921FABA5100886C05 /* TLayer.swift in Sources */,
-				D4303C4121FABA5C00886C05 /* GenomeSubtract.swift in Sources */,
-				D4303C5221FABCA300886C05 /* ArkonCentralDark.swift in Sources */,
-				D4303C3A21FABA5100886C05 /* TNet.swift in Sources */,
-				D4303C4B21FABC4300886C05 /* VNeuron.swift in Sources */,
-				D4AA25C221FAFC4F00BADD48 /* GSGoalSuite.swift in Sources */,
-				D4DF6B8C21FD2B66008762CF /* KDriver.swift in Sources */,
-				D4303C4021FABA5C00886C05 /* GenomeAdd.swift in Sources */,
-				D4DF6B9021FD2B66008762CF /* KSignalRelay.swift in Sources */,
-				D4303C4221FABA5C00886C05 /* UpConnector.swift in Sources */,
-				D4303C4E21FABC4300886C05 /* VSignalDriver.swift in Sources */,
-				D4AA25A921FAD85300BADD48 /* KAppDelegate.swift in Sources */,
-				D4303C3F21FABA5C00886C05 /* Genome.swift in Sources */,
-				D4276AEE21F3249100862802 /* ArkonCentralLight.swift in Sources */,
-				D4303C3C21FABA5C00886C05 /* ActivatorFunctions.swift in Sources */,
-				D43A8DF521FC0853007E99C0 /* GeneType.swift in Sources */,
-				D4710C9721FB38580094D212 /* MutatorAdd.swift in Sources */,
-				D4303C4F21FABC4300886C05 /* VSpacer.swift in Sources */,
-				D4303C3D21FABA5C00886C05 /* Assembler.swift in Sources */,
-				D4303C4421FABB8E00886C05 /* KIdentifier.swift in Sources */,
-				D4AA25D021FAFF4F00BADD48 /* Selector.swift in Sources */,
-				D4303C4821FABC4300886C05 /* VDisplay.swift in Sources */,
-				D43A8DF721FC08F8007E99C0 /* GeneLibrary.swift in Sources */,
-				D4303C5021FABC4300886C05 /* VSupport.swift in Sources */,
-				D4303C5321FAC1A100886C05 /* CGConversions.swift in Sources */,
-				D4710C9921FB38D60094D212 /* MutatorSubtract.swift in Sources */,
-				D482CCAD21FD288200A93297 /* SceneViewController.swift in Sources */,
-				D4303C4D21FABC4300886C05 /* VProtocols.swift in Sources */,
-				D4303C4721FABC1A00886C05 /* LoopIterator.swift in Sources */,
-				D4AA25C121FAFC4F00BADD48 /* GSCommon.swift in Sources */,
-				D4AA25CE21FAFF4F00BADD48 /* PeerGroup.swift in Sources */,
-				D4303C3E21FABA5C00886C05 /* Gene.swift in Sources */,
-				D4303C3821FABA5100886C05 /* TDecoder.swift in Sources */,
-				D4AA25C421FAFC4F00BADD48 /* GSFactory.swift in Sources */,
-				D4AA25CF21FAFF4F00BADD48 /* Curator.swift in Sources */,
-				D4DF6B8F21FD2B66008762CF /* KNeuron.swift in Sources */,
-				D4DF6B8D21FD2B66008762CF /* KLayer.swift in Sources */,
-				D4DF6B9121FD2B66008762CF /* KTNeuron.swift in Sources */,
+				D47080D821FD7C0900ECCC54 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4276B0121F32C0500862802 /* Sources */ = {
+		D47080E021FD7CBB00ECCC54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4544C4821FD20DC0089784C /* UpConnector.swift in Sources */,
-				D4276B1E21F32C4F00862802 /* VLayer.swift in Sources */,
-				D4276B2421F32C5B00862802 /* ArkonCentralLight.swift in Sources */,
-				D4143B5C21F9809C0034E3C4 /* VTNeuron.swift in Sources */,
-				D427B6FE21F55BC4003A9DBA /* VSignalDriver.swift in Sources */,
-				D4276B1D21F32C4000862802 /* (null) in Sources */,
-				D4544C4121FD20DC0089784C /* Assembler.swift in Sources */,
-				D4544C3721FD20BF0089784C /* Mutator.swift in Sources */,
-				D4276B1D21F32C4000862802 /* (null) in Sources */,
-				D4544C4721FD20DC0089784C /* GenomeSubtract.swift in Sources */,
-				D4544C3821FD20BF0089784C /* MutatorAdd.swift in Sources */,
-				D482CCAE21FD288200A93297 /* SceneViewController.swift in Sources */,
-				D4644E3A21FD278300A306E0 /* ArkonCentralDark.swift in Sources */,
-				D4143B9E21F9E7510034E3C4 /* VSupport.swift in Sources */,
-				D4B953B921F8CCB7006305AD /* VDisplay.swift in Sources */,
-				D4544C4321FD20DC0089784C /* GeneLibrary.swift in Sources */,
-				D4276B1F21F32C4F00862802 /* VNet.swift in Sources */,
-				D451C3D321F3B3C200212262 /* CGConversions.swift in Sources */,
-				D4544C4621FD20DC0089784C /* GenomeAdd.swift in Sources */,
-				D4544C3921FD20BF0089784C /* MutatorSubtract.swift in Sources */,
-				D4544C4921FD218C0089784C /* ActivatorFunctions.swift in Sources */,
-				D4143B9C21F9C86D0034E3C4 /* Extensions.swift in Sources */,
-				D45DC78921F3CB46002C9E8A /* VPortalServer.swift in Sources */,
-				D4143B4E21F976F30034E3C4 /* TNet.swift in Sources */,
-				D4276B1B21F32C1A00862802 /* VDisplayTest.swift in Sources */,
-				D4544C4421FD20DC0089784C /* GeneType.swift in Sources */,
-				D4276B2521F32C5B00862802 /* KIdentifier.swift in Sources */,
-				D4276B2121F32C4F00862802 /* VProtocols.swift in Sources */,
-				D4276B2021F32C4F00862802 /* VNeuron.swift in Sources */,
-				D4544C4A21FD219E0089784C /* BellCurve.swift in Sources */,
-				D4276B2221F32C4F00862802 /* VSpacer.swift in Sources */,
-				D4143B4C21F976F30034E3C4 /* TLayer.swift in Sources */,
-				D4544C4521FD20DC0089784C /* Genome.swift in Sources */,
-				D4544C4221FD20DC0089784C /* Gene.swift in Sources */,
-				D44ACD0021F887E000B9D339 /* KAppDelegate.swift in Sources */,
-				D4143B5A21F980750034E3C4 /* TNeuron.swift in Sources */,
-				74AF392921FC8D9A0048A5AD /* KAppController.swift in Sources */,
+				D47080FA21FD810600ECCC54 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D438ACC021FD4283003B4475 /* Sources */ = {
+		D47080EB21FD7D1500ECCC54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D438ACC121FD4283003B4475 /* BellCurve.swift in Sources */,
-				D438ACC221FD4283003B4475 /* DarkTest.swift in Sources */,
-				D438ACC321FD4283003B4475 /* Genome.swift in Sources */,
-				D438ACC421FD4283003B4475 /* Extensions.swift in Sources */,
-				D438ACC521FD4283003B4475 /* MutatorSubtract.swift in Sources */,
-				D438ACDB21FD4480003B4475 /* DTKinetics.swift in Sources */,
-				D438ACC821FD4283003B4475 /* GenomeAdd.swift in Sources */,
-				D438ACC921FD4283003B4475 /* ActivatorFunctions.swift in Sources */,
-				D438ACCA21FD4283003B4475 /* Assembler.swift in Sources */,
-				D438ACCB21FD4283003B4475 /* ArkonCentralDark.swift in Sources */,
-				D438ACCC21FD4283003B4475 /* MutatorAdd.swift in Sources */,
-				D438ACCD21FD4283003B4475 /* GeneLibrary.swift in Sources */,
-				D438ACCE21FD4283003B4475 /* Mutator.swift in Sources */,
-				D438ACCF21FD4283003B4475 /* UpConnector.swift in Sources */,
-				D438ACD021FD4283003B4475 /* GenomeSubtract.swift in Sources */,
-				D438ACD121FD4283003B4475 /* GeneType.swift in Sources */,
+				D47080F721FD7D3800ECCC54 /* main.swift in Sources */,
+				D47080F221FD7D1500ECCC54 /* TGenome.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4887B3721F300CA00402420 /* Sources */ = {
+		D47080FB21FD815300ECCC54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D478994321FD4E2600FC7962 /* Mutator.swift in Sources */,
-				D4887B3F21F300CA00402420 /* main.swift in Sources */,
-				D4E6927821FC1B0F00D17DAE /* ActivatorFunctions.swift in Sources */,
-				D4E6927A21FC1B0F00D17DAE /* GeneType.swift in Sources */,
-				D4E6927921FC1B0F00D17DAE /* Assembler.swift in Sources */,
-				D478994221FD4E0100FC7962 /* ArkonCentralDark.swift in Sources */,
-				D4E6927721FC1A0A00D17DAE /* Gene.swift in Sources */,
-				D4E6927B21FC1B0F00D17DAE /* Genome.swift in Sources */,
-				D4E6927C21FC1B0F00D17DAE /* GenomeAdd.swift in Sources */,
-				D4E6927D21FC1B0F00D17DAE /* GenomeSubtract.swift in Sources */,
-				D4E6927E21FC1B0F00D17DAE /* UpConnector.swift in Sources */,
-				D478994421FD521C00FC7962 /* BellCurve.swift in Sources */,
-				D43A8E0821FC17ED007E99C0 /* GeneLibrary.swift in Sources */,
+				D470811321FD820A00ECCC54 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4887B4521F3037D00402420 /* Sources */ = {
+		D470810621FD817500ECCC54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D43A8E0621FC1790007E99C0 /* BellCurve.swift in Sources */,
-				D4887B4C21F3037D00402420 /* DarkTest.swift in Sources */,
-				D43A8DFF21FC1721007E99C0 /* Genome.swift in Sources */,
-				D4303C3521FAB18D00886C05 /* Extensions.swift in Sources */,
-				D43A8E0521FC172A007E99C0 /* MutatorSubtract.swift in Sources */,
-				D4303C2D21FAADB800886C05 /* DTGenome.swift in Sources */,
-				D43A8DFC21FC1720007E99C0 /* Gene.swift in Sources */,
-				D438ACDA21FD4480003B4475 /* DTKinetics.swift in Sources */,
-				D43A8E0021FC1721007E99C0 /* GenomeAdd.swift in Sources */,
-				D43A8DFA21FC1720007E99C0 /* ActivatorFunctions.swift in Sources */,
-				D43A8DFB21FC1720007E99C0 /* Assembler.swift in Sources */,
-				D4303C3721FAB54800886C05 /* ArkonCentralDark.swift in Sources */,
-				D43A8E0421FC172A007E99C0 /* MutatorAdd.swift in Sources */,
-				D4E6927621FC19B400D17DAE /* GeneLibrary.swift in Sources */,
-				D43A8E0321FC172A007E99C0 /* Mutator.swift in Sources */,
-				D43A8E0221FC1721007E99C0 /* UpConnector.swift in Sources */,
-				D43A8E0121FC1721007E99C0 /* GenomeSubtract.swift in Sources */,
-				D43A8DFE21FC1721007E99C0 /* GeneType.swift in Sources */,
+				D470811221FD819100ECCC54 /* main.swift in Sources */,
+				D470810D21FD817500ECCC54 /* TKinetics.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4A37A7721FDE82B00B8EB85 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D498E92221FDE8F100BB690E /* TLayer.swift in Sources */,
+				D498E93921FDE9D900BB690E /* ActivatorFunctions.swift in Sources */,
+				D498E93321FDE95B00BB690E /* ArkonCentralLight.swift in Sources */,
+				D498E92A21FDE8FB00BB690E /* VProtocols.swift in Sources */,
+				D498E93721FDE9AF00BB690E /* Protocols.swift in Sources */,
+				D498E92F21FDE90100BB690E /* SceneViewController.swift in Sources */,
+				D498E92621FDE8FB00BB690E /* VLayer.swift in Sources */,
+				D498E92D21FDE8FB00BB690E /* VSupport.swift in Sources */,
+				D498E92521FDE8FB00BB690E /* VDisplay.swift in Sources */,
+				D4A37A7E21FDE82B00B8EB85 /* TDisplay.swift in Sources */,
+				D498E92C21FDE8FB00BB690E /* VSpacer.swift in Sources */,
+				D498E92821FDE8FB00BB690E /* VNeuron.swift in Sources */,
+				D498E92721FDE8FB00BB690E /* VNet.swift in Sources */,
+				D498E93821FDE9BD00BB690E /* ArkonCentralDark.swift in Sources */,
+				D498E92E21FDE8FB00BB690E /* VTNeuron.swift in Sources */,
+				D498E93621FDE99A00BB690E /* KIdentifier.swift in Sources */,
+				D498E93221FDE90B00BB690E /* KAppController.swift in Sources */,
+				D498E92121FDE8DC00BB690E /* VDisplayTest.swift in Sources */,
+				D498E92321FDE8F100BB690E /* TNet.swift in Sources */,
+				D498E93421FDE95F00BB690E /* Extensions.swift in Sources */,
+				D498E93121FDE90B00BB690E /* KAppDelegate.swift in Sources */,
+				D498E92421FDE8F100BB690E /* TNeuron.swift in Sources */,
+				D498E93A21FDE9E000BB690E /* CGConversions.swift in Sources */,
+				D498E92B21FDE8FB00BB690E /* VSignalDriver.swift in Sources */,
+				D498E92921FDE8FB00BB690E /* VPortalServer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D4A37A8121FDE82B00B8EB85 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D45264B521FDC65300715889 /* Display */;
+			targetProxy = D4A37A8021FDE82B00B8EB85 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
-		D4276AA821F3143900862802 /* Main.storyboard */ = {
+		D45264C421FDC65300715889 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D4276AA921F3143900862802 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		D4276B1321F32C0500862802 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D4276B1421F32C0500862802 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		D45911E621F3522400D87ED8 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D45911E721F3522400D87ED8 /* Base */,
+				D45264C521FDC65300715889 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -1013,147 +873,47 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		D4276A9321F3134700862802 /* Debug */ = {
+		D45264C921FDC65300715889 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Display/Display.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = Display/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.Display;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
-		D4276A9521F3134700862802 /* Release */ = {
+		D45264CA21FDC65300715889 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Display/Display.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = Display/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.Display;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
-		D4276AB921F3143900862802 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = LightRun/LightRun.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightDev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = LIGHT_RUN;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D4276ABB21F3143900862802 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = LightRun/LightRun.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.LightDev;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = LIGHT_RUN;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D4276B1921F32C0500862802 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = LightTest/VisualizerTest/StressTest.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.StressTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = LT_DISPLAY;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D4276B1A21F32C0500862802 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = LightTest/VisualizerTest/StressTest.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.StressTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = LT_DISPLAY;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D438ACD521FD4283003B4475 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_KINETICS = "";
-				INFOPLIST_FILE = Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DarkTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DT_KINETICS;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D438ACD621FD4283003B4475 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_KINETICS = "";
-				INFOPLIST_FILE = Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DarkTest;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DT_KINETICS;
-				SWIFT_VERSION = 4.2;
-			};
-			name = Release;
-		};
-		D4887B4021F300CA00402420 /* Debug */ = {
+		D47080D921FD7C0900ECCC54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1198,24 +958,25 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				INFOPLIST_FILE = XcodeClutter/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = Debug;
 		};
-		D4887B4121F300CA00402420 /* Release */ = {
+		D47080DA21FD7C0900ECCC54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1254,23 +1015,24 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				INFOPLIST_FILE = XcodeClutter/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = Release;
 		};
-		D4887B4321F300CA00402420 /* Debug */ = {
+		D47080DC21FD7C0900ECCC54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -1280,7 +1042,7 @@
 			};
 			name = Debug;
 		};
-		D4887B4421F300CA00402420 /* Release */ = {
+		D47080DD21FD7C0900ECCC54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -1290,113 +1052,597 @@
 			};
 			name = Release;
 		};
-		D4887B4F21F3037D00402420 /* Debug */ = {
+		D47080E921FD7CBB00ECCC54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_GENOME = "";
-				INFOPLIST_FILE = Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DarkTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DT_GENOME;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_GENOME;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
-		D4887B5021F3037D00402420 /* Release */ = {
+		D47080EA21FD7CBB00ECCC54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_GENOME;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D47080F521FD7D1500ECCC54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				DT_GENOME = "";
-				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DarkTest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TGenome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DT_GENOME;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_GENOME;
 				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D47080F621FD7D1500ECCC54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_GENOME;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D470810421FD815300ECCC54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_KINETICS;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D470810521FD815300ECCC54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_KINETICS;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D470811021FD817500ECCC54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TKinetics;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_KINETICS;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D470811121FD817500ECCC54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TKinetics;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_KINETICS;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D4A37A6721FDE33D00B8EB85 /* LiveRun */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D4A37A7521FDE3AC00B8EB85 /* LiveRun.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = XcodeClutter/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = LiveRun;
+		};
+		D4A37A6821FDE33D00B8EB85 /* LiveRun */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = LiveRun;
+		};
+		D4A37A6921FDE33D00B8EB85 /* LiveRun */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Display/Display.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = Display/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.Display;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
+				SWIFT_VERSION = 4.2;
+			};
+			name = LiveRun;
+		};
+		D4A37A6A21FDE33D00B8EB85 /* LiveRun */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_GENOME;
+				SWIFT_VERSION = 4.2;
+			};
+			name = LiveRun;
+		};
+		D4A37A6B21FDE33D00B8EB85 /* LiveRun */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_KINETICS;
+				SWIFT_VERSION = 4.2;
+			};
+			name = LiveRun;
+		};
+		D4A37A6C21FDE33D00B8EB85 /* LiveRun */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_GENOME;
+				SWIFT_VERSION = 4.2;
+			};
+			name = LiveRun;
+		};
+		D4A37A6D21FDE33D00B8EB85 /* LiveRun */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TKinetics;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_KINETICS;
+				SWIFT_VERSION = 4.2;
+			};
+			name = LiveRun;
+		};
+		D4A37A6E21FDE34E00B8EB85 /* TDisplay */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = XcodeClutter/Info.plist;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = TDisplay;
+		};
+		D4A37A6F21FDE34E00B8EB85 /* TDisplay */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = TDisplay;
+		};
+		D4A37A7021FDE34E00B8EB85 /* TDisplay */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Display/Display.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = Display/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.Display;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
+				SWIFT_VERSION = 4.2;
+			};
+			name = TDisplay;
+		};
+		D4A37A7121FDE34E00B8EB85 /* TDisplay */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_GENOME;
+				SWIFT_VERSION = 4.2;
+			};
+			name = TDisplay;
+		};
+		D4A37A7221FDE34E00B8EB85 /* TDisplay */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_KINETICS;
+				SWIFT_VERSION = 4.2;
+			};
+			name = TDisplay;
+		};
+		D4A37A7321FDE34E00B8EB85 /* TDisplay */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TGenome;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_GENOME;
+				SWIFT_VERSION = 4.2;
+			};
+			name = TDisplay;
+		};
+		D4A37A7421FDE34E00B8EB85 /* TDisplay */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TKinetics;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_KINETICS;
+				SWIFT_VERSION = 4.2;
+			};
+			name = TDisplay;
+		};
+		D4A37A8321FDE82B00B8EB85 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = TDisplay/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TDisplay;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
+				SWIFT_VERSION = 4.2;
+				TEST_TARGET_NAME = Display;
+			};
+			name = Debug;
+		};
+		D4A37A8421FDE82B00B8EB85 /* TDisplay */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = TDisplay/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TDisplay;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
+				SWIFT_VERSION = 4.2;
+				TEST_TARGET_NAME = Display;
+			};
+			name = TDisplay;
+		};
+		D4A37A8521FDE82B00B8EB85 /* LiveRun */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = TDisplay/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TDisplay;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
+				SWIFT_VERSION = 4.2;
+				TEST_TARGET_NAME = Display;
+			};
+			name = LiveRun;
+		};
+		D4A37A8621FDE82B00B8EB85 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = TDisplay/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.TDisplay;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
+				SWIFT_VERSION = 4.2;
+				TEST_TARGET_NAME = Display;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D4276A9221F3134700862802 /* Build configuration list for PBXNativeTarget "DarkPlayground" */ = {
+		D45264CB21FDC65300715889 /* Build configuration list for PBXNativeTarget "Display" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D4276A9321F3134700862802 /* Debug */,
-				D4276A9521F3134700862802 /* Release */,
+				D45264C921FDC65300715889 /* Debug */,
+				D4A37A7021FDE34E00B8EB85 /* TDisplay */,
+				D4A37A6921FDE33D00B8EB85 /* LiveRun */,
+				D45264CA21FDC65300715889 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4276AB821F3143900862802 /* Build configuration list for PBXNativeTarget "LightRun" */ = {
+		D47080CF21FD7C0900ECCC54 /* Build configuration list for PBXProject "Arkonia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D4276AB921F3143900862802 /* Debug */,
-				D4276ABB21F3143900862802 /* Release */,
+				D47080D921FD7C0900ECCC54 /* Debug */,
+				D4A37A6E21FDE34E00B8EB85 /* TDisplay */,
+				D4A37A6721FDE33D00B8EB85 /* LiveRun */,
+				D47080DA21FD7C0900ECCC54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4276B1821F32C0500862802 /* Build configuration list for PBXNativeTarget "VisualizerTest" */ = {
+		D47080DB21FD7C0900ECCC54 /* Build configuration list for PBXNativeTarget "Arkonia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D4276B1921F32C0500862802 /* Debug */,
-				D4276B1A21F32C0500862802 /* Release */,
+				D47080DC21FD7C0900ECCC54 /* Debug */,
+				D4A37A6F21FDE34E00B8EB85 /* TDisplay */,
+				D4A37A6821FDE33D00B8EB85 /* LiveRun */,
+				D47080DD21FD7C0900ECCC54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D438ACD421FD4283003B4475 /* Build configuration list for PBXNativeTarget "KineticsTest" */ = {
+		D47080E821FD7CBB00ECCC54 /* Build configuration list for PBXNativeTarget "Genome" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D438ACD521FD4283003B4475 /* Debug */,
-				D438ACD621FD4283003B4475 /* Release */,
+				D47080E921FD7CBB00ECCC54 /* Debug */,
+				D4A37A7121FDE34E00B8EB85 /* TDisplay */,
+				D4A37A6A21FDE33D00B8EB85 /* LiveRun */,
+				D47080EA21FD7CBB00ECCC54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4887B3621F300CA00402420 /* Build configuration list for PBXProject "Arkonia" */ = {
+		D47080F421FD7D1500ECCC54 /* Build configuration list for PBXNativeTarget "TGenome" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D4887B4021F300CA00402420 /* Debug */,
-				D4887B4121F300CA00402420 /* Release */,
+				D47080F521FD7D1500ECCC54 /* Debug */,
+				D4A37A7321FDE34E00B8EB85 /* TDisplay */,
+				D4A37A6C21FDE33D00B8EB85 /* LiveRun */,
+				D47080F621FD7D1500ECCC54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4887B4221F300CA00402420 /* Build configuration list for PBXNativeTarget "DarkRun" */ = {
+		D470810321FD815300ECCC54 /* Build configuration list for PBXNativeTarget "Kinetics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D4887B4321F300CA00402420 /* Debug */,
-				D4887B4421F300CA00402420 /* Release */,
+				D470810421FD815300ECCC54 /* Debug */,
+				D4A37A7221FDE34E00B8EB85 /* TDisplay */,
+				D4A37A6B21FDE33D00B8EB85 /* LiveRun */,
+				D470810521FD815300ECCC54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4887B4E21F3037D00402420 /* Build configuration list for PBXNativeTarget "GenomeTest" */ = {
+		D470810F21FD817500ECCC54 /* Build configuration list for PBXNativeTarget "TKinetics" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D4887B4F21F3037D00402420 /* Debug */,
-				D4887B5021F3037D00402420 /* Release */,
+				D470811021FD817500ECCC54 /* Debug */,
+				D4A37A7421FDE34E00B8EB85 /* TDisplay */,
+				D4A37A6D21FDE33D00B8EB85 /* LiveRun */,
+				D470811121FD817500ECCC54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4A37A8221FDE82B00B8EB85 /* Build configuration list for PBXNativeTarget "TDisplay" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4A37A8321FDE82B00B8EB85 /* Debug */,
+				D4A37A8421FDE82B00B8EB85 /* TDisplay */,
+				D4A37A8521FDE82B00B8EB85 /* LiveRun */,
+				D4A37A8621FDE82B00B8EB85 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = D4887B3321F300CA00402420 /* Project object */;
+	rootObject = D47080CC21FD7C0900ECCC54 /* Project object */;
 }

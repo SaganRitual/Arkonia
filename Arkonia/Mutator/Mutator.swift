@@ -20,7 +20,7 @@
 
 import Foundation
 
-class Mutator {
+class Mutator: MutatorProtocol {
     weak var workingGenome_: Genome?
     var workingGenome: Genome { return nok(workingGenome_) }
 

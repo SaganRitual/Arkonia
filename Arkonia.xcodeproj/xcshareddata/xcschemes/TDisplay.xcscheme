@@ -5,22 +5,6 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
-      <BuildActionEntries>
-         <BuildActionEntry
-            buildForTesting = "NO"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4887B3A21F300CA00402420"
-               BuildableName = "DarkRun"
-               BlueprintName = "DarkRun"
-               ReferencedContainer = "container:Arkonia.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -32,27 +16,19 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4887B4821F3037D00402420"
-               BuildableName = "GenomeTest.xctest"
-               BlueprintName = "GenomeTest"
+               BlueprintIdentifier = "D4A37A7A21FDE82B00B8EB85"
+               BuildableName = "TDisplay.xctest"
+               BlueprintName = "TDisplay"
                ReferencedContainer = "container:Arkonia.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "DTKinetics">
-               </Test>
-               <Test
-                  Identifier = "DarkTest">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4887B3A21F300CA00402420"
-            BuildableName = "DarkRun"
-            BlueprintName = "DarkRun"
+            BlueprintIdentifier = "D45264B521FDC65300715889"
+            BuildableName = "Display.app"
+            BlueprintName = "Display"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -73,9 +49,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4887B3A21F300CA00402420"
-            BuildableName = "DarkRun"
-            BlueprintName = "DarkRun"
+            BlueprintIdentifier = "D45264B521FDC65300715889"
+            BuildableName = "Display.app"
+            BlueprintName = "Display"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -91,9 +67,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4887B3A21F300CA00402420"
-            BuildableName = "DarkRun"
-            BlueprintName = "DarkRun"
+            BlueprintIdentifier = "D45264B521FDC65300715889"
+            BuildableName = "Display.app"
+            BlueprintName = "Display"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

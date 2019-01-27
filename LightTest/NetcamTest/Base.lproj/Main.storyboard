@@ -705,7 +705,7 @@
         <!--Scene View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="SceneViewController" customModule="VisualizerTest" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="SceneViewController" customModule="TDisplay" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>

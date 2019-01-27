@@ -24,14 +24,16 @@ import SpriteKit
 
 @NSApplicationMain
 class KAppDelegate: NSObject, NSApplicationDelegate {
-    #if LIGHT_RUN
+    #if K_LIVE_RUN
 
     var curator: Curator?
     let goalSuite = NGGoalSuite("Zoe Bishop")
     var workItem: DispatchWorkItem!
 
-    #elseif LT_DISPLAY
+    #elseif T_DISPLAY
     var displayTest: VDisplayTest?
+    #else
+    #error("Gergely, here is the kind of problem I am talking about")
     #endif
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -41,20 +43,20 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
         ArkonCentralLight.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
         ArkonCentralLight.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green-half")
 
-        KAppController.shared.showMainWindow(withTitle: "VisualizerTest")
+        KAppController.shared.showMainWindow(withTitle: "TDisplay")
 
         if let scene = KAppController.shared.scene {
 
           ArkonCentralLight.display = VDisplay(scene)
           scene.delegate = ArkonCentralLight.display
 
-          #if LIGHT_RUN
+          #if K_LIVE_RUN
 
-          self.curator = Curator(goalSuite: goalSuite)
-          self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator!.select() }
-          DispatchQueue.global(qos: .background).async(execute: self.workItem)
+            self.curator = Curator(goalSuite: goalSuite)
+            self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator!.select() }
+            DispatchQueue.global(qos: .background).async(execute: self.workItem)
 
-          #elseif LT_DISPLAY
+          #elseif T_DISPLAY
           displayTest = VDisplayTest()
           displayTest!.start()
           #endif

@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4276A8D21F3134700862802"
-               BuildableName = "DarkPlayground"
-               BlueprintName = "DarkPlayground"
+               BlueprintIdentifier = "D47080FE21FD815300ECCC54"
+               BuildableName = "Kinetics"
+               BlueprintName = "Kinetics"
+               ReferencedContainer = "container:Arkonia.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D470810921FD817500ECCC54"
+               BuildableName = "TKinetics.xctest"
+               BlueprintName = "TKinetics"
                ReferencedContainer = "container:Arkonia.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +46,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4276A8D21F3134700862802"
-            BuildableName = "DarkPlayground"
-            BlueprintName = "DarkPlayground"
+            BlueprintIdentifier = "D47080FE21FD815300ECCC54"
+            BuildableName = "Kinetics"
+            BlueprintName = "Kinetics"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -55,9 +69,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4276A8D21F3134700862802"
-            BuildableName = "DarkPlayground"
-            BlueprintName = "DarkPlayground"
+            BlueprintIdentifier = "D47080FE21FD815300ECCC54"
+            BuildableName = "Kinetics"
+            BlueprintName = "Kinetics"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -74,9 +88,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4276A8D21F3134700862802"
-            BuildableName = "DarkPlayground"
-            BlueprintName = "DarkPlayground"
+            BlueprintIdentifier = "D47080FE21FD815300ECCC54"
+            BuildableName = "Kinetics"
+            BlueprintName = "Kinetics"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

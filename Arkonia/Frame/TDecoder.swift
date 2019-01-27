@@ -23,10 +23,8 @@ import Foundation
 enum DecodeState {
     case diagnostics, inLayer, inNeuron, noLayer
 }
-
 class TDecoder: DecoderProtocol {
     var decodeState: DecodeState = .noLayer
-    var inputGenome: Genome?
     var tNet: TNet!
     weak var layerUnderConstruction: TLayer?
     weak var neuronUnderConstruction: TNeuron?

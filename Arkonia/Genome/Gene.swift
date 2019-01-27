@@ -20,24 +20,6 @@
 
 import Foundation
 
-public protocol NeuronActivatorProtocol {
-    var value: AFn.FunctionName { get set }
-}
-
-public protocol NeuronBiasProtocol {
-    var value: Double { get set }
-}
-
-public protocol NeuronDownConnectorProtocol {
-    var value: Int { get set }
-}
-
-public typealias UpConnectorValue = (Int, Double)
-
-public protocol NeuronUpConnectorProtocol {
-    var value: UpConnectorValue { get set }
-}
-
 class Gene: CustomDebugStringConvertible {
     static var idNumber = 0
 

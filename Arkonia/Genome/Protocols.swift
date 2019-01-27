@@ -20,27 +20,20 @@
 
 import Foundation
 
-protocol DecoderProtocol {}
-protocol MutatorProtocol {}
-
-enum ArkonCentralDark {
-    static var decoder: DecoderProtocol!
-    static var mutator: MutatorProtocol!
-    static var selectionControls = KSelectionControls()
-
-    static let isMotorLayer = -2
-    static let isSenseLayer = -1
+public protocol NeuronActivatorProtocol {
+    var value: AFn.FunctionName { get set }
 }
 
-struct KSelectionControls {
-    var cGenerations = 30000
-    var cGenes = 200
-    var cLayersInStarter = 5
-    var cMotorNeurons = 6
-    var cSenseNeurons = 7
-    var cSpawnAttempts = 2
-    var cSubjectsPerGeneration = 100
-    var maxKeepersPerGeneration = 2
-    var peerGroupLimit = 2
-    var theFishNumber = 0
+public protocol NeuronBiasProtocol {
+    var value: Double { get set }
+}
+
+public protocol NeuronDownConnectorProtocol {
+    var value: Int { get set }
+}
+
+public typealias UpConnectorValue = (Int, Double)
+
+public protocol NeuronUpConnectorProtocol {
+    var value: UpConnectorValue { get set }
 }

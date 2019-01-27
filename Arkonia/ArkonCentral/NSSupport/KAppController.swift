@@ -19,6 +19,7 @@
 //
 
 import Cocoa
+import Foundation
 import SpriteKit
 
 class KAppController: NSObject {
@@ -57,13 +58,15 @@ class KAppController: NSObject {
 				// visibleFrame is the screen size excluding menu bar (on top of the screen) and dock (by default on bottom)
 				let newSize = NSSize(width: screenFrame.width * 0.7,
 									 height: screenFrame.height * 0.7)
-				let newOrigin = CGPoint(x: screenFrame.origin.x + (screenFrame.width  - newSize.width)  / 2.0,
-										y: screenFrame.origin.y + (screenFrame.height - newSize.height) / 2.0)
+
+
+				let newOrigin = CGPoint(x: screenFrame.origin.x - (screenFrame.width  - newSize.width),
+										y: screenFrame.origin.y + (screenFrame.height - newSize.height))
 				newFrame = NSRect(origin: newOrigin, size: newSize)
 			}
 			else {
 				// We have no clue about scren dimensions, set static size
-				newFrame = NSRect(origin: NSPoint(50, 100), size: NSSize(width: 1500, height: 850))
+				newFrame = NSRect(origin: NSMakePoint(50, 100), size: NSSize(width: 1500, height: 850))
 			}
 
 			// Create scene view controller for the counted frame

@@ -18,29 +18,33 @@
 // IN THE SOFTWARE.
 //
 
-import Foundation
+import XCTest
 
-protocol DecoderProtocol {}
-protocol MutatorProtocol {}
+class TGenome: XCTestCase {
 
-enum ArkonCentralDark {
-    static var decoder: DecoderProtocol!
-    static var mutator: MutatorProtocol!
-    static var selectionControls = KSelectionControls()
+    override func setUp() {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
 
-    static let isMotorLayer = -2
-    static let isSenseLayer = -1
-}
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
 
-struct KSelectionControls {
-    var cGenerations = 30000
-    var cGenes = 200
-    var cLayersInStarter = 5
-    var cMotorNeurons = 6
-    var cSenseNeurons = 7
-    var cSpawnAttempts = 2
-    var cSubjectsPerGeneration = 100
-    var maxKeepersPerGeneration = 2
-    var peerGroupLimit = 2
-    var theFishNumber = 0
+    func testExample() {
+        #if T_GENOME
+        print("T_GENOME!")
+        #else
+        XCTAssert(false)
+        #endif
+        // This is an example of a functional test case.
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    }
+
+    func testPerformanceExample() {
+        // This is an example of a performance test case.
+        self.measure {
+            // Put the code you want to measure the time of here.
+        }
+    }
+
 }

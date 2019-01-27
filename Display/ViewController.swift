@@ -18,29 +18,32 @@
 // IN THE SOFTWARE.
 //
 
-import Foundation
+import Cocoa
+import SpriteKit
+import GameplayKit
 
-protocol DecoderProtocol {}
-protocol MutatorProtocol {}
+class ViewController: NSViewController {
 
-enum ArkonCentralDark {
-    static var decoder: DecoderProtocol!
-    static var mutator: MutatorProtocol!
-    static var selectionControls = KSelectionControls()
+    @IBOutlet var skView: SKView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-    static let isMotorLayer = -2
-    static let isSenseLayer = -1
+        if let view = self.skView {
+            // Load the SKScene from 'GameScene.sks'
+            if let scene = SKScene(fileNamed: "GameScene") {
+                // Set the scale mode to scale to fit the window
+                scene.scaleMode = .aspectFill
+                
+                // Present the scene
+                view.presentScene(scene)
+            }
+            
+            view.ignoresSiblingOrder = true
+            
+            view.showsFPS = true
+            view.showsNodeCount = true
+        }
+    }
 }
 
-struct KSelectionControls {
-    var cGenerations = 30000
-    var cGenes = 200
-    var cLayersInStarter = 5
-    var cMotorNeurons = 6
-    var cSenseNeurons = 7
-    var cSpawnAttempts = 2
-    var cSubjectsPerGeneration = 100
-    var maxKeepersPerGeneration = 2
-    var peerGroupLimit = 2
-    var theFishNumber = 0
-}

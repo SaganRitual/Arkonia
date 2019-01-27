@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4276A9921F3143800862802"
-               BuildableName = "LightRun.app"
-               BlueprintName = "LightRun"
+               BlueprintIdentifier = "D45264B521FDC65300715889"
+               BuildableName = "Display.app"
+               BlueprintName = "Display"
                ReferencedContainer = "container:Arkonia.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,13 +28,23 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D4A37A7A21FDE82B00B8EB85"
+               BuildableName = "TDisplay.xctest"
+               BlueprintName = "TDisplay"
+               ReferencedContainer = "container:Arkonia.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4276A9921F3143800862802"
-            BuildableName = "LightRun.app"
-            BlueprintName = "LightRun"
+            BlueprintIdentifier = "D45264B521FDC65300715889"
+            BuildableName = "Display.app"
+            BlueprintName = "Display"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -42,7 +52,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "TDisplay"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -55,23 +65,13 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4276A9921F3143800862802"
-            BuildableName = "LightRun.app"
-            BlueprintName = "LightRun"
+            BlueprintIdentifier = "D45264B521FDC65300715889"
+            BuildableName = "Display.app"
+            BlueprintName = "Display"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
-         <AdditionalOption
-            key = "MallocStackLogging"
-            value = ""
-            isEnabled = "YES">
-         </AdditionalOption>
-         <AdditionalOption
-            key = "PrefersMallocStackLoggingLite"
-            value = ""
-            isEnabled = "YES">
-         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
@@ -84,9 +84,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4276A9921F3143800862802"
-            BuildableName = "LightRun.app"
-            BlueprintName = "LightRun"
+            BlueprintIdentifier = "D45264B521FDC65300715889"
+            BuildableName = "Display.app"
+            BlueprintName = "Display"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
