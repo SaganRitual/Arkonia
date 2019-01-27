@@ -9,13 +9,6 @@
 /* Begin PBXBuildFile section */
 		D447FB3721FDCF83001BC442 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D45264E521FDC6DE00715889 /* Assets.xcassets */; };
 		D45264B921FDC65300715889 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		D45264BB21FDC65300715889 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D45264BA21FDC65300715889 /* GameScene.sks */; };
-		D45264BD21FDC65300715889 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D45264BC21FDC65300715889 /* Actions.sks */; };
-		D45264BF21FDC65300715889 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264BE21FDC65300715889 /* GameScene.swift */; };
-		D45264C121FDC65300715889 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264C021FDC65300715889 /* ViewController.swift */; };
-		D45264C321FDC65300715889 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D45264C221FDC65300715889 /* Assets.xcassets */; };
-		D45264C621FDC65300715889 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D45264C421FDC65300715889 /* Main.storyboard */; };
-		D47080D821FD7C0900ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080D721FD7C0900ECCC54 /* main.swift */; };
 		D47080F221FD7D1500ECCC54 /* TGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080F121FD7D1500ECCC54 /* TGenome.swift */; };
 		D47080F721FD7D3800ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080E621FD7CBB00ECCC54 /* main.swift */; };
 		D47080FA21FD810600ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080E621FD7CBB00ECCC54 /* main.swift */; };
@@ -48,6 +41,41 @@
 		D498E93921FDE9D900BB690E /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264F721FDC6DE00715889 /* ActivatorFunctions.swift */; };
 		D498E93A21FDE9E000BB690E /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D621FDC69800715889 /* CGConversions.swift */; };
 		D4A37A7E21FDE82B00B8EB85 /* TDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A37A7D21FDE82B00B8EB85 /* TDisplay.swift */; };
+		D4A613A421FDF763008C11CC /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264FF21FDC6DE00715889 /* Archive.swift */; };
+		D4A613A521FDF763008C11CC /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452650221FDC6DE00715889 /* Curator.swift */; };
+		D4A613A621FDF763008C11CC /* PeerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452650021FDC6DE00715889 /* PeerGroup.swift */; };
+		D4A613A721FDF763008C11CC /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452650121FDC6DE00715889 /* Selector.swift */; };
+		D4A613A821FDF77F008C11CC /* GSTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452650521FDC6DE00715889 /* GSTester.swift */; };
+		D4A613A921FDF77F008C11CC /* GSCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452650621FDC6DE00715889 /* GSCommon.swift */; };
+		D4A613AA21FDF77F008C11CC /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452650721FDC6DE00715889 /* GSGoalSuite.swift */; };
+		D4A613AB21FDF77F008C11CC /* GSSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452650821FDC6DE00715889 /* GSSubject.swift */; };
+		D4A613AC21FDF77F008C11CC /* GSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452650921FDC6DE00715889 /* GSFactory.swift */; };
+		D4A613AD21FDF7B4008C11CC /* NGTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452651021FDC6DE00715889 /* NGTester.swift */; };
+		D4A613AE21FDF7B4008C11CC /* NGSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452651121FDC6DE00715889 /* NGSubject.swift */; };
+		D4A613AF21FDF7B4008C11CC /* NGFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452651221FDC6DE00715889 /* NGFactory.swift */; };
+		D4A613B021FDF7B4008C11CC /* NGGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452651321FDC6DE00715889 /* NGGoalSuite.swift */; };
+		D4A613B121FDF7D7008C11CC /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264F021FDC6DE00715889 /* KConnector.swift */; };
+		D4A613B221FDF7D7008C11CC /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264F121FDC6DE00715889 /* KDriver.swift */; };
+		D4A613B321FDF7D7008C11CC /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264F321FDC6DE00715889 /* KLayer.swift */; };
+		D4A613B421FDF7D7008C11CC /* KNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264ED21FDC6DE00715889 /* KNeuron.swift */; };
+		D4A613B521FDF7D7008C11CC /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264EE21FDC6DE00715889 /* KNet.swift */; };
+		D4A613B621FDF7D7008C11CC /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264EF21FDC6DE00715889 /* KSignalRelay.swift */; };
+		D4A613B721FDF7D7008C11CC /* KTNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264F221FDC6DE00715889 /* KTNeuron.swift */; };
+		D4A613B821FDF7E3008C11CC /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264FB21FDC6DE00715889 /* Assembler.swift */; };
+		D4A613B921FDF7E3008C11CC /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264F821FDC6DE00715889 /* Gene.swift */; };
+		D4A613BA21FDF7E3008C11CC /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264FA21FDC6DE00715889 /* GeneLibrary.swift */; };
+		D4A613BB21FDF7E3008C11CC /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264F621FDC6DE00715889 /* GeneType.swift */; };
+		D4A613BC21FDF7E3008C11CC /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264FC21FDC6DE00715889 /* Genome.swift */; };
+		D4A613BD21FDF7E3008C11CC /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264F921FDC6DE00715889 /* GenomeAdd.swift */; };
+		D4A613BE21FDF7E3008C11CC /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264FD21FDC6DE00715889 /* GenomeSubtract.swift */; };
+		D4A613BF21FDF7E3008C11CC /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264F521FDC6DE00715889 /* UpConnector.swift */; };
+		D4A613C021FDF7F6008C11CC /* TDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264DB21FDC6DE00715889 /* TDecoder.swift */; };
+		D4A613C121FDF812008C11CC /* LoopIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D421FDC69800715889 /* LoopIterator.swift */; };
+		D4A613C221FDF819008C11CC /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452651521FDC6DE00715889 /* Mutator.swift */; };
+		D4A613C321FDF819008C11CC /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452651721FDC6DE00715889 /* MutatorAdd.swift */; };
+		D4A613C421FDF819008C11CC /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D452651621FDC6DE00715889 /* MutatorSubtract.swift */; };
+		D4A613C521FDF82E008C11CC /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D521FDC69800715889 /* BellCurve.swift */; };
+		D4A613C821FDF96F008C11CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4A613C621FDF96F008C11CC /* Main.storyboard */; };
 		D4FB101221FDD45D0031EF39 /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D021FDC69800715889 /* KAppDelegate.swift */; };
 		D4FB101321FDD4610031EF39 /* KAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D121FDC69800715889 /* KAppController.swift */; };
 		D4FB101421FDD4650031EF39 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E421FDC6DE00715889 /* SceneViewController.swift */; };
@@ -84,15 +112,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D47080D221FD7C0900ECCC54 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
 		D47080E221FD7CBB00ECCC54 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -114,13 +133,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D45264B621FDC65300715889 /* Display.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Display.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D45264BA21FDC65300715889 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D45264BC21FDC65300715889 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		D45264BE21FDC65300715889 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		D45264C021FDC65300715889 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D45264C221FDC65300715889 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D45264C521FDC65300715889 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D45264B621FDC65300715889 /* Main.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Main.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D45264C721FDC65300715889 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D45264C821FDC65300715889 /* Display.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Display.entitlements; sourceTree = "<group>"; };
 		D45264CD21FDC69800715889 /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
@@ -185,7 +198,6 @@
 		D452651521FDC6DE00715889 /* Mutator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D452651621FDC6DE00715889 /* MutatorSubtract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutatorSubtract.swift; sourceTree = "<group>"; };
 		D452651721FDC6DE00715889 /* MutatorAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutatorAdd.swift; sourceTree = "<group>"; };
-		D47080D421FD7C0900ECCC54 /* Arkonia */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Arkonia; sourceTree = BUILT_PRODUCTS_DIR; };
 		D47080D721FD7C0900ECCC54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D47080E421FD7CBB00ECCC54 /* Genome */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Genome; sourceTree = BUILT_PRODUCTS_DIR; };
 		D47080E621FD7CBB00ECCC54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -200,18 +212,12 @@
 		D4A37A7B21FDE82B00B8EB85 /* TDisplay.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TDisplay.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4A37A7D21FDE82B00B8EB85 /* TDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDisplay.swift; sourceTree = "<group>"; };
 		D4A37A7F21FDE82B00B8EB85 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4A613C721FDF96F008C11CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4FB102021FDD4C10031EF39 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		D45264B321FDC65300715889 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D47080D121FD7C0900ECCC54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -259,12 +265,6 @@
 		D45264B721FDC65300715889 /* Display */ = {
 			isa = PBXGroup;
 			children = (
-				D45264BA21FDC65300715889 /* GameScene.sks */,
-				D45264BC21FDC65300715889 /* Actions.sks */,
-				D45264BE21FDC65300715889 /* GameScene.swift */,
-				D45264C021FDC65300715889 /* ViewController.swift */,
-				D45264C221FDC65300715889 /* Assets.xcassets */,
-				D45264C421FDC65300715889 /* Main.storyboard */,
 				D45264C721FDC65300715889 /* Info.plist */,
 				D45264C821FDC65300715889 /* Display.entitlements */,
 			);
@@ -337,6 +337,7 @@
 		D45264E321FDC6DE00715889 /* NSSupport */ = {
 			isa = PBXGroup;
 			children = (
+				D4A613C621FDF96F008C11CC /* Main.storyboard */,
 				D45264E421FDC6DE00715889 /* SceneViewController.swift */,
 			);
 			path = NSSupport;
@@ -387,8 +388,8 @@
 		D452650321FDC6DE00715889 /* GoalSuites */ = {
 			isa = PBXGroup;
 			children = (
-				D452650421FDC6DE00715889 /* GSCore */,
 				D452650A21FDC6DE00715889 /* GSAdder */,
+				D452650421FDC6DE00715889 /* GSCore */,
 				D452650F21FDC6DE00715889 /* GSNameGuesser */,
 			);
 			path = GoalSuites;
@@ -397,11 +398,11 @@
 		D452650421FDC6DE00715889 /* GSCore */ = {
 			isa = PBXGroup;
 			children = (
-				D452650521FDC6DE00715889 /* GSTester.swift */,
 				D452650621FDC6DE00715889 /* GSCommon.swift */,
+				D452650921FDC6DE00715889 /* GSFactory.swift */,
 				D452650721FDC6DE00715889 /* GSGoalSuite.swift */,
 				D452650821FDC6DE00715889 /* GSSubject.swift */,
-				D452650921FDC6DE00715889 /* GSFactory.swift */,
+				D452650521FDC6DE00715889 /* GSTester.swift */,
 			);
 			path = GSCore;
 			sourceTree = "<group>";
@@ -420,10 +421,10 @@
 		D452650F21FDC6DE00715889 /* GSNameGuesser */ = {
 			isa = PBXGroup;
 			children = (
-				D452651021FDC6DE00715889 /* NGTester.swift */,
-				D452651121FDC6DE00715889 /* NGSubject.swift */,
 				D452651221FDC6DE00715889 /* NGFactory.swift */,
 				D452651321FDC6DE00715889 /* NGGoalSuite.swift */,
+				D452651121FDC6DE00715889 /* NGSubject.swift */,
+				D452651021FDC6DE00715889 /* NGTester.swift */,
 			);
 			path = GSNameGuesser;
 			sourceTree = "<group>";
@@ -453,12 +454,11 @@
 		D47080D521FD7C0900ECCC54 /* Z-Products */ = {
 			isa = PBXGroup;
 			children = (
-				D47080D421FD7C0900ECCC54 /* Arkonia */,
 				D47080E421FD7CBB00ECCC54 /* Genome */,
 				D47080EF21FD7D1500ECCC54 /* TGenome.xctest */,
 				D47080FF21FD815300ECCC54 /* Kinetics */,
 				D470810A21FD817500ECCC54 /* TKinetics.xctest */,
-				D45264B621FDC65300715889 /* Display.app */,
+				D45264B621FDC65300715889 /* Main.app */,
 				D4A37A7B21FDE82B00B8EB85 /* TDisplay.xctest */,
 			);
 			name = "Z-Products";
@@ -528,9 +528,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D45264B521FDC65300715889 /* Display */ = {
+		D45264B521FDC65300715889 /* Main */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D45264CB21FDC65300715889 /* Build configuration list for PBXNativeTarget "Display" */;
+			buildConfigurationList = D45264CB21FDC65300715889 /* Build configuration list for PBXNativeTarget "Main" */;
 			buildPhases = (
 				D45264B221FDC65300715889 /* Sources */,
 				D45264B321FDC65300715889 /* Frameworks */,
@@ -540,27 +540,10 @@
 			);
 			dependencies = (
 			);
-			name = Display;
+			name = Main;
 			productName = Display;
-			productReference = D45264B621FDC65300715889 /* Display.app */;
+			productReference = D45264B621FDC65300715889 /* Main.app */;
 			productType = "com.apple.product-type.application";
-		};
-		D47080D321FD7C0900ECCC54 /* Arkonia */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D47080DB21FD7C0900ECCC54 /* Build configuration list for PBXNativeTarget "Arkonia" */;
-			buildPhases = (
-				D47080D021FD7C0900ECCC54 /* Sources */,
-				D47080D121FD7C0900ECCC54 /* Frameworks */,
-				D47080D221FD7C0900ECCC54 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Arkonia;
-			productName = Arkonia;
-			productReference = D47080D421FD7C0900ECCC54 /* Arkonia */;
-			productType = "com.apple.product-type.tool";
 		};
 		D47080E321FD7CBB00ECCC54 /* Genome */ = {
 			isa = PBXNativeTarget;
@@ -661,9 +644,6 @@
 					D45264B521FDC65300715889 = {
 						CreatedOnToolsVersion = 10.1;
 					};
-					D47080D321FD7C0900ECCC54 = {
-						CreatedOnToolsVersion = 10.1;
-					};
 					D47080E321FD7CBB00ECCC54 = {
 						CreatedOnToolsVersion = 10.1;
 					};
@@ -695,8 +675,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D47080D321FD7C0900ECCC54 /* Arkonia */,
-				D45264B521FDC65300715889 /* Display */,
+				D45264B521FDC65300715889 /* Main */,
 				D47080E321FD7CBB00ECCC54 /* Genome */,
 				D47080FE21FD815300ECCC54 /* Kinetics */,
 				D47080EE21FD7D1500ECCC54 /* TGenome */,
@@ -711,11 +690,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D45264BB21FDC65300715889 /* GameScene.sks in Resources */,
-				D45264C321FDC65300715889 /* Assets.xcassets in Resources */,
-				D45264BD21FDC65300715889 /* Actions.sks in Resources */,
-				D45264C621FDC65300715889 /* Main.storyboard in Resources */,
 				D447FB3721FDCF83001BC442 /* Assets.xcassets in Resources */,
+				D4A613C821FDF96F008C11CC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -749,39 +725,63 @@
 			files = (
 				D4FB101521FDD47B0031EF39 /* ArkonCentralLight.swift in Sources */,
 				D4FB102A21FDD5430031EF39 /* Extensions.swift in Sources */,
+				D4A613BE21FDF7E3008C11CC /* GenomeSubtract.swift in Sources */,
 				D498E93521FDE97D00BB690E /* VDisplayTest.swift in Sources */,
 				D4FB101321FDD4610031EF39 /* KAppController.swift in Sources */,
+				D4A613B421FDF7D7008C11CC /* KNeuron.swift in Sources */,
 				D4FB101F21FDD4930031EF39 /* VTNeuron.swift in Sources */,
 				D4FB102921FDD5180031EF39 /* ArkonCentralDark.swift in Sources */,
 				D4FB102121FDD4C10031EF39 /* Protocols.swift in Sources */,
+				D4A613B221FDF7D7008C11CC /* KDriver.swift in Sources */,
 				D4FB101221FDD45D0031EF39 /* KAppDelegate.swift in Sources */,
+				D4A613AC21FDF77F008C11CC /* GSFactory.swift in Sources */,
 				D4FB101721FDD4930031EF39 /* VLayer.swift in Sources */,
-				D45264C121FDC65300715889 /* ViewController.swift in Sources */,
+				D4A613A921FDF77F008C11CC /* GSCommon.swift in Sources */,
+				D4A613BB21FDF7E3008C11CC /* GeneType.swift in Sources */,
 				D4FB101D21FDD4930031EF39 /* VSpacer.swift in Sources */,
 				D4FB101921FDD4930031EF39 /* VNeuron.swift in Sources */,
+				D4A613B621FDF7D7008C11CC /* KSignalRelay.swift in Sources */,
 				D4FB101421FDD4650031EF39 /* SceneViewController.swift in Sources */,
+				D4A613AD21FDF7B4008C11CC /* NGTester.swift in Sources */,
+				D4A613AB21FDF77F008C11CC /* GSSubject.swift in Sources */,
+				D4A613C521FDF82E008C11CC /* BellCurve.swift in Sources */,
+				D4A613B121FDF7D7008C11CC /* KConnector.swift in Sources */,
+				D4A613B921FDF7E3008C11CC /* Gene.swift in Sources */,
+				D4A613AF21FDF7B4008C11CC /* NGFactory.swift in Sources */,
 				D4FB102721FDD4F00031EF39 /* TNeuron.swift in Sources */,
 				D4FB101621FDD4930031EF39 /* VDisplay.swift in Sources */,
 				D4FB102221FDD4D50031EF39 /* ActivatorFunctions.swift in Sources */,
+				D4A613A621FDF763008C11CC /* PeerGroup.swift in Sources */,
 				D4FB101C21FDD4930031EF39 /* VSignalDriver.swift in Sources */,
-				D45264BF21FDC65300715889 /* GameScene.swift in Sources */,
+				D4A613C021FDF7F6008C11CC /* TDecoder.swift in Sources */,
 				D4FB101A21FDD4930031EF39 /* VPortalServer.swift in Sources */,
+				D4A613AA21FDF77F008C11CC /* GSGoalSuite.swift in Sources */,
+				D4A613AE21FDF7B4008C11CC /* NGSubject.swift in Sources */,
+				D4A613A721FDF763008C11CC /* Selector.swift in Sources */,
+				D4A613BC21FDF7E3008C11CC /* Genome.swift in Sources */,
+				D4A613B721FDF7D7008C11CC /* KTNeuron.swift in Sources */,
+				D4A613C421FDF819008C11CC /* MutatorSubtract.swift in Sources */,
+				D4A613BA21FDF7E3008C11CC /* GeneLibrary.swift in Sources */,
+				D4A613C121FDF812008C11CC /* LoopIterator.swift in Sources */,
+				D4A613B021FDF7B4008C11CC /* NGGoalSuite.swift in Sources */,
 				D4FB101E21FDD4930031EF39 /* VSupport.swift in Sources */,
+				D4A613BF21FDF7E3008C11CC /* UpConnector.swift in Sources */,
 				D4FB101821FDD4930031EF39 /* VNet.swift in Sources */,
+				D4A613A521FDF763008C11CC /* Curator.swift in Sources */,
 				D45264B921FDC65300715889 /* (null) in Sources */,
 				D4FB102321FDD4DA0031EF39 /* KIdentifier.swift in Sources */,
 				D4FB102521FDD4F00031EF39 /* TLayer.swift in Sources */,
+				D4A613C321FDF819008C11CC /* MutatorAdd.swift in Sources */,
+				D4A613B521FDF7D7008C11CC /* KNet.swift in Sources */,
 				D4FB102821FDD4F40031EF39 /* CGConversions.swift in Sources */,
+				D4A613B821FDF7E3008C11CC /* Assembler.swift in Sources */,
+				D4A613A821FDF77F008C11CC /* GSTester.swift in Sources */,
+				D4A613BD21FDF7E3008C11CC /* GenomeAdd.swift in Sources */,
 				D4FB102621FDD4F00031EF39 /* TNet.swift in Sources */,
+				D4A613C221FDF819008C11CC /* Mutator.swift in Sources */,
+				D4A613A421FDF763008C11CC /* Archive.swift in Sources */,
 				D4FB101B21FDD4930031EF39 /* VProtocols.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D47080D021FD7C0900ECCC54 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D47080D821FD7C0900ECCC54 /* main.swift in Sources */,
+				D4A613B321FDF7D7008C11CC /* KLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -856,16 +856,16 @@
 /* Begin PBXTargetDependency section */
 		D4A37A8121FDE82B00B8EB85 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D45264B521FDC65300715889 /* Display */;
+			target = D45264B521FDC65300715889 /* Main */;
 			targetProxy = D4A37A8021FDE82B00B8EB85 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		D45264C421FDC65300715889 /* Main.storyboard */ = {
+		D4A613C621FDF96F008C11CC /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D45264C521FDC65300715889 /* Base */,
+				D4A613C721FDF96F008C11CC /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -888,7 +888,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.Display;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = K_LIVE_RUN;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -908,7 +908,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.Display;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = K_LIVE_RUN;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -973,6 +973,7 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = Debug;
 		};
@@ -1029,26 +1030,7 @@
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-			};
-			name = Release;
-		};
-		D47080DC21FD7C0900ECCC54 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-			};
-			name = Debug;
-		};
-		D47080DD21FD7C0900ECCC54 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = Release;
 		};
@@ -1229,16 +1211,7 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = LiveRun;
-		};
-		D4A37A6821FDE33D00B8EB85 /* LiveRun */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = LiveRun;
 		};
@@ -1257,7 +1230,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.Display;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = K_LIVE_RUN;
 				SWIFT_VERSION = 4.2;
 			};
 			name = LiveRun;
@@ -1380,16 +1353,7 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = TDisplay;
-		};
-		D4A37A6F21FDE34E00B8EB85 /* TDisplay */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = TDisplay;
 		};
@@ -1408,7 +1372,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.Display;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = T_DISPLAY;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = K_LIVE_RUN;
 				SWIFT_VERSION = 4.2;
 			};
 			name = TDisplay;
@@ -1554,7 +1518,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D45264CB21FDC65300715889 /* Build configuration list for PBXNativeTarget "Display" */ = {
+		D45264CB21FDC65300715889 /* Build configuration list for PBXNativeTarget "Main" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D45264C921FDC65300715889 /* Debug */,
@@ -1572,17 +1536,6 @@
 				D4A37A6E21FDE34E00B8EB85 /* TDisplay */,
 				D4A37A6721FDE33D00B8EB85 /* LiveRun */,
 				D47080DA21FD7C0900ECCC54 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D47080DB21FD7C0900ECCC54 /* Build configuration list for PBXNativeTarget "Arkonia" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D47080DC21FD7C0900ECCC54 /* Debug */,
-				D4A37A6F21FDE34E00B8EB85 /* TDisplay */,
-				D4A37A6821FDE33D00B8EB85 /* LiveRun */,
-				D47080DD21FD7C0900ECCC54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

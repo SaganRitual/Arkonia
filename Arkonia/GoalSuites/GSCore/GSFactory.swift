@@ -43,9 +43,10 @@ class GSFactory {
     }
 
     func makeNet(genome: Genome, mutate: Bool) -> (Genome, TNet?) {
+        let m = nok(ArkonCentralDark.mutator as? Mutator)
         var newGenome = genome.copy()
-        if mutate { newGenome = ArkonCentralDark.mutator.setInputGenome(newGenome).mutate() }
-        return (newGenome, decoder.setInput(to: newGenome).decode())
+        if mutate { newGenome = m.setInputGenome(newGenome).mutate() }
+        return (newGenome, decoder.setInputGenome(newGenome).decode())
     }
 
     public func postInit(suite: GSGoalSuite) {

@@ -132,7 +132,8 @@ extension Mutator {
     func mutateRandomGenes() {
         if workingGenome.isEmpty { return }
 
-        let cMutate = Double(abs(bellCurve.nextFloat())) * Double(workingGenome.count)
+        let m = nok(ArkonCentralDark.mutator as? Mutator)
+        let cMutate = Double(abs(m.bellCurve.nextFloat())) * Double(workingGenome.count)
         guard Int(cMutate) > 0 else { return }
 
         let strideLength = workingGenome.count / Int(cMutate)

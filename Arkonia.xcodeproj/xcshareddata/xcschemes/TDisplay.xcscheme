@@ -27,8 +27,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D45264B521FDC65300715889"
-            BuildableName = "Display.app"
-            BlueprintName = "Display"
+            BuildableName = "Main.app"
+            BlueprintName = "Main"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -50,8 +50,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D45264B521FDC65300715889"
-            BuildableName = "Display.app"
-            BlueprintName = "Display"
+            BuildableName = "Main.app"
+            BlueprintName = "Main"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -68,8 +68,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D45264B521FDC65300715889"
-            BuildableName = "Display.app"
-            BlueprintName = "Display"
+            BuildableName = "Main.app"
+            BlueprintName = "Main"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

@@ -81,7 +81,8 @@ extension Gene {
     }
 
     func mutate(from value: Double) -> Double {
-        let percentage = ArkonCentralDark.mutator.bellCurve.nextFloat()
+        let m = nok(ArkonCentralDark.mutator as? Mutator)
+        let percentage = m.bellCurve.nextFloat()
         let v = (value == 0.0) ? Double.random(in: -1...1) : value
         return (Double(1.0 - percentage) * v).dTruncate()
     }

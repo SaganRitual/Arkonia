@@ -39,7 +39,8 @@ class TDisplay: XCTestCase {
     }
 
     func testExample() {
-        XCTNSNotificationExpectation("Dummy")
+        let x = [XCTestExpectation(description: "This is a test expectation?")]
+        XCTWaiter(delegate: self).wait(for: x, timeout: 15.0)
     }
 
 }

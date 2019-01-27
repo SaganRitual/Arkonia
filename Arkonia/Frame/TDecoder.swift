@@ -25,6 +25,7 @@ enum DecodeState {
 }
 class TDecoder: DecoderProtocol {
     var decodeState: DecodeState = .noLayer
+    var inputGenome: Genome?
     var tNet: TNet!
     weak var layerUnderConstruction: TLayer?
     weak var neuronUnderConstruction: TNeuron?
@@ -37,7 +38,7 @@ class TDecoder: DecoderProtocol {
     func decode() -> TNet? {
         tNet = TNet()
 
-        inputGenome!.makeIterator().forEach {
+        nok(inputGenome).makeIterator().forEach {
             switch decodeState {
             // Skip the diagnostics, or the decoder will create
             // a nice new layer for us, with a single neuron
@@ -55,7 +56,7 @@ class TDecoder: DecoderProtocol {
 
     func reset() { self.decodeState = .noLayer; tNet = nil }
 
-    func setInput(to inputGenome: Genome) -> TDecoder {
+    func setInputGenome(_ inputGenome: Genome) -> TDecoder {
         self.reset()
         self.inputGenome = inputGenome
         return self
