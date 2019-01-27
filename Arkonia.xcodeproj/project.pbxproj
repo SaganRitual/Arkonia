@@ -60,6 +60,23 @@
 		D4303C5121FABC4300886C05 /* VTNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5B21F9809C0034E3C4 /* VTNeuron.swift */; };
 		D4303C5221FABCA300886C05 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */; };
 		D4303C5321FAC1A100886C05 /* CGConversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3D021F3953800212262 /* CGConversions.swift */; };
+		D438ACC121FD4283003B4475 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082E21FB176B00661D73 /* BellCurve.swift */; };
+		D438ACC221FD4283003B4475 /* DarkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B4B21F3037D00402420 /* DarkTest.swift */; };
+		D438ACC321FD4283003B4475 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5321F97FAA0034E3C4 /* Genome.swift */; };
+		D438ACC421FD4283003B4475 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D451C3CE21F394D700212262 /* Extensions.swift */; };
+		D438ACC521FD4283003B4475 /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9821FB38D60094D212 /* MutatorSubtract.swift */; };
+		D438ACC821FD4283003B4475 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5421F97FAA0034E3C4 /* GenomeAdd.swift */; };
+		D438ACC921FD4283003B4475 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
+		D438ACCA21FD4283003B4475 /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5521F97FAA0034E3C4 /* Assembler.swift */; };
+		D438ACCB21FD4283003B4475 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */; };
+		D438ACCC21FD4283003B4475 /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9621FB38580094D212 /* MutatorAdd.swift */; };
+		D438ACCD21FD4283003B4475 /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
+		D438ACCE21FD4283003B4475 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082C21FB09B400661D73 /* Mutator.swift */; };
+		D438ACCF21FD4283003B4475 /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5221F97FAA0034E3C4 /* UpConnector.swift */; };
+		D438ACD021FD4283003B4475 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5621F97FAA0034E3C4 /* GenomeSubtract.swift */; };
+		D438ACD121FD4283003B4475 /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF421FC0853007E99C0 /* GeneType.swift */; };
+		D438ACDA21FD4480003B4475 /* DTKinetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D438ACD921FD4480003B4475 /* DTKinetics.swift */; };
+		D438ACDB21FD4480003B4475 /* DTKinetics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D438ACD921FD4480003B4475 /* DTKinetics.swift */; };
 		D43A8DF521FC0853007E99C0 /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF421FC0853007E99C0 /* GeneType.swift */; };
 		D43A8DF721FC08F8007E99C0 /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */; };
 		D43A8DFA21FC1720007E99C0 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4143B5721F97FAA0034E3C4 /* ActivatorFunctions.swift */; };
@@ -96,6 +113,9 @@
 		D4644E3A21FD278300A306E0 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */; };
 		D4710C9721FB38580094D212 /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9621FB38580094D212 /* MutatorAdd.swift */; };
 		D4710C9921FB38D60094D212 /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4710C9821FB38D60094D212 /* MutatorSubtract.swift */; };
+		D478994221FD4E0100FC7962 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */; };
+		D478994321FD4E2600FC7962 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082C21FB09B400661D73 /* Mutator.swift */; };
+		D478994421FD521C00FC7962 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464082E21FB176B00661D73 /* BellCurve.swift */; };
 		D482CCAD21FD288200A93297 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D482CCAC21FD288200A93297 /* SceneViewController.swift */; };
 		D482CCAE21FD288200A93297 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D482CCAC21FD288200A93297 /* SceneViewController.swift */; };
 		D4887B3F21F300CA00402420 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4887B3E21F300CA00402420 /* main.swift */; };
@@ -205,6 +225,8 @@
 		D4303C2C21FAADB800886C05 /* DTGenome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTGenome.swift; sourceTree = "<group>"; };
 		D4303C3621FAB54800886C05 /* ArkonCentralDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentralDark.swift; sourceTree = "<group>"; };
 		D4303C4521FABC1200886C05 /* LoopIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopIterator.swift; sourceTree = "<group>"; };
+		D438ACD721FD4283003B4475 /* KineticsTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KineticsTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D438ACD921FD4480003B4475 /* DTKinetics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTKinetics.swift; sourceTree = "<group>"; };
 		D43A8DF421FC0853007E99C0 /* GeneType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneType.swift; sourceTree = "<group>"; };
 		D43A8DF621FC08F8007E99C0 /* GeneLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneLibrary.swift; sourceTree = "<group>"; };
 		D44ACCFF21F887E000B9D339 /* KAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppDelegate.swift; sourceTree = "<group>"; };
@@ -265,6 +287,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D4276B0221F32C0500862802 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D438ACD221FD4283003B4475 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -498,6 +527,7 @@
 				D4276A8E21F3134700862802 /* DarkPlayground */,
 				D4276A9A21F3143800862802 /* LightRun.app */,
 				D4276B0521F32C0500862802 /* VisualizerTest.app */,
+				D438ACD721FD4283003B4475 /* KineticsTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -515,6 +545,7 @@
 			children = (
 				D4887B4B21F3037D00402420 /* DarkTest.swift */,
 				D4303C2C21FAADB800886C05 /* DTGenome.swift */,
+				D438ACD921FD4480003B4475 /* DTKinetics.swift */,
 				D4887B4D21F3037D00402420 /* Info.plist */,
 			);
 			path = DarkTest;
@@ -629,6 +660,23 @@
 			productReference = D4276B0521F32C0500862802 /* VisualizerTest.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D438ACBF21FD4283003B4475 /* KineticsTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D438ACD421FD4283003B4475 /* Build configuration list for PBXNativeTarget "KineticsTest" */;
+			buildPhases = (
+				D438ACC021FD4283003B4475 /* Sources */,
+				D438ACD221FD4283003B4475 /* Frameworks */,
+				D438ACD321FD4283003B4475 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KineticsTest;
+			productName = DarkTest;
+			productReference = D438ACD721FD4283003B4475 /* KineticsTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D4887B3A21F300CA00402420 /* DarkRun */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4887B4221F300CA00402420 /* Build configuration list for PBXNativeTarget "DarkRun" */;
@@ -706,6 +754,7 @@
 				D4887B3A21F300CA00402420 /* DarkRun */,
 				D4276A8D21F3134700862802 /* DarkPlayground */,
 				D4887B4821F3037D00402420 /* GenomeTest */,
+				D438ACBF21FD4283003B4475 /* KineticsTest */,
 				D4276A9921F3143800862802 /* LightRun */,
 				D4276B0421F32C0500862802 /* VisualizerTest */,
 			);
@@ -731,6 +780,13 @@
 			files = (
 				D4276B1521F32C0500862802 /* Main.storyboard in Resources */,
 				D4CE661621F336C600B20CFA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D438ACD321FD4283003B4475 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -859,19 +915,45 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D438ACC021FD4283003B4475 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D438ACC121FD4283003B4475 /* BellCurve.swift in Sources */,
+				D438ACC221FD4283003B4475 /* DarkTest.swift in Sources */,
+				D438ACC321FD4283003B4475 /* Genome.swift in Sources */,
+				D438ACC421FD4283003B4475 /* Extensions.swift in Sources */,
+				D438ACC521FD4283003B4475 /* MutatorSubtract.swift in Sources */,
+				D438ACDB21FD4480003B4475 /* DTKinetics.swift in Sources */,
+				D438ACC821FD4283003B4475 /* GenomeAdd.swift in Sources */,
+				D438ACC921FD4283003B4475 /* ActivatorFunctions.swift in Sources */,
+				D438ACCA21FD4283003B4475 /* Assembler.swift in Sources */,
+				D438ACCB21FD4283003B4475 /* ArkonCentralDark.swift in Sources */,
+				D438ACCC21FD4283003B4475 /* MutatorAdd.swift in Sources */,
+				D438ACCD21FD4283003B4475 /* GeneLibrary.swift in Sources */,
+				D438ACCE21FD4283003B4475 /* Mutator.swift in Sources */,
+				D438ACCF21FD4283003B4475 /* UpConnector.swift in Sources */,
+				D438ACD021FD4283003B4475 /* GenomeSubtract.swift in Sources */,
+				D438ACD121FD4283003B4475 /* GeneType.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4887B3721F300CA00402420 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D478994321FD4E2600FC7962 /* Mutator.swift in Sources */,
 				D4887B3F21F300CA00402420 /* main.swift in Sources */,
 				D4E6927821FC1B0F00D17DAE /* ActivatorFunctions.swift in Sources */,
 				D4E6927A21FC1B0F00D17DAE /* GeneType.swift in Sources */,
 				D4E6927921FC1B0F00D17DAE /* Assembler.swift in Sources */,
+				D478994221FD4E0100FC7962 /* ArkonCentralDark.swift in Sources */,
 				D4E6927721FC1A0A00D17DAE /* Gene.swift in Sources */,
 				D4E6927B21FC1B0F00D17DAE /* Genome.swift in Sources */,
 				D4E6927C21FC1B0F00D17DAE /* GenomeAdd.swift in Sources */,
 				D4E6927D21FC1B0F00D17DAE /* GenomeSubtract.swift in Sources */,
 				D4E6927E21FC1B0F00D17DAE /* UpConnector.swift in Sources */,
+				D478994421FD521C00FC7962 /* BellCurve.swift in Sources */,
 				D43A8E0821FC17ED007E99C0 /* GeneLibrary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -887,6 +969,7 @@
 				D43A8E0521FC172A007E99C0 /* MutatorSubtract.swift in Sources */,
 				D4303C2D21FAADB800886C05 /* DTGenome.swift in Sources */,
 				D43A8DFC21FC1720007E99C0 /* Gene.swift in Sources */,
+				D438ACDA21FD4480003B4475 /* DTKinetics.swift in Sources */,
 				D43A8E0021FC1721007E99C0 /* GenomeAdd.swift in Sources */,
 				D43A8DFA21FC1720007E99C0 /* ActivatorFunctions.swift in Sources */,
 				D43A8DFB21FC1720007E99C0 /* Assembler.swift in Sources */,
@@ -958,7 +1041,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = LightRun/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -978,7 +1061,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = LightRun/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -998,7 +1081,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = LightTest/VisualizerTest/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1018,7 +1101,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = LightTest/VisualizerTest/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1026,6 +1109,46 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.StressTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = LT_DISPLAY;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D438ACD521FD4283003B4475 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_KINETICS = "";
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DarkTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DT_KINETICS;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D438ACD621FD4283003B4475 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				DT_KINETICS = "";
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DarkTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DT_KINETICS;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -1174,7 +1297,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
 				DT_GENOME = "";
-				INFOPLIST_FILE = DarkTest/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1194,7 +1317,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
 				DT_GENOME = "";
-				INFOPLIST_FILE = DarkTest/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1233,6 +1356,15 @@
 			buildConfigurations = (
 				D4276B1921F32C0500862802 /* Debug */,
 				D4276B1A21F32C0500862802 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D438ACD421FD4283003B4475 /* Build configuration list for PBXNativeTarget "KineticsTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D438ACD521FD4283003B4475 /* Debug */,
+				D438ACD621FD4283003B4475 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

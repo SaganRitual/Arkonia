@@ -32,14 +32,14 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4887B4821F3037D00402420"
-               BuildableName = "GenomeTest.xctest"
-               BlueprintName = "GenomeTest"
+               BlueprintIdentifier = "D438ACBF21FD4283003B4475"
+               BuildableName = "KineticsTest.xctest"
+               BlueprintName = "KineticsTest"
                ReferencedContainer = "container:Arkonia.xcodeproj">
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "DTKinetics">
+                  Identifier = "DTGenome">
                </Test>
                <Test
                   Identifier = "DarkTest">
