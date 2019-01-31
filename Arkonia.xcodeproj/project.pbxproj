@@ -19,6 +19,8 @@
 		D47080FA21FD810600ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47080E621FD7CBB00ECCC54 /* main.swift */; };
 		D470811221FD819100ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470810121FD815300ECCC54 /* main.swift */; };
 		D470811321FD820A00ECCC54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D470810121FD815300ECCC54 /* main.swift */; };
+		D4708EBD2202FD0C00304C54 /* KProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44DB7C521FE566900AA650E /* KProtocols.swift */; };
+		D4708EBF2202FF2300304C54 /* KExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4708EBE2202FF2300304C54 /* KExtensions.swift */; };
 		D498E92121FDE8DC00BB690E /* VDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264E021FDC6DE00715889 /* VDisplayTest.swift */; };
 		D498E92221FDE8F100BB690E /* TLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264D921FDC6DE00715889 /* TLayer.swift */; };
 		D498E92321FDE8F100BB690E /* TNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45264DA21FDC6DE00715889 /* TNet.swift */; };
@@ -213,6 +215,7 @@
 		D47080FF21FD815300ECCC54 /* Kinetics */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Kinetics; sourceTree = BUILT_PRODUCTS_DIR; };
 		D470810121FD815300ECCC54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D470810A21FD817500ECCC54 /* TKinetics.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TKinetics.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4708EBE2202FF2300304C54 /* KExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KExtensions.swift; sourceTree = "<group>"; };
 		D4A37A7521FDE3AC00B8EB85 /* LiveRun.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = LiveRun.xcconfig; sourceTree = "<group>"; };
 		D4A37A7B21FDE82B00B8EB85 /* TDisplay.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TDisplay.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4A37A7D21FDE82B00B8EB85 /* TDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDisplay.swift; sourceTree = "<group>"; };
@@ -353,6 +356,7 @@
 			children = (
 				D45264F021FDC6DE00715889 /* KConnector.swift */,
 				D45264F121FDC6DE00715889 /* KDriver.swift */,
+				D4708EBE2202FF2300304C54 /* KExtensions.swift */,
 				D45264F321FDC6DE00715889 /* KLayer.swift */,
 				D45264ED21FDC6DE00715889 /* KNeuron.swift */,
 				D45264EE21FDC6DE00715889 /* KNet.swift */,
@@ -752,6 +756,7 @@
 				D4A613AB21FDF77F008C11CC /* GSSubject.swift in Sources */,
 				D4A613C521FDF82E008C11CC /* BellCurve.swift in Sources */,
 				D4A613B121FDF7D7008C11CC /* KConnector.swift in Sources */,
+				D4708EBD2202FD0C00304C54 /* KProtocols.swift in Sources */,
 				D4A613B921FDF7E3008C11CC /* Gene.swift in Sources */,
 				D4A613AF21FDF7B4008C11CC /* NGFactory.swift in Sources */,
 				D4FB102721FDD4F00031EF39 /* TNeuron.swift in Sources */,
@@ -768,6 +773,7 @@
 				D4A613B721FDF7D7008C11CC /* KTNeuron.swift in Sources */,
 				D4A613C421FDF819008C11CC /* MutatorSubtract.swift in Sources */,
 				D4A613BA21FDF7E3008C11CC /* GeneLibrary.swift in Sources */,
+				D4708EBF2202FF2300304C54 /* KExtensions.swift in Sources */,
 				D4A613C121FDF812008C11CC /* LoopIterator.swift in Sources */,
 				D4A613B021FDF7B4008C11CC /* NGGoalSuite.swift in Sources */,
 				D4FB101E21FDD4930031EF39 /* VSupport.swift in Sources */,

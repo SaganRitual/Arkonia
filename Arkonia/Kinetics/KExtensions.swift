@@ -20,6 +20,19 @@
 
 import Foundation
 
-protocol KNeuronProtocol {
-    var relay: KSignalRelay? { get set }
+// MARK: for the connect() function, isolated so unit tests don't require the entire component
+
+extension KSignalRelay {
+    static func makeRelay(_ family: KIdentifier, _ me: Int) -> KSignalRelay {
+        let id = family.add(me, as: .signalRelay)
+        return KSignalRelay(id)
+    }
+
+    func connect(to targetNeurons: [Int], in upperLayer: KLayer) {
+        inputRelays = targetNeurons.map {
+            upperLayer.neurons[$0].relay!
+        }
+    }
+
+    func overrideState(operational: Bool) { overriddenState = operational }
 }

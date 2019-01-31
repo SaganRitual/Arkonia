@@ -20,7 +20,7 @@
 
 import Foundation
 
-class KLayer: KIdentifiable, KLayerProtocol {
+class KLayer: KIdentifiable {
     var description: String { return id.description }
     let id: KIdentifier
     var neurons: [KNeuron]
@@ -41,13 +41,13 @@ extension KLayer {
     }
 
     func decoupleFromGrid() {
-        while !signalRelays.isEmpty {
-            let r = signalRelays.removeLast()
+//        while !signalRelays.isEmpty {
+//            let r = signalRelays.removeLast()
 //            if r.breaker != nil { print("decoupleFromGrid(\(r))") }
 //            else { print("decouple dead neuron(\(r))") }
 
 //            r.breaker = nil
-        }
+//        }
     }
 
     func driveSignal() {
