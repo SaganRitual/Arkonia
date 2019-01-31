@@ -21,39 +21,7 @@
 import Foundation
 import SpriteKit
 
-class VNet: KIdentifiable {
-    var hiddenLayers = [VLayer]()
-    let id: KIdentifier
-    var motorLayer: VLayer!
-    var senseLayer: VLayer!
-
-    var debugDescription: String {
-        return "\(self): cHiddenLayers = \(hiddenLayers.count)"
-    }
-
-    init(id: KIdentifier) { self.id = id }
-
-    func addLayer(layerRole: VLayer.LayerRole, layerSSInGrid: Int) -> VLayer {
-        if layerRole == .senseLayer {
-            let iss = ArkonCentralDark.isSenseLayer
-            let sID = id.add(iss, as: .senseLayer)
-            senseLayer = VLayer(id: sID, layerRole: layerRole, layerSSInGrid: iss)
-            return senseLayer
-        }
-
-        if layerRole == .motorLayer {
-            let ism = ArkonCentralDark.isMotorLayer
-            let mID = id.add(ism, as: .motorLayer)
-            motorLayer = VLayer(id: mID, layerRole: layerRole, layerSSInGrid: ism)
-            return motorLayer
-        }
-
-        let hID = id.add(layerSSInGrid, as: .hiddenLayer)
-        hiddenLayers.append(VLayer(id: hID, layerRole: layerRole, layerSSInGrid: layerSSInGrid))
-
-        return hiddenLayers.last!
-    }
-
+class VNet: UNet {
     func display(on portal: SKNode) {
         precondition(hiddenLayers.isEmpty == false, "At least one hidden layer is required")
 
@@ -61,8 +29,21 @@ class VNet: KIdentifiable {
 
         let spacer = VSpacer(portal: portal, cLayers: hiddenLayers.count)
 
+        guard let senseLayer = self.senseLayer as? VLayer else { preconditionFailure() }
+        guard let motorLayer = self.motorLayer as? VLayer else { preconditionFailure() }
+
         senseLayer.display(on: portal, spacer: spacer)
-        hiddenLayers.forEach { $0.display(on: portal, spacer: spacer) }
+
+        hiddenLayers.map { $0 }.forEach {
+            ($0 as! VLayer).display(on: portal, spacer: spacer)
+        }
+
         motorLayer.display(on: portal, spacer: spacer)
+    }
+
+    override func makeLayer(id: KIdentifier, layerRole: ULayer.LayerRole, layerSSInGrid: Int)
+        -> ULayer
+    {
+        return VLayer(id: id, layerRole: layerRole, layerSSInGrid: layerSSInGrid)
     }
 }

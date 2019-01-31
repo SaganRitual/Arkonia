@@ -30,7 +30,7 @@ class GSSubject: LightLabelProtocol, CustomStringConvertible {
     let fishNumber: Int
     var kNet: KNet?
     let genome: Genome
-    var tNet: TNet?
+    var fNet: FNet?
     var scoreCore = GSScore()
     var spawnCount: Int = 0
 
@@ -46,10 +46,10 @@ class GSSubject: LightLabelProtocol, CustomStringConvertible {
         set { scoreCore.score = newValue }
     }
 
-    init(tNet: TNet, genome: Genome) {
+    init(fNet: FNet, genome: Genome) {
         fishNumber = GSSubject.theFishNumber; GSSubject.theFishNumber += 1
         self.genome = genome
-        self.tNet = tNet
+        self.fNet = fNet
     }
 }
 

@@ -21,22 +21,17 @@
 import Foundation
 import SpriteKit
 
-class VNeuron: VDisplayable {
-    let bias: Double
-    let id: KIdentifier
-    var inputSources: [VInputSource]
+class VNeuron: UNeuron, DisplayableSignalProtocol {
     weak var portal: SKNode!
-    let output: Double
-    private(set) var position: CGPoint?
+    internal var position: CGPoint?
 
-    init(id: KIdentifier, bias: Double, inputSources: [VInputSource], output: Double) {
-        self.id = id
-        self.bias = bias
-        self.inputSources = inputSources
-        self.output = output
+    override init(id: KIdentifier, bias: Double,
+                  signals: [WeightedSignalProtocol], output: Double)
+    {
+        super.init(id: id, bias: bias, signals: signals, output: output)
     }
 
-    func display(on portal: SKNode, spacer: VSpacer, layerRole: VLayer.LayerRole) {
+    func display(on portal: SKNode, spacer: VSpacer, layerRole: ULayer.LayerRole) {
         self.portal = portal
 
         drawMyself(spacer: spacer, layerRole: layerRole)
@@ -45,9 +40,12 @@ class VNeuron: VDisplayable {
 
     func drawConnections() {
         precondition(self.position != nil, "My position isn't set")
-        inputSources.forEach {
-            precondition($0.source.position != nil, "His position isn't set")
-            drawLine(from: self.position!, to: $0.source.position!)
+        signals.forEach {
+            guard let position = ($0 as? VWeightedSignal)?.signalSource.position else {
+                preconditionFailure("His position isn't set")
+            }
+
+            drawLine(from: self.position!, to: position)
         }
     }
 

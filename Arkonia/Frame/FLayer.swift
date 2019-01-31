@@ -20,33 +20,28 @@
 
 import Foundation
 
-class TNet {
-    var cMotorNeurons = ArkonCentralDark.selectionControls.cMotorNeurons
-    var cSenseNeurons = ArkonCentralDark.selectionControls.cSenseNeurons
-    var fishNumber: Int?
-    var layers = [TLayer]()
-    var underConstruction: TLayer?
+class FLayer {
+    var neurons = [FNeuron]()
+    var underConstruction: FNeuron?
 
     init() { }
 
-    func beginNewLayer() -> TLayer {
+    var count: Int { return neurons.count }
+    var isEmpty: Bool { return neurons.isEmpty }
+
+    func beginNewNeuron() -> FNeuron {
         if underConstruction != nil {
-            finalizeLayer()
+            finalizeNeuron()
             underConstruction = nil
         }
 
-        underConstruction = TLayer()
+        underConstruction = FNeuron()
         return underConstruction!
     }
 
-    func finalizeLayer() {
+    func finalizeNeuron() {
         guard let u = underConstruction else { return }
-        u.finalizeNeuron()
-        layers.append(u)
+        neurons.append(u)
         underConstruction = nil
-    }
-
-    func subjectSurvived(_ tNet: TNet?) -> TNet? {
-        return layers.isEmpty ? nil : tNet
     }
 }

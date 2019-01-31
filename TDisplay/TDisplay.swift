@@ -40,7 +40,7 @@ class TDisplay: XCTestCase {
 
     func testExample() {
         let x = [XCTestExpectation(description: "This is a test expectation?")]
-        XCTWaiter(delegate: self).wait(for: x, timeout: 15.0)
+        XCTWaiter(delegate: self).wait(for: x, timeout: 600.0)
     }
 
 }

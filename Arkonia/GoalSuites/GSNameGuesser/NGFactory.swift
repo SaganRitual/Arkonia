@@ -28,9 +28,9 @@ class NGFactory: GSFactory {
     override public func makeArkon(genome: Genome, mutate: Bool = true) -> NGSubject? {
         
         let (newGenome, tNet_) = makeNet(genome: genome, mutate: mutate)
-        guard let tNet = tNet_, !tNet.layers.isEmpty else { return nil }
+        guard let fNet = tNet_, !fNet.layers.isEmpty else { return nil }
 
-        // Subject now owns the tNet and the newGenome
-        return NGSubject(tNet: tNet, genome: newGenome, nameToGuess: nameToGuess)
+        // Subject now owns the fNet and the newGenome
+        return NGSubject(fNet: fNet, genome: newGenome, nameToGuess: nameToGuess)
     }
 }

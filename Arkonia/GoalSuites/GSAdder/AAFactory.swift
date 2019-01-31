@@ -24,10 +24,10 @@ class AAFactory: GSFactory {
     override var description: String { return "AAFactory; functioning within standard operational parameters" }
 
     override public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> AASubject? {
-        guard let tNet = makeNet(genome: genome, mutate: mutate) else { return nil }
+        guard let fNet = makeNet(genome: genome, mutate: mutate) else { return nil }
 
         let a = AASubject(genome: genomeWorkspace[...])
-        a.postInit(tNet: tNet)
+        a.postInit(fNet: fNet)
         return a
     }
 

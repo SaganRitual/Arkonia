@@ -20,28 +20,24 @@
 
 import Foundation
 
-class TLayer {
-    var neurons = [TNeuron]()
-    var underConstruction: TNeuron?
-
-    init() { }
-
-    var count: Int { return neurons.count }
-    var isEmpty: Bool { return neurons.isEmpty }
-
-    func beginNewNeuron() -> TNeuron {
-        if underConstruction != nil {
-            finalizeNeuron()
-            underConstruction = nil
-        }
-
-        underConstruction = TNeuron()
-        return underConstruction!
-    }
-
-    func finalizeNeuron() {
-        guard let u = underConstruction else { return }
-        neurons.append(u)
-        underConstruction = nil
-    }
+public protocol DisplayableSignalProtocol: SignalSourceProtocol {
+    var position: CGPoint? { get set }
 }
+
+public protocol USignalSink: KIdentifiable {
+    var bias: Double { get }
+    var signals: [WeightedSignalProtocol] { get set }
+}
+
+public protocol SignalSourceProtocol {
+    var output: Double { get }
+}
+
+public protocol WeightedSignalProtocol: SignalSourceProtocol {
+    var weight: Double { get set }
+}
+
+//protocol WeightedSignalProtocol {
+//    var signal: Double { get set }
+//    var weight: Double { get set }
+//}

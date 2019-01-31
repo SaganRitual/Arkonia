@@ -20,89 +20,7 @@
 
 import XCTest
 
-class RRelay: KSignalRelay {
-    deinit {
-//        print("~\(self)")
-    }
-}
-
-class RLayer: CustomStringConvertible {
-    let id: KIdentifier
-    var relays = [RRelay?]()
-
-    init(_ id: KIdentifier, gridWidth: Int) {
-        self.id = id
-
-        relays = (0..<gridWidth).map { addRelay($0) }
-    }
-
-    func addRelay(_ idNumber: Int) -> RRelay {
-        let newID = id.add(idNumber, as: .signalRelay)
-        return RRelay(newID)
-    }
-
-    var description: String {
-        return relays.map {
-            let op = String($0!.isOperational)
-            let of = String(op.first!)
-            return of.uppercased()
-         }.joined()
-    }
-
-    subscript (_ ss: Int) -> RRelay? {
-        get { return relays[ss]! }
-        set { relays[ss] = newValue }
-    }
-}
-
-class RGrid {
-    let id: KIdentifier
-    var layers: [RLayer]
-
-    init(_ id: KIdentifier, gridWidth: Int, gridHeight: Int) {
-        self.id = id
-        layers = (0..<gridHeight).map {
-            let newID = id.add($0, as: .hiddenLayer)
-            return RLayer(newID, gridWidth: gridWidth)
-        }
-    }
-
-    subscript (_ ss: Int) -> RLayer {
-        get { return layers[ss] }
-    }
-}
-
-class WRelay {
-    weak var relay: RRelay?
-
-    init(_ rRelay: RRelay) { self.relay = rRelay }
-}
-
-class WLayer {
-    var relays = [WRelay]()
-
-    init(_ rLayer: RLayer) {
-        relays = rLayer.relays.map { WRelay($0!) }
-    }
-
-    subscript (_ ss: Int) -> WRelay {
-        get { return relays[ss] }
-    }
-}
-
-class WGrid {
-    var layers: [WLayer]
-
-    init(_ rGrid: RGrid) {
-        layers = rGrid.layers.map { WLayer($0) }
-    }
-
-    subscript (_ ss: Int) -> WLayer {
-        get { return layers[ss] }
-    }
-}
-
-class TKinetics: XCTestCase {
+class TSignalRelay: XCTestCase {
     let dummyRelay = RRelay(KIdentifier("Dummy", [42, 42], 42))
     let rGridID = KIdentifier("Relay Test", 0)
     var rGrid: RGrid!
@@ -351,7 +269,7 @@ class TKinetics: XCTestCase {
         wGrid[0].relays.enumerated().forEach { ss, _ in XCTAssertNil(wGrid[0][ss].relay) }
     }
 
-    func testSignalRelay() {
+    func tesbSignalRelay() {
     }
 
     func testSwitches() {
@@ -388,7 +306,7 @@ class TKinetics: XCTestCase {
     }
 }
 
-extension TKinetics {
+extension TSignalRelay {
 
     var connectionsMap: String {
         func channels(_ layer: Int, _ relay: Int) -> String {

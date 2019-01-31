@@ -56,28 +56,6 @@ class KNeuron: KIdentifiable, LoopIterable {
 }
 
 extension KNeuron {
-    static func makeNeuron(_ family: KIdentifier, _ me: Int, _ tNeuron: TNeuron) -> KNeuron {
-        let id = family.add(me, as: .neuron)
-        return KNeuron(
-            id, activator: tNeuron.activator, bias: tNeuron.bias,
-            downConnectors: tNeuron.downConnectors, upConnectors: tNeuron.upConnectors
-        )
-    }
-
-    // For sensory layer and motor layer.
-    static func makeNeuron(_ family: KIdentifier, _ me: Int) -> KNeuron {
-        let id = family.add(me, as: .neuron)
-        return KNeuron(id)
-    }
-}
-
-extension KNeuron {
-    func connect(to upperLayer: KLayer) {
-        let connector = KConnector(self)
-        let targetNeurons = connector.selectOutputs(from: upperLayer)
-
-        relay?.connect(to: targetNeurons, in: upperLayer)
-    }
 
     func driveSignal(isMotorLayer: Bool) {
         guard let relay = relay else { preconditionFailure() }

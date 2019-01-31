@@ -23,7 +23,7 @@ import Foundation
 class GSFactory {
     static var aboriginalGenome: Genome?
 
-    internal var decoder = TDecoder()
+    internal var decoder = FDecoder()
     internal var mutator = Mutator()
     weak var suite: GSGoalSuite?
 
@@ -42,7 +42,7 @@ class GSFactory {
         preconditionFailure("Must be implemented in subclass")
     }
 
-    func makeNet(genome: Genome, mutate: Bool) -> (Genome, TNet?) {
+    func makeNet(genome: Genome, mutate: Bool) -> (Genome, FNet?) {
         let m = nok(ArkonCentralDark.mutator as? Mutator)
         var newGenome = genome.copy()
         if mutate { newGenome = m.setInputGenome(newGenome).mutate() }

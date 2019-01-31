@@ -36,8 +36,8 @@ struct KSelectionControls {
     var cGenerations = 30000
     var cGenes = 200
     var cLayersInStarter = 5
-    var cMotorNeurons = 6
-    var cSenseNeurons = 7
+    var cMotorNeurons = 5
+    var cSenseNeurons = 5
     var cSpawnAttempts = 2
     var cSubjectsPerGeneration = 100
     var maxKeepersPerGeneration = 2

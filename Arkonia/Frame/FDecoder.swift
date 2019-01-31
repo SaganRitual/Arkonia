@@ -23,20 +23,20 @@ import Foundation
 enum DecodeState {
     case diagnostics, inLayer, inNeuron, noLayer
 }
-class TDecoder: DecoderProtocol {
+class FDecoder: DecoderProtocol {
     var decodeState: DecodeState = .noLayer
     var inputGenome: Genome?
-    var tNet: TNet!
-    weak var layerUnderConstruction: TLayer?
-    weak var neuronUnderConstruction: TNeuron?
+    var fNet: FNet!
+    weak var layerUnderConstruction: FLayer?
+    weak var neuronUnderConstruction: FNeuron?
 
     init() {
         precondition(ArkonCentralDark.decoder == nil)
         ArkonCentralDark.decoder = self
     }
 
-    func decode() -> TNet? {
-        tNet = TNet()
+    func decode() -> FNet? {
+        fNet = FNet()
 
         nok(inputGenome).makeIterator().forEach {
             switch decodeState {
@@ -50,20 +50,20 @@ class TDecoder: DecoderProtocol {
         }
 
         layerUnderConstruction?.finalizeNeuron()
-        tNet.finalizeLayer()
-        return tNet!.subjectSurvived(tNet)
+        fNet.finalizeLayer()
+        return fNet!.subjectSurvived(fNet)
     }
 
-    func reset() { self.decodeState = .noLayer; tNet = nil }
+    func reset() { self.decodeState = .noLayer; fNet = nil }
 
-    func setInputGenome(_ inputGenome: Genome) -> TDecoder {
+    func setInputGenome(_ inputGenome: Genome) -> FDecoder {
         self.reset()
         self.inputGenome = inputGenome
         return self
     }
 }
 
-extension TDecoder {
+extension FDecoder {
     func dispatchValueGene(_ gene: Gene) {
         let neuron = neuronUnderConstruction !! { preconditionFailure() }
 
@@ -93,22 +93,22 @@ extension TDecoder {
     }
 }
 
-extension TDecoder {
+extension FDecoder {
 
     func dispatch_noLayer(_ gene: Gene) {
         switch gene.type {
         case .layer:
             decodeState = .inLayer
-            layerUnderConstruction = tNet.beginNewLayer()
+            layerUnderConstruction = fNet.beginNewLayer()
 
         case .neuron:
             decodeState = .inNeuron
-            layerUnderConstruction = tNet.beginNewLayer()
+            layerUnderConstruction = fNet.beginNewLayer()
             neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
 
         default:
             decodeState = .inNeuron
-            layerUnderConstruction = tNet.beginNewLayer()
+            layerUnderConstruction = fNet.beginNewLayer()
             neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
 
             dispatchValueGene(gene)
@@ -139,8 +139,8 @@ extension TDecoder {
         case .layer:
             decodeState = .inLayer
             layerUnderConstruction!.finalizeNeuron()
-            tNet.finalizeLayer()
-            layerUnderConstruction = tNet.beginNewLayer()
+            fNet.finalizeLayer()
+            layerUnderConstruction = fNet.beginNewLayer()
 
         case .neuron:
             decodeState = .inNeuron

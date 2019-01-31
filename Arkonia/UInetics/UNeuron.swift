@@ -19,21 +19,18 @@
 //
 
 import Foundation
+import SpriteKit
 
-public class TNeuron {
-    var activator = AFn.FunctionName.identity
-    var bias = 0.0
-    var downConnectors = [Int]()
-    var upConnectors = [UpConnectorValue]()
+class UNeuron: USignalSink, SignalSourceProtocol {
+    let bias: Double
+    let id: KIdentifier
+    let output: Double
+    var signals: [WeightedSignalProtocol]
 
-    func setActivator(_ a: NeuronActivatorProtocol) { self.activator = a.value }
-    func accumulateBias(_ b: NeuronBiasProtocol) { self.bias += b.value }
-
-    func addDownConnector(_ c: NeuronDownConnectorProtocol) {
-        self.downConnectors.append(c.value)
-    }
-
-    func addUpConnector(_ c: NeuronUpConnectorProtocol) {
-        self.upConnectors.append(c.value)
+    init(id: KIdentifier, bias: Double, signals: [WeightedSignalProtocol], output: Double) {
+        self.id = id
+        self.bias = bias
+        self.signals = signals
+        self.output = output
     }
 }

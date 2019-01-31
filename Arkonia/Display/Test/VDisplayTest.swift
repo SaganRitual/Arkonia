@@ -26,11 +26,14 @@ final class VDisplayTest {
     var odometers = [[1, 1, 1], [1, 1, 1], [1, 1, 1], [1, 1, 1]]
     var portalNumbers = [SKNode : Int]()
     var rolls = [3, 9, 2, 6]
-    var tNet: TNet?
+    var fNet: FNet?
 
-    private func buildTNet(_ portal: SKNode) -> TNet {
-        let net = TNet()
+    private func buildFNet(_ portal: SKNode) -> FNet? {
+        let net = FNet()
         let p = portalNumbers[portal] !! { preconditionFailure() }
+
+        guard p < odometers.count else { return nil }
+
         let od = odometers[p]
         let startOfHiddenLayers = od.index(0, offsetBy: 2)
 
@@ -54,8 +57,10 @@ final class VDisplayTest {
     func displayNet(_ portal: SKNode) {
         let display = ArkonCentralLight.display !! { preconditionFailure() }
 
-        tNet = buildTNet(portal)
-        display.newTNetAvailable(tNet!, portal: portal)
+        guard let f = buildFNet(portal) else { return }
+        fNet = f
+
+        display.newFNetAvailable(f, portal: portal)
     }
 
     func start() {

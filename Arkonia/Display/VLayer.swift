@@ -21,42 +21,20 @@
 import Foundation
 import SpriteKit
 
-class VLayer: KIdentifiable, Equatable {
-    enum LayerRole { case senseLayer, hiddenLayer, motorLayer }
-
-    let id: KIdentifier
-    var layerRole: LayerRole
-    var neurons = [VNeuron]()
-    let layerSSInGrid: Int
-
-    var debugDescription: String {
-        return "\(self): cNeurons = \(neurons.count)"
-    }
-
-    init(id: KIdentifier, layerRole: LayerRole, layerSSInGrid: Int) {
-        self.id = id
-        self.layerRole = layerRole
-        self.layerSSInGrid = layerSSInGrid
-    }
-
-    @discardableResult
-    func addNeuron(bias: Double, inputSources: [VInputSource], output: Double)
-        -> VNeuron
-    {
-        let nID = self.id.add(neurons.count, as: .neuron)
-        let vN = VNeuron(id: nID, bias: bias, inputSources: inputSources, output: output)
-
-        neurons.append(vN)
-        return neurons.last!
-    }
-
+class VLayer: ULayer {
     func display(on portal: SKNode, spacer spacer_: VSpacer) {
         var spacer = spacer_
         spacer.setHorizontalSpacing(cNeurons: neurons.count)
         spacer.setLayerRole(layerRole)
 
-        neurons.forEach { $0.display(on: portal, spacer: spacer, layerRole: layerRole) }
+        neurons.forEach {
+            ($0 as! VNeuron).display(on: portal, spacer: spacer, layerRole: layerRole)
+        }
     }
 
-    static func == (_ lhs: VLayer, _ rhs: VLayer) -> Bool { return lhs.id == rhs.id }
+    override func makeNeuron(id: KIdentifier, bias: Double,
+                    signals: [WeightedSignalProtocol], output: Double) -> UNeuron
+    {
+        return VNeuron(id: id, bias: bias, signals: signals, output: output)
+    }
 }

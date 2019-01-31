@@ -45,7 +45,7 @@ final class AATester: GSTesterProtocol {
     func administerTest(to gs: GSSubject) -> Double? {
         gs.fitnessScore = 0.0
 
-        let kDriver = KDriver(tNet: gs.tNet!)
+        let kDriver = KDriver(fNet: gs.fNet!)
         gs.kNet = kDriver.kNet
 
         for (ss, _/*inputSet*/) in testInputSets.enumerated() {

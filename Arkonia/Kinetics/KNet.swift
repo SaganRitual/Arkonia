@@ -60,11 +60,12 @@ extension KNet {
         return hiddenLayers.last!
     }
 
-    static func makeNet(_ me: Int, tNet: TNet) -> KNet {
-        let id = KIdentifier("KNet", me)
+    static func makeNet(_ me: Int, cLayers: Int) -> KNet {
+        let id = KIdentifier("KNet", 0)
 
-        let layers = tNet.layers.enumerated().map { (myID: Int, tLayer: TLayer) -> KLayer in
-            let newKLayer = KLayer.makeLayer(id, myID, tLayer)
+        let layers: [KLayer] = (0..<cLayers).map {
+            let childID = id.add($0, as: .hiddenLayer)
+            let newKLayer = KLayer.makeLayer(childID, .hiddenLayer, $0)
             return newKLayer
         }
 

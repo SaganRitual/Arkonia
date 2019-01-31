@@ -67,7 +67,7 @@ class GSTester: GSTesterProtocol {
     func administerTest(to gs: GSSubject) -> Double? {
         gs.fitnessScore = 0.0
 
-        let kDriver = KDriver(tNet: gs.tNet!)
+        let kDriver = KDriver(fNet: gs.fNet!, idNumber: gs.fishNumber)
         gs.kNet = kDriver.kNet
         kDriver.drive(sensoryInputs: inputs)
 

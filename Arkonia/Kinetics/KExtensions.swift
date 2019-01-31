@@ -20,7 +20,30 @@
 
 import Foundation
 
-// MARK: for the connect() function, isolated so unit tests don't require the entire component
+// MARK: Stuff that I factored out so the unit tests don't link to half the world
+
+extension KNeuron {
+    func connect(to upperLayer: KLayer) {
+        let connector = KConnector(self)
+        let targetNeurons = connector.selectOutputs(from: upperLayer)
+
+        relay?.connect(to: targetNeurons, in: upperLayer)
+    }
+    
+    static func makeNeuron(_ family: KIdentifier, _ me: Int, _ fNeuron: FNeuron) -> KNeuron {
+        let id = family.add(me, as: .neuron)
+        return KNeuron(
+            id, activator: fNeuron.activator, bias: fNeuron.bias,
+            downConnectors: fNeuron.downConnectors, upConnectors: fNeuron.upConnectors
+        )
+    }
+
+    // For sensory layer and motor layer.
+    static func makeNeuron(_ family: KIdentifier, _ me: Int) -> KNeuron {
+        let id = family.add(me, as: .neuron)
+        return KNeuron(id)
+    }
+}
 
 extension KSignalRelay {
     static func makeRelay(_ family: KIdentifier, _ me: Int) -> KSignalRelay {
@@ -36,3 +59,4 @@ extension KSignalRelay {
 
     func overrideState(operational: Bool) { overriddenState = operational }
 }
+

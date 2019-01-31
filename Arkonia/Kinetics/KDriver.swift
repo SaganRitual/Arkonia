@@ -30,10 +30,12 @@ class KDriver  {
     let senseLayerID: KIdentifier
     let kNet: KNet
 
-    init(tNet: TNet) {
+    init(fNet: FNet, idNumber: Int) {
         defer { KDriver.fishNumber += 1 }
 
-        kNet = KNet.makeNet(KDriver.fishNumber, tNet: tNet)
+        kNet = KNet.makeNet(
+            idNumber, cLayers: ArkonCentralDark.selectionControls.cLayersInStarter
+        )
 
         senseLayerID = KIdentifier("Sense", kNet.id.myID)
         senseLayer = KLayer.makeLayer(
@@ -49,9 +51,9 @@ class KDriver  {
     }
 
     func drive(sensoryInputs: [Double]) {
-        senseLayer.signalRelays.enumerated().forEach { whichInput, relay in
+        zip(sensoryInputs, senseLayer.signalRelays).forEach { sensoryInput, relay in
             relay.overrideState(operational: true)
-            relay.output = sensoryInputs[whichInput]
+            relay.output = sensoryInput
         }
 
         kNet.driveSignal(senseLayer, motorLayer)

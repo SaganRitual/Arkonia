@@ -84,23 +84,6 @@ extension KLayer {
         return KLayer(id, neurons, signalRelays)
     }
 
-    static func makeLayer(_ family: KIdentifier, _ me: Int, _ tLayer: TLayer) -> KLayer {
-        let id = family.add(me, as: .hiddenLayer)
-
-        let signalRelays = (0..<tLayer.neurons.count).map { KSignalRelay.makeRelay(id, $0) }
-
-        let neurons: [KNeuron] = zip(signalRelays, tLayer.neurons).enumerated().map {
-            (arg) in let (idNumber, pair) = arg, relay = pair.0, tNeuron = pair.1
-
-            let newNeuron = KNeuron.makeNeuron(id, idNumber, tNeuron)
-            newNeuron.relay = relay
-//            relay.breaker = relay
-            return newNeuron
-        }
-
-        return KLayer(id, neurons, signalRelays)
-    }
-
     func reverseConnect(_ lastHiddenLayer: KLayer) {
         lastHiddenLayer.neurons.forEach({ upperNeuron in
             for _ in 0..<upperNeuron.downConnectors.count {

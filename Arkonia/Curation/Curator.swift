@@ -106,7 +106,7 @@ class Curator {
             let newScore = gs.fitnessScore
             let oldScore = archive.referenceTS!.fitnessScore
             if newScore != oldScore {
-                nok(ArkonCentralLight.display).newTNetAvailable(gs.tNet!, portal: 0)
+                nok(ArkonCentralLight.display).newFNetAvailable(gs.fNet!, portal: 0)
                 print("New record by \(gs.fishNumber): \(gs.fitnessScore)")
             }
 

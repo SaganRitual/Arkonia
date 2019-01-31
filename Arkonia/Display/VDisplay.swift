@@ -28,7 +28,7 @@ class VDisplay: NSObject, SKSceneDelegate {
     var portalServer: VPortalServer
     private weak var scene: SKScene?
     private var tickCallbacks = [() -> ()]()
-    private var tNets = [SKNode: TNet]()
+    private var fNets = [SKNode: FNet]()
 
     init(_ scene: SKScene) {
         self.scene = scene
@@ -36,22 +36,22 @@ class VDisplay: NSObject, SKSceneDelegate {
     }
 
     private func display(via portal: SKNode) {
-        guard let newTNet = self.tNets[portal] else { return }
+        guard let newFNet = self.fNets[portal] else { return }
 
-        VSignalDriver(tNet: newTNet).drive().display(on: portal)
+        VSignalDriver(fNet: newFNet).drive().display(on: portal)
     }
 
-    func newTNetAvailable(_ tNet: TNet, portal: SKNode) {
-        self.tNets[portal] = tNet
+    func newFNetAvailable(_ fNet: FNet, portal: SKNode) {
+        self.fNets[portal] = fNet
         display(via: portal)
-        self.tNets[portal] = nil
+        self.fNets[portal] = nil
     }
 
-    func newTNetAvailable(_ tNet: TNet, portal: Int) {
+    func newFNetAvailable(_ fNet: FNet, portal: Int) {
         let p = self.portalServer.getPortal(portal)
-        self.tNets[p] = tNet
+        self.fNets[p] = fNet
         display(via: p)
-        self.tNets[p] = nil
+        self.fNets[p] = nil
     }
 
     func registerForSceneTick(_ cb: @escaping SceneTickCallback, portal: SKNode) {

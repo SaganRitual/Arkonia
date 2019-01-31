@@ -19,16 +19,21 @@
 //
 
 import Foundation
-import SpriteKit
 
-protocol VDisplayable: KIdentifiable {
-    var bias: Double { get }
-    var inputSources: [VInputSource] { get }
-    var output: Double { get }
-    var position: CGPoint? { get }
-}
+public class FNeuron {
+    var activator = AFn.FunctionName.identity
+    var bias = 0.0
+    var downConnectors = [Int]()
+    var upConnectors = [UpConnectorValue]()
 
-struct VInputSource {
-    let source: VDisplayable
-    let weight: Double
+    func setActivator(_ a: NeuronActivatorProtocol) { self.activator = a.value }
+    func accumulateBias(_ b: NeuronBiasProtocol) { self.bias += b.value }
+
+    func addDownConnector(_ c: NeuronDownConnectorProtocol) {
+        self.downConnectors.append(c.value)
+    }
+
+    func addUpConnector(_ c: NeuronUpConnectorProtocol) {
+        self.upConnectors.append(c.value)
+    }
 }

@@ -20,7 +20,7 @@
 
 import Foundation
 
-protocol KIdentifiable: CustomStringConvertible, CustomDebugStringConvertible {
+public protocol KIdentifiable: CustomStringConvertible, CustomDebugStringConvertible {
     var id: KIdentifier { get }
 }
 
@@ -29,7 +29,7 @@ extension KIdentifiable {
     var debugDescription: String { return String(reflecting: id) }
 }
 
-protocol KIdentifierProtocol: CustomStringConvertible {
+public protocol KIdentifierProtocol: CustomStringConvertible {
     var description: String { get }
     var familyID: [Int] { get }
     var myID: Int { get }
@@ -37,15 +37,15 @@ protocol KIdentifierProtocol: CustomStringConvertible {
     init(_ type: String, _ familyID: [Int], _ myID: Int)
 }
 
-struct KIdentifier: Hashable, KIdentifierProtocol {
-    let description: String
-    let familyID: [Int]
-    let myID: Int
+public struct KIdentifier: Hashable, KIdentifierProtocol {
+    public let description: String
+    public let familyID: [Int]
+    public let myID: Int
     let type: String
 
     var parentID: Int { return familyID.last! }
 
-    init(_ type: String, _ familyID: [Int], _ myID: Int) {
+    public init(_ type: String, _ familyID: [Int], _ myID: Int) {
         self.description = KIdentifier.getFullID(type, familyID, myID)
         self.familyID = familyID
         self.myID = myID
@@ -85,7 +85,7 @@ struct KIdentifier: Hashable, KIdentifierProtocol {
         return fullID + ")"
     }
 
-    static func == (_ lhs: KIdentifier, _ rhs: KIdentifier) -> Bool {
+    public static func == (_ lhs: KIdentifier, _ rhs: KIdentifier) -> Bool {
         return lhs.hashValue == rhs.hashValue
     }
 }
