@@ -24,7 +24,7 @@ import SpriteKit
 
 @NSApplicationMain
 class KAppDelegate: NSObject, NSApplicationDelegate {
-    #if K_LIVE_RUN
+    #if K_RUN_MAIN
 
     var curator: Curator?
     let goalSuite = NGGoalSuite("Zoe Bishop")
@@ -50,7 +50,7 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
           ArkonCentralLight.display = VDisplay(scene)
           scene.delegate = ArkonCentralLight.display
 
-          #if K_LIVE_RUN
+          #if K_RUN_MAIN
 
             self.curator = Curator(goalSuite: goalSuite)
             self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator!.select() }
