@@ -98,20 +98,26 @@
 		D4860A77220759CD002F688B /* KAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672722070AC4009BAA3A /* KAppController.swift */; };
 		D4860A78220759CD002F688B /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672922070AC5009BAA3A /* KAppDelegate.swift */; };
 		D4860A7922075A45002F688B /* ArkonCentralLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046722070F7400823D57 /* ArkonCentralLight.swift */; };
-		D4D1D2B6220705440099DBC2 /* ArkoniaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D1D2B5220705440099DBC2 /* ArkoniaTests.swift */; };
 		D4D604A62207292800823D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4D604A52207292800823D57 /* Assets.xcassets */; };
 		D4D604A92207292800823D57 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4D604A72207292800823D57 /* Main.storyboard */; };
+		D4EB46C02207776C00DA2544 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EB46BF2207776C00DA2544 /* main.swift */; };
+		D4EB46D12207784600DA2544 /* DTSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EB46A9220773C200DA2544 /* DTSignalRelay.swift */; };
+		D4EB46D22207786400DA2544 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046522070F7400823D57 /* KIdentifier.swift */; };
+		D4EB46D5220779A300DA2544 /* TCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EB46D4220779A300DA2544 /* TCommon.swift */; };
+		D4EB46D6220779BF00DA2544 /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3B22076C970001F5D0 /* KSignalRelay.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		D4D1D2B2220705440099DBC2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4D1D291220705430099DBC2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D4D1D298220705430099DBC2;
-			remoteInfo = Arkonia;
+/* Begin PBXCopyFilesBuildPhase section */
+		D4EB46BB2207776C00DA2544 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 		};
-/* End PBXContainerItemProxy section */
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D4072BDE220761CA0002BC58 /* USignalDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USignalDriver.swift; sourceTree = "<group>"; };
@@ -163,9 +169,6 @@
 		D4D1D299220705430099DBC2 /* Arkonia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arkonia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4D1D2AB220705440099DBC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D1D2AC220705440099DBC2 /* Arkonia.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Arkonia.entitlements; sourceTree = "<group>"; };
-		D4D1D2B1220705440099DBC2 /* ArkoniaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArkoniaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4D1D2B5220705440099DBC2 /* ArkoniaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaTests.swift; sourceTree = "<group>"; };
-		D4D1D2B7220705440099DBC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D6046522070F7400823D57 /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
 		D4D6046622070F7400823D57 /* ArkonCentralDark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentralDark.swift; sourceTree = "<group>"; };
 		D4D6046722070F7400823D57 /* ArkonCentralLight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonCentralLight.swift; sourceTree = "<group>"; };
@@ -191,6 +194,13 @@
 		D4D604A82207292800823D57 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4D604AA2207292800823D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D604AB2207292800823D57 /* ArkoniaDisplayTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArkoniaDisplayTests.entitlements; sourceTree = "<group>"; };
+		D4EB4698220770A100DA2544 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D4EB46A9220773C200DA2544 /* DTSignalRelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DTSignalRelay.swift; path = ../../../Display/DTSignalRelay.swift; sourceTree = "<group>"; };
+		D4EB46BD2207776C00DA2544 /* TTSignalRelay */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTSignalRelay; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4EB46BF2207776C00DA2544 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D4EB46C82207779700DA2544 /* DTSignalRelay.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTSignalRelay.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4EB46CC2207779700DA2544 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4EB46D4220779A300DA2544 /* TCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCommon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,14 +211,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4D1D2AE220705440099DBC2 /* Frameworks */ = {
+		D4D604962207292800823D57 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4D604962207292800823D57 /* Frameworks */ = {
+		D4EB46BA2207776C00DA2544 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4EB46C52207779700DA2544 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -343,6 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				D4D6046422070F7400823D57 /* ArkonCentral */,
+				D4EB4697220770A100DA2544 /* ArkoniaDarkTests */,
 				D46D6C1022076BD60001F5D0 /* Curation */,
 				D4D6046D2207105A00823D57 /* Display */,
 				D4072BF3220762680002BC58 /* Genome */,
@@ -354,7 +372,6 @@
 				D4860A75220758CF002F688B /* NSCommon */,
 				D4D1D29B220705430099DBC2 /* Arkonia */,
 				D4D6049A2207292800823D57 /* ArkoniaDisplayTests */,
-				D4D1D2B4220705440099DBC2 /* ArkoniaTests */,
 				D4D1D29A220705430099DBC2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -363,8 +380,9 @@
 			isa = PBXGroup;
 			children = (
 				D4D1D299220705430099DBC2 /* Arkonia.app */,
-				D4D1D2B1220705440099DBC2 /* ArkoniaTests.xctest */,
 				D4D604992207292800823D57 /* ArkoniaDisplayTests.app */,
+				D4EB46BD2207776C00DA2544 /* TTSignalRelay */,
+				D4EB46C82207779700DA2544 /* DTSignalRelay.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -376,15 +394,6 @@
 				D4D1D2AC220705440099DBC2 /* Arkonia.entitlements */,
 			);
 			path = Arkonia;
-			sourceTree = "<group>";
-		};
-		D4D1D2B4220705440099DBC2 /* ArkoniaTests */ = {
-			isa = PBXGroup;
-			children = (
-				D4D1D2B5220705440099DBC2 /* ArkoniaTests.swift */,
-				D4D1D2B7220705440099DBC2 /* Info.plist */,
-			);
-			path = ArkoniaTests;
 			sourceTree = "<group>";
 		};
 		D4D6046422070F7400823D57 /* ArkonCentral */ = {
@@ -437,6 +446,50 @@
 			path = ArkoniaDisplayTests;
 			sourceTree = "<group>";
 		};
+		D4EB4697220770A100DA2544 /* ArkoniaDarkTests */ = {
+			isa = PBXGroup;
+			children = (
+				D4EB46D32207795900DA2544 /* TestCommon */,
+				D4EB46D0220777E200DA2544 /* TestSignalRelay */,
+				D4EB4698220770A100DA2544 /* main.swift */,
+			);
+			path = ArkoniaDarkTests;
+			sourceTree = "<group>";
+		};
+		D4EB46BE2207776C00DA2544 /* TTSignalRelay */ = {
+			isa = PBXGroup;
+			children = (
+				D4EB46BF2207776C00DA2544 /* main.swift */,
+			);
+			path = TTSignalRelay;
+			sourceTree = "<group>";
+		};
+		D4EB46C92207779700DA2544 /* DTSignalRelay */ = {
+			isa = PBXGroup;
+			children = (
+				D4EB46A9220773C200DA2544 /* DTSignalRelay.swift */,
+				D4EB46CC2207779700DA2544 /* Info.plist */,
+			);
+			path = DTSignalRelay;
+			sourceTree = "<group>";
+		};
+		D4EB46D0220777E200DA2544 /* TestSignalRelay */ = {
+			isa = PBXGroup;
+			children = (
+				D4EB46C92207779700DA2544 /* DTSignalRelay */,
+				D4EB46BE2207776C00DA2544 /* TTSignalRelay */,
+			);
+			path = TestSignalRelay;
+			sourceTree = "<group>";
+		};
+		D4EB46D32207795900DA2544 /* TestCommon */ = {
+			isa = PBXGroup;
+			children = (
+				D4EB46D4220779A300DA2544 /* TCommon.swift */,
+			);
+			path = TestCommon;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -457,24 +510,6 @@
 			productReference = D4D1D299220705430099DBC2 /* Arkonia.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D4D1D2B0220705440099DBC2 /* ArkoniaTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4D1D2C8220705440099DBC2 /* Build configuration list for PBXNativeTarget "ArkoniaTests" */;
-			buildPhases = (
-				D4D1D2AD220705440099DBC2 /* Sources */,
-				D4D1D2AE220705440099DBC2 /* Frameworks */,
-				D4D1D2AF220705440099DBC2 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D4D1D2B3220705440099DBC2 /* PBXTargetDependency */,
-			);
-			name = ArkoniaTests;
-			productName = ArkoniaTests;
-			productReference = D4D1D2B1220705440099DBC2 /* ArkoniaTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		D4D604982207292800823D57 /* ArkoniaDisplayTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4D604AC2207292800823D57 /* Build configuration list for PBXNativeTarget "ArkoniaDisplayTests" */;
@@ -492,6 +527,40 @@
 			productReference = D4D604992207292800823D57 /* ArkoniaDisplayTests.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D4EB46BC2207776C00DA2544 /* TTSignalRelay */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4EB46C12207776C00DA2544 /* Build configuration list for PBXNativeTarget "TTSignalRelay" */;
+			buildPhases = (
+				D4EB46B92207776C00DA2544 /* Sources */,
+				D4EB46BA2207776C00DA2544 /* Frameworks */,
+				D4EB46BB2207776C00DA2544 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TTSignalRelay;
+			productName = TTSignalRelay;
+			productReference = D4EB46BD2207776C00DA2544 /* TTSignalRelay */;
+			productType = "com.apple.product-type.tool";
+		};
+		D4EB46C72207779700DA2544 /* DTSignalRelay */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4EB46CD2207779700DA2544 /* Build configuration list for PBXNativeTarget "DTSignalRelay" */;
+			buildPhases = (
+				D4EB46C42207779700DA2544 /* Sources */,
+				D4EB46C52207779700DA2544 /* Frameworks */,
+				D4EB46C62207779700DA2544 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DTSignalRelay;
+			productName = DTSignalRelay;
+			productReference = D4EB46C82207779700DA2544 /* DTSignalRelay.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -506,11 +575,13 @@
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1010;
 					};
-					D4D1D2B0220705440099DBC2 = {
-						CreatedOnToolsVersion = 10.1;
-						TestTargetID = D4D1D298220705430099DBC2;
-					};
 					D4D604982207292800823D57 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					D4EB46BC2207776C00DA2544 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					D4EB46C72207779700DA2544 = {
 						CreatedOnToolsVersion = 10.1;
 					};
 				};
@@ -530,7 +601,8 @@
 			targets = (
 				D4D1D298220705430099DBC2 /* Arkonia */,
 				D4D604982207292800823D57 /* ArkoniaDisplayTests */,
-				D4D1D2B0220705440099DBC2 /* ArkoniaTests */,
+				D4EB46BC2207776C00DA2544 /* TTSignalRelay */,
+				D4EB46C72207779700DA2544 /* DTSignalRelay */,
 			);
 		};
 /* End PBXProject section */
@@ -545,19 +617,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4D1D2AF220705440099DBC2 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D4D604972207292800823D57 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				D4D604A62207292800823D57 /* Assets.xcassets in Resources */,
 				D4D604A92207292800823D57 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4EB46C62207779700DA2544 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -632,14 +704,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4D1D2AD220705440099DBC2 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4D1D2B6220705440099DBC2 /* ArkoniaTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D4D604952207292800823D57 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -675,15 +739,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		D4D1D2B3220705440099DBC2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D4D1D298220705430099DBC2 /* Arkonia */;
-			targetProxy = D4D1D2B2220705440099DBC2 /* PBXContainerItemProxy */;
+		D4EB46B92207776C00DA2544 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4EB46C02207776C00DA2544 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXTargetDependency section */
+		D4EB46C42207779700DA2544 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4EB46D22207786400DA2544 /* KIdentifier.swift in Sources */,
+				D4EB46D5220779A300DA2544 /* TCommon.swift in Sources */,
+				D4EB46D12207784600DA2544 /* DTSignalRelay.swift in Sources */,
+				D4EB46D6220779BF00DA2544 /* KSignalRelay.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
 		D4D604A72207292800823D57 /* Main.storyboard */ = {
@@ -756,6 +831,7 @@
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = Debug;
 		};
@@ -811,6 +887,7 @@
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 			};
 			name = Release;
 		};
@@ -857,48 +934,6 @@
 			};
 			name = Release;
 		};
-		D4D1D2C9220705440099DBC2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = ArkoniaTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.ArkoniaTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Arkonia.app/Contents/MacOS/Arkonia";
-			};
-			name = Debug;
-		};
-		D4D1D2CA220705440099DBC2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = ArkoniaTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.ArkoniaTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Arkonia.app/Contents/MacOS/Arkonia";
-			};
-			name = Release;
-		};
 		D4D604AD2207292800823D57 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -939,6 +974,64 @@
 			};
 			name = Release;
 		};
+		D4EB46C22207776C00DA2544 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D4EB46C32207776C00DA2544 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D4EB46CE2207779700DA2544 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = ArkoniaDarkTests/TestSignalRelay/DTSignalRelay/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTSignalRelay;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = K_RUN_DT_SIGNAL_RELAY;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D4EB46CF2207779700DA2544 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = ArkoniaDarkTests/TestSignalRelay/DTSignalRelay/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTSignalRelay;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = K_RUN_DT_SIGNAL_RELAY;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -960,20 +1053,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4D1D2C8220705440099DBC2 /* Build configuration list for PBXNativeTarget "ArkoniaTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D4D1D2C9220705440099DBC2 /* Debug */,
-				D4D1D2CA220705440099DBC2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		D4D604AC2207292800823D57 /* Build configuration list for PBXNativeTarget "ArkoniaDisplayTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4D604AD2207292800823D57 /* Debug */,
 				D4D604AE2207292800823D57 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4EB46C12207776C00DA2544 /* Build configuration list for PBXNativeTarget "TTSignalRelay" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4EB46C22207776C00DA2544 /* Debug */,
+				D4EB46C32207776C00DA2544 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4EB46CD2207779700DA2544 /* Build configuration list for PBXNativeTarget "DTSignalRelay" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4EB46CE2207779700DA2544 /* Debug */,
+				D4EB46CF2207779700DA2544 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
