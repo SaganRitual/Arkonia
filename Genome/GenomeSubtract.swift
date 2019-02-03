@@ -26,7 +26,7 @@ extension Genome {
     func removeAll() { self.head = nil }
 
     func removeAll(where predicate: (Element) throws -> Bool) rethrows {
-        var iter_: Gene? = self.head
+        var iter_: GeneLinkable? = self.head
 
         while let iter = iter_ {
             let next = iter.next
@@ -35,7 +35,7 @@ extension Genome {
 
             if try !predicate(iter) { continue }
 
-            if iter == self.head! { self.head = next }
+            if iter.isMyself(self.head!) { self.head = next }
 
             iter.prev?.next = next
             next?.prev = iter.prev
@@ -45,7 +45,7 @@ extension Genome {
     }
 
     @discardableResult
-    func removeFirst() -> Gene? {
+    func removeFirst() -> GeneLinkable? {
         guard let first = head else { preconditionFailure("Genome is empty") }
         precondition(first.prev == nil, "Segment is corrupted")
 
@@ -82,7 +82,7 @@ extension Genome {
     }
 
     @discardableResult
-    func removeLast() -> Gene? {
+    func removeLast() -> GeneLinkable? {
         guard let last = tail else { preconditionFailure("Genome is empty") }
         precondition(last.next == nil, "Segment is corrupted")
 
@@ -122,13 +122,13 @@ extension Genome {
     }
 
     @discardableResult
-    func removeOne(at ss: Int) -> Gene {
+    func removeOne(at ss: Int) -> GeneLinkable {
         precondition(ss < self.count, "Subscript out of range")
         return removeOne(gene: self[ss])
     }
 
     @discardableResult
-    func removeOne(gene: Gene) -> Gene {
+    func removeOne(gene: GeneLinkable) -> GeneLinkable {
         let leftCut = gene.prev
         let rightCut = gene.next
 
@@ -141,7 +141,7 @@ extension Genome {
         // If we chopped the head, make a new head. Note that
         // if this causes an empty list, then the head observer
         // will take care of resetting.
-        if gene == nok(head) { head = rightCut }
+        if gene.isMyself(nok(head)) { head = rightCut }
 
         count -= 1
 

@@ -23,12 +23,20 @@ import Foundation
 // Makes it easier for me to reason about splicing and slicing
 typealias Segment = Genome
 
+protocol GeneLinkable: class {
+    var next: GeneLinkable? { get set }
+    var prev: GeneLinkable? { get set }
+
+    func copy() -> GeneLinkable
+    func isMyself(_ thatGuy: GeneLinkable) -> Bool
+}
+
 class Genome: CustomDebugStringConvertible {
     enum Caller { case count, head, tail }
 
-    var head: Gene? { didSet { if head == nil { reset(.head) } } }
+    var head: GeneLinkable? { didSet { if head == nil { reset(.head) } } }
 
-    weak var tail: Gene?
+    weak var tail: GeneLinkable?
     var count = 0
 
     var rcount: Int {
@@ -55,14 +63,14 @@ class Genome: CustomDebugStringConvertible {
     }
 
     init() {}
-    init(_ gene: Gene) { asslink(gene) }
-    init(_ genes: [Gene]) { genes.forEach { asslink($0) } }
+    init(_ gene: GeneLinkable) { asslink(gene) }
+    init(_ genes: [GeneLinkable]) { genes.forEach { asslink($0) } }
 
     init(_ segment: Segment) { (head, tail, count) = Genome.init_(segment) }
 
     init(_ segments: [Segment]) { segments.forEach { asslink($0) } }
 
-    static func init_(_ segment: Segment) -> (Gene?, Gene?, Int) {
+    static func init_(_ segment: Segment) -> (GeneLinkable?, GeneLinkable?, Int) {
         // Take ownership
         defer { segment.head = nil }
         return (segment.head, segment.tail, segment.count)
@@ -110,7 +118,7 @@ extension Genome {
  it turns out I'm wrong on that.
 
 */
-    subscript (_ ss: Int) -> Gene {
+    subscript (_ ss: Int) -> GeneLinkable {
         precondition(ss < count, "Subscript \(ss) out of range 0..<\(count)")
 
         for (c, gene) in zip(0..., makeIterator()) {
@@ -127,9 +135,9 @@ extension Genome {
 extension Genome: Sequence {
     struct GenomeIterator: IteratorProtocol, Sequence {
         typealias Iterator = GenomeIterator
-        typealias Element = Gene
+        typealias Element = GeneLinkable
 
-        private weak var gene: Gene?
+        private weak var gene: GeneLinkable?
         var primed = false
 
         let from: Int
@@ -141,7 +149,7 @@ extension Genome: Sequence {
             self.to = to
         }
 
-        mutating func next() -> Gene? {
+        mutating func next() -> GeneLinkable? {
             if !primed { prime() }
             guard var curr = gene else { return nil }
             defer { gene = curr.next }

@@ -24,12 +24,12 @@ import Foundation
 
 extension Genome {
     // Like append, but transfers ownership away from the segment object.
-    func asslink(_ gene: Gene) { inject(gene, before: nil) }
+    func asslink(_ gene: GeneLinkable) { inject(gene, before: nil) }
     func asslink(_ segment: Segment) { inject(segment, before: nil) }
     func asslink(_ segments: [Segment]) { segments.forEach { inject($0, before: nil) } }
 
     // Like prepend, but transfers ownership away from the segment object.
-    func headlink(_ gene: Gene) {
+    func headlink(_ gene: GeneLinkable) {
         // To insert multiple genes, create a segment
         precondition(gene.next == nil && gene.prev == nil)
 
@@ -58,7 +58,7 @@ extension Genome {
     // Like insert, but transfers ownership away from the segment object.
     // (Except this one, which takes only a gene, which presumes that
     // there is no segment object, just a single gene.)
-    func inject(_ gene: Gene, before ss: Int) {
+    func inject(_ gene: GeneLinkable, before ss: Int) {
         switch ss {
         case 0:          headlink(gene)
         case self.count: asslink(gene)
@@ -74,7 +74,7 @@ extension Genome {
         }
     }
 
-    func inject(_ segment: Segment, before next_: Gene?) {
+    func inject(_ segment: Segment, before next_: GeneLinkable?) {
         // Both must be nil, or both non-nil
         precondition((head == nil) == (tail == nil))
 
@@ -107,7 +107,7 @@ extension Genome {
         prev?.next = segment.head
     }
 
-    func inject(_ gene: Gene, before next_: Gene?) {
+    func inject(_ gene: GeneLinkable, before next_: GeneLinkable?) {
         // Both must be nil, or both non-nil
         precondition((head == nil) == (tail == nil))
 

@@ -20,14 +20,14 @@
 
 import Foundation
 
-class Gene: CustomDebugStringConvertible {
+class Gene: CustomDebugStringConvertible, GeneLinkable {
     static var idNumber = 0
 
     let idNumber: Int
     let type: GeneType
 
-    var next: Gene?
-    weak var prev: Gene?
+    var next: GeneLinkable?
+    weak var prev: GeneLinkable?
 
     var description: String { Gene.missingOverrideInSubclass() }
     var debugDescription: String { return description }
@@ -58,10 +58,6 @@ class Gene: CustomDebugStringConvertible {
         case .skipAnyType:   return gSkipAnyType.makeRandomGene()
         case .skipOneType:   return gSkipOneType.makeRandomGene()
         case .upConnector:   return gUpConnector.makeRandomGene()
-
-        #if DT_GENOME
-        case .mockGene:      return gMockGene.makeRandomGene()
-        #endif
         }
     }
 

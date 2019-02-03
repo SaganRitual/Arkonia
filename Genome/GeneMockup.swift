@@ -20,6 +20,29 @@
 
 import Foundation
 
-public protocol NeuronActivatorProtocol {
-    var value: AFn.FunctionName { get set }
+protocol GeneProtocol: CustomStringConvertible {
+    var value: Int { get }
+    init(_ value: Int)
+    func copy() -> GeneProtocol
+    func mutate() -> Bool
+    static func makeRandomGene() -> GeneProtocol
+}
+
+class gMockGene: GeneLinkable, GeneProtocol {
+    var next: GeneLinkable? = nil
+    var prev: GeneLinkable? = nil
+
+    let value: Int
+    var description: String { return "Mock gene: value = \(value)" }
+
+    required init(_ value: Int) { self.value = value }
+
+    func copy() -> GeneLinkable { return gMockGene(value) }
+    func copy() -> GeneProtocol { return gMockGene(value) }
+    func isMyself(_ thatGuy: GeneLinkable) -> Bool {
+        return self === thatGuy as? gMockGene
+    }
+    func mutate() -> Bool { return false }
+
+    class func makeRandomGene() -> GeneProtocol { return gMockGene(Int.random(in: 0..<10)) }
 }

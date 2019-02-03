@@ -20,6 +20,5 @@
 
 import Foundation
 
-public protocol NeuronActivatorProtocol {
-    var value: AFn.FunctionName { get set }
-}
+print("Hello, World!")
+

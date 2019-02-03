@@ -202,14 +202,3 @@ class gUpConnector: Gene, NeuronUpConnectorProtocol {
         return gUpConnector((channel, weight))
     }
 }
-
-#if DT_GENOME
-class gMockGene: Gene {
-    let value: Int
-    override var description: String { return "Mock gene: value = \(value)" }
-    init(_ value: Int) { self.value = value; super.init(.mockGene) }
-    override func copy() -> Gene { return gMockGene(value) }
-    override func mutate() -> Bool { return false }
-    override class func makeRandomGene() -> Gene { return gMockGene(Int.random(in: 0..<10)) }
-}
-#endif

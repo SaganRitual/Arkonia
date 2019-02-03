@@ -53,7 +53,7 @@ enum GeneType: CaseIterable {
     /// The usual way neurons connect
     case upConnector
 
-    #if DT_GENOME
+    #if K_RUN_DT_GENOME
     /// For testing; the payload is an Int
     case mockGene
     #endif
