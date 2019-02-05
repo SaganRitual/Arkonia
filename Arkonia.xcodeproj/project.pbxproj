@@ -35,6 +35,19 @@
 		D4072C08220762BC0002BC58 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046822070F7400823D57 /* Extensions.swift */; };
 		D4072C0D220763820002BC58 /* GProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF9220762680002BC58 /* GProtocols.swift */; };
 		D41DDBC82207652D007D2A33 /* VDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D604712207105A00823D57 /* VDisplayTest.swift */; };
+		D43E87182209669800CD9CC3 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468803E2207A4B700405F54 /* Protocols.swift */; };
+		D43E87192209EC6C00CD9CC3 /* ConnectionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB13002207BBE2004C2242 /* ConnectionSpec.swift */; };
+		D43E871A220A439300CD9CC3 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046522070F7400823D57 /* KIdentifier.swift */; };
+		D43E871E220A495300CD9CC3 /* runSwiftlint.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871D220A495300CD9CC3 /* runSwiftlint.sh */; };
+		D43E871F220A495300CD9CC3 /* runSwiftlint.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871D220A495300CD9CC3 /* runSwiftlint.sh */; };
+		D43E8720220A495300CD9CC3 /* runSwiftlint.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871D220A495300CD9CC3 /* runSwiftlint.sh */; };
+		D43E8721220A495300CD9CC3 /* runSwiftlint.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871D220A495300CD9CC3 /* runSwiftlint.sh */; };
+		D43E8722220A495300CD9CC3 /* runSwiftlint.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871D220A495300CD9CC3 /* runSwiftlint.sh */; };
+		D43E8725220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
+		D43E8726220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
+		D43E8727220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
+		D43E8728220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
+		D43E8729220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
 		D46880222207A0C500405F54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46880212207A0C500405F54 /* main.swift */; };
 		D468802D2207A0E600405F54 /* DTGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468802C2207A0E600405F54 /* DTGenome.swift */; };
 		D46880322207A39200405F54 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFC220762680002BC58 /* Genome.swift */; };
@@ -47,6 +60,29 @@
 		D46880412207A71700405F54 /* GeneMockup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46880402207A71700405F54 /* GeneMockup.swift */; };
 		D46880422207AADE00405F54 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468803E2207A4B700405F54 /* Protocols.swift */; };
 		D46880452207B28F00405F54 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468803E2207A4B700405F54 /* Protocols.swift */; };
+		D46C547C220BECD4002B784A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C547B220BECD4002B784A /* main.swift */; };
+		D46C5487220BED1E002B784A /* DTGenomeBloat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C5486220BED1E002B784A /* DTGenomeBloat.swift */; };
+		D46C548C220BEEFB002B784A /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFC220762680002BC58 /* Genome.swift */; };
+		D46C548D220BEF11002B784A /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF6220762680002BC58 /* ActivatorFunctions.swift */; };
+		D46C548E220BEF11002B784A /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF7220762680002BC58 /* Gene.swift */; };
+		D46C548F220BEF11002B784A /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFA220762680002BC58 /* GeneLibrary.swift */; };
+		D46C5490220BEF11002B784A /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF5220762680002BC58 /* GeneType.swift */; };
+		D46C5491220BEF11002B784A /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF8220762680002BC58 /* GenomeAdd.swift */; };
+		D46C5492220BEF11002B784A /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFD220762680002BC58 /* GenomeSubtract.swift */; };
+		D46C5493220BEF11002B784A /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF4220762680002BC58 /* UpConnector.swift */; };
+		D46C5494220BF136002B784A /* GProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF9220762680002BC58 /* GProtocols.swift */; };
+		D46C5495220BF141002B784A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468803E2207A4B700405F54 /* Protocols.swift */; };
+		D46C5496220BF155002B784A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046822070F7400823D57 /* Extensions.swift */; };
+		D46C5497220BF16C002B784A /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046622070F7400823D57 /* ArkonCentralDark.swift */; };
+		D46C5498220BF182002B784A /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046522070F7400823D57 /* KIdentifier.swift */; };
+		D46C549D220C029D002B784A /* FDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6048A220710F300823D57 /* FDecoder.swift */; };
+		D46C549E220C029D002B784A /* FLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6048B220710F300823D57 /* FLayer.swift */; };
+		D46C549F220C029D002B784A /* FNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D60488220710F300823D57 /* FNet.swift */; };
+		D46C54A0220C029D002B784A /* FNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D60489220710F300823D57 /* FNeuron.swift */; };
+		D46C54A1220C189D002B784A /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C0122076AAF0001F5D0 /* Mutator.swift */; };
+		D46C54A2220C18A6002B784A /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C0222076AAF0001F5D0 /* MutatorSubtract.swift */; };
+		D46C54A3220C18A6002B784A /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C0322076AAF0001F5D0 /* MutatorAdd.swift */; };
+		D46C54A4220C18D6002B784A /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046A22070F7400823D57 /* BellCurve.swift */; };
 		D46D6BE82207693C0001F5D0 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046522070F7400823D57 /* KIdentifier.swift */; };
 		D46D6BE9220769550001F5D0 /* VDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D604772207105A00823D57 /* VDisplay.swift */; };
 		D46D6BEA220769550001F5D0 /* VLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046E2207105A00823D57 /* VLayer.swift */; };
@@ -96,7 +132,7 @@
 		D46D6C3422076C010001F5D0 /* NGSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2722076C000001F5D0 /* NGSubject.swift */; };
 		D46D6C3522076C010001F5D0 /* NGFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2822076C000001F5D0 /* NGFactory.swift */; };
 		D46D6C3622076C010001F5D0 /* NGGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2922076C000001F5D0 /* NGGoalSuite.swift */; };
-		D46D6C4022076C970001F5D0 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3822076C970001F5D0 /* KDriver.swift */; };
+		D46D6C4022076C970001F5D0 /* KSignalDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3822076C970001F5D0 /* KSignalDriver.swift */; };
 		D46D6C4122076C970001F5D0 /* KExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3922076C970001F5D0 /* KExtensions.swift */; };
 		D46D6C4222076C970001F5D0 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3A22076C970001F5D0 /* KConnector.swift */; };
 		D46D6C4322076C970001F5D0 /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3B22076C970001F5D0 /* KSignalRelay.swift */; };
@@ -111,13 +147,11 @@
 		D4860A78220759CD002F688B /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672922070AC5009BAA3A /* KAppDelegate.swift */; };
 		D4860A7922075A45002F688B /* ArkonCentralLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046722070F7400823D57 /* ArkonCentralLight.swift */; };
 		D4BB12EC2207B8B9004C2242 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB12EB2207B8B9004C2242 /* main.swift */; };
-		D4BB12F72207B8DB004C2242 /* DTNetMeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB12F62207B8DB004C2242 /* DTNetMeat.swift */; };
-		D4BB12FD2207BB0D004C2242 /* TNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB12FC2207BB0D004C2242 /* TNeuron.swift */; };
+		D4BB12FD2207BB0D004C2242 /* DTNetMeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB12FC2207BB0D004C2242 /* DTNetMeat.swift */; };
 		D4BB12FE2207BB45004C2242 /* TCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EB46D4220779A300DA2544 /* TCommon.swift */; };
 		D4BB12FF2207BB51004C2242 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046522070F7400823D57 /* KIdentifier.swift */; };
-		D4BB13012207BBE2004C2242 /* ConnectionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB13002207BBE2004C2242 /* ConnectionSpec.swift */; };
 		D4BB13022207BC21004C2242 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3A22076C970001F5D0 /* KConnector.swift */; };
-		D4BB13032207BC21004C2242 /* KDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3822076C970001F5D0 /* KDriver.swift */; };
+		D4BB13032207BC21004C2242 /* KSignalDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3822076C970001F5D0 /* KSignalDriver.swift */; };
 		D4BB13042207BC21004C2242 /* KExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3922076C970001F5D0 /* KExtensions.swift */; };
 		D4BB13052207BC21004C2242 /* KLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3E22076C970001F5D0 /* KLayer.swift */; };
 		D4BB13062207BC21004C2242 /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3F22076C970001F5D0 /* KNet.swift */; };
@@ -144,6 +178,15 @@
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D468801D2207A0C500405F54 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D46C5477220BECD4002B784A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -191,6 +234,8 @@
 		D439672722070AC4009BAA3A /* KAppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppController.swift; sourceTree = "<group>"; };
 		D439672822070AC4009BAA3A /* SceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D439672922070AC5009BAA3A /* KAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppDelegate.swift; sourceTree = "<group>"; };
+		D43E871B220A474400CD9CC3 /* runDarkTests.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = runDarkTests.sh; sourceTree = "<group>"; };
+		D43E871D220A495300CD9CC3 /* runSwiftlint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = runSwiftlint.sh; sourceTree = "<group>"; };
 		D468801F2207A0C500405F54 /* TTGenome */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTGenome; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46880212207A0C500405F54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D468802A2207A0E600405F54 /* DTGenome.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTGenome.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +243,11 @@
 		D468802E2207A0E600405F54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D468803E2207A4B700405F54 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		D46880402207A71700405F54 /* GeneMockup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneMockup.swift; sourceTree = "<group>"; };
+		D46C5479220BECD4002B784A /* TTGenomeBloat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTGenomeBloat; sourceTree = BUILT_PRODUCTS_DIR; };
+		D46C547B220BECD4002B784A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D46C5484220BED1E002B784A /* DTGenomeBloat.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTGenomeBloat.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D46C5486220BED1E002B784A /* DTGenomeBloat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTGenomeBloat.swift; sourceTree = "<group>"; };
+		D46C5488220BED1E002B784A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D46D6C0122076AAF0001F5D0 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D46D6C0222076AAF0001F5D0 /* MutatorSubtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutatorSubtract.swift; sourceTree = "<group>"; };
 		D46D6C0322076AAF0001F5D0 /* MutatorAdd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutatorAdd.swift; sourceTree = "<group>"; };
@@ -218,7 +268,7 @@
 		D46D6C2722076C000001F5D0 /* NGSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGSubject.swift; sourceTree = "<group>"; };
 		D46D6C2822076C000001F5D0 /* NGFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGFactory.swift; sourceTree = "<group>"; };
 		D46D6C2922076C000001F5D0 /* NGGoalSuite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGGoalSuite.swift; sourceTree = "<group>"; };
-		D46D6C3822076C970001F5D0 /* KDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDriver.swift; sourceTree = "<group>"; };
+		D46D6C3822076C970001F5D0 /* KSignalDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSignalDriver.swift; sourceTree = "<group>"; };
 		D46D6C3922076C970001F5D0 /* KExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KExtensions.swift; sourceTree = "<group>"; };
 		D46D6C3A22076C970001F5D0 /* KConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KConnector.swift; sourceTree = "<group>"; };
 		D46D6C3B22076C970001F5D0 /* KSignalRelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSignalRelay.swift; sourceTree = "<group>"; };
@@ -229,9 +279,8 @@
 		D4BB12E92207B8B9004C2242 /* TTNetMeat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTNetMeat; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB12EB2207B8B9004C2242 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4BB12F42207B8DB004C2242 /* DTNetMeat.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTNetMeat.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4BB12F62207B8DB004C2242 /* DTNetMeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DTNetMeat.swift; sourceTree = "<group>"; };
 		D4BB12F82207B8DB004C2242 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4BB12FC2207BB0D004C2242 /* TNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TNeuron.swift; sourceTree = "<group>"; };
+		D4BB12FC2207BB0D004C2242 /* DTNetMeat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DTNetMeat.swift; sourceTree = "<group>"; };
 		D4BB13002207BBE2004C2242 /* ConnectionSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionSpec.swift; sourceTree = "<group>"; };
 		D4D1D299220705430099DBC2 /* Arkonia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arkonia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4D1D2AB220705440099DBC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -261,7 +310,6 @@
 		D4D604A82207292800823D57 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4D604AA2207292800823D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D604AB2207292800823D57 /* ArkoniaDisplayTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArkoniaDisplayTests.entitlements; sourceTree = "<group>"; };
-		D4EB4698220770A100DA2544 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4EB46A9220773C200DA2544 /* DTSignalRelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DTSignalRelay.swift; path = ../../../Display/DTSignalRelay.swift; sourceTree = "<group>"; };
 		D4EB46BD2207776C00DA2544 /* TTSignalRelay */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTSignalRelay; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4EB46BF2207776C00DA2544 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -279,6 +327,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D46880272207A0E600405F54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D46C5476220BECD4002B784A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D46C5481220BED1E002B784A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -360,6 +422,15 @@
 			path = Genome;
 			sourceTree = "<group>";
 		};
+		D43E8723220A496600CD9CC3 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				D43E871B220A474400CD9CC3 /* runDarkTests.sh */,
+				D43E871D220A495300CD9CC3 /* runSwiftlint.sh */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
 		D46880192207A02400405F54 /* TestNetMeat */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,7 +444,9 @@
 			isa = PBXGroup;
 			children = (
 				D468802B2207A0E600405F54 /* DTGenome */,
+				D46C5485220BED1E002B784A /* DTGenomeBloat */,
 				D46880202207A0C500405F54 /* TTGenome */,
+				D46C547A220BECD4002B784A /* TTGenomeBloat */,
 			);
 			path = TestGenome;
 			sourceTree = "<group>";
@@ -393,6 +466,23 @@
 				D468802E2207A0E600405F54 /* Info.plist */,
 			);
 			path = DTGenome;
+			sourceTree = "<group>";
+		};
+		D46C547A220BECD4002B784A /* TTGenomeBloat */ = {
+			isa = PBXGroup;
+			children = (
+				D46C547B220BECD4002B784A /* main.swift */,
+			);
+			path = TTGenomeBloat;
+			sourceTree = "<group>";
+		};
+		D46C5485220BED1E002B784A /* DTGenomeBloat */ = {
+			isa = PBXGroup;
+			children = (
+				D46C5486220BED1E002B784A /* DTGenomeBloat.swift */,
+				D46C5488220BED1E002B784A /* Info.plist */,
+			);
+			path = DTGenomeBloat;
 			sourceTree = "<group>";
 		};
 		D46D6C0022076AAF0001F5D0 /* Mutator */ = {
@@ -464,12 +554,12 @@
 			isa = PBXGroup;
 			children = (
 				D46D6C3A22076C970001F5D0 /* KConnector.swift */,
-				D46D6C3822076C970001F5D0 /* KDriver.swift */,
 				D46D6C3922076C970001F5D0 /* KExtensions.swift */,
 				D46D6C3E22076C970001F5D0 /* KLayer.swift */,
 				D46D6C3F22076C970001F5D0 /* KNet.swift */,
 				D46D6C3C22076C970001F5D0 /* KNeuron.swift */,
 				D46D6C3D22076C970001F5D0 /* KProtocols.swift */,
+				D46D6C3822076C970001F5D0 /* KSignalDriver.swift */,
 				D46D6C3B22076C970001F5D0 /* KSignalRelay.swift */,
 			);
 			path = Kinetics;
@@ -499,8 +589,7 @@
 			isa = PBXGroup;
 			children = (
 				D4BB13002207BBE2004C2242 /* ConnectionSpec.swift */,
-				D4BB12F62207B8DB004C2242 /* DTNetMeat.swift */,
-				D4BB12FC2207BB0D004C2242 /* TNeuron.swift */,
+				D4BB12FC2207BB0D004C2242 /* DTNetMeat.swift */,
 				D4BB12F82207B8DB004C2242 /* Info.plist */,
 			);
 			path = DTNetMeat;
@@ -536,6 +625,8 @@
 				D468802A2207A0E600405F54 /* DTGenome.xctest */,
 				D4BB12E92207B8B9004C2242 /* TTNetMeat */,
 				D4BB12F42207B8DB004C2242 /* DTNetMeat.xctest */,
+				D46C5479220BECD4002B784A /* TTGenomeBloat */,
+				D46C5484220BED1E002B784A /* DTGenomeBloat.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -543,6 +634,7 @@
 		D4D1D29B220705430099DBC2 /* Arkonia */ = {
 			isa = PBXGroup;
 			children = (
+				D43E8723220A496600CD9CC3 /* Support */,
 				D4D6046622070F7400823D57 /* ArkonCentralDark.swift */,
 				D4D6046722070F7400823D57 /* ArkonCentralLight.swift */,
 				D4D6046A22070F7400823D57 /* BellCurve.swift */,
@@ -600,7 +692,6 @@
 				D468801A2207A07400405F54 /* TestGenome */,
 				D46880192207A02400405F54 /* TestNetMeat */,
 				D4EB46D0220777E200DA2544 /* TestSignalRelay */,
-				D4EB4698220770A100DA2544 /* main.swift */,
 			);
 			path = ArkoniaDarkTests;
 			sourceTree = "<group>";
@@ -676,6 +767,40 @@
 			productReference = D468802A2207A0E600405F54 /* DTGenome.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D46C5478220BECD4002B784A /* TTGenomeBloat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D46C547F220BECD4002B784A /* Build configuration list for PBXNativeTarget "TTGenomeBloat" */;
+			buildPhases = (
+				D46C5475220BECD4002B784A /* Sources */,
+				D46C5476220BECD4002B784A /* Frameworks */,
+				D46C5477220BECD4002B784A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TTGenomeBloat;
+			productName = TTGenomeBloat;
+			productReference = D46C5479220BECD4002B784A /* TTGenomeBloat */;
+			productType = "com.apple.product-type.tool";
+		};
+		D46C5483220BED1E002B784A /* DTGenomeBloat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D46C5489220BED1E002B784A /* Build configuration list for PBXNativeTarget "DTGenomeBloat" */;
+			buildPhases = (
+				D46C5480220BED1E002B784A /* Sources */,
+				D46C5481220BED1E002B784A /* Frameworks */,
+				D46C5482220BED1E002B784A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DTGenomeBloat;
+			productName = DTGenomeBloat;
+			productReference = D46C5484220BED1E002B784A /* DTGenomeBloat.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D4BB12E82207B8B9004C2242 /* TTNetMeat */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4BB12ED2207B8B9004C2242 /* Build configuration list for PBXNativeTarget "TTNetMeat" */;
@@ -717,6 +842,7 @@
 				D4D1D295220705430099DBC2 /* Sources */,
 				D4D1D296220705430099DBC2 /* Frameworks */,
 				D4D1D297220705430099DBC2 /* Resources */,
+				D43E871C220A483200CD9CC3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -734,6 +860,7 @@
 				D4D604952207292800823D57 /* Sources */,
 				D4D604962207292800823D57 /* Frameworks */,
 				D4D604972207292800823D57 /* Resources */,
+				D43E8724220A4B1000CD9CC3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -794,6 +921,12 @@
 					D46880292207A0E600405F54 = {
 						CreatedOnToolsVersion = 10.1;
 					};
+					D46C5478220BECD4002B784A = {
+						CreatedOnToolsVersion = 10.1;
+					};
+					D46C5483220BED1E002B784A = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					D4BB12E82207B8B9004C2242 = {
 						CreatedOnToolsVersion = 10.1;
 					};
@@ -836,12 +969,23 @@
 				D46880292207A0E600405F54 /* DTGenome */,
 				D4BB12E82207B8B9004C2242 /* TTNetMeat */,
 				D4BB12F32207B8DB004C2242 /* DTNetMeat */,
+				D46C5478220BECD4002B784A /* TTGenomeBloat */,
+				D46C5483220BED1E002B784A /* DTGenomeBloat */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D46880282207A0E600405F54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D43E8729220A4E5200CD9CC3 /* runDarkTests.sh in Resources */,
+				D43E8721220A495300CD9CC3 /* runSwiftlint.sh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D46C5482220BED1E002B784A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -852,6 +996,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D43E8726220A4E5200CD9CC3 /* runDarkTests.sh in Resources */,
+				D43E8722220A495300CD9CC3 /* runSwiftlint.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -861,6 +1007,8 @@
 			files = (
 				D46D6C0C22076B670001F5D0 /* Assets.xcassets in Resources */,
 				D46D6C0B22076B580001F5D0 /* Main.storyboard in Resources */,
+				D43E8725220A4E5200CD9CC3 /* runDarkTests.sh in Resources */,
+				D43E871E220A495300CD9CC3 /* runSwiftlint.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -870,6 +1018,8 @@
 			files = (
 				D4D604A62207292800823D57 /* Assets.xcassets in Resources */,
 				D4D604A92207292800823D57 /* Main.storyboard in Resources */,
+				D43E8727220A4E5200CD9CC3 /* runDarkTests.sh in Resources */,
+				D43E871F220A495300CD9CC3 /* runSwiftlint.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -877,10 +1027,49 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D43E8728220A4E5200CD9CC3 /* runDarkTests.sh in Resources */,
+				D43E8720220A495300CD9CC3 /* runSwiftlint.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D43E871C220A483200CD9CC3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/Users/rob/Projects/Arkonia/Arkonia/Support/runSwiftlint.sh\n";
+		};
+		D43E8724220A4B1000CD9CC3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/Users/rob/Projects/Arkonia/Arkonia/Support/runSwiftlint.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D468801B2207A0C500405F54 /* Sources */ = {
@@ -902,9 +1091,47 @@
 				D468802D2207A0E600405F54 /* DTGenome.swift in Sources */,
 				D468803C2207A42F00405F54 /* Extensions.swift in Sources */,
 				D46880382207A41800405F54 /* GenomeAdd.swift in Sources */,
+				D43E871A220A439300CD9CC3 /* KIdentifier.swift in Sources */,
 				D468803B2207A41800405F54 /* UpConnector.swift in Sources */,
 				D46880392207A41800405F54 /* GenomeSubtract.swift in Sources */,
 				D46880372207A41800405F54 /* GeneType.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D46C5475220BECD4002B784A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D46C547C220BECD4002B784A /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D46C5480220BED1E002B784A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D46C548E220BEF11002B784A /* Gene.swift in Sources */,
+				D46C5493220BEF11002B784A /* UpConnector.swift in Sources */,
+				D46C5491220BEF11002B784A /* GenomeAdd.swift in Sources */,
+				D46C5497220BF16C002B784A /* ArkonCentralDark.swift in Sources */,
+				D46C54A3220C18A6002B784A /* MutatorAdd.swift in Sources */,
+				D46C5495220BF141002B784A /* Protocols.swift in Sources */,
+				D46C5492220BEF11002B784A /* GenomeSubtract.swift in Sources */,
+				D46C548C220BEEFB002B784A /* Genome.swift in Sources */,
+				D46C5490220BEF11002B784A /* GeneType.swift in Sources */,
+				D46C549F220C029D002B784A /* FNet.swift in Sources */,
+				D46C5496220BF155002B784A /* Extensions.swift in Sources */,
+				D46C54A1220C189D002B784A /* Mutator.swift in Sources */,
+				D46C548D220BEF11002B784A /* ActivatorFunctions.swift in Sources */,
+				D46C549E220C029D002B784A /* FLayer.swift in Sources */,
+				D46C549D220C029D002B784A /* FDecoder.swift in Sources */,
+				D46C548F220BEF11002B784A /* GeneLibrary.swift in Sources */,
+				D46C5487220BED1E002B784A /* DTGenomeBloat.swift in Sources */,
+				D46C54A2220C18A6002B784A /* MutatorSubtract.swift in Sources */,
+				D46C54A4220C18D6002B784A /* BellCurve.swift in Sources */,
+				D46C5498220BF182002B784A /* KIdentifier.swift in Sources */,
+				D46C5494220BF136002B784A /* GProtocols.swift in Sources */,
+				D46C54A0220C029D002B784A /* FNeuron.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -920,7 +1147,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4BB13012207BBE2004C2242 /* ConnectionSpec.swift in Sources */,
 				D4BB13062207BC21004C2242 /* KNet.swift in Sources */,
 				D4BB130C2207BC47004C2242 /* FNet.swift in Sources */,
 				D4BB13122207BE15004C2242 /* GProtocols.swift in Sources */,
@@ -930,15 +1156,15 @@
 				D4BB13072207BC21004C2242 /* KNeuron.swift in Sources */,
 				D4BB13052207BC21004C2242 /* KLayer.swift in Sources */,
 				D4BB13022207BC21004C2242 /* KConnector.swift in Sources */,
-				D4BB13032207BC21004C2242 /* KDriver.swift in Sources */,
+				D4BB13032207BC21004C2242 /* KSignalDriver.swift in Sources */,
 				D4BB130B2207BC47004C2242 /* FLayer.swift in Sources */,
-				D4BB12F72207B8DB004C2242 /* DTNetMeat.swift in Sources */,
 				D4BB130F2207BD3E004C2242 /* ActivatorFunctions.swift in Sources */,
 				D4BB130E2207BC61004C2242 /* ArkonCentralDark.swift in Sources */,
+				D43E87192209EC6C00CD9CC3 /* ConnectionSpec.swift in Sources */,
 				D4BB12FE2207BB45004C2242 /* TCommon.swift in Sources */,
 				D4BB12FF2207BB51004C2242 /* KIdentifier.swift in Sources */,
 				D4BB13102207BD58004C2242 /* Extensions.swift in Sources */,
-				D4BB12FD2207BB0D004C2242 /* TNeuron.swift in Sources */,
+				D4BB12FD2207BB0D004C2242 /* DTNetMeat.swift in Sources */,
 				D4BB130D2207BC47004C2242 /* FNeuron.swift in Sources */,
 				D4BB13042207BC21004C2242 /* KExtensions.swift in Sources */,
 				D4BB13082207BC21004C2242 /* KProtocols.swift in Sources */,
@@ -952,7 +1178,7 @@
 				D46D6C2D22076C010001F5D0 /* GSSubject.swift in Sources */,
 				D46D6C0622076AAF0001F5D0 /* MutatorAdd.swift in Sources */,
 				D46D6C0522076AAF0001F5D0 /* MutatorSubtract.swift in Sources */,
-				D46D6C4022076C970001F5D0 /* KDriver.swift in Sources */,
+				D46D6C4022076C970001F5D0 /* KSignalDriver.swift in Sources */,
 				D46D6C4122076C970001F5D0 /* KExtensions.swift in Sources */,
 				D46D6BF0220769550001F5D0 /* VSupport.swift in Sources */,
 				D46D6C2A22076C010001F5D0 /* GSTester.swift in Sources */,
@@ -1008,6 +1234,7 @@
 				D46D6BED220769550001F5D0 /* VPortalServer.swift in Sources */,
 				D46D6C1522076BD60001F5D0 /* Archive.swift in Sources */,
 				D46D6C4822076CBF0001F5D0 /* LoopIterator.swift in Sources */,
+				D43E87182209669800CD9CC3 /* Protocols.swift in Sources */,
 				D46D6C2E22076C010001F5D0 /* GSFactory.swift in Sources */,
 				D46D6BF42207696C0001F5D0 /* FNeuron.swift in Sources */,
 			);
@@ -1136,6 +1363,62 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = K_RUN_DT_GENOME;
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D46C547D220BECD4002B784A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D46C547E220BECD4002B784A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+		D46C548A220BED1E002B784A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = ArkoniaDarkTests/TestGenome/DTGenomeBloat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenomeBloat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		D46C548B220BED1E002B784A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = ArkoniaDarkTests/TestGenome/DTGenomeBloat/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.DTGenomeBloat;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
@@ -1475,6 +1758,24 @@
 			buildConfigurations = (
 				D46880302207A0E600405F54 /* Debug */,
 				D46880312207A0E600405F54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D46C547F220BECD4002B784A /* Build configuration list for PBXNativeTarget "TTGenomeBloat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D46C547D220BECD4002B784A /* Debug */,
+				D46C547E220BECD4002B784A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D46C5489220BED1E002B784A /* Build configuration list for PBXNativeTarget "DTGenomeBloat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D46C548A220BED1E002B784A /* Debug */,
+				D46C548B220BED1E002B784A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

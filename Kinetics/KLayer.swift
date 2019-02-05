@@ -41,23 +41,21 @@ extension KLayer {
     }
 
     func decoupleFromGrid() {
-//        while !signalRelays.isEmpty {
-//            let r = signalRelays.removeLast()
-//            if r.breaker != nil { print("decoupleFromGrid(\(r))") }
-//            else { print("decouple dead neuron(\(r))") }
-
-//            r.breaker = nil
-//        }
+        while !signalRelays.isEmpty { signalRelays.removeLast() }
     }
 
     func driveSignal() {
-        neurons.forEach { $0.driveSignal(isMotorLayer: id.myID == ArkonCentralDark.isMotorLayer) }
+        neurons.forEach { $0.driveSignal(isMotorLayer: id.myID == ArkonCentralDark.isMotorLayer.rawValue) }
     }
 
     static func makeLayer(_ myFullID: KIdentifier, _ layerType: KIdentifier.KType, _ cNeurons: Int)
         -> KLayer
     {
-        let signalRelays = (0..<cNeurons).map { KSignalRelay.makeRelay(myFullID, $0) }
+        let signalRelays: [KSignalRelay] = (0..<cNeurons).map {
+            let relay = KSignalRelay.makeRelay(myFullID, $0)
+            relay.overriddenState = layerType == .senseLayer || layerType == .motorLayer
+            return relay
+        }
 
         let neurons: [KNeuron] = signalRelays.enumerated().map { idNumber, relay in
             let newNeuron = KNeuron.makeNeuron(myFullID, idNumber)
@@ -69,19 +67,19 @@ extension KLayer {
         return KLayer(myFullID, neurons, signalRelays)
     }
 
-    static func makeLayer(_ family: KIdentifier, _ me: Int, cNeurons: Int) -> KLayer {
-        let id = family.add(me, as: .hiddenLayer)
+    static func makeLayer(_ newLayerID: KIdentifier, _ fLayer: FLayer) -> KLayer {
+        let signalRelays = (0..<fLayer.count).map { KSignalRelay.makeRelay(newLayerID, $0) }
 
-        let signalRelays = (0..<cNeurons).map { KSignalRelay.makeRelay(id, $0) }
-
-        let neurons: [KNeuron] = signalRelays.enumerated().map { idNumber, relay in
-            let newNeuron = KNeuron.makeNeuron(id, idNumber)
+        var fIter = fLayer.neurons.makeIterator()
+        let neurons: [KNeuron] = signalRelays.enumerated().map { neuronIDNumber, relay in
+            let newNeuronID = newLayerID.add(neuronIDNumber, as: .neuron)
+            let fNeuron = nok(fIter.next())
+            let newNeuron = KNeuron.makeNeuron(newNeuronID, fNeuron)
             newNeuron.relay = relay
-//            relay.breaker = relay
             return newNeuron
         }
 
-        return KLayer(id, neurons, signalRelays)
+        return KLayer(newLayerID, neurons, signalRelays)
     }
 
     func reverseConnect(_ lastHiddenLayer: KLayer) {
@@ -94,7 +92,6 @@ extension KLayer {
                 let outputNeuron = self.neurons[outputNeuronSS]
 
                 outputNeuron.relay!.inputRelays.append(upperNeuron.relay!)
-//                print("\(outputNeuron.relay!) connects to \(outputNeuron.relay!.inputRelays)")
             }
         })
     }

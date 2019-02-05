@@ -38,7 +38,7 @@ struct KConnector {
 
         var inputIDs = [Int]()
 
-        for _ in 0..<connectingNeuron.upConnectors.count {
+        while !connectingNeuron.upConnectors.isEmpty {
             let target = connectingNeuron.upConnectors.removeLast()
             connectingNeuron.weights.append(target.1)  // save weight for the signaling step
 //            print("uuu \(connectingNeuron)")

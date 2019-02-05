@@ -67,8 +67,9 @@ class USignalDriver {
     // Everyone in the middle does both: pull first, then push
     // Everyone above the motor layer pushes the signal down
     private func pullSignalFromUpper() {
-        signals = lowerLayer.neurons.map { freckle in let heckle = freckle as! VNeuron
-            return makeWeightedSignal(signalSource: heckle, weight: 1.066)
+        signals = lowerLayer.neurons.map { s in
+            let source = nok(s as? VNeuron)
+            return makeWeightedSignal(signalSource: source, weight: 1.066)
         }
     }
 
@@ -84,12 +85,12 @@ class USignalDriver {
     private func response() {
         upperLayer = lowerLayer
         pullSignalFromUpper()
-        motorLayer = addLayer(role: .motorLayer, layerSSInGrid: ArkonCentralDark.isMotorLayer)
+        motorLayer = addLayer(role: .motorLayer, layerSSInGrid: KIdentifier.KType.motorLayer.rawValue)
         pushSignalToLower(cNeurons: fNet.cMotorNeurons)
     }
 
     private func stimulus() {
-        senseLayer = addLayer(role: .senseLayer, layerSSInGrid: ArkonCentralDark.isSenseLayer)
+        senseLayer = addLayer(role: .senseLayer, layerSSInGrid: KIdentifier.KType.senseLayer.rawValue)
         pushSignalToLower(cNeurons: fNet.cSenseNeurons)
         upperLayer = senseLayer
     }

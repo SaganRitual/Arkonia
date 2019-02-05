@@ -23,6 +23,7 @@ import Foundation
 enum DecodeState {
     case diagnostics, inLayer, inNeuron, noLayer
 }
+
 class FDecoder: DecoderProtocol {
     var decodeState: DecodeState = .noLayer
     var inputGenome: Genome?
@@ -30,35 +31,40 @@ class FDecoder: DecoderProtocol {
     weak var layerUnderConstruction: FLayer?
     weak var neuronUnderConstruction: FNeuron?
 
+    var counter = 0
+
     init() {
         precondition(ArkonCentralDark.decoder == nil)
         ArkonCentralDark.decoder = self
     }
 
     func decode() -> FNet? {
+//        counter += 1
+//        if counter % 10 == 0 {
+//            print("\n\n\nhere\n\n\n")
+//            Thread.sleep(forTimeInterval: 5.0)
+//        }
         fNet = FNet()
 
-        nok(inputGenome).makeIterator().forEach {
+        nok(inputGenome).makeIterator().forEach { g in let gene = nok(g as? Gene)
             switch decodeState {
-            // Skip the diagnostics, or the decoder will create
-            // a nice new layer for us, with a single neuron
-            case .diagnostics: dispatch_noLayer($0)
-            case .noLayer:     dispatch_noLayer($0)
-            case .inLayer:     dispatch_inLayer($0)
-            case .inNeuron:    dispatch_inNeuron($0)
+            case .diagnostics: dispatch_noLayer(gene)
+            case .noLayer:     dispatch_noLayer(gene)
+            case .inLayer:     dispatch_inLayer(gene)
+            case .inNeuron:    dispatch_inNeuron(gene)
             }
         }
 
         layerUnderConstruction?.finalizeNeuron()
         fNet.finalizeLayer()
-        return fNet!.subjectSurvived(fNet)
+        return fNet.subjectSurvived(fNet)
     }
 
     func reset() { self.decodeState = .noLayer; fNet = nil }
 
-    func setInputGenome(_ inputGenome: Genome) -> FDecoder {
+    func setInputGenome(_ inputGenome: GenomeProtocol) -> DecoderProtocol {
         self.reset()
-        self.inputGenome = inputGenome
+        self.inputGenome = nok(inputGenome as? Genome)
         return self
     }
 }

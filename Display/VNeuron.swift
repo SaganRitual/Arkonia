@@ -21,9 +21,9 @@
 import Foundation
 import SpriteKit
 
-class VNeuron: UNeuron, DisplayableSignalProtocol {
-    weak var portal: SKNode!
-    internal var position: CGPoint?
+class VNeuron: UNeuron {
+    private weak var portal: SKNode!
+    private var position: CGPoint?
 
     override init(id: KIdentifier, bias: Double,
                   signals: [WeightedSignalProtocol], output: Double)
@@ -37,8 +37,11 @@ class VNeuron: UNeuron, DisplayableSignalProtocol {
         drawMyself(spacer: spacer, layerRole: layerRole)
         drawConnections()
     }
+}
 
-    func drawConnections() {
+extension VNeuron {
+
+    private func drawConnections() {
         precondition(self.position != nil, "My position isn't set")
         signals.forEach {
             guard let position = ($0 as? VWeightedSignal)?.signalSource.position else {
@@ -49,12 +52,12 @@ class VNeuron: UNeuron, DisplayableSignalProtocol {
         }
     }
 
-    func drawLine(from start: CGPoint, to end: CGPoint) {
+    private func drawLine(from start: CGPoint, to end: CGPoint) {
         let line = VSupport.drawLine(from: start, to: end)
         portal.addChild(line)
     }
 
-    func drawMyself(spacer: VSpacer, layerRole: VLayer.LayerRole) {
+    private func drawMyself(spacer: VSpacer, layerRole: VLayer.LayerRole) {
         let texture: SKTexture = {
             switch layerRole {
             case .hiddenLayer: return ArkonCentralLight.blueNeuronSpriteTexture
@@ -82,7 +85,7 @@ class VNeuron: UNeuron, DisplayableSignalProtocol {
         portal.addChild(sprite)
     }
 
-    func unscale(_ position: CGPoint) -> CGPoint {
+    private func unscale(_ position: CGPoint) -> CGPoint {
         return position * ArkonCentralLight.vNeuronAntiscale
     }
 }

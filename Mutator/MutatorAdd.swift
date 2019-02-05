@@ -45,12 +45,17 @@ extension Mutator {
 
         if !okToSnip(leftCut, rightCut, insertPoint: 0) { return }
 
+        precondition(workingGenome.scount == workingGenome.count && workingGenome.rcount == workingGenome.count)
         guard let cut = cutSegment(leftCut, rightCut) else { return }
+        precondition(workingGenome.scount == workingGenome.count && workingGenome.rcount == workingGenome.count)
+        precondition(cut.scount == cut.count && cut.rcount == cut.count)
         preinsertAction(cut)
 
         // If we've cut a chunk out of the genome, the insert point might
         // not be valid any more. Get an insert point based on the post-cut length
         let insertPoint = Int.random(in: 0..<workingGenome.count)
+        precondition(workingGenome.scount == workingGenome.count && workingGenome.rcount == workingGenome.count)
+        precondition(cut.scount == cut.count && cut.rcount == cut.count)
         workingGenome.inject(cut, before: insertPoint)
 
         // This isn't correct, but I'm being lazy
@@ -77,7 +82,10 @@ extension Mutator {
     func insertRandomSegment() {
         let segment = Segment()
 
-        let cGenes = Int.random(in: 0..<(workingGenome.count / 10))
+        let length = workingGenome.count / 10
+        guard length > 0 else { return }
+
+        let cGenes = Int.random(in: 0..<length)
         (0..<cGenes).forEach { _ in
             let newGene = Gene.makeRandomGene()
             segment.asslink(newGene)

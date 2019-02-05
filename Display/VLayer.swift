@@ -28,12 +28,12 @@ class VLayer: ULayer {
         spacer.setLayerRole(layerRole)
 
         neurons.forEach {
-            ($0 as! VNeuron).display(on: portal, spacer: spacer, layerRole: layerRole)
+            nok($0 as? VNeuron).display(on: portal, spacer: spacer, layerRole: layerRole)
         }
     }
 
     override func makeNeuron(id: KIdentifier, bias: Double,
-                    signals: [WeightedSignalProtocol], output: Double) -> UNeuron
+                             signals: [WeightedSignalProtocol], output: Double) -> UNeuron
     {
         return VNeuron(id: id, bias: bias, signals: signals, output: output)
     }

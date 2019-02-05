@@ -35,7 +35,7 @@ class VNet: UNet {
         senseLayer.display(on: portal, spacer: spacer)
 
         hiddenLayers.map { $0 }.forEach {
-            ($0 as! VLayer).display(on: portal, spacer: spacer)
+            nok($0 as? VLayer).display(on: portal, spacer: spacer)
         }
 
         motorLayer.display(on: portal, spacer: spacer)

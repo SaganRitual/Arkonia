@@ -18,13 +18,35 @@
 // IN THE SOFTWARE.
 //
 
-import Foundation
+import XCTest
 
-class NGSubject: GSSubject {
-    let nameToGuess: String
+class DTGenomeBloat: XCTestCase {
 
-    init(fNet myFNet: FNet, genome myGenome: Genome, nameToGuess: String) {
-        self.nameToGuess = nameToGuess
-        super.init(fNet: myFNet, genome: myGenome)
+    override func setUp() {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
+
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
+
+    func testBloatGenes() {
+        var genes = [Gene]()
+        for _ in 0..<1_000_000 { genes.append(Gene.makeRandomGene()) }
+    }
+
+    func testBloatFrame() {
+        let decoder = FDecoder()
+        let mutator = Mutator()
+        var fNets = [FNet]()
+        var genome = Genome((0..<1_000).map { _ in Gene.makeRandomGene() })
+        for _ in 0..<10_000 {
+            if let fNet = decoder.setInputGenome(genome).decode() {
+                fNets.append(fNet)
+            }
+
+            genome = nok(mutator.setInputGenome(genome).mutate() as? Genome)
+        }
+    }
+
 }

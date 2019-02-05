@@ -83,18 +83,13 @@ enum Assembler {
         }
 
         //  -> 0..<4
-        var gg: gIntGene?
         for _ in 0..<downsPerNeuron {
             //  -> First down connector goes straight down. Others
             // go to the right of that one, wrapping around to the
             // first neuron in the upper layer if necessary.
             let g = gDownConnector(channel)
-            gg = g
             segment.asslink(g)
             channel += 1
-
-            if let ggg = gg as? gDownConnector { print("this one: \(ggg) is ok") }
-            else { print("not ok") }
         }
 
         return segment

@@ -31,9 +31,6 @@ struct ConnectionSpec {
     var targets: [GridXY]
 }
 
-let cLayers = 5
-let cNeurons = 5
-
 enum KConnectoid {
     //    static func getConnections(_ relay: KSignalRelay, to upperLayer: KLayer) -> [Int] {
     //        let x = relay.id.myID, y = upperLayer.id.myID

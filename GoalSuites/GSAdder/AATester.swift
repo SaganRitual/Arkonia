@@ -45,11 +45,11 @@ final class AATester: GSTesterProtocol {
     func administerTest(to gs: GSSubject) -> Double? {
         gs.fitnessScore = 0.0
 
-        let kDriver = KDriver(fNet: gs.fNet!)
-        gs.kNet = kDriver.kNet
+        let KSignalDriver = KSignalDriver(fNet: gs.fNet!)
+        gs.kNet = KSignalDriver.kNet
 
         for (ss, _/*inputSet*/) in testInputSets.enumerated() {
-            kDriver.drive(sensoryInputs: testInputSets[0])
+            KSignalDriver.drive(sensoryInputs: testInputSets[0])
 
             let nonils = rawOutputs.compactMap({$0})
             if nonils.isEmpty { return nil }

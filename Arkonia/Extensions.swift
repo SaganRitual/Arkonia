@@ -47,56 +47,56 @@ func %% (_ a: Int, _ n: Int) -> Int {
     return r >= 0 ? r : r + n
 }
 
-extension Double {
-    func iTruncate() -> Int {
-        return Int(self)
-    }
-
-    func sciTruncate(_ length: Int) -> String {
-        let t = Double(truncating: self as NSNumber)
-        return String(format: "%.\(length)e", t)
-    }
-
-    func sTruncate() -> String {
-        let t = Double(truncating: self as NSNumber)
-        return String(format: "%.20f", t)
-    }
-
-    func sTruncate(_ length: Int) -> String {
-        let t = Double(truncating: self as NSNumber)
-        return String(format: "%.\(length)f", t)
-    }
-
-    func dTruncate() -> Double {
-        return Double(sTruncate())!
-    }
-}
-
-extension Float {
-    func sTruncate() -> String {
-        return Double(self).sTruncate()
-    }
-}
-
-extension CGFloat {
-    func iTruncate() -> Int {
-        return Double(self).iTruncate()
-    }
-
-    func dTruncate() -> Double {
-        return Double(self).dTruncate()
-    }
-
-    func sTruncate() -> String {
-        return Double(self).sTruncate()
-    }
-}
-
-extension CGPoint {
-    func iTruncate() -> CGPoint {
-        return CGPoint(x: self.x.iTruncate(), y: self.y.iTruncate())
-    }
-}
+//extension Double {
+//    func iTruncate() -> Int {
+//        return Int(self)
+//    }
+//
+//    func sciTruncate(_ length: Int) -> String {
+//        let t = Double(truncating: self as NSNumber)
+//        return String(format: "%.\(length)e", t)
+//    }
+//
+//    func sTruncate() -> String {
+//        let t = Double(truncating: self as NSNumber)
+//        return String(format: "%.20f", t)
+//    }
+//
+//    func sTruncate(_ length: Int) -> String {
+//        let t = Double(truncating: self as NSNumber)
+//        return String(format: "%.\(length)f", t)
+//    }
+//
+//    func dTruncate() -> Double {
+//        return Double(sTruncate())!
+//    }
+//}
+//
+//extension Float {
+//    func sTruncate() -> String {
+//        return Double(self).sTruncate()
+//    }
+//}
+//
+//extension CGFloat {
+//    func iTruncate() -> Int {
+//        return Double(self).iTruncate()
+//    }
+//
+//    func dTruncate() -> Double {
+//        return Double(self).dTruncate()
+//    }
+//
+//    func sTruncate() -> String {
+//        return Double(self).sTruncate()
+//    }
+//}
+//
+//extension CGPoint {
+//    func iTruncate() -> CGPoint {
+//        return CGPoint(x: self.x.iTruncate(), y: self.y.iTruncate())
+//    }
+//}
 
 extension Array {
     // It's easier for me to think about the breeders as a stack

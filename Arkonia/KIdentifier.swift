@@ -54,7 +54,10 @@ public struct KIdentifier: Hashable, KIdentifierProtocol {
 
     init(_ type: String, _ myID: Int) { self.init(type, [], myID) }
 
-    enum KType { case hiddenLayer, net, neuron, senseLayer, motorLayer, signalRelay }
+    enum KType: Int {
+        case hiddenLayer, net, neuron, signalRelay, senseLayer = -1, motorLayer = -2
+    }
+
     func add(_ newChild: Int, as kType: KType) -> KIdentifier {
         switch kType {
         case .hiddenLayer: return     KIdentifier("KLayer  ", familyID + [myID], newChild)
@@ -73,8 +76,8 @@ public struct KIdentifier: Hashable, KIdentifierProtocol {
         for (separator, member) in (family + [me]).enumerated() {
             let m: String = {
                 switch member {
-                case -2: return "b"
-                case -1: return "t"
+                case KIdentifier.KType.motorLayer.rawValue: return "b"
+                case KIdentifier.KType.senseLayer.rawValue: return "t"
                 default: return String(member)
                 }
             }()

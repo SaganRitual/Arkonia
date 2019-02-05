@@ -28,9 +28,7 @@ protocol GSTesterProtocol: class, LightLabelProtocol {
 class GSScore: CustomStringConvertible, Hashable {
     var score = 0.0
 
-    public var description: String {
-        return score.sTruncate()
-    }
+    public var description: String { return String(score) }
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(score)
@@ -48,7 +46,7 @@ class GSTester: GSTesterProtocol {
     private weak var suite: GSGoalSuite?
 
     var lightLabel: String {
-        return ", guess: \(actualOutput.sciTruncate(5))"
+        return ", guess: \(nok(actualOutput))"
     }
 
     init(expectedOutput: Double) {
@@ -67,11 +65,11 @@ class GSTester: GSTesterProtocol {
     func administerTest(to gs: GSSubject) -> Double? {
         gs.fitnessScore = 0.0
 
-        let kDriver = KDriver(fNet: gs.fNet!, idNumber: gs.fishNumber)
-        gs.kNet = kDriver.kNet
-        kDriver.drive(sensoryInputs: inputs)
+        let signalDriver = KSignalDriver(idNumber: gs.fishNumber, fNet: gs.fNet!)
+        gs.kNet = signalDriver.kNet
+        signalDriver.drive(sensoryInputs: inputs)
 
-        let nonils = kDriver.motorOutputs.compactMap({$0})
+        let nonils = signalDriver.motorOutputs.compactMap({$0})
         if nonils.isEmpty { return nil }
 
         let result = nonils.reduce(0.0, +)

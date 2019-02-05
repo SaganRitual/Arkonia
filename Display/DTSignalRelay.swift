@@ -20,6 +20,8 @@
 
 import XCTest
 
+// swiftlint:disable function_body_length
+
 class DTSignalRelay: XCTestCase {
     let dummyRelay = RRelay(KIdentifier("Dummy", [42, 42], 42))
     let rGridID = KIdentifier("Relay Test", 0)
@@ -343,3 +345,4 @@ extension DTSignalRelay {
         wGrid.layers.forEach { $0.relays.forEach { XCTAssertNotNil($0) } }
     }
 }
+// swiftlint:enable function_body_length

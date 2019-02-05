@@ -18,7 +18,6 @@
 // IN THE SOFTWARE.
 //
 
-
 import Cocoa
 import SpriteKit
 
@@ -27,7 +26,7 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
     #if K_RUN_MAIN
 
     var curator: Curator?
-    let goalSuite = NGGoalSuite("Zoe Bishop")
+    var goalSuite: GSGoalSuite?
     var workItem: DispatchWorkItem!
 
     #elseif K_RUN_DISPLAY_TEST
@@ -52,8 +51,9 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
 
           #if K_RUN_MAIN
 
-            self.curator = Curator(goalSuite: goalSuite)
-            self.workItem = DispatchWorkItem { [weak self] in _ = self!.curator!.select() }
+            self.goalSuite = NGGoalSuite("Zoe Bishop")
+            self.curator = Curator(goalSuite: nok(self.goalSuite))
+            self.workItem = DispatchWorkItem { [weak self] in _ = nok(self?.curator).select() }
             DispatchQueue.global(qos: .background).async(execute: self.workItem)
 
           #elseif K_RUN_DISPLAY_TEST

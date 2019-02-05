@@ -24,7 +24,7 @@ public struct UpConnector: CustomStringConvertible, NeuronUpConnectorProtocol {
     public var value: UpConnectorValue
 
     public var description: String {
-        return "(w[\(value.1.dTruncate())]c[\(value.0)])"
+        return "(w[\(value.1)]c[\(value.0)])"
     }
 
     init(_ gene: NeuronUpConnectorProtocol) { self.value = gene.value }

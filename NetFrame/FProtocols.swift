@@ -20,5 +20,9 @@
 
 import Foundation
 
-print("Hello, World!")
-
+/// The static parts of the neuron, the parts that don't change
+/// after the arkon is born. The phenotype.
+protocol FStaticNeuronProtocol {
+    var activator: AFn.FunctionName { get }
+    var bias: Double { get set }
+}

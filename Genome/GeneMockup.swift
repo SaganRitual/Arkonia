@@ -29,8 +29,8 @@ protocol GeneProtocol: CustomStringConvertible {
 }
 
 class gMockGene: GeneLinkable, GeneProtocol {
-    var next: GeneLinkable? = nil
-    var prev: GeneLinkable? = nil
+    var next: GeneLinkable?
+    var prev: GeneLinkable?
 
     let value: Int
     var description: String { return "Mock gene: value = \(value)" }

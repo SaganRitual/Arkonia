@@ -20,16 +20,26 @@
 
 import Foundation
 
-protocol DecoderProtocol {}
-protocol MutatorProtocol {}
+protocol GenomeProtocol { }
+
+protocol DecoderProtocol {
+    func decode() -> FNet?
+    func setInputGenome(_ genome: GenomeProtocol) -> DecoderProtocol
+}
+
+protocol MutatorProtocol {
+    func mutate() -> GenomeProtocol
+    func mutate(from value: Double) -> Double
+    func setInputGenome(_ genome: GenomeProtocol) -> MutatorProtocol
+}
 
 enum ArkonCentralDark {
     static var decoder: DecoderProtocol!
     static var mutator: MutatorProtocol!
     static var selectionControls = KSelectionControls()
 
-    static let isMotorLayer = -2
-    static let isSenseLayer = -1
+    static let isMotorLayer = KIdentifier.KType.motorLayer
+    static let isSenseLayer = KIdentifier.KType.senseLayer
 }
 
 struct KSelectionControls {

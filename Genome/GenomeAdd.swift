@@ -30,12 +30,12 @@ extension Genome {
 
     // Like prepend, but transfers ownership away from the segment object.
     func headlink(_ gene: GeneLinkable) {
-        // To insert multiple genes, create a segment
-        precondition(gene.next == nil && gene.prev == nil)
+        precondition(gene.next == nil && gene.prev == nil,
+                     "To insert multiple genes, create a segment")
 
         head?.prev = gene   // Safe, order doesn't matter
         gene.next = head    // Must happen before we set head to a new value
-        head = gene
+        setHead(gene)
 
         count += 1
 
@@ -48,16 +48,14 @@ extension Genome {
         head?.prev = segment.tail
 
         segment.tail?.next = head
-        head = segment.head
+        setHead(segment.head)
 
         count += segment.count
 
-        segment.releaseGenes()  // Transfer ownership
+        segment.releaseOwnershipOfGenome()
     }
 
     // Like insert, but transfers ownership away from the segment object.
-    // (Except this one, which takes only a gene, which presumes that
-    // there is no segment object, just a single gene.)
     func inject(_ gene: GeneLinkable, before ss: Int) {
         switch ss {
         case 0:          headlink(gene)
@@ -67,26 +65,45 @@ extension Genome {
     }
 
     func inject(_ segment: Segment, before ss: Int) {
+        validate(self, segment)
         switch ss {
         case 0:          headlink(segment)
         case self.count: asslink(segment)
         default:         inject(segment, before: self[ss])
         }
+        validate(self, segment)
     }
 
     func inject(_ segment: Segment, before next_: GeneLinkable?) {
-        // Both must be nil, or both non-nil
-        precondition((head == nil) == (tail == nil))
+        if segment.isEmpty {
+            precondition(segment.rcount == 0 && segment.scount == 0)
+            return
+        }
+
+        validate(self, segment)
+
+        // By the time we want to update the target genome's count,
+        // the segment has already released ownership of its genes,
+        // so its count will be zero. We need to add the actual count.
+        var segmentLength = segment.count
 
         defer {
-            count += segment.count
-            segment.releaseGenes()
+            // only do segment, because self isn't valid until we add the
+            // count on the following line
+            validateSegment(segment, checkCounts: false, checkOwnership: false)
+            validateSegment(self, checkCounts: false, checkOwnership: true)
+            precondition(count + segmentLength == self.rcount)
+            count += segmentLength
+            validateSegment(self, checkCounts: true, checkOwnership: true)
+            segment.releaseOwnershipOfGenome()
+            validate(self, segment)
         }
 
         if head == nil {
-            head = segment.head
+            setHead(segment.head)
             tail = segment.tail
             count = 0
+            validateSegment(segment, checkCounts: true, checkOwnership: true)
             return
         }
 
@@ -95,6 +112,7 @@ extension Genome {
             tail!.next = segment.head
             segment.head?.prev = tail       // Optional, to allow for injection of empty segment
             tail = segment.tail
+            segment.setHead(nil)    // Transfer ownership from segment to me
             return
         }
 
@@ -108,13 +126,12 @@ extension Genome {
     }
 
     func inject(_ gene: GeneLinkable, before next_: GeneLinkable?) {
-        // Both must be nil, or both non-nil
-        precondition((head == nil) == (tail == nil))
-
         defer { count += 1 }
 
+        validate(self, gene)
+
         if head == nil {
-            head = gene
+            setHead(gene)
             tail = gene
             return
         }
@@ -136,6 +153,35 @@ extension Genome {
         // Strong refs; grab next before prev lets go of it
         gene.next = next
         prev?.next = gene   // prev == nil happens when we're inserting before head
+    }
+
+    func validate(_ segment: Segment, _ gene: GeneLinkable) {
+        validateSegment(segment, checkCounts: true, checkOwnership: true)
+        validateGene(gene)
+    }
+
+    func validate(_ first: Segment, _ second: Segment) {
+        validateSegment(first, checkCounts: true, checkOwnership: true)
+        validateSegment(second, checkCounts: true, checkOwnership: true)
+    }
+
+    func validateGene(_ gene: GeneLinkable) {
+        precondition(gene.prev == nil && gene.next == nil, "Must not be owned by another segment")
+    }
+
+    func validateCounts(_ segment: Segment) {
+        precondition(segment.count == segment.rcount && segment.count == segment.scount)
+    }
+
+    func validateSegment(_ segment: Segment, checkCounts: Bool, checkOwnership: Bool) {
+
+        precondition((segment.head == nil) == (segment.tail == nil), "Invalid segment")
+
+        if checkCounts { validateCounts(segment) }
+
+        if checkOwnership, let h = segment.head, let t = segment.tail {
+            precondition(h.prev == nil && t.next == nil, "Must not be owned by another segment")
+        }
     }
 
 }

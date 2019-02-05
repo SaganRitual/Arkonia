@@ -40,4 +40,3 @@ enum ArkonCentralLight {
 
     static let vPortalSeparatorsScale = 0.4
 }
-

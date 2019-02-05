@@ -45,7 +45,7 @@ class GSFactory {
     func makeNet(genome: Genome, mutate: Bool) -> (Genome, FNet?) {
         let m = nok(ArkonCentralDark.mutator as? Mutator)
         var newGenome = genome.copy()
-        if mutate { newGenome = m.setInputGenome(newGenome).mutate() }
+        if mutate { newGenome = nok(m.setInputGenome(newGenome).mutate() as? Segment) }
         return (newGenome, decoder.setInputGenome(newGenome).decode())
     }
 

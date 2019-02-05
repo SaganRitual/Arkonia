@@ -43,15 +43,14 @@ class KNeuron: KIdentifiable, LoopIterable {
         loopIterableSelf = self
     }
 
-    init(_ id: KIdentifier, activator: AFn.FunctionName, bias: Double, downConnectors: [Int],
-         upConnectors: [UpConnectorValue])
-    {
+    init(_ id: KIdentifier, _ fNeuron: FNeuron) {
         self.id = id
-        self.activator = activator
-        self.bias = bias
-        self.downConnectors = downConnectors
-        self.upConnectors = upConnectors
+        self.activator = fNeuron.activator
+        self.bias = fNeuron.bias
+        self.downConnectors = fNeuron.downConnectors
+        self.upConnectors = fNeuron.upConnectors
         loopIterableSelf = self
+
     }
 }
 
