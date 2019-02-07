@@ -35,7 +35,7 @@ class GSSubject: LightLabelProtocol, CustomStringConvertible {
     var spawnCount: Int = 0
 
     public var description: String {
-        return "Arkon \(fishNumber) score \(fitnessScore.sciTruncate(5))"
+        return "Arkon \(fishNumber) score \(fitnessScore)"
     }
 
     public var lightLabel: String {

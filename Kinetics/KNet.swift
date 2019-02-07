@@ -39,33 +39,12 @@ class KNet: KIdentifiable {
 }
 
 extension KNet {
-    func addLayer(layerType: KIdentifier.KType, layerSSInGrid: Int) -> KLayer {
-        if layerType == .senseLayer {
-            let sID = id.add(ArkonCentralDark.isSenseLayer, as: .senseLayer)
-            let cNeurons = ArkonCentralDark.selectionControls.cSenseNeurons
-            senseLayer = KLayer.makeLayer(sID, layerType, cNeurons)
-            return senseLayer
-        }
-
-        if layerType == .motorLayer {
-            let mID = id.add(ArkonCentralDark.isMotorLayer, as: .motorLayer)
-            let cNeurons = ArkonCentralDark.selectionControls.cMotorNeurons
-            motorLayer = KLayer.makeLayer(mID, layerType, cNeurons)
-            return motorLayer
-        }
-
-        let hID = id.add(layerSSInGrid, as: .hiddenLayer)
-        hiddenLayers.append(KLayer.makeLayer(hID, layerType, layerSSInGrid))
-
-        return hiddenLayers.last!
-    }
-
-    static func makeNet(_ me: Int, cLayers: Int) -> KNet {
+    static func makeNet(_ me: Int, _ fNet: FNet) -> KNet {
         let id = KIdentifier("KNet", 0)
 
-        let layers: [KLayer] = (0..<cLayers).map {
+        let layers: [KLayer] = (0..<fNet.layers.count).map {
             let childID = id.add($0, as: .hiddenLayer)
-            let newKLayer = KLayer.makeLayer(childID, .hiddenLayer, $0)
+            let newKLayer = KLayer.makeLayer(childID, fNet.layers[$0])
             return newKLayer
         }
 

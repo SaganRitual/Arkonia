@@ -79,7 +79,6 @@ struct VSpacer {
     }
 }
 
-
 extension VSpacer {
     struct VGridSize {
         var width: Int

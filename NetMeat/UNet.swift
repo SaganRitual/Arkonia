@@ -35,14 +35,14 @@ class UNet: KIdentifiable {
 
     func addLayer(layerRole: ULayer.LayerRole, layerSSInGrid: Int) -> ULayer {
         if layerRole == .senseLayer {
-            let iss = ArkonCentralDark.isSenseLayer
+            let iss = ArkonCentralDark.isSenseLayer.rawValue
             let sID = id.add(iss, as: .senseLayer)
             senseLayer = makeLayer(id: sID, layerRole: layerRole, layerSSInGrid: iss)
             return senseLayer
         }
 
         if layerRole == .motorLayer {
-            let ism = ArkonCentralDark.isMotorLayer
+            let ism = ArkonCentralDark.isMotorLayer.rawValue
             let mID = id.add(ism, as: .motorLayer)
             motorLayer = makeLayer(id: mID, layerRole: layerRole, layerSSInGrid: ism)
             return motorLayer

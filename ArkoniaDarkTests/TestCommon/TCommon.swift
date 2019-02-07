@@ -101,5 +101,3 @@ class WGrid {
         get { return layers[ss] }
     }
 }
-
-

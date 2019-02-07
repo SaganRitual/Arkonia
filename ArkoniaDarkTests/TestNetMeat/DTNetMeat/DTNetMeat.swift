@@ -20,7 +20,7 @@
 
 import XCTest
 
-class TNeuron: XCTestCase {
+class DTNetMeat: XCTestCase {
     let cLayers = 5
     let dummyRelay = RRelay(KIdentifier("Dummy", [42, 42], 42))
     let rGridID = KIdentifier("Relay Test", 0)
@@ -40,14 +40,31 @@ class TNeuron: XCTestCase {
         wGrid = nil
     }
 
-    private func buildFNet() -> FNet {
+    class TUpConnector: NeuronUpConnectorProtocol {
+        var value: UpConnectorValue
+        init(channel: Int, weight: Double) { value = (channel, weight) }
+    }
+
+    struct MockDownConnector: NeuronDownConnectorProtocol {
+        var value: Int
+        init(_ value: Int) { self.value = value }
+    }
+
+    private func buildFNet(cLayers: Int, cNeurons: Int) -> FNet {
         let net = FNet()
 
-        for _ in 0..<5 {
+        for layerSS in 0..<cLayers {
             let layer = net.beginNewLayer()
 
-            for _ in 0..<cNeurons {
-                _ = layer.beginNewNeuron()
+            var neuron: FNeuron!
+            for channel in 0..<cNeurons {
+                neuron = layer.beginNewNeuron()
+                neuron.addUpConnector(TUpConnector(channel: channel, weight: 1.0))
+
+                if layerSS == cLayers - 1 {
+                    neuron.addDownConnector(MockDownConnector(channel))
+                }
+
                 layer.finalizeNeuron()
             }
 
@@ -57,11 +74,13 @@ class TNeuron: XCTestCase {
         return net
     }
 
+    let testOldTestCLayers = 5
+    let testOldTestCNeurons = 5
     func testOldTest() {
-        let fNet = buildFNet()
-        let driver = KDriver(fNet: fNet, idNumber: 0)
+        let fNet = buildFNet(cLayers: testOldTestCLayers, cNeurons: testOldTestCNeurons)
+        let driver = KSignalDriver(idNumber: 0, fNet: fNet)
 
-        driver.drive(sensoryInputs: Array(repeating: 1.0, count: cNeurons))
+        driver.drive(sensoryInputs: Array(repeating: 1.0, count: testOldTestCNeurons))
 
         XCTAssertEqual(driver.motorOutputs,
             Array(repeating: 1.0, count: ArkonCentralDark.selectionControls.cMotorNeurons
@@ -186,7 +205,7 @@ class TNeuron: XCTestCase {
 //    }
 }
 
-extension TNeuron {
+extension DTNetMeat {
 
     private func disconnectChannel(_ channel: Int, fromLayer: Int) {
         wGrid[fromLayer].relays.forEach { wRelay in

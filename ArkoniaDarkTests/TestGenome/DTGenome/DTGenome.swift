@@ -20,6 +20,7 @@
 
 import XCTest
 
+// swiftlint:disable function_body_length
 class DTGenome: XCTestCase {
     func testGenome() {
         #if K_RUN_DT_GENOME
@@ -29,13 +30,16 @@ class DTGenome: XCTestCase {
         #endif
 
         func getGeneValues(_ segment: Segment) -> [Int] {
-            return segment.map { return ($0 as! gMockGene).value }
+            return segment.map { return nok($0 as? gMockGene).value }
         }
 
         // Smoke test
         let genome = Genome()
         XCTAssert(genome.isEmpty)
+
+        // swiftlint:disable empty_count
         XCTAssert(genome.count == 0)
+        // swiftlint:enable empty_count
 
         // Append one node at a time
         (0..<5).forEach {
@@ -144,7 +148,7 @@ class DTGenome: XCTestCase {
         XCTAssertEqual(getGeneValues(genome), expectedOutput)
 
         // Remove by predicate
-        genome.removeAll { ($0 as! gMockGene).value > 100 }
+        genome.removeAll { nok($0 as? gMockGene).value > 100 }
         expectedOutput.removeAll { $0 > 100 }
 
         XCTAssertEqual(genome.count, expectedOutput.count)
@@ -166,7 +170,9 @@ class DTGenome: XCTestCase {
         genome.removeAll()
 
         XCTAssert(genome.isEmpty)
+        // swiftlint:disable empty_count
         XCTAssert(genome.count == 0)
+        // swiftlint:enable empty_count
 
         // What we're ensuring here is that genome3 got its own
         // copy of all the genes, such that it's not affected in
@@ -197,6 +203,16 @@ class DTGenome: XCTestCase {
             genome.removeOne(at: 0)
             XCTAssertEqual(genome.count, genome.rcount, "\(genome.scount)")
         }
+
+        // Repopulate for more abuse
+        genome.asslink(Genome((400..<500).map { return gMockGene($0) }))
+
+        // Found in the wild
+        XCTAssertEqual((genome.head == nil), (genome.tail == nil))
+        genome.removeOne(at: genome.count - 1)
+        XCTAssertEqual((genome.head == nil), (genome.tail == nil))
+        genome.inject(gMockGene(0), before: 2)
+        XCTAssertEqual((genome.head == nil), (genome.tail == nil))
     }
 
 }

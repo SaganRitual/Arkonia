@@ -22,12 +22,12 @@ import Foundation
 import SpriteKit
 
 class VDisplay: NSObject, SKSceneDelegate {
-    typealias SceneTickCallback = (_ portal: SKNode) -> ()
+    typealias SceneTickCallback = (_ portal: SKNode) -> Void
 
     var portalNumbers = [SKNode: Int]()
     var portalServer: VPortalServer
     private weak var scene: SKScene?
-    private var tickCallbacks = [() -> ()]()
+    private var tickCallbacks = [() -> Void]()
     private var fNets = [SKNode: FNet]()
 
     init(_ scene: SKScene) {

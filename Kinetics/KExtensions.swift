@@ -27,15 +27,11 @@ extension KNeuron {
         let connector = KConnector(self)
         let targetNeurons = connector.selectOutputs(from: upperLayer)
 
-        relay?.connect(to: targetNeurons, in: upperLayer)
+        nok(relay).connect(to: targetNeurons, in: upperLayer)
     }
-    
-    static func makeNeuron(_ family: KIdentifier, _ me: Int, _ fNeuron: FNeuron) -> KNeuron {
-        let id = family.add(me, as: .neuron)
-        return KNeuron(
-            id, activator: fNeuron.activator, bias: fNeuron.bias,
-            downConnectors: fNeuron.downConnectors, upConnectors: fNeuron.upConnectors
-        )
+
+    static func makeNeuron(_ newNeuronID: KIdentifier, _ fNeuron: FNeuron) -> KNeuron {
+        return KNeuron(newNeuronID, fNeuron)
     }
 
     // For sensory layer and motor layer.
@@ -59,4 +55,3 @@ extension KSignalRelay {
 
     func overrideState(operational: Bool) { overriddenState = operational }
 }
-

@@ -25,7 +25,7 @@ class VSignalDriver: USignalDriver {
         let vNet = VNet(id: KIdentifier("SignalDriver", 0))
         super.init(fNet: fNet, uNet: vNet)
     }
-    
+
     override func drive() -> VNet { return nok(super.drive() as? VNet) }
 
     override func makeWeightedSignal(signalSource: VNeuron, weight: Double)

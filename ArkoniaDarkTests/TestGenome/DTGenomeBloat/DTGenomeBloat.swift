@@ -18,26 +18,35 @@
 // IN THE SOFTWARE.
 //
 
-import Foundation
-import SpriteKit
+import XCTest
 
-enum ArkonCentralLight {
-    static var display: VDisplay?
+class DTGenomeBloat: XCTestCase {
 
-    static let cPortals = 4
+    override func setUp() {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
 
-    static var sceneBackgroundTexture: SKTexture!
-    static var blueNeuronSpriteTexture: SKTexture!
-    static var greenNeuronSpriteTexture: SKTexture!
-    static var orangeNeuronSpriteTexture: SKTexture!
+    override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
 
-    static let vBorderZPosition = CGFloat(3.0)
-    static let vLineZPosition = CGFloat(1.0)
-    static let vNeuronZPosition = CGFloat(2.0)
+    func testBloatGenes() {
+        var genes = [Gene]()
+        for _ in 0..<1_000_000 { genes.append(Gene.makeRandomGene()) }
+    }
 
-    static var vNeuronAntiscale = CGFloat(ceil(sqrt(Double(cPortals))))
-    static var vNeuronScale = CGFloat((cPortals == 1) ? 0.125 : 0.25)
+    func testBloatFrame() {
+        let decoder = FDecoder()
+        let mutator = Mutator()
+        var fNets = [FNet]()
+        var genome = Genome((0..<1_000).map { _ in Gene.makeRandomGene() })
+        for _ in 0..<10_000 {
+            if let fNet = decoder.setInputGenome(genome).decode() {
+                fNets.append(fNet)
+            }
 
-    static let vPortalSeparatorsScale = 0.4
+            genome = nok(mutator.setInputGenome(genome).mutate() as? Genome)
+        }
+    }
+
 }
-

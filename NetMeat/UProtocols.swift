@@ -20,10 +20,6 @@
 
 import Foundation
 
-public protocol DisplayableSignalProtocol: SignalSourceProtocol {
-    var position: CGPoint? { get set }
-}
-
 public protocol USignalSink: KIdentifiable {
     var bias: Double { get }
     var signals: [WeightedSignalProtocol] { get set }
@@ -36,8 +32,3 @@ public protocol SignalSourceProtocol {
 public protocol WeightedSignalProtocol: SignalSourceProtocol {
     var weight: Double { get set }
 }
-
-//protocol WeightedSignalProtocol {
-//    var signal: Double { get set }
-//    var weight: Double { get set }
-//}

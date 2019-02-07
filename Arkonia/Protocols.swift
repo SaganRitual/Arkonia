@@ -20,11 +20,16 @@
 
 import Foundation
 
-class NGSubject: GSSubject {
-    let nameToGuess: String
+public protocol NeuronBiasProtocol {
+    var value: Double { get set }
+}
 
-    init(fNet myFNet: FNet, genome myGenome: Genome, nameToGuess: String) {
-        self.nameToGuess = nameToGuess
-        super.init(fNet: myFNet, genome: myGenome)
-    }
+public protocol NeuronDownConnectorProtocol {
+    var value: Int { get set }
+}
+
+public typealias UpConnectorValue = (channel: Int, weight: Double)
+
+public protocol NeuronUpConnectorProtocol {
+    var value: UpConnectorValue { get set }
 }

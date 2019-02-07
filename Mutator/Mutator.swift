@@ -83,7 +83,7 @@ class Mutator: MutatorProtocol {
         cutAndReinsertSegment, copyAndReinsertSegment, mutateRandomGenes
     }
 
-    func mutate(mutationType: MutationType? = nil) -> Genome {
+    func mutate() -> GenomeProtocol {
         let m = getWeightedRandomMutationType()
 
         switch m {
@@ -99,7 +99,15 @@ class Mutator: MutatorProtocol {
         case .copyAndReinsertSegment:      copyAndReinsertSegment()
         }
 
+        workingGenome.validate()
         return workingGenome
+    }
+
+    func mutate(from value: Double) -> Double {
+        let m = nok(ArkonCentralDark.mutator as? Mutator)
+        let percentage = m.bellCurve.nextFloat()
+        let v = (value == 0.0) ? Double.random(in: -1...1) : value
+        return Double(1.0 - percentage) * v
     }
 
     func okToSnip(_ leftCut: Int, _ rightCut: Int) -> Bool {
@@ -113,8 +121,8 @@ class Mutator: MutatorProtocol {
             (leftCut..<rightCut).contains(insertPoint)
     }
 
-    func setInputGenome(_ inputGenome: Genome) -> Mutator {
-        self.workingGenome_ = inputGenome
+    func setInputGenome(_ inputGenome: GenomeProtocol) -> MutatorProtocol {
+        self.workingGenome_ = nok(inputGenome as? Genome)
         return self
     }
 
@@ -136,10 +144,12 @@ extension Mutator {
         let cMutate = Double(abs(m.bellCurve.nextFloat())) * Double(workingGenome.count)
         guard Int(cMutate) > 0 else { return }
 
+        precondition(workingGenome.count == workingGenome.rcount && workingGenome.count == workingGenome.scount)
         let strideLength = workingGenome.count / Int(cMutate)
         stride(from: 0, to: workingGenome.count, by: strideLength).forEach { _ in
             let wherefore = Int.random(in: 0..<workingGenome.count)
-            if workingGenome[wherefore].mutate() { workingGenome.isCloneOfParent = false }
+            let gene = nok(workingGenome[wherefore] as? Gene)
+            if gene.mutate() { workingGenome.isCloneOfParent = false }
         }
     }
 }

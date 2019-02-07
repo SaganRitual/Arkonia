@@ -64,8 +64,8 @@ class Selector {
             defer { semaphore.signal() }
 
             semaphore.wait()
-
             guard let newSurvivors = select(against: self.stud) else { continue }
+
             var selectionResults: [AnyHashable : Any] = [
                 NotificationType.selectComplete : newSurvivors
             ]
@@ -107,7 +107,6 @@ class Selector {
             case .BT:  if score == bestScore { continue }
             case .EQ:  if score != bestScore { continue }
             }
-
             if score < bestScore { bestScore = score }
 
             // Start getting rid of the less promising candidates
@@ -123,7 +122,7 @@ class Selector {
             return nil  // No qualifiers, perhaps even no survivors
         }
 
-//        print("Return \(stemTheFlood.count) test subjects")
+        print("Return \(stemTheFlood.count) test subjects")
         return stemTheFlood
     }
 

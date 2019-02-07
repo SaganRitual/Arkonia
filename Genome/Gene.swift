@@ -41,7 +41,12 @@ class Gene: CustomDebugStringConvertible, GeneLinkable {
     init(_ type: GeneType) { (self.idNumber, self.type) = Gene.init_(type) }
     init(_ copyFrom: Gene) { Gene.missingOverrideInSubclass() }
 
-    func copy() -> Gene { Gene.missingOverrideInSubclass() }
+    deinit { precondition(self.prev == nil && self.next == nil) }
+
+    func copy() -> GeneLinkable { Gene.missingOverrideInSubclass() }
+    func isMyself(_ thatGuy: GeneLinkable) -> Bool { return self === thatGuy }
+
+    // swiftlint:disable cyclomatic_complexity
 
     class func makeRandomGene() -> Gene {
         let geneType = nok(GeneType.allCases.randomElement())
@@ -61,6 +66,8 @@ class Gene: CustomDebugStringConvertible, GeneLinkable {
         }
     }
 
+    // swiftlint:enable cyclomatic_complexity
+
     static func missingOverrideInSubclass() -> Never {
         preconditionFailure("Subclasses must implement this")
     }
@@ -77,9 +84,6 @@ extension Gene {
     }
 
     func mutate(from value: Double) -> Double {
-        let m = nok(ArkonCentralDark.mutator as? Mutator)
-        let percentage = m.bellCurve.nextFloat()
-        let v = (value == 0.0) ? Double.random(in: -1...1) : value
-        return (Double(1.0 - percentage) * v).dTruncate()
+        return ArkonCentralDark.mutator.mutate(from: value)
     }
 }

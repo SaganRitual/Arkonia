@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4D1D298220705430099DBC2"
-               BuildableName = "Arkonia.app"
-               BlueprintName = "Arkonia"
+               BlueprintIdentifier = "D4BB12E82207B8B9004C2242"
+               BuildableName = "TTNetMeat"
+               BlueprintName = "TTNetMeat"
                ReferencedContainer = "container:Arkonia.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,23 +28,13 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4D1D2B0220705440099DBC2"
-               BuildableName = "ArkoniaTests.xctest"
-               BlueprintName = "ArkoniaTests"
-               ReferencedContainer = "container:Arkonia.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4D1D298220705430099DBC2"
-            BuildableName = "Arkonia.app"
-            BlueprintName = "Arkonia"
+            BlueprintIdentifier = "D4BB12E82207B8B9004C2242"
+            BuildableName = "TTNetMeat"
+            BlueprintName = "TTNetMeat"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -65,18 +55,13 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4D1D298220705430099DBC2"
-            BuildableName = "Arkonia.app"
-            BlueprintName = "Arkonia"
+            BlueprintIdentifier = "D4BB12E82207B8B9004C2242"
+            BuildableName = "TTNetMeat"
+            BlueprintName = "TTNetMeat"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
-         <AdditionalOption
-            key = "MallocStackLogging"
-            value = ""
-            isEnabled = "YES">
-         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
@@ -89,9 +74,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4D1D298220705430099DBC2"
-            BuildableName = "Arkonia.app"
-            BlueprintName = "Arkonia"
+            BlueprintIdentifier = "D4BB12E82207B8B9004C2242"
+            BuildableName = "TTNetMeat"
+            BlueprintName = "TTNetMeat"
             ReferencedContainer = "container:Arkonia.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

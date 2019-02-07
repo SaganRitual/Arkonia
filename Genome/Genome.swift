@@ -31,13 +31,17 @@ protocol GeneLinkable: class {
     func isMyself(_ thatGuy: GeneLinkable) -> Bool
 }
 
-class Genome: CustomDebugStringConvertible {
+class Genome: CustomDebugStringConvertible, GenomeProtocol {
     enum Caller { case count, head, tail }
 
-    var head: GeneLinkable? { didSet { if head == nil { reset(.head) } } }
-
-    weak var tail: GeneLinkable?
     var count = 0
+    var head_: GeneLinkable?
+    var head: GeneLinkable? {
+        set { precondition(self.formalSet, "Don't set this directly"); head_ = head }
+        get { return head_ }
+    }
+    var formalSet = false
+    weak var tail: GeneLinkable?
 
     var rcount: Int {
         var rr = 0
@@ -56,7 +60,9 @@ class Genome: CustomDebugStringConvertible {
     }
 
     var isCloneOfParent = true
+    // swiftlint:disable empty_count
     var isEmpty: Bool { return count == 0 }
+    // swiftlint:enable empty_count
 
     var debugDescription: String {
         return makeIterator().map { return String(reflecting: $0) + "\n" }.joined()
@@ -70,26 +76,40 @@ class Genome: CustomDebugStringConvertible {
 
     init(_ segments: [Segment]) { segments.forEach { asslink($0) } }
 
+    // If I own a segment when we get here, then it's my job
+    // to deallocate all the genes in the segment. If I don't
+    // own a segment, then we've (apparently) already released
+    // everything we need to release.
+    deinit { if head != nil { releaseGenes() } }
+
+    // swiftlint:disable large_tuple
+
     static func init_(_ segment: Segment) -> (GeneLinkable?, GeneLinkable?, Int) {
         // Take ownership
-        defer { segment.head = nil }
+        defer { segment.setHead(nil) }
         return (segment.head, segment.tail, segment.count)
     }
 
-    func releaseGenes() { head = nil }
+    // swiftlint:enable large_tuple
 
-    var resetting = false
-
-    func reset(_ caller: Caller) {
-        if resetting { return }
-        resetting = true
-        switch caller {
-        case .count: head = nil; tail = nil
-        case .head:  tail = nil; count = 0
-        case .tail:  head = nil; count = 0
-        }
-        resetting = false
+    func releaseGenes() {
+        makeIterator().reversed().forEach { $0.prev = nil; $0.next = nil }
+        setHead(nil)
     }
+
+    func releaseOwnershipOfGenome() { setHead(nil) }
+
+    func setHead(_ newValue: GeneLinkable?) {
+        formalSet = true
+        head_ = newValue
+        if head_ == nil {
+            count = 0
+            tail = nil
+        }
+        formalSet = false
+    }
+
+    func validate() {}
 }
 
 // MARK: copy
@@ -121,16 +141,16 @@ extension Genome {
     subscript (_ ss: Int) -> GeneLinkable {
         precondition(ss < count, "Subscript \(ss) out of range 0..<\(count)")
 
-        for (c, gene) in zip(0..., makeIterator()) {
-            if c == ss {
-                return gene
-            }
-        }
-        preconditionFailure("Concession to the compiler. Shouldn't occur.")
+        var cc: Int? = 0
+        for (c, gene) in zip(0..., makeIterator()) where c == ss { cc = ss; return gene }
+
+        preconditionFailure("Fell through; ss = \(ss), c = \(cc ?? -42)")
     }
 }
 
 // MARK: Sequence - default iterator
+
+// swiftlint:disable nesting
 
 extension Genome: Sequence {
     struct GenomeIterator: IteratorProtocol, Sequence {
@@ -175,11 +195,10 @@ extension Genome: Sequence {
     }
 }
 
+// swiftlint:enable nesting
+
 // MARK: Miscellaney
 
 extension Genome {
-    func dump() {
-        makeIterator().forEach { print("\($0) ", terminator: "") }
-        print()
-    }
+    func dump() { makeIterator().forEach { print($0) } }
 }

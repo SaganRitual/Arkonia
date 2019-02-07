@@ -20,16 +20,9 @@
 
 import Foundation
 
-public protocol NeuronBiasProtocol {
-    var value: Double { get set }
-}
-
-public protocol NeuronDownConnectorProtocol {
-    var value: Int { get set }
-}
-
-public typealias UpConnectorValue = (Int, Double)
-
-public protocol NeuronUpConnectorProtocol {
-    var value: UpConnectorValue { get set }
+/// The static parts of the neuron, the parts that don't change
+/// after the arkon is born. The phenotype.
+protocol FStaticNeuronProtocol {
+    var activator: AFn.FunctionName { get }
+    var bias: Double { get set }
 }

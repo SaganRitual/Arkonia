@@ -36,4 +36,8 @@ public class FNeuron {
     func addUpConnector(_ c: NeuronUpConnectorProtocol) {
         self.upConnectors.append(c.value)
     }
+
+//    static var fCount = 0
+//    init() { print("+", terminator: ""); FNeuron.fCount += 1; if FNeuron.fCount % 20 == 0 { print("\n\(FNeuron.fCount)\n") } }
+//    deinit { print("-", terminator: ""); FNeuron.fCount -= 1; if FNeuron.fCount % 20 == 0 { print("\n\(FNeuron.fCount)\n") } }
 }

@@ -20,7 +20,7 @@
 
 import Foundation
 
-class KDriver  {
+class KSignalDriver  {
     static var fishNumber = 0
 
     var motorLayer: KLayer
@@ -30,24 +30,24 @@ class KDriver  {
     let senseLayerID: KIdentifier
     let kNet: KNet
 
-    init(fNet: FNet, idNumber: Int) {
-        defer { KDriver.fishNumber += 1 }
+    init(idNumber: Int, fNet: FNet) {
+        defer { KSignalDriver.fishNumber += 1 }
 
-        kNet = KNet.makeNet(
-            idNumber, cLayers: ArkonCentralDark.selectionControls.cLayersInStarter
-        )
+        let kNet = KNet.makeNet(idNumber, fNet)
 
-        senseLayerID = KIdentifier("Sense", kNet.id.myID)
+        senseLayerID = kNet.id.add(KIdentifier.KType.senseLayer.rawValue, as: .senseLayer)
         senseLayer = KLayer.makeLayer(
-            senseLayerID, ArkonCentralDark.isSenseLayer,
-            cNeurons: ArkonCentralDark.selectionControls.cSenseNeurons
+            senseLayerID, KIdentifier.KType.senseLayer,
+            ArkonCentralDark.selectionControls.cSenseNeurons
         )
 
-        motorLayerID = KIdentifier("Motor", kNet.id.myID)
+        motorLayerID = kNet.id.add(KIdentifier.KType.motorLayer.rawValue, as: .motorLayer)
         motorLayer = KLayer.makeLayer(
-            motorLayerID, ArkonCentralDark.isMotorLayer,
-            cNeurons: ArkonCentralDark.selectionControls.cMotorNeurons
+            motorLayerID, KIdentifier.KType.motorLayer,
+            ArkonCentralDark.selectionControls.cMotorNeurons
         )
+
+        self.kNet = kNet
     }
 
     func drive(sensoryInputs: [Double]) {
