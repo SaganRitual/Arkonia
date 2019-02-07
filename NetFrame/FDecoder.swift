@@ -39,11 +39,6 @@ class FDecoder: DecoderProtocol {
     }
 
     func decode() -> FNetProtocol? {
-//        counter += 1
-//        if counter % 10 == 0 {
-//            print("\n\n\nhere\n\n\n")
-//            Thread.sleep(forTimeInterval: 5.0)
-//        }
         fNet = FNet()
 
         nok(inputGenome).makeIterator().forEach { g in let gene = nok(g as? Gene)
@@ -57,7 +52,7 @@ class FDecoder: DecoderProtocol {
 
         layerUnderConstruction?.finalizeNeuron()
         fNet.finalizeLayer()
-        return nok(fNet.subjectSurvived(fNet) as? FNetProtocol)
+        return fNet.subjectSurvived() ? fNet : nil
     }
 
     func reset() { self.decodeState = .noLayer; fNet = nil }

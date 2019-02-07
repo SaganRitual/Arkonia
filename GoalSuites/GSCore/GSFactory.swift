@@ -46,7 +46,9 @@ class GSFactory {
         let m = nok(ArkonCentralDark.mutator as? Mutator)
         var newGenome = genome.copy()
         if mutate { newGenome = nok(m.setInputGenome(newGenome).mutate() as? Segment) }
-        return (newGenome, decoder.setInputGenome(newGenome).decode())
+        let d = decoder.setInputGenome(newGenome)
+        let e = d.decode()
+        return (newGenome, e as? FNet)
     }
 
     public func postInit(suite: GSGoalSuite) {

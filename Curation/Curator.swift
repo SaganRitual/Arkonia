@@ -108,6 +108,7 @@ class Curator {
             if newScore != oldScore {
                 nok(ArkonCentralLight.display).newFNetAvailable(gs.fNet!, portal: 0)
                 print("New record by \(gs.fishNumber): \(gs.fitnessScore)")
+                print(gs.genome)
             }
 
             deploySelector(reference: gs)

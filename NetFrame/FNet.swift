@@ -20,7 +20,7 @@
 
 import Foundation
 
-class FNet {
+class FNet: FNetProtocol {
     var cMotorNeurons = ArkonCentralDark.selectionControls.cMotorNeurons
     var cSenseNeurons = ArkonCentralDark.selectionControls.cSenseNeurons
     var fishNumber: Int?
@@ -46,7 +46,5 @@ class FNet {
         underConstruction = nil
     }
 
-    func subjectSurvived(_ fNet: FNet?) -> FNet? {
-        return layers.isEmpty ? nil : fNet
-    }
+    func subjectSurvived() -> Bool { return !layers.isEmpty }
 }

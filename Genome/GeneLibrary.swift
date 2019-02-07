@@ -22,7 +22,7 @@ import Foundation
 
 class gActivatorFunction: Gene, NeuronActivatorProtocol {
     var value: AFn.FunctionName
-    override var description: String { return "Activator function(\(value))" }
+    override var description: String { return "\t\tActivator function(\(value))" }
     init(_ value: AFn.FunctionName) {
         self.value = value
         super.init(.activator)
@@ -47,7 +47,7 @@ class gActivatorFunction: Gene, NeuronActivatorProtocol {
 
 class gBias: Gene, NeuronBiasProtocol {
     var value: Double
-    override var description: String { return "Bias(\(value))" }
+    override var description: String { return "\t\tBias(\(value))" }
     init(_ value: Double) {
         self.value = value
         super.init(.bias)
@@ -70,7 +70,7 @@ class gIntGene: Gene {
     override var description: String {
         var d = ""
         switch self.type {
-        case .downConnector: d = "Down connector"
+        case .downConnector: d = "\t\tDown connector"
         case .hox: d = "Hox"
         case .lock: d = "Lock"
         default: preconditionFailure()
@@ -123,7 +123,7 @@ class gLock: gIntGene {
 }
 
 class gLayer: Gene {
-    override var description: String { return "Layer gene" }
+    override var description: String { return "\nLayer gene" }
 
     init() { super.init(.layer) }
     override func copy() -> GeneLinkable { return gLayer() }
@@ -132,7 +132,7 @@ class gLayer: Gene {
 }
 
 class gNeuron: Gene {
-    override var description: String { return "Neuron gene" }
+    override var description: String { return "\tNeuron gene" }
     init() { super.init(.neuron) }
     override func copy() -> GeneLinkable { return gNeuron() }
     override func mutate() -> Bool { return false  /* Non-value genes don't mutate */ }
@@ -141,7 +141,7 @@ class gNeuron: Gene {
 
 // Doesn't do anything yet
 class gPolicy: Gene {
-    override var description: String { return "Policy not implemented (yet)" }
+    override var description: String { return "\t\tPolicy not implemented (yet)" }
     init() { super.init(.policy) }
     override func copy() -> GeneLinkable { return gPolicy() }
     override func mutate() -> Bool { return false /* Not sure what we'll do with policy genes yet */ }
@@ -149,7 +149,7 @@ class gPolicy: Gene {
 }
 
 class gSkipAnyType: gIntGene {
-    override var description: String { return "Skip (\(value) genes of any type)"  }
+    override var description: String { return "\t\tSkip (\(value) genes of any type)"  }
     init(_ value: Int) { super.init(.skipAnyType, value) }
     override func copy() -> GeneLinkable { return gSkipAnyType(self.value) }
     override func mutate() -> Bool { return false /* Haven't decided how to mutate these yet */ }
@@ -158,7 +158,7 @@ class gSkipAnyType: gIntGene {
 class gSkipOneType: gIntGene {
     let typeToSkip: GeneType
 
-    override var description: String { return "Skip(\(value) \(typeToSkip))" }
+    override var description: String { return "\t\tSkip(\(value) \(typeToSkip))" }
 
     init(_ value: Int, typeToSkip: GeneType) {
         self.typeToSkip = typeToSkip
@@ -185,7 +185,7 @@ class gUpConnector: Gene, NeuronUpConnectorProtocol {
         set { value.0 = newValue }
     }
 
-    override var description: String { return "Up connector(c = \(channel), w = \(weight))" }
+    override var description: String { return "\t\tUp connector(c = \(channel), w = \(weight))" }
 
     init(_ value: UpConnectorValue) {
         self.value = value

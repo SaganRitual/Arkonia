@@ -48,8 +48,27 @@ class Gene: CustomDebugStringConvertible, GeneLinkable {
 
     // swiftlint:disable cyclomatic_complexity
 
+    class func getWeightedRandomGene() -> GeneType {
+        let weightMap: [GeneType : Int] = [
+            .activator: 10, .bias: 10, .downConnector: 10, .hox: 1, .lock: 1, .layer: 1,
+            .neuron: 10, .policy: 1, .skipAnyType: 1, .skipOneType: 1, .upConnector: 10
+        ]
+
+        let weightRange = weightMap.reduce(0, { return $0 + $1.value })
+        let randomValue = Int.random(in: 0..<weightRange)
+
+        var runningTotal = 0
+        for (key, value) in weightMap {
+            runningTotal += value
+            if runningTotal > randomValue { return key }
+        }
+
+        fatalError()
+    }
+
     class func makeRandomGene() -> Gene {
-        let geneType = nok(GeneType.allCases.randomElement())
+
+        let geneType = getWeightedRandomGene()
 
         switch geneType {
         case .activator:     return gActivatorFunction.makeRandomGene()
