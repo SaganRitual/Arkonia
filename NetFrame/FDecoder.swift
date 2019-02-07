@@ -38,7 +38,7 @@ class FDecoder: DecoderProtocol {
         ArkonCentralDark.decoder = self
     }
 
-    func decode() -> FNet? {
+    func decode() -> FNetProtocol? {
 //        counter += 1
 //        if counter % 10 == 0 {
 //            print("\n\n\nhere\n\n\n")
@@ -57,7 +57,7 @@ class FDecoder: DecoderProtocol {
 
         layerUnderConstruction?.finalizeNeuron()
         fNet.finalizeLayer()
-        return fNet.subjectSurvived(fNet)
+        return nok(fNet.subjectSurvived(fNet) as? FNetProtocol)
     }
 
     func reset() { self.decodeState = .noLayer; fNet = nil }

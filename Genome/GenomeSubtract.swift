@@ -41,8 +41,8 @@ extension Genome {
             iter.prev?.next = next
             next?.prev = iter.prev
 
-            validateSegment(self, checkCounts: true, checkOwnership: true)
             count -= 1
+            validateSegment(self, checkCounts: true, checkOwnership: true)
         }
     }
 

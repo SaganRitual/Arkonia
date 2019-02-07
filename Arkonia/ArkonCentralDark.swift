@@ -20,10 +20,11 @@
 
 import Foundation
 
+protocol FNetProtocol { }
 protocol GenomeProtocol { }
 
 protocol DecoderProtocol {
-    func decode() -> FNet?
+    func decode() -> FNetProtocol?
     func setInputGenome(_ genome: GenomeProtocol) -> DecoderProtocol
 }
 

@@ -42,7 +42,7 @@ class DTGenomeBloat: XCTestCase {
         var genome = Genome((0..<1_000).map { _ in Gene.makeRandomGene() })
         for _ in 0..<10_000 {
             if let fNet = decoder.setInputGenome(genome).decode() {
-                fNets.append(fNet)
+                fNets.append(nok(fNet as? FNet))
             }
 
             genome = nok(mutator.setInputGenome(genome).mutate() as? Genome)
