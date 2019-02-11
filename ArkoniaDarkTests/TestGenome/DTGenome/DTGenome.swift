@@ -20,8 +20,29 @@
 
 import XCTest
 
-// swiftlint:disable function_body_length
+// siftlint:disable function_body_length
 class DTGenome: XCTestCase {
+//    func testGene() {
+//        var cDestruct = 0
+//        var gene1: gMockGene? = gMockGene(42, destructorCallback: { cDestruct += 1 })
+//        var gene2: gMockGene? = gMockGene(43, destructorCallback: { cDestruct += 1 })
+//        var head: gMockGene? = gene1
+//        var tail: gMockGene? = gene2
+//
+//        head?.next = gene2
+//        tail?.prev = gene1
+//
+//        gene1 = nil
+//        print("One-a", cDestruct, gene1 == nil)
+//        gene2 = nil
+//        print("One-b", cDestruct, gene2 == nil)
+//        tail = nil
+//        print("Two", cDestruct, tail == nil)
+//        head = nil
+//        print("Three", cDestruct, head == nil)
+//
+//    }
+
     func testGenome() {
         #if K_RUN_DT_GENOME
         print("K_RUN_DT_GENOME is set")
@@ -29,190 +50,26 @@ class DTGenome: XCTestCase {
         XCTAssert(false)
         #endif
 
-        func getGeneValues(_ segment: Segment) -> [Int] {
-            return segment.map { return nok($0 as? gMockGene).value }
+        let result = Genome.selfTest()
+        switch result {
+        case .ok: break
+
+        case let .badData(line, expected, actual):
+            XCTAssert(false, ".badData, expected \(expected), actual \(actual) on line \(line)")
+
+        case let .corruptedStrand(line): fallthrough
+        case let .expectedEmpty(line):   fallthrough
+        case let .expectedMeaty(line):   XCTAssert(false, "\(result) on line \(line)")
+
+        case let .expectedRelease(line, expected, actual):
+            let s = ".expectedRelease, expected \(expected) deinits" +
+                    ", got \(actual) on line \(line)"
+
+            XCTAssert(false, s)
+
+        case let .incorrectCount(line, expected, actual):
+            XCTAssert(false, ".incorrectCount, expected \(expected), got \(actual) on line \(line)")
         }
-
-        // Smoke test
-        let genome = Genome()
-        XCTAssert(genome.isEmpty)
-
-        // swiftlint:disable empty_count
-        XCTAssert(genome.count == 0)
-        // swiftlint:enable empty_count
-
-        // Append one node at a time
-        (0..<5).forEach {
-            genome.asslink(gMockGene($0))
-            XCTAssert(!genome.isEmpty)
-            XCTAssertEqual(genome.count, $0 + 1)
-
-            let gene = genome[$0] as? gMockGene
-            XCTAssertNotNil(gene)
-            XCTAssertEqual(gene!.value, $0)
-        }
-
-        XCTAssertEqual(genome.count, 5)
-
-        // Init from array
-        let genome2 = Genome((5..<15).map { return gMockGene($0) })
-        XCTAssertEqual(genome2.count, 10)
-        XCTAssertEqual(getGeneValues(genome2), [Int](5..<15))
-
-        // Append full genome
-        genome.asslink(genome2)
-        XCTAssertEqual(genome.count, 15)
-
-        // Remember, asslink() takes ownership of the genes
-        XCTAssertEqual(genome2.count, 0)
-
-        // Prepend a bunch of genes, make sure they link up
-        // in the correct order
-        (0..<10).forEach { genome2.headlink(gMockGene($0)) }
-        var expectedOutput = Array([Int](0..<10).reversed())
-
-        XCTAssertEqual(genome2.count, 10, "Inserted 10 genes but count != 10")
-        XCTAssertEqual(getGeneValues(genome2), expectedOutput)
-
-        // Prepend full genome
-        genome.headlink(genome2)
-        expectedOutput += Array([Int](0..<15))
-
-        XCTAssertEqual(genome2.count, 0, "Target genome didn't take ownership")
-        XCTAssertEqual(genome.count, 25, "Injected 10-gene into 15-gene; count s/b 25")
-        XCTAssertEqual(getGeneValues(genome), expectedOutput)
-
-        // Insert gene somewhere in the middle
-        genome.inject(gMockGene(42), before: 19)
-        expectedOutput.insert(42, at: 19)
-
-        XCTAssertEqual(genome.count, 26, "Injected gene should raise count to 26")
-        XCTAssertEqual(getGeneValues(genome), expectedOutput)
-
-        // Append (array-initialized) segment to end
-        XCTAssertEqual(genome.count, 26, "Injected gene should raise count to 26")
-        let ass = Genome([Int](137..<150).map { return gMockGene($0) })
-        genome2.asslink(ass)
-
-        XCTAssertEqual(genome2.count, 13, "Asslinked genes should raise count to 13")
-        XCTAssertEqual(getGeneValues(genome2), [Int](137..<150))
-
-        // Inject segment
-        genome.inject(genome2, before: 17)
-        expectedOutput.insert(contentsOf: [Int](137..<150), at: 17)
-
-        XCTAssertEqual(genome2.count, 0, "Target genome didn't take ownership")
-        XCTAssertEqual(genome.count, 39, "13-gene injected to 26-gene s/b 39")
-        XCTAssertEqual(getGeneValues(genome), expectedOutput)
-
-        // Remove first
-        genome.removeFirst()
-        expectedOutput.removeFirst()
-
-        XCTAssertEqual(genome.count, expectedOutput.count)
-        XCTAssertEqual(getGeneValues(genome), expectedOutput)
-
-        // Remove first n
-        genome.removeFirst(5)
-        expectedOutput.removeFirst(5)
-
-        XCTAssertEqual(genome.count, expectedOutput.count)
-        XCTAssertEqual(getGeneValues(genome), expectedOutput)
-
-        // Remove last
-        genome.removeLast()
-        expectedOutput.removeLast()
-
-        XCTAssertEqual(genome.count, expectedOutput.count)
-        XCTAssertEqual(getGeneValues(genome), expectedOutput)
-
-        // Remove last n
-        genome.removeLast(7)
-        expectedOutput.removeLast(7)
-
-        XCTAssertEqual(genome.count, expectedOutput.count)
-        XCTAssertEqual(getGeneValues(genome), expectedOutput)
-
-        // Remove one from somewhere in the middle
-        genome.removeOne(at: 19)
-        expectedOutput.remove(at: 19)
-
-        XCTAssertEqual(genome.count, expectedOutput.count)
-        XCTAssertEqual(getGeneValues(genome), expectedOutput)
-
-        // Remove multiple from somewhere in the middle
-        genome.removeSubrange(7..<13)
-        expectedOutput.removeSubrange(7..<13)
-
-        XCTAssertEqual(genome.count, expectedOutput.count)
-        XCTAssertEqual(getGeneValues(genome), expectedOutput)
-
-        // Remove by predicate
-        genome.removeAll { nok($0 as? gMockGene).value > 100 }
-        expectedOutput.removeAll { $0 > 100 }
-
-        XCTAssertEqual(genome.count, expectedOutput.count)
-        XCTAssertEqual(getGeneValues(genome), expectedOutput)
-
-        // Build back up for snippet testing
-        genome.asslink(Genome((200..<300).map { return gMockGene($0) }))
-        expectedOutput.append(contentsOf: [Int](200..<300))
-
-        XCTAssertEqual(genome.count, expectedOutput.count)
-        XCTAssertEqual(getGeneValues(genome), expectedOutput)
-
-        // Copy
-        let genome3 = genome.copy()
-
-        XCTAssertEqual(genome3.count, expectedOutput.count)
-        XCTAssertEqual(getGeneValues(genome3), expectedOutput)
-
-        genome.removeAll()
-
-        XCTAssert(genome.isEmpty)
-        // swiftlint:disable empty_count
-        XCTAssert(genome.count == 0)
-        // swiftlint:enable empty_count
-
-        // What we're ensuring here is that genome3 got its own
-        // copy of all the genes, such that it's not affected in
-        // any way when genome releases all its genes.
-        XCTAssertEqual(genome3.count, expectedOutput.count)
-        XCTAssertEqual(getGeneValues(genome3), expectedOutput)
-
-        // Found this one in the wild: inject() inserts before
-        // the ss, so the only way to insert at the end is to
-        // specify the (otherwise invalid) eof index. But we pass
-        // that index to the subscript function, which of course
-        // chokes on it.
-        let count = genome3.count
-        genome.asslink(genome3.copy())
-        genome.inject(genome3, before: genome.count)
-
-        // Check that genome3 has released his segment, and
-        // genome has taken proper ownership of it.
-        XCTAssertEqual(genome.count, count * 2)
-        XCTAssert(!genome.isEmpty)
-        XCTAssertEqual(genome3.count, 0)
-        XCTAssert(genome3.isEmpty)
-
-        // Another one from the wild. Remove the head element (!!). I'm shocked
-        // this never showed up in testing.
-        let strideLength = 4
-        for _ in stride(from: 0, to: genome.count, by: strideLength) {
-            genome.removeOne(at: 0)
-            XCTAssertEqual(genome.count, genome.rcount, "\(genome.scount)")
-        }
-
-        // Repopulate for more abuse
-        genome.asslink(Genome((400..<500).map { return gMockGene($0) }))
-
-        // Found in the wild
-        XCTAssertEqual((genome.head == nil), (genome.tail == nil))
-        genome.removeOne(at: genome.count - 1)
-        XCTAssertEqual((genome.head == nil), (genome.tail == nil))
-        genome.inject(gMockGene(0), before: 2)
-        XCTAssertEqual((genome.head == nil), (genome.tail == nil))
     }
 
 }

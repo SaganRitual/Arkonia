@@ -23,208 +23,149 @@ import Foundation
 // MARK: functions that subtract from the genome: remove and friends
 
 extension Genome {
-    func removeAll() { setHead(nil) }
+    func removeAll() { releaseFull_() }
 
     func removeAll(where predicate: (Element) throws -> Bool) rethrows {
         var iter_: GeneLinkable? = self.head
 
         while let iter = iter_ {
-            validateSegment(self, checkCounts: true, checkOwnership: true)
             let next = iter.next
 
             defer { iter_ = next }
 
             if try !predicate(iter) { continue }
 
-            if iter.isMyself(self.head!) { setHead(next) }
+            if iter.isMyself(self.head) { removeFirst(); continue }
 
             iter.prev?.next = next
             next?.prev = iter.prev
-
             count -= 1
-            validateSegment(self, checkCounts: true, checkOwnership: true)
         }
     }
 
     @discardableResult
-    func removeFirst() -> GeneLinkable? {
-        guard let first = head else { preconditionFailure("Genome is empty") }
-
-        validateSegment(self, checkCounts: true, checkOwnership: true)
-
-        setHead(head?.next)
-        head?.prev = nil
-        first.next = nil
-
-        self.count -= 1
-
-        if head == nil { tail = nil }
-
-        validateGene(first)
-        validateSegment(self, checkCounts: true, checkOwnership: true)
-        return first
-    }
+    func removeFirst() -> GeneLinkable? { return removeFirst(1)?[0] ?? nil }
 
     @discardableResult
-    func removeFirst(_ k: Int) -> Segment {
-        precondition(k < count, "Subscript out of range")
-        validateSegment(self, checkCounts: true, checkOwnership: true)
+    func removeFirst(_ k: Int) -> Segment? {
+
+        precondition(k > 0)
+        precondition(!self.isEmpty)
+        precondition(k <= self.count, "Subscript out of range")
+
+        // Release my entire strand to a new segment. 
+        if k == self.count { return Segment(self) }
 
         let newHead = self[k]
 
         let firstK = Segment()
-        firstK.setHead(self.head)
+        firstK.head = self.head
         firstK.tail = self[k - 1]
         firstK.tail!.next = nil
         firstK.count = k
 
         newHead.prev = nil
-        setHead(newHead)
+        self.head = newHead
         self.count -= k
 
-        if head == nil { tail = nil }
-
-        validate(self, firstK)
         return firstK
     }
 
     @discardableResult
-    func removeLast() -> GeneLinkable? {
-        guard let last = tail else { preconditionFailure("Genome is empty") }
-        validateSegment(self, checkCounts: true, checkOwnership: true)
-
-        tail = tail?.prev
-        last.prev = nil
-        tail?.next = nil    // Transfer ownership
-
-        if tail == nil { setHead(nil) }
-
-        self.count -= 1
-
-        validateGene(last)
-        validateSegment(self, checkCounts: true, checkOwnership: true)
-        return last
-    }
+    func removeLast() -> GeneLinkable? { return removeLast(1)?[0] ?? nil }
 
     @discardableResult
-    func removeLast(_ k: Int) -> Segment {
-        precondition(k < count, "Subscript out of range")
-        validateSegment(self, checkCounts: true, checkOwnership: true)
+    func removeLast(_ k: Int) -> Segment? {
+
+        precondition(k > 0)
+        precondition(!self.isEmpty)
+        precondition(k <= count, "Subscript out of range")
+
+        // Release my entire strand to a new segment.
+        if k == self.count { return Segment(self) }
 
         let lastK = Segment()
-        lastK.setHead(self[count - k])
-
-        self.tail = lastK.head!.prev
-        self.tail?.next = nil    // Release ownership of the new segment
-
-        lastK.head!.prev = nil
+        lastK.head = self[k]
         lastK.tail = self.tail
         lastK.count = k
 
-        self.tail?.next = nil// remove
-
-        if tail == nil { setHead(nil) }
-
+        self.tail = lastK.head?.prev
+        self.tail?.next = nil       // Release ownership to the new guy
         self.count -= k
 
-        validateSegment(self, checkCounts: true, checkOwnership: true)
-        validateSegment(lastK, checkCounts: true, checkOwnership: true)
         return lastK
     }
 
     @discardableResult
-    func removeOne(at ss: Int) -> GeneLinkable {
-        precondition(ss < self.count, "Subscript out of range")
-        return removeOne(gene: self[ss])
-    }
+    func remove(at ss: Int) -> GeneLinkable { return remove(gene: self[ss]) }
 
     @discardableResult
-    func removeOne(gene: GeneLinkable) -> GeneLinkable {
-        // swiftlint:disable empty_count
-        precondition(self.count != 0 && self.count == self.rcount && self.count == self.scount)
-        // swiftlint:enable empty_count
-
-        if gene.prev == nil { precondition(gene.isMyself(nok(self.head)), "Inconsistent head+gene") }
-        if gene.next == nil { precondition(gene.isMyself(nok(self.tail)), "Inconsistent tail+gene") }
-        if gene.prev != nil && gene.next != nil {
-            precondition(!gene.isMyself(nok(self.head)) || !gene.isMyself(nok(self.tail)),
-                         "Gene owned by another segment")
-
-            if self.count > 1 {
-                precondition(
-                    !gene.isMyself(nok(self.head)) || !gene.isMyself(nok(self.tail)),
-                    "c == 1 means head == gene == tail; c > 1 means gene " +
-                    "should be in the middle somewhere"
-                )
-            }
-        }
-
-        validateSegment(self, checkCounts: true, checkOwnership: true)
+    func remove(gene: GeneLinkable) -> GeneLinkable {
+        precondition(!self.isEmpty, "Can't remove gene from empty genome")
+        precondition(self.contains(gene), "Gene not found in this genome")
 
         // Snip and release; order doesn't matter, because we have
         // the ref to the gene until we go out of scope
         gene.next?.prev = gene.prev
         gene.prev?.next = gene.next
 
-        var subtractFromCount = 1
+        self.count -= 1
+
+        if self.isEmpty { self.releaseFull_(); return gene }
 
         // If we chopped the head, make a new head
-        if let h = head, gene.isMyself(h) {
-            setHead(gene.next)
-            // Setting the head to hill will have set the count to
-            // zero already, and we don't want to make it go negative
-            // by attempting to subtract one from it for the removed gene.
-            if head == nil { subtractFromCount = 0 }
+        if head?.isMyself(gene) ?? false {
+            head?.prev = nil
+            head = head?.next
         }
 
         // If we chopped the tail, make a new tail
-        if let t = tail, gene.isMyself(t) { tail = gene.prev }
+        if tail?.isMyself(gene) ?? false {
+            tail?.next = nil    // Transfer ownership
+            tail = tail?.prev
+        }
 
         gene.prev = nil     // Be tidy
         gene.next = nil     // Let go of the genome
 
-        count -= subtractFromCount
-
-        validateSegment(self, checkCounts: true, checkOwnership: true)
         return gene
     }
 
     @discardableResult
-    func removeSubrange(_ r: Range<Int>) -> Segment {
+    func removeSubrange(_ r: Range<Int>) -> Segment? {
         precondition(r.count <= self.count, "Subscript out of range")
-        validateSegment(self, checkCounts: true, checkOwnership: true)
+
+        if r.isEmpty { return nil }
 
         guard let ssFirst = r.first else { preconditionFailure("Should never happen?") }
         guard let ssLast = r.last else { preconditionFailure("Should never happen?") }
 
+        precondition(ssFirst + ssLast < self.count, "Ending subscript out of range")
+
+        // Release my entire strand to a new segment.
+        if ssFirst == 0 && ssLast == self.count { return Segment(self) }
+
+        // If we're chopping one end, use a chopping function
+        if ssFirst == 0 && ssLast <  self.count { return removeFirst(ssLast + 1) }
+        if ssFirst > 0  && ssLast == self.count { return removeLast(ssLast - ssFirst) }
+
+        // At this point, we know that we're removing a segment from
+        // somewhere in the middle of my strand; neither my head nor
+        // my tail is involved. This of course also means that my
+        // strand is not empty.
         let first = self[ssFirst]
         let last = self[ssLast]
 
         let segment = Segment()
-        segment.setHead(first)
+        segment.head = first
         segment.tail = last
-        segment.count = r.count
+        segment.count = ssLast - ssFirst
 
         // Snip & splice owner
         first.prev?.next = last.next
         last.next?.prev = first.prev
+        self.count -= segment.count
 
-        if last.isMyself(nok(self.tail))  {
-            self.tail = first.prev
-            if tail == nil { setHead(nil) }
-        } else {
-            // Head observer takes care of the count
-            if first.isMyself(nok(self.head)) { self.setHead(last.next) }
-        }
-
-        count -= r.count
-
-        self.head?.prev = nil       // Be tidy
-        self.tail?.next = nil       // Release ownership of the cut segment
-        segment.head?.prev = nil    // Be tidy; prev is a weak link so this has no effect
-        segment.tail?.next = nil    // Or of the original segment, if we took the head
-
-        validate(self, segment)
         return segment
     }
 }

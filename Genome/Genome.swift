@@ -23,24 +23,11 @@ import Foundation
 // Makes it easier for me to reason about splicing and slicing
 typealias Segment = Genome
 
-protocol GeneLinkable: class {
-    var next: GeneLinkable? { get set }
-    var prev: GeneLinkable? { get set }
-
-    func copy() -> GeneLinkable
-    func isMyself(_ thatGuy: GeneLinkable) -> Bool
-}
-
 class Genome: CustomDebugStringConvertible, GenomeProtocol {
     enum Caller { case count, head, tail }
 
     var count = 0
-    var head_: GeneLinkable?
-    var head: GeneLinkable? {
-        set { precondition(self.formalSet, "Don't set this directly"); head_ = head }
-        get { return head_ }
-    }
-    var formalSet = false
+    var head: GeneLinkable?
     weak var tail: GeneLinkable?
 
     var rcount: Int {
@@ -69,55 +56,32 @@ class Genome: CustomDebugStringConvertible, GenomeProtocol {
     }
 
     init() {}
-    init(_ gene: GeneLinkable) { asslink(gene) }
+
+    init(_ gene: GeneLinkable) { self.head = gene; self.tail = gene; count = 1 }
     init(_ genes: [GeneLinkable]) { genes.forEach { asslink($0) } }
 
-    init(_ segment: Segment) { (head, tail, count) = Genome.init_(segment) }
-
+    init(_ segment: Segment) { segment.releaseFull_(to: self) }
     init(_ segments: [Segment]) { segments.forEach { asslink($0) } }
 
-    // If I own a segment when we get here, then it's my job
-    // to deallocate all the genes in the segment. If I don't
-    // own a segment, then we've (apparently) already released
-    // everything we need to release.
-    deinit { if head != nil { releaseGenes() } }
-
-    // swiftlint:disable large_tuple
-
-    static func init_(_ segment: Segment) -> (GeneLinkable?, GeneLinkable?, Int) {
-        // Take ownership
-        defer { segment.setHead(nil) }
-        return (segment.head, segment.tail, segment.count)
-    }
-
-    // swiftlint:enable large_tuple
-
-    func releaseGenes() {
-        makeIterator().reversed().forEach { $0.prev = nil; $0.next = nil }
-        setHead(nil)
-    }
-
-    func releaseOwnershipOfGenome() { setHead(nil) }
-
-    func setHead(_ newValue: GeneLinkable?) {
-        formalSet = true
-        head_ = newValue
-        if head_ == nil {
-            count = 0
-            tail = nil
-        }
-        formalSet = false
-    }
-
-    func validate() {}
+    func dump() { makeIterator().forEach { print($0) } }
 }
 
-// MARK: copy
+// MARK: Helpers
 
 extension Genome {
+
+    func contains(_ lookingForThisGene: GeneLinkable) -> Bool {
+        for myGene in makeIterator() where myGene === lookingForThisGene {
+            return true
+        }
+
+        return false
+    }
+
     func copy(from: Int? = nil, to: Int? = nil) -> Segment {
         return Segment(makeIterator(from: from, to: to).map { $0.copy() })
     }
+
 }
 
 // MARK: subscript
@@ -197,8 +161,13 @@ extension Genome: Sequence {
 
 // swiftlint:enable nesting
 
-// MARK: Miscellaney
+// MARK: Low-level link handling
 
 extension Genome {
-    func dump() { makeIterator().forEach { print($0) } }
+    func releaseFull_() { head = nil; tail = nil; count = 0 }
+
+    func releaseFull_(to newOwner: Genome) {
+        newOwner.head = self.head; newOwner.tail = self.tail; newOwner.count = self.count
+        releaseFull_()
+    }
 }

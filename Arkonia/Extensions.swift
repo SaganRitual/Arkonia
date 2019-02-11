@@ -34,12 +34,24 @@ func nok<T: Any>(_ theThing: T?) -> T {
     return it
 }
 
-// With profound gratitude to Martin R
-// https://stackoverflow.com/users/1187415/martin-r
-// https://stackoverflow.com/a/41180619/1610473
-//
-// A proper modulo operator; Swift's is different from the
-// modulo operator of every other language I know.
+/**
+ A proper modulo operator
+
+ - Parameters:
+     - a: the number to be modded
+     - n: the number to mod it by
+
+ Swift's is different from the
+ modulo operator of every other language I know.
+
+- - -
+
+ With profound gratitude to
+ [Martin R](https://stackoverflow.com/users/1187415/martin-r)
+ for his [contributions](https://stackoverflow.com/a/41180619/1610473)
+ to StackOverflow.
+
+ */
 infix operator %%
 func %% (_ a: Int, _ n: Int) -> Int {
     precondition(n > 0, "modulus must be positive")

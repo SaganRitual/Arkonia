@@ -23,39 +23,16 @@ import Foundation
 // MARK: functions that add to the genome: insert and append
 
 extension Genome {
+
     // Like append, but transfers ownership away from the segment object.
     func asslink(_ gene: GeneLinkable) { inject(gene, before: nil) }
     func asslink(_ segment: Segment) { inject(segment, before: nil) }
-    func asslink(_ segments: [Segment]) { segments.forEach { inject($0, before: nil) } }
 
     // Like prepend, but transfers ownership away from the segment object.
-    func headlink(_ gene: GeneLinkable) {
-        precondition(gene.next == nil && gene.prev == nil,
-                     "To insert multiple genes, create a segment")
+    func headlink(_ gene: GeneLinkable) { inject(gene, before: self.head) }
+    func headlink(_ segment: Segment) { inject(segment, before: self.head) }
 
-        head?.prev = gene   // Safe, order doesn't matter
-        gene.next = head    // Must happen before we set head to a new value
-        setHead(gene)
-
-        count += 1
-
-        // Since we're inserting only one gene, we change
-        // the tail only if the target segment is empty.
-        if tail == nil { tail = head }
-    }
-
-    func headlink(_ segment: Segment) {
-        head?.prev = segment.tail
-
-        segment.tail?.next = head
-        setHead(segment.head)
-
-        count += segment.count
-
-        segment.releaseOwnershipOfGenome()
-    }
-
-    // Like insert, but transfers ownership away from the segment object.
+    // Like insert, but transfers ownership away from the source segment object.
     func inject(_ gene: GeneLinkable, before ss: Int) {
         switch ss {
         case 0:          headlink(gene)
@@ -65,123 +42,108 @@ extension Genome {
     }
 
     func inject(_ segment: Segment, before ss: Int) {
-        validate(self, segment)
         switch ss {
         case 0:          headlink(segment)
         case self.count: asslink(segment)
         default:         inject(segment, before: self[ss])
         }
-        validate(self, segment)
-    }
-
-    func inject(_ segment: Segment, before next_: GeneLinkable?) {
-        if segment.isEmpty {
-            precondition(segment.rcount == 0 && segment.scount == 0)
-            return
-        }
-
-        validate(self, segment)
-
-        // By the time we want to update the target genome's count,
-        // the segment has already released ownership of its genes,
-        // so its count will be zero. We need to add the actual count.
-        var segmentLength = segment.count
-
-        defer {
-            // only do segment, because self isn't valid until we add the
-            // count on the following line
-            validateSegment(segment, checkCounts: false, checkOwnership: false)
-            validateSegment(self, checkCounts: false, checkOwnership: true)
-            precondition(count + segmentLength == self.rcount)
-            count += segmentLength
-            validateSegment(self, checkCounts: true, checkOwnership: true)
-            segment.releaseOwnershipOfGenome()
-            validate(self, segment)
-        }
-
-        if head == nil {
-            setHead(segment.head)
-            tail = segment.tail
-            count = 0
-            validateSegment(segment, checkCounts: true, checkOwnership: true)
-            return
-        }
-
-        // Let nil mean the endIndex
-        guard let next = next_ else {
-            tail!.next = segment.head
-            segment.head?.prev = tail       // Optional, to allow for injection of empty segment
-            tail = segment.tail
-            segment.setHead(nil)    // Transfer ownership from segment to me
-            return
-        }
-
-        let prev = next.prev
-
-        segment.head?.prev = prev
-        next.prev = segment.tail
-
-        segment.tail?.next = next
-        prev?.next = segment.head
     }
 
     func inject(_ gene: GeneLinkable, before next_: GeneLinkable?) {
-        defer { count += 1 }
+        inject(Genome(gene), before: next_)
+    }
 
-        validate(self, gene)
+    /**
+     Take ownership of the segment's strand and insert it into my strand.
 
-        if head == nil {
-            setHead(gene)
-            tail = gene
-            return
-        }
+     - Parameters:
+        - transport: The transporting segment. We take his entire strand,
+                 and he goes away empty.
+        - before: The gene (in my strand) before which to insert his. nil means
+                insert at the end, ie, append his strand to mine.
 
-        // Let nil mean the endIndex
+     - Important: All the other additive calls route through here. That is,
+                    they're convenience functions. This one is the nuts &
+                    bolts. So don't go calling any of those others from here.
+
+     - Important: We take ownership of the passed-in segment's strand. The
+                    caller can still use the segment, but after we're finished,
+                    his segment is empty until he puts something in it.
+     */
+    // swiftlint:disable function_body_length
+    func inject(_ transport: Segment, before next_: GeneLinkable?) {
+        if transport.isEmpty { return }
+        if self.isEmpty { transport.releaseFull_(to: self); return }
+
+        // I have a strand of at least one gene
+
+        // Insert before nil means append
         guard let next = next_ else {
-            gene.prev = tail
-            tail!.next = gene
-            tail = gene
+            switch (self.count, transport.count) {
+            case (1, 1):
+                self.head?.next = transport.head
+                self.tail = transport.head
+                self.tail?.prev = self.head
+                self.count += 1
+                transport.releaseFull_()
+                return
+
+            case (1, 2...):
+                self.tail = transport.tail
+                self.head?.next = transport.head
+                transport.head?.prev = self.head
+                self.count += transport.count
+                transport.releaseFull_()
+                return
+
+            case (2..., 1):
+                transport.tail?.prev = self.tail
+                self.tail?.next = transport.tail
+                self.tail = transport.tail
+                self.count += 1
+                transport.releaseFull_()
+                return
+
+            case (2..., 2...):
+                transport.head?.prev = self.tail
+                self.tail?.next = transport.head
+                self.tail = transport.tail
+                self.count += transport.count
+
+                transport.releaseFull_()
+                return
+
+            default: preconditionFailure()
+            }
+        }
+
+        // Insert before head
+        if next.isMyself(self.head) {
+            // Same here; I'm pretty sure the order of these operations
+            // doesn't matter. Here, the transport is holding onto the
+            // new strand, and the `next` variable is holding onto the
+            // lower half of my strand while we splice in the new strand.
+            self.head?.prev = transport.tail
+            transport.tail?.next = self.head
+            self.head = transport.head
+            self.count += transport.count
+
+            transport.releaseFull_()
             return
         }
 
-        let prev = next.prev
+        // Insert point is not nil and not head; this is possible
+        // only if we have at least two genes in the strand, and we're
+        // inserting between two genes. A corollary of this is that we
+        // need not change either head or tail.
+        transport.head?.prev = next.prev
+        next.prev?.next = transport.head
+        next.prev = transport.tail
+        transport.tail?.next = next
+        count += transport.count
 
-        // Weak refs; order doesn't matter
-        gene.prev = prev
-        next.prev = gene
-
-        // Strong refs; grab next before prev lets go of it
-        gene.next = next
-        prev?.next = gene   // prev == nil happens when we're inserting before head
+        transport.releaseFull_()
     }
-
-    func validate(_ segment: Segment, _ gene: GeneLinkable) {
-        validateSegment(segment, checkCounts: true, checkOwnership: true)
-        validateGene(gene)
-    }
-
-    func validate(_ first: Segment, _ second: Segment) {
-        validateSegment(first, checkCounts: true, checkOwnership: true)
-        validateSegment(second, checkCounts: true, checkOwnership: true)
-    }
-
-    func validateGene(_ gene: GeneLinkable) {
-        precondition(gene.prev == nil && gene.next == nil, "Must not be owned by another segment")
-    }
-
-    func validateCounts(_ segment: Segment) {
-        precondition(segment.count == segment.rcount && segment.count == segment.scount)
-    }
-
-    func validateSegment(_ segment: Segment, checkCounts: Bool, checkOwnership: Bool) {
-
-        precondition((segment.head == nil) == (segment.tail == nil), "Invalid segment")
-
-        if checkCounts { validateCounts(segment) }
-
-        if checkOwnership, let h = segment.head, let t = segment.tail {
-            precondition(h.prev == nil && t.next == nil, "Must not be owned by another segment")
-        }
-    }
+    // swiftlint:enable function_body_length
 
 }

@@ -58,8 +58,12 @@ class FDecoder: DecoderProtocol {
     func reset() { self.decodeState = .noLayer; fNet = nil }
 
     func setInputGenome(_ inputGenome: GenomeProtocol) -> DecoderProtocol {
-        self.reset()
-        self.inputGenome = nok(inputGenome as? Genome)
+        if self.inputGenome == nil { self.inputGenome = Genome() }
+        else { self.inputGenome!.releaseFull_() }
+
+        let ig = nok(inputGenome as? Genome)
+        ig.releaseFull_(to: self.inputGenome!)
+        self.inputGenome!.dump()
         return self
     }
 }

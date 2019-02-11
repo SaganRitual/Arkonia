@@ -21,6 +21,10 @@
 import CoreGraphics // For the math functions
 import Foundation
 
+public protocol NeuronActivatorProtocol {
+    var value: AFn.FunctionName { get set }
+}
+
 public enum AFn {
     typealias NeuronOutputFunction = (Double) -> Double
 

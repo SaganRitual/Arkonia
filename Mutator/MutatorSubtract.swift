@@ -49,7 +49,7 @@ extension Mutator {
         let strideLength = workingGenome.count / Int(cDelete)
         for _ in stride(from: 0, to: workingGenome.count, by: strideLength) {
             let wherefore = Int.random(in: 0..<workingGenome.count)
-            workingGenome.removeOne(at: wherefore)
+            workingGenome.remove(at: wherefore)
             if workingGenome.isEmpty {
                 // swiftlint:disable empty_count
                 precondition(workingGenome.count == 0 && workingGenome.rcount == 0 && workingGenome.scount == 0)

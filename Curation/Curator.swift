@@ -1,24 +1,5 @@
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-// IN THE SOFTWARE.
-//
-
 import Foundation
+import SpriteKit
 
 enum NotificationType: String {
     case selectComplete, select, setSelectionParameters
@@ -30,9 +11,9 @@ class Curator {
     var aboriginal: GSSubject?
     var archive: Archive
     var atLeastOneTSHasSurvived = false
+    let displayPortal: SKNode
     var goalSuite: GSGoalSuite
     let notificationCenter = NotificationCenter.default
-    let portalNumber = 0
     var randomArkonForDisplay: GSSubject!
     var remainingGenerations = 0
     let selector: Selector
@@ -48,6 +29,8 @@ class Curator {
         self.goalSuite = goalSuite
         self.archive = Archive(goalSuite: goalSuite)
         self.remainingGenerations = ArkonCentralDark.selectionControls.cGenerations
+
+        self.displayPortal = ArkonCentralLight.display!.getPortal(quadrant: 0)
 
         let n = Foundation.Notification.Name.selectComplete
         observerHandle = notificationCenter.addObserver(forName: n, object: selector, queue: nil) {
@@ -81,9 +64,12 @@ class Curator {
 
     func select() -> GSSubject? {
         let a = goalSuite.factory.getAboriginal()
-        selector.scoreAboriginal(a)
 
+        selector.scoreAboriginal(a)
         archive.postInit(aboriginal: a)
+
+        // Display the aboriginal
+        nok(ArkonCentralLight.display).display(a.kNet!, portal: displayPortal)
 
         self.aboriginal = a
         self.atLeastOneTSHasSurvived = true
@@ -106,7 +92,7 @@ class Curator {
             let newScore = gs.fitnessScore
             let oldScore = archive.referenceTS!.fitnessScore
             if newScore != oldScore {
-                nok(ArkonCentralLight.display).newFNetAvailable(gs.fNet!, portal: 0)
+                nok(ArkonCentralLight.display).display(gs.kNet!, portal: displayPortal)
                 print("New record by \(gs.fishNumber): \(gs.fitnessScore)")
                 print(gs.genome)
             }

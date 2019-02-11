@@ -20,6 +20,10 @@
 
 import Foundation
 
-public protocol NeuronActivatorProtocol {
-    var value: AFn.FunctionName { get set }
+protocol GeneLinkable: class {
+    var next: GeneLinkable? { get set }
+    var prev: GeneLinkable? { get set }
+
+    func copy() -> GeneLinkable
+    func isMyself(_ thatGuy: GeneLinkable?) -> Bool
 }

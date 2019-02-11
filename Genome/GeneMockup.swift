@@ -20,29 +20,36 @@
 
 import Foundation
 
-protocol GeneProtocol: CustomStringConvertible {
-    var value: Int { get }
-    init(_ value: Int)
-    func copy() -> GeneProtocol
-    func mutate() -> Bool
-    static func makeRandomGene() -> GeneProtocol
-}
+//protocol GeneProtocol: CustomStringConvertible {
+//    var value: Int { get }
+//    init(_ value: Int)
+//    func copy() -> GeneProtocol
+//    func mutate() -> Bool
+//    static func makeRandomGene() -> GeneProtocol
+//}
 
-class gMockGene: GeneLinkable, GeneProtocol {
+class gMockGene: GeneLinkable {//}, GeneProtocol {
     var next: GeneLinkable?
-    var prev: GeneLinkable?
+    weak var prev: GeneLinkable?
+
+    var destructorCallback: (() -> Void)?
 
     let value: Int
-    var description: String { return "Mock gene: value = \(value)" }
+    lazy var description = "Mock gene: value = \(value)"
 
     required init(_ value: Int) { self.value = value }
 
-    func copy() -> GeneLinkable { return gMockGene(value) }
-    func copy() -> GeneProtocol { return gMockGene(value) }
-    func isMyself(_ thatGuy: GeneLinkable) -> Bool {
-        return self === thatGuy as? gMockGene
+    init(_ value: Int, destructorCallback: (() -> Void)? = nil) {
+        self.value = value
+        self.destructorCallback = destructorCallback
     }
+
+    deinit { destructorCallback?() }
+
+    func copy() -> GeneLinkable { return gMockGene(value) }
+//    func copy() -> GeneProtocol { return gMockGene(value) }
+    func isMyself(_ thatGuy: GeneLinkable?) -> Bool { return self === (thatGuy as? gMockGene) }
     func mutate() -> Bool { return false }
 
-    class func makeRandomGene() -> GeneProtocol { return gMockGene(Int.random(in: 0..<10)) }
+//    class func makeRandomGene() -> GeneProtocol { return gMockGene(Int.random(in: 0..<10)) }
 }

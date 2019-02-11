@@ -10,13 +10,27 @@
             buildForTesting = "NO"
             buildForRunning = "YES"
             buildForProfiling = "NO"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D468801E2207A0C500405F54"
                BuildableName = "TTGenome"
                BlueprintName = "TTGenome"
+               ReferencedContainer = "container:Arkonia.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D46880292207A0E600405F54"
+               BuildableName = "DTGenome.xctest"
+               BlueprintName = "DTGenome"
                ReferencedContainer = "container:Arkonia.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

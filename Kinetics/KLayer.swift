@@ -84,9 +84,7 @@ extension KLayer {
 
     func reverseConnect(_ lastHiddenLayer: KLayer) {
         lastHiddenLayer.neurons.forEach({ upperNeuron in
-            for _ in 0..<upperNeuron.downConnectors.count {
-                if upperNeuron.downConnectors.isEmpty { return }
-
+            while !upperNeuron.downConnectors.isEmpty {
                 let connector = upperNeuron.downConnectors.removeLast()
                 let outputNeuronSS = connector %% self.neurons.count
                 let outputNeuron = self.neurons[outputNeuronSS]

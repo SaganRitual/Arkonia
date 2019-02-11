@@ -30,11 +30,14 @@ struct KConnector {
     func selectOutputs(from upperLayer: KLayer) -> [Int] {
         // Check for empty and grab the last entry at the same time
         guard let startingTarget = connectingNeuron.upConnectors.last else { return [] }
+        var channelIx = startingTarget.0
 
         let upperNeurons = upperLayer.neurons
 
-        let fIter = ForwardLoopIterator(upperNeurons, startingTarget.0)
-        let rIter = ReverseLoopIterator(upperNeurons, startingTarget.0)
+        let fIter = upperNeurons.compactMap({ ($0.relay?.isOperational ?? false) ? $0 : nil })
+        if fIter.isEmpty { return [] }
+
+        let rIter = fIter.reversed()
 
         var inputIDs = [Int]()
 
@@ -43,28 +46,21 @@ struct KConnector {
             connectingNeuron.weights.append(target.1)  // save weight for the signaling step
 //            print("uuu \(connectingNeuron)")
 
-            let iter: LoopIterator<[KNeuron]> = (target.0 >= 0) ? fIter : rIter
+            let inputNeuron: KNeuron = {
+                if channelIx >= 0 {
+                    defer { channelIx += 1 }
+                    return fIter[channelIx % fIter.count]
+                } else {
+                    defer { channelIx -= 1 }
+                    let i = rIter.index(rIter.startIndex, offsetBy: -channelIx % rIter.count)
+                    return rIter[i]
+                }
+            }()
 
-            guard let inputNeuron = skipDeadNeurons(iter) else { return inputIDs }
             inputIDs.append(inputNeuron.id.myID)
         }
 
+//        print("select outputs for \(connectingNeuron.id)", inputIDs)
         return inputIDs
-    }
-
-    func skipDeadNeurons(_ iter: LoopIterator<[KNeuron]>) -> KNeuron? {
-        var boundsChecker = 0
-        repeat {
-
-            defer { boundsChecker += 1 }
-
-            let targetNeuron = iter.compactNext()
-            guard targetNeuron.relay?.isOperational ?? false else { continue }
-
-            return targetNeuron
-
-        } while boundsChecker < iter.count
-
-        return nil
     }
 }

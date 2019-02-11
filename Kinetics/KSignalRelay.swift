@@ -37,7 +37,8 @@ class KSignalRelay: KIdentifiable {
     }
 
     deinit {
-//        print("~\(self)")
+//        print("~\(self) [")
         while !inputRelays.isEmpty { inputRelays.removeLast() }
+//        print("]")
     }
 }

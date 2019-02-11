@@ -41,10 +41,10 @@ class Gene: CustomDebugStringConvertible, GeneLinkable {
     init(_ type: GeneType) { (self.idNumber, self.type) = Gene.init_(type) }
     init(_ copyFrom: Gene) { Gene.missingOverrideInSubclass() }
 
-    deinit { precondition(self.prev == nil && self.next == nil) }
+    deinit {  }
 
     func copy() -> GeneLinkable { Gene.missingOverrideInSubclass() }
-    func isMyself(_ thatGuy: GeneLinkable) -> Bool { return self === thatGuy }
+    func isMyself(_ thatGuy: GeneLinkable?) -> Bool { return self === thatGuy }
 
     // swiftlint:disable cyclomatic_complexity
 

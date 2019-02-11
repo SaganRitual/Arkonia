@@ -99,7 +99,6 @@ class Mutator: MutatorProtocol {
         case .copyAndReinsertSegment:      copyAndReinsertSegment()
         }
 
-        workingGenome.validate()
         return workingGenome
     }
 

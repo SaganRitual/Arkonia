@@ -22,7 +22,7 @@ import Foundation
 import SpriteKit
 
 enum ArkonCentralLight {
-    static var display: VDisplay?
+    static var display: Display?
 
     static let cPortals = 4
 
