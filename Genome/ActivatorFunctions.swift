@@ -41,9 +41,13 @@ public enum AFn {
         return max(-1, cappedAtPlusOne)
     }
 
-    // We have a bound function only for the functions that might return
-    // something outside the range -1 <= x <= 1. No need to bound those that
-    // already return in that range.
+    // Swift 5 / Xcode 10.2 chokes on my .bentidentity function, saying that it
+    // can't deduce the type of the array within a reasonable time. It suggests that
+    // I do some factoring.
+    static func bentidentity(_ rawValue: Double) -> Double {
+        return ((sqrt(rawValue * rawValue + 1.0) - 1.0) / 2.0) + rawValue
+    }
+
     static let function: [FunctionName: NeuronOutputFunction] = [
         .arctan : { return atan($0) },
         .binarystep : { return $0 < 0.0 ? 0.0 : 1.0 },
@@ -55,7 +59,7 @@ public enum AFn {
 
         .softsign : { return $0 / (1 + abs($0)) },
 
-        .bentidentity : { return ((sqrt($0 * $0 + 1.0) - 1.0) / 2.0) + $0 },
+        .bentidentity : { return bentidentity($0) },
         .boundbentidentity : { return bound(.bentidentity, $0) },
 
         .boundidentity : { return bound(.identity, $0) },

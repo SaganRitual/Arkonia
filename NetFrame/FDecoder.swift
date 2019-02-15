@@ -38,10 +38,11 @@ class FDecoder: DecoderProtocol {
         ArkonCentralDark.decoder = self
     }
 
-    func decode() -> FNetProtocol? {
+    func decode(_ inputGenome: GenomeProtocol) -> FNetProtocol? {
         fNet = FNet()
 
-        nok(inputGenome).makeIterator().forEach { g in let gene = nok(g as? Gene)
+        self.inputGenome = nok(inputGenome as? Genome)
+        self.inputGenome!.makeIterator().forEach { g in let gene = nok(g as? Gene)
             switch decodeState {
             case .diagnostics: dispatch_noLayer(gene)
             case .noLayer:     dispatch_noLayer(gene)
@@ -50,6 +51,7 @@ class FDecoder: DecoderProtocol {
             }
         }
 
+        defer { reset() }
         layerUnderConstruction?.finalizeNeuron()
         fNet.finalizeLayer()
         return fNet.subjectSurvived() ? fNet : nil
@@ -63,7 +65,7 @@ class FDecoder: DecoderProtocol {
 
         let ig = nok(inputGenome as? Genome)
         ig.releaseFull_(to: self.inputGenome!)
-        self.inputGenome!.dump()
+//        self.inputGenome!.dump()
         return self
     }
 }
@@ -143,7 +145,7 @@ extension FDecoder {
         switch gene.type {
         case .layer:
             decodeState = .inLayer
-            layerUnderConstruction!.finalizeNeuron()
+            layerUnderConstruction?.finalizeNeuron()
             fNet.finalizeLayer()
             layerUnderConstruction = fNet.beginNewLayer()
 

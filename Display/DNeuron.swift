@@ -47,11 +47,11 @@ extension DNeuron {
     }
 
     static func makeColor(_ heat: Double) -> NSColor {
-        let heatSS = Int(heat * 100)
+        let heatSS = Int(heat)
         let index = connectionColor.index(connectionColor.startIndex, offsetBy: abs(heatSS) % 100)
         let rgb = connectionColor[index]
-        let rgbs = String(format: "0x%08X", rgb)
-        print("heatSS = \(heatSS), rgb = \(rgbs)")
+//        let rgbs = String(format: "0x%08X", rgb)
+//        print("heat = \(heat), heatSS = \(heatSS), rgb = \(rgbs)")
         let r = Double((rgb >> 16) & 0xFF) / 256
         let g = Double((rgb >>  8) & 0xFF) / 256
         let b = Double(rgb         & 0xFF) / 256

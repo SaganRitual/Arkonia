@@ -24,14 +24,12 @@ protocol FNetProtocol { }
 protocol GenomeProtocol { }
 
 protocol DecoderProtocol {
-    func decode() -> FNetProtocol?
-    func setInputGenome(_ genome: GenomeProtocol) -> DecoderProtocol
+    func decode(_ genome: GenomeProtocol) -> FNetProtocol?
 }
 
 protocol MutatorProtocol {
-    func mutate() -> GenomeProtocol
+    func mutate(_ genome: Genome)
     func mutate(from value: Double) -> Double
-    func setInputGenome(_ genome: GenomeProtocol) -> MutatorProtocol
 }
 
 enum ArkonCentralDark {
@@ -50,8 +48,8 @@ struct KSelectionControls {
     var cMotorNeurons = 1
     var cSenseNeurons = 1
     var cSpawnAttempts = 2
-    var cSubjectsPerGeneration = 100
-    var maxKeepersPerGeneration = 2
+    var cSubjectsPerGeneration = 500
+    var maxKeepersPerGeneration = 5
     var peerGroupLimit = 2
     var theFishNumber = 0
 }

@@ -915,7 +915,7 @@
 					};
 					D4D1D298220705430099DBC2 = {
 						CreatedOnToolsVersion = 10.1;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1020;
 					};
 					D4D604982207292800823D57 = {
 						CreatedOnToolsVersion = 10.1;
@@ -1582,7 +1582,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = K_RUN_MAIN;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -1603,7 +1603,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.BoringSoftware.Arkonia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = K_RUN_MAIN;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

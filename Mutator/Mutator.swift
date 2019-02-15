@@ -21,8 +21,7 @@
 import Foundation
 
 class Mutator: MutatorProtocol {
-    weak var workingGenome_: Genome?
-    var workingGenome: Genome { return nok(workingGenome_) }
+    weak var workingGenome: Genome!
 
     var bellCurve = BellCurve()
 
@@ -83,7 +82,8 @@ class Mutator: MutatorProtocol {
         cutAndReinsertSegment, copyAndReinsertSegment, mutateRandomGenes
     }
 
-    func mutate() -> GenomeProtocol {
+    func mutate(_ genome: Genome) {
+        self.workingGenome = genome
         let m = getWeightedRandomMutationType()
 
         switch m {
@@ -98,8 +98,6 @@ class Mutator: MutatorProtocol {
         case .cutAndReinsertSegment:       cutAndReinsertSegment()
         case .copyAndReinsertSegment:      copyAndReinsertSegment()
         }
-
-        return workingGenome
     }
 
     func mutate(from value: Double) -> Double {
@@ -118,11 +116,6 @@ class Mutator: MutatorProtocol {
             okToSnip(leftCut, rightCut) &&
             (leftCut + insertPoint) < rightCut &&
             (leftCut..<rightCut).contains(insertPoint)
-    }
-
-    func setInputGenome(_ inputGenome: GenomeProtocol) -> MutatorProtocol {
-        self.workingGenome_ = nok(inputGenome as? Genome)
-        return self
     }
 
     enum PreinsertAction: CaseIterable {

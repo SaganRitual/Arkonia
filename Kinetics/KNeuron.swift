@@ -67,6 +67,7 @@ extension KNeuron {
         }
 
         relay.output = weighted.reduce(bias, +)
+        if let f = AFn.function[self.activator] { relay.output = f(relay.output) }
 
 //        print("\(self) -> \(relay.output)")
     }

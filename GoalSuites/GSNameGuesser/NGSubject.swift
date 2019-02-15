@@ -25,6 +25,7 @@ class NGSubject: GSSubject {
 
     init(fNet myFNet: FNet, genome myGenome: Genome, nameToGuess: String) {
         self.nameToGuess = nameToGuess
+//        print("NG", myGenome)
         super.init(fNet: myFNet, genome: myGenome)
     }
 }

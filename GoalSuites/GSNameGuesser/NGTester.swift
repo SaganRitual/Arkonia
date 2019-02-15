@@ -22,7 +22,7 @@ import Foundation
 
 class NGTester: GSTester {
     static private var exxEff: UInt64 = 0x0F
-    static private var expectedOutputEncoded: UInt64 = 0x123456789abcdef
+    static private var expectedOutputEncoded: UInt64 = 100// 0x123456789abcdef
     static private var zName: String = "Zoe Bishop"
     static private var zNameCount: UInt64!
     static private var zero: UInt64 = 0
@@ -32,13 +32,16 @@ class NGTester: GSTester {
     static func decodeGuess(_ actualOutput: Double) -> String {
         var guess: UInt64 = 0
 
-        if actualOutput == Double.nan || actualOutput == Double.infinity ||
-            actualOutput == -Double.infinity || actualOutput < 0 ||
-            actualOutput > Double(UInt64.max) || actualOutput < -Double(UInt64.max) {
+        if actualOutput == Double.nan ||
+            actualOutput == Double.infinity || actualOutput == -Double.infinity {
             guess = 0
         } else {
-            guess = UInt64(ceil(actualOutput))
+            let capped = min(Double(UInt64.max).rounded(.towardZero), abs(actualOutput))
+            print("guess = \(capped)")
+            guess = UInt64(capped)
         }
+
+        print("guess = (\(guess))")
 
         var decoded = String()
         var workingCopy = guess
@@ -54,12 +57,6 @@ class NGTester: GSTester {
         }
 
         return decoded
-    }
-
-    static func zSetup(nameToGuess: String) {
-        zName = nameToGuess; zNameCount = UInt64(nameToGuess.count)
-
-        for vc: UInt64 in zero..<zNameCount { expectedOutputEncoded <<= 4; expectedOutputEncoded |= vc }
     }
 
 }

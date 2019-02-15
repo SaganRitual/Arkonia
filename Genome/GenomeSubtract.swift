@@ -140,8 +140,6 @@ extension Genome {
         guard let ssFirst = r.first else { preconditionFailure("Should never happen?") }
         guard let ssLast = r.last else { preconditionFailure("Should never happen?") }
 
-        precondition(ssFirst + ssLast < self.count, "Ending subscript out of range")
-
         // Release my entire strand to a new segment.
         if ssFirst == 0 && ssLast == self.count { return Segment(self) }
 
