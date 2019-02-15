@@ -42,9 +42,9 @@ class NGGoalSuite: GSGoalSuite {
     }
 
     override class func setSelectionControls(cMotorNeurons: Int) -> KSelectionControls {
-        ArkonCentralDark.selectionControls.cSenseNeurons = 2
+        ArkonCentralDark.selectionControls.cSenseNeurons = 5
         ArkonCentralDark.selectionControls.cLayersInStarter = 2
-        ArkonCentralDark.selectionControls.cMotorNeurons = 2//cMotorNeurons
+        ArkonCentralDark.selectionControls.cMotorNeurons = cMotorNeurons
         ArkonCentralDark.selectionControls.cGenerations = 10000
 
         return ArkonCentralDark.selectionControls

@@ -36,12 +36,13 @@ enum Assembler {
     static func baseNeuronSnippet(channel: Int) -> Segment {
         bias *= -1
 
-        return Segment([
-            gNeuron(),
-            gActivatorFunction(.boundidentity),
-            gUpConnector((channel, 1.0)),
-            gBias(bias)
-        ])
+        let transport = Segment([gNeuron(), gActivatorFunction(.boundidentity), gBias(bias)])
+
+        for c in 0..<ArkonCentralDark.selectionControls.cSenseNeurons {
+            transport.asslink(gUpConnector((c, 1.0)))
+        }
+
+        return transport
     }
 
     static func computeDownsPerNeuron(cSenseNeurons: Int, cMotorNeurons: Int) -> Int {

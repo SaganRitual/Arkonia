@@ -46,9 +46,8 @@ class DPortalServer {
 extension DPortalServer {
 
     private func addSeparatorLine(from: CGPoint, to: CGPoint) -> SKShapeNode {
-        let line = DNeuron.drawLine(from: from, to: to)
+        let line = DNeuron.drawLine(from: from, to: to, color: .white)
 
-        line.strokeColor = .white
         line.glowWidth = 0
         line.zPosition = ArkonCentralLight.vBorderZPosition
         self.scene!.addChild(line)
