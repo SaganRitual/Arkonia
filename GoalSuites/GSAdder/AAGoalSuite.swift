@@ -21,7 +21,7 @@
 import Foundation
 
 class AAGoalSuite: GSGoalSuite {
-    static let cSenseNeurons = 15
+    static let cSenseNeurons = 5
     static let cMotorNeurons = 15
 
     init() {

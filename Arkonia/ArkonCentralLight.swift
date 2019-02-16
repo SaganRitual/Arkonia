@@ -36,7 +36,19 @@ enum ArkonCentralLight {
     static let vNeuronZPosition = CGFloat(2.0)
 
     static var vNeuronAntiscale = CGFloat(ceil(sqrt(Double(cPortals))))
-    static var vNeuronScale = CGFloat((cPortals == 1) ? 0.125 : 0.25)
+    static var vNeuronScale = CGFloat((cPortals == 1) ? (1.0 / 8.0) : (1.0 / 4.0))
 
     static let vPortalSeparatorsScale = 0.4
+    static let vConnectorLineScale = CGFloat(1.0)
+
+    static func makeColor(hexRGB: Int) -> NSColor {
+        //        let rgbs = String(format: "0x%08X", rgb)
+        //        print("heat = \(heat), heatSS = \(colorSS), rgb = \(rgbs)")
+        let r = Double((hexRGB >> 16) & 0xFF) / 256
+        let g = Double((hexRGB >>  8) & 0xFF) / 256
+        let b = Double(hexRGB         & 0xFF) / 256
+
+        return NSColor(calibratedRed: CGFloat(r), green: CGFloat(g),
+                       blue: CGFloat(b), alpha: CGFloat(1.0))
+    }
 }

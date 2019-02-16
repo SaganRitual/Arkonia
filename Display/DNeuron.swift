@@ -22,13 +22,14 @@ class DNeuron {
 
 extension DNeuron {
     static let connectionColors = [
-        0x5214FF, 0x4214FE, 0x3315FE, 0x2315FD, 0x1617FD, 0x1627FD, 0x1737FC, 0x1747FC, 0x1856FB, 0x1866FB,
-        0x1975FB, 0x1985FA, 0x1A94FA, 0x1AA3F9, 0x1BB2F9, 0x1CC0F9, 0x1CCFF8, 0x1DDEF8, 0x1DECF7, 0x1EF7F4,
-        0x1EF7E5, 0x1FF6D6, 0x1FF6C7, 0x20F5B9, 0x20F5AA, 0x21F59C, 0x21F48D, 0x22F47F, 0x22F371, 0x23F364,
-        0x23F356, 0x24F248, 0x24F23B, 0x25F12D, 0x2AF125, 0x38F126, 0x46F026, 0x54F027, 0x62EF27, 0x70EF28,
-        0x7DEF28, 0x8BEE28, 0x98EE29, 0xA5ED29, 0xB2ED2A, 0xBFED2A, 0xCCEC2B, 0xD9EC2B, 0xE5EB2C, 0xEBE42C,
-        0xEBD72D, 0xEACA2D, 0xEABD2E, 0xE9B02E, 0xE9A42F, 0xE9972F, 0xE88B2F, 0xE87E30, 0xE77230, 0xE76631,
-        0xE75A31, 0xE64E32, 0xE64232, 0xE63632
+        0x8257FF, 0x7656FE, 0x6A55FD, 0x5E54FC, 0x5354FB, 0x525FFA, 0x5169F9, 0x5174F8,
+        0x507EF7, 0x4F88F6, 0x4E93F5, 0x4D9DF4, 0x4DA7F3, 0x4CB2F2, 0x4BBCF1, 0x4AC6F0,
+        0x49D0EF, 0x49DBEE, 0x48E5ED, 0x47ECE9, 0x46EBDD, 0x45EAD1, 0x45E9C5, 0x44E8B9,
+        0x43E7AD, 0x42E6A1, 0x42E595, 0x41E489, 0x40E37E, 0x3FE272, 0x3FE166, 0x3EE05A,
+        0x3DE04F, 0x3CDF43, 0x40DE3C, 0x4ADD3B, 0x54DC3A, 0x5FDB3A, 0x69DA39, 0x73D938,
+        0x7DD837, 0x87D737, 0x91D636, 0x9AD535, 0xA4D435, 0xAED334, 0xB8D233, 0xC2D133,
+        0xCBD032, 0xCFC931, 0xCEBE31, 0xCDB230, 0xCCA72F, 0xCB9B2F, 0xCA902E, 0xC9842D,
+        0xC8792D, 0xC76E2C, 0xC6632C, 0xC5582B, 0xC44C2A, 0xC3412A, 0xC23629, 0xC22C29
     ].reversed()
 }
 
@@ -45,10 +46,10 @@ extension DNeuron {
         // If my relay has been pruned, there's nothing to draw
         guard let myRelay = myNeuron.relay else { return }
 
-        let myPosition = unscale(spacer.getPosition(for: self.neuron.relay!.id))
+        let myPosition = DNeuron.unscale(spacer.getPosition(for: self.neuron.relay!.id))
 
         myRelay.inputRelays.forEach { hisRelay in
-            let hisPosition = unscale(spacer.getPosition(for: hisRelay.id))
+            let hisPosition = DNeuron.unscale(spacer.getPosition(for: hisRelay.id))
             drawLine(from: myPosition, to: hisPosition, heat: hisRelay.output)
         }
     }
@@ -57,19 +58,21 @@ extension DNeuron {
     static func drawLine(from start: CGPoint, to end: CGPoint, color: SKColor) -> SKShapeNode {
         let linePath = CGMutablePath()
 
-        linePath.move(to: start)
-        linePath.addLine(to: end)
+        linePath.move(to: start / ArkonCentralLight.vConnectorLineScale)
+        linePath.addLine(to: end / ArkonCentralLight.vConnectorLineScale)
 
         let line = SKShapeNode(path: linePath)
 
         line.strokeColor = color
+        line.setScale(ArkonCentralLight.vConnectorLineScale)
         line.zPosition = ArkonCentralLight.vLineZPosition
 
         return line
     }
 
     private func drawLine(from start: CGPoint, to end: CGPoint, heat: Double) {
-        let color = DNeuron.makeColor(heat)
+//        let color = DNeuron.makeColor(heat)
+        let color = ArkonCentralLight.makeColor(hexRGB: 0x47db47)
         let line = DNeuron.drawLine(from: start, to: end, color: color)
         portal.addChild(line)
     }
@@ -93,7 +96,7 @@ extension DNeuron {
 
         sprite.anchorPoint = anchorPoint
         sprite.setScale(ArkonCentralLight.vNeuronScale)
-        sprite.position = unscale(spacer.getPosition(for: self.neuron.relay!.id))
+        sprite.position = DNeuron.unscale(spacer.getPosition(for: self.neuron.relay!.id))
         sprite.zPosition = ArkonCentralLight.vNeuronZPosition
         portal.addChild(sprite)
     }
@@ -112,18 +115,11 @@ extension DNeuron {
         let colorSS = min(scaled, scale - 1)
 
         let index = connectionColors.index(connectionColors.startIndex, offsetBy: colorSS)
-        let rgb = connectionColors[index]
-        //        let rgbs = String(format: "0x%08X", rgb)
-        //        print("heat = \(heat), heatSS = \(colorSS), rgb = \(rgbs)")
-        let r = Double((rgb >> 16) & 0xFF) / 256
-        let g = Double((rgb >>  8) & 0xFF) / 256
-        let b = Double(rgb         & 0xFF) / 256
 
-        return NSColor(calibratedRed: CGFloat(r), green: CGFloat(g),
-                       blue: CGFloat(b), alpha: CGFloat(1.0))
+        return ArkonCentralLight.makeColor(hexRGB: connectionColors[index])
     }
 
-    private func unscale(_ position: CGPoint) -> CGPoint {
+    static private func unscale(_ position: CGPoint) -> CGPoint {
         return position * ArkonCentralLight.vNeuronAntiscale
     }
 }
