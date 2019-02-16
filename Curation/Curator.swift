@@ -94,7 +94,7 @@ class Curator {
             if newScore != oldScore {
                 nok(ArkonCentralLight.display).display(gs.kNet!, portal: displayPortal)
                 print("New record by \(gs.fishNumber): \(gs.fitnessScore)")
-                print(gs.genome)
+                gs.genome.dump(gs.fishNumber, gs.fitnessScore)
             }
 
             deploySelector(reference: gs)

@@ -44,7 +44,6 @@ class DSpacer {
     }
 
     func setHorizontalSpacing(cNeurons: Int) {
-        print("h(\(cNeurons))")
         self.hLeft = -width / 2.0
         self.hSpacing = width / CGFloat(cNeurons + 1)
     }

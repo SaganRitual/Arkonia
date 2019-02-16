@@ -59,57 +59,6 @@ func %% (_ a: Int, _ n: Int) -> Int {
     return r >= 0 ? r : r + n
 }
 
-//extension Double {
-//    func iTruncate() -> Int {
-//        return Int(self)
-//    }
-//
-//    func sciTruncate(_ length: Int) -> String {
-//        let t = Double(truncating: self as NSNumber)
-//        return String(format: "%.\(length)e", t)
-//    }
-//
-//    func sTruncate() -> String {
-//        let t = Double(truncating: self as NSNumber)
-//        return String(format: "%.20f", t)
-//    }
-//
-//    func sTruncate(_ length: Int) -> String {
-//        let t = Double(truncating: self as NSNumber)
-//        return String(format: "%.\(length)f", t)
-//    }
-//
-//    func dTruncate() -> Double {
-//        return Double(sTruncate())!
-//    }
-//}
-//
-//extension Float {
-//    func sTruncate() -> String {
-//        return Double(self).sTruncate()
-//    }
-//}
-//
-//extension CGFloat {
-//    func iTruncate() -> Int {
-//        return Double(self).iTruncate()
-//    }
-//
-//    func dTruncate() -> Double {
-//        return Double(self).dTruncate()
-//    }
-//
-//    func sTruncate() -> String {
-//        return Double(self).sTruncate()
-//    }
-//}
-//
-//extension CGPoint {
-//    func iTruncate() -> CGPoint {
-//        return CGPoint(x: self.x.iTruncate(), y: self.y.iTruncate())
-//    }
-//}
-
 extension Array {
     // It's easier for me to think about the breeders as a stack
     mutating func pop() -> Element { return self.removeFirst() }
@@ -142,5 +91,40 @@ struct SetOnce<T> {
         precondition(!isLocked, "Can be set only once")
         isLocked = true
         meat = newValue
+    }
+}
+
+// With deepest gratitude to Stack Overflow dude
+// https://stackoverflow.com/users/3441734/user3441734
+// https://stackoverflow.com/a/44541541/1610473
+class Log: TextOutputStream {
+
+    static var L = Log()
+
+    var fm = FileManager.default
+    let log: URL
+    var handle: FileHandle?
+
+    init() {
+        log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("roblog.txt")
+        print("Logfile at \(log)")
+        do {
+            let h = try FileHandle(forWritingTo: log)
+            h.truncateFile(atOffset: 0)
+            h.seekToEndOfFile()
+            self.handle = h
+        } catch {
+            print("Couldn't open logfile", error)
+        }
+    }
+
+    deinit { handle?.closeFile() }
+
+    func write(_ string: String) {
+        if let h = self.handle {
+            h.write(string.data(using: .utf8)!)
+        } else {
+            try? string.data(using: .utf8)?.write(to: log)
+        }
     }
 }

@@ -63,7 +63,13 @@ class Genome: CustomDebugStringConvertible, GenomeProtocol {
     init(_ segment: Segment) { segment.releaseFull_(to: self) }
     init(_ segments: [Segment]) { segments.forEach { asslink($0) } }
 
-    func dump() { makeIterator().forEach { print($0) } }
+    func dump(_ fishNumber: Int, _ score: Double) {
+        let s = String(format: "%.8f", score)
+        Log.L.write("\nGenome for fish \(fishNumber), score \(s)\n")
+        for gene in makeIterator() {
+            Log.L.write(String(describing: gene) + "\n")
+        }
+    }
 }
 
 // MARK: Helpers

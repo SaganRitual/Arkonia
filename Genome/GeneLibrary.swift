@@ -71,8 +71,8 @@ class gIntGene: Gene {
         var d = ""
         switch self.type {
         case .downConnector: d = "\t\tDown connector"
-        case .hox: d = "Hox"
-        case .lock: d = "Lock"
+        case .hox: d = "\t\tHox"
+        case .lock: d = "\t\tLock"
         default: preconditionFailure()
         }
 
