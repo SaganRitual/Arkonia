@@ -60,9 +60,9 @@ class Mutator: MutatorProtocol {
 
     func getWeightedRandomMutationType() -> MutationType {
         let weightMap: [MutationType : Int] = [
-            .deleteRandomGenes : 1, .deleteRandomSegment : 1,
-            .insertRandomGenes : 1, .insertRandomSegment : 1,
-            .mutateRandomGenes : 10, .cutAndReinsertSegment : 1, .copyAndReinsertSegment : 1
+            .deleteRandomGenes : 3, .deleteRandomSegment : 3,
+            .insertRandomGenes : 3, .insertRandomSegment : 3,
+            .mutateRandomGenes : 10, .cutAndReinsertSegment : 3, .copyAndReinsertSegment : 3
         ]
 
         let weightRange = weightMap.reduce(0, { return $0 + $1.value })
@@ -133,7 +133,9 @@ extension Mutator {
         if workingGenome.isEmpty { return }
 
         let m = nok(ArkonCentralDark.mutator as? Mutator)
-        let cMutate = Double(abs(m.bellCurve.nextFloat())) * Double(workingGenome.count)
+        let b = abs(m.bellCurve.nextFloat())
+        let cMutate = Double(b) * Double(workingGenome.count)
+        precondition(abs(cMutate) != Double.infinity && cMutate != Double.nan)
         guard Int(cMutate) > 0 else { return }
 
         precondition(workingGenome.count == workingGenome.rcount && workingGenome.count == workingGenome.scount)

@@ -25,6 +25,7 @@ enum DecodeState {
 }
 
 class FDecoder: DecoderProtocol {
+    var currentNeuronIsMeaty = false
     var decodeState: DecodeState = .noLayer
     var inputGenome: Genome?
     var fNet: FNet!
@@ -150,11 +151,18 @@ extension FDecoder {
             layerUnderConstruction = fNet.beginNewLayer()
 
         case .neuron:
-            decodeState = .inNeuron
-            layerUnderConstruction!.finalizeNeuron()
-            neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
+            // Got another neuron marker, but it would
+            // cause this one to be empty. Just ignore it.
+            if currentNeuronIsMeaty {
+                currentNeuronIsMeaty = false
+
+                decodeState = .inNeuron
+                layerUnderConstruction!.finalizeNeuron()
+                neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
+            }
 
         default:
+            currentNeuronIsMeaty = true
             return dispatchValueGene(gene)
         }
     }
