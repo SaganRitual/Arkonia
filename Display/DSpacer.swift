@@ -1,29 +1,28 @@
 import Foundation
 import SpriteKit
 
-struct DSpacer {
+class DSpacer {
     var cNeurons: Int!
+    let height: CGFloat
     var hLeft = CGFloat(0.0)
     var hSpacing = CGFloat(0.0)
     var layerRole = DLayer.LayerRole.senseLayer
+    var neuronPositions: [KIdentifier: CGPoint]
     let portal: SKNode
-    let height: CGFloat
-    let width: CGFloat
     var vSpacing = CGFloat(0.0)
     var vTop = CGFloat(0.0)
+    let width: CGFloat
 
     init(portal: SKNode, cLayers: Int) {
         self.portal = portal
         self.height = portal.frame.height
         self.width = portal.frame.width
-
+        self.neuronPositions = [:]
         self.setVerticalSpacing(cLayers: cLayers)
     }
 
-    func getPosition(for dNeuron: DNeuron) -> CGPoint {
-        let xSS = dNeuron.neuron.id.myID
-        let ySS = dNeuron.neuron.id.parentID    // The layer
-        return getPosition(DGridPosition(x: xSS, y: ySS))
+    func getPosition(for id: KIdentifier) -> CGPoint {
+        return neuronPositions[id]!
     }
 
     func getPosition(_ gridPosition: DGridPosition) -> CGPoint {
@@ -44,16 +43,23 @@ struct DSpacer {
         return hLeft + CGFloat(xSS + 1) * hSpacing
     }
 
-    mutating func setHorizontalSpacing(cNeurons: Int) {
+    func setHorizontalSpacing(cNeurons: Int) {
+        print("h(\(cNeurons))")
         self.hLeft = -width / 2.0
         self.hSpacing = width / CGFloat(cNeurons + 1)
     }
 
-    mutating func setLayerRole(_ layerRole: DLayer.LayerRole) {
+    func setLayerRole(_ layerRole: DLayer.LayerRole) {
         self.layerRole = layerRole
     }
 
-    mutating func setVerticalSpacing(cLayers: Int) {
+    func setPosition(id: KIdentifier, gridX: Int, gridY: Int) {
+        let position = getPosition(DGridPosition(x: gridX, y: gridY))
+        guard let p = neuronPositions[id] else { neuronPositions[id] = position; return }
+        precondition(p == position, "neuronPositions[\(id)] = \(p) already; now setting to \(position)?")
+    }
+
+    func setVerticalSpacing(cLayers: Int) {
         self.vSpacing = height / CGFloat(cLayers + 1)
         self.vTop = height / 2.0
     }

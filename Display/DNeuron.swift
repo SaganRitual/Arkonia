@@ -4,15 +4,17 @@ import SpriteKit
 class DNeuron {
     weak var neuron: KNeuron!
     private weak var portal: SKNode!
-    var position: CGPoint?
 
-    init(_ neuron: KNeuron) { self.neuron = neuron }
+    init(_ neuron: KNeuron, spacer: DSpacer, compactGridX: Int, gridY: Int) {
+        self.neuron = neuron
+        spacer.setPosition(id: neuron.relay!.id, gridX: compactGridX, gridY: gridY)
+    }
 
-    func display(on portal: SKNode, spacer: DSpacer, inputPositions: [KIdentifier: CGPoint]) {
+    func display(on portal: SKNode, spacer: DSpacer) {
         self.portal = portal
 
         drawNeuron(spacer: spacer)
-        drawConnections(inputPositions: inputPositions)
+        drawConnections(spacer: spacer)
     }
 }
 
@@ -32,48 +34,23 @@ extension DNeuron {
 
 extension DNeuron {
 
-    func drawConnections(inputPositions: [KIdentifier: CGPoint]) {
-        guard let myNeuron = self.neuron else { preconditionFailure() }
-        guard let myPosition = self.position else { preconditionFailure() }
-
-        // If my relay has been pruned, there's nothing to draw
-        guard let myRelay = myNeuron.relay else { return }
-
-        myRelay.inputRelays.forEach { hisRelay in
-            guard let hisPosition = inputPositions[hisRelay.id] else { preconditionFailure() }
-
-            drawLine(from: myPosition, to: hisPosition, heat: hisRelay.output)
-        }
-    }
-
     static func constrain<T: Numeric & Comparable>(_ a: T, lo: T, hi: T) -> T {
         let capped = min(a, hi)
         return max(capped, lo)
     }
 
-    static func makeColor(_ heat: Double) -> NSColor {
-        // Map the -1.0..<1.0 range to my 0-99 range of heat colors
-        let scale = connectionColors.count
+    func drawConnections(spacer: DSpacer) {
+        guard let myNeuron = self.neuron else { preconditionFailure() }
 
-        // Constrain to -1.0...1.0
-        let constrained = constrain(heat, lo: -1.0, hi: 1.0)
-        // Shift to 0.0...2.0
-        let shifted = constrained + 1.0
-        // Map value in range 0.0...2.0 to range 0.0...(colors.count)
-        let scaled = Int(shifted * Double(scale) / 2.0)
-        // Don't go off the end
-        let colorSS = min(scaled, scale - 1)
+        // If my relay has been pruned, there's nothing to draw
+        guard let myRelay = myNeuron.relay else { return }
 
-        let index = connectionColors.index(connectionColors.startIndex, offsetBy: colorSS)
-        let rgb = connectionColors[index]
-//        let rgbs = String(format: "0x%08X", rgb)
-//        print("heat = \(heat), heatSS = \(colorSS), rgb = \(rgbs)")
-        let r = Double((rgb >> 16) & 0xFF) / 256
-        let g = Double((rgb >>  8) & 0xFF) / 256
-        let b = Double(rgb         & 0xFF) / 256
+        let myPosition = unscale(spacer.getPosition(for: self.neuron.relay!.id))
 
-        return NSColor(calibratedRed: CGFloat(r), green: CGFloat(g),
-                       blue: CGFloat(b), alpha: CGFloat(1.0))
+        myRelay.inputRelays.forEach { hisRelay in
+            let hisPosition = unscale(spacer.getPosition(for: hisRelay.id))
+            drawLine(from: myPosition, to: hisPosition, heat: hisRelay.output)
+        }
     }
 
     @discardableResult
@@ -116,10 +93,34 @@ extension DNeuron {
 
         sprite.anchorPoint = anchorPoint
         sprite.setScale(ArkonCentralLight.vNeuronScale)
-        sprite.position = unscale(spacer.getPosition(for: self))
+        sprite.position = unscale(spacer.getPosition(for: self.neuron.relay!.id))
         sprite.zPosition = ArkonCentralLight.vNeuronZPosition
-        self.position = sprite.position
         portal.addChild(sprite)
+    }
+
+    static func makeColor(_ heat: Double) -> NSColor {
+        // Map the -1.0..<1.0 range to my 0-99 range of heat colors
+        let scale = connectionColors.count
+
+        // Constrain to -1.0...1.0
+        let constrained = constrain(heat, lo: -1.0, hi: 1.0)
+        // Shift to 0.0...2.0
+        let shifted = constrained + 1.0
+        // Map value in range 0.0...2.0 to range 0.0...(colors.count)
+        let scaled = Int(shifted * Double(scale) / 2.0)
+        // Don't go off the end
+        let colorSS = min(scaled, scale - 1)
+
+        let index = connectionColors.index(connectionColors.startIndex, offsetBy: colorSS)
+        let rgb = connectionColors[index]
+        //        let rgbs = String(format: "0x%08X", rgb)
+        //        print("heat = \(heat), heatSS = \(colorSS), rgb = \(rgbs)")
+        let r = Double((rgb >> 16) & 0xFF) / 256
+        let g = Double((rgb >>  8) & 0xFF) / 256
+        let b = Double(rgb         & 0xFF) / 256
+
+        return NSColor(calibratedRed: CGFloat(r), green: CGFloat(g),
+                       blue: CGFloat(b), alpha: CGFloat(1.0))
     }
 
     private func unscale(_ position: CGPoint) -> CGPoint {

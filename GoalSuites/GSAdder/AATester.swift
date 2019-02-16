@@ -21,13 +21,15 @@
 import Foundation
 
 final class AATester: GSTesterProtocol {
-//    let testInputSets = [
-//        [1.0, 1.0], [10.0, 10.0], [100.0, 100.0], [1000.0, 1000.0],
-//        [5.0, 995.0], [47.0, 357.0], [756.0, 22.0], [1111.0, 1066.0]
-//    ]
+    let testInputSets = [
+        [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09],
+        [0.11, 0.12, 0.13, 0.14, 0.15, 0.16, 0.17, 0.18, 0.19],
+        [0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29],
+        [0.31, 0.32, 0.33, 0.34, 0.35, 0.36, 0.37, 0.38, 0.39],
+        [0.41, 0.42, 0.43, 0.44, 0.45, 0.46, 0.47, 0.48, 0.49]
+    ]
 
-    let testInputSet = [ [5.0, 1.0], [3.0, 6.5] ]
-    let expectedOutputs = [0.6, 0.95]
+    let expectedOutputs: [Double]
     var outputsFromAllPasses = [Double]()
     var kNet: KNet?
     var rawOutputs = [Double?]()
@@ -40,6 +42,10 @@ final class AATester: GSTesterProtocol {
 
     var description: String { return "AATester; Arkon goal: add two numbers" }
 
+    init() {
+        expectedOutputs = testInputSets.map { $0.prefix(upTo: 3).reduce(0.0, +) }
+    }
+
     func postInit(suite: GSGoalSuite) { self.suite = suite }
 
     func administerTest(to gs: GSSubject) -> Double? {
@@ -48,7 +54,7 @@ final class AATester: GSTesterProtocol {
         let signalDriver = KSignalDriver(idNumber: gs.fishNumber, fNet: gs.fNet!)
         gs.kNet = signalDriver.kNet
 
-        for (ss, inputSet) in testInputSet.enumerated() {
+        for (ss, inputSet) in testInputSets.enumerated() {
             let arkonSurvived = signalDriver.drive(sensoryInputs: inputSet)
             if !arkonSurvived { return nil }
 
