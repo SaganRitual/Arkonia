@@ -29,7 +29,7 @@ class Mutator: MutatorProtocol {
 
     func copySegment() -> Segment {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: workingGenome.count)
-        workingGenome.isCloneOfParent = false
+        workingGenome.isCloneOfParent &&= (leftCut < rightCut)
         return workingGenome.copy(from: leftCut, to: rightCut)
     }
 

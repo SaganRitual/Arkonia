@@ -23,48 +23,12 @@ import Foundation
 class AAFactory: GSFactory {
     override var description: String { return "AAFactory; functioning within standard operational parameters" }
 
-    override public func makeArkon(genome: GenomeSlice, mutate: Bool = true) -> AASubject? {
-        guard let fNet = makeNet(genome: genome, mutate: mutate) else { return nil }
+    override public func makeArkon(genome: Genome, mutate: Bool = true) -> AASubject? {
+        let (newGenome, fNet_) = makeNet(genome: genome, mutate: mutate)
+        guard let fNet = fNet_, !fNet.layers.isEmpty else { return nil }
 
-        let a = AASubject(genome: genomeWorkspace[...])
-        a.postInit(fNet: fNet)
-        return a
-    }
-
-    override func postInit(suite: GSGoalSuite) {
-        self.suite = suite
-
-        ArkonCentralDark.selectionControls.cMotorNeurons = 5
-        ArkonCentralDark.selectionControls.cSenseNeurons = 5
-        ArkonCentralDark.selectionControls.cLayersInStarter = 5
-
-        let h = ArkonCentralDark.selectionControls.cLayersInStarter
-        GSFactory.aboriginalGenome = makePassThruGenome(cLayers: h)
-    }
-
-    private func makePassThruGenome(cLayers: Int) -> Genome {
-        var dag = Genome()
-        for _ in 0..<cLayers {
-            dag = makeOneLayer(dag, hmNeurons: ArkonCentralDark.selectionControls.cSenseNeurons)
-        }
-
-//        dag += "L_N_"
-//        dag += "A(\(true))_F(identity)_W(b[\(1)]v[\(1)])_B(\(1))_"
-//        dag += "A(\(true))_F(identity)_W(b[\(1)]v[\(1)])_B(\(-1))_"
-
-        return dag
-    }
-
-    private func makeOneLayer(_ protoGenome_: Genome, hmNeurons: Int) -> Genome {
-        var protoGenome = protoGenome_ + "L_"
-        var bias = 1.0
-        var scanRight = true
-        for _ in 0..<hmNeurons {
-            protoGenome += "N_A(\(scanRight))_F(identity)_W(b[\(1)]v[\(1)])_B(\(bias))_"
-            bias *= -1
-            scanRight = !scanRight
-        }
-        return protoGenome
+        // Subject now owns the fNet and the newGenome
+        return AASubject(fNet: fNet, genome: newGenome)
     }
 
 }

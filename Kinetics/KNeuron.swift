@@ -57,7 +57,9 @@ class KNeuron: KIdentifiable, LoopIterable {
 extension KNeuron {
 
     func driveSignal(isMotorLayer: Bool) {
-        guard let relay = relay else { preconditionFailure() }
+        // If we're driving hot, there will likely be holes in the grid,
+        // left over from the cold drive. Just skip them.
+        guard let relay = relay else { return }
 
         if isMotorLayer { weights = [1.0] }
 

@@ -95,12 +95,13 @@ class Selector {
         for _ in 0..<ArkonCentralDark.selectionControls.cSubjectsPerGeneration {
 //            print("e(\(s))", terminator: "")
             guard let gs = goalSuite.factory.makeArkon(genome: stud.genome, mutate: true)
-                else { print("F", terminator: ""); continue }
+                else { /*print("F", terminator: "");*/ continue }
 
             if selectorWorkItem.isCancelled { break }
             if gs.genome.isCloneOfParent { /*print("c", terminator: "");*/ continue }
 
-            guard let score = goalSuite.tester.administerTest(to: gs) else { print("d", terminator: ""); continue }
+            guard let score = goalSuite.tester.administerTest(to: gs)
+                else { /*print("K", terminator: "");*/ continue }
 
             switch comparisonMode {
             case .ANY: break
@@ -123,8 +124,8 @@ class Selector {
             return nil  // No qualifiers, perhaps even no survivors
         }
 
-        print("Return \(stemTheFlood.count) test subjects")
-        print("stem", stemTheFlood.map({ $0.fitnessScore }))
+//        print("Return \(stemTheFlood.count) test subjects")
+//        print("stem", stemTheFlood.map({ $0.fitnessScore }))
         return stemTheFlood
     }
 

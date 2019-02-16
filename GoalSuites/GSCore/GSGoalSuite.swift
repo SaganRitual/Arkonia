@@ -42,7 +42,7 @@ class GSGoalSuite {
         return curator!.select()
     }
 
-    class func setSelectionControls(cMotorNeurons: Int) -> KSelectionControls {
+    class func setSelectionControls(cMotorNeurons: Int) {
         preconditionFailure("Subclasses must override this function")
     }
 }

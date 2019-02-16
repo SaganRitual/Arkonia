@@ -23,7 +23,8 @@ import Foundation
 class AASubject: GSSubject {
     public var debugOutput = ""
     override public var description: String {
-        return "(\(fishNumber)) score \(fitnessScore.sciTruncate(5))"
+        let fs = String(format: "%.3f", fitnessScore)
+        return "(\(fishNumber)) score \(fs)"
     }
 
     public override var lightLabel: String { return description }

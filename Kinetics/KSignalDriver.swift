@@ -50,18 +50,20 @@ class KSignalDriver  {
         self.kNet = kNet
     }
 
-    func drive(sensoryInputs: [Double]) {
+    func drive(sensoryInputs: [Double]) -> Bool {
         zip(sensoryInputs, senseLayer.signalRelays).forEach { sensoryInput, relay in
             relay.overrideState(operational: true)
             relay.output = sensoryInput
         }
 
-        kNet.driveSignal(senseLayer, motorLayer)
+        let arkonSurvived = kNet.driveSignal(senseLayer, motorLayer)
+        if !arkonSurvived { return false }
 //        print("Releasing output layer relays")
 
         motorOutputs = kNet.motorLayer.neurons.map { return $0.relay!.output }
 
 //        kNet.gridAnchors.forEach { print($0.output) }
 //        print("All done")
+        return true
     }
 }

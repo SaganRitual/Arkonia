@@ -50,7 +50,6 @@ class GSTester: GSTesterProtocol {
 
     init(expectedOutput: Double) {
         let inputsCount = ArkonCentralDark.selectionControls.cSenseNeurons
-//        let outputsCount = ArkonCentralDark.selectionControls.cMotorNeurons
 
         inputs = Array(repeating: 1.0, count: inputsCount)
 
@@ -66,7 +65,9 @@ class GSTester: GSTesterProtocol {
 
         let signalDriver = KSignalDriver(idNumber: gs.fishNumber, fNet: gs.fNet!)
         gs.kNet = signalDriver.kNet
-        signalDriver.drive(sensoryInputs: inputs)
+
+        let arkonSurvived = signalDriver.drive(sensoryInputs: inputs)
+        if !arkonSurvived { return nil }
 
         let nonils = signalDriver.motorOutputs.compactMap({$0})
         if nonils.isEmpty { return nil }

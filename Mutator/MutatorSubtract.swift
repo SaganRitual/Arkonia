@@ -20,6 +20,9 @@
 
 import Foundation
 
+infix operator &&=
+func &&= (_ lhs: inout Bool, _ rhs: Bool) { lhs = lhs && rhs }
+
 extension Mutator {
 
     @discardableResult
@@ -27,7 +30,7 @@ extension Mutator {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: workingGenome.count)
 
         // This isn't correct, but I'm being lazy
-        workingGenome.isCloneOfParent = false
+        workingGenome.isCloneOfParent &&= (leftCut < rightCut)
         return cutSegment(leftCut, rightCut)
     }
 
@@ -35,8 +38,7 @@ extension Mutator {
     func cutSegment(_ leftCut: Int, _ rightCut: Int) -> Segment? {
         if !okToSnip(leftCut, rightCut) { return nil}
 
-        // This isn't correct, but I'm being lazy
-        workingGenome.isCloneOfParent = false
+        workingGenome.isCloneOfParent &&= (leftCut < rightCut)
         return workingGenome.removeSubrange(leftCut..<rightCut)
     }
 
@@ -50,6 +52,8 @@ extension Mutator {
         for _ in stride(from: 0, to: workingGenome.count, by: strideLength) {
             let wherefore = Int.random(in: 0..<workingGenome.count)
             workingGenome.remove(at: wherefore)
+            workingGenome.isCloneOfParent = false
+
             if workingGenome.isEmpty {
                 // swiftlint:disable empty_count
                 precondition(workingGenome.count == 0 && workingGenome.rcount == 0 && workingGenome.scount == 0)
@@ -57,8 +61,5 @@ extension Mutator {
                 break
             }
         }
-
-        // This isn't correct, but I'm being lazy
-        workingGenome.isCloneOfParent = false
     }
 }

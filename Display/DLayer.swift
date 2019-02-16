@@ -12,16 +12,17 @@ class DLayer {
 
     func display(on portal: SKNode, spacer spacer_: DSpacer, inputPositions: [KIdentifier: CGPoint]) {
         var spacer = spacer_
-        spacer.setHorizontalSpacing(cNeurons: layer.neurons.count)
+
         spacer.setLayerRole(self.layerRole)
 
-        for neuron in layer.neurons {
-            guard let relay = neuron.relay else { continue }
+        let liveNeurons = layer.neurons.compactMap { $0.relay == nil ? nil : $0 }
+        spacer.setHorizontalSpacing(cNeurons: liveNeurons.count)
 
+        for neuron in liveNeurons {
             let dn = DNeuron(neuron)
             dn.display(on: portal, spacer: spacer, inputPositions: inputPositions)
 
-            neuronPositions[relay.id] = dn.position
+            neuronPositions[dn.neuron.relay!.id] = dn.position
         }
     }
 }

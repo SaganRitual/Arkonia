@@ -22,26 +22,26 @@ import XCTest
 
 // siftlint:disable function_body_length
 class DTGenome: XCTestCase {
-//    func testGene() {
-//        var cDestruct = 0
-//        var gene1: gMockGene? = gMockGene(42, destructorCallback: { cDestruct += 1 })
-//        var gene2: gMockGene? = gMockGene(43, destructorCallback: { cDestruct += 1 })
-//        var head: gMockGene? = gene1
-//        var tail: gMockGene? = gene2
-//
-//        head?.next = gene2
-//        tail?.prev = gene1
-//
-//        gene1 = nil
-//        print("One-a", cDestruct, gene1 == nil)
-//        gene2 = nil
-//        print("One-b", cDestruct, gene2 == nil)
-//        tail = nil
-//        print("Two", cDestruct, tail == nil)
-//        head = nil
-//        print("Three", cDestruct, head == nil)
-//
-//    }
+    func testGene() {
+        var cDestruct = 0
+        var gene1: gMockGene? = gMockGene(42, destructorCallback: { cDestruct += 1 })
+        var gene2: gMockGene? = gMockGene(43, destructorCallback: { cDestruct += 1 })
+        var head: gMockGene? = gene1
+        var tail: gMockGene? = gene2
+
+        head?.next = gene2
+        tail?.prev = gene1
+
+        gene1 = nil
+        print("One-a", cDestruct, gene1 == nil)
+        gene2 = nil
+        print("One-b", cDestruct, gene2 == nil)
+        tail = nil
+        print("Two", cDestruct, tail == nil)
+        head = nil
+        print("Three", cDestruct, head == nil)
+
+    }
 
     func testGenome() {
         #if K_RUN_DT_GENOME

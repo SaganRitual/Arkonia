@@ -26,9 +26,9 @@ final class AATester: GSTesterProtocol {
 //        [5.0, 995.0], [47.0, 357.0], [756.0, 22.0], [1111.0, 1066.0]
 //    ]
 
-    let testInputSets = [ [5.0, 1.0, 7.0, 1.0, 11.0] ]
-    let expectedOutputs = [23.0]
-    var cookedOutputs = [Double]()
+    let testInputSet = [ [5.0, 1.0], [3.0, 6.5] ]
+    let expectedOutputs = [0.6, 0.95]
+    var outputsFromAllPasses = [Double]()
     var kNet: KNet?
     var rawOutputs = [Double?]()
 
@@ -45,22 +45,24 @@ final class AATester: GSTesterProtocol {
     func administerTest(to gs: GSSubject) -> Double? {
         gs.fitnessScore = 0.0
 
-        let KSignalDriver = KSignalDriver(fNet: gs.fNet!)
-        gs.kNet = KSignalDriver.kNet
+        let signalDriver = KSignalDriver(idNumber: gs.fishNumber, fNet: gs.fNet!)
+        gs.kNet = signalDriver.kNet
 
-        for (ss, _/*inputSet*/) in testInputSets.enumerated() {
-            KSignalDriver.drive(sensoryInputs: testInputSets[0])
+        for (ss, inputSet) in testInputSet.enumerated() {
+            let arkonSurvived = signalDriver.drive(sensoryInputs: inputSet)
+            if !arkonSurvived { return nil }
 
-            let nonils = rawOutputs.compactMap({$0})
-            if nonils.isEmpty { return nil }
+            let singlePassOutputs = signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
+            let thisPassOutput = singlePassOutputs.reduce(0.0, +)
+            outputsFromAllPasses.append(thisPassOutput)
 
-            let result = nonils.reduce(0.0, +)
-            cookedOutputs.append(result)
-
-            let error = abs(1.0 - (cookedOutputs[ss] / expectedOutputs[ss]))
+            let error = abs(1.0 - (thisPassOutput / expectedOutputs[ss]))
             gs.fitnessScore += error
 
-//            print(".gsf", gs.fishNumber, error, cookedOutputs[ss], expectedOutputs[ss], (cookedOutputs[ss] / expectedOutputs[ss]))
+//            print(
+//                ".gsf", gs.fishNumber, error, outputsFromAllPasses[ss], expectedOutputs[ss],
+//                (outputsFromAllPasses[ss] / expectedOutputs[ss])
+//            )
         }
 //        print("gsf", gs.fishNumber, gs.fitnessScore)
 

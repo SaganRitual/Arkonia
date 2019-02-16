@@ -50,7 +50,7 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
 
           #if K_RUN_MAIN
 
-            self.goalSuite = NGGoalSuite("Zoe Bishop")
+            self.goalSuite = AAGoalSuite()
             self.curator = Curator(goalSuite: nok(self.goalSuite))
             self.workItem = DispatchWorkItem { [weak self] in _ = nok(self?.curator).select() }
             DispatchQueue.global(qos: .background).async(execute: self.workItem)

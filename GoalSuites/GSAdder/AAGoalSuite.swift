@@ -21,21 +21,21 @@
 import Foundation
 
 class AAGoalSuite: GSGoalSuite {
-    init() {
-        ArkonCentral.sel = AAGoalSuite.setSelectionControls()
+    let cMotorNeurons = 10
 
-        let tester = AATester()
+    init() {
         let factory = AAFactory()
+        let tester = AATester()
+
+        AAGoalSuite.setSelectionControls(cMotorNeurons: self.cMotorNeurons)
 
         super.init(factory: factory, tester: tester)
     }
 
-    override class func setSelectionControls() -> KSelectionControls {
-        ArkonCentralDark.selectionControls.cSenseNeurons = 3
-        ArkonCentralDark.selectionControls.cLayersInStarter = 5
-        ArkonCentralDark.selectionControls.cMotorNeurons = 1
-        ArkonCentralDark.selectionControls.cGenerations = 100
-
-        return ArkonCentral.sel
+    override class func setSelectionControls(cMotorNeurons: Int) {
+        ArkonCentralDark.selectionControls.cSenseNeurons = 2
+        ArkonCentralDark.selectionControls.cLayersInStarter = 2
+        ArkonCentralDark.selectionControls.cMotorNeurons = cMotorNeurons
+        ArkonCentralDark.selectionControls.cGenerations = 10000
     }
 }

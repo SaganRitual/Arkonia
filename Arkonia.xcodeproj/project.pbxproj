@@ -34,6 +34,10 @@
 		D43E8727220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
 		D43E8728220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
 		D43E8729220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
+		D44B1C172217693100D652B8 /* AAFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2222076C000001F5D0 /* AAFactory.swift */; };
+		D44B1C1822176A2A00D652B8 /* AAGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2422076C000001F5D0 /* AAGoalSuite.swift */; };
+		D44B1C1922176A3800D652B8 /* AASubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2122076C000001F5D0 /* AASubject.swift */; };
+		D44B1C1A22176A3B00D652B8 /* AATester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2322076C000001F5D0 /* AATester.swift */; };
 		D46880222207A0C500405F54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46880212207A0C500405F54 /* main.swift */; };
 		D468802D2207A0E600405F54 /* DTGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468802C2207A0E600405F54 /* DTGenome.swift */; };
 		D46880322207A39200405F54 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFC220762680002BC58 /* Genome.swift */; };
@@ -104,10 +108,6 @@
 		D46D6C2C22076C010001F5D0 /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1D22076C000001F5D0 /* GSGoalSuite.swift */; };
 		D46D6C2D22076C010001F5D0 /* GSSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1E22076C000001F5D0 /* GSSubject.swift */; };
 		D46D6C2E22076C010001F5D0 /* GSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1F22076C000001F5D0 /* GSFactory.swift */; };
-		D46D6C3322076C010001F5D0 /* NGTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2622076C000001F5D0 /* NGTester.swift */; };
-		D46D6C3422076C010001F5D0 /* NGSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2722076C000001F5D0 /* NGSubject.swift */; };
-		D46D6C3522076C010001F5D0 /* NGFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2822076C000001F5D0 /* NGFactory.swift */; };
-		D46D6C3622076C010001F5D0 /* NGGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2922076C000001F5D0 /* NGGoalSuite.swift */; };
 		D46D6C4022076C970001F5D0 /* KSignalDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3822076C970001F5D0 /* KSignalDriver.swift */; };
 		D46D6C4122076C970001F5D0 /* KExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3922076C970001F5D0 /* KExtensions.swift */; };
 		D46D6C4222076C970001F5D0 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3A22076C970001F5D0 /* KConnector.swift */; };
@@ -248,10 +248,6 @@
 		D46D6C2222076C000001F5D0 /* AAFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAFactory.swift; sourceTree = "<group>"; };
 		D46D6C2322076C000001F5D0 /* AATester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AATester.swift; sourceTree = "<group>"; };
 		D46D6C2422076C000001F5D0 /* AAGoalSuite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAGoalSuite.swift; sourceTree = "<group>"; };
-		D46D6C2622076C000001F5D0 /* NGTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGTester.swift; sourceTree = "<group>"; };
-		D46D6C2722076C000001F5D0 /* NGSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGSubject.swift; sourceTree = "<group>"; };
-		D46D6C2822076C000001F5D0 /* NGFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGFactory.swift; sourceTree = "<group>"; };
-		D46D6C2922076C000001F5D0 /* NGGoalSuite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NGGoalSuite.swift; sourceTree = "<group>"; };
 		D46D6C3822076C970001F5D0 /* KSignalDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSignalDriver.swift; sourceTree = "<group>"; };
 		D46D6C3922076C970001F5D0 /* KExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KExtensions.swift; sourceTree = "<group>"; };
 		D46D6C3A22076C970001F5D0 /* KConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KConnector.swift; sourceTree = "<group>"; };
@@ -494,7 +490,6 @@
 			children = (
 				D46D6C2022076C000001F5D0 /* GSAdder */,
 				D46D6C1A22076C000001F5D0 /* GSCore */,
-				D46D6C2522076C000001F5D0 /* GSNameGuesser */,
 			);
 			path = GoalSuites;
 			sourceTree = "<group>";
@@ -520,17 +515,6 @@
 				D46D6C2322076C000001F5D0 /* AATester.swift */,
 			);
 			path = GSAdder;
-			sourceTree = "<group>";
-		};
-		D46D6C2522076C000001F5D0 /* GSNameGuesser */ = {
-			isa = PBXGroup;
-			children = (
-				D46D6C2822076C000001F5D0 /* NGFactory.swift */,
-				D46D6C2922076C000001F5D0 /* NGGoalSuite.swift */,
-				D46D6C2722076C000001F5D0 /* NGSubject.swift */,
-				D46D6C2622076C000001F5D0 /* NGTester.swift */,
-			);
-			path = GSNameGuesser;
 			sourceTree = "<group>";
 		};
 		D46D6C3722076C690001F5D0 /* Kinetics */ = {
@@ -1169,12 +1153,14 @@
 				D46D6BFE22076A5A0001F5D0 /* CGConversions.swift in Sources */,
 				D46D6C0922076AEC0001F5D0 /* GenomeSubtract.swift in Sources */,
 				D46D6C1722076BD60001F5D0 /* Selector.swift in Sources */,
-				D46D6C3322076C010001F5D0 /* NGTester.swift in Sources */,
 				D4C266242210BC4F00325F05 /* Display.swift in Sources */,
 				D46D6BFB220769FC0001F5D0 /* GProtocols.swift in Sources */,
 				D46D6C4422076C970001F5D0 /* KNeuron.swift in Sources */,
 				D46D6C4722076C970001F5D0 /* KNet.swift in Sources */,
 				D46D6C0D22076B670001F5D0 /* KAppController.swift in Sources */,
+				D44B1C1A22176A3B00D652B8 /* AATester.swift in Sources */,
+				D44B1C1822176A2A00D652B8 /* AAGoalSuite.swift in Sources */,
+				D44B1C172217693100D652B8 /* AAFactory.swift in Sources */,
 				D47246D722116C1A002AA25F /* DNet.swift in Sources */,
 				D46D6BF8220769B30001F5D0 /* Genome.swift in Sources */,
 				D47246DD22116E95002AA25F /* DNeuron.swift in Sources */,
@@ -1187,8 +1173,8 @@
 				D46D6C4622076C970001F5D0 /* KLayer.swift in Sources */,
 				D46D6BF7220769B30001F5D0 /* Gene.swift in Sources */,
 				D46D6C0422076AAF0001F5D0 /* Mutator.swift in Sources */,
+				D44B1C1922176A3800D652B8 /* AASubject.swift in Sources */,
 				D46D6C0F22076B670001F5D0 /* SceneViewController.swift in Sources */,
-				D46D6C3522076C010001F5D0 /* NGFactory.swift in Sources */,
 				D46D6BFD22076A480001F5D0 /* ArkonCentralLight.swift in Sources */,
 				D46D6BF22207696C0001F5D0 /* FLayer.swift in Sources */,
 				D46D6C0E22076B670001F5D0 /* KAppDelegate.swift in Sources */,
@@ -1197,12 +1183,10 @@
 				D46D6C4922076CD20001F5D0 /* Assembler.swift in Sources */,
 				D46D6BF9220769C30001F5D0 /* ActivatorFunctions.swift in Sources */,
 				D46D6BFC22076A380001F5D0 /* GeneType.swift in Sources */,
-				D46D6C3622076C010001F5D0 /* NGGoalSuite.swift in Sources */,
 				D46D6BF12207696C0001F5D0 /* FDecoder.swift in Sources */,
 				D46D6C0A22076AF80001F5D0 /* BellCurve.swift in Sources */,
 				D46D6C1822076BD60001F5D0 /* Curator.swift in Sources */,
 				D46D6BF6220769A70001F5D0 /* Extensions.swift in Sources */,
-				D46D6C3422076C010001F5D0 /* NGSubject.swift in Sources */,
 				D46D6C0822076AEC0001F5D0 /* GenomeAdd.swift in Sources */,
 				D46D6C2B22076C010001F5D0 /* GSCommon.swift in Sources */,
 				D46D6C1522076BD60001F5D0 /* Archive.swift in Sources */,

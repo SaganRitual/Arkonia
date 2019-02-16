@@ -53,28 +53,47 @@ extension KNet {
         return kNet
     }
 
-    func driveSignal(_ senseLayer: KLayer, _ motorLayer: KLayer) {
-        self.senseLayer = senseLayer; self.motorLayer = motorLayer
+    func driveSignal(_ senseLayer: KLayer, _ motorLayer: KLayer) -> Bool {
+        let netIsBuilt = self.senseLayer != nil
+
+        if !netIsBuilt { self.senseLayer = senseLayer; self.motorLayer = motorLayer }
 
         var iter = hiddenLayers.makeIterator()
-        var upperLayer = iter.next()!
+        let topHiddenLayer = iter.next()!
+        var upperLayer = topHiddenLayer
 
-        upperLayer.connect(to: senseLayer)
-        senseLayer.decoupleFromGrid()
+        if !netIsBuilt {
+            upperLayer.connect(to: senseLayer)
+            senseLayer.decoupleFromGrid()
+        }
+
         upperLayer.driveSignal()
 
         for lowerLayer in iter {
-            lowerLayer.connect(to: upperLayer)
-            upperLayer.decoupleFromGrid()
+            if !netIsBuilt {
+                lowerLayer.connect(to: upperLayer)
+                upperLayer.decoupleFromGrid()
+
+                let senseConnectionsIntact = !topHiddenLayer.neurons.compactMap { $0.relay }.isEmpty
+                if !senseConnectionsIntact { return false }
+            }
 
             lowerLayer.driveSignal()
             upperLayer = lowerLayer
         }
 
-        motorLayer.reverseConnect(upperLayer)
-        upperLayer.decoupleFromGrid()
+        if !netIsBuilt {
+            motorLayer.reverseConnect(upperLayer)
+            upperLayer.decoupleFromGrid()
+
+            let senseConnectionsIntact = !topHiddenLayer.neurons.compactMap { $0.relay }.isEmpty
+            if !senseConnectionsIntact { return false }
+        }
+
         motorLayer.driveSignal()
 
-        gridAnchors = motorLayer.neurons.map { $0.relay! }
+        if !netIsBuilt { gridAnchors = motorLayer.neurons.map { $0.relay! } }
+
+        return true
     }
 }
