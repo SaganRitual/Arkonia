@@ -20,7 +20,7 @@
 
 import Foundation
 
-class KSignalRelay: KIdentifiable {
+class KSignalRelay: KIdentifiable, Hashable {
     let id: KIdentifier
 
     var inputRelays = [KSignalRelay]()
@@ -40,5 +40,13 @@ class KSignalRelay: KIdentifiable {
 //        print("~\(self) [")
         while !inputRelays.isEmpty { inputRelays.removeLast() }
 //        print("]")
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+
+    static func == (lhs: KSignalRelay, rhs: KSignalRelay) -> Bool {
+        return lhs.id == rhs.id
     }
 }

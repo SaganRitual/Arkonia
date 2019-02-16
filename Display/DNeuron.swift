@@ -48,7 +48,7 @@ extension DNeuron {
 
         let myPosition = DNeuron.unscale(spacer.getPosition(for: self.neuron.relay!.id))
 
-        myRelay.inputRelays.forEach { hisRelay in
+        Set<KSignalRelay>(myRelay.inputRelays).forEach { hisRelay in
             let hisPosition = DNeuron.unscale(spacer.getPosition(for: hisRelay.id))
             drawLine(from: myPosition, to: hisPosition, heat: hisRelay.output)
         }
