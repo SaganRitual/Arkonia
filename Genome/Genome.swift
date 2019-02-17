@@ -63,6 +63,13 @@ class Genome: CustomDebugStringConvertible, GenomeProtocol {
     init(_ segment: Segment) { segment.releaseFull_(to: self) }
     init(_ segments: [Segment]) { segments.forEach { asslink($0) } }
 
+    // Explicitly unzip from the back--if we allow Swift to control the
+    // destruction, it might destruct the signal relays such that each
+    // destructor calls the next in the strand, so we end up with recursion
+    // that eventually runs us out of stack. Here we drop genes off the end,
+    // so we're only destructing one at a time, with no recursion.
+    deinit { while self.tail != nil { self.tail = self.tail?.prev; self.tail?.next = nil } }
+
     func dump(_ fishNumber: Int, _ score: Double) {
         let s = String(format: "%.8f", score)
         Log.L.write("\nGenome for fish \(fishNumber), score \(s)\n")

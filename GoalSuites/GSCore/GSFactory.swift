@@ -51,6 +51,6 @@ class GSFactory {
 
     public func postInit(suite: GSGoalSuite) {
         self.suite = suite
-        GSFactory.aboriginalGenome = Assembler.makePassThruGenome()
+        GSFactory.aboriginalGenome = Assembler.makeRandomGenome(cGenes: 200)
     }
 }

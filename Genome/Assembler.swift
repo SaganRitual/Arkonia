@@ -32,6 +32,10 @@ enum Assembler {
         return p
     }
 
+    static public func makeRandomGenome(cGenes: Int) -> Genome {
+        return Segment((0..<cGenes).map({ _ in Gene.makeRandomGene() }))
+    }
+
     static var bias = 1.0
     static func baseNeuronSnippet(channel: Int) -> Segment {
         bias *= -1
