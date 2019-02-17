@@ -446,8 +446,8 @@
 			isa = PBXGroup;
 			children = (
 				D46D6C0122076AAF0001F5D0 /* Mutator.swift */,
-				D46D6C0222076AAF0001F5D0 /* MutatorSubtract.swift */,
 				D46D6C0322076AAF0001F5D0 /* MutatorAdd.swift */,
+				D46D6C0222076AAF0001F5D0 /* MutatorSubtract.swift */,
 			);
 			path = Mutator;
 			sourceTree = "<group>";

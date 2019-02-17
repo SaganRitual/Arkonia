@@ -83,14 +83,18 @@ extension Genome {
 
         // Release my entire strand to a new segment.
         if k == self.count { return Segment(self) }
+        if self.count == 1 { return Segment(self) }
 
         let lastK = Segment()
-        lastK.head = self[k]
-        lastK.tail = self.tail
-        lastK.count = k
+        lastK.head = self[self.count - k]
 
-        self.tail = lastK.head?.prev
-        self.tail?.next = nil       // Release ownership to the new guy
+        lastK.tail = self.tail          // K owns my old tail now
+        self.tail = lastK.head?.prev    // I have a new tail
+
+        lastK.head?.prev = nil          // K has a proper head now
+        self.tail?.next = nil           // Release reference; now K owns the strand
+
+        lastK.count = k
         self.count -= k
 
         return lastK

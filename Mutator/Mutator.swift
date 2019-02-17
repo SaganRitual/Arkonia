@@ -29,8 +29,10 @@ class Mutator: MutatorProtocol {
 
     func copySegment() -> Segment {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: workingGenome.count)
-        workingGenome.isCloneOfParent &&= (leftCut < rightCut)
-        return workingGenome.copy(from: leftCut, to: rightCut)
+
+        let c = workingGenome.copy(from: leftCut, to: rightCut)
+        if leftCut > 0 || rightCut < workingGenome.count { c.isCloneOfParent = false }
+        return c
     }
 
     func fixOrder(_ lhs: Int, _ rhs: Int) -> (Int, Int) {
@@ -60,9 +62,9 @@ class Mutator: MutatorProtocol {
 
     func getWeightedRandomMutationType() -> MutationType {
         let weightMap: [MutationType : Int] = [
-            .deleteRandomGenes : 3, .deleteRandomSegment : 3,
-            .insertRandomGenes : 3, .insertRandomSegment : 3,
-            .mutateRandomGenes : 10, .cutAndReinsertSegment : 3, .copyAndReinsertSegment : 3
+            .deleteRandomGenes : 0, .deleteRandomSegment : 0,
+            .insertRandomGenes : 10, .insertRandomSegment : 10,
+            .mutateRandomGenes : 0, .cutAndReinsertSegment : 10, .copyAndReinsertSegment : 10
         ]
 
         let weightRange = weightMap.reduce(0, { return $0 + $1.value })
@@ -139,10 +141,12 @@ extension Mutator {
         guard Int(cMutate) > 0 else { return }
 
         precondition(workingGenome.count == workingGenome.rcount && workingGenome.count == workingGenome.scount)
+
         let strideLength = workingGenome.count / Int(cMutate)
         stride(from: 0, to: workingGenome.count, by: strideLength).forEach { _ in
             let wherefore = Int.random(in: 0..<workingGenome.count)
             let gene = nok(workingGenome[wherefore] as? Gene)
+
             if gene.mutate() { workingGenome.isCloneOfParent = false }
         }
     }

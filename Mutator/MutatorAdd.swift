@@ -28,11 +28,11 @@ extension Mutator {
         let (leftCut, rightCut) = getRandomSnipRange()
         let insertPoint = Int.random(in: 0..<workingGenome.count)
 
-        if !okToSnip(leftCut, rightCut, insertPoint: insertPoint) { return }
+        if !okToSnip(leftCut, rightCut) { return }
 
-        let copy = workingGenome.copy(from: leftCut, to: rightCut)
-        preinsertAction(copy)
-        workingGenome.inject(copy, before: insertPoint)
+        let newStrand = workingGenome.copy(from: leftCut, to: rightCut)
+        preinsertAction(newStrand)
+        workingGenome.inject(newStrand, before: insertPoint)
 
         // This isn't correct, but I'm being lazy
         workingGenome.isCloneOfParent = false
@@ -43,22 +43,27 @@ extension Mutator {
 
         let (leftCut, rightCut) = getRandomSnipRange()
 
-        if !okToSnip(leftCut, rightCut, insertPoint: 0) { return }
+        if !okToSnip(leftCut, rightCut) { return }
 
         precondition(workingGenome.scount == workingGenome.count && workingGenome.rcount == workingGenome.count)
-        guard let cut = cutSegment(leftCut, rightCut) else { return }
-        precondition(workingGenome.scount == workingGenome.count && workingGenome.rcount == workingGenome.count)
-        precondition(cut.scount == cut.count && cut.rcount == cut.count)
-        preinsertAction(cut)
 
-        // If we've cut a chunk out of the genome, the insert point might
-        // not be valid any more. Get an insert point based on the post-cut length
         let insertPoint = Int.random(in: 0..<workingGenome.count)
-        precondition(workingGenome.scount == workingGenome.count && workingGenome.rcount == workingGenome.count)
-        precondition(cut.scount == cut.count && cut.rcount == cut.count)
-        workingGenome.inject(cut, before: insertPoint)
 
-        // This isn't correct, but I'm being lazy
+        // Who knew it would be so complicated?
+        if insertPoint > rightCut && rightCut < workingGenome.count &&
+            rightCut != insertPoint - 1 && insertPoint < workingGenome.count
+        {
+            let tailSegment = workingGenome.removeLast(workingGenome.count - insertPoint + 1)
+            let RISegment = workingGenome.removeLast(workingGenome.count - rightCut)
+            let LRSegment = workingGenome.removeLast(workingGenome.count - leftCut)
+            preinsertAction(LRSegment!)
+
+            workingGenome.asslink(Segment([RISegment!, LRSegment!, tailSegment!]))
+        }
+
+        precondition(workingGenome.scount == workingGenome.count && workingGenome.rcount == workingGenome.count)
+
+        // This isn't technically correct, but I'm being lazy
         workingGenome.isCloneOfParent = false
     }
 
@@ -111,7 +116,32 @@ extension Mutator {
     }
 
     func preinsertAction(_ segment: Segment) {
-        // PreinsertAction.random()
+        switch PreinsertAction.random() {
+        case .reverse:
+            let reversed = Segment()
+            while !segment.isEmpty {
+                let gene = segment.removeLast()!
+                reversed.asslink(gene)
+            }
+
+            segment.releaseFull_()
+            reversed.releaseFull_(to: segment)
+            segment.isCloneOfParent = false
+
+        case .shuffle:
+            let shuffled = Segment()
+            while !segment.isEmpty {
+                let gene = segment.remove(at: Int.random(in: 0..<segment.count))
+                shuffled.asslink(gene)
+            }
+
+            segment.releaseFull_()
+            shuffled.releaseFull_(to: segment)
+            segment.isCloneOfParent = false
+
+        case .doNothing: fallthrough
+        default:         break
+        }
     }
 
 }
