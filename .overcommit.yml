@@ -37,6 +37,7 @@ CommitMsg:
   TextWidth:
     enabled: true
     on_warn: fail
+    max_subject_width: 52
   HardTabs:
     enabled: true
     on_warn: fail

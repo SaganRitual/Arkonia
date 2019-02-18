@@ -21,14 +21,14 @@
 import Foundation
 
 class AAGoalSuite: GSGoalSuite {
-    static let cSenseNeurons = 5
-    static let cMotorNeurons = 15
+    static let cSenseNeurons = 1
+    static let cMotorNeurons = 1
 
     init() {
+        AAGoalSuite.setSelectionControls()
+
         let factory = AAFactory()
         let tester = AATester()
-
-        AAGoalSuite.setSelectionControls()
 
         super.init(factory: factory, tester: tester)
     }

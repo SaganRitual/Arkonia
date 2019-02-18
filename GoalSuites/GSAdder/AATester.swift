@@ -43,7 +43,10 @@ final class AATester: GSTesterProtocol {
     var description: String { return "AATester; Arkon goal: add two numbers" }
 
     init() {
-        expectedOutputs = testInputSets.map { $0.prefix(upTo: 3).reduce(0.0, +) }
+        let cInputs = ArkonCentralDark.selectionControls.cSenseNeurons
+        expectedOutputs = testInputSets.map {
+            2 * $0.prefix(upTo: cInputs).reduce(0.0, +)
+        }
     }
 
     func postInit(suite: GSGoalSuite) { self.suite = suite }

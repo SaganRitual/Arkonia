@@ -101,9 +101,10 @@ class Log: TextOutputStream {
 
     static var L = Log()
 
+    var io: DispatchIO?
     var fm = FileManager.default
-    let log: URL
     var handle: FileHandle?
+    let log: URL
 
     init() {
         log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("roblog.txt")
@@ -113,6 +114,16 @@ class Log: TextOutputStream {
             h.truncateFile(atOffset: 0)
             h.seekToEndOfFile()
             self.handle = h
+
+            io = DispatchIO(
+                type: .stream, fileDescriptor: h.fileDescriptor,
+                queue: DispatchQueue.global(qos: .background), cleanupHandler: { _ in
+                    print("huh? closed?")
+                }
+            )
+
+            io!.setLimit(highWater: 1)
+
         } catch {
             print("Couldn't open logfile", error)
         }
@@ -121,10 +132,11 @@ class Log: TextOutputStream {
     deinit { handle?.closeFile() }
 
     func write(_ string: String) {
-        if let h = self.handle {
-            h.write(string.data(using: .utf8)!)
-        } else {
-            try? string.data(using: .utf8)?.write(to: log)
-        }
+        let martin = Array(string.utf8).withUnsafeBytes { DispatchData(bytes: $0) }
+
+        io!.write(
+            offset: 0, data: martin, queue: DispatchQueue.global(qos: .background),
+            ioHandler: {  _/*Bool*/, _/*DispatchData*/, _/*Int32*/ in }
+        )
     }
 }
