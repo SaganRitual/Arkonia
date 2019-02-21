@@ -52,7 +52,7 @@ class SceneViewController: NSViewController {
 		view.showsFPS = true
 		view.showsNodeCount = true
 
-		view.showsPhysics = true
+//        view.showsPhysics = true
 		view.presentScene(scene)
 
 		self.scene = scene

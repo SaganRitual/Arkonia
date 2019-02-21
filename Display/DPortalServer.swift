@@ -25,17 +25,23 @@ class DPortalServer {
         portal.color = scene!.backgroundColor
         portal.colorBlendFactor = 1.0
 
+        portal.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         portal.position = cPortals == 1 ? CGPoint(x: 0, y: 0) :
             quarterOrigin * quadrantMultipliers[portalNumber]
 
         // The call to sqrt() is why we only accept squares
         precondition(cPortals > 0)
-        let scaleFactor = CGFloat(1.0 / ceil(sqrt(Double(cPortals))))
-        portal.size = scene!.size
-        portal.setScale(scaleFactor)
+        portal.size = KAppController.shared.scene?.size ?? CGSize(width: 42, height: 42)
+
+        // FIXME: Yuck! Different treatment for different portals?
+        if portalNumber == 0 {
+            let scaleFactor = CGFloat(1.0 / ceil(sqrt(Double(cPortals))))
+            portal.setScale(scaleFactor)
+        }
 
         portals[portalNumber] = portal
         scene!.addChild(portal)
+
         return portal
     }
 

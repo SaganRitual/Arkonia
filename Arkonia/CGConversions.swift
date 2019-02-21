@@ -81,11 +81,39 @@ extension CGSize: SizelikeProtocol {
         return size / CGFloat(divisor)
     }
 
+    static func *= (_ size: inout CGSize, _ multiplier: Double) {
+        size.width *= CGFloat(multiplier)
+        size.height *= CGFloat(multiplier)
+    }
+
     static func * (_ size: CGSize, _ multiplier: Double) -> CGSize {
         var newSize = size
         newSize.width *= CGFloat(multiplier)
         newSize.height *= CGFloat(multiplier)
         return newSize
+    }
+}
+
+extension CGVector: PointlikeProtocol {
+    init(x: CGFloat, y: CGFloat) { self.init(dx: x, dy: y) }
+    init(_ x: Double, _ y: Double) { self.init(dx: CGFloat(x), dy: CGFloat(y)) }
+
+    var x: CGFloat {
+        get { return dx }
+        set { dx = newValue }
+    }
+
+    var y: CGFloat {
+        get { return dy }
+        set { dy = newValue }
+    }
+
+    static func * (_ lhs: CGVector, _ rhs: CGFloat) -> CGVector {
+        return CGVector(dx: lhs.dx * rhs, dy: lhs.dy * rhs)
+    }
+
+    static func / (_ lhs: CGVector, _ rhs: CGFloat) -> CGVector {
+        return CGVector(dx: lhs.dx / rhs, dy: lhs.dy / rhs)
     }
 }
 
@@ -106,6 +134,10 @@ extension CGPoint: PointlikeProtocol {
         return CGPoint(x: CGFloat(x), y: CGFloat(y))
     }
 
+    static func random(x: Range<Double>, y: Range<Double>) -> CGPoint {
+        return CGPoint(x: Double.random(in: x), y: Double.random(in: y))
+    }
+
     static func += (_ point: CGPoint, _ addend: (Double, Double)) -> CGPoint {
         var newPoint = point
         newPoint.x += CGFloat(addend.0)
@@ -124,9 +156,19 @@ extension CGPoint: PointlikeProtocol {
         return point / CGFloat(divisor)
     }
 
+    static func /= (_ point: inout CGPoint, _ divisor: Double) {
+        point.x /= CGFloat(divisor)
+        point.y /= CGFloat(divisor)
+    }
+
     static func *= (_ point: inout CGPoint, _ multiplier: (Double, Double)) {
         point.x *= CGFloat(multiplier.0)
         point.y *= CGFloat(multiplier.1)
+    }
+
+    static func *= (_ point: inout CGPoint, _ multiplier: Double) {
+        point.x *= CGFloat(multiplier)
+        point.y *= CGFloat(multiplier)
     }
 
     static func * (_ point: CGPoint, _ multiplier: Double) -> CGPoint {

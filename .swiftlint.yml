@@ -10,6 +10,8 @@ disabled_rules: # rule identifiers to exclude from running
   - closure_parameter_position
   - opening_brace
   - implicit_getter
+  - todo
+  - fixme
 opt_in_rules: # some rules are only opt-in
   - empty_count
   # Find all the available rules by running:

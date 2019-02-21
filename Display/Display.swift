@@ -14,6 +14,8 @@ class Display: NSObject, SKSceneDelegate {
     init(_ scene: SKScene) {
         self.scene = scene
         self.portalServer = DPortalServer(scene)
+
+        scene.physicsWorld.gravity = CGVector(dx: 0.0, dy: -0.01)
     }
 
     /**
@@ -47,8 +49,12 @@ class Display: NSObject, SKSceneDelegate {
     }
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
+        let ready = ArkonCentralLight.world?.update(currentTime, for: scene)
+        guard ready == .flying else { return }
+
         if kNets.isEmpty { return }
         kNets.forEach { DNet($0.1).display(via: $0.0) }
         kNets.removeAll()
+
     }
 }

@@ -36,38 +36,51 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
     #endif
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let spriteAtlas = SKTextureAtlas(named: "Neurons")
-        ArkonCentralLight.sceneBackgroundTexture = spriteAtlas.textureNamed("scene-background")
-        ArkonCentralLight.orangeNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-orange-half")
-        ArkonCentralLight.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
-        ArkonCentralLight.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green-half")
-
         KAppController.shared.showMainWindow(withTitle: "TDisplay")
 
+        KAppDelegate.setupArkonTextures()
+        KAppDelegate.setupNeuronTextures()
+
         if let scene = KAppController.shared.scene {
+            ArkonCentralLight.display = Display(scene)
+            ArkonCentralLight.world = World()
 
-          ArkonCentralLight.display = Display(scene)
-
-          #if K_RUN_MAIN
+            #if K_RUN_MAIN
 
             self.goalSuite = AAGoalSuite()
             self.curator = Curator(goalSuite: nok(self.goalSuite))
             self.workItem = DispatchWorkItem { [weak self] in _ = nok(self?.curator).select() }
             DispatchQueue.global(qos: .background).async(execute: self.workItem)
 
-          #elseif K_RUN_DISPLAY_TEST
-          displayTest = VDisplayTest()
-          displayTest!.start()
-          #endif
-        }
-    }
+            #elseif K_RUN_DISPLAY_TEST
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+            displayTest = VDisplayTest()
+            displayTest!.start()
+
+            #endif
+        }
     }
 
 	func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
 		return true
 	}
 
+}
+
+extension KAppDelegate {
+    private static func setupArkonTextures() {
+        let atlas = SKTextureAtlas(named: "Arkons")
+        let topTexture = atlas.textureNamed("ArkonBase-02")
+
+        ArkonCentralLight.spriteTextureAtlas = atlas
+        ArkonCentralLight.topTexture = topTexture
+    }
+
+    private static func setupNeuronTextures() {
+        let spriteAtlas = SKTextureAtlas(named: "Neurons")
+        ArkonCentralLight.sceneBackgroundTexture = spriteAtlas.textureNamed("scene-background")
+        ArkonCentralLight.orangeNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-orange-half")
+        ArkonCentralLight.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
+        ArkonCentralLight.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green-half")
+    }
 }

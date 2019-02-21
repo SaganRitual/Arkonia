@@ -23,6 +23,7 @@ import SpriteKit
 
 enum ArkonCentralLight {
     static var display: Display?
+    static var world: World?
 
     static let cPortals = 4
 
@@ -31,6 +32,7 @@ enum ArkonCentralLight {
     static var greenNeuronSpriteTexture: SKTexture!
     static var orangeNeuronSpriteTexture: SKTexture!
 
+    static let vArkonZPosition = CGFloat(4.0)
     static let vBorderZPosition = CGFloat(3.0)
     static let vLineZPosition = CGFloat(1.0)
     static let vNeuronZPosition = CGFloat(2.0)
@@ -51,4 +53,15 @@ enum ArkonCentralLight {
         return NSColor(calibratedRed: CGFloat(r), green: CGFloat(g),
                        blue: CGFloat(b), alpha: CGFloat(1.0))
     }
+
+    static let colors: [NSColor] = [
+        .black, .darkGray, .lightGray, .white, .gray, .red, .green, .blue,
+        .cyan, .yellow, .magenta, .orange, .purple, .brown, .clear
+    ]
+
+    static var spriteTextureAtlas: SKTextureAtlas?
+    static var spriteTextures = [SKTexture]()
+    static var topTexture: SKTexture?
+
+    static func unscale(_ position: CGPoint) -> CGPoint { return position * vNeuronAntiscale }
 }

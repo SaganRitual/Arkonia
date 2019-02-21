@@ -46,10 +46,10 @@ extension DNeuron {
         // If my relay has been pruned, there's nothing to draw
         guard let myRelay = myNeuron.relay else { return }
 
-        let myPosition = DNeuron.unscale(spacer.getPosition(for: self.neuron.relay!.id))
+        let myPosition = ArkonCentralLight.unscale(spacer.getPosition(for: self.neuron.relay!.id))
 
         Set<KSignalRelay>(myRelay.inputRelays).forEach { hisRelay in
-            let hisPosition = DNeuron.unscale(spacer.getPosition(for: hisRelay.id))
+            let hisPosition = ArkonCentralLight.unscale(spacer.getPosition(for: hisRelay.id))
             drawLine(from: myPosition, to: hisPosition, heat: hisRelay.output)
         }
     }
@@ -92,11 +92,10 @@ extension DNeuron {
         }()
 
         let sprite = SKSpriteNode(texture: texture)
-//        sprite.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
 
         sprite.anchorPoint = anchorPoint
         sprite.setScale(ArkonCentralLight.vNeuronScale)
-        sprite.position = DNeuron.unscale(spacer.getPosition(for: self.neuron.relay!.id))
+        sprite.position = ArkonCentralLight.unscale(spacer.getPosition(for: self.neuron.relay!.id))
         sprite.zPosition = ArkonCentralLight.vNeuronZPosition
         portal.addChild(sprite)
     }
@@ -117,9 +116,5 @@ extension DNeuron {
         let index = connectionColors.index(connectionColors.startIndex, offsetBy: colorSS)
 
         return ArkonCentralLight.makeColor(hexRGB: connectionColors[index])
-    }
-
-    static private func unscale(_ position: CGPoint) -> CGPoint {
-        return position * ArkonCentralLight.vNeuronAntiscale
     }
 }
