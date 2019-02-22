@@ -3,6 +3,9 @@ import SpriteKit
 
 class Arkon {
     private let fishNumber: Int
+    private let fNet: FNet
+    private let genome: Genome
+    private var kNet: KNet!
     private let motorOutputs: MotorOutputs
     private let portal: SKNode
     private let sprite: SKSpriteNode
@@ -17,8 +20,10 @@ class Arkon {
         }
     }
 
-    init(fishNumber: Int, portal: SKNode) {
+    init(fishNumber: Int, genome: Genome, fNet: FNet, portal: SKNode) {
         self.fishNumber = fishNumber
+        self.genome = genome
+        self.fNet = fNet
 
         let sprite = Arkon.setupSprite(fishNumber)
         self.motorOutputs = MotorOutputs(sprite)
@@ -54,16 +59,17 @@ extension Arkon {
 //        return SKAction.sequence([fo1, fi2])
 //    }
 
-    private func getThrustVectors() -> [CGVector] {
-        return (0..<3).map { _ in
-            let xThrust = Double.random(in: -0.01..<0.01)
-            let yThrust = Double.random(in: -0.01..<0.01)
-            return CGVector(dx: xThrust, dy: yThrust)
-        }
-    }
+    private func getThrustVectors(_ motorNeuronOutputs: [Double]) -> [CGVector] {
+        var vectors = [CGVector]()
 
-    static var blanchor: SKSpriteNode?
-    static var rougheur: SKSpriteNode?
+        for ss in stride(from: 0, to: motorNeuronOutputs.count, by: 2) {
+            let xThrust = motorNeuronOutputs[ss]
+            let yThrust = motorNeuronOutputs[ss + 1]
+            vectors.append(CGVector(dx: xThrust, dy: yThrust))
+        }
+
+        return vectors
+    }
 
     private func tick() {
         guard self.isAlive else { return }
@@ -73,7 +79,15 @@ extension Arkon {
             self.isAlive = false; return
         }
 
-        let thrustVectors = getThrustVectors()
+        let signalDriver = KSignalDriver(idNumber: self.fishNumber, fNet: self.fNet)
+        self.kNet = signalDriver.kNet
+
+        let arkonSurvived = signalDriver.drive(sensoryInputs: [1])
+        if !arkonSurvived { return }
+
+        let motorNeuronOutputs = signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
+        let thrustVectors = getThrustVectors(motorNeuronOutputs)
+
         let motionAction = motorOutputs.getAction(thrustVectors)
 //        let displayAction = getDisplayAction(thrustVectors)
 

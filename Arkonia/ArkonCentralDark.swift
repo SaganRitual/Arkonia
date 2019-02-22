@@ -33,7 +33,6 @@ protocol MutatorProtocol {
 }
 
 enum ArkonCentralDark {
-    static var decoder: DecoderProtocol!
     static var mutator: MutatorProtocol!
     static var selectionControls = KSelectionControls()
 

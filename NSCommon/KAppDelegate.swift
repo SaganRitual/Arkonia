@@ -42,10 +42,13 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
         KAppDelegate.setupNeuronTextures()
 
         if let scene = KAppController.shared.scene {
-            ArkonCentralLight.display = Display(scene)
-            ArkonCentralLight.world = World()
+            _ = Display(scene)  // Sets Display.shared
 
             #if K_RUN_MAIN
+
+            _ = World()         // Sets World.shared
+
+            #elseif K_RUN_WITH_CURATOR
 
             self.goalSuite = AAGoalSuite()
             self.curator = Curator(goalSuite: nok(self.goalSuite))

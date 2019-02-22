@@ -22,9 +22,6 @@ import Foundation
 import SpriteKit
 
 enum ArkonCentralLight {
-    static var display: Display?
-    static var world: World?
-
     static let cPortals = 4
 
     static var sceneBackgroundTexture: SKTexture!

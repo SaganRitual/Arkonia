@@ -30,7 +30,7 @@ class Curator {
         self.archive = Archive(goalSuite: goalSuite)
         self.remainingGenerations = ArkonCentralDark.selectionControls.cGenerations
 
-        self.displayPortal = ArkonCentralLight.display!.getPortal(quadrant: 0)
+        self.displayPortal = Display.shared.getPortal(quadrant: 0)
 
         let n = Foundation.Notification.Name.selectComplete
         observerHandle = notificationCenter.addObserver(forName: n, object: selector, queue: nil) {
@@ -69,7 +69,7 @@ class Curator {
         archive.postInit(aboriginal: a)
 
         // Display the aboriginal
-        nok(ArkonCentralLight.display).display(a.kNet!, portal: displayPortal)
+        Display.shared.display(a.kNet!, portal: displayPortal)
 
         self.aboriginal = a
         self.atLeastOneTSHasSurvived = true
@@ -92,7 +92,7 @@ class Curator {
             let newScore = gs.fitnessScore
             let oldScore = archive.referenceTS!.fitnessScore
             if newScore != oldScore {
-                nok(ArkonCentralLight.display).display(gs.kNet!, portal: displayPortal)
+                Display.shared.display(gs.kNet!, portal: displayPortal)
                 print("New record by \(gs.fishNumber): \(gs.fitnessScore)")
                 gs.genome.dump(gs.fishNumber, gs.fitnessScore)
             }

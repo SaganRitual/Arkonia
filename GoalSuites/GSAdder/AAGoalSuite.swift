@@ -22,7 +22,7 @@ import Foundation
 
 class AAGoalSuite: GSGoalSuite {
     static let cSenseNeurons = 1
-    static let cMotorNeurons = 1
+    static let cMotorNeurons = 6
 
     init() {
         AAGoalSuite.setSelectionControls()

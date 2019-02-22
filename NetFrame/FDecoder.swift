@@ -25,6 +25,8 @@ enum DecodeState {
 }
 
 class FDecoder: DecoderProtocol {
+    static var shared: FDecoder!
+
     var currentNeuronIsMeaty = false
     var decodeState: DecodeState = .noLayer
     var inputGenome: Genome?
@@ -35,8 +37,8 @@ class FDecoder: DecoderProtocol {
     var counter = 0
 
     init() {
-        precondition(ArkonCentralDark.decoder == nil)
-        ArkonCentralDark.decoder = self
+        precondition(FDecoder.shared == nil)
+        FDecoder.shared = self
     }
 
     func decode(_ inputGenome: GenomeProtocol) -> FNetProtocol? {

@@ -2,19 +2,22 @@ import Foundation
 import SpriteKit
 
 class Display: NSObject, SKSceneDelegate {
-    typealias SceneTickCallback = (_ portal: SKNode) -> Void
+    static var shared: Display!
 
     private var frameCount = 0
     private var kNets = [SKNode: KNet]()
     private var portalServer: DPortalServer
     private var quadrants = [Int: SKNode]()
     private weak var scene: SKScene?
-    private var tickCallbacks = [() -> Void]()
 
     init(_ scene: SKScene) {
         self.scene = scene
         self.portalServer = DPortalServer(scene)
 
+        super.init()
+        Display.shared = self
+
+        scene.delegate = self
         scene.physicsWorld.gravity = CGVector(dx: 0.0, dy: -0.01)
     }
 
@@ -33,12 +36,6 @@ class Display: NSObject, SKSceneDelegate {
     func display(_ kNet: KNet, portal: SKNode) {
         portal.removeAllChildren()
         kNets[portal] = kNet
-
-        // We wait until here to set the delegate rather than setting
-        // it up at app startup. The scene will start sending us updates
-        // as soon as we set this, and we don't want updates until we're
-        // all set up.
-        nok(self.scene).delegate = ArkonCentralLight.display
     }
 
     func getPortal(quadrant: Int) -> SKNode {
@@ -48,8 +45,12 @@ class Display: NSObject, SKSceneDelegate {
         return q
     }
 
+    func setDelegate(_ delegate: SKSceneDelegate) {
+        self.scene!.delegate = self
+    }
+
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
-        let ready = ArkonCentralLight.world?.update(currentTime, for: scene)
+        let ready = World.shared.update(currentTime, for: scene)
         guard ready == .flying else { return }
 
         if kNets.isEmpty { return }
