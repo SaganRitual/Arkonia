@@ -21,11 +21,12 @@
 import Foundation
 
 class Mutator: MutatorProtocol {
-    weak var workingGenome: Genome!
+    static var shared: Mutator!
 
     var bellCurve = BellCurve()
+    weak var workingGenome: Genome!
 
-    init() { ArkonCentralDark.mutator = self }
+    init() { Mutator.shared = self }
 
     func copySegment() -> Segment {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: workingGenome.count)
@@ -103,7 +104,7 @@ class Mutator: MutatorProtocol {
     }
 
     func mutate(from value: Double) -> Double {
-        let m = nok(ArkonCentralDark.mutator as? Mutator)
+        let m = Mutator.shared!
         let percentage = m.bellCurve.nextFloat()
         let v = (value == 0.0) ? Double.random(in: -1...1) : value
         return Double(1.0 - percentage) * v
@@ -134,7 +135,7 @@ extension Mutator {
     func mutateRandomGenes() {
         if workingGenome.isEmpty { return }
 
-        let m = nok(ArkonCentralDark.mutator as? Mutator)
+        let m = Mutator.shared!
         let b = abs(m.bellCurve.nextFloat())
         let cMutate = Double(b) * Double(workingGenome.count)
         precondition(abs(cMutate) != Double.infinity && cMutate != Double.nan)

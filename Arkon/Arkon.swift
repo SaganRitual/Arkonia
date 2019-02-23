@@ -2,50 +2,71 @@ import Foundation
 import SpriteKit
 
 class Arkon {
-    private let fishNumber: Int
+    private var destructAction: SKAction!
+    let fishNumber: Int
     private let fNet: FNet
     private let genome: Genome
     private var kNet: KNet!
-    private let motorOutputs: MotorOutputs
-    private let portal: SKNode
-    private let sprite: SKSpriteNode
+    private let lifespanInTicks = 10
+    private var motorOutputs: MotorOutputs!
+    private var portal: SKSpriteNode!
+    let signalDriver: KSignalDriver
+    var sprite: SKSpriteNode!
+    private var tickAction: SKAction!
     private var tickCount = 0
 
-    var isAlive: Bool {
-        get { return self.sprite.userData?["isAlive"] as? Bool ?? false }
+    var drawn = false
+    var isInBounds: Bool {
+        let relativeToPortal = portal.convert(sprite.frame.origin, to: portal.parent!)
 
-        set {
-            if self.sprite.userData == nil { return }
-            self.sprite.userData!["isAlive"] = newValue
-        }
+        let w = sprite.size.width * portal.xScale
+        let h = sprite.size.height * portal.yScale
+        let scaledSize = CGSize(width: w, height: h)
+
+        let arkonRectangle = CGRect(origin: relativeToPortal, size: scaledSize)
+
+        // Remember: get the scene frame rather than the portal frame because
+        // that's how big the portal's children think the portal is. We can't
+        // use the portal's frame, because it is doing its own thing due to scaling.
+        return portal.frame.contains(arkonRectangle)
     }
 
-    init(fishNumber: Int, genome: Genome, fNet: FNet, portal: SKNode) {
-        self.fishNumber = fishNumber
+    init(genome: Genome, fNet: FNet, portal: SKSpriteNode) {
+        self.fishNumber = ArkonCentralDark.selectionControls.theFishNumber
+        ArkonCentralDark.selectionControls.theFishNumber += 1
+
+        self.portal = portal
+
         self.genome = genome
         self.fNet = fNet
+        self.signalDriver = KSignalDriver(idNumber: self.fishNumber, fNet: fNet)
 
+        // Dark parts all set up; SpriteKit will add a sprite and
+        // launch on the next display cycle
+    }
+
+    func launch() {
         let sprite = Arkon.setupSprite(fishNumber)
         self.motorOutputs = MotorOutputs(sprite)
 
-        self.portal = portal
         self.sprite = sprite
         portal.addChild(sprite)
 
-        self.isAlive = true
+        self.sprite.userData = ["Arkon": self]  // Ref to self; we're on our own after birth
+
+        self.destructAction = SKAction.sequence([
+            SKAction.removeFromParent(),
+            SKAction.run { [weak self] in self?.sprite.userData?["Arkon"] = nil }
+        ])
+
+        self.tickAction = SKAction.run(
+            { [weak self] in self?.tick() }, queue: World.shared.dispatchQueue
+        )
+
+        self.sprite.run(self.tickAction)
     }
 
-    deinit {
-        self.sprite.removeAllActions()
-        self.sprite.removeFromParent()
-    }
-
-    func comeToLife() {
-        let r = Double.random(in: 0.25..<1.0)
-        let a = SKAction.wait(forDuration: r)
-        let b = SKAction.run(tick)
-        self.sprite.run(SKAction.sequence([a, b]))
-    }
+    deinit { self.sprite?.removeFromParent() }
 }
 
 // MARK: Guts
@@ -58,6 +79,11 @@ extension Arkon {
 //
 //        return SKAction.sequence([fo1, fi2])
 //    }
+
+    private func apoptosize() {
+        sprite.removeAllActions()
+        sprite.run(destructAction)
+    }
 
     private func getThrustVectors(_ motorNeuronOutputs: [Double]) -> [CGVector] {
         var vectors = [CGVector]()
@@ -72,32 +98,32 @@ extension Arkon {
     }
 
     private func tick() {
-        guard self.isAlive else { return }
-        guard let portal = self.portal as? SKSpriteNode else { preconditionFailure() }
+        if self.sprite.userData == nil { preconditionFailure("Shouldn't happen; I'm desperate") }
+        if !self.isInBounds { apoptosize(); return }
 
-        guard portal.frame.contains(self.sprite.position) else {
-            self.isAlive = false; return
-        }
+        tickCount += 1
+//        if tickCount >= lifespanInTicks { apoptosize(); return }
+        if tickCount % 3 == 0 { World.shared.arkonery.launchArkon() }
 
-        let signalDriver = KSignalDriver(idNumber: self.fishNumber, fNet: self.fNet)
-        self.kNet = signalDriver.kNet
+        let rToOrigin = Double(hypotf(Float(-self.sprite.position.x), Float(-self.sprite.position.y)))
+        let θToOrigin = Double(atan2(self.sprite.position.y, self.sprite.position.x))
+        let arkonSurvived = signalDriver.drive(sensoryInputs: [rToOrigin, θToOrigin])
 
-        let arkonSurvived = signalDriver.drive(sensoryInputs: [1])
-        if !arkonSurvived { return }
+        if !arkonSurvived { apoptosize(); return }
 
         let motorNeuronOutputs = signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
         let thrustVectors = getThrustVectors(motorNeuronOutputs)
-
         let motionAction = motorOutputs.getAction(thrustVectors)
 //        let displayAction = getDisplayAction(thrustVectors)
 
-        let period = Double.random(in: 0.25..<1.0)
+//        let period = 0.01// Double.random(in: 0.25..<1.0)
         let md = SKAction.group([motionAction])
 //        let md = SKAction.group([displayAction, motionAction])
-        let w = SKAction.wait(forDuration: period)
-        let r = SKAction.run(tick)
+//        let w = SKAction.wait(forDuration: period)
 
-        self.sprite.run(SKAction.sequence([md, w, r]))
+//        self.sprite.run(SKAction.sequence([md, w, r]))
+        self.sprite.run(SKAction.sequence([md, self.tickAction]))
+//        self.sprite.run(self.tickAction)
     }
 }
 
@@ -108,7 +134,7 @@ extension Arkon {
         let sprite = SKSpriteNode(texture: ArkonCentralLight.topTexture!)
         sprite.size *= 0.3
         sprite.color = ArkonCentralLight.colors.randomElement()!
-        sprite.colorBlendFactor = 0.25
+        sprite.colorBlendFactor = 0.5
 
         sprite.zPosition = ArkonCentralLight.vArkonZPosition
 
@@ -117,8 +143,6 @@ extension Arkon {
         sprite.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
         sprite.physicsBody!.affectedByGravity = true
         sprite.physicsBody!.isDynamic = true
-
-        sprite.userData = [:]
 
         return sprite
     }

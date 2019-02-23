@@ -29,10 +29,6 @@
 		D43E8727220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
 		D43E8728220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
 		D43E8729220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
-		D44B1C172217693100D652B8 /* AAFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2222076C000001F5D0 /* AAFactory.swift */; };
-		D44B1C1822176A2A00D652B8 /* AAGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2422076C000001F5D0 /* AAGoalSuite.swift */; };
-		D44B1C1922176A3800D652B8 /* AASubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2122076C000001F5D0 /* AASubject.swift */; };
-		D44B1C1A22176A3B00D652B8 /* AATester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C2322076C000001F5D0 /* AATester.swift */; };
 		D46880222207A0C500405F54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46880212207A0C500405F54 /* main.swift */; };
 		D468802D2207A0E600405F54 /* DTGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468802C2207A0E600405F54 /* DTGenome.swift */; };
 		D46880322207A39200405F54 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFC220762680002BC58 /* Genome.swift */; };
@@ -94,15 +90,6 @@
 		D46D6C0D22076B670001F5D0 /* KAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672722070AC4009BAA3A /* KAppController.swift */; };
 		D46D6C0E22076B670001F5D0 /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672922070AC5009BAA3A /* KAppDelegate.swift */; };
 		D46D6C0F22076B670001F5D0 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672822070AC4009BAA3A /* SceneViewController.swift */; };
-		D46D6C1522076BD60001F5D0 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1122076BD60001F5D0 /* Archive.swift */; };
-		D46D6C1622076BD60001F5D0 /* PeerGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1222076BD60001F5D0 /* PeerGroup.swift */; };
-		D46D6C1722076BD60001F5D0 /* Selector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1322076BD60001F5D0 /* Selector.swift */; };
-		D46D6C1822076BD60001F5D0 /* Curator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1422076BD60001F5D0 /* Curator.swift */; };
-		D46D6C2A22076C010001F5D0 /* GSTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1B22076C000001F5D0 /* GSTester.swift */; };
-		D46D6C2B22076C010001F5D0 /* GSCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1C22076C000001F5D0 /* GSCommon.swift */; };
-		D46D6C2C22076C010001F5D0 /* GSGoalSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1D22076C000001F5D0 /* GSGoalSuite.swift */; };
-		D46D6C2D22076C010001F5D0 /* GSSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1E22076C000001F5D0 /* GSSubject.swift */; };
-		D46D6C2E22076C010001F5D0 /* GSFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C1F22076C000001F5D0 /* GSFactory.swift */; };
 		D46D6C4022076C970001F5D0 /* KSignalDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3822076C970001F5D0 /* KSignalDriver.swift */; };
 		D46D6C4122076C970001F5D0 /* KExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3922076C970001F5D0 /* KExtensions.swift */; };
 		D46D6C4222076C970001F5D0 /* KConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3A22076C970001F5D0 /* KConnector.swift */; };
@@ -122,6 +109,7 @@
 		D4860A78220759CD002F688B /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672922070AC5009BAA3A /* KAppDelegate.swift */; };
 		D4860A7922075A45002F688B /* ArkonCentralLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046722070F7400823D57 /* ArkonCentralLight.swift */; };
 		D4A08E8C2214E28800554198 /* GSelfTestGene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D94C71221480B1000AFDF2 /* GSelfTestGene.swift */; };
+		D4AD519F2225122D009EF514 /* Arkonery.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD519E2225122D009EF514 /* Arkonery.swift */; };
 		D4BB12EC2207B8B9004C2242 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB12EB2207B8B9004C2242 /* main.swift */; };
 		D4BB12FD2207BB0D004C2242 /* DTNetMeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB12FC2207BB0D004C2242 /* DTNetMeat.swift */; };
 		D4BB12FE2207BB45004C2242 /* TCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EB46D4220779A300DA2544 /* TCommon.swift */; };
@@ -253,6 +241,7 @@
 		D47246D822116C71002AA25F /* DSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSpacer.swift; sourceTree = "<group>"; };
 		D47246DA22116DE6002AA25F /* DLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLayer.swift; sourceTree = "<group>"; };
 		D47246DC22116E95002AA25F /* DNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNeuron.swift; sourceTree = "<group>"; };
+		D4AD519E2225122D009EF514 /* Arkonery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkonery.swift; sourceTree = "<group>"; };
 		D4BB12E92207B8B9004C2242 /* TTNetMeat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTNetMeat; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB12EB2207B8B9004C2242 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4BB12F42207B8DB004C2242 /* DTNetMeat.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTNetMeat.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -589,6 +578,7 @@
 				D43E8723220A496600CD9CC3 /* Support */,
 				D4D6046622070F7400823D57 /* ArkonCentralDark.swift */,
 				D4D6046722070F7400823D57 /* ArkonCentralLight.swift */,
+				D4AD519E2225122D009EF514 /* Arkonery.swift */,
 				D4D6046A22070F7400823D57 /* BellCurve.swift */,
 				D4D6046B22070F7400823D57 /* CGConversions.swift */,
 				D4D6046822070F7400823D57 /* Extensions.swift */,
@@ -1133,35 +1123,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4AD519F2225122D009EF514 /* Arkonery.swift in Sources */,
 				D47246D922116C71002AA25F /* DSpacer.swift in Sources */,
-				D46D6C2D22076C010001F5D0 /* GSSubject.swift in Sources */,
 				D46D6C0622076AAF0001F5D0 /* MutatorAdd.swift in Sources */,
 				D46D6C0522076AAF0001F5D0 /* MutatorSubtract.swift in Sources */,
 				D47246DB22116DE6002AA25F /* DLayer.swift in Sources */,
 				D46D6C4022076C970001F5D0 /* KSignalDriver.swift in Sources */,
 				D46D6C4122076C970001F5D0 /* KExtensions.swift in Sources */,
-				D46D6C2A22076C010001F5D0 /* GSTester.swift in Sources */,
 				D46D6C4222076C970001F5D0 /* KConnector.swift in Sources */,
 				D4F17C68221E5DDB00CB287C /* World.swift in Sources */,
 				D46D6BE82207693C0001F5D0 /* KIdentifier.swift in Sources */,
 				D46D6BFA220769E50001F5D0 /* UpConnector.swift in Sources */,
 				D46D6BFE22076A5A0001F5D0 /* CGConversions.swift in Sources */,
 				D46D6C0922076AEC0001F5D0 /* GenomeSubtract.swift in Sources */,
-				D46D6C1722076BD60001F5D0 /* Selector.swift in Sources */,
 				D4C266242210BC4F00325F05 /* Display.swift in Sources */,
 				D46D6BFB220769FC0001F5D0 /* GProtocols.swift in Sources */,
 				D46D6C4422076C970001F5D0 /* KNeuron.swift in Sources */,
 				D46D6C4722076C970001F5D0 /* KNet.swift in Sources */,
 				D46D6C0D22076B670001F5D0 /* KAppController.swift in Sources */,
-				D44B1C1A22176A3B00D652B8 /* AATester.swift in Sources */,
-				D44B1C1822176A2A00D652B8 /* AAGoalSuite.swift in Sources */,
-				D44B1C172217693100D652B8 /* AAFactory.swift in Sources */,
 				D47246D722116C1A002AA25F /* DNet.swift in Sources */,
 				D46D6BF8220769B30001F5D0 /* Genome.swift in Sources */,
 				D47246DD22116E95002AA25F /* DNeuron.swift in Sources */,
 				D4F17C6A221E5E1600CB287C /* KMotorOutputs.swift in Sources */,
 				D4F17C66221E5DBC00CB287C /* Arkon.swift in Sources */,
-				D46D6C2C22076C010001F5D0 /* GSGoalSuite.swift in Sources */,
 				D46D6BFF22076A790001F5D0 /* GeneLibrary.swift in Sources */,
 				D4C2662622110D8400325F05 /* DPortalServer.swift in Sources */,
 				D46D6BF5220769910001F5D0 /* ArkonCentralDark.swift in Sources */,
@@ -1170,26 +1154,20 @@
 				D46D6C4622076C970001F5D0 /* KLayer.swift in Sources */,
 				D46D6BF7220769B30001F5D0 /* Gene.swift in Sources */,
 				D46D6C0422076AAF0001F5D0 /* Mutator.swift in Sources */,
-				D44B1C1922176A3800D652B8 /* AASubject.swift in Sources */,
 				D46D6C0F22076B670001F5D0 /* SceneViewController.swift in Sources */,
 				D46D6BFD22076A480001F5D0 /* ArkonCentralLight.swift in Sources */,
 				D46D6BF22207696C0001F5D0 /* FLayer.swift in Sources */,
 				D46D6C0E22076B670001F5D0 /* KAppDelegate.swift in Sources */,
 				D46D6C4522076C970001F5D0 /* KProtocols.swift in Sources */,
-				D46D6C1622076BD60001F5D0 /* PeerGroup.swift in Sources */,
 				D46D6C4922076CD20001F5D0 /* Assembler.swift in Sources */,
 				D46D6BF9220769C30001F5D0 /* ActivatorFunctions.swift in Sources */,
 				D46D6BFC22076A380001F5D0 /* GeneType.swift in Sources */,
 				D46D6BF12207696C0001F5D0 /* FDecoder.swift in Sources */,
 				D46D6C0A22076AF80001F5D0 /* BellCurve.swift in Sources */,
-				D46D6C1822076BD60001F5D0 /* Curator.swift in Sources */,
 				D46D6BF6220769A70001F5D0 /* Extensions.swift in Sources */,
 				D46D6C0822076AEC0001F5D0 /* GenomeAdd.swift in Sources */,
-				D46D6C2B22076C010001F5D0 /* GSCommon.swift in Sources */,
-				D46D6C1522076BD60001F5D0 /* Archive.swift in Sources */,
 				D46D6C4822076CBF0001F5D0 /* LoopIterator.swift in Sources */,
 				D43E87182209669800CD9CC3 /* Protocols.swift in Sources */,
-				D46D6C2E22076C010001F5D0 /* GSFactory.swift in Sources */,
 				D46D6BF42207696C0001F5D0 /* FNeuron.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

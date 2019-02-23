@@ -24,10 +24,11 @@ import SpriteKit
 enum ArkonCentralLight {
     static let cPortals = 4
 
-    static var sceneBackgroundTexture: SKTexture!
     static var blueNeuronSpriteTexture: SKTexture!
+    static var debugRectangleTexture: SKTexture!
     static var greenNeuronSpriteTexture: SKTexture!
     static var orangeNeuronSpriteTexture: SKTexture!
+    static var sceneBackgroundTexture: SKTexture!
 
     static let vArkonZPosition = CGFloat(4.0)
     static let vBorderZPosition = CGFloat(3.0)

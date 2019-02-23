@@ -51,6 +51,8 @@ class SceneViewController: NSViewController {
 		view.ignoresSiblingOrder = true
 		view.showsFPS = true
 		view.showsNodeCount = true
+        view.showsDrawCount = true
+//        view.isAsynchronous = false
 
 //        view.showsPhysics = true
 		view.presentScene(scene)

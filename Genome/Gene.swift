@@ -103,6 +103,6 @@ extension Gene {
     }
 
     func mutate(from value: Double) -> Double {
-        return ArkonCentralDark.mutator.mutate(from: value)
+        return Mutator.shared.mutate(from: value)
     }
 }

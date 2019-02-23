@@ -8,12 +8,12 @@ class DSpacer {
     var hSpacing = CGFloat(0.0)
     var layerRole = DLayer.LayerRole.senseLayer
     var neuronPositions: [KIdentifier: CGPoint]
-    let portal: SKNode
+    let portal: SKSpriteNode
     var vSpacing = CGFloat(0.0)
     var vTop = CGFloat(0.0)
     let width: CGFloat
 
-    init(portal: SKNode, cLayers: Int) {
+    init(portal: SKSpriteNode, cLayers: Int) {
         self.portal = portal
         self.height = portal.frame.height
         self.width = portal.frame.width

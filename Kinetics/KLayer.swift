@@ -34,18 +34,16 @@ class KLayer: KIdentifiable {
 }
 
 extension KLayer {
-    func connect(to upperLayer: KLayer) {
-        neurons.forEach {
-            $0.connect(to: upperLayer)
-        }
-    }
+    func connect(to upperLayer: KLayer) { for neuron in neurons { neuron.connect(to: upperLayer) } }
 
     func decoupleFromGrid() {
         while !signalRelays.isEmpty { signalRelays.removeLast() }
     }
 
     func driveSignal() {
-        neurons.forEach { $0.driveSignal(isMotorLayer: id.myID == ArkonCentralDark.isMotorLayer.rawValue) }
+        for neuron in neurons {
+            neuron.driveSignal(isMotorLayer: id.myID == ArkonCentralDark.isMotorLayer.rawValue)
+        }
     }
 
     static func makeLayer(_ myFullID: KIdentifier, _ layerType: KIdentifier.KType, _ cNeurons: Int)
@@ -83,7 +81,7 @@ extension KLayer {
     }
 
     func reverseConnect(_ lastHiddenLayer: KLayer) {
-        lastHiddenLayer.neurons.forEach({ upperNeuron in
+        for upperNeuron in lastHiddenLayer.neurons {
             while !upperNeuron.downConnectors.isEmpty {
                 let connector = upperNeuron.downConnectors.removeLast()
                 let outputNeuronSS = connector %% self.neurons.count
@@ -91,6 +89,6 @@ extension KLayer {
 
                 outputNeuron.relay!.inputRelays.append(upperNeuron.relay!)
             }
-        })
+        }
     }
 }

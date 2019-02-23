@@ -12,7 +12,7 @@ class DLayer {
         self.layer = layer; self.layerRole = layerRole; self.layerSSInGrid = layerSSInGrid
     }
 
-    func display(on portal: SKNode, spacer: DSpacer) {
+    func display(on portal: SKSpriteNode, spacer: DSpacer) {
         spacer.setLayerRole(self.layerRole)
 
         let liveNeurons = layer.neurons.compactMap { $0.relay == nil ? nil : $0 }

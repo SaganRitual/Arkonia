@@ -3,14 +3,14 @@ import SpriteKit
 
 class DNeuron {
     weak var neuron: KNeuron!
-    private weak var portal: SKNode!
+    private weak var portal: SKSpriteNode!
 
     init(_ neuron: KNeuron, spacer: DSpacer, compactGridX: Int, gridY: Int) {
         self.neuron = neuron
         spacer.setPosition(id: neuron.relay!.id, gridX: compactGridX, gridY: gridY)
     }
 
-    func display(on portal: SKNode, spacer: DSpacer) {
+    func display(on portal: SKSpriteNode, spacer: DSpacer) {
         self.portal = portal
 
         drawNeuron(spacer: spacer)

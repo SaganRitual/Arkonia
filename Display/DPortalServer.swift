@@ -4,17 +4,21 @@ import SpriteKit
 typealias QuadrantMultiplier = (x: Double, y: Double)
 
 class DPortalServer {
+    static var shared: DPortalServer!
+
     let cPortals = ArkonCentralLight.cPortals
-    var portals = [Int: SKNode]()
+    var portals = [Int: SKSpriteNode]()
     weak var scene: SKScene?
 
     init(_ scene: SKScene) {
         precondition(cPortals == 1 || cPortals == 4, "Squares only")
         self.scene = scene
         self.drawPortalSeparators()
+
+        DPortalServer.shared = self
     }
 
-    public func getPortal(_ portalNumber: Int) -> SKNode {
+    public func getPortal(_ portalNumber: Int) -> SKSpriteNode {
         if let portal = portals[portalNumber] { return portal }
 
         let spriteTexture = ArkonCentralLight.sceneBackgroundTexture!
@@ -29,15 +33,9 @@ class DPortalServer {
         portal.position = cPortals == 1 ? CGPoint(x: 0, y: 0) :
             quarterOrigin * quadrantMultipliers[portalNumber]
 
-        // The call to sqrt() is why we only accept squares
         precondition(cPortals > 0)
-        portal.size = KAppController.shared.scene?.size ?? CGSize(width: 42, height: 42)
-
-        // FIXME: Yuck! Different treatment for different portals?
-        if portalNumber == 0 {
-            let scaleFactor = CGFloat(1.0 / ceil(sqrt(Double(cPortals))))
-            portal.setScale(scaleFactor)
-        }
+        portal.size = self.scene!.size
+        portal.setScale(1.0 / CGFloat(sqrt(Double(quadrantMultipliers.count))))
 
         portals[portalNumber] = portal
         scene!.addChild(portal)

@@ -33,7 +33,6 @@ protocol MutatorProtocol {
 }
 
 enum ArkonCentralDark {
-    static var mutator: MutatorProtocol!
     static var selectionControls = KSelectionControls()
 
     static let isMotorLayer = KIdentifier.KType.motorLayer

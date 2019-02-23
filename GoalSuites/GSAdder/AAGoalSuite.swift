@@ -21,8 +21,8 @@
 import Foundation
 
 class AAGoalSuite: GSGoalSuite {
-    static let cSenseNeurons = 1
-    static let cMotorNeurons = 6
+    static let cSenseNeurons = 2    // r, θ to the origin
+    static let cMotorNeurons = 6    // Three (x, y) pairs as thrust vectors
 
     init() {
         AAGoalSuite.setSelectionControls()

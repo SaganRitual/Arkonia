@@ -1,90 +1,56 @@
 import Foundation
 import SpriteKit
 
-typealias ArkonFactory = AAFactory
-
 class World {
     static var shared: World!
 
-    static let cSenseNeurons = 1
-    static let cMotorNeurons = 1
+    private static let cSenseNeurons = 2    // r, θ to the origin
+    private static let cMotorNeurons = 6    // Three (x, y) pairs as thrust vectors
 
-    var aboriginalGenome: Genome?
-    var arkons = [Arkon]()
-    var arkonFactory: ArkonFactory?
-    var portal: SKNode
+    var arkonery: Arkonery
+    let dispatchQueue = DispatchQueue(label: "arkonia.surreal.dispatch.queue")
+    var portal: SKSpriteNode
 
-    enum LaunchStage { case unready, readyForInit, flying }
+    enum LaunchStage { case unready, flying }
     var launchStage = LaunchStage.unready
 
     init() {
-        launchStage = .readyForInit
-        portal = Display.shared.getPortal(quadrant: 1)
-
-        World.shared = self
-    }
-
-    private func deadArkonCleanup() { arkons.removeAll { !$0.isAlive } }
-
-    private func createStarterPopulation() {
         World.setSelectionControls()
 
-        self.arkonFactory = AAFactory()
-        self.aboriginalGenome = Assembler.makeRandomGenome(cGenes: 200)
+        let p = Display.shared.getPortal(quadrant: 1)
+        self.portal = p
 
-        self.arkons = (0..<100).compactMap {
-            makeArkon(fishNumber: $0, genome: aboriginalGenome!, mutate: true, portal: self.portal)
-        }
+        self.arkonery = Arkonery(portal: p)
+        self.arkonery.postInit(self)
 
-        self.arkons.forEach { $0.comeToLife() }
-        self.launchStage = .flying
-    }
+        _ = FDecoder()
+        _ = Mutator()
 
-    public func getAboriginal() -> Arkon {
-        let genome = self.aboriginalGenome !! { preconditionFailure() }
+        launchStage = .flying
 
-        let aboriginal = makeArkon(
-            fishNumber: 0, genome: genome, mutate: false, portal: self.portal
-        ) !! { preconditionFailure("Aboriginal should survive birth") }
+//        portal.speed = 0.1
 
-        return aboriginal
-    }
-
-    func makeArkon(fishNumber: Int, genome: Genome, mutate: Bool, portal: SKNode) -> Arkon? {
-        let (newGenome, fNet_) = makeNet(genome: genome, mutate: mutate)
-        guard let fNet = fNet_, !fNet.layers.isEmpty else { return nil }
-
-        // Subject now owns the fNet and the newGenome
-        return Arkon(fishNumber: fishNumber, genome: newGenome, fNet: fNet, portal: portal)
-    }
-
-    func makeNet(genome: Genome, mutate: Bool) -> (Genome, FNet?) {
-        let newGenome = genome.copy()
-        if mutate { ArkonCentralDark.mutator.mutate(newGenome) }
-        let e = FDecoder.shared.decode(newGenome)
-        return (newGenome, e as? FNet)
+        (0..<25).forEach { _ in self.arkonery.launchArkon() }
+//        portal.run(arkonery.tickAction)
     }
 
     static func setSelectionControls() {
-        ArkonCentralDark.selectionControls.cSenseNeurons = AAGoalSuite.cSenseNeurons
+        ArkonCentralDark.selectionControls.cSenseNeurons = World.cSenseNeurons
         ArkonCentralDark.selectionControls.cLayersInStarter = 2
-        ArkonCentralDark.selectionControls.cMotorNeurons = AAGoalSuite.cMotorNeurons
+        ArkonCentralDark.selectionControls.cMotorNeurons = World.cMotorNeurons
         ArkonCentralDark.selectionControls.cGenerations = 10000
     }
-
-    func update(_ currentTime: TimeInterval, for scene: SKScene) -> LaunchStage {
-        switch launchStage {
-        case .unready:
-            break
-
-        case .readyForInit:
-            precondition(self.arkons.isEmpty)
-            self.portal.run(SKAction.run { [unowned self] in self.createStarterPopulation() })
-
-        case .flying:
-            deadArkonCleanup()
-        }
-
-        return self.launchStage
-    }
+//
+//    func update(_ currentTime: TimeInterval, for scene: SKScene) -> LaunchStage {
+//        switch launchStage {
+//        case .unready:
+//            break
+//
+//        case .flying:
+//            if self.isBusy { break }
+//            portal.run(SKAction.run(experimental, queue: dispatchQueue))
+//       }
+//
+//        return self.launchStage
+//    }
 }

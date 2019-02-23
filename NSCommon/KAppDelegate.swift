@@ -23,30 +23,31 @@ import SpriteKit
 
 @NSApplicationMain
 class KAppDelegate: NSObject, NSApplicationDelegate {
-    #if K_RUN_MAIN
+    #if K_RUN_WITH_CURATOR
 
     var curator: Curator?
     var goalSuite: GSGoalSuite?
     var workItem: DispatchWorkItem!
 
     #elseif K_RUN_DISPLAY_TEST
+
     var displayTest: VDisplayTest?
-    #else
-    #error("No run mode specified")
+
     #endif
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        KAppController.shared.showMainWindow(withTitle: "TDisplay")
+        KAppController.shared.showMainWindow(withTitle: "Arkonia")
 
         KAppDelegate.setupArkonTextures()
+        KAppDelegate.setupBackgroundTextures()
         KAppDelegate.setupNeuronTextures()
 
         if let scene = KAppController.shared.scene {
-            _ = Display(scene)  // Sets Display.shared
+            Display.shared = Display(scene)
 
             #if K_RUN_MAIN
 
-            _ = World()         // Sets World.shared
+            World.shared = World()
 
             #elseif K_RUN_WITH_CURATOR
 
@@ -79,11 +80,16 @@ extension KAppDelegate {
         ArkonCentralLight.topTexture = topTexture
     }
 
+    private static func setupBackgroundTextures() {
+        let atlas = SKTextureAtlas(named: "Backgrounds")
+        ArkonCentralLight.sceneBackgroundTexture = atlas.textureNamed("scene-background")
+        ArkonCentralLight.debugRectangleTexture = atlas.textureNamed("debug-rectangle")
+    }
+
     private static func setupNeuronTextures() {
-        let spriteAtlas = SKTextureAtlas(named: "Neurons")
-        ArkonCentralLight.sceneBackgroundTexture = spriteAtlas.textureNamed("scene-background")
-        ArkonCentralLight.orangeNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-orange-half")
-        ArkonCentralLight.blueNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-blue")
-        ArkonCentralLight.greenNeuronSpriteTexture = spriteAtlas.textureNamed("neuron-green-half")
+        let atlas = SKTextureAtlas(named: "Neurons")
+        ArkonCentralLight.orangeNeuronSpriteTexture = atlas.textureNamed("neuron-orange-half")
+        ArkonCentralLight.blueNeuronSpriteTexture = atlas.textureNamed("neuron-blue")
+        ArkonCentralLight.greenNeuronSpriteTexture = atlas.textureNamed("neuron-green-half")
     }
 }

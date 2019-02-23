@@ -40,6 +40,11 @@ extension CGRect {
     static func * (_ rect: CGRect, _ multiplier: Double) -> CGRect {
         return CGRect(origin: rect.origin, size: rect.size * multiplier)
     }
+
+    static func / (_ rect: CGRect, _ divisor: Double) -> CGRect {
+        return CGRect(origin: rect.origin, size: rect.size / divisor)
+    }
+
 }
 
 extension CGSize: SizelikeProtocol {
@@ -142,6 +147,19 @@ extension CGPoint: PointlikeProtocol {
         var newPoint = point
         newPoint.x += CGFloat(addend.0)
         newPoint.y += CGFloat(addend.1)
+        return newPoint
+    }
+
+    static func - (_ point: CGPoint, _ subtrahendOrWhatever: SizelikeProtocol) -> CGPoint {
+        let x = point.x - subtrahendOrWhatever.width
+        let y = point.y - subtrahendOrWhatever.height
+        return CGPoint(x: x, y: y)
+    }
+
+    static func - (_ point: CGPoint, _ subtrahendOrWhatever: CGFloat) -> CGPoint {
+        var newPoint = point
+        newPoint.x -= subtrahendOrWhatever
+        newPoint.y -= subtrahendOrWhatever
         return newPoint
     }
 

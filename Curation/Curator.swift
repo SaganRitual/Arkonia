@@ -11,7 +11,7 @@ class Curator {
     var aboriginal: GSSubject?
     var archive: Archive
     var atLeastOneTSHasSurvived = false
-    let displayPortal: SKNode
+    let displayPortal: SKSpriteNode
     var goalSuite: GSGoalSuite
     let notificationCenter = NotificationCenter.default
     var randomArkonForDisplay: GSSubject!

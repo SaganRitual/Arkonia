@@ -29,6 +29,8 @@ class FNet: FNetProtocol {
 
     init() { }
 
+    deinit { underConstruction = nil }
+
     func beginNewLayer() -> FLayer {
         if underConstruction != nil {
             finalizeLayer()
