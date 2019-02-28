@@ -1,7 +1,19 @@
 # Arkonia
 A hobbyist's toy, under construction. An evolution and natural selection simulator.
 Creatures whose brains and bodies evolve genetically to make them better at eating each other.
-### Current status: 27 Feb 2019
+
+I don't have any formal training with AI or ML or genetic algorithms, or any of this
+stuff. I realized that I hate math after linear algebra and two semesters of calculus,
+and I don't remember any of it anyway, having learned it all directly from Messrs Newton and
+Leibniz themselves. Don't expect gradients, or loss functions, or anything you may have learned in school
+or on the job or in your formal research about genetic algorithms, because I've never
+looked into those disciplines. Everything I know about the subject I've learned from
+creating this toy over the last three years.
+
+In other words, I'm self-conscious about how ill-conceived might appear to anyone who's
+serious about the disciplines, and I don't want to put anyone off their breakfast. Caveat lector.
+
+### Status 27 Feb 2019
 * Genome
   * Fully functional: asexual replication, mutation, decode to net frame
   * Lots of net genes in place
