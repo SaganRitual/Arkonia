@@ -9,6 +9,7 @@ class Display: NSObject, SKSceneDelegate {
     private var portalServer: DPortalServer
     private var quadrants = [Int: SKSpriteNode]()
     public weak var scene: SKScene?
+    public var tickCount = 0
 
     init(_ scene: SKScene) {
         self.scene = scene
@@ -17,7 +18,7 @@ class Display: NSObject, SKSceneDelegate {
         super.init()
 
         scene.delegate = self
-        scene.physicsWorld.gravity = CGVector(dx: 0.0, dy: -0.01)
+        scene.physicsWorld.gravity = CGVector(dx: 0.0, dy: -0.1)
     }
 
     /**
@@ -45,7 +46,10 @@ class Display: NSObject, SKSceneDelegate {
     }
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
+        tickCount += 1
+
         World.shared.arkonery.tick()
+
         if kNets.isEmpty { return }
         kNets.forEach { DNet($0.1).display(via: $0.0) }
         kNets.removeAll()

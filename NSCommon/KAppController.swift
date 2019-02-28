@@ -59,7 +59,7 @@ class KAppController: NSObject {
 				let newSize = NSSize(width: screenFrame.width * 0.7,
 									 height: screenFrame.height * 0.7)
 
-				let newOrigin = CGPoint(x: screenFrame.origin.x - (screenFrame.width  - newSize.width),
+				let newOrigin = CGPoint(x: screenFrame.origin.x + (screenFrame.width  - newSize.width),
 										y: screenFrame.origin.y + (screenFrame.height - newSize.height))
 				newFrame = NSRect(origin: newOrigin, size: newSize)
 			}

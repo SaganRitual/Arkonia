@@ -2,42 +2,35 @@ import Foundation
 import SpriteKit
 
 class Arkonery {
-    var aboriginalGenome: Genome { return Assembler.makeRandomGenome(cGenes: 200) }
+    static var aboriginalGenome: Genome { return Assembler.makeRandomGenome(cGenes: 200) }
+
+    var cAliveArkons = 0
+    var cArkonBodies = 0
     let dispatchQueue = DispatchQueue(label: "carkonery")
-    var cPendingLaunch = 0
+    var pendingGenomes = [Genome]()
     let portal: SKSpriteNode
-    var semaphore = DispatchSemaphore(value: 100)
     var tickAction: SKAction!
 
-    let cArkonSouls = 100
-    var cArkonBodies = 0
+    init(portal: SKSpriteNode) { self.portal = portal; portal.speed = 0.25 }
 
-    init(portal: SKSpriteNode) { self.portal = portal }
-
-    func launchArkon() { cPendingLaunch += 1 }
+    func launchArkon(parentGenome: Genome) { pendingGenomes.append(parentGenome) }
 
     func postInit(_ world: World) {
         self.tickAction = SKAction.run({ [unowned self] in self.tick() }, queue: world.dispatchQueue)
     }
 
-    private func makeArkon() {
-        cArkonBodies += 1
-        let (newGenome, fNet_) = makeNet()
+    private func makeArkon(parentGenome: Genome) {
+        let (newGenome, fNet_) = makeNet(parentGenome: parentGenome)
         guard let fNet = fNet_, !fNet.layers.isEmpty else { return }
 
         launchpad = Arkon(genome: newGenome, fNet: fNet, portal: portal)
-
-        // We've made one arkon, now it's ready to launch. The display cycle
-        // will take it from here, and we'll check for more work in our tick()
-        isBusy = false
     }
 
-//    static var newGenome: Genome?
-    private func makeNet() -> (Genome, FNet?) {
-//        if Arkonery.newGenome == nil {
-            let newGenome = aboriginalGenome.copy()
-            Mutator.shared.mutate(newGenome)
-//        }
+    private func makeNet(parentGenome: Genome) -> (Genome, FNet?) {
+        defer { cArkonBodies += 1; cAliveArkons += 1 }
+
+        let newGenome = parentGenome.copy()
+        Mutator.shared.mutate(newGenome)
 
         let e = FDecoder.shared.decode(newGenome)
         return (newGenome, e as? FNet)
@@ -47,15 +40,11 @@ class Arkonery {
     // I'm in the context of the display cycle here, not in carkonery context.
     //
     var launchpad: Arkon?
-    private var isBusy = false  // Only so I know whether to wait to make another arkon
     func tick() {
-        if isBusy { return }
-
         guard let newborn = launchpad else { // Display is ready for a new arkon
-            if cPendingLaunch > 0 {
-                isBusy = true
-                cPendingLaunch -= 1
-                dispatchQueue.async { [weak self] in self?.makeArkon() }
+            if !pendingGenomes.isEmpty {
+                let newGenome = pendingGenomes.removeLast()
+                dispatchQueue.async { [weak self] in self?.makeArkon(parentGenome: newGenome) }
             }
 
             return

@@ -2,21 +2,25 @@ import Foundation
 import SpriteKit
 
 class Arkon {
+    static private var lifespanInTicks = 60
+
+    private var birthday = 0
+    private var canHaveMoreOffspring = true
     private var destructAction: SKAction!
     let fishNumber: Int
     private let fNet: FNet
     private let genome: Genome
+    private var health = 3000.0
     private var kNet: KNet!
-    private let lifespanInTicks = 10
     private var motorOutputs: MotorOutputs!
     private var portal: SKSpriteNode!
     let signalDriver: KSignalDriver
     var sprite: SKSpriteNode!
     private var tickAction: SKAction!
-    private var tickCount = 0
 
-    var drawn = false
-    var isInBounds: Bool {
+    private var isHealthy: Bool { return health > 0 }
+
+    private var isInBounds: Bool {
         let relativeToPortal = portal.convert(sprite.frame.origin, to: portal.parent!)
 
         let w = sprite.size.width * portal.xScale
@@ -31,7 +35,7 @@ class Arkon {
         return portal.frame.contains(arkonRectangle)
     }
 
-    init(genome: Genome, fNet: FNet, portal: SKSpriteNode) {
+    init?(genome: Genome, fNet: FNet, portal: SKSpriteNode) {
         self.fishNumber = ArkonCentralDark.selectionControls.theFishNumber
         ArkonCentralDark.selectionControls.theFishNumber += 1
 
@@ -41,22 +45,42 @@ class Arkon {
         self.fNet = fNet
         self.signalDriver = KSignalDriver(idNumber: self.fishNumber, fNet: fNet)
 
+        let arkonSurvived = signalDriver.drive(
+            sensoryInputs: Array.init(
+                repeating: 0, count: ArkonCentralDark.selectionControls.cSenseNeurons
+            )
+        )
+
         // Dark parts all set up; SpriteKit will add a sprite and
-        // launch on the next display cycle
+        // launch on the next display cycle, unless, of course, we didn't
+        // survive the test signal.
+
+        if !arkonSurvived { return nil }
     }
 
     func launch() {
+        self.birthday = Display.shared.tickCount
+
         let sprite = Arkon.setupSprite(fishNumber)
         self.motorOutputs = MotorOutputs(sprite)
 
         self.sprite = sprite
+        let scene = portal.parent!
+        if scene.frame.size != CGSize.zero {
+            let x = Int.random(in: Int(-scene.frame.size.width / 2)..<Int(scene.frame.size.width / 2))
+            let y = Int.random(in: Int(-scene.frame.size.height / 2)..<Int(scene.frame.size.height / 2))
+            self.sprite.position = CGPoint(x: x, y: y)
+        }
         portal.addChild(sprite)
 
         self.sprite.userData = ["Arkon": self]  // Ref to self; we're on our own after birth
 
         self.destructAction = SKAction.sequence([
-            SKAction.removeFromParent(),
-            SKAction.run { [weak self] in self?.sprite.userData?["Arkon"] = nil }
+            SKAction.run { [weak self] in
+                self?.sprite?.userData?["Arkon"] = nil
+                self?.sprite = nil
+            },
+            SKAction.removeFromParent()
         ])
 
         self.tickAction = SKAction.run(
@@ -64,9 +88,10 @@ class Arkon {
         )
 
         self.sprite.run(self.tickAction)
+        World.shared.arkonery.launchpad = nil
     }
 
-    deinit { self.sprite?.removeFromParent() }
+    deinit { self.sprite?.removeFromParent(); World.shared.arkonery.cAliveArkons -= 1 }
 }
 
 // MARK: Guts
@@ -83,6 +108,7 @@ extension Arkon {
     private func apoptosize() {
         sprite.removeAllActions()
         sprite.run(destructAction)
+        sprite = nil
     }
 
     private func getThrustVectors(_ motorNeuronOutputs: [Double]) -> [CGVector] {
@@ -100,16 +126,24 @@ extension Arkon {
     private func tick() {
         if self.sprite.userData == nil { preconditionFailure("Shouldn't happen; I'm desperate") }
         if !self.isInBounds { apoptosize(); return }
+        if !self.isHealthy { apoptosize(); return }
 
-        tickCount += 1
-//        if tickCount >= lifespanInTicks { apoptosize(); return }
-        if tickCount % 3 == 0 { World.shared.arkonery.launchArkon() }
+        let myAge = Display.shared.tickCount - birthday
+        let isSuperArkon = myAge >= (Arkon.lifespanInTicks / 2) && health > 1000.0
+        if isSuperArkon {
+            self.canHaveMoreOffspring = isSuperArkon
+            Arkon.lifespanInTicks += 1
+            World.shared.arkonery.launchArkon(parentGenome: self.genome)
+        }
 
         let rToOrigin = Double(hypotf(Float(-self.sprite.position.x), Float(-self.sprite.position.y)))
         let θToOrigin = Double(atan2(self.sprite.position.y, self.sprite.position.x))
         let arkonSurvived = signalDriver.drive(sensoryInputs: [rToOrigin, θToOrigin])
 
-        if !arkonSurvived { apoptosize(); return }
+        // They get sick from not being close enough to the center
+        health -= rToOrigin
+
+        precondition(arkonSurvived, "Should have died from test signal in init")
 
         let motorNeuronOutputs = signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
         let thrustVectors = getThrustVectors(motorNeuronOutputs)

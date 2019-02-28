@@ -28,10 +28,7 @@ class World {
 
         launchStage = .flying
 
-//        portal.speed = 0.1
-
-        (0..<25).forEach { _ in self.arkonery.launchArkon() }
-//        portal.run(arkonery.tickAction)
+        (0..<200).forEach { _ in self.arkonery.launchArkon(parentGenome: Arkonery.aboriginalGenome) }
     }
 
     static func setSelectionControls() {
@@ -40,17 +37,4 @@ class World {
         ArkonCentralDark.selectionControls.cMotorNeurons = World.cMotorNeurons
         ArkonCentralDark.selectionControls.cGenerations = 10000
     }
-//
-//    func update(_ currentTime: TimeInterval, for scene: SKScene) -> LaunchStage {
-//        switch launchStage {
-//        case .unready:
-//            break
-//
-//        case .flying:
-//            if self.isBusy { break }
-//            portal.run(SKAction.run(experimental, queue: dispatchQueue))
-//       }
-//
-//        return self.launchStage
-//    }
 }

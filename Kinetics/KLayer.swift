@@ -30,7 +30,10 @@ class KLayer: KIdentifiable {
         self.id = id; self.neurons = neurons; self.signalRelays = signalRelays
     }
 
-    deinit { decoupleFromGrid() }
+    deinit {
+        decoupleFromGrid()
+        neurons.compactMap { $0.relay }.forEach { $0.releaseInputs() }
+    }
 }
 
 extension KLayer {

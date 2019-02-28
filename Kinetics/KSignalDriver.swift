@@ -50,6 +50,10 @@ class KSignalDriver  {
         self.kNet = kNet
     }
 
+    deinit {
+        motorLayer.decoupleFromGrid()
+    }
+
     func drive(sensoryInputs: [Double]) -> Bool {
         for (sensoryInput, relay) in zip(sensoryInputs, senseLayer.signalRelays) {
             relay.overrideState(operational: true)

@@ -36,15 +36,13 @@ class KSignalRelay: KIdentifiable, Hashable {
 //        print("+\(self)")
     }
 
-    deinit {
-//        print("~\(self) [")
-        while !inputRelays.isEmpty { inputRelays.removeLast() }
-//        print("]")
-    }
+    deinit { releaseInputs() }
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.id)
     }
+
+    func releaseInputs() { while !inputRelays.isEmpty { inputRelays.removeLast() } }
 
     static func == (lhs: KSignalRelay, rhs: KSignalRelay) -> Bool {
         return lhs.id == rhs.id
