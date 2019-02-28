@@ -19,9 +19,9 @@ serious about the disciplines, and I don't want to put anyone off their breakfas
   * Lots of net genes in place
   * All the genes currently apply only to the net
   * To do: add meta-genes to act on the genome itself or change its expression in some way, for example
-    * Hox, like a real hox gene, to cause certain segments of the genome to produce multiple
-    phenotypical expressions. That is, to cause the body to have repeated sections, like a
-    caterpillar, or insects in general, with head/abdomen/thorax segments.
+    * Hox, like a real hox gene, to cause certain segments of the genome to repeat themselves.
+    That is, to cause the body to have repeated sections, like a caterpillar, or insects in
+    general, with head/abdomen/thorax segments.
     * Lock, to cause a certain segment of the genome to be treated as an atomic unit, such that
     any genome snippet takes the locked segment as a whole, never just a portion of it. Not sure
     whether this would give us any interesting results. Some experimentation would be needed.
