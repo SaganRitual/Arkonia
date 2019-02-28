@@ -10,7 +10,7 @@ or on the job or in your formal research about genetic algorithms, because I've 
 looked into those disciplines. Everything I know about the subject I've learned from
 creating this toy over the last three years.
 
-In other words, I'm self-conscious about how ill-conceived might appear to anyone who's
+In other words, I'm self-conscious about how ill-conceived it might appear to anyone who's
 serious about the disciplines, and I don't want to put anyone off their breakfast. Caveat lector.
 
 ### Status 27 Feb 2019
