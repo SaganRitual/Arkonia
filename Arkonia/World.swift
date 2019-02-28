@@ -4,15 +4,12 @@ import SpriteKit
 class World {
     static var shared: World!
 
-    private static let cSenseNeurons = 2    // r, θ to the origin
+    private static let cSenseNeurons = 4    // r, θ to the origin, velocity dx, dy relative to origin
     private static let cMotorNeurons = 6    // Three (x, y) pairs as thrust vectors
 
     var arkonery: Arkonery
     let dispatchQueue = DispatchQueue(label: "arkonia.surreal.dispatch.queue")
     var portal: SKSpriteNode
-
-    enum LaunchStage { case unready, flying }
-    var launchStage = LaunchStage.unready
 
     init() {
         World.setSelectionControls()
@@ -20,15 +17,26 @@ class World {
         let p = Display.shared.getPortal(quadrant: 1)
         self.portal = p
 
-        self.arkonery = Arkonery(portal: p)
-        self.arkonery.postInit(self)
+        let repeller = SKFieldNode.radialGravityField()
+        repeller.strength = -0.1
+        repeller.falloff = 1.2
+        repeller.isEnabled = true
+//        repeller.minimumRadius = 100.0
+        p.addChild(repeller)
 
-        _ = FDecoder()
-        _ = Mutator()
+        Arkonery.shared = Arkonery(portal: p)
+        self.arkonery = Arkonery.shared
+        self.arkonery.postInit()
 
-        launchStage = .flying
+        FDecoder.shared = FDecoder()
+        Mutator.shared = Mutator()
+    }
 
-        (0..<200).forEach { _ in self.arkonery.launchArkon(parentGenome: Arkonery.aboriginalGenome) }
+    func postInit() {
+        // Starter population
+        (-100..<0).forEach { _ in
+            self.arkonery.spawn(parentID: nil, parentGenome: Arkonery.aboriginalGenome)
+        }
     }
 
     static func setSelectionControls() {

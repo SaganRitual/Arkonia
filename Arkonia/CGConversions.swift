@@ -206,4 +206,19 @@ extension CGPoint: PointlikeProtocol {
         newPoint.y *= CGFloat(multiplier.1)
         return newPoint
     }
+
+   func distance(to theOtherPoint: CGPoint) -> CGFloat {
+       let dx = theOtherPoint.x - self.x
+       let dy = theOtherPoint.y - self.y
+       return sqrt((dx * dx) + (dy * dy))
+   }
+
+   func velocity(toward theOtherPoint: CGPoint, speed: CGFloat) -> CGVector {
+       let distance = self.distance(to: theOtherPoint)
+       let normalized = CGVector(
+           dx: (theOtherPoint.x - self.x) / distance, dy: (theOtherPoint.y - self.y) / distance
+       )
+
+       return normalized * speed
+    }
 }

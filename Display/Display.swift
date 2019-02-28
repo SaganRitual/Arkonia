@@ -4,6 +4,7 @@ import SpriteKit
 class Display: NSObject, SKSceneDelegate {
     static var shared: Display!
 
+    var currentTime: TimeInterval = 0
     private var frameCount = 0
     private var kNets = [SKSpriteNode: KNet]()
     private var portalServer: DPortalServer
@@ -18,7 +19,7 @@ class Display: NSObject, SKSceneDelegate {
         super.init()
 
         scene.delegate = self
-        scene.physicsWorld.gravity = CGVector(dx: 0.0, dy: -0.1)
+        scene.physicsWorld.gravity = CGVector.zero
     }
 
     /**
@@ -47,8 +48,12 @@ class Display: NSObject, SKSceneDelegate {
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
         tickCount += 1
+        self.currentTime = currentTime
 
-        World.shared.arkonery.tick()
+        if case let .alive(parentFishNumber, newborn) = Arkonery.shared.launchpad {
+            newborn.launch(parentFishNumber: parentFishNumber)
+            Arkonery.shared.launchpad = .empty
+        }
 
         if kNets.isEmpty { return }
         kNets.forEach { DNet($0.1).display(via: $0.0) }

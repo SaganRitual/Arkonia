@@ -26,8 +26,6 @@ class Mutator: MutatorProtocol {
     var bellCurve = BellCurve()
     weak var workingGenome: Genome!
 
-    init() { Mutator.shared = self }
-
     func copySegment() -> Segment {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: workingGenome.count)
 

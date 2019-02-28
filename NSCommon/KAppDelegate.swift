@@ -48,6 +48,7 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
             #if K_RUN_MAIN
 
             World.shared = World()
+            World.shared.postInit()
 
             #elseif K_RUN_WITH_CURATOR
 

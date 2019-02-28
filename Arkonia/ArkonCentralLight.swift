@@ -53,8 +53,8 @@ enum ArkonCentralLight {
     }
 
     static let colors: [NSColor] = [
-        .black, .darkGray, .lightGray, .white, .gray, .red, .green, .blue,
-        .cyan, .yellow, .magenta, .orange, .purple, .brown, .clear
+        .red, .green, .blue,
+        .cyan, .yellow, .magenta, .orange, .purple
     ]
 
     static var spriteTextureAtlas: SKTextureAtlas?

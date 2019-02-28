@@ -36,11 +36,6 @@ class FDecoder: DecoderProtocol {
 
     var counter = 0
 
-    init() {
-        precondition(FDecoder.shared == nil)
-        FDecoder.shared = self
-    }
-
     func decode(_ inputGenome: GenomeProtocol) -> FNetProtocol? {
         fNet = FNet()
 

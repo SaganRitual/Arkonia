@@ -4,16 +4,18 @@ import SpriteKit
 class Arkon {
     static private var lifespanInTicks = 60
 
-    private var birthday = 0
     private var canHaveMoreOffspring = true
     private var destructAction: SKAction!
     let fishNumber: Int
     private let fNet: FNet
     private let genome: Genome
+    private var hasGivenBirth = false
     private var health = 3000.0
     private var kNet: KNet!
     private var motorOutputs: MotorOutputs!
     private var portal: SKSpriteNode!
+    private var previousPosition: CGPoint?
+    private var previousTime: TimeInterval = 0
     let signalDriver: KSignalDriver
     var sprite: SKSpriteNode!
     private var tickAction: SKAction!
@@ -58,9 +60,7 @@ class Arkon {
         if !arkonSurvived { return nil }
     }
 
-    func launch() {
-        self.birthday = Display.shared.tickCount
-
+    func launch(parentFishNumber: Int?) {
         let sprite = Arkon.setupSprite(fishNumber)
         self.motorOutputs = MotorOutputs(sprite)
 
@@ -88,10 +88,19 @@ class Arkon {
         )
 
         self.sprite.run(self.tickAction)
-        World.shared.arkonery.launchpad = nil
+
+        // If I have a parent (ie, I'm not in the aboriginal generation), tell my
+        // parent that my birth is complete, so she can get up and run away from
+        // predators now.
+        guard let p = parentFishNumber else { return }
+        Arkonery.reviveSpawner(fishNumber: p)
     }
 
-    deinit { self.sprite?.removeFromParent(); World.shared.arkonery.cAliveArkons -= 1 }
+    deinit {
+//        print("Arkon(\(fishNumber)) deinit")
+        self.sprite?.removeFromParent()
+        World.shared.arkonery.cAliveArkons -= 1
+    }
 }
 
 // MARK: Guts
@@ -123,25 +132,56 @@ extension Arkon {
         return vectors
     }
 
+    // swiftlint:disable function_body_length
     private func tick() {
         if self.sprite.userData == nil { preconditionFailure("Shouldn't happen; I'm desperate") }
         if !self.isInBounds { apoptosize(); return }
         if !self.isHealthy { apoptosize(); return }
 
-        let myAge = Display.shared.tickCount - birthday
-        let isSuperArkon = myAge >= (Arkon.lifespanInTicks / 2) && health > 1000.0
-        if isSuperArkon {
-            self.canHaveMoreOffspring = isSuperArkon
-            Arkon.lifespanInTicks += 1
-            World.shared.arkonery.launchArkon(parentGenome: self.genome)
+        health -= 1.0 // Time ever marches on
+        if health > 3000 {
+            let nName = Foundation.Notification.Name.arkonIsBorn
+            let nCenter = NotificationCenter.default
+            var observer: NSObjectProtocol?
+
+            observer = nCenter.addObserver(forName: nName, object: nil, queue: nil) {
+                [weak self] (notification: Notification) in
+
+                guard let myself = self else { return }
+                guard let u = notification.userInfo as? [String: Int] else { return }
+                guard let f = u["parentFishNumber"] else { return }
+
+                if f == myself.fishNumber {
+                    myself.sprite.run(myself.tickAction)
+                    nCenter.removeObserver(observer!)
+                }
+            }
+
+            World.shared.arkonery.spawn(parentID: self.fishNumber, parentGenome: self.genome)
+            return  // I'm idle and vulnerable until I've finished giving birth
         }
 
         let rToOrigin = Double(hypotf(Float(-self.sprite.position.x), Float(-self.sprite.position.y)))
+        precondition(rToOrigin >= 0)
         let θToOrigin = Double(atan2(self.sprite.position.y, self.sprite.position.x))
-        let arkonSurvived = signalDriver.drive(sensoryInputs: [rToOrigin, θToOrigin])
 
-        // They get sick from not being close enough to the center
-        health -= rToOrigin
+        health += 1000.0 / ((rToOrigin < 1) ? 1 : pow(rToOrigin, 1.2))
+        var velocity = CGVector.zero
+        let currentTime = Display.shared.currentTime
+
+        if let previousPosition = self.previousPosition {
+            let distance = previousPosition.distance(to: self.sprite.position)
+            let elapsedTime = currentTime - previousTime
+            let speed = distance / CGFloat(elapsedTime)
+            velocity = previousPosition.velocity(toward: self.sprite.position, speed: speed)
+        }
+
+        previousPosition = self.sprite.position
+        previousTime = currentTime
+
+        let arkonSurvived = signalDriver.drive(
+            sensoryInputs: [rToOrigin, θToOrigin, Double(velocity.dx), Double(velocity.dy)]
+        )
 
         precondition(arkonSurvived, "Should have died from test signal in init")
 
@@ -159,6 +199,7 @@ extension Arkon {
         self.sprite.run(SKAction.sequence([md, self.tickAction]))
 //        self.sprite.run(self.tickAction)
     }
+    // swiftlint:enable function_body_length
 }
 
 // MARK: Initialization
@@ -177,6 +218,10 @@ extension Arkon {
         sprite.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
         sprite.physicsBody!.affectedByGravity = true
         sprite.physicsBody!.isDynamic = true
+        sprite.physicsBody!.categoryBitMask = 0x01
+        sprite.physicsBody!.collisionBitMask = 0x01
+        sprite.physicsBody!.fieldBitMask = 0x01
+        sprite.physicsBody!.contactTestBitMask = 0x01
 
         return sprite
     }
