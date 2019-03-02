@@ -56,6 +56,10 @@ extension CGSize: SizelikeProtocol {
         self = CGSize.make(size.width, size.height)
     }
 
+    static public func make(_ size: CGSize) -> CGSize {
+        return CGSize(size)
+    }
+
     static public func make(_ width: CGFloat, _ height: CGFloat) -> CGSize {
         return CGSize(width: CGFloat(width), height: CGFloat(height))
     }
@@ -64,10 +68,17 @@ extension CGSize: SizelikeProtocol {
         return CGSize(width: CGFloat(width), height: CGFloat(height))
     }
 
-    static func += (_ size: CGSize, _ addend: (Double, Double)) -> CGSize {
+    static func + (_ size: CGSize, _ addend: CGSize) -> CGSize {
         var newSize = size
-        newSize.width += CGFloat(addend.0)
-        newSize.height += CGFloat(addend.1)
+        newSize.width += CGFloat(addend.width)
+        newSize.height += CGFloat(addend.height)
+        return newSize
+    }
+
+    static func - (_ size: CGSize, _ addend: CGSize) -> CGSize {
+        var newSize = size
+        newSize.width -= CGFloat(addend.width)
+        newSize.height -= CGFloat(addend.height)
         return newSize
     }
 
@@ -84,6 +95,10 @@ extension CGSize: SizelikeProtocol {
 
     static func / (_ size: CGSize, _ divisor: Double) -> CGSize {
         return size / CGFloat(divisor)
+    }
+
+    static func / (_ size: CGSize, _ divisor: CGPoint) -> CGSize {
+        return CGSize(width: size.width / divisor.x, height: size.height / divisor.y)
     }
 
     static func *= (_ size: inout CGSize, _ multiplier: Double) {
@@ -151,10 +166,15 @@ extension CGPoint: PointlikeProtocol {
         return CGPoint(x: size.width, y: size.height)
     }
 
-    static func += (_ point: CGPoint, _ addend: (Double, Double)) -> CGPoint {
+    static func += (_ point: inout CGPoint, _ addend: CGPoint) {
+        point.x += addend.x
+        point.y += addend.y
+    }
+
+    static func + (_ point: CGPoint, _ addend: CGPoint) -> CGPoint {
         var newPoint = point
-        newPoint.x += CGFloat(addend.0)
-        newPoint.y += CGFloat(addend.1)
+        newPoint.x += CGFloat(addend.x)
+        newPoint.y += CGFloat(addend.y)
         return newPoint
     }
 

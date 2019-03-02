@@ -43,7 +43,8 @@ class Arkonery {
         DebugPortal.shared.specimens[.cPendingGenomes]?.value = pendingGenomes.count
     }}
 
-    let arkonsPortal: SKSpriteNode
+    var arkonsPortal: SKSpriteNode
+    let cropper: SKCropNode
     let dispatchQueue = DispatchQueue(label: "carkonery")
     var launchpad = Launchpad.empty
     let netPortal: SKSpriteNode
@@ -51,8 +52,33 @@ class Arkonery {
     var tickWorkItem: DispatchWorkItem!
 
     init(arkonsPortal: SKSpriteNode, netPortal: SKSpriteNode) {
-        self.arkonsPortal = arkonsPortal
         self.netPortal = netPortal
+
+        self.arkonsPortal = arkonsPortal
+        self.arkonsPortal.colorBlendFactor = 1.0
+        self.cropper = SKCropNode()
+        self.cropper.position = CGPoint.zero
+
+        arkonsPortal.parent!.addChild(cropper)
+        arkonsPortal.removeFromParent()
+        self.cropper.addChild(self.arkonsPortal)
+
+        self.cropper.position = CGPoint(
+            x: -self.cropper.parent!.frame.size.width / 4.0,
+            y: self.cropper.parent!.frame.size.height / 4.0
+        )
+
+        self.arkonsPortal.position = CGPoint.zero
+
+        let maskNode = SKSpriteNode(
+            color: .yellow, size: CGSize.make(self.cropper.parent!.frame.size / 2.0)
+        )
+
+        maskNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        self.cropper.maskNode = maskNode
+
+        self.cropper.zPosition = ArkonCentralLight.vArkonZPosition - 0.01
+
         arkonsPortal.speed = 0.1
     }
 
@@ -120,7 +146,7 @@ class Arkonery {
         guard arkon.birthday > 0 && arkon.myAge > (oldestArkonAge + 0.016) else { return }
 
         oldestArkonAge = arkon.myAge
-        print("oldest = \(oldestArkonAge), my = \(arkon.myAge)")
+//        print("oldest = \(oldestArkonAge), my = \(arkon.myAge)")
 
         guard let kNet = getKNet(arkon) else { return }
         Display.shared.display(kNet, portal: netPortal)

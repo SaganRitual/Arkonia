@@ -71,12 +71,11 @@ class Arkon {
         self.motorOutputs = MotorOutputs(sprite)
 
         self.sprite = sprite
-        let scene = portal.parent!
-        if scene.frame.size != CGSize.zero {
-            let x = Int.random(in: Int(-scene.frame.size.width / 2)..<Int(scene.frame.size.width / 2))
-            let y = Int.random(in: Int(-scene.frame.size.height / 2)..<Int(scene.frame.size.height / 2))
-            self.sprite.position = CGPoint(x: x, y: y)
-        }
+
+        let x = Int.random(in: Int(-portal.frame.size.width)..<Int(portal.frame.size.width))
+        let y = Int.random(in: Int(-portal.frame.size.height)..<Int(portal.frame.size.height))
+        self.sprite.position = CGPoint(x: x, y: y)
+
         portal.addChild(sprite)
 
         self.sprite.userData = ["Arkon": self]  // Ref to self; we're on our own after birth
