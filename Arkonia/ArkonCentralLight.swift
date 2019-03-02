@@ -38,7 +38,7 @@ enum ArkonCentralLight {
     static let vNeuronZPosition = CGFloat(2.0)
 
     static var vNeuronAntiscale = CGFloat(ceil(sqrt(Double(cPortals))))
-    static var vNeuronScale = CGFloat((cPortals == 1) ? (1.0 / 8.0) : (1.0 / 4.0))
+    static var vNeuronScale = CGFloat((cPortals == 1) ? (1.0 / 16.0) : (1.0 / 8.0))
 
     static let vPortalSeparatorsScale = 0.4
     static let vConnectorLineScale = CGFloat(1.0)

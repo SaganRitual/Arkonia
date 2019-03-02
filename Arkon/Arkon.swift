@@ -103,6 +103,19 @@ class Arkon {
 
     deinit {
 //        print("Arkon(\(fishNumber)) deinit")
+        func getArkon(for sprite: SKNode) -> Arkon? {
+            return (((sprite as? SKSpriteNode)?.userData?["Arkon"]) as? Arkon)
+        }
+
+        func getAge(_ node: SKNode) -> TimeInterval {
+            return getArkon(for: node)?.myAge ?? 0
+        }
+
+        let spriteOfOldestArkon = portal.children.max { lhs, rhs in
+            return getAge(lhs) < getAge(rhs)
+        }
+
+        DebugPortal.shared.specimens[.currentOldest]?.value = Int(getAge(spriteOfOldestArkon!))
         self.sprite?.removeFromParent()
 
         // Decrement living count only if I am a living arkon, that is,
@@ -218,7 +231,7 @@ extension Arkon {
 extension Arkon {
     private static func setupSprite(_ fishNumber: Int) -> SKSpriteNode {
         let sprite = SKSpriteNode(texture: ArkonCentralLight.topTexture!)
-        sprite.size *= 0.3
+        sprite.size *= 0.2
         sprite.color = ArkonCentralLight.colors.randomElement()!
         sprite.colorBlendFactor = 0.5
 

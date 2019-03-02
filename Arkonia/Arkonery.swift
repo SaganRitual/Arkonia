@@ -27,8 +27,8 @@ class Arkonery {
     static var aboriginalGenome: Genome { return Assembler.makeRandomGenome(cGenes: 200) }
     static var shared: Arkonery!
 
-    var cArkonBodies = 0 { didSet {
-        DebugPortal.shared.specimens[.cArkonBodies]?.value = cArkonBodies
+    var cAttempted = 0 { didSet {
+        DebugPortal.shared.specimens[.cAttempted]?.value = cAttempted
     }}
 
     var cBirthFailed = 0 { didSet {
@@ -91,7 +91,7 @@ class Arkonery {
     }
 
     private func makeArkon(parentFishNumber: Int?, parentGenome: Genome) -> Launchpad {
-        defer { cArkonBodies += 1 }
+        defer { cAttempted += 1 }
 
         let (newGenome, fNet_) = makeNet(parentGenome: parentGenome)
 
@@ -121,7 +121,10 @@ class Arkonery {
 
     private func scheduleTick() { dispatchQueue.async(execute: tickWorkItem) }
 
-    private var oldestArkonAge: TimeInterval = 0
+    private var oldestArkonAge: TimeInterval = 0 { didSet {
+        DebugPortal.shared.specimens[.recordAge]?.value = Int(oldestArkonAge)
+    }}
+
     func setDisplayNet() {
         func getAge(_ node: SKNode) -> TimeInterval {
             return self.getArkon(for: node)?.myAge ?? 0
@@ -168,7 +171,7 @@ class Arkonery {
         let (parentFishNumber, parentGenome) = pendingGenomes.removeFirst()
         let state = makeArkon(parentFishNumber: parentFishNumber, parentGenome: parentGenome)
 
-        cArkonBodies += 1
+        cAttempted += 1
 
         switch state {
         case .alive:

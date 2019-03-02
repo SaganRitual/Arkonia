@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 enum SpecimenID {
-    case cArkonBodies, cBirthFailed, cLivingArkons, cPendingGenomes
+    case cAttempted, cBirthFailed, cLivingArkons, cPendingGenomes, currentOldest, recordAge
 }
 
 class Specimen: Hashable, Equatable {
@@ -26,7 +26,7 @@ class Specimen: Hashable, Equatable {
         self.sprite.colorBlendFactor = 1.0
         self.sprite.zPosition = ArkonCentralLight.vLabelCotainerZPosition
 
-        self.sprite.setScale(0.5)
+        self.sprite.setScale(0.33)
 
         self.text = text
 
@@ -55,25 +55,29 @@ class DebugPortal {
 
     init(_ display: Display) {
         self.portal = display.getPortal(quadrant: 2)
-        self.portal.color = .black
+        self.portal.color = display.scene!.backgroundColor
         self.portal.colorBlendFactor = 1.0
 
-        addSpecimenViewer(portal: portal, specimenID: .cArkonBodies, text: "cBodies")
+        addSpecimenViewer(portal: portal, specimenID: .cAttempted, text: "cAttempted")
         addSpecimenViewer(portal: portal, specimenID: .cBirthFailed, text: "cFailed")
         addSpecimenViewer(portal: portal, specimenID: .cLivingArkons, text: "cLiving")
         addSpecimenViewer(portal: portal, specimenID: .cPendingGenomes, text: "cPending")
+        addSpecimenViewer(portal: portal, specimenID: .currentOldest, text: "currentOldest")
+        addSpecimenViewer(portal: portal, specimenID: .recordAge, text: "recordAge")
     }
 
     func addSpecimenViewer(portal: SKSpriteNode, specimenID: SpecimenID, text: String) {
         let specimen = Specimen(portal: portal, specimenID: specimenID, text: text)
         self.specimens[specimenID] = specimen
 
-        let increment = CGPoint(portal.parent!.frame.size / 4)
+        let increment = CGPoint(portal.parent!.frame.size / 6)
         switch specimenID {
-        case .cArkonBodies:     specimen.sprite.position = increment * CGPoint(x:  1, y:  1)
-        case .cBirthFailed:     specimen.sprite.position = increment * CGPoint(x: -1, y:  1)
-        case .cLivingArkons:    specimen.sprite.position = increment * CGPoint(x: -1, y: -1)
-        case .cPendingGenomes:  specimen.sprite.position = increment * CGPoint(x:  1, y: -1)
+        case .cAttempted:      specimen.sprite.position = increment * CGPoint(x: -2, y:  2)
+        case .cBirthFailed:    specimen.sprite.position = increment * CGPoint(x:  0, y:  2)
+        case .cLivingArkons:   specimen.sprite.position = increment * CGPoint(x:  0, y:  0)
+        case .cPendingGenomes: specimen.sprite.position = increment * CGPoint(x: -2, y:  0)
+        case .currentOldest:   specimen.sprite.position = increment * CGPoint(x: -2, y: -2)
+        case .recordAge:       specimen.sprite.position = increment * CGPoint(x:  0, y: -2)
         }
     }
 
