@@ -14,6 +14,7 @@ class World {
     init() {
         World.setSelectionControls()
 
+        let q = Display.shared.getPortal(quadrant: 0)
         let p = Display.shared.getPortal(quadrant: 1)
         self.portal = p
 
@@ -24,7 +25,7 @@ class World {
 //        repeller.minimumRadius = 100.0
         p.addChild(repeller)
 
-        Arkonery.shared = Arkonery(portal: p)
+        Arkonery.shared = Arkonery(arkonsPortal: p, netPortal: q)
         self.arkonery = Arkonery.shared
         self.arkonery.postInit()
 

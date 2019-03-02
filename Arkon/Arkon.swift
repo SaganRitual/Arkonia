@@ -4,6 +4,7 @@ import SpriteKit
 class Arkon {
     static private var lifespanInTicks = 60
 
+    let birthday: TimeInterval
     private var canHaveMoreOffspring = true
     private var destructAction: SKAction!
     let fishNumber: Int
@@ -12,7 +13,7 @@ class Arkon {
     private var hasGivenBirth = false
     private var health = 3000.0
     private var isAlive = false
-    private var kNet: KNet!
+    var kNet: KNet!
     private var motorOutputs: MotorOutputs!
     private var portal: SKSpriteNode!
     private var previousPosition: CGPoint?
@@ -38,9 +39,13 @@ class Arkon {
         return portal.frame.contains(arkonRectangle)
     }
 
+    var myAge: TimeInterval { return Display.shared.currentTime - self.birthday }
+
     init?(genome: Genome, fNet: FNet, portal: SKSpriteNode) {
         self.fishNumber = ArkonCentralDark.selectionControls.theFishNumber
         ArkonCentralDark.selectionControls.theFishNumber += 1
+
+        self.birthday = Display.shared.currentTime
 
         self.portal = portal
 
@@ -144,8 +149,7 @@ extension Arkon {
         self.isAlive = true
 
         if self.sprite.userData == nil { preconditionFailure("Shouldn't happen; I'm desperate") }
-        if !self.isInBounds { apoptosize(); return }
-        if !self.isHealthy { apoptosize(); return }
+        if !self.isInBounds || !self.isHealthy { apoptosize(); return }
 
         health -= 1.0 // Time ever marches on
         if health > 3000 {
@@ -205,7 +209,7 @@ extension Arkon {
 //        let w = SKAction.wait(forDuration: period)
 
 //        self.sprite.run(SKAction.sequence([md, w, r]))
-        self.sprite.run(SKAction.sequence([md, self.tickAction]))
+        self.sprite.run(md, completion: { [unowned self] in self.tick() })
 //        self.sprite.run(self.tickAction)
     }
 }

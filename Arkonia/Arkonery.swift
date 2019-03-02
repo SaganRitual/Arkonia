@@ -5,6 +5,24 @@ extension Foundation.Notification.Name {
     static let arkonIsBorn = Foundation.Notification.Name("arkonIsBorn")
 }
 
+enum Launchpad: Equatable {
+    static func == (lhs: Launchpad, rhs: Launchpad) -> Bool {
+        func isEmpty(_ theThing: Launchpad) -> Bool {
+            switch theThing {
+            case .alive: return false
+            case .dead: return false
+            case .empty: return true
+            }
+        }
+
+        return isEmpty(lhs) && isEmpty(rhs)
+    }
+
+    case alive(Int?, Arkon)
+    case dead(Int?)
+    case empty
+}
+
 class Arkonery {
     static var aboriginalGenome: Genome { return Assembler.makeRandomGenome(cGenes: 200) }
     static var shared: Arkonery!
@@ -25,18 +43,25 @@ class Arkonery {
         DebugPortal.shared.specimens[.cPendingGenomes]?.value = pendingGenomes.count
     }}
 
+    let arkonsPortal: SKSpriteNode
     let dispatchQueue = DispatchQueue(label: "carkonery")
+    var launchpad = Launchpad.empty
+    let netPortal: SKSpriteNode
     let notificationCanter = NotificationCenter.default
-    let portal: SKSpriteNode
     var tickWorkItem: DispatchWorkItem!
 
-    init(portal: SKSpriteNode) {
-        self.portal = portal
-        portal.speed = 0.1
+    init(arkonsPortal: SKSpriteNode, netPortal: SKSpriteNode) {
+        self.arkonsPortal = arkonsPortal
+        self.netPortal = netPortal
+        arkonsPortal.speed = 0.1
     }
 
     func postInit() {
         self.tickWorkItem = DispatchWorkItem { [unowned self] in self.tick() }
+    }
+
+    private func getArkon(for sprite: SKNode) -> Arkon? {
+        return (((sprite as? SKSpriteNode)?.userData?["Arkon"]) as? Arkon)
     }
 
     private func makeArkon(parentFishNumber: Int?, parentGenome: Genome) -> Launchpad {
@@ -47,7 +72,7 @@ class Arkonery {
         guard let fNet = fNet_, !fNet.layers.isEmpty
             else { return .dead(parentFishNumber) }
 
-        guard let arkon = Arkon(genome: newGenome, fNet: fNet, portal: portal)
+        guard let arkon = Arkon(genome: newGenome, fNet: fNet, portal: arkonsPortal)
             else { return .dead(parentFishNumber) }
 
        return .alive(parentFishNumber, arkon)
@@ -68,6 +93,39 @@ class Arkonery {
         )
     }
 
+    private func scheduleTick() { dispatchQueue.async(execute: tickWorkItem) }
+
+    private var oldestArkonAge: TimeInterval = 0
+    func setDisplayNet() {
+        func getAge(_ node: SKNode) -> TimeInterval {
+            return self.getArkon(for: node)?.myAge ?? 0
+        }
+
+        func getArkon(_ dictionary: NSMutableDictionary?) -> Arkon? {
+            return dictionary?["Arkon"] as? Arkon
+        }
+
+        func getKNet(_ arkon: Arkon) -> KNet? {
+            return arkon.signalDriver.kNet
+        }
+
+        if arkonsPortal.children.isEmpty { return }
+
+        let spriteOfOldestArkon = arkonsPortal.children.max { lhs, rhs in
+            return getAge(lhs) < getAge(rhs)
+        }
+
+        guard let sprite = spriteOfOldestArkon else { return }
+        guard let arkon = getArkon(sprite.userData) else { return }
+        guard arkon.birthday > 0 && arkon.myAge > (oldestArkonAge + 0.016) else { return }
+
+        oldestArkonAge = arkon.myAge
+        print("oldest = \(oldestArkonAge), my = \(arkon.myAge)")
+
+        guard let kNet = getKNet(arkon) else { return }
+        Display.shared.display(kNet, portal: netPortal)
+    }
+
     func spawn(parentID: Int?, parentGenome: Genome) {
         dispatchQueue.async { [unowned self] in
             let needTick = self.pendingGenomes.isEmpty
@@ -75,28 +133,6 @@ class Arkonery {
             if needTick { self.dispatchQueue.async(execute: self.tickWorkItem) }
         }
     }
-
-    enum Launchpad: Equatable {
-        static func == (lhs: Arkonery.Launchpad, rhs: Arkonery.Launchpad) -> Bool {
-            func isEmpty(_ theThing: Arkonery.Launchpad) -> Bool {
-                switch theThing {
-                case .alive: return false
-                case .dead: return false
-                case .empty: return true
-                }
-            }
-
-            return isEmpty(lhs) && isEmpty(rhs)
-        }
-
-        case alive(Int?, Arkon)
-        case dead(Int?)
-        case empty
-    }
-
-    var launchpad = Launchpad.empty
-
-    func scheduleTick() { dispatchQueue.async(execute: tickWorkItem) }
 
     func tick() {
         defer { if !pendingGenomes.isEmpty { scheduleTick() } }
@@ -114,10 +150,10 @@ class Arkonery {
             launchpad = state
 
         case .dead(.none):
-            self.cBirthFailed += 1
+            cBirthFailed += 1
 
         case .dead(.some(let parentFishNumber)):
-            self.cBirthFailed += 1
+            cBirthFailed += 1
             Arkonery.reviveSpawner(fishNumber: parentFishNumber)
 
         // makeArkon() shouldn't return this; it's n/a to arkon state

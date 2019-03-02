@@ -51,6 +51,10 @@ class Display: NSObject, SKSceneDelegate {
         tickCount += 1
         self.currentTime = currentTime
 
+        if tickCount % 30 == 0 {
+            Arkonery.shared.setDisplayNet()
+        }
+
         DebugPortal.shared.tick()
 
         if case let .alive(parentFishNumber, newborn) = Arkonery.shared.launchpad {
@@ -59,7 +63,12 @@ class Display: NSObject, SKSceneDelegate {
         }
 
         if kNets.isEmpty { return }
-        kNets.forEach { DNet($0.1).display(via: $0.0) }
+        if currentTime == 0 { return }
+
+        kNets.forEach { portal, kNet in
+            World.shared.dispatchQueue.async { DNet(kNet).display(via: portal) }
+        }
+
         kNets.removeAll()
     }
 }
