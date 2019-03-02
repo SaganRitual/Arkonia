@@ -7,19 +7,20 @@ class Display: NSObject, SKSceneDelegate {
     var currentTime: TimeInterval = 0
     private var frameCount = 0
     private var kNets = [SKSpriteNode: KNet]()
-    private var portalServer: DPortalServer
     private var quadrants = [Int: SKSpriteNode]()
     public weak var scene: SKScene?
     public var tickCount = 0
 
     init(_ scene: SKScene) {
         self.scene = scene
-        self.portalServer = DPortalServer(scene)
+        DPortalServer.shared = DPortalServer(scene)
 
         super.init()
 
         scene.delegate = self
         scene.physicsWorld.gravity = CGVector.zero
+
+        DebugPortal.shared = DebugPortal(self)
     }
 
     /**
@@ -41,7 +42,7 @@ class Display: NSObject, SKSceneDelegate {
 
     func getPortal(quadrant: Int) -> SKSpriteNode {
         if let p = quadrants[quadrant] { return p }
-        let q = portalServer.getPortal(quadrant)
+        let q = DPortalServer.shared.getPortal(quadrant)
         quadrants[quadrant] = q
         return q
     }
@@ -49,6 +50,8 @@ class Display: NSObject, SKSceneDelegate {
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
         tickCount += 1
         self.currentTime = currentTime
+
+        DebugPortal.shared.tick()
 
         if case let .alive(parentFishNumber, newborn) = Arkonery.shared.launchpad {
             newborn.launch(parentFishNumber: parentFishNumber)

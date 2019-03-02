@@ -32,6 +32,8 @@ enum ArkonCentralLight {
 
     static let vArkonZPosition = CGFloat(4.0)
     static let vBorderZPosition = CGFloat(3.0)
+    static let vLabelZPosition = CGFloat(4.0)
+    static let vLabelCotainerZPosition = CGFloat(3.9)
     static let vLineZPosition = CGFloat(1.0)
     static let vNeuronZPosition = CGFloat(2.0)
 

@@ -9,11 +9,24 @@ class Arkonery {
     static var aboriginalGenome: Genome { return Assembler.makeRandomGenome(cGenes: 200) }
     static var shared: Arkonery!
 
-    var cAliveArkons = 0
-    var cArkonBodies = 0
+    var cArkonBodies = 0 { didSet {
+        DebugPortal.shared.specimens[.cArkonBodies]?.value = cArkonBodies
+    }}
+
+    var cBirthFailed = 0 { didSet {
+        DebugPortal.shared.specimens[.cBirthFailed]?.value = cBirthFailed
+    }}
+
+    var cLivingArkons = 0 { didSet {
+        DebugPortal.shared.specimens[.cLivingArkons]?.value = cLivingArkons
+    }}
+
+    var pendingGenomes = [(Int?, Genome)]() { didSet {
+        DebugPortal.shared.specimens[.cPendingGenomes]?.value = pendingGenomes.count
+    }}
+
     let dispatchQueue = DispatchQueue(label: "carkonery")
     let notificationCanter = NotificationCenter.default
-    var pendingGenomes = [(Int?, Genome)]()
     let portal: SKSpriteNode
     var tickWorkItem: DispatchWorkItem!
 
@@ -41,8 +54,6 @@ class Arkonery {
     }
 
     private func makeNet(parentGenome: Genome) -> (Genome, FNet?) {
-        defer { cAliveArkons += 1 }
-
         let newGenome = parentGenome.copy()
         Mutator.shared.mutate(newGenome)
 
@@ -95,14 +106,18 @@ class Arkonery {
         let (parentFishNumber, parentGenome) = pendingGenomes.removeFirst()
         let state = makeArkon(parentFishNumber: parentFishNumber, parentGenome: parentGenome)
 
+        cArkonBodies += 1
+
         switch state {
         case .alive:
+            cLivingArkons += 1
             launchpad = state
 
         case .dead(.none):
-            break
+            self.cBirthFailed += 1
 
         case .dead(.some(let parentFishNumber)):
+            self.cBirthFailed += 1
             Arkonery.reviveSpawner(fishNumber: parentFishNumber)
 
         // makeArkon() shouldn't return this; it's n/a to arkon state

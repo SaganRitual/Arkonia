@@ -97,6 +97,10 @@ extension CGSize: SizelikeProtocol {
         newSize.height *= CGFloat(multiplier)
         return newSize
     }
+
+    static prefix func - (_ size: CGSize) -> CGSize {
+        return size * -1
+    }
 }
 
 extension CGVector: PointlikeProtocol {
@@ -141,6 +145,10 @@ extension CGPoint: PointlikeProtocol {
 
     static func random(x: Range<Double>, y: Range<Double>) -> CGPoint {
         return CGPoint(x: Double.random(in: x), y: Double.random(in: y))
+    }
+
+    static public func make(_ size: CGSize) -> CGPoint {
+        return CGPoint(x: size.width, y: size.height)
     }
 
     static func += (_ point: CGPoint, _ addend: (Double, Double)) -> CGPoint {
@@ -200,10 +208,10 @@ extension CGPoint: PointlikeProtocol {
         return newPoint
     }
 
-    static func * (_ point: CGPoint, _ multiplier: (Double, Double)) -> CGPoint {
+    static func * (_ point: CGPoint, _ multiplier: CGPoint) -> CGPoint {
         var newPoint = point
-        newPoint.x *= CGFloat(multiplier.0)
-        newPoint.y *= CGFloat(multiplier.1)
+        newPoint.x *= multiplier.x
+        newPoint.y *= multiplier.y
         return newPoint
     }
 

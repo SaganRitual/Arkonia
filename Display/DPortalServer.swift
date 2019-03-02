@@ -1,8 +1,6 @@
 import Foundation
 import SpriteKit
 
-typealias QuadrantMultiplier = (x: Double, y: Double)
-
 class DPortalServer {
     static var shared: DPortalServer!
 
@@ -22,7 +20,12 @@ class DPortalServer {
         if let portal = portals[portalNumber] { return portal }
 
         let spriteTexture = ArkonCentralLight.sceneBackgroundTexture!
-        let quadrantMultipliers: [QuadrantMultiplier] = [(1, 1), (-1, 1), (-1, -1), (1, -1)]
+
+        let quadrantMultipliers: [CGPoint] = [
+            CGPoint(x: 1, y: 1), CGPoint(x: -1, y: 1),
+            CGPoint(x: -1, y: -1), CGPoint(x: 1, y: -1)
+        ]
+
         let quarterOrigin = CGPoint(scene!.size / quadrantMultipliers.count)
 
         let portal = SKSpriteNode(texture: spriteTexture)
@@ -35,7 +38,7 @@ class DPortalServer {
 
         precondition(cPortals > 0)
         portal.size = self.scene!.size
-        portal.setScale(1.0 / CGFloat(sqrt(Double(quadrantMultipliers.count))))
+        portal.setScale(1.0 / CGFloat(sqrt(Double(cPortals))))
 
         portals[portalNumber] = portal
         scene!.addChild(portal)

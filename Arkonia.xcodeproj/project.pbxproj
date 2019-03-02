@@ -131,6 +131,7 @@
 		D4BB13102207BD58004C2242 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046822070F7400823D57 /* Extensions.swift */; };
 		D4BB13112207BD9C004C2242 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468803E2207A4B700405F54 /* Protocols.swift */; };
 		D4BB13122207BE15004C2242 /* GProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF9220762680002BC58 /* GProtocols.swift */; };
+		D4C1D174222981E3002D4DEA /* DebugPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C1D173222981E3002D4DEA /* DebugPortal.swift */; };
 		D4C266242210BC4F00325F05 /* Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C266232210BC4F00325F05 /* Display.swift */; };
 		D4C2662622110D8400325F05 /* DPortalServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C2662522110D8400325F05 /* DPortalServer.swift */; };
 		D4D604A62207292800823D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4D604A52207292800823D57 /* Assets.xcassets */; };
@@ -216,19 +217,6 @@
 		D46D6C0122076AAF0001F5D0 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D46D6C0222076AAF0001F5D0 /* MutatorSubtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutatorSubtract.swift; sourceTree = "<group>"; };
 		D46D6C0322076AAF0001F5D0 /* MutatorAdd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutatorAdd.swift; sourceTree = "<group>"; };
-		D46D6C1122076BD60001F5D0 /* Archive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
-		D46D6C1222076BD60001F5D0 /* PeerGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeerGroup.swift; sourceTree = "<group>"; };
-		D46D6C1322076BD60001F5D0 /* Selector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Selector.swift; sourceTree = "<group>"; };
-		D46D6C1422076BD60001F5D0 /* Curator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curator.swift; sourceTree = "<group>"; };
-		D46D6C1B22076C000001F5D0 /* GSTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSTester.swift; sourceTree = "<group>"; };
-		D46D6C1C22076C000001F5D0 /* GSCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSCommon.swift; sourceTree = "<group>"; };
-		D46D6C1D22076C000001F5D0 /* GSGoalSuite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSGoalSuite.swift; sourceTree = "<group>"; };
-		D46D6C1E22076C000001F5D0 /* GSSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSSubject.swift; sourceTree = "<group>"; };
-		D46D6C1F22076C000001F5D0 /* GSFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSFactory.swift; sourceTree = "<group>"; };
-		D46D6C2122076C000001F5D0 /* AASubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AASubject.swift; sourceTree = "<group>"; };
-		D46D6C2222076C000001F5D0 /* AAFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAFactory.swift; sourceTree = "<group>"; };
-		D46D6C2322076C000001F5D0 /* AATester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AATester.swift; sourceTree = "<group>"; };
-		D46D6C2422076C000001F5D0 /* AAGoalSuite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AAGoalSuite.swift; sourceTree = "<group>"; };
 		D46D6C3822076C970001F5D0 /* KSignalDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSignalDriver.swift; sourceTree = "<group>"; };
 		D46D6C3922076C970001F5D0 /* KExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KExtensions.swift; sourceTree = "<group>"; };
 		D46D6C3A22076C970001F5D0 /* KConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KConnector.swift; sourceTree = "<group>"; };
@@ -248,6 +236,7 @@
 		D4BB12F82207B8DB004C2242 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4BB12FC2207BB0D004C2242 /* DTNetMeat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DTNetMeat.swift; sourceTree = "<group>"; };
 		D4BB13002207BBE2004C2242 /* ConnectionSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionSpec.swift; sourceTree = "<group>"; };
+		D4C1D173222981E3002D4DEA /* DebugPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPortal.swift; sourceTree = "<group>"; };
 		D4C266232210BC4F00325F05 /* Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Display.swift; sourceTree = "<group>"; };
 		D4C2662522110D8400325F05 /* DPortalServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DPortalServer.swift; sourceTree = "<group>"; };
 		D4D1D299220705430099DBC2 /* Arkonia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arkonia.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -447,49 +436,6 @@
 			path = Mutator;
 			sourceTree = "<group>";
 		};
-		D46D6C1022076BD60001F5D0 /* Curation */ = {
-			isa = PBXGroup;
-			children = (
-				D46D6C1122076BD60001F5D0 /* Archive.swift */,
-				D46D6C1422076BD60001F5D0 /* Curator.swift */,
-				D46D6C1222076BD60001F5D0 /* PeerGroup.swift */,
-				D46D6C1322076BD60001F5D0 /* Selector.swift */,
-			);
-			path = Curation;
-			sourceTree = "<group>";
-		};
-		D46D6C1922076C000001F5D0 /* GoalSuites */ = {
-			isa = PBXGroup;
-			children = (
-				D46D6C2022076C000001F5D0 /* GSAdder */,
-				D46D6C1A22076C000001F5D0 /* GSCore */,
-			);
-			path = GoalSuites;
-			sourceTree = "<group>";
-		};
-		D46D6C1A22076C000001F5D0 /* GSCore */ = {
-			isa = PBXGroup;
-			children = (
-				D46D6C1C22076C000001F5D0 /* GSCommon.swift */,
-				D46D6C1F22076C000001F5D0 /* GSFactory.swift */,
-				D46D6C1D22076C000001F5D0 /* GSGoalSuite.swift */,
-				D46D6C1E22076C000001F5D0 /* GSSubject.swift */,
-				D46D6C1B22076C000001F5D0 /* GSTester.swift */,
-			);
-			path = GSCore;
-			sourceTree = "<group>";
-		};
-		D46D6C2022076C000001F5D0 /* GSAdder */ = {
-			isa = PBXGroup;
-			children = (
-				D46D6C2222076C000001F5D0 /* AAFactory.swift */,
-				D46D6C2422076C000001F5D0 /* AAGoalSuite.swift */,
-				D46D6C2122076C000001F5D0 /* AASubject.swift */,
-				D46D6C2322076C000001F5D0 /* AATester.swift */,
-			);
-			path = GSAdder;
-			sourceTree = "<group>";
-		};
 		D46D6C3722076C690001F5D0 /* Kinetics */ = {
 			isa = PBXGroup;
 			children = (
@@ -543,10 +489,8 @@
 				D4D1D29B220705430099DBC2 /* Arkonia */,
 				D4EB4697220770A100DA2544 /* ArkoniaDarkTests */,
 				D4D6049A2207292800823D57 /* ArkoniaDisplayTests */,
-				D46D6C1022076BD60001F5D0 /* Curation */,
 				D4D6046D2207105A00823D57 /* Display */,
 				D4072BF3220762680002BC58 /* Genome */,
-				D46D6C1922076C000001F5D0 /* GoalSuites */,
 				D46D6C3722076C690001F5D0 /* Kinetics */,
 				D46D6C0022076AAF0001F5D0 /* Mutator */,
 				D4D60487220710F300823D57 /* NetFrame */,
@@ -595,6 +539,7 @@
 		D4D6046D2207105A00823D57 /* Display */ = {
 			isa = PBXGroup;
 			children = (
+				D4C1D173222981E3002D4DEA /* DebugPortal.swift */,
 				D4C266232210BC4F00325F05 /* Display.swift */,
 				D47246DA22116DE6002AA25F /* DLayer.swift */,
 				D47246D622116C1A002AA25F /* DNet.swift */,
@@ -1133,6 +1078,7 @@
 				D46D6C4222076C970001F5D0 /* KConnector.swift in Sources */,
 				D4F17C68221E5DDB00CB287C /* World.swift in Sources */,
 				D46D6BE82207693C0001F5D0 /* KIdentifier.swift in Sources */,
+				D4C1D174222981E3002D4DEA /* DebugPortal.swift in Sources */,
 				D46D6BFA220769E50001F5D0 /* UpConnector.swift in Sources */,
 				D46D6BFE22076A5A0001F5D0 /* CGConversions.swift in Sources */,
 				D46D6C0922076AEC0001F5D0 /* GenomeSubtract.swift in Sources */,

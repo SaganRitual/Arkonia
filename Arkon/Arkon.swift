@@ -11,6 +11,7 @@ class Arkon {
     private let genome: Genome
     private var hasGivenBirth = false
     private var health = 3000.0
+    private var isAlive = false
     private var kNet: KNet!
     private var motorOutputs: MotorOutputs!
     private var portal: SKSpriteNode!
@@ -99,7 +100,13 @@ class Arkon {
     deinit {
 //        print("Arkon(\(fishNumber)) deinit")
         self.sprite?.removeFromParent()
-        World.shared.arkonery.cAliveArkons -= 1
+
+        // Decrement living count only if I am a living arkon, that is,
+        // if I survived birth.
+        if self.isAlive {
+            World.shared.arkonery.cLivingArkons -= 1
+            self.isAlive = false // Tidiness/superstition
+        }
     }
 }
 
@@ -132,8 +139,10 @@ extension Arkon {
         return vectors
     }
 
-    // swiftlint:disable function_body_length
     private func tick() {
+
+        self.isAlive = true
+
         if self.sprite.userData == nil { preconditionFailure("Shouldn't happen; I'm desperate") }
         if !self.isInBounds { apoptosize(); return }
         if !self.isHealthy { apoptosize(); return }
@@ -199,7 +208,6 @@ extension Arkon {
         self.sprite.run(SKAction.sequence([md, self.tickAction]))
 //        self.sprite.run(self.tickAction)
     }
-    // swiftlint:enable function_body_length
 }
 
 // MARK: Initialization
