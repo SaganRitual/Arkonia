@@ -29,7 +29,7 @@ class DPortalServer {
         let quarterOrigin = CGPoint(scene!.size / quadrantMultipliers.count)
 
         let portal = SKSpriteNode(texture: spriteTexture)
-        portal.color = scene!.backgroundColor
+        portal.color = .black//scene!.backgroundColor
         portal.colorBlendFactor = 1.0
 
         portal.anchorPoint = CGPoint(x: 0.5, y: 0.5)

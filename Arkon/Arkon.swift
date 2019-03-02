@@ -108,14 +108,15 @@ class Arkon {
         }
 
         func getAge(_ node: SKNode) -> TimeInterval {
-            return getArkon(for: node)?.myAge ?? 0
+            guard let arkon = getArkon(for: node) else { return 0 }
+            return (arkon.birthday > 0) ? arkon.myAge : 0
         }
 
-        let spriteOfOldestArkon = portal.children.max { lhs, rhs in
+        let spriteOfOldestLivingArkon = portal.children.max { lhs, rhs in
             return getAge(lhs) < getAge(rhs)
         }
 
-        DebugPortal.shared.specimens[.currentOldest]?.value = Int(getAge(spriteOfOldestArkon!))
+        DebugPortal.shared.specimens[.currentOldest]?.value = Int(getAge(spriteOfOldestLivingArkon!))
         self.sprite?.removeFromParent()
 
         // Decrement living count only if I am a living arkon, that is,
@@ -240,12 +241,17 @@ extension Arkon {
         sprite.name = "\(fishNumber)"
 
         sprite.physicsBody = SKPhysicsBody(circleOfRadius: 15.0)
+//        sprite.physicsBody!.mass = 0.5
         sprite.physicsBody!.affectedByGravity = true
         sprite.physicsBody!.isDynamic = true
         sprite.physicsBody!.categoryBitMask = 0x01
         sprite.physicsBody!.collisionBitMask = 0x01
         sprite.physicsBody!.fieldBitMask = 0x01
         sprite.physicsBody!.contactTestBitMask = 0x01
+
+//        sprite.physicsBody!.friction = 1.0
+        sprite.physicsBody!.linearDamping = 1.0
+        sprite.physicsBody!.angularDamping = 1.0
 
         return sprite
     }

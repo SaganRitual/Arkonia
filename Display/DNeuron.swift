@@ -71,8 +71,8 @@ extension DNeuron {
     }
 
     private func drawLine(from start: CGPoint, to end: CGPoint, heat: Double) {
-        let color = DNeuron.makeColor(heat)
-//        let color = ArkonCentralLight.makeColor(hexRGB: 0x47db47)
+//        let color = DNeuron.makeColor(heat)
+        let color = ArkonCentralLight.makeColor(hexRGB: 0x47db47)
         let line = DNeuron.drawLine(from: start, to: end, color: color)
         portal.addChild(line)
     }

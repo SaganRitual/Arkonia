@@ -14,18 +14,17 @@ class World {
     init() {
         World.setSelectionControls()
 
-        let q = Display.shared.getPortal(quadrant: 0)
-        let p = Display.shared.getPortal(quadrant: 1)
-        self.portal = p
+        let arkonsPortal = Display.shared.getPortal(quadrant: 1)
+        let netPortal = Display.shared.getPortal(quadrant: 0)
+        self.portal = arkonsPortal
 
         let repeller = SKFieldNode.radialGravityField()
-        repeller.strength = -0.1
+        repeller.strength = -0.5
         repeller.falloff = 1.2
         repeller.isEnabled = true
-//        repeller.minimumRadius = 100.0
-        p.addChild(repeller)
+        arkonsPortal.addChild(repeller)
 
-        Arkonery.shared = Arkonery(arkonsPortal: p, netPortal: q)
+        Arkonery.shared = Arkonery(arkonsPortal: arkonsPortal, netPortal: netPortal)
         self.arkonery = Arkonery.shared
         self.arkonery.postInit()
 
@@ -35,7 +34,7 @@ class World {
 
     func postInit() {
         // Starter population
-        (-50..<0).forEach { _ in
+        (-100..<0).forEach { _ in
             self.arkonery.spawn(parentID: nil, parentGenome: Arkonery.aboriginalGenome)
         }
     }

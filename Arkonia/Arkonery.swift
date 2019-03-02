@@ -57,22 +57,19 @@ class Arkonery {
         self.arkonsPortal = arkonsPortal
         self.arkonsPortal.colorBlendFactor = 1.0
         self.cropper = SKCropNode()
-        self.cropper.position = CGPoint.zero
 
-        arkonsPortal.parent!.addChild(cropper)
+        self.cropper.position = CGPoint(x: -Display.shared.scene!.frame.size.width / 4.0, y: 0)
+
+        Display.shared.scene!.addChild(cropper)
         arkonsPortal.removeFromParent()
         self.cropper.addChild(self.arkonsPortal)
 
-        self.cropper.position = CGPoint(
-            x: -self.cropper.parent!.frame.size.width / 4.0,
-            y: self.cropper.parent!.frame.size.height / 4.0
-        )
-
+        self.arkonsPortal.size.height *= 2.0
         self.arkonsPortal.position = CGPoint.zero
 
-        let maskNode = SKSpriteNode(
-            color: .yellow, size: CGSize.make(self.cropper.parent!.frame.size / 2.0)
-        )
+        let height = Display.shared.scene!.frame.size.height * 0.99
+        let width = Display.shared.scene!.frame.size.width / 2.0 * 0.99
+        let maskNode = SKSpriteNode( color: .yellow, size: CGSize.make(width, height))
 
         maskNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.cropper.maskNode = maskNode
@@ -140,16 +137,15 @@ class Arkonery {
 
         if arkonsPortal.children.isEmpty { return }
 
-        let spriteOfOldestArkon = arkonsPortal.children.max { lhs, rhs in
+        let spriteOfOldestLivingArkon = arkonsPortal.children.max { lhs, rhs in
             return getAge(lhs) < getAge(rhs)
         }
 
-        guard let sprite = spriteOfOldestArkon else { return }
+        guard let sprite = spriteOfOldestLivingArkon else { return }
         guard let arkon = getArkon(sprite.userData) else { return }
         guard arkon.birthday > 0 && arkon.myAge > (oldestArkonAge + 0.016) else { return }
 
         oldestArkonAge = arkon.myAge
-//        print("oldest = \(oldestArkonAge), my = \(arkon.myAge)")
 
         guard let kNet = getKNet(arkon) else { return }
         Display.shared.display(kNet, portal: netPortal)

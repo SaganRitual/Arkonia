@@ -3,6 +3,7 @@ import SpriteKit
 
 enum SpecimenID {
     case cAttempted, cBirthFailed, cLivingArkons, cPendingGenomes, currentOldest, recordAge
+    case unused1, unused2, unused3
 }
 
 class Specimen: Hashable, Equatable {
@@ -54,7 +55,7 @@ class DebugPortal {
     var specimens = [SpecimenID: Specimen]()
 
     init(_ display: Display) {
-        self.portal = display.getPortal(quadrant: 2)
+        self.portal = display.getPortal(quadrant: 3)
         self.portal.color = display.scene!.backgroundColor
         self.portal.colorBlendFactor = 1.0
 
@@ -64,6 +65,7 @@ class DebugPortal {
         addSpecimenViewer(portal: portal, specimenID: .cPendingGenomes, text: "cPending")
         addSpecimenViewer(portal: portal, specimenID: .currentOldest, text: "currentOldest")
         addSpecimenViewer(portal: portal, specimenID: .recordAge, text: "recordAge")
+
     }
 
     func addSpecimenViewer(portal: SKSpriteNode, specimenID: SpecimenID, text: String) {
@@ -78,6 +80,7 @@ class DebugPortal {
         case .cPendingGenomes: specimen.sprite.position = increment * CGPoint(x: -2, y:  0)
         case .currentOldest:   specimen.sprite.position = increment * CGPoint(x: -2, y: -2)
         case .recordAge:       specimen.sprite.position = increment * CGPoint(x:  0, y: -2)
+        default: preconditionFailure()
         }
     }
 
