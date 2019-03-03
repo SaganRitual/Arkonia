@@ -34,7 +34,7 @@ class World {
 
     func postInit() {
         // Starter population
-        (-100..<0).forEach { _ in
+        (-200..<0).forEach { _ in
             self.arkonery.spawn(parentID: nil, parentGenome: Arkonery.aboriginalGenome)
         }
     }

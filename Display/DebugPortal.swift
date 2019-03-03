@@ -74,12 +74,12 @@ class DebugPortal {
 
         let increment = CGPoint(portal.parent!.frame.size / 6)
         switch specimenID {
-        case .cAttempted:      specimen.sprite.position = increment * CGPoint(x: -2, y:  2)
-        case .cBirthFailed:    specimen.sprite.position = increment * CGPoint(x:  0, y:  2)
+        case .cAttempted:      specimen.sprite.position = increment * CGPoint(x: -2, y:  0)
+        case .cBirthFailed:    specimen.sprite.position = increment * CGPoint(x: -2, y: -2)
         case .cLivingArkons:   specimen.sprite.position = increment * CGPoint(x:  0, y:  0)
-        case .cPendingGenomes: specimen.sprite.position = increment * CGPoint(x: -2, y:  0)
-        case .currentOldest:   specimen.sprite.position = increment * CGPoint(x: -2, y: -2)
-        case .recordAge:       specimen.sprite.position = increment * CGPoint(x:  0, y: -2)
+        case .cPendingGenomes: specimen.sprite.position = increment * CGPoint(x:  0, y: -2)
+        case .currentOldest:   specimen.sprite.position = increment * CGPoint(x:  2, y:  0)
+        case .recordAge:       specimen.sprite.position = increment * CGPoint(x:  2, y: -2)
         default: preconditionFailure()
         }
     }
