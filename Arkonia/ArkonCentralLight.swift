@@ -65,3 +65,14 @@ enum ArkonCentralLight {
 
     static func unscale(_ position: CGPoint) -> CGPoint { return position * vNeuronAntiscale }
 }
+
+// MARK: Bitmasks for physics contacts & collisions
+
+extension ArkonCentralLight {
+    enum PhysicsBitmask: UInt32 {
+        case arkonBody = 0x01
+        case arkonSenses = 0x02
+        case mannaBody = 0x04
+        case repeller = 0x08
+    }
+}
