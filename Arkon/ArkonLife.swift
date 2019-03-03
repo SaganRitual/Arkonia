@@ -36,6 +36,7 @@ extension Arkon {
             guard let f = u["parentFishNumber"] else { return }
 
             if f == myself.fishNumber {
+                myself.health = 5.0 // Artificially limit reproduction until I get food implemented
                 myself.sprite.run(myself.tickAction)
                 nCenter.removeObserver(observer!)
             }
@@ -69,7 +70,9 @@ extension Arkon {
         if health > 20 { spawn(); return }
 
         health -= 1.0       // Time and tick wait for no arkon
-        health += 1000.0 / ((dToOrigin < 1) ? 1 : pow(dToOrigin, 1.2))
+        let karma = 1000.0 / ((dToOrigin < 1) ? 1 : pow(dToOrigin, 1.2))
+        health += karma
+//        print("Arkon(\(fishNumber)) karma = \(karma) health = \(health)")
 
         stimulus(dToOrigin: dToOrigin)
         response()

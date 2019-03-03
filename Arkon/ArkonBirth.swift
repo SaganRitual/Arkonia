@@ -3,8 +3,19 @@ import SpriteKit
 
 extension Arkon {
 
+    private func attachSenses(_ senses: SKPhysicsBody) {
+        let snapPoint =
+            Arkonery.shared.arkonsPortal.convert(sprite.position, to: Display.shared.scene!)
+
+        let snap = SKPhysicsJointPin.joint(
+            withBodyA: sprite.physicsBody!, bodyB: senses, anchor: snapPoint
+        )
+
+        Display.shared.scene!.physicsWorld.add(snap)
+    }
+
     func launch(parentFishNumber: Int?) {
-        let sprite = Arkon.setupSprite(fishNumber)
+        let (sprite, sensesPhysicsBody) = Arkon.setupSprite(fishNumber)
         self.motorOutputs = MotorOutputs(sprite)
 
         self.sprite = sprite
@@ -14,6 +25,8 @@ extension Arkon {
         self.sprite.position = CGPoint(x: x, y: y)
 
         portal.addChild(sprite)
+
+        attachSenses(sensesPhysicsBody)
 
         self.sprite.userData = ["Arkon": self]  // Ref to self; we're on our own after birth
 
@@ -38,22 +51,6 @@ extension Arkon {
         Arkonery.reviveSpawner(fishNumber: p)
     }
 
-    static func setupSprite(_ fishNumber: Int) -> SKSpriteNode {
-        let sprite = SKSpriteNode(texture: ArkonCentralLight.topTexture!)
-        sprite.size *= 0.2
-        sprite.color = ArkonCentralLight.colors.randomElement()!
-        sprite.colorBlendFactor = 0.5
-
-        sprite.zPosition = ArkonCentralLight.vArkonZPosition
-
-        sprite.name = "\(fishNumber)"
-        sprite.physicsBody = setupPhysicsBody()
-
-        setupSenses(sprite)
-
-        return sprite
-    }
-
     static func setupPhysicsBody() -> SKPhysicsBody {
 
         let pBody = SKPhysicsBody(circleOfRadius: 15.0)
@@ -65,7 +62,6 @@ extension Arkon {
         pBody.fieldBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
         pBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
 
-        //        pBody.friction = 1.0
         pBody.affectedByGravity = true
         pBody.isDynamic = true
         pBody.linearDamping = 1.0
@@ -74,11 +70,16 @@ extension Arkon {
         return pBody
     }
 
-    static func setupSenses(_ sprite: SKSpriteNode) {
+    static func setupSenses(_ sprite: SKSpriteNode) -> SKPhysicsBody {
         let nose = SKNode()
         let senses = SKPhysicsBody(circleOfRadius: 30.0)
 
+        senses.affectedByGravity = false
+        senses.angularDamping = 0
+        senses.isDynamic = true
+        senses.linearDamping = 0
         senses.mass = 0
+
         senses.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue
 
         // I want to sense arkons and food
@@ -92,6 +93,24 @@ extension Arkon {
 
         nose.physicsBody = senses
         sprite.addChild(nose)
+
+        return senses
+    }
+
+    static func setupSprite(_ fishNumber: Int) -> (SKSpriteNode, SKPhysicsBody) {
+        let sprite = SKSpriteNode(texture: ArkonCentralLight.topTexture!)
+        sprite.size *= 0.2
+        sprite.color = ArkonCentralLight.colors.randomElement()!
+        sprite.colorBlendFactor = 0.5
+
+        sprite.zPosition = ArkonCentralLight.vArkonZPosition
+
+        sprite.name = "\(fishNumber)"
+        sprite.physicsBody = setupPhysicsBody()
+
+        let sensesPhysicsBody = setupSenses(sprite)
+
+        return (sprite, sensesPhysicsBody)
     }
 
 }

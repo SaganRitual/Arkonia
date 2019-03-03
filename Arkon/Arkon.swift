@@ -8,7 +8,7 @@ class Arkon {
     let fNet: FNet
     let genome: Genome
     var hasGivenBirth = false
-    var health = 10.0
+    var health = 5.0
     var isAlive = false
     var kNet: KNet!
     var motorOutputs: MotorOutputs!
