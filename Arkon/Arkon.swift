@@ -13,6 +13,7 @@ class Arkon {
     var isAlive = false
     var kNet: KNet!
     var motorOutputs: MotorOutputs!
+    var observer: NSObjectProtocol?
     var portal: SKSpriteNode!
     let signalDriver: KSignalDriver
     var sprite: SKSpriteNode!
@@ -72,6 +73,8 @@ class Arkon {
             guard let arkon = getArkon(for: node) else { return 0 }
             return (arkon.birthday > 0) ? arkon.myAge : 0
         }
+
+        if self.observer != nil { NotificationCenter.default.removeObserver(self.observer!) }
 
         let spriteOfOldestLivingArkon = portal.children.max { lhs, rhs in
             return getAge(lhs) < getAge(rhs)

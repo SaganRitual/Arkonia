@@ -35,11 +35,12 @@ extension Arkon {
     }
 
     private func spawn() {
+        precondition(self.observer == nil)
+
         let nName = Foundation.Notification.Name.arkonIsBorn
         let nCenter = NotificationCenter.default
-        var observer: NSObjectProtocol?
 
-        observer = nCenter.addObserver(forName: nName, object: nil, queue: nil) {
+        self.observer = nCenter.addObserver(forName: nName, object: nil, queue: nil) {
             [weak self] (notification: Notification) in
 
             guard let myself = self else { return }
@@ -49,7 +50,8 @@ extension Arkon {
             if f == myself.fishNumber {
                 myself.health -= 10.0
                 myself.sprite.run(myself.tickAction)
-                nCenter.removeObserver(observer!)
+                nCenter.removeObserver(myself.observer!)
+                myself.observer = nil
             }
         }
 
