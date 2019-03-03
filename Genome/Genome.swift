@@ -26,6 +26,13 @@ typealias Segment = Genome
 class Genome: CustomDebugStringConvertible, GenomeProtocol {
     enum Caller { case count, head, tail }
 
+    class GenomeCounter {
+        init() { DebugPortal.shared.specimens[.cLiveGenomes]?.value += 1 }
+        deinit { DebugPortal.shared.specimens[.cLiveGenomes]?.value -= 1 }
+    }
+
+    let genomeCounter = GenomeCounter()
+
     var count = 0
     var head: GeneLinkable?
     weak var tail: GeneLinkable?
@@ -55,7 +62,7 @@ class Genome: CustomDebugStringConvertible, GenomeProtocol {
         return makeIterator().map { return String(reflecting: $0) + "\n" }.joined()
     }
 
-    init() {}
+    init() { }
 
     init(_ gene: GeneLinkable) { self.head = gene; self.tail = gene; count = 1 }
     init(_ genes: [GeneLinkable]) { genes.forEach { asslink($0) } }
@@ -68,7 +75,9 @@ class Genome: CustomDebugStringConvertible, GenomeProtocol {
     // destructor calls the next in the strand, so we end up with recursion
     // that eventually runs us out of stack. Here we drop genes off the end,
     // so we're only destructing one at a time, with no recursion.
-    deinit { while self.tail != nil { self.tail = self.tail?.prev; self.tail?.next = nil } }
+    deinit {
+        while self.tail != nil { self.tail = self.tail?.prev; self.tail?.next = nil }
+    }
 
     func dump(_ fishNumber: Int, _ score: Double) {
         let s = String(format: "%.8f", score)

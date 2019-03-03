@@ -38,10 +38,14 @@ class Gene: CustomDebugStringConvertible, GeneLinkable {
         return (idNumber, type)
     }
 
-    init(_ type: GeneType) { (self.idNumber, self.type) = Gene.init_(type) }
+    init(_ type: GeneType) {
+        (self.idNumber, self.type) = Gene.init_(type)
+        DebugPortal.shared.specimens[.cLiveGenes]?.value += 1
+    }
+
     init(_ copyFrom: Gene) { Gene.missingOverrideInSubclass() }
 
-    deinit {  }
+    deinit { DebugPortal.shared.specimens[.cLiveGenes]?.value -= 1 }
 
     func copy() -> GeneLinkable { Gene.missingOverrideInSubclass() }
     func isMyself(_ thatGuy: GeneLinkable?) -> Bool { return self === thatGuy }
