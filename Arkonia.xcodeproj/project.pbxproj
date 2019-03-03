@@ -102,6 +102,7 @@
 		D46D6C4922076CD20001F5D0 /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFB220762680002BC58 /* Assembler.swift */; };
 		D46E1EE0222B9CED00BBB6F1 /* ArkonLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46E1EDF222B9CED00BBB6F1 /* ArkonLife.swift */; };
 		D46E1EE2222B9DE000BBB6F1 /* ArkonBirth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46E1EE1222B9DE000BBB6F1 /* ArkonBirth.swift */; };
+		D46E1EE4222BB16300BBB6F1 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46E1EE3222BB16300BBB6F1 /* Manna.swift */; };
 		D47246D722116C1A002AA25F /* DNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47246D622116C1A002AA25F /* DNet.swift */; };
 		D47246D922116C71002AA25F /* DSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47246D822116C71002AA25F /* DSpacer.swift */; };
 		D47246DB22116DE6002AA25F /* DLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47246DA22116DE6002AA25F /* DLayer.swift */; };
@@ -229,6 +230,7 @@
 		D46D6C3F22076C970001F5D0 /* KNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KNet.swift; sourceTree = "<group>"; };
 		D46E1EDF222B9CED00BBB6F1 /* ArkonLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonLife.swift; sourceTree = "<group>"; };
 		D46E1EE1222B9DE000BBB6F1 /* ArkonBirth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonBirth.swift; sourceTree = "<group>"; };
+		D46E1EE3222BB16300BBB6F1 /* Manna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
 		D47246D622116C1A002AA25F /* DNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNet.swift; sourceTree = "<group>"; };
 		D47246D822116C71002AA25F /* DSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSpacer.swift; sourceTree = "<group>"; };
 		D47246DA22116DE6002AA25F /* DLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLayer.swift; sourceTree = "<group>"; };
@@ -531,8 +533,9 @@
 				D4D6046B22070F7400823D57 /* CGConversions.swift */,
 				D4D6046822070F7400823D57 /* Extensions.swift */,
 				D4D6046522070F7400823D57 /* KIdentifier.swift */,
-				D468803E2207A4B700405F54 /* Protocols.swift */,
 				D4D6046922070F7400823D57 /* LoopIterator.swift */,
+				D46E1EE3222BB16300BBB6F1 /* Manna.swift */,
+				D468803E2207A4B700405F54 /* Protocols.swift */,
 				D4F17C67221E5DDB00CB287C /* World.swift */,
 				D4D1D2AC220705440099DBC2 /* Arkonia.entitlements */,
 				D4D1D2AB220705440099DBC2 /* Info.plist */,
@@ -1111,6 +1114,7 @@
 				D46D6C0F22076B670001F5D0 /* SceneViewController.swift in Sources */,
 				D46D6BFD22076A480001F5D0 /* ArkonCentralLight.swift in Sources */,
 				D46D6BF22207696C0001F5D0 /* FLayer.swift in Sources */,
+				D46E1EE4222BB16300BBB6F1 /* Manna.swift in Sources */,
 				D46D6C0E22076B670001F5D0 /* KAppDelegate.swift in Sources */,
 				D46D6C4522076C970001F5D0 /* KProtocols.swift in Sources */,
 				D46D6C4922076CD20001F5D0 /* Assembler.swift in Sources */,

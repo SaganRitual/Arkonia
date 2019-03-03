@@ -48,6 +48,9 @@ class Display: NSObject, SKSceneDelegate {
     }
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
+        // Init manna factory in update-cycle context
+        if MannaFactory.shared == nil { MannaFactory.shared = MannaFactory() }
+
         tickCount += 1
         self.currentTime = currentTime
 

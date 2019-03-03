@@ -4,8 +4,12 @@ import SpriteKit
 class World {
     static var shared: World!
 
-    private static let cSenseNeurons = 4    // r, θ to the origin, velocity dx, dy relative to origin
-    private static let cMotorNeurons = 6    // Three (x, y) pairs as thrust vectors
+    // velocity dx, dy relative to origin
+    // r, θ to the nearest food
+    private static let cSenseNeurons = 4
+
+    // Three (x, y) pairs as thrust vectors
+    private static let cMotorNeurons = 6
 
     var arkonery: Arkonery
     let dispatchQueue = DispatchQueue(label: "arkonia.surreal.dispatch.queue")

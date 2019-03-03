@@ -158,8 +158,8 @@ extension CGPoint: PointlikeProtocol {
         return CGPoint(x: CGFloat(x), y: CGFloat(y))
     }
 
-    static func random(x: Range<Double>, y: Range<Double>) -> CGPoint {
-        return CGPoint(x: Double.random(in: x), y: Double.random(in: y))
+    static func random(x: Range<CGFloat>, y: Range<CGFloat>) -> CGPoint {
+        return CGPoint(x: CGFloat.random(in: x), y: CGFloat.random(in: y))
     }
 
     static public func make(_ size: CGSize) -> CGPoint {

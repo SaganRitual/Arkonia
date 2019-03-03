@@ -3,6 +3,12 @@ import SpriteKit
 
 extension Arkon {
 
+    static func absorbFood(_ sprite: SKSpriteNode) {
+        guard let arkon = sprite.userData?["Arkon"] as? Arkon else { preconditionFailure() }
+
+        arkon.health += 10.0
+    }
+
     private func getThrustVectors(_ motorNeuronOutputs: [Double]) -> [CGVector] {
         var vectors = [CGVector]()
 
@@ -23,6 +29,11 @@ extension Arkon {
         self.sprite.run(md, completion: { [unowned self] in self.tick() })
     }
 
+    static func senseFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
+        guard let arkon = arkonSprite.userData?["Arkon"] as? Arkon else { preconditionFailure() }
+        arkon.foodPosition = mannaSprite.position
+    }
+
     private func spawn() {
         let nName = Foundation.Notification.Name.arkonIsBorn
         let nCenter = NotificationCenter.default
@@ -36,7 +47,7 @@ extension Arkon {
             guard let f = u["parentFishNumber"] else { return }
 
             if f == myself.fishNumber {
-                myself.health = 5.0 // Artificially limit reproduction until I get food implemented
+                myself.health -= 10.0
                 myself.sprite.run(myself.tickAction)
                 nCenter.removeObserver(observer!)
             }
@@ -45,13 +56,21 @@ extension Arkon {
         World.shared.arkonery.spawn(parentID: self.fishNumber, parentGenome: self.genome)
     }
 
-    private func stimulus(dToOrigin: Double) {
-        let θToOrigin = Double(atan2(self.sprite.position.y, self.sprite.position.x))
-
+    private func stimulus() {
         let velocity = self.sprite.physicsBody?.velocity ?? CGVector.zero
 
+        var θToFood = CGFloat(0)
+        var dToFood = CGFloat(0)
+        if foodPosition != CGPoint.zero {
+            θToFood = CGFloat(atan2(foodPosition.y, foodPosition.x))
+            dToFood = foodPosition.distance(to: sprite.position)
+        }
+
         let arkonSurvived = signalDriver.drive(
-            sensoryInputs: [dToOrigin, θToOrigin, Double(velocity.dx), Double(velocity.dy)]
+            sensoryInputs: [
+                Double(velocity.dx), Double(velocity.dy),
+                Double(dToFood), Double(θToFood)
+            ]
         )
 
         precondition(arkonSurvived, "Should have died from test signal in init")
@@ -60,21 +79,14 @@ extension Arkon {
     func tick() {
         self.isAlive = true
 
-        if self.sprite.userData == nil { preconditionFailure("Shouldn't happen; I'm desperate") }
         if !self.isInBounds || !self.isHealthy { apoptosize(); return }
 
-        let dToOrigin = Double(hypotf(Float(-self.sprite.position.x), Float(-self.sprite.position.y)))
-        precondition(dToOrigin >= 0)
-
         // If I spawn, I'm idle and vulnerable until I'm finished
-        if health > 20 { spawn(); return }
+        if health > 30 { spawn(); return }
 
         health -= 1.0       // Time and tick wait for no arkon
-        let karma = 1000.0 / ((dToOrigin < 1) ? 1 : pow(dToOrigin, 1.2))
-        health += karma
-//        print("Arkon(\(fishNumber)) karma = \(karma) health = \(health)")
 
-        stimulus(dToOrigin: dToOrigin)
+        stimulus()
         response()
     }
 

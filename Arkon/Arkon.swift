@@ -6,6 +6,7 @@ class Arkon {
     var destructAction: SKAction!
     let fishNumber: Int
     let fNet: FNet
+    var foodPosition = CGPoint.zero
     let genome: Genome
     var hasGivenBirth = false
     var health = 5.0

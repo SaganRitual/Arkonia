@@ -71,7 +71,7 @@ extension Arkon {
     }
 
     static func setupSenses(_ sprite: SKSpriteNode) -> SKPhysicsBody {
-        let nose = SKNode()
+        let nose = SKSpriteNode(color: .clear, size: CGSize.zero)
         let senses = SKPhysicsBody(circleOfRadius: 30.0)
 
         senses.affectedByGravity = false
@@ -84,7 +84,7 @@ extension Arkon {
 
         // I want to sense arkons and food
         senses.contactTestBitMask =
-            ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue |
+            ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue |
             ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
 
         // Senses aren't solid, and aren't affected by fields

@@ -27,15 +27,19 @@ enum ArkonCentralLight {
     static var blueNeuronSpriteTexture: SKTexture!
     static var debugRectangleTexture: SKTexture!
     static var greenNeuronSpriteTexture: SKTexture!
+    static var mannaSpriteTexture: SKTexture!
     static var orangeNeuronSpriteTexture: SKTexture!
     static var sceneBackgroundTexture: SKTexture!
 
-    static let vArkonZPosition = CGFloat(4.0)
-    static let vBorderZPosition = CGFloat(3.0)
     static let vLabelZPosition = CGFloat(4.0)
     static let vLabelCotainerZPosition = CGFloat(3.9)
-    static let vLineZPosition = CGFloat(1.0)
+    static let vBorderZPosition = CGFloat(3.0)
+
+    static let vArkonZPosition = CGFloat(4.0)
+    static let vMannaZPosition = CGFloat(3.9)
+
     static let vNeuronZPosition = CGFloat(2.0)
+    static let vLineZPosition = CGFloat(1.0)
 
     static var vNeuronAntiscale = CGFloat(ceil(sqrt(Double(cPortals))))
     static var vNeuronScale = CGFloat((cPortals == 1) ? (1.0 / 16.0) : (1.0 / 8.0))

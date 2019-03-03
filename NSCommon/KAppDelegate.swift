@@ -40,6 +40,7 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
 
         KAppDelegate.setupArkonTextures()
         KAppDelegate.setupBackgroundTextures()
+        KAppDelegate.setupMannaTexture()
         KAppDelegate.setupNeuronTextures()
 
         if let scene = KAppController.shared.scene {
@@ -85,6 +86,11 @@ extension KAppDelegate {
         let atlas = SKTextureAtlas(named: "Backgrounds")
         ArkonCentralLight.sceneBackgroundTexture = atlas.textureNamed("scene-background")
         ArkonCentralLight.debugRectangleTexture = atlas.textureNamed("debug-rectangle")
+    }
+
+    private static func setupMannaTexture() {
+        let atlas = SKTextureAtlas(named: "Manna")
+        ArkonCentralLight.mannaSpriteTexture = atlas.textureNamed("manna")
     }
 
     private static func setupNeuronTextures() {

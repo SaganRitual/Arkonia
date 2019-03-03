@@ -23,7 +23,7 @@ enum Launchpad: Equatable {
     case empty
 }
 
-class Arkonery {
+class Arkonery: NSObject {
     static var aboriginalGenome: Genome { return Assembler.makeRandomGenome(cGenes: 200) }
     static var shared: Arkonery!
 
@@ -80,6 +80,7 @@ class Arkonery {
     }
 
     func postInit() {
+        Display.shared.scene!.physicsWorld.contactDelegate = self
         self.tickWorkItem = DispatchWorkItem { [unowned self] in self.tick() }
     }
 
@@ -186,4 +187,65 @@ class Arkonery {
         }
     }
 
+}
+
+// MARK: Physics - contact detection, for sensing and eating food
+
+extension Arkonery: SKPhysicsContactDelegate {
+    func didBegin(_ contact: SKPhysicsContact) {
+
+        let a = contact.bodyA
+        let b = contact.bodyB
+
+        let arkonSmellsFood =
+            ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue |
+            ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
+
+        let arkonTouchesFood =
+            ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue |
+            ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
+
+        let interaction = a.categoryBitMask | b.categoryBitMask
+
+        switch interaction {
+        case arkonSmellsFood:  senseFood(a, b)
+        case arkonTouchesFood: touchFood(a, b)
+        default: break
+        }
+    }
+
+    private func touchFood(_ bodyA: SKPhysicsBody, _ bodyB: SKPhysicsBody) {
+        var mannaSprite: SKSpriteNode?
+        var arkonSprite: SKSpriteNode?
+
+        if bodyA.categoryBitMask == ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue {
+            arkonSprite = bodyA.node as? SKSpriteNode
+            mannaSprite = bodyB.node as? SKSpriteNode
+        } else {
+            arkonSprite = bodyB.node as? SKSpriteNode
+            mannaSprite = bodyA.node as? SKSpriteNode
+        }
+
+        guard let ms = mannaSprite, let `as` = arkonSprite else { return }
+
+        MannaFactory.shared.compost(ms)
+        Arkon.absorbFood(`as`)
+    }
+
+    private func senseFood(_ bodyA: SKPhysicsBody, _ bodyB: SKPhysicsBody) {
+        var mannaSprite: SKSpriteNode?
+        var arkonSprite: SKSpriteNode?
+
+        if bodyA.categoryBitMask == ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue {
+            arkonSprite = (bodyA.node as? SKSpriteNode)?.parent as? SKSpriteNode
+            mannaSprite = bodyB.node as? SKSpriteNode
+        } else {
+            arkonSprite = (bodyB.node as? SKSpriteNode)?.parent as? SKSpriteNode
+            mannaSprite = bodyA.node as? SKSpriteNode
+        }
+
+        guard let ms = mannaSprite, let `as` = arkonSprite else { return }
+
+        Arkon.senseFood(`as`, ms)
+    }
 }
