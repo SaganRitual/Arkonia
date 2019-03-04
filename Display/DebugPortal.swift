@@ -2,8 +2,8 @@ import Foundation
 import SpriteKit
 
 enum SpecimenID {
-    case cAttempted, cBirthFailed, cLivingArkons, cPendingGenomes, currentOldest, recordAge
-    case cLiveGenomes, cLiveGenes, unused3
+    case cAttempted, cBirthFailed, cLivingArkons, cPendingGenomes, currentOldest, healthOfOldest
+    case cLiveGenomes, cLiveGenes, oldestCOffspring
 }
 
 class Specimen: Hashable, Equatable {
@@ -65,8 +65,9 @@ class DebugPortal {
         addSpecimenViewer(portal: portal, specimenID: .cLiveGenomes, text: "cLiveGenomes")
         addSpecimenViewer(portal: portal, specimenID: .cLivingArkons, text: "cLiving")
         addSpecimenViewer(portal: portal, specimenID: .cPendingGenomes, text: "cPending")
-        addSpecimenViewer(portal: portal, specimenID: .currentOldest, text: "currentOldest")
-        addSpecimenViewer(portal: portal, specimenID: .recordAge, text: "recordAge")
+        addSpecimenViewer(portal: portal, specimenID: .currentOldest, text: "senior age")
+        addSpecimenViewer(portal: portal, specimenID: .healthOfOldest, text: "health")
+        addSpecimenViewer(portal: portal, specimenID: .oldestCOffspring, text: "cOffspring")
 
     }
 
@@ -76,15 +77,15 @@ class DebugPortal {
 
         let increment = CGPoint(portal.parent!.frame.size / 6)
         switch specimenID {
-        case .cAttempted:      specimen.sprite.position = increment * CGPoint(x: -2, y:  0)
-        case .cBirthFailed:    specimen.sprite.position = increment * CGPoint(x: -2, y: -2)
-        case .cLiveGenes:      specimen.sprite.position = increment * CGPoint(x:  0, y:  2)
-        case .cLiveGenomes:    specimen.sprite.position = increment * CGPoint(x: -2, y:  2)
-        case .cLivingArkons:   specimen.sprite.position = increment * CGPoint(x:  0, y:  0)
-        case .cPendingGenomes: specimen.sprite.position = increment * CGPoint(x:  0, y: -2)
-        case .currentOldest:   specimen.sprite.position = increment * CGPoint(x:  2, y:  0)
-        case .recordAge:       specimen.sprite.position = increment * CGPoint(x:  2, y: -2)
-        default: preconditionFailure()
+        case .cAttempted:       specimen.sprite.position = increment * CGPoint(x: -2, y:  0)
+        case .cBirthFailed:     specimen.sprite.position = increment * CGPoint(x: -2, y: -2)
+        case .cLiveGenes:       specimen.sprite.position = increment * CGPoint(x:  0, y:  2)
+        case .cLiveGenomes:     specimen.sprite.position = increment * CGPoint(x: -2, y:  2)
+        case .cLivingArkons:    specimen.sprite.position = increment * CGPoint(x:  0, y:  0)
+        case .cPendingGenomes:  specimen.sprite.position = increment * CGPoint(x:  0, y: -2)
+        case .currentOldest:    specimen.sprite.position = increment * CGPoint(x:  2, y:  2)
+        case .healthOfOldest:   specimen.sprite.position = increment * CGPoint(x:  2, y:  0)
+        case .oldestCOffspring: specimen.sprite.position = increment * CGPoint(x:  2, y: -2)
         }
     }
 

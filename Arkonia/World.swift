@@ -4,9 +4,11 @@ import SpriteKit
 class World {
     static var shared: World!
 
-    // velocity dx, dy relative to origin
+    // angular velocity
+    // r, θ to the origin, so they can evolve to stay in bounds
     // r, θ to the nearest food
-    private static let cSenseNeurons = 4
+    // velocity dx, dy relative to origin
+    private static let cSenseNeurons = 7
 
     // Three (x, y) pairs as thrust vectors
     private static let cMotorNeurons = 6

@@ -48,16 +48,15 @@ class Display: NSObject, SKSceneDelegate {
     }
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
+        defer { self.currentTime = currentTime }
+        if self.currentTime == 0 { return }
+
         // Init manna factory in update-cycle context
         if MannaFactory.shared == nil { MannaFactory.shared = MannaFactory() }
 
         tickCount += 1
-        self.currentTime = currentTime
 
-        if tickCount % 30 == 0 {
-            Arkonery.shared.setDisplayNet()
-        }
-
+        Arkonery.shared.trackNotableArkon()
         DebugPortal.shared.tick()
 
         if case let .alive(parentFishNumber, newborn) = Arkonery.shared.launchpad {
@@ -66,7 +65,6 @@ class Display: NSObject, SKSceneDelegate {
         }
 
         if kNets.isEmpty { return }
-        if currentTime == 0 { return }
 
         kNets.forEach { portal, kNet in
             World.shared.dispatchQueue.async { DNet(kNet).display(via: portal) }

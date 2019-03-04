@@ -3,6 +3,7 @@ import SpriteKit
 
 class Arkon {
     let birthday: TimeInterval
+    var cOffspring = 0
     var destructAction: SKAction!
     let fishNumber: Int
     let fNet: FNet
@@ -10,6 +11,7 @@ class Arkon {
     var hasGivenBirth = false
     var health = 5.0
     var isAlive = false
+    var isShowingNet = false
     var kNet: KNet!
     var targetManna: (id: String, position: CGPoint)?
     var motorOutputs: MotorOutputs!
@@ -64,23 +66,8 @@ class Arkon {
     }
 
     deinit {
-//        print("Arkon(\(fishNumber)) deinit")
-        func getArkon(for sprite: SKNode) -> Arkon? {
-            return (((sprite as? SKSpriteNode)?.userData?["Arkon"]) as? Arkon)
-        }
-
-        func getAge(_ node: SKNode) -> TimeInterval {
-            guard let arkon = getArkon(for: node) else { return 0 }
-            return (arkon.birthday > 0) ? arkon.myAge : 0
-        }
-
         if self.observer != nil { NotificationCenter.default.removeObserver(self.observer!) }
 
-        let spriteOfOldestLivingArkon = portal.children.max { lhs, rhs in
-            return getAge(lhs) < getAge(rhs)
-        }
-
-        DebugPortal.shared.specimens[.currentOldest]?.value = Int(getAge(spriteOfOldestLivingArkon!))
         self.sprite?.removeFromParent()
 
         // Decrement living count only if I am a living arkon, that is,
@@ -95,7 +82,6 @@ class Arkon {
 // MARK: Guts
 
 extension Arkon {
-
     func apoptosize() {
         sprite.removeAllActions()
         sprite.run(destructAction)

@@ -118,39 +118,6 @@ class Arkonery: NSObject {
 
     private func scheduleTick() { dispatchQueue.async(execute: tickWorkItem) }
 
-    private var oldestArkonAge: TimeInterval = 0 { didSet {
-        DebugPortal.shared.specimens[.recordAge]?.value = Int(oldestArkonAge)
-    }}
-
-    func setDisplayNet() {
-        func getAge(_ node: SKNode) -> TimeInterval {
-            return self.getArkon(for: node)?.myAge ?? 0
-        }
-
-        func getArkon(_ dictionary: NSMutableDictionary?) -> Arkon? {
-            return dictionary?["Arkon"] as? Arkon
-        }
-
-        func getKNet(_ arkon: Arkon) -> KNet? {
-            return arkon.signalDriver.kNet
-        }
-
-        if arkonsPortal.children.isEmpty { return }
-
-        let spriteOfOldestLivingArkon = arkonsPortal.children.max { lhs, rhs in
-            return getAge(lhs) < getAge(rhs)
-        }
-
-        guard let sprite = spriteOfOldestLivingArkon else { return }
-        guard let arkon = getArkon(sprite.userData) else { return }
-        guard arkon.birthday > 0 && arkon.myAge > (oldestArkonAge + 0.016) else { return }
-
-        oldestArkonAge = arkon.myAge
-
-        guard let kNet = getKNet(arkon) else { return }
-        Display.shared.display(kNet, portal: netPortal)
-    }
-
     func spawnStarterPopulation(cArkons: Int) {
         self.pendingGenomes = Array.init(repeating: (nil, Arkonery.aboriginalGenome), count: cArkons)
         scheduleTick()
@@ -161,6 +128,21 @@ class Arkonery: NSObject {
             self.pendingGenomes.append((parentID, parentGenome))
             if self.pendingGenomes.count == 1 { self.tick() }
         }
+    }
+
+    func trackNotableArkon() {
+        guard var tracker = ArkonTracker(arkonsPortal: arkonsPortal, netPortal: netPortal)
+            else { return }
+
+        guard let oldestLivingArkon = tracker.oldestLivingArkon
+            else { return }
+
+        if !oldestLivingArkon.isShowingNet {
+            oldestLivingArkon.sprite.size *= 2.0
+        }
+
+        tracker.updateDebugPortal()
+        tracker.updateNetPortal()
     }
 
     func tick() {

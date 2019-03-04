@@ -6,7 +6,7 @@ extension Arkon {
     static func absorbFood(_ sprite: SKSpriteNode) {
         guard let arkon = sprite.userData?["Arkon"] as? Arkon else { preconditionFailure() }
 
-        arkon.health += 20.0
+        arkon.health += 10.0
         arkon.targetManna = nil
     }
 
@@ -63,6 +63,7 @@ extension Arkon {
 
             if f == myself.fishNumber {
                 myself.health -= 10.0
+                myself.cOffspring += 1
                 myself.sprite.run(myself.tickAction)
                 nCenter.removeObserver(myself.observer!)
                 myself.observer = nil
@@ -74,18 +75,30 @@ extension Arkon {
 
     private func stimulus() {
         let velocity = self.sprite.physicsBody?.velocity ?? CGVector.zero
+        let aVelocity = self.sprite.physicsBody?.angularVelocity ?? 0
+        let position = self.sprite.position
+
+        // (r, θ) to origin so they can evolve to stay in bounds
+        var rToOrigin = CGFloat(0)
+        var θToOrigin = CGFloat(0)
+        if position != CGPoint.zero {
+            rToOrigin = position.distance(to: CGPoint.zero)
+            θToOrigin = atan2(position.y, position.x)
+        }
 
         var θToFood = CGFloat(0)
-        var dToFood = CGFloat(0)
+        var rToFood = CGFloat(0)
         if let (_, foodPosition) = self.targetManna {
-            θToFood = CGFloat(atan2(foodPosition.y, foodPosition.x))
-            dToFood = foodPosition.distance(to: sprite.position)
+            rToFood = foodPosition.distance(to: sprite.position)
+            θToFood = atan2(foodPosition.y, foodPosition.x)
         }
 
         let arkonSurvived = signalDriver.drive(
             sensoryInputs: [
-                Double(velocity.dx), Double(velocity.dy),
-                Double(dToFood), Double(θToFood)
+                Double(aVelocity),
+                Double(rToOrigin), Double(θToOrigin),
+                Double(rToFood), Double(θToFood),
+                Double(velocity.dx), Double(velocity.dy)
             ]
         )
 
@@ -98,7 +111,7 @@ extension Arkon {
         if !self.isInBounds || !self.isHealthy { apoptosize(); return }
 
         // If I spawn, I'm idle and vulnerable until I'm finished
-        if health > 30 { spawn(); return }
+        if health > 15 { spawn(); return }
 
         health -= 1.0       // Time and tick wait for no arkon
 
