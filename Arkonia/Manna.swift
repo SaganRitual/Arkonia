@@ -31,7 +31,7 @@ class MannaFactory {
 
         let hamNumber = Int(sprite.name!)!
         sprite.run(SKAction.run(
-            { [unowned self] in self.bloom(hamNumber) }, queue: World.shared.dispatchQueue
+            { [unowned self] in self.bloom(hamNumber) }
         ))
     }
 
@@ -58,7 +58,7 @@ class MannaFactory {
         sprite.physicsBody = setupPhysicsBody(sprite.frame)
 
         sprite.run(SKAction.run(
-            { [unowned self] in self.bloom(hamNumber) }, queue: World.shared.dispatchQueue
+            { [unowned self] in self.bloom(hamNumber) }
         ))
 
         Arkonery.shared.arkonsPortal.addChild(sprite)

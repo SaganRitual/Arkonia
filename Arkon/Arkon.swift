@@ -6,12 +6,12 @@ class Arkon {
     var destructAction: SKAction!
     let fishNumber: Int
     let fNet: FNet
-    var foodPosition = CGPoint.zero
     let genome: Genome
     var hasGivenBirth = false
     var health = 5.0
     var isAlive = false
     var kNet: KNet!
+    var targetManna: (id: String, position: CGPoint)?
     var motorOutputs: MotorOutputs!
     var observer: NSObjectProtocol?
     var portal: SKSpriteNode!

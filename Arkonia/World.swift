@@ -13,6 +13,7 @@ class World {
 
     var arkonery: Arkonery
     let dispatchQueue = DispatchQueue(label: "arkonia.surreal.dispatch.queue")
+    private let physics: Physics
     var portal: SKSpriteNode
 
     init() {
@@ -32,16 +33,12 @@ class World {
         self.arkonery = Arkonery.shared
         self.arkonery.postInit()
 
+        self.physics = Physics()
         FDecoder.shared = FDecoder()
         Mutator.shared = Mutator()
     }
 
-    func postInit() {
-        // Starter population
-        (-200..<0).forEach { _ in
-            self.arkonery.spawn(parentID: nil, parentGenome: Arkonery.aboriginalGenome)
-        }
-    }
+    func postInit() { self.arkonery.spawnStarterPopulation(cArkons: 200) }
 
     static func setSelectionControls() {
         ArkonCentralDark.selectionControls.cSenseNeurons = World.cSenseNeurons

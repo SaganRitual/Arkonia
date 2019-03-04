@@ -6,7 +6,8 @@ extension Arkon {
     static func absorbFood(_ sprite: SKSpriteNode) {
         guard let arkon = sprite.userData?["Arkon"] as? Arkon else { preconditionFailure() }
 
-        arkon.health += 10.0
+        arkon.health += 20.0
+        arkon.targetManna = nil
     }
 
     private func getThrustVectors(_ motorNeuronOutputs: [Double]) -> [CGVector] {
@@ -21,6 +22,16 @@ extension Arkon {
         return vectors
     }
 
+    static func loseTrackOfFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
+        guard let arkon = arkonSprite.userData?["Arkon"] as? Arkon else { return }
+        guard let (idOfMorselIThoughtISaw, _) = arkon.targetManna else { return }
+
+        guard let idOfNearbyMorsel = mannaSprite.name else { preconditionFailure() }
+        guard idOfMorselIThoughtISaw == idOfNearbyMorsel else { return }
+
+        arkon.targetManna = nil
+    }
+
     private func response() {
         let motorNeuronOutputs = signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
         let thrustVectors = getThrustVectors(motorNeuronOutputs)
@@ -30,8 +41,11 @@ extension Arkon {
     }
 
     static func senseFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
-        guard let arkon = arkonSprite.userData?["Arkon"] as? Arkon else { preconditionFailure() }
-        arkon.foodPosition = mannaSprite.position
+        guard let arkon = arkonSprite.userData?["Arkon"] as? Arkon else { return }
+
+        if arkon.targetManna == nil {
+            arkon.targetManna = (mannaSprite.name!, mannaSprite.position)
+        }
     }
 
     private func spawn() {
@@ -63,7 +77,7 @@ extension Arkon {
 
         var θToFood = CGFloat(0)
         var dToFood = CGFloat(0)
-        if foodPosition != CGPoint.zero {
+        if let (_, foodPosition) = self.targetManna {
             θToFood = CGFloat(atan2(foodPosition.y, foodPosition.x))
             dToFood = foodPosition.distance(to: sprite.position)
         }
