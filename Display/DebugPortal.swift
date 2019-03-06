@@ -54,9 +54,9 @@ class DebugPortal {
     private weak var portal: SKSpriteNode!
     var specimens = [SpecimenID: Specimen]()
 
-    init(_ display: Display) {
-        self.portal = display.getPortal(quadrant: 3)
-        self.portal.color = display.scene!.backgroundColor
+    init() {
+        self.portal = Display.shared.getPortal(quadrant: 3)
+        self.portal.color = Display.shared.scene!.backgroundColor
         self.portal.colorBlendFactor = 1.0
 
         addSpecimenViewer(portal: portal, specimenID: .cAttempted, text: "cAttempted")

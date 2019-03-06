@@ -48,30 +48,7 @@ extension Arkon {
         }
     }
 
-    private func spawn() {
-        precondition(self.observer == nil)
-
-        let nName = Foundation.Notification.Name.arkonIsBorn
-        let nCenter = NotificationCenter.default
-
-        self.observer = nCenter.addObserver(forName: nName, object: nil, queue: nil) {
-            [weak self] (notification: Notification) in
-
-            guard let myself = self else { return }
-            guard let u = notification.userInfo as? [String: Int] else { return }
-            guard let f = u["parentFishNumber"] else { return }
-
-            if f == myself.fishNumber {
-                myself.health -= 10.0
-                myself.cOffspring += 1
-                myself.sprite.run(myself.tickAction)
-                nCenter.removeObserver(myself.observer!)
-                myself.observer = nil
-            }
-        }
-
-        World.shared.arkonery.spawn(parentID: self.fishNumber, parentGenome: self.genome)
-    }
+    private func spawn() { Arkonery.shared.spawn(parentID: fishNumber, parentGenome: genome) }
 
     private func stimulus() {
         let velocity = self.sprite.physicsBody?.velocity ?? CGVector.zero
@@ -108,7 +85,11 @@ extension Arkon {
     func tick() {
         self.isAlive = true
 
-        if !self.isInBounds || !self.isHealthy { apoptosize(); return }
+        if !self.isInBounds || !self.isHealthy {
+            print("not healthy")
+            self.sprite.run(apoptosizeAction)
+            return
+        }
 
         // If I spawn, I'm idle and vulnerable until I'm finished
         if health > 15 { spawn(); return }
@@ -119,4 +100,12 @@ extension Arkon {
         response()
     }
 
+}
+
+extension SKSpriteNode {
+    var arkon: Arkon? {
+        guard let userData = self.userData else { return nil }
+        guard let arkonEntry = userData["Arkon"] else { return nil }
+        return arkonEntry as? Arkon
+    }
 }

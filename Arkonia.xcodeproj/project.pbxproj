@@ -29,6 +29,7 @@
 		D43E8727220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
 		D43E8728220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
 		D43E8729220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
+		D44EB8AF222FA5250004A46F /* DBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EB8AE222FA5250004A46F /* DBootstrap.swift */; };
 		D46880222207A0C500405F54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46880212207A0C500405F54 /* main.swift */; };
 		D468802D2207A0E600405F54 /* DTGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468802C2207A0E600405F54 /* DTGenome.swift */; };
 		D46880322207A39200405F54 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFC220762680002BC58 /* Genome.swift */; };
@@ -207,6 +208,7 @@
 		D439672922070AC5009BAA3A /* KAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppDelegate.swift; sourceTree = "<group>"; };
 		D43E871B220A474400CD9CC3 /* runDarkTests.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = runDarkTests.sh; sourceTree = "<group>"; };
 		D43E871D220A495300CD9CC3 /* runSwiftlint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = runSwiftlint.sh; sourceTree = "<group>"; };
+		D44EB8AE222FA5250004A46F /* DBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBootstrap.swift; sourceTree = "<group>"; };
 		D468801F2207A0C500405F54 /* TTGenome */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTGenome; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46880212207A0C500405F54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D468802A2207A0E600405F54 /* DTGenome.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTGenome.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -551,6 +553,7 @@
 		D4D6046D2207105A00823D57 /* Display */ = {
 			isa = PBXGroup;
 			children = (
+				D44EB8AE222FA5250004A46F /* DBootstrap.swift */,
 				D4C1D173222981E3002D4DEA /* DebugPortal.swift */,
 				D4C266232210BC4F00325F05 /* Display.swift */,
 				D47246DA22116DE6002AA25F /* DLayer.swift */,
@@ -1102,6 +1105,7 @@
 				D4C266242210BC4F00325F05 /* Display.swift in Sources */,
 				D46D6BFB220769FC0001F5D0 /* GProtocols.swift in Sources */,
 				D46D6C4422076C970001F5D0 /* KNeuron.swift in Sources */,
+				D44EB8AF222FA5250004A46F /* DBootstrap.swift in Sources */,
 				D46D6C4722076C970001F5D0 /* KNet.swift in Sources */,
 				D46D6C0D22076B670001F5D0 /* KAppController.swift in Sources */,
 				D47246D722116C1A002AA25F /* DNet.swift in Sources */,

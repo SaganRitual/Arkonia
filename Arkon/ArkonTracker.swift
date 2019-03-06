@@ -15,15 +15,13 @@ struct ArkonTracker {
     }
 
     private func getAge(_ node: SKNode) -> TimeInterval {
-        guard let arkon = getArkon(for: node) else { return 0 }
-        return (arkon.birthday > 0) ? arkon.myAge : 0
+        guard let sprite = node as? SKSpriteNode else { return 0 }
+        return getAge(sprite)
     }
 
-    private func getArkon(for node: SKNode) -> Arkon? {
-        guard let sprite = node as? SKSpriteNode else { return nil }
-        guard let userData = sprite.userData else { return nil }
-        guard let arkonEntry = userData["Arkon"] else { return nil }
-        return arkonEntry as? Arkon
+    private func getAge(_ sprite: SKSpriteNode) -> TimeInterval {
+        guard let arkon = sprite.arkon else { preconditionFailure() }
+        return (arkon.birthday > 0) ? arkon.myAge : 0
     }
 
     private func getKNet(_ arkon: Arkon) -> KNet? {
@@ -32,13 +30,17 @@ struct ArkonTracker {
 
     private func getOldestLivingArkon() -> Arkon? {
         guard let sprite = getSpriteOfOldestLivingArkon() else { return nil }
-        guard let arkon = getArkon(for: sprite) else { return nil }
+        guard let arkon = sprite.arkon else { return nil }
         guard arkon.birthday > 0 else { return nil }
         return arkon
     }
 
-    private func getSpriteOfOldestLivingArkon() -> SKNode? {
-        return arkonsPortal.children.max { lhs, rhs in return getAge(lhs) < getAge(rhs) }
+    private func getSpriteOfOldestLivingArkon() -> SKSpriteNode? {
+        guard let oldest = arkonsPortal.children.max(by: { lhs, rhs in
+            return getAge(lhs) < getAge(rhs)
+        }) as? SKSpriteNode else { return nil }
+
+        return oldest
     }
 
     mutating func updateDebugPortal() {

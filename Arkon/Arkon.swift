@@ -4,7 +4,7 @@ import SpriteKit
 class Arkon {
     let birthday: TimeInterval
     var cOffspring = 0
-    var destructAction: SKAction!
+    var apoptosizeAction: SKAction!
     let fishNumber: Int
     let fNet: FNet
     let genome: Genome
@@ -73,18 +73,8 @@ class Arkon {
         // Decrement living count only if I am a living arkon, that is,
         // if I survived birth.
         if self.isAlive {
-            World.shared.arkonery.cLivingArkons -= 1
+            Arkonery.shared.cLivingArkons -= 1
             self.isAlive = false // Tidiness/superstition
         }
-    }
-}
-
-// MARK: Guts
-
-extension Arkon {
-    func apoptosize() {
-        sprite.removeAllActions()
-        sprite.run(destructAction)
-        sprite = nil
     }
 }

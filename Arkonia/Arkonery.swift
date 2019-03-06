@@ -23,6 +23,29 @@ enum Launchpad: Equatable {
     case empty
 }
 
+typealias PendingGenome = (Int?, Genome)
+struct PendingGenomes {
+    var pendingGenomes = [PendingGenome]()
+
+    mutating func fill(cArkons: Int) {
+        DispatchQueue.global(qos: .background).sync {
+            pendingGenomes =
+                Array.init(repeating: (nil, Arkonery.aboriginalGenome), count: cArkons)
+        }
+    }
+
+    mutating func pushBack(_ pendingGenome: PendingGenome) {
+        DispatchQueue.global(qos: .background).sync { pendingGenomes.append(pendingGenome) }
+    }
+
+    mutating func popFront() -> PendingGenome? {
+        return DispatchQueue.global(qos: .background).sync {
+            if pendingGenomes.isEmpty { return nil }
+            return pendingGenomes.removeFirst()
+        }
+    }
+}
+
 class Arkonery: NSObject {
     static var aboriginalGenome: Genome { return Assembler.makeRandomGenome(cGenes: 200) }
     static var shared: Arkonery!
@@ -39,13 +62,11 @@ class Arkonery: NSObject {
         DebugPortal.shared.specimens[.cLivingArkons]?.value = cLivingArkons
     }}
 
-    var pendingGenomes = [(Int?, Genome)]() { didSet {
-        DebugPortal.shared.specimens[.cPendingGenomes]?.value = pendingGenomes.count
-    }}
+    var pendingGenomes = PendingGenomes()
 
     var arkonsPortal: SKSpriteNode
     let cropper: SKCropNode
-    let dispatchQueue = DispatchQueue(label: "carkonery")
+//    let dispatchQueue = DispatchQueue(label: "carkonery")
     var launchpad = Launchpad.empty
     let netPortal: SKSpriteNode
     let notificationCanter = NotificationCenter.default
@@ -79,15 +100,11 @@ class Arkonery: NSObject {
         arkonsPortal.speed = 0.1
     }
 
-    func postInit() {
-        self.tickWorkItem = DispatchWorkItem { [unowned self] in self.tick() }
-    }
-
     private func getArkon(for sprite: SKNode) -> Arkon? {
         return (((sprite as? SKSpriteNode)?.userData?["Arkon"]) as? Arkon)
     }
 
-    private func makeArkon(parentFishNumber: Int?, parentGenome: Genome) -> Launchpad {
+    func makeArkon(parentFishNumber: Int?, parentGenome: Genome) -> Launchpad {
         defer { cAttempted += 1 }
 
         let (newGenome, fNet_) = makeNet(parentGenome: parentGenome)
@@ -109,25 +126,12 @@ class Arkonery: NSObject {
         return (newGenome, e as? FNet)
     }
 
-    static func reviveSpawner(fishNumber: Int) {
-        let n = Foundation.Notification.Name.arkonIsBorn
-        NotificationCenter.default.post(
-            name: n, object: self, userInfo: ["parentFishNumber": fishNumber]
-        )
+    func spawn(parentID: Int?, parentGenome: Genome) {
+        pendingGenomes.pushBack((parentID, parentGenome))
     }
-
-    private func scheduleTick() { dispatchQueue.async(execute: tickWorkItem) }
 
     func spawnStarterPopulation(cArkons: Int) {
-        self.pendingGenomes = Array.init(repeating: (nil, Arkonery.aboriginalGenome), count: cArkons)
-        scheduleTick()
-    }
-
-    func spawn(parentID: Int?, parentGenome: Genome) {
-        dispatchQueue.async { [unowned self] in
-            self.pendingGenomes.append((parentID, parentGenome))
-            if self.pendingGenomes.count == 1 { self.tick() }
-        }
+        pendingGenomes.fill(cArkons: cArkons)
     }
 
     func trackNotableArkon() {
@@ -143,35 +147,6 @@ class Arkonery: NSObject {
 
         tracker.updateDebugPortal()
         tracker.updateNetPortal()
-    }
-
-    func tick() {
-        if pendingGenomes.isEmpty { return }
-
-        defer { if !pendingGenomes.isEmpty { scheduleTick() } }
-
-        if launchpad != .empty { return }
-
-        let (parentFishNumber, parentGenome) = pendingGenomes.removeFirst()
-        let state = makeArkon(parentFishNumber: parentFishNumber, parentGenome: parentGenome)
-
-        cAttempted += 1
-
-        switch state {
-        case .alive:
-            cLivingArkons += 1
-            launchpad = state
-
-        case .dead(.none):
-            cBirthFailed += 1
-
-        case .dead(.some(let parentFishNumber)):
-            cBirthFailed += 1
-            Arkonery.reviveSpawner(fishNumber: parentFishNumber)
-
-        // makeArkon() shouldn't return this; it's n/a to arkon state
-        case .empty: preconditionFailure()
-        }
     }
 
 }

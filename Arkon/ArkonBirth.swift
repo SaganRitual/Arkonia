@@ -18,25 +18,18 @@ extension Arkon {
         self.sprite = setupSprites()
         self.motorOutputs = MotorOutputs(sprite)
 
-        self.destructAction = SKAction.sequence([
+        self.apoptosizeAction = SKAction.sequence([
             SKAction.run { [weak self] in
                 self?.sprite?.userData?["Arkon"] = nil
-                self?.sprite = nil
             },
             SKAction.removeFromParent()
         ])
 
         self.tickAction = SKAction.run(
-            { [weak self] in self?.tick() }, queue: World.shared.dispatchQueue
+            { [weak self] in self?.tick() }
         )
 
         self.sprite.run(self.tickAction)
-
-        // If I have a parent (ie, I'm not in the aboriginal generation), tell my
-        // parent that my birth is complete, so she can get up and run away from
-        // predators now.
-        guard let p = parentFishNumber else { return }
-        Arkonery.reviveSpawner(fishNumber: p)
     }
 
     func setupArkonSprite() -> (SKSpriteNode, SKPhysicsBody) {

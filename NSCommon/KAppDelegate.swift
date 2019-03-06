@@ -23,17 +23,6 @@ import SpriteKit
 
 @NSApplicationMain
 class KAppDelegate: NSObject, NSApplicationDelegate {
-    #if K_RUN_WITH_CURATOR
-
-    var curator: Curator?
-    var goalSuite: GSGoalSuite?
-    var workItem: DispatchWorkItem!
-
-    #elseif K_RUN_DISPLAY_TEST
-
-    var displayTest: VDisplayTest?
-
-    #endif
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         KAppController.shared.showMainWindow(withTitle: "Arkonia")
@@ -43,28 +32,8 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
         KAppDelegate.setupMannaTexture()
         KAppDelegate.setupNeuronTextures()
 
-        if let scene = KAppController.shared.scene {
-            Display.shared = Display(scene)
-
-            #if K_RUN_MAIN
-
-            World.shared = World()
-            World.shared.postInit()
-
-            #elseif K_RUN_WITH_CURATOR
-
-            self.goalSuite = AAGoalSuite()
-            self.curator = Curator(goalSuite: nok(self.goalSuite))
-            self.workItem = DispatchWorkItem { [weak self] in _ = nok(self?.curator).select() }
-            DispatchQueue.global(qos: .background).async(execute: self.workItem)
-
-            #elseif K_RUN_DISPLAY_TEST
-
-            displayTest = VDisplayTest()
-            displayTest!.start()
-
-            #endif
-        }
+        FDecoder.shared = FDecoder()
+        Mutator.shared = Mutator()
     }
 
 	func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

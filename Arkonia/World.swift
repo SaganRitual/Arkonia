@@ -13,17 +13,15 @@ class World {
     // Three (x, y) pairs as thrust vectors
     private static let cMotorNeurons = 6
 
-    var arkonery: Arkonery
-    let dispatchQueue = DispatchQueue(label: "arkonia.surreal.dispatch.queue")
+    let arkonsPortal: SKSpriteNode
+    let netPortal: SKSpriteNode
     private let physics: Physics
-    var portal: SKSpriteNode
 
     init() {
         World.setSelectionControls()
 
-        let arkonsPortal = Display.shared.getPortal(quadrant: 1)
-        let netPortal = Display.shared.getPortal(quadrant: 0)
-        self.portal = arkonsPortal
+        self.arkonsPortal = Display.shared.getPortal(quadrant: 1)
+        self.netPortal = Display.shared.getPortal(quadrant: 0)
 
         let repeller = SKFieldNode.radialGravityField()
         repeller.strength = -0.5
@@ -31,16 +29,8 @@ class World {
         repeller.isEnabled = true
         arkonsPortal.addChild(repeller)
 
-        Arkonery.shared = Arkonery(arkonsPortal: arkonsPortal, netPortal: netPortal)
-        self.arkonery = Arkonery.shared
-        self.arkonery.postInit()
-
         self.physics = Physics()
-        FDecoder.shared = FDecoder()
-        Mutator.shared = Mutator()
     }
-
-    func postInit() { self.arkonery.spawnStarterPopulation(cArkons: 200) }
 
     static func setSelectionControls() {
         ArkonCentralDark.selectionControls.cSenseNeurons = World.cSenseNeurons

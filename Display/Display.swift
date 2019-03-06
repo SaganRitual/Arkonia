@@ -6,6 +6,7 @@ class Display: NSObject, SKSceneDelegate {
 
     var currentTime: TimeInterval = 0
     private var frameCount = 0
+    private var kNet: KNet?
     private var kNets = [SKSpriteNode: KNet]()
     private var quadrants = [Int: SKSpriteNode]()
     public weak var scene: SKScene?
@@ -13,14 +14,7 @@ class Display: NSObject, SKSceneDelegate {
 
     init(_ scene: SKScene) {
         self.scene = scene
-        DPortalServer.shared = DPortalServer(scene)
-
         super.init()
-
-        scene.delegate = self
-        scene.physicsWorld.gravity = CGVector.zero
-
-        DebugPortal.shared = DebugPortal(self)
     }
 
     /**
@@ -37,7 +31,7 @@ class Display: NSObject, SKSceneDelegate {
      */
     func display(_ kNet: KNet, portal: SKSpriteNode) {
         portal.removeAllChildren()
-        kNets[portal] = kNet
+        self.kNet = kNet
     }
 
     func getPortal(quadrant: Int) -> SKSpriteNode {
@@ -47,29 +41,48 @@ class Display: NSObject, SKSceneDelegate {
         return q
     }
 
+    var firstPass = true
+
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
         defer { self.currentTime = currentTime }
         if self.currentTime == 0 { return }
 
-        // Init manna factory in update-cycle context
-        if MannaFactory.shared == nil { MannaFactory.shared = MannaFactory() }
-
-        tickCount += 1
-
-        Arkonery.shared.trackNotableArkon()
-        DebugPortal.shared.tick()
-
-        if case let .alive(parentFishNumber, newborn) = Arkonery.shared.launchpad {
-            newborn.launch(parentFishNumber: parentFishNumber)
-            Arkonery.shared.launchpad = .empty
+        if firstPass {
+            Arkonery.shared.spawnStarterPopulation(cArkons: 200)
+            firstPass = false
         }
 
-        if kNets.isEmpty { return }
+        if let (parentFishNumber, parentGenome) = Arkonery.shared.pendingGenomes.popFront() {
+            let state = Arkonery.shared.makeArkon(
+                parentFishNumber: parentFishNumber, parentGenome: parentGenome
+            )
 
-        kNets.forEach { portal, kNet in
-            World.shared.dispatchQueue.async { DNet(kNet).display(via: portal) }
+            switch state {
+            case let .alive(parentFishNumber, protoArkon):
+                protoArkon.launch(parentFishNumber: parentFishNumber)
+
+            case .dead: break
+
+            default: preconditionFailure()
+            }
         }
-
-        kNets.removeAll()
+//
+//        // Init manna factory in update-cycle context
+//        if MannaFactory.shared == nil { MannaFactory.shared = MannaFactory() }
+//
+//        tickCount += 1
+//
+//        Arkonery.shared.trackNotableArkon()
+//        DebugPortal.shared.tick()
+//
+//        if case let .alive(parentFishNumber, newborn) = Arkonery.shared.launchpad {
+//            newborn.launch(parentFishNumber: parentFishNumber)
+//            Arkonery.shared.launchpad = .empty
+//        }
+//
+//        if let kNet = self.kNet {
+//            DNet(kNet).display(via: World.shared.netPortal)
+//            self.kNet = nil
+//        }
     }
 }

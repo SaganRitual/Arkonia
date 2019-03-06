@@ -4,6 +4,8 @@ import SpriteKit
 class Physics: NSObject, SKPhysicsContactDelegate {
     override init() {
         super.init()
+
+        Display.shared.scene!.physicsWorld.gravity = CGVector.zero
         Display.shared.scene!.physicsWorld.contactDelegate = self
     }
 
@@ -73,7 +75,7 @@ extension Physics {
         guard case let (`as`?, ms?) = assignSprites(bodyA, bodyB) else { return }
 
         `as`.run(
-            SKAction.run({ Arkon.loseTrackOfFood(`as`, ms) }, queue: World.shared.dispatchQueue)
+            SKAction.run({ Arkon.loseTrackOfFood(`as`, ms) })
         )
     }
 
@@ -81,7 +83,7 @@ extension Physics {
         guard case let (`as`?, ms?) = assignSprites(bodyA, bodyB) else { return }
 
         `as`.run(
-            SKAction.run({ Arkon.senseFood(`as`, ms) }, queue: World.shared.dispatchQueue)
+            SKAction.run({ Arkon.senseFood(`as`, ms) })
         )
     }
 
@@ -92,7 +94,7 @@ extension Physics {
             SKAction.run({
                 MannaFactory.shared.compost(ms)
                 Arkon.absorbFood(`as`)
-            }, queue: World.shared.dispatchQueue)
+            })
         )
     }
 }
