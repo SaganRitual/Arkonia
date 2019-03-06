@@ -17,6 +17,7 @@ class MotorOutputs {
     }
 
     func getAction(_ thrustVectors: [CGVector]) -> SKAction {
+//        let duration = 0.01
         let jets: [SKAction] = zip(thrustPoints, thrustVectors).map {
             let duration = Double.random(in: 0.05..<0.15)
 

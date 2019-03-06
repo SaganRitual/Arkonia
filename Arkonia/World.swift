@@ -24,8 +24,8 @@ class World {
         self.netPortal = Display.shared.getPortal(quadrant: 0)
 
         let repeller = SKFieldNode.radialGravityField()
-        repeller.strength = -0.5
-        repeller.falloff = 1.2
+        repeller.strength = -0.05
+        repeller.falloff = 2.0
         repeller.isEnabled = true
         arkonsPortal.addChild(repeller)
 

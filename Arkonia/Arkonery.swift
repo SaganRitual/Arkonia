@@ -54,6 +54,10 @@ class Arkonery: NSObject {
         DebugPortal.shared.specimens[.cLivingArkons]?.value = cLivingArkons
     }}
 
+    var cPending = 0 { didSet {
+        DebugPortal.shared.specimens[.cPendingGenomes]?.value = cPending
+    }}
+
     var arkonsPortal: SKSpriteNode
     let cropper: SKCropNode
     let dispatchQueueLight = DispatchQueue(label: "light.arkonia")
@@ -121,18 +125,24 @@ class Arkonery: NSObject {
 
     func spawn(parentFishNumber: Int?, parentGenome: Genome) {
         cAttempted += 1
+        cPending += 1
         pendingGenomes.pushBack((parentFishNumber, parentGenome))
 
         dispatchQueueDark.async {
             if let protoArkon = Arkonery.shared.makeArkon(
                 parentFishNumber: parentFishNumber, parentGenome: parentGenome
-            ) { self.pendingArkons.pushBack(protoArkon) }
+            ) {
+                self.pendingArkons.pushBack(protoArkon)
+            } else {
+                self.cBirthFailed += 1
+            }
+
+            self.cPending -= 1
         }
     }
 
     func spawnStarterPopulation(cArkons: Int) {
         (0..<cArkons).forEach { _ in
-            cAttempted += 1
             spawn(parentFishNumber: 0, parentGenome: Arkonery.aboriginalGenome)
         }
     }

@@ -15,6 +15,8 @@ extension Arkon {
     }
 
     func launch() {
+        Arkonery.shared.cLivingArkons += 1
+
         self.sprite = setupSprites()
         self.motorOutputs = MotorOutputs(sprite)
 
@@ -57,7 +59,7 @@ extension Arkon {
 
         let pBody = SKPhysicsBody(circleOfRadius: 15.0)
 
-        //        pBody.mass = 0.5
+//        pBody.mass = 1.0
 
         pBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
         pBody.collisionBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
@@ -66,8 +68,10 @@ extension Arkon {
 
         pBody.affectedByGravity = true
         pBody.isDynamic = true
-        pBody.linearDamping = 1.0
-        pBody.angularDamping = 1.0
+        pBody.linearDamping = 2.0
+        pBody.angularDamping = 2.0
+        pBody.friction = 2.0
+        pBody.restitution = 0
 
         return pBody
     }

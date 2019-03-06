@@ -48,14 +48,13 @@ class Display: NSObject, SKSceneDelegate {
         if self.currentTime == 0 { return }
 
         if firstPass {
-            Arkonery.shared.spawnStarterPopulation(cArkons: 200)
+            Arkonery.shared.spawnStarterPopulation(cArkons: 300)
             firstPass = false
             return
         }
 
         if let protoArkon = Arkonery.shared.pendingArkons.popFront() {
             protoArkon.launch()
-            Arkonery.shared.cLivingArkons += 1
         }
 
         tickCount += 1

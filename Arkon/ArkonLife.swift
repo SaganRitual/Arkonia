@@ -92,7 +92,7 @@ extension Arkon {
             return
         }
 
-        if health > 15 { spawn() }
+        if health > 15 { spawn(); return }
 
         health -= 1.0       // Time and tick wait for no arkon
 
