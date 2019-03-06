@@ -25,7 +25,10 @@ enum Launchpad: Equatable {
 
 typealias PendingGenome = (Int?, Genome)
 struct PendingGenomes {
-    var pendingGenomes = [PendingGenome]()
+
+    var pendingGenomes = [PendingGenome]() { didSet {
+        DebugPortal.shared.specimens[.cPendingGenomes]?.value = pendingGenomes.count
+    }}
 
     mutating func fill(cArkons: Int) {
         DispatchQueue.global(qos: .background).sync {
@@ -105,8 +108,6 @@ class Arkonery: NSObject {
     }
 
     func makeArkon(parentFishNumber: Int?, parentGenome: Genome) -> Launchpad {
-        defer { cAttempted += 1 }
-
         let (newGenome, fNet_) = makeNet(parentGenome: parentGenome)
 
         guard let fNet = fNet_, !fNet.layers.isEmpty
@@ -127,10 +128,12 @@ class Arkonery: NSObject {
     }
 
     func spawn(parentID: Int?, parentGenome: Genome) {
+        cAttempted += 1
         pendingGenomes.pushBack((parentID, parentGenome))
     }
 
     func spawnStarterPopulation(cArkons: Int) {
+        cAttempted += cArkons
         pendingGenomes.fill(cArkons: cArkons)
     }
 

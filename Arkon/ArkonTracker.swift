@@ -36,9 +36,11 @@ struct ArkonTracker {
     }
 
     private func getSpriteOfOldestLivingArkon() -> SKSpriteNode? {
-        guard let oldest = arkonsPortal.children.max(by: { lhs, rhs in
-            return getAge(lhs) < getAge(rhs)
-        }) as? SKSpriteNode else { return nil }
+        func f(_ node: SKNode) -> Bool { return node.name?.hasPrefix("Arkon") ?? false }
+        func m(_ lhs: SKNode, _ rhs: SKNode) -> Bool { return getAge(lhs) < getAge(rhs) }
+
+        guard let oldest = arkonsPortal.children.filter(f).max(by: m) as? SKSpriteNode
+            else { return nil }
 
         return oldest
     }

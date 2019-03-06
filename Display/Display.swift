@@ -60,29 +60,23 @@ class Display: NSObject, SKSceneDelegate {
             switch state {
             case let .alive(parentFishNumber, protoArkon):
                 protoArkon.launch(parentFishNumber: parentFishNumber)
+                Arkonery.shared.cLivingArkons += 1
 
-            case .dead: break
+            case .dead:
+                Arkonery.shared.cBirthFailed += 1
 
             default: preconditionFailure()
             }
         }
-//
-//        // Init manna factory in update-cycle context
-//        if MannaFactory.shared == nil { MannaFactory.shared = MannaFactory() }
-//
-//        tickCount += 1
-//
-//        Arkonery.shared.trackNotableArkon()
-//        DebugPortal.shared.tick()
-//
-//        if case let .alive(parentFishNumber, newborn) = Arkonery.shared.launchpad {
-//            newborn.launch(parentFishNumber: parentFishNumber)
-//            Arkonery.shared.launchpad = .empty
-//        }
-//
-//        if let kNet = self.kNet {
-//            DNet(kNet).display(via: World.shared.netPortal)
-//            self.kNet = nil
-//        }
+
+        tickCount += 1
+
+        Arkonery.shared.trackNotableArkon()
+        DebugPortal.shared.tick()
+
+        if let kNet = self.kNet {
+            DNet(kNet).display(via: World.shared.netPortal)
+            self.kNet = nil
+        }
     }
 }

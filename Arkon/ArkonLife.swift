@@ -36,8 +36,7 @@ extension Arkon {
         let motorNeuronOutputs = signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
         let thrustVectors = getThrustVectors(motorNeuronOutputs)
         let motionAction = motorOutputs.getAction(thrustVectors)
-        let md = SKAction.group([motionAction])
-        self.sprite.run(md, completion: { [unowned self] in self.tick() })
+        self.sprite.run(motionAction, completion: tick)
     }
 
     static func senseFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
@@ -48,7 +47,10 @@ extension Arkon {
         }
     }
 
-    private func spawn() { Arkonery.shared.spawn(parentID: fishNumber, parentGenome: genome) }
+    private func spawn() {
+        health -= 10
+        Arkonery.shared.spawn(parentID: fishNumber, parentGenome: genome)
+    }
 
     private func stimulus() {
         let velocity = self.sprite.physicsBody?.velocity ?? CGVector.zero
@@ -86,13 +88,11 @@ extension Arkon {
         self.isAlive = true
 
         if !self.isInBounds || !self.isHealthy {
-            print("not healthy")
             self.sprite.run(apoptosizeAction)
             return
         }
 
-        // If I spawn, I'm idle and vulnerable until I'm finished
-        if health > 15 { spawn(); return }
+        if health > 15 { spawn() }
 
         health -= 1.0       // Time and tick wait for no arkon
 
