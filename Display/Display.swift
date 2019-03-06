@@ -50,23 +50,12 @@ class Display: NSObject, SKSceneDelegate {
         if firstPass {
             Arkonery.shared.spawnStarterPopulation(cArkons: 200)
             firstPass = false
+            return
         }
 
-        if let (parentFishNumber, parentGenome) = Arkonery.shared.pendingGenomes.popFront() {
-            let state = Arkonery.shared.makeArkon(
-                parentFishNumber: parentFishNumber, parentGenome: parentGenome
-            )
-
-            switch state {
-            case let .alive(parentFishNumber, protoArkon):
-                protoArkon.launch(parentFishNumber: parentFishNumber)
-                Arkonery.shared.cLivingArkons += 1
-
-            case .dead:
-                Arkonery.shared.cBirthFailed += 1
-
-            default: preconditionFailure()
-            }
+        if let protoArkon = Arkonery.shared.pendingArkons.popFront() {
+            protoArkon.launch()
+            Arkonery.shared.cLivingArkons += 1
         }
 
         tickCount += 1

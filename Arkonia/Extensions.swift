@@ -117,7 +117,7 @@ class Log: TextOutputStream {
 
             io = DispatchIO(
                 type: .stream, fileDescriptor: h.fileDescriptor,
-                queue: DispatchQueue.global(qos: .background), cleanupHandler: { _ in
+                queue: DispatchQueue.main, cleanupHandler: { _ in
                     print("huh? closed?")
                 }
             )
@@ -135,7 +135,7 @@ class Log: TextOutputStream {
         let martin = Array(string.utf8).withUnsafeBytes { DispatchData(bytes: $0) }
 
         io!.write(
-            offset: 0, data: martin, queue: DispatchQueue.global(qos: .background),
+            offset: 0, data: martin, queue: DispatchQueue.main,
             ioHandler: {  _/*Bool*/, _/*DispatchData*/, _/*Int32*/ in }
         )
     }

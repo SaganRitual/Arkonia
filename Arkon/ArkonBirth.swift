@@ -14,7 +14,7 @@ extension Arkon {
         Display.shared.scene!.physicsWorld.add(snap)
     }
 
-    func launch(parentFishNumber: Int?) {
+    func launch() {
         self.sprite = setupSprites()
         self.motorOutputs = MotorOutputs(sprite)
 

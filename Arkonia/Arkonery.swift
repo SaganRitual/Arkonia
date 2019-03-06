@@ -23,31 +23,20 @@ enum Launchpad: Equatable {
     case empty
 }
 
-typealias PendingGenome = (Int?, Genome)
-struct PendingGenomes {
+struct Serializer<T> {
+    private var array = [T]()
+    private let queue: DispatchQueue
 
-    var pendingGenomes = [PendingGenome]() { didSet {
-        DebugPortal.shared.specimens[.cPendingGenomes]?.value = pendingGenomes.count
-    }}
+    init(_ queue: DispatchQueue) { self.queue = queue }
 
-    mutating func fill(cArkons: Int) {
-        DispatchQueue.global(qos: .background).sync {
-            pendingGenomes =
-                Array.init(repeating: (nil, Arkonery.aboriginalGenome), count: cArkons)
-        }
-    }
+    mutating func pushBack(_ item: T) { queue.sync { array.append(item) } }
 
-    mutating func pushBack(_ pendingGenome: PendingGenome) {
-        DispatchQueue.global(qos: .background).sync { pendingGenomes.append(pendingGenome) }
-    }
-
-    mutating func popFront() -> PendingGenome? {
-        return DispatchQueue.global(qos: .background).sync {
-            if pendingGenomes.isEmpty { return nil }
-            return pendingGenomes.removeFirst()
-        }
+    mutating func popFront() -> T? {
+        return queue.sync { if array.isEmpty { return nil }; return array.removeFirst() }
     }
 }
+
+typealias Embryo = (Int?, Genome)
 
 class Arkonery: NSObject {
     static var aboriginalGenome: Genome { return Assembler.makeRandomGenome(cGenes: 200) }
@@ -65,17 +54,21 @@ class Arkonery: NSObject {
         DebugPortal.shared.specimens[.cLivingArkons]?.value = cLivingArkons
     }}
 
-    var pendingGenomes = PendingGenomes()
-
     var arkonsPortal: SKSpriteNode
     let cropper: SKCropNode
-//    let dispatchQueue = DispatchQueue(label: "carkonery")
+    let dispatchQueueLight = DispatchQueue(label: "light.arkonia")
+    let dispatchQueueDark = DispatchQueue(label: "dark.arkonia")
     var launchpad = Launchpad.empty
     let netPortal: SKSpriteNode
     let notificationCanter = NotificationCenter.default
+    var pendingGenomes: Serializer<Embryo>
+    var pendingArkons: Serializer<Arkon>
     var tickWorkItem: DispatchWorkItem!
 
     init(arkonsPortal: SKSpriteNode, netPortal: SKSpriteNode) {
+        self.pendingGenomes = Serializer<Embryo>(dispatchQueueDark)
+        self.pendingArkons = Serializer<Arkon>(dispatchQueueLight)
+
         self.netPortal = netPortal
 
         self.arkonsPortal = arkonsPortal
@@ -107,16 +100,15 @@ class Arkonery: NSObject {
         return (((sprite as? SKSpriteNode)?.userData?["Arkon"]) as? Arkon)
     }
 
-    func makeArkon(parentFishNumber: Int?, parentGenome: Genome) -> Launchpad {
+    func makeArkon(parentFishNumber: Int?, parentGenome: Genome) -> Arkon? {
         let (newGenome, fNet_) = makeNet(parentGenome: parentGenome)
 
-        guard let fNet = fNet_, !fNet.layers.isEmpty
-            else { return .dead(parentFishNumber) }
+        guard let fNet = fNet_, !fNet.layers.isEmpty else { return nil }
 
         guard let arkon = Arkon(genome: newGenome, fNet: fNet, portal: arkonsPortal)
-            else { return .dead(parentFishNumber) }
+            else { return nil }
 
-       return .alive(parentFishNumber, arkon)
+       return arkon
     }
 
     private func makeNet(parentGenome: Genome) -> (Genome, FNet?) {
@@ -127,14 +119,22 @@ class Arkonery: NSObject {
         return (newGenome, e as? FNet)
     }
 
-    func spawn(parentID: Int?, parentGenome: Genome) {
+    func spawn(parentFishNumber: Int?, parentGenome: Genome) {
         cAttempted += 1
-        pendingGenomes.pushBack((parentID, parentGenome))
+        pendingGenomes.pushBack((parentFishNumber, parentGenome))
+
+        dispatchQueueDark.async {
+            if let protoArkon = Arkonery.shared.makeArkon(
+                parentFishNumber: parentFishNumber, parentGenome: parentGenome
+            ) { self.pendingArkons.pushBack(protoArkon) }
+        }
     }
 
     func spawnStarterPopulation(cArkons: Int) {
-        cAttempted += cArkons
-        pendingGenomes.fill(cArkons: cArkons)
+        (0..<cArkons).forEach { _ in
+            cAttempted += 1
+            spawn(parentFishNumber: 0, parentGenome: Arkonery.aboriginalGenome)
+        }
     }
 
     func trackNotableArkon() {

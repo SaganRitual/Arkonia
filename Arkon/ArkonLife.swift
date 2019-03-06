@@ -49,7 +49,7 @@ extension Arkon {
 
     private func spawn() {
         health -= 10
-        Arkonery.shared.spawn(parentID: fishNumber, parentGenome: genome)
+        Arkonery.shared.spawn(parentFishNumber: fishNumber, parentGenome: genome)
     }
 
     private func stimulus() {
