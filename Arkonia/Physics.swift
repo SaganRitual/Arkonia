@@ -12,6 +12,9 @@ class Physics: NSObject, SKPhysicsContactDelegate {
         let a = contact.bodyA
         let b = contact.bodyB
 
+        if ((a.node?.alpha ?? 1) == 0) || ((b.node?.alpha ?? 1) == 0) { return }
+        if a.node?.name == b.node?.name { print("here?"); return }
+
         let arkonSmellsFood =
             ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue |
                 ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
@@ -32,6 +35,9 @@ class Physics: NSObject, SKPhysicsContactDelegate {
     func didEnd(_ contact: SKPhysicsContact) {
         let a = contact.bodyA
         let b = contact.bodyB
+
+        if ((a.node?.alpha ?? 1) == 0) || ((b.node?.alpha ?? 1) == 0) { return }
+        if a.node?.name == b.node?.name { print("here?"); return }
 
         let arkonSmelledFood =
             ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue |
@@ -66,19 +72,27 @@ extension Physics {
     static private func loseTrackOfFood(_ bodyA: SKPhysicsBody, _ bodyB: SKPhysicsBody) {
         guard case let (`as`?, ms?) = assignSprites(bodyA, bodyB) else { return }
 
-        Arkon.loseTrackOfFood(`as`, ms)
+        `as`.run(
+            SKAction.run({ Arkon.loseTrackOfFood(`as`, ms) }, queue: World.shared.dispatchQueue)
+        )
     }
 
     static private func senseFood(_ bodyA: SKPhysicsBody, _ bodyB: SKPhysicsBody) {
         guard case let (`as`?, ms?) = assignSprites(bodyA, bodyB) else { return }
 
-        Arkon.senseFood(`as`, ms)
+        `as`.run(
+            SKAction.run({ Arkon.senseFood(`as`, ms) }, queue: World.shared.dispatchQueue)
+        )
     }
 
     static private func touchFood(_ bodyA: SKPhysicsBody, _ bodyB: SKPhysicsBody) {
         guard case let (`as`?, ms?) = assignSprites(bodyA, bodyB) else { return }
 
-        MannaFactory.shared.compost(ms)
-        Arkon.absorbFood(`as`)
+        `as`.run(
+            SKAction.run({
+                MannaFactory.shared.compost(ms)
+                Arkon.absorbFood(`as`)
+            }, queue: World.shared.dispatchQueue)
+        )
     }
 }
