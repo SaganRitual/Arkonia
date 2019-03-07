@@ -36,7 +36,7 @@ class KSignalRelay: KIdentifiable, Hashable {
 //        print("+\(self)")
     }
 
-    deinit { releaseInputs() }
+    deinit { /*print("~relay \(self.id)");*/ releaseInputs() }
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(self.id)

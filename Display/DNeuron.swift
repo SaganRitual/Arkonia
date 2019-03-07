@@ -44,7 +44,9 @@ extension DNeuron {
         guard let myNeuron = self.neuron else { preconditionFailure() }
 
         // If my relay has been pruned, there's nothing to draw
-        guard let myRelay = myNeuron.relay else { return }
+        guard let myRelay = myNeuron.relay else {
+            preconditionFailure("Neuron should have been disqualified in the KNet setup")
+        }
 
         let myPosition = ArkonCentralLight.unscale(spacer.getPosition(for: self.neuron.relay!.id))
 
@@ -71,8 +73,8 @@ extension DNeuron {
     }
 
     private func drawLine(from start: CGPoint, to end: CGPoint, heat: Double) {
+        let color = NSColor.green
 //        let color = DNeuron.makeColor(heat)
-        let color = ArkonCentralLight.makeColor(hexRGB: 0x47db47)
         let line = DNeuron.drawLine(from: start, to: end, color: color)
         portal.addChild(line)
     }

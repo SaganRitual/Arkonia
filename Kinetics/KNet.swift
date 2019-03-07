@@ -40,7 +40,7 @@ class KNet: KIdentifiable {
 
 extension KNet {
     static func makeNet(_ me: Int, _ fNet: FNet) -> KNet {
-        let id = KIdentifier("KNet", 0)
+        let id = KIdentifier("KNet", me)
 
         let layers: [KLayer] = (0..<fNet.layers.count).map {
             let childID = id.add($0, as: .hiddenLayer)

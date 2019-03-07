@@ -37,7 +37,9 @@ class KLayer: KIdentifiable {
 }
 
 extension KLayer {
-    func connect(to upperLayer: KLayer) { for neuron in neurons { neuron.connect(to: upperLayer) } }
+    func connect(to upperLayer: KLayer) {
+        for neuron in neurons { neuron.connect(to: upperLayer) }
+    }
 
     func decoupleFromGrid() {
         while !signalRelays.isEmpty { signalRelays.removeLast() }
@@ -61,7 +63,6 @@ extension KLayer {
         let neurons: [KNeuron] = signalRelays.enumerated().map { idNumber, relay in
             let newNeuron = KNeuron.makeNeuron(myFullID, idNumber)
             newNeuron.relay = relay
-//            relay.breaker = relay
             return newNeuron
         }
 
@@ -85,6 +86,8 @@ extension KLayer {
 
     func reverseConnect(_ lastHiddenLayer: KLayer) {
         for upperNeuron in lastHiddenLayer.neurons {
+            if upperNeuron.relay?.inputRelays.isEmpty ?? true { continue }
+
             while !upperNeuron.downConnectors.isEmpty {
                 let connector = upperNeuron.downConnectors.removeLast()
                 let outputNeuronSS = connector %% self.neurons.count
