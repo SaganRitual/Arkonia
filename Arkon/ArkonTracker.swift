@@ -20,7 +20,7 @@ struct ArkonTracker {
     }
 
     private func getAge(_ sprite: SKSpriteNode) -> TimeInterval {
-        guard let arkon = sprite.arkon else { preconditionFailure() }
+        guard let arkon = sprite.arkon else { return 0 }
         return (arkon.birthday > 0) ? arkon.myAge : 0
     }
 

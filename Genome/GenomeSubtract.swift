@@ -23,7 +23,7 @@ import Foundation
 // MARK: functions that subtract from the genome: remove and friends
 
 extension Genome {
-    func removeAll() { releaseFull_() }
+    func removeAll() { controlledGeneRelease() }
 
     func removeAll(where predicate: (Element) throws -> Bool) rethrows {
         var iter_: GeneLinkable? = self.head
@@ -115,7 +115,7 @@ extension Genome {
 
         self.count -= 1
 
-        if self.isEmpty { self.releaseFull_(); return gene }
+        if self.isEmpty { reset(releaseGenes: false); return gene }
 
         // If we chopped the head, make a new head
         if head?.isMyself(gene) ?? false {

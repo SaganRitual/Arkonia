@@ -85,7 +85,7 @@ extension Genome {
                 self.tail = transport.head
                 self.tail?.prev = self.head
                 self.count += 1
-                transport.releaseFull_()
+                transport.reset(releaseGenes: false)
                 return
 
             case (1, 2...):
@@ -93,7 +93,7 @@ extension Genome {
                 self.head?.next = transport.head
                 transport.head?.prev = self.head
                 self.count += transport.count
-                transport.releaseFull_()
+                transport.reset(releaseGenes: false)
                 return
 
             case (2..., 1):
@@ -101,7 +101,7 @@ extension Genome {
                 self.tail?.next = transport.tail
                 self.tail = transport.tail
                 self.count += 1
-                transport.releaseFull_()
+                transport.reset(releaseGenes: false)
                 return
 
             case (2..., 2...):
@@ -110,7 +110,7 @@ extension Genome {
                 self.tail = transport.tail
                 self.count += transport.count
 
-                transport.releaseFull_()
+                transport.reset(releaseGenes: false)
                 return
 
             default: preconditionFailure()
@@ -128,7 +128,7 @@ extension Genome {
             self.head = transport.head
             self.count += transport.count
 
-            transport.releaseFull_()
+            transport.reset(releaseGenes: false)
             return
         }
 
@@ -142,7 +142,7 @@ extension Genome {
         transport.tail?.next = next
         count += transport.count
 
-        transport.releaseFull_()
+        transport.reset(releaseGenes: false)
     }
     // swiftlint:enable function_body_length
 

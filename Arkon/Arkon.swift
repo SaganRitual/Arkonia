@@ -16,6 +16,7 @@ class Arkon {
     var targetManna: (id: String, position: CGPoint)?
     var motorOutputs: MotorOutputs!
     var observer: NSObjectProtocol?
+    let parentFishNumber: Int?
     var portal: SKSpriteNode!
     let signalDriver: KSignalDriver
     var sprite: SKSpriteNode!
@@ -40,10 +41,11 @@ class Arkon {
 
     var myAge: TimeInterval { return Display.shared.currentTime - self.birthday }
 
-    init?(genome: Genome, fNet: FNet, portal: SKSpriteNode) {
+    init?(parentFishNumber: Int?, genome: Genome, fNet: FNet, portal: SKSpriteNode) {
         self.fishNumber = ArkonCentralDark.selectionControls.theFishNumber
         ArkonCentralDark.selectionControls.theFishNumber += 1
 
+        self.parentFishNumber = parentFishNumber
         self.birthday = Display.shared.currentTime
 
         self.portal = portal
@@ -58,6 +60,8 @@ class Arkon {
             )
         )
 
+        genome.genomeCounter.arkonWhoseGenomeThisIs = self.fishNumber
+
         // Dark parts all set up; SpriteKit will add a sprite and
         // launch on the next display cycle, unless, of course, we didn't
         // survive the test signal.
@@ -66,15 +70,8 @@ class Arkon {
     }
 
     deinit {
-        if self.observer != nil { NotificationCenter.default.removeObserver(self.observer!) }
-
-        self.sprite?.removeFromParent()
-
-        // Decrement living count only if I am a living arkon, that is,
-        // if I survived birth.
-        if self.isAlive {
-            Arkonery.shared.cLivingArkons -= 1
-            self.isAlive = false // Tidiness/superstition
-        }
+        genome.reset(releaseGenes: true)
+        if self.isAlive { Arkonery.shared.cLivingArkons -= 1 }
+        self.isAlive = false // Tidiness/superstition
     }
 }

@@ -124,7 +124,6 @@ extension Mutator {
                 reversed.asslink(gene)
             }
 
-            segment.releaseFull_()
             reversed.releaseFull_(to: segment)
             segment.isCloneOfParent = false
 
@@ -135,7 +134,6 @@ extension Mutator {
                 shuffled.asslink(gene)
             }
 
-            segment.releaseFull_()
             shuffled.releaseFull_(to: segment)
             segment.isCloneOfParent = false
 

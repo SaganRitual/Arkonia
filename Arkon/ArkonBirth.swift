@@ -15,23 +15,32 @@ extension Arkon {
     }
 
     func launch() {
-        Arkonery.shared.cLivingArkons += 1
-
         self.sprite = setupSprites()
         self.motorOutputs = MotorOutputs(sprite)
 
         self.apoptosizeAction = SKAction.sequence([
-            SKAction.run { [weak self] in
-                self?.sprite?.userData?["Arkon"] = nil
-            },
-            SKAction.removeFromParent()
+            SKAction.run {
+                [weak self] in self?.sprite?.userData?["Arkon"] = nil
+            }, SKAction.removeFromParent()
         ])
 
         self.tickAction = SKAction.run(
             { [weak self] in self?.tick() }
         )
 
+        postPartum(relievedArkonFishNumber: self.parentFishNumber)
+
+        Arkonery.shared.cLivingArkons += 1
+
+        self.isAlive = true
         self.sprite.run(self.tickAction)
+    }
+
+    func postPartum(relievedArkonFishNumber: Int?) {
+        guard let r = relievedArkonFishNumber else { return }
+        guard let arkon = Arkonery.shared.getArkon(for: r) else { return }
+        arkon.sprite.color = .green
+        arkon.sprite.run(arkon.tickAction)
     }
 
     func setupArkonSprite() -> (SKSpriteNode, SKPhysicsBody) {
@@ -44,7 +53,7 @@ extension Arkon {
         arkonSprite.userData = ["Arkon": self]  // Ref to self; we're on our own after birth
 
         arkonSprite.size *= 0.2
-        arkonSprite.color = ArkonCentralLight.colors.randomElement()!
+        arkonSprite.color = .green//ArkonCentralLight.colors.randomElement()!
         arkonSprite.colorBlendFactor = 0.5
 
         arkonSprite.zPosition = ArkonCentralLight.vArkonZPosition

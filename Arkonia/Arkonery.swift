@@ -23,15 +23,15 @@ enum Launchpad: Equatable {
     case empty
 }
 
-struct Serializer<T> {
+class Serializer<T> {
     private var array = [T]()
     private let queue: DispatchQueue
 
     init(_ queue: DispatchQueue) { self.queue = queue }
 
-    mutating func pushBack(_ item: T) { queue.sync { array.append(item) } }
+    func pushBack(_ item: T) { queue.sync { array.append(item) } }
 
-    mutating func popFront() -> T? {
+    func popFront() -> T? {
         return queue.sync { if array.isEmpty { return nil }; return array.removeFirst() }
     }
 }
@@ -104,12 +104,21 @@ class Arkonery: NSObject {
         return (((sprite as? SKSpriteNode)?.userData?["Arkon"]) as? Arkon)
     }
 
+    func getArkon(for fishNumber: Int?) -> Arkon? {
+        guard let fn = fishNumber else { return nil }
+        return (arkonsPortal.children.first(where: {
+            guard let sprite = ($0 as? SKSpriteNode) else { return false }
+            return (sprite.arkon?.fishNumber ?? -42) == fn
+        }) as? SKSpriteNode)?.arkon
+    }
+
     func makeArkon(parentFishNumber: Int?, parentGenome: Genome) -> Arkon? {
         let (newGenome, fNet_) = makeNet(parentGenome: parentGenome)
 
         guard let fNet = fNet_, !fNet.layers.isEmpty else { return nil }
 
-        guard let arkon = Arkon(genome: newGenome, fNet: fNet, portal: arkonsPortal)
+        guard let arkon = Arkon(parentFishNumber: parentFishNumber,
+                                genome: newGenome, fNet: fNet, portal: arkonsPortal)
             else { return nil }
 
        return arkon
@@ -123,28 +132,59 @@ class Arkonery: NSObject {
         return (newGenome, e as? FNet)
     }
 
-    func spawn(parentFishNumber: Int?, parentGenome: Genome) {
+    func makeProtoArkon(parentFishNumber parentFishNumber_: Int?,
+                        parentGenome parentGenome_: Genome?)
+    {
         cAttempted += 1
         cPending += 1
-        pendingGenomes.pushBack((parentFishNumber, parentGenome))
 
         dispatchQueueDark.async {
+            defer { self.cPending -= 1 }
+
+            let parentGenome = parentGenome_ ?? Arkonery.aboriginalGenome
+            let parentFishNumber = parentFishNumber_ ?? -42
+
             if let protoArkon = Arkonery.shared.makeArkon(
                 parentFishNumber: parentFishNumber, parentGenome: parentGenome
-            ) {
+                ) {
                 self.pendingArkons.pushBack(protoArkon)
+
+                // Just for debugging, so I can see who's doing what
+                self.getArkon(for: parentFishNumber)?.sprite.color = .yellow
             } else {
                 self.cBirthFailed += 1
+                guard let arkon = self.getArkon(for: parentFishNumber) else { return }
+                arkon.sprite.color = .blue
+                arkon.sprite.run(arkon.tickAction)
             }
-
-            self.cPending -= 1
         }
     }
 
+    func spawn(parentFishNumber: Int?, parentGenome: Genome) {
+//        pendingGenomes.pushBack((parentFishNumber, parentGenome))
+        makeProtoArkon(parentFishNumber: parentFishNumber, parentGenome: parentGenome)
+//
+//        dispatchQueueDark.async {
+//            defer { self.cPending -= 1 }
+//
+//            if let protoArkon = Arkonery.shared.makeArkon(
+//                parentFishNumber: parentFishNumber, parentGenome: parentGenome
+//            ) {
+//                self.pendingArkons.pushBack(protoArkon)
+//
+//                // Just for debugging, so I can see who's doing what
+//                self.getArkon(for: parentFishNumber ?? -42)?.sprite.color = .yellow
+//            } else {
+//                self.cBirthFailed += 1
+//                guard let arkon = self.getArkon(for: parentFishNumber) else { return }
+//                arkon.sprite.color = .blue
+//                arkon.sprite.run(arkon.tickAction)
+//            }
+//        }
+    }
+
     func spawnStarterPopulation(cArkons: Int) {
-        (0..<cArkons).forEach { _ in
-            spawn(parentFishNumber: 0, parentGenome: Arkonery.aboriginalGenome)
-        }
+        (0..<cArkons).forEach { _ in makeProtoArkon(parentFishNumber: nil, parentGenome: nil) }
     }
 
     func trackNotableArkon() {

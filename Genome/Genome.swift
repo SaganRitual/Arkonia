@@ -27,8 +27,18 @@ class Genome: CustomDebugStringConvertible, GenomeProtocol {
     enum Caller { case count, head, tail }
 
     class GenomeCounter {
-        init() { DebugPortal.shared.specimens[.cLiveGenomes]?.value += 1 }
-        deinit { DebugPortal.shared.specimens[.cLiveGenomes]?.value -= 1 }
+        static var highWaterMark = 0
+        var arkonWhoseGenomeThisIs: Int?
+
+        init() {
+//            print("+", terminator: "")
+            DebugPortal.shared.specimens[.cLiveGenomes]?.value += 1
+        }
+
+        deinit {
+//            if let a = arkonWhoseGenomeThisIs { print("-", a) } else { print("@", terminator: "") }
+            DebugPortal.shared.specimens[.cLiveGenomes]?.value -= 1
+        }
     }
 
     let genomeCounter = GenomeCounter()
@@ -70,14 +80,7 @@ class Genome: CustomDebugStringConvertible, GenomeProtocol {
     init(_ segment: Segment) { segment.releaseFull_(to: self) }
     init(_ segments: [Segment]) { segments.forEach { asslink($0) } }
 
-    // Explicitly unzip from the back--if we allow Swift to control the
-    // destruction, it might destruct the signal relays such that each
-    // destructor calls the next in the strand, so we end up with recursion
-    // that eventually runs us out of stack. Here we drop genes off the end,
-    // so we're only destructing one at a time, with no recursion.
-    deinit {
-        while self.tail != nil { self.tail = self.tail?.prev; self.tail?.next = nil }
-    }
+    deinit { controlledGeneRelease() }
 
     func dump(_ fishNumber: Int, _ score: Double) {
         let s = String(format: "%.8f", score)
@@ -186,10 +189,25 @@ extension Genome: Sequence {
 // MARK: Low-level link handling
 
 extension Genome {
-    func releaseFull_() { head = nil; tail = nil; count = 0 }
+    // Explicitly unzip from the back--if we allow Swift to control the
+    // destruction, it might destruct the signal relays such that each
+    // destructor calls the next in the strand, so we end up with recursion
+    // that eventually runs us out of stack. Here we drop genes off the end,
+    // so we're only destructing one at a time, with no recursion.
+    func controlledGeneRelease() {
+        while self.tail != nil { self.tail = self.tail?.prev; self.tail?.next = nil }
+        self.reset(releaseGenes: false)
+    }
 
     func releaseFull_(to newOwner: Genome) {
         newOwner.head = self.head; newOwner.tail = self.tail; newOwner.count = self.count
-        releaseFull_()
+        self.reset(releaseGenes: false)
+    }
+
+    func reset(releaseGenes: Bool) {
+        if releaseGenes { controlledGeneRelease() }
+
+        // Let go of the strand, but don't destruct the genes
+        head = nil; tail = nil; count = 0
     }
 }
