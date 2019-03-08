@@ -3,11 +3,14 @@ import SpriteKit
 
 extension Arkon {
 
-    static func absorbFood(_ sprite: SKSpriteNode) {
-        guard let arkon = sprite.userData?["Arkon"] as? Arkon else { return }
+    static func absorbFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
+        let foodMaturity = (mannaSprite.birthday == 0) ? 10.0 :
+            min(20.0, (Display.shared.currentTime - (mannaSprite.birthday ?? 0.0)))
 
-        arkon.health += 8.0
-        arkon.targetManna = nil
+        arkonSprite.arkon?.health += (foodMaturity < 0) ? 0 : foodMaturity
+        arkonSprite.arkon?.targetManna = nil
+
+        MannaFactory.shared.compost(mannaSprite)
     }
 
     private func getThrustVectors(_ motorNeuronOutputs: [Double]) -> [CGVector] {
@@ -23,13 +26,12 @@ extension Arkon {
     }
 
     static func loseTrackOfFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
-        guard let arkon = arkonSprite.userData?["Arkon"] as? Arkon else { return }
-        guard let (idOfMorselIThoughtISaw, _) = arkon.targetManna else { return }
+        guard let (idOfMorselIThoughtISaw, _) = arkonSprite.arkon!.targetManna else { return }
 
         guard let idOfNearbyMorsel = mannaSprite.name else { preconditionFailure() }
         guard idOfMorselIThoughtISaw == idOfNearbyMorsel else { return }
 
-        arkon.targetManna = nil
+        arkonSprite.arkon!.targetManna = nil
     }
 
     private func response() {
@@ -40,10 +42,8 @@ extension Arkon {
     }
 
     static func senseFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
-        guard let arkon = arkonSprite.userData?["Arkon"] as? Arkon else { return }
-
-        if arkon.targetManna == nil {
-            arkon.targetManna = (mannaSprite.name!, mannaSprite.position)
+        if arkonSprite.arkon!.targetManna == nil {
+            arkonSprite.arkon!.targetManna = (mannaSprite.name!, mannaSprite.position)
         }
     }
 
@@ -91,6 +91,8 @@ extension Arkon {
             return
         }
 
+        self.sprite.color = .green
+
         if health > 10 { spawn(); return }
 
         health -= 1.0       // Time and tick wait for no arkon
@@ -99,12 +101,4 @@ extension Arkon {
         response()
     }
 
-}
-
-extension SKSpriteNode {
-    var arkon: Arkon? {
-        guard let userData = self.userData else { return nil }
-        guard let arkonEntry = userData["Arkon"] else { return nil }
-        return arkonEntry as? Arkon
-    }
 }

@@ -22,7 +22,10 @@ class DBootstrap: NSObject, SKSceneDelegate {
     }
 
     func launch()  { scene.delegate = self }
-    func liftoff() { scene.delegate = Display.shared; selfReference = nil }
+    func liftoff() {
+        scene.delegate = Display.shared
+        selfReference = nil
+    }
 
     func createArkonery() {
         let a = World.shared.arkonsPortal

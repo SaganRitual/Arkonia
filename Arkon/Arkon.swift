@@ -9,7 +9,7 @@ class Arkon {
     let fNet: FNet
     let genome: [Gene]
     var hasGivenBirth = false
-    var health = 5.0
+    var health = 10.0
     var isAlive = false
     var isShowingNet = false
     var kNet: KNet!

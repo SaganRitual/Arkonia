@@ -27,6 +27,8 @@ class Serializer<T> {
     private var array = [T]()
     private let queue: DispatchQueue
 
+    var isEmpty: Bool { return array.isEmpty }
+
     init(_ queue: DispatchQueue) { self.queue = queue }
 
     func pushBack(_ item: T) { queue.sync { array.append(item) } }
@@ -35,8 +37,6 @@ class Serializer<T> {
         return queue.sync { if array.isEmpty { return nil }; return array.removeFirst() }
     }
 }
-
-typealias Embryo = (Int?, Genome)
 
 class Arkonery: NSObject {
     static var aboriginalGenome: [Gene] { return Assembler.makeRandomGenome(cGenes: 200) }
@@ -61,11 +61,9 @@ class Arkonery: NSObject {
     var arkonsPortal: SKSpriteNode
     let cropper: SKCropNode
     let dispatchQueueLight = DispatchQueue(label: "light.arkonia")
-//    let dispatchQueueDark = DispatchQueue(label: "dark.arkonia")
     var launchpad = Launchpad.empty
     let netPortal: SKSpriteNode
     let notificationCanter = NotificationCenter.default
-//    var pendingGenomes: Serializer<Embryo>
     var pendingArkons: Serializer<Arkon>
     var tickWorkItem: DispatchWorkItem!
 
@@ -78,7 +76,6 @@ class Arkonery: NSObject {
     }()
 
     init(arkonsPortal: SKSpriteNode, netPortal: SKSpriteNode) {
-//        self.pendingGenomes = Serializer<Embryo>(dispatchQueueDark)
         self.pendingArkons = Serializer<Arkon>(dispatchQueueLight)
 
         self.netPortal = netPortal
@@ -108,9 +105,7 @@ class Arkonery: NSObject {
         arkonsPortal.speed = 0.1
     }
 
-    private func getArkon(for sprite: SKNode) -> Arkon? {
-        return (((sprite as? SKSpriteNode)?.userData?["Arkon"]) as? Arkon)
-    }
+    private func getArkon(for sprite: SKNode) -> Arkon? { return (sprite as? SKSpriteNode)?.arkon }
 
     func getArkon(for fishNumber: Int?) -> Arkon? {
         guard let fn = fishNumber else { return nil }

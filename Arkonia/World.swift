@@ -15,7 +15,7 @@ class World {
 
     let arkonsPortal: SKSpriteNode
     let netPortal: SKSpriteNode
-    private let physics: Physics
+    let physics: Physics
 
     init() {
         World.setSelectionControls()

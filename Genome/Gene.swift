@@ -20,14 +20,14 @@
 
 import Foundation
 
-class Gene: CustomDebugStringConvertible, GeneLinkable {
+class Gene: CustomDebugStringConvertible {
     static var idNumber = 0
 
     let idNumber: Int
     let type: GeneType
 
-    var next: GeneLinkable?
-    weak var prev: GeneLinkable?
+    var next: Gene?
+    weak var prev: Gene?
 
     var description: String { Gene.missingOverrideInSubclass() }
     var debugDescription: String { return description }
@@ -47,8 +47,8 @@ class Gene: CustomDebugStringConvertible, GeneLinkable {
 
     deinit { DebugPortal.shared.specimens[.cLiveGenes]?.value -= 1 }
 
-    func copy() -> GeneLinkable { Gene.missingOverrideInSubclass() }
-    func isMyself(_ thatGuy: GeneLinkable?) -> Bool { return self === thatGuy }
+    func copy() -> Gene { Gene.missingOverrideInSubclass() }
+    func isMyself(_ thatGuy: Gene?) -> Bool { return self === thatGuy }
 
     // swiftlint:disable cyclomatic_complexity
 

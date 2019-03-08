@@ -28,7 +28,7 @@ class gActivatorFunction: Gene, NeuronActivatorProtocol {
         super.init(.activator)
     }
 
-    override func copy() -> GeneLinkable { return gActivatorFunction(self.value) }
+    override func copy() -> Gene { return gActivatorFunction(self.value) }
 
     override func mutate() -> Bool {
         let v = nok(AFn.FunctionName.allCases.firstIndex(of: value))
@@ -53,7 +53,7 @@ class gBias: Gene, NeuronBiasProtocol {
         super.init(.bias)
     }
 
-    override func copy() -> GeneLinkable { return gBias(self.value) }
+    override func copy() -> Gene { return gBias(self.value) }
     override func mutate() -> Bool {
         let newValue = mutate(from: self.value)
 
@@ -84,7 +84,7 @@ class gIntGene: Gene {
         super.init(type)
     }
 
-    override func copy() -> GeneLinkable { return gIntGene(self.type, self.value) }
+    override func copy() -> Gene { return gIntGene(self.type, self.value) }
 
     override func mutate() -> Bool {
         let newValue = mutate(from: self.value)
@@ -97,7 +97,7 @@ class gIntGene: Gene {
 class gDownConnector: gIntGene, NeuronDownConnectorProtocol {
     init(_ value: Int) { super.init(.downConnector, value) }
 
-    override func copy() -> GeneLinkable { return gDownConnector(self.value) }
+    override func copy() -> Gene { return gDownConnector(self.value) }
 
     override class func makeRandomGene() -> gDownConnector {
         return gDownConnector(Int.random(in: 0..<10))
@@ -107,7 +107,7 @@ class gDownConnector: gIntGene, NeuronDownConnectorProtocol {
 class gHox: gIntGene {
     init(_ value: Int) { super.init(.hox, value) }
 
-    override func copy() -> GeneLinkable { return gHox(self.value) }
+    override func copy() -> Gene { return gHox(self.value) }
 
     override class func makeRandomGene() -> Gene {
         return gHox(Int.random(in: 0..<10))
@@ -126,7 +126,7 @@ class gLayer: Gene {
     override var description: String { return "\nLayer gene" }
 
     init() { super.init(.layer) }
-    override func copy() -> GeneLinkable { return gLayer() }
+    override func copy() -> Gene { return gLayer() }
     override func mutate() -> Bool { return false /* Non-value genes don't mutate */ }
     override class func makeRandomGene() -> Gene { return gLayer() }
 }
@@ -134,7 +134,7 @@ class gLayer: Gene {
 class gNeuron: Gene {
     override var description: String { return "\tNeuron gene" }
     init() { super.init(.neuron) }
-    override func copy() -> GeneLinkable { return gNeuron() }
+    override func copy() -> Gene { return gNeuron() }
     override func mutate() -> Bool { return false  /* Non-value genes don't mutate */ }
     override class func makeRandomGene() -> Gene { return gNeuron() }
 }
@@ -143,7 +143,7 @@ class gNeuron: Gene {
 class gPolicy: Gene {
     override var description: String { return "\t\tPolicy not implemented (yet)" }
     init() { super.init(.policy) }
-    override func copy() -> GeneLinkable { return gPolicy() }
+    override func copy() -> Gene { return gPolicy() }
     override func mutate() -> Bool { return false /* Not sure what we'll do with policy genes yet */ }
     override class func makeRandomGene() -> Gene { return gPolicy() }
 }
@@ -151,7 +151,7 @@ class gPolicy: Gene {
 class gSkipAnyType: gIntGene {
     override var description: String { return "\t\tSkip (\(value) genes of any type)"  }
     init(_ value: Int) { super.init(.skipAnyType, value) }
-    override func copy() -> GeneLinkable { return gSkipAnyType(self.value) }
+    override func copy() -> Gene { return gSkipAnyType(self.value) }
     override func mutate() -> Bool { return false /* Haven't decided how to mutate these yet */ }
 }
 
@@ -165,7 +165,7 @@ class gSkipOneType: gIntGene {
         super.init(.skipOneType, value)
     }
 
-    override func copy() -> GeneLinkable {
+    override func copy() -> Gene {
         return gSkipOneType(self.value, typeToSkip: self.typeToSkip)
     }
 
@@ -192,7 +192,7 @@ class gUpConnector: Gene, NeuronUpConnectorProtocol {
         super.init(.upConnector)
     }
 
-    override func copy() -> GeneLinkable { return gUpConnector(self.value) }
+    override func copy() -> Gene { return gUpConnector(self.value) }
 
     override func mutate() -> Bool {
         let channel = mutate(from: self.channel)

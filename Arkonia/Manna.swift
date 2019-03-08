@@ -21,15 +21,31 @@ class MannaFactory {
         let sprite = morsels[hamNumber]
         sprite.position = CGPoint.random(x: xRange, y: yRange)
 
-        sprite.alpha = 1.0
+        // Zero will make the manna worth extra, so the arkons won't starve
+        // in the first five seconds.
+        let birthday = (sprite.isFirstBloom ?? false) ? 0.0 : Display.shared.currentTime
+
+        sprite.birthday = birthday
+        sprite.isComposting = false
+        sprite.alpha = 1
+
+        sprite.removeAllActions()
         sprite.physicsBody!.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
     }
 
     func compost(_ sprite: SKSpriteNode) {
-        sprite.alpha = 0.0
         sprite.physicsBody!.contactTestBitMask = 0
 
-        let hamNumber = Int(sprite.name!)!
+        sprite.isFirstBloom = false
+        sprite.isComposting = true
+        sprite.alpha = 0
+
+        guard let name = sprite.name else { preconditionFailure() }
+        guard var start = name.firstIndex(of: "(") else { preconditionFailure() }
+        guard let end = name.firstIndex(of: ")") else { preconditionFailure() }
+
+        start = name.index(after: start)
+        let hamNumber = Int(name[start..<end])!
         sprite.run(SKAction.run(
             { [unowned self] in self.bloom(hamNumber) }
         ))
@@ -39,6 +55,7 @@ class MannaFactory {
         let p = SKPhysicsBody(edgeLoopFrom: edgeLoopFrame)
 
         p.categoryBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
+        p.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
         p.collisionBitMask = 0
 
         p.isDynamic = false
@@ -52,14 +69,15 @@ class MannaFactory {
         sprite.setScale(0.025)
         sprite.color = .white
         sprite.colorBlendFactor = 0.5
-        sprite.name = String(hamNumber)
+        sprite.name = "Manna(\(hamNumber))"
         sprite.zPosition = ArkonCentralLight.vMannaZPosition
 
         sprite.physicsBody = setupPhysicsBody(sprite.frame)
 
-        sprite.run(SKAction.run(
-            { [unowned self] in self.bloom(hamNumber) }
-        ))
+        sprite.setupAsManna()
+        sprite.isFirstBloom = true
+
+        sprite.run(SKAction.run({ [unowned self] in self.bloom(hamNumber) }))
 
         Arkonery.shared.arkonsPortal.addChild(sprite)
 

@@ -60,9 +60,9 @@ class Mutator {
 
     func getWeightedRandomMutationType() -> MutationType {
         let weightMap: [MutationType : Int] = [
-            .deleteRandomGenes : 2, .deleteRandomSegment : 2,
-            .insertRandomGenes : 10, .insertRandomSegment : 10,
-            .mutateRandomGenes : 20, .cutAndReinsertSegment : 10, .copyAndReinsertSegment : 10
+            .deleteRandomGenes : 3, .deleteRandomSegment : 1,
+            .insertRandomGenes : 6, .insertRandomSegment :6,
+            .mutateRandomGenes : 20, .cutAndReinsertSegment : 6, .copyAndReinsertSegment : 6
         ]
 
         let weightRange = weightMap.reduce(0, { return $0 + $1.value })

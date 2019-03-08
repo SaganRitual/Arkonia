@@ -17,6 +17,16 @@ class Display: NSObject, SKSceneDelegate {
         super.init()
     }
 
+    func didSimulatePhysics(for scene: SKScene) {
+        scene.children.compactMap { (node: SKNode) -> SKSpriteNode? in
+            return (node.physicsBody?.categoryBitMask ==
+                    ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue) ?
+                        node as? SKSpriteNode : nil
+        }.forEach {
+            $0.isAwaitingNextPhysicsCycle = false
+        }
+    }
+
     /**
      Schedule the kNet to be displayed on the next update.
 
@@ -53,9 +63,10 @@ class Display: NSObject, SKSceneDelegate {
             return
         }
 
-        if let protoArkon = Arkonery.shared.pendingArkons.popFront() {
-//            print("SKSceneDelegate launching Arkon(\(protoArkon.fishNumber))")
-            protoArkon.launch()
+        if let protoArkon = Arkonery.shared.pendingArkons.popFront() { protoArkon.launch() }
+
+        if Arkonery.shared.pendingArkons.isEmpty {
+            scene.physicsWorld.contactDelegate = World.shared.physics
         }
 
         tickCount += 1
