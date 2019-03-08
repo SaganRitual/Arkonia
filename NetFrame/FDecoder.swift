@@ -24,23 +24,22 @@ enum DecodeState {
     case diagnostics, inLayer, inNeuron, noLayer
 }
 
-class FDecoder: DecoderProtocol {
+class FDecoder {
     static var shared: FDecoder!
 
     var currentNeuronIsMeaty = false
     var decodeState: DecodeState = .noLayer
-    var inputGenome: Genome?
+    var inputGenome: [Gene]?
     var fNet: FNet!
     weak var layerUnderConstruction: FLayer?
     weak var neuronUnderConstruction: FNeuron?
 
     var counter = 0
 
-    func decode(_ inputGenome: GenomeProtocol) -> FNetProtocol? {
+    func decode(_ inputGenome: [Gene]) -> FNet? {
         fNet = FNet()
 
-        self.inputGenome = nok(inputGenome as? Genome)
-        self.inputGenome!.makeIterator().forEach { g in let gene = nok(g as? Gene)
+        inputGenome.forEach { gene in
             switch decodeState {
             case .diagnostics: dispatch_noLayer(gene)
             case .noLayer:     dispatch_noLayer(gene)
@@ -56,17 +55,6 @@ class FDecoder: DecoderProtocol {
     }
 
     func reset() { self.decodeState = .noLayer; fNet = nil }
-
-    func setInputGenome(_ inputGenome: GenomeProtocol) -> DecoderProtocol {
-        if self.inputGenome == nil { self.inputGenome = Genome() }
-
-        self.inputGenome!.reset(releaseGenes: true)
-
-        let ig = nok(inputGenome as? Genome)
-        ig.releaseFull_(to: self.inputGenome!)
-//        self.inputGenome!.dump()
-        return self
-    }
 }
 
 extension FDecoder {

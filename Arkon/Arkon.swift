@@ -7,7 +7,7 @@ class Arkon {
     var apoptosizeAction: SKAction!
     let fishNumber: Int
     let fNet: FNet
-    let genome: Genome
+    let genome: [Gene]
     var hasGivenBirth = false
     var health = 5.0
     var isAlive = false
@@ -41,7 +41,7 @@ class Arkon {
 
     var myAge: TimeInterval { return Display.shared.currentTime - self.birthday }
 
-    init?(parentFishNumber: Int?, genome: Genome, fNet: FNet, portal: SKSpriteNode) {
+    init?(parentFishNumber: Int?, genome: [Gene], fNet: FNet, portal: SKSpriteNode) {
         self.fishNumber = ArkonCentralDark.selectionControls.theFishNumber
         ArkonCentralDark.selectionControls.theFishNumber += 1
 
@@ -60,8 +60,6 @@ class Arkon {
             )
         )
 
-        genome.genomeCounter.arkonWhoseGenomeThisIs = self.fishNumber
-
         // Dark parts all set up; SpriteKit will add a sprite and
         // launch on the next display cycle, unless, of course, we didn't
         // survive the test signal.
@@ -70,7 +68,6 @@ class Arkon {
     }
 
     deinit {
-        genome.reset(releaseGenes: true)
         if self.isAlive { Arkonery.shared.cLivingArkons -= 1 }
         self.isAlive = false // Tidiness/superstition
     }

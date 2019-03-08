@@ -26,40 +26,40 @@ func &&= (_ lhs: inout Bool, _ rhs: Bool) { lhs = lhs && rhs }
 extension Mutator {
 
     @discardableResult
-    func cutRandomSegment() -> Segment? {
-        let (leftCut, rightCut) = getRandomCuts(segmentLength: workingGenome.count)
-
-        // This isn't correct, but I'm being lazy
-        workingGenome.isCloneOfParent &&= (leftCut < rightCut)
+    func cutRandomSegment() -> [Gene]? {
+        let (leftCut, rightCut) = getRandomCuts(segmentLength: sourceGenome.count)
         return cutSegment(leftCut, rightCut)
     }
 
     @discardableResult
-    func cutSegment(_ leftCut: Int, _ rightCut: Int) -> Segment? {
-        if !okToSnip(leftCut, rightCut) { return nil}
+    func cutSegment(_ leftCut: Int, _ rightCut: Int) -> [Gene]? {
+        if !okToSnip(leftCut, rightCut) { return nil }
 
-        workingGenome.isCloneOfParent &&= (leftCut < rightCut)
-        return workingGenome.removeSubrange(leftCut..<rightCut)
+        outputGenome.removeAll(keepingCapacity: true)
+        outputGenome.append(contentsOf: sourceGenome[..<leftCut])
+        outputGenome.append(contentsOf: sourceGenome[rightCut...])
+
+        return Array(sourceGenome[leftCut..<rightCut])
     }
 
     func deleteRandomGenes() {
-        if workingGenome.isEmpty { return }
-
-        let cDelete = Double(abs(bellCurve.nextFloat())) * Double(workingGenome.count)
+        let cDelete = Double(abs(bellCurve.nextFloat())) * Double(sourceGenome.count)
         if Int(cDelete) == 0 { return }
 
-        let strideLength = workingGenome.count / Int(cDelete)
-        for _ in stride(from: 0, to: workingGenome.count, by: strideLength) {
-            let wherefore = Int.random(in: 0..<workingGenome.count)
-            workingGenome.remove(at: wherefore)
-            workingGenome.isCloneOfParent = false
+        outputGenome.removeAll(keepingCapacity: true)
 
-            if workingGenome.isEmpty {
-                // swiftlint:disable empty_count
-                precondition(workingGenome.count == 0 && workingGenome.rcount == 0 && workingGenome.scount == 0)
-                // swiftlint:enable empty_count
-                break
-            }
+        var startIndex = sourceGenome.startIndex
+        var endIndex = sourceGenome.startIndex
+
+        while startIndex != endIndex {
+            let segmentLength = Int.random(in: startIndex..<sourceGenome.endIndex)
+
+            endIndex = sourceGenome.index(before: segmentLength - 1)
+
+            outputGenome.append(contentsOf: sourceGenome[startIndex..<endIndex])
+
+            startIndex = sourceGenome.index(after: segmentLength)
         }
     }
+
 }

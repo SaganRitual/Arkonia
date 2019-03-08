@@ -20,18 +20,17 @@
 
 import Foundation
 
-class Mutator: MutatorProtocol {
+class Mutator {
     static var shared: Mutator!
 
     var bellCurve = BellCurve()
-    weak var workingGenome: Genome!
+    var outputGenome = [Gene]()
+    var sourceGenome = [Gene]()
 
-    func copySegment() -> Segment {
-        let (leftCut, rightCut) = getRandomCuts(segmentLength: workingGenome.count)
+    func copySegment() -> [Gene] {
+        let (leftCut, rightCut) = getRandomCuts(segmentLength: sourceGenome.count)
 
-        let c = workingGenome.copy(from: leftCut, to: rightCut)
-        if leftCut > 0 || rightCut < workingGenome.count { c.isCloneOfParent = false }
-        return c
+        return sourceGenome[leftCut..<rightCut].map { $0 }
     }
 
     func fixOrder(_ lhs: Int, _ rhs: Int) -> (Int, Int) {
@@ -53,17 +52,17 @@ class Mutator: MutatorProtocol {
     }
 
     func getRandomSnipRange() -> (Int, Int) {
-        if workingGenome.isEmpty { return (0, 0) }
+        if sourceGenome.isEmpty { return (0, 0) }
 
-        let (leftCut, rightCut) = getRandomCuts(segmentLength: workingGenome.count)
+        let (leftCut, rightCut) = getRandomCuts(segmentLength: sourceGenome.count)
         return fixOrder(leftCut, rightCut)
     }
 
     func getWeightedRandomMutationType() -> MutationType {
         let weightMap: [MutationType : Int] = [
-            .deleteRandomGenes : 0, .deleteRandomSegment : 0,
+            .deleteRandomGenes : 2, .deleteRandomSegment : 2,
             .insertRandomGenes : 10, .insertRandomSegment : 10,
-            .mutateRandomGenes : 0, .cutAndReinsertSegment : 10, .copyAndReinsertSegment : 10
+            .mutateRandomGenes : 20, .cutAndReinsertSegment : 10, .copyAndReinsertSegment : 10
         ]
 
         let weightRange = weightMap.reduce(0, { return $0 + $1.value })
@@ -83,8 +82,10 @@ class Mutator: MutatorProtocol {
         cutAndReinsertSegment, copyAndReinsertSegment, mutateRandomGenes
     }
 
-    func mutate(_ genome: Genome) {
-        self.workingGenome = genome
+    func mutate(_ sourceGenome: [Gene]) -> [Gene] {
+        self.sourceGenome = sourceGenome
+        self.outputGenome.removeAll(keepingCapacity: true)
+
         let m = getWeightedRandomMutationType()
 
         switch m {
@@ -99,6 +100,8 @@ class Mutator: MutatorProtocol {
         case .cutAndReinsertSegment:       cutAndReinsertSegment()
         case .copyAndReinsertSegment:      copyAndReinsertSegment()
         }
+
+        return self.outputGenome
     }
 
     func mutate(from value: Double) -> Double {
@@ -131,22 +134,19 @@ class Mutator: MutatorProtocol {
 
 extension Mutator {
     func mutateRandomGenes() {
-        if workingGenome.isEmpty { return }
+        if sourceGenome.isEmpty { return }
+        outputGenome = Array(sourceGenome)
 
         let m = Mutator.shared!
         let b = abs(m.bellCurve.nextFloat())
-        let cMutate = Double(b) * Double(workingGenome.count)
+        var cMutate = Double(b) * Double(outputGenome.count)
         precondition(abs(cMutate) != Double.infinity && cMutate != Double.nan)
         guard Int(cMutate) > 0 else { return }
 
-        precondition(workingGenome.count == workingGenome.rcount && workingGenome.count == workingGenome.scount)
-
-        let strideLength = workingGenome.count / Int(cMutate)
-        stride(from: 0, to: workingGenome.count, by: strideLength).forEach { _ in
-            let wherefore = Int.random(in: 0..<workingGenome.count)
-            let gene = nok(workingGenome[wherefore] as? Gene)
-
-            if gene.mutate() { workingGenome.isCloneOfParent = false }
+        while cMutate > 0 {
+            let wherefore = Int.random(in: 0..<outputGenome.count)
+            outputGenome[wherefore] = Gene.makeRandomGene()
+            cMutate -= 1
         }
     }
 }

@@ -20,7 +20,7 @@
 
 import Foundation
 
-class FNet: FNetProtocol {
+class FNet {
     var cMotorNeurons = ArkonCentralDark.selectionControls.cMotorNeurons
     var cSenseNeurons = ArkonCentralDark.selectionControls.cSenseNeurons
     var fishNumber: Int?

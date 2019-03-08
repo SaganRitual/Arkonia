@@ -20,18 +20,6 @@
 
 import Foundation
 
-protocol FNetProtocol { }
-protocol GenomeProtocol { }
-
-protocol DecoderProtocol {
-    func decode(_ genome: GenomeProtocol) -> FNetProtocol?
-}
-
-protocol MutatorProtocol {
-    func mutate(_ genome: Genome)
-    func mutate(from value: Double) -> Double
-}
-
 enum ArkonCentralDark {
     static var selectionControls = KSelectionControls()
 

@@ -6,7 +6,7 @@ extension Arkon {
     static func absorbFood(_ sprite: SKSpriteNode) {
         guard let arkon = sprite.userData?["Arkon"] as? Arkon else { return }
 
-        arkon.health += 10.0
+        arkon.health += 8.0
         arkon.targetManna = nil
     }
 
@@ -48,7 +48,7 @@ extension Arkon {
     }
 
     private func spawn() {
-        health -= 10
+        health -= 8
         self.sprite.color = .red
         Arkonery.shared.spawn(parentFishNumber: fishNumber, parentGenome: genome)
     }
@@ -91,7 +91,7 @@ extension Arkon {
             return
         }
 
-        if health > 30 { spawn(); return }
+        if health > 10 { spawn(); return }
 
         health -= 1.0       // Time and tick wait for no arkon
 

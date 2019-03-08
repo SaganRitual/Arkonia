@@ -20,31 +20,28 @@
 import Foundation
 
 enum Assembler {
-    static public func makePassThruGenome() -> Genome {
+    static public func makePassThruGenome() -> [Gene] {
         let cMotorNeurons = ArkonCentralDark.selectionControls.cMotorNeurons
         let cSenseNeurons = ArkonCentralDark.selectionControls.cSenseNeurons
         let cLayers = ArkonCentralDark.selectionControls.cLayersInStarter
 
-        let p = Genome((0..<(cLayers - 1)).map { _ in return makeOneLayer(cNeurons: cSenseNeurons) })
+        let p = (0..<(cLayers - 1)).flatMap { _ in makeOneLayer(cNeurons: cSenseNeurons) }
+
         let h = makeLastHiddenLayer(cSenseNeurons: cSenseNeurons, cMotorNeurons: cMotorNeurons)
 
-        p.asslink(h)
-        return p
+        return p + h
     }
 
-    static public func makeRandomGenome(cGenes: Int) -> Genome {
-        return Segment((0..<cGenes).map({ _ in Gene.makeRandomGene() }))
+    static public func makeRandomGenome(cGenes: Int) -> [Gene] {
+        return (0..<cGenes).map { _ in Gene.makeRandomGene() }
     }
 
     static var bias = 1.0
-    static func baseNeuronSnippet(channel: Int) -> Segment {
+    static func baseNeuronSnippet(channel: Int) -> [Gene] {
         bias *= -1
 
-        let transport = Segment([gNeuron(), gActivatorFunction(.boundidentity), gBias(bias)])
-
-        for c in 0..<ArkonCentralDark.selectionControls.cSenseNeurons {
-            transport.asslink(gUpConnector((c, 1.0)))
-        }
+        let transport = [gNeuron(), gActivatorFunction(.boundidentity), gBias(bias)] +
+         (0..<ArkonCentralDark.selectionControls.cSenseNeurons).map({ gUpConnector(($0, 1.0)) })
 
         return transport
     }
@@ -76,8 +73,8 @@ enum Assembler {
         return downsPerNeuron
     }
 
-    static private func makeLastHiddenLayer(cSenseNeurons: Int, cMotorNeurons: Int) -> Segment {
-        let segment = Segment(gLayer())
+    static private func makeLastHiddenLayer(cSenseNeurons: Int, cMotorNeurons: Int) -> [Gene] {
+        var segment: [Gene] = [gLayer()]
 
         let downsPerNeuron = computeDownsPerNeuron(
             cSenseNeurons: cSenseNeurons, cMotorNeurons: cMotorNeurons
@@ -90,15 +87,14 @@ enum Assembler {
         //  -> Loop 6 times to create 6 neurons that each connect straight up on a single channel
         for c in 0..<cSenseNeurons {
             //  -> channel == c tells each neuron to connect to the neuron directly above
-            segment.asslink(baseNeuronSnippet(channel: c))
+            segment.append(contentsOf: baseNeuronSnippet(channel: c))
 
             //  -> Loop 4 times *on each neuron*
             for _ in 0..<downsPerNeuron {
                 //  -> First down connector goes straight down. Others
                 // go to the right of that one, wrapping around to the
                 // first neuron in the upper layer if necessary.
-                let g = gDownConnector(channel)
-                segment.asslink(g)
+                segment.append(gDownConnector(channel))
                 channel += 1
             }
         }
@@ -106,14 +102,11 @@ enum Assembler {
         return segment
     }
 
-    static private func makeOneLayer(cNeurons: Int) -> Segment {
-        let segment = Segment(gLayer())
+    static private func makeOneLayer(cNeurons: Int) -> [Gene] {
+        let marker: [Gene] = [gLayer()]
+        let neurons = (0..<cNeurons).flatMap { baseNeuronSnippet(channel: $0) }
 
-        for channel in 0..<cNeurons {
-            segment.asslink(baseNeuronSnippet(channel: channel))
-        }
-
-        return segment
+        return marker + neurons
     }
 
 }

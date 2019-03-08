@@ -34,7 +34,6 @@
 		D468802D2207A0E600405F54 /* DTGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468802C2207A0E600405F54 /* DTGenome.swift */; };
 		D46880322207A39200405F54 /* Genome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFC220762680002BC58 /* Genome.swift */; };
 		D46880372207A41800405F54 /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF5220762680002BC58 /* GeneType.swift */; };
-		D46880382207A41800405F54 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF8220762680002BC58 /* GenomeAdd.swift */; };
 		D468803C2207A42F00405F54 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046822070F7400823D57 /* Extensions.swift */; };
 		D468803D2207A44200405F54 /* ArkonCentralDark.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046622070F7400823D57 /* ArkonCentralDark.swift */; };
 		D46880412207A71700405F54 /* GeneMockup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46880402207A71700405F54 /* GeneMockup.swift */; };
@@ -47,8 +46,6 @@
 		D46C548E220BEF11002B784A /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF7220762680002BC58 /* Gene.swift */; };
 		D46C548F220BEF11002B784A /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFA220762680002BC58 /* GeneLibrary.swift */; };
 		D46C5490220BEF11002B784A /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF5220762680002BC58 /* GeneType.swift */; };
-		D46C5491220BEF11002B784A /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF8220762680002BC58 /* GenomeAdd.swift */; };
-		D46C5492220BEF11002B784A /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFD220762680002BC58 /* GenomeSubtract.swift */; };
 		D46C5493220BEF11002B784A /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF4220762680002BC58 /* UpConnector.swift */; };
 		D46C5494220BF136002B784A /* GProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF9220762680002BC58 /* GProtocols.swift */; };
 		D46C5495220BF141002B784A /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468803E2207A4B700405F54 /* Protocols.swift */; };
@@ -83,8 +80,6 @@
 		D46D6C0522076AAF0001F5D0 /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C0222076AAF0001F5D0 /* MutatorSubtract.swift */; };
 		D46D6C0622076AAF0001F5D0 /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C0322076AAF0001F5D0 /* MutatorAdd.swift */; };
 		D46D6C0722076AD00001F5D0 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046A22070F7400823D57 /* BellCurve.swift */; };
-		D46D6C0822076AEC0001F5D0 /* GenomeAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF8220762680002BC58 /* GenomeAdd.swift */; };
-		D46D6C0922076AEC0001F5D0 /* GenomeSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFD220762680002BC58 /* GenomeSubtract.swift */; };
 		D46D6C0A22076AF80001F5D0 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046A22070F7400823D57 /* BellCurve.swift */; };
 		D46D6C0B22076B580001F5D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4D604A72207292800823D57 /* Main.storyboard */; };
 		D46D6C0C22076B670001F5D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4D604A52207292800823D57 /* Assets.xcassets */; };
@@ -197,12 +192,10 @@
 		D4072BF5220762680002BC58 /* GeneType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneType.swift; sourceTree = "<group>"; };
 		D4072BF6220762680002BC58 /* ActivatorFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivatorFunctions.swift; sourceTree = "<group>"; };
 		D4072BF7220762680002BC58 /* Gene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gene.swift; sourceTree = "<group>"; };
-		D4072BF8220762680002BC58 /* GenomeAdd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenomeAdd.swift; sourceTree = "<group>"; };
 		D4072BF9220762680002BC58 /* GProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GProtocols.swift; sourceTree = "<group>"; };
 		D4072BFA220762680002BC58 /* GeneLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneLibrary.swift; sourceTree = "<group>"; };
 		D4072BFB220762680002BC58 /* Assembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
 		D4072BFC220762680002BC58 /* Genome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Genome.swift; sourceTree = "<group>"; };
-		D4072BFD220762680002BC58 /* GenomeSubtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenomeSubtract.swift; sourceTree = "<group>"; };
 		D439672722070AC4009BAA3A /* KAppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppController.swift; sourceTree = "<group>"; };
 		D439672822070AC4009BAA3A /* SceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D439672922070AC5009BAA3A /* KAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppDelegate.swift; sourceTree = "<group>"; };
@@ -366,8 +359,6 @@
 				D46880402207A71700405F54 /* GeneMockup.swift */,
 				D4072BF5220762680002BC58 /* GeneType.swift */,
 				D4072BFC220762680002BC58 /* Genome.swift */,
-				D4072BF8220762680002BC58 /* GenomeAdd.swift */,
-				D4072BFD220762680002BC58 /* GenomeSubtract.swift */,
 				D4072BF9220762680002BC58 /* GProtocols.swift */,
 				D4D94C71221480B1000AFDF2 /* GSelfTestGene.swift */,
 				D4072BF4220762680002BC58 /* UpConnector.swift */,
@@ -1002,7 +993,6 @@
 				D468802D2207A0E600405F54 /* DTGenome.swift in Sources */,
 				D4D94C702213C1D7000AFDF2 /* GProtocols.swift in Sources */,
 				D468803C2207A42F00405F54 /* Extensions.swift in Sources */,
-				D46880382207A41800405F54 /* GenomeAdd.swift in Sources */,
 				D43E871A220A439300CD9CC3 /* KIdentifier.swift in Sources */,
 				D4A08E8C2214E28800554198 /* GSelfTestGene.swift in Sources */,
 				D46880372207A41800405F54 /* GeneType.swift in Sources */,
@@ -1023,11 +1013,9 @@
 			files = (
 				D46C548E220BEF11002B784A /* Gene.swift in Sources */,
 				D46C5493220BEF11002B784A /* UpConnector.swift in Sources */,
-				D46C5491220BEF11002B784A /* GenomeAdd.swift in Sources */,
 				D46C5497220BF16C002B784A /* ArkonCentralDark.swift in Sources */,
 				D46C54A3220C18A6002B784A /* MutatorAdd.swift in Sources */,
 				D46C5495220BF141002B784A /* Protocols.swift in Sources */,
-				D46C5492220BEF11002B784A /* GenomeSubtract.swift in Sources */,
 				D46C548C220BEEFB002B784A /* Genome.swift in Sources */,
 				D46C5490220BEF11002B784A /* GeneType.swift in Sources */,
 				D46C549F220C029D002B784A /* FNet.swift in Sources */,
@@ -1100,7 +1088,6 @@
 				D46D6BFA220769E50001F5D0 /* UpConnector.swift in Sources */,
 				D4E878C0222D2D9F00CA2BC4 /* ArkonTracker.swift in Sources */,
 				D46D6BFE22076A5A0001F5D0 /* CGConversions.swift in Sources */,
-				D46D6C0922076AEC0001F5D0 /* GenomeSubtract.swift in Sources */,
 				D4E18CBB222CFBF4008B1E2E /* Physics.swift in Sources */,
 				D4C266242210BC4F00325F05 /* Display.swift in Sources */,
 				D46D6BFB220769FC0001F5D0 /* GProtocols.swift in Sources */,
@@ -1135,7 +1122,6 @@
 				D46D6BF12207696C0001F5D0 /* FDecoder.swift in Sources */,
 				D46D6C0A22076AF80001F5D0 /* BellCurve.swift in Sources */,
 				D46D6BF6220769A70001F5D0 /* Extensions.swift in Sources */,
-				D46D6C0822076AEC0001F5D0 /* GenomeAdd.swift in Sources */,
 				D46D6C4822076CBF0001F5D0 /* LoopIterator.swift in Sources */,
 				D43E87182209669800CD9CC3 /* Protocols.swift in Sources */,
 				D46D6BF42207696C0001F5D0 /* FNeuron.swift in Sources */,

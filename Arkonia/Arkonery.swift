@@ -39,7 +39,7 @@ class Serializer<T> {
 typealias Embryo = (Int?, Genome)
 
 class Arkonery: NSObject {
-    static var aboriginalGenome: Genome { return Assembler.makeRandomGenome(cGenes: 200) }
+    static var aboriginalGenome: [Gene] { return Assembler.makeRandomGenome(cGenes: 200) }
     static var shared: Arkonery!
 
     var cAttempted = 0 { didSet {
@@ -61,16 +61,24 @@ class Arkonery: NSObject {
     var arkonsPortal: SKSpriteNode
     let cropper: SKCropNode
     let dispatchQueueLight = DispatchQueue(label: "light.arkonia")
-    let dispatchQueueDark = DispatchQueue(label: "dark.arkonia")
+//    let dispatchQueueDark = DispatchQueue(label: "dark.arkonia")
     var launchpad = Launchpad.empty
     let netPortal: SKSpriteNode
     let notificationCanter = NotificationCenter.default
-    var pendingGenomes: Serializer<Embryo>
+//    var pendingGenomes: Serializer<Embryo>
     var pendingArkons: Serializer<Arkon>
     var tickWorkItem: DispatchWorkItem!
 
+    static let arkonMakerQueue: OperationQueue = {
+        let q = OperationQueue()
+        q.name = "arkon.dark.queue"
+        q.qualityOfService = .background
+        q.maxConcurrentOperationCount = 1
+        return q
+    }()
+
     init(arkonsPortal: SKSpriteNode, netPortal: SKSpriteNode) {
-        self.pendingGenomes = Serializer<Embryo>(dispatchQueueDark)
+//        self.pendingGenomes = Serializer<Embryo>(dispatchQueueDark)
         self.pendingArkons = Serializer<Arkon>(dispatchQueueLight)
 
         self.netPortal = netPortal
@@ -112,7 +120,7 @@ class Arkonery: NSObject {
         }) as? SKSpriteNode)?.arkon
     }
 
-    func makeArkon(parentFishNumber: Int?, parentGenome: Genome) -> Arkon? {
+    func makeArkon(parentFishNumber: Int?, parentGenome: [Gene]) -> Arkon? {
         let (newGenome, fNet_) = makeNet(parentGenome: parentGenome)
 
         guard let fNet = fNet_, !fNet.layers.isEmpty else { return nil }
@@ -124,21 +132,20 @@ class Arkonery: NSObject {
        return arkon
     }
 
-    private func makeNet(parentGenome: Genome) -> (Genome, FNet?) {
-        let newGenome = parentGenome.copy()
-        Mutator.shared.mutate(newGenome)
+    private func makeNet(parentGenome: [Gene]) -> ([Gene], FNet?) {
+        let newGenome = Mutator.shared.mutate(parentGenome)
 
-        let e = FDecoder.shared.decode(newGenome)
-        return (newGenome, e as? FNet)
+        let fNet = FDecoder.shared.decode(newGenome)
+        return (newGenome, fNet)
     }
 
     func makeProtoArkon(parentFishNumber parentFishNumber_: Int?,
-                        parentGenome parentGenome_: Genome?)
+                        parentGenome parentGenome_: [Gene]?)
     {
         cAttempted += 1
         cPending += 1
 
-        dispatchQueueDark.async {
+        let darkOps = BlockOperation {
             defer { self.cPending -= 1 }
 
             let parentGenome = parentGenome_ ?? Arkonery.aboriginalGenome
@@ -158,30 +165,14 @@ class Arkonery: NSObject {
                 arkon.sprite.run(arkon.tickAction)
             }
         }
+
+        darkOps.queuePriority = .veryLow
+        Arkonery.arkonMakerQueue.addOperation(darkOps)
     }
 
-    func spawn(parentFishNumber: Int?, parentGenome: Genome) {
-//        pendingGenomes.pushBack((parentFishNumber, parentGenome))
+    func spawn(parentFishNumber: Int?, parentGenome: [Gene]) {
         makeProtoArkon(parentFishNumber: parentFishNumber, parentGenome: parentGenome)
-//
-//        dispatchQueueDark.async {
-//            defer { self.cPending -= 1 }
-//
-//            if let protoArkon = Arkonery.shared.makeArkon(
-//                parentFishNumber: parentFishNumber, parentGenome: parentGenome
-//            ) {
-//                self.pendingArkons.pushBack(protoArkon)
-//
-//                // Just for debugging, so I can see who's doing what
-//                self.getArkon(for: parentFishNumber ?? -42)?.sprite.color = .yellow
-//            } else {
-//                self.cBirthFailed += 1
-//                guard let arkon = self.getArkon(for: parentFishNumber) else { return }
-//                arkon.sprite.color = .blue
-//                arkon.sprite.run(arkon.tickAction)
-//            }
-//        }
-    }
+   }
 
     func spawnStarterPopulation(cArkons: Int) {
         (0..<cArkons).forEach { _ in makeProtoArkon(parentFishNumber: nil, parentGenome: nil) }
