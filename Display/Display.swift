@@ -4,6 +4,7 @@ import SpriteKit
 class Display: NSObject, SKSceneDelegate {
     static var shared: Display!
 
+    var timeZero: TimeInterval = 0
     var currentTime: TimeInterval = 0
     private var frameCount = 0
     private var kNet: KNet?
@@ -12,19 +13,11 @@ class Display: NSObject, SKSceneDelegate {
     public weak var scene: SKScene?
     public var tickCount = 0
 
+    var gameAge: TimeInterval { return currentTime - timeZero }
+
     init(_ scene: SKScene) {
         self.scene = scene
         super.init()
-    }
-
-    func didSimulatePhysics(for scene: SKScene) {
-        scene.children.compactMap { (node: SKNode) -> SKSpriteNode? in
-            return (node.physicsBody?.categoryBitMask ==
-                    ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue) ?
-                        node as? SKSpriteNode : nil
-        }.forEach {
-            $0.isAwaitingNextPhysicsCycle = false
-        }
     }
 
     /**
@@ -55,7 +48,7 @@ class Display: NSObject, SKSceneDelegate {
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
         defer { self.currentTime = currentTime }
-        if self.currentTime == 0 { return }
+        if self.currentTime == 0 { self.timeZero = currentTime; return }
 
         if firstPass {
             Arkonery.shared.spawnStarterPopulation(cArkons: 100)

@@ -2,12 +2,11 @@ import Foundation
 import SpriteKit
 
 extension Arkon {
-
+    static var foodValueMultiplier = 1.0
     static func absorbFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
-        let foodMaturity = (mannaSprite.birthday == 0) ? 10.0 :
-            min(20.0, (Display.shared.currentTime - (mannaSprite.birthday ?? 0.0)))
+        let foodValue = mannaSprite.foodValue
 
-        arkonSprite.arkon?.health += (foodMaturity < 0) ? 0 : foodMaturity
+        arkonSprite.arkon?.health += foodValue
         arkonSprite.arkon?.targetManna = nil
 
         MannaFactory.shared.compost(mannaSprite)

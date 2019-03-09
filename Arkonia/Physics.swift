@@ -15,9 +15,6 @@ class Physics: NSObject, SKPhysicsContactDelegate {
 
         if (a.isComposting ?? false) || (b.isComposting ?? false) { return }
 
-//        if (a.isAwaitingNextPhysicsCycle ?? false) ||
-//            (b.isAwaitingNextPhysicsCycle ?? false) { return }
-
         let arkonSmellsFood =
             ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue |
                 ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
@@ -83,9 +80,6 @@ extension Physics {
     static private func loseTrackOfFood(_ a: SKSpriteNode, _ b: SKSpriteNode) {
         guard case let (`as`?, ms?) = assignSprites(a, b) else { return }
 
-        `as`.isAwaitingNextPhysicsCycle = true
-        ms.isAwaitingNextPhysicsCycle = true
-
         `as`.run(
             SKAction.run({ Arkon.loseTrackOfFood(`as`, ms) })
         )
@@ -94,9 +88,6 @@ extension Physics {
     static private func senseFood(_ a: SKSpriteNode, _ b: SKSpriteNode) {
         guard case let (`as`?, ms?) = assignSprites(a, b) else { return }
 
-        `as`.isAwaitingNextPhysicsCycle = true
-        ms.isAwaitingNextPhysicsCycle = true
-
         `as`.run(
             SKAction.run({ Arkon.senseFood(`as`, ms) })
         )
@@ -104,9 +95,6 @@ extension Physics {
 
     static private func touchFood(_ a: SKSpriteNode, _ b: SKSpriteNode) {
         guard case let (`as`?, ms?) = assignSprites(a, b) else { return }
-
-        `as`.isAwaitingNextPhysicsCycle = true
-        ms.isAwaitingNextPhysicsCycle = true
 
         `as`.run(SKAction.run({ Arkon.absorbFood(`as`, ms) }))
     }

@@ -3,7 +3,7 @@ import SpriteKit
 
 extension SKSpriteNode {
     enum UserDataKey {
-        case arkon, birthday, isAwaitingNextPhysicsCycle, isComposting, isFirstBloom
+        case arkon, birthday, foodValue, isComposting, isFirstBloom
     }
 
     func getUserData<T>(_ key: UserDataKey) -> T? {
@@ -13,14 +13,12 @@ extension SKSpriteNode {
     }
 
     func setupAsArkon() {
-        self.isAwaitingNextPhysicsCycle = false
     }
 
     func setupAsManna() {
         self.birthday = 0.0
         self.isComposting = false
         self.isFirstBloom = true
-        self.isAwaitingNextPhysicsCycle = false
     }
 
     func setUserData<T>(key: UserDataKey, to value: T?) {
@@ -40,6 +38,17 @@ extension SKSpriteNode {
         set { setUserData(key: UserDataKey.birthday, to: newValue) }
     }
 
+    var foodValue: Double {
+        get {
+            guard let birthday = self.birthday else { return 10 }
+            let myAge = Display.shared.currentTime - birthday
+
+            let baseValue = min(20.0, myAge)
+            let entropy = Display.shared.gameAge * 0.001
+            return baseValue - entropy
+        }
+    }
+
     var isComposting: Bool? {
         get { return getUserData(UserDataKey.isComposting) }
         set { setUserData(key: UserDataKey.isComposting, to: newValue) }
@@ -48,18 +57,6 @@ extension SKSpriteNode {
     var isFirstBloom: Bool? {
         get { return getUserData(UserDataKey.isFirstBloom) }
         set { setUserData(key: UserDataKey.isFirstBloom, to: newValue) }
-    }
-
-    var isAwaitingNextPhysicsCycle: Bool? {
-        get {
-//            print("get", getUserData(UserDataKey.isAwaitingNextPhysicsCycle) ?? false)
-            return getUserData(UserDataKey.isAwaitingNextPhysicsCycle)
-        }
-        set {
-//            print("set", getUserData(UserDataKey.isAwaitingNextPhysicsCycle) ?? false)
-//            defer { print("set2", getUserData(UserDataKey.isAwaitingNextPhysicsCycle) ?? false) }
-            setUserData(key: UserDataKey.isAwaitingNextPhysicsCycle, to: newValue)
-        }
     }
 }
 

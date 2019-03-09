@@ -27,7 +27,7 @@ class MannaFactory {
 
         sprite.birthday = birthday
         sprite.isComposting = false
-        sprite.alpha = 1
+        sprite.colorBlendFactor = 1.0 - CGFloat(Display.shared.gameAge * 0.001)
 
         sprite.removeAllActions()
         sprite.physicsBody!.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
@@ -38,7 +38,6 @@ class MannaFactory {
 
         sprite.isFirstBloom = false
         sprite.isComposting = true
-        sprite.alpha = 0
 
         guard let name = sprite.name else { preconditionFailure() }
         guard var start = name.firstIndex(of: "(") else { preconditionFailure() }
@@ -66,9 +65,10 @@ class MannaFactory {
     func spawn(_ hamNumber: Int) -> SKSpriteNode {
         let sprite = SKSpriteNode(texture: ArkonCentralLight.mannaSpriteTexture)
 
-        sprite.setScale(0.025)
-        sprite.color = .white
-        sprite.colorBlendFactor = 0.5
+        sprite.setScale(0.03)
+        sprite.color = .yellow
+        sprite.colorBlendFactor = 1
+        sprite.alpha = 1
         sprite.name = "Manna(\(hamNumber))"
         sprite.zPosition = ArkonCentralLight.vMannaZPosition
 
