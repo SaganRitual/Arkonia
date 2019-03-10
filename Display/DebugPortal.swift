@@ -2,25 +2,37 @@ import Foundation
 import SpriteKit
 
 enum SpecimenID {
-    case cAttempted, cBirthFailed, cLivingArkons, cPendingGenomes, currentOldest, healthOfOldest
-    case cLiveGenomes, cLiveGenes, oldestCOffspring
+    case avgLiveAge, avgLiveGenes, blArkons, cLiveArkons, cLiveGenes, cOffspring
+    case cSpawn, cSpawnFailure, cSpawnSuccess, foodValue, gameAge, generation, health
+    case hwAge, hwLiveArkons, hwLiveGenes, hwOffspring, seniorAge
+    case liveLabel, seniorLabel
 }
 
-class Specimen: Hashable, Equatable {
+class SpecimenDescriptor {
     var label: SKLabelNode
-    let specimenID: SpecimenID
+    var specimenID: SpecimenID
+    var text: String
+    var value: Double
+
+    init(_ label: SKLabelNode, _ specimenID: SpecimenID, _ text: String, _ value: Double) {
+        self.label = label; self.specimenID = specimenID; self.text = text; self.value = value
+    }
+}
+
+class Specimen {
+    let specimenDescriptors: [SpecimenDescriptor]
     let sprite: SKSpriteNode
-    let text: String
-    var value = 0
 
-    init(portal: SKSpriteNode, specimenID: SpecimenID, text: String) {
-        self.specimenID = specimenID
+    init(portal: SKSpriteNode, specimenDescriptors: [SpecimenDescriptor]) {
+        self.specimenDescriptors = specimenDescriptors
 
-        self.label = SKLabelNode(text: text)
-        self.label.zPosition = ArkonCentralLight.vLabelZPosition
-        self.label.fontColor = .green
-        self.label.fontName = "Courier New"
-        self.label.fontSize = 80
+        specimenDescriptors.forEach {
+            $0.label = SKLabelNode(text: $0.text)
+            $0.label.zPosition = ArkonCentralLight.vLabelZPosition
+            $0.label.fontColor = .green
+            $0.label.fontName = "Courier New"
+            $0.label.fontSize = 80
+        }
 
         self.sprite = SKSpriteNode(color: portal.color, size: portal.parent!.frame.size)
         self.sprite.color = .black
@@ -29,22 +41,17 @@ class Specimen: Hashable, Equatable {
 
         self.sprite.setScale(0.33)
 
-        self.text = text
-
         portal.addChild(self.sprite)
-        self.sprite.addChild(self.label)
+
+        specimenDescriptors.forEach { self.sprite.addChild($0.label) }
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(self.specimenID)
+        self.specimenDescriptors.forEach { hasher.combine($0.specimenID) }
     }
 
     func tick() {
-        self.label.text = self.text + " = \(value)"
-    }
-
-    static func == (lhs: Specimen, rhs: Specimen) -> Bool {
-        return lhs.specimenID == rhs.specimenID
+        self.specimenDescriptors.forEach { $0.label.text = $0.text + " = \($0.value)" }
     }
 }
 
@@ -52,42 +59,56 @@ class DebugPortal {
     static var shared: DebugPortal!
 
     private weak var portal: SKSpriteNode!
-    var specimens = [SpecimenID: Specimen]()
+    var specimens = [SpecimenDescriptor]()
 
     init() {
         self.portal = Display.shared.getPortal(quadrant: 3)
         self.portal.color = Display.shared.scene!.backgroundColor
         self.portal.colorBlendFactor = 1.0
 
-        addSpecimenViewer(portal: portal, specimenID: .cAttempted, text: "cAttempted")
-        addSpecimenViewer(portal: portal, specimenID: .cBirthFailed, text: "cFailed")
-        addSpecimenViewer(portal: portal, specimenID: .cLiveGenes, text: "cLiveGenes")
-        addSpecimenViewer(portal: portal, specimenID: .cLiveGenomes, text: "cLiveGenomes")
-        addSpecimenViewer(portal: portal, specimenID: .cLivingArkons, text: "cLiving")
-        addSpecimenViewer(portal: portal, specimenID: .cPendingGenomes, text: "cPending")
-        addSpecimenViewer(portal: portal, specimenID: .currentOldest, text: "senior age")
-        addSpecimenViewer(portal: portal, specimenID: .healthOfOldest, text: "health")
-        addSpecimenViewer(portal: portal, specimenID: .oldestCOffspring, text: "cOffspring")
+        let viewerContents: [(SpecimenID, String)] = [
+            (.avgLiveAge, "average"), (.avgLiveGenes, "average"), (.blArkons, "backlog"),
+            (.cLiveArkons, "arkons"), (.cLiveGenes, "genes"), (.cOffspring, "offspring"),
+            (.cSpawn, "spawns"), (.cSpawnFailure, "failures"), (.cSpawnSuccess, "successes"),
+            (.foodValue, "food value"), (.gameAge, ""), (.health, "health"),
+            (.hwAge, "record"), (.hwLiveArkons, "record"), (.hwLiveGenes, "genes"),
+            (.hwOffspring, "record"), (.seniorAge, "age"), (.generation, "generation")
+        ]
 
+        viewerContents.forEach {
+            let (id, text) = ($0.0, $0.1)
+            addSpecimenViewer(portal: portal, specimenID: id, text: text)
+        }
     }
 
+    // swiftlint:disable cyclomatic_complexity
     func addSpecimenViewer(portal: SKSpriteNode, specimenID: SpecimenID, text: String) {
-        let specimen = Specimen(portal: portal, specimenID: specimenID, text: text)
+        guard [
+            SpecimenID.gameAge, SpecimenID.liveLabel, SpecimenID.seniorLabel,
+            SpecimenID.foodValue, SpecimenID.cLiveGenes, SpecimenID.seniorAge,
+            SpecimenID.generation, SpecimenID.health, SpecimenID.cLiveArkons
+        ].contains(specimenID) else { return }
+
+        let specimen = Specimen(portal, specimenID, text)
         self.specimens[specimenID] = specimen
 
         let increment = CGPoint(portal.parent!.frame.size / 6)
         switch specimenID {
-        case .cAttempted:       specimen.sprite.position = increment * CGPoint(x: -2, y:  0)
-        case .cBirthFailed:     specimen.sprite.position = increment * CGPoint(x: -2, y: -2)
-        case .cLiveGenes:       specimen.sprite.position = increment * CGPoint(x:  0, y:  2)
-        case .cLiveGenomes:     specimen.sprite.position = increment * CGPoint(x: -2, y:  2)
-        case .cLivingArkons:    specimen.sprite.position = increment * CGPoint(x:  0, y:  0)
-        case .cPendingGenomes:  specimen.sprite.position = increment * CGPoint(x:  0, y: -2)
-        case .currentOldest:    specimen.sprite.position = increment * CGPoint(x:  2, y:  2)
-        case .healthOfOldest:   specimen.sprite.position = increment * CGPoint(x:  2, y:  0)
-        case .oldestCOffspring: specimen.sprite.position = increment * CGPoint(x:  2, y: -2)
+        case .gameAge     :  specimen.sprite.position = increment * CGPoint(x: -2, y:  2)
+        case .liveLabel   :  specimen.sprite.position = increment * CGPoint(x:  0, y:  2)
+        case .seniorLabel :  specimen.sprite.position = increment * CGPoint(x:  2, y:  2)
+
+        case .foodValue:   specimen.sprite.position = increment * CGPoint(x: -2, y:  0)
+        case .cLiveGenes:  specimen.sprite.position = increment * CGPoint(x:  0, y:  0)
+        case .seniorAge:   specimen.sprite.position = increment * CGPoint(x:  2, y:  0)
+
+        case .generation:  specimen.sprite.position = increment * CGPoint(x: -2, y: -2)
+        case .health:      specimen.sprite.position = increment * CGPoint(x:  0, y: -2)
+        case .cLiveArkons: specimen.sprite.position = increment * CGPoint(x:  2, y: -2)
+        default: break
         }
     }
+    // swiftlint:enable cyclomatic_complexity
 
     func tick() {
         for (_, specimen) in specimens { specimen.tick() }

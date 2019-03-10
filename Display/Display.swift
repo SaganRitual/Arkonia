@@ -14,6 +14,10 @@ class Display: NSObject, SKSceneDelegate {
     public var tickCount = 0
 
     var gameAge: TimeInterval { return currentTime - timeZero }
+    var entropyFactor: TimeInterval {
+        let factor = 1 - (gameAge * 0.001)
+        return factor <= 0 ? 0 : factor
+    }
 
     init(_ scene: SKScene) {
         self.scene = scene
@@ -65,7 +69,7 @@ class Display: NSObject, SKSceneDelegate {
         tickCount += 1
 
         Arkonery.shared.trackNotableArkon()
-        DebugPortal.shared.tick()
+        DStatsPortal.shared!.tick()
 
         if let kNet = self.kNet {
             DNet(kNet).display(via: World.shared.netPortal)

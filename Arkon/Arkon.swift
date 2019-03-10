@@ -2,8 +2,43 @@ import Foundation
 import SpriteKit
 
 class Arkon {
+
+    static var currentAgeOfOldestArkon: TimeInterval = 0.0 { willSet {
+        if newValue > recordArkonAge { recordArkonAge = newValue }
+    }}
+
+    static var averageAgeOfLivingArkons: TimeInterval {
+        let sprites = Arkonery.shared!.arkonsPortal.children.compactMap { $0 as? SKSpriteNode }
+        let totalAge = sprites.reduce(0) { $0 + ($1.arkon?.myAge ?? 0.0) }
+        return totalAge / TimeInterval(Arkonery.shared.cLivingArkons)
+    }
+
+    static var recordArkonAge: TimeInterval = 0.0
+
+    static func getSeniorAgeStats() -> String {
+        return String(
+            format: "Age: %.2f\nRecord: %.2f\nAverage: %.2f",
+            Arkon.currentAgeOfOldestArkon, Arkon.recordArkonAge, Arkon.averageAgeOfLivingArkons
+        )
+    }
+
+    static var currentHealthOfOldestArkon: Double = 0.0
+
+    static var currentCOffspring = 0 { willSet {
+        if newValue > recordArkonOffspring { recordArkonOffspring = newValue }
+    } }
+
+    static var recordArkonOffspring = 0
+
+    static func getSeniorHealthStats() -> String {
+        return String(
+            format: "Health: %.2f\nOffspring: %d\nRecord: %d",
+                Arkon.currentHealthOfOldestArkon, Arkon.currentCOffspring, Arkon.recordArkonOffspring
+        )
+    }
+
     let birthday: TimeInterval
-    var cOffspring = 0
+    var cOffspring = 0 { willSet { if self.isOldestArkon { Arkon.currentCOffspring = newValue } } }
     var apoptosizeAction: SKAction!
     let fishNumber: Int
     let fNet: FNet
@@ -11,6 +46,7 @@ class Arkon {
     var hasGivenBirth = false
     var health = 10.0
     var isAlive = false
+    var isOldestArkon = false
     var isShowingNet = false
     var kNet: KNet!
     var targetManna: (id: String, position: CGPoint)?
@@ -68,6 +104,8 @@ class Arkon {
     }
 
     deinit {
+        if self.isOldestArkon {
+            Arkonery.shared.cGenerations += 1 }
         if self.isAlive { Arkonery.shared.cLivingArkons -= 1 }
         self.isAlive = false // Tidiness/superstition
     }

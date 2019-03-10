@@ -42,21 +42,12 @@ class Arkonery: NSObject {
     static var aboriginalGenome: [Gene] { return Assembler.makeRandomGenome(cGenes: 200) }
     static var shared: Arkonery!
 
-    var cAttempted = 0 { didSet {
-        DebugPortal.shared.specimens[.cAttempted]?.value = cAttempted
-    }}
-
-    var cBirthFailed = 0 { didSet {
-        DebugPortal.shared.specimens[.cBirthFailed]?.value = cBirthFailed
-    }}
-
-    var cLivingArkons = 0 { didSet {
-        DebugPortal.shared.specimens[.cLivingArkons]?.value = cLivingArkons
-    }}
-
-    var cPending = 0 { didSet {
-        DebugPortal.shared.specimens[.cPendingGenomes]?.value = cPending
-    }}
+    var cAttempted = 0
+    var cBirthFailed = 0
+    var cGenerations = 0
+    var cLivingArkons = 0 { willSet { if newValue > highWaterMark { highWaterMark = newValue } } }
+    var highWaterMark = 0
+    var cPending = 0
 
     var arkonsPortal: SKSpriteNode
     let cropper: SKCropNode
@@ -180,11 +171,13 @@ class Arkonery: NSObject {
         guard let oldestLivingArkon = tracker.oldestLivingArkon
             else { return }
 
+        Arkon.currentAgeOfOldestArkon = oldestLivingArkon.myAge
+
         if !oldestLivingArkon.isShowingNet {
+            oldestLivingArkon.isOldestArkon = true
             oldestLivingArkon.sprite.size *= 2.0
         }
 
-        tracker.updateDebugPortal()
         tracker.updateNetPortal()
     }
 
