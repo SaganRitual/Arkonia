@@ -1,4 +1,6 @@
 # Arkonia
+A natural selection simulator
+
 [![GitHub release](https://img.shields.io/github/release-pre/SaganRitual/Arkonia.svg?style=plastic)](https://github.com/SaganRitual/Arkonia/tree/v0.1)
 [![License](https://img.shields.io/github/license/SaganRitual/Arkonia.svg?style=plastic)](https://github.com/SaganRitual/Arkonia/blob/dev/LICENSE)
 [![Runs on](https://img.shields.io/badge/Platform-macOS%20only-blue.svg?style=plastic)](https://www.apple.com/macos/)
@@ -6,10 +8,10 @@
 
 ![Awesome gif of Arkonia missing](https://j.gifs.com/mOQ9p0.gif "Awesome gif of Arkonia missing")
 
-A hobbyist's toy, under construction. An evolution and natural selection simulator.
-Creatures whose brains and bodies evolve genetically to make them better at eating each other.
-Written in Swift, using SpriteKit, with no UI other than the main window, because I really suck at
-UI programming.
+A hobbyist's toy, under construction. A world of creatures whose brains and bodies evolve
+genetically to make them better at eating each other, and ultimately, to make you all my slaves.
+Written in Swift, using SpriteKit, with no UI other than the main window, because I really
+suck at UI programming.
 
 ### Status 10 Mar 2019
 
