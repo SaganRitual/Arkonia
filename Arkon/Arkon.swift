@@ -8,9 +8,9 @@ class Arkon {
     }}
 
     static var averageAgeOfLivingArkons: TimeInterval {
-        let sprites = Arkonery.shared!.arkonsPortal.children.compactMap { $0 as? SKSpriteNode }
+        let sprites = ArkonFactory.shared!.arkonsPortal.children.compactMap { $0 as? SKSpriteNode }
         let totalAge = sprites.reduce(0) { $0 + ($1.arkon?.myAge ?? 0.0) }
-        return totalAge / TimeInterval(Arkonery.shared.cLivingArkons)
+        return totalAge / TimeInterval(ArkonFactory.shared.cLivingArkons)
     }
 
     static var recordArkonAge: TimeInterval = 0.0
@@ -105,8 +105,8 @@ class Arkon {
 
     deinit {
         if self.isOldestArkon {
-            Arkonery.shared.cGenerations += 1 }
-        if self.isAlive { Arkonery.shared.cLivingArkons -= 1 }
+            ArkonFactory.shared.cGenerations += 1 }
+        if self.isAlive { ArkonFactory.shared.cLivingArkons -= 1 }
         self.isAlive = false // Tidiness/superstition
     }
 }

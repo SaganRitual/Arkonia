@@ -38,9 +38,9 @@ class Serializer<T> {
     }
 }
 
-class Arkonery: NSObject {
+class ArkonFactory: NSObject {
     static var aboriginalGenome: [Gene] { return Assembler.makeRandomGenome(cGenes: 200) }
-    static var shared: Arkonery!
+    static var shared: ArkonFactory!
 
     var cAttempted = 0
     var cBirthFailed = 0
@@ -134,10 +134,10 @@ class Arkonery: NSObject {
         let darkOps = BlockOperation {
             defer { self.cPending -= 1 }
 
-            let parentGenome = parentGenome_ ?? Arkonery.aboriginalGenome
+            let parentGenome = parentGenome_ ?? ArkonFactory.aboriginalGenome
             let parentFishNumber = parentFishNumber_ ?? -42
 
-            if let protoArkon = Arkonery.shared.makeArkon(
+            if let protoArkon = ArkonFactory.shared.makeArkon(
                 parentFishNumber: parentFishNumber, parentGenome: parentGenome
                 ) {
                 self.pendingArkons.pushBack(protoArkon)
@@ -153,7 +153,7 @@ class Arkonery: NSObject {
         }
 
         darkOps.queuePriority = .veryLow
-        Arkonery.arkonMakerQueue.addOperation(darkOps)
+        ArkonFactory.arkonMakerQueue.addOperation(darkOps)
     }
 
     func spawn(parentFishNumber: Int?, parentGenome: [Gene]) {

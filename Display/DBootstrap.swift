@@ -30,7 +30,7 @@ class DBootstrap: NSObject, SKSceneDelegate {
     func createArkonery() {
         let a = World.shared.arkonsPortal
         let n = World.shared.netPortal
-        Arkonery.shared = Arkonery(arkonsPortal: a, netPortal: n)
+        ArkonFactory.shared = ArkonFactory(arkonsPortal: a, netPortal: n)
     }
 
     func createDisplay()      { Display.shared = Display(scene) }

@@ -69,7 +69,7 @@ extension Arkon {
 
     static private func attachSenses(_ sprite: SKSpriteNode, _ senses: SKPhysicsBody) {
         let snapPoint =
-            Arkonery.shared.arkonsPortal.convert(sprite.position, to: Display.shared.scene!)
+            ArkonFactory.shared.arkonsPortal.convert(sprite.position, to: Display.shared.scene!)
 
         let snap = SKPhysicsJointPin.joint(
             withBodyA: sprite.physicsBody!, bodyB: senses, anchor: snapPoint
@@ -96,9 +96,9 @@ extension Arkon {
 
         postPartum(relievedArkonFishNumber: self.parentFishNumber)
 
-        Arkonery.shared.cLivingArkons += 1
+        ArkonFactory.shared.cLivingArkons += 1
 
-        if let p = Arkonery.shared.getArkon(for: self.parentFishNumber) {
+        if let p = ArkonFactory.shared.getArkon(for: self.parentFishNumber) {
             self.sprite.position = p.sprite.position
         }
 
@@ -108,7 +108,7 @@ extension Arkon {
 
     func postPartum(relievedArkonFishNumber: Int?) {
         guard let r = relievedArkonFishNumber else { return }
-        guard let arkon = Arkonery.shared.getArkon(for: r) else { return }
+        guard let arkon = ArkonFactory.shared.getArkon(for: r) else { return }
         arkon.cOffspring += 1
         arkon.sprite.color = .green
         arkon.sprite.run(arkon.tickAction)
@@ -131,14 +131,14 @@ extension Arkon {
         arkonSprite.zPosition = ArkonCentralLight.vArkonZPosition
 
         arkonSprite.name = "Arkon(\(fishNumber))"
-        let physicsBody = Arkon.setupPhysicsBody()
+        let physicsBody = Arkon.setupPhysicsBody(arkonSprite.frame.size)
 
         return (arkonSprite, physicsBody)
     }
 
-    static func setupPhysicsBody() -> SKPhysicsBody {
-
-        let pBody = SKPhysicsBody(circleOfRadius: 15.0)
+    static func setupPhysicsBody(_ size: CGSize) -> SKPhysicsBody {
+        let pBodyRadius = sqrt(size.width * size.width + size.height * size.height) / 2
+        let pBody = SKPhysicsBody(circleOfRadius: pBodyRadius)
 
 //        pBody.mass = 1.0
 

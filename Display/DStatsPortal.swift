@@ -67,13 +67,13 @@ extension DStatsSubportal {
     func dsMiscellaney() -> String {
         return String(
             format: "Food value: %.1f%%\nGenerations: %d",
-                Display.shared.entropyFactor * 100, Arkonery.shared.cGenerations
+                Display.shared.entropyFactor * 100, ArkonFactory.shared.cGenerations
         )
     }
 
     func dsSpawn() -> String {
-        let all = Arkonery.shared.cAttempted
-        let fail = Arkonery.shared.cBirthFailed
+        let all = ArkonFactory.shared.cAttempted
+        let fail = ArkonFactory.shared.cBirthFailed
         let succeed = all - fail
         let sr = (all == 0) ? 0 : Double(succeed) / Double(all)
         let successRate = String(format: "%.2f%", sr * 100.0)
@@ -86,8 +86,8 @@ extension DStatsSubportal {
     }
 
     func dsLiveGenes() -> String {
-        let nz = Arkonery.shared.cLivingArkons == 0 ? 0 :
-            (Double(Gene.cLiveGenes) / Double(Arkonery.shared.cLivingArkons))
+        let nz = ArkonFactory.shared.cLivingArkons == 0 ? 0 :
+            (Double(Gene.cLiveGenes) / Double(ArkonFactory.shared.cLivingArkons))
 
         let fm = String(format: "%.2f", nz)
 
@@ -97,9 +97,9 @@ extension DStatsSubportal {
     }
 
     func dsLiveArkons() -> String {
-        return "Live arkons: \(Arkonery.shared.cLivingArkons)\n" +
-                "High water: \(Arkonery.shared.highWaterMark)\n" +
-                "Backlog: \(Arkonery.shared.cPending)"
+        return "Live arkons: \(ArkonFactory.shared.cLivingArkons)\n" +
+                "High water: \(ArkonFactory.shared.highWaterMark)\n" +
+                "Backlog: \(ArkonFactory.shared.cPending)"
     }
 }
 

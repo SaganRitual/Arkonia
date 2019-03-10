@@ -9,8 +9,8 @@ class MannaFactory {
     let yRange: Range<CGFloat>
 
     init() {
-        let w = Arkonery.shared.arkonsPortal.frame.size.width
-        let h = Arkonery.shared.arkonsPortal.frame.size.height
+        let w = ArkonFactory.shared.arkonsPortal.frame.size.width
+        let h = ArkonFactory.shared.arkonsPortal.frame.size.height
 
         xRange = -w..<w
         yRange = -h..<h
@@ -51,7 +51,7 @@ class MannaFactory {
     }
 
     func setupPhysicsBody(_ edgeLoopFrame: CGRect) -> SKPhysicsBody {
-        let p = SKPhysicsBody(edgeLoopFrom: edgeLoopFrame)
+        let p = SKPhysicsBody(circleOfRadius: 1.0)
 
         p.categoryBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
         p.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
@@ -79,7 +79,7 @@ class MannaFactory {
 
         sprite.run(SKAction.run({ [unowned self] in self.bloom(hamNumber) }))
 
-        Arkonery.shared.arkonsPortal.addChild(sprite)
+        ArkonFactory.shared.arkonsPortal.addChild(sprite)
 
         return sprite
     }

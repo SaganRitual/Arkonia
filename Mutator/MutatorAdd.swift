@@ -28,6 +28,8 @@ extension Mutator {
 
         if !okToSnip(leftCut, rightCut) { return }
 
+        print("copyAndReinsertSegment() copy [\(leftCut), \(rightCut)) to \(insertPoint)")
+
         outputGenome.removeAll(keepingCapacity: true)
 
         let copiedSegment = sourceGenome[leftCut..<rightCut]
@@ -42,8 +44,8 @@ extension Mutator {
     func arrayPreinsertAction(_ strand: ArraySlice<Gene>) -> [Gene] {
         switch PreinsertAction.random() {
         case .doNothing: return Array(strand)
-        case .reverse:   return strand.reversed()
-        case .shuffle:   return strand.shuffled()
+        case .reverse:   print("reverse"); return strand.reversed()
+        case .shuffle:   print("shuffle"); return strand.shuffled()
         }
     }
 
@@ -60,6 +62,8 @@ extension Mutator {
             rightCut < sourceGenome.count &&
             insertPoint < sourceGenome.count
         {
+            print("cutAndReinsertSegment() cut [\(leftCut), \(rightCut)) reinsert at \(insertPoint)")
+
             let tailSegment = sourceGenome[insertPoint...]
             let RISegment = sourceGenome[rightCut..<insertPoint]
 
@@ -79,6 +83,7 @@ extension Mutator {
         var startIndex = sourceGenome.startIndex
         var endIndex = sourceGenome.startIndex
 
+        print("insertRandomGenes()")
         while startIndex != endIndex {
             let segmentLength = Int.random(in: startIndex..<sourceGenome.endIndex)
 

@@ -46,7 +46,7 @@ extension Arkon {
     private func spawn() {
         health -= 8
         self.sprite.color = .red
-        Arkonery.shared.spawn(parentFishNumber: fishNumber, parentGenome: genome)
+        ArkonFactory.shared.spawn(parentFishNumber: fishNumber, parentGenome: genome)
 
         if self.isOldestArkon {
             Arkon.currentHealthOfOldestArkon = health

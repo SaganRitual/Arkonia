@@ -55,20 +55,20 @@ class Display: NSObject, SKSceneDelegate {
         if self.currentTime == 0 { self.timeZero = currentTime; return }
 
         if firstPass {
-            Arkonery.shared.spawnStarterPopulation(cArkons: 100)
+            ArkonFactory.shared.spawnStarterPopulation(cArkons: 100)
             firstPass = false
             return
         }
 
-        if let protoArkon = Arkonery.shared.pendingArkons.popFront() { protoArkon.launch() }
+        if let protoArkon = ArkonFactory.shared.pendingArkons.popFront() { protoArkon.launch() }
 
-        if Arkonery.shared.pendingArkons.isEmpty {
+        if ArkonFactory.shared.pendingArkons.isEmpty {
             scene.physicsWorld.contactDelegate = World.shared.physics
         }
 
         tickCount += 1
 
-        Arkonery.shared.trackNotableArkon()
+        ArkonFactory.shared.trackNotableArkon()
         DStatsPortal.shared!.tick()
 
         if let kNet = self.kNet {
