@@ -4,28 +4,36 @@
 [![Runs on](https://img.shields.io/badge/Platform-macOS%20only-blue.svg?style=plastic)](https://www.apple.com/macos/)
 [![Does not run on](https://img.shields.io/badge/Platform-not%20iOS-red.svg?style=plastic)](https://www.urbandictionary.com/define.php?term=SOL)
 
+![Awesome gif of Arkonia missing](https://j.gifs.com/mOQ9p0.gif "Awesome gif of Arkonia missing")
+
 A hobbyist's toy, under construction. An evolution and natural selection simulator.
 Creatures whose brains and bodies evolve genetically to make them better at eating each other.
-Written in Swift, using SpriteKit, with no UI other than the main window. Presumably it would
-be an enormous effort to port to iOS, even if anyone wanted to.
+Written in Swift, using SpriteKit, with no UI other than the main window, because I really suck at
+UI programming.
 
-I don't have any formal training with AI or ML or genetic algorithms, or any of this
-stuff. I realized that I hate math after linear algebra and two semesters of calculus,
-and I don't remember any of it anyway, having learned it all directly from Messrs Newton and
-Leibniz themselves. Don't expect gradients, or loss functions, or anything you may have learned in school
-or on the job or in your formal research about genetic algorithms, because I've never
-looked into those disciplines. Everything I know about the subject I've learned from
-creating this toy over the last three years.
+### Status 10 Mar 2019
 
-In other words, I'm self-conscious about how ill-conceived it might appear to anyone who's
-serious about the disciplines, and I don't want to put anyone off their breakfast. Caveat lector.
+The gif says a lot already. Everything is in place now, and the overall structure of the code
+has begun to stabilize. It's still a mess in a few places where I haven't really figured out
+what I'm doing yet, but it's stable enough that I can start building on it. My next step will be
+to implement some genes to control the body--at present, all the genes are devoted to building the
+brain. The arkons all have the same body: a circle with three jets spaced equally around the
+circumference. The jets are completely under the control of the brain, which in turn is completely
+under the control of the genes. The brain receives sensory input, munges the input signal around
+a bit, and sends independent force vectors to the jets.
 
-### Status 27 Feb 2019
+Arkons currently have four senses. Three of the senses are 2D vectors requiring two inputs, and
+the last sense is a scalar. The senses are:
+
+* Velocity
+* Location in the world, as (r, Θ) to the origin
+* Very short-range detection of food, as (r, Θ) to the food
+* Angular velocity
+
+I don't have a road map, because I lack discipline. Here are some alleyways I will probably explore.
+
 * Genome
-  * We're fully functional, from (asexual) replication with mutation, to genome decode to net frame.
-  * Lots of net genes in place--everything I could think of.
-  * All the genes currently apply only to the net.
-  * Currently working on adding genes for constructing the body--the Arkons already have a pretty interesting
+  * Currently preparing to add genes for constructing the body--the Arkons already have a pretty interesting
   body (see below)--but I'd like to see what effect movable appendages will have.
   * To do: add meta-genes to act on the genome itself or change its expression in some way, for example:
     * Hox, like a real hox gene, to cause certain segments of the genome to repeat themselves.
@@ -41,23 +49,15 @@ serious about the disciplines, and I don't want to put anyone off their breakfas
   * To do: sexual replication.
   * To consider?: replication involving more than two Arkons.
 * Net
-  * We're fully functional: from constructing the live net, to driving sense inputs through to motor outputs
   * To do: the net frame component might be an unnecessary holdover from a previous design experiment,
   but I can't remember. It's a staging area for the "live" net, the component that actually
   converts sense inputs to motor outputs. I think a staging area is unnecessary now, but I
   need to look into it.
-* Body
-  * Right now it's a simple circle with three jets, equally spaced on its circumference.
-  * To do: add body parts to correspond to the aforementioned body genes I'm working on now.
-* Display
-  * When I was just working on the net part, I had a nice display portal for the net, with layers and
-  neurons and such. But I've broken that in the process of implementing the portal for the Arkons.
-  So all I have right now is the Arkons portal
-  * To do: fix the damned net display portal
-  * To do: show some statistics in one of the portals, not just for looks, but might be useful for debugging.
+* Body: right now it's a simple circle with three jets, equally spaced on its circumference.
+* Display: the stats portal sucks, because I suck at UI.
 * Testing -- there really are only two hard parts at the present:
   * Genome manipulation and mutation--these pass a battle-hardened unit test.
-  * The live net--well, it passes a lot of unit testing, but it was so hard to get the design right and took
+  * The live net passes a lot of unit testing, but it was so hard to get the design right and took
   me so long to implement that I'm not sure whether I trust it yet. More devious unit testing is in order,
   but right now I'm lured away from good practices by the gratification of watching the Arkons evolve, no matter
   how trivial their evolution is at present.
