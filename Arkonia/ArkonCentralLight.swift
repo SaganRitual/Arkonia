@@ -31,8 +31,9 @@ enum ArkonCentralLight {
     static var orangeNeuronSpriteTexture: SKTexture!
     static var sceneBackgroundTexture: SKTexture!
 
-    static let vLabelZPosition = CGFloat(4.0)
-    static let vLabelCotainerZPosition = CGFloat(3.9)
+    static let vLabelZPosition = CGFloat(6.0)
+    static let vSubportalZPosition = CGFloat(5.0)
+    static let vPortalZPosition = CGFloat(4.0)
     static let vBorderZPosition = CGFloat(3.0)
 
     static let vArkonZPosition = CGFloat(4.0)

@@ -21,7 +21,12 @@
 import Foundation
 
 class Gene: CustomDebugStringConvertible {
-    static var idNumber = 0
+    static var cLiveGenes = 0 { willSet {
+        if newValue > Gene.highWaterMark { highWaterMark = newValue
+    }}}
+
+    private(set) static var highWaterMark = 0
+    private static var idNumber = 0
 
     let idNumber: Int
     let type: GeneType
@@ -40,12 +45,12 @@ class Gene: CustomDebugStringConvertible {
 
     init(_ type: GeneType) {
         (self.idNumber, self.type) = Gene.init_(type)
-        DebugPortal.shared.specimens[.cLiveGenes]?.value += 1
+        Gene.cLiveGenes += 1
     }
 
     init(_ copyFrom: Gene) { Gene.missingOverrideInSubclass() }
 
-    deinit { DebugPortal.shared.specimens[.cLiveGenes]?.value -= 1 }
+    deinit { Gene.cLiveGenes -= 1 }
 
     func copy() -> Gene { Gene.missingOverrideInSubclass() }
     func isMyself(_ thatGuy: Gene?) -> Bool { return self === thatGuy }

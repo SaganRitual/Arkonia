@@ -3,7 +3,7 @@ import SpriteKit
 
 extension SKSpriteNode {
     enum UserDataKey {
-        case arkon, birthday, foodValue, isComposting, isFirstBloom
+        case arkon, birthday, foodValue, isComposting, isFirstBloom, isOldestArkon
     }
 
     func getUserData<T>(_ key: UserDataKey) -> T? {
@@ -44,8 +44,8 @@ extension SKSpriteNode {
             let myAge = Display.shared.currentTime - birthday
 
             let baseValue = min(20.0, myAge)
-            let entropy = Display.shared.gameAge * 0.001
-            return baseValue - entropy
+            let adjustedValue = baseValue * Display.shared.entropyFactor
+            return adjustedValue
         }
     }
 
@@ -57,6 +57,11 @@ extension SKSpriteNode {
     var isFirstBloom: Bool? {
         get { return getUserData(UserDataKey.isFirstBloom) }
         set { setUserData(key: UserDataKey.isFirstBloom, to: newValue) }
+    }
+
+    var isOldestArkon: Bool? {
+        get { return getUserData(UserDataKey.isOldestArkon) }
+        set { setUserData(key: UserDataKey.isOldestArkon, to: newValue) }
     }
 }
 
@@ -100,6 +105,7 @@ extension Arkon {
     func postPartum(relievedArkonFishNumber: Int?) {
         guard let r = relievedArkonFishNumber else { return }
         guard let arkon = Arkonery.shared.getArkon(for: r) else { return }
+        arkon.cOffspring += 1
         arkon.sprite.color = .green
         arkon.sprite.run(arkon.tickAction)
     }

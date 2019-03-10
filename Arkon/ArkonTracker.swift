@@ -45,14 +45,6 @@ struct ArkonTracker {
         return oldest
     }
 
-    mutating func updateDebugPortal() {
-        guard let arkon = oldestLivingArkon else { return }
-
-        DebugPortal.shared.specimens[.currentOldest]?.value = Int(arkon.myAge)
-        DebugPortal.shared.specimens[.healthOfOldest]?.value = Int(arkon.health)
-        DebugPortal.shared.specimens[.oldestCOffspring]?.value = Int(arkon.cOffspring)
-    }
-
     mutating func updateNetPortal() {
         guard let arkon = oldestLivingArkon else { return }
 

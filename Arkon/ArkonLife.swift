@@ -2,11 +2,8 @@ import Foundation
 import SpriteKit
 
 extension Arkon {
-    static var foodValueMultiplier = 1.0
     static func absorbFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
-        let foodValue = mannaSprite.foodValue
-
-        arkonSprite.arkon?.health += foodValue
+        arkonSprite.arkon?.health += mannaSprite.foodValue
         arkonSprite.arkon?.targetManna = nil
 
         MannaFactory.shared.compost(mannaSprite)
@@ -50,6 +47,11 @@ extension Arkon {
         health -= 8
         self.sprite.color = .red
         Arkonery.shared.spawn(parentFishNumber: fishNumber, parentGenome: genome)
+
+        if self.isOldestArkon {
+            Arkon.currentHealthOfOldestArkon = health
+            Arkon.currentCOffspring = cOffspring
+        }
     }
 
     private func stimulus() {
@@ -95,6 +97,8 @@ extension Arkon {
         if health > 10 { spawn(); return }
 
         health -= 1.0       // Time and tick wait for no arkon
+
+        if self.isOldestArkon { Arkon.currentHealthOfOldestArkon = health }
 
         stimulus()
         response()
