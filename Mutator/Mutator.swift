@@ -49,6 +49,17 @@ class Mutator {
 
         (leftCut, rightCut) = fixOrder(leftCut, rightCut)
 
+        let bell = Double(abs(bellCurve.nextFloat()))
+        let length = Double(rightCut - leftCut)
+
+        // Never more than 10% of my genome
+        let scaledLength = 0.1 * length * bell
+
+        if scaledLength < length {
+            rightCut -= Int((length - scaledLength) / 2)
+            leftCut += Int((length - scaledLength) / 2)
+        }
+
         return (leftCut, rightCut)
     }
 
@@ -63,9 +74,9 @@ class Mutator {
         let weightMap: [MutationType : Int] = [
             .copyAndReinsertSegment : 6, .copyAndReinsertReversed: 3, .copyAndReinsertShuffled: 2,
             .cutAndReinsertSegment : 6, .cutAndReinsertReversed: 3, .cutAndReinsertShuffled: 2,
-            .deleteRandomGenes : 3, .deleteRandomSegment : 1,
+            .deleteRandomGenes : 3, .deleteRandomSegment : 3,
             .insertRandomGenes : 6, .insertRandomSegment : 6,
-            .mutateRandomGenes : 20
+            .mutateRandomGenes : 10
         ]
 
         let weightRange = weightMap.reduce(0, { return $0 + $1.value })
@@ -130,7 +141,7 @@ class Mutator {
     }
 
     func okToSnip(_ leftCut: Int, _ rightCut: Int) -> Bool {
-        return !((leftCut == 0 && rightCut == 0) || leftCut == rightCut)
+        return leftCut > 0 && rightCut > leftCut
     }
 
     func okToSnip(_ leftCut: Int, _ rightCut: Int, insertPoint: Int) -> Bool {
@@ -157,7 +168,7 @@ extension Mutator {
 
         let m = Mutator.shared!
         let b = abs(m.bellCurve.nextFloat())
-        var cMutate = Double(b) * Double(outputGenome.count)
+        var cMutate = 0.1 * Double(outputGenome.count) * Double(b)  // max 10% of genome
         precondition(abs(cMutate) != Double.infinity && cMutate != Double.nan)
         guard Int(cMutate) > 0 else { return }
 

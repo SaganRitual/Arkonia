@@ -28,11 +28,6 @@ extension Mutator {
     @discardableResult
     func cutRandomSegment() -> [Gene]? {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: sourceGenome.count)
-        return cutSegment(leftCut, rightCut)
-    }
-
-    @discardableResult
-    func cutSegment(_ leftCut: Int, _ rightCut: Int) -> [Gene]? {
         if !okToSnip(leftCut, rightCut) { return nil }
 
         outputGenome.removeAll(keepingCapacity: true)

@@ -40,27 +40,13 @@ extension Mutator {
         outputGenome.removeAll(keepingCapacity: true)
 
         let copiedSegment = sourceGenome[leftCut..<rightCut]
-        let mutatedSegment = arrayPreinsertAction(preinsertAction, copiedSegment)
+        var mutatedSegment = arrayPreinsertAction(preinsertAction, copiedSegment)
+        if mutatedSegment.isEmpty { mutatedSegment = Array(copiedSegment) }
 
         let head = sourceGenome[..<insertPoint]
         let tail = sourceGenome[insertPoint...]
 
-        guard let histogram =
-            DStatsPortal.shared.subportals[.seniorLabel]?.histogram as? SegmentMutationStatsHistogram
-                else { preconditionFailure() }
-
-        let length = Double(rightCut - leftCut)
-        let cZeros = Double(Int(log10(length)))
-        let dynamicYScale = Double(exactly: pow(10.0, cZeros))!
-        let rawValue = Int(length / dynamicYScale)
-        let fn = SegmentMutationStatsHistogram.StatType(rawValue: rawValue)!
-        let zoomOut = dynamicYScale > Mutator.currentDynamicYScale
-
-        histogram.accumulate(functionID: fn, zoomOut: zoomOut)
-
         outputGenome = head + mutatedSegment + tail
-
-        if zoomOut { Mutator.currentDynamicYScale = dynamicYScale }
     }
 
     func arrayPreinsertAction(_ preinsertAction: PreinsertAction, _ strand: ArraySlice<Gene>) -> [Gene] {
@@ -95,45 +81,48 @@ extension Mutator {
     }
 
     func insertRandomGenes() {
-        let cDelete = Double(abs(bellCurve.nextFloat())) * Double(sourceGenome.count)
-        if Int(cDelete) == 0 { return }
+        // Limit # of inserted genes to 10% of my length
+        let cInsert_ = 0.1 * Double(sourceGenome.count) * Double(abs(bellCurve.nextFloat()))
+        let cInsert = Int(cInsert_)
+        if cInsert == 0 { return }
 
         outputGenome.removeAll(keepingCapacity: true)
+        outputGenome = sourceGenome
 
-        var startIndex = sourceGenome.startIndex
-        var endIndex = sourceGenome.startIndex
-
-        while startIndex != endIndex {
-            let segmentLength = Int.random(in: startIndex..<sourceGenome.endIndex)
-
-            endIndex = sourceGenome.index(before: segmentLength - 1)
-
-            outputGenome.append(contentsOf: sourceGenome[startIndex..<endIndex])
-            outputGenome.append(Gene.makeRandomGene())
-
-            startIndex = outputGenome.index(after: segmentLength)
+        (0..<cInsert).forEach { _ in
+            let insertPoint = Int.random(in: 0..<sourceGenome.count)
+            outputGenome.insert(Gene.makeRandomGene(), at: insertPoint)
         }
     }
 
     func insertRandomSegment() {
-        let cDelete = Double(abs(bellCurve.nextFloat())) * Double(sourceGenome.count)
-        if Int(cDelete) == 0 { return }
+        // Limit new segment to 10% of my length
+        let cInsert_ = 0.1 * Double(sourceGenome.count) * Double(abs(bellCurve.nextFloat()))
+        let cInsert = Int(cInsert_)
+        if cInsert == 0 { return }
+
+        let randomSegment = (0..<cInsert).map { _ in Gene.makeRandomGene() }
+        let insertPoint = Int.random(in: 0..<sourceGenome.count)
 
         outputGenome.removeAll(keepingCapacity: true)
-
-        var startIndex = sourceGenome.startIndex
-        var endIndex = sourceGenome.startIndex
-
-        while startIndex != endIndex {
-            let segmentLength = Int.random(in: startIndex..<sourceGenome.endIndex)
-
-            endIndex = sourceGenome.index(before: segmentLength - 1)
-
-            outputGenome.append(contentsOf: sourceGenome[startIndex..<endIndex])
-            outputGenome.append(Gene.makeRandomGene())
-
-            startIndex = outputGenome.index(after: segmentLength)
-        }
+        outputGenome = sourceGenome[..<insertPoint] + randomSegment + sourceGenome[insertPoint...]
     }
 
 }
+
+/*
+ guard let histogram =
+ DStatsPortal.shared.subportals[.seniorLabel]?.histogram as? SegmentMutationStatsHistogram
+ else { preconditionFailure() }
+
+ let length = cMutate
+ let cZeros = Double(Int(log10(length)))
+ let dynamicYScale = Double(exactly: pow(10.0, cZeros))!
+ let rawValue = Int(floor(length / dynamicYScale))
+ let fn = SegmentMutationStatsHistogram.StatType(rawValue: rawValue)!
+ let zoomOut = dynamicYScale > Mutator.currentDynamicYScale
+
+ histogram.accumulate(functionID: fn, zoomOut: zoomOut)
+
+ if zoomOut { Mutator.currentDynamicYScale = dynamicYScale }
+ */
