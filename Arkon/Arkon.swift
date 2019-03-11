@@ -51,6 +51,7 @@ class Arkon {
     var kNet: KNet!
     var targetManna: (id: String, position: CGPoint)?
     var motorOutputs: MotorOutputs!
+    var myAgeAtLastSpawn: TimeInterval = 0
     var observer: NSObjectProtocol?
     let parentFishNumber: Int?
     var portal: SKSpriteNode!

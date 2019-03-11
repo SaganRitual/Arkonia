@@ -53,7 +53,7 @@ class Display: NSObject, SKSceneDelegate {
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
         // Mostly so the clock will stop running
-        if ArkonFactory.shared.cLivingArkons <= 0 { return }
+        if ArkonFactory.shared.cLivingArkons <= 0 && ArkonFactory.shared.highWaterMark > 0 { return }
 
         defer { self.currentTime = currentTime }
 
@@ -68,8 +68,9 @@ class Display: NSObject, SKSceneDelegate {
 
         if let protoArkon = ArkonFactory.shared.pendingArkons.popFront() { protoArkon.launch() }
 
-        if ArkonFactory.shared.pendingArkons.isEmpty {
+        if scene.physicsWorld.contactDelegate == nil && ArkonFactory.shared.pendingArkons.isEmpty {
             scene.physicsWorld.contactDelegate = World.shared.physics
+            scene.physicsWorld.speed = 1.0
         }
 
         tickCount += 1

@@ -22,10 +22,10 @@ import Foundation
 
 class Gene: CustomDebugStringConvertible {
     static var cLiveGenes = 0 { willSet {
-        if newValue > Gene.highWaterMark { highWaterMark = newValue
-    }}}
+        if newValue > Gene.highWaterMark { highWaterMark = newValue }
+    }}
 
-    private(set) static var highWaterMark = 0
+    static var highWaterMark = 0
     private static var idNumber = 0
 
     let idNumber: Int

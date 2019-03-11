@@ -40,10 +40,10 @@ extension SKSpriteNode {
 
     var foodValue: Double {
         get {
-            guard let birthday = self.birthday else { return 10 }
-            let myAge = Display.shared.currentTime - birthday
+//            guard let birthday = self.birthday else { return 10 }
+//            let myAge = Display.shared.currentTime - birthday
 
-            let baseValue = min(20.0, myAge)
+            let baseValue = 20.0//min(20.0, myAge)
             let adjustedValue = baseValue * Display.shared.entropyFactor
             return adjustedValue
         }
@@ -104,6 +104,20 @@ extension Arkon {
 
         self.isAlive = true
         self.sprite.run(self.tickAction)
+
+        guard let genomeLengthHistogram =
+            DStatsPortal.shared.subportals[.seniorLabel]!.histogram as? SegmentMutationStatsHistogram
+            else { preconditionFailure() }
+
+        let arkons = World.shared.arkonsPortal.children.compactMap { ($0 as? SKSpriteNode)?.arkon }
+        for arkon in arkons {
+            for exponent in IntlyHack.allCases {
+                if Double(arkon.genome.count) < pow(2.0, Double(exponent.rawValue)) {
+                    genomeLengthHistogram.accumulate(functionID: exponent, zoomOut: false)
+                    break
+                }
+            }
+        }
     }
 
     func postPartum(relievedArkonFishNumber: Int?) {
@@ -151,7 +165,7 @@ extension Arkon {
         pBody.isDynamic = true
         pBody.linearDamping = 2.0
         pBody.angularDamping = 2.0
-        pBody.friction = 2.0
+        pBody.friction = 0
         pBody.restitution = 0
 
         return pBody

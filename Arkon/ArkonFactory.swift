@@ -27,6 +27,7 @@ class Serializer<T> {
     private var array = [T]()
     private let queue: DispatchQueue
 
+    var count: Int { return array.count }
     var isEmpty: Bool { return array.isEmpty }
 
     init(_ queue: DispatchQueue) { self.queue = queue }

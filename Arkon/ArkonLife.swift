@@ -92,9 +92,11 @@ extension Arkon {
             return
         }
 
-        self.sprite.color = .green
-
-        if health > 10 { spawn(); return }
+        if health > 10 && (myAge - myAgeAtLastSpawn) > 1.0 {
+            myAgeAtLastSpawn = myAge
+            spawn()
+            return
+        }
 
         health -= 1.0       // Time and tick wait for no arkon
 

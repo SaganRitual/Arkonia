@@ -14,6 +14,7 @@ struct DStat {
         self.labelNode.fontName = "Courier New"
         self.labelNode.fontSize = fontSize
         self.labelNode.numberOfLines = 3
+        self.labelNode.position.y -= portal.size.height / 2
 
         portal.addChild(self.labelNode)
     }
@@ -22,6 +23,8 @@ struct DStat {
 }
 
 class DStatsSubportal {
+    static var recordGeneLength = 0
+
     var dstat: DStat!
     var histogram: DStatsHistogram?
     var sprite: SKSpriteNode!
@@ -57,7 +60,7 @@ class DStatsSubportal {
             }
 
             labelNode.fontSize = 50.0
-            labelNode.position.y -= (self.sprite.frame.size.height - labelNode.frame.size.height) / 4
+            labelNode.position.y += (self.sprite.frame.size.height - labelNode.frame.size.height) / 4
 
         case .liveLabel:
             histogram = MutatorStatsHistogram(
@@ -117,20 +120,36 @@ extension DStatsSubportal {
     }
 
     func dsLiveGenes() -> String {
-        let nz = ArkonFactory.shared.cLivingArkons == 0 ? 0 :
-            (Double(Gene.cLiveGenes) / Double(ArkonFactory.shared.cLivingArkons))
+        let arkons = World.shared.arkonsPortal.children.compactMap { ($0 as? SKSpriteNode)?.arkon }
+        let alternateCount = arkons.reduce(0) { $0 + $1.genome.count }
+        if alternateCount > Gene.highWaterMark { Gene.highWaterMark = alternateCount }
 
-        let fm = String(format: "%.2f", nz)
+        let averageGenomeLength = ArkonFactory.shared.cLivingArkons == 0 ? 0 :
+            (Double(alternateCount) / Double(ArkonFactory.shared.cLivingArkons))
 
-        return "Live genes: \(Gene.cLiveGenes)\n" +
+        let formattedAverage = String(format: "%.2f", averageGenomeLength)
+
+        let sorted = arkons.sorted { $0.genome.count < $1.genome.count }
+        let medianGeneLength = sorted.isEmpty ? 0 : sorted[sorted.count / 2].genome.count
+        let longestLiveGene = sorted.last?.genome.count ?? 0
+
+        if longestLiveGene > DStatsSubportal.recordGeneLength {
+            DStatsSubportal.recordGeneLength = longestLiveGene
+        }
+
+        return "Live genes: \(alternateCount)\n" +
                 "High water: \(Gene.highWaterMark)\n" +
-                "Average: \(fm)"
+                "Average: \(formattedAverage)\n" +
+                "Median: \(medianGeneLength)\n" +
+                "Longest: \(longestLiveGene)\n" +
+                "Record: \(DStatsSubportal.recordGeneLength)"
     }
 
     func dsLiveArkons() -> String {
         return "Live arkons: \(ArkonFactory.shared.cLivingArkons)\n" +
                 "High water: \(ArkonFactory.shared.highWaterMark)\n" +
-                "Backlog: \(ArkonFactory.shared.cPending)"
+                "Pending fab: \(ArkonFactory.shared.cPending)\n" +
+                "Pending launch: \(ArkonFactory.shared.pendingArkons.count)"
     }
 }
 

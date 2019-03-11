@@ -18,7 +18,7 @@ extension DStatsHistogramProtocol {
 }
 
 public enum IntlyHack: Int, CaseIterable, Hashable {
-    case zero, one, two, three, four, five, six, seven, eight, nine
+    case zero = 2, one, two, three, four, five, six, seven, eight, nine
 }
 
 class DStatsHistogramColumn {
