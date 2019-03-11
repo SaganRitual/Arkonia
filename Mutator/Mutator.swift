@@ -29,7 +29,6 @@ class Mutator {
 
     func copySegment() -> [Gene] {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: sourceGenome.count)
-
         return sourceGenome[leftCut..<rightCut].map { $0 }
     }
 
@@ -60,9 +59,11 @@ class Mutator {
 
     func getWeightedRandomMutationType() -> MutationType {
         let weightMap: [MutationType : Int] = [
+            .copyAndReinsertSegment : 6, .copyAndReinsertReversed: 3, .copyAndReinsertShuffled: 2,
+            .cutAndReinsertSegment : 6, .cutAndReinsertReversed: 3, .cutAndReinsertShuffled: 2,
             .deleteRandomGenes : 3, .deleteRandomSegment : 1,
-            .insertRandomGenes : 6, .insertRandomSegment :6,
-            .mutateRandomGenes : 20, .cutAndReinsertSegment : 6, .copyAndReinsertSegment : 6
+            .insertRandomGenes : 6, .insertRandomSegment : 6,
+            .mutateRandomGenes : 20
         ]
 
         let weightRange = weightMap.reduce(0, { return $0 + $1.value })
@@ -77,16 +78,22 @@ class Mutator {
         fatalError()
     }
 
-    enum MutationType: Int {
-        case insertRandomGenes, insertRandomSegment, deleteRandomGenes, deleteRandomSegment,
-        cutAndReinsertSegment, copyAndReinsertSegment, mutateRandomGenes
+    enum MutationType: CaseIterable {
+        case copyAndReinsertSegment, copyAndReinsertReversed, copyAndReinsertShuffled
+        case cutAndReinsertSegment, cutAndReinsertReversed, cutAndReinsertShuffled
+        case deleteRandomGenes, deleteRandomSegment, insertRandomGenes, insertRandomSegment
+        case mutateRandomGenes
     }
 
+    // swiftlint:disable cyclomatic_complexity
     func mutate(_ sourceGenome: [Gene]) -> [Gene] {
         self.sourceGenome = sourceGenome
         self.outputGenome.removeAll(keepingCapacity: true)
 
         let m = getWeightedRandomMutationType()
+
+        let mutatorHistogram = DStatsPortal.shared.subportals[.liveLabel]!.histogram!
+        mutatorHistogram.accumulate(functionID: m)
 
         switch m {
         case .deleteRandomGenes:           deleteRandomGenes()
@@ -97,12 +104,17 @@ class Mutator {
 
         case .mutateRandomGenes:           mutateRandomGenes()
 
-        case .cutAndReinsertSegment:       cutAndReinsertSegment()
-        case .copyAndReinsertSegment:      copyAndReinsertSegment()
+        case .cutAndReinsertSegment:       cutAndReinsertSegment(.doNothing)
+        case .copyAndReinsertSegment:      copyAndReinsertSegment(.doNothing)
+        case .cutAndReinsertReversed:      cutAndReinsertSegment(.reversed)
+        case .copyAndReinsertReversed:     copyAndReinsertSegment(.reversed)
+        case .cutAndReinsertShuffled:      cutAndReinsertSegment(.shuffled)
+        case .copyAndReinsertShuffled:     copyAndReinsertSegment(.shuffled)
         }
 
         return self.outputGenome
     }
+    // swiftlint:enable cyclomatic_complexity
 
     func mutate(from value: Double) -> Double {
         let m = Mutator.shared!
@@ -123,7 +135,7 @@ class Mutator {
     }
 
     enum PreinsertAction: CaseIterable {
-        case doNothing, reverse, shuffle
+        case doNothing, reversed, shuffled
 
         static func random() -> PreinsertAction {
             return nok(PreinsertAction.allCases.randomElement())
@@ -145,7 +157,7 @@ extension Mutator {
 
         while cMutate > 0 {
             let wherefore = Int.random(in: 0..<outputGenome.count)
-            outputGenome[wherefore] = Gene.makeRandomGene()
+            _ = outputGenome[wherefore].mutate()
             cMutate -= 1
         }
     }

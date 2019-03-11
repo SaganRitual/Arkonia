@@ -6,6 +6,7 @@ class DBootstrap: NSObject, SKSceneDelegate {
     var selfReference: DBootstrap?
 
     var components = [() -> Void]()
+    var scratchComponents = [() -> Void]()
 
     init(_ scene: SKScene) {
         self.scene = scene
@@ -40,6 +41,8 @@ class DBootstrap: NSObject, SKSceneDelegate {
     func createWorld()        { World.shared = World() }
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
-        components.removeFirst()()
+        if scratchComponents.isEmpty { scratchComponents = components }
+        let fn = scratchComponents.removeFirst()
+        fn()
     }
 }

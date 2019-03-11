@@ -21,8 +21,9 @@ struct DStat {
     func tick() { labelNode.text = getter() }
 }
 
-struct DStatsSubportal {
+class DStatsSubportal {
     var dstat: DStat!
+    var histogram: DStatsHistogram?
     var sprite: SKSpriteNode!
     let statID: DStatsPortal.StatID
     var sources = [(DStatsPortal.StatID, () -> String)]()
@@ -39,12 +40,18 @@ struct DStatsSubportal {
         self.sprite.position = position
 
         self.sources = [
-            (.gameAge, dsGameAge), (.liveLabel, dsLiveLabel), (.seniorLabel, dsSeniorLabel),
+            (.gameAge, dsGameAge), (.liveLabel, dsHistogram), (.seniorLabel, dsSeniorLabel),
             (.foodValue, dsMiscellaney), (.cLiveGenes, dsLiveGenes), (.seniorAge, Arkon.getSeniorAgeStats),
             (.cArkons, dsLiveArkons), (.cSpawnLabel, dsSpawn), (.seniorHealth, Arkon.getSeniorHealthStats)
         ]
 
         self.dstat = DStat(portal: self.sprite, getter: sources.filter { s in s.0 == statID }[0].1)
+
+        if statID == .liveLabel {
+            histogram = DStatsHistogram(
+                parentPortal: self.sprite, cColumns: Mutator.MutationType.allCases.count
+            )
+        }
 
         DPortalServer.shared!.portals[3]!.addChild(self.sprite)
     }
@@ -59,6 +66,10 @@ extension DStatsSubportal {
         f.allowsFractionalUnits = true
         f.unitsStyle = .positional
         return f.string(from: Display.shared!.gameAge) ?? "0.0"
+    }
+
+    func dsHistogram() -> String {
+        return ""
     }
 
     func dsLiveLabel() -> String { return "Live" }

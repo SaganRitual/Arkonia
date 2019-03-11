@@ -4,7 +4,7 @@ import SpriteKit
 class Display: NSObject, SKSceneDelegate {
     static var shared: Display!
 
-    var timeZero: TimeInterval = 0
+    var appIsReadyToRun = false
     var currentTime: TimeInterval = 0
     private var frameCount = 0
     private var kNet: KNet?
@@ -12,6 +12,7 @@ class Display: NSObject, SKSceneDelegate {
     private var quadrants = [Int: SKSpriteNode]()
     public weak var scene: SKScene?
     public var tickCount = 0
+    var timeZero: TimeInterval = 0
 
     var gameAge: TimeInterval { return currentTime - timeZero }
     var entropyFactor: TimeInterval {
@@ -52,6 +53,8 @@ class Display: NSObject, SKSceneDelegate {
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
         defer { self.currentTime = currentTime }
+
+//        if !self.appIsReadyToRun { return }
         if self.currentTime == 0 { self.timeZero = currentTime; return }
 
         if firstPass {

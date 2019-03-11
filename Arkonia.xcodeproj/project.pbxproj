@@ -28,6 +28,7 @@
 		D43E8728220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
 		D43E8729220A4E5200CD9CC3 /* runDarkTests.sh in Resources */ = {isa = PBXBuildFile; fileRef = D43E871B220A474400CD9CC3 /* runDarkTests.sh */; };
 		D44EB8AF222FA5250004A46F /* DBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EB8AE222FA5250004A46F /* DBootstrap.swift */; };
+		D457037322359D8400386C75 /* DStatsHistogram.swift in Sources */ = {isa = PBXBuildFile; fileRef = D457037222359D8400386C75 /* DStatsHistogram.swift */; };
 		D46880222207A0C500405F54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46880212207A0C500405F54 /* main.swift */; };
 		D468802D2207A0E600405F54 /* DTGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468802C2207A0E600405F54 /* DTGenome.swift */; };
 		D46880372207A41800405F54 /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF5220762680002BC58 /* GeneType.swift */; };
@@ -185,6 +186,7 @@
 		D43E871B220A474400CD9CC3 /* runDarkTests.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = runDarkTests.sh; sourceTree = "<group>"; };
 		D43E871D220A495300CD9CC3 /* runSwiftlint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = runSwiftlint.sh; sourceTree = "<group>"; };
 		D44EB8AE222FA5250004A46F /* DBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBootstrap.swift; sourceTree = "<group>"; };
+		D457037222359D8400386C75 /* DStatsHistogram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DStatsHistogram.swift; sourceTree = "<group>"; };
 		D468801F2207A0C500405F54 /* TTGenome */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTGenome; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46880212207A0C500405F54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D468802A2207A0E600405F54 /* DTGenome.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTGenome.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -542,6 +544,7 @@
 				D4C2662522110D8400325F05 /* DPortalServer.swift */,
 				D47246D822116C71002AA25F /* DSpacer.swift */,
 				D48610382234B2E200921565 /* DStatsPortal.swift */,
+				D457037222359D8400386C75 /* DStatsHistogram.swift */,
 			);
 			path = Display;
 			sourceTree = "<group>";
@@ -1070,6 +1073,7 @@
 				D46D6BE82207693C0001F5D0 /* KIdentifier.swift in Sources */,
 				D46D6BFA220769E50001F5D0 /* UpConnector.swift in Sources */,
 				D4E878C0222D2D9F00CA2BC4 /* ArkonTracker.swift in Sources */,
+				D457037322359D8400386C75 /* DStatsHistogram.swift in Sources */,
 				D46D6BFE22076A5A0001F5D0 /* CGConversions.swift in Sources */,
 				D4E18CBB222CFBF4008B1E2E /* Physics.swift in Sources */,
 				D4C266242210BC4F00325F05 /* Display.swift in Sources */,
