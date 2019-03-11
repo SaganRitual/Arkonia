@@ -52,6 +52,9 @@ class Display: NSObject, SKSceneDelegate {
     var firstPass = true
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
+        // Mostly so the clock will stop running
+        if ArkonFactory.shared.cLivingArkons <= 0 { return }
+
         defer { self.currentTime = currentTime }
 
 //        if !self.appIsReadyToRun { return }

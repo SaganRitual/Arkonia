@@ -5,14 +5,14 @@ struct DStat {
     let getter: () -> String
     let labelNode: SKLabelNode
 
-    init(portal: SKSpriteNode, getter: @escaping () -> String) {
+    init(portal: SKSpriteNode, fontSize: CGFloat, getter: @escaping () -> String) {
         self.getter = getter
         self.labelNode = SKLabelNode(text: nil)
 
         self.labelNode.zPosition = ArkonCentralLight.vLabelZPosition
         self.labelNode.fontColor = .green
         self.labelNode.fontName = "Courier New"
-        self.labelNode.fontSize = 25
+        self.labelNode.fontSize = fontSize
         self.labelNode.numberOfLines = 3
 
         portal.addChild(self.labelNode)
@@ -45,9 +45,20 @@ class DStatsSubportal {
             (.cArkons, dsLiveArkons), (.cSpawnLabel, dsSpawn), (.seniorHealth, Arkon.getSeniorHealthStats)
         ]
 
-        self.dstat = DStat(portal: self.sprite, getter: sources.filter { s in s.0 == statID }[0].1)
+        self.dstat = DStat(
+            portal: self.sprite, fontSize: 25.0,
+            getter: sources.filter { s in s.0 == statID }[0].1
+        )
 
         switch statID {
+        case .gameAge:
+            guard let labelNode = (self.sprite.children[0] as? SKLabelNode) else {
+                preconditionFailure()
+            }
+
+            labelNode.fontSize = 50.0
+            labelNode.position.y -= (self.sprite.frame.size.height - labelNode.frame.size.height) / 4
+
         case .liveLabel:
             histogram = MutatorStatsHistogram(
                 parentPortal: self.sprite, cColumns: Mutator.MutationType.allCases.count
@@ -73,6 +84,7 @@ extension DStatsSubportal {
         f.allowedUnits = [.hour, .minute, .second]
         f.allowsFractionalUnits = true
         f.unitsStyle = .positional
+        f.zeroFormattingBehavior = .pad
         return f.string(from: Display.shared!.gameAge) ?? "0.0"
     }
 
