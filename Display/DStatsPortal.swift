@@ -40,17 +40,25 @@ class DStatsSubportal {
         self.sprite.position = position
 
         self.sources = [
-            (.gameAge, dsGameAge), (.liveLabel, dsHistogram), (.seniorLabel, dsSeniorLabel),
+            (.gameAge, dsGameAge), (.liveLabel, {""}), (.seniorLabel, {""}),
             (.foodValue, dsMiscellaney), (.cLiveGenes, dsLiveGenes), (.seniorAge, Arkon.getSeniorAgeStats),
             (.cArkons, dsLiveArkons), (.cSpawnLabel, dsSpawn), (.seniorHealth, Arkon.getSeniorHealthStats)
         ]
 
         self.dstat = DStat(portal: self.sprite, getter: sources.filter { s in s.0 == statID }[0].1)
 
-        if statID == .liveLabel {
-            histogram = DStatsHistogram(
+        switch statID {
+        case .liveLabel:
+            histogram = MutatorStatsHistogram(
                 parentPortal: self.sprite, cColumns: Mutator.MutationType.allCases.count
             )
+
+        case .seniorLabel:
+            histogram = SegmentMutationStatsHistogram(
+                parentPortal: self.sprite, cColumns: Mutator.MutationType.allCases.count
+            )
+
+        default: break
         }
 
         DPortalServer.shared!.portals[3]!.addChild(self.sprite)

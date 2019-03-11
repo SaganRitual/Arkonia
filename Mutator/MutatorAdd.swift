@@ -30,6 +30,7 @@ extension Mutator {
         copyAndReinsertSegment(.shuffled)
     }
 
+    static var currentDynamicYScale = 0.0
     func copyAndReinsertSegment(_ preinsertAction: PreinsertAction) {
         let (leftCut, rightCut) = getRandomSnipRange()
         let insertPoint = Int.random(in: 0..<sourceGenome.count)
@@ -44,7 +45,22 @@ extension Mutator {
         let head = sourceGenome[..<insertPoint]
         let tail = sourceGenome[insertPoint...]
 
+        guard let histogram =
+            DStatsPortal.shared.subportals[.seniorLabel]?.histogram as? SegmentMutationStatsHistogram
+                else { preconditionFailure() }
+
+        let length = Double(rightCut - leftCut)
+        let cZeros = Double(Int(log10(length)))
+        let dynamicYScale = Double(exactly: pow(10.0, cZeros))!
+        let rawValue = Int(length / dynamicYScale)
+        let fn = SegmentMutationStatsHistogram.StatType(rawValue: rawValue)!
+        let zoomOut = dynamicYScale > Mutator.currentDynamicYScale
+
+        histogram.accumulate(functionID: fn, zoomOut: zoomOut)
+
         outputGenome = head + mutatedSegment + tail
+
+        if zoomOut { Mutator.currentDynamicYScale = dynamicYScale }
     }
 
     func arrayPreinsertAction(_ preinsertAction: PreinsertAction, _ strand: ArraySlice<Gene>) -> [Gene] {

@@ -27,6 +27,8 @@ class Mutator {
     var outputGenome = [Gene]()
     var sourceGenome = [Gene]()
 
+    var histogramScale = 1.0
+
     func copySegment() -> [Gene] {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: sourceGenome.count)
         return sourceGenome[leftCut..<rightCut].map { $0 }
@@ -92,8 +94,11 @@ class Mutator {
 
         let m = getWeightedRandomMutationType()
 
-        let mutatorHistogram = DStatsPortal.shared.subportals[.liveLabel]!.histogram!
-        mutatorHistogram.accumulate(functionID: m)
+        guard let mutatorHistogram =
+            DStatsPortal.shared.subportals[.liveLabel]!.histogram as? MutatorStatsHistogram
+            else { preconditionFailure() }
+
+        mutatorHistogram.accumulate(functionID: m, zoomOut: false)
 
         switch m {
         case .deleteRandomGenes:           deleteRandomGenes()
@@ -120,7 +125,8 @@ class Mutator {
         let m = Mutator.shared!
         let percentage = m.bellCurve.nextFloat()
         let v = (value == 0.0) ? Double.random(in: -1...1) : value
-        return Double(1.0 - percentage) * v
+        let newValue = Double(1.0 - percentage) * v
+        return newValue
     }
 
     func okToSnip(_ leftCut: Int, _ rightCut: Int) -> Bool {
