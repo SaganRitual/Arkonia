@@ -38,19 +38,23 @@ class Gene: CustomDebugStringConvertible {
     var debugDescription: String { return description }
 
     static func init_(_ type: GeneType) -> (Int, GeneType) {
-        defer { Gene.idNumber += 1 }
+        defer {
+            Gene.idNumber += 1
+            Gene.cLiveGenes += 1
+        }
+
         let idNumber = Gene.idNumber
         return (idNumber, type)
     }
 
     init(_ type: GeneType) {
         (self.idNumber, self.type) = Gene.init_(type)
-        Gene.cLiveGenes += 1
+        print("s(\(idNumber))(\(Gene.cLiveGenes))", terminator: "")
     }
 
     init(_ copyFrom: Gene) { Gene.missingOverrideInSubclass() }
 
-    deinit { Gene.cLiveGenes -= 1 }
+    deinit { Gene.cLiveGenes -= 1; print("g(\(idNumber))(\(Gene.cLiveGenes))", terminator: "") }
 
     func copy() -> Gene { Gene.missingOverrideInSubclass() }
     func isMyself(_ thatGuy: Gene?) -> Bool { return self === thatGuy }

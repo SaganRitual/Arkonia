@@ -40,22 +40,35 @@ class Serializer<T> {
 }
 
 class ArkonFactory: NSObject {
-    static var aboriginalGenome: [Gene] { return Assembler.makeRandomGenome(cGenes: 200) }
+    static var aboriginalGenome: [Gene] {
+        print("ab1", Gene.cLiveGenes)
+        defer { print("ab2", Gene.cLiveGenes) }
+        return Assembler.makeRandomGenome(cGenes: 200)
+    }
     static var shared: ArkonFactory!
 
     var cAttempted = 0
     var cBirthFailed = 0
     var cGenerations = 0
-    var cLivingArkons = 0 { willSet { if newValue > highWaterMark { highWaterMark = newValue } } }
-    var highWaterMark = 0
+    var cLiveArkons = 0 { willSet { if newValue > hiWaterCLiveArkons { hiWaterCLiveArkons = newValue } } }
     var cPending = 0
+    var hiWaterCLiveArkons = 0
+    var hiWaterGenomeLength = 0
 
-    var arkonsPortal: SKSpriteNode
-    let cropper: SKCropNode
+    var longestLivingGenomeLength: Int {
+        let geneCounts = getGeneCounts()
+        let longest = geneCounts.last ?? 0
+        if longest > hiWaterGenomeLength { hiWaterGenomeLength = longest }
+        return longest
+    }
+
+    var medianLivingGenomeLength: Int {
+        let geneCounts = getGeneCounts()
+        return geneCounts.isEmpty ? 0 : geneCounts[geneCounts.count / 2]
+    }
+
     let dispatchQueueLight = DispatchQueue(label: "light.arkonia")
     var launchpad = Launchpad.empty
-    let netPortal: SKSpriteNode
-    let notificationCanter = NotificationCenter.default
     var pendingArkons: Serializer<Arkon>
     var tickWorkItem: DispatchWorkItem!
 
@@ -67,56 +80,50 @@ class ArkonFactory: NSObject {
         return q
     }()
 
-    init(arkonsPortal: SKSpriteNode, netPortal: SKSpriteNode) {
+    override init() {
         self.pendingArkons = Serializer<Arkon>(dispatchQueueLight)
+        super.init()
 
-        self.netPortal = netPortal
-
-        self.arkonsPortal = arkonsPortal
-        self.arkonsPortal.colorBlendFactor = 1.0
-        self.cropper = SKCropNode()
-
-        self.cropper.position = CGPoint(x: -Display.shared.scene!.frame.size.width / 4.0, y: 0)
-
-        Display.shared.scene!.addChild(cropper)
-        arkonsPortal.removeFromParent()
-        self.cropper.addChild(self.arkonsPortal)
-
-        self.arkonsPortal.size.height *= 2.0
-        self.arkonsPortal.position = CGPoint.zero
-
-        let height = Display.shared.scene!.frame.size.height * 0.99
-        let width = Display.shared.scene!.frame.size.width / 2.0 * 0.99
-        let maskNode = SKSpriteNode( color: .yellow, size: CGSize.make(width, height))
-
-        maskNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.cropper.maskNode = maskNode
-
-        self.cropper.zPosition = ArkonCentralLight.vArkonZPosition - 0.01
-
-        arkonsPortal.speed = 0.1
-    }
+        setupSubportal0()
+        setupSubportal1()
+        setupSubportal3()
+        setupSubportal4()
+   }
 
     private func getArkon(for sprite: SKNode) -> Arkon? { return (sprite as? SKSpriteNode)?.arkon }
 
     func getArkon(for fishNumber: Int?) -> Arkon? {
         guard let fn = fishNumber else { return nil }
-        return (arkonsPortal.children.first(where: {
+        return (PortalServer.shared.arkonsPortal.children.first(where: {
             guard let sprite = ($0 as? SKSpriteNode) else { return false }
             return (sprite.arkon?.fishNumber ?? -42) == fn
         }) as? SKSpriteNode)?.arkon
     }
 
+    private func getGeneCounts() -> [Int] {
+        return PortalServer.shared.arkonsPortal.children.compactMap { node in
+            guard let sprite = node as? SKSpriteNode else { return nil }
+            guard let name = sprite.name else { return nil }
+            guard name.hasPrefix("Arkon") else { return nil }
+            guard let arkon = sprite.arkon else { return nil }
+            return arkon.genome.count
+        }.sorted(by: <)
+    }
+
     func makeArkon(parentFishNumber: Int?, parentGenome: [Gene]) -> Arkon? {
+        print("Before makeNet(): \(parentGenome.count), \(Gene.cLiveGenes)")
         let (newGenome, fNet_) = makeNet(parentGenome: parentGenome)
+        print("After makeNet(): \(parentGenome.count) + \(newGenome.count) genes ?= \(Gene.cLiveGenes)")
 
         guard let fNet = fNet_, !fNet.layers.isEmpty else { return nil }
+        defer { print("d -\(parentGenome.count) ?= \(Gene.cLiveGenes)") }
 
-        guard let arkon = Arkon(parentFishNumber: parentFishNumber,
-                                genome: newGenome, fNet: fNet, portal: arkonsPortal)
-            else { return nil }
+        guard let arkon = Arkon(
+            parentFishNumber: parentFishNumber, genome: newGenome,
+            fNet: fNet, portal: PortalServer.shared.arkonsPortal
+            ) else { print("died", parentFishNumber ?? -42); return nil }
 
-       return arkon
+        return arkon
     }
 
     private func makeNet(parentGenome: [Gene]) -> ([Gene], FNet?) {
@@ -149,12 +156,87 @@ class ArkonFactory: NSObject {
                 self.cBirthFailed += 1
                 guard let arkon = self.getArkon(for: parentFishNumber) else { return }
                 arkon.sprite.color = .blue
-                arkon.sprite.run(arkon.tickAction)
+                arkon.sprite.run(SKAction.sequence([
+                    arkon.tickAction,
+                    SKAction.colorize(with: .green, colorBlendFactor: 1.0, duration: 0.25)
+                ]))
             }
         }
 
         darkOps.queuePriority = .veryLow
         ArkonFactory.arkonMakerQueue.addOperation(darkOps)
+    }
+
+    func setupSubportal0() {
+        PortalServer.shared.generalStats.setUpdater(subportal: 0, field: 3) { [weak self] in
+            return String(format: "Generations: %d", self?.cGenerations ?? 0)
+        }
+    }
+
+    func setupSubportal1() {
+        PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 0) {
+            return String(format: "Live genes: %d", Gene.cLiveGenes)
+        }
+
+        PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 1) { [weak self] in
+            return String(format: "Longest: %d", self?.longestLivingGenomeLength ?? 0)
+        }
+
+        PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 2) { [weak self] in
+            return String(format: "Median: %d", self?.medianLivingGenomeLength ?? 0)
+        }
+
+        PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 3) { [weak self] in
+            guard let cLiveArkons = self?.cLiveArkons else { return "" }
+            return String(
+                format: "Average: %.1f", Double(Gene.cLiveGenes) / Double(cLiveArkons)
+            )
+        }
+
+        PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 4) {
+            return String(format: "Hi water: %d", Gene.highWaterMark)
+        }
+    }
+
+    func setupSubportal3() {
+        PortalServer.shared.generalStats.setUpdater(subportal: 3, field: 0) { [weak self] in
+            return String(format: "Spawns: %d", self?.cAttempted ?? 0)
+        }
+
+        PortalServer.shared.generalStats.setUpdater(subportal: 3, field: 1) { [weak self] in
+            guard let myself = self else { return "" }
+            let cSuccesses = myself.cAttempted - myself.cBirthFailed
+            return String(format: "Success: %d", cSuccesses)
+        }
+
+        PortalServer.shared.generalStats.setUpdater(subportal: 3, field: 2) { [weak self] in
+            return String(format: "Failure: %d", self?.cBirthFailed ?? 0)
+        }
+
+        PortalServer.shared.generalStats.setUpdater(subportal: 3, field: 3) { [weak self] in
+            guard let myself = self else { return "" }
+            let cSuccesses = myself.cAttempted - myself.cBirthFailed
+            let rate = 100.0 * Double(cSuccesses) / Double(myself.cAttempted)
+            return String(format: "Success rate: %.1f%%", rate)
+        }
+    }
+
+    func setupSubportal4() {
+        PortalServer.shared.generalStats.setUpdater(subportal: 4, field: 0) { [weak self] in
+            return String(format: "Live arkons: %d", self?.cLiveArkons ?? 0)
+        }
+
+        PortalServer.shared.generalStats.setUpdater(subportal: 4, field: 1) { [weak self] in
+            return String(format: "Record: %d", self?.hiWaterCLiveArkons ?? 0)
+        }
+
+        PortalServer.shared.generalStats.setUpdater(subportal: 4, field: 2) { [weak self] in
+            return String(format: "Pending fab: %d", self?.cPending ?? 0)
+        }
+
+        PortalServer.shared.generalStats.setUpdater(subportal: 4, field: 3) { [weak self] in
+            return String(format: "Pending launch: %d", self?.pendingArkons.count ?? 0)
+        }
     }
 
     func spawn(parentFishNumber: Int?, parentGenome: [Gene]) {
@@ -166,8 +248,9 @@ class ArkonFactory: NSObject {
     }
 
     func trackNotableArkon() {
-        guard var tracker = ArkonTracker(arkonsPortal: arkonsPortal, netPortal: netPortal)
-            else { return }
+        guard var tracker = ArkonTracker(
+            arkonsPortal: PortalServer.shared!.arkonsPortal, netPortal: PortalServer.shared!.netPortal
+        ) else { return }
 
         guard let oldestLivingArkon = tracker.oldestLivingArkon
             else { return }
@@ -177,6 +260,7 @@ class ArkonFactory: NSObject {
         if !oldestLivingArkon.isShowingNet {
             oldestLivingArkon.isOldestArkon = true
             oldestLivingArkon.sprite.size *= 2.0
+            Arkon.currentCOffspring = oldestLivingArkon.cOffspring
         }
 
         tracker.updateNetPortal()

@@ -92,7 +92,7 @@ extension Arkon {
             return
         }
 
-        if health > 10 && (myAge - myAgeAtLastSpawn) > 1.0 {
+        if health > 10 { //} && (myAge - myAgeAtLastSpawn) > 1.0 {
             myAgeAtLastSpawn = myAge
             spawn()
             return

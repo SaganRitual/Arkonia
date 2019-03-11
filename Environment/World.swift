@@ -13,23 +13,19 @@ class World {
     // Three (x, y) pairs as thrust vectors
     private static let cMotorNeurons = 6
 
-    let arkonsPortal: SKSpriteNode
-    let netPortal: SKSpriteNode
+    public var entropy: TimeInterval { return min(Display.shared.gameAge * 0.001, 1000.0) }
+    public var foodValue: Double { return 100.0 * (1.0 - entropy) }
+
     let physics: Physics
 
     init() {
         World.setSelectionControls()
 
-        self.arkonsPortal = Display.shared.getPortal(quadrant: 1)
-        self.netPortal = Display.shared.getPortal(quadrant: 0)
-
-        let repeller = SKFieldNode.radialGravityField()
-        repeller.strength = -0.05
-        repeller.falloff = 2.0
-        repeller.isEnabled = true
-        arkonsPortal.addChild(repeller)
-
         self.physics = Physics()
+
+        PortalServer.shared.generalStats.setUpdater(subportal: 0, field: 4) { [weak self] in
+            return String(format: "Food value: %.1f%", self?.foodValue ?? 0.0)
+        }
     }
 
     static func setSelectionControls() {

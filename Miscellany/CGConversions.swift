@@ -37,13 +37,13 @@ protocol SizelikeProtocol {
 }
 
 extension CGRect {
-    static func * (_ rect: CGRect, _ multiplier: Double) -> CGRect {
-        return CGRect(origin: rect.origin, size: rect.size * multiplier)
-    }
-
-    static func / (_ rect: CGRect, _ divisor: Double) -> CGRect {
-        return CGRect(origin: rect.origin, size: rect.size / divisor)
-    }
+//    static func * (_ rect: CGRect, _ multiplier: Double) -> CGRect {
+//        return CGRect(origin: rect.origin, size: rect.size * multiplier)
+//    }
+//
+//    static func / (_ rect: CGRect, _ divisor: Double) -> CGRect {
+//        return CGRect(origin: rect.origin, size: rect.size / divisor)
+//    }
 
 }
 
@@ -106,16 +106,16 @@ extension CGSize: SizelikeProtocol {
         size.height *= CGFloat(multiplier)
     }
 
-    static func * (_ size: CGSize, _ multiplier: Double) -> CGSize {
-        var newSize = size
-        newSize.width *= CGFloat(multiplier)
-        newSize.height *= CGFloat(multiplier)
-        return newSize
-    }
+//    static func * (_ size: CGSize, _ multiplier: Double) -> CGSize {
+//        var newSize = size
+//        newSize.width *= CGFloat(multiplier)
+//        newSize.height *= CGFloat(multiplier)
+//        return newSize
+//    }
 
-    static prefix func - (_ size: CGSize) -> CGSize {
-        return size * -1
-    }
+//    static prefix func - (_ size: CGSize) -> CGSize {
+//        return size * -1
+//    }
 }
 
 extension CGVector: PointlikeProtocol {

@@ -9,8 +9,8 @@ class MannaFactory {
     let yRange: Range<CGFloat>
 
     init() {
-        let w = ArkonFactory.shared.arkonsPortal.frame.size.width
-        let h = ArkonFactory.shared.arkonsPortal.frame.size.height
+        let w = PortalServer.shared.arkonsPortal.frame.size.width
+        let h = PortalServer.shared.arkonsPortal.frame.size.height
 
         xRange = -w..<w
         yRange = -h..<h
@@ -79,7 +79,7 @@ class MannaFactory {
 
         sprite.run(SKAction.run({ [unowned self] in self.bloom(hamNumber) }))
 
-        ArkonFactory.shared.arkonsPortal.addChild(sprite)
+        PortalServer.shared.arkonsPortal.addChild(sprite)
 
         return sprite
     }

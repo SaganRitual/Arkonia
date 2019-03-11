@@ -23,9 +23,7 @@ extension SKSpriteNode {
 
     func setUserData<T>(key: UserDataKey, to value: T?) {
         if self.userData == nil { self.userData = [:] }
-//        print("pud", key, value!, userData == nil, userData?[key] == nil, value!)
         self.userData?[key] = value
-//        print("sud", key, value!, userData == nil, userData?[key] == nil, value!)
     }
 
     var arkon: Arkon? {
@@ -40,11 +38,11 @@ extension SKSpriteNode {
 
     var foodValue: Double {
         get {
-//            guard let birthday = self.birthday else { return 10 }
-//            let myAge = Display.shared.currentTime - birthday
+            guard let birthday = self.birthday else { return 10 }
+            let myAge = Display.shared.currentTime - birthday
 
-            let baseValue = 20.0//min(20.0, myAge)
-            let adjustedValue = baseValue * Display.shared.entropyFactor
+            let baseValue = min(20.0, myAge)
+            let adjustedValue = baseValue * World.shared.foodValue
             return adjustedValue
         }
     }
@@ -69,7 +67,7 @@ extension Arkon {
 
     static private func attachSenses(_ sprite: SKSpriteNode, _ senses: SKPhysicsBody) {
         let snapPoint =
-            ArkonFactory.shared.arkonsPortal.convert(sprite.position, to: Display.shared.scene!)
+            PortalServer.shared.arkonsPortal.convert(sprite.position, to: Display.shared.scene!)
 
         let snap = SKPhysicsJointPin.joint(
             withBodyA: sprite.physicsBody!, bodyB: senses, anchor: snapPoint
@@ -96,28 +94,29 @@ extension Arkon {
 
         postPartum(relievedArkonFishNumber: self.parentFishNumber)
 
-        ArkonFactory.shared.cLivingArkons += 1
+        /*
+         // So offspring won't come into existence on top of their
+         // parent, which causes them to bounce around, which might
+         // be ok, or not, I don't know. But when we run the following,
+         // Everything gets really crazy, way more than without it.
+         // Maybe we need to give the birthing mother a repeller field
+         // to clear some space for her incoming baby. Come back to it.
+         //
+        if let parent = ArkonFactory.shared.getArkon(for: self.parentFishNumber) {
+            let Θ = CGFloat.random(in: 0..<360)
+            let r = 2.1 * sqrt(
+                parent.sprite.frame.width * parent.sprite.frame.width +
+                parent.sprite.frame.height * parent.sprite.frame.height
+            )
 
-        if let p = ArkonFactory.shared.getArkon(for: self.parentFishNumber) {
-            self.sprite.position = p.sprite.position
+            self.sprite.position = CGPoint(x: r * cos(Θ), y: r * sin(Θ))
         }
+        */
+
+        ArkonFactory.shared.cLiveArkons += 1
 
         self.isAlive = true
         self.sprite.run(self.tickAction)
-
-        guard let genomeLengthHistogram =
-            DStatsPortal.shared.subportals[.seniorLabel]!.histogram as? SegmentMutationStatsHistogram
-            else { preconditionFailure() }
-
-        let arkons = World.shared.arkonsPortal.children.compactMap { ($0 as? SKSpriteNode)?.arkon }
-        for arkon in arkons {
-            for exponent in IntlyHack.allCases {
-                if Double(arkon.genome.count) < pow(2.0, Double(exponent.rawValue)) {
-                    genomeLengthHistogram.accumulate(functionID: exponent, zoomOut: false)
-                    break
-                }
-            }
-        }
     }
 
     func postPartum(relievedArkonFishNumber: Int?) {
@@ -163,10 +162,10 @@ extension Arkon {
 
         pBody.affectedByGravity = true
         pBody.isDynamic = true
-        pBody.linearDamping = 2.0
-        pBody.angularDamping = 2.0
-        pBody.friction = 0
-        pBody.restitution = 0
+        pBody.linearDamping = 2
+        pBody.angularDamping = 2
+        pBody.friction = 2
+        pBody.restitution = 1
 
         return pBody
     }

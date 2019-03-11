@@ -100,35 +100,42 @@ class Mutator {
 
     // swiftlint:disable cyclomatic_complexity
     func mutate(_ sourceGenome: [Gene]) -> [Gene] {
+        print("mutate0", self.outputGenome.count, Gene.cLiveGenes)
         self.sourceGenome = sourceGenome
+        print("mutate1", self.outputGenome.count, Gene.cLiveGenes)
         self.outputGenome.removeAll(keepingCapacity: true)
+        print("mutate2", self.outputGenome.count, Gene.cLiveGenes)
 
         let m = getWeightedRandomMutationType()
+        print("mtf?", m)
 
-        guard let mutatorHistogram =
-            DStatsPortal.shared.subportals[.liveLabel]!.histogram as? MutatorStatsHistogram
-            else { preconditionFailure() }
+//        guard let mutatorHistogram =
+//            DStatsPortal.shared.subportals[.liveLabel]!.histogram as? MutatorStatsHistogram
+//            else { preconditionFailure() }
+//
+//        mutatorHistogram.accumulate(functionID: m, zoomOut: false)
 
-        mutatorHistogram.accumulate(functionID: m, zoomOut: false)
-
+        var newGenome: [Gene]?
         switch m {
-        case .deleteRandomGenes:           deleteRandomGenes()
-        case .deleteRandomSegment:         cutRandomSegment()
+        case .deleteRandomGenes:       newGenome = deleteRandomGenes()
+        case .deleteRandomSegment:     newGenome = cutRandomSegment()
 
-        case .insertRandomGenes:           insertRandomGenes()
-        case .insertRandomSegment:         insertRandomSegment()
+        case .insertRandomGenes:       newGenome = insertRandomGenes()
+        case .insertRandomSegment:     newGenome = insertRandomSegment()
 
-        case .mutateRandomGenes:           mutateRandomGenes()
+        case .mutateRandomGenes:       newGenome = mutateRandomGenes()
 
-        case .cutAndReinsertSegment:       cutAndReinsertSegment(.doNothing)
-        case .copyAndReinsertSegment:      copyAndReinsertSegment(.doNothing)
-        case .cutAndReinsertReversed:      cutAndReinsertSegment(.reversed)
-        case .copyAndReinsertReversed:     copyAndReinsertSegment(.reversed)
-        case .cutAndReinsertShuffled:      cutAndReinsertSegment(.shuffled)
-        case .copyAndReinsertShuffled:     copyAndReinsertSegment(.shuffled)
+        case .cutAndReinsertSegment:   newGenome = cutAndReinsertSegment(.doNothing)
+        case .copyAndReinsertSegment:  newGenome = copyAndReinsertSegment(.doNothing)
+        case .cutAndReinsertReversed:  newGenome = cutAndReinsertSegment(.reversed)
+        case .copyAndReinsertReversed: newGenome = copyAndReinsertSegment(.reversed)
+        case .cutAndReinsertShuffled:  newGenome = cutAndReinsertSegment(.shuffled)
+        case .copyAndReinsertShuffled: newGenome = copyAndReinsertSegment(.shuffled)
         }
 
-        return self.outputGenome
+        if newGenome == nil { outputGenome = sourceGenome }
+        print("mutate3", self.outputGenome.count, Gene.cLiveGenes)
+        return outputGenome
     }
     // swiftlint:enable cyclomatic_complexity
 
@@ -162,20 +169,23 @@ class Mutator {
 }
 
 extension Mutator {
-    func mutateRandomGenes() {
-        if sourceGenome.isEmpty { return }
-        outputGenome = Array(sourceGenome)
+    func mutateRandomGenes() -> [Gene]? {
+        if sourceGenome.isEmpty { return nil }
+        outputGenome.removeAll(keepingCapacity: true)
+        outputGenome = sourceGenome
 
         let m = Mutator.shared!
         let b = abs(m.bellCurve.nextFloat())
         var cMutate = 0.1 * Double(outputGenome.count) * Double(b)  // max 10% of genome
         precondition(abs(cMutate) != Double.infinity && cMutate != Double.nan)
-        guard Int(cMutate) > 0 else { return }
+        guard Int(cMutate) > 0 else { return nil }
 
         while cMutate > 0 {
             let wherefore = Int.random(in: 0..<outputGenome.count)
             _ = outputGenome[wherefore].mutate()
             cMutate -= 1
         }
+
+        return outputGenome
     }
 }

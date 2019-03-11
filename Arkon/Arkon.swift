@@ -8,9 +8,9 @@ class Arkon {
     }}
 
     static var averageAgeOfLivingArkons: TimeInterval {
-        let sprites = ArkonFactory.shared!.arkonsPortal.children.compactMap { $0 as? SKSpriteNode }
+        let sprites = PortalServer.shared!.arkonsPortal.children.compactMap { $0 as? SKSpriteNode }
         let totalAge = sprites.reduce(0) { $0 + ($1.arkon?.myAge ?? 0.0) }
-        return totalAge / TimeInterval(ArkonFactory.shared.cLivingArkons)
+        return totalAge / TimeInterval(ArkonFactory.shared.cLiveArkons)
     }
 
     static var recordArkonAge: TimeInterval = 0.0
@@ -32,7 +32,7 @@ class Arkon {
 
     static func getSeniorHealthStats() -> String {
         return String(
-            format: "Health: %.2f\nOffspring: %d\nRecord: %d",
+            format: "Health: %.2f\nOffspring: %d\nRecord: %d\nI suck at UI stuff",
                 Arkon.currentHealthOfOldestArkon, Arkon.currentCOffspring, Arkon.recordArkonOffspring
         )
     }
@@ -91,6 +91,8 @@ class Arkon {
         self.fNet = fNet
         self.signalDriver = KSignalDriver(idNumber: self.fishNumber, fNet: fNet)
 
+        print("pre-testSignal", self.fishNumber, genome.count, Gene.cLiveGenes)
+
         let arkonSurvived = signalDriver.drive(
             sensoryInputs: Array.init(
                 repeating: 0, count: ArkonCentralDark.selectionControls.cSenseNeurons
@@ -101,13 +103,15 @@ class Arkon {
         // launch on the next display cycle, unless, of course, we didn't
         // survive the test signal.
 
-        if !arkonSurvived { return nil }
+        if !arkonSurvived { print("died2"); return nil }
     }
 
     deinit {
-        if self.isOldestArkon {
-            ArkonFactory.shared.cGenerations += 1 }
-        if self.isAlive { ArkonFactory.shared.cLivingArkons -= 1 }
+        if self.isOldestArkon { ArkonFactory.shared.cGenerations += 1 }
+        if self.isAlive { ArkonFactory.shared.cLiveArkons -= 1 }
+
+        print("destruct", self.fishNumber, genome.count, Gene.cLiveGenes, ArkonFactory.shared.cLiveArkons)
+
         self.isAlive = false // Tidiness/superstition
     }
 }

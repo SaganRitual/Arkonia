@@ -22,22 +22,22 @@ import Foundation
 
 extension Mutator {
 
-    func copyAndReinsertReversed() {
-        copyAndReinsertSegment(.reversed)
+    func copyAndReinsertReversed() -> [Gene]? {
+        return copyAndReinsertSegment(.reversed)
     }
 
-    func copyAndReinsertShuffled() {
-        copyAndReinsertSegment(.shuffled)
+    func copyAndReinsertShuffled() -> [Gene]? {
+        return copyAndReinsertSegment(.shuffled)
     }
 
     static var currentDynamicYScale = 0.0
-    func copyAndReinsertSegment(_ preinsertAction: PreinsertAction) {
+    func copyAndReinsertSegment(_ preinsertAction: PreinsertAction) -> [Gene]? {
+        outputGenome.removeAll(keepingCapacity: true)
+
         let (leftCut, rightCut) = getRandomSnipRange()
         let insertPoint = Int.random(in: 0..<sourceGenome.count)
 
-        if !okToSnip(leftCut, rightCut) { return }
-
-        outputGenome.removeAll(keepingCapacity: true)
+        if !okToSnip(leftCut, rightCut) { return nil }
 
         let copiedSegment = sourceGenome[leftCut..<rightCut]
         var mutatedSegment = arrayPreinsertAction(preinsertAction, copiedSegment)
@@ -47,6 +47,8 @@ extension Mutator {
         let tail = sourceGenome[insertPoint...]
 
         outputGenome = head + mutatedSegment + tail
+
+        return outputGenome
     }
 
     func arrayPreinsertAction(_ preinsertAction: PreinsertAction, _ strand: ArraySlice<Gene>) -> [Gene] {
@@ -57,12 +59,12 @@ extension Mutator {
         }
     }
 
-    func cutAndReinsertSegment(_ preinsertAction: PreinsertAction) {
+    func cutAndReinsertSegment(_ preinsertAction: PreinsertAction) -> [Gene]? {
         outputGenome.removeAll(keepingCapacity: true)
 
         let (leftCut, rightCut) = getRandomSnipRange()
 
-        if !okToSnip(leftCut, rightCut) { return }
+        if !okToSnip(leftCut, rightCut) { return nil }
 
         let insertPoint = Int.random(in: 0..<sourceGenome.count)
 
@@ -78,34 +80,41 @@ extension Mutator {
 
             outputGenome = headSegment + RISegment + LRSegment + tailSegment
         }
+
+        return outputGenome
     }
 
-    func insertRandomGenes() {
+    func insertRandomGenes() -> [Gene]? {
+        outputGenome.removeAll(keepingCapacity: true)
+
         // Limit # of inserted genes to 10% of my length
         let cInsert_ = 0.1 * Double(sourceGenome.count) * Double(abs(bellCurve.nextFloat()))
         let cInsert = Int(cInsert_)
-        if cInsert == 0 { return }
+        if cInsert == 0 { return nil }
 
-        outputGenome.removeAll(keepingCapacity: true)
         outputGenome = sourceGenome
 
         (0..<cInsert).forEach { _ in
             let insertPoint = Int.random(in: 0..<sourceGenome.count)
             outputGenome.insert(Gene.makeRandomGene(), at: insertPoint)
         }
+
+        return outputGenome
     }
 
-    func insertRandomSegment() {
+    func insertRandomSegment() -> [Gene]? {
+        outputGenome.removeAll(keepingCapacity: true)
+
         // Limit new segment to 10% of my length
         let cInsert_ = 0.1 * Double(sourceGenome.count) * Double(abs(bellCurve.nextFloat()))
         let cInsert = Int(cInsert_)
-        if cInsert == 0 { return }
+        if cInsert == 0 { return nil }
 
         let randomSegment = (0..<cInsert).map { _ in Gene.makeRandomGene() }
         let insertPoint = Int.random(in: 0..<sourceGenome.count)
 
-        outputGenome.removeAll(keepingCapacity: true)
         outputGenome = sourceGenome[..<insertPoint] + randomSegment + sourceGenome[insertPoint...]
+        return outputGenome
     }
 
 }

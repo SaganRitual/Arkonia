@@ -14,8 +14,8 @@ class DBootstrap: NSObject, SKSceneDelegate {
         super.init()
 
         self.components = [
-            createDisplay, createPortalServer, createWorld,
-            createArkonery, createMannaFactory, createDStatsPortal,
+            createDisplay, createWorld,
+            createArkonery, createMannaFactory,
             liftoff
         ]
 
@@ -29,15 +29,13 @@ class DBootstrap: NSObject, SKSceneDelegate {
     }
 
     func createArkonery() {
-        let a = World.shared.arkonsPortal
-        let n = World.shared.netPortal
-        ArkonFactory.shared = ArkonFactory(arkonsPortal: a, netPortal: n)
+//        let a = PortalServer.shared.arkonsPortal
+//        let n = World.shared.netPortal
+        ArkonFactory.shared = ArkonFactory()
     }
 
     func createDisplay()      { Display.shared = Display(scene) }
     func createMannaFactory() { MannaFactory.shared = MannaFactory() }
-    func createPortalServer() { DPortalServer.shared = DPortalServer(scene) }
-    func createDStatsPortal() { DStatsPortal.shared = DStatsPortal(9) }
     func createWorld()        { World.shared = World() }
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {

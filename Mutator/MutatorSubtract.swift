@@ -37,24 +37,19 @@ extension Mutator {
         return Array(sourceGenome[leftCut..<rightCut])
     }
 
-    func deleteRandomGenes() {
-        let cDelete = Double(abs(bellCurve.nextFloat())) * Double(sourceGenome.count)
-        if Int(cDelete) == 0 { return }
-
+    func deleteRandomGenes() -> [Gene]? {
         outputGenome.removeAll(keepingCapacity: true)
 
-        var startIndex = sourceGenome.startIndex
-        var endIndex = sourceGenome.startIndex
+        let b = abs(self.bellCurve.nextFloat())
+        let cDelete = 0.1 * Double(sourceGenome.count) * Double(b)  // max 10% of genome
+        precondition(abs(cDelete) != Double.infinity && cDelete != Double.nan)
+        guard Int(cDelete) > 0 else { return nil }
 
-        while startIndex != endIndex {
-            let segmentLength = Int.random(in: startIndex..<sourceGenome.endIndex)
-
-            endIndex = sourceGenome.index(before: segmentLength - 1)
-
-            outputGenome.append(contentsOf: sourceGenome[startIndex..<endIndex])
-
-            startIndex = sourceGenome.index(after: segmentLength)
+        outputGenome = sourceGenome.filter { _ in
+            Double.random(in: 0..<cDelete) > (cDelete / Double(sourceGenome.count))
         }
+
+        return outputGenome
     }
 
 }

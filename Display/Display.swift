@@ -9,20 +9,21 @@ class Display: NSObject, SKSceneDelegate {
     private var frameCount = 0
     private var kNet: KNet?
     private var kNets = [SKSpriteNode: KNet]()
+    private var portalServer: PortalServer!
     private var quadrants = [Int: SKSpriteNode]()
     public weak var scene: SKScene?
     public var tickCount = 0
     var timeZero: TimeInterval = 0
 
     var gameAge: TimeInterval { return currentTime - timeZero }
-    var entropyFactor: TimeInterval {
-        let factor = 1 - (gameAge * 0.001)
-        return factor <= 0 ? 0 : factor
-    }
 
     init(_ scene: SKScene) {
         self.scene = scene
+        self.portalServer = PortalServer(scene: scene)
+
         super.init()
+
+        self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
     }
 
     /**
@@ -42,22 +43,14 @@ class Display: NSObject, SKSceneDelegate {
         self.kNet = kNet
     }
 
-    func getPortal(quadrant: Int) -> SKSpriteNode {
-        if let p = quadrants[quadrant] { return p }
-        let q = DPortalServer.shared.getPortal(quadrant)
-        quadrants[quadrant] = q
-        return q
-    }
-
     var firstPass = true
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
         // Mostly so the clock will stop running
-        if ArkonFactory.shared.cLivingArkons <= 0 && ArkonFactory.shared.highWaterMark > 0 { return }
+        if ArkonFactory.shared.cLiveArkons <= 0 && ArkonFactory.shared.hiWaterCLiveArkons > 0 { return }
 
         defer { self.currentTime = currentTime }
 
-//        if !self.appIsReadyToRun { return }
         if self.currentTime == 0 { self.timeZero = currentTime; return }
 
         if firstPass {
@@ -76,10 +69,10 @@ class Display: NSObject, SKSceneDelegate {
         tickCount += 1
 
         ArkonFactory.shared.trackNotableArkon()
-        DStatsPortal.shared!.tick()
+//        DStatsPortal.shared!.tick()
 
         if let kNet = self.kNet {
-            DNet(kNet).display(via: World.shared.netPortal)
+            DNet(kNet).display(via: PortalServer.shared.netPortal)
             self.kNet = nil
         }
     }
