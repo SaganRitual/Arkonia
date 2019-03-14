@@ -40,11 +40,10 @@ class Serializer<T> {
 }
 
 class ArkonFactory: NSObject {
-    static var aboriginalGenome: [Gene] {
-        print("ab1", Gene.cLiveGenes)
-        defer { print("ab2", Gene.cLiveGenes) }
+    static func getAboriginalGenome() -> [GeneProtocol] {
         return Assembler.makeRandomGenome(cGenes: 200)
     }
+
     static var shared: ArkonFactory!
 
     var cAttempted = 0
@@ -110,23 +109,20 @@ class ArkonFactory: NSObject {
         }.sorted(by: <)
     }
 
-    func makeArkon(parentFishNumber: Int?, parentGenome: [Gene]) -> Arkon? {
-        print("Before makeNet(): \(parentGenome.count), \(Gene.cLiveGenes)")
+    func makeArkon(parentFishNumber: Int?, parentGenome: [GeneProtocol]) -> Arkon? {
         let (newGenome, fNet_) = makeNet(parentGenome: parentGenome)
-        print("After makeNet(): \(parentGenome.count) + \(newGenome.count) genes ?= \(Gene.cLiveGenes)")
 
         guard let fNet = fNet_, !fNet.layers.isEmpty else { return nil }
-        defer { print("d -\(parentGenome.count) ?= \(Gene.cLiveGenes)") }
 
         guard let arkon = Arkon(
             parentFishNumber: parentFishNumber, genome: newGenome,
             fNet: fNet, portal: PortalServer.shared.arkonsPortal
-            ) else { print("died", parentFishNumber ?? -42); return nil }
+            ) else { return nil }
 
         return arkon
     }
 
-    private func makeNet(parentGenome: [Gene]) -> ([Gene], FNet?) {
+    private func makeNet(parentGenome: [GeneProtocol]) -> ([GeneProtocol], FNet?) {
         let newGenome = Mutator.shared.mutate(parentGenome)
 
         let fNet = FDecoder.shared.decode(newGenome)
@@ -134,7 +130,7 @@ class ArkonFactory: NSObject {
     }
 
     func makeProtoArkon(parentFishNumber parentFishNumber_: Int?,
-                        parentGenome parentGenome_: [Gene]?)
+                        parentGenome parentGenome_: [GeneProtocol]?)
     {
         cAttempted += 1
         cPending += 1
@@ -142,7 +138,7 @@ class ArkonFactory: NSObject {
         let darkOps = BlockOperation {
             defer { self.cPending -= 1 }
 
-            let parentGenome = parentGenome_ ?? ArkonFactory.aboriginalGenome
+            let parentGenome = parentGenome_ ?? ArkonFactory.getAboriginalGenome()
             let parentFishNumber = parentFishNumber_ ?? -42
 
             if let protoArkon = ArkonFactory.shared.makeArkon(
@@ -175,7 +171,7 @@ class ArkonFactory: NSObject {
 
     func setupSubportal1() {
         PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 0) {
-            return String(format: "Live genes: %d", Gene.cLiveGenes)
+            return String(format: "Live genes: %d", GeneCore.cLiveGenes)
         }
 
         PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 1) { [weak self] in
@@ -189,12 +185,12 @@ class ArkonFactory: NSObject {
         PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 3) { [weak self] in
             guard let cLiveArkons = self?.cLiveArkons else { return "" }
             return String(
-                format: "Average: %.1f", Double(Gene.cLiveGenes) / Double(cLiveArkons)
+                format: "Average: %.1f", Double(GeneCore.cLiveGenes) / Double(cLiveArkons)
             )
         }
 
         PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 4) {
-            return String(format: "Hi water: %d", Gene.highWaterMark)
+            return String(format: "Hi water: %d", GeneCore.highWaterMark)
         }
     }
 
@@ -239,7 +235,7 @@ class ArkonFactory: NSObject {
         }
     }
 
-    func spawn(parentFishNumber: Int?, parentGenome: [Gene]) {
+    func spawn(parentFishNumber: Int?, parentGenome: [GeneProtocol]) {
         makeProtoArkon(parentFishNumber: parentFishNumber, parentGenome: parentGenome)
    }
 

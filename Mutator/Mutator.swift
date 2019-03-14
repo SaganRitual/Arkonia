@@ -24,12 +24,12 @@ class Mutator {
     static var shared: Mutator!
 
     var bellCurve = BellCurve()
-    var outputGenome = [Gene]()
-    var sourceGenome = [Gene]()
+    var outputGenome = [GeneProtocol]()
+    var sourceGenome = [GeneProtocol]()
 
     var histogramScale = 1.0
 
-    func copySegment() -> [Gene] {
+    func copySegment() -> [GeneProtocol] {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: sourceGenome.count)
         return sourceGenome[leftCut..<rightCut].map { $0 }
     }
@@ -99,15 +99,11 @@ class Mutator {
     }
 
     // swiftlint:disable cyclomatic_complexity
-    func mutate(_ sourceGenome: [Gene]) -> [Gene] {
-        print("mutate0", self.outputGenome.count, Gene.cLiveGenes)
+    func mutate(_ sourceGenome: [GeneProtocol]) -> [GeneProtocol] {
         self.sourceGenome = sourceGenome
-        print("mutate1", self.outputGenome.count, Gene.cLiveGenes)
         self.outputGenome.removeAll(keepingCapacity: true)
-        print("mutate2", self.outputGenome.count, Gene.cLiveGenes)
 
         let m = getWeightedRandomMutationType()
-        print("mtf?", m)
 
 //        guard let mutatorHistogram =
 //            DStatsPortal.shared.subportals[.liveLabel]!.histogram as? MutatorStatsHistogram
@@ -115,7 +111,7 @@ class Mutator {
 //
 //        mutatorHistogram.accumulate(functionID: m, zoomOut: false)
 
-        var newGenome: [Gene]?
+        var newGenome: ([GeneProtocol], [GeneProtocol])?
         switch m {
         case .deleteRandomGenes:       newGenome = deleteRandomGenes()
         case .deleteRandomSegment:     newGenome = cutRandomSegment()
@@ -134,7 +130,6 @@ class Mutator {
         }
 
         if newGenome == nil { outputGenome = sourceGenome }
-        print("mutate3", self.outputGenome.count, Gene.cLiveGenes)
         return outputGenome
     }
     // swiftlint:enable cyclomatic_complexity
@@ -169,7 +164,7 @@ class Mutator {
 }
 
 extension Mutator {
-    func mutateRandomGenes() -> [Gene]? {
+    func mutateRandomGenes() -> ([GeneProtocol], [GeneProtocol])? {
         if sourceGenome.isEmpty { return nil }
         outputGenome.removeAll(keepingCapacity: true)
         outputGenome = sourceGenome
@@ -182,10 +177,10 @@ extension Mutator {
 
         while cMutate > 0 {
             let wherefore = Int.random(in: 0..<outputGenome.count)
-            _ = outputGenome[wherefore].mutate()
+            outputGenome.insert(GeneCore.mutated(from: outputGenome[wherefore]), at: wherefore)
             cMutate -= 1
         }
 
-        return outputGenome
+        return (outputGenome, [])
     }
 }

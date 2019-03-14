@@ -1,212 +1,202 @@
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the "Software"),
-// to deal in the Software without restriction, including without limitation
-// the rights to use, copy, modify, merge, publish, distribute, sublicense,
-// and/or sell copies of the Software, and to permit persons to whom the
-// Software is furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-// IN THE SOFTWARE.
-//
-
 import Foundation
 
-class gActivatorFunction: Gene, NeuronActivatorProtocol {
-    var value: AFn.FunctionName
-    override var description: String { return "\t\tActivator function(\(value))" }
-    init(_ value: AFn.FunctionName) {
-        self.value = value
-        super.init(.activator)
-    }
+protocol GeneProtocol {
+    var core: GeneCore { get }
 
-    override func copy() -> Gene { return gActivatorFunction(self.value) }
+    init(_ core: GeneCore)
 
-    override func mutate() -> Bool {
-        let v = nok(AFn.FunctionName.allCases.firstIndex(of: value))
-        let w = mutate(from: v)
-        let x = w % AFn.FunctionName.allCases.count
-        let newValue = AFn.FunctionName.allCases[x]
-
-        defer { self.value = newValue }
-        return newValue != self.value
-    }
-
-    override class func makeRandomGene() -> Gene {
-        return gActivatorFunction(nok(AFn.FunctionName.allCases.randomElement()))
-    }
+    func mutated(from: GeneCore) -> GeneCore
 }
 
-class gBias: Gene, NeuronBiasProtocol {
-    var value: Double
-    override var description: String { return "\t\tBias(\(value))" }
-    init(_ value: Double) {
-        self.value = value
-        super.init(.bias)
-    }
-
-    override func copy() -> Gene { return gBias(self.value) }
-    override func mutate() -> Bool {
-        let newValue = mutate(from: self.value)
-
-        defer { self.value = newValue }
-        return newValue != self.value
-    }
-
-    override class func makeRandomGene() -> Gene { return gBias(Double.random(in: -1...1)) }
-}
-
-class gIntGene: Gene {
-    var value: Int
-
-    override var description: String {
-        var d = ""
-        switch self.type {
-        case .downConnector: d = "\t\tDown connector"
-        case .hox: d = "\t\tHox"
-        case .lock: d = "\t\tLock"
+extension GeneProtocol {
+    init(_ core: GeneCore) {
+        switch core {
+        case let .double(d, m):            self.init(GeneCore.double(d, m))
+        case let .int(i, t, m):            self.init(GeneCore.int(i, t, m))
+        case let .activator(v, m):         self.init(GeneCore.activator(v, m))
+        case let .upConnector(c, t, w, m): self.init(GeneCore.upConnector(c, t, w, m))
         default: preconditionFailure()
         }
-
-        return "\(d)(\(value))"
     }
 
-    init(_ type: GeneType, _ value: Int) {
-        self.value = value
-        super.init(type)
+    func mutated(from: GeneCore) -> GeneCore { return GeneCore.mutated(from: core) }
+}
+
+struct gActivatorFunction: GeneProtocol {
+    var core: GeneCore
+
+    init(_ functionName: AFn.FunctionName, isMutatedCopy: Bool = false) {
+        core = GeneCore.activator(functionName, isMutatedCopy)
     }
 
-    override func copy() -> Gene { return gIntGene(self.type, self.value) }
-
-    override func mutate() -> Bool {
-        let newValue = mutate(from: self.value)
-
-        defer { self.value = newValue }
-        return newValue != self.value
+    static func makeRandomGene() -> GeneProtocol {
+        let randomFunctionName = nok(AFn.FunctionName.allCases.randomElement())
+        return gActivatorFunction(randomFunctionName)
     }
 }
 
-class gDownConnector: gIntGene, NeuronDownConnectorProtocol {
-    init(_ value: Int) { super.init(.downConnector, value) }
+struct gBias: GeneProtocol {
+    var core: GeneCore
 
-    override func copy() -> Gene { return gDownConnector(self.value) }
+    init(_ bias: Double, isMutatedCopy: Bool = false) {
+        core = GeneCore.double(bias, isMutatedCopy)
+    }
 
-    override class func makeRandomGene() -> gDownConnector {
-        return gDownConnector(Int.random(in: 0..<10))
+    static func makeRandomGene() -> GeneProtocol {
+        let randomDouble = Double.random(in: -1...1)
+        return gBias(randomDouble)
     }
 }
 
-class gHox: gIntGene {
-    init(_ value: Int) { super.init(.hox, value) }
+struct gDownConnector: GeneProtocol {
+    var core: GeneCore
 
-    override func copy() -> Gene { return gHox(self.value) }
+    init(_ channel: Int, isMutatedCopy: Bool = false) {
+        core = GeneCore.int(channel, GeneCore.downConnectorTopOfRange, isMutatedCopy)
+    }
 
-    override class func makeRandomGene() -> Gene {
-        return gHox(Int.random(in: 0..<10))
+    static func makeRandomGene() -> GeneProtocol {
+        let topOfRange = GeneCore.downConnectorTopOfRange
+        let newChannel = Int.random(in: 0..<topOfRange)
+        return gDownConnector(newChannel)
     }
 }
 
-class gLock: gIntGene {
-    init(_ value: Int) { super.init(.lock, value) }
+struct gHox: GeneProtocol {
+    var core: GeneCore
 
-    override class func makeRandomGene() -> Gene {
-        return gLock(Int.random(in: 0..<10))
+    init(_ count: Int, isMutatedCopy: Bool = false) {
+        core = GeneCore.int(count, GeneCore.hoxTopOfRange, isMutatedCopy)
+    }
+
+    static func makeRandomGene() -> GeneProtocol {
+        let topOfRange = GeneCore.hoxTopOfRange
+        let newChannel = Int.random(in: 0..<topOfRange)
+        return gHox(newChannel)
     }
 }
 
-class gLayer: Gene {
-    override var description: String { return "\nLayer gene" }
+struct gLock: GeneProtocol {
+    var core: GeneCore
 
-    init() { super.init(.layer) }
-    override func copy() -> Gene { return gLayer() }
-    override func mutate() -> Bool { return false /* Non-value genes don't mutate */ }
-    override class func makeRandomGene() -> Gene { return gLayer() }
+    init(_ count: Int, isMutatedCopy: Bool = false) {
+        core = GeneCore.int(count, GeneCore.lockTopOfRange, isMutatedCopy)
+    }
+
+    static func makeRandomGene() -> GeneProtocol {
+        let topOfRange = GeneCore.lockTopOfRange
+        let newChannel = Int.random(in: 0..<topOfRange)
+        return gLock(newChannel)
+    }
 }
 
-class gNeuron: Gene {
-    override var description: String { return "\tNeuron gene" }
-    init() { super.init(.neuron) }
-    override func copy() -> Gene { return gNeuron() }
-    override func mutate() -> Bool { return false  /* Non-value genes don't mutate */ }
-    override class func makeRandomGene() -> Gene { return gNeuron() }
+struct gLayer: GeneProtocol {
+    var core: GeneCore
+
+    init() { core = GeneCore.empty }
+
+    func mutated() -> gLayer { return gLayer() }
+    static func makeRandomGene() -> GeneProtocol { return gLayer() }
 }
 
-// Doesn't do anything yet
-class gPolicy: Gene {
-    override var description: String { return "\t\tPolicy not implemented (yet)" }
-    init() { super.init(.policy) }
-    override func copy() -> Gene { return gPolicy() }
-    override func mutate() -> Bool { return false /* Not sure what we'll do with policy genes yet */ }
-    override class func makeRandomGene() -> Gene { return gPolicy() }
+struct gNeuron: GeneProtocol {
+    var core: GeneCore
+
+    init() { core = GeneCore.empty }
+
+    func mutated() -> gNeuron { return gNeuron() }
+    static func makeRandomGene() -> GeneProtocol { return gNeuron() }
 }
 
-class gSkipAnyType: gIntGene {
-    override var description: String { return "\t\tSkip (\(value) genes of any type)"  }
-    init(_ value: Int) { super.init(.skipAnyType, value) }
-    override func copy() -> Gene { return gSkipAnyType(self.value) }
-    override func mutate() -> Bool { return false /* Haven't decided how to mutate these yet */ }
-}
+struct gUpConnector: GeneProtocol {
+    var core: GeneCore
 
-class gSkipOneType: gIntGene {
-    let typeToSkip: GeneType
-
-    override var description: String { return "\t\tSkip(\(value) \(typeToSkip))" }
-
-    init(_ value: Int, typeToSkip: GeneType) {
-        self.typeToSkip = typeToSkip
-        super.init(.skipOneType, value)
+    init(_ connector: UpConnectorValue, isMutatedCopy: Bool = false) {
+        core = GeneCore.upConnector(
+            connector.channel,
+            GeneCore.upConnectorChannelTopOfRange,
+            connector.weight,
+            isMutatedCopy
+        )
     }
 
-    override func copy() -> Gene {
-        return gSkipOneType(self.value, typeToSkip: self.typeToSkip)
-    }
-
-    override func mutate() -> Bool { return false /* Haven't decided how to mutate these yet */ }
-}
-
-class gUpConnector: Gene, NeuronUpConnectorProtocol {
-    var value: UpConnectorValue
-
-    var weight: Double {
-        get { return value.1 }
-        set { value.1 = newValue }
-    }
-
-    var channel: Int {
-        get { return value.0 }
-        set { value.0 = newValue }
-    }
-
-    override var description: String { return "\t\tUp connector(c = \(channel), w = \(weight))" }
-
-    init(_ value: UpConnectorValue) {
-        self.value = value
-        super.init(.upConnector)
-    }
-
-    override func copy() -> Gene { return gUpConnector(self.value) }
-
-    override func mutate() -> Bool {
-        let channel = mutate(from: self.channel)
-        let weight = mutate(from: self.weight)
-        let mutated = (channel, weight)
-
-        defer { self.value = mutated }
-
-        return self.value != mutated
-    }
-
-    override class func makeRandomGene() -> Gene {
+    static func makeRandomGene() -> GeneProtocol {
         let weight = Double.random(in: -1...1)
-        let channel = Int.random(in: 0..<1000)  // Any int will do; we % it later
-        return gUpConnector((channel, weight))
+        let channel = Int.random(in: 0..<GeneCore.upConnectorChannelTopOfRange)
+        return nok(gUpConnector((channel, weight)))
     }
 }
+/*
+// Doesn't do anything yet
+struct gPolicy: Chromosome {
+    let isMutatedCopy = false
+    var rawData: Int { return 0 }
+
+    init(_ notUsed: Int, isMutatedCopy: Bool = false) { }
+    func mutated() -> gPolicy { return gPolicy(0) }
+    static func makeRandomGene<T: Chromosome>() -> T { return nok(gPolicy(0) as? T) }
+}
+
+struct gSkipAnyType: Chromosome {
+    let isMutatedCopy = false
+    var rawData: Int { return 0 }
+
+    init(_ notUsed: Int, isMutatedCopy: Bool = false) { }
+    func mutated() -> gSkipAnyType { return gSkipAnyType(0) }
+    static func makeRandomGene<T: Chromosome>() -> T { return nok(gSkipAnyType(0) as? T) }
+}
+
+struct gSkipOneType: Chromosome {
+    let isMutatedCopy = false
+    var rawData: Int { return 0 }
+
+    init(_ notUsed: Int, isMutatedCopy: Bool = false) { }
+    func mutated() -> gSkipOneType { return gSkipOneType(0) }
+    static func makeRandomGene<T: Chromosome>() -> T { return nok(gSkipOneType(0) as? T) }
+}
+*/
+/*
+ struct gIntGene: Chromosome {
+ var value: Int
+
+ override var description: String {
+ var d = ""
+ switch self.type {
+ case .downConnector: d = "\t\tDown connector"
+ case .hox: d = "\t\tHox"
+ case .lock: d = "\t\tLock"
+ default: preconditionFailure()
+ }
+
+ return "\(d)(\(value))"
+ }
+
+ init(_ type: GeneType, _ value: Int) {
+ self.value = value
+ super.init(type)
+ }
+
+ override func copy() -> Gene { return gIntGene(self.type, self.value) }
+
+ override func mutated() -> Bool {
+ let newValue = mutated(from: self.value)
+
+ defer { self.value = newValue }
+ return newValue != self.value
+ }
+ }
+ */
+//struct AnyChromosome<ChromosomeType>: Chromosome {
+//    let isMutatedCopy: Bool
+//    let rawData: Int
+//
+//    init<U: Chromosome>(_ pokemon: U, isMutatedCopy: Bool = false) where
+//        U.ChromosomeType == ChromosomeType, U.RawDataType == RawDataType
+//    {
+//        self.isMutatedCopy = isMutatedCopy
+//        self.rawData = pokemon.rawData
+//    }
+//
+//    func mutated() -> ChromosomeType { preconditionFailure() }
+//    static func makeRandomGene() -> ChromosomeType { preconditionFailure() }
+//}

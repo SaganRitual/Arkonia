@@ -42,7 +42,7 @@ class Arkon {
     var apoptosizeAction: SKAction!
     let fishNumber: Int
     let fNet: FNet
-    let genome: [Gene]
+    let genome: [GeneProtocol]
     var hasGivenBirth = false
     var health = 10.0
     var isAlive = false
@@ -78,7 +78,7 @@ class Arkon {
 
     var myAge: TimeInterval { return Display.shared.currentTime - self.birthday }
 
-    init?(parentFishNumber: Int?, genome: [Gene], fNet: FNet, portal: SKSpriteNode) {
+    init?(parentFishNumber: Int?, genome: [GeneProtocol], fNet: FNet, portal: SKSpriteNode) {
         self.fishNumber = ArkonCentralDark.selectionControls.theFishNumber
         ArkonCentralDark.selectionControls.theFishNumber += 1
 
@@ -91,8 +91,6 @@ class Arkon {
         self.fNet = fNet
         self.signalDriver = KSignalDriver(idNumber: self.fishNumber, fNet: fNet)
 
-        print("pre-testSignal", self.fishNumber, genome.count, Gene.cLiveGenes)
-
         let arkonSurvived = signalDriver.drive(
             sensoryInputs: Array.init(
                 repeating: 0, count: ArkonCentralDark.selectionControls.cSenseNeurons
@@ -103,14 +101,12 @@ class Arkon {
         // launch on the next display cycle, unless, of course, we didn't
         // survive the test signal.
 
-        if !arkonSurvived { print("died2"); return nil }
+        if !arkonSurvived { return nil }
     }
 
     deinit {
         if self.isOldestArkon { ArkonFactory.shared.cGenerations += 1 }
         if self.isAlive { ArkonFactory.shared.cLiveArkons -= 1 }
-
-        print("destruct", self.fishNumber, genome.count, Gene.cLiveGenes, ArkonFactory.shared.cLiveArkons)
 
         self.isAlive = false // Tidiness/superstition
     }

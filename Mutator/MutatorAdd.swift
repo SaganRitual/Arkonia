@@ -22,16 +22,18 @@ import Foundation
 
 extension Mutator {
 
-    func copyAndReinsertReversed() -> [Gene]? {
+    func copyAndReinsertReversed() -> ([GeneProtocol], [GeneProtocol])? {
         return copyAndReinsertSegment(.reversed)
     }
 
-    func copyAndReinsertShuffled() -> [Gene]? {
+    func copyAndReinsertShuffled() -> ([GeneProtocol], [GeneProtocol])? {
         return copyAndReinsertSegment(.shuffled)
     }
 
     static var currentDynamicYScale = 0.0
-    func copyAndReinsertSegment(_ preinsertAction: PreinsertAction) -> [Gene]? {
+    func copyAndReinsertSegment(_ preinsertAction: PreinsertAction)
+        -> ([GeneProtocol], [GeneProtocol])?
+    {
         outputGenome.removeAll(keepingCapacity: true)
 
         let (leftCut, rightCut) = getRandomSnipRange()
@@ -48,18 +50,22 @@ extension Mutator {
 
         outputGenome = head + mutatedSegment + tail
 
-        return outputGenome
+        return (outputGenome, mutatedSegment)
     }
 
-    func arrayPreinsertAction(_ preinsertAction: PreinsertAction, _ strand: ArraySlice<Gene>) -> [Gene] {
+    func arrayPreinsertAction(
+        _ preinsertAction: PreinsertAction, _ strand: ArraySlice<GeneProtocol>
+    ) -> [GeneProtocol] {
         switch PreinsertAction.random() {
-        case .doNothing: return [Gene]()
+        case .doNothing: return [GeneProtocol]()
         case .reversed:  return strand.reversed()
         case .shuffled:  return strand.shuffled()
         }
     }
 
-    func cutAndReinsertSegment(_ preinsertAction: PreinsertAction) -> [Gene]? {
+    func cutAndReinsertSegment(_ preinsertAction: PreinsertAction)
+        -> ([GeneProtocol], [GeneProtocol])?
+    {
         outputGenome.removeAll(keepingCapacity: true)
 
         let (leftCut, rightCut) = getRandomSnipRange()
@@ -79,12 +85,14 @@ extension Mutator {
             let headSegment = sourceGenome[..<leftCut]
 
             outputGenome = headSegment + RISegment + LRSegment + tailSegment
+        } else {
+            outputGenome = sourceGenome
         }
 
-        return outputGenome
+        return (outputGenome, [])
     }
 
-    func insertRandomGenes() -> [Gene]? {
+    func insertRandomGenes() -> ([GeneProtocol], [GeneProtocol])? {
         outputGenome.removeAll(keepingCapacity: true)
 
         // Limit # of inserted genes to 10% of my length
@@ -96,13 +104,13 @@ extension Mutator {
 
         (0..<cInsert).forEach { _ in
             let insertPoint = Int.random(in: 0..<sourceGenome.count)
-            outputGenome.insert(Gene.makeRandomGene(), at: insertPoint)
+            outputGenome.insert(GeneCore.makeRandomGene(), at: insertPoint)
         }
 
-        return outputGenome
+        return (outputGenome, [])
     }
 
-    func insertRandomSegment() -> [Gene]? {
+    func insertRandomSegment() -> ([GeneProtocol], [GeneProtocol])? {
         outputGenome.removeAll(keepingCapacity: true)
 
         // Limit new segment to 10% of my length
@@ -110,11 +118,11 @@ extension Mutator {
         let cInsert = Int(cInsert_)
         if cInsert == 0 { return nil }
 
-        let randomSegment = (0..<cInsert).map { _ in Gene.makeRandomGene() }
+        let randomSegment = (0..<cInsert).map { _ in GeneCore.makeRandomGene() }
         let insertPoint = Int.random(in: 0..<sourceGenome.count)
 
         outputGenome = sourceGenome[..<insertPoint] + randomSegment + sourceGenome[insertPoint...]
-        return outputGenome
+        return (outputGenome, [])
     }
 
 }

@@ -39,9 +39,9 @@ enum GeneType: CaseIterable {
     case neuron
     /// Experimental, set custom behavior or something, I don't know. I'm thinking
     /// something like a "no more than five layers" policy, or something.
-    case policy
+//    case policy
     /// Skip over genes as specified, ignoring them completely
-    case skipAnyType
+//    case skipAnyType
     /// Skip over one particular type of gene, ignoring them completely.
     ///
     /// Like this:
@@ -49,7 +49,7 @@ enum GeneType: CaseIterable {
     /// input = `AbbbAcccAbbbAdbc`, cToSkip = 3, typetoSkip = A
     ///
     /// output = `bbb ccc bbb Adbc` (sans spaces; that's for readability).
-    case skipOneType
+//    case skipOneType
     /// The usual way neurons connect
     case upConnector
 

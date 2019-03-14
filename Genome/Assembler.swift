@@ -20,28 +20,23 @@
 import Foundation
 
 enum Assembler {
-    static public func makePassThruGenome() -> [Gene] {
-        let cMotorNeurons = ArkonCentralDark.selectionControls.cMotorNeurons
-        let cSenseNeurons = ArkonCentralDark.selectionControls.cSenseNeurons
-        let cLayers = ArkonCentralDark.selectionControls.cLayersInStarter
+    static public func makeRandomGenome(cGenes: Int) -> [GeneProtocol] {
+        let genome = (0..<cGenes).map { _ in GeneCore.makeRandomGene() }
 
-        let p = (0..<(cLayers - 1)).flatMap { _ in makeOneLayer(cNeurons: cSenseNeurons) }
-
-        let h = makeLastHiddenLayer(cSenseNeurons: cSenseNeurons, cMotorNeurons: cMotorNeurons)
-
-        return p + h
-    }
-
-    static public func makeRandomGenome(cGenes: Int) -> [Gene] {
-        return (0..<cGenes).map { _ in Gene.makeRandomGene() }
+        return genome
     }
 
     static var bias = 1.0
-    static func baseNeuronSnippet(channel: Int) -> [Gene] {
+    static func baseNeuronSnippet(channel: Int) -> [GeneProtocol] {
         bias *= -1
 
-        let transport = [gNeuron(), gActivatorFunction(.boundidentity), gBias(bias)] +
-         (0..<ArkonCentralDark.selectionControls.cSenseNeurons).map({ gUpConnector(($0, 1.0)) })
+        var transport: [GeneProtocol] = [
+            gNeuron(), gActivatorFunction(.boundidentity), gBias(bias)
+        ]
+
+        transport += (0..<ArkonCentralDark.selectionControls.cSenseNeurons).map {
+            gUpConnector(($0, 1.0))
+         }
 
         return transport
     }
@@ -73,8 +68,10 @@ enum Assembler {
         return downsPerNeuron
     }
 
-    static private func makeLastHiddenLayer(cSenseNeurons: Int, cMotorNeurons: Int) -> [Gene] {
-        var segment: [Gene] = [gLayer()]
+    static private func makeLastHiddenLayer(cSenseNeurons: Int, cMotorNeurons: Int)
+        -> [GeneProtocol]
+    {
+        var segment: [GeneProtocol] = [gLayer()]
 
         let downsPerNeuron = computeDownsPerNeuron(
             cSenseNeurons: cSenseNeurons, cMotorNeurons: cMotorNeurons
@@ -85,6 +82,7 @@ enum Assembler {
         var channel = (100 / cSenseNeurons) + cSenseNeurons
 
         //  -> Loop 6 times to create 6 neurons that each connect straight up on a single channel
+
         for c in 0..<cSenseNeurons {
             //  -> channel == c tells each neuron to connect to the neuron directly above
             segment.append(contentsOf: baseNeuronSnippet(channel: c))
@@ -102,9 +100,11 @@ enum Assembler {
         return segment
     }
 
-    static private func makeOneLayer(cNeurons: Int) -> [Gene] {
-        let marker: [Gene] = [gLayer()]
-        let neurons = (0..<cNeurons).flatMap { baseNeuronSnippet(channel: $0) }
+    static private func makeOneLayer(cNeurons: Int) -> [GeneProtocol] {
+        let marker = [gLayer()]
+        let neurons = (0..<cNeurons).flatMap { channel in
+            baseNeuronSnippet(channel: channel)
+        }
 
         return marker + neurons
     }

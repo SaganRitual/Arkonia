@@ -26,7 +26,7 @@ func &&= (_ lhs: inout Bool, _ rhs: Bool) { lhs = lhs && rhs }
 extension Mutator {
 
     @discardableResult
-    func cutRandomSegment() -> [Gene]? {
+    func cutRandomSegment() -> ([GeneProtocol], [GeneProtocol])? {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: sourceGenome.count)
         if !okToSnip(leftCut, rightCut) { return nil }
 
@@ -34,10 +34,10 @@ extension Mutator {
         outputGenome.append(contentsOf: sourceGenome[..<leftCut])
         outputGenome.append(contentsOf: sourceGenome[rightCut...])
 
-        return Array(sourceGenome[leftCut..<rightCut])
+        return (outputGenome, Array(sourceGenome[leftCut..<rightCut]))
     }
 
-    func deleteRandomGenes() -> [Gene]? {
+    func deleteRandomGenes() -> ([GeneProtocol], [GeneProtocol])? {
         outputGenome.removeAll(keepingCapacity: true)
 
         let b = abs(self.bellCurve.nextFloat())
@@ -49,7 +49,7 @@ extension Mutator {
             Double.random(in: 0..<cDelete) > (cDelete / Double(sourceGenome.count))
         }
 
-        return outputGenome
+        return (outputGenome, [])
     }
 
 }

@@ -29,14 +29,13 @@ class FDecoder {
 
     var currentNeuronIsMeaty = false
     var decodeState: DecodeState = .noLayer
-    var inputGenome: [Gene]?
     var fNet: FNet!
     weak var layerUnderConstruction: FLayer?
     weak var neuronUnderConstruction: FNeuron?
 
     var counter = 0
 
-    func decode(_ inputGenome: [Gene]) -> FNet? {
+    func decode(_ inputGenome: [GeneProtocol]) -> FNet? {
         fNet = FNet()
 
         inputGenome.forEach { gene in
@@ -58,44 +57,32 @@ class FDecoder {
 }
 
 extension FDecoder {
-    func dispatchValueGene(_ gene: Gene) {
+    func dispatchValueGene(_ gene: GeneProtocol) {
         let neuron = neuronUnderConstruction !! { preconditionFailure() }
 
-        switch gene.type {
-        case .activator:
-            let g = gene as? gActivatorFunction !! { preconditionFailure(String(describing: gene.type)) }
-            neuron.setActivator(g)
+        switch gene.core {
+        case let .activator(functionName, _): neuron.setActivator(functionName)
+        case let .double(bias, _):            neuron.accumulateBias(bias)
+        case let .int(channel, _, _):         neuron.addDownConnector(channel)
 
-        case .bias:
-            let g = gene as? gBias !! { preconditionFailure(String(describing: gene.type)) }
-            neuron.accumulateBias(g)
+        case let .upConnector(channel, _, weight, _):
+            neuron.addUpConnector(UpConnectorValue(channel: channel, weight: weight))
 
-        case .downConnector:
-            guard let g = gene as? gDownConnector else {
-                print(String(describing: gene))
-                preconditionFailure("\(type(of: gene))")
-            }
-
-            neuron.addDownConnector(g)
-
-        case .upConnector:
-            let g = gene as? gUpConnector  !! { preconditionFailure(String(describing: gene.type)) }
-            neuron.addUpConnector(g)
-
-        default: break; //print("Unknown gene \(gene)?")
+        case .empty:
+            preconditionFailure("Shouldn't get empty genes in this function")
         }
     }
 }
 
 extension FDecoder {
 
-    func dispatch_noLayer(_ gene: Gene) {
-        switch gene.type {
-        case .layer:
+    func dispatch_noLayer(_ gene: GeneProtocol) {
+        switch gene {
+        case is gLayer:
             decodeState = .inLayer
             layerUnderConstruction = fNet.beginNewLayer()
 
-        case .neuron:
+        case is gNeuron:
             decodeState = .inNeuron
             layerUnderConstruction = fNet.beginNewLayer()
             neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
@@ -109,14 +96,14 @@ extension FDecoder {
         }
     }
 
-    func dispatch_inLayer(_ gene: Gene) {
-        switch gene.type {
-        case .layer:
+    func dispatch_inLayer(_ gene: GeneProtocol) {
+        switch gene {
+        case is gLayer:
             // Got another layer marker, but it would
             // cause this one to be empty. Just ignore it.
             decodeState = .inLayer
 
-        case .neuron:
+        case is gNeuron:
             decodeState = .inNeuron
             neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
 
@@ -128,15 +115,15 @@ extension FDecoder {
         }
     }
 
-    func dispatch_inNeuron(_ gene: Gene) {
-        switch gene.type {
-        case .layer:
+    func dispatch_inNeuron(_ gene: GeneProtocol) {
+        switch gene {
+        case is gLayer:
             decodeState = .inLayer
             layerUnderConstruction?.finalizeNeuron()
             fNet.finalizeLayer()
             layerUnderConstruction = fNet.beginNewLayer()
 
-        case .neuron:
+        case is gNeuron:
             // Got another neuron marker, but it would
             // cause this one to be empty. Just ignore it.
             if currentNeuronIsMeaty {

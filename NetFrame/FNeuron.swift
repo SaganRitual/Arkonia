@@ -26,18 +26,8 @@ public class FNeuron {
     var downConnectors = [Int]()
     var upConnectors = [UpConnectorValue]()
 
-    func setActivator(_ a: NeuronActivatorProtocol) { self.activator = a.value }
-    func accumulateBias(_ b: NeuronBiasProtocol) { self.bias += b.value }
-
-    func addDownConnector(_ c: NeuronDownConnectorProtocol) {
-        self.downConnectors.append(c.value)
-    }
-
-    func addUpConnector(_ c: NeuronUpConnectorProtocol) {
-        self.upConnectors.append(c.value)
-    }
-
-//    static var fCount = 0
-//    init() { print("+", terminator: ""); FNeuron.fCount += 1; if FNeuron.fCount % 20 == 0 { print("\n\(FNeuron.fCount)\n") } }
-//    deinit { print("-", terminator: ""); FNeuron.fCount -= 1; if FNeuron.fCount % 20 == 0 { print("\n\(FNeuron.fCount)\n") } }
+    func setActivator(_ a: AFn.FunctionName) { self.activator = a }
+    func accumulateBias(_ b: Double) { self.bias += b }
+    func addDownConnector(_ c: Int) { self.downConnectors.append(c) }
+    func addUpConnector(_ c: UpConnectorValue) { self.upConnectors.append(c) }
 }
