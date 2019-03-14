@@ -94,6 +94,11 @@ struct SetOnce<T> {
     }
 }
 
+func constrain<T: Numeric & Comparable>(_ a: T, lo: T, hi: T) -> T {
+    let capped = min(a, hi)
+    return max(capped, lo)
+}
+
 // With deepest gratitude to Stack Overflow dude
 // https://stackoverflow.com/users/3441734/user3441734
 // https://stackoverflow.com/a/44541541/1610473

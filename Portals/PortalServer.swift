@@ -5,9 +5,12 @@ class PortalServer {
 
     let arkonsPortal: SKSpriteNode
     let clockPortal: ClockPortal
-    let generalStats: GeneralStats
+    let generalStatsPortals: GeneralStats
+    let geneStatsPortal: GeneStatsPortal
+    let healthStatsPortal: HealthStatsPortal
     let netPortal: SKSpriteNode
-    let statsPortal: SKSpriteNode
+    let popStatsPortal: PopStatsPortal
+    let topLevelStatsPortal: SKSpriteNode
 
     private var portalNumber = 0
 
@@ -15,12 +18,39 @@ class PortalServer {
         self.arkonsPortal = PortalServer.initArkonsPortal(scene)
         self.netPortal = PortalServer.initNetPortal(scene)
 
-        let statsPortal = PortalServer.initStatsPortal(scene)
-        self.statsPortal = statsPortal
-        self.clockPortal = ClockPortal(statsPortal)
-        self.generalStats = GeneralStats(statsPortal)
+        let parentStatsPortal = PortalServer.initStatsPortal(scene)
+        self.topLevelStatsPortal = parentStatsPortal
+        self.clockPortal = ClockPortal(parentStatsPortal)
+
+        let generalStatsPortals = GeneralStats(parentStatsPortal)
+        self.geneStatsPortal = GeneStatsPortal(generalStatsPortals)
+
+        self.healthStatsPortal = HealthStatsPortal(generalStatsPortals)
+        self.popStatsPortal = PopStatsPortal(generalStatsPortals)
+
+        self.generalStatsPortals = generalStatsPortals
 
         PortalServer.shared = self
+    }
+}
+
+protocol AccessorProtocol {
+    var displayItem: PortalServer.StatsDisplayItem { get set }
+}
+
+extension PortalServer {
+    enum StatsDisplayItem { case int(Int), double(Double) }
+
+    struct Accessor: AccessorProtocol {
+        var displayItem: StatsDisplayItem
+
+        init(_ displayItem: StatsDisplayItem) {
+            self.displayItem = displayItem
+        }
+
+        mutating func update(_ newValue: StatsDisplayItem) {
+            self.displayItem = newValue
+        }
     }
 }
 
@@ -102,74 +132,6 @@ extension CGSize {
 
     static func / (_ lhs: CGSize, _ rhs: CGSize) -> CGSize {
         return CGSize(width: lhs.width / rhs.width, height: lhs.height / rhs.height)
-    }
-}
-
-class StatsPortalHistogram {
-    static let columnColors = [
-        0xC64E6C, 0xC54580, 0xC43D97, 0xC336B1, 0xB72EC3,
-        0x9626C2, 0x721EC1, 0x4A16C1, 0x200FC0, 0x071BBF, 0x003CBF
-    ]
-
-    typealias Getter = () -> Double
-
-    var columns = [Column]()
-    let texture = SKTexture(imageNamed: "debug-rectangle")
-
-    init(backgroundSprite: SKSpriteNode, cColumns: Int, getter: Getter) {
-        self.columns = (0..<cColumns).map { columnNumber in
-            let s = SKSpriteNode(texture: texture)
-            s.color = StatsPortalHistogram.makeColor(column: columnNumber)
-            s.colorBlendFactor = 1.0
-
-            let xUnscale = 1.0 / (backgroundSprite.xScale * backgroundSprite.xScale)
-            let yUnscale = 1.0 / (backgroundSprite.yScale * backgroundSprite.yScale)
-
-            let barWidth = backgroundSprite.frame.size.width / CGFloat(cColumns + 1)
-            s.position = CGPoint(x: (barWidth * 4 * CGFloat(columnNumber)), y: 0)
-            s.position.x -= backgroundSprite.frame.size.width
-            //            s.position.y -= backgroundSprite.frame.size.height / 3
-
-            (s.xScale, s.yScale) = (xUnscale, yUnscale)
-
-            s.size.width = barWidth// * xUnscale
-
-            backgroundSprite.addChild(s)
-
-            return Column(columnNumber: columnNumber, sprite: s, getter: getGeneCounts)
-        }
-    }
-
-    func getGeneCounts() -> Double {
-        return 42.0
-    }
-
-    static func makeColor(column: Int) -> NSColor {
-        let index = columnColors.index(columnColors.startIndex, offsetBy: column)
-        let hexRGB = columnColors[index]
-
-        let r = Double((hexRGB >> 16) & 0xFF) / 256
-        let g = Double((hexRGB >>  8) & 0xFF) / 256
-        let b = Double(hexRGB         & 0xFF) / 256
-
-        return NSColor(calibratedRed: CGFloat(r), green: CGFloat(g),
-                       blue: CGFloat(b), alpha: CGFloat(1.0))
-    }
-}
-
-extension StatsPortalHistogram {
-    class Column {
-        let columnNumber: Int
-        var counter = 0
-        let getter: Getter
-        let sprite: SKSpriteNode
-
-        init(columnNumber: Int, sprite: SKSpriteNode, getter: @escaping Getter) {
-            self.columnNumber = columnNumber
-            self.getter = getter
-            self.sprite = sprite
-            sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
-        }
     }
 }
 

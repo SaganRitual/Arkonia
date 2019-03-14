@@ -1,11 +1,15 @@
 import SpriteKit
 
-class GeneralStats {
+struct GeneralStats {
     typealias Updater = () -> String
 
-    var textFields = [[SKLabelNode]]()
+    static var textFields = [[SKLabelNode]]()
 
     init(_ statsPortal: SKSpriteNode) {
+        GeneralStats.init_(statsPortal: statsPortal)
+    }
+
+    static func init_(statsPortal: SKSpriteNode) {
         let generalPurposePortalNames: [(String, String)] = (0..<6).map {
             let labelSetName = String(format: "stats%02d", $0)
             let subportalName = String(format: labelSetName + "Subportal", $0)
@@ -17,7 +21,7 @@ class GeneralStats {
             let subportalName = portalNames.0
             let labelSetName = portalNames.1
 
-            textFields.append([SKLabelNode]())
+            GeneralStats.textFields.append([SKLabelNode]())
 
             guard let subportalSprite =
                 statsPortal.childNode(withName: subportalName) as? SKSpriteNode
@@ -39,7 +43,7 @@ class GeneralStats {
                 n.color = .brown
                 n.text = ""
                 n.position.x = -subportalSprite.size.width / 1.75
-                self.textFields[ss].append(n)
+                GeneralStats.textFields[ss].append(n)
 
                 llss += 1
             }
@@ -48,7 +52,7 @@ class GeneralStats {
 
     func setUpdater(subportal: Int, field: Int, _ getText: @escaping Updater) {
         let delayAction = SKAction.wait(forDuration: 1.0)
-        let node = self.textFields[subportal][field]
+        let node = GeneralStats.textFields[subportal][field]
 
         let updateAction = SKAction.run { node.text = getText() }
         let updateOncePerSecond = SKAction.sequence([delayAction, updateAction])

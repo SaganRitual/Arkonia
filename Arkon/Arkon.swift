@@ -2,6 +2,16 @@ import Foundation
 import SpriteKit
 
 class Arkon {
+    static func getAges() -> [TimeInterval] {
+        return PortalServer.shared!.arkonsPortal.children.compactMap {
+            ($0 as? SKSpriteNode)?.arkon?.myAge
+        }
+    }
+
+    static var medianLiveArkonAge: TimeInterval {
+        let ages = getAges().sorted()
+        return ages.isEmpty ? 0 : ages[ages.count / 2]
+    }
 
     static var currentAgeOfOldestArkon: TimeInterval = 0.0 { willSet {
         if newValue > recordArkonAge { recordArkonAge = newValue }
@@ -14,13 +24,6 @@ class Arkon {
     }
 
     static var recordArkonAge: TimeInterval = 0.0
-
-    static func getSeniorAgeStats() -> String {
-        return String(
-            format: "Age: %.2f\nRecord: %.2f\nAverage: %.2f",
-            Arkon.currentAgeOfOldestArkon, Arkon.recordArkonAge, Arkon.averageAgeOfLivingArkons
-        )
-    }
 
     static var currentHealthOfOldestArkon: Double = 0.0
 
@@ -97,6 +100,8 @@ class Arkon {
             )
         )
 
+        GeneCore.cLiveGenes += self.genome.count
+
         // Dark parts all set up; SpriteKit will add a sprite and
         // launch on the next display cycle, unless, of course, we didn't
         // survive the test signal.
@@ -105,6 +110,7 @@ class Arkon {
     }
 
     deinit {
+        GeneCore.cLiveGenes -= self.genome.count
         if self.isOldestArkon { ArkonFactory.shared.cGenerations += 1 }
         if self.isAlive { ArkonFactory.shared.cLiveArkons -= 1 }
 

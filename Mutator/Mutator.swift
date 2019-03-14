@@ -26,8 +26,18 @@ class Mutator {
     var bellCurve = BellCurve()
     var outputGenome = [GeneProtocol]()
     var sourceGenome = [GeneProtocol]()
+    var histogramPortal: MutationHistogramPortal
 
     var histogramScale = 1.0
+
+    var mutationCounts: [Int]
+
+    init() {
+        mutationCounts = Array(repeating: 0, count: MutationType.allCases.count)
+        histogramPortal = MutationHistogramPortal(PortalServer.shared!.topLevelStatsPortal)
+        histogramPortal.attachToColumns { [weak self] in Double(self?.mutationCounts[$0] ?? 0) }
+        MutationHistogramPortal.postInit(histogramPortal)
+    }
 
     func copySegment() -> [GeneProtocol] {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: sourceGenome.count)
@@ -72,11 +82,11 @@ class Mutator {
 
     func getWeightedRandomMutationType() -> MutationType {
         let weightMap: [MutationType : Int] = [
-            .copyAndReinsertSegment : 6, .copyAndReinsertReversed: 3, .copyAndReinsertShuffled: 2,
-            .cutAndReinsertSegment : 6, .cutAndReinsertReversed: 3, .cutAndReinsertShuffled: 2,
-            .deleteRandomGenes : 3, .deleteRandomSegment : 3,
+            .copyAndReinsertSegment : 6, .copyAndReinsertReversed: 6, .copyAndReinsertShuffled: 6,
+            .cutAndReinsertSegment : 6, .cutAndReinsertReversed: 6, .cutAndReinsertShuffled: 6,
+            .deleteRandomGenes : 6, .deleteRandomSegment : 6,
             .insertRandomGenes : 6, .insertRandomSegment : 6,
-            .mutateRandomGenes : 10
+            .mutateRandomGenes : 8
         ]
 
         let weightRange = weightMap.reduce(0, { return $0 + $1.value })
@@ -91,7 +101,7 @@ class Mutator {
         fatalError()
     }
 
-    enum MutationType: CaseIterable {
+    enum MutationType: Int, CaseIterable {
         case copyAndReinsertSegment, copyAndReinsertReversed, copyAndReinsertShuffled
         case cutAndReinsertSegment, cutAndReinsertReversed, cutAndReinsertShuffled
         case deleteRandomGenes, deleteRandomSegment, insertRandomGenes, insertRandomSegment
@@ -128,6 +138,8 @@ class Mutator {
         case .cutAndReinsertShuffled:  newGenome = cutAndReinsertSegment(.shuffled)
         case .copyAndReinsertShuffled: newGenome = copyAndReinsertSegment(.shuffled)
         }
+
+        mutationCounts[m.rawValue] += 1
 
         if newGenome == nil { outputGenome = sourceGenome }
         return outputGenome

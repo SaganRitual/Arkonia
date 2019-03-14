@@ -7,7 +7,12 @@ enum GeneCore {
     case activator(_ functionName: AFn.FunctionName, _ isMutatedCopy: Bool)
     case upConnector(_ channel: Int, _ topOfRange: Int, _ weight: Double, _ isMutatedCopy: Bool)
 
-    static var cLiveGenes = 0
+    static var cLiveGenes = 0 { willSet {
+        if GeneCore.cLiveGenes > GeneCore.highWaterMark{
+            GeneCore.highWaterMark = GeneCore.cLiveGenes
+        }
+    }}
+
     static var highWaterMark = 0
 
     static let downConnectorTopOfRange = 1000

@@ -84,9 +84,7 @@ class ArkonFactory: NSObject {
         super.init()
 
         setupSubportal0()
-        setupSubportal1()
         setupSubportal3()
-        setupSubportal4()
    }
 
     private func getArkon(for sprite: SKNode) -> Arkon? { return (sprite as? SKSpriteNode)?.arkon }
@@ -99,11 +97,9 @@ class ArkonFactory: NSObject {
         }) as? SKSpriteNode)?.arkon
     }
 
-    private func getGeneCounts() -> [Int] {
+    func getGeneCounts() -> [Int] {
         return PortalServer.shared.arkonsPortal.children.compactMap { node in
             guard let sprite = node as? SKSpriteNode else { return nil }
-            guard let name = sprite.name else { return nil }
-            guard name.hasPrefix("Arkon") else { return nil }
             guard let arkon = sprite.arkon else { return nil }
             return arkon.genome.count
         }.sorted(by: <)
@@ -164,74 +160,31 @@ class ArkonFactory: NSObject {
     }
 
     func setupSubportal0() {
-        PortalServer.shared.generalStats.setUpdater(subportal: 0, field: 3) { [weak self] in
+        PortalServer.shared.generalStatsPortals.setUpdater(subportal: 0, field: 3) { [weak self] in
             return String(format: "Generations: %d", self?.cGenerations ?? 0)
         }
     }
 
-    func setupSubportal1() {
-        PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 0) {
-            return String(format: "Live genes: %d", GeneCore.cLiveGenes)
-        }
-
-        PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 1) { [weak self] in
-            return String(format: "Longest: %d", self?.longestLivingGenomeLength ?? 0)
-        }
-
-        PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 2) { [weak self] in
-            return String(format: "Median: %d", self?.medianLivingGenomeLength ?? 0)
-        }
-
-        PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 3) { [weak self] in
-            guard let cLiveArkons = self?.cLiveArkons else { return "" }
-            return String(
-                format: "Average: %.1f", Double(GeneCore.cLiveGenes) / Double(cLiveArkons)
-            )
-        }
-
-        PortalServer.shared.generalStats.setUpdater(subportal: 1, field: 4) {
-            return String(format: "Hi water: %d", GeneCore.highWaterMark)
-        }
-    }
-
     func setupSubportal3() {
-        PortalServer.shared.generalStats.setUpdater(subportal: 3, field: 0) { [weak self] in
+        PortalServer.shared.generalStatsPortals.setUpdater(subportal: 3, field: 0) { [weak self] in
             return String(format: "Spawns: %d", self?.cAttempted ?? 0)
         }
 
-        PortalServer.shared.generalStats.setUpdater(subportal: 3, field: 1) { [weak self] in
+        PortalServer.shared.generalStatsPortals.setUpdater(subportal: 3, field: 1) { [weak self] in
             guard let myself = self else { return "" }
             let cSuccesses = myself.cAttempted - myself.cBirthFailed
             return String(format: "Success: %d", cSuccesses)
         }
 
-        PortalServer.shared.generalStats.setUpdater(subportal: 3, field: 2) { [weak self] in
+        PortalServer.shared.generalStatsPortals.setUpdater(subportal: 3, field: 2) { [weak self] in
             return String(format: "Failure: %d", self?.cBirthFailed ?? 0)
         }
 
-        PortalServer.shared.generalStats.setUpdater(subportal: 3, field: 3) { [weak self] in
+        PortalServer.shared.generalStatsPortals.setUpdater(subportal: 3, field: 3) { [weak self] in
             guard let myself = self else { return "" }
             let cSuccesses = myself.cAttempted - myself.cBirthFailed
             let rate = 100.0 * Double(cSuccesses) / Double(myself.cAttempted)
             return String(format: "Success rate: %.1f%%", rate)
-        }
-    }
-
-    func setupSubportal4() {
-        PortalServer.shared.generalStats.setUpdater(subportal: 4, field: 0) { [weak self] in
-            return String(format: "Live arkons: %d", self?.cLiveArkons ?? 0)
-        }
-
-        PortalServer.shared.generalStats.setUpdater(subportal: 4, field: 1) { [weak self] in
-            return String(format: "Record: %d", self?.hiWaterCLiveArkons ?? 0)
-        }
-
-        PortalServer.shared.generalStats.setUpdater(subportal: 4, field: 2) { [weak self] in
-            return String(format: "Pending fab: %d", self?.cPending ?? 0)
-        }
-
-        PortalServer.shared.generalStats.setUpdater(subportal: 4, field: 3) { [weak self] in
-            return String(format: "Pending launch: %d", self?.pendingArkons.count ?? 0)
         }
     }
 

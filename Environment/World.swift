@@ -13,8 +13,7 @@ class World {
     // Three (x, y) pairs as thrust vectors
     private static let cMotorNeurons = 6
 
-    public var entropy: TimeInterval { return min(Display.shared.gameAge * 0.001, 1000.0) }
-    public var foodValue: Double { return 100.0 * (1.0 - entropy) }
+    public var entropy: TimeInterval { return 0.25 }// return min(Display.shared.gameAge * 0.001, 1.0) }
 
     let physics: Physics
 
@@ -23,8 +22,9 @@ class World {
 
         self.physics = Physics()
 
-        PortalServer.shared.generalStats.setUpdater(subportal: 0, field: 4) { [weak self] in
-            return String(format: "Food value: %.1f%", self?.foodValue ?? 0.0)
+        PortalServer.shared.generalStatsPortals.setUpdater(subportal: 0, field: 4) { [weak self] in
+            guard let myself = self else { preconditionFailure() }
+            return String(format: "Food value: %.1f%", 100 * (1.0 - myself.entropy))
         }
     }
 

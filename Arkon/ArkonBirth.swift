@@ -42,7 +42,7 @@ extension SKSpriteNode {
             let myAge = Display.shared.currentTime - birthday
 
             let baseValue = min(20.0, myAge)
-            let adjustedValue = baseValue * World.shared.foodValue
+            let adjustedValue = baseValue * (1 - World.shared.entropy)
             return adjustedValue
         }
     }
