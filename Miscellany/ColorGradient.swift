@@ -11,10 +11,10 @@ enum ColorGradient {
         0x7DD837, 0x87D737, 0x91D636, 0x9AD535, 0xA4D435, 0xAED334, 0xB8D233, 0xC2D133,
         0xCBD032, 0xCFC931, 0xCEBE31, 0xCDB230, 0xCCA72F, 0xCB9B2F, 0xCA902E, 0xC9842D,
         0xC8792D, 0xC76E2C, 0xC6632C, 0xC5582B, 0xC44C2A, 0xC3412A, 0xC23629, 0xC22C29
-    ]
+    ].reversed()
 
     static func makeColor(_ numerator: Int, _ denominator: Int) -> NSColor {
-        let percentage = Double(numerator) / Double(denominator)
+        let percentage = abs(Double(numerator) / Double(denominator))
 
         let scale = ColorGradient.colors.count
         let constrained = constrain(percentage, lo: 0, hi: 1.0)

@@ -19,6 +19,24 @@
 //
 
 import Foundation
+import SpriteKit
+
+extension SKSpriteNode {
+    enum UserDataKey {
+        case arkon, birthday, foodValue, isComposting, isFirstBloom
+    }
+
+    func getUserData<T>(_ key: UserDataKey) -> T? {
+        guard let userData = self.userData else { return nil }
+        guard let itemEntry = userData[key] else { return nil }
+        return itemEntry as? T
+    }
+
+    func setUserData<T>(key: UserDataKey, to value: T?) {
+        if self.userData == nil { self.userData = [:] }
+        self.userData?[key] = value
+    }
+}
 
 infix operator !!: NilCoalescingPrecedence
 func !!<T> (_ theOptional: T?, _ onError: () -> Never) -> T {
@@ -83,14 +101,24 @@ struct SetOnce<T> {
         return meat!
     }
 
-    // Note: we don't check isLocked. If there's a default
-    // value, we want to report that we're meaty.
-    public func has() -> Bool { return meat != nil }
+    public mutating func lock() { isLocked = true }
 
     public mutating func set(_ newValue: T) {
         precondition(!isLocked, "Can be set only once")
         isLocked = true
         meat = newValue
+    }
+
+    // Note: we don't check isLocked. If there's a default
+    // value, we want to report that we're meaty.
+    public func some() -> Bool { return meat != nil }
+
+    public static func -<U: Numeric>(_ lhs: SetOnce<T>, _ rhs: U) -> U {
+        return (lhs.meat as? U ?? 0) - rhs
+    }
+
+    public static func -<U: Numeric>(_ lhs: U, _ rhs: SetOnce<T>) -> U {
+        return lhs - (rhs.meat as? U ?? 0)
     }
 }
 

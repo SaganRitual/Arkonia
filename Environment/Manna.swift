@@ -9,8 +9,8 @@ class MannaFactory {
     let yRange: Range<CGFloat>
 
     init() {
-        let w = PortalServer.shared.arkonsPortal.frame.size.width
-        let h = PortalServer.shared.arkonsPortal.frame.size.height
+        let w = PortalServer.shared.arkonsPortal.get().frame.size.width
+        let h = PortalServer.shared.arkonsPortal.get().frame.size.height
 
         xRange = -w..<w
         yRange = -h..<h
@@ -40,11 +40,10 @@ class MannaFactory {
         sprite.isComposting = true
 
         guard let name = sprite.name else { preconditionFailure() }
-        guard var start = name.firstIndex(of: "(") else { preconditionFailure() }
-        guard let end = name.firstIndex(of: ")") else { preconditionFailure() }
+        guard var start = name.firstIndex(of: "0") else { preconditionFailure() }
 
         start = name.index(after: start)
-        let hamNumber = Int(name[start..<end])!
+        let hamNumber = Int(name[start..<name.endIndex])!
         sprite.run(SKAction.run(
             { [unowned self] in self.bloom(hamNumber) }
         ))
@@ -69,7 +68,7 @@ class MannaFactory {
         sprite.color = .yellow
         sprite.colorBlendFactor = 1
         sprite.alpha = 1
-        sprite.name = "Manna(\(hamNumber))"
+        sprite.name = "manna0\(hamNumber)"
         sprite.zPosition = ArkonCentralLight.vMannaZPosition
 
         sprite.physicsBody = setupPhysicsBody(sprite.frame)
@@ -79,8 +78,42 @@ class MannaFactory {
 
         sprite.run(SKAction.run({ [unowned self] in self.bloom(hamNumber) }))
 
-        PortalServer.shared.arkonsPortal.addChild(sprite)
+        PortalServer.shared.arkonsPortal.get().addChild(sprite)
 
         return sprite
+    }
+}
+
+extension SKSpriteNode {
+    func setupAsManna() {
+        self.birthday = 0.0
+        self.isComposting = false
+        self.isFirstBloom = true
+    }
+
+    var birthday: TimeInterval? {
+        get { return getUserData(UserDataKey.birthday) }
+        set { setUserData(key: UserDataKey.birthday, to: newValue) }
+    }
+
+    var foodValue: Double {
+        get {
+            guard let birthday = self.birthday else { return 10 }
+            let myAge = Display.shared.currentTime - birthday
+
+            let baseValue = min(20.0, myAge)
+            let adjustedValue = baseValue * (1 - World.shared.entropy)
+            return adjustedValue
+        }
+    }
+
+    var isComposting: Bool? {
+        get { return getUserData(UserDataKey.isComposting) }
+        set { setUserData(key: UserDataKey.isComposting, to: newValue) }
+    }
+
+    var isFirstBloom: Bool? {
+        get { return getUserData(UserDataKey.isFirstBloom) }
+        set { setUserData(key: UserDataKey.isFirstBloom, to: newValue) }
     }
 }

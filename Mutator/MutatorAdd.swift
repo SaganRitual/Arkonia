@@ -96,7 +96,8 @@ extension Mutator {
         outputGenome.removeAll(keepingCapacity: true)
 
         // Limit # of inserted genes to 10% of my length
-        let cInsert_ = 0.1 * Double(sourceGenome.count) * Double(abs(bellCurve.nextFloat()))
+        let b = abs(bellCurve.nextFloat())
+        let cInsert_ = 0.1 * Double(sourceGenome.count) * Double(b)
         let cInsert = Int(cInsert_)
         if cInsert == 0 { return nil }
 
@@ -114,7 +115,8 @@ extension Mutator {
         outputGenome.removeAll(keepingCapacity: true)
 
         // Limit new segment to 10% of my length
-        let cInsert_ = 0.1 * Double(sourceGenome.count) * Double(abs(bellCurve.nextFloat()))
+        let b = abs(bellCurve.nextFloat())
+        let cInsert_ = 0.1 * Double(sourceGenome.count) * Double(b)
         let cInsert = Int(cInsert_)
         if cInsert == 0 { return nil }
 
@@ -126,20 +128,3 @@ extension Mutator {
     }
 
 }
-
-/*
- guard let histogram =
- DStatsPortal.shared.subportals[.seniorLabel]?.histogram as? SegmentMutationStatsHistogram
- else { preconditionFailure() }
-
- let length = cMutate
- let cZeros = Double(Int(log10(length)))
- let dynamicYScale = Double(exactly: pow(10.0, cZeros))!
- let rawValue = Int(floor(length / dynamicYScale))
- let fn = SegmentMutationStatsHistogram.StatType(rawValue: rawValue)!
- let zoomOut = dynamicYScale > Mutator.currentDynamicYScale
-
- histogram.accumulate(functionID: fn, zoomOut: zoomOut)
-
- if zoomOut { Mutator.currentDynamicYScale = dynamicYScale }
- */

@@ -2,64 +2,9 @@ import Foundation
 import SpriteKit
 
 extension SKSpriteNode {
-    enum UserDataKey {
-        case arkon, birthday, foodValue, isComposting, isFirstBloom, isOldestArkon
-    }
-
-    func getUserData<T>(_ key: UserDataKey) -> T? {
-        guard let userData = self.userData else { return nil }
-        guard let itemEntry = userData[key] else { return nil }
-        return itemEntry as? T
-    }
-
-    func setupAsArkon() {
-    }
-
-    func setupAsManna() {
-        self.birthday = 0.0
-        self.isComposting = false
-        self.isFirstBloom = true
-    }
-
-    func setUserData<T>(key: UserDataKey, to value: T?) {
-        if self.userData == nil { self.userData = [:] }
-        self.userData?[key] = value
-    }
-
     var arkon: Arkon? {
         get { return getUserData(UserDataKey.arkon) }
         set { setUserData(key: UserDataKey.arkon, to: newValue) }
-    }
-
-    var birthday: TimeInterval? {
-        get { return getUserData(UserDataKey.birthday) }
-        set { setUserData(key: UserDataKey.birthday, to: newValue) }
-    }
-
-    var foodValue: Double {
-        get {
-            guard let birthday = self.birthday else { return 10 }
-            let myAge = Display.shared.currentTime - birthday
-
-            let baseValue = min(20.0, myAge)
-            let adjustedValue = baseValue * (1 - World.shared.entropy)
-            return adjustedValue
-        }
-    }
-
-    var isComposting: Bool? {
-        get { return getUserData(UserDataKey.isComposting) }
-        set { setUserData(key: UserDataKey.isComposting, to: newValue) }
-    }
-
-    var isFirstBloom: Bool? {
-        get { return getUserData(UserDataKey.isFirstBloom) }
-        set { setUserData(key: UserDataKey.isFirstBloom, to: newValue) }
-    }
-
-    var isOldestArkon: Bool? {
-        get { return getUserData(UserDataKey.isOldestArkon) }
-        set { setUserData(key: UserDataKey.isOldestArkon, to: newValue) }
     }
 }
 
@@ -67,7 +12,7 @@ extension Arkon {
 
     static private func attachSenses(_ sprite: SKSpriteNode, _ senses: SKPhysicsBody) {
         let snapPoint =
-            PortalServer.shared.arkonsPortal.convert(sprite.position, to: Display.shared.scene!)
+            PortalServer.shared.arkonsPortal.get().convert(sprite.position, to: Display.shared.scene!)
 
         let snap = SKPhysicsJointPin.joint(
             withBodyA: sprite.physicsBody!, bodyB: senses, anchor: snapPoint
@@ -84,7 +29,7 @@ extension Arkon {
             SKAction.run { [weak self] in
                 self?.sprite.physicsBody = nil
                 (self?.sprite.children[0] as? SKSpriteNode)?.physicsBody = nil
-                self?.sprite?.arkon = nil
+                self?.sprite?.userData?[SKSpriteNode.UserDataKey.arkon] = nil
             }, SKAction.removeFromParent()
         ])
 
@@ -113,37 +58,44 @@ extension Arkon {
         }
         */
 
-        ArkonFactory.shared.cLiveArkons += 1
+        World.shared.populationChanged = true
 
-        self.isAlive = true
+        self.status.isAlive = true
         self.sprite.run(self.tickAction)
     }
 
     func postPartum(relievedArkonFishNumber: Int?) {
         guard let r = relievedArkonFishNumber else { return }
-        guard let arkon = ArkonFactory.shared.getArkon(for: r) else { return }
-        arkon.cOffspring += 1
-        arkon.sprite.color = .green
+        guard let arkon = World.shared.population.getArkon(for: r) else { return }
+
+        arkon.status.cOffspring += 1
+        arkon.sprite.color = {
+            switch arkon.status.cOffspring {
+            case 0..<5: return .green
+            case 5..<10: return .purple
+            case 10..<15: return .magenta
+            default: return .orange
+            }
+        }()
+
+        arkon.sprite.color = arkon.status.cOffspring > 5 ? .purple : .green
         arkon.sprite.run(arkon.tickAction)
     }
 
     func setupArkonSprite() -> (SKSpriteNode, SKPhysicsBody) {
         let arkonSprite = SKSpriteNode(texture: ArkonCentralLight.topTexture!)
-        arkonSprite.setupAsArkon()
 
         let x = Int.random(in: Int(-portal.frame.size.width)..<Int(portal.frame.size.width))
         let y = Int.random(in: Int(-portal.frame.size.height)..<Int(portal.frame.size.height))
 
         arkonSprite.position = CGPoint(x: x, y: y)
-        arkonSprite.arkon = self // Ref to self; we're on our own after birth
-
         arkonSprite.size *= 0.2
         arkonSprite.color = .green//ArkonCentralLight.colors.randomElement()!
         arkonSprite.colorBlendFactor = 0.5
 
         arkonSprite.zPosition = ArkonCentralLight.vArkonZPosition
 
-        arkonSprite.name = "Arkon(\(fishNumber))"
+        arkonSprite.name = "arkon\(fishNumber)"
         let physicsBody = Arkon.setupPhysicsBody(arkonSprite.frame.size)
 
         return (arkonSprite, physicsBody)
@@ -198,7 +150,9 @@ extension Arkon {
         let (arkonSprite, arkonPhysicsBody) = setupArkonSprite()
         let (sensesNode, sensesPhysicsBody) = Arkon.setupSenses(arkonSprite)
 
-        arkonSprite.arkon = self
+        if arkonSprite.userData == nil { arkonSprite.userData = [:] }
+        arkonSprite.userData![SKSpriteNode.UserDataKey.arkon] = self // Ref to self; we're on our own after birth
+
         portal.addChild(arkonSprite)
 
         sensesNode.physicsBody = sensesPhysicsBody

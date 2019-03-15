@@ -13,6 +13,18 @@ class World {
     // Three (x, y) pairs as thrust vectors
     private static let cMotorNeurons = 6
 
+    private var population_ = Population.population([])
+    var population: Population {
+        get {
+            if populationChanged { population_ = population_.updateStatusCache() }
+            return population_
+        }
+
+        set { population_ = newValue }
+    }
+
+    var populationChanged = true
+
     let timeLimit: TimeInterval? = 2000.0
     public var entropy: TimeInterval {
         guard let t = timeLimit else { return 0 }

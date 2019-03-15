@@ -1,21 +1,24 @@
 import Foundation
 import SpriteKit
 
-struct MutationHistogramPortal {
+class HistogramPortal {
     typealias HistogramGetter = (Int) -> Double
 
     var columns = [Column]()
     let parentSprite: SKSpriteNode
     let sprites: [SKSpriteNode]
 
-    init(_ statsPortal: SKSpriteNode) {
+    init(_ statsPortal: SKSpriteNode,
+         histogramPortal: String,
+         barsName: String)
+    {
         guard let histogramPortal =
-            statsPortal.childNode(withName: "mutationTypeCountsHistogram") as? SKSpriteNode else {
+            statsPortal.childNode(withName: histogramPortal) as? SKSpriteNode else {
             preconditionFailure()
         }
 
         var sprites = [SKSpriteNode]()
-        histogramPortal.enumerateChildNodes(withName: "mutationTypesHistogramBars") {
+        histogramPortal.enumerateChildNodes(withName: barsName) {
             node, _ in if let n = node as? SKSpriteNode { sprites.append(n) }
         }
 
@@ -28,8 +31,8 @@ struct MutationHistogramPortal {
     }
 }
 
-extension MutationHistogramPortal {
-    static func postInit(_ histogramPortal: MutationHistogramPortal) {
+extension HistogramPortal {
+    static func postInit(_ histogramPortal: HistogramPortal) {
         let updateAction = SKAction.run {
             guard let maxHeight: Double = histogramPortal.columns.max(by: { lhs, rhs in
                 lhs.value < rhs.value
@@ -40,7 +43,7 @@ extension MutationHistogramPortal {
             }
         }
 
-        MutationHistogramPortal.addActionsToSprite(
+        HistogramPortal.addActionsToSprite(
             histogramPortal.parentSprite, updateAction: updateAction
         )
     }
@@ -53,7 +56,7 @@ extension MutationHistogramPortal {
         sprite.run(updateForever)
     }
 
-    mutating func attachToColumns(getter: @escaping HistogramGetter) {
+     func attachToColumns(getter: @escaping HistogramGetter) {
         columns = sprites.enumerated().map { t in let (columnNumber, sprite) = t
             return Column(columnNumber: columnNumber, sprite: sprite, getter: getter)
         }
@@ -62,7 +65,7 @@ extension MutationHistogramPortal {
     }
 }
 
-extension MutationHistogramPortal {
+extension HistogramPortal {
     class Column {
         let columnNumber: Int
         let getter: HistogramGetter
@@ -75,8 +78,10 @@ extension MutationHistogramPortal {
             self.sprite = sprite
             sprite.anchorPoint = CGPoint(x: 0.5, y: 0)
 
-            let updateAction = SKAction.run { [weak self] in self?.value = getter(columnNumber) }
-            MutationHistogramPortal.addActionsToSprite(sprite, updateAction: updateAction)
+            let updateAction = SKAction.run {
+                [weak self] in self?.value = getter(columnNumber) }
+
+            HistogramPortal.addActionsToSprite(sprite, updateAction: updateAction)
 
             let delayAction = SKAction.wait(forDuration: 1.0)
             let updateOncePerSecond = SKAction.sequence([delayAction, updateAction])

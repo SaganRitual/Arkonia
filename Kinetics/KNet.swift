@@ -33,7 +33,7 @@ class KNet: KIdentifiable {
     }
 
     deinit {
-//        print("~\(self)");
+//        print("~\(self)")
         while !hiddenLayers.isEmpty { hiddenLayers.removeLast() }
     }
 }

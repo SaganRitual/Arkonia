@@ -24,22 +24,8 @@ class Mutator {
     static var shared: Mutator!
 
     var bellCurve = BellCurve()
-    var histogramBuckets: [Int: Int]
-    var histogramPortal: MutationHistogramPortal
     var outputGenome = [GeneProtocol]()
     var sourceGenome = [GeneProtocol]()
-
-    init() {
-        histogramBuckets = (0..<10).reduce([Int: Int]()) { (d, key) -> [Int: Int] in
-            var dictionary = d
-            dictionary[key] = 0
-            return dictionary
-        }
-
-        histogramPortal = MutationHistogramPortal(PortalServer.shared!.topLevelStatsPortal)
-        histogramPortal.attachToColumns { [weak self] in Double(self?.histogramBuckets[$0] ?? 0) }
-        MutationHistogramPortal.postInit(histogramPortal)
-    }
 
     func copySegment() -> [GeneProtocol] {
         let (leftCut, rightCut) = getRandomCuts(segmentLength: sourceGenome.count)
@@ -155,9 +141,6 @@ extension Mutator {
         let b = abs(bellCurve.nextFloat())
         var cMutate = 0.1 * Double(outputGenome.count) * Double(b)  // max 10% of genome
         precondition(abs(cMutate) != Double.infinity && cMutate != Double.nan)
-
-        let asPercentage = Int(0.1 * Double(b) * 100.0)
-        histogramBuckets[asPercentage]! += 1
 
         let i = Int(cMutate)
         guard i > 0 else { return nil }

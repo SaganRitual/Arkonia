@@ -34,9 +34,9 @@
 		D4489BFC223A76EA00708B56 /* GeneCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4489BFB223A76EA00708B56 /* GeneCore.swift */; };
 		D44EB8AF222FA5250004A46F /* DBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EB8AE222FA5250004A46F /* DBootstrap.swift */; };
 		D45D2E94223AC2E200441DFD /* GeneStatsPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45D2E93223AC2E200441DFD /* GeneStatsPortal.swift */; };
-		D45D2E96223AF1CF00441DFD /* HealthStatsPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45D2E95223AF1CF00441DFD /* HealthStatsPortal.swift */; };
+		D45D2E96223AF1CF00441DFD /* AgeStatsPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45D2E95223AF1CF00441DFD /* AgeStatsPortal.swift */; };
 		D45D2E99223B045000441DFD /* PopStatsPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45D2E98223B045000441DFD /* PopStatsPortal.swift */; };
-		D45D2E9B223B3B4700441DFD /* MutationHistogramPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45D2E9A223B3B4700441DFD /* MutationHistogramPortal.swift */; };
+		D45D2E9B223B3B4700441DFD /* HistogramPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45D2E9A223B3B4700441DFD /* HistogramPortal.swift */; };
 		D45D2E9D223B426F00441DFD /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45D2E9C223B426F00441DFD /* ColorGradient.swift */; };
 		D46880222207A0C500405F54 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46880212207A0C500405F54 /* main.swift */; };
 		D468802D2207A0E600405F54 /* DTGenome.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468802C2207A0E600405F54 /* DTGenome.swift */; };
@@ -97,10 +97,12 @@
 		D46E1EE0222B9CED00BBB6F1 /* ArkonLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46E1EDF222B9CED00BBB6F1 /* ArkonLife.swift */; };
 		D46E1EE2222B9DE000BBB6F1 /* ArkonBirth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46E1EE1222B9DE000BBB6F1 /* ArkonBirth.swift */; };
 		D46E1EE4222BB16300BBB6F1 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46E1EE3222BB16300BBB6F1 /* Manna.swift */; };
+		D4712447223BDB60008EB9BA /* DuggarStatsPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4712446223BDB60008EB9BA /* DuggarStatsPortal.swift */; };
 		D47246D722116C1A002AA25F /* DNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47246D622116C1A002AA25F /* DNet.swift */; };
 		D47246D922116C71002AA25F /* DSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47246D822116C71002AA25F /* DSpacer.swift */; };
 		D47246DB22116DE6002AA25F /* DLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47246DA22116DE6002AA25F /* DLayer.swift */; };
 		D47246DD22116E95002AA25F /* DNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47246DC22116E95002AA25F /* DNeuron.swift */; };
+		D47A0B14223C99FC00C92132 /* Population.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47A0B13223C99FC00C92132 /* Population.swift */; };
 		D4860A76220759CD002F688B /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672822070AC4009BAA3A /* SceneViewController.swift */; };
 		D4860A77220759CD002F688B /* KAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672722070AC4009BAA3A /* KAppController.swift */; };
 		D4860A78220759CD002F688B /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672922070AC5009BAA3A /* KAppDelegate.swift */; };
@@ -128,7 +130,6 @@
 		D4D604A62207292800823D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4D604A52207292800823D57 /* Assets.xcassets */; };
 		D4D604A92207292800823D57 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4D604A72207292800823D57 /* Main.storyboard */; };
 		D4E18CBB222CFBF4008B1E2E /* Physics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E18CBA222CFBF4008B1E2E /* Physics.swift */; };
-		D4E878C0222D2D9F00CA2BC4 /* ArkonTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E878BF222D2D9F00CA2BC4 /* ArkonTracker.swift */; };
 		D4EB46C02207776C00DA2544 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EB46BF2207776C00DA2544 /* main.swift */; };
 		D4EB46D12207784600DA2544 /* DTSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EB46A9220773C200DA2544 /* DTSignalRelay.swift */; };
 		D4EB46D22207786400DA2544 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046522070F7400823D57 /* KIdentifier.swift */; };
@@ -137,6 +138,8 @@
 		D4F17C66221E5DBC00CB287C /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F17C65221E5DBC00CB287C /* Arkon.swift */; };
 		D4F17C68221E5DDB00CB287C /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F17C67221E5DDB00CB287C /* World.swift */; };
 		D4F17C6A221E5E1600CB287C /* KMotorOutputs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F17C69221E5E1600CB287C /* KMotorOutputs.swift */; };
+		D4F7CB05223D2CB2004FD800 /* ArkonStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F7CB04223D2CB2004FD800 /* ArkonStatus.swift */; };
+		D4F7CB07223D4A91004FD800 /* StatsFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F7CB06223D4A91004FD800 /* StatsFeed.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -196,9 +199,9 @@
 		D4489BFB223A76EA00708B56 /* GeneCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneCore.swift; sourceTree = "<group>"; };
 		D44EB8AE222FA5250004A46F /* DBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBootstrap.swift; sourceTree = "<group>"; };
 		D45D2E93223AC2E200441DFD /* GeneStatsPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneStatsPortal.swift; sourceTree = "<group>"; };
-		D45D2E95223AF1CF00441DFD /* HealthStatsPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthStatsPortal.swift; sourceTree = "<group>"; };
+		D45D2E95223AF1CF00441DFD /* AgeStatsPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeStatsPortal.swift; sourceTree = "<group>"; };
 		D45D2E98223B045000441DFD /* PopStatsPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopStatsPortal.swift; sourceTree = "<group>"; };
-		D45D2E9A223B3B4700441DFD /* MutationHistogramPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MutationHistogramPortal.swift; sourceTree = "<group>"; };
+		D45D2E9A223B3B4700441DFD /* HistogramPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistogramPortal.swift; sourceTree = "<group>"; };
 		D45D2E9C223B426F00441DFD /* ColorGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
 		D468801F2207A0C500405F54 /* TTGenome */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTGenome; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46880212207A0C500405F54 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -225,10 +228,12 @@
 		D46E1EDF222B9CED00BBB6F1 /* ArkonLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonLife.swift; sourceTree = "<group>"; };
 		D46E1EE1222B9DE000BBB6F1 /* ArkonBirth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonBirth.swift; sourceTree = "<group>"; };
 		D46E1EE3222BB16300BBB6F1 /* Manna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
+		D4712446223BDB60008EB9BA /* DuggarStatsPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuggarStatsPortal.swift; sourceTree = "<group>"; };
 		D47246D622116C1A002AA25F /* DNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNet.swift; sourceTree = "<group>"; };
 		D47246D822116C71002AA25F /* DSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSpacer.swift; sourceTree = "<group>"; };
 		D47246DA22116DE6002AA25F /* DLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLayer.swift; sourceTree = "<group>"; };
 		D47246DC22116E95002AA25F /* DNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNeuron.swift; sourceTree = "<group>"; };
+		D47A0B13223C99FC00C92132 /* Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Population.swift; sourceTree = "<group>"; };
 		D4AD519E2225122D009EF514 /* ArkonFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonFactory.swift; sourceTree = "<group>"; };
 		D4BB12E92207B8B9004C2242 /* TTNetMeat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTNetMeat; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB12EB2207B8B9004C2242 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -257,7 +262,6 @@
 		D4D604AA2207292800823D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D604AB2207292800823D57 /* ArkoniaDisplayTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArkoniaDisplayTests.entitlements; sourceTree = "<group>"; };
 		D4E18CBA222CFBF4008B1E2E /* Physics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Physics.swift; sourceTree = "<group>"; };
-		D4E878BF222D2D9F00CA2BC4 /* ArkonTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonTracker.swift; sourceTree = "<group>"; };
 		D4EB46A9220773C200DA2544 /* DTSignalRelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DTSignalRelay.swift; path = ../../../Display/DTSignalRelay.swift; sourceTree = "<group>"; };
 		D4EB46BD2207776C00DA2544 /* TTSignalRelay */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTSignalRelay; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4EB46BF2207776C00DA2544 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -267,6 +271,8 @@
 		D4F17C65221E5DBC00CB287C /* Arkon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arkon.swift; sourceTree = "<group>"; };
 		D4F17C67221E5DDB00CB287C /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		D4F17C69221E5E1600CB287C /* KMotorOutputs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KMotorOutputs.swift; sourceTree = "<group>"; };
+		D4F7CB04223D2CB2004FD800 /* ArkonStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonStatus.swift; sourceTree = "<group>"; };
+		D4F7CB06223D4A91004FD800 /* StatsFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsFeed.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,13 +352,15 @@
 		D4033A752238718D00E71167 /* Portals */ = {
 			isa = PBXGroup;
 			children = (
+				D45D2E95223AF1CF00441DFD /* AgeStatsPortal.swift */,
 				D4033A782238E04900E71167 /* ClockPortal.swift */,
+				D4712446223BDB60008EB9BA /* DuggarStatsPortal.swift */,
 				D4033A7A2238EE6500E71167 /* GeneralStats.swift */,
 				D45D2E93223AC2E200441DFD /* GeneStatsPortal.swift */,
-				D45D2E95223AF1CF00441DFD /* HealthStatsPortal.swift */,
-				D45D2E9A223B3B4700441DFD /* MutationHistogramPortal.swift */,
+				D45D2E9A223B3B4700441DFD /* HistogramPortal.swift */,
 				D45D2E98223B045000441DFD /* PopStatsPortal.swift */,
 				D4033A76223871A800E71167 /* PortalServer.swift */,
+				D4F7CB06223D4A91004FD800 /* StatsFeed.swift */,
 			);
 			path = Portals;
 			sourceTree = "<group>";
@@ -384,6 +392,7 @@
 			children = (
 				D46E1EE3222BB16300BBB6F1 /* Manna.swift */,
 				D4E18CBA222CFBF4008B1E2E /* Physics.swift */,
+				D47A0B13223C99FC00C92132 /* Population.swift */,
 				D4F17C67221E5DDB00CB287C /* World.swift */,
 			);
 			path = Environment;
@@ -648,7 +657,7 @@
 				D4D6046722070F7400823D57 /* ArkonCentralLight.swift */,
 				D4AD519E2225122D009EF514 /* ArkonFactory.swift */,
 				D46E1EDF222B9CED00BBB6F1 /* ArkonLife.swift */,
-				D4E878BF222D2D9F00CA2BC4 /* ArkonTracker.swift */,
+				D4F7CB04223D2CB2004FD800 /* ArkonStatus.swift */,
 			);
 			path = Arkon;
 			sourceTree = "<group>";
@@ -1087,6 +1096,7 @@
 			files = (
 				D4AD519F2225122D009EF514 /* ArkonFactory.swift in Sources */,
 				D45D2E99223B045000441DFD /* PopStatsPortal.swift in Sources */,
+				D4F7CB05223D2CB2004FD800 /* ArkonStatus.swift in Sources */,
 				D47246D922116C71002AA25F /* DSpacer.swift in Sources */,
 				D46D6C0622076AAF0001F5D0 /* MutatorAdd.swift in Sources */,
 				D46D6C0522076AAF0001F5D0 /* MutatorSubtract.swift in Sources */,
@@ -1097,9 +1107,9 @@
 				D45D2E94223AC2E200441DFD /* GeneStatsPortal.swift in Sources */,
 				D4F17C68221E5DDB00CB287C /* World.swift in Sources */,
 				D46D6BE82207693C0001F5D0 /* KIdentifier.swift in Sources */,
+				D4F7CB07223D4A91004FD800 /* StatsFeed.swift in Sources */,
 				D46D6BFA220769E50001F5D0 /* UpConnector.swift in Sources */,
-				D4E878C0222D2D9F00CA2BC4 /* ArkonTracker.swift in Sources */,
-				D45D2E96223AF1CF00441DFD /* HealthStatsPortal.swift in Sources */,
+				D45D2E96223AF1CF00441DFD /* AgeStatsPortal.swift in Sources */,
 				D45D2E9D223B426F00441DFD /* ColorGradient.swift in Sources */,
 				D46D6BFE22076A5A0001F5D0 /* CGConversions.swift in Sources */,
 				D4E18CBB222CFBF4008B1E2E /* Physics.swift in Sources */,
@@ -1123,13 +1133,15 @@
 				D46D6C0422076AAF0001F5D0 /* Mutator.swift in Sources */,
 				D46D6C0F22076B670001F5D0 /* SceneViewController.swift in Sources */,
 				D46D6BFD22076A480001F5D0 /* ArkonCentralLight.swift in Sources */,
-				D45D2E9B223B3B4700441DFD /* MutationHistogramPortal.swift in Sources */,
+				D45D2E9B223B3B4700441DFD /* HistogramPortal.swift in Sources */,
+				D47A0B14223C99FC00C92132 /* Population.swift in Sources */,
 				D46D6BF22207696C0001F5D0 /* FLayer.swift in Sources */,
 				D4033A77223871A800E71167 /* PortalServer.swift in Sources */,
 				D46E1EE4222BB16300BBB6F1 /* Manna.swift in Sources */,
 				D46D6C0E22076B670001F5D0 /* KAppDelegate.swift in Sources */,
 				D46D6C4522076C970001F5D0 /* KProtocols.swift in Sources */,
 				D4033A792238E04900E71167 /* ClockPortal.swift in Sources */,
+				D4712447223BDB60008EB9BA /* DuggarStatsPortal.swift in Sources */,
 				D46D6C4922076CD20001F5D0 /* Assembler.swift in Sources */,
 				D46D6BF9220769C30001F5D0 /* ActivatorFunctions.swift in Sources */,
 				D46D6BFC22076A380001F5D0 /* GeneType.swift in Sources */,

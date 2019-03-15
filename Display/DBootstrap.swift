@@ -29,8 +29,6 @@ class DBootstrap: NSObject, SKSceneDelegate {
     }
 
     func createArkonery() {
-//        let a = PortalServer.shared.arkonsPortal
-//        let n = World.shared.netPortal
         ArkonFactory.shared = ArkonFactory()
     }
 

@@ -57,15 +57,8 @@ struct GeneralStats {
         let updateAction = SKAction.run { node.text = getText() }
         let updateOncePerSecond = SKAction.sequence([delayAction, updateAction])
 
-        let randomDelayToImpressTheEasilyImpressed =
-            SKAction.wait(forDuration: Double.random(in: 0..<1.0))
-
         let updateForever = SKAction.repeatForever(updateOncePerSecond)
 
-        let allTogether = SKAction.sequence([
-            randomDelayToImpressTheEasilyImpressed, updateForever
-        ])
-
-        node.run(allTogether)
+        node.run(updateForever)
     }
 }

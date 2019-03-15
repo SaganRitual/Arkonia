@@ -49,22 +49,11 @@ class ArkonFactory: NSObject {
     var cAttempted = 0
     var cBirthFailed = 0
     var cGenerations = 0
-    var cLiveArkons = 0 { willSet { if newValue > hiWaterCLiveArkons { hiWaterCLiveArkons = newValue } } }
     var cPending = 0
     var hiWaterCLiveArkons = 0
     var hiWaterGenomeLength = 0
 
-    var longestLivingGenomeLength: Int {
-        let geneCounts = getGeneCounts()
-        let longest = geneCounts.last ?? 0
-        if longest > hiWaterGenomeLength { hiWaterGenomeLength = longest }
-        return longest
-    }
-
-    var medianLivingGenomeLength: Int {
-        let geneCounts = getGeneCounts()
-        return geneCounts.isEmpty ? 0 : geneCounts[geneCounts.count / 2]
-    }
+    var cLiveArkons: Int { return World.shared.population.getCLiveArkons() }
 
     let dispatchQueueLight = DispatchQueue(label: "light.arkonia")
     var launchpad = Launchpad.empty
@@ -79,30 +68,55 @@ class ArkonFactory: NSObject {
         return q
     }()
 
+    var histogramBuckets: [Int: Int]
+    var histogramPortal: HistogramPortal
+    var theOtherHistogramBuckets: [Int: Int]
+    var theOtherHistogramPortal: HistogramPortal
+
     override init() {
         self.pendingArkons = Serializer<Arkon>(dispatchQueueLight)
+
+        histogramBuckets = (0..<10).reduce([Int: Int]()) { (d, key) -> [Int: Int] in
+            var dictionary = d
+            dictionary[key] = 0
+            return dictionary
+        }
+
+        let histogramName = "mutationTypeCountsHistogram"
+        let barsName = "mutationTypesHistogramBars"
+        histogramPortal = HistogramPortal(PortalServer.shared!.topLevelStatsPortal,
+                                          histogramPortal: histogramName, barsName: barsName)
+
+        HistogramPortal.postInit(histogramPortal)
+
+        theOtherHistogramBuckets = (0..<10).reduce([Int: Int]()) { (d, key) -> [Int: Int] in
+            var dictionary = d
+            dictionary[key] = 0
+            return dictionary
+        }
+
+        let theOtherHistogramName = "theOtherHistogram"
+        let theOtherBarsName = "theOtherHistogramBars"
+        theOtherHistogramPortal = HistogramPortal(
+            PortalServer.shared!.topLevelStatsPortal,
+            histogramPortal: theOtherHistogramName,
+            barsName: theOtherBarsName
+        )
+
+        HistogramPortal.postInit(theOtherHistogramPortal)
+
         super.init()
+
+        theOtherHistogramPortal.attachToColumns {
+            [weak self] in Double(self?.theOtherHistogramBuckets[$0] ?? 0)
+        }
+
+        histogramPortal.attachToColumns {
+            [weak self] in Double(self?.histogramBuckets[$0] ?? 0)
+        }
 
         setupSubportal0()
         setupSubportal3()
-   }
-
-    private func getArkon(for sprite: SKNode) -> Arkon? { return (sprite as? SKSpriteNode)?.arkon }
-
-    func getArkon(for fishNumber: Int?) -> Arkon? {
-        guard let fn = fishNumber else { return nil }
-        return (PortalServer.shared.arkonsPortal.children.first(where: {
-            guard let sprite = ($0 as? SKSpriteNode) else { return false }
-            return (sprite.arkon?.fishNumber ?? -42) == fn
-        }) as? SKSpriteNode)?.arkon
-    }
-
-    func getGeneCounts() -> [Int] {
-        return PortalServer.shared.arkonsPortal.children.compactMap { node in
-            guard let sprite = node as? SKSpriteNode else { return nil }
-            guard let arkon = sprite.arkon else { return nil }
-            return arkon.genome.count
-        }.sorted(by: <)
     }
 
     func makeArkon(parentFishNumber: Int?, parentGenome: [GeneProtocol]) -> Arkon? {
@@ -112,7 +126,7 @@ class ArkonFactory: NSObject {
 
         guard let arkon = Arkon(
             parentFishNumber: parentFishNumber, genome: newGenome,
-            fNet: fNet, portal: PortalServer.shared.arkonsPortal
+            fNet: fNet, portal: PortalServer.shared.arkonsPortal.get()
             ) else { return nil }
 
         return arkon
@@ -125,7 +139,7 @@ class ArkonFactory: NSObject {
         return (newGenome, fNet)
     }
 
-    func makeProtoArkon(parentFishNumber parentFishNumber_: Int?,
+    func makeProtoArkon(parentFishNumber: Int?,
                         parentGenome parentGenome_: [GeneProtocol]?)
     {
         cAttempted += 1
@@ -135,7 +149,6 @@ class ArkonFactory: NSObject {
             defer { self.cPending -= 1 }
 
             let parentGenome = parentGenome_ ?? ArkonFactory.getAboriginalGenome()
-            let parentFishNumber = parentFishNumber_ ?? -42
 
             if let protoArkon = ArkonFactory.shared.makeArkon(
                 parentFishNumber: parentFishNumber, parentGenome: parentGenome
@@ -143,10 +156,11 @@ class ArkonFactory: NSObject {
                 self.pendingArkons.pushBack(protoArkon)
 
                 // Just for debugging, so I can see who's doing what
-                self.getArkon(for: parentFishNumber)?.sprite.color = .yellow
+                World.shared.population.getArkon(for: parentFishNumber)?.sprite.color = .yellow
             } else {
                 self.cBirthFailed += 1
-                guard let arkon = self.getArkon(for: parentFishNumber) else { return }
+                guard let arkon = World.shared.population.getArkon(for: parentFishNumber) else { return }
+
                 arkon.sprite.color = .blue
                 arkon.sprite.run(SKAction.sequence([
                     arkon.tickAction,
@@ -195,24 +209,4 @@ class ArkonFactory: NSObject {
     func spawnStarterPopulation(cArkons: Int) {
         (0..<cArkons).forEach { _ in makeProtoArkon(parentFishNumber: nil, parentGenome: nil) }
     }
-
-    func trackNotableArkon() {
-        guard var tracker = ArkonTracker(
-            arkonsPortal: PortalServer.shared!.arkonsPortal, netPortal: PortalServer.shared!.netPortal
-        ) else { return }
-
-        guard let oldestLivingArkon = tracker.oldestLivingArkon
-            else { return }
-
-        Arkon.currentAgeOfOldestArkon = oldestLivingArkon.myAge
-
-        if !oldestLivingArkon.isShowingNet {
-            oldestLivingArkon.isOldestArkon = true
-            oldestLivingArkon.sprite.size *= 2.0
-            Arkon.currentCOffspring = oldestLivingArkon.cOffspring
-        }
-
-        tracker.updateNetPortal()
-    }
-
 }

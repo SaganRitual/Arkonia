@@ -6,34 +6,36 @@ struct GeneStatsPortal {
 
     init(_ generalStatsPortals: GeneralStats) {
         generalStatsPortals.setUpdater(subportal: 1, field: 0) {
-            let total = GeneStatsPortal.getCLiveGenes()
+            let total = World.shared.population.getCLiveGenes()
             return String(format: "Live genes: %d", total)
         }
 
         generalStatsPortals.setUpdater(subportal: 1, field: 1) {
-            return String(format: "Longest: %d", ArkonFactory.shared.longestLivingGenomeLength)
+            return String(format: "Longest: %d", World.shared.population.getLongestGenomeLength())
         }
 
         generalStatsPortals.setUpdater(subportal: 1, field: 2) {
-            return String(format: "Median: %d", ArkonFactory.shared.medianLivingGenomeLength)
+            return String(
+                format: "Median: %d", World.shared.population.getMedianLivingGenomeLength()
+            )
         }
 
         generalStatsPortals.setUpdater(subportal: 1, field: 3) {
-            let total = GeneStatsPortal.getCLiveGenes()
+            let cLiveGenes = Double(World.shared.population.getCLiveGenes())
+            let cLiveArkons = Double(World.shared.population.getCLiveArkons())
             return String(
-                format: "Average: %.1f", Double(total) / Double(ArkonFactory.shared.cLiveArkons)
+                format: "Average: %.1f", cLiveGenes / cLiveArkons
             )
         }
 
         generalStatsPortals.setUpdater(subportal: 1, field: 4) {
-            let total = GeneStatsPortal.getCLiveGenes()
-            if total > GeneStatsPortal.highWaterMark { GeneStatsPortal.highWaterMark = total }
+            let cLiveGenes = World.shared.population.getCLiveGenes()
+
+            if cLiveGenes > GeneStatsPortal.highWaterMark {
+                GeneStatsPortal.highWaterMark = cLiveGenes
+            }
+
             return String(format: "Hi water: %d", GeneStatsPortal.highWaterMark)
         }
-    }
-
-    static private func getCLiveGenes() -> Int {
-        let counts = ArkonFactory.shared.getGeneCounts()
-        return counts.reduce(0) { $0 + $1 }
     }
 }

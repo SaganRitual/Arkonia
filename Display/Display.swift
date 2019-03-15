@@ -51,7 +51,7 @@ class Display: NSObject, SKSceneDelegate {
         if self.currentTime == 0 { self.timeZero = currentTime; return }
 
         // Mostly so the clock will stop running
-        if ArkonFactory.shared.cLiveArkons <= 0 &&
+        if ArkonFactory.shared!.cLiveArkons <= 0 &&
             !ArkonFactory.shared.pendingArkons.isEmpty && !babyFirstSteps { return }
 
         if firstPass {
@@ -68,8 +68,6 @@ class Display: NSObject, SKSceneDelegate {
         }
 
         tickCount += 1
-
-        ArkonFactory.shared.trackNotableArkon()
 
         if let kNet = self.kNet {
             DNet(kNet).display(via: PortalServer.shared.netPortal)

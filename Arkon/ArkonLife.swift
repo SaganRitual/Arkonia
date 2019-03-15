@@ -3,7 +3,7 @@ import SpriteKit
 
 extension Arkon {
     static func absorbFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
-        arkonSprite.arkon?.health += mannaSprite.foodValue
+        arkonSprite.arkon?.status.health += mannaSprite.foodValue
         arkonSprite.arkon?.targetManna = nil
 
         MannaFactory.shared.compost(mannaSprite)
@@ -44,14 +44,9 @@ extension Arkon {
     }
 
     private func spawn() {
-        health -= 8
+        status.health -= 8
         self.sprite.color = .red
         ArkonFactory.shared.spawn(parentFishNumber: fishNumber, parentGenome: genome)
-
-        if self.isOldestArkon {
-            Arkon.currentHealthOfOldestArkon = health
-            Arkon.currentCOffspring = cOffspring
-        }
     }
 
     private func stimulus() {
@@ -87,20 +82,11 @@ extension Arkon {
     }
 
     func tick() {
-        if !self.isInBounds || !self.isHealthy {
-            self.sprite.run(apoptosizeAction)
-            return
-        }
+        if !isInBounds || !status.isHealthy { sprite.run(apoptosizeAction); return }
 
-        if health > 10 { //} && (myAge - myAgeAtLastSpawn) > 1.0 {
-            myAgeAtLastSpawn = myAge
-            spawn()
-            return
-        }
+        if status.health > 10 { spawn(); return }
 
-        health -= 1.0       // Time and tick wait for no arkon
-
-        if self.isOldestArkon { Arkon.currentHealthOfOldestArkon = health }
+        status.health -= 1.0       // Time and tick wait for no arkon
 
         stimulus()
         response()
