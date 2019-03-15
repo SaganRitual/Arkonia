@@ -49,8 +49,6 @@ enum ArkonCentralLight {
     static let vConnectorLineScale = CGFloat(1.0)
 
     static func makeColor(hexRGB: Int) -> NSColor {
-        //        let rgbs = String(format: "0x%08X", rgb)
-        //        print("heat = \(heat), heatSS = \(colorSS), rgb = \(rgbs)")
         let r = Double((hexRGB >> 16) & 0xFF) / 256
         let g = Double((hexRGB >>  8) & 0xFF) / 256
         let b = Double(hexRGB         & 0xFF) / 256

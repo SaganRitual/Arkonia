@@ -86,8 +86,19 @@ extension KNet {
             motorLayer.reverseConnect(upperLayer)
             upperLayer.decoupleFromGrid()
 
-            let senseConnectionsIntact = !topHiddenLayer.neurons.compactMap { $0.relay }.isEmpty
-            if !senseConnectionsIntact { return false }
+            // No single-neuron layers allowed. No compelling reason, really,
+            // except at the moment it bothers me to think about all those
+            // cpu cycles driving signals through 25 layers to a single
+            // neuron, flattening the signal to uselessness. Think about
+            // repairing such nets during the build, by eliminating the
+            // problem layers.
+
+            let singleNeuronLayers = !hiddenLayers.filter { layer in
+                let relayCount = layer.neurons.compactMap { neuron in neuron.relay }.count
+                return relayCount < 2
+            }.isEmpty
+
+            if singleNeuronLayers { return false }
         }
 
         motorLayer.driveSignal()

@@ -55,6 +55,8 @@ class FDecoder {
     func reset() {
         decodeState = .noLayer
         fNet = nil
+        layerUnderConstruction = nil
+        neuronUnderConstruction = nil
         cNeuronsInCurrentLayer = 0
     }
 }
@@ -79,86 +81,36 @@ extension FDecoder {
 
 extension FDecoder {
 
-    func dispatch_noLayer(_ gene: GeneProtocol) {
+    func dispatch_beginNewNeuron(_ gene: GeneProtocol, subtotal: Int = 0) {
+        decodeState = .inNeuron
+        neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
+
+        cNeuronsInCurrentLayer = 1 + subtotal
         currentNeuronIsMeaty = false
 
-        switch gene {
-        case is gLayer:
-            decodeState = .inLayer
-            layerUnderConstruction = fNet.beginNewLayer()
-            cNeuronsInCurrentLayer = 0
-
-        case is gNeuron:
-            decodeState = .inNeuron
-            layerUnderConstruction = fNet.beginNewLayer()
-            neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
-            cNeuronsInCurrentLayer = 1
-            currentNeuronIsMeaty = false
-
-        default:
-            decodeState = .inNeuron
-            layerUnderConstruction = fNet.beginNewLayer()
-            neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
-            cNeuronsInCurrentLayer = 1
-
+        if !(gene is gNeuron) {
             dispatchValueGene(gene)
             currentNeuronIsMeaty = true
         }
     }
 
     func dispatch_inLayer(_ gene: GeneProtocol) {
-        switch gene {
-        case is gLayer:
-            // Got another layer marker, but it would
-            // cause this one to be empty, or have a single
-            // neuron. Just ignore it and move to the next gene.
-            if cNeuronsInCurrentLayer > 1 {
-                decodeState = .inLayer
-                cNeuronsInCurrentLayer = 0
-                currentNeuronIsMeaty = false
-            }
-
-        case is gNeuron:
-            decodeState = .inNeuron
-            neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
-            cNeuronsInCurrentLayer += 1
-            currentNeuronIsMeaty = false
-
-        default:
-            decodeState = .inNeuron
-
-            neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
-            cNeuronsInCurrentLayer += 1
-
-            dispatchValueGene(gene)
-            currentNeuronIsMeaty = true
-        }
+        if !(gene is gLayer) { dispatch_beginNewNeuron(gene) }
     }
 
     func dispatch_inNeuron(_ gene: GeneProtocol) {
         switch gene {
         case is gLayer:
-            // Got another layer marker, but it would
-            // cause this one to be empty, or have a single
-            // neuron. Just ignore it and move to the next gene.
-            if cNeuronsInCurrentLayer > 1 {
-                decodeState = .inLayer
-                layerUnderConstruction?.finalizeNeuron()
-                fNet.finalizeLayer()
-                layerUnderConstruction = fNet.beginNewLayer()
-                cNeuronsInCurrentLayer = 0
-                currentNeuronIsMeaty = false
-            }
+            if !currentNeuronIsMeaty { break }
+            if cNeuronsInCurrentLayer < 2 { break }
+
+            layerUnderConstruction?.finalizeNeuron()
+            fNet.finalizeLayer()
+            decodeState = .noLayer
 
         case is gNeuron:
-            // Got another neuron marker, but it would
-            // cause this one to be empty. Just ignore it.
             if currentNeuronIsMeaty {
-                currentNeuronIsMeaty = false
-
-                decodeState = .inNeuron
-                layerUnderConstruction!.finalizeNeuron()
-                neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
+                dispatch_beginNewNeuron(gene, subtotal: cNeuronsInCurrentLayer)
             }
 
         default:
@@ -166,5 +118,14 @@ extension FDecoder {
             defer { currentNeuronIsMeaty = true }
             return dispatchValueGene(gene)
         }
+    }
+
+    func dispatch_noLayer(_ gene: GeneProtocol) {
+        decodeState = .inLayer
+        layerUnderConstruction = fNet.beginNewLayer()
+
+        if gene is gLayer { return }
+
+        dispatch_beginNewNeuron(gene)
     }
 }

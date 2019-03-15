@@ -8,7 +8,7 @@ struct PopStatsPortal {
         }
 
         portal.setUpdater(subportal: 4, field: 1) {
-            return String(format: "Record: %d", ArkonFactory.shared.hiWaterCLiveArkons)
+            return String(format: "Hi water: %d", ArkonFactory.shared.hiWaterCLiveArkons)
         }
 
         portal.setUpdater(subportal: 4, field: 2) {

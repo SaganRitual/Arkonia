@@ -44,14 +44,15 @@ class Display: NSObject, SKSceneDelegate {
     }
 
     var firstPass = true
+    var babyFirstSteps = true
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
-        // Mostly so the clock will stop running
-        if ArkonFactory.shared.cLiveArkons <= 0 && ArkonFactory.shared.hiWaterCLiveArkons > 0 { return }
-
         defer { self.currentTime = currentTime }
-
         if self.currentTime == 0 { self.timeZero = currentTime; return }
+
+        // Mostly so the clock will stop running
+        if ArkonFactory.shared.cLiveArkons <= 0 &&
+            !ArkonFactory.shared.pendingArkons.isEmpty && !babyFirstSteps { return }
 
         if firstPass {
             ArkonFactory.shared.spawnStarterPopulation(cArkons: 100)
@@ -69,7 +70,6 @@ class Display: NSObject, SKSceneDelegate {
         tickCount += 1
 
         ArkonFactory.shared.trackNotableArkon()
-//        DStatsPortal.shared!.tick()
 
         if let kNet = self.kNet {
             DNet(kNet).display(via: PortalServer.shared.netPortal)

@@ -24,18 +24,20 @@ class Mutator {
     static var shared: Mutator!
 
     var bellCurve = BellCurve()
+    var histogramBuckets: [Int: Int]
+    var histogramPortal: MutationHistogramPortal
     var outputGenome = [GeneProtocol]()
     var sourceGenome = [GeneProtocol]()
-    var histogramPortal: MutationHistogramPortal
-
-    var histogramScale = 1.0
-
-    var mutationCounts: [Int]
 
     init() {
-        mutationCounts = Array(repeating: 0, count: MutationType.allCases.count)
+        histogramBuckets = (0..<10).reduce([Int: Int]()) { (d, key) -> [Int: Int] in
+            var dictionary = d
+            dictionary[key] = 0
+            return dictionary
+        }
+
         histogramPortal = MutationHistogramPortal(PortalServer.shared!.topLevelStatsPortal)
-        histogramPortal.attachToColumns { [weak self] in Double(self?.mutationCounts[$0] ?? 0) }
+        histogramPortal.attachToColumns { [weak self] in Double(self?.histogramBuckets[$0] ?? 0) }
         MutationHistogramPortal.postInit(histogramPortal)
     }
 
@@ -80,27 +82,6 @@ class Mutator {
         return fixOrder(leftCut, rightCut)
     }
 
-    func getWeightedRandomMutationType() -> MutationType {
-        let weightMap: [MutationType : Int] = [
-            .copyAndReinsertSegment : 6, .copyAndReinsertReversed: 6, .copyAndReinsertShuffled: 6,
-            .cutAndReinsertSegment : 6, .cutAndReinsertReversed: 6, .cutAndReinsertShuffled: 6,
-            .deleteRandomGenes : 6, .deleteRandomSegment : 6,
-            .insertRandomGenes : 6, .insertRandomSegment : 6,
-            .mutateRandomGenes : 8
-        ]
-
-        let weightRange = weightMap.reduce(0, { return $0 + $1.value })
-        let randomValue = Int.random(in: 0..<weightRange)
-
-        var runningTotal = 0
-        for (key, value) in weightMap {
-            runningTotal += value
-            if runningTotal > randomValue { return key }
-        }
-
-        fatalError()
-    }
-
     enum MutationType: Int, CaseIterable {
         case copyAndReinsertSegment, copyAndReinsertReversed, copyAndReinsertShuffled
         case cutAndReinsertSegment, cutAndReinsertReversed, cutAndReinsertShuffled
@@ -113,13 +94,7 @@ class Mutator {
         self.sourceGenome = sourceGenome
         self.outputGenome.removeAll(keepingCapacity: true)
 
-        let m = getWeightedRandomMutationType()
-
-//        guard let mutatorHistogram =
-//            DStatsPortal.shared.subportals[.liveLabel]!.histogram as? MutatorStatsHistogram
-//            else { preconditionFailure() }
-//
-//        mutatorHistogram.accumulate(functionID: m, zoomOut: false)
+        let m = nok(MutationType.allCases.randomElement())
 
         var newGenome: ([GeneProtocol], [GeneProtocol])?
         switch m {
@@ -139,18 +114,14 @@ class Mutator {
         case .copyAndReinsertShuffled: newGenome = copyAndReinsertSegment(.shuffled)
         }
 
-        mutationCounts[m.rawValue] += 1
-
         if newGenome == nil { outputGenome = sourceGenome }
         return outputGenome
     }
     // swiftlint:enable cyclomatic_complexity
 
     func mutate(from value: Double) -> Double {
-        let m = Mutator.shared!
-        let percentage = m.bellCurve.nextFloat()
-        let v = (value == 0.0) ? Double.random(in: -1...1) : value
-        let newValue = Double(1.0 - percentage) * v
+        let percentage = bellCurve.nextFloat()
+        let newValue = Double(1.0 - percentage) * value
         return newValue
     }
 
@@ -181,11 +152,15 @@ extension Mutator {
         outputGenome.removeAll(keepingCapacity: true)
         outputGenome = sourceGenome
 
-        let m = Mutator.shared!
-        let b = abs(m.bellCurve.nextFloat())
+        let b = abs(bellCurve.nextFloat())
         var cMutate = 0.1 * Double(outputGenome.count) * Double(b)  // max 10% of genome
         precondition(abs(cMutate) != Double.infinity && cMutate != Double.nan)
-        guard Int(cMutate) > 0 else { return nil }
+
+        let asPercentage = Int(0.1 * Double(b) * 100.0)
+        histogramBuckets[asPercentage]! += 1
+
+        let i = Int(cMutate)
+        guard i > 0 else { return nil }
 
         while cMutate > 0 {
             let wherefore = Int.random(in: 0..<outputGenome.count)

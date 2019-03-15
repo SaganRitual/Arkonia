@@ -22,8 +22,6 @@ enum ColorGradient {
         let colorSS = min(scaled, scale - 1)
         let index = ColorGradient.colors.index(ColorGradient.colors.startIndex, offsetBy: colorSS)
 
-        print("colorSS", colorSS, "index", index)
-
         return ArkonCentralLight.makeColor(hexRGB: ColorGradient.colors[index])
     }
 }
