@@ -27,13 +27,12 @@ enum DecodeState {
 class FDecoder {
     static var shared: FDecoder!
 
+    var cNeuronsInCurrentLayer = 0
     var currentNeuronIsMeaty = false
     var decodeState: DecodeState = .noLayer
     var fNet: FNet!
     weak var layerUnderConstruction: FLayer?
     weak var neuronUnderConstruction: FNeuron?
-
-    var counter = 0
 
     func decode(_ inputGenome: [GeneProtocol]) -> FNet? {
         fNet = FNet()
@@ -53,7 +52,11 @@ class FDecoder {
         return fNet.subjectSurvived() ? fNet : nil
     }
 
-    func reset() { self.decodeState = .noLayer; fNet = nil }
+    func reset() {
+        decodeState = .noLayer
+        fNet = nil
+        cNeuronsInCurrentLayer = 0
+    }
 }
 
 extension FDecoder {
@@ -77,22 +80,29 @@ extension FDecoder {
 extension FDecoder {
 
     func dispatch_noLayer(_ gene: GeneProtocol) {
+        currentNeuronIsMeaty = false
+
         switch gene {
         case is gLayer:
             decodeState = .inLayer
             layerUnderConstruction = fNet.beginNewLayer()
+            cNeuronsInCurrentLayer = 0
 
         case is gNeuron:
             decodeState = .inNeuron
             layerUnderConstruction = fNet.beginNewLayer()
             neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
+            cNeuronsInCurrentLayer = 1
+            currentNeuronIsMeaty = false
 
         default:
             decodeState = .inNeuron
             layerUnderConstruction = fNet.beginNewLayer()
             neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
+            cNeuronsInCurrentLayer = 1
 
             dispatchValueGene(gene)
+            currentNeuronIsMeaty = true
         }
     }
 
@@ -100,28 +110,45 @@ extension FDecoder {
         switch gene {
         case is gLayer:
             // Got another layer marker, but it would
-            // cause this one to be empty. Just ignore it.
-            decodeState = .inLayer
+            // cause this one to be empty, or have a single
+            // neuron. Just ignore it and move to the next gene.
+            if cNeuronsInCurrentLayer > 1 {
+                decodeState = .inLayer
+                cNeuronsInCurrentLayer = 0
+                currentNeuronIsMeaty = false
+            }
 
         case is gNeuron:
             decodeState = .inNeuron
             neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
+            cNeuronsInCurrentLayer += 1
+            currentNeuronIsMeaty = false
 
         default:
             decodeState = .inNeuron
+
             neuronUnderConstruction = layerUnderConstruction!.beginNewNeuron()
+            cNeuronsInCurrentLayer += 1
 
             dispatchValueGene(gene)
+            currentNeuronIsMeaty = true
         }
     }
 
     func dispatch_inNeuron(_ gene: GeneProtocol) {
         switch gene {
         case is gLayer:
-            decodeState = .inLayer
-            layerUnderConstruction?.finalizeNeuron()
-            fNet.finalizeLayer()
-            layerUnderConstruction = fNet.beginNewLayer()
+            // Got another layer marker, but it would
+            // cause this one to be empty, or have a single
+            // neuron. Just ignore it and move to the next gene.
+            if cNeuronsInCurrentLayer > 1 {
+                decodeState = .inLayer
+                layerUnderConstruction?.finalizeNeuron()
+                fNet.finalizeLayer()
+                layerUnderConstruction = fNet.beginNewLayer()
+                cNeuronsInCurrentLayer = 0
+                currentNeuronIsMeaty = false
+            }
 
         case is gNeuron:
             // Got another neuron marker, but it would
@@ -135,7 +162,8 @@ extension FDecoder {
             }
 
         default:
-            currentNeuronIsMeaty = true
+            // Pedantry--it's not meaty until we return from the dispatch
+            defer { currentNeuronIsMeaty = true }
             return dispatchValueGene(gene)
         }
     }
