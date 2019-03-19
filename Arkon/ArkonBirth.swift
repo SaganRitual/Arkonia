@@ -102,7 +102,7 @@ extension Arkon {
     }
 
     static func setupPhysicsBody(_ size: CGSize) -> SKPhysicsBody {
-        let pBodyRadius = sqrt(size.width * size.width + size.height * size.height) / 2
+        let pBodyRadius = size.width / 2
         let pBody = SKPhysicsBody(circleOfRadius: pBodyRadius)
 
 //        pBody.mass = 1.0

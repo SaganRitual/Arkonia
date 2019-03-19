@@ -7,8 +7,7 @@ class MotorOutputs {
 
     init(_ sprite: SKSpriteNode) {
         self.sprite = sprite
-        let w = sprite.frame.width
-        let r = sqrt(2 * w * w)
+        let r = sprite.frame.width / 2
 
         self.thrustPoints = (0..<3).map {
             let theta = (2.0 * 3.14159 / 3) * CGFloat($0)
