@@ -41,65 +41,6 @@ enum Assembler {
         return transport
     }
 
-    static func computeDownsPerNeuron(cSenseNeurons: Int, cMotorNeurons: Int) -> Int {
-        if cSenseNeurons == cMotorNeurons { return 1 }
-
-        // All this hoop-jumping is for when the number of inputs and the number of
-        // outputs differ. The idea is to make sure we generate enough down connectors
-        // for a passthru genome to connect at least once to all the motor neurons.
-        // Example:
-        //
-        // args -> cSenseNeurons = 6, cMotorNeurons = 27...
-        var downsPerNeuron = cMotorNeurons / cSenseNeurons
-        var remainder = cMotorNeurons % cSenseNeurons
-
-        //  -> downsPerNeuron = 4, remainder = 3...
-        if downsPerNeuron == 0 {
-            downsPerNeuron = cSenseNeurons / cMotorNeurons
-            remainder = cSenseNeurons % cMotorNeurons
-        }
-
-        //  -> remainder = -1...
-        remainder -= downsPerNeuron
-
-        //  -> downsPerNeuron stays at 4
-        if remainder > 0 { downsPerNeuron += 1 }
-
-        return downsPerNeuron
-    }
-
-    static private func makeLastHiddenLayer(cSenseNeurons: Int, cMotorNeurons: Int)
-        -> [GeneProtocol]
-    {
-        var segment: [GeneProtocol] = [gLayer()]
-
-        let downsPerNeuron = computeDownsPerNeuron(
-            cSenseNeurons: cSenseNeurons, cMotorNeurons: cMotorNeurons
-        )
-
-        // (continuing the example in computeDownsPerNeuron()
-        //  -> channel = 22
-        var channel = (100 / cSenseNeurons) + cSenseNeurons
-
-        //  -> Loop 6 times to create 6 neurons that each connect straight up on a single channel
-
-        for c in 0..<cSenseNeurons {
-            //  -> channel == c tells each neuron to connect to the neuron directly above
-            segment.append(contentsOf: baseNeuronSnippet(channel: c))
-
-            //  -> Loop 4 times *on each neuron*
-            for _ in 0..<downsPerNeuron {
-                //  -> First down connector goes straight down. Others
-                // go to the right of that one, wrapping around to the
-                // first neuron in the upper layer if necessary.
-                segment.append(gDownConnector(channel))
-                channel += 1
-            }
-        }
-
-        return segment
-    }
-
     static private func makeOneLayer(cNeurons: Int) -> [GeneProtocol] {
         let marker = [gLayer()]
         let neurons = (0..<cNeurons).flatMap { channel in
