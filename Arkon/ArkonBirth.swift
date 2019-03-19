@@ -95,7 +95,7 @@ extension Arkon {
 
         arkonSprite.zPosition = ArkonCentralLight.vArkonZPosition
 
-        arkonSprite.name = "arkon\(fishNumber)"
+        arkonSprite.name = "arkon_\(fishNumber)"
         let physicsBody = Arkon.setupPhysicsBody(arkonSprite.frame.size)
 
         return (arkonSprite, physicsBody)

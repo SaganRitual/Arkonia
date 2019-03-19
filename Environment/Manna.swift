@@ -40,7 +40,7 @@ class MannaFactory {
         sprite.isComposting = true
 
         guard let name = sprite.name else { preconditionFailure() }
-        guard var start = name.firstIndex(of: "0") else { preconditionFailure() }
+        guard var start = name.firstIndex(of: "_") else { preconditionFailure() }
 
         start = name.index(after: start)
         let hamNumber = Int(name[start..<name.endIndex])!
@@ -68,7 +68,7 @@ class MannaFactory {
         sprite.color = .yellow
         sprite.colorBlendFactor = 1
         sprite.alpha = 1
-        sprite.name = "manna0\(hamNumber)"
+        sprite.name = "manna_\(hamNumber)"
         sprite.zPosition = ArkonCentralLight.vMannaZPosition
 
         sprite.physicsBody = setupPhysicsBody(sprite.frame)
