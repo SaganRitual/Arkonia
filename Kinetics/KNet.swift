@@ -86,19 +86,22 @@ extension KNet {
             motorLayer.reverseConnect(upperLayer)
             upperLayer.decoupleFromGrid()
 
-            // No single-neuron layers allowed. No compelling reason, really,
-            // except at the moment it bothers me to think about all those
-            // cpu cycles driving signals through 25 layers to a single
-            // neuron, flattening the signal to uselessness. Think about
-            // repairing such nets during the build, by eliminating the
-            // problem layers.
+            // I'm pretty sure it's counter-productive to have a layer with
+            // more neurons than the layer above it. In a trivial case, having
+            // a one-neuron layer above a two-neuron layer, the lower neurons
+            // are getting exactly the same input value, regardless of anything
+            // that has happened in the upper layers. Assuming that I'm right
+            // about that point and haven't missed anything important. Kill
+            // off any arkons that have such defective nets.
 
-            let singleNeuronLayers = !hiddenLayers.filter { layer in
-                let relayCount = layer.neurons.compactMap { neuron in neuron.relay }.count
-                return relayCount < 2
-            }.isEmpty
+            var maxAllowedNeurons = Int.max
+            for layer in hiddenLayers {
+                let cLiveNeurons = layer.neurons.compactMap { neuron in neuron.relay }.count
+                if cLiveNeurons > maxAllowedNeurons { return false }
+                maxAllowedNeurons = min(maxAllowedNeurons, cLiveNeurons)
+            }
 
-            if singleNeuronLayers { return false }
+            if ArkonCentralDark.selectionControls.cMotorNeurons > maxAllowedNeurons { return false }
         }
 
         motorLayer.driveSignal()
