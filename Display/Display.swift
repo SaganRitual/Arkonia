@@ -1,8 +1,21 @@
 import Foundation
 import SpriteKit
 
+enum DisplayCycle: Int {
+    case limbo
+    case updateStarted
+    case actions, actionsComplete
+    case physics, physicsComplete
+    case constraints, constraintsComplete
+    case updateComplete
+
+    func isIn(_ state: DisplayCycle) -> Bool { return self.rawValue == state.rawValue }
+    func isPast(_ milestone: DisplayCycle) -> Bool { return self.rawValue >= milestone.rawValue }
+}
+
 class Display: NSObject, SKSceneDelegate {
     static var shared: Display!
+    static var displayCycle: DisplayCycle = .limbo
 
     var appIsReadyToRun = false
     var currentTime: TimeInterval = 0
@@ -26,6 +39,35 @@ class Display: NSObject, SKSceneDelegate {
         self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
     }
 
+    // https://developer.apple.com/documentation/spritekit/skscene/responding_to_frame-cycle_events
+
+    func didFinishUpdate(for scene: SKScene) {
+        Display.displayCycle = .updateComplete
+        // Do last-chance stuff
+        Display.displayCycle = .limbo
+    }
+
+    func didEvaluateActions(for scene: SKScene) {
+        Display.displayCycle = .actionsComplete
+        Display.displayCycle = .physics
+    }
+
+    func didSimulatePhysics(for scene: SKScene) {
+        Display.displayCycle = .physicsComplete
+        Display.displayCycle = .constraints
+    }
+
+    func didApplyConstraints(for scene: SKScene) {
+        Display.displayCycle = .constraintsComplete
+        Display.displayCycle = .updateComplete
+    }
+
+    func update(_ currentTime: TimeInterval, for scene: SKScene) {
+        Display.displayCycle = .updateStarted
+        primaryUpdate(currentTime, for: scene)
+        Display.displayCycle = .actions
+    }
+
     /**
      Schedule the kNet to be displayed on the next update.
 
@@ -46,7 +88,7 @@ class Display: NSObject, SKSceneDelegate {
     var firstPass = true
     var babyFirstSteps = true
 
-    func update(_ currentTime: TimeInterval, for scene: SKScene) {
+    func primaryUpdate(_ currentTime: TimeInterval, for scene: SKScene) {
         defer { self.currentTime = currentTime }
         if self.currentTime == 0 { self.timeZero = currentTime; return }
 
