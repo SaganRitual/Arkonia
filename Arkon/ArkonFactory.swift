@@ -41,7 +41,7 @@ class Serializer<T> {
 
 class ArkonFactory: NSObject {
     static func getAboriginalGenome() -> [GeneProtocol] {
-        return Assembler.makeRandomGenome(cGenes: 200)
+        return Assembler.makeRandomGenome(cGenes: Int.random(in: 10..<1000))
     }
 
     static var shared: ArkonFactory!
