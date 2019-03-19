@@ -18,9 +18,9 @@ class MotorOutputs {
 
     func getAction(_ thrustVectors: [CGVector]) -> SKAction {
         let jets: [SKAction] = zip(thrustPoints, thrustVectors).map {
-            let interval = SKAction.wait(forDuration: 0.1)
+            let interval = SKAction.wait(forDuration: 0.25)
             let impulse = SKAction.applyImpulse($1, at: $0, duration: 0.01)
-            return SKAction.sequence([interval, impulse])
+            return SKAction.sequence([impulse, interval])
         }
 
         return SKAction.group(jets)
