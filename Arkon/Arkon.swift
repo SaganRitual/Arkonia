@@ -66,14 +66,7 @@ class Arkon {
 
         if status.isOldest { ArkonFactory.shared.cGenerations += 1 }
 
-        let leftHalf = (Int(status.age) % 20) / 2
-        let whichLoBucket = min(leftHalf, ArkonFactory.shared.histogramBuckets.count - 1 - 5)
-        if whichLoBucket < 5 { ArkonFactory.shared.histogramBuckets[whichLoBucket]! += 1 }
-
-        let whichHiBucket = min(Int(status.age / 20), ArkonFactory.shared.histogramBuckets.count - 1)
-        if whichHiBucket < 10 { ArkonFactory.shared.histogramBuckets[whichHiBucket + 5]! += 1 }
-
-        let whichRegularBucket = status.cOffspring
-        ArkonFactory.shared.theOtherHistogramBuckets[whichRegularBucket / 2]! += 1
+        ArkonFactory.shared.logHistogram.addSample(status.age)
+        ArkonFactory.shared.auxLogHistogram.addSample(genome.count)
     }
 }

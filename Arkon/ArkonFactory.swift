@@ -39,6 +39,22 @@ class Serializer<T> {
     }
 }
 
+struct BasicBarChartSource: BarChartSource {
+    let source: LogHistogram
+
+    init(_ source: LogHistogram) { self.source = source }
+
+    //swiftlint:disable large_tuple
+    func getCountsCompressed() -> (Double, [Int], Int) {
+        return source.getCountsCompressed(to: 10)
+    }
+    //swiftlint:enable large_tuple
+
+    func getCountsTruncated() -> ([Int], Int) {
+        return source.getCountsTruncated(to: 10)
+    }
+}
+
 class ArkonFactory: NSObject {
     static func getAboriginalGenome() -> [GeneProtocol] {
         return Assembler.makeRandomGenome(cGenes: Int.random(in: 10..<1000))
@@ -68,80 +84,74 @@ class ArkonFactory: NSObject {
         return q
     }()
 
-    var histogramBuckets: [Int: Int]
-    var histogramPortal: HistogramPortal
-    var theOtherHistogramBuckets: [Int: Int]
-    var theOtherHistogramPortal: HistogramPortal
+    let logHistogram = LogHistogram(sampleResolution: 1)
+    var barChart = SetOnce<BarChart>()
+    var barChartSource: BasicBarChartSource
+
+    let auxLogHistogram = LogHistogram(sampleResolution: 1)
+    var auxBarChart = SetOnce<BarChart>()
+    var auxBarChartSource: BasicBarChartSource
 
     override init() {
         self.pendingArkons = Serializer<Arkon>(dispatchQueueLight)
 
-        histogramBuckets = (0..<10).reduce([Int: Int]()) { (d, key) -> [Int: Int] in
-            var dictionary = d
-            dictionary[key] = 0
-            return dictionary
-        }
-
-        let histogramName = "mutationTypeCountsHistogram"
-        let barsName = "mutationTypesHistogramBars"
-        histogramPortal = HistogramPortal(PortalServer.shared!.topLevelStatsPortal,
-                                          histogramPortal: histogramName, barsName: barsName)
-
-        HistogramPortal.postInit(histogramPortal)
-
-        theOtherHistogramBuckets = (0..<10).reduce([Int: Int]()) { (d, key) -> [Int: Int] in
-            var dictionary = d
-            dictionary[key] = 0
-            return dictionary
-        }
-
-        let theOtherHistogramName = "theOtherHistogram"
-        let theOtherBarsName = "theOtherHistogramBars"
-        theOtherHistogramPortal = HistogramPortal(
-            PortalServer.shared!.topLevelStatsPortal,
-            histogramPortal: theOtherHistogramName,
-            barsName: theOtherBarsName
-        )
-
-        HistogramPortal.postInit(theOtherHistogramPortal)
+        barChartSource = BasicBarChartSource(logHistogram)
+        auxBarChartSource = BasicBarChartSource(auxLogHistogram)
 
         super.init()
 
-        theOtherHistogramPortal.attachToColumns {
-            [weak self] in Double(self?.theOtherHistogramBuckets[$0] ?? 0)
-        }
+        let portal = PortalServer.shared.topLevelStatsPortal
 
-        histogramPortal.attachToColumns {
-            [weak self] in Double(self?.histogramBuckets[$0] ?? 0)
-        }
+        barChart.set(ArkonFactory.makeBarChart(
+            namePrefix: "",
+            parentNode: portal,
+            dataSource: barChartSource
+        ))
+
+        self.barChart.get().barChartLabel.text = "Lifespan"
+
+        auxBarChart.set(ArkonFactory.makeBarChart(
+            namePrefix: "aux_",
+            parentNode: portal,
+            dataSource: auxBarChartSource
+        ))
+
+        self.auxBarChart.get().barChartLabel.text = "Genome"
 
         setupSubportal0()
         setupSubportal3()
     }
 
-    func makeArkon(parentFishNumber: Int?, parentGenome: [GeneProtocol]) -> Arkon? {
-        let (newGenome, fNet_) = makeNet(parentGenome: parentGenome)
+    static func makeBarChart(
+        namePrefix: String,
+        parentNode: SKSpriteNode,
+        dataSource: BarChartSource)
+        -> BarChart
+    {
+        let backgroundName = namePrefix + "bar_chart_background"
+        guard let chartNode = parentNode.childNode(withName: backgroundName) as? SKSpriteNode
+            else { preconditionFailure() }
 
-        guard let fNet = fNet_, !fNet.layers.isEmpty else { return nil }
+        return BarChart(chartNode: chartNode, namePrefix: namePrefix, datasource: dataSource)
+    }
+
+    func makeArkon(parentFishNumber: Int?, parentGenome: [GeneProtocol]) -> Arkon? {
+        let newGenome = Mutator.shared.mutate(parentGenome)
+
+        guard let fNet = FDecoder.shared.decode(newGenome), !fNet.layers.isEmpty
+            else { return nil }
 
         guard let arkon = Arkon(
-            parentFishNumber: parentFishNumber, genome: newGenome,
-            fNet: fNet, portal: PortalServer.shared.arkonsPortal.get()
-            ) else { return nil }
+            parentFishNumber: parentFishNumber,
+            genome: newGenome,
+            fNet: fNet,
+            portal: PortalServer.shared.arkonsPortal.get()
+        ) else { return nil }
 
         return arkon
     }
 
-    private func makeNet(parentGenome: [GeneProtocol]) -> ([GeneProtocol], FNet?) {
-        let newGenome = Mutator.shared.mutate(parentGenome)
-
-        let fNet = FDecoder.shared.decode(newGenome)
-        return (newGenome, fNet)
-    }
-
-    func makeProtoArkon(parentFishNumber: Int?,
-                        parentGenome parentGenome_: [GeneProtocol]?)
-    {
+    func makeProtoArkon(parentFishNumber: Int?, parentGenome parentGenome_: [GeneProtocol]?) {
         cAttempted += 1
         cPending += 1
 
@@ -152,7 +162,7 @@ class ArkonFactory: NSObject {
 
             if let protoArkon = ArkonFactory.shared.makeArkon(
                 parentFishNumber: parentFishNumber, parentGenome: parentGenome
-                ) {
+            ) {
                 self.pendingArkons.pushBack(protoArkon)
 
                 // Just for debugging, so I can see who's doing what
