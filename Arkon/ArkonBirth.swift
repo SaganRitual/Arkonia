@@ -112,12 +112,13 @@ extension Arkon {
         pBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
         pBody.fieldBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
 
-        pBody.affectedByGravity = true
+        pBody.affectedByGravity = false
+//        pBody.allowsRotation = false
         pBody.isDynamic = true
-        pBody.linearDamping = 2
-        pBody.angularDamping = 2
-        pBody.friction = 2
-        pBody.restitution = 1
+//        pBody.linearDamping = 0
+//        pBody.angularDamping = 0
+//        pBody.friction = 0
+//        pBody.restitution = 0
 
         return pBody
     }

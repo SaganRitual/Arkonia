@@ -97,7 +97,7 @@ class Display: NSObject, SKSceneDelegate {
             !ArkonFactory.shared.pendingArkons.isEmpty && !babyFirstSteps { return }
 
         if firstPass {
-            ArkonFactory.shared.spawnStarterPopulation(cArkons: 100)
+            ArkonFactory.shared.spawnStarterPopulation(cArkons: 200)
             firstPass = false
             return
         }

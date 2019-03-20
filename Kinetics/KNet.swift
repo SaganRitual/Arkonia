@@ -86,6 +86,8 @@ extension KNet {
             motorLayer.reverseConnect(upperLayer)
             upperLayer.decoupleFromGrid()
 
+            if hiddenLayers.isEmpty { return false }
+
             // I'm pretty sure it's counter-productive to have a layer with
             // more neurons than the layer above it. In a trivial case, having
             // a one-neuron layer above a two-neuron layer, the lower neurons
@@ -101,7 +103,7 @@ extension KNet {
                 maxAllowedNeurons = min(maxAllowedNeurons, cLiveNeurons)
             }
 
-            if ArkonCentralDark.selectionControls.cMotorNeurons > maxAllowedNeurons { return false }
+//            if ArkonCentralDark.selectionControls.cMotorNeurons > maxAllowedNeurons { return false }
         }
 
         motorLayer.driveSignal()

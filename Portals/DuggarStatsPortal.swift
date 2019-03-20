@@ -9,22 +9,23 @@ class DuggarStatsPortal {
     init(_ generalStatsPortals: GeneralStats) {
         DuggarStatsPortal.shared = self
 
-        generalStatsPortals.setUpdater(subportal: 5, field: 4) { [weak self] in
-            guard let myself = self else { preconditionFailure() }
-
-            let p = World.shared.population.getArkonsByOffspring().reversed()
-
-            let contenderForDuggarest_ = p.dropFirst()
-            let contenderForDuggarest = contenderForDuggarest_[contenderForDuggarest_.startIndex]
-            p.forEach { $0.status.isDuggarest = false}
-            contenderForDuggarest.status.isDuggarest = true
-
-            let greatestDuggarness = p[p.startIndex].status.cOffspring
-            if greatestDuggarness > myself.highWaterMark {
-                myself.highWaterMark = greatestDuggarness
-            }
-
-            return String(format: "Duggarest: %d", greatestDuggarness)
+        generalStatsPortals.setUpdater(subportal: 5, field: 4) {// [weak self] in
+            return ""
+//            guard let myself = self else { preconditionFailure() }
+//
+//            let p = World.shared.population.getArkonsByOffspring().reversed()
+//
+//            let contenderForDuggarest_ = p.dropFirst()
+//            let contenderForDuggarest = contenderForDuggarest_[contenderForDuggarest_.startIndex]
+//            p.forEach { $0.status.isDuggarest = false}
+//            contenderForDuggarest.status.isDuggarest = true
+//
+//            let greatestDuggarness = p[p.startIndex].status.cOffspring
+//            if greatestDuggarness > myself.highWaterMark {
+//                myself.highWaterMark = greatestDuggarness
+//            }
+//
+//            return String(format: "Duggarest: %d", greatestDuggarness)
         }
 
         generalStatsPortals.setUpdater(subportal: 5, field: 3) { [weak self] in

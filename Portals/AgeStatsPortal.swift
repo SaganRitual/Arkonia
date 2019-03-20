@@ -90,15 +90,14 @@ class AgeStatsPortal {
             guard let myself = self else { preconditionFailure() }
 
             let p = World.shared.population.getArkonsByAge().reversed()
+            if p.count < 2 { return "" }
 
             let contenderForOldest_ = p.dropFirst()
             let contenderForOldest = contenderForOldest_[contenderForOldest_.startIndex]
             let isShowingNet = contenderForOldest.status.isOldest
-//            p.forEach { if $0.sprite.color == .purple { $0.sprite.color = .green }; $0.status.isOldest = false }
             contenderForOldest.status.isOldest = true
 
             if !isShowingNet {
-//                contenderForOldest.sprite.color = .magenta
                 Display.shared.display(
                     contenderForOldest.signalDriver.kNet, portal: PortalServer.shared.netPortal
                 )
