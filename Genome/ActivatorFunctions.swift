@@ -33,11 +33,17 @@ public enum AFn {
         case relu, brelu, leakyrelu, boundleakyrelu, prelu, rrelu, elu, selu, srelu, apl, softplus
         case bentidentity, swish, softexponential, softclipping, sinusoid, sinc, gaussian
         case limiter, boundidentity, boundbentidentity, boundsoftplus
+        case sigmoid
     }
 
     static func bound(_ theFunction: AFn.FunctionName, _ theDouble: Double) -> Double {
         let rawValue = AFn.function[theFunction]!(theDouble)
         let cappedAtPlusOne = min(1.0, rawValue)
+        return max(-1, cappedAtPlusOne)
+    }
+
+    static func clip(_ theDouble: Double) -> Double {
+        let cappedAtPlusOne = min(1.0, theDouble)
         return max(-1, cappedAtPlusOne)
     }
 
@@ -73,6 +79,7 @@ public enum AFn {
         .softplus : { return log(1.0 + exp($0)) },
 
         .tanh : { return CoreGraphics.tanh($0) },
+        .sigmoid : { return 1 / (1 + exp(-$0)) },
         .sqnl : {
             if $0 > 2.0 { return 1.0 }
             if $0 >= 0.0 { return $0 - $0 * $0 / 4.0 }
