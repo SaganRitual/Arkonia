@@ -19,7 +19,7 @@ class MannaFactory {
 
     func bloom(_ hamNumber: Int) {
         let sprite = morsels[hamNumber]
-        sprite.position = CGPoint.random(x: xRange, y: yRange)
+        sprite.position = CGPoint.random(xRange: xRange, yRange: yRange)
 
         // Zero will make the manna worth extra, so the arkons won't starve
         // in the first five seconds.
