@@ -24,10 +24,10 @@ public class FNeuron {
     var activator = AFn.FunctionName.identity
     var bias = 0.0
     var downConnectors = [Int]()
-    var upConnectors = [UpConnectorValue]()
+    var upConnectors = [UpConnector]()
 
     func setActivator(_ a: AFn.FunctionName) { self.activator = a }
     func accumulateBias(_ b: Double) { self.bias += b }
     func addDownConnector(_ c: Int) { self.downConnectors.append(c) }
-    func addUpConnector(_ c: UpConnectorValue) { self.upConnectors.append(c) }
+    func addUpConnector(_ c: UpConnector) { self.upConnectors.append(c) }
 }

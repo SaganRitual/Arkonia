@@ -7,19 +7,24 @@ class Arkon {
         get { return status.fishNumber }
     }
 
+    var contactedBodies = [SKPhysicsBody]()
     let fNet: FNet
     let genome: [GeneProtocol]
-    var targetManna: (id: String, position: CGPoint)?
-    var motorOutputs: MotorOutputs!
+    var hunger: CGFloat = 0
     let parentFishNumber: Int?
     var portal: SKSpriteNode!
+    var scheduledActions = [SKAction]()
     let signalDriver: KSignalDriver
-    var sprite: SKSpriteNode!
+    var sprite: Karamba!
     var status: Status
+    var targetManna: (id: String, position: CGPoint)?
     var tickAction: SKAction!
+    var sensedBodies = [SKPhysicsBody]()
+
+    var zerosAlready = false
 
     var isInBounds: Bool {
-        let relativeToPortal = portal.convert(sprite.frame.origin, to: portal.parent!)
+        let relativeToPortal = portal!.convert(sprite.frame.origin, to: portal.parent!)
 
         let w = sprite.size.width * portal.xScale
         let h = sprite.size.height * portal.yScale
@@ -46,7 +51,7 @@ class Arkon {
 
         let arkonSurvived = signalDriver.drive(
             sensoryInputs: Array.init(
-                repeating: 0, count: ArkonCentralDark.selectionControls.cSenseNeurons
+                repeating: 0, count: World.cSenseNeurons
             )
         )
 

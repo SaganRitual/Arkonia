@@ -2,91 +2,85 @@ import Foundation
 import SpriteKit
 
 extension Arkon {
-    static func absorbFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
-        arkonSprite.arkon?.status.health += mannaSprite.foodValue
-        arkonSprite.arkon?.targetManna = nil
-
-        MannaFactory.shared.compost(mannaSprite)
-    }
-
-    private func getThrustVectors(_ motorNeuronOutputs: [Double]) -> [CGVector] {
-        var vectors = [CGVector]()
-
-        for ss in stride(from: 0, to: motorNeuronOutputs.count, by: 2) {
-            let xThrust = motorNeuronOutputs[ss]
-            let yThrust = motorNeuronOutputs[ss + 1]
-            vectors.append(CGVector(dx: xThrust, dy: yThrust))
-        }
-
-        return vectors
-    }
-
-    static func loseTrackOfFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
-        guard let (idOfMorselIThoughtISaw, _) = arkonSprite.arkon!.targetManna else { return }
-
-        guard let idOfNearbyMorsel = mannaSprite.name else { preconditionFailure() }
-        guard idOfMorselIThoughtISaw == idOfNearbyMorsel else { return }
-
-        arkonSprite.arkon!.targetManna = nil
+    private func eatManna(_ bodies: [SKPhysicsBody]) {
+        let touchedManna = bodies.filter { hardBind($0.node?.name).starts(with: "manna") }
+        print("\(fishNumber) touches \(touchedManna.count)")
+        hunger -= CGFloat(touchedManna.count) * 5.0
     }
 
     private func response() {
         let motorNeuronOutputs = signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
-        let thrustVectors = getThrustVectors(motorNeuronOutputs)
-        let motionAction = motorOutputs.getAction(thrustVectors)
-        self.sprite.run(motionAction, completion: tick)
+        sprite.response(motorNeuronOutputs: motorNeuronOutputs)
     }
 
-    static func senseFood(_ arkonSprite: SKSpriteNode, _ mannaSprite: SKSpriteNode) {
-        if arkonSprite.arkon!.targetManna == nil {
-            arkonSprite.arkon!.targetManna = (mannaSprite.name!, mannaSprite.position)
-        }
+    private func getCSensedArkons(_ bodies: [SKPhysicsBody]) -> Int {
+        let sensedArkons = bodies.filter { $0.node!.name!.starts(with: "arkon") }
+        return sensedArkons.count
     }
 
-    private func spawn() {
-        status.health -= 8
-        self.sprite.color = .red
-        ArkonFactory.shared.spawn(parentFishNumber: fishNumber, parentGenome: genome)
+    private func getCSensedManna(_ bodies: [SKPhysicsBody]) -> Int {
+        let sensedManna = bodies.filter { ($0.node?.name)?.starts(with: "manna") ?? false }
+        return sensedManna.count
+    }
+
+    private func getVectorToClosestArkon(_ bodies: [SKPhysicsBody]) -> CGVector {
+        let sensedArkons = bodies.filter { $0.node?.name?.starts(with: "arkon") ?? false }
+        if sensedArkons.isEmpty { return CGVector(dx: CGFloat.infinity, dy: CGFloat.infinity) }
+        let closestArkon = sensedArkons.min { $0.node!.position.radius < $1.node!.position.radius }
+        return sprite.position.makeVector(to: closestArkon!.node!.position)
+    }
+
+    private func getVectorToClosestManna(_ bodies: [SKPhysicsBody]) -> CGVector {
+        let sensedManna = bodies.filter { $0.node?.name?.starts(with: "manna") ?? false }
+        if sensedManna.isEmpty { return CGVector(dx: CGFloat.infinity, dy: CGFloat.infinity) }
+        let closestManna = sensedManna.min { $0.node!.position.radius < $1.node!.position.radius }
+        return sprite.position.makeVector(to: closestManna!.node!.position)
     }
 
     private func stimulus() {
         let velocity = self.sprite.physicsBody?.velocity ?? CGVector.zero
         let aVelocity = self.sprite.physicsBody?.angularVelocity ?? 0
-        let position = self.sprite.position
+        let vectorToOrigin = sprite.position.asVector()
 
-        // (r, θ) to origin so they can evolve to stay in bounds
-        var rToOrigin = CGFloat(0)
-        var θToOrigin = CGFloat(0)
-        if position != CGPoint.zero {
-            rToOrigin = position.distance(to: CGPoint.zero)
-            θToOrigin = atan2(position.y, position.x)
-        }
+        let contactedBodies = ?!self.sprite.physicsBody?.allContactedBodies()
 
-        var θToFood = CGFloat(0)
-        var rToFood = CGFloat(0)
-        if let (_, foodPosition) = self.targetManna {
-            rToFood = foodPosition.distance(to: sprite.position)
-            θToFood = atan2(foodPosition.y, foodPosition.x)
-        }
+        let vectorToClosestArkon = getVectorToClosestArkon(contactedBodies)
+        let vectorToClosestManna = getVectorToClosestManna(contactedBodies)
 
-        let arkonSurvived = signalDriver.drive(
-            sensoryInputs: [
-                Double(aVelocity),
-                Double(rToOrigin), Double(θToOrigin),
-                Double(rToFood), Double(θToFood),
-                Double(velocity.dx), Double(velocity.dy)
-            ]
-        )
+        let sensoryInputs = [
+            Double(aVelocity),
+            Double(hunger),
 
-        precondition(arkonSurvived, "Should have died from test signal in init")
+            Double(velocity.radius), Double(velocity.theta),
+
+            Double(vectorToOrigin.radius), Double(vectorToOrigin.theta),
+
+            Double(getCSensedManna(contactedBodies)),
+            Double(vectorToClosestManna.radius), Double(vectorToClosestManna.theta),
+
+            Double(getCSensedArkons(contactedBodies)),
+            Double(vectorToClosestArkon.radius), Double(vectorToClosestArkon.theta)
+        ]
+
+//        let truncked = sensoryInputs.map { String(format: "% -.5e", $0) }
+//        print("inputs", sprite.physicsBody!.mass, truncked)
+
+        let arkonSurvived = signalDriver.drive(sensoryInputs: sensoryInputs)
+        precondition(arkonSurvived, "\(fishNumber) should have died from test signal in init")
     }
 
     func tick() {
-        if !isInBounds || !status.isHealthy { sprite.run(apoptosizeAction); return }
+        // FIXME -- The explanation below is bullshit. Who wrote this crap?
+        // If you don't want ticks, don't connect.
+        //
+        // Because the display will start ticking us as soon as we add
+        // to the scene, but there's a lot more that needs to be done
+        // before we're ready for ticks.
+        if !status.isAlive { return }
 
-        if status.health > 10 { spawn(); return }
+        if !isInBounds || sprite.physicsBody!.mass <= 0 { sprite.run(apoptosizeAction); return }
 
-        status.health -= 1.0       // Time and tick wait for no arkon
+        sprite.color = .green
 
         stimulus()
         response()

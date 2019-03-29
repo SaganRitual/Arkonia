@@ -74,8 +74,11 @@ extension KNet {
                 lowerLayer.connect(to: upperLayer)
                 upperLayer.decoupleFromGrid()
 
+//                print("\(self) check for sense connections intact, \(topHiddenLayer.neurons.compactMap { $0.relay }.count)")
                 let senseConnectionsIntact = !topHiddenLayer.neurons.compactMap { $0.relay }.isEmpty
-                if !senseConnectionsIntact { return false }
+                if !senseConnectionsIntact {
+//                    print("\(self) sense connections broken")
+                    return false }
             }
 
             lowerLayer.driveSignal()
@@ -86,7 +89,9 @@ extension KNet {
             motorLayer.reverseConnect(upperLayer)
             upperLayer.decoupleFromGrid()
 
-            if hiddenLayers.isEmpty { return false }
+            if hiddenLayers.isEmpty {
+                print("\(self) no guts")
+                return false }
 
             // I'm pretty sure it's counter-productive to have a layer with
             // more neurons than the layer above it. In a trivial case, having
@@ -96,12 +101,12 @@ extension KNet {
             // about that point and haven't missed anything important. Kill
             // off any arkons that have such defective nets.
 
-            var maxAllowedNeurons = Int.max
-            for layer in hiddenLayers {
-                let cLiveNeurons = layer.neurons.compactMap { neuron in neuron.relay }.count
-                if cLiveNeurons > maxAllowedNeurons { return false }
-                maxAllowedNeurons = min(maxAllowedNeurons, cLiveNeurons)
-            }
+//            var maxAllowedNeurons = Int.max
+//            for layer in hiddenLayers {
+//                let cLiveNeurons = layer.neurons.compactMap { neuron in neuron.relay }.count
+//                if cLiveNeurons > maxAllowedNeurons { return false }
+//                maxAllowedNeurons = min(maxAllowedNeurons, cLiveNeurons)
+//            }
 
 //            if ArkonCentralDark.selectionControls.cMotorNeurons > maxAllowedNeurons { return false }
         }

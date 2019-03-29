@@ -20,9 +20,5 @@ class PopStatsPortal {
         portal.setUpdater(subportal: 4, field: 2) {
             return String(format: "Pending fab: %d", ArkonFactory.shared.cPending)
         }
-
-        portal.setUpdater(subportal: 4, field: 3) {
-            return String(format: "Pending launch: %d", ArkonFactory.shared.pendingArkons.count)
-        }
     }
 }

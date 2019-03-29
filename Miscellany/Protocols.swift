@@ -27,9 +27,3 @@ public protocol NeuronBiasProtocol {
 public protocol NeuronDownConnectorProtocol {
     var value: Int { get set }
 }
-
-public typealias UpConnectorValue = (channel: Int, weight: Double)
-
-public protocol NeuronUpConnectorProtocol {
-    var value: UpConnectorValue { get set }
-}

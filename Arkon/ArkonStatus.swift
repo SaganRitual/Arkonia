@@ -17,9 +17,7 @@ extension Arkon {
         var birthday = SetOnce<TimeInterval>(defaultValue: 0.0)
         var cOffspring = 0      { willSet { World.shared.populationChanged = true } }
         let fishNumber: Int
-        var health = 10.0
         var isAlive = false
-        var isHealthy: Bool      { return health > 0 }
         var isDuggarest = false
         var isOldest = false
     }

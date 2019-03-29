@@ -21,8 +21,8 @@
 import Foundation
 
 class FNet {
-    var cMotorNeurons = ArkonCentralDark.selectionControls.cMotorNeurons
-    var cSenseNeurons = ArkonCentralDark.selectionControls.cSenseNeurons
+    let cMotorNeurons = World.cMotorNeurons
+    let cSenseNeurons = World.cSenseNeurons
     var fishNumber: Int?
     var layers = [FLayer]()
     var underConstruction: FLayer?

@@ -27,7 +27,7 @@ extension KNeuron {
         let connector = KConnector(self)
         let targetNeurons = connector.selectOutputs(from: upperLayer)
 
-        nok(relay).connect(to: targetNeurons, in: upperLayer)
+        hardBind(relay).connect(to: targetNeurons, in: upperLayer)
     }
 
     static func makeNeuron(_ newNeuronID: KIdentifier, _ fNeuron: FNeuron) -> KNeuron {

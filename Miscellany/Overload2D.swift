@@ -32,11 +32,18 @@ protocol Overload2D {
     /// Same functionality as init(_:,_:)
     ///
     /// - Parameters:
-    ///   - x: depending on the object being created, this is the x-coordinate,
+    ///   - xx: depending on the object being created, this is the x-coordinate,
     ///        or the width, or the dx component
-    ///   - y: depending on the object being created, this is the y-coordinate,
+    ///   - yy: depending on the object being created, this is the y-coordinate,
     ///        or the height, or the dy component
     static func makeTuple(_ xx: CGFloat, _ yy: CGFloat) -> Self
+
+    /// Sometimes the problem can be understood better using polar coordinates
+    ///
+    /// - Parameters:
+    ///   - radius: the radius of the circle on which the x/y coordinate lies
+    ///   - theta: the angle from y = 0 to the x/y coordinate, in radians
+    static func polar(radius: CGFloat, theta: CGFloat) -> Self
 
     /// Unary minus: negates both scalars in the tuple
     static prefix func - (_ myself: Self) -> Self
@@ -48,7 +55,7 @@ protocol Overload2D {
     ///
     /// CGPoint(x: 10, y: 3) + CGPoint(17, 37) = CGPoint(x: 10 + 17, y: 3 + 37)
     ///
-    /// CGSize(width: 5, height: 7) * CGSize(width: 12, height: 13) = CGSize(width: 5 * 12, height: 7 * 13)
+    /// CGSize(w: 5, h: 7) * CGSize(w: 12, h: 13) = CGSize(w: 5 * 12, h: 7 * 13)
     static func + (_ lhs: Self, _ rhs: Self) -> Self
     static func - (_ lhs: Self, _ rhs: Self) -> Self
     static func * (_ lhs: Self, _ rhs: Self) -> Self
@@ -85,7 +92,24 @@ protocol Overload2D {
     static func /= (_ lhs: inout Self, _ rhs: CGFloat)
 }
 
-// MARK: Implementations
+// MARK: The lonely hypotenuse
+
+extension Overload2D {
+    var hypotenuse: CGFloat { return sqrt(aa * aa + bb * bb) }
+}
+
+// MARK: Polar coordinates
+
+extension Overload2D {
+    var radius: CGFloat { return hypotenuse }
+    var theta: CGFloat { return atan2(bb, aa) }
+
+    static func polar(radius: CGFloat, theta: CGFloat) -> Self {
+        return Self(radius * cos(theta), radius * sin(theta))
+    }
+}
+
+// MARK: Operators
 
 extension Overload2D {
     static prefix func - (_ myself: Self) -> Self {
@@ -158,52 +182,16 @@ extension Overload2D {
     }
 }
 
-extension Overload2D where Self == CGVector {
-    func magnitude() -> CGFloat {
-        return sqrt(self.dx * self.dx + self.dy * self.dy)
-    }
-}
-
-extension Overload2D where Self == CGPoint {
-    func distance(to otherPoint: CGPoint) -> CGFloat {
-        return (otherPoint - self).asVector().magnitude()
-    }
-
-    static func random(in range: Range<CGFloat>) -> CGPoint {
-        return CGPoint(x: CGFloat.random(in: range), y: CGFloat.random(in: range))
-    }
-
-    static func random(xRange: Range<CGFloat>, yRange: Range<CGFloat>) -> CGPoint {
-        return CGPoint(x: CGFloat.random(in: xRange), y: CGFloat.random(in: yRange))
-    }
-}
-
-extension Overload2D where Self == CGSize {
-    static func random(in range: Range<CGFloat>) -> CGSize {
-        return CGSize(width: CGFloat.random(in: range), height: CGFloat.random(in: range))
-    }
-
-    static func random(widthRange: Range<CGFloat>, heightRange: Range<CGFloat>) -> CGSize {
-        return CGSize(width: CGFloat.random(in: widthRange), height: CGFloat.random(in: heightRange))
-    }
-}
-
-extension Overload2D where Self == CGVector {
-    static func random(in range: Range<CGFloat>) -> CGVector {
-        return CGVector(dx: CGFloat.random(in: range), dy: CGFloat.random(in: range))
-    }
-
-    static func random(dxRange: Range<CGFloat>, dyRange: Range<CGFloat>) -> CGVector {
-        return CGVector(dx: CGFloat.random(in: dxRange), dy: CGFloat.random(in: dyRange))
-    }
-}
-
 extension CGPoint: Overload2D {
     var aa: CGFloat { get { return self.x } set { self.x = newValue } }
     var bb: CGFloat { get { return self.y } set { self.y = newValue } }
 
     init(_ xx: CGFloat, _ yy: CGFloat) {
         self.init(x: xx, y: yy)
+    }
+
+    init(radius: CGFloat, theta: CGFloat) {
+        self.init(x: radius * cos(theta), y: radius * sin(theta))
     }
 
     static func makeTuple(_ xx: CGFloat, _ yy: CGFloat) -> CGPoint {
@@ -218,6 +206,18 @@ extension CGPoint: Overload2D {
         return CGVector.makeTuple(xx, yy)
     }
 
+    static func makeVector(from a: CGPoint, to b: CGPoint) -> CGVector {
+        return (b - a).asVector()
+    }
+
+    static func random(in range: Range<CGFloat>) -> CGPoint {
+        return CGPoint(x: CGFloat.random(in: range), y: CGFloat.random(in: range))
+    }
+
+    static func random(xRange: Range<CGFloat>, yRange: Range<CGFloat>) -> CGPoint {
+        return CGPoint(x: CGFloat.random(in: xRange), y: CGFloat.random(in: yRange))
+    }
+
     func asPoint() -> CGPoint {
         return CGPoint(x: x, y: y)
     }
@@ -229,6 +229,14 @@ extension CGPoint: Overload2D {
     func asVector() -> CGVector {
         return CGVector(dx: x, dy: y)
     }
+
+    func distance(to otherPoint: CGPoint) -> CGFloat {
+        return (otherPoint - self).hypotenuse
+    }
+
+    func makeVector(to otherPoint: CGPoint) -> CGVector {
+        return CGPoint.makeVector(from: self, to: otherPoint)
+    }
 }
 
 extension CGSize: Overload2D {
@@ -237,6 +245,10 @@ extension CGSize: Overload2D {
 
     init(_ width: CGFloat, _ height: CGFloat) {
         self.init(width: width, height: height)
+    }
+
+    init(radius: CGFloat, theta: CGFloat) {
+        self.init(width: radius * cos(theta), height: radius * sin(theta))
     }
 
     static func makeTuple(_ width: CGFloat, _ height: CGFloat) -> CGPoint {
@@ -249,6 +261,14 @@ extension CGSize: Overload2D {
 
     static func makeTuple(_ width: CGFloat, _ height: CGFloat) -> CGVector {
         return CGVector.makeTuple(width, height)
+    }
+
+    static func random(in range: Range<CGFloat>) -> CGSize {
+        return CGSize(width: CGFloat.random(in: range), height: CGFloat.random(in: range))
+    }
+
+    static func random(widthRange: Range<CGFloat>, heightRange: Range<CGFloat>) -> CGSize {
+        return CGSize(width: CGFloat.random(in: widthRange), height: CGFloat.random(in: heightRange))
     }
 
     func asPoint() -> CGPoint {
@@ -268,8 +288,14 @@ extension CGVector: Overload2D {
     var aa: CGFloat { get { return self.dx } set { self.dx = newValue } }
     var bb: CGFloat { get { return self.dy } set { self.dy = newValue } }
 
+    var magnitude: CGFloat { return hypotenuse }
+
     init(_ dx: CGFloat, _ dy: CGFloat) {
         self.init(dx: dx, dy: dy)
+    }
+
+    init(radius: CGFloat, theta: CGFloat) {
+        self.init(dx: radius * cos(theta), dy: radius * sin(theta))
     }
 
     static func makeTuple(_ dx: CGFloat, _ dy: CGFloat) -> CGPoint {
@@ -284,6 +310,14 @@ extension CGVector: Overload2D {
         return CGVector(dx: dx, dy: dy)
     }
 
+    static func random(in range: Range<CGFloat>) -> CGVector {
+        return CGVector(dx: CGFloat.random(in: range), dy: CGFloat.random(in: range))
+    }
+
+    static func random(dxRange: Range<CGFloat>, dyRange: Range<CGFloat>) -> CGVector {
+        return CGVector(dx: CGFloat.random(in: dxRange), dy: CGFloat.random(in: dyRange))
+    }
+
     func asPoint() -> CGPoint {
         return CGPoint(x: dx, y: dy)
     }
@@ -294,5 +328,9 @@ extension CGVector: Overload2D {
 
     func asVector() -> CGVector {
         return CGVector(dx: dx, dy: dy)
+    }
+
+    func normalized() -> CGVector {
+        return CGVector(dx: self.dx / hypotenuse, dy: self.dy / hypotenuse)
     }
 }

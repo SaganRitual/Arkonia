@@ -36,14 +36,18 @@ class Display: NSObject, SKSceneDelegate {
 
         super.init()
 
-        self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
+//        self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
     }
 
     // https://developer.apple.com/documentation/spritekit/skscene/responding_to_frame-cycle_events
 
     func didFinishUpdate(for scene: SKScene) {
         Display.displayCycle = .updateComplete
-        // Do last-chance stuff
+
+        for node in PortalServer.shared.arkonsPortal.get().children where node as? Karamba != nil {
+            (node as? Karamba)?.lastMinuteBusiness()
+        }
+
         Display.displayCycle = .limbo
     }
 
@@ -92,24 +96,19 @@ class Display: NSObject, SKSceneDelegate {
         defer { self.currentTime = currentTime }
         if self.currentTime == 0 { self.timeZero = currentTime; return }
 
-        // Mostly so the clock will stop running
-        if ArkonFactory.shared!.cLiveArkons <= 0 &&
-            !ArkonFactory.shared.pendingArkons.isEmpty && !babyFirstSteps { return }
-
-        if firstPass {
-            ArkonFactory.shared.spawnStarterPopulation(cArkons: 200)
-            firstPass = false
-            return
-        }
-
-        if let protoArkon = ArkonFactory.shared.pendingArkons.popFront() { protoArkon.launch() }
-
-        if scene.physicsWorld.contactDelegate == nil && ArkonFactory.shared.pendingArkons.isEmpty {
+        if scene.physicsWorld.contactDelegate == nil {
             scene.physicsWorld.contactDelegate = World.shared.physics
             scene.physicsWorld.speed = 1.0
         }
 
         tickCount += 1
+
+        let cm: [Arkon] = PortalServer.shared.arkonsPortal.get().children.compactMap {
+            guard let a = ($0 as? SKSpriteNode)?.arkon else { return nil }
+            return a.status.isAlive ? a : nil
+        }
+
+        cm.forEach { $0.tick() }
 
         if let kNet = self.kNet {
             DNet(kNet).display(via: PortalServer.shared.netPortal)

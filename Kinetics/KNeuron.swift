@@ -20,7 +20,7 @@
 
 import Foundation
 
-class KNeuron: KIdentifiable, LoopIterable {
+class KNeuron: KIdentifiable {
     let activator: AFn.FunctionName
     let bias: Double
     var downConnectors: [Int]
@@ -28,7 +28,7 @@ class KNeuron: KIdentifiable, LoopIterable {
     var inputs: [Double]!
     weak var loopIterableSelf: KNeuron?
     weak var relay: KSignalRelay?
-    var upConnectors: [UpConnectorValue]
+    var upConnectors: [UpConnector]
     var weights = [Double]()
 
     var description: String { return id.description + ", \(weights), \(downConnectors)" }
@@ -50,7 +50,6 @@ class KNeuron: KIdentifiable, LoopIterable {
         self.downConnectors = fNeuron.downConnectors
         self.upConnectors = fNeuron.upConnectors
         loopIterableSelf = self
-
     }
 }
 
@@ -68,19 +67,20 @@ extension KNeuron {
             return relay.output * weight
         }
 
+//        var logMessage = "\(self) inputs \(relay.inputRelays), weighted \(weighted)"
+
         relay.output = weighted.reduce(bias, +)
+//        logMessage += ", raw output \(relay.output)"
         if let f = AFn.function[self.activator] { relay.output = AFn.clip(f(relay.output)) }
+//        logMessage += ", activated \(relay.output)"
+
+        if !upConnectors.isEmpty {
+            relay.output = upConnectors[0].amplifier.amplified(relay.output)
+        }
+//        logMessage += ", amplified \(relay.output)\n"
+
+//        Log.L.write(logMessage)
 
 //        print("\(self) -> \(relay.output)")
-    }
-
-    func driveSignal(from upperLayer: [KSignalRelay]) {
-        let weighted: [Double] = zip(upperLayer, upConnectors).map {
-            (pair: (KSignalRelay, UpConnectorValue)) -> Double in
-            let (relay, connector) = pair
-            return relay.output * connector.1
-        }
-
-        relay?.output = weighted.reduce(bias, +)
     }
 }

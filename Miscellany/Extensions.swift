@@ -44,13 +44,47 @@ func !!<T> (_ theOptional: T?, _ onError: () -> Never) -> T {
     return unwrapped
 }
 
-func nok<T: Any>(_ theThing: T?) -> T {
-    guard let it = theThing else {
-        preconditionFailure("Found nil, expecting \(type(of: theThing))")
+prefix operator %%
+prefix func %%<T: Any> (_ theOptional: T?) -> T {
+    guard let unwrapped = theOptional else { preconditionFailure() }
+    return unwrapped
+}
+
+prefix operator ?!
+prefix func ?!<T: Any> (_ theOptional: T?) -> T {
+    return hardBind(theOptional)
+}
+
+func nok<T: Any>(_ theOptional: T?, _ onError: (() -> Never)? = nil) -> T {
+    return hardBind(theOptional)
+}
+
+func hardBind<T: Any>(_ theOptional: T?, _ onError: (() -> Never)? = nil) -> T {
+    guard let unwrapped = theOptional else {
+        guard let aBadThingHappened = onError else { preconditionFailure() }
+        aBadThingHappened()
     }
 
-    return it
+    return unwrapped
 }
+/*
+func showUsage(_ node: SKNode?) {
+    let bound = hardBind(node)
+    let qBang = ?!node
+    let perpercent = %%node
+    let bBang = node !! { preconditionFailure() }
+
+    calmCompilerErrors(bound, qBang, perpercent, bBang)
+
+    let boundName = hardBind(node?.name).count
+    let qBangName = ?!(node?.name).count
+    let perpercentName = %%(node?.name).count
+    let bBangName = node?.name !! { preconditionFailure() }
+
+    print(boundName, qBangName, perpercentName, bBangName)
+}
+*/
+func calmCompilerErrors(_ a: SKNode, _ b: SKNode, _ c: SKNode, _ d: SKNode) { }
 
 /**
  A proper modulo operator
@@ -130,6 +164,15 @@ func constrain<T: Numeric & Comparable>(_ a: T, lo: T, hi: T) -> T {
 // With deepest gratitude to Stack Overflow dude
 // https://stackoverflow.com/users/3441734/user3441734
 // https://stackoverflow.com/a/44541541/1610473
+//
+// And Paul Hudson
+//
+func getDocumentsDirectory() -> URL {
+    let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+    let documentsDirectory = paths[0]
+    return documentsDirectory
+}
+
 class Log: TextOutputStream {
 
     static var L = Log()
@@ -140,7 +183,7 @@ class Log: TextOutputStream {
     let log: URL
 
     init() {
-        log = fm.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("roblog.txt")
+        log = getDocumentsDirectory().appendingPathComponent("roblog.txt")
         print("Logfile at \(log)")
         do {
             let h = try FileHandle(forWritingTo: log)
@@ -165,11 +208,14 @@ class Log: TextOutputStream {
     deinit { handle?.closeFile() }
 
     func write(_ string: String) {
+        print(string)
         let martin = Array(string.utf8).withUnsafeBytes { DispatchData(bytes: $0) }
 
         io!.write(
             offset: 0, data: martin, queue: DispatchQueue.main,
             ioHandler: {  _/*Bool*/, _/*DispatchData*/, _/*Int32*/ in }
         )
+
+        handle!.synchronizeFile()
     }
 }
