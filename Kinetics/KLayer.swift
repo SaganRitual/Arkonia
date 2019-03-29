@@ -66,6 +66,7 @@ extension KLayer {
             return newNeuron
         }
 
+//        Log.L.write("KLayer(\(myFullID), \(neurons.count), \(signalRelays.count)\n")
         return KLayer(myFullID, neurons, signalRelays)
     }
 
@@ -75,7 +76,7 @@ extension KLayer {
         var fIter = fLayer.neurons.makeIterator()
         let neurons: [KNeuron] = signalRelays.enumerated().map { neuronIDNumber, relay in
             let newNeuronID = newLayerID.add(neuronIDNumber, as: .neuron)
-            let fNeuron = nok(fIter.next())
+            let fNeuron = hardBind(fIter.next())
             let newNeuron = KNeuron.makeNeuron(newNeuronID, fNeuron)
             newNeuron.relay = relay
             return newNeuron

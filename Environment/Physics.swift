@@ -7,67 +7,90 @@ class Physics: NSObject, SKPhysicsContactDelegate {
 
         Display.shared.scene!.physicsWorld.gravity = CGVector.zero
     }
+}
+
+extension Physics {
+
+    static let arkonSmellsFood =
+        ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue |
+            ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
+
+    static let arkonIsTouchingFood =
+        ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue |
+            ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
 
     func didBegin(_ contact: SKPhysicsContact) {
+        let nodeA = ?!contact.bodyA.node
+        let nodeB = ?!contact.bodyB.node
 
-        guard let a = contact.bodyA.node as? SKSpriteNode else { return }
-        guard let b = contact.bodyB.node as? SKSpriteNode else { return }
+        let spriteA_ = nodeA as? SKSpriteNode
+        let spriteB_ = nodeB as? SKSpriteNode
 
-        if (a.isComposting ?? false) || (b.isComposting ?? false) { return }
-
-        let arkonSmellsFood =
-            ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue |
-                ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
-
-        let arkonTouchesFood =
-            ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue |
-                ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
+        if (spriteA_?.isComposting ?? false) || (spriteB_?.isComposting ?? false) { return }
 
         let interaction = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
 
-        if (interaction & arkonSmellsFood) == arkonSmellsFood { Physics.senseFood(a, b) }
-        if (interaction & arkonTouchesFood) == arkonTouchesFood { Physics.touchFood(a, b); return }
+        if (interaction & Physics.arkonSmellsFood) == Physics.arkonSmellsFood {
+            guard case let (arkonSprite?, mannaSprite?) =
+                Physics.assignSprites(nodeA, nodeB) else { return }
+
+            Physics.senseFood(arkonSprite, mannaSprite)
+        }
+
+        if (interaction & Physics.arkonIsTouchingFood) == Physics.arkonIsTouchingFood {
+            guard case let (arkonSprite?, mannaSprite?) =
+                Physics.assignSprites(nodeA, nodeB) else { return }
+
+            Physics.touchFood(arkonSprite, mannaSprite)
+        }
     }
 
     func didEnd(_ contact: SKPhysicsContact) {
-        guard let a = contact.bodyA.node as? SKSpriteNode else { return }
-        guard let b = contact.bodyB.node as? SKSpriteNode else { return }
+        let nodeA = ?!contact.bodyA.node
+        let nodeB = ?!contact.bodyB.node
 
-        if (a.isComposting ?? false) || (b.isComposting ?? false) { return }
+        let spriteA_ = nodeA as? SKSpriteNode
+        let spriteB_ = nodeB as? SKSpriteNode
 
-        let arkonSmelledFood =
-            ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue |
-            ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
+        if (spriteA_?.isComposting ?? false) || (spriteB_?.isComposting ?? false) { return }
 
-        let interaction = a.physicsBody!.categoryBitMask | b.physicsBody!.categoryBitMask
+        let interaction = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
 
-        if (interaction & arkonSmelledFood) == arkonSmelledFood { Physics.loseTrackOfFood(a, b) }
+        if (interaction & Physics.arkonSmellsFood) == Physics.arkonSmellsFood {
+            guard case let (arkonSprite?, mannaSprite?) =
+                Physics.assignSprites(nodeA, nodeB) else { return }
+
+            Physics.loseTrackOfFood(arkonSprite, mannaSprite)
+        }
     }
 }
 
 extension Physics {
-    static private func assignSprites(_ a: SKSpriteNode, _ b: SKSpriteNode)
-        -> (SKSpriteNode?, SKSpriteNode?)
+    static private func assignSprites(_ a: SKNode, _ b: SKNode)
+        -> (Karamba?, SKSpriteNode?)
     {
-        var arkonSprite: SKSpriteNode?
+        var arkonSprite: Karamba?
         var mannaSprite: SKSpriteNode?
 
-        guard let aPhysics = a.physicsBody, let bPhysics = b.physicsBody else { preconditionFailure() }
+        // It seems that we can come in here after the sprite invovled in the
+        // interaction has destructed. Not sure whether It's normal, or a sign of
+        // a bug in my code. I'll come to it after I get some gratification.
+        guard let aPhysics = a.physicsBody, let bPhysics = b.physicsBody else { return (nil, nil) }
 
         if aPhysics.categoryBitMask == ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue {
-            arkonSprite = a
+            arkonSprite = a as? Karamba
         } else if aPhysics.categoryBitMask == ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue {
-            arkonSprite = a.parent as? SKSpriteNode
+            arkonSprite = a.parent as? Karamba
         } else if aPhysics.categoryBitMask == ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue {
-            mannaSprite = a
+            mannaSprite = a as? SKSpriteNode
         }
 
         if bPhysics.categoryBitMask == ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue {
-            mannaSprite = b
+            mannaSprite = b as? SKSpriteNode
         } else if bPhysics.categoryBitMask == ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue {
-            arkonSprite = b.parent as? SKSpriteNode
+            arkonSprite = b.parent as? Karamba
         } else if bPhysics.categoryBitMask == ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue {
-            arkonSprite = b
+            arkonSprite = b as? Karamba
         }
 
         if arkonSprite == nil || mannaSprite == nil { return (nil, nil) }
@@ -78,24 +101,19 @@ extension Physics {
     }
 
     static private func loseTrackOfFood(_ a: SKSpriteNode, _ b: SKSpriteNode) {
-        guard case let (`as`?, ms?) = assignSprites(a, b) else { return }
-
-        `as`.run(
-            SKAction.run({ Arkon.loseTrackOfFood(`as`, ms) })
-        )
+        guard case let (arkonSprite?, _?) = assignSprites(a, b) else { return }
+        nok(arkonSprite.arkon).sensedBodies = nok(arkonSprite.physicsBody).allContactedBodies()
     }
 
     static private func senseFood(_ a: SKSpriteNode, _ b: SKSpriteNode) {
-        guard case let (`as`?, ms?) = assignSprites(a, b) else { return }
-
-        `as`.run(
-            SKAction.run({ Arkon.senseFood(`as`, ms) })
-        )
+        guard case let (arkonSprite?, _?) = assignSprites(a, b) else { return }
+        nok(arkonSprite.arkon).sensedBodies = nok(arkonSprite.physicsBody).allContactedBodies()
     }
 
     static private func touchFood(_ a: SKSpriteNode, _ b: SKSpriteNode) {
-        guard case let (`as`?, ms?) = assignSprites(a, b) else { return }
+        guard case let (arkonSprite?, mannaSprite?) = assignSprites(a, b) else { return }
+        nok(arkonSprite.arkon).contactedBodies = nok(arkonSprite.physicsBody).allContactedBodies()
 
-        `as`.run(SKAction.run({ Arkon.absorbFood(`as`, ms) }))
+        MannaFactory.shared.compost(mannaSprite)
     }
 }

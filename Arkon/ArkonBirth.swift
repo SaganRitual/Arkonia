@@ -21,21 +21,17 @@ extension Arkon {
         Display.shared.scene!.physicsWorld.add(snap)
     }
 
-    func launch() {
-        self.sprite = setupSprites()
-        self.motorOutputs = MotorOutputs(sprite)
+    func launch(sprite: Karamba) {
+        self.sprite = sprite    // The new-style Karamba sprite
 
         self.apoptosizeAction = SKAction.sequence([
             SKAction.run { [weak self] in
+                print("fish \(?!self?.fishNumber) apoptosizing; cycle \(Display.displayCycle)")
                 self?.sprite.physicsBody = nil
                 (self?.sprite.children[0] as? SKSpriteNode)?.physicsBody = nil
                 self?.sprite?.userData?[SKSpriteNode.UserDataKey.arkon] = nil
             }, SKAction.removeFromParent()
         ])
-
-        self.tickAction = SKAction.run(
-            { [weak self] in self?.tick() }
-        )
 
         postPartum(relievedArkonFishNumber: self.parentFishNumber)
 
@@ -60,8 +56,11 @@ extension Arkon {
 
         World.shared.populationChanged = true
 
-        self.status.isAlive = true
-        self.sprite.run(self.tickAction)
+        self.sprite.alpha = 1
+        status.isAlive = true
+
+        sprite.setScale(ArkonFactory.scale)
+        sprite.physicsBody!.mass = 1
     }
 
     func postPartum(relievedArkonFishNumber: Int?) {
@@ -79,88 +78,5 @@ extension Arkon {
         }()
 
         arkon.sprite.color = arkon.status.cOffspring > 5 ? .purple : .green
-        arkon.sprite.run(arkon.tickAction)
     }
-
-    func setupArkonSprite() -> (SKSpriteNode, SKPhysicsBody) {
-        let arkonSprite = SKSpriteNode(texture: ArkonCentralLight.topTexture!)
-
-        let x = Int.random(in: Int(-portal.frame.size.width)..<Int(portal.frame.size.width))
-        let y = Int.random(in: Int(-portal.frame.size.height)..<Int(portal.frame.size.height))
-
-        arkonSprite.position = CGPoint(x: x, y: y)
-        arkonSprite.size *= 0.2
-        arkonSprite.color = .green//ArkonCentralLight.colors.randomElement()!
-        arkonSprite.colorBlendFactor = 0.5
-
-        arkonSprite.zPosition = ArkonCentralLight.vArkonZPosition
-
-        arkonSprite.name = "arkon_\(fishNumber)"
-        let physicsBody = Arkon.setupPhysicsBody(arkonSprite.frame.size)
-
-        return (arkonSprite, physicsBody)
-    }
-
-    static func setupPhysicsBody(_ size: CGSize) -> SKPhysicsBody {
-        let pBodyRadius = size.width / 2
-        let pBody = SKPhysicsBody(circleOfRadius: pBodyRadius)
-
-//        pBody.mass = 1.0
-
-        pBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
-        pBody.collisionBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
-        pBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
-        pBody.fieldBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
-
-        pBody.affectedByGravity = false
-//        pBody.allowsRotation = false
-        pBody.isDynamic = true
-//        pBody.linearDamping = 0
-//        pBody.angularDamping = 0
-//        pBody.friction = 0
-//        pBody.restitution = 0
-
-        return pBody
-    }
-
-    static func setupSenses(_ arkonSprite: SKSpriteNode) -> (SKNode, SKPhysicsBody) {
-        let sensesNode = SKSpriteNode(color: .clear, size: CGSize.zero)
-        let sensesPhysicsBody = SKPhysicsBody(circleOfRadius: 30.0)
-
-        sensesPhysicsBody.affectedByGravity = false
-        sensesPhysicsBody.angularDamping = 0
-        sensesPhysicsBody.isDynamic = true
-        sensesPhysicsBody.linearDamping = 0
-        sensesPhysicsBody.mass = 0
-
-        sensesPhysicsBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue
-
-        sensesPhysicsBody.contactTestBitMask =
-            ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue |
-            ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
-
-        sensesPhysicsBody.collisionBitMask = 0
-        sensesPhysicsBody.fieldBitMask = 0
-
-        arkonSprite.addChild(sensesNode)
-
-        return (sensesNode, sensesPhysicsBody)
-    }
-
-    func setupSprites() -> SKSpriteNode {
-        let (arkonSprite, arkonPhysicsBody) = setupArkonSprite()
-        let (sensesNode, sensesPhysicsBody) = Arkon.setupSenses(arkonSprite)
-
-        if arkonSprite.userData == nil { arkonSprite.userData = [:] }
-        arkonSprite.userData![SKSpriteNode.UserDataKey.arkon] = self // Ref to self; we're on our own after birth
-
-        portal.addChild(arkonSprite)
-
-        sensesNode.physicsBody = sensesPhysicsBody
-        arkonSprite.physicsBody = arkonPhysicsBody
-        Arkon.attachSenses(arkonSprite, sensesPhysicsBody)
-
-        return arkonSprite
-   }
-
 }

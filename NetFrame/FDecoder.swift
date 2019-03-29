@@ -63,15 +63,15 @@ class FDecoder {
 
 extension FDecoder {
     func dispatchValueGene(_ gene: GeneProtocol) {
-        let neuron = neuronUnderConstruction !! { preconditionFailure() }
+        let neuron = ?!neuronUnderConstruction
 
         switch gene.core {
         case let .activator(functionName, _): neuron.setActivator(functionName)
         case let .double(bias, _):            neuron.accumulateBias(bias)
         case let .int(channel, _, _):         neuron.addDownConnector(channel)
 
-        case let .upConnector(channel, _, weight, _):
-            neuron.addUpConnector(UpConnectorValue(channel: channel, weight: weight))
+        case let .upConnector(upConnector, _):
+            neuron.addUpConnector(upConnector)
 
         case .empty:
             preconditionFailure("Shouldn't get empty genes in this function")

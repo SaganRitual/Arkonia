@@ -1,11 +1,11 @@
 import Foundation
 
 enum GeneCore {
-    case int(_ rawValue: Int, _ range: Int, _ isMutatedCopy: Bool)
+    case activator(_ functionName: AFn.FunctionName, _ isMutatedCopy: Bool)
     case double(_ rawValue: Double, _ isMutatedCopy: Bool)
     case empty
-    case activator(_ functionName: AFn.FunctionName, _ isMutatedCopy: Bool)
-    case upConnector(_ channel: Int, _ topOfRange: Int, _ weight: Double, _ isMutatedCopy: Bool)
+    case int(_ rawValue: Int, _ range: Int, _ isMutatedCopy: Bool)
+    case upConnector(_ upConnector: UpConnector, _ isMutatedCopy: Bool)
 
     static var cLiveGenes = 0 { willSet {
         if GeneCore.cLiveGenes > GeneCore.highWaterMark{
@@ -84,18 +84,31 @@ enum GeneCore {
             return GeneCore.int(newRawValue, topOfRange, newRawValue != currentRawValue)
 
         case let .activator(currentFunctionName, _):
-            let newFunctionName = nok(AFn.FunctionName.allCases.randomElement())
+            let newFunctionName = hardBind(AFn.FunctionName.allCases.randomElement())
             return GeneCore.activator(newFunctionName, newFunctionName != currentFunctionName)
 
-        case let .upConnector(currentChannel, topOfRange, currentWeight, _):
-            let newChannel = geneCore.mutated(from: currentChannel, topOfRange: topOfRange)
-            let newWeight = geneCore.mutated(from: currentWeight)
+        case let .upConnector(currentUpConnector, _):
+            let newAmplifier = geneCore.mutated(from: currentUpConnector.amplifier)
 
-            let channelIsMutated = newChannel != currentChannel
-            let weightIsMutated = newWeight != currentWeight
-            let isMutatedCopy = channelIsMutated || weightIsMutated
+            let newChannel_ = geneCore.mutated(
+                from: currentUpConnector.channel.channel,
+                topOfRange: currentUpConnector.channel.topOfRange
+            )
 
-            return GeneCore.upConnector(newChannel, topOfRange, newWeight, isMutatedCopy)
+            let newChannel = UpConnectorChannel(
+                channel: newChannel_, topOfRange: GeneCore.upConnectorChannelTopOfRange
+            )
+
+            let newWeight_ = geneCore.mutated(from: currentUpConnector.weight.weight)
+            let newWeight = UpConnectorWeight(weight: newWeight_)
+
+            let isMutatedCopy =
+                newChannel != currentUpConnector.channel ||
+                newWeight != currentUpConnector.weight ||
+                newAmplifier != currentUpConnector.amplifier
+
+            let newUpConnector = UpConnector(newChannel, newWeight, newAmplifier)
+            return GeneCore.upConnector(newUpConnector, isMutatedCopy)
 
         default: preconditionFailure()
         }
@@ -117,20 +130,46 @@ enum GeneCore {
         return Int.random(in: 0..<topOfRange)
     }
 
-    fileprivate func mutated(from currentChannel: Int, topOfRange: Int, currentWeight: Double)
-        -> (Int, Double)
-    {
+    fileprivate func mutated(from currentChannel: UpConnectorChannel) -> UpConnectorChannel {
         // 75% of the time, you get a copy
-        if Double.random(in: 0..<1) < 0.75 { return (currentChannel, currentWeight) }
+        if Double.random(in: 0..<1) < 0.75 { return currentChannel }
 
         let mutateChannel = Bool.random()
         let newChannel = mutateChannel ?
-            mutated(from: currentChannel, topOfRange: topOfRange) : currentChannel
+            mutated(from: currentChannel.channel, topOfRange: currentChannel.topOfRange) :
+            currentChannel.channel
 
-        let mutateWeight = Bool.random()
-        let newWeight = mutateWeight ? mutated(from: currentWeight) : currentWeight
+        return UpConnectorChannel(channel: newChannel, topOfRange: currentChannel.topOfRange)
+    }
 
-        return (newChannel, newWeight)
+    fileprivate func mutated(from currentAmplifier: UpConnectorAmplifier) -> UpConnectorAmplifier {
+        // 75% of the time, you get a copy
+        if Double.random(in: 0..<1) < 0.75 { return currentAmplifier }
+
+        let mutateAmplifier = Bool.random()
+        let newMultiplier = mutateAmplifier ?
+            mutated(from: currentAmplifier.multiplier) : currentAmplifier.multiplier
+
+        let newMode = mutateAmplifier ?
+            UpConnectorAmplifier.AmplificationMode.allCases.randomElement()! :
+            currentAmplifier.amplificationMode
+
+        return UpConnectorAmplifier(amplificationMode: newMode, multiplier: newMultiplier)
+    }
+
+    fileprivate func mutated(from upConnector: UpConnector) -> UpConnector {
+        let mutatedChannel_ = mutated(
+            from: upConnector.channel.channel, topOfRange: upConnector.channel.topOfRange
+        )
+
+        let mutatedChannel =
+            UpConnectorChannel(channel: mutatedChannel_, topOfRange: upConnector.channel.topOfRange)
+
+        let mutatedWeight_ = mutated(from: upConnector.weight.weight)
+        let mutatedWeight = UpConnectorWeight(weight: mutatedWeight_)
+        let mutatedAmplifier = mutated(from: upConnector.amplifier)
+
+        return UpConnector(mutatedChannel, mutatedWeight, mutatedAmplifier)
     }
 
     fileprivate func mutated(from functionName: AFn.FunctionName) -> AFn.FunctionName {

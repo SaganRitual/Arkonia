@@ -37,15 +37,11 @@ class KSignalDriver  {
 
         senseLayerID = kNet.id.add(KIdentifier.KType.senseLayer.rawValue, as: .senseLayer)
         senseLayer = KLayer.makeLayer(
-            senseLayerID, KIdentifier.KType.senseLayer,
-            ArkonCentralDark.selectionControls.cSenseNeurons
+            senseLayerID, KIdentifier.KType.senseLayer, World.cSenseNeurons
         )
 
         motorLayerID = kNet.id.add(KIdentifier.KType.motorLayer.rawValue, as: .motorLayer)
-        motorLayer = KLayer.makeLayer(
-            motorLayerID, KIdentifier.KType.motorLayer,
-            ArkonCentralDark.selectionControls.cMotorNeurons
-        )
+        motorLayer = KLayer.makeLayer(motorLayerID, KIdentifier.KType.motorLayer, World.cMotorNeurons)
 
         self.kNet = kNet
     }
@@ -55,15 +51,23 @@ class KSignalDriver  {
     }
 
     func drive(sensoryInputs: [Double]) -> Bool {
+        var message = "sensoryInputs \(self.kNet): " +
+                        "cRelays = \(senseLayer.signalRelays.count), " +
+                        "non-nil = \(senseLayer.signalRelays.map { $0.inputRelays.count })"
+
         for (sensoryInput, relay) in zip(sensoryInputs, senseLayer.signalRelays) {
             relay.overrideState(operational: true)
             relay.output = sensoryInput
+            message += ", \(sensoryInput)"
         }
+
+//        Log.L.write("\(message)\n")
 
         let arkonSurvived = kNet.driveSignal(senseLayer, motorLayer)
         if !arkonSurvived { return false }
 
         motorOutputs = kNet.motorLayer.neurons.map { return $0.relay!.output }
+//        Log.L.write("motorOutputs \(self.kNet): \(motorOutputs!)\n")
 
         return true
     }

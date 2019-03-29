@@ -45,7 +45,7 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
 extension KAppDelegate {
     private static func setupArkonTextures() {
         let atlas = SKTextureAtlas(named: "Arkons")
-        let topTexture = atlas.textureNamed("ArkonBase-02")
+        let topTexture = atlas.textureNamed("spark-aluminum-large")
 
         ArkonCentralLight.spriteTextureAtlas = atlas
         ArkonCentralLight.topTexture = topTexture

@@ -11,10 +11,10 @@ protocol GeneProtocol {
 extension GeneProtocol {
     init(_ core: GeneCore) {
         switch core {
-        case let .double(d, m):            self.init(GeneCore.double(d, m))
-        case let .int(i, t, m):            self.init(GeneCore.int(i, t, m))
-        case let .activator(v, m):         self.init(GeneCore.activator(v, m))
-        case let .upConnector(c, t, w, m): self.init(GeneCore.upConnector(c, t, w, m))
+        case let .double(d, m):      self.init(GeneCore.double(d, m))
+        case let .int(i, t, m):      self.init(GeneCore.int(i, t, m))
+        case let .activator(v, m):   self.init(GeneCore.activator(v, m))
+        case let .upConnector(u, m): self.init(GeneCore.upConnector(u, m))
         default: preconditionFailure()
         }
     }
@@ -30,7 +30,7 @@ struct gActivatorFunction: GeneProtocol {
     }
 
     static func makeRandomGene() -> GeneProtocol {
-        let randomFunctionName = nok(AFn.FunctionName.allCases.randomElement())
+        let randomFunctionName = hardBind(AFn.FunctionName.allCases.randomElement())
         return gActivatorFunction(randomFunctionName)
     }
 }
@@ -108,22 +108,45 @@ struct gNeuron: GeneProtocol {
     static func makeRandomGene() -> GeneProtocol { return gNeuron() }
 }
 
+extension Double {
+    static func random(in range: Range<Double>, excluding middle: Double) -> Double {
+        let sign = Bool.random() ? 1.0 : -1.0
+        let exclude = middle / 2.0
+        return sign * (abs(Double.random(in: range)) / 2) + exclude
+    }
+}
+
 struct gUpConnector: GeneProtocol {
+
+    // To prevent something like dividing by .0000001. If they're going
+    // to grow exponentially, let's limit it to a certain factor each time.
+    static let maxAmplificationPerMutation = 1.75
+
     var core: GeneCore
 
-    init(_ connector: UpConnectorValue, isMutatedCopy: Bool = false) {
-        core = GeneCore.upConnector(
-            connector.channel,
-            GeneCore.upConnectorChannelTopOfRange,
-            connector.weight,
-            isMutatedCopy
-        )
+    init(_ connector: UpConnector, isMutatedCopy: Bool = false) {
+        core = GeneCore.upConnector(connector, isMutatedCopy)
     }
 
     static func makeRandomGene() -> GeneProtocol {
-        let weight = Double.random(in: -1...1)
-        let channel = Int.random(in: 0..<GeneCore.upConnectorChannelTopOfRange)
-        return nok(gUpConnector((channel, weight)))
+        let maxAPM = maxAmplificationPerMutation
+        let amplification = Double.random(in: -1.0..<1.0, excluding: 2 * 1 / maxAPM)
+        let amplificationMode = UpConnectorAmplifier.AmplificationMode.increase
+        let channel_ = Int.random(in: 0..<GeneCore.upConnectorChannelTopOfRange)
+        let weight_ = Double.random(in: -1...1)
+
+        let amplifier = UpConnectorAmplifier(
+            amplificationMode: amplificationMode, multiplier: amplification
+        )
+
+        let channel = UpConnectorChannel(
+            channel: channel_, topOfRange: GeneCore.upConnectorChannelTopOfRange
+        )
+
+        let weight = UpConnectorWeight(weight: weight_)
+
+        let upConnector = UpConnector(channel, weight, amplifier)
+        return gUpConnector(upConnector, isMutatedCopy: false)
     }
 }
 /*

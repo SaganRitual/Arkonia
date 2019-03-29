@@ -20,12 +20,52 @@
 
 import Foundation
 
-public struct UpConnector: CustomStringConvertible, NeuronUpConnectorProtocol {
-    public var value: UpConnectorValue
+struct UpConnectorChannel: Equatable {
+    let channel: Int
+    let topOfRange: Int
+}
+
+struct UpConnectorWeight: Equatable {
+    let weight: Double
+}
+
+struct UpConnectorAmplifier: Equatable {
+    enum AmplificationMode: CaseIterable { case none, reduce, increase }
+
+    let amplificationMode: AmplificationMode
+    let multiplier: Double
+
+    public func amplified(_ input: Double) -> Double {
+        switch amplificationMode {
+        case .increase: return input
+        case .none:     return input
+        case .reduce:   return input // / multiplier
+        }
+    }
+}
+
+public typealias UpConnectorValue = (channel: Int, weight: Double)
+
+protocol NeuronUpConnectorProtocol {
+    var channel: UpConnectorChannel { get }
+    var weight: UpConnectorWeight { get }
+    var amplifier: UpConnectorAmplifier { get }
+}
+
+struct UpConnector: CustomStringConvertible, NeuronUpConnectorProtocol {
+    let channel: UpConnectorChannel
+    let weight: UpConnectorWeight
+    let amplifier: UpConnectorAmplifier
 
     public var description: String {
-        return "(w[\(value.1)]c[\(value.0)])"
+        return "(w[\(weight.weight)]c[\(channel.channel)])"
     }
 
-    init(_ gene: NeuronUpConnectorProtocol) { self.value = gene.value }
+    init(_ channel: UpConnectorChannel, _ weight: UpConnectorWeight,
+         _ amplifier: UpConnectorAmplifier)
+    {
+        self.channel = channel
+        self.weight = weight
+        self.amplifier = amplifier
+    }
 }

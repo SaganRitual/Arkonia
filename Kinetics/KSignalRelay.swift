@@ -42,7 +42,10 @@ class KSignalRelay: KIdentifiable, Hashable {
         hasher.combine(self.id)
     }
 
-    func releaseInputs() { while !inputRelays.isEmpty { inputRelays.removeLast() } }
+    func releaseInputs() {
+//        print("\(self) releasing \(inputRelays.count) input relays")
+        while !inputRelays.isEmpty { inputRelays.removeLast() }
+    }
 
     static func == (lhs: KSignalRelay, rhs: KSignalRelay) -> Bool {
         return lhs.id == rhs.id

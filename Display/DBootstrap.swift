@@ -16,7 +16,7 @@ class DBootstrap: NSObject, SKSceneDelegate {
         self.components = [
             createDisplay, createWorld,
             createArkonery, createMannaFactory,
-            liftoff
+            createDrones, liftoff
         ]
 
         selfReference = self
@@ -33,6 +33,7 @@ class DBootstrap: NSObject, SKSceneDelegate {
     }
 
     func createDisplay()      { Display.shared = Display(scene) }
+    func createDrones()       { Karamba.createDrones(50) }
     func createMannaFactory() { MannaFactory.shared = MannaFactory() }
     func createWorld()        { World.shared = World() }
 

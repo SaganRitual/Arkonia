@@ -30,7 +30,7 @@ struct KConnector {
     func selectOutputs(from upperLayer: KLayer) -> [Int] {
         // Check for empty and grab the last entry at the same time
         guard let startingTarget = connectingNeuron.upConnectors.last else { return [] }
-        var channelIx = startingTarget.0
+        var channelIx = startingTarget.channel.channel
 
         let upperNeurons = upperLayer.neurons
 
@@ -43,7 +43,9 @@ struct KConnector {
 
         while !connectingNeuron.upConnectors.isEmpty {
             let target = connectingNeuron.upConnectors.removeLast()
-            connectingNeuron.weights.append(target.1)  // save weight for the signaling step
+
+             // save weight for the signaling step
+            connectingNeuron.weights.append(target.weight.weight)
 //            print("uuu \(connectingNeuron)")
 
             let inputNeuron: KNeuron = {

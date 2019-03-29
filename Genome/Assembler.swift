@@ -34,8 +34,16 @@ enum Assembler {
             gNeuron(), gActivatorFunction(.boundidentity), gBias(bias)
         ]
 
-        transport += (0..<ArkonCentralDark.selectionControls.cSenseNeurons).map {
-            gUpConnector(($0, 1.0))
+        transport += (0..<World.cSenseNeurons).map {
+            let amplifier = UpConnectorAmplifier(amplificationMode: .none, multiplier: 1)
+
+            let channel = UpConnectorChannel(
+                channel: $0, topOfRange: GeneCore.upConnectorChannelTopOfRange
+            )
+
+            let weight = UpConnectorWeight(weight: 1.0)
+
+            return gUpConnector(UpConnector(channel, weight, amplifier))
          }
 
         return transport

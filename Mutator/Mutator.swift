@@ -80,7 +80,7 @@ class Mutator {
         self.sourceGenome = sourceGenome
         self.outputGenome.removeAll(keepingCapacity: true)
 
-        let m = nok(MutationType.allCases.randomElement())
+        let m = hardBind(MutationType.allCases.randomElement())
 
         var newGenome: ([GeneProtocol], [GeneProtocol])?
         switch m {
@@ -126,7 +126,7 @@ class Mutator {
         case doNothing, reversed, shuffled
 
         static func random() -> PreinsertAction {
-            return nok(PreinsertAction.allCases.randomElement())
+            return hardBind(PreinsertAction.allCases.randomElement())
         }
     }
 

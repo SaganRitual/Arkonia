@@ -30,12 +30,5 @@ enum ArkonCentralDark {
 struct KSelectionControls {
     var cGenerations = 30000
     var cGenes = 200
-    var cLayersInStarter = 1
-    var cMotorNeurons = 1
-    var cSenseNeurons = 1
-    var cSpawnAttempts = 2
-    var cSubjectsPerGeneration = 500
-    var maxKeepersPerGeneration = 5
-    var peerGroupLimit = 2
     var theFishNumber = 0
 }
