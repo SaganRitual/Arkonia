@@ -34,14 +34,16 @@ extension Physics {
             guard case let (arkonSprite?, mannaSprite?) =
                 Physics.assignSprites(nodeA, nodeB) else { return }
 
-            Physics.senseFood(arkonSprite, mannaSprite)
+            guard let arkon = arkonSprite.arkon else { return }
+            arkon.sensedBodies = Physics.senseFood(arkonSprite, mannaSprite)
         }
 
         if (interaction & Physics.arkonIsTouchingFood) == Physics.arkonIsTouchingFood {
             guard case let (arkonSprite?, mannaSprite?) =
                 Physics.assignSprites(nodeA, nodeB) else { return }
 
-            Physics.touchFood(arkonSprite, mannaSprite)
+            guard let arkon = arkonSprite.arkon else { return }
+            arkon.contactedBodies = Physics.touchFood(arkonSprite, mannaSprite)
         }
     }
 
@@ -60,7 +62,8 @@ extension Physics {
             guard case let (arkonSprite?, mannaSprite?) =
                 Physics.assignSprites(nodeA, nodeB) else { return }
 
-            Physics.loseTrackOfFood(arkonSprite, mannaSprite)
+            guard let arkon = arkonSprite.arkon else { return }
+            arkon.sensedBodies = Physics.loseTrackOfFood(arkonSprite, mannaSprite)
         }
     }
 }
@@ -100,20 +103,25 @@ extension Physics {
         return (arkonSprite, mannaSprite)
     }
 
-    static private func loseTrackOfFood(_ a: SKSpriteNode, _ b: SKSpriteNode) {
-        guard case let (arkonSprite?, _?) = assignSprites(a, b) else { return }
-        nok(arkonSprite.arkon).sensedBodies = nok(arkonSprite.physicsBody).allContactedBodies()
+    static private func loseTrackOfFood(_ a: SKNode, _ b: SKNode) -> [SKPhysicsBody] {
+        guard case let (arkonSprite?, _?) = assignSprites(a, b) else { return [] }
+        guard let pBody = arkonSprite.physicsBody else { return [] }
+
+        return pBody.allContactedBodies()
     }
 
-    static private func senseFood(_ a: SKSpriteNode, _ b: SKSpriteNode) {
-        guard case let (arkonSprite?, _?) = assignSprites(a, b) else { return }
-        nok(arkonSprite.arkon).sensedBodies = nok(arkonSprite.physicsBody).allContactedBodies()
+    static private func senseFood(_ a: SKNode, _ b: SKNode) -> [SKPhysicsBody] {
+        guard case let (arkonSprite?, _?) = assignSprites(a, b) else { return [] }
+        guard let pBody = arkonSprite.physicsBody else { return [] }
+
+        return pBody.allContactedBodies()
     }
 
-    static private func touchFood(_ a: SKSpriteNode, _ b: SKSpriteNode) {
-        guard case let (arkonSprite?, mannaSprite?) = assignSprites(a, b) else { return }
-        nok(arkonSprite.arkon).contactedBodies = nok(arkonSprite.physicsBody).allContactedBodies()
-
+    static private func touchFood(_ a: SKNode, _ b: SKNode) -> [SKPhysicsBody] {
+        guard case let (arkonSprite?, mannaSprite?) = assignSprites(a, b) else { return [] }
         MannaFactory.shared.compost(mannaSprite)
+
+        guard let pBody = arkonSprite.physicsBody else { return [] }
+        return pBody.allContactedBodies()
     }
 }

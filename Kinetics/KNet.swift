@@ -117,4 +117,8 @@ extension KNet {
 
         return true
     }
+
+    func getNetSignalCost() -> CGFloat {
+        return hiddenLayers.reduce(0) { $0 + CGFloat($1.neurons.count) } / 1e7
+    }
 }

@@ -5,7 +5,8 @@ extension Arkon {
     private func eatManna(_ bodies: [SKPhysicsBody]) {
         let touchedManna = bodies.filter { hardBind($0.node?.name).starts(with: "manna") }
         print("\(fishNumber) touches \(touchedManna.count)")
-        hunger -= CGFloat(touchedManna.count) * 5.0
+        hunger -= CGFloat(touchedManna.count) * 50.0
+        nok(sprite.physicsBody).mass += CGFloat(touchedManna.count) * 50.0
     }
 
     private func response() {
@@ -78,9 +79,15 @@ extension Arkon {
         // before we're ready for ticks.
         if !status.isAlive { return }
 
-        if !isInBounds || sprite.physicsBody!.mass <= 0 { sprite.run(apoptosizeAction); return }
+        if !isInBounds || sprite.physicsBody!.mass <= 0 {
+            print("dead", fishNumber, hunger, sprite.physicsBody!.mass)
+            sprite.run(apoptosizeAction); return }
 
-        sprite.color = .green
+        if sprite.physicsBody!.velocity.radius > 7.0 {
+            sprite.color = .purple
+        } else {
+            sprite.color = .green
+        }
 
         stimulus()
         response()

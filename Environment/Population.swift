@@ -88,7 +88,7 @@ enum Population {
     func updateStatusCache() -> Population {
         if !World.shared.populationChanged { return self }
 
-        let sprites = PortalServer.shared.arkonsPortal.get().children
+        let sprites = PortalServer.shared.arkonsPortal.children
         let arkons: [Arkon] = sprites.compactMap { node in
             guard let sprite = node as? SKSpriteNode else { return nil }
             guard let arkon = sprite.arkon else { return nil }

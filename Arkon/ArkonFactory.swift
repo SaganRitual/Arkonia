@@ -39,11 +39,11 @@ class ArkonFactory: NSObject {
     static let karambaSerializerQueue = DispatchQueue(label: "light.karamba", qos: .background)
 
     let logHistogram = LogHistogram(sampleResolution: 1)
-    var barChart = SetOnce<BarChart>()
+    var barChart: BarChart!
     var barChartSource: BasicBarChartSource
 
     let auxLogHistogram = LogHistogram(sampleResolution: 1)
-    var auxBarChart = SetOnce<BarChart>()
+    var auxBarChart: BarChart!
     var auxBarChartSource: BasicBarChartSource
 
     override init() {
@@ -97,7 +97,7 @@ class ArkonFactory: NSObject {
             parentFishNumber: parentFishNumber,
             genome: newGenome,
             fNet: fNet,
-            portal: PortalServer.shared.arkonsPortal.get()
+            portal: PortalServer.shared.arkonsPortal
         ) else { return nil }
 
         return arkon

@@ -20,7 +20,7 @@ class Karamba: SKSpriteNode {
 
     func launch() {
         let action = SKAction.run(launch_, queue: ArkonFactory.karambaSerializerQueue)
-        PortalServer.shared.arkonsPortal.get().run(action)
+        PortalServer.shared.arkonsPortal.run(action)
     }
 
     private func launch_() {
@@ -48,6 +48,7 @@ class Karamba: SKSpriteNode {
             let properSensesBodyRadius: CGFloat = self.size.radius * 1.5
             let sensesPBody = SKPhysicsBody(circleOfRadius: properSensesBodyRadius)
 
+            sensesPBody.friction = 1.0
             sensesPBody.isDynamic = false
             sensesPBody.mass = 0.0
             sensesPBody.collisionBitMask = 0
@@ -59,6 +60,7 @@ class Karamba: SKSpriteNode {
             let properBodyRadius: CGFloat = self.size.radius * 0.5
             let pBody = SKPhysicsBody(circleOfRadius: properBodyRadius)
 
+            pBody.friction = 1.0
             pBody.isDynamic = false
             pBody.collisionBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
             pBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
@@ -84,12 +86,17 @@ class Karamba: SKSpriteNode {
 }
 
 extension Karamba {
-    func apparate() { PortalServer.shared.arkonsPortal.get().addChild(self) }
+    func apparate() { PortalServer.shared.arkonsPortal.addChild(self) }
 
     static func createDrones(_ cKarambas: Int) {
         (0..<cKarambas).forEach { _ in
             let k = Karamba(nil, nil)
-            k.position = CGPoint.random(in: -250..<250)
+            let w = PortalServer.shared.arkonsPortal.frame.size.width
+            let h = PortalServer.shared.arkonsPortal.frame.size.height
+
+            let xRange = -w..<w
+            let yRange = -h..<h
+            k.position = CGPoint.random(xRange: xRange, yRange: yRange)
             k.launch()
         }
     }

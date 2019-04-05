@@ -10,11 +10,11 @@ extension Arkon {
         }
 
         mutating func postInit() {
-            self.birthday.set(Display.shared.currentTime)
+            self.birthday = Display.shared.currentTime
         }
 
         var age: TimeInterval { return Display.shared.currentTime - birthday }
-        var birthday = SetOnce<TimeInterval>(defaultValue: 0.0)
+        var birthday: TimeInterval = 0
         var cOffspring = 0      { willSet { World.shared.populationChanged = true } }
         let fishNumber: Int
         var isAlive = false
