@@ -23,7 +23,7 @@ class AgeStatsPortal {
 //        let light = SKAction.group(actions)
 //        let spriteName = arkon.sprite.name!
 //        let dark = SKAction.run {
-//            let node = PortalServer.shared.arkonsPortal.get().childNode(withName: spriteName)
+//            let node = PortalServer.shared.arkonsPortal.childNode(withName: spriteName)
 //            guard let sprite = node as? SKSpriteNode else { return }
 //            guard let arkon: Arkon = sprite.getUserData(SKSpriteNode.UserDataKey.arkon) else { return }
 //        }
@@ -31,7 +31,7 @@ class AgeStatsPortal {
 //        let demote = SKAction.sequence([light])
 //        let remote = SKAction.run(demote, onChildWithName: spriteName)
 //
-//        PortalServer.shared.arkonsPortal.get().run(remote)
+//        PortalServer.shared.arkonsPortal.run(remote)
     }
 
     func promoteToDuggarest(_ arkon: Arkon, _ grow: Bool) {
@@ -49,14 +49,14 @@ class AgeStatsPortal {
 //        let light = SKAction.group(actions)
 //        let spriteName = arkon.sprite.name!
 //        let dark = SKAction.run {
-//            let node = PortalServer.shared.arkonsPortal.get().childNode(withName: spriteName)
+//            let node = PortalServer.shared.arkonsPortal.childNode(withName: spriteName)
 //            guard let sprite = node as? SKSpriteNode else { return }
 //            guard let arkon: Arkon = sprite.getUserData(SKSpriteNode.UserDataKey.arkon) else { return }
 //        }
 
 //        let promote = SKAction.sequence([light])
 //        let remote = SKAction.run(promote, onChildWithName: spriteName)
-//        PortalServer.shared.arkonsPortal.get().run(remote)
+//        PortalServer.shared.arkonsPortal.run(remote)
     }
 
     func promoteToOldest(_ arkon: Arkon, _ grow: Bool) {
@@ -73,14 +73,14 @@ class AgeStatsPortal {
 //        let light = SKAction.group(actions)
 //        let spriteName = arkon.sprite.name!
 //        let dark = SKAction.run {
-//            let node = PortalServer.shared.arkonsPortal.get().childNode(withName: spriteName)
+//            let node = PortalServer.shared.arkonsPortal.childNode(withName: spriteName)
 //            guard let sprite = node as? SKSpriteNode else { return }
 //            guard let arkon: Arkon = sprite.getUserData(SKSpriteNode.UserDataKey.arkon) else { return }
 //        }
 
 //        let promote = SKAction.sequence([light])
 //        let remote = SKAction.run(promote, onChildWithName: spriteName)
-//        PortalServer.shared.arkonsPortal.get().run(remote)
+//        PortalServer.shared.arkonsPortal.run(remote)
     }
 
     init(_ generalStatsPortals: GeneralStats) {

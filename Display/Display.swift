@@ -44,7 +44,7 @@ class Display: NSObject, SKSceneDelegate {
     func didFinishUpdate(for scene: SKScene) {
         Display.displayCycle = .updateComplete
 
-        for node in PortalServer.shared.arkonsPortal.get().children where node as? Karamba != nil {
+        for node in PortalServer.shared.arkonsPortal.children where node as? Karamba != nil {
             (node as? Karamba)?.lastMinuteBusiness()
         }
 
@@ -103,7 +103,7 @@ class Display: NSObject, SKSceneDelegate {
 
         tickCount += 1
 
-        let cm: [Arkon] = PortalServer.shared.arkonsPortal.get().children.compactMap {
+        let cm: [Arkon] = PortalServer.shared.arkonsPortal.children.compactMap {
             guard let a = ($0 as? SKSpriteNode)?.arkon else { return nil }
             return a.status.isAlive ? a : nil
         }

@@ -23,26 +23,36 @@ enum ActionPrimitive {
     //
     static func getMotionActions(sprite: SKSpriteNode, motorOutputs: [Double]) -> SKAction {
 
-        let fudgeFactor: CGFloat = 100.0
-        let angularPower = abs(CGFloat(motorOutputs[0])) / (5000 * fudgeFactor)
-        let linearPower = abs(CGFloat(motorOutputs[1])) / fudgeFactor
+        let angularPower = CGFloat(motorOutputs[0]) / 50000
+        let linearPower = CGFloat(motorOutputs[1])
 
-        let angularDamping = abs(CGFloat(motorOutputs[2])) * 2// / (5000 * fudgeFactor)
-        let linearDamping = abs(CGFloat(motorOutputs[3])) * 2// / fudgeFactor
+//        let angularDamping = abs(CGFloat(motorOutputs[2]))
+//        let linearDamping = abs(CGFloat(motorOutputs[3]))
 
-        let lostMass = (angularPower + linearPower) / 60.0
-        sprite.physicsBody!.mass -= lostMass
-        sprite.arkon?.hunger += lostMass
+        let lostMassFromNetSignal = nok(sprite.arkon).signalDriver.kNet.getNetSignalCost()
+        let lostMassFromMotorOutputs = (angularPower + linearPower) / 60.0
+
+        let lostMass = lostMassFromMotorOutputs + lostMassFromNetSignal
+
+        let pBody = hardBind(sprite.physicsBody)
+        let arkon = hardBind(sprite.arkon)
+
+        pBody.mass -= lostMass
+        arkon.hunger += lostMass
 
         let rotate = SKAction.run {
-            sprite.physicsBody!.angularDamping = angularDamping
-            sprite.physicsBody!.applyAngularImpulse(angularPower)
+            pBody.angularDamping = 1.0//angularDamping
+            pBody.applyAngularImpulse(angularPower)
+        }
+
+        if pBody.velocity.radius > 3 {
+            sprite.color = .yellow
         }
 
         let thrustVector = CGVector.polar(radius: linearPower, theta: sprite.zRotation)
         let thrust = SKAction.run {
-            sprite.physicsBody!.linearDamping = linearDamping
-            sprite.physicsBody!.applyImpulse(thrustVector)
+            pBody.linearDamping = 1.0//linearDamping
+            pBody.applyImpulse(thrustVector)
         }
 
         let group = SKAction.group([rotate, thrust])

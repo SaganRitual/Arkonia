@@ -91,7 +91,7 @@ extension KLayer {
 
             while !upperNeuron.downConnectors.isEmpty {
                 let connector = upperNeuron.downConnectors.removeLast()
-                let outputNeuronSS = connector %% self.neurons.count
+                let outputNeuronSS = connector % self.neurons.count
                 let outputNeuron = self.neurons[outputNeuronSS]
 
                 outputNeuron.relay!.inputRelays.append(upperNeuron.relay!)

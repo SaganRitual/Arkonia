@@ -3,7 +3,7 @@ import SpriteKit
 class PortalServer {
     static var shared: PortalServer!
 
-    var arkonsPortal =       SetOnce<SKSpriteNode>()
+    var arkonsPortal : SKSpriteNode
 //    var clockPortal:         ClockPortal
 //    var duggarStatsPortal:   DuggarStatsPortal
 //    var generalStatsPortals: GeneralStats
@@ -32,7 +32,7 @@ class PortalServer {
 
 //        self.generalStatsPortals = generalStatsPortals
 
-        self.arkonsPortal.set(PortalServer.initArkonsPortal(scene))
+        self.arkonsPortal = PortalServer.initArkonsPortal(scene)
 
         PortalServer.shared = self
     }
@@ -85,7 +85,7 @@ extension PortalServer {
 //        let statusCacheUpdater = SKAction.run {
 //            if World.shared.populationChanged {
 //                PortalServer.shared.statusCache =
-//                PortalServer.shared.arkonsPortal.get().children.compactMap { node in
+//                PortalServer.shared.arkonsPortal.children.compactMap { node in
 //                    guard let sprite = node as? SKSpriteNode else { return nil }
 //                    guard let arkon = sprite.arkon else { return nil }
 //                    return arkon.status

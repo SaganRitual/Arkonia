@@ -12,7 +12,7 @@ extension Arkon {
 
     static private func attachSenses(_ sprite: SKSpriteNode, _ senses: SKPhysicsBody) {
         let snapPoint =
-            PortalServer.shared.arkonsPortal.get().convert(sprite.position, to: Display.shared.scene!)
+            PortalServer.shared.arkonsPortal.convert(sprite.position, to: Display.shared.scene!)
 
         let snap = SKPhysicsJointPin.joint(
             withBodyA: sprite.physicsBody!, bodyB: senses, anchor: snapPoint
@@ -27,8 +27,8 @@ extension Arkon {
         self.apoptosizeAction = SKAction.sequence([
             SKAction.run { [weak self] in
                 print("fish \(?!self?.fishNumber) apoptosizing; cycle \(Display.displayCycle)")
-                self?.sprite.physicsBody = nil
-                (self?.sprite.children[0] as? SKSpriteNode)?.physicsBody = nil
+//                self?.sprite.physicsBody = nil
+//                (self?.sprite.children[0] as? SKSpriteNode)?.physicsBody = nil
                 self?.sprite?.userData?[SKSpriteNode.UserDataKey.arkon] = nil
             }, SKAction.removeFromParent()
         ])
@@ -56,11 +56,13 @@ extension Arkon {
 
         World.shared.populationChanged = true
 
-        self.sprite.alpha = 1
         status.isAlive = true
 
         sprite.setScale(ArkonFactory.scale)
-        sprite.physicsBody!.mass = 1
+
+        // This mass will get sized down by the sprite's scale factor squared
+        sprite.physicsBody!.mass = 100
+        self.sprite.alpha = 1
     }
 
     func postPartum(relievedArkonFishNumber: Int?) {
