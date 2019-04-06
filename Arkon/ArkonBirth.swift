@@ -26,9 +26,6 @@ extension Arkon {
 
         self.apoptosizeAction = SKAction.sequence([
             SKAction.run { [weak self] in
-                print("fish \(?!self?.fishNumber) apoptosizing; cycle \(Display.displayCycle)")
-//                self?.sprite.physicsBody = nil
-//                (self?.sprite.children[0] as? SKSpriteNode)?.physicsBody = nil
                 self?.sprite?.userData?[SKSpriteNode.UserDataKey.arkon] = nil
             }, SKAction.removeFromParent()
         ])

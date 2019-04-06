@@ -45,8 +45,9 @@ enum ActionPrimitive {
             pBody.applyAngularImpulse(angularPower)
         }
 
-        if pBody.velocity.radius > 3 {
-            sprite.color = .yellow
+        if pBody.velocity.magnitude > 7.5 {
+            sprite.color = .purple
+            print("\(arkon.fishNumber) accelerating", pBody.velocity.magnitude)
         }
 
         let thrustVector = CGVector.polar(radius: linearPower, theta: sprite.zRotation)
