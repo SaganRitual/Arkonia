@@ -15,7 +15,7 @@ extension Arkon {
     }
 
     private func getCSensedArkons(_ bodies: [SKPhysicsBody]) -> Int {
-        let sensedArkons = bodies.filter { $0.node!.name!.starts(with: "arkon") }
+        let sensedArkons = bodies.filter { ($0.node?.name)?.starts(with: "arkon") ?? false }
         return sensedArkons.count
     }
 
@@ -80,7 +80,7 @@ extension Arkon {
         if !status.isAlive { return }
 
         if !isInBounds || sprite.physicsBody!.mass <= 0 {
-            print("dead", fishNumber, hunger, sprite.physicsBody!.mass)
+            print("dead", fishNumber, sprite.physicsBody!.velocity.magnitude, hunger, sprite.physicsBody!.mass)
             sprite.run(apoptosizeAction); return }
 
         if sprite.physicsBody!.velocity.radius > 7.0 {

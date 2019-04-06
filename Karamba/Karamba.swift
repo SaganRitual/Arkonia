@@ -16,6 +16,8 @@ class Karamba: SKSpriteNode {
             color: .green,
             size: ArkonCentralLight.topTexture!.size()
         )
+
+        super.alpha = 0
     }
 
     func launch() {
@@ -65,6 +67,7 @@ class Karamba: SKSpriteNode {
             pBody.collisionBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
             pBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
             pBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
+            pBody.fieldBitMask = ArkonCentralLight.PhysicsBitmask.dragField.rawValue
 
             self.physicsBody = pBody
         }
