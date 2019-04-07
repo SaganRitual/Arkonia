@@ -15,12 +15,13 @@ class World {
         sAngularVelocity + sLinearVelocity + sPosition + sCMannaSensed +
         sClosestManna + sCArkonsSensed + sClosestArkon
 
-    private static let mThrust         = 1
-    private static let mLinearDamping  = 1
-    private static let mTorque         = 1
-    private static let mAngularDamping = 1
-    static let cMotorNeurons           =
-        mThrust + mLinearDamping + mTorque + mAngularDamping
+    private static let mPower   = 1
+    private static let mAStop   = 1
+    private static let mARotate = 1
+    private static let mAThrust = 1
+    private static let mAWait   = 1
+    static let cMotorNeurons    =
+       mPower + mAStop + mARotate + mAThrust + mAWait
 
     private var population_ = Population.population([])
     var population: Population {
