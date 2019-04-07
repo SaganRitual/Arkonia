@@ -5,7 +5,7 @@ enum ActionPrimitive {
     case goThrust(CGFloat)
     case goRotate(CGFloat)
     case goFullStop
-    case goWait
+    case goWait(TimeInterval)
 
     //
     // 4 kilocalories per gram of body mass

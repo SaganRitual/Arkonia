@@ -60,6 +60,7 @@ extension Karamba {
             size: ArkonCentralLight.topTexture!.size()
         )
 
+        nose.name = "nose"
         nose.setScale(0.2)
         nose.colorBlendFactor = 1.0
         nose.zPosition = ArkonCentralLight.vArkonZPosition + 1
@@ -71,7 +72,6 @@ extension Karamba {
         arkon.addChild(nose)
 
         let (pBody, nosePBody) = makePhysicsBodies(arkonRadius: arkon.size.radius)
-        arkon.physicsBody = pBody; nose.physicsBody = nosePBody
 
         let parentGenome = geneticParentGenome ?? ArkonFactory.getAboriginalGenome()
 
@@ -80,6 +80,8 @@ extension Karamba {
         ) else { return }    // Arkon died due to non-viable genome
 
         arkon.arkon = scab
+
+        arkon.name = "arkon_\(scab.fishNumber)"
 
         World.shared.populationChanged = true
 
@@ -94,14 +96,18 @@ extension Karamba {
         // The physics engine becomes unhappy if we add the arkon to the portal
         // in the wrong phase of the display cycle, which happens because we're
         // running all this setup on a work queue rather than in the main display
-        // cycle. So instead of adding in this context, we hand off an action to
+        // update. So instead of adding in this context, we hand off an action to
         // the portal and let him add us when it's safe.
         let action = SKAction.run {
-            scab.status.isAlive = true
             portal.addChild(arkon)
+
+            // Surprisingly, the physics engine also becomes unhappy if we add
+            // the physics bodies before we add their owning nodes to the scene.
+            arkon.physicsBody = pBody
+            nose.physicsBody = nosePBody
         }
 
-        portal.run(action)
+        portal.run(action, completion: { scab.status.isAlive = true })
     }
 
     static func makeDrone(geneticParentFishNumber f: Int?, geneticParentGenome g: [GeneProtocol]?) {
@@ -109,7 +115,7 @@ extension Karamba {
     }
 
     static func makePhysicsBodies(arkonRadius: CGFloat) -> (SKPhysicsBody, SKPhysicsBody) {
-        let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 1.5)
+        let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 2)
 
         sensesPBody.mass = 1
         sensesPBody.isDynamic = false
@@ -117,7 +123,7 @@ extension Karamba {
         sensesPBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
         sensesPBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue
 
-        let pBody = SKPhysicsBody(circleOfRadius: arkonRadius / 2)
+        let pBody = SKPhysicsBody(circleOfRadius: arkonRadius / 8)
 
         pBody.mass = 1
         pBody.isDynamic = false
@@ -169,8 +175,12 @@ extension Karamba {
     }
 
     func tick() {
-        // We shouldn't be in the tick function if we're not completely set up
-        precondition(scab.status.isAlive)
+        // Because the physics engine gets cranky if we try to add physics
+        // bodies to our nodes before we add the nodes to the scene, we have
+        // to allow for the scene to start ticking us before we're fully ready
+        // (that is, before we've added the physics bodies). So don't do anything
+        // until isAlive is set.
+        guard scab.status.isAlive else { return }
 
         if !isInBounds || pBody.mass <= 0 {
             print("dead", scab.fishNumber, pBody.velocity.magnitude, scab.hunger, pBody.mass)
@@ -182,7 +192,12 @@ extension Karamba {
             color = .green
         }
 
-        stimulus()
-        response()
+        execute(arkon: self)
+//        stimulus()
+//        response()
     }
+}
+
+extension Karamba: ManeuverProtocol {
+    override var scene: SKScene { return hardBind(Display.shared.scene) }
 }

@@ -104,6 +104,7 @@
 		D47246DB22116DE6002AA25F /* DLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47246DA22116DE6002AA25F /* DLayer.swift */; };
 		D47246DD22116E95002AA25F /* DNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47246DC22116E95002AA25F /* DNeuron.swift */; };
 		D47A0B14223C99FC00C92132 /* Population.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47A0B13223C99FC00C92132 /* Population.swift */; };
+		D47BEE6E2259D93F004750CD /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47BEE6D2259D93F004750CD /* Maneuvers.swift */; };
 		D4860A76220759CD002F688B /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672822070AC4009BAA3A /* SceneViewController.swift */; };
 		D4860A77220759CD002F688B /* KAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672722070AC4009BAA3A /* KAppController.swift */; };
 		D4860A78220759CD002F688B /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672922070AC5009BAA3A /* KAppDelegate.swift */; };
@@ -238,6 +239,7 @@
 		D47246DA22116DE6002AA25F /* DLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DLayer.swift; sourceTree = "<group>"; };
 		D47246DC22116E95002AA25F /* DNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNeuron.swift; sourceTree = "<group>"; };
 		D47A0B13223C99FC00C92132 /* Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Population.swift; sourceTree = "<group>"; };
+		D47BEE6D2259D93F004750CD /* Maneuvers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maneuvers.swift; sourceTree = "<group>"; };
 		D4AD519E2225122D009EF514 /* ArkonFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonFactory.swift; sourceTree = "<group>"; };
 		D4BB12E92207B8B9004C2242 /* TTNetMeat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTNetMeat; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB12EB2207B8B9004C2242 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 			children = (
 				D42E35F1225355750074554B /* ActionPrimitive.swift */,
 				D403CD2A224ECD0B00B27458 /* Karamba.swift */,
+				D47BEE6D2259D93F004750CD /* Maneuvers.swift */,
 			);
 			path = Karamba;
 			sourceTree = "<group>";
@@ -1130,6 +1133,7 @@
 				D4E18CBB222CFBF4008B1E2E /* Physics.swift in Sources */,
 				D4C266242210BC4F00325F05 /* Display.swift in Sources */,
 				D4489BFC223A76EA00708B56 /* GeneCore.swift in Sources */,
+				D47BEE6E2259D93F004750CD /* Maneuvers.swift in Sources */,
 				D46D6C4422076C970001F5D0 /* KNeuron.swift in Sources */,
 				D44EB8AF222FA5250004A46F /* DBootstrap.swift in Sources */,
 				D46D6C4722076C970001F5D0 /* KNet.swift in Sources */,
