@@ -22,41 +22,43 @@ enum ActionPrimitive {
     // I'll just make up a fudge factor.)
     //
     static func getMotionActions(sprite: SKSpriteNode, motorOutputs: [Double]) -> SKAction {
-
-        let angularPower = CGFloat(motorOutputs[0]) / 50000
-        let linearPower = CGFloat(motorOutputs[1])
-
-//        let angularDamping = abs(CGFloat(motorOutputs[2]))
-//        let linearDamping = abs(CGFloat(motorOutputs[3]))
-
-        let lostMassFromNetSignal = nok(sprite.arkon).signalDriver.kNet.getNetSignalCost()
-        let lostMassFromMotorOutputs = (angularPower + linearPower) / 60.0
-
-        let lostMass = lostMassFromMotorOutputs + lostMassFromNetSignal
-
-        let pBody = hardBind(sprite.physicsBody)
-        let arkon = hardBind(sprite.arkon)
-
-        pBody.mass -= lostMass
-        arkon.hunger += lostMass
-
-        let rotate = SKAction.run {
-            pBody.angularDamping = 1.0//angularDamping
-            pBody.applyAngularImpulse(angularPower)
-        }
-
-        if pBody.velocity.magnitude > 7.5 {
-            sprite.color = .purple
-            print("\(arkon.fishNumber) accelerating", pBody.velocity.magnitude)
-        }
-
-        let thrustVector = CGVector.polar(radius: linearPower, theta: sprite.zRotation)
-        let thrust = SKAction.run {
-            pBody.linearDamping = 1.0//linearDamping
-            pBody.applyImpulse(thrustVector)
-        }
-
-        let group = SKAction.group([rotate, thrust])
-        return group
+//
+//        let angularPower = CGFloat(motorOutputs[0]) / 50000
+//        let linearPower = CGFloat(motorOutputs[1])
+//
+////        let angularDamping = abs(CGFloat(motorOutputs[2]))
+////        let linearDamping = abs(CGFloat(motorOutputs[3]))
+//
+//        let lostMassFromNetSignal = nok(sprite.arkon).signalDriver.kNet.getNetSignalCost()
+//        let lostMassFromMotorOutputs = (angularPower + linearPower) / 60.0
+//
+//        let lostMass = lostMassFromMotorOutputs + lostMassFromNetSignal
+//
+//        let pBody = hardBind(sprite.physicsBody)
+//        let arkon = hardBind(sprite.arkon)
+//
+//        pBody.mass -= lostMass
+//        arkon.hunger += lostMass
+//
+//        let rotate = SKAction.run {
+//            pBody.angularDamping = 1.0//angularDamping
+//            pBody.applyAngularImpulse(angularPower)
+//        }
+//
+//        if pBody.velocity.magnitude > 7.5 {
+//            sprite.color = .purple
+//            print("\(arkon.fishNumber) accelerating", pBody.velocity.magnitude)
+//        }
+//
+//        let thrustVector = CGVector.polar(radius: linearPower, theta: sprite.zRotation)
+//        let thrust = SKAction.run {
+//            sprite.color = .red
+//            pBody.linearDamping = 1.0//linearDamping
+//            pBody.applyImpulse(thrustVector)
+//        }
+//
+//        let group = SKAction.group([rotate, thrust])
+//        return group
+        return SKAction.run { preconditionFailure() }
     }
 }

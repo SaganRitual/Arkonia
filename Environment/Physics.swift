@@ -2,10 +2,12 @@ import Foundation
 import SpriteKit
 
 class Physics: NSObject, SKPhysicsContactDelegate {
-    override init() {
+    init(scene: SKScene) {
         super.init()
 
-        Display.shared.scene!.physicsWorld.gravity = CGVector.zero
+        scene.physicsWorld.contactDelegate = self
+        scene.physicsWorld.gravity = CGVector.zero
+        scene.physicsWorld.speed = 1.0
     }
 }
 

@@ -34,7 +34,7 @@ extension ManeuverProtocol {
     }
 
     func goSprite(arkon: Karamba, forceVector: CGVector) {
-        let primitive = selectActionPrimitive(arkon: arkon, linearForceScale: 5)
+        let primitive = selectActionPrimitive(arkon: arkon, linearForceScale: 1)
         arkon.run(primitive)
     }
 
@@ -69,8 +69,8 @@ extension ManeuverProtocol {
     }
 
     func setMarker(arkon: Karamba, forceVector: CGVector) {
-        arkon.nose.zRotation = forceVector.theta - arkon.zRotation
-        arkon.nose.position = CGPoint.zero
-        arkon.nose.run(SKAction.fadeIn(withDuration: 0.1))
+//        arkon.nose.zRotation = forceVector.theta - arkon.zRotation
+//        arkon.nose.position = CGPoint.zero
+//        arkon.nose.run(SKAction.fadeIn(withDuration: 0.1))
     }
 }

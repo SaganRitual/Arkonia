@@ -42,8 +42,8 @@ class World {
 
     let physics: Physics
 
-    init() {
-        self.physics = Physics()
+    init(_ scene: SKScene) {
+        self.physics = Physics(scene: scene)
 
 //        PortalServer.shared.generalStatsPortals.setUpdater(subportal: 0, field: 4) { [weak self] in
 //            guard let myself = self else { preconditionFailure() }

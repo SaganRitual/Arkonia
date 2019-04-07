@@ -50,39 +50,6 @@ class Display: NSObject, SKSceneDelegate {
 //        self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
     }
 
-    // https://developer.apple.com/documentation/spritekit/skscene/responding_to_frame-cycle_events
-
-    func didFinishUpdate(for scene: SKScene) {
-        Display.displayCycle = .updateComplete
-
-        for node in PortalServer.shared.arkonsPortal.children where node as? Karamba != nil {
-            (node as? Karamba)?.lastMinuteBusiness()
-        }
-
-        Display.displayCycle = .limbo
-    }
-
-    func didEvaluateActions(for scene: SKScene) {
-        Display.displayCycle = .actionsComplete
-        Display.displayCycle = .physics
-    }
-
-    func didSimulatePhysics(for scene: SKScene) {
-        Display.displayCycle = .physicsComplete
-        Display.displayCycle = .constraints
-    }
-
-    func didApplyConstraints(for scene: SKScene) {
-        Display.displayCycle = .constraintsComplete
-        Display.displayCycle = .updateComplete
-    }
-
-    func update(_ currentTime: TimeInterval, for scene: SKScene) {
-        Display.displayCycle = .updateStarted
-        primaryUpdate(currentTime, for: scene)
-        Display.displayCycle = .actions
-    }
-
     /**
      Schedule the kNet to be displayed on the next update.
 
@@ -103,14 +70,9 @@ class Display: NSObject, SKSceneDelegate {
     var firstPass = true
     var babyFirstSteps = true
 
-    func primaryUpdate(_ currentTime: TimeInterval, for scene: SKScene) {
+    func update(_ currentTime: TimeInterval, for scene: SKScene) {
         defer { self.currentTime = currentTime }
         if self.currentTime == 0 { self.timeZero = currentTime; return }
-
-        if scene.physicsWorld.contactDelegate == nil {
-            scene.physicsWorld.contactDelegate = World.shared.physics
-            scene.physicsWorld.speed = 1.0
-        }
 
         tickCount += 1
 
