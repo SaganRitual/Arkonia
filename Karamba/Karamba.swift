@@ -13,7 +13,7 @@ class Karamba: SKSpriteNode {
 
         super.init(
             texture: ArkonCentralLight.topTexture,
-            color: .green,
+            color: .yellow,
             size: ArkonCentralLight.topTexture!.size()
         )
     }
@@ -78,18 +78,15 @@ extension Karamba {
         ) else { return }    // Arkon died due to non-viable genome
 
         arkon.arkon = scab
-
         arkon.name = "arkon_\(scab.fishNumber)"
-
-        World.shared.populationChanged = true
-
         arkon.setScale(ArkonFactory.scale)
 
         let portal = PortalServer.shared.arkonsPortal
-
         let xRange = -portal.frame.size.width..<portal.frame.size.width
         let yRange = -portal.frame.size.height..<portal.frame.size.height
         arkon.position = CGPoint.random(xRange: xRange, yRange: yRange)
+
+        World.shared.populationChanged = true
 
         // The physics engine becomes unhappy if we add the arkon to the portal
         // in the wrong phase of the display cycle, which happens because we're
@@ -119,7 +116,7 @@ extension Karamba {
         let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 2)
 
         sensesPBody.mass = 1
-//        sensesPBody.allowsRotation = false
+        sensesPBody.allowsRotation = false
         sensesPBody.collisionBitMask = 0
         sensesPBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
         sensesPBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue
@@ -162,9 +159,6 @@ extension Karamba {
     func response(motorNeuronOutputs: [Double]) {
         let m = motorNeuronOutputs
 
-//        let truncked = m.map { String(format: "% -.5e", $0) }
-//        print("outputs", truncked)
-
         if m.reduce(0, +) == 0 { color = .darkGray } else {
             color = .green
             if !Karamba.firstHotArkon {
@@ -175,7 +169,7 @@ extension Karamba {
             }
         }
 
-        let actionPrimitive = ActionPrimitive.getMotionActions(sprite: self, motorOutputs: m)
+        let actionPrimitive = selectActionPrimitive(arkon: self, motorOutputs: m)
         run(actionPrimitive)
     }
 
@@ -193,9 +187,8 @@ extension Karamba {
             return
         }
 
-        execute(arkon: self)
-//        stimulus()
-//        response()
+        stimulus()
+        response()
     }
 }
 

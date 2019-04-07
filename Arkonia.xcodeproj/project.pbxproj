@@ -21,7 +21,6 @@
 		D4072C08220762BC0002BC58 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046822070F7400823D57 /* Extensions.swift */; };
 		D4256971224225D5005A719B /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4256970224225D5005A719B /* BarChart.swift */; };
 		D4256973224225F0005A719B /* LogHistogram.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4256972224225F0005A719B /* LogHistogram.swift */; };
-		D42E35F3225355750074554B /* ActionPrimitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42E35F1225355750074554B /* ActionPrimitive.swift */; };
 		D43E87182209669800CD9CC3 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468803E2207A4B700405F54 /* Protocols.swift */; };
 		D43E87192209EC6C00CD9CC3 /* ConnectionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB13002207BBE2004C2242 /* ConnectionSpec.swift */; };
 		D43E871A220A439300CD9CC3 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046522070F7400823D57 /* KIdentifier.swift */; };
@@ -196,7 +195,6 @@
 		D4072BFB220762680002BC58 /* Assembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
 		D4256970224225D5005A719B /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		D4256972224225F0005A719B /* LogHistogram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogHistogram.swift; sourceTree = "<group>"; };
-		D42E35F1225355750074554B /* ActionPrimitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionPrimitive.swift; sourceTree = "<group>"; };
 		D439672722070AC4009BAA3A /* KAppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppController.swift; sourceTree = "<group>"; };
 		D439672822070AC4009BAA3A /* SceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D439672922070AC5009BAA3A /* KAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppDelegate.swift; sourceTree = "<group>"; };
@@ -372,7 +370,6 @@
 		D403CD29224ECCF300B27458 /* Karamba */ = {
 			isa = PBXGroup;
 			children = (
-				D42E35F1225355750074554B /* ActionPrimitive.swift */,
 				D403CD2A224ECD0B00B27458 /* Karamba.swift */,
 				D47BEE6D2259D93F004750CD /* Maneuvers.swift */,
 			);
@@ -1129,7 +1126,6 @@
 				D45D2E96223AF1CF00441DFD /* AgeStatsPortal.swift in Sources */,
 				D45D2E9D223B426F00441DFD /* ColorGradient.swift in Sources */,
 				D403CD2B224ECD0B00B27458 /* Karamba.swift in Sources */,
-				D42E35F3225355750074554B /* ActionPrimitive.swift in Sources */,
 				D4E18CBB222CFBF4008B1E2E /* Physics.swift in Sources */,
 				D4C266242210BC4F00325F05 /* Display.swift in Sources */,
 				D4489BFC223A76EA00708B56 /* GeneCore.swift in Sources */,
