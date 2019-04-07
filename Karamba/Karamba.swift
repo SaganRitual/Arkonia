@@ -4,87 +4,129 @@ import SpriteKit
 extension CGFloat { static let tau = 2 * CGFloat.pi }
 
 class Karamba: SKSpriteNode {
-    let gParentFishNumber: Int?
-    let gParentGenome: [GeneProtocol]?
+    let geneticParentFishNumber: Int?
+    let geneticParentGenome: [GeneProtocol]?
 
-    init(_ gParentFishNumber: Int?, _ gParentGenome: [GeneProtocol]?) {
-        self.gParentGenome = gParentGenome
-        self.gParentFishNumber = gParentFishNumber
+    init(_ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?) {
+        self.geneticParentGenome = geneticParentGenome
+        self.geneticParentFishNumber = geneticParentFishNumber
 
         super.init(
             texture: ArkonCentralLight.topTexture,
             color: .green,
             size: ArkonCentralLight.topTexture!.size()
         )
-
-        super.alpha = 0
-    }
-
-    func launch() {
-        let action = SKAction.run(launch_, queue: ArkonFactory.karambaSerializerQueue)
-        PortalServer.shared.arkonsPortal.run(action)
-    }
-
-    private func launch_() {
-        let parentGenome = gParentGenome ?? ArkonFactory.getAboriginalGenome()
-
-        guard let arkon = ArkonFactory.shared.makeArkon(
-            parentFishNumber: gParentFishNumber, parentGenome: parentGenome
-        ) else { return }    // Arkon died due to non-viable genome
-
-        // Just for debugging, so I can see who's doing what
-        World.shared.population.getArkon(for: gParentFishNumber)?.sprite.color = .yellow
-
-        // Save until I'm ready to clean it all up
-        self.arkon = arkon
-        setUserData(key: .arkon, to: arkon)
-
-        name = "arkon_\(arkon.fishNumber)"
-        color = .green
-        colorBlendFactor = 1.0
-
-        let comeIntoExistence = SKAction.run {
-            let senseOrgan = SKNode()
-            self.addChild(senseOrgan)
-
-            let properSensesBodyRadius: CGFloat = self.size.radius * 1.5
-            let sensesPBody = SKPhysicsBody(circleOfRadius: properSensesBodyRadius)
-
-            sensesPBody.friction = 1.0
-            sensesPBody.isDynamic = false
-            sensesPBody.mass = 0.0
-            sensesPBody.collisionBitMask = 0
-            sensesPBody.allowsRotation = false
-            sensesPBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
-            sensesPBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue
-            senseOrgan.physicsBody = sensesPBody
-
-            let properBodyRadius: CGFloat = self.size.radius * 0.5
-            let pBody = SKPhysicsBody(circleOfRadius: properBodyRadius)
-
-            pBody.friction = 1.0
-            pBody.isDynamic = false
-            pBody.collisionBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
-            pBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
-            pBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
-            pBody.fieldBitMask = ArkonCentralLight.PhysicsBitmask.dragField.rawValue
-
-            self.physicsBody = pBody
-        }
-
-        let lunch = SKAction.run { self.arkon!.launch(sprite: self) }
-        let sequence = SKAction.sequence([comeIntoExistence, lunch])
-
-        zRotation = CGFloat.random(in: 0..<CGFloat.tau)
-        apparate()
-        run(sequence) {
-            hardBind(self.physicsBody).isDynamic = true
-            hardBind(self.children[0].physicsBody).isDynamic = true
-        }
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: Convenience & readability
+
+extension Karamba {
+    var nose: SKSpriteNode { return hardBind(childNode(withName: "nose") as? SKSpriteNode) }
+    var pBody: SKPhysicsBody { return physicsBody! }
+    var portal: SKSpriteNode { return PortalServer.shared.arkonsPortal }
+    var scab: Arkon { return hardBind(arkon) }
+    var sensor: SKPhysicsBody { return hardBind(nose.physicsBody) }
+
+    var isInBounds: Bool {
+        let relativeToPortal = portal.convert(frame.origin, to: portal.parent!)
+
+        let w = size.width * portal.xScale
+        let h = size.height * portal.yScale
+        let scaledSize = CGSize(width: w, height: h)
+
+        let arkonRectangle = CGRect(origin: relativeToPortal, size: scaledSize)
+
+        // Remember: get the scene frame rather than the portal frame because
+        // that's how big the portal's children think the portal is. We can't
+        // use the portal's frame, because it is doing its own thing due to scaling.
+        return portal.frame.contains(arkonRectangle)
+    }
+}
+
+// MARK: Construction & setup
+
+extension Karamba {
+    private static func darkOps(
+        _ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?
+    ) {
+        let nose = SKSpriteNode(
+            texture: ArkonCentralLight.topTexture,
+            color: .yellow,
+            size: ArkonCentralLight.topTexture!.size()
+        )
+
+        nose.setScale(0.2)
+        nose.colorBlendFactor = 1.0
+        nose.zPosition = ArkonCentralLight.vArkonZPosition + 1
+
+        let arkon = Karamba(geneticParentFishNumber, geneticParentGenome)
+        arkon.colorBlendFactor = 1.0
+        arkon.zPosition = ArkonCentralLight.vArkonZPosition
+
+        arkon.addChild(nose)
+
+        let (pBody, nosePBody) = makePhysicsBodies(arkonRadius: arkon.size.radius)
+        arkon.physicsBody = pBody; nose.physicsBody = nosePBody
+
+        let parentGenome = geneticParentGenome ?? ArkonFactory.getAboriginalGenome()
+
+        guard let scab = ArkonFactory.shared.makeArkon(
+            parentFishNumber: geneticParentFishNumber, parentGenome: parentGenome
+        ) else { return }    // Arkon died due to non-viable genome
+
+        arkon.arkon = scab
+
+        World.shared.populationChanged = true
+
+        arkon.setScale(ArkonFactory.scale)
+
+        let portal = PortalServer.shared.arkonsPortal
+
+        let xRange = -portal.frame.size.width..<portal.frame.size.width
+        let yRange = -portal.frame.size.height..<portal.frame.size.height
+        arkon.position = CGPoint.random(xRange: xRange, yRange: yRange)
+
+        // The physics engine becomes unhappy if we add the arkon to the portal
+        // in the wrong phase of the display cycle, which happens because we're
+        // running all this setup on a work queue rather than in the main display
+        // cycle. So instead of adding in this context, we hand off an action to
+        // the portal and let him add us when it's safe.
+        let action = SKAction.run {
+            scab.status.isAlive = true
+            portal.addChild(arkon)
+        }
+
+        portal.run(action)
+    }
+
+    static func makeDrone(geneticParentFishNumber f: Int?, geneticParentGenome g: [GeneProtocol]?) {
+        ArkonFactory.karambaSerializerQueue.async { darkOps(f, g) }
+    }
+
+    static func makePhysicsBodies(arkonRadius: CGFloat) -> (SKPhysicsBody, SKPhysicsBody) {
+        let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 1.5)
+
+        sensesPBody.mass = 1
+        sensesPBody.isDynamic = false
+        sensesPBody.collisionBitMask = 0
+        sensesPBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
+        sensesPBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue
+
+        let pBody = SKPhysicsBody(circleOfRadius: arkonRadius / 2)
+
+        pBody.mass = 1
+        pBody.isDynamic = false
+        pBody.collisionBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
+        pBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
+        pBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
+        pBody.fieldBitMask = ArkonCentralLight.PhysicsBitmask.dragField.rawValue
+
+        return (pBody, sensesPBody)
     }
 }
 
@@ -93,14 +135,7 @@ extension Karamba {
 
     static func createDrones(_ cKarambas: Int) {
         (0..<cKarambas).forEach { _ in
-            let k = Karamba(nil, nil)
-            let w = PortalServer.shared.arkonsPortal.frame.size.width
-            let h = PortalServer.shared.arkonsPortal.frame.size.height
-
-            let xRange = -w..<w
-            let yRange = -h..<h
-            k.position = CGPoint.random(xRange: xRange, yRange: yRange)
-            k.launch()
+            Karamba.makeDrone(geneticParentFishNumber: nil, geneticParentGenome: nil)
         }
     }
 
@@ -131,5 +166,23 @@ extension Karamba {
 
         let actionPrimitive = ActionPrimitive.getMotionActions(sprite: self, motorOutputs: m)
         run(actionPrimitive)
+    }
+
+    func tick() {
+        // We shouldn't be in the tick function if we're not completely set up
+        precondition(scab.status.isAlive)
+
+        if !isInBounds || pBody.mass <= 0 {
+            print("dead", scab.fishNumber, pBody.velocity.magnitude, scab.hunger, pBody.mass)
+            run(SKAction.removeFromParent()); return }
+
+        if pBody.velocity.radius > 7.0 {
+            color = .purple
+        } else {
+            color = .green
+        }
+
+        stimulus()
+        response()
     }
 }
