@@ -35,7 +35,7 @@ class DBootstrap: NSObject, SKSceneDelegate {
     func createDisplay()      { Display.shared = Display(scene) }
     func createDrones()       { Karamba.createDrones(50) }
     func createMannaFactory() { MannaFactory.shared = MannaFactory() }
-    func createWorld()        { World.shared = World() }
+    func createWorld()        { World.shared = World(scene) }
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
         if scratchComponents.isEmpty { scratchComponents = components }

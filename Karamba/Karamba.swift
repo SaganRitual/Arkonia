@@ -56,20 +56,18 @@ extension Karamba {
     ) {
         let nose = SKSpriteNode(
             texture: ArkonCentralLight.topTexture,
-            color: .yellow,
+            color: .green,
             size: ArkonCentralLight.topTexture!.size()
         )
 
         nose.name = "nose"
-        nose.setScale(0.2)
+        nose.setScale(0.75)
         nose.colorBlendFactor = 1.0
         nose.zPosition = ArkonCentralLight.vArkonZPosition + 1
 
         let arkon = Karamba(geneticParentFishNumber, geneticParentGenome)
         arkon.colorBlendFactor = 1.0
         arkon.zPosition = ArkonCentralLight.vArkonZPosition
-
-        arkon.addChild(nose)
 
         let (pBody, nosePBody) = makePhysicsBodies(arkonRadius: arkon.size.radius)
 
@@ -100,11 +98,14 @@ extension Karamba {
         // the portal and let him add us when it's safe.
         let action = SKAction.run {
             portal.addChild(arkon)
+            arkon.addChild(nose)
 
             // Surprisingly, the physics engine also becomes unhappy if we add
             // the physics bodies before we add their owning nodes to the scene.
             arkon.physicsBody = pBody
             nose.physicsBody = nosePBody
+
+            nosePBody.pinned = true // It wouldn't do to leave our senses behind
         }
 
         portal.run(action, completion: { scab.status.isAlive = true })
@@ -118,7 +119,7 @@ extension Karamba {
         let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 2)
 
         sensesPBody.mass = 1
-        sensesPBody.isDynamic = false
+//        sensesPBody.allowsRotation = false
         sensesPBody.collisionBitMask = 0
         sensesPBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
         sensesPBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue
@@ -126,17 +127,21 @@ extension Karamba {
         let pBody = SKPhysicsBody(circleOfRadius: arkonRadius / 8)
 
         pBody.mass = 1
-        pBody.isDynamic = false
         pBody.collisionBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
         pBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
         pBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
-        pBody.fieldBitMask = ArkonCentralLight.PhysicsBitmask.dragField.rawValue
+        pBody.fieldBitMask = 0//ArkonCentralLight.PhysicsBitmask.dragField.rawValue
 
         return (pBody, sensesPBody)
     }
 }
 
 extension Karamba {
+    func apoptosize() {
+        scab.status.isAlive = false
+        run(SKAction.removeFromParent())
+    }
+
     func apparate() { PortalServer.shared.arkonsPortal.addChild(self) }
 
     static func createDrones(_ cKarambas: Int) {
@@ -182,14 +187,10 @@ extension Karamba {
         // until isAlive is set.
         guard scab.status.isAlive else { return }
 
-        if !isInBounds || pBody.mass <= 0 {
+        guard isInBounds && pBody.mass > 0 else {
             print("dead", scab.fishNumber, pBody.velocity.magnitude, scab.hunger, pBody.mass)
-            run(SKAction.removeFromParent()); return }
-
-        if pBody.velocity.radius > 7.0 {
-            color = .purple
-        } else {
-            color = .green
+            apoptosize()
+            return
         }
 
         execute(arkon: self)
