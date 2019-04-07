@@ -22,14 +22,6 @@ extension Arkon {
     }
 
     func launch(sprite: Karamba) {
-        self.sprite = sprite    // The new-style Karamba sprite
-
-        self.apoptosizeAction = SKAction.sequence([
-            SKAction.run { [weak self] in
-                self?.sprite?.userData?[SKSpriteNode.UserDataKey.arkon] = nil
-            }, SKAction.removeFromParent()
-        ])
-
         postPartum(relievedArkonFishNumber: self.parentFishNumber)
 
         /*
@@ -50,16 +42,6 @@ extension Arkon {
             self.sprite.position = CGPoint(x: r * cos(Θ), y: r * sin(Θ))
         }
         */
-
-        World.shared.populationChanged = true
-
-        status.isAlive = true
-
-        sprite.setScale(ArkonFactory.scale)
-
-        // This mass will get sized down by the sprite's scale factor squared
-        sprite.physicsBody!.mass = 100
-        self.sprite.alpha = 1
     }
 
     func postPartum(relievedArkonFishNumber: Int?) {

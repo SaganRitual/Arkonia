@@ -114,9 +114,9 @@ class Display: NSObject, SKSceneDelegate {
 
         tickCount += 1
 
-        let cm: [Arkon] = PortalServer.shared.arkonsPortal.children.compactMap {
-            guard let a = ($0 as? SKSpriteNode)?.arkon else { return nil }
-            return a.status.isAlive ? a : nil
+        let cm: [Karamba] = PortalServer.shared.arkonsPortal.children.compactMap {
+            guard let a = ($0 as? Karamba) else { return nil }
+            return a.scab.status.isAlive ? a : nil
         }
 
         cm.forEach { $0.tick() }
