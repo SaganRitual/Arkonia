@@ -19,16 +19,31 @@ extension Physics {
         ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue |
             ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
 
-    func didBegin(_ contact: SKPhysicsContact) {
+    private func getContactInfo(_ contact: SKPhysicsContact) -> UInt32? {
         let nodeA = ?!contact.bodyA.node
         let nodeB = ?!contact.bodyB.node
 
         let spriteA_ = nodeA as? SKSpriteNode
         let spriteB_ = nodeB as? SKSpriteNode
 
-        if (spriteA_?.isComposting ?? false) || (spriteB_?.isComposting ?? false) { return }
+        // Because the physics engine gets cranky if we try to add physics
+        // bodies to our nodes before we add the nodes to the scene, we have
+        // to allow for physics interactions before we're fully ready
+        // (that is, before we've added the physics bodies). So don't do anything
+        // until isAlive is set.
+        if !(((spriteA_ as? Karamba)?.scab.status.isAlive) ?? true) { return nil }
+        if !(((spriteB_ as? Karamba)?.scab.status.isAlive) ?? true) { return nil }
 
-        let interaction = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        if (spriteA_?.isComposting ?? false) || (spriteB_?.isComposting ?? false) { return nil }
+
+        return contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+    }
+
+    func didBegin(_ contact: SKPhysicsContact) {
+        guard let interaction = getContactInfo(contact) else { return }
+
+        let nodeA = ?!contact.bodyA.node
+        let nodeB = ?!contact.bodyB.node
 
         if (interaction & Physics.arkonSmellsFood) == Physics.arkonSmellsFood {
             guard case let (arkonSprite?, mannaSprite?) =
@@ -48,15 +63,10 @@ extension Physics {
     }
 
     func didEnd(_ contact: SKPhysicsContact) {
+        guard let interaction = getContactInfo(contact) else { return }
+
         let nodeA = ?!contact.bodyA.node
         let nodeB = ?!contact.bodyB.node
-
-        let spriteA_ = nodeA as? SKSpriteNode
-        let spriteB_ = nodeB as? SKSpriteNode
-
-        if (spriteA_?.isComposting ?? false) || (spriteB_?.isComposting ?? false) { return }
-
-        let interaction = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
 
         if (interaction & Physics.arkonSmellsFood) == Physics.arkonSmellsFood {
             guard case let (arkonSprite?, mannaSprite?) =
