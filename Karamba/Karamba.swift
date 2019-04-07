@@ -85,6 +85,7 @@ extension Karamba {
         let xRange = -portal.frame.size.width..<portal.frame.size.width
         let yRange = -portal.frame.size.height..<portal.frame.size.height
         arkon.position = CGPoint.random(xRange: xRange, yRange: yRange)
+        arkon.zRotation = CGFloat.random(in: 0..<CGFloat.tau)
 
         World.shared.populationChanged = true
 

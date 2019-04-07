@@ -54,7 +54,7 @@ extension ManeuverProtocol {
     func selectActionPrimitive(arkon: Karamba, motorOutputs: [Double]) -> SKAction {
 
         var m = motorOutputs
-        let power = CGFloat(m.removeFirst())
+        let power = abs(CGFloat(m.removeFirst()))
         let primitives: [ActionPrimitive] = [.goFullStop, .goThrust(power), .goRotate(power), .goWait]
         let tagged: [ActionPrimitive: Double] = zip(primitives, motorOutputs).reduce([:]) {
             var dictionary = $0
@@ -75,10 +75,10 @@ extension ManeuverProtocol {
             return action
 
         case let .goRotate(power):
-            return SKAction.run { arkon.pBody.applyAngularImpulse(power) }
+            return SKAction.run { arkon.pBody.applyAngularImpulse(power / 100) }
 
         case let .goThrust(power):
-            let vector = CGVector(radius: power, theta: arkon.zRotation)
+            let vector = CGVector(radius: power * 100, theta: arkon.zRotation)
             return SKAction.run { arkon.pBody.applyImpulse(vector) }
 
         case .goWait:
