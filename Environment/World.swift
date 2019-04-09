@@ -41,10 +41,12 @@ class World {
         return min(Display.shared.gameAge / t, 1.0)
     }
 
-    let physics: Physics
+    let physicsCoordinator = PhysicsCoordinator()
 
     init(_ scene: SKScene) {
-        self.physics = Physics(scene: scene)
+        scene.physicsWorld.gravity = CGVector.zero
+        scene.physicsWorld.speed = 1.0
+        scene.physicsWorld.contactDelegate = physicsCoordinator
 
 //        PortalServer.shared.generalStatsPortals.setUpdater(subportal: 0, field: 4) { [weak self] in
 //            guard let myself = self else { preconditionFailure() }

@@ -50,6 +50,14 @@ class Display: NSObject, SKSceneDelegate {
 //        self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
     }
 
+    func didEvaluateActions(for scene: SKScene) {
+        Display.displayCycle = .physics
+    }
+
+    func didSimulatePhysics(for scene: SKScene) {
+        Display.displayCycle = .limbo
+    }
+
     /**
      Schedule the kNet to be displayed on the next update.
 
@@ -71,6 +79,9 @@ class Display: NSObject, SKSceneDelegate {
     var babyFirstSteps = true
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
+        Display.displayCycle = .updateStarted
+        defer { Display.displayCycle = .actions }
+
         defer { self.currentTime = currentTime }
         if self.currentTime == 0 { self.timeZero = currentTime; return }
 

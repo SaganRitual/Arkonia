@@ -55,6 +55,7 @@ extension ManeuverProtocol {
 
         var m = motorOutputs
         let power = abs(CGFloat(m.removeFirst()))
+
         let primitives: [ActionPrimitive] = [.goFullStop, .goThrust(power), .goRotate(power), .goWait]
         let tagged: [ActionPrimitive: Double] = zip(primitives, motorOutputs).reduce([:]) {
             var dictionary = $0
@@ -67,12 +68,10 @@ extension ManeuverProtocol {
 
         switch maxEntry.key {
         case .goFullStop:
-            let action = SKAction.run {
+            return SKAction.run {
                 arkon.pBody.velocity = CGVector.zero
                 arkon.pBody.angularVelocity = 0
             }
-
-            return action
 
         case let .goRotate(power):
             return SKAction.run { arkon.pBody.applyAngularImpulse(power / 100) }

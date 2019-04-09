@@ -107,6 +107,7 @@
 		D4860A76220759CD002F688B /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672822070AC4009BAA3A /* SceneViewController.swift */; };
 		D4860A77220759CD002F688B /* KAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672722070AC4009BAA3A /* KAppController.swift */; };
 		D4860A78220759CD002F688B /* KAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439672922070AC5009BAA3A /* KAppDelegate.swift */; };
+		D49326C92260512400C2260D /* PhysicsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49326C82260512400C2260D /* PhysicsCoordinator.swift */; };
 		D4AD519F2225122D009EF514 /* ArkonFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD519E2225122D009EF514 /* ArkonFactory.swift */; };
 		D4BB12EC2207B8B9004C2242 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB12EB2207B8B9004C2242 /* main.swift */; };
 		D4BB12FD2207BB0D004C2242 /* DTNetMeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB12FC2207BB0D004C2242 /* DTNetMeat.swift */; };
@@ -238,6 +239,7 @@
 		D47246DC22116E95002AA25F /* DNeuron.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNeuron.swift; sourceTree = "<group>"; };
 		D47A0B13223C99FC00C92132 /* Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Population.swift; sourceTree = "<group>"; };
 		D47BEE6D2259D93F004750CD /* Maneuvers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maneuvers.swift; sourceTree = "<group>"; };
+		D49326C82260512400C2260D /* PhysicsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCoordinator.swift; sourceTree = "<group>"; };
 		D4AD519E2225122D009EF514 /* ArkonFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonFactory.swift; sourceTree = "<group>"; };
 		D4BB12E92207B8B9004C2242 /* TTNetMeat */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTNetMeat; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB12EB2207B8B9004C2242 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 			children = (
 				D403CD2A224ECD0B00B27458 /* Karamba.swift */,
 				D47BEE6D2259D93F004750CD /* Maneuvers.swift */,
+				D4E18CBA222CFBF4008B1E2E /* Physics.swift */,
 			);
 			path = Karamba;
 			sourceTree = "<group>";
@@ -402,7 +405,7 @@
 			isa = PBXGroup;
 			children = (
 				D46E1EE3222BB16300BBB6F1 /* Manna.swift */,
-				D4E18CBA222CFBF4008B1E2E /* Physics.swift */,
+				D49326C82260512400C2260D /* PhysicsCoordinator.swift */,
 				D47A0B13223C99FC00C92132 /* Population.swift */,
 				D4F17C67221E5DDB00CB287C /* World.swift */,
 			);
@@ -1147,6 +1150,7 @@
 				D46D6C4622076C970001F5D0 /* KLayer.swift in Sources */,
 				D46D6C0422076AAF0001F5D0 /* Mutator.swift in Sources */,
 				D46D6C0F22076B670001F5D0 /* SceneViewController.swift in Sources */,
+				D49326C92260512400C2260D /* PhysicsCoordinator.swift in Sources */,
 				D46D6BFD22076A480001F5D0 /* ArkonCentralLight.swift in Sources */,
 				D47A0B14223C99FC00C92132 /* Population.swift in Sources */,
 				D46D6BF22207696C0001F5D0 /* FLayer.swift in Sources */,
