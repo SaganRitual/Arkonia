@@ -2,16 +2,18 @@ import Foundation
 import SpriteKit
 
 extension Karamba {
-    private func eatManna(_ bodies: [SKPhysicsBody]) {
-        let touchedManna = bodies.filter { hardBind($0.node?.name).starts(with: "manna") }
-        print("\(scab.fishNumber) touches \(touchedManna.count)")
-        scab.hunger -= CGFloat(touchedManna.count) * 50.0
-        pBody.mass += CGFloat(touchedManna.count) * 50.0
+
+    func eatArkon(_ victim: Karamba) {
+        print("\(scab.fishNumber) eats \(victim.scab.fishNumber)")
+        hunger -= victim.pBody.mass * 5.0
+        pBody.mass += victim.pBody.mass * 0.5
     }
 
-    func response() {
-        let motorNeuronOutputs = scab.signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
-        response(motorNeuronOutputs: motorNeuronOutputs)
+    func eatManna(_ bodies: [SKPhysicsBody]) {
+        let touchedManna = bodies.filter { hardBind($0.node?.name).starts(with: "manna") }
+        print("\(scab.fishNumber) touches \(touchedManna.count)")
+        hunger -= CGFloat(touchedManna.count) * 1.0
+        pBody.mass += CGFloat(touchedManna.count) * 0.1
     }
 
     private func getCSensedArkons(_ bodies: [SKPhysicsBody]) -> Int {
@@ -38,28 +40,32 @@ extension Karamba {
         return position.makeVector(to: closestManna!.node!.position)
     }
 
+    func response() {
+        let motorNeuronOutputs = scab.signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
+        response(motorNeuronOutputs: motorNeuronOutputs)
+    }
+
     func stimulus() {
         let velocity = pBody.velocity
         let aVelocity = pBody.angularVelocity
         let vectorToOrigin = position.asVector()
 
-        let contactedBodies = pBody.allContactedBodies()
-
-        let vectorToClosestArkon = getVectorToClosestArkon(contactedBodies)
-        let vectorToClosestManna = getVectorToClosestManna(contactedBodies)
+        let sb = hardBind(sensedBodies)
+        let vectorToClosestArkon = getVectorToClosestArkon(sb)
+        let vectorToClosestManna = getVectorToClosestManna(sb)
 
         let sensoryInputs = [
             Double(aVelocity),
-            Double(scab.hunger),
+            Double(hunger),
 
             Double(velocity.radius), Double(velocity.theta),
 
             Double(vectorToOrigin.radius), Double(vectorToOrigin.theta),
 
-            Double(getCSensedManna(contactedBodies)),
+            Double(getCSensedManna(sb)),
             Double(vectorToClosestManna.radius), Double(vectorToClosestManna.theta),
 
-            Double(getCSensedArkons(contactedBodies)),
+            Double(getCSensedArkons(sb)),
             Double(vectorToClosestArkon.radius), Double(vectorToClosestArkon.theta)
         ]
 

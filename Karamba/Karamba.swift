@@ -4,8 +4,24 @@ import SpriteKit
 extension CGFloat { static let tau = 2 * CGFloat.pi }
 
 class Karamba: SKSpriteNode {
+    var contactedBodies: [SKPhysicsBody]?
     let geneticParentFishNumber: Int?
     let geneticParentGenome: [GeneProtocol]?
+    var isAlive = false
+    var readyForPhysics = false
+    var sensedBodies: [SKPhysicsBody]?
+
+    private var hunger_: CGFloat = 0
+    var hunger: CGFloat { get { return hunger_ } set { hunger_ = max(newValue, 0) } }
+
+    var health: CGFloat {
+        let crossover: CGFloat = 15 // This is where health is at 50%
+        let flatness: CGFloat = 30  // Flatness of the slope between dead and healthy
+
+        let x = pBody.mass - crossover
+        let y = 0.5 + (x / (2 * sqrt(x * x + flatness)))
+        return y
+    }
 
     init(_ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?) {
         self.geneticParentGenome = geneticParentGenome
@@ -26,11 +42,11 @@ class Karamba: SKSpriteNode {
 // MARK: Convenience & readability
 
 extension Karamba {
-    var nose: SKSpriteNode { return hardBind(childNode(withName: "nose") as? SKSpriteNode) }
+    var nose: KNoseNode { return hardBind(childNode(withName: "nose") as? KNoseNode) }
     var pBody: SKPhysicsBody { return physicsBody! }
     var portal: SKSpriteNode { return PortalServer.shared.arkonsPortal }
     var scab: Arkon { return hardBind(arkon) }
-    var sensor: SKPhysicsBody { return hardBind(nose.physicsBody) }
+//    var sensor: SKPhysicsBody { return hardBind(nose.physicsBody) }
 
     var isInBounds: Bool {
         let relativeToPortal = portal.convert(frame.origin, to: portal.parent!)
@@ -54,7 +70,7 @@ extension Karamba {
     private static func darkOps(
         _ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?
     ) {
-        let nose = SKSpriteNode(
+        let nose = KNoseNode(
             texture: ArkonCentralLight.topTexture,
             color: .green,
             size: ArkonCentralLight.topTexture!.size()
@@ -122,13 +138,13 @@ extension Karamba {
         sensesPBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
         sensesPBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue
 
-        let pBody = SKPhysicsBody(circleOfRadius: arkonRadius / 8)
+        let pBody = SKPhysicsBody(circleOfRadius: arkonRadius / 14)
 
         pBody.mass = 1
         pBody.collisionBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
         pBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
         pBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
-        pBody.fieldBitMask = 0//ArkonCentralLight.PhysicsBitmask.dragField.rawValue
+        pBody.fieldBitMask = 0
 
         return (pBody, sensesPBody)
     }
@@ -141,6 +157,11 @@ extension Karamba {
     }
 
     func apparate() { PortalServer.shared.arkonsPortal.addChild(self) }
+
+    func combat(_ opponent: Karamba) -> Bool {
+        return (opponent.pBody.mass * opponent.health - opponent.hunger) >
+            (pBody.mass * health - hunger)
+    }
 
     static func createDrones(_ cKarambas: Int) {
         (0..<cKarambas).forEach { _ in
@@ -181,6 +202,7 @@ extension Karamba {
         // (that is, before we've added the physics bodies). So don't do anything
         // until isAlive is set.
         guard scab.status.isAlive else { return }
+        readyForPhysics = true
 
         guard isInBounds && pBody.mass > 0 else {
             print("dead", scab.fishNumber, pBody.velocity.magnitude, scab.hunger, pBody.mass)

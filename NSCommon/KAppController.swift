@@ -48,8 +48,7 @@ class KAppController: NSObject {
 	}
 
 	func showMainWindow(withTitle title: String) {
-
-		// Create controller's window if not yet exists
+        // Create controller's window if not yet exists
 		if mainWindowController.window == nil {
 			// Count initial frame
 			let newFrame:NSRect
