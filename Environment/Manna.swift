@@ -3,6 +3,7 @@ import SpriteKit
 
 class Manna: SKSpriteNode, KPhysicsContactDelegate {
     var birthday: TimeInterval = 0
+    let calories = 10
     var isComposting = false
     var isFirstBloom = true
 
@@ -17,8 +18,8 @@ class Manna: SKSpriteNode, KPhysicsContactDelegate {
     }
 
     func pushContactedBodies(_ contactedBodies: [SKPhysicsBody]) {
-        let p = Display.displayCycle
-        assert(p.isIn(.physics), "Call this function only in physics phase: \(p)")
+//        let p = Display.displayCycle
+//        assert(p.isIn(.physics), "Call this function only in physics phase: \(p)")
 //
 //        let k = hardBind(parent as? Karamba)
 //        k.pushSensedBodies(contactedBodies)
@@ -55,12 +56,9 @@ class MannaFactory {
         sprite.colorBlendFactor = 1.0 - CGFloat(Display.shared.gameAge * 0.001)
 
         sprite.removeAllActions()
-        sprite.physicsBody!.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
     }
 
     func compost(_ sprite: Manna) {
-        sprite.physicsBody!.contactTestBitMask = 0
-
         sprite.isFirstBloom = false
         sprite.isComposting = true
 
@@ -69,19 +67,22 @@ class MannaFactory {
 
         start = name.index(after: start)
         let hamNumber = Int(name[start..<name.endIndex])!
-        sprite.run(SKAction.run(
-            { [unowned self] in self.bloom(hamNumber) }
-        ))
+
+        let retain = hardBind(sprite.parent)
+        let remove = SKAction.removeFromParent()
+        let relax = SKAction.wait(forDuration: 2)
+        let rebloom = SKAction.run { self.bloom(hamNumber) }
+        let recycle = SKAction.sequence([remove, relax, rebloom])
+
+        sprite.run(recycle, completion: { retain.addChild(sprite) })
     }
 
     func setupPhysicsBody(_ edgeLoopFrame: CGRect) -> SKPhysicsBody {
         let p = SKPhysicsBody(circleOfRadius: 1.0)
 
         p.categoryBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
-        p.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
+        p.contactTestBitMask = 0
         p.collisionBitMask = 0
-
-        p.isDynamic = false
 
         return p
     }

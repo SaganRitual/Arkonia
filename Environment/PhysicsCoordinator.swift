@@ -27,6 +27,13 @@ class PhysicsCoordinator: NSObject, SKPhysicsContactDelegate {
         assert(p.isIn(.physics), "Call this function only in physics phase: \(p)")
 
         let node = hardBind(body.node as? KPhysicsContactDelegate)
+//        let fn = (body.node as? Karamba)?.name ??
+//                ((body.node as? Manna)?.name ??
+//                ((body.node as? KNoseNode)?.name) ?? "goosle")
+//        print("bottom, node \(fn) pushes \(body.allContactedBodies().count) bodies")
+//        print("arkons: " +
+//            "\(body.allContactedBodies().filter({ $0.node is Karamba }).count), " +
+//            "manna: \(body.allContactedBodies().filter({ $0.node is Manna }).count)")
         node.pushContactedBodies(body.allContactedBodies())
     }
 }

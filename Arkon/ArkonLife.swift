@@ -4,40 +4,75 @@ import SpriteKit
 extension Karamba {
 
     func eatArkon(_ victim: Karamba) {
-        print("\(scab.fishNumber) eats \(victim.scab.fishNumber)")
         hunger -= victim.pBody.mass * 5.0
         pBody.mass += victim.pBody.mass * 0.5
+
+        victim.apoptosize()
+        print("arkon \(scab.fishNumber) eats arkon \(victim.scab.fishNumber)")
     }
 
-    func eatManna(_ bodies: [SKPhysicsBody]) {
-        let touchedManna = bodies.filter { hardBind($0.node?.name).starts(with: "manna") }
-        print("\(scab.fishNumber) touches \(touchedManna.count)")
-        hunger -= CGFloat(touchedManna.count) * 1.0
-        pBody.mass += CGFloat(touchedManna.count) * 0.1
+    func eatManna() {
+        let contactedManna = contactedBodies?.filter {
+            guard let manna = $0.node as? Manna else { return false }
+            guard let name = manna.name else { return false }
+            return name.starts(with: "manna") && !manna.isComposting
+        }
+
+        guard let cm = contactedManna, !cm.isEmpty else { return }
+        print("\(scab.fishNumber) eats \(cm.count) morsels of manna")
+        cm.forEach { eatManna($0) }
     }
 
-    private func getCSensedArkons(_ bodies: [SKPhysicsBody]) -> Int {
-        let sensedArkons = bodies.filter { ($0.node?.name)?.starts(with: "arkon") ?? false }
-        return sensedArkons.count
+    func eatManna(_ pBody: SKPhysicsBody) {
+        let manna = hardBind(pBody.node as? Manna)
+
+        hunger -= CGFloat(manna.calories) * 1.0
+        pBody.mass += CGFloat(manna.calories) * 0.1
+
+        MannaFactory.shared.compost(manna)
+        print("arkon \(scab.fishNumber) hunger = \(hunger), mass = \(pBody.mass)")
     }
 
-    private func getCSensedManna(_ bodies: [SKPhysicsBody]) -> Int {
-        let sensedManna = bodies.filter { ($0.node?.name)?.starts(with: "manna") ?? false }
-        return sensedManna.count
+    func getContactedArkons() -> [SKPhysicsBody]? {
+        let contactedArkons = contactedBodies?.filter { ($0.node?.name)?.starts(with: "arkon") ?? false }
+//        print("arkon \(scab.fishNumber) contacts \(contactedArkons?.count ?? 0) arkons")
+        return contactedArkons
     }
 
-    private func getVectorToClosestArkon(_ bodies: [SKPhysicsBody]) -> CGVector {
-        let sensedArkons = bodies.filter { $0.node?.name?.starts(with: "arkon") ?? false }
-        if sensedArkons.isEmpty { return CGVector(dx: CGFloat.infinity, dy: CGFloat.infinity) }
-        let closestArkon = sensedArkons.min { $0.node!.position.radius < $1.node!.position.radius }
-        return position.makeVector(to: closestArkon!.node!.position)
+    func getContactedManna() -> [SKPhysicsBody]? {
+        let contactedManna = contactedBodies?.filter { ($0.node?.name)?.starts(with: "manna") ?? false }
+//        print("arkon \(scab.fishNumber) contacts \(contactedManna?.count ?? 0) manna morsels")
+        return contactedManna
     }
 
-    private func getVectorToClosestManna(_ bodies: [SKPhysicsBody]) -> CGVector {
-        let sensedManna = bodies.filter { $0.node?.name?.starts(with: "manna") ?? false }
-        if sensedManna.isEmpty { return CGVector(dx: CGFloat.infinity, dy: CGFloat.infinity) }
-        let closestManna = sensedManna.min { $0.node!.position.radius < $1.node!.position.radius }
-        return position.makeVector(to: closestManna!.node!.position)
+    private func getCSensedArkons() -> Int {
+        let sensedArkons = sensedBodies?.filter { ($0.node?.name)?.starts(with: "arkon") ?? false }
+        return sensedArkons?.count ?? 0
+    }
+
+    private func getCSensedManna() -> Int {
+        let sensedManna = sensedBodies?.filter { ($0.node?.name)?.starts(with: "manna") ?? false }
+        return sensedManna?.count ?? 0
+    }
+
+    private func getVectorToClosestArkon() -> CGVector {
+        let sensedArkons = sensedBodies?.filter { $0.node?.name?.starts(with: "arkon") ?? false }
+        if sensedArkons?.isEmpty ?? true { return CGVector(dx: CGFloat.infinity, dy: CGFloat.infinity) }
+        let closestArkon = sensedArkons?.min { $0.node!.position.radius < $1.node!.position.radius }
+
+        guard let ca = closestArkon else { return CGVector.zero }
+        let p = hardBind(ca.node?.position)
+        return position.makeVector(to: p)
+    }
+
+    private func getVectorToClosestManna() -> CGVector {
+        let sensedManna = sensedBodies?.filter { $0.node?.name?.starts(with: "manna") ?? false }
+        if sensedManna?.isEmpty ?? true { return CGVector(dx: CGFloat.infinity, dy: CGFloat.infinity) }
+        let closestManna = sensedManna?.min { $0.node!.position.radius < $1.node!.position.radius }
+
+        guard let cm = closestManna else { return CGVector.zero }
+        let p = hardBind(cm.node?.position)
+        return position.makeVector(to: p)
     }
 
     func response() {
@@ -58,11 +93,11 @@ extension Karamba {
             vectorToClosestManna = CGVector.zero
             vectorToClosestArkon = CGVector.zero
         } else {
-            vectorToClosestManna = getVectorToClosestManna(sb)
-            vectorToClosestArkon = getVectorToClosestArkon(sb)
+            vectorToClosestManna = getVectorToClosestManna()
+            vectorToClosestArkon = getVectorToClosestArkon()
         }
 
-        let sensoryInputs = [
+        let sensoryInputs: [Double] = [
             Double(aVelocity),
             Double(hunger),
 
@@ -70,11 +105,11 @@ extension Karamba {
 
             Double(vectorToOrigin.radius), Double(vectorToOrigin.theta),
 
-            Double(getCSensedManna(sb)),
-            Double(vectorToClosestManna.radius), Double(vectorToClosestManna.theta),
+            Double(getCSensedManna()),
+            Double(vectorToClosestManna?.radius ?? 0), Double(vectorToClosestManna?.theta ?? 0),
 
-            Double(getCSensedArkons(sb)),
-            Double(vectorToClosestArkon.radius), Double(vectorToClosestArkon.theta)
+            Double(getCSensedArkons()),
+            Double(vectorToClosestArkon?.radius ?? 0), Double(vectorToClosestArkon?.theta ?? 0)
         ]
 
 //        let truncked = sensoryInputs.map { String(format: "% -.5e", $0) }
