@@ -77,7 +77,7 @@ extension Karamba {
             size: ArkonCentralLight.topTexture!.size()
         )
 
-        nose.name = "nose"
+        nose.name = "nose_awaiting_fish_number"
         nose.setScale(0.75)
         nose.colorBlendFactor = 1.0
         nose.zPosition = ArkonCentralLight.vArkonZPosition + 1
@@ -96,6 +96,7 @@ extension Karamba {
 
         arkon.arkon = scab
         arkon.name = "arkon_\(scab.fishNumber)"
+        nose.name = "nose_\(scab.fishNumber)"
         arkon.setScale(ArkonFactory.scale)
 
         let portal = PortalServer.shared.arkonsPortal
@@ -159,15 +160,49 @@ extension Karamba {
 
     func apparate() { PortalServer.shared.arkonsPortal.addChild(self) }
 
-    func combat(_ opponent: Karamba) -> Bool {
+    enum CombatStatus { case losing(Karamba), surviving, winning(Karamba)  }
+    enum HerbivoreStatus { case goingHungry, grazing }
+
+    func calorieTransfer() {
+        let combatStatus = combat()
+
+        var opponent: Karamba!
+        switch combatStatus {
+        case let .losing(k):  opponent = k; return
+        case let .winning(k): opponent = k
+        case .surviving:      break
+        }
+
+        if let victim = opponent { eatArkon(victim) }
+
+        let herbivoreStatus = graze()
+        if herbivoreStatus == .grazing { eatManna() }
+    }
+
+    func combat() -> CombatStatus {
+        let contactedArkons = getContactedArkons()
+
+        guard let ca = contactedArkons, ca.count == 1,
+              let opponent = ca.first?.node as? Karamba,
+              let oca = opponent.getContactedArkons(), oca.count <= 1
+            else { return .surviving }
+
         return (opponent.pBody.mass * opponent.health - opponent.hunger) >
-            (pBody.mass * health - hunger)
+               (self.pBody.mass     * self.health     - self.hunger)     ?
+                .losing(opponent) : .winning(opponent)
     }
 
     static func createDrones(_ cKarambas: Int) {
         (0..<cKarambas).forEach { _ in
             Karamba.makeDrone(geneticParentFishNumber: nil, geneticParentGenome: nil)
         }
+    }
+
+    func graze() -> HerbivoreStatus {
+        let contactedManna = getContactedManna()
+
+        guard let cm = contactedManna, cm.isEmpty == false else { return .goingHungry }
+        return .grazing
     }
 
     func lastMinuteBusiness() {
@@ -210,6 +245,9 @@ extension Karamba {
             apoptosize()
             return
         }
+
+        if let cb = contactedBodies, cb.isEmpty == false {
+            calorieTransfer() }
 
         stimulus()
         response()
