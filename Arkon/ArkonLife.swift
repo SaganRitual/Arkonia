@@ -50,9 +50,17 @@ extension Karamba {
         let aVelocity = pBody.angularVelocity
         let vectorToOrigin = position.asVector()
 
-        let sb = hardBind(sensedBodies)
-        let vectorToClosestArkon = getVectorToClosestArkon(sb)
-        let vectorToClosestManna = getVectorToClosestManna(sb)
+        let vectorToClosestArkon: CGVector!
+        let vectorToClosestManna: CGVector!
+
+        let sb = sensedBodies ?? []
+        if sb.isEmpty {
+            vectorToClosestManna = CGVector.zero
+            vectorToClosestArkon = CGVector.zero
+        } else {
+            vectorToClosestManna = getVectorToClosestManna(sb)
+            vectorToClosestArkon = getVectorToClosestArkon(sb)
+        }
 
         let sensoryInputs = [
             Double(aVelocity),
