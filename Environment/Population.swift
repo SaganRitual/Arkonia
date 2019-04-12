@@ -6,7 +6,7 @@ enum Population {
 
     init(_ population: [Arkon]) { self = .population(population) }
 
-    private func getArkon(for sprite: SKNode) -> Arkon? { return (sprite as? SKSpriteNode)?.arkon }
+    private func getArkon(for sprite: SKNode) -> Arkon? { return (sprite as? Karamba)?.arkon }
 
     func getArkon(for fishNumber: Int?) -> Arkon? {
         guard let fn = fishNumber else { return nil }
@@ -90,9 +90,8 @@ enum Population {
 
         let sprites = PortalServer.shared.arkonsPortal.children
         let arkons: [Arkon] = sprites.compactMap { node in
-            guard let sprite = node as? SKSpriteNode else { return nil }
-            guard let arkon = sprite.arkon else { return nil }
-            return arkon
+            guard let sprite = node as? Karamba else { return nil }
+            return sprite.scab
         }
 
         World.shared.populationChanged = false

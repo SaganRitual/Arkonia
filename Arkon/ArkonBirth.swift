@@ -1,13 +1,6 @@
 import Foundation
 import SpriteKit
 
-extension SKSpriteNode {
-    var arkon: Arkon? {
-        get { return getUserData(UserDataKey.arkon) }
-        set { setUserData(key: UserDataKey.arkon, to: newValue) }
-    }
-}
-
 extension Arkon {
 
     static private func attachSenses(_ sprite: SKSpriteNode, _ senses: SKPhysicsBody) {

@@ -1,10 +1,35 @@
 import Foundation
 import SpriteKit
 
+class Manna: SKSpriteNode, KPhysicsContactDelegate {
+    var birthday: TimeInterval = 0
+    var isComposting = false
+    var isFirstBloom = true
+
+    var foodValue: Double {
+        get {
+            let myAge = Display.shared.currentTime - birthday
+
+            let baseValue = min(20.0, myAge)
+            let adjustedValue = baseValue * (1 - World.shared.entropy)
+            return adjustedValue
+        }
+    }
+
+    func pushContactedBodies(_ contactedBodies: [SKPhysicsBody]) {
+        let p = Display.displayCycle
+        assert(p.isIn(.physics), "Call this function only in physics phase: \(p)")
+//
+//        let k = hardBind(parent as? Karamba)
+//        k.pushSensedBodies(contactedBodies)
+    }
+
+}
+
 class MannaFactory {
     static var shared: MannaFactory!
 
-    var morsels = [SKSpriteNode]()
+    var morsels = [Manna]()
     let xRange: Range<CGFloat>
     let yRange: Range<CGFloat>
 
@@ -23,7 +48,7 @@ class MannaFactory {
 
         // Zero will make the manna worth extra, so the arkons won't starve
         // in the first five seconds.
-        let birthday = (sprite.isFirstBloom ?? false) ? 0.0 : Display.shared.currentTime
+        let birthday = sprite.isFirstBloom ? 0.0 : Display.shared.currentTime
 
         sprite.birthday = birthday
         sprite.isComposting = false
@@ -33,7 +58,7 @@ class MannaFactory {
         sprite.physicsBody!.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
     }
 
-    func compost(_ sprite: SKSpriteNode) {
+    func compost(_ sprite: Manna) {
         sprite.physicsBody!.contactTestBitMask = 0
 
         sprite.isFirstBloom = false
@@ -61,8 +86,8 @@ class MannaFactory {
         return p
     }
 
-    func spawn(_ hamNumber: Int) -> SKSpriteNode {
-        let sprite = SKSpriteNode(texture: ArkonCentralLight.mannaSpriteTexture)
+    func spawn(_ hamNumber: Int) -> Manna {
+        let sprite = Manna(texture: ArkonCentralLight.mannaSpriteTexture)
 
         sprite.setScale(0.03)
         sprite.color = .yellow
@@ -72,8 +97,6 @@ class MannaFactory {
         sprite.zPosition = ArkonCentralLight.vMannaZPosition
 
         sprite.physicsBody = setupPhysicsBody(sprite.frame)
-
-        sprite.setupAsManna()
         sprite.isFirstBloom = true
 
         sprite.run(SKAction.run({ [unowned self] in self.bloom(hamNumber) }))
@@ -81,39 +104,5 @@ class MannaFactory {
         PortalServer.shared.arkonsPortal.addChild(sprite)
 
         return sprite
-    }
-}
-
-extension SKSpriteNode {
-    func setupAsManna() {
-        self.birthday = 0.0
-        self.isComposting = false
-        self.isFirstBloom = true
-    }
-
-    var birthday: TimeInterval? {
-        get { return getUserData(UserDataKey.birthday) }
-        set { setUserData(key: UserDataKey.birthday, to: newValue) }
-    }
-
-    var foodValue: Double {
-        get {
-            guard let birthday = self.birthday else { return 10 }
-            let myAge = Display.shared.currentTime - birthday
-
-            let baseValue = min(20.0, myAge)
-            let adjustedValue = baseValue * (1 - World.shared.entropy)
-            return adjustedValue
-        }
-    }
-
-    var isComposting: Bool? {
-        get { return getUserData(UserDataKey.isComposting) }
-        set { setUserData(key: UserDataKey.isComposting, to: newValue) }
-    }
-
-    var isFirstBloom: Bool? {
-        get { return getUserData(UserDataKey.isFirstBloom) }
-        set { setUserData(key: UserDataKey.isFirstBloom, to: newValue) }
     }
 }

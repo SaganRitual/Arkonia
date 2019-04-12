@@ -4,6 +4,7 @@ import SpriteKit
 extension CGFloat { static let tau = 2 * CGFloat.pi }
 
 class Karamba: SKSpriteNode {
+    var arkon: Arkon!
     var contactedBodies: [SKPhysicsBody]?
     let geneticParentFishNumber: Int?
     let geneticParentGenome: [GeneProtocol]?
@@ -170,7 +171,7 @@ extension Karamba {
     }
 
     func lastMinuteBusiness() {
-        guard let a = self.arkon else { return }
+        let a: Arkon = self.arkon
         if a.scheduledActions.isEmpty { return }
 
         defer { a.scheduledActions.removeAll() }
@@ -186,7 +187,7 @@ extension Karamba {
             if !Karamba.firstHotArkon {
                 Karamba.firstHotArkon = true
                 Display.shared.display(
-                    arkon!.signalDriver.kNet, portal: PortalServer.shared.netPortal
+                    arkon.signalDriver.kNet, portal: PortalServer.shared.netPortal
                 )
             }
         }

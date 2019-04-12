@@ -21,23 +21,6 @@
 import Foundation
 import SpriteKit
 
-extension SKSpriteNode {
-    enum UserDataKey {
-        case arkon, birthday, foodValue, isComposting, isFirstBloom
-    }
-
-    func getUserData<T>(_ key: UserDataKey) -> T? {
-        guard let userData = self.userData else { return nil }
-        guard let itemEntry = userData[key] else { return nil }
-        return itemEntry as? T
-    }
-
-    func setUserData<T>(key: UserDataKey, to value: T?) {
-        if self.userData == nil { self.userData = [:] }
-        self.userData?[key] = value
-    }
-}
-
 infix operator !!: NilCoalescingPrecedence
 func !!<T> (_ theOptional: T?, _ onError: () -> Never) -> T {
     guard let unwrapped = theOptional else { onError() }
