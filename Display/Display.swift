@@ -36,17 +36,6 @@ class Display: NSObject, SKSceneDelegate {
 
         super.init()
 
-        let dragField = SKFieldNode.dragField()
-        dragField.categoryBitMask = ArkonCentralLight.PhysicsBitmask.dragField.rawValue
-        dragField.strength = 100.0
-        dragField.isEnabled = true
-        dragField.minimumRadius = Float(max(
-            PortalServer.shared.arkonsPortal.size.width,
-            PortalServer.shared.arkonsPortal.size.height
-        ) / 2.0)
-
-        PortalServer.shared.arkonsPortal.addChild(dragField)
-
 //        self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
     }
 

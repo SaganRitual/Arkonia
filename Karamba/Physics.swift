@@ -26,9 +26,6 @@ extension Karamba: KPhysicsContactDelegate {
             $0.categoryBitMask == PhysicsBitmask.mannaBody.rawValue
         }
 
-        // If we're in contact with something we don't care about, such
-        // as someone's sense ring, treat it as though we're not contacting
-        // anyone.
         let c = hardBind(self.contactedBodies)
         if c.isEmpty { self.contactedBodies = nil }
 //        print(" contacts \(c.count) bodies from \(contactedBodies.count)")
@@ -46,9 +43,6 @@ extension Karamba: KPhysicsContactDelegate {
             $0.categoryBitMask == PhysicsBitmask.mannaBody.rawValue
         }
 
-        // If we're in contact with something we don't care about, such
-        // as someone's sense ring, treat it as though we're not contacting
-        // anyone.
         let s = hardBind(self.sensedBodies)
         if s.isEmpty { self.sensedBodies = nil }
 //        print(" senses \(s.count) bodies from \(s.count)")

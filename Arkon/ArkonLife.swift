@@ -26,16 +26,17 @@ extension Karamba {
     func eatManna(_ mannaBody: SKPhysicsBody) {
         let manna = hardBind(mannaBody.node as? Manna)
 
-        hunger -= CGFloat(manna.calories) * 1.0 * ArkonFactory.scale
-        pBody.mass += CGFloat(manna.calories) * 0.1 * ArkonFactory.scale
+        let startupMultiplier: CGFloat = (geneticParentFishNumber == nil) ? 5 : 5
+        hunger -= CGFloat(manna.calories) * startupMultiplier * 1.0 * ArkonFactory.scale
+        pBody.mass += CGFloat(manna.calories) * startupMultiplier * 0.1 * ArkonFactory.scale
 
         MannaFactory.shared.compost(manna)
-        print("arkon \(scab.fishNumber) hunger = \(hunger), mass = \(pBody.mass), health = \(health)")
+//        print("arkon \(scab.fishNumber) hunger = \(hunger), mass = \(pBody.mass), health = \(health)")
     }
 
     func getContactedArkons() -> [SKPhysicsBody]? {
         let contactedArkons = contactedBodies?.filter { ($0.node?.name)?.starts(with: "arkon") ?? false }
-//        print("arkon \(scab.fishNumber) contacts \(contactedArkons?.count ?? 0) arkons")
+//        if !(contactedArkons?.isEmpty ?? true) { print("arkon \(scab.fishNumber) contacts \(contactedArkons?.count ?? 0) arkons") }
         return contactedArkons
     }
 

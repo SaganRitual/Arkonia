@@ -3,6 +3,12 @@ import SpriteKit
 
 extension CGFloat { static let tau = 2 * CGFloat.pi }
 
+enum Metabolism {
+    static let birthWeight: CGFloat = 1 // How much your offspring weigh
+    static let crossover: CGFloat = 1   // This is where health is at 50%
+    static let flatness: CGFloat = 2    // Flatness of the slope between dead and healthy
+}
+
 class Karamba: SKSpriteNode {
     var arkon: Arkon!
     var contactedBodies: [SKPhysicsBody]?
@@ -16,11 +22,8 @@ class Karamba: SKSpriteNode {
     var hunger: CGFloat { get { return hunger_ } set { hunger_ = max(newValue, 0) } }
 
     var health: CGFloat {
-        let crossover: CGFloat = 1 // This is where health is at 50%
-        let flatness: CGFloat = 2  // Flatness of the slope between dead and healthy
-
-        let x = pBody.mass - crossover
-        let y = 0.5 + (x / (2 * sqrt(x * x + flatness)))
+        let x = pBody.mass - Metabolism.crossover
+        let y = 0.5 + (x / (2 * sqrt(x * x + Metabolism.flatness)))
         return y
     }
 
@@ -55,7 +58,6 @@ extension Karamba {
         let w = size.width * portal.xScale
         let h = size.height * portal.yScale
         let scaledSize = CGSize(width: w, height: h)
-
         let arkonRectangle = CGRect(origin: relativeToPortal, size: scaledSize)
 
         // Remember: get the scene frame rather than the portal frame because
@@ -133,18 +135,21 @@ extension Karamba {
 
     static func makePhysicsBodies(arkonRadius: CGFloat) -> (SKPhysicsBody, SKPhysicsBody) {
         let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 2)
+        let edible =
+            ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue |
+            ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
 
         sensesPBody.mass = 0.1
         sensesPBody.allowsRotation = false
         sensesPBody.collisionBitMask = 0
-        sensesPBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
+        sensesPBody.contactTestBitMask = edible
         sensesPBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonSenses.rawValue
 
         let pBody = SKPhysicsBody(circleOfRadius: arkonRadius / 14)
 
         pBody.mass = 1
         pBody.collisionBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
-        pBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
+        pBody.contactTestBitMask = edible
         pBody.categoryBitMask = ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
         pBody.fieldBitMask = 0
 
@@ -247,6 +252,12 @@ extension Karamba {
         }
 
         if let cb = contactedBodies, cb.isEmpty == false { calorieTransfer() }
+        if health >= 0.9 {
+            let a = hardBind(arkon)
+            Karamba.makeDrone(geneticParentFishNumber: a.fishNumber, geneticParentGenome: a.genome)
+            pBody.mass -= Metabolism.birthWeight
+            hunger += Metabolism.birthWeight * ArkonFactory.scale
+        }
 
         stimulus()
         response()

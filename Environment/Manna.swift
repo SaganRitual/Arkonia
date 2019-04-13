@@ -54,8 +54,6 @@ class MannaFactory {
         sprite.birthday = birthday
         sprite.isComposting = false
         sprite.colorBlendFactor = 1.0 - CGFloat(Display.shared.gameAge * 0.001)
-
-        sprite.removeAllActions()
     }
 
     func compost(_ sprite: Manna) {
@@ -68,13 +66,12 @@ class MannaFactory {
         start = name.index(after: start)
         let hamNumber = Int(name[start..<name.endIndex])!
 
-        let retain = hardBind(sprite.parent)
-        let remove = SKAction.removeFromParent()
+        let remove = SKAction.run { sprite.alpha = 0 }
         let relax = SKAction.wait(forDuration: 2)
         let rebloom = SKAction.run { self.bloom(hamNumber) }
         let recycle = SKAction.sequence([remove, relax, rebloom])
 
-        sprite.run(recycle, completion: { retain.addChild(sprite) })
+        sprite.run(recycle, completion: { sprite.alpha = 1 })
     }
 
     func setupPhysicsBody(_ edgeLoopFrame: CGRect) -> SKPhysicsBody {
