@@ -12,7 +12,6 @@
 		D4033A792238E04900E71167 /* ClockPortal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4033A782238E04900E71167 /* ClockPortal.swift */; };
 		D4033A7B2238EE6500E71167 /* GeneralStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4033A7A2238EE6500E71167 /* GeneralStats.swift */; };
 		D403CD2B224ECD0B00B27458 /* Karamba.swift in Sources */ = {isa = PBXBuildFile; fileRef = D403CD2A224ECD0B00B27458 /* Karamba.swift */; };
-		D403CD2F224EDE7200B27458 /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D403CD2E224EDE7200B27458 /* Actions.swift */; };
 		D4072BED220761E40002BC58 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046522070F7400823D57 /* KIdentifier.swift */; };
 		D4072BEF2207622C0002BC58 /* FLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6048B220710F300823D57 /* FLayer.swift */; };
 		D4072BF02207622C0002BC58 /* FNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D60488220710F300823D57 /* FNet.swift */; };
@@ -188,7 +187,6 @@
 		D4033A782238E04900E71167 /* ClockPortal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockPortal.swift; sourceTree = "<group>"; };
 		D4033A7A2238EE6500E71167 /* GeneralStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralStats.swift; sourceTree = "<group>"; };
 		D403CD2A224ECD0B00B27458 /* Karamba.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Karamba.swift; sourceTree = "<group>"; };
-		D403CD2E224EDE7200B27458 /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		D4072BF4220762680002BC58 /* UpConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpConnector.swift; sourceTree = "<group>"; };
 		D4072BF5220762680002BC58 /* GeneType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneType.swift; sourceTree = "<group>"; };
 		D4072BF6220762680002BC58 /* ActivatorFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivatorFunctions.swift; sourceTree = "<group>"; };
@@ -415,7 +413,6 @@
 		D457037122359A1900386C75 /* Miscellany */ = {
 			isa = PBXGroup;
 			children = (
-				D403CD2E224EDE7200B27458 /* Actions.swift */,
 				D4D6046A22070F7400823D57 /* BellCurve.swift */,
 				D45D2E9C223B426F00441DFD /* ColorGradient.swift */,
 				D4D6046822070F7400823D57 /* Extensions.swift */,
@@ -1117,7 +1114,6 @@
 				D46D6C0522076AAF0001F5D0 /* MutatorSubtract.swift in Sources */,
 				D47246DB22116DE6002AA25F /* DLayer.swift in Sources */,
 				D46D6C4022076C970001F5D0 /* KSignalDriver.swift in Sources */,
-				D403CD2F224EDE7200B27458 /* Actions.swift in Sources */,
 				D46D6C4122076C970001F5D0 /* KExtensions.swift in Sources */,
 				D46D6C4222076C970001F5D0 /* KConnector.swift in Sources */,
 				D45D2E94223AC2E200441DFD /* GeneStatsPortal.swift in Sources */,

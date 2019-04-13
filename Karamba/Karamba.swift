@@ -16,8 +16,8 @@ class Karamba: SKSpriteNode {
     var hunger: CGFloat { get { return hunger_ } set { hunger_ = max(newValue, 0) } }
 
     var health: CGFloat {
-        let crossover: CGFloat = 15 // This is where health is at 50%
-        let flatness: CGFloat = 30  // Flatness of the slope between dead and healthy
+        let crossover: CGFloat = 1 // This is where health is at 50%
+        let flatness: CGFloat = 2  // Flatness of the slope between dead and healthy
 
         let x = pBody.mass - crossover
         let y = 0.5 + (x / (2 * sqrt(x * x + flatness)))
@@ -134,7 +134,7 @@ extension Karamba {
     static func makePhysicsBodies(arkonRadius: CGFloat) -> (SKPhysicsBody, SKPhysicsBody) {
         let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 2)
 
-        sensesPBody.mass = 1
+        sensesPBody.mass = 0.1
         sensesPBody.allowsRotation = false
         sensesPBody.collisionBitMask = 0
         sensesPBody.contactTestBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
@@ -241,13 +241,12 @@ extension Karamba {
         readyForPhysics = true
 
         guard isInBounds && pBody.mass > 0 else {
-            print("dead", scab.fishNumber, pBody.velocity.magnitude, scab.hunger, pBody.mass)
+//            print("dead", scab.fishNumber, pBody.velocity.magnitude, scab.hunger, pBody.mass)
             apoptosize()
             return
         }
 
-        if let cb = contactedBodies, cb.isEmpty == false {
-            calorieTransfer() }
+        if let cb = contactedBodies, cb.isEmpty == false { calorieTransfer() }
 
         stimulus()
         response()

@@ -4,11 +4,11 @@ import SpriteKit
 extension Karamba {
 
     func eatArkon(_ victim: Karamba) {
-        hunger -= victim.pBody.mass * 5.0
-        pBody.mass += victim.pBody.mass * 0.5
+        hunger -= victim.pBody.mass * 5.0 * ArkonFactory.scale
+        pBody.mass += victim.pBody.mass * 0.5 * ArkonFactory.scale
 
         victim.apoptosize()
-        print("arkon \(scab.fishNumber) eats arkon \(victim.scab.fishNumber)")
+//        print("arkon \(scab.fishNumber) eats arkon \(victim.scab.fishNumber)")
     }
 
     func eatManna() {
@@ -19,18 +19,18 @@ extension Karamba {
         }
 
         guard let cm = contactedManna, !cm.isEmpty else { return }
-        print("\(scab.fishNumber) eats \(cm.count) morsels of manna")
+//        print("\(scab.fishNumber) eats \(cm.count) morsels of manna")
         cm.forEach { eatManna($0) }
     }
 
-    func eatManna(_ pBody: SKPhysicsBody) {
-        let manna = hardBind(pBody.node as? Manna)
+    func eatManna(_ mannaBody: SKPhysicsBody) {
+        let manna = hardBind(mannaBody.node as? Manna)
 
-        hunger -= CGFloat(manna.calories) * 1.0
-        pBody.mass += CGFloat(manna.calories) * 0.1
+        hunger -= CGFloat(manna.calories) * 1.0 * ArkonFactory.scale
+        pBody.mass += CGFloat(manna.calories) * 0.1 * ArkonFactory.scale
 
         MannaFactory.shared.compost(manna)
-        print("arkon \(scab.fishNumber) hunger = \(hunger), mass = \(pBody.mass)")
+        print("arkon \(scab.fishNumber) hunger = \(hunger), mass = \(pBody.mass), health = \(health)")
     }
 
     func getContactedArkons() -> [SKPhysicsBody]? {
