@@ -17,6 +17,22 @@ struct BasicBarChartSource: BarChartSource {
     }
 }
 
+struct BasicBarChartSource: BarChartSource {
+    let source: LogHistogram
+
+    init(_ source: LogHistogram) { self.source = source }
+
+    //swiftlint:disable large_tuple
+    func getCountsCompressed() -> (Double, [Int], Int) {
+        return source.getCountsCompressed(to: 10)
+    }
+    //swiftlint:enable large_tuple
+
+    func getCountsTruncated() -> ([Int], Int) {
+        return source.getCountsTruncated(to: 10)
+    }
+}
+
 class ArkonFactory: NSObject {
     static func getAboriginalGenome() -> [GeneProtocol] {
         return Assembler.makeRandomGenome(cGenes: Int.random(in: 10..<1000))
@@ -50,7 +66,7 @@ class ArkonFactory: NSObject {
         barChartSource = BasicBarChartSource(logHistogram)
         auxBarChartSource = BasicBarChartSource(auxLogHistogram)
 
-        super.init()
+        self.barChart.get().barChartLabel.text = "Lifespan"
 
 //        let portal = PortalServer.shared.topLevelStatsPortal
 
@@ -72,6 +88,19 @@ class ArkonFactory: NSObject {
 //
 //        setupSubportal0()
 //        setupSubportal3()
+    }
+
+    static func makeBarChart(
+        namePrefix: String,
+        parentNode: SKSpriteNode,
+        dataSource: BarChartSource)
+        -> BarChart
+    {
+        let backgroundName = namePrefix + "bar_chart_background"
+        guard let chartNode = parentNode.childNode(withName: backgroundName) as? SKSpriteNode
+            else { preconditionFailure() }
+
+        return BarChart(chartNode: chartNode, namePrefix: namePrefix, datasource: dataSource)
     }
 
     static func makeBarChart(

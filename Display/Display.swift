@@ -47,6 +47,35 @@ class Display: NSObject, SKSceneDelegate {
         Display.displayCycle = .limbo
     }
 
+    // https://developer.apple.com/documentation/spritekit/skscene/responding_to_frame-cycle_events
+
+    func didFinishUpdate(for scene: SKScene) {
+        Display.displayCycle = .updateComplete
+        // Do last-chance stuff
+        Display.displayCycle = .limbo
+    }
+
+    func didEvaluateActions(for scene: SKScene) {
+        Display.displayCycle = .actionsComplete
+        Display.displayCycle = .physics
+    }
+
+    func didSimulatePhysics(for scene: SKScene) {
+        Display.displayCycle = .physicsComplete
+        Display.displayCycle = .constraints
+    }
+
+    func didApplyConstraints(for scene: SKScene) {
+        Display.displayCycle = .constraintsComplete
+        Display.displayCycle = .updateComplete
+    }
+
+    func update(_ currentTime: TimeInterval, for scene: SKScene) {
+        Display.displayCycle = .updateStarted
+        primaryUpdate(currentTime, for: scene)
+        Display.displayCycle = .actions
+    }
+
     /**
      Schedule the kNet to be displayed on the next update.
 
