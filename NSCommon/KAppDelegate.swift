@@ -25,8 +25,6 @@ import SpriteKit
 class KAppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        KAppController.shared.showMainWindow(withTitle: "Arkonia")
-
         KAppDelegate.setupArkonTextures()
         KAppDelegate.setupBackgroundTextures()
         KAppDelegate.setupMannaTexture()
@@ -34,6 +32,8 @@ class KAppDelegate: NSObject, NSApplicationDelegate {
 
         FDecoder.shared = FDecoder()
         Mutator.shared = Mutator()
+
+        KAppController.shared.showMainWindow(withTitle: "Arkonia")
     }
 
 	func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {

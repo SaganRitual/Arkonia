@@ -5,24 +5,25 @@ class DBootstrap: NSObject, SKSceneDelegate {
     var scene: SKScene
     var selfReference: DBootstrap?
 
-    var components = [() -> Void]()
-    var scratchComponents = [() -> Void]()
-
     init(_ scene: SKScene) {
         self.scene = scene
-
         super.init()
-
-        self.components = [
-            createDisplay, createWorld,
-            createArkonery, createMannaFactory,
-            createDrones, liftoff
-        ]
-
-        selfReference = self
     }
 
-    func launch()  { scene.delegate = self }
+    func launch()  {
+        scene.delegate = self
+
+        let actions = SKAction.sequence([
+            SKAction.run { [weak self] in self!.createDisplay() },
+            SKAction.run { [weak self] in self!.createWorld() },
+            SKAction.run { [weak self] in self!.createArkonery() },
+            SKAction.run { [weak self] in self!.createMannaFactory() },
+            SKAction.run { [weak self] in self!.createDrones() }
+        ])
+
+        scene.run(actions, completion: liftoff)
+    }
+
     func liftoff() {
         scene.delegate = Display.shared
         selfReference = nil
@@ -36,10 +37,4 @@ class DBootstrap: NSObject, SKSceneDelegate {
     func createDrones()       { Karamba.createDrones(100) }
     func createMannaFactory() { MannaFactory.shared = MannaFactory() }
     func createWorld()        { World.shared = World(scene) }
-
-    func update(_ currentTime: TimeInterval, for scene: SKScene) {
-        if scratchComponents.isEmpty { scratchComponents = components }
-        let fn = scratchComponents.removeFirst()
-        fn()
-    }
 }
