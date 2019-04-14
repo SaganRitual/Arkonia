@@ -3,10 +3,56 @@ import SpriteKit
 
 extension CGFloat { static let tau = 2 * CGFloat.pi }
 
-enum Metabolism {
+struct Metabolism {
     static let birthWeight: CGFloat = 1 // How much your offspring weigh
     static let crossover: CGFloat = 1   // This is where health is at 50%
     static let flatness: CGFloat = 2    // Flatness of the slope between dead and healthy
+
+    mutating func absorbGreens(_ mass: CGFloat) {
+        hunger -= mass * 1.0 * ArkonFactory.scale
+        pBody.mass += mass * 0.1 * ArkonFactory.scale
+    }
+
+    mutating func absorbMeat(_ mass: CGFloat) {
+        hunger -= mass * 5.0 * ArkonFactory.scale
+        self.pBody.mass += mass * 0.5 * ArkonFactory.scale
+    }
+
+    // In Arkonia, we measure energy in arks, because I can't figure out how to
+    // go from Newton-seconds to Newton-meters, or whatever.
+    mutating func debitEnergy(_ arks: CGFloat) {
+        pBody.mass -= arks / 10
+        hunger += arks
+    }
+
+    mutating func giveBirth() {
+        pBody.mass -= Metabolism.birthWeight
+        hunger += Metabolism.birthWeight * ArkonFactory.scale
+    }
+
+    private var hunger_: CGFloat = 0
+    var hunger: CGFloat { get { return hunger_ } set { hunger_ = max(newValue, 0) } }
+
+    var health: CGFloat {
+        guard oxygenLevel > 0 else { return 0 }
+        let x = pBody.mass - Metabolism.crossover
+        let y = 0.5 + (x / (2 * sqrt(x * x + Metabolism.flatness)))
+        return y
+    }
+
+    // In Arkonia, we measure volume in arks, because they make for easy conversion
+    mutating func inhale(_ arks: CGFloat) {
+        oxygenLevel += arks
+    }
+
+    private var oxygenLevel_: CGFloat = 1.0
+    var oxygenLevel: CGFloat { get { return oxygenLevel_ } set { oxygenLevel_ = min(newValue, 1) } }
+
+    var pBody: SKPhysicsBody!
+
+    mutating func tick() {
+        oxygenLevel -= 0.005
+    }
 }
 
 class Karamba: SKSpriteNode {
@@ -15,17 +61,10 @@ class Karamba: SKSpriteNode {
     let geneticParentFishNumber: Int?
     let geneticParentGenome: [GeneProtocol]?
     var isAlive = false
+    var metabolism = Metabolism()
+    var previousPosition = CGPoint.zero
     var readyForPhysics = false
     var sensedBodies: [SKPhysicsBody]?
-
-    private var hunger_: CGFloat = 0
-    var hunger: CGFloat { get { return hunger_ } set { hunger_ = max(newValue, 0) } }
-
-    var health: CGFloat {
-        let x = pBody.mass - Metabolism.crossover
-        let y = 0.5 + (x / (2 * sqrt(x * x + Metabolism.flatness)))
-        return y
-    }
 
     init(_ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?) {
         self.geneticParentGenome = geneticParentGenome
@@ -89,6 +128,7 @@ extension Karamba {
         arkon.zPosition = ArkonCentralLight.vArkonZPosition
 
         let (pBody, nosePBody) = makePhysicsBodies(arkonRadius: arkon.size.radius)
+        arkon.metabolism.pBody = pBody
 
         let parentGenome = geneticParentGenome ?? ArkonFactory.getAboriginalGenome()
 
@@ -192,8 +232,8 @@ extension Karamba {
               let oca = opponent.getContactedArkons(), oca.count <= 1
             else { return .surviving }
 
-        return (opponent.pBody.mass * opponent.health - opponent.hunger) >
-               (self.pBody.mass     * self.health     - self.hunger)     ?
+        return (opponent.pBody.mass * opponent.metabolism.health - opponent.metabolism.hunger) >
+               (self.pBody.mass     * self.metabolism.health     - self.metabolism.hunger)     ?
                 .losing(opponent) : .winning(opponent)
     }
 
@@ -245,19 +285,25 @@ extension Karamba {
         guard scab.status.isAlive else { return }
         readyForPhysics = true
 
-        guard isInBounds && pBody.mass > 0 else {
+        guard isInBounds && metabolism.health > 0.1 else {
 //            print("dead", scab.fishNumber, pBody.velocity.magnitude, scab.hunger, pBody.mass)
             apoptosize()
             return
         }
 
         if let cb = contactedBodies, cb.isEmpty == false { calorieTransfer() }
-        if health >= 0.9 {
+        if metabolism.health >= 0.9 {
             let a = hardBind(arkon)
             Karamba.makeDrone(geneticParentFishNumber: a.fishNumber, geneticParentGenome: a.genome)
-            pBody.mass -= Metabolism.birthWeight
-            hunger += Metabolism.birthWeight * ArkonFactory.scale
+            metabolism.giveBirth()
         }
+
+        // Coincidentally, in Arkonia, we measure distance and volume using
+        // the same units.
+        metabolism.inhale(position.distance(to: previousPosition))
+        metabolism.tick()
+
+        previousPosition = position
 
         stimulus()
         response()

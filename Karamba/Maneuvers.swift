@@ -63,7 +63,7 @@ extension ManeuverProtocol {
             return dictionary
         }
 
-        let sorted = tagged.sorted { lhs, rhs in lhs.value < rhs.value }
+        let sorted = tagged.sorted { lhs, rhs in abs(lhs.value) < abs(rhs.value) }
         let maxEntry = hardBind(sorted.last)
 
         switch maxEntry.key {

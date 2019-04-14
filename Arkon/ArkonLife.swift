@@ -4,8 +4,7 @@ import SpriteKit
 extension Karamba {
 
     func eatArkon(_ victim: Karamba) {
-        hunger -= victim.pBody.mass * 5.0 * ArkonFactory.scale
-        pBody.mass += victim.pBody.mass * 0.5 * ArkonFactory.scale
+        metabolism.absorbMeat(victim.pBody.mass)
 
         victim.apoptosize()
 //        print("arkon \(scab.fishNumber) eats arkon \(victim.scab.fishNumber)")
@@ -26,9 +25,8 @@ extension Karamba {
     func eatManna(_ mannaBody: SKPhysicsBody) {
         let manna = hardBind(mannaBody.node as? Manna)
 
-        let startupMultiplier: CGFloat = (geneticParentFishNumber == nil) ? 5 : 5
-        hunger -= CGFloat(manna.calories) * startupMultiplier * 1.0 * ArkonFactory.scale
-        pBody.mass += CGFloat(manna.calories) * startupMultiplier * 0.1 * ArkonFactory.scale
+        let startupMultiplier: CGFloat = (geneticParentFishNumber == nil) ? 3 : 3
+        metabolism.absorbGreens(startupMultiplier * CGFloat(manna.calories))
 
         MannaFactory.shared.compost(manna)
 //        print("arkon \(scab.fishNumber) hunger = \(hunger), mass = \(pBody.mass), health = \(health)")
@@ -100,7 +98,8 @@ extension Karamba {
 
         let sensoryInputs: [Double] = [
             Double(aVelocity),
-            Double(hunger),
+            Double(metabolism.hunger),
+            Double(metabolism.oxygenLevel),
 
             Double(velocity.radius), Double(velocity.theta),
 

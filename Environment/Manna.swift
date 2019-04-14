@@ -1,7 +1,7 @@
 import Foundation
 import SpriteKit
 
-class Manna: SKSpriteNode, KPhysicsContactDelegate {
+class Manna: SKSpriteNode {
     var birthday: TimeInterval = 0
     let calories = 10
     var isComposting = false
@@ -15,14 +15,6 @@ class Manna: SKSpriteNode, KPhysicsContactDelegate {
             let adjustedValue = baseValue * (1 - World.shared.entropy)
             return adjustedValue
         }
-    }
-
-    func pushContactedBodies(_ contactedBodies: [SKPhysicsBody]) {
-//        let p = Display.displayCycle
-//        assert(p.isIn(.physics), "Call this function only in physics phase: \(p)")
-//
-//        let k = hardBind(parent as? Karamba)
-//        k.pushSensedBodies(contactedBodies)
     }
 
 }

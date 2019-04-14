@@ -5,14 +5,16 @@ class World {
     static var shared: World!
 
     private static let sAngularVelocity =  1
+    private static let sHunger          =  1
     private static let sLinearVelocity  =  2
+    private static let sOxygen          =  1
     private static let sPosition        =  2
     private static let sCMannaSensed    =  1
     private static let sClosestManna    =  2
     private static let sCArkonsSensed   =  1
     private static let sClosestArkon    =  2
     static let cSenseNeurons            =
-        sAngularVelocity + sLinearVelocity + sPosition + sCMannaSensed +
+        sAngularVelocity + sHunger + sLinearVelocity + sOxygen + sPosition + sCMannaSensed +
         sClosestManna + sCArkonsSensed + sClosestArkon
 
     private static let mPower   = 1

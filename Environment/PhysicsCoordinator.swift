@@ -26,7 +26,8 @@ class PhysicsCoordinator: NSObject, SKPhysicsContactDelegate {
         let p = Display.displayCycle
         assert(p.isIn(.physics), "Call this function only in physics phase: \(p)")
 
-        let node = hardBind(body.node as? KPhysicsContactDelegate)
-        node.pushContactedBodies(body.allContactedBodies())
+        if let node = body.node as? KPhysicsContactDelegate {
+            node.pushContactedBodies(body.allContactedBodies())
+        }
     }
 }
