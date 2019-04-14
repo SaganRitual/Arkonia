@@ -413,6 +413,7 @@
 		D457037122359A1900386C75 /* Miscellany */ = {
 			isa = PBXGroup;
 			children = (
+				D403CD2E224EDE7200B27458 /* Actions.swift */,
 				D4D6046A22070F7400823D57 /* BellCurve.swift */,
 				D45D2E9C223B426F00441DFD /* ColorGradient.swift */,
 				D4D6046822070F7400823D57 /* Extensions.swift */,
@@ -1114,6 +1115,7 @@
 				D46D6C0522076AAF0001F5D0 /* MutatorSubtract.swift in Sources */,
 				D47246DB22116DE6002AA25F /* DLayer.swift in Sources */,
 				D46D6C4022076C970001F5D0 /* KSignalDriver.swift in Sources */,
+				D403CD2F224EDE7200B27458 /* Actions.swift in Sources */,
 				D46D6C4122076C970001F5D0 /* KExtensions.swift in Sources */,
 				D46D6C4222076C970001F5D0 /* KConnector.swift in Sources */,
 				D45D2E94223AC2E200441DFD /* GeneStatsPortal.swift in Sources */,
