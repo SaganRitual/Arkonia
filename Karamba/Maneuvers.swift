@@ -57,14 +57,28 @@ extension ManeuverProtocol {
         let power = abs(CGFloat(m.removeFirst()))
 
         let primitives: [ActionPrimitive] = [.goFullStop, .goThrust(power), .goRotate(power), .goWait]
-        let tagged: [ActionPrimitive: Double] = zip(primitives, motorOutputs).reduce([:]) {
+        let tagged: [ActionPrimitive: Double] = zip(primitives, m).reduce([:]) {
             var dictionary = $0
             dictionary[$1.0] = $1.1
             return dictionary
         }
 
-        let sorted = tagged.sorted { lhs, rhs in abs(lhs.value) < abs(rhs.value) }
+        let sorted = tagged.sorted { lhs, rhs in
+            let inertia = (lhs.key == arkon.mostRecentAction) ?
+                (0.25 * lhs.value / abs(lhs.value)) : 0.0
+
+            return abs(lhs.value + inertia) < abs(rhs.value)
+        }
+
         let maxEntry = hardBind(sorted.last)
+
+//        if arkon.scab.fishNumber == 0 {
+//            print("actions for \(arkon.scab.fishNumber): ", terminator: "")
+//            sorted.forEach { print($0, terminator: "") }
+//            print("; chose", maxEntry.key, "over", arkon.mostRecentAction)
+//        }
+
+        defer { arkon.mostRecentAction = maxEntry.key }
 
         switch maxEntry.key {
         case .goFullStop:

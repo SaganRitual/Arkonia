@@ -62,6 +62,7 @@ class Karamba: SKSpriteNode {
     let geneticParentGenome: [GeneProtocol]?
     var isAlive = false
     var metabolism = Metabolism()
+    var mostRecentAction = ActionPrimitive.goWait
     var previousPosition = CGPoint.zero
     var readyForPhysics = false
     var sensedBodies: [SKPhysicsBody]?
@@ -174,7 +175,7 @@ extension Karamba {
     }
 
     static func makePhysicsBodies(arkonRadius: CGFloat) -> (SKPhysicsBody, SKPhysicsBody) {
-        let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 2)
+        let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 1.5)
         let edible =
             ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue |
             ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
@@ -286,7 +287,11 @@ extension Karamba {
         readyForPhysics = true
 
         guard isInBounds && metabolism.health > 0.1 else {
-//            print("dead", scab.fishNumber, pBody.velocity.magnitude, scab.hunger, pBody.mass)
+            if metabolism.oxygenLevel < 0.01 {
+                Karamba.makeDrone(geneticParentFishNumber: nil, geneticParentGenome: nil)
+                metabolism.giveBirth()
+            }
+
             apoptosize()
             return
         }
