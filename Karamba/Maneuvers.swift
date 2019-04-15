@@ -5,7 +5,7 @@ enum ActionPrimitive: Comparable, Hashable {
     case goFullStop
     case goRotate(CGFloat)
     case goThrust(CGFloat)
-    case goWait
+    case goWait(CGFloat)
 
     static func < (_ lhs: ActionPrimitive, _ rhs: ActionPrimitive) -> Bool {
         switch (lhs, rhs) {
@@ -54,9 +54,9 @@ extension ManeuverProtocol {
     func selectActionPrimitive(arkon: Karamba, motorOutputs: [Double]) -> SKAction {
 
         var m = motorOutputs
-        let power = abs(CGFloat(m.removeFirst()))
+        let power = CGFloat(m.removeFirst())
 
-        let primitives: [ActionPrimitive] = [.goFullStop, .goThrust(power), .goRotate(power), .goWait]
+        let primitives: [ActionPrimitive] = [.goFullStop, .goThrust(power), .goRotate(power), .goWait(power)]
         let tagged: [ActionPrimitive: Double] = zip(primitives, m).reduce([:]) {
             var dictionary = $0
             dictionary[$1.0] = $1.1
@@ -65,7 +65,7 @@ extension ManeuverProtocol {
 
         let sorted = tagged.sorted { lhs, rhs in
             let inertia = (lhs.key == arkon.mostRecentAction) ?
-                (0.25 * lhs.value / abs(lhs.value)) : 0.0
+                (0.1 * lhs.value / abs(lhs.value)) : 0.0
 
             return abs(lhs.value + inertia) < abs(rhs.value)
         }
@@ -88,14 +88,17 @@ extension ManeuverProtocol {
             }
 
         case let .goRotate(power):
+            arkon.metabolism.debitEnergy(abs(power) / 100)
             return SKAction.run { arkon.pBody.applyAngularImpulse(power / 100) }
 
         case let .goThrust(power):
-            let vector = CGVector(radius: power * 100, theta: arkon.zRotation)
+            arkon.metabolism.debitEnergy(abs(power) / 1000)
+            let vector = CGVector(radius: abs(power) * 100, theta: arkon.zRotation)
             return SKAction.run { arkon.pBody.applyImpulse(vector) }
 
-        case .goWait:
-            return SKAction.wait(forDuration: 1.0 / 60.0)
+        case let .goWait(duration):
+            let conversion = TimeInterval(abs(duration) * 10.0 / 60.0)
+            return SKAction.wait(forDuration: conversion)
         }
     }
 }

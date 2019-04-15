@@ -62,7 +62,7 @@ class Karamba: SKSpriteNode {
     let geneticParentGenome: [GeneProtocol]?
     var isAlive = false
     var metabolism = Metabolism()
-    var mostRecentAction = ActionPrimitive.goWait
+    var mostRecentAction = ActionPrimitive.goWait(0)
     var previousPosition = CGPoint.zero
     var readyForPhysics = false
     var sensedBodies: [SKPhysicsBody]?
