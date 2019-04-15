@@ -259,20 +259,8 @@ extension Karamba {
         run(SKAction.sequence(a.scheduledActions))
     }
 
-    static var firstHotArkon = false
     func response(motorNeuronOutputs: [Double]) {
         let m = motorNeuronOutputs
-
-        if m.reduce(0, +) == 0 { color = .darkGray } else {
-            color = .green
-            if !Karamba.firstHotArkon {
-                Karamba.firstHotArkon = true
-                Display.shared.display(
-                    arkon.signalDriver.kNet, portal: PortalServer.shared.netPortal
-                )
-            }
-        }
-
         let actionPrimitive = selectActionPrimitive(arkon: self, motorOutputs: m)
         run(actionPrimitive)
     }

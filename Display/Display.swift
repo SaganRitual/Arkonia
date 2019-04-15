@@ -47,7 +47,7 @@ class Display: NSObject, SKSceneDelegate {
 
         PortalServer.shared.arkonsPortal.addChild(dragField)
 
-//        self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
+        self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
     }
 
     func didEvaluateActions(for scene: SKScene) {

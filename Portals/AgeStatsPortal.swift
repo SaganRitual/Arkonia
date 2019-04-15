@@ -7,12 +7,12 @@ class AgeStatsPortal {
     private var highWaterMark = 0.0
 
     func demoteFromDuggarest(_ arkon: Arkon, _ shrink: Bool) {
-        precondition(arkon.status.isDuggarest == true)
-        arkon.status.isDuggarest = false
-        let color: NSColor = arkon.status.isOldest ? .orange : .magenta
-
-        arkon.sprite.color = color
-        if shrink { arkon.sprite.size /= 2.0 }
+//        precondition(arkon.status.isDuggarest == true)
+//        arkon.status.isDuggarest = false
+//        let color: NSColor = arkon.status.isOldest ? .orange : .magenta
+//
+//        arkon.sprite.color = color
+//        if shrink { arkon.sprite.size /= 2.0 }
 //        let colorAction =
 //            SKAction.colorize(with: color, colorBlendFactor: 1, duration: 0.25)
 //
@@ -27,7 +27,7 @@ class AgeStatsPortal {
 //            guard let sprite = node as? SKSpriteNode else { return }
 //            guard let arkon: Arkon = sprite.getUserData(SKSpriteNode.UserDataKey.arkon) else { return }
 //        }
-
+//
 //        let demote = SKAction.sequence([light])
 //        let remote = SKAction.run(demote, onChildWithName: spriteName)
 //
@@ -39,7 +39,7 @@ class AgeStatsPortal {
         arkon.status.isDuggarest = true
         arkon.sprite.color = .purple
         if grow { arkon.sprite.size *= 2.0 }
-
+//
 //        let colorAction =
 //            SKAction.colorize(with: .purple, colorBlendFactor: 1, duration: 0.25)
 //
@@ -53,7 +53,7 @@ class AgeStatsPortal {
 //            guard let sprite = node as? SKSpriteNode else { return }
 //            guard let arkon: Arkon = sprite.getUserData(SKSpriteNode.UserDataKey.arkon) else { return }
 //        }
-
+//
 //        let promote = SKAction.sequence([light])
 //        let remote = SKAction.run(promote, onChildWithName: spriteName)
 //        PortalServer.shared.arkonsPortal.run(remote)
@@ -63,24 +63,23 @@ class AgeStatsPortal {
         precondition(arkon.status.isOldest == false)
         arkon.status.isOldest = true
         arkon.sprite.color = .orange
-//        let colorAction =
-//            SKAction.colorize(with: .orange, colorBlendFactor: 1, duration: 0.25)
+        let colorAction =
+            SKAction.colorize(with: .orange, colorBlendFactor: 1, duration: 0.25)
 
-//        var actions = [colorAction]
-//        if grow { print("2 scale up", arkon.fishNumber); actions.append(SKAction.scale(by: 2, duration: 0.25)) }
+        var actions = [colorAction]
+        if grow { print("2 scale up", arkon.fishNumber); actions.append(SKAction.scale(by: 2, duration: 0.25)) }
 
         if grow { arkon.sprite.size *= 2.0 }
-//        let light = SKAction.group(actions)
-//        let spriteName = arkon.sprite.name!
+        let light = SKAction.group(actions)
+        let spriteName = arkon.sprite.name!
 //        let dark = SKAction.run {
 //            let node = PortalServer.shared.arkonsPortal.childNode(withName: spriteName)
-//            guard let sprite = node as? SKSpriteNode else { return }
-//            guard let arkon: Arkon = sprite.getUserData(SKSpriteNode.UserDataKey.arkon) else { return }
+//            guard node is Karamba else { return }
 //        }
 
-//        let promote = SKAction.sequence([light])
-//        let remote = SKAction.run(promote, onChildWithName: spriteName)
-//        PortalServer.shared.arkonsPortal.run(remote)
+        let promote = SKAction.sequence([light])
+        let remote = SKAction.run(promote, onChildWithName: spriteName)
+        PortalServer.shared.arkonsPortal.run(remote)
     }
 
     init(_ generalStatsPortals: GeneralStats) {

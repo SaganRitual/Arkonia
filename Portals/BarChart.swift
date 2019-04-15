@@ -53,7 +53,7 @@ class BarChart {
         let launch = SKAction.sequence([dazzle, updateForever])
 
         chartNode.run(launch)
-//        chartNode.run(updateForever)
+        chartNode.run(updateForever)
     }
 
     func update() {
