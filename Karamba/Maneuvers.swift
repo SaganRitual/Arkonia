@@ -55,19 +55,23 @@ extension ManeuverProtocol {
 
         var m = motorOutputs
         let power = CGFloat(m.removeFirst())
+        let primitives: [ActionPrimitive] = [
+            .goFullStop, .goThrust(power), .goRotate(power), .goWait(power)
+        ]
 
-        let primitives: [ActionPrimitive] = [.goFullStop, .goThrust(power), .goRotate(power), .goWait(power)]
-        let tagged: [ActionPrimitive: Double] = zip(primitives, m).reduce([:]) {
-            var dictionary = $0
-            dictionary[$1.0] = $1.1
-            return dictionary
-        }
+//        let tagged: [ActionPrimitive: Double] = zip(primitives, m).reduce([:]) {
+//            var dictionary = $0
+//            dictionary[$1.0] = $1.1
+//            return dictionary
+//        }
+
+        let tagged: [(ActionPrimitive, Double)] = zip(primitives, m).map {($0, $1)}
 
         let sorted = tagged.sorted { lhs, rhs in
-            let inertia = (lhs.key == arkon.mostRecentAction) ?
-                (0.1 * lhs.value / abs(lhs.value)) : 0.0
+            let inertia = (lhs.0 == arkon.mostRecentAction) ?
+                (0.1 * lhs.1 / abs(lhs.1)) : 0.0
 
-            return abs(lhs.value + inertia) < abs(rhs.value)
+            return abs(lhs.1 + inertia) < abs(rhs.1)
         }
 
         let maxEntry = hardBind(sorted.last)
@@ -78,9 +82,9 @@ extension ManeuverProtocol {
 //            print("; chose", maxEntry.key, "over", arkon.mostRecentAction)
 //        }
 
-        defer { arkon.mostRecentAction = maxEntry.key }
+        defer { arkon.mostRecentAction = maxEntry.0 }
 
-        switch maxEntry.key {
+        switch maxEntry.0 {
         case .goFullStop:
             return SKAction.run {
                 arkon.pBody.velocity = CGVector.zero

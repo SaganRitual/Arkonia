@@ -90,7 +90,9 @@ class Display: NSObject, SKSceneDelegate {
         let cm: [Karamba] = PortalServer.shared.arkonsPortal.children.compactMap {
             guard let a = ($0 as? Karamba) else { return nil }
             if a.arkon == nil { return nil }
-            return a.scab.status.isAlive ? a : nil
+            guard a.isReadyForTick else { return nil }
+            guard a.scab.status.isAlive else { return nil }
+            return a
         }
 
         cm.forEach { $0.tick() }

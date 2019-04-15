@@ -37,6 +37,8 @@ class ArkonFactory: NSObject {
     var tickWorkItem: DispatchWorkItem!
 
     static let karambaSerializerQueue = DispatchQueue(label: "light.karamba", qos: .background)
+    static let karambaStimulusQueue =
+        DispatchQueue(label: "dark.karamba", qos: .background, attributes: .concurrent)
 
     let logHistogram = LogHistogram(sampleResolution: 1)
     var barChart: BarChart!
