@@ -53,6 +53,7 @@ extension KNet {
         return kNet
     }
 
+    // swiftlint:disable cyclomatic_complexity
     func driveSignal(_ senseLayer: KLayer, _ motorLayer: KLayer) -> Bool {
         let netIsBuilt = self.senseLayer != nil
 
@@ -74,11 +75,8 @@ extension KNet {
                 lowerLayer.connect(to: upperLayer)
                 upperLayer.decoupleFromGrid()
 
-//                print("\(self) check for sense connections intact, \(topHiddenLayer.neurons.compactMap { $0.relay }.count)")
                 let senseConnectionsIntact = !topHiddenLayer.neurons.compactMap { $0.relay }.isEmpty
-                if !senseConnectionsIntact {
-//                    print("\(self) sense connections broken")
-                    return false }
+                if !senseConnectionsIntact { return false }
             }
 
             lowerLayer.driveSignal()
@@ -89,10 +87,6 @@ extension KNet {
             motorLayer.reverseConnect(upperLayer)
             upperLayer.decoupleFromGrid()
 
-            if hiddenLayers.isEmpty {
-                print("\(self) no guts")
-                return false }
-
             // I'm pretty sure it's counter-productive to have a layer with
             // more neurons than the layer above it. In a trivial case, having
             // a one-neuron layer above a two-neuron layer, the lower neurons
@@ -101,22 +95,24 @@ extension KNet {
             // about that point and haven't missed anything important. Kill
             // off any arkons that have such defective nets.
 
-//            var maxAllowedNeurons = Int.max
-//            for layer in hiddenLayers {
-//                let cLiveNeurons = layer.neurons.compactMap { neuron in neuron.relay }.count
-//                if cLiveNeurons > maxAllowedNeurons { return false }
-//                maxAllowedNeurons = min(maxAllowedNeurons, cLiveNeurons)
-//            }
+            var maxAllowedNeurons = Int.max
+            for layer in hiddenLayers {
+                let cLiveNeurons = layer.neurons.compactMap { neuron in neuron.relay }.count
+                if cLiveNeurons > maxAllowedNeurons { return false }
+                maxAllowedNeurons = min(maxAllowedNeurons, cLiveNeurons)
+            }
 
-//            if ArkonCentralDark.selectionControls.cMotorNeurons > maxAllowedNeurons { return false }
+            if World.cMotorNeurons > maxAllowedNeurons { return false }
         }
 
         motorLayer.driveSignal()
 
-        if !netIsBuilt { gridAnchors = motorLayer.neurons.map { $0.relay! } }
+        if !netIsBuilt { gridAnchors = motorLayer.neurons.compactMap { $0.relay } }
+        guard gridAnchors.count == World.cMotorNeurons else { return false }
 
         return true
     }
+    // swiftlint:enable cyclomatic_complexity
 
     func getNetSignalCost() -> CGFloat {
         return hiddenLayers.reduce(0) { $0 + CGFloat($1.neurons.count) } / 1e7

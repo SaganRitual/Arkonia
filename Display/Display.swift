@@ -36,7 +36,18 @@ class Display: NSObject, SKSceneDelegate {
 
         super.init()
 
-//        self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
+        let dragField = SKFieldNode.dragField()
+        dragField.categoryBitMask = ArkonCentralLight.PhysicsBitmask.dragField.rawValue
+        dragField.strength = 100.0
+        dragField.isEnabled = true
+        dragField.minimumRadius = Float(max(
+            PortalServer.shared.arkonsPortal.size.width,
+            PortalServer.shared.arkonsPortal.size.height
+        ) / 2.0)
+
+        PortalServer.shared.arkonsPortal.addChild(dragField)
+
+        self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
     }
 
     func didEvaluateActions(for scene: SKScene) {
@@ -45,35 +56,6 @@ class Display: NSObject, SKSceneDelegate {
 
     func didSimulatePhysics(for scene: SKScene) {
         Display.displayCycle = .limbo
-    }
-
-    // https://developer.apple.com/documentation/spritekit/skscene/responding_to_frame-cycle_events
-
-    func didFinishUpdate(for scene: SKScene) {
-        Display.displayCycle = .updateComplete
-        // Do last-chance stuff
-        Display.displayCycle = .limbo
-    }
-
-    func didEvaluateActions(for scene: SKScene) {
-        Display.displayCycle = .actionsComplete
-        Display.displayCycle = .physics
-    }
-
-    func didSimulatePhysics(for scene: SKScene) {
-        Display.displayCycle = .physicsComplete
-        Display.displayCycle = .constraints
-    }
-
-    func didApplyConstraints(for scene: SKScene) {
-        Display.displayCycle = .constraintsComplete
-        Display.displayCycle = .updateComplete
-    }
-
-    func update(_ currentTime: TimeInterval, for scene: SKScene) {
-        Display.displayCycle = .updateStarted
-        primaryUpdate(currentTime, for: scene)
-        Display.displayCycle = .actions
     }
 
     /**
@@ -108,7 +90,9 @@ class Display: NSObject, SKSceneDelegate {
         let cm: [Karamba] = PortalServer.shared.arkonsPortal.children.compactMap {
             guard let a = ($0 as? Karamba) else { return nil }
             if a.arkon == nil { return nil }
-            return a.scab.status.isAlive ? a : nil
+            guard a.isReadyForTick else { return nil }
+            guard a.scab.status.isAlive else { return nil }
+            return a
         }
 
         cm.forEach { $0.tick() }

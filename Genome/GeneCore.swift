@@ -22,8 +22,8 @@ enum GeneCore {
 
     static func getWeightedRandomGene() -> GeneType {
         let weightMap: [GeneType : Int] = [
-            .activator: 10, .bias: 10, .downConnector: 10, .hox: 1, .lock: 1, .layer: 1,
-            .neuron: 10/*, .policy: 1, .skipAnyType: 1, .skipOneType: 1*/, .upConnector: 10
+            .activator: 7, .bias: 7, .downConnector: 15, .hox: 0, .lock: 0, .layer: 1,
+            .neuron: 20/*, .policy: 1, .skipAnyType: 1, .skipOneType: 1*/, .upConnector: 15
         ]
 
         let weightRange = weightMap.reduce(0, { return $0 + $1.value })

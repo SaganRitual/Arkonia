@@ -290,6 +290,8 @@ extension CGVector: Overload2D {
 
     var magnitude: CGFloat { return hypotenuse }
 
+    static let infinity = CGVector(dx: CGFloat.infinity, dy: CGFloat.infinity)
+
     init(_ dx: CGFloat, _ dy: CGFloat) {
         self.init(dx: dx, dy: dy)
     }

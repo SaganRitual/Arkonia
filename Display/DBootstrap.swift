@@ -34,7 +34,7 @@ class DBootstrap: NSObject, SKSceneDelegate {
     }
 
     func createDisplay()      { Display.shared = Display(scene) }
-    func createDrones()       { Karamba.createDrones(100) }
+    func createDrones()       { Karamba.createDrones(200) }
     func createMannaFactory() { MannaFactory.shared = MannaFactory() }
     func createWorld()        { World.shared = World(scene) }
 }

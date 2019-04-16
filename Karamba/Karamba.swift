@@ -3,58 +3,6 @@ import SpriteKit
 
 extension CGFloat { static let tau = 2 * CGFloat.pi }
 
-struct Metabolism {
-    static let birthWeight: CGFloat = 1 // How much your offspring weigh
-    static let crossover: CGFloat = 1   // This is where health is at 50%
-    static let flatness: CGFloat = 2    // Flatness of the slope between dead and healthy
-
-    mutating func absorbGreens(_ mass: CGFloat) {
-        hunger -= mass * 1.0 * ArkonFactory.scale
-        pBody.mass += mass * 0.1 * ArkonFactory.scale
-    }
-
-    mutating func absorbMeat(_ mass: CGFloat) {
-        hunger -= mass * 5.0 * ArkonFactory.scale
-        self.pBody.mass += mass * 0.5 * ArkonFactory.scale
-    }
-
-    // In Arkonia, we measure energy in arks, because I can't figure out how to
-    // go from Newton-seconds to Newton-meters, or whatever.
-    mutating func debitEnergy(_ arks: CGFloat) {
-        pBody.mass -= arks / 10
-        hunger += arks
-    }
-
-    mutating func giveBirth() {
-        pBody.mass -= Metabolism.birthWeight
-        hunger += Metabolism.birthWeight * ArkonFactory.scale
-    }
-
-    private var hunger_: CGFloat = 0
-    var hunger: CGFloat { get { return hunger_ } set { hunger_ = max(newValue, 0) } }
-
-    var health: CGFloat {
-        guard oxygenLevel > 0 else { return 0 }
-        let x = pBody.mass - Metabolism.crossover
-        let y = 0.5 + (x / (2 * sqrt(x * x + Metabolism.flatness)))
-        return y
-    }
-
-    // In Arkonia, we measure volume in arks, because they make for easy conversion
-    mutating func inhale(_ arks: CGFloat) {
-        oxygenLevel += arks
-    }
-
-    private var oxygenLevel_: CGFloat = 1.0
-    var oxygenLevel: CGFloat { get { return oxygenLevel_ } set { oxygenLevel_ = min(newValue, 1) } }
-
-    var pBody: SKPhysicsBody!
-
-    mutating func tick() {
-        oxygenLevel -= 0.005
-    }
-}
-
 class Karamba: SKSpriteNode {
     var arkon: Arkon!
     var contactedBodies: [SKPhysicsBody]?
@@ -62,9 +10,12 @@ class Karamba: SKSpriteNode {
     let geneticParentGenome: [GeneProtocol]?
     var isAlive = false
     var metabolism = Metabolism()
+    var mostRecentAction = ActionPrimitive.goWait(0)
     var previousPosition = CGPoint.zero
     var readyForPhysics = false
+    var isReadyForTick = false
     var sensedBodies: [SKPhysicsBody]?
+    var sensoryInputs = [Double]()
 
     init(_ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?) {
         self.geneticParentGenome = geneticParentGenome
@@ -166,7 +117,7 @@ extension Karamba {
             nosePBody.pinned = true // It wouldn't do to leave our senses behind
         }
 
-        portal.run(action, completion: { scab.status.isAlive = true })
+        portal.run(action, completion: { arkon.isReadyForTick = true; scab.status.isAlive = true })
     }
 
     static func makeDrone(geneticParentFishNumber f: Int?, geneticParentGenome g: [GeneProtocol]?) {
@@ -174,7 +125,7 @@ extension Karamba {
     }
 
     static func makePhysicsBodies(arkonRadius: CGFloat) -> (SKPhysicsBody, SKPhysicsBody) {
-        let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 2)
+        let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 1.5)
         let edible =
             ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue |
             ArkonCentralLight.PhysicsBitmask.arkonBody.rawValue
@@ -258,20 +209,8 @@ extension Karamba {
         run(SKAction.sequence(a.scheduledActions))
     }
 
-    static var firstHotArkon = false
     func response(motorNeuronOutputs: [Double]) {
         let m = motorNeuronOutputs
-
-        if m.reduce(0, +) == 0 { color = .darkGray } else {
-            color = .green
-            if !Karamba.firstHotArkon {
-                Karamba.firstHotArkon = true
-                Display.shared.display(
-                    arkon.signalDriver.kNet, portal: PortalServer.shared.netPortal
-                )
-            }
-        }
-
         let actionPrimitive = selectActionPrimitive(arkon: self, motorOutputs: m)
         run(actionPrimitive)
     }
@@ -284,9 +223,14 @@ extension Karamba {
         // until isAlive is set.
         guard scab.status.isAlive else { return }
         readyForPhysics = true
+        isReadyForTick = false
 
         guard isInBounds && metabolism.health > 0.1 else {
-//            print("dead", scab.fishNumber, pBody.velocity.magnitude, scab.hunger, pBody.mass)
+            if metabolism.oxygenLevel < 0.01 {
+                Karamba.makeDrone(geneticParentFishNumber: nil, geneticParentGenome: nil)
+                metabolism.giveBirth()
+            }
+
             apoptosize()
             return
         }
@@ -305,8 +249,11 @@ extension Karamba {
 
         previousPosition = position
 
-        stimulus()
-        response()
+        let stimulusAction = SKAction.run { self.stimulus() }
+        let netSignalAction = SKAction.run(netSignal, queue: ArkonFactory.karambaStimulusQueue)
+        let responseAction = SKAction.run { self.response() }
+        let sequence = SKAction.sequence([stimulusAction, netSignalAction, responseAction])
+        run(sequence) { self.isReadyForTick = true }
     }
 }
 

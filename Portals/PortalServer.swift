@@ -4,33 +4,33 @@ class PortalServer {
     static var shared: PortalServer!
 
     var arkonsPortal : SKSpriteNode
-//    var clockPortal:         ClockPortal
-//    var duggarStatsPortal:   DuggarStatsPortal
-//    var generalStatsPortals: GeneralStats
-//    var geneStatsPortal:     GeneStatsPortal
-//    var healthStatsPortal:   AgeStatsPortal
+    var clockPortal:         ClockPortal
+    var duggarStatsPortal:   DuggarStatsPortal
+    var generalStatsPortals: GeneralStats
+    var geneStatsPortal:     GeneStatsPortal
+    var healthStatsPortal:   AgeStatsPortal
     var netPortal:           SKSpriteNode
-//    var popStatsPortal:      PopStatsPortal
-//    var statusCache =        [Arkon.Status]()
-//    var topLevelStatsPortal: SKSpriteNode
+    var popStatsPortal:      PopStatsPortal
+    var statusCache =        [Arkon.Status]()
+    var topLevelStatsPortal: SKSpriteNode
 
     private var portalNumber = 0
 
     init(scene: SKScene) {
         self.netPortal = PortalServer.initNetPortal(scene)
 
-//        let parentStatsPortal = PortalServer.initStatsPortal(scene)
-//        self.topLevelStatsPortal = parentStatsPortal
-//        self.clockPortal = ClockPortal(parentStatsPortal)
+        let parentStatsPortal = PortalServer.initStatsPortal(scene)
+        self.topLevelStatsPortal = parentStatsPortal
+        self.clockPortal = ClockPortal(parentStatsPortal)
 
-//        let generalStatsPortals = GeneralStats(parentStatsPortal)
-//        self.geneStatsPortal = GeneStatsPortal(generalStatsPortals)
+        let generalStatsPortals = GeneralStats(parentStatsPortal)
+        self.geneStatsPortal = GeneStatsPortal(generalStatsPortals)
 
-//        self.healthStatsPortal = AgeStatsPortal(generalStatsPortals)
-//        self.popStatsPortal = PopStatsPortal(generalStatsPortals)
-//        self.duggarStatsPortal = DuggarStatsPortal(generalStatsPortals)
+        self.healthStatsPortal = AgeStatsPortal(generalStatsPortals)
+        self.popStatsPortal = PopStatsPortal(generalStatsPortals)
+        self.duggarStatsPortal = DuggarStatsPortal(generalStatsPortals)
 
-//        self.generalStatsPortals = generalStatsPortals
+        self.generalStatsPortals = generalStatsPortals
 
         self.arkonsPortal = PortalServer.initArkonsPortal(scene)
 
@@ -81,24 +81,24 @@ extension PortalServer {
         arkonsPortal.removeFromParent()
         cropper.addChild(arkonsPortal)
 
-//        let delay = SKAction.wait(forDuration: TimeInterval(1.0 * arkonsPortal.speed))
-//        let statusCacheUpdater = SKAction.run {
-//            if World.shared.populationChanged {
-//                PortalServer.shared.statusCache =
-//                PortalServer.shared.arkonsPortal.children.compactMap { node in
-//                    guard let sprite = node as? SKSpriteNode else { return nil }
-//                    guard let arkon = sprite.arkon else { return nil }
-//                    return arkon.status
-//                }
-//            }
-//
-//            World.shared.populationChanged = false
-//        }
+        let delay = SKAction.wait(forDuration: TimeInterval(1.0 * arkonsPortal.speed))
+        let statusCacheUpdater = SKAction.run {
+            if World.shared.populationChanged {
+                PortalServer.shared.statusCache =
+                PortalServer.shared.arkonsPortal.children.compactMap { node in
+                    guard let sprite = node as? Karamba else { return nil }
+                    guard let arkon = sprite.arkon else { return nil }
+                    return arkon.status
+                }
+            }
 
-//        let updateActionOncePerSecond = SKAction.sequence([delay, statusCacheUpdater])
-//        let runForever = SKAction.repeatForever(updateActionOncePerSecond)
-//
-//        arkonsPortal.run(runForever)
+            World.shared.populationChanged = false
+        }
+
+        let updateActionOncePerSecond = SKAction.sequence([delay, statusCacheUpdater])
+        let runForever = SKAction.repeatForever(updateActionOncePerSecond)
+
+        arkonsPortal.run(runForever)
         return arkonsPortal
     }
 

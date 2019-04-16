@@ -17,22 +17,6 @@ struct BasicBarChartSource: BarChartSource {
     }
 }
 
-struct BasicBarChartSource: BarChartSource {
-    let source: LogHistogram
-
-    init(_ source: LogHistogram) { self.source = source }
-
-    //swiftlint:disable large_tuple
-    func getCountsCompressed() -> (Double, [Int], Int) {
-        return source.getCountsCompressed(to: 10)
-    }
-    //swiftlint:enable large_tuple
-
-    func getCountsTruncated() -> ([Int], Int) {
-        return source.getCountsTruncated(to: 10)
-    }
-}
-
 class ArkonFactory: NSObject {
     static func getAboriginalGenome() -> [GeneProtocol] {
         return Assembler.makeRandomGenome(cGenes: Int.random(in: 10..<1000))
@@ -53,6 +37,8 @@ class ArkonFactory: NSObject {
     var tickWorkItem: DispatchWorkItem!
 
     static let karambaSerializerQueue = DispatchQueue(label: "light.karamba", qos: .background)
+    static let karambaStimulusQueue =
+        DispatchQueue(label: "dark.karamba", qos: .background, attributes: .concurrent)
 
     let logHistogram = LogHistogram(sampleResolution: 1)
     var barChart: BarChart!
@@ -66,41 +52,28 @@ class ArkonFactory: NSObject {
         barChartSource = BasicBarChartSource(logHistogram)
         auxBarChartSource = BasicBarChartSource(auxLogHistogram)
 
-        self.barChart.get().barChartLabel.text = "Lifespan"
+        super.init()
 
-//        let portal = PortalServer.shared.topLevelStatsPortal
+        let portal = PortalServer.shared.topLevelStatsPortal
 
-//        barChart.set(ArkonFactory.makeBarChart(
-//            namePrefix: "",
-//            parentNode: portal,
-//            dataSource: barChartSource
-//        ))
-//
-//        self.barChart.get().barChartLabel.text = "Lifespan"
-//
-//        auxBarChart.set(ArkonFactory.makeBarChart(
-//            namePrefix: "aux_",
-//            parentNode: portal,
-//            dataSource: auxBarChartSource
-//        ))
-//
-//        self.auxBarChart.get().barChartLabel.text = "Genome"
-//
-//        setupSubportal0()
-//        setupSubportal3()
-    }
+        barChart = ArkonFactory.makeBarChart(
+            namePrefix: "",
+            parentNode: portal,
+            dataSource: barChartSource
+        )
 
-    static func makeBarChart(
-        namePrefix: String,
-        parentNode: SKSpriteNode,
-        dataSource: BarChartSource)
-        -> BarChart
-    {
-        let backgroundName = namePrefix + "bar_chart_background"
-        guard let chartNode = parentNode.childNode(withName: backgroundName) as? SKSpriteNode
-            else { preconditionFailure() }
+        self.barChart.barChartLabel.text = "Lifespan"
 
-        return BarChart(chartNode: chartNode, namePrefix: namePrefix, datasource: dataSource)
+        auxBarChart = ArkonFactory.makeBarChart(
+            namePrefix: "aux_",
+            parentNode: portal,
+            dataSource: auxBarChartSource
+        )
+
+        self.auxBarChart.barChartLabel.text = "Genome"
+
+        setupSubportal0()
+        setupSubportal3()
     }
 
     static func makeBarChart(
@@ -131,14 +104,13 @@ class ArkonFactory: NSObject {
 
         return arkon
     }
-/*
+
     func setupSubportal0() {
         PortalServer.shared.generalStatsPortals.setUpdater(subportal: 0, field: 3) { [weak self] in
             return String(format: "Generations: %d", self?.cGenerations ?? 0)
         }
     }
-*/
-    /*
+
     func setupSubportal3() {
         PortalServer.shared.generalStatsPortals.setUpdater(subportal: 3, field: 0) { [weak self] in
             return String(format: "Spawns: %d", self?.cAttempted ?? 0)
@@ -161,5 +133,4 @@ class ArkonFactory: NSObject {
             return String(format: "Success rate: %.1f%%", rate)
         }
     }
- */
 }

@@ -18,6 +18,7 @@
 		D4072BF12207622C0002BC58 /* FNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D60489220710F300823D57 /* FNeuron.swift */; };
 		D4072C00220762680002BC58 /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BF6220762680002BC58 /* ActivatorFunctions.swift */; };
 		D4072C08220762BC0002BC58 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046822070F7400823D57 /* Extensions.swift */; };
+		D41A05FD226478C900DD64E9 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A05FC226478C900DD64E9 /* Metabolism.swift */; };
 		D4256971224225D5005A719B /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4256970224225D5005A719B /* BarChart.swift */; };
 		D4256973224225F0005A719B /* LogHistogram.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4256972224225F0005A719B /* LogHistogram.swift */; };
 		D43E87182209669800CD9CC3 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468803E2207A4B700405F54 /* Protocols.swift */; };
@@ -192,6 +193,7 @@
 		D4072BF6220762680002BC58 /* ActivatorFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivatorFunctions.swift; sourceTree = "<group>"; };
 		D4072BFA220762680002BC58 /* GeneLibrary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneLibrary.swift; sourceTree = "<group>"; };
 		D4072BFB220762680002BC58 /* Assembler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
+		D41A05FC226478C900DD64E9 /* Metabolism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
 		D4256970224225D5005A719B /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		D4256972224225F0005A719B /* LogHistogram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogHistogram.swift; sourceTree = "<group>"; };
 		D439672722070AC4009BAA3A /* KAppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppController.swift; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 			children = (
 				D403CD2A224ECD0B00B27458 /* Karamba.swift */,
 				D47BEE6D2259D93F004750CD /* Maneuvers.swift */,
+				D41A05FC226478C900DD64E9 /* Metabolism.swift */,
 				D4E18CBA222CFBF4008B1E2E /* Physics.swift */,
 			);
 			path = Karamba;
@@ -1158,6 +1161,7 @@
 				D4712447223BDB60008EB9BA /* DuggarStatsPortal.swift in Sources */,
 				D46D6C4922076CD20001F5D0 /* Assembler.swift in Sources */,
 				D46D6BF9220769C30001F5D0 /* ActivatorFunctions.swift in Sources */,
+				D41A05FD226478C900DD64E9 /* Metabolism.swift in Sources */,
 				D46D6BFC22076A380001F5D0 /* GeneType.swift in Sources */,
 				D4033A7B2238EE6500E71167 /* GeneralStats.swift in Sources */,
 				D46D6BF12207696C0001F5D0 /* FDecoder.swift in Sources */,

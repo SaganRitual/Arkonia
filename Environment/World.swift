@@ -50,9 +50,9 @@ class World {
         scene.physicsWorld.speed = 1.0
         scene.physicsWorld.contactDelegate = physicsCoordinator
 
-//        PortalServer.shared.generalStatsPortals.setUpdater(subportal: 0, field: 4) { [weak self] in
-//            guard let myself = self else { preconditionFailure() }
-//            return String(format: "Food value: %.1f%%", 100 * (1.0 - myself.entropy))
-//        }
+        PortalServer.shared.generalStatsPortals.setUpdater(subportal: 0, field: 4) { [weak self] in
+            guard let myself = self else { preconditionFailure() }
+            return String(format: "Food value: %.1f%%", 100 * (1.0 - myself.entropy))
+        }
     }
 }
