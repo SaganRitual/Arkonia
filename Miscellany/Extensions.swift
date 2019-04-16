@@ -103,7 +103,7 @@ class Log: TextOutputStream {
     deinit { handle?.closeFile() }
 
     func write(_ string: String) {
-        print(string)
+//        print(string)
         let martin = Array(string.utf8).withUnsafeBytes { DispatchData(bytes: $0) }
 
         io!.write(

@@ -36,16 +36,16 @@ class Display: NSObject, SKSceneDelegate {
 
         super.init()
 
-        let dragField = SKFieldNode.dragField()
-        dragField.categoryBitMask = ArkonCentralLight.PhysicsBitmask.dragField.rawValue
-        dragField.strength = 100.0
-        dragField.isEnabled = true
-        dragField.minimumRadius = Float(max(
-            PortalServer.shared.arkonsPortal.size.width,
-            PortalServer.shared.arkonsPortal.size.height
-        ) / 2.0)
+//        let dragField = SKFieldNode.dragField()
+//        dragField.categoryBitMask = ArkonCentralLight.PhysicsBitmask.dragField.rawValue
+//        dragField.strength = 100.0
+//        dragField.isEnabled = true
+//        dragField.minimumRadius = Float(max(
+//            PortalServer.shared.arkonsPortal.size.width,
+//            PortalServer.shared.arkonsPortal.size.height
+//        ) / 2.0)
 
-        PortalServer.shared.arkonsPortal.addChild(dragField)
+//        PortalServer.shared.arkonsPortal.addChild(dragField)
 
         self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
     }
@@ -96,6 +96,16 @@ class Display: NSObject, SKSceneDelegate {
         }
 
         cm.forEach { $0.tick() }
+
+        if tickCount % 60 == 0 {
+            let p = PortalServer.shared.arkonsPortal.children.filter { $0 is Karamba }.count
+
+            if p < 50 {
+                (0..<100).forEach { _ in
+                    Karamba.makeDrone(geneticParentFishNumber: nil, geneticParentGenome: nil)
+                }
+            }
+        }
 
         if let kNet = self.kNet {
             DNet(kNet).display(via: PortalServer.shared.netPortal)
