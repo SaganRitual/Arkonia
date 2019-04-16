@@ -15,6 +15,7 @@ class Karamba: SKSpriteNode {
     var readyForPhysics = false
     var isReadyForTick = false
     var sensedBodies: [SKPhysicsBody]?
+    var sensoryInputs = [Double]()
 
     init(_ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?) {
         self.geneticParentGenome = geneticParentGenome
@@ -248,9 +249,10 @@ extension Karamba {
 
         previousPosition = position
 
-        let stimulusAction = SKAction.run(stimulus, queue: ArkonFactory.karambaStimulusQueue)
+        let stimulusAction = SKAction.run { self.stimulus() }
+        let netSignalAction = SKAction.run(netSignal, queue: ArkonFactory.karambaStimulusQueue)
         let responseAction = SKAction.run { self.response() }
-        let sequence = SKAction.sequence([stimulusAction, responseAction])
+        let sequence = SKAction.sequence([stimulusAction, netSignalAction, responseAction])
         run(sequence) { self.isReadyForTick = true }
     }
 }

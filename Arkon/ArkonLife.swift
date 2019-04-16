@@ -74,6 +74,11 @@ extension Karamba {
         return position.makeVector(to: p)
     }
 
+    func netSignal() {
+        let arkonSurvived = scab.signalDriver.drive(sensoryInputs: sensoryInputs)
+        precondition(arkonSurvived, "\(scab.fishNumber) should have died from test signal in init")
+    }
+
     func response() {
         let motorNeuronOutputs = scab.signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
         response(motorNeuronOutputs: motorNeuronOutputs)
@@ -96,7 +101,9 @@ extension Karamba {
             vectorToClosestArkon = getVectorToClosestArkon()
         }
 
-        let sensoryInputs: [Double] = [
+        sensoryInputs.removeAll(keepingCapacity: true)
+        sensoryInputs.append(contentsOf: [Double](arrayLiteral:
+
             Double(aVelocity),
             Double(metabolism.hunger),
             Double(metabolism.oxygenLevel),
@@ -110,13 +117,8 @@ extension Karamba {
 
             Double(getCSensedArkons()),
             Double(vectorToClosestArkon?.radius ?? 0), Double(vectorToClosestArkon?.theta ?? 0)
-        ]
 
-//        let truncked = sensoryInputs.map { String(format: "% -.5e", $0) }
-//        print("inputs", pBody!.mass, truncked)
-
-        let arkonSurvived = scab.signalDriver.drive(sensoryInputs: sensoryInputs)
-        precondition(arkonSurvived, "\(scab.fishNumber) should have died from test signal in init")
+        ))
     }
 
 }

@@ -49,6 +49,6 @@ struct Metabolism {
     var pBody: SKPhysicsBody!
 
     mutating func tick() {
-//        oxygenLevel -= 0.005
+        oxygenLevel -= 0.005
     }
 }
