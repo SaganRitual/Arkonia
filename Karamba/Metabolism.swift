@@ -27,9 +27,7 @@ struct Metabolism {
     }
 
     mutating func giveBirth() {
-        let h = health, m = pBody.mass
         pBody.mass -= Metabolism.birthWeight * ArkonFactory.scale
-        print("birth", h, m, health, pBody.mass)
         hunger += Metabolism.birthWeight * ArkonFactory.scale
     }
 

@@ -89,7 +89,8 @@ extension ManeuverProtocol {
             let impulseConstant: CGFloat = 1.1 / 2
             let impulse = arkon.pBody.mass * targetAVelocity * impulseConstant
 
-            let cost = abs(torqueIndex) * arkon.pBody.mass / 120
+            let lifespanAtThisOutputRate: TimeInterval = 2
+            let cost = abs(torqueIndex) * arkon.pBody.mass / CGFloat(60 * lifespanAtThisOutputRate)
 
 //            arkon.color = .yellow
 //            arkon.nose.color = .yellow
@@ -102,13 +103,21 @@ extension ManeuverProtocol {
 //            }
             return SKAction.run { arkon.pBody.applyAngularImpulse(impulse) }
 
-        case let .goThrust(power):
+        case let .goThrust(thrustIndex_):
+            let thrustIndex = capCheck(thrustIndex_)
+            let targetSpeed: CGFloat = thrustIndex * 5
 //            print("Thrust \(power)")
-            arkon.metabolism.debitEnergy(abs(power) / 10)
 //            arkon.color = .orange
 //            arkon.nose.color = .orange
-            let p = capCheck(power)
-            let vector = CGVector(radius: abs(p), theta: arkon.zRotation)
+
+            let normalized = targetSpeed / pow(1 / arkon.pBody.mass, 2)
+            let impulse = thrustIndex * normalized / arkon.pBody.mass
+            let vector = CGVector(radius: impulse, theta: arkon.zRotation)
+
+            let lifespanAtThisOutputRate: TimeInterval = 2
+            let cost = abs(thrustIndex) * arkon.pBody.mass / CGFloat(60 * lifespanAtThisOutputRate)
+
+            arkon.metabolism.debitEnergy(cost)
             return SKAction.run { arkon.pBody.applyImpulse(vector) }
 
         case let .goWait(duration):

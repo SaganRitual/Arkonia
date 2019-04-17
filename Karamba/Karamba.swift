@@ -183,8 +183,8 @@ extension Karamba {
               let oca = opponent.getContactedArkons(), oca.count <= 1
             else { return .surviving }
 
-        return (opponent.pBody.mass * opponent.metabolism.health - opponent.metabolism.hunger) >
-               (self.pBody.mass     * self.metabolism.health     - self.metabolism.hunger)     ?
+        return opponent.pBody.mass * opponent.pBody.velocity.magnitude >
+                self.pBody.mass * self.pBody.velocity.magnitude ?
                 .losing(opponent) : .winning(opponent)
     }
 
