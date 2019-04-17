@@ -95,7 +95,7 @@ extension ManeuverProtocol {
 //            arkon.nose.color = .yellow
 
             arkon.metabolism.debitEnergy(cost)
-            print("Rotate mass \(arkon.pBody.mass) power \(power), impulse \(impulse), cost per frame \(cost)")
+//            print("Rotate mass \(arkon.pBody.mass) power \(power), impulse \(impulse), cost per frame \(cost)")
 //            if power > 0 {
 //                print("\(arkon.pBody.mass)")
 //                print("fuck")

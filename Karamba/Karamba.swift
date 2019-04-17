@@ -22,7 +22,7 @@ class Karamba: SKSpriteNode {
 
         super.init(
             texture: ArkonCentralLight.topTexture,
-            color: (geneticParentFishNumber == nil) ? .blue : .yellow,
+            color: (geneticParentFishNumber == nil) ? .cyan : .yellow,
             size: ArkonCentralLight.topTexture!.size()
         )
     }
@@ -69,7 +69,8 @@ extension Karamba {
         )
 
         nose.name = "nose_awaiting_fish_number"
-        nose.setScale(0.75)
+        nose.setScale(0.5)
+        nose.color = .blue
         nose.colorBlendFactor = 1.0
         nose.zPosition = ArkonCentralLight.vArkonZPosition + 1
 
@@ -229,8 +230,8 @@ extension Karamba {
             return
         }
 
-        nose.alpha = pBody.mass * 4
-        colorBlendFactor = metabolism.oxygenLevel
+        alpha = pBody.mass * 4
+        nose.colorBlendFactor = metabolism.oxygenLevel
 
         if let cb = contactedBodies, cb.isEmpty == false { calorieTransfer() }
 //        print("h", metabolism.health, "m", pBody.mass)
