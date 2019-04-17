@@ -80,11 +80,13 @@ extension Karamba {
     }
 
     func response() {
+        assert(Display.displayCycle == .actions)
         let motorNeuronOutputs = scab.signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
         response(motorNeuronOutputs: motorNeuronOutputs)
     }
 
     func stimulus() {
+        assert(Display.displayCycle == .actions)
         let velocity = pBody.velocity
         let aVelocity = pBody.angularVelocity
         let vectorToOrigin = position.asVector()
@@ -92,8 +94,7 @@ extension Karamba {
         let vectorToClosestArkon: CGVector!
         let vectorToClosestManna: CGVector!
 
-        let sb = sensedBodies ?? []
-        if sb.isEmpty {
+        if sensedBodies?.isEmpty ?? true {
             vectorToClosestManna = CGVector.zero
             vectorToClosestArkon = CGVector.zero
         } else {
@@ -101,22 +102,44 @@ extension Karamba {
             vectorToClosestArkon = getVectorToClosestArkon()
         }
 
+        func portalScaleX(_ value: CGFloat) -> CGFloat {
+            return 2 * value / PortalServer.shared.arkonsPortal.size.width
+        }
+
+        func portalScaleY(_ value: CGFloat) -> CGFloat {
+            return 2 * value / PortalServer.shared.arkonsPortal.size.height
+        }
+
+        func pCircle(angle theta: CGFloat) -> CGFloat {
+            return theta.truncatingRemainder(dividingBy: CGFloat.tau) / CGFloat.tau
+        }
+
+        func capCheck(_ value: CGFloat) -> CGFloat {
+            assert(value >= 0 && value <= 1)
+            return value
+        }
+
         sensoryInputs.removeAll(keepingCapacity: true)
+
         sensoryInputs.append(contentsOf: [Double](arrayLiteral:
 
-            Double(aVelocity),
-            Double(metabolism.hunger),
-            Double(metabolism.oxygenLevel),
+            Double(pCircle(angle: aVelocity)),
+//            Double(capCheck(metabolism.hunger)),
+            Double(capCheck(metabolism.oxygenLevel)),
 
-            Double(velocity.radius), Double(velocity.theta),
+            Double(portalScaleX(velocity.dx)),
+            Double(portalScaleY(velocity.dy)),
 
-            Double(vectorToOrigin.radius), Double(vectorToOrigin.theta),
+            Double(portalScaleX(vectorToOrigin.dx)),
+            Double(portalScaleY(vectorToOrigin.dy)),
 
             Double(getCSensedManna()),
-            Double(vectorToClosestManna?.radius ?? 0), Double(vectorToClosestManna?.theta ?? 0),
+            Double(portalScaleX(vectorToClosestManna?.dx ?? 0)),
+            Double(portalScaleY(vectorToClosestManna?.dy ?? 0)),
 
             Double(getCSensedArkons()),
-            Double(vectorToClosestArkon?.radius ?? 0), Double(vectorToClosestArkon?.theta ?? 0)
+            Double(portalScaleX(vectorToClosestArkon?.dx ?? 0)),
+            Double(portalScaleY(vectorToClosestArkon?.dy ?? 0))
 
         ))
     }

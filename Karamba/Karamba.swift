@@ -10,7 +10,6 @@ class Karamba: SKSpriteNode {
     let geneticParentGenome: [GeneProtocol]?
     var isAlive = false
     var metabolism = Metabolism()
-    var mostRecentAction = ActionPrimitive.goWait(0)
     var previousPosition = CGPoint.zero
     var readyForPhysics = false
     var isReadyForTick = false
@@ -23,7 +22,7 @@ class Karamba: SKSpriteNode {
 
         super.init(
             texture: ArkonCentralLight.topTexture,
-            color: .yellow,
+            color: (geneticParentFishNumber == nil) ? .cyan : .yellow,
             size: ArkonCentralLight.topTexture!.size()
         )
     }
@@ -36,7 +35,7 @@ class Karamba: SKSpriteNode {
 // MARK: Convenience & readability
 
 extension Karamba {
-    var nose: KNoseNode { return hardBind(childNode(withName: "nose") as? KNoseNode) }
+    var nose: KNoseNode { return hardBind(children[0] as? KNoseNode) }
     var pBody: SKPhysicsBody { return physicsBody! }
     var portal: SKSpriteNode { return PortalServer.shared.arkonsPortal }
     var scab: Arkon { return hardBind(arkon) }
@@ -70,7 +69,8 @@ extension Karamba {
         )
 
         nose.name = "nose_awaiting_fish_number"
-        nose.setScale(0.75)
+        nose.setScale(0.5)
+        nose.color = .blue
         nose.colorBlendFactor = 1.0
         nose.zPosition = ArkonCentralLight.vArkonZPosition + 1
 
@@ -225,18 +225,17 @@ extension Karamba {
         readyForPhysics = true
         isReadyForTick = false
 
-        guard isInBounds && metabolism.health > 0.1 else {
-            if metabolism.oxygenLevel < 0.01 {
-                Karamba.makeDrone(geneticParentFishNumber: nil, geneticParentGenome: nil)
-                metabolism.giveBirth()
-            }
-
+        guard isInBounds && pBody.mass > 0.1 && metabolism.oxygenLevel > 0 else {
             apoptosize()
             return
         }
 
+        alpha = pBody.mass * 4
+        nose.colorBlendFactor = metabolism.oxygenLevel
+
         if let cb = contactedBodies, cb.isEmpty == false { calorieTransfer() }
-        if metabolism.health >= 0.9 {
+//        print("h", metabolism.health, "m", pBody.mass)
+        if pBody.mass > 0.5 {
             let a = hardBind(arkon)
             Karamba.makeDrone(geneticParentFishNumber: a.fishNumber, geneticParentGenome: a.genome)
             metabolism.giveBirth()
@@ -244,7 +243,7 @@ extension Karamba {
 
         // Coincidentally, in Arkonia, we measure distance and volume using
         // the same units.
-        metabolism.inhale(position.distance(to: previousPosition))
+        metabolism.inhale(position.distance(to: previousPosition) / (size.width / 2))
         metabolism.tick()
 
         previousPosition = position
