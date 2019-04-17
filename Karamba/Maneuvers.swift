@@ -58,10 +58,11 @@ extension ManeuverProtocol {
         return constrain(value, lo: -1, hi: 1)
     }
 
+    // swiftmint:disable function_body_length
     func selectActionPrimitive(arkon: Karamba, motorOutputs: [Double]) -> SKAction {
 
         var m = motorOutputs
-        let power = CGFloat(m.removeFirst())
+        let power = CGFloat(Int(m.removeFirst() * 100.0)) / 100.0
         let primitives: [ActionPrimitive] = [
             .goFullStop, .goThrust(power), .goRotate(power), .goWait(power)
         ]
@@ -73,10 +74,17 @@ extension ManeuverProtocol {
             return (abs(lhs.1) < abs(rhs.1))
         }
 
+//        print("sorted ", terminator: "")
+//        sorted.forEach {
+//            let value = String(format: "%-.3f", $0.1)
+//            print(", \($0.0), \(value)", terminator: "")
+//        }
+
         let maxEntry = hardBind(sorted.last)
 
         switch maxEntry.0 {
         case .goFullStop:
+//            print("full stop \(arkon.scab.fishNumber)")
             return SKAction.run {
                 arkon.pBody.velocity = CGVector.zero
                 arkon.pBody.angularVelocity = 0
@@ -85,6 +93,7 @@ extension ManeuverProtocol {
             }
 
         case let .goRotate(torqueIndex):    // -1.0..<1.0 == -(tau rev/s)..<(tau rev/s)
+//            print("rotate \(arkon.scab.fishNumber)")
             let targetAVelocity = torqueIndex / CGFloat.tau
             let impulseConstant: CGFloat = 1.1 / 2
             let impulse = arkon.pBody.mass * targetAVelocity * impulseConstant
@@ -104,6 +113,7 @@ extension ManeuverProtocol {
             return SKAction.run { arkon.pBody.applyAngularImpulse(impulse) }
 
         case let .goThrust(thrustIndex_):
+//            print("thrust \(arkon.scab.fishNumber)")
             let thrustIndex = capCheck(thrustIndex_)
             let targetSpeed: CGFloat = thrustIndex * 5
 //            print("Thrust \(power)")
@@ -121,6 +131,7 @@ extension ManeuverProtocol {
             return SKAction.run { arkon.pBody.applyImpulse(vector) }
 
         case let .goWait(duration):
+//            print("wait \(arkon.scab.fishNumber)")
 //            print("Wait \(abs(duration) * 10.0 / 60.0)")
             let conversion = capCheck(TimeInterval(abs(duration)))
 //            arkon.color = .cyan
@@ -128,4 +139,5 @@ extension ManeuverProtocol {
             return SKAction.wait(forDuration: conversion)
         }
     }
+    // swiftmint:enable function_body_length
 }

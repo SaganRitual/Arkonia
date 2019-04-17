@@ -27,6 +27,10 @@ class Karamba: SKSpriteNode {
         )
     }
 
+    deinit {
+        print("yes", arkon?.fishNumber ?? -42)
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -175,30 +179,10 @@ extension Karamba {
         if herbivoreStatus == .grazing { eatManna() }
     }
 
-    func combat() -> CombatStatus {
-        let contactedArkons = getContactedArkons()
-
-        guard let ca = contactedArkons, ca.count == 1,
-              let opponent = ca.first?.node as? Karamba,
-              let oca = opponent.getContactedArkons(), oca.count <= 1
-            else { return .surviving }
-
-        return opponent.pBody.mass * opponent.pBody.velocity.magnitude >
-                self.pBody.mass * self.pBody.velocity.magnitude ?
-                .losing(opponent) : .winning(opponent)
-    }
-
     static func createDrones(_ cKarambas: Int) {
         (0..<cKarambas).forEach { _ in
             Karamba.makeDrone(geneticParentFishNumber: nil, geneticParentGenome: nil)
         }
-    }
-
-    func graze() -> HerbivoreStatus {
-        let contactedManna = getContactedManna()
-
-        guard let cm = contactedManna, cm.isEmpty == false else { return .goingHungry }
-        return .grazing
     }
 
     func lastMinuteBusiness() {
@@ -249,7 +233,7 @@ extension Karamba {
         previousPosition = position
 
         let stimulusAction = SKAction.run { self.stimulus() }
-        let netSignalAction = SKAction.run(netSignal, queue: ArkonFactory.karambaStimulusQueue)
+        let netSignalAction = SKAction.run(driveNetSignal, queue: ArkonFactory.karambaStimulusQueue)
         let responseAction = SKAction.run { self.response() }
         let sequence = SKAction.sequence([stimulusAction, netSignalAction, responseAction])
         run(sequence) { self.isReadyForTick = true }

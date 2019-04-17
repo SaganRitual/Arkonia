@@ -19,7 +19,7 @@ struct BasicBarChartSource: BarChartSource {
 
 class ArkonFactory: NSObject {
     static func getAboriginalGenome() -> [GeneProtocol] {
-        return Assembler.makeRandomGenome(cGenes: Int.random(in: 10..<1000))
+        return Assembler.makeRandomGenome(cGenes: Int.random(in: 200..<500))
     }
 
     static var shared: ArkonFactory!
