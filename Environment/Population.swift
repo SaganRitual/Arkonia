@@ -91,7 +91,7 @@ enum Population {
         let sprites = PortalServer.shared.arkonsPortal.children
         let arkons: [Arkon] = sprites.compactMap { node in
             guard let sprite = node as? Karamba else { return nil }
-            return sprite.scab
+            return sprite.arkon
         }
 
         World.shared.populationChanged = false

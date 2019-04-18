@@ -81,24 +81,24 @@ extension PortalServer {
         arkonsPortal.removeFromParent()
         cropper.addChild(arkonsPortal)
 
-        let delay = SKAction.wait(forDuration: TimeInterval(1.0 * arkonsPortal.speed))
-        let statusCacheUpdater = SKAction.run {
-            if World.shared.populationChanged {
-                PortalServer.shared.statusCache =
-                PortalServer.shared.arkonsPortal.children.compactMap { node in
-                    guard let sprite = node as? Karamba else { return nil }
-                    guard let arkon = sprite.arkon else { return nil }
-                    return arkon.status
-                }
-            }
+//        let delay = SKAction.wait(forDuration: TimeInterval(1.0 * arkonsPortal.speed))
+//        let statusCacheUpdater = SKAction.run {
+//            if World.shared.populationChanged {
+//                PortalServer.shared.statusCache =
+//                PortalServer.shared.arkonsPortal.children.compactMap { node in
+//                    guard let sprite = node as? Karamba else { return nil }
+//                    guard let arkon = sprite.arkon else { return nil }
+//                    return arkon.status
+//                }
+//            }
+//
+//            World.shared.populationChanged = false
+//        }
 
-            World.shared.populationChanged = false
-        }
+//        let updateActionOncePerSecond = SKAction.sequence([delay, statusCacheUpdater])
+//        let runForever = SKAction.repeatForever(updateActionOncePerSecond)
 
-        let updateActionOncePerSecond = SKAction.sequence([delay, statusCacheUpdater])
-        let runForever = SKAction.repeatForever(updateActionOncePerSecond)
-
-        arkonsPortal.run(runForever)
+//        arkonsPortal.run(runForever)
         return arkonsPortal
     }
 

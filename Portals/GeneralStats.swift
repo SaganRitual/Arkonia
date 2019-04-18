@@ -51,14 +51,14 @@ struct GeneralStats {
     }
 
     func setUpdater(subportal: Int, field: Int, _ getText: @escaping Updater) {
-        let delayAction = SKAction.wait(forDuration: 1.0)
-        let node = GeneralStats.textFields[subportal][field]
+//        let delayAction = SKAction.wait(forDuration: 1.0)
+//        let node = GeneralStats.textFields[subportal][field]
 
-        let updateAction = SKAction.run { node.text = getText() }
-        let updateOncePerSecond = SKAction.sequence([delayAction, updateAction])
+//        let updateAction = SKAction.run { node.text = getText() }
+//        let updateOncePerSecond = SKAction.sequence([delayAction, updateAction])
 
-        let updateForever = SKAction.repeatForever(updateOncePerSecond)
+//        let updateForever = SKAction.repeatForever(updateOncePerSecond)
 
-        node.run(updateForever)
+//        node.run(updateForever)
     }
 }

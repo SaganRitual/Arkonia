@@ -15,6 +15,7 @@ class Karamba: SKSpriteNode {
     var isReadyForTick = false
     var sensedBodies: [SKPhysicsBody]?
     var sensoryInputs = [Double]()
+    var senseLoader: SenseLoader!
 
     init(_ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?) {
         self.geneticParentGenome = geneticParentGenome
@@ -28,7 +29,7 @@ class Karamba: SKSpriteNode {
     }
 
     deinit {
-        print("yes", arkon?.fishNumber ?? -42)
+        print(" deinit", arkon?.fishNumber ?? -42)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -110,6 +111,7 @@ extension Karamba {
         // update. So instead of adding in this context, we hand off an action to
         // the portal and let him add us when it's safe.
         let action = SKAction.run {
+            print("adding", arkon.scab.fishNumber)
             portal.addChild(arkon)
             arkon.addChild(nose)
 
@@ -118,10 +120,15 @@ extension Karamba {
             arkon.physicsBody = pBody
             nose.physicsBody = nosePBody
 
+            arkon.senseLoader = SenseLoader(arkon)
+
             nosePBody.pinned = true // It wouldn't do to leave our senses behind
         }
 
-        portal.run(action, completion: { arkon.isReadyForTick = true; scab.status.isAlive = true })
+        portal.run(action, completion: {
+            arkon.isReadyForTick = true
+            arkon.isAlive = true
+        })
     }
 
     static func makeDrone(geneticParentFishNumber f: Int?, geneticParentGenome g: [GeneProtocol]?) {
@@ -154,11 +161,22 @@ extension Karamba {
 
 extension Karamba {
     func apoptosize() {
-        scab.status.isAlive = false
-        run(SKAction.removeFromParent())
+        print("apop", scab.fishNumber)
+        isAlive = false
+        arkon = nil
+        contactedBodies = nil           // So I won't go through my next
+        sensedBodies = nil              // tick thinking I have physics to take care of
+        nose.physicsBody = nil
+        metabolism.pBody = nil
+        physicsBody = nil
+        removeAllChildren()
+        removeAllActions()
+        let apopReportS = SKAction.run {
+            print("apopReportS", self.name ?? "foogie") }
+        let remove = SKAction.removeFromParent()
+        let sequence = SKAction.sequence([apopReportS, remove])
+        run(sequence, completion: { print("apopReportE", self.name ?? "boogie") })
     }
-
-    func apparate() { PortalServer.shared.arkonsPortal.addChild(self) }
 
     enum CombatStatus { case losing(Karamba), surviving, winning(Karamba)  }
     enum HerbivoreStatus { case goingHungry, grazing }
@@ -185,14 +203,6 @@ extension Karamba {
         }
     }
 
-    func lastMinuteBusiness() {
-        let a: Arkon = self.arkon
-        if a.scheduledActions.isEmpty { return }
-
-        defer { a.scheduledActions.removeAll() }
-        run(SKAction.sequence(a.scheduledActions))
-    }
-
     func response(motorNeuronOutputs: [Double]) {
         let m = motorNeuronOutputs
         let actionPrimitive = selectActionPrimitive(arkon: self, motorOutputs: m)
@@ -205,7 +215,8 @@ extension Karamba {
         // to allow for the scene to start ticking us before we're fully ready
         // (that is, before we've added the physics bodies). So don't do anything
         // until isAlive is set.
-        guard scab.status.isAlive else { return }
+        guard isAlive else { return }
+
         readyForPhysics = true
         isReadyForTick = false
 
@@ -232,9 +243,9 @@ extension Karamba {
 
         previousPosition = position
 
-        let stimulusAction = SKAction.run { self.stimulus() }
+        let stimulusAction = SKAction.run { [weak self] in self?.stimulus() }
         let netSignalAction = SKAction.run(driveNetSignal, queue: ArkonFactory.karambaStimulusQueue)
-        let responseAction = SKAction.run { self.response() }
+        let responseAction = SKAction.run { [weak self] in self?.response() }
         let sequence = SKAction.sequence([stimulusAction, netSignalAction, responseAction])
         run(sequence) { self.isReadyForTick = true }
     }

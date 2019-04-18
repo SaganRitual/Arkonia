@@ -38,44 +38,44 @@ class BarChart {
     }
 
     func start() {
-        let updateAction = SKAction.run { [weak self] in self?.update() }
-        let delayAction = SKAction.wait(forDuration: 1.0)
-        let updateOncePerSecond = SKAction.sequence([delayAction, updateAction])
-        let updateForever = SKAction.repeatForever(updateOncePerSecond)
+//        let updateAction = SKAction.run { [weak self] in self?.update() }
+//        let delayAction = SKAction.wait(forDuration: 1.0)
+//        let updateOncePerSecond = SKAction.sequence([delayAction, updateAction])
+//        let updateForever = SKAction.repeatForever(updateOncePerSecond)
 
-        let scale = SKAction.scaleY(to: 0.01, duration: 0.5)
+//        let scale = SKAction.scaleY(to: 0.01, duration: 0.5)
 
-        let toChildren: [SKAction] = (0..<10).map {
-            SKAction.run(scale, onChildWithName: namePrefix + "bar_chart_bar_0\($0)")
-        }
+//        let toChildren: [SKAction] = (0..<10).map { barf in
+//            SKAction.run(scale, onChildWithName: namePrefix + "bar_chart_bar_0\($0)")
+//        }
 
-        let dazzle = SKAction.group(toChildren)
-        let launch = SKAction.sequence([dazzle, updateForever])
+//        let dazzle = SKAction.group(toChildren)
+//        let launch = SKAction.sequence([dazzle, updateForever])
 
-        chartNode.run(launch)
-        chartNode.run(updateForever)
+//        chartNode.run(launch)
+//        chartNode.run(updateForever)
     }
 
     func update() {
-        let (baseValue, counts, topOfRange) = datasource.getCountsCompressed()
-//        let (counts, topOfRange) = datasource.getCountsTruncated()
-        guard let maxHeight = counts.max() else { return }
-
-        let resize: [SKAction] = zip(counts, bars).map { (arg) in let (count, bar) = arg
-            let yScale = max(0.1, CGFloat(count) / CGFloat(maxHeight))
-            let scaleAction = SKAction.scaleY(to: yScale, duration: 0.25)
-            let childAction = SKAction.run(scaleAction, onChildWithName: bar.name!)
-            return childAction
-        }
-
-        let group = SKAction.group(resize)
-        chartNode.run(group)
-
-        barChartLogBase.text = String(format: "base %2.1f", baseValue)
-        barChartTopOfRange.text = String(format: "range %d", topOfRange)
-
-        barChartLogBase.alpha = 1.0
-        barChartTopOfRange.alpha = 1.0
+//        let (baseValue, counts, topOfRange) = datasource.getCountsCompressed()
+////        let (counts, topOfRange) = datasource.getCountsTruncated()
+//        guard let maxHeight = counts.max() else { return }
+//
+//        let resize: [SKAction] = zip(counts, bars).map { (arg) in let (count, bar) = arg
+//            let yScale = max(0.1, CGFloat(count) / CGFloat(maxHeight))
+//            let scaleAction = SKAction.scaleY(to: yScale, duration: 0.25)
+//            let childAction = SKAction.run(scaleAction, onChildWithName: bar.name!)
+//            return childAction
+//        }
+//
+//        let group = SKAction.group(resize)
+//        chartNode.run(group)
+//
+//        barChartLogBase.text = String(format: "base %2.1f", baseValue)
+//        barChartTopOfRange.text = String(format: "range %d", topOfRange)
+//
+//        barChartLogBase.alpha = 1.0
+//        barChartTopOfRange.alpha = 1.0
     }
 }
 

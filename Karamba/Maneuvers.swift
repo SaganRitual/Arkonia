@@ -113,10 +113,8 @@ extension ManeuverProtocol {
             return SKAction.run { arkon.pBody.applyAngularImpulse(impulse) }
 
         case let .goThrust(thrustIndex_):
-//            print("thrust \(arkon.scab.fishNumber)")
             let thrustIndex = capCheck(thrustIndex_)
             let targetSpeed: CGFloat = thrustIndex * 5
-//            print("Thrust \(power)")
 //            arkon.color = .orange
 //            arkon.nose.color = .orange
 
@@ -126,6 +124,8 @@ extension ManeuverProtocol {
 
             let lifespanAtThisOutputRate: TimeInterval = 2
             let cost = abs(thrustIndex) * arkon.pBody.mass / CGFloat(60 * lifespanAtThisOutputRate)
+
+//            print("Thrust \(arkon.scab.fishNumber): \(thrustIndex), \(arkon.pBody.mass), \(impulse), \(cost)")
 
             arkon.metabolism.debitEnergy(cost)
             return SKAction.run { arkon.pBody.applyImpulse(vector) }

@@ -21,7 +21,7 @@
 import Foundation
 
 struct KConnector {
-    let connectingNeuron: KNeuron
+    var connectingNeuron: KNeuron!
 
     init(_ connectingNeuron: KNeuron) {
         self.connectingNeuron = connectingNeuron

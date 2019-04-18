@@ -26,7 +26,6 @@ class KNeuron: KIdentifiable {
     var downConnectors: [Int]
     let id: KIdentifier
     var inputs: [Double]!
-    weak var loopIterableSelf: KNeuron?
     weak var relay: KSignalRelay?
     var upConnectors: [UpConnector]
     var weights = [Double]()
@@ -40,7 +39,6 @@ class KNeuron: KIdentifiable {
         self.downConnectors = []
         self.inputs = []
         self.upConnectors = []
-        loopIterableSelf = self
     }
 
     init(_ id: KIdentifier, _ fNeuron: FNeuron) {
@@ -49,7 +47,6 @@ class KNeuron: KIdentifiable {
         self.bias = fNeuron.bias
         self.downConnectors = fNeuron.downConnectors
         self.upConnectors = fNeuron.upConnectors
-        loopIterableSelf = self
     }
 }
 

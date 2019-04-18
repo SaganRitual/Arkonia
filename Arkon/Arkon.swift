@@ -2,24 +2,18 @@ import Foundation
 import SpriteKit
 
 class Arkon {
-    var apoptosizeAction: SKAction!
     var fishNumber: Int {
         get { return status.fishNumber }
     }
 
-    var contactedBodies = [SKPhysicsBody]()
     let fNet: FNet
     let genome: [GeneProtocol]
     var hunger: CGFloat = 0
     let parentFishNumber: Int?
     var portal = PortalServer.shared.arkonsPortal
-    var scheduledActions = [SKAction]()
     let signalDriver: KSignalDriver
-    var sprite: Karamba!
+    weak var sprite: Karamba!
     var status: Status
-    var targetManna: (id: String, position: CGPoint)?
-    var tickAction: SKAction!
-    var sensedBodies = [SKPhysicsBody]()
 
     var zerosAlready = false
 
@@ -52,11 +46,16 @@ class Arkon {
     }
 
     deinit {
-        if !status.isAlive { return }
+        print("arkon deinit 1", fishNumber, terminator: "")
+        sprite = nil
+        if !(sprite?.isAlive ?? false) { return }
+        print(" arkon deinit 2", fishNumber, terminator: "")
 
         if status.isOldest { ArkonFactory.shared.cGenerations += 1 }
+        print(" arkon deinit 3", fishNumber, terminator: "")
 
         ArkonFactory.shared.logHistogram.addSample(status.age)
         ArkonFactory.shared.auxLogHistogram.addSample(genome.count)
+        print(" arkon deinit 4", fishNumber, terminator: "")
     }
 }

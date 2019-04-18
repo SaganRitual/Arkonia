@@ -91,7 +91,7 @@ class Display: NSObject, SKSceneDelegate {
             guard let a = ($0 as? Karamba) else { return nil }
             if a.arkon == nil { return nil }
             guard a.isReadyForTick else { return nil }
-            guard a.scab.status.isAlive else { return nil }
+            guard a.isAlive else { return nil }
             return a
         }
 

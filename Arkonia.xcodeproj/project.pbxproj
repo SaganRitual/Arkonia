@@ -136,6 +136,8 @@
 		D4EB46D22207786400DA2544 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046522070F7400823D57 /* KIdentifier.swift */; };
 		D4EB46D5220779A300DA2544 /* TCommon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EB46D4220779A300DA2544 /* TCommon.swift */; };
 		D4EB46D6220779BF00DA2544 /* KSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3B22076C970001F5D0 /* KSignalRelay.swift */; };
+		D4EE2DE522685C340042A6B2 /* SenseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE2DE422685C340042A6B2 /* SenseLoader.swift */; };
+		D4EE2DE722685DFA0042A6B2 /* SenseTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE2DE622685DFA0042A6B2 /* SenseTranslator.swift */; };
 		D4F1470C2248CB1600F8AAD3 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F1470B2248CB1600F8AAD3 /* Overload2D.swift */; };
 		D4F17C66221E5DBC00CB287C /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F17C65221E5DBC00CB287C /* Arkon.swift */; };
 		D4F17C68221E5DDB00CB287C /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F17C67221E5DDB00CB287C /* World.swift */; };
@@ -272,6 +274,8 @@
 		D4EB46C82207779700DA2544 /* DTSignalRelay.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DTSignalRelay.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4EB46CC2207779700DA2544 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4EB46D4220779A300DA2544 /* TCommon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCommon.swift; sourceTree = "<group>"; };
+		D4EE2DE422685C340042A6B2 /* SenseLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseLoader.swift; sourceTree = "<group>"; };
+		D4EE2DE622685DFA0042A6B2 /* SenseTranslator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseTranslator.swift; sourceTree = "<group>"; };
 		D4F1470B2248CB1600F8AAD3 /* Overload2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overload2D.swift; sourceTree = "<group>"; };
 		D4F17C65221E5DBC00CB287C /* Arkon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arkon.swift; sourceTree = "<group>"; };
 		D4F17C67221E5DDB00CB287C /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
@@ -376,6 +380,8 @@
 				D47BEE6D2259D93F004750CD /* Maneuvers.swift */,
 				D41A05FC226478C900DD64E9 /* Metabolism.swift */,
 				D4E18CBA222CFBF4008B1E2E /* Physics.swift */,
+				D4EE2DE422685C340042A6B2 /* SenseLoader.swift */,
+				D4EE2DE622685DFA0042A6B2 /* SenseTranslator.swift */,
 				D46E1EDF222B9CED00BBB6F1 /* Stimulus.swift */,
 			);
 			path = Karamba;
@@ -1131,6 +1137,7 @@
 				D4E18CBB222CFBF4008B1E2E /* Physics.swift in Sources */,
 				D4C266242210BC4F00325F05 /* Display.swift in Sources */,
 				D4489BFC223A76EA00708B56 /* GeneCore.swift in Sources */,
+				D4EE2DE522685C340042A6B2 /* SenseLoader.swift in Sources */,
 				D47BEE6E2259D93F004750CD /* Maneuvers.swift in Sources */,
 				D46D6C4422076C970001F5D0 /* KNeuron.swift in Sources */,
 				D44EB8AF222FA5250004A46F /* DBootstrap.swift in Sources */,
@@ -1151,6 +1158,7 @@
 				D46D6C0F22076B670001F5D0 /* SceneViewController.swift in Sources */,
 				D49326C92260512400C2260D /* PhysicsCoordinator.swift in Sources */,
 				D46D6BFD22076A480001F5D0 /* ArkonCentralLight.swift in Sources */,
+				D4EE2DE722685DFA0042A6B2 /* SenseTranslator.swift in Sources */,
 				D47A0B14223C99FC00C92132 /* Population.swift in Sources */,
 				D46D6BF22207696C0001F5D0 /* FLayer.swift in Sources */,
 				D4033A77223871A800E71167 /* PortalServer.swift in Sources */,

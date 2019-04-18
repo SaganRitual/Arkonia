@@ -70,16 +70,16 @@ class AgeStatsPortal {
         if grow { print("2 scale up", arkon.fishNumber); actions.append(SKAction.scale(by: 2, duration: 0.25)) }
 
         if grow { arkon.sprite.size *= 2.0 }
-        let light = SKAction.group(actions)
-        let spriteName = arkon.sprite.name!
+//        let light = SKAction.group(actions)
+//        let spriteName = arkon.sprite.name!
 //        let dark = SKAction.run {
 //            let node = PortalServer.shared.arkonsPortal.childNode(withName: spriteName)
 //            guard node is Karamba else { return }
 //        }
 
-        let promote = SKAction.sequence([light])
-        let remote = SKAction.run(promote, onChildWithName: spriteName)
-        PortalServer.shared.arkonsPortal.run(remote)
+//        let promote = SKAction.sequence([light])
+//        let remote = SKAction.run(promote, onChildWithName: spriteName)
+//        PortalServer.shared.arkonsPortal.run(remote)
     }
 
     init(_ generalStatsPortals: GeneralStats) {
