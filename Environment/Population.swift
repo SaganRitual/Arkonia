@@ -85,17 +85,4 @@ enum Population {
         return p.isEmpty ? 0 : p[p.count / 2].genome.count
     }
 
-    func updateStatusCache() -> Population {
-        if !World.shared.populationChanged { return self }
-
-        let sprites = PortalServer.shared.arkonsPortal.children
-        let arkons: [Arkon] = sprites.compactMap { node in
-            guard let sprite = node as? Karamba else { return nil }
-            return sprite.arkon
-        }
-
-        World.shared.populationChanged = false
-        return .population(arkons)
-    }
-
 }

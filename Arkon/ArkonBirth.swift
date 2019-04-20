@@ -4,14 +4,14 @@ import SpriteKit
 extension Arkon {
 
     static private func attachSenses(_ sprite: SKSpriteNode, _ senses: SKPhysicsBody) {
-        let snapPoint =
-            PortalServer.shared.arkonsPortal.convert(sprite.position, to: Display.shared.scene!)
-
-        let snap = SKPhysicsJointPin.joint(
-            withBodyA: sprite.physicsBody!, bodyB: senses, anchor: snapPoint
-        )
-
-        Display.shared.scene!.physicsWorld.add(snap)
+//        let snapPoint =
+//            PortalServer.shared.arkonsPortal.convert(sprite.position, to: Display.shared.scene!)
+//
+//        let snap = SKPhysicsJointPin.joint(
+//            withBodyA: sprite.physicsBody!, bodyB: senses, anchor: snapPoint
+//        )
+//
+//        Display.shared.scene!.physicsWorld.add(snap)
     }
 
     func launch(sprite: Karamba) {
@@ -38,19 +38,19 @@ extension Arkon {
     }
 
     func postPartum(relievedArkonFishNumber: Int?) {
-        guard let r = relievedArkonFishNumber else { return }
-        guard let arkon = World.shared.population.getArkon(for: r) else { return }
-
-        arkon.status.cOffspring += 1
-        arkon.sprite.color = {
-            switch arkon.status.cOffspring {
-            case 0..<5: return .green
-            case 5..<10: return .purple
-            case 10..<15: return .magenta
-            default: return .orange
-            }
-        }()
-
-        arkon.sprite.color = arkon.status.cOffspring > 5 ? .purple : .green
+//        guard let r = relievedArkonFishNumber else { return }
+//        guard let arkon = World.shared.population.getArkon(for: r) else { return }
+//
+//        arkon.status.cOffspring += 1
+//        arkon.sprite.color = {
+//            switch arkon.status.cOffspring {
+//            case 0..<5: return .green
+//            case 5..<10: return .purple
+//            case 10..<15: return .magenta
+//            default: return .orange
+//            }
+//        }()
+//
+//        arkon.sprite.color = arkon.status.cOffspring > 5 ? .purple : .green
     }
 }

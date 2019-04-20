@@ -16,12 +16,14 @@ class MannaFactory {
     let yRange: Range<CGFloat>
 
     init() {
-        let w = PortalServer.shared.arkonsPortal.frame.size.width
-        let h = PortalServer.shared.arkonsPortal.frame.size.height
+        let scene = hardBind(Display.shared.scene)
+        let portal = hardBind(scene.childNode(withName: "arkons_portal") as? SKSpriteNode)
+        let w: CGFloat = portal.frame.size.width / 2.0
+        let h: CGFloat = portal.frame.size.height / 2.0
 
         xRange = -w..<w
         yRange = -h..<h
-        morsels = (0..<300).map { [weak self] in self!.spawn($0) }
+        morsels = (0..<300).map { self.spawn($0) }
     }
 
     func bloom(_ hamNumber: Int) {
@@ -61,7 +63,6 @@ class MannaFactory {
         p.categoryBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
         p.contactTestBitMask = 0
         p.collisionBitMask = 0
-        p.pinned = true
         p.isDynamic = false
         p.mass = 1
         p.allowsRotation = false
@@ -79,15 +80,17 @@ class MannaFactory {
         sprite.alpha = 1
         sprite.name = "manna_\(hamNumber)"
 //        print("name = ", sprite.name!)
-        sprite.zPosition = ArkonCentralLight.vMannaZPosition
+        sprite.zPosition = ArkonCentralLight.vMannaZPosition + 20
 
         sprite.isFirstBloom = true
 
         sprite.run(SKAction.run({ [unowned self] in self.bloom(hamNumber) }))
 
-        PortalServer.shared.arkonsPortal.addChild(sprite)
-        sprite.physicsBody = setupPhysicsBody(sprite.frame)
+        let p = Display.shared.scene?.childNode(withName: "arkons_portal") as? SKSpriteNode
+        let portal = hardBind(p)
+        portal.addChild(sprite)
 
+        sprite.physicsBody = setupPhysicsBody(sprite.frame)
         return sprite
     }
 }

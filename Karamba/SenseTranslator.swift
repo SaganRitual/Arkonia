@@ -82,17 +82,18 @@ extension SenseLoader {
         }
 
         if sensed.isEmpty { return nil }
-        let closest = sensed.min {
-            guard let lhsNode = $0.node, let rhsNode = $1.node else { preconditionFailure() }
-            if lhsNode.position == rhsNode.position { return Bool.random() }
-            return sprite.position.distance(to: lhsNode.position) <
-                   sprite.position.distance(to: rhsNode.position)
-        }
+//        let closest = sensed.min {
+//            guard let lhsNode = $0.node, let rhsNode = $1.node else { preconditionFailure() }
+//            if lhsNode.position == rhsNode.position { return Bool.random() }
+//            return sprite.position.distance(to: lhsNode.position) <
+//                   sprite.position.distance(to: rhsNode.position)
+//        }
 
-        guard let closestNode = closest?.node else { preconditionFailure() }
-        let fromMeToHim = sprite.position.makeVector(to: closestNode.position)
-        let raw = CGVector(radius: fromMeToHim.radius, theta: fromMeToHim.theta)
-        return sprite.normalizeVectorToEnvironment(raw, portal: portal)
+//        guard let closestNode = closest?.node else { preconditionFailure() }
+//        let fromMeToHim = sprite.position.makeVector(to: closestNode.position)
+//        let raw = CGVector(radius: fromMeToHim.radius, theta: fromMeToHim.theta)
+        return nil
+//        return sprite.normalizeVectorToEnvironment(raw, portal: portal)
     }
 
     func getVectorToClosestSensedManna() -> CGVector? {

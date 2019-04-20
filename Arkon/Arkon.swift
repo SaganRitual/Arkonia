@@ -10,7 +10,7 @@ class Arkon {
     let genome: [GeneProtocol]
     var hunger: CGFloat = 0
     let parentFishNumber: Int?
-    var portal = PortalServer.shared.arkonsPortal
+    var portal: SKSpriteNode
     let signalDriver: KSignalDriver
     weak var sprite: Karamba!
     var status: Status
@@ -21,8 +21,11 @@ class Arkon {
         self.status = Status(fishNumber: ArkonCentralDark.selectionControls.theFishNumber)
         ArkonCentralDark.selectionControls.theFishNumber += 1
 
+        self.portal = hardBind(
+            Display.shared.scene?.childNode(withName: "arkons_portal") as? SKSpriteNode
+        )
+
         self.parentFishNumber = parentFishNumber
-        self.portal = portal
         self.genome = genome
         self.fNet = fNet
 
@@ -47,15 +50,15 @@ class Arkon {
 
     deinit {
 //        print("arkon deinit 1", fishNumber, terminator: "")
-        sprite = nil
-        if !(sprite?.isAlive ?? false) { return }
-        print(" arkon deinit 2", fishNumber, terminator: "")
-
-        if status.isOldest { ArkonFactory.shared.cGenerations += 1 }
-        print(" arkon deinit 3", fishNumber, terminator: "")
-
-        ArkonFactory.shared.logHistogram.addSample(status.age)
-        ArkonFactory.shared.auxLogHistogram.addSample(genome.count)
-        print(" arkon deinit 4", fishNumber, terminator: "")
+//        sprite = nil
+//        if !(sprite?.isAlive ?? false) { return }
+//        print(" arkon deinit 2", fishNumber, terminator: "")
+//
+//        if status.isOldest { ArkonFactory.shared.cGenerations += 1 }
+//        print(" arkon deinit 3", fishNumber, terminator: "")
+//
+//        ArkonFactory.shared.logHistogram.addSample(status.age)
+//        ArkonFactory.shared.auxLogHistogram.addSample(genome.count)
+//        print(" arkon deinit 4", fishNumber, terminator: "")
     }
 }

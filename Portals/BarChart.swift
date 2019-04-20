@@ -12,11 +12,9 @@ class BarChart {
     static let barNameTemplate = "bar_chart_bar_"
 
     var barChartLabel: SKLabelNode
-    var barChartLogBase: SKLabelNode
     var barChartTopOfRange: SKLabelNode
     private let bars: [SKSpriteNode]
     private let chartNode: SKSpriteNode
-    private let datasource: BarChartSource
     private let namePrefix: String
 
     init(chartNode: SKSpriteNode, namePrefix: String, datasource: BarChartSource) {

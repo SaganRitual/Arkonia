@@ -42,11 +42,13 @@ class Karamba: SKSpriteNode {
 extension Karamba {
     var nose: KNoseNode { return hardBind(children[0] as? KNoseNode) }
     var pBody: SKPhysicsBody { return physicsBody! }
-    var portal: SKSpriteNode { return PortalServer.shared.arkonsPortal }
+//    var portal: SKSpriteNode { return PortalServer.shared.arkonsPortal }
     var scab: Arkon { return hardBind(arkon) }
 //    var sensor: SKPhysicsBody { return hardBind(nose.physicsBody) }
 
     var isInBounds: Bool {
+        let scene = hardBind(Display.shared.scene)
+        let portal = hardBind(scene.childNode(withName: "arkons_portal") as? SKSpriteNode)
         let relativeToPortal = portal.convert(frame.origin, to: portal.parent!)
 
         let w = size.width * portal.xScale
@@ -65,14 +67,12 @@ extension Karamba {
 
 extension Karamba {
     static var backlogCount = 0
-    // swiftmint:disable function_body_length
+    // swiftlint:disable function_body_length
     private static func darkOps(
         _ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?
     ) {
-//        print("hot", Karamba.backlogCount)
         defer {
             Karamba.backlogCount -= 1
-//            print("dof", Karamba.backlogCount)
         }
         let nose = KNoseNode(
             texture: ArkonCentralLight.topTexture,
@@ -104,7 +104,8 @@ extension Karamba {
         nose.name = "nose_\(scab.fishNumber)"
         arkon.setScale(ArkonFactory.scale)
 
-        let portal = PortalServer.shared.arkonsPortal
+        let scene = hardBind(Display.shared.scene)
+        let portal = hardBind(scene.childNode(withName: "arkons_portal") as? SKSpriteNode)
         let xRange = -portal.frame.size.width..<portal.frame.size.width
         let yRange = -portal.frame.size.height..<portal.frame.size.height
         arkon.position = CGPoint.random(xRange: xRange, yRange: yRange)
@@ -126,15 +127,14 @@ extension Karamba {
             // the physics bodies before we add their owning nodes to the scene.
             arkon.physicsBody = pBody
             nose.physicsBody = nosePBody
-
+//
             arkon.senseLoader = SenseLoader(arkon)
-
+//
             nosePBody.pinned = true // It wouldn't do to leave our senses behind
 //            print("doa")
         }
 
         portal.run(action, completion: {
-//            print("flying")
             Karamba.backlogCount -= 1
             arkon.isReadyForTick = true
             arkon.isAlive = true
@@ -142,10 +142,9 @@ extension Karamba {
 
 //        print("doe")
     }
-    // swiftmint:enable function_body_length
+    // swiftlint:enable function_body_length
 
     static func makeDrone(geneticParentFishNumber f: Int?, geneticParentGenome g: [GeneProtocol]?) {
-//        print("md0", terminator: "")
         Karamba.backlogCount += 1
         ArkonFactory.karambaSerializerQueue.async {
             darkOps(f, g)
@@ -248,7 +247,7 @@ extension Karamba {
 
         if let cb = contactedBodies, cb.isEmpty == false { calorieTransfer() }
 //        print("h", metabolism.health, "m", pBody.mass)
-        if pBody.mass > 0.5 {
+        if pBody.mass > 1.0 {
             let a = hardBind(arkon)
             Karamba.makeDrone(geneticParentFishNumber: a.fishNumber, geneticParentGenome: a.genome)
             metabolism.giveBirth()

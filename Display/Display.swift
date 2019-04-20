@@ -22,7 +22,6 @@ class Display: NSObject, SKSceneDelegate {
     private var frameCount = 0
     private var kNet: KNet?
     private var kNets = [SKSpriteNode: KNet]()
-    private var portalServer: PortalServer!
     private var quadrants = [Int: SKSpriteNode]()
     public weak var scene: SKScene?
     public var tickCount = 0
@@ -32,22 +31,7 @@ class Display: NSObject, SKSceneDelegate {
 
     init(_ scene: SKScene) {
         self.scene = scene
-        self.portalServer = PortalServer(scene: scene)
-
         super.init()
-
-//        let dragField = SKFieldNode.dragField()
-//        dragField.categoryBitMask = ArkonCentralLight.PhysicsBitmask.dragField.rawValue
-//        dragField.strength = 100.0
-//        dragField.isEnabled = true
-//        dragField.minimumRadius = Float(max(
-//            PortalServer.shared.arkonsPortal.size.width,
-//            PortalServer.shared.arkonsPortal.size.height
-//        ) / 2.0)
-
-//        PortalServer.shared.arkonsPortal.addChild(dragField)
-
-        self.portalServer.clockPortal.setUpdater { [weak self] in return self?.gameAge ?? 0 }
     }
 
     func didEvaluateActions(for scene: SKScene) {
@@ -88,35 +72,13 @@ class Display: NSObject, SKSceneDelegate {
 
         tickCount += 1
 
-        PortalServer.shared.arkonsPortal.children.forEach {
+        let portal = hardBind(scene.childNode(withName: "arkons_portal") as? SKSpriteNode)
+        portal.children.forEach {
             guard let a = ($0 as? Karamba) else { return }
             if a.arkon == nil { return }
             guard a.isReadyForTick else { return }
             guard a.isAlive else { return }
             a.tick()
-        }
-
-        let populationGoal = 10
-        let scaledPeriod = Int(ceil(CGFloat(4) * ArkonFactory.scale))
-        let scaledAbsolute = Int(CGFloat(Int.max) * ArkonFactory.scale)
-//        print("tc", scaledPeriod, scaledAbsolute, tickCount, tickCount % scaledPeriod, tickCount < scaledAbsolute)
-        if tickCount % scaledPeriod == 0 && tickCount < scaledAbsolute {
-            let p = PortalServer.shared.arkonsPortal.children.filter { $0 is Karamba }.count
-
-            if p < populationGoal {
-//                print("wtf", scaledPeriod, scaledAbsolute, tickCount, tickCount % scaledPeriod, tickCount < scaledAbsolute)
-                (0..<((populationGoal - p) / 5)).forEach { _ in
-//                    print("tf", $0, Karamba.backlogCount)
-//                    Karamba.backlogCount += 1
-
-                    Karamba.makeDrone(geneticParentFishNumber: nil, geneticParentGenome: nil)
-                }
-            }
-        }
-
-        if let kNet = self.kNet {
-            DNet(kNet).display(via: PortalServer.shared.netPortal)
-            self.kNet = nil
         }
     }
 }

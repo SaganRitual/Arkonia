@@ -2,15 +2,17 @@ import Foundation
 import SpriteKit
 
 class SenseLoader {
-    let aVelocity: CGFloat
-    let portal = PortalServer.shared.arkonsPortal
+    var aVelocity: CGFloat!
+    let portal: SKSpriteNode
     weak var sprite: Karamba!
-    let vectorToOrigin: CGVector
-    let velocity: CGVector
+    var vectorToOrigin: CGVector!
+    var velocity: CGVector!
     var vectorToClosestArkon: CGVector?
     var vectorToClosestManna: CGVector?
 
     init(_ sprite: Karamba) {
+        portal = hardBind(Display.shared.scene?.childNode(withName: "arkons_portal") as? SKSpriteNode)
+
         if Display.displayCycle != .actions { print("Here: displayCycle = ", Display.displayCycle) }
         let pBody = hardBind(sprite.physicsBody)
 

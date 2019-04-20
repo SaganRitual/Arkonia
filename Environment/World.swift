@@ -24,16 +24,6 @@ class World {
     static let cMotorNeurons    =
        mPower + mAStop + mARotate + mAThrust + mAWait
 
-    private var population_ = Population.population([])
-    var population: Population {
-        get {
-            if populationChanged { population_ = population_.updateStatusCache() }
-            return population_
-        }
-
-        set { population_ = newValue }
-    }
-
     var populationChanged = true
 
     let timeLimit: TimeInterval? = 2000.0
@@ -48,10 +38,5 @@ class World {
         scene.physicsWorld.gravity = CGVector.zero
         scene.physicsWorld.speed = 1.0
         scene.physicsWorld.contactDelegate = physicsCoordinator
-
-        PortalServer.shared.generalStatsPortals.setUpdater(subportal: 0, field: 4) { [weak self] in
-            guard let myself = self else { preconditionFailure() }
-            return String(format: "Food value: %.1f%%", 100 * (1.0 - myself.entropy))
-        }
     }
 }
