@@ -78,6 +78,7 @@ class Display: NSObject, SKSceneDelegate {
     var firstPass = true
     var babyFirstSteps = true
 
+    var survivorCount = 0
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
         Display.displayCycle = .updateStarted
         defer { Display.displayCycle = .actions }
@@ -87,21 +88,27 @@ class Display: NSObject, SKSceneDelegate {
 
         tickCount += 1
 
-        let cm: [Karamba] = PortalServer.shared.arkonsPortal.children.compactMap {
-            guard let a = ($0 as? Karamba) else { return nil }
-            if a.arkon == nil { return nil }
-            guard a.isReadyForTick else { return nil }
-            guard a.isAlive else { return nil }
-            return a
+        PortalServer.shared.arkonsPortal.children.forEach {
+            guard let a = ($0 as? Karamba) else { return }
+            if a.arkon == nil { return }
+            guard a.isReadyForTick else { return }
+            guard a.isAlive else { return }
+            a.tick()
         }
 
-        cm.forEach { $0.tick() }
-
-        if tickCount % 60 == 0 {
+        let populationGoal = 10
+        let scaledPeriod = Int(ceil(CGFloat(4) * ArkonFactory.scale))
+        let scaledAbsolute = Int(CGFloat(Int.max) * ArkonFactory.scale)
+//        print("tc", scaledPeriod, scaledAbsolute, tickCount, tickCount % scaledPeriod, tickCount < scaledAbsolute)
+        if tickCount % scaledPeriod == 0 && tickCount < scaledAbsolute {
             let p = PortalServer.shared.arkonsPortal.children.filter { $0 is Karamba }.count
 
-            if p < 50 {
-                (0..<100).forEach { _ in
+            if p < populationGoal {
+//                print("wtf", scaledPeriod, scaledAbsolute, tickCount, tickCount % scaledPeriod, tickCount < scaledAbsolute)
+                (0..<((populationGoal - p) / 5)).forEach { _ in
+//                    print("tf", $0, Karamba.backlogCount)
+//                    Karamba.backlogCount += 1
+
                     Karamba.makeDrone(geneticParentFishNumber: nil, geneticParentGenome: nil)
                 }
             }

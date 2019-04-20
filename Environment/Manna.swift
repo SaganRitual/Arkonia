@@ -21,7 +21,7 @@ class MannaFactory {
 
         xRange = -w..<w
         yRange = -h..<h
-//        morsels = (0..<1).map { [weak self] in self!.spawn($0) }
+        morsels = (0..<300).map { [weak self] in self!.spawn($0) }
     }
 
     func bloom(_ hamNumber: Int) {
@@ -38,21 +38,21 @@ class MannaFactory {
     }
 
     func compost(_ sprite: Manna) {
-//        sprite.isFirstBloom = false
-//        sprite.isComposting = true
+        sprite.isFirstBloom = false
+        sprite.isComposting = true
 
-//        guard let name = sprite.name else { preconditionFailure() }
-//        guard var start = name.firstIndex(of: "_") else { preconditionFailure() }
+        guard let name = sprite.name else { preconditionFailure() }
+        guard var start = name.firstIndex(of: "_") else { preconditionFailure() }
 
-//        start = name.index(after: start)
-//        let hamNumber = Int(name[start..<name.endIndex])!
+        start = name.index(after: start)
+        let hamNumber = Int(name[start..<name.endIndex])!
 
-//        let remove = SKAction.run { sprite.alpha = 0 }
-//        let relax = SKAction.wait(forDuration: 2)
-//        let rebloom = SKAction.run { self.bloom(hamNumber) }
-//        let recycle = SKAction.sequence([remove, relax, rebloom])
+        let remove = SKAction.run { sprite.alpha = 0 }
+        let relax = SKAction.wait(forDuration: 2)
+        let rebloom = SKAction.run { self.bloom(hamNumber) }
+        let recycle = SKAction.sequence([remove, relax, rebloom])
 
-//        sprite.run(recycle, completion: { sprite.alpha = 1 })
+        sprite.run(recycle, completion: { sprite.alpha = 1 })
     }
 
     func setupPhysicsBody(_ edgeLoopFrame: CGRect) -> SKPhysicsBody {
@@ -61,11 +61,16 @@ class MannaFactory {
         p.categoryBitMask = ArkonCentralLight.PhysicsBitmask.mannaBody.rawValue
         p.contactTestBitMask = 0
         p.collisionBitMask = 0
+        p.pinned = true
+        p.isDynamic = false
+        p.mass = 1
+        p.allowsRotation = false
 
         return p
     }
 
     func spawn(_ hamNumber: Int) -> Manna {
+//        print("spawn", Display.displayCycle)
         let sprite = Manna(texture: ArkonCentralLight.mannaSpriteTexture)
 
         sprite.setScale(0.03)
@@ -73,15 +78,15 @@ class MannaFactory {
         sprite.colorBlendFactor = 1
         sprite.alpha = 1
         sprite.name = "manna_\(hamNumber)"
-        print("name = ", sprite.name!)
+//        print("name = ", sprite.name!)
         sprite.zPosition = ArkonCentralLight.vMannaZPosition
 
-        sprite.physicsBody = setupPhysicsBody(sprite.frame)
         sprite.isFirstBloom = true
 
-//        sprite.run(SKAction.run({ [unowned self] in self.bloom(hamNumber) }))
+        sprite.run(SKAction.run({ [unowned self] in self.bloom(hamNumber) }))
 
         PortalServer.shared.arkonsPortal.addChild(sprite)
+        sprite.physicsBody = setupPhysicsBody(sprite.frame)
 
         return sprite
     }

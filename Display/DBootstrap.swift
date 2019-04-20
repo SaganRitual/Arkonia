@@ -2,6 +2,12 @@ import Foundation
 import SpriteKit
 
 class DBootstrap: NSObject, SKSceneDelegate {
+
+    enum LaunchPhase: CaseIterable {
+        case createDisplay, createWorld, createArkonery, createMannaFactory, createDrones
+    }
+
+    var launchPhaseIterator = LaunchPhase.allCases.makeIterator()
     var scene: SKScene
     var selfReference: DBootstrap?
 
@@ -10,31 +16,45 @@ class DBootstrap: NSObject, SKSceneDelegate {
         super.init()
     }
 
-    func launch()  {
-        scene.delegate = self
-
-        let actions = SKAction.sequence([
-            SKAction.run { [weak self] in self!.createDisplay() },
-            SKAction.run { [weak self] in self!.createWorld() },
-            SKAction.run { [weak self] in self!.createArkonery() },
-            SKAction.run { [weak self] in self!.createMannaFactory() },
-            SKAction.run { [weak self] in self!.createDrones() }
-        ])
-
-        scene.run(actions, completion: liftoff)
-    }
+    func launch()  { scene.delegate = self; selfReference = self }
 
     func liftoff() {
+//        print("liftoff")
         scene.delegate = Display.shared
         selfReference = nil
     }
 
-    func createArkonery() {
-        ArkonFactory.shared = ArkonFactory()
-    }
-
+    func createArkonery()     { ArkonFactory.shared = ArkonFactory() }
     func createDisplay()      { Display.shared = Display(scene) }
-    func createDrones()       { Karamba.createDrones(500) }
+    func createDrones()       { Karamba.createDrones(50) }
     func createMannaFactory() { MannaFactory.shared = MannaFactory() }
     func createWorld()        { World.shared = World(scene) }
+
+    func didEvaluateActions(for scene: SKScene) {
+//        print(".physics")
+    }
+
+    func didFinishUpdate(for scene: SKScene) {
+//        print(".limbo")
+    }
+
+    func didSimulatePhysics(for scene: SKScene) {
+//        print(".finishUpdate")
+    }
+
+    func update(_ currentTime: TimeInterval, for scene: SKScene) {
+//        print(".beginUpdate")
+
+        guard let p = launchPhaseIterator.next() else { liftoff(); return }
+
+        scene.run(SKAction.run { [weak self] in
+            switch p {
+            case .createDisplay:      self?.createDisplay()
+            case .createWorld:        self?.createWorld()
+            case .createArkonery:     self?.createArkonery()
+            case .createMannaFactory: self?.createMannaFactory()
+            case .createDrones:       self?.createDrones()
+            }
+        })
+    }
 }

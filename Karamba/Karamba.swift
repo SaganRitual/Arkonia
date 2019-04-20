@@ -29,7 +29,7 @@ class Karamba: SKSpriteNode {
     }
 
     deinit {
-        print(" deinit", arkon?.fishNumber ?? -42)
+//        print(" deinit", arkon?.fishNumber ?? -42)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -64,9 +64,16 @@ extension Karamba {
 // MARK: Construction & setup
 
 extension Karamba {
+    static var backlogCount = 0
+    // swiftmint:disable function_body_length
     private static func darkOps(
         _ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?
     ) {
+//        print("hot", Karamba.backlogCount)
+        defer {
+            Karamba.backlogCount -= 1
+//            print("dof", Karamba.backlogCount)
+        }
         let nose = KNoseNode(
             texture: ArkonCentralLight.topTexture,
             color: .green,
@@ -111,7 +118,7 @@ extension Karamba {
         // update. So instead of adding in this context, we hand off an action to
         // the portal and let him add us when it's safe.
         let action = SKAction.run {
-            print("adding", arkon.scab.fishNumber)
+//            print("adding", arkon.scab.fishNumber)
             portal.addChild(arkon)
             arkon.addChild(nose)
 
@@ -123,16 +130,26 @@ extension Karamba {
             arkon.senseLoader = SenseLoader(arkon)
 
             nosePBody.pinned = true // It wouldn't do to leave our senses behind
+//            print("doa")
         }
 
         portal.run(action, completion: {
+//            print("flying")
+            Karamba.backlogCount -= 1
             arkon.isReadyForTick = true
             arkon.isAlive = true
         })
+
+//        print("doe")
     }
+    // swiftmint:enable function_body_length
 
     static func makeDrone(geneticParentFishNumber f: Int?, geneticParentGenome g: [GeneProtocol]?) {
-        ArkonFactory.karambaSerializerQueue.async { darkOps(f, g) }
+//        print("md0", terminator: "")
+        Karamba.backlogCount += 1
+        ArkonFactory.karambaSerializerQueue.async {
+            darkOps(f, g)
+        }
     }
 
     static func makePhysicsBodies(arkonRadius: CGFloat) -> (SKPhysicsBody, SKPhysicsBody) {
@@ -161,7 +178,7 @@ extension Karamba {
 
 extension Karamba {
     func apoptosize() {
-        print("apop", scab.fishNumber)
+//        print("apop", scab.fishNumber)
         isAlive = false
         arkon = nil
         contactedBodies = nil           // So I won't go through my next
@@ -171,11 +188,12 @@ extension Karamba {
         physicsBody = nil
         removeAllChildren()
         removeAllActions()
-        let apopReportS = SKAction.run {
-            print("apopReportS", self.name ?? "foogie") }
-        let remove = SKAction.removeFromParent()
-        let sequence = SKAction.sequence([apopReportS, remove])
-        run(sequence, completion: { print("apopReportE", self.name ?? "boogie") })
+//        let apopReportS = SKAction.run {
+//            print("apopReportS", self.name ?? "foogie") }
+//        let remove = SKAction.removeFromParent()
+//        let sequence = SKAction.sequence([apopReportS, remove])
+//        run(sequence, completion: { print("apopReportE", self.name ?? "boogie") })
+        removeFromParent()
     }
 
     enum CombatStatus { case losing(Karamba), surviving, winning(Karamba)  }

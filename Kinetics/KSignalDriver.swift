@@ -47,7 +47,7 @@ class KSignalDriver  {
     }
 
     deinit {
-        print("KSignalDriver deinit", kNet.id)
+//        print("KSignalDriver deinit", kNet.id)
         motorLayer.decoupleFromGrid()
     }
 

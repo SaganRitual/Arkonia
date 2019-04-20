@@ -11,7 +11,7 @@ class SenseLoader {
     var vectorToClosestManna: CGVector?
 
     init(_ sprite: Karamba) {
-        assert(Display.displayCycle == .actions)
+        if Display.displayCycle != .actions { print("Here: displayCycle = ", Display.displayCycle) }
         let pBody = hardBind(sprite.physicsBody)
 
         self.sprite = sprite

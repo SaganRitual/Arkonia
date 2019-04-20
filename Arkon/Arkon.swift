@@ -46,7 +46,7 @@ class Arkon {
     }
 
     deinit {
-        print("arkon deinit 1", fishNumber, terminator: "")
+//        print("arkon deinit 1", fishNumber, terminator: "")
         sprite = nil
         if !(sprite?.isAlive ?? false) { return }
         print(" arkon deinit 2", fishNumber, terminator: "")
