@@ -58,7 +58,7 @@ enum Population {
             return lhs.isLessThan(rhs)
         }
     }
-
+/*
     func getArkonsByOffspring() -> [Arkon] {
         return getArkons().sorted {
             let lhs = Eraser.int($0.status.cOffspring, $0.fishNumber)
@@ -66,7 +66,7 @@ enum Population {
             return lhs.isLessThan(rhs)
         }
     }
-
+*/
     func getCLiveArkons() -> Int { return getArkons().count }
 
     func getCLiveGenes() -> Int {

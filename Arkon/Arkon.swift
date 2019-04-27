@@ -39,7 +39,7 @@ class Arkon {
 
         self.status.postInit()
 
-        World.shared.populationChanged = true
+        World.shared.population += 1
 
         // Dark parts all set up; SpriteKit will add a sprite and
         // launch on the next display cycle, unless, of course, we didn't
@@ -49,6 +49,7 @@ class Arkon {
     }
 
     deinit {
+        World.shared.population -= 1
 //        print("arkon deinit 1", fishNumber, terminator: "")
 //        sprite = nil
 //        if !(sprite?.isAlive ?? false) { return }

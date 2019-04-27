@@ -16,6 +16,8 @@
 		D4072C08220762BC0002BC58 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046822070F7400823D57 /* Extensions.swift */; };
 		D41A05FD226478C900DD64E9 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A05FC226478C900DD64E9 /* Metabolism.swift */; };
 		D4256973224225F0005A719B /* LogHistogram.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4256972224225F0005A719B /* LogHistogram.swift */; };
+		D439E304227468DE00D10DAA /* DarkOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439E303227468DE00D10DAA /* DarkOps.swift */; };
+		D439E30622752E9400D10DAA /* LineGraphUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439E30522752E9400D10DAA /* LineGraphUpdate.swift */; };
 		D43E87182209669800CD9CC3 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D468803E2207A4B700405F54 /* Protocols.swift */; };
 		D43E87192209EC6C00CD9CC3 /* ConnectionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB13002207BBE2004C2242 /* ConnectionSpec.swift */; };
 		D43E871A220A439300CD9CC3 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046522070F7400823D57 /* KIdentifier.swift */; };
@@ -87,7 +89,6 @@
 		D46D6C4722076C970001F5D0 /* KNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46D6C3F22076C970001F5D0 /* KNet.swift */; };
 		D46D6C4922076CD20001F5D0 /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4072BFB220762680002BC58 /* Assembler.swift */; };
 		D46E1EE0222B9CED00BBB6F1 /* Stimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46E1EDF222B9CED00BBB6F1 /* Stimulus.swift */; };
-		D46E1EE2222B9DE000BBB6F1 /* ArkonBirth.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46E1EE1222B9DE000BBB6F1 /* ArkonBirth.swift */; };
 		D46E1EE4222BB16300BBB6F1 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46E1EE3222BB16300BBB6F1 /* Manna.swift */; };
 		D47246D722116C1A002AA25F /* DNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47246D622116C1A002AA25F /* DNet.swift */; };
 		D47246D922116C71002AA25F /* DSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47246D822116C71002AA25F /* DSpacer.swift */; };
@@ -193,6 +194,8 @@
 		D439672722070AC4009BAA3A /* KAppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppController.swift; sourceTree = "<group>"; };
 		D439672822070AC4009BAA3A /* SceneViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D439672922070AC5009BAA3A /* KAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KAppDelegate.swift; sourceTree = "<group>"; };
+		D439E303227468DE00D10DAA /* DarkOps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkOps.swift; sourceTree = "<group>"; };
+		D439E30522752E9400D10DAA /* LineGraphUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineGraphUpdate.swift; sourceTree = "<group>"; };
 		D43E871B220A474400CD9CC3 /* runDarkTests.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = runDarkTests.sh; sourceTree = "<group>"; };
 		D43E871D220A495300CD9CC3 /* runSwiftlint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = runSwiftlint.sh; sourceTree = "<group>"; };
 		D4489BFB223A76EA00708B56 /* GeneCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneCore.swift; sourceTree = "<group>"; };
@@ -221,7 +224,6 @@
 		D46D6C3E22076C970001F5D0 /* KLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KLayer.swift; sourceTree = "<group>"; };
 		D46D6C3F22076C970001F5D0 /* KNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KNet.swift; sourceTree = "<group>"; };
 		D46E1EDF222B9CED00BBB6F1 /* Stimulus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stimulus.swift; sourceTree = "<group>"; };
-		D46E1EE1222B9DE000BBB6F1 /* ArkonBirth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonBirth.swift; sourceTree = "<group>"; };
 		D46E1EE3222BB16300BBB6F1 /* Manna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
 		D47246D622116C1A002AA25F /* DNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DNet.swift; sourceTree = "<group>"; };
 		D47246D822116C71002AA25F /* DSpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSpacer.swift; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 		D403CD29224ECCF300B27458 /* Karamba */ = {
 			isa = PBXGroup;
 			children = (
+				D439E303227468DE00D10DAA /* DarkOps.swift */,
 				D403CD2A224ECD0B00B27458 /* Karamba.swift */,
 				D47BEE6D2259D93F004750CD /* Maneuvers.swift */,
 				D41A05FC226478C900DD64E9 /* Metabolism.swift */,
@@ -530,6 +533,7 @@
 				D4D1125E22728EEF004EDE6B /* HUD.swift */,
 				D4D11264227290FF004EDE6B /* IndexedRingBuffer.swift */,
 				D4D1125C22728EEF004EDE6B /* LineGraph.swift */,
+				D439E30522752E9400D10DAA /* LineGraphUpdate.swift */,
 				D494F37322743AF100180642 /* Report.swift */,
 			);
 			path = HUD;
@@ -665,7 +669,6 @@
 			isa = PBXGroup;
 			children = (
 				D4F17C65221E5DBC00CB287C /* Arkon.swift */,
-				D46E1EE1222B9DE000BBB6F1 /* ArkonBirth.swift */,
 				D4D6046622070F7400823D57 /* ArkonCentralDark.swift */,
 				D4D6046722070F7400823D57 /* ArkonCentralLight.swift */,
 				D4AD519E2225122D009EF514 /* ArkonFactory.swift */,
@@ -1137,12 +1140,13 @@
 				D4F17C66221E5DBC00CB287C /* Arkon.swift in Sources */,
 				D4D112672272972D004EDE6B /* MainScene.swift in Sources */,
 				D4D1126022728EEF004EDE6B /* BarChart.swift in Sources */,
-				D46E1EE2222B9DE000BBB6F1 /* ArkonBirth.swift in Sources */,
+				D439E304227468DE00D10DAA /* DarkOps.swift in Sources */,
 				D46D6BFF22076A790001F5D0 /* GeneLibrary.swift in Sources */,
 				D4D1125F22728EEF004EDE6B /* LineGraph.swift in Sources */,
 				D46D6BF5220769910001F5D0 /* ArkonCentralDark.swift in Sources */,
 				D4D1126122728EEF004EDE6B /* HUD.swift in Sources */,
 				D46D6C4322076C970001F5D0 /* KSignalRelay.swift in Sources */,
+				D439E30622752E9400D10DAA /* LineGraphUpdate.swift in Sources */,
 				D46D6BF32207696C0001F5D0 /* FNet.swift in Sources */,
 				D46D6C4622076C970001F5D0 /* KLayer.swift in Sources */,
 				D46D6C0422076AAF0001F5D0 /* Mutator.swift in Sources */,

@@ -25,7 +25,7 @@ class MainScene: SKScene {
 
     private var lastUpdateTime: TimeInterval = 0
     private static var alreadyDidMove = false
-    private static var readyForDisplay = false
+    private static var isReadyForDisplay = false
 
     func buildBarCharts() {
         barChartFactory = BarChartFactory(hud: hud)
@@ -52,6 +52,7 @@ class MainScene: SKScene {
 
         lgAge = lineGraphFactory.newGraph()
         lgAge.setChartLabel("Age")
+        lgAge.pullDataAction = LineGraphUpdate.getAgeUpdater(lgAge)
         hud.placeMonitor(lgAge, dashboard: 0, quadrant: 2)
 
         lgGenes = lineGraphFactory.newGraph()
@@ -61,6 +62,8 @@ class MainScene: SKScene {
         lgOffspring = lineGraphFactory.newGraph()
         lgOffspring.setChartLabel("Offspring")
         hud.placeMonitor(lgOffspring, dashboard: 1, quadrant: 2)
+
+        lgAge.start()
     }
 
     func buildReports() {
@@ -77,9 +80,9 @@ class MainScene: SKScene {
         reportArkonia = reportFactory.newReport()
         reportArkonia.setTitle("Arkonia")
         reportArkonia.setReportoid(1, label: "Clock", data: "00:00:00")
-        reportArkonia.setReportoid(2, label: "", data: "")
+        reportArkonia.setReportoid(2, label: "Food value", data: "0")
         reportArkonia.setReportoid(3, label: "Population", data: "0")
-        reportArkonia.setReportoid(4, label: "Food value", data: "0")
+        reportArkonia.setReportoid(4, label: "Backlog", data: "0")
         hud.placeMonitor(reportArkonia, dashboard: 0, quadrant: 1)
 
         reportMisc.start()
@@ -96,7 +99,92 @@ class MainScene: SKScene {
         buildBarCharts()
         buildLineGraphs()
 
-        MainScene.readyForDisplay = true
+        startBacklog()
+        startCensus()
+        startClock()
+
+        MainScene.isReadyForDisplay = true
+    }
+
+    func startBacklog() {
+        let wait = SKAction.wait(forDuration: 1)
+
+        let backlogReport = reportArkonia.reportoid(4)
+
+        let updateBacklogAction = SKAction.run {
+            backlogReport.data.text = String(Karamba.backlogCount)
+        }
+
+        let backlogSequence = SKAction.sequence([wait, updateBacklogAction])
+        let backlogForever = SKAction.repeatForever(backlogSequence)
+        backlogReport.data.run(backlogForever)
+    }
+
+    func startCensus() {
+        let currentPopulation = reportArkonia.reportoid(3)
+        let highWaterPopulation = reportMisc.reportoid(3)
+        let highWaterAge = reportMisc.reportoid(1)
+        let ageFormatter = DateComponentsFormatter()
+
+        ageFormatter.allowedUnits = [.minute, .second]
+        ageFormatter.allowsFractionalUnits = true
+        ageFormatter.unitsStyle = .positional
+        ageFormatter.zeroFormattingBehavior = .pad
+
+        let updateAction = SKAction.run {
+            currentPopulation.data.text = String(World.shared.population)
+            highWaterPopulation.data.text = String(World.shared.maxPopulation)
+
+            let portal = hardBind(
+                Display.shared.scene?.childNode(withName: "arkons_portal") as? SKSpriteNode
+            )
+
+            let liveArkonsAges: [TimeInterval] = portal.children.compactMap {
+                guard let k = $0 as? Karamba else { return nil }
+                return k.scab.status.age
+            }
+
+            World.shared.greatestLiveAge = liveArkonsAges.max() ?? 0
+
+            highWaterAge.data.text = ageFormatter.string(from: World.shared.maxAge)
+        }
+
+        let wait = SKAction.wait(forDuration: 0.43)
+        let sequence = SKAction.sequence([wait, updateAction])
+        let forever = SKAction.repeatForever(sequence)
+        currentPopulation.data.run(forever)
+    }
+
+    func startClock() {
+        let wait = SKAction.wait(forDuration: 1)
+
+        let clockReport = reportArkonia.reportoid(1)
+        let foodValueReport = reportArkonia.reportoid(2)
+        let clockFormatter = DateComponentsFormatter()
+
+        clockFormatter.allowedUnits = [.hour, .minute, .second]
+        clockFormatter.allowsFractionalUnits = true
+        clockFormatter.unitsStyle = .positional
+        clockFormatter.zeroFormattingBehavior = .pad
+
+        let updateClockAction = SKAction.run {
+            guard MainScene.isReadyForDisplay else { return }
+            clockReport.data.text = clockFormatter.string(from: Display.shared.gameAge)
+        }
+
+        let updateFoodValueAction = SKAction.run {
+            guard MainScene.isReadyForDisplay else { return }
+            let percentage = (1 - World.shared.entropy) * 100
+            foodValueReport.data.text = String(format: "%.2f", percentage)
+        }
+
+        let clockSequence = SKAction.sequence([wait, updateClockAction])
+        let clockForever = SKAction.repeatForever(clockSequence)
+        clockReport.data.run(clockForever)
+
+        let foodValueSequence = SKAction.sequence([wait, updateFoodValueAction])
+        let foodValueForever = SKAction.repeatForever(foodValueSequence)
+        foodValueReport.data.run(foodValueForever)
     }
 
     func touchDown(atPoint pos: CGPoint) {
@@ -121,26 +209,26 @@ class MainScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        guard MainScene.readyForDisplay else { return }
+        guard MainScene.isReadyForDisplay else { return }
 
         defer { lastUpdateTime = currentTime }
         if lastUpdateTime == 0 { lastUpdateTime = currentTime; return }
 
-        //        hardBind(bcAge).addSample()
+//        hardBind(bcAge).addSample()
 
-        //        if tickCount % 30 == 0 {
-        //            hardBind(lgAge).addSamples(
-        //                average: CGFloat(tickCount % Int(lgAge.maxInput - 1)),
-        //                median: CGFloat(tickCount % Int(lgAge.maxInput - 2)),
-        //                sum: CGFloat(tickCount % Int(lgAge.maxInput - 3))
-        //            )
+        if tickCount % 30 == 0 {
+            hardBind(lgAge).addSamples(
+                average: CGFloat(tickCount % Int(lgAge.maxInput - 1)),
+                median: CGFloat(tickCount % Int(lgAge.maxInput - 2)),
+                sum: CGFloat(tickCount % Int(lgAge.maxInput - 3))
+            )
 
-        //            hardBind(lgGenes).addSamples(
-        //                average: CGFloat(tickCount % Int(lgAge.maxInput - 4)),
-        //                median: CGFloat(tickCount % Int(lgAge.maxInput - 5)),
-        //                sum: CGFloat(tickCount % Int(lgAge.maxInput - 6))
-        //            )
-        //        }
+//            hardBind(lgGenes).addSamples(
+//                average: CGFloat(tickCount % Int(lgAge.maxInput - 4)),
+//                median: CGFloat(tickCount % Int(lgAge.maxInput - 5)),
+//                sum: CGFloat(tickCount % Int(lgAge.maxInput - 6))
+//            )
+        }
 
         // Calculate time since last update
         let dt = currentTime - self.lastUpdateTime

@@ -36,11 +36,6 @@ final class Report: SKSpriteNode {
     }
 
     func start() {
-        let updateAction = SKAction.run { [weak self] in self?.update() }
-        let delayAction = SKAction.wait(forDuration: 0.5)
-        let updateOncePerSecond = SKAction.sequence([delayAction, updateAction])
-        let updateForever = SKAction.repeatForever(updateOncePerSecond)
-
         // Note: start at child #1, zero is the title, because laziness
         let toChildren: [SKAction] = (1..<5).map {
             let r = reportoid($0)
@@ -53,23 +48,7 @@ final class Report: SKSpriteNode {
        }
 
         let dazzle = SKAction.group(toChildren)
-        let fly = SKAction.sequence([dazzle, updateForever])
-
-        run(fly)
-    }
-
-    func update() {
-//        let unit = CGFloat(hardBind(buckets.max()))
-//        guard unit > 0 else { return }
-//
-//        (0..<10).forEach {
-//            let scaleValue = 0.95 * CGFloat(buckets[$0]) / unit
-//            let duration = TimeInterval.random(in: 0..<0.4)
-//
-//            let scaleAction = SKAction.scaleY(to: scaleValue, duration: duration)
-//            let toChild = SKAction.run(scaleAction, onChildWithName: hardBind(bar($0).name))
-//            run(toChild)
-//        }
+        run(dazzle)
     }
 }
 

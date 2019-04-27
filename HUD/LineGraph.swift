@@ -34,6 +34,7 @@ final class LineGraph: SKSpriteNode {
     let minInput: CGFloat = 0.0
     let minusOne = (LineGraph.tripletsCount - 1) % LineGraph.tripletsCount
     var nextPut = 0
+    var pullDataAction: SKAction?
     var started = false
     var triplets = IndexedRingBuffer<LineGraphTriplet>(size: tripletsCount)
 
@@ -67,10 +68,10 @@ final class LineGraph: SKSpriteNode {
             addChild(line)
         }
 
-        let delayAction = SKAction.wait(forDuration: 0.5)
+        let delayAction = SKAction.wait(forDuration: 0.47)
         let updateAction = SKAction.run { [weak self] in self?.update() }
-        let updateFrequency = SKAction.sequence([delayAction, updateAction])
-        let updateForever = SKAction.repeatForever(updateFrequency)
+        let updateSequence = SKAction.sequence([delayAction, pullDataAction!, updateAction])
+        let updateForever = SKAction.repeatForever(updateSequence)
 
         let toChildren: [SKAction] = (0..<LineGraph.tripletsCount).map {
             let nextPlot = ($0 + 1) % LineGraph.tripletsCount
@@ -97,7 +98,10 @@ final class LineGraph: SKSpriteNode {
     }
 
     func logPlotY(_ input: CGFloat) -> CGFloat {
-        precondition(input >= minInput && input <= maxInput)
+        precondition(input >= minInput && input <= maxInput + 1.0 /* fudge for debug below */)
+        if input > maxInput {
+            print("input \(input), maxInput \(maxInput)" )
+        }
 
         let can = hardBind(canvas)
         let heightOfChart: CGFloat = can.size.height
@@ -184,6 +188,9 @@ extension LineGraph {
     func addSamples(average: CGFloat, median: CGFloat, sum: CGFloat) {
         if !started { start(); started = true }
 
+        if average > 1000 {
+            print("here")
+        }
         triplets.put(
             value: LineGraphTriplet(average: average, median: median, sum: sum), at: nextPut
         )

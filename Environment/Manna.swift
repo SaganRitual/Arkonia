@@ -23,7 +23,7 @@ class MannaFactory {
 
         xRange = -w..<w
         yRange = -h..<h
-        morsels = (0..<300).map { self.spawn($0) }
+        morsels = (0..<500).map { self.spawn($0) }
     }
 
     func bloom(_ hamNumber: Int) {

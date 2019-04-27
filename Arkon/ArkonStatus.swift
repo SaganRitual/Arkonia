@@ -15,7 +15,6 @@ extension Arkon {
 
         var age: TimeInterval { return Display.shared.currentTime - birthday }
         var birthday: TimeInterval = 0
-        var cOffspring = 0      { willSet { World.shared.populationChanged = true } }
         let fishNumber: Int
         var isDuggarest = false
         var isOldest = false

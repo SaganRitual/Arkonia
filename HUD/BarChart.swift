@@ -47,7 +47,7 @@ final class BarChart: SKSpriteNode {
 
         (0..<10).forEach {
             let scaleValue = 0.95 * CGFloat(buckets[$0]) / unit
-            let duration = TimeInterval.random(in: 0..<0.4)
+            let duration = TimeInterval.random(in: 0..<0.41)
 
             let scaleAction = SKAction.scaleY(to: scaleValue, duration: duration)
             let toChild = SKAction.run(scaleAction, onChildWithName: hardBind(bar($0).name))
