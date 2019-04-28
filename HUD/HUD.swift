@@ -50,6 +50,10 @@ class HUD {
         dashboards.append(Dashboard(node: placeholdersContainer, quadrants: placeholders))
     }
 
+    func getNetPortal() -> SKNode {
+        return hardBind(scene.childNode(withName: "net_portal"))
+    }
+
     func getPrototype(_ whichOne: MonitorPrototype) -> SKNode {
         return hardBind(dashboards[0].quadrants[whichOne.rawValue].monitor)
     }

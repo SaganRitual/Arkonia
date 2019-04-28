@@ -15,8 +15,8 @@ class DSpacer {
 
     init(portal: SKSpriteNode, cLayers: Int) {
         self.portal = portal
-        self.height = portal.frame.height
-        self.width = portal.frame.width
+        self.height = portal.frame.height / 2.0
+        self.width = portal.frame.width / 2.0
         self.neuronPositions = [:]
         self.setVerticalSpacing(cLayers: cLayers)
     }

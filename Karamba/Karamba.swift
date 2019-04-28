@@ -4,8 +4,15 @@ import SpriteKit
 extension CGFloat { static let tau = 2 * CGFloat.pi }
 
 class Karamba: SKSpriteNode {
-    var arkon: Arkon!
+    let fNet: FNet
+    let genome: [GeneProtocol]
+    var hunger: CGFloat = 0
+    var portal: SKSpriteNode
+    let signalDriver: KSignalDriver
+
+    let birthday: TimeInterval
     var contactedBodies: [SKPhysicsBody]?
+    let fishNumber: Int
     let geneticParentFishNumber: Int?
     let geneticParentGenome: [GeneProtocol]?
     var isAlive = false
@@ -17,9 +24,41 @@ class Karamba: SKSpriteNode {
     var sensoryInputs = [Double]()
     var senseLoader: SenseLoader!
 
-    init(_ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?) {
+    init?(
+        geneticParentFishNumber: Int?,
+        geneticParentGenome: [GeneProtocol]?,
+        genome: [GeneProtocol],
+        fNet: FNet
+    ) {
+        self.fishNumber = ArkonCentralDark.selectionControls.theFishNumber
+        ArkonCentralDark.selectionControls.theFishNumber += 1
+
+        self.birthday = Display.currentTime
+        self.fNet = fNet
         self.geneticParentGenome = geneticParentGenome
         self.geneticParentFishNumber = geneticParentFishNumber
+        self.genome = genome
+
+        self.portal = hardBind(
+            Display.shared.scene?.childNode(withName: "arkons_portal") as? SKSpriteNode
+        )
+
+        self.signalDriver = KSignalDriver(idNumber: self.fishNumber, fNet: fNet)
+
+        let arkonSurvived = signalDriver.drive(
+            sensoryInputs: Array.init(
+                repeating: 0, count: World.cSenseNeurons
+            )
+        )
+
+        // Dark parts all set up; SpriteKit will add a sprite and
+        // launch on the next display cycle, unless, of course, we didn't
+        // survive the test signal.
+
+        if !arkonSurvived { return nil }
+
+        World.shared.population += 1
+        World.shared.cLiveGenes += genome.count
 
         super.init(
             texture: ArkonCentralLight.topTexture,
@@ -29,7 +68,16 @@ class Karamba: SKSpriteNode {
     }
 
     deinit {
-//        print(" deinit", arkon?.fishNumber ?? -42)
+        World.shared.population -= 1
+        World.shared.cLiveGenes -= genome.count
+
+        let ms = (Display.shared.scene as? MainScene)!
+        ms.bcAge.addSample(CGFloat(self.age) / 120)
+
+        guard let netPortal = scene.childNode(withName: "net_portal") as? NetDiagram
+            else { return }
+
+        netPortal.update()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -40,11 +88,9 @@ class Karamba: SKSpriteNode {
 // MARK: Convenience & readability
 
 extension Karamba {
+    var age: TimeInterval { return Display.currentTime - birthday }
     var nose: KNoseNode { return hardBind(children[0] as? KNoseNode) }
     var pBody: SKPhysicsBody { return physicsBody! }
-//    var portal: SKSpriteNode { return PortalServer.shared.arkonsPortal }
-    var scab: Arkon { return hardBind(arkon) }
-//    var sensor: SKPhysicsBody { return hardBind(nose.physicsBody) }
 
     var isInBounds: Bool {
         let scene = hardBind(Display.shared.scene)
@@ -82,7 +128,6 @@ extension Karamba {
     func apoptosize() {
 //        print("apop", scab.fishNumber)
         isAlive = false
-        arkon = nil
         contactedBodies = nil           // So I won't go through my next
         sensedBodies = nil              // tick thinking I have physics to take care of
         nose.physicsBody = nil
@@ -152,8 +197,7 @@ extension Karamba {
             calorieTransfer() }
 //        print("h", metabolism.health, "m", pBody.mass)
         if pBody.mass > 1.0 {
-            let a = hardBind(arkon)
-            Karamba.makeDrone(geneticParentFishNumber: a.fishNumber, geneticParentGenome: a.genome)
+            Karamba.makeDrone(geneticParentFishNumber: fishNumber, geneticParentGenome: genome)
             metabolism.giveBirth()
         }
 

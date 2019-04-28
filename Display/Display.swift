@@ -15,19 +15,20 @@ enum DisplayCycle: Int {
 
 class Display: NSObject, SKSceneDelegate {
     static var shared: Display!
+
+    static var currentTime: TimeInterval = 0
     static var displayCycle: DisplayCycle = .limbo
+    static var timeZero: TimeInterval = 0
 
     var appIsReadyToRun = false
-    var currentTime: TimeInterval = 0
     private var frameCount = 0
     private var kNet: KNet?
     private var kNets = [SKSpriteNode: KNet]()
     private var quadrants = [Int: SKSpriteNode]()
     public weak var scene: SKScene?
     public var tickCount = 0
-    var timeZero: TimeInterval = 0
 
-    var gameAge: TimeInterval { return currentTime - timeZero }
+    var gameAge: TimeInterval { return Display.currentTime - Display.timeZero }
 
     init(_ scene: SKScene) {
         self.scene = scene
@@ -54,7 +55,7 @@ class Display: NSObject, SKSceneDelegate {
      the next scene update
 
      */
-    func display(_ kNet: KNet, portal: SKSpriteNode) {
+    func scheduleNetDisplay(_ kNet: KNet, portal: SKSpriteNode) {
         portal.removeAllChildren()
         self.kNet = kNet
     }
@@ -65,17 +66,16 @@ class Display: NSObject, SKSceneDelegate {
     var survivorCount = 0
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
         Display.displayCycle = .updateStarted
-        defer { Display.displayCycle = .actions }
-
-        defer { self.currentTime = currentTime }
-        if self.currentTime == 0 { self.timeZero = currentTime; return }
+        defer {
+            Display.displayCycle = .actions
+            Display.currentTime = currentTime
+        }
 
         tickCount += 1
 
         let portal = hardBind(scene.childNode(withName: "arkons_portal") as? SKSpriteNode)
         portal.children.forEach {
             guard let a = ($0 as? Karamba) else { return }
-            if a.arkon == nil { return }
             guard a.isReadyForTick else { return }
             guard a.isAlive else { return }
             a.tick()

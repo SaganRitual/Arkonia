@@ -30,7 +30,7 @@ final class LineGraph: SKSpriteNode {
 
     var canvas: SKSpriteNode?
     var bottom: CGFloat = 0
-    let maxInput: CGFloat = 100.0
+    var maxInput: CGFloat = 100.0
     let minInput: CGFloat = 0.0
     let minusOne = (LineGraph.tripletsCount - 1) % LineGraph.tripletsCount
     var nextPut = 0
@@ -97,12 +97,10 @@ final class LineGraph: SKSpriteNode {
         run(fly)
     }
 
-    func logPlotY(_ input: CGFloat) -> CGFloat {
-        precondition(input >= minInput && input <= maxInput + 1.0 /* fudge for debug below */)
-        if input > maxInput {
-            print("input \(input), maxInput \(maxInput)" )
-        }
+    func logPlotY(_ input_: CGFloat) -> CGFloat {
+        precondition(input_ >= minInput)
 
+        let input = min(input_, 100)
         let can = hardBind(canvas)
         let heightOfChart: CGFloat = can.size.height
         let bottomOfChart: CGFloat = can.position.y - heightOfChart / 2

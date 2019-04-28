@@ -23,7 +23,7 @@ class MannaFactory {
 
         xRange = -w..<w
         yRange = -h..<h
-        morsels = (0..<500).map { self.spawn($0) }
+        morsels = (0..<1000).map { self.spawn($0) }
     }
 
     func bloom(_ hamNumber: Int) {
@@ -32,7 +32,7 @@ class MannaFactory {
 
         // Zero will make the manna worth extra, so the arkons won't starve
         // in the first five seconds.
-        let birthday = sprite.isFirstBloom ? 0.0 : Display.shared.currentTime
+        let birthday = sprite.isFirstBloom ? 0.0 : Display.currentTime
 
         sprite.birthday = birthday
         sprite.isComposting = false
@@ -75,7 +75,7 @@ class MannaFactory {
         let sprite = Manna(texture: ArkonCentralLight.mannaSpriteTexture)
 
         sprite.setScale(0.03)
-        sprite.color = .yellow
+        sprite.color = .green
         sprite.colorBlendFactor = 1
         sprite.alpha = 1
         sprite.name = "manna_\(hamNumber)"

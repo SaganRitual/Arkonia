@@ -24,11 +24,14 @@ class World {
     static let cMotorNeurons    =
        mPower + mAStop + mARotate + mAThrust + mAWait
 
-    var population = 0 { willSet { if newValue > maxPopulation { maxPopulation = newValue } } }
-    private(set) var maxPopulation = 0
+    var cLiveGenes = 0 { willSet { if newValue > maxCLiveGenes { maxCLiveGenes = newValue } } }
+    private(set) var maxCLiveGenes = 0
 
     var greatestLiveAge: TimeInterval = 0 { willSet { if newValue > maxAge { maxAge = newValue } } }
     private(set) var maxAge: TimeInterval = 0
+
+    var population = 0 { willSet { if newValue > maxPopulation { maxPopulation = newValue } } }
+    private(set) var maxPopulation = 0
 
     let timeLimit: TimeInterval? = 2000.0
     public var entropy: TimeInterval {

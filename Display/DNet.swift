@@ -7,6 +7,7 @@ class DNet {
     init(_ kNet: KNet) { self.kNet = kNet }
 
     func display(via portal: SKSpriteNode) {
+        portal.removeAllChildren()
         let spacer = DSpacer(portal: portal, cLayers: kNet.hiddenLayers.count)
 
         let senseLayer = DLayer(

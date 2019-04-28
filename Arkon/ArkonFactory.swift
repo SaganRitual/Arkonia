@@ -24,21 +24,15 @@ class ArkonFactory: NSObject {
     static let karambaStimulusQueue =
         DispatchQueue(label: "dark.karamba", qos: .background, attributes: .concurrent)
 
-    func makeArkon(parentFishNumber: Int?, parentGenome: [GeneProtocol]) -> Arkon? {
+    func makeArkon(parentFishNumber: Int?, parentGenome: [GeneProtocol]) -> Karamba? {
         let newGenome = Mutator.shared.mutate(parentGenome)
 
         guard let fNet = FDecoder.shared.decode(newGenome), !fNet.layers.isEmpty
             else { return nil }
 
-        let portal = hardBind(
-            Display.shared.scene?.childNode(withName: "arkons_portal") as? SKSpriteNode
-        )
-
-        guard let arkon = Arkon(
-            parentFishNumber: parentFishNumber,
-            genome: newGenome,
-            fNet: fNet,
-            portal: portal
+        guard let arkon = Karamba(
+            geneticParentFishNumber: parentFishNumber, geneticParentGenome: parentGenome,
+            genome: newGenome, fNet: fNet
         ) else { return nil }
 
         return arkon

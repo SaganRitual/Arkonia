@@ -7,22 +7,21 @@ enum KarambaDarkOps {
     ) {
         let nose = setupNose()
 
-        let arkon = Karamba(geneticParentFishNumber, geneticParentGenome)
+        let parentGenome = geneticParentGenome ?? ArkonFactory.getAboriginalGenome()
+
+        guard let arkon = ArkonFactory.shared.makeArkon(
+            parentFishNumber: geneticParentFishNumber,
+            parentGenome: parentGenome
+        ) else { return }    // Arkon died due to non-viable genome
+
         arkon.colorBlendFactor = 1.0
         arkon.zPosition = ArkonCentralLight.vArkonZPosition
 
         let (pBody, nosePBody) = makePhysicsBodies(arkonRadius: arkon.size.radius)
         arkon.metabolism.pBody = pBody
 
-        let parentGenome = geneticParentGenome ?? ArkonFactory.getAboriginalGenome()
-
-        guard let scab = ArkonFactory.shared.makeArkon(
-            parentFishNumber: geneticParentFishNumber, parentGenome: parentGenome
-            ) else { return }    // Arkon died due to non-viable genome
-
-        arkon.arkon = scab
-        arkon.name = "arkon_\(scab.fishNumber)"
-        nose.name = "nose_\(scab.fishNumber)"
+        arkon.name = "arkon_\(arkon.fishNumber)"
+        nose.name = "nose_\(arkon.fishNumber)"
         arkon.setScale(ArkonFactory.scale)
 
         let scene = hardBind(Display.shared.scene)

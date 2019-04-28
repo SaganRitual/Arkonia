@@ -9,33 +9,66 @@ enum LineGraphUpdate {
                 else { return }
 
             let liveArkons: [Karamba] = portal.children.compactMap { $0 as? Karamba }
+            if liveArkons.isEmpty { return }
 
-            let liveCount = liveArkons.count
-            guard liveCount > 0 else { return }
-
-            let sorted = liveArkons.sorted { $0.arkon.status.age < $1.arkon.status.age }
+            let sorted = liveArkons.sorted { $0.age < $1.age }
 
             let average = liveArkons.reduce(0) {
-                CGFloat($0) + CGFloat($1.scab.status.age)
+                CGFloat($0) + CGFloat($1.age)
             } / CGFloat(liveArkons.count)
 
             let median: CGFloat
 
-            if liveCount % 2 == 1 {
-                let medianSS = liveCount / 2
-                median = CGFloat(sorted[medianSS].arkon.status.age)
-            } else if liveCount > 0 {
-                let upper = CGFloat(sorted[liveCount / 2].arkon.status.age)
-                let lower = CGFloat(sorted[(liveCount / 2) - 1].arkon.status.age)
-                median = (upper + lower) / 2
-            } else {
+            if liveArkons.count % 2 == 1 {
+                let medianSS = liveArkons.count / 2
+                median = CGFloat(sorted[medianSS].age)
+            } else if liveArkons.isEmpty {
                 preconditionFailure()
+            } else {
+                let upper = CGFloat(sorted[liveArkons.count / 2].age)
+                let lower = CGFloat(sorted[(liveArkons.count / 2) - 1].age)
+                median = (upper + lower) / 2
             }
 
-            guard let m = sorted.last?.scab.status.age else { return }
+            guard let m = sorted.last?.age else { return }
             let maxAge = CGFloat(m)
 
             lgAge.addSamples(average: average, median: median, sum: maxAge)
+        }
+
+        return pullStats
+    }
+
+    static func getCGeneUpdater(_ lgGenes: LineGraph) -> SKAction? {
+        let pullStats = SKAction.run {
+            guard let scene = Display.shared?.scene else { return }
+            guard let portal = scene.childNode(withName: "arkons_portal") as? SKSpriteNode
+                else { return }
+
+            let liveArkons: [Karamba] = portal.children.compactMap { $0 as? Karamba }
+            if liveArkons.isEmpty { return }
+
+            let sorted = liveArkons.sorted { $0.genome.count < $1.genome.count }
+
+            let average = CGFloat(World.shared.cLiveGenes) / CGFloat(liveArkons.count)
+
+            let median: CGFloat
+
+            if liveArkons.count % 2 == 1 {
+                let medianSS = liveArkons.count / 2
+                median = CGFloat(sorted[medianSS].genome.count)
+            } else if liveArkons.isEmpty {
+                preconditionFailure()
+            } else {
+                let upper = CGFloat(sorted[liveArkons.count / 2].genome.count)
+                let lower = CGFloat(sorted[(liveArkons.count / 2) - 1].genome.count)
+                median = (upper + lower) / 2
+            }
+
+            guard let m = sorted.last?.genome.count else { return }
+            let maxCGenes = CGFloat(m)
+
+            lgGenes.addSamples(average: average, median: median, sum: maxCGenes)
         }
 
         return pullStats

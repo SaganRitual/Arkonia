@@ -7,6 +7,7 @@ class DBootstrap: NSObject, SKSceneDelegate {
         case createDisplay, createWorld, createArkonery, createMannaFactory, createDrones
     }
 
+    var currentTime: TimeInterval = 0
     var launchPhaseIterator = LaunchPhase.allCases.makeIterator()
     var scene: SKScene
     var selfReference: DBootstrap?
@@ -26,7 +27,7 @@ class DBootstrap: NSObject, SKSceneDelegate {
 
     func createArkonery()     { ArkonFactory.shared = ArkonFactory() }
     func createDisplay()      { Display.shared = Display(scene) }
-    func createDrones()       { Karamba.createDrones(500) }
+    func createDrones()       { Karamba.createDrones(100) }
     func createMannaFactory() { MannaFactory.shared = MannaFactory() }
     func createWorld()        { World.shared = World(scene) }
 
@@ -44,6 +45,9 @@ class DBootstrap: NSObject, SKSceneDelegate {
 
     func update(_ currentTime: TimeInterval, for scene: SKScene) {
 //        print(".beginUpdate")
+
+        defer { Display.currentTime = currentTime }
+        if Display.currentTime == 0 { Display.timeZero = currentTime; return }
 
         guard let p = launchPhaseIterator.next() else { liftoff(); return }
 

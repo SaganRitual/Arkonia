@@ -60,13 +60,15 @@ final class BarChart: SKSpriteNode {
 
 extension BarChart {
 
-    func addSample(_ sample: Float) {
-        let whichBar = Int(abs(sample - 0.5) * 100) / 10
+    func addSample(_ sample: CGFloat) {
+        let scaledAndCentered = Int(abs(sample) * 100)
+        let whichBar = (scaledAndCentered < 10) ? scaledAndCentered : (10 - 1)
         buckets[whichBar] += 1
     }
 
     func addSample(_ sample: Int) {
-        let whichBar = sample / 10
+        let chopped = sample / 10
+        let whichBar = (chopped < 10) ? chopped : (10 - 1)
         buckets[whichBar] += 1
     }
 

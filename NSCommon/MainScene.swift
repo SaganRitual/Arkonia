@@ -2,6 +2,7 @@ import SpriteKit
 import GameplayKit
 
 class MainScene: SKScene {
+    static var shared: MainScene!
 
     var barChartFactory: BarChartFactory!
     var bcAge: BarChart!
@@ -12,6 +13,9 @@ class MainScene: SKScene {
     var lgAge: LineGraph!
     var lgGenes: LineGraph!
     var lgOffspring: LineGraph!
+
+    var netDiagramFactory: NetDiagramFactory!
+    var netPortal: NetDiagram?
 
     var reportFactory: ReportFactory!
     var reportArkonia: Report!
@@ -56,7 +60,9 @@ class MainScene: SKScene {
         hud.placeMonitor(lgAge, dashboard: 0, quadrant: 2)
 
         lgGenes = lineGraphFactory.newGraph()
+        lgGenes.maxInput = 2000
         lgGenes.setChartLabel("Genes")
+        lgGenes.pullDataAction = LineGraphUpdate.getCGeneUpdater(lgGenes)
         hud.placeMonitor(lgGenes, dashboard: 1, quadrant: 1)
 
         lgOffspring = lineGraphFactory.newGraph()
@@ -64,6 +70,12 @@ class MainScene: SKScene {
         hud.placeMonitor(lgOffspring, dashboard: 1, quadrant: 2)
 
         lgAge.start()
+        lgGenes.start()
+    }
+
+    func buildNetDiagram() {
+        netDiagramFactory = NetDiagramFactory(hud: hud)
+        netPortal = netDiagramFactory.newDiagram()
     }
 
     func buildReports() {
@@ -141,7 +153,7 @@ class MainScene: SKScene {
 
             let liveArkonsAges: [TimeInterval] = portal.children.compactMap {
                 guard let k = $0 as? Karamba else { return nil }
-                return k.scab.status.age
+                return k.age
             }
 
             World.shared.greatestLiveAge = liveArkonsAges.max() ?? 0
@@ -187,6 +199,10 @@ class MainScene: SKScene {
         foodValueReport.data.run(foodValueForever)
     }
 
+    func startNet() {
+
+    }
+
     func touchDown(atPoint pos: CGPoint) {
     }
 
@@ -194,6 +210,7 @@ class MainScene: SKScene {
     }
 
     func touchUp(atPoint pos: CGPoint) {
+        Karamba.createDrones(100)
     }
 
     override func mouseDown(with event: NSEvent) {
@@ -213,8 +230,6 @@ class MainScene: SKScene {
 
         defer { lastUpdateTime = currentTime }
         if lastUpdateTime == 0 { lastUpdateTime = currentTime; return }
-
-//        hardBind(bcAge).addSample()
 
         if tickCount % 30 == 0 {
             hardBind(lgAge).addSamples(
