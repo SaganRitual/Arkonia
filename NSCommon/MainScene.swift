@@ -92,7 +92,7 @@ class MainScene: SKScene {
         reportArkonia = reportFactory.newReport()
         reportArkonia.setTitle("Arkonia")
         reportArkonia.setReportoid(1, label: "Clock", data: "00:00:00")
-        reportArkonia.setReportoid(2, label: "Food value", data: "0")
+        reportArkonia.setReportoid(2, label: "Food", data: "0")
         reportArkonia.setReportoid(3, label: "Population", data: "0")
         reportArkonia.setReportoid(4, label: "Backlog", data: "0")
         hud.placeMonitor(reportArkonia, dashboard: 0, quadrant: 1)
@@ -116,6 +116,7 @@ class MainScene: SKScene {
         startBacklog()
         startCensus()
         startClock()
+        startGenes()
 
         MainScene.isReadyForDisplay = true
     }
@@ -199,6 +200,21 @@ class MainScene: SKScene {
         let foodValueSequence = SKAction.sequence([wait, updateFoodValueAction])
         let foodValueForever = SKAction.repeatForever(foodValueSequence)
         foodValueReport.data.run(foodValueForever)
+    }
+
+    func startGenes() {
+        let wait = SKAction.wait(forDuration: 1)
+
+        let genesReport = reportMisc.reportoid(2)
+
+        let updateCGenesAction = SKAction.run {
+            guard MainScene.isReadyForDisplay else { return }
+            genesReport.data.text = String(format: "%d", World.shared.maxCLiveGenes)
+        }
+
+        let updateSequence = SKAction.sequence([wait, updateCGenesAction])
+        let genesForever = SKAction.repeatForever(updateSequence)
+        genesReport.data.run(genesForever)
     }
 
     func touchDown(atPoint pos: CGPoint) {

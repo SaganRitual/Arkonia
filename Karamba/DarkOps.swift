@@ -2,6 +2,8 @@ import Foundation
 import SpriteKit
 
 enum KarambaDarkOps {
+    static var firstArkonIsFlying = false
+
     static func darkOps(
         _ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?
     ) {
@@ -58,6 +60,21 @@ enum KarambaDarkOps {
         portal.run(action, completion: {
             arkon.isReadyForTick = true
             arkon.isAlive = true
+
+            if !KarambaDarkOps.firstArkonIsFlying {
+                KarambaDarkOps.firstArkonIsFlying = true
+
+                guard let netPortal = scene.childNode(withName: "net_portal") as? NetDiagram
+                    else { return }
+
+                let updateAction = SKAction.run {
+                    let ms = (Display.shared.scene as? MainScene)!
+                    ms.bcGenes.update()
+                    netPortal.update()
+                }
+
+                netPortal.run(updateAction)
+            }
         })
 
         //        print("doe")
