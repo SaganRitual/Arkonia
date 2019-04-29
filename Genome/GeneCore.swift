@@ -22,7 +22,7 @@ enum GeneCore {
 
     static func getWeightedRandomGene() -> GeneType {
         let weightMap: [GeneType : Int] = [
-            .activator: 7, .bias: 7, .downConnector: 15, .hox: 0, .lock: 0, .layer: 1,
+            .activator: 7, .bias: 7, .downConnector: 15, .hox: 0, .lock: 0, .layer: 5,
             .neuron: 20/*, .policy: 1, .skipAnyType: 1, .skipOneType: 1*/, .upConnector: 15
         ]
 

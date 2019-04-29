@@ -40,7 +40,6 @@ enum KarambaDarkOps {
         // update. So instead of adding in this context, we hand off an action to
         // the portal and let him add us when it's safe.
         let action = SKAction.run {
-            //            print("adding", arkon.scab.fishNumber)
             portal.addChild(arkon)
             arkon.addChild(nose)
 
@@ -52,6 +51,8 @@ enum KarambaDarkOps {
             arkon.senseLoader = SenseLoader(arkon)
 
             nosePBody.pinned = true // It wouldn't do to leave our senses behind
+
+            GeneType.trackGeneDistribution(for: arkon)
         }
 
         portal.run(action, completion: {

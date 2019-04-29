@@ -68,16 +68,23 @@ class Karamba: SKSpriteNode {
     }
 
     deinit {
+        isAlive = false
+
         World.shared.population -= 1
         World.shared.cLiveGenes -= genome.count
-
-        let ms = (Display.shared.scene as? MainScene)!
-        ms.bcAge.addSample(CGFloat(self.age) / 120)
 
         guard let netPortal = scene.childNode(withName: "net_portal") as? NetDiagram
             else { return }
 
-        netPortal.update()
+        let ageAtDeath = self.age
+        let updateAction = SKAction.run {
+            let ms = (Display.shared.scene as? MainScene)!
+            ms.bcAge.addSample(CGFloat(ageAtDeath) / 60)
+            ms.bcGenes.update()
+            netPortal.update()
+        }
+
+        netPortal.run(updateAction)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -126,8 +133,8 @@ extension Karamba {
 
 extension Karamba {
     func apoptosize() {
-//        print("apop", scab.fishNumber)
         isAlive = false
+//        print("apop", scab.fishNumber)
         contactedBodies = nil           // So I won't go through my next
         sensedBodies = nil              // tick thinking I have physics to take care of
         nose.physicsBody = nil

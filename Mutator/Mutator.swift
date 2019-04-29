@@ -77,6 +77,9 @@ class Mutator {
 
     // swiftlint:disable cyclomatic_complexity
     func mutate(_ sourceGenome: [GeneProtocol]) -> [GeneProtocol] {
+        if sourceGenome.isEmpty { return sourceGenome }
+        if !sourceGenome.isEmpty { return sourceGenome }
+
         self.sourceGenome = sourceGenome
         self.outputGenome.removeAll(keepingCapacity: true)
 

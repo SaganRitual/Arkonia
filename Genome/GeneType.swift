@@ -57,4 +57,33 @@ enum GeneType: CaseIterable {
     /// For testing; the payload is an Int
     case mockGene
     #endif
+
+    static let geneTypeLookup: [GeneType: Int] = [
+        .activator: 0, .bias: 1, .downConnector: 2, .hox: 3, .lock: 4, .layer: 5,
+        .neuron: 6, .upConnector: 7
+    ]
+
+    static func trackGeneDistribution(for arkon: Karamba) {
+        guard let chart = MainScene.shared.bcGenes else { preconditionFailure() }
+
+        chart.reset()
+
+        arkon.genome.forEach { gene in
+            let geneType: GeneType
+
+            switch gene {
+            case is gActivatorFunction: geneType = .activator
+            case is gBias:              geneType = .bias
+            case is gDownConnector:     geneType = .downConnector
+            case is gHox:               geneType = .hox
+            case is gLock:              geneType = .lock
+            case is gLayer:             geneType = .layer
+            case is gNeuron:            geneType = .neuron
+            case is gUpConnector:       geneType = .upConnector
+            default:                    preconditionFailure()
+            }
+
+            chart.addSample(geneTypeLookup[geneType]!)
+        }
+    }
 }

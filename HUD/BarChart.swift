@@ -23,6 +23,8 @@ final class BarChart: SKSpriteNode {
         }.sorted { $0.name ?? "" < $1.name ?? "" }[whichBar]
     }
 
+    func reset() { (0..<buckets.count).forEach { buckets[$0] = 0 } }
+
     func start() {
         let updateAction = SKAction.run { [weak self] in self?.update() }
         let delayAction = SKAction.wait(forDuration: 0.5)
@@ -45,13 +47,13 @@ final class BarChart: SKSpriteNode {
         let unit = CGFloat(hardBind(buckets.max()))
         guard unit > 0 else { return }
 
-        (0..<10).forEach {
-            let scaleValue = 0.95 * CGFloat(buckets[$0]) / unit
+        (0..<10).forEach { bucketSS in
+            let scaleValue = 0.95 * CGFloat(buckets[bucketSS]) / unit
             let duration = TimeInterval.random(in: 0..<0.41)
 
             let scaleAction = SKAction.scaleY(to: scaleValue, duration: duration)
-            let toChild = SKAction.run(scaleAction, onChildWithName: hardBind(bar($0).name))
-            run(toChild)
+            let toChild = SKAction.run(scaleAction, onChildWithName: hardBind(bar(bucketSS).name))
+            run(toChild, completion: { [weak self] in self?.buckets[bucketSS] = 0})
         }
     }
 }
@@ -61,13 +63,13 @@ final class BarChart: SKSpriteNode {
 extension BarChart {
 
     func addSample(_ sample: CGFloat) {
-        let scaledAndCentered = Int(abs(sample) * 100)
+        let scaledAndCentered = Int(abs(sample) * 100) / 10
         let whichBar = (scaledAndCentered < 10) ? scaledAndCentered : (10 - 1)
         buckets[whichBar] += 1
     }
 
     func addSample(_ sample: Int) {
-        let chopped = sample / 10
+        let chopped = (abs(sample) * 10) / 10
         let whichBar = (chopped < 10) ? chopped : (10 - 1)
         buckets[whichBar] += 1
     }

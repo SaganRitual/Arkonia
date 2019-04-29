@@ -60,7 +60,7 @@ class MainScene: SKScene {
         hud.placeMonitor(lgAge, dashboard: 0, quadrant: 2)
 
         lgGenes = lineGraphFactory.newGraph()
-        lgGenes.maxInput = 2000
+        lgGenes.maxInput = 500
         lgGenes.setChartLabel("Genes")
         lgGenes.pullDataAction = LineGraphUpdate.getCGeneUpdater(lgGenes)
         hud.placeMonitor(lgGenes, dashboard: 1, quadrant: 1)
@@ -105,6 +105,8 @@ class MainScene: SKScene {
         assert(MainScene.alreadyDidMove == false)
         MainScene.alreadyDidMove = true
         self.lastUpdateTime = 0
+
+        MainScene.shared = self
 
         hud = HUD(scene: self)
         buildReports()
@@ -197,10 +199,6 @@ class MainScene: SKScene {
         let foodValueSequence = SKAction.sequence([wait, updateFoodValueAction])
         let foodValueForever = SKAction.repeatForever(foodValueSequence)
         foodValueReport.data.run(foodValueForever)
-    }
-
-    func startNet() {
-
     }
 
     func touchDown(atPoint pos: CGPoint) {
