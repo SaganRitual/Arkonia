@@ -4,6 +4,7 @@ import SpriteKit
 enum KarambaDarkOps {
     static var firstArkonIsFlying = false
 
+    // swiftlint:disable function_body_length
     static func darkOps(
         _ geneticParentFishNumber: Int?, _ geneticParentGenome: [GeneProtocol]?
     ) {
@@ -15,6 +16,11 @@ enum KarambaDarkOps {
             parentFishNumber: geneticParentFishNumber,
             parentGenome: parentGenome
         ) else { return }    // Arkon died due to non-viable genome
+
+        if let parentArkon = ArkonFactory.shared.getArkon(geneticParentFishNumber ?? -42) {
+            parentArkon.cOffspring += 1
+            World.shared.maxCOffspring = max(World.shared.maxCOffspring, parentArkon.cOffspring)
+        }
 
         arkon.colorBlendFactor = 1.0
         arkon.zPosition = ArkonCentralLight.vArkonZPosition
@@ -79,6 +85,7 @@ enum KarambaDarkOps {
 
         //        print("doe")
     }
+    // swiftlint:enable function_body_length
 
     static func makePhysicsBodies(arkonRadius: CGFloat) -> (SKPhysicsBody, SKPhysicsBody) {
         let sensesPBody = SKPhysicsBody(circleOfRadius: arkonRadius * 1.5)

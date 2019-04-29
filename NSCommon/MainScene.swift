@@ -117,6 +117,7 @@ class MainScene: SKScene {
         startCensus()
         startClock()
         startGenes()
+        startOffspring()
 
         MainScene.isReadyForDisplay = true
     }
@@ -215,6 +216,21 @@ class MainScene: SKScene {
         let updateSequence = SKAction.sequence([wait, updateCGenesAction])
         let genesForever = SKAction.repeatForever(updateSequence)
         genesReport.data.run(genesForever)
+    }
+
+    func startOffspring() {
+        let wait = SKAction.wait(forDuration: 2.3)
+
+        let offspringReport = reportMisc.reportoid(4)
+
+        let updateCOffspringAction = SKAction.run {
+            guard MainScene.isReadyForDisplay else { return }
+            offspringReport.data.text = String(format: "%d", World.shared.maxCOffspring)
+        }
+
+        let updateSequence = SKAction.sequence([wait, updateCOffspringAction])
+        let offspringForever = SKAction.repeatForever(updateSequence)
+        offspringReport.data.run(offspringForever)
     }
 
     func touchDown(atPoint pos: CGPoint) {

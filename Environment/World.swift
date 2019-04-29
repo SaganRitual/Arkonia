@@ -33,6 +33,8 @@ class World {
     var population = 0 { willSet { if newValue > maxPopulation { maxPopulation = newValue } } }
     private(set) var maxPopulation = 0
 
+    var maxCOffspring = 0
+
     let timeLimit: TimeInterval? = 2000.0
     public var entropy: TimeInterval {
         guard let t = timeLimit else { return 0 }

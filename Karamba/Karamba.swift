@@ -11,6 +11,7 @@ class Karamba: SKSpriteNode {
     let signalDriver: KSignalDriver
 
     let birthday: TimeInterval
+    var cOffspring = 0
     var contactedBodies: [SKPhysicsBody]?
     let fishNumber: Int
     let geneticParentFishNumber: Int?

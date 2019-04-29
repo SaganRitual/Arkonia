@@ -98,6 +98,17 @@ class ArkonFactory: NSObject {
     var hiWaterCLiveArkons = 0
     var hiWaterGenomeLength = 0
 
+    func getArkon(_ fishNumber: Int) -> Karamba? {
+        let scene = hardBind(Display.shared.scene)
+        guard let portal = scene.childNode(withName: "arkons_portal") as? SKSpriteNode
+            else { return nil }
+
+        return portal.children.first {
+            guard let parentArkon = $0 as? Karamba else { return false }
+            return parentArkon.fishNumber == fishNumber
+        } as? Karamba
+    }
+
 //    var cLiveArkons: Int { return World.shared.population.getCLiveArkons() }
 
     var tickWorkItem: DispatchWorkItem!
