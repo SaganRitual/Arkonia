@@ -4,75 +4,66 @@ import SpriteKit
 class ArkonFactory: NSObject {
     static var theAboriginalGenome: [GeneProtocol]?
 
-    // swiftlint:disable function_body_length
+    static func makeMeatyNeuron(_ channelNumber: Int) -> [GeneProtocol] {
+        return [GeneProtocol](
+            arrayLiteral: gNeuron(), gActivatorFunction(.boundidentity), gBias(Double.random(in: -1..<1))
+            ) + (0..<12).map { makeUpConnectorGene($0) } + (0..<5).map { gDownConnector($0) }
+    }
+
+    static func makeMeatyNeurons(_ cNeurons: Int) -> [GeneProtocol] {
+        return (0..<cNeurons).map {
+            makeMeatyNeuron($0)
+        }.reduce([GeneProtocol]()) {
+            var dollarZero = $0; dollarZero.append(contentsOf: $1); return dollarZero
+        }
+    }
+
+    static func makeUpConnector(_ channel: Int) -> UpConnector {
+        let c = makeUpConnectorChannel(channel)
+        let w = makeUpConnectorWeight()
+        let a = makeUpConnectorAmplifier()
+
+        return UpConnector(c, w, a)
+    }
+
+    static func makeUpConnectorAmplifier() -> UpConnectorAmplifier {
+        return UpConnectorAmplifier(amplificationMode: .none, multiplier: 1)
+    }
+
+    static func makeUpConnectorChannel(_ channel: Int) -> UpConnectorChannel {
+        let topOfRange = channel
+        return UpConnectorChannel(channel: channel, topOfRange: topOfRange)
+    }
+
+    static func makeUpConnectorChannels(_ range: Range<Int>) -> [UpConnectorChannel] {
+        return range.map { makeUpConnectorChannel($0) }
+    }
+
+    static func makeUpConnectorGene(_ channel: Int) -> gUpConnector {
+        let upConnector = makeUpConnector(channel)
+        return gUpConnector(upConnector)
+    }
+
+    static func makeUpConnectorWeight() -> UpConnectorWeight {
+        return UpConnectorWeight(weight: Double.random(in: -1..<1))
+    }
+
     static func getAboriginalGenome() -> [GeneProtocol] {
         if let g = theAboriginalGenome { return g }
 
-//        return Assembler.makeRandomGenome(cGenes: Int.random(in: 200..<500))
+        let upConnectorChannels = makeUpConnectorChannels(-1..<(12 - 1))
 
-        let minusOneChannel = UpConnectorChannel(channel: -1, topOfRange: -1)
+        let upConnectors = upConnectorChannels.map { makeUpConnector($0.channel) }
 
-        let upConnectorChannels: [UpConnectorChannel] = [
-            UpConnectorChannel(channel: 0, topOfRange: 0),
-            UpConnectorChannel(channel: 1, topOfRange: 1),
-            UpConnectorChannel(channel: 2, topOfRange: 2),
-            UpConnectorChannel(channel: 3, topOfRange: 3),
-            UpConnectorChannel(channel: 4, topOfRange: 4),
-            UpConnectorChannel(channel: 5, topOfRange: 5),
-            UpConnectorChannel(channel: 6, topOfRange: 6),
-            UpConnectorChannel(channel: 7, topOfRange: 7),
-            UpConnectorChannel(channel: 8, topOfRange: 8),
-            UpConnectorChannel(channel: 9, topOfRange: 9),
-            UpConnectorChannel(channel: 10, topOfRange: 10),
-            UpConnectorChannel(channel: 11, topOfRange: 11)
-        ]
+        let gUpConnectors = upConnectors.map { return gUpConnector($0) }
 
-        let upConnectorWeight = UpConnectorWeight(weight: 1.0)
-        let upConnectorAmplifier = UpConnectorAmplifier(amplificationMode: .none, multiplier: 1.0)
-
-        let upConnectors = upConnectorChannels.map { upConnectorChannel in
-            return UpConnector(upConnectorChannel, upConnectorWeight, upConnectorAmplifier)
+        func makeLayer(_ cNeurons: Int) -> [GeneProtocol] {
+            return [GeneProtocol](arrayLiteral: gLayer()) + makeMeatyNeurons(cNeurons)
         }
 
-        let minusOneConnector = UpConnector(minusOneChannel, upConnectorWeight, upConnectorAmplifier)
-
-        let genome: [GeneProtocol] = [
-            gLayer(),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(minusOneConnector), gUpConnector(upConnectors[0]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[0]), gUpConnector(upConnectors[1]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[1]), gUpConnector(upConnectors[2]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[4]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[4]), gUpConnector(upConnectors[5]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[7]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[7]), gUpConnector(upConnectors[8]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[8]), gUpConnector(upConnectors[9]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[9]), gUpConnector(upConnectors[10]),
-
-            gLayer(),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[0]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[1]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[2]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[3]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[4]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[5]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[6]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[7]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[8]),
-
-            gLayer(),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(minusOneConnector), gUpConnector(upConnectors[0]), gDownConnector(0),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[2]), gDownConnector(1),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[3]), gDownConnector(2),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[4]), gDownConnector(1), gDownConnector(3),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[5]), gDownConnector(2),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[6]), gDownConnector(3),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[6]), gUpConnector(upConnectors[7]), gDownConnector(4)
-        ]
-
-        theAboriginalGenome = genome
-        return genome
+        theAboriginalGenome = makeLayer(9) + makeLayer(9) + makeLayer(7)
+        return theAboriginalGenome!
     }
-    // swiftlint:enable function_body_length
 
     static var shared: ArkonFactory!
     static let scale: CGFloat = 0.25

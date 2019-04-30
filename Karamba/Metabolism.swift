@@ -5,12 +5,12 @@ struct Metabolism {
     static let birthWeight: CGFloat = 1 * ArkonFactory.scale // How much your offspring weigh
 
     mutating func absorbGreens(_ mass: CGFloat) {
-        let foodValue = mass / 4
+        let foodValue = mass / 16
         self.pBody.mass += foodValue
     }
 
     mutating func absorbMeat(_ mass: CGFloat) {
-        let foodValue = mass / 2
+        let foodValue = mass / 8
         self.pBody.mass += foodValue
     }
 
