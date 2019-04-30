@@ -35,14 +35,14 @@ class ArkonFactory: NSObject {
         let genome: [GeneProtocol] = [
             gLayer(),
                 gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(minusOneConnector), gUpConnector(upConnectors[0]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[0]), gUpConnector(upConnectors[1]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[1]), gUpConnector(upConnectors[2]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[4]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[4]), gUpConnector(upConnectors[5]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[7]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[7]), gUpConnector(upConnectors[8]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[8]), gUpConnector(upConnectors[9]),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[9]), gUpConnector(upConnectors[10]),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[0]), gUpConnector(upConnectors[1]),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[1]), gUpConnector(upConnectors[2]),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[4]),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[4]), gUpConnector(upConnectors[5]),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[7]),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[7]), gUpConnector(upConnectors[8]),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[8]), gUpConnector(upConnectors[9]),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[9]), gUpConnector(upConnectors[10]),
 
             gLayer(),
                 gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[0]),
@@ -56,13 +56,13 @@ class ArkonFactory: NSObject {
                 gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[8]),
 
             gLayer(),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(minusOneConnector), gUpConnector(upConnectors[0]), gDownConnector(0),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[2]), gDownConnector(1),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[3]), gDownConnector(2),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(minusOneConnector), gUpConnector(upConnectors[0]), gDownConnector(0),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[2]), gDownConnector(1),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[3]), gDownConnector(2),
                 gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[4]), gDownConnector(1), gDownConnector(3),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[5]), gDownConnector(2),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[6]), gDownConnector(3),
-                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[6]), gUpConnector(upConnectors[7]), gDownConnector(4)
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[5]), gDownConnector(2),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(+1.0), gUpConnector(upConnectors[6]), gDownConnector(3),
+                gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[6]), gUpConnector(upConnectors[7]), gDownConnector(4)
         ]
 
         return genome

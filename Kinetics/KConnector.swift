@@ -51,7 +51,9 @@ struct KConnector {
             let inputNeuron: KNeuron = {
 //                if channelIx >= 0 {
                     defer { channelIx += 1 }
-                    return fIter[channelIx % fIter.count]
+                let sign = (channelIx == 0) ? 1 : abs(channelIx) / channelIx
+                // Negative modulo for abs(negative number) gives us a positive result, which we want
+                    return fIter[abs(channelIx) % (fIter.count * sign)]
 //                } else {
 //                    defer { channelIx -= 1 }
 //                    let i = rIter.index(rIter.startIndex, offsetBy: -channelIx % rIter.count)
