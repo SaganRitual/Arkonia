@@ -49,7 +49,7 @@ enum Assembler {
         return transport
     }
 
-    static private func makeOneLayer(cNeurons: Int) -> [GeneProtocol] {
+    static func makeOneLayer(cNeurons: Int) -> [GeneProtocol] {
         let marker = [gLayer()]
         let neurons = (0..<cNeurons).flatMap { channel in
             baseNeuronSnippet(channel: channel)

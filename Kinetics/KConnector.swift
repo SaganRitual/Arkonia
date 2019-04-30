@@ -37,7 +37,7 @@ struct KConnector {
         let fIter = upperNeurons.compactMap({ ($0.relay?.isOperational ?? false) ? $0 : nil })
         if fIter.isEmpty { return [] }
 
-        let rIter = fIter.reversed()
+//        let rIter = fIter.reversed()
 
         var inputIDs = [Int]()
 
@@ -49,14 +49,14 @@ struct KConnector {
 //            print("uuu \(connectingNeuron)")
 
             let inputNeuron: KNeuron = {
-                if channelIx >= 0 {
+//                if channelIx >= 0 {
                     defer { channelIx += 1 }
                     return fIter[channelIx % fIter.count]
-                } else {
-                    defer { channelIx -= 1 }
-                    let i = rIter.index(rIter.startIndex, offsetBy: -channelIx % rIter.count)
-                    return rIter[i]
-                }
+//                } else {
+//                    defer { channelIx -= 1 }
+//                    let i = rIter.index(rIter.startIndex, offsetBy: -channelIx % rIter.count)
+//                    return rIter[i]
+//                }
             }()
 
             inputIDs.append(inputNeuron.id.myID)
