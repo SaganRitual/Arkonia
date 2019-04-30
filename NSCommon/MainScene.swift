@@ -66,11 +66,14 @@ class MainScene: SKScene {
         hud.placeMonitor(lgGenes, dashboard: 1, quadrant: 1)
 
         lgOffspring = lineGraphFactory.newGraph()
+        lgOffspring.maxInput = 100
         lgOffspring.setChartLabel("Offspring")
+        lgOffspring.pullDataAction = LineGraphUpdate.getOffspringUpdater(lgOffspring)
         hud.placeMonitor(lgOffspring, dashboard: 1, quadrant: 2)
 
         lgAge.start()
         lgGenes.start()
+        lgOffspring.start()
     }
 
     func buildNetDiagram() {

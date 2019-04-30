@@ -78,10 +78,12 @@ class Karamba: SKSpriteNode {
             else { return }
 
         let ageAtDeath = self.age
+        let cOffspringAtDeath = self.cOffspring
         let updateAction = SKAction.run {
             let ms = (Display.shared.scene as? MainScene)!
             ms.bcAge.addSample(CGFloat(ageAtDeath) / 60)
             ms.bcGenes.update()
+            ms.bcOffspring.addSample(cOffspringAtDeath)
             netPortal.update()
         }
 
