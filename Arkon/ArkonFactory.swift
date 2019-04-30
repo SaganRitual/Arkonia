@@ -2,8 +2,12 @@ import Foundation
 import SpriteKit
 
 class ArkonFactory: NSObject {
+    static var theAboriginalGenome: [GeneProtocol]?
+
     // swiftlint:disable function_body_length
     static func getAboriginalGenome() -> [GeneProtocol] {
+        if let g = theAboriginalGenome { return g }
+
 //        return Assembler.makeRandomGenome(cGenes: Int.random(in: 200..<500))
 
         let minusOneChannel = UpConnectorChannel(channel: -1, topOfRange: -1)
@@ -65,6 +69,7 @@ class ArkonFactory: NSObject {
                 gNeuron(), gActivatorFunction(.boundidentity), gBias(-1.0), gUpConnector(upConnectors[6]), gUpConnector(upConnectors[7]), gDownConnector(4)
         ]
 
+        theAboriginalGenome = genome
         return genome
     }
     // swiftlint:enable function_body_length

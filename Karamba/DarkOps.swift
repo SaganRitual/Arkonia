@@ -18,8 +18,14 @@ enum KarambaDarkOps {
         ) else { return }    // Arkon died due to non-viable genome
 
         if let parentArkon = ArkonFactory.shared.getArkon(geneticParentFishNumber ?? -42) {
+            let maxCheck = World.shared.maxCOffspring
+
             parentArkon.cOffspring += 1
             World.shared.maxCOffspring = max(World.shared.maxCOffspring, parentArkon.cOffspring)
+
+            if World.shared.maxCOffspring > maxCheck {
+                ArkonFactory.theAboriginalGenome = parentArkon.genome
+            }
         }
 
         arkon.colorBlendFactor = 1.0

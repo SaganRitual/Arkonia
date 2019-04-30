@@ -243,7 +243,7 @@ class MainScene: SKScene {
     }
 
     func touchUp(atPoint pos: CGPoint) {
-        Karamba.createDrones(100)
+        Karamba.createDrones(25)
     }
 
     override func mouseDown(with event: NSEvent) {
