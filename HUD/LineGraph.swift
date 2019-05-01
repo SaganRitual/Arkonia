@@ -186,9 +186,9 @@ extension LineGraph {
     func addSamples(average: CGFloat, median: CGFloat, sum: CGFloat) {
         if !started { start(); started = true }
 
-        if average > 1000 {
-            print("here")
-        }
+//        if average > 1000 {
+//            print("here")
+//        }
         triplets.put(
             value: LineGraphTriplet(average: average, median: median, sum: sum), at: nextPut
         )

@@ -70,21 +70,22 @@ extension ManeuverProtocol {
         let tagged: [(ActionPrimitive, Double)] = zip(primitives, m).map {($0, $1)}
 
         let sorted = tagged.sorted { lhs, rhs in
-            if lhs.1 == rhs.1 { return Bool.random() }
             return (abs(lhs.1) < abs(rhs.1))
         }
 
-//        print("sorted ", terminator: "")
+//        print("motorOutputs: \(arkon.fishNumber) \(motorOutputs)")
+//        print("sorted(\(sorted.count)) ", terminator: "")
 //        sorted.forEach {
 //            let value = String(format: "%-.3f", $0.1)
-//            print(", \($0.0), \(value)", terminator: "")
+//            print(" \($0.0), \(value)", terminator: "")
 //        }
+//        print()
 
         let maxEntry = hardBind(sorted.last)
 
         switch maxEntry.0 {
         case .goFullStop:
-//            print("full stop \(arkon.scab.fishNumber)")
+//            print("full stop \(arkon.fishNumber)")
             return SKAction.run {
                 arkon.pBody.velocity = CGVector.zero
                 arkon.pBody.angularVelocity = 0
@@ -93,7 +94,7 @@ extension ManeuverProtocol {
             }
 
         case let .goRotate(torqueIndex):    // -1.0..<1.0 == -(tau rev/s)..<(tau rev/s)
-//            print("rotate \(arkon.scab.fishNumber)")
+//            print("rotate \(arkon.fishNumber)")
             let targetAVelocity = torqueIndex / CGFloat.tau
             let impulseConstant: CGFloat = 1.1 / 2
             let impulse = arkon.pBody.mass * targetAVelocity * impulseConstant
@@ -105,7 +106,7 @@ extension ManeuverProtocol {
 //            arkon.nose.color = .yellow
 
             arkon.metabolism.debitEnergy(cost)
-//            print("Rotate mass \(arkon.pBody.mass) power \(power), impulse \(impulse), cost per frame \(cost)")
+//            print("Rotate \(arkon.fishNumber) mass \(arkon.pBody.mass) power \(power), impulse \(impulse), cost per frame \(cost)")
 //            if power > 0 {
 //                print("\(arkon.pBody.mass)")
 //                print("fuck")
@@ -125,13 +126,13 @@ extension ManeuverProtocol {
             let lifespanAtThisOutputRate: TimeInterval = 2
             let cost = abs(thrustIndex) * arkon.pBody.mass / CGFloat(60 * lifespanAtThisOutputRate)
 
-//            print("Thrust \(arkon.scab.fishNumber): \(thrustIndex), \(arkon.pBody.mass), \(impulse), \(cost)")
+//            print("Thrust \(arkon.fishNumber): \(thrustIndex), \(arkon.pBody.mass), \(impulse), \(cost)")
 
             arkon.metabolism.debitEnergy(cost)
             return SKAction.run { arkon.pBody.applyImpulse(vector) }
 
         case let .goWait(duration):
-//            print("wait \(arkon.scab.fishNumber)")
+//            print("wait \(arkon.fishNumber)")
 //            print("Wait \(abs(duration) * 10.0 / 60.0)")
             let conversion = capCheck(TimeInterval(abs(duration)))
 //            arkon.color = .cyan

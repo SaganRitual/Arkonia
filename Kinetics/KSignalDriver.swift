@@ -36,9 +36,9 @@ class KSignalDriver  {
                         "cRelays = \(senseLayer.signalRelays.count), " +
                         "non-nil = \(senseLayer.signalRelays.map { $0.inputRelays.count })"
 
-        for (sensoryInput, relay) in zip(sensoryInputs, senseLayer.signalRelays) {
-            relay.overrideState(operational: true)
-            relay.output = sensoryInput
+        for (sensoryInput, neuron) in zip(sensoryInputs, senseLayer.neurons) {
+            neuron.relay!.overrideState(operational: true)
+            neuron.relay!.output = sensoryInput
             message += ", \(sensoryInput)"
         }
 

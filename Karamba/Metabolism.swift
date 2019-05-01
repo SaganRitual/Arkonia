@@ -32,7 +32,7 @@ struct Metabolism {
 
     // In Arkonia, we measure volume in arks, because they make for easy conversion
     mutating func inhale(_ arks: CGFloat) {
-        oxygenLevel += arks / 2
+        oxygenLevel += arks / 8
     }
 
     private var oxygenLevel_: CGFloat = 1.0

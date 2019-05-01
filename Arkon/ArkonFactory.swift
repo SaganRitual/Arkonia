@@ -7,7 +7,7 @@ class ArkonFactory: NSObject {
     static func makeMeatyNeuron(_ channelNumber: Int) -> [GeneProtocol] {
         return [GeneProtocol](
             arrayLiteral: gNeuron(), gActivatorFunction(.boundidentity), gBias(Double.random(in: -1..<1))
-            ) + (0..<12).map { makeUpConnectorGene($0) } + (0..<5).map { gDownConnector($0) }
+            ) + (0..<12).map { makeUpConnectorGene($0) } + [gDownConnector(channelNumber)]
     }
 
     static func makeMeatyNeurons(_ cNeurons: Int) -> [GeneProtocol] {
@@ -61,7 +61,7 @@ class ArkonFactory: NSObject {
             return [GeneProtocol](arrayLiteral: gLayer()) + makeMeatyNeurons(cNeurons)
         }
 
-        theAboriginalGenome = makeLayer(9) + makeLayer(9) + makeLayer(7)
+        theAboriginalGenome = makeLayer(9) + makeLayer(7) + makeLayer(5)
         return theAboriginalGenome!
     }
 

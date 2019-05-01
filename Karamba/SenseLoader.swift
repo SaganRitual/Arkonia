@@ -55,11 +55,12 @@ class SenseLoader {
             Double(fullCapCheck(vectorToOrigin.theta)),
 
             Double(halfCapCheck(countSensedManna() ?? 0)),
-            Double(fullCapCheck(vectorToClosestManna?.magnitude ?? CGFloat.infinity)),
+            Double(fullCapCheck(vectorToClosestManna?.magnitude ?? 1)),
             Double(fullCapCheck(vectorToClosestManna?.theta ?? 0)),
 
-            Double(halfCapCheck(countSensedArkons() ?? 0)),
-            Double(fullCapCheck(vectorToClosestArkon?.magnitude ?? CGFloat.infinity)),
+//            Double(halfCapCheck(countSensedArkons() ?? 0)),
+            Double(sprite.zRotation),
+            Double(fullCapCheck(vectorToClosestArkon?.magnitude ?? 1)),
             Double(fullCapCheck(vectorToClosestArkon?.theta ?? 0))
 
         ))

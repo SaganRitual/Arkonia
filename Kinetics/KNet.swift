@@ -59,6 +59,9 @@ extension KNet {
 
         if !netIsBuilt { self.senseLayer = senseLayer; self.motorLayer = motorLayer }
 
+//        let slNeurons = senseLayer.neurons.map { $0.relay!.output }
+//        print("sl", self, slNeurons)
+
         var iter = hiddenLayers.makeIterator()
         let topHiddenLayer = iter.next()!
         var upperLayer = topHiddenLayer
@@ -69,6 +72,8 @@ extension KNet {
         }
 
         upperLayer.driveSignal()
+//        let ulNeurons = upperLayer.neurons.map { $0.relay!.output }
+//        print("ul", self, ulNeurons)
 
         for lowerLayer in iter {
             if !netIsBuilt {
@@ -80,6 +85,8 @@ extension KNet {
             }
 
             lowerLayer.driveSignal()
+//            let llNeurons = upperLayer.neurons.map { $0.relay?.output ?? -424242.42 }
+//            print("ll", self, llNeurons)
             upperLayer = lowerLayer
         }
 
@@ -106,6 +113,8 @@ extension KNet {
         }
 
         motorLayer.driveSignal()
+//        let mlNeurons = motorLayer.neurons.map { $0.relay!.output }
+//        print("ml", self, mlNeurons)
 
         if !netIsBuilt { gridAnchors = motorLayer.neurons.compactMap { $0.relay } }
         guard gridAnchors.count == World.cMotorNeurons else { return false }

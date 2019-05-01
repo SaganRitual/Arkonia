@@ -56,12 +56,13 @@ extension KNeuron {
         // If we're driving hot, there will likely be holes in the grid,
         // left over from the cold drive. Just skip them.
         guard let relay = relay else { return }
+        let cInputs = relay.inputRelays.count
 
-        if isMotorLayer { weights = [1.0] }
+        if isMotorLayer { weights = Array(repeating: 1.0, count: cInputs) }
 
         let weighted: [Double] = zip(relay.inputRelays, weights).compactMap {
-            (pair: (KSignalRelay, Double)) -> Double? in let (relay, weight) = pair
-            return relay.output * weight
+            (pair: (KSignalRelay, Double)) -> Double? in let (inputRelay, weight) = pair
+            return inputRelay.output * weight / Double(1)
         }
 
 //        var logMessage = "\(self) inputs \(relay.inputRelays), weighted \(weighted)"

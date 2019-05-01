@@ -13,8 +13,7 @@ extension SKSpriteNode {
 
     func normalizeVectorToEnvironment(_ vector: CGVector, portal: SKSpriteNode) -> CGVector {
         if vector == CGVector.zero { return CGVector.zero }
-        let hypotenuse = vector.asSize().hypotenuse
-        let normalizedR = (2 * vector.magnitude / hypotenuse) * ArkonFactory.scale
+        let normalizedR = 2 * vector.magnitude / max(portal.size.width, portal.size.height) * ArkonFactory.scale
         let normalizedΘ = normalizeAngleToTau(vector.theta)
         return CGVector(radius: normalizedR, theta: normalizedΘ)
     }
