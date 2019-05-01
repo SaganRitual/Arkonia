@@ -15,7 +15,6 @@ class TheScene: SKScene {
     var graphs = [String: GKGraph]()
 
     private var lastUpdateTime: TimeInterval = 0
-    private(set) var spriteTexture: SKTexture?
 
     override func sceneDidLoad() {
 
