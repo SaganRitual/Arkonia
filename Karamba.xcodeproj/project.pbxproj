@@ -14,13 +14,6 @@
 		D40985FB22650BEF009DD384 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
 		D40985FD22650C20009DD384 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D40985FF22650CC9009DD384 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
-		D4E8D263227DA41800DFCB40 /* NetDiagram.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D262227DA41800DFCB40 /* NetDiagram.swift */; };
-		D4E8D266227DFD2500DFCB40 /* VDisplayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D264227DFD2500DFCB40 /* VDisplayTest.swift */; };
-		D4E8D267227DFD2500DFCB40 /* VDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D265227DFD2500DFCB40 /* VDisplay.swift */; };
-		D4E8D26B227E072100DFCB40 /* DNeuron.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D269227E072100DFCB40 /* DNeuron.swift */; };
-		D4E8D26C227E072100DFCB40 /* DSpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D26A227E072100DFCB40 /* DSpacer.swift */; };
-		D4E8D26F227E1E7700DFCB40 /* DLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D26D227E1E7700DFCB40 /* DLayer.swift */; };
-		D4E8D270227E1E7700DFCB40 /* DNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D26E227E1E7700DFCB40 /* DNet.swift */; };
 		D4E8D272227E8CB500DFCB40 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
 /* End PBXBuildFile section */
 
@@ -204,18 +197,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4E8D26F227E1E7700DFCB40 /* DLayer.swift in Sources */,
 				D4E8D272227E8CB500DFCB40 /* SpriteFactory.swift in Sources */,
 				D40985EA22650B0A009DD384 /* TheScene.swift in Sources */,
 				D40985FF22650CC9009DD384 /* SceneViewController.swift in Sources */,
-				D4E8D267227DFD2500DFCB40 /* VDisplay.swift in Sources */,
-				D4E8D26B227E072100DFCB40 /* DNeuron.swift in Sources */,
-				D4E8D263227DA41800DFCB40 /* NetDiagram.swift in Sources */,
 				D40985FD22650C20009DD384 /* AppDelegate.swift in Sources */,
-				D4E8D26C227E072100DFCB40 /* DSpacer.swift in Sources */,
 				D40985FB22650BEF009DD384 /* AppController.swift in Sources */,
-				D4E8D270227E1E7700DFCB40 /* DNet.swift in Sources */,
-				D4E8D266227DFD2500DFCB40 /* VDisplayTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

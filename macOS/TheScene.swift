@@ -1,11 +1,3 @@
-//
-//  GameScene.swift
-//  Components
-//
-//  Created by Rob Bishop on 4/15/19.
-//  Copyright © 2019 Boring Software. All rights reserved.
-//
-
 import SpriteKit
 import GameplayKit
 
@@ -15,17 +7,12 @@ class TheScene: SKScene {
     var graphs = [String: GKGraph]()
 
     private var lastUpdateTime: TimeInterval = 0
+    private var spriteFactory: SpriteFactory!
 
     override func sceneDidLoad() {
-
         self.lastUpdateTime = 0
-
-        let atlas = SKTextureAtlas(named: "Sprites")
-        spriteTexture = atlas.textureNamed("spark-aluminum-large")
-
-        let sprite = SKSpriteNode(texture: spriteTexture)
-        addChild(sprite)
-
+        spriteFactory = SpriteFactory(scene: self)
+        spriteFactory.selfTest()
     }
 
     func touchDown(atPoint pos: CGPoint) {
