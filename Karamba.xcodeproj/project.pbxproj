@@ -14,7 +14,23 @@
 		D40985FB22650BEF009DD384 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
 		D40985FD22650C20009DD384 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D40985FF22650CC9009DD384 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
-		D4E8D272227E8CB500DFCB40 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
+		D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
+		D46B1D7422813E12003D711C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
+		D4CBA2F0228059CA0023FAB9 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
+		D4CBA2F1228059CA0023FAB9 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
+		D4CBA2F2228059CA0023FAB9 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
+		D4CBA2F3228059CA0023FAB9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
+		D4CBA2F4228059CA0023FAB9 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
+		D4CBA2F7228059CA0023FAB9 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D40985E522650B0A009DD384 /* TheScene.sks */; };
+		D4CBA2F8228059CA0023FAB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
+		D4CBA2F9228059CA0023FAB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
+		D4CBA30322805DD60023FAB9 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
+		D4CBA30422805DD60023FAB9 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
+		D4CBA30522805DD60023FAB9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
+		D4CBA30622805DD60023FAB9 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
+		D4CBA30922805DD60023FAB9 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D40985E522650B0A009DD384 /* TheScene.sks */; };
+		D4CBA30A22805DD60023FAB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
+		D4CBA30B22805DD60023FAB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,11 +44,14 @@
 		D40985FA22650BEF009DD384 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
+		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
+		D46B1D7322813E12003D711C /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
+		D4CBA2FE228059CA0023FAB9 /* SpriteFactory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpriteFactory.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetDisplayGrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4E8D262227DA41800DFCB40 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
 		D4E8D264227DFD2500DFCB40 /* VDisplayTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDisplayTest.swift; sourceTree = "<group>"; };
 		D4E8D265227DFD2500DFCB40 /* VDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDisplay.swift; sourceTree = "<group>"; };
 		D4E8D269227E072100DFCB40 /* DNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNeuron.swift; sourceTree = "<group>"; };
-		D4E8D26A227E072100DFCB40 /* DSpacer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DSpacer.swift; sourceTree = "<group>"; };
 		D4E8D26D227E1E7700DFCB40 /* DLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLayer.swift; sourceTree = "<group>"; };
 		D4E8D26E227E1E7700DFCB40 /* DNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNet.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
@@ -40,6 +59,20 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		D40985DD22650B0A009DD384 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4CBA2F5228059CA0023FAB9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4CBA30722805DD60023FAB9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -55,6 +88,7 @@
 				D4E8D268227E06F400DFCB40 /* Display */,
 				D4E8D261227DA3D500DFCB40 /* HUD */,
 				D40985F922650BD8009DD384 /* macOS */,
+				D46B1D7222813DF7003D711C /* Miscellany */,
 				D40985E122650B0A009DD384 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,6 +97,8 @@
 			isa = PBXGroup;
 			children = (
 				D40985E022650B0A009DD384 /* Karamba.app */,
+				D4CBA2FE228059CA0023FAB9 /* SpriteFactory.app */,
+				D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -83,6 +119,14 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
+		D46B1D7222813DF7003D711C /* Miscellany */ = {
+			isa = PBXGroup;
+			children = (
+				D46B1D7322813E12003D711C /* KIdentifier.swift */,
+			);
+			path = Miscellany;
+			sourceTree = "<group>";
+		};
 		D4E8D261227DA3D500DFCB40 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,7 +143,7 @@
 				D4E8D26D227E1E7700DFCB40 /* DLayer.swift */,
 				D4E8D26E227E1E7700DFCB40 /* DNet.swift */,
 				D4E8D269227E072100DFCB40 /* DNeuron.swift */,
-				D4E8D26A227E072100DFCB40 /* DSpacer.swift */,
+				D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
 			);
 			path = Display;
@@ -124,6 +168,42 @@
 			name = Karamba;
 			productName = Components;
 			productReference = D40985E022650B0A009DD384 /* Karamba.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D4CBA2EE228059CA0023FAB9 /* SpriteFactory */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4CBA2FB228059CA0023FAB9 /* Build configuration list for PBXNativeTarget "SpriteFactory" */;
+			buildPhases = (
+				D4CBA2EF228059CA0023FAB9 /* Sources */,
+				D4CBA2F5228059CA0023FAB9 /* Frameworks */,
+				D4CBA2F6228059CA0023FAB9 /* Resources */,
+				D4CBA2FA228059CA0023FAB9 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SpriteFactory;
+			productName = Components;
+			productReference = D4CBA2FE228059CA0023FAB9 /* SpriteFactory.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D4CBA30022805DD60023FAB9 /* NetDisplayGrid */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4CBA30D22805DD60023FAB9 /* Build configuration list for PBXNativeTarget "NetDisplayGrid" */;
+			buildPhases = (
+				D4CBA30122805DD60023FAB9 /* Sources */,
+				D4CBA30722805DD60023FAB9 /* Frameworks */,
+				D4CBA30822805DD60023FAB9 /* Resources */,
+				D4CBA30C22805DD60023FAB9 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NetDisplayGrid;
+			productName = Components;
+			productReference = D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -155,6 +235,8 @@
 			projectRoot = "";
 			targets = (
 				D40985DF22650B0A009DD384 /* Karamba */,
+				D4CBA30022805DD60023FAB9 /* NetDisplayGrid */,
+				D4CBA2EE228059CA0023FAB9 /* SpriteFactory */,
 			);
 		};
 /* End PBXProject section */
@@ -167,6 +249,26 @@
 				D40985E622650B0A009DD384 /* TheScene.sks in Resources */,
 				D40985EE22650B0B009DD384 /* Assets.xcassets in Resources */,
 				D40985F122650B0B009DD384 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4CBA2F6228059CA0023FAB9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4CBA2F7228059CA0023FAB9 /* TheScene.sks in Resources */,
+				D4CBA2F8228059CA0023FAB9 /* Assets.xcassets in Resources */,
+				D4CBA2F9228059CA0023FAB9 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4CBA30822805DD60023FAB9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4CBA30922805DD60023FAB9 /* TheScene.sks in Resources */,
+				D4CBA30A22805DD60023FAB9 /* Assets.xcassets in Resources */,
+				D4CBA30B22805DD60023FAB9 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -190,6 +292,40 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		D4CBA2FA228059CA0023FAB9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		D4CBA30C22805DD60023FAB9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -197,11 +333,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4E8D272227E8CB500DFCB40 /* SpriteFactory.swift in Sources */,
 				D40985EA22650B0A009DD384 /* TheScene.swift in Sources */,
 				D40985FF22650CC9009DD384 /* SceneViewController.swift in Sources */,
 				D40985FD22650C20009DD384 /* AppDelegate.swift in Sources */,
 				D40985FB22650BEF009DD384 /* AppController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4CBA2EF228059CA0023FAB9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4CBA2F0228059CA0023FAB9 /* SpriteFactory.swift in Sources */,
+				D4CBA2F1228059CA0023FAB9 /* TheScene.swift in Sources */,
+				D4CBA2F2228059CA0023FAB9 /* SceneViewController.swift in Sources */,
+				D4CBA2F3228059CA0023FAB9 /* AppDelegate.swift in Sources */,
+				D4CBA2F4228059CA0023FAB9 /* AppController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4CBA30122805DD60023FAB9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D46B1D7422813E12003D711C /* KIdentifier.swift in Sources */,
+				D4CBA30322805DD60023FAB9 /* TheScene.swift in Sources */,
+				D4CBA30422805DD60023FAB9 /* SceneViewController.swift in Sources */,
+				D4CBA30522805DD60023FAB9 /* AppDelegate.swift in Sources */,
+				D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */,
+				D4CBA30622805DD60023FAB9 /* AppController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +433,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/macOS/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -332,6 +493,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/macOS/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -350,7 +512,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = "$(SRCROOT)/macOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -369,7 +530,78 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = DD983V4X84;
-				INFOPLIST_FILE = "$(SRCROOT)/macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D4CBA2FC228059CA0023FAB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D4CBA2FD228059CA0023FAB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D4CBA30E22805DD60023FAB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D4CBA30F22805DD60023FAB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -397,6 +629,24 @@
 			buildConfigurations = (
 				D40985F722650B0B009DD384 /* Debug */,
 				D40985F822650B0B009DD384 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4CBA2FB228059CA0023FAB9 /* Build configuration list for PBXNativeTarget "SpriteFactory" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4CBA2FC228059CA0023FAB9 /* Debug */,
+				D4CBA2FD228059CA0023FAB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4CBA30D22805DD60023FAB9 /* Build configuration list for PBXNativeTarget "NetDisplayGrid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4CBA30E22805DD60023FAB9 /* Debug */,
+				D4CBA30F22805DD60023FAB9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
