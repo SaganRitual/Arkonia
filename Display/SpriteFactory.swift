@@ -1,7 +1,7 @@
 import Foundation
 import SpriteKit
 
-class SpriteHangar {
+class SpriteHangar: SpriteHangarProtocol {
     let atlas: SKTextureAtlas?
     var drones = [SKSpriteNode]()
     var texture: SKTexture
@@ -31,7 +31,6 @@ class SpriteFactory {
     let mannaHangar: SpriteHangar
     let scene: SKScene
     var count = 0
-    var phaseIndicator = SKColor.green
 
     init(scene: SKScene) {
         self.scene = scene
@@ -45,16 +44,19 @@ class SpriteFactory {
 }
 
 extension SpriteFactory {
-    func makeDestroyAction() -> SKAction {
+    static var count = 0
+    static var phaseIndicator = SKColor.green
+
+    static func makeDestroyAction(factory: SpriteFactory) -> SKAction {
         let destroyOne = SKAction.run {
-            self.count -= 1
+            SpriteFactory.count -= 1
 
             (0..<5).forEach { _ in
-                guard let doomed = self.scene.children.randomElement() as? SKSpriteNode
+                guard let doomed = factory.scene.children.randomElement() as? SKSpriteNode
                     else { preconditionFailure() }
 
                 doomed.removeFromParent()
-                doomed.color = self.phaseIndicator
+                doomed.color = SpriteFactory.phaseIndicator
                 doomed.colorBlendFactor = 1
             }
         }
@@ -62,69 +64,72 @@ extension SpriteFactory {
         return destroyOne
     }
 
-    func makeFinalReleaseAction() -> SKAction {
+    static func makeFinalReleaseAction(factory: SpriteFactory) -> SKAction {
         let finalReleaseOne = SKAction.run {
-            self.arkonsHangar.drones.removeLast()
-            self.fullNeuronsHangar.drones.removeLast()
-            self.halfNeuronsHangar.drones.removeLast()
-            self.linesHangar.drones.removeLast()
-            self.mannaHangar.drones.removeLast()
+            factory.arkonsHangar.drones.removeLast()
+            factory.fullNeuronsHangar.drones.removeLast()
+            factory.halfNeuronsHangar.drones.removeLast()
+            factory.linesHangar.drones.removeLast()
+            factory.mannaHangar.drones.removeLast()
         }
 
         return finalReleaseOne
     }
 
-    func makeMakeAction() -> SKAction {
-        let w = scene.size.width / 2
-        let h = scene.size.height / 2
+    static func makeMakeAction(factory: SpriteFactory) -> SKAction {
+        let w = factory.scene.size.width / 2
+        let h = factory.scene.size.height / 2
 
         let makeOne = SKAction.run {
-            self.count += 1
-            var sprite = self.arkonsHangar.makeSprite()
+            SpriteFactory.count += 1
+            var sprite = factory.arkonsHangar.makeSprite()
             sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
-            self.scene.addChild(sprite)
+            factory.scene.addChild(sprite)
 
-            sprite = self.halfNeuronsHangar.makeSprite()
+            sprite = factory.halfNeuronsHangar.makeSprite()
             sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
-            self.scene.addChild(sprite)
+            factory.scene.addChild(sprite)
 
-            sprite = self.fullNeuronsHangar.makeSprite()
+            sprite = factory.fullNeuronsHangar.makeSprite()
             sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
-            self.scene.addChild(sprite)
+            factory.scene.addChild(sprite)
 
-            sprite = self.linesHangar.makeSprite()
+            sprite = factory.linesHangar.makeSprite()
             sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
-            self.scene.addChild(sprite)
+            factory.scene.addChild(sprite)
 
-            sprite = self.mannaHangar.makeSprite()
+            sprite = factory.mannaHangar.makeSprite()
             sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
-            self.scene.addChild(sprite)
+            factory.scene.addChild(sprite)
         }
 
         return makeOne
     }
 
-    func selfTest() {
+    static func selfTest(scene: SKScene) {
+        phaseIndicator = SKColor.green
+
+        let factory = SpriteFactory(scene: scene)
         let wait = SKAction.wait(forDuration: 1.0 / 60.0)
         let waitABit = SKAction.repeat(wait, count: 100)
-        let makeSequence = SKAction.sequence([wait, makeMakeAction()])
+        let makeSequence = SKAction.sequence([wait, makeMakeAction(factory: factory)])
         let makeLots = SKAction.repeat(makeSequence, count: 300)
 
-        let blue = SKAction.run { self.phaseIndicator = .blue }
-        let spin = SKAction.sequence([wait, makeDestroyAction(), makeMakeAction()])
+        let blue = SKAction.run { phaseIndicator = .blue }
+        let spin = SKAction.sequence([wait, makeDestroyAction(factory: factory), makeMakeAction(factory: factory)])
         let spinABit = SKAction.repeat(spin, count: 100)
         let blueSpin = SKAction.sequence([spinABit, blue])
 
-        let destroySequence = SKAction.sequence([wait, makeDestroyAction()])
+        let destroySequence = SKAction.sequence([wait, makeDestroyAction(factory: factory)])
         let destroyLots = SKAction.repeat(destroySequence, count: 300)
 
-        let finalReleaseSequence = SKAction.sequence([wait, makeFinalReleaseAction()])
+        let finalReleaseSequence = SKAction.sequence([wait, makeFinalReleaseAction(factory: factory)])
         let finalReleaseLots = SKAction.repeat(finalReleaseSequence, count: 300)
 
         let outline = SKAction.sequence([
             waitABit, makeLots, blueSpin, waitABit, spinABit, waitABit, destroyLots, finalReleaseLots
         ])
 
-        self.scene.run(outline)
+        scene.run(outline)
     }
 }

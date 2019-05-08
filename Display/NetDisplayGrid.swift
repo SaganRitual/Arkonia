@@ -1,14 +1,7 @@
 import Foundation
 import SpriteKit
 
-enum LayerRole { case senseLayer, hiddenLayer, motorLayer }
-
-class NetDisplayGrid {
-
-    struct GridPoint {
-        let x: Int
-        let y: Int
-    }
+class NetDisplayGrid: NetDisplayGridProtocol {
 
     var cNeurons: Int!
     let height: CGFloat

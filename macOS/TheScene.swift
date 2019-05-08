@@ -7,17 +7,16 @@ class TheScene: SKScene {
     var graphs = [String: GKGraph]()
 
     private var lastUpdateTime: TimeInterval = 0
-//    private var spriteFactory: SpriteFactory!
 
-    override func sceneDidLoad() {
+    override func didMove(to view: SKView) {
         self.lastUpdateTime = 0
-//        spriteFactory = SpriteFactory(scene: self)
-//        spriteFactory.selfTest()
 
-        let background = SKSpriteNode(color: .blue, size: CGSize(width: 800, height: 600))
+        let background = SKSpriteNode(color: .black, size: CGSize(width: 800, height: 600))
         addChild(background)
 
-        NetDisplayGrid.selfTest(background: background)
+//        NetDisplayGrid.selfTest(background: background)
+        NetGraphics.selfTest(background: background, scene: self)
+//        SpriteFactory.selfTest(scene: self)
     }
 
     func touchDown(atPoint pos: CGPoint) {
