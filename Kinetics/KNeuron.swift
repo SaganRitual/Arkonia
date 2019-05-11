@@ -52,6 +52,9 @@ class KNeuron: KIdentifiable {
 
 extension KNeuron {
 
+    func flySignal(isMotorLayer: Bool) {
+    }
+
     func driveSignal(isMotorLayer: Bool) {
         // If we're driving hot, there will likely be holes in the grid,
         // left over from the cold drive. Just skip them.

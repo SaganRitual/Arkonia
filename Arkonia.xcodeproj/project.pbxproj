@@ -129,6 +129,15 @@
 		D4D604A62207292800823D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4D604A52207292800823D57 /* Assets.xcassets */; };
 		D4D604A92207292800823D57 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4D604A72207292800823D57 /* Main.storyboard */; };
 		D4E18CBB222CFBF4008B1E2E /* Physics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E18CBA222CFBF4008B1E2E /* Physics.swift */; };
+		D4E5CDC22284340800B8E638 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDBB2284340700B8E638 /* Cache.swift */; };
+		D4E5CDC32284340800B8E638 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDBC2284340700B8E638 /* Storage.swift */; };
+		D4E5CDC42284340800B8E638 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDBD2284340700B8E638 /* Error.swift */; };
+		D4E5CDC52284340800B8E638 /* Dataset.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDBE2284340700B8E638 /* Dataset.swift */; };
+		D4E5CDC62284340800B8E638 /* Activation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDBF2284340700B8E638 /* Activation.swift */; };
+		D4E5CDC72284340800B8E638 /* NeuralNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDC02284340700B8E638 /* NeuralNet.swift */; };
+		D4E5CDC82284340800B8E638 /* Structure.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDC12284340800B8E638 /* Structure.swift */; };
+		D4E5CDE122867B2200B8E638 /* Surge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4E5CDD822843B9F00B8E638 /* Surge.framework */; };
+		D4E5CDE222867B2200B8E638 /* Surge.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4E5CDD822843B9F00B8E638 /* Surge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D4EB46C02207776C00DA2544 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EB46BF2207776C00DA2544 /* main.swift */; };
 		D4EB46D12207784600DA2544 /* DTSignalRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EB46A9220773C200DA2544 /* DTSignalRelay.swift */; };
 		D4EB46D22207786400DA2544 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D6046522070F7400823D57 /* KIdentifier.swift */; };
@@ -141,6 +150,65 @@
 		D4F1470C2248CB1600F8AAD3 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F1470B2248CB1600F8AAD3 /* Overload2D.swift */; };
 		D4F17C68221E5DDB00CB287C /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F17C67221E5DDB00CB287C /* World.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D4E5CDD322843B9F00B8E638 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4E5CDC922843B9F00B8E638 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8A1E1AA19917A79009735E2;
+			remoteInfo = "Surge-iOS";
+		};
+		D4E5CDD522843B9F00B8E638 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4E5CDC922843B9F00B8E638 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F84A6AAE19A9A72F007B53E1;
+			remoteInfo = "SurgeTests-iOS";
+		};
+		D4E5CDD722843B9F00B8E638 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4E5CDC922843B9F00B8E638 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD31F1FC0AD99002BFE1C;
+			remoteInfo = "Surge-macOS";
+		};
+		D4E5CDD922843B9F00B8E638 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4E5CDC922843B9F00B8E638 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3271FC0AD99002BFE1C;
+			remoteInfo = "SurgeTests-macOS";
+		};
+		D4E5CDDB22843B9F00B8E638 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4E5CDC922843B9F00B8E638 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3511FC0B001002BFE1C;
+			remoteInfo = "Surge-tvOS";
+		};
+		D4E5CDDD22843B9F00B8E638 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4E5CDC922843B9F00B8E638 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3591FC0B001002BFE1C;
+			remoteInfo = "SurgeTests-tvOS";
+		};
+		D4E5CDDF22843B9F00B8E638 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4E5CDC922843B9F00B8E638 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3821FC0B125002BFE1C;
+			remoteInfo = "Surge-watchOS";
+		};
+		D4E5CDE322867B2200B8E638 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4E5CDC922843B9F00B8E638 /* Surge.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 614AD31E1FC0AD99002BFE1C;
+			remoteInfo = "Surge-macOS";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D468801D2207A0C500405F54 /* CopyFiles */ = {
@@ -169,6 +237,17 @@
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 1;
+		};
+		D4E5CDE522867B2200B8E638 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D4E5CDE222867B2200B8E638 /* Surge.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D4EB46BB2207776C00DA2544 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -263,6 +342,14 @@
 		D4D604AA2207292800823D57 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4D604AB2207292800823D57 /* ArkoniaDisplayTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ArkoniaDisplayTests.entitlements; sourceTree = "<group>"; };
 		D4E18CBA222CFBF4008B1E2E /* Physics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Physics.swift; sourceTree = "<group>"; };
+		D4E5CDBB2284340700B8E638 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Cache.swift; path = NeuralNet/Sources/Cache.swift; sourceTree = "<group>"; };
+		D4E5CDBC2284340700B8E638 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Storage.swift; path = NeuralNet/Sources/Storage.swift; sourceTree = "<group>"; };
+		D4E5CDBD2284340700B8E638 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Error.swift; path = NeuralNet/Sources/Error.swift; sourceTree = "<group>"; };
+		D4E5CDBE2284340700B8E638 /* Dataset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Dataset.swift; path = NeuralNet/Sources/Dataset.swift; sourceTree = "<group>"; };
+		D4E5CDBF2284340700B8E638 /* Activation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Activation.swift; path = NeuralNet/Sources/Activation.swift; sourceTree = "<group>"; };
+		D4E5CDC02284340700B8E638 /* NeuralNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NeuralNet.swift; path = NeuralNet/Sources/NeuralNet.swift; sourceTree = "<group>"; };
+		D4E5CDC12284340800B8E638 /* Structure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Structure.swift; path = NeuralNet/Sources/Structure.swift; sourceTree = "<group>"; };
+		D4E5CDC922843B9F00B8E638 /* Surge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Surge.xcodeproj; path = Surge/Surge.xcodeproj; sourceTree = "<group>"; };
 		D4EB46A9220773C200DA2544 /* DTSignalRelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DTSignalRelay.swift; path = ../../../Display/DTSignalRelay.swift; sourceTree = "<group>"; };
 		D4EB46BD2207776C00DA2544 /* TTSignalRelay */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TTSignalRelay; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4EB46BF2207776C00DA2544 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -324,6 +411,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4E5CDE122867B2200B8E638 /* Surge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,6 +629,7 @@
 		D4D1D290220705430099DBC2 = {
 			isa = PBXGroup;
 			children = (
+				D4E5CDC922843B9F00B8E638 /* Surge.xcodeproj */,
 				D4F17C64221E585E00CB287C /* Arkon */,
 				D4EB4697220770A100DA2544 /* ArkoniaDarkTests */,
 				D4D6049A2207292800823D57 /* ArkoniaDisplayTests */,
@@ -555,6 +644,7 @@
 				D4D60487220710F300823D57 /* NetFrame */,
 				D4860A75220758CF002F688B /* NSCommon */,
 				D43E8723220A496600CD9CC3 /* Support */,
+				D4E5CDBA2284339F00B8E638 /* SwiftAI */,
 				D4D1D29B220705430099DBC2 /* Monetization */,
 				D4D1D29A220705430099DBC2 /* Products */,
 			);
@@ -617,6 +707,34 @@
 				D4D604AB2207292800823D57 /* ArkoniaDisplayTests.entitlements */,
 			);
 			path = ArkoniaDisplayTests;
+			sourceTree = "<group>";
+		};
+		D4E5CDBA2284339F00B8E638 /* SwiftAI */ = {
+			isa = PBXGroup;
+			children = (
+				D4E5CDBF2284340700B8E638 /* Activation.swift */,
+				D4E5CDBB2284340700B8E638 /* Cache.swift */,
+				D4E5CDBE2284340700B8E638 /* Dataset.swift */,
+				D4E5CDBD2284340700B8E638 /* Error.swift */,
+				D4E5CDC02284340700B8E638 /* NeuralNet.swift */,
+				D4E5CDBC2284340700B8E638 /* Storage.swift */,
+				D4E5CDC12284340800B8E638 /* Structure.swift */,
+			);
+			name = SwiftAI;
+			sourceTree = "<group>";
+		};
+		D4E5CDCA22843B9F00B8E638 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D4E5CDD422843B9F00B8E638 /* Surge.framework */,
+				D4E5CDD622843B9F00B8E638 /* SurgeTests-iOS.xctest */,
+				D4E5CDD822843B9F00B8E638 /* Surge.framework */,
+				D4E5CDDA22843B9F00B8E638 /* SurgeTests-macOS.xctest */,
+				D4E5CDDC22843B9F00B8E638 /* Surge.framework */,
+				D4E5CDDE22843B9F00B8E638 /* SurgeTests-tvOS.xctest */,
+				D4E5CDE022843B9F00B8E638 /* Surge.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		D4EB4697220770A100DA2544 /* ArkoniaDarkTests */ = {
@@ -787,10 +905,12 @@
 				D4D1D296220705430099DBC2 /* Frameworks */,
 				D4D1D297220705430099DBC2 /* Resources */,
 				D43E871C220A483200CD9CC3 /* ShellScript */,
+				D4E5CDE522867B2200B8E638 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D4E5CDE422867B2200B8E638 /* PBXTargetDependency */,
 			);
 			name = Arkonia;
 			productName = Arkonia;
@@ -903,6 +1023,12 @@
 			mainGroup = D4D1D290220705430099DBC2;
 			productRefGroup = D4D1D29A220705430099DBC2 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D4E5CDCA22843B9F00B8E638 /* Products */;
+					ProjectRef = D4E5CDC922843B9F00B8E638 /* Surge.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D4D1D298220705430099DBC2 /* Arkonia */,
@@ -918,6 +1044,58 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D4E5CDD422843B9F00B8E638 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = D4E5CDD322843B9F00B8E638 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4E5CDD622843B9F00B8E638 /* SurgeTests-iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SurgeTests-iOS.xctest";
+			remoteRef = D4E5CDD522843B9F00B8E638 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4E5CDD822843B9F00B8E638 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = D4E5CDD722843B9F00B8E638 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4E5CDDA22843B9F00B8E638 /* SurgeTests-macOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SurgeTests-macOS.xctest";
+			remoteRef = D4E5CDD922843B9F00B8E638 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4E5CDDC22843B9F00B8E638 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = D4E5CDDB22843B9F00B8E638 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4E5CDDE22843B9F00B8E638 /* SurgeTests-tvOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SurgeTests-tvOS.xctest";
+			remoteRef = D4E5CDDD22843B9F00B8E638 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4E5CDE022843B9F00B8E638 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = D4E5CDDF22843B9F00B8E638 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D46880282207A0E600405F54 /* Resources */ = {
@@ -1105,6 +1283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4E5CDC82284340800B8E638 /* Structure.swift in Sources */,
 				D4AD519F2225122D009EF514 /* ArkonFactory.swift in Sources */,
 				D47246D922116C71002AA25F /* DSpacer.swift in Sources */,
 				D46D6C0622076AAF0001F5D0 /* MutatorAdd.swift in Sources */,
@@ -1124,10 +1303,12 @@
 				D403CD2B224ECD0B00B27458 /* Karamba.swift in Sources */,
 				D4E18CBB222CFBF4008B1E2E /* Physics.swift in Sources */,
 				D4C266242210BC4F00325F05 /* Display.swift in Sources */,
+				D4E5CDC32284340800B8E638 /* Storage.swift in Sources */,
 				D4489BFC223A76EA00708B56 /* GeneCore.swift in Sources */,
 				D4EE2DE522685C340042A6B2 /* SenseLoader.swift in Sources */,
 				D47BEE6E2259D93F004750CD /* Maneuvers.swift in Sources */,
 				D46D6C4422076C970001F5D0 /* KNeuron.swift in Sources */,
+				D4E5CDC62284340800B8E638 /* Activation.swift in Sources */,
 				D44EB8AF222FA5250004A46F /* DBootstrap.swift in Sources */,
 				D46D6C4722076C970001F5D0 /* KNet.swift in Sources */,
 				D46D6C0D22076B670001F5D0 /* KAppController.swift in Sources */,
@@ -1135,6 +1316,7 @@
 				D46E1EE0222B9CED00BBB6F1 /* Stimulus.swift in Sources */,
 				D47246DD22116E95002AA25F /* DNeuron.swift in Sources */,
 				D4D112672272972D004EDE6B /* MainScene.swift in Sources */,
+				D4E5CDC22284340800B8E638 /* Cache.swift in Sources */,
 				D4D1126022728EEF004EDE6B /* BarChart.swift in Sources */,
 				D439E304227468DE00D10DAA /* DarkOps.swift in Sources */,
 				D46D6BFF22076A790001F5D0 /* GeneLibrary.swift in Sources */,
@@ -1149,6 +1331,7 @@
 				D46D6C0422076AAF0001F5D0 /* Mutator.swift in Sources */,
 				D46D6C0F22076B670001F5D0 /* SceneViewController.swift in Sources */,
 				D49326C92260512400C2260D /* PhysicsCoordinator.swift in Sources */,
+				D4E5CDC52284340800B8E638 /* Dataset.swift in Sources */,
 				D4D11265227290FF004EDE6B /* IndexedRingBuffer.swift in Sources */,
 				D46D6BFD22076A480001F5D0 /* ArkonCentralLight.swift in Sources */,
 				D4EE2DE722685DFA0042A6B2 /* SenseTranslator.swift in Sources */,
@@ -1157,6 +1340,7 @@
 				D46D6C0E22076B670001F5D0 /* KAppDelegate.swift in Sources */,
 				D46D6C4522076C970001F5D0 /* KProtocols.swift in Sources */,
 				D46D6C4922076CD20001F5D0 /* Assembler.swift in Sources */,
+				D4E5CDC72284340800B8E638 /* NeuralNet.swift in Sources */,
 				D46D6BF9220769C30001F5D0 /* ActivatorFunctions.swift in Sources */,
 				D41A05FD226478C900DD64E9 /* Metabolism.swift in Sources */,
 				D46D6BFC22076A380001F5D0 /* GeneType.swift in Sources */,
@@ -1164,6 +1348,7 @@
 				D46D6C0A22076AF80001F5D0 /* BellCurve.swift in Sources */,
 				D46D6BF6220769A70001F5D0 /* Extensions.swift in Sources */,
 				D43E87182209669800CD9CC3 /* Protocols.swift in Sources */,
+				D4E5CDC42284340800B8E638 /* Error.swift in Sources */,
 				D46D6BF42207696C0001F5D0 /* FNeuron.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1206,6 +1391,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D4E5CDE422867B2200B8E638 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Surge-macOS";
+			targetProxy = D4E5CDE322867B2200B8E638 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D4D604A72207292800823D57 /* Main.storyboard */ = {
@@ -1515,6 +1708,7 @@
 		D4D1D2C6220705440099DBC2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Monetization/Arkonia.entitlements;
@@ -1537,6 +1731,7 @@
 		D4D1D2C7220705440099DBC2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Monetization/Arkonia.entitlements;

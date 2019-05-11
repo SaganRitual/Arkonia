@@ -1,0 +1,6 @@
+[submodule "NeuralNet"]
+	path = NeuralNet
+	url = https://github.com/SaganRitual/NeuralNet.git
+[submodule "Surge"]
+	path = Surge
+	url = https://github.com/SaganRitual/Surge.git
