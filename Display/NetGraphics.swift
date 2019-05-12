@@ -60,20 +60,20 @@ extension NetGraphics {
             netDisplayGrid: dg
         )
 
-        ng.drawNeuron(at: GridPoint(x: -3, y: +1), layerRole: .senseLayer)
-        ng.drawNeuron(at: GridPoint(x: -2, y: -1), layerRole: .senseLayer)
-        ng.drawNeuron(at: GridPoint(x: -1, y: +1), layerRole: .hiddenLayer)
+        ng.drawNeuron(at: GridPoint(x: -1, y: +3), layerRole: .senseLayer)
+        ng.drawNeuron(at: GridPoint(x: +1, y: +3), layerRole: .senseLayer)
+        ng.drawNeuron(at: GridPoint(x: -2, y:  0), layerRole: .hiddenLayer)
         ng.drawNeuron(at: GridPoint(x:  0, y:  0), layerRole: .hiddenLayer)
-        ng.drawNeuron(at: GridPoint(x: +1, y: +1), layerRole: .hiddenLayer)
-        ng.drawNeuron(at: GridPoint(x: +2, y: -1), layerRole: .motorLayer)
-        ng.drawNeuron(at: GridPoint(x: +3, y: +1), layerRole: .motorLayer)
+        ng.drawNeuron(at: GridPoint(x: +2, y:  0), layerRole: .hiddenLayer)
+        ng.drawNeuron(at: GridPoint(x: -1, y: -3), layerRole: .motorLayer)
+        ng.drawNeuron(at: GridPoint(x: +1, y: -3), layerRole: .motorLayer)
 
-        ng.drawConnection(from: GridPoint(x: -3, y: +1), to: GridPoint(x: -2, y: -1))
-        ng.drawConnection(from: GridPoint(x: -2, y: -1), to: GridPoint(x: -1, y: +1))
-        ng.drawConnection(from: GridPoint(x: -1, y: +1), to: GridPoint(x:  0, y:  0))
-        ng.drawConnection(from: GridPoint(x:  0, y:  0), to: GridPoint(x: +1, y: +1))
-        ng.drawConnection(from: GridPoint(x: +1, y: +1), to: GridPoint(x: +2, y: -1))
-        ng.drawConnection(from: GridPoint(x: +2, y: -1), to: GridPoint(x: +3, y: +1))
+        ng.drawConnection(from: GridPoint(x: -1, y: +3), to: GridPoint(x: -2, y:  0))
+        ng.drawConnection(from: GridPoint(x: +1, y: +3), to: GridPoint(x: +2, y:  0))
+        ng.drawConnection(from: GridPoint(x: -2, y:  0), to: GridPoint(x:  0, y:  0))
+        ng.drawConnection(from: GridPoint(x:  0, y:  0), to: GridPoint(x: +2, y:  0))
+        ng.drawConnection(from: GridPoint(x: -1, y: -3), to: GridPoint(x: -2, y:  0))
+        ng.drawConnection(from: GridPoint(x: +1, y: -3), to: GridPoint(x: +2, y:  0))
     }
 
     struct FullNeuronsHangar: SpriteHangarProtocol {
