@@ -8,21 +8,27 @@ struct NetGraphics {
     let linesHangar: SpriteHangarProtocol
     let netDisplayGrid: NetDisplayGridProtocol
 
-    func drawConnection(from start_: GridPoint, to end_: GridPoint) {
-        let start = netDisplayGrid.getPosition(start_)
-        let end = netDisplayGrid.getPosition(end_)
-
+    func drawConnection(from start: CGPoint, to end: CGPoint) {
         let line = linesHangar.makeSprite()
         let textureLength: CGFloat = line.size.width
         let targetLength: CGFloat = start.distance(to: end)
         line.xScale = targetLength / textureLength
-        line.yScale = 3
+        line.yScale = 1
 
         line.zRotation = (end - start).theta
         line.position = start + ((end - start) / 2)
-        line.color = .red
+        line.color = .white
         line.colorBlendFactor = 1
+        line.alpha = 0.5
+        line.zPosition = 0
+        background.zPosition = -1
         background.addChild(line)
+    }
+
+    func drawConnection(from start_: GridPoint, to end_: GridPoint) {
+        let start = netDisplayGrid.getPosition(start_)
+        let end = netDisplayGrid.getPosition(end_)
+        drawConnection(from: start, to: end)
     }
 
     func drawNeuron(at gridPoint: GridPoint, layerRole: LayerRole) {
@@ -36,13 +42,28 @@ struct NetGraphics {
 
         let sprite = hangar.makeSprite()
 
+        let yFudge: CGFloat
+
         switch layerRole {
-        case .senseLayer: sprite.color =  .orange
-        case .motorLayer: sprite.color =  .blue
-        case .hiddenLayer: sprite.color = .green
+        case .senseLayer:
+            sprite.color = .orange
+            yFudge = sprite.size.height / 8
+
+        case .motorLayer:
+            sprite.color = .blue
+            sprite.zRotation = CGFloat.pi
+            yFudge = -sprite.size.height / 8
+
+        case .hiddenLayer:
+            sprite.color = .green
+            yFudge = 0
         }
 
+        sprite.setScale(0.25)
+        sprite.colorBlendFactor = 0.5
         sprite.position = netDisplayGrid.getPosition(gridPoint)
+        sprite.position.y -= yFudge
+        sprite.zPosition = 2
         background.addChild(sprite)
     }
 }
@@ -106,6 +127,16 @@ extension NetGraphics {
     }
 
     struct NetDisplayGrid: NetDisplayGridProtocol {
+        var layerRole: LayerRole {
+            // swiftlint:disable unused_setter_value
+            get { fatalError() } set { fatalError() }
+            // swiftlint:enable unused_setter_value
+        }
+
+        func setHorizontalSpacing(cNeurons: Int, padRadius: CGFloat) {
+            fatalError()
+        }
+
         func getPosition(_ gridPosition: GridPoint) -> CGPoint {
             return CGPoint(x: gridPosition.x * 100, y: gridPosition.y * 100)
         }

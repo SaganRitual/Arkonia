@@ -15,8 +15,10 @@ class TheScene: SKScene {
         addChild(background)
 
 //        NetDisplayGrid.selfTest(background: background)
-        NetGraphics.selfTest(background: background, scene: self)
+//        NetGraphics.selfTest(background: background, scene: self)
 //        SpriteFactory.selfTest(scene: self)
+
+        NetDisplay(scene: self, background: background).display(net: [12, 9, 9, 5])
     }
 
     func touchDown(atPoint pos: CGPoint) {

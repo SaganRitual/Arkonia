@@ -8,7 +8,10 @@ struct GridPoint {
 enum LayerRole { case senseLayer, hiddenLayer, motorLayer }
 
 protocol NetDisplayGridProtocol {
-        func getPosition(_ gridPosition: GridPoint) -> CGPoint
+    var layerRole: LayerRole { get set }
+
+    func getPosition(_ gridPosition: GridPoint) -> CGPoint
+    func setHorizontalSpacing(cNeurons: Int, padRadius: CGFloat)
 }
 
 protocol SpriteHangarProtocol {

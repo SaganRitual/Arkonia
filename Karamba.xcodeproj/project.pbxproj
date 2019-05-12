@@ -14,6 +14,12 @@
 		D40985FB22650BEF009DD384 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
 		D40985FD22650C20009DD384 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D40985FF22650CC9009DD384 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
+		D42751BA2287DBAA0096CDB5 /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
+		D42751BB2287EE7F0096CDB5 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
+		D42751BC2287EE970096CDB5 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
+		D42751BD2287F74C0096CDB5 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
+		D42751BE2287F81A0096CDB5 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
+		D42751BF2288001A0096CDB5 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D46B1D7422813E12003D711C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D46B1D89228173BE003D711C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
@@ -60,6 +66,7 @@
 		D40985FA22650BEF009DD384 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
+		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
 		D46B1D7322813E12003D711C /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
 		D46B1D8622816F58003D711C /* NetGraphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetGraphics.swift; sourceTree = "<group>"; };
@@ -172,6 +179,7 @@
 				D4E8D26D227E1E7700DFCB40 /* DLayer.swift */,
 				D4E8D26E227E1E7700DFCB40 /* DNet.swift */,
 				D4E8D269227E072100DFCB40 /* DNeuron.swift */,
+				D42751B92287DBAA0096CDB5 /* NetDisplay.swift */,
 				D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */,
 				D46B1D8622816F58003D711C /* NetGraphics.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
@@ -410,10 +418,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D42751BD2287F74C0096CDB5 /* NetDisplayGrid.swift in Sources */,
 				D46B1DA022826994003D711C /* Overload2D.swift in Sources */,
 				D40985EA22650B0A009DD384 /* TheScene.swift in Sources */,
+				D42751BB2287EE7F0096CDB5 /* Protocols.swift in Sources */,
+				D42751BA2287DBAA0096CDB5 /* NetDisplay.swift in Sources */,
 				D40985FF22650CC9009DD384 /* SceneViewController.swift in Sources */,
+				D42751BC2287EE970096CDB5 /* SpriteFactory.swift in Sources */,
+				D42751BF2288001A0096CDB5 /* KIdentifier.swift in Sources */,
 				D40985FD22650C20009DD384 /* AppDelegate.swift in Sources */,
+				D42751BE2287F81A0096CDB5 /* NetGraphics.swift in Sources */,
 				D40985FB22650BEF009DD384 /* AppController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

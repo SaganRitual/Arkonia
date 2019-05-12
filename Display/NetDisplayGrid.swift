@@ -40,8 +40,8 @@ class NetDisplayGrid: NetDisplayGridProtocol {
     }
 
     func setHorizontalSpacing(cNeurons: Int, padRadius: CGFloat = 0) {
-        self.hSpacing = width / CGFloat(cNeurons)
-        self.hLeft = -(width + hSpacing) / 2.0
+        self.hSpacing = (width - padRadius * 2.0) / CGFloat(cNeurons)
+        self.hLeft = padRadius - (width + hSpacing) / 2.0
     }
 
     func setPosition(id: KIdentifier, gridX: Int, gridY: Int) {
