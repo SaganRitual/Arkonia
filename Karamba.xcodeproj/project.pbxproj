@@ -20,6 +20,7 @@
 		D42751BD2287F74C0096CDB5 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D42751BE2287F81A0096CDB5 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D42751BF2288001A0096CDB5 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
+		D461358B2288CEF800C9864E /* MainScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* MainScene.sks */; };
 		D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D46B1D7422813E12003D711C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D46B1D89228173BE003D711C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
@@ -67,6 +68,7 @@
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
+		D461358A2288CEF800C9864E /* MainScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MainScene.sks; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
 		D46B1D7322813E12003D711C /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
 		D46B1D8622816F58003D711C /* NetGraphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetGraphics.swift; sourceTree = "<group>"; };
@@ -78,9 +80,6 @@
 		D4E8D262227DA41800DFCB40 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
 		D4E8D264227DFD2500DFCB40 /* VDisplayTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDisplayTest.swift; sourceTree = "<group>"; };
 		D4E8D265227DFD2500DFCB40 /* VDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDisplay.swift; sourceTree = "<group>"; };
-		D4E8D269227E072100DFCB40 /* DNeuron.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNeuron.swift; sourceTree = "<group>"; };
-		D4E8D26D227E1E7700DFCB40 /* DLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLayer.swift; sourceTree = "<group>"; };
-		D4E8D26E227E1E7700DFCB40 /* DNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DNet.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -147,6 +146,7 @@
 				D40985F322650B0B009DD384 /* Components.entitlements */,
 				D40985F222650B0B009DD384 /* Info.plist */,
 				D40985EF22650B0B009DD384 /* Main.storyboard */,
+				D461358A2288CEF800C9864E /* MainScene.sks */,
 				D40985FE22650CC9009DD384 /* SceneViewController.swift */,
 				D40985E522650B0A009DD384 /* TheScene.sks */,
 				D40985E922650B0A009DD384 /* TheScene.swift */,
@@ -176,9 +176,6 @@
 		D4E8D268227E06F400DFCB40 /* Display */ = {
 			isa = PBXGroup;
 			children = (
-				D4E8D26D227E1E7700DFCB40 /* DLayer.swift */,
-				D4E8D26E227E1E7700DFCB40 /* DNet.swift */,
-				D4E8D269227E072100DFCB40 /* DNeuron.swift */,
 				D42751B92287DBAA0096CDB5 /* NetDisplay.swift */,
 				D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */,
 				D46B1D8622816F58003D711C /* NetGraphics.swift */,
@@ -307,6 +304,7 @@
 				D40985E622650B0A009DD384 /* TheScene.sks in Resources */,
 				D40985EE22650B0B009DD384 /* Assets.xcassets in Resources */,
 				D40985F122650B0B009DD384 /* Main.storyboard in Resources */,
+				D461358B2288CEF800C9864E /* MainScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

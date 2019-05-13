@@ -28,16 +28,13 @@ class SceneViewController: NSViewController {
         //        view.isAsynchronous = false
         //        view.showsPhysics = true
 
-        let scene = SKScene(fileNamed: "TheScene")!
+        let scene = SKScene(fileNamed: "MainScene")!
 
         self.scene = scene
 
         // Set the scale mode to scale to fit the window
         scene.scaleMode = .fill
         scene.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-//        scene.size = view.frame.size
-        scene.size.width = view.frame.size.width * 2
-        scene.size.height = view.frame.size.height * 2
 
         view.presentScene(scene)
     }
