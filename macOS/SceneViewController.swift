@@ -28,7 +28,7 @@ class SceneViewController: NSViewController {
         //        view.isAsynchronous = false
         //        view.showsPhysics = true
 
-        let scene = SKScene(fileNamed: "MainScene")!
+        let scene = SKScene(fileNamed: "TheScene")!
 
         self.scene = scene
 

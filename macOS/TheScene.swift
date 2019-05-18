@@ -11,8 +11,7 @@ class TheScene: SKScene {
     override func didMove(to view: SKView) {
         self.lastUpdateTime = 0
 
-        let background = SKSpriteNode(color: .black, size: CGSize(width: 800, height: 600))
-        addChild(background)
+        let background = (childNode(withName: "net_portal") as? SKSpriteNode)!
 
 //        NetDisplayGrid.selfTest(background: background)
 //        NetGraphics.selfTest(background: background, scene: self)
