@@ -1,5 +1,9 @@
 import SpriteKit
 
+protocol GeneProtocol {
+
+}
+
 struct GridPoint {
     let x: Int
     let y: Int

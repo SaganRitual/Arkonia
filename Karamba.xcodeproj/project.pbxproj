@@ -35,6 +35,24 @@
 		D43EA817228FC866006C619D /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
 		D43EA818228FC875006C619D /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D43EA819228FC898006C619D /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
+		D43EA81D228FDCDC006C619D /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
+		D43EA82022917CEA006C619D /* ReaderMonad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81F22917CEA006C619D /* ReaderMonad.swift */; };
+		D43EA82122917D20006C619D /* ReaderMonad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81F22917CEA006C619D /* ReaderMonad.swift */; };
+		D43EA8242291B84F006C619D /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
+		D43EA8252291B84F006C619D /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
+		D43EA8262291B84F006C619D /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
+		D43EA8272291B84F006C619D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
+		D43EA8282291B84F006C619D /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
+		D43EA8292291B84F006C619D /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
+		D43EA82A2291B84F006C619D /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
+		D43EA82B2291B84F006C619D /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
+		D43EA82C2291B84F006C619D /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
+		D43EA82D2291B84F006C619D /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
+		D43EA82E2291B84F006C619D /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
+		D43EA8312291B84F006C619D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
+		D43EA8322291B84F006C619D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
+		D43EA8332291B84F006C619D /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
+		D43EA83A2291B88D006C619D /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
 		D461358B2288CEF800C9864E /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D46B1D7422813E12003D711C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
@@ -84,6 +102,10 @@
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
 		D43EA813228FC77D006C619D /* NetDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43EA814228FC77D006C619D /* NetDisplayGrid copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "NetDisplayGrid copy-Info.plist"; path = "/Users/rob/Projects/Karamba/NetDisplayGrid copy-Info.plist"; sourceTree = "<absolute>"; };
+		D43EA81C228FDCDC006C619D /* Arkon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkon.swift; sourceTree = "<group>"; };
+		D43EA81F22917CEA006C619D /* ReaderMonad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderMonad.swift; sourceTree = "<group>"; };
+		D43EA8382291B84F006C619D /* Arkon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arkon.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D43EA8392291B84F006C619D /* NetDisplay copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "NetDisplay copy-Info.plist"; path = "/Users/rob/Projects/Karamba/NetDisplay copy-Info.plist"; sourceTree = "<absolute>"; };
 		D461358A2288CEF800C9864E /* TheScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TheScene.sks; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
 		D46B1D7322813E12003D711C /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
@@ -108,6 +130,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D43EA80A228FC77D006C619D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D43EA82F2291B84F006C619D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -141,12 +170,15 @@
 		D40985D722650B0A009DD384 = {
 			isa = PBXGroup;
 			children = (
-				D4E8D268227E06F400DFCB40 /* Display */,
+				D43EA81B228FDCC3006C619D /* Arkon */,
+				D43EA81A228FDBA4006C619D /* ArkoniaCentral */,
 				D4E8D261227DA3D500DFCB40 /* HUD */,
 				D40985F922650BD8009DD384 /* macOS */,
 				D46B1D7222813DF7003D711C /* Miscellany */,
+				D4E8D268227E06F400DFCB40 /* NetDisplay */,
 				D40985E122650B0A009DD384 /* Products */,
 				D43EA814228FC77D006C619D /* NetDisplayGrid copy-Info.plist */,
+				D43EA8392291B84F006C619D /* NetDisplay copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -158,6 +190,7 @@
 				D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */,
 				D46B1D9D22825D43003D711C /* NetGraphics.app */,
 				D43EA813228FC77D006C619D /* NetDisplay.app */,
+				D43EA8382291B84F006C619D /* Arkon.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -176,6 +209,24 @@
 				D40985E922650B0A009DD384 /* TheScene.swift */,
 			);
 			path = macOS;
+			sourceTree = "<group>";
+		};
+		D43EA81A228FDBA4006C619D /* ArkoniaCentral */ = {
+			isa = PBXGroup;
+			children = (
+				D46B1D88228173BE003D711C /* Protocols.swift */,
+				D43EA81F22917CEA006C619D /* ReaderMonad.swift */,
+				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
+			);
+			path = ArkoniaCentral;
+			sourceTree = "<group>";
+		};
+		D43EA81B228FDCC3006C619D /* Arkon */ = {
+			isa = PBXGroup;
+			children = (
+				D43EA81C228FDCDC006C619D /* Arkon.swift */,
+			);
+			path = Arkon;
 			sourceTree = "<group>";
 		};
 		D46B1D7222813DF7003D711C /* Miscellany */ = {
@@ -197,16 +248,14 @@
 			path = HUD;
 			sourceTree = "<group>";
 		};
-		D4E8D268227E06F400DFCB40 /* Display */ = {
+		D4E8D268227E06F400DFCB40 /* NetDisplay */ = {
 			isa = PBXGroup;
 			children = (
 				D42751B92287DBAA0096CDB5 /* NetDisplay.swift */,
 				D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */,
 				D46B1D8622816F58003D711C /* NetGraphics.swift */,
-				D46B1D88228173BE003D711C /* Protocols.swift */,
-				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
 			);
-			path = Display;
+			path = NetDisplay;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,6 +295,24 @@
 			name = NetDisplay;
 			productName = Components;
 			productReference = D43EA813228FC77D006C619D /* NetDisplay.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D43EA8222291B84F006C619D /* Arkon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D43EA8352291B84F006C619D /* Build configuration list for PBXNativeTarget "Arkon" */;
+			buildPhases = (
+				D43EA8232291B84F006C619D /* Sources */,
+				D43EA82F2291B84F006C619D /* Frameworks */,
+				D43EA8302291B84F006C619D /* Resources */,
+				D43EA8342291B84F006C619D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Arkon;
+			productName = Components;
+			productReference = D43EA8382291B84F006C619D /* Arkon.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D46B1D8A22825D43003D711C /* NetGraphics */ = {
@@ -330,6 +397,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				D43EA8222291B84F006C619D /* Arkon */,
 				D40985DF22650B0A009DD384 /* Karamba */,
 				D43EA800228FC77D006C619D /* NetDisplay */,
 				D4CBA30022805DD60023FAB9 /* NetDisplayGrid */,
@@ -357,6 +425,16 @@
 				D43EA80C228FC77D006C619D /* Assets.xcassets in Resources */,
 				D43EA80D228FC77D006C619D /* Main.storyboard in Resources */,
 				D43EA80E228FC77D006C619D /* TheScene.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D43EA8302291B84F006C619D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D43EA8312291B84F006C619D /* Assets.xcassets in Resources */,
+				D43EA8322291B84F006C619D /* Main.storyboard in Resources */,
+				D43EA8332291B84F006C619D /* TheScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +489,23 @@
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		D43EA80F228FC77D006C619D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		D43EA8342291B84F006C619D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -493,7 +588,9 @@
 				D40985FF22650CC9009DD384 /* SceneViewController.swift in Sources */,
 				D42751BC2287EE970096CDB5 /* SpriteFactory.swift in Sources */,
 				D42751BF2288001A0096CDB5 /* KIdentifier.swift in Sources */,
+				D43EA82022917CEA006C619D /* ReaderMonad.swift in Sources */,
 				D40985FD22650C20009DD384 /* AppDelegate.swift in Sources */,
+				D43EA81D228FDCDC006C619D /* Arkon.swift in Sources */,
 				D42751BE2287F81A0096CDB5 /* NetGraphics.swift in Sources */,
 				D40985FB22650BEF009DD384 /* AppController.swift in Sources */,
 			);
@@ -514,6 +611,25 @@
 				D43EA808228FC77D006C619D /* AppController.swift in Sources */,
 				D43EA818228FC875006C619D /* NetGraphics.swift in Sources */,
 				D43EA809228FC77D006C619D /* Protocols.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D43EA8232291B84F006C619D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D43EA8242291B84F006C619D /* KIdentifier.swift in Sources */,
+				D43EA8252291B84F006C619D /* TheScene.swift in Sources */,
+				D43EA8262291B84F006C619D /* SceneViewController.swift in Sources */,
+				D43EA8272291B84F006C619D /* AppDelegate.swift in Sources */,
+				D43EA8282291B84F006C619D /* SpriteFactory.swift in Sources */,
+				D43EA8292291B84F006C619D /* NetDisplayGrid.swift in Sources */,
+				D43EA82A2291B84F006C619D /* NetDisplay.swift in Sources */,
+				D43EA82B2291B84F006C619D /* Overload2D.swift in Sources */,
+				D43EA82C2291B84F006C619D /* AppController.swift in Sources */,
+				D43EA83A2291B88D006C619D /* Arkon.swift in Sources */,
+				D43EA82D2291B84F006C619D /* NetGraphics.swift in Sources */,
+				D43EA82E2291B84F006C619D /* Protocols.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,6 +659,7 @@
 				D4CBA2F1228059CA0023FAB9 /* TheScene.swift in Sources */,
 				D4CBA2F2228059CA0023FAB9 /* SceneViewController.swift in Sources */,
 				D4CBA2F3228059CA0023FAB9 /* AppDelegate.swift in Sources */,
+				D43EA82122917D20006C619D /* ReaderMonad.swift in Sources */,
 				D4CBA2F4228059CA0023FAB9 /* AppController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -774,6 +891,44 @@
 			};
 			name = Release;
 		};
+		D43EA8362291B84F006C619D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = "NetDisplay copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D43EA8372291B84F006C619D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				INFOPLIST_FILE = "NetDisplay copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		D46B1D9B22825D43003D711C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -908,6 +1063,15 @@
 			buildConfigurations = (
 				D43EA811228FC77D006C619D /* Debug */,
 				D43EA812228FC77D006C619D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D43EA8352291B84F006C619D /* Build configuration list for PBXNativeTarget "Arkon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D43EA8362291B84F006C619D /* Debug */,
+				D43EA8372291B84F006C619D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

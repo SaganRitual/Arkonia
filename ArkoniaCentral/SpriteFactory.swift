@@ -35,7 +35,7 @@ class SpriteFactory {
     init(scene: SKScene) {
         self.scene = scene
 
-        arkonsHangar = SpriteHangar("Arkons", "spark-aluminum-large")
+        arkonsHangar = SpriteHangar("Arkons", "spark-outline-large")
         fullNeuronsHangar = SpriteHangar("Neurons", "neuron-plain")
         halfNeuronsHangar = SpriteHangar("Neurons", "neuron-plain-half")
         linesHangar = SpriteHangar("Line", "line")

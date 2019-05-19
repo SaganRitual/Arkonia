@@ -11,13 +11,18 @@ class TheScene: SKScene {
     override func didMove(to view: SKView) {
         self.lastUpdateTime = 0
 
-        let background = (childNode(withName: "net_portal") as? SKSpriteNode)!
+//        let background = (childNode(withName: "net_portal") as? SKSpriteNode)!
+        let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+        let spriteFactory = SpriteFactory(scene: self)
+
+        Arkon.inject(spriteFactory, background)
+        _ = Arkon()
 
 //        NetDisplayGrid.selfTest(background: background)
 //        NetGraphics.selfTest(background: background, scene: self)
 //        SpriteFactory.selfTest(scene: self)
 
-        NetDisplay(scene: self, background: background).display(net: [12, 9, 9, 5])
+//        NetDisplay(scene: self, background: background).display(net: [12, 9, 9, 5])
     }
 
     func touchDown(atPoint pos: CGPoint) {
