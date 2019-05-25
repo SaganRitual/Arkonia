@@ -7,16 +7,19 @@ class TheScene: SKScene {
     var graphs = [String: GKGraph]()
 
     private var lastUpdateTime: TimeInterval = 0
+    private var tickCount = 0
 
     override func didMove(to view: SKView) {
         self.lastUpdateTime = 0
 
-//        let background = (childNode(withName: "net_portal") as? SKSpriteNode)!
-        let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
-        let spriteFactory = SpriteFactory(scene: self)
+        physicsWorld.gravity = CGVector.zero
 
-        Arkon.inject(spriteFactory, background)
-        _ = Arkon()
+//        let background = (childNode(withName: "net_portal") as? SKSpriteNode)!
+//        let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+//        let spriteFactory = SpriteFactory(scene: self)
+
+//        Arkon.inject(spriteFactory, background)
+//        _ = Arkon()
 
 //        NetDisplayGrid.selfTest(background: background)
 //        NetGraphics.selfTest(background: background, scene: self)
@@ -47,11 +50,18 @@ class TheScene: SKScene {
     }
 
     override func update(_ currentTime: TimeInterval) {
+        defer { tickCount += 1 }
+        if tickCount < 10 { return }
+
         // Called before each frame is rendered
 
         // Initialize _lastUpdateTime if it has not already been
         if self.lastUpdateTime == 0 {
             self.lastUpdateTime = currentTime
+
+            let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+            Maneuvers.selfTest(background: background, scene: self)
+
             return
         }
 
