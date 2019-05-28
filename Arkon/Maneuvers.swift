@@ -66,15 +66,15 @@ struct Maneuvers {
             }
 
         case let .goRotate(torqueIndex):    // -1.0..<1.0 == -(pi rev/s)..<(pi rev/s)
-            let targetAVelocity = torqueIndex * CGFloat.pi * 1.1
+            let fudgeFactor: CGFloat = 1.1
+            let targetAVelocity = torqueIndex * CGFloat.pi * fudgeFactor
             let impulse = targetAVelocity / (3 * CGFloat.tau)
 
             return SKAction.run { arkon.physicsBody!.applyAngularImpulse(impulse) }
 
         case let .goThrust(thrustIndex_):
             let thrustIndex = capCheck(thrustIndex_)
-            let targetSpeed: CGFloat = thrustIndex * 500    // pixels/sec (ish)
-            let impulse = targetSpeed
+            let impulse: CGFloat = thrustIndex * 500    // pixels/sec (ish)
 
             let vector = CGVector(radius: impulse, theta: arkon.zRotation)
 
