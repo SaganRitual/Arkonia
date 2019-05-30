@@ -26,6 +26,8 @@ class TheScene: SKScene {
 //        SpriteFactory.selfTest(scene: self)
 
 //        NetDisplay(scene: self, background: background).display(net: [12, 9, 9, 5])
+
+        Metabolism.selfTest()
     }
 
     func touchDown(atPoint pos: CGPoint) {
@@ -59,8 +61,8 @@ class TheScene: SKScene {
         if self.lastUpdateTime == 0 {
             self.lastUpdateTime = currentTime
 
-            let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
-            Maneuvers.selfTest(background: background, scene: self)
+//            let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+//            Maneuvers.selfTest(background: background, scene: self)
 
             return
         }

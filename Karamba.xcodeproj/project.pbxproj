@@ -53,6 +53,24 @@
 		D43EA8332291B84F006C619D /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D43EA83C229232C6006C619D /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D43EA83E229233F7006C619D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
+		D441B99B229CFFA800FB7057 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
+		D441B99E22A0653F00FB7057 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
+		D441B99F22A0653F00FB7057 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
+		D441B9A022A0653F00FB7057 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
+		D441B9A122A0653F00FB7057 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
+		D441B9A222A0653F00FB7057 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
+		D441B9A322A0653F00FB7057 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
+		D441B9A422A0653F00FB7057 /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
+		D441B9A522A0653F00FB7057 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
+		D441B9A622A0653F00FB7057 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
+		D441B9A722A0653F00FB7057 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
+		D441B9A822A0653F00FB7057 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
+		D441B9A922A0653F00FB7057 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
+		D441B9AA22A0653F00FB7057 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
+		D441B9AD22A0653F00FB7057 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
+		D441B9AE22A0653F00FB7057 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
+		D441B9AF22A0653F00FB7057 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
+		D441B9B622A065A500FB7057 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D461358B2288CEF800C9864E /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D46B1D7422813E12003D711C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
@@ -123,6 +141,8 @@
 		D43EA8382291B84F006C619D /* Arkon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arkon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43EA83B229232C6006C619D /* Maneuvers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maneuvers.swift; sourceTree = "<group>"; };
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		D441B99A229CFFA800FB7057 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
+		D441B9B422A0653F00FB7057 /* Metabolism.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metabolism.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D461358A2288CEF800C9864E /* TheScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TheScene.sks; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
 		D46B1D7322813E12003D711C /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
@@ -155,6 +175,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D43EA82F2291B84F006C619D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D441B9AB22A0653F00FB7057 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -215,6 +242,7 @@
 				D43EA813228FC77D006C619D /* NetDisplay.app */,
 				D43EA8382291B84F006C619D /* Arkon.app */,
 				D48286222298CC4800225057 /* Maneuvers.app */,
+				D441B9B422A0653F00FB7057 /* Metabolism.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -250,6 +278,7 @@
 			children = (
 				D43EA81C228FDCDC006C619D /* Arkon.swift */,
 				D43EA83B229232C6006C619D /* Maneuvers.swift */,
+				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 			);
 			path = Arkon;
 			sourceTree = "<group>";
@@ -339,6 +368,24 @@
 			name = Arkon;
 			productName = Components;
 			productReference = D43EA8382291B84F006C619D /* Arkon.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D441B99C22A0653F00FB7057 /* Metabolism */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D441B9B122A0653F00FB7057 /* Build configuration list for PBXNativeTarget "Metabolism" */;
+			buildPhases = (
+				D441B99D22A0653F00FB7057 /* Sources */,
+				D441B9AB22A0653F00FB7057 /* Frameworks */,
+				D441B9AC22A0653F00FB7057 /* Resources */,
+				D441B9B022A0653F00FB7057 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Metabolism;
+			productName = Components;
+			productReference = D441B9B422A0653F00FB7057 /* Metabolism.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D46B1D8A22825D43003D711C /* NetGraphics */ = {
@@ -444,6 +491,7 @@
 				D43EA8222291B84F006C619D /* Arkon */,
 				D40985DF22650B0A009DD384 /* Karamba */,
 				D482860A2298CC4800225057 /* Maneuvers */,
+				D441B99C22A0653F00FB7057 /* Metabolism */,
 				D43EA800228FC77D006C619D /* NetDisplay */,
 				D4CBA30022805DD60023FAB9 /* NetDisplayGrid */,
 				D46B1D8A22825D43003D711C /* NetGraphics */,
@@ -480,6 +528,16 @@
 				D43EA8312291B84F006C619D /* Assets.xcassets in Resources */,
 				D43EA8322291B84F006C619D /* Main.storyboard in Resources */,
 				D43EA8332291B84F006C619D /* TheScene.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D441B9AC22A0653F00FB7057 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D441B9AD22A0653F00FB7057 /* Assets.xcassets in Resources */,
+				D441B9AE22A0653F00FB7057 /* Main.storyboard in Resources */,
+				D441B9AF22A0653F00FB7057 /* TheScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +619,23 @@
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		D43EA8342291B84F006C619D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		D441B9B022A0653F00FB7057 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -696,6 +771,7 @@
 				D43EA8272291B84F006C619D /* AppDelegate.swift in Sources */,
 				D43EA8282291B84F006C619D /* SpriteFactory.swift in Sources */,
 				D43EA8292291B84F006C619D /* NetDisplayGrid.swift in Sources */,
+				D441B99B229CFFA800FB7057 /* Metabolism.swift in Sources */,
 				D43EA82A2291B84F006C619D /* NetDisplay.swift in Sources */,
 				D43EA82B2291B84F006C619D /* Overload2D.swift in Sources */,
 				D43EA82C2291B84F006C619D /* AppController.swift in Sources */,
@@ -703,6 +779,27 @@
 				D43EA82E2291B84F006C619D /* Protocols.swift in Sources */,
 				D43EA83C229232C6006C619D /* Maneuvers.swift in Sources */,
 				D43EA83E229233F7006C619D /* Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D441B99D22A0653F00FB7057 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D441B99E22A0653F00FB7057 /* KIdentifier.swift in Sources */,
+				D441B99F22A0653F00FB7057 /* TheScene.swift in Sources */,
+				D441B9A022A0653F00FB7057 /* SceneViewController.swift in Sources */,
+				D441B9A122A0653F00FB7057 /* AppDelegate.swift in Sources */,
+				D441B9A222A0653F00FB7057 /* SpriteFactory.swift in Sources */,
+				D441B9A322A0653F00FB7057 /* NetDisplayGrid.swift in Sources */,
+				D441B9B622A065A500FB7057 /* Metabolism.swift in Sources */,
+				D441B9A422A0653F00FB7057 /* NetDisplay.swift in Sources */,
+				D441B9A522A0653F00FB7057 /* Overload2D.swift in Sources */,
+				D441B9A622A0653F00FB7057 /* AppController.swift in Sources */,
+				D441B9A722A0653F00FB7057 /* NetGraphics.swift in Sources */,
+				D441B9A822A0653F00FB7057 /* Protocols.swift in Sources */,
+				D441B9A922A0653F00FB7057 /* Maneuvers.swift in Sources */,
+				D441B9AA22A0653F00FB7057 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1020,6 +1117,42 @@
 			};
 			name = Release;
 		};
+		D441B9B222A0653F00FB7057 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D441B9B322A0653F00FB7057 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		D46B1D9B22825D43003D711C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1199,6 +1332,15 @@
 			buildConfigurations = (
 				D43EA8362291B84F006C619D /* Debug */,
 				D43EA8372291B84F006C619D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D441B9B122A0653F00FB7057 /* Build configuration list for PBXNativeTarget "Metabolism" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D441B9B222A0653F00FB7057 /* Debug */,
+				D441B9B322A0653F00FB7057 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

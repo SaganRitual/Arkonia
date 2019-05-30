@@ -11,6 +11,10 @@ struct GridPoint {
 
 enum LayerRole { case senseLayer, hiddenLayer, motorLayer }
 
+protocol Massive: class {
+    var mass: CGFloat { get set }
+}
+
 protocol NetDisplayGridProtocol {
     var layerRole: LayerRole { get set }
 
