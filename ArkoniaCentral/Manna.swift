@@ -2,16 +2,28 @@ import SpriteKit
 
 class Manna {
 
-    static let morselCount = 100
+    static let cMorsels = 100
     static let colorBlendMinimum: CGFloat = 0.25
-    static let colorBlendRangeWidth: CGFloat = 0.75
+    static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
     static let fullGrowthDurationSeconds: TimeInterval = 2.0
     static let growthRateGranularitySeconds: TimeInterval = 0.1
     static let growthRateJoulesPerSecond: CGFloat = 1000.0
 
     let sprite: SKSpriteNode
 
+    var energyContentInJoules: CGFloat {
+        var f = sprite.colorBlendFactor - Manna.colorBlendMinimum
+        f /= Manna.colorBlendRangeWidth
+        f *= Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
+        return f
+    }
+
     init(_ sprite: SKSpriteNode) { self.sprite = sprite }
+
+    func harvest() -> CGFloat {
+        defer { sprite.colorBlendFactor = Manna.colorBlendMinimum }
+        return energyContentInJoules
+    }
 }
 
 extension Manna {
@@ -48,15 +60,19 @@ extension Manna {
     }
 
     static func selfTest(background: SKSpriteNode, scene: SKScene) {
-        let sprite = SpriteFactory(scene: scene).mannaHangar.makeSprite()
-        background.addChild(sprite)
+        let spriteFactory = SpriteFactory(scene: scene)
 
-        sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
-        sprite.physicsBody!.mass = 1
-        sprite.setScale(0.1)
-        sprite.color = .orange
-        sprite.colorBlendFactor = Manna.colorBlendMinimum
+        for _ in 0..<Manna.cMorsels {
+            let sprite = spriteFactory.mannaHangar.makeSprite()
+            background.addChild(sprite)
 
-        runLifeCycle(sprite: sprite, background: background)
+            sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
+            sprite.physicsBody!.mass = 1
+            sprite.setScale(0.1)
+            sprite.color = .orange
+            sprite.colorBlendFactor = Manna.colorBlendMinimum
+
+            runLifeCycle(sprite: sprite, background: background)
+        }
     }
 }
