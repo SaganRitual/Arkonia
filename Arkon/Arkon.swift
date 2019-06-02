@@ -17,7 +17,10 @@ struct Selectoid {
     }
 }
 
+extension SKPhysicsBody: Massive {}
+
 class Arkon {
+    let metabolism: Metabolism
     var selectoid = Selectoid()
     var scene: SKSpriteNode { return Arkon.portal! }
     let sprite: SKSpriteNode
@@ -31,6 +34,8 @@ class Arkon {
         sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
         sprite.physicsBody!.mass = 1
         sprite.setScale(0.5)
+
+        metabolism = Metabolism(sprite.physicsBody!)
 
         let w = Arkon.portal!.size.width / 2
         let h = Arkon.portal!.size.height / 2
@@ -48,8 +53,7 @@ extension Arkon {
     static var portal: SKSpriteNode?
     static var spriteFactory: SpriteFactory?
 
-    static func getActions(sprite: SKSpriteNode) -> SKAction {
-        let maneuvers = Maneuvers()
+    static func getActions(sprite: SKSpriteNode, maneuvers: Maneuvers) -> SKAction {
         let actions = SKAction.sequence([
             maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [1, 0, 1, 0, 0]),  // thrust
             maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [0.5, 0, 0, 0, 1]),  // wait
@@ -67,9 +71,9 @@ extension Arkon {
     static func grazeTest() {
         for a in 0..<10 {
             let newArkon = Arkon()
-
-            onePass(sprite: newArkon.sprite)
             arkonHangar[a] = newArkon
+
+            onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
         }
     }
 
@@ -78,8 +82,12 @@ extension Arkon {
         Arkon.portal = portal
     }
 
-    static func onePass(sprite: SKSpriteNode) {
-        let actions = getActions(sprite: sprite)
-        sprite.run(actions) { onePass(sprite: sprite) }
+    static func onePass(sprite: SKSpriteNode, metabolism: Metabolism) {
+        sprite.color = ColorGradient.makeColor(Int(metabolism.energyFullness * 100), 100)
+
+        let maneuvers = Maneuvers(energySource: metabolism)
+        let actions = getActions(sprite: sprite, maneuvers: maneuvers)
+
+        sprite.run(actions) { onePass(sprite: sprite, metabolism: metabolism) }
     }
 }

@@ -1,5 +1,9 @@
 import SpriteKit
 
+protocol EnergySourceProtocol {
+    func retrieveEnergy(_ cJoules: CGFloat) -> CGFloat
+}
+
 protocol GeneProtocol {
 
 }

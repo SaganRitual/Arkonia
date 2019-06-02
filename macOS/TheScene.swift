@@ -18,6 +18,7 @@ class TheScene: SKScene {
         let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
         let spriteFactory = SpriteFactory(scene: self)
 
+        Manna.grazeTest(background: background, scene: self)
         Arkon.inject(spriteFactory, background)
         Arkon.grazeTest()
 

@@ -69,8 +69,10 @@ class EnergyReserve {
     }
 }
 
-class Metabolism {
+class Metabolism: EnergySourceProtocol {
     var physicsBody: Massive
+
+    let allReserves: [EnergyReserve]
 
     var bone = EnergyReserve(.bone)
     var fatReserves = EnergyReserve(.fatReserves)
@@ -80,8 +82,27 @@ class Metabolism {
 
     let reUnderflowThreshold: CGFloat
 
+    var energyCapacity: CGFloat {
+        return allReserves.reduce(0) { subtotal, reserves in
+            subtotal + reserves.capacity
+        }
+    }
+
+    var energyFullness: CGFloat {
+        return allReserves.reduce(0) { subtotal, reserves in
+            subtotal + reserves.level
+        } / energyCapacity
+    }
+
+    var massCapacity: CGFloat {
+        return allReserves.reduce(0) { subtotal, reserves in
+            subtotal + (reserves.capacity / reserves.energyDensity)
+        }
+    }
+
     init(_ physicsBody: Massive) {
         self.physicsBody = physicsBody
+        self.allReserves = [bone, stomach, readyEnergyReserves, fatReserves, spawnReserves]
 
         // Overflow is 5/6, make underflow 1/4, see how it goes
         self.reUnderflowThreshold = 1.0 / 4.0 * readyEnergyReserves.capacity
@@ -132,9 +153,7 @@ class Metabolism {
     }
 
     func updatePhysicsBodyMass() {
-        physicsBody.mass = [
-            bone, stomach, readyEnergyReserves, fatReserves, spawnReserves
-        ].reduce(0) {
+        physicsBody.mass = allReserves.reduce(0) {
             subtotal, reserves in subtotal + (reserves.level / reserves.energyDensity)
         }
     }
@@ -191,7 +210,7 @@ extension Metabolism {
         [
             metabolism.bone, metabolism.stomach, metabolism.readyEnergyReserves,
             metabolism.fatReserves, metabolism.spawnReserves
-            ].forEach {
+        ].forEach {
                 print("\($0.level), ", terminator: "")
         }
         print(" mass = \(massiveObject.mass)")

@@ -136,6 +136,7 @@
 		D4CBA30A22805DD60023FAB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D4CBA30B22805DD60023FAB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D4F6460522A3876500FD8C56 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
+		D4F6460822A4253F00FD8C56 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D4F8ACA3228F99C70023C6DB /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D4F8ACA4228F9A960023C6DB /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D4F8ACA5228F9B020023C6DB /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
@@ -176,6 +177,7 @@
 		D4E8D264227DFD2500DFCB40 /* VDisplayTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDisplayTest.swift; sourceTree = "<group>"; };
 		D4E8D265227DFD2500DFCB40 /* VDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDisplay.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
+		D4F6460722A4253F00FD8C56 /* ColorGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +316,7 @@
 		D46B1D7222813DF7003D711C /* Miscellany */ = {
 			isa = PBXGroup;
 			children = (
+				D4F6460722A4253F00FD8C56 /* ColorGradient.swift */,
 				D46B1D7322813E12003D711C /* KIdentifier.swift */,
 				D46B1D9F22826994003D711C /* Overload2D.swift */,
 				D43EA83D229233F7006C619D /* Extensions.swift */,
@@ -852,6 +855,7 @@
 				D43EA82C2291B84F006C619D /* AppController.swift in Sources */,
 				D43EA82D2291B84F006C619D /* NetGraphics.swift in Sources */,
 				D43EA82E2291B84F006C619D /* Protocols.swift in Sources */,
+				D4F6460822A4253F00FD8C56 /* ColorGradient.swift in Sources */,
 				D4603A6222A2720400885428 /* Manna.swift in Sources */,
 				D43EA83C229232C6006C619D /* Maneuvers.swift in Sources */,
 				D43EA83E229233F7006C619D /* Extensions.swift in Sources */,

@@ -27,6 +27,45 @@ class Manna {
 }
 
 extension Manna {
+
+    static func grazeTest(background: SKSpriteNode, scene: SKScene) {
+        let spriteFactory = SpriteFactory(scene: scene)
+
+        for _ in 0..<Manna.cMorsels {
+            let sprite = spriteFactory.mannaHangar.makeSprite()
+            let w = background.size.width / 2
+            let h = background.size.height / 2
+
+            let xRange = -w..<w
+            let yRange = -h..<h
+
+            sprite.position = CGPoint.random(xRange: xRange, yRange: yRange)
+            background.addChild(sprite)
+
+            sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
+            sprite.physicsBody!.mass = 1
+            sprite.setScale(0.1)
+            sprite.color = .orange
+            sprite.colorBlendFactor = Manna.colorBlendMinimum
+
+            runGrazeCycle(sprite: sprite, background: background)
+        }
+    }
+
+    static func runGrazeCycle(sprite: SKSpriteNode, background: SKSpriteNode) {
+        let colorAction = SKAction.colorize(
+            withColorBlendFactor: 1.0, duration: Manna.fullGrowthDurationSeconds
+        )
+
+        let waitAction = SKAction.wait(forDuration: 1.0)
+
+        sprite.run(colorAction) {
+            background.run(waitAction) {
+//                runGrazeCycle(sprite: sprite, background: background)
+            }
+        }
+    }
+
     static func runLifeCycle(sprite: SKSpriteNode, background: SKSpriteNode) {
         let colorAction = SKAction.colorize(
             withColorBlendFactor: 1.0, duration: Manna.fullGrowthDurationSeconds

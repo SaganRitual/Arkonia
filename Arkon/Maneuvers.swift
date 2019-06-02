@@ -25,6 +25,9 @@ enum ActionPrimitive: Comparable, Hashable {
 }
 
 struct Maneuvers {
+    let energySource: EnergySourceProtocol
+
+    init(energySource: EnergySourceProtocol) { self.energySource = energySource }
 
     func execute(arkon: SKSpriteNode, motorOutputs: [Double]) {
         goSprite(arkon: arkon, motorOutputs: motorOutputs)
@@ -67,14 +70,17 @@ struct Maneuvers {
 
         case let .goRotate(torqueIndex):    // -1.0..<1.0 == -(pi rev/s)..<(pi rev/s)
             let fudgeFactor: CGFloat = 1.1
-            let targetAVelocity = torqueIndex * CGFloat.pi * fudgeFactor
-            let impulse = targetAVelocity / (3 * CGFloat.tau)
+            let targetAVelocity = (torqueIndex * CGFloat.pi * fudgeFactor) / (3 * CGFloat.tau)
+            let joulesNeeded = targetAVelocity     // By fiat, energy needed is a function of the speed
+            let impulse = energySource.retrieveEnergy(joulesNeeded)
 
             return SKAction.run { arkon.physicsBody!.applyAngularImpulse(impulse) }
 
         case let .goThrust(thrustIndex_):
             let thrustIndex = capCheck(thrustIndex_)
-            let impulse: CGFloat = thrustIndex * 500    // pixels/sec (ish)
+            let targetSpeed: CGFloat = thrustIndex * 500    // pixels/sec (ish)
+            let joulesNeeded = targetSpeed     // By fiat, energy needed is a function of the speed
+            let impulse = energySource.retrieveEnergy(joulesNeeded)
 
             let vector = CGVector(radius: impulse, theta: arkon.zRotation)
 
@@ -89,10 +95,14 @@ struct Maneuvers {
 }
 
 extension Maneuvers {
+    struct EnergySource: EnergySourceProtocol {
+        func retrieveEnergy(_ cJoules: CGFloat) -> CGFloat { return cJoules }
+    }
+
     static var tenPass = 0
 
     static func getActions(sprite: SKSpriteNode) -> SKAction {
-        let maneuvers = Maneuvers()
+        let maneuvers = Maneuvers(energySource: EnergySource())
         let actions = SKAction.sequence([
             maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [1, 0, 1, 0, 0]),  // thrust
             maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [1, 0, 0, 0, 1]),  // wait
