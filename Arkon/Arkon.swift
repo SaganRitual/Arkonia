@@ -28,6 +28,10 @@ class Arkon {
         sprite.color = .green
         sprite.colorBlendFactor = 1
 
+        sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
+        sprite.physicsBody!.mass = 1
+        sprite.setScale(0.5)
+
         let w = Arkon.portal!.size.width / 2
         let h = Arkon.portal!.size.height / 2
 
@@ -44,16 +48,38 @@ extension Arkon {
     static var portal: SKSpriteNode?
     static var spriteFactory: SpriteFactory?
 
+    static func getActions(sprite: SKSpriteNode) -> SKAction {
+        let maneuvers = Maneuvers()
+        let actions = SKAction.sequence([
+            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [1, 0, 1, 0, 0]),  // thrust
+            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [0.5, 0, 0, 0, 1]),  // wait
+            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [1, 1, 0, 0, 0]),  // stop
+            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [0.5, 0, 0, 0, 1]),  // wait
+            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [1, 0, 0, 1, 0]),  // rotate
+            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [0.5, 0, 0, 0, 1]),  // wait
+            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [1, 1, 0, 0, 0]),  // stop
+            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [0.5, 0, 0, 0, 1])  // wait
+        ])
+
+        return actions
+    }
+
+    static func grazeTest() {
+        for a in 0..<10 {
+            let newArkon = Arkon()
+
+            onePass(sprite: newArkon.sprite)
+            arkonHangar[a] = newArkon
+        }
+    }
+
     static func inject(_ spriteFactory: SpriteFactory, _ portal: SKSpriteNode) {
         Arkon.spriteFactory = spriteFactory
         Arkon.portal = portal
     }
 
-    // Construct and launch; I can't think of a better name
-    static func conLaunch(_ cArkons: Int) {
-        for a in 0..<cArkons {
-            let newArkon = Arkon()
-            arkonHangar[a] = newArkon
-        }
+    static func onePass(sprite: SKSpriteNode) {
+        let actions = getActions(sprite: sprite)
+        sprite.run(actions) { onePass(sprite: sprite) }
     }
 }

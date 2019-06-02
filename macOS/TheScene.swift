@@ -19,7 +19,7 @@ class TheScene: SKScene {
         let spriteFactory = SpriteFactory(scene: self)
 
         Arkon.inject(spriteFactory, background)
-        Arkon.conLaunch(100)
+        Arkon.grazeTest()
 
 //        NetDisplayGrid.selfTest(background: background)
 //        NetGraphics.selfTest(background: background, scene: self)
