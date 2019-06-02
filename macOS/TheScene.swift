@@ -15,11 +15,11 @@ class TheScene: SKScene {
         physicsWorld.gravity = CGVector.zero
 
 //        let background = (childNode(withName: "net_portal") as? SKSpriteNode)!
-//        let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
-//        let spriteFactory = SpriteFactory(scene: self)
+        let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+        let spriteFactory = SpriteFactory(scene: self)
 
-//        Arkon.inject(spriteFactory, background)
-//        _ = Arkon()
+        Arkon.inject(spriteFactory, background)
+        Arkon.conLaunch(100)
 
 //        NetDisplayGrid.selfTest(background: background)
 //        NetGraphics.selfTest(background: background, scene: self)
@@ -61,9 +61,9 @@ class TheScene: SKScene {
         if self.lastUpdateTime == 0 {
             self.lastUpdateTime = currentTime
 
-            let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+//            let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
 //            Maneuvers.selfTest(background: background, scene: self)
-            Manna.selfTest(background: background, scene: self)
+//            Manna.selfTest(background: background, scene: self)
 
             return
         }
