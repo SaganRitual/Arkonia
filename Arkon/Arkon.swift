@@ -48,16 +48,17 @@ class Arkon {
         nose.color = .magenta
         nose.colorBlendFactor = 1
 
-        nose.physicsBody = SKPhysicsBody(circleOfRadius: nose.size.width / 2)
-
-        nose.physicsBody!.categoryBitMask = ArkoniaCentral.PhysicsBitmask.arkonSenses.rawValue
-        nose.physicsBody!.collisionBitMask = 0
-
-        nose.physicsBody!.contactTestBitMask =
-            ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue |
-            ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
-
-        nose.physicsBody!.mass = 0.1
+//        nose.physicsBody = SKPhysicsBody(circleOfRadius: nose.size.width)
+//
+//        nose.physicsBody!.categoryBitMask = ArkoniaCentral.PhysicsBitmask.arkonSenses.rawValue
+//        nose.physicsBody!.collisionBitMask = 0
+//
+//        nose.physicsBody!.contactTestBitMask =
+//            ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue |
+//            ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
+//
+//        nose.physicsBody!.mass = 0.1
+//        nose.physicsBody!.pinned = true
 
         metabolism = Metabolism(sprite.physicsBody!)
 
@@ -68,7 +69,7 @@ class Arkon {
         let yRange = -h..<h
 
         sprite.position = CGPoint.random(xRange: xRange, yRange: yRange)
-        sprite.addChild(nose)
+//        sprite.addChild(nose)
         scene.addChild(sprite)
     }
 }
@@ -108,10 +109,13 @@ extension Arkon {
     }
 
     static func onePass(sprite: SKSpriteNode, metabolism: Metabolism) {
-        sprite.color = ColorGradient.makeColor(Int(metabolism.energyFullness * 100), 100)
+//        let nose = (sprite.children[0] as? SKSpriteNode)!
+//        nose.color = ColorGradient.makeColor(Int(metabolism.energyFullness * 100), 100)
 
         let maneuvers = Maneuvers(energySource: metabolism)
         let actions = getActions(sprite: sprite, maneuvers: maneuvers)
+
+        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nose.physicsBody!.mass)
 
         sprite.run(actions) { onePass(sprite: sprite, metabolism: metabolism) }
     }

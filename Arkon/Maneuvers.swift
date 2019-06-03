@@ -71,19 +71,21 @@ struct Maneuvers {
         case let .goRotate(torqueIndex):    // -1.0..<1.0 == -(pi rev/s)..<(pi rev/s)
             let fudgeFactor: CGFloat = 1.1
             let targetAVelocity = (torqueIndex * CGFloat.pi * fudgeFactor) / (3 * CGFloat.tau)
-            let joulesNeeded = targetAVelocity     // By fiat, energy needed is a function of the speed
+            let joulesNeeded = targetAVelocity * arkon.physicsBody!.mass     // By fiat, energy needed is a function of the speed
             let impulse = energySource.retrieveEnergy(joulesNeeded)
 
+            print("rotate", arkon.physicsBody!.mass, targetAVelocity, impulse)
             return SKAction.run { arkon.physicsBody!.applyAngularImpulse(impulse) }
 
         case let .goThrust(thrustIndex_):
             let thrustIndex = capCheck(thrustIndex_)
-            let targetSpeed: CGFloat = thrustIndex * 500    // pixels/sec (ish)
-            let joulesNeeded = targetSpeed     // By fiat, energy needed is a function of the speed
+            let targetSpeed: CGFloat = thrustIndex * 500  // 500 pixels/sec (ish)
+            let joulesNeeded = targetSpeed * arkon.physicsBody!.mass   // By fiat, energy needed is a function of the speed
             let impulse = energySource.retrieveEnergy(joulesNeeded)
 
             let vector = CGVector(radius: impulse, theta: arkon.zRotation)
 
+            print("thrust", arkon.physicsBody!.mass, targetSpeed, impulse)
             return SKAction.run { arkon.physicsBody!.applyImpulse(vector) }
 
         case let .goWait(duration):
@@ -133,5 +135,7 @@ extension Maneuvers {
         sprite.physicsBody!.mass = 1
         sprite.setScale(0.5)
         onePass(sprite: sprite)
+
+        print("oass", sprite.physicsBody!.mass)//, nose.physicsBody!.mass)
     }
 }

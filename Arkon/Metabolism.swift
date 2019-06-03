@@ -155,7 +155,9 @@ class Metabolism: EnergySourceProtocol {
     func updatePhysicsBodyMass() {
         physicsBody.mass = allReserves.reduce(0) {
             subtotal, reserves in subtotal + (reserves.level / reserves.energyDensity)
-        }
+        } / 1000
+
+        print("pass", physicsBody.mass)
     }
 }
 
