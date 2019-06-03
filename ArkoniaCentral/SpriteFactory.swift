@@ -29,6 +29,7 @@ class SpriteFactory {
     let halfNeuronsHangar: SpriteHangar
     let linesHangar: SpriteHangar
     let mannaHangar: SpriteHangar
+    let noseHangar: SpriteHangar
     let scene: SKScene
     var count = 0
 
@@ -40,6 +41,7 @@ class SpriteFactory {
         halfNeuronsHangar = SpriteHangar("Neurons", "neuron-plain-half")
         linesHangar = SpriteHangar("Line", "line")
         mannaHangar = SpriteHangar("Manna", "manna")
+        noseHangar = SpriteHangar("Arkons", "spark-nose-large")
     }
 }
 

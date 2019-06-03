@@ -135,6 +135,7 @@
 		D4CBA30622805DD60023FAB9 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
 		D4CBA30A22805DD60023FAB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D4CBA30B22805DD60023FAB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
+		D4CF20A722A4C296000FD2BA /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4F6460522A3876500FD8C56 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
 		D4F6460822A4253F00FD8C56 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D4F8ACA3228F99C70023C6DB /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
@@ -173,6 +174,7 @@
 		D48286222298CC4800225057 /* Maneuvers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maneuvers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CBA2FE228059CA0023FAB9 /* SpriteFactory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpriteFactory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetDisplayGrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaCentral.swift; sourceTree = "<group>"; };
 		D4E8D262227DA41800DFCB40 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
 		D4E8D264227DFD2500DFCB40 /* VDisplayTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDisplayTest.swift; sourceTree = "<group>"; };
 		D4E8D265227DFD2500DFCB40 /* VDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDisplay.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 		D43EA81A228FDBA4006C619D /* ArkoniaCentral */ = {
 			isa = PBXGroup;
 			children = (
+				D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 				D43EA81F22917CEA006C619D /* ReaderMonad.swift */,
@@ -843,6 +846,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D43EA8242291B84F006C619D /* KIdentifier.swift in Sources */,
+				D4CF20A722A4C296000FD2BA /* ArkoniaCentral.swift in Sources */,
 				D4F6460522A3876500FD8C56 /* Arkon.swift in Sources */,
 				D43EA8252291B84F006C619D /* TheScene.swift in Sources */,
 				D43EA8262291B84F006C619D /* SceneViewController.swift in Sources */,

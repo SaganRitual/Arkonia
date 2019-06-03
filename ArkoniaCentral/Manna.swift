@@ -48,6 +48,10 @@ extension Manna {
             sprite.color = .orange
             sprite.colorBlendFactor = Manna.colorBlendMinimum
 
+            sprite.physicsBody!.categoryBitMask = ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
+            sprite.physicsBody!.collisionBitMask = 0
+            sprite.physicsBody!.contactTestBitMask = 0
+
             runGrazeCycle(sprite: sprite, background: background)
         }
     }

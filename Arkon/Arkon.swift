@@ -21,6 +21,7 @@ extension SKPhysicsBody: Massive {}
 
 class Arkon {
     let metabolism: Metabolism
+    let nose: SKSpriteNode
     var selectoid = Selectoid()
     var scene: SKSpriteNode { return Arkon.portal! }
     let sprite: SKSpriteNode
@@ -32,8 +33,31 @@ class Arkon {
         sprite.colorBlendFactor = 1
 
         sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
+
+        sprite.physicsBody!.categoryBitMask = ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue
+        sprite.physicsBody!.collisionBitMask = ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue
+
+        sprite.physicsBody!.contactTestBitMask =
+            ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue |
+            ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
+
         sprite.physicsBody!.mass = 1
         sprite.setScale(0.5)
+
+        nose = Arkon.spriteFactory!.noseHangar.makeSprite()
+        nose.color = .magenta
+        nose.colorBlendFactor = 1
+
+        nose.physicsBody = SKPhysicsBody(circleOfRadius: nose.size.width / 2)
+
+        nose.physicsBody!.categoryBitMask = ArkoniaCentral.PhysicsBitmask.arkonSenses.rawValue
+        nose.physicsBody!.collisionBitMask = 0
+
+        nose.physicsBody!.contactTestBitMask =
+            ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue |
+            ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
+
+        nose.physicsBody!.mass = 0.1
 
         metabolism = Metabolism(sprite.physicsBody!)
 
@@ -44,6 +68,7 @@ class Arkon {
         let yRange = -h..<h
 
         sprite.position = CGPoint.random(xRange: xRange, yRange: yRange)
+        sprite.addChild(nose)
         scene.addChild(sprite)
     }
 }
