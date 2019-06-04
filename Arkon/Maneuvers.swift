@@ -69,10 +69,11 @@ struct Maneuvers {
             }
 
         case let .goRotate(torqueIndex):    // -1.0..<1.0 == -(pi rev/s)..<(pi rev/s)
-            let fudgeFactor: CGFloat = 1.1
-            let targetAVelocity = (torqueIndex * CGFloat.pi * fudgeFactor) / (3 * CGFloat.tau)
+            let fudgeFactor: CGFloat = 1.15
+            let targetAVelocity = torqueIndex / (fudgeFactor * 3 * CGFloat.tau)
             let joulesNeeded = targetAVelocity * arkon.physicsBody!.mass     // By fiat, energy needed is a function of the speed
-            let impulse = energySource.retrieveEnergy(joulesNeeded)
+            let energyPacket = energySource.retrieveEnergy(joulesNeeded)
+            let impulse = energySource.expendEnergy(energyPacket)
 
             print("rotate", arkon.physicsBody!.mass, targetAVelocity, impulse)
             return SKAction.run { arkon.physicsBody!.applyAngularImpulse(impulse) }
@@ -81,7 +82,9 @@ struct Maneuvers {
             let thrustIndex = capCheck(thrustIndex_)
             let targetSpeed: CGFloat = thrustIndex * 500  // 500 pixels/sec (ish)
             let joulesNeeded = targetSpeed * arkon.physicsBody!.mass   // By fiat, energy needed is a function of the speed
-            let impulse = energySource.retrieveEnergy(joulesNeeded)
+
+            let energyPacket = energySource.retrieveEnergy(joulesNeeded)
+            let impulse = energySource.expendEnergy(energyPacket)
 
             let vector = CGVector(radius: impulse, theta: arkon.zRotation)
 
@@ -97,8 +100,15 @@ struct Maneuvers {
 }
 
 extension Maneuvers {
+    struct DummyEnergyPacket: EnergyPacketProtocol {
+        let energyContent: CGFloat
+    }
+
     struct EnergySource: EnergySourceProtocol {
-        func retrieveEnergy(_ cJoules: CGFloat) -> CGFloat { return cJoules }
+        func expendEnergy(_ packet: EnergyPacketProtocol) -> CGFloat { return packet.energyContent }
+        func retrieveEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol {
+            return DummyEnergyPacket(energyContent: cJoules)
+        }
     }
 
     static var tenPass = 0
@@ -129,11 +139,12 @@ extension Maneuvers {
 
     static func selfTest(background: SKSpriteNode, scene: SKScene) {
         let sprite = SpriteFactory(scene: scene).arkonsHangar.makeSprite()
+        sprite.setScale(0.5)
+
         background.addChild(sprite)
 
         sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
         sprite.physicsBody!.mass = 1
-        sprite.setScale(0.5)
         onePass(sprite: sprite)
 
         print("oass", sprite.physicsBody!.mass)//, nose.physicsBody!.mass)

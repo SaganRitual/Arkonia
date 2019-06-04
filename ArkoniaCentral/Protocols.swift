@@ -1,7 +1,18 @@
 import SpriteKit
 
+protocol EnergyPacketProtocol {
+    var energyContent: CGFloat { get }
+    var mass: CGFloat { get }
+}
+
+extension EnergyPacketProtocol {
+    var energyContent: CGFloat { return 0 }
+    var mass: CGFloat { return 0 }
+}
+
 protocol EnergySourceProtocol {
-    func retrieveEnergy(_ cJoules: CGFloat) -> CGFloat
+    func expendEnergy(_ packet: EnergyPacketProtocol) -> CGFloat
+    func retrieveEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol
 }
 
 protocol GeneProtocol {
