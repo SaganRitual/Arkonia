@@ -29,6 +29,7 @@ class Arkon {
 
     init() {
         sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
+        sprite.setScale(0.5)
         sprite.color = .green
         sprite.colorBlendFactor = 1
 
@@ -42,7 +43,6 @@ class Arkon {
             ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
 
         sprite.physicsBody!.mass = 1
-        sprite.setScale(0.5)
 
         nose = Arkon.spriteFactory!.noseHangar.makeSprite()
         nose.color = .magenta

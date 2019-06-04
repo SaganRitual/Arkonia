@@ -72,24 +72,33 @@ struct Maneuvers {
             let fudgeFactor: CGFloat = 1.15
             let targetAVelocity = torqueIndex / (fudgeFactor * 3 * CGFloat.tau)
             let joulesNeeded = targetAVelocity * arkon.physicsBody!.mass     // By fiat, energy needed is a function of the speed
-            let energyPacket = energySource.retrieveEnergy(joulesNeeded)
-            let impulse = energySource.expendEnergy(energyPacket)
 
-            print("rotate", arkon.physicsBody!.mass, targetAVelocity, impulse)
-            return SKAction.run { arkon.physicsBody!.applyAngularImpulse(impulse) }
+            return SKAction.run {
+                let energyPacket = self.energySource.retrieveEnergy(joulesNeeded)
+                let impulse = energyPacket.energyContent
+
+                print("rotate", arkon.physicsBody!.mass, targetAVelocity, impulse)
+
+                arkon.physicsBody!.applyAngularImpulse(impulse)
+                _ = self.energySource.expendEnergy(energyPacket)
+            }
 
         case let .goThrust(thrustIndex_):
             let thrustIndex = capCheck(thrustIndex_)
             let targetSpeed: CGFloat = thrustIndex * 500  // 500 pixels/sec (ish)
             let joulesNeeded = targetSpeed * arkon.physicsBody!.mass   // By fiat, energy needed is a function of the speed
 
-            let energyPacket = energySource.retrieveEnergy(joulesNeeded)
-            let impulse = energySource.expendEnergy(energyPacket)
+            return SKAction.run {
+                let energyPacket = self.energySource.retrieveEnergy(joulesNeeded)
+                let impulse = energyPacket.energyContent
 
-            let vector = CGVector(radius: impulse, theta: arkon.zRotation)
+                let vector = CGVector(radius: impulse, theta: arkon.zRotation)
 
-            print("thrust", arkon.physicsBody!.mass, targetSpeed, impulse)
-            return SKAction.run { arkon.physicsBody!.applyImpulse(vector) }
+                print("thrust", arkon.physicsBody!.mass, targetSpeed, impulse)
+
+                arkon.physicsBody!.applyImpulse(vector)
+                _ = self.energySource.expendEnergy(energyPacket)
+            }
 
         case let .goWait(duration):
             let conversion = capCheck(TimeInterval(abs(duration)))
@@ -147,6 +156,6 @@ extension Maneuvers {
         sprite.physicsBody!.mass = 1
         onePass(sprite: sprite)
 
-        print("oass", sprite.physicsBody!.mass)//, nose.physicsBody!.mass)
+//        print("oass", sprite.physicsBody!.mass)//, nose.physicsBody!.mass)
     }
 }

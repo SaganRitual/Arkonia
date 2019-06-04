@@ -126,7 +126,7 @@ class Metabolism: EnergySourceProtocol {
         stomach.deposit(cJoules)
     }
 
-    func expendEnergy(_ packet: EnergyPacket) -> CGFloat {
+    func expendEnergy(_ packet: EnergyPacketProtocol) -> CGFloat {
         defer {
             muscles = nil
             updatePhysicsBodyMass()
@@ -135,7 +135,7 @@ class Metabolism: EnergySourceProtocol {
         return muscles?.energyContent ?? 0
     }
 
-    func retrieveEnergy(_ cJoules: CGFloat) -> EnergyPacket {
+    func retrieveEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol {
         let preMass = physicsBody.mass
         let preEnergy = energyContent
         let retrieved = readyEnergyReserves.withdraw(cJoules)
@@ -189,7 +189,7 @@ class Metabolism: EnergySourceProtocol {
             subtotal, reserves in subtotal + (reserves.level / reserves.energyDensity)
         }) / 1000 + (muscles?.mass ?? 0)
 
-        print("pass", physicsBody.mass, (muscles?.mass ?? 0))
+//        print("pass", physicsBody.mass, (muscles?.mass ?? 0))
     }
 }
 
