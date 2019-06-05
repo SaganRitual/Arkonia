@@ -19,7 +19,10 @@ extension Karamba {
     func driveNetSignal() {
         if isAlive == false { return }
         let arkonSurvived = signalDriver.drive(sensoryInputs: sensoryInputs)
-        precondition(arkonSurvived, "\(fishNumber) should have died from test signal in init")
+        if !arkonSurvived {
+//            apoptosize()
+            print("\(fishNumber) should have died from test signal in init")
+        }
     }
 
     func graze() -> HerbivoreStatus {
@@ -32,8 +35,7 @@ extension Karamba {
     func response() {
         assert(Display.displayCycle == .actions)
         guard isAlive else { return }
-        let motorNeuronOutputs = signalDriver.motorLayer.neurons.compactMap({ $0.relay?.output })
-        response(motorNeuronOutputs: motorNeuronOutputs)
+        response(motorNeuronOutputs: signalDriver.motorOutputs)
     }
 
     func stimulus() { senseLoader.loadSenseData() }

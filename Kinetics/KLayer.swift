@@ -45,12 +45,6 @@ extension KLayer {
         while !signalRelays.isEmpty { signalRelays.removeLast() }
     }
 
-    func flySignal() {
-        for neuron in neurons {
-            neuron.flySignal(isMotorLayer: id.myID == ArkonCentralDark.isMotorLayer.rawValue)
-        }
-    }
-
     func driveSignal() {
         for neuron in neurons {
             neuron.driveSignal(isMotorLayer: id.myID == ArkonCentralDark.isMotorLayer.rawValue)

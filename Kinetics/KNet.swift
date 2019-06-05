@@ -53,23 +53,6 @@ extension KNet {
         return kNet
     }
 
-    func flySignal(_ senseLayer: KLayer, _ motorLayer: KLayer) -> Bool {
-        var iter = hiddenLayers.makeIterator()
-        let topHiddenLayer = iter.next()!
-        var upperLayer = topHiddenLayer
-
-        upperLayer.flySignal()
-
-        for lowerLayer in iter {
-            lowerLayer.flySignal()
-            upperLayer = lowerLayer
-        }
-
-        motorLayer.flySignal()
-
-        return true
-    }
-
     // swiftlint:disable cyclomatic_complexity
     func driveSignal(_ senseLayer: KLayer, _ motorLayer: KLayer) -> Bool {
         let netIsBuilt = self.senseLayer != nil
@@ -88,7 +71,6 @@ extension KNet {
             senseLayer.decoupleFromGrid()
         }
 
-        
         upperLayer.driveSignal()
 //        let ulNeurons = upperLayer.neurons.map { $0.relay!.output }
 //        print("ul", self, ulNeurons)

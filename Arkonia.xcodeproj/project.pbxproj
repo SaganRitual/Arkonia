@@ -129,13 +129,6 @@
 		D4D604A62207292800823D57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4D604A52207292800823D57 /* Assets.xcassets */; };
 		D4D604A92207292800823D57 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4D604A72207292800823D57 /* Main.storyboard */; };
 		D4E18CBB222CFBF4008B1E2E /* Physics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E18CBA222CFBF4008B1E2E /* Physics.swift */; };
-		D4E5CDC22284340800B8E638 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDBB2284340700B8E638 /* Cache.swift */; };
-		D4E5CDC32284340800B8E638 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDBC2284340700B8E638 /* Storage.swift */; };
-		D4E5CDC42284340800B8E638 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDBD2284340700B8E638 /* Error.swift */; };
-		D4E5CDC52284340800B8E638 /* Dataset.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDBE2284340700B8E638 /* Dataset.swift */; };
-		D4E5CDC62284340800B8E638 /* Activation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDBF2284340700B8E638 /* Activation.swift */; };
-		D4E5CDC72284340800B8E638 /* NeuralNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDC02284340700B8E638 /* NeuralNet.swift */; };
-		D4E5CDC82284340800B8E638 /* Structure.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5CDC12284340800B8E638 /* Structure.swift */; };
 		D4E5CDE122867B2200B8E638 /* Surge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4E5CDD822843B9F00B8E638 /* Surge.framework */; };
 		D4E5CDE222867B2200B8E638 /* Surge.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4E5CDD822843B9F00B8E638 /* Surge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D4EB46C02207776C00DA2544 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EB46BF2207776C00DA2544 /* main.swift */; };
@@ -1283,7 +1276,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4E5CDC82284340800B8E638 /* Structure.swift in Sources */,
 				D4AD519F2225122D009EF514 /* ArkonFactory.swift in Sources */,
 				D47246D922116C71002AA25F /* DSpacer.swift in Sources */,
 				D46D6C0622076AAF0001F5D0 /* MutatorAdd.swift in Sources */,
@@ -1303,12 +1295,10 @@
 				D403CD2B224ECD0B00B27458 /* Karamba.swift in Sources */,
 				D4E18CBB222CFBF4008B1E2E /* Physics.swift in Sources */,
 				D4C266242210BC4F00325F05 /* Display.swift in Sources */,
-				D4E5CDC32284340800B8E638 /* Storage.swift in Sources */,
 				D4489BFC223A76EA00708B56 /* GeneCore.swift in Sources */,
 				D4EE2DE522685C340042A6B2 /* SenseLoader.swift in Sources */,
 				D47BEE6E2259D93F004750CD /* Maneuvers.swift in Sources */,
 				D46D6C4422076C970001F5D0 /* KNeuron.swift in Sources */,
-				D4E5CDC62284340800B8E638 /* Activation.swift in Sources */,
 				D44EB8AF222FA5250004A46F /* DBootstrap.swift in Sources */,
 				D46D6C4722076C970001F5D0 /* KNet.swift in Sources */,
 				D46D6C0D22076B670001F5D0 /* KAppController.swift in Sources */,
@@ -1316,7 +1306,6 @@
 				D46E1EE0222B9CED00BBB6F1 /* Stimulus.swift in Sources */,
 				D47246DD22116E95002AA25F /* DNeuron.swift in Sources */,
 				D4D112672272972D004EDE6B /* MainScene.swift in Sources */,
-				D4E5CDC22284340800B8E638 /* Cache.swift in Sources */,
 				D4D1126022728EEF004EDE6B /* BarChart.swift in Sources */,
 				D439E304227468DE00D10DAA /* DarkOps.swift in Sources */,
 				D46D6BFF22076A790001F5D0 /* GeneLibrary.swift in Sources */,
@@ -1331,7 +1320,6 @@
 				D46D6C0422076AAF0001F5D0 /* Mutator.swift in Sources */,
 				D46D6C0F22076B670001F5D0 /* SceneViewController.swift in Sources */,
 				D49326C92260512400C2260D /* PhysicsCoordinator.swift in Sources */,
-				D4E5CDC52284340800B8E638 /* Dataset.swift in Sources */,
 				D4D11265227290FF004EDE6B /* IndexedRingBuffer.swift in Sources */,
 				D46D6BFD22076A480001F5D0 /* ArkonCentralLight.swift in Sources */,
 				D4EE2DE722685DFA0042A6B2 /* SenseTranslator.swift in Sources */,
@@ -1340,7 +1328,6 @@
 				D46D6C0E22076B670001F5D0 /* KAppDelegate.swift in Sources */,
 				D46D6C4522076C970001F5D0 /* KProtocols.swift in Sources */,
 				D46D6C4922076CD20001F5D0 /* Assembler.swift in Sources */,
-				D4E5CDC72284340800B8E638 /* NeuralNet.swift in Sources */,
 				D46D6BF9220769C30001F5D0 /* ActivatorFunctions.swift in Sources */,
 				D41A05FD226478C900DD64E9 /* Metabolism.swift in Sources */,
 				D46D6BFC22076A380001F5D0 /* GeneType.swift in Sources */,
@@ -1348,7 +1335,6 @@
 				D46D6C0A22076AF80001F5D0 /* BellCurve.swift in Sources */,
 				D46D6BF6220769A70001F5D0 /* Extensions.swift in Sources */,
 				D43E87182209669800CD9CC3 /* Protocols.swift in Sources */,
-				D4E5CDC42284340800B8E638 /* Error.swift in Sources */,
 				D46D6BF42207696C0001F5D0 /* FNeuron.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

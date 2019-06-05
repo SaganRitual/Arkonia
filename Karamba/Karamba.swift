@@ -136,21 +136,24 @@ extension Karamba {
 
 extension Karamba {
     func apoptosize() {
+        if !isAlive { return }
         isAlive = false
-//        print("apop", scab.fishNumber)
-        contactedBodies = nil           // So I won't go through my next
-        sensedBodies = nil              // tick thinking I have physics to take care of
-        nose.physicsBody = nil
-        metabolism.pBody = nil
-        physicsBody = nil
-        removeAllChildren()
-        removeAllActions()
-//        let apopReportS = SKAction.run {
-//            print("apopReportS", self.name ?? "foogie") }
-//        let remove = SKAction.removeFromParent()
-//        let sequence = SKAction.sequence([apopReportS, remove])
-//        run(sequence, completion: { print("apopReportE", self.name ?? "boogie") })
-        removeFromParent()
+        run(SKAction.run {
+    //        print("apop", scab.fishNumber)
+//            self.contactedBodies = nil           // So I won't go through my next
+//            self.sensedBodies = nil              // tick thinking I have physics to take care of
+    //        nose.physicsBody = nil
+    //        metabolism.pBody = nil
+    //        physicsBody = nil
+            self.removeAllChildren()
+            self.removeAllActions()
+    //        let apopReportS = SKAction.run {
+    //            print("apopReportS", self.name ?? "foogie") }
+    //        let remove = SKAction.removeFromParent()
+    //        let sequence = SKAction.sequence([apopReportS, remove])
+    //        run(sequence, completion: { print("apopReportE", self.name ?? "boogie") })
+            self.removeFromParent()
+        })
     }
 
     enum CombatStatus { case losing(Karamba), surviving, winning(Karamba)  }
@@ -218,10 +221,10 @@ extension Karamba {
 
         previousPosition = position
 
-        let stimulusAction = SKAction.run { [weak self] in self?.stimulus() }
+//        let stimulusAction = SKAction.run { [weak self] in self?.stimulus() }
         let netSignalAction = SKAction.run(driveNetSignal, queue: ArkonFactory.karambaStimulusQueue)
         let responseAction = SKAction.run { [weak self] in self?.response() }
-        let sequence = SKAction.sequence([stimulusAction, netSignalAction, responseAction])
+        let sequence = SKAction.sequence([netSignalAction, responseAction])
         run(sequence) { self.isReadyForTick = true }
     }
 }

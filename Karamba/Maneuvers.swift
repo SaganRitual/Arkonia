@@ -32,14 +32,6 @@ protocol ManeuverProtocol {
     func selectActionPrimitive(arkon: Karamba, motorOutputs: [Double]) -> SKAction
 }
 
-protocol LinearManeuverProtocol: ManeuverProtocol {
-    func calculateForceVector(sprite sprite_: SKNode) -> CGVector
-}
-
-protocol AngularManeuverProtocol: ManeuverProtocol {
-    func calculateAngularForce(spriteSS: Int) -> CGFloat
-}
-
 extension ManeuverProtocol {
 
     func execute(arkon: Karamba, motorOutputs: [Double]) {

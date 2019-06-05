@@ -33,37 +33,33 @@ class KSignalDriver  {
     }
 
     func drive(sensoryInputs: [Double]) -> Bool {
-        var a0 = Matrix<Double>([sensoryInputs])
+        if sensoryInputs.isEmpty { return false }
 
-        for layer in kNet.hiddenLayers {
-            let W = Matrix<Double>(layer.neurons.map { $0.weights })
-            let b = Matrix<Double>([layer.neurons.map { $0.bias }])
+        let neuronCounts = [12, 9, 9, 5]
+        var ncSS = 0
+        var a0 = Matrix<Double>(sensoryInputs.map { [$0] })
+
+        for _ in 0..<neuronCounts.count - 1 {
+            defer { ncSS += 1 }
+            let nc0 = neuronCounts[ncSS + 0]
+            let nc1 = neuronCounts[ncSS + 1]
+
+            let W = Matrix<Double>((0..<nc1).map { _ in
+                (0..<nc0).map { _ in Double.random(in: -10..<10) }
+            })
+
+            let b = Matrix<Double>((0..<nc1).map { _ in [Double.random(in: -1.0..<1.0)] })
 
             let t2 = Surge.mul(W, a0)
             let t3 = Surge.add(t2, b)
             let t4 = t3.joined()
-            a0 = Matrix<Double>([t4.map { AFn.function[AFn.FunctionName.sigmoid]!($0) }])
+            a0 = Matrix<Double>(t4.map { [AFn.function[AFn.FunctionName.sigmoid]!($0)] })
         }
 
-        motorOutputs = kNet.motorLayer.neurons.map { return $0.relay!.output }
         motorOutputs = (0..<a0.rows).map { a0[$0, 0] }
+        print("mo", motorOutputs!)
 
         return true
-    }
-
-    func fly(sensoryInputs: [Double]) -> Bool {
-        let nodes: [Int] = [12, 16, 16, World.cMotorNeurons]
-
-        guard let nnStructure = try? NeuralNet.Structure(
-            nodes: nodes, hiddenActivation: .sigmoid, outputActivation: .softmax
-        ) else { preconditionFailure() }
-
-        guard let nn = try? NeuralNet(structure: nnStructure) else { preconditionFailure() }
-
-        guard let m = try? nn.infer(sensoryInputs.map { Float($0) })
-            else { preconditionFailure() }
-
-        motorOutputs = m.map { Double($0) }
     }
 
 }
