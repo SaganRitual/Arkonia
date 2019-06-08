@@ -45,6 +45,58 @@ struct Maneuvers {
         return constrain(value, lo: -1, hi: 1)
     }
 
+    func getRotateAction(_ arkon: SKSpriteNode, _ torqueIndex: CGFloat) -> SKAction {
+        // -1.0..<1.0 == -(2pi rev/s)..<(2pi rev/s)
+
+        let fudgeFactor: CGFloat = 1.15
+        let piRevsPerSecond: CGFloat = 2.0
+        let targetAVelocity = fudgeFactor * piRevsPerSecond * torqueIndex / (3 * CGFloat.tau)
+        let joulesNeeded = targetAVelocity * arkon.physicsBody!.mass     // By fiat, energy needed is a function of the speed
+
+        return SKAction.run {
+            let energyPacket = self.energySource.retrieveEnergy(joulesNeeded)
+            let impulse = energyPacket.energyContent
+
+//            print("rotate", arkon.physicsBody!.mass, targetAVelocity, impulse)
+
+            arkon.physicsBody!.applyAngularImpulse(impulse)
+            _ = self.energySource.expendEnergy(energyPacket)
+        }
+    }
+
+    func getStopAction(_ arkon: SKSpriteNode) -> SKAction {
+        return SKAction.run {
+            arkon.physicsBody!.velocity = CGVector.zero
+            arkon.physicsBody!.angularVelocity = 0
+
+            let nosePhysicsBody = (arkon.children[0] as? SKSpriteNode)!.physicsBody
+            nosePhysicsBody!.velocity = CGVector.zero
+            nosePhysicsBody!.angularVelocity = 0
+        }
+    }
+
+    func getThrustAction(_ arkon: SKSpriteNode, _ thrustIndex: CGFloat) -> SKAction {
+        let targetSpeed: CGFloat = thrustIndex * 1000  // 1000 pixels/sec (ish)
+        let joulesNeeded = targetSpeed * arkon.physicsBody!.mass   // By fiat, energy needed is a function of the speed
+
+        return SKAction.run {
+            let energyPacket = self.energySource.retrieveEnergy(joulesNeeded)
+            let impulse = energyPacket.energyContent
+
+            let vector = CGVector(radius: impulse, theta: arkon.zRotation)
+
+//            print("thrust", arkon.physicsBody!.mass, targetSpeed, impulse)
+
+            arkon.physicsBody!.applyImpulse(vector)
+            _ = self.energySource.expendEnergy(energyPacket)
+        }
+    }
+
+    func getWaitAction(_ duration: CGFloat) -> SKAction {
+        let conversion = capCheck(TimeInterval(abs(duration)))
+        return SKAction.wait(forDuration: conversion)
+    }
+
     func selectActionPrimitive(arkon: SKSpriteNode, motorOutputs: [Double]) -> SKAction {
 
         var m = motorOutputs
@@ -62,47 +114,10 @@ struct Maneuvers {
         let maxEntry = sorted.last!
 
         switch maxEntry.0 {
-        case .goFullStop:
-            return SKAction.run {
-                arkon.physicsBody!.velocity = CGVector.zero
-                arkon.physicsBody!.angularVelocity = 0
-            }
-
-        case let .goRotate(torqueIndex):    // -1.0..<1.0 == -(pi rev/s)..<(pi rev/s)
-            let fudgeFactor: CGFloat = 1.15
-            let targetAVelocity = torqueIndex / (fudgeFactor * 3 * CGFloat.tau)
-            let joulesNeeded = targetAVelocity * arkon.physicsBody!.mass     // By fiat, energy needed is a function of the speed
-
-            return SKAction.run {
-                let energyPacket = self.energySource.retrieveEnergy(joulesNeeded)
-                let impulse = energyPacket.energyContent
-
-                print("rotate", arkon.physicsBody!.mass, targetAVelocity, impulse)
-
-                arkon.physicsBody!.applyAngularImpulse(impulse)
-                _ = self.energySource.expendEnergy(energyPacket)
-            }
-
-        case let .goThrust(thrustIndex_):
-            let thrustIndex = capCheck(thrustIndex_)
-            let targetSpeed: CGFloat = thrustIndex * 500  // 500 pixels/sec (ish)
-            let joulesNeeded = targetSpeed * arkon.physicsBody!.mass   // By fiat, energy needed is a function of the speed
-
-            return SKAction.run {
-                let energyPacket = self.energySource.retrieveEnergy(joulesNeeded)
-                let impulse = energyPacket.energyContent
-
-                let vector = CGVector(radius: impulse, theta: arkon.zRotation)
-
-                print("thrust", arkon.physicsBody!.mass, targetSpeed, impulse)
-
-                arkon.physicsBody!.applyImpulse(vector)
-                _ = self.energySource.expendEnergy(energyPacket)
-            }
-
-        case let .goWait(duration):
-            let conversion = capCheck(TimeInterval(abs(duration)))
-            return SKAction.wait(forDuration: conversion)
+        case .goFullStop:                 return getStopAction(arkon)
+        case let .goRotate(torqueIndex):  return getRotateAction(arkon, torqueIndex)
+        case let .goThrust(thrustIndex):  return getThrustAction(arkon, thrustIndex)
+        case let .goWait(duration):       return getWaitAction(duration)
         }
     }
 
@@ -143,7 +158,9 @@ extension Maneuvers {
         tenPass += 1
 
         let actions = getActions(sprite: sprite)
-        sprite.run(actions) { onePass(sprite: sprite) }
+        let preWait = SKAction.wait(forDuration: 5.0)
+        let sequence = SKAction.sequence([preWait, actions])
+        sprite.run(sequence) { onePass(sprite: sprite) }
     }
 
     static func selfTest(background: SKSpriteNode, scene: SKScene) {

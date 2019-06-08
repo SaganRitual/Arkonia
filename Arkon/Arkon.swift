@@ -33,34 +33,34 @@ class Arkon {
         sprite.color = .green
         sprite.colorBlendFactor = 1
 
-        sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
+        let spritePhysicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
 
-        sprite.physicsBody!.categoryBitMask = ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue
-        sprite.physicsBody!.collisionBitMask = ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue
+        spritePhysicsBody.categoryBitMask = ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue
+        spritePhysicsBody.collisionBitMask = ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue
 
-        sprite.physicsBody!.contactTestBitMask =
+        spritePhysicsBody.contactTestBitMask =
             ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue |
             ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
 
-        sprite.physicsBody!.mass = 1
+        spritePhysicsBody.mass = 1
 
         nose = Arkon.spriteFactory!.noseHangar.makeSprite()
         nose.color = .magenta
         nose.colorBlendFactor = 1
 
-//        nose.physicsBody = SKPhysicsBody(circleOfRadius: nose.size.width)
-//
-//        nose.physicsBody!.categoryBitMask = ArkoniaCentral.PhysicsBitmask.arkonSenses.rawValue
-//        nose.physicsBody!.collisionBitMask = 0
-//
-//        nose.physicsBody!.contactTestBitMask =
-//            ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue |
-//            ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
-//
-//        nose.physicsBody!.mass = 0.1
-//        nose.physicsBody!.pinned = true
+        let nosePhysicsBody = SKPhysicsBody(circleOfRadius: nose.size.width)
 
-        metabolism = Metabolism(sprite.physicsBody!)
+        nosePhysicsBody.categoryBitMask = ArkoniaCentral.PhysicsBitmask.arkonSenses.rawValue
+        nosePhysicsBody.collisionBitMask = 0
+
+        nosePhysicsBody.contactTestBitMask =
+            ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue |
+            ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
+
+        nosePhysicsBody.mass = 0.1
+        nosePhysicsBody.pinned = true
+
+        metabolism = Metabolism(spritePhysicsBody)
 
         let w = Arkon.portal!.size.width / 2
         let h = Arkon.portal!.size.height / 2
@@ -69,8 +69,11 @@ class Arkon {
         let yRange = -h..<h
 
         sprite.position = CGPoint.random(xRange: xRange, yRange: yRange)
-//        sprite.addChild(nose)
+        sprite.addChild(nose)
         scene.addChild(sprite)
+
+        sprite.physicsBody = spritePhysicsBody
+        nose.physicsBody = nosePhysicsBody
     }
 }
 
@@ -95,7 +98,7 @@ extension Arkon {
     }
 
     static func grazeTest() {
-        for a in 0..<10 {
+        for a in 0..<1 {
             let newArkon = Arkon()
             arkonHangar[a] = newArkon
 
@@ -109,13 +112,13 @@ extension Arkon {
     }
 
     static func onePass(sprite: SKSpriteNode, metabolism: Metabolism) {
-//        let nose = (sprite.children[0] as? SKSpriteNode)!
-//        nose.color = ColorGradient.makeColor(Int(metabolism.energyFullness * 100), 100)
+        let nose = (sprite.children[0] as? SKSpriteNode)!
+        nose.color = ColorGradient.makeColor(Int(metabolism.energyFullness * 100), 100)
 
         let maneuvers = Maneuvers(energySource: metabolism)
         let actions = getActions(sprite: sprite, maneuvers: maneuvers)
 
-        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nose.physicsBody!.mass)
+//        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nosePhysicsBody.mass)
 
         sprite.run(actions) { onePass(sprite: sprite, metabolism: metabolism) }
     }

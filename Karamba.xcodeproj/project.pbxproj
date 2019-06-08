@@ -122,6 +122,27 @@
 		D482861B2298CC4800225057 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D482861C2298CC4800225057 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D482861D2298CC4800225057 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
+		D4AD194E22AC4848009F3469 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
+		D4AD194F22AC4848009F3469 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
+		D4AD195022AC4848009F3469 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
+		D4AD195122AC4848009F3469 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
+		D4AD195222AC4848009F3469 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
+		D4AD195322AC4848009F3469 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
+		D4AD195422AC4848009F3469 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
+		D4AD195522AC4848009F3469 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
+		D4AD195622AC4848009F3469 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
+		D4AD195722AC4848009F3469 /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
+		D4AD195822AC4848009F3469 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
+		D4AD195922AC4848009F3469 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
+		D4AD195A22AC4848009F3469 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
+		D4AD195B22AC4848009F3469 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
+		D4AD195C22AC4848009F3469 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
+		D4AD195D22AC4848009F3469 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
+		D4AD195E22AC4848009F3469 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
+		D4AD195F22AC4848009F3469 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
+		D4AD196222AC4848009F3469 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
+		D4AD196322AC4848009F3469 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
+		D4AD196422AC4848009F3469 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D4CBA2F0228059CA0023FAB9 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
 		D4CBA2F1228059CA0023FAB9 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D4CBA2F2228059CA0023FAB9 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
@@ -172,6 +193,7 @@
 		D46B1D9D22825D43003D711C /* NetGraphics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetGraphics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46B1D9F22826994003D711C /* Overload2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overload2D.swift; sourceTree = "<group>"; };
 		D48286222298CC4800225057 /* Maneuvers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maneuvers.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4AD196922AC4848009F3469 /* ManeuversMetabolism.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ManeuversMetabolism.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CBA2FE228059CA0023FAB9 /* SpriteFactory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpriteFactory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetDisplayGrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaCentral.swift; sourceTree = "<group>"; };
@@ -232,6 +254,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D4AD196022AC4848009F3469 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4CBA2F5228059CA0023FAB9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -274,6 +303,7 @@
 				D48286222298CC4800225057 /* Maneuvers.app */,
 				D441B9B422A0653F00FB7057 /* Metabolism.app */,
 				D4603A7B22A2B11A00885428 /* Manna.app */,
+				D4AD196922AC4848009F3469 /* ManeuversMetabolism.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -476,6 +506,24 @@
 			productReference = D48286222298CC4800225057 /* Maneuvers.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D4AD194C22AC4848009F3469 /* ManeuversMetabolism */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4AD196622AC4848009F3469 /* Build configuration list for PBXNativeTarget "ManeuversMetabolism" */;
+			buildPhases = (
+				D4AD194D22AC4848009F3469 /* Sources */,
+				D4AD196022AC4848009F3469 /* Frameworks */,
+				D4AD196122AC4848009F3469 /* Resources */,
+				D4AD196522AC4848009F3469 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ManeuversMetabolism;
+			productName = Components;
+			productReference = D4AD196922AC4848009F3469 /* ManeuversMetabolism.app */;
+			productType = "com.apple.product-type.application";
+		};
 		D4CBA2EE228059CA0023FAB9 /* SpriteFactory */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4CBA2FB228059CA0023FAB9 /* Build configuration list for PBXNativeTarget "SpriteFactory" */;
@@ -543,6 +591,7 @@
 				D43EA8222291B84F006C619D /* Arkon */,
 				D40985DF22650B0A009DD384 /* Karamba */,
 				D482860A2298CC4800225057 /* Maneuvers */,
+				D4AD194C22AC4848009F3469 /* ManeuversMetabolism */,
 				D4603A6322A2B11A00885428 /* Manna */,
 				D441B99C22A0653F00FB7057 /* Metabolism */,
 				D43EA800228FC77D006C619D /* NetDisplay */,
@@ -621,6 +670,16 @@
 				D482861B2298CC4800225057 /* Assets.xcassets in Resources */,
 				D482861C2298CC4800225057 /* Main.storyboard in Resources */,
 				D482861D2298CC4800225057 /* TheScene.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4AD196122AC4848009F3469 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4AD196222AC4848009F3469 /* Assets.xcassets in Resources */,
+				D4AD196322AC4848009F3469 /* Main.storyboard in Resources */,
+				D4AD196422AC4848009F3469 /* TheScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -750,6 +809,23 @@
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		D482861E2298CC4800225057 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		D4AD196522AC4848009F3469 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -939,6 +1015,31 @@
 				D48286162298CC4800225057 /* Protocols.swift in Sources */,
 				D48286172298CC4800225057 /* Maneuvers.swift in Sources */,
 				D48286182298CC4800225057 /* Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4AD194D22AC4848009F3469 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4AD194E22AC4848009F3469 /* KIdentifier.swift in Sources */,
+				D4AD194F22AC4848009F3469 /* ArkoniaCentral.swift in Sources */,
+				D4AD195022AC4848009F3469 /* Arkon.swift in Sources */,
+				D4AD195122AC4848009F3469 /* TheScene.swift in Sources */,
+				D4AD195222AC4848009F3469 /* SceneViewController.swift in Sources */,
+				D4AD195322AC4848009F3469 /* AppDelegate.swift in Sources */,
+				D4AD195422AC4848009F3469 /* SpriteFactory.swift in Sources */,
+				D4AD195522AC4848009F3469 /* NetDisplayGrid.swift in Sources */,
+				D4AD195622AC4848009F3469 /* Metabolism.swift in Sources */,
+				D4AD195722AC4848009F3469 /* NetDisplay.swift in Sources */,
+				D4AD195822AC4848009F3469 /* Overload2D.swift in Sources */,
+				D4AD195922AC4848009F3469 /* AppController.swift in Sources */,
+				D4AD195A22AC4848009F3469 /* NetGraphics.swift in Sources */,
+				D4AD195B22AC4848009F3469 /* Protocols.swift in Sources */,
+				D4AD195C22AC4848009F3469 /* ColorGradient.swift in Sources */,
+				D4AD195D22AC4848009F3469 /* Manna.swift in Sources */,
+				D4AD195E22AC4848009F3469 /* Maneuvers.swift in Sources */,
+				D4AD195F22AC4848009F3469 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1364,6 +1465,42 @@
 			};
 			name = Release;
 		};
+		D4AD196722AC4848009F3469 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D4AD196822AC4848009F3469 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		D4CBA2FC228059CA0023FAB9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1507,6 +1644,15 @@
 			buildConfigurations = (
 				D48286202298CC4800225057 /* Debug */,
 				D48286212298CC4800225057 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4AD196622AC4848009F3469 /* Build configuration list for PBXNativeTarget "ManeuversMetabolism" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4AD196722AC4848009F3469 /* Debug */,
+				D4AD196822AC4848009F3469 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
