@@ -4,10 +4,12 @@ import SpriteKit
 class SpriteHangar: SpriteHangarProtocol {
     let atlas: SKTextureAtlas?
     var drones = [SKSpriteNode]()
+    let factoryFunction: FactoryFunction
     var texture: SKTexture
 
-    init(_ atlasName: String, _ textureName: String) {
+    init(_ atlasName: String, _ textureName: String, factoryFunction: @escaping FactoryFunction) {
         atlas = SKTextureAtlas(named: atlasName)
+        self.factoryFunction = factoryFunction
         texture = atlas!.textureNamed(textureName)
     }
 
@@ -16,8 +18,7 @@ class SpriteHangar: SpriteHangarProtocol {
             return readyDrone
         }
 
-        let newSprite = SKSpriteNode(texture: texture)
-
+        let newSprite = factoryFunction(texture)
         drones.append(newSprite)
         return newSprite
     }
@@ -36,12 +37,26 @@ class SpriteFactory {
     init(scene: SKScene) {
         self.scene = scene
 
-        arkonsHangar = SpriteHangar("Arkons", "spark-outline-large")
-        fullNeuronsHangar = SpriteHangar("Neurons", "neuron-plain")
-        halfNeuronsHangar = SpriteHangar("Neurons", "neuron-plain-half")
-        linesHangar = SpriteHangar("Line", "line")
-        mannaHangar = SpriteHangar("Manna", "manna")
-        noseHangar = SpriteHangar("Arkons", "spark-nose-large")
+        arkonsHangar =      SpriteHangar("Arkons",  "spark-outline-large", factoryFunction: SpriteFactory.makeThorax)
+        fullNeuronsHangar = SpriteHangar("Neurons", "neuron-plain",        factoryFunction: SpriteFactory.makeSprite)
+        halfNeuronsHangar = SpriteHangar("Neurons", "neuron-plain-half",   factoryFunction: SpriteFactory.makeSprite)
+        linesHangar =       SpriteHangar("Line",    "line",                factoryFunction: SpriteFactory.makeSprite)
+        mannaHangar =       SpriteHangar("Manna",   "manna",               factoryFunction: SpriteFactory.makeSprite)
+        noseHangar =        SpriteHangar("Arkons",  "spark-nose-large",    factoryFunction: SpriteFactory.makeNose)
+    }
+}
+
+extension SpriteFactory {
+    static func makeNose(texture: SKTexture) -> SKSpriteNode {
+        return Nose(texture: texture)
+    }
+
+    static func makeSprite(texture: SKTexture) -> SKSpriteNode {
+        return SKSpriteNode(texture: texture)
+    }
+
+    static func makeThorax(texture: SKTexture) -> SKSpriteNode {
+        return Thorax(texture: texture)
     }
 }
 

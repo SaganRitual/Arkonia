@@ -2,7 +2,7 @@ import SpriteKit
 
 class Manna {
 
-    static let cMorsels = 100
+    static let cMorsels = 300
     static let colorBlendMinimum: CGFloat = 0.25
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
     static let fullGrowthDurationSeconds: TimeInterval = 2.0
@@ -28,7 +28,7 @@ class Manna {
 
 extension Manna {
 
-    static func grazeTest(background: SKSpriteNode, scene: SKScene) {
+    static func contactTest(background: SKSpriteNode, scene: SKScene) {
         let spriteFactory = SpriteFactory(scene: scene)
 
         for _ in 0..<Manna.cMorsels {
@@ -48,7 +48,7 @@ extension Manna {
             sprite.color = .orange
             sprite.colorBlendFactor = Manna.colorBlendMinimum
 
-            sprite.physicsBody!.categoryBitMask = ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
+            sprite.physicsBody!.categoryBitMask = PhysicsBitmask.mannaBody.rawValue
             sprite.physicsBody!.collisionBitMask = 0
             sprite.physicsBody!.contactTestBitMask = 0
 
@@ -61,13 +61,7 @@ extension Manna {
             withColorBlendFactor: 1.0, duration: Manna.fullGrowthDurationSeconds
         )
 
-        let waitAction = SKAction.wait(forDuration: 1.0)
-
-        sprite.run(colorAction) {
-            background.run(waitAction) {
-//                runGrazeCycle(sprite: sprite, background: background)
-            }
-        }
+        sprite.run(colorAction)
     }
 
     static func runLifeCycle(sprite: SKSpriteNode, background: SKSpriteNode) {

@@ -1,5 +1,9 @@
 import SpriteKit
 
+protocol ContactResponseProtocol {
+    func respond(_ contactedBodies: [SKPhysicsBody])
+}
+
 protocol EnergyPacketProtocol {
     var energyContent: CGFloat { get }
     var mass: CGFloat { get }
@@ -35,6 +39,12 @@ protocol NetDisplayGridProtocol {
 
     func getPosition(_ gridPosition: GridPoint) -> CGPoint
     func setHorizontalSpacing(cNeurons: Int, padRadius: CGFloat)
+}
+
+typealias FactoryFunction = (SKTexture) -> SKSpriteNode
+
+protocol SenseResponseProtocol {
+    func respond(_ contactedBodies: [SKPhysicsBody])
 }
 
 protocol SpriteHangarProtocol {

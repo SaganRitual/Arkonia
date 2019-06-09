@@ -19,7 +19,15 @@ struct Selectoid {
 
 extension SKPhysicsBody: Massive {}
 
+extension SKSpriteNode {
+    var arkon: Arkon {
+        get { return (userData!["arkon"] as? Arkon)! }
+        set { userData!["arkon"] = newValue }
+    }
+}
+
 class Arkon {
+    let contactDetector: ContactDetector
     let metabolism: Metabolism
     let nose: SKSpriteNode
     var selectoid = Selectoid()
@@ -35,14 +43,15 @@ class Arkon {
 
         let spritePhysicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
 
-        spritePhysicsBody.categoryBitMask = ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue
-        spritePhysicsBody.collisionBitMask = ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue
+        spritePhysicsBody.categoryBitMask = PhysicsBitmask.arkonBody.rawValue
+        spritePhysicsBody.collisionBitMask = PhysicsBitmask.arkonBody.rawValue
 
         spritePhysicsBody.contactTestBitMask =
-            ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue |
-            ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
+            PhysicsBitmask.arkonBody.rawValue |
+            PhysicsBitmask.mannaBody.rawValue
 
         spritePhysicsBody.mass = 1
+        contactDetector = ContactDetector()
 
         nose = Arkon.spriteFactory!.noseHangar.makeSprite()
         nose.color = .magenta
@@ -50,12 +59,12 @@ class Arkon {
 
         let nosePhysicsBody = SKPhysicsBody(circleOfRadius: nose.size.width)
 
-        nosePhysicsBody.categoryBitMask = ArkoniaCentral.PhysicsBitmask.arkonSenses.rawValue
+        nosePhysicsBody.categoryBitMask = PhysicsBitmask.arkonSenses.rawValue
         nosePhysicsBody.collisionBitMask = 0
 
         nosePhysicsBody.contactTestBitMask =
-            ArkoniaCentral.PhysicsBitmask.arkonBody.rawValue |
-            ArkoniaCentral.PhysicsBitmask.mannaBody.rawValue
+            PhysicsBitmask.arkonBody.rawValue |
+            PhysicsBitmask.mannaBody.rawValue
 
         nosePhysicsBody.mass = 0.1
         nosePhysicsBody.pinned = true
@@ -72,8 +81,12 @@ class Arkon {
         sprite.addChild(nose)
         scene.addChild(sprite)
 
+        sprite.userData = ["arkon": self]
+
         sprite.physicsBody = spritePhysicsBody
         nose.physicsBody = nosePhysicsBody
+
+        contactDetector.isReadyForPhysics = true
     }
 }
 
@@ -97,10 +110,26 @@ extension Arkon {
         return actions
     }
 
-    static func grazeTest() {
+    struct ContactResponder: ContactResponseProtocol {
+        func respond(_ contactedBodies: [SKPhysicsBody]) {
+            contactedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .blue }
+        }
+    }
+
+    struct SenseResponder: SenseResponseProtocol {
+        func respond(_ sensedBodies: [SKPhysicsBody]) {
+            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .yellow }
+        }
+    }
+
+    static func contactTest() {
         for a in 0..<1 {
             let newArkon = Arkon()
             arkonHangar[a] = newArkon
+            newArkon.sprite.position = CGPoint.zero
+
+            newArkon.contactDetector.contactResponder = ContactResponder()
+            newArkon.contactDetector.senseResponder = SenseResponder()
 
             onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
         }
@@ -112,7 +141,7 @@ extension Arkon {
     }
 
     static func onePass(sprite: SKSpriteNode, metabolism: Metabolism) {
-        let nose = (sprite.children[0] as? SKSpriteNode)!
+        let nose = (sprite.children[0] as? Nose)!
         nose.color = ColorGradient.makeColor(Int(metabolism.energyFullness * 100), 100)
 
         let maneuvers = Maneuvers(energySource: metabolism)
