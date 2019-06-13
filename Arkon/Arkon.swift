@@ -28,6 +28,7 @@ extension SKSpriteNode {
 
 class Arkon: HasContactDetector {
     var contactDetector: ContactDetectorProtocol?
+    var isCaptured = false
     let metabolism: Metabolism
     let nose: SKSpriteNode
     var selectoid = Selectoid()
@@ -178,5 +179,47 @@ extension Arkon {
 //        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nosePhysicsBody.mass)
 
         sprite.run(actions) { onePass(sprite: sprite, metabolism: metabolism) }
+    }
+
+    struct PreyTestContactResponder: ContactResponseProtocol {
+        let ownerArkon: Arkon
+
+        func respond(_ contactedBodies: [SKPhysicsBody]) {
+            for body in contactedBodies where body.node is Thorax {
+                let sprite = (body.node as? SKSpriteNode)!
+                let background = (sprite.parent as? SKSpriteNode)!
+
+                let harvested = sprite.manna.harvest()
+                ownerArkon.metabolism.absorbEnergy(harvested)
+
+                let actions = Manna.triggerDeathCycle(sprite: sprite, background: background)
+                sprite.run(actions)
+            }
+        }
+    }
+
+    struct PreyTestSenseResponder: SenseResponseProtocol {
+        func respond(_ sensedBodies: [SKPhysicsBody]) {
+            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .red }
+        }
+    }
+
+    static func preyTest(portal: SKSpriteNode) {
+        for a in 0..<20 {
+            let newArkon = Arkon()
+            arkonHangar[a] = newArkon
+            newArkon.sprite.position = portal.getRandomPoint()
+
+            if a > 0 { continue }
+
+            newArkon.sprite.position = CGPoint.zero
+
+            newArkon.contactDetector!.contactResponder =
+                PreyTestContactResponder(ownerArkon: newArkon)
+
+            newArkon.contactDetector!.senseResponder = PreyTestSenseResponder()
+
+            onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
+        }
     }
 }

@@ -41,16 +41,18 @@ class TheScene: SKScene, SKSceneDelegate {
         physicsWorld.gravity = CGVector.zero
 
 //        let background = (childNode(withName: "net_portal") as? SKSpriteNode)!
-        background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
-        let spriteFactory = SpriteFactory(scene: self)
+//        background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+//        let spriteFactory = SpriteFactory(scene: self)
+
 //
 //        Manna.contactTest(background: background, spriteFactory: spriteFactory)
-//        Arkon.inject(spriteFactory, background)
+//        Arkon.inject(spriteFactory, SegmentFactory(), background)
 //        Arkon.contactTest()
 
-        Manna.grazeTest(background: background, spriteFactory: spriteFactory)
-        Arkon.inject(spriteFactory, background)
-        Arkon.grazeTest()
+//        Manna.grazeTest(background: background, spriteFactory: spriteFactory)
+//        Arkon.inject(spriteFactory, background)
+//        Arkon.grazeTest()
+//        Arkon.preyTest(portal: background)
 
 //        NetDisplayGrid.selfTest(background: background)
 //        NetGraphics.selfTest(background: background, scene: self)
@@ -58,9 +60,10 @@ class TheScene: SKScene, SKSceneDelegate {
 
 //        NetDisplay(scene: self, background: background).display(net: [12, 9, 9, 5])
 
-//        Metabolism.selfTest()
+        Metabolism.rawEnergyTest()
+        Metabolism.parasiteTest()
 
-        physicsWorld.contactDelegate = World.physicsCoordinator
+//        physicsWorld.contactDelegate = World.physicsCoordinator
         scene!.delegate = self
     }
 
@@ -105,9 +108,9 @@ class TheScene: SKScene, SKSceneDelegate {
 //            return
 //        }
 
-        background.children.compactMap({ return $0 as? Thorax }).forEach {
-            ($0 as SKSpriteNode).arkon.tick()
-        }
+//        background.children.compactMap({ return $0 as? Thorax }).forEach {
+//            ($0 as SKSpriteNode).arkon.tick()
+//        }
 
         // Calculate time since last update
         let dt = currentTime - Display.currentTime
