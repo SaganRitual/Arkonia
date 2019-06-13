@@ -1,5 +1,29 @@
 import SpriteKit
 
+protocol ContactCoordinatorDelegate: class {
+    func pushContactedBodies(_ contactedBodies: [SKPhysicsBody])
+}
+
+protocol ContactDetectorProtocol {
+    var contactResponder: ContactResponseProtocol? { get set }
+    var isReadyForPhysics: Bool { get set }
+    var senseResponder: SenseResponseProtocol? { get set }
+
+    func pushContactedBodies(_ contactedBodies: [SKPhysicsBody])
+    func pushSensedBodies(_ sensedBodies: [SKPhysicsBody])
+}
+
+extension ContactDetectorProtocol {
+    var isReadyForPhysics: Bool {
+        get { return false }
+
+        // swiftlint:disable unused_setter_value
+        // I think swiftlint should be smarter than this
+        set { assert(false, "no default implementation") }
+        // swiftlint:enable unused_setter_value
+    }
+}
+
 protocol ContactResponseProtocol {
     func respond(_ contactedBodies: [SKPhysicsBody])
 }
@@ -26,6 +50,10 @@ protocol GeneProtocol {
 struct GridPoint {
     let x: Int
     let y: Int
+}
+
+protocol HasContactDetector {
+    var contactDetector: ContactDetectorProtocol? { get }
 }
 
 enum LayerRole { case senseLayer, hiddenLayer, motorLayer }

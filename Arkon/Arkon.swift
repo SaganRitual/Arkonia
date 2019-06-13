@@ -26,8 +26,8 @@ extension SKSpriteNode {
     }
 }
 
-class Arkon {
-    let contactDetector: ContactDetector
+class Arkon: HasContactDetector {
+    var contactDetector: ContactDetectorProtocol?
     let metabolism: Metabolism
     let nose: SKSpriteNode
     var selectoid = Selectoid()
@@ -71,13 +71,7 @@ class Arkon {
 
         metabolism = Metabolism(spritePhysicsBody)
 
-        let w = Arkon.portal!.size.width / 2
-        let h = Arkon.portal!.size.height / 2
-
-        let xRange = -w..<w
-        let yRange = -h..<h
-
-        sprite.position = CGPoint.random(xRange: xRange, yRange: yRange)
+        sprite.position = scene.getRandomPoint()
         sprite.addChild(nose)
         scene.addChild(sprite)
 
@@ -86,8 +80,10 @@ class Arkon {
         sprite.physicsBody = spritePhysicsBody
         nose.physicsBody = nosePhysicsBody
 
-        contactDetector.isReadyForPhysics = true
+        contactDetector!.isReadyForPhysics = true
     }
+
+    func tick() { metabolism.tick() }
 }
 
 extension Arkon {
@@ -110,13 +106,13 @@ extension Arkon {
         return actions
     }
 
-    struct ContactResponder: ContactResponseProtocol {
+    struct ContactTestContactResponder: ContactResponseProtocol {
         func respond(_ contactedBodies: [SKPhysicsBody]) {
             contactedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .blue }
         }
     }
 
-    struct SenseResponder: SenseResponseProtocol {
+    struct ContactTestSenseResponder: SenseResponseProtocol {
         func respond(_ sensedBodies: [SKPhysicsBody]) {
             sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .yellow }
         }
@@ -128,8 +124,40 @@ extension Arkon {
             arkonHangar[a] = newArkon
             newArkon.sprite.position = CGPoint.zero
 
-            newArkon.contactDetector.contactResponder = ContactResponder()
-            newArkon.contactDetector.senseResponder = SenseResponder()
+            newArkon.contactDetector!.contactResponder = ContactTestContactResponder()
+            newArkon.contactDetector!.senseResponder = ContactTestSenseResponder()
+
+            onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
+        }
+    }
+
+    struct GrazeTestContactResponder: ContactResponseProtocol {
+        let ownerArkon: Arkon
+
+        func respond(_ contactedBodies: [SKPhysicsBody]) {
+            for body in contactedBodies {
+                let sprite = (body.node as? SKSpriteNode)!
+                let background = (sprite.parent as? SKSpriteNode)!
+
+                let harvested = sprite.manna.harvest()
+                ownerArkon.metabolism.absorbEnergy(harvested)
+
+                let actions = Manna.triggerDeathCycle(sprite: sprite, background: background)
+                sprite.run(actions)
+            }
+        }
+    }
+
+    static func grazeTest() {
+        for a in 0..<1 {
+            let newArkon = Arkon()
+            arkonHangar[a] = newArkon
+            newArkon.sprite.position = CGPoint.zero
+
+            newArkon.contactDetector!.contactResponder =
+                GrazeTestContactResponder(ownerArkon: newArkon)
+
+            newArkon.contactDetector!.senseResponder = ContactTestSenseResponder()
 
             onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
         }

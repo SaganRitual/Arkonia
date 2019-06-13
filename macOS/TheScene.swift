@@ -33,22 +33,24 @@ class TheScene: SKScene, SKSceneDelegate {
         Display.displayCycle = .limbo
     }
 
+    var background: SKSpriteNode!
+
     override func didMove(to view: SKView) {
         Display.currentTime = 0
 
         physicsWorld.gravity = CGVector.zero
 
 //        let background = (childNode(withName: "net_portal") as? SKSpriteNode)!
-        let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+        background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
         let spriteFactory = SpriteFactory(scene: self)
 //
-        Manna.contactTest(background: background, scene: self)
-        Arkon.inject(spriteFactory, background)
-        Arkon.contactTest()
-
-//        Manna.grazeTest(background: background, scene: self)
+//        Manna.contactTest(background: background, spriteFactory: spriteFactory)
 //        Arkon.inject(spriteFactory, background)
-//        Arkon.grazeTest()
+//        Arkon.contactTest()
+
+        Manna.grazeTest(background: background, spriteFactory: spriteFactory)
+        Arkon.inject(spriteFactory, background)
+        Arkon.grazeTest()
 
 //        NetDisplayGrid.selfTest(background: background)
 //        NetGraphics.selfTest(background: background, scene: self)
@@ -94,13 +96,17 @@ class TheScene: SKScene, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-        if Display.currentTime == 0 {
+//        if tickCount == 10 {
 
 //            let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
 //            Maneuvers.selfTest(background: background, scene: self)
 //            Manna.selfTest(background: background, scene: self)
 
-            return
+//            return
+//        }
+
+        background.children.compactMap({ return $0 as? Thorax }).forEach {
+            ($0 as SKSpriteNode).arkon.tick()
         }
 
         // Calculate time since last update

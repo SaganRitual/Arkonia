@@ -1,9 +1,5 @@
 import SpriteKit
 
-protocol ContactCoordinatorDelegate: class {
-    func pushContactedBodies(_ contactedBodies: [SKPhysicsBody])
-}
-
 enum PhysicsBitmask: UInt32 {
     case arkonBody = 0x01
     case arkonSenses = 0x02

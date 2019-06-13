@@ -1,6 +1,6 @@
 import SpriteKit
 
-class ContactDetector: ContactCoordinatorDelegate {
+class ContactDetector: ContactDetectorProtocol, ContactCoordinatorDelegate {
     var contactedBodies: [SKPhysicsBody]?
     var contactResponder: ContactResponseProtocol?
     var isReadyForPhysics = false
