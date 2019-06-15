@@ -57,10 +57,26 @@ struct Maneuvers {
             let energyPacket = self.energySource.retrieveEnergy(joulesNeeded)
             let impulse = energyPacket.energyContent
 
-//            print("rotate", arkon.physicsBody!.mass, targetAVelocity, impulse)
+//            print(
+//                "[rotate   ",
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.stomach.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.readyEnergyReserves.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.fatReserves.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.spawnReserves.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.energyContent)
+//            )
 
             arkon.physicsBody!.applyAngularImpulse(impulse)
             _ = self.energySource.expendEnergy(energyPacket)
+
+//            print(
+//                "rotate   ",
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.stomach.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.readyEnergyReserves.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.fatReserves.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.spawnReserves.level),
+//                String(format: "% 6.2f\n]", arkon.arkon.metabolism.energyContent)
+//            )
         }
     }
 
@@ -76,16 +92,34 @@ struct Maneuvers {
     }
 
     func getThrustAction(_ arkon: SKSpriteNode, _ thrustIndex: CGFloat) -> SKAction {
+        let fudgeFactor: CGFloat = 0.8
         let targetSpeed: CGFloat = thrustIndex * 1000  // 1000 pixels/sec (ish)
-        let joulesNeeded = targetSpeed * arkon.physicsBody!.mass   // By fiat, energy needed is a function of the speed
+        let joulesNeeded = fudgeFactor * targetSpeed * arkon.physicsBody!.mass
 
         return SKAction.run {
+
+//            print(
+//                "[thrust   ",
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.stomach.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.readyEnergyReserves.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.fatReserves.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.spawnReserves.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.energyContent)
+//            )
+
             let energyPacket = self.energySource.retrieveEnergy(joulesNeeded)
             let impulse = energyPacket.energyContent
 
             let vector = CGVector(radius: impulse, theta: arkon.zRotation)
 
-//            print("thrust", arkon.physicsBody!.mass, targetSpeed, impulse)
+//            print(
+//                "thrust   ",
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.stomach.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.readyEnergyReserves.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.fatReserves.level),
+//                String(format: "% 6.2f ", arkon.arkon.metabolism.spawnReserves.level),
+//                String(format: "% 6.2f\n]", arkon.arkon.metabolism.energyContent)
+//            )
 
             arkon.physicsBody!.applyImpulse(vector)
             _ = self.energySource.expendEnergy(energyPacket)

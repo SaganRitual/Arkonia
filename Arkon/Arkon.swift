@@ -187,25 +187,20 @@ extension Arkon {
         func respond(_ contactedBodies: [SKPhysicsBody]) {
             for body in contactedBodies where body.node is Thorax {
                 let sprite = (body.node as? SKSpriteNode)!
-                let background = (sprite.parent as? SKSpriteNode)!
 
-                let harvested = sprite.manna.harvest()
-                ownerArkon.metabolism.absorbEnergy(harvested)
-
-                let actions = Manna.triggerDeathCycle(sprite: sprite, background: background)
-                sprite.run(actions)
+                ownerArkon.metabolism.parasitize(sprite.arkon.metabolism)
             }
         }
     }
 
     struct PreyTestSenseResponder: SenseResponseProtocol {
         func respond(_ sensedBodies: [SKPhysicsBody]) {
-            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .red }
+            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .yellow }
         }
     }
 
     static func preyTest(portal: SKSpriteNode) {
-        for a in 0..<20 {
+        for a in 0..<100 {
             let newArkon = Arkon()
             arkonHangar[a] = newArkon
             newArkon.sprite.position = portal.getRandomPoint()

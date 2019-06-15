@@ -124,7 +124,25 @@ class Metabolism: EnergySourceProtocol {
 
     func absorbEnergy(_ cJoules: CGFloat) {
         defer { updatePhysicsBodyMass() }
+        print(
+            "[Deposit",
+            String(format: "% 6.2f ", stomach.level),
+            String(format: "% 6.2f ", readyEnergyReserves.level),
+            String(format: "% 6.2f ", fatReserves.level),
+            String(format: "% 6.2f ", spawnReserves.level),
+            String(format: "% 6.2f ", energyContent),
+            String(format: "(% 6.2f)", cJoules)
+        )
         stomach.deposit(cJoules)
+        print(
+            "Deposit",
+            String(format: "% 6.2f ", stomach.level),
+            String(format: "% 6.2f ", readyEnergyReserves.level),
+            String(format: "% 6.2f ", fatReserves.level),
+            String(format: "% 6.2f ", spawnReserves.level),
+            String(format: "% 6.2f ", energyContent),
+            String(format: "(% 6.2f)\n]", cJoules)
+        )
     }
 
     @discardableResult
@@ -160,6 +178,7 @@ class Metabolism: EnergySourceProtocol {
         let tookThisMuch = victim.loseEnergy(attemptToTakeThisMuch)
         let netEnergy = tookThisMuch.energyContent * 0.75
 
+//        print("Absorbing \(netEnergy), current = \(energyContent), ready = \(readyEnergyReserves.level)")
         absorbEnergy(netEnergy)
     }
 
