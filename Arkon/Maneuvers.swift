@@ -54,7 +54,7 @@ struct Maneuvers {
         let joulesNeeded = targetAVelocity * arkon.physicsBody!.mass     // By fiat, energy needed is a function of the speed
 
         return SKAction.run {
-            let energyPacket = self.energySource.retrieveEnergy(joulesNeeded)
+            let energyPacket = self.energySource.transferEnergy(joulesNeeded)
             let impulse = energyPacket.energyContent
 
 //            print(
@@ -107,7 +107,7 @@ struct Maneuvers {
 //                String(format: "% 6.2f ", arkon.arkon.metabolism.energyContent)
 //            )
 
-            let energyPacket = self.energySource.retrieveEnergy(joulesNeeded)
+            let energyPacket = self.energySource.transferEnergy(joulesNeeded)
             let impulse = energyPacket.energyContent
 
             let vector = CGVector(radius: impulse, theta: arkon.zRotation)
@@ -164,7 +164,7 @@ extension Maneuvers {
 
     struct EnergySource: EnergySourceProtocol {
         func expendEnergy(_ packet: EnergyPacketProtocol) -> CGFloat { return packet.energyContent }
-        func retrieveEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol {
+        func transferEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol {
             return DummyEnergyPacket(energyContent: cJoules)
         }
     }

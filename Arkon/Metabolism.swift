@@ -124,25 +124,28 @@ class Metabolism: EnergySourceProtocol {
 
     func absorbEnergy(_ cJoules: CGFloat) {
         defer { updatePhysicsBodyMass() }
-        print(
-            "[Deposit",
-            String(format: "% 6.2f ", stomach.level),
-            String(format: "% 6.2f ", readyEnergyReserves.level),
-            String(format: "% 6.2f ", fatReserves.level),
-            String(format: "% 6.2f ", spawnReserves.level),
-            String(format: "% 6.2f ", energyContent),
-            String(format: "(% 6.2f)", cJoules)
-        )
+
+//        print(
+//            "[Deposit",
+//            String(format: "% 6.2f ", stomach.level),
+//            String(format: "% 6.2f ", readyEnergyReserves.level),
+//            String(format: "% 6.2f ", fatReserves.level),
+//            String(format: "% 6.2f ", spawnReserves.level),
+//            String(format: "% 6.2f ", energyContent),
+//            String(format: "(% 6.2f)", cJoules)
+//        )
+
         stomach.deposit(cJoules)
-        print(
-            "Deposit",
-            String(format: "% 6.2f ", stomach.level),
-            String(format: "% 6.2f ", readyEnergyReserves.level),
-            String(format: "% 6.2f ", fatReserves.level),
-            String(format: "% 6.2f ", spawnReserves.level),
-            String(format: "% 6.2f ", energyContent),
-            String(format: "(% 6.2f)\n]", cJoules)
-        )
+
+//        print(
+//            "Deposit",
+//            String(format: "% 6.2f ", stomach.level),
+//            String(format: "% 6.2f ", readyEnergyReserves.level),
+//            String(format: "% 6.2f ", fatReserves.level),
+//            String(format: "% 6.2f ", spawnReserves.level),
+//            String(format: "% 6.2f ", energyContent),
+//            String(format: "(% 6.2f)\n]", cJoules)
+//        )
     }
 
     @discardableResult
@@ -155,46 +158,30 @@ class Metabolism: EnergySourceProtocol {
         return muscles?.energyContent ?? 0
     }
 
-    @discardableResult
-    func loseEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol {
-        let preMass = physicsBody.mass
-        let preEnergy = energyContent
-        let retrieved = readyEnergyReserves.withdraw(cJoules)
-
-        updatePhysicsBodyMass()
-
-        let lost = EnergyPacket(
-            energyContent: preEnergy - energyContent, mass: preMass - physicsBody.mass
-        )
-
-        defer { updatePhysicsBodyMass() }
-
-        return lost
-    }
-
     func parasitize(_ victim: Metabolism) {
         let spareCapacity = 200 - stomach.level
         let attemptToTakeThisMuch = spareCapacity / 0.75
-        let tookThisMuch = victim.loseEnergy(attemptToTakeThisMuch)
+        let tookThisMuch = victim.transferEnergy(attemptToTakeThisMuch)
         let netEnergy = tookThisMuch.energyContent * 0.75
 
 //        print("Absorbing \(netEnergy), current = \(energyContent), ready = \(readyEnergyReserves.level)")
         absorbEnergy(netEnergy)
     }
 
-    func retrieveEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol {
+    @discardableResult
+    func transferEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol {
         let preMass = physicsBody.mass
         let preEnergy = energyContent
         let retrieved = readyEnergyReserves.withdraw(cJoules)
 
         updatePhysicsBodyMass()
 
-        muscles = EnergyPacket(
+        let ep = EnergyPacket(
             energyContent: preEnergy - energyContent, mass: preMass - physicsBody.mass
         )
 
         defer { updatePhysicsBodyMass() }
-        return muscles!
+        return ep
     }
 
     func tick() {
@@ -300,8 +287,8 @@ extension Metabolism {
             metabolism: predatorMetabolism, stomach: 196, readyEnergy: 2000, fat: 508, spawn: 0
         )
 
-        let muscles = predatorMetabolism.retrieveEnergy(20)
-        predatorMetabolism.expendEnergy(muscles)
+        let e = predatorMetabolism.transferEnergy(20)
+        predatorMetabolism.expendEnergy(e)
         tick(predatorMetabolism, predatorObject)
 
         checkLevels(
@@ -318,7 +305,7 @@ extension Metabolism {
             metabolism: predatorMetabolism, stomach: 4, readyEnergy: 2000, fat: 680, spawn: 0
         )
 
-        predatorMetabolism.loseEnergy(2000)
+        predatorMetabolism.transferEnergy(2000)
 
         checkLevels(
             metabolism: predatorMetabolism, stomach: 4, readyEnergy: 0, fat: 680, spawn: 0
@@ -330,14 +317,14 @@ extension Metabolism {
             metabolism: predatorMetabolism, stomach: 0, readyEnergy: 596, fat: 88, spawn: 0
         )
 
-        predatorMetabolism.loseEnergy(596)
+        predatorMetabolism.transferEnergy(596)
 
         checkLevels(
             metabolism: predatorMetabolism, stomach: 0, readyEnergy: 0, fat: 88, spawn: 0
         )
 
         for _ in (0..<11) { tick(predatorMetabolism, predatorObject) }
-        predatorMetabolism.loseEnergy(88)
+        predatorMetabolism.transferEnergy(88)
 
         checkLevels(
             metabolism: predatorMetabolism, stomach: 0, readyEnergy: 0, fat: 0, spawn: 0
@@ -486,8 +473,8 @@ extension Metabolism {
         )
 
         for _ in 0..<40 {
-            let muscles = metabolism.retrieveEnergy(50)
-            metabolism.expendEnergy(muscles)
+            let e = metabolism.transferEnergy(50)
+            metabolism.expendEnergy(e)
             tick(metabolism, massiveObject)
         }
 
@@ -505,8 +492,8 @@ extension Metabolism {
         )
 
         for _ in 0..<10 {
-            let muscles = metabolism.retrieveEnergy(50)
-            metabolism.expendEnergy(muscles)
+            let e = metabolism.transferEnergy(50)
+            metabolism.expendEnergy(e)
             tick(metabolism, massiveObject)
         }
 
@@ -524,8 +511,8 @@ extension Metabolism {
         )
 
         for _ in 0..<427 {
-            let muscles = metabolism.retrieveEnergy(50)
-            metabolism.expendEnergy(muscles)
+            let e = metabolism.transferEnergy(50)
+            metabolism.expendEnergy(e)
             tick(metabolism, massiveObject)
         }
 

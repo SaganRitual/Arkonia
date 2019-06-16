@@ -132,6 +132,42 @@ extension Arkon {
         }
     }
 
+    struct CannibalsTestContactResponder: ContactResponseProtocol {
+        let ownerArkon: Arkon
+
+        func respond(_ contactedBodies: [SKPhysicsBody]) {
+            for body in contactedBodies where body.node is Thorax {
+                let sprite = (body.node as? SKSpriteNode)!
+                if sprite.arkon.selectoid.fishNumber < ownerArkon.selectoid.fishNumber {
+                    ownerArkon.metabolism.parasitize(sprite.arkon.metabolism)
+                    break
+                }
+            }
+        }
+    }
+
+    struct CannibalsTestSenseResponder: SenseResponseProtocol {
+        func respond(_ sensedBodies: [SKPhysicsBody]) {
+            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .yellow }
+        }
+    }
+
+    static func cannibalsTest(portal: SKSpriteNode) {
+        for a in 0..<30 {
+            let newArkon = Arkon()
+            arkonHangar[a] = newArkon
+            newArkon.sprite.position = portal.getRandomPoint()
+            newArkon.sprite.zRotation = CGFloat.random(in: -CGFloat.pi..<CGFloat.pi)
+
+            newArkon.contactDetector!.contactResponder =
+                PreyTestContactResponder(ownerArkon: newArkon)
+
+            newArkon.contactDetector!.senseResponder = PreyTestSenseResponder()
+
+            onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
+        }
+    }
+
     struct GrazeTestContactResponder: ContactResponseProtocol {
         let ownerArkon: Arkon
 
@@ -177,8 +213,10 @@ extension Arkon {
         let actions = getActions(sprite: sprite, maneuvers: maneuvers)
 
 //        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nosePhysicsBody.mass)
+        let wait = SKAction.wait(forDuration: TimeInterval(sprite.arkon.selectoid.fishNumber * 5) * 0.016)
+        let randomness = SKAction.sequence([wait, actions])
 
-        sprite.run(actions) { onePass(sprite: sprite, metabolism: metabolism) }
+        sprite.run(randomness) { onePass(sprite: sprite, metabolism: metabolism) }
     }
 
     struct PreyTestContactResponder: ContactResponseProtocol {

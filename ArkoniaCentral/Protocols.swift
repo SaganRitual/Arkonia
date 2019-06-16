@@ -40,7 +40,7 @@ extension EnergyPacketProtocol {
 
 protocol EnergySourceProtocol {
     func expendEnergy(_ packet: EnergyPacketProtocol) -> CGFloat
-    func retrieveEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol
+    func transferEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol
 }
 
 protocol GeneProtocol {
