@@ -50,10 +50,12 @@ class TheScene: SKScene, SKSceneDelegate {
 //        Arkon.contactTest()
 
 //        Manna.grazeTest(background: background, spriteFactory: spriteFactory)
+        Manna.omnivoresTest(background: background, spriteFactory: spriteFactory)
         Arkon.inject(spriteFactory, background)
 //        Arkon.grazeTest()
 //        Arkon.preyTest(portal: background)
-        Arkon.cannibalsTest(portal: background)
+//        Arkon.cannibalsTest(portal: background)
+        Arkon.omnivoresTest(portal: background)
 
 //        NetDisplayGrid.selfTest(background: background)
 //        NetGraphics.selfTest(background: background, scene: self)

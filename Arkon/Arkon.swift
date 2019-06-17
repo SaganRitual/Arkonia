@@ -183,6 +183,7 @@ extension Arkon {
                 sprite.run(actions)
             }
         }
+
     }
 
     static func grazeTest() {
@@ -205,15 +206,97 @@ extension Arkon {
         Arkon.portal = portal
     }
 
+    class OmnivoresTestContactResponder: ContactResponseProtocol {
+        let ownerArkon: Arkon
+        var processingTouch = false
+
+        init(ownerArkon: Arkon) { self.ownerArkon = ownerArkon }
+
+        func respond(_ contactedBodies: [SKPhysicsBody]) {
+            for body in contactedBodies {
+                switch body.node {
+                case let t as Thorax:
+                    if touchArkon(t) {
+                        return
+                    }
+
+                case let m as SKSpriteNode:
+                    touchManna(m.manna)
+                    return
+
+                default: assert(false)
+                }
+            }
+        }
+
+        func touchArkon(_ thorax: Thorax) -> Bool {
+            if processingTouch { return false }
+            processingTouch = true
+            defer { processingTouch = false }
+
+            if thorax.arkon.selectoid.fishNumber < ownerArkon.selectoid.fishNumber {
+                ownerArkon.metabolism.parasitize(thorax.arkon.metabolism)
+                return true
+            }
+
+            return false
+        }
+
+        func touchManna(_ manna: Manna) {
+            if processingTouch { return }
+            processingTouch = true
+            defer { processingTouch = false }
+
+            let sprite = manna.sprite
+            let background = (sprite.parent as? SKSpriteNode)!
+
+            let harvested = sprite.manna.harvest()
+            ownerArkon.metabolism.absorbEnergy(harvested)
+
+            let actions = Manna.triggerDeathCycle(sprite: sprite, background: background)
+            sprite.run(actions)
+        }
+    }
+
+    struct OmnivoresTestSenseResponder: SenseResponseProtocol {
+        func respond(_ sensedBodies: [SKPhysicsBody]) {
+//            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .yellow }
+        }
+    }
+
+    static func omnivoresTest(portal: SKSpriteNode) {
+        for a in 0..<30 {
+            let newArkon = Arkon()
+            arkonHangar[a] = newArkon
+            newArkon.sprite.position = portal.getRandomPoint()
+            newArkon.sprite.zRotation = CGFloat.random(in: -CGFloat.pi..<CGFloat.pi)
+
+            newArkon.contactDetector!.contactResponder =
+                OmnivoresTestContactResponder(ownerArkon: newArkon)
+
+            newArkon.contactDetector!.senseResponder = OmnivoresTestSenseResponder()
+
+            onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
+        }
+    }
+
     static func onePass(sprite: SKSpriteNode, metabolism: Metabolism) {
         let nose = (sprite.children[0] as? Nose)!
-        nose.color = ColorGradient.makeColor(Int(metabolism.energyFullness * 100), 100)
+
+        guard metabolism.fungibleEnergyFullness > 0 else {
+            nose.color = .black
+            return
+        }
+
+        let ef = metabolism.fungibleEnergyFullness
+        nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 
         let maneuvers = Maneuvers(energySource: metabolism)
         let actions = getActions(sprite: sprite, maneuvers: maneuvers)
 
 //        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nosePhysicsBody.mass)
-        let wait = SKAction.wait(forDuration: TimeInterval(sprite.arkon.selectoid.fishNumber * 5) * 0.016)
+        let spreadem = CGFloat(sprite.arkon.selectoid.fishNumber % 5) * CGFloat.random(in: 0..<5)
+        let wait = SKAction.wait(forDuration: TimeInterval(spreadem * 0.016))
         let randomness = SKAction.sequence([wait, actions])
 
         sprite.run(randomness) { onePass(sprite: sprite, metabolism: metabolism) }

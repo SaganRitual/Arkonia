@@ -22,6 +22,8 @@ class SpriteHangar: SpriteHangarProtocol {
         drones.append(newSprite)
         return newSprite
     }
+
+    func retireSprite(_ sprite: SKSpriteNode) { sprite.removeAllActions(); sprite.removeFromParent() }
 }
 
 class SpriteFactory {

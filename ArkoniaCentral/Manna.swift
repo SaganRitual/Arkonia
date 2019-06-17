@@ -90,6 +90,10 @@ extension Manna {
         plantAllManna(background: background, spriteFactory: spriteFactory)
     }
 
+    static func omnivoresTest(background: SKSpriteNode, spriteFactory: SpriteFactory) {
+        plantAllManna(background: background, spriteFactory: spriteFactory)
+    }
+
     static func plantAllManna(background: SKSpriteNode, spriteFactory: SpriteFactory) {
         for _ in 0..<Manna.cMorsels {
             let sprite = spriteFactory.mannaHangar.makeSprite()

@@ -84,6 +84,7 @@ class Metabolism: EnergySourceProtocol {
     var physicsBody: Massive
 
     let allReserves: [EnergyReserve]
+    let fungibleReserves: [EnergyReserve]
 
     var bone = EnergyReserve(.bone)
     var fatReserves = EnergyReserve(.fatReserves)
@@ -100,13 +101,27 @@ class Metabolism: EnergySourceProtocol {
         }
     }
 
+    var fungibleEnergyCapacity: CGFloat {
+        return fungibleReserves.reduce(0) { subtotal, reserves in
+            subtotal + reserves.capacity
+        }
+    }
+
     var energyContent: CGFloat {
         return allReserves.reduce(0) { subtotal, reserves in
             subtotal + reserves.level
         } + (muscles?.energyContent ?? 0)
     }
 
+    var fungibleEnergyContent: CGFloat {
+        return fungibleReserves.reduce(0) { subtotal, reserves in
+            subtotal + reserves.level
+            } + (muscles?.energyContent ?? 0)
+    }
+
     var energyFullness: CGFloat { return energyContent / energyCapacity }
+
+    var fungibleEnergyFullness: CGFloat { return fungibleEnergyContent / fungibleEnergyCapacity }
 
     var massCapacity: CGFloat {
         return allReserves.reduce(0) { subtotal, reserves in
@@ -117,6 +132,7 @@ class Metabolism: EnergySourceProtocol {
     init(_ physicsBody: Massive) {
         self.physicsBody = physicsBody
         self.allReserves = [bone, stomach, readyEnergyReserves, fatReserves, spawnReserves]
+        self.fungibleReserves = [readyEnergyReserves, fatReserves]
 
         // Overflow is 5/6, make underflow 1/4, see how it goes
         self.reUnderflowThreshold = 1.0 / 4.0 * readyEnergyReserves.capacity
