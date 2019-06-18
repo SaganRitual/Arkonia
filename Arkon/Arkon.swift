@@ -27,6 +27,8 @@ extension SKSpriteNode {
 }
 
 class Arkon: HasContactDetector {
+    static let standardColor = 0x00_D0_00  // Slightly dim green
+    static let brightColor = 0x00_FF_00    // Full green
     var contactDetector: ContactDetectorProtocol?
     var isCaptured = false
     let metabolism: Metabolism
@@ -36,10 +38,11 @@ class Arkon: HasContactDetector {
     let sprite: SKSpriteNode
     var spriteFactory: SpriteFactory { return Arkon.spriteFactory! }
 
+    //swiftmint:disable function_body_length
     init() {
         sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
         sprite.setScale(0.5)
-        sprite.color = .green
+        sprite.color = ColorGradient.makeColor(hexRGB: Arkon.standardColor)
         sprite.colorBlendFactor = 1
 
         let spritePhysicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
@@ -55,8 +58,26 @@ class Arkon: HasContactDetector {
         contactDetector = ContactDetector()
 
         nose = Arkon.spriteFactory!.noseHangar.makeSprite()
-        nose.color = .magenta
+        nose.alpha = 1
         nose.colorBlendFactor = 1
+
+//        let topReserveIndicator = SKLabelNode(text: "here")
+//        topReserveIndicator.fontName = "Courier New"
+//        topReserveIndicator.fontColor = .white
+//        topReserveIndicator.text = "hello!"
+//        topReserveIndicator.position = CGPoint(x: 50, y: 75)
+//        topReserveIndicator.fontSize = 64
+//        topReserveIndicator.zRotation = 0
+//        nose.addChild(topReserveIndicator)
+//
+//        let bottomReserveIndicator = SKLabelNode(text: "here")
+//        bottomReserveIndicator.fontName = "Courier New"
+//        bottomReserveIndicator.fontColor = .white
+//        bottomReserveIndicator.text = "hello!"
+//        bottomReserveIndicator.position = CGPoint(x: 50, y: -75)
+//        bottomReserveIndicator.fontSize = 64
+//        bottomReserveIndicator.zRotation = 0
+//        nose.addChild(bottomReserveIndicator)
 
         let nosePhysicsBody = SKPhysicsBody(circleOfRadius: nose.size.width)
 
@@ -83,6 +104,7 @@ class Arkon: HasContactDetector {
 
         contactDetector!.isReadyForPhysics = true
     }
+    //swiftmint:enable function_body_length
 
     func tick() { metabolism.tick() }
 }
@@ -280,26 +302,39 @@ extension Arkon {
         }
     }
 
-    static func onePass(sprite: SKSpriteNode, metabolism: Metabolism) {
-        let nose = (sprite.children[0] as? Nose)!
+    static func onePass(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
+        let nose = (thorax.children[0] as? Nose)!
 
         guard metabolism.fungibleEnergyFullness > 0 else {
-            nose.color = .black
+            spriteFactory?.arkonsHangar.retireSprite(thorax)
             return
         }
 
         let ef = metabolism.fungibleEnergyFullness
         nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 
+        let baseColor = (metabolism.spawnEnergyFullness > 0) ?
+            Arkon.brightColor : Arkon.standardColor
+
+        thorax.color = ColorGradient.makeColorMixRed(
+            baseColor: baseColor, redPercentage: metabolism.spawnEnergyFullness
+        )
+
+//        let topLabel = (nose.children[0] as? SKLabelNode)!
+//        topLabel.text = String(format: "%0.0f", metabolism.readyEnergyReserves.level)
+//
+//        let bottomLabel = (nose.children[1] as? SKLabelNode)!
+//        bottomLabel.text = String(format: "%0.0f", metabolism.fatReserves.level)
+
         let maneuvers = Maneuvers(energySource: metabolism)
-        let actions = getActions(sprite: sprite, maneuvers: maneuvers)
+        let actions = getActions(sprite: thorax, maneuvers: maneuvers)
 
 //        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nosePhysicsBody.mass)
-        let spreadem = CGFloat(sprite.arkon.selectoid.fishNumber % 5) * CGFloat.random(in: 0..<5)
+        let spreadem = CGFloat(thorax.arkon.selectoid.fishNumber % 5) * CGFloat.random(in: 0..<5)
         let wait = SKAction.wait(forDuration: TimeInterval(spreadem * 0.016))
         let randomness = SKAction.sequence([wait, actions])
 
-        sprite.run(randomness) { onePass(sprite: sprite, metabolism: metabolism) }
+        thorax.run(randomness) { onePass(sprite: thorax, metabolism: metabolism) }
     }
 
     struct PreyTestContactResponder: ContactResponseProtocol {

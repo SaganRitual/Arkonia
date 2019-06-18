@@ -20,7 +20,7 @@ class Manna {
     let sprite: SKSpriteNode
 
     var energyContentInJoules: CGFloat {
-        var f = sprite.colorBlendFactor - Manna.colorBlendMinimum
+        var f = 25 * (sprite.colorBlendFactor - Manna.colorBlendMinimum)
         f /= Manna.colorBlendRangeWidth
         f *= Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
         return f

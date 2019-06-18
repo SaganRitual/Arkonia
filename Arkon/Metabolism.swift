@@ -56,7 +56,7 @@ class EnergyReserve {
             overflowThreshold = CGFloat.infinity
 
         case .stomach:
-            capacity = 200
+            capacity = 800
             energyDensity = 2
             level = 0
             overflowThreshold = 0
@@ -123,6 +123,8 @@ class Metabolism: EnergySourceProtocol {
 
     var fungibleEnergyFullness: CGFloat { return fungibleEnergyContent / fungibleEnergyCapacity }
 
+    var spawnEnergyFullness: CGFloat { return spawnReserves.level / spawnReserves.capacity }
+
     var massCapacity: CGFloat {
         return allReserves.reduce(0) { subtotal, reserves in
             subtotal + (reserves.capacity / reserves.energyDensity)
@@ -175,7 +177,7 @@ class Metabolism: EnergySourceProtocol {
     }
 
     func parasitize(_ victim: Metabolism) {
-        let spareCapacity = 200 - stomach.level
+        let spareCapacity = stomach.capacity - stomach.level
         let attemptToTakeThisMuch = spareCapacity / 0.75
         let tookThisMuch = victim.transferEnergy(attemptToTakeThisMuch)
         let netEnergy = tookThisMuch.energyContent * 0.75
@@ -206,7 +208,7 @@ class Metabolism: EnergySourceProtocol {
         var export = !stomach.isEmpty && !readyEnergyReserves.isFull
 
         if export {
-            let transfer = stomach.withdraw(1 * readyEnergyReserves.energyDensity)
+            let transfer = stomach.withdraw(25 * readyEnergyReserves.energyDensity)
             readyEnergyReserves.deposit(transfer)
         }
 
