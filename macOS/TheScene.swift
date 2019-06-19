@@ -18,7 +18,7 @@ struct Display {
     static var displayCycle: DisplayCycle = .limbo
 }
 
-class TheScene: SKScene, SKSceneDelegate {
+class TheScene: SKScene, ClockProtocol, SKSceneDelegate {
 
     var entities = [GKEntity]()
     var graphs = [String: GKGraph]()
@@ -51,11 +51,10 @@ class TheScene: SKScene, SKSceneDelegate {
 
 //        Manna.grazeTest(background: background, spriteFactory: spriteFactory)
         Manna.omnivoresTest(background: background, spriteFactory: spriteFactory)
-        Arkon.inject(spriteFactory, background)
+        Arkon.inject(self, background, spriteFactory)
 //        Arkon.grazeTest()
 //        Arkon.preyTest(portal: background)
 //        Arkon.cannibalsTest(portal: background)
-        Arkon.omnivoresTest(portal: background)
 
 //        NetDisplayGrid.selfTest(background: background)
 //        NetGraphics.selfTest(background: background, scene: self)
@@ -69,6 +68,8 @@ class TheScene: SKScene, SKSceneDelegate {
         physicsWorld.contactDelegate = World.physicsCoordinator
         scene!.delegate = self
     }
+
+    func getCurrentTime() -> TimeInterval { return Display.currentTime }
 
     func touchDown(atPoint pos: CGPoint) {
     }
@@ -102,14 +103,15 @@ class TheScene: SKScene, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-//        if tickCount == 10 {
+        if tickCount == 10 {
+            Arkon.omnivoresTest(portal: background)
 
 //            let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
 //            Maneuvers.selfTest(background: background, scene: self)
 //            Manna.selfTest(background: background, scene: self)
 
 //            return
-//        }
+        }
 
         background.children.compactMap({ return $0 as? Thorax }).forEach {
             ($0 as SKSpriteNode).arkon.tick()

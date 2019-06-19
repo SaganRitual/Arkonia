@@ -1,5 +1,9 @@
 import SpriteKit
 
+protocol ClockProtocol {
+    func getCurrentTime() -> TimeInterval
+}
+
 protocol ContactCoordinatorDelegate: class {
     func pushContactedBodies(_ contactedBodies: [SKPhysicsBody])
 }
@@ -39,8 +43,8 @@ extension EnergyPacketProtocol {
 }
 
 protocol EnergySourceProtocol {
-    func expendEnergy(_ packet: EnergyPacketProtocol) -> CGFloat
-    func transferEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol
+    func withdrawFromReady(_ cJoules: CGFloat) -> CGFloat
+    func withdrawFromSpawn(_ cJoules: CGFloat) -> CGFloat
 }
 
 protocol GeneProtocol {

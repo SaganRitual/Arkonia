@@ -16,6 +16,14 @@ class EnergyPacket: EnergyPacketProtocol {
 }
 
 class EnergyReserve {
+    static let startingLevelBone: CGFloat = 100
+    static let startingLevelFat: CGFloat = 500
+    static let startingLevelReadyEnergy: CGFloat = 2000
+
+    static let startingEnergyLevel = (
+        startingLevelBone + startingLevelFat + startingLevelReadyEnergy
+    )
+
     var isAmple: Bool { return level >= overflowThreshold }
     var isEmpty: Bool { return level <= 0 }
     var isFull: Bool { return level >= capacity }
@@ -34,19 +42,19 @@ class EnergyReserve {
         case .bone:
             capacity = 100
             energyDensity = 1
-            level = 100
+            level = EnergyReserve.startingLevelBone
             overflowThreshold = CGFloat.infinity
 
         case .fatReserves:
             capacity = 3200
             energyDensity = 8
-            level = 500
+            level = EnergyReserve.startingLevelFat
             overflowThreshold = 2400
 
         case .readyEnergyReserves:
             capacity = 2400
             energyDensity = 4
-            level = 2000
+            level = EnergyReserve.startingLevelReadyEnergy
             overflowThreshold = 2000
 
         case .spawnReserves:
@@ -70,6 +78,7 @@ class EnergyReserve {
         level = min(level + cJoules, capacity)
     }
 
+    @discardableResult
     func withdraw(_ cJoules: CGFloat) -> CGFloat {
         if cJoules == 0 { return 0 }
         precondition(cJoules > 0)
@@ -88,7 +97,6 @@ class Metabolism: EnergySourceProtocol {
 
     var bone = EnergyReserve(.bone)
     var fatReserves = EnergyReserve(.fatReserves)
-    var muscles: EnergyPacket?
     var readyEnergyReserves = EnergyReserve(.readyEnergyReserves)
     var spawnReserves = EnergyReserve(.spawnReserves)
     var stomach = EnergyReserve(.stomach)
@@ -110,13 +118,13 @@ class Metabolism: EnergySourceProtocol {
     var energyContent: CGFloat {
         return allReserves.reduce(0) { subtotal, reserves in
             subtotal + reserves.level
-        } + (muscles?.energyContent ?? 0)
+        }// + (muscles?.energyContent ?? 0)
     }
 
     var fungibleEnergyContent: CGFloat {
         return fungibleReserves.reduce(0) { subtotal, reserves in
             subtotal + reserves.level
-            } + (muscles?.energyContent ?? 0)
+        }// + (muscles?.energyContent ?? 0)
     }
 
     var energyFullness: CGFloat { return energyContent / energyCapacity }
@@ -166,40 +174,26 @@ class Metabolism: EnergySourceProtocol {
 //        )
     }
 
-    @discardableResult
-    func expendEnergy(_ packet: EnergyPacketProtocol) -> CGFloat {
-        defer {
-            muscles = nil
-            updatePhysicsBodyMass()
-        }
-
-        return muscles?.energyContent ?? 0
-    }
-
     func parasitize(_ victim: Metabolism) {
         let spareCapacity = stomach.capacity - stomach.level
         let attemptToTakeThisMuch = spareCapacity / 0.75
-        let tookThisMuch = victim.transferEnergy(attemptToTakeThisMuch)
-        let netEnergy = tookThisMuch.energyContent * 0.75
+        let tookThisMuch = victim.withdrawFromReady(attemptToTakeThisMuch)
+        let netEnergy = tookThisMuch * 0.75
 
 //        print("Absorbing \(netEnergy), current = \(energyContent), ready = \(readyEnergyReserves.level)")
         absorbEnergy(netEnergy)
     }
 
     @discardableResult
-    func transferEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol {
-        let preMass = physicsBody.mass
-        let preEnergy = energyContent
-        let retrieved = readyEnergyReserves.withdraw(cJoules)
-
-        updatePhysicsBodyMass()
-
-        let ep = EnergyPacket(
-            energyContent: preEnergy - energyContent, mass: preMass - physicsBody.mass
-        )
-
+    func withdrawFromReady(_ cJoules: CGFloat) -> CGFloat {
         defer { updatePhysicsBodyMass() }
-        return ep
+        return readyEnergyReserves.withdraw(cJoules)
+    }
+
+    @discardableResult
+    func withdrawFromSpawn(_ cJoules: CGFloat) -> CGFloat {
+        defer { updatePhysicsBodyMass() }
+        return spawnReserves.withdraw(cJoules)
     }
 
     func tick() {
@@ -239,7 +233,7 @@ class Metabolism: EnergySourceProtocol {
     func updatePhysicsBodyMass() {
         physicsBody.mass = CGFloat(allReserves.reduce(0) {
             subtotal, reserves in subtotal + (reserves.level / reserves.energyDensity)
-        }) / 1000 + (muscles?.mass ?? 0)
+        }) / 1000 //+ (muscles?.mass ?? 0)
 
 //        print("pass", physicsBody.mass, (muscles?.mass ?? 0))
     }
@@ -305,8 +299,7 @@ extension Metabolism {
             metabolism: predatorMetabolism, stomach: 196, readyEnergy: 2000, fat: 508, spawn: 0
         )
 
-        let e = predatorMetabolism.transferEnergy(20)
-        predatorMetabolism.expendEnergy(e)
+        predatorMetabolism.withdrawFromReady(20)
         tick(predatorMetabolism, predatorObject)
 
         checkLevels(
@@ -323,7 +316,7 @@ extension Metabolism {
             metabolism: predatorMetabolism, stomach: 4, readyEnergy: 2000, fat: 680, spawn: 0
         )
 
-        predatorMetabolism.transferEnergy(2000)
+        predatorMetabolism.withdrawFromReady(2000)
 
         checkLevels(
             metabolism: predatorMetabolism, stomach: 4, readyEnergy: 0, fat: 680, spawn: 0
@@ -335,14 +328,14 @@ extension Metabolism {
             metabolism: predatorMetabolism, stomach: 0, readyEnergy: 596, fat: 88, spawn: 0
         )
 
-        predatorMetabolism.transferEnergy(596)
+        predatorMetabolism.withdrawFromReady(596)
 
         checkLevels(
             metabolism: predatorMetabolism, stomach: 0, readyEnergy: 0, fat: 88, spawn: 0
         )
 
         for _ in (0..<11) { tick(predatorMetabolism, predatorObject) }
-        predatorMetabolism.transferEnergy(88)
+        predatorMetabolism.withdrawFromReady(88)
 
         checkLevels(
             metabolism: predatorMetabolism, stomach: 0, readyEnergy: 0, fat: 0, spawn: 0
@@ -491,8 +484,7 @@ extension Metabolism {
         )
 
         for _ in 0..<40 {
-            let e = metabolism.transferEnergy(50)
-            metabolism.expendEnergy(e)
+            metabolism.withdrawFromReady(50)
             tick(metabolism, massiveObject)
         }
 
@@ -510,8 +502,7 @@ extension Metabolism {
         )
 
         for _ in 0..<10 {
-            let e = metabolism.transferEnergy(50)
-            metabolism.expendEnergy(e)
+            metabolism.withdrawFromReady(50)
             tick(metabolism, massiveObject)
         }
 
@@ -529,8 +520,7 @@ extension Metabolism {
         )
 
         for _ in 0..<427 {
-            let e = metabolism.transferEnergy(50)
-            metabolism.expendEnergy(e)
+            metabolism.withdrawFromReady(50)
             tick(metabolism, massiveObject)
         }
 

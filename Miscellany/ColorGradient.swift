@@ -41,9 +41,14 @@ enum ColorGradient {
                        blue: CGFloat(b), alpha: CGFloat(1.0))
     }
 
-    static func makeColorMixRed(baseColor: Int, redPercentage: CGFloat) -> NSColor {
-        let byteWise = Int(redPercentage * 256)
-        let hexRGB = baseColor + (byteWise << 16)
+    static func makeColorMixRedBlue(
+        baseColor: Int, redPercentage: CGFloat, bluePercentage: CGFloat
+    ) -> NSColor {
+        let redByteWise = min(Int(redPercentage * 256), 255)
+        let blueByteWise = min(Int(bluePercentage * 256), 255)
+
+        let hexRGB = baseColor + (redByteWise << 16) + blueByteWise
+//        print("hexRGB", String(format: "0x%06X", hexRGB))
         return makeColor(hexRGB: hexRGB)
     }
 }

@@ -4,16 +4,18 @@ import SpriteKit
 struct Selectoid {
     static var TheFishNumber = 0
 
-//    let birthday: TimeInterval
+    let birthday: TimeInterval
 //    var cOffspring: Int
     let fishNumber: Int
 //    let fishNumberOfParent: Int?
 //    let genome: [GeneProtocol]
 //    let genomeOfParent: [GeneProtocol]?
 
-    init() {
+    init(birthday: TimeInterval) {
         defer { Selectoid.TheFishNumber += 1 }
         fishNumber = Selectoid.TheFishNumber
+
+        self.birthday = birthday
     }
 }
 
@@ -33,13 +35,17 @@ class Arkon: HasContactDetector {
     var isCaptured = false
     let metabolism: Metabolism
     let nose: SKSpriteNode
-    var selectoid = Selectoid()
+    var selectoid: Selectoid
     var scene: SKSpriteNode { return Arkon.portal! }
     let sprite: SKSpriteNode
     var spriteFactory: SpriteFactory { return Arkon.spriteFactory! }
 
+    var age: TimeInterval { Arkon.clock!.getCurrentTime() - selectoid.birthday }
+
     //swiftmint:disable function_body_length
     init() {
+        selectoid = Selectoid(birthday: Arkon.clock!.getCurrentTime())
+
         sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
         sprite.setScale(0.5)
         sprite.color = ColorGradient.makeColor(hexRGB: Arkon.standardColor)
@@ -106,11 +112,29 @@ class Arkon: HasContactDetector {
     }
     //swiftmint:enable function_body_length
 
-    func tick() { metabolism.tick() }
+    func apoptosize() {
+        spriteFactory.noseHangar.retireSprite(sprite.arkon.nose)
+        spriteFactory.arkonsHangar.retireSprite(sprite)
+    }
+
+    func tick() {
+//        print("time", Arkon.clock!.getCurrentTime(), age)
+        let realScene = (scene.parent as? SKScene)!
+        let converted = scene.convert(sprite.position, to: realScene)
+
+        guard scene.frame.contains(converted) else {
+            apoptosize()
+            return
+        }
+
+//        sprite.color = .green
+        metabolism.tick()
+    }
 }
 
 extension Arkon {
     static var arkonHangar = [Int: Arkon]()
+    static var clock: ClockProtocol?
     static var portal: SKSpriteNode?
     static var spriteFactory: SpriteFactory?
 
@@ -223,9 +247,12 @@ extension Arkon {
         }
     }
 
-    static func inject(_ spriteFactory: SpriteFactory, _ portal: SKSpriteNode) {
-        Arkon.spriteFactory = spriteFactory
+    static func inject(
+        _ clock: ClockProtocol,  _ portal: SKSpriteNode, _ spriteFactory: SpriteFactory
+    ) {
+        Arkon.clock = clock
         Arkon.portal = portal
+        Arkon.spriteFactory = spriteFactory
     }
 
     class OmnivoresTestContactResponder: ContactResponseProtocol {
@@ -286,28 +313,38 @@ extension Arkon {
         }
     }
 
+    static func spawn(portal: SKSpriteNode) {
+        let newArkon = Arkon()
+        arkonHangar[newArkon.selectoid.fishNumber] = newArkon
+        newArkon.sprite.position = portal.getRandomPoint()
+        newArkon.sprite.zRotation = CGFloat.random(in: -CGFloat.pi..<CGFloat.pi)
+
+        newArkon.contactDetector!.contactResponder =
+            OmnivoresTestContactResponder(ownerArkon: newArkon)
+
+        newArkon.contactDetector!.senseResponder = OmnivoresTestSenseResponder()
+
+        onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
+    }
+
     static func omnivoresTest(portal: SKSpriteNode) {
-        for a in 0..<30 {
-            let newArkon = Arkon()
-            arkonHangar[a] = newArkon
-            newArkon.sprite.position = portal.getRandomPoint()
-            newArkon.sprite.zRotation = CGFloat.random(in: -CGFloat.pi..<CGFloat.pi)
-
-            newArkon.contactDetector!.contactResponder =
-                OmnivoresTestContactResponder(ownerArkon: newArkon)
-
-            newArkon.contactDetector!.senseResponder = OmnivoresTestSenseResponder()
-
-            onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
-        }
+        for _ in 0..<30 { spawn(portal: portal) }
     }
 
     static func onePass(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
         let nose = (thorax.children[0] as? Nose)!
 
         guard metabolism.fungibleEnergyFullness > 0 else {
-            spriteFactory?.arkonsHangar.retireSprite(thorax)
+            thorax.arkon.apoptosize()
             return
+        }
+
+        // 10% entropy
+        let spawnCost = EnergyReserve.startingEnergyLevel * 1.10
+
+        if metabolism.spawnReserves.level >= spawnCost {
+            metabolism.withdrawFromSpawn(spawnCost)
+            Arkon.spawn(portal: (thorax.parent as? SKSpriteNode)!)
         }
 
         let ef = metabolism.fungibleEnergyFullness
@@ -316,9 +353,13 @@ extension Arkon {
         let baseColor = (metabolism.spawnEnergyFullness > 0) ?
             Arkon.brightColor : Arkon.standardColor
 
-        thorax.color = ColorGradient.makeColorMixRed(
-            baseColor: baseColor, redPercentage: metabolism.spawnEnergyFullness
+        thorax.color = ColorGradient.makeColorMixRedBlue(
+            baseColor: baseColor,
+            redPercentage: metabolism.spawnEnergyFullness,
+            bluePercentage: max((4 - CGFloat(thorax.arkon.age)) / 4, 0)
         )
+
+//        print("color", metabolism.spawnEnergyFullness, max((4 - CGFloat(thorax.arkon.age)) / 4, 0))
 
 //        let topLabel = (nose.children[0] as? SKLabelNode)!
 //        topLabel.text = String(format: "%0.0f", metabolism.readyEnergyReserves.level)

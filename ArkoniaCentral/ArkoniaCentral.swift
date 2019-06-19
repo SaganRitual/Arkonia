@@ -5,8 +5,8 @@ enum ArkoniaCentral {
 
 extension SKSpriteNode {
     func getRandomPoint() -> CGPoint {
-        let w = size.width / 2
-        let h = size.height / 2
+        let w = size.width / 2 / xScale
+        let h = size.height / 2 / yScale
 
         let xRange = -w..<w
         let yRange = -h..<h

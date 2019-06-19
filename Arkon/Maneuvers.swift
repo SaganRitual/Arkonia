@@ -54,8 +54,7 @@ struct Maneuvers {
         let joulesNeeded = targetAVelocity * arkon.physicsBody!.mass     // By fiat, energy needed is a function of the speed
 
         return SKAction.run {
-            let energyPacket = self.energySource.transferEnergy(joulesNeeded)
-            let impulse = energyPacket.energyContent
+            let impulse = self.energySource.withdrawFromReady(joulesNeeded)
 
 //            print(
 //                "[rotate   ",
@@ -67,7 +66,6 @@ struct Maneuvers {
 //            )
 
             arkon.physicsBody!.applyAngularImpulse(impulse)
-            _ = self.energySource.expendEnergy(energyPacket)
 
 //            print(
 //                "rotate   ",
@@ -107,8 +105,7 @@ struct Maneuvers {
 //                String(format: "% 6.2f ", arkon.arkon.metabolism.energyContent)
 //            )
 
-            let energyPacket = self.energySource.transferEnergy(joulesNeeded)
-            let impulse = energyPacket.energyContent
+            let impulse = self.energySource.withdrawFromReady(joulesNeeded)
 
             let vector = CGVector(radius: impulse, theta: arkon.zRotation)
 
@@ -122,7 +119,6 @@ struct Maneuvers {
 //            )
 
             arkon.physicsBody!.applyImpulse(vector)
-            _ = self.energySource.expendEnergy(energyPacket)
         }
     }
 
@@ -163,10 +159,8 @@ extension Maneuvers {
     }
 
     struct EnergySource: EnergySourceProtocol {
-        func expendEnergy(_ packet: EnergyPacketProtocol) -> CGFloat { return packet.energyContent }
-        func transferEnergy(_ cJoules: CGFloat) -> EnergyPacketProtocol {
-            return DummyEnergyPacket(energyContent: cJoules)
-        }
+        func withdrawFromReady(_ cJoules: CGFloat) -> CGFloat { return cJoules }
+        func withdrawFromSpawn(_ cJoules: CGFloat) -> CGFloat { return cJoules }
     }
 
     static var tenPass = 0
