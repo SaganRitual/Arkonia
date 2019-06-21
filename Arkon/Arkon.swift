@@ -367,15 +367,28 @@ extension Arkon {
 //        let bottomLabel = (nose.children[1] as? SKLabelNode)!
 //        bottomLabel.text = String(format: "%0.0f", metabolism.fatReserves.level)
 
+//        let maneuvers = Maneuvers(energySource: metabolism)
+//        let actions = getActions(sprite: thorax, maneuvers: maneuvers)
+//
+////        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nosePhysicsBody.mass)
+//        let spreadem = CGFloat(thorax.arkon.selectoid.fishNumber % 5) * CGFloat.random(in: 0..<5)
+//        let wait = SKAction.wait(forDuration: TimeInterval(spreadem * 0.016))
+//        let randomness = SKAction.sequence([wait, actions])
+//
+//        thorax.run(randomness) { onePass(sprite: thorax, metabolism: metabolism) }
+
+        brainlyManeuver(sprite: thorax, metabolism: metabolism)
+    }
+
+    static func brainlyManeuver(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
+        let sensoryInputs = [Double](repeating: 1.0, count: ArkoniaCentral.cSenses)
+        let motorOutputs = Net.driveSignal(sensoryInputs)
+
         let maneuvers = Maneuvers(energySource: metabolism)
-        let actions = getActions(sprite: thorax, maneuvers: maneuvers)
-
-//        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nosePhysicsBody.mass)
-        let spreadem = CGFloat(thorax.arkon.selectoid.fishNumber % 5) * CGFloat.random(in: 0..<5)
-        let wait = SKAction.wait(forDuration: TimeInterval(spreadem * 0.016))
-        let randomness = SKAction.sequence([wait, actions])
-
-        thorax.run(randomness) { onePass(sprite: thorax, metabolism: metabolism) }
+        let action = maneuvers.selectActionPrimitive(arkon: thorax, motorOutputs: motorOutputs)
+        let preWait = SKAction.wait(forDuration: 1.0)
+        let sequence = SKAction.sequence([preWait, action])
+        thorax.run(sequence) { onePass(sprite: thorax, metabolism: metabolism) }
     }
 
     struct PreyTestContactResponder: ContactResponseProtocol {

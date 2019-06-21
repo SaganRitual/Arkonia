@@ -51,7 +51,7 @@ struct Maneuvers {
         let fudgeFactor: CGFloat = 1.15
         let piRevsPerSecond: CGFloat = 2.0
         let targetAVelocity = fudgeFactor * piRevsPerSecond * torqueIndex / (3 * CGFloat.tau)
-        let joulesNeeded = targetAVelocity * arkon.physicsBody!.mass     // By fiat, energy needed is a function of the speed
+        let joulesNeeded = abs(targetAVelocity) * arkon.physicsBody!.mass     // By fiat, energy needed is a function of the speed
 
         return SKAction.run {
             let impulse = self.energySource.withdrawFromReady(joulesNeeded)
@@ -92,7 +92,7 @@ struct Maneuvers {
     func getThrustAction(_ arkon: SKSpriteNode, _ thrustIndex: CGFloat) -> SKAction {
         let fudgeFactor: CGFloat = 0.8
         let targetSpeed: CGFloat = thrustIndex * 1000  // 1000 pixels/sec (ish)
-        let joulesNeeded = fudgeFactor * targetSpeed * arkon.physicsBody!.mass
+        let joulesNeeded = fudgeFactor * abs(targetSpeed) * arkon.physicsBody!.mass
 
         return SKAction.run {
 

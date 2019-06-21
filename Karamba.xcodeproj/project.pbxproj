@@ -308,15 +308,86 @@
 		D4CBA30622805DD60023FAB9 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
 		D4CBA30A22805DD60023FAB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D4CBA30B22805DD60023FAB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
+		D4CCEDED22BD8CB900C4FD87 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
 		D4CF20A722A4C296000FD2BA /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4E9803B22B1DD1600B388BD /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4E9803C22B210A100B388BD /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
+		D4EE55FD22BC1D530076D8A1 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
+		D4EE55FE22BC1D530076D8A1 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
+		D4EE55FF22BC1D530076D8A1 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
+		D4EE560022BC1D530076D8A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
+		D4EE560222BC1D530076D8A1 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
+		D4EE560422BC1D530076D8A1 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
+		D4EE560522BC1D530076D8A1 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
+		D4EE560622BC1D530076D8A1 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
+		D4EE560722BC1D530076D8A1 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
+		D4EE560822BC1D530076D8A1 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
+		D4EE560922BC1D530076D8A1 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
+		D4EE560C22BC1D530076D8A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
+		D4EE560D22BC1D530076D8A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
+		D4EE560E22BC1D530076D8A1 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
+		D4EE561522BC1E500076D8A1 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
+		D4EE561822BC20D30076D8A1 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
+		D4EE561A22BC96290076D8A1 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
+		D4EE561B22BC981B0076D8A1 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4F6460522A3876500FD8C56 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
 		D4F6460822A4253F00FD8C56 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D4F8ACA3228F99C70023C6DB /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D4F8ACA4228F9A960023C6DB /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D4F8ACA5228F9B020023C6DB /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D4EE55CA22BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F8A1E1AA19917A79009735E2;
+			remoteInfo = "Surge-iOS";
+		};
+		D4EE55CC22BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F84A6AAE19A9A72F007B53E1;
+			remoteInfo = "SurgeTests-iOS";
+		};
+		D4EE55CE22BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD31F1FC0AD99002BFE1C;
+			remoteInfo = "Surge-macOS";
+		};
+		D4EE55D022BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3271FC0AD99002BFE1C;
+			remoteInfo = "SurgeTests-macOS";
+		};
+		D4EE55D222BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3511FC0B001002BFE1C;
+			remoteInfo = "Surge-tvOS";
+		};
+		D4EE55D422BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3591FC0B001002BFE1C;
+			remoteInfo = "SurgeTests-tvOS";
+		};
+		D4EE55D622BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614AD3821FC0B125002BFE1C;
+			remoteInfo = "Surge-watchOS";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		D40213A622B85EA400ADF5B0 /* LifeCycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeCycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -361,10 +432,10 @@
 		D4CBA2FE228059CA0023FAB9 /* SpriteFactory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpriteFactory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetDisplayGrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaCentral.swift; sourceTree = "<group>"; };
-		D4E8D262227DA41800DFCB40 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
-		D4E8D264227DFD2500DFCB40 /* VDisplayTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDisplayTest.swift; sourceTree = "<group>"; };
-		D4E8D265227DFD2500DFCB40 /* VDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VDisplay.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
+		D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Surge.xcodeproj; path = Surge/Surge.xcodeproj; sourceTree = "<group>"; };
+		D4EE561322BC1D530076D8A1 /* BrainMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrainMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4EE561922BC96290076D8A1 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		D4F6460722A4253F00FD8C56 /* ColorGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -481,15 +552,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D4EE560A22BC1D530076D8A1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		D40985D722650B0A009DD384 = {
 			isa = PBXGroup;
 			children = (
+				D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */,
 				D43EA81B228FDCC3006C619D /* Arkon */,
 				D43EA81A228FDBA4006C619D /* ArkoniaCentral */,
-				D4E8D261227DA3D500DFCB40 /* HUD */,
 				D40985F922650BD8009DD384 /* macOS */,
 				D46B1D7222813DF7003D711C /* Miscellany */,
 				D4E8D268227E06F400DFCB40 /* NetDisplay */,
@@ -516,6 +594,7 @@
 				D457A01622B5C7A600963929 /* Cannibals.app */,
 				D457A03922B5FB8400963929 /* Omnivores.app */,
 				D40213A622B85EA400ADF5B0 /* LifeCycle.app */,
+				D4EE561322BC1D530076D8A1 /* BrainMan.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -557,6 +636,7 @@
 				D49042BE22AC91F800E7369B /* ContactDetector.swift */,
 				D43EA83B229232C6006C619D /* Maneuvers.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
+				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D49042C722AEC16D00E7369B /* Nose.swift */,
 			);
 			path = Arkon;
@@ -573,16 +653,6 @@
 			path = Miscellany;
 			sourceTree = "<group>";
 		};
-		D4E8D261227DA3D500DFCB40 /* HUD */ = {
-			isa = PBXGroup;
-			children = (
-				D4E8D262227DA41800DFCB40 /* NetDiagram.swift */,
-				D4E8D265227DFD2500DFCB40 /* VDisplay.swift */,
-				D4E8D264227DFD2500DFCB40 /* VDisplayTest.swift */,
-			);
-			path = HUD;
-			sourceTree = "<group>";
-		};
 		D4E8D268227E06F400DFCB40 /* NetDisplay */ = {
 			isa = PBXGroup;
 			children = (
@@ -591,6 +661,20 @@
 				D46B1D8622816F58003D711C /* NetGraphics.swift */,
 			);
 			path = NetDisplay;
+			sourceTree = "<group>";
+		};
+		D4EE55C122BC1C6E0076D8A1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D4EE55CB22BC1C6E0076D8A1 /* Surge.framework */,
+				D4EE55CD22BC1C6E0076D8A1 /* SurgeTests-iOS.xctest */,
+				D4EE55CF22BC1C6E0076D8A1 /* Surge.framework */,
+				D4EE55D122BC1C6E0076D8A1 /* SurgeTests-macOS.xctest */,
+				D4EE55D322BC1C6E0076D8A1 /* Surge.framework */,
+				D4EE55D522BC1C6E0076D8A1 /* SurgeTests-tvOS.xctest */,
+				D4EE55D722BC1C6E0076D8A1 /* Surge.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -884,6 +968,24 @@
 			productReference = D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D4EE55FB22BC1D530076D8A1 /* BrainMan */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4EE561022BC1D530076D8A1 /* Build configuration list for PBXNativeTarget "BrainMan" */;
+			buildPhases = (
+				D4EE55FC22BC1D530076D8A1 /* Sources */,
+				D4EE560A22BC1D530076D8A1 /* Frameworks */,
+				D4EE560B22BC1D530076D8A1 /* Resources */,
+				D4EE560F22BC1D530076D8A1 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BrainMan;
+			productName = Components;
+			productReference = D4EE561322BC1D530076D8A1 /* BrainMan.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -910,9 +1012,16 @@
 			mainGroup = D40985D722650B0A009DD384;
 			productRefGroup = D40985E122650B0A009DD384 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D4EE55C122BC1C6E0076D8A1 /* Products */;
+					ProjectRef = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D43EA8222291B84F006C619D /* Arkon */,
+				D4EE55FB22BC1D530076D8A1 /* BrainMan */,
 				D4579FF522B5C7A600963929 /* Cannibals */,
 				D490429E22AC6A2400E7369B /* Contact */,
 				D40985DF22650B0A009DD384 /* Karamba */,
@@ -931,6 +1040,58 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D4EE55CB22BC1C6E0076D8A1 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = D4EE55CA22BC1C6E0076D8A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4EE55CD22BC1C6E0076D8A1 /* SurgeTests-iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SurgeTests-iOS.xctest";
+			remoteRef = D4EE55CC22BC1C6E0076D8A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4EE55CF22BC1C6E0076D8A1 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = D4EE55CE22BC1C6E0076D8A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4EE55D122BC1C6E0076D8A1 /* SurgeTests-macOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SurgeTests-macOS.xctest";
+			remoteRef = D4EE55D022BC1C6E0076D8A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4EE55D322BC1C6E0076D8A1 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = D4EE55D222BC1C6E0076D8A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4EE55D522BC1C6E0076D8A1 /* SurgeTests-tvOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SurgeTests-tvOS.xctest";
+			remoteRef = D4EE55D422BC1C6E0076D8A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D4EE55D722BC1C6E0076D8A1 /* Surge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Surge.framework;
+			remoteRef = D4EE55D622BC1C6E0076D8A1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D402139E22B85EA400ADF5B0 /* Resources */ = {
@@ -1090,6 +1251,16 @@
 				D4CBA30A22805DD60023FAB9 /* Assets.xcassets in Resources */,
 				D4CBA30B22805DD60023FAB9 /* Main.storyboard in Resources */,
 				D4F8ACA4228F9A960023C6DB /* TheScene.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4EE560B22BC1D530076D8A1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4EE560C22BC1D530076D8A1 /* Assets.xcassets in Resources */,
+				D4EE560D22BC1D530076D8A1 /* Main.storyboard in Resources */,
+				D4EE560E22BC1D530076D8A1 /* TheScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1368,6 +1539,23 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		D4EE560F22BC1D530076D8A1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1392,6 +1580,7 @@
 				D402139522B85EA400ADF5B0 /* Nose.swift in Sources */,
 				D402139622B85EA400ADF5B0 /* NetGraphics.swift in Sources */,
 				D402139722B85EA400ADF5B0 /* ContactCoordinator.swift in Sources */,
+				D4CCEDED22BD8CB900C4FD87 /* Net.swift in Sources */,
 				D402139822B85EA400ADF5B0 /* Protocols.swift in Sources */,
 				D402139922B85EA400ADF5B0 /* ColorGradient.swift in Sources */,
 				D402139A22B85EA400ADF5B0 /* Manna.swift in Sources */,
@@ -1741,6 +1930,28 @@
 				D46B1DA122826994003D711C /* Overload2D.swift in Sources */,
 				D4CBA30622805DD60023FAB9 /* AppController.swift in Sources */,
 				D46B1D89228173BE003D711C /* Protocols.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4EE55FC22BC1D530076D8A1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4EE55FD22BC1D530076D8A1 /* KIdentifier.swift in Sources */,
+				D4EE561522BC1E500076D8A1 /* SpriteFactory.swift in Sources */,
+				D4EE55FE22BC1D530076D8A1 /* TheScene.swift in Sources */,
+				D4EE55FF22BC1D530076D8A1 /* SceneViewController.swift in Sources */,
+				D4EE561822BC20D30076D8A1 /* Nose.swift in Sources */,
+				D4EE560022BC1D530076D8A1 /* AppDelegate.swift in Sources */,
+				D4EE560222BC1D530076D8A1 /* NetDisplayGrid.swift in Sources */,
+				D4EE560422BC1D530076D8A1 /* Overload2D.swift in Sources */,
+				D4EE560522BC1D530076D8A1 /* AppController.swift in Sources */,
+				D4EE560622BC1D530076D8A1 /* NetGraphics.swift in Sources */,
+				D4EE560722BC1D530076D8A1 /* Protocols.swift in Sources */,
+				D4EE560822BC1D530076D8A1 /* Maneuvers.swift in Sources */,
+				D4EE561B22BC981B0076D8A1 /* ArkoniaCentral.swift in Sources */,
+				D4EE560922BC1D530076D8A1 /* Extensions.swift in Sources */,
+				D4EE561A22BC96290076D8A1 /* Net.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2491,6 +2702,44 @@
 			};
 			name = Release;
 		};
+		D4EE561122BC1D530076D8A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D4EE561222BC1D530076D8A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2643,6 +2892,15 @@
 			buildConfigurations = (
 				D4CBA30E22805DD60023FAB9 /* Debug */,
 				D4CBA30F22805DD60023FAB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4EE561022BC1D530076D8A1 /* Build configuration list for PBXNativeTarget "BrainMan" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4EE561122BC1D530076D8A1 /* Debug */,
+				D4EE561222BC1D530076D8A1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
