@@ -206,6 +206,12 @@
 		D46B1DA222826994003D711C /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D46B1DA322826994003D711C /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D46B1DA42282A9A2003D711C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
+		D47618AE22BEE61800ADAA87 /* SenseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618A422BEE61700ADAA87 /* SenseLoader.swift */; };
+		D47618AF22BEE61800ADAA87 /* SenseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618A422BEE61700ADAA87 /* SenseLoader.swift */; };
+		D47618B022BEE61800ADAA87 /* SenseTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */; };
+		D47618B122BEE61800ADAA87 /* SenseTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */; };
+		D47618B222BEE61800ADAA87 /* Stimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AD22BEE61700ADAA87 /* Stimulus.swift */; };
+		D47618B322BEE61800ADAA87 /* Stimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AD22BEE61700ADAA87 /* Stimulus.swift */; };
 		D480535722B14D3300FF8617 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D480535922B14D3300FF8617 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
 		D480535A22B14D3300FF8617 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
@@ -421,6 +427,9 @@
 		D46B1D88228173BE003D711C /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		D46B1D9D22825D43003D711C /* NetGraphics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetGraphics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46B1D9F22826994003D711C /* Overload2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overload2D.swift; sourceTree = "<group>"; };
+		D47618A422BEE61700ADAA87 /* SenseLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseLoader.swift; sourceTree = "<group>"; };
+		D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SenseTranslator.swift; sourceTree = "<group>"; };
+		D47618AD22BEE61700ADAA87 /* Stimulus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stimulus.swift; sourceTree = "<group>"; };
 		D480537622B14D3300FF8617 /* ManMetManna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ManMetManna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48286222298CC4800225057 /* Maneuvers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maneuvers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D49042BB22AC6A2400E7369B /* Contact.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contact.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -638,6 +647,9 @@
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D49042C722AEC16D00E7369B /* Nose.swift */,
+				D47618A422BEE61700ADAA87 /* SenseLoader.swift */,
+				D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */,
+				D47618AD22BEE61700ADAA87 /* Stimulus.swift */,
 			);
 			path = Arkon;
 			sourceTree = "<group>";
@@ -1564,6 +1576,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D402138722B85EA400ADF5B0 /* KIdentifier.swift in Sources */,
+				D47618AF22BEE61800ADAA87 /* SenseLoader.swift in Sources */,
 				D402138822B85EA400ADF5B0 /* Arkon.swift in Sources */,
 				D402138922B85EA400ADF5B0 /* TheScene.swift in Sources */,
 				D402138A22B85EA400ADF5B0 /* SceneViewController.swift in Sources */,
@@ -1575,6 +1588,7 @@
 				D402139022B85EA400ADF5B0 /* Metabolism.swift in Sources */,
 				D402139122B85EA400ADF5B0 /* NetDisplay.swift in Sources */,
 				D402139222B85EA400ADF5B0 /* Overload2D.swift in Sources */,
+				D47618B322BEE61800ADAA87 /* Stimulus.swift in Sources */,
 				D402139322B85EA400ADF5B0 /* World.swift in Sources */,
 				D402139422B85EA400ADF5B0 /* AppController.swift in Sources */,
 				D402139522B85EA400ADF5B0 /* Nose.swift in Sources */,
@@ -1584,6 +1598,7 @@
 				D402139822B85EA400ADF5B0 /* Protocols.swift in Sources */,
 				D402139922B85EA400ADF5B0 /* ColorGradient.swift in Sources */,
 				D402139A22B85EA400ADF5B0 /* Manna.swift in Sources */,
+				D47618B122BEE61800ADAA87 /* SenseTranslator.swift in Sources */,
 				D402139B22B85EA400ADF5B0 /* Maneuvers.swift in Sources */,
 				D402139C22B85EA400ADF5B0 /* Extensions.swift in Sources */,
 			);
@@ -1639,6 +1654,8 @@
 				D43EA8272291B84F006C619D /* AppDelegate.swift in Sources */,
 				D43EA8282291B84F006C619D /* SpriteFactory.swift in Sources */,
 				D49042BF22AC91F800E7369B /* ContactDetector.swift in Sources */,
+				D47618B222BEE61800ADAA87 /* Stimulus.swift in Sources */,
+				D47618B022BEE61800ADAA87 /* SenseTranslator.swift in Sources */,
 				D43EA8292291B84F006C619D /* NetDisplayGrid.swift in Sources */,
 				D441B99B229CFFA800FB7057 /* Metabolism.swift in Sources */,
 				D43EA82A2291B84F006C619D /* NetDisplay.swift in Sources */,
@@ -1648,6 +1665,7 @@
 				D49042C822AEC16D00E7369B /* Nose.swift in Sources */,
 				D43EA82D2291B84F006C619D /* NetGraphics.swift in Sources */,
 				D49042C222AC927A00E7369B /* ContactCoordinator.swift in Sources */,
+				D47618AE22BEE61800ADAA87 /* SenseLoader.swift in Sources */,
 				D43EA82E2291B84F006C619D /* Protocols.swift in Sources */,
 				D4F6460822A4253F00FD8C56 /* ColorGradient.swift in Sources */,
 				D4603A6222A2720400885428 /* Manna.swift in Sources */,

@@ -94,6 +94,7 @@ class Metabolism: EnergySourceProtocol {
 
     let allReserves: [EnergyReserve]
     let fungibleReserves: [EnergyReserve]
+    var oxygenLevel: CGFloat = 0
 
     var bone = EnergyReserve(.bone)
     var fatReserves = EnergyReserve(.fatReserves)

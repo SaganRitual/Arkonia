@@ -2,7 +2,7 @@ import Surge
 
 enum Net {
 
-    static func driveSignal(_ sensoryInputs: [Double]) -> [Double] {
+    static func getMotorOutputs(_ sensoryInputs: [Double]) -> [Double] {
         assert(sensoryInputs.count == ArkoniaCentral.cSenses)
 
         let neuronCounts = [ArkoniaCentral.cSenses, 9, 9, ArkoniaCentral.cMotorNeurons]

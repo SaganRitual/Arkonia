@@ -9,8 +9,10 @@ protocol ContactCoordinatorDelegate: class {
 }
 
 protocol ContactDetectorProtocol {
+    var contactedBodies: [SKPhysicsBody]? { get set }
     var contactResponder: ContactResponseProtocol? { get set }
     var isReadyForPhysics: Bool { get set }
+    var sensedBodies: [SKPhysicsBody]? { get set }
     var senseResponder: SenseResponseProtocol? { get set }
 
     func pushContactedBodies(_ contactedBodies: [SKPhysicsBody])

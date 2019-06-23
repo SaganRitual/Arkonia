@@ -31,23 +31,29 @@ extension SKSpriteNode {
 class Arkon: HasContactDetector {
     static let standardColor = 0x00_D0_00  // Slightly dim green
     static let brightColor = 0x00_FF_00    // Full green
+    static let scaleFactor: CGFloat = 0.5
     var contactDetector: ContactDetectorProtocol?
+    var isAlive = false
     var isCaptured = false
     let metabolism: Metabolism
     let nose: SKSpriteNode
     var selectoid: Selectoid
     var scene: SKSpriteNode { return Arkon.portal! }
+    var senseLoader: SenseLoader!
+    var sensoryInputs = [Double]()
     let sprite: SKSpriteNode
     var spriteFactory: SpriteFactory { return Arkon.spriteFactory! }
 
     var age: TimeInterval { Arkon.clock!.getCurrentTime() - selectoid.birthday }
+
+    var pBody: SKPhysicsBody { return sprite.physicsBody! }
 
     //swiftmint:disable function_body_length
     init() {
         selectoid = Selectoid(birthday: Arkon.clock!.getCurrentTime())
 
         sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
-        sprite.setScale(0.5)
+        sprite.setScale(Arkon.scaleFactor)
         sprite.color = ColorGradient.makeColor(hexRGB: Arkon.standardColor)
         sprite.colorBlendFactor = 1
 
@@ -253,6 +259,8 @@ extension Arkon {
         Arkon.clock = clock
         Arkon.portal = portal
         Arkon.spriteFactory = spriteFactory
+
+        SenseLoader.inject(portal)
     }
 
     class OmnivoresTestContactResponder: ContactResponseProtocol {
@@ -381,14 +389,12 @@ extension Arkon {
     }
 
     static func brainlyManeuver(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
-        let sensoryInputs = [Double](repeating: 1.0, count: ArkoniaCentral.cSenses)
-        let motorOutputs = Net.driveSignal(sensoryInputs)
+        let sensoryInputs = thorax.arkon.stimulus()
+        let motorOutputs = Net.getMotorOutputs(sensoryInputs)
 
         let maneuvers = Maneuvers(energySource: metabolism)
         let action = maneuvers.selectActionPrimitive(arkon: thorax, motorOutputs: motorOutputs)
-        let preWait = SKAction.wait(forDuration: 1.0)
-        let sequence = SKAction.sequence([preWait, action])
-        thorax.run(sequence) { onePass(sprite: thorax, metabolism: metabolism) }
+        thorax.run(action) { onePass(sprite: thorax, metabolism: metabolism) }
     }
 
     struct PreyTestContactResponder: ContactResponseProtocol {
