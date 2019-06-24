@@ -20,6 +20,10 @@ struct Display {
 
 class TheScene: SKScene, ClockProtocol, SKSceneDelegate {
 
+    static var netQueue = DispatchQueue(
+        label: "arkonia.net.queue", qos: .background, attributes: .concurrent
+    )
+
     var entities = [GKEntity]()
     var graphs = [String: GKGraph]()
 

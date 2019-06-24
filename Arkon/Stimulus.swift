@@ -28,7 +28,7 @@ extension Arkon {
     func response() -> [Double] {
         assert(Display.displayCycle == .actions)
         guard isAlive else { return [] }
-        return Net.getMotorOutputs(sensoryInputs)
+        return net.getMotorOutputs(sensoryInputs)
     }
 
     func stimulus() -> [Double] {

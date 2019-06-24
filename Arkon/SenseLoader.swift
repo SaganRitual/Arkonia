@@ -11,6 +11,7 @@ class SenseLoader {
     var velocity: CGVector!
     var vectorToClosestArkon: CGVector?
     var vectorToClosestManna: CGVector?
+    var zRotation: CGFloat = 0
 
     init(_ arkon: Arkon) {
         let sprite = arkon.sprite
@@ -22,8 +23,14 @@ class SenseLoader {
         self.arkon = arkon
 
         aVelocity = sprite.normalizeAngleToTau(pBody.angularVelocity)
+        zRotation = sprite.normalizeAngleToTau(sprite.zRotation)
         vectorToOrigin = sprite.normalizeVectorToEnvironment(sprite.position.asVector(), portal: portal)
-        velocity = sprite.normalizeVectorToEnvironment(pBody.velocity, portal: portal)
+        let uelocity = sprite.normalizeVectorToEnvironment(pBody.velocity, portal: portal)
+
+        // Converting theta to tau scale gives me trouble, and I'm not sure it's
+        // necessary anyway. Keep the original theta
+        velocity = CGVector(radius: uelocity.radius, theta: pBody.velocity.theta)
+//        print("v", pBody.velocity.theta, velocity.theta)
 
         vectorToClosestArkon = getVectorToClosestSensedArkon()
         vectorToClosestManna = getVectorToClosestSensedManna()
@@ -48,13 +55,14 @@ class SenseLoader {
     }
 
     func loadSenseData() -> [Double] {
-        return [Double](arrayLiteral:
+        let foo = [Double](arrayLiteral:
 
-            Double(fullCapCheck(aVelocity)),
+            Double(aVelocity),
             Double(halfCapCheck(arkon.metabolism.oxygenLevel)),
 
-            Double(fullCapCheck(min(velocity.magnitude, 0))),
-            Double(fullCapCheck(velocity.theta)),
+            Double(velocity.magnitude),
+            Double(velocity.theta),
+//            Double(fullCapCheck(velocity.theta)),
 
             Double(fullCapCheck(vectorToOrigin.magnitude)),
             Double(fullCapCheck(vectorToOrigin.theta)),
@@ -63,10 +71,14 @@ class SenseLoader {
             Double(fullCapCheck(vectorToClosestManna?.magnitude ?? 1)),
             Double(fullCapCheck(vectorToClosestManna?.theta ?? 0)),
 
-            Double(arkon.sprite.zRotation),
+            Double(zRotation),
             Double(fullCapCheck(vectorToClosestArkon?.magnitude ?? 1)),
             Double(fullCapCheck(vectorToClosestArkon?.theta ?? 0))
 
         )
+
+//        print("foo", foo)
+
+        return foo
     }
 }

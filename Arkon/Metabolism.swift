@@ -94,7 +94,7 @@ class Metabolism: EnergySourceProtocol {
 
     let allReserves: [EnergyReserve]
     let fungibleReserves: [EnergyReserve]
-    var oxygenLevel: CGFloat = 0
+    var oxygenLevel: CGFloat = 1.0
 
     var bone = EnergyReserve(.bone)
     var fatReserves = EnergyReserve(.fatReserves)
@@ -163,6 +163,8 @@ class Metabolism: EnergySourceProtocol {
 //        )
 
         stomach.deposit(cJoules)
+        oxygenLevel = stomach.level / stomach.capacity
+//        print("d", oxygenLevel)
 
 //        print(
 //            "Deposit",

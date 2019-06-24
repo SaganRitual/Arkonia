@@ -11,7 +11,7 @@ enum GeneCore {
         if GeneCore.cLiveGenes > GeneCore.highWaterMark{
             GeneCore.highWaterMark = GeneCore.cLiveGenes
         }
-    }}
+        }}
 
     static var highWaterMark = 0
 
@@ -44,15 +44,16 @@ enum GeneCore {
         switch geneType {
         case .activator:     return gActivatorFunction.makeRandomGene()
         case .bias:          return gBias.makeRandomGene()
-        case .downConnector: return gDownConnector.makeRandomGene()
-        case .hox:           return gHox.makeRandomGene()
-        case .lock:          return gLock.makeRandomGene()
-        case .layer:         return gLayer.makeRandomGene()
-        case .neuron:        return gNeuron.makeRandomGene()
-//        case .policy:        return gPolicy.makeRandomGene()
-//        case .skipAnyType:   return gSkipAnyType.makeRandomGene()
-//        case .skipOneType:   return gSkipOneType.makeRandomGene()
+            //        case .downConnector: return gDownConnector.makeRandomGene()
+            //        case .hox:           return gHox.makeRandomGene()
+            //        case .lock:          return gLock.makeRandomGene()
+            //        case .layer:         return gLayer.makeRandomGene()
+            //        case .neuron:        return gNeuron.makeRandomGene()
+            //        case .policy:        return gPolicy.makeRandomGene()
+            //        case .skipAnyType:   return gSkipAnyType.makeRandomGene()
+        //        case .skipOneType:   return gSkipOneType.makeRandomGene()
         case .upConnector:   return gUpConnector.makeRandomGene()
+        default: preconditionFailure()
         }
     }
 
@@ -84,7 +85,7 @@ enum GeneCore {
             return GeneCore.int(newRawValue, topOfRange, newRawValue != currentRawValue)
 
         case let .activator(currentFunctionName, _):
-            let newFunctionName = hardBind(AFn.FunctionName.allCases.randomElement())
+            let newFunctionName = AFn.FunctionName.allCases.randomElement()!
             return GeneCore.activator(newFunctionName, newFunctionName != currentFunctionName)
 
         case let .upConnector(currentUpConnector, _):
@@ -104,8 +105,8 @@ enum GeneCore {
 
             let isMutatedCopy =
                 newChannel != currentUpConnector.channel ||
-                newWeight != currentUpConnector.weight ||
-                newAmplifier != currentUpConnector.amplifier
+                    newWeight != currentUpConnector.weight ||
+                    newAmplifier != currentUpConnector.amplifier
 
             let newUpConnector = UpConnector(newChannel, newWeight, newAmplifier)
             return GeneCore.upConnector(newUpConnector, isMutatedCopy)

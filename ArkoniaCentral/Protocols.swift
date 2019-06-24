@@ -49,10 +49,6 @@ protocol EnergySourceProtocol {
     func withdrawFromSpawn(_ cJoules: CGFloat) -> CGFloat
 }
 
-protocol GeneProtocol {
-
-}
-
 struct GridPoint {
     let x: Int
     let y: Int

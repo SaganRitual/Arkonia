@@ -2,7 +2,7 @@ import SpriteKit
 
 enum ArkoniaCentral {
     static let cMotorNeurons = 5
-    static let cSenses = 12
+    static let cSenseNeurons = 12
 }
 
 extension SKSpriteNode {

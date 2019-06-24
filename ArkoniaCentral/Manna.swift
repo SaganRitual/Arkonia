@@ -53,8 +53,11 @@ extension Manna {
         let fadeIn = SKAction.fadeIn(withDuration: 0.001)
         let rebloom = getColorAction()
 
+//        print("tdc\(boof)"); boof += 1
         return SKAction.sequence([unPhysics, fadeOut, wait, replant, fadeIn, rebloom])
     }
+
+    static var boof = 0
 
     static func getBeEatenAction(sprite: SKSpriteNode) -> SKAction {
         return SKAction.run {

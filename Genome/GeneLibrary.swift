@@ -30,7 +30,7 @@ struct gActivatorFunction: GeneProtocol {
     }
 
     static func makeRandomGene() -> GeneProtocol {
-        let randomFunctionName = hardBind(AFn.FunctionName.allCases.randomElement())
+        let randomFunctionName = AFn.FunctionName.allCases.randomElement()!
         return gActivatorFunction(randomFunctionName)
     }
 }
@@ -149,77 +149,3 @@ struct gUpConnector: GeneProtocol {
         return gUpConnector(upConnector, isMutatedCopy: false)
     }
 }
-/*
-// Doesn't do anything yet
-struct gPolicy: Chromosome {
-    let isMutatedCopy = false
-    var rawData: Int { return 0 }
-
-    init(_ notUsed: Int, isMutatedCopy: Bool = false) { }
-    func mutated() -> gPolicy { return gPolicy(0) }
-    static func makeRandomGene<T: Chromosome>() -> T { return nok(gPolicy(0) as? T) }
-}
-
-struct gSkipAnyType: Chromosome {
-    let isMutatedCopy = false
-    var rawData: Int { return 0 }
-
-    init(_ notUsed: Int, isMutatedCopy: Bool = false) { }
-    func mutated() -> gSkipAnyType { return gSkipAnyType(0) }
-    static func makeRandomGene<T: Chromosome>() -> T { return nok(gSkipAnyType(0) as? T) }
-}
-
-struct gSkipOneType: Chromosome {
-    let isMutatedCopy = false
-    var rawData: Int { return 0 }
-
-    init(_ notUsed: Int, isMutatedCopy: Bool = false) { }
-    func mutated() -> gSkipOneType { return gSkipOneType(0) }
-    static func makeRandomGene<T: Chromosome>() -> T { return nok(gSkipOneType(0) as? T) }
-}
-*/
-/*
- struct gIntGene: Chromosome {
- var value: Int
-
- override var description: String {
- var d = ""
- switch self.type {
- case .downConnector: d = "\t\tDown connector"
- case .hox: d = "\t\tHox"
- case .lock: d = "\t\tLock"
- default: preconditionFailure()
- }
-
- return "\(d)(\(value))"
- }
-
- init(_ type: GeneType, _ value: Int) {
- self.value = value
- super.init(type)
- }
-
- override func copy() -> Gene { return gIntGene(self.type, self.value) }
-
- override func mutated() -> Bool {
- let newValue = mutated(from: self.value)
-
- defer { self.value = newValue }
- return newValue != self.value
- }
- }
- */
-//struct AnyChromosome<ChromosomeType>: Chromosome {
-//    let isMutatedCopy: Bool
-//    let rawData: Int
-//
-//    init<U: Chromosome>(_ pokemon: U, isMutatedCopy: Bool = false) where
-//        U.ChromosomeType == ChromosomeType, U.RawDataType == RawDataType
-//    {
-//        self.isMutatedCopy = isMutatedCopy
-//        self.rawData = pokemon.rawData
-//    }
-//
-//    func mutated() -> ChromosomeType { preconditionFailure() }
-//    static func makeRandomGene() -> ChromosomeType { preconditionFailure() }
-//}
