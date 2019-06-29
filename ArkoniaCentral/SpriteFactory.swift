@@ -36,29 +36,29 @@ class SpriteFactory {
     let scene: SKScene
     var count = 0
 
-    init(scene: SKScene) {
+    init(scene: SKScene, thoraxFactory: @escaping FactoryFunction, noseFactory: @escaping FactoryFunction) {
         self.scene = scene
 
-        arkonsHangar =      SpriteHangar("Arkons",  "spark-thorax-large",  factoryFunction: SpriteFactory.makeThorax)
+        arkonsHangar =      SpriteHangar("Arkons",  "spark-thorax-large",  factoryFunction: thoraxFactory)
         fullNeuronsHangar = SpriteHangar("Neurons", "neuron-plain",        factoryFunction: SpriteFactory.makeSprite)
         halfNeuronsHangar = SpriteHangar("Neurons", "neuron-plain-half",   factoryFunction: SpriteFactory.makeSprite)
         linesHangar =       SpriteHangar("Line",    "line",                factoryFunction: SpriteFactory.makeSprite)
         mannaHangar =       SpriteHangar("Manna",   "manna",               factoryFunction: SpriteFactory.makeSprite)
-        noseHangar =        SpriteHangar("Arkons",  "spark-nose-large",    factoryFunction: SpriteFactory.makeNose)
+        noseHangar =        SpriteHangar("Arkons",  "spark-nose-large",    factoryFunction: noseFactory)
     }
 }
 
 extension SpriteFactory {
-    static func makeNose(texture: SKTexture) -> SKSpriteNode {
-        return Nose(texture: texture)
+    static func makeFakeNose(texture: SKTexture) -> SKSpriteNode {
+        return SKSpriteNode(texture: texture)
     }
 
     static func makeSprite(texture: SKTexture) -> SKSpriteNode {
         return SKSpriteNode(texture: texture)
     }
 
-    static func makeThorax(texture: SKTexture) -> SKSpriteNode {
-        return Thorax(texture: texture)
+    static func makeFakeThorax(texture: SKTexture) -> SKSpriteNode {
+        return SKSpriteNode(texture: texture)
     }
 }
 
@@ -128,7 +128,11 @@ extension SpriteFactory {
     static func selfTest(scene: SKScene) {
         phaseIndicator = SKColor.green
 
-        let factory = SpriteFactory(scene: scene)
+        let factory = SpriteFactory(
+            scene: scene,
+            thoraxFactory: SpriteFactory.makeFakeThorax(texture:),
+            noseFactory: SpriteFactory.makeFakeNose(texture:))
+
         let wait = SKAction.wait(forDuration: 1.0 / 60.0)
         let waitABit = SKAction.repeat(wait, count: 100)
         let makeSequence = SKAction.sequence([wait, makeMakeAction(factory: factory)])

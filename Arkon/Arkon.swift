@@ -28,6 +28,20 @@ extension SKSpriteNode {
     }
 }
 
+extension SpriteFactory {
+    static func makeNose(texture: SKTexture) -> SKSpriteNode {
+        return Nose(texture: texture)
+    }
+
+    static func makeSprite(texture: SKTexture) -> SKSpriteNode {
+        return SKSpriteNode(texture: texture)
+    }
+
+    static func makeThorax(texture: SKTexture) -> SKSpriteNode {
+        return Thorax(texture: texture)
+    }
+}
+
 class Arkon: HasContactDetector {
     static let standardColor = 0x00_D0_00  // Slightly dim green
     static let brightColor = 0x00_FF_00    // Full green

@@ -55,9 +55,6 @@
 		D43EA80C228FC77D006C619D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D43EA80D228FC77D006C619D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D43EA80E228FC77D006C619D /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
-		D43EA815228FC84E006C619D /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
-		D43EA816228FC865006C619D /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
-		D43EA817228FC866006C619D /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
 		D43EA818228FC875006C619D /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D43EA819228FC898006C619D /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
 		D43EA82022917CEA006C619D /* ReaderMonad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81F22917CEA006C619D /* ReaderMonad.swift */; };
@@ -189,6 +186,8 @@
 		D4603A7622A2B11A00885428 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D4603A7D22A2B17900885428 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
 		D461358B2288CEF800C9864E /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
+		D464BA2F22C730DE0069623C /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
+		D464BA3022C732B20069623C /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
 		D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D46B1D7422813E12003D711C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D46B1D89228173BE003D711C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
@@ -1699,12 +1698,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D43EA802228FC77D006C619D /* KIdentifier.swift in Sources */,
+				D464BA2F22C730DE0069623C /* NetDisplay.swift in Sources */,
 				D43EA803228FC77D006C619D /* TheScene.swift in Sources */,
 				D43EA804228FC77D006C619D /* SceneViewController.swift in Sources */,
 				D43EA805228FC77D006C619D /* AppDelegate.swift in Sources */,
 				D43EA819228FC898006C619D /* SpriteFactory.swift in Sources */,
 				D43EA806228FC77D006C619D /* NetDisplayGrid.swift in Sources */,
-				D43EA815228FC84E006C619D /* NetDisplay.swift in Sources */,
 				D43EA807228FC77D006C619D /* Overload2D.swift in Sources */,
 				D43EA808228FC77D006C619D /* AppController.swift in Sources */,
 				D43EA818228FC875006C619D /* NetGraphics.swift in Sources */,
@@ -1889,11 +1888,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D46B1D8C22825D43003D711C /* NetGraphics.swift in Sources */,
+				D464BA3022C732B20069623C /* SpriteFactory.swift in Sources */,
 				D46B1D8D22825D43003D711C /* KIdentifier.swift in Sources */,
 				D46B1D8E22825D43003D711C /* TheScene.swift in Sources */,
 				D46B1D8F22825D43003D711C /* SceneViewController.swift in Sources */,
 				D46B1D9022825D43003D711C /* AppDelegate.swift in Sources */,
-				D43EA817228FC866006C619D /* NetDisplay.swift in Sources */,
 				D46B1DA222826994003D711C /* Overload2D.swift in Sources */,
 				D46B1D9222825D43003D711C /* AppController.swift in Sources */,
 				D46B1D9322825D43003D711C /* Protocols.swift in Sources */,
@@ -2026,7 +2025,6 @@
 				D4CBA30422805DD60023FAB9 /* SceneViewController.swift in Sources */,
 				D4CBA30522805DD60023FAB9 /* AppDelegate.swift in Sources */,
 				D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */,
-				D43EA816228FC865006C619D /* NetDisplay.swift in Sources */,
 				D46B1DA122826994003D711C /* Overload2D.swift in Sources */,
 				D4CBA30622805DD60023FAB9 /* AppController.swift in Sources */,
 				D46B1D89228173BE003D711C /* Protocols.swift in Sources */,

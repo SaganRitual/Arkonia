@@ -8,7 +8,12 @@ class NetDisplay {
     let spriteFactory: SpriteFactory
 
     init(scene: SKScene, background: SKSpriteNode) {
-        self.spriteFactory = SpriteFactory(scene: scene)
+        self.spriteFactory = SpriteFactory(
+            scene: scene,
+            thoraxFactory: SpriteFactory.makeFakeThorax(texture:),
+            noseFactory: SpriteFactory.makeFakeNose(texture:)
+        )
+
         self.background = background
 
         self.netDisplayGrid = NetDisplayGrid(portal: background, cLayers: 2)
