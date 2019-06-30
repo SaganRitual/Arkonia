@@ -43,17 +43,26 @@ extension SpriteFactory {
 }
 
 class Arkon: HasContactDetector {
-    static let standardColor = 0x00_D0_00  // Slightly dim green
     static let brightColor = 0x00_FF_00    // Full green
+    static var clock: ClockProtocol?
+    static var portal: SKSpriteNode?
     static let scaleFactor: CGFloat = 0.5
+    static var spriteFactory: SpriteFactory?
+    static let standardColor = 0x00_D0_00  // Slightly dim green
+
     var contactDetector: ContactDetectorProtocol?
     var isAlive = false
     var isCaptured = false
     let metabolism: Metabolism
     let net: Net
+
+    var netQueue = DispatchQueue(
+        label: "arkonia.net.queue", qos: .background, attributes: .concurrent
+    )
+
     let nose: SKSpriteNode
+    var portal: SKSpriteNode { return Arkon.portal! }
     var selectoid: Selectoid
-    var scene: SKSpriteNode { return Arkon.portal! }
     var senseLoader: SenseLoader!
     var sensoryInputs = [Double]()
     let sprite: SKSpriteNode
@@ -121,9 +130,9 @@ class Arkon: HasContactDetector {
 
         metabolism = Metabolism(spritePhysicsBody)
 
-        sprite.position = scene.getRandomPoint()
+        sprite.position = portal.getRandomPoint()
         sprite.addChild(nose)
-        scene.addChild(sprite)
+        portal.addChild(sprite)
 
         sprite.userData = ["arkon": self]
 
@@ -141,10 +150,10 @@ class Arkon: HasContactDetector {
 
     func tick() {
 //        print("time", Arkon.clock!.getCurrentTime(), age)
-        let realScene = (scene.parent as? SKScene)!
-        let converted = scene.convert(sprite.position, to: realScene)
+        let realScene = (portal.parent as? SKScene)!
+        let converted = portal.convert(sprite.position, to: realScene)
 
-        guard scene.frame.contains(converted) else {
+        guard portal.frame.contains(converted) else {
             apoptosize()
             return
         }
@@ -156,122 +165,10 @@ class Arkon: HasContactDetector {
 
 extension Arkon {
     static var arkonHangar = [Int: Arkon]()
-    static var clock: ClockProtocol?
-    static var portal: SKSpriteNode?
-    static var spriteFactory: SpriteFactory?
-
-    static func getActions(sprite: SKSpriteNode, maneuvers: Maneuvers) -> SKAction {
-        let actions = SKAction.sequence([
-            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [1, 0, 1, 0, 0]),  // thrust
-            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [0.5, 0, 0, 0, 1]),  // wait
-            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [1, 1, 0, 0, 0]),  // stop
-            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [0.5, 0, 0, 0, 1]),  // wait
-            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [1, 0, 0, 1, 0]),  // rotate
-            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [0.5, 0, 0, 0, 1]),  // wait
-            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [1, 1, 0, 0, 0]),  // stop
-            maneuvers.selectActionPrimitive(arkon: sprite, motorOutputs: [0.5, 0, 0, 0, 1])  // wait
-        ])
-
-        return actions
-    }
-
-    struct ContactTestContactResponder: ContactResponseProtocol {
-        func respond(_ contactedBodies: [SKPhysicsBody]) {
-            contactedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .blue }
-        }
-    }
-
-    struct ContactTestSenseResponder: SenseResponseProtocol {
-        func respond(_ sensedBodies: [SKPhysicsBody]) {
-            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .yellow }
-        }
-    }
-
-    static func contactTest() {
-        for a in 0..<1 {
-            let newArkon = Arkon(parentBiases: nil, parentWeights: nil)
-            arkonHangar[a] = newArkon
-            newArkon.sprite.position = CGPoint.zero
-
-            newArkon.contactDetector!.contactResponder = ContactTestContactResponder()
-            newArkon.contactDetector!.senseResponder = ContactTestSenseResponder()
-
-            onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
-        }
-    }
-
-    struct CannibalsTestContactResponder: ContactResponseProtocol {
-        let ownerArkon: Arkon
-
-        func respond(_ contactedBodies: [SKPhysicsBody]) {
-            for body in contactedBodies where body.node is Thorax {
-                let sprite = (body.node as? SKSpriteNode)!
-                if sprite.arkon.selectoid.fishNumber < ownerArkon.selectoid.fishNumber {
-                    ownerArkon.metabolism.parasitize(sprite.arkon.metabolism)
-                    break
-                }
-            }
-        }
-    }
-
-    struct CannibalsTestSenseResponder: SenseResponseProtocol {
-        func respond(_ sensedBodies: [SKPhysicsBody]) {
-            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .yellow }
-        }
-    }
-
-    static func cannibalsTest(portal: SKSpriteNode) {
-        for a in 0..<30 {
-            let newArkon = Arkon(parentBiases: nil, parentWeights: nil)
-            arkonHangar[a] = newArkon
-            newArkon.sprite.position = portal.getRandomPoint()
-            newArkon.sprite.zRotation = CGFloat.random(in: -CGFloat.pi..<CGFloat.pi)
-
-            newArkon.contactDetector!.contactResponder =
-                PreyTestContactResponder(ownerArkon: newArkon)
-
-            newArkon.contactDetector!.senseResponder = PreyTestSenseResponder()
-
-            onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
-        }
-    }
-
-    struct GrazeTestContactResponder: ContactResponseProtocol {
-        let ownerArkon: Arkon
-
-        func respond(_ contactedBodies: [SKPhysicsBody]) {
-            for body in contactedBodies {
-                let sprite = (body.node as? SKSpriteNode)!
-                let background = (sprite.parent as? SKSpriteNode)!
-
-                let harvested = sprite.manna.harvest()
-                ownerArkon.metabolism.absorbEnergy(harvested)
-
-                let actions = Manna.triggerDeathCycle(sprite: sprite, background: background)
-                sprite.run(actions)
-            }
-        }
-
-    }
-
-    static func grazeTest() {
-        for a in 0..<1 {
-            let newArkon = Arkon(parentBiases: nil, parentWeights: nil)
-            arkonHangar[a] = newArkon
-            newArkon.sprite.position = CGPoint.zero
-
-            newArkon.contactDetector!.contactResponder =
-                GrazeTestContactResponder(ownerArkon: newArkon)
-
-            newArkon.contactDetector!.senseResponder = ContactTestSenseResponder()
-
-            onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
-        }
-    }
 
     static func inject(
         _ clock: ClockProtocol,  _ portal: SKSpriteNode, _ spriteFactory: SpriteFactory
-    ) {
+        ) {
         Arkon.clock = clock
         Arkon.portal = portal
         Arkon.spriteFactory = spriteFactory
@@ -279,7 +176,102 @@ extension Arkon {
         SenseLoader.inject(portal)
     }
 
-    class OmnivoresTestContactResponder: ContactResponseProtocol {
+    static func spawn(portal: SKSpriteNode) {
+        let newArkon = Arkon(parentBiases: nil, parentWeights: nil)
+        arkonHangar[newArkon.selectoid.fishNumber] = newArkon
+        newArkon.sprite.position = portal.getRandomPoint()
+        newArkon.sprite.zRotation = CGFloat.random(in: -CGFloat.pi..<CGFloat.pi)
+
+        //        newArkon.pBody.applyAngularImpulse(CGFloat(Int.random(in: -5..<5)))
+
+        newArkon.contactDetector!.contactResponder =
+            ContactResponder(ownerArkon: newArkon)
+
+        newArkon.contactDetector!.senseResponder = SenseResponder()
+
+        onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
+    }
+}
+
+extension Arkon {
+
+    static func onePass(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
+        let nose = (thorax.children[0] as? Nose)!
+
+        metabolism.oxygenLevel -= (4.0 / 60.0)
+        //        print("o2", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
+
+        guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
+            thorax.arkon.apoptosize()
+            return
+        }
+
+        // 10% entropy
+        let spawnCost = EnergyReserve.startingEnergyLevel * 1.10
+
+        if metabolism.spawnReserves.level >= spawnCost {
+            metabolism.withdrawFromSpawn(spawnCost)
+            Arkon.spawn(portal: (thorax.parent as? SKSpriteNode)!)
+        }
+
+        let ef = metabolism.fungibleEnergyFullness
+        nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
+
+        let baseColor = (metabolism.spawnEnergyFullness > 0) ?
+            Arkon.brightColor : Arkon.standardColor
+
+        thorax.color = ColorGradient.makeColorMixRedBlue(
+            baseColor: baseColor,
+            redPercentage: metabolism.spawnEnergyFullness,
+            bluePercentage: max((4 - CGFloat(thorax.arkon.age)) / 4, 0)
+        )
+
+        //        print("color", metabolism.spawnEnergyFullness, max((4 - CGFloat(thorax.arkon.age)) / 4, 0))
+
+        //        let topLabel = (nose.children[0] as? SKLabelNode)!
+        //        topLabel.text = String(format: "%0.0f", metabolism.readyEnergyReserves.level)
+        //
+        //        let bottomLabel = (nose.children[1] as? SKLabelNode)!
+        //        bottomLabel.text = String(format: "%0.0f", metabolism.fatReserves.level)
+
+        //        let maneuvers = Maneuvers(energySource: metabolism)
+        //        let actions = getActions(sprite: thorax, maneuvers: maneuvers)
+        //
+        ////        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nosePhysicsBody.mass)
+        //        let spreadem = CGFloat(thorax.arkon.selectoid.fishNumber % 5) * CGFloat.random(in: 0..<5)
+        //        let wait = SKAction.wait(forDuration: TimeInterval(spreadem * 0.016))
+        //        let randomness = SKAction.sequence([wait, actions])
+        //
+        //        thorax.run(randomness) { onePass(sprite: thorax, metabolism: metabolism) }
+
+        brainlyManeuverStart(sprite: thorax, metabolism: metabolism)
+    }
+
+    static func brainlyManeuverStart(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
+
+        let sensoryInputs = thorax.arkon.stimulus()
+
+        var motorOutputs = [Double]()
+        let workItem = DispatchWorkItem {
+            motorOutputs = thorax.arkon.net.getMotorOutputs(sensoryInputs)
+            brainlyManeuverEnd(sprite: thorax, metabolism: metabolism, motorOutputs: motorOutputs)
+        }
+
+        thorax.arkon.netQueue.async(execute: workItem)
+    }
+
+    static func brainlyManeuverEnd(sprite thorax: SKSpriteNode, metabolism: Metabolism, motorOutputs: [Double]) {
+        let maneuvers = Maneuvers(energySource: metabolism)
+        let action = maneuvers.selectActionPrimitive(arkon: thorax, motorOutputs: motorOutputs)
+        let wait = SKAction.wait(forDuration: 0.01)
+        let sequence = SKAction.sequence([wait, action])
+        thorax.run(sequence) { onePass(sprite: thorax, metabolism: metabolism) }
+    }
+}
+
+extension Arkon {
+
+    class ContactResponder: ContactResponseProtocol {
         let ownerArkon: Arkon
         var processingTouch = false
 
@@ -331,139 +323,9 @@ extension Arkon {
         }
     }
 
-    struct OmnivoresTestSenseResponder: SenseResponseProtocol {
+    struct SenseResponder: SenseResponseProtocol {
         func respond(_ sensedBodies: [SKPhysicsBody]) {
-//            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .yellow }
-        }
-    }
-
-    static func spawn(portal: SKSpriteNode) {
-        let newArkon = Arkon(parentBiases: nil, parentWeights: nil)
-        arkonHangar[newArkon.selectoid.fishNumber] = newArkon
-        newArkon.sprite.position = portal.getRandomPoint()
-        newArkon.sprite.zRotation = CGFloat.random(in: -CGFloat.pi..<CGFloat.pi)
-
-//        newArkon.pBody.applyAngularImpulse(CGFloat(Int.random(in: -5..<5)))
-
-        newArkon.contactDetector!.contactResponder =
-            OmnivoresTestContactResponder(ownerArkon: newArkon)
-
-        newArkon.contactDetector!.senseResponder = OmnivoresTestSenseResponder()
-
-        onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
-    }
-
-    static func omnivoresTest(portal: SKSpriteNode) {
-        for _ in 0..<100 { spawn(portal: portal) }
-    }
-
-    static func onePass(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
-        let nose = (thorax.children[0] as? Nose)!
-
-        metabolism.oxygenLevel -= (4.0 / 60.0)
-//        print("o2", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
-
-        guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
-            thorax.arkon.apoptosize()
-            return
-        }
-
-        // 10% entropy
-        let spawnCost = EnergyReserve.startingEnergyLevel * 1.10
-
-        if metabolism.spawnReserves.level >= spawnCost {
-            metabolism.withdrawFromSpawn(spawnCost)
-            Arkon.spawn(portal: (thorax.parent as? SKSpriteNode)!)
-        }
-
-        let ef = metabolism.fungibleEnergyFullness
-        nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
-
-        let baseColor = (metabolism.spawnEnergyFullness > 0) ?
-            Arkon.brightColor : Arkon.standardColor
-
-        thorax.color = ColorGradient.makeColorMixRedBlue(
-            baseColor: baseColor,
-            redPercentage: metabolism.spawnEnergyFullness,
-            bluePercentage: max((4 - CGFloat(thorax.arkon.age)) / 4, 0)
-        )
-
-//        print("color", metabolism.spawnEnergyFullness, max((4 - CGFloat(thorax.arkon.age)) / 4, 0))
-
-//        let topLabel = (nose.children[0] as? SKLabelNode)!
-//        topLabel.text = String(format: "%0.0f", metabolism.readyEnergyReserves.level)
-//
-//        let bottomLabel = (nose.children[1] as? SKLabelNode)!
-//        bottomLabel.text = String(format: "%0.0f", metabolism.fatReserves.level)
-
-//        let maneuvers = Maneuvers(energySource: metabolism)
-//        let actions = getActions(sprite: thorax, maneuvers: maneuvers)
-//
-////        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nosePhysicsBody.mass)
-//        let spreadem = CGFloat(thorax.arkon.selectoid.fishNumber % 5) * CGFloat.random(in: 0..<5)
-//        let wait = SKAction.wait(forDuration: TimeInterval(spreadem * 0.016))
-//        let randomness = SKAction.sequence([wait, actions])
-//
-//        thorax.run(randomness) { onePass(sprite: thorax, metabolism: metabolism) }
-
-        brainlyManeuverStart(sprite: thorax, metabolism: metabolism)
-    }
-
-    static func brainlyManeuverStart(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
-
-        let sensoryInputs = thorax.arkon.stimulus()
-
-        var motorOutputs = [Double]()
-        let workItem = DispatchWorkItem {
-            motorOutputs = thorax.arkon.net.getMotorOutputs(sensoryInputs)
-            brainlyManeuverEnd(sprite: thorax, metabolism: metabolism, motorOutputs: motorOutputs)
-        }
-
-        TheScene.netQueue.async(execute: workItem)
-    }
-
-    static func brainlyManeuverEnd(sprite thorax: SKSpriteNode, metabolism: Metabolism, motorOutputs: [Double]) {
-        let maneuvers = Maneuvers(energySource: metabolism)
-        let action = maneuvers.selectActionPrimitive(arkon: thorax, motorOutputs: motorOutputs)
-        let wait = SKAction.wait(forDuration: 0.01)
-        let sequence = SKAction.sequence([wait, action])
-        thorax.run(sequence) { onePass(sprite: thorax, metabolism: metabolism) }
-    }
-
-    struct PreyTestContactResponder: ContactResponseProtocol {
-        let ownerArkon: Arkon
-
-        func respond(_ contactedBodies: [SKPhysicsBody]) {
-            for body in contactedBodies where body.node is Thorax {
-                let sprite = (body.node as? SKSpriteNode)!
-
-                ownerArkon.metabolism.parasitize(sprite.arkon.metabolism)
-            }
-        }
-    }
-
-    struct PreyTestSenseResponder: SenseResponseProtocol {
-        func respond(_ sensedBodies: [SKPhysicsBody]) {
-            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .yellow }
-        }
-    }
-
-    static func preyTest(portal: SKSpriteNode) {
-        for a in 0..<100 {
-            let newArkon = Arkon(parentBiases: nil, parentWeights: nil)
-            arkonHangar[a] = newArkon
-            newArkon.sprite.position = portal.getRandomPoint()
-
-            if a > 0 { continue }
-
-            newArkon.sprite.position = CGPoint.zero
-
-            newArkon.contactDetector!.contactResponder =
-                PreyTestContactResponder(ownerArkon: newArkon)
-
-            newArkon.contactDetector!.senseResponder = PreyTestSenseResponder()
-
-            onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
+            //            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .yellow }
         }
     }
 }

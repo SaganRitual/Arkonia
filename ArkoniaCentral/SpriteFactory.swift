@@ -53,10 +53,6 @@ extension SpriteFactory {
         return SKSpriteNode(texture: texture)
     }
 
-    static func makeSprite(texture: SKTexture) -> SKSpriteNode {
-        return SKSpriteNode(texture: texture)
-    }
-
     static func makeFakeThorax(texture: SKTexture) -> SKSpriteNode {
         return SKSpriteNode(texture: texture)
     }

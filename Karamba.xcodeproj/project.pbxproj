@@ -188,6 +188,45 @@
 		D461358B2288CEF800C9864E /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D464BA2F22C730DE0069623C /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
 		D464BA3022C732B20069623C /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
+		D464BA3322C737260069623C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
+		D464BA3422C737260069623C /* SenseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618A422BEE61700ADAA87 /* SenseLoader.swift */; };
+		D464BA3522C737260069623C /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
+		D464BA3722C737260069623C /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
+		D464BA3822C737260069623C /* GeneCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A2169222C0160700D92A1E /* GeneCore.swift */; };
+		D464BA3922C737260069623C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
+		D464BA3A22C737260069623C /* GeneType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A2168D22C0160700D92A1E /* GeneType.swift */; };
+		D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
+		D464BA3C22C737260069623C /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A2169122C0160700D92A1E /* Assembler.swift */; };
+		D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
+		D464BA3E22C737260069623C /* ContactDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042BE22AC91F800E7369B /* ContactDetector.swift */; };
+		D464BA3F22C737260069623C /* Gene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A2168F22C0160700D92A1E /* Gene.swift */; };
+		D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
+		D464BA4122C737260069623C /* UpConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A2168C22C0160700D92A1E /* UpConnector.swift */; };
+		D464BA4222C737260069623C /* ActivatorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A2168E22C0160700D92A1E /* ActivatorFunctions.swift */; };
+		D464BA4322C737260069623C /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
+		D464BA4422C737260069623C /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
+		D464BA4522C737260069623C /* GeneLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A2169022C0160700D92A1E /* GeneLibrary.swift */; };
+		D464BA4622C737260069623C /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
+		D464BA4722C737260069623C /* Stimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AD22BEE61700ADAA87 /* Stimulus.swift */; };
+		D464BA4822C737260069623C /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
+		D464BA4922C737260069623C /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
+		D464BA4A22C737260069623C /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
+		D464BA4B22C737260069623C /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
+		D464BA4C22C737260069623C /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
+		D464BA4D22C737260069623C /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216B722C1610A00D92A1E /* Mutator.swift */; };
+		D464BA4E22C737260069623C /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216BA22C1988B00D92A1E /* BellCurve.swift */; };
+		D464BA4F22C737260069623C /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
+		D464BA5022C737260069623C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
+		D464BA5122C737260069623C /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
+		D464BA5222C737260069623C /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
+		D464BA5322C737260069623C /* SenseTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */; };
+		D464BA5422C737260069623C /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
+		D464BA5522C737260069623C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
+		D464BA5822C737260069623C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
+		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
+		D464BA5A22C737260069623C /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
+		D464BA6222C737CB0069623C /* KarambaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464BA6122C737CB0069623C /* KarambaScene.swift */; };
+		D464BA6522C739470069623C /* ManeuversTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464BA6422C739470069623C /* ManeuversTest.swift */; };
 		D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D46B1D7422813E12003D711C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D46B1D89228173BE003D711C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
@@ -417,7 +456,7 @@
 
 /* Begin PBXFileReference section */
 		D40213A622B85EA400ADF5B0 /* LifeCycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeCycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D40985E022650B0A009DD384 /* Karamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D40985E022650B0A009DD384 /* CarBamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarBamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40985E922650B0A009DD384 /* TheScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheScene.swift; sourceTree = "<group>"; };
 		D40985ED22650B0B009DD384 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D40985F022650B0B009DD384 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -441,6 +480,11 @@
 		D4603A6122A2720400885428 /* Manna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
 		D4603A7B22A2B11A00885428 /* Manna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Manna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D461358A2288CEF800C9864E /* TheScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TheScene.sks; sourceTree = "<group>"; };
+		D464BA5F22C737260069623C /* Karamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D464BA6122C737CB0069623C /* KarambaScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KarambaScene.swift; sourceTree = "<group>"; };
+		D464BA6322C738F60069623C /* MannaTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MannaTest.swift; sourceTree = "<group>"; };
+		D464BA6422C739470069623C /* ManeuversTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManeuversTest.swift; sourceTree = "<group>"; };
+		D464BA6622C79B710069623C /* ArkonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonTest.swift; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
 		D46B1D7322813E12003D711C /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
 		D46B1D8622816F58003D711C /* NetGraphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetGraphics.swift; sourceTree = "<group>"; };
@@ -544,6 +588,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D464BA5622C737260069623C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D46B1D9422825D43003D711C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -621,7 +672,7 @@
 		D40985E122650B0A009DD384 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D40985E022650B0A009DD384 /* Karamba.app */,
+				D40985E022650B0A009DD384 /* CarBamba.app */,
 				D4CBA2FE228059CA0023FAB9 /* SpriteFactory.app */,
 				D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */,
 				D46B1D9D22825D43003D711C /* NetGraphics.app */,
@@ -638,6 +689,7 @@
 				D457A03922B5FB8400963929 /* Omnivores.app */,
 				D40213A622B85EA400ADF5B0 /* LifeCycle.app */,
 				D4EE561322BC1D530076D8A1 /* BrainMan.app */,
+				D464BA5F22C737260069623C /* Karamba.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -650,6 +702,7 @@
 				D40985FC22650C20009DD384 /* AppDelegate.swift */,
 				D40985F322650B0B009DD384 /* Components.entitlements */,
 				D40985F222650B0B009DD384 /* Info.plist */,
+				D464BA6122C737CB0069623C /* KarambaScene.swift */,
 				D40985EF22650B0B009DD384 /* Main.storyboard */,
 				D40985FE22650CC9009DD384 /* SceneViewController.swift */,
 				D461358A2288CEF800C9864E /* TheScene.sks */,
@@ -664,6 +717,7 @@
 				D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */,
 				D49042C122AC927A00E7369B /* ContactCoordinator.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
+				D464BA6322C738F60069623C /* MannaTest.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 				D43EA81F22917CEA006C619D /* ReaderMonad.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
@@ -676,8 +730,10 @@
 			isa = PBXGroup;
 			children = (
 				D43EA81C228FDCDC006C619D /* Arkon.swift */,
+				D464BA6622C79B710069623C /* ArkonTest.swift */,
 				D49042BE22AC91F800E7369B /* ContactDetector.swift */,
 				D43EA83B229232C6006C619D /* Maneuvers.swift */,
+				D464BA6422C739470069623C /* ManeuversTest.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D49042C722AEC16D00E7369B /* Nose.swift */,
@@ -770,9 +826,9 @@
 			productReference = D40213A622B85EA400ADF5B0 /* LifeCycle.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D40985DF22650B0A009DD384 /* Karamba */ = {
+		D40985DF22650B0A009DD384 /* CarBamba */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D40985F622650B0B009DD384 /* Build configuration list for PBXNativeTarget "Karamba" */;
+			buildConfigurationList = D40985F622650B0B009DD384 /* Build configuration list for PBXNativeTarget "CarBamba" */;
 			buildPhases = (
 				D40985DC22650B0A009DD384 /* Sources */,
 				D40985DD22650B0A009DD384 /* Frameworks */,
@@ -783,9 +839,9 @@
 			);
 			dependencies = (
 			);
-			name = Karamba;
+			name = CarBamba;
 			productName = Components;
-			productReference = D40985E022650B0A009DD384 /* Karamba.app */;
+			productReference = D40985E022650B0A009DD384 /* CarBamba.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D43EA800228FC77D006C619D /* NetDisplay */ = {
@@ -912,6 +968,24 @@
 			name = Manna;
 			productName = Components;
 			productReference = D4603A7B22A2B11A00885428 /* Manna.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D464BA3122C737260069623C /* Karamba */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D464BA5C22C737260069623C /* Build configuration list for PBXNativeTarget "Karamba" */;
+			buildPhases = (
+				D464BA3222C737260069623C /* Sources */,
+				D464BA5622C737260069623C /* Frameworks */,
+				D464BA5722C737260069623C /* Resources */,
+				D464BA5B22C737260069623C /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Karamba;
+			productName = Components;
+			productReference = D464BA5F22C737260069623C /* Karamba.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D46B1D8A22825D43003D711C /* NetGraphics */ = {
@@ -1095,9 +1169,10 @@
 				D43EA8222291B84F006C619D /* Arkon */,
 				D4EE55FB22BC1D530076D8A1 /* BrainMan */,
 				D4579FF522B5C7A600963929 /* Cannibals */,
+				D40985DF22650B0A009DD384 /* CarBamba */,
 				D490429E22AC6A2400E7369B /* Contact */,
-				D40985DF22650B0A009DD384 /* Karamba */,
 				D402138522B85EA400ADF5B0 /* LifeCycle */,
+				D464BA3122C737260069623C /* Karamba */,
 				D482860A2298CC4800225057 /* Maneuvers */,
 				D4AD194C22AC4848009F3469 /* ManeuversMetabolism */,
 				D441D31522B2AB5000143CC5 /* ManMetArkon */,
@@ -1253,6 +1328,16 @@
 				D4603A7422A2B11A00885428 /* Assets.xcassets in Resources */,
 				D4603A7522A2B11A00885428 /* Main.storyboard in Resources */,
 				D4603A7622A2B11A00885428 /* TheScene.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D464BA5722C737260069623C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D464BA5822C737260069623C /* Assets.xcassets in Resources */,
+				D464BA5922C737260069623C /* Main.storyboard in Resources */,
+				D464BA5A22C737260069623C /* TheScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1492,6 +1577,23 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		D464BA5B22C737260069623C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		D46B1D9922825D43003D711C /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1715,6 +1817,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D464BA6522C739470069623C /* ManeuversTest.swift in Sources */,
 				D43EA8242291B84F006C619D /* KIdentifier.swift in Sources */,
 				D4CF20A722A4C296000FD2BA /* ArkoniaCentral.swift in Sources */,
 				D4F6460522A3876500FD8C56 /* Arkon.swift in Sources */,
@@ -1880,6 +1983,48 @@
 				D442B7B222B1DB4100E3BDB3 /* ArkoniaCentral.swift in Sources */,
 				D4603A6F22A2B11A00885428 /* Protocols.swift in Sources */,
 				D4603A7122A2B11A00885428 /* Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D464BA3222C737260069623C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
+				D464BA3422C737260069623C /* SenseLoader.swift in Sources */,
+				D464BA3522C737260069623C /* Arkon.swift in Sources */,
+				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
+				D464BA6222C737CB0069623C /* KarambaScene.swift in Sources */,
+				D464BA3822C737260069623C /* GeneCore.swift in Sources */,
+				D464BA3922C737260069623C /* AppDelegate.swift in Sources */,
+				D464BA3A22C737260069623C /* GeneType.swift in Sources */,
+				D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */,
+				D464BA3C22C737260069623C /* Assembler.swift in Sources */,
+				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
+				D464BA3E22C737260069623C /* ContactDetector.swift in Sources */,
+				D464BA3F22C737260069623C /* Gene.swift in Sources */,
+				D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */,
+				D464BA4122C737260069623C /* UpConnector.swift in Sources */,
+				D464BA4222C737260069623C /* ActivatorFunctions.swift in Sources */,
+				D464BA4322C737260069623C /* Metabolism.swift in Sources */,
+				D464BA4422C737260069623C /* NetDisplay.swift in Sources */,
+				D464BA4522C737260069623C /* GeneLibrary.swift in Sources */,
+				D464BA4622C737260069623C /* Overload2D.swift in Sources */,
+				D464BA4722C737260069623C /* Stimulus.swift in Sources */,
+				D464BA4822C737260069623C /* World.swift in Sources */,
+				D464BA4922C737260069623C /* AppController.swift in Sources */,
+				D464BA4A22C737260069623C /* Nose.swift in Sources */,
+				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
+				D464BA4C22C737260069623C /* ContactCoordinator.swift in Sources */,
+				D464BA4D22C737260069623C /* Mutator.swift in Sources */,
+				D464BA4E22C737260069623C /* BellCurve.swift in Sources */,
+				D464BA4F22C737260069623C /* Net.swift in Sources */,
+				D464BA5022C737260069623C /* Protocols.swift in Sources */,
+				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
+				D464BA5222C737260069623C /* Manna.swift in Sources */,
+				D464BA5322C737260069623C /* SenseTranslator.swift in Sources */,
+				D464BA5422C737260069623C /* Maneuvers.swift in Sources */,
+				D464BA5522C737260069623C /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2534,6 +2679,44 @@
 			};
 			name = Release;
 		};
+		D464BA5D22C737260069623C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D464BA5E22C737260069623C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		D46B1D9B22825D43003D711C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2859,7 +3042,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D40985F622650B0B009DD384 /* Build configuration list for PBXNativeTarget "Karamba" */ = {
+		D40985F622650B0B009DD384 /* Build configuration list for PBXNativeTarget "CarBamba" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D40985F722650B0B009DD384 /* Debug */,
@@ -2927,6 +3110,15 @@
 			buildConfigurations = (
 				D4603A7922A2B11A00885428 /* Debug */,
 				D4603A7A22A2B11A00885428 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D464BA5C22C737260069623C /* Build configuration list for PBXNativeTarget "Karamba" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D464BA5D22C737260069623C /* Debug */,
+				D464BA5E22C737260069623C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
