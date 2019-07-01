@@ -1,30 +1,48 @@
 import Surge
 
 class Net {
-    static let cWeights = ArkoniaCentral.cSenseNeurons * 9 + 9 * 9 + 9 * ArkoniaCentral.cMotorNeurons
 
     let biases: [Double]
+    let cBiases: Int
+    let cWeights: Int
+    let layers: [Int]
     let weights: [Double]
 
-    init(parentBiases: [Double]?, parentWeights: [Double]?) {
+    init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]) {
+        self.layers = layers
+        (cWeights, cBiases) = Net.computeParameters(layers)
+
         if let b = parentBiases { self.biases = World.mutator.mutateRandomDoubles(b)! }
-        else { self.biases = (0..<23).map { _ in Double.random(in: -1..<1) } }
+        else { self.biases = (0..<cBiases).map { _ in Double.random(in: -1..<1) } }
 
         if let w = parentWeights { self.weights = World.mutator.mutateRandomDoubles(w)! }
-        else { self.weights = (0..<Net.cWeights).map { _ in Double.random(in: -1..<1) } }
+        else { self.weights = (0..<cWeights).map { _ in Double.random(in: -1..<1) } }
+    }
+
+    static func computeParameters(_ layers: [Int]) -> (Int, Int) {
+        var cWeights = 0
+        for c in 0..<(layers.count - 1) {
+            cWeights += layers[c] * layers[c + 1]
+        }
+
+        var cBiases = 0
+        for b in 1..<layers.count {
+            cBiases += layers[b]
+        }
+
+        return (cWeights, cBiases)
     }
 
     func getMotorOutputs(_ sensoryInputs: [Double]) -> [Double] {
         assert(sensoryInputs.count == ArkoniaCentral.cSenseNeurons)
 
-        let neuronCounts = [ArkoniaCentral.cSenseNeurons, 9, 9, ArkoniaCentral.cMotorNeurons]
         var ncSS = 0
         var a0 = Matrix<Double>(sensoryInputs.map { [$0] })
 
-        for _ in 0..<neuronCounts.count - 1 {
+        for _ in 0..<layers.count - 1 {
             defer { ncSS += 1 }
-            let nc0 = neuronCounts[ncSS + 0]
-            let nc1 = neuronCounts[ncSS + 1]
+            let nc0 = layers[ncSS + 0]
+            let nc1 = layers[ncSS + 1]
 
             let W = Matrix<Double>((0..<nc1).map { col in
                 (0..<nc0).map { row in self.weights[col * nc0 + row] }

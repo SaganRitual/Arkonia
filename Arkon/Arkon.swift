@@ -45,6 +45,7 @@ extension SpriteFactory {
 class Arkon: HasContactDetector {
     static let brightColor = 0x00_FF_00    // Full green
     static var clock: ClockProtocol?
+    static var layers: [Int]?
     static var portal: SKSpriteNode?
     static let scaleFactor: CGFloat = 0.5
     static var spriteFactory: SpriteFactory?
@@ -75,7 +76,7 @@ class Arkon: HasContactDetector {
     //swiftmint:disable function_body_length
     init(parentBiases: [Double]?, parentWeights: [Double]?) {
         selectoid = Selectoid(birthday: Arkon.clock!.getCurrentTime())
-        net = Net(parentBiases: parentBiases, parentWeights: parentWeights)
+        net = Net(parentBiases: parentBiases, parentWeights: parentWeights, layers: Arkon.layers!)
 
         sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
         sprite.setScale(Arkon.scaleFactor)
@@ -143,6 +144,9 @@ class Arkon: HasContactDetector {
     }
     //swiftmint:enable function_body_length
 
+    deinit {
+    }
+
     func apoptosize() {
         spriteFactory.noseHangar.retireSprite(sprite.arkon.nose)
         spriteFactory.arkonsHangar.retireSprite(sprite)
@@ -167,9 +171,11 @@ extension Arkon {
     static var arkonHangar = [Int: Arkon]()
 
     static func inject(
-        _ clock: ClockProtocol,  _ portal: SKSpriteNode, _ spriteFactory: SpriteFactory
-        ) {
+        _ clock: ClockProtocol, _ layers: [Int],  _ portal: SKSpriteNode,
+        _ spriteFactory: SpriteFactory
+    ) {
         Arkon.clock = clock
+        Arkon.layers = layers
         Arkon.portal = portal
         Arkon.spriteFactory = spriteFactory
 

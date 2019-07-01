@@ -30,14 +30,18 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
         Display.displayCycle = .limbo
     }
 
-    var background: SKSpriteNode!
+    var arkonsPortal: SKSpriteNode!
+    let layers = [ArkoniaCentral.cSenseNeurons, 7, ArkoniaCentral.cMotorNeurons]
+    var netDisplay: NetDisplay?
+    var netPortal: SKSpriteNode!
 
     override func didMove(to view: SKView) {
         Display.currentTime = 0
 
         physicsWorld.gravity = CGVector.zero
 
-        background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+        arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+        netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
 
         let spriteFactory = SpriteFactory(
             scene: self,
@@ -45,26 +49,11 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
             noseFactory: SpriteFactory.makeNose(texture:)
         )
 
-        Manna.plantAllManna(background: background, spriteFactory: spriteFactory)
+        Manna.plantAllManna(background: arkonsPortal, spriteFactory: spriteFactory)
 
-        //
-        //        Manna.contactTest(background: background, spriteFactory: spriteFactory)
-        //        Arkon.inject(spriteFactory, SegmentFactory(), background)
-        //        Arkon.contactTest()
-        //        Manna.grazeTest(background: background, spriteFactory: spriteFactory)
-                Arkon.inject(self, background, spriteFactory)
-        //        Arkon.grazeTest()
-        //        Arkon.preyTest(portal: background)
-        //        Arkon.cannibalsTest(portal: background)
+        Arkon.inject(self, layers, arkonsPortal, spriteFactory)
 
-        //        NetDisplayGrid.selfTest(background: background)
-        //        NetGraphics.selfTest(background: background, scene: self)
-        //        SpriteFactory.selfTest(scene: self)
-
-//        NetDisplay(scene: self, background: background).display(net: [12, 9, 9, 5])
-
-        //        Metabolism.rawEnergyTest()
-        //        Metabolism.parasiteTest()
+        NetDisplay(scene: self, background: netPortal, layers: layers).display()
 
         physicsWorld.contactDelegate = World.physicsCoordinator
         scene!.delegate = self
@@ -84,18 +73,11 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
         if tickCount < 10 { return }
 
         if tickCount == 10 {
-            for _ in 0..<100 { Arkon.spawn(portal: background) }
-
-            //            Arkon.omnivoresTest(portal: background)
-
-            //            let background = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
-            //            Maneuvers.selfTest(background: background, scene: self)
-            //            Manna.selfTest(background: background, scene: self)
-
+            for _ in 0..<100 { Arkon.spawn(portal: arkonsPortal) }
             return
         }
 
-        background.children.compactMap({ return $0 as? Thorax }).forEach {
+        arkonsPortal.children.compactMap({ return $0 as? Thorax }).forEach {
             ($0 as SKSpriteNode).arkon.tick()
         }
     }

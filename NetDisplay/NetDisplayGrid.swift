@@ -14,11 +14,11 @@ class NetDisplayGrid: NetDisplayGridProtocol {
     var vTop = CGFloat(0.0)
     let width: CGFloat
 
-    init(portal: SKSpriteNode, cLayers: Int) {
+    init(portal: SKSpriteNode, cHiddenLayers: Int) {
         self.portal = portal
         self.height = portal.size.height
         self.width = portal.size.width
-        self.setVerticalSpacing(cLayers: cLayers)
+        self.setVerticalSpacing(cHiddenLayers: cHiddenLayers)
     }
 
     func getPosition(_ gridPosition: GridPoint) -> CGPoint {
@@ -50,8 +50,8 @@ class NetDisplayGrid: NetDisplayGridProtocol {
         precondition(p == position, "neuronPositions[\(id)] = \(p) already; now setting to \(position)?")
     }
 
-    func setVerticalSpacing(cLayers: Int) {
-        self.vSpacing = height / CGFloat(cLayers + 1)
+    func setVerticalSpacing(cHiddenLayers: Int) {
+        self.vSpacing = height / CGFloat(cHiddenLayers + 1)
         self.vTop = height / 2.0
     }
 }
@@ -62,7 +62,7 @@ extension NetDisplayGrid {
     static let neuronRadius: CGFloat = 15
 
     static func selfTest(background: SKSpriteNode) {
-        let grid = NetDisplayGrid(portal: background, cLayers: cHiddenLayers)
+        let grid = NetDisplayGrid(portal: background, cHiddenLayers: cHiddenLayers)
         grid.setHorizontalSpacing(cNeurons: cNeurons, padRadius: neuronRadius)
 
         let includeMotorLayer = cHiddenLayers + 1

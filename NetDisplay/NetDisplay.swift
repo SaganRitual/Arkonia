@@ -3,11 +3,12 @@ import SpriteKit
 
 class NetDisplay {
     let background: SKSpriteNode
+    let layers: [Int]
     var netDisplayGrid: NetDisplayGridProtocol
     let netGraphics: NetGraphics
     let spriteFactory: SpriteFactory
 
-    init(scene: SKScene, background: SKSpriteNode) {
+    init(scene: SKScene, background: SKSpriteNode, layers: [Int]) {
         self.spriteFactory = SpriteFactory(
             scene: scene,
             thoraxFactory: SpriteFactory.makeFakeThorax(texture:),
@@ -15,8 +16,9 @@ class NetDisplay {
         )
 
         self.background = background
+        self.layers = layers
 
-        self.netDisplayGrid = NetDisplayGrid(portal: background, cLayers: 2)
+        self.netDisplayGrid = NetDisplayGrid(portal: background, cHiddenLayers: layers.count - 2)
         self.netGraphics = NetGraphics(
             background: background,
             fullNeuronsHangar: spriteFactory.fullNeuronsHangar,
@@ -26,16 +28,16 @@ class NetDisplay {
         )
     }
 
-    func display(net: [Int]) {
+    func display() {
         let neuronRadius = CGFloat(25)
 
-        let cHiddenLayers = net.count - 2
+        let cHiddenLayers = layers.count - 2
         let includeMotorLayer = cHiddenLayers + 1
 
         var positionsForUpperLayer = [CGPoint]()
 
         (-1..<includeMotorLayer).forEach { layerSS in
-            let cNeurons = net[layerSS + 1]
+            let cNeurons = layers[layerSS + 1]
 
             netDisplayGrid.setHorizontalSpacing(cNeurons: cNeurons, padRadius: neuronRadius)
 
@@ -50,7 +52,7 @@ class NetDisplay {
             netDisplayGrid.layerRole = layerRole
 
             if !positionsForUpperLayer.isEmpty {
-                let lowerCNeurons = net[layerSS + 1]
+                let lowerCNeurons = layers[layerSS + 1]
 
                 positionsForUpperLayer.forEach { upperPosition in
                     (0..<lowerCNeurons).forEach { lowerNeuronSS in

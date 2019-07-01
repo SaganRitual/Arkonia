@@ -65,7 +65,7 @@ class TheScene: SKScene, ClockProtocol, SKSceneDelegate {
 //        NetGraphics.selfTest(background: background, scene: self)
 //        SpriteFactory.selfTest(scene: self)
 
-        NetDisplay(scene: self, background: background).display(net: [12, 9, 9, 5])
+        NetDisplay(scene: self, background: background).display(layers: [12, 9, 9, 5])
 
 //        Metabolism.rawEnergyTest()
 //        Metabolism.parasiteTest()
