@@ -9,8 +9,8 @@ class Net {
     let weights: [Double]
 
     init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]) {
-        self.layers = layers
-        (cWeights, cBiases) = Net.computeParameters(layers)
+        self.layers = Net.mutateStructure(layers)
+        (cWeights, cBiases) = Net.computeParameters(self.layers)
 
         if let b = parentBiases { self.biases = World.mutator.mutateRandomDoubles(b)! }
         else { self.biases = (0..<cBiases).map { _ in Double.random(in: -1..<1) } }
@@ -61,6 +61,33 @@ class Net {
 
 //        print("mo", (0..<a0.rows).map { a0[$0, 0] })
         return (0..<a0.rows).map { a0[$0, 0] }
+    }
+
+    static func mutateStructure(_ layers: [Int]) -> [Int] {
+
+        if layers.count <= 3 { return layers }
+
+        var mutated = [ArkoniaCentral.cSenseNeurons]
+
+        for L in 1..<(layers.count - 2) {
+            let r = Int.random(in: -10..<10)
+            if r == 0 {
+                let s = Int.random(in: -10..<10)
+                if s > 8 { continue }
+                else if s < -9 {
+                    let t = Int.random(in: -10..<10)
+                    mutated.append(t)
+                }
+
+                mutated.append(L)
+            } else {
+                mutated.append(r)
+            }
+        }
+
+        mutated.append(ArkoniaCentral.cMotorNeurons)
+
+        return mutated
     }
 
     static func randomWithGap() -> Double {
