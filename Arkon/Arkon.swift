@@ -153,7 +153,6 @@ class Arkon: HasContactDetector {
     }
 
     func tick() {
-//        print("time", Arkon.clock!.getCurrentTime(), age)
         let realScene = (portal.parent as? SKScene)!
         let converted = portal.convert(sprite.position, to: realScene)
 
@@ -162,7 +161,6 @@ class Arkon: HasContactDetector {
             return
         }
 
-//        sprite.color = .green
         metabolism.tick()
     }
 }
@@ -182,13 +180,12 @@ extension Arkon {
         SenseLoader.inject(portal)
     }
 
-    static func spawn(portal: SKSpriteNode) {
+    @discardableResult
+    static func spawn(portal: SKSpriteNode, netDisplay: NetDisplay?) -> Arkon {
         let newArkon = Arkon(parentBiases: nil, parentWeights: nil)
         arkonHangar[newArkon.selectoid.fishNumber] = newArkon
         newArkon.sprite.position = portal.getRandomPoint()
         newArkon.sprite.zRotation = CGFloat.random(in: -CGFloat.pi..<CGFloat.pi)
-
-        //        newArkon.pBody.applyAngularImpulse(CGFloat(Int.random(in: -5..<5)))
 
         newArkon.contactDetector!.contactResponder =
             ContactResponder(ownerArkon: newArkon)
@@ -196,6 +193,14 @@ extension Arkon {
         newArkon.contactDetector!.senseResponder = SenseResponder()
 
         onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
+
+        if let nd = netDisplay {
+            newArkon.sprite.userData!["netDisplay"] = nd
+        }
+
+        (newArkon.sprite.userData?["netDisplay"] as? NetDisplay)?.display()
+
+        return newArkon
     }
 }
 
@@ -217,7 +222,7 @@ extension Arkon {
 
         if metabolism.spawnReserves.level >= spawnCost {
             metabolism.withdrawFromSpawn(spawnCost)
-            Arkon.spawn(portal: (thorax.parent as? SKSpriteNode)!)
+            Arkon.spawn(portal: (thorax.parent as? SKSpriteNode)!, netDisplay: nil)
         }
 
         let ef = metabolism.fungibleEnergyFullness

@@ -34,6 +34,7 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
     let layers = [ArkoniaCentral.cSenseNeurons, 6, ArkoniaCentral.cMotorNeurons]
     var netDisplay: NetDisplay?
     var netPortal: SKSpriteNode!
+    var net9Portals = [SKSpriteNode]()
 
     override func didMove(to view: SKView) {
         Display.currentTime = 0
@@ -42,6 +43,11 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
+
+        enumerateChildNodes(withName: "net_9portal") { node_, _ in
+            let node = (node_ as? SKSpriteNode)!
+            self.net9Portals.append(node)
+        }
 
         let spriteFactory = SpriteFactory(
             scene: self,
@@ -52,8 +58,6 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
         Manna.plantAllManna(background: arkonsPortal, spriteFactory: spriteFactory)
 
         Arkon.inject(self, layers, arkonsPortal, spriteFactory)
-
-        NetDisplay(scene: self, background: netPortal, layers: layers).display()
 
         physicsWorld.contactDelegate = World.physicsCoordinator
         scene!.delegate = self
@@ -73,12 +77,21 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
         if tickCount < 10 { return }
 
         if tickCount == 10 {
-            for _ in 0..<100 { Arkon.spawn(portal: arkonsPortal) }
+            for i in 0..<100 {
+                var nd: NetDisplay?
+
+                if i < 9 {
+                    nd = NetDisplay(scene: self, background: net9Portals[i], layers: Arkon.layers!)
+                }
+
+                Arkon.spawn(portal: arkonsPortal, netDisplay: nd)
+            }
             return
         }
 
         arkonsPortal.children.compactMap({ return $0 as? Thorax }).forEach {
-            ($0 as SKSpriteNode).arkon.tick()
+            let sprite = $0 as SKSpriteNode
+            sprite.arkon.tick()
         }
     }
 }
