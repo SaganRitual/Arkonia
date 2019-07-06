@@ -55,6 +55,8 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
             noseFactory: SpriteFactory.makeNose(texture:)
         )
 
+        spriteFactory.postInit(net9Portals)
+
         Manna.plantAllManna(background: arkonsPortal, spriteFactory: spriteFactory)
 
         Arkon.inject(self, layers, arkonsPortal, spriteFactory)
@@ -77,14 +79,8 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
         if tickCount < 10 { return }
 
         if tickCount == 10 {
-            for i in 0..<100 {
-                var nd: NetDisplay?
-
-                if i < 9 {
-                    nd = NetDisplay(scene: self, background: net9Portals[i], layers: Arkon.layers!)
-                }
-
-                Arkon.spawn(portal: arkonsPortal, netDisplay: nd)
+            for _ in 0..<100 {
+                Arkon.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
             }
             return
         }

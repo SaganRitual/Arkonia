@@ -23,8 +23,8 @@ extension SKPhysicsBody: Massive {}
 
 extension SKSpriteNode {
     var arkon: Arkon {
-        get { return (userData!["arkon"] as? Arkon)! }
-        set { userData!["arkon"] = newValue }
+        get { return (userData![SpriteUserDataKey.arkon] as? Arkon)! }
+        set { userData![SpriteUserDataKey.arkon] = newValue }
     }
 }
 
@@ -46,7 +46,7 @@ class Arkon: HasContactDetector {
     static let brightColor = 0x00_FF_00    // Full green
     static var clock: ClockProtocol?
     static var layers: [Int]?
-    static var portal: SKSpriteNode?
+    static var arkonsPortal: SKSpriteNode?
     static let scaleFactor: CGFloat = 0.5
     static var spriteFactory: SpriteFactory?
     static let standardColor = 0x00_D0_00  // Slightly dim green
@@ -62,7 +62,7 @@ class Arkon: HasContactDetector {
     )
 
     let nose: SKSpriteNode
-    var portal: SKSpriteNode { return Arkon.portal! }
+    var arkonsPortal: SKSpriteNode { return Arkon.arkonsPortal! }
     var selectoid: Selectoid
     var senseLoader: SenseLoader!
     var sensoryInputs = [Double]()
@@ -74,14 +74,20 @@ class Arkon: HasContactDetector {
     var pBody: SKPhysicsBody { return sprite.physicsBody! }
 
     //swiftmint:disable function_body_length
-    init(parentBiases: [Double]?, parentWeights: [Double]?) {
+    init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
         selectoid = Selectoid(birthday: Arkon.clock!.getCurrentTime())
-        net = Net(parentBiases: parentBiases, parentWeights: parentWeights, layers: Arkon.layers!)
+        net = Net(parentBiases: parentBiases, parentWeights: parentWeights, layers: layers)
 
         sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
         sprite.setScale(Arkon.scaleFactor)
         sprite.color = ColorGradient.makeColor(hexRGB: Arkon.standardColor)
         sprite.colorBlendFactor = 1
+
+        if let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode),
+            let scene = np.parent as? SKScene {
+
+            NetDisplay(scene: scene, background: np, layers: net.layers).display()
+        }
 
         let spritePhysicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
 
@@ -131,11 +137,11 @@ class Arkon: HasContactDetector {
 
         metabolism = Metabolism(spritePhysicsBody)
 
-        sprite.position = portal.getRandomPoint()
+        sprite.position = arkonsPortal.getRandomPoint()
         sprite.addChild(nose)
-        portal.addChild(sprite)
+        arkonsPortal.addChild(sprite)
 
-        sprite.userData = ["arkon": self]
+        sprite.userData = [SpriteUserDataKey.arkon: self]
 
         sprite.physicsBody = spritePhysicsBody
         nose.physicsBody = nosePhysicsBody
@@ -153,10 +159,10 @@ class Arkon: HasContactDetector {
     }
 
     func tick() {
-        let realScene = (portal.parent as? SKScene)!
-        let converted = portal.convert(sprite.position, to: realScene)
+        let realScene = (arkonsPortal.parent as? SKScene)!
+        let converted = arkonsPortal.convert(sprite.position, to: realScene)
 
-        guard portal.frame.contains(converted) else {
+        guard arkonsPortal.frame.contains(converted) else {
             apoptosize()
             return
         }
@@ -174,17 +180,21 @@ extension Arkon {
     ) {
         Arkon.clock = clock
         Arkon.layers = layers
-        Arkon.portal = portal
+        Arkon.arkonsPortal = portal
         Arkon.spriteFactory = spriteFactory
 
         SenseLoader.inject(portal)
     }
 
     @discardableResult
-    static func spawn(portal: SKSpriteNode, netDisplay: NetDisplay?) -> Arkon {
-        let newArkon = Arkon(parentBiases: nil, parentWeights: nil)
+    static func spawn(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) -> Arkon {
+
+        let newArkon = Arkon(
+            parentBiases: parentBiases, parentWeights: parentWeights, layers: layers
+        )
+
         arkonHangar[newArkon.selectoid.fishNumber] = newArkon
-        newArkon.sprite.position = portal.getRandomPoint()
+        newArkon.sprite.position = Arkon.arkonsPortal!.getRandomPoint()
         newArkon.sprite.zRotation = CGFloat.random(in: -CGFloat.pi..<CGFloat.pi)
 
         newArkon.contactDetector!.contactResponder =
@@ -193,12 +203,6 @@ extension Arkon {
         newArkon.contactDetector!.senseResponder = SenseResponder()
 
         onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
-
-        if let nd = netDisplay {
-            newArkon.sprite.userData!["netDisplay"] = nd
-        }
-
-        (newArkon.sprite.userData?["netDisplay"] as? NetDisplay)?.display()
 
         return newArkon
     }
@@ -222,7 +226,12 @@ extension Arkon {
 
         if metabolism.spawnReserves.level >= spawnCost {
             metabolism.withdrawFromSpawn(spawnCost)
-            Arkon.spawn(portal: (thorax.parent as? SKSpriteNode)!, netDisplay: nil)
+
+            Arkon.spawn(
+                parentBiases: thorax.arkon.net.biases,
+                parentWeights: thorax.arkon.net.weights,
+                layers: thorax.arkon.net.layers
+            )
         }
 
         let ef = metabolism.fungibleEnergyFullness

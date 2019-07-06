@@ -8,9 +8,13 @@ class Net {
     let layers: [Int]
     let weights: [Double]
 
-    init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]) {
-        self.layers = Net.mutateStructure(layers)
-        (cWeights, cBiases) = Net.computeParameters(self.layers)
+    init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
+        let L: [Int]
+
+        if let L_ = layers { L = L_; self.layers = Net.mutateStructure(L) }
+        else { L = Arkon.layers!; self.layers = L }
+
+        (cWeights, cBiases) = Net.computeParameters(L)
 
         if let b = parentBiases { self.biases = World.mutator.mutateRandomDoubles(b)! }
         else { self.biases = (0..<cBiases).map { _ in Double.random(in: -1..<1) } }

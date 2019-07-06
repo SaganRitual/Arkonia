@@ -2,8 +2,8 @@ import SpriteKit
 
 extension SKSpriteNode {
     var manna: Manna {
-        get { return (userData!["manna"] as? Manna)! }
-        set { userData!["manna"] = newValue }
+        get { return (userData![SpriteUserDataKey.manna] as? Manna)! }
+        set { userData![SpriteUserDataKey.manna] = newValue }
     }
 }
 
@@ -83,7 +83,7 @@ extension Manna {
             let sprite = spriteFactory.mannaHangar.makeSprite()
             let manna = Manna(sprite)
 
-            sprite.userData = ["manna": manna]
+            sprite.userData = [SpriteUserDataKey.manna: manna]
             sprite.position = background.getRandomPoint()
 
             background.addChild(sprite)

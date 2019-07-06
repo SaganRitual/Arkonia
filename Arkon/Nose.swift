@@ -2,7 +2,9 @@ import SpriteKit
 
 class Nose: SKSpriteNode, ContactCoordinatorDelegate {
     var ownerArkon: HasContactDetector {
-        get { return ((parent as? SKSpriteNode)!.userData?["arkon"] as? HasContactDetector)! }
+        get {
+            let key = SpriteUserDataKey.arkon
+            return ((parent as? SKSpriteNode)!.userData?[key] as? HasContactDetector)! }
     }
 
     func pushContactedBodies(_ contactedBodies: [SKPhysicsBody]) {
@@ -14,7 +16,7 @@ class Nose: SKSpriteNode, ContactCoordinatorDelegate {
 
 class Thorax: SKSpriteNode, ContactCoordinatorDelegate {
     var ownerArkon: HasContactDetector {
-        get { return (userData?["arkon"] as? HasContactDetector)! }
+        get { return (userData?[SpriteUserDataKey.arkon] as? HasContactDetector)! }
     }
 
     func pushContactedBodies(_ contactedBodies: [SKPhysicsBody]) {

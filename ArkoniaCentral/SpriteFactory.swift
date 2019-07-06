@@ -1,6 +1,10 @@
 import Foundation
 import SpriteKit
 
+enum SpriteUserDataKey {
+    case arkon, manna, net9Portal, netDisplay
+}
+
 class SpriteHangar: SpriteHangarProtocol {
     let atlas: SKTextureAtlas?
     var drones = [SKSpriteNode]()
@@ -19,6 +23,7 @@ class SpriteHangar: SpriteHangarProtocol {
         }
 
         let newSprite = factoryFunction(texture)
+        newSprite.userData = [:]
         drones.append(newSprite)
         return newSprite
     }
@@ -45,6 +50,16 @@ class SpriteFactory {
         linesHangar =       SpriteHangar("Line",    "line",                factoryFunction: SpriteFactory.makeSprite)
         mannaHangar =       SpriteHangar("Manna",   "manna",               factoryFunction: SpriteFactory.makeSprite)
         noseHangar =        SpriteHangar("Arkons",  "spark-nose-large",    factoryFunction: noseFactory)
+    }
+
+    func postInit(_ net9Portals: [SKSpriteNode]) {
+        for i in 0..<9 {
+            let drone = arkonsHangar.makeSprite()
+            drone.userData![SpriteUserDataKey.net9Portal] = net9Portals[i]
+            scene.addChild(drone)   // Icky -- adding to scene to hold temp space in hangar
+        }
+
+        for drone in arkonsHangar.drones { arkonsHangar.retireSprite(drone) }
     }
 }
 
