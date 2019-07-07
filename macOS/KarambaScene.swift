@@ -79,7 +79,7 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
         if tickCount < 10 { return }
 
         if tickCount == 10 {
-            for _ in 0..<100 {
+            for _ in 0..<300 {
                 Arkon.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
             }
             return

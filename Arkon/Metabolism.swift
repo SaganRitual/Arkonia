@@ -200,6 +200,8 @@ class Metabolism: EnergySourceProtocol {
     }
 
     func tick() {
+        let internalTransferRate: CGFloat = 2.0
+
         defer { updatePhysicsBodyMass() }
 
         var export = !stomach.isEmpty && !readyEnergyReserves.isFull
@@ -213,7 +215,7 @@ class Metabolism: EnergySourceProtocol {
 
         if export {
             let surplus_ = readyEnergyReserves.level - readyEnergyReserves.overflowThreshold
-            let surplus = min(surplus_, 1 * fatReserves.energyDensity)
+            let surplus = min(surplus_, internalTransferRate * fatReserves.energyDensity)
             let net = readyEnergyReserves.withdraw(surplus)
             fatReserves.deposit(net)
         }
@@ -221,14 +223,14 @@ class Metabolism: EnergySourceProtocol {
         let `import` = readyEnergyReserves.level < reUnderflowThreshold
 
         if `import` {
-            let refill = fatReserves.withdraw(1 * fatReserves.energyDensity)
+            let refill = fatReserves.withdraw(internalTransferRate * fatReserves.energyDensity)
             readyEnergyReserves.deposit(refill)
         }
 
         export = fatReserves.isAmple && !spawnReserves.isFull
 
         if export {
-            let transfer = fatReserves.withdraw(1 * spawnReserves.energyDensity)
+            let transfer = fatReserves.withdraw(internalTransferRate * spawnReserves.energyDensity)
             spawnReserves.deposit(transfer)
         }
     }

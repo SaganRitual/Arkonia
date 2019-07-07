@@ -16,11 +16,15 @@ class Net {
 
         (cWeights, cBiases) = Net.computeParameters(L)
 
-        if let b = parentBiases { self.biases = World.mutator.mutateRandomDoubles(b)! }
-        else { self.biases = (0..<cBiases).map { _ in Double.random(in: -1..<1) } }
+        var bb: [Double]?
+        if let b = parentBiases { bb = World.mutator.mutateRandomDoubles(b) }
+        if bb == nil { bb = (0..<cBiases).map { _ in Double.random(in: -1..<1) } }
+        self.biases = bb!
 
-        if let w = parentWeights { self.weights = World.mutator.mutateRandomDoubles(w)! }
-        else { self.weights = (0..<cWeights).map { _ in Double.random(in: -1..<1) } }
+        var ww: [Double]?
+        if let w = parentWeights { ww = World.mutator.mutateRandomDoubles(w) }
+        if ww == nil { ww = (0..<cWeights).map { _ in Double.random(in: -1..<1) } }
+        self.weights = ww!
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
