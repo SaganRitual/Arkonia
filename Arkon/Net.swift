@@ -9,24 +9,16 @@ class Net {
     let weights: [Double]
 
     init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
-        let L: [Int]
 
-        if let L_ = layers { L = L_; self.layers = Net.mutateStructure(L) }
-        else { L = Arkon.layers!; self.layers = L }
+        if let L = layers { self.layers = Net.mutateStructure(L) }
+        else { self.layers = Arkon.layers! }
 
-        (cWeights, cBiases) = Net.computeParameters(L)
+        (cWeights, cBiases) = Net.computeParameters(self.layers)
 
-        var bb: [Double]?
-        if let b = parentBiases { bb = World.mutator.mutateRandomDoubles(b) }
-        if bb == nil { bb = (0..<cBiases).map { _ in Double.random(in: -1..<1) } }
-        self.biases = bb!
+        self.biases = Net.mutateNetStrand(parentStrand: parentBiases, targetLength: cBiases)
+        self.weights = Net.mutateNetStrand(parentStrand: parentWeights, targetLength: cWeights)
 
-        var ww: [Double]?
-        if let w = parentWeights { ww = World.mutator.mutateRandomDoubles(w) }
-        if ww == nil { ww = (0..<cWeights).map { _ in Double.random(in: -1..<1) } }
-        self.weights = ww!
-
-        print("L", self.layers, "b", self.biases.count, "w", self.weights.count)
+//        print("L", self.layers, self.layers.count, "b", cBiases, self.biases.count, "w", cWeights, self.weights.count)
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
@@ -71,6 +63,22 @@ class Net {
 
 //        print("mo", (0..<a0.rows).map { a0[$0, 0] })
         return (0..<a0.rows).map { a0[$0, 0] }
+    }
+
+    static func mutateNetStrand(parentStrand: [Double]?, targetLength: Int) -> [Double] {
+        var dd: [Double]?
+        if let d = parentStrand { dd = World.mutator.mutateRandomDoubles(d) }
+        if dd == nil { dd = (0..<targetLength).map { _ in Double.random(in: -1..<1) } }
+        else {
+            if dd!.count > parentStrand!.count {
+                dd!.append(contentsOf:
+                    (parentStrand!.count..<dd!.count).map { _ in Double.random(in: -1..<1) }
+                )
+            }
+        }
+
+//        print("mns", parentStrand ?? [], targetLength)
+        return dd!
     }
 
     static func mutateStructure(_ layers: [Int]) -> [Int] {

@@ -87,7 +87,6 @@ class Arkon: HasContactDetector {
             let scene = np.parent as? SKScene {
 
             NetDisplay(scene: scene, background: np, layers: net.layers).display()
-            print("NetDisplay", selectoid.fishNumber)
         }
 
         let spritePhysicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
