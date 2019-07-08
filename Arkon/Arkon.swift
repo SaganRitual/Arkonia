@@ -320,10 +320,10 @@ extension Arkon {
             processingTouch = true
             defer { processingTouch = false }
 
-            if thorax.arkon.selectoid.fishNumber < ownerArkon.selectoid.fishNumber {
-                ownerArkon.metabolism.parasitize(thorax.arkon.metabolism)
-                return true
-            }
+//            if thorax.arkon.selectoid.fishNumber < ownerArkon.selectoid.fishNumber {
+//                ownerArkon.metabolism.parasitize(thorax.arkon.metabolism)
+//                return true
+//            }
 
             return false
         }
