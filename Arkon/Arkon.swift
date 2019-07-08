@@ -56,6 +56,7 @@ class Arkon: HasContactDetector {
     var isCaptured = false
     let metabolism: Metabolism
     let net: Net
+    var netDisplay: NetDisplay?
 
     var netQueue = DispatchQueue(
         label: "arkonia.net.queue", qos: .background, attributes: .concurrent
@@ -86,7 +87,8 @@ class Arkon: HasContactDetector {
         if let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode),
             let scene = np.parent as? SKScene {
 
-            NetDisplay(scene: scene, background: np, layers: net.layers).display()
+            netDisplay = NetDisplay(scene: scene, background: np, layers: net.layers)
+            netDisplay!.display()
         }
 
         let spritePhysicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
@@ -151,11 +153,13 @@ class Arkon: HasContactDetector {
     //swiftmint:enable function_body_length
 
     deinit {
-    }
+        netDisplay = nil }
 
     func apoptosize() {
         spriteFactory.noseHangar.retireSprite(sprite.arkon.nose)
         spriteFactory.arkonsHangar.retireSprite(sprite)
+        print("a", selectoid.fishNumber)
+        sprite.userData![SpriteUserDataKey.arkon] = nil
     }
 
     func tick() {
@@ -172,7 +176,7 @@ class Arkon: HasContactDetector {
 }
 
 extension Arkon {
-    static var arkonHangar = [Int: Arkon]()
+//    static var arkonHangar = [Int: Arkon]()
 
     static func inject(
         _ clock: ClockProtocol, _ layers: [Int],  _ portal: SKSpriteNode,
@@ -193,7 +197,7 @@ extension Arkon {
             parentBiases: parentBiases, parentWeights: parentWeights, layers: layers
         )
 
-        arkonHangar[newArkon.selectoid.fishNumber] = newArkon
+//        arkonHangar[newArkon.selectoid.fishNumber] = newArkon
         newArkon.sprite.position = Arkon.arkonsPortal!.getRandomPoint()
         newArkon.sprite.zRotation = CGFloat.random(in: -CGFloat.pi..<CGFloat.pi)
 
@@ -269,7 +273,7 @@ extension Arkon {
     }
 
     static func brainlyManeuverStart(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
-
+        print("bm", thorax.arkon.selectoid.fishNumber)
         let sensoryInputs = thorax.arkon.stimulus()
 
         var motorOutputs = [Double]()
@@ -293,7 +297,7 @@ extension Arkon {
 extension Arkon {
 
     class ContactResponder: ContactResponseProtocol {
-        let ownerArkon: Arkon
+        weak var ownerArkon: Arkon!
         var processingTouch = false
 
         init(ownerArkon: Arkon) { self.ownerArkon = ownerArkon }
