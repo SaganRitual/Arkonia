@@ -50,7 +50,7 @@ class NetDisplay {
             }()
 
             netDisplayGrid.layerRole = layerRole
-
+            /*
             if !positionsForUpperLayer.isEmpty {
                 let lowerCNeurons = layers[layerSS + 1]
 
@@ -63,7 +63,7 @@ class NetDisplay {
                     }
                 }
             }
-
+            */
             positionsForUpperLayer.removeAll(keepingCapacity: true)
 
             (0..<cNeurons).forEach { neuronSS in

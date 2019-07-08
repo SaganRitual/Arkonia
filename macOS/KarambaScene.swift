@@ -31,7 +31,7 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
     }
 
     var arkonsPortal: SKSpriteNode!
-    let layers = [ArkoniaCentral.cSenseNeurons, 6, ArkoniaCentral.cMotorNeurons]
+    let layers = [ArkoniaCentral.cSenseNeurons, 5, 5, 5, 5, ArkoniaCentral.cMotorNeurons]
     var netDisplay: NetDisplay?
     var netPortal: SKSpriteNode!
     var net9Portals = [SKSpriteNode]()
@@ -43,6 +43,11 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
+
+        // Figure out where the 475 comes from
+        let origin = self.frame.origin + CGPoint(x: 475, y: 0)
+        let re = CGRect(origin: origin, size: arkonsPortal.frame.size)
+        arkonsPortal.physicsBody = SKPhysicsBody(edgeLoopFrom: re)
 
         enumerateChildNodes(withName: "net_9portal") { node_, _ in
             let node = (node_ as? SKSpriteNode)!
@@ -79,7 +84,7 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
         if tickCount < 10 { return }
 
         if tickCount == 10 {
-            for _ in 0..<300 {
+            for _ in 0..<50 {
                 Arkon.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
             }
             return

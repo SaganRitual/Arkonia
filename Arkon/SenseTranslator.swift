@@ -8,7 +8,8 @@ extension SKSpriteNode {
         if angle == 0 || angle.isInfinite { return 0 }
         let sign = abs(angle) / angle
 
-        let scaled = abs(angle).truncatingRemainder(dividingBy: CGFloat.tau) / CGFloat.tau
+        let chopped = abs(angle).truncatingRemainder(dividingBy: CGFloat.tau) / CGFloat.tau
+        let scaled = chopped / CGFloat.pi
         return scaled * sign
     }
 

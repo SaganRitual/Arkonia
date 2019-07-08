@@ -25,6 +25,8 @@ class Net {
         if let w = parentWeights { ww = World.mutator.mutateRandomDoubles(w) }
         if ww == nil { ww = (0..<cWeights).map { _ in Double.random(in: -1..<1) } }
         self.weights = ww!
+
+        print("L", self.layers, "b", self.biases.count, "w", self.weights.count)
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
@@ -84,12 +86,12 @@ class Net {
                 if s > 8 { continue }
                 else if s < -9 {
                     let t = Int.random(in: -10..<10)
-                    mutated.append(t)
+                    mutated.append(abs(t))
                 }
 
-                mutated.append(L)
+                mutated.append(abs(L))
             } else {
-                mutated.append(r)
+                mutated.append(abs(r))
             }
         }
 

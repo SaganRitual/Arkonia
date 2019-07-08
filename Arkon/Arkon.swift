@@ -87,6 +87,7 @@ class Arkon: HasContactDetector {
             let scene = np.parent as? SKScene {
 
             NetDisplay(scene: scene, background: np, layers: net.layers).display()
+            print("NetDisplay", selectoid.fishNumber)
         }
 
         let spritePhysicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
@@ -141,7 +142,7 @@ class Arkon: HasContactDetector {
         sprite.addChild(nose)
         arkonsPortal.addChild(sprite)
 
-        sprite.userData = [SpriteUserDataKey.arkon: self]
+        sprite.userData![SpriteUserDataKey.arkon] = self
 
         sprite.physicsBody = spritePhysicsBody
         nose.physicsBody = nosePhysicsBody
@@ -213,8 +214,9 @@ extension Arkon {
     static func onePass(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
         let nose = (thorax.children[0] as? Nose)!
 
-        metabolism.oxygenLevel -= (4.0 / 60.0)
-        //        print("o2", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
+//        print("o2a", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel, terminator: "")
+        metabolism.oxygenLevel -= (1.0 / 60.0)
+//        print("o2b", metabolism.oxygenLevel)
 
         guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
             thorax.arkon.apoptosize()

@@ -130,20 +130,18 @@ struct Maneuvers {
     func selectActionPrimitive(arkon: SKSpriteNode, motorOutputs: [Double]) -> SKAction {
 
         var m = motorOutputs
-        let power = CGFloat(Int(m.removeFirst() * 100.0)) / 100.0
-        let primitives: [ActionPrimitive] = [
-            .goFullStop, .goThrust(power), .goRotate(power), .goWait(power)
-        ]
+        let selector = CGFloat(Int(m.removeFirst() * 100.0)) / 100.0
+        let primitive: ActionPrimitive
 
-        let tagged: [(ActionPrimitive, Double)] = zip(primitives, m).map {($0, $1)}
-
-        let sorted = tagged.sorted { lhs, rhs in
-            return (abs(lhs.1) < abs(rhs.1))
+        switch selector {
+        case (-1.0)..<(-0.5): primitive = .goThrust(CGFloat(m[0]) / 10)
+        case  -0.5..<0.0:     primitive = .goRotate(CGFloat(m[1]) / 10)
+        case   0.0..<0.5:     primitive = .goThrust(CGFloat(m[2]) / 10)
+        case   0.5...:        primitive = .goRotate(CGFloat(m[3]) / 10)
+        default: preconditionFailure()
         }
 
-        let maxEntry = sorted.last!
-
-        switch maxEntry.0 {
+        switch primitive {
         case .goFullStop:                 return getStopAction(arkon)
         case let .goRotate(torqueIndex):  return getRotateAction(arkon, torqueIndex)
         case let .goThrust(thrustIndex):  return getThrustAction(arkon, thrustIndex)
