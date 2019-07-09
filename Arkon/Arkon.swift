@@ -54,9 +54,10 @@ class Arkon: HasContactDetector {
     var contactDetector: ContactDetectorProtocol?
     var isAlive = false
     var isCaptured = false
+    var maneuvers: Maneuvers!
     let metabolism: Metabolism
     let net: Net
-    var netDisplay: NetDisplay?
+    var netDisplay: NetDisplay!
 
     var netQueue = DispatchQueue(
         label: "arkonia.net.queue", qos: .background, attributes: .concurrent
@@ -138,6 +139,7 @@ class Arkon: HasContactDetector {
         nosePhysicsBody.pinned = true
 
         metabolism = Metabolism(spritePhysicsBody)
+        maneuvers = nil
 
         sprite.position = arkonsPortal.getRandomPoint()
         sprite.addChild(nose)
@@ -153,12 +155,14 @@ class Arkon: HasContactDetector {
     //swiftmint:enable function_body_length
 
     deinit {
-        netDisplay = nil }
+        netDisplay = nil
+        maneuvers = nil
+    }
 
     func apoptosize() {
         spriteFactory.noseHangar.retireSprite(sprite.arkon.nose)
         spriteFactory.arkonsHangar.retireSprite(sprite)
-        print("a", selectoid.fishNumber)
+//        print("a", selectoid.fishNumber)
         sprite.userData![SpriteUserDataKey.arkon] = nil
     }
 
@@ -232,11 +236,22 @@ extension Arkon {
         if metabolism.spawnReserves.level >= spawnCost {
             metabolism.withdrawFromSpawn(spawnCost)
 
-            Arkon.spawn(
-                parentBiases: thorax.arkon.net.biases,
-                parentWeights: thorax.arkon.net.weights,
-                layers: thorax.arkon.net.layers
-            )
+            let biases = thorax.arkon.net.biases
+            let weights = thorax.arkon.net.weights
+            let layers = thorax.arkon.net.layers
+            let waitAction = SKAction.wait(forDuration: 0.02)
+            let spawnAction = SKAction.run {
+                Arkon.spawn(parentBiases: biases, parentWeights: weights, layers: layers)
+            }
+
+            let sequence = SKAction.sequence([waitAction, spawnAction])
+            arkonsPortal!.run(sequence)
+
+            if arkonsPortal!.children.filter({ $0 is Thorax }).count > 250 {
+//                print("population control", thorax.arkon.selectoid.fishNumber)
+                thorax.arkon.apoptosize()
+                return
+            }
         }
 
         let ef = metabolism.fungibleEnergyFullness
@@ -272,21 +287,60 @@ extension Arkon {
         brainlyManeuverStart(sprite: thorax, metabolism: metabolism)
     }
 
-    static func brainlyManeuverStart(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
-        print("bm", thorax.arkon.selectoid.fishNumber)
-        let sensoryInputs = thorax.arkon.stimulus()
+    struct NetSignal {
+        mutating func go(arkon: Arkon) {
+//            print("go1", arkon.selectoid.fishNumber)
+            let workAction = SKAction.run({
+                let sensoryInputs = arkon.stimulus()
+                let motorOutputs = arkon.net.getMotorOutputs(sensoryInputs)
 
-        var motorOutputs = [Double]()
-        let workItem = DispatchWorkItem {
-            motorOutputs = thorax.arkon.net.getMotorOutputs(sensoryInputs)
-            brainlyManeuverEnd(sprite: thorax, metabolism: metabolism, motorOutputs: motorOutputs)
+//                let maneuverEndAction = SKAction.run {
+                    brainlyManeuverEnd(
+                        sprite: arkon.sprite, metabolism: arkon.metabolism, motorOutputs: motorOutputs
+                    )
+//                }
+
+//                arkon.sprite.run(maneuverEndAction)
+
+//                print("wa", arkon.selectoid.fishNumber)
+            }, queue: arkon.netQueue)
+
+//            print("go2", arkon.selectoid.fishNumber)
+            let waitAction = SKAction.wait(forDuration: 0.02)
+            let sequence = SKAction.sequence([waitAction, workAction])
+
+            arkon.sprite.run(sequence)
+//            print("go3", arkon.selectoid.fishNumber)
         }
+    }
 
-        thorax.arkon.netQueue.async(execute: workItem)
+    static func brainlyManeuverStart(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
+//        print("bm", thorax.arkon.selectoid.fishNumber)
+//        let motorOutputs = thorax.arkon.net.getMotorOutputs(sensoryInputs)
+//
+//        let workItem = DispatchWorkItem {
+//            brainlyManeuverEnd(sprite: thorax, metabolism: metabolism, motorOutputs: motorOutputs)
+//        }
+//
+//        thorax.arkon.netQueue.async(execute: workItem)
+
+//        var motorOutputs = [Double]()
+//        let workAction = SKAction.run({
+//            let sensoryInputs = thorax.arkon.stimulus()
+//            motorOutputs = thorax.arkon.net.getMotorOutputs(sensoryInputs)
+//        }, queue: thorax.arkon.netQueue)
+//
+//        thorax.run(workAction) {
+//            brainlyManeuverEnd(sprite: thorax, metabolism: metabolism, motorOutputs: motorOutputs)
+//        }
+
+        var netSignal = NetSignal()
+        netSignal.go(arkon: thorax.arkon)
     }
 
     static func brainlyManeuverEnd(sprite thorax: SKSpriteNode, metabolism: Metabolism, motorOutputs: [Double]) {
-        let maneuvers = Maneuvers(energySource: metabolism)
+        thorax.arkon.maneuvers = Maneuvers(energySource: metabolism)
+        let maneuvers = thorax.arkon.maneuvers!
         let action = maneuvers.selectActionPrimitive(arkon: thorax, motorOutputs: motorOutputs)
         let wait = SKAction.wait(forDuration: 0.01)
         let sequence = SKAction.sequence([wait, action])

@@ -92,12 +92,12 @@ class Net {
             if r == 0 {
                 let s = Int.random(in: -10..<10)
                 if s > 8 { continue }
-                else if s < -9 {
+                else if s < -7 {
                     let t = Int.random(in: -10..<10)
-                    mutated.append(abs(t))
+                    mutated.append(abs(t == 0 ? 1 : t))
                 }
 
-                mutated.append(abs(L))
+                mutated.append(layers[L])
             } else {
                 mutated.append(abs(r))
             }

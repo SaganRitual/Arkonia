@@ -72,8 +72,8 @@ class EnergyReserve {
     }
 
     func deposit(_ cJoules: CGFloat) {
-        if cJoules == 0 { return }
-        precondition(cJoules > 0)
+        if cJoules <= 0 { return }  // Energy level can go slightly neg, rounding?
+        precondition(cJoules > -0.1)
 
         level = min(level + cJoules, capacity)
     }

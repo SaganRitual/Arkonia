@@ -28,6 +28,9 @@ class NetDisplay {
         )
     }
 
+    deinit {
+        background.removeAllChildren() }
+
     func display() {
         let neuronRadius = CGFloat(25)
 

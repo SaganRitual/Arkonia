@@ -83,11 +83,8 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-        if tickCount == 10 {
-            for _ in 0..<50 {
-                Arkon.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
-            }
-            return
+        if tickCount >= 10 && tickCount <= 250  {
+            Arkon.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
         }
 
         arkonsPortal.children.compactMap({ return $0 as? Thorax }).forEach {
