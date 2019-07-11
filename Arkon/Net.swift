@@ -88,20 +88,31 @@ class Net {
         var mutated = [ArkoniaCentral.cSenseNeurons]
 
         for L in 1..<(layers.count - 2) {
-            let r = Int.random(in: -10..<10)
-            if r == 0 {
-                let s = Int.random(in: -10..<10)
-                if s > 8 { continue }
-                else if s < -7 {
-                    let t = Int.random(in: -10..<10)
-                    mutated.append(abs(t == 0 ? 1 : t))
-                }
+            let mutateLayerCount = Int.random(in: 0..<100)
 
-                mutated.append(layers[L])
-            } else {
-                mutated.append(abs(r))
+            switch mutateLayerCount {
+            case  0..<10:   continue
+            case 10..<30:   mutated.append(Int.random(in: 1..<10))
+            default:        break
             }
+
+            let mutateNeuronCount = Int.random(in: -50..<50)
+            let distance = mutateNeuronCount / 10
+
+            let cNeurons_ = L + distance
+            let cNeurons: Int
+            if cNeurons_ <= 0 {
+                cNeurons = ArkoniaCentral.cSenseNeurons
+            } else if cNeurons_ > ArkoniaCentral.cSenseNeurons {
+                cNeurons = ArkoniaCentral.cMotorNeurons
+            } else {
+                cNeurons = cNeurons_
+            }
+
+            mutated.append(cNeurons)
         }
+
+        if mutated.count == 1 { mutated.append(ArkoniaCentral.cSenseNeurons) }
 
         mutated.append(ArkoniaCentral.cMotorNeurons)
 
