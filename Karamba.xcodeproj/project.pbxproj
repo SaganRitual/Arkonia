@@ -718,6 +718,7 @@
 				D49042C122AC927A00E7369B /* ContactCoordinator.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
 				D464BA6322C738F60069623C /* MannaTest.swift */,
+				D4A216B722C1610A00D92A1E /* Mutator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 				D43EA81F22917CEA006C619D /* ReaderMonad.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
@@ -751,7 +752,6 @@
 				D4F6460722A4253F00FD8C56 /* ColorGradient.swift */,
 				D43EA83D229233F7006C619D /* Extensions.swift */,
 				D46B1D7322813E12003D711C /* KIdentifier.swift */,
-				D4A216B722C1610A00D92A1E /* Mutator.swift */,
 				D46B1D9F22826994003D711C /* Overload2D.swift */,
 			);
 			path = Miscellany;
