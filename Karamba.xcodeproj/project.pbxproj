@@ -514,6 +514,13 @@
 		D4A216B722C1610A00D92A1E /* Mutator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4A216BA22C1988B00D92A1E /* BellCurve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BellCurve.swift; sourceTree = "<group>"; };
 		D4AD196922AC4848009F3469 /* ManeuversMetabolism.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ManeuversMetabolism.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4B4293C22DAEC7E0036C904 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
+		D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
+		D4B4293E22DAEC7E0036C904 /* IndexedRingBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexedRingBuffer.swift; sourceTree = "<group>"; };
+		D4B4293F22DAEC7E0036C904 /* LineGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraph.swift; sourceTree = "<group>"; };
+		D4B4294022DAEC7E0036C904 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		D4B4294122DAEC7E0036C904 /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
+		D4B4294222DAEC7E0036C904 /* LineGraphUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphUpdate.swift; sourceTree = "<group>"; };
 		D4CBA2FE228059CA0023FAB9 /* SpriteFactory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpriteFactory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetDisplayGrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaCentral.swift; sourceTree = "<group>"; };
@@ -661,6 +668,7 @@
 				D43EA81B228FDCC3006C619D /* Arkon */,
 				D43EA81A228FDBA4006C619D /* ArkoniaCentral */,
 				D4A2168B22C0160700D92A1E /* Genome */,
+				D4B4293B22DAEC7E0036C904 /* HUD */,
 				D40985F922650BD8009DD384 /* macOS */,
 				D46B1D7222813DF7003D711C /* Miscellany */,
 				D4A216A922C15FFB00D92A1E /* Mutator */,
@@ -779,6 +787,20 @@
 				D4A216AC22C15FFB00D92A1E /* MutatorAdd.swift */,
 			);
 			path = Mutator;
+			sourceTree = "<group>";
+		};
+		D4B4293B22DAEC7E0036C904 /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				D4B4294122DAEC7E0036C904 /* BarChart.swift */,
+				D4B4294022DAEC7E0036C904 /* HUD.swift */,
+				D4B4293E22DAEC7E0036C904 /* IndexedRingBuffer.swift */,
+				D4B4293F22DAEC7E0036C904 /* LineGraph.swift */,
+				D4B4294222DAEC7E0036C904 /* LineGraphUpdate.swift */,
+				D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */,
+				D4B4293C22DAEC7E0036C904 /* Report.swift */,
+			);
+			path = HUD;
 			sourceTree = "<group>";
 		};
 		D4E8D268227E06F400DFCB40 /* NetDisplay */ = {
