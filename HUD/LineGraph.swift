@@ -5,7 +5,7 @@ class LineGraphFactory {
     private let prototype: LineGraph
     static var dotTexture: SKTexture!
 
-    init(hud: HUD, scene: MainScene) {
+    init(hud: HUD, scene: KarambaScene) {
         prototype = hardBind(hud.getPrototype(.linegraph) as? LineGraph)
         let tShape = SKShapeNode(circleOfRadius: 2.5)
         LineGraphFactory.dotTexture = scene.view?.texture(from: tShape)

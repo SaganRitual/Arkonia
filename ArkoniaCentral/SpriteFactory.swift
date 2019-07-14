@@ -53,7 +53,7 @@ class SpriteFactory {
     }
 
     func postInit(_ net9Portals: [SKSpriteNode]) {
-        for i in 0..<9 {
+        for i in 0..<18 {
             let drone = arkonsHangar.makeSprite()
             drone.userData![SpriteUserDataKey.net9Portal] = net9Portals[i]
             scene.addChild(drone)   // Icky -- adding to scene to hold temp space in hangar

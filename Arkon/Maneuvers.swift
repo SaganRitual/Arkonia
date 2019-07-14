@@ -52,9 +52,10 @@ struct Maneuvers {
         let piRevsPerSecond: CGFloat = 2.0
         let targetAVelocity = fudgeFactor * piRevsPerSecond * torqueIndex / (3 * CGFloat.tau)
         let joulesNeeded = abs(targetAVelocity) * arkon.physicsBody!.mass     // By fiat, energy needed is a function of the speed
+        let sign = abs(torqueIndex) / torqueIndex
 
         return SKAction.run {
-            let impulse = self.energySource.withdrawFromReady(joulesNeeded)
+            let impulse = sign * self.energySource.withdrawFromReady(joulesNeeded)
 
 //            print(
 //                "[rotate   ",
@@ -127,19 +128,23 @@ struct Maneuvers {
         return SKAction.wait(forDuration: conversion)
     }
 
+    //swiftmint:disable cyclomatic_complexity
     func selectActionPrimitive(arkon: SKSpriteNode, motorOutputs: [Double]) -> SKAction {
 
-        var m = motorOutputs
-        let selector = CGFloat(Int(m.removeFirst() * 100.0)) / 100.0
+        let m = motorOutputs
+//        let selector = CGFloat(Int(m.removeFirst() * 100.0)) / 100.0
         let primitive: ActionPrimitive
 
-        switch selector {
-        case (-1.0)..<(-0.5): primitive = .goThrust(CGFloat(m[0]) / 10)
-        case  -0.5..<0.0:     primitive = .goRotate(CGFloat(m[1]) / 10)
-        case   0.0..<0.5:     primitive = .goThrust(CGFloat(m[2]) / 10)
-        case   0.5...:        primitive = .goRotate(CGFloat(m[3]) / 10)
+        switch arkon.arkon.motionSelector % 5 {
+        case 0:  primitive = .goThrust(CGFloat(m[0] * m[2]))
+        case 1:     primitive = .goWait(CGFloat(m[3]) / 1)
+        case 2:      primitive = .goFullStop//.goThrust(CGFloat(m[2]) / 10)
+        case 3: primitive = .goRotate(CGFloat(m[1]) / 10)
+        case 4:     primitive = .goFullStop//.goThrust(CGFloat(m[2]) / 10)
         default: preconditionFailure()
         }
+
+        arkon.arkon.motionSelector += 1
 
         switch primitive {
         case .goFullStop:                 return getStopAction(arkon)
@@ -148,5 +153,6 @@ struct Maneuvers {
         case let .goWait(duration):       return getWaitAction(duration)
         }
     }
+    //swiftmint:enable cyclomatic_complexity
 
 }

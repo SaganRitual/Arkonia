@@ -4,12 +4,12 @@ import SpriteKit
 class ReportFactory {
     private let prototype: Report
 
-    init(hud: HUD, scene: MainScene) {
-        prototype = hardBind(hud.getPrototype(.report) as? Report)
+    init(hud: HUD, scene: KarambaScene) {
+        prototype = (hud.getPrototype(.report) as? Report)!
         hud.releasePrototype(prototype)
     }
 
-    func newReport() -> Report { return hardBind(prototype.copy() as? Report) }
+    func newReport() -> Report { return (prototype.copy() as? Report)! }
 }
 
 struct Reportoid {
@@ -37,7 +37,7 @@ final class Report: SKSpriteNode {
 
     func start() {
         // Note: start at child #1, zero is the title, because laziness
-        let toChildren: [SKAction] = (1..<5).map {
+        let toChildren: [SKAction] = (1...3).map {
             let r = reportoid($0)
             let scaleDown = SKAction.scaleY(to: 0.01, duration: TimeInterval.random(in: 0.5..<1.5))
             let scaleUp = SKAction.scaleY(to: 1, duration: TimeInterval.random(in: 0.5..<1.5))

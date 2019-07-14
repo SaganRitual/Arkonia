@@ -64,7 +64,7 @@ enum GeneType: CaseIterable {
     ]
     #if false
     static func trackGeneDistribution(for arkon: Karamba) {
-        guard let chart = MainScene.shared.bcGenes else { preconditionFailure() }
+        guard let chart = KarambaScene.shared.bcGenes else { preconditionFailure() }
 
         chart.reset()
 

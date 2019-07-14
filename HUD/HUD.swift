@@ -23,14 +23,12 @@ class Quadrant {
 
 class HUD {
     enum MonitorPrototype: Int, CaseIterable {
-        case report = 0, nothing = 1, barchart = 2, linegraph = 3
+        case report = 0, nothing = 1
     }
 
     static private let prototypeNames: [MonitorPrototype: String] = [
         .report: "report_monitor_prototype",
-        .barchart: "barchart_monitor_prototype",
-        .linegraph: "linegraph_monitor_prototype",
-        .nothing: "some_other_monitor_prototype"
+        .nothing: "other_monitor_prototype"
     ]
 
     private var dashboards = [Dashboard]()
@@ -39,15 +37,15 @@ class HUD {
     init(scene: SKScene) {
         self.scene = scene
 
-        let prototypesContainer = scene.childNode(withName: "dashboard1")!
+        let prototypesContainer = scene.childNode(withName: "dashboard2")!
         let prototypes = HUD.unpackPrototypes(prototypesContainer, scene: scene)
 
         dashboards.append(Dashboard(node: prototypesContainer, quadrants: prototypes))
 
-        let placeholdersContainer = scene.childNode(withName: "dashboard2")!
-        let placeholders = HUD.unpackPlaceholders(placeholdersContainer, scene: scene)
-
-        dashboards.append(Dashboard(node: placeholdersContainer, quadrants: placeholders))
+//        let placeholdersContainer = scene.childNode(withName: "dashboard2")!
+//        let placeholders = HUD.unpackPlaceholders(placeholdersContainer, scene: scene)
+//
+//        dashboards.append(Dashboard(node: placeholdersContainer, quadrants: placeholders))
     }
 
     func getNetPortal() -> SKNode {
@@ -72,26 +70,26 @@ class HUD {
         thePrototype.removeFromParent()
     }
 
-    static private func unpackPlaceholders(_ dashboard: SKNode, scene: SKScene) -> [Quadrant] {
-        let quadrants: [Quadrant] = (0..<4).map {
-            let node = dashboard.childNode(withName: "placeholder\($0)")
-            let placeholder = (node as? SKSpriteNode)!
-
-            let quadrant = Quadrant(
-                monitor: placeholder, quadrantPosition: placeholder.position
-            )
-
-            return quadrant
-        }
-
-        return quadrants
-    }
+//    static private func unpackPlaceholders(_ dashboard: SKNode, scene: SKScene) -> [Quadrant] {
+//        let quadrants: [Quadrant] = (2...3).map {
+//            let node = dashboard.childNode(withName: "placeholder\($0)")
+//            let placeholder = (node as? SKSpriteNode)!
+//
+//            let quadrant = Quadrant(
+//                monitor: placeholder, quadrantPosition: placeholder.position
+//            )
+//
+//            return quadrant
+//        }
+//
+//        return quadrants
+//    }
 
     static private func unpackPrototypes(_ dashboard: SKNode, scene: SKScene) -> [Quadrant] {
         let quadrants: [Quadrant] = MonitorPrototype.allCases.map { monitorType in
             let name = prototypeNames[monitorType]!
             let node = dashboard.childNode(withName: name)
-            let monitorPrototype = (node as? SKSpriteNode)!
+            let monitorPrototype = (node as? Report)!
 
             let quadrant = Quadrant(
                 monitor: monitorPrototype, quadrantPosition: monitorPrototype.position

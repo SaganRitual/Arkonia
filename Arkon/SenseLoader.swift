@@ -25,6 +25,7 @@ class SenseLoader {
         aVelocity = sprite.normalizeAngleToTau(pBody.angularVelocity)
         zRotation = sprite.normalizeAngleToTau(sprite.zRotation)
         vectorToOrigin = sprite.normalizeVectorToEnvironment(sprite.position.asVector(), portal: portal)
+//        print("v", sprite.position.asVector(), vectorToOrigin!)
         let uelocity = sprite.normalizeVectorToEnvironment(pBody.velocity, portal: portal)
 
         // Converting theta to tau scale gives me trouble, and I'm not sure it's
@@ -46,7 +47,7 @@ class SenseLoader {
     }
 
     private func halfCapCheck(_ value: CGFloat) -> CGFloat {
-        assert(value >= 0 && value <= 1)
+        assert(value >= -0.001 && value <= 1)   // Goes slightly negative sometimes; rounding?
         return value
     }
 

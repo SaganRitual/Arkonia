@@ -5,11 +5,8 @@ struct Selectoid {
     static var TheFishNumber = 0
 
     let birthday: TimeInterval
-//    var cOffspring: Int
+    var cOffspring = 0
     let fishNumber: Int
-//    let fishNumberOfParent: Int?
-//    let genome: [GeneProtocol]
-//    let genomeOfParent: [GeneProtocol]?
 
     init(birthday: TimeInterval) {
         defer { Selectoid.TheFishNumber += 1 }
@@ -26,6 +23,8 @@ extension SKSpriteNode {
         get { return (userData![SpriteUserDataKey.arkon] as? Arkon)! }
         set { userData![SpriteUserDataKey.arkon] = newValue }
     }
+
+    var optionalArkon: Arkon? { return userData![SpriteUserDataKey.arkon] as? Arkon }
 }
 
 extension SpriteFactory {
@@ -56,6 +55,7 @@ class Arkon: HasContactDetector {
     var isCaptured = false
     var maneuvers: Maneuvers!
     let metabolism: Metabolism
+    var motionSelector = 0
     let net: Net
     var netDisplay: NetDisplay!
 
@@ -150,11 +150,14 @@ class Arkon: HasContactDetector {
         sprite.physicsBody = spritePhysicsBody
         nose.physicsBody = nosePhysicsBody
 
+        World.shared.population += 1
         contactDetector!.isReadyForPhysics = true
     }
     //swiftmint:enable function_body_length
 
     deinit {
+        World.shared.population -= 1
+
         netDisplay = nil
         maneuvers = nil
     }
@@ -175,6 +178,7 @@ class Arkon: HasContactDetector {
             return
         }
 
+        World.shared.registerAge(age)
         metabolism.tick()
     }
 }
@@ -245,13 +249,16 @@ extension Arkon {
             }
 
             let sequence = SKAction.sequence([waitAction, spawnAction])
-            arkonsPortal!.run(sequence)
-
-            if arkonsPortal!.children.filter({ $0 is Thorax }).count > 250 {
-//                print("population control", thorax.arkon.selectoid.fishNumber)
-                thorax.arkon.apoptosize()
-                return
+            arkonsPortal!.run(sequence) {
+                thorax.arkon.selectoid.cOffspring += 1
+                World.shared.registerCOffspring(thorax.arkon.selectoid.cOffspring)
             }
+
+//            if arkonsPortal!.children.filter({ $0 is Thorax }).count > 250 {
+//                print("population control", thorax.arkon.selectoid.fishNumber)
+//                thorax.arkon.apoptosize()
+//                return
+//            }
         }
 
         let ef = metabolism.fungibleEnergyFullness
@@ -339,7 +346,8 @@ extension Arkon {
     }
 
     static func brainlyManeuverEnd(sprite thorax: SKSpriteNode, metabolism: Metabolism, motorOutputs: [Double]) {
-        thorax.arkon.maneuvers = Maneuvers(energySource: metabolism)
+        guard let arkon = thorax.optionalArkon else { return }
+        arkon.maneuvers = Maneuvers(energySource: metabolism)
         let maneuvers = thorax.arkon.maneuvers!
         let action = maneuvers.selectActionPrimitive(arkon: thorax, motorOutputs: motorOutputs)
         let wait = SKAction.wait(forDuration: 0.01)
