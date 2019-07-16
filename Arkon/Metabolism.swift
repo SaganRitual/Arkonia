@@ -163,9 +163,6 @@ class Metabolism: EnergySourceProtocol {
 //        )
 
         stomach.deposit(cJoules)
-        let oo = oxygenLevel + stomach.level / stomach.capacity
-        oxygenLevel = constrain(oo, lo: 0, hi: 1)
-//        print("d", oxygenLevel)
 
 //        print(
 //            "Deposit",

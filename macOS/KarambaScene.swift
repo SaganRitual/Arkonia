@@ -70,7 +70,7 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
 
         // Figure out where the 475 comes from
-        let origin = self.frame.origin + CGPoint(x: 475, y: 0)
+        let origin = self.frame.origin + CGPoint(x: 480, y: 0)
         let re = CGRect(origin: origin, size: arkonsPortal.frame.size)
         arkonsPortal.physicsBody = SKPhysicsBody(edgeLoopFrom: re)
 
@@ -200,7 +200,7 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-        if tickCount >= 10 && tickCount <= 250  {
+        if tickCount >= 10 && tickCount <= 50  {
             Arkon.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
         }
 

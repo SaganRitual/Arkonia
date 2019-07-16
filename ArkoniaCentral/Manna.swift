@@ -12,9 +12,9 @@ class Manna {
     static let cMorsels = 500
     static let colorBlendMinimum: CGFloat = 0.25
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
-    static let fullGrowthDurationSeconds: TimeInterval = 2.0
+    static let fullGrowthDurationSeconds: TimeInterval = 5.0
     static let growthRateGranularitySeconds: TimeInterval = 0.1
-    static let growthRateJoulesPerSecond: CGFloat = 1000.0
+    static let growthRateJoulesPerSecond: CGFloat = 500
 
     var isCaptured = false
     let sprite: SKSpriteNode

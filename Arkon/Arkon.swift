@@ -64,6 +64,7 @@ class Arkon: HasContactDetector {
     )
 
     let nose: SKSpriteNode
+    var previousPosition = CGPoint.zero
     var arkonsPortal: SKSpriteNode { return Arkon.arkonsPortal! }
     var selectoid: Selectoid
     var senseLoader: SenseLoader!
@@ -226,7 +227,7 @@ extension Arkon {
         let nose = (thorax.children[0] as? Nose)!
 
 //        print("o2a", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel, terminator: "")
-        metabolism.oxygenLevel -= (1.0 / 60.0)
+        metabolism.oxygenLevel -= (1 / 60.0)
 //        print("o2b", metabolism.oxygenLevel)
 
         guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
