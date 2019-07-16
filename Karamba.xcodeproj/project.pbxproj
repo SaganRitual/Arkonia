@@ -482,6 +482,7 @@
 		D49042C122AC927A00E7369B /* ContactCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCoordinator.swift; sourceTree = "<group>"; };
 		D49042C422AE2B2500E7369B /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		D49042C722AEC16D00E7369B /* Nose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nose.swift; sourceTree = "<group>"; };
+		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D4A216AA22C15FFB00D92A1E /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4A216AB22C15FFB00D92A1E /* MutatorSubtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutatorSubtract.swift; sourceTree = "<group>"; };
 		D4A216AC22C15FFB00D92A1E /* MutatorAdd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutatorAdd.swift; sourceTree = "<group>"; };
@@ -638,6 +639,7 @@
 		D40985D722650B0A009DD384 = {
 			isa = PBXGroup;
 			children = (
+				D495E5E822DE294D00AFF2AC /* README.md */,
 				D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */,
 				D43EA81B228FDCC3006C619D /* Arkon */,
 				D43EA81A228FDBA4006C619D /* ArkoniaCentral */,
