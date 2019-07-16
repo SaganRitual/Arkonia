@@ -6,7 +6,7 @@ A natural selection simulator
 [![Runs on](https://img.shields.io/badge/Platform-macOS%20only-blue.svg?style=plastic)](https://www.apple.com/macos/)
 [![Does not run on](https://img.shields.io/badge/Platform-not%20iOS-red.svg?style=plastic)](https://www.urbandictionary.com/define.php?term=SOL)
 
-![Awesome gif of Arkonia missing](https://gph.is/g/4wgygo8 "Awesome gif of Arkonia missing")
+![Awesome gif of Arkonia missing](https://github.com/SaganRitual/Arkonia/blob/exp/MovieforREADME.gif)
 
 A hobbyist's toy, under construction. A world of creatures whose brains and bodies evolve
 genetically to make them better at eating each other, and ultimately, to make you all my slaves.
