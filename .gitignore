@@ -11,5 +11,6 @@ DerivedData*
 *.playground
 logfile
 *.mp4
+!Movie for README.mp4
 t.js
 old*
