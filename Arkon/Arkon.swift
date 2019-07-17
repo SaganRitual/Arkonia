@@ -227,10 +227,12 @@ extension Arkon {
         let nose = (thorax.children[0] as? Nose)!
 
 //        print("o2a", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel, terminator: "")
-        metabolism.oxygenLevel -= (1 / 60.0)
+        let oxygenCost: TimeInterval = World.shared.gameAge < TimeInterval(5) ? 0 : 1
+        metabolism.oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
 //        print("o2b", metabolism.oxygenLevel)
 
         guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
+//            print("ap", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
             thorax.arkon.apoptosize()
             return
         }
