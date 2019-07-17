@@ -230,7 +230,7 @@ extension Arkon {
         let nose = (thorax.children[0] as? Nose)!
 
 //        print("o2a", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel, terminator: "")
-        let oxygenCost: TimeInterval = World.shared.gameAge < TimeInterval(5) ? 0 : 1
+        let oxygenCost: TimeInterval = thorax.arkon.age < TimeInterval(5) ? 0 : 1
         metabolism.oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
 //        print("o2b", metabolism.oxygenLevel)
 

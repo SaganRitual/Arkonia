@@ -99,7 +99,7 @@ struct Maneuvers {
                 let breath = fudgeFactor * distanceTraveled / arkon.size.hypotenuse
                 let oo = breath //arkon.arkon.metabolism.oxygenLevel + breath
                 arkon.arkon.metabolism.oxygenLevel = constrain(oo, lo: 0, hi: 1)
-                print("d", arkon.arkon.selectoid.fishNumber, arkon.arkon.metabolism.oxygenLevel)
+//                print("d", arkon.arkon.selectoid.fishNumber, arkon.arkon.metabolism.oxygenLevel)
             }
         }
     }
