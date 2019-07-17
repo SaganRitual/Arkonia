@@ -9,7 +9,7 @@ extension SKSpriteNode {
 
 class Manna {
 
-    static let cMorsels = 2000
+    static let cMorsels = 1000
     static let colorBlendMinimum: CGFloat = 0.25
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
     static let fullGrowthDurationSeconds: TimeInterval = 1.0
@@ -24,7 +24,6 @@ class Manna {
         var f = fudgeFactor * (sprite.colorBlendFactor - Manna.colorBlendMinimum)
         f /= Manna.colorBlendRangeWidth
         f *= Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
-//        print("ecj", f)
         return f// * CGFloat(World.shared.foodValue)
     }
 
@@ -81,7 +80,7 @@ extension Manna {
     }
 
     static func plantAllManna(background: SKSpriteNode, spriteFactory: SpriteFactory) {
-        for _ in 0..<Manna.cMorsels {
+        for ss in 0..<Manna.cMorsels {
             let sprite = spriteFactory.mannaHangar.makeSprite()
             let manna = Manna(sprite)
 
@@ -99,6 +98,11 @@ extension Manna {
             sprite.physicsBody!.categoryBitMask = PhysicsBitmask.mannaBody.rawValue
             sprite.physicsBody!.collisionBitMask = 0
             sprite.physicsBody!.contactTestBitMask = 0
+
+            let lifetimeAction = SKAction.wait(forDuration: TimeInterval(ss * 2 + 10))
+            let killAction = SKAction.removeFromParent()
+            let apoptosisAction = SKAction.sequence([lifetimeAction, killAction])
+            sprite.run(apoptosisAction)
 
             runGrowthPhase(sprite: sprite, background: background)
         }

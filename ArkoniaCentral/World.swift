@@ -19,7 +19,7 @@ class World {
     let timeLimit: TimeInterval? = 2000
     public var entropy: TimeInterval {
         guard let t = timeLimit else { return 0 }
-        return min((World.shared.gameAge) / t, 1.0)
+        return min(World.shared.gameAge / t, 1.0)
     }
 
     public var foodValue: CGFloat {
