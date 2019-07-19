@@ -19,12 +19,12 @@ struct Selectoid {
 extension SKPhysicsBody: Massive {}
 
 extension SKSpriteNode {
-    var arkon: Arkon {
-        get { return (userData![SpriteUserDataKey.arkon] as? Arkon)! }
-        set { userData![SpriteUserDataKey.arkon] = newValue }
+    var karamba: Karamba {
+        get { return (userData![SpriteUserDataKey.karamba] as? Karamba)! }
+        set { userData![SpriteUserDataKey.karamba] = newValue }
     }
 
-    var optionalArkon: Arkon? { return userData![SpriteUserDataKey.arkon] as? Arkon }
+    var optionalKaramba: Karamba? { return userData![SpriteUserDataKey.karamba] as? Karamba }
 }
 
 extension SpriteFactory {
@@ -41,21 +41,32 @@ extension SpriteFactory {
     }
 }
 
-class Arkon: HasContactDetector {
+protocol MetabolismProtocol: class {
+    var fungibleEnergyFullness: CGFloat { get }
+    var oxygenLevel: CGFloat { get set }
+    var spawnEnergyFullness: CGFloat { get }
+    var spawnReserves: EnergyReserve { get }
+
+    func absorbEnergy(_ cJoules: CGFloat)
+    func tick()
+    @discardableResult func withdrawFromSpawn(_ cJoules: CGFloat) -> CGFloat
+}
+
+protocol HasMetabolism {
+    var metabolism: MetabolismProtocol { get }
+}
+
+class Arkon {
     static let brightColor = 0x00_FF_00    // Full green
     static var clock: ClockProtocol?
     static var layers: [Int]?
     static var arkonsPortal: SKSpriteNode?
     static let scaleFactor: CGFloat = 0.5
     static var spriteFactory: SpriteFactory?
-    static let standardColor = 0x00_D0_00  // Slightly dim green
+    static let standardColor = 0x00_FF_00  // Slightly dim green
 
-    var contactDetector: ContactDetectorProtocol?
     var isAlive = false
     var isCaptured = false
-    var maneuvers: Maneuvers!
-    let metabolism: Metabolism
-    var motionSelector = 0
     let net: Net
     var netDisplay: NetDisplay!
 
@@ -67,16 +78,12 @@ class Arkon: HasContactDetector {
     var previousPosition = CGPoint.zero
     var arkonsPortal: SKSpriteNode { return Arkon.arkonsPortal! }
     var selectoid: Selectoid
-    var senseLoader: SenseLoader!
     var sensoryInputs = [Double]()
     let sprite: SKSpriteNode
     var spriteFactory: SpriteFactory { return Arkon.spriteFactory! }
 
     var age: TimeInterval { Arkon.clock!.getCurrentTime() - selectoid.birthday }
 
-    var pBody: SKPhysicsBody { return sprite.physicsBody! }
-
-    //swiftlint:disable function_body_length
     init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
         selectoid = Selectoid(birthday: Arkon.clock!.getCurrentTime())
         net = Net(parentBiases: parentBiases, parentWeights: parentWeights, layers: layers)
@@ -96,81 +103,28 @@ class Arkon: HasContactDetector {
             netDisplay!.display()
         }
 
-        let spritePhysicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
-
-        spritePhysicsBody.categoryBitMask = PhysicsBitmask.arkonBody.rawValue
-        spritePhysicsBody.collisionBitMask = PhysicsBitmask.arkonBody.rawValue
-
-        spritePhysicsBody.contactTestBitMask =
-            PhysicsBitmask.arkonBody.rawValue |
-            PhysicsBitmask.mannaBody.rawValue
-
-        spritePhysicsBody.mass = 1
-        contactDetector = ContactDetector()
-
         nose = Arkon.spriteFactory!.noseHangar.makeSprite()
         nose.alpha = 1
         nose.colorBlendFactor = 1
 
-//        let topReserveIndicator = SKLabelNode(text: "here")
-//        topReserveIndicator.fontName = "Courier New"
-//        topReserveIndicator.fontColor = .white
-//        topReserveIndicator.text = "hello!"
-//        topReserveIndicator.position = CGPoint(x: 50, y: 75)
-//        topReserveIndicator.fontSize = 64
-//        topReserveIndicator.zRotation = 0
-//        nose.addChild(topReserveIndicator)
-//
-//        let bottomReserveIndicator = SKLabelNode(text: "here")
-//        bottomReserveIndicator.fontName = "Courier New"
-//        bottomReserveIndicator.fontColor = .white
-//        bottomReserveIndicator.text = "hello!"
-//        bottomReserveIndicator.position = CGPoint(x: 50, y: -75)
-//        bottomReserveIndicator.fontSize = 64
-//        bottomReserveIndicator.zRotation = 0
-//        nose.addChild(bottomReserveIndicator)
-
-        let nosePhysicsBody = SKPhysicsBody(circleOfRadius: nose.size.width * 2)
-
-        nosePhysicsBody.categoryBitMask = PhysicsBitmask.arkonSenses.rawValue
-        nosePhysicsBody.collisionBitMask = 0
-
-        nosePhysicsBody.contactTestBitMask =
-            PhysicsBitmask.arkonBody.rawValue |
-            PhysicsBitmask.mannaBody.rawValue
-
-        nosePhysicsBody.mass = 0.1
-        nosePhysicsBody.pinned = true
-
-        metabolism = Metabolism(spritePhysicsBody)
-        maneuvers = nil
-
-        sprite.position = arkonsPortal.getRandomPoint()
+        sprite.position = Arkon.arkonsPortal!.getRandomPoint()
         sprite.addChild(nose)
-        arkonsPortal.addChild(sprite)
-
-        sprite.userData![SpriteUserDataKey.arkon] = self
-
-        sprite.physicsBody = spritePhysicsBody
-        nose.physicsBody = nosePhysicsBody
+        Arkon.arkonsPortal!.addChild(sprite)
 
         World.shared.population += 1
-        contactDetector!.isReadyForPhysics = true
     }
-    //swiftlint:enable function_body_length
 
     deinit {
         World.shared.population -= 1
 
         netDisplay = nil
-        maneuvers = nil
     }
 
     func apoptosize() {
-        spriteFactory.noseHangar.retireSprite(sprite.arkon.nose)
+        spriteFactory.noseHangar.retireSprite(sprite.karamba.nose)
         spriteFactory.arkonsHangar.retireSprite(sprite)
 //        print("a", selectoid.fishNumber)
-        sprite.userData![SpriteUserDataKey.arkon] = nil
+        sprite.userData![SpriteUserDataKey.karamba] = nil
     }
 
     func tick() {
@@ -183,7 +137,6 @@ class Arkon: HasContactDetector {
         }
 
         World.shared.registerAge(age)
-        metabolism.tick()
     }
 }
 
@@ -200,232 +153,5 @@ extension Arkon {
         Arkon.spriteFactory = spriteFactory
 
         SenseLoader.inject(portal)
-    }
-
-    @discardableResult
-    static func spawn(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) -> Arkon {
-
-        let newArkon = Arkon(
-            parentBiases: parentBiases, parentWeights: parentWeights, layers: layers
-        )
-
-//        arkonHangar[newArkon.selectoid.fishNumber] = newArkon
-        newArkon.sprite.position = Arkon.arkonsPortal!.getRandomPoint()
-        newArkon.sprite.zRotation = CGFloat.random(in: -CGFloat.pi..<CGFloat.pi)
-
-        newArkon.contactDetector!.contactResponder =
-            ContactResponder(ownerArkon: newArkon)
-
-        newArkon.contactDetector!.senseResponder = SenseResponder()
-
-        onePass(sprite: newArkon.sprite, metabolism: newArkon.metabolism)
-
-        return newArkon
-    }
-}
-
-extension Arkon {
-
-    static func onePass(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
-        let nose = (thorax.children[0] as? Nose)!
-
-//        print("o2a", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel, terminator: "")
-        let oxygenCost: TimeInterval = thorax.arkon.age < TimeInterval(5) ? 0 : 1
-        metabolism.oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
-//        print("o2b", metabolism.oxygenLevel)
-
-        guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
-//            print("ap", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
-            thorax.arkon.apoptosize()
-            return
-        }
-
-        // 10% entropy
-        let spawnCost = EnergyReserve.startingEnergyLevel * 1.10
-
-        if metabolism.spawnReserves.level >= spawnCost {
-            metabolism.withdrawFromSpawn(spawnCost)
-
-            let biases = thorax.arkon.net.biases
-            let weights = thorax.arkon.net.weights
-            let layers = thorax.arkon.net.layers
-            let waitAction = SKAction.wait(forDuration: 0.02)
-            let spawnAction = SKAction.run {
-                Arkon.spawn(parentBiases: biases, parentWeights: weights, layers: layers)
-            }
-
-            let sequence = SKAction.sequence([waitAction, spawnAction])
-            arkonsPortal!.run(sequence) {
-                thorax.arkon.selectoid.cOffspring += 1
-                World.shared.registerCOffspring(thorax.arkon.selectoid.cOffspring)
-            }
-
-//            if arkonsPortal!.children.filter({ $0 is Thorax }).count > 250 {
-//                print("population control", thorax.arkon.selectoid.fishNumber)
-//                thorax.arkon.apoptosize()
-//                return
-//            }
-        }
-
-        let ef = metabolism.fungibleEnergyFullness
-        nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
-
-        let baseColor: Int
-        if thorax.arkon.selectoid.fishNumber < 10 {
-            baseColor = 0xFF_00_00
-        } else {
-            baseColor = (metabolism.spawnEnergyFullness > 0) ?
-                Arkon.brightColor : Arkon.standardColor
-        }
-
-        thorax.color = ColorGradient.makeColorMixRedBlue(
-            baseColor: baseColor,
-            redPercentage: metabolism.spawnEnergyFullness,
-            bluePercentage: max((4 - CGFloat(thorax.arkon.age)) / 4, 0)
-        )
-
-        thorax.colorBlendFactor = thorax.arkon.metabolism.oxygenLevel
-
-        //        print("color", metabolism.spawnEnergyFullness, max((4 - CGFloat(thorax.arkon.age)) / 4, 0))
-
-        //        let topLabel = (nose.children[0] as? SKLabelNode)!
-        //        topLabel.text = String(format: "%0.0f", metabolism.readyEnergyReserves.level)
-        //
-        //        let bottomLabel = (nose.children[1] as? SKLabelNode)!
-        //        bottomLabel.text = String(format: "%0.0f", metabolism.fatReserves.level)
-
-        //        let maneuvers = Maneuvers(energySource: metabolism)
-        //        let actions = getActions(sprite: thorax, maneuvers: maneuvers)
-        //
-        ////        print("nass", sprite.physicsBody!.mass, metabolism.energyFullness)//, nosePhysicsBody.mass)
-        //        let spreadem = CGFloat(thorax.arkon.selectoid.fishNumber % 5) * CGFloat.random(in: 0..<5)
-        //        let wait = SKAction.wait(forDuration: TimeInterval(spreadem * 0.016))
-        //        let randomness = SKAction.sequence([wait, actions])
-        //
-        //        thorax.run(randomness) { onePass(sprite: thorax, metabolism: metabolism) }
-
-        brainlyManeuverStart(sprite: thorax, metabolism: metabolism)
-    }
-
-    struct NetSignal {
-        mutating func go(arkon: Arkon) {
-//            print("go1", arkon.selectoid.fishNumber)
-            let workAction = SKAction.run({
-                let sensoryInputs = arkon.stimulus()
-                let motorOutputs = arkon.net.getMotorOutputs(sensoryInputs)
-
-//                let maneuverEndAction = SKAction.run {
-                    brainlyManeuverEnd(
-                        sprite: arkon.sprite, metabolism: arkon.metabolism, motorOutputs: motorOutputs
-                    )
-//                }
-
-//                arkon.sprite.run(maneuverEndAction)
-
-//                print("wa", arkon.selectoid.fishNumber)
-            }, queue: arkon.netQueue)
-
-//            print("go2", arkon.selectoid.fishNumber)
-            let waitAction = SKAction.wait(forDuration: 0.02)
-            let sequence = SKAction.sequence([waitAction, workAction])
-
-            arkon.sprite.run(sequence)
-//            print("go3", arkon.selectoid.fishNumber)
-        }
-    }
-
-    static func brainlyManeuverStart(sprite thorax: SKSpriteNode, metabolism: Metabolism) {
-//        print("bm", thorax.arkon.selectoid.fishNumber)
-//        let motorOutputs = thorax.arkon.net.getMotorOutputs(sensoryInputs)
-//
-//        let workItem = DispatchWorkItem {
-//            brainlyManeuverEnd(sprite: thorax, metabolism: metabolism, motorOutputs: motorOutputs)
-//        }
-//
-//        thorax.arkon.netQueue.async(execute: workItem)
-
-//        var motorOutputs = [Double]()
-//        let workAction = SKAction.run({
-//            let sensoryInputs = thorax.arkon.stimulus()
-//            motorOutputs = thorax.arkon.net.getMotorOutputs(sensoryInputs)
-//        }, queue: thorax.arkon.netQueue)
-//
-//        thorax.run(workAction) {
-//            brainlyManeuverEnd(sprite: thorax, metabolism: metabolism, motorOutputs: motorOutputs)
-//        }
-
-        var netSignal = NetSignal()
-        netSignal.go(arkon: thorax.arkon)
-    }
-
-    static func brainlyManeuverEnd(sprite thorax: SKSpriteNode, metabolism: Metabolism, motorOutputs: [Double]) {
-        guard let arkon = thorax.optionalArkon else { return }
-        arkon.maneuvers = Maneuvers(energySource: metabolism)
-        let maneuvers = thorax.arkon.maneuvers!
-        let action = maneuvers.selectActionPrimitive(arkon: thorax, motorOutputs: motorOutputs)
-        let wait = SKAction.wait(forDuration: 0.01)
-        let sequence = SKAction.sequence([wait, action])
-        thorax.run(sequence) { onePass(sprite: thorax, metabolism: metabolism) }
-    }
-}
-
-extension Arkon {
-
-    class ContactResponder: ContactResponseProtocol {
-        weak var ownerArkon: Arkon!
-        var processingTouch = false
-
-        init(ownerArkon: Arkon) { self.ownerArkon = ownerArkon }
-
-        func respond(_ contactedBodies: [SKPhysicsBody]) {
-            for body in contactedBodies {
-                switch body.node {
-                case let t as Thorax:
-                    if touchArkon(t) {
-                        return
-                    }
-
-                case let m as SKSpriteNode:
-                    touchManna(m.manna)
-                    return
-
-                default: assert(false)
-                }
-            }
-        }
-
-        func touchArkon(_ thorax: Thorax) -> Bool {
-            if processingTouch { return false }
-            processingTouch = true
-            defer { processingTouch = false }
-
-//            if thorax.arkon.selectoid.fishNumber < ownerArkon.selectoid.fishNumber {
-//                ownerArkon.metabolism.parasitize(thorax.arkon.metabolism)
-//                return true
-//            }
-
-            return false
-        }
-
-        func touchManna(_ manna: Manna) {
-            if processingTouch { return }
-            processingTouch = true
-            defer { processingTouch = false }
-
-            let sprite = manna.sprite
-            let background = (sprite.parent as? SKSpriteNode)!
-
-            let harvested = sprite.manna.harvest()
-            ownerArkon.metabolism.absorbEnergy(harvested)
-
-            let actions = Manna.triggerDeathCycle(sprite: sprite, background: background)
-            sprite.run(actions)
-        }
-    }
-
-    struct SenseResponder: SenseResponseProtocol {
-        func respond(_ sensedBodies: [SKPhysicsBody]) {
-            //            sensedBodies.forEach { ($0.node as? SKSpriteNode)?.color = .yellow }
-        }
     }
 }

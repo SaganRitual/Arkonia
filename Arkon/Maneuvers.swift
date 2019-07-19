@@ -34,7 +34,7 @@ struct Maneuvers {
     }
 
     func goSprite(arkon: SKSpriteNode, motorOutputs: [Double]) {
-        let primitive = selectActionPrimitive(arkon: arkon, motorOutputs: motorOutputs)
+        let primitive = selectActionPrimitive(sprite: arkon, motorOutputs: motorOutputs)
         arkon.run(primitive)
     }
 
@@ -79,26 +79,26 @@ struct Maneuvers {
         }
     }
 
-    func getStopAction(_ arkon: SKSpriteNode, _ inhale: Bool) -> SKAction {
+    func getStopAction(_ sprite: SKSpriteNode, _ inhale: Bool) -> SKAction {
         return SKAction.run {
-            arkon.physicsBody!.velocity = CGVector.zero
-            arkon.physicsBody!.angularVelocity = 0
+            sprite.physicsBody!.velocity = CGVector.zero
+            sprite.physicsBody!.angularVelocity = 0
 
-            let nosePhysicsBody = (arkon.children[0] as? SKSpriteNode)!.physicsBody
+            let nosePhysicsBody = (sprite.children[0] as? SKSpriteNode)!.physicsBody
             nosePhysicsBody!.velocity = CGVector.zero
             nosePhysicsBody!.angularVelocity = 0
 
-            if arkon.arkon.previousPosition == CGPoint.zero {
-                arkon.arkon.previousPosition = arkon.position
+            if sprite.karamba.core.previousPosition == CGPoint.zero {
+                sprite.karamba.core.previousPosition = sprite.position
                 return
             }
 
             if inhale {
                 let fudgeFactor: CGFloat = 0.025
-                let distanceTraveled = arkon.position.distance(to: arkon.arkon.previousPosition)
-                let breath = fudgeFactor * distanceTraveled / arkon.size.hypotenuse
+                let distanceTraveled = sprite.position.distance(to: sprite.karamba.core.previousPosition)
+                let breath = fudgeFactor * distanceTraveled / sprite.size.hypotenuse
                 let oo = breath //arkon.arkon.metabolism.oxygenLevel + breath
-                arkon.arkon.metabolism.oxygenLevel = constrain(oo, lo: 0, hi: 1)
+                sprite.karamba.metabolism.oxygenLevel = constrain(oo, lo: 0, hi: 1)
 //                print("d", arkon.arkon.selectoid.fishNumber, arkon.arkon.metabolism.oxygenLevel)
             }
         }
@@ -145,27 +145,27 @@ struct Maneuvers {
     }
 
     //swiftmint:disable cyclomatic_complexity
-    func selectActionPrimitive(arkon: SKSpriteNode, motorOutputs: [Double]) -> SKAction {
+    func selectActionPrimitive(sprite: SKSpriteNode, motorOutputs: [Double]) -> SKAction {
 
         let m = motorOutputs
 //        let selector = CGFloat(Int(m.removeFirst() * 100.0)) / 100.0
         let primitive: ActionPrimitive
 
-        switch arkon.arkon.motionSelector % 5 {
+        switch sprite.karamba.motionSelector % 5 {
         case 0:  primitive = .goThrust(CGFloat(m[0] * m[2]))
-        case 1:     primitive = .goWait(CGFloat(m[3]) / 10)
-        case 2:      primitive = .goFullStop(true)//.goThrust(CGFloat(m[2]) / 10)
-        case 3: primitive = .goRotate(CGFloat(m[1]) / 10)
-        case 4:     primitive = .goFullStop(false)//.goThrust(CGFloat(m[2]) / 10)
+        case 1:  primitive = .goWait(CGFloat(m[3]) / 10)
+        case 2:  primitive = .goFullStop(true)//.goThrust(CGFloat(m[2]) / 10)
+        case 3:  primitive = .goRotate(CGFloat(m[1]) / 10)
+        case 4:  primitive = .goFullStop(false)//.goThrust(CGFloat(m[2]) / 10)
         default: preconditionFailure()
         }
 
-        arkon.arkon.motionSelector += 1
+        sprite.karamba.motionSelector += 1
 
         switch primitive {
-        case let .goFullStop(inhale):     return getStopAction(arkon, inhale)
-        case let .goRotate(torqueIndex):  return getRotateAction(arkon, torqueIndex)
-        case let .goThrust(thrustIndex):  return getThrustAction(arkon, thrustIndex)
+        case let .goFullStop(inhale):     return getStopAction(sprite, inhale)
+        case let .goRotate(torqueIndex):  return getRotateAction(sprite, torqueIndex)
+        case let .goThrust(thrustIndex):  return getThrustAction(sprite, thrustIndex)
         case let .goWait(duration):       return getWaitAction(duration)
         }
     }

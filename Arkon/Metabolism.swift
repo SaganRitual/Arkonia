@@ -89,7 +89,7 @@ class EnergyReserve {
     }
 }
 
-class Metabolism: EnergySourceProtocol {
+class Metabolism: EnergySourceProtocol, MetabolismProtocol {
     var physicsBody: Massive
 
     let allReserves: [EnergyReserve]

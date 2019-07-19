@@ -44,6 +44,7 @@
 		D42751BD2287F74C0096CDB5 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D42751BE2287F81A0096CDB5 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D42751BF2288001A0096CDB5 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
+		D42F379D22E760140072E646 /* Karamba.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F379522E760140072E646 /* Karamba.swift */; };
 		D43EA802228FC77D006C619D /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D43EA803228FC77D006C619D /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D43EA804228FC77D006C619D /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
@@ -59,23 +60,6 @@
 		D43EA819228FC898006C619D /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
 		D43EA82022917CEA006C619D /* ReaderMonad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81F22917CEA006C619D /* ReaderMonad.swift */; };
 		D43EA82122917D20006C619D /* ReaderMonad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81F22917CEA006C619D /* ReaderMonad.swift */; };
-		D43EA8242291B84F006C619D /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
-		D43EA8252291B84F006C619D /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
-		D43EA8262291B84F006C619D /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
-		D43EA8272291B84F006C619D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
-		D43EA8282291B84F006C619D /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
-		D43EA8292291B84F006C619D /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
-		D43EA82A2291B84F006C619D /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
-		D43EA82B2291B84F006C619D /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
-		D43EA82C2291B84F006C619D /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
-		D43EA82D2291B84F006C619D /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
-		D43EA82E2291B84F006C619D /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
-		D43EA8312291B84F006C619D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
-		D43EA8322291B84F006C619D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
-		D43EA8332291B84F006C619D /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
-		D43EA83C229232C6006C619D /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
-		D43EA83E229233F7006C619D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
-		D441B99B229CFFA800FB7057 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D441B99E22A0653F00FB7057 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D441B99F22A0653F00FB7057 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D441B9A022A0653F00FB7057 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
@@ -168,7 +152,6 @@
 		D457A03222B5FB8400963929 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D457A03322B5FB8400963929 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D457A03422B5FB8400963929 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
-		D4603A6222A2720400885428 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
 		D4603A6522A2B11A00885428 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D4603A6622A2B11A00885428 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D4603A6722A2B11A00885428 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
@@ -219,7 +202,6 @@
 		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D464BA5A22C737260069623C /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D464BA6222C737CB0069623C /* KarambaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464BA6122C737CB0069623C /* KarambaScene.swift */; };
-		D464BA6522C739470069623C /* ManeuversTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464BA6422C739470069623C /* ManeuversTest.swift */; };
 		D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D46B1D7422813E12003D711C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D46B1D89228173BE003D711C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
@@ -237,11 +219,8 @@
 		D46B1DA222826994003D711C /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D46B1DA322826994003D711C /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D46B1DA42282A9A2003D711C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
-		D47618AE22BEE61800ADAA87 /* SenseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618A422BEE61700ADAA87 /* SenseLoader.swift */; };
 		D47618AF22BEE61800ADAA87 /* SenseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618A422BEE61700ADAA87 /* SenseLoader.swift */; };
-		D47618B022BEE61800ADAA87 /* SenseTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */; };
 		D47618B122BEE61800ADAA87 /* SenseTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */; };
-		D47618B222BEE61800ADAA87 /* Stimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AD22BEE61700ADAA87 /* Stimulus.swift */; };
 		D47618B322BEE61800ADAA87 /* Stimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AD22BEE61700ADAA87 /* Stimulus.swift */; };
 		D480535722B14D3300FF8617 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D480535922B14D3300FF8617 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
@@ -304,20 +283,14 @@
 		D49042B422AC6A2400E7369B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D49042B522AC6A2400E7369B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D49042B622AC6A2400E7369B /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
-		D49042BF22AC91F800E7369B /* ContactDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042BE22AC91F800E7369B /* ContactDetector.swift */; };
 		D49042C022AC922E00E7369B /* ContactDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042BE22AC91F800E7369B /* ContactDetector.swift */; };
-		D49042C222AC927A00E7369B /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
 		D49042C322AC928000E7369B /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
-		D49042C522AE2B2500E7369B /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D49042C622AEC09700E7369B /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
-		D49042C822AEC16D00E7369B /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
 		D49042C922AEC16D00E7369B /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
-		D4A216B422C15FFC00D92A1E /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216AA22C15FFB00D92A1E /* Mutator.swift */; };
-		D4A216B522C15FFC00D92A1E /* MutatorSubtract.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216AB22C15FFB00D92A1E /* MutatorSubtract.swift */; };
-		D4A216B622C15FFC00D92A1E /* MutatorAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216AC22C15FFB00D92A1E /* MutatorAdd.swift */; };
-		D4A216B822C1610A00D92A1E /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216B722C1610A00D92A1E /* Mutator.swift */; };
+		D4A12BDA22E9D37000C15F59 /* ContactResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BD922E9D37000C15F59 /* ContactResponder.swift */; };
+		D4A12BDC22E9D3C200C15F59 /* SenseResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BDB22E9D3C200C15F59 /* SenseResponder.swift */; };
+		D4A12BDE22E9D42100C15F59 /* NetSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BDD22E9D42100C15F59 /* NetSignal.swift */; };
 		D4A216B922C1981E00D92A1E /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216B722C1610A00D92A1E /* Mutator.swift */; };
-		D4A216BB22C1988B00D92A1E /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216BA22C1988B00D92A1E /* BellCurve.swift */; };
 		D4A216BC22C1988B00D92A1E /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216BA22C1988B00D92A1E /* BellCurve.swift */; };
 		D4AD194E22AC4848009F3469 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D4AD195022AC4848009F3469 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
@@ -355,9 +328,40 @@
 		D4CBA30A22805DD60023FAB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D4CBA30B22805DD60023FAB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D4CCEDED22BD8CB900C4FD87 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
-		D4CF20A722A4C296000FD2BA /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4E9803B22B1DD1600B388BD /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4E9803C22B210A100B388BD /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
+		D4EBEE4822E0FED1007C98A4 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
+		D4EBEE4922E0FED1007C98A4 /* SenseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618A422BEE61700ADAA87 /* SenseLoader.swift */; };
+		D4EBEE4B22E0FED1007C98A4 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
+		D4EBEE4D22E0FED1007C98A4 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
+		D4EBEE4E22E0FED1007C98A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
+		D4EBEE4F22E0FED1007C98A4 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293C22DAEC7E0036C904 /* Report.swift */; };
+		D4EBEE5022E0FED1007C98A4 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
+		D4EBEE5122E0FED1007C98A4 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
+		D4EBEE5322E0FED1007C98A4 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
+		D4EBEE5422E0FED1007C98A4 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
+		D4EBEE5522E0FED1007C98A4 /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
+		D4EBEE5622E0FED1007C98A4 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
+		D4EBEE5722E0FED1007C98A4 /* Stimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AD22BEE61700ADAA87 /* Stimulus.swift */; };
+		D4EBEE5822E0FED1007C98A4 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
+		D4EBEE5922E0FED1007C98A4 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
+		D4EBEE5A22E0FED1007C98A4 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
+		D4EBEE5B22E0FED1007C98A4 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
+		D4EBEE5C22E0FED1007C98A4 /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
+		D4EBEE5D22E0FED1007C98A4 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216B722C1610A00D92A1E /* Mutator.swift */; };
+		D4EBEE5E22E0FED1007C98A4 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216BA22C1988B00D92A1E /* BellCurve.swift */; };
+		D4EBEE5F22E0FED1007C98A4 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
+		D4EBEE6022E0FED1007C98A4 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
+		D4EBEE6122E0FED1007C98A4 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
+		D4EBEE6222E0FED1007C98A4 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
+		D4EBEE6322E0FED1007C98A4 /* SenseTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */; };
+		D4EBEE6422E0FED1007C98A4 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
+		D4EBEE6522E0FED1007C98A4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
+		D4EBEE6822E0FED1007C98A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
+		D4EBEE6922E0FED1007C98A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
+		D4EBEE6A22E0FED1007C98A4 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
+		D4EBEE7122E0FFD9007C98A4 /* GriddleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */; };
+		D4EBEE7322E148C9007C98A4 /* Griddle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EBEE7222E148C9007C98A4 /* Griddle.swift */; };
 		D4EE55FD22BC1D530076D8A1 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D4EE55FE22BC1D530076D8A1 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D4EE55FF22BC1D530076D8A1 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
@@ -376,8 +380,6 @@
 		D4EE561822BC20D30076D8A1 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
 		D4EE561A22BC96290076D8A1 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
 		D4EE561B22BC981B0076D8A1 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
-		D4F6460522A3876500FD8C56 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
-		D4F6460822A4253F00FD8C56 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D4F8ACA3228F99C70023C6DB /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D4F8ACA4228F9A960023C6DB /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D4F8ACA5228F9B020023C6DB /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
@@ -447,10 +449,10 @@
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
+		D42F379522E760140072E646 /* Karamba.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Karamba.swift; sourceTree = "<group>"; };
 		D43EA813228FC77D006C619D /* NetDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43EA81C228FDCDC006C619D /* Arkon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkon.swift; sourceTree = "<group>"; };
 		D43EA81F22917CEA006C619D /* ReaderMonad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderMonad.swift; sourceTree = "<group>"; };
-		D43EA8382291B84F006C619D /* Arkon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Arkon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43EA83B229232C6006C619D /* Maneuvers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maneuvers.swift; sourceTree = "<group>"; };
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D441B99A229CFFA800FB7057 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
@@ -483,6 +485,9 @@
 		D49042C422AE2B2500E7369B /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		D49042C722AEC16D00E7369B /* Nose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nose.swift; sourceTree = "<group>"; };
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D4A12BD922E9D37000C15F59 /* ContactResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactResponder.swift; sourceTree = "<group>"; };
+		D4A12BDB22E9D3C200C15F59 /* SenseResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseResponder.swift; sourceTree = "<group>"; };
+		D4A12BDD22E9D42100C15F59 /* NetSignal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetSignal.swift; sourceTree = "<group>"; };
 		D4A216AA22C15FFB00D92A1E /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4A216AB22C15FFB00D92A1E /* MutatorSubtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutatorSubtract.swift; sourceTree = "<group>"; };
 		D4A216AC22C15FFB00D92A1E /* MutatorAdd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutatorAdd.swift; sourceTree = "<group>"; };
@@ -500,6 +505,9 @@
 		D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetDisplayGrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaCentral.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
+		D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GriddleScene.swift; sourceTree = "<group>"; };
+		D4EBEE6F22E0FED1007C98A4 /* Griddle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Griddle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4EBEE7222E148C9007C98A4 /* Griddle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Griddle.swift; sourceTree = "<group>"; };
 		D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Surge.xcodeproj; path = Surge/Surge.xcodeproj; sourceTree = "<group>"; };
 		D4EE561322BC1D530076D8A1 /* BrainMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrainMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4EE561922BC96290076D8A1 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
@@ -522,13 +530,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		D43EA80A228FC77D006C619D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D43EA82F2291B84F006C619D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -626,6 +627,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D4EBEE6622E0FED1007C98A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4EE560A22BC1D530076D8A1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -660,7 +668,6 @@
 				D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */,
 				D46B1D9D22825D43003D711C /* NetGraphics.app */,
 				D43EA813228FC77D006C619D /* NetDisplay.app */,
-				D43EA8382291B84F006C619D /* Arkon.app */,
 				D48286222298CC4800225057 /* Maneuvers.app */,
 				D441B9B422A0653F00FB7057 /* Metabolism.app */,
 				D4603A7B22A2B11A00885428 /* Manna.app */,
@@ -673,6 +680,7 @@
 				D40213A622B85EA400ADF5B0 /* LifeCycle.app */,
 				D4EE561322BC1D530076D8A1 /* BrainMan.app */,
 				D464BA5F22C737260069623C /* Karamba.app */,
+				D4EBEE6F22E0FED1007C98A4 /* Griddle.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -684,6 +692,7 @@
 				D40985FA22650BEF009DD384 /* AppController.swift */,
 				D40985FC22650C20009DD384 /* AppDelegate.swift */,
 				D40985F322650B0B009DD384 /* Components.entitlements */,
+				D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */,
 				D40985F222650B0B009DD384 /* Info.plist */,
 				D464BA6122C737CB0069623C /* KarambaScene.swift */,
 				D40985EF22650B0B009DD384 /* Main.storyboard */,
@@ -699,6 +708,7 @@
 			children = (
 				D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */,
 				D49042C122AC927A00E7369B /* ContactCoordinator.swift */,
+				D4EBEE7222E148C9007C98A4 /* Griddle.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
 				D464BA6322C738F60069623C /* MannaTest.swift */,
 				D4A216B722C1610A00D92A1E /* Mutator.swift */,
@@ -716,12 +726,16 @@
 				D43EA81C228FDCDC006C619D /* Arkon.swift */,
 				D464BA6622C79B710069623C /* ArkonTest.swift */,
 				D49042BE22AC91F800E7369B /* ContactDetector.swift */,
+				D4A12BD922E9D37000C15F59 /* ContactResponder.swift */,
+				D42F379522E760140072E646 /* Karamba.swift */,
 				D43EA83B229232C6006C619D /* Maneuvers.swift */,
 				D464BA6422C739470069623C /* ManeuversTest.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
+				D4A12BDD22E9D42100C15F59 /* NetSignal.swift */,
 				D49042C722AEC16D00E7369B /* Nose.swift */,
 				D47618A422BEE61700ADAA87 /* SenseLoader.swift */,
+				D4A12BDB22E9D3C200C15F59 /* SenseResponder.swift */,
 				D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */,
 				D47618AD22BEE61700ADAA87 /* Stimulus.swift */,
 			);
@@ -843,24 +857,6 @@
 			name = NetDisplay;
 			productName = Components;
 			productReference = D43EA813228FC77D006C619D /* NetDisplay.app */;
-			productType = "com.apple.product-type.application";
-		};
-		D43EA8222291B84F006C619D /* Arkon */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D43EA8352291B84F006C619D /* Build configuration list for PBXNativeTarget "Arkon" */;
-			buildPhases = (
-				D43EA8232291B84F006C619D /* Sources */,
-				D43EA82F2291B84F006C619D /* Frameworks */,
-				D43EA8302291B84F006C619D /* Resources */,
-				D43EA8342291B84F006C619D /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Arkon;
-			productName = Components;
-			productReference = D43EA8382291B84F006C619D /* Arkon.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D441B99C22A0653F00FB7057 /* Metabolism */ = {
@@ -1097,6 +1093,24 @@
 			productReference = D4CBA31022805DD60023FAB9 /* NetDisplayGrid.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D4EBEE4622E0FED1007C98A4 /* Griddle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4EBEE6C22E0FED1007C98A4 /* Build configuration list for PBXNativeTarget "Griddle" */;
+			buildPhases = (
+				D4EBEE4722E0FED1007C98A4 /* Sources */,
+				D4EBEE6622E0FED1007C98A4 /* Frameworks */,
+				D4EBEE6722E0FED1007C98A4 /* Resources */,
+				D4EBEE6B22E0FED1007C98A4 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Griddle;
+			productName = Components;
+			productReference = D4EBEE6F22E0FED1007C98A4 /* Griddle.app */;
+			productType = "com.apple.product-type.application";
+		};
 		D4EE55FB22BC1D530076D8A1 /* BrainMan */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4EE561022BC1D530076D8A1 /* Build configuration list for PBXNativeTarget "BrainMan" */;
@@ -1149,13 +1163,13 @@
 			);
 			projectRoot = "";
 			targets = (
-				D43EA8222291B84F006C619D /* Arkon */,
 				D4EE55FB22BC1D530076D8A1 /* BrainMan */,
 				D4579FF522B5C7A600963929 /* Cannibals */,
 				D40985DF22650B0A009DD384 /* CarBamba */,
 				D490429E22AC6A2400E7369B /* Contact */,
-				D402138522B85EA400ADF5B0 /* LifeCycle */,
+				D4EBEE4622E0FED1007C98A4 /* Griddle */,
 				D464BA3122C737260069623C /* Karamba */,
+				D402138522B85EA400ADF5B0 /* LifeCycle */,
 				D482860A2298CC4800225057 /* Maneuvers */,
 				D4AD194C22AC4848009F3469 /* ManeuversMetabolism */,
 				D441D31522B2AB5000143CC5 /* ManMetArkon */,
@@ -1251,16 +1265,6 @@
 				D43EA80C228FC77D006C619D /* Assets.xcassets in Resources */,
 				D43EA80D228FC77D006C619D /* Main.storyboard in Resources */,
 				D43EA80E228FC77D006C619D /* TheScene.sks in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D43EA8302291B84F006C619D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D43EA8312291B84F006C619D /* Assets.xcassets in Resources */,
-				D43EA8322291B84F006C619D /* Main.storyboard in Resources */,
-				D43EA8332291B84F006C619D /* TheScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1394,6 +1398,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D4EBEE6722E0FED1007C98A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4EBEE6822E0FED1007C98A4 /* Assets.xcassets in Resources */,
+				D4EBEE6922E0FED1007C98A4 /* Main.storyboard in Resources */,
+				D4EBEE6A22E0FED1007C98A4 /* TheScene.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4EE560B22BC1D530076D8A1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1442,23 +1456,6 @@
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		D43EA80F228FC77D006C619D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-		D43EA8342291B84F006C619D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1696,6 +1693,23 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		D4EBEE6B22E0FED1007C98A4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint lint --strict\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		D4EE560F22BC1D530076D8A1 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1786,44 +1800,6 @@
 				D43EA808228FC77D006C619D /* AppController.swift in Sources */,
 				D43EA818228FC875006C619D /* NetGraphics.swift in Sources */,
 				D43EA809228FC77D006C619D /* Protocols.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D43EA8232291B84F006C619D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D464BA6522C739470069623C /* ManeuversTest.swift in Sources */,
-				D43EA8242291B84F006C619D /* KIdentifier.swift in Sources */,
-				D4CF20A722A4C296000FD2BA /* ArkoniaCentral.swift in Sources */,
-				D4F6460522A3876500FD8C56 /* Arkon.swift in Sources */,
-				D43EA8252291B84F006C619D /* TheScene.swift in Sources */,
-				D43EA8262291B84F006C619D /* SceneViewController.swift in Sources */,
-				D43EA8272291B84F006C619D /* AppDelegate.swift in Sources */,
-				D43EA8282291B84F006C619D /* SpriteFactory.swift in Sources */,
-				D49042BF22AC91F800E7369B /* ContactDetector.swift in Sources */,
-				D4A216B522C15FFC00D92A1E /* MutatorSubtract.swift in Sources */,
-				D47618B222BEE61800ADAA87 /* Stimulus.swift in Sources */,
-				D47618B022BEE61800ADAA87 /* SenseTranslator.swift in Sources */,
-				D43EA8292291B84F006C619D /* NetDisplayGrid.swift in Sources */,
-				D441B99B229CFFA800FB7057 /* Metabolism.swift in Sources */,
-				D43EA82A2291B84F006C619D /* NetDisplay.swift in Sources */,
-				D43EA82B2291B84F006C619D /* Overload2D.swift in Sources */,
-				D49042C522AE2B2500E7369B /* World.swift in Sources */,
-				D43EA82C2291B84F006C619D /* AppController.swift in Sources */,
-				D4A216B422C15FFC00D92A1E /* Mutator.swift in Sources */,
-				D4A216B822C1610A00D92A1E /* Mutator.swift in Sources */,
-				D49042C822AEC16D00E7369B /* Nose.swift in Sources */,
-				D4A216BB22C1988B00D92A1E /* BellCurve.swift in Sources */,
-				D4A216B622C15FFC00D92A1E /* MutatorAdd.swift in Sources */,
-				D43EA82D2291B84F006C619D /* NetGraphics.swift in Sources */,
-				D49042C222AC927A00E7369B /* ContactCoordinator.swift in Sources */,
-				D47618AE22BEE61800ADAA87 /* SenseLoader.swift in Sources */,
-				D43EA82E2291B84F006C619D /* Protocols.swift in Sources */,
-				D4F6460822A4253F00FD8C56 /* ColorGradient.swift in Sources */,
-				D4603A6222A2720400885428 /* Manna.swift in Sources */,
-				D43EA83C229232C6006C619D /* Maneuvers.swift in Sources */,
-				D43EA83E229233F7006C619D /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1966,13 +1942,17 @@
 				D464BA6222C737CB0069623C /* KarambaScene.swift in Sources */,
 				D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */,
 				D464BA3922C737260069623C /* AppDelegate.swift in Sources */,
+				D42F379D22E760140072E646 /* Karamba.swift in Sources */,
 				D4B4295322DAF1CD0036C904 /* Report.swift in Sources */,
 				D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */,
+				D4A12BDC22E9D3C200C15F59 /* SenseResponder.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
 				D464BA3E22C737260069623C /* ContactDetector.swift in Sources */,
 				D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */,
 				D464BA4322C737260069623C /* Metabolism.swift in Sources */,
 				D464BA4422C737260069623C /* NetDisplay.swift in Sources */,
+				D4A12BDA22E9D37000C15F59 /* ContactResponder.swift in Sources */,
+				D4A12BDE22E9D42100C15F59 /* NetSignal.swift in Sources */,
 				D464BA4622C737260069623C /* Overload2D.swift in Sources */,
 				D464BA4722C737260069623C /* Stimulus.swift in Sources */,
 				D464BA4822C737260069623C /* World.swift in Sources */,
@@ -2137,6 +2117,42 @@
 				D46B1DA122826994003D711C /* Overload2D.swift in Sources */,
 				D4CBA30622805DD60023FAB9 /* AppController.swift in Sources */,
 				D46B1D89228173BE003D711C /* Protocols.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4EBEE4722E0FED1007C98A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4EBEE4822E0FED1007C98A4 /* KIdentifier.swift in Sources */,
+				D4EBEE4922E0FED1007C98A4 /* SenseLoader.swift in Sources */,
+				D4EBEE4B22E0FED1007C98A4 /* SceneViewController.swift in Sources */,
+				D4EBEE4D22E0FED1007C98A4 /* HUD.swift in Sources */,
+				D4EBEE4E22E0FED1007C98A4 /* AppDelegate.swift in Sources */,
+				D4EBEE4F22E0FED1007C98A4 /* Report.swift in Sources */,
+				D4EBEE5022E0FED1007C98A4 /* ArkoniaCentral.swift in Sources */,
+				D4EBEE5122E0FED1007C98A4 /* SpriteFactory.swift in Sources */,
+				D4EBEE5322E0FED1007C98A4 /* NetDisplayGrid.swift in Sources */,
+				D4EBEE5422E0FED1007C98A4 /* Metabolism.swift in Sources */,
+				D4EBEE5522E0FED1007C98A4 /* NetDisplay.swift in Sources */,
+				D4EBEE5622E0FED1007C98A4 /* Overload2D.swift in Sources */,
+				D4EBEE5722E0FED1007C98A4 /* Stimulus.swift in Sources */,
+				D4EBEE5822E0FED1007C98A4 /* World.swift in Sources */,
+				D4EBEE5922E0FED1007C98A4 /* AppController.swift in Sources */,
+				D4EBEE7122E0FFD9007C98A4 /* GriddleScene.swift in Sources */,
+				D4EBEE5A22E0FED1007C98A4 /* Nose.swift in Sources */,
+				D4EBEE5B22E0FED1007C98A4 /* NetGraphics.swift in Sources */,
+				D4EBEE5C22E0FED1007C98A4 /* ContactCoordinator.swift in Sources */,
+				D4EBEE5D22E0FED1007C98A4 /* Mutator.swift in Sources */,
+				D4EBEE5E22E0FED1007C98A4 /* BellCurve.swift in Sources */,
+				D4EBEE7322E148C9007C98A4 /* Griddle.swift in Sources */,
+				D4EBEE5F22E0FED1007C98A4 /* Net.swift in Sources */,
+				D4EBEE6022E0FED1007C98A4 /* Protocols.swift in Sources */,
+				D4EBEE6122E0FED1007C98A4 /* ColorGradient.swift in Sources */,
+				D4EBEE6222E0FED1007C98A4 /* Manna.swift in Sources */,
+				D4EBEE6322E0FED1007C98A4 /* SenseTranslator.swift in Sources */,
+				D4EBEE6422E0FED1007C98A4 /* Maneuvers.swift in Sources */,
+				D4EBEE6522E0FED1007C98A4 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2397,44 +2413,6 @@
 			name = Debug;
 		};
 		D43EA812228FC77D006C619D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		D43EA8362291B84F006C619D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = DD983V4X84;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		D43EA8372291B84F006C619D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2947,6 +2925,44 @@
 			};
 			name = Release;
 		};
+		D4EBEE6D22E0FED1007C98A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D4EBEE6E22E0FED1007C98A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		D4EE561122BC1D530076D8A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3020,15 +3036,6 @@
 			buildConfigurations = (
 				D43EA811228FC77D006C619D /* Debug */,
 				D43EA812228FC77D006C619D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D43EA8352291B84F006C619D /* Build configuration list for PBXNativeTarget "Arkon" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D43EA8362291B84F006C619D /* Debug */,
-				D43EA8372291B84F006C619D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -3146,6 +3153,15 @@
 			buildConfigurations = (
 				D4CBA30E22805DD60023FAB9 /* Debug */,
 				D4CBA30F22805DD60023FAB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4EBEE6C22E0FED1007C98A4 /* Build configuration list for PBXNativeTarget "Griddle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4EBEE6D22E0FED1007C98A4 /* Debug */,
+				D4EBEE6E22E0FED1007C98A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

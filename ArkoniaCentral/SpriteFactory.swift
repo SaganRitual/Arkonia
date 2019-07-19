@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 enum SpriteUserDataKey {
-    case arkon, manna, net9Portal, netDisplay
+    case karamba, manna, net9Portal, netDisplay
 }
 
 class SpriteHangar: SpriteHangarProtocol {
@@ -60,6 +60,22 @@ class SpriteFactory {
         }
 
         for drone in arkonsHangar.drones { arkonsHangar.retireSprite(drone) }
+    }
+}
+
+extension SpriteFactory {
+
+    static func drawLine(from start: CGPoint, to end: CGPoint, color: SKColor) -> SKShapeNode {
+        let linePath = CGMutablePath()
+
+        linePath.move(to: start)
+        linePath.addLine(to: end)
+
+        let line = SKShapeNode(path: linePath)
+        line.strokeColor = color
+        line.lineWidth = 3
+        line.zPosition = 10
+        return line
     }
 }
 

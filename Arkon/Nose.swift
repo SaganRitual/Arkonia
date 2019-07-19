@@ -3,7 +3,7 @@ import SpriteKit
 class Nose: SKSpriteNode, ContactCoordinatorDelegate {
     var ownerArkon: HasContactDetector {
         get {
-            let key = SpriteUserDataKey.arkon
+            let key = SpriteUserDataKey.karamba
             return ((parent as? SKSpriteNode)!.userData?[key] as? HasContactDetector)! }
     }
 
@@ -16,7 +16,7 @@ class Nose: SKSpriteNode, ContactCoordinatorDelegate {
 
 class Thorax: SKSpriteNode, ContactCoordinatorDelegate {
     var ownerArkon: HasContactDetector {
-        get { return (userData?[SpriteUserDataKey.arkon] as? HasContactDetector)! }
+        get { return (userData?[SpriteUserDataKey.karamba] as? HasContactDetector)! }
     }
 
     func pushContactedBodies(_ contactedBodies: [SKPhysicsBody]) {

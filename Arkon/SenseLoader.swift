@@ -6,14 +6,14 @@ class SenseLoader {
 
     var aVelocity: CGFloat!
     let portal: SKSpriteNode
-    weak var arkon: Arkon!
+    weak var arkon: Karamba!
     var vectorToOrigin: CGVector!
     var velocity: CGVector!
     var vectorToClosestArkon: CGVector?
     var vectorToClosestManna: CGVector?
     var zRotation: CGFloat = 0
 
-    init(_ arkon: Arkon) {
+    init(_ arkon: Karamba) {
         let sprite = arkon.sprite
         self.portal = SenseLoader.portal!
 

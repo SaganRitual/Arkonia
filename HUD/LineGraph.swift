@@ -38,18 +38,6 @@ final class LineGraph: SKSpriteNode {
     var started = false
     var triplets = IndexedRingBuffer<LineGraphTriplet>(size: tripletsCount)
 
-    static func drawLine(from start: CGPoint, to end: CGPoint, color: SKColor) -> SKShapeNode {
-        let linePath = CGMutablePath()
-
-        linePath.move(to: start)
-        linePath.addLine(to: end)
-
-        let line = SKShapeNode(path: linePath)
-        line.strokeColor = color
-        line.lineWidth = 3
-        return line
-    }
-
     func start() {
         canvas = childNode(withName: "linegraph_canvas") as? SKSpriteNode
         let c = hardBind(canvas)
