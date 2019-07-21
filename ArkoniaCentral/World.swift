@@ -14,12 +14,12 @@ class World {
     var maxCOffspring = 0
     var timeZero: TimeInterval = 0
 
-    var gameAge: TimeInterval { return (World.shared.currentTime - World.shared.timeZero) / 4 }
+    var gameAge: TimeInterval { return World.shared.currentTime - World.shared.timeZero }
 
     let timeLimit: TimeInterval? = 2000
     public var entropy: TimeInterval {
         guard let t = timeLimit else { return 0 }
-        return min((World.shared.gameAge + 1500) / t, 1.0)
+        return min(World.shared.gameAge / t, 1.0)
     }
 
     public var foodValue: CGFloat {

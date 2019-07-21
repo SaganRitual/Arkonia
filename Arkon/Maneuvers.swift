@@ -99,7 +99,7 @@ struct Maneuvers {
                 let breath = fudgeFactor * distanceTraveled / arkon.size.hypotenuse
                 let oo = breath //arkon.arkon.metabolism.oxygenLevel + breath
                 arkon.arkon.metabolism.oxygenLevel = constrain(oo, lo: 0, hi: 1)
-//                print("d", arkon.arkon.metabolism.oxygenLevel)
+//                print("d", arkon.arkon.selectoid.fishNumber, arkon.arkon.metabolism.oxygenLevel)
             }
         }
     }
@@ -153,7 +153,7 @@ struct Maneuvers {
 
         switch arkon.arkon.motionSelector % 5 {
         case 0:  primitive = .goThrust(CGFloat(m[0] * m[2]))
-        case 1:     primitive = .goWait(CGFloat(m[3]) / 1)
+        case 1:     primitive = .goWait(CGFloat(m[3]) / 10)
         case 2:      primitive = .goFullStop(true)//.goThrust(CGFloat(m[2]) / 10)
         case 3: primitive = .goRotate(CGFloat(m[1]) / 10)
         case 4:     primitive = .goFullStop(false)//.goThrust(CGFloat(m[2]) / 10)

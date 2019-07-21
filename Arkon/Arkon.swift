@@ -76,7 +76,7 @@ class Arkon: HasContactDetector {
 
     var pBody: SKPhysicsBody { return sprite.physicsBody! }
 
-    //swiftmint:disable function_body_length
+    //swiftlint:disable function_body_length
     init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
         selectoid = Selectoid(birthday: Arkon.clock!.getCurrentTime())
         net = Net(parentBiases: parentBiases, parentWeights: parentWeights, layers: layers)
@@ -84,6 +84,9 @@ class Arkon: HasContactDetector {
         sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
         sprite.setScale(Arkon.scaleFactor)
         sprite.color = ColorGradient.makeColor(hexRGB: Arkon.standardColor)
+        if selectoid.fishNumber < 10 {
+            sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
+        }
         sprite.colorBlendFactor = 1
 
         if let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode),
@@ -154,7 +157,7 @@ class Arkon: HasContactDetector {
         World.shared.population += 1
         contactDetector!.isReadyForPhysics = true
     }
-    //swiftmint:enable function_body_length
+    //swiftlint:enable function_body_length
 
     deinit {
         World.shared.population -= 1
@@ -227,10 +230,12 @@ extension Arkon {
         let nose = (thorax.children[0] as? Nose)!
 
 //        print("o2a", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel, terminator: "")
-        metabolism.oxygenLevel -= (1 / 60.0)
+        let oxygenCost: TimeInterval = thorax.arkon.age < TimeInterval(5) ? 0 : 1
+        metabolism.oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
 //        print("o2b", metabolism.oxygenLevel)
 
         guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
+//            print("ap", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
             thorax.arkon.apoptosize()
             return
         }
@@ -265,14 +270,21 @@ extension Arkon {
         let ef = metabolism.fungibleEnergyFullness
         nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 
-        let baseColor = (metabolism.spawnEnergyFullness > 0) ?
-            Arkon.brightColor : Arkon.standardColor
+        let baseColor: Int
+        if thorax.arkon.selectoid.fishNumber < 10 {
+            baseColor = 0xFF_00_00
+        } else {
+            baseColor = (metabolism.spawnEnergyFullness > 0) ?
+                Arkon.brightColor : Arkon.standardColor
+        }
 
         thorax.color = ColorGradient.makeColorMixRedBlue(
             baseColor: baseColor,
             redPercentage: metabolism.spawnEnergyFullness,
             bluePercentage: max((4 - CGFloat(thorax.arkon.age)) / 4, 0)
         )
+
+        thorax.colorBlendFactor = thorax.arkon.metabolism.oxygenLevel
 
         //        print("color", metabolism.spawnEnergyFullness, max((4 - CGFloat(thorax.arkon.age)) / 4, 0))
 
