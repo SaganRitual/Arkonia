@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 enum SpriteUserDataKey {
-    case karamba, manna, net9Portal, netDisplay
+    case karamba, manna, net9Portal, netDisplay, stepper
 }
 
 class SpriteHangar: SpriteHangarProtocol {

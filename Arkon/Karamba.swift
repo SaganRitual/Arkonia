@@ -1,19 +1,30 @@
 import SpriteKit
 
+extension SKPhysicsBody: Massive {}
+
+extension SKSpriteNode {
+    var karamba: Karamba {
+        get { return (userData![SpriteUserDataKey.karamba] as? Karamba)! }
+        set { userData![SpriteUserDataKey.karamba] = newValue }
+    }
+
+    var optionalKaramba: Karamba? { return userData![SpriteUserDataKey.karamba] as? Karamba }
+}
+
 class Karamba: HasContactDetector {
     var contactDetector: ContactDetectorProtocol?
     let core: Arkon
     var maneuvers: Maneuvers!
     let metabolism: MetabolismProtocol
     var motionSelector = 0
-    var senseLoader: SenseLoader!
+    static var senseLoader: SenseLoader!
 
     var nose: SKSpriteNode { return core.nose }
     var pBody: SKPhysicsBody { return core.sprite.physicsBody! }
     var sprite: SKSpriteNode { return core.sprite }
 
     init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
-//        let core = Arkon(
+        let core = Arkon(
             parentBiases: parentWeights, parentWeights: parentWeights, layers: layers
         )
 
@@ -60,6 +71,10 @@ class Karamba: HasContactDetector {
 }
 
 extension Karamba {
+
+    static func inject(_ senseLoader: SenseLoader) {
+        Karamba.senseLoader = senseLoader
+    }
 
     static func brainlyManeuverStart(sprite thorax: SKSpriteNode, metabolism: MetabolismProtocol) {
 //        print("bm", thorax.arkon.selectoid.fishNumber)

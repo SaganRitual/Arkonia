@@ -290,6 +290,8 @@
 		D4A12BDA22E9D37000C15F59 /* ContactResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BD922E9D37000C15F59 /* ContactResponder.swift */; };
 		D4A12BDC22E9D3C200C15F59 /* SenseResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BDB22E9D3C200C15F59 /* SenseResponder.swift */; };
 		D4A12BDE22E9D42100C15F59 /* NetSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BDD22E9D42100C15F59 /* NetSignal.swift */; };
+		D4A12BE122E9FD1800C15F59 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
+		D4A12BEA22EA58E900C15F59 /* Stepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BE922EA58E900C15F59 /* Stepper.swift */; };
 		D4A216B922C1981E00D92A1E /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216B722C1610A00D92A1E /* Mutator.swift */; };
 		D4A216BC22C1988B00D92A1E /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216BA22C1988B00D92A1E /* BellCurve.swift */; };
 		D4AD194E22AC4848009F3469 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
@@ -331,7 +333,6 @@
 		D4E9803B22B1DD1600B388BD /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4E9803C22B210A100B388BD /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4EBEE4822E0FED1007C98A4 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
-		D4EBEE4922E0FED1007C98A4 /* SenseLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618A422BEE61700ADAA87 /* SenseLoader.swift */; };
 		D4EBEE4B22E0FED1007C98A4 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D4EBEE4D22E0FED1007C98A4 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
 		D4EBEE4E22E0FED1007C98A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
@@ -342,7 +343,6 @@
 		D4EBEE5422E0FED1007C98A4 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D4EBEE5522E0FED1007C98A4 /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
 		D4EBEE5622E0FED1007C98A4 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
-		D4EBEE5722E0FED1007C98A4 /* Stimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AD22BEE61700ADAA87 /* Stimulus.swift */; };
 		D4EBEE5822E0FED1007C98A4 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D4EBEE5922E0FED1007C98A4 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
 		D4EBEE5A22E0FED1007C98A4 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
@@ -354,8 +354,6 @@
 		D4EBEE6022E0FED1007C98A4 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D4EBEE6122E0FED1007C98A4 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D4EBEE6222E0FED1007C98A4 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
-		D4EBEE6322E0FED1007C98A4 /* SenseTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */; };
-		D4EBEE6422E0FED1007C98A4 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D4EBEE6522E0FED1007C98A4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D4EBEE6822E0FED1007C98A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D4EBEE6922E0FED1007C98A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -488,6 +486,7 @@
 		D4A12BD922E9D37000C15F59 /* ContactResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactResponder.swift; sourceTree = "<group>"; };
 		D4A12BDB22E9D3C200C15F59 /* SenseResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseResponder.swift; sourceTree = "<group>"; };
 		D4A12BDD22E9D42100C15F59 /* NetSignal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetSignal.swift; sourceTree = "<group>"; };
+		D4A12BE922EA58E900C15F59 /* Stepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
 		D4A216AA22C15FFB00D92A1E /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4A216AB22C15FFB00D92A1E /* MutatorSubtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutatorSubtract.swift; sourceTree = "<group>"; };
 		D4A216AC22C15FFB00D92A1E /* MutatorAdd.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutatorAdd.swift; sourceTree = "<group>"; };
@@ -737,6 +736,7 @@
 				D47618A422BEE61700ADAA87 /* SenseLoader.swift */,
 				D4A12BDB22E9D3C200C15F59 /* SenseResponder.swift */,
 				D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */,
+				D4A12BE922EA58E900C15F59 /* Stepper.swift */,
 				D47618AD22BEE61700ADAA87 /* Stimulus.swift */,
 			);
 			path = Arkon;
@@ -2125,8 +2125,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4EBEE4822E0FED1007C98A4 /* KIdentifier.swift in Sources */,
-				D4EBEE4922E0FED1007C98A4 /* SenseLoader.swift in Sources */,
 				D4EBEE4B22E0FED1007C98A4 /* SceneViewController.swift in Sources */,
+				D4A12BE122E9FD1800C15F59 /* Arkon.swift in Sources */,
 				D4EBEE4D22E0FED1007C98A4 /* HUD.swift in Sources */,
 				D4EBEE4E22E0FED1007C98A4 /* AppDelegate.swift in Sources */,
 				D4EBEE4F22E0FED1007C98A4 /* Report.swift in Sources */,
@@ -2136,10 +2136,10 @@
 				D4EBEE5422E0FED1007C98A4 /* Metabolism.swift in Sources */,
 				D4EBEE5522E0FED1007C98A4 /* NetDisplay.swift in Sources */,
 				D4EBEE5622E0FED1007C98A4 /* Overload2D.swift in Sources */,
-				D4EBEE5722E0FED1007C98A4 /* Stimulus.swift in Sources */,
 				D4EBEE5822E0FED1007C98A4 /* World.swift in Sources */,
 				D4EBEE5922E0FED1007C98A4 /* AppController.swift in Sources */,
 				D4EBEE7122E0FFD9007C98A4 /* GriddleScene.swift in Sources */,
+				D4A12BEA22EA58E900C15F59 /* Stepper.swift in Sources */,
 				D4EBEE5A22E0FED1007C98A4 /* Nose.swift in Sources */,
 				D4EBEE5B22E0FED1007C98A4 /* NetGraphics.swift in Sources */,
 				D4EBEE5C22E0FED1007C98A4 /* ContactCoordinator.swift in Sources */,
@@ -2150,8 +2150,6 @@
 				D4EBEE6022E0FED1007C98A4 /* Protocols.swift in Sources */,
 				D4EBEE6122E0FED1007C98A4 /* ColorGradient.swift in Sources */,
 				D4EBEE6222E0FED1007C98A4 /* Manna.swift in Sources */,
-				D4EBEE6322E0FED1007C98A4 /* SenseTranslator.swift in Sources */,
-				D4EBEE6422E0FED1007C98A4 /* Maneuvers.swift in Sources */,
 				D4EBEE6522E0FED1007C98A4 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

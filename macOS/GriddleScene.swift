@@ -128,8 +128,7 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
             let portal = (self!.childNode(withName: "arkons_portal") as? SKSpriteNode)!
 
             let liveArkonsAges: [TimeInterval] = portal.children.compactMap {
-                guard let k = $0 as? SKSpriteNode else { return nil }
-                return k.optionalArkon?.age ?? TimeInterval(0)
+                return ($0 as? SKSpriteNode)?.optionalStepper?.core.age
             }
 
             World.shared.greatestLiveAge = liveArkonsAges.max() ?? TimeInterval(0)
@@ -203,9 +202,9 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-//        if tickCount >= 10 && tickCount <= 50  {
-//            Arkon.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
-//        }
+        if tickCount >= 10 && tickCount <= 10  {
+            Stepper.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
+        }
 
 //        arkonsPortal.children.compactMap({ return $0 as? Thorax }).forEach {
 //            let sprite = $0 as SKSpriteNode

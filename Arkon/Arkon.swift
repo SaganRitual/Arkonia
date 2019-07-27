@@ -16,17 +16,6 @@ struct Selectoid {
     }
 }
 
-extension SKPhysicsBody: Massive {}
-
-extension SKSpriteNode {
-    var karamba: Karamba {
-        get { return (userData![SpriteUserDataKey.karamba] as? Karamba)! }
-        set { userData![SpriteUserDataKey.karamba] = newValue }
-    }
-
-    var optionalKaramba: Karamba? { return userData![SpriteUserDataKey.karamba] as? Karamba }
-}
-
 extension SpriteFactory {
     static func makeNose(texture: SKTexture) -> SKSpriteNode {
         return Nose(texture: texture)
@@ -121,10 +110,10 @@ class Arkon {
     }
 
     func apoptosize() {
-        spriteFactory.noseHangar.retireSprite(sprite.karamba.nose)
+        spriteFactory.noseHangar.retireSprite(sprite.stepper.core.nose)
         spriteFactory.arkonsHangar.retireSprite(sprite)
 //        print("a", selectoid.fishNumber)
-        sprite.userData![SpriteUserDataKey.karamba] = nil
+        sprite.userData![SpriteUserDataKey.stepper] = nil
     }
 
     func tick() {
@@ -151,7 +140,5 @@ extension Arkon {
         Arkon.layers = layers
         Arkon.arkonsPortal = portal
         Arkon.spriteFactory = spriteFactory
-
-        SenseLoader.inject(portal)
     }
 }
