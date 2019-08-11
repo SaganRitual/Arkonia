@@ -96,7 +96,7 @@ class Arkon {
         nose.alpha = 1
         nose.colorBlendFactor = 1
 
-        sprite.position = Arkon.arkonsPortal!.getRandomPoint()
+//        spr ite.position = Arkon.arkonsPortal!.getRandomPoint()
         sprite.addChild(nose)
         Arkon.arkonsPortal!.addChild(sprite)
 

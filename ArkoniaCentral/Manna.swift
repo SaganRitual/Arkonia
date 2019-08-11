@@ -86,18 +86,19 @@ extension Manna {
 
             sprite.userData = [SpriteUserDataKey.manna: manna]
             sprite.position = background.getRandomPoint()
+//            print("sp", sprite.position)
 
             background.addChild(sprite)
 
-            sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
-            sprite.physicsBody!.mass = 1
+//            sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
+//            sprite.physicsBody!.mass = 1
             sprite.setScale(0.1)
             sprite.color = .orange
             sprite.colorBlendFactor = Manna.colorBlendMinimum
 
-            sprite.physicsBody!.categoryBitMask = PhysicsBitmask.mannaBody.rawValue
-            sprite.physicsBody!.collisionBitMask = 0
-            sprite.physicsBody!.contactTestBitMask = 0
+//            sprite.physicsBody!.categoryBitMask = PhysicsBitmask.mannaBody.rawValue
+//            sprite.physicsBody!.collisionBitMask = 0
+//            sprite.physicsBody!.contactTestBitMask = 0
 
             let lifetimeAction = SKAction.wait(forDuration: TimeInterval(ss * 2 + 10))
             let killAction = SKAction.removeFromParent()

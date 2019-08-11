@@ -88,14 +88,14 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         spriteFactory.postInit(net9Portals)
 
-        Manna.plantAllManna(background: arkonsPortal, spriteFactory: spriteFactory)
-
         Arkon.inject(self, layers, arkonsPortal, spriteFactory)
+
+        griddle = Griddle(arkonsPortal, spriteFactory)
+
+        Manna.plantAllManna(background: arkonsPortal, spriteFactory: spriteFactory)
 
         physicsWorld.contactDelegate = World.physicsCoordinator
         scene!.delegate = self
-
-        griddle = Griddle(arkonsPortal, spriteFactory)
 
         hud = HUD(scene: self)
         buildReports()

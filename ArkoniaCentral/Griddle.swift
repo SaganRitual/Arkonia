@@ -1,6 +1,6 @@
 import SpriteKit
 
-struct AKPoint {
+struct AKPoint: Hashable {
     let x: Int; let y: Int
 
     static func random(_ xRange: Range<Int>, _ yRange: Range<Int>) -> AKPoint {
@@ -15,34 +15,27 @@ class Gridlet {
     let scenePosition: CGPoint
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
+//        print("q", gridPosition)
         self.scenePosition = scenePosition
         self.gridPosition = gridPosition
     }
 
     static func at(_ x: Int, _ y: Int) -> Gridlet {
-        var (constrainedX, constrainedY) = constrainToGrid(x, y)
+        let p = AKPoint(x: x, y: y)
+//        print("p", p)
+        let g = Griddle.gridlets[p]!
 
-        constrainedX += Griddle.dimensions.wGrid
-        constrainedY  = -constrainedY + Griddle.dimensions.hGrid
-
-        let g = Griddle.gridlets[constrainedY][constrainedX]
-//        print(
-//            "at", x, y,
-//            constrainedX, constrainedY,
-//            g.gridPosition.x, g.gridPosition.y,
-//            g.scenePosition.x, g.scenePosition.y
-//        )
         return g
     }
 
     static func at(_ position: AKPoint) -> Gridlet { return Gridlet.at(position.x, position.y) }
 
     static func constrainToGrid(_ x: Int, _ y: Int) -> (Int, Int) {
-        var constrainedX = max(-Griddle.dimensions.wGrid, x)
-        constrainedX = min(Griddle.dimensions.wGrid, constrainedX)
+        let cx = Griddle.dimensions.wGrid - 1
+        let cy = Griddle.dimensions.hGrid - 1
 
-        var constrainedY = max(-Griddle.dimensions.hGrid, y)
-        constrainedY = min(Griddle.dimensions.hGrid, constrainedY)
+        let constrainedX = min(cx, max(-cx, x))
+        let constrainedY = min(cy, max(-cy, y))
 
 //        print("cg", x, constrainedX, y, constrainedY)
 
@@ -60,6 +53,8 @@ extension Gridlet {
 }
 
 struct Dimensions {
+    static let fudgFactor = CGFloat(2)
+
     let hGrid: Int
     let hPortal: Int
     let hSprite: Int
@@ -79,12 +74,11 @@ struct Dimensions {
 
 class Griddle {
     static var dimensions: Dimensions!
-    static var gridlets = [[Gridlet]]()
+    static var gridlets = [AKPoint: Gridlet]()
 
     init(_ portal: SKSpriteNode, _ spriteFactory: SpriteFactory) {
         Griddle.dimensions = Griddle.setDimensions(portal)
-        drawGridLines(portal)
-        setupGrid(portal)
+        setupGrid(portal, drawLines: false)
     }
 
     func drawGridLine(_ portal: SKSpriteNode, _ x1: Int, _ y1: Int, _ x2: Int, _ y2: Int) {
@@ -97,17 +91,25 @@ class Griddle {
         portal.addChild(line)
     }
 
-    func drawGridLines(_ portal: SKSpriteNode) {
+    func setupGrid(_ portal: SKSpriteNode, drawLines: Bool = false) {
         let d = Griddle.dimensions!
 
-        for x in stride(from: 0, to: d.wPortal, by: d.wSprite) {
-            drawGridLine(portal, -x, -d.hPortal, -x, d.hPortal)
+        for x in stride(from: 0, to: d.wPortal, by: d.wSprite) where drawLines == true {
+            if x != 0 { drawGridLine(portal, -x, -d.hPortal, -x, d.hPortal) }
+
             drawGridLine(portal, +x, -d.hPortal, +x, d.hPortal)
         }
 
-        for y in stride(from: 0, to: d.wPortal, by: d.wSprite) {
-            drawGridLine(portal, -d.wPortal, -y, d.wPortal, -y)
-            drawGridLine(portal, -d.wPortal, +y, d.wPortal, +y)
+        for y in stride(from: 0, to: d.hPortal, by: d.hSprite) {
+            let yGrid = y / d.hSprite
+
+            if drawLines == true {
+                if y != 0 { drawGridLine(portal, -d.wPortal, -y, d.wPortal, -y) }
+
+                drawGridLine(portal, -d.wPortal, +y, d.wPortal, +y)
+            }
+
+            placeGridlet(y, yGrid)
         }
 
 //        print("w", d.wPortal * 2 / d.wSprite, d.hPortal * 2 / d.hSprite)
@@ -116,59 +118,58 @@ class Griddle {
         portal.addChild(shape)
     }
 
+    func placeGridlet(_ y: Int, _ yGrid: Int) {
+        let d = Griddle.dimensions!
+
+        for x in stride(from: 0, to: d.wPortal, by: d.wSprite) {
+            let xGrid = x / d.wSprite
+
+            switch (x, y) {
+            case (0, 0):
+                let p = AKPoint(x: xGrid, y: yGrid)
+                Griddle.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint.zero)
+
+            case (_, 0):
+                let p = AKPoint(x:  xGrid, y: yGrid)
+                let q = AKPoint(x: -xGrid, y: yGrid)
+
+                Griddle.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint(x:  x, y: y))
+                Griddle.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: -x, y: y))
+
+            case (0, _):
+                let p = AKPoint(x: xGrid, y:  yGrid)
+                let q = AKPoint(x: xGrid, y: -yGrid)
+
+                Griddle.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint(x: x, y:  y))
+                Griddle.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: x, y: -y))
+
+            default:
+                let p = AKPoint(x:  xGrid, y:  yGrid)
+                let q = AKPoint(x: -xGrid, y:  yGrid)
+                let r = AKPoint(x:  xGrid, y: -yGrid)
+                let s = AKPoint(x: -xGrid, y: -yGrid)
+
+                Griddle.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint(x:  x, y:  y))
+                Griddle.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: -x, y:  y))
+                Griddle.gridlets[r] = Gridlet(gridPosition: r, scenePosition: CGPoint(x:  x, y: -y))
+                Griddle.gridlets[s] = Gridlet(gridPosition: s, scenePosition: CGPoint(x: -x, y: -y))
+            }
+        }
+    }
+
     static func setDimensions(_ portal: SKSpriteNode) -> Dimensions {
         let tAtlas = SKTextureAtlas(named: "Arkons")
         let tTexture = tAtlas.textureNamed("spark-thorax-large")
 
-        let hSprite = Int(tTexture.size().height)// / 2
-        let wSprite = Int(tTexture.size().width)// / 2
+        let hSprite = Int(tTexture.size().height / Dimensions.fudgFactor)
+        let wSprite = Int(tTexture.size().width / Dimensions.fudgFactor)
 
-        let hPortal = Int((1 / Arkon.scaleFactor) * portal.size.height / 2) - hSprite
-        let wPortal = Int((1 / Arkon.scaleFactor) * portal.size.width / 2) - wSprite
+        let hPortal = Int((1 / Arkon.scaleFactor) * portal.size.height / Dimensions.fudgFactor) - hSprite
+        let wPortal = Int((1 / Arkon.scaleFactor) * portal.size.width / Dimensions.fudgFactor) - wSprite
         let hGrid = Int(hPortal / hSprite)
         let wGrid = Int(wPortal / wSprite)
 
         return Dimensions(hGrid, hPortal, hSprite, wGrid, wPortal, wSprite)
-    }
-
-    func setupGrid(_ portal: SKSpriteNode) {
-        let d = Griddle.dimensions!
-        let hGrid = d.hGrid
-        let wGrid = d.wGrid
-        let hPortal = d.hPortal
-        let wPortal = d.wPortal
-        let hSprite = d.hSprite
-        let wSprite = d.wSprite
-
-        Griddle.gridlets.reserveCapacity(d.hGrid)
-
-        var yGrid = -hGrid
-
-        for yScene in stride(from: -hPortal, to: hPortal, by: hSprite) {
-
-            var gridRow = [Gridlet]()
-            gridRow.reserveCapacity(d.wGrid)
-
-            var xGrid = -wGrid
-
-            for xScene in stride(from: -wPortal, to: wPortal, by: wSprite) {
-
-                let gridlet = Gridlet(
-                    gridPosition: AKPoint(x: xGrid, y: -yGrid),
-                    scenePosition: CGPoint(x: xScene, y: -yScene)
-                )
-
-                gridRow.append(gridlet)
-
-                xGrid += 1
-
-//                print("xy", xGrid, "=", xScene, -yGrid, "=", -yScene)
-            }
-
-            Griddle.gridlets.append(gridRow)
-
-            yGrid += 1
-        }
     }
 
 }
