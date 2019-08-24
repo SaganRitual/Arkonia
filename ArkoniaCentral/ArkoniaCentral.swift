@@ -23,6 +23,15 @@ extension SKSpriteNode {
         let ak = AKPoint.random(-wGrid..<wGrid, -hGrid..<hGrid)
 
         let gridlet = Gridlet.at(ak.x, ak.y)
-        return gridlet.scenePosition
+        let wScene = CGFloat(Griddle.dimensions.wSprite / 2)
+        let hScene = CGFloat(Griddle.dimensions.hSprite / 2)
+
+        let lScene = gridlet.scenePosition.x - wScene
+        let rScene = gridlet.scenePosition.x + wScene
+        let bScene = gridlet.scenePosition.y - hScene
+        let tScene = gridlet.scenePosition.y + hScene
+
+        let sp = CGPoint.random(xRange: lScene..<rScene, yRange: bScene..<tScene)
+        return sp
     }
 }
