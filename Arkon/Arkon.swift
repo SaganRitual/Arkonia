@@ -17,16 +17,8 @@ struct Selectoid {
 }
 
 extension SpriteFactory {
-    static func makeNose(texture: SKTexture) -> SKSpriteNode {
-        return Nose(texture: texture)
-    }
-
     static func makeSprite(texture: SKTexture) -> SKSpriteNode {
         return SKSpriteNode(texture: texture)
-    }
-
-    static func makeThorax(texture: SKTexture) -> SKSpriteNode {
-        return Thorax(texture: texture)
     }
 }
 
@@ -96,7 +88,7 @@ class Arkon {
         nose.alpha = 1
         nose.colorBlendFactor = 1
 
-//        spr ite.position = Arkon.arkonsPortal!.getRandomPoint()
+//        sprite.position = Arkon.arkonsPortal!.getRandomPoint()
         sprite.addChild(nose)
         Arkon.arkonsPortal!.addChild(sprite)
 

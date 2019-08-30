@@ -7,12 +7,17 @@ struct AKPoint: Hashable {
         let xx = Int.random(in: xRange), yy = Int.random(in: yRange)
         return AKPoint(x: xx, y: yy)
     }
+
+    static func + (_ lhs: AKPoint, _ rhs: AKPoint) -> AKPoint {
+        return AKPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+    }
 }
 
 class Gridlet {
     var contents = Contents.nothing
     let gridPosition: AKPoint
     let scenePosition: CGPoint
+    var sprite: SKSpriteNode?
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
 //        print("q", gridPosition)
@@ -42,11 +47,16 @@ class Gridlet {
         return (constrainedX, constrainedY)
     }
 
+    static func isOnGrid(_ x: Int, _ y: Int) -> Bool {
+        let (cx, cy) = constrainToGrid(x, y)
+        return cx == x && cy == y
+    }
+
 }
 
 extension Gridlet {
 
-    enum Contents {
+    enum Contents: Double {
         case arkon, manna, nothing
     }
 

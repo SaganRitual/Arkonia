@@ -56,30 +56,11 @@ class SenseLoader {
     }
 
     func loadSenseData() -> [Double] {
-        let foo = [Double](arrayLiteral:
+        let sensoryInputs: [Double] = Stepper.moves.map { step in
+            let inputGridlet = step + gridlet.gridPosition
+            return Gridlet.at(inputGridlet).contents.rawValue
+        }
 
-            Double(aVelocity),
-            Double(halfCapCheck(arkon.metabolism.oxygenLevel)),
-
-            Double(velocity.magnitude),
-            Double(velocity.theta),
-//            Double(fullCapCheck(velocity.theta)),
-
-            Double(fullCapCheck(vectorToOrigin.magnitude)),
-            Double(fullCapCheck(vectorToOrigin.theta)),
-
-            Double(halfCapCheck(countSensedManna() ?? 0)),
-            Double(fullCapCheck(vectorToClosestManna?.magnitude ?? 1)),
-            Double(fullCapCheck(vectorToClosestManna?.theta ?? 0)),
-
-            Double(zRotation),
-            Double(fullCapCheck(vectorToClosestArkon?.magnitude ?? 1)),
-            Double(fullCapCheck(vectorToClosestArkon?.theta ?? 0))
-
-        )
-
-//        print("foo", foo)
-
-        return foo
+        return sensoryInputs
     }
 }

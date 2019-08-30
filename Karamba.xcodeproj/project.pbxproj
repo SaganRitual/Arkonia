@@ -14,16 +14,13 @@
 		D402138B22B85EA400ADF5B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D402138C22B85EA400ADF5B0 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D402138D22B85EA400ADF5B0 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
-		D402138E22B85EA400ADF5B0 /* ContactDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042BE22AC91F800E7369B /* ContactDetector.swift */; };
 		D402138F22B85EA400ADF5B0 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D402139022B85EA400ADF5B0 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D402139122B85EA400ADF5B0 /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
 		D402139222B85EA400ADF5B0 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D402139322B85EA400ADF5B0 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D402139422B85EA400ADF5B0 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
-		D402139522B85EA400ADF5B0 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
 		D402139622B85EA400ADF5B0 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
-		D402139722B85EA400ADF5B0 /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
 		D402139822B85EA400ADF5B0 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D402139922B85EA400ADF5B0 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D402139A22B85EA400ADF5B0 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
@@ -81,16 +78,13 @@
 		D441D31B22B2AB5000143CC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D441D31C22B2AB5000143CC5 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D441D31D22B2AB5000143CC5 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
-		D441D31E22B2AB5000143CC5 /* ContactDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042BE22AC91F800E7369B /* ContactDetector.swift */; };
 		D441D31F22B2AB5000143CC5 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D441D32022B2AB5000143CC5 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D441D32122B2AB5000143CC5 /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
 		D441D32222B2AB5000143CC5 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D441D32322B2AB5000143CC5 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D441D32422B2AB5000143CC5 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
-		D441D32522B2AB5000143CC5 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
 		D441D32622B2AB5000143CC5 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
-		D441D32722B2AB5000143CC5 /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
 		D441D32822B2AB5000143CC5 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D441D32922B2AB5000143CC5 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D441D32A22B2AB5000143CC5 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
@@ -99,8 +93,6 @@
 		D441D32F22B2AB5000143CC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D441D33022B2AB5000143CC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D441D33122B2AB5000143CC5 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
-		D442B7AF22B1D3DC00E3BDB3 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
-		D442B7B022B1D40600E3BDB3 /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
 		D442B7B222B1DB4100E3BDB3 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4579FF722B5C7A600963929 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D4579FF822B5C7A600963929 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
@@ -109,16 +101,13 @@
 		D4579FFB22B5C7A600963929 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D4579FFC22B5C7A600963929 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4579FFD22B5C7A600963929 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
-		D4579FFE22B5C7A600963929 /* ContactDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042BE22AC91F800E7369B /* ContactDetector.swift */; };
 		D4579FFF22B5C7A600963929 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D457A00022B5C7A600963929 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D457A00122B5C7A600963929 /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
 		D457A00222B5C7A600963929 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D457A00322B5C7A600963929 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D457A00422B5C7A600963929 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
-		D457A00522B5C7A600963929 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
 		D457A00622B5C7A600963929 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
-		D457A00722B5C7A600963929 /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
 		D457A00822B5C7A600963929 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D457A00922B5C7A600963929 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D457A00A22B5C7A600963929 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
@@ -134,16 +123,13 @@
 		D457A01E22B5FB8400963929 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D457A01F22B5FB8400963929 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D457A02022B5FB8400963929 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
-		D457A02122B5FB8400963929 /* ContactDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042BE22AC91F800E7369B /* ContactDetector.swift */; };
 		D457A02222B5FB8400963929 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D457A02322B5FB8400963929 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D457A02422B5FB8400963929 /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
 		D457A02522B5FB8400963929 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D457A02622B5FB8400963929 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D457A02722B5FB8400963929 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
-		D457A02822B5FB8400963929 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
 		D457A02922B5FB8400963929 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
-		D457A02A22B5FB8400963929 /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
 		D457A02B22B5FB8400963929 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D457A02C22B5FB8400963929 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D457A02D22B5FB8400963929 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
@@ -178,7 +164,6 @@
 		D464BA3922C737260069623C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
-		D464BA3E22C737260069623C /* ContactDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042BE22AC91F800E7369B /* ContactDetector.swift */; };
 		D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D464BA4322C737260069623C /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D464BA4422C737260069623C /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
@@ -186,9 +171,7 @@
 		D464BA4722C737260069623C /* Stimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AD22BEE61700ADAA87 /* Stimulus.swift */; };
 		D464BA4822C737260069623C /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D464BA4922C737260069623C /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
-		D464BA4A22C737260069623C /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
 		D464BA4B22C737260069623C /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
-		D464BA4C22C737260069623C /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
 		D464BA4D22C737260069623C /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216B722C1610A00D92A1E /* Mutator.swift */; };
 		D464BA4E22C737260069623C /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216BA22C1988B00D92A1E /* BellCurve.swift */; };
 		D464BA4F22C737260069623C /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
@@ -228,16 +211,13 @@
 		D480535B22B14D3300FF8617 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D480535C22B14D3300FF8617 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D480535D22B14D3300FF8617 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
-		D480535E22B14D3300FF8617 /* ContactDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042BE22AC91F800E7369B /* ContactDetector.swift */; };
 		D480535F22B14D3300FF8617 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D480536022B14D3300FF8617 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D480536122B14D3300FF8617 /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
 		D480536222B14D3300FF8617 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D480536322B14D3300FF8617 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D480536422B14D3300FF8617 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
-		D480536522B14D3300FF8617 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
 		D480536622B14D3300FF8617 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
-		D480536722B14D3300FF8617 /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
 		D480536822B14D3300FF8617 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D480536922B14D3300FF8617 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D480536A22B14D3300FF8617 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
@@ -283,11 +263,7 @@
 		D49042B422AC6A2400E7369B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D49042B522AC6A2400E7369B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D49042B622AC6A2400E7369B /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
-		D49042C022AC922E00E7369B /* ContactDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042BE22AC91F800E7369B /* ContactDetector.swift */; };
-		D49042C322AC928000E7369B /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
 		D49042C622AEC09700E7369B /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
-		D49042C922AEC16D00E7369B /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
-		D4A12BDA22E9D37000C15F59 /* ContactResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BD922E9D37000C15F59 /* ContactResponder.swift */; };
 		D4A12BDC22E9D3C200C15F59 /* SenseResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BDB22E9D3C200C15F59 /* SenseResponder.swift */; };
 		D4A12BDE22E9D42100C15F59 /* NetSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BDD22E9D42100C15F59 /* NetSignal.swift */; };
 		D4A12BE122E9FD1800C15F59 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
@@ -345,9 +321,7 @@
 		D4EBEE5622E0FED1007C98A4 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D4EBEE5822E0FED1007C98A4 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D4EBEE5922E0FED1007C98A4 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
-		D4EBEE5A22E0FED1007C98A4 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
 		D4EBEE5B22E0FED1007C98A4 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
-		D4EBEE5C22E0FED1007C98A4 /* ContactCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C122AC927A00E7369B /* ContactCoordinator.swift */; };
 		D4EBEE5D22E0FED1007C98A4 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216B722C1610A00D92A1E /* Mutator.swift */; };
 		D4EBEE5E22E0FED1007C98A4 /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216BA22C1988B00D92A1E /* BellCurve.swift */; };
 		D4EBEE5F22E0FED1007C98A4 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
@@ -375,7 +349,6 @@
 		D4EE560D22BC1D530076D8A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D4EE560E22BC1D530076D8A1 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D4EE561522BC1E500076D8A1 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
-		D4EE561822BC20D30076D8A1 /* Nose.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C722AEC16D00E7369B /* Nose.swift */; };
 		D4EE561A22BC96290076D8A1 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
 		D4EE561B22BC981B0076D8A1 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4F8ACA3228F99C70023C6DB /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
@@ -478,12 +451,8 @@
 		D480537622B14D3300FF8617 /* ManMetManna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ManMetManna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D48286222298CC4800225057 /* Maneuvers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maneuvers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D49042BB22AC6A2400E7369B /* Contact.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contact.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D49042BE22AC91F800E7369B /* ContactDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetector.swift; sourceTree = "<group>"; };
-		D49042C122AC927A00E7369B /* ContactCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCoordinator.swift; sourceTree = "<group>"; };
 		D49042C422AE2B2500E7369B /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
-		D49042C722AEC16D00E7369B /* Nose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nose.swift; sourceTree = "<group>"; };
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		D4A12BD922E9D37000C15F59 /* ContactResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactResponder.swift; sourceTree = "<group>"; };
 		D4A12BDB22E9D3C200C15F59 /* SenseResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseResponder.swift; sourceTree = "<group>"; };
 		D4A12BDD22E9D42100C15F59 /* NetSignal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetSignal.swift; sourceTree = "<group>"; };
 		D4A12BE922EA58E900C15F59 /* Stepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
@@ -706,7 +675,6 @@
 			isa = PBXGroup;
 			children = (
 				D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */,
-				D49042C122AC927A00E7369B /* ContactCoordinator.swift */,
 				D4EBEE7222E148C9007C98A4 /* Griddle.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
 				D464BA6322C738F60069623C /* MannaTest.swift */,
@@ -724,15 +692,12 @@
 			children = (
 				D43EA81C228FDCDC006C619D /* Arkon.swift */,
 				D464BA6622C79B710069623C /* ArkonTest.swift */,
-				D49042BE22AC91F800E7369B /* ContactDetector.swift */,
-				D4A12BD922E9D37000C15F59 /* ContactResponder.swift */,
 				D42F379522E760140072E646 /* Karamba.swift */,
 				D43EA83B229232C6006C619D /* Maneuvers.swift */,
 				D464BA6422C739470069623C /* ManeuversTest.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D4A12BDD22E9D42100C15F59 /* NetSignal.swift */,
-				D49042C722AEC16D00E7369B /* Nose.swift */,
 				D47618A422BEE61700ADAA87 /* SenseLoader.swift */,
 				D4A12BDB22E9D3C200C15F59 /* SenseResponder.swift */,
 				D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */,
@@ -1742,7 +1707,6 @@
 				D402138B22B85EA400ADF5B0 /* AppDelegate.swift in Sources */,
 				D402138C22B85EA400ADF5B0 /* ArkoniaCentral.swift in Sources */,
 				D402138D22B85EA400ADF5B0 /* SpriteFactory.swift in Sources */,
-				D402138E22B85EA400ADF5B0 /* ContactDetector.swift in Sources */,
 				D402138F22B85EA400ADF5B0 /* NetDisplayGrid.swift in Sources */,
 				D402139022B85EA400ADF5B0 /* Metabolism.swift in Sources */,
 				D402139122B85EA400ADF5B0 /* NetDisplay.swift in Sources */,
@@ -1750,9 +1714,7 @@
 				D47618B322BEE61800ADAA87 /* Stimulus.swift in Sources */,
 				D402139322B85EA400ADF5B0 /* World.swift in Sources */,
 				D402139422B85EA400ADF5B0 /* AppController.swift in Sources */,
-				D402139522B85EA400ADF5B0 /* Nose.swift in Sources */,
 				D402139622B85EA400ADF5B0 /* NetGraphics.swift in Sources */,
-				D402139722B85EA400ADF5B0 /* ContactCoordinator.swift in Sources */,
 				D4A216B922C1981E00D92A1E /* Mutator.swift in Sources */,
 				D4A216BC22C1988B00D92A1E /* BellCurve.swift in Sources */,
 				D4CCEDED22BD8CB900C4FD87 /* Net.swift in Sources */,
@@ -1832,16 +1794,13 @@
 				D441D31B22B2AB5000143CC5 /* AppDelegate.swift in Sources */,
 				D441D31C22B2AB5000143CC5 /* ArkoniaCentral.swift in Sources */,
 				D441D31D22B2AB5000143CC5 /* SpriteFactory.swift in Sources */,
-				D441D31E22B2AB5000143CC5 /* ContactDetector.swift in Sources */,
 				D441D31F22B2AB5000143CC5 /* NetDisplayGrid.swift in Sources */,
 				D441D32022B2AB5000143CC5 /* Metabolism.swift in Sources */,
 				D441D32122B2AB5000143CC5 /* NetDisplay.swift in Sources */,
 				D441D32222B2AB5000143CC5 /* Overload2D.swift in Sources */,
 				D441D32322B2AB5000143CC5 /* World.swift in Sources */,
 				D441D32422B2AB5000143CC5 /* AppController.swift in Sources */,
-				D441D32522B2AB5000143CC5 /* Nose.swift in Sources */,
 				D441D32622B2AB5000143CC5 /* NetGraphics.swift in Sources */,
-				D441D32722B2AB5000143CC5 /* ContactCoordinator.swift in Sources */,
 				D441D32822B2AB5000143CC5 /* Protocols.swift in Sources */,
 				D441D32922B2AB5000143CC5 /* ColorGradient.swift in Sources */,
 				D441D32A22B2AB5000143CC5 /* Manna.swift in Sources */,
@@ -1861,16 +1820,13 @@
 				D4579FFB22B5C7A600963929 /* AppDelegate.swift in Sources */,
 				D4579FFC22B5C7A600963929 /* ArkoniaCentral.swift in Sources */,
 				D4579FFD22B5C7A600963929 /* SpriteFactory.swift in Sources */,
-				D4579FFE22B5C7A600963929 /* ContactDetector.swift in Sources */,
 				D4579FFF22B5C7A600963929 /* NetDisplayGrid.swift in Sources */,
 				D457A00022B5C7A600963929 /* Metabolism.swift in Sources */,
 				D457A00122B5C7A600963929 /* NetDisplay.swift in Sources */,
 				D457A00222B5C7A600963929 /* Overload2D.swift in Sources */,
 				D457A00322B5C7A600963929 /* World.swift in Sources */,
 				D457A00422B5C7A600963929 /* AppController.swift in Sources */,
-				D457A00522B5C7A600963929 /* Nose.swift in Sources */,
 				D457A00622B5C7A600963929 /* NetGraphics.swift in Sources */,
-				D457A00722B5C7A600963929 /* ContactCoordinator.swift in Sources */,
 				D457A00822B5C7A600963929 /* Protocols.swift in Sources */,
 				D457A00922B5C7A600963929 /* ColorGradient.swift in Sources */,
 				D457A00A22B5C7A600963929 /* Manna.swift in Sources */,
@@ -1890,16 +1846,13 @@
 				D457A01E22B5FB8400963929 /* AppDelegate.swift in Sources */,
 				D457A01F22B5FB8400963929 /* ArkoniaCentral.swift in Sources */,
 				D457A02022B5FB8400963929 /* SpriteFactory.swift in Sources */,
-				D457A02122B5FB8400963929 /* ContactDetector.swift in Sources */,
 				D457A02222B5FB8400963929 /* NetDisplayGrid.swift in Sources */,
 				D457A02322B5FB8400963929 /* Metabolism.swift in Sources */,
 				D457A02422B5FB8400963929 /* NetDisplay.swift in Sources */,
 				D457A02522B5FB8400963929 /* Overload2D.swift in Sources */,
 				D457A02622B5FB8400963929 /* World.swift in Sources */,
 				D457A02722B5FB8400963929 /* AppController.swift in Sources */,
-				D457A02822B5FB8400963929 /* Nose.swift in Sources */,
 				D457A02922B5FB8400963929 /* NetGraphics.swift in Sources */,
-				D457A02A22B5FB8400963929 /* ContactCoordinator.swift in Sources */,
 				D457A02B22B5FB8400963929 /* Protocols.swift in Sources */,
 				D457A02C22B5FB8400963929 /* ColorGradient.swift in Sources */,
 				D457A02D22B5FB8400963929 /* Manna.swift in Sources */,
@@ -1913,7 +1866,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4603A6522A2B11A00885428 /* KIdentifier.swift in Sources */,
-				D442B7B022B1D40600E3BDB3 /* ContactCoordinator.swift in Sources */,
 				D4603A6622A2B11A00885428 /* TheScene.swift in Sources */,
 				D4603A6722A2B11A00885428 /* SceneViewController.swift in Sources */,
 				D4603A6822A2B11A00885428 /* AppDelegate.swift in Sources */,
@@ -1923,7 +1875,6 @@
 				D4603A6B22A2B11A00885428 /* NetDisplay.swift in Sources */,
 				D4603A6C22A2B11A00885428 /* Overload2D.swift in Sources */,
 				D4603A6D22A2B11A00885428 /* AppController.swift in Sources */,
-				D442B7AF22B1D3DC00E3BDB3 /* Nose.swift in Sources */,
 				D4603A6E22A2B11A00885428 /* NetGraphics.swift in Sources */,
 				D442B7B222B1DB4100E3BDB3 /* ArkoniaCentral.swift in Sources */,
 				D4603A6F22A2B11A00885428 /* Protocols.swift in Sources */,
@@ -1947,19 +1898,15 @@
 				D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */,
 				D4A12BDC22E9D3C200C15F59 /* SenseResponder.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
-				D464BA3E22C737260069623C /* ContactDetector.swift in Sources */,
 				D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */,
 				D464BA4322C737260069623C /* Metabolism.swift in Sources */,
 				D464BA4422C737260069623C /* NetDisplay.swift in Sources */,
-				D4A12BDA22E9D37000C15F59 /* ContactResponder.swift in Sources */,
 				D4A12BDE22E9D42100C15F59 /* NetSignal.swift in Sources */,
 				D464BA4622C737260069623C /* Overload2D.swift in Sources */,
 				D464BA4722C737260069623C /* Stimulus.swift in Sources */,
 				D464BA4822C737260069623C /* World.swift in Sources */,
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
-				D464BA4A22C737260069623C /* Nose.swift in Sources */,
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
-				D464BA4C22C737260069623C /* ContactCoordinator.swift in Sources */,
 				D464BA4D22C737260069623C /* Mutator.swift in Sources */,
 				D464BA4E22C737260069623C /* BellCurve.swift in Sources */,
 				D464BA4F22C737260069623C /* Net.swift in Sources */,
@@ -1999,16 +1946,13 @@
 				D480535C22B14D3300FF8617 /* AppDelegate.swift in Sources */,
 				D4E9803B22B1DD1600B388BD /* ArkoniaCentral.swift in Sources */,
 				D480535D22B14D3300FF8617 /* SpriteFactory.swift in Sources */,
-				D480535E22B14D3300FF8617 /* ContactDetector.swift in Sources */,
 				D480535F22B14D3300FF8617 /* NetDisplayGrid.swift in Sources */,
 				D480536022B14D3300FF8617 /* Metabolism.swift in Sources */,
 				D480536122B14D3300FF8617 /* NetDisplay.swift in Sources */,
 				D480536222B14D3300FF8617 /* Overload2D.swift in Sources */,
 				D480536322B14D3300FF8617 /* World.swift in Sources */,
 				D480536422B14D3300FF8617 /* AppController.swift in Sources */,
-				D480536522B14D3300FF8617 /* Nose.swift in Sources */,
 				D480536622B14D3300FF8617 /* NetGraphics.swift in Sources */,
-				D480536722B14D3300FF8617 /* ContactCoordinator.swift in Sources */,
 				D480536822B14D3300FF8617 /* Protocols.swift in Sources */,
 				D480536922B14D3300FF8617 /* ColorGradient.swift in Sources */,
 				D480536A22B14D3300FF8617 /* Manna.swift in Sources */,
@@ -2048,16 +1992,13 @@
 				D49042A522AC6A2400E7369B /* AppDelegate.swift in Sources */,
 				D4E9803C22B210A100B388BD /* ArkoniaCentral.swift in Sources */,
 				D49042A622AC6A2400E7369B /* SpriteFactory.swift in Sources */,
-				D49042C022AC922E00E7369B /* ContactDetector.swift in Sources */,
 				D49042A722AC6A2400E7369B /* NetDisplayGrid.swift in Sources */,
 				D49042A822AC6A2400E7369B /* Metabolism.swift in Sources */,
 				D49042A922AC6A2400E7369B /* NetDisplay.swift in Sources */,
 				D49042AA22AC6A2400E7369B /* Overload2D.swift in Sources */,
 				D49042C622AEC09700E7369B /* World.swift in Sources */,
 				D49042AB22AC6A2400E7369B /* AppController.swift in Sources */,
-				D49042C922AEC16D00E7369B /* Nose.swift in Sources */,
 				D49042AC22AC6A2400E7369B /* NetGraphics.swift in Sources */,
-				D49042C322AC928000E7369B /* ContactCoordinator.swift in Sources */,
 				D49042AD22AC6A2400E7369B /* Protocols.swift in Sources */,
 				D49042AE22AC6A2400E7369B /* ColorGradient.swift in Sources */,
 				D49042AF22AC6A2400E7369B /* Manna.swift in Sources */,
@@ -2140,9 +2081,7 @@
 				D4EBEE5922E0FED1007C98A4 /* AppController.swift in Sources */,
 				D4EBEE7122E0FFD9007C98A4 /* GriddleScene.swift in Sources */,
 				D4A12BEA22EA58E900C15F59 /* Stepper.swift in Sources */,
-				D4EBEE5A22E0FED1007C98A4 /* Nose.swift in Sources */,
 				D4EBEE5B22E0FED1007C98A4 /* NetGraphics.swift in Sources */,
-				D4EBEE5C22E0FED1007C98A4 /* ContactCoordinator.swift in Sources */,
 				D4EBEE5D22E0FED1007C98A4 /* Mutator.swift in Sources */,
 				D4EBEE5E22E0FED1007C98A4 /* BellCurve.swift in Sources */,
 				D4EBEE7322E148C9007C98A4 /* Griddle.swift in Sources */,
@@ -2162,7 +2101,6 @@
 				D4EE561522BC1E500076D8A1 /* SpriteFactory.swift in Sources */,
 				D4EE55FE22BC1D530076D8A1 /* TheScene.swift in Sources */,
 				D4EE55FF22BC1D530076D8A1 /* SceneViewController.swift in Sources */,
-				D4EE561822BC20D30076D8A1 /* Nose.swift in Sources */,
 				D4EE560022BC1D530076D8A1 /* AppDelegate.swift in Sources */,
 				D4EE560222BC1D530076D8A1 /* NetDisplayGrid.swift in Sources */,
 				D4EE560422BC1D530076D8A1 /* Overload2D.swift in Sources */,

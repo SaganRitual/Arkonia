@@ -12,6 +12,7 @@ extension SKSpriteNode {
 class Stepper {
     let core: Arkon
     var gridlet: Gridlet
+    let metabolism: MetabolismProtocol
     let sprite: SKSpriteNode
 
     init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
@@ -42,6 +43,9 @@ class Stepper {
 //        )
 
 //        stepComplete(gridlet)
+
+        metabolism = Metabolism()
+
         self.step(by: 0, 0)
     }
 
@@ -50,6 +54,13 @@ class Stepper {
          AKPoint(x: 1, y:  -1), AKPoint(x:  0, y: -1), AKPoint(x: -1, y: -1),
          AKPoint(x: -1, y:  0), AKPoint(x: -1, y:  1)
     ]
+
+//    func getTargetGridlet() -> Gridlet {
+//        let adjacentObjects: [Gridlet] = Stepper.moves.map { step in
+//            let inputGridlet = step + gridlet.gridPosition
+//            return Gridlet.at(inputGridlet).contents.rawValue
+//        }
+//    }
 
 //    var counter = 0
 
@@ -69,18 +80,51 @@ class Stepper {
 
         let scenePosition = newGridlet.scenePosition
         let stepAction = SKAction.move(to: scenePosition, duration: 0.1)
-        let waitAction = SKAction.wait(forDuration: 0.7)
+        let waitAction = SKAction.wait(forDuration: 0.01)
         let sequence = SKAction.sequence([waitAction, stepAction])
         sprite.run(sequence) { self.stepComplete(newGridlet) }
     }
 
-    func stepComplete(_ newGridlet: Gridlet) {
-        self.gridlet = newGridlet
+    func getSenseDataAsDictionary(_ senseData: [Double?]) -> [Int: Double?] {
+        return senseData.enumerated().reduce([:]) { accumulated, pw in
+            let (position, weight) = pw
+            var t = accumulated
+            t[position] = weight
+            return t
+        }
+    }
 
-        let mm = Stepper.moves.randomElement()!
-//        print("gq1", self.sprite.position.x, self.sprite.position.y, mm.x, mm.y)
-        self.step(by: mm.x, mm.y)
-//        print("gq2", self.sprite.position.x, self.sprite.position.y, mm.x, mm.y)
+    func selectMoveTarget(_ senseData: [Int: Double?]) -> AKPoint {
+
+        let order: [(Int, Double?)] = senseData.sorted { lhs, rhs in
+            guard let ld = lhs.value else { return false }
+            guard let rd = rhs.value else { return true }
+            return Double(ld) > Double(rd)
+        }
+
+        return Stepper.moves[order[0].0]
+    }
+
+    func stepComplete(_ newGridlet: Gridlet) {
+        if newGridlet.contents == .manna {
+            touchManna((newGridlet.sprite!.userData![SpriteUserDataKey.manna]! as? Manna)!)
+        }
+
+        let senseData = getSenseDataAsDictionary(loadSenseData())
+        let moveTarget = selectMoveTarget(senseData)
+
+        self.gridlet = newGridlet
+        self.step(by: moveTarget.x, moveTarget.y)
+    }
+
+    func loadSenseData() -> [Double?] {
+        let sensoryInputs: [Double?] = Stepper.moves.map { step in
+            let inputGridlet = step + gridlet.gridPosition
+            return Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) ?
+                    Gridlet.at(inputGridlet).contents.rawValue : nil
+        }
+
+        return sensoryInputs
     }
 }
 
@@ -99,5 +143,16 @@ extension Stepper {
 //        onePass(sprite: newKaramba.sprite, metabolism: newKaramba.metabolism)
 
         return newStepper
+    }
+
+    func touchManna(_ manna: Manna) {
+        let sprite = manna.sprite
+        let background = (sprite.parent as? SKSpriteNode)!
+
+        let harvested = sprite.manna.harvest()
+        metabolism.absorbEnergy(harvested)
+
+        let actions = Manna.triggerDeathCycle(sprite: sprite, background: background)
+        sprite.run(actions)
     }
 }

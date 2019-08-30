@@ -16,7 +16,7 @@ extension SKSpriteNode {
 //        return CGPoint.random(xRange: xRange, yRange: yRange)
 //    }
 
-    func getRandomPoint() -> CGPoint {
+    func getRandomPoint() -> (Gridlet, CGPoint) {
         let wGrid = Griddle.dimensions.wGrid
         let hGrid = Griddle.dimensions.hGrid
 
@@ -32,6 +32,6 @@ extension SKSpriteNode {
         let tScene = gridlet.scenePosition.y + hScene
 
         let sp = CGPoint.random(xRange: lScene..<rScene, yRange: bScene..<tScene)
-        return sp
+        return (gridlet, sp)
     }
 }

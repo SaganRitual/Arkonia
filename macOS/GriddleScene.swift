@@ -65,15 +65,15 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
     override func didMove(to view: SKView) {
         World.shared.currentTime = 0
 
-        physicsWorld.gravity = CGVector.zero
+//        physicsWorld.gravity = CGVector.zero
 
         arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
 
-        // Figure out where the 475 comes from
-        let origin = self.frame.origin + CGPoint(x: 480, y: 0)
-        let re = CGRect(origin: origin, size: arkonsPortal.frame.size)
-        arkonsPortal.physicsBody = SKPhysicsBody(edgeLoopFrom: re)
+//         Figure out where the 475 comes from
+//        let origin = self.frame.origin + CGPoint(x: 480, y: 0)
+//        let re = CGRect(origin: origin, size: arkonsPortal.frame.size)
+//        arkonsPortal.physicsBody = SKPhysicsBody(edgeLoopFrom: re)
 
         enumerateChildNodes(withName: "net_9portal") { node_, _ in
             let node = (node_ as? SKSpriteNode)!
@@ -82,8 +82,8 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         let spriteFactory = SpriteFactory(
             scene: self,
-            thoraxFactory: SpriteFactory.makeThorax(texture:),
-            noseFactory: SpriteFactory.makeNose(texture:)
+            thoraxFactory: SpriteFactory.makeSprite(texture:),
+            noseFactory: SpriteFactory.makeSprite(texture:)
         )
 
         spriteFactory.postInit(net9Portals)
@@ -94,7 +94,6 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         Manna.plantAllManna(background: arkonsPortal, spriteFactory: spriteFactory)
 
-        physicsWorld.contactDelegate = World.physicsCoordinator
         scene!.delegate = self
 
         hud = HUD(scene: self)

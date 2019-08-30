@@ -12,7 +12,6 @@ extension SKSpriteNode {
 }
 
 class Karamba: HasContactDetector {
-    var contactDetector: ContactDetectorProtocol?
     let core: Arkon
     var maneuvers: Maneuvers!
     let metabolism: MetabolismProtocol
@@ -20,7 +19,6 @@ class Karamba: HasContactDetector {
     static var senseLoader: SenseLoader!
 
     var nose: SKSpriteNode { return core.nose }
-    var pBody: SKPhysicsBody { return core.sprite.physicsBody! }
     var sprite: SKSpriteNode { return core.sprite }
 
     init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
@@ -28,41 +26,11 @@ class Karamba: HasContactDetector {
             parentBiases: parentWeights, parentWeights: parentWeights, layers: layers
         )
 
-        let spritePhysicsBody = SKPhysicsBody(circleOfRadius: core.sprite.size.width / 2)
-
-        spritePhysicsBody.categoryBitMask = PhysicsBitmask.arkonBody.rawValue
-        spritePhysicsBody.collisionBitMask = PhysicsBitmask.arkonBody.rawValue
-
-        spritePhysicsBody.contactTestBitMask =
-            PhysicsBitmask.arkonBody.rawValue |
-            PhysicsBitmask.mannaBody.rawValue
-
-        spritePhysicsBody.mass = 1
-        contactDetector = ContactDetector()
-
-        let nosePhysicsBody = SKPhysicsBody(circleOfRadius: core.nose.size.width * 2)
-
-        nosePhysicsBody.categoryBitMask = PhysicsBitmask.arkonSenses.rawValue
-        nosePhysicsBody.collisionBitMask = 0
-
-        nosePhysicsBody.contactTestBitMask =
-            PhysicsBitmask.arkonBody.rawValue |
-            PhysicsBitmask.mannaBody.rawValue
-
-        nosePhysicsBody.mass = 0.1
-        nosePhysicsBody.pinned = true
-
         maneuvers = nil
-
-        core.sprite.physicsBody = spritePhysicsBody
-        core.nose.physicsBody = nosePhysicsBody
-
-        metabolism = Metabolism(spritePhysicsBody)
-
+        metabolism = Metabolism()
         self.core = core
-        sprite.userData![SpriteUserDataKey.karamba] = self
 
-        contactDetector!.isReadyForPhysics = true
+        sprite.userData![SpriteUserDataKey.karamba] = self
     }
 
     deinit {
@@ -77,25 +45,6 @@ extension Karamba {
     }
 
     static func brainlyManeuverStart(sprite thorax: SKSpriteNode, metabolism: MetabolismProtocol) {
-//        print("bm", thorax.arkon.selectoid.fishNumber)
-//        let motorOutputs = thorax.arkon.net.getMotorOutputs(sensoryInputs)
-//
-//        let workItem = DispatchWorkItem {
-//            brainlyManeuverEnd(sprite: thorax, metabolism: metabolism, motorOutputs: motorOutputs)
-//        }
-//
-//        thorax.arkon.netQueue.async(execute: workItem)
-
-//        var motorOutputs = [Double]()
-//        let workAction = SKAction.run({
-//            let sensoryInputs = thorax.arkon.stimulus()
-//            motorOutputs = thorax.arkon.net.getMotorOutputs(sensoryInputs)
-//        }, queue: thorax.arkon.netQueue)
-//
-//        thorax.run(workAction) {
-//            brainlyManeuverEnd(sprite: thorax, metabolism: metabolism, motorOutputs: motorOutputs)
-//        }
-
         var netSignal = KarambaNetSignal()
         netSignal.go(karamba: thorax.karamba)
     }
@@ -181,8 +130,6 @@ extension Karamba {
 
         newKaramba.contactDetector!.contactResponder =
             ContactResponder(ownerKaramba: newKaramba)
-
-        newKaramba.contactDetector!.senseResponder = SenseResponder()
 
         onePass(sprite: newKaramba.sprite, metabolism: newKaramba.metabolism)
 

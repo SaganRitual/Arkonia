@@ -36,25 +36,33 @@ class Manna {
 }
 
 extension Manna {
+    static func plantSingleManna(position: (Gridlet, CGPoint), sprite: SKSpriteNode) {
+
+        let gridlet = position.0
+        gridlet.contents = .manna
+        gridlet.sprite = sprite
+
+        sprite.position = position.1
+    }
+
     static func triggerDeathCycle(sprite: SKSpriteNode, background: SKSpriteNode) -> SKAction {
         if sprite.manna.isCaptured { return SKAction.run {} }
 
         sprite.manna.isCaptured = true
 
-        let unPhysics = SKAction.run { sprite.physicsBody!.isDynamic = false }
         let fadeOut = SKAction.fadeOut(withDuration: 0.001)
         let wait = getWaitAction()
 
         let replant = SKAction.run {
-            sprite.position = background.getRandomPoint()
-            sprite.physicsBody!.isDynamic = true
+            let rp = background.getRandomPoint()
+            plantSingleManna(position: rp, sprite: sprite)
             sprite.manna.isCaptured = false
         }
 
         let fadeIn = SKAction.fadeIn(withDuration: 0.001)
         let rebloom = getColorAction()
 
-        return SKAction.sequence([unPhysics, fadeOut, wait, replant, fadeIn, rebloom])
+        return SKAction.sequence([fadeOut, wait, replant, fadeIn, rebloom])
     }
 
     static func getBeEatenAction(sprite: SKSpriteNode) -> SKAction {
@@ -72,21 +80,15 @@ extension Manna {
 
     static func getWaitAction() -> SKAction { return SKAction.wait(forDuration: 1.0) }
 
-    static func getReplantAction(sprite: SKSpriteNode, background: SKSpriteNode) -> SKAction {
-        return SKAction.run {
-            sprite.position = background.getRandomPoint()
-            background.addChild(sprite)
-        }
-    }
-
     static func plantAllManna(background: SKSpriteNode, spriteFactory: SpriteFactory) {
         for ss in 0..<Manna.cMorsels {
             let sprite = spriteFactory.mannaHangar.makeSprite()
             let manna = Manna(sprite)
 
             sprite.userData = [SpriteUserDataKey.manna: manna]
-            sprite.position = background.getRandomPoint()
-//            print("sp", sprite.position)
+
+            let rp = background.getRandomPoint()
+            plantSingleManna(position: rp, sprite: sprite)
 
             background.addChild(sprite)
 

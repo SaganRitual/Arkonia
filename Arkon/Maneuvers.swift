@@ -2,10 +2,7 @@ import Foundation
 import SpriteKit
 
 enum ActionPrimitive: Comparable, Hashable {
-    case goFullStop(Bool)
-    case goRotate(CGFloat)
-    case goThrust(CGFloat)
-    case goWait(CGFloat)
+    case go
 
     static func < (_ lhs: ActionPrimitive, _ rhs: ActionPrimitive) -> Bool {
         switch (lhs, rhs) {
@@ -29,15 +26,6 @@ struct Maneuvers {
 
     init(energySource: EnergySourceProtocol) { self.energySource = energySource }
 
-    func execute(arkon: SKSpriteNode, motorOutputs: [Double]) {
-        goSprite(arkon: arkon, motorOutputs: motorOutputs)
-    }
-
-    func goSprite(arkon: SKSpriteNode, motorOutputs: [Double]) {
-        let primitive = selectActionPrimitive(sprite: arkon, motorOutputs: motorOutputs)
-        arkon.run(primitive)
-    }
-
     func capCheck<T: BinaryFloatingPoint>(_ value: T) -> T {
         if value >= -1 && value <= 1 { return value }
         print("capCheck: \(value)")
@@ -55,7 +43,7 @@ struct Maneuvers {
         let sign = abs(torqueIndex) / torqueIndex
 
         return SKAction.run {
-            let impulse = sign * self.energySource.withdrawFromReady(joulesNeeded)
+//            let impulse = sign * self.energySource.withdrawFromReady(joulesNeeded)
 
 //            print(
 //                "[rotate   ",
@@ -66,7 +54,7 @@ struct Maneuvers {
 //                String(format: "% 6.2f ", arkon.arkon.metabolism.energyContent)
 //            )
 
-            arkon.physicsBody!.applyAngularImpulse(impulse)
+//            arkon.physicsBody!.applyAngularImpulse(impulse)
 
 //            print(
 //                "rotate   ",
@@ -76,31 +64,6 @@ struct Maneuvers {
 //                String(format: "% 6.2f ", arkon.arkon.metabolism.spawnReserves.level),
 //                String(format: "% 6.2f\n]", arkon.arkon.metabolism.energyContent)
 //            )
-        }
-    }
-
-    func getStopAction(_ sprite: SKSpriteNode, _ inhale: Bool) -> SKAction {
-        return SKAction.run {
-            sprite.physicsBody!.velocity = CGVector.zero
-            sprite.physicsBody!.angularVelocity = 0
-
-            let nosePhysicsBody = (sprite.children[0] as? SKSpriteNode)!.physicsBody
-            nosePhysicsBody!.velocity = CGVector.zero
-            nosePhysicsBody!.angularVelocity = 0
-
-            if sprite.karamba.core.previousPosition == CGPoint.zero {
-                sprite.karamba.core.previousPosition = sprite.position
-                return
-            }
-
-            if inhale {
-                let fudgeFactor: CGFloat = 0.025
-                let distanceTraveled = sprite.position.distance(to: sprite.karamba.core.previousPosition)
-                let breath = fudgeFactor * distanceTraveled / sprite.size.hypotenuse
-                let oo = breath //arkon.arkon.metabolism.oxygenLevel + breath
-                sprite.karamba.metabolism.oxygenLevel = constrain(oo, lo: 0, hi: 1)
-//                print("d", arkon.arkon.selectoid.fishNumber, arkon.arkon.metabolism.oxygenLevel)
-            }
         }
     }
 
@@ -151,19 +114,16 @@ struct Maneuvers {
 //        let selector = CGFloat(Int(m.removeFirst() * 100.0)) / 100.0
         let primitive: ActionPrimitive
 
-        switch sprite.karamba.motionSelector % 5 {
+        switch sprite.karamba.motionSelector % 3 {
         case 0:  primitive = .goThrust(CGFloat(m[0] * m[2]))
         case 1:  primitive = .goWait(CGFloat(m[3]) / 10)
-        case 2:  primitive = .goFullStop(true)//.goThrust(CGFloat(m[2]) / 10)
-        case 3:  primitive = .goRotate(CGFloat(m[1]) / 10)
-        case 4:  primitive = .goFullStop(false)//.goThrust(CGFloat(m[2]) / 10)
+        case 2:  primitive = .goRotate(CGFloat(m[1]) / 10)
         default: preconditionFailure()
         }
 
         sprite.karamba.motionSelector += 1
 
         switch primitive {
-        case let .goFullStop(inhale):     return getStopAction(sprite, inhale)
         case let .goRotate(torqueIndex):  return getRotateAction(sprite, torqueIndex)
         case let .goThrust(thrustIndex):  return getThrustAction(sprite, thrustIndex)
         case let .goWait(duration):       return getWaitAction(duration)
