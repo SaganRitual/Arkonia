@@ -88,15 +88,16 @@ class Arkon {
         nose.alpha = 1
         nose.colorBlendFactor = 1
 
-//        sprite.position = Arkon.arkonsPortal!.getRandomPoint()
         sprite.addChild(nose)
         Arkon.arkonsPortal!.addChild(sprite)
 
         World.shared.population += 1
+//        print("wspu", World.shared.population)
     }
 
     deinit {
         World.shared.population -= 1
+//        print("wspd", World.shared.population)
 
         netDisplay = nil
     }
@@ -105,18 +106,20 @@ class Arkon {
         spriteFactory.noseHangar.retireSprite(sprite.stepper.core.nose)
         spriteFactory.arkonsHangar.retireSprite(sprite)
 //        print("a", selectoid.fishNumber)
+        sprite.stepper.sprite = nil
         sprite.userData![SpriteUserDataKey.stepper] = nil
+
     }
 
     func tick() {
-        let realScene = (arkonsPortal.parent as? SKScene)!
-        let converted = arkonsPortal.convert(sprite.position, to: realScene)
-
-        guard arkonsPortal.frame.contains(converted) else {
-            apoptosize()
-            return
-        }
-
+//        let realScene = (arkonsPortal.parent as? SKScene)!
+//        let converted = arkonsPortal.convert(sprite.position, to: realScene)
+//
+//        guard arkonsPortal.frame.contains(converted) else {
+//            apoptosize()
+//            return
+//        }
+//
         World.shared.registerAge(age)
     }
 }

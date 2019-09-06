@@ -1,8 +1,8 @@
 import SpriteKit
 
 enum ArkoniaCentral {
-    static let cMotorNeurons = 5
-    static let cSenseNeurons = 12
+    static let cMotorNeurons = 8
+    static let cSenseNeurons = 29
 }
 
 extension SKSpriteNode {
@@ -32,6 +32,7 @@ extension SKSpriteNode {
         let tScene = gridlet.scenePosition.y + hScene
 
         let sp = CGPoint.random(xRange: lScene..<rScene, yRange: bScene..<tScene)
+//        let sp = CGPoint(x: gridlet.scenePosition.x, y: gridlet.scenePosition.y)
         return (gridlet, sp)
     }
 }

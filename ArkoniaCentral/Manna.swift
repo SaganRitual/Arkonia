@@ -9,7 +9,7 @@ extension SKSpriteNode {
 
 class Manna {
 
-    static let cMorsels = 1500
+    static let cMorsels = 2500
     static let colorBlendMinimum: CGFloat = 0.25
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
     static let fullGrowthDurationSeconds: TimeInterval = 1.0
@@ -20,7 +20,7 @@ class Manna {
     let sprite: SKSpriteNode
 
     var energyContentInJoules: CGFloat {
-        let fudgeFactor: CGFloat = 1
+        let fudgeFactor: CGFloat = 1000
         var f = fudgeFactor * (sprite.colorBlendFactor - Manna.colorBlendMinimum)
         f /= Manna.colorBlendRangeWidth
         f *= Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
@@ -43,6 +43,7 @@ extension Manna {
         gridlet.sprite = sprite
 
         sprite.position = position.1
+//        print("psm", gridlet.gridPosition, gridlet.scenePosition, sprite.position)
     }
 
     static func triggerDeathCycle(sprite: SKSpriteNode, background: SKSpriteNode) -> SKAction {
@@ -54,7 +55,11 @@ extension Manna {
         let wait = getWaitAction()
 
         let replant = SKAction.run {
-            let rp = background.getRandomPoint()
+            var rp: (Gridlet, CGPoint)
+            repeat {
+                rp = background.getRandomPoint()
+            } while rp.0.contents != .nothing
+
             plantSingleManna(position: rp, sprite: sprite)
             sprite.manna.isCaptured = false
         }
@@ -87,7 +92,11 @@ extension Manna {
 
             sprite.userData = [SpriteUserDataKey.manna: manna]
 
-            let rp = background.getRandomPoint()
+            var rp: (Gridlet, CGPoint)
+            repeat {
+                rp = background.getRandomPoint()
+            } while rp.0.contents != .nothing
+
             plantSingleManna(position: rp, sprite: sprite)
 
             background.addChild(sprite)

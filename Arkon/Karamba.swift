@@ -59,64 +59,64 @@ extension Karamba {
         sprite.run(sequence) { onePass(sprite: sprite, metabolism: metabolism) }
     }
 
-        static func onePass(sprite thorax: SKSpriteNode, metabolism: MetabolismProtocol) {
-            let nose = (thorax.children[0] as? Nose)!
+    static func onePass(sprite thorax: SKSpriteNode, metabolism: MetabolismProtocol) {
+        let nose = (thorax.children[0] as? Nose)!
 
-    //        print("o2a", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel, terminator: "")
-            let oxygenCost: TimeInterval = thorax.karamba.core.age < TimeInterval(5) ? 0 : 1
-            metabolism.oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
-    //        print("o2b", metabolism.oxygenLevel)
+//        print("o2a", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel, terminator: "")
+        let oxygenCost: TimeInterval = thorax.karamba.core.age < TimeInterval(5) ? 0 : 1
+        metabolism.oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
+//        print("o2b", metabolism.oxygenLevel)
 
-            guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
-    //            print("ap", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
-                thorax.karamba.core.apoptosize()
-                return
-            }
-
-            // 10% entropy
-            let spawnCost = EnergyReserve.startingEnergyLevel * 1.10
-
-            if metabolism.spawnReserves.level >= spawnCost {
-                metabolism.withdrawFromSpawn(spawnCost)
-
-                let biases = thorax.karamba.core.net.biases
-                let weights = thorax.karamba.core.net.weights
-                let layers = thorax.karamba.core.net.layers
-                let waitAction = SKAction.wait(forDuration: 0.02)
-                let spawnAction = SKAction.run {
-                    Karamba.spawn(parentBiases: biases, parentWeights: weights, layers: layers)
-                }
-
-                let sequence = SKAction.sequence([waitAction, spawnAction])
-                Arkon.arkonsPortal!.run(sequence) {
-                    thorax.karamba.core.selectoid.cOffspring += 1
-                    World.shared.registerCOffspring(thorax.karamba.core.selectoid.cOffspring)
-                }
-
-            }
-
-            let ef = metabolism.fungibleEnergyFullness
-            nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
-
-            let baseColor: Int
-            if thorax.karamba.core.selectoid.fishNumber < 10 {
-                baseColor = 0xFF_00_00
-            } else {
-                baseColor = (metabolism.spawnEnergyFullness > 0) ?
-                    Arkon.brightColor : Arkon.standardColor
-            }
-
-            let four: CGFloat = 4
-            thorax.color = ColorGradient.makeColorMixRedBlue(
-                baseColor: baseColor,
-                redPercentage: metabolism.spawnEnergyFullness,
-                bluePercentage: max((four - CGFloat(thorax.karamba.core.age)) / four, 0.0)
-            )
-
-            thorax.colorBlendFactor = thorax.karamba.metabolism.oxygenLevel
-
-            brainlyManeuverStart(sprite: thorax, metabolism: metabolism)
+        guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
+//            print("ap", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
+            thorax.karamba.core.apoptosize()
+            return
         }
+
+        // 10% entropy
+        let spawnCost = EnergyReserve.startingEnergyLevel * 1.10
+
+        if metabolism.spawnReserves.level >= spawnCost {
+            metabolism.withdrawFromSpawn(spawnCost)
+
+            let biases = thorax.karamba.core.net.biases
+            let weights = thorax.karamba.core.net.weights
+            let layers = thorax.karamba.core.net.layers
+            let waitAction = SKAction.wait(forDuration: 0.02)
+            let spawnAction = SKAction.run {
+                Karamba.spawn(parentBiases: biases, parentWeights: weights, layers: layers)
+            }
+
+            let sequence = SKAction.sequence([waitAction, spawnAction])
+            Arkon.arkonsPortal!.run(sequence) {
+                thorax.karamba.core.selectoid.cOffspring += 1
+                World.shared.registerCOffspring(thorax.karamba.core.selectoid.cOffspring)
+            }
+
+        }
+
+        let ef = metabolism.fungibleEnergyFullness
+        nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
+
+        let baseColor: Int
+        if thorax.karamba.core.selectoid.fishNumber < 10 {
+            baseColor = 0xFF_00_00
+        } else {
+            baseColor = (metabolism.spawnEnergyFullness > 0) ?
+                Arkon.brightColor : Arkon.standardColor
+        }
+
+        let four: CGFloat = 4
+        thorax.color = ColorGradient.makeColorMixRedBlue(
+            baseColor: baseColor,
+            redPercentage: metabolism.spawnEnergyFullness,
+            bluePercentage: max((four - CGFloat(thorax.karamba.core.age)) / four, 0.0)
+        )
+
+        thorax.colorBlendFactor = thorax.karamba.metabolism.oxygenLevel
+
+        brainlyManeuverStart(sprite: thorax, metabolism: metabolism)
+    }
 
     @discardableResult
     static func spawn(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) -> Karamba {

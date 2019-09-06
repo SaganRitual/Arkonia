@@ -172,6 +172,12 @@ class Metabolism: EnergySourceProtocol, MetabolismProtocol {
 //        )
     }
 
+    func inhale() {
+        oxygenLevel = constrain(1, lo: 0, hi: 1)
+
+//        print("d", arkon.arkon.selectoid.fishNumber, arkon.arkon.metabolism.oxygenLevel)
+    }
+
     func parasitize(_ victim: Metabolism) {
         let spareCapacity = stomach.capacity - stomach.level
         let attemptToTakeThisMuch = spareCapacity / 0.75

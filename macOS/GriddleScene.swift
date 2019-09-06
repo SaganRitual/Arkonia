@@ -32,7 +32,13 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
     var arkonsPortal: SKSpriteNode!
     var griddle: Griddle!
     var hud: HUD!
-    let layers = [ArkoniaCentral.cSenseNeurons, 5, 5, 5, 5, ArkoniaCentral.cMotorNeurons]
+
+    let layers = [
+        ArkoniaCentral.cSenseNeurons, ArkoniaCentral.cSenseNeurons,
+        ArkoniaCentral.cSenseNeurons / 2, ArkoniaCentral.cSenseNeurons / 3,
+        ArkoniaCentral.cSenseNeurons / 4, ArkoniaCentral.cMotorNeurons
+    ]
+
     var netDisplay: NetDisplay?
     var netPortal: SKSpriteNode!
     var net9Portals = [SKSpriteNode]()
@@ -122,6 +128,7 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         let updateAction = SKAction.run { [weak self] in
             currentPopulation.data.text = String(World.shared.population)
+//            print("cp", currentPopulation.data.text!)
             highWaterPopulation.data.text = String(World.shared.maxPopulation)
 
             let portal = (self!.childNode(withName: "arkons_portal") as? SKSpriteNode)!
@@ -201,13 +208,12 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-        if tickCount >= 10 && tickCount <= 10  {
+        if tickCount >= 10 && tickCount < 50  {
             Stepper.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
         }
 
-//        arkonsPortal.children.compactMap({ return $0 as? Thorax }).forEach {
-//            let sprite = $0 as SKSpriteNode
-//            sprite.arkon.tick()
-//        }
+        arkonsPortal.children.compactMap({ $0.userData?[SpriteUserDataKey.stepper] as? Stepper }).forEach {
+            $0.realStep()
+        }
     }
 }

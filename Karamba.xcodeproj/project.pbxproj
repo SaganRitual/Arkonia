@@ -24,7 +24,6 @@
 		D402139822B85EA400ADF5B0 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D402139922B85EA400ADF5B0 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D402139A22B85EA400ADF5B0 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
-		D402139B22B85EA400ADF5B0 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D402139C22B85EA400ADF5B0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D402139F22B85EA400ADF5B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D40213A022B85EA400ADF5B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -88,7 +87,6 @@
 		D441D32822B2AB5000143CC5 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D441D32922B2AB5000143CC5 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D441D32A22B2AB5000143CC5 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
-		D441D32B22B2AB5000143CC5 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D441D32C22B2AB5000143CC5 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D441D32F22B2AB5000143CC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D441D33022B2AB5000143CC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -111,7 +109,6 @@
 		D457A00822B5C7A600963929 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D457A00922B5C7A600963929 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D457A00A22B5C7A600963929 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
-		D457A00B22B5C7A600963929 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D457A00C22B5C7A600963929 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D457A00F22B5C7A600963929 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D457A01022B5C7A600963929 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -133,7 +130,6 @@
 		D457A02B22B5FB8400963929 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D457A02C22B5FB8400963929 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D457A02D22B5FB8400963929 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
-		D457A02E22B5FB8400963929 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D457A02F22B5FB8400963929 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D457A03222B5FB8400963929 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D457A03322B5FB8400963929 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -179,7 +175,6 @@
 		D464BA5122C737260069623C /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D464BA5222C737260069623C /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
 		D464BA5322C737260069623C /* SenseTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */; };
-		D464BA5422C737260069623C /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D464BA5522C737260069623C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D464BA5822C737260069623C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -221,7 +216,6 @@
 		D480536822B14D3300FF8617 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D480536922B14D3300FF8617 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D480536A22B14D3300FF8617 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
-		D480536B22B14D3300FF8617 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D480536C22B14D3300FF8617 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D480536F22B14D3300FF8617 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D480537022B14D3300FF8617 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -238,7 +232,6 @@
 		D48286142298CC4800225057 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
 		D48286152298CC4800225057 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D48286162298CC4800225057 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
-		D48286172298CC4800225057 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D48286182298CC4800225057 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D482861B2298CC4800225057 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D482861C2298CC4800225057 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -258,7 +251,6 @@
 		D49042AD22AC6A2400E7369B /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D49042AE22AC6A2400E7369B /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D49042AF22AC6A2400E7369B /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
-		D49042B022AC6A2400E7369B /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D49042B122AC6A2400E7369B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D49042B422AC6A2400E7369B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D49042B522AC6A2400E7369B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -285,7 +277,6 @@
 		D4AD195B22AC4848009F3469 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D4AD195C22AC4848009F3469 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
 		D4AD195D22AC4848009F3469 /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
-		D4AD195E22AC4848009F3469 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D4AD195F22AC4848009F3469 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D4AD196222AC4848009F3469 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D4AD196322AC4848009F3469 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -343,7 +334,6 @@
 		D4EE560522BC1D530076D8A1 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
 		D4EE560622BC1D530076D8A1 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D4EE560722BC1D530076D8A1 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
-		D4EE560822BC1D530076D8A1 /* Maneuvers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83B229232C6006C619D /* Maneuvers.swift */; };
 		D4EE560922BC1D530076D8A1 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D4EE560C22BC1D530076D8A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D4EE560D22BC1D530076D8A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -424,7 +414,6 @@
 		D43EA813228FC77D006C619D /* NetDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43EA81C228FDCDC006C619D /* Arkon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkon.swift; sourceTree = "<group>"; };
 		D43EA81F22917CEA006C619D /* ReaderMonad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderMonad.swift; sourceTree = "<group>"; };
-		D43EA83B229232C6006C619D /* Maneuvers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Maneuvers.swift; sourceTree = "<group>"; };
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D441B99A229CFFA800FB7057 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
 		D441B9B422A0653F00FB7057 /* Metabolism.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metabolism.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -436,9 +425,6 @@
 		D461358A2288CEF800C9864E /* TheScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TheScene.sks; sourceTree = "<group>"; };
 		D464BA5F22C737260069623C /* Karamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D464BA6122C737CB0069623C /* KarambaScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KarambaScene.swift; sourceTree = "<group>"; };
-		D464BA6322C738F60069623C /* MannaTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MannaTest.swift; sourceTree = "<group>"; };
-		D464BA6422C739470069623C /* ManeuversTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManeuversTest.swift; sourceTree = "<group>"; };
-		D464BA6622C79B710069623C /* ArkonTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonTest.swift; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
 		D46B1D7322813E12003D711C /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
 		D46B1D8622816F58003D711C /* NetGraphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetGraphics.swift; sourceTree = "<group>"; };
@@ -677,7 +663,6 @@
 				D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */,
 				D4EBEE7222E148C9007C98A4 /* Griddle.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
-				D464BA6322C738F60069623C /* MannaTest.swift */,
 				D4A216B722C1610A00D92A1E /* Mutator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 				D43EA81F22917CEA006C619D /* ReaderMonad.swift */,
@@ -691,10 +676,7 @@
 			isa = PBXGroup;
 			children = (
 				D43EA81C228FDCDC006C619D /* Arkon.swift */,
-				D464BA6622C79B710069623C /* ArkonTest.swift */,
 				D42F379522E760140072E646 /* Karamba.swift */,
-				D43EA83B229232C6006C619D /* Maneuvers.swift */,
-				D464BA6422C739470069623C /* ManeuversTest.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D4A12BDD22E9D42100C15F59 /* NetSignal.swift */,
@@ -1722,7 +1704,6 @@
 				D402139922B85EA400ADF5B0 /* ColorGradient.swift in Sources */,
 				D402139A22B85EA400ADF5B0 /* Manna.swift in Sources */,
 				D47618B122BEE61800ADAA87 /* SenseTranslator.swift in Sources */,
-				D402139B22B85EA400ADF5B0 /* Maneuvers.swift in Sources */,
 				D402139C22B85EA400ADF5B0 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1804,7 +1785,6 @@
 				D441D32822B2AB5000143CC5 /* Protocols.swift in Sources */,
 				D441D32922B2AB5000143CC5 /* ColorGradient.swift in Sources */,
 				D441D32A22B2AB5000143CC5 /* Manna.swift in Sources */,
-				D441D32B22B2AB5000143CC5 /* Maneuvers.swift in Sources */,
 				D441D32C22B2AB5000143CC5 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1830,7 +1810,6 @@
 				D457A00822B5C7A600963929 /* Protocols.swift in Sources */,
 				D457A00922B5C7A600963929 /* ColorGradient.swift in Sources */,
 				D457A00A22B5C7A600963929 /* Manna.swift in Sources */,
-				D457A00B22B5C7A600963929 /* Maneuvers.swift in Sources */,
 				D457A00C22B5C7A600963929 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1856,7 +1835,6 @@
 				D457A02B22B5FB8400963929 /* Protocols.swift in Sources */,
 				D457A02C22B5FB8400963929 /* ColorGradient.swift in Sources */,
 				D457A02D22B5FB8400963929 /* Manna.swift in Sources */,
-				D457A02E22B5FB8400963929 /* Maneuvers.swift in Sources */,
 				D457A02F22B5FB8400963929 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1914,7 +1892,6 @@
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
 				D464BA5222C737260069623C /* Manna.swift in Sources */,
 				D464BA5322C737260069623C /* SenseTranslator.swift in Sources */,
-				D464BA5422C737260069623C /* Maneuvers.swift in Sources */,
 				D464BA5522C737260069623C /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1956,7 +1933,6 @@
 				D480536822B14D3300FF8617 /* Protocols.swift in Sources */,
 				D480536922B14D3300FF8617 /* ColorGradient.swift in Sources */,
 				D480536A22B14D3300FF8617 /* Manna.swift in Sources */,
-				D480536B22B14D3300FF8617 /* Maneuvers.swift in Sources */,
 				D480536C22B14D3300FF8617 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1976,7 +1952,6 @@
 				D48286142298CC4800225057 /* AppController.swift in Sources */,
 				D48286152298CC4800225057 /* NetGraphics.swift in Sources */,
 				D48286162298CC4800225057 /* Protocols.swift in Sources */,
-				D48286172298CC4800225057 /* Maneuvers.swift in Sources */,
 				D48286182298CC4800225057 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2002,7 +1977,6 @@
 				D49042AD22AC6A2400E7369B /* Protocols.swift in Sources */,
 				D49042AE22AC6A2400E7369B /* ColorGradient.swift in Sources */,
 				D49042AF22AC6A2400E7369B /* Manna.swift in Sources */,
-				D49042B022AC6A2400E7369B /* Maneuvers.swift in Sources */,
 				D49042B122AC6A2400E7369B /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2026,7 +2000,6 @@
 				D4AD195B22AC4848009F3469 /* Protocols.swift in Sources */,
 				D4AD195C22AC4848009F3469 /* ColorGradient.swift in Sources */,
 				D4AD195D22AC4848009F3469 /* Manna.swift in Sources */,
-				D4AD195E22AC4848009F3469 /* Maneuvers.swift in Sources */,
 				D4AD195F22AC4848009F3469 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2107,7 +2080,6 @@
 				D4EE560522BC1D530076D8A1 /* AppController.swift in Sources */,
 				D4EE560622BC1D530076D8A1 /* NetGraphics.swift in Sources */,
 				D4EE560722BC1D530076D8A1 /* Protocols.swift in Sources */,
-				D4EE560822BC1D530076D8A1 /* Maneuvers.swift in Sources */,
 				D4EE561B22BC981B0076D8A1 /* ArkoniaCentral.swift in Sources */,
 				D4EE560922BC1D530076D8A1 /* Extensions.swift in Sources */,
 				D4EE561A22BC96290076D8A1 /* Net.swift in Sources */,

@@ -3,6 +3,8 @@ import SpriteKit
 struct AKPoint: Hashable {
     let x: Int; let y: Int
 
+    static let zero = AKPoint(x: 0, y: 0)
+
     static func random(_ xRange: Range<Int>, _ yRange: Range<Int>) -> AKPoint {
         let xx = Int.random(in: xRange), yy = Int.random(in: yRange)
         return AKPoint(x: xx, y: yy)
@@ -27,8 +29,8 @@ class Gridlet {
 
     static func at(_ x: Int, _ y: Int) -> Gridlet {
         let p = AKPoint(x: x, y: y)
-//        print("p", p)
         let g = Griddle.gridlets[p]!
+//        print("p", p, g.gridPosition)
 
         return g
     }
@@ -124,8 +126,8 @@ class Griddle {
 
 //        print("w", d.wPortal * 2 / d.wSprite, d.hPortal * 2 / d.hSprite)
 
-        let shape = SKSpriteNode(color: .blue, size: CGSize(width: 100, height: 100))
-        portal.addChild(shape)
+//        let shape = SKSpriteNode(color: .blue, size: CGSize(width: 100, height: 100))
+//        portal.addChild(shape)
     }
 
     func placeGridlet(_ y: Int, _ yGrid: Int) {
