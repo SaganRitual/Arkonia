@@ -9,7 +9,7 @@ extension SKSpriteNode {
 
 class Manna {
 
-    static let cMorsels = 2500
+    static let cMorsels = 1500
     static let colorBlendMinimum: CGFloat = 0.25
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
     static let fullGrowthDurationSeconds: TimeInterval = 1.0

@@ -34,9 +34,9 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
     var hud: HUD!
 
     let layers = [
-        ArkoniaCentral.cSenseNeurons, ArkoniaCentral.cSenseNeurons,
-        ArkoniaCentral.cSenseNeurons / 2, ArkoniaCentral.cSenseNeurons / 3,
-        ArkoniaCentral.cSenseNeurons / 4, ArkoniaCentral.cMotorNeurons
+        ArkoniaCentral.cSenseNeurons, ArkoniaCentral.cSenseNeurons / 2,
+        ArkoniaCentral.cMotorNeurons, ArkoniaCentral.cMotorNeurons,
+        ArkoniaCentral.cMotorNeurons, ArkoniaCentral.cMotorNeurons
     ]
 
     var netDisplay: NetDisplay?
@@ -208,12 +208,13 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-        if tickCount >= 10 && tickCount < 50  {
+        let cProgenitors = 100
+        if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
             Stepper.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
         }
 
-        arkonsPortal.children.compactMap({ $0.userData?[SpriteUserDataKey.stepper] as? Stepper }).forEach {
-            $0.realStep()
-        }
+//        arkonsPortal.children.compactMap({ $0.userData?[SpriteUserDataKey.stepper] as? Stepper }).forEach {
+//            $0.netSignal.go()
+//        }
     }
 }

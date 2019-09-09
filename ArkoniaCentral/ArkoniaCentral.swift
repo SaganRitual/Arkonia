@@ -2,7 +2,7 @@ import SpriteKit
 
 enum ArkoniaCentral {
     static let cMotorNeurons = 8
-    static let cSenseNeurons = 29
+    static let cSenseNeurons = 30
 }
 
 extension SKSpriteNode {
@@ -20,7 +20,7 @@ extension SKSpriteNode {
         let wGrid = Griddle.dimensions.wGrid
         let hGrid = Griddle.dimensions.hGrid
 
-        let ak = AKPoint.random(-wGrid..<wGrid, -hGrid..<hGrid)
+        let ak = AKPoint.random((-wGrid + 1)..<wGrid, (-hGrid + 1)..<hGrid)
 
         let gridlet = Gridlet.at(ak.x, ak.y)
         let wScene = CGFloat(Griddle.dimensions.wSprite / 2)

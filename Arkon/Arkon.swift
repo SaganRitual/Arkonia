@@ -93,6 +93,8 @@ class Arkon {
 
         World.shared.population += 1
 //        print("wspu", World.shared.population)
+
+        isAlive = true
     }
 
     deinit {
@@ -103,12 +105,24 @@ class Arkon {
     }
 
     func apoptosize() {
-        spriteFactory.noseHangar.retireSprite(sprite.stepper.core.nose)
-        spriteFactory.arkonsHangar.retireSprite(sprite)
-//        print("a", selectoid.fishNumber)
-        sprite.stepper.sprite = nil
-        sprite.userData![SpriteUserDataKey.stepper] = nil
+        if isAlive == false { print("iaf", selectoid.fishNumber); return }
+        isAlive = false
 
+        guard let stepper = sprite.optionalStepper else { return }
+
+        let action = SKAction.run { [weak self] in
+            guard let myself = self else { return }
+
+            stepper.gridlet.contents = .nothing
+
+            myself.spriteFactory.noseHangar.retireSprite(stepper.core.nose)
+            myself.spriteFactory.arkonsHangar.retireSprite(myself.sprite)
+
+            stepper.sprite = nil
+            myself.sprite.userData![SpriteUserDataKey.stepper] = nil
+        }
+
+        sprite.run(action)
     }
 
     func tick() {

@@ -26,7 +26,9 @@ class Stepper {
 
     let core: Arkon
     var gridlet: Gridlet
+    var previousStep: Int
     let metabolism: Metabolism
+    var netSignal: StepperNetSignal
     weak var sprite: SKSpriteNode!
     var stepping = true
 
@@ -42,6 +44,7 @@ class Stepper {
         } while gridlet.contents != .nothing
 
         gridlet.contents = .arkon
+        previousStep = 8
         self.sprite = core.sprite// Arkon.spriteFactory!.arkonsHangar.makeSprite()
 
 //        Arkon.arkonsPortal!.addChild(sprite)
@@ -60,9 +63,12 @@ class Stepper {
 //        stepComplete(gridlet)
 
         metabolism = Metabolism()
+        netSignal = StepperNetSignal()
         sprite.userData![SpriteUserDataKey.stepper] = self
 
         stepping = false
+        netSignal.inject(self)
+        netSignal.go()
     }
 
 //    deinit {
@@ -90,24 +96,30 @@ class Stepper {
     func loadSenseData() -> [Double] {
         var sensoryInputs: [Double] = Stepper.gridInputs.map { step in
             let inputGridlet = step + gridlet.gridPosition
-            return Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) ?
-                    Gridlet.at(inputGridlet).contents.rawValue : 0
+
+            if Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) {
+                return Gridlet.at(inputGridlet).contents.rawValue
+            }
+
+            return 0
         }
 
         sensoryInputs.append(Double(metabolism.oxygenLevel))
 
-        let r = Double(sprite.position.radius / Arkon.arkonsPortal!.size.hypotenuse)
-        let theta = Double(sprite.position.theta / Arkon.arkonsPortal!.size.hypotenuse)
+        let xGrid = Double(gridlet.gridPosition.x)
+        let yGrid = Double(gridlet.gridPosition.y)
 
-        sensoryInputs.append(contentsOf: [r, theta])
+        sensoryInputs.append(contentsOf: [xGrid, yGrid])
 
         sensoryInputs.append(Double(metabolism.fungibleEnergyFullness))
+        sensoryInputs.append(Double(previousStep))
 
 //        print("si", core.selectoid.fishNumber, sensoryInputs)
         return sensoryInputs
     }
 
     func metabolize() -> Bool {
+        if !core.isAlive { return false }
 
         useEnergy()
 
@@ -117,7 +129,8 @@ class Stepper {
 
         guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
 //            print("ap", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
-            core.apoptosize()
+            let action = SKAction.run { [weak self] in self?.core.apoptosize() }
+            sprite.run(action)
             return false
         }
 
@@ -168,10 +181,13 @@ class Stepper {
     }
 
     func selectMoveTarget(_ sensoryInputs: [Double]) -> AKPoint {
-        let motorOutputs = core.net.getMotorOutputs(sensoryInputs)
-        let dMotorOutputs = self.getMotorDataAsDictionary(motorOutputs)
+        let motorOutputs: [Double] = core.net.getMotorOutputs(sensoryInputs)
+        let dMotorOutputs: [Int: Double] = self.getMotorDataAsDictionary(motorOutputs)
 
-        let order: [(Int, Double)] = dMotorOutputs.sorted { lhs, rhs in Double(lhs.1) > Double(rhs.1) }
+        let order: [(Int, Double)] = dMotorOutputs.sorted { lhs, rhs in
+            Double(lhs.1) > Double(rhs.1)
+        }
+
         let targetMove = order.first { entry in
             let targetShift = Stepper.moves[entry.0]
 //            print("ts", core.selectoid.fishNumber, targetShift)
@@ -191,8 +207,9 @@ class Stepper {
             return testGridlet.contents != .arkon
         }
 
-        guard let tm = targetMove else { return AKPoint(x: 0, y: 0) }
+        guard let tm = targetMove else { previousStep = 8; return AKPoint(x: 0, y: 0) }
 //        print("tm", core.selectoid.fishNumber, tm.0, tm.1, Stepper.moves[tm.0])
+        previousStep = tm.0
         return Stepper.moves[tm.0]
     }
 
@@ -200,39 +217,80 @@ class Stepper {
         stepping = false
     }
 
-    func realStep() {
-        if stepping { return }
-        stepping = true
+    enum Stage { case notSet, selfOk, stepperOk, metabolismOk, moveOk }
+    class StepperNetSignal {
+        var busy = false
+        weak var stepper: Stepper?
 
-        let waitAction = SKAction.wait(forDuration: 0.02)
-        var actions = [waitAction]
-
-        defer {
-            let sequence = SKAction.sequence(actions)
-            sprite?.run(sequence) { [weak self] in self?.realStepComplete() }
+        func inject(_ stepper: Stepper) {
+            self.stepper = stepper
         }
 
-        if !metabolize() { return }
-        tick()  // Jesu Christi this is ugly
+        //swiftmint:disable function_body_length
+        func go() {
+            if busy { return }
 
-        let shiftTarget = selectMoveTarget(loadSenseData())
-        if shiftTarget == AKPoint.zero { return }
+//            busy = true
 
-        let newGridlet = Gridlet.at(self.gridlet.gridPosition + shiftTarget)
+            var shiftTarget = AKPoint.zero
 
-        let stepAction = SKAction.move(to: newGridlet.scenePosition, duration: 0.1)
-        actions.append(stepAction)
+            guard let st = stepper else { return }
+            guard let sp = st.sprite else { return }
 
-//        print("rsng", shiftTarget, newGridlet.gridPosition)
+            let goAction = SKAction.run({ [weak self] in
 
-        let contentsAction = SKAction.run {
-            if newGridlet.contents == .manna { self.touchManna(newGridlet.sprite!.manna) }
+//                print("d1", st.core.selectoid.fishNumber, Display.displayCycle)
+                guard let myself = self else {
+//                    print("x1", st.core.selectoid.fishNumber)
+                    return }
 
-            self.gridlet.contents = .nothing
-            newGridlet.contents = .arkon
-            self.gridlet = newGridlet
+                shiftTarget = AKPoint.zero
+
+//                print("d1a", st.core.selectoid.fishNumber, Display.displayCycle)
+                guard let st = myself.stepper else {
+//                    print("x1a")
+                    return }
+
+//                print("d1b", st.core.selectoid.fishNumber, Display.displayCycle)
+                if !st.metabolize() {
+//                    print("x1b", st.core.selectoid.fishNumber)
+                    return }
+
+                st.metabolism.tick()  // Jesu Christi this is ugly
+
+                shiftTarget = st.selectMoveTarget(st.loadSenseData())
+
+//                print("d1c", st.core.selectoid.fishNumber, Display.displayCycle)
+                if shiftTarget == AKPoint.zero {
+//                    print("x1c", st.core.selectoid.fishNumber)
+                    return }
+
+                let newGridlet = Gridlet.at(st.gridlet.gridPosition + shiftTarget)
+
+//                let goWait = SKAction.run {} //wait(forDuration: 0.001)
+                let goStep = SKAction.move(to: newGridlet.scenePosition, duration: 0.05)
+
+                let goContents = SKAction.run {
+//                    print("d2", st.core.selectoid.fishNumber, Display.displayCycle)
+                    if newGridlet.contents == .manna { st.touchManna(newGridlet.sprite!.manna) }
+
+                    st.gridlet.contents = .nothing
+                    newGridlet.contents = .arkon
+                    st.gridlet = newGridlet
+                }
+
+                let goSequence = SKAction.sequence([goStep, goContents])
+                sp.run(goSequence) {
+//                    print("d3", st.core.selectoid.fishNumber, Display.displayCycle)
+                    myself.busy = false
+                    myself.go()
+                }
+
+            }, queue: st.core.netQueue)
+
+            sp.run(goAction)
         }
-        actions.append(contentsAction)
+        //swiftmint:enable function_body_length
     }
 }
 
@@ -241,12 +299,10 @@ extension Stepper {
     @discardableResult
     static func spawn(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) -> Stepper {
 
-//        print("spawn")
         let newStepper = Stepper(
             parentBiases: parentBiases, parentWeights: parentWeights, layers: layers
         )
 
-//        print("ns", newStepper.gridlet.gridPosition, newStepper.gridlet.scenePosition)
         return newStepper
     }
 

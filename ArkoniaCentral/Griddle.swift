@@ -157,14 +157,23 @@ class Griddle {
 
             default:
                 let p = AKPoint(x:  xGrid, y:  yGrid)
-                let q = AKPoint(x: -xGrid, y:  yGrid)
-                let r = AKPoint(x:  xGrid, y: -yGrid)
-                let s = AKPoint(x: -xGrid, y: -yGrid)
-
                 Griddle.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint(x:  x, y:  y))
-                Griddle.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: -x, y:  y))
-                Griddle.gridlets[r] = Gridlet(gridPosition: r, scenePosition: CGPoint(x:  x, y: -y))
-                Griddle.gridlets[s] = Gridlet(gridPosition: s, scenePosition: CGPoint(x: -x, y: -y))
+
+                if xGrid < d.wGrid {
+                    let q = AKPoint(x: -xGrid, y:  yGrid)
+                    Griddle.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: -x, y:  y))
+                }
+
+                if yGrid < d.hGrid {
+                    let r = AKPoint(x:  xGrid, y: -yGrid)
+                    Griddle.gridlets[r] = Gridlet(gridPosition: r, scenePosition: CGPoint(x:  x, y: -y))
+                }
+
+                if xGrid < d.wGrid && yGrid < d.hGrid {
+                    let s = AKPoint(x: -xGrid, y: -yGrid)
+
+                    Griddle.gridlets[s] = Gridlet(gridPosition: s, scenePosition: CGPoint(x: -x, y: -y))
+                }
             }
         }
     }
