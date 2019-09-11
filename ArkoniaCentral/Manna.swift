@@ -9,7 +9,7 @@ extension SKSpriteNode {
 
 class Manna {
 
-    static let cMorsels = 1500
+    static let cMorsels = 2500
     static let colorBlendMinimum: CGFloat = 0.25
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
     static let fullGrowthDurationSeconds: TimeInterval = 1.0
@@ -20,11 +20,11 @@ class Manna {
     let sprite: SKSpriteNode
 
     var energyContentInJoules: CGFloat {
-        let fudgeFactor: CGFloat = 1000
+        let fudgeFactor: CGFloat = 500
         var f = fudgeFactor * (sprite.colorBlendFactor - Manna.colorBlendMinimum)
         f /= Manna.colorBlendRangeWidth
         f *= Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
-        return f// * CGFloat(World.shared.foodValue)
+        return f * CGFloat(World.shared.foodValue)
     }
 
     init(_ sprite: SKSpriteNode) { self.sprite = sprite }

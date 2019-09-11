@@ -26,7 +26,7 @@ class Stepper {
 
     let core: Arkon
     var gridlet: Gridlet
-    var previousStep: Int
+    var previousShift = AKPoint.zero
     let metabolism: Metabolism
     var netSignal: StepperNetSignal
     weak var sprite: SKSpriteNode!
@@ -44,7 +44,6 @@ class Stepper {
         } while gridlet.contents != .nothing
 
         gridlet.contents = .arkon
-        previousStep = 8
         self.sprite = core.sprite// Arkon.spriteFactory!.arkonsHangar.makeSprite()
 
 //        Arkon.arkonsPortal!.addChild(sprite)
@@ -112,7 +111,12 @@ class Stepper {
         sensoryInputs.append(contentsOf: [xGrid, yGrid])
 
         sensoryInputs.append(Double(metabolism.fungibleEnergyFullness))
-        sensoryInputs.append(Double(previousStep))
+
+        let xShift = Double(previousShift.x)
+        let yShift = Double(previousShift.y)
+
+        sensoryInputs.append(Double(xShift))
+        sensoryInputs.append(Double(yShift))
 
 //        print("si", core.selectoid.fishNumber, sensoryInputs)
         return sensoryInputs
@@ -188,8 +192,9 @@ class Stepper {
             Double(lhs.1) > Double(rhs.1)
         }
 
+        var targetShift = AKPoint.zero
         let targetMove = order.first { entry in
-            let targetShift = Stepper.moves[entry.0]
+            targetShift = Stepper.moves[entry.0]
 //            print("ts", core.selectoid.fishNumber, targetShift)
             if abs(targetShift.x) > 1 || abs(targetShift.y) > 1 { return false }
 
@@ -207,9 +212,9 @@ class Stepper {
             return testGridlet.contents != .arkon
         }
 
-        guard let tm = targetMove else { previousStep = 8; return AKPoint(x: 0, y: 0) }
+        guard let tm = targetMove else { previousShift = AKPoint.zero; return AKPoint(x: 0, y: 0) }
 //        print("tm", core.selectoid.fishNumber, tm.0, tm.1, Stepper.moves[tm.0])
-        previousStep = tm.0
+        previousShift = targetShift * -1
         return Stepper.moves[tm.0]
     }
 
