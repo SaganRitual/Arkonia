@@ -4,7 +4,7 @@ import SpriteKit
 class ReportFactory {
     private let prototype: Report
 
-    init(hud: HUD, scene: KarambaScene) {
+    init(hud: HUD) {
         prototype = (hud.getPrototype(.report) as? Report)!
         hud.releasePrototype(prototype)
     }

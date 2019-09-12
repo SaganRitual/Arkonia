@@ -17,7 +17,7 @@ struct Display {
     static var displayCycle: DisplayCycle = .limbo
 }
 
-class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
+class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
     private var tickCount = 0
 
@@ -30,8 +30,15 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
     }
 
     var arkonsPortal: SKSpriteNode!
+    var griddle: Griddle!
     var hud: HUD!
-    let layers = [ArkoniaCentral.cSenseNeurons, 5, 5, 5, 5, ArkoniaCentral.cMotorNeurons]
+
+    let layers = [
+        ArkoniaCentral.cSenseNeurons, ArkoniaCentral.cSenseNeurons / 2,
+        ArkoniaCentral.cMotorNeurons, ArkoniaCentral.cMotorNeurons,
+        ArkoniaCentral.cMotorNeurons, ArkoniaCentral.cMotorNeurons
+    ]
+
     var netDisplay: NetDisplay?
     var netPortal: SKSpriteNode!
     var net9Portals = [SKSpriteNode]()
@@ -58,21 +65,21 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
         hud.placeMonitor(reportArkonia, dashboard: 0, quadrant: 1)
 
         reportMisc.start()
-//        reportArkonia.start()
+        //        reportArkonia.start()
     }
 
     override func didMove(to view: SKView) {
         World.shared.currentTime = 0
 
-        physicsWorld.gravity = CGVector.zero
+//        physicsWorld.gravity = CGVector.zero
 
         arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
 
-        // Figure out where the 475 comes from
-        let origin = self.frame.origin + CGPoint(x: 480, y: 0)
-        let re = CGRect(origin: origin, size: arkonsPortal.frame.size)
-        arkonsPortal.physicsBody = SKPhysicsBody(edgeLoopFrom: re)
+//         Figure out where the 475 comes from
+//        let origin = self.frame.origin + CGPoint(x: 480, y: 0)
+//        let re = CGRect(origin: origin, size: arkonsPortal.frame.size)
+//        arkonsPortal.physicsBody = SKPhysicsBody(edgeLoopFrom: re)
 
         enumerateChildNodes(withName: "net_9portal") { node_, _ in
             let node = (node_ as? SKSpriteNode)!
@@ -81,27 +88,28 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         let spriteFactory = SpriteFactory(
             scene: self,
-            thoraxFactory: SpriteFactory.makeThorax(texture:),
-            noseFactory: SpriteFactory.makeNose(texture:)
+            thoraxFactory: SpriteFactory.makeSprite(texture:),
+            noseFactory: SpriteFactory.makeSprite(texture:)
         )
 
         spriteFactory.postInit(net9Portals)
 
-        Manna.plantAllManna(background: arkonsPortal, spriteFactory: spriteFactory)
-
         Arkon.inject(self, layers, arkonsPortal, spriteFactory)
 
-        physicsWorld.contactDelegate = World.physicsCoordinator
+        griddle = Griddle(arkonsPortal, spriteFactory)
+
+        Manna.plantAllManna(background: arkonsPortal, spriteFactory: spriteFactory)
+
         scene!.delegate = self
 
         hud = HUD(scene: self)
         buildReports()
-//        buildBarCharts()
-//        buildLineGraphs()
+        //        buildBarCharts()
+        //        buildLineGraphs()
 
         startCensus()
         startClock()
-//        startGenes()
+        //        startGenes()
         startOffspring()
     }
 
@@ -120,13 +128,13 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         let updateAction = SKAction.run { [weak self] in
             currentPopulation.data.text = String(World.shared.population)
+//            print("cp", currentPopulation.data.text!)
             highWaterPopulation.data.text = String(World.shared.maxPopulation)
 
             let portal = (self!.childNode(withName: "arkons_portal") as? SKSpriteNode)!
 
             let liveArkonsAges: [TimeInterval] = portal.children.compactMap {
-                guard let k = $0 as? SKSpriteNode else { return nil }
-                return k.optionalKaramba?.core.age ?? TimeInterval(0)
+                return ($0 as? SKSpriteNode)?.optionalStepper?.core.age
             }
 
             World.shared.greatestLiveAge = liveArkonsAges.max() ?? TimeInterval(0)
@@ -153,12 +161,12 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
         clockFormatter.zeroFormattingBehavior = .pad
 
         let updateClockAction = SKAction.run {
-//            guard KarambaScene.isReadyForDisplay else { return }
+            //            guard KarambaScene.isReadyForDisplay else { return }
             clockReport.data.text = clockFormatter.string(from: World.shared.gameAge)
         }
 
         let updateFoodValueAction = SKAction.run {
-//            guard KarambaScene.isReadyForDisplay else { return }
+            //            guard KarambaScene.isReadyForDisplay else { return }
             let percentage = (1 - World.shared.entropy) * 100
             foodValueReport.data.text = String(format: "%.2f", percentage)
         }
@@ -178,7 +186,7 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
         let offspringReport = reportMisc.reportoid(3)
 
         let updateCOffspringAction = SKAction.run {
-//            guard KarambaScene.isReadyForDisplay else { return }
+            //            guard KarambaScene.isReadyForDisplay else { return }
             offspringReport.data.text = String(format: "%d", World.shared.maxCOffspring)
         }
 
@@ -200,13 +208,13 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-        if tickCount >= 10 && tickCount <= 50  {
-            Karamba.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
+        let cProgenitors = 100
+        if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
+            Stepper.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
         }
 
-        arkonsPortal.children.compactMap({ return $0 as? Thorax }).forEach {
-            let sprite = $0 as SKSpriteNode
-            sprite.karamba.core.tick()
-        }
+//        arkonsPortal.children.compactMap({ $0.userData?[SpriteUserDataKey.stepper] as? Stepper }).forEach {
+//            $0.netSignal.go()
+//        }
     }
 }

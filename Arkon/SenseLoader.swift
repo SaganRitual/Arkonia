@@ -6,14 +6,14 @@ class SenseLoader {
 
     var aVelocity: CGFloat!
     let portal: SKSpriteNode
-    weak var arkon: Arkon!
+    weak var arkon: Karamba!
     var vectorToOrigin: CGVector!
     var velocity: CGVector!
     var vectorToClosestArkon: CGVector?
     var vectorToClosestManna: CGVector?
     var zRotation: CGFloat = 0
 
-    init(_ arkon: Arkon) {
+    init(_ arkon: Karamba) {
         let sprite = arkon.sprite
         self.portal = SenseLoader.portal!
 
@@ -56,30 +56,11 @@ class SenseLoader {
     }
 
     func loadSenseData() -> [Double] {
-        let foo = [Double](arrayLiteral:
+        let sensoryInputs: [Double] = Stepper.moves.map { step in
+            let inputGridlet = step + gridlet.gridPosition
+            return Gridlet.at(inputGridlet).contents.rawValue
+        }
 
-            Double(aVelocity),
-            Double(halfCapCheck(arkon.metabolism.oxygenLevel)),
-
-            Double(velocity.magnitude),
-            Double(velocity.theta),
-//            Double(fullCapCheck(velocity.theta)),
-
-            Double(fullCapCheck(vectorToOrigin.magnitude)),
-            Double(fullCapCheck(vectorToOrigin.theta)),
-
-            Double(halfCapCheck(countSensedManna() ?? 0)),
-            Double(fullCapCheck(vectorToClosestManna?.magnitude ?? 1)),
-            Double(fullCapCheck(vectorToClosestManna?.theta ?? 0)),
-
-            Double(zRotation),
-            Double(fullCapCheck(vectorToClosestArkon?.magnitude ?? 1)),
-            Double(fullCapCheck(vectorToClosestArkon?.theta ?? 0))
-
-        )
-
-//        print("foo", foo)
-
-        return foo
+        return sensoryInputs
     }
 }
