@@ -134,7 +134,7 @@ class Stepper {
         guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
 //            print("ap", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
             let action = SKAction.run { [weak self] in self?.core.apoptosize() }
-            sprite.run(action)
+            sprite?.run(action)
             return false
         }
 
@@ -173,13 +173,13 @@ class Stepper {
         }
 
         let four: CGFloat = 4
-        sprite.color = ColorGradient.makeColorMixRedBlue(
+        sprite?.color = ColorGradient.makeColorMixRedBlue(
             baseColor: baseColor,
             redPercentage: metabolism.spawnEnergyFullness,
             bluePercentage: max((four - CGFloat(core.age)) / four, 0.0)
         )
 
-        sprite.colorBlendFactor = metabolism.oxygenLevel
+        sprite?.colorBlendFactor = metabolism.oxygenLevel
 
         return true
     }
@@ -202,7 +202,7 @@ class Stepper {
             let targetGridPosition = targetShift + gridlet.gridPosition
             if !Gridlet.isOnGrid(targetGridPosition.x, targetGridPosition.y) { return false }
 
-            let testGridlet = Gridlet.at(targetGridPosition)
+//            let testGridlet = Gridlet.at(targetGridPosition)
 
 //            print(
 //                "tg", core.selectoid.fishNumber, gridlet.gridPosition,
@@ -210,7 +210,7 @@ class Stepper {
 //                self.gridlet.contents, testGridlet.contents
 //            )
 
-            return testGridlet.contents != .arkon
+            return true
         }
 
         guard let tm = targetMove else { previousShift = AKPoint.zero; return AKPoint(x: 0, y: 0) }
