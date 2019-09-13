@@ -208,7 +208,7 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-        let cProgenitors = 300
+        let cProgenitors = 100
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
             Stepper.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
         }

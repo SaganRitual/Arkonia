@@ -93,24 +93,48 @@ class Stepper {
     }
 
     func loadSenseData() -> [Double] {
-        var sensoryInputs: [Double] = Stepper.gridInputs.map { step in
+        let sensoryInputs_: [(Double, Double)] = Stepper.gridInputs.map { step in
+
             let inputGridlet = step + gridlet.gridPosition
 
             if Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) {
-                return Gridlet.at(inputGridlet).contents.rawValue
+                let targetGridlet = Gridlet.at(inputGridlet)
+
+                let contents = Gridlet.at(inputGridlet).contents
+                let rvContents = contents.rawValue
+                let nutrition: Double
+                switch contents {
+                case .arkon:
+                    nutrition = Double(targetGridlet.sprite?.stepper.metabolism.energyFullness ?? 0)
+
+                case .manna:
+                    nutrition = Double(targetGridlet.sprite?.manna.energyContentInJoules ?? 0)
+
+                case .nothing:
+                    nutrition = 0
+                }
+
+                return (rvContents, nutrition)
             }
 
-            return 0
+            return (0, 0)
         }
 
-        sensoryInputs.append(1.0)//Double(metabolism.oxygenLevel))
+        var (sensoryInputs, nutritionses) = sensoryInputs_.reduce(into: ([Double](), [Double]())) {
+            $0.0.append($1.0)
+            $0.1.append($1.1)
+        }
+
+        sensoryInputs.append(contentsOf: nutritionses)
+
+//        sensoryInputs.append(1.0)//Double(metabolism.oxygenLevel))
 
         let xGrid = Double(gridlet.gridPosition.x)
         let yGrid = Double(gridlet.gridPosition.y)
 
         sensoryInputs.append(contentsOf: [xGrid, yGrid])
 
-        sensoryInputs.append(1.0)//Double(metabolism.fungibleEnergyFullness))
+//        sensoryInputs.append(1.0)//Double(metabolism.fungibleEnergyFullness))
 
         let xShift = Double(previousShift.x)
         let yShift = Double(previousShift.y)
@@ -347,9 +371,12 @@ extension Stepper {
     }
 
     func touchArkon(_ victimStepper: Stepper) {
-        if metabolism.mass > (victimStepper.metabolism.mass * 1.25) {
-            metabolism.parasitize(victimStepper.metabolism)
+        if self.metabolism.mass > (victimStepper.metabolism.mass * 1.25) {
+            self.metabolism.parasitize(victimStepper.metabolism)
             victimStepper.core.apoptosize()
+        } else {
+            victimStepper.metabolism.parasitize(self.metabolism)
+            self.core.apoptosize()
         }
     }
 
