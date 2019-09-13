@@ -195,6 +195,7 @@ class Stepper {
         var targetShift = AKPoint.zero
         let targetMove = order.first { entry in
             targetShift = Stepper.moves[entry.0]
+            if targetShift == previousShift { return false }
 //            print("ts", core.selectoid.fishNumber, targetShift)
             if abs(targetShift.x) > 1 || abs(targetShift.y) > 1 { return false }
 
@@ -295,11 +296,10 @@ class Stepper {
 
         func touchFood(eater: Stepper, foodLocation: Gridlet) {
 
-            let userDataKey: SpriteUserDataKey
+            var userDataKey = SpriteUserDataKey.karamba
 
             switch foodLocation.contents {
             case .arkon:
-                print("ta", foodLocation.contents, terminator: " ")
                 userDataKey = .stepper
 
                 if let otherSprite = foodLocation.sprite,
@@ -307,25 +307,21 @@ class Stepper {
                     let otherAny = otherUserData[userDataKey],
                     let otherStepper = otherAny as? Stepper
                 {
-                    print("at")
                     eater.touchArkon(otherStepper)
                 }
 
             case .manna:
-                print("tm", foodLocation.contents, terminator: " ")
                 userDataKey = .manna
 
                 if let otherSprite = foodLocation.sprite,
                     let otherUserData = otherSprite.userData,
-                    let otherAny = otherUserData[SpriteUserDataKey.manna],
+                    let otherAny = otherUserData[userDataKey],
                     let manna = otherAny as? Manna
                 {
-                    print("mt")
                     eater.touchManna(manna)
                 }
 
-            case .nothing:
-                userDataKey = .karamba
+            case .nothing: break
             }
 
         }
@@ -351,12 +347,9 @@ extension Stepper {
     }
 
     func touchArkon(_ victimStepper: Stepper) {
-        if metabolism.mass > victimStepper.metabolism.mass {
+        if metabolism.mass > (victimStepper.metabolism.mass * 1.25) {
             metabolism.parasitize(victimStepper.metabolism)
-            print("death!")
             victimStepper.core.apoptosize()
-        } else {
-            print("not")
         }
     }
 

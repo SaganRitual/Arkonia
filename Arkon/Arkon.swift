@@ -119,7 +119,9 @@ class Arkon {
             myself.spriteFactory.arkonsHangar.retireSprite(myself.sprite)
 
             stepper.sprite = nil
-            myself.sprite.userData![SpriteUserDataKey.stepper] = nil
+
+            guard let ud = myself.sprite.userData else { return }
+            ud[SpriteUserDataKey.stepper] = nil
         }
 
         sprite.run(action)
