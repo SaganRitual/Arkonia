@@ -16,6 +16,10 @@ class Manna {
     static let growthRateGranularitySeconds: TimeInterval = 0.1
     static let growthRateJoulesPerSecond: CGFloat = 1000
 
+    static var replantQueue = DispatchQueue(
+        label: "arkonia.manna.replant.queue", qos: .background
+    )
+
     var isCaptured = false
     let sprite: SKSpriteNode
 
@@ -54,20 +58,24 @@ extension Manna {
         let fadeOut = SKAction.fadeOut(withDuration: 0.001)
         let wait = getWaitAction()
 
-        let replant = SKAction.run {
-            var rp: (Gridlet, CGPoint)
+        let replant = SKAction.run({
+            var rp: (Gridlet, CGPoint)?
+
             repeat {
                 rp = background.getRandomPoint()
-            } while rp.0.contents != .nothing
+            } while rp!.0.contents != .nothing
 
-            plantSingleManna(position: rp, sprite: sprite)
+            plantSingleManna(position: rp!, sprite: sprite)
             sprite.manna.isCaptured = false
-        }
 
-        let fadeIn = SKAction.fadeIn(withDuration: 0.001)
-        let rebloom = getColorAction()
+            let fadeIn = SKAction.fadeIn(withDuration: 0.001)
+            let rebloom = getColorAction()
+            let sequence = SKAction.sequence([fadeIn, rebloom])
+            sprite.run(sequence)
 
-        return SKAction.sequence([fadeOut, wait, replant, fadeIn, rebloom])
+        }, queue: Manna.replantQueue)
+
+        return SKAction.sequence([fadeOut, wait, replant])
     }
 
     static func getBeEatenAction(sprite: SKSpriteNode) -> SKAction {

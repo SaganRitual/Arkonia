@@ -31,7 +31,12 @@ class KarambaScene: SKScene, ClockProtocol, SKSceneDelegate {
 
     var arkonsPortal: SKSpriteNode!
     var hud: HUD!
-    let layers = [ArkoniaCentral.cSenseNeurons, 5, 5, 5, 5, ArkoniaCentral.cMotorNeurons]
+
+    let layers = [
+        ArkoniaCentral.cSenseNeurons, ArkoniaCentral.cMotorNeurons, ArkoniaCentral.cMotorNeurons,
+        ArkoniaCentral.cMotorNeurons, ArkoniaCentral.cMotorNeurons, ArkoniaCentral.cMotorNeurons
+    ]
+
     var netDisplay: NetDisplay?
     var netPortal: SKSpriteNode!
     var net9Portals = [SKSpriteNode]()
