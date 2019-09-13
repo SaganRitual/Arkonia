@@ -1,15 +1,15 @@
 import Foundation
 import SpriteKit
 
-extension Arkon {
-    enum CombatStatus { case losing(Arkon), surviving, winning(Arkon)  }
+extension Karamba {
+    enum CombatStatus { case losing(Karamba), surviving, winning(Karamba)  }
     enum HerbivoreStatus { case goingHungry, grazing }
 
     func combat() -> CombatStatus {
         let contactedArkons = senseLoader.getContactedArkons()
 
         guard let ca = contactedArkons, ca.count == 1,
-            let opponent = (ca.first?.node as? SKSpriteNode)?.arkon,
+            let opponent = (ca.first?.node as? SKSpriteNode)?.karamba,
             let oca = opponent.senseLoader.getContactedArkons(), oca.count <= 1
             else { return .surviving }
 
@@ -27,8 +27,8 @@ extension Arkon {
 
     func response() -> [Double] {
         assert(Display.displayCycle == .actions)
-        guard isAlive else { return [] }
-        return net.getMotorOutputs(sensoryInputs)
+        guard core.isAlive else { return [] }
+        return core.net.getMotorOutputs(core.sensoryInputs)
     }
 
     func stimulus() -> [Double] {

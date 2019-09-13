@@ -9,7 +9,7 @@ extension SKSpriteNode {
 
 class Manna {
 
-    static let cMorsels = 1500
+    static let cMorsels = 2500
     static let colorBlendMinimum: CGFloat = 0.25
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
     static let fullGrowthDurationSeconds: TimeInterval = 1.0
@@ -20,11 +20,11 @@ class Manna {
     let sprite: SKSpriteNode
 
     var energyContentInJoules: CGFloat {
-        let fudgeFactor: CGFloat = 1
+        let fudgeFactor: CGFloat = 500
         var f = fudgeFactor * (sprite.colorBlendFactor - Manna.colorBlendMinimum)
         f /= Manna.colorBlendRangeWidth
         f *= Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
-        return f// * CGFloat(World.shared.foodValue)
+        return f * CGFloat(World.shared.foodValue)
     }
 
     init(_ sprite: SKSpriteNode) { self.sprite = sprite }
@@ -36,25 +36,38 @@ class Manna {
 }
 
 extension Manna {
+    static func plantSingleManna(position: (Gridlet, CGPoint), sprite: SKSpriteNode) {
+
+        let gridlet = position.0
+        gridlet.contents = .manna
+        gridlet.sprite = sprite
+
+        sprite.position = position.1
+//        print("psm", gridlet.gridPosition, gridlet.scenePosition, sprite.position)
+    }
+
     static func triggerDeathCycle(sprite: SKSpriteNode, background: SKSpriteNode) -> SKAction {
         if sprite.manna.isCaptured { return SKAction.run {} }
 
         sprite.manna.isCaptured = true
 
-        let unPhysics = SKAction.run { sprite.physicsBody!.isDynamic = false }
         let fadeOut = SKAction.fadeOut(withDuration: 0.001)
         let wait = getWaitAction()
 
         let replant = SKAction.run {
-            sprite.position = background.getRandomPoint()
-            sprite.physicsBody!.isDynamic = true
+            var rp: (Gridlet, CGPoint)
+            repeat {
+                rp = background.getRandomPoint()
+            } while rp.0.contents != .nothing
+
+            plantSingleManna(position: rp, sprite: sprite)
             sprite.manna.isCaptured = false
         }
 
         let fadeIn = SKAction.fadeIn(withDuration: 0.001)
         let rebloom = getColorAction()
 
-        return SKAction.sequence([unPhysics, fadeOut, wait, replant, fadeIn, rebloom])
+        return SKAction.sequence([fadeOut, wait, replant, fadeIn, rebloom])
     }
 
     static func getBeEatenAction(sprite: SKSpriteNode) -> SKAction {
@@ -72,32 +85,31 @@ extension Manna {
 
     static func getWaitAction() -> SKAction { return SKAction.wait(forDuration: 1.0) }
 
-    static func getReplantAction(sprite: SKSpriteNode, background: SKSpriteNode) -> SKAction {
-        return SKAction.run {
-            sprite.position = background.getRandomPoint()
-            background.addChild(sprite)
-        }
-    }
-
     static func plantAllManna(background: SKSpriteNode, spriteFactory: SpriteFactory) {
         for ss in 0..<Manna.cMorsels {
             let sprite = spriteFactory.mannaHangar.makeSprite()
             let manna = Manna(sprite)
 
             sprite.userData = [SpriteUserDataKey.manna: manna]
-            sprite.position = background.getRandomPoint()
+
+            var rp: (Gridlet, CGPoint)
+            repeat {
+                rp = background.getRandomPoint()
+            } while rp.0.contents != .nothing
+
+            plantSingleManna(position: rp, sprite: sprite)
 
             background.addChild(sprite)
 
-            sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
-            sprite.physicsBody!.mass = 1
+//            sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
+//            sprite.physicsBody!.mass = 1
             sprite.setScale(0.1)
             sprite.color = .orange
             sprite.colorBlendFactor = Manna.colorBlendMinimum
 
-            sprite.physicsBody!.categoryBitMask = PhysicsBitmask.mannaBody.rawValue
-            sprite.physicsBody!.collisionBitMask = 0
-            sprite.physicsBody!.contactTestBitMask = 0
+//            sprite.physicsBody!.categoryBitMask = PhysicsBitmask.mannaBody.rawValue
+//            sprite.physicsBody!.collisionBitMask = 0
+//            sprite.physicsBody!.contactTestBitMask = 0
 
             let lifetimeAction = SKAction.wait(forDuration: TimeInterval(ss * 2 + 10))
             let killAction = SKAction.removeFromParent()

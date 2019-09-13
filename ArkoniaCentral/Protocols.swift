@@ -4,36 +4,6 @@ protocol ClockProtocol {
     func getCurrentTime() -> TimeInterval
 }
 
-protocol ContactCoordinatorDelegate: class {
-    func pushContactedBodies(_ contactedBodies: [SKPhysicsBody])
-}
-
-protocol ContactDetectorProtocol {
-    var contactedBodies: [SKPhysicsBody]? { get set }
-    var contactResponder: ContactResponseProtocol? { get set }
-    var isReadyForPhysics: Bool { get set }
-    var sensedBodies: [SKPhysicsBody]? { get set }
-    var senseResponder: SenseResponseProtocol? { get set }
-
-    func pushContactedBodies(_ contactedBodies: [SKPhysicsBody])
-    func pushSensedBodies(_ sensedBodies: [SKPhysicsBody])
-}
-
-extension ContactDetectorProtocol {
-    var isReadyForPhysics: Bool {
-        get { return false }
-
-        // swiftlint:disable unused_setter_value
-        // I think swiftlint should be smarter than this
-        set { assert(false, "no default implementation") }
-        // swiftlint:enable unused_setter_value
-    }
-}
-
-protocol ContactResponseProtocol {
-    func respond(_ contactedBodies: [SKPhysicsBody])
-}
-
 protocol EnergyPacketProtocol {
     var energyContent: CGFloat { get }
     var mass: CGFloat { get }
@@ -54,10 +24,6 @@ struct GridPoint {
     let y: Int
 }
 
-protocol HasContactDetector {
-    var contactDetector: ContactDetectorProtocol? { get }
-}
-
 enum LayerRole { case senseLayer, hiddenLayer, motorLayer }
 
 protocol Massive: class {
@@ -72,10 +38,6 @@ protocol NetDisplayGridProtocol {
 }
 
 typealias FactoryFunction = (SKTexture) -> SKSpriteNode
-
-protocol SenseResponseProtocol {
-    func respond(_ contactedBodies: [SKPhysicsBody])
-}
 
 protocol SpriteHangarProtocol {
     func makeSprite() -> SKSpriteNode

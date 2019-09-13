@@ -2,7 +2,6 @@ import Foundation
 
 class World {
     static let mutator = Mutator()
-    static let physicsCoordinator = ContactCoordinator()
     static var shared = World()
 
     var population = 0 { willSet { if newValue > maxPopulation { maxPopulation = newValue } } }
