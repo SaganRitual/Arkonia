@@ -28,7 +28,7 @@ class Stepper {
     var gridlet: Gridlet
     var previousShift = AKPoint.zero
     let metabolism: Metabolism
-    var netSignal: StepperNetSignal
+    var netSignal: StepperNetSignal?
     weak var sprite: SKSpriteNode!
     var stepping = true
 
@@ -66,13 +66,13 @@ class Stepper {
         sprite.userData![SpriteUserDataKey.stepper] = self
 
         stepping = false
-        netSignal.inject(self)
-        netSignal.go()
+        netSignal!.inject(self)
+        netSignal!.go()
     }
 
-//    deinit {
-//        print("Stepper deinit")
-//    }
+    deinit {
+//        netSignal = nil
+    }
 
 //    func getTargetGridlet() -> Gridlet {
 //        let adjacentObjects: [Gridlet] = Stepper.moves.map { step in
@@ -245,110 +245,6 @@ class Stepper {
 
     func realStepComplete() {
         stepping = false
-    }
-
-    enum Stage { case notSet, selfOk, stepperOk, metabolismOk, moveOk }
-    class StepperNetSignal {
-        var busy = false
-        weak var stepper: Stepper?
-
-        func inject(_ stepper: Stepper) {
-            self.stepper = stepper
-        }
-
-        func go() {
-            if busy { return }
-
-//            busy = true
-
-            var shiftTarget = AKPoint.zero
-
-            guard let st = stepper else { return }
-            guard let sp = st.sprite else { return }
-
-            let goAction = SKAction.run({ [weak self] in
-
-//                print("d1", st.core.selectoid.fishNumber, Display.displayCycle)
-                guard let myself = self else {
-//                    print("x1", st.core.selectoid.fishNumber)
-                    return }
-
-                shiftTarget = AKPoint.zero
-
-//                print("d1b", st.core.selectoid.fishNumber, Display.displayCycle)
-                if !st.metabolize() {
-//                    print("x1b", st.core.selectoid.fishNumber)
-                    return }
-
-                st.metabolism.tick()  // Jesu Christi this is ugly
-
-                shiftTarget = st.selectMoveTarget(st.loadSenseData())
-
-//                print("d1c", st.core.selectoid.fishNumber, Display.displayCycle)
-                if shiftTarget == AKPoint.zero {
-//                    print("x1c", st.core.selectoid.fishNumber)
-                    return }
-
-                let newGridlet = Gridlet.at(st.gridlet.gridPosition + shiftTarget)
-
-//                let goWait = SKAction.run {} //wait(forDuration: 0.001)
-                let goStep = SKAction.move(to: newGridlet.scenePosition, duration: 0.1)
-
-                let goContents = SKAction.run {
-                    defer {
-                        st.gridlet.sprite = nil
-                        st.gridlet.contents = .nothing
-                        newGridlet.contents = .arkon
-                        newGridlet.sprite = st.sprite
-                        st.gridlet = newGridlet
-                    }
-
-                    myself.touchFood(eater: st, foodLocation: newGridlet)
-                }
-
-                let goSequence = SKAction.sequence([goStep, goContents])
-                sp.run(goSequence) {
-//                    print("d3", st.core.selectoid.fishNumber, Display.displayCycle)
-                    myself.busy = false
-                    myself.go()
-                }
-
-            }, queue: st.core.netQueue)
-
-            sp.run(goAction)
-        }
-
-        func touchFood(eater: Stepper, foodLocation: Gridlet) {
-
-            var userDataKey = SpriteUserDataKey.karamba
-
-            switch foodLocation.contents {
-            case .arkon:
-                userDataKey = .stepper
-
-                if let otherSprite = foodLocation.sprite,
-                    let otherUserData = otherSprite.userData,
-                    let otherAny = otherUserData[userDataKey],
-                    let otherStepper = otherAny as? Stepper
-                {
-                    eater.touchArkon(otherStepper)
-                }
-
-            case .manna:
-                userDataKey = .manna
-
-                if let otherSprite = foodLocation.sprite,
-                    let otherUserData = otherSprite.userData,
-                    let otherAny = otherUserData[userDataKey],
-                    let manna = otherAny as? Manna
-                {
-                    eater.touchManna(manna)
-                }
-
-            case .nothing: break
-            }
-
-        }
     }
 
 }
