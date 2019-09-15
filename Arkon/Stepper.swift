@@ -47,7 +47,7 @@ class Stepper {
         self.sprite = core.sprite// Arkon.spriteFactory!.arkonsHangar.makeSprite()
 
 //        Arkon.arkonsPortal!.addChild(sprite)
-        sprite.color = .white
+        sprite.color = .cyan
         sprite.position = gridlet.scenePosition
         sprite.setScale(0.5)
 
@@ -103,14 +103,14 @@ class Stepper {
             return 0
         }
 
-        sensoryInputs.append(Double(metabolism.oxygenLevel))
+        sensoryInputs.append(1.0)//Double(metabolism.oxygenLevel))
 
         let xGrid = Double(gridlet.gridPosition.x)
         let yGrid = Double(gridlet.gridPosition.y)
 
         sensoryInputs.append(contentsOf: [xGrid, yGrid])
 
-        sensoryInputs.append(Double(metabolism.fungibleEnergyFullness))
+        sensoryInputs.append(1.0)//Double(metabolism.fungibleEnergyFullness))
 
         let xShift = Double(previousShift.x)
         let yShift = Double(previousShift.y)
@@ -134,7 +134,7 @@ class Stepper {
         guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
 //            print("ap", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
             let action = SKAction.run { [weak self] in self?.core.apoptosize() }
-            sprite.run(action)
+            sprite?.run(action)
             return false
         }
 
@@ -161,25 +161,25 @@ class Stepper {
 
         }
 
-//        let ef = metabolism.fungibleEnergyFullness
-//        nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
+        let ef = metabolism.fungibleEnergyFullness
+        core.nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 
-//        let baseColor: Int
-//        if core.selectoid.fishNumber < 10 {
-//            baseColor = 0xFF_00_00
-//        } else {
-//            baseColor = (metabolism.spawnEnergyFullness > 0) ?
-//                Arkon.brightColor : Arkon.standardColor
-//        }
+        let baseColor: Int
+        if core.selectoid.fishNumber < 10 {
+            baseColor = 0xFF_00_00
+        } else {
+            baseColor = (metabolism.spawnEnergyFullness > 0) ?
+                Arkon.brightColor : Arkon.standardColor
+        }
 
-//        let four: CGFloat = 4
-        sprite.color = .green /*ColorGradient.makeColorMixRedBlue(
+        let four: CGFloat = 4
+        sprite?.color = ColorGradient.makeColorMixRedBlue(
             baseColor: baseColor,
             redPercentage: metabolism.spawnEnergyFullness,
             bluePercentage: max((four - CGFloat(core.age)) / four, 0.0)
-        )*/
+        )
 
-        sprite.colorBlendFactor = metabolism.oxygenLevel
+        sprite?.colorBlendFactor = metabolism.oxygenLevel
 
         return true
     }
@@ -195,13 +195,14 @@ class Stepper {
         var targetShift = AKPoint.zero
         let targetMove = order.first { entry in
             targetShift = Stepper.moves[entry.0]
+            if targetShift == previousShift { return false }
 //            print("ts", core.selectoid.fishNumber, targetShift)
             if abs(targetShift.x) > 1 || abs(targetShift.y) > 1 { return false }
 
             let targetGridPosition = targetShift + gridlet.gridPosition
             if !Gridlet.isOnGrid(targetGridPosition.x, targetGridPosition.y) { return false }
 
-            let testGridlet = Gridlet.at(targetGridPosition)
+//            let testGridlet = Gridlet.at(targetGridPosition)
 
 //            print(
 //                "tg", core.selectoid.fishNumber, gridlet.gridPosition,
@@ -209,7 +210,7 @@ class Stepper {
 //                self.gridlet.contents, testGridlet.contents
 //            )
 
-            return testGridlet.contents != .arkon
+            return true
         }
 
         guard let tm = targetMove else { previousShift = AKPoint.zero; return AKPoint(x: 0, y: 0) }
@@ -231,7 +232,6 @@ class Stepper {
             self.stepper = stepper
         }
 
-        //swiftmint:disable function_body_length
         func go() {
             if busy { return }
 
@@ -251,11 +251,6 @@ class Stepper {
 
                 shiftTarget = AKPoint.zero
 
-//                print("d1a", st.core.selectoid.fishNumber, Display.displayCycle)
-                guard let st = myself.stepper else {
-//                    print("x1a")
-                    return }
-
 //                print("d1b", st.core.selectoid.fishNumber, Display.displayCycle)
                 if !st.metabolize() {
 //                    print("x1b", st.core.selectoid.fishNumber)
@@ -273,15 +268,18 @@ class Stepper {
                 let newGridlet = Gridlet.at(st.gridlet.gridPosition + shiftTarget)
 
 //                let goWait = SKAction.run {} //wait(forDuration: 0.001)
-                let goStep = SKAction.move(to: newGridlet.scenePosition, duration: 0.05)
+                let goStep = SKAction.move(to: newGridlet.scenePosition, duration: 0.1)
 
                 let goContents = SKAction.run {
-//                    print("d2", st.core.selectoid.fishNumber, Display.displayCycle)
-                    if newGridlet.contents == .manna { st.touchManna(newGridlet.sprite!.manna) }
+                    defer {
+                        st.gridlet.sprite = nil
+                        st.gridlet.contents = .nothing
+                        newGridlet.contents = .arkon
+                        newGridlet.sprite = st.sprite
+                        st.gridlet = newGridlet
+                    }
 
-                    st.gridlet.contents = .nothing
-                    newGridlet.contents = .arkon
-                    st.gridlet = newGridlet
+                    myself.touchFood(eater: st, foodLocation: newGridlet)
                 }
 
                 let goSequence = SKAction.sequence([goStep, goContents])
@@ -295,8 +293,40 @@ class Stepper {
 
             sp.run(goAction)
         }
-        //swiftmint:enable function_body_length
+
+        func touchFood(eater: Stepper, foodLocation: Gridlet) {
+
+            var userDataKey = SpriteUserDataKey.karamba
+
+            switch foodLocation.contents {
+            case .arkon:
+                userDataKey = .stepper
+
+                if let otherSprite = foodLocation.sprite,
+                    let otherUserData = otherSprite.userData,
+                    let otherAny = otherUserData[userDataKey],
+                    let otherStepper = otherAny as? Stepper
+                {
+                    eater.touchArkon(otherStepper)
+                }
+
+            case .manna:
+                userDataKey = .manna
+
+                if let otherSprite = foodLocation.sprite,
+                    let otherUserData = otherSprite.userData,
+                    let otherAny = otherUserData[userDataKey],
+                    let manna = otherAny as? Manna
+                {
+                    eater.touchManna(manna)
+                }
+
+            case .nothing: break
+            }
+
+        }
     }
+
 }
 
 extension Stepper {
@@ -314,6 +344,13 @@ extension Stepper {
     func tick() {
         metabolism.tick()
         core.tick()
+    }
+
+    func touchArkon(_ victimStepper: Stepper) {
+        if metabolism.mass > (victimStepper.metabolism.mass * 1.25) {
+            metabolism.parasitize(victimStepper.metabolism)
+            victimStepper.core.apoptosize()
+        }
     }
 
     func touchManna(_ manna: Manna) {

@@ -186,6 +186,7 @@ class Metabolism: EnergySourceProtocol, MetabolismProtocol {
 
 //        print("Absorbing \(netEnergy), current = \(energyContent), ready = \(readyEnergyReserves.level)")
         absorbEnergy(netEnergy)
+        inhale()
     }
 
     @discardableResult
