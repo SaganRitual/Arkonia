@@ -12,45 +12,46 @@ struct StepperNetSignal {
     func go() {
         var shiftTarget = AKPoint.zero
 
-        guard let theStepper = stepper else { return }
-        guard let theSprite = theStepper.sprite else { return }
+        if stepper?.sprite == nil { return }
 
         let goAction = SKAction.run({
 
-//            guard let myself = self else { return }
+            if self.stepper?.sprite == nil { return }
 
             shiftTarget = AKPoint.zero
 
-            if !theStepper.metabolize() { return }
+            if !(self.stepper?.metabolize() ?? false) { return }
 
-            theStepper.metabolism.tick()  // Jesu Christi this is ugly
+            self.stepper?.metabolism.tick()  // Jesu Christi this is ugly
 
-            shiftTarget = theStepper.selectMoveTarget(theStepper.loadSenseData())
+            shiftTarget = self.stepper?.selectMoveTarget(self.stepper!.loadSenseData()) ?? AKPoint.zero
 
             if shiftTarget == AKPoint.zero { return }
 
-            let newGridlet = Gridlet.at(theStepper.gridlet.gridPosition + shiftTarget)
+            let newGridlet = Gridlet.at((self.stepper?.gridlet.gridPosition ?? AKPoint.zero) + shiftTarget)
 
             let goStep = SKAction.move(to: newGridlet.scenePosition, duration: 0.1)
 
             let goContents = SKAction.run {
                 defer {
-                    theStepper.gridlet.sprite = nil
-                    theStepper.gridlet.contents = .nothing
+                    self.stepper?.gridlet.sprite = nil
+                    self.stepper?.gridlet.contents = .nothing
+
                     newGridlet.contents = .arkon
-                    newGridlet.sprite = theStepper.sprite
-                    theStepper.gridlet = newGridlet
+                    newGridlet.sprite = self.stepper?.sprite
+
+                    self.stepper?.gridlet = newGridlet
                 }
 
-               self.touchFood(eater: theStepper, foodLocation: newGridlet)
+               self.touchFood(eater: self.stepper!, foodLocation: newGridlet)
             }
 
             let goSequence = SKAction.sequence([goStep, goContents])
-            theSprite.run(goSequence) { self.go() }
+            self.stepper?.sprite?.run(goSequence) { self.go() }
 
-        }, queue: theStepper.core.netQueue)
+        }, queue: stepper!.core.netQueue)
 
-        theSprite.run(goAction)
+        stepper!.sprite!.run(goAction)
     }
 
     func touchFood(eater: Stepper, foodLocation: Gridlet) {

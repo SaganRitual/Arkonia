@@ -2,6 +2,10 @@ import Surge
 
 class Net {
 
+    static var layersTemplate = [
+        ArkoniaCentral.cSenseNeurons, ArkoniaCentral.cMotorNeurons, ArkoniaCentral.cMotorNeurons
+    ]
+
     let biases: [Double]
     let cBiases: Int
     let cWeights: Int
@@ -10,8 +14,16 @@ class Net {
 
     init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
 
-        if let L = layers { self.layers = Net.mutateStructure(L) }
-        else { self.layers = Arkon.layers! }
+        if let L = layers {
+            self.layers = Net.mutateStructure(L)
+        }
+        else {
+            if Int.random(in: 1..<100) <= 15 {
+                Net.layersTemplate.insert(Int.random(in: 1..<50), at: 1)
+            }
+
+            self.layers = Net.layersTemplate
+        }
 
         (cWeights, cBiases) = Net.computeParameters(self.layers)
 
@@ -83,36 +95,27 @@ class Net {
 
     static func mutateStructure(_ layers: [Int]) -> [Int] {
 
-        if layers.count <= 3 { return layers }
-
         var mutated = [ArkoniaCentral.cSenseNeurons]
+        let cOriginalLayers = layers.count
 
-        for L in 1..<(layers.count - 2) {
-            let mutateLayerCount = Int.random(in: 0..<100)
+        for L in 1..<cOriginalLayers {
+            switch Int.random(in: 0..<100) {
 
-            switch mutateLayerCount {
-            case  0..<10:   continue
-            case 10..<30:   mutated.append(Int.random(in: 1..<10))
-            default:        break
+            case 0..<50: continue
+
+            case  50..<75:
+                mutated.append(layers[L])
+
+            case  75..<100:
+                mutated.append(layers[L])
+                mutated.append(Int.random(in: 1..<10))
+
+            default:
+                fatalError()
             }
-
-            let mutateNeuronCount = Int.random(in: -50..<50)
-            let distance = mutateNeuronCount / 10
-
-            let cNeurons_ = L + distance
-            let cNeurons: Int
-            if cNeurons_ <= 0 {
-                cNeurons = ArkoniaCentral.cSenseNeurons
-            } else if cNeurons_ > ArkoniaCentral.cSenseNeurons {
-                cNeurons = ArkoniaCentral.cMotorNeurons
-            } else {
-                cNeurons = cNeurons_
-            }
-
-            mutated.append(cNeurons)
         }
 
-        if mutated.count == 1 { mutated.append(ArkoniaCentral.cSenseNeurons) }
+        if mutated.count == 1 { mutated.append(ArkoniaCentral.cMotorNeurons) }
 
         mutated.append(ArkoniaCentral.cMotorNeurons)
 

@@ -114,6 +114,7 @@ class Arkon {
             guard let myself = self else { return }
 
             stepper.gridlet.contents = .nothing
+            stepper.gridlet.sprite = nil
 
             myself.spriteFactory.noseHangar.retireSprite(stepper.core.nose)
             myself.spriteFactory.arkonsHangar.retireSprite(myself.sprite)
