@@ -41,6 +41,7 @@
 		D42751BE2287F81A0096CDB5 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D42751BF2288001A0096CDB5 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D42F379D22E760140072E646 /* Karamba.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F379522E760140072E646 /* Karamba.swift */; };
+		D4313147233A348600A88FF9 /* TickState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4313146233A348600A88FF9 /* TickState.swift */; };
 		D43EA802228FC77D006C619D /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D43EA803228FC77D006C619D /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D43EA804228FC77D006C619D /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
@@ -54,8 +55,6 @@
 		D43EA80E228FC77D006C619D /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D43EA818228FC875006C619D /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D43EA819228FC898006C619D /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
-		D43EA82022917CEA006C619D /* ReaderMonad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81F22917CEA006C619D /* ReaderMonad.swift */; };
-		D43EA82122917D20006C619D /* ReaderMonad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81F22917CEA006C619D /* ReaderMonad.swift */; };
 		D441B99E22A0653F00FB7057 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D441B99F22A0653F00FB7057 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D441B9A022A0653F00FB7057 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
@@ -296,7 +295,6 @@
 		D4CBA30A22805DD60023FAB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D4CBA30B22805DD60023FAB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D4CCEDED22BD8CB900C4FD87 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
-		D4E5F862232C0BFD00540889 /* NetSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BDD22E9D42100C15F59 /* NetSignal.swift */; };
 		D4E9803B22B1DD1600B388BD /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4E9803C22B210A100B388BD /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4EBEE4822E0FED1007C98A4 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
@@ -411,9 +409,9 @@
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
 		D42F379522E760140072E646 /* Karamba.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Karamba.swift; sourceTree = "<group>"; };
+		D4313146233A348600A88FF9 /* TickState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.swift; sourceTree = "<group>"; };
 		D43EA813228FC77D006C619D /* NetDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43EA81C228FDCDC006C619D /* Arkon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkon.swift; sourceTree = "<group>"; };
-		D43EA81F22917CEA006C619D /* ReaderMonad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReaderMonad.swift; sourceTree = "<group>"; };
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D441B99A229CFFA800FB7057 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
 		D441B9B422A0653F00FB7057 /* Metabolism.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Metabolism.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -440,7 +438,6 @@
 		D49042C422AE2B2500E7369B /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D4A12BDB22E9D3C200C15F59 /* SenseResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SenseResponder.swift; sourceTree = "<group>"; };
-		D4A12BDD22E9D42100C15F59 /* NetSignal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetSignal.swift; sourceTree = "<group>"; };
 		D4A12BE922EA58E900C15F59 /* Stepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
 		D4A216AA22C15FFB00D92A1E /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4A216AB22C15FFB00D92A1E /* MutatorSubtract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutatorSubtract.swift; sourceTree = "<group>"; };
@@ -665,7 +662,6 @@
 				D4603A6122A2720400885428 /* Manna.swift */,
 				D4A216B722C1610A00D92A1E /* Mutator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
-				D43EA81F22917CEA006C619D /* ReaderMonad.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
 				D49042C422AE2B2500E7369B /* World.swift */,
 			);
@@ -679,12 +675,12 @@
 				D42F379522E760140072E646 /* Karamba.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
-				D4A12BDD22E9D42100C15F59 /* NetSignal.swift */,
 				D47618A422BEE61700ADAA87 /* SenseLoader.swift */,
 				D4A12BDB22E9D3C200C15F59 /* SenseResponder.swift */,
 				D47618AC22BEE61700ADAA87 /* SenseTranslator.swift */,
 				D4A12BE922EA58E900C15F59 /* Stepper.swift */,
 				D47618AD22BEE61700ADAA87 /* Stimulus.swift */,
+				D4313146233A348600A88FF9 /* TickState.swift */,
 			);
 			path = Arkon;
 			sourceTree = "<group>";
@@ -1720,7 +1716,6 @@
 				D40985FF22650CC9009DD384 /* SceneViewController.swift in Sources */,
 				D42751BC2287EE970096CDB5 /* SpriteFactory.swift in Sources */,
 				D42751BF2288001A0096CDB5 /* KIdentifier.swift in Sources */,
-				D43EA82022917CEA006C619D /* ReaderMonad.swift in Sources */,
 				D40985FD22650C20009DD384 /* AppDelegate.swift in Sources */,
 				D48286092298CBDF00225057 /* Arkon.swift in Sources */,
 				D42751BE2287F81A0096CDB5 /* NetGraphics.swift in Sources */,
@@ -2013,7 +2008,6 @@
 				D4CBA2F1228059CA0023FAB9 /* TheScene.swift in Sources */,
 				D4CBA2F2228059CA0023FAB9 /* SceneViewController.swift in Sources */,
 				D4CBA2F3228059CA0023FAB9 /* AppDelegate.swift in Sources */,
-				D43EA82122917D20006C619D /* ReaderMonad.swift in Sources */,
 				D4CBA2F4228059CA0023FAB9 /* AppController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2040,7 +2034,6 @@
 				D4EBEE4822E0FED1007C98A4 /* KIdentifier.swift in Sources */,
 				D4EBEE4B22E0FED1007C98A4 /* SceneViewController.swift in Sources */,
 				D4A12BE122E9FD1800C15F59 /* Arkon.swift in Sources */,
-				D4E5F862232C0BFD00540889 /* NetSignal.swift in Sources */,
 				D4EBEE4D22E0FED1007C98A4 /* HUD.swift in Sources */,
 				D4EBEE4E22E0FED1007C98A4 /* AppDelegate.swift in Sources */,
 				D4EBEE4F22E0FED1007C98A4 /* Report.swift in Sources */,
@@ -2061,6 +2054,7 @@
 				D4EBEE5F22E0FED1007C98A4 /* Net.swift in Sources */,
 				D4EBEE6022E0FED1007C98A4 /* Protocols.swift in Sources */,
 				D4EBEE6122E0FED1007C98A4 /* ColorGradient.swift in Sources */,
+				D4313147233A348600A88FF9 /* TickState.swift in Sources */,
 				D4EBEE6222E0FED1007C98A4 /* Manna.swift in Sources */,
 				D4EBEE6522E0FED1007C98A4 /* Extensions.swift in Sources */,
 			);

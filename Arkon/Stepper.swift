@@ -30,9 +30,9 @@ class Stepper {
     var gridlet: Gridlet
     var previousShift = AKPoint.zero
     let metabolism: Metabolism
-    var netSignal: StepperNetSignal?
     weak var sprite: SKSpriteNode!
     var stepping = true
+    var tickStatum: TickStatum?
 
     init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
         self.core = Arkon(
@@ -64,12 +64,14 @@ class Stepper {
 //        stepComplete(gridlet)
 
         metabolism = Metabolism()
-        netSignal = StepperNetSignal()
+//        netSignal = StepperNetSignal()
         sprite.userData![SpriteUserDataKey.stepper] = self
 
         stepping = false
-        netSignal!.inject(self)
-        netSignal!.go()
+//        netSignal!.inject(self)
+//        netSignal!.go()
+
+        tickStatum = TickStatum(stepper: self)
     }
 
     deinit {
@@ -146,68 +148,6 @@ class Stepper {
 
 //        print("si", core.selectoid.fishNumber, sensoryInputs)
         return sensoryInputs
-    }
-
-    func metabolize() -> Bool {
-        if !core.isAlive { return false }
-
-        useEnergy()
-
-        let oxygenCost: TimeInterval = core.age < TimeInterval(5) ? 0 : 1
-        metabolism.oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
-//        print("o2b", metabolism.oxygenLevel)
-
-        guard metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0 else {
-//            print("ap", thorax.arkon.selectoid.fishNumber, metabolism.oxygenLevel)
-            let action = SKAction.run { [weak self] in self?.core.apoptosize() }
-            sprite?.run(action)
-            return false
-        }
-
-        // 10% entropy
-        let spawnCost = EnergyReserve.startingEnergyLevel * 1.10
-
-//        print("msrv", metabolism.spawnReserves.level, spawnCost)
-        if metabolism.spawnReserves.level >= spawnCost {
-            metabolism.withdrawFromSpawn(spawnCost)
-
-            let biases = core.net.biases
-            let weights = core.net.weights
-            let layers = core.net.layers
-            let waitAction = SKAction.wait(forDuration: 0.02)
-            let spawnAction = SKAction.run {
-                Stepper.spawn(parentBiases: biases, parentWeights: weights, layers: layers)
-            }
-
-            let sequence = SKAction.sequence([waitAction, spawnAction])
-            Arkon.arkonsPortal!.run(sequence) {
-                self.core.selectoid.cOffspring += 1
-                World.shared.registerCOffspring(self.core.selectoid.cOffspring)
-            }
-
-        }
-
-        let ef = metabolism.fungibleEnergyFullness
-        core.nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
-
-        let baseColor: Int
-        if core.selectoid.fishNumber < 10 {
-            baseColor = 0xFF_00_00
-        } else {
-            baseColor = (metabolism.spawnEnergyFullness > 0) ?
-                Arkon.brightColor : Arkon.standardColor
-        }
-
-        let four: CGFloat = 4
-        sprite?.color = ColorGradient.makeColorMixRedBlue(
-            baseColor: baseColor,
-            redPercentage: metabolism.spawnEnergyFullness,
-            bluePercentage: max((four - CGFloat(core.age)) / four, 0.0)
-        )
-
-        sprite?.colorBlendFactor = metabolism.oxygenLevel
-
-        return true
     }
 
     func selectMoveTarget(_ sensoryInputs: [Double]) -> AKPoint {
@@ -292,11 +232,4 @@ extension Stepper {
         sprite.run(actions)
     }
 
-    func useEnergy() {
-        let fudgeFactor: CGFloat = 0.2
-        let targetSpeed: CGFloat = 0.1 * 1000  // some random # * 1000 pixels/sec
-        let joulesNeeded = fudgeFactor * abs(targetSpeed) * metabolism.mass
-
-        _ = self.metabolism.withdrawFromReady(joulesNeeded)
-    }
 }
