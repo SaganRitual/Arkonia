@@ -6,15 +6,15 @@ protocol TickStateProtocol: GKState {
     var metabolism: Metabolism { get }
     var sprite: SKSpriteNode { get }
     var statum: TickStatum! { get set }
-    var stepper: Stepper { get }
+    var stepper: Stepper? { get }
     func inject(_ statum: TickStatum)
 }
 
 extension TickStateProtocol {
-    var core: Arkon { return stepper.core }
-    var metabolism: Metabolism { return stepper.metabolism }
-    var sprite: SKSpriteNode { return stepper.sprite }
-    var stepper: Stepper { return statum.stepper }
+    var core: Arkon { return stepper!.core }
+    var metabolism: Metabolism { return stepper!.metabolism }
+    var sprite: SKSpriteNode { return stepper!.sprite }
+    var stepper: Stepper? { return statum.stepper }
 
     func inject(_ statum: TickStatum) {
         self.statum = statum
@@ -25,7 +25,7 @@ class TickStatum {
     var shiftTarget = AKPoint.zero
     let sm: GKStateMachine
     let states: [TickStateProtocol]
-    weak var stepper: Stepper!
+    weak var stepper: Stepper?
 
     init(stepper: Stepper) {
         self.stepper = stepper
@@ -38,8 +38,8 @@ class TickStatum {
 
         // Start (funge)
         // Spawnable
-        // Colorize
         // Metabolize?
+        // Colorize
         // Shiftable
         // Shift
         // Apoptosize
@@ -70,6 +70,10 @@ enum TickState {
             }
 
             sprite.run(action)
+        }
+
+        override func didEnter(from previousState: GKState?) {
+            sprite.removeAllActions()
         }
 
         override func update(deltaTime seconds: TimeInterval) {
@@ -116,9 +120,9 @@ enum TickState {
 
     class Dead: GKState, TickStateProtocol {
         var statum: TickStatum!
-        override func didEnter(from previousState: GKState?) {
-            fatalError("Shouldn't get this far; should all be done at apoptosize()")
-        }
+//        override func didEnter(from previousState: GKState?) {
+//            fatalError("Shouldn't get this far; should all be done at apoptosize()")
+//        }
     }
 
     class MetabolizePending: GKState, TickStateProtocol {
@@ -131,11 +135,15 @@ enum TickState {
         override func update(deltaTime seconds: TimeInterval) {
             stateMachine?.enter(TickState.MetabolizePending.self)
             metabolize()
-            stateMachine?.enter(TickState.Colorize.self)
         }
 
         func metabolize() {
-            metabolism.tick()
+            let action = SKAction.run({ [weak self] in
+                self?.metabolism.tick()
+                self?.stateMachine?.enter(TickState.Colorize.self)
+            }, queue: self.core.netQueue)
+
+            sprite.run(action)
         }
     }
 
@@ -152,25 +160,26 @@ enum TickState {
         }
 
         func shift() {
-            let currentPosition = stepper.gridlet.gridPosition
+            let currentPosition = stepper?.gridlet.gridPosition ?? AKPoint.zero
             let newGridlet = Gridlet.at(currentPosition + statum.shiftTarget)
 
             let goStep = SKAction.move(to: newGridlet.scenePosition, duration: 0.1)
 
             let goContents = SKAction.run { [weak self] in
                 guard let myself = self else { fatalError() }
+                guard let stepper = myself.stepper else { return }
 
                 defer {
-                    myself.stepper.gridlet.sprite = nil
-                    myself.stepper.gridlet.contents = .nothing
+                    myself.stepper?.gridlet.sprite = nil
+                    myself.stepper?.gridlet.contents = .nothing
 
                     newGridlet.contents = .arkon
                     newGridlet.sprite = myself.sprite
 
-                    myself.stepper.gridlet = newGridlet
+                    myself.stepper?.gridlet = newGridlet
                 }
 
-               myself.touchFood(eater: myself.stepper, foodLocation: newGridlet)
+               myself.touchFood(foodLocation: newGridlet)
             }
 
             let goSequence = SKAction.sequence([goStep, goContents])
@@ -179,7 +188,17 @@ enum TickState {
             }
         }
 
-        func touchFood(eater: Stepper, foodLocation: Gridlet) {
+        func touchArkon(_ victimStepper: Stepper) {
+            if self.metabolism.mass > (victimStepper.metabolism.mass * 1.25) {
+                self.metabolism.parasitize(victimStepper.metabolism)
+                victimStepper.tickStatum?.sm.enter(TickState.Apoptosize.self)
+            } else {
+                victimStepper.metabolism.parasitize(self.metabolism)
+                self.stateMachine?.enter(TickState.Apoptosize.self)
+            }
+        }
+
+        func touchFood(foodLocation: Gridlet) {
 
             var userDataKey = SpriteUserDataKey.karamba
 
@@ -192,7 +211,7 @@ enum TickState {
                     let otherAny = otherUserData[userDataKey],
                     let otherStepper = otherAny as? Stepper
                 {
-                    eater.touchArkon(otherStepper)
+                    touchArkon(otherStepper)
                 }
 
             case .manna:
@@ -203,12 +222,26 @@ enum TickState {
                     let otherAny = otherUserData[userDataKey],
                     let manna = otherAny as? Manna
                 {
-                    eater.touchManna(manna)
+                    touchManna(manna)
                 }
 
             case .nothing: break
             }
 
+        }
+
+        func touchManna(_ manna: Manna) {
+            // I guess I've died already?
+            guard let background = self.sprite.parent as? SKSpriteNode else { return }
+
+            let sprite = manna.sprite
+
+            let harvested = sprite.manna.harvest()
+            metabolism.absorbEnergy(harvested)
+            metabolism.inhale()
+
+            let actions = Manna.triggerDeathCycle(sprite: sprite, background: background)
+            sprite.run(actions)
         }
     }
 
@@ -222,16 +255,20 @@ enum TickState {
         override func update(deltaTime seconds: TimeInterval) {
             stateMachine?.enter(TickState.ShiftablePending.self)
 
-            let shiftable = calculateShift()
+            let action = SKAction.run({ [weak self] in
+                let shiftable = self?.calculateShift() ?? false
 
-            stateMachine?.enter(
-                shiftable ? TickState.Shift.self : TickState.Start.self
-            )
+                self?.stateMachine?.enter(
+                    shiftable ? TickState.Shift.self : TickState.Start.self
+                )
+            }, queue: self.core.netQueue)
+
+            sprite.run(action)
         }
 
         func calculateShift() -> Bool {
-            let senseData = stepper.loadSenseData()
-            statum.shiftTarget = stepper.selectMoveTarget(senseData)
+            let senseData = stepper!.loadSenseData()
+            statum.shiftTarget = stepper?.selectMoveTarget(senseData) ?? AKPoint.zero
 
             return statum.shiftTarget != AKPoint.zero
         }
@@ -247,14 +284,14 @@ enum TickState {
         override func update(deltaTime seconds: TimeInterval) {
             stateMachine?.enter(TickState.SpawnablePending.self)
             attemptSpawn()
-            stateMachine?.enter(TickState.Colorize.self)
+            stateMachine?.enter(TickState.Metabolize.self)
         }
 
         func attemptSpawn() {
             // 10% entropy
             let spawnCost = EnergyReserve.startingEnergyLevel * 1.10
 
-    //        print("msrv", metabolism.spawnReserves.level, spawnCost)
+//            print("msrv", metabolism.spawnReserves.level, spawnCost)
             if metabolism.spawnReserves.level >= spawnCost {
                 metabolism.withdrawFromSpawn(spawnCost)
 

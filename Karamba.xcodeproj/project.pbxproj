@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		D402138722B85EA400ADF5B0 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D402138822B85EA400ADF5B0 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
-		D402138922B85EA400ADF5B0 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D402138A22B85EA400ADF5B0 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D402138B22B85EA400ADF5B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D402138C22B85EA400ADF5B0 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
@@ -28,7 +27,6 @@
 		D402139F22B85EA400ADF5B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D40213A022B85EA400ADF5B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D40213A122B85EA400ADF5B0 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
-		D40985EA22650B0A009DD384 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D40985EE22650B0B009DD384 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D40985F122650B0B009DD384 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D40985FB22650BEF009DD384 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
@@ -40,10 +38,8 @@
 		D42751BD2287F74C0096CDB5 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D42751BE2287F81A0096CDB5 /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D42751BF2288001A0096CDB5 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
-		D42F379D22E760140072E646 /* Karamba.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F379522E760140072E646 /* Karamba.swift */; };
 		D4313147233A348600A88FF9 /* TickState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4313146233A348600A88FF9 /* TickState.swift */; };
 		D43EA802228FC77D006C619D /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
-		D43EA803228FC77D006C619D /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D43EA804228FC77D006C619D /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D43EA805228FC77D006C619D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D43EA806228FC77D006C619D /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
@@ -56,7 +52,6 @@
 		D43EA818228FC875006C619D /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D43EA819228FC898006C619D /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
 		D441B99E22A0653F00FB7057 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
-		D441B99F22A0653F00FB7057 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D441B9A022A0653F00FB7057 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D441B9A122A0653F00FB7057 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D441B9A322A0653F00FB7057 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
@@ -71,7 +66,6 @@
 		D441B9B622A065A500FB7057 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D441D31722B2AB5000143CC5 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D441D31822B2AB5000143CC5 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
-		D441D31922B2AB5000143CC5 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D441D31A22B2AB5000143CC5 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D441D31B22B2AB5000143CC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D441D31C22B2AB5000143CC5 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
@@ -93,7 +87,6 @@
 		D442B7B222B1DB4100E3BDB3 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
 		D4579FF722B5C7A600963929 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D4579FF822B5C7A600963929 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
-		D4579FF922B5C7A600963929 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D4579FFA22B5C7A600963929 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D4579FFB22B5C7A600963929 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D4579FFC22B5C7A600963929 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
@@ -114,7 +107,6 @@
 		D457A01122B5C7A600963929 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D457A01A22B5FB8400963929 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D457A01B22B5FB8400963929 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
-		D457A01C22B5FB8400963929 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D457A01D22B5FB8400963929 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D457A01E22B5FB8400963929 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D457A01F22B5FB8400963929 /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
@@ -134,7 +126,6 @@
 		D457A03322B5FB8400963929 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D457A03422B5FB8400963929 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D4603A6522A2B11A00885428 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
-		D4603A6622A2B11A00885428 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D4603A6722A2B11A00885428 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D4603A6822A2B11A00885428 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D4603A6922A2B11A00885428 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
@@ -178,13 +169,11 @@
 		D464BA5822C737260069623C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D464BA5A22C737260069623C /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
-		D464BA6222C737CB0069623C /* KarambaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D464BA6122C737CB0069623C /* KarambaScene.swift */; };
 		D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D46B1D7422813E12003D711C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D46B1D89228173BE003D711C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D46B1D8C22825D43003D711C /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D46B1D8D22825D43003D711C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
-		D46B1D8E22825D43003D711C /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D46B1D8F22825D43003D711C /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D46B1D9022825D43003D711C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D46B1D9222825D43003D711C /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
@@ -201,7 +190,6 @@
 		D47618B322BEE61800ADAA87 /* Stimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47618AD22BEE61700ADAA87 /* Stimulus.swift */; };
 		D480535722B14D3300FF8617 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D480535922B14D3300FF8617 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
-		D480535A22B14D3300FF8617 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D480535B22B14D3300FF8617 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D480535C22B14D3300FF8617 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D480535D22B14D3300FF8617 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
@@ -221,7 +209,6 @@
 		D480537122B14D3300FF8617 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D48286092298CBDF00225057 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
 		D482860C2298CC4800225057 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
-		D482860D2298CC4800225057 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D482860E2298CC4800225057 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D482860F2298CC4800225057 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D48286102298CC4800225057 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
@@ -237,7 +224,6 @@
 		D482861D2298CC4800225057 /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D49042A022AC6A2400E7369B /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D49042A222AC6A2400E7369B /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
-		D49042A322AC6A2400E7369B /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D49042A422AC6A2400E7369B /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D49042A522AC6A2400E7369B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D49042A622AC6A2400E7369B /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
@@ -262,7 +248,6 @@
 		D4A216BC22C1988B00D92A1E /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216BA22C1988B00D92A1E /* BellCurve.swift */; };
 		D4AD194E22AC4848009F3469 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D4AD195022AC4848009F3469 /* Arkon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA81C228FDCDC006C619D /* Arkon.swift */; };
-		D4AD195122AC4848009F3469 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D4AD195222AC4848009F3469 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D4AD195322AC4848009F3469 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D4AD195422AC4848009F3469 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
@@ -282,13 +267,11 @@
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
 		D4B4295322DAF1CD0036C904 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293C22DAEC7E0036C904 /* Report.swift */; };
 		D4CBA2F0228059CA0023FAB9 /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
-		D4CBA2F1228059CA0023FAB9 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D4CBA2F2228059CA0023FAB9 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D4CBA2F3228059CA0023FAB9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D4CBA2F4228059CA0023FAB9 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
 		D4CBA2F8228059CA0023FAB9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D4CBA2F9228059CA0023FAB9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
-		D4CBA30322805DD60023FAB9 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D4CBA30422805DD60023FAB9 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D4CBA30522805DD60023FAB9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D4CBA30622805DD60023FAB9 /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
@@ -324,7 +307,6 @@
 		D4EBEE7122E0FFD9007C98A4 /* GriddleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */; };
 		D4EBEE7322E148C9007C98A4 /* Griddle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EBEE7222E148C9007C98A4 /* Griddle.swift */; };
 		D4EE55FD22BC1D530076D8A1 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
-		D4EE55FE22BC1D530076D8A1 /* TheScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985E922650B0A009DD384 /* TheScene.swift */; };
 		D4EE55FF22BC1D530076D8A1 /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D4EE560022BC1D530076D8A1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D4EE560222BC1D530076D8A1 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
@@ -399,7 +381,6 @@
 /* Begin PBXFileReference section */
 		D40213A622B85EA400ADF5B0 /* LifeCycle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeCycle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40985E022650B0A009DD384 /* CarBamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarBamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D40985E922650B0A009DD384 /* TheScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheScene.swift; sourceTree = "<group>"; };
 		D40985ED22650B0B009DD384 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D40985F022650B0B009DD384 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D40985F222650B0B009DD384 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -408,7 +389,6 @@
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
-		D42F379522E760140072E646 /* Karamba.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Karamba.swift; sourceTree = "<group>"; };
 		D4313146233A348600A88FF9 /* TickState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.swift; sourceTree = "<group>"; };
 		D43EA813228FC77D006C619D /* NetDisplay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetDisplay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43EA81C228FDCDC006C619D /* Arkon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkon.swift; sourceTree = "<group>"; };
@@ -422,7 +402,6 @@
 		D4603A7B22A2B11A00885428 /* Manna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Manna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D461358A2288CEF800C9864E /* TheScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TheScene.sks; sourceTree = "<group>"; };
 		D464BA5F22C737260069623C /* Karamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D464BA6122C737CB0069623C /* KarambaScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KarambaScene.swift; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
 		D46B1D7322813E12003D711C /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
 		D46B1D8622816F58003D711C /* NetGraphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetGraphics.swift; sourceTree = "<group>"; };
@@ -645,11 +624,9 @@
 				D40985F322650B0B009DD384 /* Components.entitlements */,
 				D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */,
 				D40985F222650B0B009DD384 /* Info.plist */,
-				D464BA6122C737CB0069623C /* KarambaScene.swift */,
 				D40985EF22650B0B009DD384 /* Main.storyboard */,
 				D40985FE22650CC9009DD384 /* SceneViewController.swift */,
 				D461358A2288CEF800C9864E /* TheScene.sks */,
-				D40985E922650B0A009DD384 /* TheScene.swift */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -672,7 +649,6 @@
 			isa = PBXGroup;
 			children = (
 				D43EA81C228FDCDC006C619D /* Arkon.swift */,
-				D42F379522E760140072E646 /* Karamba.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D47618A422BEE61700ADAA87 /* SenseLoader.swift */,
@@ -1680,7 +1656,6 @@
 				D402138722B85EA400ADF5B0 /* KIdentifier.swift in Sources */,
 				D47618AF22BEE61800ADAA87 /* SenseLoader.swift in Sources */,
 				D402138822B85EA400ADF5B0 /* Arkon.swift in Sources */,
-				D402138922B85EA400ADF5B0 /* TheScene.swift in Sources */,
 				D402138A22B85EA400ADF5B0 /* SceneViewController.swift in Sources */,
 				D402138B22B85EA400ADF5B0 /* AppDelegate.swift in Sources */,
 				D402138C22B85EA400ADF5B0 /* ArkoniaCentral.swift in Sources */,
@@ -1710,7 +1685,6 @@
 			files = (
 				D42751BD2287F74C0096CDB5 /* NetDisplayGrid.swift in Sources */,
 				D46B1DA022826994003D711C /* Overload2D.swift in Sources */,
-				D40985EA22650B0A009DD384 /* TheScene.swift in Sources */,
 				D42751BB2287EE7F0096CDB5 /* Protocols.swift in Sources */,
 				D42751BA2287DBAA0096CDB5 /* NetDisplay.swift in Sources */,
 				D40985FF22650CC9009DD384 /* SceneViewController.swift in Sources */,
@@ -1729,7 +1703,6 @@
 			files = (
 				D43EA802228FC77D006C619D /* KIdentifier.swift in Sources */,
 				D464BA2F22C730DE0069623C /* NetDisplay.swift in Sources */,
-				D43EA803228FC77D006C619D /* TheScene.swift in Sources */,
 				D43EA804228FC77D006C619D /* SceneViewController.swift in Sources */,
 				D43EA805228FC77D006C619D /* AppDelegate.swift in Sources */,
 				D43EA819228FC898006C619D /* SpriteFactory.swift in Sources */,
@@ -1746,7 +1719,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D441B99E22A0653F00FB7057 /* KIdentifier.swift in Sources */,
-				D441B99F22A0653F00FB7057 /* TheScene.swift in Sources */,
 				D441B9A022A0653F00FB7057 /* SceneViewController.swift in Sources */,
 				D441B9A122A0653F00FB7057 /* AppDelegate.swift in Sources */,
 				D441B9A322A0653F00FB7057 /* NetDisplayGrid.swift in Sources */,
@@ -1765,7 +1737,6 @@
 			files = (
 				D441D31722B2AB5000143CC5 /* KIdentifier.swift in Sources */,
 				D441D31822B2AB5000143CC5 /* Arkon.swift in Sources */,
-				D441D31922B2AB5000143CC5 /* TheScene.swift in Sources */,
 				D441D31A22B2AB5000143CC5 /* SceneViewController.swift in Sources */,
 				D441D31B22B2AB5000143CC5 /* AppDelegate.swift in Sources */,
 				D441D31C22B2AB5000143CC5 /* ArkoniaCentral.swift in Sources */,
@@ -1790,7 +1761,6 @@
 			files = (
 				D4579FF722B5C7A600963929 /* KIdentifier.swift in Sources */,
 				D4579FF822B5C7A600963929 /* Arkon.swift in Sources */,
-				D4579FF922B5C7A600963929 /* TheScene.swift in Sources */,
 				D4579FFA22B5C7A600963929 /* SceneViewController.swift in Sources */,
 				D4579FFB22B5C7A600963929 /* AppDelegate.swift in Sources */,
 				D4579FFC22B5C7A600963929 /* ArkoniaCentral.swift in Sources */,
@@ -1815,7 +1785,6 @@
 			files = (
 				D457A01A22B5FB8400963929 /* KIdentifier.swift in Sources */,
 				D457A01B22B5FB8400963929 /* Arkon.swift in Sources */,
-				D457A01C22B5FB8400963929 /* TheScene.swift in Sources */,
 				D457A01D22B5FB8400963929 /* SceneViewController.swift in Sources */,
 				D457A01E22B5FB8400963929 /* AppDelegate.swift in Sources */,
 				D457A01F22B5FB8400963929 /* ArkoniaCentral.swift in Sources */,
@@ -1839,7 +1808,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4603A6522A2B11A00885428 /* KIdentifier.swift in Sources */,
-				D4603A6622A2B11A00885428 /* TheScene.swift in Sources */,
 				D4603A6722A2B11A00885428 /* SceneViewController.swift in Sources */,
 				D4603A6822A2B11A00885428 /* AppDelegate.swift in Sources */,
 				D4603A6922A2B11A00885428 /* SpriteFactory.swift in Sources */,
@@ -1863,10 +1831,8 @@
 				D464BA3422C737260069623C /* SenseLoader.swift in Sources */,
 				D464BA3522C737260069623C /* Arkon.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
-				D464BA6222C737CB0069623C /* KarambaScene.swift in Sources */,
 				D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */,
 				D464BA3922C737260069623C /* AppDelegate.swift in Sources */,
-				D42F379D22E760140072E646 /* Karamba.swift in Sources */,
 				D4B4295322DAF1CD0036C904 /* Report.swift in Sources */,
 				D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */,
 				D4A12BDC22E9D3C200C15F59 /* SenseResponder.swift in Sources */,
@@ -1897,7 +1863,6 @@
 				D46B1D8C22825D43003D711C /* NetGraphics.swift in Sources */,
 				D464BA3022C732B20069623C /* SpriteFactory.swift in Sources */,
 				D46B1D8D22825D43003D711C /* KIdentifier.swift in Sources */,
-				D46B1D8E22825D43003D711C /* TheScene.swift in Sources */,
 				D46B1D8F22825D43003D711C /* SceneViewController.swift in Sources */,
 				D46B1D9022825D43003D711C /* AppDelegate.swift in Sources */,
 				D46B1DA222826994003D711C /* Overload2D.swift in Sources */,
@@ -1912,7 +1877,6 @@
 			files = (
 				D480535722B14D3300FF8617 /* KIdentifier.swift in Sources */,
 				D480535922B14D3300FF8617 /* Arkon.swift in Sources */,
-				D480535A22B14D3300FF8617 /* TheScene.swift in Sources */,
 				D480535B22B14D3300FF8617 /* SceneViewController.swift in Sources */,
 				D480535C22B14D3300FF8617 /* AppDelegate.swift in Sources */,
 				D4E9803B22B1DD1600B388BD /* ArkoniaCentral.swift in Sources */,
@@ -1936,7 +1900,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D482860C2298CC4800225057 /* KIdentifier.swift in Sources */,
-				D482860D2298CC4800225057 /* TheScene.swift in Sources */,
 				D482860E2298CC4800225057 /* SceneViewController.swift in Sources */,
 				D482860F2298CC4800225057 /* AppDelegate.swift in Sources */,
 				D48286102298CC4800225057 /* SpriteFactory.swift in Sources */,
@@ -1956,7 +1919,6 @@
 			files = (
 				D49042A022AC6A2400E7369B /* KIdentifier.swift in Sources */,
 				D49042A222AC6A2400E7369B /* Arkon.swift in Sources */,
-				D49042A322AC6A2400E7369B /* TheScene.swift in Sources */,
 				D49042A422AC6A2400E7369B /* SceneViewController.swift in Sources */,
 				D49042A522AC6A2400E7369B /* AppDelegate.swift in Sources */,
 				D4E9803C22B210A100B388BD /* ArkoniaCentral.swift in Sources */,
@@ -1981,7 +1943,6 @@
 			files = (
 				D4AD194E22AC4848009F3469 /* KIdentifier.swift in Sources */,
 				D4AD195022AC4848009F3469 /* Arkon.swift in Sources */,
-				D4AD195122AC4848009F3469 /* TheScene.swift in Sources */,
 				D4AD195222AC4848009F3469 /* SceneViewController.swift in Sources */,
 				D4AD195322AC4848009F3469 /* AppDelegate.swift in Sources */,
 				D4AD195422AC4848009F3469 /* SpriteFactory.swift in Sources */,
@@ -2005,7 +1966,6 @@
 				D4CBA2F0228059CA0023FAB9 /* SpriteFactory.swift in Sources */,
 				D46B1DA322826994003D711C /* Overload2D.swift in Sources */,
 				D46B1DA42282A9A2003D711C /* Protocols.swift in Sources */,
-				D4CBA2F1228059CA0023FAB9 /* TheScene.swift in Sources */,
 				D4CBA2F2228059CA0023FAB9 /* SceneViewController.swift in Sources */,
 				D4CBA2F3228059CA0023FAB9 /* AppDelegate.swift in Sources */,
 				D4CBA2F4228059CA0023FAB9 /* AppController.swift in Sources */,
@@ -2017,7 +1977,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D46B1D7422813E12003D711C /* KIdentifier.swift in Sources */,
-				D4CBA30322805DD60023FAB9 /* TheScene.swift in Sources */,
 				D4CBA30422805DD60023FAB9 /* SceneViewController.swift in Sources */,
 				D4CBA30522805DD60023FAB9 /* AppDelegate.swift in Sources */,
 				D46B1D702280B097003D711C /* NetDisplayGrid.swift in Sources */,
@@ -2066,7 +2025,6 @@
 			files = (
 				D4EE55FD22BC1D530076D8A1 /* KIdentifier.swift in Sources */,
 				D4EE561522BC1E500076D8A1 /* SpriteFactory.swift in Sources */,
-				D4EE55FE22BC1D530076D8A1 /* TheScene.swift in Sources */,
 				D4EE55FF22BC1D530076D8A1 /* SceneViewController.swift in Sources */,
 				D4EE560022BC1D530076D8A1 /* AppDelegate.swift in Sources */,
 				D4EE560222BC1D530076D8A1 /* NetDisplayGrid.swift in Sources */,

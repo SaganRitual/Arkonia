@@ -203,33 +203,5 @@ extension Stepper {
         return newStepper
     }
 
-    func tick() {
-        metabolism.tick()
-        core.tick()
-    }
-
-    func touchArkon(_ victimStepper: Stepper) {
-        if self.metabolism.mass > (victimStepper.metabolism.mass * 1.25) {
-            self.metabolism.parasitize(victimStepper.metabolism)
-            victimStepper.core.apoptosize()
-        } else {
-            victimStepper.metabolism.parasitize(self.metabolism)
-            self.core.apoptosize()
-        }
-    }
-
-    func touchManna(_ manna: Manna) {
-        // I guess I've died already?
-        guard let background = sprite?.parent as? SKSpriteNode else { return }
-
-        let sprite = manna.sprite
-
-        let harvested = sprite.manna.harvest()
-        metabolism.absorbEnergy(harvested)
-        metabolism.inhale()
-
-        let actions = Manna.triggerDeathCycle(sprite: sprite, background: background)
-        sprite.run(actions)
-    }
-
+    func tick() { assert(false) }
 }
