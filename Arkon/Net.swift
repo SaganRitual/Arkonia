@@ -101,12 +101,12 @@ class Net {
         for L in 1..<cOriginalLayers {
             switch Int.random(in: 0..<100) {
 
-            case 0..<50: continue
+            case 0..<80: continue
 
-            case  50..<75:
+            case  80..<90:
                 mutated.append(layers[L])
 
-            case  75..<100:
+            case  90..<100:
                 mutated.append(layers[L])
                 mutated.append(Int.random(in: 1..<10))
 

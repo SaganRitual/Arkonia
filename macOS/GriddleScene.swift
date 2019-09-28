@@ -109,6 +109,8 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
         startClock()
         //        startGenes()
         startOffspring()
+
+        self.speed = 2
     }
 
     func getCurrentTime() -> TimeInterval { return World.shared.currentTime }

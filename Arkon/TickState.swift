@@ -267,8 +267,9 @@ enum TickState {
         }
 
         func calculateShift() -> Bool {
-            let senseData = stepper!.loadSenseData()
-            statum.shiftTarget = stepper?.selectMoveTarget(senseData) ?? AKPoint.zero
+            guard let s = self.stepper else { return false }
+            let senseData = s.loadSenseData()
+            statum.shiftTarget = s.selectMoveTarget(senseData)
 
             return statum.shiftTarget != AKPoint.zero
         }
@@ -298,7 +299,7 @@ enum TickState {
                 let biases = core.net.biases
                 let weights = core.net.weights
                 let layers = core.net.layers
-                let waitAction = SKAction.wait(forDuration: 0.02)
+                let waitAction = SKAction.run {}// SKAction.wait(forDuration: 0.02)
                 let spawnAction = SKAction.run {
                     Stepper.spawn(parentBiases: biases, parentWeights: weights, layers: layers)
                 }
