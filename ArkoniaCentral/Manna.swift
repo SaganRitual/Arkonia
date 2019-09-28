@@ -20,6 +20,7 @@ class Manna {
         label: "arkonia.manna.replant.queue", qos: .background
     )
 
+    var rebloomDelay = 0.0
     var isCaptured = false
     let sprite: SKSpriteNode
 
@@ -56,7 +57,7 @@ extension Manna {
         sprite.manna.isCaptured = true
 
         let fadeOut = SKAction.fadeOut(withDuration: 0.001)
-        let wait = getWaitAction()
+        let wait = sprite.manna.getWaitAction()
 
         let replant = SKAction.run({
             var rp: (Gridlet, CGPoint)?
@@ -89,6 +90,11 @@ extension Manna {
         return SKAction.colorize(
             with: .orange, colorBlendFactor: 1.0, duration: Manna.fullGrowthDurationSeconds
         )
+    }
+
+    func getWaitAction() -> SKAction {
+        self.rebloomDelay += 0.1
+        return SKAction.wait(forDuration: self.rebloomDelay)
     }
 
     static func getWaitAction() -> SKAction { return SKAction.wait(forDuration: 1.0) }
