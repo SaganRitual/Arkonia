@@ -15,7 +15,7 @@ class World {
 
     var gameAge: TimeInterval { return World.shared.currentTime - World.shared.timeZero }
 
-    let timeLimit: TimeInterval? = 2000
+    let timeLimit: TimeInterval? = 10000
     public var entropy: TimeInterval {
         guard let t = timeLimit else { return 0 }
         return min(World.shared.gameAge / t, 1.0)

@@ -17,18 +17,20 @@ class Stepper {
     ]
 
     static let gridInputs = [
-         AKPoint(x: -2, y:  2), AKPoint(x: -1, y:  2), AKPoint(x:  0, y:  2), AKPoint(x:  1, y:  2), AKPoint(x: 2, y:  2),
-         AKPoint(x: -2, y:  1), AKPoint(x: -1, y:  1), AKPoint(x:  0, y:  1), AKPoint(x:  1, y:  1), AKPoint(x: 2, y:  1),
-         AKPoint(x: -2, y:  0), AKPoint(x: -1, y:  0), AKPoint(x:  0, y:  0), AKPoint(x:  1, y:  0), AKPoint(x: 2, y:  0),
-         AKPoint(x: -2, y: -1), AKPoint(x: -1, y: -1), AKPoint(x:  0, y: -1), AKPoint(x:  1, y: -1), AKPoint(x: 2, y: -1),
-         AKPoint(x: -2, y: -2), AKPoint(x: -1, y: -2), AKPoint(x:  0, y: -2), AKPoint(x:  1, y: -2), AKPoint(x: 2, y: -2)
+        AKPoint(x: -3, y:  3), AKPoint(x: -2, y:  3), AKPoint(x: -1, y:  3), AKPoint(x:   0, y:  3), AKPoint(x:  1, y:  3), AKPoint(x:  2, y:  3), AKPoint(x:  3, y:  3),
+        AKPoint(x: -3, y:  2), AKPoint(x: -2, y:  2), AKPoint(x: -1, y:  2), AKPoint(x:   0, y:  2), AKPoint(x:  1, y:  2), AKPoint(x:  2, y:  2), AKPoint(x:  3, y:  2),
+        AKPoint(x: -3, y:  1), AKPoint(x: -2, y:  1), AKPoint(x: -1, y:  1), AKPoint(x:   0, y:  1), AKPoint(x:  1, y:  1), AKPoint(x:  2, y:  1), AKPoint(x:  3, y:  1),
+        AKPoint(x: -3, y:  0), AKPoint(x: -2, y:  0), AKPoint(x: -1, y:  0), AKPoint(x:   0, y:  0), AKPoint(x:  1, y:  0), AKPoint(x:  2, y:  0), AKPoint(x:  3, y:  0),
+        AKPoint(x: -3, y: -1), AKPoint(x: -2, y: -1), AKPoint(x: -1, y: -1), AKPoint(x:   0, y: -1), AKPoint(x:  1, y: -1), AKPoint(x:  2, y: -1), AKPoint(x:  3, y: -1),
+        AKPoint(x: -3, y: -2), AKPoint(x: -2, y: -2), AKPoint(x: -1, y: -2), AKPoint(x:   0, y: -2), AKPoint(x:  1, y: -2), AKPoint(x:  2, y: -2), AKPoint(x:  3, y: -2),
+        AKPoint(x: -3, y: -3), AKPoint(x: -2, y: -3), AKPoint(x: -1, y: -3), AKPoint(x:   0, y: -3), AKPoint(x:  1, y: -3), AKPoint(x:  2, y: -3), AKPoint(x:  3, y: -3)
     ]
 
     let core: Arkon
     var gridlet: Gridlet
     var previousShift = AKPoint.zero
     let metabolism: Metabolism
-    var netSignal: StepperNetSignal
+    var netSignal: StepperNetSignal?
     weak var sprite: SKSpriteNode!
     var stepping = true
 
@@ -66,13 +68,13 @@ class Stepper {
         sprite.userData![SpriteUserDataKey.stepper] = self
 
         stepping = false
-        netSignal.inject(self)
-        netSignal.go()
+        netSignal!.inject(self)
+        netSignal!.go()
     }
 
-//    deinit {
-//        print("Stepper deinit")
-//    }
+    deinit {
+//        netSignal = nil
+    }
 
 //    func getTargetGridlet() -> Gridlet {
 //        let adjacentObjects: [Gridlet] = Stepper.moves.map { step in
@@ -93,24 +95,48 @@ class Stepper {
     }
 
     func loadSenseData() -> [Double] {
-        var sensoryInputs: [Double] = Stepper.gridInputs.map { step in
+        let sensoryInputs_: [(Double, Double)] = Stepper.gridInputs.map { step in
+
             let inputGridlet = step + gridlet.gridPosition
 
             if Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) {
-                return Gridlet.at(inputGridlet).contents.rawValue
+                let targetGridlet = Gridlet.at(inputGridlet)
+
+                let contents = Gridlet.at(inputGridlet).contents
+                let rvContents = contents.rawValue
+                let nutrition: Double
+                switch contents {
+                case .arkon:
+                    nutrition = Double(targetGridlet.sprite?.stepper.metabolism.energyFullness ?? 0)
+
+                case .manna:
+                    nutrition = Double(targetGridlet.sprite?.manna.energyContentInJoules ?? 0)
+
+                case .nothing:
+                    nutrition = 0
+                }
+
+                return (rvContents, nutrition)
             }
 
-            return 0
+            return (0, 0)
         }
 
-        sensoryInputs.append(1.0)//Double(metabolism.oxygenLevel))
+        var (sensoryInputs, nutritionses) = sensoryInputs_.reduce(into: ([Double](), [Double]())) {
+            $0.0.append($1.0)
+            $0.1.append($1.1)
+        }
+
+        sensoryInputs.append(contentsOf: nutritionses)
+
+//        sensoryInputs.append(1.0)//Double(metabolism.oxygenLevel))
 
         let xGrid = Double(gridlet.gridPosition.x)
         let yGrid = Double(gridlet.gridPosition.y)
 
         sensoryInputs.append(contentsOf: [xGrid, yGrid])
 
-        sensoryInputs.append(1.0)//Double(metabolism.fungibleEnergyFullness))
+//        sensoryInputs.append(1.0)//Double(metabolism.fungibleEnergyFullness))
 
         let xShift = Double(previousShift.x)
         let yShift = Double(previousShift.y)
@@ -223,110 +249,6 @@ class Stepper {
         stepping = false
     }
 
-    enum Stage { case notSet, selfOk, stepperOk, metabolismOk, moveOk }
-    class StepperNetSignal {
-        var busy = false
-        weak var stepper: Stepper?
-
-        func inject(_ stepper: Stepper) {
-            self.stepper = stepper
-        }
-
-        func go() {
-            if busy { return }
-
-//            busy = true
-
-            var shiftTarget = AKPoint.zero
-
-            guard let st = stepper else { return }
-            guard let sp = st.sprite else { return }
-
-            let goAction = SKAction.run({ [weak self] in
-
-//                print("d1", st.core.selectoid.fishNumber, Display.displayCycle)
-                guard let myself = self else {
-//                    print("x1", st.core.selectoid.fishNumber)
-                    return }
-
-                shiftTarget = AKPoint.zero
-
-//                print("d1b", st.core.selectoid.fishNumber, Display.displayCycle)
-                if !st.metabolize() {
-//                    print("x1b", st.core.selectoid.fishNumber)
-                    return }
-
-                st.metabolism.tick()  // Jesu Christi this is ugly
-
-                shiftTarget = st.selectMoveTarget(st.loadSenseData())
-
-//                print("d1c", st.core.selectoid.fishNumber, Display.displayCycle)
-                if shiftTarget == AKPoint.zero {
-//                    print("x1c", st.core.selectoid.fishNumber)
-                    return }
-
-                let newGridlet = Gridlet.at(st.gridlet.gridPosition + shiftTarget)
-
-//                let goWait = SKAction.run {} //wait(forDuration: 0.001)
-                let goStep = SKAction.move(to: newGridlet.scenePosition, duration: 0.1)
-
-                let goContents = SKAction.run {
-                    defer {
-                        st.gridlet.sprite = nil
-                        st.gridlet.contents = .nothing
-                        newGridlet.contents = .arkon
-                        newGridlet.sprite = st.sprite
-                        st.gridlet = newGridlet
-                    }
-
-                    myself.touchFood(eater: st, foodLocation: newGridlet)
-                }
-
-                let goSequence = SKAction.sequence([goStep, goContents])
-                sp.run(goSequence) {
-//                    print("d3", st.core.selectoid.fishNumber, Display.displayCycle)
-                    myself.busy = false
-                    myself.go()
-                }
-
-            }, queue: st.core.netQueue)
-
-            sp.run(goAction)
-        }
-
-        func touchFood(eater: Stepper, foodLocation: Gridlet) {
-
-            var userDataKey = SpriteUserDataKey.karamba
-
-            switch foodLocation.contents {
-            case .arkon:
-                userDataKey = .stepper
-
-                if let otherSprite = foodLocation.sprite,
-                    let otherUserData = otherSprite.userData,
-                    let otherAny = otherUserData[userDataKey],
-                    let otherStepper = otherAny as? Stepper
-                {
-                    eater.touchArkon(otherStepper)
-                }
-
-            case .manna:
-                userDataKey = .manna
-
-                if let otherSprite = foodLocation.sprite,
-                    let otherUserData = otherSprite.userData,
-                    let otherAny = otherUserData[userDataKey],
-                    let manna = otherAny as? Manna
-                {
-                    eater.touchManna(manna)
-                }
-
-            case .nothing: break
-            }
-
-        }
-    }
-
 }
 
 extension Stepper {
@@ -347,9 +269,12 @@ extension Stepper {
     }
 
     func touchArkon(_ victimStepper: Stepper) {
-        if metabolism.mass > (victimStepper.metabolism.mass * 1.25) {
-            metabolism.parasitize(victimStepper.metabolism)
+        if self.metabolism.mass > (victimStepper.metabolism.mass * 1.25) {
+            self.metabolism.parasitize(victimStepper.metabolism)
             victimStepper.core.apoptosize()
+        } else {
+            victimStepper.metabolism.parasitize(self.metabolism)
+            self.core.apoptosize()
         }
     }
 

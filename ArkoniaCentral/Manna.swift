@@ -14,7 +14,7 @@ class Manna {
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
     static let fullGrowthDurationSeconds: TimeInterval = 1.0
     static let growthRateGranularitySeconds: TimeInterval = 0.1
-    static let growthRateJoulesPerSecond: CGFloat = 1000
+    static let growthRateJoulesPerSecond: CGFloat = 1000000
 
     static var replantQueue = DispatchQueue(
         label: "arkonia.manna.replant.queue", qos: .background
@@ -24,7 +24,7 @@ class Manna {
     let sprite: SKSpriteNode
 
     var energyContentInJoules: CGFloat {
-        let fudgeFactor: CGFloat = 500
+        let fudgeFactor: CGFloat = 500000
         var f = fudgeFactor * (sprite.colorBlendFactor - Manna.colorBlendMinimum)
         f /= Manna.colorBlendRangeWidth
         f *= Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
