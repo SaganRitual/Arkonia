@@ -1,4 +1,6 @@
 .DS_Store
+xcuserdata/
+!Karamba.xcodeproj/**/xcuserdata/
 assets/
 build/
 node_modules/
