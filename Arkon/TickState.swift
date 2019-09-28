@@ -3,7 +3,7 @@ import SpriteKit
 
 protocol TickStateProtocol: GKState {
     var core: Arkon { get }
-    var metabolism: Metabolism { get }
+    var metabolism: Metabolism? { get }
     var sprite: SKSpriteNode { get }
     var statum: TickStatum! { get set }
     var stepper: Stepper? { get }
@@ -12,7 +12,7 @@ protocol TickStateProtocol: GKState {
 
 extension TickStateProtocol {
     var core: Arkon { return stepper!.core }
-    var metabolism: Metabolism { return stepper!.metabolism }
+    var metabolism: Metabolism? { return stepper?.metabolism }
     var sprite: SKSpriteNode { return stepper!.sprite }
     var stepper: Stepper? { return statum.stepper }
 
@@ -96,25 +96,25 @@ enum TickState {
         }
 
         func colorize() {
-            let ef = metabolism.fungibleEnergyFullness
+            let ef = metabolism?.fungibleEnergyFullness ?? 0
             core.nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 
             let baseColor: Int
             if core.selectoid.fishNumber < 10 {
                 baseColor = 0xFF_00_00
             } else {
-                baseColor = (metabolism.spawnEnergyFullness > 0) ?
+                baseColor = ((metabolism?.spawnEnergyFullness ?? 0) > 0) ?
                     Arkon.brightColor : Arkon.standardColor
             }
 
             let four: CGFloat = 4
             sprite.color = ColorGradient.makeColorMixRedBlue(
                 baseColor: baseColor,
-                redPercentage: metabolism.spawnEnergyFullness,
+                redPercentage: metabolism?.spawnEnergyFullness ?? 0,
                 bluePercentage: max((four - CGFloat(core.age)) / four, 0.0)
             )
 
-            sprite.colorBlendFactor = metabolism.oxygenLevel
+            sprite.colorBlendFactor = metabolism?.oxygenLevel ?? 0
         }
     }
 
@@ -139,7 +139,7 @@ enum TickState {
 
         func metabolize() {
             let action = SKAction.run({ [weak self] in
-                self?.metabolism.tick()
+                self?.metabolism?.tick()
                 self?.stateMachine?.enter(TickState.Colorize.self)
             }, queue: self.core.netQueue)
 
@@ -189,11 +189,14 @@ enum TickState {
         }
 
         func touchArkon(_ victimStepper: Stepper) {
-            if self.metabolism.mass > (victimStepper.metabolism.mass * 1.25) {
-                self.metabolism.parasitize(victimStepper.metabolism)
+            if (self.metabolism?.mass ?? 0) > (victimStepper.metabolism.mass * 1.25) {
+                self.metabolism?.parasitize(victimStepper.metabolism)
                 victimStepper.tickStatum?.sm.enter(TickState.Apoptosize.self)
             } else {
-                victimStepper.metabolism.parasitize(self.metabolism)
+                if let m = self.metabolism {
+                    victimStepper.metabolism.parasitize(m)
+                }
+
                 self.stateMachine?.enter(TickState.Apoptosize.self)
             }
         }
@@ -237,8 +240,8 @@ enum TickState {
             let sprite = manna.sprite
 
             let harvested = sprite.manna.harvest()
-            metabolism.absorbEnergy(harvested)
-            metabolism.inhale()
+            metabolism?.absorbEnergy(harvested)
+            metabolism?.inhale()
 
             let actions = Manna.triggerDeathCycle(sprite: sprite, background: background)
             sprite.run(actions)
@@ -293,8 +296,8 @@ enum TickState {
             let spawnCost = EnergyReserve.startingEnergyLevel * 1.10
 
 //            print("msrv", metabolism.spawnReserves.level, spawnCost)
-            if metabolism.spawnReserves.level >= spawnCost {
-                metabolism.withdrawFromSpawn(spawnCost)
+            if (metabolism?.spawnReserves.level ?? 0) >= spawnCost {
+                metabolism?.withdrawFromSpawn(spawnCost)
 
                 let biases = core.net.biases
                 let weights = core.net.weights
@@ -334,14 +337,15 @@ enum TickState {
         func funge() -> Bool {
             let fudgeFactor: CGFloat = 0.2
             let targetSpeed: CGFloat = 0.1 * 1000  // some random # * 1000 pixels/sec
-            let joulesNeeded = fudgeFactor * abs(targetSpeed) * metabolism.mass
+            let joulesNeeded = fudgeFactor * abs(targetSpeed) * (metabolism?.mass ?? 0)
 
-            metabolism.withdrawFromReady(joulesNeeded)
+            metabolism?.withdrawFromReady(joulesNeeded)
 
             let oxygenCost: TimeInterval = core.age < TimeInterval(5) ? 0 : 1
-            metabolism.oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
+            metabolism?.oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
 
-            return metabolism.fungibleEnergyFullness > 0 && metabolism.oxygenLevel > 0
+            return (metabolism?.fungibleEnergyFullness ?? 0) > 0 &&
+                    (metabolism?.oxygenLevel ?? 0) > 0
         }
     }
 }
