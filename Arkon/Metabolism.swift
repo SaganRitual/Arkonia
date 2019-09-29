@@ -201,7 +201,7 @@ class Metabolism: EnergySourceProtocol, MetabolismProtocol {
     }
 
     func tick() {
-        let internalTransferRate: CGFloat = 1000.0
+        let internalTransferRate: CGFloat = CGFloat(Double.infinity)
 
         defer { updatePhysicsBodyMass() }
 

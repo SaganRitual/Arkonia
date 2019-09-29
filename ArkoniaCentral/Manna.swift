@@ -14,7 +14,7 @@ class Manna {
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
     static let fullGrowthDurationSeconds: TimeInterval = 10.0
     static let growthRateGranularitySeconds: TimeInterval = 0.1
-    static let growthRateJoulesPerSecond: CGFloat = 50
+    static let growthRateJoulesPerSecond: CGFloat = 2000
 
     static var replantQueue = DispatchQueue(
         label: "arkonia.manna.replant.queue", qos: .background
