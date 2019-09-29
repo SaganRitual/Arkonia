@@ -187,7 +187,7 @@ class Stepper {
 
         guard let tm = targetMove else { previousShift = AKPoint.zero; return AKPoint.zero }
 //        print("tm", core.selectoid.fishNumber, tm.0, tm.1, Stepper.moves[tm.0])
-        previousShift = targetShift// * -1
+        previousShift = targetShift * -1
         return Stepper.moves[tm.0]
     }
 

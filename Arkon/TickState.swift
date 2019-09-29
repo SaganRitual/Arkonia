@@ -293,7 +293,7 @@ enum TickState {
 
         func attemptSpawn() {
             // 10% entropy
-            let spawnCost = EnergyReserve.startingEnergyLevel * 1.10
+            let spawnCost = EnergyReserve.startingEnergyLevel * 1.0
 
 //            print("msrv", metabolism.spawnReserves.level, spawnCost)
             if (metabolism?.spawnReserves.level ?? 0) >= spawnCost {
