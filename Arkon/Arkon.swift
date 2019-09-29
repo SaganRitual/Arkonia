@@ -65,9 +65,16 @@ class Arkon {
 
     var age: TimeInterval { Arkon.clock!.getCurrentTime() - selectoid.birthday }
 
-    init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
+    init(
+        parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
+        parentActivator: ((_: Double) -> Double)?
+    ) {
+
         selectoid = Selectoid(birthday: Arkon.clock!.getCurrentTime())
-        net = Net(parentBiases: parentBiases, parentWeights: parentWeights, layers: layers)
+        net = Net(
+            parentBiases: parentBiases, parentWeights: parentWeights,
+            layers: layers, parentActivator: parentActivator
+        )
 
         sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
         sprite.setScale(Arkon.scaleFactor)

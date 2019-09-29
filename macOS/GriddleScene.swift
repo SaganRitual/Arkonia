@@ -109,8 +109,6 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
         startClock()
         //        startGenes()
         startOffspring()
-
-        self.speed = 2
     }
 
     func getCurrentTime() -> TimeInterval { return World.shared.currentTime }
@@ -210,7 +208,10 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         let cProgenitors = 25
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
-            Stepper.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
+            Stepper.spawn(
+                parentBiases: nil, parentWeights: nil,
+                layers: nil, parentActivator: nil
+            )
         }
 
         arkonsPortal.children.compactMap({ $0.userData?[SpriteUserDataKey.stepper] as? Stepper }).forEach {

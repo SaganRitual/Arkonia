@@ -299,12 +299,16 @@ enum TickState {
             if (metabolism?.spawnReserves.level ?? 0) >= spawnCost {
                 metabolism?.withdrawFromSpawn(spawnCost)
 
+                let activator = core.net.activatorFunction
                 let biases = core.net.biases
                 let weights = core.net.weights
                 let layers = core.net.layers
                 let waitAction = SKAction.run {}// SKAction.wait(forDuration: 0.02)
                 let spawnAction = SKAction.run {
-                    Stepper.spawn(parentBiases: biases, parentWeights: weights, layers: layers)
+                    Stepper.spawn(
+                        parentBiases: biases, parentWeights: weights,
+                        layers: layers, parentActivator: activator
+                    )
                 }
 
                 let sequence = SKAction.sequence([waitAction, spawnAction])
@@ -335,9 +339,8 @@ enum TickState {
         }
 
         func funge() -> Bool {
-            let fudgeFactor: CGFloat = 0.2
-            let targetSpeed: CGFloat = 0.1 * 1000  // some random # * 1000 pixels/sec
-            let joulesNeeded = fudgeFactor * abs(targetSpeed) * (metabolism?.mass ?? 0)
+            let fudgeFactor: CGFloat = 1
+            let joulesNeeded = fudgeFactor * (metabolism?.mass ?? 0)
 
             metabolism?.withdrawFromReady(joulesNeeded)
 

@@ -17,13 +17,15 @@ class Stepper {
     ]
 
     static let gridInputs = [
-        AKPoint(x: -3, y:  3), AKPoint(x: -2, y:  3), AKPoint(x: -1, y:  3), AKPoint(x:   0, y:  3), AKPoint(x:  1, y:  3), AKPoint(x:  2, y:  3), AKPoint(x:  3, y:  3),
-        AKPoint(x: -3, y:  2), AKPoint(x: -2, y:  2), AKPoint(x: -1, y:  2), AKPoint(x:   0, y:  2), AKPoint(x:  1, y:  2), AKPoint(x:  2, y:  2), AKPoint(x:  3, y:  2),
-        AKPoint(x: -3, y:  1), AKPoint(x: -2, y:  1), AKPoint(x: -1, y:  1), AKPoint(x:   0, y:  1), AKPoint(x:  1, y:  1), AKPoint(x:  2, y:  1), AKPoint(x:  3, y:  1),
-        AKPoint(x: -3, y:  0), AKPoint(x: -2, y:  0), AKPoint(x: -1, y:  0), AKPoint(x:   0, y:  0), AKPoint(x:  1, y:  0), AKPoint(x:  2, y:  0), AKPoint(x:  3, y:  0),
-        AKPoint(x: -3, y: -1), AKPoint(x: -2, y: -1), AKPoint(x: -1, y: -1), AKPoint(x:   0, y: -1), AKPoint(x:  1, y: -1), AKPoint(x:  2, y: -1), AKPoint(x:  3, y: -1),
-        AKPoint(x: -3, y: -2), AKPoint(x: -2, y: -2), AKPoint(x: -1, y: -2), AKPoint(x:   0, y: -2), AKPoint(x:  1, y: -2), AKPoint(x:  2, y: -2), AKPoint(x:  3, y: -2),
-        AKPoint(x: -3, y: -3), AKPoint(x: -2, y: -3), AKPoint(x: -1, y: -3), AKPoint(x:   0, y: -3), AKPoint(x:  1, y: -3), AKPoint(x:  2, y: -3), AKPoint(x:  3, y: -3)
+        AKPoint(x: -4, y:  4), AKPoint(x: -3, y:  4), AKPoint(x: -2, y:  4), AKPoint(x: -1, y:  4), AKPoint(x:   0, y:  4), AKPoint(x:  1, y:  4), AKPoint(x:  2, y:  4), AKPoint(x:  3, y:  4), AKPoint(x:  4, y:  4),
+        AKPoint(x: -4, y:  3), AKPoint(x: -3, y:  3), AKPoint(x: -2, y:  3), AKPoint(x: -1, y:  3), AKPoint(x:   0, y:  3), AKPoint(x:  1, y:  3), AKPoint(x:  2, y:  3), AKPoint(x:  3, y:  3), AKPoint(x:  4, y:  3),
+        AKPoint(x: -4, y:  2), AKPoint(x: -3, y:  2), AKPoint(x: -2, y:  2), AKPoint(x: -1, y:  2), AKPoint(x:   0, y:  2), AKPoint(x:  1, y:  2), AKPoint(x:  2, y:  2), AKPoint(x:  3, y:  2), AKPoint(x:  4, y:  2),
+        AKPoint(x: -4, y:  1), AKPoint(x: -3, y:  1), AKPoint(x: -2, y:  1), AKPoint(x: -1, y:  1), AKPoint(x:   0, y:  1), AKPoint(x:  1, y:  1), AKPoint(x:  2, y:  1), AKPoint(x:  3, y:  1), AKPoint(x:  4, y:  1),
+        AKPoint(x: -4, y:  0), AKPoint(x: -3, y:  0), AKPoint(x: -2, y:  0), AKPoint(x: -1, y:  0), AKPoint(x:   0, y:  0), AKPoint(x:  1, y:  0), AKPoint(x:  2, y:  0), AKPoint(x:  3, y:  0), AKPoint(x:  4, y:  0),
+        AKPoint(x: -4, y: -1), AKPoint(x: -3, y: -1), AKPoint(x: -2, y: -1), AKPoint(x: -1, y: -1), AKPoint(x:   0, y: -1), AKPoint(x:  1, y: -1), AKPoint(x:  2, y: -1), AKPoint(x:  3, y: -1), AKPoint(x:  4, y: -1),
+        AKPoint(x: -4, y: -2), AKPoint(x: -3, y: -2), AKPoint(x: -2, y: -2), AKPoint(x: -1, y: -2), AKPoint(x:   0, y: -2), AKPoint(x:  1, y: -2), AKPoint(x:  2, y: -2), AKPoint(x:  3, y: -2), AKPoint(x:  4, y: -2),
+        AKPoint(x: -4, y: -3), AKPoint(x: -3, y: -3), AKPoint(x: -2, y: -3), AKPoint(x: -1, y: -3), AKPoint(x:   0, y: -3), AKPoint(x:  1, y: -3), AKPoint(x:  2, y: -3), AKPoint(x:  3, y: -3), AKPoint(x:  4, y: -3),
+        AKPoint(x: -4, y: -4), AKPoint(x: -3, y: -4), AKPoint(x: -2, y: -4), AKPoint(x: -1, y: -4), AKPoint(x:   0, y: -4), AKPoint(x:  1, y: -4), AKPoint(x:  2, y: -4), AKPoint(x:  3, y: -4), AKPoint(x:  4, y: -4)
     ]
 
     let core: Arkon
@@ -34,9 +36,14 @@ class Stepper {
     var stepping = true
     var tickStatum: TickStatum?
 
-    init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
+    init(
+        parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
+        parentActivator: ((_: Double) -> Double)?
+    ) {
+
         self.core = Arkon(
-            parentBiases: parentBiases, parentWeights: parentWeights, layers: layers
+            parentBiases: parentBiases, parentWeights: parentWeights,
+            layers: layers, parentActivator: parentActivator
         )
 
         var rp: (Gridlet, CGPoint)
@@ -121,7 +128,7 @@ class Stepper {
                 return (rvContents, nutrition)
             }
 
-            return (0, 0)
+            return (Gridlet.Contents.nothing.rawValue, -1e6)
         }
 
         var (sensoryInputs, nutritionses) = sensoryInputs_.reduce(into: ([Double](), [Double]())) {
@@ -143,8 +150,7 @@ class Stepper {
         let xShift = Double(previousShift.x)
         let yShift = Double(previousShift.y)
 
-        sensoryInputs.append(Double(xShift))
-        sensoryInputs.append(Double(yShift))
+        sensoryInputs.append(contentsOf: [xShift, yShift])
 
 //        print("si", core.selectoid.fishNumber, sensoryInputs)
         return sensoryInputs
@@ -161,7 +167,7 @@ class Stepper {
         var targetShift = AKPoint.zero
         let targetMove = order.first { entry in
             targetShift = Stepper.moves[entry.0]
-            if targetShift == previousShift { return false }
+
 //            print("ts", core.selectoid.fishNumber, targetShift)
             if abs(targetShift.x) > 1 || abs(targetShift.y) > 1 { return false }
 
@@ -179,9 +185,9 @@ class Stepper {
             return true
         }
 
-        guard let tm = targetMove else { previousShift = AKPoint.zero; return AKPoint(x: 0, y: 0) }
+        guard let tm = targetMove else { previousShift = AKPoint.zero; return AKPoint.zero }
 //        print("tm", core.selectoid.fishNumber, tm.0, tm.1, Stepper.moves[tm.0])
-        previousShift = targetShift * -1
+        previousShift = targetShift// * -1
         return Stepper.moves[tm.0]
     }
 
@@ -194,10 +200,14 @@ class Stepper {
 extension Stepper {
 
     @discardableResult
-    static func spawn(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) -> Stepper {
+    static func spawn(
+        parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
+        parentActivator: ((_: Double) -> Double)?
+    ) -> Stepper {
 
         let newStepper = Stepper(
-            parentBiases: parentBiases, parentWeights: parentWeights, layers: layers
+            parentBiases: parentBiases, parentWeights: parentWeights,
+            layers: layers, parentActivator: parentActivator
         )
 
         return newStepper
