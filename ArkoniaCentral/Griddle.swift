@@ -22,6 +22,7 @@ struct AKPoint: Hashable {
 class Gridlet {
     var contents = Contents.nothing
     let gridPosition: AKPoint
+    var isEngaged = false
     let scenePosition: CGPoint
     var sprite: SKSpriteNode?
 

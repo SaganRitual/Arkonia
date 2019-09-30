@@ -51,8 +51,12 @@ class Arkon {
     let net: Net
     var netDisplay: NetDisplay!
 
-    var netQueue = DispatchQueue(
-        label: "arkonia.net.queue", qos: .background, attributes: .concurrent
+    static let asyncQueue = DispatchQueue(
+        label: "arkonia.async.queue", qos: .background, attributes: .concurrent
+    )
+
+    static let syncQueue = DispatchQueue(
+        label: "arkonia.sync.queue", qos: .background
     )
 
     let nose: SKSpriteNode

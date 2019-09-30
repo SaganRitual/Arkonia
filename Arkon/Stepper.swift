@@ -46,35 +46,20 @@ class Stepper {
             layers: layers, parentActivator: parentActivator
         )
 
-        let rp = Stepper.getOffspringPosition(parentPosition: parentPosition)
+        let rp = Stepper.setOffspringPosition(parentPosition: parentPosition)
 
         self.gridlet = rp.0
         self.gridlet.contents = .arkon
+        self.sprite = core.sprite
 
-        self.sprite = core.sprite// Arkon.spriteFactory!.arkonsHangar.makeSprite()
-
-//        Arkon.arkonsPortal!.addChild(sprite)
         sprite.color = .cyan
         sprite.position = gridlet.scenePosition
         sprite.setScale(0.5)
 
-//        print(
-//            "st",
-//            gridlet.gridPosition.x, gridlet.gridPosition.y,
-//            gridlet.scenePosition.x, gridlet.scenePosition.y,
-//            sprite.position.x, sprite.position.y,
-//            ak.x, ak.y
-//        )
-
-//        stepComplete(gridlet)
-
         metabolism = Metabolism()
-//        netSignal = StepperNetSignal()
         sprite.userData![SpriteUserDataKey.stepper] = self
 
         stepping = false
-//        netSignal!.inject(self)
-//        netSignal!.go()
 
         tickStatum = TickStatum(stepper: self)
     }
@@ -90,32 +75,6 @@ class Stepper {
             t[position] = weight
             return t
         }
-    }
-
-    static func getOffspringPosition(parentPosition: AKPoint?) -> (Gridlet, CGPoint) {
-
-        if let pp = parentPosition {
-            for offset in Stepper.gridInputs {
-                let offspringPosition = pp + offset
-
-                if Gridlet.isOnGrid(offspringPosition.x, offspringPosition.y) {
-                    let gridlet = Gridlet.at(offspringPosition)
-                    if gridlet.contents == .nothing {
-                        return (gridlet, gridlet.scenePosition)
-                    }
-                }
-            }
-        }
-
-        var rp: (Gridlet, CGPoint)
-        var gridlet: Gridlet
-
-        repeat {
-            rp = Arkon.arkonsPortal!.getRandomPoint()
-            gridlet = rp.0
-        } while gridlet.contents != .nothing
-
-        return rp
     }
 
     func loadSenseData() -> [Double] {
@@ -153,21 +112,14 @@ class Stepper {
 
         sensoryInputs.append(contentsOf: nutritionses)
 
-//        sensoryInputs.append(1.0)//Double(metabolism.oxygenLevel))
-
         let xGrid = Double(gridlet.gridPosition.x)
         let yGrid = Double(gridlet.gridPosition.y)
-
         sensoryInputs.append(contentsOf: [xGrid, yGrid])
-
-//        sensoryInputs.append(1.0)//Double(metabolism.fungibleEnergyFullness))
 
         let xShift = Double(previousShift.x)
         let yShift = Double(previousShift.y)
-
         sensoryInputs.append(contentsOf: [xShift, yShift])
 
-//        print("si", core.selectoid.fishNumber, sensoryInputs)
         return sensoryInputs
     }
 
@@ -189,7 +141,16 @@ class Stepper {
             let targetGridPosition = targetShift + gridlet.gridPosition
             if !Gridlet.isOnGrid(targetGridPosition.x, targetGridPosition.y) { return false }
 
-//            let testGridlet = Gridlet.at(targetGridPosition)
+            let testGridlet = Gridlet.at(targetGridPosition)
+            var isAlreadyEngaged = true
+
+            Arkon.syncQueue.sync {
+                isAlreadyEngaged = testGridlet.isEngaged
+
+                if !isAlreadyEngaged {
+                    testGridlet.isEngaged = true
+                }
+            }
 
 //            print(
 //                "tg", core.selectoid.fishNumber, gridlet.gridPosition,
@@ -197,7 +158,7 @@ class Stepper {
 //                self.gridlet.contents, testGridlet.contents
 //            )
 
-            return true
+            return !isAlreadyEngaged
         }
 
         guard let tm = targetMove else { previousShift = AKPoint.zero; return AKPoint.zero }
@@ -206,8 +167,30 @@ class Stepper {
         return Stepper.moves[tm.0]
     }
 
-    func realStepComplete() {
-        stepping = false
+    static func setOffspringPosition(parentPosition: AKPoint?) -> (Gridlet, CGPoint) {
+
+        if let pp = parentPosition {
+            for offset in Stepper.gridInputs {
+                let offspringPosition = pp + offset
+
+                if Gridlet.isOnGrid(offspringPosition.x, offspringPosition.y) {
+                    let gridlet = Gridlet.at(offspringPosition)
+                    if gridlet.contents == .nothing {
+                        return (gridlet, gridlet.scenePosition)
+                    }
+                }
+            }
+        }
+
+        var rp: (Gridlet, CGPoint)
+        var gridlet: Gridlet
+
+        repeat {
+            rp = Arkon.arkonsPortal!.getRandomPoint()
+            gridlet = rp.0
+        } while gridlet.contents != .nothing
+
+        return rp
     }
 
 }

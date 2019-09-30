@@ -36,15 +36,6 @@ class TickStatum {
             TickState.Spawnable(), TickState.Start()
         ]
 
-        // Start (funge)
-        // Spawnable
-        // Metabolize?
-        // Colorize
-        // Shiftable
-        // Shift
-        // Apoptosize
-        // Dead
-
         sm = GKStateMachine(states: states)
         self.states = states
 
@@ -141,7 +132,7 @@ enum TickState {
             let action = SKAction.run({ [weak self] in
                 self?.metabolism?.tick()
                 self?.stateMachine?.enter(TickState.Colorize.self)
-            }, queue: self.core.netQueue)
+            }, queue: Arkon.asyncQueue)
 
             sprite.run(action)
         }
@@ -173,6 +164,7 @@ enum TickState {
                     myself.stepper?.gridlet.sprite = nil
                     myself.stepper?.gridlet.contents = .nothing
 
+                    newGridlet.isEngaged = false
                     newGridlet.contents = .arkon
                     newGridlet.sprite = myself.sprite
 
@@ -264,7 +256,7 @@ enum TickState {
                 self?.stateMachine?.enter(
                     shiftable ? TickState.Shift.self : TickState.Start.self
                 )
-            }, queue: self.core.netQueue)
+            }, queue: Arkon.asyncQueue)
 
             sprite.run(action)
         }

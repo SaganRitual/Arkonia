@@ -100,7 +100,7 @@ extension Manna {
     static func getWaitAction() -> SKAction { return SKAction.wait(forDuration: 1.0) }
 
     static func plantAllManna(background: SKSpriteNode, spriteFactory: SpriteFactory) {
-        for ss in 0..<Manna.cMorsels {
+        for _ in 0..<Manna.cMorsels {
             let sprite = spriteFactory.mannaHangar.makeSprite()
             let manna = Manna(sprite)
 
@@ -115,20 +115,9 @@ extension Manna {
 
             background.addChild(sprite)
 
-//            sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
-//            sprite.physicsBody!.mass = 1
             sprite.setScale(0.1)
             sprite.color = .orange
             sprite.colorBlendFactor = Manna.colorBlendMinimum
-
-//            sprite.physicsBody!.categoryBitMask = PhysicsBitmask.mannaBody.rawValue
-//            sprite.physicsBody!.collisionBitMask = 0
-//            sprite.physicsBody!.contactTestBitMask = 0
-
-            let lifetimeAction = SKAction.wait(forDuration: TimeInterval(ss * 2 + 10))
-            let killAction = SKAction.removeFromParent()
-            let apoptosisAction = SKAction.sequence([lifetimeAction, killAction])
-            sprite.run(apoptosisAction)
 
             runGrowthPhase(sprite: sprite, background: background)
         }
