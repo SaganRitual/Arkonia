@@ -38,7 +38,7 @@ class Stepper {
 
     init(
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
-        parentActivator: ((_: Double) -> Double)?
+        parentActivator: ((_: Double) -> Double)?, parentPosition: AKPoint?
     ) {
 
         self.core = Arkon(
@@ -46,13 +46,11 @@ class Stepper {
             layers: layers, parentActivator: parentActivator
         )
 
-        var rp: (Gridlet, CGPoint)
-        repeat {
-            rp = Arkon.arkonsPortal!.getRandomPoint()
-            gridlet = rp.0
-        } while gridlet.contents != .nothing
+        let rp = Stepper.getOffspringPosition(parentPosition: parentPosition)
 
-        gridlet.contents = .arkon
+        self.gridlet = rp.0
+        self.gridlet.contents = .arkon
+
         self.sprite = core.sprite// Arkon.spriteFactory!.arkonsHangar.makeSprite()
 
 //        Arkon.arkonsPortal!.addChild(sprite)
@@ -85,15 +83,6 @@ class Stepper {
 //        netSignal = nil
     }
 
-//    func getTargetGridlet() -> Gridlet {
-//        let adjacentObjects: [Gridlet] = Stepper.moves.map { step in
-//            let inputGridlet = step + gridlet.gridPosition
-//            return Gridlet.at(inputGridlet).contents.rawValue
-//        }
-//    }
-
-//    var counter = 0
-
     func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
         return senseData.enumerated().reduce([:]) { accumulated, pw in
             let (position, weight) = pw
@@ -101,6 +90,32 @@ class Stepper {
             t[position] = weight
             return t
         }
+    }
+
+    static func getOffspringPosition(parentPosition: AKPoint?) -> (Gridlet, CGPoint) {
+
+        if let pp = parentPosition {
+            for offset in Stepper.gridInputs {
+                let offspringPosition = pp + offset
+
+                if Gridlet.isOnGrid(offspringPosition.x, offspringPosition.y) {
+                    let gridlet = Gridlet.at(offspringPosition)
+                    if gridlet.contents == .nothing {
+                        return (gridlet, gridlet.scenePosition)
+                    }
+                }
+            }
+        }
+
+        var rp: (Gridlet, CGPoint)
+        var gridlet: Gridlet
+
+        repeat {
+            rp = Arkon.arkonsPortal!.getRandomPoint()
+            gridlet = rp.0
+        } while gridlet.contents != .nothing
+
+        return rp
     }
 
     func loadSenseData() -> [Double] {
@@ -202,12 +217,13 @@ extension Stepper {
     @discardableResult
     static func spawn(
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
-        parentActivator: ((_: Double) -> Double)?
+        parentActivator: ((_: Double) -> Double)?, parentPosition: AKPoint?
     ) -> Stepper {
 
         let newStepper = Stepper(
             parentBiases: parentBiases, parentWeights: parentWeights,
-            layers: layers, parentActivator: parentActivator
+            layers: layers, parentActivator: parentActivator,
+            parentPosition: parentPosition
         )
 
         return newStepper

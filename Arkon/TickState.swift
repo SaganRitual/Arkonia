@@ -304,10 +304,11 @@ enum TickState {
                 let weights = core.net.weights
                 let layers = core.net.layers
                 let waitAction = SKAction.run {}// SKAction.wait(forDuration: 0.02)
-                let spawnAction = SKAction.run {
+                let spawnAction = SKAction.run { [weak self] in
                     Stepper.spawn(
                         parentBiases: biases, parentWeights: weights,
-                        layers: layers, parentActivator: activator
+                        layers: layers, parentActivator: activator,
+                        parentPosition: self?.stepper?.gridlet.gridPosition ?? AKPoint.zero
                     )
                 }
 
