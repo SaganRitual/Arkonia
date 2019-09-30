@@ -129,14 +129,6 @@ class Arkon {
     }
 
     func tick() {
-//        let realScene = (arkonsPortal.parent as? SKScene)!
-//        let converted = arkonsPortal.convert(sprite.position, to: realScene)
-//
-//        guard arkonsPortal.frame.contains(converted) else {
-//            apoptosize()
-//            return
-//        }
-//
         World.shared.registerAge(age)
     }
 }

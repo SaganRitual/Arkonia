@@ -72,7 +72,6 @@ class EnergyReserve {
 
     func deposit(_ cJoules: CGFloat) {
         if cJoules <= 0 { return }  // Energy level can go slightly neg, rounding?
-        precondition(cJoules > -0.1)
 
         level = min(level + cJoules, capacity)
     }
@@ -162,7 +161,7 @@ class Metabolism: EnergySourceProtocol, MetabolismProtocol {
         stomach.deposit(cJoules)
 
 //        print(
-//            "Deposit",
+//            " Deposit",
 //            String(format: "% 6.2f ", stomach.level),
 //            String(format: "% 6.2f ", readyEnergyReserves.level),
 //            String(format: "% 6.2f ", fatReserves.level),
@@ -202,7 +201,7 @@ class Metabolism: EnergySourceProtocol, MetabolismProtocol {
     }
 
     func tick() {
-        let internalTransferRate: CGFloat = 2.0
+        let internalTransferRate: CGFloat = 5.0
 
         defer { updatePhysicsBodyMass() }
 

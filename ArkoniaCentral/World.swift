@@ -17,8 +17,9 @@ class World {
 
     let timeLimit: TimeInterval? = 10000
     public var entropy: TimeInterval {
-        guard let t = timeLimit else { return 0 }
-        return min(World.shared.gameAge / t, 1.0)
+//        guard let t = timeLimit else { return 0 }
+//        return min(World.shared.gameAge / t, 1.0)
+        return 0.0  // No entropy
     }
 
     public var foodValue: CGFloat {

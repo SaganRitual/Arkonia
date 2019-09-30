@@ -12,19 +12,20 @@ class Manna {
     static let cMorsels = 2500
     static let colorBlendMinimum: CGFloat = 0.25
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
-    static let fullGrowthDurationSeconds: TimeInterval = 1.0
+    static let fullGrowthDurationSeconds: TimeInterval = 10.0
     static let growthRateGranularitySeconds: TimeInterval = 0.1
-    static let growthRateJoulesPerSecond: CGFloat = 1000000
+    static let growthRateJoulesPerSecond: CGFloat = 50
 
     static var replantQueue = DispatchQueue(
         label: "arkonia.manna.replant.queue", qos: .background
     )
 
+    var rebloomDelay = 0.0
     var isCaptured = false
     let sprite: SKSpriteNode
 
     var energyContentInJoules: CGFloat {
-        let fudgeFactor: CGFloat = 500000
+        let fudgeFactor: CGFloat = 1
         var f = fudgeFactor * (sprite.colorBlendFactor - Manna.colorBlendMinimum)
         f /= Manna.colorBlendRangeWidth
         f *= Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
@@ -56,7 +57,7 @@ extension Manna {
         sprite.manna.isCaptured = true
 
         let fadeOut = SKAction.fadeOut(withDuration: 0.001)
-        let wait = getWaitAction()
+        let wait = sprite.manna.getWaitAction()
 
         let replant = SKAction.run({
             var rp: (Gridlet, CGPoint)?
@@ -89,6 +90,11 @@ extension Manna {
         return SKAction.colorize(
             with: .orange, colorBlendFactor: 1.0, duration: Manna.fullGrowthDurationSeconds
         )
+    }
+
+    func getWaitAction() -> SKAction {
+        self.rebloomDelay += 0.1
+        return SKAction.wait(forDuration: self.rebloomDelay)
     }
 
     static func getWaitAction() -> SKAction { return SKAction.wait(forDuration: 1.0) }
