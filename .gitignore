@@ -1,7 +1,5 @@
 .DS_Store
-xcuserdata/
-!Karamba.xcodeproj/**/xcuserdata/
-xcuserstate/
+Karamba.xcodeproj/project.xcworkspace/xcuserdata/rob.xcuserdatad/UserInterfaceState.xcuserstate
 assets/
 build/
 node_modules/
