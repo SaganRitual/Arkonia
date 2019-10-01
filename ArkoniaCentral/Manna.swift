@@ -94,7 +94,7 @@ extension Manna {
 
         sprite.run(colorAction)
     }
-    
+
     static func triggerDeathCycle(sprite: SKSpriteNode, background: SKSpriteNode) -> SKAction {
         if sprite.manna.isCaptured { return SKAction.run {} }
 

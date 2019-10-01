@@ -34,7 +34,10 @@ class Gridlet {
 
     static func at(_ x: Int, _ y: Int) -> Gridlet {
         let p = AKPoint(x: x, y: y)
-        let g = Griddle.gridlets[p]!
+        guard let g = Griddle.gridlets[p] else {
+//            print(Griddle.gridlets)
+            fatalError()
+        }
 //        print("p", p, g.gridPosition)
 
         return g
@@ -46,8 +49,8 @@ class Gridlet {
         let cx = Griddle.dimensions.wGrid - 1
         let cy = Griddle.dimensions.hGrid - 1
 
-        let constrainedX = min(cx, max(-cx, x))
-        let constrainedY = min(cy, max(-cy, y))
+        let constrainedX = min(cx - 1, max(-cx + 1, x))
+        let constrainedY = min(cy - 1, max(-cy + 1, y))
 
 //        print("cg", x, constrainedX, y, constrainedY)
 
@@ -117,7 +120,7 @@ class Griddle {
             drawGridLine(portal, +x, -d.hPortal, +x, d.hPortal)
         }
 
-        for y in stride(from: 0, to: d.hPortal, by: d.hSprite) {
+        for y in stride(from: 0, to: d.hPortal - d.hSprite, by: d.hSprite) {
             let yGrid = y / d.hSprite
 
             if drawLines == true {
@@ -128,60 +131,81 @@ class Griddle {
 
             placeGridlet(y, yGrid)
         }
-
-//        print("w", d.wPortal * 2 / d.wSprite, d.hPortal * 2 / d.hSprite)
-
-//        let shape = SKSpriteNode(color: .blue, size: CGSize(width: 100, height: 100))
-//        portal.addChild(shape)
     }
 
+    //swiftmint:disable function_body_length
     func placeGridlet(_ y: Int, _ yGrid: Int) {
         let d = Griddle.dimensions!
 
-        for x in stride(from: 0, to: d.wPortal, by: d.wSprite) {
+        for x in stride(from: 0, to: d.wPortal - d.wSprite, by: d.wSprite) {
             let xGrid = x / d.wSprite
 
             switch (x, y) {
             case (0, 0):
                 let p = AKPoint(x: xGrid, y: yGrid)
+//                print("place1 at", p)
                 Griddle.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint.zero)
 
             case (_, 0):
-                let p = AKPoint(x:  xGrid, y: yGrid)
-                let q = AKPoint(x: -xGrid, y: yGrid)
 
+                let p = AKPoint(x:  xGrid, y: yGrid)
+//                print("place2 at", p)
                 Griddle.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint(x:  x, y: y))
-                Griddle.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: -x, y: y))
+
+                if xGrid < d.wGrid {
+                    let q = AKPoint(x: -xGrid, y: yGrid)
+//                    print("place3 at", q)
+                    Griddle.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: -x, y: y))
+                } else {
+//                    print("?3", xGrid, d.wGrid)
+                }
 
             case (0, _):
                 let p = AKPoint(x: xGrid, y:  yGrid)
-                let q = AKPoint(x: xGrid, y: -yGrid)
-
+//                print("place at4", p)
                 Griddle.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint(x: x, y:  y))
-                Griddle.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: x, y: -y))
+
+                if yGrid < d.hGrid {
+                    let q = AKPoint(x: xGrid, y: -yGrid)
+//                    print("place at5", q)
+                    Griddle.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: x, y: -y))
+                } else {
+//                    print("?5", yGrid, d.hGrid)
+                }
 
             default:
                 let p = AKPoint(x:  xGrid, y:  yGrid)
                 Griddle.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint(x:  x, y:  y))
-
-                if xGrid < d.wGrid {
-                    let q = AKPoint(x: -xGrid, y:  yGrid)
-                    Griddle.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: -x, y:  y))
-                }
-
-                if yGrid < d.hGrid {
-                    let r = AKPoint(x:  xGrid, y: -yGrid)
-                    Griddle.gridlets[r] = Gridlet(gridPosition: r, scenePosition: CGPoint(x:  x, y: -y))
-                }
+//                print("placeX at", p)
 
                 if xGrid < d.wGrid && yGrid < d.hGrid {
                     let s = AKPoint(x: -xGrid, y: -yGrid)
 
                     Griddle.gridlets[s] = Gridlet(gridPosition: s, scenePosition: CGPoint(x: -x, y: -y))
+//                    print("place6 at", s)
+                } else {
+//                    print("6?", xGrid, d.wGrid, yGrid, d.hGrid)
+                }
+
+                if xGrid < d.wGrid {
+                    let q = AKPoint(x: -xGrid, y:  yGrid)
+                    Griddle.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: -x, y:  y))
+//                    print("place7 at", q)
+                } else {
+//                    print("7?", xGrid, d.wGrid, yGrid, d.hGrid)
+                }
+
+                if yGrid < d.hGrid {
+                    let r = AKPoint(x:  xGrid, y: -yGrid)
+                    Griddle.gridlets[r] = Gridlet(gridPosition: r, scenePosition: CGPoint(x:  x, y: -y))
+//                    print("place8 at", r)
+                } else {
+//                    print("8?", xGrid, d.wGrid, yGrid, d.hGrid)
                 }
             }
         }
     }
+    //swiftmint:enable function_body_length
 
     static func setDimensions(_ portal: SKSpriteNode) -> Dimensions {
         let tAtlas = SKTextureAtlas(named: "Arkons")

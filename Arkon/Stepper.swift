@@ -144,7 +144,7 @@ class Stepper {
             let testGridlet = Gridlet.at(targetGridPosition)
             var isAlreadyEngaged = true
 
-            Arkon.syncQueue.sync {
+            DispatchQueue.main.sync {
                 isAlreadyEngaged = testGridlet.isEngaged
 
                 if !isAlreadyEngaged {
