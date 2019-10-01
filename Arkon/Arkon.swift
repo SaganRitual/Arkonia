@@ -51,14 +51,6 @@ class Arkon {
     let net: Net
     var netDisplay: NetDisplay!
 
-    static let asyncQueue = DispatchQueue(
-        label: "arkonia.async.queue", qos: .background, attributes: .concurrent
-    )
-
-    static let syncQueue = DispatchQueue(
-        label: "arkonia.sync.queue", qos: .background
-    )
-
     let nose: SKSpriteNode
     var previousPosition = CGPoint.zero
     var arkonsPortal: SKSpriteNode { return Arkon.arkonsPortal! }
@@ -116,8 +108,12 @@ class Arkon {
     }
 
     func apoptosize() {
-        if isAlive == false { print("iaf", selectoid.fishNumber); return }
+        if isAlive == false {
+            print("iaf", selectoid.fishNumber); return }
         isAlive = false
+
+        sprite.removeAllActions()
+//        print("raa", selectoid.fishNumber)
 
         guard let stepper = sprite.optionalStepper else { return }
 
@@ -134,6 +130,8 @@ class Arkon {
 
             guard let ud = myself.sprite.userData else { return }
             ud[SpriteUserDataKey.stepper] = nil
+
+//            print("apo")
         }
 
         sprite.run(action)
