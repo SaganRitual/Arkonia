@@ -18,7 +18,7 @@ extension TickState.Spawnable {
         let gq = DispatchQueue.global()
         let qos = DispatchQoS.default
 
-        let spawnableLeave = DispatchWorkItem(qos: qos) { [weak self] in
+        let spawnableLeave = DispatchWorkItem(qos: qos, flags: barrier) { [weak self] in
             defer {
 //                print("gsl3", alive, self?.core?.selectoid.fishNumber ?? -1)
                 self?.stateMachine?.enter(TickState.Metabolize.self)
@@ -44,6 +44,7 @@ extension TickState.Spawnable {
 
 //            print("esl", alive, myself.core?.selectoid.fishNumber ?? -1)
             myself.stateMachine?.enter(TickState.SpawnablePending.self)
+            myself.stateMachine?.update(deltaTime: 0)
             gq.async(execute: spawnableWork)
         }
 

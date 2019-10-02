@@ -3,6 +3,11 @@ import GameplayKit
 extension TickState {
     class Start: GKState, TickStateProtocol {
         var statum: TickStatum?
+
+        var alive = false
+        let barrier = DispatchWorkItemFlags.barrier
+        let gq = DispatchQueue.global()
+        let qos = DispatchQoS.default
     }
 
     class StartPending: GKState, TickStateProtocol {
@@ -24,30 +29,25 @@ extension TickState.Start {
 
     override func update(deltaTime seconds: TimeInterval) {
 
-        var alive = false
-        let barrier = DispatchWorkItemFlags.barrier
-        let gq = DispatchQueue.global()
-        let qos = DispatchQoS.default
+        let fungeLeave = DispatchWorkItem(qos: qos, flags: barrier) { [weak self] in
+            guard let myself = self else { assert(false) }
 
-        let fungeLeave = DispatchWorkItem(qos: qos) { [weak self] in
-            guard let myself = self else { return }
-
-//            print("gfs", alive, self?.core?.selectoid.fishNumber ?? -1)
+            print("gfs", myself.alive, myself.core?.selectoid.fishNumber ?? -1)
             myself.stateMachine?.enter(
-                alive ? TickState.Spawnable.self : TickState.Apoptosize.self
+                myself.alive ? TickState.Spawnable.self : TickState.Apoptosize.self
             )
 
             myself.stateMachine?.update(deltaTime: 0)
         }
 
         let fungeWork = DispatchWorkItem(qos: qos) { [weak self] in
-//            print("ffs1", alive, self?.stateMachine?.currentState ?? GKState.Type.self, self?.core?.selectoid.fishNumber ?? -1)
+            print("ffs1", self?.alive ?? false, self?.core?.selectoid.fishNumber ?? -1)
 
-            guard let myself = self else { return }
-            guard let mb = myself.metabolism else { return }
-            guard let cr = myself.core else { return }
+            guard let myself = self else { assert(false) }
+            guard let mb = myself.metabolism else { assert(false) }
+            guard let cr = myself.core else { assert(false) }
 
-//            print("ffs2", alive, self?.core?.selectoid.fishNumber ?? -1)
+            print("ffs2", myself.alive, myself.core?.selectoid.fishNumber ?? -1)
 
             let fudgeFactor: CGFloat = 1
             let joulesNeeded = fudgeFactor * mb.mass
@@ -57,16 +57,18 @@ extension TickState.Start {
             let oxygenCost: TimeInterval = cr.age < TimeInterval(5) ? 0 : 1
             mb.oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
 
-            alive = mb.fungibleEnergyFullness > 0 && mb.oxygenLevel > 0
+            myself.alive = mb.fungibleEnergyFullness > 0 && mb.oxygenLevel > 0
 
-            gq.async(execute: fungeLeave)
+            myself.gq.async(execute: fungeLeave)
         }
 
         let fungeEnter = DispatchWorkItem(qos: qos, flags: barrier) { [weak self] in
-//            print("efs1", alive, self?.core?.selectoid.fishNumber ?? -1)
-            self?.stateMachine?.enter(TickState.StartPending.self)
-//            print("efs2", self?.stateMachine?.currentState ?? GKState.Type.self, alive, self?.core?.selectoid.fishNumber ?? -1)
-            gq.async(execute: fungeWork)
+            print("efs1", self?.alive ?? false, self?.core?.selectoid.fishNumber ?? -1)
+            guard let myself = self else { assert(false) }
+            myself.stateMachine?.enter(TickState.StartPending.self)
+            myself.stateMachine?.update(deltaTime: 0)
+            print("efs2", myself.alive, myself.core?.selectoid.fishNumber ?? -1)
+            myself.gq.async(execute: fungeWork)
         }
 
         DispatchQueue.global().async(execute: fungeEnter)

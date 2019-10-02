@@ -17,7 +17,7 @@ extension TickState.Metabolize {
         let gq = DispatchQueue.global()
         let qos = DispatchQoS.default
 
-        let metabolizeLeave = DispatchWorkItem(qos: qos) { [weak self] in
+        let metabolizeLeave = DispatchWorkItem(qos: qos, flags: barrier) { [weak self] in
 //            print("gmb1", self?.core?.selectoid.fishNumber ?? -1)
             guard let myself = self else { return }
 //            print("gmb2", self?.core?.selectoid.fishNumber ?? -1)
@@ -32,9 +32,10 @@ extension TickState.Metabolize {
             gq.async(execute: metabolizeLeave)
         }
 
-        let metabolizeEnter = DispatchWorkItem(qos: qos, flags: barrier) {
+        let metabolizeEnter = DispatchWorkItem(qos: qos, flags: barrier) { [weak self] in
 //            print("emb1", self.core?.selectoid.fishNumber ?? -1)
-            self.stateMachine?.enter(TickState.MetabolizePending.self)
+            self?.stateMachine?.enter(TickState.MetabolizePending.self)
+            self?.stateMachine?.update(deltaTime: 0)
             gq.async(execute: metabolizeWork)
         }
 

@@ -32,9 +32,10 @@ extension TickState.Colorize {
             gq.async(execute: colorizeLeave)
         }
 
-        let colorizeEnter = DispatchWorkItem(qos: qos, flags: barrier) {
+        let colorizeEnter = DispatchWorkItem(qos: qos, flags: barrier) { [weak self] in
 //            print("eco", self.core?.selectoid.fishNumber ?? -1)
-            self.stateMachine?.enter(TickState.ColorizePending.self)
+            self?.stateMachine?.enter(TickState.ColorizePending.self)
+            self?.stateMachine?.update(deltaTime: 0)
             gq.async(execute: colorizeWork)
         }
 

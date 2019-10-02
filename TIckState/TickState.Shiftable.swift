@@ -38,9 +38,10 @@ extension TickState.Shiftable {
             gq.async(execute: shiftableLeave)
         }
 
-        let shiftableEnter = DispatchWorkItem(qos: qos, flags: barrier) {
+        let shiftableEnter = DispatchWorkItem(qos: qos, flags: barrier) { [weak self] in
 //            print("ehl", self.core?.selectoid.fishNumber ?? -1)
-            self.stateMachine?.enter(TickState.ShiftablePending.self)
+            self?.stateMachine?.enter(TickState.ShiftablePending.self)
+            self?.stateMachine?.update(deltaTime: 0)
             gq.async(execute: shiftableWork)
         }
 

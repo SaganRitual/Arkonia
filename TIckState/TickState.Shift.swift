@@ -18,7 +18,7 @@ extension TickState.Shift {
         let gq = DispatchQueue.global()
         let qos = DispatchQoS.default
 
-        let shiftLeave = DispatchWorkItem(qos: qos) { [weak self] in
+        let shiftLeave = DispatchWorkItem(qos: qos, flags: barrier) { [weak self] in
 //            print("gsh1", self?.core?.selectoid.fishNumber ?? -1)
             guard let myself = self else { return }
 //            print("gsh2", self?.core?.selectoid.fishNumber ?? -1)
@@ -35,9 +35,10 @@ extension TickState.Shift {
             gq.async(execute: shiftLeave)
         }
 
-        let shiftEnter = DispatchWorkItem(qos: qos, flags: barrier) {
+        let shiftEnter = DispatchWorkItem(qos: qos, flags: barrier) { [weak self] in
 //            print("esh", self.core?.selectoid.fishNumber ?? -1)
-            _ = self.stateMachine?.enter(TickState.ShiftPending.self)
+            self?.stateMachine?.enter(TickState.ShiftPending.self)
+            self?.stateMachine?.update(deltaTime: 0)
             gq.async(execute: shiftWork)
         }
 
