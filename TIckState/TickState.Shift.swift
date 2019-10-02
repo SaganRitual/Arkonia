@@ -48,6 +48,7 @@ extension TickState.Shift {
         let currentPosition = stepper?.gridlet.gridPosition ?? AKPoint.zero
         let newGridlet = Gridlet.at(currentPosition + (statum?.shiftTarget ?? AKPoint.zero))
 
+        let goWait = SKAction.wait(forDuration: 1)
         let goStep = SKAction.move(to: newGridlet.scenePosition, duration: 0.1)
 
         let goContents = SKAction.run { [weak self] in
@@ -68,7 +69,7 @@ extension TickState.Shift {
            myself.touchFood(foodLocation: newGridlet)
         }
 
-        let goSequence = SKAction.sequence([goStep, goContents])
+        let goSequence = SKAction.sequence([goWait, goStep, goContents])
         sprite?.run(goSequence) {
             self.stateMachine?.enter(TickState.Start.self)
         }
