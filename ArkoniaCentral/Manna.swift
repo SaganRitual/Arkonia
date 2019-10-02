@@ -49,7 +49,7 @@ extension Manna {
     }
 
     func getWaitAction() -> SKAction {
-        self.rebloomDelay += 0.1
+//        self.rebloomDelay += 0.1
         return SKAction.wait(forDuration: self.rebloomDelay)
     }
 
