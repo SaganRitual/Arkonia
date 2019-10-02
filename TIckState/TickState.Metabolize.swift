@@ -1,43 +1,11 @@
 import GameplayKit
 
 extension TickState {
-    class MetabolizePending: GKState, TickStateProtocol {
-        var statum: TickStatum?
-    }
-
-    class Metabolize: GKState, TickStateProtocol {
-        var statum: TickStatum?
-    }
-}
-
-extension TickState.Metabolize {
-
-    override func update(deltaTime seconds: TimeInterval) {
-        let barrier = DispatchWorkItemFlags.barrier
-        let gq = DispatchQueue.global()
-        let qos = DispatchQoS.default
-
-        let metabolizeLeave = DispatchWorkItem(qos: qos) { [weak self] in
-//            print("gmb1", self?.core?.selectoid.fishNumber ?? -1)
-            guard let myself = self else { return }
-//            print("gmb2", self?.core?.selectoid.fishNumber ?? -1)
-
-            myself.stateMachine?.enter(TickState.Colorize.self)
-            myself.stateMachine?.update(deltaTime: 0)
+    class Metabolize: TickStateBase {
+        override func work() -> TickState {
+//            print("st: metabolize")
+            metabolism.tick()
+            return .colorize
         }
-
-        let metabolizeWork = DispatchWorkItem(qos: qos) { [weak self] in
-//            print("fmb1", self?.core?.selectoid.fishNumber ?? -1)
-            self?.metabolism?.tick()
-            gq.async(execute: metabolizeLeave)
-        }
-
-        let metabolizeEnter = DispatchWorkItem(qos: qos, flags: barrier) {
-//            print("emb1", self.core?.selectoid.fishNumber ?? -1)
-            self.stateMachine?.enter(TickState.MetabolizePending.self)
-            gq.async(execute: metabolizeWork)
-        }
-
-        gq.async(execute: metabolizeEnter)
     }
 }

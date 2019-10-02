@@ -1,136 +1,122 @@
 import GameplayKit
 
 extension TickState {
-    class ShiftPending: GKState, TickStateProtocol {
-        var statum: TickStatum?
-    }
+    class Shift: TickStateBase {
+        var shiftTarget = AKPoint.zero
+        var usableGridOffsets = [AKPoint]()
 
-    class Shift: GKState, TickStateProtocol {
-        var statum: TickStatum?
-    }
+        deinit { releaseGridPoints() }
 
+        override func enter() {
+            reserveGridPoints()
+        }
+
+        override func work() -> TickState {
+//            print("st: shiftable")
+            let shiftable = calculateShift()
+
+            if shiftable { shift(); return .nop }
+
+            return .start
+        }
+    }
 }
 
+// Action calls
+
 extension TickState.Shift {
-
-    override func update(deltaTime seconds: TimeInterval) {
-        let barrier = DispatchWorkItemFlags.barrier
-        let gq = DispatchQueue.global()
-        let qos = DispatchQoS.default
-
-        let shiftLeave = DispatchWorkItem(qos: qos) { [weak self] in
-//            print("gsh1", self?.core?.selectoid.fishNumber ?? -1)
-            guard let myself = self else { return }
-//            print("gsh2", self?.core?.selectoid.fishNumber ?? -1)
-
-            myself.stateMachine?.enter(TickState.Start.self)
-            myself.stateMachine?.update(deltaTime: 0)
-        }
-
-        let shiftWork = DispatchWorkItem(qos: qos) { [weak self] in
-//            print("fsh1", self?.core?.selectoid.fishNumber ?? -1)
-            guard let myself = self else { return }
-//            print("fsh2", self?.core?.selectoid.fishNumber ?? -1)
-            myself.shift()
-            gq.async(execute: shiftLeave)
-        }
-
-        let shiftEnter = DispatchWorkItem(qos: qos, flags: barrier) {
-//            print("esh", self.core?.selectoid.fishNumber ?? -1)
-            _ = self.stateMachine?.enter(TickState.ShiftPending.self)
-            gq.async(execute: shiftWork)
-        }
-
-        gq.async(execute: shiftEnter)
-    }
-
     func shift() {
-        let currentPosition = stepper?.gridlet.gridPosition ?? AKPoint.zero
-        let newGridlet = Gridlet.at(currentPosition + (statum?.shiftTarget ?? AKPoint.zero))
+        guard let gridPosition = stepper?.gridlet.gridPosition else {
+            print("stepper gone in shift")
+            return
+        }
 
-        let goWait = SKAction.wait(forDuration: 1)
+        let newGridlet = Gridlet.at(gridPosition + shiftTarget)
         let goStep = SKAction.move(to: newGridlet.scenePosition, duration: 0.1)
-
-        let goContents = SKAction.run { [weak self] in
-            guard let myself = self else { fatalError() }
-            guard let stepper = myself.stepper else { return }
-
-            defer {
-                myself.stepper?.gridlet.sprite = nil
-                myself.stepper?.gridlet.contents = .nothing
-
-                newGridlet.isEngaged = false
-                newGridlet.contents = .arkon
-                newGridlet.sprite = myself.sprite
-
-                myself.stepper?.gridlet = newGridlet
-            }
-
-           myself.touchFood(foodLocation: newGridlet)
+        let postscript = SKAction.run { [weak self] in
+//            print("ps1")
+            newGridlet.isEngaged = false
+            self?.statum?.statumLeave(to: .arrive)
         }
 
-        let goSequence = SKAction.sequence([goWait, goStep, goContents])
-        sprite?.run(goSequence) {
-            self.stateMachine?.enter(TickState.Start.self)
+        statum?.action = SKAction.sequence([goStep, postscript])
+        statum?.actioner = stepper?.sprite
+    }
+}
+
+// Sync calls
+
+extension TickState.Shift {
+    func reserveGridPoints() {
+        usableGridOffsets = Stepper.moves.compactMap { offset in
+            guard let gridPosition = stepper?.gridlet.gridPosition else {
+                fatalError()
+            }
+
+            let targetGridPoint = gridPosition + offset
+            if Gridlet.isOnGrid(targetGridPoint.x, targetGridPoint.y) {
+                let targetGridlet = Gridlet.at(targetGridPoint)
+
+                if targetGridlet.isEngaged { return nil }
+
+                // If there's no arkon in our target cell, then we
+                // can go there if we want
+                if targetGridlet.contents != .arkon {
+                    targetGridlet.isEngaged = true
+                    return offset
+                }
+
+                guard let intendedVictim = targetGridlet.sprite?.stepper else { fatalError() }
+
+                if !intendedVictim.isAlive { return nil }
+                if intendedVictim.tickStatum?.syncState != .sync { return nil }
+
+                // Not sure about this one; seems like it wouldn't be good for
+                // us to be mussing about with other arkons while actions are
+                // running?
+                if Display.displayCycle == .actions { return nil }
+
+                defer {
+                    intendedVictim.isEngaged = true
+                    targetGridlet.isEngaged = true
+                }
+
+                // If there's an arkon in our target cell that isn't engaged,
+                // we can go attack it if we want
+                if !intendedVictim.isEngaged { return offset }
+            }
+
+//            print("tgq")
+            return nil
         }
     }
+}
 
-    func touchArkon(_ victimStepper: Stepper) {
-        if (self.metabolism?.mass ?? 0) > (victimStepper.metabolism.mass * 1.25) {
-            self.metabolism?.parasitize(victimStepper.metabolism)
-            victimStepper.tickStatum?.sm.enter(TickState.Apoptosize.self)
-        } else {
-            if let m = self.metabolism {
-                victimStepper.metabolism.parasitize(m)
-            }
+// Async calls
 
-            self.stateMachine?.enter(TickState.Apoptosize.self)
-        }
+extension TickState.Shift {
+    func calculateShift() -> Bool {
+        guard let s = self.stepper else { return false }
+
+        let senseData = s.loadSenseData()
+        shiftTarget = s.selectMoveTarget(senseData, usableGridOffsets)
+
+        releaseGridPoints(keep: shiftTarget)
+
+        return shiftTarget != AKPoint.zero
     }
 
-    func touchFood(foodLocation: Gridlet) {
+    func releaseGridPoints(keep: AKPoint? = nil) {
+        for gridOffset in usableGridOffsets {
+            if keep == nil || keep! != gridOffset {
+                guard let gridPosition = stepper?.gridlet.gridPosition else {
+                    return
+                }
 
-        var userDataKey = SpriteUserDataKey.karamba
-
-        switch foodLocation.contents {
-        case .arkon:
-            userDataKey = .stepper
-
-            if let otherSprite = foodLocation.sprite,
-                let otherUserData = otherSprite.userData,
-                let otherAny = otherUserData[userDataKey],
-                let otherStepper = otherAny as? Stepper
-            {
-                touchArkon(otherStepper)
+                Gridlet.at(gridPosition + gridOffset).isEngaged = false
             }
-
-        case .manna:
-            userDataKey = .manna
-
-            if let otherSprite = foodLocation.sprite,
-                let otherUserData = otherSprite.userData,
-                let otherAny = otherUserData[userDataKey],
-                let manna = otherAny as? Manna
-            {
-                touchManna(manna)
-            }
-
-        case .nothing: break
         }
 
-    }
-
-    func touchManna(_ manna: Manna) {
-        // I guess I've died already?
-        guard let background = self.sprite?.parent as? SKSpriteNode else { return }
-
-        let sprite = manna.sprite
-
-        let harvested = sprite.manna.harvest()
-        metabolism?.absorbEnergy(harvested)
-        metabolism?.inhale()
-
-        let actions = Manna.triggerDeathCycle(sprite: sprite, background: background)
-        sprite.run(actions)
+        usableGridOffsets.removeAll(keepingCapacity: true)
     }
 }

@@ -17,7 +17,7 @@ class Manna {
     static let growthRateJoulesPerSecond: CGFloat = 5000
 
     static var replantQueue = DispatchQueue(
-        label: "arkonia.manna.replant.queue", qos: .background
+        label: "arkonia.mannaq", qos: .utility, target: DispatchQueue.global()
     )
 
     var rebloomDelay = 1.0
@@ -33,6 +33,14 @@ class Manna {
     }
 
     init(_ sprite: SKSpriteNode) { self.sprite = sprite }
+
+    func beEaten() {
+        guard let background = sprite.parent as? SKSpriteNode else {
+            fatalError()
+        }
+
+        sprite.run(Manna.triggerDeathCycle(sprite: sprite, background: background))
+    }
 
     func harvest() -> CGFloat {
         defer { sprite.colorBlendFactor = Manna.colorBlendMinimum }

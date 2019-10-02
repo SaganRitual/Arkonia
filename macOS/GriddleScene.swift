@@ -199,23 +199,14 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-        let cProgenitors = 25
+        let cProgenitors = 10
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
-            Stepper.spawn(
+            let offspring = Stepper.spawn(
                 parentBiases: nil, parentWeights: nil,
                 layers: nil, parentActivator: nil, parentPosition: nil
             )
-        }
 
-//        let unstartedSteppers: [Stepper] = arkonsPortal.children.compactMap { node in
-//            let stepper = node.userData?[SpriteUserDataKey.stepper] as? Stepper
-//            return (stepper?.tickStatum?.isStarted ?? true) ? nil : stepper
-//        }
-//
-//        unstartedSteppers.forEach { stepper in
-//            stepper.tickStatum?.sm.enter(TickState.Start.self)
-//            stepper.tickStatum?.sm.update(deltaTime: World.shared.currentTime - currentTime)
-//            stepper.tickStatum?.isStarted = true
-//        }
+            offspring.tickStatum?.statumLaunch()
+        }
     }
 }

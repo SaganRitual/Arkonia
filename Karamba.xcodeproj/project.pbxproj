@@ -10,8 +10,7 @@
 		D41EF6382342D14F00AC2B46 /* TickState.Start.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF6372342D14F00AC2B46 /* TickState.Start.swift */; };
 		D41EF63A2342D27600AC2B46 /* TickState.Apoptosize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF6392342D27600AC2B46 /* TickState.Apoptosize.swift */; };
 		D41EF63C2342D44E00AC2B46 /* TickState.Spawnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF63B2342D44E00AC2B46 /* TickState.Spawnable.swift */; };
-		D41EF63E2342D94E00AC2B46 /* TickState.Shiftable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF63D2342D94E00AC2B46 /* TickState.Shiftable.swift */; };
-		D41EF6402342E9B800AC2B46 /* TickState.Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF63F2342E9B800AC2B46 /* TickState.Shift.swift */; };
+		D41EF63E2342D94E00AC2B46 /* TickState.Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF63D2342D94E00AC2B46 /* TickState.Shift.swift */; };
 		D41EF6422342F42F00AC2B46 /* TickState.Metabolize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF6412342F42F00AC2B46 /* TickState.Metabolize.swift */; };
 		D41EF644234306F000AC2B46 /* TickState.Colorize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF643234306F000AC2B46 /* TickState.Colorize.swift */; };
 		D464BA3322C737260069623C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
@@ -43,6 +42,7 @@
 		D495F0C8233FA6E9007D6E86 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D40985F222650B0B009DD384 /* Info.plist */; };
 		D495F0CC233FA969007D6E86 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D495F0CF233FAB01007D6E86 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495F0CE233FAB01007D6E86 /* Mutator.swift */; };
+		D4ADF4EF23480A13008AC2B4 /* TickState.Arrive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ADF4EE23480A13008AC2B4 /* TickState.Arrive.swift */; };
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
 		D4B4295322DAF1CD0036C904 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293C22DAEC7E0036C904 /* Report.swift */; };
 /* End PBXBuildFile section */
@@ -110,8 +110,7 @@
 		D41EF6372342D14F00AC2B46 /* TickState.Start.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Start.swift; sourceTree = "<group>"; };
 		D41EF6392342D27600AC2B46 /* TickState.Apoptosize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Apoptosize.swift; sourceTree = "<group>"; };
 		D41EF63B2342D44E00AC2B46 /* TickState.Spawnable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Spawnable.swift; sourceTree = "<group>"; };
-		D41EF63D2342D94E00AC2B46 /* TickState.Shiftable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Shiftable.swift; sourceTree = "<group>"; };
-		D41EF63F2342E9B800AC2B46 /* TickState.Shift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Shift.swift; sourceTree = "<group>"; };
+		D41EF63D2342D94E00AC2B46 /* TickState.Shift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Shift.swift; sourceTree = "<group>"; };
 		D41EF6412342F42F00AC2B46 /* TickState.Metabolize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Metabolize.swift; sourceTree = "<group>"; };
 		D41EF643234306F000AC2B46 /* TickState.Colorize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Colorize.swift; sourceTree = "<group>"; };
 		D42172E9233EE46000A56594 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -136,6 +135,7 @@
 		D495F0CE233FAB01007D6E86 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4A12BE922EA58E900C15F59 /* Stepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
 		D4A216BA22C1988B00D92A1E /* BellCurve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BellCurve.swift; sourceTree = "<group>"; };
+		D4ADF4EE23480A13008AC2B4 /* TickState.Arrive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Arrive.swift; sourceTree = "<group>"; };
 		D4B4293C22DAEC7E0036C904 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
 		D4B4293E22DAEC7E0036C904 /* IndexedRingBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexedRingBuffer.swift; sourceTree = "<group>"; };
@@ -209,12 +209,12 @@
 			children = (
 				D4313146233A348600A88FF9 /* TickState.swift */,
 				D41EF6392342D27600AC2B46 /* TickState.Apoptosize.swift */,
+				D4ADF4EE23480A13008AC2B4 /* TickState.Arrive.swift */,
+				D41EF643234306F000AC2B46 /* TickState.Colorize.swift */,
 				D41EF6412342F42F00AC2B46 /* TickState.Metabolize.swift */,
-				D41EF63F2342E9B800AC2B46 /* TickState.Shift.swift */,
-				D41EF63D2342D94E00AC2B46 /* TickState.Shiftable.swift */,
+				D41EF63D2342D94E00AC2B46 /* TickState.Shift.swift */,
 				D41EF63B2342D44E00AC2B46 /* TickState.Spawnable.swift */,
 				D41EF6372342D14F00AC2B46 /* TickState.Start.swift */,
-				D41EF643234306F000AC2B46 /* TickState.Colorize.swift */,
 			);
 			path = TIckState;
 			sourceTree = "<group>";
@@ -445,12 +445,11 @@
 				D464BA3922C737260069623C /* AppDelegate.swift in Sources */,
 				D4B4295322DAF1CD0036C904 /* Report.swift in Sources */,
 				D495F0CF233FAB01007D6E86 /* Mutator.swift in Sources */,
-				D41EF6402342E9B800AC2B46 /* TickState.Shift.swift in Sources */,
 				D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */,
 				D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */,
 				D41EF644234306F000AC2B46 /* TickState.Colorize.swift in Sources */,
-				D41EF63E2342D94E00AC2B46 /* TickState.Shiftable.swift in Sources */,
+				D41EF63E2342D94E00AC2B46 /* TickState.Shift.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
 				D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */,
 				D464BA4422C737260069623C /* NetDisplay.swift in Sources */,
@@ -468,6 +467,7 @@
 				D464BA5222C737260069623C /* Manna.swift in Sources */,
 				D495F0C0233FA6C2007D6E86 /* TickState.swift in Sources */,
 				D41EF63C2342D44E00AC2B46 /* TickState.Spawnable.swift in Sources */,
+				D4ADF4EF23480A13008AC2B4 /* TickState.Arrive.swift in Sources */,
 				D464BA5522C737260069623C /* Extensions.swift in Sources */,
 				D41EF6422342F42F00AC2B46 /* TickState.Metabolize.swift in Sources */,
 				D495F0C1233FA6C9007D6E86 /* Griddle.swift in Sources */,
