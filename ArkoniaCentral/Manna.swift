@@ -20,7 +20,7 @@ class Manna {
         label: "arkonia.manna.replant.queue", qos: .background
     )
 
-    var rebloomDelay = 0.0
+    var rebloomDelay = 1.0
     var isCaptured = false
     let sprite: SKSpriteNode
 
