@@ -46,7 +46,6 @@ class Arkon {
     static var spriteFactory: SpriteFactory?
     static let standardColor = 0x00_FF_00  // Slightly dim green
 
-    var isAlive = false
     var isCaptured = false
     let net: Net
     var netDisplay: NetDisplay!
@@ -95,46 +94,12 @@ class Arkon {
         Arkon.arkonsPortal!.addChild(sprite)
 
         World.shared.population += 1
-//        print("wspu", World.shared.population)
-
-        isAlive = true
     }
 
     deinit {
         World.shared.population -= 1
-//        print("wspd", World.shared.population)
 
         netDisplay = nil
-    }
-
-    func apoptosize() {
-        if isAlive == false {
-            print("iaf", selectoid.fishNumber); return }
-        isAlive = false
-
-        sprite.removeAllActions()
-//        print("raa", selectoid.fishNumber)
-
-        guard let stepper = sprite.optionalStepper else { return }
-
-        let action = SKAction.run { [weak self] in
-            guard let myself = self else { return }
-
-            stepper.gridlet.contents = .nothing
-            stepper.gridlet.sprite = nil
-
-            myself.spriteFactory.noseHangar.retireSprite(stepper.core.nose)
-            myself.spriteFactory.arkonsHangar.retireSprite(myself.sprite)
-
-            stepper.sprite = nil
-
-            guard let ud = myself.sprite.userData else { return }
-            ud[SpriteUserDataKey.stepper] = nil
-
-//            print("apo")
-        }
-
-        sprite.run(action)
     }
 
     func tick() {

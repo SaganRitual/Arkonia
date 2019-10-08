@@ -1,41 +1,57 @@
-import GameplayKit
+import SpriteKit
 
 extension TickState {
-    class Apoptosize: GKState, TickStateProtocol {
-        var statum: TickStatum?
-    }
-
-    class ApoptosizePending: GKState, TickStateProtocol {
-        var statum: TickStatum?
-    }
-}
-
-extension TickState.ApoptosizePending {
-    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
-        assert(stateClass == TickState.Dead.self)
-        return true
-    }
-}
-
-extension TickState.Apoptosize {
-
-    func apoptosize() {
-        guard let stepper = self.stepper else { return }
-        guard let sprite = stepper.sprite else { return }
-
-        let action = SKAction.run { [weak self] in
-            guard let cr = self?.core else { return }
-            guard let st = self?.stateMachine else { return }
-
-            cr.apoptosize()
-            st.enter(TickState.Dead.self)
+    class Apoptosize: TickStateBase {
+        override func enter() {
+            if !isViable() {
+                print("Already apoptosizing/dead?", stepper?.core.selectoid.fishNumber ?? -1)
+            }
         }
 
-        sprite.run(action)
-    }
+        override func isViable() -> Bool {
+            return stepper?.isApoptosizing == false &&
+                stepper?.isAlive == true &&
+                statum?.currentState != .dead
+        }
 
-    override func didEnter(from previousState: GKState?) {
-        stateMachine?.enter(TickState.ApoptosizePending.self)
-        apoptosize()
+        override func work() -> TickState {
+            let action = SKAction.run { [weak self] in
+                guard let myself = self, myself.isViable() else {
+                    return
+                }
+
+                myself.apoptosize()
+                myself.stepper?.isAlive = false
+                myself.stepper?.isApoptosizing = false
+            }
+
+            statum?.action = action
+            statum?.actioner = sprite
+
+            return .dead
+        }
+
+        func apoptosize() {
+            assert(Display.displayCycle == .actions)
+
+            guard let sprite = sprite else { return }
+            guard let stepper = stepper else { return }
+
+            stepper.isApoptosizing = true
+
+            sprite.removeAllActions()
+
+            stepper.gridlet.contents = .nothing
+            stepper.gridlet.sprite = nil
+
+            let core = stepper.core
+            core.spriteFactory.noseHangar.retireSprite(stepper.core.nose)
+            core.spriteFactory.arkonsHangar.retireSprite(sprite)
+
+            guard let ud = sprite.userData else { return }
+            ud[SpriteUserDataKey.stepper] = nil
+
+            self.stepper?.sprite = nil
+        }
     }
 }

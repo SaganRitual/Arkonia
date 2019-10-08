@@ -30,6 +30,9 @@ class Stepper {
 
     let core: Arkon
     var gridlet: Gridlet
+    var isAlive = false
+    var isApoptosizing = false
+    var isEngaged = false
     var previousShift = AKPoint.zero
     let metabolism: Metabolism
     weak var sprite: SKSpriteNode!
@@ -51,6 +54,7 @@ class Stepper {
         self.gridlet = rp.0
         self.gridlet.contents = .arkon
         self.sprite = core.sprite
+        self.gridlet.sprite = core.sprite
 
         sprite.color = .cyan
         sprite.position = gridlet.scenePosition
@@ -65,7 +69,7 @@ class Stepper {
     }
 
     deinit {
-//        netSignal = nil
+//        print("stepper deinit")
     }
 
     func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
@@ -123,7 +127,9 @@ class Stepper {
         return sensoryInputs
     }
 
-    func selectMoveTarget(_ sensoryInputs: [Double]) -> AKPoint {
+    func selectMoveTarget(_ sensoryInputs: [Double], _ usableOffsets: [AKPoint])
+        -> AKPoint {
+
         let motorOutputs: [Double] = core.net.getMotorOutputs(sensoryInputs)
         let dMotorOutputs: [Int: Double] = self.getMotorDataAsDictionary(motorOutputs)
 
@@ -134,31 +140,7 @@ class Stepper {
         var targetShift = AKPoint.zero
         let targetMove = order.first { entry in
             targetShift = Stepper.moves[entry.0]
-
-//            print("ts", core.selectoid.fishNumber, targetShift)
-            if abs(targetShift.x) > 1 || abs(targetShift.y) > 1 { return false }
-
-            let targetGridPosition = targetShift + gridlet.gridPosition
-            if !Gridlet.isOnGrid(targetGridPosition.x, targetGridPosition.y) { return false }
-
-            let testGridlet = Gridlet.at(targetGridPosition)
-            var isAlreadyEngaged = true
-
-            DispatchQueue.main.sync {
-                isAlreadyEngaged = testGridlet.isEngaged
-
-                if !isAlreadyEngaged {
-                    testGridlet.isEngaged = true
-                }
-            }
-
-//            print(
-//                "tg", core.selectoid.fishNumber, gridlet.gridPosition,
-//                testGridlet.gridPosition, testGridlet.scenePosition,
-//                self.gridlet.contents, testGridlet.contents
-//            )
-
-            return !isAlreadyEngaged
+            return usableOffsets.contains(targetShift)
         }
 
         guard let tm = targetMove else { previousShift = AKPoint.zero; return AKPoint.zero }
@@ -197,7 +179,6 @@ class Stepper {
 
 extension Stepper {
 
-    @discardableResult
     static func spawn(
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
         parentActivator: ((_: Double) -> Double)?, parentPosition: AKPoint?
