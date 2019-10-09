@@ -7,7 +7,23 @@ class World {
     var population = 0 { willSet { if newValue > maxPopulation { maxPopulation = newValue } } }
     private(set) var maxPopulation = 0
 
-    var currentTime: TimeInterval = 0
+    static let currentTimeSemaphore = DispatchSemaphore(value: 1)
+
+    private var currentTime_: TimeInterval = 0
+    var currentTime: TimeInterval {
+        get {
+            World.currentTimeSemaphore.wait()
+            defer { World.currentTimeSemaphore.signal() }
+            return currentTime_
+        }
+
+        set {
+            World.currentTimeSemaphore.wait()
+            defer { World.currentTimeSemaphore.signal() }
+            currentTime_ = newValue
+        }
+    }
+
     var greatestLiveAge = TimeInterval(0)
     var maxAge = TimeInterval(0)
     var maxCOffspring = 0

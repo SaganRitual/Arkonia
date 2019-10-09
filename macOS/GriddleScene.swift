@@ -17,8 +17,7 @@ struct Display {
     static var displayCycle: DisplayCycle = .limbo
 }
 
-class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
-
+class GriddleScene: SKScene, SKSceneDelegate {
     private var tickCount = 0
 
     func didEvaluateActions(for scene: SKScene) {
@@ -32,6 +31,7 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
     var arkonsPortal: SKSpriteNode!
     var griddle: Griddle!
     var hud: HUD!
+    var readyForDisplayCycle = false
 
     let layers = [
         ArkoniaCentral.cSenseNeurons, ArkoniaCentral.cMotorNeurons, ArkoniaCentral.cMotorNeurons
@@ -85,7 +85,7 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         spriteFactory.postInit(net9Portals)
 
-        Arkon.inject(self, layers, arkonsPortal, spriteFactory)
+        Arkon.inject(layers, arkonsPortal, spriteFactory)
 
         griddle = Griddle(arkonsPortal, spriteFactory)
 
@@ -102,9 +102,9 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
         startClock()
         //        startGenes()
         startOffspring()
-    }
 
-    func getCurrentTime() -> TimeInterval { return World.shared.currentTime }
+        readyForDisplayCycle = true
+    }
 
     func startCensus() {
         let currentPopulation = reportArkonia.reportoid(2)
@@ -187,6 +187,8 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
     }
 
     override func update(_ currentTime: TimeInterval) {
+        if !readyForDisplayCycle { return }
+
         Display.displayCycle = .updateStarted
 
         if World.shared.timeZero == 0 { World.shared.timeZero = currentTime }
@@ -199,14 +201,14 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-        let cProgenitors = 10
+        let cProgenitors = 1
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
             let offspring = Stepper.spawn(
                 parentBiases: nil, parentWeights: nil,
                 layers: nil, parentActivator: nil, parentPosition: nil
             )
 
-            offspring.tickStatum?.statumLaunch()
+            offspring.coordinator.dispatch(.actionComplete_spawn)
         }
     }
 }

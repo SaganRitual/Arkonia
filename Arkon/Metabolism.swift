@@ -89,6 +89,7 @@ class EnergyReserve {
 
 class Metabolism: EnergySourceProtocol, MetabolismProtocol {
     let allReserves: [EnergyReserve]
+    weak var core: Arkon?
     let fungibleReserves: [EnergyReserve]
     var mass: CGFloat = 0
     var oxygenLevel: CGFloat = 1.0
@@ -137,7 +138,8 @@ class Metabolism: EnergySourceProtocol, MetabolismProtocol {
         }
     }
 
-    init() {
+    init(core: Arkon) {
+        self.core = core
         self.allReserves = [bone, stomach, readyEnergyReserves, fatReserves, spawnReserves]
         self.fungibleReserves = [readyEnergyReserves, fatReserves]
 

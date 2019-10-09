@@ -39,7 +39,7 @@ protocol HasMetabolism {
 
 class Arkon {
     static let brightColor = 0x00_FF_00    // Full green
-    static var clock: ClockProtocol?
+    static var clock: TimeInterval?
     static var layers: [Int]?
     static var arkonsPortal: SKSpriteNode?
     static let scaleFactor: CGFloat = 0.5
@@ -58,14 +58,14 @@ class Arkon {
     let sprite: SKSpriteNode
     var spriteFactory: SpriteFactory { return Arkon.spriteFactory! }
 
-    var age: TimeInterval { Arkon.clock!.getCurrentTime() - selectoid.birthday }
+    var age: TimeInterval { World.shared.currentTime - selectoid.birthday }
 
     init(
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
         parentActivator: ((_: Double) -> Double)?
     ) {
 
-        selectoid = Selectoid(birthday: Arkon.clock!.getCurrentTime())
+        selectoid = Selectoid(birthday: World.shared.currentTime)
         net = Net(
             parentBiases: parentBiases, parentWeights: parentWeights,
             layers: layers, parentActivator: parentActivator
@@ -111,10 +111,9 @@ extension Arkon {
 //    static var arkonHangar = [Int: Arkon]()
 
     static func inject(
-        _ clock: ClockProtocol, _ layers: [Int],  _ portal: SKSpriteNode,
+        _ layers: [Int],  _ portal: SKSpriteNode,
         _ spriteFactory: SpriteFactory
     ) {
-        Arkon.clock = clock
         Arkon.layers = layers
         Arkon.arkonsPortal = portal
         Arkon.spriteFactory = spriteFactory

@@ -28,16 +28,20 @@ class Stepper {
         AKPoint(x: -4, y: -4), AKPoint(x: -3, y: -4), AKPoint(x: -2, y: -4), AKPoint(x: -1, y: -4), AKPoint(x:   0, y: -4), AKPoint(x:  1, y: -4), AKPoint(x:  2, y: -4), AKPoint(x:  3, y: -4), AKPoint(x:  4, y: -4)
     ]
 
+    var coordinator: Coordinator!
     let core: Arkon
     var gridlet: Gridlet
     var isAlive = false
     var isApoptosizing = false
     var isEngaged = false
-    var previousShift = AKPoint.zero
     let metabolism: Metabolism
+    var newGridlet: Gridlet?
+    var oldGridlet: Gridlet?
+    weak var parasitismVictim: Stepper?
+    var previousShift = AKPoint.zero
+    var shiftTarget = AKPoint.zero
     weak var sprite: SKSpriteNode!
     var stepping = true
-    var tickStatum: TickStatum?
 
     init(
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
@@ -60,93 +64,15 @@ class Stepper {
         sprite.position = gridlet.scenePosition
         sprite.setScale(0.5)
 
-        metabolism = Metabolism()
+        metabolism = Metabolism(core: core)
+        coordinator = Coordinator(stepper: self)
         sprite.userData![SpriteUserDataKey.stepper] = self
 
         stepping = false
-
-        tickStatum = TickStatum(stepper: self)
     }
 
     deinit {
 //        print("stepper deinit")
-    }
-
-    func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
-        return senseData.enumerated().reduce([:]) { accumulated, pw in
-            let (position, weight) = pw
-            var t = accumulated
-            t[position] = weight
-            return t
-        }
-    }
-
-    func loadSenseData() -> [Double] {
-        let sensoryInputs_: [(Double, Double)] = Stepper.gridInputs.map { step in
-
-            let inputGridlet = step + gridlet.gridPosition
-
-            if Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) {
-                let targetGridlet = Gridlet.at(inputGridlet)
-
-                let contents = Gridlet.at(inputGridlet).contents
-                let rvContents = contents.rawValue
-                let nutrition: Double
-                switch contents {
-                case .arkon:
-                    nutrition = Double(targetGridlet.sprite?.stepper.metabolism.energyFullness ?? 0)
-
-                case .manna:
-                    nutrition = Double(targetGridlet.sprite?.manna.energyContentInJoules ?? 0)
-
-                case .nothing:
-                    nutrition = 0
-                }
-
-                return (rvContents, nutrition)
-            }
-
-            return (Gridlet.Contents.nothing.rawValue, -1e6)
-        }
-
-        var (sensoryInputs, nutritionses) = sensoryInputs_.reduce(into: ([Double](), [Double]())) {
-            $0.0.append($1.0)
-            $0.1.append($1.1)
-        }
-
-        sensoryInputs.append(contentsOf: nutritionses)
-
-        let xGrid = Double(gridlet.gridPosition.x)
-        let yGrid = Double(gridlet.gridPosition.y)
-        sensoryInputs.append(contentsOf: [xGrid, yGrid])
-
-        let xShift = Double(previousShift.x)
-        let yShift = Double(previousShift.y)
-        sensoryInputs.append(contentsOf: [xShift, yShift])
-
-        return sensoryInputs
-    }
-
-    func selectMoveTarget(_ sensoryInputs: [Double], _ usableOffsets: [AKPoint])
-        -> AKPoint {
-
-        let motorOutputs: [Double] = core.net.getMotorOutputs(sensoryInputs)
-        let dMotorOutputs: [Int: Double] = self.getMotorDataAsDictionary(motorOutputs)
-
-        let order: [(Int, Double)] = dMotorOutputs.sorted { lhs, rhs in
-            Double(lhs.1) > Double(rhs.1)
-        }
-
-        var targetShift = AKPoint.zero
-        let targetMove = order.first { entry in
-            targetShift = Stepper.moves[entry.0]
-            return usableOffsets.contains(targetShift)
-        }
-
-        guard let tm = targetMove else { previousShift = AKPoint.zero; return AKPoint.zero }
-//        print("tm", core.selectoid.fishNumber, tm.0, tm.1, Stepper.moves[tm.0])
-        previousShift = targetShift * -1
-        return Stepper.moves[tm.0]
     }
 
     static func setOffspringPosition(parentPosition: AKPoint?) -> (Gridlet, CGPoint) {
