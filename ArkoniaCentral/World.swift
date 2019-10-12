@@ -1,5 +1,30 @@
 import Foundation
 
+let asyncQueue = DispatchQueue(
+    label: "arkonia.asynq", qos: .background,
+    attributes: DispatchQueue.Attributes.concurrent
+)
+
+let lockWorldQueue = DispatchQueue(
+    label: "arkonia.synq", qos: .background,
+    attributes: DispatchQueue.Attributes.concurrent,
+    target: DispatchQueue.global()
+)
+
+class Lockable<T> {
+    typealias LockWorldExecute = () -> T
+    typealias LockWorldCompletion = (T) -> Void
+
+    func lockWorld<T>(
+        _ execute: @escaping Lockable<T>.LockWorldExecute,
+        _ completion: @escaping Lockable<T>.LockWorldCompletion) {
+        lockWorldQueue.async(flags: .barrier) {
+            let result = execute()
+            asyncQueue.async(execute: { completion(result) })
+        }
+    }
+}
+
 class World {
     static let mutator = Mutator()
     static var shared = World()

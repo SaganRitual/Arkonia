@@ -1,5 +1,9 @@
+import Foundation
+
 class Shift {
     var sensoryInputs = [(Double, Double)]()
+    var shifting = false
+    var shifting2 = false
     weak var stepper: Stepper?
     var usableGridOffsets = [AKPoint]()
 
@@ -7,7 +11,18 @@ class Shift {
 }
 
 extension Shift {
-    func start(gridlet: Gridlet) {
+    func start(_ gridlet: Gridlet, completion: @escaping CoordinatorCallback) {
+        let workItem = { [unowned self] in
+            assert(self.shifting == false)
+            defer { self.shifting = false }
+            self.shifting = true
+            self.start_(gridlet)
+        }
+
+        Lockable<Void>().lockWorld(workItem, completion)
+    }
+
+    private func start_(_ gridlet: Gridlet) {
         reserveGridPoints(gridlet)
         loadGridInputs(gridlet)
     }
@@ -41,6 +56,15 @@ extension Shift {
         }
     }
 
+//    func reserveGridPoints_(
+//        _ gridlet: Gridlet,
+//        completion: @escaping Lockable<Void>.LockWorldCompletion
+//    ) {
+//        Lockable<Void>().lockWorld(
+//            { self.reserveGridPoints_(gridlet) }, completion
+//        )
+//    }
+
     private func reserveGridPoints(_ gridlet: Gridlet) {
         usableGridOffsets = Stepper.moves.compactMap { offset in
 
@@ -48,12 +72,12 @@ extension Shift {
             if Gridlet.isOnGrid(targetGridPoint.x, targetGridPoint.y) {
                 let targetGridlet = Gridlet.at(targetGridPoint)
 
-                if targetGridlet.isEngaged { return nil }
+                if targetGridlet.gridletIsEngaged { return nil }
 
                 // If there's no arkon in our target cell, then we
                 // can go there if we want
                 if targetGridlet.contents != .arkon {
-                    targetGridlet.isEngaged = true
+                    targetGridlet.gridletIsEngaged = true
                     return offset
                 }
 
@@ -64,19 +88,19 @@ extension Shift {
                 // Not sure about this one; seems like it wouldn't be good for
                 // us to be mussing about with other arkons while actions are
                 // running?
+                assert(Display.displayCycle != .actions)
                 if Display.displayCycle == .actions { return nil }
 
                 defer {
-                    intendedVictim.isEngaged = true
-                    targetGridlet.isEngaged = true
+                    intendedVictim.stepperIsEngaged = true
+                    targetGridlet.gridletIsEngaged = true
                 }
 
                 // If there's an arkon in our target cell that isn't engaged,
                 // we can go attack it if we want
-                if !intendedVictim.isEngaged { return offset }
+                if !intendedVictim.stepperIsEngaged { return offset }
             }
 
-//            print("tgq")
             return nil
         }
     }

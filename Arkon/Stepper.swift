@@ -30,11 +30,12 @@ class Stepper {
 
     var coordinator: Coordinator!
     let core: Arkon
-    var gridlet: Gridlet
+    weak var gridlet: Gridlet!
     var isAlive = false
     var isApoptosizing = false
-    var isEngaged = false
-    let metabolism: Metabolism
+    var stepperIsEngaged = true
+    var stepperIsEngaged2 = false
+    var metabolism: Metabolism!
     var newGridlet: Gridlet?
     var oldGridlet: Gridlet?
     weak var parasitismVictim: Stepper?
@@ -53,29 +54,43 @@ class Stepper {
             layers: layers, parentActivator: parentActivator
         )
 
-        let rp = Stepper.setOffspringPosition(parentPosition: parentPosition)
+        self.sprite = self.core.sprite
+        self.sprite.color = .cyan
+        self.sprite.setScale(0.5)
 
-        self.gridlet = rp.0
-        self.gridlet.contents = .arkon
-        self.sprite = core.sprite
-        self.gridlet.sprite = core.sprite
+        self.metabolism = Metabolism(core: self.core)
+        self.coordinator = Coordinator(stepper: self)
 
-        sprite.color = .cyan
-        sprite.position = gridlet.scenePosition
-        sprite.setScale(0.5)
+        var theRP: Grid.RandomGridPoint?
 
-        metabolism = Metabolism(core: core)
-        coordinator = Coordinator(stepper: self)
-        sprite.userData![SpriteUserDataKey.stepper] = self
+                func postRP(_ rp: Grid.RandomGridPoint) {
+                    theRP = rp
 
-        stepping = false
+                    self.gridlet = rp.gridlet
+                    self.gridlet.contents = .arkon
+                    self.gridlet.sprite = self.core.sprite
+
+                    self.sprite.position = self.gridlet.scenePosition
+                    self.sprite.userData![SpriteUserDataKey.stepper] = self
+                }
+
+        theRP = Stepper.setOffspringPosition(parentPosition: parentPosition)
+        if theRP == nil {
+            Grid.getRandomPoint(
+                sprite: sprite, background: Arkon.arkonsPortal!
+            ) { postRP($0) }
+
+            return
+        }
+
+        postRP(theRP!)
     }
 
     deinit {
 //        print("stepper deinit")
     }
 
-    static func setOffspringPosition(parentPosition: AKPoint?) -> (Gridlet, CGPoint) {
+    static func setOffspringPosition(parentPosition: AKPoint?) -> Grid.RandomGridPoint? {
 
         if let pp = parentPosition {
             for offset in Stepper.gridInputs {
@@ -84,21 +99,13 @@ class Stepper {
                 if Gridlet.isOnGrid(offspringPosition.x, offspringPosition.y) {
                     let gridlet = Gridlet.at(offspringPosition)
                     if gridlet.contents == .nothing {
-                        return (gridlet, gridlet.scenePosition)
+                        return Grid.RandomGridPoint(gridlet: gridlet, cgPoint: gridlet.scenePosition)
                     }
                 }
             }
         }
 
-        var rp: (Gridlet, CGPoint)
-        var gridlet: Gridlet
-
-        repeat {
-            rp = Arkon.arkonsPortal!.getRandomPoint()
-            gridlet = rp.0
-        } while gridlet.contents != .nothing
-
-        return rp
+        return nil
     }
 
 }
@@ -109,6 +116,7 @@ extension Stepper {
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
         parentActivator: ((_: Double) -> Double)?, parentPosition: AKPoint?
     ) -> Stepper {
+        
 
         let newStepper = Stepper(
             parentBiases: parentBiases, parentWeights: parentWeights,
@@ -117,6 +125,12 @@ extension Stepper {
         )
 
         return newStepper
+    }
+
+    static func spawn_(
+        parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
+        parentActivator: ((_: Double) -> Double)?, parentPosition: AKPoint?
+    ) -> Stepper {
     }
 
     func tick() { assert(false) }

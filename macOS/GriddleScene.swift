@@ -21,6 +21,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
     private var tickCount = 0
 
     func didEvaluateActions(for scene: SKScene) {
+        asyncQueue.resume()
         Display.displayCycle = .physics
     }
 
@@ -29,7 +30,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
     }
 
     var arkonsPortal: SKSpriteNode!
-    var griddle: Griddle!
+    var griddle: Grid!
     var hud: HUD!
     var readyForDisplayCycle = false
 
@@ -87,7 +88,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         Arkon.inject(layers, arkonsPortal, spriteFactory)
 
-        griddle = Griddle(arkonsPortal, spriteFactory)
+        griddle = Grid(arkonsPortal, spriteFactory)
 
         Manna.plantAllManna(background: arkonsPortal, spriteFactory: spriteFactory)
 
@@ -197,18 +198,19 @@ class GriddleScene: SKScene, SKSceneDelegate {
             tickCount += 1
             Display.displayCycle = .actions
             World.shared.currentTime = currentTime
+            asyncQueue.suspend()
         }
 
         if tickCount < 10 { return }
 
-        let cProgenitors = 1
+        let cProgenitors = 10
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
             let offspring = Stepper.spawn(
                 parentBiases: nil, parentWeights: nil,
                 layers: nil, parentActivator: nil, parentPosition: nil
             )
 
-            offspring.coordinator.dispatch(.actionComplete_spawn)
+            offspring.coordinator.funge()
         }
     }
 }

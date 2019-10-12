@@ -2,15 +2,9 @@ import SpriteKit
 
 extension Stepper {
     func apoptosize() {
-        let action = SKAction.run { [weak self] in
-            guard let myself = self else { return }
+        let action = SKAction.run { [unowned self] in self.apoptosize_() }
 
-            myself.apoptosize_()
-        }
-
-        sprite.run(action) {
-            self.coordinator.dispatch(.actionComplete_apoptosize)
-        }
+        sprite.run(action)
     }
 
     private func apoptosize_() {

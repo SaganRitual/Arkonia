@@ -39,7 +39,15 @@ class Manna {
             fatalError()
         }
 
-        sprite.run(Manna.triggerDeathCycle(sprite: sprite, background: background))
+        Grid.getRandomPoint(sprite: sprite, background: background) { randomPoint in
+            randomPoint.gridlet.contents = .manna
+
+            let recycleAction = Manna.getRecycleAction(
+                sprite: self.sprite, randomPoint: randomPoint
+            )
+
+            self.sprite.run(recycleAction)
+        }
     }
 
     func harvest() -> CGFloat {
@@ -68,10 +76,10 @@ extension Manna {
 
             sprite.userData = [SpriteUserDataKey.manna: manna]
 
-            var rp: (Gridlet, CGPoint)
+            var rp: Grid.RandomGridPoint
             repeat {
                 rp = background.getRandomPoint()
-            } while rp.0.contents != .nothing
+            } while rp.gridlet.contents != .nothing
 
             plantSingleManna(position: rp, sprite: sprite)
 
@@ -85,14 +93,11 @@ extension Manna {
         }
     }
 
-    static func plantSingleManna(position: (Gridlet, CGPoint), sprite: SKSpriteNode) {
+    static func plantSingleManna(position: Grid.RandomGridPoint, sprite: SKSpriteNode) {
+        position.gridlet.contents = .manna
+        position.gridlet.sprite = sprite
 
-        let gridlet = position.0
-        gridlet.contents = .manna
-        gridlet.sprite = sprite
-
-        sprite.position = position.1
-//        print("psm", gridlet.gridPosition, gridlet.scenePosition, sprite.position)
+        sprite.position = position.cgPoint
     }
 
     static func runGrowthPhase(sprite: SKSpriteNode, background: SKSpriteNode) {
@@ -103,32 +108,22 @@ extension Manna {
         sprite.run(colorAction)
     }
 
-    static func triggerDeathCycle(sprite: SKSpriteNode, background: SKSpriteNode) -> SKAction {
-        if sprite.manna.isCaptured { return SKAction.run {} }
-
-        sprite.manna.isCaptured = true
-
+    private static func getRecycleAction(
+        sprite: SKSpriteNode, randomPoint: Grid.RandomGridPoint
+    ) -> SKAction {
         let fadeOut = SKAction.fadeOut(withDuration: 0.001)
         let wait = sprite.manna.getWaitAction()
+        let death = SKAction.sequence([fadeOut, wait])
 
-        let replant = SKAction.run({
-            var rp: (Gridlet, CGPoint)?
+        let replant = SKAction.run {
+            plantSingleManna(position: randomPoint, sprite: sprite)
+        }
 
-            repeat {
-                rp = background.getRandomPoint()
-            } while rp!.0.contents != .nothing
+        let fadeIn = SKAction.fadeIn(withDuration: 0.001)
+        let rebloom = getColorAction()
+        let rebirth = SKAction.sequence([fadeIn, rebloom])
 
-            plantSingleManna(position: rp!, sprite: sprite)
-            sprite.manna.isCaptured = false
-
-            let fadeIn = SKAction.fadeIn(withDuration: 0.001)
-            let rebloom = getColorAction()
-            let sequence = SKAction.sequence([fadeIn, rebloom])
-            sprite.run(sequence)
-
-        }, queue: Manna.replantQueue)
-
-        return SKAction.sequence([fadeOut, wait, replant])
+        return SKAction.sequence([death, replant, rebirth])
     }
 
 }
