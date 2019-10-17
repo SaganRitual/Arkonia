@@ -13,6 +13,10 @@ class Coordinator {
     weak var stepper: Stepper?
 
     init(stepper: Stepper) { self.stepper = stepper }
+
+    deinit {
+        shift = nil
+    }
 }
 
 extension Coordinator {
@@ -33,14 +37,20 @@ extension Coordinator {
     }
 
     func colorize() {
-        self.core.colorize(
-            metabolism: metabolism, age: self.core.age, completion: shiftStart
-        )
+        World.shared.getCurrentTime { [unowned self] currentTime in
+            let myAge = currentTime - self.core.selectoid.birthday
+
+            self.core.colorize(
+                metabolism: self.metabolism, age: myAge, completion: self.shiftStart
+            )
+        }
+
     }
 
     func cspawn() {
         guard let st = self.stepper else { fatalError() }
-        st.cspawn(goParent: metabolize(_:), goOffspring: funge(_:))
+        let cs = CSpawn(st, goParent: metabolize(_:), goOffspring: funge(_:))
+        cs.spawnIf()
     }
 
     func dead() {
@@ -48,7 +58,10 @@ extension Coordinator {
     }
 
     func funge() {
-        self.metabolism.funge(core.age, alive: cspawn, dead: apoptosize)
+        World.shared.getCurrentTime { [unowned self] currentTime in
+            let myAge = currentTime - self.core.selectoid.birthday
+            self.metabolism.funge(myAge, alive: self.cspawn, dead: self.apoptosize)
+        }
     }
 
     func funge(_ who: Stepper) { who.coordinator.funge() }
@@ -62,18 +75,23 @@ extension Coordinator {
     }
 
     func shiftCalculate() {
-        self.shift!.calculateShift(
-            from: self.stepper!.gridlet,
-            previousShift: self.stepper!.previousShift,
+
+        guard let ss = self.shift else { fatalError() }
+        guard let st = self.stepper else { fatalError() }
+
+        ss.calculateShift(
+            from: st.gridlet,
+            previousShift: st.previousShift,
             setShiftTarget: setShiftTarget,
             completion: shiftShift
         )
     }
 
     func shiftShift() {
-        self.shift!.shift(whereIAmNow: self.stepper!.gridlet) { [unowned self] in
-            self.shift = nil
-            self.arrive()
+        self.shift!.shift(whereIAmNow: self.stepper!.gridlet) { [weak self] in
+            guard let myself = self else { print("Bail in shiftShift()"); return }
+            myself.shift = nil
+            myself.arrive()
         }
     }
 
@@ -87,6 +105,7 @@ extension Coordinator {
 
 extension Coordinator {
     func setShiftTarget(_ shiftTarget: AKPoint) {
+        print("setShiftTarget(\(shiftTarget))")
         stepper!.shiftTarget = shiftTarget
     }
 }

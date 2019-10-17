@@ -6,17 +6,14 @@ extension Arkon {
         completion: @escaping CoordinatorCallback
     ) {
         let workItem = { [unowned self] in
-            self.colorize_(metabolism, age, completion)
-            completion()
+            self.colorize_(metabolism, age)
         }
 
-        workItem()
-//        syncQueue.async(flags: .barrier, execute: workItem)
+        Lockable<Void>().lock(workItem, completion)
     }
 
     private func colorize_(
-        _ metabolism: Metabolism, _ age: TimeInterval,
-        _ completion: @escaping CoordinatorCallback
+        _ metabolism: Metabolism, _ age: TimeInterval
     ) {
         let ef = metabolism.fungibleEnergyFullness
         nose.color = ColorGradient.makeColor(Int(ef * 100), 100)

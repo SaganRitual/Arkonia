@@ -7,8 +7,7 @@ extension Metabolism {
             completion()
         }
 
-        workItem()
-//        syncQueue.async(flags: .barrier, execute: workItem)
+        Lockable<Void>().lock(workItem, { _ in })
     }
 
     private func metabolize_() {

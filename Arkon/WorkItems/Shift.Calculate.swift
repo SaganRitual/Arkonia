@@ -11,23 +11,25 @@ extension Shift {
             myself.calculateShift_(whereIAmNow, previousShift, setShiftTarget)
         }
 
-        Lockable<Void>().lockWorld(workItem, completion)
+        Lockable<Void>().lock(workItem, completion)
     }
 
     private func calculateShift_(
         _ whereIAmNow: Gridlet, _ previousShift: AKPoint,
         _ setShiftTarget: ShiftTargetCallback
     ) {
+        guard let st = stepper else { print("bail from calculateShift_"); return }
+
         let senseData = loadSenseData(near: whereIAmNow, previousShift: previousShift)
 
-        guard let st = stepper else { fatalError() }
-        let shiftTarget = selectMoveTarget(
+        st.shiftTarget = selectMoveTarget(
             core: st.core, senseData, usableGridOffsets
         )
+        print("selectMoveTarget() -> \(st.shiftTarget), \(whereIAmNow.gridPosition + st.shiftTarget)")
 
         releaseGridPoints(whereIAmNow: whereIAmNow, keep: st.shiftTarget)
 
-        setShiftTarget(shiftTarget)
+        setShiftTarget(st.shiftTarget)
     }
 
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
@@ -61,18 +63,21 @@ extension Shift {
     }
 
     private func releaseGridPoints(whereIAmNow: Gridlet, keep: AKPoint? = nil) {
+        print("rgp keep \(keep ?? AKPoint.zero)")
         let engage = { [unowned self] in
             for gridOffset in self.usableGridOffsets {
+                print("rgp? \(gridOffset)", terminator: "")
                 if keep == nil || keep! != gridOffset {
+                    print("!")
                     let targetGridlet =  Gridlet.at(whereIAmNow.gridPosition + gridOffset)
                     targetGridlet.gridletIsEngaged = false
-                }
+                } else { print(".") }
             }
 
             self.usableGridOffsets.removeAll(keepingCapacity: true)
         }
 
-        Lockable<Void>().lockWorld(engage, {})
+        Lockable<Void>().lock(engage, { print("</rgp>") })
     }
 
     private func selectMoveTarget(

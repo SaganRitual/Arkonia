@@ -9,8 +9,7 @@ extension Stepper {
             self.arrive_(completion: completion)
         }
 
-        workItem()
-//        syncQueue.async(flags: .barrier, execute: workItem)
+        Lockable<Void>().lock(workItem, { _ in })
     }
 
     private func arrive_(completion: @escaping StepperDoubleCallback) {
@@ -25,16 +24,18 @@ extension Stepper {
         let harvested = sprite.manna.harvest()
         metabolism.absorbEnergy(harvested)
         metabolism.inhale()
-        manna.beEaten()
+        MannaCoordinator.shared.beEaten(sprite)
     }
 
     private func getStartStopGridlets() {
         gridlet.sprite = nil
         gridlet.contents = .nothing
+        gridlet.gridletIsEngaged = false
         oldGridlet = gridlet
 
         let newGridPosition = gridlet.gridPosition + shiftTarget
         newGridlet = Gridlet.at(newGridPosition)
+        print("st1 = \(shiftTarget) - \(newGridPosition)")
     }
 
     private func touchArkon(_ victimStepper: Stepper) -> (Stepper, Stepper) {
@@ -62,6 +63,7 @@ extension Stepper {
                 let otherStepper = otherAny as? Stepper
             {
                 let (parasite, victim) = touchArkon(otherStepper)
+                assert(parasite.core.selectoid.fishNumber != victim.core.selectoid.fishNumber)
                 completion(parasite, victim)
             }
 
@@ -86,10 +88,13 @@ extension Stepper {
     }
 
     private func updateGridletContents() {
-        let newGridPosition = gridlet.gridPosition + shiftTarget
-        gridlet = Gridlet.at(newGridPosition)
+        Lockable<Gridlet>().lock({ [unowned self] in
+            self.newGridlet!.contents = .arkon
+            self.newGridlet!.sprite = self.sprite
+            self.gridlet = self.newGridlet
 
-        gridlet.contents = .arkon
-        gridlet.sprite = sprite
+            self.newGridlet = nil
+            self.oldGridlet = nil
+        }, { _ in /* No completion callback */ })
     }
 }

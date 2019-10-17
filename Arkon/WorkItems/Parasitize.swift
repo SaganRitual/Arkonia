@@ -4,11 +4,9 @@ extension Metabolism {
     func parasitize(_ victim: Metabolism, completion: @escaping CoordinatorCallback) {
         let workItem = { [unowned self] in
             self.parasitize_(victim)
-            completion()
         }
 
-        workItem()
-//        syncQueue.async(flags: .barrier, execute: workItem)
+        Lockable<Void>().lock(workItem, { _ in completion() })
     }
 
     func parasitize_(_ victim: Metabolism) {

@@ -6,9 +6,9 @@ extension Metabolism {
         _ age: TimeInterval, alive: @escaping CoordinatorCallback,
         dead: @escaping CoordinatorCallback
     ) {
-//        syncQueue.async(flags: .barrier) { [unowned self] in
+        Lockable<Void>().lock({
             self.funge_(age, alive: alive, dead: dead)
-//        }
+        }, {})
     }
 
     private func funge_(

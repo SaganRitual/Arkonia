@@ -1,7 +1,7 @@
 import Foundation
 import SpriteKit
 
-struct Selectoid {
+class Selectoid {
     static var TheFishNumber = 0
 
     let birthday: TimeInterval
@@ -53,19 +53,16 @@ class Arkon {
     let nose: SKSpriteNode
     var previousPosition = CGPoint.zero
     var arkonsPortal: SKSpriteNode { return Arkon.arkonsPortal! }
-    var selectoid: Selectoid
+    var selectoid: Selectoid!
     var sensoryInputs = [Double]()
     let sprite: SKSpriteNode
     var spriteFactory: SpriteFactory { return Arkon.spriteFactory! }
-
-    var age: TimeInterval { World.shared.currentTime - selectoid.birthday }
 
     init(
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
         parentActivator: ((_: Double) -> Double)?
     ) {
 
-        selectoid = Selectoid(birthday: World.shared.currentTime)
         net = Net(
             parentBiases: parentBiases, parentWeights: parentWeights,
             layers: layers, parentActivator: parentActivator
@@ -74,9 +71,6 @@ class Arkon {
         sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
         sprite.setScale(Arkon.scaleFactor)
         sprite.color = ColorGradient.makeColor(hexRGB: Arkon.standardColor)
-        if selectoid.fishNumber < 10 {
-            sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
-        }
         sprite.colorBlendFactor = 1
 
         if let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode),
@@ -93,17 +87,21 @@ class Arkon {
         sprite.addChild(nose)
         Arkon.arkonsPortal!.addChild(sprite)
 
-        World.shared.population += 1
+        World.shared.getCurrentTime { [unowned self] t in
+            self.selectoid = Selectoid(birthday: t)
+
+            if self.selectoid.fishNumber < 10 {
+                self.sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
+            }
+
+            World.shared.incrementPopulation()
+        }
     }
 
     deinit {
-        World.shared.population -= 1
+        World.shared.decrementPopulation()
 
         netDisplay = nil
-    }
-
-    func tick() {
-        World.shared.registerAge(age)
     }
 }
 

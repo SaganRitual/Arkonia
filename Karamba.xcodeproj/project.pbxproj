@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D422DE0223578CFD003734B8 /* MannaCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* MannaCoordinator.swift */; };
+		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
+		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
 		D464BA3322C737260069623C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D464BA3722C737260069623C /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D464BA3922C737260069623C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
@@ -115,6 +118,9 @@
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
 		D42172F2233EE46000A56594 /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .overcommit.yml; sourceTree = "<group>"; };
 		D42172F3233EE46000A56594 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		D422DE0123578CFD003734B8 /* MannaCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MannaCoordinator.swift; sourceTree = "<group>"; };
+		D422DE0A23598B52003734B8 /* Census.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
+		D422DE0C23598BEC003734B8 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
 		D43EA81C228FDCDC006C619D /* Arkon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkon.swift; sourceTree = "<group>"; };
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -218,6 +224,7 @@
 				D4EBEE7222E148C9007C98A4 /* Grid.swift */,
 				D4C67D92234D889D0030358D /* Gridlet.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
+				D422DE0123578CFD003734B8 /* MannaCoordinator.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
@@ -254,6 +261,8 @@
 		D4B4293B22DAEC7E0036C904 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
+				D422DE0A23598B52003734B8 /* Census.swift */,
+				D422DE0C23598BEC003734B8 /* Clock.swift */,
 				D4B4294022DAEC7E0036C904 /* HUD.swift */,
 				D4B4293E22DAEC7E0036C904 /* IndexedRingBuffer.swift */,
 				D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */,
@@ -449,10 +458,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D422DE0223578CFD003734B8 /* MannaCoordinator.swift in Sources */,
 				D4BB6E862350027900529819 /* Arrive.swift in Sources */,
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
 				D4BB6E79234EE22000529819 /* Cspawn.swift in Sources */,
+				D422DE0D23598BEC003734B8 /* Clock.swift in Sources */,
 				D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */,
 				D495F0C3233FA6D0007D6E86 /* IndexedRingBuffer.swift in Sources */,
 				D464BA3922C737260069623C /* AppDelegate.swift in Sources */,
@@ -480,6 +491,7 @@
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
 				D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
+				D422DE0B23598B52003734B8 /* Census.swift in Sources */,
 				D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */,
 				D464BA5222C737260069623C /* Manna.swift in Sources */,
 				D4C67D93234D889D0030358D /* Gridlet.swift in Sources */,

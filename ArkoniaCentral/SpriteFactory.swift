@@ -35,7 +35,6 @@ class SpriteHangar: SpriteHangarProtocol {
     func retireSprite(_ sprite: SKSpriteNode) {
         sprite.removeAllActions()
         sprite.removeFromParent()
-
     }
 }
 

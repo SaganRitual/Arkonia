@@ -39,6 +39,34 @@ struct Dimensions {
     }
 }
 
+let lockGridQueue = DispatchQueue(
+    label: "arkonia.lock.grid", qos: .default,
+    attributes: DispatchQueue.Attributes.concurrent,
+    target: DispatchQueue.global()
+)
+
+class Lockable<T> {
+    typealias LockExecute = () -> T
+    typealias LockCompletion = (T) -> Void
+    typealias LockCompletion2 = (T, T) -> Void
+    typealias LockCompletion3 = (T, T, T) -> Void
+
+    let dispatchQueue: DispatchQueue
+
+    init(_ dispatchQueue: DispatchQueue = lockGridQueue) {
+        self.dispatchQueue = dispatchQueue
+    }
+
+    func lock<T>(
+        _ execute: @escaping Lockable<T>.LockExecute,
+        _ unlock: @escaping Lockable<T>.LockCompletion) {
+        self.dispatchQueue.async(flags: .barrier) {
+            let result = execute()
+            unlock(result)
+        }
+    }
+}
+
 class Grid {
     static var dimensions: Dimensions!
     static var gridlets = [AKPoint: Gridlet]()
@@ -175,21 +203,27 @@ class Grid {
         let cgPoint: CGPoint
     }
 
+    static func getRandomPoint_(background: SKSpriteNode) -> RandomGridPoint {
+        var rp: RandomGridPoint?
+
+        repeat {
+            rp = background.getRandomPoint()
+        } while rp!.gridlet.contents != .nothing
+
+        return rp!
+    }
+
     static func getRandomPoint(
-        sprite: SKSpriteNode, background: SKSpriteNode,
-        completion: @escaping Lockable<RandomGridPoint>.LockWorldCompletion
+        background: SKSpriteNode,
+        completion: @escaping Lockable<RandomGridPoint>.LockCompletion
     ) {
         var rp: RandomGridPoint?
 
-        let getEmptyPoint = {
-            repeat {
-                rp = background.getRandomPoint()
-            } while rp!.gridlet.contents != .nothing
-        }
-
-        Lockable<RandomGridPoint>().lockWorld(getEmptyPoint) {
+        Lockable<RandomGridPoint>().lock({
+            rp = getRandomPoint_(background: background)
+        }, {
             completion(rp!)
-        }
+        })
     }
 
 }
