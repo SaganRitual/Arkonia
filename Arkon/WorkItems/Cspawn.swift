@@ -21,12 +21,19 @@ struct CSpawn {
         }
     }
 
+    let allowSpawning = true
+
     func spawnIf() {
         guard let st = stepper else { fatalError() }
 
-//        let entropy = 0.1
-//        let spawnCost = EnergyReserve.startingEnergyLevel * CGFloat(1.0 + entropy)
-        let spawnCost: CGFloat = CGFloat.infinity
+        let entropy: CGFloat = 0.1
+        let spawnCost: CGFloat
+
+        if allowSpawning {
+            spawnCost = EnergyReserve.startingEnergyLevel * CGFloat(1.0 + entropy)
+        } else {
+            spawnCost = CGFloat.infinity
+        }
 
         if st.metabolism.spawnReserves.level < spawnCost {
             goParent!(st)
@@ -40,9 +47,9 @@ struct CSpawn {
 
     private func getGridPointNearParent() -> Grid.RandomGridPoint? {
 
-        for offset in Stepper.gridInputs {
-            guard let st = stepper else { fatalError() }
+        guard let st = stepper else { return nil }
 
+        for offset in Stepper.gridInputs {
             let offspringPosition = st.gridlet.gridPosition + offset
 
             if Gridlet.isOnGrid(offspringPosition.x, offspringPosition.y) {
@@ -83,8 +90,6 @@ struct CSpawn {
             World.shared.incrementCOffspring(for: st.core.selectoid)
             goParent!(st)
         }
-
-        offspring.stepperIsEngaged = false
 
         if let goof = goOffspring {
             goof(offspring)

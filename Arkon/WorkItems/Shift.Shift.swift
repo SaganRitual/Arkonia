@@ -2,8 +2,12 @@ import SpriteKit
 
 extension Shift {
     func shift(whereIAmNow: Gridlet, completion: @escaping CoordinatorCallback) {
-        Lockable<Void>().lock({ [unowned self] in
-            self.shift_(whereIAmNow: whereIAmNow, completion: completion)
+        Lockable<Void>().lock({ [weak self] in
+            guard let myself = self else {
+//                print("Bailing in Shift.shift")
+                return
+            }
+            myself.shift_(whereIAmNow: whereIAmNow, completion: completion)
         }, {})
     }
 

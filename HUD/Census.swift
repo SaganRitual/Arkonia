@@ -61,8 +61,7 @@ struct Census {
             rHighWaterAge.data.text =
                 ageFormatter.string(from: Double(highWaterAge))
 
-            let delay = TimeInterval.random(in: 0.2..<1.0)
-            asyncQueue.asyncAfter(deadline: DispatchTime.now() + delay, execute: partA)
+            asyncQueue.asyncAfter(deadline: DispatchTime.now() + 1, execute: partA)
         }
 
         partA()

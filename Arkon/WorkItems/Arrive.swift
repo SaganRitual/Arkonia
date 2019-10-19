@@ -3,12 +3,8 @@ import GameplayKit
 extension Stepper {
     func arrive(completion: @escaping StepperDoubleCallback) {
 //        print("p(\(core.selectoid.fishNumber))")
-        let workItem = { [unowned self] in
-//            print("q(\(self.core.selectoid.fishNumber))")
-            assert(self.stepperIsEngaged2 == false)
-            defer { self.stepperIsEngaged2 = false }
-            self.stepperIsEngaged2 = true
-            self.arrive_(completion: completion)
+        let workItem = { [weak self] in
+            self?.arrive_(completion: completion)
 //            print("u(\(self.core.selectoid.fishNumber))")
         }
 
@@ -20,8 +16,16 @@ extension Stepper {
     private func arrive_(completion: @escaping StepperDoubleCallback) {
 //        print("r(\(core.selectoid.fishNumber))")
         getStartStopGridlets()
-        touchFood(completion: completion)
-        updateGridletContents()
+
+                func overhead(_ parasite: Stepper?, _ victim: Stepper?) {
+//                    print("oh1", terminator: "")
+                    updateGridletContents()
+//                    print("oh2", terminator: "")
+                    completion(parasite, victim)
+//                    print("oh3", terminator: "")
+                }
+
+        touchFood(completion: overhead)
 //        print("s(\(core.selectoid.fishNumber))")
     }
 
@@ -44,14 +48,9 @@ extension Stepper {
     }
 
     private func touchArkon(_ victimStepper: Stepper) -> (Stepper, Stepper) {
-//        print("A(\(self.core.selectoid.fishNumber))")
         if metabolism.mass > (victimStepper.metabolism.mass * 1.25) {
-            self.stepperIsEngaged = false
-//            print("B(\(self.core.selectoid.fishNumber))")
             return (self, victimStepper)
         } else {
-            victimStepper.stepperIsEngaged = false
-//            print("C(\(self.core.selectoid.fishNumber))")
             return (victimStepper, self)
         }
     }
@@ -102,14 +101,24 @@ extension Stepper {
 
     private func updateGridletContents() {
 //        print("t(\(self.core.selectoid.fishNumber))")
-        Lockable<Gridlet>().lock({ [unowned self] in
-//            print("w(\(self.core.selectoid.fishNumber))")
-            self.newGridlet!.contents = .arkon
-            self.newGridlet!.sprite = self.sprite
-            self.gridlet = self.newGridlet
+        Lockable<Gridlet>().lock({ [weak self] in
+            guard let myself = self else {
+//                print("Bail in updateGridletContents")
+                return
+            }
 
-            self.newGridlet = nil
-            self.oldGridlet = nil
+            guard let ng = myself.newGridlet else {
+//                print("Bail-ng in updateGridletContents")
+                return
+            }
+
+//            print("w(\(self.core.selectoid.fishNumber))")
+            ng.contents = .arkon
+            ng.sprite = myself.sprite
+            myself.gridlet = ng
+
+            myself.newGridlet = nil
+            myself.oldGridlet = nil
         }, { _ in
 //            print("x(\(self.core.selectoid.fishNumber))")
             /* No completion callback */ })

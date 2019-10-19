@@ -6,8 +6,8 @@ typealias StepperSimpleCallback = (Stepper) -> Void
 typealias StepperDoubleCallback = (Stepper?, Stepper?) -> Void
 
 class Coordinator {
-    var core: Arkon { return stepper!.core }
-    var metabolism: Metabolism { return stepper!.metabolism }
+    var core: Arkon? { return stepper?.core }
+    var metabolism: Metabolism? { return stepper?.metabolism }
     var racing = "was <nothing>"
     var shift: Shift?
     weak var stepper: Stepper?
@@ -24,13 +24,15 @@ extension Coordinator {
     func arrive() {
 //        print("a(\(stepper?.core.selectoid.fishNumber ?? -1))")
         self.stepper!.arrive { [unowned self] in
-//            print("n(\(self.stepper!.core.selectoid.fishNumber))")
+//            print("n1(\(self.stepper!.core.selectoid.fishNumber))", terminator: "")
             if let victor = $0, let victim = $1 {
                 victor.coordinator.parasitize(victim)
                 victim.coordinator.apoptosize()
             }
+//            print("n2(\(self.stepper!.core.selectoid.fishNumber))", terminator: "")
 
             self.funge()
+//            print("n3(\(self.stepper!.core.selectoid.fishNumber))", terminator: "")
         }
     }
 
@@ -41,11 +43,19 @@ extension Coordinator {
 
     func colorize() {
 //        print("c(\(stepper?.core.selectoid.fishNumber ?? -1))")
-        World.shared.getCurrentTime { [unowned self] currentTime in
-            let myAge = currentTime - self.core.selectoid.birthday
+        World.shared.getCurrentTime { [weak self] currentTime in
+            guard let myself = self,
+                let mycore = myself.core,
+                let mymb = myself.metabolism
+            else {
+//                print("Bailing in colorize")
+                return
+            }
 
-            self.core.colorize(
-                metabolism: self.metabolism, age: myAge, completion: self.shiftStart
+            let myAge = currentTime - mycore.selectoid.birthday
+
+            mycore.colorize(
+                metabolism: mymb, age: myAge, completion: myself.shiftStart
             )
         }
 
@@ -53,7 +63,10 @@ extension Coordinator {
 
     func cspawn() {
 //        print("d(\(stepper?.core.selectoid.fishNumber ?? -1))")
-        guard let st = self.stepper else { fatalError() }
+        guard let st = self.stepper else {
+//            print("Stepper bailing in cspawn")
+            return
+        }
         let cs = CSpawn(st, goParent: metabolize(_:), goOffspring: funge(_:))
         cs.spawnIf()
     }
@@ -65,10 +78,17 @@ extension Coordinator {
     func funge() {
 //        print("ftf?")
 //        print("f(\(stepper?.core.selectoid.fishNumber ?? -1))")
-        World.shared.getCurrentTime { [unowned self] currentTime in
+        World.shared.getCurrentTime { [weak self] currentTime in
+            guard let myself = self,
+                let mycore = myself.core,
+                let mymb = myself.metabolism
+            else {
+//                print("Bailing in funge")
+                return
+            }
 //            print("O(\(self.stepper!.core.selectoid.fishNumber))")
-            let myAge = currentTime - self.core.selectoid.birthday
-            self.metabolism.funge(myAge, alive: self.cspawn, dead: self.apoptosize)
+            let myAge = currentTime - mycore.selectoid.birthday
+            mymb.funge(myAge, alive: myself.cspawn, dead: myself.apoptosize)
 //            print("P(\(self.stepper!.core.selectoid.fishNumber))")
         }
     }
@@ -84,14 +104,19 @@ extension Coordinator {
 
     func parasitize(_ victim: Stepper) {
 //        print("i(\(stepper?.core.selectoid.fishNumber ?? -1))")
-        metabolism.parasitize(victim.metabolism, completion: funge)
+        guard let mymb = metabolism, let hismb = victim.metabolism else { return }
+        mymb.parasitize(hismb, completion: funge)
     }
 
     func shiftCalculate() {
 //        print("j(\(stepper?.core.selectoid.fishNumber ?? -1))")
 
-        guard let ss = self.shift else { fatalError() }
-        guard let st = self.stepper else { fatalError() }
+        guard let ss = self.shift else {
+//            print("Bail1 in shiftCalculate()")
+            return }
+        guard let st = self.stepper else {
+//            print("Bail2 in shiftCalculate()")
+            return }
 //        print("k(\(stepper?.core.selectoid.fishNumber ?? -1))")
 
         ss.calculateShift(
@@ -103,18 +128,30 @@ extension Coordinator {
     }
 
     func shiftShift() {
-//        print("L(\(stepper?.core.selectoid.fishNumber ?? -1))")
-        self.shift!.shift(whereIAmNow: self.stepper!.gridlet) { [weak self] in
-            guard let myself = self else { print("Bail in shiftShift()"); return }
-//            print("m(\(self!.stepper!.core.selectoid.fishNumber))")
+        guard let ss = self.shift else {
+//            print("Bail1 in shiftShift()")
+            return
+        }
+        guard let st = self.stepper else {
+//            print("Bail2 in shiftShift()")
+            return
+        }
+
+        ss.shift(whereIAmNow: st.gridlet) { [weak self] in
+            guard let myself = self else {
+//                print("Bail3 in shiftShift()")
+                return
+            }
             myself.shift = nil
             myself.arrive()
         }
     }
 
     func shiftStart() {
-//        print("M(\(stepper?.core.selectoid.fishNumber ?? -1))")
-        guard let st = self.stepper else { fatalError() }
+        guard let st = self.stepper else {
+//            print("Bail in shiftStart()")
+            return
+        }
 
         self.shift = Shift(stepper: st)
         self.shift!.start(st.gridlet, completion: shiftCalculate)

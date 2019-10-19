@@ -1,6 +1,8 @@
 import Cocoa
 import Foundation
 import SpriteKit
+//import IOKit
+import IOKit.pwr_mgt
 
 class AppController: NSObject {
 
@@ -28,6 +30,19 @@ class AppController: NSObject {
     }
 
     func showMainWindow(withTitle title: String) {
+        let reasonForActivity = "Arkonia is running" as CFString
+        var assertionID: IOPMAssertionID = 0
+        var success = IOPMAssertionCreateWithName( kIOPMAssertionTypeNoDisplaySleep as CFString,
+                                                    IOPMAssertionLevel(kIOPMAssertionLevelOn),
+                                                    reasonForActivity,
+                                                    &assertionID )
+        if success == kIOReturnSuccess {
+            // Add the work you need to do without the system sleeping here.
+
+            success = IOPMAssertionRelease(assertionID)
+            // The system will be able to sleep again.
+        }
+
         // Create controller's window if not yet exists
         if mainWindowController.window == nil {
             // Count initial frame

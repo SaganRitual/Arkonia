@@ -29,8 +29,8 @@ class Gridlet {
         let cx = Grid.dimensions.wGrid - 1
         let cy = Grid.dimensions.hGrid - 1
 
-        let constrainedX = min(cx - 1, max(-cx + 1, x))
-        let constrainedY = min(cy - 1, max(-cy + 1, y))
+        let constrainedX = min(cx, max(-cx, x))
+        let constrainedY = min(cy, max(-cy, y))
 
         return (constrainedX, constrainedY)
     }

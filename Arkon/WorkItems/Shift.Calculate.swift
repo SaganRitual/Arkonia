@@ -7,7 +7,10 @@ extension Shift {
         completion: @escaping CoordinatorCallback
     ) {
         let workItem = { [weak self] in
-            guard let myself = self else { print("bail from calculateShift"); return }
+            guard let myself = self else {
+//                print("bail from calculateShift")
+                return
+            }
             myself.calculateShift_(whereIAmNow, previousShift, setShiftTarget)
         }
 
@@ -18,7 +21,10 @@ extension Shift {
         _ whereIAmNow: Gridlet, _ previousShift: AKPoint,
         _ setShiftTarget: ShiftTargetCallback
     ) {
-        guard let st = stepper else { print("bail from calculateShift_"); return }
+        guard let st = stepper else {
+//            print("bail from calculateShift_")
+            return
+        }
 
         let senseData = loadSenseData(near: whereIAmNow, previousShift: previousShift)
 
@@ -64,8 +70,12 @@ extension Shift {
 
     private func releaseGridPoints(whereIAmNow: Gridlet, keep: AKPoint? = nil) {
 //        print("rgp keep \(keep ?? AKPoint.zero)")
-        let engage = { [unowned self] in
-            for gridOffset in self.usableGridOffsets {
+        let engage = { [weak self] in
+            guard let myself = self else {
+//                print("Bailing in releaseGridPoints")
+                return
+            }
+            for gridOffset in myself.usableGridOffsets {
 //                print("rgp? \(gridOffset)", terminator: "")
                 if keep == nil || keep! != gridOffset {
 //                    print("!")
@@ -74,7 +84,7 @@ extension Shift {
                 }// else { print(".") }
             }
 
-            self.usableGridOffsets.removeAll(keepingCapacity: true)
+            myself.usableGridOffsets.removeAll(keepingCapacity: true)
         }
 
         Lockable<Void>().lock(engage, {})// { print("</rgp>") })

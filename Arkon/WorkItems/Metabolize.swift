@@ -3,7 +3,11 @@ import GameplayKit
 extension Metabolism {
     func metabolize(completion: @escaping CoordinatorCallback) {
         let workItem = {
-            [unowned self] in self.metabolize_()
+            [weak self] in guard let myself = self else {
+//                print("Bailing in metabolize")
+                return
+            }
+            myself.metabolize_()
             completion()
         }
 

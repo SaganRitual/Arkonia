@@ -41,8 +41,7 @@ class Clock {
 
             self.foodValueReport.data.text = String(format: "%.2f", percentage)
 
-            let delay = TimeInterval.random(in: 0.25...1.0)
-            asyncQueue.asyncAfter(deadline: DispatchTime.now() + delay, execute: partA)
+            asyncQueue.asyncAfter(deadline: DispatchTime.now() + 1, execute: partA)
         }
 
         partA()

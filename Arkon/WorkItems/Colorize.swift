@@ -5,8 +5,12 @@ extension Arkon {
         metabolism: Metabolism, age: TimeInterval,
         completion: @escaping CoordinatorCallback
     ) {
-        let workItem = { [unowned self] in
-            self.colorize_(metabolism, age)
+        let workItem = { [weak self] in
+            guard let myself = self else {
+//                print("Bailing in colorize")
+                return
+            }
+            myself.colorize_(metabolism, age)
         }
 
         Lockable<Void>().lock(workItem, completion)

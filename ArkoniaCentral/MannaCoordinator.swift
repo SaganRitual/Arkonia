@@ -3,12 +3,12 @@ import SpriteKit
 class MannaCoordinator {
     static var shared: MannaCoordinator!
 
-    static let cMorsels = 1500
+    static let cMorsels = 750
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
     private let mannaq = DispatchQueue(
-        label: "arkonia.mannaq", qos: .userInteractive, attributes: .concurrent,
+        label: "arkonia.mannaq", qos: .utility, attributes: .concurrent,
         target: DispatchQueue.global()
     )
 

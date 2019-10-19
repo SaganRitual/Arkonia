@@ -31,10 +31,7 @@ class Stepper {
     var coordinator: Coordinator!
     let core: Arkon
     weak var gridlet: Gridlet!
-    var isAlive = false
     var isApoptosizing = false
-    var stepperIsEngaged = true
-    var stepperIsEngaged2 = false
     var metabolism: Metabolism!
     var newGridlet: Gridlet?
     var oldGridlet: Gridlet?
@@ -51,11 +48,15 @@ class Stepper {
     }
 
     deinit {
+        let fishNumber = core.selectoid.fishNumber
+//        print("~stepper1 for \(fishNumber)")
         let gridlet = self.gridlet!
         Lockable<Void>().lock({
+//            print("~stepper2 for \(fishNumber)")
             gridlet.contents = .nothing
             gridlet.sprite = nil
             gridlet.gridletIsEngaged = false
+            print("~stepper3 for \(fishNumber)")
         }, {})
     }
 
