@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D41EF6382342D14F00AC2B46 /* TickState.Start.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF6372342D14F00AC2B46 /* TickState.Start.swift */; };
+		D41EF63A2342D27600AC2B46 /* TickState.Apoptosize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF6392342D27600AC2B46 /* TickState.Apoptosize.swift */; };
+		D41EF63C2342D44E00AC2B46 /* TickState.Spawnable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF63B2342D44E00AC2B46 /* TickState.Spawnable.swift */; };
+		D41EF63E2342D94E00AC2B46 /* TickState.Shiftable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF63D2342D94E00AC2B46 /* TickState.Shiftable.swift */; };
+		D41EF6402342E9B800AC2B46 /* TickState.Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF63F2342E9B800AC2B46 /* TickState.Shift.swift */; };
+		D41EF6422342F42F00AC2B46 /* TickState.Metabolize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF6412342F42F00AC2B46 /* TickState.Metabolize.swift */; };
+		D41EF644234306F000AC2B46 /* TickState.Colorize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41EF643234306F000AC2B46 /* TickState.Colorize.swift */; };
 		D464BA3322C737260069623C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D464BA3722C737260069623C /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D464BA3922C737260069623C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
@@ -100,6 +107,13 @@
 		D40985FA22650BEF009DD384 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
+		D41EF6372342D14F00AC2B46 /* TickState.Start.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Start.swift; sourceTree = "<group>"; };
+		D41EF6392342D27600AC2B46 /* TickState.Apoptosize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Apoptosize.swift; sourceTree = "<group>"; };
+		D41EF63B2342D44E00AC2B46 /* TickState.Spawnable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Spawnable.swift; sourceTree = "<group>"; };
+		D41EF63D2342D94E00AC2B46 /* TickState.Shiftable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Shiftable.swift; sourceTree = "<group>"; };
+		D41EF63F2342E9B800AC2B46 /* TickState.Shift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Shift.swift; sourceTree = "<group>"; };
+		D41EF6412342F42F00AC2B46 /* TickState.Metabolize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Metabolize.swift; sourceTree = "<group>"; };
+		D41EF643234306F000AC2B46 /* TickState.Colorize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickState.Colorize.swift; sourceTree = "<group>"; };
 		D42172E9233EE46000A56594 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
 		D42172F2233EE46000A56594 /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .overcommit.yml; sourceTree = "<group>"; };
@@ -161,6 +175,7 @@
 				D40985F922650BD8009DD384 /* macOS */,
 				D46B1D7222813DF7003D711C /* Miscellany */,
 				D4E8D268227E06F400DFCB40 /* NetDisplay */,
+				D41EF62F2342D12300AC2B46 /* TIckState */,
 				D40985E122650B0A009DD384 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -189,6 +204,21 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
+		D41EF62F2342D12300AC2B46 /* TIckState */ = {
+			isa = PBXGroup;
+			children = (
+				D4313146233A348600A88FF9 /* TickState.swift */,
+				D41EF6392342D27600AC2B46 /* TickState.Apoptosize.swift */,
+				D41EF6412342F42F00AC2B46 /* TickState.Metabolize.swift */,
+				D41EF63F2342E9B800AC2B46 /* TickState.Shift.swift */,
+				D41EF63D2342D94E00AC2B46 /* TickState.Shiftable.swift */,
+				D41EF63B2342D44E00AC2B46 /* TickState.Spawnable.swift */,
+				D41EF6372342D14F00AC2B46 /* TickState.Start.swift */,
+				D41EF643234306F000AC2B46 /* TickState.Colorize.swift */,
+			);
+			path = TIckState;
+			sourceTree = "<group>";
+		};
 		D43EA81A228FDBA4006C619D /* ArkoniaCentral */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,7 +240,6 @@
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D4A12BE922EA58E900C15F59 /* Stepper.swift */,
-				D4313146233A348600A88FF9 /* TickState.swift */,
 			);
 			path = Arkon;
 			sourceTree = "<group>";
@@ -408,6 +437,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D41EF6382342D14F00AC2B46 /* TickState.Start.swift in Sources */,
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
 				D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */,
@@ -415,9 +445,12 @@
 				D464BA3922C737260069623C /* AppDelegate.swift in Sources */,
 				D4B4295322DAF1CD0036C904 /* Report.swift in Sources */,
 				D495F0CF233FAB01007D6E86 /* Mutator.swift in Sources */,
+				D41EF6402342E9B800AC2B46 /* TickState.Shift.swift in Sources */,
 				D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */,
 				D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */,
+				D41EF644234306F000AC2B46 /* TickState.Colorize.swift in Sources */,
+				D41EF63E2342D94E00AC2B46 /* TickState.Shiftable.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
 				D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */,
 				D464BA4422C737260069623C /* NetDisplay.swift in Sources */,
@@ -428,12 +461,15 @@
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
 				D495F0B8233FA6C2007D6E86 /* Arkon.swift in Sources */,
 				D464BA4E22C737260069623C /* BellCurve.swift in Sources */,
+				D41EF63A2342D27600AC2B46 /* TickState.Apoptosize.swift in Sources */,
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
 				D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */,
 				D464BA5222C737260069623C /* Manna.swift in Sources */,
 				D495F0C0233FA6C2007D6E86 /* TickState.swift in Sources */,
+				D41EF63C2342D44E00AC2B46 /* TickState.Spawnable.swift in Sources */,
 				D464BA5522C737260069623C /* Extensions.swift in Sources */,
+				D41EF6422342F42F00AC2B46 /* TickState.Metabolize.swift in Sources */,
 				D495F0C1233FA6C9007D6E86 /* Griddle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

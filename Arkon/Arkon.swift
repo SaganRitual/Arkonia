@@ -51,10 +51,6 @@ class Arkon {
     let net: Net
     var netDisplay: NetDisplay!
 
-    var netQueue = DispatchQueue(
-        label: "arkonia.net.queue", qos: .background, attributes: .concurrent
-    )
-
     let nose: SKSpriteNode
     var previousPosition = CGPoint.zero
     var arkonsPortal: SKSpriteNode { return Arkon.arkonsPortal! }
@@ -65,9 +61,16 @@ class Arkon {
 
     var age: TimeInterval { Arkon.clock!.getCurrentTime() - selectoid.birthday }
 
-    init(parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?) {
+    init(
+        parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
+        parentActivator: ((_: Double) -> Double)?
+    ) {
+
         selectoid = Selectoid(birthday: Arkon.clock!.getCurrentTime())
-        net = Net(parentBiases: parentBiases, parentWeights: parentWeights, layers: layers)
+        net = Net(
+            parentBiases: parentBiases, parentWeights: parentWeights,
+            layers: layers, parentActivator: parentActivator
+        )
 
         sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
         sprite.setScale(Arkon.scaleFactor)
@@ -105,8 +108,12 @@ class Arkon {
     }
 
     func apoptosize() {
-        if isAlive == false { print("iaf", selectoid.fishNumber); return }
+        if isAlive == false {
+            print("iaf", selectoid.fishNumber); return }
         isAlive = false
+
+        sprite.removeAllActions()
+//        print("raa", selectoid.fishNumber)
 
         guard let stepper = sprite.optionalStepper else { return }
 
@@ -123,6 +130,8 @@ class Arkon {
 
             guard let ud = myself.sprite.userData else { return }
             ud[SpriteUserDataKey.stepper] = nil
+
+//            print("apo")
         }
 
         sprite.run(action)

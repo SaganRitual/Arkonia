@@ -69,15 +69,8 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
     override func didMove(to view: SKView) {
         World.shared.currentTime = 0
 
-//        physicsWorld.gravity = CGVector.zero
-
         arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
-
-//         Figure out where the 475 comes from
-//        let origin = self.frame.origin + CGPoint(x: 480, y: 0)
-//        let re = CGRect(origin: origin, size: arkonsPortal.frame.size)
-//        arkonsPortal.physicsBody = SKPhysicsBody(edgeLoopFrom: re)
 
         enumerateChildNodes(withName: "net_9portal") { node_, _ in
             let node = (node_ as? SKSpriteNode)!
@@ -109,8 +102,6 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
         startClock()
         //        startGenes()
         startOffspring()
-
-        self.speed = 2
     }
 
     func getCurrentTime() -> TimeInterval { return World.shared.currentTime }
@@ -210,11 +201,21 @@ class GriddleScene: SKScene, ClockProtocol, SKSceneDelegate {
 
         let cProgenitors = 25
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
-            Stepper.spawn(parentBiases: nil, parentWeights: nil, layers: nil)
+            Stepper.spawn(
+                parentBiases: nil, parentWeights: nil,
+                layers: nil, parentActivator: nil, parentPosition: nil
+            )
         }
 
-        arkonsPortal.children.compactMap({ $0.userData?[SpriteUserDataKey.stepper] as? Stepper }).forEach {
-            $0.tickStatum?.sm.update(deltaTime: World.shared.currentTime - currentTime)
-        }
+//        let unstartedSteppers: [Stepper] = arkonsPortal.children.compactMap { node in
+//            let stepper = node.userData?[SpriteUserDataKey.stepper] as? Stepper
+//            return (stepper?.tickStatum?.isStarted ?? true) ? nil : stepper
+//        }
+//
+//        unstartedSteppers.forEach { stepper in
+//            stepper.tickStatum?.sm.enter(TickState.Start.self)
+//            stepper.tickStatum?.sm.update(deltaTime: World.shared.currentTime - currentTime)
+//            stepper.tickStatum?.isStarted = true
+//        }
     }
 }

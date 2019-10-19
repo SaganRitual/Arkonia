@@ -12,9 +12,9 @@ class Manna {
     static let cMorsels = 2500
     static let colorBlendMinimum: CGFloat = 0.25
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
-    static let fullGrowthDurationSeconds: TimeInterval = 10.0
+    static let fullGrowthDurationSeconds: TimeInterval = 5
     static let growthRateGranularitySeconds: TimeInterval = 0.1
-    static let growthRateJoulesPerSecond: CGFloat = 50
+    static let growthRateJoulesPerSecond: CGFloat = 5000
 
     static var replantQueue = DispatchQueue(
         label: "arkonia.manna.replant.queue", qos: .background
@@ -41,6 +41,42 @@ class Manna {
 }
 
 extension Manna {
+
+    static func getColorAction() -> SKAction {
+        return SKAction.colorize(
+            with: .orange, colorBlendFactor: 1.0, duration: Manna.fullGrowthDurationSeconds
+        )
+    }
+
+    func getWaitAction() -> SKAction {
+//        self.rebloomDelay += 0.1
+        return SKAction.wait(forDuration: self.rebloomDelay)
+    }
+
+    static func plantAllManna(background: SKSpriteNode, spriteFactory: SpriteFactory) {
+        for _ in 0..<Manna.cMorsels {
+            let sprite = spriteFactory.mannaHangar.makeSprite()
+            let manna = Manna(sprite)
+
+            sprite.userData = [SpriteUserDataKey.manna: manna]
+
+            var rp: (Gridlet, CGPoint)
+            repeat {
+                rp = background.getRandomPoint()
+            } while rp.0.contents != .nothing
+
+            plantSingleManna(position: rp, sprite: sprite)
+
+            background.addChild(sprite)
+
+            sprite.setScale(0.1)
+            sprite.color = .orange
+            sprite.colorBlendFactor = Manna.colorBlendMinimum
+
+            runGrowthPhase(sprite: sprite, background: background)
+        }
+    }
+
     static func plantSingleManna(position: (Gridlet, CGPoint), sprite: SKSpriteNode) {
 
         let gridlet = position.0
@@ -49,6 +85,14 @@ extension Manna {
 
         sprite.position = position.1
 //        print("psm", gridlet.gridPosition, gridlet.scenePosition, sprite.position)
+    }
+
+    static func runGrowthPhase(sprite: SKSpriteNode, background: SKSpriteNode) {
+        let colorAction = SKAction.colorize(
+            withColorBlendFactor: 1.0, duration: Manna.fullGrowthDurationSeconds
+        )
+
+        sprite.run(colorAction)
     }
 
     static func triggerDeathCycle(sprite: SKSpriteNode, background: SKSpriteNode) -> SKAction {
@@ -77,69 +121,6 @@ extension Manna {
         }, queue: Manna.replantQueue)
 
         return SKAction.sequence([fadeOut, wait, replant])
-    }
-
-    static func getBeEatenAction(sprite: SKSpriteNode) -> SKAction {
-        return SKAction.run {
-            sprite.removeFromParent()
-            sprite.colorBlendFactor = Manna.colorBlendMinimum
-        }
-    }
-
-    static func getColorAction() -> SKAction {
-        return SKAction.colorize(
-            with: .orange, colorBlendFactor: 1.0, duration: Manna.fullGrowthDurationSeconds
-        )
-    }
-
-    func getWaitAction() -> SKAction {
-        self.rebloomDelay += 0.1
-        return SKAction.wait(forDuration: self.rebloomDelay)
-    }
-
-    static func getWaitAction() -> SKAction { return SKAction.wait(forDuration: 1.0) }
-
-    static func plantAllManna(background: SKSpriteNode, spriteFactory: SpriteFactory) {
-        for ss in 0..<Manna.cMorsels {
-            let sprite = spriteFactory.mannaHangar.makeSprite()
-            let manna = Manna(sprite)
-
-            sprite.userData = [SpriteUserDataKey.manna: manna]
-
-            var rp: (Gridlet, CGPoint)
-            repeat {
-                rp = background.getRandomPoint()
-            } while rp.0.contents != .nothing
-
-            plantSingleManna(position: rp, sprite: sprite)
-
-            background.addChild(sprite)
-
-//            sprite.physicsBody = SKPhysicsBody(circleOfRadius: sprite.size.width / 2)
-//            sprite.physicsBody!.mass = 1
-            sprite.setScale(0.1)
-            sprite.color = .orange
-            sprite.colorBlendFactor = Manna.colorBlendMinimum
-
-//            sprite.physicsBody!.categoryBitMask = PhysicsBitmask.mannaBody.rawValue
-//            sprite.physicsBody!.collisionBitMask = 0
-//            sprite.physicsBody!.contactTestBitMask = 0
-
-            let lifetimeAction = SKAction.wait(forDuration: TimeInterval(ss * 2 + 10))
-            let killAction = SKAction.removeFromParent()
-            let apoptosisAction = SKAction.sequence([lifetimeAction, killAction])
-            sprite.run(apoptosisAction)
-
-            runGrowthPhase(sprite: sprite, background: background)
-        }
-    }
-
-    static func runGrowthPhase(sprite: SKSpriteNode, background: SKSpriteNode) {
-        let colorAction = SKAction.colorize(
-            withColorBlendFactor: 1.0, duration: Manna.fullGrowthDurationSeconds
-        )
-
-        sprite.run(colorAction)
     }
 
 }
