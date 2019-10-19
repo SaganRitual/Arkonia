@@ -51,8 +51,11 @@ class Stepper {
     }
 
     deinit {
+        let gridlet = self.gridlet!
         Lockable<Void>().lock({
-            self.gridlet.gridletIsEngaged = false
+            gridlet.contents = .nothing
+            gridlet.sprite = nil
+            gridlet.gridletIsEngaged = false
         }, {})
     }
 

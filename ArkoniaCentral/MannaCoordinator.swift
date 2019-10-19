@@ -40,6 +40,7 @@ extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
         Grid.getRandomPoint(background: Arkon.arkonsPortal!) { randomPoint in
             randomPoint.gridlet.contents = .manna
+            randomPoint.gridlet.sprite = sprite
             self.recycle(sprite.manna, at: randomPoint)
         }
     }

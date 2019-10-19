@@ -10,13 +10,6 @@ extension Stepper {
     private func apoptosize_() {
         assert(Display.displayCycle == .actions)
 
-        defer {
-            Lockable<Void>().lock({ [weak self] in
-                self?.gridlet.contents = .nothing
-                self?.gridlet.sprite = nil
-            }, { _ in /* No completion, just fall out */})
-        }
-
         sprite.removeAllActions()
 
         core.spriteFactory.noseHangar.retireSprite(core.nose)

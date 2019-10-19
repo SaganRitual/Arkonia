@@ -63,7 +63,7 @@ extension Shift {
     }
 
     private func reserveGridPoints(_ gridlet: Gridlet) {
-        print("reserveGridPoints(\(gridlet.gridPosition))")
+//        print("reserveGridPoints(\(gridlet.gridPosition))")
         usableGridOffsets = Stepper.moves.compactMap { offset in
 
             let targetGridPoint = gridlet.gridPosition + offset
@@ -71,28 +71,30 @@ extension Shift {
 //                print("reserveGridPoints.isOnGrid = true", targetGridPoint)
                 let targetGridlet = Gridlet.at(targetGridPoint)
 
-                print("targetGridlet = \(targetGridlet.gridPosition) - ", terminator: "")
+//                print("targetGridlet = \(targetGridlet.gridPosition) - ", terminator: "")
                 if targetGridlet.gridletIsEngaged {
-                    print("already engaged")
+//                    print("already engaged")
                     return nil
                 }
-                print("available - ", terminator: "")
+//                print("available - ", terminator: "")
 
                 // If there's no arkon in our target cell, then we
                 // can go there if we want
                 if targetGridlet.contents != .arkon {
-                    print("set")
+//                    print("set")
                     targetGridlet.gridletIsEngaged = true
                     return offset
                 }
 
-                print("contains arkon - ")
+//                print("contains arkon - ")
 
                 guard let intendedVictim = targetGridlet.sprite?.stepper else { fatalError() }
 
-                if !intendedVictim.isAlive { print("dead already"); return nil }
+                if !intendedVictim.isAlive {
+//                    print("dead already")
+                    return nil }
 
-                print("live - ", terminator: "")
+//                print("live - ", terminator: "")
                 // Not sure about this one; seems like it wouldn't be good for
                 // us to be mussing about with other arkons while actions are
                 // running?
@@ -106,11 +108,13 @@ extension Shift {
 
                 // If there's an arkon in our target cell that isn't engaged,
                 // we can go attack it if we want
-                if !intendedVictim.stepperIsEngaged { print("set"); return offset }
+                if !intendedVictim.stepperIsEngaged {
+//                    print("set")
+                    return offset }
             }
 
 //            print("reserveGridPoints.isOnGrid = false", targetGridPoint)
-            print("umm, already engaged?")
+//            print("umm, already engaged?")
             return nil
         }
     }

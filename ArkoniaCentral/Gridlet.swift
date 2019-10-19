@@ -6,7 +6,7 @@ class Gridlet {
 
     var contents = Contents.nothing
     var gridletIsEngaged = false
-    var sprite: SKSpriteNode?
+    weak var sprite: SKSpriteNode?
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
         self.scenePosition = scenePosition

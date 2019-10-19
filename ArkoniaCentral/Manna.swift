@@ -17,7 +17,7 @@ class Manna {
 
     var rebloomDelay = 1.0
     var isCaptured = false
-    let sprite: SKSpriteNode
+    weak var sprite: SKSpriteNode!
 
     var energyContentInJoules: CGFloat {
         let fudgeFactor: CGFloat = 1

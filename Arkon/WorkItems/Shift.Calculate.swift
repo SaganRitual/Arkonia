@@ -25,7 +25,7 @@ extension Shift {
         st.shiftTarget = selectMoveTarget(
             core: st.core, senseData, usableGridOffsets
         )
-        print("selectMoveTarget() -> \(st.shiftTarget), \(whereIAmNow.gridPosition + st.shiftTarget)")
+//        print("selectMoveTarget() -> \(st.shiftTarget), \(whereIAmNow.gridPosition + st.shiftTarget)")
 
         releaseGridPoints(whereIAmNow: whereIAmNow, keep: st.shiftTarget)
 
@@ -63,21 +63,21 @@ extension Shift {
     }
 
     private func releaseGridPoints(whereIAmNow: Gridlet, keep: AKPoint? = nil) {
-        print("rgp keep \(keep ?? AKPoint.zero)")
+//        print("rgp keep \(keep ?? AKPoint.zero)")
         let engage = { [unowned self] in
             for gridOffset in self.usableGridOffsets {
-                print("rgp? \(gridOffset)", terminator: "")
+//                print("rgp? \(gridOffset)", terminator: "")
                 if keep == nil || keep! != gridOffset {
-                    print("!")
+//                    print("!")
                     let targetGridlet =  Gridlet.at(whereIAmNow.gridPosition + gridOffset)
                     targetGridlet.gridletIsEngaged = false
-                } else { print(".") }
+                }// else { print(".") }
             }
 
             self.usableGridOffsets.removeAll(keepingCapacity: true)
         }
 
-        Lockable<Void>().lock(engage, { print("</rgp>") })
+        Lockable<Void>().lock(engage, {})// { print("</rgp>") })
     }
 
     private func selectMoveTarget(
