@@ -90,7 +90,9 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         Arkon.inject(layers, arkonsPortal, spriteFactory)
 
-        griddle = Grid(arkonsPortal, spriteFactory)
+        print("Grid")
+        Grid.shared = Grid(arkonsPortal, spriteFactory)
+        print("/Grid")
 
         MannaCoordinator.shared = MannaCoordinator(spriteFactory: spriteFactory)
 

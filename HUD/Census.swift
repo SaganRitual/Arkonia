@@ -28,7 +28,13 @@ struct Census {
         var currentTime: TimeInterval = 0
 
         func partA() {
-            World.shared.getPopulation { currentPop, highWaterPop, highWaterOffspring in
+            World.shared.getPopulation { ps in
+                guard let popStats = ps else { fatalError() }
+
+                let currentPop = popStats[0]
+                let highWaterPop = popStats[1]
+                let highWaterOffspring = popStats[2]
+
                 self.rCurrentPopulation.data.text = String(currentPop)
                 self.rHighWaterPopulation.data.text = String(highWaterPop)
                 self.rOffspring.data.text = String(format: "%d", highWaterOffspring)
@@ -37,8 +43,9 @@ struct Census {
         }
 
         func partB() {
-            World.shared.getCurrentTime {
-                currentTime = $0
+            World.shared.getCurrentTime { cts in
+                guard let ct = cts?[0] else { fatalError() }
+                currentTime = ct
                 partC()
             }
         }
@@ -52,9 +59,12 @@ struct Census {
                     return  currentTime - birthday
             }
 
-            World.shared.setMaxLivingAge(
-                to: liveArkonsAges.max() ?? 0, callback: partD
-            )
+            World.shared.setMaxLivingAge(to: liveArkonsAges.max() ?? 0) { ageses in
+                guard let ages = ageses else { fatalError() }
+                let maxLivingAge = ages[0]
+                let highWaterAge = ages[1]
+                partD(maxLivingAge, highWaterAge)
+            }
         }
 
         func partD(_ maxLivingAge: TimeInterval, _ highWaterAge: TimeInterval) {

@@ -7,38 +7,54 @@ class MannaCoordinator {
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
-    private let mannaq = DispatchQueue(
+    static private let mannaq = DispatchQueue(
         label: "arkonia.mannaq", qos: .utility, attributes: .concurrent,
         target: DispatchQueue.global()
     )
 
+    static func lock<T>(
+        _ execute: Dispatch.Lockable<T>.LockExecute? = nil,
+        _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
+        _ completionMode: Dispatch.CompletionMode = .concurrent
+    ) {
+        Dispatch.Lockable<T>(mannaq).lock(
+            execute, userOnComplete, completionMode
+        )
+    }
+
     init(spriteFactory: SpriteFactory) {
         mannaSpriteFactory = spriteFactory
-        mannaq.async { self.populate() }
+        MannaCoordinator.mannaq.async { self.populate() }
     }
 
     func populate() {
-        if cMorsels >= MannaCoordinator.cMorsels {
-            return
-        }
+        if cMorsels >= MannaCoordinator.cMorsels { return }
 
-        Lockable<SKSpriteNode>().lock({ () -> SKSpriteNode in
+        print("dl populate")
+        Grid.lock({ () -> [SKSpriteNode] in
             let sprite = self.mannaSpriteFactory!.mannaHangar.makeSprite()
+            print("E", sprite.name!)
             Arkon.arkonsPortal!.addChild(sprite)
-            return sprite
-        }, { sprite in
+            print("F")
+            return [sprite]
+        }, { sprites in
+            guard let sprite = sprites?[0] else { fatalError() }
+
             let manna = Manna(sprite)
-
             sprite.userData = [SpriteUserDataKey.manna: manna]
-
             self.plant(manna)
-        })
+        },
+           .concurrent
+        )
     }
 }
 
 extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
-        Grid.getRandomPoint(background: Arkon.arkonsPortal!) { randomPoint in
+        Grid.getRandomPoint { rps in
+            guard let randomPoints = rps else { fatalError() }
+            let randomPoint = randomPoints[0]
+
             randomPoint.gridlet.contents = .manna
             randomPoint.gridlet.sprite = sprite
             self.recycle(sprite.manna, at: randomPoint)
@@ -46,7 +62,7 @@ extension MannaCoordinator {
     }
 
     private func recycle(_ manna: Manna, at randomPoint: Grid.RandomGridPoint) {
-        mannaq.async { self.recycle_(manna, at: randomPoint) }
+        MannaCoordinator.mannaq.async { self.recycle_(manna, at: randomPoint) }
     }
 
     private func recycle_(_ manna: Manna, at randomPoint: Grid.RandomGridPoint) {
@@ -62,11 +78,12 @@ extension MannaCoordinator {
     private func plant(_ manna: Manna) { setPosition_(manna) }
 
     private func setPosition_(_ manna: Manna) {
-        Lockable<Void>().lock({
-            let randomPoint = Grid.getRandomPoint_(background: Arkon.arkonsPortal!)
-            MannaCoordinator.plantSingleManna(manna, at: randomPoint)
+        Grid.lock({ () -> [Grid.RandomGridPoint]? in
+            let randomPoint = Grid.getRandomPoint_()
+            MannaCoordinator.plantSingleManna(manna, at: randomPoint![0])
+            return nil
         }, {
-            self.finishPlanting(manna)
+            _ in self.finishPlanting(manna)
         })
     }
 
@@ -78,7 +95,7 @@ extension MannaCoordinator {
 
         cMorsels += 1
 
-        mannaq.async(execute: populate)
+        MannaCoordinator.mannaq.async(execute: populate)
     }
 
     static private func plantSingleManna(

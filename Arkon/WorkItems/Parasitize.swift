@@ -3,11 +3,9 @@ import Foundation
 extension Metabolism {
     func parasitize(_ victim: Metabolism, completion: @escaping CoordinatorCallback) {
         print("parasitize: \(self.core!.selectoid.fishNumber) eats \(victim.core!.selectoid.fishNumber)")
-        let workItem = { [unowned self] in
-            self.parasitize_(victim)
-        }
-
-        Lockable<Void>().lock(workItem, { _ in completion() })
+        func workItem() -> [Void]? { parasitize_(victim); return nil }
+        print("dl parasitize")
+        Catchall.lock(workItem)
     }
 
     func parasitize_(_ victim: Metabolism) {

@@ -11,6 +11,11 @@ let lockWorldQueue = DispatchQueue(
     target: DispatchQueue.global()
 )
 
+extension World.Lockable {
+    typealias LockExecute = Dispatch.Lockable<T>.LockExecute
+    typealias LockOnComplete = Dispatch.Lockable<T>.LockOnComplete
+}
+
 class World {
     static let mutator = Mutator()
     static var shared = World()
@@ -25,10 +30,16 @@ class World {
 
     private let timeLimit: TimeInterval? = 10000
 
-    private func lockWorld(
-        _ execute: @escaping Lockable<Void>.LockExecute,
-        _ callback: @escaping Lockable<Void>.LockExecute) {
-        Lockable<Void>(lockWorldQueue).lock(execute, callback)
+    class Lockable<T>: Dispatch.Lockable<T> {}
+
+    static private func lock<T>(
+        _ execute: Lockable<T>.LockExecute? = nil,
+        _ userOnComplete: Lockable<T>.LockOnComplete? = nil,
+        _ completionMode: Dispatch.CompletionMode = .concurrent
+    ) {
+        Lockable<T>(lockWorldQueue).lock(
+            execute, userOnComplete, completionMode
+        )
     }
 }
 
@@ -41,14 +52,10 @@ extension World {
 
     private func doPopulationStuff(
         do whichStuff: PopulationAction = .get,
-        execute: Lockable<Int>.LockExecute? = nil,
-        callback: Lockable<Int>.LockCompletion3? = nil
+        execute: World.Lockable<Int>.LockExecute? = nil,
+        onComplete: World.Lockable<Int>.LockOnComplete? = nil
     ) {
-        var safeCopyCOffspring = 0
-        var safeCopyHiwater = 0
-        var safeCopyPop = 0
-
-        lockWorld({
+        World.lock({
             switch whichStuff {
             case .decrement:
                 self.population -= 1
@@ -64,18 +71,18 @@ extension World {
                 self.maxCOffspring += 1
             }
 
-            safeCopyCOffspring = self.maxCOffspring
-            safeCopyPop = self.population
-            safeCopyHiwater = self.maxPopulation
+            return [self.maxCOffspring, self.population, self.maxPopulation]
         }, {
-            callback?(safeCopyPop, safeCopyHiwater, safeCopyCOffspring)
-        })
+            onComplete?($0)
+        },
+           .concurrent
+        )
     }
 
     func decrementPopulation() { doPopulationStuff(do: .decrement) }
 
-    func getPopulation(callback: @escaping Lockable<Int>.LockCompletion3) {
-        doPopulationStuff(do: .get, callback: callback)
+    func getPopulation(onComplete: @escaping World.Lockable<Int>.LockOnComplete) {
+        doPopulationStuff(do: .get, onComplete: onComplete)
     }
 
     func incrementPopulation() { doPopulationStuff(do: .increment) }
@@ -89,33 +96,38 @@ extension World {
 
     private func doDuggarnessStuff(
         do whichStuff: CurrentTimeAction = .get,
-        execute: Lockable<Selectoid>.LockExecute? = nil,
-        callback: Lockable<Int>.LockCompletion? = nil
+        execute: World.Lockable<Selectoid>.LockExecute? = nil,
+        onComplete: World.Lockable<Int>.LockOnComplete? = nil
     ) {
-        var newCOffspring = 0
+        World.lock({
+            var newCOffspring = 0
 
-        lockWorld({
             switch whichStuff {
             case .get:
                 break
 
             case .set:
-                let selectoid = execute!()
+                guard let ex = execute else { fatalError() }
+                guard let ss = ex() else { fatalError() }
+
+                let selectoid = ss[0]
                 selectoid.cOffspring += 1
                 newCOffspring = selectoid.cOffspring
                 World.shared.maxCOffspring = max(newCOffspring, World.shared.maxCOffspring)
             }
+
+            return [newCOffspring]
         }, {
-            callback?(newCOffspring)
+            cOffspring in onComplete?(cOffspring)
         })
     }
 
-    func getMaxCOffspring(callback: @escaping Lockable<Int>.LockCompletion) {
-        doDuggarnessStuff(do: .get, callback: callback)
+    func getMaxCOffspring(onComplete: @escaping World.Lockable<Int>.LockOnComplete) {
+        doDuggarnessStuff(do: .get, onComplete: onComplete)
     }
 
     func incrementCOffspring(for selectoid: Selectoid) {
-        func execute() -> Selectoid { return selectoid }
+        func execute() -> [Selectoid] { return [selectoid] }
         doDuggarnessStuff(do: .set, execute: execute)
     }
 }
@@ -130,33 +142,36 @@ extension World {
     private func doCurrentTimeStuff(
         do whichStuff: CurrentTimeAction = .get,
         execute: Lockable<TimeInterval>.LockExecute? = nil,
-        callback: Lockable<TimeInterval>.LockCompletion? = nil
+        onComplete: Lockable<TimeInterval>.LockOnComplete? = nil
     ) {
-        var safeCopyCurrentTime: TimeInterval = 0
-
-        lockWorld({
+        World.lock({ () -> [TimeInterval] in
             switch whichStuff {
             case .get:
                 break
 
             case .set:
-                self.currentTime = execute!()
+                guard let ex = execute else { fatalError() }
+                guard let tt = ex() else { fatalError() }
+
+                self.currentTime = tt[0]
             }
 
-            safeCopyCurrentTime = self.currentTime
+            return [self.currentTime]
         }, {
-            callback?(safeCopyCurrentTime)
-        })
+            currentTimes in onComplete?(currentTimes)
+        },
+           .continueBarrier
+        )
     }
 
     func getCurrentTime(
-        callback: @escaping Lockable<TimeInterval>.LockCompletion
+        onComplete: @escaping World.Lockable<TimeInterval>.LockOnComplete
     ) {
-        doCurrentTimeStuff(do: .get, callback: callback)
+        doCurrentTimeStuff(do: .get, onComplete: onComplete)
     }
 
     func setCurrentTime(to newTime: TimeInterval) {
-        func execute() -> TimeInterval { return newTime }
+        func execute() -> [TimeInterval]? { return [newTime] }
         doCurrentTimeStuff(do: .set, execute: execute)
     }
 }
@@ -171,41 +186,40 @@ extension World {
 
     private func doAgeStuff(
         do whichStuff: AgeAction = .get,
-        execute: Lockable<TimeInterval>.LockExecute? = nil,
-        callback: Lockable<TimeInterval>.LockCompletion2? = nil
+        execute: World.Lockable<TimeInterval>.LockExecute? = nil,
+        onComplete: World.Lockable<TimeInterval>.LockOnComplete? = nil
     ) {
-        var safeCopyMaxLiving: TimeInterval = 0
-        var safeCopyHiwater: TimeInterval = 0
-
-        lockWorld({
+        World.lock({
             switch whichStuff {
             case .get:
                 break
 
             case .set:
-                self.maxLivingAge = execute!()
+                guard let ex = execute else { fatalError() }
+                guard let aa = ex() else { fatalError() }
+
+                self.maxLivingAge = aa[0]
 
                 if self.maxLivingAge > self.highWaterAge {
                     self.highWaterAge = self.maxLivingAge
                 }
             }
 
-            safeCopyMaxLiving = self.maxLivingAge
-            safeCopyHiwater = self.highWaterAge
+            return [self.maxLivingAge, self.highWaterAge]
         }, {
-            callback?(safeCopyMaxLiving, safeCopyHiwater)
+            ages in onComplete?(ages)
         })
     }
 
-    func getAges(callback: @escaping Lockable<TimeInterval>.LockCompletion2) {
-        doAgeStuff(do: .get, callback: callback)
+    func getAges(onComplete: @escaping World.Lockable<TimeInterval>.LockOnComplete) {
+        doAgeStuff(do: .get, onComplete: onComplete)
     }
 
     func setMaxLivingAge(
         to newMax: TimeInterval,
-        callback: @escaping Lockable<TimeInterval>.LockCompletion2
+        onComplete: @escaping World.Lockable<TimeInterval>.LockOnComplete
     ) {
-        func execute() -> TimeInterval { return newMax }
-        doAgeStuff(do: .set, execute: execute, callback: callback)
+        func execute() -> [TimeInterval]? { return [newMax] }
+        doAgeStuff(do: .set, execute: execute, onComplete: onComplete)
     }
 }

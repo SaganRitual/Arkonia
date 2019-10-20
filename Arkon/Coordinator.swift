@@ -25,7 +25,7 @@ extension Coordinator {
 //        print("a(\(stepper?.core.selectoid.fishNumber ?? -1))")
         self.stepper!.arrive { [unowned self] in
 //            print("n1(\(self.stepper!.core.selectoid.fishNumber))", terminator: "")
-            if let victor = $0, let victim = $1 {
+            if let victor = $0?[0], let victim = $0?[1] {
                 victor.coordinator.parasitize(victim)
                 victim.coordinator.apoptosize()
             }
@@ -41,9 +41,9 @@ extension Coordinator {
         self.stepper?.apoptosize()
     }
 
-    func colorize() {
+    func colorize(_ nothing: [Void]? = nil) {
 //        print("c(\(stepper?.core.selectoid.fishNumber ?? -1))")
-        World.shared.getCurrentTime { [weak self] currentTime in
+        World.shared.getCurrentTime { [weak self] cts in
             guard let myself = self,
                 let mycore = myself.core,
                 let mymb = myself.metabolism
@@ -52,11 +52,13 @@ extension Coordinator {
                 return
             }
 
+            guard let currentTimes = cts else { fatalError() }
+            let currentTime = currentTimes[0]
+
             let myAge = currentTime - mycore.selectoid.birthday
 
-            mycore.colorize(
-                metabolism: mymb, age: myAge, completion: myself.shiftStart
-            )
+            mycore.colorize_(mymb, myAge)
+            myself.shiftStart()
         }
 
     }
@@ -78,16 +80,20 @@ extension Coordinator {
     func funge() {
 //        print("ftf?")
 //        print("f(\(stepper?.core.selectoid.fishNumber ?? -1))")
-        World.shared.getCurrentTime { [weak self] currentTime in
+        World.shared.getCurrentTime { [weak self] currentTimes in
+            print("7")
             guard let myself = self,
                 let mycore = myself.core,
-                let mymb = myself.metabolism
+                let selectoid = mycore.selectoid,
+                let mymb = myself.metabolism,
+                let currentTime = currentTimes?[0]
             else {
-//                print("Bailing in funge")
+                print("Bailing in funge")
                 return
             }
+print("8", selectoid.fishNumber)
 //            print("O(\(self.stepper!.core.selectoid.fishNumber))")
-            let myAge = currentTime - mycore.selectoid.birthday
+            let myAge = currentTime - selectoid.birthday
             mymb.funge(myAge, alive: myself.cspawn, dead: myself.apoptosize)
 //            print("P(\(self.stepper!.core.selectoid.fishNumber))")
         }
@@ -99,7 +105,7 @@ extension Coordinator {
 
     func metabolize(_ who: Stepper) {
 //        print("h(\(stepper?.core.selectoid.fishNumber ?? -1))")
-        who.metabolism.metabolize(completion: colorize)
+        who.metabolism.metabolize(onComplete: colorize)
     }
 
     func parasitize(_ victim: Stepper) {
@@ -108,7 +114,7 @@ extension Coordinator {
         mymb.parasitize(hismb, completion: funge)
     }
 
-    func shiftCalculate() {
+    func shiftCalculate(_ nothing: [Void]? = nil) {
 //        print("j(\(stepper?.core.selectoid.fishNumber ?? -1))")
 
         guard let ss = self.shift else {
@@ -123,11 +129,11 @@ extension Coordinator {
             from: st.gridlet,
             previousShift: st.previousShift,
             setShiftTarget: setShiftTarget,
-            completion: shiftShift
+            onComplete: shiftShift
         )
     }
 
-    func shiftShift() {
+    func shiftShift(_ nothing: [Void]? = nil) {
         guard let ss = self.shift else {
 //            print("Bail1 in shiftShift()")
             return
@@ -137,7 +143,7 @@ extension Coordinator {
             return
         }
 
-        ss.shift(whereIAmNow: st.gridlet) { [weak self] in
+        ss.shift(whereIAmNow: st.gridlet) { [weak self] _ in
             guard let myself = self else {
 //                print("Bail3 in shiftShift()")
                 return
@@ -159,9 +165,9 @@ extension Coordinator {
 }
 
 extension Coordinator {
-    func setShiftTarget(_ shiftTarget: AKPoint) {
+    func setShiftTarget(_ shiftTarget: [AKPoint]?) {
 //print("N(\(stepper?.core.selectoid.fishNumber ?? -1))")
 //        print("setShiftTarget(\(shiftTarget))")
-        stepper!.shiftTarget = shiftTarget
+        stepper!.shiftTarget = shiftTarget![0]
     }
 }

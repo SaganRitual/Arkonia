@@ -19,22 +19,22 @@ class SpriteHangar: SpriteHangarProtocol {
     }
 
     func makeSprite() -> SKSpriteNode {
-        assert(doubly == false)
-        defer { doubly = false }
-        doubly = true
         if let readyDrone = drones.first(where: { sprite in sprite.parent == nil }) {
             return readyDrone
         }
 
         let newSprite = factoryFunction(texture)
         newSprite.userData = [:]
+        newSprite.name = UUID().uuidString
         drones.append(newSprite)
         return newSprite
     }
 
     func retireSprite(_ sprite: SKSpriteNode) {
-        sprite.removeAllActions()
-        sprite.removeFromParent()
+        sprite.parent!.run(SKAction.run {
+            sprite.removeAllActions()
+            sprite.removeFromParent()
+        })
     }
 }
 
@@ -63,10 +63,14 @@ class SpriteFactory {
         for i in 0..<18 {
             let drone = arkonsHangar.makeSprite()
             drone.userData![SpriteUserDataKey.net9Portal] = net9Portals[i]
+            print("G", drone.name!)
             scene.addChild(drone)   // Icky -- adding to scene to hold temp space in hangar
+            print("H")
         }
 
+        print("I")
         for drone in arkonsHangar.drones { arkonsHangar.retireSprite(drone) }
+        print("J")
     }
 }
 
@@ -133,7 +137,9 @@ extension SpriteFactory {
         let w = factory.scene.size.width / 2
         let h = factory.scene.size.height / 2
 
+        print("K")
         let makeOne = SKAction.run {
+            print("L")
             SpriteFactory.count += 1
             var sprite = factory.arkonsHangar.makeSprite()
             sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
@@ -154,7 +160,9 @@ extension SpriteFactory {
             sprite = factory.mannaHangar.makeSprite()
             sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
             factory.scene.addChild(sprite)
+            print("M")
         }
+        print("N")
 
         return makeOne
     }

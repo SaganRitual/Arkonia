@@ -1,30 +1,30 @@
 import SpriteKit
 
 struct CSpawn {
+    let allowSpawning = true
     let goOffspring: StepperSimpleCallback?
     let goParent: StepperSimpleCallback?
-    weak var stepper: Stepper?
+    weak var parentStepper: Stepper?
 
     init(
-        _ stepper: Stepper?,
+        _ parentStepper: Stepper?,
         goParent: StepperSimpleCallback? = nil,
         goOffspring: StepperSimpleCallback? = nil
     ) {
-        self.stepper = stepper
+        self.parentStepper = parentStepper
         self.goOffspring = goOffspring
         self.goParent = goParent
     }
 
     func spawnProgenitor() {
-        Grid.getRandomPoint(background: Arkon.arkonsPortal!) { rp in
-            self.makeStepper_(at: rp)
+        Grid.getRandomPoint { randomPoints in
+            guard let randomPoint = randomPoints?[0] else { fatalError() }
+            self.makeStepper_(at: randomPoint)
         }
     }
 
-    let allowSpawning = true
-
     func spawnIf() {
-        guard let st = stepper else { fatalError() }
+        guard let st = parentStepper else { fatalError() }
 
         let entropy: CGFloat = 0.1
         let spawnCost: CGFloat
@@ -42,12 +42,12 @@ struct CSpawn {
 
         st.metabolism.withdrawFromSpawn(spawnCost)
 
-        asyncQueue.async { self.setOffspringPosition() }
+        asyncQueue.async { self.startOffspringConstruction() }
     }
 
-    private func getGridPointNearParent() -> Grid.RandomGridPoint? {
+    private func getGridPointNearParent() -> [Grid.RandomGridPoint]? {
 
-        guard let st = stepper else { return nil }
+        guard let st = parentStepper else { return nil }
 
         for offset in Stepper.gridInputs {
             let offspringPosition = st.gridlet.gridPosition + offset
@@ -55,7 +55,11 @@ struct CSpawn {
             if Gridlet.isOnGrid(offspringPosition.x, offspringPosition.y) {
                 let gridlet = Gridlet.at(offspringPosition)
                 if gridlet.contents == .nothing {
-                    return Grid.RandomGridPoint(gridlet: gridlet, cgPoint: gridlet.scenePosition)
+                    let r = Grid.RandomGridPoint(
+                        gridlet: gridlet, cgPoint: gridlet.scenePosition
+                    )
+
+                    return [r]
                 }
             }
         }
@@ -64,11 +68,21 @@ struct CSpawn {
     }
 
     private func makeStepper_(at randomPoint: Grid.RandomGridPoint) {
-        let newCore = Arkon(
-            parentBiases: stepper?.core.net.biases,
-            parentWeights: stepper?.core.net.weights,
-            layers: stepper?.core.net.layers,
-            parentActivator: stepper?.core.net.activatorFunction
+        var newCore: Arkon!
+
+        func partB(_ components: [Any]?) {
+            let net = components![0] as! Net
+            let netDisplay = components![1] as NetDisplay
+            let selectoid = components![2] as! Selectoid
+            let sprite = components![3] as! SKSpriteNode
+        }
+
+        Arkon.startConstruction(
+            onComplete: partB,
+            parentBiases: parentStepper?.core.net.biases,
+            parentWeights: parentStepper?.core.net.weights,
+            layers: parentStepper?.core.net.layers,
+            parentActivator: parentStepper?.core.net.activatorFunction
         )
 
         let newMetabolism = Metabolism(core: newCore)
@@ -86,7 +100,7 @@ struct CSpawn {
         // Stepper doesn't go away
         newCore.sprite.stepper = offspring
 
-        if let st = stepper {
+        if let st = parentStepper {
             World.shared.incrementCOffspring(for: st.core.selectoid)
             goParent!(st)
         }
@@ -99,16 +113,23 @@ struct CSpawn {
     }
 
     private func setOffspringPosition() {
-        var randomPoint: Grid.RandomGridPoint?
-
-        Lockable<Grid.RandomGridPoint>().lock({
-            randomPoint = self.getGridPointNearParent()
+        Grid.lock({ () -> [Grid.RandomGridPoint]? in
+            var randomPoint = self.getGridPointNearParent()
 
             if randomPoint == nil {
-                randomPoint = Grid.getRandomPoint_(background: Arkon.arkonsPortal!)
+                randomPoint = Grid.getRandomPoint_()
             }
+
+            return randomPoint
         }, {
-            self.makeStepper_(at: randomPoint!)
+            guard let randomPoint = $0?[0] else { fatalError() }
+            self.makeStepper_(at: randomPoint)
         })
     }
+
+    private func startOffspringConstruction() {
+        setOffspringPosition()
+    }
 }
+
+typealias LockRandomPoint = Dispatch.Lockable<Grid.RandomGridPoint>

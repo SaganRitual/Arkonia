@@ -1,19 +1,32 @@
 import CoreGraphics
 import Foundation
 
+typealias LockBool = Dispatch.Lockable<Bool>
+
 extension Metabolism {
+
     func funge(
-        _ age: TimeInterval, alive: @escaping CoordinatorCallback,
-        dead: @escaping CoordinatorCallback
+        _ age: TimeInterval,
+        alive: @escaping () -> Void,
+        dead: @escaping () -> Void
     ) {
-        Lockable<Void>().lock({
-            self.funge_(age, alive: alive, dead: dead)
-        }, {})
+        print("dl funge")
+        Catchall.lock({ () -> [Bool]? in
+            let isAlive = self.funge_(age: age)
+            return [isAlive]
+        }, {
+            guard let isAlive = $0?[0] else { fatalError() }
+            if isAlive {
+                print("dl alive")
+                alive() } else {
+                print("dl dead")
+                dead() }
+        },
+           .continueBarrier
+        )
     }
 
-    private func funge_(
-        _ age: TimeInterval, alive: CoordinatorCallback, dead: CoordinatorCallback
-    ) {
+    private func funge_(age: TimeInterval) -> Bool {
         let fudgeFactor: CGFloat = 1
         let joulesNeeded = fudgeFactor * mass
 
@@ -22,7 +35,6 @@ extension Metabolism {
         let oxygenCost: TimeInterval = age < TimeInterval(5) ? 0 : 1
         oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
 
-        if fungibleEnergyFullness > 0 && oxygenLevel > 0 { alive() }
-        else { dead() }
+        return fungibleEnergyFullness > 0 && oxygenLevel > 0
     }
 }

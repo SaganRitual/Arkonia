@@ -9,10 +9,20 @@ class Selectoid {
     let fishNumber: Int
 
     init(birthday: TimeInterval) {
-        defer { Selectoid.TheFishNumber += 1 }
+        print("2")
+        defer {
+            print("3", fishNumber)
+            Selectoid.TheFishNumber += 1
+            print("4", fishNumber)
+        }
         fishNumber = Selectoid.TheFishNumber
 
         self.birthday = birthday
+        print("5", fishNumber)
+    }
+
+    deinit {
+        print("~Selectoid")
     }
 }
 
@@ -50,29 +60,80 @@ class Arkon {
     let net: Net
     var netDisplay: NetDisplay!
 
-    let nose: SKSpriteNode
+    weak var nose: SKSpriteNode!
     var previousPosition = CGPoint.zero
     var arkonsPortal: SKSpriteNode { return Arkon.arkonsPortal! }
     var selectoid: Selectoid!
     var sensoryInputs = [Double]()
-    let sprite: SKSpriteNode
+    var sprite: SKSpriteNode!
     var spriteFactory: SpriteFactory { return Arkon.spriteFactory! }
 
-    init(
-        parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
+    static func startConstruction(
+        onComplete: Dispatch.Lockable<Any>.LockOnComplete,
+        parentBiases: [Double]?,
+        parentWeights: [Double]?,
+        layers: [Int]?,
         parentActivator: ((_: Double) -> Double)?
     ) {
-
-        net = Net(
+        let net = Net(
             parentBiases: parentBiases, parentWeights: parentWeights,
             layers: layers, parentActivator: parentActivator
         )
 
-        sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
-        sprite.setScale(Arkon.scaleFactor)
-        sprite.color = ColorGradient.makeColor(hexRGB: Arkon.standardColor)
-        sprite.colorBlendFactor = 1
+        partB(net, onComplete)
+    }
 
+    static func partB(
+         _ net: Net, _ onComplete: Dispatch.Lockable<Any>.LockOnComplete
+    ) {
+        Grid.lock({ () -> [SKSpriteNode]? in
+            let nose = Arkon.spriteFactory!.noseHangar.makeSprite()
+            let sprite = Arkon.spriteFactory!.arkonsHangar.makeSprite()
+
+            return [sprite, nose]
+        }, {
+            guard let sprite = $0?[0] else { fatalError() }
+            guard let nose = $0?[1] else { fatalError() }
+
+            nose.alpha = 1
+            nose.colorBlendFactor = 1
+
+            sprite.setScale(Arkon.scaleFactor)
+//                sprite.color = ColorGradient.makeColor(hexRGB: Arkon.standardColor)
+            sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
+            sprite.colorBlendFactor = 1
+
+            print("A", nose.name!)
+            sprite.addChild(nose)
+            print("B", sprite.name!)
+            Arkon.arkonsPortal!.addChild(sprite)
+            print("C")
+
+            partC(net, sprite, onComplete)
+        })
+    }
+
+    static func partC(
+        _ net: Net, _ sprite: SKSpriteNode,
+        _ onComplete: Dispatch.Lockable<Any>.LockOnComplete
+    ) {
+        World.shared.getCurrentTime { t in
+            print("0")
+            let selectoid = Selectoid(birthday: t![0])
+            print("1", selectoid.fishNumber)
+            World.shared.incrementPopulation()
+
+            asyncQueue.async(execute: { partD(net, sprite, selectoid, onComplete) })
+        }
+    }
+
+    static func partD(
+        _ net: Net,
+        _ sprite: SKSpriteNode,
+        _ selectoid: Selectoid,
+        _ onComplete: Dispatch.Lockable<Any>.LockOnComplete
+    ) {
+        var netDisplay: NetDisplay?
         if let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode),
             let scene = np.parent as? SKScene {
 
@@ -80,28 +141,15 @@ class Arkon {
             netDisplay!.display()
         }
 
-        nose = Arkon.spriteFactory!.noseHangar.makeSprite()
-        nose.alpha = 1
-        nose.colorBlendFactor = 1
-
-        sprite.addChild(nose)
-        Arkon.arkonsPortal!.addChild(sprite)
-
-        World.shared.getCurrentTime { [unowned self] t in
-            self.selectoid = Selectoid(birthday: t)
-
-            if self.selectoid.fishNumber < 10 {
-                self.sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
-            }
-
-            World.shared.incrementPopulation()
-        }
+        onComplete([net, netDisplay as Any, selectoid, sprite])
     }
 
     deinit {
+        print("~Arkon")
         World.shared.decrementPopulation()
 
         netDisplay = nil
+        print("/~Arkon")
     }
 }
 

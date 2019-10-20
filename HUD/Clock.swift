@@ -20,13 +20,10 @@ class Clock {
 
     func updateClock() {
         func partA() {
-            World.shared.getAges(callback: partB)
+            World.shared.getAges(onComplete: partB)
         }
 
-        func partB(
-            maxLivingArkonAge: TimeInterval,
-            highWaterArkonAge: TimeInterval
-        ) {
+        func partB(_ ages: [TimeInterval]?) {
             let gameAge = Date().timeIntervalSince(timeZero)
             self.clockReport.data.text = self.clockFormatter.string(from: gameAge)
 

@@ -51,13 +51,14 @@ class Stepper {
         let fishNumber = core.selectoid.fishNumber
 //        print("~stepper1 for \(fishNumber)")
         let gridlet = self.gridlet!
-        Lockable<Void>().lock({
+        Grid.lock({ () -> [Void]? in
 //            print("~stepper2 for \(fishNumber)")
             gridlet.contents = .nothing
             gridlet.sprite = nil
             gridlet.gridletIsEngaged = false
             print("~stepper3 for \(fishNumber)")
-        }, {})
+            return nil
+        })
     }
 
 }

@@ -55,33 +55,3 @@ class NetDisplayGrid: NetDisplayGridProtocol {
         self.vTop = height / 2.0
     }
 }
-
-extension NetDisplayGrid {
-    static let cHiddenLayers = 4
-    static let cNeurons = 9
-    static let neuronRadius: CGFloat = 15
-
-    static func selfTest(background: SKSpriteNode) {
-        let grid = NetDisplayGrid(portal: background, cHiddenLayers: cHiddenLayers)
-        grid.setHorizontalSpacing(cNeurons: cNeurons, padRadius: neuronRadius)
-
-        let includeMotorLayer = cHiddenLayers + 1
-
-        (-1..<includeMotorLayer).forEach { layer in
-            grid.layerRole = {
-                switch layer {
-                case -1: return .senseLayer
-                case includeMotorLayer - 1: return .motorLayer
-                default: return .hiddenLayer
-                }
-            }()
-
-            (0..<cNeurons).forEach { neuron in
-                let marker = SKShapeNode(circleOfRadius: neuronRadius)
-                marker.fillColor = .green
-                marker.position = grid.getPosition(GridPoint(x: neuron, y: layer))
-                background.addChild(marker)
-            }
-        }
-    }
-}

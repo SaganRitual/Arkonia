@@ -1,25 +1,23 @@
 import SpriteKit
 
+typealias LockAKPoint = Dispatch.Lockable<AKPoint>
 extension Shift {
     func calculateShift(
         from whereIAmNow: Gridlet, previousShift: AKPoint,
-        setShiftTarget: @escaping ShiftTargetCallback,
-        completion: @escaping CoordinatorCallback
+        setShiftTarget: @escaping LockAKPoint.LockOnComplete,
+        onComplete: @escaping LockVoid.LockOnComplete
     ) {
-        let workItem = { [weak self] in
-            guard let myself = self else {
-//                print("bail from calculateShift")
-                return
-            }
-            myself.calculateShift_(whereIAmNow, previousShift, setShiftTarget)
+        func workItem() -> [Void]? {
+            calculateShift_(whereIAmNow, previousShift, setShiftTarget)
+            return nil
         }
 
-        Lockable<Void>().lock(workItem, completion)
+        Grid.lock(workItem, onComplete)
     }
 
     private func calculateShift_(
         _ whereIAmNow: Gridlet, _ previousShift: AKPoint,
-        _ setShiftTarget: ShiftTargetCallback
+        _ setShiftTarget: LockAKPoint.LockOnComplete
     ) {
         guard let st = stepper else {
 //            print("bail from calculateShift_")
@@ -35,7 +33,7 @@ extension Shift {
 
         releaseGridPoints(whereIAmNow: whereIAmNow, keep: st.shiftTarget)
 
-        setShiftTarget(st.shiftTarget)
+        setShiftTarget([st.shiftTarget])
     }
 
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
@@ -69,25 +67,33 @@ extension Shift {
     }
 
     private func releaseGridPoints(whereIAmNow: Gridlet, keep: AKPoint? = nil) {
-//        print("rgp keep \(keep ?? AKPoint.zero)")
-        let engage = { [weak self] in
-            guard let myself = self else {
-//                print("Bailing in releaseGridPoints")
-                return
-            }
-            for gridOffset in myself.usableGridOffsets {
-//                print("rgp? \(gridOffset)", terminator: "")
+        let k: String
+        if let kk = keep { k = String(describing: kk) } else { k = "<nil>" }
+        print("rgp0 for \(stepper!.core.selectoid.fishNumber); keep \(k)")
+        func engage() -> [Void]? {
+            guard let st = self.stepper else { print("Bail in rgp"); return nil }
+            guard let sel = st.core.selectoid else { fatalError() }
+
+            print("rgp3 for \(sel.fishNumber)")
+            for gridOffset in usableGridOffsets {
+                print("rgp4 for \(sel.fishNumber)")
+
                 if keep == nil || keep! != gridOffset {
-//                    print("!")
+                    print("rgp5 for \(sel.fishNumber)")
                     let targetGridlet =  Gridlet.at(whereIAmNow.gridPosition + gridOffset)
+                    print("rg", whereIAmNow.gridPosition, gridOffset, targetGridlet.gridPosition)
                     targetGridlet.gridletIsEngaged = false
-                }// else { print(".") }
+                }
+                print("rgp7 for \(sel.fishNumber)")
             }
 
-            myself.usableGridOffsets.removeAll(keepingCapacity: true)
+            usableGridOffsets.removeAll(keepingCapacity: true)
+            return nil
         }
 
-        Lockable<Void>().lock(engage, {})// { print("</rgp>") })
+        print("rgp1 keep \(keep ?? AKPoint.zero)")
+        Grid.lock(engage)
+        print("rgp2 keep \(keep ?? AKPoint.zero)")
     }
 
     private func selectMoveTarget(

@@ -12,10 +12,12 @@ class Shift {
     }
 }
 
+typealias LockVoid = Dispatch.Lockable<Void>
+
 extension Shift {
-    func start(_ gridlet: Gridlet, completion: @escaping Lockable<Void>.LockCompletion) {
-        func workItem() { start_(gridlet) }
-        Lockable<Void>().lock(workItem, completion)
+    func start(_ gridlet: Gridlet, completion: @escaping LockVoid.LockOnComplete) {
+        func workItem() -> [Void]? { start_(gridlet); return nil }
+        Grid.lock(workItem, completion)
     }
 
     private func start_(_ gridlet: Gridlet) {
@@ -60,6 +62,7 @@ extension Shift {
 
                 if !targetGridlet.gridletIsEngaged {
                     targetGridlet.gridletIsEngaged = true
+                    print("tg", gridlet.gridPosition, offset, targetGridlet.gridPosition)
                     return offset
                 }
             }

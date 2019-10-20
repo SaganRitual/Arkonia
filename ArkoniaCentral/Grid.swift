@@ -39,35 +39,8 @@ struct Dimensions {
     }
 }
 
-let lockGridQueue = DispatchQueue(
-    label: "arkonia.lock.grid", qos: .default,
-    attributes: DispatchQueue.Attributes.concurrent,
-    target: DispatchQueue.global()
-)
-
-class Lockable<T> {
-    typealias LockExecute = () -> T
-    typealias LockCompletion = (T) -> Void
-    typealias LockCompletion2 = (T, T) -> Void
-    typealias LockCompletion3 = (T, T, T) -> Void
-
-    let dispatchQueue: DispatchQueue
-
-    init(_ dispatchQueue: DispatchQueue = lockGridQueue) {
-        self.dispatchQueue = dispatchQueue
-    }
-
-    func lock<T>(
-        _ execute: @escaping Lockable<T>.LockExecute,
-        _ unlock: @escaping Lockable<T>.LockCompletion) {
-        self.dispatchQueue.async(flags: .barrier) {
-            let result = execute()
-            unlock(result)
-        }
-    }
-}
-
 class Grid {
+    static var shared: Grid!
     static var dimensions: Dimensions!
     static var gridlets = [AKPoint: Gridlet]()
 
@@ -83,7 +56,25 @@ class Grid {
             color: .gray
         )
 
+        print("C", line.name!)
         portal.addChild(line)
+        print("D")
+    }
+
+    static let lockGridQueue = DispatchQueue(
+        label: "arkonia.lock.grid", qos: .default,
+        attributes: DispatchQueue.Attributes.concurrent,
+        target: DispatchQueue.global()
+    )
+
+    static func lock<T>(
+        _ execute: Dispatch.Lockable<T>.LockExecute? = nil,
+        _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
+        _ completionMode: Dispatch.CompletionMode = .concurrent
+    ) {
+        Dispatch.Lockable<T>(lockGridQueue).lock(
+            execute, userOnComplete, completionMode
+        )
     }
 
     func setupGrid(_ portal: SKSpriteNode, drawLines: Bool = false) {
@@ -203,27 +194,20 @@ class Grid {
         let cgPoint: CGPoint
     }
 
-    static func getRandomPoint_(background: SKSpriteNode) -> RandomGridPoint {
+    static func getRandomPoint_() -> [RandomGridPoint]? {
         var rp: RandomGridPoint?
 
         repeat {
-            rp = background.getRandomPoint()
+            rp = Arkon.arkonsPortal!.getRandomPoint()
         } while rp!.gridlet.contents != .nothing
 
-        return rp!
+        return [rp!]
     }
 
-    static func getRandomPoint(
-        background: SKSpriteNode,
-        completion: @escaping Lockable<RandomGridPoint>.LockCompletion
-    ) {
-        var rp: RandomGridPoint?
+    typealias LockRandomGridPoint = Dispatch.Lockable<RandomGridPoint>
 
-        Lockable<RandomGridPoint>().lock({
-            rp = getRandomPoint_(background: background)
-        }, {
-            completion(rp!)
-        })
+    static func getRandomPoint(completion: LockRandomGridPoint.LockOnComplete? = nil) {
+        Grid.lock(getRandomPoint_, completion, .concurrent)
     }
 
 }

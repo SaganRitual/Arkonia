@@ -1,23 +1,31 @@
 import SpriteKit
 
 extension Shift {
-    func shift(whereIAmNow: Gridlet, completion: @escaping CoordinatorCallback) {
-        Lockable<Void>().lock({ [weak self] in
+    func shift(
+        whereIAmNow: Gridlet,
+        onComplete: @escaping LockVoid.LockOnComplete
+    ) {
+        Grid.lock({ [weak self] () -> [Void]? in
             guard let myself = self else {
 //                print("Bailing in Shift.shift")
-                return
+                return nil
             }
-            myself.shift_(whereIAmNow: whereIAmNow, completion: completion)
-        }, {})
+
+            myself.shift_(whereIAmNow: whereIAmNow, onComplete: onComplete)
+            return nil
+        })
     }
 
-    private func shift_(whereIAmNow: Gridlet, completion: @escaping CoordinatorCallback) {
+    private func shift_(
+        whereIAmNow: Gridlet,
+        onComplete: @escaping LockVoid.LockOnComplete
+    ) {
         guard let st = stepper else { fatalError() }
 
 //        print("newGridlet = \(st.shiftTarget) from \(whereIAmNow.gridPosition + st.shiftTarget)")
         let newGridlet = Gridlet.at(whereIAmNow.gridPosition + st.shiftTarget)
 
         let action = SKAction.move(to: newGridlet.scenePosition, duration: 0.1)
-        st.sprite.run(action, completion: completion)
+        st.sprite.run(action) { onComplete(nil) }
     }
 }

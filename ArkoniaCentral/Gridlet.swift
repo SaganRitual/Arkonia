@@ -16,7 +16,8 @@ class Gridlet {
     static func at(_ x: Int, _ y: Int) -> Gridlet {
         let p = AKPoint(x: x, y: y)
         guard let g = Grid.gridlets[p] else {
-            print(Grid.gridlets)
+//            print(Grid.gridlets)
+            print("whatchafuh", p)
             fatalError()
         }
 

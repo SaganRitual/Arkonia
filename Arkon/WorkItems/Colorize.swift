@@ -1,24 +1,34 @@
 import GameplayKit
 
+struct Catchall {
+    static let lockQueue = DispatchQueue(
+        label: "arkonia.lock.catchall", qos: .default,
+        attributes: DispatchQueue.Attributes.concurrent,
+        target: DispatchQueue.global()
+    )
+
+    static func lock<T>(
+        _ execute: Dispatch.Lockable<T>.LockExecute? = nil,
+        _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
+        _ completionMode: Dispatch.CompletionMode = .concurrent
+    ) {
+        Dispatch.Lockable<T>(lockQueue).lock(
+            execute, userOnComplete, completionMode
+        )
+    }
+}
+
 extension Arkon {
     func colorize(
         metabolism: Metabolism, age: TimeInterval,
-        completion: @escaping CoordinatorCallback
+        onComplete: @escaping LockVoid.LockOnComplete
     ) {
-        let workItem = { [weak self] in
-            guard let myself = self else {
-//                print("Bailing in colorize")
-                return
-            }
-            myself.colorize_(metabolism, age)
-        }
-
-        Lockable<Void>().lock(workItem, completion)
+        print("dl colorize")
+        func workItem() -> [Void]? { colorize_(metabolism, age); return nil }
+        Catchall.lock(workItem, onComplete)
     }
 
-    private func colorize_(
-        _ metabolism: Metabolism, _ age: TimeInterval
-    ) {
+    func colorize_(_ metabolism: Metabolism, _ age: TimeInterval) {
         let ef = metabolism.fungibleEnergyFullness
         nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 

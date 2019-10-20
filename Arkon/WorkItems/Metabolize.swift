@@ -1,17 +1,18 @@
 import GameplayKit
 
 extension Metabolism {
-    func metabolize(completion: @escaping CoordinatorCallback) {
-        let workItem = {
-            [weak self] in guard let myself = self else {
-//                print("Bailing in metabolize")
-                return
-            }
-            myself.metabolize_()
-            completion()
+    func metabolize(onComplete: @escaping LockVoid.LockOnComplete) {
+        func workItem() -> [Void]? {
+            metabolize_()
+            return nil
         }
 
-        Lockable<Void>().lock(workItem, { _ in })
+        func completion(_ nothing: [Void]?) {
+            onComplete(nothing)
+        }
+
+        print("dl metabolize")
+        Catchall.lock(workItem, completion, .continueBarrier)
     }
 
     private func metabolize_() {

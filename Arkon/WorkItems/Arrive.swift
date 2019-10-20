@@ -1,31 +1,36 @@
 import GameplayKit
 
+typealias LockStepper = Dispatch.Lockable<Stepper>
+
 extension Stepper {
-    func arrive(completion: @escaping StepperDoubleCallback) {
-//        print("p(\(core.selectoid.fishNumber))")
-        let workItem = { [weak self] in
-            self?.arrive_(completion: completion)
-//            print("u(\(self.core.selectoid.fishNumber))")
+    func arrive(onComplete: @escaping LockStepper.LockOnComplete) {
+        print("P(\(core.selectoid.fishNumber))")
+        func workItem() -> [Stepper]? {
+            print("U(\(self.core.selectoid.fishNumber))")
+            arrive_(onComplete: onComplete)
+            print("u(\(self.core.selectoid.fishNumber))")
+            return nil
         }
 
-        Lockable<Void>().lock(workItem, { _ in
-//            print("v(\(self.core.selectoid.fishNumber))")
-        })
+        print("p(\(self.core.selectoid.fishNumber))")
+        Grid.lock(workItem, nil, .concurrent)
     }
 
-    private func arrive_(completion: @escaping StepperDoubleCallback) {
-//        print("r(\(core.selectoid.fishNumber))")
+    private func arrive_(
+        onComplete: @escaping LockStepper.LockOnComplete
+    ) {
+        print("r(\(core.selectoid.fishNumber))")
         getStartStopGridlets()
 
-                func overhead(_ parasite: Stepper?, _ victim: Stepper?) {
-//                    print("oh1", terminator: "")
+                func overhead(_ combatants: [Stepper]?) {
+                    print("oh1", terminator: "")
                     updateGridletContents()
-//                    print("oh2", terminator: "")
-                    completion(parasite, victim)
-//                    print("oh3", terminator: "")
+                    print("oh2", terminator: "")
+                    onComplete(combatants)
+                    print("oh3", terminator: "")
                 }
 
-        touchFood(completion: overhead)
+        touchFood(onComplete: overhead)
 //        print("s(\(core.selectoid.fishNumber))")
     }
 
@@ -55,7 +60,10 @@ extension Stepper {
         }
     }
 
-    private func touchFood(completion: @escaping StepperDoubleCallback) {
+    private func touchFood(
+        onComplete: @escaping LockStepper.LockOnComplete
+    ) {
+        print("touchFood")
         guard let foodLocation = newGridlet else { fatalError() }
 
         var userDataKey = SpriteUserDataKey.karamba
@@ -71,7 +79,7 @@ extension Stepper {
             {
                 let (parasite, victim) = touchArkon(otherStepper)
                 assert(parasite.core.selectoid.fishNumber != victim.core.selectoid.fishNumber)
-                completion(parasite, victim)
+                onComplete([parasite, victim])
                 return
             }
 
@@ -84,12 +92,12 @@ extension Stepper {
                 let manna = otherAny as? Manna
             {
                 eatManna(manna)
-                completion(nil, nil)
+                onComplete(nil)
                 return
             }
 
         case .nothing:
-            completion(nil, nil)
+            onComplete(nil)
             return
 
         case nil:
@@ -101,15 +109,15 @@ extension Stepper {
 
     private func updateGridletContents() {
 //        print("t(\(self.core.selectoid.fishNumber))")
-        Lockable<Gridlet>().lock({ [weak self] in
+        Grid.lock({ [weak self] () -> [Void]? in
             guard let myself = self else {
 //                print("Bail in updateGridletContents")
-                return
+                return nil
             }
 
             guard let ng = myself.newGridlet else {
 //                print("Bail-ng in updateGridletContents")
-                return
+                return nil
             }
 
 //            print("w(\(self.core.selectoid.fishNumber))")
@@ -119,8 +127,8 @@ extension Stepper {
 
             myself.newGridlet = nil
             myself.oldGridlet = nil
-        }, { _ in
-//            print("x(\(self.core.selectoid.fishNumber))")
-            /* No completion callback */ })
+
+            return nil
+        })
     }
 }
