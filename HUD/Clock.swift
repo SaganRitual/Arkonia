@@ -38,7 +38,7 @@ class Clock {
 
             self.foodValueReport.data.text = String(format: "%.2f", percentage)
 
-            asyncQueue.asyncAfter(deadline: DispatchTime.now() + 1, execute: partA)
+            World.runAfter(deadline: DispatchTime.now() + 1, partA)
         }
 
         partA()

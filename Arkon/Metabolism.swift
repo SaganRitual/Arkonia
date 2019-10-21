@@ -94,7 +94,6 @@ struct EnergyReserve {
 
 class Metabolism {
     let allReserves: [EnergyReserve]
-    weak var core: Arkon?
     let fungibleReserves: [EnergyReserve]
     let reUnderflowThreshold: CGFloat
 
@@ -145,8 +144,7 @@ class Metabolism {
         }
     }
 
-    init(core: Arkon) {
-        self.core = core
+    init() {
         self.allReserves = [bone, stomach, readyEnergyReserves, fatReserves, spawnReserves]
         self.fungibleReserves = [readyEnergyReserves, fatReserves]
 

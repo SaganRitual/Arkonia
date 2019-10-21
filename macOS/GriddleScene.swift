@@ -29,7 +29,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
         Display.displayCycle = .limbo
     }
 
-    var arkonsPortal: SKSpriteNode!
+    static var arkonsPortal: SKSpriteNode!
     var census: Census?
     var clock: Clock?
     var griddle: Grid!
@@ -72,7 +72,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
     override func didMove(to view: SKView) {
         World.shared.setCurrentTime(to: 0)
 
-        arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+        GriddleScene.arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
 
         enumerateChildNodes(withName: "net_9portal") { node_, _ in
@@ -80,21 +80,16 @@ class GriddleScene: SKScene, SKSceneDelegate {
             self.net9Portals.append(node)
         }
 
-        let spriteFactory = SpriteFactory(
+        ArkonFactory.spriteFactory = SpriteFactory(
             scene: self,
             thoraxFactory: SpriteFactory.makeSprite(texture:),
             noseFactory: SpriteFactory.makeSprite(texture:)
         )
 
-        spriteFactory.postInit(net9Portals)
+        ArkonFactory.spriteFactory.postInit(net9Portals)
 
-        Arkon.inject(layers, arkonsPortal, spriteFactory)
-
-        print("Grid")
-        Grid.shared = Grid(arkonsPortal, spriteFactory)
-        print("/Grid")
-
-        MannaCoordinator.shared = MannaCoordinator(spriteFactory: spriteFactory)
+        Grid.shared = Grid()
+        MannaCoordinator.shared = MannaCoordinator()
 
         scene!.delegate = self
 
@@ -126,7 +121,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         let cProgenitors = 25
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
-            CSpawn(nil).spawnProgenitor()
+            ArkonFactory(nil).spawnProgenitor()
         }
     }
 }

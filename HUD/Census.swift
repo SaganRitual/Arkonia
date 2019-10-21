@@ -52,11 +52,11 @@ struct Census {
 
         func partC() {
             let liveArkonsAges: [TimeInterval] =
-                Arkon.arkonsPortal!.children.compactMap {
-                    let stepper = ($0 as? SKSpriteNode)?.optionalStepper
-                    let birthday = stepper?.core.selectoid.birthday ?? 0
+                GriddleScene.arkonsPortal!.children.compactMap { node in
+                    guard let sprite = node as? SKSpriteNode else { fatalError() }
+                    let stepper = Stepper.getStepper(from: sprite)
 
-                    return  currentTime - birthday
+                    return  currentTime - stepper.birthday!
             }
 
             World.shared.setMaxLivingAge(to: liveArkonsAges.max() ?? 0) { ageses in
@@ -71,7 +71,7 @@ struct Census {
             rHighWaterAge.data.text =
                 ageFormatter.string(from: Double(highWaterAge))
 
-            asyncQueue.asyncAfter(deadline: DispatchTime.now() + 1, execute: partA)
+            World.runAfter(deadline: DispatchTime.now() + 1, partA)
         }
 
         partA()

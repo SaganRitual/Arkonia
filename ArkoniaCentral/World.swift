@@ -1,16 +1,5 @@
 import SpriteKit
 
-let asyncQueue = DispatchQueue(
-    label: "arkonia.asynq", qos: .default,
-    attributes: DispatchQueue.Attributes.concurrent
-)
-
-let lockWorldQueue = DispatchQueue(
-    label: "arkonia.lock.world", qos: .default,
-    attributes: DispatchQueue.Attributes.concurrent,
-    target: DispatchQueue.global()
-)
-
 extension World.Lockable {
     typealias LockExecute = Dispatch.Lockable<T>.LockExecute
     typealias LockOnComplete = Dispatch.Lockable<T>.LockOnComplete
@@ -19,6 +8,8 @@ extension World.Lockable {
 class World {
     static let mutator = Mutator()
     static var shared = World()
+
+    private static var TheFishNumber = 0
 
     private var currentTime: TimeInterval = 0
     private var population = 0
@@ -32,14 +23,35 @@ class World {
 
     class Lockable<T>: Dispatch.Lockable<T> {}
 
-    static private func lock<T>(
+    static let mainQueue = DispatchQueue(
+        label: "arkonia.main.asynq", qos: .default,
+        attributes: DispatchQueue.Attributes.concurrent
+    )
+
+    static let lockQueue = DispatchQueue(
+        label: "arkonia.lock.world", qos: .default,
+        attributes: DispatchQueue.Attributes.concurrent,
+        target: DispatchQueue.global()
+    )
+
+    static func lock<T>(
         _ execute: Lockable<T>.LockExecute? = nil,
         _ userOnComplete: Lockable<T>.LockOnComplete? = nil,
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
-        Lockable<T>(lockWorldQueue).lock(
+        Lockable<T>(World.lockQueue).lock(
             execute, userOnComplete, completionMode
         )
+    }
+
+    static func run(_ execute: @escaping () -> Void) {
+        World.mainQueue.async(execute: execute)
+    }
+
+    static func runAfter(
+        deadline: DispatchTime, _ execute: @escaping () -> Void
+    ) {
+        World.mainQueue.asyncAfter(deadline: deadline, execute: execute)
     }
 }
 
@@ -63,9 +75,7 @@ extension World {
             case .get:
                 break
 
-            case .increment:
-                self.population += 1
-                if self.population > self.maxPopulation { self.maxPopulation = self.population }
+            case .increment: self.incrementPopulation_()
 
             case .incrementCOffspring:
                 self.maxCOffspring += 1
@@ -81,54 +91,36 @@ extension World {
 
     func decrementPopulation() { doPopulationStuff(do: .decrement) }
 
+    func getFishNumber_() -> Int {
+        defer { World.TheFishNumber += 1 }
+        return World.TheFishNumber
+    }
+
     func getPopulation(onComplete: @escaping World.Lockable<Int>.LockOnComplete) {
         doPopulationStuff(do: .get, onComplete: onComplete)
     }
 
     func incrementPopulation() { doPopulationStuff(do: .increment) }
+
+    func incrementPopulation_() {
+        self.population += 1
+        if self.population > self.maxPopulation { self.maxPopulation = self.population }
+    }
 }
 
 //
 // - Duggarness
 //
 extension World {
-    enum DuggarnessAction { case get, set }
 
-    private func doDuggarnessStuff(
-        do whichStuff: CurrentTimeAction = .get,
-        execute: World.Lockable<Selectoid>.LockExecute? = nil,
-        onComplete: World.Lockable<Int>.LockOnComplete? = nil
-    ) {
-        World.lock({
-            var newCOffspring = 0
+    func getMaxCOffspring(onComplete: @escaping ([Int]?) -> Void) {
 
-            switch whichStuff {
-            case .get:
-                break
-
-            case .set:
-                guard let ex = execute else { fatalError() }
-                guard let ss = ex() else { fatalError() }
-
-                let selectoid = ss[0]
-                selectoid.cOffspring += 1
-                newCOffspring = selectoid.cOffspring
-                World.shared.maxCOffspring = max(newCOffspring, World.shared.maxCOffspring)
-            }
-
-            return [newCOffspring]
-        }, {
-            cOffspring in onComplete?(cOffspring)
-        })
+        func workItem() -> [Int]? { return [World.shared.maxCOffspring] }
+        World.lock(workItem, onComplete)
     }
 
-    func getMaxCOffspring(onComplete: @escaping World.Lockable<Int>.LockOnComplete) {
-        doDuggarnessStuff(do: .get, onComplete: onComplete)
-    }
-
-    func incrementCOffspring(for selectoid: Selectoid) {
-        func execute() -> [Selectoid] { return [selectoid] }
-        doDuggarnessStuff(do: .set, execute: execute)
+    func registerCOffspring_(_ newCOffspring: Int) {
+        World.shared.maxCOffspring = max(newCOffspring, World.shared.maxCOffspring)
     }
 }
 
@@ -163,6 +155,9 @@ extension World {
            .continueBarrier
         )
     }
+
+    func getCurrentTime_() -> TimeInterval { return self.currentTime }
+    func setCurrentTime_(_ newTime: TimeInterval) { self.currentTime = newTime }
 
     func getCurrentTime(
         onComplete: @escaping World.Lockable<TimeInterval>.LockOnComplete
@@ -209,6 +204,10 @@ extension World {
         }, {
             ages in onComplete?(ages)
         })
+    }
+
+    static func getArkonAge_(birthday: TimeInterval) -> CGFloat {
+        return CGFloat(World.shared.getCurrentTime_() - birthday)
     }
 
     func getAges(onComplete: @escaping World.Lockable<TimeInterval>.LockOnComplete) {

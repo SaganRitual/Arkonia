@@ -1,26 +1,38 @@
 import CoreGraphics
 import Foundation
 
-typealias LockBool = Dispatch.Lockable<Bool>
+extension Stepper {
+    func funge() {
+        World.lock(getAge_, relay_, .concurrent)
+    }
+
+    func getAge_() -> [TimeInterval]? {
+        let age = World.shared.getCurrentTime_() - birthday
+        return [age]
+    }
+
+    func relay_(_ ages: [TimeInterval]?) {
+        guard let age = ages?[0] else { fatalError() }
+        metabolism.funge(parentStepper, age: age)
+    }
+}
 
 extension Metabolism {
 
-    func funge(
-        _ age: TimeInterval,
-        alive: @escaping () -> Void,
-        dead: @escaping () -> Void
-    ) {
-        print("dl funge")
-        Catchall.lock({ () -> [Bool]? in
+    func funge(_ parentStepper: Stepper?, age: TimeInterval) {
+
+        World.lock({ () -> [Bool]? in
+
             let isAlive = self.funge_(age: age)
             return [isAlive]
-        }, {
-            guard let isAlive = $0?[0] else { fatalError() }
-            if isAlive {
-                print("dl alive")
-                alive() } else {
-                print("dl dead")
-                dead() }
+
+        }, { (_ isAlives: [Bool]?) in
+
+            guard let isAlive = isAlives?[0] else { fatalError() }
+            let af = ArkonFactory(parentStepper)
+
+            if isAlive { af.spawnCommoner() }
+            else       { parentStepper!.apoptosize() }
         },
            .continueBarrier
         )

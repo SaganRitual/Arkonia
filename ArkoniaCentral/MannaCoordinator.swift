@@ -7,7 +7,7 @@ class MannaCoordinator {
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
-    static private let mannaq = DispatchQueue(
+    static private let lockQueue = DispatchQueue(
         label: "arkonia.mannaq", qos: .utility, attributes: .concurrent,
         target: DispatchQueue.global()
     )
@@ -17,14 +17,14 @@ class MannaCoordinator {
         _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
-        Dispatch.Lockable<T>(mannaq).lock(
+        Dispatch.Lockable<T>(lockQueue).lock(
             execute, userOnComplete, completionMode
         )
     }
 
-    init(spriteFactory: SpriteFactory) {
-        mannaSpriteFactory = spriteFactory
-        MannaCoordinator.mannaq.async { self.populate() }
+    init() {
+        mannaSpriteFactory = ArkonFactory.spriteFactory
+        MannaCoordinator.lockQueue.async { self.populate() }
     }
 
     func populate() {
@@ -34,7 +34,7 @@ class MannaCoordinator {
         Grid.lock({ () -> [SKSpriteNode] in
             let sprite = self.mannaSpriteFactory!.mannaHangar.makeSprite()
             print("E", sprite.name!)
-            Arkon.arkonsPortal!.addChild(sprite)
+            GriddleScene.arkonsPortal!.addChild(sprite)
             print("F")
             return [sprite]
         }, { sprites in
@@ -57,12 +57,14 @@ extension MannaCoordinator {
 
             randomPoint.gridlet.contents = .manna
             randomPoint.gridlet.sprite = sprite
-            self.recycle(sprite.manna, at: randomPoint)
+
+            let manna = Manna.getManna(from: sprite)
+            self.recycle(manna, at: randomPoint)
         }
     }
 
     private func recycle(_ manna: Manna, at randomPoint: Grid.RandomGridPoint) {
-        MannaCoordinator.mannaq.async { self.recycle_(manna, at: randomPoint) }
+        MannaCoordinator.lockQueue.async { self.recycle_(manna, at: randomPoint) }
     }
 
     private func recycle_(_ manna: Manna, at randomPoint: Grid.RandomGridPoint) {
@@ -95,7 +97,7 @@ extension MannaCoordinator {
 
         cMorsels += 1
 
-        MannaCoordinator.mannaq.async(execute: populate)
+        MannaCoordinator.lockQueue.async(execute: populate)
     }
 
     static private func plantSingleManna(

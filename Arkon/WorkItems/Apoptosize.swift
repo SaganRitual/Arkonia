@@ -2,31 +2,25 @@ import SpriteKit
 
 extension Stepper {
     func apoptosize() {
-//        print("apoptosize1")
         let action = SKAction.run { [weak self] in
-            guard let myself = self else {
-//                print("Bailing in apoptosize")
-                return
-            }
+            guard let myself = self else { fatalError() }
             myself.apoptosize_()
         }
 
-        let fishNumber = self.core.selectoid.fishNumber
-        sprite.run(action) { print("ap \(fishNumber)") }
-//        print("apoptosize4")
+        sprite.run(action)
     }
 
     private func apoptosize_() {
         assert(Display.displayCycle == .actions)
-//        print("apoptosize2")
 
         sprite.removeAllActions()
 
-        core.spriteFactory.noseHangar.retireSprite(core.nose)
-        core.spriteFactory.arkonsHangar.retireSprite(sprite)
+        ArkonFactory.spriteFactory.noseHangar.retireSprite(nose)
+        ArkonFactory.spriteFactory.arkonsHangar.retireSprite(sprite)
 
         guard let ud = sprite.userData else { return }
+
+        // Counting on this to be the only strong ref to the stepper
         ud[SpriteUserDataKey.stepper] = nil
-//        print("apoptosize3")
     }
 }

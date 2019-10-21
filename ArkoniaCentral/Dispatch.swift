@@ -6,7 +6,7 @@ enum Dispatch {
     class Lockable<T> {
         let dispatchQueue: DispatchQueue
 
-        init(_ dispatchQueue: DispatchQueue = Grid.lockGridQueue) {
+        init(_ dispatchQueue: DispatchQueue = Grid.lockQueue) {
             self.dispatchQueue = dispatchQueue
         }
 
@@ -38,7 +38,7 @@ enum Dispatch {
 
             switch completionMode {
             case .continueBarrier: oc(args)
-            case .concurrent:      asyncQueue.async(execute: {
+            case .concurrent:      World.run({
                 let k: String
                 if let kk = args { k = String(describing: kk) } else { k = "<nil>" }
                 print("oc1", k)

@@ -1,31 +1,34 @@
 import SpriteKit
 
-extension Shift {
-    func shift(
-        whereIAmNow: Gridlet,
-        onComplete: @escaping LockVoid.LockOnComplete
-    ) {
-        Grid.lock({ [weak self] () -> [Void]? in
-            guard let myself = self else {
-//                print("Bailing in Shift.shift")
-                return nil
-            }
+extension Stepper {
 
-            myself.shift_(whereIAmNow: whereIAmNow, onComplete: onComplete)
-            return nil
-        })
+    func shiftShift(_ nothing: [Void]? = nil) {
+        guard let sh = shifter else { fatalError() }
+        sh.shift()
+    }
+}
+
+extension Shifter {
+    func shift() {
+        Grid.lock(setup_, finalize_)
     }
 
-    private func shift_(
-        whereIAmNow: Gridlet,
-        onComplete: @escaping LockVoid.LockOnComplete
-    ) {
-        guard let st = stepper else { fatalError() }
-
-//        print("newGridlet = \(st.shiftTarget) from \(whereIAmNow.gridPosition + st.shiftTarget)")
-        let newGridlet = Gridlet.at(whereIAmNow.gridPosition + st.shiftTarget)
+    private func finalize_(_ newGridlets: [Gridlet]?) {
+        guard let newGridlet = newGridlets?[0] else { fatalError() }
 
         let action = SKAction.move(to: newGridlet.scenePosition, duration: 0.1)
-        st.sprite.run(action) { onComplete(nil) }
+
+        stepper.sprite.run(action) { [unowned self] in
+            self.stepper.arrive()
+        }
+    }
+
+    private func setup_() -> [Gridlet]? {
+        let whereIAmNow = stepper.gridlet.gridPosition
+        let newGridlet = Gridlet.at(whereIAmNow + stepper.shiftTarget)
+
+        self.stepper.shifter = nil
+
+        return [newGridlet]
     }
 }

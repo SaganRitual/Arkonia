@@ -1,64 +1,65 @@
 import SpriteKit
 
-extension SKSpriteNode {
-    var stepper: Stepper {
-        get { return (userData![SpriteUserDataKey.stepper] as? Stepper)! }
-        set { userData![SpriteUserDataKey.stepper] = newValue }
-    }
-
-    var optionalStepper: Stepper? { return userData?[SpriteUserDataKey.stepper] as? Stepper }
-}
-
 class Stepper {
-    static let moves = [
-         AKPoint(x: 0, y:   1), AKPoint(x:  1, y:  1), AKPoint(x:  1, y:  0),
-         AKPoint(x: 1, y:  -1), AKPoint(x:  0, y: -1), AKPoint(x: -1, y: -1),
-         AKPoint(x: -1, y:  0), AKPoint(x: -1, y:  1)
-    ]
+    typealias OnComplete1 = (Stepper) -> Void
+    typealias OnComplete2 = (Stepper, Stepper) -> Void
 
-    static let gridInputs = [
-        AKPoint(x: -4, y:  4), AKPoint(x: -3, y:  4), AKPoint(x: -2, y:  4), AKPoint(x: -1, y:  4), AKPoint(x:   0, y:  4), AKPoint(x:  1, y:  4), AKPoint(x:  2, y:  4), AKPoint(x:  3, y:  4), AKPoint(x:  4, y:  4),
-        AKPoint(x: -4, y:  3), AKPoint(x: -3, y:  3), AKPoint(x: -2, y:  3), AKPoint(x: -1, y:  3), AKPoint(x:   0, y:  3), AKPoint(x:  1, y:  3), AKPoint(x:  2, y:  3), AKPoint(x:  3, y:  3), AKPoint(x:  4, y:  3),
-        AKPoint(x: -4, y:  2), AKPoint(x: -3, y:  2), AKPoint(x: -2, y:  2), AKPoint(x: -1, y:  2), AKPoint(x:   0, y:  2), AKPoint(x:  1, y:  2), AKPoint(x:  2, y:  2), AKPoint(x:  3, y:  2), AKPoint(x:  4, y:  2),
-        AKPoint(x: -4, y:  1), AKPoint(x: -3, y:  1), AKPoint(x: -2, y:  1), AKPoint(x: -1, y:  1), AKPoint(x:   0, y:  1), AKPoint(x:  1, y:  1), AKPoint(x:  2, y:  1), AKPoint(x:  3, y:  1), AKPoint(x:  4, y:  1),
-        AKPoint(x: -4, y:  0), AKPoint(x: -3, y:  0), AKPoint(x: -2, y:  0), AKPoint(x: -1, y:  0), AKPoint(x:   0, y:  0), AKPoint(x:  1, y:  0), AKPoint(x:  2, y:  0), AKPoint(x:  3, y:  0), AKPoint(x:  4, y:  0),
-        AKPoint(x: -4, y: -1), AKPoint(x: -3, y: -1), AKPoint(x: -2, y: -1), AKPoint(x: -1, y: -1), AKPoint(x:   0, y: -1), AKPoint(x:  1, y: -1), AKPoint(x:  2, y: -1), AKPoint(x:  3, y: -1), AKPoint(x:  4, y: -1),
-        AKPoint(x: -4, y: -2), AKPoint(x: -3, y: -2), AKPoint(x: -2, y: -2), AKPoint(x: -1, y: -2), AKPoint(x:   0, y: -2), AKPoint(x:  1, y: -2), AKPoint(x:  2, y: -2), AKPoint(x:  3, y: -2), AKPoint(x:  4, y: -2),
-        AKPoint(x: -4, y: -3), AKPoint(x: -3, y: -3), AKPoint(x: -2, y: -3), AKPoint(x: -1, y: -3), AKPoint(x:   0, y: -3), AKPoint(x:  1, y: -3), AKPoint(x:  2, y: -3), AKPoint(x:  3, y: -3), AKPoint(x:  4, y: -3),
-        AKPoint(x: -4, y: -4), AKPoint(x: -3, y: -4), AKPoint(x: -2, y: -4), AKPoint(x: -1, y: -4), AKPoint(x:   0, y: -4), AKPoint(x:  1, y: -4), AKPoint(x:  2, y: -4), AKPoint(x:  3, y: -4), AKPoint(x:  4, y: -4)
-    ]
-
-    var coordinator: Coordinator!
-    let core: Arkon
+    var birthday: TimeInterval!
+    var cOffspring = 0
+    var fishNumber = 0
+    weak var gridletWithRandom: Grid.RandomGridPoint!
     weak var gridlet: Gridlet!
     var isApoptosizing = false
     var metabolism: Metabolism!
+    var net: Net!
+    var netDisplay: NetDisplay?
     var newGridlet: Gridlet?
+    var nose: SKSpriteNode!
     var oldGridlet: Gridlet?
-    weak var parasitismVictim: Stepper?
+    var parentActivator: ((_: Double) -> Double)?
+    var parentBiases: [Double]?
+    var parentLayers: [Int]?
+    weak var parentStepper: Stepper?
+    var parentWeights: [Double]?
     var previousShift = AKPoint.zero
+    var shifter: Shifter?
     var shiftTarget = AKPoint.zero
-    var sprite: SKSpriteNode { return self.core.sprite }
-    var stepping = true
+    var sprite: SKSpriteNode!
 
-    init(core: Arkon, metabolism: Metabolism) {
-        self.core = core
-        self.metabolism = metabolism
-        self.coordinator = Coordinator(stepper: self)
+    var bandaid: NewStepper?
+
+    init(_ parentStepper: Stepper? = nil) {
+        self.parentStepper = parentStepper
+        self.parentActivator = parentStepper?.net?.activatorFunction
+        self.parentBiases = parentStepper?.net?.biases
+        self.parentLayers = parentStepper?.net?.layers
+        self.parentWeights = parentStepper?.net?.weights
+
+        sprite.userData![SpriteUserDataKey.stepper] = self
     }
 
     deinit {
-        let fishNumber = core.selectoid.fishNumber
-//        print("~stepper1 for \(fishNumber)")
         let gridlet = self.gridlet!
         Grid.lock({ () -> [Void]? in
-//            print("~stepper2 for \(fishNumber)")
             gridlet.contents = .nothing
             gridlet.sprite = nil
             gridlet.gridletIsEngaged = false
-            print("~stepper3 for \(fishNumber)")
             return nil
         })
     }
 
+}
+
+extension Stepper {
+    static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
+        sprite.userData![SpriteUserDataKey.stepper] = stepper
+    }
+
+    static func getStepper(from sprite: SKSpriteNode) -> Stepper {
+        return (sprite.userData![SpriteUserDataKey.stepper] as? Stepper)!
+    }
+
+    static func releaseStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
+        sprite.userData![SpriteUserDataKey.stepper] = nil
+    }
 }

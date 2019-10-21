@@ -18,33 +18,32 @@ struct Catchall {
     }
 }
 
-extension Arkon {
-    func colorize(
-        metabolism: Metabolism, age: TimeInterval,
-        onComplete: @escaping LockVoid.LockOnComplete
-    ) {
-        print("dl colorize")
-        func workItem() -> [Void]? { colorize_(metabolism, age); return nil }
-        Catchall.lock(workItem, onComplete)
+extension Stepper {
+
+    func colorize() {
+        func workItem() -> [Void]? { colorize_(); return nil }
+        func next(_ nothing: [Void]?) { shiftStart() }
+        World.lock(workItem, next, .concurrent)
     }
 
-    func colorize_(_ metabolism: Metabolism, _ age: TimeInterval) {
+    func colorize_() {
         let ef = metabolism.fungibleEnergyFullness
         nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 
         let baseColor: Int
-        if selectoid.fishNumber < 10 {
+        if fishNumber < 10 {
             baseColor = 0xFF_00_00
         } else {
             baseColor = (metabolism.spawnEnergyFullness > 0) ?
-                Arkon.brightColor : Arkon.standardColor
+                ArkonFactory.brightColor : ArkonFactory.standardColor
         }
 
         let four: CGFloat = 4
+        let myAge = World.getArkonAge_(birthday: birthday)
         self.sprite.color = ColorGradient.makeColorMixRedBlue(
             baseColor: baseColor,
             redPercentage: metabolism.spawnEnergyFullness,
-            bluePercentage: max((four - CGFloat(age)) / four, 0.0)
+            bluePercentage: max((four - myAge) / four, 0.0)
         )
 
         self.sprite.colorBlendFactor = metabolism.oxygenLevel

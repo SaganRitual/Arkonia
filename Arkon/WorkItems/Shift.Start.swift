@@ -1,8 +1,15 @@
 import Foundation
 
-class Shift {
+extension Stepper {
+    func shiftStart() {
+        shifter = Shifter(stepper: self)
+        shifter!.start(gridlet)
+    }
+}
+
+class Shifter {
     var sensoryInputs = [(Double, Double)]()
-    weak var stepper: Stepper?
+    weak var stepper: Stepper!
     var usableGridOffsets = [AKPoint]()
 
     init(stepper: Stepper) { self.stepper = stepper }
@@ -14,21 +21,27 @@ class Shift {
 
 typealias LockVoid = Dispatch.Lockable<Void>
 
-extension Shift {
-    func start(_ gridlet: Gridlet, completion: @escaping LockVoid.LockOnComplete) {
-        func workItem() -> [Void]? { start_(gridlet); return nil }
-        Grid.lock(workItem, completion)
+extension Shifter {
+    func start(_ gridlet: Gridlet) {
+        Grid.lock({ [unowned self] () -> [Void]? in
+
+            self.start_()
+            return nil
+
+        }, { [unowned self] (_ nothing: [Void]?) -> Void in
+            self.stepper.calculateShift()
+        })
     }
 
-    private func start_(_ gridlet: Gridlet) {
-        reserveGridPoints(gridlet)
-        loadGridInputs(gridlet)
+    private func start_() {
+        reserveGridPoints_()
+        loadGridInputs_()
     }
 
-    private func loadGridInputs(_ gridlet: Gridlet) {
-        sensoryInputs = Stepper.gridInputs.map { step in
+    private func loadGridInputs_() {
+        sensoryInputs = Grid.gridInputs.map { step in
 
-            let inputGridlet = step + gridlet.gridPosition
+            let inputGridlet = step + stepper.gridlet.gridPosition
             if !Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) {
                 return (Gridlet.Contents.nothing.rawValue, -1e6)
             }
@@ -39,10 +52,12 @@ extension Shift {
 
             switch targetGridlet.contents {
             case .arkon:
-                nutrition = Double(targetGridlet.sprite?.optionalStepper?.metabolism.energyFullness ?? 0)
+                nutrition = Double(stepper.metabolism.energyFullness)
 
             case .manna:
-                nutrition = Double(targetGridlet.sprite?.manna.energyContentInJoules ?? 0)
+                let sprite = targetGridlet.sprite!
+                let manna = Manna.getManna(from: sprite)
+                nutrition = Double(manna.energyContentInJoules)
 
             case .nothing:
                 nutrition = 0
@@ -52,17 +67,16 @@ extension Shift {
         }
     }
 
-    private func reserveGridPoints(_ gridlet: Gridlet) {
-        usableGridOffsets = Stepper.moves.compactMap { offset in
+    private func reserveGridPoints_() {
+        usableGridOffsets = Grid.moves.compactMap { offset in
 
-            let targetGridPoint = gridlet.gridPosition + offset
+            let targetGridPoint = stepper.gridlet.gridPosition + offset
 
             if Gridlet.isOnGrid(targetGridPoint.x, targetGridPoint.y) {
                 let targetGridlet = Gridlet.at(targetGridPoint)
 
                 if !targetGridlet.gridletIsEngaged {
                     targetGridlet.gridletIsEngaged = true
-                    print("tg", gridlet.gridPosition, offset, targetGridlet.gridPosition)
                     return offset
                 }
             }

@@ -44,9 +44,9 @@ class Grid {
     static var dimensions: Dimensions!
     static var gridlets = [AKPoint: Gridlet]()
 
-    init(_ portal: SKSpriteNode, _ spriteFactory: SpriteFactory) {
-        Grid.dimensions = Grid.setDimensions(portal)
-        setupGrid(portal, drawLines: false)
+    init() {
+        Grid.dimensions = Grid.setDimensions(GriddleScene.arkonsPortal!)
+        setupGrid(GriddleScene.arkonsPortal!, drawLines: false)
     }
 
     func drawGridLine(_ portal: SKSpriteNode, _ x1: Int, _ y1: Int, _ x2: Int, _ y2: Int) {
@@ -61,7 +61,7 @@ class Grid {
         print("D")
     }
 
-    static let lockGridQueue = DispatchQueue(
+    static let lockQueue = DispatchQueue(
         label: "arkonia.lock.grid", qos: .default,
         attributes: DispatchQueue.Attributes.concurrent,
         target: DispatchQueue.global()
@@ -72,7 +72,7 @@ class Grid {
         _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
-        Dispatch.Lockable<T>(lockGridQueue).lock(
+        Dispatch.Lockable<T>(Grid.lockQueue).lock(
             execute, userOnComplete, completionMode
         )
     }
@@ -180,8 +180,8 @@ class Grid {
         let hSprite = Int(tTexture.size().height / Dimensions.fudgFactor)
         let wSprite = Int(tTexture.size().width / Dimensions.fudgFactor)
 
-        let hPortal = Int((1 / Arkon.scaleFactor) * portal.size.height / Dimensions.fudgFactor) - hSprite
-        let wPortal = Int((1 / Arkon.scaleFactor) * portal.size.width / Dimensions.fudgFactor) - wSprite
+        let hPortal = Int((1 / ArkonFactory.scaleFactor) * portal.size.height / Dimensions.fudgFactor) - hSprite
+        let wPortal = Int((1 / ArkonFactory.scaleFactor) * portal.size.width / Dimensions.fudgFactor) - wSprite
         let hGrid = Int(hPortal / hSprite)
         let wGrid = Int(wPortal / wSprite)
 
@@ -198,7 +198,7 @@ class Grid {
         var rp: RandomGridPoint?
 
         repeat {
-            rp = Arkon.arkonsPortal!.getRandomPoint()
+            rp = GriddleScene.arkonsPortal!.getRandomPoint()
         } while rp!.gridlet.contents != .nothing
 
         return [rp!]
@@ -210,4 +210,24 @@ class Grid {
         Grid.lock(getRandomPoint_, completion, .concurrent)
     }
 
+}
+
+extension Grid {
+    static let moves = [
+         AKPoint(x: 0, y:   1), AKPoint(x:  1, y:  1), AKPoint(x:  1, y:  0),
+         AKPoint(x: 1, y:  -1), AKPoint(x:  0, y: -1), AKPoint(x: -1, y: -1),
+         AKPoint(x: -1, y:  0), AKPoint(x: -1, y:  1)
+    ]
+
+    static let gridInputs = [
+        AKPoint(x: -4, y:  4), AKPoint(x: -3, y:  4), AKPoint(x: -2, y:  4), AKPoint(x: -1, y:  4), AKPoint(x:   0, y:  4), AKPoint(x:  1, y:  4), AKPoint(x:  2, y:  4), AKPoint(x:  3, y:  4), AKPoint(x:  4, y:  4),
+        AKPoint(x: -4, y:  3), AKPoint(x: -3, y:  3), AKPoint(x: -2, y:  3), AKPoint(x: -1, y:  3), AKPoint(x:   0, y:  3), AKPoint(x:  1, y:  3), AKPoint(x:  2, y:  3), AKPoint(x:  3, y:  3), AKPoint(x:  4, y:  3),
+        AKPoint(x: -4, y:  2), AKPoint(x: -3, y:  2), AKPoint(x: -2, y:  2), AKPoint(x: -1, y:  2), AKPoint(x:   0, y:  2), AKPoint(x:  1, y:  2), AKPoint(x:  2, y:  2), AKPoint(x:  3, y:  2), AKPoint(x:  4, y:  2),
+        AKPoint(x: -4, y:  1), AKPoint(x: -3, y:  1), AKPoint(x: -2, y:  1), AKPoint(x: -1, y:  1), AKPoint(x:   0, y:  1), AKPoint(x:  1, y:  1), AKPoint(x:  2, y:  1), AKPoint(x:  3, y:  1), AKPoint(x:  4, y:  1),
+        AKPoint(x: -4, y:  0), AKPoint(x: -3, y:  0), AKPoint(x: -2, y:  0), AKPoint(x: -1, y:  0), AKPoint(x:   0, y:  0), AKPoint(x:  1, y:  0), AKPoint(x:  2, y:  0), AKPoint(x:  3, y:  0), AKPoint(x:  4, y:  0),
+        AKPoint(x: -4, y: -1), AKPoint(x: -3, y: -1), AKPoint(x: -2, y: -1), AKPoint(x: -1, y: -1), AKPoint(x:   0, y: -1), AKPoint(x:  1, y: -1), AKPoint(x:  2, y: -1), AKPoint(x:  3, y: -1), AKPoint(x:  4, y: -1),
+        AKPoint(x: -4, y: -2), AKPoint(x: -3, y: -2), AKPoint(x: -2, y: -2), AKPoint(x: -1, y: -2), AKPoint(x:   0, y: -2), AKPoint(x:  1, y: -2), AKPoint(x:  2, y: -2), AKPoint(x:  3, y: -2), AKPoint(x:  4, y: -2),
+        AKPoint(x: -4, y: -3), AKPoint(x: -3, y: -3), AKPoint(x: -2, y: -3), AKPoint(x: -1, y: -3), AKPoint(x:   0, y: -3), AKPoint(x:  1, y: -3), AKPoint(x:  2, y: -3), AKPoint(x:  3, y: -3), AKPoint(x:  4, y: -3),
+        AKPoint(x: -4, y: -4), AKPoint(x: -3, y: -4), AKPoint(x: -2, y: -4), AKPoint(x: -1, y: -4), AKPoint(x:   0, y: -4), AKPoint(x:  1, y: -4), AKPoint(x:  2, y: -4), AKPoint(x:  3, y: -4), AKPoint(x:  4, y: -4)
+    ]
 }

@@ -1,21 +1,16 @@
 import GameplayKit
 
-extension Metabolism {
-    func metabolize(onComplete: @escaping LockVoid.LockOnComplete) {
-        func workItem() -> [Void]? {
-            metabolize_()
-            return nil
+extension Stepper {
+    func metabolize() {
+        World.run { [unowned self] in
+            self.metabolism.metabolize_()
+            self.colorize()
         }
-
-        func completion(_ nothing: [Void]?) {
-            onComplete(nothing)
-        }
-
-        print("dl metabolize")
-        Catchall.lock(workItem, completion, .continueBarrier)
     }
+}
 
-    private func metabolize_() {
+extension Metabolism {
+    fileprivate func metabolize_() {
         let internalTransferRate: CGFloat = CGFloat(Double.infinity)
 
         defer { updatePhysicsBodyMass() }
