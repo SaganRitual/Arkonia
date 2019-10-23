@@ -112,6 +112,8 @@ extension ArkonFactory {
         sprite.setScale(0.5)
         sprite.position = gridlet.cgPoint
 
+        Stepper.attachStepper(newStepper, to: sprite)
+
         print("A", nose.name!)
         sprite.addChild(nose)
         print("B", sprite.name!)

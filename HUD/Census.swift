@@ -26,8 +26,36 @@ struct Census {
 
     private func updateCensus() {
         var currentTime: TimeInterval = 0
+        var liveArkonsAges = [TimeInterval]()
 
         func partA() {
+            func execute() -> [Bool]? {
+                currentTime = World.shared.getCurrentTime_()
+
+                liveArkonsAges = GriddleScene.arkonsPortal!.children.compactMap { node in
+                    guard let sprite = node as? SKSpriteNode else {
+                        fatalError()
+                    }
+
+                    guard let stepper = Stepper.getStepper(
+                        from: sprite, require: false
+                    ) else { return nil }
+
+                    return  currentTime - stepper.birthday!
+                }
+
+                return liveArkonsAges.isEmpty ? nil : [true]
+            }
+
+            func complete(_ laap: [Bool]?) {
+                if laap == nil { partB() }
+                else           { partE() }
+            }
+
+            World.lock(execute, complete)
+        }
+
+        func partB() {
             World.shared.getPopulation { ps in
                 guard let popStats = ps else { fatalError() }
 
@@ -38,27 +66,11 @@ struct Census {
                 self.rCurrentPopulation.data.text = String(currentPop)
                 self.rHighWaterPopulation.data.text = String(highWaterPop)
                 self.rOffspring.data.text = String(format: "%d", highWaterOffspring)
-                partB()
-            }
-        }
-
-        func partB() {
-            World.shared.getCurrentTime { cts in
-                guard let ct = cts?[0] else { fatalError() }
-                currentTime = ct
                 partC()
             }
         }
 
         func partC() {
-            let liveArkonsAges: [TimeInterval] =
-                GriddleScene.arkonsPortal!.children.compactMap { node in
-                    guard let sprite = node as? SKSpriteNode else { fatalError() }
-                    let stepper = Stepper.getStepper(from: sprite)
-
-                    return  currentTime - stepper.birthday!
-            }
-
             World.shared.setMaxLivingAge(to: liveArkonsAges.max() ?? 0) { ageses in
                 guard let ages = ageses else { fatalError() }
                 let maxLivingAge = ages[0]
@@ -70,7 +82,9 @@ struct Census {
         func partD(_ maxLivingAge: TimeInterval, _ highWaterAge: TimeInterval) {
             rHighWaterAge.data.text =
                 ageFormatter.string(from: Double(highWaterAge))
+        }
 
+        func partE() {
             World.runAfter(deadline: DispatchTime.now() + 1, partA)
         }
 

@@ -72,8 +72,10 @@ class Grid {
         _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
+        func debugEx() -> [T]? { print("Grid.lock"); return execute?() }
+        func debugOc(_ args: [T]?) { print("Grid.unlock"); userOnComplete?(args) }
         Dispatch.Lockable<T>(Grid.lockQueue).lock(
-            execute, userOnComplete, completionMode
+            debugEx, debugOc, completionMode
         )
     }
 

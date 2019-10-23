@@ -63,14 +63,10 @@ class SpriteFactory {
         for i in 0..<18 {
             let drone = arkonsHangar.makeSprite()
             drone.userData![SpriteUserDataKey.net9Portal] = net9Portals[i]
-            print("G", drone.name!)
             scene.addChild(drone)   // Icky -- adding to scene to hold temp space in hangar
-            print("H")
         }
 
-        print("I")
         for drone in arkonsHangar.drones { arkonsHangar.retireSprite(drone) }
-        print("J")
     }
 }
 

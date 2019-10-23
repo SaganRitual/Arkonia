@@ -1,10 +1,5 @@
 import SpriteKit
 
-extension World.Lockable {
-    typealias LockExecute = Dispatch.Lockable<T>.LockExecute
-    typealias LockOnComplete = Dispatch.Lockable<T>.LockOnComplete
-}
-
 class World {
     static let mutator = Mutator()
     static var shared = World()
@@ -21,8 +16,6 @@ class World {
 
     private let timeLimit: TimeInterval? = 10000
 
-    class Lockable<T>: Dispatch.Lockable<T> {}
-
     static let mainQueue = DispatchQueue(
         label: "arkonia.main.asynq", qos: .default,
         attributes: DispatchQueue.Attributes.concurrent
@@ -35,11 +28,18 @@ class World {
     )
 
     static func lock<T>(
-        _ execute: Lockable<T>.LockExecute? = nil,
-        _ userOnComplete: Lockable<T>.LockOnComplete? = nil,
+        _ execute: Dispatch.Lockable<T>.LockExecute? = nil,
+        _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
-        Lockable<T>(World.lockQueue).lock(
+        func debugEx() -> [T]? { print("World.lock"); return execute?() }
+        func debugOc(_ args: [T]?) { print("World.unlock"); userOnComplete?(args) }
+
+        Dispatch.Lockable<T>(lockQueue).lock(
+            debugEx, debugOc, completionMode
+        )
+
+        Dispatch.Lockable<T>(World.lockQueue).lock(
             execute, userOnComplete, completionMode
         )
     }
@@ -64,8 +64,8 @@ extension World {
 
     private func doPopulationStuff(
         do whichStuff: PopulationAction = .get,
-        execute: World.Lockable<Int>.LockExecute? = nil,
-        onComplete: World.Lockable<Int>.LockOnComplete? = nil
+        execute: Dispatch.Lockable<Int>.LockExecute? = nil,
+        onComplete: Dispatch.Lockable<Int>.LockOnComplete? = nil
     ) {
         World.lock({
             switch whichStuff {
@@ -96,7 +96,11 @@ extension World {
         return World.TheFishNumber
     }
 
-    func getPopulation(onComplete: @escaping World.Lockable<Int>.LockOnComplete) {
+    func getPopulation_() -> [Int]? {
+        return [self.maxCOffspring, self.population, self.maxPopulation]
+    }
+
+    func getPopulation(onComplete: @escaping Dispatch.Lockable<Int>.LockOnComplete) {
         doPopulationStuff(do: .get, onComplete: onComplete)
     }
 
@@ -133,8 +137,8 @@ extension World {
 
     private func doCurrentTimeStuff(
         do whichStuff: CurrentTimeAction = .get,
-        execute: Lockable<TimeInterval>.LockExecute? = nil,
-        onComplete: Lockable<TimeInterval>.LockOnComplete? = nil
+        execute: Dispatch.Lockable<TimeInterval>.LockExecute? = nil,
+        onComplete: Dispatch.Lockable<TimeInterval>.LockOnComplete? = nil
     ) {
         World.lock({ () -> [TimeInterval] in
             switch whichStuff {
@@ -160,7 +164,7 @@ extension World {
     func setCurrentTime_(_ newTime: TimeInterval) { self.currentTime = newTime }
 
     func getCurrentTime(
-        onComplete: @escaping World.Lockable<TimeInterval>.LockOnComplete
+        onComplete: @escaping Dispatch.Lockable<TimeInterval>.LockOnComplete
     ) {
         doCurrentTimeStuff(do: .get, onComplete: onComplete)
     }
@@ -181,8 +185,8 @@ extension World {
 
     private func doAgeStuff(
         do whichStuff: AgeAction = .get,
-        execute: World.Lockable<TimeInterval>.LockExecute? = nil,
-        onComplete: World.Lockable<TimeInterval>.LockOnComplete? = nil
+        execute: Dispatch.Lockable<TimeInterval>.LockExecute? = nil,
+        onComplete: Dispatch.Lockable<TimeInterval>.LockOnComplete? = nil
     ) {
         World.lock({
             switch whichStuff {
@@ -210,13 +214,13 @@ extension World {
         return CGFloat(World.shared.getCurrentTime_() - birthday)
     }
 
-    func getAges(onComplete: @escaping World.Lockable<TimeInterval>.LockOnComplete) {
+    func getAges(onComplete: @escaping Dispatch.Lockable<TimeInterval>.LockOnComplete) {
         doAgeStuff(do: .get, onComplete: onComplete)
     }
 
     func setMaxLivingAge(
         to newMax: TimeInterval,
-        onComplete: @escaping World.Lockable<TimeInterval>.LockOnComplete
+        onComplete: @escaping Dispatch.Lockable<TimeInterval>.LockOnComplete
     ) {
         func execute() -> [TimeInterval]? { return [newMax] }
         doAgeStuff(do: .set, execute: execute, onComplete: onComplete)

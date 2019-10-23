@@ -17,8 +17,11 @@ class MannaCoordinator {
         _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
+        func debugEx() -> [T]? { print("Manna.lock"); return execute?() }
+        func debugOc(_ args: [T]?) { print("Manna.unlock"); userOnComplete?(args) }
+
         Dispatch.Lockable<T>(lockQueue).lock(
-            execute, userOnComplete, completionMode
+            debugEx, debugOc, completionMode
         )
     }
 
@@ -30,12 +33,9 @@ class MannaCoordinator {
     func populate() {
         if cMorsels >= MannaCoordinator.cMorsels { return }
 
-        print("dl populate")
         Grid.lock({ () -> [SKSpriteNode] in
             let sprite = self.mannaSpriteFactory!.mannaHangar.makeSprite()
-            print("E", sprite.name!)
             GriddleScene.arkonsPortal!.addChild(sprite)
-            print("F")
             return [sprite]
         }, { sprites in
             guard let sprite = sprites?[0] else { fatalError() }

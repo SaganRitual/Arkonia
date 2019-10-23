@@ -12,8 +12,11 @@ struct Catchall {
         _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
+        func debugEx() -> [T]? { print("Catchall.lock"); return execute?() }
+        func debugOc(_ args: [T]?) { print("Catchall.unlock"); userOnComplete?(args) }
+
         Dispatch.Lockable<T>(lockQueue).lock(
-            execute, userOnComplete, completionMode
+            debugEx, debugOc, completionMode
         )
     }
 }

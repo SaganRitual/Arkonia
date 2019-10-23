@@ -30,6 +30,8 @@ class GriddleScene: SKScene, SKSceneDelegate {
     }
 
     static var arkonsPortal: SKSpriteNode!
+    static var arkonsArePresent: Bool = false
+
     var census: Census?
     var clock: Clock?
     var griddle: Grid!
@@ -95,13 +97,9 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         hud = HUD(scene: self)
         buildReports()
-        //        buildBarCharts()
-        //        buildLineGraphs()
 
         clock = Clock(self)
         census = Census(self)
-
-        //        startGenes()
 
         readyForDisplayCycle = true
     }

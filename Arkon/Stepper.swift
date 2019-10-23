@@ -34,8 +34,6 @@ class Stepper {
         self.parentBiases = parentStepper?.net?.biases
         self.parentLayers = parentStepper?.net?.layers
         self.parentWeights = parentStepper?.net?.weights
-
-        sprite.userData![SpriteUserDataKey.stepper] = self
     }
 
     deinit {
@@ -55,8 +53,18 @@ extension Stepper {
         sprite.userData![SpriteUserDataKey.stepper] = stepper
     }
 
-    static func getStepper(from sprite: SKSpriteNode) -> Stepper {
-        return (sprite.userData![SpriteUserDataKey.stepper] as? Stepper)!
+    static func getStepper(from sprite: SKSpriteNode, require: Bool = true) -> Stepper? {
+        guard let dictionary = sprite.userData else { fatalError() }
+
+        guard let entry = dictionary[SpriteUserDataKey.stepper] else {
+            if require { fatalError() } else { return nil }
+        }
+
+        guard let stepper = entry as? Stepper else {
+            if require { fatalError() } else { return nil }
+        }
+
+        return stepper
     }
 
     static func releaseStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
