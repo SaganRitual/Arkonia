@@ -72,9 +72,9 @@ class Grid {
         _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
-        func debugEx() -> [T]? { print("Grid.lock"); return execute?() }
-        func debugOc(_ args: [T]?) { print("Grid.unlock"); userOnComplete?(args) }
-        Dispatch.Lockable<T>(Grid.lockQueue).lock(
+        func debugEx() -> [T]? { print("Grid.barrier"); return execute?() }
+        func debugOc(_ args: [T]?) { print("Grid.concurrent"); userOnComplete?(args) }
+        Dispatch.Lockable<T>(lockQueue).lock(
             debugEx, debugOc, completionMode
         )
     }
@@ -188,28 +188,6 @@ class Grid {
         let wGrid = Int(wPortal / wSprite)
 
         return Dimensions(hGrid, hPortal, hSprite, wGrid, wPortal, wSprite)
-    }
-
-    class RandomGridPoint {
-        init(gridlet: Gridlet, cgPoint: CGPoint) { self.gridlet = gridlet; self.cgPoint = cgPoint }
-        var gridlet: Gridlet
-        let cgPoint: CGPoint
-    }
-
-    static func getRandomPoint_() -> [RandomGridPoint]? {
-        var rp: RandomGridPoint?
-
-        repeat {
-            rp = GriddleScene.arkonsPortal!.getRandomPoint()
-        } while rp!.gridlet.contents != .nothing
-
-        return [rp!]
-    }
-
-    typealias LockRandomGridPoint = Dispatch.Lockable<RandomGridPoint>
-
-    static func getRandomPoint(completion: LockRandomGridPoint.LockOnComplete? = nil) {
-        Grid.lock(getRandomPoint_, completion, .concurrent)
     }
 
 }

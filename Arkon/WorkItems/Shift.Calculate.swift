@@ -18,7 +18,7 @@ extension Shifter {
 
         func next(_ nothing: [Void]?) { stepper.shiftShift() }
 
-        Grid.lock(workItem, next)
+        Grid.lock(workItem, next, .continueBarrier)
     }
 
     private func calculateShift_() {

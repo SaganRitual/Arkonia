@@ -17,8 +17,8 @@ class MannaCoordinator {
         _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
-        func debugEx() -> [T]? { print("Manna.lock"); return execute?() }
-        func debugOc(_ args: [T]?) { print("Manna.unlock"); userOnComplete?(args) }
+        func debugEx() -> [T]? { print("Manna.barrier"); return execute?() }
+        func debugOc(_ args: [T]?) { print("Manna.concurrent"); userOnComplete?(args) }
 
         Dispatch.Lockable<T>(lockQueue).lock(
             debugEx, debugOc, completionMode
@@ -51,25 +51,25 @@ class MannaCoordinator {
 
 extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
-        Grid.getRandomPoint { rps in
-            guard let randomPoints = rps else { fatalError() }
-            let randomPoint = randomPoints[0]
+        Gridlet.getRandomGridlet { grs in
+            guard let gridlets = grs else { fatalError() }
+            let gridlet = gridlets[0]
 
-            randomPoint.gridlet.contents = .manna
-            randomPoint.gridlet.sprite = sprite
+            gridlet.contents = .manna
+            gridlet.sprite = sprite
 
             let manna = Manna.getManna(from: sprite)
-            self.recycle(manna, at: randomPoint)
+            self.recycle(manna, at: gridlet)
         }
     }
 
-    private func recycle(_ manna: Manna, at randomPoint: Grid.RandomGridPoint) {
-        MannaCoordinator.lockQueue.async { self.recycle_(manna, at: randomPoint) }
+    private func recycle(_ manna: Manna, at gridlet: Gridlet) {
+        MannaCoordinator.lockQueue.async { self.recycle_(manna, at: gridlet) }
     }
 
-    private func recycle_(_ manna: Manna, at randomPoint: Grid.RandomGridPoint) {
+    private func recycle_(_ manna: Manna, at gridlet: Gridlet) {
         let recycleAction = MannaCoordinator.getRecycleAction(
-            for: manna, at: randomPoint
+            for: manna, at: gridlet
         )
 
         manna.sprite.run(recycleAction)
@@ -80,9 +80,9 @@ extension MannaCoordinator {
     private func plant(_ manna: Manna) { setPosition_(manna) }
 
     private func setPosition_(_ manna: Manna) {
-        Grid.lock({ () -> [Grid.RandomGridPoint]? in
-            let randomPoint = Grid.getRandomPoint_()
-            MannaCoordinator.plantSingleManna(manna, at: randomPoint![0])
+        Grid.lock({ () -> [Gridlet]? in
+            let gridlet = Gridlet.getRandomGridlet_()
+            MannaCoordinator.plantSingleManna(manna, at: gridlet![0])
             return nil
         }, {
             _ in self.finishPlanting(manna)
@@ -101,13 +101,16 @@ extension MannaCoordinator {
     }
 
     static private func plantSingleManna(
-        _ manna: Manna, at randomPoint: Grid.RandomGridPoint
+        _ manna: Manna, at gridlet: Gridlet
     ) {
-        let gridlet = randomPoint.gridlet
         gridlet.contents = .manna
         gridlet.sprite = manna.sprite
 
-        manna.sprite.position = randomPoint.cgPoint
+        if let sp = gridlet.randomScenePosition {
+            manna.sprite.position = sp
+        } else {
+            manna.sprite.position = gridlet.scenePosition
+        }
     }
 }
 
@@ -122,14 +125,14 @@ extension MannaCoordinator {
     }
 
     private static func getRecycleAction(
-        for manna: Manna, at randomPoint: Grid.RandomGridPoint
+        for manna: Manna, at gridlet: Gridlet
     ) -> SKAction {
         let fadeOut = SKAction.fadeOut(withDuration: 0.001)
         let wait = MannaCoordinator.getWaitAction(manna.rebloomDelay)
         let death = SKAction.sequence([fadeOut, wait])
 
         let replant = SKAction.run {
-            plantSingleManna(manna, at: randomPoint)
+            plantSingleManna(manna, at: gridlet)
         }
 
         let fadeIn = SKAction.fadeIn(withDuration: 0.001)

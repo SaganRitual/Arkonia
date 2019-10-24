@@ -12,8 +12,8 @@ struct Catchall {
         _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
-        func debugEx() -> [T]? { print("Catchall.lock"); return execute?() }
-        func debugOc(_ args: [T]?) { print("Catchall.unlock"); userOnComplete?(args) }
+        func debugEx() -> [T]? { print("Catchall.barrier"); return execute?() }
+        func debugOc(_ args: [T]?) { print("Catchall.concurrent"); userOnComplete?(args) }
 
         Dispatch.Lockable<T>(lockQueue).lock(
             debugEx, debugOc, completionMode
@@ -26,7 +26,7 @@ extension Stepper {
     func colorize() {
         func workItem() -> [Void]? { colorize_(); return nil }
         func next(_ nothing: [Void]?) { shiftStart() }
-        World.lock(workItem, next, .concurrent)
+        World.lock(workItem, next, .continueBarrier)
     }
 
     func colorize_() {

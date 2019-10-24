@@ -24,7 +24,7 @@ enum Dispatch {
                 self.scheduleCompletion(
                     onComplete: userOnComplete,
                     args: result,
-                    completionMode: completionMode
+                    completionMode: .continueBarrier
                 )
             }
         }

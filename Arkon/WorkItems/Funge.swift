@@ -3,7 +3,7 @@ import Foundation
 
 extension Stepper {
     func funge() {
-        World.lock(getAge_, relay_, .concurrent)
+        World.lock(getAge_, relay_, .continueBarrier)
     }
 
     func getAge_() -> [TimeInterval]? {

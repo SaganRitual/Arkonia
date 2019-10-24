@@ -52,22 +52,27 @@ struct ArkonFactory {
 
 extension ArkonFactory {
     private func buildNewArkon() {
-        Grid.lock(getStartingGridPosition_, buildWorldStats, .concurrent)
+        func workItem() -> [Gridlet]? { getStartingGridPosition_(); return nil }
+        Grid.lock(workItem, buildWorldStats, .continueBarrier)
     }
 
-    private func getStartingGridPosition_() -> [Grid.RandomGridPoint]? {
+    private func getStartingGridPosition_() {
 
         if newStepper.parentStepper != nil {
-            if let rp = getGridPointNearParent_() { return [rp] }
+            if let rp = getGridPointNearParent_() {
+                newStepper.gridlet = rp
+                print("sp1", newStepper.gridlet!, newStepper.name)
+                return
+            }
         }
 
-        guard let rp = Grid.getRandomPoint_() else { fatalError() }
+        let gr = Gridlet.getRandomGridlet_()
+        newStepper.gridlet = gr![0]
 
-        newStepper.gridletWithRandom = rp[0]
-        return rp
+        print("sp2", newStepper.gridlet!, newStepper.name)
     }
 
-    private func getGridPointNearParent_() -> Grid.RandomGridPoint? {
+    private func getGridPointNearParent_() -> Gridlet? {
         guard let st = newStepper.parentStepper else { fatalError() }
 
         for offset in Grid.gridInputs {
@@ -76,14 +81,7 @@ extension ArkonFactory {
             if Gridlet.isOnGrid(offspringPosition.x, offspringPosition.y) {
 
                 let gridlet = Gridlet.at(offspringPosition)
-                if gridlet.contents == .nothing {
-
-                    let rp = Grid.RandomGridPoint(
-                        gridlet: gridlet, cgPoint: gridlet.scenePosition
-                    )
-
-                    return rp
-                }
+                if gridlet.contents == .nothing { return gridlet }
             }
         }
 
@@ -93,14 +91,15 @@ extension ArkonFactory {
 
 extension ArkonFactory {
 
-    private func buildSprites(_ gridPosition: [Grid.RandomGridPoint]?) {
-        Grid.lock(getDrones_)
+    private func buildSprites(_ gridlet: [Gridlet]?) {
+        Grid.lock(getDrones_, configureSprites_, .continueBarrier)
     }
 
-    private func configureSprites_() {
+    private func configureSprites_(_: [SKSpriteNode]?) {
         guard let sprite = newStepper.sprite else { fatalError() }
         guard let nose = newStepper.nose else { fatalError() }
-        guard let gridlet = newStepper.gridletWithRandom else { fatalError() }
+        print("ns \(newStepper.name)")
+        guard let gridlet = newStepper.gridlet else { fatalError() }
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
@@ -110,7 +109,7 @@ extension ArkonFactory {
         sprite.colorBlendFactor = 1
         sprite.color = .cyan
         sprite.setScale(0.5)
-        sprite.position = gridlet.cgPoint
+        sprite.position = gridlet.scenePosition
 
         Stepper.attachStepper(newStepper, to: sprite)
 
@@ -127,17 +126,17 @@ extension ArkonFactory {
         newStepper.nose = ArkonFactory.spriteFactory!.noseHangar.makeSprite()
         newStepper.sprite = ArkonFactory.spriteFactory!.arkonsHangar.makeSprite()
 
-        World.run(configureSprites_)
+//        World.run(configureSprites_)
         return nil
     }
 
     private func finalize_() {
-        guard let rp = newStepper.gridletWithRandom else { fatalError() }
+        guard let gr = newStepper.gridlet else { fatalError() }
         guard let sp = newStepper.sprite else { fatalError() }
 
         sp.color = .cyan
         sp.setScale(0.5)
-        sp.position = rp.cgPoint
+        sp.position = gr.scenePosition
 
         newStepper.metabolism = Metabolism()
 
@@ -159,11 +158,11 @@ extension ArkonFactory {
 }
 
 extension ArkonFactory {
-    private func buildWorldStats(_ notUsed: [Grid.RandomGridPoint]?) {
-        World.lock(updateWorldStats_, buildSprites, .concurrent)
+    private func buildWorldStats(_: [Gridlet]?) {
+        World.lock(updateWorldStats_, buildSprites, .continueBarrier)
     }
 
-    private func updateWorldStats_() -> [Grid.RandomGridPoint]? {
+    private func updateWorldStats_() -> [Gridlet]? {
         if let bandaid = newStepper.bandaid {
             bandaid.cOffspring += 1
             World.shared.registerCOffspring_(bandaid.cOffspring)
@@ -177,4 +176,4 @@ extension ArkonFactory {
     }
 }
 
-typealias LockRandomPoint = Dispatch.Lockable<Grid.RandomGridPoint>
+typealias LockRandomPoint = Dispatch.Lockable<Gridlet>

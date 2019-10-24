@@ -10,7 +10,7 @@ extension Stepper {
 
 extension Shifter {
     func shift() {
-        Grid.lock(setup_, finalize_)
+        Grid.lock(setup_, finalize_, .continueBarrier)
     }
 
     private func finalize_(_ newGridlets: [Gridlet]?) {

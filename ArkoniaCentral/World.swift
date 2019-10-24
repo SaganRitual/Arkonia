@@ -32,15 +32,11 @@ class World {
         _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
-        func debugEx() -> [T]? { print("World.lock"); return execute?() }
-        func debugOc(_ args: [T]?) { print("World.unlock"); userOnComplete?(args) }
+        func debugEx() -> [T]? { print("World.barrier"); defer { print("post-execute") }; return execute?() }
+        func debugOc(_ args: [T]?) { print("World.concurrent"); userOnComplete?(args) }
 
         Dispatch.Lockable<T>(lockQueue).lock(
             debugEx, debugOc, completionMode
-        )
-
-        Dispatch.Lockable<T>(World.lockQueue).lock(
-            execute, userOnComplete, completionMode
         )
     }
 

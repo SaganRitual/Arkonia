@@ -7,7 +7,7 @@ extension Stepper {
         func workItem() -> [Void]? { arrive_(); return nil }
         func onComplete(_ nothing: [Void]?) { funge() }
 
-        Grid.lock(workItem, onComplete, .concurrent)
+        Grid.lock(workItem, onComplete, .continueBarrier)
     }
 
     private func arrive_() {

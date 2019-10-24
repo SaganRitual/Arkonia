@@ -11,7 +11,7 @@ extension Metabolism {
         func workItem() -> [Void]? { parasitize_(victim); return nil }
         func finalize(_ nothing: [Void]?) { victim.apoptosize() }
 
-        World.lock(workItem, finalize)
+        World.lock(workItem, finalize, .continueBarrier)
     }
 
     func parasitize_(_ victim: Stepper) {
