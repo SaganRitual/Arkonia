@@ -4,6 +4,8 @@ class Stepper {
     typealias OnComplete1 = (Stepper) -> Void
     typealias OnComplete2 = (Stepper, Stepper) -> Void
 
+    let allowSpawning = true
+    var arkonFactory: ArkonFactory?
     var birthday: TimeInterval!
     var cOffspring = 0
     var fishNumber = 0
@@ -46,6 +48,30 @@ class Stepper {
         })
     }
 
+}
+
+extension Stepper {
+    func canSpawn() -> Bool {
+        return metabolism.spawnReserves.level > getSpawnCost()
+    }
+
+    func getSpawnCost() -> CGFloat {
+        let entropy: CGFloat = 0.1
+
+        let spawnCost = allowSpawning ?
+            EnergyReserve.startingEnergyLevel * CGFloat(1.0 + entropy) :
+            CGFloat.infinity
+
+        return spawnCost
+    }
+
+    func spawnCommoner() {
+        let spawnCost = getSpawnCost()
+        metabolism.withdrawFromSpawn(spawnCost)
+
+        arkonFactory = ArkonFactory(self)
+        arkonFactory!.buildNewArkon()
+    }
 }
 
 extension Stepper {

@@ -33,7 +33,7 @@ class World {
         _ completionMode: Dispatch.CompletionMode = .concurrent
     ) {
         func debugEx() -> [T]? { print("World.barrier"); defer { print("post-execute") }; return execute?() }
-        func debugOc(_ args: [T]?) { print("World.concurrent"); userOnComplete?(args) }
+        func debugOc(_ args: [T]?) { print("World.\(completionMode)"); userOnComplete?(args) }
 
         Dispatch.Lockable<T>(lockQueue).lock(
             debugEx, debugOc, completionMode
@@ -116,7 +116,7 @@ extension World {
     func getMaxCOffspring(onComplete: @escaping ([Int]?) -> Void) {
 
         func workItem() -> [Int]? { return [World.shared.maxCOffspring] }
-        World.lock(workItem, onComplete)
+        World.lock(workItem, onComplete, .concurrent)
     }
 
     func registerCOffspring_(_ newCOffspring: Int) {
@@ -152,7 +152,7 @@ extension World {
         }, {
             currentTimes in onComplete?(currentTimes)
         },
-           .continueBarrier
+           .concurrent
         )
     }
 
@@ -203,7 +203,7 @@ extension World {
             return [self.maxLivingAge, self.highWaterAge]
         }, {
             ages in onComplete?(ages)
-        })
+        }, .concurrent)
     }
 
     static func getArkonAge_(birthday: TimeInterval) -> CGFloat {

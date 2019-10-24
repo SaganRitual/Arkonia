@@ -120,6 +120,13 @@ class GriddleScene: SKScene, SKSceneDelegate {
         let cProgenitors = 25
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
             ArkonFactory(nil).spawnProgenitor()
+//            let af = ArkonFactory(nil)
+//
+//            if GriddleScene.arkonsPortal.userData == nil {
+//                GriddleScene.arkonsPortal.userData = [:]
+//            }
+//            GriddleScene.arkonsPortal.userData![tickCount] = af
+//            af.spawnProgenitor()
         }
     }
 }

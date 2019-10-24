@@ -10,7 +10,7 @@ extension Stepper {
 
 extension Shifter {
     func shift() {
-        Grid.lock(setup_, finalize_, .continueBarrier)
+        Grid.lock(setup_, finalize_, .concurrent)
     }
 
     private func finalize_(_ newGridlets: [Gridlet]?) {
@@ -20,14 +20,13 @@ extension Shifter {
 
         stepper.sprite.run(action) { [unowned self] in
             self.stepper.arrive()
+            self.stepper.shifter = nil
         }
     }
 
     private func setup_() -> [Gridlet]? {
         let whereIAmNow = stepper.gridlet.gridPosition
         let newGridlet = Gridlet.at(whereIAmNow + stepper.shiftTarget)
-
-        self.stepper.shifter = nil
 
         return [newGridlet]
     }

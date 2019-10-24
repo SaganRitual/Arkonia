@@ -24,7 +24,7 @@ enum Dispatch {
                 self.scheduleCompletion(
                     onComplete: userOnComplete,
                     args: result,
-                    completionMode: .continueBarrier
+                    completionMode: completionMode
                 )
             }
         }
@@ -38,13 +38,7 @@ enum Dispatch {
 
             switch completionMode {
             case .continueBarrier: oc(args)
-            case .concurrent:      World.run({
-                let k: String
-                if let kk = args { k = String(describing: kk) } else { k = "<nil>" }
-                print("oc1", k)
-                oc(args)
-                print("oc2")
-            })
+            case .concurrent:      World.run { oc(args) }
             }
         }
     }

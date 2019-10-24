@@ -86,7 +86,7 @@ extension MannaCoordinator {
             return nil
         }, {
             _ in self.finishPlanting(manna)
-        })
+        }, .concurrent)
     }
 
     private func finishPlanting(_ manna: Manna) {

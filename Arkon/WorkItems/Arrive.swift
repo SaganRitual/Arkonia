@@ -7,11 +7,16 @@ extension Stepper {
         func workItem() -> [Void]? { arrive_(); return nil }
         func onComplete(_ nothing: [Void]?) { funge() }
 
-        Grid.lock(workItem, onComplete, .continueBarrier)
+        Grid.lock(workItem, onComplete, .concurrent)
     }
 
     private func arrive_() {
         getStartStopGridlets_()
+
+        if (newGridlet?.contents ?? .nothing) == .nothing {
+            return
+        }
+
         touchFood_()
         updateGridletContents_()
     }
@@ -75,8 +80,8 @@ extension Stepper {
         guard let victimGridlet = newGridlet else { fatalError() }
 
         switch victimGridlet.contents {
-        case .arkon: battleArkon_(victimGridlet)
-        case .manna: battleManna_(victimGridlet)
+        case .arkon:   battleArkon_(victimGridlet)
+        case .manna:   battleManna_(victimGridlet)
         default: fatalError()
         }
     }

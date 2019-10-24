@@ -12,7 +12,6 @@ struct ArkonFactory {
     static var spriteFactory: SpriteFactory!
     static let standardColor = 0x00_FF_00  // Slightly dim green
 
-    let allowSpawning = true
     let goOffspring: Stepper.OnComplete1?
     let goParent: Stepper.OnComplete1?
 
@@ -29,31 +28,15 @@ struct ArkonFactory {
         self.newStepper = Stepper(parentStepper)
     }
 
-    func spawnCommoner() {
-        guard let st = newStepper.parentStepper else { fatalError() }
-
-        let entropy: CGFloat = 0.1
-
-        let spawnCost = allowSpawning ?
-            EnergyReserve.startingEnergyLevel * CGFloat(1.0 + entropy) :
-            CGFloat.infinity
-
-        if st.metabolism.spawnReserves.level < spawnCost {
-            goParent!(st)
-            return
-        }
-
-        st.metabolism.withdrawFromSpawn(spawnCost)
+    func spawnProgenitor() {
         buildNewArkon()
     }
-
-    func spawnProgenitor() { buildNewArkon() }
 }
 
 extension ArkonFactory {
-    private func buildNewArkon() {
+    func buildNewArkon() {
         func workItem() -> [Gridlet]? { getStartingGridPosition_(); return nil }
-        Grid.lock(workItem, buildWorldStats, .continueBarrier)
+        Grid.lock(workItem, buildWorldStats, .concurrent)
     }
 
     private func getStartingGridPosition_() {
@@ -61,15 +44,12 @@ extension ArkonFactory {
         if newStepper.parentStepper != nil {
             if let rp = getGridPointNearParent_() {
                 newStepper.gridlet = rp
-                print("sp1", newStepper.gridlet!, newStepper.name)
                 return
             }
         }
 
         let gr = Gridlet.getRandomGridlet_()
         newStepper.gridlet = gr![0]
-
-        print("sp2", newStepper.gridlet!, newStepper.name)
     }
 
     private func getGridPointNearParent_() -> Gridlet? {
@@ -98,7 +78,6 @@ extension ArkonFactory {
     private func configureSprites_(_: [SKSpriteNode]?) {
         guard let sprite = newStepper.sprite else { fatalError() }
         guard let nose = newStepper.nose else { fatalError() }
-        print("ns \(newStepper.name)")
         guard let gridlet = newStepper.gridlet else { fatalError() }
 
         nose.alpha = 1
@@ -113,11 +92,8 @@ extension ArkonFactory {
 
         Stepper.attachStepper(newStepper, to: sprite)
 
-        print("A", nose.name!)
         sprite.addChild(nose)
-        print("B", sprite.name!)
         GriddleScene.arkonsPortal!.addChild(sprite)
-        print("C")
 
         World.run(finalize_)
     }
@@ -154,12 +130,24 @@ extension ArkonFactory {
 
             newStepper.netDisplay!.display()
         }
+
+        if let p = self.goParent {
+            print("p goParent")
+            World.run { p(self.newStepper.parentStepper!) }
+        } else {
+            newStepper.shiftStart()
+        }
+
+        if let g = self.goOffspring {
+            print("g goOffspring")
+            World.run { g(self.newStepper) }
+        }
     }
 }
 
 extension ArkonFactory {
     private func buildWorldStats(_: [Gridlet]?) {
-        World.lock(updateWorldStats_, buildSprites, .continueBarrier)
+        World.lock(updateWorldStats_, buildSprites, .concurrent)
     }
 
     private func updateWorldStats_() -> [Gridlet]? {

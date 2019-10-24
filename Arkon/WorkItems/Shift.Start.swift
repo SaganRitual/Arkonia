@@ -31,7 +31,7 @@ extension Shifter {
         }, { [unowned self] (_ nothing: [Void]?) -> Void in
             self.stepper.calculateShift()
         },
-           .continueBarrier
+           .concurrent
         )
     }
 

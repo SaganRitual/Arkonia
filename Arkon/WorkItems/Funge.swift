@@ -3,7 +3,7 @@ import Foundation
 
 extension Stepper {
     func funge() {
-        World.lock(getAge_, relay_, .continueBarrier)
+        World.lock(getAge_, relay_, .concurrent)
     }
 
     func getAge_() -> [TimeInterval]? {
@@ -13,7 +13,7 @@ extension Stepper {
 
     func relay_(_ ages: [TimeInterval]?) {
         guard let age = ages?[0] else { fatalError() }
-        metabolism.funge(parentStepper, age: age)
+        metabolism.funge(self, age: age)
     }
 }
 
@@ -29,12 +29,15 @@ extension Metabolism {
         }, { (_ isAlives: [Bool]?) in
 
             guard let isAlive = isAlives?[0] else { fatalError() }
-            let af = ArkonFactory(parentStepper)
+            guard let ps = parentStepper else { fatalError() }
 
-            if isAlive { af.spawnCommoner() }
-            else       { parentStepper!.apoptosize() }
+            if !isAlive { ps.apoptosize(); return }
+
+            if !ps.canSpawn() { ps.metabolize(); return }
+
+            ps.spawnCommoner()
         },
-           .continueBarrier
+           .concurrent
         )
     }
 

@@ -52,7 +52,7 @@ struct Census {
                 else           { partE() }
             }
 
-            World.lock(execute, complete)
+            World.lock(execute, complete, .concurrent)
         }
 
         func partB() {

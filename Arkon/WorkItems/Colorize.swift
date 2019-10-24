@@ -26,7 +26,7 @@ extension Stepper {
     func colorize() {
         func workItem() -> [Void]? { colorize_(); return nil }
         func next(_ nothing: [Void]?) { shiftStart() }
-        World.lock(workItem, next, .continueBarrier)
+        World.lock(workItem, next, .concurrent)
     }
 
     func colorize_() {
