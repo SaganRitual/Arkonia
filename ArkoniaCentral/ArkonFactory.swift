@@ -72,10 +72,19 @@ extension ArkonFactory {
 extension ArkonFactory {
 
     private func buildSprites(_ gridlet: [Gridlet]?) {
-        Grid.lock(getDrones_, configureSprites_, .continueBarrier)
+        let action = SKAction.run {
+            self.configureSprites_()
+        }
+
+        GriddleScene.arkonsPortal.run(action) {
+            self.finalize_()
+        }
     }
 
-    private func configureSprites_(_: [SKSpriteNode]?) {
+    private func configureSprites_() {
+        newStepper.nose = ArkonFactory.spriteFactory!.noseHangar.makeSprite()
+        newStepper.sprite = ArkonFactory.spriteFactory!.arkonsHangar.makeSprite()
+
         guard let sprite = newStepper.sprite else { fatalError() }
         guard let nose = newStepper.nose else { fatalError() }
         guard let gridlet = newStepper.gridlet else { fatalError() }
@@ -94,16 +103,6 @@ extension ArkonFactory {
 
         sprite.addChild(nose)
         GriddleScene.arkonsPortal!.addChild(sprite)
-
-        World.run(finalize_)
-    }
-
-    private func getDrones_() -> [SKSpriteNode]? {
-        newStepper.nose = ArkonFactory.spriteFactory!.noseHangar.makeSprite()
-        newStepper.sprite = ArkonFactory.spriteFactory!.arkonsHangar.makeSprite()
-
-//        World.run(configureSprites_)
-        return nil
     }
 
     private func finalize_() {

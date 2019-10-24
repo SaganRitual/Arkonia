@@ -29,30 +29,21 @@ struct Census {
         var liveArkonsAges = [TimeInterval]()
 
         func partA() {
-            func execute() -> [Bool]? {
-                currentTime = World.shared.getCurrentTime_()
+            currentTime = World.shared.getCurrentTime_()
 
-                liveArkonsAges = GriddleScene.arkonsPortal!.children.compactMap { node in
-                    guard let sprite = node as? SKSpriteNode else {
-                        fatalError()
-                    }
-
-                    guard let stepper = Stepper.getStepper(
-                        from: sprite, require: false
-                    ) else { return nil }
-
-                    return  currentTime - stepper.birthday!
+            liveArkonsAges = GriddleScene.arkonsPortal!.children.compactMap { node in
+                guard let sprite = node as? SKSpriteNode else {
+                    fatalError()
                 }
 
-                return liveArkonsAges.isEmpty ? nil : [true]
+                guard let stepper = Stepper.getStepper(
+                    from: sprite, require: false
+                ) else { return nil }
+
+                return  currentTime - stepper.birthday!
             }
 
-            func complete(_ laap: [Bool]?) {
-                if laap == nil { partB() }
-                else           { partE() }
-            }
-
-            World.lock(execute, complete, .concurrent)
+            if liveArkonsAges.isEmpty { partE() } else { partB() }
         }
 
         func partB() {
@@ -85,9 +76,12 @@ struct Census {
         }
 
         func partE() {
-            World.runAfter(deadline: DispatchTime.now() + 1, partA)
+            World.runAfter(deadline: DispatchTime.now() + 1) {
+                let action = SKAction.run { partA() }
+                GriddleScene.shared.run(action)
+            }
         }
 
-        partA()
+        partE()
     }
 }

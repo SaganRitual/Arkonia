@@ -33,19 +33,16 @@ class MannaCoordinator {
     func populate() {
         if cMorsels >= MannaCoordinator.cMorsels { return }
 
-        Grid.lock({ () -> [SKSpriteNode] in
+        let action = SKAction.run {
             let sprite = self.mannaSpriteFactory!.mannaHangar.makeSprite()
             GriddleScene.arkonsPortal!.addChild(sprite)
-            return [sprite]
-        }, { sprites in
-            guard let sprite = sprites?[0] else { fatalError() }
 
             let manna = Manna(sprite)
             sprite.userData = [SpriteUserDataKey.manna: manna]
             self.plant(manna)
-        },
-           .concurrent
-        )
+        }
+
+        GriddleScene.arkonsPortal.run(action)
     }
 }
 

@@ -36,7 +36,7 @@ class World {
         func debugOc(_ args: [T]?) { print("World.\(completionMode)"); userOnComplete?(args) }
 
         Dispatch.Lockable<T>(lockQueue).lock(
-            debugEx, debugOc, completionMode
+            execute, userOnComplete, completionMode
         )
     }
 

@@ -9,7 +9,7 @@ class Stepper {
     var birthday: TimeInterval!
     var cOffspring = 0
     var fishNumber = 0
-    weak var gridlet: Gridlet! { willSet { print("ws", newValue!) } }
+    weak var gridlet: Gridlet!
     var isApoptosizing = false
     var metabolism: Metabolism!
     let name = UUID().uuidString

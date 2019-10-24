@@ -31,6 +31,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
     static var arkonsPortal: SKSpriteNode!
     static var arkonsArePresent: Bool = false
+    static var shared: GriddleScene!
 
     var census: Census?
     var clock: Clock?
@@ -73,6 +74,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
     override func didMove(to view: SKView) {
         World.shared.setCurrentTime(to: 0)
+        GriddleScene.shared = self
 
         GriddleScene.arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!

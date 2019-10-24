@@ -75,7 +75,7 @@ class Grid {
         func debugEx() -> [T]? { print("Grid.barrier"); return execute?() }
         func debugOc(_ args: [T]?) { print("Grid.concurrent"); userOnComplete?(args) }
         Dispatch.Lockable<T>(lockQueue).lock(
-            debugEx, debugOc, completionMode
+            execute, userOnComplete, completionMode
         )
     }
 
