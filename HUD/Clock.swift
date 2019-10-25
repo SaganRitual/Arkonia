@@ -20,12 +20,12 @@ class Clock {
 
     func updateClock() {
         func partA() {
-            World.shared.getAges(onComplete: partB)
+            World.stats.getStats(partB)
         }
 
-        func partB(_ ages: [TimeInterval]?) {
-            let gameAge = Date().timeIntervalSince(timeZero)
-            self.clockReport.data.text = self.clockFormatter.string(from: gameAge)
+        func partB(_ stats: World.StatsCopy) {
+            self.clockReport.data.text =
+                self.clockFormatter.string(from: TimeInterval(stats.currentTime))
 
             var entropy: TimeInterval {
 //                guard let t = timeLimit else { return 0 }
@@ -37,7 +37,9 @@ class Clock {
             let percentage = (1 - entropy) * 100
 
             self.foodValueReport.data.text = String(format: "%.2f", percentage)
+        }
 
+        func partC() {
             World.runAfter(deadline: DispatchTime.now() + 1, partA)
         }
 

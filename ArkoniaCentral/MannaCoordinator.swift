@@ -48,7 +48,10 @@ class MannaCoordinator {
 
 extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
-        Gridlet.getRandomGridlet { grs in
+        Grid.lock({ () -> [Gridlet]? in
+            let grs = Gridlet.getRandomGridlet_()
+            return grs
+        }, { grs in
             guard let gridlets = grs else { fatalError() }
             let gridlet = gridlets[0]
 
@@ -57,7 +60,9 @@ extension MannaCoordinator {
 
             let manna = Manna.getManna(from: sprite)
             self.recycle(manna, at: gridlet)
-        }
+        },
+           .continueBarrier
+        )
     }
 
     private func recycle(_ manna: Manna, at gridlet: Gridlet) {

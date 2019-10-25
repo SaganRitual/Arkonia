@@ -83,8 +83,6 @@ class GriddleScene: SKScene, SKSceneDelegate {
             self.net9Portals.append(node)
         }
 
-        World.shared.setCurrentTime(to: 0)
-
         ArkonFactory.spriteFactory = SpriteFactory(
             scene: self,
             thoraxFactory: SpriteFactory.makeSprite(texture:),
@@ -108,14 +106,13 @@ class GriddleScene: SKScene, SKSceneDelegate {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        if !readyForDisplayCycle { return }
+        guard readyForDisplayCycle else { return }
 
         Display.displayCycle = .updateStarted
 
         defer {
             tickCount += 1
             Display.displayCycle = .actions
-            World.shared.setCurrentTime(to: currentTime)
         }
 
         if tickCount < 10 { return }

@@ -6,7 +6,7 @@ class Stepper {
 
     let allowSpawning = true
     var arkonFactory: ArkonFactory?
-    var birthday: TimeInterval!
+    var birthday = 0
     var cOffspring = 0
     var fishNumber = 0
     weak var gridlet: Gridlet!
@@ -26,8 +26,6 @@ class Stepper {
     var previousShift = AKPoint.zero
     var shifter: Shifter?
     var sprite: SKSpriteNode!
-
-    var bandaid: NewStepper?
 
     init(_ parentStepper: Stepper? = nil) {
         self.parentStepper = parentStepper

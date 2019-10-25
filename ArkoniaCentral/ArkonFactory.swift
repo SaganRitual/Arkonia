@@ -1,9 +1,15 @@
 import SpriteKit
 
-class NewStepper {
-    weak var parentStepper: NewStepper?
-    var cOffspring = 0
+protocol NewOffspringProtocol: class {
+    var birthday: Int { get set }
+    var fishNumber: Int { get set }
 }
+
+protocol NewParentProtocol: class {
+    var cOffspring: Int { get set }
+}
+
+extension Stepper: NewOffspringProtocol, NewParentProtocol {}
 
 struct ArkonFactory {
     static let brightColor = 0x00_FF_00    // Full green
@@ -15,6 +21,7 @@ struct ArkonFactory {
     let goOffspring: Stepper.OnComplete1?
     let goParent: Stepper.OnComplete1?
 
+    weak var parentStepper: Stepper?
     var newStepper: Stepper
 
     init(
@@ -25,6 +32,7 @@ struct ArkonFactory {
         self.goOffspring = goOffspring
         self.goParent = goParent
 
+        self.parentStepper = parentStepper
         self.newStepper = Stepper(parentStepper)
     }
 
@@ -36,7 +44,8 @@ struct ArkonFactory {
 extension ArkonFactory {
     func buildNewArkon() {
         func workItem() -> [Gridlet]? { getStartingGridPosition_(); return nil }
-        Grid.lock(workItem, buildWorldStats, .concurrent)
+        func onComplete(_: [Gridlet]?) { buildWorldStats() }
+        Grid.lock(workItem, onComplete, .concurrent)
     }
 
     private func getStartingGridPosition_() {
@@ -71,14 +80,9 @@ extension ArkonFactory {
 
 extension ArkonFactory {
 
-    private func buildSprites(_ gridlet: [Gridlet]?) {
-        let action = SKAction.run {
-            self.configureSprites_()
-        }
-
-        GriddleScene.arkonsPortal.run(action) {
-            self.finalize_()
-        }
+    private func buildSprites() {
+        let action = SKAction.run { self.configureSprites_() }
+        GriddleScene.arkonsPortal.run(action) { self.finalize_() }
     }
 
     private func configureSprites_() {
@@ -145,22 +149,9 @@ extension ArkonFactory {
 }
 
 extension ArkonFactory {
-    private func buildWorldStats(_: [Gridlet]?) {
-        World.lock(updateWorldStats_, buildSprites, .concurrent)
-    }
-
-    private func updateWorldStats_() -> [Gridlet]? {
-        if let bandaid = newStepper.bandaid {
-            bandaid.cOffspring += 1
-            World.shared.registerCOffspring_(bandaid.cOffspring)
-        }
-
-        newStepper.birthday = World.shared.getCurrentTime_()
-        newStepper.fishNumber = World.shared.getFishNumber_()
-
-        World.shared.incrementPopulation_()
-        return nil
+    private func buildWorldStats() {
+        World.stats.registerBirth(
+            self.parentStepper, self.newStepper, self.buildSprites
+        )
     }
 }
-
-typealias LockRandomPoint = Dispatch.Lockable<Gridlet>

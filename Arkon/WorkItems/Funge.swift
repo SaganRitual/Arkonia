@@ -4,25 +4,18 @@ import Foundation
 extension Stepper {
     func funge() {
 //        print("funge \(name)")
-        World.lock(getAge_, relay_, .concurrent)
+        World.stats.getTimeSince(birthday, relay)
     }
 
-    func getAge_() -> [TimeInterval]? {
-//        print("getAge \(name)")
-        let age = World.shared.getCurrentTime_() - birthday
-        return [age]
-    }
-
-    func relay_(_ ages: [TimeInterval]?) {
+    func relay(_ age: Int) {
 //        print("relay_ \(name)")
-        guard let age = ages?[0] else { fatalError() }
         metabolism.funge(self, age: age)
     }
 }
 
 extension Metabolism {
 
-    func funge(_ parentStepper: Stepper?, age: TimeInterval) {
+    func funge(_ parentStepper: Stepper?, age: Int) {
 
         World.lock({ () -> [Bool]? in
 
@@ -49,14 +42,14 @@ extension Metabolism {
         )
     }
 
-    private func funge_(age: TimeInterval) -> Bool {
+    private func funge_(age: Int) -> Bool {
 //        print("funge_")
         let fudgeFactor: CGFloat = 1
         let joulesNeeded = fudgeFactor * mass
 
         withdrawFromReady(joulesNeeded)
 
-        let oxygenCost: TimeInterval = age < TimeInterval(5) ? 0 : 1
+        let oxygenCost: Int = age < 5 ? 0 : 1
         oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0

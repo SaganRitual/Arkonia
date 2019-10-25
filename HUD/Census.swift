@@ -25,12 +25,25 @@ struct Census {
     }
 
     private func updateCensus() {
-        var currentTime: TimeInterval = 0
-        var liveArkonsAges = [TimeInterval]()
+        var currentTime: Int = 0
+        var liveArkonsAges = [Int]()
+        var worldStats: World.StatsCopy!
 
         func partA() {
-            currentTime = World.shared.getCurrentTime_()
+            World.stats.getStats(partB)
+        }
 
+        func partB(_ worldStats_: World.StatsCopy) {
+            worldStats = worldStats_
+
+            let action = SKAction.run { partC(worldStats.currentTime) }
+
+            GriddleScene.arkonsPortal.run(action) {
+                if liveArkonsAges.isEmpty { partE() } else { partD() }
+            }
+        }
+
+        func partC(_ currentTime: Int) {
             liveArkonsAges = GriddleScene.arkonsPortal!.children.compactMap { node in
                 guard let sprite = node as? SKSpriteNode else {
                     fatalError()
@@ -40,48 +53,32 @@ struct Census {
                     from: sprite, require: false
                 ) else { return nil }
 
-                return  currentTime - stepper.birthday!
-            }
-
-            if liveArkonsAges.isEmpty { partE() } else { partB() }
-        }
-
-        func partB() {
-            World.shared.getPopulation { ps in
-                guard let popStats = ps else { fatalError() }
-
-                let currentPop = popStats[0]
-                let highWaterPop = popStats[1]
-                let highWaterOffspring = popStats[2]
-
-                self.rCurrentPopulation.data.text = String(currentPop)
-                self.rHighWaterPopulation.data.text = String(highWaterPop)
-                self.rOffspring.data.text = String(format: "%d", highWaterOffspring)
-                partC()
+                return  currentTime - stepper.birthday
             }
         }
 
-        func partC() {
-            World.shared.setMaxLivingAge(to: liveArkonsAges.max() ?? 0) { ageses in
-                guard let ages = ageses else { fatalError() }
-                let maxLivingAge = ages[0]
-                let highWaterAge = ages[1]
-                partD(maxLivingAge, highWaterAge)
-            }
-        }
+        func partD() {
+            self.rCurrentPopulation.data.text =
+                String(worldStats.currentPopulation)
 
-        func partD(_ maxLivingAge: TimeInterval, _ highWaterAge: TimeInterval) {
+            self.rHighWaterPopulation.data.text =
+                String(worldStats.highWaterPopulation)
+
+            self.rOffspring.data.text =
+                String(format: "%d", worldStats.highWaterCOffspring)
+
             rHighWaterAge.data.text =
-                ageFormatter.string(from: Double(highWaterAge))
+                ageFormatter.string(from: Double(worldStats.highWaterAge))
+
+            partE()
         }
 
         func partE() {
-            World.runAfter(deadline: DispatchTime.now() + 1) {
-                let action = SKAction.run { partA() }
-                GriddleScene.shared.run(action)
+            DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 1) {
+                partA()
             }
         }
 
-        partE()
+        partA()
     }
 }

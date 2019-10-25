@@ -51,6 +51,7 @@
 		D4BB6E83234F580900529819 /* Shift.Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E82234F580900529819 /* Shift.Shift.swift */; };
 		D4BB6E862350027900529819 /* Arrive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E852350027900529819 /* Arrive.swift */; };
 		D4C67D93234D889D0030358D /* Gridlet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C67D92234D889D0030358D /* Gridlet.swift */; };
+		D4D86F502363211A0082C31A /* World.Population.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D86F4F2363211A0082C31A /* World.Population.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -153,6 +154,7 @@
 		D4BB6E852350027900529819 /* Arrive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arrive.swift; sourceTree = "<group>"; };
 		D4C67D92234D889D0030358D /* Gridlet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gridlet.swift; sourceTree = "<group>"; };
 		D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaCentral.swift; sourceTree = "<group>"; };
+		D4D86F4F2363211A0082C31A /* World.Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.Population.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
 		D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GriddleScene.swift; sourceTree = "<group>"; };
 		D4EBEE7222E148C9007C98A4 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
 				D49042C422AE2B2500E7369B /* World.swift */,
+				D4D86F4F2363211A0082C31A /* World.Population.swift */,
 			);
 			path = ArkoniaCentral;
 			sourceTree = "<group>";
@@ -480,6 +483,7 @@
 				D464BA4622C737260069623C /* Overload2D.swift in Sources */,
 				D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */,
 				D495F0CC233FA969007D6E86 /* World.swift in Sources */,
+				D4D86F502363211A0082C31A /* World.Population.swift in Sources */,
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
 				D42323C0235B6B6700981265 /* Dispatch.swift in Sources */,
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,

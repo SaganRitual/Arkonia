@@ -25,12 +25,10 @@ extension Stepper {
 
     func colorize() {
 //        print("colorize \(name)")
-        func workItem() -> [Void]? { colorize_(); return nil }
-        func next(_ nothing: [Void]?) { shiftStart() }
-        World.lock(workItem, next, .concurrent)
+        World.stats.getTimeSince(birthday, colorize_)
     }
 
-    func colorize_() {
+    func colorize_(_ myAge_: Int) {
         let ef = metabolism.fungibleEnergyFullness
         nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 
@@ -43,7 +41,7 @@ extension Stepper {
         }
 
         let four: CGFloat = 4
-        let myAge = World.getArkonAge_(birthday: birthday)
+        let myAge = CGFloat(myAge_)
         self.sprite.color = ColorGradient.makeColorMixRedBlue(
             baseColor: baseColor,
             redPercentage: metabolism.spawnEnergyFullness,
@@ -51,5 +49,7 @@ extension Stepper {
         )
 
         self.sprite.colorBlendFactor = metabolism.oxygenLevel
+
+        World.run(shiftStart)
     }
 }
