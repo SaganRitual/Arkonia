@@ -73,7 +73,6 @@ class GriddleScene: SKScene, SKSceneDelegate {
     }
 
     override func didMove(to view: SKView) {
-        World.shared.setCurrentTime(to: 0)
         GriddleScene.shared = self
 
         GriddleScene.arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
@@ -83,6 +82,8 @@ class GriddleScene: SKScene, SKSceneDelegate {
             let node = (node_ as? SKSpriteNode)!
             self.net9Portals.append(node)
         }
+
+        World.shared.setCurrentTime(to: 0)
 
         ArkonFactory.spriteFactory = SpriteFactory(
             scene: self,

@@ -133,40 +133,36 @@ extension World {
 
     private func doCurrentTimeStuff(
         do whichStuff: CurrentTimeAction = .get,
-        execute: Dispatch.Lockable<TimeInterval>.LockExecute? = nil,
-        onComplete: Dispatch.Lockable<TimeInterval>.LockOnComplete? = nil
+        execute: (() -> TimeInterval)? = nil,
+        onComplete: ((TimeInterval) -> Void)? = nil
     ) {
-        World.lock({ () -> [TimeInterval] in
+        let action = SKAction.run { [unowned self] in
             switch whichStuff {
             case .get:
                 break
 
             case .set:
                 guard let ex = execute else { fatalError() }
-                guard let tt = ex() else { fatalError() }
-
-                self.currentTime = tt[0]
+                self.currentTime = ex()
             }
+        }
 
-            return [self.currentTime]
-        }, {
-            currentTimes in onComplete?(currentTimes)
-        },
-           .concurrent
-        )
+        GriddleScene.arkonsPortal.run(action) { [unowned self] in
+            onComplete?(self.currentTime)
+        }
     }
 
     func getCurrentTime_() -> TimeInterval { return self.currentTime }
     func setCurrentTime_(_ newTime: TimeInterval) { self.currentTime = newTime }
 
     func getCurrentTime(
-        onComplete: @escaping Dispatch.Lockable<TimeInterval>.LockOnComplete
+        onComplete: @escaping ((TimeInterval) -> Void)
     ) {
         doCurrentTimeStuff(do: .get, onComplete: onComplete)
     }
 
     func setCurrentTime(to newTime: TimeInterval) {
-        func execute() -> [TimeInterval]? { return [newTime] }
+        func execute() -> TimeInterval { return self.currentTime }
         doCurrentTimeStuff(do: .set, execute: execute)
     }
 }

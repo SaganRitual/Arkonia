@@ -43,7 +43,7 @@ class Stepper {
             gridlet.contents = .nothing
             gridlet.sprite = nil
             gridlet.gridletIsEngaged = false
-            print("deinit \(gridlet.gridPosition)")
+//            print("deinit \(gridlet.gridPosition)")
             return nil
         })
     }

@@ -35,14 +35,14 @@ extension Metabolism {
             guard let ps = parentStepper else { fatalError() }
 
             if !isAlive {
-                print("dead? \(parentStepper!.name)")
+//                print("dead? \(parentStepper!.name)")
                 ps.apoptosize(); return }
 
             if !ps.canSpawn() {
 //                print("can't spawn \(parentStepper!.name)")
                 ps.metabolize(); return }
 
-            print("spawning from \(parentStepper!.name)")
+//            print("spawning from \(parentStepper!.name)")
             ps.spawnCommoner()
         },
            .concurrent

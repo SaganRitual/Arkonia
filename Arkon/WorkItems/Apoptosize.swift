@@ -2,8 +2,19 @@ import SpriteKit
 
 extension Stepper {
     func apoptosize() {
+        if isApoptosizing {
+            print("already apop 1")
+            return
+        }
+
+        isApoptosizing = true
+
         let action = SKAction.run { [weak self] in
-            guard let myself = self else { fatalError() }
+            guard let myself = self else {
+                print("already apop 2")
+                return
+            }
+
             myself.apoptosize_()
         }
 
