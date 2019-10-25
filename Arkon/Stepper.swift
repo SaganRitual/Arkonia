@@ -25,7 +25,6 @@ class Stepper {
     var parentWeights: [Double]?
     var previousShift = AKPoint.zero
     var shifter: Shifter?
-    var shiftTarget = AKPoint.zero
     var sprite: SKSpriteNode!
 
     var bandaid: NewStepper?
@@ -44,6 +43,7 @@ class Stepper {
             gridlet.contents = .nothing
             gridlet.sprite = nil
             gridlet.gridletIsEngaged = false
+            print("deinit \(gridlet.gridPosition)")
             return nil
         })
     }

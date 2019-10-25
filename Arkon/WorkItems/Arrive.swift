@@ -3,31 +3,40 @@ import GameplayKit
 typealias LockStepper = Dispatch.Lockable<Stepper>
 
 extension Stepper {
-    func arrive() {
-        func workItem() -> [Void]? { arrive_(); return nil }
-        func onComplete(_ nothing: [Void]?) { funge() }
+    func arrive(_ targetOffset: AKPoint) {
+        func workItem() -> [Void]? {
+//            print("arrive start \(name)")
+            arrive_(targetOffset); return nil }
+        func onComplete(_ nothing: [Void]?) {
+//            print("arrive complete -- funge \(name)")
+            funge()
+        }
 
         Grid.lock(workItem, onComplete, .concurrent)
     }
 
-    private func arrive_() {
-        getStartStopGridlets_()
+    private func arrive_(_ targetOffset: AKPoint) {
+//        print("arrive_")
+        defer { updateGridletContents_() }
+
+        getStartStopGridlets_(targetOffset)
 
         if (newGridlet?.contents ?? .nothing) == .nothing {
             return
         }
 
         touchFood_()
-        updateGridletContents_()
     }
 
-    private func getStartStopGridlets_() {
+    private func getStartStopGridlets_(_ targetOffset: AKPoint) {
         gridlet.sprite = nil
         gridlet.contents = .nothing
         gridlet.gridletIsEngaged = false
         oldGridlet = gridlet
 
-        let newGridPosition = gridlet.gridPosition + shiftTarget
+//        print("gssg \(gridlet.gridPosition) \(name)")
+
+        let newGridPosition = gridlet.gridPosition + targetOffset
         newGridlet = Gridlet.at(newGridPosition)
     }
 }

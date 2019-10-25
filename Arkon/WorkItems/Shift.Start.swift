@@ -2,6 +2,7 @@ import Foundation
 
 extension Stepper {
     func shiftStart() {
+//        print("shiftStart \(name)")
         shifter = Shifter(stepper: self)
         shifter!.start(gridlet)
     }
@@ -25,6 +26,7 @@ extension Shifter {
     func start(_ gridlet: Gridlet) {
         Grid.lock({ [unowned self] () -> [Void]? in
 
+//            print("shift start \(gridlet.scenePosition)")
             self.start_()
             return nil
 
@@ -71,19 +73,30 @@ extension Shifter {
 
     private func reserveGridPoints_() {
         usableGridOffsets = Grid.moves.compactMap { offset in
+//            print("1 \(stepper.name)")
 
             let targetGridPoint = stepper.gridlet.gridPosition + offset
+//            print("rgp \(stepper.gridlet.gridPosition) + \(offset) = \(targetGridPoint)")
 
             if Gridlet.isOnGrid(targetGridPoint.x, targetGridPoint.y) {
+//                print("2 \(stepper.name)")
                 let targetGridlet = Gridlet.at(targetGridPoint)
+//                print("tg \(targetGridlet.scenePosition)")
 
                 if !targetGridlet.gridletIsEngaged {
+//                    print("3 \(stepper.name)")
                     targetGridlet.gridletIsEngaged = true
                     return offset
+                } else {
+//                    print("4 \(stepper.name)")
                 }
+            } else {
+//                print("5 \(stepper.name)")
             }
 
             return nil
         }
+
+//        print("ugo", stepper.name, usableGridOffsets)
     }
 }

@@ -24,6 +24,7 @@ struct Catchall {
 extension Stepper {
 
     func colorize() {
+//        print("colorize \(name)")
         func workItem() -> [Void]? { colorize_(); return nil }
         func next(_ nothing: [Void]?) { shiftStart() }
         World.lock(workItem, next, .concurrent)

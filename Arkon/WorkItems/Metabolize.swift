@@ -3,6 +3,7 @@ import GameplayKit
 extension Stepper {
     func metabolize() {
         World.run { [unowned self] in
+//            print("metabolize \(self.name)")
             self.metabolism.metabolize_()
             self.colorize()
         }

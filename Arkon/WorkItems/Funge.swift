@@ -3,15 +3,18 @@ import Foundation
 
 extension Stepper {
     func funge() {
+//        print("funge \(name)")
         World.lock(getAge_, relay_, .concurrent)
     }
 
     func getAge_() -> [TimeInterval]? {
+//        print("getAge \(name)")
         let age = World.shared.getCurrentTime_() - birthday
         return [age]
     }
 
     func relay_(_ ages: [TimeInterval]?) {
+//        print("relay_ \(name)")
         guard let age = ages?[0] else { fatalError() }
         metabolism.funge(self, age: age)
     }
@@ -31,10 +34,15 @@ extension Metabolism {
             guard let isAlive = isAlives?[0] else { fatalError() }
             guard let ps = parentStepper else { fatalError() }
 
-            if !isAlive { ps.apoptosize(); return }
+            if !isAlive {
+                print("dead? \(parentStepper!.name)")
+                ps.apoptosize(); return }
 
-            if !ps.canSpawn() { ps.metabolize(); return }
+            if !ps.canSpawn() {
+//                print("can't spawn \(parentStepper!.name)")
+                ps.metabolize(); return }
 
+            print("spawning from \(parentStepper!.name)")
             ps.spawnCommoner()
         },
            .concurrent
@@ -42,6 +50,7 @@ extension Metabolism {
     }
 
     private func funge_(age: TimeInterval) -> Bool {
+//        print("funge_")
         let fudgeFactor: CGFloat = 1
         let joulesNeeded = fudgeFactor * mass
 

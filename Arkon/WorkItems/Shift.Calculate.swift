@@ -3,6 +3,7 @@ import SpriteKit
 extension Stepper {
 
     func calculateShift(_ nothing: [Void]? = nil) {
+//        print("shiftCalculate \(name)")
         guard let sh = shifter else { fatalError() }
         sh.calculateShift()
     }
@@ -11,21 +12,27 @@ extension Stepper {
 extension Shifter {
 
     func calculateShift() {
-        func workItem() -> [Void]? {
-            calculateShift_()
-            return nil
+        func workItem() -> [AKPoint]? {
+            let targetOffset = calculateShift_()
+            return [targetOffset]
         }
 
-        func next(_ nothing: [Void]?) { stepper.shiftShift() }
+        func next(_ targetOffsets: [AKPoint]?) {
+            guard let targetOffset = targetOffsets?[0] else { fatalError() }
+            stepper.shiftShift(targetOffset)
+        }
 
         Grid.lock(workItem, next, .concurrent)
     }
 
-    private func calculateShift_() {
+    private func calculateShift_() -> AKPoint {
         let senseData = loadSenseData()
         let shiftTarget = selectMoveTarget(senseData: senseData)
 
+//        print("z \(shiftTarget) \(stepper.name)")
+
         releaseGridPoints_(keep: shiftTarget)
+        return shiftTarget
     }
 
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
@@ -69,24 +76,24 @@ extension Shifter {
     private func releaseGridPoints_(keep: AKPoint? = nil) {
         let whereIAmNow = stepper.gridlet!
 
-        func engage() -> [Void]? {
-            for gridOffset in usableGridOffsets {
+        for gridOffset in usableGridOffsets {
 
-                if keep == nil || keep! != gridOffset {
-                    let targetGridlet =  Gridlet.at(whereIAmNow.gridPosition + gridOffset)
-                    targetGridlet.gridletIsEngaged = false
-                }
+            if keep == nil || keep! != gridOffset {
+                let targetGridlet =  Gridlet.at(whereIAmNow.gridPosition + gridOffset)
+//                print("rgpdel \(targetGridlet.gridPosition) \(stepper.name)")
+                targetGridlet.gridletIsEngaged = false
             }
-
-            usableGridOffsets.removeAll(keepingCapacity: true)
-            return nil
         }
+
+        usableGridOffsets.removeAll(keepingCapacity: true)
     }
 
     private func selectMoveTarget(senseData: [Double]) -> AKPoint {
 
         let motorOutputs: [Double] = stepper.net.getMotorOutputs(senseData)
         let dMotorOutputs: [Int: Double] = self.getMotorDataAsDictionary(motorOutputs)
+
+//        print("dm", dMotorOutputs)
 
         let order: [(Int, Double)] = dMotorOutputs.sorted { lhs, rhs in
             Double(lhs.1) > Double(rhs.1)
