@@ -2,10 +2,15 @@ import GameplayKit
 
 extension Stepper {
     func metabolize() {
-        World.run { [unowned self] in
+        World.run { [weak self] in
+            guard let myself = self else {
+                print("bail from Stepper.metabolize")
+                return
+            }
+
 //            print("metabolize \(self.name)")
-            self.metabolism.metabolize_()
-            self.colorize()
+            myself.metabolism.metabolize_()
+            myself.colorize()
         }
     }
 }

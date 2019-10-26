@@ -99,9 +99,10 @@ extension ArkonFactory {
         sprite.setScale(ArkonFactory.scaleFactor)
         sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
-        sprite.color = .cyan
+//        sprite.color = .cyan
         sprite.setScale(0.5)
         sprite.position = gridlet.scenePosition
+        sprite.alpha = 1
 
         Stepper.attachStepper(newStepper, to: sprite)
 
@@ -135,15 +136,15 @@ extension ArkonFactory {
         }
 
         if let p = self.goParent {
-//            print("p goParent")
+//            print("p goParent \(self.newStepper.parentStepper!.name)")
             World.run { p(self.newStepper.parentStepper!) }
         } else {
-//            print("nsss")
+//            print("n goOffspring \(self.newStepper.name)")
             newStepper.shiftStart()
         }
 
         if let g = self.goOffspring {
-            print("g goOffspring")
+//            print("g goOffspring \(self.newStepper.name)")
             World.run { g(self.newStepper) }
         }
     }

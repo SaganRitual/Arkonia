@@ -35,7 +35,7 @@ extension World {
         private(set) var highWaterCOffspring = 0
 
         private let lockQueue = DispatchQueue(
-            label: "arkonia.lock.world.population", qos: .utility,
+            label: "arkonia.lock.world.stats", qos: .utility,
             attributes: DispatchQueue.Attributes.concurrent,
             target: DispatchQueue.global()
         )

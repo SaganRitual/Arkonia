@@ -24,6 +24,7 @@ class SpriteHangar: SpriteHangarProtocol {
         }
 
         let newSprite = factoryFunction(texture)
+        newSprite.alpha = 0
         newSprite.userData = [:]
         newSprite.name = UUID().uuidString
         drones.append(newSprite)

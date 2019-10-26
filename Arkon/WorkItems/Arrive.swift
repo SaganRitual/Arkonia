@@ -50,7 +50,7 @@ extension Stepper {
             let otherStepper = otherAny as? Stepper
         else { fatalError() }
 
-        let order = (metabolism.mass > (otherStepper.metabolism.mass * 1.25)) ?
+        let order = (metabolism.mass_ > (otherStepper.metabolism.mass_ * 1.25)) ?
                     (self, otherStepper) : (otherStepper, self)
 
         settleCombat_(order.0, order.1)

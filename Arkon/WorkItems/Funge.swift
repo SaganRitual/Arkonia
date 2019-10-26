@@ -45,7 +45,7 @@ extension Metabolism {
     private func funge_(age: Int) -> Bool {
 //        print("funge_")
         let fudgeFactor: CGFloat = 1
-        let joulesNeeded = fudgeFactor * mass
+        let joulesNeeded = fudgeFactor * mass_
 
         withdrawFromReady(joulesNeeded)
 

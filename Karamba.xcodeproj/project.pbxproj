@@ -38,6 +38,8 @@
 		D495F0C8233FA6E9007D6E86 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D40985F222650B0B009DD384 /* Info.plist */; };
 		D495F0CC233FA969007D6E86 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D495F0CF233FAB01007D6E86 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495F0CE233FAB01007D6E86 /* Mutator.swift */; };
+		D499AC09236406F80001BC21 /* MannaRecycler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D499AC08236406F80001BC21 /* MannaRecycler.swift */; };
+		D499AC122364616E0001BC21 /* Metabolism.Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D499AC112364616E0001BC21 /* Metabolism.Lock.swift */; };
 		D4A4F4522353CF7B000EC009 /* Shift.Calculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4F4512353CF7B000EC009 /* Shift.Calculate.swift */; };
 		D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4F45C23551F41000EC009 /* Parasitize.swift */; };
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
@@ -51,7 +53,7 @@
 		D4BB6E83234F580900529819 /* Shift.Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E82234F580900529819 /* Shift.Shift.swift */; };
 		D4BB6E862350027900529819 /* Arrive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E852350027900529819 /* Arrive.swift */; };
 		D4C67D93234D889D0030358D /* Gridlet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C67D92234D889D0030358D /* Gridlet.swift */; };
-		D4D86F502363211A0082C31A /* World.Population.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D86F4F2363211A0082C31A /* World.Population.swift */; };
+		D4D86F502363211A0082C31A /* World.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D86F4F2363211A0082C31A /* World.Stats.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +138,8 @@
 		D49042C422AE2B2500E7369B /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D495F0CE233FAB01007D6E86 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
+		D499AC08236406F80001BC21 /* MannaRecycler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MannaRecycler.swift; sourceTree = "<group>"; };
+		D499AC112364616E0001BC21 /* Metabolism.Lock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metabolism.Lock.swift; sourceTree = "<group>"; };
 		D4A12BE922EA58E900C15F59 /* Stepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
 		D4A216BA22C1988B00D92A1E /* BellCurve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BellCurve.swift; sourceTree = "<group>"; };
 		D4A4F4512353CF7B000EC009 /* Shift.Calculate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.Calculate.swift; sourceTree = "<group>"; };
@@ -154,7 +158,7 @@
 		D4BB6E852350027900529819 /* Arrive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arrive.swift; sourceTree = "<group>"; };
 		D4C67D92234D889D0030358D /* Gridlet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gridlet.swift; sourceTree = "<group>"; };
 		D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaCentral.swift; sourceTree = "<group>"; };
-		D4D86F4F2363211A0082C31A /* World.Population.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.Population.swift; sourceTree = "<group>"; };
+		D4D86F4F2363211A0082C31A /* World.Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.Stats.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
 		D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GriddleScene.swift; sourceTree = "<group>"; };
 		D4EBEE7222E148C9007C98A4 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
@@ -227,11 +231,12 @@
 				D4C67D92234D889D0030358D /* Gridlet.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
 				D422DE0123578CFD003734B8 /* MannaCoordinator.swift */,
+				D499AC08236406F80001BC21 /* MannaRecycler.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
 				D49042C422AE2B2500E7369B /* World.swift */,
-				D4D86F4F2363211A0082C31A /* World.Population.swift */,
+				D4D86F4F2363211A0082C31A /* World.Stats.swift */,
 			);
 			path = ArkoniaCentral;
 			sourceTree = "<group>";
@@ -241,6 +246,7 @@
 			children = (
 				D4BB6E6A234E544B00529819 /* WorkItems */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
+				D499AC112364616E0001BC21 /* Metabolism.Lock.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D4A12BE922EA58E900C15F59 /* Stepper.swift */,
 			);
@@ -483,11 +489,13 @@
 				D464BA4622C737260069623C /* Overload2D.swift in Sources */,
 				D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */,
 				D495F0CC233FA969007D6E86 /* World.swift in Sources */,
-				D4D86F502363211A0082C31A /* World.Population.swift in Sources */,
+				D4D86F502363211A0082C31A /* World.Stats.swift in Sources */,
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
 				D42323C0235B6B6700981265 /* Dispatch.swift in Sources */,
+				D499AC09236406F80001BC21 /* MannaRecycler.swift in Sources */,
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
 				D464BA4E22C737260069623C /* BellCurve.swift in Sources */,
+				D499AC122364616E0001BC21 /* Metabolism.Lock.swift in Sources */,
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
 				D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,

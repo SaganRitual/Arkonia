@@ -63,8 +63,7 @@ class Grid {
 
     static let lockQueue = DispatchQueue(
         label: "arkonia.lock.grid", qos: .default,
-        attributes: DispatchQueue.Attributes.concurrent,
-        target: DispatchQueue.global()
+        attributes: DispatchQueue.Attributes.concurrent
     )
 
     static func lock<T>(

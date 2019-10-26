@@ -8,8 +8,9 @@ class MannaCoordinator {
     weak var mannaSpriteFactory: SpriteFactory?
 
     static private let lockQueue = DispatchQueue(
-        label: "arkonia.mannaq", qos: .utility, attributes: .concurrent,
-        target: DispatchQueue.global()
+        label: "arkonia.mannaq", qos: .userInitiated,
+        attributes: .concurrent//,
+//        target: DispatchQueue.global()
     )
 
     static func lock<T>(
@@ -31,16 +32,22 @@ class MannaCoordinator {
     }
 
     func populate() {
+//        print("p1")
         if cMorsels >= MannaCoordinator.cMorsels { return }
+//        print("p2")
 
         let action = SKAction.run {
+//            print("p3")
             let sprite = self.mannaSpriteFactory!.mannaHangar.makeSprite()
             GriddleScene.arkonsPortal!.addChild(sprite)
 
             let manna = Manna(sprite)
             sprite.userData = [SpriteUserDataKey.manna: manna]
+//            print("p4")
             self.plant(manna)
+//            print("p5")
         }
+//        print("p6")
 
         GriddleScene.arkonsPortal.run(action)
     }
@@ -66,43 +73,54 @@ extension MannaCoordinator {
     }
 
     private func recycle(_ manna: Manna, at gridlet: Gridlet) {
-        MannaCoordinator.lockQueue.async { self.recycle_(manna, at: gridlet) }
-    }
+        manna.sprite.userData!["recycler"] =
+            MannaCoordinator.MannaRecycler(manna, gridlet, self)
 
-    private func recycle_(_ manna: Manna, at gridlet: Gridlet) {
-        let recycleAction = MannaCoordinator.getRecycleAction(
-            for: manna, at: gridlet
-        )
-
-        manna.sprite.run(recycleAction)
+        ((manna.sprite.userData!["recycler"])! as?
+            MannaCoordinator.MannaRecycler)!.go()
     }
 }
 
 extension MannaCoordinator {
-    private func plant(_ manna: Manna) { setPosition_(manna) }
-
-    private func setPosition_(_ manna: Manna) {
+    private func plant(_ manna: Manna) {
         Grid.lock({ () -> [Gridlet]? in
             let gridlet = Gridlet.getRandomGridlet_()
+//            print("pl1")
             MannaCoordinator.plantSingleManna(manna, at: gridlet![0])
             return nil
         }, {
-            _ in self.finishPlanting(manna)
+            _ in
+//            print("pl2")
+            self.finishPlanting(manna)
         }, .concurrent)
     }
 
     private func finishPlanting(_ manna: Manna) {
+//        print("finishPlanting_")
+        manna.sprite.alpha = 0
         manna.sprite.setScale(0.1)
         manna.sprite.color = .orange
         manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
-        manna.sprite.run(MannaCoordinator.colorAction)
 
-        cMorsels += 1
+        let run = SKAction.run {}// print("in fp action") }
 
-        MannaCoordinator.lockQueue.async(execute: populate)
+        let sequence = SKAction.sequence([
+            run,
+            MannaCoordinator.MannaRecycler.fadeInAction
+        ])
+
+        manna.sprite.run(sequence) {
+//            print("sprite.run")
+            self.cMorsels += 1
+            MannaCoordinator.lockQueue.async(execute: self.populate)
+
+            manna.sprite.run(
+                MannaCoordinator.MannaRecycler.colorAction
+            )
+        }
     }
 
-    static private func plantSingleManna(
+    static func plantSingleManna(
         _ manna: Manna, at gridlet: Gridlet
     ) {
         gridlet.contents = .manna
@@ -117,29 +135,4 @@ extension MannaCoordinator {
 }
 
 extension MannaCoordinator {
-    private static let colorAction = SKAction.colorize(
-        with: .orange, colorBlendFactor: 1.0,
-        duration: Manna.fullGrowthDurationSeconds
-    )
-
-    private static func getWaitAction(_ rebloomDelay: TimeInterval) -> SKAction {
-        return SKAction.wait(forDuration: rebloomDelay)
-    }
-
-    private static func getRecycleAction(
-        for manna: Manna, at gridlet: Gridlet
-    ) -> SKAction {
-        let fadeOut = SKAction.fadeOut(withDuration: 0.001)
-        let wait = MannaCoordinator.getWaitAction(manna.rebloomDelay)
-        let death = SKAction.sequence([fadeOut, wait])
-
-        let replant = SKAction.run {
-            plantSingleManna(manna, at: gridlet)
-        }
-
-        let fadeIn = SKAction.fadeIn(withDuration: 0.001)
-        let rebirth = SKAction.sequence([fadeIn, colorAction])
-
-        return SKAction.sequence([death, replant, rebirth])
-    }
 }

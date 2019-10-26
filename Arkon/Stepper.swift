@@ -67,7 +67,10 @@ extension Stepper {
         let spawnCost = getSpawnCost()
         metabolism.withdrawFromSpawn(spawnCost)
 
-        arkonFactory = ArkonFactory(self)
+        func goParent(_ stepper: Stepper) { stepper.metabolize() }
+        func goOffspring(_ stepper: Stepper) { stepper.funge() }
+
+        arkonFactory = ArkonFactory(self, goParent: goParent, goOffspring: goOffspring)
         arkonFactory!.buildNewArkon()
     }
 }

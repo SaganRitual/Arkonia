@@ -119,6 +119,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         let cProgenitors = 25
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
+//            print("sp")
             ArkonFactory(nil).spawnProgenitor()
 //            let af = ArkonFactory(nil)
 //
