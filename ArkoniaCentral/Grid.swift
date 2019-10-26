@@ -56,9 +56,9 @@ class Grid {
             color: .gray
         )
 
-        print("C", line.name!)
+//        print("C", line.name!)
         portal.addChild(line)
-        print("D")
+//        print("D")
     }
 
     static let lockQueue = DispatchQueue(

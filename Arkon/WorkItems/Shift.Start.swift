@@ -2,9 +2,16 @@ import Foundation
 
 extension Stepper {
     func shiftStart() {
-//        print("shiftStart \(name)")
-        shifter = Shifter(stepper: self)
-        shifter!.start(gridlet)
+        World.lock( { [unowned self] () -> [Void]? in
+//            print("shiftStart \(self.name)")
+            self.shifter = Shifter(stepper: self)
+            return nil
+        }, { ([Void]?) -> Void in
+//            print("shifter.start")
+            self.shifter!.start(self.gridlet)
+        },
+            .concurrent
+        )
     }
 }
 
@@ -31,7 +38,9 @@ extension Shifter {
             return nil
 
         }, { [unowned self] (_ nothing: [Void]?) -> Void in
+//            print("csin")
             self.stepper.calculateShift()
+//            print("csout")
         },
            .concurrent
         )

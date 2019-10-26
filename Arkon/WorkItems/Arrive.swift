@@ -69,11 +69,7 @@ extension Stepper {
 
     private func settleCombat_(_ victor: Stepper, _ victim: Stepper) {
         victor.parasitize(victim)
-
-        if !victim.isApoptosizing {
-            victim.isApoptosizing = true
-            victim.apoptosize()
-        }
+        victim.apoptosize()
     }
 }
 

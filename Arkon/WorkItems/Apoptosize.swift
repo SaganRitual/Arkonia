@@ -2,20 +2,14 @@ import SpriteKit
 
 extension Stepper {
     func apoptosize() {
-        if isApoptosizing {
-            print("already apop 1")
-            return
-        }
-
-        isApoptosizing = true
-
         let action = SKAction.run { [weak self] in
-            guard let myself = self else {
-                print("already apop 2")
+            if (self?.isApoptosizing ?? true) {
+                print("already apop 1")
                 return
             }
 
-            myself.apoptosize_()
+            self?.isApoptosizing = true
+            self?.apoptosize_()
         }
 
         sprite.run(action)

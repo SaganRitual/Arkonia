@@ -34,9 +34,10 @@ struct Census {
         }
 
         func partB(_ worldStats_: World.StatsCopy) {
-            worldStats = worldStats_
-
-            let action = SKAction.run { partC(worldStats.currentTime) }
+            let action = SKAction.run {
+                worldStats = worldStats_
+                partC(worldStats.currentTime)
+            }
 
             GriddleScene.arkonsPortal.run(action) {
                 if liveArkonsAges.isEmpty { partE() } else { partD() }

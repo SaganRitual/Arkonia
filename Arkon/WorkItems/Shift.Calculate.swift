@@ -19,7 +19,9 @@ extension Shifter {
 
         func next(_ targetOffsets: [AKPoint]?) {
             guard let targetOffset = targetOffsets?[0] else { fatalError() }
+//            print("ssin")
             stepper.shiftShift(targetOffset)
+//            print("ssout")
         }
 
         Grid.lock(workItem, next, .concurrent)

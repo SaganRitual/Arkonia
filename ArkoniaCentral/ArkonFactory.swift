@@ -135,9 +135,10 @@ extension ArkonFactory {
         }
 
         if let p = self.goParent {
-            print("p goParent")
+//            print("p goParent")
             World.run { p(self.newStepper.parentStepper!) }
         } else {
+//            print("nsss")
             newStepper.shiftStart()
         }
 
