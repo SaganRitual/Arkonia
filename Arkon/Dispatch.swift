@@ -51,13 +51,26 @@ extension Dispatch {
 
     }
 
+    func arrive() {
+        currentTask = Arrive(self)
+        startTask(currentTask)
+    }
+
     func colorize() {
         currentTask = Colorize(self)
         startTask(currentTask)
     }
 
-    func shiftStart() {
+    func shiftCalculateShift() {
+        startTask(currentTask)
+    }
+
+    func shiftSetupGrid() {
         currentTask = Shift(self)
+        startTask(currentTask)
+    }
+
+    func shifShift() {
         startTask(currentTask)
     }
 

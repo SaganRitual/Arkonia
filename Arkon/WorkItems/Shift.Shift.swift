@@ -1,14 +1,5 @@
 import SpriteKit
 
-extension Stepper {
-
-    func shiftShift(_ targetOffset: AKPoint) {
-//        print("shiftShift \(name)")
-        guard let sh = shifter else { fatalError() }
-        sh.shift(targetOffset)
-    }
-}
-
 extension Shift {
     func shift(_ targetOffset: AKPoint) {
         func execute() -> [Gridlet]? { teardown_(targetOffset); return nil }

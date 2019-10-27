@@ -1,43 +1,18 @@
 import SpriteKit
 
-extension Stepper {
-
-    func calculateShift(_ nothing: [Void]? = nil) {
-//        print("shiftCalculate \(name)")
-        guard let sh = shifter else { fatalError() }
-        sh.calculateShift()
-    }
-}
-
 extension Shift {
 
-    func calculateShift() {
-        func workItem() -> [AKPoint]? {
-            let targetOffset = calculateShift_()
-            return [targetOffset]
-        }
-
-        func next(_ targetOffsets: [AKPoint]?) {
-            guard let targetOffset = targetOffsets?[0] else { fatalError() }
-//            print("ssin")
-            stepper.shiftShift(targetOffset)
-//            print("ssout")
-        }
-
-        Grid.lock(workItem, next, .concurrent)
-    }
-
-    private func calculateShift_() -> AKPoint {
+    private func calculateShift() -> AKPoint {
+        assert(runningAsBarrier == true)
         let senseData = loadSenseData()
         let shiftTarget = selectMoveTarget(senseData: senseData)
 
-//        print("z \(shiftTarget) \(stepper.name)")
-
-        releaseGridPoints_(keep: shiftTarget)
+        releaseGridPoints(keep: shiftTarget)
         return shiftTarget
     }
 
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
+        assert(runningAsBarrier == false)
         return senseData.enumerated().reduce([:]) { accumulated, pw in
             let (position, weight) = pw
             var t = accumulated
@@ -47,6 +22,8 @@ extension Shift {
     }
 
     private func loadSenseData() -> [Double] {
+        assert(runningAsBarrier == true)
+
         var (hackyRearrangedInputs, nutritionses) =
             self.sensoryInputs.reduce(into: ([Double](), [Double]()))
         {
@@ -71,18 +48,14 @@ extension Shift {
     }
 
     private func releaseGridPoints(keep: AKPoint? = nil) {
-        func workItem() -> [Void]? { releaseGridPoints_(keep: keep); return  nil}
-        Grid.lock(workItem)
-    }
+        assert(runningAsBarrier == true)
 
-    private func releaseGridPoints_(keep: AKPoint? = nil) {
         let whereIAmNow = stepper.gridlet!
 
         for gridOffset in usableGridOffsets {
 
             if keep == nil || keep! != gridOffset {
                 let targetGridlet =  Gridlet.at(whereIAmNow.gridPosition + gridOffset)
-//                print("rgpdel \(targetGridlet.gridPosition) \(stepper.name)")
                 targetGridlet.gridletIsEngaged = false
             }
         }
@@ -91,11 +64,10 @@ extension Shift {
     }
 
     private func selectMoveTarget(senseData: [Double]) -> AKPoint {
+        assert(runningAsBarrier == true)
 
         let motorOutputs: [Double] = stepper.net.getMotorOutputs(senseData)
         let dMotorOutputs: [Int: Double] = self.getMotorDataAsDictionary(motorOutputs)
-
-//        print("dm", dMotorOutputs)
 
         let order: [(Int, Double)] = dMotorOutputs.sorted { lhs, rhs in
             Double(lhs.1) > Double(rhs.1)

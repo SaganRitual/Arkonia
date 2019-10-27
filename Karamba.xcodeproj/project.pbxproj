@@ -40,7 +40,7 @@
 		D495F0CF233FAB01007D6E86 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495F0CE233FAB01007D6E86 /* Mutator.swift */; };
 		D499AC09236406F80001BC21 /* MannaRecycler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D499AC08236406F80001BC21 /* MannaRecycler.swift */; };
 		D499AC122364616E0001BC21 /* Metabolism.Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D499AC112364616E0001BC21 /* Metabolism.Lock.swift */; };
-		D4A4F4522353CF7B000EC009 /* Shift.Calculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4F4512353CF7B000EC009 /* Shift.Calculate.swift */; };
+		D4A4F4522353CF7B000EC009 /* Shift.CalculateShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4F4512353CF7B000EC009 /* Shift.CalculateShift.swift */; };
 		D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4F45C23551F41000EC009 /* Parasitize.swift */; };
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
 		D4B4295322DAF1CD0036C904 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293C22DAEC7E0036C904 /* Report.swift */; };
@@ -49,7 +49,7 @@
 		D4BB6E79234EE22000529819 /* ArkonFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E78234EE22000529819 /* ArkonFactory.swift */; };
 		D4BB6E7B234EF62800529819 /* Metabolize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E7A234EF62800529819 /* Metabolize.swift */; };
 		D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E7C234EF71800529819 /* Colorize.swift */; };
-		D4BB6E81234EFCD400529819 /* Shift.Start.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E80234EFCD400529819 /* Shift.Start.swift */; };
+		D4BB6E81234EFCD400529819 /* Shift.SetupGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E80234EFCD400529819 /* Shift.SetupGrid.swift */; };
 		D4BB6E83234F580900529819 /* Shift.Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E82234F580900529819 /* Shift.Shift.swift */; };
 		D4BB6E862350027900529819 /* Arrive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E852350027900529819 /* Arrive.swift */; };
 		D4C67D93234D889D0030358D /* Gridlet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C67D92234D889D0030358D /* Gridlet.swift */; };
@@ -143,7 +143,7 @@
 		D499AC112364616E0001BC21 /* Metabolism.Lock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metabolism.Lock.swift; sourceTree = "<group>"; };
 		D4A12BE922EA58E900C15F59 /* Stepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
 		D4A216BA22C1988B00D92A1E /* BellCurve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BellCurve.swift; sourceTree = "<group>"; };
-		D4A4F4512353CF7B000EC009 /* Shift.Calculate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.Calculate.swift; sourceTree = "<group>"; };
+		D4A4F4512353CF7B000EC009 /* Shift.CalculateShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.CalculateShift.swift; sourceTree = "<group>"; };
 		D4A4F45C23551F41000EC009 /* Parasitize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parasitize.swift; sourceTree = "<group>"; };
 		D4B4293C22DAEC7E0036C904 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
@@ -154,7 +154,7 @@
 		D4BB6E78234EE22000529819 /* ArkonFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonFactory.swift; sourceTree = "<group>"; };
 		D4BB6E7A234EF62800529819 /* Metabolize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metabolize.swift; sourceTree = "<group>"; };
 		D4BB6E7C234EF71800529819 /* Colorize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colorize.swift; sourceTree = "<group>"; };
-		D4BB6E80234EFCD400529819 /* Shift.Start.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.Start.swift; sourceTree = "<group>"; };
+		D4BB6E80234EFCD400529819 /* Shift.SetupGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.SetupGrid.swift; sourceTree = "<group>"; };
 		D4BB6E82234F580900529819 /* Shift.Shift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.Shift.swift; sourceTree = "<group>"; };
 		D4BB6E852350027900529819 /* Arrive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arrive.swift; sourceTree = "<group>"; };
 		D4C67D92234D889D0030358D /* Gridlet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gridlet.swift; sourceTree = "<group>"; };
@@ -290,9 +290,9 @@
 				D4BB6E72234E549C00529819 /* Funge.swift */,
 				D4BB6E7A234EF62800529819 /* Metabolize.swift */,
 				D4A4F45C23551F41000EC009 /* Parasitize.swift */,
-				D4A4F4512353CF7B000EC009 /* Shift.Calculate.swift */,
+				D4A4F4512353CF7B000EC009 /* Shift.CalculateShift.swift */,
 				D4BB6E82234F580900529819 /* Shift.Shift.swift */,
-				D4BB6E80234EFCD400529819 /* Shift.Start.swift */,
+				D4BB6E80234EFCD400529819 /* Shift.SetupGrid.swift */,
 			);
 			path = WorkItems;
 			sourceTree = "<group>";
@@ -480,10 +480,10 @@
 				D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */,
 				D495F0CF233FAB01007D6E86 /* Mutator.swift in Sources */,
 				D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */,
-				D4BB6E81234EFCD400529819 /* Shift.Start.swift in Sources */,
+				D4BB6E81234EFCD400529819 /* Shift.SetupGrid.swift in Sources */,
 				D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */,
-				D4A4F4522353CF7B000EC009 /* Shift.Calculate.swift in Sources */,
+				D4A4F4522353CF7B000EC009 /* Shift.CalculateShift.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
 				D4BB6E83234F580900529819 /* Shift.Shift.swift in Sources */,
 				D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */,

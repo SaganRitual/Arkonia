@@ -1,8 +1,12 @@
 import Foundation
 
-class Shift {
+final class Shift: Dispatchable {
+
+    enum Phase { case configureGrid, calculateShift, shift }
+
     weak var dispatch: Dispatch!
     var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    var phase: Phase = .configureGrid
     var sensoryInputs = [(Double, Double)]()
     var stepper: Stepper { return dispatch.stepper }
     var usableGridOffsets = [AKPoint]()
@@ -20,11 +24,30 @@ class Shift {
 extension Shift {
     func aShift() {
         assert(dispatch.runningAsBarrier == true)
-        setupGrid()
-        dispatch.calculateShift()
+
+        switch phase {
+        case .configureGrid:
+            setupGrid()
+
+            phase = .calculateShift
+            dispatch.shiftCalculateShift()
+
+        case .calculateShift:
+            calculateShift()
+
+            phase = .shift
+            dispatch.shiftShift()
+            break
+
+        case .shift:
+            shift()
+            dispatch.arrive()
+            break
+        }
     }
 
     func setupGrid() {
+        assert(runningAsBarrier == true)
         reserveGridPoints()
         loadGridInputs()
     }

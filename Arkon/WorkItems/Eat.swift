@@ -1,43 +1,26 @@
 import GameplayKit
 
-typealias LockStepper = Sync.Lockable<Stepper>
+final class Eat: Dispatchable {
+    weak var dispatch: Dispatch!
+    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    var stepper: Stepper { return dispatch.stepper }
 
-extension Stepper {
-    func arrive(_ targetOffset: AKPoint) {
-        func workItem() -> [Void]? {
-//            print("arrive start \(name)")
-            arrive_(targetOffset); return nil }
-        func onComplete(_ nothing: [Void]?) {
-//            print("arrive complete -- funge \(name)")
-            funge()
-        }
-
-        Grid.lock(workItem, onComplete, .concurrent)
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
     }
 
-    private func arrive_(_ targetOffset: AKPoint) {
-//        print("arrive_")
-        defer { updateGridletContents_() }
+    func go() {
+        dispatch.go({ self.aArrive() })
+    }
+}
 
-        getStartStopGridlets_(targetOffset)
-
+extension Eat {
+    func aArrive() {
         if (newGridlet?.contents ?? .nothing) == .nothing {
             return
         }
 
         touchFood_()
-    }
-
-    private func getStartStopGridlets_(_ targetOffset: AKPoint) {
-        gridlet.sprite = nil
-        gridlet.contents = .nothing
-        gridlet.gridletIsEngaged = false
-        oldGridlet = gridlet
-
-//        print("gssg \(gridlet.gridPosition) \(name)")
-
-        let newGridPosition = gridlet.gridPosition + targetOffset
-        newGridlet = Gridlet.at(newGridPosition)
     }
 }
 
@@ -89,16 +72,5 @@ extension Stepper {
         case .manna:   battleManna_(victimGridlet)
         default: fatalError()
         }
-    }
-
-    private func updateGridletContents_() {
-        guard let ng = newGridlet else { fatalError() }
-
-        ng.contents = .arkon
-        ng.sprite = sprite
-        gridlet = ng
-
-        newGridlet = nil
-        oldGridlet = nil
     }
 }
