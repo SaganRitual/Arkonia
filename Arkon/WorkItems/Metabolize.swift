@@ -1,22 +1,31 @@
 import GameplayKit
 
-extension Stepper {
-    func metabolize() {
-        World.run { [weak self] in
-            guard let myself = self else {
-                print("bail from Stepper.metabolize")
-                return
-            }
+final class Metabolize: Dispatchable {
+    weak var dispatch: Dispatch!
+    var runningAsBarrier = false
+    var stats: World.StatsCopy!
+    var stepper: Stepper { return dispatch.stepper }
 
-//            print("metabolize \(self.name)")
-            myself.metabolism.metabolize_()
-            myself.colorize()
-        }
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
+    }
+
+    func go() {
+        dispatch.go({ self.aMetabolize() }, runAsBarrier: false)
+    }
+
+}
+
+extension Metabolize {
+    func aMetabolize() {
+        assert(runningAsBarrier == false)
+        dispatch.stepper.metabolism.metabolizeProper()
+        dispatch.colorize()
     }
 }
 
 extension Metabolism {
-    fileprivate func metabolize_() {
+    fileprivate func metabolizeProper() {
         let internalTransferRate: CGFloat = CGFloat(Double.infinity)
 
         defer { updatePhysicsBodyMass() }

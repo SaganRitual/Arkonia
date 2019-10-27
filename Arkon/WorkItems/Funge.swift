@@ -1,51 +1,11 @@
 import CoreGraphics
 import Foundation
 
-extension Stepper {
-    func funge() {
-//        print("funge \(name)")
-        World.stats.getTimeSince(birthday, relay)
-    }
-
-    func relay(_ age: Int) {
-//        print("relay_ \(name)")
-        metabolism.funge(self, age: age)
-    }
-}
-
 extension Metabolism {
+    func fungeProper(age: Int, mass: CGFloat) -> Bool {
 
-    func funge(_ parentStepper: Stepper?, age: Int) {
-
-        World.lock({ () -> [Bool]? in
-
-            let isAlive = self.funge_(age: age)
-            return [isAlive]
-
-        }, { (_ isAlives: [Bool]?) in
-
-            guard let isAlive = isAlives?[0] else { fatalError() }
-            guard let ps = parentStepper else { fatalError() }
-
-            if !isAlive {
-//                print("dead? \(parentStepper!.name)")
-                ps.apoptosize(); return }
-
-            if !ps.canSpawn() {
-//                print("can't spawn \(parentStepper!.name)")
-                ps.metabolize(); return }
-
-//            print("spawning from \(parentStepper!.name)")
-            ps.spawnCommoner()
-        },
-           .concurrent
-        )
-    }
-
-    private func funge_(age: Int) -> Bool {
-//        print("funge_")
         let fudgeFactor: CGFloat = 1
-        let joulesNeeded = fudgeFactor * mass_
+        let joulesNeeded = fudgeFactor * mass
 
         withdrawFromReady(joulesNeeded)
 
@@ -53,5 +13,43 @@ extension Metabolism {
         oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0
+    }
+}
+
+final class Funge: Dispatchable {
+    weak var dispatch: Dispatch!
+    var stats: World.StatsCopy!
+    var stepper: Stepper { return dispatch.stepper }
+
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
+    }
+
+    func go() { aFunge() }
+}
+
+extension Funge {
+
+    func aFunge() {
+        assert(dispatch.runningAsBarrier)
+
+        stats = World.stats.copy()
+
+        let age = stats.currentTime - self.stepper.birthday
+        let mass = stepper.metabolism.mass
+        let isAlive = stepper.metabolism.fungeProper(age: age, mass: mass)
+        let canSpawn = stepper.canSpawn()
+
+        dispatch.go({ self.bFunge(isAlive, canSpawn) }, runAsBarrier: false)
+    }
+
+    func bFunge(_ isAlive: Bool, _ canSpawn: Bool) {
+        assert(!dispatch.runningAsBarrier)
+
+        if !isAlive { dispatch.apoptosize(); return }
+
+        if !canSpawn { dispatch.metabolize() ; return }
+
+        dispatch.spawnCommoner()
     }
 }

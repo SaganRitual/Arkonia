@@ -98,7 +98,7 @@ class Metabolism {
     let reUnderflowThreshold: CGFloat
 
     var massLock: Metabolism.Lock!
-    var mass_: CGFloat = 0
+    var mass: CGFloat = 0
     var oxygenLevel: CGFloat = 1.0
 
     var bone = EnergyReserve(.bone)
@@ -200,7 +200,7 @@ class Metabolism {
     }
 
     func updatePhysicsBodyMass() {
-        self.mass_ = CGFloat(self.allReserves.reduce(0) { subtotal, reserves in
+        self.mass = CGFloat(self.allReserves.reduce(0) { subtotal, reserves in
             return subtotal + Int((reserves.level / reserves.energyDensity))
         }) / 1000 //+ (muscles?.mass ?? 0)
 

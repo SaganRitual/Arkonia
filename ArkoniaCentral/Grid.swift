@@ -67,13 +67,13 @@ class Grid {
     )
 
     static func lock<T>(
-        _ execute: Dispatch.Lockable<T>.LockExecute? = nil,
-        _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
-        _ completionMode: Dispatch.CompletionMode = .concurrent
+        _ execute: Sync.Lockable<T>.LockExecute? = nil,
+        _ userOnComplete: Sync.Lockable<T>.LockOnComplete? = nil,
+        _ completionMode: Sync.CompletionMode = .concurrent
     ) {
         func debugEx() -> [T]? { print("Grid.barrier"); return execute?() }
         func debugOc(_ args: [T]?) { print("Grid.concurrent"); userOnComplete?(args) }
-        Dispatch.Lockable<T>(lockQueue).lock(
+        Sync.Lockable<T>(lockQueue).lock(
             execute, userOnComplete, completionMode
         )
     }

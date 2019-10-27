@@ -24,7 +24,7 @@ class Stepper {
     weak var parentStepper: Stepper?
     var parentWeights: [Double]?
     var previousShift = AKPoint.zero
-    var shifter: Shifter?
+    var shifter: Shift?
     var sprite: SKSpriteNode!
 
     init(_ parentStepper: Stepper? = nil) {

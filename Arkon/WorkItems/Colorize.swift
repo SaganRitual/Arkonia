@@ -1,39 +1,41 @@
 import GameplayKit
 
-struct Catchall {
-    static let lockQueue = DispatchQueue(
-        label: "arkonia.lock.catchall", qos: .default,
-        attributes: DispatchQueue.Attributes.concurrent,
-        target: DispatchQueue.global()
-    )
+final class Colorize: Dispatchable {
+    weak var dispatch: Dispatch!
+    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    var stats: World.StatsCopy!
+    var stepper: Stepper { return dispatch.stepper }
 
-    static func lock<T>(
-        _ execute: Dispatch.Lockable<T>.LockExecute? = nil,
-        _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
-        _ completionMode: Dispatch.CompletionMode = .concurrent
-    ) {
-        func debugEx() -> [T]? { print("Catchall.barrier"); return execute?() }
-        func debugOc(_ args: [T]?) { print("Catchall.concurrent"); userOnComplete?(args) }
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
+    }
 
-        Dispatch.Lockable<T>(lockQueue).lock(
-            debugEx, debugOc, completionMode
-        )
+    func go() {
+        dispatch.go({ self.aColorize() }, runAsBarrier: true)
+    }
+
+}
+
+extension Colorize {
+    func aColorize() {
+        assert(runningAsBarrier == true)
+
+        stats = World.stats.copy()
+
+        let age = stats.currentTime - stepper.birthday
+        dispatch.stepper.colorizeProper(dispatch, age)
+        dispatch.shiftStart()
     }
 }
 
 extension Stepper {
 
-    func colorize() {
-//        print("colorize \(name)")
-        World.stats.getTimeSince(birthday, colorize_)
-    }
-
-    func colorize_(_ myAge_: Int) {
+    func colorizeProper(_ dispatch: Dispatch, _ myAge: Int) {
         let ef = metabolism.fungibleEnergyFullness
         nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 
         let baseColor: Int
-        if fishNumber < 10 {
+        if fishNumber > 0 {
             baseColor = 0xFF_00_00
         } else {
             baseColor = (metabolism.spawnEnergyFullness > 0) ?
@@ -41,15 +43,12 @@ extension Stepper {
         }
 
         let four: CGFloat = 4
-        let myAge = CGFloat(myAge_)
         self.sprite.color = ColorGradient.makeColorMixRedBlue(
             baseColor: baseColor,
             redPercentage: metabolism.spawnEnergyFullness,
-            bluePercentage: max((four - myAge) / four, 0.0)
+            bluePercentage: max((four - CGFloat(myAge)) / four, 0.0)
         )
 
         self.sprite.colorBlendFactor = metabolism.oxygenLevel
-
-        World.run(shiftStart)
     }
 }

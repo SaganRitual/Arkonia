@@ -66,7 +66,7 @@ extension Gridlet {
         return [rg!]
     }
 
-    typealias LockOnComplete = Dispatch.Lockable<Gridlet>.LockOnComplete
+    typealias LockOnComplete = Sync.Lockable<Gridlet>.LockOnComplete
 
     static func getRandomGridlet(onComplete: LockOnComplete? = nil) {
         Grid.lock(getRandomGridlet_, onComplete, .concurrent)

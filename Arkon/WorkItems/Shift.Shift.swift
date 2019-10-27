@@ -9,7 +9,7 @@ extension Stepper {
     }
 }
 
-extension Shifter {
+extension Shift {
     func shift(_ targetOffset: AKPoint) {
         func execute() -> [Gridlet]? { teardown_(targetOffset); return nil }
 

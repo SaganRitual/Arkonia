@@ -1,6 +1,6 @@
 import GameplayKit
 
-typealias LockStepper = Dispatch.Lockable<Stepper>
+typealias LockStepper = Sync.Lockable<Stepper>
 
 extension Stepper {
     func arrive(_ targetOffset: AKPoint) {

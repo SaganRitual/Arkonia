@@ -1,6 +1,6 @@
 import Dispatch
 
-enum Dispatch {
+enum Sync {
     enum CompletionMode { case continueBarrier, concurrent }
 
     class Lockable<T> {
@@ -44,7 +44,7 @@ enum Dispatch {
     }
 }
 
-extension Dispatch.Lockable {
+extension Sync.Lockable {
     typealias LockExecute = () -> [T]?
     typealias LockOnComplete = ([T]?) -> Void
 }

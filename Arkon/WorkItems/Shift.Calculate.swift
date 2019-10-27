@@ -9,7 +9,7 @@ extension Stepper {
     }
 }
 
-extension Shifter {
+extension Shift {
 
     func calculateShift() {
         func workItem() -> [AKPoint]? {

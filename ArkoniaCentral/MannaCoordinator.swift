@@ -14,14 +14,14 @@ class MannaCoordinator {
     )
 
     static func lock<T>(
-        _ execute: Dispatch.Lockable<T>.LockExecute? = nil,
-        _ userOnComplete: Dispatch.Lockable<T>.LockOnComplete? = nil,
-        _ completionMode: Dispatch.CompletionMode = .concurrent
+        _ execute: Sync.Lockable<T>.LockExecute? = nil,
+        _ userOnComplete: Sync.Lockable<T>.LockOnComplete? = nil,
+        _ completionMode: Sync.CompletionMode = .concurrent
     ) {
         func debugEx() -> [T]? { print("Manna.barrier"); return execute?() }
         func debugOc(_ args: [T]?) { print("Manna.concurrent"); userOnComplete?(args) }
 
-        Dispatch.Lockable<T>(lockQueue).lock(
+        Sync.Lockable<T>(lockQueue).lock(
             debugEx, debugOc, completionMode
         )
     }
