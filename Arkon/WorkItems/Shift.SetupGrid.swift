@@ -5,9 +5,12 @@ final class Shift: Dispatchable {
     enum Phase { case configureGrid, calculateShift, shift }
 
     weak var dispatch: Dispatch!
-    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    weak var newGridlet: Gridlet?
+    weak var oldGridlet: Gridlet?
     var phase: Phase = .configureGrid
+    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
     var sensoryInputs = [(Double, Double)]()
+    var shiftTarget: AKPoint?
     var stepper: Stepper { return dispatch.stepper }
     var usableGridOffsets = [AKPoint]()
 
@@ -16,7 +19,7 @@ final class Shift: Dispatchable {
     }
 
     func go() {
-        dispatch.go({ self.aShift() }, runAsBarrier: true)
+        dispatch.go({ self.aShift() })
     }
 
 }
@@ -41,7 +44,6 @@ extension Shift {
 
         case .shift:
             shift()
-            dispatch.arrive()
             break
         }
     }

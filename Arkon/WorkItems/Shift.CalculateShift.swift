@@ -2,13 +2,12 @@ import SpriteKit
 
 extension Shift {
 
-    private func calculateShift() -> AKPoint {
+    private func calculateShift() {
         assert(runningAsBarrier == true)
         let senseData = loadSenseData()
-        let shiftTarget = selectMoveTarget(senseData: senseData)
+        self.shiftTarget = selectMoveTarget(senseData: senseData)
 
-        releaseGridPoints(keep: shiftTarget)
-        return shiftTarget
+        releaseGridPoints()
     }
 
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
@@ -47,14 +46,16 @@ extension Shift {
         return hackyRearrangedInputs
     }
 
-    private func releaseGridPoints(keep: AKPoint? = nil) {
+    private func releaseGridPoints() {
         assert(runningAsBarrier == true)
 
         let whereIAmNow = stepper.gridlet!
 
         for gridOffset in usableGridOffsets {
 
-            if keep == nil || keep! != gridOffset {
+            if self.shiftTarget == nil ||
+                self.shiftTarget! != gridOffset
+            {
                 let targetGridlet =  Gridlet.at(whereIAmNow.gridPosition + gridOffset)
                 targetGridlet.gridletIsEngaged = false
             }

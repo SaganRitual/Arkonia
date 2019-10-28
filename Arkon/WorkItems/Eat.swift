@@ -1,7 +1,13 @@
-import GameplayKit
+import SpriteKit
 
 final class Eat: Dispatchable {
+    enum Phase { case chooseEdible, settleCombat }
+
+    var combatOrder: (Stepper, Stepper)!
     weak var dispatch: Dispatch!
+    var gridlet: Gridlet!
+    var manna: Manna!
+    var phase = Phase.chooseEdible
     var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
     var stepper: Stepper { return dispatch.stepper }
 
@@ -10,67 +16,92 @@ final class Eat: Dispatchable {
     }
 
     func go() {
-        dispatch.go({ self.aArrive() })
+        dispatch.go({ self.aEat() })
+    }
+
+    func inject(_ gridlet: Gridlet) { self.gridlet = gridlet }
+
+    func inject(_ combatOrder: (Stepper, Stepper)) {
+        self.combatOrder = combatOrder
+        self.phase = .settleCombat
+    }
+
+    func inject(_ manna: Manna) {
+        self.manna = manna
+        self.phase = .settleCombat
     }
 }
 
 extension Eat {
-    func aArrive() {
-        if (newGridlet?.contents ?? .nothing) == .nothing {
-            return
-        }
+    private func aEat() {
+        switch phase {
+        case .chooseEdible:
 
-        touchFood_()
+            switch dispatch.stepper.gridlet.contents {
+            case .arkon: battleArkon()
+            case .manna: battleManna()
+            default: fatalError()
+            }
+
+        case .settleCombat:
+            switch dispatch.stepper.gridlet.contents {
+            case .arkon: settleCombat()
+            case .manna: eatManna()
+            break
+            }
+        }
     }
 }
 
-extension Stepper {
-    func battleArkon_(_ victimGridlet: Gridlet) {
+extension Eat {
+    func battleArkon() {
+        assert(dispatch.runningAsBarrier == true)
 
-        guard let otherSprite = victimGridlet.sprite,
+        guard let otherSprite = dispatch.stepper.sprite,
             let otherUserData = otherSprite.userData,
             let otherAny = otherUserData[SpriteUserDataKey.stepper],
             let otherStepper = otherAny as? Stepper
         else { fatalError() }
 
-        let order = (metabolism.mass_ > (otherStepper.metabolism.mass_ * 1.25)) ?
-                    (self, otherStepper) : (otherStepper, self)
+        let myMass = dispatch.stepper.metabolism.mass
+        let hisMass = otherStepper.metabolism.mass
+        self.combatOrder = (myMass > (hisMass * 1.25)) ?
+            (dispatch.stepper, otherStepper) : (otherStepper, dispatch.stepper)
 
-        settleCombat_(order.0, order.1)
+        dispatch.settleCombat()
     }
 
-    func battleManna_(_ victimGridlet: Gridlet) {
+    func getResult() -> (Stepper, Stepper) {
+        return combatOrder!
+    }
 
-        guard let otherSprite = victimGridlet.sprite,
+    func battleManna() {
+
+        guard let otherSprite = dispatch.stepper.sprite,
             let otherUserData = otherSprite.userData,
             let otherAny = otherUserData[SpriteUserDataKey.manna],
             let manna = otherAny as? Manna
         else { fatalError() }
 
-        eatManna(manna)
+        self.manna = manna
+        dispatch.defeatManna()
     }
 
-    private func settleCombat_(_ victor: Stepper, _ victim: Stepper) {
-        victor.parasitize(victim)
-        victim.apoptosize()
+    func getResult() -> Manna {
+        return manna
     }
 }
 
-extension Stepper {
-    private func eatManna(_ manna: Manna) {
-        let harvested = manna.harvest()
-        metabolism.absorbEnergy(harvested)
-        metabolism.inhale()
-        MannaCoordinator.shared.beEaten(manna.sprite)
+extension Eat {
+    private func eatManna() {
+        let harvested = self.manna.harvest()
+        stepper.metabolism.absorbEnergy(harvested)
+        stepper.metabolism.inhale()
+        MannaCoordinator.shared.beEaten(self.manna.sprite)
     }
 
-    private func touchFood_() {
-        guard let victimGridlet = newGridlet else { fatalError() }
-
-        switch victimGridlet.contents {
-        case .arkon:   battleArkon_(victimGridlet)
-        case .manna:   battleManna_(victimGridlet)
-        default: fatalError()
-        }
+    private func settleCombat(_ victor: Stepper, _ victim: Stepper) {
+        victor.parasitize(victim)
+        victim.apoptosize()
     }
 }

@@ -2,7 +2,7 @@ import GameplayKit
 
 final class Metabolize: Dispatchable {
     weak var dispatch: Dispatch!
-    var runningAsBarrier = false
+    var runningAsBarrier: Bool { return dispatch.runningAsBarriers}
     var stats: World.StatsCopy!
     var stepper: Stepper { return dispatch.stepper }
 

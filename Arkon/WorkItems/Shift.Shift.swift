@@ -1,38 +1,39 @@
 import SpriteKit
 
 extension Shift {
-    func shift(_ targetOffset: AKPoint) {
-        func execute() -> [Gridlet]? { teardown_(targetOffset); return nil }
+    func shift() {
+        guard let st = self.shiftTarget else { fatalError() }
+        oldGridlet = stepper.gridlet
+        newGridlet = Gridlet.at(oldGridlet!.gridPosition + st)
 
-//        print("goober")
-        Grid.lock(execute)
+        let moveAction =
+            SKAction.move(to: newGridlet!.scenePosition, duration: 0.1)
+
+        stepper.sprite.run(moveAction, completion: postShift)
+    }
+}
+
+extension Shift {
+    func getResult() -> Gridlet { return self.newGridlet! }
+
+    func postShift() {
+        defer { updateGridletContents() }
+
+        guard let ng = newGridlet else { fatalError() }
+        if ng.contents == .nothing { dispatch.funge(); return }
+
+        dispatch.eat()
     }
 
-    private func teardown_(_ targetOffset: AKPoint) {
-        func partA() {
-            let whereIAmNow = stepper.gridlet.gridPosition
-            let newGridlet = Gridlet.at(whereIAmNow + targetOffset)
+    private func updateGridletContents() {
+        guard let ng = newGridlet, let og = oldGridlet else { fatalError() }
+        og.sprite = nil
+        og.contents = .nothing
+        og.gridletIsEngaged = false
+        self.oldGridlet = nil
 
-//            print("stepper \(stepper.name) move from \(stepper.gridlet.gridPosition) to \(newGridlet.gridPosition)")
-
-            let moveAction = SKAction.move(to: newGridlet.scenePosition, duration: 0.1)
-            stepper.sprite.run(moveAction, completion: partB)
-        }
-
-        func partB() {
-//            print("move action, stepper arrive \(self.stepper.name)")
-            World.lock( { [unowned self] () -> [Stepper]? in
-                guard let stepper = self.stepper else { fatalError() }
-                stepper.shifter = nil
-                return [stepper]
-            }, { sts in
-                guard let stepper = sts?[0] else { fatalError() }
-                stepper.arrive(targetOffset)
-            },
-                .concurrent
-            )
-        }
-
-        partA()
+        ng.contents = .arkon
+        ng.sprite = stepper.sprite
+        self.newGridlet = nil
     }
 }

@@ -51,10 +51,10 @@
 		D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E7C234EF71800529819 /* Colorize.swift */; };
 		D4BB6E81234EFCD400529819 /* Shift.SetupGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E80234EFCD400529819 /* Shift.SetupGrid.swift */; };
 		D4BB6E83234F580900529819 /* Shift.Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E82234F580900529819 /* Shift.Shift.swift */; };
-		D4BB6E862350027900529819 /* Arrive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E852350027900529819 /* Arrive.swift */; };
 		D4C67D93234D889D0030358D /* Gridlet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C67D92234D889D0030358D /* Gridlet.swift */; };
 		D4D86F502363211A0082C31A /* World.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D86F4F2363211A0082C31A /* World.Stats.swift */; };
 		D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE9612365814F00F5DDFB /* Dispatch.swift */; };
+		D4FFE96623669EE400F5DDFB /* Eat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE96523669EE400F5DDFB /* Eat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -156,7 +156,6 @@
 		D4BB6E7C234EF71800529819 /* Colorize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colorize.swift; sourceTree = "<group>"; };
 		D4BB6E80234EFCD400529819 /* Shift.SetupGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.SetupGrid.swift; sourceTree = "<group>"; };
 		D4BB6E82234F580900529819 /* Shift.Shift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.Shift.swift; sourceTree = "<group>"; };
-		D4BB6E852350027900529819 /* Arrive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arrive.swift; sourceTree = "<group>"; };
 		D4C67D92234D889D0030358D /* Gridlet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gridlet.swift; sourceTree = "<group>"; };
 		D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaCentral.swift; sourceTree = "<group>"; };
 		D4D86F4F2363211A0082C31A /* World.Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.Stats.swift; sourceTree = "<group>"; };
@@ -167,6 +166,7 @@
 		D4EE561922BC96290076D8A1 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		D4F6460722A4253F00FD8C56 /* ColorGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
 		D4FFE9612365814F00F5DDFB /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
+		D4FFE96523669EE400F5DDFB /* Eat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Eat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,8 +285,8 @@
 			isa = PBXGroup;
 			children = (
 				D4BB6E76234EDCA500529819 /* Apoptosize.swift */,
-				D4BB6E852350027900529819 /* Arrive.swift */,
 				D4BB6E7C234EF71800529819 /* Colorize.swift */,
+				D4FFE96523669EE400F5DDFB /* Eat.swift */,
 				D4BB6E72234E549C00529819 /* Funge.swift */,
 				D4BB6E7A234EF62800529819 /* Metabolize.swift */,
 				D4A4F45C23551F41000EC009 /* Parasitize.swift */,
@@ -468,7 +468,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D422DE0223578CFD003734B8 /* MannaCoordinator.swift in Sources */,
-				D4BB6E862350027900529819 /* Arrive.swift in Sources */,
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
 				D4BB6E79234EE22000529819 /* ArkonFactory.swift in Sources */,
@@ -498,6 +497,7 @@
 				D499AC09236406F80001BC21 /* MannaRecycler.swift in Sources */,
 				D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */,
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
+				D4FFE96623669EE400F5DDFB /* Eat.swift in Sources */,
 				D464BA4E22C737260069623C /* BellCurve.swift in Sources */,
 				D499AC122364616E0001BC21 /* Metabolism.Lock.swift in Sources */,
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,

@@ -4,7 +4,14 @@ typealias GoCall = () -> Void
 
 protocol Dispatchable {
     init(_ dispatch: Dispatch)
+    func getResult() -> Any?
     func go()
+    func inject(_ any: Any?)
+}
+
+extension Dispatchable {
+    func getResult() -> Any? { return nil }
+    func inject(_ any: Any? = nil) { }
 }
 
 enum DispatchMode: UInt {
@@ -51,13 +58,43 @@ extension Dispatch {
 
     }
 
-    func arrive() {
-        currentTask = Arrive(self)
+    func colorize() {
+        currentTask = Colorize(self)
         startTask(currentTask)
     }
 
-    func colorize() {
-        currentTask = Colorize(self)
+    func defeatManna() {
+        guard let activeEat = currentTask as? Eat else { fatalError() }
+        let manna: Manna = activeEat.getResult()
+
+        currentTask.inject(manna)
+        startTask(currentTask)
+    }
+
+    func eat() {
+        guard let spentShift = currentTask as? Shift else { fatalError() }
+        let gridlet = spentShift.getResult()
+
+        currentTask = Eat(self)
+        currentTask.inject(gridlet)
+        startTask(currentTask)
+    }
+
+    func funge() {
+        currentTask = Funge(self)
+        startTask(currentTask)
+    }
+
+    func metabolize() {
+        currentTask = Metabolize(self)
+        startTask(currentTask)
+    }
+
+    func settleCombat() {
+        guard let activeEat = currentTask as? Eat else { fatalError() }
+        let combatOrder: (Stepper, Stepper) = activeEat.getResult()
+
+        currentTask.inject(combatOrder)
         startTask(currentTask)
     }
 
@@ -71,16 +108,6 @@ extension Dispatch {
     }
 
     func shifShift() {
-        startTask(currentTask)
-    }
-
-    func funge() {
-        currentTask = Funge(self)
-        startTask(currentTask)
-    }
-
-    func metabolize() {
-        currentTask = Metabolize(self)
         startTask(currentTask)
     }
 }
