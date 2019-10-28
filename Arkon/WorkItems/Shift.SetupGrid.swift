@@ -36,15 +36,13 @@ extension Shift {
             dispatch.shiftCalculateShift()
 
         case .calculateShift:
-            calculateShift()
+            dispatch.shiftCalculateShift()
 
             phase = .shift
             dispatch.shiftShift()
-            break
 
         case .shift:
             shift()
-            break
         }
     }
 

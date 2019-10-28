@@ -55,6 +55,8 @@
 		D4D86F502363211A0082C31A /* World.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D86F4F2363211A0082C31A /* World.Stats.swift */; };
 		D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE9612365814F00F5DDFB /* Dispatch.swift */; };
 		D4FFE96623669EE400F5DDFB /* Eat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE96523669EE400F5DDFB /* Eat.swift */; };
+		D4FFE9682366C19E00F5DDFB /* Spawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE9672366C19E00F5DDFB /* Spawn.swift */; };
+		D4FFE96A23671C1900F5DDFB /* Spawn.GetLanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE96923671C1900F5DDFB /* Spawn.GetLanding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +169,8 @@
 		D4F6460722A4253F00FD8C56 /* ColorGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
 		D4FFE9612365814F00F5DDFB /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
 		D4FFE96523669EE400F5DDFB /* Eat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Eat.swift; sourceTree = "<group>"; };
+		D4FFE9672366C19E00F5DDFB /* Spawn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spawn.swift; sourceTree = "<group>"; };
+		D4FFE96923671C1900F5DDFB /* Spawn.GetLanding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spawn.GetLanding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,6 +297,8 @@
 				D4A4F4512353CF7B000EC009 /* Shift.CalculateShift.swift */,
 				D4BB6E82234F580900529819 /* Shift.Shift.swift */,
 				D4BB6E80234EFCD400529819 /* Shift.SetupGrid.swift */,
+				D4FFE9672366C19E00F5DDFB /* Spawn.swift */,
+				D4FFE96923671C1900F5DDFB /* Spawn.GetLanding.swift */,
 			);
 			path = WorkItems;
 			sourceTree = "<group>";
@@ -479,6 +485,7 @@
 				D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */,
 				D495F0CF233FAB01007D6E86 /* Mutator.swift in Sources */,
 				D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */,
+				D4FFE9682366C19E00F5DDFB /* Spawn.swift in Sources */,
 				D4BB6E81234EFCD400529819 /* Shift.SetupGrid.swift in Sources */,
 				D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */,
@@ -495,6 +502,7 @@
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
 				D42323C0235B6B6700981265 /* Sync.swift in Sources */,
 				D499AC09236406F80001BC21 /* MannaRecycler.swift in Sources */,
+				D4FFE96A23671C1900F5DDFB /* Spawn.GetLanding.swift in Sources */,
 				D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */,
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
 				D4FFE96623669EE400F5DDFB /* Eat.swift in Sources */,

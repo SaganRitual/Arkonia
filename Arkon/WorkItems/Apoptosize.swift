@@ -1,31 +1,40 @@
 import SpriteKit
 
-extension Stepper {
-    func apoptosize() {
-        let action = SKAction.run { [weak self] in
-            if (self?.isApoptosizing ?? true) {
-                print("already apop 1")
-                return
-            }
+final class Apoptosize: Dispatchable {
 
-            self?.isApoptosizing = true
-            self?.apoptosize_()
-        }
+    weak var dispatch: Dispatch!
+    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    var stepper: Stepper { return dispatch.stepper }
 
-        sprite.run(action)
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
     }
 
-    private func apoptosize_() {
-        assert(Display.displayCycle == .actions)
+    func go() {
+        dispatch.go({ self.aApoptosize() }, runAsBarrier: false)
+    }
 
-        sprite.removeAllActions()
+}
 
-        ArkonFactory.spriteFactory.noseHangar.retireSprite(nose)
-        ArkonFactory.spriteFactory.arkonsHangar.retireSprite(sprite)
+extension Apoptosize {
+    private func aApoptosize() {
+        let action = SKAction.run { [unowned self] in
+            assert(Display.displayCycle == .actions)
 
-        guard let ud = sprite.userData else { return }
+            guard let s = self.stepper.sprite else { fatalError() }
+            guard let n = self.stepper.nose else { fatalError() }
 
-        // Counting on this to be the only strong ref to the stepper
-        ud[SpriteUserDataKey.stepper] = nil
+            s.removeAllActions()
+
+            ArkonFactory.spriteFactory.noseHangar.retireSprite(n)
+            ArkonFactory.spriteFactory.arkonsHangar.retireSprite(s)
+
+            guard let ud = s.userData else { return }
+
+            // Counting on this to be the only strong ref to the stepper
+            ud[SpriteUserDataKey.stepper] = nil
+        }
+
+        GriddleScene.arkonsPortal.run(action)
     }
 }

@@ -1,20 +1,34 @@
 import Foundation
 
-extension Stepper {
-    func parasitize(_ victim: Stepper) {
-        metabolism.parasitize(victim)
+final class Parasitize: Dispatchable {
+
+    weak var dispatch: Dispatch!
+    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    var stepper: Stepper { return dispatch.stepper }
+    var victim: Stepper!
+
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
+    }
+
+    func go() {
+        dispatch.go({ self.aParasitize() })
+    }
+
+    func inject(_ victim: Stepper) { self.victim = victim }
+
+}
+
+extension Parasitize {
+    func aParasitize() {
+        assert(runningAsBarrier == true)
+        stepper.metabolism.parasitize(victim)
+        dispatch.funge()
     }
 }
 
 extension Metabolism {
     func parasitize(_ victim: Stepper) {
-        func workItem() -> [Void]? { parasitize_(victim); return nil }
-        func finalize(_ nothing: [Void]?) { victim.apoptosize() }
-
-        World.lock(workItem, finalize, .concurrent)
-    }
-
-    func parasitize_(_ victim: Stepper) {
         let spareCapacity = stomach.capacity - stomach.level
         let attemptToTakeThisMuch = spareCapacity / 0.75
         let tookThisMuch = victim.metabolism.withdrawFromReady(attemptToTakeThisMuch)

@@ -107,25 +107,30 @@ extension World.Stats {
         _ onComplete: @escaping () -> Void
     ) {
         lockQueue.async(flags: .barrier) {
-            self.currentPopulation += 1
-
-            parent?.cOffspring += 1
-
-            offspring.fishNumber = self.TheFishNumber
-            self.TheFishNumber += 1
-
-            offspring.birthday = self.currentTime
-
-            self.maxCOffspringForLiving = max(
-                (parent?.cOffspring ?? 0), self.maxCOffspringForLiving
-            )
-
-            self.highWaterCOffspring = max(
-                self.maxCOffspringForLiving, self.highWaterCOffspring
-            )
-
-            onComplete()
+            [unowned self] in self.registerBirth_(parent, offspring)
         }
+    }
+
+    func registerBirth_(
+        _ parent: NewParentProtocol?,
+        _ offspring: NewOffspringProtocol
+    ) {
+        self.currentPopulation += 1
+
+        parent?.cOffspring += 1
+
+        offspring.fishNumber = self.TheFishNumber
+        self.TheFishNumber += 1
+
+        offspring.birthday = self.currentTime
+
+        self.maxCOffspringForLiving = max(
+            (parent?.cOffspring ?? 0), self.maxCOffspringForLiving
+        )
+
+        self.highWaterCOffspring = max(
+            self.maxCOffspringForLiving, self.highWaterCOffspring
+        )
     }
 
     private func updateWorldClock() {

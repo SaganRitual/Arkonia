@@ -38,17 +38,25 @@ extension Eat {
         case .chooseEdible:
 
             switch dispatch.stepper.gridlet.contents {
-            case .arkon: battleArkon()
-            case .manna: battleManna()
+            case .arkon:
+                battleArkon()
+                dispatch.settleCombat()
+
+            case .manna:
+                battleManna()
+                dispatch.defeatManna()
+
             default: fatalError()
             }
 
         case .settleCombat:
             switch dispatch.stepper.gridlet.contents {
             case .arkon: settleCombat()
-            case .manna: eatManna()
-            break
+            case .manna: defeatManna()
+                default: fatalError()
             }
+
+            dispatch.funge()
         }
     }
 }
@@ -67,8 +75,6 @@ extension Eat {
         let hisMass = otherStepper.metabolism.mass
         self.combatOrder = (myMass > (hisMass * 1.25)) ?
             (dispatch.stepper, otherStepper) : (otherStepper, dispatch.stepper)
-
-        dispatch.settleCombat()
     }
 
     func getResult() -> (Stepper, Stepper) {
@@ -84,7 +90,6 @@ extension Eat {
         else { fatalError() }
 
         self.manna = manna
-        dispatch.defeatManna()
     }
 
     func getResult() -> Manna {
@@ -93,15 +98,15 @@ extension Eat {
 }
 
 extension Eat {
-    private func eatManna() {
+    private func defeatManna() {
         let harvested = self.manna.harvest()
         stepper.metabolism.absorbEnergy(harvested)
         stepper.metabolism.inhale()
         MannaCoordinator.shared.beEaten(self.manna.sprite)
     }
 
-    private func settleCombat(_ victor: Stepper, _ victim: Stepper) {
-        victor.parasitize(victim)
-        victim.apoptosize()
+    private func settleCombat() {
+        self.combatOrder.0.dispatch.parasitize()
+        self.combatOrder.1.dispatch.apoptosize()
     }
 }

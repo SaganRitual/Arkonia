@@ -8,6 +8,7 @@ class Stepper {
     var arkonFactory: ArkonFactory?
     var birthday = 0
     var cOffspring = 0
+    var dispatch: Dispatch!
     var fishNumber = 0
     weak var gridlet: Gridlet!
     var isApoptosizing = false
@@ -33,6 +34,8 @@ class Stepper {
         self.parentBiases = parentStepper?.net?.biases
         self.parentLayers = parentStepper?.net?.layers
         self.parentWeights = parentStepper?.net?.weights
+
+        dispatch = Dispatch(self)
     }
 
     deinit {
@@ -67,8 +70,8 @@ extension Stepper {
         let spawnCost = getSpawnCost()
         metabolism.withdrawFromSpawn(spawnCost)
 
-        func goParent(_ stepper: Stepper) { stepper.metabolize() }
-        func goOffspring(_ stepper: Stepper) { stepper.funge() }
+        func goParent(_ stepper: Stepper) { dispatch.metabolize() }
+        func goOffspring(_ stepper: Stepper) { dispatch.funge() }
 
         arkonFactory = ArkonFactory(self, goParent: goParent, goOffspring: goOffspring)
         arkonFactory!.buildNewArkon()

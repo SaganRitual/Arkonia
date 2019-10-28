@@ -4,7 +4,7 @@ import Dispatch
 extension Metabolism {
     func getMass(_ onComplete: @escaping (CGFloat) -> Void) {
         Lock.lockQueue.async(flags: .barrier) { [unowned self] in
-            onComplete(self.mass_)
+            onComplete(self.mass)
         }
     }
 
@@ -12,7 +12,7 @@ extension Metabolism {
         to newMass: CGFloat, _ onComplete: (() -> Void)? = nil
     ) {
         Lock.lockQueue.async(flags: .barrier) { [unowned self] in
-            self.mass_ = newMass
+            self.mass = newMass
             onComplete?()
         }
     }

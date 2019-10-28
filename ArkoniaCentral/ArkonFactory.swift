@@ -140,7 +140,7 @@ extension ArkonFactory {
             World.run { p(self.newStepper.parentStepper!) }
         } else {
 //            print("n goOffspring \(self.newStepper.name)")
-            newStepper.shiftStart()
+            newStepper.dispatch.shiftSetupGrid()
         }
 
         if let g = self.goOffspring {

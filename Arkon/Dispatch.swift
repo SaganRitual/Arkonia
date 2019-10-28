@@ -55,7 +55,9 @@ final class Dispatch {
 
 extension Dispatch {
     func apoptosize() {
-
+        World.lockQueue.async(flags: .barrier) {
+            self.dispatchMode = .killScheduled
+        }
     }
 
     func colorize() {
@@ -90,9 +92,18 @@ extension Dispatch {
         startTask(currentTask)
     }
 
+    func parasitize() {
+        guard let activeEat = currentTask as? Eat else { fatalError() }
+        let (_, victim) = activeEat.getResult()
+
+        currentTask = Parasitize(self)
+        currentTask.inject(victim)
+        startTask(currentTask)
+    }
+
     func settleCombat() {
         guard let activeEat = currentTask as? Eat else { fatalError() }
-        let combatOrder: (Stepper, Stepper) = activeEat.getResult()
+        let (combatOrder): (Stepper, Stepper) = activeEat.getResult()
 
         currentTask.inject(combatOrder)
         startTask(currentTask)
@@ -107,7 +118,15 @@ extension Dispatch {
         startTask(currentTask)
     }
 
-    func shifShift() {
+    func shiftShift() {
+        startTask(currentTask)
+    }
+
+    func spawnCommoner() {
+        if !(currentTask is Spawn) {
+            currentTask = Spawn(self)
+        }
+
         startTask(currentTask)
     }
 }
