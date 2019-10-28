@@ -3,7 +3,6 @@ import Foundation
 typealias GoCall = () -> Void
 
 protocol Dispatchable {
-    init(_ dispatch: Dispatch)
     func getResult() -> Any?
     func go()
     func inject(_ any: Any?)
@@ -28,28 +27,38 @@ enum DispatchMode: UInt {
 final class Dispatch {
     var currentTask: Dispatchable!
     var dispatchMode: DispatchMode = .alive
-    var runningAsBarrier = false
+    var runningAsBarrier = true
     weak var stepper: Stepper!
 
-    init(_ stepper: Stepper) { self.stepper = stepper }
+    init(_ stepper: Stepper? = nil) {
+        print("Dispatch(\(stepper == nil))")
+        self.stepper = stepper
+    }
 
-    func go(_ call: GoCall? = nil, runAsBarrier: Bool = true) {
-        World.lockQueue.async(flags: .barrier) {
-            if self.dispatchMode == .killScheduled || self.dispatchMode == .dead { return }
-            assert(self.dispatchMode == .alive)
+    func go(_ call: GoCall? = nil, runAsBarrier: Bool = true, callAgainFlag: Bool = false) {
+        assert(runningAsBarrier == true)
+        self.runningAsBarrier = runAsBarrier
 
-            let c = (call == nil) ? self.apoptosize : call!
+        if self.dispatchMode == .killScheduled || self.dispatchMode == .dead { return }
+        assert(self.dispatchMode == .alive)
 
-            self.runningAsBarrier = runAsBarrier
+        let c: GoCall = call ?? self.apoptosize
 
-            if runAsBarrier { c(); return }
+        if runAsBarrier { c(); return }
 
-            World.lockQueue.async { c() }
-        }
+        World.lockQueue.async { c() }
     }
 
     func startTask(_ dispatchable: Dispatchable) {
-        go({ dispatchable.go() }, runAsBarrier: true)
+        go({ dispatchable.go() })
+    }
+
+    func callAgain(runAsBarrier: Bool = true) {
+        go({ self.currentTask.go() }, runAsBarrier: runAsBarrier)
+    }
+
+    deinit {
+        print("~Dispatch?")
     }
 }
 
@@ -101,32 +110,13 @@ extension Dispatch {
         startTask(currentTask)
     }
 
-    func settleCombat() {
-        guard let activeEat = currentTask as? Eat else { fatalError() }
-        let (combatOrder): (Stepper, Stepper) = activeEat.getResult()
-
-        currentTask.inject(combatOrder)
-        startTask(currentTask)
-    }
-
-    func shiftCalculateShift() {
-        startTask(currentTask)
-    }
-
-    func shiftSetupGrid() {
+    func shift() {
         currentTask = Shift(self)
         startTask(currentTask)
     }
 
-    func shiftShift() {
-        startTask(currentTask)
-    }
-
-    func spawnCommoner() {
-        if !(currentTask is Spawn) {
-            currentTask = Spawn(self)
-        }
-
+    func wangkhi() {
+        currentTask = WangkhiEmbryo(self)
         startTask(currentTask)
     }
 }

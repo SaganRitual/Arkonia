@@ -31,7 +31,7 @@ final class Funge: Dispatchable {
 extension Funge {
 
     func aFunge() {
-        assert(dispatch.runningAsBarrier)
+        assert(dispatch.runningAsBarrier == true)
 
         stats = World.stats.copy()
 
@@ -44,12 +44,10 @@ extension Funge {
     }
 
     func bFunge(_ isAlive: Bool, _ canSpawn: Bool) {
-        assert(!dispatch.runningAsBarrier)
-
         if !isAlive { dispatch.apoptosize(); return }
 
         if !canSpawn { dispatch.metabolize() ; return }
 
-        dispatch.spawnCommoner()
+        dispatch.wangkhi()
     }
 }

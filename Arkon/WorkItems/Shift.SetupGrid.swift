@@ -33,13 +33,13 @@ extension Shift {
             setupGrid()
 
             phase = .calculateShift
-            dispatch.shiftCalculateShift()
+            dispatch.callAgain()
 
         case .calculateShift:
-            dispatch.shiftCalculateShift()
+            calculateShift()
 
             phase = .shift
-            dispatch.shiftShift()
+            dispatch.callAgain()
 
         case .shift:
             shift()

@@ -83,13 +83,13 @@ class GriddleScene: SKScene, SKSceneDelegate {
             self.net9Portals.append(node)
         }
 
-        ArkonFactory.spriteFactory = SpriteFactory(
+        Wangkhi.spriteFactory = SpriteFactory(
             scene: self,
             thoraxFactory: SpriteFactory.makeSprite(texture:),
             noseFactory: SpriteFactory.makeSprite(texture:)
         )
 
-        ArkonFactory.spriteFactory.postInit(net9Portals)
+        Wangkhi.spriteFactory.postInit(net9Portals)
 
         Grid.shared = Grid()
         MannaCoordinator.shared = MannaCoordinator()
@@ -120,14 +120,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
         let cProgenitors = 25
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
 //            print("sp")
-            ArkonFactory(nil).spawnProgenitor()
-//            let af = ArkonFactory(nil)
-//
-//            if GriddleScene.arkonsPortal.userData == nil {
-//                GriddleScene.arkonsPortal.userData = [:]
-//            }
-//            GriddleScene.arkonsPortal.userData![tickCount] = af
-//            af.spawnProgenitor()
+            Dispatch().wangkhi()
         }
     }
 }

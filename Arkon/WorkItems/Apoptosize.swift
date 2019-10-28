@@ -26,8 +26,8 @@ extension Apoptosize {
 
             s.removeAllActions()
 
-            ArkonFactory.spriteFactory.noseHangar.retireSprite(n)
-            ArkonFactory.spriteFactory.arkonsHangar.retireSprite(s)
+            Wangkhi.spriteFactory.noseHangar.retireSprite(n)
+            Wangkhi.spriteFactory.arkonsHangar.retireSprite(s)
 
             guard let ud = s.userData else { return }
 

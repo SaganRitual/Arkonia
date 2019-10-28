@@ -2,7 +2,7 @@ import SpriteKit
 
 extension Shift {
 
-    private func calculateShift() {
+    func calculateShift() {
         assert(runningAsBarrier == true)
         let senseData = loadSenseData()
         self.shiftTarget = selectMoveTarget(senseData: senseData)
@@ -11,7 +11,6 @@ extension Shift {
     }
 
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
-        assert(runningAsBarrier == false)
         return senseData.enumerated().reduce([:]) { accumulated, pw in
             let (position, weight) = pw
             var t = accumulated

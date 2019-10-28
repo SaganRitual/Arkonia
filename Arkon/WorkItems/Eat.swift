@@ -40,10 +40,12 @@ extension Eat {
             switch dispatch.stepper.gridlet.contents {
             case .arkon:
                 battleArkon()
-                dispatch.settleCombat()
+                phase = .settleCombat
+                dispatch.callAgain()
 
             case .manna:
                 battleManna()
+                phase = .settleCombat
                 dispatch.defeatManna()
 
             default: fatalError()

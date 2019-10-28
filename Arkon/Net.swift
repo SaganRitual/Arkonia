@@ -39,6 +39,10 @@ class Net {
 //        print("L", self.layers, self.layers.count, "b", cBiases, self.biases.count, "w", cWeights, self.weights.count)
     }
 
+    deinit {
+        print("~Net()?")
+    }
+
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
         var cWeights = 0
         for c in 0..<(layers.count - 1) {

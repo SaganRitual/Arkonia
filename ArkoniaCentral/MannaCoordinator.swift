@@ -27,7 +27,7 @@ class MannaCoordinator {
     }
 
     init() {
-        mannaSpriteFactory = ArkonFactory.spriteFactory
+        mannaSpriteFactory = Wangkhi.spriteFactory
         MannaCoordinator.lockQueue.async { self.populate() }
     }
 

@@ -18,7 +18,6 @@ final class Metabolize: Dispatchable {
 
 extension Metabolize {
     func aMetabolize() {
-        assert(runningAsBarrier == false)
         dispatch.stepper.metabolism.metabolizeProper()
         dispatch.colorize()
     }

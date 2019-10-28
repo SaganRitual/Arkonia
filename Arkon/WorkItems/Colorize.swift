@@ -24,7 +24,7 @@ extension Colorize {
 
         let age = stats.currentTime - stepper.birthday
         dispatch.stepper.colorizeProper(dispatch, age)
-        dispatch.shiftSetupGrid()
+        dispatch.callAgain()
     }
 }
 
@@ -39,7 +39,7 @@ extension Stepper {
             baseColor = 0xFF_00_00
         } else {
             baseColor = (metabolism.spawnEnergyFullness > 0) ?
-                ArkonFactory.brightColor : ArkonFactory.standardColor
+                Wangkhi.brightColor : Wangkhi.standardColor
         }
 
         let four: CGFloat = 4

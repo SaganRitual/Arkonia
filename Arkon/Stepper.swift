@@ -1,17 +1,12 @@
 import SpriteKit
 
 class Stepper {
-    typealias OnComplete1 = (Stepper) -> Void
-    typealias OnComplete2 = (Stepper, Stepper) -> Void
-
     let allowSpawning = true
-    var arkonFactory: ArkonFactory?
     var birthday = 0
     var cOffspring = 0
     var dispatch: Dispatch!
     var fishNumber = 0
     weak var gridlet: Gridlet!
-    var isApoptosizing = false
     var metabolism: Metabolism!
     let name = UUID().uuidString
     var net: Net!
@@ -25,8 +20,8 @@ class Stepper {
     weak var parentStepper: Stepper?
     var parentWeights: [Double]?
     var previousShift = AKPoint.zero
-    var shifter: Shift?
     var sprite: SKSpriteNode!
+    var stepper: Stepper!
 
     init(_ parentStepper: Stepper? = nil) {
         self.parentStepper = parentStepper
@@ -36,6 +31,19 @@ class Stepper {
         self.parentWeights = parentStepper?.net?.weights
 
         dispatch = Dispatch(self)
+    }
+
+    init(_ embryo: WangkhiEmbryo) {
+        self.birthday = embryo.birthday
+        self.dispatch = embryo.dispatch
+        self.fishNumber = embryo.fishNumber
+        self.gridlet = embryo.gridlet
+        self.metabolism = embryo.metabolism
+        self.net = embryo.net
+        self.netDisplay = embryo.netDisplay
+        self.nose = embryo.nose
+        self.sprite = embryo.sprite
+        self.stepper = embryo.stepper
     }
 
     deinit {
@@ -66,16 +74,16 @@ extension Stepper {
         return spawnCost
     }
 
-    func spawnCommoner() {
-        let spawnCost = getSpawnCost()
-        metabolism.withdrawFromSpawn(spawnCost)
-
-        func goParent(_ stepper: Stepper) { dispatch.metabolize() }
-        func goOffspring(_ stepper: Stepper) { dispatch.funge() }
-
-        arkonFactory = ArkonFactory(self, goParent: goParent, goOffspring: goOffspring)
-        arkonFactory!.buildNewArkon()
-    }
+//    func spawnCommoner() {
+//        let spawnCost = getSpawnCost()
+//        metabolism.withdrawFromSpawn(spawnCost)
+//
+//        func goParent(_ stepper: Stepper) { dispatch.metabolize() }
+//        func goOffspring(_ stepper: Stepper) { dispatch.funge() }
+//
+//        arkonFactory = ArkonFactory(self, goParent: goParent, goOffspring: goOffspring)
+//        arkonFactory!.buildNewArkon()
+//    }
 }
 
 extension Stepper {

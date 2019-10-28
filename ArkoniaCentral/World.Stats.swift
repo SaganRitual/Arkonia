@@ -102,30 +102,27 @@ extension World.Stats {
     }
 
     func registerBirth(
-        _ parent: NewParentProtocol?,
-        _ offspring: NewOffspringProtocol,
+        myParent: Stepper?,
+        meOffspring: WangkhiProtocol,
         _ onComplete: @escaping () -> Void
     ) {
         lockQueue.async(flags: .barrier) {
-            [unowned self] in self.registerBirth_(parent, offspring)
+            [unowned self] in self.registerBirth_(myParent: myParent, meOffspring: meOffspring)
         }
     }
 
-    func registerBirth_(
-        _ parent: NewParentProtocol?,
-        _ offspring: NewOffspringProtocol
-    ) {
+    func registerBirth_(myParent: Stepper?, meOffspring: WangkhiProtocol) {
         self.currentPopulation += 1
 
-        parent?.cOffspring += 1
+        myParent?.cOffspring += 1
 
-        offspring.fishNumber = self.TheFishNumber
+        meOffspring.fishNumber = self.TheFishNumber
         self.TheFishNumber += 1
 
-        offspring.birthday = self.currentTime
+        meOffspring.birthday = self.currentTime
 
         self.maxCOffspringForLiving = max(
-            (parent?.cOffspring ?? 0), self.maxCOffspringForLiving
+            (myParent?.cOffspring ?? 0), self.maxCOffspringForLiving
         )
 
         self.highWaterCOffspring = max(
