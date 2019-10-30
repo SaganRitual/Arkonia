@@ -7,11 +7,11 @@ class Stepper {
     var dispatch: Dispatch!
     var fishNumber = 0
     weak var gridlet: Gridlet!
+    var previousGridletContents = Gridlet.Contents.nothing
     var metabolism: Metabolism!
     let name = UUID().uuidString
     var net: Net!
     var netDisplay: NetDisplay?
-    var newGridlet: Gridlet?
     var nose: SKSpriteNode!
     var oldGridlet: Gridlet?
     var parentActivator: ((_: Double) -> Double)?
@@ -72,17 +72,6 @@ extension Stepper {
 
         return spawnCost
     }
-
-//    func spawnCommoner() {
-//        let spawnCost = getSpawnCost()
-//        metabolism.withdrawFromSpawn(spawnCost)
-//
-//        func goParent(_ stepper: Stepper) { dispatch.metabolize() }
-//        func goOffspring(_ stepper: Stepper) { dispatch.funge() }
-//
-//        arkonFactory = ArkonFactory(self, goParent: goParent, goOffspring: goOffspring)
-//        arkonFactory!.buildNewArkon()
-//    }
 }
 
 extension Stepper {

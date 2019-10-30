@@ -31,6 +31,7 @@ final class Eat: Dispatchable {
 }
 
 extension Eat {
+    //swiftlint:disable function_body_length
     private func aEat() {
         assert(runningAsBarrier == true)
 
@@ -39,16 +40,48 @@ extension Eat {
 
             switch dispatch.stepper.gridlet.contents {
             case .arkon:
+                print(
+                    "a",
+                    dispatch.stepper.gridlet.previousContents,
+                    dispatch.stepper.gridlet.contents,
+                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
+                    dispatch.stepper.oldGridlet?.contents ?? .unknown
+                )
                 battleArkon()
                 phase = .settleCombat
                 dispatch.callAgain()
 
             case .manna:
+                print(
+                    "m",
+                    dispatch.stepper.gridlet.previousContents,
+                    dispatch.stepper.gridlet.contents,
+                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
+                    dispatch.stepper.oldGridlet?.contents ?? .unknown
+                )
                 battleManna()
                 phase = .settleCombat
                 dispatch.defeatManna()
 
-            default: fatalError()
+            case .nothing:
+                print(
+                    "n",
+                    dispatch.stepper.gridlet.previousContents,
+                    dispatch.stepper.gridlet.contents,
+                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
+                    dispatch.stepper.oldGridlet?.contents ?? .unknown
+                )
+                dispatch.funge()
+
+            case .unknown:
+                print(
+                    "u",
+                    dispatch.stepper.gridlet.previousContents,
+                    dispatch.stepper.gridlet.contents,
+                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
+                    dispatch.stepper.oldGridlet?.contents ?? .unknown
+                )
+                dispatch.funge()
             }
 
         case .settleCombat:
@@ -64,6 +97,7 @@ extension Eat {
             }
         }
     }
+    //swiftlint:enable function_body_length
 }
 
 extension Eat {
@@ -88,10 +122,10 @@ extension Eat {
 
     func battleManna() {
 
-        guard let otherSprite = dispatch.stepper.sprite,
-            let otherUserData = otherSprite.userData,
-            let otherAny = otherUserData[SpriteUserDataKey.manna],
-            let manna = otherAny as? Manna
+        guard let mannaSprite = dispatch.stepper.gridlet.sprite,
+            let mannaUserData = mannaSprite.userData,
+            let shouldBeManna = mannaUserData[SpriteUserDataKey.manna],
+            let manna = shouldBeManna as? Manna
         else { fatalError() }
 
         self.manna = manna

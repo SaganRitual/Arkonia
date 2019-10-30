@@ -62,7 +62,8 @@ extension Funge {
     }
 
     func execute() {
-        if !isAlive { dispatch.apoptosize(); return }
+        if !isAlive {
+            dispatch.apoptosize(); return }
 
         if !canSpawn { dispatch.metabolize() ; return }
 

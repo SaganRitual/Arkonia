@@ -3,41 +3,42 @@ import SpriteKit
 extension Shift {
     func shift() {
         guard let st = self.shiftTarget else { fatalError() }
-        oldGridlet = stepper.gridlet
-        newGridlet = Gridlet.at(oldGridlet!.gridPosition + st)
+
+        oldGridlet = releaseGridlet(stepper.gridlet!)
+
+        self.stepper.gridlet = Gridlet.at(oldGridlet!.gridPosition + st)
 
         let moveAction =
-            SKAction.move(to: newGridlet!.scenePosition, duration: 0.1)
+            SKAction.move(to: self.stepper.gridlet.scenePosition, duration: 0.1)
 
         stepper.sprite.run(moveAction) { [unowned self] in
             self.phase = .postShift
             self.dispatch.callAgain(runAsBarrier: true)
         }
     }
+
+    func releaseGridlet(_ gridlet: Gridlet) -> GridletCopy {
+        let copy = GridletCopy(from: gridlet)
+
+        gridlet.sprite = nil
+        gridlet.contents = .nothing
+        gridlet.gridletIsEngaged = false
+
+        return copy
+    }
 }
 
 extension Shift {
-    func getResult() -> Gridlet { return self.newGridlet! }
-
     func postShift() {
-        defer { updateGridletContents() }
-
-        guard let ng = newGridlet else { fatalError() }
+        guard let ng = stepper.gridlet else { fatalError() }
+        print(
+            "s",
+            ng.previousContents,
+            ng.contents,
+            dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
+            dispatch.stepper.oldGridlet?.contents ?? .unknown
+        )
         if ng.contents == .nothing { dispatch.funge(); return }
         dispatch.eat()
-    }
-
-    private func updateGridletContents() {
-        guard let ng = newGridlet, let og = oldGridlet else { fatalError() }
-        og.sprite = nil
-        og.contents = .nothing
-        og.gridletIsEngaged = false
-        self.oldGridlet = nil
-
-        ng.contents = .arkon
-        ng.sprite = stepper.sprite
-        self.newGridlet = nil
-
-        self.stepper.gridlet = ng
     }
 }

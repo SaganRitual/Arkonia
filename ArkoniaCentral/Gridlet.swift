@@ -1,14 +1,44 @@
 import SpriteKit
 
-class Gridlet {
+protocol GridletProtocol {
+    var gridPosition: AKPoint { get }
+    var scenePosition: CGPoint { get }
+    var randomScenePosition: CGPoint? { get }
 
-    enum Contents: Double { case arkon, manna, nothing }
+    var contents: Gridlet.Contents { get }
+    var previousContents: Gridlet.Contents { get }
+    var gridletIsEngaged: Bool { get }
+}
+
+struct GridletCopy: GridletProtocol {
+    let gridPosition: AKPoint
+    let scenePosition: CGPoint
+    let randomScenePosition: CGPoint?
+
+    let contents: Gridlet.Contents
+    let previousContents: Gridlet.Contents
+    let gridletIsEngaged: Bool
+
+    init(from original: GridletProtocol) {
+        self.gridPosition = original.gridPosition
+        self.scenePosition = original.scenePosition
+        self.randomScenePosition = original.randomScenePosition
+        self.contents = original.contents
+        self.previousContents = original.previousContents
+        self.gridletIsEngaged = original.gridletIsEngaged
+    }
+}
+
+class Gridlet: GridletProtocol {
+
+    enum Contents: Double { case arkon, manna, nothing, unknown }
 
     let gridPosition: AKPoint
     let scenePosition: CGPoint
     var randomScenePosition: CGPoint?
 
-    var contents = Contents.nothing
+    var contents = Contents.nothing { didSet { previousContents = oldValue } }
+    var previousContents = Contents.nothing
     var gridletIsEngaged = false
     weak var sprite: SKSpriteNode?
 

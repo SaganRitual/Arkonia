@@ -29,7 +29,7 @@ final class Dispatch {
     }
 
     private func go(_ call: GoCall? = nil, runAsBarrier: Bool = true) {
-        print("k1 \(stepper?.name ?? "<nouthing>")")
+//        print("k1 \(stepper?.name ?? "<nouthing>")")
 
         let flags = runAsBarrier ? .barrier : DispatchWorkItemFlags()
         World.lockQueue.async(flags: flags) {
@@ -41,9 +41,9 @@ final class Dispatch {
 
             let runComponent: GoCall = call ?? self.apoptosize
 
-            print("a1")
+//            print("a1")
             runComponent()
-            print("a2")
+//            print("a2")
         }
     }
 
@@ -56,7 +56,7 @@ final class Dispatch {
     }
 
     deinit {
-        print("~Dispatch?")
+//        print("~Dispatch?")
     }
 }
 
@@ -67,11 +67,11 @@ extension Dispatch {
     }
 
     func colorize() {
-        print("c1, \(stepper?.name ?? "<nothing>")")
+//        print("c1, \(stepper?.name ?? "<nothing>")")
         currentTask = Colorize(self)
-        print("c2, \(stepper?.name ?? "<nothing>")")
+//        print("c2, \(stepper?.name ?? "<nothing>")")
         start(currentTask)
-        print("c3, \(stepper?.name ?? "<nothing>")")
+//        print("c3, \(stepper?.name ?? "<nothing>")")
     }
 
     func defeatManna() {
@@ -83,8 +83,7 @@ extension Dispatch {
     }
 
     func eat() {
-        guard let spentShift = currentTask as? Shift else { fatalError() }
-        let gridlet = spentShift.getResult()
+        guard let gridlet = stepper.gridlet else { fatalError() }
 
         currentTask = Eat(self)
 
@@ -94,19 +93,19 @@ extension Dispatch {
     }
 
     func funge() {
-        print("f1, \(stepper?.name ?? "<nothing>")")
+//        print("f1, \(stepper?.name ?? "<nothing>")")
         currentTask = Funge(self)
-        print("f2, \(stepper?.name ?? "<nothing>")")
+//        print("f2, \(stepper?.name ?? "<nothing>")")
         start(currentTask)
-        print("f3, \(stepper?.name ?? "<nothing>")")
+//        print("f3, \(stepper?.name ?? "<nothing>")")
     }
 
     func metabolize() {
-        print("m1, \(stepper?.name ?? "<nothing>")")
+//        print("m1, \(stepper?.name ?? "<nothing>")")
         currentTask = Metabolize(self)
-        print("m2, \(stepper?.name ?? "<nothing>")")
+//        print("m2, \(stepper?.name ?? "<nothing>")")
         start(currentTask)
-        print("m3, \(stepper?.name ?? "<nothing>")")
+//        print("m3, \(stepper?.name ?? "<nothing>")")
     }
 
     func parasitize() {
@@ -121,18 +120,18 @@ extension Dispatch {
     }
 
     func shift() {
-        print("s1, \(stepper?.name ?? "<nothing>")")
+//        print("s1, \(stepper?.name ?? "<nothing>")")
         currentTask = Shift(self)
-        print("s2, \(stepper?.name ?? "<nothing>")")
+//        print("s2, \(stepper?.name ?? "<nothing>")")
         start(currentTask)
-        print("s3, \(stepper?.name ?? "<nothing>")")
+//        print("s3, \(stepper?.name ?? "<nothing>")")
     }
 
     func wangkhi() {
-        print("w1, \(stepper?.name ?? "<nothing>")")
+//        print("w1, \(stepper?.name ?? "<nothing>")")
         currentTask = WangkhiEmbryo(self)
-        print("w2, \(stepper?.name ?? "<nothing>")")
+//        print("w2, \(stepper?.name ?? "<nothing>")")
         start(currentTask)
-        print("w3, \(stepper?.name ?? "<nothing>")")
+//        print("w3, \(stepper?.name ?? "<nothing>")")
     }
 }

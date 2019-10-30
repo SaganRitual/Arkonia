@@ -12,7 +12,7 @@ final class Apoptosize: Dispatchable {
     func go() { aApoptosize() }
 
     deinit {
-        print("wtf")
+//        print("wtf")
     }
 }
 
@@ -23,7 +23,7 @@ extension Apoptosize {
         let action = SKAction.run { [unowned self] in
             assert(Display.displayCycle == .actions)
 
-            guard let s = self.stepper.sprite else { fatalError() }
+             guard let s = self.stepper.sprite else { fatalError() }
             guard let n = self.stepper.nose else { fatalError() }
 
             s.removeAllActions()

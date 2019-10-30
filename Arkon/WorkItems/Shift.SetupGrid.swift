@@ -5,8 +5,7 @@ final class Shift: Dispatchable {
     enum Phase { case configureGrid, calculateShift, shift, postShift }
 
     weak var dispatch: Dispatch!
-    weak var newGridlet: Gridlet?
-    weak var oldGridlet: Gridlet?
+    var oldGridlet: GridletCopy?
     var phase: Phase = .configureGrid
     var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
     var sensoryInputs = [(Double, Double)]()
@@ -92,7 +91,8 @@ extension Shift {
             let manna = Manna.getManna(from: sprite)
             nutrition = Double(manna.energyContentInJoules)
 
-        case .nothing:
+        case .nothing: fallthrough
+        case .unknown:
             nutrition = 0
         }
 
