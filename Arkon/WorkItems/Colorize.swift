@@ -24,7 +24,7 @@ extension Colorize {
 
         let age = stats.currentTime - stepper.birthday
         dispatch.stepper.colorizeProper(dispatch, age)
-        dispatch.callAgain()
+        dispatch.shift()
     }
 }
 

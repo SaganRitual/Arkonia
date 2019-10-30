@@ -28,7 +28,7 @@ final class Dispatch {
     var currentTask: Dispatchable!
     var dispatchMode: DispatchMode = .alive
     var runningAsBarrier = true
-    weak var stepper: Stepper!
+    var stepper: Stepper!
 
     init(_ stepper: Stepper? = nil) {
         print("Dispatch(\(stepper == nil))")
@@ -36,7 +36,7 @@ final class Dispatch {
     }
 
     func go(_ call: GoCall? = nil, runAsBarrier: Bool = true, callAgainFlag: Bool = false) {
-        assert(runningAsBarrier == true)
+//        assert(runningAsBarrier == true)
         self.runningAsBarrier = runAsBarrier
 
         if self.dispatchMode == .killScheduled || self.dispatchMode == .dead { return }

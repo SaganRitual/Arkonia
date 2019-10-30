@@ -43,30 +43,47 @@ final class WangkhiEmbryo: Dispatchable, WangkhiProtocol {
 
     init(_ dispatch: Dispatch) { self.dispatch = dispatch }
 
-    func go() { getUnsafeStats() }
+    func go() { aWangkhiEmbryo() }
+}
+
+extension WangkhiEmbryo {
+    func aWangkhiEmbryo() {
+        switch phase {
+        case .getUnsafeStats:
+            getUnsafeStats()
+            phase = .buildGuts
+            dispatch!.callAgain()
+
+        case .buildGuts:
+            buildGuts()
+            phase = .buildSprites
+            dispatch!.callAgain()
+
+        case .buildSprites:
+            buildSprites()
+        }
+    }
 }
 
 extension WangkhiEmbryo {
     func getUnsafeStats() {
+        assert((dispatch?.runningAsBarrier ?? false) == true)
         let gr = Gridlet.getRandomGridlet_()
         gridlet = gr![0]
 
         World.stats.registerBirth_(myParent: nil, meOffspring: self)
-
-        phase = .buildGuts
-        dispatch!.callAgain()
     }
 }
 
 extension WangkhiEmbryo {
     func buildGuts() {
+        assert((dispatch?.runningAsBarrier ?? false) == true)
 
         metabolism = Metabolism()
 
-        guard let p = self.parent else { fatalError() }
         net = Net(
-            parentBiases: p.parentBiases, parentWeights: p.parentWeights,
-            layers: p.parentLayers, parentActivator: p.parentActivator
+            parentBiases: parent?.parentBiases, parentWeights: parent?.parentWeights,
+            layers: parent?.parentLayers, parentActivator: parent?.parentActivator
         )
 
         if let np = (sprite?.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode),
@@ -78,9 +95,6 @@ extension WangkhiEmbryo {
 
             netDisplay!.display()
         }
-
-        phase = .buildSprites
-        dispatch!.callAgain()
     }
 
 }
@@ -119,6 +133,7 @@ extension WangkhiEmbryo {
         let newborn: Stepper = Stepper(self)
         Stepper.attachStepper(newborn, to: sprite)
         GriddleScene.arkonsPortal!.addChild(sprite)
+        dispatch!.stepper = newborn
 
         dispatch!.funge()
     }
