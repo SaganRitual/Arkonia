@@ -32,9 +32,8 @@ class Stepper {
         dispatch = Dispatch(self)
     }
 
-    init(_ embryo: WangkhiEmbryo) {
+    init(_ embryo: WangkhiEmbryo, needsNewDispatch: Bool = false) {
         self.birthday = embryo.birthday
-        self.dispatch = embryo.dispatch
         self.fishNumber = embryo.fishNumber
         self.gridlet = embryo.gridlet
         self.metabolism = embryo.metabolism
@@ -43,7 +42,10 @@ class Stepper {
         self.nose = embryo.nose
         self.sprite = embryo.sprite
 
-        self.dispatch.stepper = self
+        if needsNewDispatch {
+            self.dispatch = Dispatch(self)
+            self.dispatch.stepper = self
+        }
     }
 
     deinit {

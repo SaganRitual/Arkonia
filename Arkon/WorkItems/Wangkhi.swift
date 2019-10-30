@@ -39,7 +39,31 @@ final class WangkhiEmbryo: Dispatchable, WangkhiProtocol {
     var phase = Phase.getUnsafeStats
     var sprite: SKSpriteNode?
 
-    init(_ dispatch: Dispatch) { self.dispatch = dispatch }
+    init(_ dispatch: Dispatch) {
+        print("before",
+              dispatch.name.prefix(8),
+              dispatch.stepper?.name.prefix(8) ?? "wtf1å",
+              self.dispatch?.name.prefix(8) ?? "wtf1a",
+              self.dispatch?.stepper?.name.prefix(8) ?? "wtf1b; ",
+              terminator: "")
+
+        self.dispatch = dispatch
+
+        print("after",
+              dispatch.name.prefix(8),
+              dispatch.stepper?.name.prefix(8) ?? "wtf2å",
+              self.dispatch?.name.prefix(8) ?? "wtf2a",
+              self.dispatch?.stepper?.name.prefix(8) ?? "wtf2b",
+              terminator: "")
+
+        self.parent = dispatch.stepper
+
+        print("rafter",
+              dispatch.name.prefix(8),
+              dispatch.stepper?.name.prefix(8) ?? "wtf3å",
+              self.dispatch?.name.prefix(8) ?? "wtf3a",
+              self.dispatch?.stepper?.name.prefix(8) ?? "wtf1b; ")
+    }
 
     func go() { aWangkhiEmbryo() }
 }
@@ -106,6 +130,7 @@ extension WangkhiEmbryo {
         GriddleScene.arkonsPortal.run(action)
     }
 
+    //swiftlint:disable function_body_length
     private func buildSprites_() {
         assert(Display.displayCycle == .actions)
 
@@ -128,14 +153,51 @@ extension WangkhiEmbryo {
 
         sprite.addChild(nose)
 
-        let newborn: Stepper = Stepper(self)
+        print("bbefore",
+              dispatch?.name.prefix(8) ?? "wtf4∫",
+              dispatch?.stepper?.name.prefix(8) ?? "wtf14å",
+              dispatch?.stepper?.parentStepper?.name ?? "no parent4 ",
+              dispatch?.stepper?.parentStepper?.dispatch?.name ?? "no parent4a ",
+              self.dispatch?.name.prefix(8) ?? "wtf4a",
+              self.dispatch?.stepper?.name.prefix(8) ?? "wtf4b; ")
+
+        let newborn: Stepper = Stepper(self, needsNewDispatch: true)
+        newborn.parentStepper = self.dispatch?.stepper
+        newborn.dispatch.stepper = newborn
+
+        print("bbefore2",
+              dispatch?.name.prefix(8) ?? "wtf5∫",
+              dispatch?.stepper?.name.prefix(8) ?? "wtf15å",
+              dispatch?.stepper?.parentStepper?.name ?? "no parent5 ",
+              dispatch?.stepper?.parentStepper?.dispatch?.name ?? "no parent5a ",
+              self.dispatch?.name.prefix(8) ?? "wtf4a",
+              self.dispatch?.stepper?.name.prefix(8) ?? "wtf5b; ",
+
+              newborn.name.prefix(8),
+              newborn.parentStepper?.name ?? "no parent7 ",
+              newborn.parentStepper?.dispatch?.name ?? "no parent7a ")
+
         Stepper.attachStepper(newborn, to: sprite)
+
+        print("bbefore3",
+              dispatch?.name.prefix(8) ?? "wtf6∫",
+              dispatch?.stepper?.name.prefix(8) ?? "wtf146",
+              dispatch?.stepper?.parentStepper?.name ?? "no parent6 ",
+              dispatch?.stepper?.parentStepper?.dispatch?.name ?? "no parent6a ",
+              self.dispatch?.name.prefix(8) ?? "wtf6a",
+              self.dispatch?.stepper?.name.prefix(8) ?? "wtf6b; ",
+
+              newborn.name.prefix(8),
+              newborn.parentStepper?.name ?? "no parent8 ",
+              newborn.parentStepper?.dispatch?.name ?? "no parent8a ")
+
         GriddleScene.arkonsPortal!.addChild(sprite)
 
-        if let parentDispatch = dispatch?.stepper?.parentStepper?.dispatch {
-            parentDispatch.funge()
+        if self.dispatch?.stepper != nil {
+            self.dispatch!.funge()
         }
 
         newborn.dispatch!.funge()
     }
+    //swiftlint:enable function_body_length
 }

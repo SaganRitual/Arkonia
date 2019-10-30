@@ -29,6 +29,7 @@ final class Funge: Dispatchable {
 
     init(_ dispatch: Dispatch) {
         self.dispatch = dispatch
+        print("funge \(dispatch.name.prefix(3)), \(dispatch.stepper?.name.prefix(3) ?? "ftw")")
     }
 
     func go() { aFunge() }
@@ -53,6 +54,14 @@ extension Funge {
         assert(dispatch.runningAsBarrier == true)
 
         stats = World.stats.copy()
+
+        print("nasal",
+              dispatch?.name.prefix(3) ?? "wtf6∫",
+              dispatch?.stepper?.name.prefix(3) ?? "wtf146",
+              dispatch?.stepper?.parentStepper?.name.prefix(3) ?? "no parent6 ",
+              dispatch?.stepper?.parentStepper?.dispatch?.name.prefix(3) ?? "no parent6a ",
+              self.dispatch?.name.prefix(3) ?? "wtf6a",
+              self.dispatch?.stepper?.name.prefix(3) ?? "wtf6b; ")
 
         let age = stats.currentTime - self.stepper.birthday
         let mass = stepper.metabolism.mass

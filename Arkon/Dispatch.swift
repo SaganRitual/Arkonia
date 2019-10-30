@@ -20,11 +20,12 @@ enum DispatchMode: UInt {
 final class Dispatch {
     var currentTask: Dispatchable!
     var dispatchMode: DispatchMode = .alive
+    let name = UUID().uuidString
     var runningAsBarrier = true
     var stepper: Stepper!
 
     init(_ stepper: Stepper? = nil) {
-//        print("Dispatch(\(stepper == nil))")
+        print("Dispatch(\(stepper == nil))")
         self.stepper = stepper
     }
 
