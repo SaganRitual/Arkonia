@@ -3,14 +3,7 @@ import Foundation
 typealias GoCall = () -> Void
 
 protocol Dispatchable {
-    func getResult() -> Any?
     func go()
-    func inject(_ any: Any?)
-}
-
-extension Dispatchable {
-    func getResult() -> Any? { return nil }
-    func inject(_ any: Any? = nil) { }
 }
 
 enum DispatchMode: UInt {
@@ -31,30 +24,35 @@ final class Dispatch {
     var stepper: Stepper!
 
     init(_ stepper: Stepper? = nil) {
-        print("Dispatch(\(stepper == nil))")
+//        print("Dispatch(\(stepper == nil))")
         self.stepper = stepper
     }
 
-    func go(_ call: GoCall? = nil, runAsBarrier: Bool = true, callAgainFlag: Bool = false) {
-//        assert(runningAsBarrier == true)
-        self.runningAsBarrier = runAsBarrier
+    private func go(_ call: GoCall? = nil, runAsBarrier: Bool = true) {
+        print("k1 \(stepper?.name ?? "<nouthing>")")
 
-        if self.dispatchMode == .killScheduled || self.dispatchMode == .dead { return }
-        assert(self.dispatchMode == .alive)
+        let flags = runAsBarrier ? .barrier : DispatchWorkItemFlags()
+        World.lockQueue.async(flags: flags) {
+            assert(self.runningAsBarrier == true)
+            self.runningAsBarrier = runAsBarrier
 
-        let c: GoCall = call ?? self.apoptosize
+            if self.dispatchMode == .killScheduled || self.dispatchMode == .dead { return }
+            assert(self.dispatchMode == .alive)
 
-        if runAsBarrier { c(); return }
+            let runComponent: GoCall = call ?? self.apoptosize
 
-        World.lockQueue.async { c() }
+            print("a1")
+            runComponent()
+            print("a2")
+        }
     }
 
-    func startTask(_ dispatchable: Dispatchable) {
-        go({ dispatchable.go() })
+    func start(_ dispatchable: Dispatchable, runAsBarrier: Bool = true) {
+        go(dispatchable.go, runAsBarrier: true)
     }
 
     func callAgain(runAsBarrier: Bool = true) {
-        go({ self.currentTask.go() }, runAsBarrier: runAsBarrier)
+        go(self.currentTask.go, runAsBarrier: true)
     }
 
     deinit {
@@ -64,22 +62,24 @@ final class Dispatch {
 
 extension Dispatch {
     func apoptosize() {
-        World.lockQueue.async(flags: .barrier) {
-            self.dispatchMode = .killScheduled
-        }
+        currentTask = Apoptosize(self)
+        start(currentTask)
     }
 
     func colorize() {
+        print("c1, \(stepper?.name ?? "<nothing>")")
         currentTask = Colorize(self)
-        startTask(currentTask)
+        print("c2, \(stepper?.name ?? "<nothing>")")
+        start(currentTask)
+        print("c3, \(stepper?.name ?? "<nothing>")")
     }
 
     func defeatManna() {
         guard let activeEat = currentTask as? Eat else { fatalError() }
         let manna: Manna = activeEat.getResult()
 
-        currentTask.inject(manna)
-        startTask(currentTask)
+        activeEat.inject(manna)
+        start(activeEat)
     }
 
     func eat() {
@@ -87,18 +87,26 @@ extension Dispatch {
         let gridlet = spentShift.getResult()
 
         currentTask = Eat(self)
-        currentTask.inject(gridlet)
-        startTask(currentTask)
+
+        guard let newEat = currentTask as? Eat else { fatalError() }
+        newEat.inject(gridlet)
+        start(newEat)
     }
 
     func funge() {
+        print("f1, \(stepper?.name ?? "<nothing>")")
         currentTask = Funge(self)
-        startTask(currentTask)
+        print("f2, \(stepper?.name ?? "<nothing>")")
+        start(currentTask)
+        print("f3, \(stepper?.name ?? "<nothing>")")
     }
 
     func metabolize() {
+        print("m1, \(stepper?.name ?? "<nothing>")")
         currentTask = Metabolize(self)
-        startTask(currentTask)
+        print("m2, \(stepper?.name ?? "<nothing>")")
+        start(currentTask)
+        print("m3, \(stepper?.name ?? "<nothing>")")
     }
 
     func parasitize() {
@@ -106,17 +114,25 @@ extension Dispatch {
         let (_, victim) = activeEat.getResult()
 
         currentTask = Parasitize(self)
-        currentTask.inject(victim)
-        startTask(currentTask)
+
+        guard let newParasitize = currentTask as? Parasitize else { fatalError() }
+        newParasitize.inject(victim)
+        start(newParasitize)
     }
 
     func shift() {
+        print("s1, \(stepper?.name ?? "<nothing>")")
         currentTask = Shift(self)
-        startTask(currentTask)
+        print("s2, \(stepper?.name ?? "<nothing>")")
+        start(currentTask)
+        print("s3, \(stepper?.name ?? "<nothing>")")
     }
 
     func wangkhi() {
+        print("w1, \(stepper?.name ?? "<nothing>")")
         currentTask = WangkhiEmbryo(self)
-        startTask(currentTask)
+        print("w2, \(stepper?.name ?? "<nothing>")")
+        start(currentTask)
+        print("w3, \(stepper?.name ?? "<nothing>")")
     }
 }

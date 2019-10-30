@@ -32,6 +32,8 @@ final class Eat: Dispatchable {
 
 extension Eat {
     private func aEat() {
+        assert(runningAsBarrier == true)
+
         switch phase {
         case .chooseEdible:
 
@@ -51,12 +53,15 @@ extension Eat {
 
         case .settleCombat:
             switch dispatch.stepper.gridlet.contents {
-            case .arkon: settleCombat()
-            case .manna: defeatManna()
-                default: fatalError()
-            }
+            case .arkon:
+                settleCombat()
 
-            dispatch.funge()
+            case .manna:
+                defeatManna()
+                dispatch.funge()
+
+            default: fatalError()
+            }
         }
     }
 }
@@ -92,9 +97,8 @@ extension Eat {
         self.manna = manna
     }
 
-    func getResult() -> Manna {
-        return manna
-    }
+    func inject(_ any: Void?) { }
+    func getResult() -> Manna { return manna }
 }
 
 extension Eat {

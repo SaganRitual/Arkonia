@@ -2,7 +2,7 @@ import Foundation
 
 final class Shift: Dispatchable {
 
-    enum Phase { case configureGrid, calculateShift, shift }
+    enum Phase { case configureGrid, calculateShift, shift, postShift }
 
     weak var dispatch: Dispatch!
     weak var newGridlet: Gridlet?
@@ -18,9 +18,7 @@ final class Shift: Dispatchable {
         self.dispatch = dispatch
     }
 
-    func go() {
-        dispatch.go({ self.aShift() })
-    }
+    func go() { self.aShift() }
 
 }
 
@@ -43,6 +41,9 @@ extension Shift {
 
         case .shift:
             shift()
+
+        case .postShift:
+            postShift()
         }
     }
 

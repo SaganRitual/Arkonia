@@ -9,7 +9,10 @@ extension Shift {
         let moveAction =
             SKAction.move(to: newGridlet!.scenePosition, duration: 0.1)
 
-        stepper.sprite.run(moveAction, completion: postShift)
+        stepper.sprite.run(moveAction) { [unowned self] in
+            self.phase = .postShift
+            self.dispatch.callAgain(runAsBarrier: true)
+        }
     }
 }
 
@@ -21,6 +24,7 @@ extension Shift {
 
         guard let ng = newGridlet else { fatalError() }
         if ng.contents == .nothing { dispatch.funge(); return }
+        dispatch.eat()
     }
 
     private func updateGridletContents() {
@@ -33,5 +37,7 @@ extension Shift {
         ng.contents = .arkon
         ng.sprite = stepper.sprite
         self.newGridlet = nil
+
+        self.stepper.gridlet = ng
     }
 }

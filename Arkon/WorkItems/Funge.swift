@@ -17,7 +17,13 @@ extension Metabolism {
 }
 
 final class Funge: Dispatchable {
+
+    enum Phase { case checkSpawnability, execute }
+
+    var canSpawn = false
     weak var dispatch: Dispatch!
+    var isAlive = false
+    var phase = Phase.checkSpawnability
     var stats: World.StatsCopy!
     var stepper: Stepper { return dispatch.stepper }
 
@@ -31,19 +37,31 @@ final class Funge: Dispatchable {
 extension Funge {
 
     func aFunge() {
+        switch phase {
+        case .checkSpawnability:
+            checkSpawnability()
+
+            phase = .execute
+            dispatch.callAgain()
+
+        case .execute:
+            execute()
+        }
+    }
+
+    func checkSpawnability() {
         assert(dispatch.runningAsBarrier == true)
 
         stats = World.stats.copy()
 
         let age = stats.currentTime - self.stepper.birthday
         let mass = stepper.metabolism.mass
-        let isAlive = stepper.metabolism.fungeProper(age: age, mass: mass)
-        let canSpawn = stepper.canSpawn()
 
-        dispatch.go({ self.bFunge(isAlive, canSpawn) }, runAsBarrier: false)
+        self.isAlive = stepper.metabolism.fungeProper(age: age, mass: mass)
+        self.canSpawn = stepper.canSpawn()
     }
 
-    func bFunge(_ isAlive: Bool, _ canSpawn: Bool) {
+    func execute() {
         if !isAlive { dispatch.apoptosize(); return }
 
         if !canSpawn { dispatch.metabolize() ; return }

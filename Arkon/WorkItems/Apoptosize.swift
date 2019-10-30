@@ -1,7 +1,6 @@
 import SpriteKit
 
 final class Apoptosize: Dispatchable {
-
     weak var dispatch: Dispatch!
     var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
     var stepper: Stepper { return dispatch.stepper }
@@ -12,10 +11,15 @@ final class Apoptosize: Dispatchable {
 
     func go() { aApoptosize() }
 
+    deinit {
+        print("wtf")
+    }
 }
 
 extension Apoptosize {
     private func aApoptosize() {
+        assert(runningAsBarrier == true)
+
         let action = SKAction.run { [unowned self] in
             assert(Display.displayCycle == .actions)
 

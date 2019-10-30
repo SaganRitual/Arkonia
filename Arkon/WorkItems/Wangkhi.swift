@@ -19,7 +19,6 @@ protocol WangkhiProtocol: class {
     var nose: SKSpriteNode? { get set }
     var parent: Stepper? { get set }
     var sprite: SKSpriteNode? { get set }
-    var stepper: Stepper? { get set }
 }
 
 final class WangkhiEmbryo: Dispatchable, WangkhiProtocol {
@@ -39,7 +38,6 @@ final class WangkhiEmbryo: Dispatchable, WangkhiProtocol {
     var parent: Stepper?
     var phase = Phase.getUnsafeStats
     var sprite: SKSpriteNode?
-    var stepper: Stepper?
 
     init(_ dispatch: Dispatch) { self.dispatch = dispatch }
 

@@ -21,7 +21,6 @@ class Stepper {
     var parentWeights: [Double]?
     var previousShift = AKPoint.zero
     var sprite: SKSpriteNode!
-    var stepper: Stepper!
 
     init(_ parentStepper: Stepper? = nil) {
         self.parentStepper = parentStepper
@@ -43,16 +42,16 @@ class Stepper {
         self.netDisplay = embryo.netDisplay
         self.nose = embryo.nose
         self.sprite = embryo.sprite
-        self.stepper = embryo.stepper
     }
 
     deinit {
+        print("d1")
         let gridlet = self.gridlet!
         Grid.lock({ () -> [Void]? in
             gridlet.contents = .nothing
             gridlet.sprite = nil
             gridlet.gridletIsEngaged = false
-//            print("deinit \(gridlet.gridPosition)")
+            print("d2 \(gridlet.gridPosition)")
             return nil
         })
     }
