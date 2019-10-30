@@ -42,6 +42,8 @@ class Stepper {
         self.netDisplay = embryo.netDisplay
         self.nose = embryo.nose
         self.sprite = embryo.sprite
+
+        self.dispatch.stepper = self
     }
 
     deinit {

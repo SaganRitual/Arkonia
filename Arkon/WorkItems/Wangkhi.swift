@@ -131,8 +131,11 @@ extension WangkhiEmbryo {
         let newborn: Stepper = Stepper(self)
         Stepper.attachStepper(newborn, to: sprite)
         GriddleScene.arkonsPortal!.addChild(sprite)
-        dispatch!.stepper = newborn
 
-        dispatch!.funge()
+        if let parentDispatch = dispatch?.stepper?.parentStepper?.dispatch {
+            parentDispatch.funge()
+        }
+
+        newborn.dispatch!.funge()
     }
 }

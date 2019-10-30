@@ -117,7 +117,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         if tickCount < 10 { return }
 
-        let cProgenitors = 1
+        let cProgenitors = 10
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
 //            print("sp")
             Dispatch().wangkhi()
