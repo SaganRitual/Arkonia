@@ -15,9 +15,7 @@ final class Eat: Dispatchable {
         self.dispatch = dispatch
     }
 
-    func go() {
-        dispatch.go({ self.aEat() })
-    }
+    func go() { aEat() }
 
     func inject(_ gridlet: Gridlet) { self.gridlet = gridlet }
 

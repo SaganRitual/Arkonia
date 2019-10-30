@@ -10,9 +10,7 @@ final class Colorize: Dispatchable {
         self.dispatch = dispatch
     }
 
-    func go() {
-        dispatch.go({ self.aColorize() }, runAsBarrier: true)
-    }
+    func go() { aColorize() }
 
 }
 

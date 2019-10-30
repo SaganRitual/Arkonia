@@ -11,9 +11,7 @@ final class Parasitize: Dispatchable {
         self.dispatch = dispatch
     }
 
-    func go() {
-        dispatch.go({ self.aParasitize() })
-    }
+    func go() { aParasitize() }
 
     func inject(_ victim: Stepper) { self.victim = victim }
 

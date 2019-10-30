@@ -11,7 +11,7 @@ final class Metabolize: Dispatchable {
     }
 
     func go() {
-        dispatch.go({ self.aMetabolize() }, runAsBarrier: false)
+        aMetabolize()
     }
 
 }

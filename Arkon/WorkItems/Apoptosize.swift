@@ -10,9 +10,7 @@ final class Apoptosize: Dispatchable {
         self.dispatch = dispatch
     }
 
-    func go() {
-        dispatch.go({ self.aApoptosize() }, runAsBarrier: false)
-    }
+    func go() { aApoptosize() }
 
 }
 

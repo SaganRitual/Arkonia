@@ -21,8 +21,6 @@ extension Shift {
 
         guard let ng = newGridlet else { fatalError() }
         if ng.contents == .nothing { dispatch.funge(); return }
-
-        dispatch.eat()
     }
 
     private func updateGridletContents() {
