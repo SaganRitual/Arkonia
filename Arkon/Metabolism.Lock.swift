@@ -42,7 +42,7 @@ extension Metabolism.Lock {
         func debugEx() -> [T]? { print("World.barrier"); defer { print("post-execute") }; return execute?() }
         func debugOc(_ args: [T]?) { print("World.\(completionMode)"); userOnComplete?(args) }
 
-        Sync.Lockable<T>(lockQueue).lock(
+        Sync.Lockable<T>(Grid.lockQueue).lock(
             execute, userOnComplete, completionMode
         )
     }

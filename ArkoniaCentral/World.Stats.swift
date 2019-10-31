@@ -62,31 +62,31 @@ extension World.Stats {
     typealias OCGetStats = (World.StatsCopy) -> Void
 
     func decrementPopulation(_ onComplete: OCGetStats?) {
-        lockQueue.async(flags: .barrier) { [unowned self] in
+        Grid.lockQueue.async(flags: .barrier) { [unowned self] in
             self.currentPopulation -= 1
             onComplete?(self.copy())
         }
     }
 
     func getNextFishNumber(_ onComplete: @escaping (Int) -> Void) {
-        lockQueue.async(flags: .barrier) {
+        Grid.lockQueue.async(flags: .barrier) {
             defer { World.stats.TheFishNumber += 1 }
             onComplete(World.stats.TheFishNumber)
         }
     }
 
     func getStats(_ onComplete: @escaping OCGetStats) {
-        lockQueue.async(flags: .barrier) { onComplete(self.copy()) }
+        Grid.lockQueue.async(flags: .barrier) { onComplete(self.copy()) }
     }
 
     func getTimeSince(_ time: Int, _ onComplete: @escaping (Int) -> Void) {
-        lockQueue.async(flags: .barrier) {
+        Grid.lockQueue.async(flags: .barrier) {
             onComplete(self.currentTime - time)
         }
     }
 
     func incrementPopulation(_ onComplete: @escaping OCGetStats) {
-        lockQueue.async(flags: .barrier) { [unowned self] in
+        Grid.lockQueue.async(flags: .barrier) { [unowned self] in
             self.currentPopulation += 1
             self.highWaterPopulation = max(self.currentPopulation, self.highWaterPopulation)
             onComplete(self.copy())
@@ -94,7 +94,7 @@ extension World.Stats {
     }
 
     func registerAge(_ age: Int, _ onComplete: @escaping OCGetStats) {
-        lockQueue.async(flags: .barrier) {
+        Grid.lockQueue.async(flags: .barrier) {
             self.maxLivingAge = max(age, self.maxLivingAge)
             self.highWaterAge = max(self.maxLivingAge, self.highWaterAge)
             onComplete(self.copy())
@@ -106,7 +106,7 @@ extension World.Stats {
         meOffspring: WangkhiProtocol,
         _ onComplete: @escaping () -> Void
     ) {
-        lockQueue.async(flags: .barrier) {
+        Grid.lockQueue.async(flags: .barrier) {
             [unowned self] in self.registerBirth_(myParent: myParent, meOffspring: meOffspring)
         }
     }
@@ -131,10 +131,10 @@ extension World.Stats {
     }
 
     private func updateWorldClock() {
-        lockQueue.async(flags: .barrier) { [unowned self] in
+        Grid.lockQueue.async(flags: .barrier) { [unowned self] in
             self.currentTime += 1
 
-            self.lockQueue.asyncAfter(deadline: DispatchTime.now() + 1) {
+            Grid.lockQueue.asyncAfter(deadline: DispatchTime.now() + 1) {
                 [unowned self] in self.updateWorldClock()
             }
         }

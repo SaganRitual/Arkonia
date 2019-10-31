@@ -3,15 +3,15 @@ import SpriteKit
 class MannaCoordinator {
     static var shared: MannaCoordinator!
 
-    static let cMorsels = 3500
+    static let cMorsels = 1500
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
-    static private let lockQueue = DispatchQueue(
-        label: "arkonia.mannaq", qos: .userInitiated,
-        attributes: .concurrent//,
+//    static private let lockQueue = DispatchQueue(
+//        label: "arkonia.mannaq", qos: .userInitiated,
+//        attributes: .concurrent//,
 //        target: DispatchQueue.global()
-    )
+//    )
 
     static func lock<T>(
         _ execute: Sync.Lockable<T>.LockExecute? = nil,
@@ -21,14 +21,14 @@ class MannaCoordinator {
         func debugEx() -> [T]? { print("Manna.barrier"); return execute?() }
         func debugOc(_ args: [T]?) { print("Manna.concurrent"); userOnComplete?(args) }
 
-        Sync.Lockable<T>(lockQueue).lock(
+        Sync.Lockable<T>(Grid.lockQueue).lock(
             debugEx, debugOc, completionMode
         )
     }
 
     init() {
         mannaSpriteFactory = Wangkhi.spriteFactory
-        MannaCoordinator.lockQueue.async { self.populate() }
+        Grid.lockQueue.async { self.populate() }
     }
 
     func populate() {
@@ -92,7 +92,7 @@ extension MannaCoordinator {
             _ in
 //            print("pl2")
             self.finishPlanting(manna)
-        }, .concurrent)
+        }, .continueBarrier)
     }
 
     private func finishPlanting(_ manna: Manna) {
@@ -112,7 +112,7 @@ extension MannaCoordinator {
         manna.sprite.run(sequence) {
 //            print("sprite.run")
             self.cMorsels += 1
-            MannaCoordinator.lockQueue.async(execute: self.populate)
+            Grid.lockQueue.async(execute: self.populate)
 
             manna.sprite.run(
                 MannaCoordinator.MannaRecycler.colorAction

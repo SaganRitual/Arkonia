@@ -1,28 +1,23 @@
 import GameplayKit
 
-final class Colorize: Dispatchable {
-    weak var dispatch: Dispatch!
-    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+final class Colorize: AKWorkItem {
     var stats: World.StatsCopy!
-    var stepper: Stepper { return dispatch.stepper }
 
-    init(_ dispatch: Dispatch) {
-        self.dispatch = dispatch
-    }
-
-    func go() { aColorize() }
+    override func go() { aColorize() }
 
 }
 
 extension Colorize {
     func aColorize() {
         assert(runningAsBarrier == true)
+        guard let dp = self.dispatch else { fatalError() }
+        guard let st = self.stepper else { fatalError() }
 
         stats = World.stats.copy()
 
-        let age = stats.currentTime - stepper.birthday
-        dispatch.stepper.colorizeProper(dispatch, age)
-        dispatch.shift()
+        let age = stats.currentTime - st.birthday
+        st.colorizeProper(dp, age)
+        dp.shift()
     }
 }
 

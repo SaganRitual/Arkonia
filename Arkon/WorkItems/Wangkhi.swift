@@ -21,14 +21,25 @@ protocol WangkhiProtocol: class {
     var sprite: SKSpriteNode? { get set }
 }
 
-final class WangkhiEmbryo: Dispatchable, WangkhiProtocol {
+class AKWorkItem: Dispatchable {
+    weak var dispatch: Dispatch?
+    var runningAsBarrier: Bool { return dispatch!.runningAsBarrier }
+    var stepper: Stepper? { return dispatch?.stepper }
+
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
+    }
+
+    func go() { fatalError() }
+}
+
+final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     enum Phase {
         case getUnsafeStats, buildGuts, buildSprites
     }
 
     var birthday = 0
     var callAgain = false
-    var dispatch: Dispatch?
     var fishNumber = 0
     var gridlet: Gridlet?
     var metabolism: Metabolism?
@@ -38,34 +49,20 @@ final class WangkhiEmbryo: Dispatchable, WangkhiProtocol {
     var parent: Stepper?
     var phase = Phase.getUnsafeStats
     var sprite: SKSpriteNode?
+    var tempStrongReference: Dispatch?
 
-    init(_ dispatch: Dispatch) {
-//        print("before",
-//              dispatch.name.prefix(8),
-//              dispatch.stepper?.name.prefix(8) ?? "wtf1å",
-//              self.dispatch?.name.prefix(8) ?? "wtf1a",
-//              self.dispatch?.stepper?.name.prefix(8) ?? "wtf1b; ",
-//              terminator: "")
-
-        self.dispatch = dispatch
-
-//        print("after",
-//              dispatch.name.prefix(8),
-//              dispatch.stepper?.name.prefix(8) ?? "wtf2å",
-//              self.dispatch?.name.prefix(8) ?? "wtf2a",
-//              self.dispatch?.stepper?.name.prefix(8) ?? "wtf2b",
-//              terminator: "")
-
+    override init(_ dispatch: Dispatch) {
         self.parent = dispatch.stepper
+        self.tempStrongReference = dispatch
 
-//        print("rafter",
-//              dispatch.name.prefix(8),
-//              dispatch.stepper?.name.prefix(8) ?? "wtf3å",
-//              self.dispatch?.name.prefix(8) ?? "wtf3a",
-//              self.dispatch?.stepper?.name.prefix(8) ?? "wtf1b; ")
+        super.init(dispatch)
     }
 
-    func go() { aWangkhiEmbryo() }
+    deinit {
+//        print("fuck")
+    }
+
+    override func go() { aWangkhiEmbryo() }
 }
 
 extension WangkhiEmbryo {
@@ -82,8 +79,11 @@ extension WangkhiEmbryo {
             dispatch!.callAgain()
 
         case .buildSprites:
+//            print("bs6")
             buildSprites()
+//            print("bs7")
         }
+//        print("bs8")
     }
 }
 
@@ -126,8 +126,15 @@ extension WangkhiEmbryo {
     func buildSprites() {
         assert((dispatch?.runningAsBarrier ?? false) == true)
 
-        let action = SKAction.run { [unowned self] in self.buildSprites_() }
+//        print("bs1")
+        let action = SKAction.run { [unowned self] in
+//            print("bs4")
+            self.buildSprites_()
+//            print("bs5")
+        }
+//        print("bs2")
         GriddleScene.arkonsPortal.run(action)
+//        print("bs3")
     }
 
     //swiftmint:disable function_body_length
@@ -178,7 +185,8 @@ extension WangkhiEmbryo {
 //              newborn.parentStepper?.dispatch?.name ?? "no parent7a ")
 
         Stepper.attachStepper(newborn, to: sprite)
-        newborn.dispatch!.tempStrongReference = nil
+//        newborn.dispatch!.tempStrongReference = nil
+        self.tempStrongReference = nil
 
 //        print("bbefore3",
 //              dispatch?.name.prefix(8) ?? "wtf6∫",

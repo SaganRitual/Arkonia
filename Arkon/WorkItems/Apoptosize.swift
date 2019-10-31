@@ -1,15 +1,7 @@
 import SpriteKit
 
-final class Apoptosize: Dispatchable {
-    weak var dispatch: Dispatch!
-    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
-    var stepper: Stepper { return dispatch.stepper }
-
-    init(_ dispatch: Dispatch) {
-        self.dispatch = dispatch
-    }
-
-    func go() { aApoptosize() }
+final class Apoptosize: AKWorkItem {
+    override func go() { aApoptosize() }
 
     deinit {
 //        print("wtf")
@@ -23,8 +15,9 @@ extension Apoptosize {
         let action = SKAction.run { [unowned self] in
             assert(Display.displayCycle == .actions)
 
-            guard let s = self.stepper.sprite else { fatalError() }
-            guard let n = self.stepper.nose else { fatalError() }
+            guard let st = self.stepper else { fatalError() }
+            guard let s = st.sprite else { fatalError() }
+            guard let n = st.nose else { fatalError() }
 
             s.removeAllActions()
 
@@ -32,7 +25,7 @@ extension Apoptosize {
             Wangkhi.spriteFactory.arkonsHangar.retireSprite(s)
 
             // Counting on this to be the only strong ref to the stepper
-            Stepper.releaseStepper(self.stepper, to: s)
+            Stepper.releaseStepper(st, from: s)
         }
 
         GriddleScene.arkonsPortal.run(action)

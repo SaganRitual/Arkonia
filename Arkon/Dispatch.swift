@@ -23,20 +23,20 @@ final class Dispatch {
     let name = UUID().uuidString
     var runningAsBarrier = true
 
-    var tempStrongReference: Stepper?
+//    var tempStrongReference: Stepper?
     weak var stepper: Stepper!
 
     init(_ stepper: Stepper? = nil) {
 //        print("Dispatch(\(stepper == nil))")
         self.stepper = stepper
-        self.tempStrongReference = stepper
+//        self.tempStrongReference = stepper
     }
 
     private func go(_ call: GoCall? = nil, runAsBarrier: Bool = true) {
 //        print("k1 \(stepper?.name ?? "<nouthing>")")
 
-        let flags = runAsBarrier ? .barrier : DispatchWorkItemFlags()
-        World.lockQueue.async(flags: flags) {
+        let flags = runAsBarrier ? .barrier : DispatchWorkItemFlags.barrier //DispatchWorkItemFlags()
+        Grid.lockQueue.async(flags: flags) {
             assert(self.runningAsBarrier == true)
             self.runningAsBarrier = runAsBarrier
 
@@ -49,13 +49,16 @@ final class Dispatch {
             runComponent()
 //            print("a2")
         }
+//        print("og")
     }
 
     func start(_ dispatchable: Dispatchable, runAsBarrier: Bool = true) {
+//        print("st")
         go(dispatchable.go, runAsBarrier: true)
     }
 
     func callAgain(runAsBarrier: Bool = true) {
+//        print("ca")
         go(self.currentTask.go, runAsBarrier: true)
     }
 
@@ -87,12 +90,14 @@ extension Dispatch {
     }
 
     func eat() {
-        guard let gridlet = stepper.gridlet else { fatalError() }
+        guard let currentGridlet = stepper.gridlet else { fatalError() }
+        guard let spentShift = currentTask as? Shift else { fatalError() }
+        guard let previousGridlet = spentShift.getResult() else { fatalError() }
 
         currentTask = Eat(self)
 
         guard let newEat = currentTask as? Eat else { fatalError() }
-        newEat.inject(gridlet)
+        newEat.inject(previousGridlet, currentGridlet)
         start(newEat)
     }
 

@@ -4,6 +4,7 @@ protocol GridletProtocol {
     var gridPosition: AKPoint { get }
     var scenePosition: CGPoint { get }
     var randomScenePosition: CGPoint? { get }
+    var sprite: SKSpriteNode? { get }
 
     var contents: Gridlet.Contents { get }
     var previousContents: Gridlet.Contents { get }
@@ -14,6 +15,7 @@ struct GridletCopy: GridletProtocol {
     let gridPosition: AKPoint
     let scenePosition: CGPoint
     let randomScenePosition: CGPoint?
+    weak var sprite: SKSpriteNode?
 
     let contents: Gridlet.Contents
     let previousContents: Gridlet.Contents
@@ -26,6 +28,7 @@ struct GridletCopy: GridletProtocol {
         self.contents = original.contents
         self.previousContents = original.previousContents
         self.gridletIsEngaged = original.gridletIsEngaged
+        self.sprite = original.sprite
     }
 }
 

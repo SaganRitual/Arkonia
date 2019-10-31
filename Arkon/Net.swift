@@ -40,7 +40,7 @@ class Net {
     }
 
     deinit {
-        print("~Net()?")
+//        print("~Net()?")
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {

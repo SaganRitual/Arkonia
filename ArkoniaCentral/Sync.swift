@@ -7,7 +7,7 @@ enum Sync {
         let dispatchQueue: DispatchQueue
 
         init(_ dispatchQueue: DispatchQueue = Grid.lockQueue) {
-            self.dispatchQueue = dispatchQueue
+            self.dispatchQueue = Grid.lockQueue //= dispatchQueue
         }
 
         func lock(

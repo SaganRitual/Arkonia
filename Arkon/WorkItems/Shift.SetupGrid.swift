@@ -17,6 +17,8 @@ final class Shift: Dispatchable {
         self.dispatch = dispatch
     }
 
+    func getResult() -> GridletCopy? { return oldGridlet }
+
     func go() { self.aShift() }
 
 }

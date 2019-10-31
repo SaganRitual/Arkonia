@@ -99,7 +99,7 @@ extension Stepper {
         return stepper
     }
 
-    static func releaseStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
+    static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
         sprite.userData![SpriteUserDataKey.stepper] = nil
     }
 }
