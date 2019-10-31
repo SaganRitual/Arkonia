@@ -1,9 +1,5 @@
 import SpriteKit
 
-protocol ClockProtocol {
-    func getCurrentTime() -> TimeInterval
-}
-
 protocol EnergyPacketProtocol {
     var energyContent: CGFloat { get }
     var mass: CGFloat { get }

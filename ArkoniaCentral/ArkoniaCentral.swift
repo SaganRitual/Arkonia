@@ -16,23 +16,23 @@ extension SKSpriteNode {
 //        return CGPoint.random(xRange: xRange, yRange: yRange)
 //    }
 
-    func getRandomPoint() -> (Gridlet, CGPoint) {
-        let wGrid = Griddle.dimensions.wGrid
-        let hGrid = Griddle.dimensions.hGrid
+    func getRandomPoint() -> Grid.RandomGridPoint {
+        let wGrid = Grid.dimensions.wGrid
+        let hGrid = Grid.dimensions.hGrid
 
         let ak = AKPoint.random((-wGrid + 1)..<wGrid, (-hGrid + 1)..<hGrid)
 
         let gridlet = Gridlet.at(ak.x, ak.y)
-//        let wScene = CGFloat(Griddle.dimensions.wSprite / 2)
-//        let hScene = CGFloat(Griddle.dimensions.hSprite / 2)
-//
-//        let lScene = gridlet.scenePosition.x - wScene
-//        let rScene = gridlet.scenePosition.x + wScene
-//        let bScene = gridlet.scenePosition.y - hScene
-//        let tScene = gridlet.scenePosition.y + hScene
+        let wScene = CGFloat(Grid.dimensions.wSprite / 2)
+        let hScene = CGFloat(Grid.dimensions.hSprite / 2)
 
-//        let sp = CGPoint.random(xRange: lScene..<rScene, yRange: bScene..<tScene)
-        let sp = CGPoint(x: gridlet.scenePosition.x, y: gridlet.scenePosition.y)
-        return (gridlet, sp)
+        let lScene = gridlet.scenePosition.x - wScene
+        let rScene = gridlet.scenePosition.x + wScene
+        let bScene = gridlet.scenePosition.y - hScene
+        let tScene = gridlet.scenePosition.y + hScene
+
+        let sp = CGPoint.random(xRange: lScene..<rScene, yRange: bScene..<tScene)
+//        let sp = CGPoint(x: gridlet.scenePosition.x, y: gridlet.scenePosition.y)
+        return Grid.RandomGridPoint(gridlet: gridlet, cgPoint: sp)
     }
 }

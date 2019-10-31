@@ -10,6 +10,7 @@ class SpriteHangar: SpriteHangarProtocol {
     var drones = [SKSpriteNode]()
     let factoryFunction: FactoryFunction
     var texture: SKTexture
+    var doubly = false
 
     init(_ atlasName: String, _ textureName: String, factoryFunction: @escaping FactoryFunction) {
         atlas = SKTextureAtlas(named: atlasName)
@@ -18,6 +19,9 @@ class SpriteHangar: SpriteHangarProtocol {
     }
 
     func makeSprite() -> SKSpriteNode {
+        assert(doubly == false)
+        defer { doubly = false }
+        doubly = true
         if let readyDrone = drones.first(where: { sprite in sprite.parent == nil }) {
             return readyDrone
         }
@@ -31,7 +35,6 @@ class SpriteHangar: SpriteHangarProtocol {
     func retireSprite(_ sprite: SKSpriteNode) {
         sprite.removeAllActions()
         sprite.removeFromParent()
-
     }
 }
 
