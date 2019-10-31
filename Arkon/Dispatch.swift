@@ -22,11 +22,14 @@ final class Dispatch {
     var dispatchMode: DispatchMode = .alive
     let name = UUID().uuidString
     var runningAsBarrier = true
-    var stepper: Stepper!
+
+    var tempStrongReference: Stepper?
+    weak var stepper: Stepper!
 
     init(_ stepper: Stepper? = nil) {
-        print("Dispatch(\(stepper == nil))")
+//        print("Dispatch(\(stepper == nil))")
         self.stepper = stepper
+        self.tempStrongReference = stepper
     }
 
     private func go(_ call: GoCall? = nil, runAsBarrier: Bool = true) {

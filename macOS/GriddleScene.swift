@@ -110,17 +110,6 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         Display.displayCycle = .updateStarted
 
-        defer {
-            tickCount += 1
-            Display.displayCycle = .actions
-        }
-
-        if tickCount < 10 { return }
-
-        let cProgenitors = 25
-        if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
-//            print("sp")
-            Dispatch().wangkhi()
-        }
+        Display.displayCycle = .actions
     }
 }

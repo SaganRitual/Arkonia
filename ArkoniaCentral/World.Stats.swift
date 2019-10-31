@@ -61,10 +61,10 @@ extension World {
 extension World.Stats {
     typealias OCGetStats = (World.StatsCopy) -> Void
 
-    func decrementPopulation(_ onComplete: @escaping OCGetStats) {
+    func decrementPopulation(_ onComplete: OCGetStats?) {
         lockQueue.async(flags: .barrier) { [unowned self] in
             self.currentPopulation -= 1
-            onComplete(self.copy())
+            onComplete?(self.copy())
         }
     }
 

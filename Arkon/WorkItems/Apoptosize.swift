@@ -23,7 +23,7 @@ extension Apoptosize {
         let action = SKAction.run { [unowned self] in
             assert(Display.displayCycle == .actions)
 
-             guard let s = self.stepper.sprite else { fatalError() }
+            guard let s = self.stepper.sprite else { fatalError() }
             guard let n = self.stepper.nose else { fatalError() }
 
             s.removeAllActions()
@@ -31,10 +31,8 @@ extension Apoptosize {
             Wangkhi.spriteFactory.noseHangar.retireSprite(n)
             Wangkhi.spriteFactory.arkonsHangar.retireSprite(s)
 
-            guard let ud = s.userData else { return }
-
             // Counting on this to be the only strong ref to the stepper
-            ud[SpriteUserDataKey.stepper] = nil
+            Stepper.releaseStepper(self.stepper, to: s)
         }
 
         GriddleScene.arkonsPortal.run(action)

@@ -178,6 +178,7 @@ extension WangkhiEmbryo {
 //              newborn.parentStepper?.dispatch?.name ?? "no parent7a ")
 
         Stepper.attachStepper(newborn, to: sprite)
+        newborn.dispatch!.tempStrongReference = nil
 
 //        print("bbefore3",
 //              dispatch?.name.prefix(8) ?? "wtf6∫",
@@ -193,22 +194,22 @@ extension WangkhiEmbryo {
 
         GriddleScene.arkonsPortal!.addChild(sprite)
 
-        print("birth0")
+//        print("birth0")
         if let dp = self.dispatch, let st = dp.stepper {
-            print("parent0")
+//            print("parent0")
 
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
 
             dp.funge()
-            print("parent1")
+//            print("parent1")
         }
 
-        print("birth1")
+//        print("birth1")
 
         newborn.dispatch!.funge()
 
-        print("child")
+//        print("child")
     }
     //swiftmint:enable function_body_length
 }

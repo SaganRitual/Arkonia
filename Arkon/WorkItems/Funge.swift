@@ -3,7 +3,7 @@ import Foundation
 
 extension Metabolism {
     func fungeProper(age: Int, mass: CGFloat) -> Bool {
-        print("fungeProper \(mass)")
+//        print("fungeProper \(mass)")
 
         let fudgeFactor: CGFloat = 1
         let joulesNeeded = fudgeFactor * mass
@@ -65,8 +65,8 @@ extension Funge {
 //              self.dispatch?.stepper?.name.prefix(3) ?? "wtf6b; ")
 
         let age = stats.currentTime - self.stepper.birthday
-        let mass = CGFloat(0)// stepper.metabolism.mass
-        print("funge \(mass)")
+        let mass = stepper.metabolism.mass
+//        print("funge \(mass)")
 
         self.isAlive = stepper.metabolism.fungeProper(age: age, mass: mass)
         self.canSpawn = stepper.canSpawn()
