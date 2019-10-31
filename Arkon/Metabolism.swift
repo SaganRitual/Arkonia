@@ -4,16 +4,6 @@ enum EnergyReserveType: CaseIterable {
     case bone, fatReserves, readyEnergyReserves, spawnReserves, stomach
 }
 
-struct EnergyPacket: EnergyPacketProtocol {
-    let energyContent: CGFloat  // in mJ
-    let mass: CGFloat           // in g
-
-    init(energyContent: CGFloat, mass: CGFloat) {
-        self.energyContent = energyContent
-        self.mass = mass
-    }
-}
-
 struct EnergyReserve {
     static let startingLevelBone: CGFloat = 100
     static let startingLevelFat: CGFloat = 500
@@ -86,8 +76,12 @@ struct EnergyReserve {
         if cJoules == 0 { return 0 }
         precondition(cJoules > 0)
 
+        assert(cJoules < CGFloat.infinity)
+
         let net = min(level, cJoules)
+        let bevel = level
         level -= net
+        print("wd \(cJoules) -> \(net), from \(bevel) to \(level)")
         return net
     }
 }
@@ -156,29 +150,29 @@ class Metabolism {
     }
 
     func absorbEnergy(_ cJoules: CGFloat) {
-        defer { updatePhysicsBodyMass() }
+//        defer { updatePhysicsBodyMass() }
 
-//        print(
-//            "[Deposit",
-//            String(format: "% 6.2f ", stomach.level),
-//            String(format: "% 6.2f ", readyEnergyReserves.level),
-//            String(format: "% 6.2f ", fatReserves.level),
-//            String(format: "% 6.2f ", spawnReserves.level),
-//            String(format: "% 6.2f ", energyContent),
-//            String(format: "(% 6.2f)", cJoules)
-//        )
+        print(
+            "[Deposit",
+            String(format: "% 6.2f ", stomach.level),
+            String(format: "% 6.2f ", readyEnergyReserves.level),
+            String(format: "% 6.2f ", fatReserves.level),
+            String(format: "% 6.2f ", spawnReserves.level),
+            String(format: "% 6.2f ", energyContent),
+            String(format: "(% 6.2f)", cJoules)
+        )
 
         stomach.deposit(cJoules)
 
-//        print(
-//            " Deposit",
-//            String(format: "% 6.2f ", stomach.level),
-//            String(format: "% 6.2f ", readyEnergyReserves.level),
-//            String(format: "% 6.2f ", fatReserves.level),
-//            String(format: "% 6.2f ", spawnReserves.level),
-//            String(format: "% 6.2f ", energyContent),
-//            String(format: "(% 6.2f)\n]", cJoules)
-//        )
+        print(
+            " Deposit",
+            String(format: "% 6.2f ", stomach.level),
+            String(format: "% 6.2f ", readyEnergyReserves.level),
+            String(format: "% 6.2f ", fatReserves.level),
+            String(format: "% 6.2f ", spawnReserves.level),
+            String(format: "% 6.2f ", energyContent),
+            String(format: "(% 6.2f)\n]", cJoules)
+        )
     }
 
     func inhale() {
@@ -189,21 +183,26 @@ class Metabolism {
 
     @discardableResult
     func withdrawFromReady(_ cJoules: CGFloat) -> CGFloat {
-        defer { updatePhysicsBodyMass() }
+//        defer { updatePhysicsBodyMass() }
+        print("withdraw \(cJoules) joules")
         return readyEnergyReserves.withdraw(cJoules)
     }
 
     @discardableResult
     func withdrawFromSpawn(_ cJoules: CGFloat) -> CGFloat {
-        defer { updatePhysicsBodyMass() }
+//        defer { updatePhysicsBodyMass() }
         return spawnReserves.withdraw(cJoules)
     }
 
-    func updatePhysicsBodyMass() {
-        self.mass = CGFloat(self.allReserves.reduce(0) { subtotal, reserves in
-            return subtotal + Int((reserves.level / reserves.energyDensity))
-        }) / 1000 //+ (muscles?.mass ?? 0)
-
-//        setMass(to: mass)
-    }
+//    func updatePhysicsBodyMass() {
+//        let m = CGFloat(self.allReserves.reduce(CGFloat.zero) { subtotal, reserves in
+//            print("wtfmass \(subtotal), \(reserves.level), \(reserves.energyDensity)")
+//            return subtotal + (reserves.level / reserves.energyDensity)
+//        }) / 1000 //+ (muscles?.mass ?? 0)
+//
+////        self.mass = m
+//        print("upbmmass = \(m)")
+//
+////        setMass(to: mass)
+//    }
 }

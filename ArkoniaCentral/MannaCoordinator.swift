@@ -3,7 +3,7 @@ import SpriteKit
 class MannaCoordinator {
     static var shared: MannaCoordinator!
 
-    static let cMorsels = 750
+    static let cMorsels = 3500
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 

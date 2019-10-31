@@ -31,13 +31,13 @@ extension Shift {
 extension Shift {
     func postShift() {
         guard let ng = stepper.gridlet else { fatalError() }
-        print(
-            "s",
-            ng.previousContents,
-            ng.contents,
-            dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
-            dispatch.stepper.oldGridlet?.contents ?? .unknown
-        )
+//        print(
+//            "s",
+//            ng.previousContents,
+//            ng.contents,
+//            dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
+//            dispatch.stepper.oldGridlet?.contents ?? .unknown
+//        )
         if ng.contents == .nothing { dispatch.funge(); return }
         dispatch.eat()
     }

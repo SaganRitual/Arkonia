@@ -2,20 +2,21 @@ import CoreGraphics
 import Dispatch
 
 extension Metabolism {
-    func getMass(_ onComplete: @escaping (CGFloat) -> Void) {
-        Lock.lockQueue.async(flags: .barrier) { [unowned self] in
-            onComplete(self.mass)
-        }
-    }
+//    func getMass(_ onComplete: @escaping (CGFloat) -> Void) {
+//        Lock.lockQueue.async(flags: .barrier) { [unowned self] in
+//            onComplete(self.mass)
+//        }
+//    }
 
-    func setMass(
-        to newMass: CGFloat, _ onComplete: (() -> Void)? = nil
-    ) {
-        Lock.lockQueue.async(flags: .barrier) { [unowned self] in
-            self.mass = newMass
-            onComplete?()
-        }
-    }
+//    func setMass(
+//        to newMass: CGFloat, _ onComplete: (() -> Void)? = nil
+//    ) {
+//        assert(false)
+//        Lock.lockQueue.async(flags: .barrier) { [unowned self] in
+//            self.mass = newMass
+//            onComplete?()
+//        }
+//    }
 
     class Lock {
         static fileprivate let lockQueue = DispatchQueue(

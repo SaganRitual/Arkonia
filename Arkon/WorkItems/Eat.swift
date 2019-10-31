@@ -31,7 +31,7 @@ final class Eat: Dispatchable {
 }
 
 extension Eat {
-    //swiftlint:disable function_body_length
+    //swiftmint:disable function_body_length
     private func aEat() {
         assert(runningAsBarrier == true)
 
@@ -40,47 +40,47 @@ extension Eat {
 
             switch dispatch.stepper.gridlet.contents {
             case .arkon:
-                print(
-                    "a",
-                    dispatch.stepper.gridlet.previousContents,
-                    dispatch.stepper.gridlet.contents,
-                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
-                    dispatch.stepper.oldGridlet?.contents ?? .unknown
-                )
+//                print(
+//                    "a",
+//                    dispatch.stepper.gridlet.previousContents,
+//                    dispatch.stepper.gridlet.contents,
+//                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
+//                    dispatch.stepper.oldGridlet?.contents ?? .unknown
+//                )
                 battleArkon()
                 phase = .settleCombat
                 dispatch.callAgain()
 
             case .manna:
-                print(
-                    "m",
-                    dispatch.stepper.gridlet.previousContents,
-                    dispatch.stepper.gridlet.contents,
-                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
-                    dispatch.stepper.oldGridlet?.contents ?? .unknown
-                )
+//                print(
+//                    "m",
+//                    dispatch.stepper.gridlet.previousContents,
+//                    dispatch.stepper.gridlet.contents,
+//                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
+//                    dispatch.stepper.oldGridlet?.contents ?? .unknown
+//                )
                 battleManna()
                 phase = .settleCombat
                 dispatch.defeatManna()
 
             case .nothing:
-                print(
-                    "n",
-                    dispatch.stepper.gridlet.previousContents,
-                    dispatch.stepper.gridlet.contents,
-                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
-                    dispatch.stepper.oldGridlet?.contents ?? .unknown
-                )
+//                print(
+//                    "n",
+//                    dispatch.stepper.gridlet.previousContents,
+//                    dispatch.stepper.gridlet.contents,
+//                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
+//                    dispatch.stepper.oldGridlet?.contents ?? .unknown
+//                )
                 dispatch.funge()
 
             case .unknown:
-                print(
-                    "u",
-                    dispatch.stepper.gridlet.previousContents,
-                    dispatch.stepper.gridlet.contents,
-                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
-                    dispatch.stepper.oldGridlet?.contents ?? .unknown
-                )
+//                print(
+//                    "u",
+//                    dispatch.stepper.gridlet.previousContents,
+//                    dispatch.stepper.gridlet.contents,
+//                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
+//                    dispatch.stepper.oldGridlet?.contents ?? .unknown
+//                )
                 dispatch.funge()
             }
 
@@ -97,7 +97,7 @@ extension Eat {
             }
         }
     }
-    //swiftlint:enable function_body_length
+    //swiftmint:enable function_body_length
 }
 
 extension Eat {
@@ -110,10 +110,11 @@ extension Eat {
             let otherStepper = otherAny as? Stepper
         else { fatalError() }
 
-        let myMass = dispatch.stepper.metabolism.mass
-        let hisMass = otherStepper.metabolism.mass
-        self.combatOrder = (myMass > (hisMass * 1.25)) ?
-            (dispatch.stepper, otherStepper) : (otherStepper, dispatch.stepper)
+        let myMass = 0// dispatch.stepper.metabolism.mass
+        let hisMass = 0// otherStepper.metabolism.mass
+        print("combat: \(myMass) <-> \(hisMass)")
+        self.combatOrder = //(myMass > (hisMass * 1.25)) ?
+            (dispatch.stepper, otherStepper) //: (otherStepper, dispatch.stepper)
     }
 
     func getResult() -> (Stepper, Stepper) {
