@@ -35,7 +35,7 @@ class AKWorkItem: Dispatchable {
 
 final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     enum Phase {
-        case getUnsafeStats, buildGuts, buildSprites
+        case getUnsafeStats, buildGuts
     }
 
     var birthday = 0
@@ -48,6 +48,7 @@ final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     var nose: SKSpriteNode?
     var parent: Stepper?
     var phase = Phase.getUnsafeStats
+    var runAsBarrier = true
     var sprite: SKSpriteNode?
     var tempStrongReference: Dispatch?
 
@@ -62,6 +63,14 @@ final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
 //        print("fuck")
     }
 
+    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
+        guard let dp = dispatch else { fatalError() }
+
+        self.phase = phase
+        self.runAsBarrier = runAsBarrier
+        dp.callAgain()
+    }
+
     override func go() { aWangkhiEmbryo() }
 }
 
@@ -70,20 +79,12 @@ extension WangkhiEmbryo {
         switch phase {
         case .getUnsafeStats:
             getUnsafeStats()
-            phase = .buildGuts
-            dispatch!.callAgain()
+            callAgain(.buildGuts, false)
 
         case .buildGuts:
             buildGuts()
-            phase = .buildSprites
-            dispatch!.callAgain()
-
-        case .buildSprites:
-//            print("bs6")
             buildSprites()
-//            print("bs7")
         }
-//        print("bs8")
     }
 }
 
