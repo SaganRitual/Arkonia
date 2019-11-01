@@ -37,9 +37,6 @@ extension Shift {
         switch phase {
         case .reserveGridPoints:
             reserveGridPoints()
-            callAgain(.loadGridInputs, false)
-
-        case .loadGridInputs:
             loadGridInputs()
             callAgain(.calculateShift, true)
 
@@ -52,25 +49,27 @@ extension Shift {
 
         case .postShift:
             postShift()
+
+        case .loadGridInputs: fatalError()
         }
     }
 
     private func loadGridInputs() {
         sensoryInputs = Grid.gridInputs.map { step in
-            return self.loadGridInputs_(step)
+            return self.loadGridInput_(step)
         }
     }
 
     private func reserveGridPoints() {
         usableGridOffsets = Grid.moves.compactMap { offset in
-            reserveGridPoints_(offset)
+            reserveGridPoint_(offset)
         }
     }
 }
 
 extension Shift {
 
-    private func loadGridInputs_(_ step: AKPoint) -> (Double, Double) {
+    private func loadGridInput_(_ step: AKPoint) -> (Double, Double) {
         let inputGridlet = step + stepper.gridlet.gridPosition
         if !Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) {
             return (Gridlet.Contents.nothing.rawValue, -1e6)
@@ -97,7 +96,7 @@ extension Shift {
         return (targetGridlet.contents.rawValue, nutrition)
     }
 
-    func reserveGridPoints_(_ offset: AKPoint) -> AKPoint? {
+    func reserveGridPoint_(_ offset: AKPoint) -> AKPoint? {
         let targetGridPoint = stepper.gridlet.gridPosition + offset
 
         if Gridlet.isOnGrid(targetGridPoint.x, targetGridPoint.y) {

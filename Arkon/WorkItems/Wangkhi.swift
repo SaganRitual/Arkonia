@@ -35,7 +35,7 @@ class AKWorkItem: Dispatchable {
 
 final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     enum Phase {
-        case getUnsafeStats, buildGuts
+        case getUnsafeStats, buildGuts, buildSprites
     }
 
     var birthday = 0
@@ -83,6 +83,9 @@ extension WangkhiEmbryo {
 
         case .buildGuts:
             buildGuts()
+            callAgain(.buildSprites, false)
+
+        case .buildSprites:
             buildSprites()
         }
     }

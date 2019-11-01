@@ -25,9 +25,18 @@ final class Dispatch {
     }
 
     private func go(_ dispatchable: Dispatchable) {
-        let flags = dispatchable.runAsBarrier ? .barrier : DispatchWorkItemFlags()
+        let queue: DispatchQueue
+        let flags: DispatchWorkItemFlags
 
-        Grid.lockQueue.async(flags: flags) {
+        if dispatchable.runAsBarrier {
+            queue = Grid.lockQueue
+            flags = .barrier
+        } else {
+            queue = World.mainQueue
+            flags = DispatchWorkItemFlags()
+        }
+
+        queue.async(flags: flags) {
             if self.dispatchMode == .apoptosisScheduled { return }
 
             let runComponent: GoCall = dispatchable.go
