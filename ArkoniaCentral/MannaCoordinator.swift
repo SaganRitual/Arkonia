@@ -7,12 +7,6 @@ class MannaCoordinator {
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
-//    static private let lockQueue = DispatchQueue(
-//        label: "arkonia.mannaq", qos: .userInitiated,
-//        attributes: .concurrent//,
-//        target: DispatchQueue.global()
-//    )
-
     static func lock<T>(
         _ execute: Sync.Lockable<T>.LockExecute? = nil,
         _ userOnComplete: Sync.Lockable<T>.LockOnComplete? = nil,
@@ -118,9 +112,7 @@ extension MannaCoordinator {
         }
     }
 
-    static func plantSingleManna(
-        _ manna: Manna, at gridlet: Gridlet
-    ) {
+    static func plantSingleManna(_ manna: Manna, at gridlet: Gridlet) {
         gridlet.contents = .manna
         gridlet.sprite = manna.sprite
 

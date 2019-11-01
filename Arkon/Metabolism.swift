@@ -91,7 +91,6 @@ class Metabolism {
     let fungibleReserves: [EnergyReserve]
     let reUnderflowThreshold: CGFloat
 
-    var massLock: Metabolism.Lock!
     var mass: CGFloat = 0
     var oxygenLevel: CGFloat = 1.0
 
@@ -145,8 +144,6 @@ class Metabolism {
 
         // Overflow is 5/6, make underflow 1/4, see how it goes
         self.reUnderflowThreshold = 1.0 / 4.0 * readyEnergyReserves.capacity
-
-        massLock = Metabolism.Lock(self)
     }
 
     func absorbEnergy(_ cJoules: CGFloat) {

@@ -16,7 +16,6 @@ extension World {
     static let lockQueue = DispatchQueue(
         label: "arkonia.lock.world", qos: .default,
         attributes: DispatchQueue.Attributes.concurrent
-//        target: DispatchQueue.global()
     )
 
     static func lock<T>(

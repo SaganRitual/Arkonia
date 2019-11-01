@@ -26,8 +26,6 @@ extension SKSpriteNode {
             xRange: lScene..<rScene, yRange: bScene..<tScene
         )
 
-        gridlet.randomScenePosition = gridlet.scenePosition
-
         return gridlet
     }
 }

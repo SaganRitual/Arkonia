@@ -34,7 +34,7 @@ struct GridletCopy: GridletProtocol {
 
 class Gridlet: GridletProtocol {
 
-    enum Contents: Double { case arkon, manna, nothing, unknown }
+    enum Contents: Double { case arkon, manna, nothing }
 
     let gridPosition: AKPoint
     let scenePosition: CGPoint

@@ -6,8 +6,8 @@ enum Sync {
     class Lockable<T> {
         let dispatchQueue: DispatchQueue
 
-        init(_ dispatchQueue: DispatchQueue = Grid.lockQueue) {
-            self.dispatchQueue = Grid.lockQueue //= dispatchQueue
+        init(_ dispatchQueue: DispatchQueue = World.mainQueue) {
+            self.dispatchQueue = dispatchQueue
         }
 
         func lock(

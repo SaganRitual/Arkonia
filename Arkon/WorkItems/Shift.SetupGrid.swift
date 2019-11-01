@@ -88,8 +88,7 @@ extension Shift {
             let manna = Manna.getManna(from: sprite)
             nutrition = Double(manna.energyContentInJoules)
 
-        case .nothing: fallthrough
-        case .unknown:
+        case .nothing:
             nutrition = 0
         }
 

@@ -37,47 +37,16 @@ extension Eat {
 
             switch st.gridlet.contents {
             case .arkon:
-//                print(
-//                    "a",
-//                    dispatch.stepper.gridlet.previousContents,
-//                    dispatch.stepper.gridlet.contents,
-//                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
-//                    dispatch.stepper.oldGridlet?.contents ?? .unknown
-//                )
                 battleArkon()
                 phase = .settleCombat
                 dispatch?.callAgain()
 
             case .manna:
-//                print(
-//                    "m",
-//                    dispatch.stepper.gridlet.previousContents,
-//                    dispatch.stepper.gridlet.contents,
-//                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
-//                    dispatch.stepper.oldGridlet?.contents ?? .unknown
-//                )
                 battleManna()
                 phase = .settleCombat
                 dispatch?.defeatManna()
 
             case .nothing:
-//                print(
-//                    "n",
-//                    dispatch.stepper.gridlet.previousContents,
-//                    dispatch.stepper.gridlet.contents,
-//                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
-//                    dispatch.stepper.oldGridlet?.contents ?? .unknown
-//                )
-                dispatch?.funge()
-
-            case .unknown:
-//                print(
-//                    "u",
-//                    dispatch.stepper.gridlet.previousContents,
-//                    dispatch.stepper.gridlet.contents,
-//                    dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
-//                    dispatch.stepper.oldGridlet?.contents ?? .unknown
-//                )
                 dispatch?.funge()
             }
 
