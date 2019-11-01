@@ -6,7 +6,7 @@ extension Shift {
 
         oldGridlet = releaseGridlet(stepper.gridlet!)
 
-        self.stepper.gridlet = Gridlet.at(oldGridlet!.gridPosition + st)
+        self.stepper.gridlet = st
 
         let moveAction =
             SKAction.move(to: self.stepper.gridlet.scenePosition, duration: 0.1)

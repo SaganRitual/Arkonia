@@ -32,7 +32,7 @@ struct GridletCopy: GridletProtocol {
     }
 }
 
-class Gridlet: GridletProtocol {
+class Gridlet: GridletProtocol, Equatable {
 
     enum Contents: Double { case arkon, manna, nothing }
 
@@ -54,6 +54,12 @@ class Gridlet: GridletProtocol {
         print("~Gridlet")
     }
 
+    static func atIf(_ x: Int, _ y: Int) -> Gridlet? {
+        let p = AKPoint(x: x, y: y)
+        guard let g = Grid.gridlets[p] else { return nil }
+        return g
+    }
+
     static func at(_ x: Int, _ y: Int) -> Gridlet {
         let p = AKPoint(x: x, y: y)
         guard let g = Grid.gridlets[p] else {
@@ -65,7 +71,13 @@ class Gridlet: GridletProtocol {
         return g
     }
 
-    static func at(_ position: AKPoint) -> Gridlet { return Gridlet.at(position.x, position.y) }
+    static func atIf(_ position: AKPoint) -> Gridlet? {
+        return Gridlet.atIf(position.x, position.y)
+    }
+
+    static func at(_ position: AKPoint) -> Gridlet {
+        return Gridlet.at(position.x, position.y)
+    }
 
     static func constrainToGrid(_ x: Int, _ y: Int) -> (Int, Int) {
         let cx = Grid.dimensions.wGrid - 1
@@ -80,6 +92,18 @@ class Gridlet: GridletProtocol {
     static func isOnGrid(_ x: Int, _ y: Int) -> Bool {
         let (cx, cy) = constrainToGrid(x, y)
         return cx == x && cy == y
+    }
+
+    static func + (_ lhs: Gridlet, _ rhs: AKPoint) -> Gridlet {
+        return Gridlet.at(lhs.gridPosition + rhs)
+    }
+
+    static func - (_ lhs: Gridlet, _ rhs: AKPoint) -> Gridlet {
+        return Gridlet.at(lhs.gridPosition - rhs)
+    }
+
+    static func == (_ lhs: Gridlet, _ rhs: Gridlet) -> Bool {
+        return lhs === rhs
     }
 
 }

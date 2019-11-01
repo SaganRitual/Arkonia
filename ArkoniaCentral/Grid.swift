@@ -14,6 +14,10 @@ struct AKPoint: Hashable {
         return AKPoint(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
     }
 
+    static func - (_ lhs: AKPoint, _ rhs: AKPoint) -> AKPoint {
+        return AKPoint(x: lhs.x - rhs.x, y: lhs.y - rhs.y)
+    }
+
     static func * (_ lhs: AKPoint, _ rhs: Int) -> AKPoint {
         return AKPoint(x: lhs.x * rhs, y: lhs.y * rhs)
     }

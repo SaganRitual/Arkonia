@@ -4,17 +4,18 @@ final class Shift: Dispatchable {
 
     enum Phase {
         case reserveGridPoints, loadGridInputs
-        case calculateShift, shift, postShift
+        case calculateShift, releaseGridPoints, shift, postShift
     }
 
     weak var dispatch: Dispatch!
     var oldGridlet: GridletCopy?
     var phase: Phase = .reserveGridPoints
     var runAsBarrier: Bool = true
+    var senseData = [Double]()
     var sensoryInputs = [(Double, Double)]()
-    var shiftTarget: AKPoint?
+    var shiftTarget: Gridlet?
     var stepper: Stepper { return dispatch.stepper }
-    var usableGridOffsets = [AKPoint]()
+    var usableGridlets = [Gridlet]()
 
     init(_ dispatch: Dispatch) {
         self.dispatch = dispatch
@@ -38,11 +39,15 @@ extension Shift {
         case .reserveGridPoints:
             reserveGridPoints()
             loadGridInputs()
-            callAgain(.calculateShift, true)
+            callAgain(.calculateShift, false)
 
         case .calculateShift:
             calculateShift()
-            callAgain(.shift, true)
+            callAgain(.releaseGridPoints, true)
+
+        case .releaseGridPoints:
+            releaseGridPoints()
+            callAgain(.shift, false)
 
         case .shift:
             shift()
@@ -61,7 +66,7 @@ extension Shift {
     }
 
     private func reserveGridPoints() {
-        usableGridOffsets = Grid.moves.compactMap { offset in
+        usableGridlets = Grid.moves.compactMap { offset in
             reserveGridPoint_(offset)
         }
     }
@@ -95,18 +100,14 @@ extension Shift {
         return (targetGridlet.contents.rawValue, nutrition)
     }
 
-    func reserveGridPoint_(_ offset: AKPoint) -> AKPoint? {
-        let targetGridPoint = stepper.gridlet.gridPosition + offset
+    func reserveGridPoint_(_ offset: AKPoint) -> Gridlet? {
+        let tp = stepper.gridlet.gridPosition + offset
 
-        if Gridlet.isOnGrid(targetGridPoint.x, targetGridPoint.y) {
-            let targetGridlet = Gridlet.at(targetGridPoint)
+        guard let targetGridlet = Gridlet.atIf(tp.x, tp.y) else { return nil }
 
-            if !targetGridlet.gridletIsEngaged {
-                targetGridlet.gridletIsEngaged = true
-                return offset
-            }
-        }
+        if targetGridlet.gridletIsEngaged { return nil }
 
-        return nil
+        targetGridlet.gridletIsEngaged = true
+        return targetGridlet
     }
 }

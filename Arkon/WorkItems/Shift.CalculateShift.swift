@@ -5,8 +5,6 @@ extension Shift {
     func calculateShift() {
         let senseData = loadSenseData()
         self.shiftTarget = selectMoveTarget(senseData: senseData)
-
-        releaseGridPoints()
     }
 
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
@@ -42,23 +40,18 @@ extension Shift {
         return hackyRearrangedInputs
     }
 
-    private func releaseGridPoints() {
-        let whereIAmNow = stepper.gridlet!
-
-        for gridOffset in usableGridOffsets {
-
-            if self.shiftTarget == nil ||
-                self.shiftTarget! != gridOffset
-            {
-                let targetGridlet =  Gridlet.at(whereIAmNow.gridPosition + gridOffset)
-                targetGridlet.gridletIsEngaged = false
+    func releaseGridPoints() {
+        for gridlet in usableGridlets {
+            guard let sh = self.shiftTarget else { fatalError() }
+            if sh !== gridlet {
+                gridlet.gridletIsEngaged = false
             }
         }
 
-        usableGridOffsets.removeAll(keepingCapacity: true)
+        usableGridlets.removeAll(keepingCapacity: true)
     }
 
-    private func selectMoveTarget(senseData: [Double]) -> AKPoint {
+    private func selectMoveTarget(senseData: [Double]) -> Gridlet {
         let motorOutputs: [Double] = stepper.net.getMotorOutputs(senseData)
         let dMotorOutputs: [Int: Double] = self.getMotorDataAsDictionary(motorOutputs)
 
@@ -66,13 +59,21 @@ extension Shift {
             Double(lhs.1) > Double(rhs.1)
         }
 
-        var targetShift = AKPoint.zero
-        let targetMove = order.first { entry in
-            targetShift = Grid.moves[entry.0]
-            return usableGridOffsets.contains(targetShift)
+        let targetOffset = order.first { entry in
+            let candidateOffset = Grid.moves[entry.0]
+
+            let stepperGridPoint = stepper.gridlet.gridPosition
+
+            guard let candidateGridlet = Gridlet.atIf(
+                stepperGridPoint + candidateOffset
+            ) else {
+                return false
+            }
+
+            return usableGridlets.contains(candidateGridlet)
         }
 
-        guard let tm = targetMove else { return AKPoint.zero }
-        return Grid.moves[tm.0]
+        guard let t = targetOffset else { return stepper.gridlet }
+        return stepper.gridlet + Grid.moves[t.0]
     }
 }
