@@ -108,6 +108,7 @@ extension World.Stats {
     ) {
         World.lockQueue.async(flags: .barrier) {
             [unowned self] in self.registerBirth_(myParent: myParent, meOffspring: meOffspring)
+            onComplete()
         }
     }
 

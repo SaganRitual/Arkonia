@@ -17,11 +17,12 @@ extension Colorize {
 
         switch phase {
         case .getWorldStats:
-            stats = World.stats.copy()
-
-            runAsBarrier = false
-            phase = .colorize
-            dp.callAgain()
+            World.stats.getStats { [unowned self] in
+                self.stats = $0
+                self.runAsBarrier = false
+                self.phase = .colorize
+                dp.callAgain()
+            }
 
         case .colorize:
             let age = stats.currentTime - st.birthday

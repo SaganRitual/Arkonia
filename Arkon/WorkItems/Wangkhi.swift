@@ -35,7 +35,7 @@ class AKWorkItem: Dispatchable {
 
 final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     enum Phase {
-        case getUnsafeStats, buildGuts, buildSprites
+        case getStartingPosition, registerBirth, buildGuts, buildSprites
     }
 
     var birthday = 0
@@ -47,7 +47,7 @@ final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     var netDisplay: NetDisplay?
     var nose: SKSpriteNode?
     var parent: Stepper?
-    var phase = Phase.getUnsafeStats
+    var phase = Phase.getStartingPosition
     var runAsBarrier = true
     var sprite: SKSpriteNode?
     var tempStrongReference: Dispatch?
@@ -77,9 +77,14 @@ final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
 extension WangkhiEmbryo {
     func aWangkhiEmbryo() {
         switch phase {
-        case .getUnsafeStats:
-            getUnsafeStats()
-            callAgain(.buildGuts, false)
+        case .getStartingPosition:
+            getStartingPosition()
+            callAgain(.registerBirth, true)
+
+        case .registerBirth:
+            registerBirth {
+                self.callAgain(.buildGuts, false)
+            }
 
         case .buildGuts:
             buildGuts()
@@ -92,11 +97,15 @@ extension WangkhiEmbryo {
 }
 
 extension WangkhiEmbryo {
-    func getUnsafeStats() {
+    func getStartingPosition() {
         let gr = Gridlet.getRandomGridlet_()
         gridlet = gr![0]
+    }
 
-        World.stats.registerBirth_(myParent: nil, meOffspring: self)
+    func registerBirth(_ onComplete: @escaping () -> Void) {
+        World.stats.registerBirth(
+            myParent: nil, meOffspring: self, onComplete
+        )
     }
 }
 

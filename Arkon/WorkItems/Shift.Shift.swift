@@ -1,7 +1,7 @@
 import SpriteKit
 
 extension Shift {
-    func shift() {
+    func shift(_ onComplete: @escaping () -> Void) {
         guard let st = self.shiftTarget else { fatalError() }
 
         oldGridlet = releaseGridlet(stepper.gridlet!)
@@ -11,9 +11,7 @@ extension Shift {
         let moveAction =
             SKAction.move(to: self.stepper.gridlet.scenePosition, duration: 0.1)
 
-        stepper.sprite.run(moveAction) { [unowned self] in
-            self.callAgain(.postShift, false)
-        }
+        stepper.sprite.run(moveAction) { onComplete() }
     }
 
     func releaseGridlet(_ gridlet: Gridlet) -> GridletCopy {

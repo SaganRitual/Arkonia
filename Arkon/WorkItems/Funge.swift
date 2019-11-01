@@ -40,8 +40,9 @@ extension Funge {
     func aFunge() {
         switch phase {
         case .getWorldStats:
-            getWorldStats()
-            callAgain(.checkSpawnability, false)
+            getWorldStats {
+                self.callAgain(.checkSpawnability, false)
+            }
 
         case .checkSpawnability:
             checkSpawnability()
@@ -58,8 +59,11 @@ extension Funge {
         dispatch.callAgain()
     }
 
-    func getWorldStats() {
-        stats = World.stats.copy()
+    func getWorldStats(_ onComplete: @escaping () -> Void) {
+        World.stats.getStats { [unowned self] in
+            self.stats = $0
+            onComplete()
+        }
     }
 
     func checkSpawnability() {

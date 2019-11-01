@@ -47,10 +47,12 @@ extension Shift {
 
         case .releaseGridPoints:
             releaseGridPoints()
-            callAgain(.shift, false)
+            callAgain(.shift, true)
 
         case .shift:
-            shift()
+            shift {
+                self.callAgain(.postShift, true)
+            }
 
         case .postShift:
             postShift()
