@@ -6,7 +6,7 @@ class Manna {
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
     static let fullGrowthDurationSeconds: TimeInterval = 1
     static let growthRateGranularitySeconds: TimeInterval = 0.1
-    static let growthRateJoulesPerSecond: CGFloat = 500000
+    static let growthRateJoulesPerSecond: CGFloat = 5000
 
     var rebloomDelay = 1.0
     var isCaptured = false

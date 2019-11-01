@@ -13,7 +13,7 @@ extension Shift {
 
         stepper.sprite.run(moveAction) { [unowned self] in
             self.phase = .postShift
-            self.dispatch.callAgain(runAsBarrier: true)
+            self.dispatch.callAgain()
         }
     }
 

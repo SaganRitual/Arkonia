@@ -7,7 +7,6 @@ final class Shift: Dispatchable {
     weak var dispatch: Dispatch!
     var oldGridlet: GridletCopy?
     var phase: Phase = .configureGrid
-    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
     var sensoryInputs = [(Double, Double)]()
     var shiftTarget: AKPoint?
     var stepper: Stepper { return dispatch.stepper }
@@ -25,8 +24,6 @@ final class Shift: Dispatchable {
 
 extension Shift {
     func aShift() {
-        assert(dispatch.runningAsBarrier == true)
-
         switch phase {
         case .configureGrid:
             setupGrid()
@@ -49,21 +46,17 @@ extension Shift {
     }
 
     func setupGrid() {
-        assert(runningAsBarrier == true)
         reserveGridPoints()
         loadGridInputs()
     }
 
     private func loadGridInputs() {
-        assert(runningAsBarrier == true)
-
         sensoryInputs = Grid.gridInputs.map { step in
             return self.loadGridInputs_(step)
         }
     }
 
     private func reserveGridPoints() {
-        assert(runningAsBarrier == true)
         usableGridOffsets = Grid.moves.compactMap { offset in
             reserveGridPoints_(offset)
         }
@@ -73,8 +66,6 @@ extension Shift {
 extension Shift {
 
     private func loadGridInputs_(_ step: AKPoint) -> (Double, Double) {
-        assert(runningAsBarrier == true)
-
         let inputGridlet = step + stepper.gridlet.gridPosition
         if !Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) {
             return (Gridlet.Contents.nothing.rawValue, -1e6)
@@ -102,8 +93,6 @@ extension Shift {
     }
 
     func reserveGridPoints_(_ offset: AKPoint) -> AKPoint? {
-        assert(runningAsBarrier == true)
-
         let targetGridPoint = stepper.gridlet.gridPosition + offset
 
         if Gridlet.isOnGrid(targetGridPoint.x, targetGridPoint.y) {

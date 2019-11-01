@@ -9,7 +9,6 @@ final class Colorize: AKWorkItem {
 
 extension Colorize {
     func aColorize() {
-        assert(runningAsBarrier == true)
         guard let dp = self.dispatch else { fatalError() }
         guard let st = self.stepper else { fatalError() }
 

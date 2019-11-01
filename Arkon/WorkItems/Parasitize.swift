@@ -3,7 +3,6 @@ import Foundation
 final class Parasitize: Dispatchable {
 
     weak var dispatch: Dispatch!
-    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
     var stepper: Stepper { return dispatch.stepper }
     var victim: Stepper!
 
@@ -19,7 +18,6 @@ final class Parasitize: Dispatchable {
 
 extension Parasitize {
     func aParasitize() {
-        assert(runningAsBarrier == true)
         stepper.metabolism.parasitize(victim)
         dispatch.funge()
     }

@@ -3,7 +3,7 @@ import SpriteKit
 class MannaCoordinator {
     static var shared: MannaCoordinator!
 
-    static let cMorsels = 1500
+    static let cMorsels = 1000
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
@@ -21,9 +21,7 @@ class MannaCoordinator {
         func debugEx() -> [T]? { print("Manna.barrier"); return execute?() }
         func debugOc(_ args: [T]?) { print("Manna.concurrent"); userOnComplete?(args) }
 
-        Sync.Lockable<T>(Grid.lockQueue).lock(
-            debugEx, debugOc, completionMode
-        )
+        Sync.Lockable<T>(Grid.lockQueue).lock(debugEx, debugOc, completionMode)
     }
 
     init() {

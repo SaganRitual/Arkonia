@@ -3,68 +3,40 @@ import Foundation
 typealias GoCall = () -> Void
 
 protocol Dispatchable {
+    var runAsBarrier: Bool { get }
+
     func go()
 }
 
-enum DispatchMode: UInt {
-    case alive         = 0b0000_0001
-    case dead          = 0b0000_0010
-    case dying         = 0b0000_0100
-    case killRequested = 0b0000_1000
-    case killScheduled = 0b0001_0000
-    case running       = 0b0010_0000
-
-    static let dmAlive = DispatchMode.alive.rawValue | DispatchMode.running.rawValue
+extension Dispatchable {
+    var runAsBarrier: Bool { return true }
 }
+
+enum DispatchMode { case alive, apoptosisScheduled }
 
 final class Dispatch {
     var currentTask: Dispatchable!
     var dispatchMode: DispatchMode = .alive
     let name = UUID().uuidString
-    var runningAsBarrier = true
-
-//    var tempStrongReference: Stepper?
     weak var stepper: Stepper!
 
     init(_ stepper: Stepper? = nil) {
-//        print("Dispatch(\(stepper == nil))")
         self.stepper = stepper
-//        self.tempStrongReference = stepper
     }
 
-    private func go(_ call: GoCall? = nil, runAsBarrier: Bool = true) {
-//        print("k1 \(stepper?.name ?? "<nouthing>")")
+    private func go(_ dispatchable: Dispatchable) {
+        let flags = dispatchable.runAsBarrier ? .barrier : DispatchWorkItemFlags()
 
-        let flags = runAsBarrier ? .barrier : DispatchWorkItemFlags.barrier //DispatchWorkItemFlags()
         Grid.lockQueue.async(flags: flags) {
-            assert(self.runningAsBarrier == true)
-            self.runningAsBarrier = runAsBarrier
+            if self.dispatchMode == .apoptosisScheduled { return }
 
-            if self.dispatchMode == .killScheduled || self.dispatchMode == .dead { return }
-            assert(self.dispatchMode == .alive)
-
-            let runComponent: GoCall = call ?? self.apoptosize
-
-//            print("a1")
+            let runComponent: GoCall = dispatchable.go
             runComponent()
-//            print("a2")
         }
-//        print("og")
     }
 
-    func start(_ dispatchable: Dispatchable, runAsBarrier: Bool = true) {
-//        print("st")
-        go(dispatchable.go, runAsBarrier: true)
-    }
-
-    func callAgain(runAsBarrier: Bool = true) {
-//        print("ca")
-        go(self.currentTask.go, runAsBarrier: true)
-    }
-
-    deinit {
-//        print("~Dispatch?")
-    }
+    func callAgain() { go(self.currentTask) }
+    func start(_ dispatchable: Dispatchable) { go(dispatchable) }
 }
 
 extension Dispatch {
@@ -102,11 +74,8 @@ extension Dispatch {
     }
 
     func funge() {
-//        print("f1, \(stepper?.name ?? "<nothing>")")
         currentTask = Funge(self)
-//        print("f2, \(stepper?.name ?? "<nothing>")")
         start(currentTask)
-//        print("f3, \(stepper?.name ?? "<nothing>")")
     }
 
     func metabolize() {

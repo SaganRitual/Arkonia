@@ -10,8 +10,6 @@ final class Apoptosize: AKWorkItem {
 
 extension Apoptosize {
     private func aApoptosize() {
-        assert(runningAsBarrier == true)
-
         let action = SKAction.run { [unowned self] in
             assert(Display.displayCycle == .actions)
 

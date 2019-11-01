@@ -23,7 +23,7 @@ protocol WangkhiProtocol: class {
 
 class AKWorkItem: Dispatchable {
     weak var dispatch: Dispatch?
-    var runningAsBarrier: Bool { return dispatch!.runningAsBarrier }
+    var runningAsBarrier = false
     var stepper: Stepper? { return dispatch?.stepper }
 
     init(_ dispatch: Dispatch) {
@@ -89,7 +89,6 @@ extension WangkhiEmbryo {
 
 extension WangkhiEmbryo {
     func getUnsafeStats() {
-        assert((dispatch?.runningAsBarrier ?? false) == true)
         let gr = Gridlet.getRandomGridlet_()
         gridlet = gr![0]
 
@@ -99,8 +98,6 @@ extension WangkhiEmbryo {
 
 extension WangkhiEmbryo {
     func buildGuts() {
-        assert((dispatch?.runningAsBarrier ?? false) == true)
-
         metabolism = Metabolism()
 
         net = Net(
@@ -124,17 +121,11 @@ extension WangkhiEmbryo {
 extension WangkhiEmbryo {
 
     func buildSprites() {
-        assert((dispatch?.runningAsBarrier ?? false) == true)
-
-//        print("bs1")
         let action = SKAction.run { [unowned self] in
-//            print("bs4")
             self.buildSprites_()
-//            print("bs5")
         }
-//        print("bs2")
+
         GriddleScene.arkonsPortal.run(action)
-//        print("bs3")
     }
 
     //swiftmint:disable function_body_length

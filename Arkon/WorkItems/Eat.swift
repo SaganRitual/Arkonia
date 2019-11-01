@@ -8,6 +8,7 @@ final class Eat: AKWorkItem {
     var manna: Manna!
     var phase = Phase.chooseEdible
     var previousGridlet: GridletCopy!
+    let runAsBarrier = false
 
     override func go() { aEat() }
 
@@ -30,8 +31,6 @@ final class Eat: AKWorkItem {
 extension Eat {
     //swiftmint:disable function_body_length
     private func aEat() {
-        assert(runningAsBarrier == true)
-
         guard let st = dispatch?.stepper else { fatalError() }
         switch phase {
         case .chooseEdible:
@@ -101,7 +100,6 @@ extension Eat {
 extension Eat {
     func battleArkon() {
         guard let dp = dispatch else { fatalError() }
-        assert(dp.runningAsBarrier == true)
 
         guard let otherSprite = previousGridlet?.sprite,
             let otherUserData = otherSprite.userData,

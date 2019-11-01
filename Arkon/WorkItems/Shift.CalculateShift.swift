@@ -3,7 +3,6 @@ import SpriteKit
 extension Shift {
 
     func calculateShift() {
-        assert(runningAsBarrier == true)
         let senseData = loadSenseData()
         self.shiftTarget = selectMoveTarget(senseData: senseData)
 
@@ -20,8 +19,6 @@ extension Shift {
     }
 
     private func loadSenseData() -> [Double] {
-        assert(runningAsBarrier == true)
-
         var (hackyRearrangedInputs, nutritionses) =
             self.sensoryInputs.reduce(into: ([Double](), [Double]()))
         {
@@ -46,8 +43,6 @@ extension Shift {
     }
 
     private func releaseGridPoints() {
-        assert(runningAsBarrier == true)
-
         let whereIAmNow = stepper.gridlet!
 
         for gridOffset in usableGridOffsets {
@@ -64,8 +59,6 @@ extension Shift {
     }
 
     private func selectMoveTarget(senseData: [Double]) -> AKPoint {
-        assert(runningAsBarrier == true)
-
         let motorOutputs: [Double] = stepper.net.getMotorOutputs(senseData)
         let dMotorOutputs: [Int: Double] = self.getMotorDataAsDictionary(motorOutputs)
 
