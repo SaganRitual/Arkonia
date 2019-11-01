@@ -87,14 +87,11 @@ class Gridlet: GridletProtocol {
 extension Gridlet {
 
     static func getRandomGridlet_() -> [Gridlet]? {
-//        print("grg")
         var rg: Gridlet?
 
         repeat {
             rg = GriddleScene.arkonsPortal!.getRandomGridlet()
-//            print("r", terminator: "")
         } while rg!.contents != .nothing
-//        print("")
 
         return [rg!]
     }

@@ -12,8 +12,7 @@ extension Shift {
             SKAction.move(to: self.stepper.gridlet.scenePosition, duration: 0.1)
 
         stepper.sprite.run(moveAction) { [unowned self] in
-            self.phase = .postShift
-            self.dispatch.callAgain()
+            self.callAgain(.postShift, false)
         }
     }
 
@@ -31,14 +30,9 @@ extension Shift {
 extension Shift {
     func postShift() {
         guard let ng = stepper.gridlet else { fatalError() }
-//        print(
-//            "s",
-//            ng.previousContents,
-//            ng.contents,
-//            dispatch.stepper.oldGridlet?.previousContents ?? .unknown,
-//            dispatch.stepper.oldGridlet?.contents ?? .unknown
-//        )
+
         if ng.contents == .nothing { dispatch.funge(); return }
+
         dispatch.eat()
     }
 }

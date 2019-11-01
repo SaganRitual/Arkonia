@@ -2,11 +2,15 @@ import Foundation
 
 final class Shift: Dispatchable {
 
-    enum Phase { case configureGrid, calculateShift, shift, postShift }
+    enum Phase {
+        case reserveGridPoints, loadGridInputs
+        case calculateShift, shift, postShift
+    }
 
     weak var dispatch: Dispatch!
     var oldGridlet: GridletCopy?
-    var phase: Phase = .configureGrid
+    var phase: Phase = .reserveGridPoints
+    var runAsBarrier: Bool = true
     var sensoryInputs = [(Double, Double)]()
     var shiftTarget: AKPoint?
     var stepper: Stepper { return dispatch.stepper }
@@ -14,6 +18,12 @@ final class Shift: Dispatchable {
 
     init(_ dispatch: Dispatch) {
         self.dispatch = dispatch
+    }
+
+    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
+        self.phase = phase
+        self.runAsBarrier = runAsBarrier
+        dispatch.callAgain()
     }
 
     func getResult() -> GridletCopy? { return oldGridlet }
@@ -25,17 +35,17 @@ final class Shift: Dispatchable {
 extension Shift {
     func aShift() {
         switch phase {
-        case .configureGrid:
-            setupGrid()
+        case .reserveGridPoints:
+            reserveGridPoints()
+            callAgain(.loadGridInputs, false)
 
-            phase = .calculateShift
-            dispatch.callAgain()
+        case .loadGridInputs:
+            loadGridInputs()
+            callAgain(.calculateShift, true)
 
         case .calculateShift:
             calculateShift()
-
-            phase = .shift
-            dispatch.callAgain()
+            callAgain(.shift, true)
 
         case .shift:
             shift()
@@ -43,11 +53,6 @@ extension Shift {
         case .postShift:
             postShift()
         }
-    }
-
-    func setupGrid() {
-        reserveGridPoints()
-        loadGridInputs()
     }
 
     private func loadGridInputs() {
