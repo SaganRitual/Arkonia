@@ -1,6 +1,9 @@
 import GameplayKit
 
 final class Colorize: AKWorkItem {
+    enum Phase { case getWorldStats, colorize }
+    var phase = Phase.getWorldStats
+    var runAsBarrier: Bool = true
     var stats: World.StatsCopy!
 
     override func go() { aColorize() }
@@ -12,11 +15,20 @@ extension Colorize {
         guard let dp = self.dispatch else { fatalError() }
         guard let st = self.stepper else { fatalError() }
 
-        stats = World.stats.copy()
+        switch phase {
+        case .getWorldStats:
+            stats = World.stats.copy()
 
-        let age = stats.currentTime - st.birthday
-        st.colorizeProper(dp, age)
-        dp.shift()
+            runAsBarrier = false
+            phase = .colorize
+            dp.callAgain()
+
+        case .colorize:
+            let age = stats.currentTime - st.birthday
+            st.colorizeProper(dp, age)
+
+            dp.shift()
+        }
     }
 }
 
