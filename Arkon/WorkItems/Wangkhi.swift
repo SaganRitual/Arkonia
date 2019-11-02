@@ -98,8 +98,7 @@ extension WangkhiEmbryo {
 
 extension WangkhiEmbryo {
     func getStartingPosition() {
-        let gr = Gridlet.getRandomGridlet_()
-        gridlet = gr![0]
+        self.gridlet = Gridlet.getRandomGridlet_()
     }
 
     func registerBirth(_ onComplete: @escaping () -> Void) {

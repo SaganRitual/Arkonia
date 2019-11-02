@@ -59,15 +59,7 @@ extension MannaCoordinator.MannaRecycler {
     }
 
     private func replant() {
-        func goIn() -> [Void]? {
-            MannaCoordinator.plantSingleManna(self.manna, at: self.gridlet)
-            return nil
-        }
-
-        func comeOut(_: [Void]?) {
-            fadeIn()
-        }
-
-        Grid.lock(goIn, comeOut)
+        MannaCoordinator.plantSingleManna(self.manna, at: self.gridlet)
+        fadeIn()
     }
 }

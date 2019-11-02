@@ -25,22 +25,21 @@ final class Dispatch {
     }
 
     private func go(_ dispatchable: Dispatchable) {
-        let queue: DispatchQueue
-        let flags: DispatchWorkItemFlags
+        if dispatchable.runAsBarrier { runSerial(dispatchable) }
+        else { runConcurrent(dispatchable) }
+    }
 
-        if dispatchable.runAsBarrier {
-            queue = Grid.lockQueue
-            flags = .barrier
-        } else {
-            queue = World.mainQueue
-            flags = DispatchWorkItemFlags()
-        }
-
-        queue.async(flags: flags) {
+    private func runSerial(_ dispatchable: Dispatchable) {
+        Grid.shared.serialQueue.async {
             if self.dispatchMode == .apoptosisScheduled { return }
+            dispatchable.go()
+        }
+    }
 
-            let runComponent: GoCall = dispatchable.go
-            runComponent()
+    private func runConcurrent(_ dispatchable: Dispatchable) {
+        Grid.shared.concurrentQueue.async {
+            if self.dispatchMode == .apoptosisScheduled { return }
+            dispatchable.go()
         }
     }
 

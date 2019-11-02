@@ -110,20 +110,25 @@ class Gridlet: GridletProtocol, Equatable {
 
 extension Gridlet {
 
-    static func getRandomGridlet_() -> [Gridlet]? {
-        var rg: Gridlet?
+    static func getRandomGridlet_() -> Gridlet {
+        var rg: Gridlet!
 
         repeat {
             rg = GriddleScene.arkonsPortal!.getRandomGridlet()
-        } while rg!.contents != .nothing
+        } while rg.contents != .nothing
 
-        return [rg!]
+        return rg
     }
 
     typealias LockOnComplete = Sync.Lockable<Gridlet>.LockOnComplete
 
-    static func getRandomGridlet(onComplete: LockOnComplete? = nil) {
-        Grid.lock(getRandomGridlet_, onComplete, .concurrent)
+    static func getRandomGridlet() -> Gridlet {
+        return Grid.shared.serialQueue.sync { getRandomGridlet_() }
+    }
+
+    static func getRandomGridlet(onComplete: (Gridlet) -> Void) {
+        let g = getRandomGridlet_()
+        onComplete(g)
     }
 
 }

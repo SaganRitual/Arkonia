@@ -5,14 +5,16 @@ class Grid {
     static var dimensions: Dimensions!
     static var gridlets = [AKPoint: Gridlet]()
 
-    let gridlockQueue = DispatchQueue(
-        label: "arkonia.grid.lock", qos: .userInitiated,
-        attributes: DispatchQueue.Attributes.concurrent
+    let concurrentQueue = DispatchQueue(
+        label: "arkonia.grid.concurrent",
+        attributes: DispatchQueue.Attributes.concurrent,
+        target: DispatchQueue.global(qos: .userInitiated)
     )
 
-    let requestQueue = DispatchQueue(
-        label: "arkonia.grid.request", qos: .userInitiated,
-        attributes: DispatchQueue.Attributes.concurrent
+    let serialQueue = DispatchQueue(
+        label: "arkonia.grid.serial",
+        attributes: DispatchQueue.Attributes(),
+        target: DispatchQueue.global(qos: .userInitiated)
     )
 
     init() {
@@ -28,20 +30,5 @@ class Grid {
         )
 
         portal.addChild(line)
-    }
-}
-
-extension Grid {
-    func startLockCycle() { restartLockCycle() }
-
-    func lockCyle() {
-
-        restartLockCycle()
-    }
-
-    func restartLockCycle() {
-        gridlockQueue.asyncAfter(deadline: DispatchTime.now() + 1) {
-            self.gridlockQueue.async(flags: .barrier, execute: self.lockCyle)
-        }
     }
 }

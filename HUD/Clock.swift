@@ -40,7 +40,9 @@ class Clock {
         }
 
         func partC() {
-            World.runAfter(deadline: DispatchTime.now() + 1, partA)
+            World.mainQueue.asyncAfter(
+                deadline: DispatchTime.now() + 1, execute: partA
+            )
         }
 
         partA()
