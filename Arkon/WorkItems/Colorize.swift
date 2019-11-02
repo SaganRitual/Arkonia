@@ -8,6 +8,12 @@ final class Colorize: AKWorkItem {
 
     override func go() { aColorize() }
 
+    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
+        self.phase = phase
+        self.runAsBarrier = runAsBarrier
+        dispatch?.callAgain()
+    }
+
 }
 
 extension Colorize {
@@ -19,9 +25,7 @@ extension Colorize {
         case .getWorldStats:
             World.stats.getStats { [unowned self] in
                 self.stats = $0
-                self.runAsBarrier = false
-                self.phase = .colorize
-                dp.callAgain()
+                self.callAgain(.colorize, false)
             }
 
         case .colorize:

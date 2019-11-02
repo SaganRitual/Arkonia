@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D4171CB8236D1C850072EC1C /* Grid.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4171CB7236D1C850072EC1C /* Grid.Setup.swift */; };
 		D422DE0223578CFD003734B8 /* MannaCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* MannaCoordinator.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
@@ -116,6 +117,7 @@
 		D40985FA22650BEF009DD384 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
+		D4171CB7236D1C850072EC1C /* Grid.Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.Setup.swift; sourceTree = "<group>"; };
 		D42172E9233EE46000A56594 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
 		D42172F2233EE46000A56594 /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .overcommit.yml; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 			children = (
 				D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */,
 				D4EBEE7222E148C9007C98A4 /* Grid.swift */,
+				D4171CB7236D1C850072EC1C /* Grid.Setup.swift */,
 				D4C67D92234D889D0030358D /* Gridlet.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
 				D422DE0123578CFD003734B8 /* MannaCoordinator.swift */,
@@ -492,6 +495,7 @@
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
 				D499AC09236406F80001BC21 /* MannaRecycler.swift in Sources */,
 				D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */,
+				D4171CB8236D1C850072EC1C /* Grid.Setup.swift in Sources */,
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
 				D4FFE96623669EE400F5DDFB /* Eat.swift in Sources */,
 				D4D5EABB2368B05200E95AA5 /* Wangkhi.swift in Sources */,
