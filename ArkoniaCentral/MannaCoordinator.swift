@@ -9,7 +9,7 @@ class MannaCoordinator {
 
     init() {
         mannaSpriteFactory = Wangkhi.spriteFactory
-        Grid.lockQueue.async { self.populate() }
+        self.populate()
     }
 
     func populate() {
@@ -56,7 +56,6 @@ extension MannaCoordinator {
     }
 
     private func finishPlanting(_ manna: Manna) {
-//        print("finishPlanting_")
         manna.sprite.alpha = 0
         manna.sprite.setScale(0.1)
         manna.sprite.color = .orange
@@ -69,10 +68,9 @@ extension MannaCoordinator {
             MannaCoordinator.MannaRecycler.fadeInAction
         ])
 
-        manna.sprite.run(sequence) {
-//            print("sprite.run")
+        manna.sprite.run(sequence) { [unowned self] in
             self.cMorsels += 1
-            Grid.lockQueue.async(execute: self.populate)
+            self.populate()
 
             manna.sprite.run(
                 MannaCoordinator.MannaRecycler.colorAction
@@ -81,16 +79,15 @@ extension MannaCoordinator {
     }
 
     static func plantSingleManna(_ manna: Manna, at gridlet: Gridlet) {
-        gridlet.contents = .manna
-        gridlet.sprite = manna.sprite
+        Grid.shared.serialQueue.sync {
+            gridlet.contents = .manna
+            gridlet.sprite = manna.sprite
 
-        if let sp = gridlet.randomScenePosition {
-            manna.sprite.position = sp
-        } else {
-            manna.sprite.position = gridlet.scenePosition
+            if let sp = gridlet.randomScenePosition {
+                manna.sprite.position = sp
+            } else {
+                manna.sprite.position = gridlet.scenePosition
+            }
         }
     }
-}
-
-extension MannaCoordinator {
 }
