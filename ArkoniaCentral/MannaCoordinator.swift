@@ -7,39 +7,22 @@ class MannaCoordinator {
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
-    static func lock<T>(
-        _ execute: Sync.Lockable<T>.LockExecute? = nil,
-        _ userOnComplete: Sync.Lockable<T>.LockOnComplete? = nil,
-        _ completionMode: Sync.CompletionMode = .concurrent
-    ) {
-        func debugEx() -> [T]? { print("Manna.barrier"); return execute?() }
-        func debugOc(_ args: [T]?) { print("Manna.concurrent"); userOnComplete?(args) }
-
-        Sync.Lockable<T>(Grid.lockQueue).lock(debugEx, debugOc, completionMode)
-    }
-
     init() {
         mannaSpriteFactory = Wangkhi.spriteFactory
         Grid.lockQueue.async { self.populate() }
     }
 
     func populate() {
-//        print("p1")
         if cMorsels >= MannaCoordinator.cMorsels { return }
-//        print("p2")
 
         let action = SKAction.run {
-//            print("p3")
             let sprite = self.mannaSpriteFactory!.mannaHangar.makeSprite()
             GriddleScene.arkonsPortal!.addChild(sprite)
 
             let manna = Manna(sprite)
             sprite.userData = [SpriteUserDataKey.manna: manna]
-//            print("p4")
             self.plant(manna)
-//            print("p5")
         }
-//        print("p6")
 
         GriddleScene.arkonsPortal.run(action)
     }
@@ -47,21 +30,13 @@ class MannaCoordinator {
 
 extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
-        Grid.lock({ () -> [Gridlet]? in
-            let grs = Gridlet.getRandomGridlet_()
-            return grs
-        }, { grs in
-            guard let gridlets = grs else { fatalError() }
-            let gridlet = gridlets[0]
+        let gridlet = Gridlet.getRandomGridlet()
 
-            gridlet.contents = .manna
-            gridlet.sprite = sprite
+        gridlet.contents = .manna
+        gridlet.sprite = sprite
 
-            let manna = Manna.getManna(from: sprite)
-            self.recycle(manna, at: gridlet)
-        },
-           .continueBarrier
-        )
+        let manna = Manna.getManna(from: sprite)
+        self.recycle(manna, at: gridlet)
     }
 
     private func recycle(_ manna: Manna, at gridlet: Gridlet) {
@@ -75,16 +50,9 @@ extension MannaCoordinator {
 
 extension MannaCoordinator {
     private func plant(_ manna: Manna) {
-        Grid.lock({ () -> [Gridlet]? in
-            let gridlet = Gridlet.getRandomGridlet_()
-//            print("pl1")
-            MannaCoordinator.plantSingleManna(manna, at: gridlet![0])
-            return nil
-        }, {
-            _ in
-//            print("pl2")
-            self.finishPlanting(manna)
-        }, .continueBarrier)
+        let gridlet = Gridlet.getRandomGridlet()
+        MannaCoordinator.plantSingleManna(manna, at: gridlet)
+        self.finishPlanting(manna)
     }
 
     private func finishPlanting(_ manna: Manna) {

@@ -6,13 +6,15 @@ class Grid {
     static var gridlets = [AKPoint: Gridlet]()
 
     let gridlockQueue = DispatchQueue(
-        label: "arkonia.grid.lock", qos: .userInitiated,
-        attributes: DispatchQueue.Attributes.concurrent
+        label: "arkonia.grid.c.lock",
+        attributes: DispatchQueue.Attributes.concurrent,
+        target: DispatchQueue.global(qos: .userInitiated)
     )
 
-    let requestQueue = DispatchQueue(
-        label: "arkonia.grid.request", qos: .userInitiated,
-        attributes: DispatchQueue.Attributes.concurrent
+    let serialQueue = DispatchQueue(
+        label: "arkonia.grid.s.request",
+        attributes: DispatchQueue.Attributes(),
+        target: DispatchQueue.global(qos: .userInitiated)
     )
 
     init() {
