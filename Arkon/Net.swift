@@ -83,6 +83,10 @@ class Net {
         logistic, sinc, sinusoid, softplus, softsign, sqnl, tanh
     ]
 
+    func getMotorOutputs_(_ sensoryInputs: [Double]) -> [Double] {
+        return (0..<8).map { _ in Double.random(in: -1..<1) }
+    }
+
     func getMotorOutputs(_ sensoryInputs: [Double]) -> [Double] {
         assert(sensoryInputs.count == ArkoniaCentral.cSenseNeurons)
 
