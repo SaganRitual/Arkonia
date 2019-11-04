@@ -3,6 +3,14 @@ import SpriteKit
 class MannaCoordinator {
     static var shared: MannaCoordinator!
 
+    static let colorAction = SKAction.colorize(
+        with: .blue, colorBlendFactor: Manna.colorBlendMinimum,
+        duration: Manna.fullGrowthDurationSeconds
+    )
+
+    static let fadeInAction = SKAction.fadeIn(withDuration: 0.001)
+    static let fadeOutAction = SKAction.fadeOut(withDuration: 0.001)
+
     static let cMorsels = 500
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
@@ -12,31 +20,34 @@ class MannaCoordinator {
         populate()
     }
 
-    private func bloom() {
+    private func bloom(_ manna: Manna) {
         let action = SKAction.group([
-            MannaCoordinator.MannaRecycler.fadeInAction,
-            MannaCoordinator.MannaRecycler.colorAction
+            MannaCoordinator.fadeInAction,
+            MannaCoordinator.colorAction
         ])
 
-        GriddleScene.arkonsPortal.run(action)
-    }
-
-    func makeNewMannaAction() -> SKAction {
-        return SKAction.run {
-            let sprite = self.mannaSpriteFactory!.mannaHangar.makeSprite()
-            GriddleScene.arkonsPortal!.addChild(sprite)
-
-            let manna = Manna(sprite)
-            sprite.userData = [SpriteUserDataKey.manna: manna]
-
-            self.cMorsels += 1
-        }
+        manna.sprite.run(action)
     }
 
     func populate() {
         if cMorsels >= MannaCoordinator.cMorsels { return }
-        let action = makeNewMannaAction()
-        GriddleScene.arkonsPortal.run(action)
+
+        var manna: Manna!
+
+        let action = SKAction.run {
+            let sprite = self.mannaSpriteFactory!.mannaHangar.makeSprite()
+            GriddleScene.arkonsPortal!.addChild(sprite)
+
+            manna = Manna(sprite)
+            sprite.userData = [SpriteUserDataKey.manna: manna!]
+
+            self.cMorsels += 1
+        }
+
+        GriddleScene.arkonsPortal.run(action) {
+            self.plant(manna)
+            self.populate()
+        }
     }
 }
 
@@ -51,15 +62,8 @@ extension MannaCoordinator {
         }
 
         let manna = Manna.getManna(from: sprite)
-        self.recycle(manna, at: gridlet!)
-    }
-
-    private func recycle(_ manna: Manna, at gridlet: Gridlet) {
-        manna.sprite.userData!["recycler"] =
-            MannaCoordinator.MannaRecycler(manna, gridlet, self)
-
-        ((manna.sprite.userData!["recycler"])! as?
-            MannaCoordinator.MannaRecycler)!.go()
+        manna.sprite.alpha = 0
+        plant(manna)
     }
 }
 
@@ -78,13 +82,13 @@ extension MannaCoordinator {
 
         manna.sprite.alpha = 0
         manna.sprite.setScale(0.1)
-        manna.sprite.color = .orange
+        manna.sprite.color = .green
         manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
 
-        bloom()
+        bloom(manna)
     }
 
-    private func plant(_ manna: Manna) {
-        Grid.shared.serialQueue.sync { plant_(manna) }
+    func plant(_ manna: Manna) {
+        Grid.shared.serialQueue.async { self.plant_(manna) }
     }
 }

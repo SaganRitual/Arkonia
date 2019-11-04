@@ -2,11 +2,13 @@ import SpriteKit
 
 class Manna {
 
-    static let colorBlendMinimum: CGFloat = 0.25
+    static let colorBlendMinimum: CGFloat = 0.7
     static let colorBlendRangeWidth: CGFloat = 1 - colorBlendMinimum
     static let fullGrowthDurationSeconds: TimeInterval = 1
-    static let growthRateGranularitySeconds: TimeInterval = 0.1
-    static let growthRateJoulesPerSecond: CGFloat = 100
+    static let maxEnergyContentInJoules: CGFloat = 100
+
+    static let growthRateJoulesPerSecond:
+        CGFloat = maxEnergyContentInJoules / CGFloat(fullGrowthDurationSeconds)
 
     var rebloomDelay = 1.0
     var isCaptured = false
@@ -14,7 +16,7 @@ class Manna {
 
     var energyContentInJoules: CGFloat {
         let fudgeFactor: CGFloat = 1
-        var f = fudgeFactor * (sprite.colorBlendFactor - Manna.colorBlendMinimum)
+        var f = fudgeFactor * abs(sprite.colorBlendFactor - Manna.colorBlendMinimum)
         f /= Manna.colorBlendRangeWidth
         f *= Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
         return f * 1.0//CGFloat(World.shared.foodValue)
