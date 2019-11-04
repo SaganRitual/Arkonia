@@ -3,40 +3,55 @@ import SpriteKit
 class MannaCoordinator {
     static var shared: MannaCoordinator!
 
-    static let cMorsels = 1000
+    static let cMorsels = 500
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
     init() {
         mannaSpriteFactory = Wangkhi.spriteFactory
-        self.populate()
+        populate()
     }
 
-    func populate() {
-        if cMorsels >= MannaCoordinator.cMorsels { return }
+    private func bloom() {
+        let action = SKAction.group([
+            MannaCoordinator.MannaRecycler.fadeInAction,
+            MannaCoordinator.MannaRecycler.colorAction
+        ])
 
-        let action = SKAction.run {
+        GriddleScene.arkonsPortal.run(action)
+    }
+
+    func makeNewMannaAction() -> SKAction {
+        return SKAction.run {
             let sprite = self.mannaSpriteFactory!.mannaHangar.makeSprite()
             GriddleScene.arkonsPortal!.addChild(sprite)
 
             let manna = Manna(sprite)
             sprite.userData = [SpriteUserDataKey.manna: manna]
-            self.plant(manna)
-        }
 
+            self.cMorsels += 1
+        }
+    }
+
+    func populate() {
+        if cMorsels >= MannaCoordinator.cMorsels { return }
+        let action = makeNewMannaAction()
         GriddleScene.arkonsPortal.run(action)
     }
 }
 
 extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
-        let gridlet = Gridlet.getRandomGridlet()
+        var gridlet: Gridlet?
 
-        gridlet.contents = .manna
-        gridlet.sprite = sprite
+        Gridlet.getRandomGridlet {
+            gridlet = $0
+            gridlet!.contents = .manna
+            gridlet!.sprite = sprite
+        }
 
         let manna = Manna.getManna(from: sprite)
-        self.recycle(manna, at: gridlet)
+        self.recycle(manna, at: gridlet!)
     }
 
     private func recycle(_ manna: Manna, at gridlet: Gridlet) {
@@ -49,45 +64,27 @@ extension MannaCoordinator {
 }
 
 extension MannaCoordinator {
-    private func plant(_ manna: Manna) {
-        let gridlet = Gridlet.getRandomGridlet()
-        MannaCoordinator.plantSingleManna(manna, at: gridlet)
-        self.finishPlanting(manna)
-    }
+    private func plant_(_ manna: Manna) {
+        let gridlet = Gridlet.getRandomGridlet_()
 
-    private func finishPlanting(_ manna: Manna) {
+        gridlet.contents = .manna
+        gridlet.sprite = manna.sprite
+
+        if let sp = gridlet.randomScenePosition {
+            manna.sprite.position = sp
+        } else {
+            manna.sprite.position = gridlet.scenePosition
+        }
+
         manna.sprite.alpha = 0
         manna.sprite.setScale(0.1)
         manna.sprite.color = .orange
         manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
 
-        let run = SKAction.run {}// print("in fp action") }
-
-        let sequence = SKAction.sequence([
-            run,
-            MannaCoordinator.MannaRecycler.fadeInAction
-        ])
-
-        manna.sprite.run(sequence) { [unowned self] in
-            self.cMorsels += 1
-            self.populate()
-
-            manna.sprite.run(
-                MannaCoordinator.MannaRecycler.colorAction
-            )
-        }
+        bloom()
     }
 
-    static func plantSingleManna(_ manna: Manna, at gridlet: Gridlet) {
-        Grid.shared.serialQueue.sync {
-            gridlet.contents = .manna
-            gridlet.sprite = manna.sprite
-
-            if let sp = gridlet.randomScenePosition {
-                manna.sprite.position = sp
-            } else {
-                manna.sprite.position = gridlet.scenePosition
-            }
-        }
+    private func plant(_ manna: Manna) {
+        Grid.shared.serialQueue.sync { plant_(manna) }
     }
 }

@@ -23,7 +23,9 @@ extension MannaCoordinator {
             self.mannaCoordinator = mannaCoordinator
         }
 
-        func go() { fadeOut() }
+        func go() {
+            manna.sprite.run(SKAction.fadeOut(withDuration: 0.001))
+        }
     }
 }
 
@@ -45,16 +47,16 @@ extension MannaCoordinator.MannaRecycler {
         return SKAction.wait(forDuration: rebloomDelay)
     }
 
-    private func fadeOut() {
-        let fadeOut = SKAction.fadeOut(withDuration: 0.001)
-        let wait = getWaitAction(0.001)//manna.rebloomDelay)
-        let deathSequence = SKAction.sequence([fadeOut, wait])
-
-        manna.sprite.run(deathSequence, completion: replant)
-    }
-
-    private func replant() {
-        MannaCoordinator.plantSingleManna(self.manna, at: self.gridlet)
-        fadeIn()
-    }
+//    private func fadeOut() {
+//        let fadeOut = SKAction.fadeOut(withDuration: 0.001)
+//        let wait = getWaitAction(0.001)//manna.rebloomDelay)
+//        let deathSequence = SKAction.sequence([fadeOut, wait])
+//
+//        manna.sprite.run(deathSequence, completion: replant)
+//    }
+//
+//    private func replant() {
+//        MannaCoordinator.plantSingleManna(self.manna, at: self.gridlet)
+//        fadeIn()
+//    }
 }

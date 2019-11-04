@@ -26,9 +26,8 @@ extension Parasitize {
 extension Metabolism {
     func parasitize(_ victim: Stepper) {
         let spareCapacity = stomach.capacity - stomach.level
-        let attemptToTakeThisMuch = spareCapacity / 0.75
-        let tookThisMuch = victim.metabolism.withdrawFromReady(attemptToTakeThisMuch)
-        let netEnergy = tookThisMuch * 0.25
+        let victimEnergy = victim.metabolism.withdrawFromReady(spareCapacity)
+        let netEnergy = victimEnergy * 0.25
 
         absorbEnergy(netEnergy)
         inhale()

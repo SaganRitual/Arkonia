@@ -38,7 +38,8 @@ enum Sync {
 
             switch completionMode {
             case .continueBarrier: oc(args)
-            case .concurrent:      World.run { oc(args) }
+            case .concurrent:
+                World.mainQueue.async { oc(args) }
             }
         }
     }
