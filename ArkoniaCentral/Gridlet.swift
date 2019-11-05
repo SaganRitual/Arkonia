@@ -1,22 +1,61 @@
 import SpriteKit
 
-class Gridlet {
+protocol GridletProtocol {
+    var gridPosition: AKPoint { get }
+    var scenePosition: CGPoint { get }
+    var randomScenePosition: CGPoint? { get }
+
+    var contents: Gridlet.Contents { get }
+    var previousContents: Gridlet.Contents { get }
+    var gridletIsEngaged: Bool { get }
+}
+
+struct GridletCopy: GridletProtocol {
     let gridPosition: AKPoint
     let scenePosition: CGPoint
+    let randomScenePosition: CGPoint?
 
-    var contents = Contents.nothing
+    let contents: Gridlet.Contents
+    let previousContents: Gridlet.Contents
+    let gridletIsEngaged: Bool
+
+    init(from original: GridletProtocol) {
+        self.gridPosition = original.gridPosition
+        self.scenePosition = original.scenePosition
+        self.randomScenePosition = original.randomScenePosition
+        self.contents = original.contents
+        self.previousContents = original.previousContents
+        self.gridletIsEngaged = original.gridletIsEngaged
+    }
+}
+
+class Gridlet: GridletProtocol {
+
+    enum Contents: Double { case arkon, manna, nothing, unknown }
+
+    let gridPosition: AKPoint
+    let scenePosition: CGPoint
+    var randomScenePosition: CGPoint?
+
+    var contents = Contents.nothing { didSet { previousContents = oldValue } }
+    var previousContents = Contents.nothing
     var gridletIsEngaged = false
     weak var sprite: SKSpriteNode?
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
-        self.scenePosition = scenePosition
         self.gridPosition = gridPosition
+        self.scenePosition = scenePosition
+    }
+
+    deinit {
+        print("~Gridlet")
     }
 
     static func at(_ x: Int, _ y: Int) -> Gridlet {
         let p = AKPoint(x: x, y: y)
         guard let g = Grid.gridlets[p] else {
-            print(Grid.gridlets)
+//            print(Grid.gridlets)
+            print("whatchafuh", p)
             fatalError()
         }
 
@@ -44,8 +83,23 @@ class Gridlet {
 
 extension Gridlet {
 
-    enum Contents: Double {
-        case arkon, manna, nothing
+    static func getRandomGridlet_() -> [Gridlet]? {
+//        print("grg")
+        var rg: Gridlet?
+
+        repeat {
+            rg = GriddleScene.arkonsPortal!.getRandomGridlet()
+//            print("r", terminator: "")
+        } while rg!.contents != .nothing
+//        print("")
+
+        return [rg!]
+    }
+
+    typealias LockOnComplete = Sync.Lockable<Gridlet>.LockOnComplete
+
+    static func getRandomGridlet(onComplete: LockOnComplete? = nil) {
+        Grid.lock(getRandomGridlet_, onComplete, .concurrent)
     }
 
 }

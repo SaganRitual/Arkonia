@@ -1,19 +1,35 @@
 import Foundation
 
-extension Metabolism {
-    func parasitize(_ victim: Metabolism, completion: @escaping CoordinatorCallback) {
-        print("parasitize: \(self.core!.selectoid.fishNumber) eats \(victim.core!.selectoid.fishNumber)")
-        let workItem = { [unowned self] in
-            self.parasitize_(victim)
-        }
+final class Parasitize: Dispatchable {
 
-        Lockable<Void>().lock(workItem, { _ in completion() })
+    weak var dispatch: Dispatch!
+    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    var stepper: Stepper { return dispatch.stepper }
+    var victim: Stepper!
+
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
     }
 
-    func parasitize_(_ victim: Metabolism) {
+    func go() { aParasitize() }
+
+    func inject(_ victim: Stepper?) { self.victim = victim }
+
+}
+
+extension Parasitize {
+    func aParasitize() {
+        assert(runningAsBarrier == true)
+        stepper.metabolism.parasitize(victim)
+        dispatch.funge()
+    }
+}
+
+extension Metabolism {
+    func parasitize(_ victim: Stepper) {
         let spareCapacity = stomach.capacity - stomach.level
         let attemptToTakeThisMuch = spareCapacity / 0.75
-        let tookThisMuch = victim.withdrawFromReady(attemptToTakeThisMuch)
+        let tookThisMuch = victim.metabolism.withdrawFromReady(attemptToTakeThisMuch)
         let netEnergy = tookThisMuch * 0.25
 
         absorbEnergy(netEnergy)

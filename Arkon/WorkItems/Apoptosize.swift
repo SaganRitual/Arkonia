@@ -1,32 +1,42 @@
 import SpriteKit
 
-extension Stepper {
-    func apoptosize() {
-//        print("apoptosize1")
-        let action = SKAction.run { [weak self] in
-            guard let myself = self else {
-//                print("Bailing in apoptosize")
-                return
-            }
-            myself.apoptosize_()
-        }
+final class Apoptosize: Dispatchable {
+    weak var dispatch: Dispatch!
+    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    var stepper: Stepper { return dispatch.stepper }
 
-        let fishNumber = self.core.selectoid.fishNumber
-        sprite.run(action) { print("ap \(fishNumber)") }
-//        print("apoptosize4")
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
     }
 
-    private func apoptosize_() {
-        assert(Display.displayCycle == .actions)
-//        print("apoptosize2")
+    func go() { aApoptosize() }
 
-        sprite.removeAllActions()
+    deinit {
+//        print("wtf")
+    }
+}
 
-        core.spriteFactory.noseHangar.retireSprite(core.nose)
-        core.spriteFactory.arkonsHangar.retireSprite(sprite)
+extension Apoptosize {
+    private func aApoptosize() {
+        assert(runningAsBarrier == true)
 
-        guard let ud = sprite.userData else { return }
-        ud[SpriteUserDataKey.stepper] = nil
-//        print("apoptosize3")
+        let action = SKAction.run { [unowned self] in
+            assert(Display.displayCycle == .actions)
+
+             guard let s = self.stepper.sprite else { fatalError() }
+            guard let n = self.stepper.nose else { fatalError() }
+
+            s.removeAllActions()
+
+            Wangkhi.spriteFactory.noseHangar.retireSprite(n)
+            Wangkhi.spriteFactory.arkonsHangar.retireSprite(s)
+
+            guard let ud = s.userData else { return }
+
+            // Counting on this to be the only strong ref to the stepper
+            ud[SpriteUserDataKey.stepper] = nil
+        }
+
+        GriddleScene.arkonsPortal.run(action)
     }
 }

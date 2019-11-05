@@ -39,41 +39,14 @@ struct Dimensions {
     }
 }
 
-let lockGridQueue = DispatchQueue(
-    label: "arkonia.lock.grid", qos: .default,
-    attributes: DispatchQueue.Attributes.concurrent,
-    target: DispatchQueue.global()
-)
-
-class Lockable<T> {
-    typealias LockExecute = () -> T
-    typealias LockCompletion = (T) -> Void
-    typealias LockCompletion2 = (T, T) -> Void
-    typealias LockCompletion3 = (T, T, T) -> Void
-
-    let dispatchQueue: DispatchQueue
-
-    init(_ dispatchQueue: DispatchQueue = lockGridQueue) {
-        self.dispatchQueue = dispatchQueue
-    }
-
-    func lock<T>(
-        _ execute: @escaping Lockable<T>.LockExecute,
-        _ unlock: @escaping Lockable<T>.LockCompletion) {
-        self.dispatchQueue.async(flags: .barrier) {
-            let result = execute()
-            unlock(result)
-        }
-    }
-}
-
 class Grid {
+    static var shared: Grid!
     static var dimensions: Dimensions!
     static var gridlets = [AKPoint: Gridlet]()
 
-    init(_ portal: SKSpriteNode, _ spriteFactory: SpriteFactory) {
-        Grid.dimensions = Grid.setDimensions(portal)
-        setupGrid(portal, drawLines: false)
+    init() {
+        Grid.dimensions = Grid.setDimensions(GriddleScene.arkonsPortal!)
+        setupGrid(GriddleScene.arkonsPortal!, drawLines: false)
     }
 
     func drawGridLine(_ portal: SKSpriteNode, _ x1: Int, _ y1: Int, _ x2: Int, _ y2: Int) {
@@ -83,7 +56,26 @@ class Grid {
             color: .gray
         )
 
+//        print("C", line.name!)
         portal.addChild(line)
+//        print("D")
+    }
+
+    static let lockQueue = DispatchQueue(
+        label: "arkonia.lock.grid", qos: .default,
+        attributes: DispatchQueue.Attributes.concurrent
+    )
+
+    static func lock<T>(
+        _ execute: Sync.Lockable<T>.LockExecute? = nil,
+        _ userOnComplete: Sync.Lockable<T>.LockOnComplete? = nil,
+        _ completionMode: Sync.CompletionMode = .concurrent
+    ) {
+        func debugEx() -> [T]? { print("Grid.barrier"); return execute?() }
+        func debugOc(_ args: [T]?) { print("Grid.concurrent"); userOnComplete?(args) }
+        Sync.Lockable<T>(lockQueue).lock(
+            execute, userOnComplete, completionMode
+        )
     }
 
     func setupGrid(_ portal: SKSpriteNode, drawLines: Bool = false) {
@@ -189,41 +181,32 @@ class Grid {
         let hSprite = Int(tTexture.size().height / Dimensions.fudgFactor)
         let wSprite = Int(tTexture.size().width / Dimensions.fudgFactor)
 
-        let hPortal = Int((1 / Arkon.scaleFactor) * portal.size.height / Dimensions.fudgFactor) - hSprite
-        let wPortal = Int((1 / Arkon.scaleFactor) * portal.size.width / Dimensions.fudgFactor) - wSprite
+        let hPortal = Int((1 / Wangkhi.scaleFactor) * portal.size.height / Dimensions.fudgFactor) - hSprite
+        let wPortal = Int((1 / Wangkhi.scaleFactor) * portal.size.width / Dimensions.fudgFactor) - wSprite
         let hGrid = Int(hPortal / hSprite)
         let wGrid = Int(wPortal / wSprite)
 
         return Dimensions(hGrid, hPortal, hSprite, wGrid, wPortal, wSprite)
     }
 
-    class RandomGridPoint {
-        init(gridlet: Gridlet, cgPoint: CGPoint) { self.gridlet = gridlet; self.cgPoint = cgPoint }
-        var gridlet: Gridlet
-        let cgPoint: CGPoint
-    }
+}
 
-    static func getRandomPoint_(background: SKSpriteNode) -> RandomGridPoint {
-        var rp: RandomGridPoint?
+extension Grid {
+    static let moves = [
+         AKPoint(x: 0, y:   1), AKPoint(x:  1, y:  1), AKPoint(x:  1, y:  0),
+         AKPoint(x: 1, y:  -1), AKPoint(x:  0, y: -1), AKPoint(x: -1, y: -1),
+         AKPoint(x: -1, y:  0), AKPoint(x: -1, y:  1)
+    ]
 
-        repeat {
-            rp = background.getRandomPoint()
-        } while rp!.gridlet.contents != .nothing
-
-        return rp!
-    }
-
-    static func getRandomPoint(
-        background: SKSpriteNode,
-        completion: @escaping Lockable<RandomGridPoint>.LockCompletion
-    ) {
-        var rp: RandomGridPoint?
-
-        Lockable<RandomGridPoint>().lock({
-            rp = getRandomPoint_(background: background)
-        }, {
-            completion(rp!)
-        })
-    }
-
+    static let gridInputs = [
+        AKPoint(x: -4, y:  4), AKPoint(x: -3, y:  4), AKPoint(x: -2, y:  4), AKPoint(x: -1, y:  4), AKPoint(x:   0, y:  4), AKPoint(x:  1, y:  4), AKPoint(x:  2, y:  4), AKPoint(x:  3, y:  4), AKPoint(x:  4, y:  4),
+        AKPoint(x: -4, y:  3), AKPoint(x: -3, y:  3), AKPoint(x: -2, y:  3), AKPoint(x: -1, y:  3), AKPoint(x:   0, y:  3), AKPoint(x:  1, y:  3), AKPoint(x:  2, y:  3), AKPoint(x:  3, y:  3), AKPoint(x:  4, y:  3),
+        AKPoint(x: -4, y:  2), AKPoint(x: -3, y:  2), AKPoint(x: -2, y:  2), AKPoint(x: -1, y:  2), AKPoint(x:   0, y:  2), AKPoint(x:  1, y:  2), AKPoint(x:  2, y:  2), AKPoint(x:  3, y:  2), AKPoint(x:  4, y:  2),
+        AKPoint(x: -4, y:  1), AKPoint(x: -3, y:  1), AKPoint(x: -2, y:  1), AKPoint(x: -1, y:  1), AKPoint(x:   0, y:  1), AKPoint(x:  1, y:  1), AKPoint(x:  2, y:  1), AKPoint(x:  3, y:  1), AKPoint(x:  4, y:  1),
+        AKPoint(x: -4, y:  0), AKPoint(x: -3, y:  0), AKPoint(x: -2, y:  0), AKPoint(x: -1, y:  0), AKPoint(x:   0, y:  0), AKPoint(x:  1, y:  0), AKPoint(x:  2, y:  0), AKPoint(x:  3, y:  0), AKPoint(x:  4, y:  0),
+        AKPoint(x: -4, y: -1), AKPoint(x: -3, y: -1), AKPoint(x: -2, y: -1), AKPoint(x: -1, y: -1), AKPoint(x:   0, y: -1), AKPoint(x:  1, y: -1), AKPoint(x:  2, y: -1), AKPoint(x:  3, y: -1), AKPoint(x:  4, y: -1),
+        AKPoint(x: -4, y: -2), AKPoint(x: -3, y: -2), AKPoint(x: -2, y: -2), AKPoint(x: -1, y: -2), AKPoint(x:   0, y: -2), AKPoint(x:  1, y: -2), AKPoint(x:  2, y: -2), AKPoint(x:  3, y: -2), AKPoint(x:  4, y: -2),
+        AKPoint(x: -4, y: -3), AKPoint(x: -3, y: -3), AKPoint(x: -2, y: -3), AKPoint(x: -1, y: -3), AKPoint(x:   0, y: -3), AKPoint(x:  1, y: -3), AKPoint(x:  2, y: -3), AKPoint(x:  3, y: -3), AKPoint(x:  4, y: -3),
+        AKPoint(x: -4, y: -4), AKPoint(x: -3, y: -4), AKPoint(x: -2, y: -4), AKPoint(x: -1, y: -4), AKPoint(x:   0, y: -4), AKPoint(x:  1, y: -4), AKPoint(x:  2, y: -4), AKPoint(x:  3, y: -4), AKPoint(x:  4, y: -4)
+    ]
 }

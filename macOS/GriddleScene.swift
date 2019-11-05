@@ -29,7 +29,10 @@ class GriddleScene: SKScene, SKSceneDelegate {
         Display.displayCycle = .limbo
     }
 
-    var arkonsPortal: SKSpriteNode!
+    static var arkonsPortal: SKSpriteNode!
+    static var arkonsArePresent: Bool = false
+    static var shared: GriddleScene!
+
     var census: Census?
     var clock: Clock?
     var griddle: Grid!
@@ -70,9 +73,9 @@ class GriddleScene: SKScene, SKSceneDelegate {
     }
 
     override func didMove(to view: SKView) {
-        World.shared.setCurrentTime(to: 0)
+        GriddleScene.shared = self
 
-        arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+        GriddleScene.arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
 
         enumerateChildNodes(withName: "net_9portal") { node_, _ in
@@ -80,51 +83,44 @@ class GriddleScene: SKScene, SKSceneDelegate {
             self.net9Portals.append(node)
         }
 
-        let spriteFactory = SpriteFactory(
+        Wangkhi.spriteFactory = SpriteFactory(
             scene: self,
             thoraxFactory: SpriteFactory.makeSprite(texture:),
             noseFactory: SpriteFactory.makeSprite(texture:)
         )
 
-        spriteFactory.postInit(net9Portals)
+        Wangkhi.spriteFactory.postInit(net9Portals)
 
-        Arkon.inject(layers, arkonsPortal, spriteFactory)
-
-        griddle = Grid(arkonsPortal, spriteFactory)
-
-        MannaCoordinator.shared = MannaCoordinator(spriteFactory: spriteFactory)
+        Grid.shared = Grid()
+        MannaCoordinator.shared = MannaCoordinator()
 
         scene!.delegate = self
 
         hud = HUD(scene: self)
         buildReports()
-        //        buildBarCharts()
-        //        buildLineGraphs()
 
         clock = Clock(self)
         census = Census(self)
-
-        //        startGenes()
 
         readyForDisplayCycle = true
     }
 
     override func update(_ currentTime: TimeInterval) {
-        if !readyForDisplayCycle { return }
+        guard readyForDisplayCycle else { return }
 
         Display.displayCycle = .updateStarted
 
         defer {
             tickCount += 1
             Display.displayCycle = .actions
-            World.shared.setCurrentTime(to: currentTime)
         }
 
         if tickCount < 10 { return }
 
         let cProgenitors = 25
         if tickCount >= 10 && tickCount < (10 + cProgenitors)  {
-            CSpawn(nil).spawnProgenitor()
+//            print("sp")
+            Dispatch().wangkhi()
         }
     }
 }

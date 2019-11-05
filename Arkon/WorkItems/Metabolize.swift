@@ -1,23 +1,34 @@
 import GameplayKit
 
-extension Metabolism {
-    func metabolize(completion: @escaping CoordinatorCallback) {
-        let workItem = {
-            [weak self] in guard let myself = self else {
-//                print("Bailing in metabolize")
-                return
-            }
-            myself.metabolize_()
-            completion()
-        }
+final class Metabolize: Dispatchable {
+    weak var dispatch: Dispatch!
+    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    var stats: World.StatsCopy!
+    var stepper: Stepper { return dispatch.stepper }
 
-        Lockable<Void>().lock(workItem, { _ in })
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
     }
 
-    private func metabolize_() {
-        let internalTransferRate: CGFloat = CGFloat(Double.infinity)
+    func go() {
+        aMetabolize()
+    }
 
-        defer { updatePhysicsBodyMass() }
+}
+
+extension Metabolize {
+    func aMetabolize() {
+        assert(runningAsBarrier == true)
+        dispatch.stepper.metabolism.metabolizeProper()
+        dispatch.colorize()
+    }
+}
+
+extension Metabolism {
+    fileprivate func metabolizeProper() {
+        let internalTransferRate = CGFloat(2)
+
+//        defer { updatePhysicsBodyMass() }
 
         var export = !stomach.isEmpty && !readyEnergyReserves.isFull
 

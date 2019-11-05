@@ -1,12 +1,5 @@
 import SpriteKit
 
-extension SKSpriteNode {
-    var manna: Manna {
-        get { return (userData![SpriteUserDataKey.manna] as? Manna)! }
-        set { userData![SpriteUserDataKey.manna] = newValue }
-    }
-}
-
 class Manna {
 
     static let colorBlendMinimum: CGFloat = 0.25
@@ -29,8 +22,20 @@ class Manna {
 
     init(_ sprite: SKSpriteNode) { self.sprite = sprite }
 
+    static func attachManna(_ manna: Manna, to sprite: SKSpriteNode) {
+        sprite.userData![SpriteUserDataKey.manna] = manna
+    }
+
+    static func getManna(from sprite: SKSpriteNode) -> Manna {
+        return (sprite.userData![SpriteUserDataKey.manna] as? Manna)!
+    }
+
     func harvest() -> CGFloat {
         defer { sprite.colorBlendFactor = Manna.colorBlendMinimum }
         return energyContentInJoules
+    }
+
+    static func releaseManna(_ manna: Manna, to sprite: SKSpriteNode) {
+        sprite.userData![SpriteUserDataKey.manna] = nil
     }
 }

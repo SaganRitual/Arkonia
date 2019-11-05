@@ -1,40 +1,50 @@
 import GameplayKit
 
-extension Arkon {
-    func colorize(
-        metabolism: Metabolism, age: TimeInterval,
-        completion: @escaping CoordinatorCallback
-    ) {
-        let workItem = { [weak self] in
-            guard let myself = self else {
-//                print("Bailing in colorize")
-                return
-            }
-            myself.colorize_(metabolism, age)
-        }
+final class Colorize: Dispatchable {
+    weak var dispatch: Dispatch!
+    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    var stats: World.StatsCopy!
+    var stepper: Stepper { return dispatch.stepper }
 
-        Lockable<Void>().lock(workItem, completion)
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
     }
 
-    private func colorize_(
-        _ metabolism: Metabolism, _ age: TimeInterval
-    ) {
+    func go() { aColorize() }
+
+}
+
+extension Colorize {
+    func aColorize() {
+        assert(runningAsBarrier == true)
+
+        stats = World.stats.copy()
+
+        let age = stats.currentTime - stepper.birthday
+        dispatch.stepper.colorizeProper(dispatch, age)
+        dispatch.shift()
+    }
+}
+
+extension Stepper {
+
+    func colorizeProper(_ dispatch: Dispatch, _ myAge: Int) {
         let ef = metabolism.fungibleEnergyFullness
         nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 
         let baseColor: Int
-        if selectoid.fishNumber < 10 {
+        if fishNumber > 0 {
             baseColor = 0xFF_00_00
         } else {
             baseColor = (metabolism.spawnEnergyFullness > 0) ?
-                Arkon.brightColor : Arkon.standardColor
+                Wangkhi.brightColor : Wangkhi.standardColor
         }
 
         let four: CGFloat = 4
         self.sprite.color = ColorGradient.makeColorMixRedBlue(
             baseColor: baseColor,
             redPercentage: metabolism.spawnEnergyFullness,
-            bluePercentage: max((four - CGFloat(age)) / four, 0.0)
+            bluePercentage: max((four - CGFloat(myAge)) / four, 0.0)
         )
 
         self.sprite.colorBlendFactor = metabolism.oxygenLevel
