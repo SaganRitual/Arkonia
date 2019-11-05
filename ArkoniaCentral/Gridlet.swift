@@ -54,6 +54,16 @@ class Gridlet: GridletProtocol, Equatable {
 //        print("~Gridlet")
     }
 
+    func releaseGridlet() {
+        Grid.shared.concurrentQueue.async(flags: .barrier) { [unowned self] in
+            guard self.gridletIsEngaged else { return }
+
+            self.sprite = nil
+            self.contents = .nothing
+            self.gridletIsEngaged = false
+        }
+    }
+
     static func atIf(_ x: Int, _ y: Int) -> Gridlet? {
         let p = AKPoint(x: x, y: y)
         guard let g = Grid.gridlets[p] else { return nil }
@@ -118,10 +128,6 @@ extension Gridlet {
         } while rg.contents != .nothing
 
         return rg
-    }
-
-    static func getRandomGridlet() -> Gridlet {
-        return Grid.shared.serialQueue.sync { getRandomGridlet_() }
     }
 
     static func getRandomGridlet(onComplete: (Gridlet) -> Void) {

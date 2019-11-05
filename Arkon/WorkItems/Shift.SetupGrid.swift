@@ -8,7 +8,7 @@ final class Shift: Dispatchable {
     }
 
     weak var dispatch: Dispatch!
-    var oldGridlet: GridletCopy?
+    var oldGridlet: Gridlet?
     var phase: Phase = .reserveGridPoints
     var runAsBarrier: Bool = true
     var senseData = [Double]()
@@ -27,7 +27,7 @@ final class Shift: Dispatchable {
         dispatch.callAgain()
     }
 
-    func getResult() -> GridletCopy? { return oldGridlet }
+    func getResult() -> Gridlet? { return oldGridlet }
 
     func go() { self.aShift() }
 
@@ -38,6 +38,9 @@ extension Shift {
         switch phase {
         case .reserveGridPoints:
             reserveGridPoints()
+            callAgain(.loadGridInputs, false)
+
+        case .loadGridInputs:
             loadGridInputs()
             callAgain(.calculateShift, false)
 
@@ -56,8 +59,6 @@ extension Shift {
 
         case .postShift:
             postShift()
-
-        case .loadGridInputs: fatalError()
         }
     }
 
@@ -81,7 +82,7 @@ extension Shift {
     private func loadGridInput_(_ step: AKPoint) -> (Double, Double) {
         let inputGridlet = step + stepper.gridlet.gridPosition
         if !Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) {
-            return (Gridlet.Contents.nothing.rawValue, -1e6)
+            return (Gridlet.Contents.nothing.rawValue, 0)
         }
 
         let targetGridlet = Gridlet.at(inputGridlet)

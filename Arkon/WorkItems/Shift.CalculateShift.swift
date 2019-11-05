@@ -37,6 +37,10 @@ extension Shift {
         let yShift = Double(previousShift.y)
         hackyRearrangedInputs.append(contentsOf: [xShift, yShift])
 
+        let hunger = Double(stepper.metabolism.hunger)
+        let asphyxia = Double(1 - (stepper.metabolism.oxygenLevel / 1))
+        hackyRearrangedInputs.append(contentsOf: [hunger, asphyxia])
+
         return hackyRearrangedInputs
     }
 

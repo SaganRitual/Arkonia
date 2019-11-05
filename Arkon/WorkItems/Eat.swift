@@ -7,12 +7,22 @@ final class Eat: AKWorkItem {
     var currentGridlet: Gridlet!
     var manna: Manna!
     var phase = Phase.chooseEdible
-    var previousGridlet: GridletCopy!
-    let runAsBarrier = false
+    var previousGridlet: Gridlet?
+    var runAsBarrier = false
+
+    deinit {
+        if let p = previousGridlet { p.releaseGridlet() }
+    }
+
+    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
+        self.phase = phase
+        self.runAsBarrier = runAsBarrier
+        dispatch!.callAgain()
+    }
 
     override func go() { aEat() }
 
-    func inject(_ previousGridlet: GridletCopy, _ currentGridlet: Gridlet) {
+    func inject(_ previousGridlet: Gridlet, _ currentGridlet: Gridlet) {
         self.previousGridlet = previousGridlet
         self.currentGridlet = currentGridlet
     }
@@ -35,22 +45,21 @@ extension Eat {
         switch phase {
         case .chooseEdible:
 
+//            print("st1", st.gridlet.contents, st.gridlet.gridPosition)
             switch st.gridlet.contents {
             case .arkon:
                 battleArkon()
-                phase = .settleCombat
-                dispatch?.callAgain()
+                callAgain(.settleCombat, true)
 
             case .manna:
                 battleManna()
-                phase = .settleCombat
-                dispatch?.defeatManna()
+                callAgain(.settleCombat, true)
 
-            case .nothing:
-                dispatch?.funge()
+            default: fatalError()
             }
 
         case .settleCombat:
+//            print("st2", st.gridlet.contents, st.gridlet.gridPosition)
             switch st.gridlet.contents {
             case .arkon:
                 settleCombat()

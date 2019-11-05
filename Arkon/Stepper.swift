@@ -49,13 +49,16 @@ class Stepper {
     }
 
     deinit {
-        Grid.shared.serialQueue.sync {
-            gridlet.contents = .nothing
-            gridlet.sprite = nil
-            gridlet.gridletIsEngaged = false
+        World.stats.decrementPopulation(nil)
+
+        guard let g = self.gridlet else { return }
+
+        Grid.shared.concurrentQueue.async(flags: .barrier) {
+            g.contents = .nothing
+            g.sprite = nil
+            g.gridletIsEngaged = false
         }
 
-        World.stats.decrementPopulation(nil)
     }
 
 }

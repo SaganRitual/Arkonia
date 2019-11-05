@@ -4,8 +4,7 @@ extension Shift {
     func shift(_ onComplete: @escaping () -> Void) {
         guard let st = self.shiftTarget else { fatalError() }
 
-        oldGridlet = releaseGridlet(stepper.gridlet!)
-
+        oldGridlet = stepper.gridlet!
         self.stepper.gridlet = st
 
         let moveAction =
@@ -13,15 +12,13 @@ extension Shift {
 
         stepper.sprite.run(moveAction) { onComplete() }
     }
+}
 
-    func releaseGridlet(_ gridlet: Gridlet) -> GridletCopy {
-        let copy = GridletCopy(from: gridlet)
-
-        gridlet.sprite = nil
-        gridlet.contents = .nothing
-        gridlet.gridletIsEngaged = false
-
-        return copy
+extension Gridlet {
+    func releaseGridlet_() {
+        sprite = nil
+        contents = .nothing
+        gridletIsEngaged = false
     }
 }
 
@@ -29,7 +26,11 @@ extension Shift {
     func postShift() {
         guard let ng = stepper.gridlet else { fatalError() }
 
-        if ng.contents == .nothing { dispatch.funge(); return }
+        if ng.contents == .nothing {
+            ng.releaseGridlet_()
+            dispatch.funge()
+            return
+        }
 
         dispatch.eat()
     }

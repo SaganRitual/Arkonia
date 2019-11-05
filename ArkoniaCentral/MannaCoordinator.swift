@@ -11,7 +11,7 @@ class MannaCoordinator {
     static let fadeInAction = SKAction.fadeIn(withDuration: 0.001)
     static let fadeOutAction = SKAction.fadeOut(withDuration: 0.001)
 
-    static let cMorsels = 500
+    static let cMorsels = 1000
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
@@ -81,14 +81,13 @@ extension MannaCoordinator {
         }
 
         manna.sprite.alpha = 0
-        manna.sprite.setScale(0.1)
-        manna.sprite.color = .green
+        manna.sprite.setScale(0.14)
         manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
 
         bloom(manna)
     }
 
     func plant(_ manna: Manna) {
-        Grid.shared.serialQueue.async { self.plant_(manna) }
+        Grid.shared.concurrentQueue.async(flags: .barrier) { self.plant_(manna) }
     }
 }

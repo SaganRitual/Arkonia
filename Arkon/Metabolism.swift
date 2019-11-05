@@ -124,10 +124,11 @@ class Metabolism {
         }// + (muscles?.energyContent ?? 0)
     }
 
-    var energyFullness: CGFloat {
-        return energyContent / energyCapacity }
+    var energyFullness: CGFloat { return energyContent / energyCapacity }
 
     var fungibleEnergyFullness: CGFloat { return fungibleEnergyContent / fungibleEnergyCapacity }
+
+    var hunger: CGFloat { return 1 - energyFullness }
 
     var spawnEnergyFullness: CGFloat {
         return spawnReserves.level / spawnReserves.capacity }
