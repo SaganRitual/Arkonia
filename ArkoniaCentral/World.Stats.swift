@@ -85,14 +85,6 @@ extension World.Stats {
         }
     }
 
-    func incrementPopulation(_ onComplete: @escaping OCGetStats) {
-        World.shared.lockQueue.async(flags: .barrier) { [unowned self] in
-            self.currentPopulation += 1
-            self.highWaterPopulation = max(self.currentPopulation, self.highWaterPopulation)
-            onComplete(self.copy())
-        }
-    }
-
     func registerAge(_ age: Int, _ onComplete: @escaping OCGetStats) {
         World.shared.lockQueue.async(flags: .barrier) {
             self.maxLivingAge = max(age, self.maxLivingAge)

@@ -1,12 +1,18 @@
 import SpriteKit
 
 enum ArkoniaCentral {
-    static let cMotorNeurons = 8
-    static let cSenseNeurons = 166
+    static let senseGridSide = 3
+    static let cSenseGridlets = senseGridSide * senseGridSide
+    static let cSenseNeurons = 2 * cSenseGridlets + 4
+    static let cMotorNeurons = cSenseGridlets - 1
+    static let cMotorGridlets = cMotorNeurons + 1
 }
 
 struct AKPoint: Hashable {
     let x: Int; let y: Int
+
+    init(_ point: AKPoint) { x = point.x; y = point.y }
+    init(x: Int, y: Int) { self.x = x; self.y = y }
 
     static let zero = AKPoint(x: 0, y: 0)
 

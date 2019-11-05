@@ -62,14 +62,16 @@ extension Shift {
     }
 
     private func loadGridInputs() {
-        sensoryInputs = Grid.gridInputs.map { step in
-            return self.loadGridInput_(step)
+        sensoryInputs = (0..<ArkoniaCentral.cSenseGridlets).map { index in
+            let gridPoint = stepper.getGridPointByIndex(index)
+            return self.loadGridInput_(gridPoint)
         }
     }
 
     private func reserveGridPoints() {
-        usableGridlets = Grid.moves.compactMap { offset in
-            reserveGridPoint_(offset)
+        usableGridlets = (0..<ArkoniaCentral.cMotorGridlets).compactMap { index in
+            let gridPoint = stepper.getGridPointByIndex(index, absolute: false)
+            return reserveGridPoint_(gridPoint)
         }
     }
 }

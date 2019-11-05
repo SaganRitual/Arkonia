@@ -98,7 +98,26 @@ extension WangkhiEmbryo {
 
 extension WangkhiEmbryo {
     func getStartingPosition() {
-        self.gridlet = Gridlet.getRandomGridlet_()
+        guard let p = parent else {
+            self.gridlet = Gridlet.getRandomGridlet_()
+            return
+        }
+
+        var foundGridlet: Gridlet!
+        var candidateIx = Int.random(in: 1..<ArkoniaCentral.cSenseGridlets)
+
+        while foundGridlet == nil {
+            let g = p.getGridPointByIndex(candidateIx)
+
+            if let f = Gridlet.atIf(g), f.contents == .nothing {
+                foundGridlet = f
+                break
+            }
+
+            candidateIx += 1
+        }
+
+        self.gridlet = foundGridlet
     }
 
     func registerBirth(_ onComplete: @escaping () -> Void) {

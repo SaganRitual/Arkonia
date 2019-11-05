@@ -60,20 +60,16 @@ extension Shift {
         }
 
         let targetOffset = order.first { entry in
-            let candidateOffset = Grid.moves[entry.0]
+            let stepperGridPoint = stepper.getGridPointByIndex(entry.0)
 
-            let stepperGridPoint = stepper.gridlet.gridPosition
-
-            guard let candidateGridlet = Gridlet.atIf(
-                stepperGridPoint + candidateOffset
-            ) else {
-                return false
-            }
+            guard let candidateGridlet = Gridlet.atIf(stepperGridPoint)
+                else { return false }
 
             return usableGridlets.contains(candidateGridlet)
         }
 
         guard let t = targetOffset else { return stepper.gridlet }
-        return stepper.gridlet + Grid.moves[t.0]
+        let p = stepper.getGridPointByIndex(t.0)
+        return Gridlet.at(p)
     }
 }

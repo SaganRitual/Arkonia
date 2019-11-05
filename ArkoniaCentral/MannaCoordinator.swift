@@ -4,7 +4,7 @@ class MannaCoordinator {
     static var shared: MannaCoordinator!
 
     static let colorAction = SKAction.colorize(
-        with: .blue, colorBlendFactor: Manna.colorBlendMinimum,
+        with: .blue, colorBlendFactor: Manna.colorBlendMaximum,
         duration: Manna.fullGrowthDurationSeconds
     )
 
