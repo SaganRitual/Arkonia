@@ -3,11 +3,11 @@ import SpriteKit
 final class Eat: AKWorkItem {
     enum Phase { case chooseEdible, settleCombat }
 
-    var combatOrder: (Stepper, Stepper)!
+    var combatOrder: (Stepper, Stepper)?
     var currentGridlet: Gridlet!
     var manna: Manna!
     var phase = Phase.chooseEdible
-    var copyOfPreviousGridlet: GridletCopy!
+    var shiftTracker = ShiftTracker()
 
     func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
         self.phase = phase
@@ -17,12 +17,11 @@ final class Eat: AKWorkItem {
 
     override func go() { aEat() }
 
-    func inject(_ previousGridlet: GridletCopy, _ currentGridlet: Gridlet) {
-        self.copyOfPreviousGridlet = previousGridlet
-        self.currentGridlet = currentGridlet
+    func inject(_ shiftTracker: ShiftTracker) {
+        self.shiftTracker = shiftTracker
     }
 
-    func inject(_ combatOrder: (Stepper, Stepper)) {
+    func inject(_ combatOrder: (Stepper, Stepper)?) {
         self.combatOrder = combatOrder
         self.phase = .settleCombat
     }
@@ -36,12 +35,16 @@ final class Eat: AKWorkItem {
 extension Eat {
     //swiftmint:disable function_body_length
     private func aEat() {
-        guard let st = dispatch?.stepper else { fatalError() }
         switch phase {
         case .chooseEdible:
 
-//            print("st1", st.gridlet.contents, st.gridlet.gridPosition)
-            switch st.gridlet.contents {
+            if let bms = shiftTracker.beforeMoveStop {
+                print("st0", stepper?.name ?? "<no stepper?>", bms.contents,
+                      (bms.sprite?.userData?[SpriteUserDataKey.stepper] as? Stepper)?.name ?? "<no target sprite>")
+            } else {
+                print("st1")
+            }
+            switch shiftTracker.beforeMoveStop?.contents {
             case .arkon:
                 battleArkon()
                 callAgain(.settleCombat, .barrier)
@@ -55,7 +58,7 @@ extension Eat {
 
         case .settleCombat:
 //            print("st2", st.gridlet.contents, st.gridlet.gridPosition)
-            switch st.gridlet.contents {
+            switch shiftTracker.beforeMoveStop?.contents {
             case .arkon:
                 settleCombat()
 
@@ -74,27 +77,30 @@ extension Eat {
     func battleArkon() {
         guard let dp = dispatch else { fatalError() }
 
-        guard let otherSprite = copyOfPreviousGridlet?.sprite,
-            let otherUserData = otherSprite.userData,
-            let otherAny = otherUserData[SpriteUserDataKey.stepper],
-            let otherStepper = otherAny as? Stepper
+        guard let victim = shiftTracker.beforeMoveStop,
+            let victimSprite = victim.sprite,
+            let victimUserData = victimSprite.userData,
+            let victimAny = victimUserData[SpriteUserDataKey.stepper],
+            let victimStepper = victimAny as? Stepper
         else { fatalError() }
 
-        let myMass = dp.stepper.metabolism.mass
-        let hisMass = otherStepper.metabolism.mass
-        print("combat: \(myMass) <-> \(hisMass)")
+//        otherGridlet.releaseGridlet()
 
-        self.combatOrder = (myMass > (hisMass * 1.25)) ?
-            (dp.stepper, otherStepper) : (otherStepper, dp.stepper)
+        let myMass = dp.stepper.metabolism.mass
+        let hisMass = victimStepper.metabolism.mass
+        print("combat: \(dp.stepper.name) \(myMass) <-> \(hisMass) \(victimStepper.name)")
+
+        self.combatOrder =
+            (myMass > (hisMass * 1.25)) ? (dp.stepper, victimStepper) : nil
     }
 
-    func getResult() -> (Stepper, Stepper) {
-        return combatOrder!
+    func getResult() -> (Stepper, Stepper)? {
+        return combatOrder
     }
 
     func battleManna() {
 
-        guard let mannaSprite = dispatch?.stepper.gridlet.sprite,
+        guard let mannaSprite = shiftTracker.beforeMoveStop?.sprite,
             let mannaUserData = mannaSprite.userData,
             let shouldBeManna = mannaUserData[SpriteUserDataKey.manna],
             let manna = shouldBeManna as? Manna
@@ -109,6 +115,7 @@ extension Eat {
 
 extension Eat {
     private func defeatManna() {
+        assert(runType == .barrier)
         guard let st = stepper else { fatalError() }
         let harvested = self.manna.harvest()
         st.metabolism.absorbEnergy(harvested)
@@ -117,7 +124,17 @@ extension Eat {
     }
 
     private func settleCombat() {
-        self.combatOrder.0.dispatch.parasitize()
-        self.combatOrder.1.dispatch.apoptosize()
+        assert(runType == .barrier)
+        guard let co = self.combatOrder else {
+            dispatch?.apoptosize()
+            return
+        }
+
+        print("sc1", co.0.name, co.1.name)
+        co.0.dispatch.parasitize()
+        print("sc2", co.0.name, co.1.name)
+        co.1.dispatch.apoptosize()
+        print("sc3", co.0.name, co.1.name)
+        co.0.gridlet.disengageGridlet(runType)
     }
 }

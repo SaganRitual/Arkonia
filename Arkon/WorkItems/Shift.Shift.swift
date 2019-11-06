@@ -3,42 +3,56 @@ import SpriteKit
 extension Shift {
     static var ssCount = 0
     func shift(_ onComplete: @escaping () -> Void) {
-        guard let st = self.shiftTarget else { fatalError() }
+        assert(runType == .barrier)
 
-        copyOfOldGridlet = GridletCopy(from: stepper.gridlet!)
+        guard let landingGridlet = self.shiftTarget else { fatalError() }
 
-        let stationary = (self.stepper.gridlet == st)
+        stepper.shiftTracker.beforeMoveStart = GridletCopy(from: stepper.gridlet!, runType: runType)
+        stepper.shiftTracker.beforeMoveStop = GridletCopy(from: landingGridlet, runType: runType)
 
-        self.stepper.gridlet = st
-        self.stepper.gridlet.contents = .arkon
+        let stationary = (self.stepper.gridlet == landingGridlet)
+
+        if !stationary {
+            if let sp = landingGridlet.sprite, let st = Stepper.getStepper(from: sp, require: false) {
+                print("?")
+                st.gridlet = nil
+            }
+        }
+
+        landingGridlet.sprite = stepper.sprite
+        landingGridlet.contents = .arkon
+
+        stepper.gridlet = landingGridlet
 
         let moveDuration: TimeInterval = 0.1
         let moveAction = stationary ?
             SKAction.wait(forDuration: moveDuration) :
-            SKAction.move(to: self.stepper.gridlet.scenePosition, duration: moveDuration)
+            SKAction.move(to: landingGridlet.scenePosition, duration: moveDuration)
 
         stepper.sprite.run(moveAction) { onComplete() }
     }
 }
 
-extension Gridlet {
-    func releaseGridlet_() {
-        sprite = nil
-        contents = .nothing
-        gridletIsEngaged = false
-    }
-}
-
 extension Shift {
     func postShift() {
-        if capturedFood == .nothing { return }
-        if let st = shiftTarget, let og = copyOfOldGridlet, let ai = Gridlet.atIf(og),
-            st === ai {
-            ai.releaseGridlet()
+        assert(runType == .barrier)
+
+        stepper.shiftTracker.afterMoveStop = GridletCopy(from: stepper.gridlet, runType: runType)
+
+        guard let bmStart = stepper.shiftTracker.beforeMoveStart else { fatalError() }
+        guard let bmStop = stepper.shiftTracker.beforeMoveStop else { fatalError() }
+        guard let amStop = stepper.shiftTracker.afterMoveStop else { fatalError() }
+        guard let bmStartGridlet = Gridlet.atIf(bmStart) else { fatalError() }
+        guard let amStopGridlet = Gridlet.atIf(amStop) else { fatalError() }
+
+        if bmStartGridlet === amStopGridlet || bmStop.contents == .nothing {
+            amStopGridlet.disengageGridlet(runType)
+            print("ps funge")
             dispatch.funge()
             return
         }
 
+        print("ps eat")
         dispatch.eat()
     }
 }

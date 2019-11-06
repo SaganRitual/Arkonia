@@ -7,6 +7,11 @@ extension Shift {
         self.shiftTarget = selectMoveTarget(senseData: senseData)
     }
 
+    func getGridletCopies() {
+        stepper.shiftTracker.beforeMoveStart = GridletCopy(from: stepper.gridlet, runType: runType)
+        stepper.shiftTracker.beforeMoveStop = GridletCopy(from: self.shiftTarget!, runType: runType)
+    }
+
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
         return senseData.enumerated().reduce([:]) { accumulated, pw in
             let (position, weight) = pw
@@ -25,7 +30,7 @@ extension Shift {
         }
 
         let whereIAmNow = stepper.gridlet!
-        let previousShift = stepper.previousShift
+        let previousShift = stepper.previousShiftOffset
 
         hackyRearrangedInputs.append(contentsOf: nutritionses)
 
@@ -45,11 +50,12 @@ extension Shift {
     }
 
     func releaseGridPoints() {
-        for gridlet in usableGridlets {
-            guard let sh = self.shiftTarget else { fatalError() }
-            if sh !== gridlet {
-                gridlet.gridletIsEngaged = false
-            }
+        assert(runType == .barrier)
+
+        guard let sh = self.shiftTarget else { fatalError() }
+
+        for gridlet in usableGridlets.dropFirst() where sh !== gridlet {
+            gridlet.gridletIsEngaged = false
         }
 
         usableGridlets.removeAll(keepingCapacity: true)
@@ -64,12 +70,19 @@ extension Shift {
         }
 
         let targetOffset = order.first { entry in
-            let stepperGridPoint = stepper.getGridPointByIndex(entry.0)
+            let candidateGridPoint = stepper.getGridPointByIndex(entry.0)
 
-            guard let candidateGridlet = Gridlet.atIf(stepperGridPoint)
+            guard let candidateGridlet = Gridlet.atIf(candidateGridPoint)
                 else { return false }
 
-            return usableGridlets.contains(candidateGridlet)
+            if usableGridlets.contains(candidateGridlet) == false { return false }
+            if candidateGridlet.contents != .arkon { return true }
+
+            guard let candidateVictim = candidateGridlet.sprite?.userData?[SpriteUserDataKey.stepper] as? Stepper,
+                    stepper.metabolism.mass > (candidateVictim.metabolism.mass * 1.25)
+                else { return false }
+
+            return true
         }
 
         guard let t = targetOffset else { return stepper.gridlet }

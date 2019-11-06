@@ -1,25 +1,30 @@
 import SpriteKit
 
+class ShiftTracker {
+    var beforeMoveStart: GridletCopy?
+    var beforeMoveStop: GridletCopy?
+    var afterMoveStop: GridletCopy?
+}
+
 class Stepper {
     let allowSpawning = true
     var birthday = 0
     var cOffspring = 0
+    weak var gridlet: Gridlet!
     var dispatch: Dispatch!
     var fishNumber = 0
-    weak var gridlet: Gridlet!
-    var previousGridletContents = Gridlet.Contents.nothing
     var metabolism: Metabolism!
     let name = UUID().uuidString
     var net: Net!
     var netDisplay: NetDisplay?
     var nose: SKSpriteNode!
-    var oldGridlet: Gridlet?
     var parentActivator: ((_: Double) -> Double)?
     var parentBiases: [Double]?
     var parentLayers: [Int]?
     weak var parentStepper: Stepper?
     var parentWeights: [Double]?
-    var previousShift = AKPoint.zero
+    var previousShiftOffset = AKPoint.zero
+    var shiftTracker = ShiftTracker()
     var sprite: SKSpriteNode!
 
     init(_ parentStepper: Stepper? = nil) {
@@ -49,13 +54,18 @@ class Stepper {
     }
 
     deinit {
+        print("deinit", name)
         World.stats.decrementPopulation(nil)
 
-        guard let g = self.gridlet else { return }
-
-        Grid.shared.concurrentQueue.async(flags: .barrier) {
+        Grid.shared.concurrentQueue.async(flags: .barrier) { [weak self] in
+            print("deinit2", self?.name ?? "gone?")
+            guard let g = self?.gridlet else {
+                print("nil0 no gridlet")
+                return
+            }
             g.contents = .nothing
             g.sprite = nil
+            print("nil1", self?.name ?? "foobar")
             g.gridletIsEngaged = false
         }
 
@@ -99,6 +109,8 @@ extension Stepper {
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
+        if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
+        if stepper.gridlet.sprite?.name ?? "fuggle") == sprite.name { fatalError() }
         sprite.userData![SpriteUserDataKey.stepper] = nil
     }
 }

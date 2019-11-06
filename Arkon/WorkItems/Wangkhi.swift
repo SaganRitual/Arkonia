@@ -98,6 +98,8 @@ extension WangkhiEmbryo {
 
 extension WangkhiEmbryo {
     func getStartingPosition() {
+        assert(runType == .barrier)
+
         guard let p = parent else {
             self.gridlet = Gridlet.getRandomGridlet_()
             return
@@ -117,6 +119,7 @@ extension WangkhiEmbryo {
             candidateIx += 1
         }
 
+        foundGridlet.gridletIsEngaged = true
         self.gridlet = foundGridlet
     }
 
@@ -181,6 +184,9 @@ extension WangkhiEmbryo {
         sprite.alpha = 1
 
         sprite.addChild(nose)
+
+        gridlet.sprite = sprite
+        gridlet.contents = .arkon
 
 //        print("bbefore",
 //              dispatch?.name.prefix(8) ?? "wtf4∫",

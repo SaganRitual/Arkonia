@@ -10,8 +10,11 @@ final class Apoptosize: AKWorkItem {
 
 extension Apoptosize {
     private func aApoptosize() {
+        let name = stepper?.name ?? "wtf name?"
+        print("aa1", name)
         let action = SKAction.run { [unowned self] in
             assert(Display.displayCycle == .actions)
+            print("aa2", name)
 
             guard let st = self.stepper else { fatalError() }
             guard let s = st.sprite else { fatalError() }

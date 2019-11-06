@@ -32,16 +32,22 @@ class Manna {
         sprite.userData![SpriteUserDataKey.manna] = manna
     }
 
-    static func getManna(from sprite: SKSpriteNode) -> Manna {
-        return (sprite.userData![SpriteUserDataKey.manna] as? Manna)!
+    static func getManna(from sprite: SKSpriteNode, require: Bool = true) -> Manna? {
+        guard let dictionary = sprite.userData else { fatalError() }
+
+        guard let entry = dictionary[SpriteUserDataKey.manna] else {
+            if require { fatalError() } else { return nil }
+        }
+
+        guard let manna = entry as? Manna else {
+            if require { fatalError() } else { return nil }
+        }
+
+        return manna
     }
 
     func harvest() -> CGFloat {
         defer { sprite.colorBlendFactor = Manna.colorBlendMinimum }
         return energyContentInJoules
-    }
-
-    static func releaseManna(_ manna: Manna, to sprite: SKSpriteNode) {
-        sprite.userData![SpriteUserDataKey.manna] = nil
     }
 }

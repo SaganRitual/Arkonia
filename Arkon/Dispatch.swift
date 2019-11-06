@@ -83,14 +83,14 @@ extension Dispatch {
     }
 
     func eat() {
-        guard let currentGridlet = stepper.gridlet else { fatalError() }
         guard let spentShift = currentTask as? Shift else { fatalError() }
-        guard let previousGridlet = spentShift.getResult() else { fatalError() }
+
+        let shiftTracker = spentShift.getResult()
 
         currentTask = Eat(self)
 
         guard let newEat = currentTask as? Eat else { fatalError() }
-        newEat.inject(previousGridlet, currentGridlet)
+        newEat.inject(shiftTracker)
         start(newEat)
     }
 
@@ -100,16 +100,13 @@ extension Dispatch {
     }
 
     func metabolize() {
-//        print("m1, \(stepper?.name ?? "<nothing>")")
         currentTask = Metabolize(self)
-//        print("m2, \(stepper?.name ?? "<nothing>")")
         start(currentTask)
-//        print("m3, \(stepper?.name ?? "<nothing>")")
     }
 
     func parasitize() {
         guard let activeEat = currentTask as? Eat else { fatalError() }
-        let (_, victim) = activeEat.getResult()
+        guard let (_, victim) = activeEat.getResult() else { fatalError() }
 
         currentTask = Parasitize(self)
 

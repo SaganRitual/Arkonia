@@ -17,7 +17,6 @@ class MannaCoordinator {
 
     init() {
         mannaSpriteFactory = Wangkhi.spriteFactory
-        populate()
     }
 
     private func bloom(_ manna: Manna) {
@@ -59,6 +58,8 @@ extension MannaCoordinator {
             gridlet = $0
             gridlet!.contents = .manna
             gridlet!.sprite = sprite
+
+            guard sprite.userData?[SpriteUserDataKey.manna] is Manna else { fatalError() }
         }
 
         let manna = Manna.getManna(from: sprite)
@@ -73,6 +74,7 @@ extension MannaCoordinator {
 
         gridlet.contents = .manna
         gridlet.sprite = manna.sprite
+        guard manna.sprite.userData?[SpriteUserDataKey.manna] is Manna else { fatalError() }
 
         if let sp = gridlet.randomScenePosition {
             manna.sprite.position = sp

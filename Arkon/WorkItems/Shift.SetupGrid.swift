@@ -1,87 +1,28 @@
 import Foundation
 
-final class Shift: Dispatchable {
-
-    enum Phase {
-        case reserveGridPoints, loadGridInputs
-        case calculateShift, releaseGridPoints, shift, postShift
-    }
-
-    var capturedFood = Gridlet.Contents.nothing
-    weak var dispatch: Dispatch!
-    var copyOfOldGridlet: GridletCopy?
-    var phase: Phase = .reserveGridPoints
-    var runType = Dispatch.RunType.barrier
-    var senseData = [Double]()
-    var sensoryInputs = [(Double, Double)]()
-    var shiftTarget: Gridlet?
-    var stepper: Stepper { return dispatch.stepper }
-    var usableGridlets = [Gridlet]()
-    static var uCount = 0
-
-    init(_ dispatch: Dispatch) {
-        self.dispatch = dispatch
-    }
-
-    func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
-        self.phase = phase
-        self.runType = runType
-        dispatch.callAgain()
-    }
-
-    func getResult() -> GridletCopy? { return copyOfOldGridlet }
-
-    func go() { self.aShift() }
-
-}
-
 extension Shift {
-    func aShift() {
-        switch phase {
-        case .reserveGridPoints:
-            reserveGridPoints()
-            callAgain(.loadGridInputs, .concurrent)
-
-        case .loadGridInputs:
-            loadGridInputs()
-            callAgain(.calculateShift, .concurrent)
-
-        case .calculateShift:
-            calculateShift()
-            callAgain(.releaseGridPoints, .barrier)
-
-        case .releaseGridPoints:
-            releaseGridPoints()
-            callAgain(.shift, .barrier)
-
-        case .shift:
-            shift {
-                self.callAgain(.postShift, .barrier)
-            }
-
-        case .postShift:
-            postShift()
-        }
-    }
-
-    private func loadGridInputs() {
+    func loadGridInputs() {
         sensoryInputs = (0..<ArkoniaCentral.cSenseGridlets).map { index in
             let gridPoint = stepper.getGridPointByIndex(index)
             return self.loadGridInput_(gridPoint)
         }
     }
 
-    private func reserveGridPoints() {
-        usableGridlets = (0..<ArkoniaCentral.cMotorGridlets).compactMap { index in
+    func reserveGridPoints() {
+        assert(runType == .barrier)
+
+        engagedGridlets = (0..<ArkoniaCentral.cMotorGridlets).compactMap { index in
             let gridPoint = stepper.getGridPointByIndex(index, absolute: false)
-            return reserveGridPoint_(gridPoint)
+            guard let gridlet = Gridlet.atIf(gridPoint) else { return nil }
+
+            return gridlet.engage(require: false)
         }
     }
 }
 
 extension Shift {
 
-    private func loadGridInput_(_ step: AKPoint) -> (Double, Double) {
+    func loadGridInput_(_ step: AKPoint) -> (Double, Double) {
         let inputGridlet = step + stepper.gridlet.gridPosition
         if !Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) {
             return (Gridlet.Contents.nothing.rawValue, 0)
@@ -108,6 +49,7 @@ extension Shift {
     }
 
     func reserveGridPoint_(_ offset: AKPoint) -> Gridlet? {
+        assert(runType == .barrier)
         let tp = stepper.gridlet.gridPosition + offset
 
         guard let targetGridlet = Gridlet.atIf(tp.x, tp.y) else { return nil }
