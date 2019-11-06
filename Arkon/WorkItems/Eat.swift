@@ -7,11 +7,7 @@ final class Eat: AKWorkItem {
     var currentGridlet: Gridlet!
     var manna: Manna!
     var phase = Phase.chooseEdible
-    var previousGridlet: Gridlet?
-
-    deinit {
-        if let p = previousGridlet { p.releaseGridlet() }
-    }
+    var copyOfPreviousGridlet: GridletCopy!
 
     func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
         self.phase = phase
@@ -21,8 +17,8 @@ final class Eat: AKWorkItem {
 
     override func go() { aEat() }
 
-    func inject(_ previousGridlet: Gridlet, _ currentGridlet: Gridlet) {
-        self.previousGridlet = previousGridlet
+    func inject(_ previousGridlet: GridletCopy, _ currentGridlet: Gridlet) {
+        self.copyOfPreviousGridlet = previousGridlet
         self.currentGridlet = currentGridlet
     }
 
@@ -78,7 +74,7 @@ extension Eat {
     func battleArkon() {
         guard let dp = dispatch else { fatalError() }
 
-        guard let otherSprite = previousGridlet?.sprite,
+        guard let otherSprite = copyOfPreviousGridlet?.sprite,
             let otherUserData = otherSprite.userData,
             let otherAny = otherUserData[SpriteUserDataKey.stepper],
             let otherStepper = otherAny as? Stepper

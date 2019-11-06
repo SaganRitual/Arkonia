@@ -7,8 +7,9 @@ final class Shift: Dispatchable {
         case calculateShift, releaseGridPoints, shift, postShift
     }
 
+    var capturedFood = Gridlet.Contents.nothing
     weak var dispatch: Dispatch!
-    var oldGridlet: Gridlet?
+    var copyOfOldGridlet: GridletCopy?
     var phase: Phase = .reserveGridPoints
     var runType = Dispatch.RunType.barrier
     var senseData = [Double]()
@@ -28,7 +29,7 @@ final class Shift: Dispatchable {
         dispatch.callAgain()
     }
 
-    func getResult() -> Gridlet? { return oldGridlet }
+    func getResult() -> GridletCopy? { return copyOfOldGridlet }
 
     func go() { self.aShift() }
 

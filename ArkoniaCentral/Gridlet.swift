@@ -89,6 +89,10 @@ class Gridlet: GridletProtocol, Equatable {
         return Gridlet.at(position.x, position.y)
     }
 
+    static func atIf(_ copy: GridletCopy) -> Gridlet? {
+        return atIf(copy.gridPosition)
+    }
+
     static func constrainToGrid(_ x: Int, _ y: Int) -> (Int, Int) {
         let cx = Grid.dimensions.wGrid - 1
         let cy = Grid.dimensions.hGrid - 1
@@ -114,6 +118,11 @@ class Gridlet: GridletProtocol, Equatable {
 
     static func == (_ lhs: Gridlet, _ rhs: Gridlet) -> Bool {
         return lhs === rhs
+    }
+
+    static func == (_ lhs: Gridlet, _ rhs: GridletCopy) -> Bool {
+        guard let r = Gridlet.atIf(rhs) else { fatalError() }
+        return lhs === r
     }
 
 }

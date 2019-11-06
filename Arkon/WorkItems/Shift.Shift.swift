@@ -5,10 +5,12 @@ extension Shift {
     func shift(_ onComplete: @escaping () -> Void) {
         guard let st = self.shiftTarget else { fatalError() }
 
+        copyOfOldGridlet = GridletCopy(from: stepper.gridlet!)
+
         let stationary = (self.stepper.gridlet == st)
 
-        oldGridlet = stepper.gridlet!
         self.stepper.gridlet = st
+        self.stepper.gridlet.contents = .arkon
 
         let moveDuration: TimeInterval = 0.1
         let moveAction = stationary ?
@@ -29,10 +31,10 @@ extension Gridlet {
 
 extension Shift {
     func postShift() {
-        guard let ng = stepper.gridlet else { fatalError() }
-
-        if ng.contents == .nothing {
-            ng.releaseGridlet_()
+        if capturedFood == .nothing { return }
+        if let st = shiftTarget, let og = copyOfOldGridlet, let ai = Gridlet.atIf(og),
+            st === ai {
+            ai.releaseGridlet()
             dispatch.funge()
             return
         }
