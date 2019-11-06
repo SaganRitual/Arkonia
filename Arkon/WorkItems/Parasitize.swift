@@ -3,6 +3,7 @@ import Foundation
 final class Parasitize: Dispatchable {
 
     weak var dispatch: Dispatch!
+    var runType = Dispatch.RunType.barrier
     var stepper: Stepper { return dispatch.stepper }
     var victim: Stepper!
 

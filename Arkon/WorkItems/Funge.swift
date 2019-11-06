@@ -24,12 +24,18 @@ final class Funge: Dispatchable {
     weak var dispatch: Dispatch!
     var isAlive = false
     var phase = Phase.getWorldStats
-    var runAsBarrier = true
+    var runType = Dispatch.RunType.barrier
     var stats: World.StatsCopy!
     var stepper: Stepper { return dispatch.stepper }
 
     init(_ dispatch: Dispatch) {
         self.dispatch = dispatch
+    }
+
+    func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
+        self.phase = phase
+        self.runType = runType
+        dispatch.callAgain()
     }
 
     func go() { aFunge() }
@@ -41,22 +47,16 @@ extension Funge {
         switch phase {
         case .getWorldStats:
             getWorldStats {
-                self.callAgain(.checkSpawnability, false)
+                self.callAgain(.checkSpawnability, .concurrent)
             }
 
         case .checkSpawnability:
             checkSpawnability()
-            callAgain(.execute, false)
+            callAgain(.execute, .concurrent)
 
         case .execute:
             execute()
         }
-    }
-
-    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
-        self.phase = phase
-        self.runAsBarrier = runAsBarrier
-        dispatch.callAgain()
     }
 
     func getWorldStats(_ onComplete: @escaping () -> Void) {

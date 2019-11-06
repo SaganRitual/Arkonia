@@ -10,20 +10,21 @@ final class Shift: Dispatchable {
     weak var dispatch: Dispatch!
     var oldGridlet: Gridlet?
     var phase: Phase = .reserveGridPoints
-    var runAsBarrier: Bool = true
+    var runType = Dispatch.RunType.barrier
     var senseData = [Double]()
     var sensoryInputs = [(Double, Double)]()
     var shiftTarget: Gridlet?
     var stepper: Stepper { return dispatch.stepper }
     var usableGridlets = [Gridlet]()
+    static var uCount = 0
 
     init(_ dispatch: Dispatch) {
         self.dispatch = dispatch
     }
 
-    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
+    func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
         self.phase = phase
-        self.runAsBarrier = runAsBarrier
+        self.runType = runType
         dispatch.callAgain()
     }
 
@@ -38,23 +39,23 @@ extension Shift {
         switch phase {
         case .reserveGridPoints:
             reserveGridPoints()
-            callAgain(.loadGridInputs, false)
+            callAgain(.loadGridInputs, .concurrent)
 
         case .loadGridInputs:
             loadGridInputs()
-            callAgain(.calculateShift, false)
+            callAgain(.calculateShift, .concurrent)
 
         case .calculateShift:
             calculateShift()
-            callAgain(.releaseGridPoints, true)
+            callAgain(.releaseGridPoints, .barrier)
 
         case .releaseGridPoints:
             releaseGridPoints()
-            callAgain(.shift, true)
+            callAgain(.shift, .barrier)
 
         case .shift:
             shift {
-                self.callAgain(.postShift, true)
+                self.callAgain(.postShift, .barrier)
             }
 
         case .postShift:

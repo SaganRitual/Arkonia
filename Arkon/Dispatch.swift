@@ -3,21 +3,24 @@ import Foundation
 typealias GoCall = () -> Void
 
 protocol Dispatchable {
-    var runAsBarrier: Bool { get }
+    var runType: Dispatch.RunType { get set }
 
     func go()
 }
 
 extension Dispatchable {
-    var runAsBarrier: Bool { return true }
+    var runType: Dispatch.RunType { return .barrier }
 }
 
 enum DispatchMode { case alive, apoptosisScheduled }
 
 final class Dispatch {
+    enum RunType { case serial, concurrent, barrier }
+
     var currentTask: Dispatchable!
     var dispatchMode: DispatchMode = .alive
     let name = UUID().uuidString
+    var reentered = false
     weak var stepper: Stepper!
 
     init(_ stepper: Stepper? = nil) {
@@ -25,19 +28,29 @@ final class Dispatch {
     }
 
     private func go(_ dispatchable: Dispatchable) {
-        if dispatchable.runAsBarrier { runSerial(dispatchable) }
-        else { runConcurrent(dispatchable) }
+        switch dispatchable.runType {
+        case .barrier:    runBarrier(dispatchable)
+        case .concurrent: runConcurrent(dispatchable)
+        case .serial:     runSerial(dispatchable)
+        }
     }
 
-    private func runSerial(_ dispatchable: Dispatchable) {
-        Grid.shared.serialQueue.async {
+    private func runBarrier(_ dispatchable: Dispatchable) {
+        Grid.shared.concurrentQueue.async(flags: DispatchWorkItemFlags.barrier) {
             if self.dispatchMode == .apoptosisScheduled { return }
             dispatchable.go()
         }
     }
 
     private func runConcurrent(_ dispatchable: Dispatchable) {
-        Grid.shared.concurrentQueue.async {
+        Grid.shared.concurrentQueue.async(flags: DispatchWorkItemFlags()) {
+            if self.dispatchMode == .apoptosisScheduled { return }
+            dispatchable.go()
+        }
+    }
+
+    private func runSerial(_ dispatchable: Dispatchable) {
+        Grid.shared.serialQueue.async {
             if self.dispatchMode == .apoptosisScheduled { return }
             dispatchable.go()
         }

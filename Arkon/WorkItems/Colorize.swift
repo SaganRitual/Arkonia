@@ -3,14 +3,13 @@ import GameplayKit
 final class Colorize: AKWorkItem {
     enum Phase { case getWorldStats, colorize }
     var phase = Phase.getWorldStats
-    var runAsBarrier: Bool = true
     var stats: World.StatsCopy!
 
     override func go() { aColorize() }
 
-    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
+    func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
         self.phase = phase
-        self.runAsBarrier = runAsBarrier
+        self.runType = runType
         dispatch?.callAgain()
     }
 
@@ -25,7 +24,7 @@ extension Colorize {
         case .getWorldStats:
             World.stats.getStats { [unowned self] in
                 self.stats = $0
-                self.callAgain(.colorize, false)
+                self.callAgain(.colorize, .concurrent)
             }
 
         case .colorize:

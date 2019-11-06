@@ -8,15 +8,14 @@ final class Eat: AKWorkItem {
     var manna: Manna!
     var phase = Phase.chooseEdible
     var previousGridlet: Gridlet?
-    var runAsBarrier = false
 
     deinit {
         if let p = previousGridlet { p.releaseGridlet() }
     }
 
-    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
+    func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
         self.phase = phase
-        self.runAsBarrier = runAsBarrier
+        self.runType = runType
         dispatch!.callAgain()
     }
 
@@ -49,11 +48,11 @@ extension Eat {
             switch st.gridlet.contents {
             case .arkon:
                 battleArkon()
-                callAgain(.settleCombat, true)
+                callAgain(.settleCombat, .barrier)
 
             case .manna:
                 battleManna()
-                callAgain(.settleCombat, true)
+                callAgain(.settleCombat, .barrier)
 
             default: fatalError()
             }

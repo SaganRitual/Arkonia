@@ -22,8 +22,9 @@ protocol WangkhiProtocol: class {
 }
 
 class AKWorkItem: Dispatchable {
+    var runType = Dispatch.RunType.barrier
+
     weak var dispatch: Dispatch?
-    var runningAsBarrier = false
     var stepper: Stepper? { return dispatch?.stepper }
 
     init(_ dispatch: Dispatch) {
@@ -48,7 +49,6 @@ final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     var nose: SKSpriteNode?
     var parent: Stepper?
     var phase = Phase.getStartingPosition
-    var runAsBarrier = true
     var sprite: SKSpriteNode?
     var tempStrongReference: Dispatch?
 
@@ -63,11 +63,11 @@ final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
 //        print("fuck")
     }
 
-    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
+    func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
         guard let dp = dispatch else { fatalError() }
 
         self.phase = phase
-        self.runAsBarrier = runAsBarrier
+        self.runType = runType
         dp.callAgain()
     }
 
@@ -79,16 +79,16 @@ extension WangkhiEmbryo {
         switch phase {
         case .getStartingPosition:
             getStartingPosition()
-            callAgain(.registerBirth, true)
+            callAgain(.registerBirth, .barrier)
 
         case .registerBirth:
             registerBirth {
-                self.callAgain(.buildGuts, false)
+                self.callAgain(.buildGuts, .concurrent)
             }
 
         case .buildGuts:
             buildGuts()
-            callAgain(.buildSprites, false)
+            callAgain(.buildSprites, .concurrent)
 
         case .buildSprites:
             buildSprites()
