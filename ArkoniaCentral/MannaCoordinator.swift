@@ -62,7 +62,7 @@ extension MannaCoordinator {
             guard sprite.userData?[SpriteUserDataKey.manna] is Manna else { fatalError() }
         }
 
-        let manna = Manna.getManna(from: sprite)
+        guard let manna = Manna.getManna(from: sprite) else { fatalError() }
         manna.sprite.alpha = 0
         plant(manna)
     }

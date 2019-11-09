@@ -12,15 +12,18 @@ extension Dispatchable {
     var runType: Dispatch.RunType { return .barrier }
 }
 
-enum DispatchMode { case alive, apoptosisScheduled }
-
 final class Dispatch {
     enum RunType { case serial, concurrent, barrier }
 
+    var battle_: (Stepper, Stepper)?
+    var battle: (Stepper, Stepper)? {
+        get { return Grid.shared.serialQueue.sync { battle_ } }
+        set { Grid.shared.serialQueue.sync { battle_ = newValue } }
+    }
+
     var currentTask: Dispatchable!
-    var dispatchMode: DispatchMode = .alive
+    var gridletEngager: Gridlet.Engager!
     let name = UUID().uuidString
-    var reentered = false
     weak var stepper: Stepper!
 
     init(_ stepper: Stepper? = nil) {
@@ -28,6 +31,11 @@ final class Dispatch {
     }
 
     private func go(_ dispatchable: Dispatchable) {
+        if let (victor, victim) = battle {
+            settleCombat(victor, victim)
+            return
+        }
+
         switch dispatchable.runType {
         case .barrier:    runBarrier(dispatchable)
         case .concurrent: runConcurrent(dispatchable)
@@ -37,23 +45,27 @@ final class Dispatch {
 
     private func runBarrier(_ dispatchable: Dispatchable) {
         Grid.shared.concurrentQueue.async(flags: DispatchWorkItemFlags.barrier) {
-            if self.dispatchMode == .apoptosisScheduled { return }
             dispatchable.go()
         }
     }
 
     private func runConcurrent(_ dispatchable: Dispatchable) {
         Grid.shared.concurrentQueue.async(flags: DispatchWorkItemFlags()) {
-            if self.dispatchMode == .apoptosisScheduled { return }
             dispatchable.go()
         }
     }
 
     private func runSerial(_ dispatchable: Dispatchable) {
         Grid.shared.serialQueue.async {
-            if self.dispatchMode == .apoptosisScheduled { return }
             dispatchable.go()
         }
+    }
+
+    private func settleCombat(_ victor: Stepper, _ victim: Stepper) {
+        battle = nil
+
+        victor.dispatch.parasitize()
+        victim.dispatch.apoptosize()
     }
 
     func callAgain() { go(self.currentTask) }
@@ -67,11 +79,8 @@ extension Dispatch {
     }
 
     func colorize() {
-//        print("c1, \(stepper?.name ?? "<nothing>")")
         currentTask = Colorize(self)
-//        print("c2, \(stepper?.name ?? "<nothing>")")
         start(currentTask)
-//        print("c3, \(stepper?.name ?? "<nothing>")")
     }
 
     func defeatManna() {
@@ -105,8 +114,7 @@ extension Dispatch {
     }
 
     func parasitize() {
-        guard let activeEat = currentTask as? Eat else { fatalError() }
-        guard let (_, victim) = activeEat.getResult() else { fatalError() }
+        guard let (_, victim) = self.battle else { fatalError() }
 
         currentTask = Parasitize(self)
 
@@ -116,18 +124,12 @@ extension Dispatch {
     }
 
     func shift() {
-//        print("s1, \(stepper?.name ?? "<nothing>")")
         currentTask = Shift(self)
-//        print("s2, \(stepper?.name ?? "<nothing>")")
         start(currentTask)
-//        print("s3, \(stepper?.name ?? "<nothing>")")
     }
 
     func wangkhi() {
-//        print("w1, \(stepper?.name ?? "<nothing>")")
         currentTask = WangkhiEmbryo(self)
-//        print("w2, \(stepper?.name ?? "<nothing>")")
         start(currentTask)
-//        print("w3, \(stepper?.name ?? "<nothing>")")
     }
 }

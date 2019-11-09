@@ -5,29 +5,17 @@ extension Shift {
     func shift(_ onComplete: @escaping () -> Void) {
         assert(runType == .barrier)
 
-        guard let landingGridlet = self.shiftTarget else { fatalError() }
+        guard let to = gridletEngager.gridletTo,
+            let from = gridletEngager.gridletFrom else { fatalError() }
 
-        stepper.shiftTracker.beforeMoveStart = GridletCopy(from: stepper.gridlet!, runType: runType)
-        stepper.shiftTracker.beforeMoveStop = GridletCopy(from: landingGridlet, runType: runType)
+        let stationary = to.gridPosition != from.gridPosition
 
-        let stationary = (self.stepper.gridlet == landingGridlet)
-
-        if !stationary {
-            if let sp = landingGridlet.sprite, let st = Stepper.getStepper(from: sp, require: false) {
-                print("?")
-                st.gridlet = nil
-            }
-        }
-
-        landingGridlet.sprite = stepper.sprite
-        landingGridlet.contents = .arkon
-
-        stepper.gridlet = landingGridlet
+        if !stationary { gridletEngager.move() }
 
         let moveDuration: TimeInterval = 0.1
         let moveAction = stationary ?
             SKAction.wait(forDuration: moveDuration) :
-            SKAction.move(to: landingGridlet.scenePosition, duration: moveDuration)
+            SKAction.move(to: to.scenePosition, duration: moveDuration)
 
         stepper.sprite.run(moveAction) { onComplete() }
     }
@@ -37,17 +25,13 @@ extension Shift {
     func postShift() {
         assert(runType == .barrier)
 
-        stepper.shiftTracker.afterMoveStop = GridletCopy(from: stepper.gridlet, runType: runType)
+        guard let to = gridletEngager.gridletTo,
+            let from = gridletEngager.gridletFrom else { fatalError() }
 
-        guard let bmStart = stepper.shiftTracker.beforeMoveStart else { fatalError() }
-        guard let bmStop = stepper.shiftTracker.beforeMoveStop else { fatalError() }
-        guard let amStop = stepper.shiftTracker.afterMoveStop else { fatalError() }
-        guard let bmStartGridlet = Gridlet.atIf(bmStart) else { fatalError() }
-        guard let amStopGridlet = Gridlet.atIf(amStop) else { fatalError() }
+        let stationary = to.gridPosition == from.gridPosition
 
-        if bmStartGridlet === amStopGridlet || bmStop.contents == .nothing {
-            amStopGridlet.disengageGridlet(runType)
-            print("ps funge")
+        if stationary || to.contents == .nothing {
+            dispatch.gridletEngager = nil
             dispatch.funge()
             return
         }

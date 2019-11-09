@@ -21,11 +21,6 @@ final class Eat: AKWorkItem {
         self.shiftTracker = shiftTracker
     }
 
-    func inject(_ combatOrder: (Stepper, Stepper)?) {
-        self.combatOrder = combatOrder
-        self.phase = .settleCombat
-    }
-
     func inject(_ manna: Manna) {
         self.manna = manna
         self.phase = .settleCombat
@@ -33,21 +28,14 @@ final class Eat: AKWorkItem {
 }
 
 extension Eat {
-    //swiftmint:disable function_body_length
     private func aEat() {
         switch phase {
         case .chooseEdible:
 
-            if let bms = shiftTracker.beforeMoveStop {
-                print("st0", stepper?.name ?? "<no stepper?>", bms.contents,
-                      (bms.sprite?.userData?[SpriteUserDataKey.stepper] as? Stepper)?.name ?? "<no target sprite>")
-            } else {
-                print("st1")
-            }
             switch shiftTracker.beforeMoveStop?.contents {
             case .arkon:
                 battleArkon()
-                callAgain(.settleCombat, .barrier)
+                return
 
             case .manna:
                 battleManna()
@@ -57,10 +45,7 @@ extension Eat {
             }
 
         case .settleCombat:
-//            print("st2", st.gridlet.contents, st.gridlet.gridPosition)
             switch shiftTracker.beforeMoveStop?.contents {
-            case .arkon:
-                settleCombat()
 
             case .manna:
                 defeatManna()
@@ -70,7 +55,6 @@ extension Eat {
             }
         }
     }
-    //swiftmint:enable function_body_length
 }
 
 extension Eat {
@@ -84,18 +68,12 @@ extension Eat {
             let victimStepper = victimAny as? Stepper
         else { fatalError() }
 
-//        otherGridlet.releaseGridlet()
-
         let myMass = dp.stepper.metabolism.mass
         let hisMass = victimStepper.metabolism.mass
         print("combat: \(dp.stepper.name) \(myMass) <-> \(hisMass) \(victimStepper.name)")
 
-        self.combatOrder =
-            (myMass > (hisMass * 1.25)) ? (dp.stepper, victimStepper) : nil
-    }
-
-    func getResult() -> (Stepper, Stepper)? {
-        return combatOrder
+        victimStepper.dispatch.battle = (myMass > (hisMass * 1.25)) ?
+            (dp.stepper, victimStepper) : (victimStepper, dp.stepper)
     }
 
     func battleManna() {
@@ -121,20 +99,5 @@ extension Eat {
         st.metabolism.absorbEnergy(harvested)
         st.metabolism.inhale()
         MannaCoordinator.shared.beEaten(self.manna.sprite)
-    }
-
-    private func settleCombat() {
-        assert(runType == .barrier)
-        guard let co = self.combatOrder else {
-            dispatch?.apoptosize()
-            return
-        }
-
-        print("sc1", co.0.name, co.1.name)
-        co.0.dispatch.parasitize()
-        print("sc2", co.0.name, co.1.name)
-        co.1.dispatch.apoptosize()
-        print("sc3", co.0.name, co.1.name)
-        co.0.gridlet.disengageGridlet(runType)
     }
 }

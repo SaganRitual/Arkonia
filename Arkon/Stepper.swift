@@ -56,19 +56,6 @@ class Stepper {
     deinit {
         print("deinit", name)
         World.stats.decrementPopulation(nil)
-
-        Grid.shared.concurrentQueue.async(flags: .barrier) { [weak self] in
-            print("deinit2", self?.name ?? "gone?")
-            guard let g = self?.gridlet else {
-                print("nil0 no gridlet")
-                return
-            }
-            g.contents = .nothing
-            g.sprite = nil
-            print("nil1", self?.name ?? "foobar")
-            g.gridletIsEngaged = false
-        }
-
     }
 
 }
@@ -110,7 +97,7 @@ extension Stepper {
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
         if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
-        if stepper.gridlet.sprite?.name ?? "fuggle") == sprite.name { fatalError() }
+        if (stepper.gridlet.sprite?.name ?? "fuggle") == sprite.name { fatalError() }
         sprite.userData![SpriteUserDataKey.stepper] = nil
     }
 }

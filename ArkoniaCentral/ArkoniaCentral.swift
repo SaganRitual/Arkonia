@@ -8,7 +8,7 @@ enum ArkoniaCentral {
     static let cMotorGridlets = cMotorNeurons + 1
 }
 
-struct AKPoint: Hashable {
+struct AKPoint: Hashable, HasXY {
     let x: Int; let y: Int
 
     init(_ point: AKPoint) { x = point.x; y = point.y }

@@ -8,8 +8,8 @@ extension Shift {
     }
 
     func getGridletCopies() {
-        stepper.shiftTracker.beforeMoveStart = GridletCopy(from: stepper.gridlet, runType: runType)
-        stepper.shiftTracker.beforeMoveStop = GridletCopy(from: self.shiftTarget!, runType: runType)
+        stepper.shiftTracker.beforeMoveStart = GridletCopy(from: stepper.gridlet)
+        stepper.shiftTracker.beforeMoveStop = GridletCopy(from: self.shiftTarget!)
     }
 
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
@@ -52,16 +52,11 @@ extension Shift {
     func releaseGridPoints() {
         assert(runType == .barrier)
 
-        guard let sh = self.shiftTarget else { fatalError() }
-
-        for gridlet in usableGridlets.dropFirst() where sh !== gridlet {
-            gridlet.gridletIsEngaged = false
-        }
-
-        usableGridlets.removeAll(keepingCapacity: true)
+        guard let t = self.shiftTarget else { fatalError() }
+        gridletEngager.disengage(keep: t.gridPosition)
     }
 
-    private func selectMoveTarget(senseData: [Double]) -> Gridlet {
+    private func selectMoveTarget(senseData: [Double]) -> GridletCopy {
         let motorOutputs: [Double] = stepper.net.getMotorOutputs(senseData)
         let dMotorOutputs: [Int: Double] = self.getMotorDataAsDictionary(motorOutputs)
 
@@ -70,23 +65,12 @@ extension Shift {
         }
 
         let targetOffset = order.first { entry in
-            let candidateGridPoint = stepper.getGridPointByIndex(entry.0)
+            let candidateGridletCopy = gridletEngager.gridletCopies[entry.0]
 
-            guard let candidateGridlet = Gridlet.atIf(candidateGridPoint)
-                else { return false }
-
-            if usableGridlets.contains(candidateGridlet) == false { return false }
-            if candidateGridlet.contents != .arkon { return true }
-
-            guard let candidateVictim = candidateGridlet.sprite?.userData?[SpriteUserDataKey.stepper] as? Stepper,
-                    stepper.metabolism.mass > (candidateVictim.metabolism.mass * 1.25)
-                else { return false }
-
-            return true
+            return candidateGridletCopy.owner == stepper.name
         }
 
-        guard let t = targetOffset else { return stepper.gridlet }
-        let p = stepper.getGridPointByIndex(t.0)
-        return Gridlet.at(p)
+        guard let t = targetOffset else { return stepper.gridlet.copy() }
+        return self.gridletEngager.gridletCopies[t.0]
     }
 }

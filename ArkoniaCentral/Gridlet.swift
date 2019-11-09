@@ -1,5 +1,34 @@
 import SpriteKit
 
+protocol GridletProtocol {
+    var gridPosition: AKPoint { get }
+    var scenePosition: CGPoint { get }
+    var randomScenePosition: CGPoint? { get }
+    var sprite: SKSpriteNode? { get }
+
+    var contents: Gridlet.Contents { get }
+    var owner: String? { get }
+}
+
+struct GridletCopy: GridletProtocol {
+    let gridPosition: AKPoint
+    let scenePosition: CGPoint
+    let randomScenePosition: CGPoint?
+    weak var sprite: SKSpriteNode?
+
+    let contents: Gridlet.Contents
+    let owner: String?
+
+    init(from original: GridletProtocol) {
+        self.gridPosition = original.gridPosition
+        self.scenePosition = original.scenePosition
+        self.randomScenePosition = original.randomScenePosition
+        self.contents = original.contents
+        self.owner = original.owner
+        self.sprite = original.sprite
+    }
+}
+
 class Gridlet: GridletProtocol, Equatable {
 
     enum Contents: Double { case arkon, manna, nothing }
@@ -9,9 +38,8 @@ class Gridlet: GridletProtocol, Equatable {
     var randomScenePosition: CGPoint?
 
     var contents = Contents.nothing { didSet { previousContents = oldValue } }
-    weak var connector: Connector?
     var previousContents = Contents.nothing
-    var gridletOwner: String?
+    var owner: String?
     weak var sprite: SKSpriteNode?
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
@@ -21,29 +49,5 @@ class Gridlet: GridletProtocol, Equatable {
 
     deinit {
 //        print("~Gridlet")
-    }
-
-    func disengageGridlet(_ runType: Dispatch.RunType) {
-        assert(runType == .barrier)
-        self.gridletIsEngaged = false
-    }
-
-    func releaseGridlet() {
-        Grid.shared.concurrentQueue.async(flags: .barrier) { [unowned self] in
-            guard self.gridletIsEngaged else { return }
-
-            if self.sprite == nil { print("nil2 no sprite", self.gridPosition) }
-            else {
-                if let st = Stepper.getStepper(from: self.sprite!, require: false) {
-                    print("nil2", st.name)
-                } else {
-                    print("nil3 no sprite", self.gridPosition)
-                }
-            }
-
-            self.sprite = nil
-            self.contents = .nothing
-            self.gridletIsEngaged = false
-        }
     }
 }

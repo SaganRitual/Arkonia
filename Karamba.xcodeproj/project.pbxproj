@@ -54,7 +54,7 @@
 		D4F5CF56237290A0000967B2 /* Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5CF55237290A0000967B2 /* Shift.swift */; };
 		D4F5CF5F2373B09F000967B2 /* Gridlet.Accessories.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5CF5E2373B09F000967B2 /* Gridlet.Accessories.swift */; };
 		D4F5CF612373C4FE000967B2 /* Gridlet.Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5CF602373C4FE000967B2 /* Gridlet.Random.swift */; };
-		D4F5CF632373C589000967B2 /* Gridlet.Connector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5CF622373C589000967B2 /* Gridlet.Connector.swift */; };
+		D4F5CF632373C589000967B2 /* Gridlet.Engager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5CF622373C589000967B2 /* Gridlet.Engager.swift */; };
 		D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE9612365814F00F5DDFB /* Dispatch.swift */; };
 		D4FFE96623669EE400F5DDFB /* Eat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE96523669EE400F5DDFB /* Eat.swift */; };
 /* End PBXBuildFile section */
@@ -168,7 +168,7 @@
 		D4F5CF55237290A0000967B2 /* Shift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.swift; sourceTree = "<group>"; };
 		D4F5CF5E2373B09F000967B2 /* Gridlet.Accessories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gridlet.Accessories.swift; sourceTree = "<group>"; };
 		D4F5CF602373C4FE000967B2 /* Gridlet.Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gridlet.Random.swift; sourceTree = "<group>"; };
-		D4F5CF622373C589000967B2 /* Gridlet.Connector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gridlet.Connector.swift; sourceTree = "<group>"; };
+		D4F5CF622373C589000967B2 /* Gridlet.Engager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gridlet.Engager.swift; sourceTree = "<group>"; };
 		D4F6460722A4253F00FD8C56 /* ColorGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
 		D4FFE9612365814F00F5DDFB /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
 		D4FFE96523669EE400F5DDFB /* Eat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Eat.swift; sourceTree = "<group>"; };
@@ -236,7 +236,7 @@
 				D4171CB7236D1C850072EC1C /* Grid.Setup.swift */,
 				D4C67D92234D889D0030358D /* Gridlet.swift */,
 				D4F5CF5E2373B09F000967B2 /* Gridlet.Accessories.swift */,
-				D4F5CF622373C589000967B2 /* Gridlet.Connector.swift */,
+				D4F5CF622373C589000967B2 /* Gridlet.Engager.swift */,
 				D4F5CF602373C4FE000967B2 /* Gridlet.Random.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
 				D422DE0123578CFD003734B8 /* MannaCoordinator.swift */,
@@ -479,7 +479,7 @@
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
 				D422DE0D23598BEC003734B8 /* Clock.swift in Sources */,
-				D4F5CF632373C589000967B2 /* Gridlet.Connector.swift in Sources */,
+				D4F5CF632373C589000967B2 /* Gridlet.Engager.swift in Sources */,
 				D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */,
 				D4F5CF612373C4FE000967B2 /* Gridlet.Random.swift in Sources */,
 				D495F0C3233FA6D0007D6E86 /* IndexedRingBuffer.swift in Sources */,

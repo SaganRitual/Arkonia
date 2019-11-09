@@ -8,15 +8,17 @@ final class Shift: Dispatchable {
     }
 
     weak var dispatch: Dispatch!
-    var gridletConnector: Gridlet.Connector?
+    var gridletEngager: Gridlet.Engager {
+        get { return dispatch.gridletEngager }
+        set { dispatch.gridletEngager = newValue }
+    }
+
     var phase: Phase = .reserveGridPoints
     var runType = Dispatch.RunType.barrier
     var senseData = [Double]()
     var sensoryInputs = [(Double, Double)]()
-    var shiftTarget: Gridlet?
+    var shiftTarget: GridletCopy?
     var stepper: Stepper { return dispatch.stepper }
-    var engagedGridlets = [Engager]()
-    static var uCount = 0
 
     init(_ dispatch: Dispatch) {
         self.dispatch = dispatch
@@ -39,7 +41,7 @@ extension Shift {
         switch phase {
         case .reserveGridPoints:
             reserveGridPoints()
-            callAgain(.loadGridInputs, .concurrent)
+            callAgain(.loadGridInputs, .barrier)
 
         case .loadGridInputs:
             loadGridInputs()

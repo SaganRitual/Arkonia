@@ -17,13 +17,13 @@ extension Gridlet {
 
 }
 
-extension Stepper {
+extension Gridlet {
 
     enum LikeCSS { case right, bottom, left, top }
 
     // swiftlint:disable cyclomatic_complexity
     func getGridPointByIndex(_ index: Int, absolute: Bool = true) -> AKPoint {
-        if index == 0 { return absolute ? gridlet.gridPosition : AKPoint.zero }
+        if index == 0 { return absolute ? self.gridPosition : AKPoint.zero }
 
         var ring = 1
         for s in stride(from: 1, to: Int.max, by: 2) {
@@ -62,7 +62,7 @@ extension Stepper {
 //            print("post", index, whichSide, x, y)
         }
 
-        let reference = absolute ? AKPoint(gridlet.gridPosition) : AKPoint.zero
+        let reference = absolute ? AKPoint(gridPosition) : AKPoint.zero
         let result = reference + AKPoint(x: x, y: y)
 //        print("index \(index), reference \(String(describing: reference)), result \(String(describing: result))")
         return result

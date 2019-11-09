@@ -1,33 +1,8 @@
 import SpriteKit
 
-protocol GridletProtocol {
-    var gridPosition: AKPoint { get }
-    var scenePosition: CGPoint { get }
-    var randomScenePosition: CGPoint? { get }
-    var sprite: SKSpriteNode? { get }
-
-    var contents: Gridlet.Contents { get }
-    var gridletOwner: String? { get }
-}
-
-struct GridletCopy: GridletProtocol {
-    let gridPosition: AKPoint
-    let scenePosition: CGPoint
-    let randomScenePosition: CGPoint?
-    weak var sprite: SKSpriteNode?
-
-    let contents: Gridlet.Contents
-    let gridletOwner: String?
-
-    init(from original: GridletProtocol, runType: Dispatch.RunType) {
-        assert(runType == .barrier)
-        self.gridPosition = original.gridPosition
-        self.scenePosition = original.scenePosition
-        self.randomScenePosition = original.randomScenePosition
-        self.contents = original.contents
-        self.gridletOwner = original.gridletOwner
-        self.sprite = original.sprite
-    }
+protocol HasXY {
+    var x: Int { get }
+    var y: Int { get }
 }
 
 extension Gridlet {
@@ -39,12 +14,8 @@ extension Gridlet {
 
     static func at(_ x: Int, _ y: Int) -> Gridlet {
         let p = AKPoint(x: x, y: y)
-        guard let g = Grid.gridlets[p] else {
-//            print(Grid.gridlets)
-//            print("whatchafuh", p)
-            fatalError()
-        }
 
+        guard let g = Grid.gridlets[p] else { fatalError() }
         return g
     }
 
@@ -73,6 +44,10 @@ extension Gridlet {
     static func isOnGrid(_ x: Int, _ y: Int) -> Bool {
         let (cx, cy) = constrainToGrid(x, y)
         return cx == x && cy == y
+    }
+
+    static func isOnGrid(_ xy: HasXY) -> Bool {
+        return isOnGrid(xy.x, xy.y)
     }
 
     static func + (_ lhs: Gridlet, _ rhs: Gridlet) -> Gridlet {
