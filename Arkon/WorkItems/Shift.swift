@@ -4,25 +4,28 @@ final class Shift: Dispatchable {
 
     enum Phase {
         case reserveGridPoints, loadGridInputs
-        case calculateShift, getGridletCopies, releaseGridPoints, shift, postShift
+        case calculateShift, releaseGridPoints
+        case moveSprite, shift, postShift
     }
 
     weak var dispatch: Dispatch!
     var gridletEngager: Gridlet.Engager {
         get { return dispatch.gridletEngager }
-        set { dispatch.gridletEngager = newValue }
+        set {
+//            print("set engager", newValue.owner)
+            dispatch.gridletEngager = newValue }
     }
 
+    var didMove = false
     var phase: Phase = .reserveGridPoints
     var runType = Dispatch.RunType.barrier
     var senseData = [Double]()
-    var sensoryInputs = [(Double, Double)]()
+    var sensoryInputs = [(Double, Double)?]()
     var shiftTarget: GridletCopy?
     var stepper: Stepper { return dispatch.stepper }
 
     init(_ dispatch: Dispatch) {
         self.dispatch = dispatch
-        stepper.shiftTracker = ShiftTracker()
     }
 
     func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
@@ -31,9 +34,19 @@ final class Shift: Dispatchable {
         dispatch.callAgain()
     }
 
-    func getResult() -> ShiftTracker { return stepper.shiftTracker }
+    func go() {
+        guard let e = stepper.gridlet.engage(owner: stepper.name, require: true)
+            else {
+                print("alpha")
+                return }
 
-    func go() { self.aShift() }
+        print("beta")
+
+        dispatch.gridletEngager = e
+        print("gamow")
+        self.aShift()
+        print("harpo")
+    }
 }
 
 extension Shift {
@@ -41,7 +54,7 @@ extension Shift {
         switch phase {
         case .reserveGridPoints:
             reserveGridPoints()
-            callAgain(.loadGridInputs, .barrier)
+            callAgain(.loadGridInputs, .concurrent)
 
         case .loadGridInputs:
             loadGridInputs()
@@ -49,20 +62,20 @@ extension Shift {
 
         case .calculateShift:
             calculateShift()
-            callAgain(.getGridletCopies, .barrier)
-
-        case .getGridletCopies:
-            getGridletCopies()
-            callAgain(.releaseGridPoints, .barrier)
+            callAgain(.releaseGridPoints, .concurrent)
 
         case .releaseGridPoints:
             releaseGridPoints()
-            callAgain(.shift, .barrier)
+            callAgain(.moveSprite, .concurrent)
+
+        case .moveSprite:
+            moveSprite { didMove in
+                self.callAgain(didMove ? .shift : .postShift, .barrier)
+            }
 
         case .shift:
-            shift {
-                self.callAgain(.postShift, .barrier)
-            }
+            shift()
+            callAgain(.postShift, .barrier)
 
         case .postShift:
             postShift()

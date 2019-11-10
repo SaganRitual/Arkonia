@@ -38,7 +38,7 @@ class Gridlet: GridletProtocol, Equatable {
     var randomScenePosition: CGPoint?
 
     var contents = Contents.nothing { didSet { previousContents = oldValue } }
-    var previousContents = Contents.nothing
+    private(set) var previousContents = Contents.nothing
     var owner: String?
     weak var sprite: SKSpriteNode?
 
@@ -48,6 +48,12 @@ class Gridlet: GridletProtocol, Equatable {
     }
 
     deinit {
-//        print("~Gridlet")
+        print("~Gridlet at \(gridPosition), owner \(owner ?? "no owner")")
+    }
+
+    func isEngaged_(by thisGuy: String) -> Bool { return thisGuy == self.owner }
+
+    func isEngaged(by thisGuy: String) -> Bool {
+        return Grid.shared.serialQueue.sync { isEngaged_(by: thisGuy) }
     }
 }

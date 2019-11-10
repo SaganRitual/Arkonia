@@ -10,31 +10,41 @@ extension Gridlet {
         var engager: Engager?
 
         Grid.shared.serialQueue.sync {
-            if self.owner == nil { engager = Engager(owner, gridPosition); return }
+            if self.owner == nil {
+                print("new engager")
+                engager = Engager(owner, gridPosition); return }
             if require { fatalError() }
         }
 
         return engager
     }
 
+    func engageBlock(of cGridlets: Int, transferFrom: Engager) -> Engager? {
+        return Grid.shared.serialQueue.sync {
+            transferFrom.eatBrains()
+            return engageBlock_(of: cGridlets, owner: transferFrom.owner)
+        }
+    }
+
     func engageBlock(of cGridlets: Int, owner: String) -> Engager? {
-        var engager: Engager?
+        return Grid.shared.serialQueue.sync {
+            engageBlock_(of: cGridlets, owner: owner)
+        }
+    }
 
-        Grid.shared.serialQueue.sync {
-            let gridPoints: [AKPoint] = (0..<cGridlets).map {
-                self.getGridPointByIndex($0)
-            }
-
-            engager = Engager(owner, gridPoints)
+    func engageBlock_(of cGridlets: Int, owner: String) -> Engager? {
+        let gridPoints: [AKPoint] = (0..<cGridlets).map {
+            self.getGridPointByIndex($0)
         }
 
-        return engager
+        return Engager(owner, gridPoints)
     }
 
     class Engager {
-        let gridletCopies: [GridletCopy]
+        let gridletCopies: [GridletCopy?]
         var gridletFrom: GridletCopy?
         var gridletTo: GridletCopy?
+        var isLive = true
         let owner: String
 
         fileprivate init(_ owner: String, _ position: AKPoint) {
@@ -49,29 +59,59 @@ extension Gridlet {
             self.owner = owner
 
             gridletCopies = positions.map {
-                let gridlet = Gridlet.at($0)
+                guard let gridlet = Gridlet.atIf($0) else { return nil }
+
                 if gridlet.owner == nil { gridlet.owner = owner }
                 return GridletCopy(from: gridlet)
             }
         }
 
-        deinit { disengage() }
+        func deinit_(_ dispatch: Dispatch) {
+            Grid.shared.serialQueue.sync { dispatch.gridletEngager = nil }
+        }
+
+        deinit {
+            if isLive == false { return }
+            print("engager deinit", self.owner)
+            disengage_()
+            leave_()
+        }
+
+        @discardableResult
+        func eatBrains() -> GridletCopy {
+            isLive = false
+            return gridletCopies[0]!
+        }
     }
 }
 
 extension Gridlet.Engager {
-    func disengage(keep k: AKPoint? = nil) {
-        Grid.shared.serialQueue.sync {
+    func disengage(keep k: AKPoint? = nil, awaken: Bool = false) {
+        Grid.shared.serialQueue.sync { disengage_(keep: k, awaken: awaken) }
+    }
 
-            let keep = k ?? AKPoint.zero
-            for copy in gridletCopies.dropFirst() where keep != copy.gridPosition {
-                let gridlet = Gridlet.at(copy.gridPosition)
+    func disengage_(keep k: AKPoint? = nil, awaken: Bool = false) {
+        print("disengage_, keep", k ?? AKPoint.zero)
+
+        let keep = k ?? AKPoint.zero
+        for copy_ in gridletCopies.dropFirst() {
+
+            guard let copy = copy_ else { continue }
+            if k != nil && keep == copy.gridPosition { continue }
+
+            let gridlet = Gridlet.at(copy.gridPosition)
+
+            defer {
                 gridlet.owner = nil
             }
 
-            guard let gt = k else { return }
-            gridletFrom = gridletCopies[0]
-            gridletTo = GridletCopy(from: Gridlet.at(gt))
+            if awaken {
+                guard let sprite = gridlet.sprite else { continue }
+                guard let stepper = Stepper.getStepper(from: sprite, require: false)
+                    else { continue }
+
+                stepper.dispatch.shift()
+            }
         }
     }
 
@@ -80,28 +120,58 @@ extension Gridlet.Engager {
     }
 
     @discardableResult
-    private func leave_() -> (Gridlet.Contents, SKSpriteNode?) {
-        guard let gf = gridletFrom else { fatalError() }
-        let gridlet = Gridlet.at(gf.gridPosition)
+    private func leave_() -> (Gridlet.Contents, SKSpriteNode?)? {
+        guard let fromCopy = gridletFrom else { fatalError() }
+        if gridletTo == nil { fatalError() }
 
-        guard gridlet.owner ?? "not a real owner name" == self.owner
-            else { fatalError() }
+//        print("gf from", fromCopy.gridPosition, fromCopy.contents, fromCopy.sprite?.name ?? "<no sprite>",
+//              toCopy.gridPosition, toCopy.contents, toCopy.sprite?.name ?? "<no sprite>")
+        let gridletFrom = Gridlet.at(fromCopy.gridPosition)
+//        print("cc", gridletFrom.gridPosition, toCopy.gridPosition)
 
-        defer {
-            gridlet.contents = .nothing
-            gridlet.sprite = nil
-        }
+//            print("sg41",
+//                  fromCopy.sprite?.name ?? "<no sprite in fromCopy>", gridletFrom.sprite?.name ?? "<no sprite in fromGridlet>",
+//                  toCopy.sprite?.name ?? "<no sprite in toCopy>", gridletTo?.sprite?.name ?? "<no sprite in toGridlet>"
+//              )
 
-        return (gridlet.contents, gridlet.sprite)
+        guard let sp = fromCopy.sprite else { fatalError() }
+        Stepper.getStepper(from: sp, require: false)?.gridlet = nil
+
+        gridletFrom.contents = .nothing
+//            gridletFrom.owner = nil
+        gridletFrom.sprite = nil
+
+//            print("sg42",
+//                  fromCopy.sprite?.name ?? "<no sprite in fromCopy>", gridletFrom.sprite?.name ?? "<no sprite in fromGridlet>",
+//                  toCopy.sprite?.name ?? "<no sprite in toCopy>", gridletTo?.sprite?.name ?? "<no sprite in toGridlet>"
+//              )
+
+//        print("gf2 from", fromCopy.gridPosition, fromCopy.contents, fromCopy.sprite?.name ?? "<no sprite>",
+//              toCopy.gridPosition, toCopy.contents, toCopy.sprite?.name ?? "<no sprite>")
+        return (fromCopy.contents, fromCopy.sprite)
     }
 
     func move() {
-        Grid.shared.serialQueue.sync {
-            let (contents, sprite_) = leave_()
-            guard let sprite = sprite_ else { fatalError() }
+        Grid.shared.serialQueue.sync { move_() }
+    }
 
-            occupy_(contents, sprite)
+    func move_() {
+//        print("move from", gridletFrom?.gridPosition ?? AKPoint.zero, "to", gridletTo?.gridPosition ?? AKPoint.zero)
+        guard let (contents, sprite_) = leave_() else {
+            print("dummy occupy")
+            return
         }
+
+//        guard let sud = sprite_?.userData else { fatalError() }
+//        print(
+//            "leave ",
+//            contents, sprite_?.name ?? "<no sprite>",
+//            (sud[sud.allKeys[0]] as? Stepper)?.name ?? "no stepper",
+//            (sud[sud.allKeys[0]] is Manna) ? "manna" : "not manna")
+        guard let sprite = sprite_ else { fatalError() }
+
+//        print("occupy ", contents, sprite.name ?? "<no sprite>")
+        occupy_(contents, sprite)
     }
 
     func occupy(_ contents: Gridlet.Contents, _ sprite: SKSpriteNode) {
@@ -112,22 +182,25 @@ extension Gridlet.Engager {
         guard let gt = gridletTo else { fatalError() }
         let gridlet = Gridlet.at(gt.gridPosition)
 
-        guard gridlet.owner ?? "not a real owner name" == self.owner
-            else { fatalError() }
+        print("occupy_ \(gridlet.gridPosition) with \(contents), oldOwner = \(gridlet.owner ?? "none?"), newOwner = \(self.owner)")
 
         switch contents {
         case .arkon:
+//            print("o_ arkon")
             guard Stepper.getStepper(from: sprite) != nil
                 else { fatalError() }
 
         case .manna:
+//            print("o_ manna")
             guard Manna.getManna(from: sprite) != nil
                 else { fatalError() }
 
         case .nothing: fatalError()
         }
 
+//        print("sg5", gridlet.gridPosition, contents)
         gridlet.contents = contents
         gridlet.sprite = sprite
+        gridlet.owner = self.owner
     }
 }

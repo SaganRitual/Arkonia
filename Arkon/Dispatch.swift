@@ -15,7 +15,7 @@ extension Dispatchable {
 final class Dispatch {
     enum RunType { case serial, concurrent, barrier }
 
-    var battle_: (Stepper, Stepper)?
+    private var battle_: (Stepper, Stepper)?
     var battle: (Stepper, Stepper)? {
         get { return Grid.shared.serialQueue.sync { battle_ } }
         set { Grid.shared.serialQueue.sync { battle_ = newValue } }
@@ -30,12 +30,11 @@ final class Dispatch {
         self.stepper = stepper
     }
 
-    private func go(_ dispatchable: Dispatchable) {
-        if let (victor, victim) = battle {
-            settleCombat(victor, victim)
-            return
-        }
+    deinit {
+        print("~Dispatch \(stepper?.name ?? "no stepper?")")
+    }
 
+    private func go(_ dispatchable: Dispatchable) {
         switch dispatchable.runType {
         case .barrier:    runBarrier(dispatchable)
         case .concurrent: runConcurrent(dispatchable)
@@ -59,13 +58,6 @@ final class Dispatch {
         Grid.shared.serialQueue.async {
             dispatchable.go()
         }
-    }
-
-    private func settleCombat(_ victor: Stepper, _ victim: Stepper) {
-        battle = nil
-
-        victor.dispatch.parasitize()
-        victim.dispatch.apoptosize()
     }
 
     func callAgain() { go(self.currentTask) }
@@ -92,14 +84,9 @@ extension Dispatch {
     }
 
     func eat() {
-        guard let spentShift = currentTask as? Shift else { fatalError() }
-
-        let shiftTracker = spentShift.getResult()
-
         currentTask = Eat(self)
 
         guard let newEat = currentTask as? Eat else { fatalError() }
-        newEat.inject(shiftTracker)
         start(newEat)
     }
 
@@ -113,9 +100,7 @@ extension Dispatch {
         start(currentTask)
     }
 
-    func parasitize() {
-        guard let (_, victim) = self.battle else { fatalError() }
-
+    func parasitize(_ victim: Stepper) {
         currentTask = Parasitize(self)
 
         guard let newParasitize = currentTask as? Parasitize else { fatalError() }

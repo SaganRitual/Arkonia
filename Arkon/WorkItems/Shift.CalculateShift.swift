@@ -7,11 +7,6 @@ extension Shift {
         self.shiftTarget = selectMoveTarget(senseData: senseData)
     }
 
-    func getGridletCopies() {
-        stepper.shiftTracker.beforeMoveStart = GridletCopy(from: stepper.gridlet)
-        stepper.shiftTracker.beforeMoveStop = GridletCopy(from: self.shiftTarget!)
-    }
-
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
         return senseData.enumerated().reduce([:]) { accumulated, pw in
             let (position, weight) = pw
@@ -25,8 +20,13 @@ extension Shift {
         var (hackyRearrangedInputs, nutritionses) =
             self.sensoryInputs.reduce(into: ([Double](), [Double]()))
         {
-            $0.0.append($1.0)
-            $0.1.append($1.1)
+            if let gridletCopy = $1 {
+                $0.0.append(gridletCopy.0)
+                $0.1.append(gridletCopy.1)
+            } else {
+                $0.0.append(0)
+                $0.1.append(0)
+            }
         }
 
         let whereIAmNow = stepper.gridlet!
@@ -53,7 +53,9 @@ extension Shift {
         assert(runType == .barrier)
 
         guard let t = self.shiftTarget else { fatalError() }
-        gridletEngager.disengage(keep: t.gridPosition)
+        print("release, keep", t.gridPosition, "from", gridletEngager.gridletFrom?.owner ?? "no owner", "to", gridletEngager.gridletTo?.owner ?? "no owner")
+        gridletEngager.disengage(keep: t.gridPosition, awaken: true)
+        print("release, disengaged", t.gridPosition, "from", gridletEngager.gridletFrom?.owner ?? "no owner", "to", gridletEngager.gridletTo?.owner ?? "no owner")
     }
 
     private func selectMoveTarget(senseData: [Double]) -> GridletCopy {
@@ -65,12 +67,14 @@ extension Shift {
         }
 
         let targetOffset = order.first { entry in
-            let candidateGridletCopy = gridletEngager.gridletCopies[entry.0]
+            guard let candidateGridletCopy = gridletEngager.gridletCopies[entry.0]
+                else { return false }
 
             return candidateGridletCopy.owner == stepper.name
         }
 
         guard let t = targetOffset else { return stepper.gridlet.copy() }
-        return self.gridletEngager.gridletCopies[t.0]
+        guard let c = self.gridletEngager.gridletCopies[t.0] else { fatalError() }
+        return c
     }
 }

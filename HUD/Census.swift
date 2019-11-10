@@ -50,9 +50,9 @@ struct Census {
                     fatalError()
                 }
 
-                guard let stepper = Stepper.getStepper(
-                    from: sprite, require: false
-                ) else { return nil }
+                guard let stepper = Grid.shared.serialQueue.sync(execute: {
+                    Stepper.getStepper(from: sprite, require: false)
+                }) else { return nil }
 
                 return  currentTime - stepper.birthday
             }

@@ -26,7 +26,9 @@ extension Apoptosize {
             Wangkhi.spriteFactory.arkonsHangar.retireSprite(s)
 
             // Counting on this to be the only strong ref to the stepper
+            print("aa3", s.name ?? "no name?", s.userData!)
             Stepper.releaseStepper(st, from: s)
+            print("aa4", s.name ?? "no name?", s.userData!)
         }
 
         GriddleScene.arkonsPortal.run(action)

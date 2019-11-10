@@ -14,27 +14,26 @@ extension Shift {
             of: ArkoniaCentral.cMotorGridlets, owner: stepper.name
         ) else { fatalError() }
 
+//        print("sge1")
         self.gridletEngager = ge
     }
 }
 
 extension Shift {
 
-    func loadGridInput_(_ gridletCopy: GridletCopy) -> (Double, Double) {
-        if !Gridlet.isOnGrid(gridletCopy.gridPosition) {
-            return (Gridlet.Contents.nothing.rawValue, 0)
-        }
+    func loadGridInput_(_ gridletCopy: GridletCopy?) -> (Double, Double)? {
+        guard let gc = gridletCopy else { return nil }
 
-        let targetGridlet = Gridlet.at(gridletCopy.gridPosition)
+        if !Gridlet.isOnGrid(gc.gridPosition) { return nil }
 
         let nutrition: Double
 
-        switch targetGridlet.contents {
+        switch gc.contents {
         case .arkon:
             nutrition = Double(stepper.metabolism.energyFullness)
 
         case .manna:
-            let sprite = targetGridlet.sprite!
+            let sprite = gc.sprite!
             guard let manna = Manna.getManna(from: sprite) else { fatalError() }
             nutrition = Double(manna.energyContentInJoules)
 
@@ -42,6 +41,6 @@ extension Shift {
             nutrition = 0
         }
 
-        return (targetGridlet.contents.rawValue, nutrition)
+        return (gc.contents.rawValue, nutrition)
     }
 }

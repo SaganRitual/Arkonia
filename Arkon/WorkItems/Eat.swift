@@ -7,7 +7,16 @@ final class Eat: AKWorkItem {
     var currentGridlet: Gridlet!
     var manna: Manna!
     var phase = Phase.chooseEdible
-    var shiftTracker = ShiftTracker()
+
+    override init(_ dispatch: Dispatch) {
+        super.init(dispatch)
+        runType = .concurrent
+    }
+
+    deinit {
+//        print("~Eat()")
+        dispatch?.gridletEngager = nil
+    }
 
     func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
         self.phase = phase
@@ -16,10 +25,6 @@ final class Eat: AKWorkItem {
     }
 
     override func go() { aEat() }
-
-    func inject(_ shiftTracker: ShiftTracker) {
-        self.shiftTracker = shiftTracker
-    }
 
     func inject(_ manna: Manna) {
         self.manna = manna
@@ -32,10 +37,19 @@ extension Eat {
         switch phase {
         case .chooseEdible:
 
-            switch shiftTracker.beforeMoveStop?.contents {
+            switch dispatch?.gridletEngager.gridletTo?.contents {
             case .arkon:
+                print(
+                    "battle " +
+                    "\((dispatch?.gridletEngager.gridletFrom?.sprite?.name)!) " +
+                    "\((dispatch?.gridletEngager.gridletFrom?.contents)!) " +
+                    "\((dispatch?.gridletEngager.gridletFrom?.gridPosition)!) " +
+                    "\((dispatch?.gridletEngager.gridletTo?.sprite?.name)!)" +
+                    "\((dispatch?.gridletEngager.gridletTo?.contents)!)" +
+                    "\((dispatch?.gridletEngager.gridletTo?.gridPosition)!) "
+                )
                 battleArkon()
-                return
+                callAgain(.settleCombat, .barrier)
 
             case .manna:
                 battleManna()
@@ -45,7 +59,10 @@ extension Eat {
             }
 
         case .settleCombat:
-            switch shiftTracker.beforeMoveStop?.contents {
+            switch dispatch?.gridletEngager.gridletTo?.contents {
+
+            case .arkon:
+                settleCombat()
 
             case .manna:
                 defeatManna()
@@ -61,12 +78,14 @@ extension Eat {
     func battleArkon() {
         guard let dp = dispatch else { fatalError() }
 
-        guard let victim = shiftTracker.beforeMoveStop,
-            let victimSprite = victim.sprite,
-            let victimUserData = victimSprite.userData,
-            let victimAny = victimUserData[SpriteUserDataKey.stepper],
-            let victimStepper = victimAny as? Stepper
-        else { fatalError() }
+        guard let toCopy = dispatch?.gridletEngager.gridletTo else { fatalError() }
+//        let toActual = Gridlet.at(toCopy.gridPosition)
+
+        guard let victimSprite = toCopy.sprite
+            else { print("nothing at \(toCopy.gridPosition)"); fatalError() }
+
+        guard let victimStepper = Stepper.getStepper(from: victimSprite)
+            else { fatalError() }
 
         let myMass = dp.stepper.metabolism.mass
         let hisMass = victimStepper.metabolism.mass
@@ -74,11 +93,13 @@ extension Eat {
 
         victimStepper.dispatch.battle = (myMass > (hisMass * 1.25)) ?
             (dp.stepper, victimStepper) : (victimStepper, dp.stepper)
+
+        dp.gridletEngager.deinit_(dp)
     }
 
     func battleManna() {
 
-        guard let mannaSprite = shiftTracker.beforeMoveStop?.sprite,
+        guard let mannaSprite = dispatch?.gridletEngager.gridletTo?.sprite,
             let mannaUserData = mannaSprite.userData,
             let shouldBeManna = mannaUserData[SpriteUserDataKey.manna],
             let manna = shouldBeManna as? Manna
@@ -99,5 +120,12 @@ extension Eat {
         st.metabolism.absorbEnergy(harvested)
         st.metabolism.inhale()
         MannaCoordinator.shared.beEaten(self.manna.sprite)
+    }
+
+    private func settleCombat() {
+        guard let (victor, victim) = dispatch?.battle else { fatalError() }
+
+        victor.dispatch.parasitize(victim)
+        victim.dispatch.apoptosize()
     }
 }

@@ -102,9 +102,7 @@ extension WangkhiEmbryo {
     }
 
     private func getStartingPosition_() {
-        assert(runType == .barrier)
-
-        guard parent == nil else {
+        guard let parent = self.parent else {
             self.gridlet = Gridlet.getRandomGridlet_()
             return
         }
@@ -113,8 +111,7 @@ extension WangkhiEmbryo {
         var candidateIx = Int.random(in: 1..<ArkoniaCentral.cSenseGridlets)
 
         while foundGridlet == nil {
-            let gridlet = Gridlet.at((dispatch?.gridletEngager.gridletCopies[0].gridPosition)!)
-            let g = gridlet.getGridPointByIndex(candidateIx)
+            let g = parent.gridlet.getGridPointByIndex(candidateIx)
 
             if let f = Gridlet.atIf(g), f.contents == .nothing {
                 foundGridlet = f
@@ -189,8 +186,10 @@ extension WangkhiEmbryo {
 
         sprite.addChild(nose)
 
-        gridlet.sprite = sprite
-        gridlet.contents = .arkon
+        Grid.shared.serialQueue.sync {
+            gridlet.sprite = sprite
+            gridlet.contents = .arkon
+        }
 
 //        print("bbefore",
 //              dispatch?.name.prefix(8) ?? "wtf4∫",

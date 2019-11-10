@@ -33,45 +33,45 @@ extension Grid {
             switch (x, y) {
             case (0, 0):
                 let p = AKPoint(x: xGrid, y: yGrid)
-                Grid.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint.zero)
+                Grid.cells[p] = GridCell(gridPosition: p, scenePosition: CGPoint.zero)
 
             case (_, 0):
 
                 let p = AKPoint(x:  xGrid, y: yGrid)
-                Grid.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint(x:  x, y: y))
+                Grid.cells[p] = GridCell(gridPosition: p, scenePosition: CGPoint(x:  x, y: y))
 
                 if xGrid < d.wGrid {
                     let q = AKPoint(x: -xGrid, y: yGrid)
-                    Grid.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: -x, y: y))
+                    Grid.cells[q] = GridCell(gridPosition: q, scenePosition: CGPoint(x: -x, y: y))
                 }
 
             case (0, _):
                 let p = AKPoint(x: xGrid, y:  yGrid)
-                Grid.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint(x: x, y:  y))
+                Grid.cells[p] = GridCell(gridPosition: p, scenePosition: CGPoint(x: x, y:  y))
 
                 if yGrid < d.hGrid {
                     let q = AKPoint(x: xGrid, y: -yGrid)
-                    Grid.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: x, y: -y))
+                    Grid.cells[q] = GridCell(gridPosition: q, scenePosition: CGPoint(x: x, y: -y))
                 }
 
             default:
                 let p = AKPoint(x:  xGrid, y:  yGrid)
-                Grid.gridlets[p] = Gridlet(gridPosition: p, scenePosition: CGPoint(x:  x, y:  y))
+                Grid.cells[p] = GridCell(gridPosition: p, scenePosition: CGPoint(x:  x, y:  y))
 
                 if xGrid < d.wGrid && yGrid < d.hGrid {
                     let s = AKPoint(x: -xGrid, y: -yGrid)
 
-                    Grid.gridlets[s] = Gridlet(gridPosition: s, scenePosition: CGPoint(x: -x, y: -y))
+                    Grid.cells[s] = GridCell(gridPosition: s, scenePosition: CGPoint(x: -x, y: -y))
                 }
 
                 if xGrid < d.wGrid {
                     let q = AKPoint(x: -xGrid, y:  yGrid)
-                    Grid.gridlets[q] = Gridlet(gridPosition: q, scenePosition: CGPoint(x: -x, y:  y))
+                    Grid.cells[q] = GridCell(gridPosition: q, scenePosition: CGPoint(x: -x, y:  y))
                 }
 
                 if yGrid < d.hGrid {
                     let r = AKPoint(x:  xGrid, y: -yGrid)
-                    Grid.gridlets[r] = Gridlet(gridPosition: r, scenePosition: CGPoint(x:  x, y: -y))
+                    Grid.cells[r] = GridCell(gridPosition: r, scenePosition: CGPoint(x:  x, y: -y))
                 }
             }
         }

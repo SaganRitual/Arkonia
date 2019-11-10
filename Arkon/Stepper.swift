@@ -1,11 +1,5 @@
 import SpriteKit
 
-class ShiftTracker {
-    var beforeMoveStart: GridletCopy?
-    var beforeMoveStop: GridletCopy?
-    var afterMoveStop: GridletCopy?
-}
-
 class Stepper {
     let allowSpawning = true
     var birthday = 0
@@ -24,7 +18,6 @@ class Stepper {
     weak var parentStepper: Stepper?
     var parentWeights: [Double]?
     var previousShiftOffset = AKPoint.zero
-    var shiftTracker = ShiftTracker()
     var sprite: SKSpriteNode!
 
     init(_ parentStepper: Stepper? = nil) {
@@ -54,7 +47,7 @@ class Stepper {
     }
 
     deinit {
-        print("deinit", name)
+        print("stepper deinit", name)
         World.stats.decrementPopulation(nil)
     }
 
@@ -78,26 +71,39 @@ extension Stepper {
 
 extension Stepper {
     static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
-        sprite.userData![SpriteUserDataKey.stepper] = stepper
+        Grid.shared.serialQueue.sync {
+            sprite.userData![SpriteUserDataKey.stepper] = stepper
+            sprite.name = stepper.name
+            print("attachStepper", sprite.name ?? "no sprite name?", stepper.name)
+        }
     }
 
     static func getStepper(from sprite: SKSpriteNode, require: Bool = true) -> Stepper? {
-        guard let dictionary = sprite.userData else { fatalError() }
+        func failIf() { if require { fatalError() } }
 
-        guard let entry = dictionary[SpriteUserDataKey.stepper] else {
-            if require { fatalError() } else { return nil }
+        if sprite.name == nil {
+            print("nothing")
+            failIf()
+            return nil
         }
 
-        guard let stepper = entry as? Stepper else {
-            if require { fatalError() } else { return nil }
-        }
+        guard let userData = sprite.userData
+            else { print("sprite name \(sprite.name ?? "wtf?")"); failIf(); return nil }
+
+        guard let embryo = userData[SpriteUserDataKey.stepper]
+            else { print("sprite name \(sprite.name ?? "wtf?") userData \(userData)"); failIf(); return nil }
+
+        guard let stepper = embryo as? Stepper
+            else { print("sprite name \(sprite.name ?? "wtf?") userData \(userData)"); failIf(); return nil }
 
         return stepper
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
-        if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
-        if (stepper.gridlet.sprite?.name ?? "fuggle") == sprite.name { fatalError() }
-        sprite.userData![SpriteUserDataKey.stepper] = nil
+        Grid.shared.serialQueue.sync {
+            print("detachStepper", stepper.name, sprite.name ?? "no sprite name")
+            if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
+            sprite.userData![SpriteUserDataKey.stepper] = nil
+        }
     }
 }
