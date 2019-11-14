@@ -28,17 +28,17 @@ final class Shifter: Dispatchable {
     }
 
     func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
-        print("shift callAgain \(six(stepper.name))")
+//        print("shift callAgain \(six(stepper.name))")
         self.phase = phase
         self.runType = runType
         dispatch.callAgain()
-        print("shift callAgain exit \(six(stepper.name))")
+//        print("shift callAgain exit \(six(stepper.name))")
     }
 
     func go() {
         if safeCell == nil { return }
 
-        print("aShift \(six(stepper.name))")
+//        print("aShift \(six(stepper.name))")
         self.aShift()
     }
 }
@@ -47,35 +47,35 @@ extension Shifter {
     func aShift() {
         switch phase {
         case .reserveGridPoints:
-            print("reserveGridPoints pre \(six(stepper.name))")
+//            print("reserveGridPoints pre \(six(stepper.name))")
             reserveGridPoints()
-            print("reserveGridPoints post \(six(stepper.name))")
+//            print("reserveGridPoints post \(six(stepper.name))")
             callAgain(.loadGridInputs, .concurrent)
-            print("reserveGridPoints call again \(six(stepper.name))")
+//            print("reserveGridPoints call again \(six(stepper.name))")
 
         case .loadGridInputs:
-            print("loadGridInputs \(six(stepper.name))")
+//            print("loadGridInputs \(six(stepper.name))")
             loadGridInputs()
             callAgain(.calculateShift, .concurrent)
 
         case .calculateShift:
-            print("calculateShift \(six(stepper.name))")
+//            print("calculateShift \(six(stepper.name))")
             calculateShift()
             callAgain(.moveSprite, .concurrent)
 
         case .moveSprite:
-            print("moveSprite \(six(stepper.name))")
+//            print("moveSprite \(six(stepper.name))")
             moveSprite { didMove in
                 self.callAgain(didMove ? .shift : .postShift, .barrier)
             }
 
         case .shift:
-            print("shift \(six(stepper.name))")
+//            print("shift \(six(stepper.name))")
             shift()
             callAgain(.postShift, .barrier)
 
         case .postShift:
-            print("postShift \(six(stepper.name))")
+//            print("postShift \(six(stepper.name))")
             postShift()
         }
     }

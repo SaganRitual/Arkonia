@@ -47,7 +47,7 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
 
     deinit {
         if isLive {
-            print("~SafeCell")
+//            print("~SafeCell")
             SafeCell.unlockGridCellIf(self.owner!, at: self.gridPosition) }
     }
 
@@ -82,7 +82,7 @@ class SafeSenseGrid: SafeConnectorProtocol {
     }
 
     deinit {
-        print("~SafeSenseGrid")
+//        print("~SafeSenseGrid")
     }
 }
 
@@ -106,9 +106,9 @@ extension GridCell {
 
     func extend(owner: String, from center: SafeCell, by cGridlets: Int) -> SafeSenseGrid? {
         return Grid.shared.serialQueue.sync {
-            print("extend1 \(six(owner))")
+//            print("extend1 \(six(owner))")
             let sc = SafeSenseGrid(from: center, by: cGridlets)
-            print("extend2 \(six(owner))")
+//            print("extend2 \(six(owner))")
             return sc
         }
     }
@@ -130,13 +130,13 @@ class SafeStage: SafeConnectorProtocol {
 
     init(_ from: SafeCell, _ to: SafeCell) {
         self.from = from; self.to = to; willMove = (from != to)
-        print("SafeStage \(from.gridPosition), \(from.contents), \(six(from.sprite?.name)), \(to.gridPosition), \(to.contents), \(six(to.sprite?.name)), \(willMove)")
+//        print("SafeStage \(from.gridPosition), \(from.contents), \(six(from.sprite?.name)), \(to.gridPosition), \(to.contents), \(six(to.sprite?.name)), \(willMove)")
     }
 
     deinit {
-        print("~SafeStage")
+//        print("~SafeStage")
         guard fromForCommit == nil, toForCommit == nil else {
-            print("committing changes")
+//            print("committing changes")
             commit()
             return
         }
@@ -163,7 +163,7 @@ class SafeStage: SafeConnectorProtocol {
         guard fromForCommit == nil && toForCommit == nil else { fatalError() }
         if !willMove { return }
 
-        print("will move \(from.gridPosition), \(to.gridPosition)")
+//        print("will move \(from.gridPosition), \(to.gridPosition)")
 
         fromForCommit = SafeCell(from: from, newContents: .nothing, newSprite: nil, live: false)
         toForCommit = SafeCell(from: to, newContents: from.contents, newSprite: from.sprite, live: false)

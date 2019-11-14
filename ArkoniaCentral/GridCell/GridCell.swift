@@ -18,7 +18,7 @@ class GridCell: GridCellProtocol, Equatable {
     }
 
     deinit {
-        print("~GridCell at \(gridPosition), owner \(owner ?? "no owner")")
+//        print("~GridCell at \(gridPosition), owner \(owner ?? "no owner")")
     }
 }
 

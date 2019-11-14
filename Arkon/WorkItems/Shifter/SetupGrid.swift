@@ -24,7 +24,7 @@ extension Shifter {
         if (dispatch.gridCellConnector as? SafeSenseGrid) == nil
             { fatalError() }
 
-        print("reserveGridPoints exit \(six(oldGcc.owner))")
+//        print("reserveGridPoints exit \(six(oldGcc.owner))")
     }
 }
 

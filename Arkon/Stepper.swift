@@ -47,7 +47,7 @@ class Stepper {
     }
 
     deinit {
-        print("stepper deinit", name)
+//        print("stepper deinit", name)
         World.stats.decrementPopulation(nil)
     }
 

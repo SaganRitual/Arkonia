@@ -11,7 +11,7 @@ final class Metabolize: Dispatchable {
     }
 
     func go() {
-        print("aMetabolize \(six(stepper.name))")
+//        print("aMetabolize \(six(stepper.name))")
         aMetabolize()
     }
 

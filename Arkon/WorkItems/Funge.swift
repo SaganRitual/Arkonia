@@ -39,7 +39,7 @@ final class Funge: Dispatchable {
     }
 
     func go() {
-        print("aFunge \(six(stepper.name))")
+//        print("aFunge \(six(stepper.name))")
         aFunge() }
 }
 

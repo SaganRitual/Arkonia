@@ -6,7 +6,7 @@ final class Colorize: AKWorkItem {
     var stats: World.StatsCopy!
 
     override func go() {
-        print("aColorize \(six(stepper?.name))")
+//        print("aColorize \(six(stepper?.name))")
         aColorize() }
 
     func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {

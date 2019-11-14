@@ -23,7 +23,7 @@ final class Eat: AKWorkItem {
     }
 
     override func go() {
-        print("aEat \(six(stepper?.name))")
+//        print("aEat \(six(stepper?.name))")
         aEat() }
 
     func inject(_ manna: Manna) {
@@ -74,7 +74,9 @@ extension Eat {
         guard let gcc = dp.gridCellConnector as? SafeStage else { fatalError() }
 
         guard let victimSprite = gcc.to.sprite
-            else { print("nothing at \(gcc.to.gridPosition)"); fatalError() }
+            else {
+//                print("nothing at \(gcc.to.gridPosition)");
+                fatalError() }
 
         guard let victimStepper = Stepper.getStepper(from: victimSprite)
             else { fatalError() }

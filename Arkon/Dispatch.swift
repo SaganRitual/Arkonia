@@ -31,7 +31,7 @@ final class Dispatch {
     }
 
     deinit {
-        print("~Dispatch \(stepper?.name ?? "no stepper?")")
+//        print("~Dispatch \(stepper?.name ?? "no stepper?")")
     }
 
     private func go(_ dispatchable: Dispatchable) {
@@ -61,7 +61,7 @@ final class Dispatch {
     }
 
     func callAgain() {
-        print("dispatch callAgain \(six(stepper?.name))")
+//        print("dispatch callAgain \(six(stepper?.name))")
 
         go(self.currentTask) }
     func start(_ dispatchable: Dispatchable) { go(dispatchable) }

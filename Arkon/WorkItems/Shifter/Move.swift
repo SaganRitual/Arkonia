@@ -28,7 +28,7 @@ extension Shifter {
         guard let gcc = dispatch.gridCellConnector as? SafeStage else { fatalError() }
 
         if gcc.willMove && gcc.to.contents != .nothing {
-            print("postShift \(six(stepper.name)), from \(gcc.from.gridPosition), \((gcc.from.contents)), to \(gcc.to.gridPosition), \(six(gcc.from.sprite?.name)) \(six(gcc.to.sprite?.name)) contents \(gcc.to.contents)")
+//            print("postShift \(six(stepper.name)), from \(gcc.from.gridPosition), \((gcc.from.contents)), to \(gcc.to.gridPosition), \(six(gcc.from.sprite?.name)) \(six(gcc.to.sprite?.name)) contents \(gcc.to.contents)")
             dispatch.eat()
             return
         }

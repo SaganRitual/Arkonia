@@ -4,17 +4,17 @@ final class Apoptosize: AKWorkItem {
     override func go() { aApoptosize() }
 
     deinit {
-        print("wtf")
+//        print("wtf")
     }
 }
 
 extension Apoptosize {
     private func aApoptosize() {
-        let name = six(stepper?.name)
-        print("aa1", name)
+//        let name = six(stepper?.name)
+//        print("aa1", name)
         let action = SKAction.run { [unowned self] in
             assert(Display.displayCycle == .actions)
-            print("aa2", name)
+//            print("aa2", name)
 
             guard let st = self.stepper else { fatalError() }
             guard let s = st.sprite else { fatalError() }
@@ -26,9 +26,9 @@ extension Apoptosize {
             Wangkhi.spriteFactory.arkonsHangar.retireSprite(s)
 
             // Counting on this to be the only strong ref to the stepper
-            print("aa3", six(s.name), s.userData!)
+//            print("aa3", six(s.name), s.userData!)
             Stepper.releaseStepper(st, from: s)
-            print("aa4", six(s.name), s.userData!)
+//            print("aa4", six(s.name), s.userData!)
         }
 
         GriddleScene.arkonsPortal.run(action)
