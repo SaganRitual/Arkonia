@@ -9,7 +9,6 @@ class GridCell: GridCellProtocol, Equatable {
 
     var contents = Contents.nothing { didSet { previousContents = oldValue } }
     private(set) var previousContents = Contents.nothing
-    var safeConnector: SafeConnectorProtocol?
     var owner: String?
     weak var sprite: SKSpriteNode?
 
@@ -19,7 +18,7 @@ class GridCell: GridCellProtocol, Equatable {
     }
 
     deinit {
-        print("~Gridlet at \(gridPosition), owner \(owner ?? "no owner")")
+        print("~GridCell at \(gridPosition), owner \(owner ?? "no owner")")
     }
 }
 

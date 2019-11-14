@@ -4,7 +4,6 @@ final class Eat: AKWorkItem {
     enum Phase { case chooseEdible, settleCombat }
 
     var combatOrder: (Stepper, Stepper)?
-    var currentGridlet: Gridlet!
     var manna: Manna!
     var phase = Phase.chooseEdible
 
@@ -14,8 +13,7 @@ final class Eat: AKWorkItem {
     }
 
     deinit {
-//        print("~Eat()")
-        dispatch?.gridletEngager = nil
+        dispatch?.gridCellConnector = nil
     }
 
     func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
@@ -34,20 +32,14 @@ final class Eat: AKWorkItem {
 
 extension Eat {
     private func aEat() {
+        guard let gcc = dispatch?.gridCellConnector as? SafeStage
+            else { fatalError() }
+
         switch phase {
         case .chooseEdible:
 
-            switch dispatch?.gridletEngager.gridletTo?.contents {
+            switch gcc.to.contents {
             case .arkon:
-                print(
-                    "battle " +
-                    "\((dispatch?.gridletEngager.gridletFrom?.sprite?.name)!) " +
-                    "\((dispatch?.gridletEngager.gridletFrom?.contents)!) " +
-                    "\((dispatch?.gridletEngager.gridletFrom?.gridPosition)!) " +
-                    "\((dispatch?.gridletEngager.gridletTo?.sprite?.name)!)" +
-                    "\((dispatch?.gridletEngager.gridletTo?.contents)!)" +
-                    "\((dispatch?.gridletEngager.gridletTo?.gridPosition)!) "
-                )
                 battleArkon()
                 callAgain(.settleCombat, .barrier)
 
@@ -59,7 +51,7 @@ extension Eat {
             }
 
         case .settleCombat:
-            switch dispatch?.gridletEngager.gridletTo?.contents {
+            switch gcc.to.contents {
 
             case .arkon:
                 settleCombat()
@@ -77,12 +69,10 @@ extension Eat {
 extension Eat {
     func battleArkon() {
         guard let dp = dispatch else { fatalError() }
+        guard let gcc = dp.gridCellConnector as? SafeStage else { fatalError() }
 
-        guard let toCopy = dispatch?.gridletEngager.gridletTo else { fatalError() }
-//        let toActual = Gridlet.at(toCopy.gridPosition)
-
-        guard let victimSprite = toCopy.sprite
-            else { print("nothing at \(toCopy.gridPosition)"); fatalError() }
+        guard let victimSprite = gcc.to.sprite
+            else { print("nothing at \(gcc.to.gridPosition)"); fatalError() }
 
         guard let victimStepper = Stepper.getStepper(from: victimSprite)
             else { fatalError() }
@@ -93,13 +83,12 @@ extension Eat {
 
         victimStepper.dispatch.battle = (myMass > (hisMass * 1.25)) ?
             (dp.stepper, victimStepper) : (victimStepper, dp.stepper)
-
-        dp.gridletEngager.deinit_(dp)
     }
 
     func battleManna() {
+        guard let gcc = dispatch?.gridCellConnector as? SafeStage else { fatalError() }
 
-        guard let mannaSprite = dispatch?.gridletEngager.gridletTo?.sprite,
+        guard let mannaSprite = gcc.to.sprite,
             let mannaUserData = mannaSprite.userData,
             let shouldBeManna = mannaUserData[SpriteUserDataKey.manna],
             let manna = shouldBeManna as? Manna

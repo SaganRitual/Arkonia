@@ -21,8 +21,8 @@ final class Dispatch {
         set { Grid.shared.serialQueue.sync { battle_ = newValue } }
     }
 
+    var gridCellConnector: SafeConnectorProtocol?
     var currentTask: Dispatchable!
-    var gridletEngager: Gridlet.Engager!
     let name = UUID().uuidString
     weak var stepper: Stepper!
 
@@ -109,7 +109,7 @@ extension Dispatch {
     }
 
     func shift() {
-        currentTask = Shift(self)
+        currentTask = Shifter(self)
         start(currentTask)
     }
 

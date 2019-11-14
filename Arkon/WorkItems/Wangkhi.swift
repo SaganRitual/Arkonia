@@ -12,7 +12,7 @@ protocol WangkhiProtocol: class {
     var callAgain: Bool { get }
     var dispatch: Dispatch? { get set }
     var fishNumber: Int { get set }
-    var gridlet: Gridlet? { get set }
+    var gridCell: GridCell? { get set }
     var metabolism: Metabolism? { get set }
     var net: Net? { get }
     var netDisplay: NetDisplay? { get }
@@ -42,7 +42,7 @@ final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     var birthday = 0
     var callAgain = false
     var fishNumber = 0
-    var gridlet: Gridlet?
+    var gridCell: GridCell?
     var metabolism: Metabolism?
     var net: Net?
     var netDisplay: NetDisplay?
@@ -103,17 +103,17 @@ extension WangkhiEmbryo {
 
     private func getStartingPosition_() {
         guard let parent = self.parent else {
-            self.gridlet = Gridlet.getRandomGridlet_()
+            self.gridCell = GridCell.getRandomGridlet_()
             return
         }
 
-        var foundGridlet: Gridlet!
+        var foundGridlet: GridCell!
         var candidateIx = Int.random(in: 1..<ArkoniaCentral.cSenseGridlets)
 
         while foundGridlet == nil {
-            let g = parent.gridlet.getGridPointByIndex(candidateIx)
+            let g = parent.gridCell.getGridPointByIndex(candidateIx)
 
-            if let f = Gridlet.atIf(g), f.contents == .nothing {
+            if let f = GridCell.atIf(g), f.contents == .nothing {
                 foundGridlet = f
                 break
             }
@@ -121,7 +121,7 @@ extension WangkhiEmbryo {
             candidateIx += 1
         }
 
-        self.gridlet = foundGridlet
+        self.gridCell = foundGridlet
     }
 
     func registerBirth(_ onComplete: @escaping () -> Void) {
@@ -172,7 +172,7 @@ extension WangkhiEmbryo {
 
         guard let sprite = self.sprite else { fatalError() }
         guard let nose = self.nose else { fatalError() }
-        guard let gridlet = self.gridlet else { fatalError() }
+        guard let gridCell = self.gridCell else { fatalError() }
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
@@ -181,14 +181,14 @@ extension WangkhiEmbryo {
         sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
         sprite.setScale(0.5)
-        sprite.position = gridlet.scenePosition
+        sprite.position = gridCell.scenePosition
         sprite.alpha = 1
 
         sprite.addChild(nose)
 
         Grid.shared.serialQueue.sync {
-            gridlet.sprite = sprite
-            gridlet.contents = .arkon
+            gridCell.sprite = sprite
+            gridCell.contents = .arkon
         }
 
 //        print("bbefore",

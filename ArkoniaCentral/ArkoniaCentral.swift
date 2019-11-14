@@ -71,25 +71,25 @@ struct Dimensions {
 
 extension SKSpriteNode {
 
-    func getRandomGridlet() -> Gridlet {
+    func getRandomGridlet() -> GridCell {
         let wGrid = Grid.dimensions.wGrid
         let hGrid = Grid.dimensions.hGrid
 
         let ak = AKPoint.random((-wGrid + 1)..<wGrid, (-hGrid + 1)..<hGrid)
 
-        let gridlet = Gridlet.at(ak.x, ak.y)
+        let gridCell = GridCell.at(ak.x, ak.y)
         let wScene = CGFloat(Grid.dimensions.wSprite / 2)
         let hScene = CGFloat(Grid.dimensions.hSprite / 2)
 
-        let lScene = gridlet.scenePosition.x - wScene
-        let rScene = gridlet.scenePosition.x + wScene
-        let bScene = gridlet.scenePosition.y - hScene
-        let tScene = gridlet.scenePosition.y + hScene
+        let lScene = gridCell.scenePosition.x - wScene
+        let rScene = gridCell.scenePosition.x + wScene
+        let bScene = gridCell.scenePosition.y - hScene
+        let tScene = gridCell.scenePosition.y + hScene
 
-        gridlet.randomScenePosition = CGPoint.random(
+        gridCell.randomScenePosition = CGPoint.random(
             xRange: lScene..<rScene, yRange: bScene..<tScene
         )
 
-        return gridlet
+        return gridCell
     }
 }

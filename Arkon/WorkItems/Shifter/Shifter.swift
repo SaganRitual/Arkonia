@@ -1,27 +1,19 @@
 import Foundation
 
-final class Shift: Dispatchable {
+final class Shifter: Dispatchable {
 
     enum Phase {
         case reserveGridPoints, loadGridInputs
-        case calculateShift, releaseGridPoints
+        case calculateShift
         case moveSprite, shift, postShift
     }
 
     weak var dispatch: Dispatch!
-    var gridletEngager: Gridlet.Engager {
-        get { return dispatch.gridletEngager }
-        set {
-//            print("set engager", newValue.owner)
-            dispatch.gridletEngager = newValue }
-    }
 
-    var didMove = false
     var phase: Phase = .reserveGridPoints
-    var runType = Dispatch.RunType.barrier
+    var runType = Dispatch.RunType.concurrent
     var senseData = [Double]()
     var sensoryInputs = [(Double, Double)?]()
-    var shiftTarget: GridletCopy?
     var stepper: Stepper { return dispatch.stepper }
 
     init(_ dispatch: Dispatch) {
@@ -35,21 +27,16 @@ final class Shift: Dispatchable {
     }
 
     func go() {
-        guard let e = stepper.gridlet.engage(owner: stepper.name, require: true)
-            else {
-                print("alpha")
-                return }
+        guard let gcc = stepper.gridCell.engage(owner: stepper.name, require: false)
+            else { return }
 
-        print("beta")
-
-        dispatch.gridletEngager = e
-        print("gamow")
+        dispatch.gridCellConnector = gcc
         self.aShift()
-        print("harpo")
+
     }
 }
 
-extension Shift {
+extension Shifter {
     func aShift() {
         switch phase {
         case .reserveGridPoints:
@@ -62,10 +49,6 @@ extension Shift {
 
         case .calculateShift:
             calculateShift()
-            callAgain(.releaseGridPoints, .concurrent)
-
-        case .releaseGridPoints:
-            releaseGridPoints()
             callAgain(.moveSprite, .concurrent)
 
         case .moveSprite:

@@ -20,6 +20,8 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
 
         self.contents = original.contents
         self.sprite = original.sprite
+
+        SafeCell.setOwner(self.owner!, at: self.gridPosition)
     }
 
     init(from safeCopy: SafeCell, newContents: GridCell.Contents, newSprite: SKSpriteNode?) {
@@ -30,6 +32,14 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
 
         self.contents = newContents
         self.sprite = newSprite
+
+        SafeCell.setOwner(self.owner!, at: self.gridPosition)
+    }
+
+    static func setOwner(_ owner: String, at gridPosition: AKPoint) {
+        let unsafeCell = GridCell.at(gridPosition)
+
+        if unsafeCell.owner == nil { unsafeCell.owner = owner }
     }
 }
 
@@ -57,8 +67,8 @@ extension GridCell {
 
         Grid.shared.serialQueue.sync {
             if self.owner == nil {
+                self.owner = owner
                 sc = SafeCell(from: self)
-                safeConnector = sc
                 return
             }
 
@@ -71,7 +81,6 @@ extension GridCell {
     func extend(owner: String, from center: SafeCell, by cGridlets: Int) -> SafeSenseGrid? {
         return Grid.shared.serialQueue.sync {
             let sc = SafeSenseGrid(from: center, by: cGridlets)
-            safeConnector = sc
             return sc
         }
     }
@@ -79,14 +88,13 @@ extension GridCell {
     func stage(_ grid: SafeSenseGrid, _ combatant2: SafeCell) -> SafeStage? {
         return Grid.shared.serialQueue.sync {
             let sc = SafeStage(grid.cells[0], combatant2)
-            safeConnector = sc
             return sc
         }
     }
 }
 
-
 class SafeStage: SafeConnectorProtocol {
+    var willMove = false
     let from: SafeCell
     var fromForCommit: SafeCell?
     let to: SafeCell
@@ -124,6 +132,7 @@ class SafeStage: SafeConnectorProtocol {
         guard fromForCommit == nil && toForCommit == nil else { fatalError() }
         if from == to { return }
 
+        willMove = true
         fromForCommit = SafeCell(from: from, newContents: .nothing, newSprite: nil)
         toForCommit = SafeCell(from: to, newContents: from.contents, newSprite: from.sprite)
     }

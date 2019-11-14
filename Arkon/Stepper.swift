@@ -4,9 +4,9 @@ class Stepper {
     let allowSpawning = true
     var birthday = 0
     var cOffspring = 0
-    weak var gridlet: Gridlet!
     var dispatch: Dispatch!
     var fishNumber = 0
+    weak var gridCell: GridCell!
     var metabolism: Metabolism!
     let name = UUID().uuidString
     var net: Net!
@@ -33,7 +33,7 @@ class Stepper {
     init(_ embryo: WangkhiEmbryo, needsNewDispatch: Bool = false) {
         self.birthday = embryo.birthday
         self.fishNumber = embryo.fishNumber
-        self.gridlet = embryo.gridlet
+        self.gridCell = embryo.gridCell
         self.metabolism = embryo.metabolism
         self.net = embryo.net
         self.netDisplay = embryo.netDisplay
