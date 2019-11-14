@@ -60,7 +60,10 @@ final class Dispatch {
         }
     }
 
-    func callAgain() { go(self.currentTask) }
+    func callAgain() {
+        print("dispatch callAgain \(six(stepper?.name))")
+
+        go(self.currentTask) }
     func start(_ dispatchable: Dispatchable) { go(dispatchable) }
 }
 

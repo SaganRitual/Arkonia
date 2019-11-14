@@ -12,6 +12,8 @@ extension Shifter {
             fatalError()
         }
 
+        assert(oldGcc.owner != nil)
+
         guard let newGcc = stepper.gridCell.extend(
             owner: stepper.name,
             from: oldGcc,
@@ -19,6 +21,10 @@ extension Shifter {
         ) else { fatalError() }
 
         dispatch.gridCellConnector = newGcc
+        if (dispatch.gridCellConnector as? SafeSenseGrid) == nil
+            { fatalError() }
+
+        print("reserveGridPoints exit \(six(oldGcc.owner))")
     }
 }
 

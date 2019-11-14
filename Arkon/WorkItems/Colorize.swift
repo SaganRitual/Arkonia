@@ -5,7 +5,9 @@ final class Colorize: AKWorkItem {
     var phase = Phase.getWorldStats
     var stats: World.StatsCopy!
 
-    override func go() { aColorize() }
+    override func go() {
+        print("aColorize \(six(stepper?.name))")
+        aColorize() }
 
     func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
         self.phase = phase
@@ -14,6 +16,8 @@ final class Colorize: AKWorkItem {
     }
 
 }
+
+func six(_ string: String?) -> String { return String(string?.prefix(6) ?? "ottffs") }
 
 extension Colorize {
     func aColorize() {

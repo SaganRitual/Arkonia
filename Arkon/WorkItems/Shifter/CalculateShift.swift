@@ -62,13 +62,12 @@ extension Shifter {
         }
 
         let targetOffset = order.first { entry in
-
-            let candidateCell = gcc.cells[entry.0]
+            guard let candidateCell = gcc.cells[entry.0] else { return false }
             return candidateCell.owner == stepper.name
         }
 
-        let from = gcc.cells[0]
-        let to = gcc.cells[targetOffset?.0 ?? 0]
+        guard let from = gcc.cells[0],
+                let to = gcc.cells[targetOffset?.0 ?? 0] else { fatalError() }
 
         return SafeStage(from, to)
     }

@@ -1,10 +1,10 @@
 import SpriteKit
 
-protocol SafeConnectorProtocol {
-}
+protocol SafeConnectorProtocol { }
 
 class SafeCell: GridCellProtocol, SafeConnectorProtocol {
     let gridPosition: AKPoint
+    var isLive = true
     let scenePosition: CGPoint
     let randomScenePosition: CGPoint?
     weak var sprite: SKSpriteNode?
@@ -12,7 +12,9 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
     let contents: GridCell.Contents
     let owner: String?
 
-    init(from original: GridCell) {
+    init(from original: GridCell, live: Bool = true) {
+        self.isLive = live
+
         self.gridPosition = original.gridPosition
         self.scenePosition = original.scenePosition
         self.randomScenePosition = original.randomScenePosition
@@ -21,10 +23,17 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
         self.contents = original.contents
         self.sprite = original.sprite
 
-        SafeCell.setOwner(self.owner!, at: self.gridPosition)
+        if live { SafeCell.lockGridCellIf(self.owner!, at: self.gridPosition) }
     }
 
-    init(from safeCopy: SafeCell, newContents: GridCell.Contents, newSprite: SKSpriteNode?) {
+    init(
+        from safeCopy: SafeCell,
+        newContents: GridCell.Contents,
+        newSprite: SKSpriteNode?,
+        live: Bool = true
+    ) {
+        self.isLive = live
+
         self.gridPosition = safeCopy.gridPosition
         self.scenePosition = safeCopy.scenePosition
         self.randomScenePosition = safeCopy.randomScenePosition
@@ -33,10 +42,22 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
         self.contents = newContents
         self.sprite = newSprite
 
-        SafeCell.setOwner(self.owner!, at: self.gridPosition)
+        if live { SafeCell.lockGridCellIf(self.owner!, at: self.gridPosition) }
     }
 
-    static func setOwner(_ owner: String, at gridPosition: AKPoint) {
+    deinit {
+        if isLive {
+            print("~SafeCell")
+            SafeCell.unlockGridCellIf(self.owner!, at: self.gridPosition) }
+    }
+
+    static func unlockGridCellIf(_ owner: String, at gridPosition: AKPoint) {
+        let unsafeCell = GridCell.at(gridPosition)
+
+        if unsafeCell.owner == owner { unsafeCell.owner = nil }
+    }
+
+    static func lockGridCellIf(_ owner: String, at gridPosition: AKPoint) {
         let unsafeCell = GridCell.at(gridPosition)
 
         if unsafeCell.owner == nil { unsafeCell.owner = owner }
@@ -44,19 +65,24 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
 }
 
 class SafeSenseGrid: SafeConnectorProtocol {
-    let cells: [SafeCell]
+    let cells: [SafeCell?]
 
     init(from center: SafeCell, by cGridlets: Int) {
         guard let co = center.owner else { fatalError() }
 
         cells = [center] + (1..<cGridlets).map {
             let position = center.getGridPointByIndex($0, absolute: true)
-            let unsafeCell = GridCell.at(position)
+
+            guard let unsafeCell = GridCell.atIf(position) else { return nil }
 
             if unsafeCell.owner == nil { unsafeCell.owner = co }
 
             return SafeCell(from: unsafeCell)
         }
+    }
+
+    deinit {
+        print("~SafeSenseGrid")
     }
 }
 
@@ -80,33 +106,38 @@ extension GridCell {
 
     func extend(owner: String, from center: SafeCell, by cGridlets: Int) -> SafeSenseGrid? {
         return Grid.shared.serialQueue.sync {
+            print("extend1 \(six(owner))")
             let sc = SafeSenseGrid(from: center, by: cGridlets)
+            print("extend2 \(six(owner))")
             return sc
         }
     }
 
     func stage(_ grid: SafeSenseGrid, _ combatant2: SafeCell) -> SafeStage? {
         return Grid.shared.serialQueue.sync {
-            let sc = SafeStage(grid.cells[0], combatant2)
+            let sc = SafeStage(grid.cells[0]!, combatant2)
             return sc
         }
     }
 }
 
 class SafeStage: SafeConnectorProtocol {
-    var willMove = false
+    let willMove: Bool
     let from: SafeCell
     var fromForCommit: SafeCell?
     let to: SafeCell
     var toForCommit: SafeCell?
 
     init(_ from: SafeCell, _ to: SafeCell) {
-        self.from = from; self.to = to
+        self.from = from; self.to = to; willMove = (from != to)
+        print("SafeStage \(from.gridPosition), \(from.contents), \(six(from.sprite?.name)), \(to.gridPosition), \(to.contents), \(six(to.sprite?.name)), \(willMove)")
     }
 
     deinit {
+        print("~SafeStage")
         guard fromForCommit == nil, toForCommit == nil else {
-            print("uncommitted changes")
+            print("committing changes")
+            commit()
             return
         }
     }
@@ -130,10 +161,11 @@ class SafeStage: SafeConnectorProtocol {
 
     func move() {
         guard fromForCommit == nil && toForCommit == nil else { fatalError() }
-        if from == to { return }
+        if !willMove { return }
 
-        willMove = true
-        fromForCommit = SafeCell(from: from, newContents: .nothing, newSprite: nil)
-        toForCommit = SafeCell(from: to, newContents: from.contents, newSprite: from.sprite)
+        print("will move \(from.gridPosition), \(to.gridPosition)")
+
+        fromForCommit = SafeCell(from: from, newContents: .nothing, newSprite: nil, live: false)
+        toForCommit = SafeCell(from: to, newContents: from.contents, newSprite: from.sprite, live: false)
     }
 }

@@ -80,4 +80,8 @@ extension SafeCell {
     static func == (_ lhs: SafeCell, _ rhs: SafeCell) -> Bool {
         return lhs.gridPosition == rhs.gridPosition
     }
+
+    static func != (_ lhs: SafeCell, _ rhs: SafeCell) -> Bool {
+        return !(lhs == rhs)
+    }
 }

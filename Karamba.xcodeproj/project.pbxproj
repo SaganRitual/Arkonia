@@ -51,7 +51,7 @@
 		D4BB6E7B234EF62800529819 /* Metabolize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E7A234EF62800529819 /* Metabolize.swift */; };
 		D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E7C234EF71800529819 /* Colorize.swift */; };
 		D4BB6E81234EFCD400529819 /* SetupGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E80234EFCD400529819 /* SetupGrid.swift */; };
-		D4BB6E83234F580900529819 /* Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E82234F580900529819 /* Shift.swift */; };
+		D4BB6E83234F580900529819 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E82234F580900529819 /* Move.swift */; };
 		D4D5EABB2368B05200E95AA5 /* Wangkhi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D5EABA2368B05200E95AA5 /* Wangkhi.swift */; };
 		D4D86F502363211A0082C31A /* World.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D86F4F2363211A0082C31A /* World.Stats.swift */; };
 		D4F5CF56237290A0000967B2 /* Shifter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F5CF55237290A0000967B2 /* Shifter.swift */; };
@@ -160,7 +160,7 @@
 		D4BB6E7A234EF62800529819 /* Metabolize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metabolize.swift; sourceTree = "<group>"; };
 		D4BB6E7C234EF71800529819 /* Colorize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colorize.swift; sourceTree = "<group>"; };
 		D4BB6E80234EFCD400529819 /* SetupGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupGrid.swift; sourceTree = "<group>"; };
-		D4BB6E82234F580900529819 /* Shift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.swift; sourceTree = "<group>"; };
+		D4BB6E82234F580900529819 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 		D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaCentral.swift; sourceTree = "<group>"; };
 		D4D5EABA2368B05200E95AA5 /* Wangkhi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wangkhi.swift; sourceTree = "<group>"; };
 		D4D86F4F2363211A0082C31A /* World.Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.Stats.swift; sourceTree = "<group>"; };
@@ -243,8 +243,8 @@
 			isa = PBXGroup;
 			children = (
 				D4A4F4512353CF7B000EC009 /* CalculateShift.swift */,
+				D4BB6E82234F580900529819 /* Move.swift */,
 				D4BB6E80234EFCD400529819 /* SetupGrid.swift */,
-				D4BB6E82234F580900529819 /* Shift.swift */,
 				D4F5CF55237290A0000967B2 /* Shifter.swift */,
 			);
 			path = Shifter;
@@ -510,7 +510,7 @@
 				D45A9362237CEE5F00FC039E /* Grid.Setup.swift in Sources */,
 				D4A4F4522353CF7B000EC009 /* CalculateShift.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
-				D4BB6E83234F580900529819 /* Shift.swift in Sources */,
+				D4BB6E83234F580900529819 /* Move.swift in Sources */,
 				D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */,
 				D4BB6E73234E549C00529819 /* Funge.swift in Sources */,
 				D4174DD4237BD12B00F01F28 /* Protocol.swift in Sources */,

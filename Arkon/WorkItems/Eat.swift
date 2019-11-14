@@ -22,7 +22,9 @@ final class Eat: AKWorkItem {
         dispatch!.callAgain()
     }
 
-    override func go() { aEat() }
+    override func go() {
+        print("aEat \(six(stepper?.name))")
+        aEat() }
 
     func inject(_ manna: Manna) {
         self.manna = manna
@@ -83,6 +85,8 @@ extension Eat {
 
         victimStepper.dispatch.battle = (myMass > (hisMass * 1.25)) ?
             (dp.stepper, victimStepper) : (victimStepper, dp.stepper)
+
+        dispatch?.battle = victimStepper.dispatch.battle
     }
 
     func battleManna() {
@@ -103,7 +107,7 @@ extension Eat {
 
 extension Eat {
     private func defeatManna() {
-        assert(runType == .barrier)
+
         guard let st = stepper else { fatalError() }
         let harvested = self.manna.harvest()
         st.metabolism.absorbEnergy(harvested)

@@ -38,7 +38,9 @@ final class Funge: Dispatchable {
         dispatch.callAgain()
     }
 
-    func go() { aFunge() }
+    func go() {
+        print("aFunge \(six(stepper.name))")
+        aFunge() }
 }
 
 extension Funge {

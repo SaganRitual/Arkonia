@@ -74,7 +74,7 @@ extension Stepper {
         Grid.shared.serialQueue.sync {
             sprite.userData![SpriteUserDataKey.stepper] = stepper
             sprite.name = stepper.name
-            print("attachStepper", sprite.name ?? "no sprite name?", stepper.name)
+//            print("attachStepper", sprite.name ?? "no sprite name?", stepper.name)
         }
     }
 
@@ -82,26 +82,29 @@ extension Stepper {
         func failIf() { if require { fatalError() } }
 
         if sprite.name == nil {
-            print("nothing")
+//            print("nothing")
             failIf()
             return nil
         }
 
         guard let userData = sprite.userData
-            else { print("sprite name \(sprite.name ?? "wtf?")"); failIf(); return nil }
+            else { //print("sprite name \(sprite.name ?? "wtf?")");
+                failIf(); return nil }
 
         guard let embryo = userData[SpriteUserDataKey.stepper]
-            else { print("sprite name \(sprite.name ?? "wtf?") userData \(userData)"); failIf(); return nil }
+            else {// print("sprite name \(sprite.name ?? "wtf?") userData \(userData)");
+                failIf(); return nil }
 
         guard let stepper = embryo as? Stepper
-            else { print("sprite name \(sprite.name ?? "wtf?") userData \(userData)"); failIf(); return nil }
+            else {// print("sprite name \(sprite.name ?? "wtf?") userData \(userData)");
+                failIf(); return nil }
 
         return stepper
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
         Grid.shared.serialQueue.sync {
-            print("detachStepper", stepper.name, sprite.name ?? "no sprite name")
+//            print("detachStepper", stepper.name, sprite.name ?? "no sprite name")
             if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
             sprite.userData![SpriteUserDataKey.stepper] = nil
         }
