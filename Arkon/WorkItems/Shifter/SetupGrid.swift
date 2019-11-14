@@ -1,6 +1,7 @@
 extension Shifter {
     func loadGridInputs() {
-        guard let gcc = dispatch.gridCellConnector as? SafeSenseGrid else {
+        guard let scr = scratch else { fatalError() }
+        guard let gcc = scr.gridCellConnector as? SafeSenseGrid else {
             fatalError()
         }
 
@@ -8,23 +9,20 @@ extension Shifter {
     }
 
     func reserveGridPoints() {
-        guard let oldGcc = dispatch.gridCellConnector as? SafeCell else {
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+        guard let oldGcc = scr.gridCellConnector as? SafeCell else {
             fatalError()
         }
 
         assert(oldGcc.owner != nil)
 
-        guard let newGcc = stepper.gridCell.extend(
-            owner: stepper.name,
-            from: oldGcc,
-            by: ArkoniaCentral.cMotorGridlets
+        guard let newGcc = st.gridCell.extend(
+            owner: st.name, from: oldGcc, by: ArkoniaCentral.cMotorGridlets
         ) else { fatalError() }
 
-        dispatch.gridCellConnector = newGcc
-        if (dispatch.gridCellConnector as? SafeSenseGrid) == nil
-            { fatalError() }
-
-//        print("reserveGridPoints exit \(six(oldGcc.owner))")
+        scr.gridCellConnector = newGcc
+        if (scr.gridCellConnector as? SafeSenseGrid) == nil { fatalError() }
     }
 }
 
@@ -35,11 +33,14 @@ extension Shifter {
 
         if !GridCell.isOnGrid(cell.gridPosition) { return nil }
 
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+
         let nutrition: Double
 
         switch cell.contents {
         case .arkon:
-            nutrition = Double(stepper.metabolism.energyFullness)
+            nutrition = Double(st.metabolism.energyFullness)
 
         case .manna:
             let sprite = cell.sprite!

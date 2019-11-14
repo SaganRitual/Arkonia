@@ -1,9 +1,10 @@
 import SpriteKit
 
 extension Shifter {
-    func moveSprite(_ onComplete: @escaping (Bool) -> Void) {
-
-        guard let gcc = dispatch.gridCellConnector as? SafeStage else { fatalError() }
+    func moveSprite() {
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+        guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
 
         let moveDuration: TimeInterval = 0.1
         let moveAction = gcc.willMove ?
@@ -12,28 +13,31 @@ extension Shifter {
             ) :
             SKAction.wait(forDuration: moveDuration)
 
-        stepper.sprite.run(moveAction) { onComplete(gcc.willMove) }
+        st.sprite.run(moveAction)
     }
 
-    func shift() {
-        guard let gcc = dispatch.gridCellConnector as? SafeStage else { fatalError() }
+    func moveStepper() {
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+        guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
 
         gcc.move()
-        stepper.gridCell = GridCell.at(gcc.to)
+        st.gridCell = GridCell.at(gcc.to)
     }
 }
 
 extension Shifter {
-    func postShift() {
-        guard let gcc = dispatch.gridCellConnector as? SafeStage else { fatalError() }
+    func postMove() {
+        guard let scr = scratch else { fatalError() }
+        guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
+        guard let dp = scr.dispatch else { fatalError() }
 
         if gcc.willMove && gcc.to.contents != .nothing {
-//            print("postShift \(six(stepper.name)), from \(gcc.from.gridPosition), \((gcc.from.contents)), to \(gcc.to.gridPosition), \(six(gcc.from.sprite?.name)) \(six(gcc.to.sprite?.name)) contents \(gcc.to.contents)")
-            dispatch.eat()
+            dp.eat()
             return
         }
 
-        dispatch.gridCellConnector = nil
-        dispatch.funge()
+        dp.gridCellConnector = nil
+        dp.funge()
     }
 }

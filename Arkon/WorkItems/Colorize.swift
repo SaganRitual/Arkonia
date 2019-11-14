@@ -1,48 +1,29 @@
 import GameplayKit
 
-final class Colorize: AKWorkItem {
-    enum Phase { case getWorldStats, colorize }
-    var phase = Phase.getWorldStats
-    var stats: World.StatsCopy!
+final class Colorize: Dispatchable {
+    weak var scratch: Scratchpad?
 
-    override func go() {
-//        print("aColorize \(six(stepper?.name))")
-        aColorize() }
+    init(_ scratch: Scratchpad) { self.scratch = scratch }
 
-    func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
-        self.phase = phase
-        self.runType = runType
-        dispatch?.callAgain()
-    }
-
+    func launch() { aColorize() }
 }
 
 func six(_ string: String?) -> String { return String(string?.prefix(6) ?? "ottffs") }
 
 extension Colorize {
     func aColorize() {
-        guard let dp = self.dispatch else { fatalError() }
-        guard let st = self.stepper else { fatalError() }
+        guard let sc = scratch else { fatalError() }
+        guard let st = sc.stepper else { fatalError() }
+        guard let ws = sc.worldStats else { fatalError() }
 
-        switch phase {
-        case .getWorldStats:
-            World.stats.getStats { [unowned self] in
-                self.stats = $0
-                self.callAgain(.colorize, .concurrent)
-            }
-
-        case .colorize:
-            let age = stats.currentTime - st.birthday
-            st.colorizeProper(dp, age)
-
-            dp.shift()
-        }
+        let age = ws.currentTime - st.birthday
+        st.colorizeProper(age)
     }
 }
 
 extension Stepper {
 
-    func colorizeProper(_ dispatch: Dispatch, _ myAge: Int) {
+    func colorizeProper(_ myAge: Int) {
         let ef = metabolism.fungibleEnergyFullness
         nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 

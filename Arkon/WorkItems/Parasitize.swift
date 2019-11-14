@@ -1,26 +1,20 @@
 import Foundation
 
 final class Parasitize: Dispatchable {
+    weak var scratch: Scratchpad?
 
-    weak var dispatch: Dispatch!
-    var runType = Dispatch.RunType.barrier
-    var stepper: Stepper { return dispatch.stepper }
-    var victim: Stepper!
+    init(_ scratch: Scratchpad) { self.scratch = scratch }
 
-    init(_ dispatch: Dispatch) {
-        self.dispatch = dispatch
-    }
-
-    func go() { aParasitize() }
-
-    func inject(_ victim: Stepper?) { self.victim = victim }
-
+    func launch() { aParasitize() }
 }
 
 extension Parasitize {
     func aParasitize() {
-        stepper.metabolism.parasitize(victim)
-        dispatch.funge()
+        guard let scr = scratch else { fatalError() }
+        guard let victor = scr.battle?.0 else { fatalError() }
+        guard let victim = scr.battle?.1 else { fatalError() }
+
+        victor.metabolism.parasitize(victim)
     }
 }
 

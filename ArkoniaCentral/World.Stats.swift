@@ -79,6 +79,10 @@ extension World.Stats {
         World.shared.lockQueue.async(flags: .barrier) { onComplete(self.copy()) }
     }
 
+    func getStats_(_ onComplete: @escaping OCGetStats) {
+        World.shared.lockQueue.async(flags: .barrier) { onComplete(self.copy()) }
+    }
+
     func getTimeSince(_ time: Int, _ onComplete: @escaping (Int) -> Void) {
         World.shared.lockQueue.async(flags: .barrier) {
             onComplete(self.currentTime - time)

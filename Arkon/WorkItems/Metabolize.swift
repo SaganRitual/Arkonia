@@ -1,26 +1,24 @@
 import GameplayKit
 
 final class Metabolize: Dispatchable {
-    weak var dispatch: Dispatch!
-    var runType = Dispatch.RunType.concurrent
-    var stats: World.StatsCopy!
-    var stepper: Stepper { return dispatch.stepper }
+    weak var scratch: Scratchpad?
 
-    init(_ dispatch: Dispatch) {
-        self.dispatch = dispatch
+    init(_ scratch: Scratchpad) {
+        self.scratch = scratch
     }
 
-    func go() {
-//        print("aMetabolize \(six(stepper.name))")
-        aMetabolize()
+    func launch() {
+        Grid.shared.concurrentQueue.async(execute: aMetabolize)
     }
-
 }
 
 extension Metabolize {
     func aMetabolize() {
-        dispatch.stepper.metabolism.metabolizeProper()
-        dispatch.colorize()
+        guard let dp = scratch?.dispatch else { fatalError() }
+        guard let st = dp.stepper else { fatalError() }
+
+        st.metabolism.metabolizeProper()
+        dp.colorize()
     }
 }
 

@@ -4,7 +4,9 @@ extension Shifter {
 
     func calculateShift() {
         let senseData = loadSenseData()
-        dispatch.gridCellConnector = selectMoveTarget(senseData: senseData)
+
+        guard let dp = scratch?.dispatch else { fatalError() }
+        dp.gridCellConnector = selectMoveTarget(senseData: senseData)
     }
 
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {
@@ -29,8 +31,10 @@ extension Shifter {
             }
         }
 
-        let whereIAmNow = stepper.gridCell!
-        let previousShift = stepper.previousShiftOffset
+        guard let st = scratch?.stepper else { fatalError() }
+
+        let whereIAmNow = st.gridCell!
+        let previousShift = st.previousShiftOffset
 
         hackyRearrangedInputs.append(contentsOf: nutritionses)
 
@@ -42,28 +46,31 @@ extension Shifter {
         let yShift = Double(previousShift.y)
         hackyRearrangedInputs.append(contentsOf: [xShift, yShift])
 
-        let hunger = Double(stepper.metabolism.hunger)
-        let asphyxia = Double(1 - (stepper.metabolism.oxygenLevel / 1))
+        let hunger = Double(st.metabolism.hunger)
+        let asphyxia = Double(1 - (st.metabolism.oxygenLevel / 1))
         hackyRearrangedInputs.append(contentsOf: [hunger, asphyxia])
 
         return hackyRearrangedInputs
     }
 
     private func selectMoveTarget(senseData: [Double]) -> SafeStage {
-        let motorOutputs: [Double] = stepper.net.getMotorOutputs(senseData)
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+
+        let motorOutputs: [Double] = st.net.getMotorOutputs(senseData)
         let dMotorOutputs: [Int: Double] = self.getMotorDataAsDictionary(motorOutputs)
 
         let order: [(Int, Double)] = dMotorOutputs.sorted { lhs, rhs in
             Double(lhs.1) > Double(rhs.1)
         }
 
-        guard let gcc = dispatch.gridCellConnector as? SafeSenseGrid else {
+        guard let gcc = scr.gridCellConnector as? SafeSenseGrid else {
             fatalError()
         }
 
         let targetOffset = order.first { entry in
             guard let candidateCell = gcc.cells[entry.0] else { return false }
-            return candidateCell.owner == stepper.name
+            return candidateCell.owner == st.name
         }
 
         guard let from = gcc.cells[0],

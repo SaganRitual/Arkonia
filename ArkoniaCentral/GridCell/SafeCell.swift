@@ -88,20 +88,29 @@ class SafeSenseGrid: SafeConnectorProtocol {
 
 extension GridCell {
 
+    func wiEngage(
+        owner: String, require: Bool, onLock: ((SafeCell?) -> Void)?
+    ) -> DispatchWorkItem {
+
+        return DispatchWorkItem(flags: .barrier) {
+            let cell = self.engage_(owner, require)
+            onLock?(cell)
+        }
+    }
+
     func engage(owner: String, require: Bool) -> SafeCell? {
-        var sc: SafeCell?
+        return Grid.shared.serialQueue.sync { engage_(owner, require) }
+    }
 
-        Grid.shared.serialQueue.sync {
-            if self.owner == nil {
-                self.owner = owner
-                sc = SafeCell(from: self)
-                return
-            }
-
-            if require { fatalError() }
+    func engage_(_ owner: String, _ require: Bool) -> SafeCell? {
+        if self.owner == nil {
+            self.owner = owner
+            return SafeCell(from: self)
         }
 
-        return sc
+        if require { fatalError() }
+
+        return nil
     }
 
     func extend(owner: String, from center: SafeCell, by cGridlets: Int) -> SafeSenseGrid? {

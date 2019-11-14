@@ -7,7 +7,7 @@ enum Wangkhi {
     static let standardColor = 0x00_FF_00  // Slightly dim green
 }
 
-protocol WangkhiProtocol: class {
+protocol WangkhiProtocol: class, Dispatchable {
     var birthday: Int { get set }
     var callAgain: Bool { get }
     var dispatch: Dispatch? { get set }
@@ -21,26 +21,16 @@ protocol WangkhiProtocol: class {
     var sprite: SKSpriteNode? { get set }
 }
 
-class AKWorkItem: Dispatchable {
-    var runType = Dispatch.RunType.barrier
+final class WangkhiEmbryo: WangkhiProtocol {
+    var scratch: Scratchpad?
 
-    weak var dispatch: Dispatch?
-    var stepper: Stepper? { return dispatch?.stepper }
-
-    init(_ dispatch: Dispatch) {
-        self.dispatch = dispatch
-    }
-
-    func go() { fatalError() }
-}
-
-final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     enum Phase {
         case getStartingPosition, registerBirth, buildGuts, buildSprites
     }
 
     var birthday = 0
     var callAgain = false
+    var dispatch: Dispatch?
     var fishNumber = 0
     var gridCell: GridCell?
     var metabolism: Metabolism?
@@ -51,57 +41,39 @@ final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     var phase = Phase.getStartingPosition
     var sprite: SKSpriteNode?
     var tempStrongReference: Dispatch?
+    var workItems = [DispatchWorkItem]()
 
-    override init(_ dispatch: Dispatch) {
-        self.parent = dispatch.stepper
-        self.tempStrongReference = dispatch
+    init(_ scratch: Scratchpad) {
+        print("aWangkhiEmbryo init1")
+        self.scratch = scratch
+        self.parent = scratch.stepper
+        self.tempStrongReference = scratch.dispatch
+        print("aWangkhiEmbryo init2")
 
-        super.init(dispatch)
+        workItems = [
+            DispatchWorkItem(flags: .init(), block: getStartingPosition),
+            DispatchWorkItem(flags: .init(), block: registerBirth),
+            DispatchWorkItem(flags: .init(), block: buildGuts),
+            DispatchWorkItem(flags: .init(), block: buildSprites)
+        ]
+
+        for ss in 1..<self.workItems.count {
+            let finishedWorkItem = self.workItems[ss - 1]
+            let newWorkItem = self.workItems[ss]
+
+            finishedWorkItem.notify(queue: Grid.shared.concurrentQueue, execute: newWorkItem)
+        }
     }
 
     deinit {
-//        print("fuck")
+        print("fuck")
     }
 
-    func callAgain(_ phase: Phase, _ runType: Dispatch.RunType) {
-        guard let dp = dispatch else { fatalError() }
-
-        self.phase = phase
-        self.runType = runType
-        dp.callAgain()
-    }
-
-    override func go() { aWangkhiEmbryo() }
+    func launch() { Grid.shared.concurrentQueue.async(execute: workItems[0]) }
 }
 
 extension WangkhiEmbryo {
-    func aWangkhiEmbryo() {
-        switch phase {
-        case .getStartingPosition:
-            getStartingPosition()
-            callAgain(.registerBirth, .barrier)
-
-        case .registerBirth:
-            registerBirth {
-                self.callAgain(.buildGuts, .concurrent)
-            }
-
-        case .buildGuts:
-            buildGuts()
-            callAgain(.buildSprites, .concurrent)
-
-        case .buildSprites:
-            buildSprites()
-        }
-    }
-}
-
-extension WangkhiEmbryo {
-    func getStartingPosition() {
-        Grid.shared.serialQueue.sync { self.getStartingPosition_() }
-    }
-
-    private func getStartingPosition_() {
+    private func getStartingPosition() {
         guard let parent = self.parent else {
             self.gridCell = GridCell.getRandomGridlet_()
             return
@@ -124,10 +96,8 @@ extension WangkhiEmbryo {
         self.gridCell = foundGridlet
     }
 
-    func registerBirth(_ onComplete: @escaping () -> Void) {
-        World.stats.registerBirth(
-            myParent: nil, meOffspring: self, onComplete
-        )
+    private func registerBirth() {
+        World.stats.registerBirth_(myParent: nil, meOffspring: self)
     }
 }
 
@@ -200,7 +170,7 @@ extension WangkhiEmbryo {
 //              self.dispatch?.stepper?.name.prefix(8) ?? "wtf4b; ")
 
         let newborn: Stepper = Stepper(self, needsNewDispatch: true)
-        newborn.parentStepper = self.dispatch?.stepper
+        newborn.parentStepper = self.parent
         newborn.dispatch.stepper = newborn
 
 //        print("bbefore2",
@@ -233,22 +203,22 @@ extension WangkhiEmbryo {
 
         GriddleScene.arkonsPortal!.addChild(sprite)
 
-//        print("birth0")
-        if let dp = self.dispatch, let st = dp.stepper {
-//            print("parent0")
+        print("birth0")
+        if let dp = dispatch, let st = dp.stepper {
+            print("parent0")
 
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
 
-            dp.funge()
-//            print("parent1")
+            dp.go()
+            print("parent1")
         }
 
-//        print("birth1")
+        print("birth1")
 
-        newborn.dispatch!.funge()
+        newborn.dispatch!.go()
 
-//        print("child")
+        print("child")
     }
     //swiftmint:enable function_body_length
 }
