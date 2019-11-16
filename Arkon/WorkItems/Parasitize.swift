@@ -15,6 +15,7 @@ extension Parasitize {
         guard let victim = scr.battle?.1 else { fatalError() }
 
         victor.metabolism.parasitize(victim)
+        scr.dispatch?.funge()
     }
 }
 

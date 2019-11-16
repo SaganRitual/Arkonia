@@ -53,7 +53,6 @@ extension Eat {
 extension Eat {
     func battleArkon() {
         guard let scr = scratch else { fatalError() }
-        guard let dp = scr.dispatch else { fatalError() }
         guard let st = scr.stepper else { fatalError() }
         guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
 
@@ -62,9 +61,9 @@ extension Eat {
         guard let victimStepper = Stepper.getStepper(from: victimSprite)
             else { fatalError() }
 
-        let myMass = dp.stepper.metabolism.mass
+        let myMass = st.metabolism.mass
         let hisMass = victimStepper.metabolism.mass
-        print("combat: \(dp.stepper.name) \(myMass) <-> \(hisMass) \(victimStepper.name)")
+        print("combat: \(st.name) \(myMass) <-> \(hisMass) \(victimStepper.name)")
 
         scr.battle = (myMass > (hisMass * 1.25)) ? (st, victimStepper) : (victimStepper, st)
     }
@@ -96,6 +95,7 @@ extension Eat {
         st.metabolism.absorbEnergy(harvested)
         st.metabolism.inhale()
         MannaCoordinator.shared.beEaten(self.manna.sprite)
+        scr.dispatch?.go()
     }
 
     private func settleCombat() {

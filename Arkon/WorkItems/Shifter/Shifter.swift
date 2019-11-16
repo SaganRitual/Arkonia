@@ -34,5 +34,6 @@ final class Shifter: Dispatchable {
         )
     }
 
-    func launch() { Grid.shared.concurrentQueue.async(execute: workItems[0]) }
+    func launch() { print("launch shifter")
+        Grid.shared.concurrentQueue.async(execute: workItems[0]) }
 }

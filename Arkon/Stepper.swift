@@ -40,10 +40,7 @@ class Stepper {
         self.nose = embryo.nose
         self.sprite = embryo.sprite
 
-        if needsNewDispatch {
-            self.dispatch = Dispatch(self)
-            self.dispatch.stepper = self
-        }
+        if needsNewDispatch { self.dispatch = Dispatch(self) }
     }
 
     deinit {

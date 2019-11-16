@@ -15,23 +15,22 @@ class Scratchpad {
     var canSpawn = false
     var battle: (Stepper, Stepper)?
     weak var dispatch: Dispatch?
+    var gridCell: GridCell?
     var gridCellConnector: SafeConnectorProtocol?
     var isAlive = false
-    var safeCell: SafeCell?
-    var worldStats: World.Stats?
+    var worldStats: World.StatsCopy?
     weak var stepper: Stepper?
+
+    var safeCell:  SafeCell { return (gridCellConnector as? SafeCell)! }
+    var senseGrid: SafeSenseGrid { return (gridCellConnector as? SafeSenseGrid)! }
+    var stage:     SafeStage { return (gridCellConnector as? SafeStage)! }
+
+    init() { print("scratchpad") }
 }
 
 final class Dispatch {
-    var gridCellConnector: SafeConnectorProtocol?
-    var safeCell: SafeCell { return (gridCellConnector as? SafeCell)! }
-    var senseGrid: SafeSenseGrid { return (gridCellConnector as? SafeSenseGrid)! }
-    var stage: SafeStage { return (gridCellConnector as? SafeStage)! }
-
     var currentTask: Dispatchable!
     let name = UUID().uuidString
-    var pendingOwnerCallback: GoCall?
-    weak var stepper: Stepper!
 
     var workItemApoptosize: DispatchWorkItem?
     var workItemColorize: DispatchWorkItem?
@@ -43,6 +42,8 @@ final class Dispatch {
     var workItemParasitize: DispatchWorkItem?
     var workItemShift: DispatchWorkItem?
     var workItemWangkhi: DispatchWorkItem?
+
+    var workItems = [DispatchWorkItem]()
 
     var scratch = Scratchpad()
 
@@ -60,15 +61,18 @@ final class Dispatch {
         workItemShift      = DispatchWorkItem(block: shift)
         workItemWangkhi    = DispatchWorkItem(block: wangkhi)
 
-        workItemMetabolize!.notify(queue: Grid.shared.concurrentQueue, execute: workItemColorize!)
-        workItemColorize!.notify(queue: Grid.shared.concurrentQueue, execute: workItemShift!)
-        workItemParasitize!.notify(queue: Grid.shared.concurrentQueue, execute: workItemFunge!)
+//        workItemMetabolize!.notify(queue: <#T##DispatchQueue#>, execute: <#T##DispatchWorkItem#>)
+//        workItemColorize!.notify(queue: Grid.shared.concurrentQueue, execute: workItemShift!)
+//        workItemParasitize!.notify(queue: Grid.shared.concurrentQueue, execute: workItemFunge!)
 
-        workItemFunge!.notify(queue: Grid.shared.concurrentQueue, execute: workItemFungeRoute!)
-        Grid.shared.serialQueue.async(execute: workItemFunge!)
+//        workItemFunge!.notify(queue: Grid.shared.concurrentQueue, execute: workItemFungeRoute!)
     }
 
-    func go() { funge() }
+    func go() {
+        print("dp go pre")
+        Grid.shared.concurrentQueue.async(execute: workItemFunge!)
+        print("dp go post")
+    }
 }
 
 extension Dispatch {
@@ -78,6 +82,7 @@ extension Dispatch {
     }
 
     func colorize() {
+        print("pcolor")
         currentTask = Colorize(scratch)
         currentTask.launch()
     }
@@ -92,12 +97,14 @@ extension Dispatch {
         currentTask.launch()
     }
 
-    private func fungeRoute() {
+    func fungeRoute() {
+        print("FR1 alive = \(scratch.isAlive), canSpawn = \(scratch.canSpawn)")
         if !scratch.isAlive { apoptosize(); return }
-
+        print("FR2")
         if !scratch.canSpawn { metabolize(); return }
-
+        print("FR3")
         wangkhi()
+        print("FR4")
     }
 
     func metabolize() {

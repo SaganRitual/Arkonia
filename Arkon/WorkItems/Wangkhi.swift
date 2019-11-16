@@ -22,7 +22,8 @@ protocol WangkhiProtocol: class, Dispatchable {
 }
 
 final class WangkhiEmbryo: WangkhiProtocol {
-    var scratch: Scratchpad?
+    let scratch: Scratchpad?
+    var newScratch = Scratchpad()
 
     enum Phase {
         case getStartingPosition, registerBirth, buildGuts, buildSprites
@@ -74,6 +75,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
 
 extension WangkhiEmbryo {
     private func getStartingPosition() {
+        print("getStartingPosition")
         guard let parent = self.parent else {
             self.gridCell = GridCell.getRandomGridlet_()
             return
@@ -97,12 +99,14 @@ extension WangkhiEmbryo {
     }
 
     private func registerBirth() {
+        print("registerBirth")
         World.stats.registerBirth_(myParent: nil, meOffspring: self)
     }
 }
 
 extension WangkhiEmbryo {
     func buildGuts() {
+        print("buildGuts")
         metabolism = Metabolism()
 
         net = Net(
@@ -126,6 +130,7 @@ extension WangkhiEmbryo {
 extension WangkhiEmbryo {
 
     func buildSprites() {
+        print("buildSprites")
         let action = SKAction.run { [unowned self] in
             self.buildSprites_()
         }
@@ -156,10 +161,9 @@ extension WangkhiEmbryo {
 
         sprite.addChild(nose)
 
-        Grid.shared.serialQueue.sync {
-            gridCell.sprite = sprite
-            gridCell.contents = .arkon
-        }
+        gridCell.sprite = sprite
+        gridCell.contents = .arkon
+        scratch?.gridCell = gridCell
 
 //        print("bbefore",
 //              dispatch?.name.prefix(8) ?? "wtf4∫",
@@ -171,7 +175,6 @@ extension WangkhiEmbryo {
 
         let newborn: Stepper = Stepper(self, needsNewDispatch: true)
         newborn.parentStepper = self.parent
-        newborn.dispatch.stepper = newborn
 
 //        print("bbefore2",
 //              dispatch?.name.prefix(8) ?? "wtf5∫",
@@ -204,7 +207,7 @@ extension WangkhiEmbryo {
         GriddleScene.arkonsPortal!.addChild(sprite)
 
         print("birth0")
-        if let dp = dispatch, let st = dp.stepper {
+        if let dp = dispatch, let st = scratch?.stepper {
             print("parent0")
 
             let spawnCost = st.getSpawnCost()
@@ -216,6 +219,8 @@ extension WangkhiEmbryo {
 
         print("birth1")
 
+        scratch?.gridCell = newborn.gridCell
+        scratch?.stepper = newborn
         newborn.dispatch!.go()
 
         print("child")

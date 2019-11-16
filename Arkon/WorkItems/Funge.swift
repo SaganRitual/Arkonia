@@ -6,54 +6,65 @@ final class Funge: Dispatchable {
 
     var currentWorkItem = 0
     weak var scratch: Scratchpad?
-    var stats: World.StatsCopy!
-    var workItem: DispatchWorkItem?
+    var lockWorkItem: DispatchWorkItem?
+    var spawnIfWorkItem: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        print("Funge(\(scratch.stepper!.name))")
-
+        print("Funge init")
         self.scratch = scratch
 
-        workItem = DispatchWorkItem(flags: .init(), block: checkSpawnability)
+        spawnIfWorkItem = DispatchWorkItem(flags: .barrier, block: checkSpawnability)
     }
 
     func launch() {
-        guard let sp = scratch else { fatalError() }
-        guard let sc = sp.safeCell else { fatalError() }
-        guard let st = sp.stepper else { fatalError() }
+        print("launch")
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+        guard let gridCell = st.gridCell else { fatalError() }
 
-        let gridCell = GridCell.at(sc)
-
-        let lockWorkItem = gridCell.wiEngage(owner: st.name, require: false) {
-            guard let connector = $0 else { return }
-            self.onLock(connector)
+        lockWorkItem = gridCell.wiEngage(owner: st.name, require: false) {
+            print("engage wi")
+            guard let lockedCell = $0 else { return }
+            self.onLock(lockedCell)
         }
 
-        Grid.shared.concurrentQueue.async(execute: lockWorkItem)
+        print("L2")
+        Grid.shared.concurrentQueue.async(execute: lockWorkItem!)
+        print("L3")
     }
 
     func onLock(_ myGridCell: SafeCell?) {
-        guard let sp = scratch else { fatalError() }
-        sp.gridCellConnector = myGridCell
+        print("onLock")
+        guard let scr = scratch else { fatalError() }
+        guard let dp = scr.dispatch else { fatalError() }
 
-        stats = World.stats.copy()
+        scr.gridCellConnector = myGridCell
+
+        scr.worldStats = World.stats.copy()
+
+        spawnIfWorkItem?.notify(queue: Grid.shared.concurrentQueue, execute: dp.fungeRoute)
+        lockWorkItem?.notify(queue: Grid.shared.concurrentQueue, execute: spawnIfWorkItem!)
     }
 }
 
 extension Funge {
     func checkSpawnability() {
-        guard let sp = scratch else { fatalError() }
-        guard let st = sp.stepper else { fatalError() }
+        print("checkSpawnability")
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+        guard let ws = scr.worldStats else { fatalError() }
 
-        let age = stats.currentTime - st.birthday
+        let age = ws.currentTime - st.birthday
 
-        sp.isAlive = st.metabolism.fungeProper(age: age)
-        sp.canSpawn = st.canSpawn()
+        scr.isAlive = st.metabolism.fungeProper(age: age)
+        scr.canSpawn = st.canSpawn()
+        print("isAlive = \(scr.isAlive), canSpawn = \(scr.canSpawn)")
     }
 }
 
 extension Metabolism {
     func fungeProper(age: Int) -> Bool {
+        print("fungeProper")
         let fudgeFactor: CGFloat = 1
         let joulesNeeded = fudgeFactor * mass
 
@@ -62,6 +73,7 @@ extension Metabolism {
         let oxygenCost: Int = age < 5 ? 0 : 1
         oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
 
+        print("isAlive = \(fungibleEnergyFullness > 0 && oxygenLevel > 0)")
         return fungibleEnergyFullness > 0 && oxygenLevel > 0
     }
 }

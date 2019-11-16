@@ -2,6 +2,7 @@ import SpriteKit
 
 extension Shifter {
     func moveSprite() {
+        print("moveSprite")
         guard let scr = scratch else { fatalError() }
         guard let st = scr.stepper else { fatalError() }
         guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
@@ -17,6 +18,7 @@ extension Shifter {
     }
 
     func moveStepper() {
+        print("moveStepper")
         guard let scr = scratch else { fatalError() }
         guard let st = scr.stepper else { fatalError() }
         guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
@@ -28,6 +30,7 @@ extension Shifter {
 
 extension Shifter {
     func postMove() {
+        print("postMove")
         guard let scr = scratch else { fatalError() }
         guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
         guard let dp = scr.dispatch else { fatalError() }
@@ -37,7 +40,7 @@ extension Shifter {
             return
         }
 
-        dp.gridCellConnector = nil
+        scr.gridCellConnector = nil
         dp.funge()
     }
 }

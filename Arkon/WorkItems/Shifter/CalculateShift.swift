@@ -3,10 +3,11 @@ import SpriteKit
 extension Shifter {
 
     func calculateShift() {
+        print("calculateShift")
         let senseData = loadSenseData()
 
-        guard let dp = scratch?.dispatch else { fatalError() }
-        dp.gridCellConnector = selectMoveTarget(senseData: senseData)
+        guard let scr = scratch else { fatalError() }
+        scr.gridCellConnector = selectMoveTarget(senseData: senseData)
     }
 
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {

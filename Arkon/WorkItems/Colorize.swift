@@ -12,12 +12,14 @@ func six(_ string: String?) -> String { return String(string?.prefix(6) ?? "ottf
 
 extension Colorize {
     func aColorize() {
+        print("colorize")
         guard let sc = scratch else { fatalError() }
         guard let st = sc.stepper else { fatalError() }
         guard let ws = sc.worldStats else { fatalError() }
 
         let age = ws.currentTime - st.birthday
         st.colorizeProper(age)
+        sc.dispatch?.shift()
     }
 }
 
