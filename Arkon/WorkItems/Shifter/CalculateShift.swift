@@ -3,11 +3,12 @@ import SpriteKit
 extension Shifter {
 
     func calculateShift() {
-        print("calculateShift")
+//        print("calculateShift")
         let senseData = loadSenseData()
 
         guard let scr = scratch else { fatalError() }
         scr.gridCellConnector = selectMoveTarget(senseData: senseData)
+        Grid.shared.concurrentQueue.async(execute: moveSprite)
     }
 
     private func getMotorDataAsDictionary(_ senseData: [Double]) -> [Int: Double] {

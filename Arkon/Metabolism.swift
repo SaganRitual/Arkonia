@@ -148,7 +148,7 @@ class Metabolism {
     }
 
     func absorbEnergy(_ cJoules: CGFloat) {
-//        defer { updatePhysicsBodyMass() }
+        defer { updatePhysicsBodyMass() }
 
 //        print(
 //            "[Deposit",
@@ -181,26 +181,24 @@ class Metabolism {
 
     @discardableResult
     func withdrawFromReady(_ cJoules: CGFloat) -> CGFloat {
-//        defer { updatePhysicsBodyMass() }
+        defer { updatePhysicsBodyMass() }
 //        print("withdraw \(cJoules) joules")
         return readyEnergyReserves.withdraw(cJoules)
     }
 
     @discardableResult
     func withdrawFromSpawn(_ cJoules: CGFloat) -> CGFloat {
-//        defer { updatePhysicsBodyMass() }
+        defer { updatePhysicsBodyMass() }
         return spawnReserves.withdraw(cJoules)
     }
 
-//    func updatePhysicsBodyMass() {
-//        let m = CGFloat(self.allReserves.reduce(CGFloat.zero) { subtotal, reserves in
+    func updatePhysicsBodyMass() {
+        let m = CGFloat(self.allReserves.reduce(CGFloat.zero) { subtotal, reserves in
 //            print("wtfmass \(subtotal), \(reserves.level), \(reserves.energyDensity)")
-//            return subtotal + (reserves.level / reserves.energyDensity)
-//        }) / 1000 //+ (muscles?.mass ?? 0)
-//
-////        self.mass = m
+            return subtotal + (reserves.level / reserves.energyDensity)
+        }) / 1000 //+ (muscles?.mass ?? 0)
+
 //        print("upbmmass = \(m)")
-//
-////        setMass(to: mass)
-//    }
+        mass = m
+    }
 }

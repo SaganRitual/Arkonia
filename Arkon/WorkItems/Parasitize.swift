@@ -11,8 +11,9 @@ final class Parasitize: Dispatchable {
 extension Parasitize {
     func aParasitize() {
         guard let scr = scratch else { fatalError() }
-        guard let victor = scr.battle?.0 else { fatalError() }
-        guard let victim = scr.battle?.1 else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+        guard let victor = st.battle?.0 else { fatalError() }
+        guard let victim = st.battle?.1 else { fatalError() }
 
         victor.metabolism.parasitize(victim)
         scr.dispatch?.funge()
@@ -21,6 +22,7 @@ extension Parasitize {
 
 extension Metabolism {
     func parasitize(_ victim: Stepper) {
+//        print("parasitize")
         let spareCapacity = stomach.capacity - stomach.level
         let victimEnergy = victim.metabolism.withdrawFromReady(spareCapacity)
         let netEnergy = victimEnergy * 0.25

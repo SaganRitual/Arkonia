@@ -14,7 +14,7 @@ final class Metabolize: Dispatchable {
 
 extension Metabolize {
     func aMetabolize() {
-        print("metabolize")
+//        print("metabolize")
         guard let dp = scratch?.dispatch else { fatalError() }
         guard let st = scratch?.stepper else { fatalError() }
 

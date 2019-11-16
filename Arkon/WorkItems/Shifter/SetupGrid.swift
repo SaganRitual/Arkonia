@@ -5,24 +5,40 @@ extension Shifter {
             fatalError()
         }
 
+//        print("loadGridInputs \(six(scr.stepper!.name))")
         sensoryInputs = gcc.cells.map { self.loadGridInput_($0) }
+        Grid.shared.concurrentQueue.async(execute: calculateShift)
     }
 
     func reserveGridPoints() {
+//        print("reserveGridPoints entry")
         guard let scr = scratch else { fatalError() }
         guard let st = scr.stepper else { fatalError() }
+//        print("reserveGridPoints entry \(six(st.name))")
         guard let oldGcc = scr.gridCellConnector as? SafeCell else {
             fatalError()
         }
 
         assert(oldGcc.owner != nil)
+//        print("reserveGridPoints pre extend \(six(st.name))")
 
-        guard let newGcc = st.gridCell.extend(
-            owner: st.name, from: oldGcc, by: ArkoniaCentral.cMotorGridlets
-        ) else { fatalError() }
+        let wiReserveGridPoints = st.gridCell.extend(
+            owner: st.name,
+            from: oldGcc,
+            by: ArkoniaCentral.cMotorGridlets,
 
-        scr.gridCellConnector = newGcc
-        if (scr.gridCellConnector as? SafeSenseGrid) == nil { fatalError() }
+            onLock: { newGcc in
+//                print("reserveGridPoints post extend \(six(st.name))")
+                scr.gridCellConnector = newGcc
+                if (scr.gridCellConnector as? SafeSenseGrid) == nil { fatalError() }
+                self.loadGridInputs()
+            }
+        )
+
+//        print("reserveGridPoints start extend \(six(st.name))")
+        Grid.shared.concurrentQueue.async(flags: .barrier) {
+            wiReserveGridPoints.perform()
+        }
     }
 }
 

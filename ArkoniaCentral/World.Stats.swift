@@ -76,11 +76,11 @@ extension World.Stats {
     }
 
     func getStats(_ onComplete: @escaping OCGetStats) {
-        World.shared.lockQueue.async(flags: .barrier) { onComplete(self.copy()) }
+        Grid.shared.concurrentQueue.async(flags: .barrier) { onComplete(self.copy()) }
     }
 
     func getStats_(_ onComplete: @escaping OCGetStats) {
-        World.shared.lockQueue.async(flags: .barrier) { onComplete(self.copy()) }
+        Grid.shared.concurrentQueue.async(flags: .barrier) { onComplete(self.copy()) }
     }
 
     func getTimeSince(_ time: Int, _ onComplete: @escaping (Int) -> Void) {
@@ -128,10 +128,10 @@ extension World.Stats {
     }
 
     private func updateWorldClock() {
-        World.shared.lockQueue.async(flags: .barrier) { [unowned self] in
+        Grid.shared.concurrentQueue.async(flags: .barrier) { [unowned self] in
             self.currentTime += 1
 
-            World.shared.lockQueue.asyncAfter(deadline: DispatchTime.now() + 1) {
+            Grid.shared.concurrentQueue.asyncAfter(deadline: DispatchTime.now() + 1) {
                 [unowned self] in self.updateWorldClock()
             }
         }

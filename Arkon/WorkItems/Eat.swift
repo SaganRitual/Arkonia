@@ -26,6 +26,7 @@ final class Eat: Dispatchable {
 
 extension Eat {
     private func chooseEdible() {
+//        print("chooseEdible")
         guard let scr = scratch else { fatalError() }
         guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
 
@@ -38,6 +39,7 @@ extension Eat {
     }
 
     private func chooseBattle() {
+//        print("chooseBattle")
         guard let scr = scratch else { fatalError() }
         guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
 
@@ -52,6 +54,7 @@ extension Eat {
 
 extension Eat {
     func battleArkon() {
+        print("battleArkon")
         guard let scr = scratch else { fatalError() }
         guard let st = scr.stepper else { fatalError() }
         guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
@@ -63,12 +66,14 @@ extension Eat {
 
         let myMass = st.metabolism.mass
         let hisMass = victimStepper.metabolism.mass
-        print("combat: \(st.name) \(myMass) <-> \(hisMass) \(victimStepper.name)")
+        print("combat: \(six(st.name)) \(myMass) <-> \(hisMass) \(six(victimStepper.name))")
 
-        scr.battle = (myMass > (hisMass * 1.25)) ? (st, victimStepper) : (victimStepper, st)
+        st.battle = (myMass > (hisMass * 1.25)) ? (st, victimStepper) : (victimStepper, st)
+        victimStepper.battle = st.battle
     }
 
     func battleManna() {
+//        print("battleManna")
         guard let scr = scratch else { fatalError() }
         guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
 
@@ -87,6 +92,7 @@ extension Eat {
 
 extension Eat {
     private func defeatManna() {
+//        print("defeatManna")
         guard let scr = scratch else { fatalError() }
         guard let st = scr.stepper else { fatalError() }
 
@@ -94,15 +100,24 @@ extension Eat {
 
         st.metabolism.absorbEnergy(harvested)
         st.metabolism.inhale()
-        MannaCoordinator.shared.beEaten(self.manna.sprite)
-        scr.dispatch?.go()
+//        print("dm1")
+//        print("dm2")
+        Grid.shared.concurrentQueue.async(flags: .barrier) {
+            MannaCoordinator.shared.beEaten(self.manna.sprite)
+            scr.gridCellConnector = nil
+            scr.dispatch?.funge()
+        }
+//        print("dm3")
     }
 
     private func settleCombat() {
+//        print("settleCombat")
         guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
 
-        guard let (victor, victim) = scr.battle else { fatalError() }
+        guard let (victor, victim) = st.battle else { fatalError() }
 
+        print("Combat: \(six(victor.name)) eats \(six(victim.name))")
         victor.dispatch.parasitize()
         victim.dispatch.apoptosize()
     }

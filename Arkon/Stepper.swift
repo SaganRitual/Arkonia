@@ -2,6 +2,7 @@ import SpriteKit
 
 class Stepper {
     let allowSpawning = true
+    var battle: (Stepper, Stepper)?
     var birthday = 0
     var cOffspring = 0
     var dispatch: Dispatch!
@@ -68,11 +69,9 @@ extension Stepper {
 
 extension Stepper {
     static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
-        Grid.shared.serialQueue.sync {
-            sprite.userData![SpriteUserDataKey.stepper] = stepper
-            sprite.name = stepper.name
-//            print("attachStepper", sprite.name ?? "no sprite name?", stepper.name)
-        }
+        sprite.userData![SpriteUserDataKey.stepper] = stepper
+        sprite.name = stepper.name
+//        print("attachStepper", sprite.name ?? "no sprite name?", stepper.name)
     }
 
     static func getStepper(from sprite: SKSpriteNode, require: Bool = true) -> Stepper? {
@@ -89,7 +88,7 @@ extension Stepper {
                 failIf(); return nil }
 
         guard let embryo = userData[SpriteUserDataKey.stepper]
-            else {// print("sprite name \(sprite.name ?? "wtf?") userData \(userData)");
+            else { //print("sprite name \(sprite.name ?? "wtf?") userData \(userData)")
                 failIf(); return nil }
 
         guard let stepper = embryo as? Stepper
@@ -100,10 +99,8 @@ extension Stepper {
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
-        Grid.shared.serialQueue.sync {
-//            print("detachStepper", stepper.name, sprite.name ?? "no sprite name")
-            if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
-            sprite.userData![SpriteUserDataKey.stepper] = nil
-        }
+//        print("detachStepper", stepper.name, sprite.name ?? "no sprite name")
+        if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
+        sprite.userData![SpriteUserDataKey.stepper] = nil
     }
 }

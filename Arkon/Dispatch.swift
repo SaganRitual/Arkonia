@@ -13,7 +13,6 @@ extension Dispatchable {
 
 class Scratchpad {
     var canSpawn = false
-    var battle: (Stepper, Stepper)?
     weak var dispatch: Dispatch?
     var gridCell: GridCell?
     var gridCellConnector: SafeConnectorProtocol?
@@ -25,7 +24,7 @@ class Scratchpad {
     var senseGrid: SafeSenseGrid { return (gridCellConnector as? SafeSenseGrid)! }
     var stage:     SafeStage { return (gridCellConnector as? SafeStage)! }
 
-    init() { print("scratchpad") }
+//    init() { print("scratchpad") }
 }
 
 final class Dispatch {
@@ -69,9 +68,9 @@ final class Dispatch {
     }
 
     func go() {
-        print("dp go pre")
+//        print("dp go pre")
         Grid.shared.concurrentQueue.async(execute: workItemFunge!)
-        print("dp go post")
+//        print("dp go post")
     }
 }
 
@@ -82,7 +81,7 @@ extension Dispatch {
     }
 
     func colorize() {
-        print("pcolor")
+//        print("pcolor")
         currentTask = Colorize(scratch)
         currentTask.launch()
     }
@@ -98,13 +97,13 @@ extension Dispatch {
     }
 
     func fungeRoute() {
-        print("FR1 alive = \(scratch.isAlive), canSpawn = \(scratch.canSpawn)")
+//        print("FR1 alive = \(scratch.isAlive), canSpawn = \(scratch.canSpawn)")
         if !scratch.isAlive { apoptosize(); return }
-        print("FR2")
+//        print("FR2")
         if !scratch.canSpawn { metabolize(); return }
-        print("FR3")
+//        print("FR3")
         wangkhi()
-        print("FR4")
+//        print("FR4")
     }
 
     func metabolize() {

@@ -45,15 +45,15 @@ final class WangkhiEmbryo: WangkhiProtocol {
     var workItems = [DispatchWorkItem]()
 
     init(_ scratch: Scratchpad) {
-        print("aWangkhiEmbryo init1")
+//        print("aWangkhiEmbryo init1")
         self.scratch = scratch
         self.parent = scratch.stepper
         self.tempStrongReference = scratch.dispatch
-        print("aWangkhiEmbryo init2")
+//        print("aWangkhiEmbryo init2")
 
         workItems = [
             DispatchWorkItem(flags: .init(), block: getStartingPosition),
-            DispatchWorkItem(flags: .init(), block: registerBirth),
+            DispatchWorkItem(flags: .barrier, block: registerBirth),
             DispatchWorkItem(flags: .init(), block: buildGuts),
             DispatchWorkItem(flags: .init(), block: buildSprites)
         ]
@@ -62,12 +62,16 @@ final class WangkhiEmbryo: WangkhiProtocol {
             let finishedWorkItem = self.workItems[ss - 1]
             let newWorkItem = self.workItems[ss]
 
-            finishedWorkItem.notify(queue: Grid.shared.concurrentQueue, execute: newWorkItem)
+            let flags: DispatchWorkItemFlags = ss == 1 ? .barrier : []
+
+            finishedWorkItem.notify(flags: flags, queue: Grid.shared.concurrentQueue) {
+                newWorkItem.perform()
+            }
         }
     }
 
     deinit {
-        print("fuck")
+//        print("fuck")
     }
 
     func launch() { Grid.shared.concurrentQueue.async(execute: workItems[0]) }
@@ -75,7 +79,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
 
 extension WangkhiEmbryo {
     private func getStartingPosition() {
-        print("getStartingPosition")
+//        print("getStartingPosition")
         guard let parent = self.parent else {
             self.gridCell = GridCell.getRandomGridlet_()
             return
@@ -99,14 +103,14 @@ extension WangkhiEmbryo {
     }
 
     private func registerBirth() {
-        print("registerBirth")
+//        print("registerBirth")
         World.stats.registerBirth_(myParent: nil, meOffspring: self)
     }
 }
 
 extension WangkhiEmbryo {
     func buildGuts() {
-        print("buildGuts")
+//        print("buildGuts")
         metabolism = Metabolism()
 
         net = Net(
@@ -130,7 +134,7 @@ extension WangkhiEmbryo {
 extension WangkhiEmbryo {
 
     func buildSprites() {
-        print("buildSprites")
+//        print("buildSprites")
         let action = SKAction.run { [unowned self] in
             self.buildSprites_()
         }
@@ -206,24 +210,24 @@ extension WangkhiEmbryo {
 
         GriddleScene.arkonsPortal!.addChild(sprite)
 
-        print("birth0")
+//        print("birth0")
         if let dp = dispatch, let st = scratch?.stepper {
-            print("parent0")
+//            print("parent0")
 
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
 
             dp.go()
-            print("parent1")
+//            print("parent1")
         }
 
-        print("birth1")
+//        print("birth1")
 
         scratch?.gridCell = newborn.gridCell
         scratch?.stepper = newborn
         newborn.dispatch!.go()
 
-        print("child")
+//        print("child")
     }
     //swiftmint:enable function_body_length
 }
