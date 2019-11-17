@@ -106,6 +106,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
         readyForDisplayCycle = true
     }
 
+    var dumbCount = 0
     override func update(_ currentTime: TimeInterval) {
         guard readyForDisplayCycle else { return }
 
@@ -115,5 +116,11 @@ class GriddleScene: SKScene, SKSceneDelegate {
         Display.displayCycle = .updateStarted
 
         Display.displayCycle = .actions
+
+        tickCount += 1
+        if (tickCount % 60) == 0 && dumbCount < 25 {
+            dumbCount += 1
+            Dispatch().wangkhi()
+        }
     }
 }

@@ -2,14 +2,13 @@ import SpriteKit
 
 class Stepper {
     let allowSpawning = true
-    var battle: (Stepper, Stepper)?
     var birthday = 0
     var cOffspring = 0
     var dispatch: Dispatch!
     var fishNumber = 0
     weak var gridCell: GridCell!
     var metabolism: Metabolism!
-    let name = UUID().uuidString
+    let name: String
     var net: Net!
     var netDisplay: NetDisplay?
     var nose: SKSpriteNode!
@@ -21,21 +20,12 @@ class Stepper {
     var previousShiftOffset = AKPoint.zero
     var sprite: SKSpriteNode!
 
-    init(_ parentStepper: Stepper? = nil) {
-        self.parentStepper = parentStepper
-        self.parentActivator = parentStepper?.net?.activatorFunction
-        self.parentBiases = parentStepper?.net?.biases
-        self.parentLayers = parentStepper?.net?.layers
-        self.parentWeights = parentStepper?.net?.weights
-
-        dispatch = Dispatch(self)
-    }
-
     init(_ embryo: WangkhiEmbryo, needsNewDispatch: Bool = false) {
         self.birthday = embryo.birthday
         self.fishNumber = embryo.fishNumber
         self.gridCell = embryo.gridCell
         self.metabolism = embryo.metabolism
+        self.name = embryo.embryoName
         self.net = embryo.net
         self.netDisplay = embryo.netDisplay
         self.nose = embryo.nose
@@ -45,7 +35,7 @@ class Stepper {
     }
 
     deinit {
-//        print("stepper deinit", name)
+//        Log.L.write("stepper deinit", six(name))
         World.stats.decrementPopulation(nil)
     }
 
@@ -67,39 +57,22 @@ extension Stepper {
     }
 }
 
+func spriteAKName(_ sprite: SKSpriteNode) -> String {
+    guard let userData = sprite.userData else { fatalError() }
+    guard let entry = userData["UUID"] as? String else { fatalError() }
+    return entry
+}
+
 extension Stepper {
     static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
         sprite.userData![SpriteUserDataKey.stepper] = stepper
+        if sprite.userData?["UUID"] == nil { sprite.userData!["UUID"] = UUID().uuidString }
         sprite.name = stepper.name
-//        print("attachStepper", sprite.name ?? "no sprite name?", stepper.name)
-    }
-
-    static func getStepper(from sprite: SKSpriteNode, require: Bool = true) -> Stepper? {
-        func failIf() { if require { fatalError() } }
-
-        if sprite.name == nil {
-//            print("nothing")
-            failIf()
-            return nil
-        }
-
-        guard let userData = sprite.userData
-            else { //print("sprite name \(sprite.name ?? "wtf?")");
-                failIf(); return nil }
-
-        guard let embryo = userData[SpriteUserDataKey.stepper]
-            else { //print("sprite name \(sprite.name ?? "wtf?") userData \(userData)")
-                failIf(); return nil }
-
-        guard let stepper = embryo as? Stepper
-            else {// print("sprite name \(sprite.name ?? "wtf?") userData \(userData)");
-                failIf(); return nil }
-
-        return stepper
+        Log.L.write("attachStepper \(six(stepper.name)), \(six(spriteAKName(sprite)))")
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
-//        print("detachStepper", stepper.name, sprite.name ?? "no sprite name")
+        Log.L.write("detachStepper \(six(stepper.name)) from sprite \(spriteAKName(sprite))")
         if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
         sprite.userData![SpriteUserDataKey.stepper] = nil
     }

@@ -34,12 +34,6 @@ extension World {
         private(set) var highWaterAge = 0
         private(set) var highWaterCOffspring = 0
 
-        private let lockQueue = DispatchQueue(
-            label: "arkonia.lock.world.stats", qos: .utility,
-            attributes: DispatchQueue.Attributes.concurrent,
-            target: DispatchQueue.global()
-        )
-
         var gameAge: Int { return currentTime }
 
         init() { updateWorldClock() }
@@ -62,35 +56,35 @@ extension World.Stats {
     typealias OCGetStats = (World.StatsCopy) -> Void
 
     func decrementPopulation(_ onComplete: OCGetStats?) {
-        World.shared.lockQueue.async(flags: .barrier) { [unowned self] in
+        Grid.shared.concurrentQueue.sync(flags: .barrier) { [unowned self] in
             self.currentPopulation -= 1
             onComplete?(self.copy())
         }
     }
 
     func getNextFishNumber(_ onComplete: @escaping (Int) -> Void) {
-        World.shared.lockQueue.async(flags: .barrier) {
+        Grid.shared.concurrentQueue.sync(flags: .barrier) {
             defer { World.stats.TheFishNumber += 1 }
             onComplete(World.stats.TheFishNumber)
         }
     }
 
     func getStats(_ onComplete: @escaping OCGetStats) {
-        Grid.shared.concurrentQueue.async(flags: .barrier) { onComplete(self.copy()) }
+        Grid.shared.concurrentQueue.sync(flags: .barrier) { [unowned self] in onComplete(self.copy()) }
     }
 
     func getStats_(_ onComplete: @escaping OCGetStats) {
-        Grid.shared.concurrentQueue.async(flags: .barrier) { onComplete(self.copy()) }
+        Grid.shared.concurrentQueue.sync(flags: .barrier) { [unowned self] in onComplete(self.copy()) }
     }
 
     func getTimeSince(_ time: Int, _ onComplete: @escaping (Int) -> Void) {
-        World.shared.lockQueue.async(flags: .barrier) {
+        Grid.shared.concurrentQueue.sync(flags: .barrier) { [unowned self] in
             onComplete(self.currentTime - time)
         }
     }
 
     func registerAge(_ age: Int, _ onComplete: @escaping OCGetStats) {
-        World.shared.lockQueue.async(flags: .barrier) {
+        Grid.shared.concurrentQueue.sync(flags: .barrier) { [unowned self] in
             self.maxLivingAge = max(age, self.maxLivingAge)
             self.highWaterAge = max(self.maxLivingAge, self.highWaterAge)
             onComplete(self.copy())
@@ -102,7 +96,7 @@ extension World.Stats {
         meOffspring: WangkhiProtocol,
         _ onComplete: @escaping () -> Void
     ) {
-        World.shared.lockQueue.async(flags: .barrier) {
+        Grid.shared.concurrentQueue.sync(flags: .barrier) {
             [unowned self] in self.registerBirth_(myParent: myParent, meOffspring: meOffspring)
             onComplete()
         }
@@ -128,7 +122,7 @@ extension World.Stats {
     }
 
     private func updateWorldClock() {
-        Grid.shared.concurrentQueue.async(flags: .barrier) { [unowned self] in
+        Grid.shared.concurrentQueue.sync(flags: .barrier) { [unowned self] in
             self.currentTime += 1
 
             Grid.shared.concurrentQueue.asyncAfter(deadline: DispatchTime.now() + 1) {

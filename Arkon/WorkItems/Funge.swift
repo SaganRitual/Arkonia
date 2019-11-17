@@ -2,76 +2,52 @@ import CoreGraphics
 import Foundation
 
 final class Funge: Dispatchable {
-    enum Phase { case lockGrid, getWorldStats, checkSpawnability, execute }
-
-    var currentWorkItem = 0
     weak var scratch: Scratchpad?
-    var lockWorkItem: DispatchWorkItem?
+    var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-//        print("Funge init")
         self.scratch = scratch
+        self.wiLaunch = DispatchWorkItem(flags: .barrier, block: launch_)
     }
 
     func launch() {
-        guard let scr = scratch else { fatalError() }
-        guard let st = scr.stepper else { fatalError() }
-        guard let gridCell = st.gridCell else { fatalError() }
-//        print("launch \(six(st.name))")
-
-        lockWorkItem = gridCell.wiEngage(owner: st.name, require: false) {
-            guard let lockedCell = $0 else {
-//                print("miss wi")
-                return
-            }
-//            print("engage wi")
-            self.onLock(lockedCell)
-        }
-
-//        print("L1")
-        Grid.shared.concurrentQueue.async(flags: .barrier) {
-            self.lockWorkItem?.perform()
-        }
-//        print("L2")
+        guard let w = wiLaunch else { fatalError() }
+        Grid.shared.concurrentQueue.async(execute: w)
     }
 
-    func onLock(_ myGridCell: SafeCell?) {
-//        print("onLock")
-        guard let scr = scratch else { fatalError() }
-        guard let dp = scr.dispatch else { fatalError() }
-
-        if myGridCell == nil {
-//            print("not locked \(myGridCell!.gridPosition)")
-        } else {
-//            print("locked \(myGridCell!.gridPosition)")
-        }
-
-        scr.gridCellConnector = myGridCell
-        scr.worldStats = World.stats.copy()
-
-        checkSpawnability()
-        dp.fungeRoute()
+    func launch_() {
+        let (isAlive, canSpawn) = checkSpawnability()
+        fungeRoute(isAlive, canSpawn)
     }
 }
 
 extension Funge {
-    func checkSpawnability() {
-//        print("checkSpawnability")
-        guard let scr = scratch else { fatalError() }
-        guard let st = scr.stepper else { fatalError() }
-        guard let ws = scr.worldStats else { fatalError() }
+    func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool) {
+        guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
+
+        if !isAlive { dp.apoptosize(wiLaunch!); return }
+        if !canSpawn { dp.metabolize(wiLaunch!); return }
+
+        dp.wangkhi(wiLaunch!)
+    }
+}
+
+extension Funge {
+    func checkSpawnability() -> (Bool, Bool) {
+        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let ws = ch.worldStats else { fatalError() }
 
         let age = ws.currentTime - st.birthday
 
-        scr.isAlive = st.metabolism.fungeProper(age: age)
-        scr.canSpawn = st.canSpawn()
-//        print("isAlive = \(scr.isAlive), canSpawn = \(scr.canSpawn)")
+        let isAlive = st.metabolism.fungeProper(age: age)
+        let canSpawn = st.canSpawn()
+
+        return (isAlive, canSpawn)
     }
 }
 
 extension Metabolism {
     func fungeProper(age: Int) -> Bool {
-//        print("fungeProper")
         let fudgeFactor: CGFloat = 1
         let joulesNeeded = fudgeFactor * mass
 
@@ -80,7 +56,6 @@ extension Metabolism {
         let oxygenCost: Int = age < 5 ? 0 : 1
         oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
 
-//        print("isAlive = \(fungibleEnergyFullness > 0 && oxygenLevel > 0)")
         return fungibleEnergyFullness > 0 && oxygenLevel > 0
     }
 }

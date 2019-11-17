@@ -42,15 +42,12 @@ struct Census {
             let liveArkonsAges: [Int] = GriddleScene.arkonsPortal!.children.compactMap { node in
                 guard let sprite = node as? SKSpriteNode else { fatalError() }
 
-                guard let stepper = Stepper.getStepper(from: sprite, require: false)
-                    else { return nil }
+                guard let stepper = sprite.getStepper(require: false) else { return nil }
 
                 return currentTime - stepper.birthday
             }
 
-            if liveArkonsAges.count < 25 {
-                Dispatch().wangkhi()
-            }
+            if liveArkonsAges.count < 1 { Dispatch().wangkhi() }
 
             if liveArkonsAges.isEmpty { partA() } else { partD() }
         }

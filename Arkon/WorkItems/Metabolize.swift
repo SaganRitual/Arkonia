@@ -2,24 +2,27 @@ import GameplayKit
 
 final class Metabolize: Dispatchable {
     weak var scratch: Scratchpad?
+    var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
+        self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
     }
 
     func launch() {
-        Grid.shared.concurrentQueue.async(execute: aMetabolize)
+        guard let w = wiLaunch else { fatalError() }
+        Grid.shared.concurrentQueue.async(execute: w)
     }
+
+    private func launch_() { aMetabolize() }
 }
 
 extension Metabolize {
     func aMetabolize() {
-//        print("metabolize")
-        guard let dp = scratch?.dispatch else { fatalError() }
-        guard let st = scratch?.stepper else { fatalError() }
+        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
         st.metabolism.metabolizeProper()
-        dp.colorize()
+        dp.colorize(wiLaunch!)
     }
 }
 

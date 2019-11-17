@@ -81,7 +81,7 @@ struct EnergyReserve {
         let net = min(level, cJoules)
 //        let bevel = level
         level -= net
-//        print("wd \(cJoules) -> \(net), from \(bevel) to \(level)")
+//        Log.L.write("wd \(cJoules) -> \(net), from \(bevel) to \(level)")
         return net
     }
 }
@@ -150,7 +150,7 @@ class Metabolism {
     func absorbEnergy(_ cJoules: CGFloat) {
         defer { updatePhysicsBodyMass() }
 
-//        print(
+//        Log.L.write(
 //            "[Deposit",
 //            String(format: "% 6.2f ", stomach.level),
 //            String(format: "% 6.2f ", readyEnergyReserves.level),
@@ -162,7 +162,7 @@ class Metabolism {
 
         stomach.deposit(cJoules)
 
-//        print(
+//        Log.L.write(
 //            " Deposit",
 //            String(format: "% 6.2f ", stomach.level),
 //            String(format: "% 6.2f ", readyEnergyReserves.level),
@@ -174,15 +174,15 @@ class Metabolism {
     }
 
     func inhale() {
-        oxygenLevel = constrain(1, lo: 0, hi: 1)
+        oxygenLevel = constrain(1.0, lo: 0.0, hi: 1.0)
 
-//        print("d", arkon.arkon.selectoid.fishNumber, arkon.arkon.metabolism.oxygenLevel)
+//        Log.L.write("d", arkon.arkon.selectoid.fishNumber, arkon.arkon.metabolism.oxygenLevel)
     }
 
     @discardableResult
     func withdrawFromReady(_ cJoules: CGFloat) -> CGFloat {
         defer { updatePhysicsBodyMass() }
-//        print("withdraw \(cJoules) joules")
+//        Log.L.write("withdraw \(cJoules) joules")
         return readyEnergyReserves.withdraw(cJoules)
     }
 
@@ -194,11 +194,11 @@ class Metabolism {
 
     func updatePhysicsBodyMass() {
         let m = CGFloat(self.allReserves.reduce(CGFloat.zero) { subtotal, reserves in
-//            print("wtfmass \(subtotal), \(reserves.level), \(reserves.energyDensity)")
+//            Log.L.write("wtfmass \(subtotal), \(reserves.level), \(reserves.energyDensity)")
             return subtotal + (reserves.level / reserves.energyDensity)
         }) / 1000 //+ (muscles?.mass ?? 0)
 
-//        print("upbmmass = \(m)")
+//        Log.L.write("upbmmass = \(m)")
         mass = m
     }
 }

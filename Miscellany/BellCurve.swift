@@ -31,9 +31,7 @@ class BellCurve_ {
 
     static func getRandom() -> Double {
         let u = randomDistribution.nextUniform()
-        print("u = \(u), ", terminator: "")
         let du = Double(u)
-        print("du = \(du)")
         return du
     }
 }
@@ -52,7 +50,7 @@ class BellCurve {
 
         // Convert z1 from the Standard Normal Distribution to our Normal Distribution
         // Note that the conversion will give us a range of -10..<10. I still want -1..<1
-//        print((z1 * deviation + mean).sTruncate())
+//        Log.L.write((z1 * deviation + mean).sTruncate())
         return (z1 * deviation + mean) / 10.0
     }
 }

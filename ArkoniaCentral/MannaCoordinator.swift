@@ -33,7 +33,7 @@ class MannaCoordinator {
 
         var manna: Manna!
 
-        let action = SKAction.run {
+        let action = SKAction.run { [unowned self] in
             let sprite = self.mannaSpriteFactory!.mannaHangar.makeSprite()
             GriddleScene.arkonsPortal!.addChild(sprite)
 
@@ -43,7 +43,7 @@ class MannaCoordinator {
             self.cMorsels += 1
         }
 
-        GriddleScene.arkonsPortal.run(action) {
+        GriddleScene.arkonsPortal.run(action) { [unowned self] in
             self.plant(manna)
             self.populate()
         }
@@ -52,25 +52,21 @@ class MannaCoordinator {
 
 extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
-        var gridCell: GridCell?
+        Grid.shared.concurrentQueue.async(flags: .barrier) { [unowned self] in
+            let gridCell = GridCell.getRandomEmptyCell()
+            gridCell.contents = .manna
+            gridCell.sprite = sprite
 
-        GridCell.getRandomGridlet {
-            gridCell = $0
-            gridCell!.contents = .manna
-            gridCell!.sprite = sprite
-
-            guard sprite.userData?[SpriteUserDataKey.manna] is Manna else { fatalError() }
+            guard let manna = sprite.getManna() else { fatalError() }
+            manna.sprite.alpha = 0
+            self.plant(manna)
         }
-
-        guard let manna = Manna.getManna(from: sprite) else { fatalError() }
-        manna.sprite.alpha = 0
-        plant(manna)
     }
 }
 
 extension MannaCoordinator {
     private func plant_(_ manna: Manna) {
-        let gridCell = GridCell.getRandomGridlet_()
+        let gridCell = GridCell.getRandomEmptyCell()
 
         gridCell.contents = .manna
         gridCell.sprite = manna.sprite
@@ -90,6 +86,6 @@ extension MannaCoordinator {
     }
 
     func plant(_ manna: Manna) {
-        Grid.shared.concurrentQueue.async(flags: .barrier) { self.plant_(manna) }
+        Grid.shared.concurrentQueue.sync(flags: .barrier) { [unowned self] in self.plant_(manna) }
     }
 }

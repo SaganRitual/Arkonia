@@ -48,7 +48,7 @@ enum ColorGradient {
         let blueByteWise = min(Int(bluePercentage * 256), 255)
 
         let hexRGB = baseColor + (redByteWise << 16) + blueByteWise
-//        print("hexRGB", String(format: "0x%06X", hexRGB))
+//        Log.L.write("hexRGB", String(format: "0x%06X", hexRGB))
         return makeColor(hexRGB: hexRGB)
     }
 }
