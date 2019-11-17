@@ -2,20 +2,32 @@ import Foundation
 
 final class Shift: Dispatchable {
 
-    enum Phase { case configureGrid, calculateShift, shift, postShift }
+    enum Phase {
+        case reserveGridPoints, loadGridInputs
+        case calculateShift, releaseGridPoints, shift, postShift
+    }
 
     weak var dispatch: Dispatch!
     var oldGridlet: GridletCopy?
-    var phase: Phase = .configureGrid
-    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    var phase: Phase = .reserveGridPoints
+    var runAsBarrier: Bool = true
+    var senseData = [Double]()
     var sensoryInputs = [(Double, Double)]()
-    var shiftTarget: AKPoint?
+    var shiftTarget: Gridlet?
     var stepper: Stepper { return dispatch.stepper }
-    var usableGridOffsets = [AKPoint]()
+    var usableGridlets = [Gridlet]()
 
     init(_ dispatch: Dispatch) {
         self.dispatch = dispatch
     }
+
+    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
+        self.phase = phase
+        self.runAsBarrier = runAsBarrier
+        dispatch.callAgain()
+    }
+
+    func getResult() -> GridletCopy? { return oldGridlet }
 
     func go() { self.aShift() }
 
@@ -23,56 +35,50 @@ final class Shift: Dispatchable {
 
 extension Shift {
     func aShift() {
-        assert(dispatch.runningAsBarrier == true)
-
         switch phase {
-        case .configureGrid:
-            setupGrid()
-
-            phase = .calculateShift
-            dispatch.callAgain()
+        case .reserveGridPoints:
+            reserveGridPoints()
+            loadGridInputs()
+            callAgain(.calculateShift, false)
 
         case .calculateShift:
             calculateShift()
+            callAgain(.releaseGridPoints, true)
 
-            phase = .shift
-            dispatch.callAgain()
+        case .releaseGridPoints:
+            releaseGridPoints()
+            callAgain(.shift, true)
 
         case .shift:
-            shift()
+            shift {
+                self.callAgain(.postShift, true)
+            }
 
         case .postShift:
             postShift()
+
+        case .loadGridInputs: fatalError()
         }
     }
 
-    func setupGrid() {
-        assert(runningAsBarrier == true)
-        reserveGridPoints()
-        loadGridInputs()
-    }
-
     private func loadGridInputs() {
-        assert(runningAsBarrier == true)
-
-        sensoryInputs = Grid.gridInputs.map { step in
-            return self.loadGridInputs_(step)
+        sensoryInputs = (0..<ArkoniaCentral.cSenseGridlets).map { index in
+            let gridPoint = stepper.getGridPointByIndex(index)
+            return self.loadGridInput_(gridPoint)
         }
     }
 
     private func reserveGridPoints() {
-        assert(runningAsBarrier == true)
-        usableGridOffsets = Grid.moves.compactMap { offset in
-            reserveGridPoints_(offset)
+        usableGridlets = (0..<ArkoniaCentral.cMotorGridlets).compactMap { index in
+            let gridPoint = stepper.getGridPointByIndex(index, absolute: false)
+            return reserveGridPoint_(gridPoint)
         }
     }
 }
 
 extension Shift {
 
-    private func loadGridInputs_(_ step: AKPoint) -> (Double, Double) {
-        assert(runningAsBarrier == true)
-
+    private func loadGridInput_(_ step: AKPoint) -> (Double, Double) {
         let inputGridlet = step + stepper.gridlet.gridPosition
         if !Gridlet.isOnGrid(inputGridlet.x, inputGridlet.y) {
             return (Gridlet.Contents.nothing.rawValue, -1e6)
@@ -91,28 +97,21 @@ extension Shift {
             let manna = Manna.getManna(from: sprite)
             nutrition = Double(manna.energyContentInJoules)
 
-        case .nothing: fallthrough
-        case .unknown:
+        case .nothing:
             nutrition = 0
         }
 
         return (targetGridlet.contents.rawValue, nutrition)
     }
 
-    func reserveGridPoints_(_ offset: AKPoint) -> AKPoint? {
-        assert(runningAsBarrier == true)
+    func reserveGridPoint_(_ offset: AKPoint) -> Gridlet? {
+        let tp = stepper.gridlet.gridPosition + offset
 
-        let targetGridPoint = stepper.gridlet.gridPosition + offset
+        guard let targetGridlet = Gridlet.atIf(tp.x, tp.y) else { return nil }
 
-        if Gridlet.isOnGrid(targetGridPoint.x, targetGridPoint.y) {
-            let targetGridlet = Gridlet.at(targetGridPoint)
+        if targetGridlet.gridletIsEngaged { return nil }
 
-            if !targetGridlet.gridletIsEngaged {
-                targetGridlet.gridletIsEngaged = true
-                return offset
-            }
-        }
-
-        return nil
+        targetGridlet.gridletIsEngaged = true
+        return targetGridlet
     }
 }

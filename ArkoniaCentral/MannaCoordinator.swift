@@ -3,126 +3,74 @@ import SpriteKit
 class MannaCoordinator {
     static var shared: MannaCoordinator!
 
-    static let cMorsels = 3500
+    static let colorAction = SKAction.colorize(
+        with: .blue, colorBlendFactor: Manna.colorBlendMaximum,
+        duration: Manna.fullGrowthDurationSeconds
+    )
+
+    static let fadeInAction = SKAction.fadeIn(withDuration: 0.001)
+    static let fadeOutAction = SKAction.fadeOut(withDuration: 0.001)
+
+    static let cMorsels = 500
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
-    static private let lockQueue = DispatchQueue(
-        label: "arkonia.mannaq", qos: .userInitiated,
-        attributes: .concurrent//,
-//        target: DispatchQueue.global()
-    )
-
-    static func lock<T>(
-        _ execute: Sync.Lockable<T>.LockExecute? = nil,
-        _ userOnComplete: Sync.Lockable<T>.LockOnComplete? = nil,
-        _ completionMode: Sync.CompletionMode = .concurrent
-    ) {
-        func debugEx() -> [T]? { print("Manna.barrier"); return execute?() }
-        func debugOc(_ args: [T]?) { print("Manna.concurrent"); userOnComplete?(args) }
-
-        Sync.Lockable<T>(lockQueue).lock(
-            debugEx, debugOc, completionMode
-        )
-    }
-
     init() {
         mannaSpriteFactory = Wangkhi.spriteFactory
-        MannaCoordinator.lockQueue.async { self.populate() }
+        populate()
+    }
+
+    private func bloom(_ manna: Manna) {
+        let action = SKAction.group([
+            MannaCoordinator.fadeInAction,
+            MannaCoordinator.colorAction
+        ])
+
+        manna.sprite.run(action)
     }
 
     func populate() {
-//        print("p1")
         if cMorsels >= MannaCoordinator.cMorsels { return }
-//        print("p2")
+
+        var manna: Manna!
 
         let action = SKAction.run {
-//            print("p3")
             let sprite = self.mannaSpriteFactory!.mannaHangar.makeSprite()
             GriddleScene.arkonsPortal!.addChild(sprite)
 
-            let manna = Manna(sprite)
-            sprite.userData = [SpriteUserDataKey.manna: manna]
-//            print("p4")
-            self.plant(manna)
-//            print("p5")
-        }
-//        print("p6")
+            manna = Manna(sprite)
+            sprite.userData = [SpriteUserDataKey.manna: manna!]
 
-        GriddleScene.arkonsPortal.run(action)
+            self.cMorsels += 1
+        }
+
+        GriddleScene.arkonsPortal.run(action) {
+            self.plant(manna)
+            self.populate()
+        }
     }
 }
 
 extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
-        Grid.lock({ () -> [Gridlet]? in
-            let grs = Gridlet.getRandomGridlet_()
-            return grs
-        }, { grs in
-            guard let gridlets = grs else { fatalError() }
-            let gridlet = gridlets[0]
+        var gridlet: Gridlet?
 
-            gridlet.contents = .manna
-            gridlet.sprite = sprite
+        Gridlet.getRandomGridlet {
+            gridlet = $0
+            gridlet!.contents = .manna
+            gridlet!.sprite = sprite
+        }
 
-            let manna = Manna.getManna(from: sprite)
-            self.recycle(manna, at: gridlet)
-        },
-           .continueBarrier
-        )
-    }
-
-    private func recycle(_ manna: Manna, at gridlet: Gridlet) {
-        manna.sprite.userData!["recycler"] =
-            MannaCoordinator.MannaRecycler(manna, gridlet, self)
-
-        ((manna.sprite.userData!["recycler"])! as?
-            MannaCoordinator.MannaRecycler)!.go()
+        let manna = Manna.getManna(from: sprite)
+        manna.sprite.alpha = 0
+        plant(manna)
     }
 }
 
 extension MannaCoordinator {
-    private func plant(_ manna: Manna) {
-        Grid.lock({ () -> [Gridlet]? in
-            let gridlet = Gridlet.getRandomGridlet_()
-//            print("pl1")
-            MannaCoordinator.plantSingleManna(manna, at: gridlet![0])
-            return nil
-        }, {
-            _ in
-//            print("pl2")
-            self.finishPlanting(manna)
-        }, .concurrent)
-    }
+    private func plant_(_ manna: Manna) {
+        let gridlet = Gridlet.getRandomGridlet_()
 
-    private func finishPlanting(_ manna: Manna) {
-//        print("finishPlanting_")
-        manna.sprite.alpha = 0
-        manna.sprite.setScale(0.1)
-        manna.sprite.color = .orange
-        manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
-
-        let run = SKAction.run {}// print("in fp action") }
-
-        let sequence = SKAction.sequence([
-            run,
-            MannaCoordinator.MannaRecycler.fadeInAction
-        ])
-
-        manna.sprite.run(sequence) {
-//            print("sprite.run")
-            self.cMorsels += 1
-            MannaCoordinator.lockQueue.async(execute: self.populate)
-
-            manna.sprite.run(
-                MannaCoordinator.MannaRecycler.colorAction
-            )
-        }
-    }
-
-    static func plantSingleManna(
-        _ manna: Manna, at gridlet: Gridlet
-    ) {
         gridlet.contents = .manna
         gridlet.sprite = manna.sprite
 
@@ -131,8 +79,16 @@ extension MannaCoordinator {
         } else {
             manna.sprite.position = gridlet.scenePosition
         }
-    }
-}
 
-extension MannaCoordinator {
+        manna.sprite.alpha = 0
+        manna.sprite.setScale(0.1)
+        manna.sprite.color = .green
+        manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
+
+        bloom(manna)
+    }
+
+    func plant(_ manna: Manna) {
+        Grid.shared.serialQueue.async { self.plant_(manna) }
+    }
 }

@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D4171CB8236D1C850072EC1C /* Grid.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4171CB7236D1C850072EC1C /* Grid.Setup.swift */; };
 		D422DE0223578CFD003734B8 /* MannaCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* MannaCoordinator.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
-		D42323C0235B6B6700981265 /* Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42323BF235B6B6700981265 /* Sync.swift */; };
 		D464BA3322C737260069623C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D464BA3722C737260069623C /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D464BA3922C737260069623C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
@@ -38,8 +38,6 @@
 		D495F0C8233FA6E9007D6E86 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D40985F222650B0B009DD384 /* Info.plist */; };
 		D495F0CC233FA969007D6E86 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D495F0CF233FAB01007D6E86 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495F0CE233FAB01007D6E86 /* Mutator.swift */; };
-		D499AC09236406F80001BC21 /* MannaRecycler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D499AC08236406F80001BC21 /* MannaRecycler.swift */; };
-		D499AC122364616E0001BC21 /* Metabolism.Lock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D499AC112364616E0001BC21 /* Metabolism.Lock.swift */; };
 		D4A4F4522353CF7B000EC009 /* Shift.CalculateShift.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4F4512353CF7B000EC009 /* Shift.CalculateShift.swift */; };
 		D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4F45C23551F41000EC009 /* Parasitize.swift */; };
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
@@ -117,6 +115,7 @@
 		D40985FA22650BEF009DD384 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
+		D4171CB7236D1C850072EC1C /* Grid.Setup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.Setup.swift; sourceTree = "<group>"; };
 		D42172E9233EE46000A56594 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
 		D42172F2233EE46000A56594 /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .overcommit.yml; sourceTree = "<group>"; };
@@ -139,8 +138,6 @@
 		D49042C422AE2B2500E7369B /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D495F0CE233FAB01007D6E86 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
-		D499AC08236406F80001BC21 /* MannaRecycler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MannaRecycler.swift; sourceTree = "<group>"; };
-		D499AC112364616E0001BC21 /* Metabolism.Lock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metabolism.Lock.swift; sourceTree = "<group>"; };
 		D4A12BE922EA58E900C15F59 /* Stepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
 		D4A216BA22C1988B00D92A1E /* BellCurve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BellCurve.swift; sourceTree = "<group>"; };
 		D4A4F4512353CF7B000EC009 /* Shift.CalculateShift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shift.CalculateShift.swift; sourceTree = "<group>"; };
@@ -228,10 +225,10 @@
 			children = (
 				D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */,
 				D4EBEE7222E148C9007C98A4 /* Grid.swift */,
+				D4171CB7236D1C850072EC1C /* Grid.Setup.swift */,
 				D4C67D92234D889D0030358D /* Gridlet.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
 				D422DE0123578CFD003734B8 /* MannaCoordinator.swift */,
-				D499AC08236406F80001BC21 /* MannaRecycler.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
@@ -248,7 +245,6 @@
 				D4BB6E6A234E544B00529819 /* WorkItems */,
 				D4FFE9612365814F00F5DDFB /* Dispatch.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
-				D499AC112364616E0001BC21 /* Metabolism.Lock.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D4A12BE922EA58E900C15F59 /* Stepper.swift */,
 			);
@@ -492,14 +488,12 @@
 				D495F0CC233FA969007D6E86 /* World.swift in Sources */,
 				D4D86F502363211A0082C31A /* World.Stats.swift in Sources */,
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
-				D42323C0235B6B6700981265 /* Sync.swift in Sources */,
-				D499AC09236406F80001BC21 /* MannaRecycler.swift in Sources */,
 				D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */,
+				D4171CB8236D1C850072EC1C /* Grid.Setup.swift in Sources */,
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
 				D4FFE96623669EE400F5DDFB /* Eat.swift in Sources */,
 				D4D5EABB2368B05200E95AA5 /* Wangkhi.swift in Sources */,
 				D464BA4E22C737260069623C /* BellCurve.swift in Sources */,
-				D499AC122364616E0001BC21 /* Metabolism.Lock.swift in Sources */,
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
 				D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,

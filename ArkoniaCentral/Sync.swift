@@ -6,7 +6,7 @@ enum Sync {
     class Lockable<T> {
         let dispatchQueue: DispatchQueue
 
-        init(_ dispatchQueue: DispatchQueue = Grid.lockQueue) {
+        init(_ dispatchQueue: DispatchQueue = World.mainQueue) {
             self.dispatchQueue = dispatchQueue
         }
 
@@ -38,7 +38,8 @@ enum Sync {
 
             switch completionMode {
             case .continueBarrier: oc(args)
-            case .concurrent:      World.run { oc(args) }
+            case .concurrent:
+                World.mainQueue.async { oc(args) }
             }
         }
     }

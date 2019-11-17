@@ -2,7 +2,7 @@ import GameplayKit
 
 final class Metabolize: Dispatchable {
     weak var dispatch: Dispatch!
-    var runningAsBarrier: Bool { return dispatch.runningAsBarrier }
+    var runAsBarrier: Bool = false
     var stats: World.StatsCopy!
     var stepper: Stepper { return dispatch.stepper }
 
@@ -18,7 +18,6 @@ final class Metabolize: Dispatchable {
 
 extension Metabolize {
     func aMetabolize() {
-        assert(runningAsBarrier == true)
         dispatch.stepper.metabolism.metabolizeProper()
         dispatch.colorize()
     }
@@ -26,9 +25,7 @@ extension Metabolize {
 
 extension Metabolism {
     fileprivate func metabolizeProper() {
-        let internalTransferRate = CGFloat(2)
-
-//        defer { updatePhysicsBodyMass() }
+        let internalTransferRate = CGFloat(20)
 
         var export = !stomach.isEmpty && !readyEnergyReserves.isFull
 

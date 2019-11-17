@@ -49,15 +49,13 @@ class Stepper {
     }
 
     deinit {
-        print("d1")
-        let gridlet = self.gridlet!
-        Grid.lock({ () -> [Void]? in
+        Grid.shared.serialQueue.sync {
             gridlet.contents = .nothing
             gridlet.sprite = nil
             gridlet.gridletIsEngaged = false
-            print("d2 \(gridlet.gridPosition)")
-            return nil
-        })
+        }
+
+        World.stats.decrementPopulation(nil)
     }
 
 }
@@ -97,7 +95,7 @@ extension Stepper {
         return stepper
     }
 
-    static func releaseStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
+    static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
         sprite.userData![SpriteUserDataKey.stepper] = nil
     }
 }

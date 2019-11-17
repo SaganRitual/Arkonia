@@ -3,62 +3,48 @@ import Foundation
 typealias GoCall = () -> Void
 
 protocol Dispatchable {
+    var runAsBarrier: Bool { get }
+
     func go()
 }
 
-enum DispatchMode: UInt {
-    case alive         = 0b0000_0001
-    case dead          = 0b0000_0010
-    case dying         = 0b0000_0100
-    case killRequested = 0b0000_1000
-    case killScheduled = 0b0001_0000
-    case running       = 0b0010_0000
-
-    static let dmAlive = DispatchMode.alive.rawValue | DispatchMode.running.rawValue
+extension Dispatchable {
+    var runAsBarrier: Bool { return true }
 }
+
+enum DispatchMode { case alive, apoptosisScheduled }
 
 final class Dispatch {
     var currentTask: Dispatchable!
     var dispatchMode: DispatchMode = .alive
     let name = UUID().uuidString
-    var runningAsBarrier = true
-    var stepper: Stepper!
+    weak var stepper: Stepper!
 
     init(_ stepper: Stepper? = nil) {
-        print("Dispatch(\(stepper == nil))")
         self.stepper = stepper
     }
 
-    private func go(_ call: GoCall? = nil, runAsBarrier: Bool = true) {
-//        print("k1 \(stepper?.name ?? "<nouthing>")")
+    private func go(_ dispatchable: Dispatchable) {
+        if dispatchable.runAsBarrier { runSerial(dispatchable) }
+        else { runConcurrent(dispatchable) }
+    }
 
-        let flags = runAsBarrier ? .barrier : DispatchWorkItemFlags()
-        World.lockQueue.async(flags: flags) {
-            assert(self.runningAsBarrier == true)
-            self.runningAsBarrier = runAsBarrier
-
-            if self.dispatchMode == .killScheduled || self.dispatchMode == .dead { return }
-            assert(self.dispatchMode == .alive)
-
-            let runComponent: GoCall = call ?? self.apoptosize
-
-//            print("a1")
-            runComponent()
-//            print("a2")
+    private func runSerial(_ dispatchable: Dispatchable) {
+        Grid.shared.serialQueue.async {
+            if self.dispatchMode == .apoptosisScheduled { return }
+            dispatchable.go()
         }
     }
 
-    func start(_ dispatchable: Dispatchable, runAsBarrier: Bool = true) {
-        go(dispatchable.go, runAsBarrier: true)
+    private func runConcurrent(_ dispatchable: Dispatchable) {
+        Grid.shared.concurrentQueue.async {
+            if self.dispatchMode == .apoptosisScheduled { return }
+            dispatchable.go()
+        }
     }
 
-    func callAgain(runAsBarrier: Bool = true) {
-        go(self.currentTask.go, runAsBarrier: true)
-    }
-
-    deinit {
-//        print("~Dispatch?")
-    }
+    func callAgain() { go(self.currentTask) }
+    func start(_ dispatchable: Dispatchable) { go(dispatchable) }
 }
 
 extension Dispatch {
@@ -84,21 +70,20 @@ extension Dispatch {
     }
 
     func eat() {
-        guard let gridlet = stepper.gridlet else { fatalError() }
+        guard let currentGridlet = stepper.gridlet else { fatalError() }
+        guard let spentShift = currentTask as? Shift else { fatalError() }
+        guard let previousGridlet = spentShift.getResult() else { fatalError() }
 
         currentTask = Eat(self)
 
         guard let newEat = currentTask as? Eat else { fatalError() }
-        newEat.inject(gridlet)
+        newEat.inject(previousGridlet, currentGridlet)
         start(newEat)
     }
 
     func funge() {
-//        print("f1, \(stepper?.name ?? "<nothing>")")
         currentTask = Funge(self)
-//        print("f2, \(stepper?.name ?? "<nothing>")")
         start(currentTask)
-//        print("f3, \(stepper?.name ?? "<nothing>")")
     }
 
     func metabolize() {

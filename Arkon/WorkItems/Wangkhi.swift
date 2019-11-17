@@ -21,14 +21,25 @@ protocol WangkhiProtocol: class {
     var sprite: SKSpriteNode? { get set }
 }
 
-final class WangkhiEmbryo: Dispatchable, WangkhiProtocol {
+class AKWorkItem: Dispatchable {
+    weak var dispatch: Dispatch?
+    var runningAsBarrier = false
+    var stepper: Stepper? { return dispatch?.stepper }
+
+    init(_ dispatch: Dispatch) {
+        self.dispatch = dispatch
+    }
+
+    func go() { fatalError() }
+}
+
+final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     enum Phase {
-        case getUnsafeStats, buildGuts, buildSprites
+        case getStartingPosition, registerBirth, buildGuts, buildSprites
     }
 
     var birthday = 0
     var callAgain = false
-    var dispatch: Dispatch?
     var fishNumber = 0
     var gridlet: Gridlet?
     var metabolism: Metabolism?
@@ -36,50 +47,48 @@ final class WangkhiEmbryo: Dispatchable, WangkhiProtocol {
     var netDisplay: NetDisplay?
     var nose: SKSpriteNode?
     var parent: Stepper?
-    var phase = Phase.getUnsafeStats
+    var phase = Phase.getStartingPosition
+    var runAsBarrier = true
     var sprite: SKSpriteNode?
+    var tempStrongReference: Dispatch?
 
-    init(_ dispatch: Dispatch) {
-//        print("before",
-//              dispatch.name.prefix(8),
-//              dispatch.stepper?.name.prefix(8) ?? "wtf1å",
-//              self.dispatch?.name.prefix(8) ?? "wtf1a",
-//              self.dispatch?.stepper?.name.prefix(8) ?? "wtf1b; ",
-//              terminator: "")
-
-        self.dispatch = dispatch
-
-//        print("after",
-//              dispatch.name.prefix(8),
-//              dispatch.stepper?.name.prefix(8) ?? "wtf2å",
-//              self.dispatch?.name.prefix(8) ?? "wtf2a",
-//              self.dispatch?.stepper?.name.prefix(8) ?? "wtf2b",
-//              terminator: "")
-
+    override init(_ dispatch: Dispatch) {
         self.parent = dispatch.stepper
+        self.tempStrongReference = dispatch
 
-//        print("rafter",
-//              dispatch.name.prefix(8),
-//              dispatch.stepper?.name.prefix(8) ?? "wtf3å",
-//              self.dispatch?.name.prefix(8) ?? "wtf3a",
-//              self.dispatch?.stepper?.name.prefix(8) ?? "wtf1b; ")
+        super.init(dispatch)
     }
 
-    func go() { aWangkhiEmbryo() }
+    deinit {
+//        print("fuck")
+    }
+
+    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
+        guard let dp = dispatch else { fatalError() }
+
+        self.phase = phase
+        self.runAsBarrier = runAsBarrier
+        dp.callAgain()
+    }
+
+    override func go() { aWangkhiEmbryo() }
 }
 
 extension WangkhiEmbryo {
     func aWangkhiEmbryo() {
         switch phase {
-        case .getUnsafeStats:
-            getUnsafeStats()
-            phase = .buildGuts
-            dispatch!.callAgain()
+        case .getStartingPosition:
+            getStartingPosition()
+            callAgain(.registerBirth, true)
+
+        case .registerBirth:
+            registerBirth {
+                self.callAgain(.buildGuts, false)
+            }
 
         case .buildGuts:
             buildGuts()
-            phase = .buildSprites
-            dispatch!.callAgain()
+            callAgain(.buildSprites, false)
 
         case .buildSprites:
             buildSprites()
@@ -88,19 +97,38 @@ extension WangkhiEmbryo {
 }
 
 extension WangkhiEmbryo {
-    func getUnsafeStats() {
-        assert((dispatch?.runningAsBarrier ?? false) == true)
-        let gr = Gridlet.getRandomGridlet_()
-        gridlet = gr![0]
+    func getStartingPosition() {
+        guard let p = parent else {
+            self.gridlet = Gridlet.getRandomGridlet_()
+            return
+        }
 
-        World.stats.registerBirth_(myParent: nil, meOffspring: self)
+        var foundGridlet: Gridlet!
+        var candidateIx = Int.random(in: 1..<ArkoniaCentral.cSenseGridlets)
+
+        while foundGridlet == nil {
+            let g = p.getGridPointByIndex(candidateIx)
+
+            if let f = Gridlet.atIf(g), f.contents == .nothing {
+                foundGridlet = f
+                break
+            }
+
+            candidateIx += 1
+        }
+
+        self.gridlet = foundGridlet
+    }
+
+    func registerBirth(_ onComplete: @escaping () -> Void) {
+        World.stats.registerBirth(
+            myParent: nil, meOffspring: self, onComplete
+        )
     }
 }
 
 extension WangkhiEmbryo {
     func buildGuts() {
-        assert((dispatch?.runningAsBarrier ?? false) == true)
-
         metabolism = Metabolism()
 
         net = Net(
@@ -124,9 +152,10 @@ extension WangkhiEmbryo {
 extension WangkhiEmbryo {
 
     func buildSprites() {
-        assert((dispatch?.runningAsBarrier ?? false) == true)
+        let action = SKAction.run { [unowned self] in
+            self.buildSprites_()
+        }
 
-        let action = SKAction.run { [unowned self] in self.buildSprites_() }
         GriddleScene.arkonsPortal.run(action)
     }
 
@@ -178,6 +207,8 @@ extension WangkhiEmbryo {
 //              newborn.parentStepper?.dispatch?.name ?? "no parent7a ")
 
         Stepper.attachStepper(newborn, to: sprite)
+//        newborn.dispatch!.tempStrongReference = nil
+        self.tempStrongReference = nil
 
 //        print("bbefore3",
 //              dispatch?.name.prefix(8) ?? "wtf6∫",
@@ -193,22 +224,22 @@ extension WangkhiEmbryo {
 
         GriddleScene.arkonsPortal!.addChild(sprite)
 
-        print("birth0")
+//        print("birth0")
         if let dp = self.dispatch, let st = dp.stepper {
-            print("parent0")
+//            print("parent0")
 
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
 
             dp.funge()
-            print("parent1")
+//            print("parent1")
         }
 
-        print("birth1")
+//        print("birth1")
 
         newborn.dispatch!.funge()
 
-        print("child")
+//        print("child")
     }
     //swiftmint:enable function_body_length
 }

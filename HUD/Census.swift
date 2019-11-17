@@ -56,6 +56,10 @@ struct Census {
 
                 return  currentTime - stepper.birthday
             }
+
+            if liveArkonsAges.count < 15 {
+                Dispatch().wangkhi()
+            }
         }
 
         func partD() {
