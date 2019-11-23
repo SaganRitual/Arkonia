@@ -36,6 +36,6 @@ extension MoveStepper {
             return
         }
 
-        dp.metabolize(self.wiLaunch!)
+        dp.releaseStage(self.wiLaunch!)
     }
 }

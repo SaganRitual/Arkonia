@@ -21,6 +21,12 @@ class Plot: Dispatchable {
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
         ch.gridCellConnector = selectMoveTarget()
+
+        if ch.stage.from == ch.stage.to {
+            dp.releaseStage(wiLaunch!)
+            return
+        }
+
         dp.moveSprite(wiLaunch!)
     }
 }
@@ -37,6 +43,7 @@ extension Plot {
             return partial + [contents, nutritionalValue]
         }
 
+        print("gi", gridInputs)
         return gridInputs
     }
 
@@ -70,7 +77,7 @@ extension Plot {
     }
 
     private func loadSenseData() {
-        var senseData = loadGridInputs()
+        self.senseData = loadGridInputs()
 
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
 

@@ -148,6 +148,10 @@ extension Dispatch {
         notify(notifiee, lifelet: Plot(scratch))
     }
 
+    func releaseStage(_ notifiee: DispatchWorkItem?) {
+        notify(notifiee, lifelet: ReleaseStage(scratch))
+    }
+
     func wangkhi(_ notifiee: DispatchWorkItem?) {
         notify(notifiee, lifelet: WangkhiEmbryo(scratch))
     }

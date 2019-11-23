@@ -69,6 +69,23 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
         }
     }
 
+    static func collapseStage(_ stage: SafeStage) -> SafeCell {
+        let myCell = SafeCell(from: stage)
+        transferCellLock(from: stage.to, to: myCell)
+    }
+
+    private init(from stage: SafeStage) {
+        self.gridPosition = stage.to.gridPosition
+        self.scenePosition = stage.to.scenePosition
+        self.randomScenePosition = stage.to.randomScenePosition
+        self.owner = stage.to.owner
+
+        self.contents = stage.to.contents
+        self.sprite = stage.to.sprite
+
+        self.isLive = false
+    }
+
     deinit {
         if isLive {
             SafeCell.unlockGridCell(self.owner, self.parasite, at: self.gridPosition)
@@ -84,6 +101,12 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
 
         Log.L.write("unlock \(gridPosition) for \(six(owner)), actual \(six(unsafeCell.owner)), parasite \(six(parasite))", select: 1)
         unsafeCell.owner = nil
+    }
+
+    static func transferCellLock(from oldOwner: SafeCell, to newOwner: SafeCell) {
+        precondition(oldOwner.owner != nil)
+        oldOwner.isLive = false
+        newOwner.isLive = true
     }
 
     static func lockGridCellIf(_ owner: String, at gridPosition: AKPoint) -> Bool {
@@ -166,11 +189,13 @@ class SafeStage: SafeConnectorProtocol {
     func commit() {
         guard let f = fromForCommit, let t = toForCommit else { return }
 
-        let newFrom = GridCell.at(f)
-        newFrom.contents = f.contents
-        newFrom.sprite = f.sprite
-        newFrom.owner = f.parasite ?? f.owner
-        Log.L.write("newFrom \(newFrom.contents), \(six(newFrom.owner)) (\(six(f.parasite)))")
+        if f != t {
+            let newFrom = GridCell.at(f)
+            newFrom.contents = f.contents
+            newFrom.sprite = f.sprite
+            newFrom.owner = f.parasite ?? f.owner
+            Log.L.write("newFrom \(newFrom.contents), \(six(newFrom.owner)) (\(six(f.parasite)))")
+        }
 
         let newTo = GridCell.at(t)
         newTo.contents = t.contents

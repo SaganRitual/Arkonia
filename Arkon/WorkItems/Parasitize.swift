@@ -34,45 +34,10 @@ extension Parasitize {
             (myStepper, hisStepper) : (hisStepper, myStepper)
     }
 
-<<<<<<< HEAD
-    func aParasitize(_ victor: Stepper, _ victim: Stepper) {
-        guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
-
-        victor.metabolism.parasitize(victim)
-
-<<<<<<< HEAD
-        Grid.shared.concurrentQueue.sync(flags: .barrier) {
-            Log.L.write("stepper \(six(victor.name)) clears gridconnector; parasitizes \(six(victim.name))")
-            scr.gridCellConnector = nil
-||||||| parent of 3df1d3e... Defensive
-        Grid.shared.concurrentQueue.async(flags: .barrier) {
-            Log.L.write("stepper \(six(victor.name)) clears gridconnector; parasitizes \(six(victim.name))")
-            scr.gridCellConnector = nil
-=======
-        Grid.shared.concurrentQueue.async(flags: .barrier) {
-            ch.gridCellConnector = nil
->>>>>>> 3df1d3e... Defensive
-
-            victim.dispatch.apoptosize()
-            victor.dispatch.funge()
-        }
-||||||| parent of fe41e59... Defensive
-    func aParasitize(_ victor: Stepper, _ victim: Stepper) {
-        guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
-
-        victor.metabolism.parasitize(victim)
-
-        Grid.shared.concurrentQueue.async(flags: .barrier) {
-            ch.gridCellConnector = nil
-
-            victim.dispatch.apoptosize()
-            victor.dispatch.funge()
-        }
-=======
     func parasitize(_ victor: Stepper, _ victim: Stepper) {
         victor.metabolism.parasitizeProper(victim)
         victor.dispatch.disengage()
->>>>>>> fe41e59... Defensive
+        victor.dispatch.releaseStage(wiLaunch!)
     }
 }
 

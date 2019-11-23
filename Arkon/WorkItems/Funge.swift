@@ -26,7 +26,7 @@ extension Funge {
         guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
         if !isAlive { dp.apoptosize(wiLaunch!); return }
-        if !canSpawn { dp.metabolize(wiLaunch!); return }
+        if !canSpawn { dp.releaseStage(wiLaunch!); return }
 
         dp.wangkhi(wiLaunch!)
     }

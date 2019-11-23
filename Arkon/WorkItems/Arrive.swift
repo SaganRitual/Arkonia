@@ -42,9 +42,7 @@ extension Arrive {
 
         MannaCoordinator.shared.beEaten(sprite)
 
-        ch.gridCellConnector = nil
-
-        dp.metabolize(self.wiLaunch!)
+        dp.releaseStage(self.wiLaunch!)
     }
 
 }

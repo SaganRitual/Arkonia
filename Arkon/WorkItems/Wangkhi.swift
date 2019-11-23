@@ -64,7 +64,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
         self.tempStrongReference = scratch.dispatch
 
         self.wiLaunch = DispatchWorkItem(flags: .barrier, block: launch_)
-        self.wiLaunch2 = DispatchWorkItem(flags: [], block: launch_)
+        self.wiLaunch2 = DispatchWorkItem(flags: [], block: launch2_)
     }
 
     func launch() {
