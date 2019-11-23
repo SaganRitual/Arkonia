@@ -5,11 +5,13 @@ final class Arrive: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
+        Log.L.write("Arrive()", select: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
     }
 
     func launch() {
+        Log.L.write("Arrive.launch", select: 3)
         guard let w = wiLaunch else { fatalError() }
         Grid.shared.concurrentQueue.async(execute: w)
     }
@@ -17,6 +19,7 @@ final class Arrive: Dispatchable {
     private func launch_() { arrive() }
 
     func arrive() {
+        Log.L.write("Arrive.launch_", select: 3)
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
         switch ch.stage.to.contents {

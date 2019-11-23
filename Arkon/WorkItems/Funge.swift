@@ -6,16 +6,19 @@ final class Funge: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
+        Log.L.write("Funge()", select: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(flags: .barrier, block: launch_)
     }
 
     func launch() {
+        Log.L.write("Funge.launch", select: 3)
         guard let w = wiLaunch else { fatalError() }
         Grid.shared.concurrentQueue.async(execute: w)
     }
 
     func launch_() {
+        Log.L.write("Funge.launch_", select: 3)
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
     }

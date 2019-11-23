@@ -5,16 +5,19 @@ final class Parasitize: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
+        Log.L.write("Parasitize()", select: 3)
         if !scratch.isApoptosizing { self.scratch = scratch }
         self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
     }
 
     func launch() {
+        Log.L.write("Parasitize.launch", select: 3)
         guard let w = wiLaunch else { fatalError() }
         Grid.shared.concurrentQueue.async(execute: w)
     }
 
     func launch_() {
+        Log.L.write("Parasitize.launch_", select: 3)
         let result = attack()
         parasitize(result.0, result.1)
     }

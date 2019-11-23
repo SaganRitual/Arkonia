@@ -2,14 +2,14 @@ import SpriteKit
 
 class GridCell: GridCellProtocol, Equatable {
     enum Contents: Double, CaseIterable {
-        case arkon, invalid, manna, myself, nothing
+        case arkon, invalid, manna, nothing
 
         func isEdible() -> Bool {
             return self == .arkon || self == .manna
         }
 
         func isOccupied() -> Bool {
-            return self == .arkon || self == .manna || self == .myself
+            return self == .arkon || self == .manna
         }
     }
 
@@ -19,7 +19,14 @@ class GridCell: GridCellProtocol, Equatable {
 
     var contents = Contents.nothing { didSet { previousContents = oldValue } }
     private(set) var previousContents = Contents.nothing
-    var owner: String?
+    private var ownerName_: String?
+    var ownerName: String? {
+        get { return ownerName_ }
+        set {
+            Log.L.write("here: \(six(newValue))", select: 4)
+            ownerName_ = newValue
+        }
+    }
     weak var sprite: SKSpriteNode?
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {

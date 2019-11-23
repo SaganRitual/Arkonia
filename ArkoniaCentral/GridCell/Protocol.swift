@@ -9,7 +9,7 @@ protocol GridCellProtocol {
     var sprite: SKSpriteNode? { get }
 
     var contents: GridCell.Contents { get }
-    var owner: String? { get }
+    var ownerName: String? { get }
 }
 
 extension GridCellProtocol {

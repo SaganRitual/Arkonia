@@ -5,11 +5,17 @@ final class MoveStepper: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
+        Log.L.write("MoveStepper()", select: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
     }
 
+    deinit {
+        Log.L.write("~MoveStepper", select: 4)
+    }
+
     func launch() {
+        Log.L.write("MoveStepper.launch", select: 3)
         guard let w = wiLaunch else { fatalError() }
         Grid.shared.concurrentQueue.async(execute: w)
     }
@@ -17,6 +23,7 @@ final class MoveStepper: Dispatchable {
     private func launch_() { moveStepper() }
 
     func moveStepper() {
+        Log.L.write("MoveStepper.launch_", select: 3)
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
 
         let gcc = ch.stage

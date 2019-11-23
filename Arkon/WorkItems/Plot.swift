@@ -6,16 +6,19 @@ class Plot: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
+        Log.L.write("Plot()", select: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
     }
 
     func launch() {
+        Log.L.write("Plot.launch", select: 3)
         guard let w = wiLaunch else { fatalError() }
         Grid.shared.concurrentQueue.async(execute: w)
     }
 
     private func launch_() {
+        Log.L.write("Plot.launch_", select: 3)
         loadSenseData()
 
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
@@ -43,7 +46,6 @@ extension Plot {
             return partial + [contents, nutritionalValue]
         }
 
-        print("gi", gridInputs)
         return gridInputs
     }
 
@@ -68,7 +70,6 @@ extension Plot {
             guard let manna = Manna.getManna(from: sprite) else { fatalError() }
             nutrition = Double(manna.energyFullness)
 
-        case .myself:  nutrition = 0
         case .nothing: nutrition = 0
         case .invalid: fatalError()
         }
@@ -103,7 +104,7 @@ extension Plot {
 
         let targetOffset = order.first { entry in
             guard let candidateCell = ch.senseGrid.cells[entry.0] else { return false }
-            return candidateCell.owner == st.name
+            return candidateCell.ownerName == st.name
         }
 
         guard let from = ch.senseGrid.cells[0],

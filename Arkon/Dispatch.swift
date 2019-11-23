@@ -16,7 +16,6 @@ class Scratchpad {
     var canSpawn = false
     var battle: (Stepper, Stepper)?
     weak var dispatch: Dispatch?
-    var gridCell: GridCell?
     var gridCellConnector: SafeConnectorProtocol? {
         willSet {
             let t: String
@@ -109,7 +108,7 @@ final class Dispatch {
 extension Dispatch {
     private func notify(_ notifiee: DispatchWorkItem?, lifelet: Dispatchable) {
         guard let n = notifiee else { fatalError() }
-        n.notify(queue: concurrentQueue, execute: lifelet.wiLaunch!)
+        n.notify(queue: concurrentQueue, execute: lifelet.launch)
     }
 
     func apoptosize(_ notifiee: DispatchWorkItem?) {
@@ -122,6 +121,10 @@ extension Dispatch {
 
     func colorize(_ notifiee: DispatchWorkItem?) {
         notify(notifiee, lifelet: Colorize(scratch))
+    }
+
+    func disengage(_ notifiee: DispatchWorkItem?) {
+        notify(notifiee, lifelet: Disengage(scratch))
     }
 
     func engage(_ notifiee: DispatchWorkItem?) {
@@ -160,21 +163,16 @@ extension Dispatch {
 extension Dispatch {
     func engage() {
         let lifelet = Engage(scratch)
-        concurrentQueue.async(execute: lifelet.wiLaunch!)
-    }
-
-    func disengage() {
-        let lifelet = Disengage(scratch)
-        concurrentQueue.async(execute: lifelet.wiLaunch!)
+        concurrentQueue.async(execute: lifelet.launch)
     }
 
     func moveStepper() {
         let lifelet = MoveStepper(scratch)
-        concurrentQueue.sync(execute: lifelet.wiLaunch!)
+        concurrentQueue.async(execute: lifelet.launch)
     }
 
     func wangkhi() {
         let lifelet = WangkhiEmbryo(scratch)
-        concurrentQueue.async(execute: lifelet.wiLaunch!)
+        concurrentQueue.async(execute: lifelet.launch)
     }
 }

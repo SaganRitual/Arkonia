@@ -67,6 +67,10 @@ final class WangkhiEmbryo: WangkhiProtocol {
         self.wiLaunch2 = DispatchWorkItem(flags: [], block: launch2_)
     }
 
+    deinit {
+        Log.L.write("~Wangkhi", select: 4)
+    }
+
     func launch() {
         guard let w = wiLaunch else { fatalError() }
         Grid.shared.concurrentQueue.async(execute: w)
@@ -182,28 +186,28 @@ extension WangkhiEmbryo {
 
         gridCell.sprite = sprite
         gridCell.contents = .arkon
-        scratch?.gridCell = gridCell
 
-        Log.L.write("launching newborn (sprite) \(spriteAKName(sprite)) at \(gridCell.gridPosition)", select: 1)
-        self.launchNewborn()
+        Log.L.write("launching newborn (sprite) \(spriteAKName(sprite)) at \(gridCell.gridPosition)")
+        self.launchNewborn(at: gridCell)
         self.tempStrongReference = nil
         Log.L.write("two")
     }
 
-    func launchNewborn() {
+    func launchNewborn(at gridCell: GridCell) {
         guard let sprite = self.sprite else { fatalError() }
 
         GriddleScene.arkonsPortal!.addChild(sprite)
 
         guard let newborn = sprite.getStepper() else { fatalError() }
+        newborn.gridCell = gridCell
 
         if let dp = scratch?.dispatch, let st = scratch?.stepper {
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
-            dp.disengage()
+            dp.disengage(wiLaunch2)
         }
 
-        SafeCell.unlockGridCell(embryoName, nil, at: gridCell!.gridPosition)
-        newborn.dispatch!.engage()
+        guard let ndp = newborn.dispatch else { fatalError() }
+        ndp.disengage(wiLaunch2)
     }
 }

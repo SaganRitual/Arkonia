@@ -5,11 +5,13 @@ final class Colorize: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
+        Log.L.write("Colorize()", select: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
     }
 
     func launch() {
+        Log.L.write("Colorize.launch", select: 3)
         guard let w = wiLaunch else { fatalError() }
         Grid.shared.concurrentQueue.async(execute: w)
     }
@@ -21,13 +23,14 @@ func six(_ string: String?) -> String { return String(string?.prefix(6) ?? "<no 
 
 extension Colorize {
     func aColorize() {
+        Log.L.write("Colorize.launch_", select: 3)
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let ws = ch.worldStats else { fatalError() }
 
         let age = ws.currentTime - st.birthday
         st.colorizeProper(age)
 
-        dp.disengage()
+        dp.disengage(wiLaunch!)
     }
 }
 

@@ -5,11 +5,13 @@ final class Apoptosize: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
+        Log.L.write("Apoptosize()", select: 3)
         if !scratch.isApoptosizing { self.scratch = scratch }
         self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
     }
 
     func launch() {
+        Log.L.write("Apoptosize.launch", select: 3)
         guard let w = wiLaunch else { fatalError() }
         Grid.shared.concurrentQueue.async(execute: w)
     }
@@ -19,6 +21,7 @@ final class Apoptosize: Dispatchable {
 
 extension Apoptosize {
     func aApoptosize() {
+        Log.L.write("Apoptosize.launch_", select: 3)
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
 
         guard let sp = st.sprite else { fatalError() }

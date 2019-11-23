@@ -1,6 +1,43 @@
 import Dispatch
 import Foundation
 
+//class Log {
+//    class L {
+//
+//    }
+//}
+//
+//extension Log.L {
+//    static var logFile: URL? {
+//        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "dd-MM-yyyy"
+//        let dateString = formatter.string(from: Date())
+//        let fileName = "\(dateString).log"
+//        return documentsDirectory.appendingPathComponent(fileName)
+//    }
+//
+//    static func write(_ message: String, select: Int = 0) {
+//        guard let logFile = logFile else { return }
+//        if select <= 1 { return }
+//
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "HH:mm:ss"
+//        let timestamp = formatter.string(from: Date())
+//        guard let data = (timestamp + ": " + message + "\n").data(using: String.Encoding.utf8) else { return }
+//
+//        if FileManager.default.fileExists(atPath: logFile.path) {
+//            if let fileHandle = try? FileHandle(forWritingTo: logFile) {
+//                fileHandle.seekToEndOfFile()
+//                fileHandle.write(data)
+//                fileHandle.closeFile()
+//            }
+//        } else {
+//            try? data.write(to: logFile, options: .atomicWrite)
+//        }
+//    }
+//}
+
 // With deepest gratitude to Stack Overflow dude
 // https://stackoverflow.com/users/3441734/user3441734
 // https://stackoverflow.com/a/44541541/1610473
@@ -20,6 +57,13 @@ class Log {//}: TextOutputStream {
 //    var fm = FileManager.default
 //    var handle: FileHandle?
 //    let log: URL
+//
+//    let syncQueue = DispatchQueue(
+//        label: "arkonia.log.queue",
+//        qos: .utility,
+//        attributes: .concurrent,
+//        target: DispatchQueue.global(qos: .utility)
+//    )
 //
 //    init() {
 //        log = getDocumentsDirectory().appendingPathComponent("roblog.txt")
@@ -46,14 +90,18 @@ class Log {//}: TextOutputStream {
 //
 //    deinit { handle?.closeFile() }
 
-    func write(_ string_: String, select: Int) {
-        if select > 1 {
+    func write(_ string_: String, select: Int = 0) {
+        if select > 4 {
             print(string_)
         }
     }
 
-    func write(_ string_: String) {
-        write(string_, select: 0)
+//    func write(_ string: String) {
+//        syncQueue.sync { write_(string) }
+//    }
+//
+//    func write_(_ string_: String) {
+////        write(string_, select: 0)
 //        let string = string_ + "\r\n"
 //        let martin = Array(string.utf8).withUnsafeBytes { DispatchData(bytes: $0) }
 //
@@ -63,5 +111,5 @@ class Log {//}: TextOutputStream {
 //        )
 //
 //        handle!.synchronizeFile()
-    }
+//    }
 }

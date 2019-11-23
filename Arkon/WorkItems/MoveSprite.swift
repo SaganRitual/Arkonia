@@ -5,12 +5,14 @@ final class MoveSprite: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
+        Log.L.write("MoveSprite()", select: 3)
         self.scratch = scratch
         // maybe we need a barrier to protect calls to sprite.run?
         self.wiLaunch = DispatchWorkItem(flags: .barrier, block: launch_)
     }
 
     func launch() {
+        Log.L.write("MoveSprite.launch", select: 3)
         guard let w = wiLaunch else { fatalError() }
         Grid.shared.concurrentQueue.async(execute: w)
     }
@@ -18,6 +20,7 @@ final class MoveSprite: Dispatchable {
     private func launch_() { moveSprite() }
 
     func moveSprite() {
+        Log.L.write("MoveSprite.launch_", select: 3)
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
         let gcc = ch.stage
