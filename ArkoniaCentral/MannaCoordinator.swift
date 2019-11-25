@@ -86,6 +86,6 @@ extension MannaCoordinator {
     }
 
     func plant(_ manna: Manna) {
-        Grid.shared.concurrentQueue.sync(flags: .barrier) { [unowned self] in self.plant_(manna) }
+        Grid.shared.concurrentQueue.async(flags: .barrier) { [unowned self] in self.plant_(manna) }
     }
 }

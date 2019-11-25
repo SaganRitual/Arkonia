@@ -132,7 +132,7 @@ extension WangkhiEmbryo {
 extension WangkhiEmbryo {
 
     func buildSprites() {
-        Log.L.write("buildSprites", select: 1)
+        Log.L.write("buildSprites", select: 4)
         defer { Log.L.write("~buildSprites") }
         let action = SKAction.run { [unowned self] in
             Log.L.write("buildSprites1")
@@ -142,7 +142,7 @@ extension WangkhiEmbryo {
 
         GriddleScene.arkonsPortal.run(action) { [unowned self] in
             Log.L.write("buildSprites3")
-            Grid.shared.concurrentQueue.sync(flags: .barrier) { [unowned self] in
+            Grid.shared.concurrentQueue.async(flags: .barrier) { [unowned self] in
                 Log.L.write("buildSprites4")
                 self.releaseTempStrongReference()
                 Log.L.write("buildSprites5")

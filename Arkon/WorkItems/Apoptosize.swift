@@ -39,7 +39,7 @@ extension Apoptosize {
             Wangkhi.spriteFactory.noseHangar.retireSprite(no)
             Wangkhi.spriteFactory.arkonsHangar.retireSprite(sp)
 
-            Grid.shared.concurrentQueue.sync(flags: .barrier) {
+            Grid.shared.concurrentQueue.async(flags: .barrier) {
                 Log.L.write("Release stepper \(six(st.name))")
                 Stepper.releaseStepper(st, from: sp)
             }

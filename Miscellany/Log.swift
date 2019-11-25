@@ -91,13 +91,13 @@ class Log {//}: TextOutputStream {
 //    deinit { handle?.closeFile() }
 
     func write(_ string_: String, select: Int = 0) {
-        if select > 4 {
+        if select > 5 {
             print(string_)
         }
     }
 
 //    func write(_ string: String) {
-//        syncQueue.sync { write_(string) }
+//        syncQueue.async { write_(string) }
 //    }
 //
 //    func write_(_ string_: String) {

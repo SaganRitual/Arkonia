@@ -39,7 +39,6 @@ extension Parasitize {
 
     func parasitize(_ victor: Stepper, _ victim: Stepper) {
         victor.metabolism.parasitizeProper(victim)
-        victor.dispatch.disengage()
         victor.dispatch.releaseStage(wiLaunch!)
     }
 }

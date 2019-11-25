@@ -47,7 +47,7 @@ struct Census {
                 return currentTime - stepper.birthday
             }
 
-            if liveArkonsAges.count < 1 { Dispatch().wangkhi() }
+//            if liveArkonsAges.count < 1 { Dispatch().wangkhi() }
 
             if liveArkonsAges.isEmpty { partA() } else { partD() }
         }

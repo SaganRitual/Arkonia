@@ -19,19 +19,19 @@ class Grid {
         setupGrid(GriddleScene.arkonsPortal!, drawLines: false)
 
         for ss in 0..<(Grid.dimensions.wGrid * 2) {
-            if GridCell.atIf(AKPoint(x: ss, y: 0)) == nil { print("+wg \(ss)"); break }
+            if GridCell.atIf(AKPoint(x: ss, y: 0)) == nil { Log.L.write("+wg \(ss)"); break }
         }
 
         for ss in 0..<(Grid.dimensions.hGrid * 2) {
-            if GridCell.atIf(AKPoint(x: 0, y: ss)) == nil { print("+hg \(ss)"); break }
+            if GridCell.atIf(AKPoint(x: 0, y: ss)) == nil { Log.L.write("+hg \(ss)"); break }
         }
 
         for ss in 0..<(Grid.dimensions.wGrid * 2) {
-            if GridCell.atIf(AKPoint(x: -ss, y: 0)) == nil { print("-wg \(-ss)"); break }
+            if GridCell.atIf(AKPoint(x: -ss, y: 0)) == nil { Log.L.write("-wg \(-ss)"); break }
         }
 
         for ss in 0..<(Grid.dimensions.wGrid * 2) {
-            if GridCell.atIf(AKPoint(x: 0, y: -ss)) == nil { print("-hg \(-ss)"); break }
+            if GridCell.atIf(AKPoint(x: 0, y: -ss)) == nil { Log.L.write("-hg \(-ss)"); break }
         }
     }
 
