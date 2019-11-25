@@ -7,13 +7,7 @@ final class Metabolize: Dispatchable {
     init(_ scratch: Scratchpad) {
         Log.L.write("Metabolize()", select: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
-    }
-
-    func launch() {
-        Log.L.write("Metabolize.launch", select: 3)
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w)
+        self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     private func launch_() { aMetabolize() }
@@ -21,11 +15,11 @@ final class Metabolize: Dispatchable {
 
 extension Metabolize {
     func aMetabolize() {
-        Log.L.write("Metabolize.launch_", select: 3)
+        Log.L.write("Metabolize.launch_ \(six(scratch?.stepper?.name))", select: 3)
         guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
         st.metabolism.metabolizeProper()
-        dp.colorize(wiLaunch!)
+        dp.colorize()
     }
 }
 

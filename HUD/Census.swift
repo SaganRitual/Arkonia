@@ -30,7 +30,7 @@ struct Census {
         var worldStats: World.StatsCopy!
 
         func partA() {
-            Grid.shared.concurrentQueue.asyncAfter(deadline: DispatchTime.now() + 1, flags: .barrier) {
+            Grid.shared.serialQueue.asyncAfter(deadline: DispatchTime.now() + 1, flags: .barrier) {
                 World.stats.getStats_ {
                     worldStats = $0
                     partB(worldStats.currentTime)

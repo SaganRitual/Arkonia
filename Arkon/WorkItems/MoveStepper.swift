@@ -7,30 +7,27 @@ final class MoveStepper: Dispatchable {
     init(_ scratch: Scratchpad) {
         Log.L.write("MoveStepper()", select: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
+        self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     deinit {
         Log.L.write("~MoveStepper", select: 4)
     }
 
-    func launch() {
-        Log.L.write("MoveStepper.launch", select: 3)
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w)
-    }
-
     private func launch_() { moveStepper() }
 
     func moveStepper() {
-        Log.L.write("MoveStepper.launch_", select: 3)
-        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+        Log.L.write("MoveStepper.launch1_ \(six(scratch?.stepper?.name))", select: 7)
+        guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }
 
-        let gcc = ch.stage
-        gcc.move()
+        defer { postMove() }
 
-        st.gridCell = GridCell.at(gcc.to)
-        postMove()
+        guard let stage = ch.getStageConnector(require: false) else { return }
+
+        stage.move()
+
+        stepper.gridCell = GridCell.at(stage.toCell)
+        Log.L.write("MoveStepper.launch2_ \(six(scratch?.stepper?.name)) owned by \(stage.toCell.gridPosition)", select: 7)
     }
 }
 
@@ -38,11 +35,11 @@ extension MoveStepper {
     func postMove() {
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
-        if ch.stage.to.contents.isEdible() {
-            dp.arrive(wiLaunch!)
+        if ch.getStageConnector()?.toCell.contents.isEdible() ?? false {
+            dp.arrive()
             return
         }
 
-        dp.releaseStage(self.wiLaunch!)
+        dp.releaseStage()
     }
 }

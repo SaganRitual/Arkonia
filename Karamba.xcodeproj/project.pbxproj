@@ -14,6 +14,9 @@
 		D422DE0223578CFD003734B8 /* MannaCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* MannaCoordinator.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
+		D422FE64238E2435007F0B7B /* SafeSenseGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE63238E2435007F0B7B /* SafeSenseGrid.swift */; };
+		D422FE6D238E248C007F0B7B /* SafeStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6C238E248C007F0B7B /* SafeStage.swift */; };
+		D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6E238E56C7007F0B7B /* Scratchpad.swift */; };
 		D45A9362237CEE5F00FC039E /* Grid.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45A9360237CEE5F00FC039E /* Grid.Setup.swift */; };
 		D45A9363237CEE5F00FC039E /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45A9361237CEE5F00FC039E /* Grid.swift */; };
 		D464BA3322C737260069623C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
@@ -134,6 +137,9 @@
 		D422DE0123578CFD003734B8 /* MannaCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MannaCoordinator.swift; sourceTree = "<group>"; };
 		D422DE0A23598B52003734B8 /* Census.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D422DE0C23598BEC003734B8 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
+		D422FE63238E2435007F0B7B /* SafeSenseGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeSenseGrid.swift; sourceTree = "<group>"; };
+		D422FE6C238E248C007F0B7B /* SafeStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeStage.swift; sourceTree = "<group>"; };
+		D422FE6E238E56C7007F0B7B /* Scratchpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D441B99A229CFFA800FB7057 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
@@ -243,6 +249,8 @@
 				D4174DD3237BD12B00F01F28 /* Protocol.swift */,
 				D4A59D342388F48500517F60 /* Random.swift */,
 				D4174DD1237BC6CD00F01F28 /* SafeCell.swift */,
+				D422FE63238E2435007F0B7B /* SafeSenseGrid.swift */,
+				D422FE6C238E248C007F0B7B /* SafeStage.swift */,
 			);
 			path = GridCell;
 			sourceTree = "<group>";
@@ -272,6 +280,7 @@
 				D4FFE9612365814F00F5DDFB /* Dispatch.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
+				D422FE6E238E56C7007F0B7B /* Scratchpad.swift */,
 				D4A12BE922EA58E900C15F59 /* Stepper.swift */,
 			);
 			path = Arkon;
@@ -494,9 +503,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4C336D02383FDEA00E50A50 /* Log.swift in Sources */,
+				D422FE6D238E248C007F0B7B /* SafeStage.swift in Sources */,
 				D422DE0223578CFD003734B8 /* MannaCoordinator.swift in Sources */,
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
+				D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */,
 				D422DE0D23598BEC003734B8 /* Clock.swift in Sources */,
 				D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */,
 				D4174DD0237BC4CA00F01F28 /* Positions.swift in Sources */,
@@ -510,6 +521,7 @@
 				D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */,
+				D422FE64238E2435007F0B7B /* SafeSenseGrid.swift in Sources */,
 				D45A9363237CEE5F00FC039E /* Grid.swift in Sources */,
 				D45A9362237CEE5F00FC039E /* Grid.Setup.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,

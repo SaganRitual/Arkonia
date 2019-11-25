@@ -21,9 +21,12 @@ class GridCell: GridCellProtocol, Equatable {
     private(set) var previousContents = Contents.nothing
     private var ownerName_: String?
     var ownerName: String? {
-        get { return ownerName_ }
+        get {
+            Log.L.write("arkon \(six(ownerName_)) owns (\(gridPosition.x), \(gridPosition.y))", select: 9)
+            return ownerName_
+        }
         set {
-            Log.L.write("here: \(six(newValue))", select: 4)
+            Log.L.write("change owner of (\(gridPosition.x), \(gridPosition.y)) from \(six(ownerName_)) to \(six(newValue))", select: 9)
             ownerName_ = newValue
         }
     }

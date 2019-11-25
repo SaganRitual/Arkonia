@@ -91,7 +91,7 @@ class Log {//}: TextOutputStream {
 //    deinit { handle?.closeFile() }
 
     func write(_ string_: String, select: Int = 0) {
-        if select > 5 {
+        if select > 11 {
             print(string_)
         }
     }

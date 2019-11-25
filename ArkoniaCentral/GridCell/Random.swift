@@ -52,7 +52,7 @@ extension GridCell {
         return rg
     }
 
-    static func lockRandomCell(setOwner: String) -> GridCell {
+    static func lockRandomEmptyCell(setOwner: String) -> GridCell {
         var rg: GridCell!
         var locked = false
 

@@ -1,58 +1,40 @@
 import Dispatch
 
-class Engage: Dispatchable {
+final class Engage: Dispatchable {
     weak var scratch: Scratchpad?
     var wiLaunch: DispatchWorkItem?
+    var counter = 0
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Engage()", select: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(flags: .barrier, block: launch_)
-    }
-
-    deinit {
-        Log.L.write("~Engage", select: 4)
-    }
-
-    func launch() {
-        Log.L.write("Engage.launch", select: 3)
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w)
+        self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     func launch_() {
-        Log.L.write("Engage.launch_", select: 3)
-        guard let (_, _, st) = self.scratch?.getKeypoints() else { fatalError() }
+        guard let (_, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gridCell = st.gridCell else { fatalError() }
 
-        guard let lockedCell = gridCell.engage_(st.name, false)
-            else {
-                Log.L.write("Engage.engage_ missed", select: 3)
-                return }
+        Log.L.write("Engage.launch_ \(six(st.name))", select: 9)
 
-        Log.L.write("Engage.engage_ locked", select: 3)
-        self.onLock(lockedCell)
+        let safeCell = gridCell.engage_(st.name, false)
+        if safeCell.iOwnTheGridCell { self.onLock(safeCell) }
+
+        Log.L.write("~Engage.launch_ \(six(st.name))", select: 9)
+
+        dp.plot()
     }
 
-    func onLock(_ myGridCell: SafeCell) {
-        guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
+    func onLock(_ safeCell: SafeCell) {
+        precondition(counter == 0)
+        defer { counter -= 1 }
+        counter += 1
 
-        ch.gridCellConnector = myGridCell
+        guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
+        precondition(ch.gridCellConnector == nil)
+
         ch.worldStats = World.stats.copy()
 
-        reserveGridPoints()
-        dp.plot(wiLaunch)
-    }
-}
-
-extension Engage {
-    func reserveGridPoints() {
-        guard let ch = scratch else { fatalError() }
-
-        let oldGcc = ch.safeCell
-        assert(oldGcc.ownerName != nil)
-
-        let sc = SafeSenseGrid(from: oldGcc, by: ArkoniaCentral.cMotorGridlets)
-        ch.gridCellConnector = sc
+        ch.gridCellConnector =
+            SafeSenseGrid(from: safeCell, by: ArkoniaCentral.cMotorGridlets)
     }
 }

@@ -52,7 +52,7 @@ class MannaCoordinator {
 
 extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
-        Grid.shared.concurrentQueue.async(flags: .barrier) { [unowned self] in
+        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
             let gridCell = GridCell.getRandomEmptyCell()
             gridCell.contents = .manna
             gridCell.sprite = sprite
@@ -86,6 +86,6 @@ extension MannaCoordinator {
     }
 
     func plant(_ manna: Manna) {
-        Grid.shared.concurrentQueue.async(flags: .barrier) { [unowned self] in self.plant_(manna) }
+        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in self.plant_(manna) }
     }
 }

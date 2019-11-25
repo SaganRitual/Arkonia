@@ -1,42 +1,36 @@
 import Dispatch
 
-class Plot: Dispatchable {
+final class Plot: Dispatchable {
     weak var scratch: Scratchpad?
     var senseData = [Double]()
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Plot()", select: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
-    }
-
-    func launch() {
-        Log.L.write("Plot.launch", select: 3)
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w)
+        self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     private func launch_() {
-        Log.L.write("Plot.launch_", select: 3)
-        loadSenseData()
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        var iOwnTheGridCell = false
 
-        guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
-
-        ch.gridCellConnector = selectMoveTarget()
-
-        if ch.stage.from == ch.stage.to {
-            dp.releaseStage(wiLaunch!)
-            return
+        defer {
+            if iOwnTheGridCell { dp.moveSprite() }
+            else               { ch.gridCellConnector = nil }
         }
 
-        dp.moveSprite(wiLaunch!)
+        iOwnTheGridCell = Disengage.iOwnTheGridCell(ch.gridCellConnector)
+        if !iOwnTheGridCell { return }
+
+        loadSenseData()
+
+        ch.gridCellConnector = selectMoveTarget()
     }
 }
 
 extension Plot {
     private func loadGridInputs() -> [Double] {
-        guard let senseGrid = scratch?.senseGrid else { fatalError() }
+        guard let senseGrid = scratch?.getSenseGridConnector() else { fatalError() }
 
         let gridInputs: [Double] = senseGrid.cells.reduce([]) { partial, cell in
 
@@ -101,15 +95,28 @@ extension Plot {
             zip(0..., st.net.getMotorOutputs(senseData)).map { ($0, $1) }
 
         let order = motorOutputs.sorted { lhs, rhs in lhs.1 > rhs.1 }
+        let senseGrid = ch.getSenseGridConnector(require: false)
 
         let targetOffset = order.first { entry in
-            guard let candidateCell = ch.senseGrid.cells[entry.0] else { return false }
-            return candidateCell.ownerName == st.name
+            guard let candidateCell = senseGrid?.cells[entry.0] else { return false }
+
+            return candidateCell.iOwnTheGridCell
         }
 
-        guard let from = ch.senseGrid.cells[0],
-                let to = ch.senseGrid.cells[targetOffset?.0 ?? 0] else { fatalError() }
+        let fromCell: SafeCell?
+        let toCell: SafeCell
 
-        return SafeStage(from, to)
+        if targetOffset == nil {
+            toCell = (senseGrid?.cells[0])!; fromCell = nil
+        } else {
+            toCell = (senseGrid?.cells[targetOffset!.0])!; fromCell = senseGrid?.cells[0]
+        }
+
+        precondition(
+            Disengage.iOwnTheGridCell(toCell) &&
+            (fromCell == nil || Disengage.iOwnTheGridCell(fromCell!))
+        )
+
+        return SafeStage(fromCell, toCell)
     }
 }

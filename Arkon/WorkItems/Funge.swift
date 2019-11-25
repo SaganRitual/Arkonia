@@ -8,17 +8,11 @@ final class Funge: Dispatchable {
     init(_ scratch: Scratchpad) {
         Log.L.write("Funge()", select: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(flags: .barrier, block: launch_)
-    }
-
-    func launch() {
-        Log.L.write("Funge.launch", select: 3)
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w)
+        self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     func launch_() {
-        Log.L.write("Funge.launch_", select: 3)
+        Log.L.write("Funge.launch_ \(six(scratch?.stepper?.name))", select: 3)
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
     }
@@ -28,10 +22,10 @@ extension Funge {
     func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool) {
         guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
-        if !isAlive { dp.apoptosize(wiLaunch!); return }
-        if !canSpawn { dp.releaseStage(wiLaunch!); return }
+        if !isAlive { dp.apoptosize(); return }
+        if !canSpawn { dp.releaseStage(); return }
 
-        dp.wangkhi(wiLaunch!)
+        dp.wangkhi()
     }
 }
 

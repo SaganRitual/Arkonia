@@ -44,7 +44,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
 
     var birthday = 0
     var callAgain = false
-    var embryoName = Names.getName()
+    var embryoName = UUID().uuidString // Names.getName()
     var fishNumber = 0
     var gridCell: GridCell?
     var metabolism: Metabolism?
@@ -63,25 +63,22 @@ final class WangkhiEmbryo: WangkhiProtocol {
         self.parent = scratch.stepper
         self.tempStrongReference = scratch.dispatch
 
-        self.wiLaunch = DispatchWorkItem(flags: .barrier, block: launch_)
-        self.wiLaunch2 = DispatchWorkItem(flags: [], block: launch2_)
+        self.wiLaunch = DispatchWorkItem(block: launch_)
+        self.wiLaunch2 = DispatchWorkItem(block: launch2_)
     }
 
     deinit {
         Log.L.write("~Wangkhi", select: 4)
     }
 
-    func launch() {
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w)
-    }
-
     func launch_() {
         getStartingPosition()
         registerBirth()
 
+        guard let w = wiLaunch else { fatalError() }
         guard let w2 = wiLaunch2 else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w2)
+
+        w.notify(queue: Grid.shared.serialQueue, execute: w2)
     }
 
     func launch2_() {
@@ -93,7 +90,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
 extension WangkhiEmbryo {
     private func getStartingPosition() {
         guard let parent = self.parent else {
-            self.gridCell = GridCell.lockRandomCell(setOwner: embryoName)
+            self.gridCell = GridCell.lockRandomEmptyCell(setOwner: embryoName)
             return
         }
 
@@ -101,7 +98,7 @@ extension WangkhiEmbryo {
     }
 
     private func registerBirth() {
-        World.stats.registerBirth_(myParent: nil, meOffspring: self)
+        World.stats.registerBirth(myParent: nil, meOffspring: self)
     }
 }
 
@@ -142,7 +139,7 @@ extension WangkhiEmbryo {
 
         GriddleScene.arkonsPortal.run(action) { [unowned self] in
             Log.L.write("buildSprites3")
-            Grid.shared.concurrentQueue.async(flags: .barrier) { [unowned self] in
+            Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
                 Log.L.write("buildSprites4")
                 self.releaseTempStrongReference()
                 Log.L.write("buildSprites5")
@@ -204,10 +201,10 @@ extension WangkhiEmbryo {
         if let dp = scratch?.dispatch, let st = scratch?.stepper {
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
-            dp.disengage(wiLaunch2)
+            dp.metabolize()
         }
 
         guard let ndp = newborn.dispatch else { fatalError() }
-        ndp.disengage(wiLaunch2)
+        ndp.disengage()
     }
 }

@@ -7,13 +7,7 @@ final class Apoptosize: Dispatchable {
     init(_ scratch: Scratchpad) {
         Log.L.write("Apoptosize()", select: 3)
         if !scratch.isApoptosizing { self.scratch = scratch }
-        self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
-    }
-
-    func launch() {
-        Log.L.write("Apoptosize.launch", select: 3)
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w)
+        self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     private func launch_() { aApoptosize() }
@@ -39,8 +33,8 @@ extension Apoptosize {
             Wangkhi.spriteFactory.noseHangar.retireSprite(no)
             Wangkhi.spriteFactory.arkonsHangar.retireSprite(sp)
 
-            Grid.shared.concurrentQueue.async(flags: .barrier) {
-                Log.L.write("Release stepper \(six(st.name))")
+            Grid.shared.serialQueue.async(flags: .barrier) {
+                Log.L.write("Release stepper \(six(st.name))", select: 9)
                 Stepper.releaseStepper(st, from: sp)
             }
         }

@@ -1,38 +1,39 @@
 import SpriteKit
 
 final class MoveSprite: Dispatchable {
+    static let moveDuration: TimeInterval = 0.1
+    static let restAction = SKAction.wait(forDuration: moveDuration)
+
+    static func rest(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
+        stepper.sprite.run(restAction) { onComplete() }
+    }
+
     weak var scratch: Scratchpad?
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("MoveSprite()", select: 3)
         self.scratch = scratch
-        // maybe we need a barrier to protect calls to sprite.run?
-        self.wiLaunch = DispatchWorkItem(flags: .barrier, block: launch_)
-    }
 
-    func launch() {
-        Log.L.write("MoveSprite.launch", select: 3)
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w)
+        // maybe we need a barrier to protect calls to sprite.run?
+        self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     private func launch_() { moveSprite() }
 
     func moveSprite() {
-        Log.L.write("MoveSprite.launch_", select: 3)
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        let gcc = ch.stage
-        let moveDuration: TimeInterval = 0.1
-        let position = gcc.to.randomScenePosition ?? gcc.to.scenePosition
+        guard let gcc = ch.getStageConnector() else { preconditionFailure() }
 
-        let moveAction = gcc.willMove ?
-            SKAction.move(to: position, duration: moveDuration) :
-            SKAction.wait(forDuration: moveDuration)
-
-        st.sprite.run(moveAction) { [unowned self] in
-            dp.moveStepper(self.wiLaunch!)
+        if gcc.fromCell == nil {
+            st.sprite.run(MoveSprite.restAction) { dp.releaseStage() }
+            return
         }
+
+        let position = gcc.toCell.randomScenePosition ?? gcc.toCell.scenePosition
+
+        let moveAction =  SKAction.move(to: position, duration: MoveSprite.moveDuration)
+
+        st.sprite.run(moveAction) { dp.moveStepper() }
     }
 }

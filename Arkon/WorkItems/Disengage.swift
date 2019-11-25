@@ -1,30 +1,44 @@
 import Dispatch
 
-class Disengage: Dispatchable {
+final class Disengage: Dispatchable {
     weak var scratch: Scratchpad?
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Disengage()", select: 3)
+        Log.L.write("Disengage() \(six(scratch.stepper?.name))", select: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(flags: .barrier, block: launch_)
+        self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
-    func launch() {
-        Log.L.write("Disengage.launch", select: 3)
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w)
+    static func iOwnTheGridCell(_ gridCellConnector: SafeConnectorProtocol?) -> Bool {
+        if let cell = gridCellConnector as? SafeCell {
+            return cell.iOwnTheGridCell
+        }
+
+        if let grid = gridCellConnector as? SafeSenseGrid,
+            let cell = grid.cells[0]
+        {
+            return cell.iOwnTheGridCell
+        }
+
+        if let stage = gridCellConnector as? SafeStage {
+            return stage.toCell.iOwnTheGridCell
+        }
+
+        return false
     }
 
     func launch_() {
-        Log.L.write("Disengage.launch_", select: 4)
-        guard let (_, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let unsafeCell = st.gridCell else { fatalError() }
 
-        precondition(unsafeCell.ownerName == st.name)
+        Log.L.write("Disengage.launch_ \(six(st.name)), \(six(scratch?.stepper?.name)), \(six(unsafeCell.ownerName)), \(unsafeCell.gridPosition)", select: 5)
+        precondition(unsafeCell.ownerName == st.name || ch.isAlive == false)
 
         unsafeCell.ownerName = nil
-        dp.engage(self.wiLaunch!)
+        ch.gridCellConnector = nil
+
+        dp.engage()
     }
 
 }

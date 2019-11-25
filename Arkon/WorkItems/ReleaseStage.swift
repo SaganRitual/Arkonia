@@ -1,28 +1,26 @@
 import Dispatch
 
-class ReleaseStage: Dispatchable {
+final class ReleaseStage: Dispatchable {
     weak var scratch: Scratchpad?
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
         Log.L.write("ReleaseStage()", select: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
-    }
-
-    func launch() {
-        Log.L.write("ReleaseStage.launch", select: 3)
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w)
+        self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     func launch_() {
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
-        let myLandingCell = SafeCell.releaseStage(ch.stage)
-        Log.L.write("ReleaseStage.launch_\(six(myLandingCell.ownerName))", select: 3)
+        defer { dp.metabolize() }
+
+        guard let stage = ch.getStageConnector() else { return }
+
+        Log.L.write("cello", select: 10)
+        let myLandingCell = SafeCell.releaseStage(stage)
+        Log.L.write("cellp", select: 10)
 
         ch.gridCellConnector = myLandingCell
-        dp.metabolize(wiLaunch!)
     }
 }

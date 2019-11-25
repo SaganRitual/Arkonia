@@ -6,9 +6,9 @@ class Grid {
     static var cells = [AKPoint: GridCell]()
     static var dimensions: Dimensions!
 
-    let concurrentQueue = DispatchQueue(
-        label: "arkonia.grid.concurrent",
-        attributes: DispatchQueue.Attributes.concurrent,
+    let serialQueue = DispatchQueue(
+        label: "arkonia.grid.serial",
+        attributes: [], //DispatchQueue.Attributes.concurrent,
         target: DispatchQueue.global(qos: .userInitiated)
     )
 

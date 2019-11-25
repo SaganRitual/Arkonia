@@ -7,23 +7,17 @@ final class Arrive: Dispatchable {
     init(_ scratch: Scratchpad) {
         Log.L.write("Arrive()", select: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(flags: [], block: launch_)
-    }
-
-    func launch() {
-        Log.L.write("Arrive.launch", select: 3)
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.concurrentQueue.async(execute: w)
+        self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     private func launch_() { arrive() }
 
     func arrive() {
-        Log.L.write("Arrive.launch_", select: 3)
+        Log.L.write("Arrive.launch_ \(six(scratch?.stepper?.name))", select: 3)
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
-        switch ch.stage.to.contents {
-        case .arkon: dp.parasitize(wiLaunch!)
+        switch ch.getStageConnector(require: true)?.toCell.contents {
+        case .arkon: dp.parasitize()
         case .manna: graze()
         default: fatalError()
         }
@@ -35,7 +29,7 @@ extension Arrive {
     func graze() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        guard let sprite = ch.stage.to.sprite else { fatalError() }
+        guard let sprite = ch.getStageConnector()?.toCell.sprite else { fatalError() }
         guard let manna = sprite.getManna() else { fatalError() }
 
         let harvested = manna.harvest()
@@ -45,7 +39,7 @@ extension Arrive {
 
         MannaCoordinator.shared.beEaten(sprite)
 
-        dp.releaseStage(self.wiLaunch!)
+        dp.releaseStage()
     }
 
 }
