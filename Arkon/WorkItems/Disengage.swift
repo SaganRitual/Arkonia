@@ -32,7 +32,7 @@ final class Disengage: Dispatchable {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let unsafeCell = st.gridCell else { fatalError() }
 
-        Log.L.write("Disengage.launch_ \(six(st.name)), \(six(scratch?.stepper?.name)), \(six(unsafeCell.ownerName)), \(unsafeCell.gridPosition)", level: 5)
+        Log.L.write("Disengage.launch_ \(six(st.name)), \(six(scratch?.stepper?.name)), \(six(unsafeCell.ownerName)), \(unsafeCell.gridPosition)", level: 15)
         precondition(unsafeCell.ownerName == st.name || ch.isAlive == false)
 
         unsafeCell.ownerName = nil

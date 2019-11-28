@@ -118,7 +118,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
         Display.displayCycle = .actions
 
         tickCount += 1
-        if (tickCount % 60) == 0 && dumbCount < 25 {
+        if (tickCount % 60) == 0 && dumbCount < 5 {
             dumbCount += 1
             Dispatch().wangkhi()
         }

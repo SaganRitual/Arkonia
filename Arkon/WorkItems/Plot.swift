@@ -14,13 +14,15 @@ final class Plot: Dispatchable {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         var iOwnTheGridCell = false
 
+        Log.L.write("Plot.launch_ \(six(st.name))", level: 15)
+
         defer {
             if iOwnTheGridCell { dp.moveSprite() }
             else               { ch.gridCellConnector = nil }
         }
 
         iOwnTheGridCell = Disengage.iOwnTheGridCell(ch.gridCellConnector)
-        if !iOwnTheGridCell { return }
+        if !iOwnTheGridCell { dp.disengage(); return }
 
         loadSenseData()
 

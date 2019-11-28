@@ -15,8 +15,9 @@ final class Apoptosize: Dispatchable {
 
 extension Apoptosize {
     func aApoptosize() {
-        Log.L.write("Apoptosize.launch_", level: 3)
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+
+        Log.L.write("Apoptosize.launch_ \(six(st.name))", level: 15)
 
         guard let sp = st.sprite else { fatalError() }
         guard let no = st.nose else { fatalError() }

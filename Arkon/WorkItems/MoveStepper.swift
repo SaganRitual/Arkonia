@@ -17,7 +17,7 @@ final class MoveStepper: Dispatchable {
     private func launch_() { moveStepper() }
 
     func moveStepper() {
-        Log.L.write("MoveStepper.launch1_ \(six(scratch?.stepper?.name))", level : 7)
+        Log.L.write("MoveStepper.launch1_ \(six(scratch?.stepper?.name))", level : 15)
         guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }
 
         defer { postMove() }

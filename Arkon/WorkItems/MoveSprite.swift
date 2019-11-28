@@ -22,6 +22,7 @@ final class MoveSprite: Dispatchable {
 
     func moveSprite() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        Log.L.write("MoveSprite.launch_ \(six(st.name))", level: 15)
 
         guard let gcc = ch.getStageConnector() else { preconditionFailure() }
 

@@ -13,7 +13,7 @@ final class Arrive: Dispatchable {
     private func launch_() { arrive() }
 
     func arrive() {
-        Log.L.write("Arrive.launch_ \(six(scratch?.stepper?.name))", level: 3)
+        Log.L.write("Arrive.launch_ \(six(scratch?.stepper?.name))", level: 15)
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
         switch ch.getStageConnector(require: true)?.toCell.contents {

@@ -44,7 +44,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
 
     var birthday = 0
     var callAgain = false
-    var embryoName = UUID().uuidString // Names.getName()
+    var embryoName = Names.getName()
     var fishNumber = 0
     var gridCell: GridCell?
     var metabolism: Metabolism?
@@ -59,7 +59,8 @@ final class WangkhiEmbryo: WangkhiProtocol {
     var wiLaunch2: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Wangkhi", level: 1)
+        Log.L.write("Wangkhi", level: 15)
+        self.scratch = scratch
         self.parent = scratch.stepper
         self.tempStrongReference = scratch.dispatch
 
@@ -72,13 +73,14 @@ final class WangkhiEmbryo: WangkhiProtocol {
     }
 
     func launch_() {
+        Log.L.write("Wangkhi.launch_ \(six(scratch?.stepper?.name))", level: 15)
+
         getStartingPosition()
         registerBirth()
 
-        guard let w = wiLaunch else { fatalError() }
         guard let w2 = wiLaunch2 else { fatalError() }
 
-        w.notify(queue: Grid.shared.serialQueue, execute: w2)
+        Grid.shared.serialQueue.async(execute: w2)
     }
 
     func launch2_() {
@@ -132,7 +134,7 @@ extension WangkhiEmbryo {
         }
 
         GriddleScene.arkonsPortal.run(action) { [unowned self] in
-            Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
+            Grid.shared.serialQueue.async { [unowned self] in
                 self.releaseTempStrongReference()
             }
         }

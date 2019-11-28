@@ -11,7 +11,7 @@ final class Parasitize: Dispatchable {
     }
 
     func launch_() {
-        Log.L.write("Parasitize.launch_ \(six(scratch?.stepper?.name))", level: 3)
+        Log.L.write("Parasitize.launch_ \(six(scratch?.stepper?.name))", level: 15)
         let result = attack()
         parasitize(result.0, result.1)
     }

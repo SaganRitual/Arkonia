@@ -14,12 +14,13 @@ final class Engage: Dispatchable {
         guard let (_, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gridCell = st.gridCell else { fatalError() }
 
-        Log.L.write("Engage.launch_ \(six(st.name))", level: 9)
-
         let safeCell = gridCell.engage_(st.name, false)
-        if safeCell.iOwnTheGridCell { self.onLock(safeCell) }
-
-        Log.L.write("~Engage.launch_ \(six(st.name))", level: 9)
+        if safeCell.iOwnTheGridCell {
+            Log.L.write("lock for \(six(st.name)) at \(gridCell)", level: 15)
+            self.onLock(safeCell)
+        } else {
+            Log.L.write("no lock for \(six(st.name)) at \(gridCell)", level: 15)
+        }
 
         dp.funge()
     }

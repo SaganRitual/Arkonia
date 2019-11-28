@@ -1,6 +1,6 @@
 import SpriteKit
 
-class GridCell: GridCellProtocol, Equatable {
+class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     enum Contents: Double, CaseIterable {
         case arkon, invalid, manna, nothing
 
@@ -12,6 +12,8 @@ class GridCell: GridCellProtocol, Equatable {
             return self == .arkon || self == .manna
         }
     }
+
+    var debugDescription: String { return "GridCell.at(\(gridPosition.x), \(gridPosition.y))" }
 
     let gridPosition: AKPoint
     var randomScenePosition: CGPoint?
