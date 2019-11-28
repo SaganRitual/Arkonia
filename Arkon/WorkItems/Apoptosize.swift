@@ -1,31 +1,30 @@
 import SpriteKit
 
-final class Apoptosize: AKWorkItem {
-    override func go() { aApoptosize() }
+final class Apoptosize: Dispatchable {
+    var scratch: Scratchpad?
 
-    deinit {
-//        print("wtf")
-    }
+    init(_ scratch: Scratchpad) { self.scratch = scratch }
 }
 
 extension Apoptosize {
-    private func aApoptosize() {
-        let action = SKAction.run { [unowned self] in
+    func launch() {
+        guard let sc = self.scratch else { fatalError() }
+        guard let st = sc.stepper else { fatalError() }
+        guard let sp = st.sprite else { fatalError() }
+        guard let no = st.nose else { fatalError() }
+
+        let action = SKAction.run {
             assert(Display.displayCycle == .actions)
 
-            guard let st = self.stepper else { fatalError() }
-            guard let s = st.sprite else { fatalError() }
-            guard let n = st.nose else { fatalError() }
+            sp.removeAllActions()
 
-            s.removeAllActions()
-
-            Wangkhi.spriteFactory.noseHangar.retireSprite(n)
-            Wangkhi.spriteFactory.arkonsHangar.retireSprite(s)
-
-            // Counting on this to be the only strong ref to the stepper
-            Stepper.releaseStepper(st, from: s)
+            Wangkhi.spriteFactory.noseHangar.retireSprite(no)
+            Wangkhi.spriteFactory.arkonsHangar.retireSprite(sp)
         }
 
-        GriddleScene.arkonsPortal.run(action)
+        GriddleScene.arkonsPortal.run(action) {
+            // Counting on this to be the only strong ref to the stepper
+            Stepper.releaseStepper(st, from: sp)
+        }
     }
 }

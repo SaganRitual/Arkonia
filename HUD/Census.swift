@@ -30,36 +30,29 @@ struct Census {
         var worldStats: World.StatsCopy!
 
         func partA() {
-            World.stats.getStats(partB)
-        }
-
-        func partB(_ worldStats_: World.StatsCopy) {
-            let action = SKAction.run {
-                worldStats = worldStats_
-                partC(worldStats.currentTime)
-            }
-
-            GriddleScene.arkonsPortal.run(action) {
-                if liveArkonsAges.isEmpty { partE() } else { partD() }
-            }
-        }
-
-        func partC(_ currentTime: Int) {
-            liveArkonsAges = GriddleScene.arkonsPortal!.children.compactMap { node in
-                guard let sprite = node as? SKSpriteNode else {
-                    fatalError()
+            Grid.shared.concurrentQueue.asyncAfter(deadline: DispatchTime.now() + 1, flags: .barrier) {
+                World.stats.getStats_ {
+                    worldStats = $0
+                    partB(worldStats.currentTime)
                 }
+            }
+        }
 
-                guard let stepper = Stepper.getStepper(
-                    from: sprite, require: false
-                ) else { return nil }
+        func partB(_ currentTime: Int) {
+            let liveArkonsAges: [Int] = GriddleScene.arkonsPortal!.children.compactMap { node in
+                guard let sprite = node as? SKSpriteNode else { fatalError() }
 
-                return  currentTime - stepper.birthday
+                guard let stepper = Stepper.getStepper(from: sprite, require: false)
+                    else { return nil }
+
+                return currentTime - stepper.birthday
             }
 
-            if liveArkonsAges.count < 15 {
+            if liveArkonsAges.count < 25 {
                 Dispatch().wangkhi()
             }
+
+            if liveArkonsAges.isEmpty { partA() } else { partD() }
         }
 
         func partD() {
@@ -75,13 +68,7 @@ struct Census {
             rHighWaterAge.data.text =
                 ageFormatter.string(from: Double(worldStats.highWaterAge))
 
-            partE()
-        }
-
-        func partE() {
-            DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 1) {
-                partA()
-            }
+            partA()
         }
 
         partA()

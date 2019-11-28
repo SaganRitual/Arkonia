@@ -3,121 +3,126 @@ import Foundation
 typealias GoCall = () -> Void
 
 protocol Dispatchable {
-    var runAsBarrier: Bool { get }
+    var scratch: Scratchpad? { get }
 
-    func go()
+    func launch()
 }
 
 extension Dispatchable {
-    var runAsBarrier: Bool { return true }
 }
 
-enum DispatchMode { case alive, apoptosisScheduled }
+class Scratchpad {
+    var canSpawn = false
+    weak var dispatch: Dispatch?
+    var gridCell: GridCell?
+    var gridCellConnector: SafeConnectorProtocol?
+    var isAlive = false
+    var worldStats: World.StatsCopy?
+    weak var stepper: Stepper?
+
+    var safeCell:  SafeCell { return (gridCellConnector as? SafeCell)! }
+    var senseGrid: SafeSenseGrid { return (gridCellConnector as? SafeSenseGrid)! }
+    var stage:     SafeStage { return (gridCellConnector as? SafeStage)! }
+
+//    init() { print("scratchpad") }
+}
 
 final class Dispatch {
     var currentTask: Dispatchable!
-    var dispatchMode: DispatchMode = .alive
     let name = UUID().uuidString
-    weak var stepper: Stepper!
+
+    var workItemApoptosize: DispatchWorkItem?
+    var workItemColorize: DispatchWorkItem?
+    var workItemEat: DispatchWorkItem?
+    var workItemFunge: DispatchWorkItem?
+    var workItemFungeRoute: DispatchWorkItem?
+    var workItemGroup = DispatchGroup()
+    var workItemMetabolize: DispatchWorkItem?
+    var workItemParasitize: DispatchWorkItem?
+    var workItemShift: DispatchWorkItem?
+    var workItemWangkhi: DispatchWorkItem?
+
+    var workItems = [DispatchWorkItem]()
+
+    var scratch = Scratchpad()
 
     init(_ stepper: Stepper? = nil) {
-        self.stepper = stepper
+        scratch.dispatch = self
+        scratch.stepper = stepper
+
+        workItemApoptosize = DispatchWorkItem(block: apoptosize)
+        workItemColorize   = DispatchWorkItem(block: colorize)
+        workItemEat        = DispatchWorkItem(block: eat)
+        workItemFunge      = DispatchWorkItem(block: funge)
+        workItemFungeRoute = DispatchWorkItem(block: fungeRoute)
+        workItemMetabolize = DispatchWorkItem(block: metabolize)
+        workItemParasitize = DispatchWorkItem(block: parasitize)
+        workItemShift      = DispatchWorkItem(block: shift)
+        workItemWangkhi    = DispatchWorkItem(block: wangkhi)
+
+//        workItemMetabolize!.notify(queue: <#T##DispatchQueue#>, execute: <#T##DispatchWorkItem#>)
+//        workItemColorize!.notify(queue: Grid.shared.concurrentQueue, execute: workItemShift!)
+//        workItemParasitize!.notify(queue: Grid.shared.concurrentQueue, execute: workItemFunge!)
+
+//        workItemFunge!.notify(queue: Grid.shared.concurrentQueue, execute: workItemFungeRoute!)
     }
 
-    private func go(_ dispatchable: Dispatchable) {
-        if dispatchable.runAsBarrier { runSerial(dispatchable) }
-        else { runConcurrent(dispatchable) }
+    func go() {
+//        print("dp go pre")
+        Grid.shared.concurrentQueue.async(execute: workItemFunge!)
+//        print("dp go post")
     }
-
-    private func runSerial(_ dispatchable: Dispatchable) {
-        Grid.shared.serialQueue.async {
-            if self.dispatchMode == .apoptosisScheduled { return }
-            dispatchable.go()
-        }
-    }
-
-    private func runConcurrent(_ dispatchable: Dispatchable) {
-        Grid.shared.concurrentQueue.async {
-            if self.dispatchMode == .apoptosisScheduled { return }
-            dispatchable.go()
-        }
-    }
-
-    func callAgain() { go(self.currentTask) }
-    func start(_ dispatchable: Dispatchable) { go(dispatchable) }
 }
 
 extension Dispatch {
     func apoptosize() {
-        currentTask = Apoptosize(self)
-        start(currentTask)
+        currentTask = Apoptosize(scratch)
+        currentTask.launch()
     }
 
     func colorize() {
-//        print("c1, \(stepper?.name ?? "<nothing>")")
-        currentTask = Colorize(self)
-//        print("c2, \(stepper?.name ?? "<nothing>")")
-        start(currentTask)
-//        print("c3, \(stepper?.name ?? "<nothing>")")
-    }
-
-    func defeatManna() {
-        guard let activeEat = currentTask as? Eat else { fatalError() }
-        let manna: Manna = activeEat.getResult()
-
-        activeEat.inject(manna)
-        start(activeEat)
+//        print("pcolor")
+        currentTask = Colorize(scratch)
+        currentTask.launch()
     }
 
     func eat() {
-        guard let currentGridlet = stepper.gridlet else { fatalError() }
-        guard let spentShift = currentTask as? Shift else { fatalError() }
-        guard let previousGridlet = spentShift.getResult() else { fatalError() }
-
-        currentTask = Eat(self)
-
-        guard let newEat = currentTask as? Eat else { fatalError() }
-        newEat.inject(previousGridlet, currentGridlet)
-        start(newEat)
+        currentTask = Eat(scratch)
+        currentTask.launch()
     }
 
     func funge() {
-        currentTask = Funge(self)
-        start(currentTask)
+        currentTask = Funge(scratch)
+        currentTask.launch()
+    }
+
+    func fungeRoute() {
+//        print("FR1 alive = \(scratch.isAlive), canSpawn = \(scratch.canSpawn)")
+        if !scratch.isAlive { apoptosize(); return }
+//        print("FR2")
+        if !scratch.canSpawn { metabolize(); return }
+//        print("FR3")
+        wangkhi()
+//        print("FR4")
     }
 
     func metabolize() {
-//        print("m1, \(stepper?.name ?? "<nothing>")")
-        currentTask = Metabolize(self)
-//        print("m2, \(stepper?.name ?? "<nothing>")")
-        start(currentTask)
-//        print("m3, \(stepper?.name ?? "<nothing>")")
+        currentTask = Metabolize(scratch)
+        currentTask.launch()
     }
 
     func parasitize() {
-        guard let activeEat = currentTask as? Eat else { fatalError() }
-        let (_, victim) = activeEat.getResult()
-
-        currentTask = Parasitize(self)
-
-        guard let newParasitize = currentTask as? Parasitize else { fatalError() }
-        newParasitize.inject(victim)
-        start(newParasitize)
+        currentTask = Parasitize(scratch)
+        currentTask.launch()
     }
 
     func shift() {
-//        print("s1, \(stepper?.name ?? "<nothing>")")
-        currentTask = Shift(self)
-//        print("s2, \(stepper?.name ?? "<nothing>")")
-        start(currentTask)
-//        print("s3, \(stepper?.name ?? "<nothing>")")
+        currentTask = Shifter(scratch)
+        currentTask.launch()
     }
 
     func wangkhi() {
-//        print("w1, \(stepper?.name ?? "<nothing>")")
-        currentTask = WangkhiEmbryo(self)
-//        print("w2, \(stepper?.name ?? "<nothing>")")
-        start(currentTask)
-//        print("w3, \(stepper?.name ?? "<nothing>")")
+        currentTask = WangkhiEmbryo(scratch)
+        currentTask.launch()
     }
 }

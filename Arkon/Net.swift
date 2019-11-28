@@ -91,7 +91,7 @@ class Net {
         assert(sensoryInputs.count == ArkoniaCentral.cSenseNeurons)
 
         var ncSS = 0
-        var a0 = Matrix<Double>(sensoryInputs.map { [$0] })
+        var a0 = Matrix<Double>(column: sensoryInputs)
 
         for _ in 0..<layers.count - 1 {
             defer { ncSS += 1 }

@@ -2,8 +2,9 @@ import SpriteKit
 
 class Grid {
     static var shared: Grid!
+
+    static var cells = [AKPoint: GridCell]()
     static var dimensions: Dimensions!
-    static var gridlets = [AKPoint: Gridlet]()
 
     let concurrentQueue = DispatchQueue(
         label: "arkonia.grid.concurrent",

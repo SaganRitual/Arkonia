@@ -11,13 +11,12 @@ class MannaCoordinator {
     static let fadeInAction = SKAction.fadeIn(withDuration: 0.001)
     static let fadeOutAction = SKAction.fadeOut(withDuration: 0.001)
 
-    static let cMorsels = 500
+    static let cMorsels = 1000
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
     init() {
         mannaSpriteFactory = Wangkhi.spriteFactory
-        populate()
     }
 
     private func bloom(_ manna: Manna) {
@@ -53,15 +52,17 @@ class MannaCoordinator {
 
 extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
-        var gridlet: Gridlet?
+        var gridCell: GridCell?
 
-        Gridlet.getRandomGridlet {
-            gridlet = $0
-            gridlet!.contents = .manna
-            gridlet!.sprite = sprite
+        GridCell.getRandomGridlet {
+            gridCell = $0
+            gridCell!.contents = .manna
+            gridCell!.sprite = sprite
+
+            guard sprite.userData?[SpriteUserDataKey.manna] is Manna else { fatalError() }
         }
 
-        let manna = Manna.getManna(from: sprite)
+        guard let manna = Manna.getManna(from: sprite) else { fatalError() }
         manna.sprite.alpha = 0
         plant(manna)
     }
@@ -69,26 +70,26 @@ extension MannaCoordinator {
 
 extension MannaCoordinator {
     private func plant_(_ manna: Manna) {
-        let gridlet = Gridlet.getRandomGridlet_()
+        let gridCell = GridCell.getRandomGridlet_()
 
-        gridlet.contents = .manna
-        gridlet.sprite = manna.sprite
+        gridCell.contents = .manna
+        gridCell.sprite = manna.sprite
+        guard manna.sprite.userData?[SpriteUserDataKey.manna] is Manna else { fatalError() }
 
-        if let sp = gridlet.randomScenePosition {
+        if let sp = gridCell.randomScenePosition {
             manna.sprite.position = sp
         } else {
-            manna.sprite.position = gridlet.scenePosition
+            manna.sprite.position = gridCell.scenePosition
         }
 
         manna.sprite.alpha = 0
-        manna.sprite.setScale(0.1)
-        manna.sprite.color = .green
+        manna.sprite.setScale(0.14)
         manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
 
         bloom(manna)
     }
 
     func plant(_ manna: Manna) {
-        Grid.shared.serialQueue.async { self.plant_(manna) }
+        Grid.shared.concurrentQueue.async(flags: .barrier) { self.plant_(manna) }
     }
 }

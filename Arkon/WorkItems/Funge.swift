@@ -1,9 +1,77 @@
 import CoreGraphics
 import Foundation
 
-extension Metabolism {
+final class Funge: Dispatchable {
+    enum Phase { case lockGrid, getWorldStats, checkSpawnability, execute }
 
-    func fungeProper(age: Int, mass: CGFloat) -> Bool {
+    var currentWorkItem = 0
+    weak var scratch: Scratchpad?
+    var lockWorkItem: DispatchWorkItem?
+
+    init(_ scratch: Scratchpad) {
+//        print("Funge init")
+        self.scratch = scratch
+    }
+
+    func launch() {
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+        guard let gridCell = st.gridCell else { fatalError() }
+//        print("launch \(six(st.name))")
+
+        lockWorkItem = gridCell.wiEngage(owner: st.name, require: false) {
+            guard let lockedCell = $0 else {
+//                print("miss wi")
+                return
+            }
+//            print("engage wi")
+            self.onLock(lockedCell)
+        }
+
+//        print("L1")
+        Grid.shared.concurrentQueue.async(flags: .barrier) {
+            self.lockWorkItem?.perform()
+        }
+//        print("L2")
+    }
+
+    func onLock(_ myGridCell: SafeCell?) {
+//        print("onLock")
+        guard let scr = scratch else { fatalError() }
+        guard let dp = scr.dispatch else { fatalError() }
+
+        if myGridCell == nil {
+//            print("not locked \(myGridCell!.gridPosition)")
+        } else {
+//            print("locked \(myGridCell!.gridPosition)")
+        }
+
+        scr.gridCellConnector = myGridCell
+        scr.worldStats = World.stats.copy()
+
+        checkSpawnability()
+        dp.fungeRoute()
+    }
+}
+
+extension Funge {
+    func checkSpawnability() {
+//        print("checkSpawnability")
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+        guard let ws = scr.worldStats else { fatalError() }
+
+        let age = ws.currentTime - st.birthday
+
+        scr.isAlive = st.metabolism.fungeProper(age: age)
+        scr.canSpawn = st.canSpawn()
+//        print("isAlive = \(scr.isAlive), canSpawn = \(scr.canSpawn)")
+    }
+}
+
+extension Metabolism {
+    func fungeProper(age: Int) -> Bool {
+//        print("fungeProper")
         let fudgeFactor: CGFloat = 1
         let joulesNeeded = fudgeFactor * mass
 
@@ -12,73 +80,7 @@ extension Metabolism {
         let oxygenCost: Int = age < 5 ? 0 : 1
         oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
 
+//        print("isAlive = \(fungibleEnergyFullness > 0 && oxygenLevel > 0)")
         return fungibleEnergyFullness > 0 && oxygenLevel > 0
-    }
-}
-
-final class Funge: Dispatchable {
-
-    enum Phase { case getWorldStats, checkSpawnability, execute }
-
-    var canSpawn = false
-    weak var dispatch: Dispatch!
-    var isAlive = false
-    var phase = Phase.getWorldStats
-    var runAsBarrier = true
-    var stats: World.StatsCopy!
-    var stepper: Stepper { return dispatch.stepper }
-
-    init(_ dispatch: Dispatch) {
-        self.dispatch = dispatch
-    }
-
-    func go() { aFunge() }
-}
-
-extension Funge {
-
-    func aFunge() {
-        switch phase {
-        case .getWorldStats:
-            getWorldStats {
-                self.callAgain(.checkSpawnability, false)
-            }
-
-        case .checkSpawnability:
-            checkSpawnability()
-            callAgain(.execute, false)
-
-        case .execute:
-            execute()
-        }
-    }
-
-    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
-        self.phase = phase
-        self.runAsBarrier = runAsBarrier
-        dispatch.callAgain()
-    }
-
-    func getWorldStats(_ onComplete: @escaping () -> Void) {
-        World.stats.getStats { [unowned self] in
-            self.stats = $0
-            onComplete()
-        }
-    }
-
-    func checkSpawnability() {
-        let age = stats.currentTime - self.stepper.birthday
-        let mass = stepper.metabolism.mass
-
-        self.isAlive = stepper.metabolism.fungeProper(age: age, mass: mass)
-        self.canSpawn = stepper.canSpawn()
-    }
-
-    func execute() {
-        if !isAlive { dispatch.apoptosize(); return }
-
-        if !canSpawn { dispatch.metabolize() ; return }
-
-        dispatch.wangkhi()
     }
 }

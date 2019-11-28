@@ -1,96 +1,83 @@
 import SpriteKit
 
-final class Eat: AKWorkItem {
-    enum Phase { case chooseEdible, settleCombat }
-
-    var combatOrder: (Stepper, Stepper)!
-    var currentGridlet: Gridlet!
+final class Eat: Dispatchable {
     var manna: Manna!
-    var phase = Phase.chooseEdible
-    var previousGridlet: GridletCopy!
-    let runAsBarrier = false
+    weak var scratch: Scratchpad?
 
-    override func go() { aEat() }
+    var workItemChooseBattle: DispatchWorkItem?
+    var workItemChooseEdible: DispatchWorkItem?
 
-    func inject(_ previousGridlet: GridletCopy, _ currentGridlet: Gridlet) {
-        self.previousGridlet = previousGridlet
-        self.currentGridlet = currentGridlet
+    init(_ scratch: Scratchpad) {
+        self.scratch = scratch
+
+        workItemChooseBattle = DispatchWorkItem(flags: .init(), block: chooseBattle)
+        workItemChooseEdible = DispatchWorkItem(flags: .init(), block: chooseEdible)
+
+        workItemChooseEdible?.notify(
+            queue: Grid.shared.concurrentQueue,
+            execute: workItemChooseBattle!
+        )
     }
 
-    func inject(_ combatOrder: (Stepper, Stepper)) {
-        self.combatOrder = combatOrder
-        self.phase = .settleCombat
-    }
-
-    func inject(_ manna: Manna) {
-        self.manna = manna
-        self.phase = .settleCombat
+    func launch() {
+        Grid.shared.concurrentQueue.async(execute: workItemChooseEdible!)
     }
 }
 
 extension Eat {
-    //swiftmint:disable function_body_length
-    private func aEat() {
-        guard let st = dispatch?.stepper else { fatalError() }
-        switch phase {
-        case .chooseEdible:
+    private func chooseEdible() {
+//        print("chooseEdible")
+        guard let scr = scratch else { fatalError() }
+        guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
 
-            switch st.gridlet.contents {
-            case .arkon:
-                battleArkon()
-                phase = .settleCombat
-                dispatch?.callAgain()
+        switch gcc.to.contents {
+        case .arkon: battleArkon()
+        case .manna: battleManna()
 
-            case .manna:
-                battleManna()
-                phase = .settleCombat
-                dispatch?.defeatManna()
-
-            case .nothing:
-                dispatch?.funge()
-            }
-
-        case .settleCombat:
-            switch st.gridlet.contents {
-            case .arkon:
-                settleCombat()
-
-            case .manna:
-                defeatManna()
-                dispatch?.funge()
-
-            default: fatalError()
-            }
+        default: fatalError()
         }
     }
-    //swiftmint:enable function_body_length
+
+    private func chooseBattle() {
+//        print("chooseBattle")
+        guard let scr = scratch else { fatalError() }
+        guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
+
+        switch gcc.to.contents {
+        case .arkon: settleCombat()
+        case .manna: defeatManna()
+
+        default: fatalError()
+        }
+    }
 }
 
 extension Eat {
     func battleArkon() {
-        guard let dp = dispatch else { fatalError() }
+        print("battleArkon")
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+        guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
 
-        guard let otherSprite = previousGridlet?.sprite,
-            let otherUserData = otherSprite.userData,
-            let otherAny = otherUserData[SpriteUserDataKey.stepper],
-            let otherStepper = otherAny as? Stepper
-        else { fatalError() }
+        guard let victimSprite = gcc.to.sprite else { fatalError() }
 
-        let myMass = dp.stepper.metabolism.mass
-        let hisMass = otherStepper.metabolism.mass
-        print("combat: \(myMass) <-> \(hisMass)")
+        guard let victimStepper = Stepper.getStepper(from: victimSprite)
+            else { fatalError() }
 
-        self.combatOrder = (myMass > (hisMass * 1.25)) ?
-            (dp.stepper, otherStepper) : (otherStepper, dp.stepper)
-    }
+        let myMass = st.metabolism.mass
+        let hisMass = victimStepper.metabolism.mass
+        print("combat: \(six(st.name)) \(myMass) <-> \(hisMass) \(six(victimStepper.name))")
 
-    func getResult() -> (Stepper, Stepper) {
-        return combatOrder!
+        st.battle = (myMass > (hisMass * 1.25)) ? (st, victimStepper) : (victimStepper, st)
+        victimStepper.battle = st.battle
     }
 
     func battleManna() {
+//        print("battleManna")
+        guard let scr = scratch else { fatalError() }
+        guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
 
-        guard let mannaSprite = dispatch?.stepper.gridlet.sprite,
+        guard let mannaSprite = gcc.to.sprite,
             let mannaUserData = mannaSprite.userData,
             let shouldBeManna = mannaUserData[SpriteUserDataKey.manna],
             let manna = shouldBeManna as? Manna
@@ -105,15 +92,33 @@ extension Eat {
 
 extension Eat {
     private func defeatManna() {
-        guard let st = stepper else { fatalError() }
+//        print("defeatManna")
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+
         let harvested = self.manna.harvest()
+
         st.metabolism.absorbEnergy(harvested)
         st.metabolism.inhale()
-        MannaCoordinator.shared.beEaten(self.manna.sprite)
+//        print("dm1")
+//        print("dm2")
+        Grid.shared.concurrentQueue.async(flags: .barrier) {
+            MannaCoordinator.shared.beEaten(self.manna.sprite)
+            scr.gridCellConnector = nil
+            scr.dispatch?.funge()
+        }
+//        print("dm3")
     }
 
     private func settleCombat() {
-        self.combatOrder.0.dispatch.parasitize()
-        self.combatOrder.1.dispatch.apoptosize()
+//        print("settleCombat")
+        guard let scr = scratch else { fatalError() }
+        guard let st = scr.stepper else { fatalError() }
+
+        guard let (victor, victim) = st.battle else { fatalError() }
+
+        print("Combat: \(six(victor.name)) eats \(six(victim.name))")
+        victor.dispatch.parasitize()
+        victim.dispatch.apoptosize()
     }
 }

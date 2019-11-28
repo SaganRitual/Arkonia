@@ -7,12 +7,12 @@ enum Wangkhi {
     static let standardColor = 0x00_FF_00  // Slightly dim green
 }
 
-protocol WangkhiProtocol: class {
+protocol WangkhiProtocol: class, Dispatchable {
     var birthday: Int { get set }
     var callAgain: Bool { get }
     var dispatch: Dispatch? { get set }
     var fishNumber: Int { get set }
-    var gridlet: Gridlet? { get set }
+    var gridCell: GridCell? { get set }
     var metabolism: Metabolism? { get set }
     var net: Net? { get }
     var netDisplay: NetDisplay? { get }
@@ -21,95 +21,77 @@ protocol WangkhiProtocol: class {
     var sprite: SKSpriteNode? { get set }
 }
 
-class AKWorkItem: Dispatchable {
-    weak var dispatch: Dispatch?
-    var runningAsBarrier = false
-    var stepper: Stepper? { return dispatch?.stepper }
+final class WangkhiEmbryo: WangkhiProtocol {
+    let scratch: Scratchpad?
+    var newScratch = Scratchpad()
 
-    init(_ dispatch: Dispatch) {
-        self.dispatch = dispatch
-    }
-
-    func go() { fatalError() }
-}
-
-final class WangkhiEmbryo: AKWorkItem, WangkhiProtocol {
     enum Phase {
         case getStartingPosition, registerBirth, buildGuts, buildSprites
     }
 
     var birthday = 0
     var callAgain = false
+    var dispatch: Dispatch?
     var fishNumber = 0
-    var gridlet: Gridlet?
+    var gridCell: GridCell?
     var metabolism: Metabolism?
     var net: Net?
     var netDisplay: NetDisplay?
     var nose: SKSpriteNode?
     var parent: Stepper?
     var phase = Phase.getStartingPosition
-    var runAsBarrier = true
     var sprite: SKSpriteNode?
     var tempStrongReference: Dispatch?
+    var workItems = [DispatchWorkItem]()
 
-    override init(_ dispatch: Dispatch) {
-        self.parent = dispatch.stepper
-        self.tempStrongReference = dispatch
+    init(_ scratch: Scratchpad) {
+//        print("aWangkhiEmbryo init1")
+        self.scratch = scratch
+        self.parent = scratch.stepper
+        self.tempStrongReference = scratch.dispatch
+//        print("aWangkhiEmbryo init2")
 
-        super.init(dispatch)
+        workItems = [
+            DispatchWorkItem(flags: .init(), block: getStartingPosition),
+            DispatchWorkItem(flags: .barrier, block: registerBirth),
+            DispatchWorkItem(flags: .init(), block: buildGuts),
+            DispatchWorkItem(flags: .init(), block: buildSprites)
+        ]
+
+        for ss in 1..<self.workItems.count {
+            let finishedWorkItem = self.workItems[ss - 1]
+            let newWorkItem = self.workItems[ss]
+
+            let flags: DispatchWorkItemFlags = ss == 1 ? .barrier : []
+
+            finishedWorkItem.notify(flags: flags, queue: Grid.shared.concurrentQueue) {
+                newWorkItem.perform()
+            }
+        }
     }
 
     deinit {
 //        print("fuck")
     }
 
-    func callAgain(_ phase: Phase, _ runAsBarrier: Bool) {
-        guard let dp = dispatch else { fatalError() }
-
-        self.phase = phase
-        self.runAsBarrier = runAsBarrier
-        dp.callAgain()
-    }
-
-    override func go() { aWangkhiEmbryo() }
+    func launch() { Grid.shared.concurrentQueue.async(execute: workItems[0]) }
 }
 
 extension WangkhiEmbryo {
-    func aWangkhiEmbryo() {
-        switch phase {
-        case .getStartingPosition:
-            getStartingPosition()
-            callAgain(.registerBirth, true)
-
-        case .registerBirth:
-            registerBirth {
-                self.callAgain(.buildGuts, false)
-            }
-
-        case .buildGuts:
-            buildGuts()
-            callAgain(.buildSprites, false)
-
-        case .buildSprites:
-            buildSprites()
-        }
-    }
-}
-
-extension WangkhiEmbryo {
-    func getStartingPosition() {
-        guard let p = parent else {
-            self.gridlet = Gridlet.getRandomGridlet_()
+    private func getStartingPosition() {
+//        print("getStartingPosition")
+        guard let parent = self.parent else {
+            self.gridCell = GridCell.getRandomGridlet_()
             return
         }
 
-        var foundGridlet: Gridlet!
+        var foundGridlet: GridCell!
         var candidateIx = Int.random(in: 1..<ArkoniaCentral.cSenseGridlets)
 
         while foundGridlet == nil {
-            let g = p.getGridPointByIndex(candidateIx)
+            let g = parent.gridCell.getGridPointByIndex(candidateIx)
 
-            if let f = Gridlet.atIf(g), f.contents == .nothing {
+            if let f = GridCell.atIf(g), f.contents == .nothing {
                 foundGridlet = f
                 break
             }
@@ -117,18 +99,18 @@ extension WangkhiEmbryo {
             candidateIx += 1
         }
 
-        self.gridlet = foundGridlet
+        self.gridCell = foundGridlet
     }
 
-    func registerBirth(_ onComplete: @escaping () -> Void) {
-        World.stats.registerBirth(
-            myParent: nil, meOffspring: self, onComplete
-        )
+    private func registerBirth() {
+//        print("registerBirth")
+        World.stats.registerBirth_(myParent: nil, meOffspring: self)
     }
 }
 
 extension WangkhiEmbryo {
     func buildGuts() {
+//        print("buildGuts")
         metabolism = Metabolism()
 
         net = Net(
@@ -152,6 +134,7 @@ extension WangkhiEmbryo {
 extension WangkhiEmbryo {
 
     func buildSprites() {
+//        print("buildSprites")
         let action = SKAction.run { [unowned self] in
             self.buildSprites_()
         }
@@ -168,7 +151,7 @@ extension WangkhiEmbryo {
 
         guard let sprite = self.sprite else { fatalError() }
         guard let nose = self.nose else { fatalError() }
-        guard let gridlet = self.gridlet else { fatalError() }
+        guard let gridCell = self.gridCell else { fatalError() }
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
@@ -177,10 +160,14 @@ extension WangkhiEmbryo {
         sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
         sprite.setScale(0.5)
-        sprite.position = gridlet.scenePosition
+        sprite.position = gridCell.scenePosition
         sprite.alpha = 1
 
         sprite.addChild(nose)
+
+        gridCell.sprite = sprite
+        gridCell.contents = .arkon
+        scratch?.gridCell = gridCell
 
 //        print("bbefore",
 //              dispatch?.name.prefix(8) ?? "wtf4∫",
@@ -191,8 +178,7 @@ extension WangkhiEmbryo {
 //              self.dispatch?.stepper?.name.prefix(8) ?? "wtf4b; ")
 
         let newborn: Stepper = Stepper(self, needsNewDispatch: true)
-        newborn.parentStepper = self.dispatch?.stepper
-        newborn.dispatch.stepper = newborn
+        newborn.parentStepper = self.parent
 
 //        print("bbefore2",
 //              dispatch?.name.prefix(8) ?? "wtf5∫",
@@ -225,19 +211,21 @@ extension WangkhiEmbryo {
         GriddleScene.arkonsPortal!.addChild(sprite)
 
 //        print("birth0")
-        if let dp = self.dispatch, let st = dp.stepper {
+        if let dp = dispatch, let st = scratch?.stepper {
 //            print("parent0")
 
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
 
-            dp.funge()
+            dp.go()
 //            print("parent1")
         }
 
 //        print("birth1")
 
-        newborn.dispatch!.funge()
+        scratch?.gridCell = newborn.gridCell
+        scratch?.stepper = newborn
+        newborn.dispatch!.go()
 
 //        print("child")
     }

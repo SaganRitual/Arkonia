@@ -99,14 +99,18 @@ class GriddleScene: SKScene, SKSceneDelegate {
         hud = HUD(scene: self)
         buildReports()
 
-        clock = Clock(self)
-        census = Census(self)
+//        clock = Clock(self)
+//        census = Census(self)
+        MannaCoordinator.shared.populate()
 
         readyForDisplayCycle = true
     }
 
     override func update(_ currentTime: TimeInterval) {
         guard readyForDisplayCycle else { return }
+
+        if clock == nil { clock = Clock(self) }
+        if census == nil { census = Census(self) }
 
         Display.displayCycle = .updateStarted
 
