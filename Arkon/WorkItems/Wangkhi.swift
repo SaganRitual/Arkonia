@@ -59,7 +59,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
     var wiLaunch2: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Wangkhi", select: 1)
+        Log.L.write("Wangkhi", level: 1)
         self.parent = scratch.stepper
         self.tempStrongReference = scratch.dispatch
 
@@ -68,7 +68,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
     }
 
     deinit {
-        Log.L.write("~Wangkhi", select: 4)
+        Log.L.write("~Wangkhi", level: 4)
     }
 
     func launch_() {
@@ -104,8 +104,6 @@ extension WangkhiEmbryo {
 
 extension WangkhiEmbryo {
     func buildGuts() {
-        Log.L.write("buildGuts", select: 1)
-        defer { Log.L.write("~buildGuts") }
         metabolism = Metabolism()
 
         net = Net(
@@ -129,20 +127,13 @@ extension WangkhiEmbryo {
 extension WangkhiEmbryo {
 
     func buildSprites() {
-        Log.L.write("buildSprites", select: 4)
-        defer { Log.L.write("~buildSprites") }
         let action = SKAction.run { [unowned self] in
-            Log.L.write("buildSprites1")
             self.buildSprites_()
-            Log.L.write("buildSprites2")
         }
 
         GriddleScene.arkonsPortal.run(action) { [unowned self] in
-            Log.L.write("buildSprites3")
             Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
-                Log.L.write("buildSprites4")
                 self.releaseTempStrongReference()
-                Log.L.write("buildSprites5")
             }
         }
     }
@@ -184,10 +175,9 @@ extension WangkhiEmbryo {
         gridCell.sprite = sprite
         gridCell.contents = .arkon
 
-        Log.L.write("launching newborn (sprite) \(spriteAKName(sprite)) at \(gridCell.gridPosition)")
+        Log.L.write("launching newborn (sprite) \(spriteAKName(sprite)) at \(gridCell.gridPosition)", level: 0)
         self.launchNewborn(at: gridCell)
         self.tempStrongReference = nil
-        Log.L.write("two")
     }
 
     func launchNewborn(at gridCell: GridCell) {

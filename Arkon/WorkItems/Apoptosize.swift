@@ -5,7 +5,7 @@ final class Apoptosize: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Apoptosize()", select: 3)
+        Log.L.write("Apoptosize()", level: 3)
         if !scratch.isApoptosizing { self.scratch = scratch }
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
@@ -15,7 +15,7 @@ final class Apoptosize: Dispatchable {
 
 extension Apoptosize {
     func aApoptosize() {
-        Log.L.write("Apoptosize.launch_", select: 3)
+        Log.L.write("Apoptosize.launch_", level: 3)
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
 
         guard let sp = st.sprite else { fatalError() }
@@ -34,7 +34,7 @@ extension Apoptosize {
             Wangkhi.spriteFactory.arkonsHangar.retireSprite(sp)
 
             Grid.shared.serialQueue.async(flags: .barrier) {
-                Log.L.write("Release stepper \(six(st.name))", select: 9)
+                Log.L.write("Release stepper \(six(st.name))", level : 9)
                 Stepper.releaseStepper(st, from: sp)
             }
         }

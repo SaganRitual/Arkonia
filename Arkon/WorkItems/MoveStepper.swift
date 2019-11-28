@@ -5,19 +5,19 @@ final class MoveStepper: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("MoveStepper()", select: 3)
+        Log.L.write("MoveStepper()", level: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     deinit {
-        Log.L.write("~MoveStepper", select: 4)
+        Log.L.write("~MoveStepper", level : 4)
     }
 
     private func launch_() { moveStepper() }
 
     func moveStepper() {
-        Log.L.write("MoveStepper.launch1_ \(six(scratch?.stepper?.name))", select: 7)
+        Log.L.write("MoveStepper.launch1_ \(six(scratch?.stepper?.name))", level : 7)
         guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }
 
         defer { postMove() }
@@ -27,7 +27,7 @@ final class MoveStepper: Dispatchable {
         stage.move()
 
         stepper.gridCell = GridCell.at(stage.toCell)
-        Log.L.write("MoveStepper.launch2_ \(six(scratch?.stepper?.name)) owned by \(stage.toCell.gridPosition)", select: 7)
+        Log.L.write("MoveStepper.launch2_ \(six(scratch?.stepper?.name)) owned by \(stage.toCell.gridPosition)", level : 7)
     }
 }
 

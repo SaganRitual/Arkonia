@@ -13,7 +13,7 @@ class Scratchpad {
             case nil: t = "nothing"
             default: fatalError()
             }
-            Log.L.write("gcc reset \(t) for \(six(stepper?.name))")
+            Log.L.write("gcc reset \(t) for \(six(stepper?.name))", level: 0)
         }
     }
     var isAlive = false

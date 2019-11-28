@@ -5,7 +5,7 @@ final class Colorize: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Colorize()", select: 3)
+        Log.L.write("Colorize()", level: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
@@ -17,7 +17,7 @@ func six(_ string: String?) -> String { return String(string?.prefix(6) ?? "<no 
 
 extension Colorize {
     func aColorize() {
-        Log.L.write("Colorize.launch_ \(six(scratch?.stepper?.name))", select: 3)
+        Log.L.write("Colorize.launch_ \(six(scratch?.stepper?.name))", level: 3)
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let ws = ch.worldStats else { fatalError() }
 

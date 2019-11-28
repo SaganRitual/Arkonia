@@ -5,13 +5,13 @@ final class Parasitize: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Parasitize()", select: 3)
+        Log.L.write("Parasitize()", level: 3)
         if !scratch.isApoptosizing { self.scratch = scratch }
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     func launch_() {
-        Log.L.write("Parasitize.launch_ \(six(scratch?.stepper?.name))", select: 3)
+        Log.L.write("Parasitize.launch_ \(six(scratch?.stepper?.name))", level: 3)
         let result = attack()
         parasitize(result.0, result.1)
     }

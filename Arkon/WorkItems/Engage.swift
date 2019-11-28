@@ -14,14 +14,14 @@ final class Engage: Dispatchable {
         guard let (_, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gridCell = st.gridCell else { fatalError() }
 
-        Log.L.write("Engage.launch_ \(six(st.name))", select: 9)
+        Log.L.write("Engage.launch_ \(six(st.name))", level: 9)
 
         let safeCell = gridCell.engage_(st.name, false)
         if safeCell.iOwnTheGridCell { self.onLock(safeCell) }
 
-        Log.L.write("~Engage.launch_ \(six(st.name))", select: 9)
+        Log.L.write("~Engage.launch_ \(six(st.name))", level: 9)
 
-        dp.plot()
+        dp.funge()
     }
 
     func onLock(_ safeCell: SafeCell) {

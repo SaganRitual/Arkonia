@@ -5,7 +5,7 @@ final class Metabolize: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Metabolize()", select: 3)
+        Log.L.write("Metabolize()", level: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
@@ -15,7 +15,7 @@ final class Metabolize: Dispatchable {
 
 extension Metabolize {
     func aMetabolize() {
-        Log.L.write("Metabolize.launch_ \(six(scratch?.stepper?.name))", select: 3)
+        Log.L.write("Metabolize.launch_ \(six(scratch?.stepper?.name))", level: 3)
         guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
         st.metabolism.metabolizeProper()

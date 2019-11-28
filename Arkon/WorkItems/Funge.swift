@@ -6,13 +6,13 @@ final class Funge: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Funge()", select: 3)
+        Log.L.write("Funge()", level: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     func launch_() {
-        Log.L.write("Funge.launch_ \(six(scratch?.stepper?.name))", select: 3)
+        Log.L.write("Funge.launch_ \(six(scratch?.stepper?.name))", level: 3)
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
     }
@@ -23,7 +23,7 @@ extension Funge {
         guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
         if !isAlive { dp.apoptosize(); return }
-        if !canSpawn { dp.releaseStage(); return }
+        if !canSpawn { dp.plot(); return }
 
         dp.wangkhi()
     }
@@ -52,6 +52,16 @@ extension Metabolism {
 
         let oxygenCost: Int = age < 5 ? 0 : 1
         oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
+
+        Log.L.write(
+            "fungeProper:" +
+            " mass = \(mass), withdraw \(joulesNeeded)" +
+            " fungibleEnergyCapacity =  \(String(format: "%-2.6f", fungibleEnergyCapacity))" +
+            " fungibleEnergyContent =  \(String(format: "%-2.6f", fungibleEnergyContent))" +
+            " fungibleEnergyFullness = \(String(format: "%-2.6f", fungibleEnergyFullness * 100))" +
+            " oxygenLevel = \(String(format: "%-2.6f", oxygenLevel * 100))"
+            , level: 13
+        )
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0
     }

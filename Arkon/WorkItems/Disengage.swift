@@ -5,7 +5,7 @@ final class Disengage: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Disengage() \(six(scratch.stepper?.name))", select: 3)
+        Log.L.write("Disengage() \(six(scratch.stepper?.name))", level: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
@@ -32,7 +32,7 @@ final class Disengage: Dispatchable {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let unsafeCell = st.gridCell else { fatalError() }
 
-        Log.L.write("Disengage.launch_ \(six(st.name)), \(six(scratch?.stepper?.name)), \(six(unsafeCell.ownerName)), \(unsafeCell.gridPosition)", select: 5)
+        Log.L.write("Disengage.launch_ \(six(st.name)), \(six(scratch?.stepper?.name)), \(six(unsafeCell.ownerName)), \(unsafeCell.gridPosition)", level: 5)
         precondition(unsafeCell.ownerName == st.name || ch.isAlive == false)
 
         unsafeCell.ownerName = nil

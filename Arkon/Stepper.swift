@@ -68,11 +68,11 @@ extension Stepper {
         sprite.userData![SpriteUserDataKey.stepper] = stepper
         if sprite.userData?["UUID"] == nil { sprite.userData!["UUID"] = UUID().uuidString }
         sprite.name = stepper.name
-        Log.L.write("attachStepper \(six(stepper.name)), \(six(spriteAKName(sprite)))")
+        Log.L.write("attachStepper \(six(stepper.name)), \(six(spriteAKName(sprite)))", level: 0)
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
-        Log.L.write("detachStepper \(six(stepper.name)) from sprite \(spriteAKName(sprite))")
+        Log.L.write("detachStepper \(six(stepper.name)) from sprite \(spriteAKName(sprite))", level: 0)
         if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
         sprite.userData![SpriteUserDataKey.stepper] = nil
     }

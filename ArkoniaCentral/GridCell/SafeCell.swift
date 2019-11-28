@@ -24,7 +24,7 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
         self.iOwnTheGridCell = takeOwnership ?
             SafeCell.lockGridCellIf(ownerSignature, at: self.gridPosition) : false
 
-        Log.L.write("SafeCell1 at \(gridPosition), requested by \(six(ownerSignature))/\(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", select: 7)
+        Log.L.write("SafeCell1 at \(gridPosition), requested by \(six(ownerSignature))/\(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 7)
     }
 
     init(from original: GridCell, takeOwnership: Bool = true) {
@@ -38,7 +38,7 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
         self.iOwnTheGridCell = takeOwnership ?
             SafeCell.lockGridCellIf(original.ownerName!, at: self.gridPosition) : false
 
-        Log.L.write("SafeCell2 at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", select: 4)
+        Log.L.write("SafeCell2 at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 4)
     }
 
     init(
@@ -57,7 +57,7 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
         self.iOwnTheGridCell = takeOwnership ?
             SafeCell.lockGridCellIf(safeCopy.ownerSignature, at: self.gridPosition) : false
 
-        Log.L.write("SafeCell3a at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", select: 4)
+        Log.L.write("SafeCell3a at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 4)
     }
     init(
         from safeCopy: SafeCell,
@@ -73,7 +73,7 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
         self.iOwnTheGridCell = takeOwnership ?
             SafeCell.lockGridCellIf(safeCopy.ownerSignature, at: self.gridPosition) : false
 
-        Log.L.write("SafeCell3b at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", select: 4)
+        Log.L.write("SafeCell3b at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 4)
     }
 
     init(from possiblyDeadCell: SafeCell) {
@@ -85,7 +85,7 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
         self.sprite = possiblyDeadCell.sprite
         self.iOwnTheGridCell = true
 
-        Log.L.write("SafeCell3 at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", select: 4)
+        Log.L.write("SafeCell3 at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 4)
     }
 
     private init(from stage: SafeStage) {
@@ -99,15 +99,15 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
 
         self.iOwnTheGridCell = false
 
-        Log.L.write("SafeCell4 at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", select: 4)
+        Log.L.write("SafeCell4 at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 4)
     }
 
     deinit {
         if iOwnTheGridCell {
-            Log.L.write("~SafeCell \(gridPosition) for \(six(ownerSignature))/\(six(self.parasite))", select: 5)
+            Log.L.write("~SafeCell \(gridPosition) for \(six(ownerSignature))/\(six(self.parasite))", level : 5)
             SafeCell.unlockGridCell(self.ownerSignature, self.parasite, at: self.gridPosition)
         } else {
-            Log.L.write("~SafeCell(dead) \(gridPosition) for \(six(ownerSignature))/\(six(self.parasite))", select: 5)
+            Log.L.write("~SafeCell(dead) \(gridPosition) for \(six(ownerSignature))/\(six(self.parasite))", level : 5)
         }
     }
 
@@ -120,7 +120,7 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
     static func unlockGridCell(_ ownerSignature: String?, _ parasite: String?, at gridPosition: AKPoint) {
         let unsafeCell = GridCell.at(gridPosition)
 
-        Log.L.write("unlock \(gridPosition) for \(six(ownerSignature)), actual \(six(unsafeCell.ownerName)), parasite \(six(parasite))", select: 9)
+        Log.L.write("unlock \(gridPosition) for \(six(ownerSignature)), actual \(six(unsafeCell.ownerName)), parasite \(six(parasite))", level : 9)
         assert(unsafeCell.ownerName == ownerSignature || unsafeCell.ownerName == parasite)
 
         unsafeCell.ownerName = nil
@@ -143,14 +143,14 @@ class SafeCell: GridCellProtocol, SafeConnectorProtocol {
         let unsafeCell = GridCell.at(gridPosition)
         var locked = false
 
-        Log.L.write("lockGridCellIf \(gridPosition) for \(six(ownerSignature)) current \(six(unsafeCell.ownerName))", select: 9)
+        Log.L.write("lockGridCellIf \(gridPosition) for \(six(ownerSignature)) current \(six(unsafeCell.ownerName))", level : 9)
         if unsafeCell.ownerName == nil {
             unsafeCell.ownerName = ownerSignature
             locked = true
-            Log.L.write("lock \(gridPosition) for \(ownerSignature)", select: 9)
+            Log.L.write("lock \(gridPosition) for \(ownerSignature)", level : 9)
         }
 
-        Log.L.write("lockGridCellIf = \(locked) at \(gridPosition) held by \(six(unsafeCell.ownerName))", select: 9)
+        Log.L.write("lockGridCellIf = \(locked) at \(gridPosition) held by \(six(unsafeCell.ownerName))", level : 9)
         return locked
     }
 }

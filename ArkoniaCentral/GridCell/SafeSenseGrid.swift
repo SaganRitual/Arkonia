@@ -13,6 +13,6 @@ class SafeSenseGrid: SafeConnectorProtocol {
     deinit {
         let center = cells[0]?.gridPosition
         let ownerName = cells[0]?.parasite ?? cells[0]?.ownerSignature
-        Log.L.write("~SafeSenseGrid centered at \(center!) for \(six(ownerName)) previous \(six(cells[0]?.ownerSignature))")
+        Log.L.write("~SafeSenseGrid centered at \(center!) for \(six(ownerName)) previous \(six(cells[0]?.ownerSignature))", level: 0)
     }
 }

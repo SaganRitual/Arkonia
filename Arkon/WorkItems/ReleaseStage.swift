@@ -5,7 +5,7 @@ final class ReleaseStage: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("ReleaseStage()", select: 3)
+        Log.L.write("ReleaseStage()", level: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
@@ -17,9 +17,9 @@ final class ReleaseStage: Dispatchable {
 
         guard let stage = ch.getStageConnector() else { return }
 
-        Log.L.write("cello", select: 10)
+        Log.L.write("cello", level : 10)
         let myLandingCell = SafeCell.releaseStage(stage)
-        Log.L.write("cellp", select: 10)
+        Log.L.write("cellp", level : 10)
 
         ch.gridCellConnector = myLandingCell
     }

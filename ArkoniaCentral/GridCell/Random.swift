@@ -1,6 +1,8 @@
 import CoreGraphics
 
 extension GridCell {
+    static let funkyCells = true
+
     static func getRandomCell() -> GridCell {
         let wGrid = Grid.dimensions.wGrid
         let hGrid = Grid.dimensions.hGrid
@@ -8,6 +10,9 @@ extension GridCell {
         let ak = AKPoint.random((-wGrid + 1)..<wGrid, (-hGrid + 1)..<hGrid)
 
         let gridCell = GridCell.at(ak.x, ak.y)
+
+        if funkyCells == false { return gridCell }
+
         let wScene = CGFloat(Grid.dimensions.wSprite / 2)
         let hScene = CGFloat(Grid.dimensions.hSprite / 2)
 

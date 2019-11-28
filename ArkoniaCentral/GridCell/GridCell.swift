@@ -22,11 +22,11 @@ class GridCell: GridCellProtocol, Equatable {
     private var ownerName_: String?
     var ownerName: String? {
         get {
-            Log.L.write("arkon \(six(ownerName_)) owns (\(gridPosition.x), \(gridPosition.y))", select: 9)
+            Log.L.write("arkon \(six(ownerName_)) owns (\(gridPosition.x), \(gridPosition.y))", level : 9)
             return ownerName_
         }
         set {
-            Log.L.write("change owner of (\(gridPosition.x), \(gridPosition.y)) from \(six(ownerName_)) to \(six(newValue))", select: 9)
+            Log.L.write("change owner of (\(gridPosition.x), \(gridPosition.y)) from \(six(ownerName_)) to \(six(newValue))", level : 9)
             ownerName_ = newValue
         }
     }

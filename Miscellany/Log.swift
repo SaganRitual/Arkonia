@@ -17,7 +17,7 @@ import Foundation
 //        return documentsDirectory.appendingPathComponent(fileName)
 //    }
 //
-//    static func write(_ message: String, select: Int = 0) {
+//    static func write(_ message: String, level : Int = 0) {
 //        guard let logFile = logFile else { return }
 //        if select <= 1 { return }
 //
@@ -90,8 +90,11 @@ class Log {//}: TextOutputStream {
 //
 //    deinit { handle?.closeFile() }
 
-    func write(_ string_: String, select: Int = 0) {
-        if select > 11 {
+    let minimumLevel = 15
+    func write(_ string_: String, level: Int? = nil) {
+        let useThisLevel = level ?? minimumLevel
+
+        if useThisLevel >= minimumLevel {
             print(string_)
         }
     }
@@ -101,7 +104,7 @@ class Log {//}: TextOutputStream {
 //    }
 //
 //    func write_(_ string_: String) {
-////        write(string_, select: 0)
+////        write(string_, level : 0)
 //        let string = string_ + "\r\n"
 //        let martin = Array(string.utf8).withUnsafeBytes { DispatchData(bytes: $0) }
 //

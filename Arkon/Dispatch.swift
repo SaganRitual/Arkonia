@@ -62,6 +62,8 @@ extension Dispatch {
 
     func engage()       { dispatch(Engage.self) }
 
+    func funge()        { dispatch(Funge.self) }
+
     func metabolize()   { dispatch(Metabolize.self) }
 
     func moveSprite()   { dispatch(MoveSprite.self) }
