@@ -8,34 +8,27 @@ final class Engage: Dispatchable {
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
+        Log.L.write("Engage \(six(scratch.stepper?.name)), \(scratch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
     }
 
     func launch_() {
-        guard let (_, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
-        guard let gridCell = st.gridCell else { fatalError() }
+        guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
+        guard let gc = st.gridCell else { fatalError() }
 
-        let safeCell = gridCell.engage_(st.name, false)
-        if safeCell.iOwnTheGridCell {
-            Log.L.write("lock for \(six(st.name)) at \(gridCell)", level: 15)
-            self.onLock(safeCell)
-        } else {
-            Log.L.write("no lock for \(six(st.name)) at \(gridCell)", level: 15)
+        guard let lockedCell = gc.lock(require: false) else {
+            Log.L.write("Engage.launch1 \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
+            ch.isAwaitingWakeup = true
+            return
         }
 
-        dp.funge()
-    }
+        Log.L.write("Engage.launch2 \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
 
-    func onLock(_ safeCell: SafeCell) {
-        precondition(counter == 0)
-        defer { counter -= 1 }
-        counter += 1
-
-        guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
-        precondition(ch.gridCellConnector == nil)
+        let cellConnector = SafeCell(from: lockedCell)
+        ch.setGridConnector(cellConnector)
 
         ch.worldStats = World.stats.copy()
 
-        ch.gridCellConnector =
-            SafeSenseGrid(from: safeCell, by: ArkoniaCentral.cMotorGridlets)
+        dp.funge()
+        Log.L.write("Engage.launch3 \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
     }
 }

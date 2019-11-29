@@ -5,39 +5,18 @@ final class Disengage: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Disengage() \(six(scratch.stepper?.name))", level: 3)
+        Log.L.write("Disengage \(six(scratch.stepper?.name))", level: 28)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
-    static func iOwnTheGridCell(_ gridCellConnector: SafeConnectorProtocol?) -> Bool {
-        if let cell = gridCellConnector as? SafeCell {
-            return cell.iOwnTheGridCell
-        }
-
-        if let grid = gridCellConnector as? SafeSenseGrid,
-            let cell = grid.cells[0]
-        {
-            return cell.iOwnTheGridCell
-        }
-
-        if let stage = gridCellConnector as? SafeStage {
-            return stage.toCell.iOwnTheGridCell
-        }
-
-        return false
-    }
-
     func launch_() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
-        guard let unsafeCell = st.gridCell else { fatalError() }
+        Log.L.write("Disengage.launch1 \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
 
-        Log.L.write("Disengage.launch_ \(six(st.name)), \(six(scratch?.stepper?.name)), \(six(unsafeCell.ownerName)), \(unsafeCell.gridPosition)", level: 15)
-        precondition(unsafeCell.ownerName == st.name || ch.isAlive == false)
-
-        unsafeCell.ownerName = nil
-        ch.gridCellConnector = nil
-
+        ch.resetGridConnector()
+        Log.L.write("Disengage.launch2  \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
+        precondition(ch.isEngaged == false)
         dp.engage()
     }
 

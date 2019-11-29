@@ -17,17 +17,17 @@ final class MoveStepper: Dispatchable {
     private func launch_() { moveStepper() }
 
     func moveStepper() {
-        Log.L.write("MoveStepper.launch1_ \(six(scratch?.stepper?.name))", level : 15)
+        Log.L.write("MoveStepper.launch1_ \(six(scratch?.stepper?.name))", level : 21)
         guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }
 
         defer { postMove() }
 
-        guard let stage = ch.getStageConnector(require: false) else { return }
+        guard let stage = ch.getStageConnector() else { preconditionFailure() }
 
         stage.move()
 
         stepper.gridCell = GridCell.at(stage.toCell)
-        Log.L.write("MoveStepper.launch2_ \(six(scratch?.stepper?.name)) owned by \(stage.toCell.gridPosition)", level : 7)
+        Log.L.write("MoveStepper for \(six(scratch?.stepper?.name)) from \(stage.fromCell?.gridPosition ?? AKPoint.zero) to \(stage.toCell.gridPosition)", level : 21)
     }
 }
 
@@ -35,7 +35,11 @@ extension MoveStepper {
     func postMove() {
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
-        if ch.getStageConnector()?.toCell.contents.isEdible() ?? false {
+        let stage = ch.getStageConnector()
+
+        precondition(stage?.fromCell?.gridPosition != stage?.toCell.gridPosition)
+
+        if (stage?.didMove ?? false) && (stage?.consumedContents.isEdible() ?? false) {
             dp.arrive()
             return
         }

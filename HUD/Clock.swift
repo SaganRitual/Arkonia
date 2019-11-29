@@ -37,6 +37,7 @@ class Clock {
             let percentage = (1 - entropy) * 100
 
             self.foodValueReport.data.text = String(format: "%.2f", percentage)
+            partC()
         }
 
         func partC() {

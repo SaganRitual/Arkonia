@@ -6,13 +6,11 @@ final class Funge: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Funge()", level: 3)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     func launch_() {
-        Log.L.write("Funge.launch_ \(six(scratch?.stepper?.name))", level: 15)
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
     }
@@ -20,17 +18,11 @@ final class Funge: Dispatchable {
 
 extension Funge {
     func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool) {
-        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        Log.L.write("fungeroute \(six(st.name))", level: 15)
+        guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
-        if !isAlive {
-            Log.L.write("fungeroute apop \(six(st.name))", level: 15)
-            dp.apoptosize(); return }
-        if !canSpawn {
-            Log.L.write("fungeroute plot \(six(st.name))", level: 15)
-            dp.plot(); return }
+        if !isAlive  { dp.apoptosize(); return }
+        if !canSpawn { dp.plot(); return }
 
-        Log.L.write("fungeroute wangkhi \(six(st.name))", level: 15)
         dp.wangkhi()
     }
 }
@@ -40,7 +32,7 @@ extension Funge {
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
         guard let ws = ch.worldStats else { fatalError() }
 
-        let age = ws.currentTime - st.birthday
+        let age = st.getAge(ws.currentTime)
 
         let isAlive = st.metabolism.fungeProper(age: age)
         let canSpawn = st.canSpawn()

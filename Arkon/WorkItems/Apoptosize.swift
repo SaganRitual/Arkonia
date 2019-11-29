@@ -16,9 +16,6 @@ final class Apoptosize: Dispatchable {
 extension Apoptosize {
     func aApoptosize() {
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
-
-        Log.L.write("Apoptosize.launch_ \(six(st.name))", level: 15)
-
         guard let sp = st.sprite else { fatalError() }
         guard let no = st.nose else { fatalError() }
 
@@ -34,8 +31,7 @@ extension Apoptosize {
             Wangkhi.spriteFactory.noseHangar.retireSprite(no)
             Wangkhi.spriteFactory.arkonsHangar.retireSprite(sp)
 
-            Grid.shared.serialQueue.async(flags: .barrier) {
-                Log.L.write("Release stepper \(six(st.name))", level : 9)
+            Grid.shared.serialQueue.async {
                 Stepper.releaseStepper(st, from: sp)
             }
         }

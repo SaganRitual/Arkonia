@@ -75,7 +75,7 @@ extension SKSpriteNode {
 
     func getKeyField(_ cellContents: GridCell.Contents, require: Bool = true) -> Any? {
         func failIf(_ sub: String) {
-            if require { Log.L.write("getStepper failed to get \(sub)"); fatalError() }
+            if require { Log.L.write("getKeyField failed to get \(sub)"); fatalError() }
         }
 
         if name == nil { failIf("'sprite name'"); return nil }
@@ -91,7 +91,7 @@ extension SKSpriteNode {
         }
 
         guard let entry = userData[spriteKey]
-            else { failIf("'entry'"); return nil }
+            else { failIf("'entry' for \(spriteKey)"); return nil }
 
         return entry
     }

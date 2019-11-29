@@ -72,7 +72,7 @@ extension World.Stats {
     }
 
     func getStats(_ onComplete: @escaping OCGetStats) {
-        wiGetStats = DispatchWorkItem(flags: .barrier) { [unowned self] in self.getStats_(onComplete) }
+        wiGetStats = DispatchWorkItem { [unowned self] in self.getStats_(onComplete) }
         Grid.shared.serialQueue.async(execute: wiGetStats!)
     }
 

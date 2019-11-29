@@ -21,7 +21,7 @@ extension Colorize {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let ws = ch.worldStats else { fatalError() }
 
-        let age = ws.currentTime - st.birthday
+        let age = st.getAge(ws.currentTime)
         st.colorizeProper(age)
 
         dp.disengage()

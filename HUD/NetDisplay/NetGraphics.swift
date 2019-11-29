@@ -59,7 +59,7 @@ struct NetGraphics {
             yFudge = 0
         }
 
-        sprite.setScale(0.2)
+        sprite.setScale(0.1)
         sprite.colorBlendFactor = 0.5
         sprite.alpha = 1.0
         sprite.position = netDisplayGrid.getPosition(gridPoint)

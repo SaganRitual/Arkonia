@@ -2,7 +2,7 @@ import SpriteKit
 
 class Stepper {
     let allowSpawning = true
-    var birthday = 0
+    private var birthday = 0
     var cOffspring = 0
     var dispatch: Dispatch!
     var fishNumber = 0
@@ -23,7 +23,7 @@ class Stepper {
     init(_ embryo: WangkhiEmbryo, needsNewDispatch: Bool = false) {
         self.birthday = embryo.birthday
         self.fishNumber = embryo.fishNumber
-        self.gridCell = embryo.gridCell
+        self.gridCell = embryo.safeCell?.hotCell
         self.metabolism = embryo.metabolism
         self.name = embryo.embryoName
         self.net = embryo.net
@@ -40,6 +40,7 @@ class Stepper {
         World.stats.decrementPopulation(nil)
     }
 
+    func getAge(_ currentTime: Int) -> Int { return currentTime - self.birthday }
 }
 
 extension Stepper {

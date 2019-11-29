@@ -13,12 +13,13 @@ final class ReleaseStage: Dispatchable {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         Log.L.write("ReleaseStage.launch_ \(six(st.name))", level: 15)
 
-        defer { dp.metabolize() }
+        guard let stage = ch.getStageConnector() else { preconditionFailure() }
 
-        guard let stage = ch.getStageConnector() else { return }
+        let myLandingCell = stage.toCell
+        ch.setGridConnector(myLandingCell)
 
-        let myLandingCell = SafeCell.releaseStage(stage)
+        precondition(ch.getStageConnector() == nil)
 
-        ch.gridCellConnector = myLandingCell
+        dp.metabolize()
     }
 }

@@ -3,28 +3,17 @@ class Scratchpad {
     var canSpawn = false
     var battle: (Stepper, Stepper)?
     weak var dispatch: Dispatch?
-    var gridCellConnector: SafeConnectorProtocol? {
-        willSet {
-            let t: String
-            switch newValue {
-            case is SafeCell: t = "SafeCell"
-            case is SafeSenseGrid: t = "SafeSenseGrid"
-            case is SafeStage: t = "SafeStage"
-            case nil: t = "nothing"
-            default: fatalError()
-            }
-            Log.L.write("gcc reset \(t) for \(six(stepper?.name))", level: 0)
-        }
-    }
-    var isAlive = false
+    var gridConnector: GridConnectorProtocol?
     var isApoptosizing = false
+    var isEngaged: Bool { gridConnector != nil }
     var launched = false
+    weak var parentNet: Net?
     weak var stepper: Stepper?
     var worldStats: World.StatsCopy?
 
-    func getGridConnector<T: SafeConnectorProtocol>(require: Bool = false) -> T? {
-        guard let c = gridCellConnector, let connector = c as? T else {
-            if require { preconditionFailure() }
+    func getGridConnector<T: GridConnectorProtocol>(require: Bool = false) -> T? {
+        guard let c = gridConnector, let connector = c as? T else {
+            precondition(require == false)
             return nil
         }
 
@@ -35,7 +24,7 @@ class Scratchpad {
         return getGridConnector(require: require)
     }
 
-    func getSenseGridConnector(require: Bool = false) -> SafeSenseGrid? {
+    func getSensesConnector(require: Bool = false) -> SafeSenseGrid? {
         return getGridConnector(require: require)
     }
 
@@ -49,4 +38,10 @@ class Scratchpad {
         return (self, dp, st)
     }
     //swiftlint:enable large_tuple
+
+    func resetGridConnector() { setGridConnector(nil) }
+
+    func setGridConnector(_ gridConnector: GridConnectorProtocol?) {
+        self.gridConnector = gridConnector
+    }
 }
