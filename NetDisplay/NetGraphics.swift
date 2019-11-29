@@ -59,11 +59,13 @@ struct NetGraphics {
             yFudge = 0
         }
 
-        sprite.setScale(0.1)
+        sprite.setScale(0.2)
         sprite.colorBlendFactor = 0.5
+        sprite.alpha = 1.0
         sprite.position = netDisplayGrid.getPosition(gridPoint)
         sprite.position.y -= yFudge
-        sprite.zPosition = 2
+        sprite.zPosition = 17
         background.addChild(sprite)
+        Log.L.write("sprite \(six(sprite.name)) at \(sprite.position)", level: 17)
     }
 }

@@ -53,8 +53,10 @@ final class WangkhiEmbryo: WangkhiProtocol {
     weak var newborn: Stepper?
     var nose: SKSpriteNode?
     weak var parent: Stepper?
-    var sprite: SKSpriteNode?
-    var tempStrongReference: Dispatch?
+    var sprite: SKSpriteNode? { willSet {
+        Log.L.write("Wangkhi.sprite \(six(scratch?.stepper?.name))", level: 15)
+    } }
+    var tempStrongReference: WangkhiEmbryo?
     var wiLaunch: DispatchWorkItem?
     var wiLaunch2: DispatchWorkItem?
 
@@ -62,14 +64,16 @@ final class WangkhiEmbryo: WangkhiProtocol {
         Log.L.write("Wangkhi", level: 15)
         self.scratch = scratch
         self.parent = scratch.stepper
-        self.tempStrongReference = scratch.dispatch
+        self.tempStrongReference = self
 
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-        self.wiLaunch2 = DispatchWorkItem(block: launch2_)
+        // Weak refs here, because apparently the work items capture self
+        // even if you reference them with DispatchWorkItem(block: launch_)
+        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
+        self.wiLaunch2 = DispatchWorkItem { [weak self] in self?.launch2_() }
     }
 
     deinit {
-        Log.L.write("~Wangkhi", level: 4)
+        Log.L.write("~Wangkhi", level: 19)
     }
 
     func launch_() {
@@ -83,10 +87,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
         Grid.shared.serialQueue.async(execute: w2)
     }
 
-    func launch2_() {
-        buildGuts()
-        buildSprites()
-    }
+    func launch2_() { buildSprites() }
 }
 
 extension WangkhiEmbryo {
@@ -106,22 +107,39 @@ extension WangkhiEmbryo {
 
 extension WangkhiEmbryo {
     func buildGuts() {
+        Log.L.write("build guts1", level: 16)
         metabolism = Metabolism()
 
+        Log.L.write("build guts2", level: 16)
         net = Net(
             parentBiases: parent?.parentBiases, parentWeights: parent?.parentWeights,
             layers: parent?.parentLayers, parentActivator: parent?.parentActivator
         )
 
-        if let np = (sprite?.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode),
-            let scene = np.parent as? SKScene {
+        Log.L.write("build guts3", level: 16)
 
-            netDisplay = NetDisplay(
-                scene: scene, background: np, layers: net!.layers
-            )
+        guard let sprite = self.sprite else { preconditionFailure() }
+        guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
+            else { return }
 
-            netDisplay!.display()
-        }
+        Log.L.write("build guts4", level: 16)
+        guard let scene = np.parent as? SKScene else { return }
+
+        Log.L.write("build guts5", level: 16)
+        netDisplay = NetDisplay(scene: scene, background: np, layers: net!.layers)
+
+        Log.L.write("build guts6", level: 16)
+        netDisplay!.display()
+        Log.L.write("build guts7", level: 16)
+
+        guard let gridCell = self.gridCell else { preconditionFailure() }
+
+        gridCell.sprite = sprite
+        gridCell.contents = .arkon
+
+        Log.L.write("launching newborn (sprite) \(six(sprite.name)) at \(gridCell.gridPosition)", level: 16)
+        self.launchNewborn(at: gridCell)
+        self.tempStrongReference = nil
     }
 
 }
@@ -131,13 +149,10 @@ extension WangkhiEmbryo {
     func buildSprites() {
         let action = SKAction.run { [unowned self] in
             self.buildSprites_()
+            self.buildGuts()
         }
 
-        GriddleScene.arkonsPortal.run(action) { [unowned self] in
-            Grid.shared.serialQueue.async { [unowned self] in
-                self.releaseTempStrongReference()
-            }
-        }
+        GriddleScene.arkonsPortal.run(action)
     }
 
     private func buildSprites_() {
@@ -161,33 +176,19 @@ extension WangkhiEmbryo {
         sprite.alpha = 1
 
         sprite.addChild(nose)
+    }
+
+    func launchNewborn(at gridCell: GridCell) {
+        guard let sprite = self.sprite else { preconditionFailure() }
 
         let newborn = Stepper(self, needsNewDispatch: true)
         newborn.parentStepper = self.parent
         newborn.dispatch.scratch.stepper = newborn
 
         Stepper.attachStepper(newborn, to: sprite)
-    }
-
-    func releaseTempStrongReference() {
-
-        guard let sprite = self.sprite else { fatalError() }
-        guard let gridCell = self.gridCell else { fatalError() }
-
-        gridCell.sprite = sprite
-        gridCell.contents = .arkon
-
-        Log.L.write("launching newborn (sprite) \(spriteAKName(sprite)) at \(gridCell.gridPosition)", level: 0)
-        self.launchNewborn(at: gridCell)
-        self.tempStrongReference = nil
-    }
-
-    func launchNewborn(at gridCell: GridCell) {
-        guard let sprite = self.sprite else { fatalError() }
 
         GriddleScene.arkonsPortal!.addChild(sprite)
 
-        guard let newborn = sprite.getStepper() else { fatalError() }
         newborn.gridCell = gridCell
 
         if let dp = scratch?.dispatch, let st = scratch?.stepper {
