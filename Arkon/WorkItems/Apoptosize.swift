@@ -2,29 +2,43 @@ import SpriteKit
 
 final class Apoptosize: Dispatchable {
     var scratch: Scratchpad?
+    var wiLaunch: DispatchWorkItem?
 
-    init(_ scratch: Scratchpad) { self.scratch = scratch }
+    init(_ scratch: Scratchpad) {
+        Log.L.write("Apoptosize()", level: 3)
+        if !scratch.isApoptosizing { self.scratch = scratch }
+        self.wiLaunch = DispatchWorkItem(block: launch_)
+    }
+
+    private func launch_() { aApoptosize() }
 }
 
 extension Apoptosize {
-    func launch() {
-        guard let sc = self.scratch else { fatalError() }
-        guard let st = sc.stepper else { fatalError() }
+    func aApoptosize() {
+        Log.L.write("Apoptosize.launch_", level: 3)
+        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+
         guard let sp = st.sprite else { fatalError() }
         guard let no = st.nose else { fatalError() }
 
+        if ch.isApoptosizing { return }
+
         let action = SKAction.run {
             assert(Display.displayCycle == .actions)
+            if ch.isApoptosizing { return }
+            ch.isApoptosizing = true
 
             sp.removeAllActions()
 
             Wangkhi.spriteFactory.noseHangar.retireSprite(no)
             Wangkhi.spriteFactory.arkonsHangar.retireSprite(sp)
+
+            Grid.shared.serialQueue.async(flags: .barrier) {
+                Log.L.write("Release stepper \(six(st.name))", level : 9)
+                Stepper.releaseStepper(st, from: sp)
+            }
         }
 
-        GriddleScene.arkonsPortal.run(action) {
-            // Counting on this to be the only strong ref to the stepper
-            Stepper.releaseStepper(st, from: sp)
-        }
+        GriddleScene.arkonsPortal.run(action)
     }
 }

@@ -9,7 +9,6 @@ protocol GridCellProtocol {
     var sprite: SKSpriteNode? { get }
 
     var contents: GridCell.Contents { get }
-    var owner: String? { get }
 }
 
 extension GridCellProtocol {
@@ -35,7 +34,7 @@ extension GridCellProtocol {
         func nop()  { nudge = nil }
 
         for ugly in 1...index {
-//            print("pre ", index, whichSide, x, y)
+//            Log.L.write("pre ", index, whichSide, x, y)
             switch whichSide {
             case .right:
                 if y <= -ring { whichSide = .bottom; decX() } else { decY() }
@@ -52,12 +51,12 @@ extension GridCellProtocol {
 
             if ugly < index { nudge() }
 
-//            print("post", index, whichSide, x, y)
+//            Log.L.write("post", index, whichSide, x, y)
         }
 
         let reference = absolute ? AKPoint(gridPosition) : AKPoint.zero
         let result = reference + AKPoint(x: x, y: y)
-//        print("index \(index), reference \(String(describing: reference)), result \(String(describing: result))")
+//        Log.L.write("index \(index), reference \(String(describing: reference)), result \(String(describing: result))")
         return result
     }
     // swiftlint:enable cyclomatic_complexity

@@ -22,9 +22,11 @@ class Manna {
         let f1 = fudgeFactor * abs(f0 - Manna.colorBlendMinimum)
         let f2 = f1 / Manna.colorBlendRangeWidth
         let f3 = f2 * Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
-//        print("f", sprite.colorBlendFactor, Manna.colorBlendMinimum, Manna.growthRateJoulesPerSecond, Manna.fullGrowthDurationSeconds, f1, f2, f3)
+//        Log.L.write("f", sprite.colorBlendFactor, Manna.colorBlendMinimum, Manna.growthRateJoulesPerSecond, Manna.fullGrowthDurationSeconds, f1, f2, f3)
         return f3 * 1.0//CGFloat(World.shared.foodValue)
     }
+
+    var energyFullness: CGFloat { return energyContentInJoules / Manna.maxEnergyContentInJoules }
 
     init(_ sprite: SKSpriteNode) { self.sprite = sprite }
 

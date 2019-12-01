@@ -3,12 +3,14 @@ import SpriteKit
 enum ArkoniaCentral {
     static let senseGridSide = 3
     static let cSenseGridlets = senseGridSide * senseGridSide
-    static let cSenseNeurons = 2 * cSenseGridlets + 6
+    static let cSenseNeurons = 2 * cSenseGridlets + 4
     static let cMotorNeurons = cSenseGridlets - 1
     static let cMotorGridlets = cMotorNeurons + 1
 }
 
-struct AKPoint: Hashable, HasXY {
+struct AKPoint: Hashable, HasXY, CustomDebugStringConvertible {
+    var debugDescription: String { return "(\(x), \(y))" }
+
     let x: Int; let y: Int
 
     init(_ point: AKPoint) { x = point.x; y = point.y }
@@ -71,25 +73,42 @@ struct Dimensions {
 
 extension SKSpriteNode {
 
-    func getRandomGridlet() -> GridCell {
-        let wGrid = Grid.dimensions.wGrid
-        let hGrid = Grid.dimensions.hGrid
+    func getKeyField(_ cellContents: GridCell.Contents, require: Bool = true) -> Any? {
+        func failIf(_ sub: String) {
+            if require { Log.L.write("getStepper failed to get \(sub)"); fatalError() }
+        }
 
-        let ak = AKPoint.random((-wGrid + 1)..<wGrid, (-hGrid + 1)..<hGrid)
+        if name == nil { failIf("'sprite name'"); return nil }
 
-        let gridCell = GridCell.at(ak.x, ak.y)
-        let wScene = CGFloat(Grid.dimensions.wSprite / 2)
-        let hScene = CGFloat(Grid.dimensions.hSprite / 2)
+        guard let userData = self.userData
+            else { failIf("'user data'"); return nil }
 
-        let lScene = gridCell.scenePosition.x - wScene
-        let rScene = gridCell.scenePosition.x + wScene
-        let bScene = gridCell.scenePosition.y - hScene
-        let tScene = gridCell.scenePosition.y + hScene
+        let spriteKey: SpriteUserDataKey
+        switch cellContents {
+        case .arkon: spriteKey = .stepper
+        case .manna: spriteKey = .manna
+        default: fatalError()
+        }
 
-        gridCell.randomScenePosition = CGPoint.random(
-            xRange: lScene..<rScene, yRange: bScene..<tScene
-        )
+        guard let entry = userData[spriteKey]
+            else { failIf("'entry'"); return nil }
 
-        return gridCell
+        return entry
+    }
+
+    func getManna(require: Bool = true) -> Manna? {
+        if let manna = getKeyField(.manna, require: require) as? Manna
+            { return manna }
+
+        if require { fatalError() }
+        return nil
+    }
+
+    func getStepper(require: Bool = true) -> Stepper? {
+        if let stepper = getKeyField(.arkon, require: require) as? Stepper
+            { return stepper }
+
+        if require { fatalError() }
+        return nil
     }
 }

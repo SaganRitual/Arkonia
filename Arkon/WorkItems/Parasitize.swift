@@ -1,28 +1,44 @@
 import Foundation
 
 final class Parasitize: Dispatchable {
-    weak var scratch: Scratchpad?
+    var scratch: Scratchpad?
+    var wiLaunch: DispatchWorkItem?
 
-    init(_ scratch: Scratchpad) { self.scratch = scratch }
+    init(_ scratch: Scratchpad) {
+        Log.L.write("Parasitize()", level: 3)
+        if !scratch.isApoptosizing { self.scratch = scratch }
+        self.wiLaunch = DispatchWorkItem(block: launch_)
+    }
 
-    func launch() { aParasitize() }
+    func launch_() {
+        Log.L.write("Parasitize.launch_ \(six(scratch?.stepper?.name))", level: 3)
+        let result = attack()
+        parasitize(result.0, result.1)
+    }
 }
 
 extension Parasitize {
-    func aParasitize() {
-        guard let scr = scratch else { fatalError() }
-        guard let st = scr.stepper else { fatalError() }
-        guard let victor = st.battle?.0 else { fatalError() }
-        guard let victim = st.battle?.1 else { fatalError() }
+    func attack() -> (Stepper, Stepper) {
+        guard let (ch, _, myStepper) = scratch?.getKeypoints() else { fatalError() }
 
-        victor.metabolism.parasitize(victim)
-        scr.dispatch?.funge()
+        guard let hisSprite = ch.getStageConnector(require: true)?.toCell.sprite else { fatalError() }
+        guard let hisStepper = hisSprite.getStepper() else { fatalError() }
+
+        let myMass = myStepper.metabolism.mass
+        let hisMass = hisStepper.metabolism.mass
+
+        return (myMass > (hisMass * 1.25)) ?
+            (myStepper, hisStepper) : (hisStepper, myStepper)
+    }
+
+    func parasitize(_ victor: Stepper, _ victim: Stepper) {
+        victor.metabolism.parasitizeProper(victim)
+        victor.dispatch.releaseStage()
     }
 }
 
 extension Metabolism {
-    func parasitize(_ victim: Stepper) {
-//        print("parasitize")
+    func parasitizeProper(_ victim: Stepper) {
         let spareCapacity = stomach.capacity - stomach.level
         let victimEnergy = victim.metabolism.withdrawFromReady(spareCapacity)
         let netEnergy = victimEnergy * 0.25

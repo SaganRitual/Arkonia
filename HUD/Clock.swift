@@ -40,7 +40,7 @@ class Clock {
         }
 
         func partC() {
-            World.shared.mainQueue.asyncAfter(
+            Grid.shared.serialQueue.asyncAfter(
                 deadline: DispatchTime.now() + 1, execute: partA
             )
         }

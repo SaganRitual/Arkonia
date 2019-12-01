@@ -21,96 +21,89 @@ protocol WangkhiProtocol: class, Dispatchable {
     var sprite: SKSpriteNode? { get set }
 }
 
-final class WangkhiEmbryo: WangkhiProtocol {
-    let scratch: Scratchpad?
-    var newScratch = Scratchpad()
+enum Names {
+    static var nameix = 0
 
-    enum Phase {
-        case getStartingPosition, registerBirth, buildGuts, buildSprites
+    static var names = [
+        "Alice", "Bob", "Charles", "David", "Ellen", "Felicity",
+        "Grace", "Helen", "India", "James", "Karen", "Lizbeth",
+        "Mary", "Nathan", "Olivia", "Paul", "Quincy", "Rob", "Samantha",
+        "Tatiana", "Ulna", "Vivian", "William", "Xavier", "Yvonne", "Zoe"
+    ]
+
+    static func getName() -> String {
+        defer { nameix += 1 }
+        return names[nameix % names.count]
     }
+}
+
+final class WangkhiEmbryo: WangkhiProtocol {
+    var dispatch: Dispatch? { willSet { fatalError() } }
+
+    weak var scratch: Scratchpad?
 
     var birthday = 0
     var callAgain = false
-    var dispatch: Dispatch?
+    var embryoName = UUID().uuidString // Names.getName()
     var fishNumber = 0
     var gridCell: GridCell?
     var metabolism: Metabolism?
     var net: Net?
     var netDisplay: NetDisplay?
+    weak var newborn: Stepper?
     var nose: SKSpriteNode?
-    var parent: Stepper?
-    var phase = Phase.getStartingPosition
+    weak var parent: Stepper?
     var sprite: SKSpriteNode?
     var tempStrongReference: Dispatch?
-    var workItems = [DispatchWorkItem]()
+    var wiLaunch: DispatchWorkItem?
+    var wiLaunch2: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-//        print("aWangkhiEmbryo init1")
-        self.scratch = scratch
+        Log.L.write("Wangkhi", level: 1)
         self.parent = scratch.stepper
         self.tempStrongReference = scratch.dispatch
-//        print("aWangkhiEmbryo init2")
 
-        workItems = [
-            DispatchWorkItem(flags: .init(), block: getStartingPosition),
-            DispatchWorkItem(flags: .barrier, block: registerBirth),
-            DispatchWorkItem(flags: .init(), block: buildGuts),
-            DispatchWorkItem(flags: .init(), block: buildSprites)
-        ]
-
-        for ss in 1..<self.workItems.count {
-            let finishedWorkItem = self.workItems[ss - 1]
-            let newWorkItem = self.workItems[ss]
-
-            let flags: DispatchWorkItemFlags = ss == 1 ? .barrier : []
-
-            finishedWorkItem.notify(flags: flags, queue: Grid.shared.concurrentQueue) {
-                newWorkItem.perform()
-            }
-        }
+        self.wiLaunch = DispatchWorkItem(block: launch_)
+        self.wiLaunch2 = DispatchWorkItem(block: launch2_)
     }
 
     deinit {
-//        print("fuck")
+        Log.L.write("~Wangkhi", level: 4)
     }
 
-    func launch() { Grid.shared.concurrentQueue.async(execute: workItems[0]) }
+    func launch_() {
+        getStartingPosition()
+        registerBirth()
+
+        guard let w = wiLaunch else { fatalError() }
+        guard let w2 = wiLaunch2 else { fatalError() }
+
+        w.notify(queue: Grid.shared.serialQueue, execute: w2)
+    }
+
+    func launch2_() {
+        buildGuts()
+        buildSprites()
+    }
 }
 
 extension WangkhiEmbryo {
     private func getStartingPosition() {
-//        print("getStartingPosition")
         guard let parent = self.parent else {
-            self.gridCell = GridCell.getRandomGridlet_()
+            self.gridCell = GridCell.lockRandomEmptyCell(setOwner: embryoName)
             return
         }
 
-        var foundGridlet: GridCell!
-        var candidateIx = Int.random(in: 1..<ArkoniaCentral.cSenseGridlets)
-
-        while foundGridlet == nil {
-            let g = parent.gridCell.getGridPointByIndex(candidateIx)
-
-            if let f = GridCell.atIf(g), f.contents == .nothing {
-                foundGridlet = f
-                break
-            }
-
-            candidateIx += 1
-        }
-
-        self.gridCell = foundGridlet
+        self.gridCell = GridCell.lockBirthPosition(parent: parent, setOwner: embryoName)
     }
 
     private func registerBirth() {
-//        print("registerBirth")
-        World.stats.registerBirth_(myParent: nil, meOffspring: self)
+        World.stats.registerBirth(myParent: nil, meOffspring: self)
     }
 }
 
 extension WangkhiEmbryo {
     func buildGuts() {
-//        print("buildGuts")
         metabolism = Metabolism()
 
         net = Net(
@@ -134,15 +127,17 @@ extension WangkhiEmbryo {
 extension WangkhiEmbryo {
 
     func buildSprites() {
-//        print("buildSprites")
         let action = SKAction.run { [unowned self] in
             self.buildSprites_()
         }
 
-        GriddleScene.arkonsPortal.run(action)
+        GriddleScene.arkonsPortal.run(action) { [unowned self] in
+            Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
+                self.releaseTempStrongReference()
+            }
+        }
     }
 
-    //swiftmint:disable function_body_length
     private func buildSprites_() {
         assert(Display.displayCycle == .actions)
 
@@ -165,69 +160,41 @@ extension WangkhiEmbryo {
 
         sprite.addChild(nose)
 
-        gridCell.sprite = sprite
-        gridCell.contents = .arkon
-        scratch?.gridCell = gridCell
-
-//        print("bbefore",
-//              dispatch?.name.prefix(8) ?? "wtf4∫",
-//              dispatch?.stepper?.name.prefix(8) ?? "wtf14å",
-//              dispatch?.stepper?.parentStepper?.name ?? "no parent4 ",
-//              dispatch?.stepper?.parentStepper?.dispatch?.name ?? "no parent4a ",
-//              self.dispatch?.name.prefix(8) ?? "wtf4a",
-//              self.dispatch?.stepper?.name.prefix(8) ?? "wtf4b; ")
-
-        let newborn: Stepper = Stepper(self, needsNewDispatch: true)
+        let newborn = Stepper(self, needsNewDispatch: true)
         newborn.parentStepper = self.parent
-
-//        print("bbefore2",
-//              dispatch?.name.prefix(8) ?? "wtf5∫",
-//              dispatch?.stepper?.name.prefix(8) ?? "wtf15å",
-//              dispatch?.stepper?.parentStepper?.name ?? "no parent5 ",
-//              dispatch?.stepper?.parentStepper?.dispatch?.name ?? "no parent5a ",
-//              self.dispatch?.name.prefix(8) ?? "wtf4a",
-//              self.dispatch?.stepper?.name.prefix(8) ?? "wtf5b; ",
-
-//              newborn.name.prefix(8),
-//              newborn.parentStepper?.name ?? "no parent7 ",
-//              newborn.parentStepper?.dispatch?.name ?? "no parent7a ")
+        newborn.dispatch.scratch.stepper = newborn
 
         Stepper.attachStepper(newborn, to: sprite)
-//        newborn.dispatch!.tempStrongReference = nil
-        self.tempStrongReference = nil
+    }
 
-//        print("bbefore3",
-//              dispatch?.name.prefix(8) ?? "wtf6∫",
-//              dispatch?.stepper?.name.prefix(8) ?? "wtf146",
-//              dispatch?.stepper?.parentStepper?.name ?? "no parent6 ",
-//              dispatch?.stepper?.parentStepper?.dispatch?.name ?? "no parent6a ",
-//              self.dispatch?.name.prefix(8) ?? "wtf6a",
-//              self.dispatch?.stepper?.name.prefix(8) ?? "wtf6b; ",
-//
-//              newborn.name.prefix(8),
-//              newborn.parentStepper?.name ?? "no parent8 ",
-//              newborn.parentStepper?.dispatch?.name ?? "no parent8a ")
+    func releaseTempStrongReference() {
+
+        guard let sprite = self.sprite else { fatalError() }
+        guard let gridCell = self.gridCell else { fatalError() }
+
+        gridCell.sprite = sprite
+        gridCell.contents = .arkon
+
+        Log.L.write("launching newborn (sprite) \(spriteAKName(sprite)) at \(gridCell.gridPosition)", level: 0)
+        self.launchNewborn(at: gridCell)
+        self.tempStrongReference = nil
+    }
+
+    func launchNewborn(at gridCell: GridCell) {
+        guard let sprite = self.sprite else { fatalError() }
 
         GriddleScene.arkonsPortal!.addChild(sprite)
 
-//        print("birth0")
-        if let dp = dispatch, let st = scratch?.stepper {
-//            print("parent0")
+        guard let newborn = sprite.getStepper() else { fatalError() }
+        newborn.gridCell = gridCell
 
+        if let dp = scratch?.dispatch, let st = scratch?.stepper {
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
-
-            dp.go()
-//            print("parent1")
+            dp.metabolize()
         }
 
-//        print("birth1")
-
-        scratch?.gridCell = newborn.gridCell
-        scratch?.stepper = newborn
-        newborn.dispatch!.go()
-
-//        print("child")
+        guard let ndp = newborn.dispatch else { fatalError() }
+        ndp.disengage()
     }
-    //swiftmint:enable function_body_length
 }

@@ -2,54 +2,58 @@ import SpriteKit
 
 extension Shifter {
     func moveSprite() {
-//        print("moveSprite")
         guard let scr = scratch else { fatalError() }
         guard let st = scr.stepper else { fatalError() }
         guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
+//        Log.L.write("moveSprite \(six(st.name))")
 
         let moveDuration: TimeInterval = 0.1
+        let position = gcc.to.randomScenePosition ?? gcc.to.scenePosition
+
         let moveAction = gcc.willMove ?
-            SKAction.move(
-                to: gcc.to.randomScenePosition ?? gcc.to.scenePosition, duration: moveDuration
-            ) :
+            SKAction.move(to: position, duration: moveDuration) :
             SKAction.wait(forDuration: moveDuration)
 
-        st.sprite.run(moveAction) {
-            Grid.shared.concurrentQueue.async(execute: self.workItemMoveStepper!)
-        }
+        let anotherMove = SKAction.run(moveStepper)
+
+        let moveSequence = SKAction.sequence([moveAction, anotherMove])
+
+        st.sprite.run(moveSequence)
     }
 
     func moveStepper() {
-//        print("moveStepper")
         guard let scr = scratch else { fatalError() }
         guard let st = scr.stepper else { fatalError() }
         guard let gcc = scr.gridCellConnector as? SafeStage else { fatalError() }
+//        Log.L.write("moveStepper \(six(st.name))")
 
         gcc.move()
         st.gridCell = GridCell.at(gcc.to)
-
-        Grid.shared.concurrentQueue.async(execute: self.workItemPostMove!)
+        postMove()
     }
 }
 
 extension Shifter {
     func postMove() {
-//        print("postMove")
+        Log.L.write("post move \(six(self.scratch?.stepper?.name))")
         guard let scr = scratch else { fatalError() }
         guard let gcc = scratch?.stage else { fatalError() }
         guard let dp = scr.dispatch else { fatalError() }
 
         if gcc.willMove && gcc.to.contents != .nothing {
-//            print("lin")
+//            Log.L.write("post move to eat \(six(self.scratch?.stepper?.name))")
+            dp.currentTask = nil
             dp.eat()
             return
         }
 
-//        print("nil1 = \(scr.gridCellConnector == nil)")
-        Grid.shared.concurrentQueue.async(flags: .barrier) {
+        Grid.shared.concurrentQueue.sync(flags: .barrier) {
+            Log.L.write("nil1 = \(scr.gridCellConnector == nil)")
             scr.gridCellConnector = nil
+//            Log.L.write("post move to funge \(six(self.scratch?.stepper?.name))")
+            dp.currentTask = nil
             dp.funge()
         }
-//        print("nil2 = \(scr.gridCellConnector == nil)")
+//        Log.L.write("nil2 = \(scr.gridCellConnector == nil)")
     }
 }

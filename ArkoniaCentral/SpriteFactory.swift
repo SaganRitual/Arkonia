@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 enum SpriteUserDataKey {
-    case karamba, manna, net9Portal, netDisplay, stepper
+    case manna, net9Portal, netDisplay, stepper
 }
 
 class SpriteHangar: SpriteHangarProtocol {
@@ -138,9 +138,9 @@ extension SpriteFactory {
         let w = factory.scene.size.width / 2
         let h = factory.scene.size.height / 2
 
-        print("K")
+        Log.L.write("K")
         let makeOne = SKAction.run {
-            print("L")
+            Log.L.write("L")
             SpriteFactory.count += 1
             var sprite = factory.arkonsHangar.makeSprite()
             sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
@@ -161,9 +161,9 @@ extension SpriteFactory {
             sprite = factory.mannaHangar.makeSprite()
             sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
             factory.scene.addChild(sprite)
-            print("M")
+            Log.L.write("M")
         }
-        print("N")
+        Log.L.write("N")
 
         return makeOne
     }

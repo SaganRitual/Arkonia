@@ -36,11 +36,11 @@ class Net {
 
         self.activatorFunction = Net.mutateActivator(parentActivator: parentActivator)
 
-//        print("L", self.layers, self.layers.count, "b", cBiases, self.biases.count, "w", cWeights, self.weights.count)
+//        Log.L.write("L", self.layers, self.layers.count, "b", cBiases, self.biases.count, "w", cWeights, self.weights.count)
     }
 
     deinit {
-//        print("~Net()?")
+//        Log.L.write("~Net()?")
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
@@ -113,7 +113,7 @@ class Net {
             a0 = Matrix<Double>(t4.map { [constrain(activatorFunction($0), lo: -1, hi: 1)] })
         }
 
-//        print("mo", (0..<a0.rows).map { a0[$0, 0] })
+//        Log.L.write("mo", (0..<a0.rows).map { a0[$0, 0] })
         return (0..<a0.rows).map { a0[$0, 0] }
     }
 
@@ -135,7 +135,7 @@ class Net {
             }
         }
 
-//        print("mns", parentStrand ?? [], targetLength)
+//        Log.L.write("mns", parentStrand ?? [], targetLength)
         return dd!
     }
 

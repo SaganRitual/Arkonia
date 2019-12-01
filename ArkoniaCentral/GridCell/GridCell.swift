@@ -1,7 +1,17 @@
 import SpriteKit
 
 class GridCell: GridCellProtocol, Equatable {
-    enum Contents: Double { case arkon, manna, nothing }
+    enum Contents: Double, CaseIterable {
+        case arkon, invalid, manna, nothing
+
+        func isEdible() -> Bool {
+            return self == .arkon || self == .manna
+        }
+
+        func isOccupied() -> Bool {
+            return self == .arkon || self == .manna
+        }
+    }
 
     let gridPosition: AKPoint
     var randomScenePosition: CGPoint?
@@ -9,7 +19,17 @@ class GridCell: GridCellProtocol, Equatable {
 
     var contents = Contents.nothing { didSet { previousContents = oldValue } }
     private(set) var previousContents = Contents.nothing
-    var owner: String?
+    private var ownerName_: String?
+    var ownerName: String? {
+        get {
+            Log.L.write("arkon \(six(ownerName_)) owns (\(gridPosition.x), \(gridPosition.y))", level : 9)
+            return ownerName_
+        }
+        set {
+            Log.L.write("change owner of (\(gridPosition.x), \(gridPosition.y)) from \(six(ownerName_)) to \(six(newValue))", level : 9)
+            ownerName_ = newValue
+        }
+    }
     weak var sprite: SKSpriteNode?
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
@@ -18,23 +38,6 @@ class GridCell: GridCellProtocol, Equatable {
     }
 
     deinit {
-//        print("~GridCell at \(gridPosition), owner \(owner ?? "no owner")")
-    }
-}
-
-extension GridCell {
-    static func getRandomGridlet_() -> GridCell {
-        var rg: GridCell!
-
-        repeat {
-            rg = GriddleScene.arkonsPortal!.getRandomGridlet()
-        } while rg.contents != .nothing
-
-        return rg
-    }
-
-    static func getRandomGridlet(onComplete: (GridCell) -> Void) {
-        let g = getRandomGridlet_()
-        onComplete(g)
+//        Log.L.write("~GridCell at \(gridPosition), owner \(owner ?? "no owner")")
     }
 }

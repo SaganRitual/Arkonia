@@ -4,207 +4,162 @@ protocol SafeConnectorProtocol { }
 
 class SafeCell: GridCellProtocol, SafeConnectorProtocol {
     let gridPosition: AKPoint
-    var isLive = false
     let scenePosition: CGPoint
     let randomScenePosition: CGPoint?
     weak var sprite: SKSpriteNode?
 
     let contents: GridCell.Contents
-    let owner: String?
+    var iOwnTheGridCell: Bool { willSet { precondition(newValue == false) } }
+    let ownerSignature: String
+    var parasite: String?
 
-    init(from original: GridCell, owner: String, live: Bool = true) {
+    init(from original: GridCell, ownerSignature: String, takeOwnership: Bool = true) {
         self.gridPosition = original.gridPosition
         self.scenePosition = original.scenePosition
         self.randomScenePosition = original.randomScenePosition
-//        print("so1")
-        self.owner = owner
-
+        self.ownerSignature = ownerSignature
         self.contents = original.contents
         self.sprite = original.sprite
 
-//        print("SafeCell1 at \(gridPosition), requested by \(six(owner))")
+        self.iOwnTheGridCell = takeOwnership ?
+            SafeCell.lockGridCellIf(ownerSignature, at: self.gridPosition) : false
 
-        if live {
-            self.isLive = SafeCell.lockGridCellIf(self.owner!, at: self.gridPosition)
-        }
+        Log.L.write("SafeCell1 at \(gridPosition), requested by \(six(ownerSignature))/\(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 7)
     }
 
-    init(from original: GridCell, live: Bool = true) {
+    init(from original: GridCell, takeOwnership: Bool = true) {
         self.gridPosition = original.gridPosition
         self.scenePosition = original.scenePosition
         self.randomScenePosition = original.randomScenePosition
-//        print("so1")
-        self.owner = original.owner
-
+        self.ownerSignature = original.ownerName!
         self.contents = original.contents
         self.sprite = original.sprite
 
-//        print("SafeCell1 at \(gridPosition), requested by \(six(owner))")
+        self.iOwnTheGridCell = takeOwnership ?
+            SafeCell.lockGridCellIf(original.ownerName!, at: self.gridPosition) : false
 
-        if live {
-            self.isLive = SafeCell.lockGridCellIf(self.owner!, at: self.gridPosition)
-        }
+        Log.L.write("SafeCell2 at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 4)
     }
 
     init(
         from safeCopy: SafeCell,
         newContents: GridCell.Contents,
         newSprite: SKSpriteNode?,
-        live: Bool = true
+        takeOwnership: Bool = true
     ) {
         self.gridPosition = safeCopy.gridPosition
         self.scenePosition = safeCopy.scenePosition
         self.randomScenePosition = safeCopy.randomScenePosition
-//        print("so2")
-        self.owner = safeCopy.owner
-
+        self.ownerSignature = safeCopy.ownerSignature
         self.contents = newContents
         self.sprite = newSprite
 
-//        print("SafeCell2 at \(gridPosition), requested by \(six(owner))")
+        self.iOwnTheGridCell = takeOwnership ?
+            SafeCell.lockGridCellIf(safeCopy.ownerSignature, at: self.gridPosition) : false
 
-        if live {
-            self.isLive = SafeCell.lockGridCellIf(self.owner!, at: self.gridPosition)
-        }
+        Log.L.write("SafeCell3a at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 4)
+    }
+    init(
+        from safeCopy: SafeCell,
+        takeOwnership: Bool = true
+    ) {
+        self.gridPosition = safeCopy.gridPosition
+        self.scenePosition = safeCopy.scenePosition
+        self.randomScenePosition = safeCopy.randomScenePosition
+        self.ownerSignature = safeCopy.ownerSignature
+        self.contents = safeCopy.contents
+        self.sprite = safeCopy.sprite
+
+        self.iOwnTheGridCell = takeOwnership ?
+            SafeCell.lockGridCellIf(safeCopy.ownerSignature, at: self.gridPosition) : false
+
+        Log.L.write("SafeCell3b at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 4)
+    }
+
+    init(from possiblyDeadCell: SafeCell) {
+        self.gridPosition = possiblyDeadCell.gridPosition
+        self.scenePosition = possiblyDeadCell.scenePosition
+        self.randomScenePosition = possiblyDeadCell.randomScenePosition
+        self.ownerSignature = possiblyDeadCell.ownerSignature
+        self.contents = possiblyDeadCell.contents
+        self.sprite = possiblyDeadCell.sprite
+        self.iOwnTheGridCell = true
+
+        Log.L.write("SafeCell3 at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 4)
+    }
+
+    private init(from stage: SafeStage) {
+        self.gridPosition = stage.toCell.gridPosition
+        self.scenePosition = stage.toCell.scenePosition
+        self.randomScenePosition = stage.toCell.randomScenePosition
+        self.ownerSignature = stage.toCell.ownerSignature
+
+        self.contents = stage.toCell.contents
+        self.sprite = stage.toCell.sprite
+
+        self.iOwnTheGridCell = false
+
+        Log.L.write("SafeCell4 at \(gridPosition), requested by \(six(self.ownerSignature)), isLive = \(self.iOwnTheGridCell)", level : 4)
     }
 
     deinit {
-        if isLive {
-//            print("~SafeCell \(gridPosition) for \(owner ?? "no owner?")")
-            SafeCell.unlockGridCell(self.owner!, at: self.gridPosition)
+        if iOwnTheGridCell {
+            Log.L.write("~SafeCell \(gridPosition) for \(six(ownerSignature))/\(six(self.parasite))", level : 5)
+            SafeCell.unlockGridCell(self.ownerSignature, self.parasite, at: self.gridPosition)
         } else {
-//            print("~SafeCell(dead) \(gridPosition) for \(owner ?? "no owner?")")
+            Log.L.write("~SafeCell(dead) \(gridPosition) for \(six(ownerSignature))/\(six(self.parasite))", level : 5)
         }
     }
 
-    static func unlockGridCell(_ owner: String, at gridPosition: AKPoint) {
-        let unsafeCell = GridCell.at(gridPosition)
-
-//        print("0unlockGridCell \(gridPosition) for \(six(unsafeCell.owner))")
-        assert(unsafeCell.owner == owner)
-
-//        print("so3")
-        unsafeCell.owner = nil
-//        print("1unlockGridCellIf \(gridPosition) for \(six(unsafeCell.owner))")
+    static func releaseStage(_ stage: SafeStage) -> SafeCell? {
+//        let myLandingCell = SafeCell(from: stage)
+        let myLandingCell = makeLiveCellIf(from: stage.toCell)
+        return myLandingCell
     }
 
-    static func lockGridCellIf(_ owner: String, at gridPosition: AKPoint) -> Bool {
+    static func unlockGridCell(_ ownerSignature: String?, _ parasite: String?, at gridPosition: AKPoint) {
+        let unsafeCell = GridCell.at(gridPosition)
+
+        Log.L.write("unlock \(gridPosition) for \(six(ownerSignature)), actual \(six(unsafeCell.ownerName)), parasite \(six(parasite))", level : 9)
+        assert(unsafeCell.ownerName == ownerSignature || unsafeCell.ownerName == parasite)
+
+        unsafeCell.ownerName = nil
+    }
+
+    static func makeLiveCellIf(from possiblyDeadCell: SafeCell) -> SafeCell? {
+        defer { possiblyDeadCell.iOwnTheGridCell = false }
+
+        let sc = SafeCell(from: possiblyDeadCell)
+
+        if Disengage.iOwnTheGridCell(possiblyDeadCell) == false {
+            sc.iOwnTheGridCell = false
+            return nil
+        }
+
+        return sc
+    }
+
+    static func lockGridCellIf(_ ownerSignature: String, at gridPosition: AKPoint) -> Bool {
         let unsafeCell = GridCell.at(gridPosition)
         var locked = false
 
-//        print("lockGridCellIf \(gridPosition) for \(six(owner)) current \(six(unsafeCell.owner))")
-        if unsafeCell.owner == nil {
-//            print("so4")
-            unsafeCell.owner = owner
+        Log.L.write("lockGridCellIf \(gridPosition) for \(six(ownerSignature)) current \(six(unsafeCell.ownerName))", level : 9)
+        if unsafeCell.ownerName == nil {
+            unsafeCell.ownerName = ownerSignature
             locked = true
+            Log.L.write("lock \(gridPosition) for \(ownerSignature)", level : 9)
         }
 
-//        print("lockGridCellIf = \(locked) at \(gridPosition) held by \(six(unsafeCell.owner))")
+        Log.L.write("lockGridCellIf = \(locked) at \(gridPosition) held by \(six(unsafeCell.ownerName))", level : 9)
         return locked
     }
 }
 
-class SafeSenseGrid: SafeConnectorProtocol {
-    let cells: [SafeCell?]
-
-    init(from center: SafeCell, by cGridlets: Int) {
-        guard let co = center.owner else { fatalError() }
-
-        cells = [center] + (1..<cGridlets).map {
-            let position = center.getGridPointByIndex($0, absolute: true)
-
-            guard let unsafeCell = GridCell.atIf(position) else { return nil }
-            return SafeCell(from: unsafeCell, owner: co)
-        }
-    }
-
-    deinit {
-//        print("~SafeSenseGrid")
-    }
-}
-
 extension GridCell {
+    func engage_(_ ownerName: String, _ require: Bool) -> SafeCell {
+        let sc = SafeCell(from: self, ownerSignature: ownerName)
 
-    func wiEngage(
-        owner: String, require: Bool, onLock: ((SafeCell?) -> Void)?
-    ) -> DispatchWorkItem {
-
-        return DispatchWorkItem(flags: .barrier) {
-            let cell = self.engage_(owner, require)
-//            print("wiEngage \(cell?.gridPosition ?? AKPoint.zero) for \(owner)")
-            onLock?(cell)
-        }
-    }
-
-    func engage_(_ owner: String, _ require: Bool) -> SafeCell? {
-        if self.owner == nil {
-//            print("so6")
-            return SafeCell(from: self, owner: owner)
-        }
-
-        if require { fatalError() }
-
-        return nil
-    }
-
-    func extend(
-        owner: String, from center: SafeCell, by cGridlets: Int, onLock: ((SafeSenseGrid?) -> Void)?
-    ) -> DispatchWorkItem {
-//        print("extend0 \(six(self.owner))")
-
-        return DispatchWorkItem(flags: .barrier) {
-//            print("extend1 \(six(owner))")
-            let sc = SafeSenseGrid(from: center, by: cGridlets)
-//            print("extend2 \(six(self.owner))")
-            onLock?(sc)
-        }
-    }
-}
-
-class SafeStage: SafeConnectorProtocol {
-    let willMove: Bool
-    let from: SafeCell
-    var fromForCommit: SafeCell?
-    let to: SafeCell
-    var toForCommit: SafeCell?
-
-    init(_ from: SafeCell, _ to: SafeCell) {
-        self.from = from; self.to = to; willMove = (from != to)
-//        print("SafeStage \(from.gridPosition), \(from.contents), \(six(from.sprite?.name)), \(to.gridPosition), \(to.contents), \(six(to.sprite?.name)), \(willMove)")
-    }
-
-    deinit {
-//        print("~SafeStage")
-        guard fromForCommit == nil, toForCommit == nil else {
-//            print("committing changes")
-            commit()
-//            print("committed changes")
-            return
-        }
-    }
-
-    func commit() {
-        guard let f = fromForCommit, let t = toForCommit else { return }
-
-        let newFrom = GridCell.at(f)
-        newFrom.contents = f.contents
-        newFrom.sprite = f.sprite
-
-        let newTo = GridCell.at(t)
-        newTo.contents = t.contents
-        newTo.sprite = t.sprite
-
-        fromForCommit = nil
-        toForCommit = nil
-    }
-
-    func move() {
-        guard fromForCommit == nil && toForCommit == nil else { fatalError() }
-        if !willMove { return }
-
-//        print("will move \(from.gridPosition), \(to.gridPosition)")
-
-        fromForCommit = SafeCell(from: from, newContents: .nothing, newSprite: nil, live: false)
-        toForCommit = SafeCell(from: to, newContents: from.contents, newSprite: from.sprite, live: false)
+        if sc.iOwnTheGridCell == false && require == true { fatalError() }
+        return sc
     }
 }

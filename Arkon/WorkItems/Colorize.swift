@@ -2,24 +2,29 @@ import GameplayKit
 
 final class Colorize: Dispatchable {
     weak var scratch: Scratchpad?
+    var wiLaunch: DispatchWorkItem?
 
-    init(_ scratch: Scratchpad) { self.scratch = scratch }
+    init(_ scratch: Scratchpad) {
+        Log.L.write("Colorize()", level: 3)
+        self.scratch = scratch
+        self.wiLaunch = DispatchWorkItem(block: launch_)
+    }
 
-    func launch() { aColorize() }
+    private func launch_() { aColorize() }
 }
 
-func six(_ string: String?) -> String { return String(string?.prefix(6) ?? "ottffs") }
+func six(_ string: String?) -> String { return String(string?.prefix(6) ?? "<no owner?>") }
 
 extension Colorize {
     func aColorize() {
-//        print("colorize")
-        guard let sc = scratch else { fatalError() }
-        guard let st = sc.stepper else { fatalError() }
-        guard let ws = sc.worldStats else { fatalError() }
+        Log.L.write("Colorize.launch_ \(six(scratch?.stepper?.name))", level: 3)
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let ws = ch.worldStats else { fatalError() }
 
         let age = ws.currentTime - st.birthday
         st.colorizeProper(age)
-        sc.dispatch?.shift()
+
+        dp.disengage()
     }
 }
 

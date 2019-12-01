@@ -34,13 +34,9 @@ extension World {
         private(set) var highWaterAge = 0
         private(set) var highWaterCOffspring = 0
 
-        private let lockQueue = DispatchQueue(
-            label: "arkonia.lock.world.stats", qos: .utility,
-            attributes: DispatchQueue.Attributes.concurrent,
-            target: DispatchQueue.global()
-        )
-
         var gameAge: Int { return currentTime }
+
+        var wiGetStats: DispatchWorkItem?
 
         init() { updateWorldClock() }
 
@@ -62,76 +58,66 @@ extension World.Stats {
     typealias OCGetStats = (World.StatsCopy) -> Void
 
     func decrementPopulation(_ onComplete: OCGetStats?) {
-        World.shared.lockQueue.async(flags: .barrier) { [unowned self] in
+        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
             self.currentPopulation -= 1
             onComplete?(self.copy())
         }
     }
 
     func getNextFishNumber(_ onComplete: @escaping (Int) -> Void) {
-        World.shared.lockQueue.async(flags: .barrier) {
+        Grid.shared.serialQueue.async(flags: .barrier) {
             defer { World.stats.TheFishNumber += 1 }
             onComplete(World.stats.TheFishNumber)
         }
     }
 
     func getStats(_ onComplete: @escaping OCGetStats) {
-        Grid.shared.concurrentQueue.async(flags: .barrier) { onComplete(self.copy()) }
+        wiGetStats = DispatchWorkItem(flags: .barrier) { [unowned self] in self.getStats_(onComplete) }
+        Grid.shared.serialQueue.async(execute: wiGetStats!)
     }
 
-    func getStats_(_ onComplete: @escaping OCGetStats) {
-        Grid.shared.concurrentQueue.async(flags: .barrier) { onComplete(self.copy()) }
-    }
+    func getStats_(_ onComplete: @escaping OCGetStats) { onComplete(self.copy()) }
 
     func getTimeSince(_ time: Int, _ onComplete: @escaping (Int) -> Void) {
-        World.shared.lockQueue.async(flags: .barrier) {
+        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
             onComplete(self.currentTime - time)
         }
     }
 
     func registerAge(_ age: Int, _ onComplete: @escaping OCGetStats) {
-        World.shared.lockQueue.async(flags: .barrier) {
+        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
             self.maxLivingAge = max(age, self.maxLivingAge)
             self.highWaterAge = max(self.maxLivingAge, self.highWaterAge)
             onComplete(self.copy())
         }
     }
 
-    func registerBirth(
-        myParent: Stepper?,
-        meOffspring: WangkhiProtocol,
-        _ onComplete: @escaping () -> Void
-    ) {
-        World.shared.lockQueue.async(flags: .barrier) {
-            [unowned self] in self.registerBirth_(myParent: myParent, meOffspring: meOffspring)
-            onComplete()
+    func registerBirth(myParent: Stepper?, meOffspring: WangkhiProtocol) {
+        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
+            self.currentPopulation += 1
+
+            myParent?.cOffspring += 1
+
+            meOffspring.fishNumber = self.TheFishNumber
+            self.TheFishNumber += 1
+
+            meOffspring.birthday = self.currentTime
+
+            self.maxCOffspringForLiving = max(
+                (myParent?.cOffspring ?? 0), self.maxCOffspringForLiving
+            )
+
+            self.highWaterCOffspring = max(
+                self.maxCOffspringForLiving, self.highWaterCOffspring
+            )
         }
     }
 
-    func registerBirth_(myParent: Stepper?, meOffspring: WangkhiProtocol) {
-        self.currentPopulation += 1
-
-        myParent?.cOffspring += 1
-
-        meOffspring.fishNumber = self.TheFishNumber
-        self.TheFishNumber += 1
-
-        meOffspring.birthday = self.currentTime
-
-        self.maxCOffspringForLiving = max(
-            (myParent?.cOffspring ?? 0), self.maxCOffspringForLiving
-        )
-
-        self.highWaterCOffspring = max(
-            self.maxCOffspringForLiving, self.highWaterCOffspring
-        )
-    }
-
     private func updateWorldClock() {
-        Grid.shared.concurrentQueue.async(flags: .barrier) { [unowned self] in
+        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
             self.currentTime += 1
 
-            Grid.shared.concurrentQueue.asyncAfter(deadline: DispatchTime.now() + 1) {
+            Grid.shared.serialQueue.asyncAfter(deadline: DispatchTime.now() + 1) {
                 [unowned self] in self.updateWorldClock()
             }
         }
