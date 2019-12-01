@@ -70,21 +70,6 @@ class HUD {
         thePrototype.removeFromParent()
     }
 
-//    static private func unpackPlaceholders(_ dashboard: SKNode, scene: SKScene) -> [Quadrant] {
-//        let quadrants: [Quadrant] = (2...3).map {
-//            let node = dashboard.childNode(withName: "placeholder\($0)")
-//            let placeholder = (node as? SKSpriteNode)!
-//
-//            let quadrant = Quadrant(
-//                monitor: placeholder, quadrantPosition: placeholder.position
-//            )
-//
-//            return quadrant
-//        }
-//
-//        return quadrants
-//    }
-
     static private func unpackPrototypes(_ dashboard: SKNode, scene: SKScene) -> [Quadrant] {
         let quadrants: [Quadrant] = MonitorPrototype.allCases.map { monitorType in
             let name = prototypeNames[monitorType]!
