@@ -7,6 +7,7 @@ class Stepper {
     var dispatch: Dispatch!
     var fishNumber = 0
     weak var gridCell: GridCell!
+    var isTurnabouted: Bool = false
     var metabolism: Metabolism!
     let name: String
     var net: Net!

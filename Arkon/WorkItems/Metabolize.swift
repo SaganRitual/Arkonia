@@ -17,6 +17,7 @@ extension Metabolize {
     func aMetabolize() {
         Log.L.write("Metabolize.launch_ \(six(scratch?.stepper?.name))", level: 15)
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        st.nose.color = .cyan
 
         precondition(ch.getCellConnector() != nil)
 

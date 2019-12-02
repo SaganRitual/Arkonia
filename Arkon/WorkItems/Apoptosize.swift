@@ -6,7 +6,7 @@ final class Apoptosize: Dispatchable {
 
     init(_ scratch: Scratchpad) {
         Log.L.write("Apoptosize()", level: 3)
-        if !scratch.isApoptosizing { self.scratch = scratch }
+        self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 

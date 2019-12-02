@@ -11,6 +11,7 @@ final class Funge: Dispatchable {
     }
 
     func launch_() {
+        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
     }
@@ -18,11 +19,12 @@ final class Funge: Dispatchable {
 
 extension Funge {
     func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool) {
-        guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
+        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
         if !isAlive  { dp.apoptosize(); return }
         if !canSpawn { dp.plot(); return }
 
+        st.nose.color = .green
         dp.wangkhi()
     }
 }

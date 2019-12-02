@@ -12,6 +12,9 @@ final class Disengage: Dispatchable {
 
     func launch_() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
+
+        st.nose.color = .blue
+
         Log.L.write("Disengage.launch1 \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
 
         ch.resetGridConnector()

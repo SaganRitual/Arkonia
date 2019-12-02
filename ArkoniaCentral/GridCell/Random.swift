@@ -1,7 +1,7 @@
 import CoreGraphics
 
 extension GridCell {
-    static let funkyCells = true
+    static let funkyCells = false
 
     static func getRandomCell() -> GridCell {
         let wGrid = Grid.dimensions.wGrid
@@ -31,7 +31,21 @@ extension GridCell {
     static func getRandomEmptyCell() -> GridCell {
         var rg: GridCell!
 
+        var c = 0
         repeat {
+            if c > 1000 {
+                Log.L.write("Hung in getRandomEmptyCell()")
+                for column in -27..<28 {
+                    for row in -26..<27 {
+                        let gridCell = GridCell.at(column, row)
+                        Log.L.write("cell: \(gridCell.gridPosition) contains \(gridCell.contents) locked = \(gridCell.isLocked)")
+                    }
+                }
+
+                preconditionFailure()
+             }
+
+            c += 1
             rg = getRandomCell()
         } while rg.contents.isOccupied()
 
@@ -53,10 +67,14 @@ extension GridCell {
         return randomGridCell!
     }
 
+    static var cLrec = 0
     static func lockRandomEmptyCell(setOwner: String) -> GridCell {
         var randomGridCell: GridCell?
 
+        var c = 0
         repeat {
+            precondition(c < 1000)
+            c += 1
             randomGridCell = GridCell.getRandomEmptyCell().lock(require: false)
         } while randomGridCell == nil
 

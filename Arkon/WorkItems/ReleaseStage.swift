@@ -12,6 +12,7 @@ final class ReleaseStage: Dispatchable {
     func launch_() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         Log.L.write("ReleaseStage.launch_ \(six(st.name))", level: 15)
+        st.nose.color = .black
 
         guard let stage = ch.getStageConnector() else { preconditionFailure() }
 

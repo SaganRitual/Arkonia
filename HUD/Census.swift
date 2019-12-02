@@ -56,7 +56,7 @@ class Census {
 
         if liveArkons.isEmpty { Dispatch().wangkhi() }
 
-        else if liveArkons.count < 15 {
+        else if liveArkons.count < 25 {
             guard let bestBreeder = liveArkons.first else { preconditionFailure() }
 
             let newNet = Net(
@@ -66,6 +66,7 @@ class Census {
                 parentActivator: bestBreeder.parentActivator
             )
 
+            Log.L.write("layers: \(bestBreeder.parentLayers ?? [])", level: 29)
             Dispatch(parentNet: newNet).wangkhi()
         }
 

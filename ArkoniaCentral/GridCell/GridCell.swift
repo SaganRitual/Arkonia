@@ -21,8 +21,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     var randomScenePosition: CGPoint?
     let scenePosition: CGPoint
 
-    var contents = Contents.nothing { didSet { previousContents = oldValue } }
-    private(set) var previousContents = Contents.nothing
+    var contents = Contents.nothing
     weak var sprite: SKSpriteNode?
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
@@ -61,6 +60,7 @@ extension GridCell {
         guard let dp = st.dispatch else { return }
         let ch = dp.scratch
         if ch.isAwaitingWakeup == true {
+            Log.L.write("GridCell wakeup waiter", level: 32)
             precondition(ch.isEngaged == false)
 
             ch.isAwaitingWakeup = false

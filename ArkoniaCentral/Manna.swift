@@ -2,7 +2,7 @@ import SpriteKit
 
 class Manna {
 
-    static let colorBlendMaximum: CGFloat = 0.75
+    static let colorBlendMaximum: CGFloat = 0.45
     static let colorBlendMinimum: CGFloat = 0.25
     static var colorBlendRangeWidth: CGFloat { return colorBlendMaximum - colorBlendMinimum }
     static let fullGrowthDurationSeconds: TimeInterval = 1

@@ -54,7 +54,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
 
     var birthday = 0
     var callAgain = false
-    var embryoName = Names.getName()
+    var embryoName = UUID().uuidString // Names.getName()
     var fishNumber = 0
     var metabolism: Metabolism?
     var net: Net?
@@ -124,6 +124,7 @@ extension WangkhiEmbryo {
 
 extension WangkhiEmbryo {
     func buildGuts() {
+
         Log.L.write("build guts1", level: 16)
         metabolism = Metabolism()
 
@@ -133,21 +134,16 @@ extension WangkhiEmbryo {
             layers: parent?.parentLayers, parentActivator: parent?.parentActivator
         )
 
+        parent?.nose!.color = .white
         Log.L.write("build guts3", level: 16)
 
         guard let sprite = self.sprite else { preconditionFailure() }
-        guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
-            else { return }
-
-        guard let scene = np.parent as? SKScene else { return }
-
-        netDisplay = NetDisplay(scene: scene, background: np, layers: net!.layers)
-        netDisplay!.display()
-
         guard let safeCell = self.safeCell else { preconditionFailure() }
 
         safeCell.sprite = sprite
         safeCell.contents = .arkon
+
+        buildNetDisplay(sprite)
 
         Log.L.write("launching newborn (sprite) \(six(sprite.name)) at \(safeCell.gridPosition)", level: 16)
         self.launchNewborn()
@@ -158,11 +154,30 @@ extension WangkhiEmbryo {
 
 extension WangkhiEmbryo {
 
+    func buildNetDisplay(_ sprite: SKSpriteNode) {
+        guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
+            else { return }
+
+        parent?.nose!.color = .cyan
+
+        guard let scene = np.parent as? SKScene else { return }
+
+        netDisplay = NetDisplay(scene: scene, background: np, layers: net!.layers)
+        netDisplay!.display()
+    }
+}
+
+extension WangkhiEmbryo {
+
     func abandonNewborn() {
-        if let dp = scratch?.dispatch, let st = scratch?.stepper {
+        if let st = parent, let dp = st.dispatch {
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
             dp.metabolize()
+            parent?.nose!.color = .orange
+        } else {
+            Log.L.write("no scratch", level: 29)
+            parent?.nose!.color = .yellow
         }
     }
 
@@ -201,6 +216,8 @@ extension WangkhiEmbryo {
     func launchNewborn() {
         guard let sprite = self.sprite else { preconditionFailure() }
 
+        abandonNewborn()
+
         let newborn = Stepper(self, needsNewDispatch: true)
         newborn.parentStepper = self.parent
         newborn.dispatch.scratch.stepper = newborn
@@ -213,7 +230,5 @@ extension WangkhiEmbryo {
 
         ndp.scratch.setGridConnector(self.safeCell)
         ndp.disengage()
-
-        abandonNewborn()
     }
 }

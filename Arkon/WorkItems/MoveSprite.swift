@@ -24,6 +24,8 @@ final class MoveSprite: Dispatchable {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         Log.L.write("MoveSprite.launch_ \(six(st.name))", level: 15)
 
+        st.nose.color = .magenta
+
         guard let gcc = ch.getStageConnector() else { preconditionFailure() }
 
         if gcc.fromCell == nil {

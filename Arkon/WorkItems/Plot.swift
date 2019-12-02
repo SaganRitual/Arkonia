@@ -11,7 +11,8 @@ final class Plot: Dispatchable {
     }
 
     private func launch_() {
-        guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        st.nose.color = .gray
 
         guard let centerCell =
             ch.getCellConnector(require: true) else { preconditionFailure() }

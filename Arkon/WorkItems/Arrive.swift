@@ -14,7 +14,9 @@ final class Arrive: Dispatchable {
 
     func arrive() {
         Log.L.write("Arrive.launch_ \(six(scratch?.stepper?.name))", level: 28)
-        guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+
+        st.nose.color = .white
 
         guard let stage = ch.getStageConnector(require: true) else { preconditionFailure() }
 

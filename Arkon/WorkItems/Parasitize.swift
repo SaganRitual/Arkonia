@@ -6,7 +6,7 @@ final class Parasitize: Dispatchable {
 
     init(_ scratch: Scratchpad) {
         Log.L.write("Parasitize()", level: 22)
-        if !scratch.isApoptosizing { self.scratch = scratch }
+        self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
@@ -31,8 +31,12 @@ extension Parasitize {
 
         if myMass > (hisMass * 1.25) {
             Log.L.write("Parasitize2: \(six(myStepper.name)) eats \(six(hisStepper.name))", level: 28)
+            myStepper.isTurnabouted = false
+            hisStepper.isTurnabouted = false
             return (myStepper, hisStepper)
         } else {
+            myStepper.isTurnabouted = true
+            hisStepper.isTurnabouted = true
             Log.L.write("Parasitize3: \(six(myStepper.name)) eats \(six(hisStepper.name))", level: 28)
 
             let hisScratch = hisStepper.dispatch.scratch
@@ -54,6 +58,11 @@ extension Parasitize {
     func parasitize(_ victor: Stepper, _ victim: Stepper) {
         victor.metabolism.parasitizeProper(victim)
         victor.dispatch.releaseStage()
+
+        if victor.isTurnabouted {
+            victim.nose.color = .blue
+            victim.dispatch.apoptosize()
+        }
     }
 }
 
