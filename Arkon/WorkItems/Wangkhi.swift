@@ -158,7 +158,7 @@ extension WangkhiEmbryo {
         guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
             else { return }
 
-        parent?.nose!.color = .cyan
+        parent?.nose!.color = .purple
 
         guard let scene = np.parent as? SKScene else { return }
 

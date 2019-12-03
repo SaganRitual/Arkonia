@@ -28,24 +28,32 @@ extension GridCell {
         return gridCell
     }
 
+    static var cGrec = 0
+    static var highWatercGrec = 0
     static func getRandomEmptyCell() -> GridCell {
         var rg: GridCell!
 
-        var c = 0
+        cGrec = 0
         repeat {
-            if c > 1000 {
-                Log.L.write("Hung in getRandomEmptyCell()")
+            if cGrec > highWatercGrec {
+                highWatercGrec = cGrec
+                precondition(highWatercGrec < 1000)
+
+                var inUseCount = 0
+                var lockedCount = 0
+                var availableCount = 0
                 for column in -27..<28 {
                     for row in -26..<27 {
                         let gridCell = GridCell.at(column, row)
-                        Log.L.write("cell: \(gridCell.gridPosition) contains \(gridCell.contents) locked = \(gridCell.isLocked)")
+                        if gridCell.isLocked { lockedCount += 1 }
+                        if gridCell.contents.isOccupied() { inUseCount += 1 } else { availableCount += 1 }
                     }
                 }
 
-                preconditionFailure()
+                Log.L.write("Hung in getRandomEmptyCell(); \(cGrec) loops, \(inUseCount) occupied, \(availableCount) available, \(lockedCount) locked")
              }
 
-            c += 1
+            cGrec += 1
             rg = getRandomCell()
         } while rg.contents.isOccupied()
 
@@ -68,13 +76,32 @@ extension GridCell {
     }
 
     static var cLrec = 0
+    static var highWatercLrec = 0
     static func lockRandomEmptyCell(setOwner: String) -> GridCell {
         var randomGridCell: GridCell?
 
-        var c = 0
+        cLrec = 0
         repeat {
-            precondition(c < 1000)
-            c += 1
+            if cLrec > highWatercLrec {
+                Log.L.write("Hung in lockRandomEmptyCell(); \(cLrec) loops")
+                highWatercLrec = cLrec
+                precondition(highWatercLrec < 1000)
+
+                var inUseCount = 0
+                var lockedCount = 0
+                var availableCount = 0
+                for column in -27..<28 {
+                    for row in -26..<27 {
+                        let gridCell = GridCell.at(column, row)
+                        if gridCell.isLocked { lockedCount += 1 }
+                        if gridCell.contents.isOccupied() { inUseCount += 1 } else { availableCount += 1 }
+                    }
+                }
+
+                Log.L.write("Hung in lockRandomEmptyCell(); \(cLrec) loops, \(inUseCount) occupied, \(availableCount) available, \(lockedCount) locked")
+            }
+
+            cLrec += 1
             randomGridCell = GridCell.getRandomEmptyCell().lock(require: false)
         } while randomGridCell == nil
 

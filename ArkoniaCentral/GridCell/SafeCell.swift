@@ -23,7 +23,8 @@ class SafeCell: GridCellProtocol, GridConnectorProtocol {
     }
 
     deinit {
-        Log.L.write("~SafeCell; hot = \(hotCell != nil)", level: 30)
+//        Log.L.write("~SafeCell; hot = \(hotCell != nil)", level: 32)
+        sprite?.getStepper()?.dispatch.scratch.resetGridConnector()
         hotCell?.releaseLock(self)
     }
 }

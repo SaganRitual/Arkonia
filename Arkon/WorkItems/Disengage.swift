@@ -12,6 +12,7 @@ final class Disengage: Dispatchable {
 
     func launch_() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
+        precondition(st.sprite.userData?[SpriteUserDataKey.stepper] != nil)
 
         st.nose.color = .blue
 

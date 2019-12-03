@@ -15,8 +15,10 @@ final class Engage: Dispatchable {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
 
+        st.nose.color = .blue
         guard let lockedCell = gc.lock(require: false) else {
-            Log.L.write("Engage.launch1 \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
+            st.nose.color = .green
+            Log.L.write("Engage.launch1 \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 31)
             ch.isAwaitingWakeup = true
             return
         }

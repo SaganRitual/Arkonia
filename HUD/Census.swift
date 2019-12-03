@@ -56,7 +56,7 @@ class Census {
 
         if liveArkons.isEmpty { Dispatch().wangkhi() }
 
-        else if liveArkons.count < 25 {
+        else if liveArkons.count < 50 {
             guard let bestBreeder = liveArkons.first else { preconditionFailure() }
 
             let newNet = Net(

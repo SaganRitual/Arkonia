@@ -50,17 +50,28 @@ extension GridCell {
         return self
     }
 
+    static var cRl = 0
     func releaseLock(_ cellConnector: SafeCell) {
-        Log.L.write("releaseLock", level: 27)
-
+        GridCell.cRl += 1
         defer { isLocked = false }
         commit(cellConnector)
 
-        guard let st = cellConnector.sprite?.getStepper(require: false) else { return }
-        guard let dp = st.dispatch else { return }
+        guard let st = cellConnector.sprite?.getStepper(require: false) else {
+            if(cellConnector.contents == .arkon) {
+                Log.L.write("arkon already freed \(GridCell.cRl); sprite \(six(cellConnector.sprite?.name)) = ", level: 32)
+            }
+            return
+        }
+
+        guard let dp = st.dispatch else {
+            Log.L.write("no dispatch \(GridCell.cRl) \(six(st.name))", level: 32)
+            return
+        }
+
         let ch = dp.scratch
         if ch.isAwaitingWakeup == true {
-            Log.L.write("GridCell wakeup waiter", level: 32)
+            st.nose.color = .yellow
+            Log.L.write("GridCell wakeup waiter \(six(st.name)) \(GridCell.cRl)", level: 32)
             precondition(ch.isEngaged == false)
 
             ch.isAwaitingWakeup = false

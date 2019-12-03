@@ -39,7 +39,7 @@ extension Arrive {
         let harvested = manna.harvest()
 
         st.metabolism.absorbEnergy(harvested)
-        st.metabolism.inhale()
+        st.metabolism.inhale(manna.energyFullness)
 
         MannaCoordinator.shared.beEaten(sprite)
 
