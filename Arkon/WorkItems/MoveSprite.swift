@@ -22,19 +22,19 @@ final class MoveSprite: Dispatchable {
 
     func moveSprite() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        Log.L.write("MoveSprite.launch_ \(six(st.name))", level: 15)
 
-        st.nose.color = .magenta
+        guard let taxi = ch.cellTaxi else { preconditionFailure() }
 
-        guard let gcc = ch.getStageConnector() else { preconditionFailure() }
+        Log.L.write("moveSprite0 \(six(st.name)), \(ch.cellTaxi == nil), \(ch.cellTaxi?.toCell == nil), \(ch.cellTaxi?.toCell?.cell == nil))", level: 31)
 
-        if gcc.fromCell == nil {
-            precondition(gcc.fromCell?.gridPosition != gcc.toCell.gridPosition)
+        if taxi.fromCell == nil {
             MoveSprite.rest(st) { dp.releaseStage() }
             return
         }
 
-        let position = gcc.toCell.randomScenePosition ?? gcc.toCell.scenePosition
+        Log.L.write("moveSprite1 \(six(st.name))", level: 31)
+        guard let hotKey = taxi.toCell?.cell else { preconditionFailure() }
+        let position = hotKey.randomScenePosition ?? hotKey.scenePosition
 
         let moveAction =  SKAction.move(to: position, duration: MoveSprite.moveDuration)
 

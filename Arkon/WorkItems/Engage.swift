@@ -8,29 +8,25 @@ final class Engage: Dispatchable {
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
-        Log.L.write("Engage \(six(scratch.stepper?.name)), \(scratch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
     }
 
     func launch_() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
 
-        st.nose.color = .blue
-        guard let lockedCell = gc.lock(require: false) else {
-            st.nose.color = .green
-            Log.L.write("Engage.launch1 \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 31)
-            ch.isAwaitingWakeup = true
+        let cellConnector = gc.lock(require: false)
+
+        if !(cellConnector is HotKey) {
+            Log.L.write("ColdKey \(six(st.name))", level: 31)
+            if cellConnector is ColdKey { gc.requesters.append(dp) }
             return
         }
 
-        Log.L.write("Engage.launch2 \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
-
-        let cellConnector = SafeCell(from: lockedCell)
-        ch.setGridConnector(cellConnector)
-
+        guard let cc = cellConnector as? HotKey else { preconditionFailure() }
+        Log.L.write("HotKey \(six(st.name))", level: 31)
+        ch.cellConnector = cc
         ch.worldStats = World.stats.copy()
 
         dp.funge()
-        Log.L.write("Engage.launch3 \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
     }
 }

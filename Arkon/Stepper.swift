@@ -24,7 +24,7 @@ class Stepper {
     init(_ embryo: WangkhiEmbryo, needsNewDispatch: Bool = false) {
         self.birthday = embryo.birthday
         self.fishNumber = embryo.fishNumber
-        self.gridCell = embryo.safeCell?.hotCell
+        self.gridCell = embryo.cellConnector?.cell
         self.metabolism = embryo.metabolism
         self.name = embryo.embryoName
         self.net = embryo.net
@@ -37,7 +37,6 @@ class Stepper {
 
     deinit {
         netDisplay = nil
-        dispatch.scratch.isAwaitingWakeup = false
 
         Log.L.write("stepper deinit \(six(name))", level: 31)
 
@@ -74,7 +73,7 @@ extension Stepper {
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
         Log.L.write("detachStepper \(six(stepper.name)) from sprite \(six(sprite.name))", level: 32)
         if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
-        stepper.dispatch.scratch.resetGridConnector()
+//        stepper.dispatch.scratch.resetGridConnector()
         sprite.userData![SpriteUserDataKey.stepper] = nil
     }
 }

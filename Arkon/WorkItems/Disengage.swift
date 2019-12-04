@@ -5,22 +5,17 @@ final class Disengage: Dispatchable {
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Disengage \(six(scratch.stepper?.name))", level: 28)
         self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
     func launch_() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
-        precondition(st.sprite.userData?[SpriteUserDataKey.stepper] != nil)
+        Log.L.write("disengage \(six(st.name))", level: 31)
 
-        st.nose.color = .blue
+        ch.cellConnector = nil
+        ch.cellTaxi = nil
 
-        Log.L.write("Disengage.launch1 \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
-
-        ch.resetGridConnector()
-        Log.L.write("Disengage.launch2  \(six(st.name)), \(ch.getStageConnector()?.toCell.gridPosition ?? AKPoint.zero)", level: 28)
-        precondition(ch.isEngaged == false)
         dp.engage()
     }
 

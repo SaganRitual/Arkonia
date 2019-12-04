@@ -13,14 +13,11 @@ final class Arrive: Dispatchable {
     private func launch_() { arrive() }
 
     func arrive() {
-        Log.L.write("Arrive.launch_ \(six(scratch?.stepper?.name))", level: 28)
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
-        st.nose.color = .white
+        guard let taxi = ch.cellTaxi else { preconditionFailure() }
 
-        guard let stage = ch.getStageConnector(require: true) else { preconditionFailure() }
-
-        switch stage.consumedContents {
+        switch taxi.consumedContents {
         case .arkon: dp.parasitize()
         case .manna: graze()
         default: fatalError()
@@ -32,8 +29,9 @@ extension Arrive {
 
     func graze() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let taxi = ch.cellTaxi else { preconditionFailure() }
 
-        guard let sprite = ch.getStageConnector()?.consumedSprite else { fatalError() }
+        guard let sprite = taxi.consumedSprite else { fatalError() }
         guard let manna = sprite.getManna() else { fatalError() }
 
         let harvested = manna.harvest()

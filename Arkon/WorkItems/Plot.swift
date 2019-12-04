@@ -2,7 +2,6 @@ import Dispatch
 
 final class Plot: Dispatchable {
     weak var scratch: Scratchpad?
-    var senseData = [Double]()
     var wiLaunch: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
@@ -11,28 +10,27 @@ final class Plot: Dispatchable {
     }
 
     private func launch_() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        st.nose.color = .gray
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { preconditionFailure() }
+        guard let cc = ch.cellConnector else { preconditionFailure() }
 
-        guard let centerCell =
-            ch.getCellConnector(require: true) else { preconditionFailure() }
+        let senseGrid = makeSenseGrid(from: cc)
+        let gridInputs = loadGridInputs(from: senseGrid)
+        let nonSpatial = getNonSpatialSenseData()
+        let senseData = gridInputs + nonSpatial
 
-        let senseGrid = makeSenseGrid(from: centerCell)
-        ch.setGridConnector(senseGrid)
-
-        loadSenseData()
-
-        let stage = stageMovement()
-        ch.setGridConnector(stage)
+        ch.cellTaxi = makeCellTaxi(senseData, senseGrid)
+        Log.L.write("plot \(six(st.name)), \(ch.cellTaxi == nil), \(ch.cellTaxi?.toCell == nil), \(ch.cellTaxi?.toCell?.cell == nil))", level: 31)
 
         dp.moveSprite()
+    }
+
+    deinit {
+        Log.L.write("~Plot \(six(scratch?.stepper?.name))", level: 31)
     }
 }
 
 extension Plot {
-    private func loadGridInputs() -> [Double] {
-        guard let senseGrid = scratch?.getSensesConnector() else { fatalError() }
-
+    private func loadGridInputs(from senseGrid: CellSenseGrid) -> [Double] {
         let gridInputs: [Double] = senseGrid.cells.reduce([]) { partial, cell in
 
             guard let (contents, nutritionalValue) = loadGridInput(cell)
@@ -44,24 +42,23 @@ extension Plot {
         return gridInputs
     }
 
-    private func loadGridInput(_ c: SafeCell?) -> (Double, Double)? {
+    private func loadGridInput(_ cellKey: GridCellKey) -> (Double, Double)? {
 
-        guard let cell = c, GridCell.isOnGrid(cell.gridPosition) else {
+        if cellKey.contents == .invalid {
             let rv = (GridCell.Contents.invalid.rawValue + 1)
             return (rv / Double(GridCell.Contents.allCases.count), 0)
         }
 
-        guard let scr = scratch else { fatalError() }
-        guard let st = scr.stepper else { fatalError() }
+        guard let (_, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
 
         let nutrition: Double
 
-        switch cell.contents {
+        switch cellKey.contents {
         case .arkon:
             nutrition = Double(st.metabolism.energyFullness)
 
         case .manna:
-            let sprite = cell.sprite!
+            let sprite = cellKey.sprite!
             guard let manna = Manna.getManna(from: sprite) else { fatalError() }
             nutrition = Double(manna.energyFullness)
 
@@ -69,56 +66,76 @@ extension Plot {
         case .invalid: fatalError()
         }
 
-        return ((cell.contents.rawValue + 1) / Double(GridCell.Contents.allCases.count), nutrition)
+        return ((cellKey.contents.rawValue + 1) / Double(GridCell.Contents.allCases.count), nutrition)
     }
 
-    private func loadSenseData() {
-        self.senseData = loadGridInputs()
-
+    private func getNonSpatialSenseData() -> [Double] {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
 
+        var theData = [Double]()
         let previousShift = st.previousShiftOffset
 
         let xShift = Double(previousShift.x)
         let yShift = Double(previousShift.y)
-        senseData.append(contentsOf: [xShift, yShift])
+        theData.append(contentsOf: [xShift, yShift])
 
         let hunger = Double(st.metabolism.hunger)
         let asphyxia = Double(1 - (st.metabolism.oxygenLevel / 1))
-        senseData.append(contentsOf: [hunger, asphyxia])
+        theData.append(contentsOf: [hunger, asphyxia])
+
+        return theData
     }
 
-    func makeSenseGrid(from gridCenter: SafeCell) -> SafeSenseGrid {
-        return SafeSenseGrid(from: gridCenter, by: ArkoniaCentral.cMotorGridlets)
+    func makeSenseGrid(from gridCenter: HotKey) -> CellSenseGrid {
+        return CellSenseGrid(from: gridCenter, by: ArkoniaCentral.cMotorGridlets)
     }
 
-    private func stageMovement() -> SafeStage {
+    private func makeCellTaxi(_ senseData: [Double], _ senseGrid: CellSenseGrid) -> CellTaxi {
         guard let ch = scratch else { fatalError() }
         guard let st = ch.stepper else { fatalError() }
+        guard let net = st.net else { fatalError() }
 
-        let motorOutputs =
-            zip(0..., st.net.getMotorOutputs(senseData)).map { ($0, $1) }
-
-        let order = motorOutputs.sorted { lhs, rhs in lhs.1 > rhs.1 }
-        let senseGrid = ch.getSensesConnector(require: false)
-
-        let targetOffset = order.first { entry in
-            guard let candidateCell = senseGrid?.cells[entry.0] else { return false }
-
-            return candidateCell.isHot
+        let motorOutputs: [(Int, Double)] =
+            zip(0..., net.getMotorOutputs(senseData)).map { data in
+                let (ss, signal) = data
+                let sSignal = String(format: "%-2.6f", signal)
+                guard let dSignal = Double(sSignal) else { fatalError() }
+                return(ss, dSignal)
         }
 
-        let fromCell: SafeCell?
-        let toCell: SafeCell
+        let trimmed = motorOutputs.filter { abs($0.1) < 1.0 && $0.0 != 0 }
+
+        let order = trimmed.sorted { lhs, rhs in
+            let labs = abs(lhs.1)
+            let rabs = abs(rhs.1)
+
+            return labs > rabs
+        }
+
+        Log.L.write("order \(order)", level: 32)
+
+        let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
+
+        let fromCell: HotKey?
+        let toCell: HotKey
 
         if targetOffset == nil || targetOffset!.0 == 0 {
-            toCell = (senseGrid?.cells[0])!; fromCell = nil
+            guard let t = senseGrid.cells[0] as? HotKey else { preconditionFailure() }
+
+            toCell = t; fromCell = nil
         } else {
-            toCell = (senseGrid?.cells[targetOffset!.0])!; fromCell = senseGrid?.cells[0]
+            guard let t = senseGrid.cells[targetOffset!.0] as? HotKey else { preconditionFailure() }
+            guard let f = senseGrid.cells[0] as? HotKey else { preconditionFailure() }
+
+            toCell = t; fromCell = f
         }
 
-        precondition(toCell.isHot && (fromCell == nil || fromCell!.isHot))
+        if targetOffset == nil {
+            Log.L.write("targetOffset: nil", level: 32)
+        } else {
+            Log.L.write("targetOffset: \(targetOffset!.0)", level: 32)
+        }
 
-        return SafeStage(fromCell, toCell)
+        return CellTaxi(fromCell, toCell)
     }
 }

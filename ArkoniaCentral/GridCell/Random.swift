@@ -60,16 +60,16 @@ extension GridCell {
         return rg
     }
 
-    static func lockBirthPosition(parent: Stepper, setOwner: String) -> GridCell {
-        var randomGridCell: GridCell?
+    static func lockBirthPosition(parent: Stepper) -> HotKey {
+        var randomGridCell: HotKey?
         var gridPointIndex = 0
 
         repeat {
             gridPointIndex += 1
 
             let p = parent.gridCell.getGridPointByIndex(gridPointIndex)
-            randomGridCell = GridCell.atIf(p)?.lock(require: false)
-
+            guard let c = GridCell.atIf(p)?.lock(require: false) as? HotKey else { continue }
+            randomGridCell = c
         } while randomGridCell?.contents != .nothing
 
         return randomGridCell!
@@ -77,8 +77,8 @@ extension GridCell {
 
     static var cLrec = 0
     static var highWatercLrec = 0
-    static func lockRandomEmptyCell(setOwner: String) -> GridCell {
-        var randomGridCell: GridCell?
+    static func lockRandomEmptyCell() -> HotKey? {
+        var randomGridCell: HotKey?
 
         cLrec = 0
         repeat {
@@ -102,7 +102,8 @@ extension GridCell {
             }
 
             cLrec += 1
-            randomGridCell = GridCell.getRandomEmptyCell().lock(require: false)
+            guard let c = GridCell.getRandomEmptyCell().lock(require: false) as? HotKey else { continue }
+            randomGridCell = c
         } while randomGridCell == nil
 
         return randomGridCell!

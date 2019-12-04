@@ -15,10 +15,10 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
     var debugDescription: String { return "GridCell.at(\(gridPosition.x), \(gridPosition.y))" }
 
-    weak var cellConnector: SafeCell?
     let gridPosition: AKPoint
     var isLocked = false
     var randomScenePosition: CGPoint?
+    var requesters = [Dispatch]()
     let scenePosition: CGPoint
 
     var contents = Contents.nothing
@@ -31,51 +31,18 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 }
 
 extension GridCell {
-    private func commit(_ cellConnector: SafeCell) {
-        contents = cellConnector.contents
-        sprite = cellConnector.sprite
-    }
-
-    @discardableResult
-    func lock(require: Bool = true) -> GridCell? {
+    func lock(require: Bool = true) -> GridCellKey {
         defer { isLocked = true }
 
         if isLocked {
-            Log.L.write("GridCell: not locked; return nil", level: 27)
+            Log.L.write("GridCell \(self): not locked; return nil", level: 32)
             precondition(require == false)
-            return nil
+            return ColdKey(for: self)
         }
 
-        Log.L.write("GridCell: locked; return self", level: 27)
-        return self
+        Log.L.write("GridCell \(self): locked; return self", level: 32)
+        return HotKey(for: self)
     }
 
-    static var cRl = 0
-    func releaseLock(_ cellConnector: SafeCell) {
-        GridCell.cRl += 1
-        defer { isLocked = false }
-        commit(cellConnector)
-
-        guard let st = cellConnector.sprite?.getStepper(require: false) else {
-            if(cellConnector.contents == .arkon) {
-                Log.L.write("arkon already freed \(GridCell.cRl); sprite \(six(cellConnector.sprite?.name)) = ", level: 32)
-            }
-            return
-        }
-
-        guard let dp = st.dispatch else {
-            Log.L.write("no dispatch \(GridCell.cRl) \(six(st.name))", level: 32)
-            return
-        }
-
-        let ch = dp.scratch
-        if ch.isAwaitingWakeup == true {
-            st.nose.color = .yellow
-            Log.L.write("GridCell wakeup waiter \(six(st.name)) \(GridCell.cRl)", level: 32)
-            precondition(ch.isEngaged == false)
-
-            ch.isAwaitingWakeup = false
-            dp.engage()
-        }
-    }
+    func releaseLock() { isLocked = false }
 }
