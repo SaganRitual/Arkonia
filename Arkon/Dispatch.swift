@@ -80,5 +80,5 @@ extension Dispatch {
 
     func releaseStage() { dispatch(ReleaseStage.self) }
 
-    func wangkhi()      { dispatch(Larva.self) }
+    func spawn()        { dispatch(Larva.self) }
 }

@@ -54,7 +54,7 @@ class Census {
             return (lAge / (lOffspring + 1)) < (rAge / (rOffspring + 1))
         }
 
-        if liveArkons.isEmpty { Dispatch().wangkhi() }
+        if liveArkons.isEmpty { Dispatch().spawn() }
 
         else if liveArkons.count < 25 {
             guard let bestBreeder = liveArkons.first else { preconditionFailure() }
@@ -66,9 +66,9 @@ class Census {
                 parentActivator: bestBreeder.parentActivator
             )
 
-            Log.L.write("layers: \(six(bestBreeder.name)) \(bestBreeder.parentLayers ?? [])", level: 34)
-            Dispatch(parentNet: newNet).wangkhi()
-            Dispatch(parentNet: newNet).wangkhi()
+            Log.L.write("layers: \(six(bestBreeder.name)) \(bestBreeder.parentLayers ?? [])", level: 33)
+            Dispatch(parentNet: newNet).spawn()
+            Dispatch().spawn()
         } else {
             Log.L.write("liveArkons.count = \(liveArkons.count)", level: 34)
         }

@@ -7,7 +7,7 @@ final class Funge: Dispatchable {
 
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
+        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
     }
 
     func launch_() {
@@ -23,7 +23,7 @@ extension Funge {
         if !isAlive  { dp.apoptosize(); return }
         if !canSpawn { dp.plot(); return }
 
-        dp.wangkhi()
+        dp.spawn()
     }
 }
 

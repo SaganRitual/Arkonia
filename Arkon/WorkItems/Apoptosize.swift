@@ -7,7 +7,7 @@ final class Apoptosize: Dispatchable {
     init(_ scratch: Scratchpad) {
         Log.L.write("Apoptosize()", level: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
+        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
     }
 
     private func launch_() { aApoptosize() }

@@ -7,7 +7,7 @@ final class Engage: Dispatchable {
 
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
+        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
     }
 
     func launch_() {

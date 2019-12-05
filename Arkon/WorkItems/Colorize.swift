@@ -7,7 +7,7 @@ final class Colorize: Dispatchable {
     init(_ scratch: Scratchpad) {
         Log.L.write("Colorize()", level: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
+        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
     }
 
     private func launch_() { aColorize() }
@@ -39,20 +39,20 @@ extension Stepper {
         let scale = constrain(0.50 + metabolism.spawnEnergyFullness, lo: 0.50, hi: 0.75)
         sprite.setScale(scale)
 
-        let baseColor: Int
-        if fishNumber > 0 {
-            baseColor = 0xFF_00_00
-        } else {
-            baseColor = (metabolism.spawnEnergyFullness > 0) ?
-                Larva.Constants.brightColor : Larva.Constants.standardColor
-        }
+//        let baseColor: Int
+//        if fishNumber > 0 {
+//            baseColor = 0xFF_00_00
+//        } else {
+//            baseColor = (metabolism.spawnEnergyFullness > 0) ?
+//                Larva.Constants.brightColor : Larva.Constants.standardColor
+//        }
 
-        let four: CGFloat = 4
-        self.sprite.color = ColorGradient.makeColorMixRedBlue(
-            baseColor: baseColor,
-            redPercentage: metabolism.spawnEnergyFullness,
-            bluePercentage: max((four - CGFloat(myAge)) / four, 0.0)
-        )
+//        let four: CGFloat = 4
+//        self.sprite.color = ColorGradient.makeColorMixRedBlue(
+//            baseColor: baseColor,
+//            redPercentage: metabolism.spawnEnergyFullness,
+//            bluePercentage: max((four - CGFloat(myAge)) / four, 0.0)
+//        )
 
         self.sprite.colorBlendFactor = metabolism.fungibleEnergyFullness
     }

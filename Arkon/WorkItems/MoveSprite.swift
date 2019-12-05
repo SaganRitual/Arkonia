@@ -14,8 +14,7 @@ final class MoveSprite: Dispatchable {
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
 
-        // maybe we need a barrier to protect calls to sprite.run?
-        self.wiLaunch = DispatchWorkItem(block: launch_)
+        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
     }
 
     private func launch_() { moveSprite() }

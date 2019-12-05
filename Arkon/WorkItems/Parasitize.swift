@@ -7,7 +7,7 @@ final class Parasitize: Dispatchable {
     init(_ scratch: Scratchpad) {
         Log.L.write("Parasitize()", level: 22)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
+        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
     }
 
     func launch_() {

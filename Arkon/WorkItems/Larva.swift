@@ -57,14 +57,14 @@ final class Larva: LarvaProtocol {
     var nose: SKSpriteNode?
     weak var parent: Stepper?
     var sprite: SKSpriteNode? { willSet {
-        Log.L.write("Wangkhi.sprite \(six(scratch?.stepper?.name))", level: 15)
+        Log.L.write("Larva.sprite \(six(scratch?.stepper?.name))", level: 15)
     } }
     var tempStrongReference: Larva?
     var wiLaunch: DispatchWorkItem?
     var wiLaunch2: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Wangkhi", level: 15)
+        Log.L.write("Larva", level: 15)
         self.scratch = scratch
         self.parent = scratch.stepper
         self.tempStrongReference = self
@@ -76,11 +76,11 @@ final class Larva: LarvaProtocol {
     }
 
     deinit {
-        Log.L.write("~Wangkhi", level: 19)
+        Log.L.write("~Larva", level: 19)
     }
 
     func launch_() {
-        Log.L.write("Wangkhi.launch_ \(six(scratch?.stepper?.name))", level: 15)
+        Log.L.write("Larva.launch_ \(six(scratch?.stepper?.name))", level: 15)
 
         getStartingPosition()
         registerBirth()
@@ -185,10 +185,10 @@ extension Larva {
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
-        nose.color = .yellow
+//        nose.color = .yellow
 
         sprite.setScale(Constants.scaleFactor)
-        sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
+//        sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
         sprite.setScale(0.5)
         sprite.position = cellConnector.cell.scenePosition

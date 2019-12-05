@@ -7,7 +7,7 @@ final class Arrive: Dispatchable {
     init(_ scratch: Scratchpad) {
         Log.L.write("Arrive()", level: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
+        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
     }
 
     private func launch_() { arrive() }

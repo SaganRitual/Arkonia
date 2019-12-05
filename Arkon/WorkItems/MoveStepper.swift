@@ -7,7 +7,7 @@ final class MoveStepper: Dispatchable {
     init(_ scratch: Scratchpad) {
         Log.L.write("MoveStepper()", level: 3)
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
+        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
     }
 
     deinit {
