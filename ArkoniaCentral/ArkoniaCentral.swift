@@ -3,7 +3,7 @@ import SpriteKit
 enum ArkoniaCentral {
     static let senseGridSide = 3
     static let cSenseGridlets = senseGridSide * senseGridSide
-    static let cSenseNeurons = 2 * cSenseGridlets + 4
+    static let cSenseNeurons = 2 * cSenseGridlets + 2
     static let cMotorNeurons = cSenseGridlets - 1
     static let cMotorGridlets = cMotorNeurons + 1
 }
@@ -62,8 +62,8 @@ struct Dimensions {
         let hSprite = Int(tTexture.size().height / Dimensions.fudgFactor)
         let wSprite = Int(tTexture.size().width / Dimensions.fudgFactor)
 
-        let hPortal = Int((1 / Constants.scaleFactor) * portal.size.height / Dimensions.fudgFactor) - hSprite
-        let wPortal = Int((1 / Constants.scaleFactor) * portal.size.width / Dimensions.fudgFactor) - wSprite
+        let hPortal = Int((1 / Larva.Constants.scaleFactor) * portal.size.height / Dimensions.fudgFactor) - hSprite
+        let wPortal = Int((1 / Larva.Constants.scaleFactor) * portal.size.width / Dimensions.fudgFactor) - wSprite
         let hGrid = Int(hPortal / hSprite)
         let wGrid = Int(wPortal / wSprite)
 

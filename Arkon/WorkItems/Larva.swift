@@ -153,7 +153,9 @@ extension Larva {
 extension Larva {
 
     func abandonNewborn() {
-        if let st = parent, let dp = st.dispatch {
+        if let st = parent, let dp = st.dispatch, let sprite = st.sprite {
+            let rotate = SKAction.rotate(byAngle: 4 * 2 * CGFloat.pi, duration: 2.0)
+            sprite.run(rotate)
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
             dp.metabolize()
@@ -209,6 +211,9 @@ extension Larva {
         GriddleScene.arkonsPortal!.addChild(sprite)
 
         guard let ndp = newborn.dispatch else { fatalError() }
+
+        let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
+        sprite.run(rotate)
 
         ndp.scratch.cellConnector = self.cellConnector
         ndp.disengage()

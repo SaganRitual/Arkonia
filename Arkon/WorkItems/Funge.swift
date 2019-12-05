@@ -48,7 +48,7 @@ extension Metabolism {
 
         withdrawFromReady(joulesNeeded)
 
-        let fudgeOxygenFactor: CGFloat = 60
+        let fudgeOxygenFactor: CGFloat = 30
         let oxygenCost: Int = age < 5 ? 0 : 1
         oxygenLevel -= (CGFloat(oxygenCost) / fudgeOxygenFactor)
 

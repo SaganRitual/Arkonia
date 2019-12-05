@@ -22,6 +22,7 @@ final class MoveStepper: Dispatchable {
 
         taxi.move()
 
+        stepper.previousShiftOffset = stepper.gridCell.gridPosition
         stepper.gridCell = taxi.toCell?.cell
         precondition(stepper.gridCell != nil)
 

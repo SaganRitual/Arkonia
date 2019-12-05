@@ -13,7 +13,7 @@ final class Plot: Dispatchable {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { preconditionFailure() }
         guard let cc = ch.cellConnector else { preconditionFailure() }
 
-        let senseGrid = makeSenseGrid(from: cc)
+        let senseGrid = makeSenseGrid(from: cc, block: st.previousShiftOffset)
         let gridInputs = loadGridInputs(from: senseGrid)
         let nonSpatial = getNonSpatialSenseData()
         let senseData = gridInputs + nonSpatial
@@ -73,11 +73,6 @@ extension Plot {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
 
         var theData = [Double]()
-        let previousShift = st.previousShiftOffset
-
-        let xShift = Double(previousShift.x)
-        let yShift = Double(previousShift.y)
-        theData.append(contentsOf: [xShift, yShift])
 
         let hunger = Double(st.metabolism.hunger)
         let asphyxia = Double(1 - (st.metabolism.oxygenLevel / 1))
@@ -86,8 +81,8 @@ extension Plot {
         return theData
     }
 
-    func makeSenseGrid(from gridCenter: HotKey) -> CellSenseGrid {
-        return CellSenseGrid(from: gridCenter, by: ArkoniaCentral.cMotorGridlets)
+    func makeSenseGrid(from gridCenter: HotKey, block: AKPoint) -> CellSenseGrid {
+        return CellSenseGrid(from: gridCenter, by: ArkoniaCentral.cMotorGridlets, block: block)
     }
 
     private func makeCellTaxi(_ senseData: [Double], _ senseGrid: CellSenseGrid) -> CellTaxi {
@@ -103,7 +98,7 @@ extension Plot {
                 return(ss, dSignal)
         }
 
-        let trimmed = motorOutputs.filter { _ in true }// { abs($0.1) < 1.0 && $0.0 != 0 }
+        let trimmed = motorOutputs.filter { abs($0.1) < 1.0 && $0.0 != 0 }
 
         let order = trimmed.sorted { lhs, rhs in
             let labs = abs(lhs.1)

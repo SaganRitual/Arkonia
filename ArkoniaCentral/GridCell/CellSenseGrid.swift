@@ -1,10 +1,11 @@
 class CellSenseGrid {
     let cells: [GridCellKey]
 
-    init(from center: HotKey, by cGridlets: Int) {
+    init(from center: HotKey, by cGridlets: Int, block: AKPoint) {
         cells = [center] + (1..<cGridlets).map {
             let position = center.cell.getGridPointByIndex($0, absolute: true)
 
+            if position == block { return NilKey() }
             guard let cell = GridCell.atIf(position) else { return NilKey() }
 
             return cell.lock(require: false)

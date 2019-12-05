@@ -47,9 +47,17 @@ extension GridCell {
     func releaseLock() {
         isLocked = false
 
-        guard let requester = requesters.first else { return }
-        Log.L.write("GridCell \(self): release lock, start requester", level: 33)
+        var requester: Dispatch?
+        while !requesters.isEmpty {
+            requester = requesters.removeFirst()
+            if requester?.scratch.stepper == nil { requester = nil }
+            else { break }
+        }
 
-        requester.engage()
+        if requester != nil {
+            Log.L.write("GridCell \(self): release lock, start requester", level: 34)
+        }
+
+        requester?.engage()
     }
 }

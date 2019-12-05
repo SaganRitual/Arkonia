@@ -83,13 +83,13 @@ class GriddleScene: SKScene, SKSceneDelegate {
             self.net9Portals.append(node)
         }
 
-        Constants.spriteFactory = SpriteFactory(
+        Larva.Constants.spriteFactory = SpriteFactory(
             scene: self,
             thoraxFactory: SpriteFactory.makeSprite(texture:),
             noseFactory: SpriteFactory.makeSprite(texture:)
         )
 
-        Constants.spriteFactory.postInit(net9Portals)
+        Larva.Constants.spriteFactory.postInit(net9Portals)
 
         Grid.shared = Grid()
         MannaCoordinator.shared = MannaCoordinator()
