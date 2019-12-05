@@ -1,10 +1,10 @@
 import SpriteKit
 
 enum ArkoniaCentral {
-    static let senseGridSide = 3
+    static let senseGridSide = 4
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeurons = 2 * cSenseGridlets + 2
-    static let cMotorNeurons = cSenseGridlets - 1
+    static let cMotorNeurons = 9 - 1
     static let cMotorGridlets = cMotorNeurons + 1
 }
 

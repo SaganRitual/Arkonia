@@ -82,7 +82,7 @@ extension Plot {
     }
 
     func makeSenseGrid(from gridCenter: HotKey, block: AKPoint) -> CellSenseGrid {
-        return CellSenseGrid(from: gridCenter, by: ArkoniaCentral.cMotorGridlets, block: block)
+        return CellSenseGrid(from: gridCenter, by: ArkoniaCentral.cSenseGridlets, block: block)
     }
 
     private func makeCellTaxi(_ senseData: [Double], _ senseGrid: CellSenseGrid) -> CellTaxi {
