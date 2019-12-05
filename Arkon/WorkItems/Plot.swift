@@ -103,7 +103,7 @@ extension Plot {
                 return(ss, dSignal)
         }
 
-        let trimmed = motorOutputs.filter { abs($0.1) < 1.0 && $0.0 != 0 }
+        let trimmed = motorOutputs.filter { _ in true }// { abs($0.1) < 1.0 && $0.0 != 0 }
 
         let order = trimmed.sorted { lhs, rhs in
             let labs = abs(lhs.1)
@@ -112,7 +112,7 @@ extension Plot {
             return labs > rabs
         }
 
-        Log.L.write("order \(order)", level: 32)
+        Log.L.write("order \(order)", level: 33)
 
         let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 
@@ -131,9 +131,9 @@ extension Plot {
         }
 
         if targetOffset == nil {
-            Log.L.write("targetOffset: nil", level: 32)
+            Log.L.write("targetOffset: nil", level: 33)
         } else {
-            Log.L.write("targetOffset: \(targetOffset!.0)", level: 32)
+            Log.L.write("targetOffset: \(targetOffset!.0)", level: 33)
         }
 
         return CellTaxi(fromCell, toCell)
