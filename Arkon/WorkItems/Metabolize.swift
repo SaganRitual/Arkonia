@@ -23,7 +23,7 @@ extension Metabolize {
 
 extension Metabolism {
     fileprivate func metabolizeProper() {
-        let internalTransferRate = CGFloat(20)
+        let internalTransferRate = CGFloat(200)
 
         var export = !stomach.isEmpty && !readyEnergyReserves.isFull
 

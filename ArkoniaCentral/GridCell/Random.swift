@@ -1,7 +1,7 @@
 import CoreGraphics
 
 extension GridCell {
-    static let funkyCells = false
+    static let funkyCells = true
 
     static func getRandomCell() -> GridCell {
         let wGrid = Grid.dimensions.wGrid
@@ -50,7 +50,7 @@ extension GridCell {
                     }
                 }
 
-                Log.L.write("Hung in getRandomEmptyCell(); \(cGrec) loops, \(inUseCount) occupied, \(availableCount) available, \(lockedCount) locked")
+                Log.L.write("Hung in getRandomEmptyCell(); \(cGrec) loops, \(inUseCount) occupied, \(availableCount) available, \(lockedCount) locked", level: 31)
              }
 
             cGrec += 1
@@ -83,7 +83,7 @@ extension GridCell {
         cLrec = 0
         repeat {
             if cLrec > highWatercLrec {
-                Log.L.write("Hung in lockRandomEmptyCell(); \(cLrec) loops")
+                Log.L.write("Hung in lockRandomEmptyCell(); \(cLrec) loops", level: 31)
                 highWatercLrec = cLrec
                 precondition(highWatercLrec < 1000)
 
@@ -98,7 +98,7 @@ extension GridCell {
                     }
                 }
 
-                Log.L.write("Hung in lockRandomEmptyCell(); \(cLrec) loops, \(inUseCount) occupied, \(availableCount) available, \(lockedCount) locked")
+                Log.L.write("Hung in lockRandomEmptyCell(); \(cLrec) loops, \(inUseCount) occupied, \(availableCount) available, \(lockedCount) locked", level: 31)
             }
 
             cLrec += 1

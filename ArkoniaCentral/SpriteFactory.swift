@@ -52,12 +52,12 @@ class SpriteFactory {
     init(scene: SKScene, thoraxFactory: @escaping FactoryFunction, noseFactory: @escaping FactoryFunction) {
         self.scene = scene
 
-        arkonsHangar =      SpriteHangar("Neurons",  "neuron-plain",  factoryFunction: thoraxFactory)
+        arkonsHangar =      SpriteHangar("Arkons",  "spark-thorax-large",  factoryFunction: thoraxFactory)
         fullNeuronsHangar = SpriteHangar("Neurons", "neuron-plain",        factoryFunction: SpriteFactory.makeSprite)
         halfNeuronsHangar = SpriteHangar("Neurons", "neuron-plain-half",   factoryFunction: SpriteFactory.makeSprite)
         linesHangar =       SpriteHangar("Line",    "line",                factoryFunction: SpriteFactory.makeSprite)
         mannaHangar =       SpriteHangar("Manna",   "manna",               factoryFunction: SpriteFactory.makeSprite)
-        noseHangar =        SpriteHangar("Neurons",  "neuron-plain",    factoryFunction: noseFactory)
+        noseHangar =        SpriteHangar("Arkons",  "spark-nose-large",    factoryFunction: noseFactory)
     }
 
     func postInit(_ net9Portals: [SKSpriteNode]) {

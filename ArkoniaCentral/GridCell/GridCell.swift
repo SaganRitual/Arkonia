@@ -44,5 +44,12 @@ extension GridCell {
         return HotKey(for: self)
     }
 
-    func releaseLock() { isLocked = false }
+    func releaseLock() {
+        isLocked = false
+
+        guard let requester = requesters.first else { return }
+        Log.L.write("GridCell \(self): release lock, start requester", level: 33)
+
+        requester.engage()
+    }
 }

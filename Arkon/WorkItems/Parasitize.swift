@@ -57,7 +57,6 @@ extension Parasitize {
         victor.dispatch.releaseStage()
 
         if victor.isTurnabouted {
-            victim.nose.color = .yellow
             victim.dispatch.apoptosize()
         }
     }

@@ -141,8 +141,6 @@ extension WangkhiEmbryo {
         guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
             else { return }
 
-        parent?.nose!.color = .purple
-
         guard let scene = np.parent as? SKScene else { return }
 
         netDisplay = NetDisplay(scene: scene, background: np, layers: net!.layers)
@@ -157,10 +155,8 @@ extension WangkhiEmbryo {
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
             dp.metabolize()
-            parent?.nose!.color = .orange
         } else {
             Log.L.write("no scratch", level: 29)
-            parent?.nose!.color = .yellow
         }
     }
 
@@ -185,6 +181,7 @@ extension WangkhiEmbryo {
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
+        nose.color = .yellow
 
         sprite.setScale(Wangkhi.scaleFactor)
         sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
