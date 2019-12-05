@@ -44,12 +44,16 @@ final class Dispatch {
         scratch.dispatch = self
         scratch.stepper = stepper
     }
+
+    init(parentNet: Net) {
+        scratch.dispatch = self
+        scratch.parentNet = parentNet
+    }
 }
 
 extension Dispatch {
     private func dispatch(_ type: Dispatchable.Type) {
-        let lifelet = type.init(scratch)
-        Grid.shared.serialQueue.async(execute: lifelet.launch)
+        type.init(scratch).launch()
     }
 
     func apoptosize()   { dispatch(Apoptosize.self) }

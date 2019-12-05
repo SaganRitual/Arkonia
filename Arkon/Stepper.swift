@@ -2,7 +2,7 @@ import SpriteKit
 
 class Stepper {
     let allowSpawning = true
-    var birthday = 0
+    private var birthday = 0
     var cOffspring = 0
     var dispatch: Dispatch!
     var fishNumber = 0
@@ -23,7 +23,7 @@ class Stepper {
     init(_ embryo: WangkhiEmbryo, needsNewDispatch: Bool = false) {
         self.birthday = embryo.birthday
         self.fishNumber = embryo.fishNumber
-        self.gridCell = embryo.gridCell
+        self.gridCell = embryo.safeCell?.hotCell
         self.metabolism = embryo.metabolism
         self.name = embryo.embryoName
         self.net = embryo.net
@@ -35,10 +35,12 @@ class Stepper {
     }
 
     deinit {
-//        Log.L.write("stepper deinit", six(name))
+        netDisplay = nil
+        Log.L.write("stepper deinit \(six(name))", level: 20)
         World.stats.decrementPopulation(nil)
     }
 
+    func getAge(_ currentTime: Int) -> Int { return currentTime - self.birthday }
 }
 
 extension Stepper {
@@ -57,22 +59,16 @@ extension Stepper {
     }
 }
 
-func spriteAKName(_ sprite: SKSpriteNode) -> String {
-    guard let userData = sprite.userData else { fatalError() }
-    guard let entry = userData["UUID"] as? String else { fatalError() }
-    return entry
-}
-
 extension Stepper {
     static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
         sprite.userData![SpriteUserDataKey.stepper] = stepper
         if sprite.userData?["UUID"] == nil { sprite.userData!["UUID"] = UUID().uuidString }
         sprite.name = stepper.name
-        Log.L.write("attachStepper \(six(stepper.name)), \(six(spriteAKName(sprite)))", level: 0)
+        Log.L.write("attachStepper \(six(stepper.name)), \(six(sprite.name))", level: 0)
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
-        Log.L.write("detachStepper \(six(stepper.name)) from sprite \(spriteAKName(sprite))", level: 0)
+        Log.L.write("detachStepper \(six(stepper.name)) from sprite \(six(sprite.name))", level: 0)
         if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
         sprite.userData![SpriteUserDataKey.stepper] = nil
     }

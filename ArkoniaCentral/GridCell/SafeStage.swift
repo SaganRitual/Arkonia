@@ -1,48 +1,36 @@
-class SafeStage: SafeConnectorProtocol {
-    let willMove: Bool
-    let fromCell: SafeCell?
-    var fromCellForCommit: SafeCell?
-    let toCell: SafeCell
-    var toCellForCommit: SafeCell?
+import SpriteKit
 
-    init(_ from: SafeCell?, _ to: SafeCell) {
-        self.fromCell = from; self.toCell = to; willMove = (from != nil)
+class SafeStage: GridConnectorProtocol {
+    var consumedContents = GridCell.Contents.nothing
+    var consumedSprite: SKSpriteNode?
+    var didMove = false
+    var fromCell: SafeCell?
+    let toCell: SafeCell
+
+    init(_ fromCell: SafeCell?, _ toCell: SafeCell) {
+        self.fromCell = fromCell; self.toCell = toCell
+        Log.L.write("SafeStage()", level: 28)
     }
 
     deinit {
-        guard fromCellForCommit == nil && toCellForCommit == nil else {
-            commit()
-            return
-        }
-    }
-
-    func commit() {
-        guard let t = toCellForCommit else { fatalError() }
-
-        if fromCellForCommit != nil {
-            let newFrom = GridCell.at(fromCellForCommit!)
-            newFrom.contents = fromCellForCommit!.contents
-            newFrom.sprite = fromCellForCommit!.sprite
-            newFrom.ownerName = fromCellForCommit!.parasite ?? fromCellForCommit!.ownerSignature
-        }
-
-        let newTo = GridCell.at(t)
-        newTo.contents = t.contents
-        newTo.sprite = t.sprite
-
-        fromCellForCommit = nil
-        toCellForCommit = nil
+        Log.L.write("~SafeStage()", level: 28)
     }
 
     func move() {
-        if !willMove { return }
+        Log.L.write("SafeStage().move", level: 28)
 
-        if let f = fromCell {
-            fromCellForCommit = SafeCell(from: f, newContents: .nothing, newSprite: nil, takeOwnership: false)
-            toCellForCommit = SafeCell(from: toCell, newContents: f.contents, newSprite: f.sprite, takeOwnership: false)
-            return
-        }
+        // No fromCell means we didn't move
+        guard let f = fromCell else { return }
 
-        toCellForCommit = SafeCell(from: toCell, takeOwnership: false)
+        consumedContents = toCell.contents
+        consumedSprite = toCell.sprite
+
+        toCell.contents = f.contents
+        toCell.sprite = f.sprite
+
+        f.contents = .nothing
+        f.sprite = nil
+
+        didMove = true
     }
 }

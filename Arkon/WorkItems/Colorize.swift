@@ -17,11 +17,11 @@ func six(_ string: String?) -> String { return String(string?.prefix(6) ?? "<no 
 
 extension Colorize {
     func aColorize() {
-        Log.L.write("Colorize.launch_ \(six(scratch?.stepper?.name))", level: 3)
+        Log.L.write("Colorize.launch_ \(six(scratch?.stepper?.name))", level: 15)
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let ws = ch.worldStats else { fatalError() }
 
-        let age = ws.currentTime - st.birthday
+        let age = st.getAge(ws.currentTime)
         st.colorizeProper(age)
 
         dp.disengage()

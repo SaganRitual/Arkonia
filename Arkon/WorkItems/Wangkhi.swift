@@ -12,12 +12,12 @@ protocol WangkhiProtocol: class, Dispatchable {
     var callAgain: Bool { get }
     var dispatch: Dispatch? { get set }
     var fishNumber: Int { get set }
-    var gridCell: GridCell? { get set }
     var metabolism: Metabolism? { get set }
     var net: Net? { get }
     var netDisplay: NetDisplay? { get }
     var nose: SKSpriteNode? { get set }
     var parent: Stepper? { get set }
+    var safeCell: SafeCell? { get set }
     var sprite: SKSpriteNode? { get set }
 }
 
@@ -28,7 +28,17 @@ enum Names {
         "Alice", "Bob", "Charles", "David", "Ellen", "Felicity",
         "Grace", "Helen", "India", "James", "Karen", "Lizbeth",
         "Mary", "Nathan", "Olivia", "Paul", "Quincy", "Rob", "Samantha",
-        "Tatiana", "Ulna", "Vivian", "William", "Xavier", "Yvonne", "Zoe"
+        "Tatiana", "Ulna", "Vivian", "William", "Xavier", "Yvonne", "Zoe",
+
+        "2Alice", "2Bob", "2Charles", "2David", "2Ellen", "2Felicity",
+        "2Grace", "2Helen", "2India", "2James", "2Karen", "2Lizbeth",
+        "2Mary", "2Nathan", "2Olivia", "2Paul", "2Quincy", "2Rob", "2Samantha",
+        "2Tatiana", "2Ulna", "2Vivian", "2William", "2Xavier", "2Yvonne", "2Zoe",
+
+        "3Alice", "3Bob", "3Charles", "3David", "3Ellen", "3Felicity",
+        "3Grace", "3Helen", "3India", "3James", "3Karen", "3Lizbeth",
+        "3Mary", "3Nathan", "3Olivia", "3Paul", "3Quincy", "3Rob", "3Samantha",
+        "3Tatiana", "3Ulna", "3Vivian", "3William", "3Xavier", "3Yvonne", "3Zoe"
     ]
 
     static func getName() -> String {
@@ -44,57 +54,67 @@ final class WangkhiEmbryo: WangkhiProtocol {
 
     var birthday = 0
     var callAgain = false
-    var embryoName = UUID().uuidString // Names.getName()
+    var embryoName = Names.getName()
     var fishNumber = 0
-    var gridCell: GridCell?
     var metabolism: Metabolism?
     var net: Net?
     var netDisplay: NetDisplay?
     weak var newborn: Stepper?
     var nose: SKSpriteNode?
     weak var parent: Stepper?
-    var sprite: SKSpriteNode?
-    var tempStrongReference: Dispatch?
+    var safeCell: SafeCell?
+    var sprite: SKSpriteNode? { willSet {
+        Log.L.write("Wangkhi.sprite \(six(scratch?.stepper?.name))", level: 15)
+    } }
+    var tempStrongReference: WangkhiEmbryo?
     var wiLaunch: DispatchWorkItem?
     var wiLaunch2: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Wangkhi", level: 1)
+        Log.L.write("Wangkhi", level: 15)
+        self.scratch = scratch
         self.parent = scratch.stepper
-        self.tempStrongReference = scratch.dispatch
+        self.tempStrongReference = self
 
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-        self.wiLaunch2 = DispatchWorkItem(block: launch2_)
+        // Weak refs here, because apparently the work items capture self
+        // even if you reference them with DispatchWorkItem(block: launch_)
+        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
+        self.wiLaunch2 = DispatchWorkItem { [weak self] in self?.launch2_() }
     }
 
     deinit {
-        Log.L.write("~Wangkhi", level: 4)
+        Log.L.write("~Wangkhi", level: 19)
     }
 
     func launch_() {
+        Log.L.write("Wangkhi.launch_ \(six(scratch?.stepper?.name))", level: 15)
+
         getStartingPosition()
         registerBirth()
 
-        guard let w = wiLaunch else { fatalError() }
         guard let w2 = wiLaunch2 else { fatalError() }
 
-        w.notify(queue: Grid.shared.serialQueue, execute: w2)
+        Grid.shared.serialQueue.async(execute: w2)
     }
 
-    func launch2_() {
-        buildGuts()
-        buildSprites()
-    }
+    func launch2_() { buildSprites() }
 }
 
 extension WangkhiEmbryo {
     private func getStartingPosition() {
+        let hotCell: GridCell?
+
+        defer {
+            guard let hc = hotCell else { preconditionFailure() }
+            self.safeCell = SafeCell(from: hc, takeOwnership: true)
+        }
+
         guard let parent = self.parent else {
-            self.gridCell = GridCell.lockRandomEmptyCell(setOwner: embryoName)
+            hotCell = GridCell.lockRandomEmptyCell(setOwner: embryoName)
             return
         }
 
-        self.gridCell = GridCell.lockBirthPosition(parent: parent, setOwner: embryoName)
+        hotCell = GridCell.lockBirthPosition(parent: parent, setOwner: embryoName)
     }
 
     private func registerBirth() {
@@ -104,38 +124,55 @@ extension WangkhiEmbryo {
 
 extension WangkhiEmbryo {
     func buildGuts() {
+        Log.L.write("build guts1", level: 16)
         metabolism = Metabolism()
 
+        Log.L.write("build guts2", level: 16)
         net = Net(
             parentBiases: parent?.parentBiases, parentWeights: parent?.parentWeights,
             layers: parent?.parentLayers, parentActivator: parent?.parentActivator
         )
 
-        if let np = (sprite?.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode),
-            let scene = np.parent as? SKScene {
+        Log.L.write("build guts3", level: 16)
 
-            netDisplay = NetDisplay(
-                scene: scene, background: np, layers: net!.layers
-            )
+        guard let sprite = self.sprite else { preconditionFailure() }
+        guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
+            else { return }
 
-            netDisplay!.display()
-        }
+        guard let scene = np.parent as? SKScene else { return }
+
+        netDisplay = NetDisplay(scene: scene, background: np, layers: net!.layers)
+        netDisplay!.display()
+
+        guard let safeCell = self.safeCell else { preconditionFailure() }
+
+        safeCell.sprite = sprite
+        safeCell.contents = .arkon
+
+        Log.L.write("launching newborn (sprite) \(six(sprite.name)) at \(safeCell.gridPosition)", level: 16)
+        self.launchNewborn()
+        self.tempStrongReference = nil
     }
 
 }
 
 extension WangkhiEmbryo {
 
+    func abandonNewborn() {
+        if let dp = scratch?.dispatch, let st = scratch?.stepper {
+            let spawnCost = st.getSpawnCost()
+            st.metabolism.withdrawFromSpawn(spawnCost)
+            dp.metabolize()
+        }
+    }
+
     func buildSprites() {
         let action = SKAction.run { [unowned self] in
             self.buildSprites_()
+            self.buildGuts()
         }
 
-        GriddleScene.arkonsPortal.run(action) { [unowned self] in
-            Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
-                self.releaseTempStrongReference()
-            }
-        }
+        GriddleScene.arkonsPortal.run(action)
     }
 
     private func buildSprites_() {
@@ -146,7 +183,7 @@ extension WangkhiEmbryo {
 
         guard let sprite = self.sprite else { fatalError() }
         guard let nose = self.nose else { fatalError() }
-        guard let gridCell = self.gridCell else { fatalError() }
+        guard let gridCell = self.safeCell else { fatalError() }
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
@@ -159,42 +196,24 @@ extension WangkhiEmbryo {
         sprite.alpha = 1
 
         sprite.addChild(nose)
+    }
+
+    func launchNewborn() {
+        guard let sprite = self.sprite else { preconditionFailure() }
 
         let newborn = Stepper(self, needsNewDispatch: true)
         newborn.parentStepper = self.parent
         newborn.dispatch.scratch.stepper = newborn
 
         Stepper.attachStepper(newborn, to: sprite)
-    }
-
-    func releaseTempStrongReference() {
-
-        guard let sprite = self.sprite else { fatalError() }
-        guard let gridCell = self.gridCell else { fatalError() }
-
-        gridCell.sprite = sprite
-        gridCell.contents = .arkon
-
-        Log.L.write("launching newborn (sprite) \(spriteAKName(sprite)) at \(gridCell.gridPosition)", level: 0)
-        self.launchNewborn(at: gridCell)
-        self.tempStrongReference = nil
-    }
-
-    func launchNewborn(at gridCell: GridCell) {
-        guard let sprite = self.sprite else { fatalError() }
 
         GriddleScene.arkonsPortal!.addChild(sprite)
 
-        guard let newborn = sprite.getStepper() else { fatalError() }
-        newborn.gridCell = gridCell
-
-        if let dp = scratch?.dispatch, let st = scratch?.stepper {
-            let spawnCost = st.getSpawnCost()
-            st.metabolism.withdrawFromSpawn(spawnCost)
-            dp.metabolize()
-        }
-
         guard let ndp = newborn.dispatch else { fatalError() }
+
+        ndp.scratch.setGridConnector(self.safeCell)
         ndp.disengage()
+
+        abandonNewborn()
     }
 }

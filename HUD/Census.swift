@@ -1,12 +1,13 @@
 import SpriteKit
 
-struct Census {
-    let rCurrentPopulation: Reportoid
-    let rHighWaterPopulation: Reportoid
-    let rHighWaterAge: Reportoid
+class Census {
     let ageFormatter: DateComponentsFormatter
-
+    let currentTime: Int = 0
+    let rCurrentPopulation: Reportoid
+    let rHighWaterAge: Reportoid
+    let rHighWaterPopulation: Reportoid
     let rOffspring: Reportoid
+    var worldStats: World.StatsCopy!
 
     init(_ scene: GriddleScene) {
         rCurrentPopulation = scene.reportArkonia.reportoid(2)
@@ -24,49 +25,65 @@ struct Census {
         updateCensus()
     }
 
-    private func updateCensus() {
-        var currentTime: Int = 0
-        var liveArkonsAges = [Int]()
-        var worldStats: World.StatsCopy!
+    private func updateCensus() { partA() }
 
-        func partA() {
-            Grid.shared.serialQueue.asyncAfter(deadline: DispatchTime.now() + 1, flags: .barrier) {
-                World.stats.getStats_ {
-                    worldStats = $0
-                    partB(worldStats.currentTime)
-                }
+    private func partA() {
+        Grid.shared.serialQueue.asyncAfter(deadline: DispatchTime.now() + 1) {
+            World.stats.getStats_ {
+                self.worldStats = $0
+                self.partB()
             }
         }
+    }
 
-        func partB(_ currentTime: Int) {
-            let liveArkonsAges: [Int] = GriddleScene.arkonsPortal!.children.compactMap { node in
-                guard let sprite = node as? SKSpriteNode else { fatalError() }
+    private func partB() {
+        let liveArkons: [Stepper] = GriddleScene.arkonsPortal!.children.compactMap { node in
+            guard let sprite = node as? SKSpriteNode else { fatalError() }
 
-                guard let stepper = sprite.getStepper(require: false) else { return nil }
+            guard let stepper = sprite.getStepper(require: false) else { return nil }
+            return stepper
+        }.sorted {
+            lStepper, rStepper in
 
-                return currentTime - stepper.birthday
-            }
+            let lAge = CGFloat(lStepper.getAge(worldStats.currentTime))
+            let rAge = CGFloat(rStepper.getAge(worldStats.currentTime))
 
-//            if liveArkonsAges.count < 1 { Dispatch().wangkhi() }
+            let lOffspring = CGFloat(lStepper.cOffspring)
+            let rOffspring = CGFloat(rStepper.cOffspring)
 
-            if liveArkonsAges.isEmpty { partA() } else { partD() }
+            return (lAge / (lOffspring + 1)) < (rAge / (rOffspring + 1))
         }
 
-        func partD() {
-            self.rCurrentPopulation.data.text =
-                String(worldStats.currentPopulation)
+        if liveArkons.isEmpty { Dispatch().wangkhi() }
 
-            self.rHighWaterPopulation.data.text =
-                String(worldStats.highWaterPopulation)
+        else if liveArkons.count < 15 {
+            guard let bestBreeder = liveArkons.first else { preconditionFailure() }
 
-            self.rOffspring.data.text =
-                String(format: "%d", worldStats.highWaterCOffspring)
+            let newNet = Net(
+                parentBiases: bestBreeder.net.biases,
+                parentWeights: bestBreeder.net.weights,
+                layers: bestBreeder.parentLayers,
+                parentActivator: bestBreeder.parentActivator
+            )
 
-            rHighWaterAge.data.text =
-                ageFormatter.string(from: Double(worldStats.highWaterAge))
-
-            partA()
+            Dispatch(parentNet: newNet).wangkhi()
         }
+
+        if liveArkons.isEmpty { partA() } else { partC() }
+    }
+
+    private func partC() {
+        self.rCurrentPopulation.data.text =
+            String(worldStats.currentPopulation)
+
+        self.rHighWaterPopulation.data.text =
+            String(worldStats.highWaterPopulation)
+
+        self.rOffspring.data.text =
+            String(format: "%d", worldStats.highWaterCOffspring)
+
+        rHighWaterAge.data.text =
+            ageFormatter.string(from: Double(worldStats.highWaterAge))
 
         partA()
     }

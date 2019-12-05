@@ -39,33 +39,27 @@ extension GridCell {
     }
 
     static func lockBirthPosition(parent: Stepper, setOwner: String) -> GridCell {
-        var rg: GridCell!
-        var locked = false
+        var randomGridCell: GridCell?
         var gridPointIndex = 0
 
         repeat {
             gridPointIndex += 1
 
             let p = parent.gridCell.getGridPointByIndex(gridPointIndex)
+            randomGridCell = GridCell.atIf(p)?.lock(require: false)
 
-            rg = GridCell.atIf(p)
-            if rg == nil { continue }
+        } while randomGridCell?.contents != .nothing
 
-            locked = SafeCell.lockGridCellIf(setOwner, at: rg.gridPosition)
-        } while rg == nil || rg!.contents != .nothing || locked == false
-
-        return rg
+        return randomGridCell!
     }
 
     static func lockRandomEmptyCell(setOwner: String) -> GridCell {
-        var rg: GridCell!
-        var locked = false
+        var randomGridCell: GridCell?
 
         repeat {
-            rg = GridCell.getRandomEmptyCell()
-            locked = SafeCell.lockGridCellIf(setOwner, at: rg.gridPosition)
-        } while locked == false
+            randomGridCell = GridCell.getRandomEmptyCell().lock(require: false)
+        } while randomGridCell == nil
 
-        return rg
+        return randomGridCell!
     }
 }

@@ -11,30 +11,30 @@ final class Plot: Dispatchable {
     }
 
     private func launch_() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        var iOwnTheGridCell = false
+        guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
-        defer {
-            if iOwnTheGridCell { dp.moveSprite() }
-            else               { ch.gridCellConnector = nil }
-        }
+        guard let centerCell =
+            ch.getCellConnector(require: true) else { preconditionFailure() }
 
-        iOwnTheGridCell = Disengage.iOwnTheGridCell(ch.gridCellConnector)
-        if !iOwnTheGridCell { return }
+        let senseGrid = makeSenseGrid(from: centerCell)
+        ch.setGridConnector(senseGrid)
 
         loadSenseData()
 
-        ch.gridCellConnector = selectMoveTarget()
+        let stage = stageMovement()
+        ch.setGridConnector(stage)
+
+        dp.moveSprite()
     }
 }
 
 extension Plot {
     private func loadGridInputs() -> [Double] {
-        guard let senseGrid = scratch?.getSenseGridConnector() else { fatalError() }
+        guard let senseGrid = scratch?.getSensesConnector() else { fatalError() }
 
         let gridInputs: [Double] = senseGrid.cells.reduce([]) { partial, cell in
 
-            guard let (contents, nutritionalValue) = loadGridInput_(cell)
+            guard let (contents, nutritionalValue) = loadGridInput(cell)
                 else { return partial + [0, 0] }
 
             return partial + [contents, nutritionalValue]
@@ -43,7 +43,7 @@ extension Plot {
         return gridInputs
     }
 
-    private func loadGridInput_(_ c: SafeCell?) -> (Double, Double)? {
+    private func loadGridInput(_ c: SafeCell?) -> (Double, Double)? {
 
         guard let cell = c, GridCell.isOnGrid(cell.gridPosition) else {
             let rv = (GridCell.Contents.invalid.rawValue + 1)
@@ -87,7 +87,11 @@ extension Plot {
         senseData.append(contentsOf: [hunger, asphyxia])
     }
 
-    private func selectMoveTarget() -> SafeStage {
+    func makeSenseGrid(from gridCenter: SafeCell) -> SafeSenseGrid {
+        return SafeSenseGrid(from: gridCenter, by: ArkoniaCentral.cMotorGridlets)
+    }
+
+    private func stageMovement() -> SafeStage {
         guard let ch = scratch else { fatalError() }
         guard let st = ch.stepper else { fatalError() }
 
@@ -95,27 +99,24 @@ extension Plot {
             zip(0..., st.net.getMotorOutputs(senseData)).map { ($0, $1) }
 
         let order = motorOutputs.sorted { lhs, rhs in lhs.1 > rhs.1 }
-        let senseGrid = ch.getSenseGridConnector(require: false)
+        let senseGrid = ch.getSensesConnector(require: false)
 
         let targetOffset = order.first { entry in
             guard let candidateCell = senseGrid?.cells[entry.0] else { return false }
 
-            return candidateCell.iOwnTheGridCell
+            return candidateCell.isHot
         }
 
         let fromCell: SafeCell?
         let toCell: SafeCell
 
-        if targetOffset == nil {
+        if targetOffset == nil || targetOffset!.0 == 0 {
             toCell = (senseGrid?.cells[0])!; fromCell = nil
         } else {
             toCell = (senseGrid?.cells[targetOffset!.0])!; fromCell = senseGrid?.cells[0]
         }
 
-        precondition(
-            Disengage.iOwnTheGridCell(toCell) &&
-            (fromCell == nil || Disengage.iOwnTheGridCell(fromCell!))
-        )
+        precondition(toCell.isHot && (fromCell == nil || fromCell!.isHot))
 
         return SafeStage(fromCell, toCell)
     }

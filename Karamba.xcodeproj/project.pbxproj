@@ -211,8 +211,6 @@
 				D43EA81A228FDBA4006C619D /* ArkoniaCentral */,
 				D4B4293B22DAEC7E0036C904 /* HUD */,
 				D40985F922650BD8009DD384 /* macOS */,
-				D46B1D7222813DF7003D711C /* Miscellany */,
-				D4E8D268227E06F400DFCB40 /* NetDisplay */,
 				D40985E122650B0A009DD384 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -259,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				D4174DC5237BC2CE00F01F28 /* GridCell */,
+				D46B1D7222813DF7003D711C /* Miscellany */,
 				D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */,
 				D45A9361237CEE5F00FC039E /* Grid.swift */,
 				D45A9360237CEE5F00FC039E /* Grid.Setup.swift */,
@@ -302,6 +301,7 @@
 		D4B4293B22DAEC7E0036C904 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
+				D4E8D268227E06F400DFCB40 /* NetDisplay */,
 				D422DE0A23598B52003734B8 /* Census.swift */,
 				D422DE0C23598BEC003734B8 /* Clock.swift */,
 				D4B4294022DAEC7E0036C904 /* HUD.swift */,
