@@ -8,17 +8,11 @@ final class MoveSprite: Dispatchable {
         stepper.sprite.run(restAction) { onComplete() }
     }
 
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        self.scratch = scratch
-
-        // maybe we need a barrier to protect calls to sprite.run?
-        self.wiLaunch = DispatchWorkItem(block: launch_)
+    deinit {
+//        Log.L.write("~move sprite", level: 35)
     }
 
-    private func launch_() { moveSprite() }
+    internal override func launch_() { moveSprite() }
 
     func moveSprite() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }

@@ -66,11 +66,11 @@ class Census {
                 parentActivator: bestBreeder.parentActivator
             )
 
-            Log.L.write("layers: \(six(bestBreeder.name)) \(bestBreeder.parentLayers ?? [])", level: 34)
+            Log.L.write("layers: \(six(bestBreeder.name)) \(bestBreeder.parentLayers ?? [])", level: 33)
             Dispatch(parentNet: newNet).wangkhi()
             Dispatch(parentNet: newNet).wangkhi()
         } else {
-            Log.L.write("liveArkons.count = \(liveArkons.count)", level: 34)
+            Log.L.write("liveArkons.count = \(liveArkons.count)", level: 33)
         }
 
         if liveArkons.isEmpty { partA() } else { partC() }

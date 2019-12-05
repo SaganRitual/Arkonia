@@ -1,16 +1,7 @@
 import Dispatch
 
 final class Engage: Dispatchable {
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-    var counter = 0
-
-    init(_ scratch: Scratchpad) {
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
-    func launch_() {
+    internal override func launch_() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
 

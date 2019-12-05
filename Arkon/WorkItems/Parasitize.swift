@@ -1,16 +1,7 @@
 import Foundation
 
 final class Parasitize: Dispatchable {
-    var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        Log.L.write("Parasitize()", level: 22)
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
-    func launch_() {
+    internal override func launch_() {
         Log.L.write("Parasitize.launch_ \(six(scratch?.stepper?.name))", level: 22)
         let result = attack()
         parasitize(result.0, result.1)

@@ -1,15 +1,7 @@
 import Dispatch
 
 final class Plot: Dispatchable {
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
-    private func launch_() {
+    internal override func launch_() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { preconditionFailure() }
         guard let cc = ch.cellConnector else { preconditionFailure() }
 

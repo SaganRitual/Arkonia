@@ -1,20 +1,11 @@
 import SpriteKit
 
 final class MoveStepper: Dispatchable {
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        Log.L.write("MoveStepper()", level: 3)
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
     deinit {
         Log.L.write("~MoveStepper", level : 4)
     }
 
-    private func launch_() { moveStepper() }
+    internal override func launch_() { moveStepper() }
 
     func moveStepper() {
         guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }

@@ -1,16 +1,7 @@
 import SpriteKit
 
 final class Apoptosize: Dispatchable {
-    var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        Log.L.write("Apoptosize()", level: 3)
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
-    private func launch_() { aApoptosize() }
+    internal override func launch_() { aApoptosize() }
 }
 
 extension Apoptosize {
