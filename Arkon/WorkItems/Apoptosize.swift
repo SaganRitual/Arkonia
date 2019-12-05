@@ -28,8 +28,8 @@ extension Apoptosize {
 
             sp.removeAllActions()
 
-            Wangkhi.spriteFactory.noseHangar.retireSprite(no)
-            Wangkhi.spriteFactory.arkonsHangar.retireSprite(sp)
+            Constants.spriteFactory.noseHangar.retireSprite(no)
+            Constants.spriteFactory.arkonsHangar.retireSprite(sp)
 
             Grid.shared.serialQueue.async {
                 Stepper.releaseStepper(st, from: sp)

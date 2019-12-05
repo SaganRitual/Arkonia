@@ -1,13 +1,6 @@
 import SpriteKit
 
-enum Wangkhi {
-    static let brightColor = 0x00_FF_00    // Full green
-    static let scaleFactor: CGFloat = 0.5
-    static var spriteFactory: SpriteFactory!
-    static let standardColor = 0x00_FF_00  // Slightly dim green
-}
-
-protocol WangkhiProtocol: class, Dispatchable {
+protocol LarvaProtocol: class, Dispatchable {
     var birthday: Int { get set }
     var callAgain: Bool { get }
     var cellConnector: HotKey? { get set }
@@ -47,7 +40,7 @@ enum Names {
     }
 }
 
-final class WangkhiEmbryo: WangkhiProtocol {
+final class Larva: LarvaProtocol {
     var dispatch: Dispatch? { willSet { fatalError() } }
 
     weak var scratch: Scratchpad?
@@ -66,7 +59,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
     var sprite: SKSpriteNode? { willSet {
         Log.L.write("Wangkhi.sprite \(six(scratch?.stepper?.name))", level: 15)
     } }
-    var tempStrongReference: WangkhiEmbryo?
+    var tempStrongReference: Larva?
     var wiLaunch: DispatchWorkItem?
     var wiLaunch2: DispatchWorkItem?
 
@@ -100,7 +93,16 @@ final class WangkhiEmbryo: WangkhiProtocol {
     func launch2_() { buildSprites() }
 }
 
-extension WangkhiEmbryo {
+extension Larva {
+    enum Constants {
+        static let brightColor = 0x00_FF_00    // Full green
+        static let scaleFactor: CGFloat = 0.5
+        static var spriteFactory: SpriteFactory!
+        static let standardColor = 0x00_FF_00  // Slightly dim green
+    }
+}
+
+extension Larva {
     private func getStartingPosition() {
         guard let parent = self.parent else {
             self.cellConnector = GridCell.lockRandomEmptyCell()
@@ -115,7 +117,7 @@ extension WangkhiEmbryo {
     }
 }
 
-extension WangkhiEmbryo {
+extension Larva {
     func buildGuts() {
 
         metabolism = Metabolism()
@@ -135,7 +137,7 @@ extension WangkhiEmbryo {
 
 }
 
-extension WangkhiEmbryo {
+extension Larva {
 
     func buildNetDisplay(_ sprite: SKSpriteNode) {
         guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
@@ -148,7 +150,7 @@ extension WangkhiEmbryo {
     }
 }
 
-extension WangkhiEmbryo {
+extension Larva {
 
     func abandonNewborn() {
         if let st = parent, let dp = st.dispatch {
@@ -172,8 +174,8 @@ extension WangkhiEmbryo {
     private func buildSprites_() {
         assert(Display.displayCycle == .actions)
 
-        self.nose = Wangkhi.spriteFactory!.noseHangar.makeSprite()
-        self.sprite = Wangkhi.spriteFactory!.arkonsHangar.makeSprite()
+        self.nose = Constants.spriteFactory!.noseHangar.makeSprite()
+        self.sprite = Constants.spriteFactory!.arkonsHangar.makeSprite()
 
         guard let sprite = self.sprite else { fatalError() }
         guard let nose = self.nose else { fatalError() }
@@ -183,7 +185,7 @@ extension WangkhiEmbryo {
         nose.colorBlendFactor = 1
         nose.color = .yellow
 
-        sprite.setScale(Wangkhi.scaleFactor)
+        sprite.setScale(Constants.scaleFactor)
         sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
         sprite.setScale(0.5)

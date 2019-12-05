@@ -21,7 +21,7 @@ class Stepper {
     var previousShiftOffset = AKPoint.zero
     var sprite: SKSpriteNode!
 
-    init(_ embryo: WangkhiEmbryo, needsNewDispatch: Bool = false) {
+    init(_ embryo: Larva, needsNewDispatch: Bool = false) {
         self.birthday = embryo.birthday
         self.fishNumber = embryo.fishNumber
         self.gridCell = embryo.cellConnector?.cell

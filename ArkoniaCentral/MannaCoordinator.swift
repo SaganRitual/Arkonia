@@ -16,7 +16,7 @@ class MannaCoordinator {
     weak var mannaSpriteFactory: SpriteFactory?
 
     init() {
-        mannaSpriteFactory = Wangkhi.spriteFactory
+        mannaSpriteFactory = Constants.spriteFactory
     }
 
     private func bloom(_ manna: Manna) {

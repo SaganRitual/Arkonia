@@ -62,8 +62,8 @@ struct Dimensions {
         let hSprite = Int(tTexture.size().height / Dimensions.fudgFactor)
         let wSprite = Int(tTexture.size().width / Dimensions.fudgFactor)
 
-        let hPortal = Int((1 / Wangkhi.scaleFactor) * portal.size.height / Dimensions.fudgFactor) - hSprite
-        let wPortal = Int((1 / Wangkhi.scaleFactor) * portal.size.width / Dimensions.fudgFactor) - wSprite
+        let hPortal = Int((1 / Constants.scaleFactor) * portal.size.height / Dimensions.fudgFactor) - hSprite
+        let wPortal = Int((1 / Constants.scaleFactor) * portal.size.width / Dimensions.fudgFactor) - wSprite
         let hGrid = Int(hPortal / hSprite)
         let wGrid = Int(wPortal / wSprite)
 

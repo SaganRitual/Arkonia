@@ -44,7 +44,7 @@ extension Stepper {
             baseColor = 0xFF_00_00
         } else {
             baseColor = (metabolism.spawnEnergyFullness > 0) ?
-                Wangkhi.brightColor : Wangkhi.standardColor
+                Constants.brightColor : Constants.standardColor
         }
 
         let four: CGFloat = 4

@@ -92,13 +92,13 @@ extension World.Stats {
         }
     }
 
-    func registerBirth(myParent: Stepper?, meOffspring: WangkhiProtocol) {
+    func registerBirth(myParent: Stepper?, meOffspring: LarvaProtocol) {
         Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
             self.registerBirth_(myParent, meOffspring)
         }
     }
 
-    func registerBirth_(_ myParent: Stepper?, _ meOffspring: WangkhiProtocol) {
+    func registerBirth_(_ myParent: Stepper?, _ meOffspring: LarvaProtocol) {
         self.currentPopulation += 1
 
         myParent?.cOffspring += 1
