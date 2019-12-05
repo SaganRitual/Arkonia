@@ -2,15 +2,7 @@ import CoreGraphics
 import Foundation
 
 final class Funge: Dispatchable {
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
-    }
-
-    func launch_() {
+    internal override func launch_() {
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
     }

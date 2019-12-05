@@ -100,8 +100,3 @@ extension SpriteFactory {
         return SKSpriteNode(texture: texture)
     }
 }
-
-extension SpriteFactory {
-    static var count = 0
-    static var phaseIndicator = SKColor.green
-}

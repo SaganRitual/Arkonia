@@ -1,6 +1,6 @@
 import SpriteKit
 
-protocol LarvaProtocol: class, Dispatchable {
+protocol LarvaProtocol: class, DispatchableProtocol {
     var birthday: Int { get set }
     var callAgain: Bool { get }
     var cellConnector: HotKey? { get set }
@@ -40,7 +40,7 @@ enum Names {
     }
 }
 
-final class Larva: LarvaProtocol {
+final class Larva: DispatchableProtocol, LarvaProtocol {
     var dispatch: Dispatch? { willSet { fatalError() } }
 
     weak var scratch: Scratchpad?
@@ -77,6 +77,11 @@ final class Larva: LarvaProtocol {
 
     deinit {
         Log.L.write("~Larva", level: 19)
+    }
+
+    func launch() {
+        guard let w = wiLaunch else { fatalError() }
+        Grid.shared.serialQueue.async(execute: w)
     }
 
     func launch_() {

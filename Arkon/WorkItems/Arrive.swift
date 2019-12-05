@@ -1,16 +1,7 @@
 import Dispatch
 
 final class Arrive: Dispatchable {
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        Log.L.write("Arrive()", level: 3)
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
-    }
-
-    private func launch_() { arrive() }
+    internal override func launch_() { arrive() }
 
     func arrive() {
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
