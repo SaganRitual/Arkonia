@@ -101,7 +101,7 @@ final class Larva: DispatchableProtocol, LarvaProtocol {
 extension Larva {
     enum Constants {
         static let brightColor = 0x00_FF_00    // Full green
-        static let scaleFactor: CGFloat = 0.5
+        static let scaleFactor: CGFloat = 0.5 / ArkoniaCentral.masterScale
         static var spriteFactory: SpriteFactory!
         static let standardColor = 0x00_FF_00  // Slightly dim green
     }
@@ -195,7 +195,6 @@ extension Larva {
         sprite.setScale(Constants.scaleFactor)
         sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
-        sprite.setScale(0.5)
         sprite.position = cellConnector.cell.scenePosition
         sprite.alpha = 1
 

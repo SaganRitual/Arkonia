@@ -1,6 +1,7 @@
 import SpriteKit
 
 enum ArkoniaCentral {
+    static let masterScale = CGFloat(2)
     static let senseGridSide = 4
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeurons = 2 * cSenseGridlets + 2
@@ -59,11 +60,11 @@ struct Dimensions {
         let tAtlas = SKTextureAtlas(named: "Arkons")
         let tTexture = tAtlas.textureNamed("neuron-plain")
 
-        let hSprite = Int(tTexture.size().height / Dimensions.fudgFactor)
-        let wSprite = Int(tTexture.size().width / Dimensions.fudgFactor)
+        let hSprite = Int(tTexture.size().height / (Dimensions.fudgFactor * ArkoniaCentral.masterScale))
+        let wSprite = Int(tTexture.size().width / (Dimensions.fudgFactor * ArkoniaCentral.masterScale))
 
-        let hPortal = Int((1 / Larva.Constants.scaleFactor) * portal.size.height / Dimensions.fudgFactor) - hSprite
-        let wPortal = Int((1 / Larva.Constants.scaleFactor) * portal.size.width / Dimensions.fudgFactor) - wSprite
+        let hPortal = Int((1 / Larva.Constants.scaleFactor) * portal.size.height / (Dimensions.fudgFactor * ArkoniaCentral.masterScale)) - hSprite
+        let wPortal = Int((1 / Larva.Constants.scaleFactor) * portal.size.width / (Dimensions.fudgFactor * ArkoniaCentral.masterScale)) - wSprite
         let hGrid = Int(hPortal / hSprite)
         let wGrid = Int(wPortal / wSprite)
 

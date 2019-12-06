@@ -46,16 +46,16 @@ struct NetGraphics {
 
         switch layerRole {
         case .senseLayer:
-//            sprite.color = .orange
+            sprite.color = .orange
             yFudge = sprite.size.height / 8
 
         case .motorLayer:
-//            sprite.color = .blue
+            sprite.color = .blue
             sprite.zRotation = CGFloat.pi
             yFudge = -sprite.size.height / 8
 
         case .hiddenLayer:
-//            sprite.color = .green
+            sprite.color = .green
             yFudge = 0
         }
 
