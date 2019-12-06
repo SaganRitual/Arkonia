@@ -38,7 +38,7 @@ class Census {
 
     private func partB() {
         let liveArkons: [Stepper] = GriddleScene.arkonsPortal!.children.compactMap { node in
-            guard let sprite = node as? SKSpriteNode else { fatalError() }
+            guard let sprite = node as? SKSpriteNode else { return nil }
 
             guard let stepper = sprite.getStepper(require: false) else { return nil }
             return stepper
