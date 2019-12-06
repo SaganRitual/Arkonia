@@ -54,7 +54,7 @@ class Census {
             return (lAge / (lOffspring + 1)) < (rAge / (rOffspring + 1))
         }
 
-        if liveArkons.isEmpty { for _ in 0..<50 { Dispatch().spawn() } }
+        if liveArkons.isEmpty { for _ in 0..<25 { Dispatch().spawn() } }
 
         else if liveArkons.count < 25 {
             guard let bestBreeder = liveArkons.first else { preconditionFailure() }

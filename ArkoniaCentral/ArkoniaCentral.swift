@@ -2,7 +2,7 @@ import SpriteKit
 
 enum ArkoniaCentral {
     static let masterScale = CGFloat(2)
-    static let senseGridSide = 4
+    static let senseGridSide = 5
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeurons = 2 * cSenseGridlets + 2
     static let cMotorNeurons = 9 - 1

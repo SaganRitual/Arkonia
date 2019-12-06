@@ -16,6 +16,11 @@ final class Plot: Dispatchable {
         dp.moveSprite()
     }
 
+    override func launch() {
+        guard let w = wiLaunch else { fatalError() }
+        World.shared.concurrentQueue.async(execute: w)
+    }
+
     deinit {
         Log.L.write("~Plot \(six(scratch?.stepper?.name))", level: 31)
     }

@@ -52,7 +52,7 @@ extension Stepper {
     }
 
     func getSpawnCost() -> CGFloat {
-        let entropy: CGFloat = 0.1
+        let entropy: CGFloat = -0.1
 
         let spawnCost = allowSpawning ?
             EnergyReserve.startingEnergyLevel * CGFloat(1.0 + entropy) :

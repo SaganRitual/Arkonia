@@ -190,7 +190,7 @@ extension Larva {
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
-        nose.color = .yellow
+        nose.color = parent == nil ? .magenta : .yellow
 
         sprite.setScale(Constants.scaleFactor)
         sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
