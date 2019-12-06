@@ -190,10 +190,10 @@ extension Larva {
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
-//        nose.color = .yellow
+        nose.color = .yellow
 
         sprite.setScale(Constants.scaleFactor)
-//        sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
+        sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
         sprite.setScale(0.5)
         sprite.position = cellConnector.cell.scenePosition

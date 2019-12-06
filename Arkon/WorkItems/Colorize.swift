@@ -45,6 +45,6 @@ extension Stepper {
 //            bluePercentage: max((four - CGFloat(myAge)) / four, 0.0)
 //        )
 //
-//        self.sprite.colorBlendFactor = metabolism.fungibleEnergyFullness
+        self.sprite.colorBlendFactor = metabolism.fungibleEnergyFullness
     }
 }

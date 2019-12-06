@@ -1,3 +1,4 @@
+import CoreGraphics
 import Dispatch
 
 final class Arrive: Dispatchable {
@@ -26,9 +27,13 @@ extension Arrive {
         guard let manna = sprite.getManna() else { fatalError() }
 
         let harvested = manna.harvest()
+        let inhaleFudgeFactor: CGFloat = 2.0
 
         st.metabolism.absorbEnergy(harvested)
-        st.metabolism.inhale(manna.energyFullness)
+
+        let toInhale = inhaleFudgeFactor * harvested / Manna.maxEnergyContentInJoules
+        st.metabolism.inhale(toInhale)
+        Log.L.write("inhale(\(String(format:"%-2.6f", toInhale)))", level: 35)
 
         MannaCoordinator.shared.beEaten(sprite)
 

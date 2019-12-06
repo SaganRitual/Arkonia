@@ -6,7 +6,7 @@ class Manna {
     static let colorBlendMinimum: CGFloat = 0.25
     static var colorBlendRangeWidth: CGFloat { return colorBlendMaximum - colorBlendMinimum }
     static let fullGrowthDurationSeconds: TimeInterval = 1
-    static var maxEnergyContentInJoules: CGFloat = 5000
+    static var maxEnergyContentInJoules: CGFloat = 500
 
     static var growthRateJoulesPerSecond: CGFloat {
         return maxEnergyContentInJoules / CGFloat(fullGrowthDurationSeconds)
@@ -22,7 +22,15 @@ class Manna {
         let f1 = fudgeFactor * abs(f0 - Manna.colorBlendMinimum)
         let f2 = f1 / Manna.colorBlendRangeWidth
         let f3 = f2 * Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
-//        Log.L.write("f", sprite.colorBlendFactor, Manna.colorBlendMinimum, Manna.growthRateJoulesPerSecond, Manna.fullGrowthDurationSeconds, f1, f2, f3)
+        Log.L.write(
+            "colorBlendFactor \(String(format: "%-2.4f", sprite.colorBlendFactor))\n" +
+            "Manna.colorBlendMinimum \(String(format: "%-2.4f", Manna.colorBlendMinimum))\n" +
+            "Manna.growthRateJoulesPerSecond \(String(format: "%-2.4f", Manna.growthRateJoulesPerSecond))\n" +
+            "Manna.fullGrowthDurationSeconds \(String(format: "%-2.4f", Manna.fullGrowthDurationSeconds))\n" +
+            "f1, f2, f3 = \(String(format: "%-2.4f", f1)), \(String(format: "%-2.4f", f2)), \(String(format: "%-2.4f", f3))\n",
+            level: 30
+        )
+
         return f3 * 1.0//CGFloat(World.shared.foodValue)
     }
 

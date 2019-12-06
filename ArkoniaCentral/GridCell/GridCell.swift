@@ -55,7 +55,7 @@ extension GridCell {
         }
 
         if requester != nil {
-            Log.L.write("GridCell \(self): release lock, start requester", level: 34)
+            Log.L.write("GridCell \(self): release lock, start requester", level: 32)
         }
 
         requester?.engage()

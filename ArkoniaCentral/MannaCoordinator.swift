@@ -11,7 +11,7 @@ class MannaCoordinator {
     static let fadeInAction = SKAction.fadeIn(withDuration: 0.001)
     static let fadeOutAction = SKAction.fadeOut(withDuration: 0.001)
 
-    static let cMorsels = 2000
+    static let cMorsels = 1000
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
