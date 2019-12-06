@@ -40,7 +40,7 @@ class Stepper {
 
         Log.L.write("stepper deinit \(six(name))", level: 31)
 
-        World.stats.decrementPopulation(nil)
+        World.stats.decrementPopulation(birthday)
     }
 
     func getAge(_ currentTime: Int) -> Int { return currentTime - self.birthday }

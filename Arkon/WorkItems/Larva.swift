@@ -118,7 +118,7 @@ extension Larva {
     }
 
     private func registerBirth() {
-        World.stats.registerBirth(myParent: nil, meOffspring: self)
+        World.stats.registerBirth(myParent: parent, meOffspring: self)
     }
 }
 
