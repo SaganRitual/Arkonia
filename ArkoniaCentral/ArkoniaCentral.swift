@@ -1,7 +1,7 @@
 import SpriteKit
 
 enum ArkoniaCentral {
-    static let masterScale = CGFloat(1)
+    static let masterScale = CGFloat(2)
     static let senseGridSide = 5
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeurons = 2 * cSenseGridlets + 2
@@ -61,12 +61,12 @@ struct Dimensions {
         let hSprite = Int(tTexture.size().height / (2 * ArkoniaCentral.masterScale))
         let wSprite = Int(tTexture.size().width / (2 * ArkoniaCentral.masterScale))
 
-        let hPortal = Int(ArkoniaCentral.masterScale * portal.size.height) - hSprite
-        let wPortal = Int(ArkoniaCentral.masterScale * portal.size.width) - wSprite
+        let hPortal = Int(2 * portal.size.height / ArkoniaCentral.masterScale) - hSprite
+        let wPortal = Int(2 * portal.size.width / ArkoniaCentral.masterScale) - wSprite
         let hGrid = Int(hPortal / hSprite)
         let wGrid = Int(wPortal / wSprite)
 
-        Log.L.write("(wGrid x hGrid) = (\(wGrid) x \(hGrid)), (wPortal x hPortal) = (\(wPortal) x \(hPortal)), (wSprite x hSprite) = (\(wSprite) x \(hSprite))", level: 40)
+        Log.L.write("(wGrid x hGrid) = (\(wGrid) x \(hGrid)), (wPortal x hPortal) = (\(wPortal) x \(hPortal)), (wSprite x hSprite) = (\(wSprite) x \(hSprite))", level: 38)
 
         return Dimensions(hGrid, hPortal, hSprite, wGrid, wPortal, wSprite)
     }
