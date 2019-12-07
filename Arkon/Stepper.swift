@@ -4,6 +4,7 @@ class Stepper {
     let allowSpawning = true
     private var birthday = 0
     var cOffspring = 0
+    var debugFlasher = false
     var dispatch: Dispatch!
     var fishNumber = 0
     weak var gridCell: GridCell!
@@ -52,7 +53,7 @@ extension Stepper {
     }
 
     func getSpawnCost() -> CGFloat {
-        let entropy: CGFloat = -0.1
+        let entropy: CGFloat = -0.2
 
         let spawnCost = allowSpawning ?
             EnergyReserve.startingEnergyLevel * CGFloat(1.0 + entropy) :

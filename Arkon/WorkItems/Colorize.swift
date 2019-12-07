@@ -4,7 +4,7 @@ final class Colorize: Dispatchable {
     internal override func launch_() { aColorize() }
 }
 
-func six(_ string: String?) -> String { return String(string?.prefix(6) ?? "<no owner?>") }
+func six(_ string: String?) -> String { return String(string?.prefix(15) ?? "<no owner?>") }
 
 extension Colorize {
     func aColorize() {
@@ -24,6 +24,9 @@ extension Stepper {
     func colorizeProper(_ myAge: Int) {
 //        nose.alpha = CGFloat(1 - (metabolism.oxygenLevel / 1))
 //
+        nose.color = (debugFlasher == true) ? .gray : .yellow
+        debugFlasher = (debugFlasher == true) ? false : true
+
 ////        let ef = metabolism.fungibleEnergyFullness
 ////        nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
 //

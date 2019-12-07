@@ -16,26 +16,26 @@ protocol LarvaProtocol: class, DispatchableProtocol {
 
 enum Names {
     static var nameix = 0
+    static var setix = 0
 
     static var names = [
-        "Alice", "Bob", "Charles", "David", "Ellen", "Felicity",
-        "Grace", "Helen", "India", "James", "Karen", "Lizbeth",
-        "Mary", "Nathan", "Olivia", "Paul", "Quincy", "Rob", "Samantha",
-        "Tatiana", "Ulna", "Vivian", "William", "Xavier", "Yvonne", "Zoe",
-
-        "2Alice", "2Bob", "2Charles", "2David", "2Ellen", "2Felicity",
-        "2Grace", "2Helen", "2India", "2James", "2Karen", "2Lizbeth",
-        "2Mary", "2Nathan", "2Olivia", "2Paul", "2Quincy", "2Rob", "2Samantha",
-        "2Tatiana", "2Ulna", "2Vivian", "2William", "2Xavier", "2Yvonne", "2Zoe",
-
-        "3Alice", "3Bob", "3Charles", "3David", "3Ellen", "3Felicity",
-        "3Grace", "3Helen", "3India", "3James", "3Karen", "3Lizbeth",
-        "3Mary", "3Nathan", "3Olivia", "3Paul", "3Quincy", "3Rob", "3Samantha",
-        "3Tatiana", "3Ulna", "3Vivian", "3William", "3Xavier", "3Yvonne", "3Zoe"
+        "Alice-\(String(format: "%03d", setix))", "Bob-\(String(format: "%03d", setix))", "Charles-\(String(format: "%03d", setix))",
+        "David-\(String(format: "%03d", setix))", "Ellen-\(String(format: "%03d", setix))", "Felicity-\(String(format: "%03d", setix))",
+        "Grace-\(String(format: "%03d", setix))", "Helen-\(String(format: "%03d", setix))", "India-\(String(format: "%03d", setix))",
+        "James-\(String(format: "%03d", setix))", "Karen-\(String(format: "%03d", setix))", "Lizbeth-\(String(format: "%03d", setix))",
+        "Mary-\(String(format: "%03d", setix))", "Nathan-\(String(format: "%03d", setix))", "Olivia-\(String(format: "%03d", setix))",
+        "Paul-\(String(format: "%03d", setix))", "Quincy-\(String(format: "%03d", setix))", "Rob-\(String(format: "%03d", setix))",
+        "Samantha-\(String(format: "%03d", setix))", "Tatiana-\(String(format: "%03d", setix))", "Ulna-\(String(format: "%03d", setix))",
+        "Vivian-\(String(format: "%03d", setix))", "William-\(String(format: "%03d", setix))", "Xavier-\(String(format: "%03d", setix))",
+        "Yvonne-\(String(format: "%03d", setix))", "Zoe-\(String(format: "%03d", setix))"
     ]
 
     static func getName() -> String {
-        defer { nameix += 1 }
+        defer {
+            nameix = (nameix + 1) % names.count
+            if nameix == 0 { setix += 1 }
+        }
+
         return names[nameix % names.count]
     }
 }
@@ -48,7 +48,7 @@ final class Larva: DispatchableProtocol, LarvaProtocol {
     var birthday = 0
     var callAgain = false
     var cellConnector: HotKey?
-    var embryoName = UUID().uuidString // Names.getName()
+    var embryoName = Names.getName()
     var fishNumber = 0
     var metabolism: Metabolism?
     var net: Net?
@@ -192,7 +192,7 @@ extension Larva {
         nose.color = parent == nil ? .magenta : .yellow
 
         sprite.setScale(ArkoniaCentral.masterScale / 8)
-        Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 38)
+        Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 37)
         sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
         sprite.position = cellConnector.cell.scenePosition

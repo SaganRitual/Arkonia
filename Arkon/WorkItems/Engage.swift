@@ -8,13 +8,21 @@ final class Engage: Dispatchable {
         let cellConnector = gc.lock(require: false)
 
         if !(cellConnector is HotKey) {
-            Log.L.write("ColdKey \(six(st.name))", level: 31)
-            if cellConnector is ColdKey { gc.requesters.append(dp) }
+            Log.L.write("ColdKey \(six(st.name))", level: 40)
+            if cellConnector is ColdKey {
+//                st.nose.color = .blue
+                Grid.shared.serialQueue.asyncAfter(deadline: .now() + 0.01) {
+                    Log.L.write("re-engage \(six(st.name))", level: 40)
+                    st.nose.color = .green
+                    dp.disengage()
+                    st.nose.color = .red
+                }
+            }
             return
         }
 
         guard let cc = cellConnector as? HotKey else { preconditionFailure() }
-        Log.L.write("HotKey \(six(st.name))", level: 31)
+        Log.L.write("HotKey \(six(st.name))", level: 37)
         ch.cellConnector = cc
         ch.worldStats = World.stats.copy()
 

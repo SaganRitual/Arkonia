@@ -90,7 +90,7 @@ class Log {//}: TextOutputStream {
 //
 //    deinit { handle?.closeFile() }
 
-    let minimumLevel = 39
+    let minimumLevel = 40
     func write(_ string_: String, level: Int? = nil) {
         let useThisLevel = level ?? minimumLevel
 

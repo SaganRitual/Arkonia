@@ -18,7 +18,6 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     let gridPosition: AKPoint
     var isLocked = false
     var randomScenePosition: CGPoint?
-    var requesters = [Dispatch]()
     let scenePosition: CGPoint
 
     var contents = Contents.nothing
@@ -35,29 +34,14 @@ extension GridCell {
         defer { isLocked = true }
 
         if isLocked {
-            Log.L.write("GridCell \(self): not locked; return nil", level: 32)
+            Log.L.write("GridCell \(self): not locked; return nil", level: 37)
             precondition(require == false)
             return ColdKey(for: self)
         }
 
-        Log.L.write("GridCell \(self): locked; return self", level: 32)
+        Log.L.write("GridCell \(self): locked; return self", level: 37)
         return HotKey(for: self)
     }
 
-    func releaseLock() {
-        isLocked = false
-
-        var requester: Dispatch?
-        while !requesters.isEmpty {
-            requester = requesters.removeFirst()
-            if requester?.scratch.stepper == nil { requester = nil }
-            else { break }
-        }
-
-        if requester != nil {
-            Log.L.write("GridCell \(self): release lock, start requester", level: 32)
-        }
-
-        requester?.engage()
-    }
+    func releaseLock() { isLocked = false }
 }
