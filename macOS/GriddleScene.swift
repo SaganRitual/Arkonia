@@ -76,7 +76,10 @@ class GriddleScene: SKScene, SKSceneDelegate {
         GriddleScene.shared = self
 
         GriddleScene.arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
-        GriddleScene.arkonsPortal.setScale(0.5)
+        GriddleScene.arkonsPortal.xScale = ArkoniaCentral.masterScale / 4
+        GriddleScene.arkonsPortal.yScale = ArkoniaCentral.masterScale / 4
+
+        Log.L.write("GriddleScene.arkonsPortal scale = \(GriddleScene.arkonsPortal.xScale) x \(GriddleScene.arkonsPortal.yScale)", level: 40)
 
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
 

@@ -35,25 +35,6 @@ extension GridCell {
 
         cGrec = 0
         repeat {
-            if cGrec > highWatercGrec {
-                highWatercGrec = cGrec
-                precondition(highWatercGrec < 1000)
-
-                var inUseCount = 0
-                var lockedCount = 0
-                var availableCount = 0
-                for column in -27..<28 {
-                    for row in -26..<27 {
-                        let gridCell = GridCell.at(column, row)
-                        if gridCell.isLocked { lockedCount += 1 }
-                        if gridCell.contents.isOccupied() { inUseCount += 1 } else { availableCount += 1 }
-                    }
-                }
-
-                Log.L.write("Hung in getRandomEmptyCell(); \(cGrec) loops, \(inUseCount) occupied, \(availableCount) available, \(lockedCount) locked", level: 31)
-             }
-
-            cGrec += 1
             rg = getRandomCell()
         } while rg.contents.isOccupied()
 
