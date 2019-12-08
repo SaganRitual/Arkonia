@@ -5,13 +5,31 @@ final class Plot: Dispatchable {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { preconditionFailure() }
         guard let cc = ch.cellConnector else { preconditionFailure() }
 
-        let senseGrid = makeSenseGrid(from: cc, block: st.previousShiftOffset)
+        var senseGrid: CellSenseGrid! = makeSenseGrid(from: cc, block: st.previousShiftOffset)
         let gridInputs = loadGridInputs(from: senseGrid)
         let nonSpatial = getNonSpatialSenseData()
         let senseData = gridInputs + nonSpatial
 
+        let hotCells: [AKPoint] = senseGrid.cells.compactMap { return ($0 as? HotKey)?.cell.gridPosition }
+
+//        for h in hotCells {
+//            let realCell = GridCell.at(h)
+//            Log.L.write("holding \(realCell.isLocked ? "" : "un")locked cell at \(h) for \(st.name)", level: 43)
+//        }
+
         ch.cellTaxi = makeCellTaxi(senseData, senseGrid)
-        Log.L.write("plot \(six(st.name)), \(ch.cellTaxi == nil), \(ch.cellTaxi?.toCell == nil), \(ch.cellTaxi?.toCell?.cell == nil))", level: 31)
+        senseGrid = nil
+        ch.cellConnector = nil
+
+        var lockedCount = 0
+        for h in hotCells {
+            let realCell = GridCell.at(h)
+            if realCell.isLocked == false { continue }
+            lockedCount += 1
+            Log.L.write("grubbing locked cell at \(h) for \(st.name)", level: 43)
+        }
+
+        precondition(lockedCount <= 2)
 
         dp.moveSprite()
     }

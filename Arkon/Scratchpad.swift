@@ -3,6 +3,9 @@ class Scratchpad {
     var canSpawn = false
     var cellConnector: HotKey?
     var cellTaxi: CellTaxi?
+
+    var debugEngage = DebugEngage.nothing
+    var debugEngageCRetry = 0
     weak var dispatch: Dispatch?
     var isApoptosizing = false
     var isEngaged: Bool { cellConnector != nil }

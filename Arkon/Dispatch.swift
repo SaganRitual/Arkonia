@@ -68,6 +68,12 @@ final class Dispatch {
 
 extension Dispatch {
     private func dispatch(_ type: DispatchableProtocol.Type) {
+        if type is Apoptosize.Type {
+            precondition(scratch.isApoptosizing == false)
+        }
+
+        if scratch.isApoptosizing { return }
+
         lifelet = type.init(scratch)
         lifelet.launch()
     }

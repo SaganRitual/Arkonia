@@ -17,6 +17,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
     let gridPosition: AKPoint
     var isLocked = false
+    var ownerName = "Kozmo"
     var randomScenePosition: CGPoint?
     let scenePosition: CGPoint
 
@@ -43,5 +44,5 @@ extension GridCell {
         return HotKey(for: self)
     }
 
-    func releaseLock() { isLocked = false }
+    func releaseLock() { isLocked = false; ownerName = "No owner?" }
 }

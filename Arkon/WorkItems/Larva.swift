@@ -19,15 +19,15 @@ enum Names {
     static var setix = 0
 
     static var names = [
-        "Alice-\(String(format: "%03d", setix))", "Bob-\(String(format: "%03d", setix))", "Charles-\(String(format: "%03d", setix))",
-        "David-\(String(format: "%03d", setix))", "Ellen-\(String(format: "%03d", setix))", "Felicity-\(String(format: "%03d", setix))",
-        "Grace-\(String(format: "%03d", setix))", "Helen-\(String(format: "%03d", setix))", "India-\(String(format: "%03d", setix))",
-        "James-\(String(format: "%03d", setix))", "Karen-\(String(format: "%03d", setix))", "Lizbeth-\(String(format: "%03d", setix))",
-        "Mary-\(String(format: "%03d", setix))", "Nathan-\(String(format: "%03d", setix))", "Olivia-\(String(format: "%03d", setix))",
-        "Paul-\(String(format: "%03d", setix))", "Quincy-\(String(format: "%03d", setix))", "Rob-\(String(format: "%03d", setix))",
-        "Samantha-\(String(format: "%03d", setix))", "Tatiana-\(String(format: "%03d", setix))", "Ulna-\(String(format: "%03d", setix))",
-        "Vivian-\(String(format: "%03d", setix))", "William-\(String(format: "%03d", setix))", "Xavier-\(String(format: "%03d", setix))",
-        "Yvonne-\(String(format: "%03d", setix))", "Zoe-\(String(format: "%03d", setix))"
+        "Alice-", "Bob-", "Charles-",
+        "David-", "Ellen-", "Felicity-",
+        "Grace-", "Helen-", "India-",
+        "James-", "Karen-", "Lizbeth-",
+        "Mary-", "Nathan-", "Olivia-",
+        "Paul-", "Quincy-", "Rob-",
+        "Samantha-", "Tatiana-", "Ulna-",
+        "Vivian-", "William-", "Xavier-",
+        "Yvonne-", "Zoe-"
     ]
 
     static func getName() -> String {
@@ -36,7 +36,7 @@ enum Names {
             if nameix == 0 { setix += 1 }
         }
 
-        return names[nameix % names.count]
+        return names[nameix % names.count] + String(format: "%03d", setix)
     }
 }
 
@@ -88,6 +88,7 @@ final class Larva: DispatchableProtocol, LarvaProtocol {
         Log.L.write("Larva.launch_ \(six(scratch?.stepper?.name))", level: 15)
 
         getStartingPosition()
+//        cellConnector?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "no fucking way"
         registerBirth()
 
         guard let w2 = wiLaunch2 else { fatalError() }
@@ -109,11 +110,15 @@ extension Larva {
 extension Larva {
     private func getStartingPosition() {
         guard let parent = self.parent else {
+            Log.L.write("Reset cellConnector #2", level: 41)
             self.cellConnector = GridCell.lockRandomEmptyCell()
+//            self.cellConnector?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "hella what"
             return
         }
 
+        Log.L.write("Reset cellConnector #3", level: 41)
         self.cellConnector = GridCell.lockBirthPosition(parent: parent)
+        self.cellConnector?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "hecka what"
     }
 
     private func registerBirth() {
@@ -185,6 +190,7 @@ extension Larva {
 
         guard let sprite = self.sprite else { fatalError() }
         guard let nose = self.nose else { fatalError() }
+        Log.L.write("Reset cellConnector #4", level: 41)
         guard let cellConnector = self.cellConnector else { fatalError() }
 
         nose.alpha = 1
@@ -219,6 +225,7 @@ extension Larva {
         let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
         sprite.run(rotate)
 
+        Log.L.write("Reset cellConnector #5", level: 41)
         ndp.scratch.cellConnector = self.cellConnector
         ndp.disengage()
     }

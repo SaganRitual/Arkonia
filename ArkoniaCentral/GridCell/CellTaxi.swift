@@ -2,13 +2,17 @@ import SpriteKit
 
 class CellTaxi {
     var consumedContents = GridCell.Contents.nothing
-    var consumedSprite: SKSpriteNode?
+    weak var consumedSprite: SKSpriteNode?
     var didMove = false
     var fromCell: HotKey?
     var toCell: HotKey?
 
     init(_ fromCell: HotKey?, _ toCell: HotKey) {
         self.fromCell = fromCell; self.toCell = toCell
+    }
+
+    deinit {
+        Log.L.write("~CellTaxi from  \(six(toCell?.cell.ownerName)) to \(six(toCell?.cell.ownerName))", level: 40)
     }
 
     func move() {

@@ -35,6 +35,7 @@
 		D464BA5822C737260069623C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D464BA5A22C737260069623C /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
+		D47625B7239EF38B00BDCB81 /* Indexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47625B6239EF38B00BDCB81 /* Indexer.swift */; };
 		D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
 		D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BE922EA58E900C15F59 /* Stepper.swift */; };
@@ -151,6 +152,7 @@
 		D46B1D8622816F58003D711C /* NetGraphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetGraphics.swift; sourceTree = "<group>"; };
 		D46B1D88228173BE003D711C /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		D46B1D9F22826994003D711C /* Overload2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overload2D.swift; sourceTree = "<group>"; };
+		D47625B6239EF38B00BDCB81 /* Indexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Indexer.swift; sourceTree = "<group>"; };
 		D49042C422AE2B2500E7369B /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D495F0CE233FAB01007D6E86 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				D4E3025923977242009384F0 /* CellSenseGrid.swift */,
 				D422FE6C238E248C007F0B7B /* CellTaxi.swift */,
 				D4174DCD237BC31C00F01F28 /* GridCell.swift */,
+				D47625B6239EF38B00BDCB81 /* Indexer.swift */,
 				D4174DCF237BC4CA00F01F28 /* Positions.swift */,
 				D4174DD3237BD12B00F01F28 /* Protocol.swift */,
 				D4A59D342388F48500517F60 /* Random.swift */,
@@ -553,6 +556,7 @@
 				D464BA5222C737260069623C /* Manna.swift in Sources */,
 				D4BB6E77234EDCA500529819 /* Apoptosize.swift in Sources */,
 				D4E3025C23984E69009384F0 /* CellKeys.swift in Sources */,
+				D47625B7239EF38B00BDCB81 /* Indexer.swift in Sources */,
 				D464BA5522C737260069623C /* Extensions.swift in Sources */,
 				D4BB6E7B234EF62800529819 /* Metabolize.swift in Sources */,
 			);

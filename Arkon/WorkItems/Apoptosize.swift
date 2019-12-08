@@ -9,9 +9,8 @@ extension Apoptosize {
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
         guard let sp = st.sprite else { fatalError() }
         guard let no = st.nose else { fatalError() }
-        no.color = .white
 
-        if ch.isApoptosizing { return }
+        precondition(ch.isApoptosizing == false)
 
         let action = SKAction.run {
             assert(Display.displayCycle == .actions)

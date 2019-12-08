@@ -5,6 +5,7 @@ final class Disengage: Dispatchable {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         Log.L.write("disengage \(six(st.name))", level: 31)
 
+        Log.L.write("Reset cellConnector #0", level: 41)
         ch.cellConnector = nil
         ch.cellTaxi = nil
 
