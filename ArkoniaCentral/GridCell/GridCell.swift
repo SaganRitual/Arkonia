@@ -17,7 +17,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
     let gridPosition: AKPoint
     var isLocked = false
-    var ownerName = "Kozmo"
+    var ownerName = "never owned"
     var randomScenePosition: CGPoint?
     let scenePosition: CGPoint
 
@@ -32,8 +32,6 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
 extension GridCell {
     func lock(require: Bool = true) -> GridCellKey {
-        defer { isLocked = true }
-
         if isLocked {
             Log.L.write("GridCell \(self): not locked; return nil", level: 37)
             precondition(require == false)
@@ -41,6 +39,7 @@ extension GridCell {
         }
 
         Log.L.write("GridCell \(self): locked; return self", level: 37)
+        defer { isLocked = true }
         return HotKey(for: self)
     }
 

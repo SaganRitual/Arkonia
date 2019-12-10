@@ -47,6 +47,7 @@ extension GridCell {
 
             let p = parent.gridCell.getGridPointByIndex(gridPointIndex)
             guard let c = GridCell.atIf(p)?.lock(require: false) as? HotKey else { continue }
+            c.ownerName = "child of \(six(parent.name))"
             randomGridCell = c
         } while (randomGridCell?.contents ?? .invalid) != .nothing
 

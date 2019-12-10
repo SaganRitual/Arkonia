@@ -16,7 +16,7 @@ func getDocumentsDirectory() -> URL {
 class Log {//}: TextOutputStream {
     static var L = Log()
 
-    static let minimumLevel = 42
+    static let minimumLevel = 45
     static let useFile = false
 
     var io: DispatchIO?

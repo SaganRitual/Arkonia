@@ -1,42 +1,41 @@
 import Dispatch
 
 final class Plot: Dispatchable {
+    var senseData: [Double]?
+    var senseGrid: CellSenseGrid?
+    var wiLaunch2: DispatchWorkItem?
+    var wiLaunch3: DispatchWorkItem?
+
     internal override func launch_() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { preconditionFailure() }
+        guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
         guard let cc = ch.cellConnector else { preconditionFailure() }
 
-        var senseGrid: CellSenseGrid! = makeSenseGrid(from: cc, block: st.previousShiftOffset)
-        let gridInputs = loadGridInputs(from: senseGrid)
-        let nonSpatial = getNonSpatialSenseData()
-        let senseData = gridInputs + nonSpatial
+        senseGrid = makeSenseGrid(from: cc, block: st.previousShiftOffset)
 
-        let hotCells: [AKPoint] = senseGrid.cells.compactMap { return ($0 as? HotKey)?.cell.gridPosition }
-
-//        for h in hotCells {
-//            let realCell = GridCell.at(h)
-//            Log.L.write("holding \(realCell.isLocked ? "" : "un")locked cell at \(h) for \(st.name)", level: 43)
-//        }
-
-        ch.cellTaxi = makeCellTaxi(senseData, senseGrid)
-        senseGrid = nil
-        ch.cellConnector = nil
-
-        var lockedCount = 0
-        for h in hotCells {
-            let realCell = GridCell.at(h)
-            if realCell.isLocked == false { continue }
-            lockedCount += 1
-            Log.L.write("grubbing locked cell at \(h) for \(st.name)", level: 43)
-        }
-
-        precondition(lockedCount <= 2)
-
-        dp.moveSprite()
+        self.wiLaunch2 = DispatchWorkItem { [weak self] in self?.launch2_() }
+        World.shared.concurrentQueue.async(execute: self.wiLaunch2!)
     }
 
-    override func launch() {
-        guard let w = wiLaunch else { fatalError() }
-        World.shared.concurrentQueue.async(execute: w)
+    func launch2_() {
+        guard let sg = senseGrid else { preconditionFailure() }
+
+        let gridInputs = loadGridInputs(from: sg)
+        let nonSpatial = getNonSpatialSenseData()
+        senseData = gridInputs + nonSpatial
+
+        self.wiLaunch3 = DispatchWorkItem { [weak self] in self?.launch3_() }
+        Grid.shared.serialQueue.async(execute: self.wiLaunch3!)
+    }
+
+    func launch3_() {
+        guard let (ch, dp, _) = scratch?.getKeypoints() else { preconditionFailure() }
+        guard let sg = senseGrid else { preconditionFailure() }
+        guard let sd = senseData else { preconditionFailure() }
+
+        ch.cellTaxi = makeCellTaxi(sd, sg)
+        ch.cellConnector = nil
+        self.senseGrid = nil
+        dp.moveSprite()
     }
 
     deinit {

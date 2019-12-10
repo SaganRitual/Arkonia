@@ -195,7 +195,7 @@ extension Larva {
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
-        nose.color = parent == nil ? .magenta : .yellow
+        nose.color = parent == nil ? .magenta : .brown
 
         sprite.setScale(ArkoniaCentral.masterScale / 8)
         Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 37)

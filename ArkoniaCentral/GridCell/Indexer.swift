@@ -1,4 +1,4 @@
-extension Grid {
+extension GridCell {
     func _2xMinusOneSquared(_ x: Int) -> Int { ((2 * x) - 1) * ((2 * x) - 1) }
 
     func getBaseX(_ index: Int) -> Int {
@@ -15,6 +15,7 @@ extension Grid {
     func getExtent(_ x: Int) -> Int { x }
     func getSide(_ x: Int) -> Int { 2 * x + 1 }
 
+    //swiftlint:disable large_tuple
     func stepDown(_ x: Int, _ y : Int, _ sideExtent: Int, _ whichSide_: LikeCSS) -> (Int, Int, LikeCSS) {
         var whichSide = whichSide_
 
@@ -58,9 +59,10 @@ extension Grid {
 
         return (x + 1, y + 0, whichSide)
     }
+    //swiftlint:enable large_tuple
 
     func getGridPointByIndex(_ targetIndex: Int) -> AKPoint {
-        if targetIndex == 0 { return AKPoint.zero }
+        if targetIndex == 0 { return self.gridPosition }
 
         let baseX = getBaseX(targetIndex)
         var partialIndex = _2xMinusOneSquared(baseX)
@@ -82,6 +84,6 @@ extension Grid {
             partialIndex += 1
         }
 
-        return AKPoint(x: x, y: y)
+        return self.gridPosition + AKPoint(x: x, y: y)
     }
 }
