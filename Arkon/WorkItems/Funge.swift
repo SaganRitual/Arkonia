@@ -35,7 +35,7 @@ extension Funge {
 
 extension Metabolism {
     func fungeProper(age: Int) -> Bool {
-        let fudgeMassFactor: CGFloat = 1
+        let fudgeMassFactor: CGFloat = 10
         let joulesNeeded = fudgeMassFactor * mass
 
         withdrawFromReady(joulesNeeded)
@@ -45,13 +45,13 @@ extension Metabolism {
         oxygenLevel -= (CGFloat(oxygenCost) / fudgeOxygenFactor)
 
         Log.L.write(
-            "fungeProper:" +
+            "\nfungeProper:" +
             " mass = \(String(format: "%-2.6f", mass)), withdraw \(String(format: "%-2.6f", joulesNeeded))" +
-//            " fungibleEnergyCapacity =  \(String(format: "%-2.6f", fungibleEnergyCapacity))" +
-//            " fungibleEnergyContent =  \(String(format: "%-2.6f", fungibleEnergyContent))" +
             " fungibleEnergyFullness = \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
-            " oxygenLevel = \(String(format: "%-3.2f%%", oxygenLevel * 100))"
-            , level: 35
+            " oxygenLevel = \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
+            " fungibleEnergyCapacity =  \(String(format: "%-2.6f", fungibleEnergyCapacity))" +
+            " fungibleEnergyContent =  \(String(format: "%-2.6f", fungibleEnergyContent))"
+            , level: 45
         )
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0

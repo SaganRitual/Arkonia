@@ -74,6 +74,10 @@ class EnergyReserve {
     func deposit(_ cJoules: CGFloat) {
         if cJoules <= 0 { return }  // Energy level can go slightly neg, rounding?
 
+        let js = String(format: "%3.3f", cJoules)
+        let Ls = String(format: "%3.3f", level)
+        let fs = String(format: "%3.3f", level / capacity)
+        Log.L.write("deposit \(js) to \(name), level = \(Ls), fullness = \(fs)", level: 45)
         level = min(level + cJoules, capacity)
     }
 
@@ -87,7 +91,12 @@ class EnergyReserve {
         let net = min(level, cJoules)
 //        let bevel = level
         level -= net
-//        Log.L.write("wd \(cJoules) -> \(net), from \(bevel) to \(level)")
+
+        let js = String(format: "%3.3f", cJoules)
+        let Ls = String(format: "%3.3f", level)
+        let fs = String(format: "%3.3f", level / capacity)
+        let ns = String(format: "%3.3f", net)
+        Log.L.write("withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)", level: 45)
         return net
     }
 }
@@ -180,7 +189,7 @@ class Metabolism {
 //        )
 
         stomach.deposit(cJoules)
-        Log.L.write("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 30)
+        Log.L.write("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 44)
 
         Log.L.write(
             " Deposit " +
@@ -196,10 +205,8 @@ class Metabolism {
     }
 
     func inhale(_ howMuch: CGFloat = 1.0) {
-        let fudgeFactor: CGFloat = 2
-        oxygenLevel = constrain(howMuch * fudgeFactor + oxygenLevel, lo: 0.0, hi: 1.0)
-
-//        Log.L.write("d", arkon.arkon.selectoid.fishNumber, arkon.arkon.metabolism.oxygenLevel)
+        let fudgeFactor: CGFloat = 5
+        oxygenLevel = constrain(howMuch * fudgeFactor + oxygenLevel, lo: 0.0, hi: fudgeFactor * mass)
     }
 
     @discardableResult

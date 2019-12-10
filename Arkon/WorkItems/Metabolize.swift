@@ -14,12 +14,13 @@ extension Metabolize {
 
 extension Metabolism {
     fileprivate func metabolizeProper() {
-        let internalTransferRate = CGFloat(2000)
+        let internalTransferRate = CGFloat(1)
+        Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 45)
 
         var export = !stomach.isEmpty && !readyEnergyReserves.isFull
 
         if export {
-            let transfer = stomach.withdraw(25 * readyEnergyReserves.energyDensity)
+            let transfer = stomach.withdraw(internalTransferRate * readyEnergyReserves.energyDensity)
             readyEnergyReserves.deposit(transfer)
         }
 

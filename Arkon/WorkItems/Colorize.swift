@@ -22,7 +22,7 @@ extension Colorize {
 extension Stepper {
 
     func colorizeProper(_ myAge: Int) {
-        nose.alpha = CGFloat(1 - (metabolism.oxygenLevel / 1))
+        nose.colorBlendFactor = CGFloat(1 - (metabolism.oxygenLevel / 1))
 //
 //        nose.color = (debugFlasher == true) ? .gray : .yellow
 //        debugFlasher = (debugFlasher == true) ? false : true

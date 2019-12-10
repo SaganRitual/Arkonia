@@ -195,11 +195,11 @@ extension Larva {
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
-        nose.color = parent == nil ? .magenta : .brown
+        nose.color = parent == nil ? .magenta : .yellow
 
         sprite.setScale(ArkoniaCentral.masterScale / 8)
         Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 37)
-        sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
+        sprite.color = .red //ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
         sprite.position = cellConnector.cell.scenePosition
         sprite.alpha = 1
