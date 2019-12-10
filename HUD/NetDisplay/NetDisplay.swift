@@ -55,20 +55,7 @@ class NetDisplay {
             }()
 
             netDisplayGrid.layerRole = layerRole
-            /*
-            if !positionsForUpperLayer.isEmpty {
-                let lowerCNeurons = layers[layerSS + 1]
 
-                positionsForUpperLayer.forEach { upperPosition in
-                    (0..<lowerCNeurons).forEach { lowerNeuronSS in
-                        let lowerGridPoint = GridPoint(x: lowerNeuronSS, y: layerSS)
-                        let lowerPosition = netDisplayGrid.getPosition(lowerGridPoint)
-
-                        netGraphics.drawConnection(from: upperPosition, to: lowerPosition)
-                    }
-                }
-            }
-            */
             positionsForUpperLayer.removeAll(keepingCapacity: true)
 
             (0..<cNeurons).forEach { neuronSS in

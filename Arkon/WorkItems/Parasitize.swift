@@ -6,7 +6,7 @@ final class Parasitize: Dispatchable {
 
     init(_ scratch: Scratchpad) {
         Log.L.write("Parasitize()", level: 22)
-        if !scratch.isApoptosizing { self.scratch = scratch }
+        self.scratch = scratch
         self.wiLaunch = DispatchWorkItem(block: launch_)
     }
 
@@ -21,7 +21,7 @@ extension Parasitize {
     func attack() -> (Stepper, Stepper) {
         guard let (myScratch, _, myStepper) = scratch?.getKeypoints() else { fatalError() }
 
-        guard let hisSprite = myScratch.getStageConnector(require: true)?.consumedSprite else { fatalError() }
+        guard let hisSprite = myScratch.cellTaxi?.consumedSprite else { fatalError() }
         guard let hisStepper = hisSprite.getStepper() else { fatalError() }
 
         let myMass = myStepper.metabolism.mass
@@ -31,21 +31,22 @@ extension Parasitize {
 
         if myMass > (hisMass * 1.25) {
             Log.L.write("Parasitize2: \(six(myStepper.name)) eats \(six(hisStepper.name))", level: 28)
+            myStepper.isTurnabouted = false
+            hisStepper.isTurnabouted = false
             return (myStepper, hisStepper)
         } else {
+            myStepper.isTurnabouted = true
+            hisStepper.isTurnabouted = true
             Log.L.write("Parasitize3: \(six(myStepper.name)) eats \(six(hisStepper.name))", level: 28)
 
             let hisScratch = hisStepper.dispatch.scratch
-            let myStageConnector = myScratch.getStageConnector()
+            let myTaxi = myScratch.cellTaxi
 
             precondition(hisScratch.isEngaged == false)
-            precondition(myStageConnector != nil)
+            precondition(myTaxi != nil)
 
-            hisScratch.setGridConnector(myStageConnector)
-            myScratch.resetGridConnector()
-
-            precondition(hisScratch.getStageConnector() != nil)
-            precondition(myScratch.isEngaged == false)
+            hisScratch.cellTaxi = myTaxi
+            myScratch.cellTaxi = nil
 
             return (hisStepper, myStepper)
         }
@@ -54,6 +55,11 @@ extension Parasitize {
     func parasitize(_ victor: Stepper, _ victim: Stepper) {
         victor.metabolism.parasitizeProper(victim)
         victor.dispatch.releaseStage()
+
+        if victor.isTurnabouted {
+            victim.nose.color = .yellow
+            victim.dispatch.apoptosize()
+        }
     }
 }
 

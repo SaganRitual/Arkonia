@@ -9,13 +9,11 @@
 /* Begin PBXBuildFile section */
 		D4174DCE237BC31C00F01F28 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DCD237BC31C00F01F28 /* GridCell.swift */; };
 		D4174DD0237BC4CA00F01F28 /* Positions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DCF237BC4CA00F01F28 /* Positions.swift */; };
-		D4174DD2237BC6CD00F01F28 /* SafeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DD1237BC6CD00F01F28 /* SafeCell.swift */; };
 		D4174DD4237BD12B00F01F28 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DD3237BD12B00F01F28 /* Protocol.swift */; };
 		D422DE0223578CFD003734B8 /* MannaCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* MannaCoordinator.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
-		D422FE64238E2435007F0B7B /* SafeSenseGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE63238E2435007F0B7B /* SafeSenseGrid.swift */; };
-		D422FE6D238E248C007F0B7B /* SafeStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6C238E248C007F0B7B /* SafeStage.swift */; };
+		D422FE6D238E248C007F0B7B /* CellTaxi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6C238E248C007F0B7B /* CellTaxi.swift */; };
 		D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6E238E56C7007F0B7B /* Scratchpad.swift */; };
 		D45A9362237CEE5F00FC039E /* Grid.Setup.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45A9360237CEE5F00FC039E /* Grid.Setup.swift */; };
 		D45A9363237CEE5F00FC039E /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45A9361237CEE5F00FC039E /* Grid.swift */; };
@@ -63,6 +61,8 @@
 		D4C336D02383FDEA00E50A50 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C336CF2383FDEA00E50A50 /* Log.swift */; };
 		D4D5EABB2368B05200E95AA5 /* Wangkhi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D5EABA2368B05200E95AA5 /* Wangkhi.swift */; };
 		D4D86F502363211A0082C31A /* World.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D86F4F2363211A0082C31A /* World.Stats.swift */; };
+		D4E3025A23977242009384F0 /* CellSenseGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E3025923977242009384F0 /* CellSenseGrid.swift */; };
+		D4E3025C23984E69009384F0 /* CellKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E3025B23984E69009384F0 /* CellKeys.swift */; };
 		D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE9612365814F00F5DDFB /* Dispatch.swift */; };
 /* End PBXBuildFile section */
 
@@ -128,7 +128,6 @@
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D4174DCD237BC31C00F01F28 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		D4174DCF237BC4CA00F01F28 /* Positions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Positions.swift; sourceTree = "<group>"; };
-		D4174DD1237BC6CD00F01F28 /* SafeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeCell.swift; sourceTree = "<group>"; };
 		D4174DD3237BD12B00F01F28 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		D42172E9233EE46000A56594 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
@@ -137,8 +136,7 @@
 		D422DE0123578CFD003734B8 /* MannaCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MannaCoordinator.swift; sourceTree = "<group>"; };
 		D422DE0A23598B52003734B8 /* Census.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D422DE0C23598BEC003734B8 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
-		D422FE63238E2435007F0B7B /* SafeSenseGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeSenseGrid.swift; sourceTree = "<group>"; };
-		D422FE6C238E248C007F0B7B /* SafeStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeStage.swift; sourceTree = "<group>"; };
+		D422FE6C238E248C007F0B7B /* CellTaxi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellTaxi.swift; sourceTree = "<group>"; };
 		D422FE6E238E56C7007F0B7B /* Scratchpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -179,6 +177,8 @@
 		D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaCentral.swift; sourceTree = "<group>"; };
 		D4D5EABA2368B05200E95AA5 /* Wangkhi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wangkhi.swift; sourceTree = "<group>"; };
 		D4D86F4F2363211A0082C31A /* World.Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.Stats.swift; sourceTree = "<group>"; };
+		D4E3025923977242009384F0 /* CellSenseGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSenseGrid.swift; sourceTree = "<group>"; };
+		D4E3025B23984E69009384F0 /* CellKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellKeys.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
 		D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GriddleScene.swift; sourceTree = "<group>"; };
 		D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Surge.xcodeproj; path = Surge/Surge.xcodeproj; sourceTree = "<group>"; };
@@ -242,13 +242,13 @@
 		D4174DC5237BC2CE00F01F28 /* GridCell */ = {
 			isa = PBXGroup;
 			children = (
+				D4E3025B23984E69009384F0 /* CellKeys.swift */,
+				D4E3025923977242009384F0 /* CellSenseGrid.swift */,
+				D422FE6C238E248C007F0B7B /* CellTaxi.swift */,
 				D4174DCD237BC31C00F01F28 /* GridCell.swift */,
 				D4174DCF237BC4CA00F01F28 /* Positions.swift */,
 				D4174DD3237BD12B00F01F28 /* Protocol.swift */,
 				D4A59D342388F48500517F60 /* Random.swift */,
-				D4174DD1237BC6CD00F01F28 /* SafeCell.swift */,
-				D422FE63238E2435007F0B7B /* SafeSenseGrid.swift */,
-				D422FE6C238E248C007F0B7B /* SafeStage.swift */,
 			);
 			path = GridCell;
 			sourceTree = "<group>";
@@ -503,7 +503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4C336D02383FDEA00E50A50 /* Log.swift in Sources */,
-				D422FE6D238E248C007F0B7B /* SafeStage.swift in Sources */,
+				D422FE6D238E248C007F0B7B /* CellTaxi.swift in Sources */,
 				D422DE0223578CFD003734B8 /* MannaCoordinator.swift in Sources */,
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
@@ -521,7 +521,6 @@
 				D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */,
-				D422FE64238E2435007F0B7B /* SafeSenseGrid.swift in Sources */,
 				D45A9363237CEE5F00FC039E /* Grid.swift in Sources */,
 				D45A9362237CEE5F00FC039E /* Grid.Setup.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
@@ -532,12 +531,12 @@
 				D464BA4422C737260069623C /* NetDisplay.swift in Sources */,
 				D4A59D2623882C5D00517F60 /* MoveSprite.swift in Sources */,
 				D464BA4622C737260069623C /* Overload2D.swift in Sources */,
-				D4174DD2237BC6CD00F01F28 /* SafeCell.swift in Sources */,
 				D4A59D332388BBD700517F60 /* Disengage.swift in Sources */,
 				D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */,
 				D4A59D372389901500517F60 /* ReleaseStage.swift in Sources */,
 				D4174DCE237BC31C00F01F28 /* GridCell.swift in Sources */,
 				D495F0CC233FA969007D6E86 /* World.swift in Sources */,
+				D4E3025A23977242009384F0 /* CellSenseGrid.swift in Sources */,
 				D4A59D232387F64500517F60 /* Plot.swift in Sources */,
 				D4D86F502363211A0082C31A /* World.Stats.swift in Sources */,
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
@@ -553,6 +552,7 @@
 				D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */,
 				D464BA5222C737260069623C /* Manna.swift in Sources */,
 				D4BB6E77234EDCA500529819 /* Apoptosize.swift in Sources */,
+				D4E3025C23984E69009384F0 /* CellKeys.swift in Sources */,
 				D464BA5522C737260069623C /* Extensions.swift in Sources */,
 				D4BB6E7B234EF62800529819 /* Metabolize.swift in Sources */,
 			);

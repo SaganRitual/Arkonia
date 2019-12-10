@@ -17,29 +17,25 @@ final class MoveStepper: Dispatchable {
     private func launch_() { moveStepper() }
 
     func moveStepper() {
-        Log.L.write("MoveStepper.launch1_ \(six(scratch?.stepper?.name))", level : 21)
         guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }
+        guard let taxi = ch.cellTaxi else { preconditionFailure() }
 
-        defer { postMove() }
+        taxi.move()
 
-        guard let stage = ch.getStageConnector() else { preconditionFailure() }
+        stepper.gridCell = taxi.toCell?.cell
+        precondition(stepper.gridCell != nil)
 
-        stage.move()
-
-        stepper.gridCell = GridCell.at(stage.toCell)
-        Log.L.write("MoveStepper for \(six(scratch?.stepper?.name)) from \(stage.fromCell?.gridPosition ?? AKPoint.zero) to \(stage.toCell.gridPosition)", level : 21)
+        postMove(taxi)
     }
 }
 
 extension MoveStepper {
-    func postMove() {
-        guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
+    func postMove(_ taxi: CellTaxi) {
+        guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
-        let stage = ch.getStageConnector()
+        precondition(taxi.fromCell?.cell.gridPosition != taxi.toCell?.cell.gridPosition)
 
-        precondition(stage?.fromCell?.gridPosition != stage?.toCell.gridPosition)
-
-        if (stage?.didMove ?? false) && (stage?.consumedContents.isEdible() ?? false) {
+        if taxi.didMove && taxi.consumedContents.isEdible() {
             dp.arrive()
             return
         }

@@ -10,16 +10,10 @@ final class ReleaseStage: Dispatchable {
     }
 
     func launch_() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        Log.L.write("ReleaseStage.launch_ \(six(st.name))", level: 15)
+        guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
+        guard let taxi = ch.cellTaxi else { preconditionFailure() }
 
-        guard let stage = ch.getStageConnector() else { preconditionFailure() }
-
-        let myLandingCell = stage.toCell
-        ch.setGridConnector(myLandingCell)
-
-        precondition(ch.getStageConnector() == nil)
-
+        ch.cellConnector = taxi.toCell
         dp.metabolize()
     }
 }

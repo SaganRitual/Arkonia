@@ -15,11 +15,7 @@ final class Metabolize: Dispatchable {
 
 extension Metabolize {
     func aMetabolize() {
-        Log.L.write("Metabolize.launch_ \(six(scratch?.stepper?.name))", level: 15)
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-
-        precondition(ch.getCellConnector() != nil)
-
+        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
         st.metabolism.metabolizeProper()
         dp.colorize()
     }

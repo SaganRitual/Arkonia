@@ -195,8 +195,8 @@ class Metabolism {
 //        )
     }
 
-    func inhale() {
-        oxygenLevel = constrain(1.0, lo: 0.0, hi: 1.0)
+    func inhale(_ howMuch: CGFloat = 1.0) {
+        oxygenLevel = constrain(howMuch + oxygenLevel, lo: 0.0, hi: 1.0)
 
 //        Log.L.write("d", arkon.arkon.selectoid.fishNumber, arkon.arkon.metabolism.oxygenLevel)
     }

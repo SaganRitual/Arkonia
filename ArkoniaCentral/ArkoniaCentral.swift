@@ -57,7 +57,7 @@ struct Dimensions {
 
     static func setDimensions(_ portal: SKSpriteNode) -> Dimensions {
         let tAtlas = SKTextureAtlas(named: "Arkons")
-        let tTexture = tAtlas.textureNamed("spark-thorax-large")
+        let tTexture = tAtlas.textureNamed("neuron-plain")
 
         let hSprite = Int(tTexture.size().height / Dimensions.fudgFactor)
         let wSprite = Int(tTexture.size().width / Dimensions.fudgFactor)

@@ -43,13 +43,14 @@ extension Funge {
 
 extension Metabolism {
     func fungeProper(age: Int) -> Bool {
-        let fudgeFactor: CGFloat = 1
-        let joulesNeeded = fudgeFactor * mass
+        let fudgeMassFactor: CGFloat = 1
+        let joulesNeeded = fudgeMassFactor * mass
 
         withdrawFromReady(joulesNeeded)
 
+        let fudgeOxygenFactor: CGFloat = 15
         let oxygenCost: Int = age < 5 ? 0 : 1
-        oxygenLevel -= (CGFloat(oxygenCost) / 60.0)
+        oxygenLevel -= (CGFloat(oxygenCost) / fudgeOxygenFactor)
 
         Log.L.write(
             "fungeProper:" +

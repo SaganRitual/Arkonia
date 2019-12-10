@@ -94,23 +94,27 @@ extension World.Stats {
 
     func registerBirth(myParent: Stepper?, meOffspring: WangkhiProtocol) {
         Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
-            self.currentPopulation += 1
-
-            myParent?.cOffspring += 1
-
-            meOffspring.fishNumber = self.TheFishNumber
-            self.TheFishNumber += 1
-
-            meOffspring.birthday = self.currentTime
-
-            self.maxCOffspringForLiving = max(
-                (myParent?.cOffspring ?? 0), self.maxCOffspringForLiving
-            )
-
-            self.highWaterCOffspring = max(
-                self.maxCOffspringForLiving, self.highWaterCOffspring
-            )
+            self.registerBirth_(myParent, meOffspring)
         }
+    }
+
+    func registerBirth_(_ myParent: Stepper?, _ meOffspring: WangkhiProtocol) {
+        self.currentPopulation += 1
+
+        myParent?.cOffspring += 1
+
+        meOffspring.fishNumber = self.TheFishNumber
+        self.TheFishNumber += 1
+
+        meOffspring.birthday = self.currentTime
+
+        self.maxCOffspringForLiving = max(
+            (myParent?.cOffspring ?? 0), self.maxCOffspringForLiving
+        )
+
+        self.highWaterCOffspring = max(
+            self.maxCOffspringForLiving, self.highWaterCOffspring
+        )
     }
 
     private func updateWorldClock() {

@@ -20,7 +20,7 @@ class Mutator {
         var outDoubles = [Double]()
 
         while cMutate > 0 {
-            let wherefore = Int.random(in: 0..<outputGenome.count)
+            let wherefore = Int.random(in: 1..<outputGenome.count)
             outDoubles.insert(mutate(from: inDoubles[wherefore]), at: wherefore)
             cMutate -= 1
         }

@@ -52,13 +52,8 @@ class MannaCoordinator {
 
 extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
-        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
-            let gridCell = GridCell.getRandomEmptyCell()
-            gridCell.contents = .manna
-            gridCell.sprite = sprite
-
+        Grid.shared.serialQueue.async { [unowned self] in
             guard let manna = sprite.getManna() else { fatalError() }
-            manna.sprite.alpha = 0
             self.plant(manna)
         }
     }
@@ -72,11 +67,8 @@ extension MannaCoordinator {
         gridCell.sprite = manna.sprite
         guard manna.sprite.userData?[SpriteUserDataKey.manna] is Manna else { fatalError() }
 
-        if let sp = gridCell.randomScenePosition {
-            manna.sprite.position = sp
-        } else {
-            manna.sprite.position = gridCell.scenePosition
-        }
+        manna.sprite.position =
+            gridCell.randomScenePosition ?? gridCell.scenePosition
 
         manna.sprite.alpha = 0
         manna.sprite.setScale(0.14)
@@ -86,6 +78,6 @@ extension MannaCoordinator {
     }
 
     func plant(_ manna: Manna) {
-        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in self.plant_(manna) }
+        Grid.shared.serialQueue.async { [unowned self] in self.plant_(manna) }
     }
 }

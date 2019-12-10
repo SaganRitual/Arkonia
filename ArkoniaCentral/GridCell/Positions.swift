@@ -18,20 +18,12 @@ extension GridCell {
         return g
     }
 
-    static func at(_ safeCell: SafeCell) -> GridCell {
-        return GridCell.at(safeCell.gridPosition)
-    }
-
     static func atIf(_ position: AKPoint) -> GridCell? {
         return GridCell.atIf(position.x, position.y)
     }
 
     static func at(_ position: AKPoint) -> GridCell {
         return GridCell.at(position.x, position.y)
-    }
-
-    static func atIf(_ copy: SafeCell) -> GridCell? {
-        return atIf(copy.gridPosition)
     }
 
     static func constrainToGrid(_ x: Int, _ y: Int) -> (Int, Int) {
@@ -69,19 +61,4 @@ extension GridCell {
         return lhs === rhs
     }
 
-    static func === (_ lhs: GridCell, _ rhs: SafeCell) -> Bool {
-        guard let r = GridCell.atIf(rhs) else { fatalError() }
-        return lhs === r
-    }
-
-}
-
-extension SafeCell {
-    static func == (_ lhs: SafeCell, _ rhs: SafeCell) -> Bool {
-        return lhs.gridPosition == rhs.gridPosition
-    }
-
-    static func != (_ lhs: SafeCell, _ rhs: SafeCell) -> Bool {
-        return !(lhs == rhs)
-    }
 }

@@ -15,14 +15,13 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
     var debugDescription: String { return "GridCell.at(\(gridPosition.x), \(gridPosition.y))" }
 
-    weak var cellConnector: SafeCell?
     let gridPosition: AKPoint
     var isLocked = false
     var randomScenePosition: CGPoint?
+    var requesters = [Dispatch]()
     let scenePosition: CGPoint
 
-    var contents = Contents.nothing { didSet { previousContents = oldValue } }
-    private(set) var previousContents = Contents.nothing
+    var contents = Contents.nothing
     weak var sprite: SKSpriteNode?
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
@@ -32,39 +31,18 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 }
 
 extension GridCell {
-    private func commit(_ cellConnector: SafeCell) {
-        contents = cellConnector.contents
-        sprite = cellConnector.sprite
-    }
-
-    @discardableResult
-    func lock(require: Bool = true) -> GridCell? {
+    func lock(require: Bool = true) -> GridCellKey {
         defer { isLocked = true }
 
         if isLocked {
-            Log.L.write("GridCell: not locked; return nil", level: 27)
+            Log.L.write("GridCell \(self): not locked; return nil", level: 32)
             precondition(require == false)
-            return nil
+            return ColdKey(for: self)
         }
 
-        Log.L.write("GridCell: locked; return self", level: 27)
-        return self
+        Log.L.write("GridCell \(self): locked; return self", level: 32)
+        return HotKey(for: self)
     }
 
-    func releaseLock(_ cellConnector: SafeCell) {
-        Log.L.write("releaseLock", level: 27)
-
-        defer { isLocked = false }
-        commit(cellConnector)
-
-        guard let st = cellConnector.sprite?.getStepper(require: false) else { return }
-        guard let dp = st.dispatch else { return }
-        let ch = dp.scratch
-        if ch.isAwaitingWakeup == true {
-            precondition(ch.isEngaged == false)
-
-            ch.isAwaitingWakeup = false
-            dp.engage()
-        }
-    }
+    func releaseLock() { isLocked = false }
 }
