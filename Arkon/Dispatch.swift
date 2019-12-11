@@ -40,7 +40,7 @@ final class Dispatch {
         case is Parasitize: return "Parasitize"
         case is Plot: return "Plot"
         case is ReleaseStage: return "ReleaseStage"
-        case is Larva: return "Larva"
+        case is Spawn: return "Larva"
         case nil: return "Nothing"
         default: fatalError()
         }
@@ -102,5 +102,5 @@ extension Dispatch {
 
     func releaseStage() { dispatch(ReleaseStage.self) }
 
-    func spawn()        { dispatch(Larva.self) }
+    func spawn()        { dispatch(Spawn.self) }
 }

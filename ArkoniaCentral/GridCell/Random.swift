@@ -46,20 +46,29 @@ extension GridCell {
             gridPointIndex += 1
 
             let p = parent.gridCell.getGridPointByIndex(gridPointIndex)
-            guard let c = GridCell.atIf(p)?.lock(require: false) as? HotKey else { continue }
-            c.ownerName = "child of \(six(parent.name))"
-            randomGridCell = c
+            var ck: GridCellKey?
+            GridCell.atIf(p)?.lock(require: false, ownerName: parent.name) { ck = $0 }
+
+            guard let hk = ck as? HotKey else { continue }
+
+            hk.ownerName = "child of \(six(parent.name))"
+            randomGridCell = hk
         } while (randomGridCell?.contents ?? .invalid) != .nothing
 
         return randomGridCell!
     }
 
-    static func lockRandomEmptyCell() -> HotKey? {
+    static func lockRandomEmptyCell(ownerName: String) -> HotKey? {
         var randomGridCell: HotKey?
 
         repeat {
-            guard let c = GridCell.getRandomEmptyCell().lock(require: false) as? HotKey else { continue }
-            randomGridCell = c
+            let r = GridCell.getRandomEmptyCell()
+            var ck: GridCellKey?
+            r.lock(require: false, ownerName: ownerName) { ck = $0 }
+
+            guard let hk = ck as? HotKey else { continue }
+
+            randomGridCell = hk
         } while randomGridCell == nil
 
         return randomGridCell!

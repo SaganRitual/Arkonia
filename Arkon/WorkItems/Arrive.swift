@@ -4,8 +4,8 @@ import Dispatch
 final class Arrive: Dispatchable {
     override func launch() {
         guard let w = wiLaunch else { fatalError() }
-        Grid.shared.serialQueue.async(execute: w)
-//        World.shared.concurrentQueue.async(execute: w)
+//        Grid.shared.serialQueue.async(execute: w)
+        World.shared.concurrentQueue.async(execute: w)
     }
 
     internal override func launch_() { arrive() }
@@ -13,7 +13,7 @@ final class Arrive: Dispatchable {
     func arrive() {
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
-        guard let taxi = ch.cellTaxi_ else { preconditionFailure() }
+        guard let taxi = ch.cellTaxi else { preconditionFailure() }
 
         // We don't reset this when they begin moving, but rather we wait
         // until here, so they don't live forever while flopping around in
@@ -32,7 +32,7 @@ extension Arrive {
 
     func graze() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let taxi = ch.cellTaxi_ else { preconditionFailure() }
+        guard let taxi = ch.cellTaxi else { preconditionFailure() }
 
         guard let sprite = taxi.consumedSprite else { fatalError() }
         guard let manna = sprite.getManna() else { fatalError() }

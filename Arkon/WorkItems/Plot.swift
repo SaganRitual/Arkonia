@@ -3,38 +3,42 @@ import Dispatch
 final class Plot: Dispatchable {
     var senseData: [Double]?
     var senseGrid: CellSenseGrid?
-    var wiLaunch2: DispatchWorkItem?
-    var wiLaunch3: DispatchWorkItem?
 
     internal override func launch_() {
-        guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
-        guard let cc = ch.cellConnector_ else { preconditionFailure() }
-
-        senseGrid = makeSenseGrid(from: cc, block: st.previousShiftOffset)
-
-        self.wiLaunch2 = DispatchWorkItem { [weak self] in self?.launch2_() }
-        World.shared.concurrentQueue.async(execute: self.wiLaunch2!)
+        makeSenseGrid()
     }
 
-    func launch2_() {
+    func makeSenseGrid() {
+        guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
+        guard let hk = ch.engagerKey as? HotKey else { preconditionFailure() }
+
+        senseGrid = CellSenseGrid(
+            from: hk,
+            by: ArkoniaCentral.cSenseGridlets,
+            block: st.previousShiftOffset
+        )
+
+        World.shared.concurrentQueue.async { [weak self] in self?.getSenseData() }
+    }
+
+    func getSenseData() {
         guard let sg = senseGrid else { preconditionFailure() }
 
         let gridInputs = loadGridInputs(from: sg)
         let nonSpatial = getNonSpatialSenseData()
         senseData = gridInputs + nonSpatial
 
-        self.wiLaunch3 = DispatchWorkItem { [weak self] in self?.launch3_() }
-        Grid.shared.serialQueue.async(execute: self.wiLaunch3!)
+        Grid.shared.serialQueue.async { [weak self] in self?.move() }
     }
 
-    func launch3_() {
+    func move() {
         guard let (ch, dp, _) = scratch?.getKeypoints() else { preconditionFailure() }
         guard let sg = senseGrid else { preconditionFailure() }
         guard let sd = senseData else { preconditionFailure() }
 
-        ch.cellTaxi_ = makecellTaxi_(sd, sg)
-        ch.cellConnector_ = nil
-        self.senseGrid = nil
+        ch.cellTaxi = makecellTaxi_(sd, sg)
+        ch.engagerKey = nil
+
         dp.moveSprite()
     }
 
@@ -93,10 +97,6 @@ extension Plot {
         theData.append(contentsOf: [hunger, asphyxia])
 
         return theData
-    }
-
-    func makeSenseGrid(from gridCenter: HotKey, block: AKPoint) -> CellSenseGrid {
-        return CellSenseGrid(from: gridCenter, by: ArkoniaCentral.cSenseGridlets, block: block)
     }
 
     private func makecellTaxi_(_ senseData: [Double], _ senseGrid: CellSenseGrid) -> cellTaxi_ {

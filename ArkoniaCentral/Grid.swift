@@ -7,9 +7,7 @@ class Grid {
     static var dimensions: Dimensions!
 
     let serialQueue = DispatchQueue(
-        label: "arkonia.grid.serial",
-        attributes: [], //DispatchQueue.Attributes.concurrent,
-        target: DispatchQueue.global(qos: .userInitiated)
+        label: "arkonia.grid.serial", target: DispatchQueue.global(qos: .userInitiated)
     )
 
     init() {

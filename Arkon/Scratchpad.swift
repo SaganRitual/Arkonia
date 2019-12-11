@@ -1,17 +1,21 @@
 class Scratchpad {
     var battle: (Stepper, Stepper)?
     var canSpawn = false
-    var cellConnector_: HotKey?
-    var cellTaxi_: cellTaxi_?
+    var cellTaxi: cellTaxi_?
 
     var debugEngage = DebugEngage.nothing
     var debugEngageCRetry = 0
     weak var dispatch: Dispatch?
+    var engagerKey: GridCellKey?
     var isApoptosizing = false
     weak var parentNet: Net?
     weak var stepper: Stepper?
     var stillCounter = 0
     var worldStats: World.StatsCopy?
+
+    deinit {
+        Log.L.write("~Scratchpad", level: 45)
+    }
 
     //swiftlint:disable large_tuple
     func getKeypoints() -> (Scratchpad, Dispatch, Stepper) {

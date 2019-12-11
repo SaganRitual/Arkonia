@@ -19,6 +19,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     var isLocked = false
     var ownerName = "never owned"
     var randomScenePosition: CGPoint?
+    var toReschedule = [Stepper]()
     let scenePosition: CGPoint
 
     var contents = Contents.nothing
@@ -31,17 +32,27 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 }
 
 extension GridCell {
-    func lock(require: Bool = true) -> GridCellKey {
-        if isLocked {
-            Log.L.write("GridCell \(self): not locked; return nil", level: 37)
-            precondition(require == false)
-            return ColdKey(for: self)
-        }
-
-        Log.L.write("GridCell \(self): locked; return self", level: 37)
-        defer { isLocked = true }
-        return HotKey(for: self)
+    func getRescheduledArkon() -> Stepper? {
+        defer { _ = toReschedule.dropFirst() }
+        return toReschedule.first
     }
 
-    func releaseLock() { isLocked = false; ownerName = "No owner?" }
+    func reschedule(_ stepper: Stepper) {
+        toReschedule.append(stepper)
+    }
+}
+
+extension GridCell {
+    typealias LockComplete = (GridCellKey) -> Void
+
+    func lock(require: Bool = true, ownerName: String, onComplete: @escaping LockComplete) {
+        if isLocked {
+            onComplete(ColdKey(for: self))
+            return
+        }
+
+        onComplete(HotKey(for: self, ownerName: ownerName))
+    }
+
+    func releaseLock() { isLocked = false; ownerName = "No owner" }
 }

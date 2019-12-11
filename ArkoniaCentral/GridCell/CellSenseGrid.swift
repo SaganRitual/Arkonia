@@ -4,26 +4,26 @@ class CellSenseGrid {
 
     init(from center: HotKey, by cGridlets: Int, block: AKPoint) {
 
-        centerName = center.cell.ownerName
+        guard let cc = center.cell else { preconditionFailure() }
+        centerName = cc.ownerName
 
         cells = [center] + (1..<cGridlets).map { index in
-            let position = center.cell.getGridPointByIndex(index)
+            guard let position = center.cell?.getGridPointByIndex(index)
+                else { preconditionFailure() }
 
             if position == block { return NilKey() }
             guard let cell = GridCell.atIf(position) else { return NilKey() }
             if index > ArkoniaCentral.cMotorGridlets { return ColdKey(for: cell) }
 
-            let gotlock = cell.lock(require: false)
-            if let g = gotlock as? HotKey {
-                g.cell.ownerName = center.cell.ownerName
-            }
-            Log.L.write("SenseGrid for \(six(centerName))/\(six((gotlock as? HotKey)?.cell.ownerName)) cell \(position), gotlock = \(gotlock is HotKey), owner = \(six(gotlock.ownerName))", level: 42)
-            return gotlock
-        }
+            var gotlock: GridCellKey?
+            cell.lock(require: false, ownerName: centerName) { gotlock = $0 }
 
-//        for cell in cells {
-//            Log.L.write("cell held by \(six(centerName)) at \((cell as? HotKey)?.cell ?? GridCell.at(0, 0)) is \(cell)", level: 41)
-//        }
+            if let c = gotlock?.cell, let d = center.cell  {
+                c.ownerName = d.ownerName
+            }
+
+            return gotlock!
+        }
     }
 
     deinit {
