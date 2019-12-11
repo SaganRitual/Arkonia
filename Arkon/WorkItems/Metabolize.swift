@@ -39,12 +39,13 @@ extension Metabolism {
             fatReserves.deposit(preventCornerSwarms)
         }
 
-        let tapFatReserves = (readyEnergyReserves.level < reUnderflowThreshold) || isStarving
+        let tapFatReserves = (readyEnergyReserves.level < reUnderflowThreshold)
+        let strainingTheSystem = isStarving || stomach.isEmpty
 
-        if tapFatReserves {
+        if tapFatReserves || strainingTheSystem {
             let refill = fatReserves.withdraw(internalTransferRate * fatReserves.energyDensity)
             let entropyCost: CGFloat = 0.75
-            let preventCornerSwarms = entropyCost * (isStarving ? 3 : 1)
+            let preventCornerSwarms = entropyCost * (strainingTheSystem ? (2 * fatReserves.energyDensity) : 1)
             readyEnergyReserves.deposit(refill * preventCornerSwarms)
         }
 

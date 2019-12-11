@@ -9,6 +9,7 @@ final class Engage: Dispatchable {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
 
+        st.nose.color = .blue
         precondition(ch.cellConnector == nil)
         let cellConnector = gc.lock(require: false)
 
@@ -19,6 +20,7 @@ final class Engage: Dispatchable {
                     dp.disengage()
                 }
             }
+            st.nose.color = .green
             return
         }
 
@@ -26,6 +28,7 @@ final class Engage: Dispatchable {
         ch.cellConnector = cc
         ch.worldStats = World.stats.copy()
         cc.cell.ownerName = st.name
+        st.nose.color = .black
 
         dp.funge()
     }

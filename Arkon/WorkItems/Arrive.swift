@@ -4,7 +4,8 @@ import Dispatch
 final class Arrive: Dispatchable {
     override func launch() {
         guard let w = wiLaunch else { fatalError() }
-        World.shared.concurrentQueue.async(execute: w)
+        Grid.shared.serialQueue.async(execute: w)
+//        World.shared.concurrentQueue.async(execute: w)
     }
 
     internal override func launch_() { arrive() }
