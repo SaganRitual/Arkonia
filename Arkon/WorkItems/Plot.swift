@@ -8,7 +8,7 @@ final class Plot: Dispatchable {
 
     internal override func launch_() {
         guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
-        guard let cc = ch.cellConnector else { preconditionFailure() }
+        guard let cc = ch.cellConnector_ else { preconditionFailure() }
 
         senseGrid = makeSenseGrid(from: cc, block: st.previousShiftOffset)
 
@@ -32,8 +32,8 @@ final class Plot: Dispatchable {
         guard let sg = senseGrid else { preconditionFailure() }
         guard let sd = senseData else { preconditionFailure() }
 
-        ch.cellTaxi = makeCellTaxi(sd, sg)
-        ch.cellConnector = nil
+        ch.cellTaxi_ = makecellTaxi_(sd, sg)
+        ch.cellConnector_ = nil
         self.senseGrid = nil
         dp.moveSprite()
     }
@@ -99,7 +99,7 @@ extension Plot {
         return CellSenseGrid(from: gridCenter, by: ArkoniaCentral.cSenseGridlets, block: block)
     }
 
-    private func makeCellTaxi(_ senseData: [Double], _ senseGrid: CellSenseGrid) -> CellTaxi {
+    private func makecellTaxi_(_ senseData: [Double], _ senseGrid: CellSenseGrid) -> cellTaxi_ {
         guard let ch = scratch else { fatalError() }
         guard let st = ch.stepper else { fatalError() }
         guard let net = st.net else { fatalError() }
@@ -145,6 +145,6 @@ extension Plot {
             Log.L.write("targetOffset: \(targetOffset!.0)", level: 33)
         }
 
-        return CellTaxi(fromCell, toCell)
+        return cellTaxi_(fromCell, toCell)
     }
 }

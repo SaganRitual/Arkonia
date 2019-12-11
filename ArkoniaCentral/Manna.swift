@@ -6,7 +6,7 @@ class Manna {
     static let colorBlendMinimum: CGFloat = 0.25
     static var colorBlendRangeWidth: CGFloat { return colorBlendMaximum - colorBlendMinimum }
     static let fullGrowthDurationSeconds: TimeInterval = 1
-    static var maxEnergyContentInJoules: CGFloat = 500
+    static var maxEnergyContentInJoules: CGFloat = 250
 
     static var growthRateJoulesPerSecond: CGFloat {
         return maxEnergyContentInJoules / CGFloat(fullGrowthDurationSeconds)

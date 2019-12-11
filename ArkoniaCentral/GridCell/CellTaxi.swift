@@ -1,6 +1,6 @@
 import SpriteKit
 
-class CellTaxi {
+class cellTaxi_ {
     var consumedContents = GridCell.Contents.nothing
     weak var consumedSprite: SKSpriteNode?
     var didMove = false
@@ -12,7 +12,7 @@ class CellTaxi {
     }
 
     deinit {
-        Log.L.write("~CellTaxi from  \(six(toCell?.cell.ownerName)) to \(six(toCell?.cell.ownerName))", level: 40)
+        Log.L.write("~cellTaxi_ from  \(six(toCell?.cell.ownerName)) to \(six(toCell?.cell.ownerName))", level: 40)
     }
 
     func move() {

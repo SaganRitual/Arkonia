@@ -9,20 +9,48 @@ func six(_ string: String?) -> String { return String(string?.prefix(15) ?? "<no
 extension Colorize {
     func aColorize() {
         Log.L.write("Colorize.launch_ \(six(scratch?.stepper?.name))", level: 15)
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let ws = ch.worldStats else { fatalError() }
+        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        let age = st.getAge(ws.currentTime)
-        st.colorizeProper(age)
-
+        st.colorizeProper()
         dp.disengage()
     }
 }
 
 extension Stepper {
 
-    func colorizeProper(_ myAge: Int) {
+    func colorizeProper() {
         nose.colorBlendFactor = CGFloat(1 - (metabolism.oxygenLevel / 1))
+
+        let babyBumpIsRunning = sprite.action(forKey: "baby-bump") != nil
+        let babyBumpShouldBeShowing = metabolism.spawnReserves.level > (getSpawnCost() * 0.5)
+        let xScale = ArkoniaCentral.spriteScale
+        let yScale = ArkoniaCentral.spriteScale
+
+        if babyBumpShouldBeShowing && !babyBumpIsRunning {
+            Log.L.write("action on", level: 47)
+            let swell = SKAction.scale(by: 1.5, duration: 0.5)
+            let shrink = SKAction.scaleX(to: xScale, y: yScale, duration: 0.5)
+            let discolor = SKAction.colorize(with: .red, colorBlendFactor: 1, duration: 0.75)
+            let recolor = SKAction.colorize(with: .green, colorBlendFactor: 1, duration: 0.75)
+            let throb = SKAction.sequence([swell, shrink])
+            let throbColor = SKAction.sequence([discolor, recolor])
+            let throbEverything = SKAction.group([throb, throbColor])
+            let forever = SKAction.repeatForever(throbEverything)
+            sprite.run(forever, withKey: "baby-bump")
+            return
+        }
+
+        if babyBumpIsRunning && !babyBumpShouldBeShowing {
+            Log.L.write("action off", level: 47)
+            sprite.removeAction(forKey: "baby-bump")
+
+            let shrink = SKAction.scaleX(to: xScale, y: yScale, duration: 0.5)
+            let recolor = SKAction.colorize(with: .green, colorBlendFactor: 1, duration: 0.75)
+            let unthrob = SKAction.group([shrink, recolor])
+
+            sprite.run(unthrob)
+            return
+        }
 //
 //        nose.color = (debugFlasher == true) ? .gray : .yellow
 //        debugFlasher = (debugFlasher == true) ? false : true

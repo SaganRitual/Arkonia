@@ -17,7 +17,6 @@ extension Apoptosize {
             if ch.isApoptosizing { return }
             ch.isApoptosizing = true
 
-            no.color = .red
             sp.removeAllActions()
 
             Larva.Constants.spriteFactory.noseHangar.retireSprite(no)

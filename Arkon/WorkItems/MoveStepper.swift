@@ -9,7 +9,7 @@ final class MoveStepper: Dispatchable {
 
     func moveStepper() {
         guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }
-        guard let taxi = ch.cellTaxi else { preconditionFailure() }
+        guard let taxi = ch.cellTaxi_ else { preconditionFailure() }
 
         taxi.move()
 
@@ -22,7 +22,7 @@ final class MoveStepper: Dispatchable {
 }
 
 extension MoveStepper {
-    func postMove(_ taxi: CellTaxi) {
+    func postMove(_ taxi: cellTaxi_) {
         guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
         precondition(taxi.fromCell?.cell.gridPosition != taxi.toCell?.cell.gridPosition)

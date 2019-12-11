@@ -4,7 +4,7 @@ class Clock {
     let clockFormatter = DateComponentsFormatter()
     let clockReport: Reportoid
     let foodValueReport: Reportoid
-    private let timeLimit: TimeInterval? = 1000
+    private let timeLimit: TimeInterval? = 5000
     let timeZero = Date()
 
     init(_ scene: GriddleScene) {

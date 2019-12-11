@@ -1,14 +1,13 @@
 class Scratchpad {
     var battle: (Stepper, Stepper)?
     var canSpawn = false
-    var cellConnector: HotKey?
-    var cellTaxi: CellTaxi?
+    var cellConnector_: HotKey?
+    var cellTaxi_: cellTaxi_?
 
     var debugEngage = DebugEngage.nothing
     var debugEngageCRetry = 0
     weak var dispatch: Dispatch?
     var isApoptosizing = false
-    var isEngaged: Bool { cellConnector != nil }
     weak var parentNet: Net?
     weak var stepper: Stepper?
     var stillCounter = 0

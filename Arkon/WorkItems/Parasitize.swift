@@ -12,7 +12,7 @@ extension Parasitize {
     func attack() -> (Stepper, Stepper) {
         guard let (myScratch, _, myStepper) = scratch?.getKeypoints() else { fatalError() }
 
-        guard let hisSprite = myScratch.cellTaxi?.consumedSprite else { fatalError() }
+        guard let hisSprite = myScratch.cellTaxi_?.consumedSprite else { fatalError() }
         guard let hisStepper = hisSprite.getStepper() else { fatalError() }
 
         let myMass = myStepper.metabolism.mass
@@ -31,13 +31,13 @@ extension Parasitize {
             Log.L.write("Parasitize3: \(six(myStepper.name)) eats \(six(hisStepper.name))", level: 28)
 
             let hisScratch = hisStepper.dispatch.scratch
-            let myTaxi = myScratch.cellTaxi
+            let myTaxi = myScratch.cellTaxi_
 
-            precondition(hisScratch.isEngaged == false)
+            precondition(hisScratch.cellConnector_ != nil)
             precondition(myTaxi != nil)
 
-            hisScratch.cellTaxi = myTaxi
-            myScratch.cellTaxi = nil
+            hisScratch.cellTaxi_ = myTaxi
+            myScratch.cellTaxi_ = nil
 
             return (hisStepper, myStepper)
         }

@@ -197,9 +197,9 @@ extension Larva {
         nose.colorBlendFactor = 1
         nose.color = parent == nil ? .magenta : .white
 
-        sprite.setScale(ArkoniaCentral.masterScale / 8)
+        sprite.setScale(ArkoniaCentral.spriteScale)
         Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 37)
-        sprite.color = .red //ColorGradient.makeColor(hexRGB: 0xFF0000)
+        sprite.color = .green //ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
         sprite.position = cellConnector.cell.scenePosition
         sprite.alpha = 1
@@ -226,7 +226,7 @@ extension Larva {
         sprite.run(rotate)
 
         Log.L.write("Reset cellConnector #5", level: 41)
-        ndp.scratch.cellConnector = self.cellConnector
+        ndp.scratch.cellConnector_ = self.cellConnector
         ndp.disengage()
     }
 }

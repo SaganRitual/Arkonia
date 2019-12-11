@@ -10,7 +10,7 @@ final class Engage: Dispatchable {
         guard let gc = st.gridCell else { fatalError() }
 
         st.nose.color = .blue
-        precondition(ch.cellConnector == nil)
+        precondition(ch.cellConnector_ == nil)
         let cellConnector = gc.lock(require: false)
 
         if !(cellConnector is HotKey) {
@@ -25,7 +25,7 @@ final class Engage: Dispatchable {
         }
 
         guard let cc = cellConnector as? HotKey else { preconditionFailure() }
-        ch.cellConnector = cc
+        ch.cellConnector_ = cc
         ch.worldStats = World.stats.copy()
         cc.cell.ownerName = st.name
         st.nose.color = .black

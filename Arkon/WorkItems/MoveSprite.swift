@@ -23,9 +23,9 @@ final class MoveSprite: Dispatchable {
     func moveSprite() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        guard let taxi = ch.cellTaxi else { preconditionFailure() }
+        guard let taxi = ch.cellTaxi_ else { preconditionFailure() }
 
-        Log.L.write("moveSprite0 \(six(st.name)), \(ch.cellTaxi == nil), \(ch.cellTaxi?.toCell == nil), \(ch.cellTaxi?.toCell?.cell == nil))", level: 31)
+        Log.L.write("moveSprite0 \(six(st.name)), \(ch.cellTaxi_ == nil), \(ch.cellTaxi_?.toCell == nil), \(ch.cellTaxi_?.toCell?.cell == nil))", level: 31)
 
         if taxi.fromCell == nil {
             MoveSprite.rest(st) { ch.stillCounter += 1; dp.releaseStage() }

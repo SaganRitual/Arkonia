@@ -6,8 +6,8 @@ final class Disengage: Dispatchable {
         Log.L.write("disengage \(six(st.name))", level: 31)
 
         Log.L.write("Reset cellConnector #0", level: 41)
-        ch.cellConnector = nil
-        ch.cellTaxi = nil
+        ch.cellConnector_ = nil
+        ch.cellTaxi_ = nil
 
         dp.engage()
     }
