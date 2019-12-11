@@ -11,6 +11,7 @@ class Scratchpad {
     var isEngaged: Bool { cellConnector != nil }
     weak var parentNet: Net?
     weak var stepper: Stepper?
+    var stillCounter = 0
     var worldStats: World.StatsCopy?
 
     //swiftlint:disable large_tuple

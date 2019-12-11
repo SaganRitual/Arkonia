@@ -22,7 +22,7 @@ final class MoveSprite: Dispatchable {
         Log.L.write("moveSprite0 \(six(st.name)), \(ch.cellTaxi == nil), \(ch.cellTaxi?.toCell == nil), \(ch.cellTaxi?.toCell?.cell == nil))", level: 31)
 
         if taxi.fromCell == nil {
-            MoveSprite.rest(st) { dp.releaseStage() }
+            MoveSprite.rest(st) { ch.stillCounter += 1; dp.releaseStage() }
             return
         }
 
@@ -32,6 +32,7 @@ final class MoveSprite: Dispatchable {
 
         let moveAction =  SKAction.move(to: position, duration: MoveSprite.moveDuration)
 
+        ch.stillCounter = 0
         st.sprite.run(moveAction) { dp.moveStepper() }
     }
 }

@@ -14,7 +14,7 @@ extension Metabolize {
 
 extension Metabolism {
     fileprivate func metabolizeProper() {
-        let internalTransferRate = CGFloat(1)
+        let internalTransferRate = CGFloat(50)
         Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 45)
 
         var export = !stomach.isEmpty && !readyEnergyReserves.isFull

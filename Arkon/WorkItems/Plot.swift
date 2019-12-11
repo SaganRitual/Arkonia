@@ -89,7 +89,7 @@ extension Plot {
         var theData = [Double]()
 
         let hunger = Double(st.metabolism.hunger)
-        let asphyxia = Double(1 - (st.metabolism.oxygenLevel / 1))
+        let asphyxia = Double(1 - st.metabolism.oxygenLevel)
         theData.append(contentsOf: [hunger, asphyxia])
 
         return theData

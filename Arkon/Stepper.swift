@@ -53,12 +53,17 @@ extension Stepper {
     }
 
     func getSpawnCost() -> CGFloat {
-        let entropy: CGFloat = -0.2
+        let entropy: CGFloat = 0.5
 
         let spawnCost = allowSpawning ?
             EnergyReserve.startingEnergyLevel * CGFloat(1.0 + entropy) :
             CGFloat.infinity
 
+        let sc = String(format: "%3.3f", spawnCost)
+        let sr = String(format: "%3.3f", metabolism.spawnReserves.level)
+        let sf = String(format: "%3.3f%%", metabolism.spawnEnergyFullness * 100)
+
+        Log.L.write("spawnCost = \(sc); spawnReserves at \(sr) (\(sf))", level: 45)
         return spawnCost
     }
 }

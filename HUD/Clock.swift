@@ -4,6 +4,7 @@ class Clock {
     let clockFormatter = DateComponentsFormatter()
     let clockReport: Reportoid
     let foodValueReport: Reportoid
+    private let timeLimit: TimeInterval? = 10000
     let timeZero = Date()
 
     init(_ scene: GriddleScene) {
@@ -28,10 +29,10 @@ class Clock {
                 self.clockFormatter.string(from: TimeInterval(stats.currentTime))
 
             var entropy: TimeInterval {
-//                guard let t = timeLimit else { return 0 }
-//                return min(gameAge / t, 1.0)
+                guard let t = timeLimit else { return 0 }
+                return min(TimeInterval(World.stats.gameAge * 4) / t, 1)
 
-                return 0.0  // No entropy
+//                return 0.0  // No entropy
             }
 
             let percentage = (1 - entropy) * 100

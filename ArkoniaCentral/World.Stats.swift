@@ -123,7 +123,7 @@ extension World.Stats {
     }
 
     private func updateWorldClock() {
-        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
+        Grid.shared.serialQueue.async { [unowned self] in
             self.currentTime += 1
 
             Grid.shared.serialQueue.asyncAfter(deadline: DispatchTime.now() + 1) {

@@ -7,7 +7,7 @@ enum EnergyReserveType: CaseIterable {
 class EnergyReserve {
     static let startingLevelBone: CGFloat = 100
     static let startingLevelFat: CGFloat = 500
-    static let startingLevelReadyEnergy: CGFloat = 2000
+    static let startingLevelReadyEnergy: CGFloat = 500
 
     static let startingEnergyLevel = (
         startingLevelBone + startingLevelFat + startingLevelReadyEnergy
@@ -44,14 +44,14 @@ class EnergyReserve {
             capacity = 3200
             energyDensity = 8
             level = EnergyReserve.startingLevelFat
-            overflowThreshold = 2400
+            overflowThreshold = 1600
 
         case .readyEnergyReserves:
             name = "readyEnergyReserves"
             capacity = 2400
             energyDensity = 4
             level = EnergyReserve.startingLevelReadyEnergy
-            overflowThreshold = 2000
+            overflowThreshold = 1000
 
         case .spawnReserves:
             name = "spawnReserves"

@@ -26,7 +26,9 @@ extension Funge {
 
         let age = st.getAge(ws.currentTime)
 
-        let isAlive = st.metabolism.fungeProper(age: age)
+        let stillnessCost = CGFloat(ch.stillCounter)
+        if stillnessCost > 0 { Log.L.write("stillnessCost \(stillnessCost)", level: 46) }
+        let isAlive = st.metabolism.fungeProper(age: age, stillnessCost: stillnessCost)
         let canSpawn = st.canSpawn()
 
         return (isAlive, canSpawn)
@@ -34,7 +36,7 @@ extension Funge {
 }
 
 extension Metabolism {
-    func fungeProper(age: Int) -> Bool {
+    func fungeProper(age: Int, stillnessCost: CGFloat) -> Bool {
         let fudgeMassFactor: CGFloat = 10
         let joulesNeeded = fudgeMassFactor * mass
 
@@ -42,17 +44,20 @@ extension Metabolism {
 
         let fudgeOxygenFactor: CGFloat = 30
         let oxygenCost: Int = age < 1 ? 0 : 1
-        oxygenLevel -= (CGFloat(oxygenCost) / fudgeOxygenFactor)
+        oxygenLevel -= CGFloat(oxygenCost) * (1 + stillnessCost) / fudgeOxygenFactor
 
-        Log.L.write(
-            "\nfungeProper:" +
-            " mass = \(String(format: "%-2.6f", mass)), withdraw \(String(format: "%-2.6f", joulesNeeded))" +
-            " fungibleEnergyFullness = \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
-            " oxygenLevel = \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
-            " fungibleEnergyCapacity =  \(String(format: "%-2.6f", fungibleEnergyCapacity))" +
-            " fungibleEnergyContent =  \(String(format: "%-2.6f", fungibleEnergyContent))"
-            , level: 45
-        )
+        if stillnessCost > 0 {
+            Log.L.write(
+                "\nfungeProper:" +
+                " mass = \(String(format: "%-2.6f", mass)), withdraw \(String(format: "%-2.6f", joulesNeeded))" +
+                " fungibleEnergyFullness = \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
+                " oxygenLevel = \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
+                " fungibleEnergyCapacity =  \(String(format: "%-2.6f", fungibleEnergyCapacity))" +
+                " fungibleEnergyContent =  \(String(format: "%-2.6f", fungibleEnergyContent))" +
+                " stillnessCost = \(String(format: "%-2.6f", stillnessCost))"
+                , level: 46
+            )
+        }
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0
     }
