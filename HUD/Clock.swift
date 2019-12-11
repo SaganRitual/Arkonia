@@ -4,7 +4,7 @@ class Clock {
     let clockFormatter = DateComponentsFormatter()
     let clockReport: Reportoid
     let foodValueReport: Reportoid
-    private let timeLimit: TimeInterval? = 10000
+    private let timeLimit: TimeInterval? = 1000
     let timeZero = Date()
 
     init(_ scene: GriddleScene) {
@@ -19,6 +19,13 @@ class Clock {
         updateClock()
     }
 
+    func getEntropy() -> CGFloat {
+        guard let t = timeLimit else { return 0 }
+        return min(CGFloat(World.stats.gameAge * 2) / CGFloat(t), 1)
+
+//        return 0.0  // No entropy
+    }
+
     func updateClock() {
         func partA() {
             World.stats.getStats(partB)
@@ -28,14 +35,7 @@ class Clock {
             self.clockReport.data.text =
                 self.clockFormatter.string(from: TimeInterval(stats.currentTime))
 
-            var entropy: TimeInterval {
-                guard let t = timeLimit else { return 0 }
-                return min(TimeInterval(World.stats.gameAge * 4) / t, 1)
-
-//                return 0.0  // No entropy
-            }
-
-            let percentage = (1 - entropy) * 100
+            let percentage = (1 - getEntropy()) * 100
 
             self.foodValueReport.data.text = String(format: "%.2f", percentage)
             partC()

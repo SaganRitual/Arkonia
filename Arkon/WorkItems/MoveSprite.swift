@@ -12,6 +12,11 @@ final class MoveSprite: Dispatchable {
 //        Log.L.write("~move sprite", level: 35)
     }
 
+    override func launch() {
+        guard let w = wiLaunch else { fatalError() }
+        World.shared.concurrentQueue.async(execute: w)
+    }
+
     internal override func launch_() { moveSprite() }
 
     func moveSprite() {
@@ -32,7 +37,6 @@ final class MoveSprite: Dispatchable {
 
         let moveAction =  SKAction.move(to: position, duration: MoveSprite.moveDuration)
 
-        ch.stillCounter = 0
         st.sprite.run(moveAction) { dp.moveStepper() }
     }
 }

@@ -21,7 +21,7 @@ class Manna {
         let f0 = max(sprite.colorBlendFactor, Manna.colorBlendMinimum)
         let f1 = fudgeFactor * abs(f0 - Manna.colorBlendMinimum)
         let f2 = f1 / Manna.colorBlendRangeWidth
-        let f3 = f2 * Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
+        let f3: CGFloat = f2 * Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
         Log.L.write(
             "colorBlendFactor \(String(format: "%-2.4f", sprite.colorBlendFactor))\n" +
             "Manna.colorBlendMinimum \(String(format: "%-2.4f", Manna.colorBlendMinimum))\n" +
@@ -31,7 +31,8 @@ class Manna {
             level: 30
         )
 
-        return f3 * 1.0//CGFloat(World.shared.foodValue)
+        guard let clock = GriddleScene.shared?.clock else { preconditionFailure() }
+        return f3 * (1 - clock.getEntropy())
     }
 
     var energyFullness: CGFloat { return energyContentInJoules / Manna.maxEnergyContentInJoules }

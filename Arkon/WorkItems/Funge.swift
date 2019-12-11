@@ -2,6 +2,11 @@ import CoreGraphics
 import Foundation
 
 final class Funge: Dispatchable {
+    override func launch() {
+        guard let w = wiLaunch else { fatalError() }
+        World.shared.concurrentQueue.async(execute: w)
+    }
+
     internal override func launch_() {
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
@@ -26,9 +31,8 @@ extension Funge {
 
         let age = st.getAge(ws.currentTime)
 
-        let stillnessCost = CGFloat(ch.stillCounter)
-        if stillnessCost > 0 { Log.L.write("stillnessCost \(stillnessCost)", level: 46) }
-        let isAlive = st.metabolism.fungeProper(age: age, stillnessCost: stillnessCost)
+        if ch.stillCounter > 0 { Log.L.write("stillnessCost \(ch.stillCounter)", level: 46) }
+        let isAlive = st.metabolism.fungeProper(age: age, stillnessCost: CGFloat(ch.stillCounter))
         let canSpawn = st.canSpawn()
 
         return (isAlive, canSpawn)

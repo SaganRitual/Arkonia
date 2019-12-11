@@ -2,12 +2,22 @@ import CoreGraphics
 import Dispatch
 
 final class Arrive: Dispatchable {
+    override func launch() {
+        guard let w = wiLaunch else { fatalError() }
+        World.shared.concurrentQueue.async(execute: w)
+    }
+
     internal override func launch_() { arrive() }
 
     func arrive() {
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
         guard let taxi = ch.cellTaxi else { preconditionFailure() }
+
+        // We don't reset this when they begin moving, but rather we wait
+        // until here, so they don't live forever while flopping around in
+        // the empty corners
+        ch.stillCounter = 0
 
         switch taxi.consumedContents {
         case .arkon: dp.parasitize()

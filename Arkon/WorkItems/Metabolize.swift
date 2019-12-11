@@ -1,48 +1,56 @@
 import GameplayKit
 
 final class Metabolize: Dispatchable {
-   internal override func launch_() { aMetabolize() }
+   override func launch() {
+       guard let w = wiLaunch else { fatalError() }
+       World.shared.concurrentQueue.async(execute: w)
+   }
+
+    internal override func launch_() { aMetabolize() }
 }
 
 extension Metabolize {
     func aMetabolize() {
-        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        st.metabolism.metabolizeProper()
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        st.metabolism.metabolizeProper(ch.stillCounter > 0)
         dp.colorize()
     }
 }
 
 extension Metabolism {
-    fileprivate func metabolizeProper() {
+    fileprivate func metabolizeProper(_ isStarving: Bool) {
         let internalTransferRate = CGFloat(50)
         Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 45)
 
-        var export = !stomach.isEmpty && !readyEnergyReserves.isFull
+        let stomachToReady = !stomach.isEmpty && !readyEnergyReserves.isFull
 
-        if export {
+        if stomachToReady {
             let transfer = stomach.withdraw(internalTransferRate * readyEnergyReserves.energyDensity)
             readyEnergyReserves.deposit(transfer)
         }
 
-        export = readyEnergyReserves.isAmple && !fatReserves.isFull
+        let readyToFat = readyEnergyReserves.isAmple && !fatReserves.isFull
 
-        if export {
+        if readyToFat {
             let surplus_ = readyEnergyReserves.level - readyEnergyReserves.overflowThreshold
             let surplus = min(surplus_, internalTransferRate * fatReserves.energyDensity)
             let net = readyEnergyReserves.withdraw(surplus)
-            fatReserves.deposit(net)
+            let preventCornerSwarms = net / (isStarving ? 3 : 1)
+            fatReserves.deposit(preventCornerSwarms)
         }
 
-        let `import` = readyEnergyReserves.level < reUnderflowThreshold
+        let tapFatReserves = (readyEnergyReserves.level < reUnderflowThreshold) || isStarving
 
-        if `import` {
+        if tapFatReserves {
             let refill = fatReserves.withdraw(internalTransferRate * fatReserves.energyDensity)
-            readyEnergyReserves.deposit(refill)
+            let entropyCost: CGFloat = 0.75
+            let preventCornerSwarms = entropyCost * (isStarving ? 3 : 1)
+            readyEnergyReserves.deposit(refill * preventCornerSwarms)
         }
 
-        export = fatReserves.isAmple && !spawnReserves.isFull
+        let fatToSpawn = fatReserves.isAmple && !spawnReserves.isFull
 
-        if export {
+        if fatToSpawn {
             let transfer = fatReserves.withdraw(internalTransferRate * spawnReserves.energyDensity)
             spawnReserves.deposit(transfer)
         }
