@@ -1,10 +1,10 @@
 import SpriteKit
 
-protocol LarvaProtocol: class, DispatchableProtocol {
+protocol SpawnProtocol: class, DispatchableProtocol {
     var birthday: Int { get set }
     var callAgain: Bool { get }
-    var cellConnector: HotKey? { get set }
     var dispatch: Dispatch? { get set }
+    var engagerKey: HotKey? { get set }
     var fishNumber: Int { get set }
     var metabolism: Metabolism? { get set }
     var net: Net? { get }
@@ -40,14 +40,14 @@ enum Names {
     }
 }
 
-final class Larva: DispatchableProtocol, LarvaProtocol {
+final class Spawn: DispatchableProtocol, SpawnProtocol {
     var dispatch: Dispatch? { willSet { fatalError() } }
 
     weak var scratch: Scratchpad?
 
     var birthday = 0
     var callAgain = false
-    var cellConnector: HotKey?
+    var engagerKey: HotKey?
     var embryoName = Names.getName()
     var fishNumber = 0
     var metabolism: Metabolism?
@@ -59,7 +59,7 @@ final class Larva: DispatchableProtocol, LarvaProtocol {
     var sprite: SKSpriteNode? { willSet {
         Log.L.write("Larva.sprite \(six(scratch?.stepper?.name))", level: 15)
     } }
-    var tempStrongReference: Larva?
+    var tempStrongReference: Spawn?
     var wiLaunch: DispatchWorkItem?
     var wiLaunch2: DispatchWorkItem?
 
@@ -88,7 +88,7 @@ final class Larva: DispatchableProtocol, LarvaProtocol {
         Log.L.write("Larva.launch_ \(six(scratch?.stepper?.name))", level: 15)
 
         getStartingPosition()
-//        cellConnector?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "no fucking way"
+//        engagerKey?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "no fucking way"
         registerBirth()
 
         guard let w2 = wiLaunch2 else { fatalError() }
@@ -99,7 +99,7 @@ final class Larva: DispatchableProtocol, LarvaProtocol {
     func launch2_() { buildSprites() }
 }
 
-extension Larva {
+extension Spawn {
     enum Constants {
         static let brightColor = 0x00_FF_00    // Full green
         static var spriteFactory: SpriteFactory!
@@ -107,18 +107,16 @@ extension Larva {
     }
 }
 
-extension Larva {
+extension Spawn {
     private func getStartingPosition() {
         guard let parent = self.parent else {
-            Log.L.write("Reset cellConnector #2", level: 41)
-            self.cellConnector = GridCell.lockRandomEmptyCell()
-//            self.cellConnector?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "hella what"
+            Log.L.write("Reset engagerKey #2", level: 41)
+            engagerKey = GridCell.lockRandomEmptyCell(ownerName: "aboriginal-\(fishNumber)")
             return
         }
 
-        Log.L.write("Reset cellConnector #3", level: 41)
-        self.cellConnector = GridCell.lockBirthPosition(parent: parent)
-        self.cellConnector?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "hecka what"
+        Log.L.write("Reset engagerKey #3", level: 41)
+        engagerKey = GridCell.lockBirthPosition(parent: parent)
     }
 
     private func registerBirth() {
@@ -126,7 +124,7 @@ extension Larva {
     }
 }
 
-extension Larva {
+extension Spawn {
     func buildGuts() {
 
         metabolism = Metabolism()
@@ -146,7 +144,7 @@ extension Larva {
 
 }
 
-extension Larva {
+extension Spawn {
 
     func buildNetDisplay(_ sprite: SKSpriteNode) {
         guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
@@ -159,7 +157,7 @@ extension Larva {
     }
 }
 
-extension Larva {
+extension Spawn {
 
     func abandonNewborn() {
         if let st = parent, let dp = st.dispatch, let sprite = st.sprite {
@@ -190,8 +188,8 @@ extension Larva {
 
         guard let sprite = self.sprite else { fatalError() }
         guard let nose = self.nose else { fatalError() }
-        Log.L.write("Reset cellConnector #4", level: 41)
-        guard let cellConnector = self.cellConnector else { fatalError() }
+        Log.L.write("Reset engagerKey #4", level: 41)
+        guard let engagerKey = self.engagerKey else { fatalError() }
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
@@ -201,7 +199,7 @@ extension Larva {
         Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 37)
         sprite.color = .green //ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
-        sprite.position = cellConnector.cell.scenePosition
+        sprite.position = engagerKey.cell!.scenePosition
         sprite.alpha = 1
 
         sprite.addChild(nose)
@@ -225,8 +223,8 @@ extension Larva {
         let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
         sprite.run(rotate)
 
-        Log.L.write("Reset cellConnector #5", level: 41)
-        ndp.scratch.cellConnector_ = self.cellConnector
+        Log.L.write("Reset engagerKey #5", level: 41)
+        ndp.scratch.engagerKey = self.scratch?.engagerKey
         ndp.disengage()
     }
 }

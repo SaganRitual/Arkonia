@@ -9,27 +9,17 @@ final class Engage: Dispatchable {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
 
-        st.nose.color = .blue
-        precondition(ch.cellConnector_ == nil)
-        let cellConnector = gc.lock(require: false)
+        Log.L.write("Engage \(six(st.name))", level: 45)
+        gc.lock(require: false, ownerName: st.name) { ch.engagerKey = $0 }
 
-        if !(cellConnector is HotKey) {
-            if cellConnector is ColdKey {
-                Grid.shared.serialQueue.asyncAfter(deadline: .now() + 0.1) {
-                    precondition(((cellConnector as? ColdKey)?.debugDontUseIsLocked ?? true) == true)
-                    dp.disengage()
-                }
-            }
-            st.nose.color = .green
+        if let ek = ch.engagerKey as? ColdKey {
+            Log.L.write("Reschedule \(six(st.name)) for \(gc)", level: 45)
+            ek.reschedule(st)
             return
         }
 
-        guard let cc = cellConnector as? HotKey else { preconditionFailure() }
-        ch.cellConnector_ = cc
+        Log.L.write("Hot key \(six(st.name))", level: 45)
         ch.worldStats = World.stats.copy()
-        cc.cell.ownerName = st.name
-        st.nose.color = .black
-
         dp.funge()
     }
 }

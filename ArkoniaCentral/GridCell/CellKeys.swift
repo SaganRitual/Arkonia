@@ -1,60 +1,78 @@
 import SpriteKit
 
 protocol GridCellKey: class {
+    var cell: GridCell? { get }
     var contents: GridCell.Contents { get }
     var ownerName: String { get }
     var sprite: SKSpriteNode? { get }
+
+    func reengageRequesters()
+}
+
+extension GridCellKey {
+    func reengageRequesters() {
+        guard let c = cell else { Log.L.write("rr1:", level: 49); return }
+
+        while true {
+            guard let st = c.getRescheduledArkon() else { Log.L.write("rr2:", level: 49); return }
+            Log.L.write("reengageRequesters: \(six(st.name))", level: 49)
+            if let dp = st.dispatch { dp.disengage() }
+        }
+    }
 }
 
 class ColdKey: GridCellKey {
+    internal weak var cell: GridCell?
     internal let contents: GridCell.Contents
     internal let ownerName: String
     internal weak var sprite: SKSpriteNode?
-    internal let debugDontUseIsLocked: Bool
 
     init(for cell: GridCell) {
+        self.cell = cell
         self.contents = cell.contents; self.sprite = cell.sprite; self.ownerName = cell.ownerName
-        self.debugDontUseIsLocked = cell.isLocked
     }
+
+    func reschedule(_ stepper: Stepper) { cell?.reschedule(stepper) }
 }
 
 class HotKey: GridCellKey {
-    let cell: GridCell
+    var cell: GridCell?
 
     var contents: GridCell.Contents {
-        get { return cell.contents }
-        set { cell.contents = newValue }
+        get { return cell!.contents }
+        set { cell!.contents = newValue }
     }
 
     var ownerName: String {
-        get { return cell.ownerName }
-        set { cell.ownerName = newValue }
+        get { return cell!.ownerName }
+        set { cell!.ownerName = newValue }
     }
 
     var sprite: SKSpriteNode? {
-        get { return cell.sprite }
-        set { cell.sprite = newValue }
+        get { return cell!.sprite }
+        set { cell!.sprite = newValue }
     }
 
-    init(for cell: GridCell) {
+    init(for cell: GridCell, ownerName: String) {
         precondition(cell.isLocked == false)
         self.cell = cell
-        Log.L.write("HotKey at \(cell.gridPosition) for \(six(cell.ownerName))", level: 44)
+        cell.isLocked = true
+        cell.ownerName = ownerName
     }
 
-    deinit {
-//        let sp = sprite == nil
-//        let gs = sprite?.getStepper(require: false) == nil
-//        let mn = sprite?.name == nil
-//        Log.L.write("~HotKey at \(cell.gridPosition) \(sp) \(gs) \(six(cell.ownerName)) \(mn)  \(six(sprite?.getStepper(require: false)?.name))", level: 44)
-//        precondition(cell.isLocked)
-//        cell.releaseLock()
-//        precondition(cell.isLocked == false)
+    deinit { releaseLock() }
+
+    func releaseLock() {
+        Log.L.write("releaseLock: \(six(ownerName)) nil? \(cell == nil)", level: 48)
+        cell?.releaseLock()
+        reengageRequesters()
+        cell = nil
     }
 }
 
 class NilKey: GridCellKey {
     //swiftlint:disable unused_setter_value
+    var cell: GridCell? { get { nil } set { preconditionFailure() } }
     var contents: GridCell.Contents { get { .invalid } set { preconditionFailure() } }
     var ownerName: String { get { "invalid" } set { preconditionFailure() } }
     var sprite: SKSpriteNode?  { get { nil } set { preconditionFailure() } }

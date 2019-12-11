@@ -93,13 +93,13 @@ extension World.Stats {
         }
     }
 
-    func registerBirth(myParent: Stepper?, meOffspring: LarvaProtocol) {
+    func registerBirth(myParent: Stepper?, meOffspring: SpawnProtocol) {
         Grid.shared.serialQueue.async { [unowned self] in
             self.registerBirth_(myParent, meOffspring)
         }
     }
 
-    func registerBirth_(_ myParent: Stepper?, _ meOffspring: LarvaProtocol) {
+    func registerBirth_(_ myParent: Stepper?, _ meOffspring: SpawnProtocol) {
         self.currentPopulation += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.currentPopulation)
 

@@ -54,28 +54,7 @@ class Census {
             return (lAge / (lOffspring + 1)) < (rAge / (rOffspring + 1))
         }
 
-        if liveArkons.isEmpty { for _ in 0..<20 { Dispatch().spawn() } }
-
-//        else if liveArkons.count < 20 {
-//            guard let bestBreeder = liveArkons.first else { preconditionFailure() }
-//
-//            let newNet = Net(
-//                parentBiases: bestBreeder.net.biases,
-//                parentWeights: bestBreeder.net.weights,
-//                layers: bestBreeder.parentLayers,
-//                parentActivator: bestBreeder.parentActivator
-//            )
-//
-//            Log.L.write("layers: \(six(bestBreeder.name)) \(bestBreeder.parentLayers ?? [])", level: 33)
-//            Dispatch(parentNet: newNet).spawn()
-//            Dispatch(parentNet: newNet).spawn()
-//            Dispatch().spawn()
-//            Dispatch().spawn()
-//            Dispatch(parentNet: newNet).spawn()
-//            Dispatch(parentNet: newNet).spawn()
-//        } else {
-//            Log.L.write("liveArkons.count = \(liveArkons.count)", level: 33)
-//        }
+        if liveArkons.isEmpty { for _ in 0..<25 { Dispatch().spawn() } }
 
         if liveArkons.isEmpty { partA() } else { partC() }
     }

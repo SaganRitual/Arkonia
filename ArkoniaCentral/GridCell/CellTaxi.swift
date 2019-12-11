@@ -11,10 +11,6 @@ class cellTaxi_ {
         self.fromCell = fromCell; self.toCell = toCell
     }
 
-    deinit {
-        Log.L.write("~cellTaxi_ from  \(six(toCell?.cell.ownerName)) to \(six(toCell?.cell.ownerName))", level: 40)
-    }
-
     func move() {
         consumedContents = .nothing
         consumedSprite = nil
