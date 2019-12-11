@@ -12,15 +12,23 @@ final class Metabolize: Dispatchable {
 extension Metabolize {
     func aMetabolize() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        st.metabolism.metabolizeProper(ch.stillCounter > 0)
+        st.metabolism.metabolizeProper(ch.stillCounter > 0, st.sprite)
         dp.colorize()
     }
 }
 
 extension Metabolism {
-    fileprivate func metabolizeProper(_ isStarving: Bool) {
+    fileprivate func metabolizeProper(_ isStarving: Bool, _ nose: SKSpriteNode) {
         let internalTransferRate = CGFloat(50)
         Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 45)
+
+        if fungibleEnergyFullness < 0.5 {
+            nose.color = .red
+            nose.colorBlendFactor = 1 - fungibleEnergyFullness
+        } else {
+            nose.color = .white
+            nose.colorBlendFactor = 1
+        }
 
         let stomachToReady = !stomach.isEmpty && !readyEnergyReserves.isFull
 

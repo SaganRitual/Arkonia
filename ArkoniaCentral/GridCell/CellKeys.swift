@@ -43,13 +43,13 @@ class HotKey: GridCellKey {
     }
 
     deinit {
-        let sp = sprite == nil
-        let gs = sprite?.getStepper(require: false) == nil
-        let mn = sprite?.name == nil
-        Log.L.write("~HotKey at \(cell.gridPosition) \(sp) \(gs) \(six(cell.ownerName)) \(mn)  \(six(sprite?.getStepper(require: false)?.name))", level: 44)
-        precondition(cell.isLocked)
-        cell.releaseLock()
-        precondition(cell.isLocked == false)
+//        let sp = sprite == nil
+//        let gs = sprite?.getStepper(require: false) == nil
+//        let mn = sprite?.name == nil
+//        Log.L.write("~HotKey at \(cell.gridPosition) \(sp) \(gs) \(six(cell.ownerName)) \(mn)  \(six(sprite?.getStepper(require: false)?.name))", level: 44)
+//        precondition(cell.isLocked)
+//        cell.releaseLock()
+//        precondition(cell.isLocked == false)
     }
 }
 
