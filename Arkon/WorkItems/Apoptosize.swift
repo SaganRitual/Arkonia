@@ -1,16 +1,7 @@
 import SpriteKit
 
 final class Apoptosize: Dispatchable {
-    var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        Log.L.write("Apoptosize()", level: 3)
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
-    private func launch_() { aApoptosize() }
+    internal override func launch_() { aApoptosize() }
 }
 
 extension Apoptosize {
@@ -19,7 +10,7 @@ extension Apoptosize {
         guard let sp = st.sprite else { fatalError() }
         guard let no = st.nose else { fatalError() }
 
-        if ch.isApoptosizing { return }
+        precondition(ch.isApoptosizing == false)
 
         let action = SKAction.run {
             assert(Display.displayCycle == .actions)
@@ -28,8 +19,8 @@ extension Apoptosize {
 
             sp.removeAllActions()
 
-            Wangkhi.spriteFactory.noseHangar.retireSprite(no)
-            Wangkhi.spriteFactory.arkonsHangar.retireSprite(sp)
+            Larva.Constants.spriteFactory.noseHangar.retireSprite(no)
+            Larva.Constants.spriteFactory.arkonsHangar.retireSprite(sp)
 
             Grid.shared.serialQueue.async {
                 Stepper.releaseStepper(st, from: sp)

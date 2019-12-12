@@ -2,15 +2,7 @@ import CoreGraphics
 import Foundation
 
 final class Funge: Dispatchable {
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
-    func launch_() {
+    internal override func launch_() {
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
     }
@@ -23,7 +15,7 @@ extension Funge {
         if !isAlive  { dp.apoptosize(); return }
         if !canSpawn { dp.plot(); return }
 
-        dp.wangkhi()
+        dp.spawn()
     }
 }
 
@@ -48,18 +40,18 @@ extension Metabolism {
 
         withdrawFromReady(joulesNeeded)
 
-        let fudgeOxygenFactor: CGFloat = 15
-        let oxygenCost: Int = age < 5 ? 0 : 1
+        let fudgeOxygenFactor: CGFloat = 30
+        let oxygenCost: Int = age < 1 ? 0 : 1
         oxygenLevel -= (CGFloat(oxygenCost) / fudgeOxygenFactor)
 
         Log.L.write(
             "fungeProper:" +
-            " mass = \(mass), withdraw \(joulesNeeded)" +
-            " fungibleEnergyCapacity =  \(String(format: "%-2.6f", fungibleEnergyCapacity))" +
-            " fungibleEnergyContent =  \(String(format: "%-2.6f", fungibleEnergyContent))" +
-            " fungibleEnergyFullness = \(String(format: "%-2.6f", fungibleEnergyFullness * 100))" +
-            " oxygenLevel = \(String(format: "%-2.6f", oxygenLevel * 100))"
-            , level: 13
+            " mass = \(String(format: "%-2.6f", mass)), withdraw \(String(format: "%-2.6f", joulesNeeded))" +
+//            " fungibleEnergyCapacity =  \(String(format: "%-2.6f", fungibleEnergyCapacity))" +
+//            " fungibleEnergyContent =  \(String(format: "%-2.6f", fungibleEnergyContent))" +
+            " fungibleEnergyFullness = \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
+            " oxygenLevel = \(String(format: "%-3.2f%%", oxygenLevel * 100))"
+            , level: 35
         )
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0

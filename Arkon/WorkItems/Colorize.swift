@@ -1,30 +1,19 @@
 import GameplayKit
 
 final class Colorize: Dispatchable {
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        Log.L.write("Colorize()", level: 3)
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
-    private func launch_() { aColorize() }
+    internal override func launch_() { aColorize() }
 }
 
-func six(_ string: String?) -> String { return String(string?.prefix(6) ?? "<no owner?>") }
+func six(_ string: String?) -> String { return String(string?.prefix(15) ?? "<no input>") }
 
 extension Colorize {
     func aColorize() {
         Log.L.write("Colorize.launch_ \(six(scratch?.stepper?.name))", level: 15)
-        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
-//        guard let ws = ch.worldStats else { fatalError() }
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let ws = ch.worldStats else { fatalError() }
 
-        st.nose.color = .red
-
-//        let age = st.getAge(ws.currentTime)
-//        st.colorizeProper(age)
+        let age = st.getAge(ws.currentTime)
+        st.colorizeProper(age)
 
         dp.disengage()
     }
@@ -33,16 +22,23 @@ extension Colorize {
 extension Stepper {
 
     func colorizeProper(_ myAge: Int) {
-        return
-//        let ef = metabolism.fungibleEnergyFullness
-//        nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
+        nose.alpha = CGFloat(1 - (metabolism.oxygenLevel / 1))
+//
+//        nose.color = (debugFlasher == true) ? .gray : .yellow
+//        debugFlasher = (debugFlasher == true) ? false : true
+
+////        let ef = metabolism.fungibleEnergyFullness
+////        nose.color = ColorGradient.makeColor(Int(ef * 100), 100)
+//
+//        let scale = constrain(0.50 + metabolism.spawnEnergyFullness, lo: 0.50, hi: 0.75)
+//        sprite.setScale(scale)
 //
 //        let baseColor: Int
 //        if fishNumber > 0 {
 //            baseColor = 0xFF_00_00
 //        } else {
 //            baseColor = (metabolism.spawnEnergyFullness > 0) ?
-//                Wangkhi.brightColor : Wangkhi.standardColor
+//                Larva.Constants.brightColor : Larva.Constants.standardColor
 //        }
 //
 //        let four: CGFloat = 4
@@ -52,6 +48,6 @@ extension Stepper {
 //            bluePercentage: max((four - CGFloat(myAge)) / four, 0.0)
 //        )
 //
-//        self.sprite.colorBlendFactor = metabolism.oxygenLevel
+        self.sprite.colorBlendFactor = metabolism.fungibleEnergyFullness
     }
 }

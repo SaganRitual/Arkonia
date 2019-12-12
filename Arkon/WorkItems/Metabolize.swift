@@ -1,16 +1,7 @@
 import GameplayKit
 
 final class Metabolize: Dispatchable {
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        Log.L.write("Metabolize()", level: 3)
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
-    private func launch_() { aMetabolize() }
+   internal override func launch_() { aMetabolize() }
 }
 
 extension Metabolize {
@@ -23,7 +14,7 @@ extension Metabolize {
 
 extension Metabolism {
     fileprivate func metabolizeProper() {
-        let internalTransferRate = CGFloat(20)
+        let internalTransferRate = CGFloat(2000)
 
         var export = !stomach.isEmpty && !readyEnergyReserves.isFull
 

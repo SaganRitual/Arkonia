@@ -4,6 +4,7 @@ class Stepper {
     let allowSpawning = true
     private var birthday = 0
     var cOffspring = 0
+    var debugFlasher = false
     var dispatch: Dispatch!
     var fishNumber = 0
     weak var gridCell: GridCell!
@@ -21,7 +22,7 @@ class Stepper {
     var previousShiftOffset = AKPoint.zero
     var sprite: SKSpriteNode!
 
-    init(_ embryo: WangkhiEmbryo, needsNewDispatch: Bool = false) {
+    init(_ embryo: Larva, needsNewDispatch: Bool = false) {
         self.birthday = embryo.birthday
         self.fishNumber = embryo.fishNumber
         self.gridCell = embryo.cellConnector?.cell
@@ -40,7 +41,7 @@ class Stepper {
 
         Log.L.write("stepper deinit \(six(name))", level: 31)
 
-        World.stats.decrementPopulation(nil)
+        World.stats.decrementPopulation(birthday)
     }
 
     func getAge(_ currentTime: Int) -> Int { return currentTime - self.birthday }
@@ -52,7 +53,7 @@ extension Stepper {
     }
 
     func getSpawnCost() -> CGFloat {
-        let entropy: CGFloat = 0.1
+        let entropy: CGFloat = -0.2
 
         let spawnCost = allowSpawning ?
             EnergyReserve.startingEnergyLevel * CGFloat(1.0 + entropy) :

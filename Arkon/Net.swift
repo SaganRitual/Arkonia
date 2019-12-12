@@ -25,13 +25,13 @@ class Net {
             var newLayersFromScratch = Net.layersTemplate
 
             let layerInsertionOdds = Int.random(in: 1..<100)
-            if abs(layerInsertionOdds) <= 15 {
+            if abs(layerInsertionOdds) <= 30 {
                 let insertionPoint = Int.random(in: 1..<newLayersFromScratch.count)
 
                 if layerInsertionOdds < 0 {
                     newLayersFromScratch.remove(at: insertionPoint)
                 } else if layerInsertionOdds > 0 {
-                    newLayersFromScratch.insert(Int.random(in: 1..<50), at: insertionPoint)
+                    newLayersFromScratch.insert(Int.random(in: 1..<20), at: insertionPoint)
                 }
             }
 

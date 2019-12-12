@@ -52,12 +52,12 @@ class SpriteFactory {
     init(scene: SKScene, thoraxFactory: @escaping FactoryFunction, noseFactory: @escaping FactoryFunction) {
         self.scene = scene
 
-        arkonsHangar =      SpriteHangar("Neurons",  "neuron-plain",  factoryFunction: thoraxFactory)
+        arkonsHangar =      SpriteHangar("Arkons",  "spark-thorax-large",  factoryFunction: thoraxFactory)
         fullNeuronsHangar = SpriteHangar("Neurons", "neuron-plain",        factoryFunction: SpriteFactory.makeSprite)
         halfNeuronsHangar = SpriteHangar("Neurons", "neuron-plain-half",   factoryFunction: SpriteFactory.makeSprite)
         linesHangar =       SpriteHangar("Line",    "line",                factoryFunction: SpriteFactory.makeSprite)
         mannaHangar =       SpriteHangar("Manna",   "manna",               factoryFunction: SpriteFactory.makeSprite)
-        noseHangar =        SpriteHangar("Neurons",  "neuron-plain",    factoryFunction: noseFactory)
+        noseHangar =        SpriteHangar("Arkons",  "spark-nose-large",    factoryFunction: noseFactory)
     }
 
     func postInit(_ net9Portals: [SKSpriteNode]) {
@@ -98,104 +98,5 @@ extension SpriteFactory {
 
     static func makeSprite(texture: SKTexture) -> SKSpriteNode {
         return SKSpriteNode(texture: texture)
-    }
-}
-
-extension SpriteFactory {
-    static var count = 0
-    static var phaseIndicator = SKColor.green
-
-    static func makeDestroyAction(factory: SpriteFactory) -> SKAction {
-        let destroyOne = SKAction.run {
-            SpriteFactory.count -= 1
-
-            (0..<5).forEach { _ in
-                guard let doomed = factory.scene.children.randomElement() as? SKSpriteNode
-                    else { preconditionFailure() }
-
-                doomed.removeFromParent()
-                doomed.color = SpriteFactory.phaseIndicator
-                doomed.colorBlendFactor = 1
-            }
-        }
-
-        return destroyOne
-    }
-
-    static func makeFinalReleaseAction(factory: SpriteFactory) -> SKAction {
-        let finalReleaseOne = SKAction.run {
-            factory.arkonsHangar.drones.removeLast()
-            factory.fullNeuronsHangar.drones.removeLast()
-            factory.halfNeuronsHangar.drones.removeLast()
-            factory.linesHangar.drones.removeLast()
-            factory.mannaHangar.drones.removeLast()
-        }
-
-        return finalReleaseOne
-    }
-
-    static func makeMakeAction(factory: SpriteFactory) -> SKAction {
-        let w = factory.scene.size.width / 2
-        let h = factory.scene.size.height / 2
-
-        Log.L.write("K")
-        let makeOne = SKAction.run {
-            Log.L.write("L")
-            SpriteFactory.count += 1
-            var sprite = factory.arkonsHangar.makeSprite()
-            sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
-            factory.scene.addChild(sprite)
-
-            sprite = factory.halfNeuronsHangar.makeSprite()
-            sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
-            factory.scene.addChild(sprite)
-
-            sprite = factory.fullNeuronsHangar.makeSprite()
-            sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
-            factory.scene.addChild(sprite)
-
-            sprite = factory.linesHangar.makeSprite()
-            sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
-            factory.scene.addChild(sprite)
-
-            sprite = factory.mannaHangar.makeSprite()
-            sprite.position = CGPoint(x: CGFloat.random(in: -w..<w), y: CGFloat.random(in: -h..<h))
-            factory.scene.addChild(sprite)
-            Log.L.write("M")
-        }
-        Log.L.write("N")
-
-        return makeOne
-    }
-
-    static func selfTest(scene: SKScene) {
-        phaseIndicator = SKColor.green
-
-        let factory = SpriteFactory(
-            scene: scene,
-            thoraxFactory: SpriteFactory.makeFakeThorax(texture:),
-            noseFactory: SpriteFactory.makeFakeNose(texture:))
-
-        let wait = SKAction.wait(forDuration: 1.0 / 60.0)
-        let waitABit = SKAction.repeat(wait, count: 100)
-        let makeSequence = SKAction.sequence([wait, makeMakeAction(factory: factory)])
-        let makeLots = SKAction.repeat(makeSequence, count: 300)
-
-        let blue = SKAction.run { phaseIndicator = .blue }
-        let spin = SKAction.sequence([wait, makeDestroyAction(factory: factory), makeMakeAction(factory: factory)])
-        let spinABit = SKAction.repeat(spin, count: 100)
-        let blueSpin = SKAction.sequence([spinABit, blue])
-
-        let destroySequence = SKAction.sequence([wait, makeDestroyAction(factory: factory)])
-        let destroyLots = SKAction.repeat(destroySequence, count: 300)
-
-        let finalReleaseSequence = SKAction.sequence([wait, makeFinalReleaseAction(factory: factory)])
-        let finalReleaseLots = SKAction.repeat(finalReleaseSequence, count: 300)
-
-        let outline = SKAction.sequence([
-            waitABit, makeLots, blueSpin, waitABit, spinABit, waitABit, destroyLots, finalReleaseLots
-        ])
-
-        scene.run(outline)
     }
 }

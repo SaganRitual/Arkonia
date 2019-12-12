@@ -1,16 +1,8 @@
+import CoreGraphics
 import Dispatch
 
 final class Arrive: Dispatchable {
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        Log.L.write("Arrive()", level: 3)
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
-    private func launch_() { arrive() }
+    internal override func launch_() { arrive() }
 
     func arrive() {
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
@@ -35,9 +27,13 @@ extension Arrive {
         guard let manna = sprite.getManna() else { fatalError() }
 
         let harvested = manna.harvest()
+        let inhaleFudgeFactor: CGFloat = 2.0
 
         st.metabolism.absorbEnergy(harvested)
-        st.metabolism.inhale(manna.energyFullness)
+
+        let toInhale = inhaleFudgeFactor * harvested / Manna.maxEnergyContentInJoules
+        st.metabolism.inhale(toInhale)
+        Log.L.write("inhale(\(String(format:"%-2.6f", toInhale)))", level: 35)
 
         MannaCoordinator.shared.beEaten(sprite)
 

@@ -11,12 +11,12 @@ class MannaCoordinator {
     static let fadeInAction = SKAction.fadeIn(withDuration: 0.001)
     static let fadeOutAction = SKAction.fadeOut(withDuration: 0.001)
 
-    static let cMorsels = 1000
+    static let cMorsels = 1250 * Int(ArkoniaCentral.masterScale)
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
     init() {
-        mannaSpriteFactory = Wangkhi.spriteFactory
+        mannaSpriteFactory = Larva.Constants.spriteFactory
     }
 
     private func bloom(_ manna: Manna) {
@@ -71,7 +71,7 @@ extension MannaCoordinator {
             gridCell.randomScenePosition ?? gridCell.scenePosition
 
         manna.sprite.alpha = 0
-        manna.sprite.setScale(0.14)
+        manna.sprite.setScale(0.14 / ArkoniaCentral.masterScale)
         manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
 
         bloom(manna)

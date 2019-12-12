@@ -180,23 +180,24 @@ class Metabolism {
 //        )
 
         stomach.deposit(cJoules)
-        Log.L.write("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 14)
+        Log.L.write("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 30)
 
-//        Log.L.write(
-//            " Deposit " +
-//            String(format: "% 6.2f ", stomach.level) +
-//            String(format: "% 6.2f ", readyEnergyReserves.level) +
-//            String(format: "% 6.2f ", fatReserves.level) +
-//            String(format: "% 6.2f ", spawnReserves.level) +
-//            String(format: "% 6.2f ", energyContent) +
-//            String(format: "(% 6.2f)\n]", cJoules) +
-//            String(format: "% 6.2f ", fungibleEnergyFullness),
-//            level: 14
-//        )
+        Log.L.write(
+            " Deposit " +
+            String(format: "% 6.2f ", stomach.level) +
+            String(format: "% 6.2f ", readyEnergyReserves.level) +
+            String(format: "% 6.2f ", fatReserves.level) +
+            String(format: "% 6.2f ", spawnReserves.level) +
+            String(format: "% 6.2f ", energyContent) +
+            String(format: "(% 6.2f)\n]", cJoules) +
+            String(format: "% 6.2f ", fungibleEnergyFullness),
+            level: 36
+        )
     }
 
     func inhale(_ howMuch: CGFloat = 1.0) {
-        oxygenLevel = constrain(howMuch + oxygenLevel, lo: 0.0, hi: 1.0)
+        let fudgeFactor: CGFloat = 2
+        oxygenLevel = constrain(howMuch * fudgeFactor + oxygenLevel, lo: 0.0, hi: 1.0)
 
 //        Log.L.write("d", arkon.arkon.selectoid.fishNumber, arkon.arkon.metabolism.oxygenLevel)
     }

@@ -1,26 +1,40 @@
 import Dispatch
 
 final class Plot: Dispatchable {
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
+    var senseData: [Double]?
+    var senseGrid: CellSenseGrid?
+    var wiLaunch2: DispatchWorkItem?
+    var wiLaunch3: DispatchWorkItem?
 
-    init(_ scratch: Scratchpad) {
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
-    private func launch_() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { preconditionFailure() }
+    internal override func launch_() {
+        guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
         guard let cc = ch.cellConnector else { preconditionFailure() }
 
-        let senseGrid = makeSenseGrid(from: cc)
-        let gridInputs = loadGridInputs(from: senseGrid)
+        senseGrid = makeSenseGrid(from: cc, block: st.previousShiftOffset)
+
+        self.wiLaunch2 = DispatchWorkItem { [weak self] in self?.launch2_() }
+        World.shared.concurrentQueue.async(execute: self.wiLaunch2!)
+    }
+
+    func launch2_() {
+        guard let sg = senseGrid else { preconditionFailure() }
+
+        let gridInputs = loadGridInputs(from: sg)
         let nonSpatial = getNonSpatialSenseData()
-        let senseData = gridInputs + nonSpatial
+        senseData = gridInputs + nonSpatial
 
-        ch.cellTaxi = makeCellTaxi(senseData, senseGrid)
-        Log.L.write("plot \(six(st.name)), \(ch.cellTaxi == nil), \(ch.cellTaxi?.toCell == nil), \(ch.cellTaxi?.toCell?.cell == nil))", level: 31)
+        self.wiLaunch3 = DispatchWorkItem { [weak self] in self?.launch3_() }
+        Grid.shared.serialQueue.async(execute: self.wiLaunch3!)
+    }
 
+    func launch3_() {
+        guard let (ch, dp, _) = scratch?.getKeypoints() else { preconditionFailure() }
+        guard let sg = senseGrid else { preconditionFailure() }
+        guard let sd = senseData else { preconditionFailure() }
+
+        ch.cellTaxi = makeCellTaxi(sd, sg)
+        ch.cellConnector = nil
+        self.senseGrid = nil
         dp.moveSprite()
     }
 
@@ -73,11 +87,6 @@ extension Plot {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
 
         var theData = [Double]()
-        let previousShift = st.previousShiftOffset
-
-        let xShift = Double(previousShift.x)
-        let yShift = Double(previousShift.y)
-        theData.append(contentsOf: [xShift, yShift])
 
         let hunger = Double(st.metabolism.hunger)
         let asphyxia = Double(1 - (st.metabolism.oxygenLevel / 1))
@@ -86,8 +95,8 @@ extension Plot {
         return theData
     }
 
-    func makeSenseGrid(from gridCenter: HotKey) -> CellSenseGrid {
-        return CellSenseGrid(from: gridCenter, by: ArkoniaCentral.cMotorGridlets)
+    func makeSenseGrid(from gridCenter: HotKey, block: AKPoint) -> CellSenseGrid {
+        return CellSenseGrid(from: gridCenter, by: ArkoniaCentral.cSenseGridlets, block: block)
     }
 
     private func makeCellTaxi(_ senseData: [Double], _ senseGrid: CellSenseGrid) -> CellTaxi {
@@ -103,7 +112,7 @@ extension Plot {
                 return(ss, dSignal)
         }
 
-        let trimmed = motorOutputs.filter { abs($0.1) < 1.0 && $0.0 != 0 }
+        let trimmed = motorOutputs.filter { _ in true }// { abs($0.1) < 1.0 && $0.0 != 0 }
 
         let order = trimmed.sorted { lhs, rhs in
             let labs = abs(lhs.1)
@@ -112,7 +121,7 @@ extension Plot {
             return labs > rabs
         }
 
-        Log.L.write("order \(order)", level: 32)
+        Log.L.write("order \(order)", level: 33)
 
         let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 
@@ -131,9 +140,9 @@ extension Plot {
         }
 
         if targetOffset == nil {
-            Log.L.write("targetOffset: nil", level: 32)
+            Log.L.write("targetOffset: nil", level: 33)
         } else {
-            Log.L.write("targetOffset: \(targetOffset!.0)", level: 32)
+            Log.L.write("targetOffset: \(targetOffset!.0)", level: 33)
         }
 
         return CellTaxi(fromCell, toCell)

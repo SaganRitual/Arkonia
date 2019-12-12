@@ -38,7 +38,7 @@ class Census {
 
     private func partB() {
         let liveArkons: [Stepper] = GriddleScene.arkonsPortal!.children.compactMap { node in
-            guard let sprite = node as? SKSpriteNode else { fatalError() }
+            guard let sprite = node as? SKSpriteNode else { return nil }
 
             guard let stepper = sprite.getStepper(require: false) else { return nil }
             return stepper
@@ -54,7 +54,7 @@ class Census {
             return (lAge / (lOffspring + 1)) < (rAge / (rOffspring + 1))
         }
 
-        if liveArkons.isEmpty { Dispatch().wangkhi() }
+        if liveArkons.isEmpty { for _ in 0..<25 { Dispatch().spawn() } }
 
         else if liveArkons.count < 25 {
             guard let bestBreeder = liveArkons.first else { preconditionFailure() }
@@ -66,8 +66,15 @@ class Census {
                 parentActivator: bestBreeder.parentActivator
             )
 
-            Log.L.write("layers: \(bestBreeder.parentLayers ?? [])", level: 29)
-            Dispatch(parentNet: newNet).wangkhi()
+            Log.L.write("layers: \(six(bestBreeder.name)) \(bestBreeder.parentLayers ?? [])", level: 33)
+            Dispatch(parentNet: newNet).spawn()
+            Dispatch(parentNet: newNet).spawn()
+            Dispatch().spawn()
+            Dispatch().spawn()
+            Dispatch(parentNet: newNet).spawn()
+            Dispatch(parentNet: newNet).spawn()
+        } else {
+            Log.L.write("liveArkons.count = \(liveArkons.count)", level: 33)
         }
 
         if liveArkons.isEmpty { partA() } else { partC() }

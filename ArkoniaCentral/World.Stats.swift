@@ -57,10 +57,11 @@ extension World {
 extension World.Stats {
     typealias OCGetStats = (World.StatsCopy) -> Void
 
-    func decrementPopulation(_ onComplete: OCGetStats?) {
-        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
+    func decrementPopulation(_ birthdayOfDeceased: Int) {
+        Grid.shared.serialQueue.async { [unowned self] in
+            let ageOfDeceased = self.currentTime - birthdayOfDeceased
+            self.highWaterAge = max(self.highWaterAge, ageOfDeceased)
             self.currentPopulation -= 1
-            onComplete?(self.copy())
         }
     }
 
@@ -92,14 +93,15 @@ extension World.Stats {
         }
     }
 
-    func registerBirth(myParent: Stepper?, meOffspring: WangkhiProtocol) {
-        Grid.shared.serialQueue.async(flags: .barrier) { [unowned self] in
+    func registerBirth(myParent: Stepper?, meOffspring: LarvaProtocol) {
+        Grid.shared.serialQueue.async { [unowned self] in
             self.registerBirth_(myParent, meOffspring)
         }
     }
 
-    func registerBirth_(_ myParent: Stepper?, _ meOffspring: WangkhiProtocol) {
+    func registerBirth_(_ myParent: Stepper?, _ meOffspring: LarvaProtocol) {
         self.currentPopulation += 1
+        self.highWaterPopulation = max(self.highWaterPopulation, self.currentPopulation)
 
         myParent?.cOffspring += 1
 
@@ -115,6 +117,9 @@ extension World.Stats {
         self.highWaterCOffspring = max(
             self.maxCOffspringForLiving, self.highWaterCOffspring
         )
+
+        Log.L.write("nil? \(myParent == nil), pop \(self.currentPopulation), cOffspring \(myParent?.cOffspring ?? -1)" +
+            " hw cOffspring \(self.maxCOffspringForLiving), real hw cOfspring \(self.highWaterCOffspring)", level: 37)
     }
 
     private func updateWorldClock() {

@@ -1,18 +1,11 @@
 import Dispatch
 
 final class ReleaseStage: Dispatchable {
-    weak var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
-
-    init(_ scratch: Scratchpad) {
-        self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem(block: launch_)
-    }
-
-    func launch_() {
+    internal override func launch_() {
         guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
         guard let taxi = ch.cellTaxi else { preconditionFailure() }
 
+        Log.L.write("Reset cellConnector #7", level: 41)
         ch.cellConnector = taxi.toCell
         dp.metabolize()
     }

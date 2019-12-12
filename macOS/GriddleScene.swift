@@ -76,6 +76,11 @@ class GriddleScene: SKScene, SKSceneDelegate {
         GriddleScene.shared = self
 
         GriddleScene.arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+        GriddleScene.arkonsPortal.xScale = ArkoniaCentral.masterScale / 4
+        GriddleScene.arkonsPortal.yScale = ArkoniaCentral.masterScale / 4
+
+        Log.L.write("GriddleScene.arkonsPortal scale = \(GriddleScene.arkonsPortal.xScale) x \(GriddleScene.arkonsPortal.yScale)", level: 38)
+
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
 
         enumerateChildNodes(withName: "net_9portal") { node_, _ in
@@ -83,13 +88,13 @@ class GriddleScene: SKScene, SKSceneDelegate {
             self.net9Portals.append(node)
         }
 
-        Wangkhi.spriteFactory = SpriteFactory(
+        Larva.Constants.spriteFactory = SpriteFactory(
             scene: self,
             thoraxFactory: SpriteFactory.makeSprite(texture:),
             noseFactory: SpriteFactory.makeSprite(texture:)
         )
 
-        Wangkhi.spriteFactory.postInit(net9Portals)
+        Larva.Constants.spriteFactory.postInit(net9Portals)
 
         Grid.shared = Grid()
         MannaCoordinator.shared = MannaCoordinator()

@@ -1,10 +1,11 @@
 import SpriteKit
 
 enum ArkoniaCentral {
-    static let senseGridSide = 3
+    static let masterScale = CGFloat(2)
+    static let senseGridSide = 5
     static let cSenseGridlets = senseGridSide * senseGridSide
-    static let cSenseNeurons = 2 * cSenseGridlets + 4
-    static let cMotorNeurons = cSenseGridlets - 1
+    static let cSenseNeurons = 2 * cSenseGridlets + 2
+    static let cMotorNeurons = 9 - 1
     static let cMotorGridlets = cMotorNeurons + 1
 }
 
@@ -37,8 +38,6 @@ struct AKPoint: Hashable, HasXY, CustomDebugStringConvertible {
 }
 
 struct Dimensions {
-    static let fudgFactor = CGFloat(2)
-
     let hGrid: Int
     let hPortal: Int
     let hSprite: Int
@@ -59,13 +58,15 @@ struct Dimensions {
         let tAtlas = SKTextureAtlas(named: "Arkons")
         let tTexture = tAtlas.textureNamed("neuron-plain")
 
-        let hSprite = Int(tTexture.size().height / Dimensions.fudgFactor)
-        let wSprite = Int(tTexture.size().width / Dimensions.fudgFactor)
+        let hSprite = Int(tTexture.size().height / (2 * ArkoniaCentral.masterScale))
+        let wSprite = Int(tTexture.size().width / (2 * ArkoniaCentral.masterScale))
 
-        let hPortal = Int((1 / Wangkhi.scaleFactor) * portal.size.height / Dimensions.fudgFactor) - hSprite
-        let wPortal = Int((1 / Wangkhi.scaleFactor) * portal.size.width / Dimensions.fudgFactor) - wSprite
+        let hPortal = Int(2 * portal.size.height / ArkoniaCentral.masterScale) - hSprite
+        let wPortal = Int(2 * portal.size.width / ArkoniaCentral.masterScale) - wSprite
         let hGrid = Int(hPortal / hSprite)
         let wGrid = Int(wPortal / wSprite)
+
+        Log.L.write("(wGrid x hGrid) = (\(wGrid) x \(hGrid)), (wPortal x hPortal) = (\(wPortal) x \(hPortal)), (wSprite x hSprite) = (\(wSprite) x \(hSprite))", level: 38)
 
         return Dimensions(hGrid, hPortal, hSprite, wGrid, wPortal, wSprite)
     }

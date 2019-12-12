@@ -1,13 +1,6 @@
 import SpriteKit
 
-enum Wangkhi {
-    static let brightColor = 0x00_FF_00    // Full green
-    static let scaleFactor: CGFloat = 0.5
-    static var spriteFactory: SpriteFactory!
-    static let standardColor = 0x00_FF_00  // Slightly dim green
-}
-
-protocol WangkhiProtocol: class, Dispatchable {
+protocol LarvaProtocol: class, DispatchableProtocol {
     var birthday: Int { get set }
     var callAgain: Bool { get }
     var cellConnector: HotKey? { get set }
@@ -23,31 +16,31 @@ protocol WangkhiProtocol: class, Dispatchable {
 
 enum Names {
     static var nameix = 0
+    static var setix = 0
 
     static var names = [
-        "Alice", "Bob", "Charles", "David", "Ellen", "Felicity",
-        "Grace", "Helen", "India", "James", "Karen", "Lizbeth",
-        "Mary", "Nathan", "Olivia", "Paul", "Quincy", "Rob", "Samantha",
-        "Tatiana", "Ulna", "Vivian", "William", "Xavier", "Yvonne", "Zoe",
-
-        "2Alice", "2Bob", "2Charles", "2David", "2Ellen", "2Felicity",
-        "2Grace", "2Helen", "2India", "2James", "2Karen", "2Lizbeth",
-        "2Mary", "2Nathan", "2Olivia", "2Paul", "2Quincy", "2Rob", "2Samantha",
-        "2Tatiana", "2Ulna", "2Vivian", "2William", "2Xavier", "2Yvonne", "2Zoe",
-
-        "3Alice", "3Bob", "3Charles", "3David", "3Ellen", "3Felicity",
-        "3Grace", "3Helen", "3India", "3James", "3Karen", "3Lizbeth",
-        "3Mary", "3Nathan", "3Olivia", "3Paul", "3Quincy", "3Rob", "3Samantha",
-        "3Tatiana", "3Ulna", "3Vivian", "3William", "3Xavier", "3Yvonne", "3Zoe"
+        "Alice-", "Bob-", "Charles-",
+        "David-", "Ellen-", "Felicity-",
+        "Grace-", "Helen-", "India-",
+        "James-", "Karen-", "Lizbeth-",
+        "Mary-", "Nathan-", "Olivia-",
+        "Paul-", "Quincy-", "Rob-",
+        "Samantha-", "Tatiana-", "Ulna-",
+        "Vivian-", "William-", "Xavier-",
+        "Yvonne-", "Zoe-"
     ]
 
     static func getName() -> String {
-        defer { nameix += 1 }
-        return names[nameix % names.count]
+        defer {
+            nameix = (nameix + 1) % names.count
+            if nameix == 0 { setix += 1 }
+        }
+
+        return names[nameix % names.count] + String(format: "%03d", setix)
     }
 }
 
-final class WangkhiEmbryo: WangkhiProtocol {
+final class Larva: DispatchableProtocol, LarvaProtocol {
     var dispatch: Dispatch? { willSet { fatalError() } }
 
     weak var scratch: Scratchpad?
@@ -55,7 +48,7 @@ final class WangkhiEmbryo: WangkhiProtocol {
     var birthday = 0
     var callAgain = false
     var cellConnector: HotKey?
-    var embryoName = UUID().uuidString // Names.getName()
+    var embryoName = Names.getName()
     var fishNumber = 0
     var metabolism: Metabolism?
     var net: Net?
@@ -64,14 +57,14 @@ final class WangkhiEmbryo: WangkhiProtocol {
     var nose: SKSpriteNode?
     weak var parent: Stepper?
     var sprite: SKSpriteNode? { willSet {
-        Log.L.write("Wangkhi.sprite \(six(scratch?.stepper?.name))", level: 15)
+        Log.L.write("Larva.sprite \(six(scratch?.stepper?.name))", level: 15)
     } }
-    var tempStrongReference: WangkhiEmbryo?
+    var tempStrongReference: Larva?
     var wiLaunch: DispatchWorkItem?
     var wiLaunch2: DispatchWorkItem?
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Wangkhi", level: 15)
+        Log.L.write("Larva", level: 15)
         self.scratch = scratch
         self.parent = scratch.stepper
         self.tempStrongReference = self
@@ -83,13 +76,19 @@ final class WangkhiEmbryo: WangkhiProtocol {
     }
 
     deinit {
-        Log.L.write("~Wangkhi", level: 19)
+        Log.L.write("~Larva", level: 19)
+    }
+
+    func launch() {
+        guard let w = wiLaunch else { fatalError() }
+        Grid.shared.serialQueue.async(execute: w)
     }
 
     func launch_() {
-        Log.L.write("Wangkhi.launch_ \(six(scratch?.stepper?.name))", level: 15)
+        Log.L.write("Larva.launch_ \(six(scratch?.stepper?.name))", level: 15)
 
         getStartingPosition()
+//        cellConnector?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "no fucking way"
         registerBirth()
 
         guard let w2 = wiLaunch2 else { fatalError() }
@@ -100,22 +99,34 @@ final class WangkhiEmbryo: WangkhiProtocol {
     func launch2_() { buildSprites() }
 }
 
-extension WangkhiEmbryo {
-    private func getStartingPosition() {
-        guard let parent = self.parent else {
-            self.cellConnector = GridCell.lockRandomEmptyCell()
-            return
-        }
-
-        self.cellConnector = GridCell.lockBirthPosition(parent: parent)
-    }
-
-    private func registerBirth() {
-        World.stats.registerBirth(myParent: nil, meOffspring: self)
+extension Larva {
+    enum Constants {
+        static let brightColor = 0x00_FF_00    // Full green
+        static var spriteFactory: SpriteFactory!
+        static let standardColor = 0x00_FF_00  // Slightly dim green
     }
 }
 
-extension WangkhiEmbryo {
+extension Larva {
+    private func getStartingPosition() {
+        guard let parent = self.parent else {
+            Log.L.write("Reset cellConnector #2", level: 41)
+            self.cellConnector = GridCell.lockRandomEmptyCell()
+//            self.cellConnector?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "hella what"
+            return
+        }
+
+        Log.L.write("Reset cellConnector #3", level: 41)
+        self.cellConnector = GridCell.lockBirthPosition(parent: parent)
+        self.cellConnector?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "hecka what"
+    }
+
+    private func registerBirth() {
+        World.stats.registerBirth(myParent: parent, meOffspring: self)
+    }
+}
+
+extension Larva {
     func buildGuts() {
 
         metabolism = Metabolism()
@@ -135,13 +146,11 @@ extension WangkhiEmbryo {
 
 }
 
-extension WangkhiEmbryo {
+extension Larva {
 
     func buildNetDisplay(_ sprite: SKSpriteNode) {
         guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
             else { return }
-
-        parent?.nose!.color = .purple
 
         guard let scene = np.parent as? SKScene else { return }
 
@@ -150,17 +159,17 @@ extension WangkhiEmbryo {
     }
 }
 
-extension WangkhiEmbryo {
+extension Larva {
 
     func abandonNewborn() {
-        if let st = parent, let dp = st.dispatch {
+        if let st = parent, let dp = st.dispatch, let sprite = st.sprite {
+            let rotate = SKAction.rotate(byAngle: 4 * 2 * CGFloat.pi, duration: 2.0)
+            sprite.run(rotate)
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
             dp.metabolize()
-            parent?.nose!.color = .orange
         } else {
             Log.L.write("no scratch", level: 29)
-            parent?.nose!.color = .yellow
         }
     }
 
@@ -176,20 +185,22 @@ extension WangkhiEmbryo {
     private func buildSprites_() {
         assert(Display.displayCycle == .actions)
 
-        self.nose = Wangkhi.spriteFactory!.noseHangar.makeSprite()
-        self.sprite = Wangkhi.spriteFactory!.arkonsHangar.makeSprite()
+        self.nose = Constants.spriteFactory!.noseHangar.makeSprite()
+        self.sprite = Constants.spriteFactory!.arkonsHangar.makeSprite()
 
         guard let sprite = self.sprite else { fatalError() }
         guard let nose = self.nose else { fatalError() }
+        Log.L.write("Reset cellConnector #4", level: 41)
         guard let cellConnector = self.cellConnector else { fatalError() }
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
+        nose.color = parent == nil ? .magenta : .brown
 
-        sprite.setScale(Wangkhi.scaleFactor)
+        sprite.setScale(ArkoniaCentral.masterScale / 8)
+        Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 37)
         sprite.color = ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
-        sprite.setScale(0.5)
         sprite.position = cellConnector.cell.scenePosition
         sprite.alpha = 1
 
@@ -211,6 +222,10 @@ extension WangkhiEmbryo {
 
         guard let ndp = newborn.dispatch else { fatalError() }
 
+        let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
+        sprite.run(rotate)
+
+        Log.L.write("Reset cellConnector #5", level: 41)
         ndp.scratch.cellConnector = self.cellConnector
         ndp.disengage()
     }
