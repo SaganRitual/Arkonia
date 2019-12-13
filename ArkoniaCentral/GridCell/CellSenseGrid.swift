@@ -1,32 +1,49 @@
-class CellSenseGrid {
+class CellSenseGrid: CustomDebugStringConvertible {
     var cells = [GridCellKey]()
     var centerName = ""
+    var debugDescription = ""
 
     init(from center: HotKey, by cGridlets: Int, block: AKPoint) {
 
-        guard let cc = center.cell else { preconditionFailure() }
+        guard let cc = center.getCell() else { preconditionFailure() }
         centerName = cc.ownerName
 
+        precondition(cc.sprite?.getStepper(require: false) != nil)
+
+        debugDescription += "center \(six(centerName)) at \(cc.gridPosition); "
+
         cells = [center] + (1..<cGridlets).map { index in
-            guard let position = center.cell?.getGridPointByIndex(index)
+            guard let position = center.getCell()?.getGridPointByIndex(index)
                 else { preconditionFailure() }
 
-            if position == block { return NilKey() }
-            guard let cell = GridCell.atIf(position) else { return NilKey() }
-            if index > ArkoniaCentral.cMotorGridlets { return ColdKey(for: cell) }
+            if position == block { debugDescription += ".."; return NilKey() }
+            guard let cell = GridCell.atIf(position) else { debugDescription += "^^"; return NilKey() }
+            if index > ArkoniaCentral.cMotorGridlets { debugDescription += "Cx"; return ColdKey(for: cell) }
+
+            precondition(GridCell.at(position).ownerName != centerName)
 
             var gotlock: GridCellKey?
             cell.lock(require: false, ownerName: centerName) { gotlock = $0 }
 
-            if let c = gotlock?.cell, let d = center.cell  {
-                c.ownerName = d.ownerName
-            }
+            let debugContents: String = {
+                switch gotlock?.contents {
+                case .invalid: return "i"
+                case .arkon:   return ((gotlock is HotKey) ? "a" : "c") + "\(cell.ownerName) at \(cell.gridPosition)"
+                case .manna:   return "m"
+                case .nothing: return "n"
+                case nil:      return "L"
+                }
+            }()
+            debugDescription += "H" + debugContents
 
             return gotlock!
         }
+
+        cc.sprite?.getStepper()?.dispatch.scratch.debugReport.append(debugDescription)
+        Log.L.write("SenseGrid for \(six(centerName)): \(self)", level: 55)
     }
 
     deinit {
-        Log.L.write("~SenseGrid for \(six(centerName))", level: 42)
+        Log.L.write("~SenseGrid for \(six(centerName))", level: 51)
     }
 }

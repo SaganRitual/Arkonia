@@ -7,7 +7,11 @@ class Stepper {
     var debugFlasher = false
     var dispatch: Dispatch!
     var fishNumber = 0
-    weak var gridCell: GridCell!
+    private weak var gridCell_: GridCell?
+    var gridCell: GridCell! {
+        get { gridCell_ }
+        set { gridCell_ = newValue; gridCell_?.debugReport.append("s(\(dispatch.scratch.serializer)) \(self.name)") }
+    }
     var isTurnabouted: Bool = false
     var metabolism: Metabolism!
     let name: String
@@ -20,12 +24,12 @@ class Stepper {
     weak var parentStepper: Stepper?
     var parentWeights: [Double]?
     var previousShiftOffset = AKPoint.zero
-    var sprite: SKSpriteNode!
+    weak var sprite: SKSpriteNode!
 
     init(_ embryo: Spawn, needsNewDispatch: Bool = false) {
         self.birthday = embryo.birthday
         self.fishNumber = embryo.fishNumber
-        self.gridCell = embryo.engagerKey!.cell!
+        self.gridCell_ = embryo.engagerKey!.getCell()
         self.metabolism = embryo.metabolism
         self.name = embryo.embryoName
         self.net = embryo.net
@@ -39,9 +43,11 @@ class Stepper {
     deinit {
         netDisplay = nil
 
-        Log.L.write("stepper deinit \(six(name))", level: 31)
+        Log.L.write("stepper deinit \(six(name))/\(six(sprite.name))", level: 59)
 
         World.stats.decrementPopulation(birthday)
+
+        Log.L.write("sd2 \(dispatch.scratch.debugReport)", level: 59)
     }
 
     func getAge(_ currentTime: Int) -> Int { return currentTime - self.birthday }
@@ -71,15 +77,17 @@ extension Stepper {
 extension Stepper {
     static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
         sprite.userData![SpriteUserDataKey.stepper] = stepper
-        if sprite.userData?["UUID"] == nil { sprite.userData!["UUID"] = UUID().uuidString }
+
+        Log.L.write("attachStepper \(six(stepper.name)), \(six(sprite.name))", level: 55)
         sprite.name = stepper.name
-        Log.L.write("attachStepper \(six(stepper.name)), \(six(sprite.name))", level: 0)
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
         Log.L.write("detachStepper \(six(stepper.name)) from sprite \(six(sprite.name))", level: 32)
-        if sprite.userData![SpriteUserDataKey.stepper] == nil { fatalError() }
-//        stepper.dispatch.scratch.resetGridConnector()
+        precondition(sprite.userData![SpriteUserDataKey.stepper] != nil)
+        precondition(sprite.userData![SpriteUserDataKey.uuid] != nil)
+
         sprite.userData![SpriteUserDataKey.stepper] = nil
+        sprite.name = sprite.userData![SpriteUserDataKey.uuid] as? String
     }
 }

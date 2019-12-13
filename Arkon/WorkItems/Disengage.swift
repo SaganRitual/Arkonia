@@ -6,9 +6,9 @@ final class Disengage: Dispatchable {
         Log.L.write("disengage \(six(st.name))", level: 31)
 
         Log.L.write("Reset engagerKey #0", level: 41)
-        ch.engagerKey = nil
-        ch.cellTaxi = nil
+        precondition(ch.cellShuttle == nil && ch.engagerKey != nil)
 
+        ch.engagerKey = nil
         dp.engage()
     }
 

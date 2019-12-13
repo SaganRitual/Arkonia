@@ -31,8 +31,9 @@ class Manna {
             level: 30
         )
 
-        guard let clock = GriddleScene.shared?.clock else { preconditionFailure() }
-        return f3 * (1 - clock.getEntropy())
+        let finalValue = f3 * (1 - Clock.getEntropy())
+        Log.L.write("energyContent: \(finalValue)) joules; entropy \(1 - Clock.getEntropy())", level: 49)
+        return finalValue
     }
 
     var energyFullness: CGFloat { return energyContentInJoules / Manna.maxEnergyContentInJoules }
@@ -41,6 +42,7 @@ class Manna {
 
     static func attachManna(_ manna: Manna, to sprite: SKSpriteNode) {
         sprite.userData![SpriteUserDataKey.manna] = manna
+        sprite.name = "manna-" + (sprite.name ?? "huh?")
     }
 
     static func getManna(from sprite: SKSpriteNode, require: Bool = true) -> Manna? {
@@ -57,8 +59,8 @@ class Manna {
         return manna
     }
 
-    func harvest() -> CGFloat {
+    func harvest(_ onComplete: @escaping (CGFloat) -> Void) {
         defer { sprite.colorBlendFactor = Manna.colorBlendMinimum }
-        return energyContentInJoules
+        onComplete(energyContentInJoules)
     }
 }

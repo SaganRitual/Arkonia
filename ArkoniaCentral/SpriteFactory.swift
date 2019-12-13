@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 enum SpriteUserDataKey {
-    case manna, net9Portal, netDisplay, stepper
+    case manna, net9Portal, netDisplay, stepper, uuid
 }
 
 class SpriteHangar: SpriteHangarProtocol {
@@ -25,8 +25,7 @@ class SpriteHangar: SpriteHangarProtocol {
 
         let newSprite = factoryFunction(texture)
         newSprite.alpha = 0
-        newSprite.userData = [:]
-        newSprite.name = UUID().uuidString
+        newSprite.userData = [SpriteUserDataKey.uuid: UUID().uuidString]
         drones.append(newSprite)
         return newSprite
     }

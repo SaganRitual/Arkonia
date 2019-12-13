@@ -8,7 +8,10 @@ protocol HasXY {
 extension GridCell {
     static func atIf(_ x: Int, _ y: Int) -> GridCell? {
         let p = AKPoint(x: x, y: y)
-        return Grid.cells[p]
+        if let c = Grid.cells[p] { return c }
+
+        Log.L.write("atIf -> nil: (\(x), \(y))", level: 51)
+        return nil
     }
 
     static func at(_ x: Int, _ y: Int) -> GridCell {
@@ -24,25 +27,6 @@ extension GridCell {
 
     static func at(_ position: AKPoint) -> GridCell {
         return GridCell.at(position.x, position.y)
-    }
-
-    static func constrainToGrid(_ x: Int, _ y: Int) -> (Int, Int) {
-        let cx = Grid.dimensions.wGrid - 1
-        let cy = Grid.dimensions.hGrid - 1
-
-        let constrainedX = min(cx, max(-cx, x))
-        let constrainedY = min(cy, max(-cy, y))
-
-        return (constrainedX, constrainedY)
-    }
-
-    static func isOnGrid(_ x: Int, _ y: Int) -> Bool {
-        let (cx, cy) = constrainToGrid(x, y)
-        return cx == x && cy == y
-    }
-
-    static func isOnGrid(_ xy: HasXY) -> Bool {
-        return isOnGrid(xy.x, xy.y)
     }
 
     static func + (_ lhs: GridCell, _ rhs: GridCell) -> GridCell {

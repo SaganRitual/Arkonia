@@ -9,25 +9,33 @@ final class MoveStepper: Dispatchable {
 
     func moveStepper() {
         guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }
-        guard let taxi = ch.cellTaxi else { preconditionFailure() }
+        guard let shuttle = ch.cellShuttle else { preconditionFailure() }
 
-        taxi.move()
+        Log.L.write("moveStepper from \(shuttle.fromCell?.gridPosition ?? AKPoint(x: -4242, y: 4242)) to \(shuttle.toCell?.gridPosition ?? AKPoint(x: -4242, y: 4242))", level: 56)
+
+        shuttle.move()
 
         stepper.previousShiftOffset = stepper.gridCell.gridPosition
-        stepper.gridCell = taxi.toCell?.cell
+        stepper.gridCell = shuttle.toCell?.getCell()
         precondition(stepper.gridCell != nil)
 
-        postMove(taxi)
+        postMove(shuttle)
     }
 }
 
 extension MoveStepper {
-    func postMove(_ taxi: cellTaxi_) {
-        guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
+    func postMove(_ shuttle: CellShuttle) {
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        precondition(taxi.fromCell?.cell?.gridPosition != taxi.toCell?.cell?.gridPosition)
+        precondition(
+            (ch.cellShuttle?.toCell != nil && ch.cellShuttle?.toCell?.sprite?.name == st.name && ch.engagerKey == nil) ||
+                (ch.engagerKey?.sprite?.name == st.name && ch.cellShuttle?.toCell == nil)
+        )
 
-        if taxi.didMove && taxi.consumedContents.isEdible() {
+        if shuttle.didMove && shuttle.consumedContents.isEdible() {
+            if shuttle.consumedContents == .arkon {
+                Log.L.write("postMove from \(shuttle.fromCell?.gridPosition ?? AKPoint(x: -4242, y: -4242)) to \(shuttle.toCell?.gridPosition ?? AKPoint(x: -4242, y: -4242)) holding \(shuttle.toCell?.contents ?? .invalid) by \(six(shuttle.toCell?.sprite?.name)) at \(shuttle.toCell?.sprite?.position ?? CGPoint.zero)", level: 56)
+            }
             dp.arrive()
             return
         }

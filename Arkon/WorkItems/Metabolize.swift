@@ -3,7 +3,7 @@ import GameplayKit
 final class Metabolize: Dispatchable {
    override func launch() {
        guard let w = wiLaunch else { fatalError() }
-       World.shared.concurrentQueue.async(execute: w)
+       Grid.shared.serialQueue.async(execute: w)
    }
 
     internal override func launch_() { aMetabolize() }
@@ -13,6 +13,12 @@ extension Metabolize {
     func aMetabolize() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         st.metabolism.metabolizeProper(ch.stillCounter > 0, st.sprite)
+
+        precondition(ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
+                ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
+                ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition
+        )
+
         dp.colorize()
     }
 }
@@ -23,10 +29,10 @@ extension Metabolism {
         Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 45)
 
         if fungibleEnergyFullness < 0.5 {
-            nose.color = .red
+            nose.color = .blue
             nose.colorBlendFactor = 1 - fungibleEnergyFullness
         } else {
-            nose.color = .white
+            nose.color = .gray
             nose.colorBlendFactor = 1
         }
 

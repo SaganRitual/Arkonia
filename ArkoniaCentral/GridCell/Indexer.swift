@@ -84,6 +84,7 @@ extension GridCell {
             partialIndex += 1
         }
 
+        Log.L.write("getGridPointByIndex(\(targetIndex)) -> \(gridPosition) + (\(x), \(y)) = \(self.gridPosition + AKPoint(x: x, y: y))", level: 54)
         return self.gridPosition + AKPoint(x: x, y: y)
     }
 }

@@ -21,6 +21,18 @@ extension Grid {
 
             placeGridlet(y, yGrid)
         }
+
+//        Grid.dumpCells()
+    }
+
+    static func dumpCells() {
+        let wg = Grid.dimensions!.wGrid - 1, hg = Grid.dimensions!.hGrid - 1
+        for gx in -wg...wg {
+            for gy in -hg...hg {
+                let p = AKPoint(x: gx, y: gy)
+                Log.L.write("cell[\(p)] = \(GridCell.at(p))")
+            }
+        }
     }
 
     //swiftmint:disable function_body_length
