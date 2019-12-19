@@ -12,19 +12,33 @@ final class Plot: Dispatchable {
         guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
         guard let hk = ch.engagerKey as? HotKey else { preconditionFailure() }
 
+        precondition(
+            (ch.engagerKey == nil  ||
+                (ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
+                ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
+                ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition)
+        ))
+
+        precondition(hk.sprite?.getStepper(require: false) != nil)
+        precondition(hk.sprite?.name == st.name)
+
         senseGrid = CellSenseGrid(
             from: hk,
             by: ArkoniaCentral.cSenseGridlets,
             block: st.previousShiftOffset
         )
 
-        World.shared.concurrentQueue.async { [weak self] in self?.getSenseData() }
+        Log.L.write("SenseGrid cells \(senseGrid!.cells)", level: 55)
+
+        guard let sg = senseGrid else { preconditionFailure() }
+        let gridInputs = loadGridInputs(from: sg)
+
+        Grid.shared.serialQueue.async {
+            [weak self] in self?.getSenseData(gridInputs)
+        }
     }
 
-    func getSenseData() {
-        guard let sg = senseGrid else { preconditionFailure() }
-
-        let gridInputs = loadGridInputs(from: sg)
+    func getSenseData(_ gridInputs: [Double]) {
         let nonSpatial = getNonSpatialSenseData()
         senseData = gridInputs + nonSpatial
 
@@ -36,7 +50,7 @@ final class Plot: Dispatchable {
         guard let sg = senseGrid else { preconditionFailure() }
         guard let sd = senseData else { preconditionFailure() }
 
-        ch.cellTaxi = makecellTaxi_(sd, sg)
+        ch.cellShuttle = makecellShuttle_(sd, sg)
         ch.engagerKey = nil
 
         dp.moveSprite()
@@ -99,7 +113,7 @@ extension Plot {
         return theData
     }
 
-    private func makecellTaxi_(_ senseData: [Double], _ senseGrid: CellSenseGrid) -> cellTaxi_ {
+    private func makecellShuttle_(_ senseData: [Double], _ senseGrid: CellSenseGrid) -> CellShuttle {
         guard let ch = scratch else { fatalError() }
         guard let st = ch.stepper else { fatalError() }
         guard let net = st.net else { fatalError() }
@@ -121,7 +135,7 @@ extension Plot {
             return labs > rabs
         }
 
-        Log.L.write("order \(order)", level: 33)
+        Log.L.write("order for \(six(st.name)): \(order)", level: 52)
 
         let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 
@@ -132,19 +146,21 @@ extension Plot {
             guard let t = senseGrid.cells[0] as? HotKey else { preconditionFailure() }
 
             toCell = t; fromCell = nil
+            Log.L.write("toCell at \(t.gridPosition)", level: 55)
         } else {
             guard let t = senseGrid.cells[targetOffset!.0] as? HotKey else { preconditionFailure() }
             guard let f = senseGrid.cells[0] as? HotKey else { preconditionFailure() }
 
             toCell = t; fromCell = f
+            Log.L.write("toCell at \(t.gridPosition), fromCell at \(f.gridPosition)", level: 55)
         }
 
         if targetOffset == nil {
-            Log.L.write("targetOffset: nil", level: 33)
+            Log.L.write("targetOffset: nil", level: 53)
         } else {
-            Log.L.write("targetOffset: \(targetOffset!.0)", level: 33)
+            Log.L.write("targetOffset: \(targetOffset!.0)", level: 53)
         }
 
-        return cellTaxi_(fromCell, toCell)
+        return CellShuttle(fromCell, toCell)
     }
 }

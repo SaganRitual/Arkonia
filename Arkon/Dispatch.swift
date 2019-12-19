@@ -68,14 +68,10 @@ final class Dispatch {
 
 extension Dispatch {
     private func dispatch(_ type: DispatchableProtocol.Type) {
-        if type is Apoptosize.Type {
-            precondition(scratch.isApoptosizing == false)
+        Grid.shared.serialQueue.async {
+            self.lifelet = type.init(self.scratch)
+            self.lifelet.launch()
         }
-
-        if scratch.isApoptosizing { return }
-
-        lifelet = type.init(scratch)
-        lifelet.launch()
     }
 
     func apoptosize()   { dispatch(Apoptosize.self) }

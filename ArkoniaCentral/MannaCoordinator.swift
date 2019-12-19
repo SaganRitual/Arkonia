@@ -15,9 +15,7 @@ class MannaCoordinator {
     var cMorsels = 0
     weak var mannaSpriteFactory: SpriteFactory?
 
-    init() {
-        mannaSpriteFactory = Spawn.Constants.spriteFactory
-    }
+    init() { mannaSpriteFactory = Spawn.Constants.spriteFactory }
 
     private func bloom(_ manna: Manna) {
         let action = SKAction.group([
@@ -54,7 +52,7 @@ extension MannaCoordinator {
     func beEaten(_ sprite: SKSpriteNode) {
         Grid.shared.serialQueue.async { [unowned self] in
             guard let manna = sprite.getManna() else { fatalError() }
-            self.plant(manna)
+            self.plant_(manna)
         }
     }
 }

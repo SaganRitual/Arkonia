@@ -7,7 +7,8 @@ extension GridCell {
         let wGrid = Grid.dimensions.wGrid
         let hGrid = Grid.dimensions.hGrid
 
-        let ak = AKPoint.random((-wGrid + 1)..<wGrid, (-hGrid + 1)..<hGrid)
+        let wp = wGrid - 5, hp = hGrid - 5
+        let ak = AKPoint.random(-wp..<wp, -hp..<hp)
 
         let gridCell = GridCell.at(ak.x, ak.y)
 
@@ -38,7 +39,7 @@ extension GridCell {
         return rg
     }
 
-    static func lockBirthPosition(parent: Stepper) -> HotKey {
+    static func lockBirthPosition(parent: Stepper, name: String) -> HotKey {
         var randomGridCell: HotKey?
         var gridPointIndex = 0
 
@@ -51,10 +52,11 @@ extension GridCell {
 
             guard let hk = ck as? HotKey else { continue }
 
-            hk.ownerName = "child of \(six(parent.name))"
+            hk.ownerName = name
             randomGridCell = hk
         } while (randomGridCell?.contents ?? .invalid) != .nothing
 
+        Log.L.write("lockBirthPosition at \(randomGridCell!.gridPosition)", level: 54)
         return randomGridCell!
     }
 
@@ -71,6 +73,7 @@ extension GridCell {
             randomGridCell = hk
         } while randomGridCell == nil
 
+        Log.L.write("lockRandomEmptyCell at \(randomGridCell!.gridPosition)", level: 54)
         return randomGridCell!
     }
 }

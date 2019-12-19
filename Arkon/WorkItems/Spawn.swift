@@ -48,7 +48,7 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
     var birthday = 0
     var callAgain = false
     var engagerKey: HotKey?
-    var embryoName = Names.getName()
+    let embryoName = Names.getName()
     var fishNumber = 0
     var metabolism: Metabolism?
     var net: Net?
@@ -69,6 +69,8 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
         self.parent = scratch.stepper
         self.tempStrongReference = self
 
+        self.fishNumber = World.stats.getNextFishNumber_()
+
         // Weak refs here, because apparently the work items capture self
         // even if you reference them with DispatchWorkItem(block: launch_)
         self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
@@ -76,7 +78,7 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
     }
 
     deinit {
-        Log.L.write("~Larva", level: 19)
+        Log.L.write("~Larva \(six(embryoName))", level: 51)
     }
 
     func launch() {
@@ -87,7 +89,7 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
     func launch_() {
         Log.L.write("Larva.launch_ \(six(scratch?.stepper?.name))", level: 15)
 
-        getStartingPosition()
+        getStartingPosition(self.embryoName)
 //        engagerKey?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "no fucking way"
         registerBirth()
 
@@ -108,15 +110,15 @@ extension Spawn {
 }
 
 extension Spawn {
-    private func getStartingPosition() {
+    private func getStartingPosition(_ embryoName: String) {
         guard let parent = self.parent else {
-            Log.L.write("Reset engagerKey #2", level: 41)
             engagerKey = GridCell.lockRandomEmptyCell(ownerName: "aboriginal-\(fishNumber)")
+            Log.L.write("Larva engagerKey random empty cell at \(engagerKey?.gridPosition ?? AKPoint(x: -4242, y: -4242))", level: 52)
             return
         }
 
-        Log.L.write("Reset engagerKey #3", level: 41)
-        engagerKey = GridCell.lockBirthPosition(parent: parent)
+        engagerKey = GridCell.lockBirthPosition(parent: parent, name: embryoName)
+        Log.L.write("Larva from \(six(parent.name)) engagerKey lock birth position at \(engagerKey?.gridPosition ?? AKPoint(x: -4242, y: -4242))", level: 52)
     }
 
     private func registerBirth() {
@@ -153,7 +155,7 @@ extension Spawn {
         guard let scene = np.parent as? SKScene else { return }
 
         netDisplay = NetDisplay(scene: scene, background: np, layers: net!.layers)
-        netDisplay!.display()
+        np.run(SKAction.run { self.netDisplay!.display() })
     }
 }
 
@@ -165,6 +167,12 @@ extension Spawn {
             sprite.run(rotate)
             let spawnCost = st.getSpawnCost()
             st.metabolism.withdrawFromSpawn(spawnCost)
+            let ch = dp.scratch
+            precondition(
+                    (ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
+                    ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
+                    ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition
+            ))
             dp.metabolize()
         } else {
             Log.L.write("no scratch", level: 29)
@@ -193,13 +201,13 @@ extension Spawn {
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
-        nose.color = parent == nil ? .magenta : .white
+        nose.color = parent == nil ? .orange : .yellow
 
         sprite.setScale(ArkoniaCentral.spriteScale)
         Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 37)
         sprite.color = .green //ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
-        sprite.position = engagerKey.cell!.scenePosition
+        sprite.position = engagerKey.scenePosition
         sprite.alpha = 1
 
         sprite.addChild(nose)
@@ -215,16 +223,33 @@ extension Spawn {
         newborn.dispatch.scratch.stepper = newborn
 
         Stepper.attachStepper(newborn, to: sprite)
+        Log.L.write("Attach stepper \(six(newborn.name)) sprite name is \(six(sprite.name))", level: 51)
 
         GriddleScene.arkonsPortal!.addChild(sprite)
-
-        guard let ndp = newborn.dispatch else { fatalError() }
 
         let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
         sprite.run(rotate)
 
-        Log.L.write("Reset engagerKey #5", level: 41)
-        ndp.scratch.engagerKey = self.scratch?.engagerKey
+        guard let ndp = newborn.dispatch else { fatalError() }
+        guard let ek = engagerKey else { fatalError() }
+
+        Log.L.write("Spawn engagerKey contents = \(engagerKey!.contents), sprite name = \(six(engagerKey!.sprite?.name))", level: 52)
+        ek.contents = .arkon
+        ek.sprite = sprite
+
+        precondition(ndp.scratch.stepper?.gridCell != nil)
+
+        guard let ownerName = ek.sprite?.getStepper(require: false)?.name else { preconditionFailure() }
+        ek.sprite?.name = ownerName
+
+        Log.L.write("Spawn pre-transferKey  contents = \(ek.contents), sprite name = \(six(ek.sprite?.name)), at \(ek.gridPosition)/\(ek.sprite?.position ?? CGPoint.zero)", level: 55)
+        ndp.scratch.engagerKey = ek
+        Log.L.write("Spawn post-transferKey contents = \(ndp.scratch.engagerKey!.contents), sprite name = \(six(ndp.scratch.engagerKey!.sprite?.name)), at \(ndp.scratch.engagerKey!.gridPosition)/\(ndp.scratch.engagerKey!.sprite?.position ?? CGPoint.zero)", level: 55)
+        precondition(ek.sprite?.getStepper(require: false) != nil)
+        precondition(ndp.scratch.engagerKey?.sprite?.getStepper(require: false) != nil)
+        precondition(ndp.scratch.engagerKey?.sprite?.getStepper(require: false)?.name == ek.sprite?.getStepper(require: false)?.name)
+
+        Log.L.write("New stepper \(six(newborn.name)) has sprite \(six(sprite.name)), gridcell owned by \(six(ndp.scratch.stepper?.gridCell.ownerName))", level: 52)
         ndp.disengage()
     }
 }

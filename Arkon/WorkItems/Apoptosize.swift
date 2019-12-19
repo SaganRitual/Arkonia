@@ -9,21 +9,24 @@ extension Apoptosize {
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
         guard let sp = st.sprite else { fatalError() }
         guard let no = st.nose else { fatalError() }
-
-        precondition(ch.isApoptosizing == false)
+        guard let gc = st.gridCell else { fatalError() }
 
         let action = SKAction.run {
             assert(Display.displayCycle == .actions)
             if ch.isApoptosizing { return }
             ch.isApoptosizing = true
 
+            gc.descheduleIf(st)
             sp.removeAllActions()
 
             Spawn.Constants.spriteFactory.noseHangar.retireSprite(no)
             Spawn.Constants.spriteFactory.arkonsHangar.retireSprite(sp)
 
+            Log.L.write("Apoptosize(\(six(st.name)))", level: 59)
             Grid.shared.serialQueue.async {
+                Log.L.write("Apoptosize2(\(six(st.name)))", level: 59)
                 Stepper.releaseStepper(st, from: sp)
+                Log.L.write("Apoptosize3(\(six(st.name)))", level: 59)
             }
         }
 

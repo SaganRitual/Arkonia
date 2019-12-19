@@ -13,23 +13,23 @@ class Grid {
     init() {
         Grid.dimensions = Dimensions.setDimensions(GriddleScene.arkonsPortal!)
 
-        Log.L.write("Grid dimensions = \(Grid.dimensions!)", level: 31)
+        Log.L.write("Grid dimensions = \(Grid.dimensions!)", level: 52)
         setupGrid(GriddleScene.arkonsPortal!, drawLines: false)
 
         for ss in 0..<(Grid.dimensions.wGrid * 2) {
-            if GridCell.atIf(AKPoint(x: ss, y: 0)) == nil { Log.L.write("+wg \(ss)", level: 31); break }
+            if GridCell.atIf(AKPoint(x: ss, y: 0)) == nil { Log.L.write("+wg \(ss - 1)", level: 56); break }
         }
 
         for ss in 0..<(Grid.dimensions.hGrid * 2) {
-            if GridCell.atIf(AKPoint(x: 0, y: ss)) == nil { Log.L.write("+hg \(ss)", level: 31); break }
+            if GridCell.atIf(AKPoint(x: 0, y: ss)) == nil { Log.L.write("+hg \(ss - 1)", level: 56); break }
         }
 
         for ss in 1..<(Grid.dimensions.wGrid * 2) {
-            if GridCell.atIf(AKPoint(x: -ss, y: 0)) == nil { Log.L.write("-wg \(-ss)", level: 31); break }
+            if GridCell.atIf(AKPoint(x: -ss, y: 0)) == nil { Log.L.write("-wg \(-ss + 1)", level: 56); break }
         }
 
-        for ss in 1..<(Grid.dimensions.wGrid * 2) {
-            if GridCell.atIf(AKPoint(x: 0, y: -ss)) == nil { Log.L.write("-hg \(-ss)", level: 31); break }
+        for ss in 1..<(Grid.dimensions.hGrid * 2) {
+            if GridCell.atIf(AKPoint(x: 0, y: -ss)) == nil { Log.L.write("-hg \(-ss + 1)", level: 56); break }
         }
     }
 

@@ -21,6 +21,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     var randomScenePosition: CGPoint?
     var toReschedule = [Stepper]()
     let scenePosition: CGPoint
+    var debugReport = [String]()
 
     var contents = Contents.nothing
     weak var sprite: SKSpriteNode?
@@ -32,13 +33,26 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 }
 
 extension GridCell {
+    func descheduleIf(_ stepper: Stepper) {
+        toReschedule.removeAll {
+            let remove = $0.name == stepper.name
+            if remove { Log.L.write("deschedule \(six(stepper.name)) == \(six($0.name))", level: 59) }
+            return remove
+        }
+    }
+
     func getRescheduledArkon() -> Stepper? {
-        defer { _ = toReschedule.dropFirst() }
+        defer { if toReschedule.isEmpty == false { _ = toReschedule.removeFirst() } }
+
+        Log.L.write("getRescheduledArkon \(toReschedule.count)", level: 51)
         return toReschedule.first
     }
 
     func reschedule(_ stepper: Stepper) {
+        precondition(toReschedule.contains { $0.name == stepper.name } == false)
         toReschedule.append(stepper)
+        stepper.nose.color = .blue
+        Log.L.write("reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))", level: 52)
     }
 }
 
@@ -54,5 +68,8 @@ extension GridCell {
         onComplete(HotKey(for: self, ownerName: ownerName))
     }
 
-    func releaseLock() { isLocked = false; ownerName = "No owner" }
+    func releaseLock() {
+        Log.L.write("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 51)
+        isLocked = false; ownerName = "No owner"
+    }
 }

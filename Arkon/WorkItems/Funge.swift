@@ -9,6 +9,8 @@ final class Funge: Dispatchable {
     }
 
     internal override func launch_() {
+        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
+        st.nose.color = .blue
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
     }
@@ -16,11 +18,18 @@ final class Funge: Dispatchable {
 
 extension Funge {
     func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool) {
-        guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        precondition(
+            (ch.engagerKey == nil  ||
+                (ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
+                ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
+                ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition)
+        ))
 
-        if !isAlive  { dp.apoptosize(); return }
-        if !canSpawn { dp.plot(); return }
+        if !isAlive  { st.nose.color = .cyan; dp.apoptosize(); return }
+        if !canSpawn { st.nose.color = .magenta; dp.plot(); return }
 
+        st.nose.color = .black
         dp.spawn()
     }
 }

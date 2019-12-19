@@ -1,8 +1,9 @@
-import Dispatch
+import CoreGraphics
 
 protocol StatsProtocol {
     var currentPopulation: Int { get }
     var currentTime: Int { get }
+    var entropy: CGFloat { get }
     var highWaterPopulation: Int { get }
     var maxCOffspringForLiving: Int { get }
     var maxLivingAge: Int { get }
@@ -16,6 +17,7 @@ extension World {
     struct StatsCopy: StatsProtocol {
         let currentPopulation: Int
         let currentTime: Int
+        let entropy: CGFloat
         let highWaterPopulation: Int
         let maxCOffspringForLiving: Int
         let maxLivingAge: Int
@@ -28,6 +30,7 @@ extension World {
 
         private(set) var currentPopulation = 0
         private(set) var currentTime = 0
+        var entropy: CGFloat { 1 - (CGFloat(currentTime) / 100) }
         private(set) var highWaterPopulation = 0
         private(set) var maxCOffspringForLiving = 0
         private(set) var maxLivingAge = 0
@@ -44,6 +47,7 @@ extension World {
             return StatsCopy(
                 currentPopulation: self.currentPopulation,
                 currentTime: self.currentTime,
+                entropy: self.entropy,
                 highWaterPopulation: self.highWaterPopulation,
                 maxCOffspringForLiving: self.maxCOffspringForLiving,
                 maxLivingAge: self.maxLivingAge,
@@ -66,10 +70,15 @@ extension World.Stats {
     }
 
     func getNextFishNumber(_ onComplete: @escaping (Int) -> Void) {
-        Grid.shared.serialQueue.async(flags: .barrier) {
-            defer { World.stats.TheFishNumber += 1 }
-            onComplete(World.stats.TheFishNumber)
+        Grid.shared.serialQueue.async {
+            let next = self.getNextFishNumber_()
+            onComplete(next)
         }
+    }
+
+    func getNextFishNumber_() -> Int {
+        defer { World.stats.TheFishNumber += 1 }
+        return World.stats.TheFishNumber
     }
 
     func getStats(_ onComplete: @escaping OCGetStats) {

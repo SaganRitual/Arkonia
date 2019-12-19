@@ -1,43 +1,71 @@
-import Foundation
+import SpriteKit
 
 final class Parasitize: Dispatchable {
     internal override func launch_() {
-        Log.L.write("Parasitize.launch_ \(six(scratch?.stepper?.name))", level: 22)
+        Log.L.write("Parasitize.launch_ \(six(scratch?.stepper?.name))", level: 51)
         let result = attack()
-        parasitize(result.0, result.1)
+
+        let bleedToDeath = SKAction.colorize(with: .red, colorBlendFactor: 1, duration: 0.5)
+        let resizeToDeath = SKAction.scale(to: 0.25, duration: 0.5)
+        let groupDo = SKAction.group([bleedToDeath, resizeToDeath])
+        let groupUndo = SKAction.group([bleedToDeath.reversed(), resizeToDeath.reversed()])
+        let sequence = SKAction.sequence([groupDo, groupUndo])
+        let makeAScene = SKAction.repeat(sequence, count: 5)
+        result.1.sprite.run(makeAScene) {
+            Grid.shared.serialQueue.async { self.parasitize(result.0, result.1) }
+        }
     }
 }
 
 extension Parasitize {
     func attack() -> (Stepper, Stepper) {
+        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+        precondition(
+            (ch.cellShuttle?.toCell != nil && ch.cellShuttle?.toCell?.sprite?.name == st.name && ch.engagerKey == nil) ||
+                (ch.engagerKey?.sprite?.name == st.name && ch.cellShuttle?.toCell == nil)
+        )
+
         guard let (myScratch, _, myStepper) = scratch?.getKeypoints() else { fatalError() }
 
-        guard let hisSprite = myScratch.cellTaxi?.consumedSprite else { fatalError() }
+        guard let hisSprite = myScratch.cellShuttle?.consumedSprite else { fatalError() }
         guard let hisStepper = hisSprite.getStepper() else { fatalError() }
+
+        Log.L.write("Parasitize: \(six(myStepper.name))/\(six(hisStepper.name)) attacks \(six(myScratch.cellShuttle?.consumedSprite?.name))", level: 56)
 
         let myMass = myStepper.metabolism.mass
         let hisMass = hisStepper.metabolism.mass
 
-        Log.L.write("Parasitize: \(six(myStepper.name)) attacks \(six(hisStepper.name))", level: 28)
+        Log.L.write("Parasitize: \(six(myStepper.name)) at \(myStepper.gridCell.gridPosition) attacks \(six(hisStepper.name)) at \(hisStepper.gridCell.gridPosition)", level: 56)
 
         if myMass > (hisMass * 1.25) {
-            Log.L.write("Parasitize2: \(six(myStepper.name)) eats \(six(hisStepper.name))", level: 28)
             myStepper.isTurnabouted = false
             hisStepper.isTurnabouted = false
+
+            precondition((hisStepper.dispatch.scratch.engagerKey as? HotKey) == nil)
+            precondition(hisStepper.dispatch.scratch.cellShuttle == nil)
+
+            Log.L.write("Parasitize2: \(six(myStepper.name)) eats \(six(hisStepper.name))", level: 56)
+            myStepper.gridCell.descheduleIf(hisStepper)
+
             return (myStepper, hisStepper)
         } else {
             myStepper.isTurnabouted = true
             hisStepper.isTurnabouted = true
-            Log.L.write("Parasitize3: \(six(myStepper.name)) eats \(six(hisStepper.name))", level: 28)
+
+            Log.L.write("Parasitize3: \(six(hisStepper.name)) at \(hisStepper.gridCell.gridPosition) eats \(six(myStepper.name)) at \(myStepper.gridCell.gridPosition)", level: 56)
 
             let hisScratch = hisStepper.dispatch.scratch
-            let myTaxi = myScratch.cellTaxi
+            guard let myShuttle = myScratch.cellShuttle else { fatalError() }
 
-            precondition(hisScratch.engagerKey != nil)
-            precondition(myTaxi != nil)
+            precondition((hisScratch.engagerKey is HotKey) == false)
+            precondition(hisScratch.cellShuttle == nil)
+            precondition(myShuttle.toCell != nil && myShuttle.fromCell != nil)
 
-            hisScratch.cellTaxi = myTaxi
-            myScratch.cellTaxi = nil
+            hisScratch.cellShuttle = myShuttle.transferKeys(to: hisStepper)
+            hisScratch.engagerKey = nil
+            myScratch.cellShuttle = nil
+
+            myStepper.gridCell.descheduleIf(hisStepper)
 
             return (hisStepper, myStepper)
         }

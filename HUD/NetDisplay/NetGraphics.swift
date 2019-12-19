@@ -65,7 +65,7 @@ struct NetGraphics {
         sprite.position = netDisplayGrid.getPosition(gridPoint)
         sprite.position.y -= yFudge
         sprite.zPosition = 17
-        background.addChild(sprite)
+        self.background.addChild(sprite)
         Log.L.write("sprite \(six(sprite.name)) at \(sprite.position)", level: 17)
     }
 }

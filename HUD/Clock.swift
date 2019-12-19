@@ -1,10 +1,11 @@
 import SpriteKit
 
 class Clock {
+    private static let timeLimit: TimeInterval? = 5000
+
     let clockFormatter = DateComponentsFormatter()
     let clockReport: Reportoid
     let foodValueReport: Reportoid
-    private let timeLimit: TimeInterval? = 5000
     let timeZero = Date()
 
     init(_ scene: GriddleScene) {
@@ -19,7 +20,7 @@ class Clock {
         updateClock()
     }
 
-    func getEntropy() -> CGFloat {
+    static func getEntropy() -> CGFloat {
         guard let t = timeLimit else { return 0 }
         return min(CGFloat(World.stats.gameAge * 2) / CGFloat(t), 1)
 
@@ -35,9 +36,7 @@ class Clock {
             self.clockReport.data.text =
                 self.clockFormatter.string(from: TimeInterval(stats.currentTime))
 
-            let percentage = (1 - getEntropy()) * 100
-
-            self.foodValueReport.data.text = String(format: "%.2f", percentage)
+            self.foodValueReport.data.text = String(format: "%.2f", (1 - Clock.getEntropy()) * 100)
             partC()
         }
 
