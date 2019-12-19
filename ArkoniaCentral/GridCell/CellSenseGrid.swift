@@ -39,7 +39,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
             return gotlock!
         }
 
-        cc.sprite?.getStepper()?.dispatch.scratch.debugReport.append(debugDescription)
+//        cc.sprite?.getStepper()?.dispatch.scratch.debugReport.append(debugDescription)
         Log.L.write("SenseGrid for \(six(centerName)): \(self)", level: 55)
     }
 

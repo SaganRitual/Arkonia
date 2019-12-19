@@ -36,8 +36,8 @@ final class MoveSprite: Dispatchable {
 
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
 
-        guard let p = shuttle.toCell?.gridPosition else { preconditionFailure() }
-        ch.debugReport.append("move(\(ch.serializer) \(six(st.name)) to \(p)")
+//        guard let p = shuttle.toCell?.gridPosition else { preconditionFailure() }
+//        ch.debugReport.append("move(\(ch.serializer) \(six(st.name)) to \(p)")
 
         Log.L.write("moveSprite0 \(six(st.name)), \(ch.cellShuttle == nil), \(ch.cellShuttle?.toCell == nil), \(ch.cellShuttle?.toCell?.getCell() == nil))", level: 31)
 

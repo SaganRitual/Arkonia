@@ -18,6 +18,10 @@ extension GridCellKey {
     func reengageRequesters() {
         guard let c = bell else { return }
 
+//        if let sp = self.sprite {
+//            (sp.children[0] as? SKSpriteNode)?.color = .red
+//            sp.color = .blue
+//        }
         while true {
             guard let waitingStepper = c.getRescheduledArkon() else {
                 Log.L.write("reengageRequesters empty", level: 54)

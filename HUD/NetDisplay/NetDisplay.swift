@@ -34,10 +34,10 @@ class NetDisplay {
     }
 
     func display() {
-        background.run(SKAction.run { self.display_() })
+        GriddleScene.shared.run(SKAction.run { self.display_() })
     }
 
-    func display_() {
+    private func display_() {
         let neuronRadius = CGFloat(25)
 
         let cHiddenLayers = layers.count - 2

@@ -11,6 +11,7 @@ final class Parasitize: Dispatchable {
         let groupUndo = SKAction.group([bleedToDeath.reversed(), resizeToDeath.reversed()])
         let sequence = SKAction.sequence([groupDo, groupUndo])
         let makeAScene = SKAction.repeat(sequence, count: 5)
+        result.1.nose.color = .black
         result.1.sprite.run(makeAScene) {
             Grid.shared.serialQueue.async { self.parasitize(result.0, result.1) }
         }
@@ -24,6 +25,8 @@ extension Parasitize {
             (ch.cellShuttle?.toCell != nil && ch.cellShuttle?.toCell?.sprite?.name == st.name && ch.engagerKey == nil) ||
                 (ch.engagerKey?.sprite?.name == st.name && ch.cellShuttle?.toCell == nil)
         )
+
+        st.nose.color = .black
 
         guard let (myScratch, _, myStepper) = scratch?.getKeypoints() else { fatalError() }
 

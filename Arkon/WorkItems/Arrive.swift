@@ -1,5 +1,4 @@
-import CoreGraphics
-import Dispatch
+import SpriteKit
 
 final class Arrive: Dispatchable {
     override func launch() {
@@ -36,7 +35,7 @@ final class Arrive: Dispatchable {
 }
 
 extension Arrive {
-    func graze() { Grid.shared.serialQueue.async { self.graze_() } }
+    func graze() { GriddleScene.shared.run(SKAction.run { self.graze_() }) }
 
     func graze_() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
@@ -57,7 +56,7 @@ extension Arrive {
             st.metabolism.inhale(toInhale)
             Log.L.write("inhale(\(String(format:"%-2.6f", toInhale)))", level: 35)
 
-            MannaCoordinator.shared.beEaten(sprite)
+            Manna.populator.beEaten(sprite)
 
             precondition(
                 (ch.cellShuttle?.fromCell != nil) &&

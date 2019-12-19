@@ -29,10 +29,10 @@ extension Metabolism {
         Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 45)
 
         if fungibleEnergyFullness < 0.5 {
-            nose.color = .blue
+            nose.color = .cyan
             nose.colorBlendFactor = 1 - fungibleEnergyFullness
         } else {
-            nose.color = .gray
+            nose.color = .magenta
             nose.colorBlendFactor = 1
         }
 

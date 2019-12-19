@@ -10,7 +10,7 @@ class Stepper {
     private weak var gridCell_: GridCell?
     var gridCell: GridCell! {
         get { gridCell_ }
-        set { gridCell_ = newValue; gridCell_?.debugReport.append("s(\(dispatch.scratch.serializer)) \(self.name)") }
+        set { gridCell_ = newValue }//; gridCell_?.debugReport.append("s(\(dispatch.scratch.serializer)) \(self.name)") }
     }
     var isTurnabouted: Bool = false
     var metabolism: Metabolism!

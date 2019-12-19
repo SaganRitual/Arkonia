@@ -34,7 +34,3 @@ protocol NetDisplayGridProtocol {
 }
 
 typealias FactoryFunction = (SKTexture) -> SKSpriteNode
-
-protocol SpriteHangarProtocol {
-    func makeSprite() -> SKSpriteNode
-}

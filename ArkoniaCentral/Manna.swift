@@ -12,6 +12,8 @@ class Manna {
         return maxEnergyContentInJoules / CGFloat(fullGrowthDurationSeconds)
     }
 
+    static var populator = Populator()
+
     var rebloomDelay = 1.0
     var isCaptured = false
     weak var sprite: SKSpriteNode!

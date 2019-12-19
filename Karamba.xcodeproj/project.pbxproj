@@ -10,7 +10,7 @@
 		D4174DCE237BC31C00F01F28 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DCD237BC31C00F01F28 /* GridCell.swift */; };
 		D4174DD0237BC4CA00F01F28 /* Positions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DCF237BC4CA00F01F28 /* Positions.swift */; };
 		D4174DD4237BD12B00F01F28 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DD3237BD12B00F01F28 /* Protocol.swift */; };
-		D422DE0223578CFD003734B8 /* MannaCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* MannaCoordinator.swift */; };
+		D422DE0223578CFD003734B8 /* Populator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* Populator.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
 		D422FE6D238E248C007F0B7B /* CellShuttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6C238E248C007F0B7B /* CellShuttle.swift */; };
@@ -134,7 +134,7 @@
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
 		D42172F2233EE46000A56594 /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .overcommit.yml; sourceTree = "<group>"; };
 		D42172F3233EE46000A56594 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		D422DE0123578CFD003734B8 /* MannaCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MannaCoordinator.swift; sourceTree = "<group>"; };
+		D422DE0123578CFD003734B8 /* Populator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Populator.swift; sourceTree = "<group>"; };
 		D422DE0A23598B52003734B8 /* Census.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D422DE0C23598BEC003734B8 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		D422FE6C238E248C007F0B7B /* CellShuttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellShuttle.swift; sourceTree = "<group>"; };
@@ -265,8 +265,8 @@
 				D45A9361237CEE5F00FC039E /* Grid.swift */,
 				D45A9360237CEE5F00FC039E /* Grid.Setup.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
-				D422DE0123578CFD003734B8 /* MannaCoordinator.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
+				D422DE0123578CFD003734B8 /* Populator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
 				D49042C422AE2B2500E7369B /* World.swift */,
@@ -507,7 +507,7 @@
 			files = (
 				D4C336D02383FDEA00E50A50 /* Log.swift in Sources */,
 				D422FE6D238E248C007F0B7B /* CellShuttle.swift in Sources */,
-				D422DE0223578CFD003734B8 /* MannaCoordinator.swift in Sources */,
+				D422DE0223578CFD003734B8 /* Populator.swift in Sources */,
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
 				D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */,

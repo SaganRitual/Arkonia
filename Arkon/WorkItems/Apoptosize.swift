@@ -19,8 +19,8 @@ extension Apoptosize {
             gc.descheduleIf(st)
             sp.removeAllActions()
 
-            Spawn.Constants.spriteFactory.noseHangar.retireSprite(no)
-            Spawn.Constants.spriteFactory.arkonsHangar.retireSprite(sp)
+            SpriteFactory.shared.noseHangar.retireSprite(no)
+            SpriteFactory.shared.arkonsHangar.retireSprite(sp)
 
             Log.L.write("Apoptosize(\(six(st.name)))", level: 59)
             Grid.shared.serialQueue.async {

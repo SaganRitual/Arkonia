@@ -10,7 +10,8 @@ final class Funge: Dispatchable {
 
     internal override func launch_() {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
-        st.nose.color = .blue
+        st.sprite.color = .red
+        st.nose.color = .red
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
     }
@@ -29,7 +30,7 @@ extension Funge {
         if !isAlive  { st.nose.color = .cyan; dp.apoptosize(); return }
         if !canSpawn { st.nose.color = .magenta; dp.plot(); return }
 
-        st.nose.color = .black
+        st.nose.color = .green
         dp.spawn()
     }
 }
@@ -58,7 +59,7 @@ extension Metabolism {
 
         let fudgeOxygenFactor: CGFloat = 30
         let oxygenCost: Int = age < 1 ? 0 : 1
-        oxygenLevel -= CGFloat(oxygenCost) * (1 + stillnessCost) / fudgeOxygenFactor
+        oxygenLevel -= CGFloat(oxygenCost) * (1 + stillnessCost * 2) / fudgeOxygenFactor
 
         if stillnessCost > 0 {
             Log.L.write(
