@@ -33,6 +33,8 @@ extension Manna.Populator {
         manna.sprite.alpha = 0
         manna.sprite.setScale(0.14 / ArkoniaCentral.masterScale)
         manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
+
+        manna.sprite.run(Manna.Populator.bloomAction)
     }
 
     private func createNewManna() -> Manna? {
@@ -53,10 +55,7 @@ extension Manna.Populator {
         let a = SKAction.run {
             guard let m = self.createNewManna() else { return }
             self.plant(m)
-
             self.manna = m
-
-            m.sprite.run(Manna.Populator.bloomAction)
         }
 
         GriddleScene.shared.run(a) {
