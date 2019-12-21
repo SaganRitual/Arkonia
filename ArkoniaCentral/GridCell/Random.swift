@@ -60,6 +60,13 @@ extension GridCell {
         return randomGridCell!
     }
 
+    static func lockRandomEmptyCell(ownerName: String, onComplete: @escaping ((HotKey?) -> Void)) {
+        Grid.shared.serialQueue.async {
+            let hotKey = lockRandomEmptyCell(ownerName: ownerName)
+            onComplete(hotKey)
+        }
+    }
+
     static func lockRandomEmptyCell(ownerName: String) -> HotKey? {
         var randomGridCell: HotKey?
 

@@ -21,26 +21,28 @@ extension Manna.Populator {
     }
 
     private func plant(_ manna: Manna) {
-        let gridCell = GridCell.getRandomEmptyCell()
+        GridCell.lockRandomEmptyCell(ownerName: manna.sprite.name!) { hk in
+            guard let hotKey = hk else { fatalError() }
+            hotKey.contents = .manna
+            hotKey.sprite = manna.sprite
+            guard manna.sprite.userData?[SpriteUserDataKey.manna] is Manna else { fatalError() }
 
-        gridCell.contents = .manna
-        gridCell.sprite = manna.sprite
-        guard manna.sprite.userData?[SpriteUserDataKey.manna] is Manna else { fatalError() }
+            manna.sprite.position =
+                hotKey.randomScenePosition ?? hotKey.scenePosition
 
-        manna.sprite.position =
-            gridCell.randomScenePosition ?? gridCell.scenePosition
+            manna.sprite.alpha = 0
+            manna.sprite.setScale(0.14 / ArkoniaCentral.masterScale)
+            manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
 
-        manna.sprite.alpha = 0
-        manna.sprite.setScale(0.14 / ArkoniaCentral.masterScale)
-        manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
-
-        manna.sprite.run(Manna.Populator.bloomAction)
+            manna.sprite.run(Manna.Populator.bloomAction)
+        }
     }
 
     private func createNewManna() -> Manna? {
         if cMorsels >= MannaCoordinator.cMorsels { return nil }
 
         let sprite = self.mannaSpriteHangar.makeSprite()
+        sprite.name = "manna-\(cMorsels)"
 
         GriddleScene.arkonsPortal!.addChild(sprite)
 

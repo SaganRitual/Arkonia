@@ -85,6 +85,11 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         set { preconditionFailure() }
     }
 
+    var randomScenePosition: CGPoint? {
+        get { return cell_?.randomScenePosition }
+        set { preconditionFailure() }
+    }
+
     var scenePosition: CGPoint {
         get { return cell_?.scenePosition ?? CGPoint(x: -42.42, y: -42.42) }
         set { preconditionFailure() }
