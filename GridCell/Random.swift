@@ -14,8 +14,8 @@ extension GridCell {
 
         if funkyCells == false { return gridCell }
 
-        let wScene = CGFloat(Grid.dimensions.wSprite / 2)
-        let hScene = CGFloat(Grid.dimensions.hSprite / 2)
+        let wScene = CGFloat(Grid.dimensions.wSprite) / 2
+        let hScene = CGFloat(Grid.dimensions.hSprite) / 2
 
         let lScene = gridCell.scenePosition.x - wScene
         let rScene = gridCell.scenePosition.x + wScene
@@ -66,6 +66,8 @@ extension GridCell {
             onComplete(hotKey)
         }
     }
+
+    static var lockCount = 0
 
     static func lockRandomEmptyCell(ownerName: String) -> HotKey? {
         var randomGridCell: HotKey?

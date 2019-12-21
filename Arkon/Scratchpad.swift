@@ -1,3 +1,5 @@
+import CoreGraphics
+
 class Scratchpad {
     var battle: (Stepper, Stepper)?
     var canSpawn = false
@@ -11,7 +13,7 @@ class Scratchpad {
     weak var parentNet: Net?
     var serializer = 0
     weak var stepper: Stepper?
-    var stillCounter = 0
+    var stillCounter: CGFloat = 0
     var worldStats: World.StatsCopy?
 
     deinit {

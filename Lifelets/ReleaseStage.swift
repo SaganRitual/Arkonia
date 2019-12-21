@@ -7,6 +7,8 @@ final class ReleaseStage: Dispatchable {
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
         guard let toCell = shuttle.toCell else { preconditionFailure() }
 
+        debugColor(st, .green, .cyan)
+
         precondition(
             ((ch.engagerKey == nil && ch.cellShuttle != nil) || (ch.engagerKey != nil &&
                 ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&

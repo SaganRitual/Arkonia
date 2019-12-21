@@ -109,6 +109,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
         Manna.populator.populate()
 
         readyForDisplayCycle = true
+        speed = 1
     }
 
     override func update(_ currentTime: TimeInterval) {

@@ -12,7 +12,8 @@ final class Metabolize: Dispatchable {
 extension Metabolize {
     func aMetabolize() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        st.metabolism.metabolizeProper(ch.stillCounter > 0, st.sprite)
+        if ArkoniaCentral.debugColorIsEnabled { st.sprite.color = .red }
+        st.metabolism.metabolizeProper(ch.stillCounter > 0, st.nose)
 
         precondition(ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
                 ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
@@ -29,10 +30,10 @@ extension Metabolism {
         Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 45)
 
         if fungibleEnergyFullness < 0.5 {
-            nose.color = .cyan
+            if ArkoniaCentral.debugColorIsEnabled { nose.color = .green }
             nose.colorBlendFactor = 1 - fungibleEnergyFullness
         } else {
-            nose.color = .magenta
+            if ArkoniaCentral.debugColorIsEnabled { nose.color = .blue }
             nose.colorBlendFactor = 1
         }
 

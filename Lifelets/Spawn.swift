@@ -201,14 +201,16 @@ extension Spawn {
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
-        nose.color = parent == nil ? .purple : .green
+        nose.setScale(0.75)
 
         sprite.setScale(ArkoniaCentral.spriteScale)
         Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 37)
-        sprite.color = .white //ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
         sprite.position = engagerKey.scenePosition
         sprite.alpha = 1
+
+        let noseColor: SKColor = (parent == nil) ? .magenta : .yellow
+        debugColor(sprite, .green, nose, noseColor)
 
         sprite.addChild(nose)
     }
@@ -221,12 +223,11 @@ extension Spawn {
         let newborn = Stepper(self, needsNewDispatch: true)
         newborn.parentStepper = self.parent
         newborn.dispatch.scratch.stepper = newborn
-        newborn.sprite?.color = .blue
-        newborn.nose?.color = .blue
+        newborn.sprite?.color = .yellow
+        newborn.nose?.color = .white
 
         Stepper.attachStepper(newborn, to: sprite)
         Log.L.write("Attach stepper \(six(newborn.name)) sprite name is \(six(sprite.name))", level: 51)
-        newborn.nose?.color = .green
 
         precondition(sprite.name == newborn.name)
         precondition(sprite.getStepper(require: false)?.name == newborn.name)
@@ -250,7 +251,6 @@ extension Spawn {
 
         Log.L.write("Spawn pre-transferKey  contents = \(ek.contents), sprite name = \(six(ek.sprite?.name)), at \(ek.gridPosition)/\(ek.sprite?.position ?? CGPoint.zero)", level: 55)
         ndp.scratch.engagerKey = ek
-        newborn.nose?.color = .green
         Log.L.write("Spawn post-transferKey contents = \(ndp.scratch.engagerKey!.contents), sprite name = \(six(ndp.scratch.engagerKey!.sprite?.name)), at \(ndp.scratch.engagerKey!.gridPosition)/\(ndp.scratch.engagerKey!.sprite?.position ?? CGPoint.zero)", level: 55)
         precondition(ek.sprite?.getStepper(require: false) != nil)
         precondition(ndp.scratch.engagerKey?.sprite?.getStepper(require: false) != nil)

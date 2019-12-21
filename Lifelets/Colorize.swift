@@ -10,8 +10,7 @@ extension Colorize {
     func aColorize() {
         Log.L.write("Colorize.launch_ \(six(scratch?.stepper?.name))", level: 15)
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        st.sprite.color = .green
-        st.nose.color = .red
+        debugColor(st, .blue, .blue)
 
         precondition(ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
                 ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
@@ -25,7 +24,7 @@ extension Colorize {
 extension Stepper {
 
     func colorizeProper(_ onComplete: @escaping () -> Void) {
-        nose.colorBlendFactor = CGFloat(1 - (metabolism.oxygenLevel / 1))
+        nose.colorBlendFactor = CGFloat(1 - metabolism.oxygenLevel)
 
         let babyBumpIsRunning = sprite.action(forKey: "baby-bump") != nil
         let babyBumpShouldBeShowing = metabolism.spawnReserves.level > (getSpawnCost() * 0.5)

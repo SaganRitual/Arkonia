@@ -1,14 +1,14 @@
 import SpriteKit
 
 extension Manna {
-    class Populator {
+    class Garden {
         var cMorsels = 0
         var manna: Manna?
         unowned let mannaSpriteHangar = SpriteFactory.shared.mannaHangar
     }
 }
 
-extension Manna.Populator {
+extension Manna.Garden {
 
     static let bloomAction = SKAction.group([
         MannaCoordinator.fadeInAction,
@@ -34,7 +34,7 @@ extension Manna.Populator {
             manna.sprite.setScale(0.14 / ArkoniaCentral.masterScale)
             manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
 
-            manna.sprite.run(Manna.Populator.bloomAction)
+            manna.sprite.run(Manna.Garden.bloomAction)
         }
     }
 
@@ -74,7 +74,7 @@ class MannaCoordinator {
         duration: Manna.fullGrowthDurationSeconds
     )
 
-    static let fadeInAction = SKAction.fadeIn(withDuration: 0.001)
+    static let fadeInAction = SKAction.fadeIn(withDuration: 1)
     static let fadeOutAction = SKAction.fadeOut(withDuration: 0.001)
 
     static let cMorsels = 1250 * Int(ArkoniaCentral.masterScale)

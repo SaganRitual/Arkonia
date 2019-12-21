@@ -42,7 +42,7 @@ class SpriteHangar {
         let newSprite = factoryFunction(texture)
         newSprite.alpha = 0
         newSprite.userData = [SpriteUserDataKey.uuid: UUID().uuidString]
-        newSprite.color = .blue
+        newSprite.color = .gray
         newSprite.colorBlendFactor = 1.0
         drones.append(newSprite)
         return newSprite

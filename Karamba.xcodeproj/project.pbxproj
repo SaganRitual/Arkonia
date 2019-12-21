@@ -10,7 +10,7 @@
 		D4174DCE237BC31C00F01F28 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DCD237BC31C00F01F28 /* GridCell.swift */; };
 		D4174DD0237BC4CA00F01F28 /* Positions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DCF237BC4CA00F01F28 /* Positions.swift */; };
 		D4174DD4237BD12B00F01F28 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DD3237BD12B00F01F28 /* Protocol.swift */; };
-		D422DE0223578CFD003734B8 /* Populator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* Populator.swift */; };
+		D422DE0223578CFD003734B8 /* Garden.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* Garden.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
 		D422FE6D238E248C007F0B7B /* CellShuttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6C238E248C007F0B7B /* CellShuttle.swift */; };
@@ -64,6 +64,9 @@
 		D4D86F502363211A0082C31A /* World.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D86F4F2363211A0082C31A /* World.Stats.swift */; };
 		D4E3025A23977242009384F0 /* CellSenseGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E3025923977242009384F0 /* CellSenseGrid.swift */; };
 		D4E3025C23984E69009384F0 /* CellKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E3025B23984E69009384F0 /* CellKeys.swift */; };
+		D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */; };
+		D4FFE65623AF3C2E00D0A1EE /* Dimensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE65523AF3C2E00D0A1EE /* Dimensions.swift */; };
+		D4FFE65823AF3CB800D0A1EE /* AKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */; };
 		D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE9612365814F00F5DDFB /* Dispatch.swift */; };
 /* End PBXBuildFile section */
 
@@ -134,7 +137,7 @@
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
 		D42172F2233EE46000A56594 /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .overcommit.yml; sourceTree = "<group>"; };
 		D42172F3233EE46000A56594 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		D422DE0123578CFD003734B8 /* Populator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Populator.swift; sourceTree = "<group>"; };
+		D422DE0123578CFD003734B8 /* Garden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Garden.swift; sourceTree = "<group>"; };
 		D422DE0A23598B52003734B8 /* Census.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D422DE0C23598BEC003734B8 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		D422FE6C238E248C007F0B7B /* CellShuttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellShuttle.swift; sourceTree = "<group>"; };
@@ -186,6 +189,9 @@
 		D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Surge.xcodeproj; path = Surge/Surge.xcodeproj; sourceTree = "<group>"; };
 		D4EE561922BC96290076D8A1 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		D4F6460722A4253F00FD8C56 /* ColorGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
+		D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSpriteNode.swift; sourceTree = "<group>"; };
+		D4FFE65523AF3C2E00D0A1EE /* Dimensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dimensions.swift; sourceTree = "<group>"; };
+		D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKPoint.swift; sourceTree = "<group>"; };
 		D4FFE9612365814F00F5DDFB /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -211,7 +217,11 @@
 				D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */,
 				D43EA81B228FDCC3006C619D /* Arkon */,
 				D43EA81A228FDBA4006C619D /* ArkoniaCentral */,
+				D4FFE65423AF3C0D00D0A1EE /* Grid */,
+				D4174DC5237BC2CE00F01F28 /* GridCell */,
 				D4B4293B22DAEC7E0036C904 /* HUD */,
+				D4BB6E6A234E544B00529819 /* Lifelets */,
+				D46B1D7222813DF7003D711C /* Miscellany */,
 				D40985F922650BD8009DD384 /* macOS */,
 				D40985E122650B0A009DD384 /* Products */,
 			);
@@ -259,15 +269,12 @@
 		D43EA81A228FDBA4006C619D /* ArkoniaCentral */ = {
 			isa = PBXGroup;
 			children = (
-				D4174DC5237BC2CE00F01F28 /* GridCell */,
-				D46B1D7222813DF7003D711C /* Miscellany */,
 				D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */,
-				D45A9361237CEE5F00FC039E /* Grid.swift */,
-				D45A9360237CEE5F00FC039E /* Grid.Setup.swift */,
+				D422DE0123578CFD003734B8 /* Garden.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
-				D422DE0123578CFD003734B8 /* Populator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
+				D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
 				D49042C422AE2B2500E7369B /* World.swift */,
 				D4D86F4F2363211A0082C31A /* World.Stats.swift */,
@@ -278,7 +285,6 @@
 		D43EA81B228FDCC3006C619D /* Arkon */ = {
 			isa = PBXGroup;
 			children = (
-				D4BB6E6A234E544B00529819 /* WorkItems */,
 				D4FFE9612365814F00F5DDFB /* Dispatch.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
@@ -291,6 +297,7 @@
 		D46B1D7222813DF7003D711C /* Miscellany */ = {
 			isa = PBXGroup;
 			children = (
+				D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */,
 				D4A216BA22C1988B00D92A1E /* BellCurve.swift */,
 				D4F6460722A4253F00FD8C56 /* ColorGradient.swift */,
 				D43EA83D229233F7006C619D /* Extensions.swift */,
@@ -315,7 +322,7 @@
 			path = HUD;
 			sourceTree = "<group>";
 		};
-		D4BB6E6A234E544B00529819 /* WorkItems */ = {
+		D4BB6E6A234E544B00529819 /* Lifelets */ = {
 			isa = PBXGroup;
 			children = (
 				D4BB6E76234EDCA500529819 /* Apoptosize.swift */,
@@ -332,7 +339,7 @@
 				D4A59D362389901500517F60 /* ReleaseStage.swift */,
 				D4D5EABA2368B05200E95AA5 /* Spawn.swift */,
 			);
-			path = WorkItems;
+			path = Lifelets;
 			sourceTree = "<group>";
 		};
 		D4E8D268227E06F400DFCB40 /* NetDisplay */ = {
@@ -357,6 +364,16 @@
 				D4EE55D722BC1C6E0076D8A1 /* Surge.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D4FFE65423AF3C0D00D0A1EE /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				D4FFE65523AF3C2E00D0A1EE /* Dimensions.swift */,
+				D45A9361237CEE5F00FC039E /* Grid.swift */,
+				D45A9360237CEE5F00FC039E /* Grid.Setup.swift */,
+			);
+			path = Grid;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -507,7 +524,7 @@
 			files = (
 				D4C336D02383FDEA00E50A50 /* Log.swift in Sources */,
 				D422FE6D238E248C007F0B7B /* CellShuttle.swift in Sources */,
-				D422DE0223578CFD003734B8 /* Populator.swift in Sources */,
+				D422DE0223578CFD003734B8 /* Garden.swift in Sources */,
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
 				D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */,
@@ -517,9 +534,11 @@
 				D495F0C3233FA6D0007D6E86 /* IndexedRingBuffer.swift in Sources */,
 				D464BA3922C737260069623C /* AppDelegate.swift in Sources */,
 				D4B4295322DAF1CD0036C904 /* Report.swift in Sources */,
+				D4FFE65623AF3C2E00D0A1EE /* Dimensions.swift in Sources */,
 				D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */,
 				D495F0CF233FAB01007D6E86 /* Mutator.swift in Sources */,
 				D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */,
+				D4FFE65823AF3CB800D0A1EE /* AKPoint.swift in Sources */,
 				D4A59D212387E4E400517F60 /* Engage.swift in Sources */,
 				D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
@@ -530,6 +549,7 @@
 				D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */,
 				D4BB6E73234E549C00529819 /* Funge.swift in Sources */,
 				D4174DD4237BD12B00F01F28 /* Protocol.swift in Sources */,
+				D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */,
 				D4A59D352388F48500517F60 /* Random.swift in Sources */,
 				D464BA4422C737260069623C /* NetDisplay.swift in Sources */,
 				D4A59D2623882C5D00517F60 /* MoveSprite.swift in Sources */,

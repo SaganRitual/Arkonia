@@ -11,16 +11,11 @@ final class Arrive: Dispatchable {
 
     func arrive() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-
+        debugColor(st, .green, .green)
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
         precondition(shuttle.toCell != nil && shuttle.toCell?.sprite?.name == st.name)
 
         Log.L.write("Arrive: \(six(st.name))/\(six(shuttle.fromCell?.ownerName)) at \(st.gridCell.gridPosition)\(shuttle.fromCell?.gridPosition ?? AKPoint(x: -4242, y: -4242)) attacks \(six(shuttle.consumedSprite?.name))/\(six(shuttle.toCell?.ownerName)) at \(shuttle.toCell?.gridPosition ?? AKPoint(x: -4242, y: -4242))/\(shuttle.consumedSprite?.position ?? CGPoint(x: -4242, y: -4242))", level: 55)
-
-        // We don't reset this when they begin moving, but rather we wait
-        // until here, so they don't live forever while flopping around in
-        // the empty corners
-        ch.stillCounter = 0
 
         switch shuttle.consumedContents {
         case .arkon:
@@ -66,6 +61,8 @@ extension Arrive {
             dp.releaseStage()
         }
 
+        ch.stillCounter = 0
+        Log.L.write("reset still", level: 60)
         partA()
     }
 

@@ -1,3 +1,4 @@
+import CoreGraphics
 import Dispatch
 
 final class Plot: Dispatchable {
@@ -28,10 +29,11 @@ final class Plot: Dispatchable {
             block: st.previousShiftOffset
         )
 
-        Log.L.write("SenseGrid cells \(senseGrid!.cells)", level: 55)
+        Log.L.write("SenseGrid cells \(senseGrid!.cells)", level: 61)
 
         guard let sg = senseGrid else { preconditionFailure() }
         let gridInputs = loadGridInputs(from: sg)
+        Log.L.write("gridInputs \(gridInputs)", level: 62)
 
         Grid.shared.serialQueue.async {
             [weak self] in self?.getSenseData(gridInputs)
@@ -54,6 +56,9 @@ final class Plot: Dispatchable {
         ch.engagerKey = nil
 
         dp.moveSprite()
+        ch.stillCounter += ch.cellShuttle!.didMove ? 0.005 : 0.05
+
+        Log.L.write("sc = \(ch.stillCounter)", level: 61)
     }
 
     deinit {
@@ -94,11 +99,11 @@ extension Plot {
             guard let manna = Manna.getManna(from: sprite) else { fatalError() }
             nutrition = Double(manna.energyFullness)
 
-        case .nothing: nutrition = 0
+        case .nothing: nutrition = 0.5
         case .invalid: fatalError()
         }
 
-        return ((cellKey.contents.rawValue + 1) / Double(GridCell.Contents.allCases.count), nutrition)
+        return ((cellKey.contents.rawValue + 1) / Double(GridCell.Contents.allCases.count + 1), nutrition - 0.5)
     }
 
     private func getNonSpatialSenseData() -> [Double] {
@@ -106,9 +111,17 @@ extension Plot {
 
         var theData = [Double]()
 
+        let r = Double(st.gridCell.randomScenePosition?.radius ?? 0)
+        let t = Double(st.gridCell.randomScenePosition?.theta ?? 0)
+        let ro = (r / Grid.dimensions.hypotenuse) - 0.5
+        let to = (t / Grid.dimensions.hypotenuse) - 0.5
+        theData.append(contentsOf: [to, ro])
+
         let hunger = Double(st.metabolism.hunger)
         let asphyxia = Double(1 - st.metabolism.oxygenLevel)
-        theData.append(contentsOf: [hunger, asphyxia])
+        let ho = hunger - 0.5
+        let ao = asphyxia - 0.5
+        theData.append(contentsOf: [ho, ao])
 
         return theData
     }
@@ -135,7 +148,7 @@ extension Plot {
             return labs > rabs
         }
 
-        Log.L.write("order for \(six(st.name)): \(order)", level: 52)
+        Log.L.write("order for \(six(st.name)): \(order)", level: 62)
 
         let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 

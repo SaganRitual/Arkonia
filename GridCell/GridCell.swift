@@ -25,10 +25,18 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
     var contents = Contents.nothing
     weak var sprite: SKSpriteNode?
+//    let indicator: SKSpriteNode
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
         self.gridPosition = gridPosition
         self.scenePosition = scenePosition
+
+//        self.indicator = SpriteFactory.shared.noseHangar.makeSprite()
+//        self.indicator.position = scenePosition
+//        self.indicator.color = .white
+//        self.indicator.alpha = 0
+//        self.indicator.setScale(0.3)
+//        GriddleScene.arkonsPortal.addChild(self.indicator)
     }
 }
 
@@ -51,7 +59,7 @@ extension GridCell {
     func reschedule(_ stepper: Stepper) {
         precondition(toReschedule.contains { $0.name == stepper.name } == false)
         toReschedule.append(stepper)
-        stepper.nose.color = .blue
+        debugColor(stepper, .blue, .red)
         Log.L.write("reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))", level: 52)
     }
 }
@@ -61,15 +69,20 @@ extension GridCell {
 
     func lock(require: Bool = true, ownerName: String, onComplete: @escaping LockComplete) {
         if isLocked {
+//            indicator.color = .blue
+//            indicator.alpha = 1
             onComplete(ColdKey(for: self))
             return
         }
 
+//        indicator.color = .red
+//        indicator.alpha = 1
         onComplete(HotKey(for: self, ownerName: ownerName))
     }
 
     func releaseLock() {
         Log.L.write("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 51)
+//        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         isLocked = false; ownerName = "No owner"
     }
 }

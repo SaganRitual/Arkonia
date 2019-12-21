@@ -18,17 +18,12 @@ extension GridCellKey {
     func reengageRequesters() {
         guard let c = bell else { return }
 
-//        if let sp = self.sprite {
-//            (sp.children[0] as? SKSpriteNode)?.color = .red
-//            sp.color = .blue
-//        }
         while true {
             guard let waitingStepper = c.getRescheduledArkon() else {
                 Log.L.write("reengageRequesters empty", level: 54)
                 return
             }
             if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
-                st.nose.color = .magenta
                 Log.L.write("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 59)
                 dp.disengage()
             }
@@ -42,6 +37,10 @@ class ColdKey: GridCellKey {
 
     init(for cell: GridCell) {
         self.cell_ = cell
+    }
+
+    deinit {
+//        bell?.indicator.run(SKAction.fadeOut(withDuration: 1.0))
     }
 
     var contents: GridCell.Contents {
