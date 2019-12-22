@@ -139,7 +139,7 @@ extension Plot {
                 return(ss, dSignal)
         }
 
-        let trimmed = motorOutputs.filter { _ in true }// { abs($0.1) < 1.0 && $0.0 != 0 }
+        let trimmed = motorOutputs.filter { abs($0.1) < 1.0 && $0.0 != 0 }
 
         let order = trimmed.sorted { lhs, rhs in
             let labs = abs(lhs.1)
