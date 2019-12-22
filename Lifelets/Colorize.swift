@@ -10,6 +10,7 @@ extension Colorize {
     func aColorize() {
         Log.L.write("Colorize.launch_ \(six(scratch?.stepper?.name))", level: 15)
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        debugColor(st, .blue, .blue)
 
         precondition(ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
                 ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
@@ -23,7 +24,7 @@ extension Colorize {
 extension Stepper {
 
     func colorizeProper(_ onComplete: @escaping () -> Void) {
-        nose.colorBlendFactor = CGFloat(1 - (metabolism.oxygenLevel / 1))
+        nose.colorBlendFactor = CGFloat(1 - metabolism.oxygenLevel)
 
         let babyBumpIsRunning = sprite.action(forKey: "baby-bump") != nil
         let babyBumpShouldBeShowing = metabolism.spawnReserves.level > (getSpawnCost() * 0.5)
@@ -32,18 +33,23 @@ extension Stepper {
 
         if babyBumpShouldBeShowing && !babyBumpIsRunning {
             Log.L.write("action on", level: 47)
-            let swell = SKAction.scale(by: 2.5, duration: 0.5)
+            let swell = SKAction.scale(by: 1.5, duration: 0.4)
             let shrink = SKAction.scaleX(to: xScale, y: yScale, duration: 0.1)
-            let discolor = SKAction.colorize(with: .purple, colorBlendFactor: 1, duration: 0.75)
-            let recolor = SKAction.colorize(with: .green, colorBlendFactor: 1, duration: 0.75)
+            let discolor = SKAction.colorize(with: .purple, colorBlendFactor: 1, duration: 0.25)
+            let recolor = SKAction.colorize(with: .green, colorBlendFactor: 1, duration: 0.25)
             let throb = SKAction.sequence([swell, shrink])
             let throbColor = SKAction.sequence([discolor, recolor])
             let throbEverything = SKAction.group([throb, throbColor])
             let forever = SKAction.repeatForever(throbEverything)
+
             let noseGrow = SKAction.scale(by: 2.0, duration: 0.4)
             let noseShrink = SKAction.scale(to: 0.5, duration: 0.1)
             let noseSequence = SKAction.sequence([noseGrow, noseShrink])
-            let noseForever = SKAction.repeatForever(noseSequence)
+            let noseDiscolor = SKAction.colorize(with: .purple, colorBlendFactor: 1, duration: 0.25)
+            let noseRecolor = SKAction.colorize(with: .green, colorBlendFactor: 1, duration: 0.25)
+            let noseColorSequence = SKAction.group([noseDiscolor, noseRecolor])
+            let noseGroup = SKAction.group([noseSequence, noseColorSequence])
+            let noseForever = SKAction.repeatForever(noseGroup)
 
             let wrapper = SKAction.run {
                 self.sprite.run(forever, withKey: "baby-bump")

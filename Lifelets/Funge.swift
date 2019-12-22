@@ -10,7 +10,7 @@ final class Funge: Dispatchable {
 
     internal override func launch_() {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
-        st.nose.color = .blue
+        debugColor(st, .yellow, .yellow)
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
     }
@@ -26,10 +26,9 @@ extension Funge {
                 ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition)
         ))
 
-        if !isAlive  { st.nose.color = .cyan; dp.apoptosize(); return }
-        if !canSpawn { st.nose.color = .magenta; dp.plot(); return }
+        if !isAlive  { dp.apoptosize(); return }
+        if !canSpawn { dp.plot(); return }
 
-        st.nose.color = .black
         dp.spawn()
     }
 }
@@ -41,8 +40,7 @@ extension Funge {
 
         let age = st.getAge(ws.currentTime)
 
-        if ch.stillCounter > 0 { Log.L.write("stillnessCost \(ch.stillCounter)", level: 46) }
-        let isAlive = st.metabolism.fungeProper(age: age, stillnessCost: CGFloat(ch.stillCounter))
+        let isAlive = st.metabolism.fungeProper(age: age, stillCounter: ch.stillCounter)
         let canSpawn = st.canSpawn()
 
         return (isAlive, canSpawn)
@@ -50,26 +48,31 @@ extension Funge {
 }
 
 extension Metabolism {
-    func fungeProper(age: Int, stillnessCost: CGFloat) -> Bool {
+    func fungeProper(age: Int, stillCounter: CGFloat) -> Bool {
         let fudgeMassFactor: CGFloat = 10
         let joulesNeeded = fudgeMassFactor * mass
 
         withdrawFromReady(joulesNeeded)
 
-        let fudgeOxygenFactor: CGFloat = 30
-        let oxygenCost: Int = age < 1 ? 0 : 1
-        oxygenLevel -= CGFloat(oxygenCost) * (1 + stillnessCost) / fudgeOxygenFactor
+        let gracePeriodFactor: CGFloat = (age < 5 ? 0 : 1)
+        let oxygenCost: CGFloat = 0.005 * gracePeriodFactor
+        let ratchet: CGFloat = 1.0 //CGFloat(1 + Int(stillCounter * 100) / 5)
+        let stillnessCost: CGFloat = (pow(1.01, stillCounter) - 1) * gracePeriodFactor * ratchet
+
+        oxygenLevel -= oxygenCost + stillnessCost
 
         if stillnessCost > 0 {
             Log.L.write(
                 "\nfungeProper:" +
                 " mass = \(String(format: "%-2.6f", mass)), withdraw \(String(format: "%-2.6f", joulesNeeded))" +
-                " fungibleEnergyFullness = \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
+                " stillnessCounter = \(stillCounter)" +
                 " oxygenLevel = \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
-                " fungibleEnergyCapacity =  \(String(format: "%-2.6f", fungibleEnergyCapacity))" +
-                " fungibleEnergyContent =  \(String(format: "%-2.6f", fungibleEnergyContent))" +
-                " stillnessCost = \(String(format: "%-2.6f", stillnessCost))"
-                , level: 46
+                " oxygenCost = \(String(format: "%-2.6f", oxygenCost))" +
+                " stillnessCost = \(String(format: "%-2.6f", stillnessCost))" +
+                " f.EnergyFullness = \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
+                " ...Capacity =  \(String(format: "%-2.6f", fungibleEnergyCapacity))" +
+                " ...Content =  \(String(format: "%-2.6f", fungibleEnergyContent))"
+                , level: 61
             )
         }
 

@@ -21,27 +21,17 @@ final class Engage: Dispatchable {
         ch.serializer = Engage.serializer
         Engage.serializer += 1
 
-        st.nose.color = .red
-        st.sprite.color = .magenta
-        if abs(gc.gridPosition.x) == 57 && abs(gc.gridPosition.y) == 54 {
-            Log.L.write("Engage \(six(st.name))", level: 52)
-        }
+        debugColor(st, .magenta, .magenta)
+
         gc.lock(require: false, ownerName: st.name) { ch.engagerKey = $0 }
-        st.nose.color = .green
-        st.sprite.color = .cyan
 
         if ch.engagerKey is ColdKey {
-            st.nose.color = .blue
-            st.sprite.color = .yellow
-            Log.L.write("Reschedule \(six(st.name)) for \(gc)", level: 59)
-//            ek.reschedule(st)
+            Log.L.write("Reschedule \(six(st.name)) for \(gc)", level: 64)
+            gc.reschedule(st)
             return
         }
 
-        st.nose.color = .cyan
-        st.sprite.color = .purple
-
-        Log.L.write("Hot key \(six(st.name)) at \(ch.engagerKey!.gridPosition)", level: 56)
+        Log.L.write("Hot key \(six(st.name)) at \(ch.engagerKey!.gridPosition)", level: 62)
         ch.worldStats = World.stats.copy()
         precondition(ch.engagerKey?.sprite?.getStepper(require: false) != nil)
         precondition(
@@ -51,7 +41,5 @@ final class Engage: Dispatchable {
                 ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition)
         ))
         dp.funge()
-        st.nose.color = .magenta
-        st.sprite.color = .green
     }
 }

@@ -14,8 +14,8 @@ extension GridCell {
 
         if funkyCells == false { return gridCell }
 
-        let wScene = CGFloat(Grid.dimensions.wSprite / 2)
-        let hScene = CGFloat(Grid.dimensions.hSprite / 2)
+        let wScene = CGFloat(Grid.dimensions.wSprite) / 2
+        let hScene = CGFloat(Grid.dimensions.hSprite) / 2
 
         let lScene = gridCell.scenePosition.x - wScene
         let rScene = gridCell.scenePosition.x + wScene
@@ -59,6 +59,15 @@ extension GridCell {
         Log.L.write("lockBirthPosition at \(randomGridCell!.gridPosition)", level: 54)
         return randomGridCell!
     }
+
+    static func lockRandomEmptyCell(ownerName: String, onComplete: @escaping ((HotKey?) -> Void)) {
+        Grid.shared.serialQueue.async {
+            let hotKey = lockRandomEmptyCell(ownerName: ownerName)
+            onComplete(hotKey)
+        }
+    }
+
+    static var lockCount = 0
 
     static func lockRandomEmptyCell(ownerName: String) -> HotKey? {
         var randomGridCell: HotKey?

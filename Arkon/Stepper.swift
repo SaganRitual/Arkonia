@@ -10,7 +10,7 @@ class Stepper {
     private weak var gridCell_: GridCell?
     var gridCell: GridCell! {
         get { gridCell_ }
-        set { gridCell_ = newValue; gridCell_?.debugReport.append("s(\(dispatch.scratch.serializer)) \(self.name)") }
+        set { gridCell_ = newValue }//; gridCell_?.debugReport.append("s(\(dispatch.scratch.serializer)) \(self.name)") }
     }
     var isTurnabouted: Bool = false
     var metabolism: Metabolism!
@@ -43,11 +43,11 @@ class Stepper {
     deinit {
         netDisplay = nil
 
-        Log.L.write("stepper deinit \(six(name))/\(six(sprite.name))", level: 59)
+        Log.L.write("stepper deinit \(six(name))/\(six(sprite.name))", level: 63)
 
         World.stats.decrementPopulation(birthday)
 
-        Log.L.write("sd2 \(dispatch.scratch.debugReport)", level: 59)
+        Log.L.write("sd2 \(dispatch.scratch.debugReport)", level: 63)
     }
 
     func getAge(_ currentTime: Int) -> Int { return currentTime - self.birthday }

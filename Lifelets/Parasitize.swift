@@ -11,6 +11,8 @@ final class Parasitize: Dispatchable {
         let groupUndo = SKAction.group([bleedToDeath.reversed(), resizeToDeath.reversed()])
         let sequence = SKAction.sequence([groupDo, groupUndo])
         let makeAScene = SKAction.repeat(sequence, count: 5)
+        debugColor(result.1, .red, .yellow)
+        debugColor(result.0, .green, .red)
         result.1.sprite.run(makeAScene) {
             Grid.shared.serialQueue.async { self.parasitize(result.0, result.1) }
         }
@@ -24,6 +26,8 @@ extension Parasitize {
             (ch.cellShuttle?.toCell != nil && ch.cellShuttle?.toCell?.sprite?.name == st.name && ch.engagerKey == nil) ||
                 (ch.engagerKey?.sprite?.name == st.name && ch.cellShuttle?.toCell == nil)
         )
+
+        (st.sprite.color, st.nose.color) = (.green, .blue)
 
         guard let (myScratch, _, myStepper) = scratch?.getKeypoints() else { fatalError() }
 
@@ -72,6 +76,7 @@ extension Parasitize {
     }
 
     func parasitize(_ victor: Stepper, _ victim: Stepper) {
+        victor.dispatch.scratch.stillCounter = 0
         victor.metabolism.parasitizeProper(victim)
         victor.dispatch.releaseStage()
 

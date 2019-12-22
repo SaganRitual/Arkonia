@@ -1,7 +1,7 @@
 import SpriteKit
 
 final class MoveSprite: Dispatchable {
-    static let moveDuration: TimeInterval = 0.07
+    static let moveDuration: TimeInterval = 0.1
     static let restAction = SKAction.wait(forDuration: moveDuration)
 
     static func rest(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
@@ -22,10 +22,14 @@ final class MoveSprite: Dispatchable {
 //
 //    }
 
-    internal override func launch_() { moveSprite() }
+    internal override func launch_() {
+
+        moveSprite()
+    }
 
     func moveSprite() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+
         precondition(
             (ch.cellShuttle?.toCell != nil && (ch.cellShuttle?.toCell?.sprite == nil || ch.cellShuttle?.toCell?.sprite?.name == st.name) && ch.engagerKey == nil) ||
                 (ch.cellShuttle?.toCell == nil && ch.engagerKey?.sprite?.name == st.name) ||
@@ -36,15 +40,18 @@ final class MoveSprite: Dispatchable {
 
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
 
-        guard let p = shuttle.toCell?.gridPosition else { preconditionFailure() }
-        ch.debugReport.append("move(\(ch.serializer) \(six(st.name)) to \(p)")
+//        guard let p = shuttle.toCell?.gridPosition else { preconditionFailure() }
+//        ch.debugReport.append("move(\(ch.serializer) \(six(st.name)) to \(p)")
 
         Log.L.write("moveSprite0 \(six(st.name)), \(ch.cellShuttle == nil), \(ch.cellShuttle?.toCell == nil), \(ch.cellShuttle?.toCell?.getCell() == nil))", level: 31)
 
         if shuttle.fromCell == nil {
-            MoveSprite.rest(st) { ch.stillCounter += 1; dp.releaseStage() }
+            debugColor(st, .red, .cyan)
+            MoveSprite.rest(st) { dp.releaseStage() }
             return
         }
+
+        debugColor(st, .red, .magenta)
 
         Log.L.write("moveSprite1 \(six(st.name))", level: 31)
         precondition(

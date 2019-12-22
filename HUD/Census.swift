@@ -3,6 +3,7 @@ import SpriteKit
 class Census {
     let ageFormatter: DateComponentsFormatter
     let currentTime: Int = 0
+    var populated = false
     let rCurrentPopulation: Reportoid
     let rHighWaterAge: Reportoid
     let rHighWaterPopulation: Reportoid
@@ -54,7 +55,9 @@ class Census {
             return (lAge / (lOffspring + 1)) < (rAge / (rOffspring + 1))
         }
 
-        if liveArkons.isEmpty { for _ in 0..<100 { Dispatch().spawn() } }
+        if liveArkons.count < 50 {
+            Dispatch().spawn()
+        }
 
         if liveArkons.isEmpty { partA() } else { partC() }
     }

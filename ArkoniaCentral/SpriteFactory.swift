@@ -5,7 +5,10 @@ enum SpriteUserDataKey {
     case manna, net9Portal, netDisplay, stepper, uuid
 }
 
-class SpriteHangar: SpriteHangarProtocol {
+typealias SpriteFactoryCallback0P = () -> Void
+typealias SpriteFactoryCallback1P = (SKSpriteNode) -> Void
+
+class SpriteHangar {
     let atlas: SKTextureAtlas?
     var drones = [SKSpriteNode]()
     let factoryFunction: FactoryFunction
@@ -18,7 +21,20 @@ class SpriteHangar: SpriteHangarProtocol {
         texture = atlas!.textureNamed(textureName)
     }
 
+    func makeSprite(_ onComplete: @escaping SpriteFactoryCallback1P) {
+        var sprite: SKSpriteNode?
+        let ms = SKAction.run { sprite = self.makeSprite_() }
+        GriddleScene.shared.run(ms) {
+            guard let s = sprite else { fatalError() }
+            onComplete(s)
+        }
+    }
+
     func makeSprite() -> SKSpriteNode {
+        return self.makeSprite_()
+    }
+
+    private func makeSprite_() -> SKSpriteNode {
         if let readyDrone = drones.first(where: { sprite in sprite.parent == nil }) {
             return readyDrone
         }
@@ -26,12 +42,14 @@ class SpriteHangar: SpriteHangarProtocol {
         let newSprite = factoryFunction(texture)
         newSprite.alpha = 0
         newSprite.userData = [SpriteUserDataKey.uuid: UUID().uuidString]
+        newSprite.color = .gray
+        newSprite.colorBlendFactor = 1.0
         drones.append(newSprite)
         return newSprite
     }
 
     func retireSprite(_ sprite: SKSpriteNode) {
-        sprite.parent!.run(SKAction.run {
+        GriddleScene.shared.run(SKAction.run {
             sprite.removeAllActions()
             sprite.removeFromParent()
         })
@@ -39,6 +57,11 @@ class SpriteHangar: SpriteHangarProtocol {
 }
 
 class SpriteFactory {
+    static var shared: SpriteFactory!
+    static let serialQueue = DispatchQueue(
+        label: "arkonia.sprite.sq", target: DispatchQueue.global(qos: .utility)
+    )
+
     let arkonsHangar: SpriteHangar
     let fullNeuronsHangar: SpriteHangar
     let halfNeuronsHangar: SpriteHangar
@@ -60,6 +83,11 @@ class SpriteFactory {
     }
 
     func postInit(_ net9Portals: [SKSpriteNode]) {
+        let action = SKAction.run { self.postInit_(net9Portals) }
+        GriddleScene.shared.run(action)
+    }
+
+    func postInit_(_ net9Portals: [SKSpriteNode]) {
         for i in 0..<18 {
             let drone = arkonsHangar.makeSprite()
             drone.userData![SpriteUserDataKey.net9Portal] = net9Portals[i]

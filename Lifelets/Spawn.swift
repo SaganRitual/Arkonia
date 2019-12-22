@@ -104,7 +104,6 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
 extension Spawn {
     enum Constants {
         static let brightColor = 0x00_FF_00    // Full green
-        static var spriteFactory: SpriteFactory!
         static let standardColor = 0x00_FF_00  // Slightly dim green
     }
 }
@@ -163,6 +162,7 @@ extension Spawn {
 
     func abandonNewborn() {
         if let st = parent, let dp = st.dispatch, let sprite = st.sprite {
+
             let rotate = SKAction.rotate(byAngle: 4 * 2 * CGFloat.pi, duration: 2.0)
             sprite.run(rotate)
             let spawnCost = st.getSpawnCost()
@@ -185,14 +185,14 @@ extension Spawn {
             self.buildGuts()
         }
 
-        GriddleScene.arkonsPortal.run(action)
+        GriddleScene.shared.run(action)
     }
 
     private func buildSprites_() {
         assert(Display.displayCycle == .actions)
 
-        self.nose = Constants.spriteFactory!.noseHangar.makeSprite()
-        self.sprite = Constants.spriteFactory!.arkonsHangar.makeSprite()
+        self.nose = SpriteFactory.shared.noseHangar.makeSprite()
+        self.sprite = SpriteFactory.shared.arkonsHangar.makeSprite()
 
         guard let sprite = self.sprite else { fatalError() }
         guard let nose = self.nose else { fatalError() }
@@ -201,14 +201,16 @@ extension Spawn {
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
-        nose.color = parent == nil ? .orange : .yellow
+        nose.setScale(0.75)
 
         sprite.setScale(ArkoniaCentral.spriteScale)
         Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 37)
-        sprite.color = .green //ColorGradient.makeColor(hexRGB: 0xFF0000)
         sprite.colorBlendFactor = 1
         sprite.position = engagerKey.scenePosition
         sprite.alpha = 1
+
+        let noseColor: SKColor = (parent == nil) ? .magenta : .yellow
+        debugColor(sprite, .green, nose, noseColor)
 
         sprite.addChild(nose)
     }
@@ -221,9 +223,14 @@ extension Spawn {
         let newborn = Stepper(self, needsNewDispatch: true)
         newborn.parentStepper = self.parent
         newborn.dispatch.scratch.stepper = newborn
+        newborn.sprite?.color = .yellow
+        newborn.nose?.color = .white
 
         Stepper.attachStepper(newborn, to: sprite)
         Log.L.write("Attach stepper \(six(newborn.name)) sprite name is \(six(sprite.name))", level: 51)
+
+        precondition(sprite.name == newborn.name)
+        precondition(sprite.getStepper(require: false)?.name == newborn.name)
 
         GriddleScene.arkonsPortal!.addChild(sprite)
 

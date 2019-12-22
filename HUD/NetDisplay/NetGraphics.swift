@@ -3,36 +3,54 @@ import SpriteKit
 
 struct NetGraphics {
     let background: SKSpriteNode
-    let fullNeuronsHangar: SpriteHangarProtocol
-    let halfNeuronsHangar: SpriteHangarProtocol
-    let linesHangar: SpriteHangarProtocol
+    let fullNeuronsHangar: SpriteHangar
+    let halfNeuronsHangar: SpriteHangar
+    let linesHangar: SpriteHangar
     let netDisplayGrid: NetDisplayGridProtocol
 
-    func drawConnection(from start: CGPoint, to end: CGPoint) {
-        let line = linesHangar.makeSprite()
-        let textureLength: CGFloat = line.size.width
-        let targetLength: CGFloat = start.distance(to: end)
-        line.xScale = targetLength / textureLength
-        line.yScale = 1
+    func drawConnection(from start: CGPoint, to end: CGPoint, _ onComplete: @escaping SpriteFactoryCallback1P) {
+        var line: SKSpriteNode!
+        var textureLength: CGFloat = 0
+        var targetLength: CGFloat = 0
 
-        line.zRotation = (end - start).theta
-        line.position = start + ((end - start) / 2)
-        line.color = .white
-        line.colorBlendFactor = 1
-        line.alpha = 0.5
-        line.zPosition = 0
-        background.zPosition = -1
-        background.addChild(line)
+        SpriteFactory.serialQueue.async { partA() }
+
+        func partA() { linesHangar.makeSprite(partB) }
+
+        func partB(_ sprite: SKSpriteNode) {
+            textureLength = line.size.width
+            targetLength = start.distance(to: end)
+            line.xScale = targetLength / textureLength
+            line.yScale = 1
+
+            line.zRotation = (end - start).theta
+            line.position = start + ((end - start) / 2)
+            line.color = .white
+            line.colorBlendFactor = 1
+            line.alpha = 0.5
+            line.zPosition = 0
+            background.zPosition = -1
+            background.addChild(line)
+
+            onComplete(line)
+        }
     }
 
-    func drawConnection(from start_: GridPoint, to end_: GridPoint) {
+    func drawConnection(from start_: GridPoint, to end_: GridPoint, _ onComplete: @escaping SpriteFactoryCallback1P) {
         let start = netDisplayGrid.getPosition(start_)
         let end = netDisplayGrid.getPosition(end_)
-        drawConnection(from: start, to: end)
+        drawConnection(from: start, to: end, onComplete)
+    }
+
+    func drawNeuron(
+        at gridPoint: GridPoint, layerRole: LayerRole, _ onComplete: @escaping SpriteFactoryCallback0P
+    ) {
+        let a = SKAction.run { self.drawNeuron(at: gridPoint, layerRole: layerRole) }
+        GriddleScene.shared.run(a) { onComplete() }
     }
 
     func drawNeuron(at gridPoint: GridPoint, layerRole: LayerRole) {
-        let hangar: SpriteHangarProtocol = {
+        let hangar: SpriteHangar = {
             switch layerRole {
             case .senseLayer:  return halfNeuronsHangar
             case .motorLayer:  return halfNeuronsHangar
@@ -40,7 +58,7 @@ struct NetGraphics {
             }
         }()
 
-        let sprite = hangar.makeSprite()
+        let sprite: SKSpriteNode = hangar.makeSprite()
 
         let yFudge: CGFloat
 

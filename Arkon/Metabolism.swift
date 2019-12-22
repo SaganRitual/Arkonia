@@ -205,8 +205,7 @@ class Metabolism {
     }
 
     func inhale(_ howMuch: CGFloat = 1.0) {
-        let fudgeFactor: CGFloat = 5
-        oxygenLevel = constrain(howMuch * fudgeFactor + oxygenLevel, lo: 0.0, hi: fudgeFactor * mass)
+        oxygenLevel = constrain(howMuch + oxygenLevel, lo: 0.0, hi: 1)
     }
 
     @discardableResult

@@ -88,13 +88,13 @@ class GriddleScene: SKScene, SKSceneDelegate {
             self.net9Portals.append(node)
         }
 
-        Spawn.Constants.spriteFactory = SpriteFactory(
+        SpriteFactory.shared = SpriteFactory(
             scene: self,
             thoraxFactory: SpriteFactory.makeSprite(texture:),
             noseFactory: SpriteFactory.makeSprite(texture:)
         )
 
-        Spawn.Constants.spriteFactory.postInit(net9Portals)
+        SpriteFactory.shared.postInit(net9Portals)
 
         Grid.shared = Grid()
         MannaCoordinator.shared = MannaCoordinator()
@@ -106,9 +106,10 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
 //        clock = Clock(self)
 //        census = Census(self)
-        MannaCoordinator.shared.populate()
+        Manna.populator.populate()
 
         readyForDisplayCycle = true
+        speed = 1
     }
 
     override func update(_ currentTime: TimeInterval) {
