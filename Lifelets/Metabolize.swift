@@ -1,12 +1,7 @@
 import GameplayKit
 
 final class Metabolize: Dispatchable {
-   override func launch() {
-       guard let w = wiLaunch else { fatalError() }
-       Grid.shared.serialQueue.async(execute: w)
-   }
-
-    internal override func launch_() { aMetabolize() }
+    internal override func launch() { aMetabolize() }
 }
 
 extension Metabolize {

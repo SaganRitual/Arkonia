@@ -1,7 +1,7 @@
 import GameplayKit
 
 final class Colorize: Dispatchable {
-    internal override func launch_() { aColorize() }
+    internal override func launch() { aColorize() }
 }
 
 func six(_ string: String?) -> String { return String(string?.prefix(15) ?? "<no input>") }

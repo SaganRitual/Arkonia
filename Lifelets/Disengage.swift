@@ -1,7 +1,7 @@
 import Dispatch
 
 final class Disengage: Dispatchable {
-    internal override func launch_() {
+    internal override func launch() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         debugColor(st, .cyan, .cyan)
 

@@ -5,9 +5,7 @@ final class Plot: Dispatchable {
     var senseData: [Double]?
     var senseGrid: CellSenseGrid?
 
-    internal override func launch_() {
-        makeSenseGrid()
-    }
+    internal override func launch() { makeSenseGrid() }
 
     func makeSenseGrid() {
         guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }

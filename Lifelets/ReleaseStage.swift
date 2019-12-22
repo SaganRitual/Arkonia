@@ -1,7 +1,7 @@
 import Dispatch
 
 final class ReleaseStage: Dispatchable {
-    internal override func launch_() {
+    internal override func launch() {
         var barf = false
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }

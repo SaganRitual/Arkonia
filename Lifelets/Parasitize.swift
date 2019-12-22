@@ -1,7 +1,7 @@
 import SpriteKit
 
 final class Parasitize: Dispatchable {
-    internal override func launch_() {
+    internal override func launch() {
         Log.L.write("Parasitize.launch_ \(six(scratch?.stepper?.name))", level: 51)
         let result = attack()
 

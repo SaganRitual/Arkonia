@@ -3,12 +3,6 @@ import Foundation
 
 final class Funge: Dispatchable {
     override func launch() {
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.serialQueue.async(execute: w)
-//        World.shared.concurrentQueue.async(execute: w)
-    }
-
-    internal override func launch_() {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
         debugColor(st, .yellow, .yellow)
         let (isAlive, canSpawn) = checkSpawnability()

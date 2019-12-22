@@ -22,10 +22,7 @@ final class MoveSprite: Dispatchable {
 //
 //    }
 
-    internal override func launch_() {
-
-        moveSprite()
-    }
+    internal override func launch() { moveSprite() }
 
     func moveSprite() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }

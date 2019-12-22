@@ -1,7 +1,7 @@
 import SpriteKit
 
 final class Apoptosize: Dispatchable {
-    internal override func launch_() { aApoptosize() }
+    internal override func launch() { aApoptosize() }
 }
 
 extension Apoptosize {
