@@ -44,7 +44,7 @@ extension GridCell {
     func descheduleIf(_ stepper: Stepper) {
         toReschedule.removeAll {
             let remove = $0.name == stepper.name
-            if remove { Log.L.write("deschedule \(six(stepper.name)) == \(six($0.name))", level: 59) }
+            if remove { Log.L.write("deschedule \(six(stepper.name)) == \(six($0.name))", level: 62) }
             return remove
         }
     }
@@ -52,7 +52,7 @@ extension GridCell {
     func getRescheduledArkon() -> Stepper? {
         defer { if toReschedule.isEmpty == false { _ = toReschedule.removeFirst() } }
 
-        Log.L.write("getRescheduledArkon \(toReschedule.count)", level: 51)
+        if !toReschedule.isEmpty { Log.L.write("getRescheduledArkon \(six(toReschedule.first!.name)) \(toReschedule.count)", level: 62) }
         return toReschedule.first
     }
 
@@ -60,7 +60,7 @@ extension GridCell {
         precondition(toReschedule.contains { $0.name == stepper.name } == false)
         toReschedule.append(stepper)
         debugColor(stepper, .blue, .red)
-        Log.L.write("reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))", level: 52)
+        Log.L.write("reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))", level: 61)
     }
 }
 
@@ -80,9 +80,10 @@ extension GridCell {
         onComplete(HotKey(for: self, ownerName: ownerName))
     }
 
-    func releaseLock() {
-        Log.L.write("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 51)
+    func releaseLock() -> Bool {
+        Log.L.write("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 62)
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
-        isLocked = false; ownerName = "No owner"
+        defer { isLocked = false; ownerName = "No owner" }
+        return isLocked && !toReschedule.isEmpty
     }
 }

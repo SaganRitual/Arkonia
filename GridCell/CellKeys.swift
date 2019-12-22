@@ -20,12 +20,13 @@ extension GridCellKey {
 
         while true {
             guard let waitingStepper = c.getRescheduledArkon() else {
-                Log.L.write("reengageRequesters empty", level: 54)
+                Log.L.write("reengageRequesters empty", level: 61)
                 return
             }
             if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
-                Log.L.write("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 59)
+                Log.L.write("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 63)
                 dp.disengage()
+                return
             }
         }
     }
@@ -118,8 +119,8 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         self.cell_ = nil }
 
     func releaseLock() {
-        Log.L.write("releaseLock at \(cell_?.gridPosition ?? AKPoint(x: -42, y: -42)) for \(six(ownerName)) nil? \(cell_ == nil)", level: 56)
-        cell_?.releaseLock()
+        let wasLocked = cell_?.releaseLock() ?? false
+        if wasLocked  { Log.L.write("releaseLock at \(cell_?.gridPosition ?? AKPoint(x: -42, y: -42)) for \(six(ownerName)) nil? \(cell_ == nil)", level: 63) }
         reengageRequesters()
         cell_ = nil
     }

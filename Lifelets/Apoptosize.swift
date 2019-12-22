@@ -22,9 +22,9 @@ extension Apoptosize {
             SpriteFactory.shared.noseHangar.retireSprite(no)
             SpriteFactory.shared.arkonsHangar.retireSprite(sp)
 
-            Log.L.write("Apoptosize(\(six(st.name)))", level: 59)
+            Log.L.write("Apoptosize(\(six(st.name)))", level: 63)
             Grid.shared.serialQueue.async {
-                Log.L.write("Apoptosize2(\(six(st.name)))", level: 59)
+                Log.L.write("Apoptosize2(\(six(st.name)))", level: 63)
                 Stepper.releaseStepper(st, from: sp)
                 Log.L.write("Apoptosize3(\(six(st.name)))", level: 59)
             }

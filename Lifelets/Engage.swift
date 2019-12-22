@@ -22,18 +22,16 @@ final class Engage: Dispatchable {
         Engage.serializer += 1
 
         debugColor(st, .magenta, .magenta)
-        if abs(gc.gridPosition.x) == 57 && abs(gc.gridPosition.y) == 54 {
-            Log.L.write("Engage \(six(st.name))", level: 52)
-        }
+
         gc.lock(require: false, ownerName: st.name) { ch.engagerKey = $0 }
 
         if ch.engagerKey is ColdKey {
-            Log.L.write("Reschedule \(six(st.name)) for \(gc)", level: 59)
+            Log.L.write("Reschedule \(six(st.name)) for \(gc)", level: 64)
             gc.reschedule(st)
             return
         }
 
-        Log.L.write("Hot key \(six(st.name)) at \(ch.engagerKey!.gridPosition)", level: 56)
+        Log.L.write("Hot key \(six(st.name)) at \(ch.engagerKey!.gridPosition)", level: 62)
         ch.worldStats = World.stats.copy()
         precondition(ch.engagerKey?.sprite?.getStepper(require: false) != nil)
         precondition(
