@@ -3,7 +3,7 @@ import Surge
 class Net {
 
     static var layersTemplate = [
-        ArkoniaCentral.cSenseNeurons, ArkoniaCentral.cMotorNeurons, ArkoniaCentral.cMotorNeurons
+        Arkonia.cSenseNeurons, Arkonia.cMotorNeurons, Arkonia.cMotorNeurons
     ]
 
     let activatorFunction: (_: Double) -> Double
@@ -94,7 +94,7 @@ class Net {
     ]
 
     func getMotorOutputs(_ sensoryInputs: [Double]) -> [Double] {
-        assert(sensoryInputs.count == ArkoniaCentral.cSenseNeurons)
+        assert(sensoryInputs.count == Arkonia.cSenseNeurons)
 
         var ncSS = 0
         var a0 = Matrix<Double>(column: sensoryInputs)
@@ -135,7 +135,7 @@ class Net {
 
     static func mutateNetStrand(parentStrand p: [Double]?, targetLength: Int) -> [Double] {
         var m: [Double]?
-        if let parentStrand = p { m = World.mutator.mutateRandomDoubles(parentStrand) }
+        if let parentStrand = p { m = Mutator.shared.mutateRandomDoubles(parentStrand) }
 
         guard var mutated = m else {
             m = (0..<targetLength).map { _ in Double.random(in: -1..<1) }

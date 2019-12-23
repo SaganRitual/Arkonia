@@ -5,8 +5,7 @@ final class Arrive: Dispatchable {
 
     func arrive() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        debugColor(st, .green, .green)
-        writeDebug("Arrive \(six(st.name))", scratch: ch)
+        Debug.debugColor(st, .green, .green)
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
         precondition(shuttle.toCell != nil && shuttle.toCell?.sprite?.name == st.name)
 
@@ -37,14 +36,16 @@ extension Arrive {
         let inhaleFudgeFactor: CGFloat = 2.0
         var harvested: CGFloat = 0
 
-        func partA() { manna.harvest { harvested = $0; partB() } }
+        func partA() { manna.harvest {
+            harvested = $0
+            partB() } }
 
         func partB() {
             st.metabolism.absorbEnergy(harvested)
 
             let toInhale = inhaleFudgeFactor * harvested / Manna.maxEnergyContentInJoules
             st.metabolism.inhale(toInhale)
-            Log.L.write("inhale(\(String(format:"%-2.6f", toInhale)))", level: 35)
+            Log.L.write("absorb (\(String(format:"%-2.6f", harvested))), inhale(\(String(format:"%-2.6f", toInhale)))", level: 67)
 
             Manna.populator.beEaten(sprite)
 

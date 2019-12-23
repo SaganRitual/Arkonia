@@ -12,16 +12,6 @@ final class MoveSprite: Dispatchable {
 //        Log.L.write("~move sprite", level: 35)
     }
 
-//    override func launch() {
-//        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
-//
-//        st.sprite.run(SKAction.run { self.moveSprite() })
-//
-////        Grid.shared.serialQueue.async(execute: w)
-////        World.shared.concurrentQueue.async(execute: w)
-//
-//    }
-
     internal override func launch() { moveSprite() }
 
     func moveSprite() {
@@ -44,12 +34,12 @@ final class MoveSprite: Dispatchable {
         Log.L.write("moveSprite0 \(six(st.name)), \(ch.cellShuttle == nil), \(ch.cellShuttle?.toCell == nil), \(ch.cellShuttle?.toCell?.getCell() == nil))", level: 31)
 
         if shuttle.fromCell == nil {
-            debugColor(st, .red, .cyan)
+            Debug.debugColor(st, .red, .cyan)
             MoveSprite.rest(st) { dp.releaseStage() }
             return
         }
 
-        debugColor(st, .red, .magenta)
+        Debug.debugColor(st, .red, .magenta)
 
         Log.L.write("moveSprite1 \(six(st.name))", level: 31)
         precondition(

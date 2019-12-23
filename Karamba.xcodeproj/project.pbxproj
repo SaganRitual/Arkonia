@@ -10,6 +10,7 @@
 		D4174DCE237BC31C00F01F28 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DCD237BC31C00F01F28 /* GridCell.swift */; };
 		D4174DD0237BC4CA00F01F28 /* Positions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DCF237BC4CA00F01F28 /* Positions.swift */; };
 		D4174DD4237BD12B00F01F28 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DD3237BD12B00F01F28 /* Protocol.swift */; };
+		D41ED8D623B084A100E82B08 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
 		D422DE0223578CFD003734B8 /* Garden.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* Garden.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
@@ -20,7 +21,7 @@
 		D464BA3322C737260069623C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D464BA3722C737260069623C /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
 		D464BA3922C737260069623C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
-		D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */; };
+		D464BA3B22C737260069623C /* Arkonia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* Arkonia.swift */; };
 		D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
 		D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D464BA4422C737260069623C /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
@@ -42,7 +43,6 @@
 		D495F0C3233FA6D0007D6E86 /* IndexedRingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293E22DAEC7E0036C904 /* IndexedRingBuffer.swift */; };
 		D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */; };
 		D495F0C8233FA6E9007D6E86 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D40985F222650B0B009DD384 /* Info.plist */; };
-		D495F0CC233FA969007D6E86 /* World.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49042C422AE2B2500E7369B /* World.swift */; };
 		D495F0CF233FAB01007D6E86 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495F0CE233FAB01007D6E86 /* Mutator.swift */; };
 		D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4F45C23551F41000EC009 /* Parasitize.swift */; };
 		D4A59D212387E4E400517F60 /* Engage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D202387E4E400517F60 /* Engage.swift */; };
@@ -61,7 +61,6 @@
 		D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E7C234EF71800529819 /* Colorize.swift */; };
 		D4C336D02383FDEA00E50A50 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C336CF2383FDEA00E50A50 /* Log.swift */; };
 		D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D5EABA2368B05200E95AA5 /* Spawn.swift */; };
-		D4D86F502363211A0082C31A /* World.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D86F4F2363211A0082C31A /* World.Stats.swift */; };
 		D4E3025A23977242009384F0 /* CellSenseGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E3025923977242009384F0 /* CellSenseGrid.swift */; };
 		D4E3025C23984E69009384F0 /* CellKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E3025B23984E69009384F0 /* CellKeys.swift */; };
 		D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */; };
@@ -133,6 +132,7 @@
 		D4174DCD237BC31C00F01F28 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		D4174DCF237BC4CA00F01F28 /* Positions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Positions.swift; sourceTree = "<group>"; };
 		D4174DD3237BD12B00F01F28 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		D41ED8D523B084A100E82B08 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		D42172E9233EE46000A56594 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
 		D42172F2233EE46000A56594 /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .overcommit.yml; sourceTree = "<group>"; };
@@ -156,7 +156,6 @@
 		D46B1D88228173BE003D711C /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		D46B1D9F22826994003D711C /* Overload2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overload2D.swift; sourceTree = "<group>"; };
 		D47625B6239EF38B00BDCB81 /* Indexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Indexer.swift; sourceTree = "<group>"; };
-		D49042C422AE2B2500E7369B /* World.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.swift; sourceTree = "<group>"; };
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D495F0CE233FAB01007D6E86 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D4A12BE922EA58E900C15F59 /* Stepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
@@ -179,9 +178,8 @@
 		D4BB6E7A234EF62800529819 /* Metabolize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metabolize.swift; sourceTree = "<group>"; };
 		D4BB6E7C234EF71800529819 /* Colorize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colorize.swift; sourceTree = "<group>"; };
 		D4C336CF2383FDEA00E50A50 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
-		D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaCentral.swift; sourceTree = "<group>"; };
+		D4CF20A622A4C296000FD2BA /* Arkonia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkonia.swift; sourceTree = "<group>"; };
 		D4D5EABA2368B05200E95AA5 /* Spawn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spawn.swift; sourceTree = "<group>"; };
-		D4D86F4F2363211A0082C31A /* World.Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = World.Stats.swift; sourceTree = "<group>"; };
 		D4E3025923977242009384F0 /* CellSenseGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellSenseGrid.swift; sourceTree = "<group>"; };
 		D4E3025B23984E69009384F0 /* CellKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellKeys.swift; sourceTree = "<group>"; };
 		D4E765E323A15FE300D1757D /* GridSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSync.swift; sourceTree = "<group>"; };
@@ -217,7 +215,7 @@
 				D495E5E822DE294D00AFF2AC /* README.md */,
 				D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */,
 				D43EA81B228FDCC3006C619D /* Arkon */,
-				D43EA81A228FDBA4006C619D /* ArkoniaCentral */,
+				D43EA81A228FDBA4006C619D /* Arkonia */,
 				D4FFE65423AF3C0D00D0A1EE /* Grid */,
 				D4174DC5237BC2CE00F01F28 /* GridCell */,
 				D4B4293B22DAEC7E0036C904 /* HUD */,
@@ -268,20 +266,18 @@
 			path = GridCell;
 			sourceTree = "<group>";
 		};
-		D43EA81A228FDBA4006C619D /* ArkoniaCentral */ = {
+		D43EA81A228FDBA4006C619D /* Arkonia */ = {
 			isa = PBXGroup;
 			children = (
-				D4CF20A622A4C296000FD2BA /* ArkoniaCentral.swift */,
+				D4CF20A622A4C296000FD2BA /* Arkonia.swift */,
 				D422DE0123578CFD003734B8 /* Garden.swift */,
 				D4603A6122A2720400885428 /* Manna.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 				D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
-				D49042C422AE2B2500E7369B /* World.swift */,
-				D4D86F4F2363211A0082C31A /* World.Stats.swift */,
 			);
-			path = ArkoniaCentral;
+			path = Arkonia;
 			sourceTree = "<group>";
 		};
 		D43EA81B228FDCC3006C619D /* Arkon */ = {
@@ -302,6 +298,7 @@
 				D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */,
 				D4A216BA22C1988B00D92A1E /* BellCurve.swift */,
 				D4F6460722A4253F00FD8C56 /* ColorGradient.swift */,
+				D41ED8D523B084A100E82B08 /* Debug.swift */,
 				D43EA83D229233F7006C619D /* Extensions.swift */,
 				D46B1D7322813E12003D711C /* KIdentifier.swift */,
 				D4C336CF2383FDEA00E50A50 /* Log.swift */,
@@ -539,7 +536,7 @@
 				D4FFE65623AF3C2E00D0A1EE /* Dimensions.swift in Sources */,
 				D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */,
 				D495F0CF233FAB01007D6E86 /* Mutator.swift in Sources */,
-				D464BA3B22C737260069623C /* ArkoniaCentral.swift in Sources */,
+				D464BA3B22C737260069623C /* Arkonia.swift in Sources */,
 				D4FFE65823AF3CB800D0A1EE /* AKPoint.swift in Sources */,
 				D4A59D212387E4E400517F60 /* Engage.swift in Sources */,
 				D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */,
@@ -561,13 +558,12 @@
 				D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */,
 				D4A59D372389901500517F60 /* ReleaseStage.swift in Sources */,
 				D4174DCE237BC31C00F01F28 /* GridCell.swift in Sources */,
-				D495F0CC233FA969007D6E86 /* World.swift in Sources */,
 				D4E3025A23977242009384F0 /* CellSenseGrid.swift in Sources */,
 				D4A59D232387F64500517F60 /* Plot.swift in Sources */,
-				D4D86F502363211A0082C31A /* World.Stats.swift in Sources */,
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
 				D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */,
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
+				D41ED8D623B084A100E82B08 /* Debug.swift in Sources */,
 				D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */,
 				D4A59D31238839C700517F60 /* Arrive.swift in Sources */,
 				D464BA4E22C737260069623C /* BellCurve.swift in Sources */,

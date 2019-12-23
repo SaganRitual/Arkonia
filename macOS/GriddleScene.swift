@@ -33,14 +33,13 @@ class GriddleScene: SKScene, SKSceneDelegate {
     static var arkonsArePresent: Bool = false
     static var shared: GriddleScene!
 
-    var census: Census?
     var clock: Clock?
     var griddle: Grid!
     var hud: HUD!
     var readyForDisplayCycle = false
 
     let layers = [
-        ArkoniaCentral.cSenseNeurons, ArkoniaCentral.cMotorNeurons, ArkoniaCentral.cMotorNeurons
+        Arkonia.cSenseNeurons, Arkonia.cMotorNeurons, Arkonia.cMotorNeurons
     ]
 
     var netDisplay: NetDisplay?
@@ -95,8 +94,8 @@ class GriddleScene: SKScene, SKSceneDelegate {
         GriddleScene.shared = self
 
         GriddleScene.arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
-        GriddleScene.arkonsPortal.xScale = ArkoniaCentral.masterScale / 4
-        GriddleScene.arkonsPortal.yScale = ArkoniaCentral.masterScale / 4
+        GriddleScene.arkonsPortal.xScale = Arkonia.masterScale / 4
+        GriddleScene.arkonsPortal.yScale = Arkonia.masterScale / 4
 
         Log.L.write("GriddleScene.arkonsPortal scale = \(GriddleScene.arkonsPortal.xScale) x \(GriddleScene.arkonsPortal.yScale)", level: 38)
 
@@ -123,9 +122,9 @@ class GriddleScene: SKScene, SKSceneDelegate {
         hud = HUD(scene: self)
         buildReports()
 
-//        clock = Clock(self)
-//        census = Census(self)
+        Clock.shared = Clock(self)
         Manna.populator.populate()
+        Census.shared = Census(self)
 
         readyForDisplayCycle = true
         speed = 1
@@ -135,7 +134,6 @@ class GriddleScene: SKScene, SKSceneDelegate {
         guard readyForDisplayCycle else { return }
 
         if clock == nil { clock = Clock(self) }
-        if census == nil { census = Census(self) }
 
         Display.displayCycle = .updateStarted
 

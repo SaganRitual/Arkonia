@@ -45,7 +45,7 @@ class Stepper {
 
         Log.L.write("stepper deinit \(six(name))/\(six(sprite.name))", level: 66)
 
-        World.stats.decrementPopulation(birthday)
+        Census.shared.registerDeath(birthday)
 
         Log.L.write("stepper deinit report \(dispatch.scratch.debugReport)", level: 65)
     }
@@ -59,10 +59,10 @@ extension Stepper {
     }
 
     func getSpawnCost() -> CGFloat {
-        let entropy: CGFloat = 0.5
+        let overhead: CGFloat = 0.5
 
         let spawnCost = allowSpawning ?
-            EnergyReserve.startingEnergyLevel * CGFloat(1.0 + entropy) :
+            EnergyReserve.startingEnergyLevel * CGFloat(1.0 + overhead) :
             CGFloat.infinity
 
         let sc = String(format: "%3.3f", spawnCost)

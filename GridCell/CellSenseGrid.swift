@@ -18,7 +18,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
             if position == block { debugDescription += ".."; return NilKey() }
             guard let cell = GridCell.atIf(position) else { debugDescription += "^^"; return NilKey() }
-            if index > ArkoniaCentral.cMotorGridlets { debugDescription += "Cx"; return ColdKey(for: cell) }
+            if index > Arkonia.cMotorGridlets { debugDescription += "Cx"; return ColdKey(for: cell) }
 
             precondition(GridCell.at(position).ownerName != centerName)
 

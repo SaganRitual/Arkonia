@@ -62,16 +62,17 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
     var wiLaunch: DispatchWorkItem?
     var wiLaunch2: DispatchWorkItem?
 
-    var debug1 = ""
-    var debug2 = ""
+    static let dispatchQueue = DispatchQueue(
+        label: "ak.spawn.q",
+        attributes: .concurrent,
+        target: DispatchQueue.global(qos: .utility)
+    )
 
     init(_ scratch: Scratchpad) {
         Log.L.write("Larva", level: 15)
         self.scratch = scratch
         self.meTheParent = scratch.stepper
         self.tempStrongReference = self
-
-        self.fishNumber = World.stats.getNextFishNumber_()
 
         // Weak refs here, because apparently the work items capture self
         // even if you reference them with DispatchWorkItem(block: launch_)
@@ -84,18 +85,21 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
     }
 
     func launch() {
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.serialQueue.async(execute: w)
+        Census.shared.getNextFishNumber {
+            self.fishNumber = $0
+
+            guard let w = self.wiLaunch else { fatalError() }
+            Grid.shared.serialQueue.async(execute: w)
+        }
     }
 
     func launch_() {
         getStartingPosition(self.embryoName)
-//        engagerKey?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "no fucking way"
-        registerBirth()
 
-        guard let w2 = wiLaunch2 else { fatalError() }
-
-        Grid.shared.serialQueue.async(execute: w2)
+        registerBirth {
+            guard let w2 = self.wiLaunch2 else { fatalError() }
+            Grid.shared.serialQueue.async(execute: w2)
+        }
     }
 
     func launch2_() { buildSprites() }
@@ -107,6 +111,8 @@ extension Spawn {
         static let standardColor = 0x00_FF_00  // Slightly dim green
     }
 }
+
+typealias OnComplete0p = () -> Void
 
 extension Spawn {
     private func getStartingPosition(_ embryoName: String) {
@@ -130,8 +136,10 @@ extension Spawn {
         Log.L.write("Larva from \(six(parent.name)) engagerKey lock birth position at \(engagerKey?.gridPosition ?? AKPoint(x: -4242, y: -4242))", level: 52)
     }
 
-    private func registerBirth() {
-        World.stats.registerBirth(myParent: meTheParent, meOffspring: self)
+    private func registerBirth(_ onComplete: @escaping OnComplete0p) {
+        Census.shared.registerBirth(myParent: parent, meOffspring: self) {
+            Spawn.dispatchQueue.async(execute: onComplete)
+        }
     }
 }
 
@@ -224,15 +232,14 @@ extension Spawn {
         nose.setScale(0.75)
         nose.name = embryoName
 
-        thorax.setScale(ArkoniaCentral.spriteScale)
-        Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 37)
-        thorax.colorBlendFactor = 1
-        thorax.position = engagerKey.scenePosition
-        thorax.alpha = 1
-        thorax.name = embryoName
+        sprite.setScale(Arkonia.spriteScale)
+        Log.L.write("ArkoniaCentral.masterScale = \(Arkonia.masterScale)", level: 37)
+        sprite.colorBlendFactor = 1
+        sprite.position = engagerKey.scenePosition
+        sprite.alpha = 1
 
-        let noseColor: SKColor = (meTheParent == nil) ? .magenta : .yellow
-        debugColor(thorax, .green, nose, noseColor)
+        let noseColor: SKColor = (parent == nil) ? .magenta : .yellow
+        Debug.debugColor(sprite, .green, nose, noseColor)
 
         thorax.addChild(nose)
     }

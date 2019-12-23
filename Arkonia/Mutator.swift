@@ -1,4 +1,6 @@
 class Mutator {
+    static let shared = Mutator()
+
     var bellCurve = BellCurve()
     var outputGenome = [Double]()
     var sourceGenome = [Double]()

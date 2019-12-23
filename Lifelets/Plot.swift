@@ -5,6 +5,12 @@ final class Plot: Dispatchable {
     var senseData: [Double]?
     var senseGrid: CellSenseGrid?
 
+    static let dispatchQueue = DispatchQueue(
+        label: "ak.plot.q",
+        attributes: .concurrent,
+        target: DispatchQueue.global(qos: .utility)
+    )
+
     internal override func launch() { makeSenseGrid() }
 
     func makeSenseGrid() {
@@ -25,26 +31,28 @@ final class Plot: Dispatchable {
 
         senseGrid = CellSenseGrid(
             from: hk,
-            by: ArkoniaCentral.cSenseGridlets,
+            by: Arkonia.cSenseGridlets,
             block: st.previousShiftOffset
         )
 
         Log.L.write("SenseGrid cells \(senseGrid!.cells)", level: 61)
 
-        guard let sg = senseGrid else { preconditionFailure() }
-        let gridInputs = loadGridInputs(from: sg)
-        Log.L.write("gridInputs \(gridInputs)", level: 62)
-
-        Grid.shared.serialQueue.async {
-            [weak self] in self?.getSenseData(gridInputs)
+        Clock.shared.getEntropy { entropy in
+            Plot.dispatchQueue.async { self.move(with: entropy) }
         }
     }
 
     func getSenseData(_ gridInputs: [Double]) {
         let nonSpatial = getNonSpatialSenseData()
         senseData = gridInputs + nonSpatial
+    }
 
-        Grid.shared.serialQueue.async { [weak self] in self?.move() }
+    func move(with entropy: CGFloat) {
+        guard let sg = senseGrid else { preconditionFailure() }
+
+        let gridInputs = loadGridInputs(from: sg, with: entropy)
+        getSenseData(gridInputs)
+        move()
     }
 
     func move() {
@@ -52,7 +60,7 @@ final class Plot: Dispatchable {
         guard let sg = senseGrid else { preconditionFailure() }
         guard let sd = senseData else { preconditionFailure() }
 
-        ch.cellShuttle = makecellShuttle_(sd, sg)
+        ch.cellShuttle = makeCellShuttle(sd, sg)
         ch.engagerKey = nil
 
         dp.moveSprite()
@@ -67,11 +75,11 @@ final class Plot: Dispatchable {
 }
 
 extension Plot {
-    private func loadGridInputs(from senseGrid: CellSenseGrid) -> [Double] {
+    private func loadGridInputs(from senseGrid: CellSenseGrid, with entropy: CGFloat) -> [Double] {
         let gridInputs: [Double] = senseGrid.cells.reduce([]) { partial, cell in
-
-            guard let (contents, nutritionalValue) = loadGridInput(cell)
-                else { return partial + [0, 0] }
+            guard let (contents, nutritionalValue) = loadGridInput(cell, with: entropy) else {
+                return partial + [0, 0]
+            }
 
             return partial + [contents, nutritionalValue]
         }
@@ -79,7 +87,7 @@ extension Plot {
         return gridInputs
     }
 
-    private func loadGridInput(_ cellKey: GridCellKey) -> (Double, Double)? {
+    private func loadGridInput(_ cellKey: GridCellKey, with entropy: CGFloat) -> (Double, Double)? {
 
         if cellKey.contents == .invalid {
             let rv = (GridCell.Contents.invalid.rawValue + 1)
@@ -92,18 +100,19 @@ extension Plot {
 
         switch cellKey.contents {
         case .arkon:
-            nutrition = Double(st.metabolism.energyFullness)
+            nutrition = Double(st.metabolism.energyFullness) - 0.5
 
         case .manna:
-            let sprite = cellKey.sprite!
-            guard let manna = Manna.getManna(from: sprite) else { fatalError() }
-            nutrition = Double(manna.energyFullness)
+            guard let manna = cellKey.sprite?.getManna(require: false)
+                else { fatalError() }
 
-        case .nothing: nutrition = 0.5
+            nutrition = Double(manna.getEnergyContentInJoules(entropy)) - 0.5
+
+        case .nothing: nutrition = 0
         case .invalid: fatalError()
         }
 
-        return ((cellKey.contents.rawValue + 1) / Double(GridCell.Contents.allCases.count + 1), nutrition - 0.5)
+        return ((cellKey.contents.rawValue + 1) / Double(GridCell.Contents.allCases.count + 1), nutrition)
     }
 
     private func getNonSpatialSenseData() -> [Double] {
@@ -126,7 +135,7 @@ extension Plot {
         return theData
     }
 
-    private func makecellShuttle_(_ senseData: [Double], _ senseGrid: CellSenseGrid) -> CellShuttle {
+    private func makeCellShuttle(_ senseData: [Double], _ senseGrid: CellSenseGrid) -> CellShuttle {
         guard let ch = scratch else { fatalError() }
         guard let st = ch.stepper else { fatalError() }
         guard let net = st.net else { fatalError() }

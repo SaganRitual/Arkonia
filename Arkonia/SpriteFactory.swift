@@ -58,9 +58,6 @@ class SpriteHangar {
 
 class SpriteFactory {
     static var shared: SpriteFactory!
-    static let serialQueue = DispatchQueue(
-        label: "arkonia.sprite.sq", target: DispatchQueue.global(qos: .utility)
-    )
 
     let arkonsHangar: SpriteHangar
     let fullNeuronsHangar: SpriteHangar

@@ -9,8 +9,7 @@ func six(_ string: String?) -> String { return String(string?.prefix(15) ?? "<no
 extension Colorize {
     func aColorize() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        debugColor(st, .blue, .blue)
-        writeDebug("Colorize \(six(st.name))", scratch: ch)
+        Debug.debugColor(st, .blue, .blue)
 
         precondition(ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
                 ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
@@ -28,8 +27,8 @@ extension Stepper {
 
         let babyBumpIsRunning = sprite.action(forKey: "baby-bump") != nil
         let babyBumpShouldBeShowing = metabolism.spawnReserves.level > (getSpawnCost() * 0.5)
-        let xScale = ArkoniaCentral.spriteScale
-        let yScale = ArkoniaCentral.spriteScale
+        let xScale = Arkonia.spriteScale
+        let yScale = Arkonia.spriteScale
 
         if babyBumpShouldBeShowing && !babyBumpIsRunning {
             Log.L.write("action on", level: 47)

@@ -21,7 +21,7 @@ final class Engage: Dispatchable {
         ch.serializer = Engage.serializer
         Engage.serializer += 1
 
-        debugColor(st, .magenta, .magenta)
+        Debug.debugColor(st, .magenta, .magenta)
 
         gc.lock(require: false, ownerName: st.name) { ch.engagerKey = $0 }
 
@@ -35,12 +35,8 @@ final class Engage: Dispatchable {
             return
         }
 
-        writeDebug(
-            "Hot key \(six(st.name)) at \(ch.engagerKey!.gridPosition)",
-            scratch: ch, level: 62
-        )
+        Log.L.write("Hot key \(six(st.name)) at \(ch.engagerKey!.gridPosition)", level: 62)
 
-        ch.worldStats = World.stats.copy()
         precondition(ch.engagerKey?.sprite?.getStepper(require: false) != nil)
         precondition(
             (ch.engagerKey == nil  ||

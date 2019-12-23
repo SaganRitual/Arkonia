@@ -69,12 +69,8 @@ extension GridCell {
     func reschedule(_ stepper: Stepper) {
         precondition(toReschedule.contains { $0.name == stepper.name } == false)
         toReschedule.append(stepper)
-        debugColor(stepper, .blue, .red)
-        writeDebug(
-            "reschedule \(six(stepper.name)) " +
-            "at \(self) toReschedule.count = \(toReschedule.count); " +
-            "\(gridPosition) owned by \(six(ownerName))", scratch: stepper.dispatch.scratch, level: 61
-        )
+        Debug.debugColor(stepper, .blue, .red)
+        Log.L.write("reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))", level: 61)
     }
 }
 

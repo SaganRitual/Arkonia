@@ -16,8 +16,6 @@ class Scratchpad {
     var serializer = 0
     weak var stepper: Stepper?
     var stillCounter: CGFloat = 0
-    var worldStats: World.StatsCopy?
-    let uuid = UUID().uuidString
 
     deinit {
         Log.L.write("~Scratchpad", level: 45)

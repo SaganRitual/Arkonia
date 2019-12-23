@@ -8,7 +8,7 @@ final class ReleaseStage: Dispatchable {
         guard let toCell = shuttle.toCell else { preconditionFailure() }
         writeDebug("ReleaseStage \(six(st.name))", scratch: ch)
 
-        debugColor(st, .green, .cyan)
+        Debug.debugColor(st, .green, .cyan)
 
         precondition(
             ((ch.engagerKey == nil && ch.cellShuttle != nil) || (ch.engagerKey != nil &&

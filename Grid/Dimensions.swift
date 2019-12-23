@@ -25,11 +25,11 @@ struct Dimensions {
         let tAtlas = SKTextureAtlas(named: "Arkons")
         let tTexture = tAtlas.textureNamed("neuron-plain")
 
-        let hSprite = Int(tTexture.size().height / (2 * ArkoniaCentral.masterScale))
-        let wSprite = Int(tTexture.size().width / (2 * ArkoniaCentral.masterScale))
+        let hSprite = Int(tTexture.size().height / (2 * Arkonia.masterScale))
+        let wSprite = Int(tTexture.size().width / (2 * Arkonia.masterScale))
 
-        let hPortal = Int(2 * portal.size.height / ArkoniaCentral.masterScale) - hSprite * 2
-        let wPortal = Int(2 * portal.size.width / ArkoniaCentral.masterScale) - wSprite * 2
+        let hPortal = Int(2 * portal.size.height / Arkonia.masterScale) - hSprite * 2
+        let wPortal = Int(2 * portal.size.width / Arkonia.masterScale) - wSprite * 2
         let hGrid = Int(hPortal / hSprite)
         let wGrid = Int(wPortal / wSprite)
 

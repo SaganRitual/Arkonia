@@ -1,4 +1,3 @@
-import Foundation
 import SpriteKit
 
 struct NetGraphics {
@@ -13,7 +12,7 @@ struct NetGraphics {
         var textureLength: CGFloat = 0
         var targetLength: CGFloat = 0
 
-        SpriteFactory.serialQueue.async { partA() }
+        GriddleScene.shared.run(SKAction.run { partA() })
 
         func partA() { linesHangar.makeSprite(partB) }
 

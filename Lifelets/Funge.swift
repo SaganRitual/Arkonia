@@ -2,12 +2,16 @@ import CoreGraphics
 import Foundation
 
 final class Funge: Dispatchable {
+    static let dispatchQueue = DispatchQueue(
+        label: "ak.funge.q",
+        attributes: .concurrent,
+        target: DispatchQueue.global(qos: .userInitiated)
+    )
+
     override func launch() {
-        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
-        writeDebug("Funge", scratch: ch)
-        debugColor(st, .yellow, .yellow)
-        let (isAlive, canSpawn) = checkSpawnability()
-        fungeRoute(isAlive, canSpawn)
+        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
+        Debug.debugColor(st, .yellow, .yellow)
+        checkSpawnability { self.fungeRoute($0, $1) }
     }
 }
 
@@ -32,11 +36,26 @@ extension Funge {
 }
 
 extension Funge {
-    func checkSpawnability() -> (Bool, Bool) {
-        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let ws = ch.worldStats else { fatalError() }
+    typealias OnComplete2p = (Bool, Bool) -> Void
 
-        let age = st.getAge(ws.currentTime)
+    func checkSpawnability(_ onComplete: @escaping OnComplete2p) {
+
+        func partA() { Clock.shared.getWorldClock { partB($0) } }
+
+        func partB(_ worldClock: Int) {
+            Funge.dispatchQueue.async {
+                let (isAlive, canSpawn) = self.checkSpawnability(time: worldClock)
+                onComplete(isAlive, canSpawn)
+            }
+        }
+
+        partA()
+    }
+
+    func checkSpawnability(time: Int) -> (Bool, Bool) {
+        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+
+        let age = st.getAge(time)
 
         let isAlive = st.metabolism.fungeProper(age: age, stillCounter: ch.stillCounter)
         let canSpawn = st.canSpawn()
@@ -62,15 +81,16 @@ extension Metabolism {
         if stillnessCost > 0 {
             Log.L.write(
                 "\nfungeProper:" +
-                " mass = \(String(format: "%-2.6f", mass)), withdraw \(String(format: "%-2.6f", joulesNeeded))" +
-                " stillnessCounter = \(stillCounter)" +
-                " oxygenLevel = \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
-                " oxygenCost = \(String(format: "%-2.6f", oxygenCost))" +
-                " stillnessCost = \(String(format: "%-2.6f", stillnessCost))" +
-                " f.EnergyFullness = \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
-                " ...Capacity =  \(String(format: "%-2.6f", fungibleEnergyCapacity))" +
-                " ...Content =  \(String(format: "%-2.6f", fungibleEnergyContent))"
-                , level: 61
+                " mass    \(String(format: "%-2.6f", mass))," +
+                " w/d     \(String(format: "%-2.6f", joulesNeeded))" +
+                " still   \(String(format: "%03f", stillCounter))" +
+                " cost    \(String(format: "%-2.6f", stillnessCost))" +
+                " O2      \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
+                " cost    \(String(format: "%-2.6f", oxygenCost))" +
+                " energy  \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
+                " level   \(String(format: "%-2.6f", fungibleEnergyContent))" +
+                " cap     \(String(format: "%-2.6f", fungibleEnergyCapacity))"
+                , level: 66
             )
         }
 

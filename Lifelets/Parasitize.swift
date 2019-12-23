@@ -13,8 +13,8 @@ final class Parasitize: Dispatchable {
         let groupUndo = SKAction.group([bleedToDeath.reversed(), resizeToDeath.reversed()])
         let sequence = SKAction.sequence([groupDo, groupUndo])
         let makeAScene = SKAction.repeat(sequence, count: 5)
-        debugColor(result.1, .red, .yellow)
-        debugColor(result.0, .green, .red)
+        Debug.debugColor(result.1, .red, .yellow)
+        Debug.debugColor(result.0, .green, .red)
         result.1.sprite.run(makeAScene) {
             Grid.shared.serialQueue.async { self.parasitize(result.0, result.1) }
         }

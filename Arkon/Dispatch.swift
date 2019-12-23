@@ -19,26 +19,6 @@ class Dispatchable: DispatchableProtocol {
 }
 
 final class Dispatch {
-    func getTaskName(_ task: DispatchableProtocol?) -> String {
-        switch task {
-        case is Apoptosize: return "Apoptosize"
-        case is Arrive: return "Arrive"
-        case is Colorize: return "Colorize"
-        case is Disengage: return "Disengage"
-        case is Engage: return "Engage"
-        case is Funge: return "Funge"
-        case is Metabolize: return "Metabolize"
-        case is MoveSprite: return "MoveSprite"
-        case is MoveStepper: return "MoveStepper"
-        case is Parasitize: return "Parasitize"
-        case is Plot: return "Plot"
-        case is ReleaseStage: return "ReleaseStage"
-        case is Spawn: return "Larva"
-        case nil: return "Nothing"
-        default: fatalError()
-        }
-    }
-
     var lifelet: DispatchableProtocol!
     var name = ""
     var scratch = Scratchpad()

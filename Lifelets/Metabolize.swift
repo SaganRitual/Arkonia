@@ -7,8 +7,7 @@ final class Metabolize: Dispatchable {
 extension Metabolize {
     func aMetabolize() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        writeDebug("Metabolize \(six(st.name))", scratch: ch)
-        if ArkoniaCentral.debugColorIsEnabled { st.sprite.color = .red }
+        if Debug.debugColorIsEnabled { st.sprite.color = .red }
         st.metabolism.metabolizeProper(ch.stillCounter > 0, st.nose)
 
         precondition(ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
@@ -23,20 +22,20 @@ extension Metabolize {
 extension Metabolism {
     fileprivate func metabolizeProper(_ isStarving: Bool, _ nose: SKSpriteNode) {
         let internalTransferRate = CGFloat(50)
-        Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 65)
+        Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 67)
 
         if fungibleEnergyFullness < 0.5 {
-            if ArkoniaCentral.debugColorIsEnabled { nose.color = .green }
+            if Debug.debugColorIsEnabled { nose.color = .green }
             nose.colorBlendFactor = 1 - fungibleEnergyFullness
         } else {
-            if ArkoniaCentral.debugColorIsEnabled { nose.color = .blue }
+            if Debug.debugColorIsEnabled { nose.color = .blue }
             nose.colorBlendFactor = 1
         }
 
-        var logMessage = ""
+        var logMessage = "mp:"
 
         let stomachToReady = !stomach.isEmpty && !readyEnergyReserves.isFull
-        logMessage += ", stomachToReady = \(stomachToReady)"
+        logMessage += " stomachToReady = \(stomachToReady), ready is full = \(readyEnergyReserves.isFull)"
 
         if stomachToReady {
             let transfer = stomach.withdraw(internalTransferRate * readyEnergyReserves.energyDensity)
@@ -73,6 +72,6 @@ extension Metabolism {
             logMessage += ", transfer = \(transfer)"
         }
 
-        Log.L.write(logMessage, level: 65)
+        Log.L.write(logMessage, level: 67)
     }
 }

@@ -6,8 +6,7 @@ final class Disengage: Dispatchable {
         precondition(scratch?.name == scratch?.stepper?.name)
         precondition(scratch?.stepper?.name == ((scratch?.stepper?.sprite.getStepper(require: false))?.sprite?.name))
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
-        debugColor(st, .cyan, .cyan)
-        writeDebug("Disengage \(six(st.name))", scratch: ch)
+        Debug.debugColor(st, .cyan, .cyan)
 
         Log.L.write("Reset engagerKey #0", level: 41)
 

@@ -77,7 +77,7 @@ class EnergyReserve {
         let js = String(format: "%3.3f", cJoules)
         let Ls = String(format: "%3.3f", level)
         let fs = String(format: "%3.3f", level / capacity)
-        Log.L.write("deposit \(js) to \(name), level = \(Ls), fullness = \(fs)", level: 45)
+        Log.L.write("deposit \(js) to \(name), level = \(Ls), fullness = \(fs)", level: 66)
         level = min(level + cJoules, capacity)
     }
 
@@ -96,7 +96,7 @@ class EnergyReserve {
         let Ls = String(format: "%3.3f", level)
         let fs = String(format: "%3.3f", level / capacity)
         let ns = String(format: "%3.3f", net)
-        Log.L.write("withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)", level: 45)
+        Log.L.write("withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)", level: 66)
         return net
     }
 }
@@ -200,7 +200,7 @@ class Metabolism {
             String(format: "% 6.2f ", energyContent) +
             String(format: "(% 6.2f)\n]", cJoules) +
             String(format: "% 6.2f ", fungibleEnergyFullness),
-            level: 65
+            level: 66
         )
     }
 
