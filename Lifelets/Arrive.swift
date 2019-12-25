@@ -6,6 +6,7 @@ final class Arrive: Dispatchable {
     func arrive() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         debugColor(st, .green, .green)
+        writeDebug("Arrive \(six(st.name))", scratch: ch)
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
         precondition(shuttle.toCell != nil && shuttle.toCell?.sprite?.name == st.name)
 

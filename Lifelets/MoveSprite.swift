@@ -26,6 +26,7 @@ final class MoveSprite: Dispatchable {
 
     func moveSprite() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        writeDebug("MoveSprite \(six(st.name))", scratch: ch)
 
         precondition(
             (ch.cellShuttle?.toCell != nil && (ch.cellShuttle?.toCell?.sprite == nil || ch.cellShuttle?.toCell?.sprite?.name == st.name) && ch.engagerKey == nil) ||

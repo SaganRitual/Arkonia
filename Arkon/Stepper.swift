@@ -10,7 +10,7 @@ class Stepper {
     private weak var gridCell_: GridCell?
     var gridCell: GridCell! {
         get { gridCell_ }
-        set { gridCell_ = newValue }//; gridCell_?.debugReport.append("s(\(dispatch.scratch.serializer)) \(self.name)") }
+        set { gridCell_ = newValue }
     }
     var isTurnabouted: Bool = false
     var metabolism: Metabolism!
@@ -35,7 +35,7 @@ class Stepper {
         self.net = embryo.net
         self.netDisplay = embryo.netDisplay
         self.nose = embryo.nose
-        self.sprite = embryo.sprite
+        self.sprite = embryo.thorax
 
         if needsNewDispatch { self.dispatch = Dispatch(self) }
     }
@@ -43,11 +43,11 @@ class Stepper {
     deinit {
         netDisplay = nil
 
-        Log.L.write("stepper deinit \(six(name))/\(six(sprite.name))", level: 63)
+        Log.L.write("stepper deinit \(six(name))/\(six(sprite.name))", level: 66)
 
         World.stats.decrementPopulation(birthday)
 
-        Log.L.write("sd2 \(dispatch.scratch.debugReport)", level: 63)
+        Log.L.write("stepper deinit report \(dispatch.scratch.debugReport)", level: 65)
     }
 
     func getAge(_ currentTime: Int) -> Int { return currentTime - self.birthday }
@@ -77,17 +77,19 @@ extension Stepper {
 extension Stepper {
     static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
         sprite.userData![SpriteUserDataKey.stepper] = stepper
+        precondition(stepper.name == sprite.name)
 
         Log.L.write("attachStepper \(six(stepper.name)), \(six(sprite.name))", level: 55)
-        sprite.name = stepper.name
+//        sprite.name = stepper.name
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
         Log.L.write("detachStepper \(six(stepper.name)) from sprite \(six(sprite.name))", level: 32)
         precondition(sprite.userData![SpriteUserDataKey.stepper] != nil)
         precondition(sprite.userData![SpriteUserDataKey.uuid] != nil)
-
+        precondition(sprite.name == stepper.name)
+        precondition(sprite.getStepper(require: false)?.name == stepper.name)
         sprite.userData![SpriteUserDataKey.stepper] = nil
-        sprite.name = sprite.userData![SpriteUserDataKey.uuid] as? String
+        sprite.name = "defunct-" + stepper.name
     }
 }

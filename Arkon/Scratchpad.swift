@@ -1,4 +1,5 @@
 import CoreGraphics
+import Foundation
 
 class Scratchpad {
     var battle: (Stepper, Stepper)?
@@ -10,11 +11,13 @@ class Scratchpad {
     weak var dispatch: Dispatch?
     var engagerKey: GridCellKey?
     var isApoptosizing = false
+    var name = ""
     weak var parentNet: Net?
     var serializer = 0
     weak var stepper: Stepper?
     var stillCounter: CGFloat = 0
     var worldStats: World.StatsCopy?
+    let uuid = UUID().uuidString
 
     deinit {
         Log.L.write("~Scratchpad", level: 45)

@@ -47,16 +47,14 @@ extension GridCell {
             gridPointIndex += 1
 
             let p = parent.gridCell.getGridPointByIndex(gridPointIndex)
-            var ck: GridCellKey?
-            GridCell.atIf(p)?.lock(require: false, ownerName: parent.name) { ck = $0 }
 
-            guard let hk = ck as? HotKey else { continue }
+            guard let hk = GridCell.atIf(p)?.lockIf(ownerName: name)
+                else { continue }
 
-            hk.ownerName = name
             randomGridCell = hk
         } while (randomGridCell?.contents ?? .invalid) != .nothing
 
-        Log.L.write("lockBirthPosition at \(randomGridCell!.gridPosition)", level: 54)
+        writeDebug("lockBirthPosition for parent \(six(parent.name)) at \(randomGridCell!.gridPosition)", scratch: parent.dispatch.scratch)
         return randomGridCell!
     }
 

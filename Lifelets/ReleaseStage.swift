@@ -6,6 +6,7 @@ final class ReleaseStage: Dispatchable {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
         guard let toCell = shuttle.toCell else { preconditionFailure() }
+        writeDebug("ReleaseStage \(six(st.name))", scratch: ch)
 
         debugColor(st, .green, .cyan)
 

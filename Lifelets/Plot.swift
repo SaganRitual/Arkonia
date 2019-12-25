@@ -11,6 +11,8 @@ final class Plot: Dispatchable {
         guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
         guard let hk = ch.engagerKey as? HotKey else { preconditionFailure() }
 
+        writeDebug("Plot \(six(st.name))", scratch: ch)
+
         precondition(
             (ch.engagerKey == nil  ||
                 (ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&

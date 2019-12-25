@@ -40,12 +40,15 @@ final class Dispatch {
     }
 
     var lifelet: DispatchableProtocol!
+    var name = ""
     var scratch = Scratchpad()
     var wiLaunch: DispatchWorkItem?
 
     init(_ stepper: Stepper? = nil) {
         scratch.dispatch = self
         scratch.stepper = stepper
+        self.name = stepper?.name ?? "No name?"
+        self.scratch.name = self.name
     }
 
     init(parentNet: Net) {

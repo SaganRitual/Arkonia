@@ -26,12 +26,20 @@ final class Engage: Dispatchable {
         gc.lock(require: false, ownerName: st.name) { ch.engagerKey = $0 }
 
         if ch.engagerKey is ColdKey {
-            Log.L.write("Reschedule \(six(st.name)) for \(gc)", level: 64)
+            writeDebug(
+                "Reschedule \(six(st.name)) for \(gc)",
+                scratch: ch, level: 64
+            )
+
             gc.reschedule(st)
             return
         }
 
-        Log.L.write("Hot key \(six(st.name)) at \(ch.engagerKey!.gridPosition)", level: 62)
+        writeDebug(
+            "Hot key \(six(st.name)) at \(ch.engagerKey!.gridPosition)",
+            scratch: ch, level: 62
+        )
+
         ch.worldStats = World.stats.copy()
         precondition(ch.engagerKey?.sprite?.getStepper(require: false) != nil)
         precondition(
@@ -40,6 +48,7 @@ final class Engage: Dispatchable {
                 ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
                 ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition)
         ))
+
         dp.funge()
     }
 }

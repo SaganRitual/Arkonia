@@ -56,7 +56,7 @@ class Census {
         }
 
         if liveArkons.count < 15 {
-            for _ in 0..<25 { Dispatch().spawn() }
+            for _ in 0..<100 { Dispatch().spawn() }
         }
 
         if liveArkons.isEmpty { partA() } else { partC() }

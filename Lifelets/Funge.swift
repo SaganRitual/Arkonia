@@ -3,7 +3,8 @@ import Foundation
 
 final class Funge: Dispatchable {
     override func launch() {
-        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+        writeDebug("Funge", scratch: ch)
         debugColor(st, .yellow, .yellow)
         let (isAlive, canSpawn) = checkSpawnability()
         fungeRoute(isAlive, canSpawn)
@@ -20,7 +21,10 @@ extension Funge {
                 ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition)
         ))
 
-        if !isAlive  { dp.apoptosize(); return }
+        if !isAlive  {
+            precondition(st.name == st.sprite.name)
+            Log.L.write("isAlive == false, stepper(\(six(st.name))), stepper(\(six(st.sprite.name)))", level: 66)
+            dp.apoptosize(); return }
         if !canSpawn { dp.plot(); return }
 
         dp.spawn()

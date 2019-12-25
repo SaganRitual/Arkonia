@@ -1,3 +1,4 @@
+//swiftlint:disable function_body_length
 import SpriteKit
 
 protocol SpawnProtocol: class, DispatchableProtocol {
@@ -10,8 +11,8 @@ protocol SpawnProtocol: class, DispatchableProtocol {
     var net: Net? { get }
     var netDisplay: NetDisplay? { get }
     var nose: SKSpriteNode? { get set }
-    var parent: Stepper? { get set }
-    var sprite: SKSpriteNode? { get set }
+    var meTheParent: Stepper? { get set }
+    var thorax: SKSpriteNode? { get set }
 }
 
 enum Names {
@@ -36,7 +37,7 @@ enum Names {
             if nameix == 0 { setix += 1 }
         }
 
-        return names[nameix % names.count] + String(format: "%03d", setix)
+        return names[nameix % names.count] + String(format: "%03d-Arkon", setix)
     }
 }
 
@@ -55,18 +56,19 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
     var netDisplay: NetDisplay?
     weak var newborn: Stepper?
     var nose: SKSpriteNode?
-    weak var parent: Stepper?
-    var sprite: SKSpriteNode? { willSet {
-        Log.L.write("Larva.sprite \(six(scratch?.stepper?.name))", level: 15)
-    } }
+    weak var meTheParent: Stepper?
+    var thorax: SKSpriteNode?
     var tempStrongReference: Spawn?
     var wiLaunch: DispatchWorkItem?
     var wiLaunch2: DispatchWorkItem?
 
+    var debug1 = ""
+    var debug2 = ""
+
     init(_ scratch: Scratchpad) {
         Log.L.write("Larva", level: 15)
         self.scratch = scratch
-        self.parent = scratch.stepper
+        self.meTheParent = scratch.stepper
         self.tempStrongReference = self
 
         self.fishNumber = World.stats.getNextFishNumber_()
@@ -87,8 +89,6 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
     }
 
     func launch_() {
-        Log.L.write("Larva.launch_ \(six(scratch?.stepper?.name))", level: 15)
-
         getStartingPosition(self.embryoName)
 //        engagerKey?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "no fucking way"
         registerBirth()
@@ -110,18 +110,28 @@ extension Spawn {
 
 extension Spawn {
     private func getStartingPosition(_ embryoName: String) {
-        guard let parent = self.parent else {
+        if self.meTheParent?.name != nil {
+            precondition(self.meTheParent?.name != embryoName)
+            precondition(self.meTheParent?.sprite?.getStepper(require: false)?.name != nil)
+            precondition(self.meTheParent?.sprite?.getStepper(require: false)?.name == self.meTheParent?.name)
+            precondition(self.meTheParent?.name == self.meTheParent?.dispatch?.name)
+            precondition(self.meTheParent?.name == self.meTheParent?.dispatch?.scratch.name)
+        }
+
+        guard let parent = self.meTheParent else {
             engagerKey = GridCell.lockRandomEmptyCell(ownerName: "aboriginal-\(fishNumber)")
+            debug1 = engagerKey!.ownerName
             Log.L.write("Larva engagerKey random empty cell at \(engagerKey?.gridPosition ?? AKPoint(x: -4242, y: -4242))", level: 52)
             return
         }
 
         engagerKey = GridCell.lockBirthPosition(parent: parent, name: embryoName)
+        debug2 = engagerKey!.ownerName
         Log.L.write("Larva from \(six(parent.name)) engagerKey lock birth position at \(engagerKey?.gridPosition ?? AKPoint(x: -4242, y: -4242))", level: 52)
     }
 
     private func registerBirth() {
-        World.stats.registerBirth(myParent: parent, meOffspring: self)
+        World.stats.registerBirth(myParent: meTheParent, meOffspring: self)
     }
 }
 
@@ -131,11 +141,11 @@ extension Spawn {
         metabolism = Metabolism()
 
         net = Net(
-            parentBiases: parent?.parentBiases, parentWeights: parent?.parentWeights,
-            layers: parent?.parentLayers, parentActivator: parent?.parentActivator
+            parentBiases: meTheParent?.parentBiases, parentWeights: meTheParent?.parentWeights,
+            layers: meTheParent?.parentLayers, parentActivator: meTheParent?.parentActivator
         )
 
-        guard let sprite = self.sprite else { preconditionFailure() }
+        guard let sprite = self.thorax else { preconditionFailure() }
 
         buildNetDisplay(sprite)
 
@@ -161,22 +171,32 @@ extension Spawn {
 extension Spawn {
 
     func abandonNewborn() {
-        if let st = parent, let dp = st.dispatch, let sprite = st.sprite {
-
-            let rotate = SKAction.rotate(byAngle: 4 * 2 * CGFloat.pi, duration: 2.0)
-            sprite.run(rotate)
-            let spawnCost = st.getSpawnCost()
-            st.metabolism.withdrawFromSpawn(spawnCost)
-            let ch = dp.scratch
-            precondition(
-                    (ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
-                    ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
-                    ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition
-            ))
-            dp.metabolize()
-        } else {
-            Log.L.write("no scratch", level: 29)
+        guard let st = meTheParent, let dp = st.dispatch, let sprite = st.sprite
+            else {
+                Log.L.write("Aboriginal? \(six(self.embryoName)), parent \(six(meTheParent?.name))", level: 66)
+                return
         }
+
+        precondition((sprite.getStepper(require: false)?.name ?? "") == st.name)
+        precondition((sprite.getStepper(require: false)?.name ?? "") == sprite.name)
+        precondition(sprite.name == meTheParent?.name)
+        let rotate = SKAction.rotate(byAngle: 4 * 2 * CGFloat.pi, duration: 2.0)
+        sprite.run(rotate)
+        let spawnCost = st.getSpawnCost()
+        st.metabolism.withdrawFromSpawn(spawnCost)
+        let ch = dp.scratch
+        precondition(
+                (ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
+                ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
+                ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition
+        ))
+
+        precondition((sprite.getStepper(require: false)?.name ?? "") == st.name)
+        precondition((sprite.getStepper(require: false)?.name ?? "") == sprite.name)
+        precondition(sprite.name != embryoName)
+        precondition(meTheParent?.dispatch.scratch.name == meTheParent?.name)
+        precondition(meTheParent?.dispatch.scratch.name == sprite.name)
+        dp.metabolize()
     }
 
     func buildSprites() {
@@ -192,9 +212,9 @@ extension Spawn {
         assert(Display.displayCycle == .actions)
 
         self.nose = SpriteFactory.shared.noseHangar.makeSprite()
-        self.sprite = SpriteFactory.shared.arkonsHangar.makeSprite()
+        self.thorax = SpriteFactory.shared.arkonsHangar.makeSprite()
 
-        guard let sprite = self.sprite else { fatalError() }
+        guard let thorax = self.thorax else { fatalError() }
         guard let nose = self.nose else { fatalError() }
         Log.L.write("Reset engagerKey #4", level: 41)
         guard let engagerKey = self.engagerKey else { fatalError() }
@@ -202,61 +222,128 @@ extension Spawn {
         nose.alpha = 1
         nose.colorBlendFactor = 1
         nose.setScale(0.75)
+        nose.name = embryoName
 
-        sprite.setScale(ArkoniaCentral.spriteScale)
+        thorax.setScale(ArkoniaCentral.spriteScale)
         Log.L.write("ArkoniaCentral.masterScale = \(ArkoniaCentral.masterScale)", level: 37)
-        sprite.colorBlendFactor = 1
-        sprite.position = engagerKey.scenePosition
-        sprite.alpha = 1
+        thorax.colorBlendFactor = 1
+        thorax.position = engagerKey.scenePosition
+        thorax.alpha = 1
+        thorax.name = embryoName
 
-        let noseColor: SKColor = (parent == nil) ? .magenta : .yellow
-        debugColor(sprite, .green, nose, noseColor)
+        let noseColor: SKColor = (meTheParent == nil) ? .magenta : .yellow
+        debugColor(thorax, .green, nose, noseColor)
 
-        sprite.addChild(nose)
+        thorax.addChild(nose)
     }
 
     func launchNewborn() {
-        guard let sprite = self.sprite else { preconditionFailure() }
-
-        abandonNewborn()
+        guard let thorax = self.thorax else { preconditionFailure() }
 
         let newborn = Stepper(self, needsNewDispatch: true)
-        newborn.parentStepper = self.parent
+        newborn.parentStepper = self.meTheParent
         newborn.dispatch.scratch.stepper = newborn
         newborn.sprite?.color = .yellow
         newborn.nose?.color = .white
 
-        Stepper.attachStepper(newborn, to: sprite)
-        Log.L.write("Attach stepper \(six(newborn.name)) sprite name is \(six(sprite.name))", level: 51)
+        precondition(newborn.name == thorax.name)
+        precondition(newborn.name == embryoName)
+        precondition(newborn.name != self.meTheParent?.name ?? "")
+        precondition(newborn.name != self.meTheParent?.sprite?.name ?? "")
 
-        precondition(sprite.name == newborn.name)
-        precondition(sprite.getStepper(require: false)?.name == newborn.name)
+        guard let ek = engagerKey else { fatalError() }
+        guard let ch = newborn.dispatch?.scratch else { fatalError() }
 
-        GriddleScene.arkonsPortal!.addChild(sprite)
+        precondition(ch.name == newborn.name)
+        precondition(ch.name != self.meTheParent?.sprite?.name ?? "")
+
+        writeDebug(
+            "Spawn engagerKey contents = \(engagerKey!.contents), " +
+            "sprite name = \(six(engagerKey!.sprite?.name))",
+            scratch: ch, level: 52
+        )
+
+        precondition(ek.ownerName == debug1 || ek.ownerName == debug2)
+
+        ek.contents = .arkon
+        ek.sprite = thorax
+        ek.sprite?.name = newborn.name
+        ek.ownerName = newborn.name
+
+        Stepper.attachStepper(newborn, to: thorax)
+
+        writeDebug(
+            "Attach stepper \(six(newborn.name)) " +
+            "sprite name is \(six(thorax.name))",
+            scratch: ch, level: 51
+        )
+
+        if meTheParent != nil {
+            precondition(meTheParent?.dispatch?.name != nil)
+            precondition(meTheParent?.dispatch?.name.isEmpty == false)
+            precondition(meTheParent?.dispatch?.name == meTheParent?.name)
+            precondition(meTheParent?.dispatch?.scratch.name == meTheParent?.name)
+            precondition(meTheParent?.name == meTheParent?.sprite?.name)
+            precondition(meTheParent?.name == meTheParent?.sprite?.getStepper(require: false)?.name)
+        }
+        abandonNewborn()
+        if meTheParent != nil {
+            precondition(meTheParent?.dispatch?.name != nil)
+            precondition(meTheParent?.dispatch?.name.isEmpty == false)
+            precondition(meTheParent?.dispatch?.name == meTheParent?.name)
+            precondition(meTheParent?.dispatch?.scratch.name == meTheParent?.name)
+            precondition(meTheParent?.name == meTheParent?.sprite?.name)
+            precondition(meTheParent?.name == meTheParent?.sprite?.getStepper(require: false)?.name)
+        }
+
+        precondition(newborn.dispatch?.name != nil)
+        precondition(newborn.dispatch?.name.isEmpty == false)
+        precondition(newborn.dispatch?.name == newborn.name)
+        precondition(newborn.dispatch?.scratch.name == newborn.name)
+        precondition(newborn.name == newborn.sprite?.name)
+        precondition(newborn.name == newborn.sprite?.getStepper(require: false)?.name)
+
+        precondition(meTheParent?.name != newborn.dispatch?.name)
+
+        GriddleScene.arkonsPortal!.addChild(thorax)
 
         let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
-        sprite.run(rotate)
+        thorax.run(rotate)
 
         guard let ndp = newborn.dispatch else { fatalError() }
-        guard let ek = engagerKey else { fatalError() }
 
-        Log.L.write("Spawn engagerKey contents = \(engagerKey!.contents), sprite name = \(six(engagerKey!.sprite?.name))", level: 52)
-        ek.contents = .arkon
-        ek.sprite = sprite
-
-        precondition(ndp.scratch.stepper?.gridCell != nil)
-
-        guard let ownerName = ek.sprite?.getStepper(require: false)?.name else { preconditionFailure() }
-        ek.sprite?.name = ownerName
-
-        Log.L.write("Spawn pre-transferKey  contents = \(ek.contents), sprite name = \(six(ek.sprite?.name)), at \(ek.gridPosition)/\(ek.sprite?.position ?? CGPoint.zero)", level: 55)
         ndp.scratch.engagerKey = ek
-        Log.L.write("Spawn post-transferKey contents = \(ndp.scratch.engagerKey!.contents), sprite name = \(six(ndp.scratch.engagerKey!.sprite?.name)), at \(ndp.scratch.engagerKey!.gridPosition)/\(ndp.scratch.engagerKey!.sprite?.position ?? CGPoint.zero)", level: 55)
-        precondition(ek.sprite?.getStepper(require: false) != nil)
-        precondition(ndp.scratch.engagerKey?.sprite?.getStepper(require: false) != nil)
-        precondition(ndp.scratch.engagerKey?.sprite?.getStepper(require: false)?.name == ek.sprite?.getStepper(require: false)?.name)
 
-        Log.L.write("New stepper \(six(newborn.name)) has sprite \(six(sprite.name)), gridcell owned by \(six(ndp.scratch.stepper?.gridCell.ownerName))", level: 52)
+        defer {
+            writeDebug(
+                "New stepper \(six(newborn.name)) " +
+                "has sprite \(six(thorax.name)), " +
+                "gridcell owned by \(six(ndp.scratch.stepper?.gridCell.ownerName))",
+                scratch: ch, level: 52
+            )
+
+            if meTheParent != nil {
+                precondition(meTheParent?.dispatch?.name != nil)
+                precondition(meTheParent?.dispatch?.name.isEmpty == false)
+                precondition(meTheParent?.dispatch?.name == meTheParent?.name)
+                precondition(meTheParent?.dispatch?.scratch.name == meTheParent?.name)
+                precondition(meTheParent?.name != newborn.dispatch?.name)
+            }
+
+            precondition(newborn.dispatch?.name != nil)
+            precondition(newborn.dispatch?.name.isEmpty == false)
+            precondition(newborn.dispatch?.name == newborn.name)
+            precondition(newborn.dispatch?.scratch.name == newborn.name)
+        }
+
+        precondition((thorax.getStepper(require: false)?.name ?? "") == newborn.name)
+        precondition((thorax.getStepper(require: false)?.name ?? "") == thorax.name)
+
+        Log.L.write("parent name = \(meTheParent?.name ?? "aboriginal"), newborn name = \(newborn.name))", level: 65)
         ndp.disengage()
     }
+}
+
+func writeDebug(_ toWrite: String, scratch: Scratchpad, level: Int? = nil) {
+//    scratch.debugReport.append("\n\(toWrite)")
 }
