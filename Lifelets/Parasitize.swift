@@ -1,8 +1,10 @@
 import SpriteKit
 
 final class Parasitize: Dispatchable {
-    internal override func launch_() {
-        Log.L.write("Parasitize.launch_ \(six(scratch?.stepper?.name))", level: 51)
+    internal override func launch() {
+        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+        writeDebug("Parasitize \(six(st.name))", scratch: ch)
+
         let result = attack()
 
         let bleedToDeath = SKAction.colorize(with: .red, colorBlendFactor: 1, duration: 0.5)
@@ -81,6 +83,8 @@ extension Parasitize {
         victor.dispatch.releaseStage()
 
         if victor.isTurnabouted {
+            precondition(victim.sprite.name == victim.name)
+            Log.L.write("victor isTurnabouted, stepper(\(six(victim.sprite.name))), stepper(\(six(victim.sprite.name)))", level: 66)
             victim.dispatch.apoptosize()
         }
     }

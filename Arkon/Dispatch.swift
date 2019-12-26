@@ -10,19 +10,12 @@ protocol DispatchableProtocol {
 
 class Dispatchable: DispatchableProtocol {
     var scratch: Scratchpad?
-    var wiLaunch: DispatchWorkItem?
 
     required init(_ scratch: Scratchpad) {
         self.scratch = scratch
-        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
     }
 
-    func launch() {
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.serialQueue.async(execute: w)
-    }
-
-    func launch_() { preconditionFailure() }
+    func launch() { preconditionFailure() }
 }
 
 final class Dispatch {
@@ -47,22 +40,20 @@ final class Dispatch {
     }
 
     var lifelet: DispatchableProtocol!
+    var name = ""
     var scratch = Scratchpad()
     var wiLaunch: DispatchWorkItem?
 
     init(_ stepper: Stepper? = nil) {
         scratch.dispatch = self
         scratch.stepper = stepper
+        self.name = stepper?.name ?? "No name?"
+        self.scratch.name = self.name
     }
 
     init(parentNet: Net) {
         scratch.dispatch = self
         scratch.parentNet = parentNet
-    }
-
-    func launch() {
-        guard let w = wiLaunch else { fatalError() }
-        Grid.shared.serialQueue.async(execute: w)
     }
 }
 

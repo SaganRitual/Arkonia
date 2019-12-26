@@ -1,16 +1,16 @@
 import GameplayKit
 
 final class Colorize: Dispatchable {
-    internal override func launch_() { aColorize() }
+    internal override func launch() { aColorize() }
 }
 
 func six(_ string: String?) -> String { return String(string?.prefix(15) ?? "<no input>") }
 
 extension Colorize {
     func aColorize() {
-        Log.L.write("Colorize.launch_ \(six(scratch?.stepper?.name))", level: 15)
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         debugColor(st, .blue, .blue)
+        writeDebug("Colorize \(six(st.name))", scratch: ch)
 
         precondition(ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
                 ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&

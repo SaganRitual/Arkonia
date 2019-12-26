@@ -27,16 +27,29 @@ func debugColor(_ stepper: Stepper, _ thoraxColor: SKColor, _ noseColor: SKColor
 }
 
 func dumpArkonDebug(_ name: String) {
-    let steppers: [Stepper] = GriddleScene.arkonsPortal.children.compactMap {
-        return ($0 as? SKSpriteNode)?.getStepper(require: false)
+    let sprites: [SKSpriteNode] = GriddleScene.arkonsPortal.children.compactMap {
+        guard let sprite = ($0 as? SKSpriteNode) else { return nil }
+        return (sprite.name?.contains("Arkon") ?? false) ? sprite : nil
     }
 
+    let steppers: [Stepper] = sprites.compactMap { $0.getStepper(require: false) }
+
+    var message = ""
+
+    defer { Log.L.write(message) }
     guard let stepper = steppers.first(where: { $0.name == name }) else {
-        Log.L.write("Stepper \(name) not found", level: 60)
+        message = "Stepper \(name) not found; trying sprite"
+
+        if sprites.first(where: { $0.name == name }) == nil {
+            message += "; not found"
+            return
+        }
+
+        message += "; found"
         return
     }
 
-    Log.L.write("sd \(stepper.dispatch.scratch.debugReport)", level: 60)
+    Log.L.write("sd \(stepper.dispatch.scratch.debugReport)")
 }
 
 func reconstruct(_ name: String) {
@@ -45,8 +58,10 @@ func reconstruct(_ name: String) {
     for x in -wp...wp {
         for y in -hp...hp {
             guard let cell = GridCell.atIf(x, y) else { continue }
-            if cell.debugReport.first(where: { $0.contains(name) }) == nil { continue }
-            Log.L.write("Found at \(cell.gridPosition): \(cell.debugReport)")
+            if cell.cellDebugReport.first(where: { $0.contains(name) }) == nil { continue }
+            Log.L.write("Found at \(cell.gridPosition): \(cell.cellDebugReport)")
         }
     }
+
+    Log.L.write("end")
 }

@@ -5,11 +5,12 @@ final class MoveStepper: Dispatchable {
         Log.L.write("~MoveStepper", level : 4)
     }
 
-    internal override func launch_() { moveStepper() }
+    internal override func launch() { moveStepper() }
 
     func moveStepper() {
         guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
+        writeDebug("MoveSteper \(six(stepper.name))", scratch: ch)
 
         Log.L.write("moveStepper from \(shuttle.fromCell?.gridPosition ?? AKPoint(x: -4242, y: 4242)) to \(shuttle.toCell?.gridPosition ?? AKPoint(x: -4242, y: 4242))", level: 56)
 

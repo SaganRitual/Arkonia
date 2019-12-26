@@ -189,7 +189,7 @@ class Metabolism {
 //        )
 
         stomach.deposit(cJoules)
-        Log.L.write("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 44)
+        Log.L.write("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 65)
 
         Log.L.write(
             " Deposit " +
@@ -200,7 +200,7 @@ class Metabolism {
             String(format: "% 6.2f ", energyContent) +
             String(format: "(% 6.2f)\n]", cJoules) +
             String(format: "% 6.2f ", fungibleEnergyFullness),
-            level: 36
+            level: 65
         )
     }
 

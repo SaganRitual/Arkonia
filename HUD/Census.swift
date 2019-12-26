@@ -55,8 +55,8 @@ class Census {
             return (lAge / (lOffspring + 1)) < (rAge / (rOffspring + 1))
         }
 
-        if liveArkons.count < 50 {
-            Dispatch().spawn()
+        if liveArkons.count < 15 {
+            for _ in 0..<100 { Dispatch().spawn() }
         }
 
         if liveArkons.isEmpty { partA() } else { partC() }

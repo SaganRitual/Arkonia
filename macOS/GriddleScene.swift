@@ -51,6 +51,25 @@ class GriddleScene: SKScene, SKSceneDelegate {
     var reportArkonia: Report!
     var reportMisc: Report!
 
+    //swiftlint:disable unused_setter_value
+    override var isUserInteractionEnabled: Bool { get { true } set { } }
+    //swiftlint:enable unused_setter_value
+
+     override func mouseUp(with event: NSEvent) {
+         let location = event.location(in: self)
+
+        if atPoint(location).parent?.name == nil ||
+             atPoint(location).parent!.name!.contains("Arkon") == false
+        {
+            self.isPaused = !self.isPaused
+            return
+        }
+
+        print("Debug report for \(atPoint(location).parent!.name!)")
+
+        dumpArkonDebug(atPoint(location).parent!.name!)
+     }
+
     func buildReports() {
         reportFactory = ReportFactory(hud: hud)
 

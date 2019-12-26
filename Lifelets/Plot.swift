@@ -5,13 +5,13 @@ final class Plot: Dispatchable {
     var senseData: [Double]?
     var senseGrid: CellSenseGrid?
 
-    internal override func launch_() {
-        makeSenseGrid()
-    }
+    internal override func launch() { makeSenseGrid() }
 
     func makeSenseGrid() {
         guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
         guard let hk = ch.engagerKey as? HotKey else { preconditionFailure() }
+
+        writeDebug("Plot \(six(st.name))", scratch: ch)
 
         precondition(
             (ch.engagerKey == nil  ||
@@ -139,7 +139,7 @@ extension Plot {
                 return(ss, dSignal)
         }
 
-        let trimmed = motorOutputs.filter { _ in true }// { abs($0.1) < 1.0 && $0.0 != 0 }
+        let trimmed = motorOutputs.filter { abs($0.1) < 1.0 && $0.0 != 0 }
 
         let order = trimmed.sorted { lhs, rhs in
             let labs = abs(lhs.1)

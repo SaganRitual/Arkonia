@@ -1,17 +1,12 @@
 import SpriteKit
 
 final class Arrive: Dispatchable {
-    override func launch() {
-        guard let w = wiLaunch else { fatalError() }
-//        Grid.shared.serialQueue.async(execute: w)
-        World.shared.concurrentQueue.async(execute: w)
-    }
-
-    internal override func launch_() { arrive() }
+    internal override func launch() { arrive() }
 
     func arrive() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         debugColor(st, .green, .green)
+        writeDebug("Arrive \(six(st.name))", scratch: ch)
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
         precondition(shuttle.toCell != nil && shuttle.toCell?.sprite?.name == st.name)
 
