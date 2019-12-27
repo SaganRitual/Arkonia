@@ -34,7 +34,7 @@ class Census {
 
         rCOffspring = scene.reportMisc.reportoid(3)
 
-        updateCensus()
+        Arkonia.tickTheWorld(Census.dispatchQueue, partA)
     }
 }
 
@@ -52,11 +52,19 @@ extension Census {
     }
 }
 
-extension Census {
-    private func updateCensus() {
-        Census.dispatchQueue.asyncAfter(deadline: .now() + 1, flags: .barrier) { self.partA() }
+extension Arkonia {
+    static func tickTheWorld(_ queue: DispatchQueue, _ tick: @escaping () -> Void) {
+        // This vomitosis is because I can't figure out how to get
+        // asyncAfter to create a barrier task; it just runs concurrently
+        // with the others, and causes crashes. Tried with DispatchWorkItem
+        // too, but that didn't work even when using async(flags:execute:)
+        queue.asyncAfter(deadline: .now() + 1) {
+            queue.async(flags: .barrier) { tick(); tickTheWorld(queue, tick) }
+        }
     }
+}
 
+extension Census {
     private func partA() {
         let ages: [Int] = GriddleScene.arkonsPortal!.children.compactMap { node in
             guard let sprite = node as? SKSpriteNode else { return nil }
@@ -68,7 +76,7 @@ extension Census {
             for _ in 0..<25 { Dispatch().spawn() }
         }
 
-        if ages.isEmpty { updateCensus() } else { partB(ages.last!) }
+        if !ages.isEmpty { partB(ages.last!) }
     }
 
     private func partB(_ greatestAge: Int) {

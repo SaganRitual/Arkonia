@@ -28,7 +28,7 @@ class Clock {
         clockFormatter.unitsStyle = .positional
         clockFormatter.zeroFormattingBehavior = .pad
 
-        updateClock()
+        Arkonia.tickTheWorld(Clock.dispatchQueue, partA)
     }
 
     func getWorldClock(_ onComplete: @escaping OnComplete1Intp) {
@@ -45,7 +45,13 @@ class Clock {
     }
 
     func updateClock() {
-        Clock.dispatchQueue.asyncAfter(deadline: .now() + 1, flags: .barrier) { self.partA() }
+        // This vomitosis is because I can't figure out how to get
+        // asyncAfter to create a barrier task; it just runs concurrently
+        // with the others, and causes crashes. Tried with DispatchWorkItem
+        // too, but that didn't work even when using async(flags:execute:)
+        Clock.dispatchQueue.asyncAfter(deadline: .now() + 1) {
+            Clock.dispatchQueue.async(flags: .barrier) { self.partA() }
+        }
     }
 
     func partA() {
@@ -55,6 +61,5 @@ class Clock {
             self.clockFormatter.string(from: TimeInterval(self.worldClock))
 
         self.foodValueReport.data.text = String(format: "%.2f", (1 - self.getEntropy()) * 100)
-        updateClock()
     }
 }
