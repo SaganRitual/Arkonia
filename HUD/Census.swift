@@ -92,26 +92,20 @@ extension Census {
 }
 
 extension Census {
-    typealias OnComplete0p = () -> Void
+    typealias OnComplete2p = (Int, Int) -> Void
 
-    func registerBirth(
-        myParent: Stepper?,
-        meOffspring: SpawnProtocol,
-        _ onComplete: @escaping OnComplete0p
-    ) {
+    func registerBirth(myParent: Stepper?,_ onComplete: @escaping OnComplete2p) {
         Census.dispatchQueue.async(flags: .barrier) { [unowned self] in
-            self.registerBirth(myParent, meOffspring)
-            onComplete()
+            let (fishNumber, birthday) = self.registerBirth(myParent)
+            onComplete(fishNumber, birthday)
         }
     }
 
-    private func registerBirth(_ myParent: Stepper?, _ meOffspring: SpawnProtocol) {
+    private func registerBirth(_ myParent: Stepper?) -> (Int, Int) {
         self.population += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
 
         myParent?.cOffspring += 1
-        meOffspring.fishNumber = self.getNextFishNumber()
-        meOffspring.birthday = self.localTime
 
         self.highWaterCOffspring = max(
             myParent?.cOffspring ?? 0, self.highWaterCOffspring
@@ -119,6 +113,8 @@ extension Census {
 
         Log.L.write("nil? \(myParent == nil), pop \(self.population), cOffspring \(myParent?.cOffspring ?? -1)" +
             " real hw cOfspring \(self.highWaterCOffspring)", level: 37)
+
+        return (self.getNextFishNumber(), self.localTime)
     }
 
     func registerDeath(_ birthdayOfDeceased: Int) {

@@ -85,8 +85,9 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
     }
 
     func launch() {
-        Census.shared.getNextFishNumber {
+        Census.shared.registerBirth(myParent: self.meTheParent) {
             self.fishNumber = $0
+            self.birthday = $1
 
             guard let w = self.wiLaunch else { fatalError() }
             Grid.shared.serialQueue.async(execute: w)
@@ -95,11 +96,9 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
 
     func launch_() {
         getStartingPosition(self.embryoName)
-//        engagerKey?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "no fucking way"
-        registerBirth {
-            guard let w2 = self.wiLaunch2 else { fatalError() }
-            Grid.shared.serialQueue.async(execute: w2)
-        }
+
+        guard let w2 = self.wiLaunch2 else { fatalError() }
+        Grid.shared.serialQueue.async(execute: w2)
     }
 
     func launch2_() { buildSprites() }
@@ -134,13 +133,6 @@ extension Spawn {
         engagerKey = GridCell.lockBirthPosition(parent: parent, name: embryoName)
         debug2 = engagerKey!.ownerName
         Log.L.write("Larva from \(six(parent.name)) engagerKey lock birth position at \(engagerKey?.gridPosition ?? AKPoint(x: -4242, y: -4242))", level: 52)
-    }
-
-    private func registerBirth(_ onComplete: @escaping () -> Void) {
-        Grid.shared.serialQueue.async {
-            World.stats.registerBirth_(self.meTheParent, self)
-            onComplete()
-        }
     }
 }
 
