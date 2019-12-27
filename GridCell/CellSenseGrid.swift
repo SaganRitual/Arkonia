@@ -5,7 +5,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
     init(from center: HotKey, by cGridlets: Int, block: AKPoint) {
 
-        guard let cc = center.getCell() else { preconditionFailure() }
+        guard let cc = center.bell else { preconditionFailure() }
         centerName = cc.ownerName
 
         precondition(cc.sprite?.getStepper(require: false) != nil)
@@ -13,14 +13,12 @@ class CellSenseGrid: CustomDebugStringConvertible {
         debugDescription += "center \(six(centerName)) at \(cc.gridPosition); "
 
         cells = [center] + (1..<cGridlets).map { index in
-            guard let position = center.getCell()?.getGridPointByIndex(index)
+            guard let position = center.bell?.getGridPointByIndex(index)
                 else { preconditionFailure() }
 
             if position == block { debugDescription += ".."; return NilKey() }
             guard let cell = GridCell.atIf(position) else { debugDescription += "^^"; return NilKey() }
             if index > Arkonia.cMotorGridlets { debugDescription += "Cx"; return ColdKey(for: cell) }
-
-            precondition(GridCell.at(position).ownerName != centerName)
 
             var gotlock: GridCellKey?
             cell.lock(require: false, ownerName: centerName) { gotlock = $0 }

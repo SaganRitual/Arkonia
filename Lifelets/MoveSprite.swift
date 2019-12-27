@@ -31,7 +31,7 @@ final class MoveSprite: Dispatchable {
 //        guard let p = shuttle.toCell?.gridPosition else { preconditionFailure() }
 //        ch.debugReport.append("move(\(ch.serializer) \(six(st.name)) to \(p)")
 
-        Log.L.write("moveSprite0 \(six(st.name)), \(ch.cellShuttle == nil), \(ch.cellShuttle?.toCell == nil), \(ch.cellShuttle?.toCell?.getCell() == nil))", level: 31)
+        Log.L.write("moveSprite0 \(six(st.name)), \(ch.cellShuttle == nil), \(ch.cellShuttle?.toCell == nil), \(ch.cellShuttle?.toCell?.bell == nil))", level: 31)
 
         if shuttle.fromCell == nil {
             Debug.debugColor(st, .red, .cyan)
@@ -46,7 +46,7 @@ final class MoveSprite: Dispatchable {
             (ch.cellShuttle?.toCell?.sprite == nil &&
             ch.cellShuttle?.fromCell?.sprite == nil) || ch.engagerKey == nil
         )
-        guard let hotKey = shuttle.toCell?.getCell() else { preconditionFailure() }
+        guard let hotKey = shuttle.toCell?.bell else { preconditionFailure() }
         let position = hotKey.randomScenePosition ?? hotKey.scenePosition
 
         let moveAction =  SKAction.move(to: position, duration: MoveSprite.moveDuration)

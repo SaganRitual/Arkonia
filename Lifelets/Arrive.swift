@@ -24,7 +24,7 @@ final class Arrive: Dispatchable {
 }
 
 extension Arrive {
-    func graze() { GriddleScene.shared.run(SKAction.run { self.graze_() }) }
+    func graze() { Grid.shared.serialQueue.async { self.graze_() } }
 
     func graze_() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }

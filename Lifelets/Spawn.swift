@@ -95,7 +95,7 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
 
     func launch_() {
         getStartingPosition(self.embryoName)
-
+//        engagerKey?.cell.ownerName = self.dispatch?.scratch.stepper?.name ?? "no fucking way"
         registerBirth {
             guard let w2 = self.wiLaunch2 else { fatalError() }
             Grid.shared.serialQueue.async(execute: w2)
@@ -136,9 +136,10 @@ extension Spawn {
         Log.L.write("Larva from \(six(parent.name)) engagerKey lock birth position at \(engagerKey?.gridPosition ?? AKPoint(x: -4242, y: -4242))", level: 52)
     }
 
-    private func registerBirth(_ onComplete: @escaping OnComplete0p) {
-        Census.shared.registerBirth(myParent: parent, meOffspring: self) {
-            Spawn.dispatchQueue.async(execute: onComplete)
+    private func registerBirth(_ onComplete: @escaping () -> Void) {
+        Grid.shared.serialQueue.async {
+            World.stats.registerBirth_(self.meTheParent, self)
+            onComplete()
         }
     }
 }
@@ -158,7 +159,6 @@ extension Spawn {
         buildNetDisplay(sprite)
 
         self.launchNewborn()
-        self.tempStrongReference = nil
     }
 
 }
@@ -322,13 +322,6 @@ extension Spawn {
         ndp.scratch.engagerKey = ek
 
         defer {
-            writeDebug(
-                "New stepper \(six(newborn.name)) " +
-                "has sprite \(six(thorax.name)), " +
-                "gridcell owned by \(six(ndp.scratch.stepper?.gridCell.ownerName))",
-                scratch: ch, level: 52
-            )
-
             if meTheParent != nil {
                 precondition(meTheParent?.dispatch?.name != nil)
                 precondition(meTheParent?.dispatch?.name.isEmpty == false)
@@ -347,6 +340,10 @@ extension Spawn {
         precondition((thorax.getStepper(require: false)?.name ?? "") == thorax.name)
 
         Log.L.write("parent name = \(meTheParent?.name ?? "aboriginal"), newborn name = \(newborn.name))", level: 65)
+
+        // The newborn now has a strong ref to the dispatch, so we can let
+        // it go now
+        self.tempStrongReference = nil
         ndp.disengage()
     }
 }

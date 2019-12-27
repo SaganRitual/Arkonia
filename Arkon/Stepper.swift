@@ -29,7 +29,7 @@ class Stepper {
     init(_ embryo: Spawn, needsNewDispatch: Bool = false) {
         self.birthday = embryo.birthday
         self.fishNumber = embryo.fishNumber
-        self.gridCell_ = embryo.engagerKey!.getCell()
+        self.gridCell_ = embryo.engagerKey!.bell
         self.metabolism = embryo.metabolism
         self.name = embryo.embryoName
         self.net = embryo.net

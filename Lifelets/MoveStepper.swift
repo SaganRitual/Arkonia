@@ -17,7 +17,7 @@ final class MoveStepper: Dispatchable {
         shuttle.move()
 
         stepper.previousShiftOffset = stepper.gridCell.gridPosition
-        stepper.gridCell = shuttle.toCell?.getCell()
+        stepper.gridCell = shuttle.toCell?.bell
         precondition(stepper.gridCell != nil)
 
         postMove(shuttle)

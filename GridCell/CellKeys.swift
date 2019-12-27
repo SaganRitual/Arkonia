@@ -1,70 +1,25 @@
 //swiftlint:disable unused_setter_value
 import SpriteKit
 
-protocol GridCellKey: class {
-    var bell: GridCell? { get }
+protocol GridCellKey {
     var contents: GridCell.Contents { get }
     var gridPosition: AKPoint { get }
     var ownerName: String { get }
     var sprite: SKSpriteNode? { get }
-
-    func getCell() -> GridCell?
-    func reengageRequesters()
 }
 
-extension GridCellKey {
-    func getCell() -> GridCell? { return bell }
-
-    func reengageRequesters() {
-        guard let c = bell else { return }
-
-        while true {
-            guard let waitingStepper = c.getRescheduledArkon() else {
-                Log.L.write("reengageRequesters empty", level: 61)
-                return
-            }
-            if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
-                Log.L.write("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 63)
-                dp.disengage()
-                return
-            }
-        }
-    }
-}
-
-class ColdKey: GridCellKey {
-    private weak var cell_: GridCell?
-    internal var bell: GridCell? { get { cell_ } set { preconditionFailure() } }
-
+struct ColdKey: GridCellKey {
     init(for cell: GridCell) {
-        self.cell_ = cell
+        contents = cell.contents
+        gridPosition = cell.gridPosition
+        ownerName = cell.ownerName
+        sprite = cell.sprite
     }
 
-    deinit {
-//        bell?.indicator.run(SKAction.fadeOut(withDuration: 1.0))
-    }
-
-    var contents: GridCell.Contents {
-        get { return cell_?.contents ?? .invalid }
-        set { preconditionFailure() }
-    }
-
-    var gridPosition: AKPoint {
-        get { return cell_?.gridPosition ?? AKPoint(x: -4242, y: -4242) }
-        set { preconditionFailure() }
-    }
-
-    var ownerName: String {
-        get { return cell_?.ownerName ?? "empty hotkey" }
-        set { cell_?.ownerName = newValue }
-    }
-
-    var sprite: SKSpriteNode? {
-        get { return cell_?.sprite }
-        set { preconditionFailure() }
-    }
-
-    func reschedule(_ stepper: Stepper) { cell_?.reschedule(stepper) }
+    let contents: GridCell.Contents
+    let gridPosition : AKPoint
+    let ownerName: String
+    let sprite: SKSpriteNode?
 }
 
 class HotKey: GridCellKey, CustomDebugStringConvertible {
@@ -116,7 +71,24 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
     func deactivate() {
         Log.L.write("deactivate for \(six(ownerName))", level: 60)
-        self.cell_ = nil }
+        self.cell_ = nil
+    }
+
+    func reengageRequesters() {
+        guard let c = bell else { return }
+
+        while true {
+            guard let waitingStepper = c.getRescheduledArkon() else {
+                Log.L.write("reengageRequesters empty", level: 61)
+                return
+            }
+            if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
+                Log.L.write("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 63)
+                dp.disengage()
+                return
+            }
+        }
+    }
 
     func releaseLock() {
         let wasLocked = cell_?.releaseLock() ?? false
