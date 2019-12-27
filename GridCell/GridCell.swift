@@ -75,25 +75,34 @@ extension GridCell {
 }
 
 extension GridCell {
-    typealias LockComplete = (GridCellKey) -> Void
+    typealias LockComplete = (GridCellKey?) -> Void
+
+    enum RequireLock { case cold, degradeToCold, degradeToNil, hot }
 
     func lockIf(ownerName: String) -> HotKey? {
         if isLocked { return nil }
 
-        return HotKey(for: self, ownerName: ownerName)
-    }
-
-    func lock(require: Bool = true, ownerName: String, onComplete: @escaping LockComplete) {
-        if isLocked {
-//            indicator.color = .blue
-//            indicator.alpha = 1
-            onComplete(ColdKey(for: self))
-            return
+        var hotKey: HotKey?
+        lock(require: .degradeToNil, ownerName: ownerName) {
+            guard let h = $0 as? HotKey else { fatalError() }
+            hotKey = h
         }
 
-//        indicator.color = .red
-//        indicator.alpha = 1
-        onComplete(HotKey(for: self, ownerName: ownerName))
+        return hotKey
+    }
+
+    func lock(require: RequireLock = .hot, ownerName: String, onComplete: @escaping LockComplete) {
+        switch (self.isLocked, require) {
+        case (true, .hot): fatalError()
+        case (true, .degradeToNil): onComplete(nil)
+        case (true, .degradeToCold): onComplete(ColdKey(for: self))
+
+        case (_, .cold): onComplete(ColdKey(for: self))
+
+        case (false, .degradeToCold): fallthrough
+        case (false, .degradeToNil):  fallthrough
+        case (false, .hot): onComplete(HotKey(for: self, ownerName: ownerName))
+        }
     }
 
     func releaseLock() -> Bool {

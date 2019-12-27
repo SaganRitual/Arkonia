@@ -18,10 +18,14 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
             if position == block { debugDescription += ".."; return NilKey() }
             guard let cell = GridCell.atIf(position) else { debugDescription += "^^"; return NilKey() }
-            if index > Arkonia.cMotorGridlets { debugDescription += "Cx"; return ColdKey(for: cell) }
+            if index > Arkonia.cMotorGridlets {
+                debugDescription += "Cx"
+                return ColdKey(for: cell)
+            }
 
+            let lockType: GridCell.RequireLock = index > Arkonia.cMotorGridlets ? .cold : .degradeToCold
             var gotlock: GridCellKey?
-            cell.lock(require: false, ownerName: centerName) { gotlock = $0 }
+            cell.lock(require: lockType, ownerName: centerName) { gotlock = $0 }
 
             let debugContents: String = {
                 switch gotlock?.contents {

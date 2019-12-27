@@ -23,7 +23,7 @@ final class Engage: Dispatchable {
 
         Debug.debugColor(st, .magenta, .magenta)
 
-        gc.lock(require: false, ownerName: st.name) { ch.engagerKey = $0 }
+        gc.lock(require: .degradeToCold, ownerName: st.name) { ch.engagerKey = $0 }
 
         if ch.engagerKey is ColdKey {
             writeDebug(
