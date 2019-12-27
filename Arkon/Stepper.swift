@@ -2,11 +2,9 @@ import SpriteKit
 
 class Stepper {
     let allowSpawning = true
-    private var birthday = 0
     var cOffspring = 0
     var debugFlasher = false
     var dispatch: Dispatch!
-    var fishNumber = 0
     private weak var gridCell_: GridCell?
     var gridCell: GridCell! {
         get { gridCell_ }
@@ -27,8 +25,6 @@ class Stepper {
     weak var sprite: SKSpriteNode!
 
     init(_ embryo: Spawn, needsNewDispatch: Bool = false) {
-        self.birthday = embryo.birthday
-        self.fishNumber = embryo.fishNumber
         self.gridCell_ = embryo.engagerKey!.bell
         self.metabolism = embryo.metabolism
         self.name = embryo.embryoName
@@ -45,12 +41,10 @@ class Stepper {
 
         Log.L.write("stepper deinit \(six(name))/\(six(sprite.name))", level: 66)
 
-        Census.shared.registerDeath(birthday)
+        Census.shared.registerDeath(name)
 
         Log.L.write("stepper deinit report \(dispatch.scratch.debugReport)", level: 65)
     }
-
-    func getAge(_ currentTime: Int) -> Int { return currentTime - self.birthday }
 }
 
 extension Stepper {

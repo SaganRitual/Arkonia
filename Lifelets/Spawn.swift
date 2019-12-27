@@ -2,11 +2,10 @@
 import SpriteKit
 
 protocol SpawnProtocol: class, DispatchableProtocol {
-    var birthday: Int { get set }
     var callAgain: Bool { get }
     var dispatch: Dispatch? { get set }
     var engagerKey: HotKey? { get set }
-    var fishNumber: Int { get set }
+    var fishDay: Fishday { get set }
     var metabolism: Metabolism? { get set }
     var net: Net? { get }
     var netDisplay: NetDisplay? { get }
@@ -46,11 +45,10 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
 
     weak var scratch: Scratchpad?
 
-    var birthday = 0
     var callAgain = false
     var engagerKey: HotKey?
     let embryoName = Names.getName()
-    var fishNumber = 0
+    var fishDay = Fishday(fishNumber: 0, birthday: 0)
     var metabolism: Metabolism?
     var net: Net?
     var netDisplay: NetDisplay?
@@ -85,9 +83,8 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
     }
 
     func launch() {
-        Census.shared.registerBirth(myParent: self.meTheParent) {
-            self.fishNumber = $0
-            self.birthday = $1
+        Census.shared.registerBirth(myName: embryoName, myParent: self.meTheParent) {
+            self.fishDay = $0
 
             guard let w = self.wiLaunch else { fatalError() }
             Grid.shared.serialQueue.async(execute: w)
@@ -124,8 +121,7 @@ extension Spawn {
         }
 
         guard let parent = self.meTheParent else {
-            engagerKey = GridCell.lockRandomEmptyCell(ownerName: "aboriginal-\(fishNumber)")
-            debug1 = engagerKey!.ownerName
+            engagerKey = GridCell.lockRandomEmptyCell(ownerName: "aboriginal-\(fishDay.fishNumber)")
             Log.L.write("Larva engagerKey random empty cell at \(engagerKey?.gridPosition ?? AKPoint(x: -4242, y: -4242))", level: 52)
             return
         }

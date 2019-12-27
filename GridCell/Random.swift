@@ -1,8 +1,6 @@
 import CoreGraphics
 
 extension GridCell {
-    static let funkyCells = true
-
     static func getRandomCell() -> GridCell {
         let wGrid = Grid.dimensions.wGrid
         let hGrid = Grid.dimensions.hGrid
@@ -10,23 +8,7 @@ extension GridCell {
         let wp = wGrid - 5, hp = hGrid - 5
         let ak = AKPoint.random(-wp..<wp, -hp..<hp)
 
-        let gridCell = GridCell.at(ak.x, ak.y)
-
-        if funkyCells == false { return gridCell }
-
-        let wScene = CGFloat(Grid.dimensions.wSprite) / 2
-        let hScene = CGFloat(Grid.dimensions.hSprite) / 2
-
-        let lScene = gridCell.scenePosition.x - wScene
-        let rScene = gridCell.scenePosition.x + wScene
-        let bScene = gridCell.scenePosition.y - hScene
-        let tScene = gridCell.scenePosition.y + hScene
-
-        gridCell.randomScenePosition = CGPoint.random(
-            xRange: lScene..<rScene, yRange: bScene..<tScene
-        )
-
-        return gridCell
+        return GridCell.at(ak.x, ak.y)
     }
 
     static func getRandomEmptyCell() -> GridCell {

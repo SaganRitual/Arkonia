@@ -32,10 +32,25 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 //    }
 
 //    let indicator: SKSpriteNode
+    static let funkyCells = true
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
         self.gridPosition = gridPosition
         self.scenePosition = scenePosition
+
+        if GridCell.funkyCells == false { return }
+
+        let wScene = CGFloat(Grid.dimensions.wSprite) / 2
+        let hScene = CGFloat(Grid.dimensions.hSprite) / 2
+
+        let lScene = scenePosition.x - wScene
+        let rScene = scenePosition.x + wScene
+        let bScene = scenePosition.y - hScene
+        let tScene = scenePosition.y + hScene
+
+        self.randomScenePosition = CGPoint.random(
+            xRange: lScene..<rScene, yRange: bScene..<tScene
+        )
 
 //        self.indicator = SpriteFactory.shared.noseHangar.makeSprite()
 //        self.indicator.position = scenePosition

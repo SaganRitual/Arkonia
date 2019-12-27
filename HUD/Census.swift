@@ -1,9 +1,15 @@
 import SpriteKit
 
+struct Fishday {
+    let fishNumber: Int
+    let birthday: Int
+}
+
 class Census {
     static var shared: Census!
 
     let ageFormatter: DateComponentsFormatter
+    var archive = [String: Fishday]()
     private(set) var highWaterAge = 0
     private(set) var highWaterCOffspring = 0
     private(set) var highWaterPopulation = 0
@@ -69,7 +75,7 @@ extension Census {
         let ages: [Int] = GriddleScene.arkonsPortal!.children.compactMap { node in
             guard let sprite = node as? SKSpriteNode else { return nil }
             guard let stepper = sprite.getStepper(require: false) else { return nil }
-            return stepper.getAge(localTime)
+            return getAge(of: stepper.name, at: localTime)
         }.sorted { $0 < $1 }
 
         if ages.count < 15 {
@@ -92,16 +98,17 @@ extension Census {
 }
 
 extension Census {
-    typealias OnComplete2p = (Int, Int) -> Void
+    typealias OnComplete1Fishday = (Fishday) -> Void
+    typealias OnComplete1Int = (Int) -> Void
 
-    func registerBirth(myParent: Stepper?,_ onComplete: @escaping OnComplete2p) {
+    func registerBirth(myName: String, myParent: Stepper?, _ onComplete: @escaping OnComplete1Fishday) {
         Census.dispatchQueue.async(flags: .barrier) { [unowned self] in
-            let (fishNumber, birthday) = self.registerBirth(myParent)
-            onComplete(fishNumber, birthday)
+            let fishday = self.registerBirth(myName, myParent)
+            onComplete(fishday)
         }
     }
 
-    private func registerBirth(_ myParent: Stepper?) -> (Int, Int) {
+    private func registerBirth(_ myName: String, _ myParent: Stepper?) -> Fishday {
         self.population += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
 
@@ -114,12 +121,13 @@ extension Census {
         Log.L.write("nil? \(myParent == nil), pop \(self.population), cOffspring \(myParent?.cOffspring ?? -1)" +
             " real hw cOfspring \(self.highWaterCOffspring)", level: 37)
 
-        return (self.getNextFishNumber(), self.localTime)
+        archive[myName] = Fishday(fishNumber: self.getNextFishNumber(), birthday: self.localTime)
+        return archive[myName]!
     }
 
-    func registerDeath(_ birthdayOfDeceased: Int) {
-        Census.dispatchQueue.async { [unowned self] in
-            let ageOfDeceased = self.localTime - birthdayOfDeceased
+    func registerDeath(_ nameOfDeceased: String) {
+        Census.dispatchQueue.async(flags: .barrier) { [unowned self] in
+            let ageOfDeceased = self.getAge(of: nameOfDeceased, at: self.localTime)
             self.highWaterAge = max(self.highWaterAge, ageOfDeceased)
             self.population -= 1
         }

@@ -35,6 +35,19 @@ extension Funge {
     }
 }
 
+extension Census {
+    func getAge(of arkon: String, at currentTime: Int, _ onComplete: @escaping OnComplete1Int) {
+        Census.dispatchQueue.async(flags: .barrier) {
+            let age = self.getAge(of: arkon, at: currentTime)
+            onComplete(age)
+        }
+    }
+
+    func getAge(of arkon: String, at currentTime: Int) -> Int {
+        return currentTime - archive[arkon]!.birthday
+    }
+}
+
 extension Funge {
     typealias OnComplete2p = (Bool, Bool) -> Void
 
@@ -42,9 +55,13 @@ extension Funge {
 
         func partA() { Clock.shared.getWorldClock { partB($0) } }
 
-        func partB(_ worldClock: Int) {
+        func partB(_ currentTime: Int) {
+            Census.shared.getAge(of: scratch!.name, at: currentTime) { partC($0) }
+        }
+
+        func partC(_ age: Int) {
             Funge.dispatchQueue.async {
-                let (isAlive, canSpawn) = self.checkSpawnability(time: worldClock)
+                let (isAlive, canSpawn) = self.checkSpawnability(age: age)
                 onComplete(isAlive, canSpawn)
             }
         }
@@ -52,10 +69,8 @@ extension Funge {
         partA()
     }
 
-    func checkSpawnability(time: Int) -> (Bool, Bool) {
+    func checkSpawnability(age: Int) -> (Bool, Bool) {
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
-
-        let age = st.getAge(time)
 
         let isAlive = st.metabolism.fungeProper(age: age, stillCounter: ch.stillCounter)
         let canSpawn = st.canSpawn()
@@ -81,16 +96,16 @@ extension Metabolism {
         if stillnessCost > 0 {
             Log.L.write(
                 "\nfungeProper:" +
-                " mass    \(String(format: "%-2.6f", mass))," +
-                " w/d     \(String(format: "%-2.6f", joulesNeeded))" +
-                " still   \(String(format: "%03f", stillCounter))" +
-                " cost    \(String(format: "%-2.6f", stillnessCost))" +
-                " O2      \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
-                " cost    \(String(format: "%-2.6f", oxygenCost))" +
-                " energy  \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
-                " level   \(String(format: "%-2.6f", fungibleEnergyContent))" +
-                " cap     \(String(format: "%-2.6f", fungibleEnergyCapacity))"
-                , level: 66
+                " mass \(String(format: "%-2.6f", mass))," +
+                " w/d \(String(format: "%-2.6f", joulesNeeded))" +
+                " still \(String(format: "%03f", stillCounter))" +
+                " cost \(String(format: "%-2.6f", stillnessCost))" +
+                " O2 \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
+                " cost \(String(format: "%-2.6f", oxygenCost))" +
+                " energy \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
+                " level \(String(format: "%-2.6f", fungibleEnergyContent))" +
+                " cap \(String(format: "%-2.6f", fungibleEnergyCapacity))"
+                , level: 67
             )
         }
 
