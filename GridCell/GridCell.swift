@@ -15,6 +15,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
     var debugDescription: String { return "GridCell.at(\(gridPosition.x), \(gridPosition.y))" }
 
+    var coldKey: ColdKey?
     let gridPosition: AKPoint
     var isLocked = false
     var ownerName = "never owned"
@@ -37,6 +38,8 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
         self.gridPosition = gridPosition
         self.scenePosition = scenePosition
+
+        coldKey = ColdKey(for: self)
 
         if GridCell.funkyCells == false { return }
 
@@ -110,9 +113,9 @@ extension GridCell {
         switch (self.isLocked, require) {
         case (true, .hot): fatalError()
         case (true, .degradeToNil): onComplete(nil)
-        case (true, .degradeToCold): onComplete(ColdKey(for: self))
+        case (true, .degradeToCold): onComplete(self.coldKey)
 
-        case (_, .cold): onComplete(ColdKey(for: self))
+        case (_, .cold): onComplete(self.coldKey)
 
         case (false, .degradeToCold): fallthrough
         case (false, .degradeToNil):  fallthrough

@@ -65,6 +65,8 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         cell.isLocked = true
         cell.ownerName = ownerName
         Log.L.write("HotKey at \(cell.gridPosition) for \(six(ownerName))", level: 51)
+
+        cell.coldKey = ColdKey(for: cell)
     }
 
     deinit { releaseLock() }

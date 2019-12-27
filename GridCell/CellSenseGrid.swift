@@ -20,7 +20,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
             guard let cell = GridCell.atIf(position) else { debugDescription += "^^"; return NilKey() }
             if index > Arkonia.cMotorGridlets {
                 debugDescription += "Cx"
-                return ColdKey(for: cell)
+                return cell.coldKey!
             }
 
             let lockType: GridCell.RequireLock = index > Arkonia.cMotorGridlets ? .cold : .degradeToCold
