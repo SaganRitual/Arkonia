@@ -73,9 +73,9 @@ extension Arkonia {
 extension Census {
     private func partA() {
         let ages: [Int] = GriddleScene.arkonsPortal!.children.compactMap { node in
-            guard let sprite = node as? SKSpriteNode else { return nil }
-            guard let stepper = sprite.getStepper(require: false) else { return nil }
-            return getAge(of: stepper.name, at: localTime)
+            guard let name = (node as? SKSpriteNode)?.name else { return nil }
+            guard name.contains("Arkon") && !name.contains("defunct") else { return nil }
+            return getAge(of: name, at: localTime)
         }.sorted { $0 < $1 }
 
         if ages.count < 15 {

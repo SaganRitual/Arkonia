@@ -42,7 +42,7 @@ extension Apoptosize {
             Stepper.releaseStepper(st, from: sp)
             Log.L.write("Apoptosize3(\(six(st.name)))", level: 59)
 
-            GriddleScene.arkonsPortal.run(action)
+            GriddleScene.shared.run(action)
         }
     }
 }
