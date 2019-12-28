@@ -73,8 +73,7 @@ extension Arkonia {
 extension Census {
     private func partA() {
         let ages: [Int] = GriddleScene.arkonsPortal!.children.compactMap { node in
-            guard let name = (node as? SKSpriteNode)?.name else { return nil }
-            guard name.contains("Arkon") && !name.contains("defunct") else { return nil }
+            guard let name = (node as? SKSpriteNode)?.getStepper(require: false)?.name else { return nil }
             return getAge(of: name, at: localTime)
         }.sorted { $0 < $1 }
 
@@ -92,8 +91,6 @@ extension Census {
 
         let n = max(Double(greatestAge), Double(highWaterAge))
         rHighWaterAge.data.text = ageFormatter.string(from: n)
-
-        Arkonia.tickTheWorld(Census.dispatchQueue, partA)
     }
 }
 

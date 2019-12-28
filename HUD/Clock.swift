@@ -44,16 +44,6 @@ class Clock {
         return min(CGFloat(worldClock * 2) / CGFloat(t), 1)
     }
 
-    func updateClock() {
-        // This vomitosis is because I can't figure out how to get
-        // asyncAfter to create a barrier task; it just runs concurrently
-        // with the others, and causes crashes. Tried with DispatchWorkItem
-        // too, but that didn't work even when using async(flags:execute:)
-        Clock.dispatchQueue.asyncAfter(deadline: .now() + 1) {
-            Clock.dispatchQueue.async(flags: .barrier) { self.partA() }
-        }
-    }
-
     func partA() {
         self.worldClock += 1
 

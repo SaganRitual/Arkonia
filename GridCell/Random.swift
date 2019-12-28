@@ -12,15 +12,21 @@ extension GridCell {
     }
 
     static func getRandomEmptyCell() -> GridCell {
-        var rg: GridCell!
+        let randomCell = getRandomCell()
+        var resultPoint = randomCell.gridPosition
 
-        repeat {
-            rg = getRandomCell()
-        } while rg.contents.isOccupied()
+        for ix in 1... {
+            guard let c = GridCell.atIf(resultPoint) else { continue }
 
-        return rg
+            if !c.contents.isOccupied() { break }
+            resultPoint = GridCell.getGridPointByIndex(center: randomCell.gridPosition, targetIndex: ix)
+         }
+
+        return GridCell.at(resultPoint)
     }
 
+    static var lbp = 0
+    static var hlbp = 0
     static func lockBirthPosition(parent: Stepper, name: String) -> HotKey {
         var randomGridCell: HotKey?
         var gridPointIndex = 0
@@ -36,6 +42,11 @@ extension GridCell {
             randomGridCell = hk
         } while (randomGridCell?.contents ?? .invalid) != .nothing
 
+        if gridPointIndex > hlbp {
+            hlbp = gridPointIndex
+            Log.L.write("lockBirthPosition(\(six(name)), highWater = \(hlbp))", level: 70)
+        }
+
         writeDebug("lockBirthPosition for parent \(six(parent.name)) at \(randomGridCell!.gridPosition)", scratch: parent.dispatch.scratch)
         return randomGridCell!
     }
@@ -47,12 +58,15 @@ extension GridCell {
         }
     }
 
-    static var lockCount = 0
+    static var lrec = 0
+    static var hlrec = 0
 
     static func lockRandomEmptyCell(ownerName: String) -> HotKey? {
         var randomGridCell: HotKey?
 
+        lrec = 0
         repeat {
+            lrec += 1
             let r = GridCell.getRandomEmptyCell()
             var ck: GridCellKey?
             r.lock(require: .degradeToCold, ownerName: ownerName) { ck = $0 }
@@ -61,6 +75,11 @@ extension GridCell {
 
             randomGridCell = hk
         } while randomGridCell == nil
+
+        if lrec > hlrec {
+            hlrec = lrec
+            Log.L.write("lockBirthPosition(\(six(ownerName))), highWater = \(hlrec)", level: 70)
+        }
 
         Log.L.write("lockRandomEmptyCell at \(randomGridCell!.gridPosition)", level: 54)
         return randomGridCell!

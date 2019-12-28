@@ -19,15 +19,13 @@ extension Apoptosize {
         Log.L.write("Apoptosize function stepper(\(six(st.name)) sprite(\(six(sp.name)))", level: 66)
 
         let action = SKAction.run {
-            precondition("defunct-\(st.name)" == sp.name)
+            precondition(st.name == sp.name)
             assert(Display.displayCycle == .actions)
             if ch.isApoptosizing { return }
             ch.isApoptosizing = true
 
             gc.descheduleIf(st)
-            precondition("defunct-\(st.name)" == sp.name)
             sp.removeAllActions()
-            precondition("defunct-\(st.name)" == sp.name)
 
             SpriteFactory.shared.noseHangar.retireSprite(no)
             SpriteFactory.shared.arkonsHangar.retireSprite(sp)
@@ -35,14 +33,14 @@ extension Apoptosize {
             Log.L.write("Apoptosize action stepper(\(six(st.name)) sprite(\(six(sp.name)))", level: 66)
         }
 
-        Grid.shared.serialQueue.async {
-            Log.L.write("Apoptosize workitem stepper(\(six(st.name)) sprite(\(six(sp.name)))", level: 66)
-            precondition(st.name == sp.name)
-            precondition((sp.getStepper(require: false)?.name ?? "") == sp.name)
-            Stepper.releaseStepper(st, from: sp)
-            Log.L.write("Apoptosize3(\(six(st.name)))", level: 59)
-
-            GriddleScene.shared.run(action)
+        GriddleScene.shared.run(action) {
+            Grid.shared.serialQueue.async {
+                Log.L.write("Apoptosize workitem stepper(\(six(st.name)) sprite(\(six(sp.name)))", level: 66)
+                precondition(st.name == sp.name)
+                precondition((sp.getStepper(require: false)?.name ?? "") == sp.name)
+                Stepper.releaseStepper(st, from: sp)
+                Log.L.write("Apoptosize3(\(six(st.name)))", level: 59)
+            }
         }
     }
 }

@@ -77,12 +77,6 @@ extension Stepper {
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
-        Log.L.write("detachStepper \(six(stepper.name)) from sprite \(six(sprite.name))", level: 32)
-        precondition(sprite.userData![SpriteUserDataKey.stepper] != nil)
-        precondition(sprite.userData![SpriteUserDataKey.uuid] != nil)
-        precondition(sprite.name == stepper.name)
-        precondition(sprite.getStepper(require: false)?.name == stepper.name)
         sprite.userData![SpriteUserDataKey.stepper] = nil
-        sprite.name = "defunct-" + stepper.name
     }
 }

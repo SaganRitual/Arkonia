@@ -1,7 +1,7 @@
 extension GridCell {
-    func _2xMinusOneSquared(_ x: Int) -> Int { ((2 * x) - 1) * ((2 * x) - 1) }
+    private static func _2xMinusOneSquared(_ x: Int) -> Int { ((2 * x) - 1) * ((2 * x) - 1) }
 
-    func getBaseX(_ index: Int) -> Int {
+    private static func getBaseX(_ index: Int) -> Int {
         if index == 0 { return 0 }
 
         var result = 0
@@ -12,11 +12,11 @@ extension GridCell {
         return result
     }
 
-    func getExtent(_ x: Int) -> Int { x }
-    func getSide(_ x: Int) -> Int { 2 * x + 1 }
+    private static func getExtent(_ x: Int) -> Int { x }
+    private static func getSide(_ x: Int) -> Int { 2 * x + 1 }
 
     //swiftlint:disable large_tuple
-    func stepDown(_ x: Int, _ y : Int, _ sideExtent: Int, _ whichSide_: LikeCSS) -> (Int, Int, LikeCSS) {
+    private static func stepDown(_ x: Int, _ y : Int, _ sideExtent: Int, _ whichSide_: LikeCSS) -> (Int, Int, LikeCSS) {
         var whichSide = whichSide_
 
         if y == -sideExtent {
@@ -27,7 +27,7 @@ extension GridCell {
         return (x + 0, y - 1, whichSide)
     }
 
-    func stepLeft(_ x: Int, _ y: Int, _ sideExtent: Int, _ whichSide_: LikeCSS) -> (Int, Int, LikeCSS) {
+    private static func stepLeft(_ x: Int, _ y: Int, _ sideExtent: Int, _ whichSide_: LikeCSS) -> (Int, Int, LikeCSS) {
         var whichSide = whichSide_
 
         if x == -sideExtent {
@@ -38,7 +38,7 @@ extension GridCell {
         return (x - 1, y + 0, whichSide)
     }
 
-    func stepUp(_ x: Int, _ y: Int, _ sideExtent: Int, _ whichSide_: LikeCSS) -> (Int, Int, LikeCSS) {
+    private static func stepUp(_ x: Int, _ y: Int, _ sideExtent: Int, _ whichSide_: LikeCSS) -> (Int, Int, LikeCSS) {
         var whichSide = whichSide_
 
         if y == sideExtent {
@@ -49,7 +49,7 @@ extension GridCell {
         return (x + 0, y + 1, whichSide)
     }
 
-    func stepRight(_ x: Int, _ y: Int, _ sideExtent: Int, _ whichSide_: LikeCSS) -> (Int, Int, LikeCSS) {
+    private static func stepRight(_ x: Int, _ y: Int, _ sideExtent: Int, _ whichSide_: LikeCSS) -> (Int, Int, LikeCSS) {
         var whichSide = whichSide_
 
         if x == sideExtent && y == sideExtent {
@@ -62,7 +62,11 @@ extension GridCell {
     //swiftlint:enable large_tuple
 
     func getGridPointByIndex(_ targetIndex: Int) -> AKPoint {
-        if targetIndex == 0 { return self.gridPosition }
+        return GridCell.getGridPointByIndex(center: gridPosition, targetIndex: targetIndex)
+    }
+
+    static func getGridPointByIndex(center: AKPoint, targetIndex: Int) -> AKPoint {
+        if targetIndex == 0 { return center }
 
         let baseX = getBaseX(targetIndex)
         var partialIndex = _2xMinusOneSquared(baseX)
@@ -84,7 +88,7 @@ extension GridCell {
             partialIndex += 1
         }
 
-        Log.L.write("getGridPointByIndex(\(targetIndex)) -> \(gridPosition) + (\(x), \(y)) = \(self.gridPosition + AKPoint(x: x, y: y))", level: 54)
-        return self.gridPosition + AKPoint(x: x, y: y)
+        Log.L.write("getGridPointByIndex(\(targetIndex)) -> \(center) + (\(x), \(y)) = \(center + AKPoint(x: x, y: y))", level: 54)
+        return center + AKPoint(x: x, y: y)
     }
 }
