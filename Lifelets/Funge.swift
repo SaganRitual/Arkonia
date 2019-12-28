@@ -31,6 +31,7 @@ extension Funge {
             dp.apoptosize(); return }
         if !canSpawn { dp.plot(); return }
 
+        Log.L.write("spawn, parent is \(six(st.name))", level: 68)
         dp.spawn()
     }
 }
@@ -88,26 +89,24 @@ extension Metabolism {
 
         let gracePeriodFactor: CGFloat = (age < 5 ? 0 : 1)
         let oxygenCost: CGFloat = 0.005 * gracePeriodFactor
-        let ratchet: CGFloat = 1.0 //CGFloat(1 + Int(stillCounter * 100) / 5)
+        let ratchet = CGFloat(1 + Int(stillCounter * 100) / 5)
         let stillnessCost: CGFloat = (pow(1.01, stillCounter) - 1) * gracePeriodFactor * ratchet
 
         oxygenLevel -= oxygenCost + stillnessCost
 
-        if stillnessCost > 0 {
-            Log.L.write(
-                "\nfungeProper:" +
-                " mass \(String(format: "%-2.6f", mass))," +
-                " w/d \(String(format: "%-2.6f", joulesNeeded))" +
-                " still \(String(format: "%03f", stillCounter))" +
-                " cost \(String(format: "%-2.6f", stillnessCost))" +
-                " O2 \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
-                " cost \(String(format: "%-2.6f", oxygenCost))" +
-                " energy \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
-                " level \(String(format: "%-2.6f", fungibleEnergyContent))" +
-                " cap \(String(format: "%-2.6f", fungibleEnergyCapacity))"
-                , level: 67
-            )
-        }
+        Log.L.write(
+            "fungeProper:" +
+            " mass \(String(format: "%-2.6f", mass))," +
+            " w/d \(String(format: "%-2.6f", joulesNeeded))" +
+            " still \(String(format: "%03f", stillCounter))" +
+            " cost \(String(format: "%-2.6f", stillnessCost))" +
+            " O2 \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
+            " cost \(String(format: "%-2.6f", oxygenCost))" +
+            " energy \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
+            " level \(String(format: "%-2.6f", fungibleEnergyContent))" +
+            " cap \(String(format: "%-2.6f", fungibleEnergyCapacity))\n"
+            , level: 68
+        )
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0
     }

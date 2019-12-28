@@ -79,7 +79,7 @@ extension Census {
         }.sorted { $0 < $1 }
 
         if ages.count < 15 {
-            for _ in 0..<25 { Dispatch().spawn() }
+            for _ in 0..<50 { Dispatch().spawn() }
         }
 
         if !ages.isEmpty { partB(ages.last!) }

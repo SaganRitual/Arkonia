@@ -72,6 +72,6 @@ extension Metabolism {
             logMessage += ", transfer = \(transfer)"
         }
 
-        Log.L.write(logMessage, level: 67)
+        Log.L.write(logMessage, level: 68)
     }
 }

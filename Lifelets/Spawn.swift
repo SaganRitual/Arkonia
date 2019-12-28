@@ -160,7 +160,7 @@ extension Spawn {
         guard let scene = np.parent as? SKScene else { return }
 
         netDisplay = NetDisplay(scene: scene, background: np, layers: net!.layers)
-        np.run(SKAction.run { self.netDisplay!.display() })
+        netDisplay!.display()
     }
 }
 

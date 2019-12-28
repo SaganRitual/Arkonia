@@ -6,8 +6,8 @@ enum EnergyReserveType: CaseIterable {
 
 class EnergyReserve {
     static let startingLevelBone: CGFloat = 100
-    static let startingLevelFat: CGFloat = 500
-    static let startingLevelReadyEnergy: CGFloat = 500
+    static let startingLevelFat: CGFloat = 100
+    static let startingLevelReadyEnergy: CGFloat = 100
 
     static let startingEnergyLevel = (
         startingLevelBone + startingLevelFat + startingLevelReadyEnergy
@@ -77,7 +77,7 @@ class EnergyReserve {
         let js = String(format: "%3.3f", cJoules)
         let Ls = String(format: "%3.3f", level)
         let fs = String(format: "%3.3f", level / capacity)
-        Log.L.write("deposit \(js) to \(name), level = \(Ls), fullness = \(fs)", level: 66)
+        Log.L.write("deposit \(js) to \(name), level = \(Ls), fullness = \(fs)", level: 68)
         level = min(level + cJoules, capacity)
     }
 
@@ -96,7 +96,7 @@ class EnergyReserve {
         let Ls = String(format: "%3.3f", level)
         let fs = String(format: "%3.3f", level / capacity)
         let ns = String(format: "%3.3f", net)
-        Log.L.write("withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)", level: 66)
+        Log.L.write("withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)", level: 68)
         return net
     }
 }
@@ -173,6 +173,16 @@ class Metabolism {
 
         // Overflow is 5/6, make underflow 1/4, see how it goes
         self.reUnderflowThreshold = 1.0 / 4.0 * readyEnergyReserves.capacity
+
+        Log.L.write(
+            "Metabolism():" +
+            " mass \(String(format: "%-2.6f", mass))," +
+            " O2 \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
+            " energy \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
+            " level \(String(format: "%-2.6f", fungibleEnergyContent))" +
+            " cap \(String(format: "%-2.6f", fungibleEnergyCapacity))\n"
+            , level: 68
+        )
     }
 
     func absorbEnergy(_ cJoules: CGFloat) {
