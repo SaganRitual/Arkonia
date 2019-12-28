@@ -37,8 +37,8 @@ enum Debug {
         for x in -wp...wp {
             for y in -hp...hp {
                 guard let cell = GridCell.atIf(x, y) else { continue }
-                if cell.debugReport.first(where: { $0.contains(name) }) == nil { continue }
-                Log.L.write("Found at \(cell.gridPosition): \(cell.debugReport)")
+                if cell.cellDebugReport.first(where: { $0.contains(name) }) == nil { continue }
+                Log.L.write("Found at \(cell.gridPosition): \(cell.cellDebugReport)")
             }
         }
     }

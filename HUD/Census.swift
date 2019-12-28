@@ -93,7 +93,7 @@ extension Census {
         let n = max(Double(greatestAge), Double(highWaterAge))
         rHighWaterAge.data.text = ageFormatter.string(from: n)
 
-        updateCensus()
+        Arkonia.tickTheWorld(Census.dispatchQueue, partA)
     }
 }
 

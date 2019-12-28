@@ -66,7 +66,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         print("Debug report for \(atPoint(location).parent!.name!)")
 
-        dumpArkonDebug(atPoint(location).parent!.name!)
+        Debug.dumpArkonDebug(atPoint(location).parent!.name!)
      }
 
     func buildReports() {

@@ -127,7 +127,6 @@ extension Spawn {
         }
 
         engagerKey = GridCell.lockBirthPosition(parent: parent, name: embryoName)
-        debug2 = engagerKey!.ownerName
         Log.L.write("Larva from \(six(parent.name)) engagerKey lock birth position at \(engagerKey?.gridPosition ?? AKPoint(x: -4242, y: -4242))", level: 52)
     }
 }
@@ -220,14 +219,15 @@ extension Spawn {
         nose.setScale(0.75)
         nose.name = embryoName
 
-        sprite.setScale(Arkonia.spriteScale)
+        thorax.setScale(Arkonia.spriteScale)
         Log.L.write("ArkoniaCentral.masterScale = \(Arkonia.masterScale)", level: 37)
-        sprite.colorBlendFactor = 1
-        sprite.position = engagerKey.scenePosition
-        sprite.alpha = 1
+        thorax.colorBlendFactor = 1
+        thorax.position = engagerKey.scenePosition
+        thorax.alpha = 1
+        thorax.name = embryoName
 
-        let noseColor: SKColor = (parent == nil) ? .magenta : .yellow
-        Debug.debugColor(sprite, .green, nose, noseColor)
+        let noseColor: SKColor = (meTheParent == nil) ? .magenta : .yellow
+        Debug.debugColor(thorax, .green, nose, noseColor)
 
         thorax.addChild(nose)
     }
@@ -257,8 +257,6 @@ extension Spawn {
             "sprite name = \(six(engagerKey!.sprite?.name))",
             scratch: ch, level: 52
         )
-
-        precondition(ek.ownerName == debug1 || ek.ownerName == debug2)
 
         ek.contents = .arkon
         ek.sprite = thorax
