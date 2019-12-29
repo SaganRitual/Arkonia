@@ -29,6 +29,14 @@ class GriddleScene: SKScene, SKSceneDelegate {
         Display.displayCycle = .limbo
     }
 
+    static let dispatchQueue = DispatchQueue(
+        label: "ak.scene", target: DispatchQueue.global(qos: .default)
+    )
+
+    static func serialize(_ function: @escaping (() -> Void)) {
+        dispatchQueue.sync { function() }
+    }
+
     static var arkonsPortal: SKSpriteNode!
     static var arkonsArePresent: Bool = false
     static var shared: GriddleScene!

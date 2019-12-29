@@ -12,10 +12,4 @@ class Arkonia {
     static let cSenseNeurons = 2 * cSenseGridlets + 4
     static let cMotorNeurons = 9 - 1
     static let cMotorGridlets = cMotorNeurons + 1
-
-    static let dispatchQueue = DispatchQueue(
-        label: "ak.arkonia.q",
-        attributes: .concurrent,
-        target: DispatchQueue.global(qos: .utility)
-    )
 }

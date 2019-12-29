@@ -16,7 +16,7 @@ func getDocumentsDirectory() -> URL {
 class Log {//}: TextOutputStream {
     static var L = Log()
 
-    static var minimumLevel = 70
+    static var minimumLevel = 71
     static let useFile = false
 
     var io: DispatchIO?
@@ -26,7 +26,7 @@ class Log {//}: TextOutputStream {
 
     let serialQueue = DispatchQueue(
         label: "arkonia.log.queue",
-        target: DispatchQueue.global(qos: .utility)
+        target: DispatchQueue.global(qos: .default)
     )
 
     init() {
@@ -65,7 +65,7 @@ class Log {//}: TextOutputStream {
             if Log.useFile {
                 serialQueue.async { self.write_(string_) }
             } else {
-                print(string_)
+                serialQueue.async { print(string_) }
             }
         }
     }

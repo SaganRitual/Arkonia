@@ -47,11 +47,11 @@ extension GridCell {
             Log.L.write("lockBirthPosition(\(six(name)), highWater = \(hlbp))", level: 70)
         }
 
-        writeDebug("lockBirthPosition for parent \(six(parent.name)) at \(randomGridCell!.gridPosition)", scratch: parent.dispatch.scratch)
+        Debug.writeDebug("lockBirthPosition for parent \(six(parent.name)) at \(randomGridCell!.gridPosition)", scratch: parent.dispatch.scratch)
         return randomGridCell!
     }
 
-    static func lockRandomEmptyCell(ownerName: String, onComplete: @escaping ((HotKey?) -> Void)) {
+    static func lockRandomEmptyCell(ownerName: String, _ onComplete: @escaping ((HotKey?) -> Void)) {
         Grid.shared.serialQueue.async {
             let hotKey = lockRandomEmptyCell(ownerName: ownerName)
             onComplete(hotKey)

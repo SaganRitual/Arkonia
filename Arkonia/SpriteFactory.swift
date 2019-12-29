@@ -49,10 +49,8 @@ class SpriteHangar {
     }
 
     func retireSprite(_ sprite: SKSpriteNode) {
-        GriddleScene.shared.run(SKAction.run {
-            sprite.removeAllActions()
-            sprite.removeFromParent()
-        })
+        sprite.removeAllActions()
+        sprite.removeFromParent()
     }
 }
 
@@ -88,7 +86,7 @@ class SpriteFactory {
         for i in 0..<18 {
             let drone = arkonsHangar.makeSprite()
             drone.userData![SpriteUserDataKey.net9Portal] = net9Portals[i]
-            scene.addChild(drone)   // Icky -- adding to scene to hold temp space in hangar
+            self.scene.addChild(drone)   // Icky -- adding to scene to hold temp space in hangar
         }
 
         for drone in arkonsHangar.drones { arkonsHangar.retireSprite(drone) }

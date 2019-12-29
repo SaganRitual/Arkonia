@@ -8,7 +8,7 @@ final class Plot: Dispatchable {
     static let dispatchQueue = DispatchQueue(
         label: "ak.plot.q",
         attributes: .concurrent,
-        target: DispatchQueue.global(qos: .utility)
+        target: DispatchQueue.global(qos: .default)
     )
 
     internal override func launch() { makeSenseGrid() }
@@ -17,7 +17,7 @@ final class Plot: Dispatchable {
         guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
         guard let hk = ch.engagerKey as? HotKey else { preconditionFailure() }
 
-        writeDebug("Plot \(six(st.name))", scratch: ch)
+        Debug.writeDebug("Plot \(six(st.name))", scratch: ch)
 
         precondition(
             (ch.engagerKey == nil  ||

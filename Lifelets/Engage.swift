@@ -26,7 +26,7 @@ final class Engage: Dispatchable {
         gc.lock(require: .degradeToCold, ownerName: st.name) { ch.engagerKey = $0 }
 
         if ch.engagerKey is ColdKey {
-            writeDebug(
+            Debug.writeDebug(
                 "Reschedule \(six(st.name)) for \(gc)",
                 scratch: ch, level: 64
             )

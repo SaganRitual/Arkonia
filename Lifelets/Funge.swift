@@ -5,7 +5,7 @@ final class Funge: Dispatchable {
     static let dispatchQueue = DispatchQueue(
         label: "ak.funge.q",
         attributes: .concurrent,
-        target: DispatchQueue.global(qos: .userInitiated)
+        target: DispatchQueue.global(qos: .default)
     )
 
     override func launch() {
@@ -31,7 +31,7 @@ extension Funge {
             dp.apoptosize(); return }
         if !canSpawn { dp.plot(); return }
 
-        Log.L.write("spawn, parent is \(six(st.name))", level: 68)
+        Log.L.write("spawn, parent is \(six(st.name))", level: 71)
         dp.spawn()
     }
 }

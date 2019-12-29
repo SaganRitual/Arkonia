@@ -39,11 +39,11 @@ class Stepper {
     deinit {
         netDisplay = nil
 
-        Log.L.write("stepper deinit \(six(name))/\(six(sprite.name))", level: 66)
+        Log.L.write("stepper deinit \(six(name))/\(six(sprite.name))", level: 70)
 
         Census.shared.registerDeath(name)
 
-        Log.L.write("stepper deinit report \(dispatch.scratch.debugReport)", level: 65)
+        Log.L.write("stepper deinit report \(dispatch.scratch.debugReport)", level: 70)
     }
 }
 

@@ -16,7 +16,7 @@ class Clock {
     static let dispatchQueue = DispatchQueue(
         label: "ak.clock.q",
         attributes: .concurrent,
-        target: DispatchQueue.global(qos: .userInitiated)
+        target: DispatchQueue.global(qos: .utility)
     )
 
     init(_ scene: GriddleScene) {

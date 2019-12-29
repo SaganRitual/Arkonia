@@ -68,7 +68,7 @@ extension GridCell {
     func descheduleIf(_ stepper: Stepper) {
         toReschedule.removeAll {
             let remove = $0.name == stepper.name
-            if remove { writeDebug("deschedule \(six(stepper.name)) == \(six($0.name))", scratch: stepper.dispatch.scratch, level: 62) }
+            if remove { Debug.writeDebug("deschedule \(six(stepper.name)) == \(six($0.name))", scratch: stepper.dispatch.scratch, level: 62) }
             return remove
         }
     }
@@ -77,7 +77,7 @@ extension GridCell {
         defer { if toReschedule.isEmpty == false { _ = toReschedule.removeFirst() } }
 
         if !toReschedule.isEmpty {
-            writeDebug(
+            Debug.writeDebug(
                 "getRescheduledArkon \(six(toReschedule.first!.name)) " +
                 "\(toReschedule.count)", scratch: toReschedule.first!.dispatch.scratch, level: 62)
         }

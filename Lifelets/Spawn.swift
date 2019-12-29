@@ -1,4 +1,3 @@
-//swiftlint:disable function_body_length
 import SpriteKit
 
 protocol SpawnProtocol: class, DispatchableProtocol {
@@ -36,7 +35,8 @@ enum Names {
             if nameix == 0 { setix += 1 }
         }
 
-        return names[nameix % names.count] + String(format: "%03d-Arkon", setix)
+        let newName = names[nameix % names.count] + String(format: "%03d-Arkon", setix)
+        return newName
     }
 }
 
@@ -57,48 +57,46 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
     weak var meTheParent: Stepper?
     var thorax: SKSpriteNode?
     var tempStrongReference: Spawn?
-    var wiLaunch: DispatchWorkItem?
-    var wiLaunch2: DispatchWorkItem?
 
     static let dispatchQueue = DispatchQueue(
         label: "ak.spawn.q",
         attributes: .concurrent,
-        target: DispatchQueue.global(qos: .utility)
+        target: DispatchQueue.global(qos: .default)
     )
 
     init(_ scratch: Scratchpad) {
-        Log.L.write("Larva", level: 15)
+        Log.L.write("init1 \(scratch.name)", level: 71)
         self.scratch = scratch
         self.meTheParent = scratch.stepper
         self.tempStrongReference = self
-
-        // Weak refs here, because apparently the work items capture self
-        // even if you reference them with DispatchWorkItem(block: launch_)
-        self.wiLaunch = DispatchWorkItem { [weak self] in self?.launch_() }
-        self.wiLaunch2 = DispatchWorkItem { [weak self] in self?.launch2_() }
-    }
-
-    deinit {
-        Log.L.write("~Larva \(six(embryoName))", level: 51)
     }
 
     func launch() {
+        let nameCopy = embryoName
+        Log.L.write("launch1 \(nameCopy)", level: 71)
         Census.shared.registerBirth(myName: embryoName, myParent: self.meTheParent) {
             self.fishDay = $0
 
-            guard let w = self.wiLaunch else { fatalError() }
-            Grid.shared.serialQueue.async(execute: w)
+            Grid.shared.serialQueue.async {
+                Log.L.write("launch2 \(nameCopy)", level: 71)
+                self.launch_()
+                Log.L.write("launch3 \(nameCopy)", level: 71)
+            }
+            Log.L.write("launch4 \(nameCopy)", level: 71)
         }
+        Log.L.write("launch5 \(nameCopy)", level: 71)
     }
 
     func launch_() {
-        getStartingPosition(self.embryoName)
-
-        guard let w2 = self.wiLaunch2 else { fatalError() }
-        Grid.shared.serialQueue.async(execute: w2)
+        getStartingPosition(self.embryoName) {
+            self.engagerKey = $0
+            Grid.shared.serialQueue.async { self.launch2_() }
+        }
     }
 
-    func launch2_() { buildSprites() }
+    func launch2_() {
+        buildSprites()
+    }
 }
 
 extension Spawn {
@@ -109,31 +107,24 @@ extension Spawn {
 }
 
 typealias OnComplete0p = () -> Void
+typealias OnComplete1p = (HotKey?) -> Void
 
 extension Spawn {
-    private func getStartingPosition(_ embryoName: String) {
-        if self.meTheParent?.name != nil {
-            precondition(self.meTheParent?.name != embryoName)
-            precondition(self.meTheParent?.sprite?.getStepper(require: false)?.name != nil)
-            precondition(self.meTheParent?.sprite?.getStepper(require: false)?.name == self.meTheParent?.name)
-            precondition(self.meTheParent?.name == self.meTheParent?.dispatch?.name)
-            precondition(self.meTheParent?.name == self.meTheParent?.dispatch?.scratch.name)
-        }
-
+    private func getStartingPosition(_ embryoName: String, _ onComplete: @escaping OnComplete1p) {
         guard let parent = self.meTheParent else {
-            engagerKey = GridCell.lockRandomEmptyCell(ownerName: "aboriginal-\(fishDay.fishNumber)")
-            Log.L.write("Larva engagerKey random empty cell at \(engagerKey?.gridPosition ?? AKPoint(x: -4242, y: -4242))", level: 52)
+            GridCell.lockRandomEmptyCell(
+                ownerName: "aboriginal-\(fishDay.fishNumber)", onComplete
+            )
             return
         }
 
-        engagerKey = GridCell.lockBirthPosition(parent: parent, name: embryoName)
-        Log.L.write("Larva from \(six(parent.name)) engagerKey lock birth position at \(engagerKey?.gridPosition ?? AKPoint(x: -4242, y: -4242))", level: 52)
+        let key = GridCell.lockBirthPosition(parent: parent, name: embryoName)
+        onComplete(key)
     }
 }
 
 extension Spawn {
     func buildGuts() {
-
         metabolism = Metabolism()
 
         net = Net(
@@ -141,8 +132,7 @@ extension Spawn {
             layers: meTheParent?.parentLayers, parentActivator: meTheParent?.parentActivator
         )
 
-        guard let sprite = self.thorax else { preconditionFailure() }
-
+        guard let sprite = self.thorax else { fatalError() }
         buildNetDisplay(sprite)
 
         self.launchNewborn()
@@ -167,36 +157,21 @@ extension Spawn {
 
     func abandonNewborn() {
         guard let st = meTheParent, let dp = st.dispatch, let sprite = st.sprite
-            else {
-                Log.L.write("Aboriginal? \(six(self.embryoName)), parent \(six(meTheParent?.name))", level: 66)
-                return
-        }
+            else { return }
 
-        precondition((sprite.getStepper(require: false)?.name ?? "") == st.name)
-        precondition((sprite.getStepper(require: false)?.name ?? "") == sprite.name)
-        precondition(sprite.name == meTheParent?.name)
         let rotate = SKAction.rotate(byAngle: 4 * 2 * CGFloat.pi, duration: 2.0)
         sprite.run(rotate)
+
         let spawnCost = st.getSpawnCost()
         st.metabolism.withdrawFromSpawn(spawnCost)
-        let ch = dp.scratch
-        precondition(
-                (ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
-                ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
-                ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition
-        ))
 
-        precondition((sprite.getStepper(require: false)?.name ?? "") == st.name)
-        precondition((sprite.getStepper(require: false)?.name ?? "") == sprite.name)
-        precondition(sprite.name != embryoName)
-        precondition(meTheParent?.dispatch.scratch.name == meTheParent?.name)
-        precondition(meTheParent?.dispatch.scratch.name == sprite.name)
         dp.metabolize()
     }
 
     func buildSprites() {
         let action = SKAction.run { [unowned self] in
             self.buildSprites_()
+            self.thorax!.addChild(self.nose!)
             self.buildGuts()
         }
 
@@ -206,12 +181,12 @@ extension Spawn {
     private func buildSprites_() {
         assert(Display.displayCycle == .actions)
 
+        Log.L.write("buildSprites_", level: 71)
         self.nose = SpriteFactory.shared.noseHangar.makeSprite()
         self.thorax = SpriteFactory.shared.arkonsHangar.makeSprite()
 
         guard let thorax = self.thorax else { fatalError() }
         guard let nose = self.nose else { fatalError() }
-        Log.L.write("Reset engagerKey #4", level: 41)
         guard let engagerKey = self.engagerKey else { fatalError() }
 
         nose.alpha = 1
@@ -220,7 +195,6 @@ extension Spawn {
         nose.name = embryoName
 
         thorax.setScale(Arkonia.spriteScale)
-        Log.L.write("ArkoniaCentral.masterScale = \(Arkonia.masterScale)", level: 37)
         thorax.colorBlendFactor = 1
         thorax.position = engagerKey.scenePosition
         thorax.alpha = 1
@@ -228,12 +202,10 @@ extension Spawn {
 
         let noseColor: SKColor = (meTheParent == nil) ? .magenta : .yellow
         Debug.debugColor(thorax, .green, nose, noseColor)
-
-        thorax.addChild(nose)
     }
 
     func launchNewborn() {
-        guard let thorax = self.thorax else { preconditionFailure() }
+        guard let thorax = self.thorax else { fatalError() }
 
         let newborn = Stepper(self, needsNewDispatch: true)
         newborn.parentStepper = self.meTheParent
@@ -241,22 +213,7 @@ extension Spawn {
         newborn.sprite?.color = .yellow
         newborn.nose?.color = .white
 
-        precondition(newborn.name == thorax.name)
-        precondition(newborn.name == embryoName)
-        precondition(newborn.name != self.meTheParent?.name ?? "")
-        precondition(newborn.name != self.meTheParent?.sprite?.name ?? "")
-
         guard let ek = engagerKey else { fatalError() }
-        guard let ch = newborn.dispatch?.scratch else { fatalError() }
-
-        precondition(ch.name == newborn.name)
-        precondition(ch.name != self.meTheParent?.sprite?.name ?? "")
-
-        writeDebug(
-            "Spawn engagerKey contents = \(engagerKey!.contents), " +
-            "sprite name = \(six(engagerKey!.sprite?.name))",
-            scratch: ch, level: 52
-        )
 
         ek.contents = .arkon
         ek.sprite = thorax
@@ -265,75 +222,27 @@ extension Spawn {
 
         Stepper.attachStepper(newborn, to: thorax)
 
-        writeDebug(
-            "Attach stepper \(six(newborn.name)) " +
-            "sprite name is \(six(thorax.name))",
-            scratch: ch, level: 51
-        )
-
-        if meTheParent != nil {
-            precondition(meTheParent?.dispatch?.name != nil)
-            precondition(meTheParent?.dispatch?.name.isEmpty == false)
-            precondition(meTheParent?.dispatch?.name == meTheParent?.name)
-            precondition(meTheParent?.dispatch?.scratch.name == meTheParent?.name)
-            precondition(meTheParent?.name == meTheParent?.sprite?.name)
-            precondition(meTheParent?.name == meTheParent?.sprite?.getStepper(require: false)?.name)
-        }
         abandonNewborn()
-        if meTheParent != nil {
-            precondition(meTheParent?.dispatch?.name != nil)
-            precondition(meTheParent?.dispatch?.name.isEmpty == false)
-            precondition(meTheParent?.dispatch?.name == meTheParent?.name)
-            precondition(meTheParent?.dispatch?.scratch.name == meTheParent?.name)
-            precondition(meTheParent?.name == meTheParent?.sprite?.name)
-            precondition(meTheParent?.name == meTheParent?.sprite?.getStepper(require: false)?.name)
-        }
-
-        precondition(newborn.dispatch?.name != nil)
-        precondition(newborn.dispatch?.name.isEmpty == false)
-        precondition(newborn.dispatch?.name == newborn.name)
-        precondition(newborn.dispatch?.scratch.name == newborn.name)
-        precondition(newborn.name == newborn.sprite?.name)
-        precondition(newborn.name == newborn.sprite?.getStepper(require: false)?.name)
-
-        precondition(meTheParent?.name != newborn.dispatch?.name)
-
-        GriddleScene.arkonsPortal!.addChild(thorax)
-
-        let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
-        thorax.run(rotate)
 
         guard let ndp = newborn.dispatch else { fatalError() }
 
         ndp.scratch.engagerKey = ek
 
-        defer {
-            if meTheParent != nil {
-                precondition(meTheParent?.dispatch?.name != nil)
-                precondition(meTheParent?.dispatch?.name.isEmpty == false)
-                precondition(meTheParent?.dispatch?.name == meTheParent?.name)
-                precondition(meTheParent?.dispatch?.scratch.name == meTheParent?.name)
-                precondition(meTheParent?.name != newborn.dispatch?.name)
-            }
-
-            precondition(newborn.dispatch?.name != nil)
-            precondition(newborn.dispatch?.name.isEmpty == false)
-            precondition(newborn.dispatch?.name == newborn.name)
-            precondition(newborn.dispatch?.scratch.name == newborn.name)
-        }
-
-        precondition((thorax.getStepper(require: false)?.name ?? "") == newborn.name)
-        precondition((thorax.getStepper(require: false)?.name ?? "") == thorax.name)
-
-        Log.L.write("parent name = \(meTheParent?.name ?? "aboriginal"), newborn name = \(newborn.name))", level: 65)
-
         // The newborn now has a strong ref to the dispatch, so we can let
         // it go now
+        precondition(ndp.scratch.stepper != nil)
         self.tempStrongReference = nil
-        ndp.disengage()
-    }
-}
+        precondition(ndp.scratch.stepper != nil)
+        Log.L.write("ndp.disengage1 \(self.embryoName)/\(ndp.name)", level: 71)
 
-func writeDebug(_ toWrite: String, scratch: Scratchpad, level: Int? = nil) {
-//    scratch.debugReport.append("\n\(toWrite)")
+        guard let ap = GriddleScene.arkonsPortal else { fatalError() }
+        ap.run(SKAction.run {
+            ap.addChild(thorax)
+            let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
+            thorax.run(rotate)
+        }) {
+            ndp.disengage()
+            Log.L.write("ndp.disengage2 \(self.embryoName)/\(ndp.name)", level: 71)
+        }
+    }
 }

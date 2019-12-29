@@ -29,8 +29,7 @@ struct NetGraphics {
             line.alpha = 0.5
             line.zPosition = 0
             background.zPosition = -1
-            background.addChild(line)
-
+            self.background.addChild(line)
             onComplete(line)
         }
     }
@@ -82,7 +81,9 @@ struct NetGraphics {
         sprite.position = netDisplayGrid.getPosition(gridPoint)
         sprite.position.y -= yFudge
         sprite.zPosition = 17
+
         self.background.addChild(sprite)
+
         Log.L.write("sprite \(six(sprite.name)) at \(sprite.position)", level: 17)
     }
 }

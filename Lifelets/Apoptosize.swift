@@ -5,42 +5,38 @@ final class Apoptosize: Dispatchable {
 }
 
 extension Apoptosize {
-    func aApoptosize() {
-        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let sp = st.sprite else { fatalError() }
-        guard let no = st.nose else { fatalError() }
+    func aApoptosize() { Mixer.dismemberArkon(scratch) }
+}
+
+enum Mixer {
+    static func dismemberArkon(_ scratch: Scratchpad?) {
+        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let thorax = st.sprite else { fatalError() }
+        guard let nose = st.nose else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
 
-        precondition(st.name == sp.name)
+        releaseStepper(st, gc) {
+            retireSprites(nose, thorax)
+        }
+    }
 
-        precondition((sp.getStepper(require: false)?.name ?? "") == sp.name)
-        precondition((sp.getStepper(require: false)?.name ?? "") == st.name)
+    private static func releaseStepper(
+        _ stepper: Stepper, _ gridCell: GridCell, _ onComplete: () -> Void
+    ) {
+        Grid.shared.serialQueue.async {
+            gridCell.descheduleIf(stepper)
+            Stepper.releaseStepper(stepper, from: stepper.sprite!)
+        }
+    }
 
-        Log.L.write("Apoptosize function stepper(\(six(st.name)) sprite(\(six(sp.name)))", level: 66)
-
+    private static func retireSprites(
+        _ nose: SKSpriteNode, _ thorax: SKSpriteNode
+    ) {
         let action = SKAction.run {
-            precondition(st.name == sp.name)
-            assert(Display.displayCycle == .actions)
-            if ch.isApoptosizing { return }
-            ch.isApoptosizing = true
-
-            gc.descheduleIf(st)
-            sp.removeAllActions()
-
-            SpriteFactory.shared.noseHangar.retireSprite(no)
-            SpriteFactory.shared.arkonsHangar.retireSprite(sp)
-
-            Log.L.write("Apoptosize action stepper(\(six(st.name)) sprite(\(six(sp.name)))", level: 66)
+            SpriteFactory.shared.noseHangar.retireSprite(nose)
+            SpriteFactory.shared.arkonsHangar.retireSprite(thorax)
         }
 
-        GriddleScene.shared.run(action) {
-            Grid.shared.serialQueue.async {
-                Log.L.write("Apoptosize workitem stepper(\(six(st.name)) sprite(\(six(sp.name)))", level: 66)
-                precondition(st.name == sp.name)
-                precondition((sp.getStepper(require: false)?.name ?? "") == sp.name)
-                Stepper.releaseStepper(st, from: sp)
-                Log.L.write("Apoptosize3(\(six(st.name)))", level: 59)
-            }
-        }
+        GriddleScene.shared.run(action)
     }
 }

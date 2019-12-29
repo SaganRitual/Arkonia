@@ -3,7 +3,7 @@ import SpriteKit
 final class Parasitize: Dispatchable {
     internal override func launch() {
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
-        writeDebug("Parasitize \(six(st.name))", scratch: ch)
+        Debug.writeDebug("Parasitize \(six(st.name))", scratch: ch)
 
         let result = attack()
 

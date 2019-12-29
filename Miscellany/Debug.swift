@@ -42,4 +42,10 @@ enum Debug {
             }
         }
     }
+
+    static func writeDebug(_ toWrite: String, scratch: Scratchpad, level: Int? = nil) {
+        if level != nil && level! >= Log.minimumLevel {
+            scratch.debugReport.append("\n\(toWrite)")
+        }
+    }
 }
