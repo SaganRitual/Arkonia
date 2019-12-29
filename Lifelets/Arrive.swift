@@ -4,62 +4,60 @@ final class Arrive: Dispatchable {
     internal override func launch() { arrive() }
 
     func arrive() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.debugColor(st, .green, .green)
-        guard let shuttle = ch.cellShuttle else { preconditionFailure() }
-        precondition(shuttle.toCell != nil && shuttle.toCell?.sprite?.name == st.name)
-
-        Log.L.write("Arrive: \(six(st.name))/\(six(shuttle.fromCell?.ownerName)) at \(st.gridCell.gridPosition)\(shuttle.fromCell?.gridPosition ?? AKPoint(x: -4242, y: -4242)) attacks \(six(shuttle.consumedSprite?.name))/\(six(shuttle.toCell?.ownerName)) at \(shuttle.toCell?.gridPosition ?? AKPoint(x: -4242, y: -4242))/\(shuttle.consumedSprite?.position ?? CGPoint(x: -4242, y: -4242))", level: 55)
+        guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
+        guard let shuttle = ch.cellShuttle else { fatalError() }
 
         switch shuttle.consumedContents {
-        case .arkon:
-            dp.parasitize()
-
-        case .manna:
-            graze()
-
+        case .arkon: dp.parasitize()
+        case .manna: graze()
         default: fatalError()
+        }
+    }
+
+    func graze() {
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let shuttle = ch.cellShuttle else { fatalError() }
+        guard let sprite = shuttle.consumedSprite else { fatalError() }
+        guard let manna = sprite.getManna() else { fatalError() }
+
+        ch.stillCounter = 0
+
+        Mixer.graze(st, manna) {
+            Manna.populator.beEaten(sprite)
+            dp.releaseStage()
         }
     }
 }
 
-extension Arrive {
-    func graze() { Grid.shared.serialQueue.async { self.graze_() } }
+extension Mixer {
 
-    func graze_() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let shuttle = ch.cellShuttle else { preconditionFailure() }
+    static func graze(_ stepper: Stepper, _ manna: Manna, _ onComplete: @escaping () -> Void) {
+        Mixer.harvest(manna) { harvested in
+            stepper.metabolism.absorbEnergy(harvested)
 
-        guard let sprite = shuttle.consumedSprite else { fatalError() }
-        guard let manna = sprite.getManna() else { fatalError() }
+            let toInhale = Arkonia.inhaleFudgeFactor * harvested / Manna.maxEnergyContentInJoules
+            stepper.metabolism.inhale(toInhale)
 
-        let inhaleFudgeFactor: CGFloat = 2.0
-        var harvested: CGFloat = 0
-
-        func partA() { manna.harvest {
-            harvested = $0
-            partB() } }
-
-        func partB() {
-            st.metabolism.absorbEnergy(harvested)
-
-            let toInhale = inhaleFudgeFactor * harvested / Manna.maxEnergyContentInJoules
-            st.metabolism.inhale(toInhale)
-            Log.L.write("absorb (\(String(format:"%-2.6f", harvested))), inhale(\(String(format:"%-2.6f", toInhale)))", level: 67)
-
-            Manna.populator.beEaten(sprite)
-
-            precondition(
-                (ch.cellShuttle?.fromCell != nil) &&
-                (ch.cellShuttle?.toCell?.sprite?.getStepper(require: false) != nil)
-            )
-
-            dp.releaseStage()
+            Manna.populator.beEaten(manna.sprite)
+            onComplete()
         }
+    }
 
-        ch.stillCounter = 0
-        Log.L.write("reset still", level: 60)
-        partA()
+    static func getEnergyContentInJoules(
+        _ manna: Manna, _ onComplete: @escaping Clock.OnComplete1CGFloatp
+    ) {
+        Clock.dispatchQueue.async {
+            let entropy = Clock.shared.getEntropy()
+            let energyContent = manna.getEnergyContentInJoules(entropy)
+            onComplete(energyContent)
+        }
+    }
+
+    static func harvest(_ manna: Manna, _ onComplete: @escaping Clock.OnComplete1CGFloatp) {
+        Mixer.getEnergyContentInJoules(manna) { net in
+            manna.harvest()
+            onComplete(net)
+        }
     }
 
 }

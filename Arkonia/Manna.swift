@@ -25,33 +25,23 @@ class Manna {
         sprite.name = "manna-" + (sprite.name ?? "huh?")
     }
 
-    func getEnergyContentInJoules(_ onComplete: @escaping Clock.OnComplete1CGFloatp) {
-        Clock.shared.getEntropy { entropy in
-            let energyContent = self.getEnergyContentInJoules(entropy)
-
-            Log.L.write("energyContent: \(energyContent) joules; including entropy \(entropy)", level: 66)
-            onComplete(energyContent)
-        }
-    }
-
     func getEnergyContentInJoules(_ entropy: CGFloat) -> CGFloat {
-        let fudgeFactor: CGFloat = 1
-        let f0 = max(sprite.colorBlendFactor, Manna.colorBlendMinimum)
-        let f1 = fudgeFactor * abs(f0 - Manna.colorBlendMinimum)
-        let f2 = f1 / Manna.colorBlendRangeWidth
-        let f3: CGFloat = f2 * Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
-        let f4 = f3 * (1 - entropy)
+        let top = max(sprite.colorBlendFactor, Manna.colorBlendMinimum)
+        let width = abs(top - Manna.colorBlendMinimum)
+        let fullness = width / Manna.colorBlendRangeWidth
+        let energyContent: CGFloat = fullness * Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
+        let entropized = energyContent * (1 - entropy)
 
         Log.L.write(
             "colorBlendFactor \(String(format: "%-2.4f", sprite.colorBlendFactor))\n" +
             "Manna.colorBlendMinimum \(String(format: "%-2.4f", Manna.colorBlendMinimum))\n" +
             "Manna.growthRateJoulesPerSecond \(String(format: "%-2.4f", Manna.growthRateJoulesPerSecond))\n" +
             "Manna.fullGrowthDurationSeconds \(String(format: "%-2.4f", Manna.fullGrowthDurationSeconds))\n" +
-            "f1, f2, f3, f4 = \(String(format: "%-2.4f", f1)), \(String(format: "%-2.4f", f2)), \(String(format: "%-2.4f", f3)), \(String(format: "%-2.4f", f4))\n",
+            "width, fullness, energyContent, entropized = \(String(format: "%-2.4f", width)), \(String(format: "%-2.4f", fullness)), \(String(format: "%-2.4f", energyContent)), \(String(format: "%-2.4f", entropized))\n",
             level: 66
         )
 
-        return f4
+        return entropized
     }
 
     typealias KeyLoader = ((GridCellKey) -> (Double, Double)?)
@@ -68,14 +58,5 @@ class Manna {
         return gridInputs
     }
 
-    func getEnergyFullness(_ onComplete: @escaping Clock.OnComplete1CGFloatp) {
-        getEnergyContentInJoules { onComplete($0 / Manna.maxEnergyContentInJoules) }
-    }
-
-    func harvest(_ onComplete: @escaping Clock.OnComplete1CGFloatp) {
-        getEnergyContentInJoules { net in
-            self.sprite.colorBlendFactor = Manna.colorBlendMinimum
-            onComplete(net)
-        }
-    }
+    func harvest() { self.sprite.colorBlendFactor = Manna.colorBlendMinimum }
 }

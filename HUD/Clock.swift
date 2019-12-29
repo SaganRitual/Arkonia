@@ -35,11 +35,7 @@ class Clock {
         Clock.dispatchQueue.async { onComplete(self.worldClock) }
     }
 
-    func getEntropy(_ onComplete: @escaping OnComplete1CGFloatp) {
-        Clock.dispatchQueue.async { onComplete(self.getEntropy()) }
-    }
-
-    private func getEntropy() -> CGFloat {
+    func getEntropy() -> CGFloat {
         guard let t = timeLimit else { return 0 }
         return min(CGFloat(worldClock * 2) / CGFloat(t), 1)
     }

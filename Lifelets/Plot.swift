@@ -37,9 +37,10 @@ final class Plot: Dispatchable {
 
         Log.L.write("SenseGrid cells \(senseGrid!.cells)", level: 61)
 
-        Clock.shared.getEntropy { entropy in
+        let entropy: CGFloat = 0.4242
+//        Clock.shared.getEntropy { entropy in
             Plot.dispatchQueue.async { self.move(with: entropy) }
-        }
+//        }
     }
 
     func getSenseData(_ gridInputs: [Double]) {

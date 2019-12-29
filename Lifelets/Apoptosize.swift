@@ -21,11 +21,12 @@ enum Mixer {
     }
 
     private static func releaseStepper(
-        _ stepper: Stepper, _ gridCell: GridCell, _ onComplete: () -> Void
+        _ stepper: Stepper, _ gridCell: GridCell, _ onComplete: @escaping () -> Void
     ) {
         Grid.shared.serialQueue.async {
             gridCell.descheduleIf(stepper)
             Stepper.releaseStepper(stepper, from: stepper.sprite!)
+            onComplete()
         }
     }
 

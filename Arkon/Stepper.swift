@@ -1,9 +1,7 @@
 import SpriteKit
 
 class Stepper {
-    let allowSpawning = true
     var cOffspring = 0
-    var debugFlasher = false
     var dispatch: Dispatch!
     private weak var gridCell_: GridCell?
     var gridCell: GridCell! {
@@ -53,10 +51,8 @@ extension Stepper {
     }
 
     func getSpawnCost() -> CGFloat {
-        let overhead: CGFloat = 1.5
-
-        let spawnCost = allowSpawning ?
-            EnergyReserve.startingEnergyLevel * overhead : CGFloat.infinity
+        let spawnCost = Arkonia.allowSpawning ?
+            EnergyReserve.startingEnergyLevel * Arkonia.spawnOverhead : CGFloat.infinity
 
         let sc = String(format: "%3.3f", spawnCost)
         let sr = String(format: "%3.3f", metabolism.spawnReserves.level)
