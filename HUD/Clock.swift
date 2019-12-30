@@ -28,19 +28,15 @@ class Clock {
         clockFormatter.unitsStyle = .positional
         clockFormatter.zeroFormattingBehavior = .pad
 
-        Arkonia.tickTheWorld(Clock.dispatchQueue, partA)
-    }
-
-    func getWorldClock(_ onComplete: @escaping OnComplete1Intp) {
-        Clock.dispatchQueue.async { onComplete(self.worldClock) }
+        Arkonia.tickTheWorld(Clock.dispatchQueue, self.tickTheWorld)
     }
 
     func getEntropy() -> CGFloat {
         guard let t = timeLimit else { return 0 }
-        return min(CGFloat(worldClock * 2) / CGFloat(t), 1)
+        return min(CGFloat(self.worldClock * 2) / CGFloat(t), 1)
     }
 
-    func partA() {
+    func tickTheWorld() {
         self.worldClock += 1
 
         self.clockReport.data.text =

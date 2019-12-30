@@ -13,7 +13,6 @@ class Scratchpad {
     var isApoptosizing = false
     var name = ""
     weak var parentNet: Net?
-    var serializer = 0
     weak var stepper: Stepper?
     var stillCounter: CGFloat = 0
 

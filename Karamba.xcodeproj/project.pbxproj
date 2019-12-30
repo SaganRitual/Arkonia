@@ -10,6 +10,8 @@
 		D4174DCE237BC31C00F01F28 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DCD237BC31C00F01F28 /* GridCell.swift */; };
 		D4174DD0237BC4CA00F01F28 /* Positions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DCF237BC4CA00F01F28 /* Positions.swift */; };
 		D4174DD4237BD12B00F01F28 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4174DD3237BD12B00F01F28 /* Protocol.swift */; };
+		D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A299A23B9841000DE9CC6 /* WorkItems.swift */; };
+		D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A29A423B9945F00DE9CC6 /* wiCensus.swift */; };
 		D41ED8D623B084A100E82B08 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
 		D422DE0223578CFD003734B8 /* Garden.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* Garden.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
@@ -132,6 +134,8 @@
 		D4174DCD237BC31C00F01F28 /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		D4174DCF237BC4CA00F01F28 /* Positions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Positions.swift; sourceTree = "<group>"; };
 		D4174DD3237BD12B00F01F28 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		D41A299A23B9841000DE9CC6 /* WorkItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkItems.swift; sourceTree = "<group>"; };
+		D41A29A423B9945F00DE9CC6 /* wiCensus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wiCensus.swift; sourceTree = "<group>"; };
 		D41ED8D523B084A100E82B08 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		D42172E9233EE46000A56594 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
@@ -222,6 +226,7 @@
 				D4BB6E6A234E544B00529819 /* Lifelets */,
 				D46B1D7222813DF7003D711C /* Miscellany */,
 				D40985F922650BD8009DD384 /* macOS */,
+				D41A29A323B9943F00DE9CC6 /* WorkItems */,
 				D40985E122650B0A009DD384 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -264,6 +269,14 @@
 				D4A59D342388F48500517F60 /* Random.swift */,
 			);
 			path = GridCell;
+			sourceTree = "<group>";
+		};
+		D41A29A323B9943F00DE9CC6 /* WorkItems */ = {
+			isa = PBXGroup;
+			children = (
+				D41A29A423B9945F00DE9CC6 /* wiCensus.swift */,
+			);
+			path = WorkItems;
 			sourceTree = "<group>";
 		};
 		D43EA81A228FDBA4006C619D /* Arkonia */ = {
@@ -337,6 +350,7 @@
 				D4A59D222387F64500517F60 /* Plot.swift */,
 				D4A59D362389901500517F60 /* ReleaseStage.swift */,
 				D4D5EABA2368B05200E95AA5 /* Spawn.swift */,
+				D41A299A23B9841000DE9CC6 /* WorkItems.swift */,
 			);
 			path = Lifelets;
 			sourceTree = "<group>";
@@ -545,7 +559,6 @@
 				D45A9363237CEE5F00FC039E /* Grid.swift in Sources */,
 				D45A9362237CEE5F00FC039E /* Grid.Setup.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
-				D4E765E423A15FE300D1757D /* GridSync.swift in Sources */,
 				D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */,
 				D4BB6E73234E549C00529819 /* Funge.swift in Sources */,
 				D4174DD4237BD12B00F01F28 /* Protocol.swift in Sources */,
@@ -565,8 +578,10 @@
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
 				D41ED8D623B084A100E82B08 /* Debug.swift in Sources */,
 				D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */,
+				D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */,
 				D4A59D31238839C700517F60 /* Arrive.swift in Sources */,
 				D464BA4E22C737260069623C /* BellCurve.swift in Sources */,
+				D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */,
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
 				D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,

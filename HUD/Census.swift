@@ -40,7 +40,7 @@ class Census {
 
         rCOffspring = scene.reportMisc.reportoid(3)
 
-        Arkonia.tickTheWorld(Census.dispatchQueue, partA)
+        Arkonia.tickTheWorld(Census.dispatchQueue, WorkItems.updateReports)
     }
 }
 
@@ -56,56 +56,32 @@ extension Census {
         defer { self.TheFishNumber += 1 }
         return self.TheFishNumber
     }
-}
 
-extension Arkonia {
-    static func tickTheWorld(_ queue: DispatchQueue, _ tick: @escaping () -> Void) {
-        // This vomitosis is because I can't figure out how to get
-        // asyncAfter to create a barrier task; it just runs concurrently
-        // with the others, and causes crashes. Tried with DispatchWorkItem
-        // too, but that didn't work even when using async(flags:execute:)
-        queue.asyncAfter(deadline: .now() + 1) {
-            queue.async(flags: .barrier) { tick(); tickTheWorld(queue, tick) }
-        }
+    static func getAge(of arkon: String, at currentTime: Int) -> Int {
+        return currentTime - Census.shared.archive[arkon]!.birthday
     }
 }
 
 extension Census {
-    private func partA() {
-        let ages: [Int] = GriddleScene.arkonsPortal!.children.compactMap { node in
-            guard let name = (node as? SKSpriteNode)?.getStepper(require: false)?.name else { return nil }
-            return getAge(of: name, at: localTime)
-        }.sorted { $0 < $1 }
+    func updateReports(_ ages: [Int]) {
+        if ages.isEmpty { return }
 
-        if ages.count < 15 {
-            for _ in 0..<50 { Dispatch().spawn() }
-        }
-
-        if !ages.isEmpty { partB(ages.last!) }
-    }
-
-    private func partB(_ greatestAge: Int) {
+        let greatestAge = ages.last!
         self.rCOffspring.data.text = String(format: "%d", highWaterCOffspring)
         self.rHighWaterPopulation.data.text = String(highWaterPopulation)
         self.rPopulation.data.text = String(population)
 
-        let n = max(Double(greatestAge), Double(highWaterAge))
-        rHighWaterAge.data.text = ageFormatter.string(from: n)
+        let n = max(greatestAge, highWaterAge)
+        rHighWaterAge.data.text = ageFormatter.string(from: Double(n))
+    }
+
+    func registerDeath(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
+        WorkItems.registerDeath(stepper, onComplete)
     }
 }
 
 extension Census {
-    typealias OnComplete1Fishday = (Fishday) -> Void
-    typealias OnComplete1Int = (Int) -> Void
-
-    func registerBirth(myName: String, myParent: Stepper?, _ onComplete: @escaping OnComplete1Fishday) {
-        Census.dispatchQueue.async(flags: .barrier) { [unowned self] in
-            let fishday = self.registerBirth(myName, myParent)
-            onComplete(fishday)
-        }
-    }
-
-    private func registerBirth(_ myName: String, _ myParent: Stepper?) -> Fishday {
+    func registerBirth(_ myName: String, _ myParent: Stepper?) -> Fishday {
         self.population += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
 
@@ -122,11 +98,10 @@ extension Census {
         return archive[myName]!
     }
 
-    func registerDeath(_ nameOfDeceased: String) {
-        Census.dispatchQueue.async(flags: .barrier) { [unowned self] in
-            let ageOfDeceased = self.getAge(of: nameOfDeceased, at: self.localTime)
-            self.highWaterAge = max(self.highWaterAge, ageOfDeceased)
-            self.population -= 1
-        }
+    func registerDeath(_ nameOfDeceased: String, _ worldTime: Int) {
+        let ageOfDeceased = Census.getAge(of: nameOfDeceased, at: worldTime)
+
+        highWaterAge = max(highWaterAge, ageOfDeceased)
+        population -= 1
     }
 }

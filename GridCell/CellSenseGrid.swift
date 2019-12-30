@@ -4,48 +4,31 @@ class CellSenseGrid: CustomDebugStringConvertible {
     var debugDescription = ""
 
     init(from center: HotKey, by cGridlets: Int, block: AKPoint) {
+        Grid.shared.serialQueue.async {
+            self.postInit(from: center, by: cGridlets, block: block)
+        }
+    }
 
+    func postInit(from center: HotKey, by cGridlets: Int, block: AKPoint) {
         guard let cc = center.bell else { preconditionFailure() }
         centerName = cc.ownerName
-
-        precondition(cc.sprite?.getStepper(require: false) != nil)
-
-        debugDescription += "center \(six(centerName)) at \(cc.gridPosition); "
 
         cells = [center] + (1..<cGridlets).map { index in
             guard let position = center.bell?.getGridPointByIndex(index)
                 else { preconditionFailure() }
 
-            if position == block { debugDescription += ".."; return NilKey() }
-            guard let cell = GridCell.atIf(position) else { debugDescription += "^^"; return NilKey() }
-            if index > Arkonia.cMotorGridlets {
-                debugDescription += "Cx"
-                return cell.coldKey!
-            }
+            if position == block { return NilKey() }
+            guard let cell = GridCell.atIf(position) else { return NilKey() }
+            if index > Arkonia.cMotorGridlets { return cell.coldKey! }
 
             let lockType: GridCell.RequireLock = index > Arkonia.cMotorGridlets ? .cold : .degradeToCold
-            var gotlock: GridCellKey?
-            cell.lock(require: lockType, ownerName: centerName) { gotlock = $0 }
 
-            let debugContents: String = {
-                switch gotlock?.contents {
-                case .invalid: return "i"
-                case .arkon:   return ((gotlock is HotKey) ? "a" : "c") + "\(cell.ownerName) at \(cell.gridPosition)"
-                case .manna:   return "m"
-                case .nothing: return "n"
-                case nil:      return "L"
-                }
-            }()
-            debugDescription += "H" + debugContents
+            guard let stepper = center.sprite?.getStepper(require: false) else { fatalError() }
 
-            return gotlock!
+            guard let lock = cell.getLock(for: stepper, require: lockType)
+                else { fatalError() }
+
+            return lock
         }
-
-//        cc.sprite?.getStepper()?.dispatch.scratch.debugReport.append(debugDescription)
-        Log.L.write("SenseGrid for \(six(centerName)): \(self)", level: 55)
-    }
-
-    deinit {
-        Log.L.write("~SenseGrid for \(six(centerName))", level: 51)
     }
 }

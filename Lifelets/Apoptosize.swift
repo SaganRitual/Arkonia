@@ -5,10 +5,10 @@ final class Apoptosize: Dispatchable {
 }
 
 extension Apoptosize {
-    func aApoptosize() { Mixer.dismemberArkon(scratch) }
+    func aApoptosize() { WorkItems.dismemberArkon(scratch) }
 }
 
-enum Mixer {
+extension WorkItems {
     static func dismemberArkon(_ scratch: Scratchpad?) {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
         guard let thorax = st.sprite else { fatalError() }

@@ -14,8 +14,8 @@ extension Colorize {
         let babyBumpShouldBeShowing = st.metabolism.spawnReserves.level > st.getSpawnCost()
 
         switch (babyBumpIsRunning, babyBumpShouldBeShowing) {
-        case (true, false): Mixer.lookPregnant(st.metabolism.oxygenLevel, st.nose)
-        case (false, true): Mixer.lookNotPregnant(st.nose)
+        case (true, false): WorkItems.lookPregnant(st.metabolism.oxygenLevel, st.nose)
+        case (false, true): WorkItems.lookNotPregnant(st.nose)
         default: break
         }
 
@@ -23,7 +23,7 @@ extension Colorize {
     }
 }
 
-extension Mixer {
+extension WorkItems {
     static let swell = SKAction.scale(by: 1.5, duration: 0.4)
 
     static func lookPregnant(_ oxygenLevel: CGFloat, _ nose: SKSpriteNode) {
@@ -41,7 +41,7 @@ extension Mixer {
             with: .green, colorBlendFactor: colorBlendFactor, duration: 0.25
         )
 
-        let throb = SKAction.sequence([Mixer.swell, shrink])
+        let throb = SKAction.sequence([WorkItems.swell, shrink])
         let throbColor = SKAction.sequence([discolor, recolor])
         let throbEverything = SKAction.group([throb, throbColor])
         let forever = SKAction.repeatForever(throbEverything)
@@ -50,7 +50,7 @@ extension Mixer {
     }
 }
 
-extension Mixer {
+extension WorkItems {
     static func lookNotPregnant(_ sprite: SKSpriteNode) {
         sprite.removeAction(forKey: "baby-bump")
 

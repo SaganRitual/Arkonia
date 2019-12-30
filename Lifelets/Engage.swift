@@ -5,46 +5,37 @@ enum DebugEngage {
 }
 
 final class Engage: Dispatchable {
-    static var serializer = 0
-
     internal override func launch() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
 
-        precondition(
-            (ch.engagerKey == nil  ||
-                (ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
-                ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
-                ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition)
-        ))
-
-        ch.serializer = Engage.serializer
-        Engage.serializer += 1
-
         Debug.debugColor(st, .magenta, .magenta)
 
-        gc.lock(require: .degradeToCold, ownerName: st.name) { ch.engagerKey = $0 }
-
-        if ch.engagerKey is ColdKey {
-            Debug.writeDebug(
-                "Reschedule \(six(st.name)) for \(gc)",
-                scratch: ch, level: 64
-            )
-
-            gc.reschedule(st)
-            return
+        WorkItems.getLock(at: gc, for: st, require: .degradeToCold) {
+            ch.engagerKey = $0
+            if ch.engagerKey is HotKey { dp.funge() }
         }
+    }
+}
 
-        Log.L.write("Hot key \(six(st.name)) at \(ch.engagerKey!.gridPosition)", level: 62)
+extension WorkItems {
+    typealias OnCompleteKey = (GridCellKey?) -> Void
 
-        precondition(ch.engagerKey?.sprite?.getStepper(require: false) != nil)
-        precondition(
-            (ch.engagerKey == nil  ||
-                (ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
-                ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
-                ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition)
-        ))
+    static func getLock(
+        at cell: GridCell, for stepper: Stepper, require: GridCell.RequireLock,
+        _ onComplete: @escaping OnCompleteKey
+    ) {
+        Grid.shared.serialQueue.async {
+            onComplete(cell.getLock(for: stepper, require: .degradeToCold))
+        }
+    }
+}
 
-        dp.funge()
+extension GridCell {
+    func getLock(for stepper: Stepper, require: RequireLock) -> GridCellKey? {
+        let key = lock(require: require, ownerName: stepper.name)
+
+        if key is ColdKey { reschedule(stepper) }
+        return key
     }
 }

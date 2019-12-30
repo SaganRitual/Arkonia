@@ -22,17 +22,17 @@ final class Arrive: Dispatchable {
 
         ch.stillCounter = 0
 
-        Mixer.graze(st, manna) {
+        WorkItems.graze(st, manna) {
             Manna.populator.beEaten(sprite)
             dp.releaseStage()
         }
     }
 }
 
-extension Mixer {
+extension WorkItems {
 
     static func graze(_ stepper: Stepper, _ manna: Manna, _ onComplete: @escaping () -> Void) {
-        Mixer.harvest(manna) { harvested in
+        WorkItems.harvest(manna) { harvested in
             stepper.metabolism.absorbEnergy(harvested)
 
             let toInhale = Arkonia.inhaleFudgeFactor * harvested / Manna.maxEnergyContentInJoules
@@ -54,7 +54,7 @@ extension Mixer {
     }
 
     static func harvest(_ manna: Manna, _ onComplete: @escaping Clock.OnComplete1CGFloatp) {
-        Mixer.getEnergyContentInJoules(manna) { net in
+        WorkItems.getEnergyContentInJoules(manna) { net in
             manna.harvest()
             onComplete(net)
         }

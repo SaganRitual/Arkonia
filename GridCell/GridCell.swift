@@ -99,27 +99,23 @@ extension GridCell {
 
     func lockIf(ownerName: String) -> HotKey? {
         if isLocked { return nil }
+        guard let key = lock(require: .degradeToNil, ownerName: ownerName) as? HotKey
+            else { fatalError() }
 
-        var hotKey: HotKey?
-        lock(require: .degradeToNil, ownerName: ownerName) {
-            guard let h = $0 as? HotKey else { fatalError() }
-            hotKey = h
-        }
-
-        return hotKey
+        return key
     }
 
-    func lock(require: RequireLock = .hot, ownerName: String, onComplete: @escaping LockComplete) {
+    func lock(require: RequireLock = .hot, ownerName: String) -> GridCellKey? {
         switch (self.isLocked, require) {
         case (true, .hot): fatalError()
-        case (true, .degradeToNil): onComplete(nil)
-        case (true, .degradeToCold): onComplete(self.coldKey)
+        case (true, .degradeToNil): return nil
+        case (true, .degradeToCold): return self.coldKey
 
-        case (_, .cold): onComplete(self.coldKey)
+        case (_, .cold): return self.coldKey
 
         case (false, .degradeToCold): fallthrough
         case (false, .degradeToNil):  fallthrough
-        case (false, .hot): onComplete(HotKey(for: self, ownerName: ownerName))
+        case (false, .hot): return HotKey(for: self, ownerName: ownerName)
         }
     }
 

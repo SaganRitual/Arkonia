@@ -68,8 +68,7 @@ extension GridCell {
         repeat {
             lrec += 1
             let r = GridCell.getRandomEmptyCell()
-            var ck: GridCellKey?
-            r.lock(require: .degradeToCold, ownerName: ownerName) { ck = $0 }
+            let ck = r.lock(require: .degradeToCold, ownerName: ownerName)
 
             guard let hk = ck as? HotKey else { continue }
 
