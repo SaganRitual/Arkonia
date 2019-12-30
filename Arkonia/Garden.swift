@@ -41,13 +41,12 @@ extension Manna.Garden {
     private func createNewManna() -> Manna? {
         if cMorsels >= MannaCoordinator.cMorsels { return nil }
 
-        let sprite = self.mannaSpriteHangar.makeSprite()
-        sprite.name = "manna-\(cMorsels)"
+        let sprite = self.mannaSpriteHangar.makeSprite("manna-\(cMorsels)")
 
         GriddleScene.arkonsPortal!.addChild(sprite)
 
         self.manna = Manna(sprite)
-        sprite.userData = [SpriteUserDataKey.manna: self.manna!]
+        sprite.userData![SpriteUserDataKey.manna] = self.manna!
 
         self.cMorsels += 1
         return self.manna

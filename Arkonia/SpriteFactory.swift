@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 enum SpriteUserDataKey {
-    case manna, net9Portal, netDisplay, stepper, uuid
+    case manna, net9Portal, netDisplay, stepper, uuid, isInHangar
 }
 
 typealias SpriteFactoryCallback0P = () -> Void
@@ -21,34 +21,39 @@ class SpriteHangar {
         texture = atlas!.textureNamed(textureName)
     }
 
-    func makeSprite(_ onComplete: @escaping SpriteFactoryCallback1P) {
+    func makeSprite(_ name: String?, _ onComplete: @escaping SpriteFactoryCallback1P) {
         var sprite: SKSpriteNode?
-        let ms = SKAction.run { sprite = self.makeSprite_() }
-        GriddleScene.shared.run(ms) {
+        let action = SKAction.run { sprite = self.makeSprite(name) }
+        GriddleScene.shared.run(action) {
             guard let s = sprite else { fatalError() }
             onComplete(s)
         }
     }
 
-    func makeSprite() -> SKSpriteNode {
-        return self.makeSprite_()
-    }
-
-    private func makeSprite_() -> SKSpriteNode {
-        if let readyDrone = drones.first(where: { sprite in sprite.parent == nil }) {
+    func makeSprite(_ name: String?) -> SKSpriteNode {
+        if let readyDrone = drones.first(where: { $0.isInHangar }) {
+            readyDrone.name = name
             return readyDrone
         }
 
         let newSprite = factoryFunction(texture)
         newSprite.alpha = 0
         newSprite.userData = [SpriteUserDataKey.uuid: UUID().uuidString]
+        newSprite.name = name
         newSprite.color = .gray
         newSprite.colorBlendFactor = 1.0
         drones.append(newSprite)
         return newSprite
     }
 
+    func retireSprite(_ sprite: SKSpriteNode, _ onComplete: @escaping () -> Void) {
+        let action = SKAction.run { self.retireSprite(sprite) }
+        GriddleScene.shared.run(action, completion: onComplete)
+    }
+
     func retireSprite(_ sprite: SKSpriteNode) {
+        precondition(sprite.isInHangar == false)
+        sprite.name = nil
         sprite.removeAllActions()
         sprite.removeFromParent()
     }
@@ -77,19 +82,16 @@ class SpriteFactory {
         noseHangar =        SpriteHangar("Arkons",  "spark-nose-large",    factoryFunction: noseFactory)
     }
 
-    func postInit(_ net9Portals: [SKSpriteNode]) {
-        let action = SKAction.run { self.postInit_(net9Portals) }
-        GriddleScene.shared.run(action)
+    func postInit(_ net9Portals: [SKSpriteNode], _ onComplete: @escaping () -> Void) {
+        let action = SKAction.run { self.postInit(net9Portals) }
+        GriddleScene.shared.run(action, completion: onComplete)
     }
 
-    func postInit_(_ net9Portals: [SKSpriteNode]) {
-        for i in 0..<18 {
-            let drone = arkonsHangar.makeSprite()
-            drone.userData![SpriteUserDataKey.net9Portal] = net9Portals[i]
-            self.scene.addChild(drone)   // Icky -- adding to scene to hold temp space in hangar
+    private func postInit(_ net9Portals: [SKSpriteNode]) {
+        (0..<18).forEach { ix in
+            let drone = arkonsHangar.makeSprite(nil)
+            drone.userData![SpriteUserDataKey.net9Portal] = net9Portals[ix]
         }
-
-        for drone in arkonsHangar.drones { arkonsHangar.retireSprite(drone) }
     }
 }
 

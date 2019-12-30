@@ -14,7 +14,7 @@ struct NetGraphics {
 
         GriddleScene.shared.run(SKAction.run { partA() })
 
-        func partA() { linesHangar.makeSprite(partB) }
+        func partA() { linesHangar.makeSprite("line", partB) }
 
         func partB(_ sprite: SKSpriteNode) {
             textureLength = line.size.width
@@ -56,7 +56,7 @@ struct NetGraphics {
             }
         }()
 
-        let sprite: SKSpriteNode = hangar.makeSprite()
+        let sprite: SKSpriteNode = hangar.makeSprite("neuron")
 
         let yFudge: CGFloat
 

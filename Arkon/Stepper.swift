@@ -32,16 +32,13 @@ class Stepper {
         self.sprite = embryo.thorax
 
         if needsNewDispatch { self.dispatch = Dispatch(self) }
+
+        Log.L.write("Stepper \(six(embryo.embryoName))", level: 71)
     }
 
     deinit {
-        netDisplay = nil
-
-        Log.L.write("stepper deinit \(six(name))/\(six(sprite.name))", level: 70)
-
-        Census.shared.registerDeath(name)
-
-        Log.L.write("stepper deinit report \(dispatch.scratch.debugReport)", level: 70)
+        dispatch.scratch.engagerKey = nil
+        Log.L.write("~Stepper \(six(name))", level: 71)
     }
 }
 
@@ -66,10 +63,6 @@ extension Stepper {
 extension Stepper {
     static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
         sprite.userData![SpriteUserDataKey.stepper] = stepper
-        precondition(stepper.name == sprite.name)
-
-        Log.L.write("attachStepper \(six(stepper.name)), \(six(sprite.name))", level: 55)
-//        sprite.name = stepper.name
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {

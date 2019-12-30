@@ -8,12 +8,18 @@ final class Engage: Dispatchable {
     internal override func launch() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
+        Log.L.write("Engage \(six(st.name))", level: 71)
 
         Debug.debugColor(st, .magenta, .magenta)
 
-        WorkItems.getLock(at: gc, for: st, require: .degradeToCold) {
-            ch.engagerKey = $0
-            if ch.engagerKey is HotKey { dp.funge() }
+        WorkItems.getLock(
+            at: gc, for: st, require: .degradeToCold, rescheduleIf: true
+        ) { key in
+            if key is HotKey {
+                ch.engagerKey = key
+                Log.L.write("Got HotKey for \(six(st.name))", level: 71)
+                dp.funge()
+            }
         }
     }
 }
@@ -23,19 +29,19 @@ extension WorkItems {
 
     static func getLock(
         at cell: GridCell, for stepper: Stepper, require: GridCell.RequireLock,
-        _ onComplete: @escaping OnCompleteKey
+        rescheduleIf: Bool = true, _ onComplete: @escaping OnCompleteKey
     ) {
         Grid.shared.serialQueue.async {
-            onComplete(cell.getLock(for: stepper, require: .degradeToCold))
+            onComplete(cell.getLock(for: stepper, require, rescheduleIf))
         }
     }
 }
 
 extension GridCell {
-    func getLock(for stepper: Stepper, require: RequireLock) -> GridCellKey? {
+    func getLock(for stepper: Stepper, _ require: RequireLock, _ rescheduleIf: Bool) -> GridCellKey? {
         let key = lock(require: require, ownerName: stepper.name)
 
-        if key is ColdKey { reschedule(stepper) }
+        if key is ColdKey && rescheduleIf { reschedule(stepper) }
         return key
     }
 }

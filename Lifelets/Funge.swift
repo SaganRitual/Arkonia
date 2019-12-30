@@ -10,6 +10,7 @@ final class Funge: Dispatchable {
 
     override func launch() {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
+        Log.L.write("Funge \(six(st.name))", level: 71)
         Debug.debugColor(st, .yellow, .yellow)
         WorkItems.checkSpawnability(st) { self.fungeRoute($0, $1) }
     }
@@ -41,17 +42,17 @@ extension WorkItems {
 
         a()
     }
-    
+
     static func getAge(
         of arkon: String, at currentTime: Int, _ onComplete: @escaping OnComplete1Int
     ) {
         Census.dispatchQueue.async(flags: .barrier) {
-            let age = getAge(of: arkon, at: currentTime)
+            let age = Census.getAge(of: arkon, at: currentTime)
             onComplete(age)
         }
     }
 
-    private static func getWorldClock(_ onComplete: @escaping OnComplete1Int) {
+    static func getWorldClock(_ onComplete: @escaping OnComplete1Int) {
         Clock.dispatchQueue.async { onComplete(Clock.shared!.worldClock) }
     }
 

@@ -1,6 +1,6 @@
 import SpriteKit
 
-func six(_ string: String?) -> String { return String(string?.prefix(15) ?? "<no input>") }
+func six(_ string: String?) -> String { return String(string?.prefix(50) ?? "<no input>") }
 
 class Arkonia {
     typealias OnComplete1p = (Int) -> Void
@@ -9,7 +9,9 @@ class Arkonia {
     static let senseGridSide = 3
     static let spriteScale = masterScale / 6
     static let cSenseGridlets = senseGridSide * senseGridSide
-    static let cSenseNeurons = 2 * cSenseGridlets + 4
+    static let cSenseNeuronsSpatial = 2 * cSenseGridlets
+    static let cSenseNeuronsNonSpatial = 4
+    static let cSenseNeurons = cSenseNeuronsSpatial + cSenseNeuronsNonSpatial
     static let cMotorNeurons = 9 - 1
     static let cMotorGridlets = cMotorNeurons + 1
 

@@ -7,13 +7,11 @@ final class Metabolize: Dispatchable {
 extension Metabolize {
     func aMetabolize() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        if Debug.debugColorIsEnabled { st.sprite.color = .red }
-        st.metabolism.metabolizeProper(ch.stillCounter > 0, st.nose)
+        Log.L.write("Metabolize \(six(st.name))", level: 71)
 
-        precondition(ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
-                ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
-                ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition
-        )
+        if Debug.debugColorIsEnabled { st.sprite.color = .red }
+
+        st.metabolism.metabolizeProper(ch.stillCounter > 0, st.nose)
 
         dp.colorize()
     }

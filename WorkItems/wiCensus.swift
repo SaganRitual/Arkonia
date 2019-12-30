@@ -52,6 +52,8 @@ extension WorkItems {
             seedWorld(ages)
             Census.shared.updateReports(ages)
         }
+
+        a()
     }
 
     private static func getAges(
@@ -60,12 +62,6 @@ extension WorkItems {
         Census.dispatchQueue.async(flags: .barrier) {
             let ages = names.map { Census.getAge(of: $0, at: currentTime) }
             onComplete(ages)
-        }
-    }
-
-    static func getWorldClock(_ onComplete: @escaping OnComplete1p) {
-        Clock.dispatchQueue.async(flags: .barrier) {
-            onComplete(Clock.shared.worldClock)
         }
     }
 
@@ -83,9 +79,22 @@ extension WorkItems {
         portal.run(action) { onComplete(names) }
     }
 
+//    static let targetCArkons = 50
+//    static var cArkons = 0
+//    static var populated = false
+//    static func seedWorld(_ ages: [Int]) {
+//        if populated == false {
+//            Dispatch().spawn()
+//            cArkons += 1
+//            populated = (cArkons >= targetCArkons)
+//        }
+//    }
+
+    static var populated = false
     static func seedWorld(_ ages: [Int]) {
-        if ages.count < 15 {
+        if populated == false {
             for _ in 0..<50 { Dispatch().spawn() }
+            populated = true
         }
     }
 }

@@ -4,8 +4,9 @@ final class Arrive: Dispatchable {
     internal override func launch() { arrive() }
 
     func arrive() {
-        guard let (ch, dp, _) = scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { fatalError() }
+        Log.L.write("Arrive \(six(st.name))", level: 71)
 
         switch shuttle.consumedContents {
         case .arkon: dp.parasitize()

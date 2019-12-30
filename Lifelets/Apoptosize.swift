@@ -11,12 +11,16 @@ extension Apoptosize {
 extension WorkItems {
     static func dismemberArkon(_ scratch: Scratchpad?) {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
+        Log.L.write("Apoptosize \(six(st.name))", level: 71)
         guard let thorax = st.sprite else { fatalError() }
         guard let nose = st.nose else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
 
-        releaseStepper(st, gc) {
-            retireSprites(nose, thorax)
+        scratch?.stepper?.netDisplay = nil
+        Census.shared.registerDeath(st) {
+            releaseStepper(st, gc) {
+                retireSprites(nose, thorax)
+            }
         }
     }
 

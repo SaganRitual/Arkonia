@@ -88,7 +88,7 @@ extension GridCell {
         precondition(toReschedule.contains { $0.name == stepper.name } == false)
         toReschedule.append(stepper)
         Debug.debugColor(stepper, .blue, .red)
-        Log.L.write("reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))", level: 61)
+        Log.L.write("reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))", level: 71)
     }
 }
 
@@ -106,6 +106,8 @@ extension GridCell {
     }
 
     func lock(require: RequireLock = .hot, ownerName: String) -> GridCellKey? {
+        precondition(self.ownerName != ownerName)
+
         switch (self.isLocked, require) {
         case (true, .hot): fatalError()
         case (true, .degradeToNil): return nil

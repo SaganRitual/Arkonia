@@ -3,13 +3,21 @@ class CellSenseGrid: CustomDebugStringConvertible {
     var centerName = ""
     var debugDescription = ""
 
-    init(from center: HotKey, by cGridlets: Int, block: AKPoint) {
+    static func makeCellSenseGrid(
+        from center: HotKey, by cGridlets: Int, block: AKPoint,
+        _ onComplete: @escaping (CellSenseGrid) -> Void
+    ) {
         Grid.shared.serialQueue.async {
-            self.postInit(from: center, by: cGridlets, block: block)
+            let senseGrid = CellSenseGrid(from: center, by: cGridlets, block: block)
+            onComplete(senseGrid)
         }
     }
 
-    func postInit(from center: HotKey, by cGridlets: Int, block: AKPoint) {
+    private init(from center: HotKey, by cGridlets: Int, block: AKPoint) {
+        self.postInit(from: center, by: cGridlets, block: block)
+    }
+
+    private func postInit(from center: HotKey, by cGridlets: Int, block: AKPoint) {
         guard let cc = center.bell else { preconditionFailure() }
         centerName = cc.ownerName
 
@@ -25,7 +33,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
             guard let stepper = center.sprite?.getStepper(require: false) else { fatalError() }
 
-            guard let lock = cell.getLock(for: stepper, require: lockType)
+            guard let lock = cell.getLock(for: stepper, lockType, false)
                 else { fatalError() }
 
             return lock

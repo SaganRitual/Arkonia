@@ -25,6 +25,13 @@ extension GridCell {
         return GridCell.at(resultPoint)
     }
 
+    static func lockBirthPosition(parent: Stepper, name: String, _ onComplete: @escaping (HotKey) -> Void) {
+        Grid.shared.serialQueue.async {
+            let key = lockBirthPosition(parent: parent, name: name)
+            onComplete(key)
+        }
+    }
+
     static var lbp = 0
     static var hlbp = 0
     static func lockBirthPosition(parent: Stepper, name: String) -> HotKey {

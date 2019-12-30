@@ -120,22 +120,22 @@ class GriddleScene: SKScene, SKSceneDelegate {
             noseFactory: SpriteFactory.makeSprite(texture:)
         )
 
-        SpriteFactory.shared.postInit(net9Portals)
+        SpriteFactory.shared.postInit(net9Portals) {
+            Grid.shared = Grid()
+            MannaCoordinator.shared = MannaCoordinator()
 
-        Grid.shared = Grid()
-        MannaCoordinator.shared = MannaCoordinator()
+            self.scene!.delegate = self
 
-        scene!.delegate = self
+            self.hud = HUD(scene: self)
+            self.buildReports()
 
-        hud = HUD(scene: self)
-        buildReports()
+            Clock.shared = Clock(self)
+            Manna.populator.populate()
+            Census.shared = Census(self)
 
-        Clock.shared = Clock(self)
-        Manna.populator.populate()
-        Census.shared = Census(self)
-
-        readyForDisplayCycle = true
-        speed = 1
+            self.readyForDisplayCycle = true
+            self.speed = 1
+        }
     }
 
     override func update(_ currentTime: TimeInterval) {

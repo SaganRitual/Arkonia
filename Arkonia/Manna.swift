@@ -20,11 +20,6 @@ class Manna {
 
     init(_ sprite: SKSpriteNode) { self.sprite = sprite }
 
-    static func attachManna(_ manna: Manna, to sprite: SKSpriteNode) {
-        sprite.userData![SpriteUserDataKey.manna] = manna
-        sprite.name = "manna-" + (sprite.name ?? "huh?")
-    }
-
     func getEnergyContentInJoules(_ entropy: CGFloat) -> CGFloat {
         let top = max(sprite.colorBlendFactor, Manna.colorBlendMinimum)
         let width = abs(top - Manna.colorBlendMinimum)

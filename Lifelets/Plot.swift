@@ -11,36 +11,51 @@ final class Plot: Dispatchable {
         target: DispatchQueue.global(qos: .default)
     )
 
-    internal override func launch() { makeSenseGrid() }
+    internal override func launch() {
+        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        Log.L.write("Plot \(six(st.name))", level: 71)
 
-    func makeSenseGrid() {
+        var entropy: CGFloat = 0
+
+        func a() {
+            Log.L.write("Plot2 \(six(st.name))", level: 71)
+            self.makeSenseGrid(b) }
+        func b() {
+            Log.L.write("Plot3 \(six(st.name))", level: 71)
+            self.getEntropy {
+                Log.L.write("Plot4 \(six(st.name))", level: 71)
+                entropy = $0; c() } }
+        func c() {
+            Log.L.write("Plot5 \(six(st.name))", level: 71)
+            self.computeMove(with: entropy, d) }
+
+        func d() {
+            Log.L.write("Plot6 \(six(st.name))", level: 71)
+            ch.stillCounter += ch.cellShuttle!.didMove ? 0.005 : 0.05
+            e()
+        }
+
+        func e() {
+            Log.L.write("Plot7 \(six(st.name))", level: 71)
+            dp.moveSprite() }
+
+        a()
+    }
+
+    func makeSenseGrid(_ onComplete: @escaping () -> Void) {
         guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
         guard let hk = ch.engagerKey as? HotKey else { preconditionFailure() }
 
-        Debug.writeDebug("Plot \(six(st.name))", scratch: ch)
+        CellSenseGrid.makeCellSenseGrid(
+            from: hk, by: Arkonia.cSenseGridlets, block: st.previousShiftOffset
+        ) {
+            self.senseGrid = $0
+            onComplete()
+        }
+    }
 
-        precondition(
-            (ch.engagerKey == nil  ||
-                (ch.engagerKey?.sprite?.getStepper(require: false)?.name == st.name &&
-                ch.engagerKey?.gridPosition == st.gridCell.gridPosition &&
-                ch.engagerKey?.sprite?.getStepper(require: false)?.gridCell.gridPosition == st.gridCell.gridPosition)
-        ))
-
-        precondition(hk.sprite?.getStepper(require: false) != nil)
-        precondition(hk.sprite?.name == st.name)
-
-        senseGrid = CellSenseGrid(
-            from: hk,
-            by: Arkonia.cSenseGridlets,
-            block: st.previousShiftOffset
-        )
-
-        Log.L.write("SenseGrid cells \(senseGrid!.cells)", level: 61)
-
-        let entropy: CGFloat = 0.4242
-//        Clock.shared.getEntropy { entropy in
-            Plot.dispatchQueue.async { self.move(with: entropy) }
-//        }
+    func getEntropy(_ onComplete: @escaping (CGFloat) -> Void) {
+        Clock.dispatchQueue.async { onComplete(Clock.shared.getEntropy()) }
     }
 
     func getSenseData(_ gridInputs: [Double]) {
@@ -48,30 +63,21 @@ final class Plot: Dispatchable {
         senseData = gridInputs + nonSpatial
     }
 
-    func move(with entropy: CGFloat) {
-        guard let sg = senseGrid else { preconditionFailure() }
+    func computeMove(with entropy: CGFloat, _ onComplete: @escaping () -> Void) {
+        guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
+        guard let sg = senseGrid else { fatalError() }
 
-        let gridInputs = loadGridInputs(from: sg, with: entropy)
-        getSenseData(gridInputs)
-        move()
-    }
+        Plot.dispatchQueue.async {
+            let gridInputs = self.loadGridInputs(from: sg, with: entropy)
+            precondition(gridInputs.count == Arkonia.cSenseNeuronsSpatial)
 
-    func move() {
-        guard let (ch, dp, _) = scratch?.getKeypoints() else { preconditionFailure() }
-        guard let sg = senseGrid else { preconditionFailure() }
-        guard let sd = senseData else { preconditionFailure() }
+            self.getSenseData(gridInputs)
 
-        ch.cellShuttle = makeCellShuttle(sd, sg)
-        ch.engagerKey = nil
+            guard let sd = self.senseData else { fatalError() }
+            ch.cellShuttle = self.makeCellShuttle(sd, sg)
 
-        dp.moveSprite()
-        ch.stillCounter += ch.cellShuttle!.didMove ? 0.005 : 0.05
-
-        Log.L.write("sc = \(ch.stillCounter)", level: 61)
-    }
-
-    deinit {
-        Log.L.write("~Plot \(six(scratch?.stepper?.name))", level: 31)
+            onComplete()
+        }
     }
 }
 

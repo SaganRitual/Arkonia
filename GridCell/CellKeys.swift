@@ -64,15 +64,18 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         self.cell_ = cell
         cell.isLocked = true
         cell.ownerName = ownerName
-        Log.L.write("HotKey at \(cell.gridPosition) for \(six(ownerName))", level: 51)
+        Log.L.write("HotKey at \(cell.gridPosition) for \(six(ownerName))", level: 71)
 
         cell.coldKey = ColdKey(for: cell)
     }
 
-    deinit { releaseLock() }
+    deinit {
+        Log.L.write("~HotKey at \(gridPosition) for \(six(bell?.ownerName))", level: 71)
+        releaseLock()
+    }
 
     func deactivate() {
-        Log.L.write("deactivate for \(six(ownerName))", level: 60)
+        Log.L.write("deactivate at \(gridPosition) for  for \(six(ownerName))", level: 71)
         self.cell_ = nil
     }
 
@@ -81,11 +84,13 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
         while true {
             guard let waitingStepper = c.getRescheduledArkon() else {
-                Log.L.write("reengageRequesters empty", level: 61)
+                Log.L.write("reengageRequesters empty", level: 70)
                 return
             }
+
             if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
-                Log.L.write("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 63)
+                precondition(dp.scratch.engagerKey == nil)
+                Log.L.write("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 71)
                 dp.disengage()
                 return
             }
@@ -94,7 +99,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
     func releaseLock() {
         let wasLocked = cell_?.releaseLock() ?? false
-        if wasLocked  { Log.L.write("releaseLock at \(cell_?.gridPosition ?? AKPoint(x: -42, y: -42)) for \(six(ownerName)) nil? \(cell_ == nil)", level: 63) }
+        if wasLocked  { Log.L.write("releaseLock at \(cell_?.gridPosition ?? AKPoint(x: -42, y: -42)) for \(six(ownerName)) nil? \(cell_ == nil)", level: 71) }
         reengageRequesters()
         cell_ = nil
     }
@@ -103,7 +108,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         guard let c = cell_ else { fatalError() }
         precondition(c.isLocked)
 
-        Log.L.write("transferKey from \(six(self.ownerName)) at \(gridPosition) to \(six(winner.name))", level: 59)
+        Log.L.write("transferKey from \(six(self.ownerName)) at \(gridPosition) to \(six(winner.name))", level: 71)
 
         self.ownerName = winner.name
         self.sprite = winner.sprite

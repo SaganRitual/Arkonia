@@ -30,7 +30,8 @@ class NetDisplay {
 
     deinit {
         Log.L.write("~NetDisplay", level: 20)
-        background.removeAllChildren()
+        let action = SKAction.run { /* strong self in */ self.background.removeAllChildren() }
+        self.background.run(action)
     }
 
     func display() {
