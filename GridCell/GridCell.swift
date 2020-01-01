@@ -122,7 +122,7 @@ extension GridCell {
     }
 
     func releaseLock() -> Bool {
-        Log.L.write("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 62)
+        Log.L.write("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 71)
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         defer { isLocked = false; ownerName = "No owner" }
         return isLocked && !toReschedule.isEmpty

@@ -11,14 +11,17 @@ extension GridCell {
         return GridCell.at(ak.x, ak.y)
     }
 
+    static func getRandomEmptyCell(_ onComplete: @escaping (GridCell) -> Void) {
+        Grid.serialQueue.async { onComplete(getRandomEmptyCell()) }
+    }
+
     static func getRandomEmptyCell() -> GridCell {
         let randomCell = getRandomCell()
         var resultPoint = randomCell.gridPosition
 
         for ix in 1... {
-            guard let c = GridCell.atIf(resultPoint) else { continue }
+            if !(GridCell.atIf(resultPoint)?.contents.isOccupied() ?? true) { break }
 
-            if !c.contents.isOccupied() { break }
             resultPoint = GridCell.getGridPointByIndex(center: randomCell.gridPosition, targetIndex: ix)
          }
 
@@ -26,7 +29,7 @@ extension GridCell {
     }
 
     static func lockBirthPosition(parent: Stepper, name: String, _ onComplete: @escaping (HotKey) -> Void) {
-        Grid.shared.serialQueue.async {
+        Grid.serialQueue.async {
             let key = lockBirthPosition(parent: parent, name: name)
             onComplete(key)
         }
@@ -59,7 +62,7 @@ extension GridCell {
     }
 
     static func lockRandomEmptyCell(ownerName: String, _ onComplete: @escaping ((HotKey?) -> Void)) {
-        Grid.shared.serialQueue.async {
+        Grid.serialQueue.async {
             let hotKey = lockRandomEmptyCell(ownerName: ownerName)
             onComplete(hotKey)
         }

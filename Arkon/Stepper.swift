@@ -67,5 +67,6 @@ extension Stepper {
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
         sprite.userData![SpriteUserDataKey.stepper] = nil
+		sprite.name = nil
     }
 }

@@ -19,6 +19,9 @@ extension WorkItems {
         scratch?.stepper?.netDisplay = nil
         Census.shared.registerDeath(st) {
             releaseStepper(st, gc) {
+                gc.contents = .nothing
+                gc.sprite = nil
+
                 retireSprites(nose, thorax)
             }
         }
@@ -27,7 +30,7 @@ extension WorkItems {
     private static func releaseStepper(
         _ stepper: Stepper, _ gridCell: GridCell, _ onComplete: @escaping () -> Void
     ) {
-        Grid.shared.serialQueue.async {
+        Grid.serialQueue.async {
             gridCell.descheduleIf(stepper)
             Stepper.releaseStepper(stepper, from: stepper.sprite!)
             onComplete()

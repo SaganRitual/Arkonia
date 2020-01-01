@@ -7,13 +7,13 @@ class CellSenseGrid: CustomDebugStringConvertible {
         from center: HotKey, by cGridlets: Int, block: AKPoint,
         _ onComplete: @escaping (CellSenseGrid) -> Void
     ) {
-        Grid.shared.serialQueue.async {
+        Grid.serialQueue.async {
             let senseGrid = CellSenseGrid(from: center, by: cGridlets, block: block)
             onComplete(senseGrid)
         }
     }
 
-    private init(from center: HotKey, by cGridlets: Int, block: AKPoint) {
+    init(from center: HotKey, by cGridlets: Int, block: AKPoint) {
         self.postInit(from: center, by: cGridlets, block: block)
     }
 
@@ -31,9 +31,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
             let lockType: GridCell.RequireLock = index > Arkonia.cMotorGridlets ? .cold : .degradeToCold
 
-            guard let stepper = center.sprite?.getStepper(require: false) else { fatalError() }
-
-            guard let lock = cell.getLock(for: stepper, lockType, false)
+            guard let lock = cell.getLock(ownerName: centerName, lockType)
                 else { fatalError() }
 
             return lock

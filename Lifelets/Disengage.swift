@@ -6,10 +6,14 @@ final class Disengage: Dispatchable {
         Log.L.write("Disengage1 at \(ch.engagerKey?.gridPosition ?? AKPoint.zero) for \(six(st.name))", level: 71)
         Debug.debugColor(st, .cyan, .cyan)
 
-        Grid.shared.serialQueue.async {
+        Grid.serialQueue.async {
             Log.L.write("Disengage2 at \(ch.engagerKey?.gridPosition ?? AKPoint.zero) for \(six(st.name))", level: 71)
-            precondition(ch.engagerKey != nil)
-            ch.engagerKey = nil
+            ch.cellShuttle?.toCell = nil
+            ch.cellShuttle?.fromCell = nil
+            ch.cellShuttle = nil
+
+            if let gc = ch.engagerKey as? HotKey { gc.ownerName = "" }
+            ch.engagerKey = nil // Will already be nil if we're coming here from reengage
             Log.L.write("Disengage3 at \(ch.engagerKey?.gridPosition ?? AKPoint.zero) for \(six(st.name))", level: 71)
             dp.engage()
         }

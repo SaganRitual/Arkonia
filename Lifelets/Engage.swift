@@ -31,7 +31,7 @@ extension WorkItems {
         at cell: GridCell, for stepper: Stepper, require: GridCell.RequireLock,
         rescheduleIf: Bool = true, _ onComplete: @escaping OnCompleteKey
     ) {
-        Grid.shared.serialQueue.async {
+        Grid.serialQueue.async {
             onComplete(cell.getLock(for: stepper, require, rescheduleIf))
         }
     }
@@ -43,5 +43,9 @@ extension GridCell {
 
         if key is ColdKey && rescheduleIf { reschedule(stepper) }
         return key
+    }
+
+    func getLock(ownerName: String, _ require: RequireLock) -> GridCellKey? {
+        return lock(require: require, ownerName: ownerName)
     }
 }

@@ -5,12 +5,6 @@ final class Plot: Dispatchable {
     var senseData: [Double]?
     var senseGrid: CellSenseGrid?
 
-    static let dispatchQueue = DispatchQueue(
-        label: "ak.plot.q",
-        attributes: .concurrent,
-        target: DispatchQueue.global(qos: .default)
-    )
-
     internal override func launch() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         Log.L.write("Plot \(six(st.name))", level: 71)
@@ -67,7 +61,7 @@ final class Plot: Dispatchable {
         guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
         guard let sg = senseGrid else { fatalError() }
 
-        Plot.dispatchQueue.async {
+        Grid.serialQueue.async {
             let gridInputs = self.loadGridInputs(from: sg, with: entropy)
             precondition(gridInputs.count == Arkonia.cSenseNeuronsSpatial)
 

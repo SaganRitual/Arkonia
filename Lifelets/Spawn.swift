@@ -75,6 +75,7 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
 
 extension WorkItems {
     static func spawn(_ spawn: Spawn) {
+
         Log.L.write("Spawn \(six(spawn.embryoName))", level: 71)
         func a() {
             registerBirth(myName: spawn.embryoName, myParent: spawn.meTheParent)
@@ -82,13 +83,12 @@ extension WorkItems {
         }
 
         func b() {
-            getStartingPosition(spawn.fishDay, spawn.embryoName, spawn.meTheParent) {
-                spawn.engagerKey = $0; c()
-            }
+            getStartingPosition(spawn.fishDay, spawn.embryoName, spawn.meTheParent)
+                { spawn.engagerKey = $0; c($0) }
         }
 
-        func c() { spawn.buildArkon(d) }
-        func d() { spawn.launchNewborn() }
+        func c(_ engagerKey: HotKey?) { spawn.buildArkon(engagerKey, d) }
+        func d() { WorkItems.launchNewborn(spawn) }
 
         a()
     }
@@ -100,7 +100,7 @@ extension WorkItems {
     static private func getStartingPosition(
         _ fishDay: Fishday, _ embryoName: String, _ meTheParent: Stepper?, _ onComplete: @escaping onCompleteHotKey
     ) {
-        Grid.shared.serialQueue.async {
+        Grid.serialQueue.async {
             let key = getStartingPosition(fishDay, embryoName, meTheParent)
             onComplete(key)
         }
@@ -172,9 +172,9 @@ extension Spawn {
         dp.metabolize()
     }
 
-    func buildArkon(_ onComplete: @escaping () -> Void) {
+    func buildArkon(_ engagerKey: HotKey?, _ onComplete: @escaping () -> Void) {
         let action = SKAction.run { [unowned self] in
-            self.buildSprites()
+            self.buildSprites(engagerKey)
             self.thorax!.addChild(self.nose!)
             self.buildGuts()
         }
@@ -182,7 +182,7 @@ extension Spawn {
         GriddleScene.shared.run(action, completion: onComplete)
     }
 
-    private func buildSprites() {
+    private func buildSprites(_ engagerKey: HotKey?) {
         assert(Display.displayCycle == .actions)
 
         self.nose = SpriteFactory.shared.noseHangar.makeSprite(embryoName)
@@ -190,7 +190,7 @@ extension Spawn {
 
         guard let thorax = self.thorax else { fatalError() }
         guard let nose = self.nose else { fatalError() }
-        guard let engagerKey = self.engagerKey else { fatalError() }
+        guard let engagerKey = engagerKey else { fatalError() }
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
@@ -204,7 +204,15 @@ extension Spawn {
         let noseColor: SKColor = (meTheParent == nil) ? .magenta : .yellow
         Debug.debugColor(thorax, .green, nose, noseColor)
     }
+}
 
+extension WorkItems {
+    static func launchNewborn(_ spawn: Spawn) {
+        Grid.serialQueue.async(execute: spawn.launchNewborn)
+    }
+}
+
+extension Spawn {
     func launchNewborn() {
         let newborn = Stepper(self, needsNewDispatch: true)
         precondition(newborn.sprite.parent == nil)
@@ -239,7 +247,7 @@ extension Spawn {
         }
 
         GriddleScene.arkonsPortal.run(action) {
-            Grid.shared.serialQueue.async {
+            Grid.serialQueue.async {
                 self.engagerKey = nil
                 ndp.disengage()
             }

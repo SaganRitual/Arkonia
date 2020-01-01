@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 enum SpriteUserDataKey {
-    case manna, net9Portal, netDisplay, stepper, uuid, isInHangar
+    case manna, net9Portal, netDisplay, stepper, uuid, debug
 }
 
 typealias SpriteFactoryCallback0P = () -> Void
@@ -10,7 +10,7 @@ typealias SpriteFactoryCallback1P = (SKSpriteNode) -> Void
 
 class SpriteHangar {
     let atlas: SKTextureAtlas?
-    var drones = [SKSpriteNode]()
+    var parkedDrones = [SKSpriteNode]()
     let factoryFunction: FactoryFunction
     var texture: SKTexture
     var doubly = false
@@ -31,19 +31,18 @@ class SpriteHangar {
     }
 
     func makeSprite(_ name: String?) -> SKSpriteNode {
-        if let readyDrone = drones.first(where: { $0.isInHangar }) {
-            readyDrone.name = name
-            return readyDrone
+        let drone = parkedDrones.popLast() ?? factoryFunction(texture)
+
+        if drone.userData == nil {
+            drone.userData = [SpriteUserDataKey.uuid: UUID().uuidString]
         }
 
-        let newSprite = factoryFunction(texture)
-        newSprite.alpha = 0
-        newSprite.userData = [SpriteUserDataKey.uuid: UUID().uuidString]
-        newSprite.name = name
-        newSprite.color = .gray
-        newSprite.colorBlendFactor = 1.0
-        drones.append(newSprite)
-        return newSprite
+        drone.alpha = 0
+        drone.name = name
+        drone.userData![SpriteUserDataKey.debug] = name
+        drone.color = .gray
+        drone.colorBlendFactor = 1.0
+        return drone
     }
 
     func retireSprite(_ sprite: SKSpriteNode, _ onComplete: @escaping () -> Void) {
@@ -52,8 +51,7 @@ class SpriteHangar {
     }
 
     func retireSprite(_ sprite: SKSpriteNode) {
-        precondition(sprite.isInHangar == false)
-        sprite.name = nil
+        parkedDrones.append(sprite)
         sprite.removeAllActions()
         sprite.removeFromParent()
     }

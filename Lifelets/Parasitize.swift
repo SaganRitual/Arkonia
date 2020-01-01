@@ -7,12 +7,12 @@ final class Parasitize: Dispatchable {
 
 extension WorkItems {
     static func parasitize(_ scratch: Scratchpad?) {
-        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
-        Log.L.write("Parasitie \(six(st.name))", level: 71)
+        guard let (attackerScratch, _, attackerStepper) = scratch?.getKeypoints() else { fatalError() }
+        Log.L.write("Parasitize; attacker is \(six(attackerStepper.name))", level: 71)
 
         var victor: Stepper?, victim: Stepper?
 
-        func a() { attack(by: ch) { (victor, victim) = ($0, $1); b() } }
+        func a() { attack(by: attackerScratch) { (victor, victim) = ($0, $1); b() } }
 
         func b() {
             guard let winner = victor, let loser = victim else { fatalError() }
@@ -47,7 +47,7 @@ extension WorkItems {
 
 extension WorkItems {
     static func attack(by scratch: Scratchpad, _ onComplete: @escaping (Stepper, Stepper) -> Void) {
-        Grid.shared.serialQueue.async {
+        Grid.serialQueue.async {
             let result = attack(scratch: scratch)
             onComplete(result.0, result.1)
         }
@@ -91,7 +91,7 @@ extension WorkItems {
     }
 
     static func parasitize(_ victor: Stepper, _ victim: Stepper) {
-        Grid.shared.serialQueue.async {
+        Grid.serialQueue.async {
             victor.dispatch.scratch.stillCounter = 0
             victor.metabolism.parasitizeProper(victim)
             victor.dispatch.releaseStage()

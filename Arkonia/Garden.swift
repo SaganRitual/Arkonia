@@ -21,14 +21,13 @@ extension Manna.Garden {
     }
 
     private func plant(_ manna: Manna) {
-        GridCell.lockRandomEmptyCell(ownerName: manna.sprite.name!) { hk in
-            guard let hotKey = hk else { fatalError() }
-            hotKey.contents = .manna
-            hotKey.sprite = manna.sprite
+        GridCell.getRandomEmptyCell { cell in
+            cell.contents = .manna
+            cell.sprite = manna.sprite
             guard manna.sprite.userData?[SpriteUserDataKey.manna] is Manna else { fatalError() }
 
             manna.sprite.position =
-                hotKey.randomScenePosition ?? hotKey.scenePosition
+                cell.randomScenePosition ?? cell.scenePosition
 
             manna.sprite.alpha = 0
             manna.sprite.setScale(0.14 / Arkonia.masterScale)

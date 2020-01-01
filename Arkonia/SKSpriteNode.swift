@@ -59,6 +59,4 @@ extension SKSpriteNode {
         if require { fatalError() }
         return nil
     }
-
-    var isInHangar: Bool { name == nil }
 }
