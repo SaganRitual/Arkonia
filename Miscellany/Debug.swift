@@ -1,7 +1,7 @@
 import SpriteKit
 
 enum Debug {
-    static let debugColorIsEnabled = false
+    static let debugColorIsEnabled = true
 
     static func debugColor(
         _ thorax: SKSpriteNode, _ thoraxColor: SKColor,

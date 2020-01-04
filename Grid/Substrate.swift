@@ -14,7 +14,6 @@ class Substrate {
     private(set) var hGrid = 0, wGrid = 0
     private let hPortal, wPortal: Int
     let hypoteneuse: CGFloat
-    private var xArrayOffset = 0, yArrayOffset = 0
     private(set) var xGrid = 0, yGrid = 0
     private var xPortal = 0, yPortal = 0
 
@@ -59,8 +58,12 @@ class Substrate {
         wGrid -= (wGrid % 2) == 0 ? 1 : 0
         hGrid -= (hGrid % 2) == 0 ? 1 : 0
 
-        xArrayOffset = Int(wGrid / 2)
-        yArrayOffset = Int(hGrid / 2)
+        Log.L.write(
+            "pix/row \(rPortal), column \(cPortal)"
+            + "; pix width \(wPortal) height \(hPortal)"
+            + "; grid width \(wGrid) height \(hGrid)"
+            , level: 72
+        )
 
         setupGrid()
     }
@@ -101,7 +104,7 @@ extension Substrate {
                 let cell = getCell(at: AKPoint(x: xGrid, y: yGrid))
                 cell.sprite = sprite
 
-                sprite.setScale(0.5 * 1.0 / Arkonia.zoomFactor)
+                sprite.setScale(Arkonia.arkonScaleFactor * 1.0 / Arkonia.zoomFactor)
                 sprite.position = cell.scenePosition
                 sprite.name = "\(xGrid) \(yGrid)"
 

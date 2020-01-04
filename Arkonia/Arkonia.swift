@@ -5,9 +5,9 @@ func six(_ string: String?) -> String { return String(string?.prefix(50) ?? "<no
 class Arkonia {
     typealias OnComplete1p = (Int) -> Void
 
-    static let zoomFactor: CGFloat = 2
-    static let arkonScaleFactor: CGFloat = 0.4
-    static let mannaScaleFactor: CGFloat = 0.1
+    static let zoomFactor: CGFloat = 4
+    static let arkonScaleFactor: CGFloat = 0.8
+    static let mannaScaleFactor: CGFloat = 0.2
     static let noseScaleFactor: CGFloat = 0.75
 
     static let senseGridSide = 3
@@ -19,7 +19,9 @@ class Arkonia {
     static let cMotorGridlets = cMotorNeurons + 1
 
     static let allowSpawning = true
+    static let cMannaMorsels = 2000
     static let fudgeMassFactor: CGFloat = 10
+    static let funkyCells = true
     static let noCostChildhoodDuration = 5
     static let inhaleFudgeFactor: CGFloat = 2.0
     static let spawnOverhead: CGFloat = 1.5

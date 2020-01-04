@@ -194,7 +194,7 @@ extension Spawn {
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
-        nose.setScale(0.75)
+        nose.setScale(Arkonia.noseScaleFactor)
 
         thorax.setScale(Arkonia.arkonScaleFactor * 1.0 / Arkonia.zoomFactor)
         thorax.colorBlendFactor = 1

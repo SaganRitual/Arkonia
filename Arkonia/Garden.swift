@@ -38,7 +38,7 @@ extension Manna.Garden {
     }
 
     private func createNewManna() -> Manna? {
-        if cMorsels >= MannaCoordinator.cMorsels { return nil }
+        if cMorsels >= Arkonia.cMannaMorsels { return nil }
 
         let sprite = self.mannaSpriteHangar.makeSprite("manna-\(cMorsels)")
 
@@ -59,7 +59,7 @@ extension Manna.Garden {
         }
 
         GriddleScene.shared.run(a) {
-            if self.cMorsels < MannaCoordinator.cMorsels { self.populate() }
+            if self.cMorsels < Arkonia.cMannaMorsels { self.populate() }
         }
     }
 }
@@ -74,6 +74,4 @@ class MannaCoordinator {
 
     static let fadeInAction = SKAction.fadeIn(withDuration: 1)
     static let fadeOutAction = SKAction.fadeOut(withDuration: 0.001)
-
-    static let cMorsels = 2500
 }

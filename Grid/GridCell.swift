@@ -33,7 +33,6 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 //    }
 
 //    let indicator: SKSpriteNode
-    static let funkyCells = true
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
         self.gridPosition = gridPosition
@@ -41,7 +40,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
         coldKey = ColdKey(for: self)
 
-        if GridCell.funkyCells == false { return }
+        if Arkonia.funkyCells == false { return }
 
         let wScene = CGFloat(Substrate.shared.cPortal) / 2
         let hScene = CGFloat(Substrate.shared.rPortal) / 2

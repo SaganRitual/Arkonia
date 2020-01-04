@@ -2,7 +2,7 @@ import CoreGraphics
 
 extension GridCell {
     static func getRandomCell() -> GridCell {
-        let wp = Substrate.shared.wGrid - 5, hp = Substrate.shared.hGrid - 5
+        let wp = Substrate.shared.wGrid - 3, hp = Substrate.shared.hGrid - 3
         let ak = AKPoint.random(-wp..<wp, -hp..<hp)
 
         return GridCell.at(ak.x, ak.y)
@@ -12,17 +12,25 @@ extension GridCell {
         Substrate.serialQueue.async { onComplete(getRandomEmptyCell()) }
     }
 
+    static var lbp = 0
+    static var hlbp = 0
+    static var lrec = 0
+    static var hlrec = 0
     static func getRandomEmptyCell() -> GridCell {
-        let randomCell = getRandomCell()
-        var resultPoint = randomCell.gridPosition
+        var randomCell: GridCell?
 
-        for ix in 1... {
-            if !(GridCell.atIf(resultPoint)?.contents.isOccupied() ?? true) { break }
+        lrec = 0
+        repeat {
+            lrec += 1
+            randomCell = getRandomCell()
 
-            resultPoint = GridCell.getGridPointByIndex(center: randomCell.gridPosition, targetIndex: ix)
-         }
+            if lrec > hlrec {
+                hlrec = lrec
+                Log.L.write("lockRandomEmptyCell(\(randomCell!)) highWater = \(hlrec)", level: 72)
+            }
+        } while randomCell?.contents.isOccupied() ?? true
 
-        return GridCell.at(resultPoint)
+        return randomCell!
     }
 
     static func lockBirthPosition(parent: Stepper, name: String, _ onComplete: @escaping (HotKey) -> Void) {
@@ -32,8 +40,6 @@ extension GridCell {
         }
     }
 
-    static var lbp = 0
-    static var hlbp = 0
     static func lockBirthPosition(parent: Stepper, name: String) -> HotKey {
         var randomGridCell: HotKey?
         var gridPointIndex = 0
@@ -65,15 +71,10 @@ extension GridCell {
         }
     }
 
-    static var lrec = 0
-    static var hlrec = 0
-
     static func lockRandomEmptyCell(ownerName: String) -> HotKey? {
         var randomGridCell: HotKey?
 
-        lrec = 0
         repeat {
-            lrec += 1
             let r = GridCell.getRandomEmptyCell()
             let ck = r.lock(require: .degradeToCold, ownerName: ownerName)
 
@@ -82,12 +83,6 @@ extension GridCell {
             randomGridCell = hk
         } while randomGridCell == nil
 
-        if lrec > hlrec {
-            hlrec = lrec
-            Log.L.write("lockBirthPosition(\(six(ownerName))), highWater = \(hlrec)", level: 70)
-        }
-
-        Log.L.write("lockRandomEmptyCell at \(randomGridCell!.gridPosition)", level: 54)
         return randomGridCell!
     }
 }
