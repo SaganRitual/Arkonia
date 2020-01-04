@@ -47,7 +47,7 @@ extension WorkItems {
 
 extension WorkItems {
     static func attack(by scratch: Scratchpad, _ onComplete: @escaping (Stepper, Stepper) -> Void) {
-        Grid.serialQueue.async {
+        Substrate.serialQueue.async {
             let result = attack(scratch: scratch)
             onComplete(result.0, result.1)
         }
@@ -91,7 +91,7 @@ extension WorkItems {
     }
 
     static func parasitize(_ victor: Stepper, _ victim: Stepper) {
-        Grid.serialQueue.async {
+        Substrate.serialQueue.async {
             victor.dispatch.scratch.stillCounter = 0
             victor.metabolism.parasitizeProper(victim)
             victor.dispatch.releaseStage()

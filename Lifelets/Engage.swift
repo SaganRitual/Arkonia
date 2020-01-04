@@ -31,7 +31,7 @@ extension WorkItems {
         at cell: GridCell, for stepper: Stepper, require: GridCell.RequireLock,
         rescheduleIf: Bool = true, _ onComplete: @escaping OnCompleteKey
     ) {
-        Grid.serialQueue.async {
+        Substrate.serialQueue.async {
             onComplete(cell.getLock(for: stepper, require, rescheduleIf))
         }
     }

@@ -9,7 +9,7 @@ final class ReleaseStage: Dispatchable {
 
         Debug.debugColor(st, .green, .cyan)
 
-        Grid.serialQueue.async {
+        Substrate.serialQueue.async {
             ch.engagerKey = toCell
             shuttle.fromCell = nil
             shuttle.toCell = nil

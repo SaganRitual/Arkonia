@@ -30,7 +30,7 @@ extension Manna.Garden {
                 cell.randomScenePosition ?? cell.scenePosition
 
             manna.sprite.alpha = 0
-            manna.sprite.setScale(0.14 / Arkonia.masterScale)
+            manna.sprite.setScale(Arkonia.mannaScaleFactor / Arkonia.zoomFactor)
             manna.sprite.colorBlendFactor = Manna.colorBlendMinimum
 
             manna.sprite.run(Manna.Garden.bloomAction)
@@ -75,5 +75,5 @@ class MannaCoordinator {
     static let fadeInAction = SKAction.fadeIn(withDuration: 1)
     static let fadeOutAction = SKAction.fadeOut(withDuration: 0.001)
 
-    static let cMorsels = 1250 * Int(Arkonia.masterScale)
+    static let cMorsels = 2500
 }

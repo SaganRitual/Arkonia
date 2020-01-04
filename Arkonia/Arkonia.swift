@@ -5,9 +5,12 @@ func six(_ string: String?) -> String { return String(string?.prefix(50) ?? "<no
 class Arkonia {
     typealias OnComplete1p = (Int) -> Void
 
-    static let masterScale = CGFloat(2)
+    static let zoomFactor: CGFloat = 2
+    static let arkonScaleFactor: CGFloat = 0.4
+    static let mannaScaleFactor: CGFloat = 0.1
+    static let noseScaleFactor: CGFloat = 0.75
+
     static let senseGridSide = 3
-    static let spriteScale = masterScale / 6
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeuronsSpatial = 2 * cSenseGridlets
     static let cSenseNeuronsNonSpatial = 4

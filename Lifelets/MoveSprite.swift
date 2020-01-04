@@ -5,7 +5,7 @@ final class MoveSprite: Dispatchable {
     static let restAction = SKAction.wait(forDuration: moveDuration)
 
     static func rest(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
-        stepper.sprite.run(restAction) { Grid.serialQueue.async(execute: onComplete) }
+        stepper.sprite.run(restAction) { Substrate.serialQueue.async(execute: onComplete) }
     }
 
     internal override func launch() { moveSprite() }

@@ -41,7 +41,7 @@ final class Dispatch {
 
 extension Dispatch {
     private func dispatch(_ type: DispatchableProtocol.Type) {
-        Grid.serialQueue.async {
+        Substrate.serialQueue.async {
             self.lifelet = type.init(self.scratch)
             self.lifelet.launch()
         }

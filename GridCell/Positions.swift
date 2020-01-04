@@ -8,17 +8,12 @@ protocol HasXY {
 extension GridCell {
     static func atIf(_ x: Int, _ y: Int) -> GridCell? {
         let p = AKPoint(x: x, y: y)
-        if let c = Grid.cells[p] { return c }
-
-        Log.L.write("atIf -> nil: (\(x), \(y))", level: 51)
-        return nil
+        return Substrate.shared.getCellIf(at: p)
     }
 
     static func at(_ x: Int, _ y: Int) -> GridCell {
-        let p = AKPoint(x: x, y: y)
-
-        guard let g = Grid.cells[p] else { fatalError() }
-        return g
+        guard let c = atIf(x, y) else { fatalError() }
+        return c
     }
 
     static func atIf(_ position: AKPoint) -> GridCell? {

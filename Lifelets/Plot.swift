@@ -61,7 +61,7 @@ final class Plot: Dispatchable {
         guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
         guard let sg = senseGrid else { fatalError() }
 
-        Grid.serialQueue.async {
+        Substrate.serialQueue.async {
             let gridInputs = self.loadGridInputs(from: sg, with: entropy)
             precondition(gridInputs.count == Arkonia.cSenseNeuronsSpatial)
 
@@ -121,11 +121,11 @@ extension Plot {
 
         var theData = [Double]()
 
-        let r = Double(st.gridCell.randomScenePosition?.radius ?? 0)
-        let t = Double(st.gridCell.randomScenePosition?.theta ?? 0)
-        let ro = (r / Grid.dimensions.hypotenuse) - 0.5
-        let to = (t / Grid.dimensions.hypotenuse) - 0.5
-        theData.append(contentsOf: [to, ro])
+        let r = st.gridCell.randomScenePosition?.radius ?? 0
+        let t = st.gridCell.randomScenePosition?.theta ?? 0
+        let ro = (r / Substrate.shared.hypoteneuse) - 0.5
+        let to = (t / Substrate.shared.hypoteneuse) - 0.5
+        theData.append(contentsOf: [Double(to), Double(ro)])
 
         let hunger = Double(st.metabolism.hunger)
         let asphyxia = Double(1 - st.metabolism.oxygenLevel)

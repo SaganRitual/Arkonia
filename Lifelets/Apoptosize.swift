@@ -30,7 +30,7 @@ extension WorkItems {
     private static func releaseStepper(
         _ stepper: Stepper, _ gridCell: GridCell, _ onComplete: @escaping () -> Void
     ) {
-        Grid.serialQueue.async {
+        Substrate.serialQueue.async {
             gridCell.descheduleIf(stepper)
             Stepper.releaseStepper(stepper, from: stepper.sprite!)
             onComplete()

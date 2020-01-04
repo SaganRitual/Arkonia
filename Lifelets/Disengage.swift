@@ -6,7 +6,7 @@ final class Disengage: Dispatchable {
         Log.L.write("Disengage1 at \(ch.engagerKey?.gridPosition ?? AKPoint.zero) for \(six(st.name))", level: 71)
         Debug.debugColor(st, .cyan, .cyan)
 
-        Grid.serialQueue.async {
+        Substrate.serialQueue.async {
             Log.L.write("Disengage2 at \(ch.engagerKey?.gridPosition ?? AKPoint.zero) for \(six(st.name))", level: 71)
             ch.cellShuttle?.toCell = nil
             ch.cellShuttle?.fromCell = nil

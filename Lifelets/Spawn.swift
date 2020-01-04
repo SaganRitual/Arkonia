@@ -100,7 +100,7 @@ extension WorkItems {
     static private func getStartingPosition(
         _ fishDay: Fishday, _ embryoName: String, _ meTheParent: Stepper?, _ onComplete: @escaping onCompleteHotKey
     ) {
-        Grid.serialQueue.async {
+        Substrate.serialQueue.async {
             let key = getStartingPosition(fishDay, embryoName, meTheParent)
             onComplete(key)
         }
@@ -196,7 +196,7 @@ extension Spawn {
         nose.colorBlendFactor = 1
         nose.setScale(0.75)
 
-        thorax.setScale(Arkonia.spriteScale)
+        thorax.setScale(Arkonia.arkonScaleFactor * 1.0 / Arkonia.zoomFactor)
         thorax.colorBlendFactor = 1
         thorax.position = engagerKey.scenePosition
         thorax.alpha = 1
@@ -208,7 +208,7 @@ extension Spawn {
 
 extension WorkItems {
     static func launchNewborn(_ spawn: Spawn) {
-        Grid.serialQueue.async(execute: spawn.launchNewborn)
+        Substrate.serialQueue.async(execute: spawn.launchNewborn)
     }
 }
 
@@ -247,7 +247,7 @@ extension Spawn {
         }
 
         GriddleScene.arkonsPortal.run(action) {
-            Grid.serialQueue.async {
+            Substrate.serialQueue.async {
                 self.engagerKey = nil
                 ndp.disengage()
             }

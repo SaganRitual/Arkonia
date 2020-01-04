@@ -33,7 +33,7 @@ enum Debug {
 
     static func reconstruct(_ name: String) {
         Log.L.write("reconstructing \(name)")
-        let wp = Grid.dimensions.wGrid - 1, hp = Grid.dimensions.hGrid - 1
+        let wp = Substrate.shared.wGrid - 1, hp = Substrate.shared.hGrid - 1
         for x in -wp...wp {
             for y in -hp...hp {
                 guard let cell = GridCell.atIf(x, y) else { continue }

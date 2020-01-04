@@ -7,7 +7,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
         from center: HotKey, by cGridlets: Int, block: AKPoint,
         _ onComplete: @escaping (CellSenseGrid) -> Void
     ) {
-        Grid.serialQueue.async {
+        Substrate.serialQueue.async {
             let senseGrid = CellSenseGrid(from: center, by: cGridlets, block: block)
             onComplete(senseGrid)
         }

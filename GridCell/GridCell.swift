@@ -43,8 +43,8 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
         if GridCell.funkyCells == false { return }
 
-        let wScene = CGFloat(Grid.dimensions.wSprite) / 2
-        let hScene = CGFloat(Grid.dimensions.hSprite) / 2
+        let wScene = CGFloat(Substrate.shared.cPortal) / 2
+        let hScene = CGFloat(Substrate.shared.rPortal) / 2
 
         let lScene = scenePosition.x - wScene
         let rScene = scenePosition.x + wScene

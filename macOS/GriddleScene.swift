@@ -37,18 +37,17 @@ class GriddleScene: SKScene, SKSceneDelegate {
         dispatchQueue.sync { function() }
     }
 
-    static var arkonsPortal: SKSpriteNode!
-    static var arkonsArePresent: Bool = false
     static var shared: GriddleScene!
 
     var clock: Clock?
-    var griddle: Grid!
     var hud: HUD!
     var readyForDisplayCycle = false
 
     let layers = [
         Arkonia.cSenseNeurons, Arkonia.cMotorNeurons, Arkonia.cMotorNeurons
     ]
+
+    static var arkonsPortal: SKSpriteNode!
 
     var netDisplay: NetDisplay?
     var netPortal: SKSpriteNode!
@@ -102,8 +101,8 @@ class GriddleScene: SKScene, SKSceneDelegate {
         GriddleScene.shared = self
 
         GriddleScene.arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
-        GriddleScene.arkonsPortal.xScale = Arkonia.masterScale / 4
-        GriddleScene.arkonsPortal.yScale = Arkonia.masterScale / 4
+        Substrate.shared = Substrate(on: GriddleScene.arkonsPortal)
+        Substrate.shared.postInit()
 
         Log.L.write("GriddleScene.arkonsPortal scale = \(GriddleScene.arkonsPortal.xScale) x \(GriddleScene.arkonsPortal.yScale)", level: 38)
 
@@ -121,7 +120,6 @@ class GriddleScene: SKScene, SKSceneDelegate {
         )
 
         SpriteFactory.shared.postInit(net9Portals) {
-            Grid.shared = Grid()
             MannaCoordinator.shared = MannaCoordinator()
 
             self.scene!.delegate = self

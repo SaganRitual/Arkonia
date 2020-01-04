@@ -29,7 +29,7 @@ extension WorkItems {
 
     static func lookPregnant(_ oxygenLevel: CGFloat, _ nose: SKSpriteNode) {
         let shrink = SKAction.scaleX(
-            to: Arkonia.spriteScale, y: Arkonia.spriteScale, duration: 0.1
+            to: Arkonia.arkonScaleFactor, y: Arkonia.arkonScaleFactor, duration: 0.1
         )
 
         let discolor = SKAction.colorize(
@@ -55,7 +55,7 @@ extension WorkItems {
     static func lookNotPregnant(_ sprite: SKSpriteNode) {
         sprite.removeAction(forKey: "baby-bump")
 
-        let shrink = SKAction.scaleX(to: Arkonia.spriteScale, y: Arkonia.spriteScale, duration: 0.5)
+        let shrink = SKAction.scaleX(to: Arkonia.arkonScaleFactor, y: Arkonia.arkonScaleFactor, duration: 0.5)
         let recolor = SKAction.colorize(with: .green, colorBlendFactor: 1, duration: 0.75)
         let unthrob = SKAction.group([shrink, recolor])
 
