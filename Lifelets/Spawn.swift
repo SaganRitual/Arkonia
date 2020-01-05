@@ -167,7 +167,10 @@ extension Spawn {
         sprite.run(rotate)
 
         let spawnCost = st.getSpawnCost()
+        //        Log.L.write("pre-spawn cost = \(spawnCost), remainder: \(st.metabolism.stomach.mass) \(st.metabolism.stomach.level) = \(st.metabolism.energyContent)", level: 74)
         st.metabolism.withdrawFromSpawn(spawnCost)
+        st.metabolism.fatReserves.level = 0
+        //        Log.L.write("post-spawn cost = \(spawnCost), remainder: \(st.metabolism.stomach.mass) \(st.metabolism.stomach.level) = \(st.metabolism.energyContent)", level: 74)
 
         dp.metabolize()
     }
@@ -193,11 +196,11 @@ extension Spawn {
         guard let engagerKey = engagerKey else { fatalError() }
 
         nose.alpha = 1
-        nose.colorBlendFactor = 1
+        nose.colorBlendFactor = 0.5
         nose.setScale(Arkonia.noseScaleFactor)
 
         thorax.setScale(Arkonia.arkonScaleFactor * 1.0 / Arkonia.zoomFactor)
-        thorax.colorBlendFactor = 1
+        thorax.colorBlendFactor = 0.5
         thorax.position = engagerKey.scenePosition
         thorax.alpha = 1
 

@@ -49,13 +49,14 @@ extension Stepper {
 
     func getSpawnCost() -> CGFloat {
         let spawnCost = Arkonia.allowSpawning ?
-            EnergyReserve.startingEnergyLevel * Arkonia.spawnOverhead : CGFloat.infinity
+            EnergyReserve.spawnReservesCapacity * 0.95 : CGFloat.infinity
 
         let sc = String(format: "%3.3f", spawnCost)
         let sr = String(format: "%3.3f", metabolism.spawnReserves.level)
         let sf = String(format: "%3.3f%%", metabolism.spawnEnergyFullness * 100)
-
-        Log.L.write("spawnCost = \(sc); spawnReserves at \(sr) (\(sf))", level: 45)
+        if metabolism.spawnReserves.level > 0 {
+            Log.L.write("spawnCost(\(six(name))) = \(sc); spawnReserves at \(sr) (\(sf))", level: 74)
+        }
         return spawnCost
     }
 }

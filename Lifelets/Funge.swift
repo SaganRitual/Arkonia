@@ -77,25 +77,24 @@ extension Metabolism {
 
         withdrawFromReady(joulesNeeded)
 
-        let grace: CGFloat = (age < Arkonia.noCostChildhoodDuration) ? 1 : 0
-        let oxygenCost: CGFloat = 0.005 * grace
-        let ratchet = CGFloat(1 + Int(stillCounter * 100) / 5)
-        let stillnessCost: CGFloat = (pow(1.01, stillCounter) - 1) * grace * ratchet
+        let oxygenCost: CGFloat = Arkonia.oxygenCostPerTick
+//        let ratchet = CGFloat(1 + Int(stillCounter * 100) / 5)
+        let stillnessCost: CGFloat = (pow(1.01, stillCounter) - 1)// * ratchet
 
         oxygenLevel -= oxygenCost + stillnessCost
 
         Log.L.write(
-            "fungeProper:" +
+            "fungeProper: age \(age)" +
             " mass \(String(format: "%-2.6f", mass))," +
             " w/d \(String(format: "%-2.6f", joulesNeeded))" +
-            " still \(String(format: "%03f", stillCounter))" +
             " cost \(String(format: "%-2.6f", stillnessCost))" +
             " O2 \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
             " cost \(String(format: "%-2.6f", oxygenCost))" +
+            " full \(String(format: "%-2.6f", oxygenCost + stillnessCost))" +
             " energy \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
             " level \(String(format: "%-2.6f", fungibleEnergyContent))" +
             " cap \(String(format: "%-2.6f", fungibleEnergyCapacity))\n"
-            , level: 68
+            , level: 74
         )
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0

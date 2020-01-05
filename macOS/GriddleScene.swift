@@ -139,8 +139,6 @@ class GriddleScene: SKScene, SKSceneDelegate {
     override func update(_ currentTime: TimeInterval) {
         guard readyForDisplayCycle else { return }
 
-        if clock == nil { clock = Clock(self) }
-
         Display.displayCycle = .updateStarted
 
         Display.displayCycle = .actions

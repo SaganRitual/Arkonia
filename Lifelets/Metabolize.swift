@@ -20,7 +20,9 @@ extension Metabolize {
 extension Metabolism {
     fileprivate func metabolizeProper(_ isStarving: Bool, _ nose: SKSpriteNode) {
         let internalTransferRate = CGFloat(50)
-        Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 67)
+        if stomach.level > 0 {
+            Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 74)
+        }
 
         if fungibleEnergyFullness < 0.5 {
             if Debug.debugColorIsEnabled { nose.color = .green }
@@ -70,6 +72,6 @@ extension Metabolism {
             logMessage += ", transfer = \(transfer)"
         }
 
-        Log.L.write(logMessage, level: 68)
+        Log.L.write(logMessage, level: 72)
     }
 }

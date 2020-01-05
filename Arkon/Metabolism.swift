@@ -6,8 +6,9 @@ enum EnergyReserveType: CaseIterable {
 
 class EnergyReserve {
     static let startingLevelBone: CGFloat = 100
-    static let startingLevelFat: CGFloat = 100
-    static let startingLevelReadyEnergy: CGFloat = 100
+    static let startingLevelFat: CGFloat = 300
+    static let startingLevelReadyEnergy: CGFloat = 300
+    static let spawnReservesCapacity: CGFloat = 3200
 
     static let startingEnergyLevel = (
         startingLevelBone + startingLevelFat + startingLevelReadyEnergy
@@ -77,7 +78,7 @@ class EnergyReserve {
         let js = String(format: "%3.3f", cJoules)
         let Ls = String(format: "%3.3f", level)
         let fs = String(format: "%3.3f", level / capacity)
-        Log.L.write("deposit \(js) to \(name), level = \(Ls), fullness = \(fs)", level: 68)
+        Log.L.write("deposit \(js) to \(name), level = \(Ls), fullness = \(fs)", level: 74)
         level = min(level + cJoules, capacity)
     }
 
@@ -96,7 +97,7 @@ class EnergyReserve {
         let Ls = String(format: "%3.3f", level)
         let fs = String(format: "%3.3f", level / capacity)
         let ns = String(format: "%3.3f", net)
-        Log.L.write("withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)", level: 68)
+        Log.L.write("withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)", level: 74)
         return net
     }
 }
@@ -148,17 +149,15 @@ class Metabolism {
         return spawnReserves.level / spawnReserves.capacity }
 
     var mass: CGFloat {
-        let fudgeFactor: CGFloat = 1000.0
-
         let m: CGFloat = self.allReserves.reduce(0.0) {
             subtotal, reserve in
-            Log.L.write("reserve \(reserve.name) level = \(reserve.level), reserve mass = \(reserve.mass / 1000)", level: 14)
+            Log.L.write("reserve \(reserve.name) level = \(reserve.level), reserve mass = \(reserve.mass)", level: 14)
             return subtotal + reserve.mass
         }
 
-        Log.L.write("stomach level = \(stomach.level), stomach mass = \(stomach.mass / fudgeFactor) new arkon mass = \(m / fudgeFactor)", level: 14)
+        Log.L.write("mass: \(m)", level: 74)
 
-        return m / fudgeFactor
+        return m
     }
 
     var massCapacity: CGFloat {
@@ -199,7 +198,7 @@ class Metabolism {
 //        )
 
         stomach.deposit(cJoules)
-        Log.L.write("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 65)
+        Log.L.write("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 74)
 
         Log.L.write(
             " Deposit " +
@@ -208,9 +207,9 @@ class Metabolism {
             String(format: "% 6.2f ", fatReserves.level) +
             String(format: "% 6.2f ", spawnReserves.level) +
             String(format: "% 6.2f ", energyContent) +
-            String(format: "(% 6.2f)\n]", cJoules) +
+            String(format: "(% 6.2f)", cJoules) +
             String(format: "% 6.2f ", fungibleEnergyFullness),
-            level: 66
+            level: 74
         )
     }
 

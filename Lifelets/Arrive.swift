@@ -21,7 +21,7 @@ final class Arrive: Dispatchable {
         guard let sprite = shuttle.consumedSprite else { fatalError() }
         guard let manna = sprite.getManna() else { fatalError() }
 
-        ch.stillCounter = 0
+        ch.stillCounter /= 2
 
         WorkItems.graze(st, manna) {
             Manna.populator.beEaten(sprite)
@@ -36,7 +36,7 @@ extension WorkItems {
         WorkItems.harvest(manna) { harvested in
             stepper.metabolism.absorbEnergy(harvested)
 
-            let toInhale = Arkonia.inhaleFudgeFactor * harvested / Manna.maxEnergyContentInJoules
+            let toInhale = Arkonia.inhaleFudgeFactor * harvested / Arkonia.maxMannaEnergyContentInJoules
             stepper.metabolism.inhale(toInhale)
 
             Manna.populator.beEaten(manna.sprite)

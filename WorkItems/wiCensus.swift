@@ -93,7 +93,7 @@ extension WorkItems {
     static var populated = false
     static func seedWorld(_ ages: [Int]) {
         if populated == false {
-            for _ in 0..<50 { Dispatch().spawn() }
+            for _ in 0..<25 { Dispatch().spawn() }
             populated = true
         }
     }
