@@ -16,7 +16,8 @@ extension WorkItems {
         guard let nose = st.nose else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
 
-        scratch?.stepper?.netDisplay = nil
+        if let nd = st.netDisplay { nd.reset() }
+
         Census.shared.registerDeath(st) {
             releaseStepper(st, gc) {
                 gc.contents = .nothing

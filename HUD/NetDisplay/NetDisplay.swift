@@ -28,12 +28,6 @@ class NetDisplay {
         )
     }
 
-    deinit {
-        Log.L.write("~NetDisplay", level: 20)
-        let action = SKAction.run { /* strong self in */ self.background.removeAllChildren() }
-        self.background.run(action)
-    }
-
     func display() {
         GriddleScene.shared.run(SKAction.run { self.display_() })
     }
@@ -70,5 +64,11 @@ class NetDisplay {
                 positionsForUpperLayer.append(netDisplayGrid.getPosition(upperGridPoint))
             }
         }
+    }
+
+    func reset() {
+        Log.L.write("~NetDisplay", level: 20)
+        let action = SKAction.run { /* strong self in */ self.background.removeAllChildren() }
+        self.background.run(action)
     }
 }

@@ -30,11 +30,22 @@ class SpriteHangar {
         }
     }
 
-    func makeSprite(_ name: String?) -> SKSpriteNode {
-        let drone = parkedDrones.popLast() ?? factoryFunction(texture)
+    func setupNetPortals(_ net9Portals: [SKSpriteNode]) {
+        (0..<18).forEach { ix in
+            parkedDrones.append(factoryFunction(texture))
+            guard let drone = parkedDrones.last else { fatalError() }
+            drone.userData = [SpriteUserDataKey.net9Portal: net9Portals[ix]]
+        }
+    }
 
-        if drone.userData == nil {
-            drone.userData = [SpriteUserDataKey.uuid: UUID().uuidString]
+    func makeSprite(_ name: String?) -> SKSpriteNode {
+        if parkedDrones.isEmpty { parkedDrones.append(factoryFunction(texture)) }
+
+        guard let drone = parkedDrones.popLast() else { fatalError() }
+
+        if drone.getKeyField(.uuid, require: false) as? String == nil {
+            if drone.userData == nil { drone.userData = [:] }
+            drone.userData![SpriteUserDataKey.uuid] = UUID().uuidString
         }
 
         drone.alpha = 0
@@ -86,10 +97,7 @@ class SpriteFactory {
     }
 
     private func postInit(_ net9Portals: [SKSpriteNode]) {
-        (0..<18).forEach { ix in
-            let drone = arkonsHangar.makeSprite(nil)
-            drone.userData![SpriteUserDataKey.net9Portal] = net9Portals[ix]
-        }
+        arkonsHangar.setupNetPortals(net9Portals)
     }
 }
 
