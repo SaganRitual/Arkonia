@@ -20,9 +20,10 @@ class Arkonia {
 
     static let allowSpawning = true
     static let cMannaMorsels = 2000
+    static let energyTransferRateInJoules: CGFloat = 200
     static let fudgeMassFactor: CGFloat = 0.01
     static let funkyCells = true
-    static let maxMannaEnergyContentInJoules: CGFloat = 450
+    static let maxMannaEnergyContentInJoules: CGFloat = 1000
     static let oxygenCostPerTick: CGFloat = 0.0005
     static let inhaleFudgeFactor: CGFloat = 2.0
     static let spawnOverhead: CGFloat = 1.5

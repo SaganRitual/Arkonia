@@ -19,7 +19,6 @@ extension Metabolize {
 
 extension Metabolism {
     fileprivate func metabolizeProper(_ isStarving: Bool, _ nose: SKSpriteNode) {
-        let internalTransferRate = CGFloat(50)
         if stomach.level > 0 {
             Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 74)
         }
@@ -38,7 +37,7 @@ extension Metabolism {
         logMessage += " stomachToReady = \(stomachToReady), ready is full = \(readyEnergyReserves.isFull)"
 
         if stomachToReady {
-            let transfer = stomach.withdraw(internalTransferRate * readyEnergyReserves.energyDensity)
+            let transfer = stomach.withdraw(Arkonia.energyTransferRateInJoules * readyEnergyReserves.energyDensity)
             readyEnergyReserves.deposit(transfer)
             logMessage += ", transfer \(transfer)"
         }
@@ -48,7 +47,7 @@ extension Metabolism {
 
         if readyToFat {
             let surplus_ = readyEnergyReserves.level - readyEnergyReserves.overflowThreshold
-            let surplus = min(surplus_, internalTransferRate * fatReserves.energyDensity)
+            let surplus = min(surplus_, Arkonia.energyTransferRateInJoules * fatReserves.energyDensity)
             let net = readyEnergyReserves.withdraw(surplus)
             fatReserves.deposit(net)
             logMessage += ", net = \(net)"
@@ -58,7 +57,7 @@ extension Metabolism {
         logMessage += ", tapFatReserves = \(tapFatReserves)"
 
         if tapFatReserves {
-            let refill = fatReserves.withdraw(internalTransferRate * fatReserves.energyDensity)
+            let refill = fatReserves.withdraw(Arkonia.energyTransferRateInJoules * fatReserves.energyDensity)
             readyEnergyReserves.deposit(refill)
             logMessage += ", refill = \(refill)"
         }
@@ -67,7 +66,7 @@ extension Metabolism {
         logMessage += ", fatToSpawn = \(fatToSpawn)"
 
         if fatToSpawn {
-            let transfer = fatReserves.withdraw(internalTransferRate * spawnReserves.energyDensity)
+            let transfer = fatReserves.withdraw(Arkonia.energyTransferRateInJoules * spawnReserves.energyDensity)
             spawnReserves.deposit(transfer)
             logMessage += ", transfer = \(transfer)"
         }
