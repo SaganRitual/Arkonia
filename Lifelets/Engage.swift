@@ -8,7 +8,7 @@ final class Engage: Dispatchable {
     internal override func launch() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
-        Log.L.write("Engage \(six(st.name))", level: 71)
+        Debug.log("Engage \(six(st.name))", level: 71)
 
         Debug.debugColor(st, .magenta, .magenta)
 
@@ -17,7 +17,7 @@ final class Engage: Dispatchable {
         ) { key in
             if key is HotKey {
                 ch.engagerKey = key
-                Log.L.write("Got HotKey for \(six(st.name))", level: 71)
+                Debug.log("Got HotKey for \(six(st.name))", level: 71)
                 dp.funge()
             }
         }

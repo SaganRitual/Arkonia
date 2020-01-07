@@ -50,7 +50,7 @@ class BellCurve {
 
         // Convert z1 from the Standard Normal Distribution to our Normal Distribution
         // Note that the conversion will give us a range of -10..<10. I still want -1..<1
-//        Log.L.write((z1 * deviation + mean).sTruncate())
+//        Debug.log((z1 * deviation + mean).sTruncate())
         return (z1 * deviation + mean) / 10.0
     }
 }

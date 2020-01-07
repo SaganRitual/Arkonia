@@ -73,7 +73,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         print("Debug report for \(atPoint(location).parent!.name!)")
 
-        Debug.dumpArkonDebug(atPoint(location).parent!.name!)
+        Debug.showLog()
      }
 
     func buildReports() {
@@ -104,7 +104,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
         Substrate.shared = Substrate(on: GriddleScene.arkonsPortal)
         Substrate.shared.postInit()
 
-        Log.L.write("GriddleScene.arkonsPortal scale = \(GriddleScene.arkonsPortal.xScale) x \(GriddleScene.arkonsPortal.yScale)", level: 38)
+        Debug.log("GriddleScene.arkonsPortal scale = \(GriddleScene.arkonsPortal.xScale) x \(GriddleScene.arkonsPortal.yScale)", level: 38)
 
         netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
 

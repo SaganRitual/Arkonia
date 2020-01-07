@@ -6,7 +6,7 @@ final class MoveStepper: Dispatchable {
     func moveStepper() {
         guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
-        Log.L.write("MoveStepper \(six(stepper.name))", level: 71)
+        Debug.log("MoveStepper \(six(stepper.name))", level: 71)
 
         shuttle.move()
 

@@ -62,7 +62,6 @@
 		D4BD1DCB23C088C200CE0753 /* Substrate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD1DC123C088C200CE0753 /* Substrate.swift */; };
 		D4BD1DCC23C088C200CE0753 /* CellSenseGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD1DC223C088C200CE0753 /* CellSenseGrid.swift */; };
 		D4BD1DCE23C088C200CE0753 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD1DC423C088C200CE0753 /* GridCell.swift */; };
-		D4C336D02383FDEA00E50A50 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C336CF2383FDEA00E50A50 /* Log.swift */; };
 		D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D5EABA2368B05200E95AA5 /* Spawn.swift */; };
 		D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */; };
 		D4FFE65823AF3CB800D0A1EE /* AKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */; };
@@ -180,7 +179,6 @@
 		D4BD1DC123C088C200CE0753 /* Substrate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Substrate.swift; sourceTree = "<group>"; };
 		D4BD1DC223C088C200CE0753 /* CellSenseGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellSenseGrid.swift; sourceTree = "<group>"; };
 		D4BD1DC423C088C200CE0753 /* GridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
-		D4C336CF2383FDEA00E50A50 /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		D4CF20A622A4C296000FD2BA /* Arkonia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkonia.swift; sourceTree = "<group>"; };
 		D4D5EABA2368B05200E95AA5 /* Spawn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spawn.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
@@ -292,7 +290,6 @@
 				D41ED8D523B084A100E82B08 /* Debug.swift */,
 				D43EA83D229233F7006C619D /* Extensions.swift */,
 				D46B1D7322813E12003D711C /* KIdentifier.swift */,
-				D4C336CF2383FDEA00E50A50 /* Log.swift */,
 				D46B1D9F22826994003D711C /* Overload2D.swift */,
 			);
 			path = Miscellany;
@@ -519,7 +516,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4C336D02383FDEA00E50A50 /* Log.swift in Sources */,
 				D422DE0223578CFD003734B8 /* Garden.swift in Sources */,
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,

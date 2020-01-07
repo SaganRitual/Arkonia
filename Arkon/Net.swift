@@ -46,11 +46,11 @@ class Net {
 
         self.activatorFunction = Net.mutateActivator(parentActivator: parentActivator)
 
-//        Log.L.write("L", self.layers, self.layers.count, "b", cBiases, self.biases.count, "w", cWeights, self.weights.count)
+//        Debug.log("L", self.layers, self.layers.count, "b", cBiases, self.biases.count, "w", cWeights, self.weights.count)
     }
 
     deinit {
-//        Log.L.write("~Net()?")
+//        Debug.log("~Net()?")
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
@@ -99,7 +99,7 @@ class Net {
         var ncSS = 0
         var a0 = Matrix<Double>(column: sensoryInputs)
 
-        Log.L.write("layers = \(layers)", level: 29)
+        Debug.log("layers = \(layers)", level: 29)
 
         for _ in 0..<layers.count - 1 {
             defer { ncSS += 1 }
@@ -114,7 +114,7 @@ class Net {
 
 //            let b = Matrix<Double>((0..<nc1).map { _ in [Double.random(in: -1.0..<1.0)] })
 
-            Log.L.write("W.columns = \(W.columns), a0.rows = \(a0.rows), a0 = \(a0)", level: 29)
+            Debug.log("W.columns = \(W.columns), a0.rows = \(a0.rows), a0 = \(a0)", level: 29)
 
             let t2 = Surge.mul(W, a0)
             let t3 = Surge.add(t2, b)
@@ -123,7 +123,7 @@ class Net {
             a0 = Matrix<Double>(t4.map { [constrain(activatorFunction($0), lo: -1, hi: 1)] })
         }
 
-//        Log.L.write("mo", (0..<a0.rows).map { a0[$0, 0] })
+//        Debug.log("mo", (0..<a0.rows).map { a0[$0, 0] })
         return (0..<a0.rows).map { a0[$0, 0] }
     }
 

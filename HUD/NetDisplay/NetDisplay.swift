@@ -67,7 +67,7 @@ class NetDisplay {
     }
 
     func reset() {
-        Log.L.write("~NetDisplay", level: 20)
+        Debug.log("~NetDisplay", level: 20)
         let action = SKAction.run { /* strong self in */ self.background.removeAllChildren() }
         self.background.run(action)
     }

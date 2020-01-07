@@ -6,7 +6,7 @@ final class Arrive: Dispatchable {
     func arrive() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { fatalError() }
-        Log.L.write("Arrive \(six(st.name))", level: 71)
+        Debug.log("Arrive \(six(st.name))", level: 71)
 
         switch shuttle.consumedContents {
         case .arkon: dp.parasitize()

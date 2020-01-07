@@ -26,7 +26,7 @@ extension GridCell {
 
             if lrec > hlrec {
                 hlrec = lrec
-                Log.L.write("lockRandomEmptyCell(\(randomCell!)) highWater = \(hlrec)", level: 72)
+                Debug.log("lockRandomEmptyCell(\(randomCell!)) highWater = \(hlrec)", level: 72)
             }
         } while randomCell?.contents.isOccupied() ?? true
 
@@ -57,10 +57,10 @@ extension GridCell {
 
         if gridPointIndex > hlbp {
             hlbp = gridPointIndex
-            Log.L.write("lockBirthPosition(\(six(name)), highWater = \(hlbp))", level: 70)
+            Debug.log("lockBirthPosition(\(six(name)), highWater = \(hlbp))", level: 70)
         }
 
-        Debug.writeDebug("lockBirthPosition for parent \(six(parent.name)) at \(randomGridCell!.gridPosition)", scratch: parent.dispatch.scratch)
+        Debug.log("lockBirthPosition for parent \(six(parent.name)) at \(randomGridCell!.gridPosition)", level: 75)
         return randomGridCell!
     }
 

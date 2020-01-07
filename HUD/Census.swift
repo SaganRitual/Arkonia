@@ -91,7 +91,7 @@ extension Census {
             myParent?.cOffspring ?? 0, self.highWaterCOffspring
         )
 
-        Log.L.write("nil? \(myParent == nil), pop \(self.population), cOffspring \(myParent?.cOffspring ?? -1)" +
+        Debug.log("nil? \(myParent == nil), pop \(self.population), cOffspring \(myParent?.cOffspring ?? -1)" +
             " real hw cOfspring \(self.highWaterCOffspring)", level: 37)
 
         archive[myName] = Fishday(fishNumber: self.getNextFishNumber(), birthday: self.localTime)

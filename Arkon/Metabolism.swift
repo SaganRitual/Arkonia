@@ -78,7 +78,7 @@ class EnergyReserve {
         let js = String(format: "%3.3f", cJoules)
         let Ls = String(format: "%3.3f", level)
         let fs = String(format: "%3.3f", level / capacity)
-        Log.L.write("deposit \(js) to \(name), level = \(Ls), fullness = \(fs)", level: 74)
+        Debug.log("deposit \(js) to \(name), level = \(Ls), fullness = \(fs)", level: 74)
         level = min(level + cJoules, capacity)
     }
 
@@ -97,7 +97,7 @@ class EnergyReserve {
         let Ls = String(format: "%3.3f", level)
         let fs = String(format: "%3.3f", level / capacity)
         let ns = String(format: "%3.3f", net)
-        Log.L.write("withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)", level: 74)
+        Debug.log("withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)", level: 74)
         return net
     }
 }
@@ -151,11 +151,11 @@ class Metabolism {
     var mass: CGFloat {
         let m: CGFloat = self.allReserves.reduce(0.0) {
             subtotal, reserve in
-            Log.L.write("reserve \(reserve.name) level = \(reserve.level), reserve mass = \(reserve.mass)", level: 14)
+            Debug.log("reserve \(reserve.name) level = \(reserve.level), reserve mass = \(reserve.mass)", level: 14)
             return subtotal + reserve.mass
         }
 
-        Log.L.write("mass: \(m)", level: 74)
+        Debug.log("mass: \(m)", level: 74)
 
         return m
     }
@@ -173,7 +173,7 @@ class Metabolism {
         // Overflow is 5/6, make underflow 1/4, see how it goes
         self.reUnderflowThreshold = 1.0 / 4.0 * readyEnergyReserves.capacity
 
-        Log.L.write(
+        Debug.log(
             "Metabolism():" +
             " mass \(String(format: "%-2.6f", mass))," +
             " O2 \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
@@ -186,7 +186,7 @@ class Metabolism {
 
     func absorbEnergy(_ cJoules: CGFloat) {
 
-//        Log.L.write(
+//        Debug.log(
 //            "[Deposit " +
 //            String(format: "% 6.2f ", stomach.level) +
 //            String(format: "% 6.2f ", readyEnergyReserves.level) +
@@ -198,9 +198,9 @@ class Metabolism {
 //        )
 
         stomach.deposit(cJoules)
-        Log.L.write("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 74)
+        Debug.log("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 74)
 
-        Log.L.write(
+        Debug.log(
             " Deposit " +
             String(format: "% 6.2f ", stomach.level) +
             String(format: "% 6.2f ", readyEnergyReserves.level) +

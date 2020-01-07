@@ -7,7 +7,7 @@ final class Metabolize: Dispatchable {
 extension Metabolize {
     func aMetabolize() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        Log.L.write("Metabolize \(six(st.name))", level: 71)
+        Debug.log("Metabolize \(six(st.name))", level: 71)
 
         if Debug.debugColorIsEnabled { st.sprite.color = .red }
 
@@ -20,7 +20,7 @@ extension Metabolize {
 extension Metabolism {
     fileprivate func metabolizeProper(_ isStarving: Bool, _ nose: SKSpriteNode) {
         if stomach.level > 0 {
-            Log.L.write("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 74)
+            Debug.log("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 74)
         }
 
         if fungibleEnergyFullness < 0.5 {
@@ -71,6 +71,6 @@ extension Metabolism {
             logMessage += ", transfer = \(transfer)"
         }
 
-        Log.L.write(logMessage, level: 72)
+        Debug.log(logMessage, level: 72)
     }
 }

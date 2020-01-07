@@ -7,30 +7,30 @@ final class Plot: Dispatchable {
 
     internal override func launch() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        Log.L.write("Plot \(six(st.name))", level: 71)
+        Debug.log("Plot \(six(st.name))", level: 71)
 
         var entropy: CGFloat = 0
 
         func a() {
-            Log.L.write("Plot2 \(six(st.name))", level: 71)
+            Debug.log("Plot2 \(six(st.name))", level: 71)
             self.makeSenseGrid(b) }
         func b() {
-            Log.L.write("Plot3 \(six(st.name))", level: 71)
+            Debug.log("Plot3 \(six(st.name))", level: 71)
             self.getEntropy {
-                Log.L.write("Plot4 \(six(st.name))", level: 71)
+                Debug.log("Plot4 \(six(st.name))", level: 71)
                 entropy = $0; c() } }
         func c() {
-            Log.L.write("Plot5 \(six(st.name))", level: 71)
+            Debug.log("Plot5 \(six(st.name))", level: 71)
             self.computeMove(with: entropy, d) }
 
         func d() {
-            Log.L.write("Plot6 \(six(st.name))", level: 71)
+            Debug.log("Plot6 \(six(st.name))", level: 71)
             ch.stillCounter += ch.cellShuttle!.didMove ? 0.005 : 0.05
             e()
         }
 
         func e() {
-            Log.L.write("Plot7 \(six(st.name))", level: 71)
+            Debug.log("Plot7 \(six(st.name))", level: 71)
             dp.moveSprite() }
 
         a()
@@ -158,7 +158,7 @@ extension Plot {
             return labs > rabs
         }
 
-        Log.L.write("order for \(six(st.name)): \(order)", level: 62)
+        Debug.log("order for \(six(st.name)): \(order)", level: 62)
 
         let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 
@@ -169,19 +169,19 @@ extension Plot {
             guard let t = senseGrid.cells[0] as? HotKey else { preconditionFailure() }
 
             toCell = t; fromCell = nil
-            Log.L.write("toCell at \(t.gridPosition)", level: 55)
+            Debug.log("toCell at \(t.gridPosition)", level: 55)
         } else {
             guard let t = senseGrid.cells[targetOffset!.0] as? HotKey else { preconditionFailure() }
             guard let f = senseGrid.cells[0] as? HotKey else { preconditionFailure() }
 
             toCell = t; fromCell = f
-            Log.L.write("toCell at \(t.gridPosition), fromCell at \(f.gridPosition)", level: 55)
+            Debug.log("toCell at \(t.gridPosition), fromCell at \(f.gridPosition)", level: 55)
         }
 
         if targetOffset == nil {
-            Log.L.write("targetOffset: nil", level: 53)
+            Debug.log("targetOffset: nil", level: 53)
         } else {
-            Log.L.write("targetOffset: \(targetOffset!.0)", level: 53)
+            Debug.log("targetOffset: \(targetOffset!.0)", level: 53)
         }
 
         return CellShuttle(fromCell, toCell)

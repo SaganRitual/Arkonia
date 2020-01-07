@@ -19,10 +19,12 @@ class Arkonia {
     static let cMotorGridlets = cMotorNeurons + 1
 
     static let allowSpawning = true
-    static let cMannaMorsels = 2000
+    static let cMannaMorsels = 1000
+    static let debugMessageLevel = 75
     static let energyTransferRateInJoules: CGFloat = 200
     static let fudgeMassFactor: CGFloat = 0.01
     static let funkyCells = true
+    static let initialPopulation = 50
     static let maxMannaEnergyContentInJoules: CGFloat = 1000
     static let oxygenCostPerTick: CGFloat = 0.0005
     static let inhaleFudgeFactor: CGFloat = 2.0

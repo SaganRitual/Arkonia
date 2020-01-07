@@ -3,7 +3,7 @@ import SpriteKit
 extension SKSpriteNode {
     func getKeyField(_ spriteKey: SpriteUserDataKey, require: Bool = true) -> Any? {
         func failIf(_ sub: String) {
-            if require { Log.L.write("getKeyField failed to get \(sub) for \(six(name))"); fatalError() }
+            if require { Debug.log("getKeyField failed to get \(sub) for \(six(name))"); fatalError() }
         }
 
         guard let userData = self.userData
@@ -17,7 +17,7 @@ extension SKSpriteNode {
 
     func getKeyField(_ cellContents: GridCell.Contents, require: Bool = true) -> Any? {
         func failIf(_ sub: String) {
-            if require { Log.L.write("getKeyField failed to get \(sub) for \(six(name))"); fatalError() }
+            if require { Debug.log("getKeyField failed to get \(sub) for \(six(name))"); fatalError() }
         }
 
         guard let userData = self.userData

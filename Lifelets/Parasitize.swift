@@ -8,7 +8,7 @@ final class Parasitize: Dispatchable {
 extension WorkItems {
     static func parasitize(_ scratch: Scratchpad?) {
         guard let (attackerScratch, _, attackerStepper) = scratch?.getKeypoints() else { fatalError() }
-        Log.L.write("Parasitize; attacker is \(six(attackerStepper.name))", level: 71)
+        Debug.log("Parasitize; attacker is \(six(attackerStepper.name))", level: 71)
 
         var victor: Stepper?, victim: Stepper?
 

@@ -10,7 +10,7 @@ final class Funge: Dispatchable {
 
     override func launch() {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
-        Log.L.write("Funge \(six(st.name))", level: 71)
+        Debug.log("Funge \(six(st.name))", level: 71)
         Debug.debugColor(st, .yellow, .yellow)
         WorkItems.checkSpawnability(st) { self.fungeRoute($0, $1) }
     }
@@ -83,7 +83,7 @@ extension Metabolism {
 
         oxygenLevel -= oxygenCost + stillnessCost
 
-        Log.L.write(
+        Debug.log(
             "fungeProper: age \(age)" +
             " mass \(String(format: "%-2.6f", mass))," +
             " w/d \(String(format: "%-2.6f", joulesNeeded))" +

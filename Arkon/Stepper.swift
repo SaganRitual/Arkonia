@@ -33,12 +33,12 @@ class Stepper {
 
         if needsNewDispatch { self.dispatch = Dispatch(self) }
 
-        Log.L.write("Stepper \(six(embryo.embryoName))", level: 71)
+        Debug.log("Stepper \(six(embryo.embryoName))", level: 71)
     }
 
     deinit {
         dispatch.scratch.engagerKey = nil
-        Log.L.write("~Stepper \(six(name))", level: 71)
+        Debug.log("~Stepper \(six(name))", level: 71)
     }
 }
 
@@ -55,7 +55,7 @@ extension Stepper {
         let sr = String(format: "%3.3f", metabolism.spawnReserves.level)
         let sf = String(format: "%3.3f%%", metabolism.spawnEnergyFullness * 100)
         if metabolism.spawnReserves.level > 0 {
-            Log.L.write("spawnCost(\(six(name))) = \(sc); spawnReserves at \(sr) (\(sf))", level: 74)
+            Debug.log("spawnCost(\(six(name))) = \(sc); spawnReserves at \(sr) (\(sf))", level: 74)
         }
         return spawnCost
     }

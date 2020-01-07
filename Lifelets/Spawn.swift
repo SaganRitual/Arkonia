@@ -76,7 +76,7 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
 extension WorkItems {
     static func spawn(_ spawn: Spawn) {
 
-        Log.L.write("Spawn \(six(spawn.embryoName))", level: 71)
+        Debug.log("Spawn \(six(spawn.embryoName))", level: 71)
         func a() {
             registerBirth(myName: spawn.embryoName, myParent: spawn.meTheParent)
                 { spawn.fishDay = $0; b() }
@@ -167,10 +167,10 @@ extension Spawn {
         sprite.run(rotate)
 
         let spawnCost = st.getSpawnCost()
-        //        Log.L.write("pre-spawn cost = \(spawnCost), remainder: \(st.metabolism.stomach.mass) \(st.metabolism.stomach.level) = \(st.metabolism.energyContent)", level: 74)
+        //        Debug.log("pre-spawn cost = \(spawnCost), remainder: \(st.metabolism.stomach.mass) \(st.metabolism.stomach.level) = \(st.metabolism.energyContent)", level: 74)
         st.metabolism.withdrawFromSpawn(spawnCost)
         st.metabolism.fatReserves.level = 0
-        //        Log.L.write("post-spawn cost = \(spawnCost), remainder: \(st.metabolism.stomach.mass) \(st.metabolism.stomach.level) = \(st.metabolism.energyContent)", level: 74)
+        //        Debug.log("post-spawn cost = \(spawnCost), remainder: \(st.metabolism.stomach.mass) \(st.metabolism.stomach.level) = \(st.metabolism.energyContent)", level: 74)
 
         dp.metabolize()
     }

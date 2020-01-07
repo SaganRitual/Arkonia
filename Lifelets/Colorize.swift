@@ -7,7 +7,7 @@ final class Colorize: Dispatchable {
 extension Colorize {
     func colorize() {
         guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        Log.L.write("Colorize \(six(st.name))", level: 71)
+        Debug.log("Colorize \(six(st.name))", level: 71)
 
         Debug.debugColor(st, .blue, .blue)
 

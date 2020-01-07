@@ -13,7 +13,7 @@ final class MoveSprite: Dispatchable {
     func moveSprite() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
-        Log.L.write("MoveSprite \(six(st.name))", level: 71)
+        Debug.log("MoveSprite \(six(st.name))", level: 71)
 
         if shuttle.fromCell == nil {
             Debug.debugColor(st, .red, .cyan)

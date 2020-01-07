@@ -1,6 +1,10 @@
 import SpriteKit
 
-enum Debug {
+func showDebugLog() {
+    Debug.showLog()
+}
+
+struct Debug {
     static let debugColorIsEnabled = false
 
     static func debugColor(
@@ -18,34 +22,44 @@ enum Debug {
         stepper.nose.color = noseColor
     }
 
-    static func dumpArkonDebug(_ name: String) {
-        let steppers: [Stepper] = GriddleScene.arkonsPortal.children.compactMap {
-            return ($0 as? SKSpriteNode)?.getStepper(require: false)
-        }
+    private static let debugLogQueue = DispatchQueue(
+        label: "arkonia.log.q", target: DispatchQueue.global(qos: .utility)
+    )
 
-        guard let stepper = steppers.first(where: { $0.name == name }) else {
-            Log.L.write("Stepper \(name) not found", level: 60)
-            return
-        }
+    private static let cLogMessages = 10000
+    private static var logIndex = 0
+    private static var logWrapped = false
+    private static var logMessages: [String] = {
+        var s = Array(repeating: String(), count: cLogMessages)
+        s.reserveCapacity(cLogMessages)
+        return s
+    }()
 
-        Log.L.write("sd \(stepper.dispatch.scratch.debugReport)", level: 60)
-    }
+    static func log(_ message: String, level: Int? = nil) {
+        debugLogQueue.async {
+            let useThisLevel = level ?? Arkonia.debugMessageLevel
 
-    static func reconstruct(_ name: String) {
-        Log.L.write("reconstructing \(name)")
-        let wp = Substrate.shared.wGrid - 1, hp = Substrate.shared.hGrid - 1
-        for x in -wp...wp {
-            for y in -hp...hp {
-                guard let cell = GridCell.atIf(x, y) else { continue }
-                if cell.cellDebugReport.first(where: { $0.contains(name) }) == nil { continue }
-                Log.L.write("Found at \(cell.gridPosition): \(cell.cellDebugReport)")
+            if useThisLevel >= Arkonia.debugMessageLevel {
+                logMessages[logIndex] = message
+                logIndex = (logIndex + 1) % cLogMessages
+
+                if logIndex == 0 { logWrapped = true }
             }
         }
     }
 
-    static func writeDebug(_ toWrite: String, scratch: Scratchpad, level: Int? = nil) {
-        if level != nil && level! >= Log.minimumLevel {
-            scratch.debugReport.append("\n\(toWrite)")
+    static func showLog() {
+        print("Log index = \(logIndex)")
+
+        let leftPad = "\(cLogMessages)".count
+        let formatString = "% \(leftPad)d:"
+
+        let range = logWrapped ?
+            (logIndex % cLogMessages)..<(logIndex + 2 * cLogMessages) % cLogMessages :
+            0..<logIndex
+
+        for ix in range {
+            print(String(format: formatString, ix), logMessages[ix])
         }
     }
 }

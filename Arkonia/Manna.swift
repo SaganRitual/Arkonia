@@ -26,7 +26,7 @@ class Manna {
         let energyContent: CGFloat = fullness * Manna.growthRateJoulesPerSecond * CGFloat(Manna.fullGrowthDurationSeconds)
         let entropized = energyContent * (1 - entropy)
 
-        Log.L.write(
+        Debug.log(
             "colorBlendFactor \(String(format: "%-2.4f", sprite.colorBlendFactor))\n" +
             "Manna.colorBlendMinimum \(String(format: "%-2.4f", Manna.colorBlendMinimum))\n" +
             "Manna.growthRateJoulesPerSecond \(String(format: "%-2.4f", Manna.growthRateJoulesPerSecond))\n" +

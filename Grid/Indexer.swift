@@ -88,7 +88,7 @@ extension GridCell {
             partialIndex += 1
         }
 
-        Log.L.write("getGridPointByIndex(\(targetIndex)) -> \(center) + (\(x), \(y)) = \(center + AKPoint(x: x, y: y))", level: 54)
+        Debug.log("getGridPointByIndex(\(targetIndex)) -> \(center) + (\(x), \(y)) = \(center + AKPoint(x: x, y: y))", level: 54)
         return center + AKPoint(x: x, y: y)
     }
 }

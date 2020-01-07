@@ -58,7 +58,7 @@ class Substrate {
         wGrid -= (wGrid % 2) == 0 ? 1 : 0
         hGrid -= (hGrid % 2) == 0 ? 1 : 0
 
-        Log.L.write(
+        Debug.log(
             "pix/row \(rPortal), column \(cPortal)"
             + "; pix width \(wPortal) height \(hPortal)"
             + "; grid width \(wGrid) height \(hGrid)"

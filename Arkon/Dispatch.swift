@@ -36,7 +36,7 @@ final class Dispatch {
         scratch.parentNet = parentNet
     }
 
-    deinit { Log.L.write("deinit \(six(name))", level: 70) }
+    deinit { Debug.log("deinit \(six(name))", level: 70) }
 }
 
 extension Dispatch {

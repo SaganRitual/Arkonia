@@ -84,6 +84,6 @@ struct NetGraphics {
 
         self.background.addChild(sprite)
 
-        Log.L.write("sprite \(six(sprite.name)) at \(sprite.position)", level: 17)
+        Debug.log("sprite \(six(sprite.name)) at \(sprite.position)", level: 17)
     }
 }
