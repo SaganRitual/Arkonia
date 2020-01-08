@@ -10,7 +10,6 @@
 		D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A299A23B9841000DE9CC6 /* WorkItems.swift */; };
 		D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A29A423B9945F00DE9CC6 /* wiCensus.swift */; };
 		D41ED8D623B084A100E82B08 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
-		D422DE0223578CFD003734B8 /* Garden.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0123578CFD003734B8 /* Garden.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
 		D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6E238E56C7007F0B7B /* Scratchpad.swift */; };
@@ -27,7 +26,7 @@
 		D464BA4E22C737260069623C /* BellCurve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A216BA22C1988B00D92A1E /* BellCurve.swift */; };
 		D464BA5022C737260069623C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D464BA5122C737260069623C /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
-		D464BA5222C737260069623C /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.swift */; };
+		D464BA5222C737260069623C /* Banana.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Banana.swift */; };
 		D464BA5522C737260069623C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D464BA5822C737260069623C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -135,14 +134,13 @@
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
 		D42172F2233EE46000A56594 /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .overcommit.yml; sourceTree = "<group>"; };
 		D42172F3233EE46000A56594 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		D422DE0123578CFD003734B8 /* Garden.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Garden.swift; sourceTree = "<group>"; };
 		D422DE0A23598B52003734B8 /* Census.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D422DE0C23598BEC003734B8 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		D422FE6E238E56C7007F0B7B /* Scratchpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D441B99A229CFFA800FB7057 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
-		D4603A6122A2720400885428 /* Manna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
+		D4603A6122A2720400885428 /* Banana.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banana.swift; sourceTree = "<group>"; };
 		D461358A2288CEF800C9864E /* TheScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TheScene.sks; sourceTree = "<group>"; };
 		D464BA5F22C737260069623C /* Karamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
@@ -259,8 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				D4CF20A622A4C296000FD2BA /* Arkonia.swift */,
-				D422DE0123578CFD003734B8 /* Garden.swift */,
-				D4603A6122A2720400885428 /* Manna.swift */,
+				D4603A6122A2720400885428 /* Banana.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 				D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */,
@@ -516,7 +513,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D422DE0223578CFD003734B8 /* Garden.swift in Sources */,
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
 				D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */,
@@ -566,7 +562,7 @@
 				D422DE0B23598B52003734B8 /* Census.swift in Sources */,
 				D4BD1DC923C088C200CE0753 /* Positions.swift in Sources */,
 				D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */,
-				D464BA5222C737260069623C /* Manna.swift in Sources */,
+				D464BA5222C737260069623C /* Banana.swift in Sources */,
 				D4BB6E77234EDCA500529819 /* Apoptosize.swift in Sources */,
 				D4BD1DCA23C088C200CE0753 /* CellKeys.swift in Sources */,
 				D464BA5522C737260069623C /* Extensions.swift in Sources */,

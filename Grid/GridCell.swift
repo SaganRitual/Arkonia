@@ -4,13 +4,12 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     enum Contents: Double, CaseIterable {
         case arkon, invalid, manna, nothing
 
-        func isEdible() -> Bool {
-            return self == .arkon || self == .manna
+        var asNetSignal: Double {
+            (self.rawValue + 1) / Double(Contents.allCases.count + 1)
         }
 
-        func isOccupied() -> Bool {
-            return self == .arkon || self == .manna
-        }
+        var isEdible:   Bool { self == .arkon || self == .manna }
+        var isOccupied: Bool { self != .invalid && self != .nothing }
     }
 
     var debugDescription: String { return "GridCell.at(\(gridPosition.x), \(gridPosition.y))" }

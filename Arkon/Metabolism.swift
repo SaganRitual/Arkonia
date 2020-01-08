@@ -90,7 +90,6 @@ class EnergyReserve {
         assert(cJoules < CGFloat.infinity)
 
         let net = min(level, cJoules)
-//        let bevel = level
         level -= net
 
         let js = String(format: "%3.3f", cJoules)

@@ -120,15 +120,13 @@ class GriddleScene: SKScene, SKSceneDelegate {
         )
 
         SpriteFactory.shared.postInit(net9Portals) {
-            MannaCoordinator.shared = MannaCoordinator()
-
             self.scene!.delegate = self
 
             self.hud = HUD(scene: self)
             self.buildReports()
 
             Clock.shared = Clock(self)
-            Manna.populator.populate()
+            Banana.populateGarden()
             Census.shared = Census(self)
 
             self.readyForDisplayCycle = true

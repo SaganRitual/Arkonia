@@ -5,33 +5,22 @@ final class Plot: Dispatchable {
     var senseData: [Double]?
     var senseGrid: CellSenseGrid?
 
+    static let dispatchQueue = DispatchQueue(
+        label: "ak.plot.q",
+        attributes: .concurrent,
+        target: DispatchQueue.global(qos: .default)
+    )
+
     internal override func launch() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         Debug.log("Plot \(six(st.name))", level: 71)
 
         var entropy: CGFloat = 0
 
-        func a() {
-            Debug.log("Plot2 \(six(st.name))", level: 71)
-            self.makeSenseGrid(b) }
-        func b() {
-            Debug.log("Plot3 \(six(st.name))", level: 71)
-            self.getEntropy {
-                Debug.log("Plot4 \(six(st.name))", level: 71)
-                entropy = $0; c() } }
-        func c() {
-            Debug.log("Plot5 \(six(st.name))", level: 71)
-            self.computeMove(with: entropy, d) }
-
-        func d() {
-            Debug.log("Plot6 \(six(st.name))", level: 71)
-            ch.stillCounter += ch.cellShuttle!.didMove ? 0.005 : 0.05
-            e()
-        }
-
-        func e() {
-            Debug.log("Plot7 \(six(st.name))", level: 71)
-            dp.moveSprite() }
+        func a() { self.makeSenseGrid(b) }
+        func b() { self.computeMove(c) }
+        func c() { ch.stillCounter += ch.cellShuttle!.didMove ? 0.005 : 0.05; d() }
+        func d() { dp.moveSprite() }
 
         a()
     }
@@ -48,72 +37,94 @@ final class Plot: Dispatchable {
         }
     }
 
-    func getEntropy(_ onComplete: @escaping (CGFloat) -> Void) {
-        Clock.dispatchQueue.async { onComplete(Clock.shared.getEntropy()) }
-    }
-
     func getSenseData(_ gridInputs: [Double]) {
         let nonSpatial = getNonSpatialSenseData()
         senseData = gridInputs + nonSpatial
     }
 
-    func computeMove(with entropy: CGFloat, _ onComplete: @escaping () -> Void) {
+    func computeMove(_ onComplete: @escaping () -> Void) {
         guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
         guard let sg = senseGrid else { fatalError() }
 
-        Substrate.serialQueue.async {
-            let gridInputs = self.loadGridInputs(from: sg, with: entropy)
-            precondition(gridInputs.count == Arkonia.cSenseNeuronsSpatial)
+        var gridInputs = [Double]()
 
+        func a() { loadGridInputs(from: sg) { gridInputs = $0; b() } }
+
+        func b() {
             self.getSenseData(gridInputs)
-
             guard let sd = self.senseData else { fatalError() }
             ch.cellShuttle = self.makeCellShuttle(sd, sg)
 
             onComplete()
         }
+
+        a()
     }
 }
 
 extension Plot {
-    private func loadGridInputs(from senseGrid: CellSenseGrid, with entropy: CGFloat) -> [Double] {
-        let gridInputs: [Double] = senseGrid.cells.reduce([]) { partial, cell in
-            guard let (contents, nutritionalValue) = loadGridInput(cell, with: entropy) else {
-                return partial + [0, 0]
-            }
+    private func loadGridInputs(
+        from senseGrid: CellSenseGrid, _ onComplete: @escaping ([Double]) -> Void
+    ) {
+        var gridInputs = [Double]()
 
-            return partial + [contents, nutritionalValue]
+        func a(_ ix: Int) {
+            if ix >= senseGrid.cells.count { onComplete(gridInputs); return }
+
+            self.loadGridInput(senseGrid.cells[ix]) {
+                gridInputs.append(contentsOf: [$0, $1])
+
+                a(ix + 1) // This isn't recursing; it's running in a separate work item
+            }
         }
 
-        return gridInputs
+        a(0)
     }
 
-    private func loadGridInput(_ cellKey: GridCellKey, with entropy: CGFloat) -> (Double, Double)? {
+    private func loadGridInput(
+        _ cellKey: GridCellKey, _ onComplete: @escaping (Double, Double) -> Void
+    ) {
+        let contentsAsNetSignal = cellKey.contents.asNetSignal
+        let nutritionAsNetSignal: (CGFloat) -> Double = { Double($0) - 0.5 }
 
         if cellKey.contents == .invalid {
-            let rv = (GridCell.Contents.invalid.rawValue + 1)
-            return (rv / Double(GridCell.Contents.allCases.count), 0)
+            onComplete(contentsAsNetSignal, 0)
+            return
         }
 
         guard let (_, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
 
-        let nutrition: Double
+        var nutrition: Double = 0
 
         switch cellKey.contents {
         case .arkon:
-            nutrition = Double(st.metabolism.energyFullness) - 0.5
+            Clock.shared.entropize(st.metabolism!.energyFullness) {
+                nutrition = nutritionAsNetSignal($0)
+                onComplete(contentsAsNetSignal, nutrition)
+            }
 
         case .manna:
             guard let manna = cellKey.sprite?.getManna(require: false)
                 else { fatalError() }
 
-            nutrition = Double(manna.getEnergyContentInJoules(entropy)) - 0.5
+            var nutrition: CGFloat = 0
+            var entropized: CGFloat = 0
 
-        case .nothing: nutrition = 0
+            func a() { manna.getNutritionInJoules { nutrition = $0; b() } }
+
+            func b() { Clock.shared.entropize(nutrition) { entropized = $0; c() } }
+
+            func c() {
+                onComplete(contentsAsNetSignal, nutritionAsNetSignal(nutrition))
+            }
+
+            a()
+
+        case .nothing:
+            onComplete(contentsAsNetSignal, 0)
+
         case .invalid: fatalError()
         }
-
-        return ((cellKey.contents.rawValue + 1) / Double(GridCell.Contents.allCases.count + 1), nutrition)
     }
 
     private func getNonSpatialSenseData() -> [Double] {

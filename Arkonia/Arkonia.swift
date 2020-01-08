@@ -25,10 +25,22 @@ class Arkonia {
     static let fudgeMassFactor: CGFloat = 0.01
     static let funkyCells = true
     static let initialPopulation = 50
-    static let maxMannaEnergyContentInJoules: CGFloat = 1000
     static let oxygenCostPerTick: CGFloat = 0.0005
     static let inhaleFudgeFactor: CGFloat = 2.0
     static let spawnOverhead: CGFloat = 1.5
+
+    static let mannaColorBlendMaximum: CGFloat = 0.35
+    static let mannaColorBlendMinimum: CGFloat = 0.15
+    static let mannaFullGrowthDurationSeconds: TimeInterval = 1
+    static let mannaInitialRebloomDelay = 1.0
+    static let maxMannaEnergyContentInJoules: CGFloat = 1000
+
+    static var mannaColorBlendRangeWidth: CGFloat
+        { mannaColorBlendMaximum - mannaColorBlendMinimum }
+
+    static var mannaGrowthRateJoulesPerSecond: CGFloat {
+        return maxMannaEnergyContentInJoules / CGFloat(mannaFullGrowthDurationSeconds)
+    }
 }
 
 extension Arkonia {

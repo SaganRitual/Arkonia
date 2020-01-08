@@ -21,7 +21,7 @@ extension MoveStepper {
     func postMove(_ shuttle: CellShuttle) {
         guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
 
-        if shuttle.didMove && shuttle.consumedContents.isEdible() {
+        if shuttle.didMove && shuttle.consumedContents.isEdible {
             dp.arrive()
             return
         }

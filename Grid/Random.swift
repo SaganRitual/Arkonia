@@ -28,7 +28,7 @@ extension GridCell {
                 hlrec = lrec
                 Debug.log("lockRandomEmptyCell(\(randomCell!)) highWater = \(hlrec)", level: 72)
             }
-        } while randomCell?.contents.isOccupied() ?? true
+        } while randomCell?.contents.isOccupied ?? true
 
         return randomCell!
     }

@@ -31,7 +31,19 @@ class Clock {
         Arkonia.tickTheWorld(Clock.dispatchQueue, self.tickTheWorld)
     }
 
-    func getEntropy() -> CGFloat {
+    func entropize(_ energyInJoules: CGFloat, _ onComplete: @escaping (CGFloat) -> Void) {
+        Clock.dispatchQueue.async {
+            let freakingUglyFixThis = self.getEntropy()
+            let ummWhichIsEntropyHuh = (1 - freakingUglyFixThis)
+            onComplete(energyInJoules * ummWhichIsEntropyHuh)
+        }
+    }
+
+    func getEntropy(_ onComplete: @escaping (CGFloat) -> Void) {
+        Clock.dispatchQueue.async { self.getEntropy(onComplete) }
+    }
+
+    private func getEntropy() -> CGFloat {
         guard let t = timeLimit else { return 0 }
         return min(CGFloat(self.worldClock * 2) / CGFloat(t), 1)
     }
