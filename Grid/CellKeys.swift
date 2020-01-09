@@ -32,7 +32,6 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
     var contents: GridCell.Contents {
         get { return cell_?.contents ?? .invalid }
-        set { cell_?.contents = newValue }
     }
 
     var gridPosition: AKPoint {
@@ -57,7 +56,6 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
     var sprite: SKSpriteNode? {
         get { return cell_?.sprite }
-        set { cell_?.sprite = newValue }
     }
 
     init(for cell: GridCell, ownerName: String) {
@@ -104,14 +102,14 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         cell_ = nil
     }
 
-    func transferKey(to winner: Stepper) {
+    func transferKey(to winner: Stepper, _ onComplete: @escaping () -> Void) {
         guard let c = cell_ else { fatalError() }
         precondition(c.isLocked)
 
         Debug.log("transferKey from \(six(self.ownerName)) at \(gridPosition) to \(six(winner.name))", level: 71)
 
         self.ownerName = winner.name
-        self.sprite = winner.sprite
+        c.setContents(to: .arkon, newSprite: winner.sprite, onComplete)
     }
 }
 

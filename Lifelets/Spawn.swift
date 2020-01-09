@@ -177,6 +177,7 @@ extension Spawn {
 
     func buildArkon(_ engagerKey: HotKey?, _ onComplete: @escaping () -> Void) {
         let action = SKAction.run { [unowned self] in
+            assert(Display.displayCycle == .actions)
             self.buildSprites(engagerKey)
             self.thorax!.addChild(self.nose!)
             self.buildGuts()
@@ -228,8 +229,13 @@ extension Spawn {
 
         precondition(newborn.name == newborn.sprite.name)
         precondition((thorax?.name ?? "foo") == newborn.sprite.name)
-        ek.contents = .arkon
-        ek.sprite = newborn.sprite
+
+        ek.bell?.setContents(to: .arkon, newSprite: newborn.sprite) {
+            self.launchB(ek, newborn)
+        }
+    }
+
+    private func launchB(_ ek: HotKey, _ newborn: Stepper) {
         ek.sprite?.name = newborn.name
         ek.ownerName = newborn.name
 

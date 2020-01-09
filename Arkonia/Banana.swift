@@ -2,16 +2,25 @@ import SpriteKit
 
 class Banana {
     static private let dispatchQueue = DispatchQueue(
-        label: "arkon.banana.q", target: DispatchQueue.global(qos: .default)
+        label: "arkon.banana.q", target: DispatchQueue.global(qos: .userInitiated)
     )
 
-    static func populateGarden() {
-        func a(_ fishNumber: Int) { dispatchQueue.async { b(fishNumber) } }
+    static func populateGarden(_ onComplete: @escaping () -> Void) {
+        var cSown = 0
 
-        func b(_ fishNumber: Int) {
-            if fishNumber >= Arkonia.cMannaMorsels { return }
+        func a(_ fruitNumber: Int) { dispatchQueue.async { b(fruitNumber) } }
 
-            _ = Banana(fishNumber) { a(fishNumber + 1) }
+        func b(_ fruitNumber: Int) {
+            for frootNumber in 0..<Arkonia.cMannaMorsels {
+                _ = Banana(frootNumber, c)
+            }
+        }
+
+        func c() {
+            cSown += 1
+            if cSown >= Arkonia.cMannaMorsels {
+                onComplete()
+            }
         }
 
         a(0)
@@ -29,6 +38,10 @@ class Banana {
             sprite = SpriteFactory.shared.mannaHangar.makeSprite(name)
             GriddleScene.arkonsPortal!.addChild(sprite)
         }
+
+        func setManna(_ manna: Banana) {
+            self.sprite.userData![SpriteUserDataKey.manna] = manna
+        }
     }
 
     fileprivate let energy = Energy()
@@ -39,8 +52,8 @@ class Banana {
     fileprivate init(_ fishNumber: Int, _ onComplete: @escaping () -> Void) {
         self.fishNumber = fishNumber
         self.sprite = Sprite(fishNumber)
-        self.sprite.sprite.userData![SpriteUserDataKey.manna] = self
 
+        self.sprite.setManna(self)
         sow(onComplete)
     }
 }
@@ -55,10 +68,10 @@ extension Banana {
     }
 
     private func harvestIf(dryRun: Bool = false, _ onComplete: @escaping (CGFloat) -> Void) {
-        var cell: HotKey!
+        var cell: GridCell!
         var entropizedEnergyContentInJoules: CGFloat = 0
 
-        func a() { grid.lockCell(sprite.sprite) { cell = $0; b() } }
+        func a() { GridCell.getRandomEmptyCell { cell = $0; b() } }
 
         func b() {
             let f = sprite.getIndicatorFullness()
@@ -67,40 +80,55 @@ extension Banana {
         }
 
         func c() {
-            if dryRun == false {
-                sprite.plant(at: cell)
-                sprite.reset()
-            }
+            if dryRun { d(); return }
 
-            onComplete(entropizedEnergyContentInJoules)
+            sprite.reset()
+            sprite.plant(at: cell, d)
         }
+
+        func d() {
+            onComplete(entropizedEnergyContentInJoules) }
 
         a()
     }
 
     fileprivate func sow(_ onComplete: @escaping () -> Void) {
-        var cell: HotKey!
-
-        func a() { grid.lockCell(sprite.sprite) { cell = $0; b() } }
-
-        func b() {
-            self.sprite.plant(at: cell)
-            self.sprite.reset()
-            onComplete()
+        grid.plant(sprite.sprite) {
+            guard let cell = $0 else { onComplete(); return }
+            self.sprite.plant(at: cell, onComplete)
         }
-
-        a()
     }
 
 }
 
 extension Banana.Grid {
-    func lockCell(_ sprite: SKSpriteNode, _ onComplete: @escaping (HotKey?) -> Void) {
-        GridCell.lockRandomEmptyCell(ownerName: sprite.name!) { cell in
-            cell!.contents = .manna
-            cell!.sprite = sprite
-            onComplete(cell)
+    func plant(_ sprite: SKSpriteNode, _ onComplete: @escaping (GridCell?) -> Void) {
+
+        var cell: GridCell!
+
+        func a() { Substrate.serialQueue.async(execute: b) }
+        func b() {
+            Debug.log("plant b", level: 78)
+            cell = GridCell.getRandomCell(); c()
         }
+        func c() { if cell.contents.isOccupied { isOccupied() } else { notOccupied() } }
+
+        func isOccupied() {
+            Debug.log("plant is", level: 78)
+
+            cell.injectManna(sprite)
+            onComplete(nil)
+        }
+
+        func notOccupied() {
+            Debug.log("plant isNot", level: 78)
+            cell.setContents(to: .manna, newSprite: sprite, f)
+        }
+
+        func f() { onComplete(cell) }
+
+        Debug.log("plant", level: 78)
+        a()
     }
 }
 
@@ -130,11 +158,13 @@ extension Banana.Sprite {
         return width / Arkonia.mannaColorBlendRangeWidth
     }
 
-    func plant(at cell: HotKey) {
+    func plant(at cell: GridCell, _ onComplete: @escaping () -> Void) {
+        Debug.log("sprite plant at \(cell.gridPosition)", level: 78)
         sprite.position = cell.randomScenePosition ?? cell.scenePosition
         sprite.setScale(Arkonia.mannaScaleFactor / Arkonia.zoomFactor)
 
         sprite.run(Banana.Sprite.bloomAction)
+        onComplete()
     }
 
     func reset() {

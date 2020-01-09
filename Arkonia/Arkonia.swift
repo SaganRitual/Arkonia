@@ -20,7 +20,7 @@ class Arkonia {
 
     static let allowSpawning = true
     static let cMannaMorsels = 1000
-    static let debugMessageLevel = 75
+    static let debugMessageLevel = 78
     static let energyTransferRateInJoules: CGFloat = 200
     static let fudgeMassFactor: CGFloat = 0.01
     static let funkyCells = true

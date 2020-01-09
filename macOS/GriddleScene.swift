@@ -119,28 +119,38 @@ class GriddleScene: SKScene, SKSceneDelegate {
             noseFactory: SpriteFactory.makeSprite(texture:)
         )
 
-        SpriteFactory.shared.postInit(net9Portals) {
+        func a() { SpriteFactory.shared.postInit(net9Portals, b) }
+
+        func b() {
             self.scene!.delegate = self
 
             self.hud = HUD(scene: self)
             self.buildReports()
 
+            Banana.populateGarden(c)
+        }
+
+        func c() {
             Clock.shared = Clock(self)
-            Banana.populateGarden()
             Census.shared = Census(self)
 
             self.readyForDisplayCycle = true
             self.speed = 1
         }
+
+        a()
     }
 
     override func update(_ currentTime: TimeInterval) {
+        Debug.log("update1", level: 78)
         guard readyForDisplayCycle else { return }
+        Debug.log("update2", level: 78)
 
         Display.displayCycle = .updateStarted
 
         Display.displayCycle = .actions
 
         tickCount += 1
+        Debug.log("update3", level: 78)
     }
 }

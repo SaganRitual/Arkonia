@@ -8,12 +8,12 @@ final class MoveStepper: Dispatchable {
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
         Debug.log("MoveStepper \(six(stepper.name))", level: 71)
 
-        shuttle.move()
+        shuttle.move {
+            stepper.previousShiftOffset = stepper.gridCell.gridPosition
+            stepper.gridCell = shuttle.toCell?.bell
 
-        stepper.previousShiftOffset = stepper.gridCell.gridPosition
-        stepper.gridCell = shuttle.toCell?.bell
-
-        postMove(shuttle)
+            self.postMove(shuttle)
+        }
     }
 }
 

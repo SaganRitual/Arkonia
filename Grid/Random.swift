@@ -12,23 +12,10 @@ extension GridCell {
         Substrate.serialQueue.async { onComplete(getRandomEmptyCell()) }
     }
 
-    static var lbp = 0
-    static var hlbp = 0
-    static var lrec = 0
-    static var hlrec = 0
     static func getRandomEmptyCell() -> GridCell {
         var randomCell: GridCell?
 
-        lrec = 0
-        repeat {
-            lrec += 1
-            randomCell = getRandomCell()
-
-            if lrec > hlrec {
-                hlrec = lrec
-                Debug.log("lockRandomEmptyCell(\(randomCell!)) highWater = \(hlrec)", level: 72)
-            }
-        } while randomCell?.contents.isOccupied ?? true
+        repeat { randomCell = getRandomCell() } while randomCell?.contents.isOccupied ?? true
 
         return randomCell!
     }
@@ -54,11 +41,6 @@ extension GridCell {
 
             randomGridCell = hk
         } while (randomGridCell?.contents ?? .invalid) != .nothing
-
-        if gridPointIndex > hlbp {
-            hlbp = gridPointIndex
-            Debug.log("lockBirthPosition(\(six(name)), highWater = \(hlbp))", level: 70)
-        }
 
         Debug.log("lockBirthPosition for parent \(six(parent.name)) at \(randomGridCell!.gridPosition)", level: 75)
         return randomGridCell!

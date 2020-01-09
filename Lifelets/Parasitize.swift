@@ -48,12 +48,11 @@ extension WorkItems {
 extension WorkItems {
     static func attack(by scratch: Scratchpad, _ onComplete: @escaping (Stepper, Stepper) -> Void) {
         Substrate.serialQueue.async {
-            let result = attack(scratch: scratch)
-            onComplete(result.0, result.1)
+            attack(scratch: scratch) { victor, victim in onComplete(victor, victim) }
         }
     }
 
-    private static func attack(scratch: Scratchpad?) -> (Stepper, Stepper) {
+    private static func attack(scratch: Scratchpad?, _ onComplete: @escaping (Stepper, Stepper) -> Void) {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
 
         Debug.debugColor(st, .green, .blue)
@@ -72,7 +71,7 @@ extension WorkItems {
 
             myStepper.gridCell.descheduleIf(hisStepper)
 
-            return (myStepper, hisStepper)
+            onComplete(myStepper, hisStepper)
         } else {
             myStepper.isTurnabouted = true
             hisStepper.isTurnabouted = true
@@ -80,13 +79,15 @@ extension WorkItems {
             let hisScratch = hisStepper.dispatch.scratch
             guard let myShuttle = myScratch.cellShuttle else { fatalError() }
 
-            hisScratch.cellShuttle = myShuttle.transferKeys(to: hisStepper)
-            hisScratch.engagerKey = nil
-            myScratch.cellShuttle = nil
+            myShuttle.transferKeys(to: hisStepper) {
+                hisScratch.cellShuttle = $0
+                hisScratch.engagerKey = nil
+                myScratch.cellShuttle = nil
 
-            myStepper.gridCell.descheduleIf(hisStepper)
+                myStepper.gridCell.descheduleIf(hisStepper)
 
-            return (hisStepper, myStepper)
+                onComplete(hisStepper, myStepper)
+            }
         }
     }
 

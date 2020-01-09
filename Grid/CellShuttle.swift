@@ -11,29 +11,25 @@ class CellShuttle {
         self.fromCell = fromCell; self.toCell = toCell
     }
 
-    func move() {
+    func move(_ onComplete: @escaping () -> Void) {
         consumedContents = .nothing
         consumedSprite = nil
 
         // No fromCell means we didn't move
-        guard let f = fromCell else { return }
-        guard let t = toCell else { preconditionFailure() }
+        guard let f = fromCell?.bell else { return }
+        guard let t = toCell?.bell else { preconditionFailure() }
 
         consumedContents = t.contents
         consumedSprite = t.sprite
 
-        t.contents = f.contents
-        t.sprite = f.sprite
+        func a() { t.setContents(to: f.contents, newSprite: f.sprite, b) }
+        func b() { f.setContents(to: .nothing, newSprite: nil, c) }
+        func c() { self.didMove = true; onComplete() }
 
-        f.contents = .nothing
-        f.sprite = nil
-
-        didMove = true
+        a()
     }
 
-    func transferKeys(to winner: Stepper) -> CellShuttle {
-        toCell?.transferKey(to: winner)
-//        fromCell?.transferKey(to: winner)
-        return self
+    func transferKeys(to winner: Stepper, _ onComplete: @escaping (CellShuttle) -> Void) {
+        toCell?.transferKey(to: winner) { onComplete(self) }
     }
 }

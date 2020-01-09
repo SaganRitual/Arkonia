@@ -18,14 +18,12 @@ extension WorkItems {
 
         if let nd = st.netDisplay { nd.reset() }
 
-        Census.shared.registerDeath(st) {
-            releaseStepper(st, gc) {
-                gc.contents = .nothing
-                gc.sprite = nil
+        func a() { Census.shared.registerDeath(st, b) }
+        func b() { releaseStepper(st, gc, c) }
+        func c() { gc.setContents(to: .nothing, newSprite: nil, d) }
+        func d() { retireSprites(nose, thorax) }
 
-                retireSprites(nose, thorax)
-            }
-        }
+        a()
     }
 
     private static func releaseStepper(

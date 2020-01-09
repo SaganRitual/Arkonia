@@ -13,13 +13,6 @@ class Scratchpad {
     weak var stepper: Stepper?
     var stillCounter: CGFloat = 0
 
-    deinit {
-        Debug.log("~Scratchpad", level: 45)
-        guard let ek = engagerKey as? HotKey else { return }
-        ek.contents = .nothing
-        ek.sprite = nil
-    }
-
     //swiftlint:disable large_tuple
     func getKeypoints() -> (Scratchpad, Dispatch, Stepper) {
         guard let dp = dispatch, let st = stepper else { fatalError() }

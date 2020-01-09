@@ -15,6 +15,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     var debugDescription: String { return "GridCell.at(\(gridPosition.x), \(gridPosition.y))" }
 
     var coldKey: ColdKey?
+    var dormantManna = [SKSpriteNode]()
     let gridPosition: AKPoint
     var isLocked = false
     var ownerName = "never owned"
@@ -22,7 +23,10 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     var toReschedule = [Stepper]()
     let scenePosition: CGPoint
 
-    var contents = Contents.nothing
+    private (set) var contents = Contents.nothing {
+        willSet { Debug.log("old contents at \(gridPosition) = \(contents), new = \(newValue)", level: 76) }
+    }
+
     weak var sprite: SKSpriteNode?
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
@@ -51,6 +55,39 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 //        self.indicator.alpha = 0
 //        self.indicator.setScale(0.3)
 //        GriddleScene.arkonsPortal.addChild(self.indicator)
+    }
+}
+
+extension GridCell {
+    func injectManna(_ sprite: SKSpriteNode) {
+        dormantManna.append(sprite)
+    }
+
+    func setContents(
+        to newContentType: Contents, newSprite: SKSpriteNode?,
+        _ onComplete: @escaping () -> Void
+    ) {
+        var nc = newContentType
+        var ns = newSprite
+
+        func a() { Substrate.serialQueue.async(execute: b) }
+
+        func b() {
+            if nc == .nothing && !self.contents.isOccupied { onComplete(); return }
+
+            if nc == .nothing, let dormantMannaSprite = self.dormantManna.popFirst() {
+                Debug.log("float manna at \(self.gridPosition)", level: 77)
+                nc = .manna
+                ns = dormantMannaSprite
+            }
+
+            self.contents = nc
+            self.sprite = ns
+            Debug.log("setContents(to: \(nc), at: \(self.gridPosition)", level: 77)
+            onComplete()
+        }
+
+        a()
     }
 }
 
