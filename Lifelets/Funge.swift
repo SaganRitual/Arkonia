@@ -10,7 +10,7 @@ final class Funge: Dispatchable {
 
     override func launch() {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log("Funge \(six(st.name))", level: 71)
+        Debug.log("Funge \(six(st.name))", level: 78)
         Debug.debugColor(st, .yellow, .yellow)
         WorkItems.checkSpawnability(st) { self.fungeRoute($0, $1) }
     }
@@ -94,7 +94,7 @@ extension Metabolism {
             " energy \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
             " level \(String(format: "%-2.6f", fungibleEnergyContent))" +
             " cap \(String(format: "%-2.6f", fungibleEnergyCapacity))\n"
-            , level: 74
+            , level: 78
         )
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0

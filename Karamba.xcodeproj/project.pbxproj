@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D40F452C23C88A3D0027BD0C /* EnergyReserve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40F452B23C88A3D0027BD0C /* EnergyReserve.swift */; };
 		D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A299A23B9841000DE9CC6 /* WorkItems.swift */; };
 		D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A29A423B9945F00DE9CC6 /* wiCensus.swift */; };
 		D41ED8D623B084A100E82B08 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
@@ -127,6 +128,7 @@
 		D40985FA22650BEF009DD384 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
+		D40F452B23C88A3D0027BD0C /* EnergyReserve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyReserve.swift; sourceTree = "<group>"; };
 		D41A299A23B9841000DE9CC6 /* WorkItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkItems.swift; sourceTree = "<group>"; };
 		D41A29A423B9945F00DE9CC6 /* wiCensus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wiCensus.swift; sourceTree = "<group>"; };
 		D41ED8D523B084A100E82B08 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				D4FFE9612365814F00F5DDFB /* Dispatch.swift */,
+				D40F452B23C88A3D0027BD0C /* EnergyReserve.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D422FE6E238E56C7007F0B7B /* Scratchpad.swift */,
@@ -531,6 +534,7 @@
 				D4FFE65823AF3CB800D0A1EE /* AKPoint.swift in Sources */,
 				D4A59D212387E4E400517F60 /* Engage.swift in Sources */,
 				D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */,
+				D40F452C23C88A3D0027BD0C /* EnergyReserve.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,

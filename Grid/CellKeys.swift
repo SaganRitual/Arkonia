@@ -62,18 +62,18 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         self.cell_ = cell
         cell.isLocked = true
         cell.ownerName = ownerName
-        Debug.log("HotKey at \(cell.gridPosition) for \(six(ownerName))", level: 71)
+        Debug.log("HotKey at \(cell.gridPosition) for \(six(ownerName))", level: 78)
 
         cell.coldKey = ColdKey(for: cell)
     }
 
     deinit {
-        Debug.log("~HotKey at \(gridPosition) for \(six(bell?.ownerName))", level: 71)
+        Debug.log("~HotKey at \(gridPosition) for \(six(bell?.ownerName))", level: 78)
         releaseLock()
     }
 
     func deactivate() {
-        Debug.log("deactivate at \(gridPosition) for  for \(six(ownerName))", level: 71)
+        Debug.log("deactivate at \(gridPosition) for  for \(six(ownerName))", level: 78)
         self.cell_ = nil
     }
 
@@ -82,13 +82,13 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
         while true {
             guard let waitingStepper = c.getRescheduledArkon() else {
-                Debug.log("reengageRequesters empty", level: 70)
+                Debug.log("reengageRequesters empty", level: 78)
                 return
             }
 
             if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
                 precondition(dp.scratch.engagerKey == nil)
-                Debug.log("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 71)
+                Debug.log("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 78)
                 dp.disengage()
                 return
             }
@@ -97,7 +97,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
     func releaseLock() {
         let wasLocked = cell_?.releaseLock() ?? false
-        if wasLocked  { Debug.log("releaseLock at \(cell_?.gridPosition ?? AKPoint(x: -42, y: -42)) for \(six(ownerName)) nil? \(cell_ == nil)", level: 71) }
+        if wasLocked  { Debug.log("releaseLock at \(cell_?.gridPosition ?? AKPoint(x: -42, y: -42)) for \(six(ownerName)) nil? \(cell_ == nil)", level: 78) }
         reengageRequesters()
         cell_ = nil
     }

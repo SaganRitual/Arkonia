@@ -231,6 +231,7 @@ extension Spawn {
         precondition((thorax?.name ?? "foo") == newborn.sprite.name)
 
         ek.bell?.setContents(to: .arkon, newSprite: newborn.sprite) {
+            Debug.log("launchNewborn.setContents", level: 80)
             self.launchB(ek, newborn)
         }
     }
@@ -256,7 +257,9 @@ extension Spawn {
         }
 
         GriddleScene.arkonsPortal.run(action) {
+            Debug.log("launchB action", level: 80)
             Substrate.serialQueue.async {
+                Debug.log("launchB substrate", level: 80)
                 self.engagerKey = nil
                 ndp.disengage()
             }

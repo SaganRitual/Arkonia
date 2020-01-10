@@ -142,15 +142,12 @@ class GriddleScene: SKScene, SKSceneDelegate {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        Debug.log("update1", level: 78)
         guard readyForDisplayCycle else { return }
-        Debug.log("update2", level: 78)
 
         Display.displayCycle = .updateStarted
 
         Display.displayCycle = .actions
 
         tickCount += 1
-        Debug.log("update3", level: 78)
     }
 }

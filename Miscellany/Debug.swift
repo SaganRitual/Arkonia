@@ -53,13 +53,12 @@ struct Debug {
 
         let leftPad = "\(cLogMessages)".count
         let formatString = "% \(leftPad)d:"
+        let firstEntry = logWrapped ? logIndex : 0
+        let top = logWrapped ? cLogMessages : logIndex
 
-        let range = logWrapped ?
-            (logIndex % cLogMessages)..<(logIndex + 2 * cLogMessages) % cLogMessages :
-            0..<logIndex
-
-        for ix in range {
-            print(String(format: formatString, ix), logMessages[ix])
+        for ix in 0..<top {
+            let wix = (firstEntry + ix) % cLogMessages
+            print(String(format: formatString, wix), logMessages[wix])
         }
     }
 }

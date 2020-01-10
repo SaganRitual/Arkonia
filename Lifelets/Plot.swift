@@ -13,7 +13,7 @@ final class Plot: Dispatchable {
 
     internal override func launch() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log("Plot \(six(st.name))", level: 71)
+        Debug.log("Plot \(six(st.name))", level: 78)
 
         var entropy: CGFloat = 0
 
@@ -169,7 +169,7 @@ extension Plot {
             return labs > rabs
         }
 
-        Debug.log("order for \(six(st.name)): \(order)", level: 62)
+        Debug.log("order for \(six(st.name)): \(order)", level: 78)
 
         let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 
@@ -180,19 +180,19 @@ extension Plot {
             guard let t = senseGrid.cells[0] as? HotKey else { preconditionFailure() }
 
             toCell = t; fromCell = nil
-            Debug.log("toCell at \(t.gridPosition)", level: 55)
+            Debug.log("toCell at \(t.gridPosition)", level: 78)
         } else {
             guard let t = senseGrid.cells[targetOffset!.0] as? HotKey else { preconditionFailure() }
             guard let f = senseGrid.cells[0] as? HotKey else { preconditionFailure() }
 
             toCell = t; fromCell = f
-            Debug.log("toCell at \(t.gridPosition), fromCell at \(f.gridPosition)", level: 55)
+            Debug.log("toCell at \(t.gridPosition), fromCell at \(f.gridPosition)", level: 78)
         }
 
         if targetOffset == nil {
-            Debug.log("targetOffset: nil", level: 53)
+            Debug.log("targetOffset: nil", level: 78)
         } else {
-            Debug.log("targetOffset: \(targetOffset!.0)", level: 53)
+            Debug.log("targetOffset: \(targetOffset!.0)", level: 78)
         }
 
         return CellShuttle(fromCell, toCell)

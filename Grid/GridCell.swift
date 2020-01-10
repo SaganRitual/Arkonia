@@ -23,9 +23,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     var toReschedule = [Stepper]()
     let scenePosition: CGPoint
 
-    private (set) var contents = Contents.nothing {
-        willSet { Debug.log("old contents at \(gridPosition) = \(contents), new = \(newValue)", level: 76) }
-    }
+    private (set) var contents = Contents.nothing
 
     weak var sprite: SKSpriteNode?
 
@@ -76,14 +74,12 @@ extension GridCell {
             if nc == .nothing && !self.contents.isOccupied { onComplete(); return }
 
             if nc == .nothing, let dormantMannaSprite = self.dormantManna.popFirst() {
-                Debug.log("float manna at \(self.gridPosition)", level: 77)
                 nc = .manna
                 ns = dormantMannaSprite
             }
 
             self.contents = nc
             self.sprite = ns
-            Debug.log("setContents(to: \(nc), at: \(self.gridPosition)", level: 77)
             onComplete()
         }
 
@@ -134,23 +130,24 @@ extension GridCell {
     }
 
     func lock(require: RequireLock = .hot, ownerName: String) -> GridCellKey? {
-        precondition(self.ownerName != ownerName)
+//        precondition(self.ownerName != ownerName)
+        Debug.log("lock for \(six(ownerName)) was \(six(self.ownerName))", level: 78)
 
         switch (self.isLocked, require) {
         case (true, .hot): fatalError()
-        case (true, .degradeToNil): return nil
-        case (true, .degradeToCold): return self.coldKey
+        case (true, .degradeToNil): Debug.log("true, .degradeToNil", level: 78); return nil
+        case (true, .degradeToCold): Debug.log("true, .degradeToCold", level: 78); return self.coldKey
 
-        case (_, .cold): return self.coldKey
+        case (_, .cold): Debug.log("_, .cold", level: 78); return self.coldKey
 
-        case (false, .degradeToCold): fallthrough
-        case (false, .degradeToNil):  fallthrough
-        case (false, .hot): return HotKey(for: self, ownerName: ownerName)
+        case (false, .degradeToCold): Debug.log("false, .degradeToCold", level: 78); fallthrough
+        case (false, .degradeToNil): Debug.log("false, .degradeToNil", level: 78);  fallthrough
+        case (false, .hot): Debug.log("false, .hot", level: 78); return HotKey(for: self, ownerName: ownerName)
         }
     }
 
     func releaseLock() -> Bool {
-        Debug.log("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 71)
+        Debug.log("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 7781)
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         defer { isLocked = false; ownerName = "No owner" }
         return isLocked && !toReschedule.isEmpty

@@ -18,9 +18,7 @@ class Banana {
 
         func c() {
             cSown += 1
-            if cSown >= Arkonia.cMannaMorsels {
-                onComplete()
-            }
+            if cSown >= Arkonia.cMannaMorsels { onComplete() }
         }
 
         a(0)
@@ -60,7 +58,10 @@ class Banana {
 
 extension Banana {
     func harvest(_ onComplete: @escaping (CGFloat) -> Void) {
-        harvestIf(onComplete)
+        harvestIf { entropizedEnergyContentInJoules in
+            Debug.log("Harvested \(entropizedEnergyContentInJoules)", level: 78)
+            onComplete(entropizedEnergyContentInJoules)
+        }
     }
 
     func getNutritionInJoules(_ onComplete: @escaping (CGFloat) -> Void) {
@@ -86,8 +87,7 @@ extension Banana {
             sprite.plant(at: cell, d)
         }
 
-        func d() {
-            onComplete(entropizedEnergyContentInJoules) }
+        func d() { onComplete(entropizedEnergyContentInJoules) }
 
         a()
     }
@@ -107,27 +107,21 @@ extension Banana.Grid {
         var cell: GridCell!
 
         func a() { Substrate.serialQueue.async(execute: b) }
-        func b() {
-            Debug.log("plant b", level: 78)
-            cell = GridCell.getRandomCell(); c()
-        }
+        func b() { cell = GridCell.getRandomCell(); c() }
         func c() { if cell.contents.isOccupied { isOccupied() } else { notOccupied() } }
 
         func isOccupied() {
-            Debug.log("plant is", level: 78)
-
+            sprite.userData!["barf"] = true
             cell.injectManna(sprite)
             onComplete(nil)
         }
 
         func notOccupied() {
-            Debug.log("plant isNot", level: 78)
             cell.setContents(to: .manna, newSprite: sprite, f)
         }
 
         func f() { onComplete(cell) }
 
-        Debug.log("plant", level: 78)
         a()
     }
 }
@@ -143,10 +137,23 @@ extension Banana.Energy {
 }
 
 extension Banana.Sprite {
+    static var debug = true
     static let bloomAction = SKAction.group([fadeInAction, colorAction])
+    static let doomAction = SKAction.group([fadeInAction, dolorAction])
+    static let eoomAction = SKAction.group([fadeInAction, eolorAction])
 
     private static let colorAction = SKAction.colorize(
+        with: .green, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
+        duration: Arkonia.mannaFullGrowthDurationSeconds
+    )
+
+    private static let dolorAction = SKAction.colorize(
         with: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
+        duration: Arkonia.mannaFullGrowthDurationSeconds
+    )
+
+    private static let eolorAction = SKAction.colorize(
+        with: .red, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
         duration: Arkonia.mannaFullGrowthDurationSeconds
     )
 
@@ -159,15 +166,23 @@ extension Banana.Sprite {
     }
 
     func plant(at cell: GridCell, _ onComplete: @escaping () -> Void) {
-        Debug.log("sprite plant at \(cell.gridPosition)", level: 78)
         sprite.position = cell.randomScenePosition ?? cell.scenePosition
         sprite.setScale(Arkonia.mannaScaleFactor / Arkonia.zoomFactor)
 
-        sprite.run(Banana.Sprite.bloomAction)
+        let a: SKAction
+        if Banana.Sprite.debug {
+            a = Banana.Sprite.bloomAction
+        } else {
+            if sprite.userData?["barf"] == nil { a = Banana.Sprite.doomAction }
+            else { a = Banana.Sprite.eoomAction; sprite.xScale *= 5; sprite.yScale *= 5 }
+        }
+
+        sprite.run(a)
         onComplete()
     }
 
     func reset() {
+        Banana.Sprite.debug = false
         sprite.alpha = 0
         sprite.colorBlendFactor = Arkonia.mannaColorBlendMinimum
     }
