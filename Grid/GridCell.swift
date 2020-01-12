@@ -57,7 +57,23 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 }
 
 extension GridCell {
+    func floatMannaIf() {
+        guard self.contents == .nothing else { return }
+
+        if let dormantMannaSprite = self.dormantManna.popFirst() {
+            let a = SKAction.run { [unowned self] in
+                Debug.log("float manna at \(self))", level: 86)
+                self.contents = .manna
+                self.sprite = dormantMannaSprite
+                dormantMannaSprite.setContentsCallback?()
+            }
+
+            dormantMannaSprite.run(a)
+        }
+    }
+
     func injectManna(_ sprite: SKSpriteNode) {
+        sprite.position = randomScenePosition ?? scenePosition
         dormantManna.append(sprite)
     }
 
@@ -65,21 +81,13 @@ extension GridCell {
         to newContentType: Contents, newSprite: SKSpriteNode?,
         _ onComplete: @escaping () -> Void
     ) {
-        var nc = newContentType
-        var ns = newSprite
-
         func a() { Substrate.serialQueue.async(execute: b) }
 
         func b() {
-            if nc == .nothing && !self.contents.isOccupied { onComplete(); return }
+            self.contents = newContentType
+            self.sprite = newSprite
 
-            if nc == .nothing, let dormantMannaSprite = self.dormantManna.popFirst() {
-                nc = .manna
-                ns = dormantMannaSprite
-            }
-
-            self.contents = nc
-            self.sprite = ns
+            floatMannaIf()
             onComplete()
         }
 
@@ -131,23 +139,23 @@ extension GridCell {
 
     func lock(require: RequireLock = .hot, ownerName: String) -> GridCellKey? {
 //        precondition(self.ownerName != ownerName)
-        Debug.log("lock for \(six(ownerName)) was \(six(self.ownerName))", level: 78)
+        Debug.log("lock for \(six(ownerName)) was \(six(self.ownerName))", level: 85)
 
         switch (self.isLocked, require) {
         case (true, .hot): fatalError()
-        case (true, .degradeToNil): Debug.log("true, .degradeToNil", level: 78); return nil
-        case (true, .degradeToCold): Debug.log("true, .degradeToCold", level: 78); return self.coldKey
+        case (true, .degradeToNil): Debug.log("true, .degradeToNil", level: 85); return nil
+        case (true, .degradeToCold): Debug.log("true, .degradeToCold", level: 85); return self.coldKey
 
-        case (_, .cold): Debug.log("_, .cold", level: 78); return self.coldKey
+        case (_, .cold): Debug.log("_, .cold", level: 85); return self.coldKey
 
-        case (false, .degradeToCold): Debug.log("false, .degradeToCold", level: 78); fallthrough
-        case (false, .degradeToNil): Debug.log("false, .degradeToNil", level: 78);  fallthrough
-        case (false, .hot): Debug.log("false, .hot", level: 78); return HotKey(for: self, ownerName: ownerName)
+        case (false, .degradeToCold): Debug.log("false, .degradeToCold", level: 80); fallthrough
+        case (false, .degradeToNil): Debug.log("false, .degradeToNil", level: 80);  fallthrough
+        case (false, .hot): Debug.log("false, .hot", level: 85); return HotKey(for: self, ownerName: ownerName)
         }
     }
 
     func releaseLock() -> Bool {
-        Debug.log("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 7781)
+        Debug.log("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 85)
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         defer { isLocked = false; ownerName = "No owner" }
         return isLocked && !toReschedule.isEmpty

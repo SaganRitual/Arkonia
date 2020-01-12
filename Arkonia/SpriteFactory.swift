@@ -2,7 +2,8 @@ import Foundation
 import SpriteKit
 
 enum SpriteUserDataKey {
-    case manna, net9Portal, netDisplay, stepper, uuid, debug
+    case manna, net9Portal, netDisplay, stepper, uuid, debug, injectedAt
+    case setContentsCallback
 }
 
 typealias SpriteFactoryCallback0P = () -> Void

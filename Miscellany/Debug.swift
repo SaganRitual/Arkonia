@@ -43,6 +43,8 @@ struct Debug {
                 logMessages[logIndex] = message
                 logIndex = (logIndex + 1) % cLogMessages
 
+                if Arkonia.debugMessageToConsole { print(message) }
+
                 if logIndex == 0 { logWrapped = true }
             }
         }

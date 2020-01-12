@@ -241,7 +241,6 @@ extension Spawn {
         ek.ownerName = newborn.name
 
         Stepper.attachStepper(newborn, to: newborn.sprite)
-        self.tempStrongReference = nil  // Now the sprite has the only strong ref
 
         abandonNewborn()
 
@@ -250,17 +249,19 @@ extension Spawn {
         ndp.scratch.engagerKey = ek
 
         let action = SKAction.run {
+            Debug.log("launchB action", level: 85)
             GriddleScene.arkonsPortal.addChild(newborn.sprite)
 
             let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
             newborn.sprite.run(rotate)
+
+            self.tempStrongReference = nil  // Now the sprite has the only strong ref
         }
 
         GriddleScene.arkonsPortal.run(action) {
-            Debug.log("launchB action", level: 80)
             Substrate.serialQueue.async {
-                Debug.log("launchB substrate", level: 80)
-                self.engagerKey = nil
+                Debug.log("launchB substrate", level: 85)
+//                self.engagerKey = nil
                 ndp.disengage()
             }
         }

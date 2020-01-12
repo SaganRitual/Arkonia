@@ -38,7 +38,7 @@ class Stepper {
 
     deinit {
         dispatch.scratch.engagerKey = nil
-        Debug.log("~Stepper \(six(name))", level: 71)
+        Debug.log("~Stepper \(six(name))", level: 85)
     }
 }
 

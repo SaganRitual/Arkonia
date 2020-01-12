@@ -10,7 +10,7 @@ final class Funge: Dispatchable {
 
     override func launch() {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log("Funge \(six(st.name))", level: 78)
+        Debug.log("Funge \(six(st.name))", level: 85)
         Debug.debugColor(st, .yellow, .yellow)
         WorkItems.checkSpawnability(st) { self.fungeRoute($0, $1) }
     }
@@ -18,11 +18,12 @@ final class Funge: Dispatchable {
 
 extension Funge {
     func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool) {
-        guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
+        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        if !isAlive  { dp.apoptosize(); return }
-        if !canSpawn { dp.plot(); return }
+        if !isAlive  { Debug.log("FungeRoute1 \(six(st.name))", level: 85); dp.apoptosize(); return }
+        if !canSpawn { Debug.log("FungeRoute2 \(six(st.name))", level: 85); dp.plot(); return }
 
+        Debug.log("FungeRoute3 \(six(st.name))", level: 85)
         dp.spawn()
     }
 }
@@ -72,6 +73,7 @@ extension WorkItems {
 }
 
 extension Metabolism {
+    static var showHeader = true
     func fungeProper(age: Int, stillCounter: CGFloat) -> Bool {
         let joulesNeeded = Arkonia.fudgeMassFactor * mass
 
@@ -83,18 +85,24 @@ extension Metabolism {
 
         oxygenLevel -= oxygenCost + stillnessCost
 
+        if Metabolism.showHeader {
+            Debug.log("             age     mass      w/d    sCost       O2     oCost     O2+s    gFull  gContent  gCapacity", level: 79)
+            Metabolism.showHeader = false
+        }
+
         Debug.log(
-            "fungeProper: age \(age)" +
-            " mass \(String(format: "%-2.6f", mass))," +
-            " w/d \(String(format: "%-2.6f", joulesNeeded))" +
-            " cost \(String(format: "%-2.6f", stillnessCost))" +
-            " O2 \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
-            " cost \(String(format: "%-2.6f", oxygenCost))" +
-            " full \(String(format: "%-2.6f", oxygenCost + stillnessCost))" +
-            " energy \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
-            " level \(String(format: "%-2.6f", fungibleEnergyContent))" +
-            " cap \(String(format: "%-2.6f", fungibleEnergyCapacity))\n"
-            , level: 78
+            "fungeProper:" +
+            " \(String(format: "% 3d", age))" +
+            " \(String(format: "% 8.3f", mass))" +
+            " \(String(format: "% 8.3f", joulesNeeded))" +
+            " \(String(format: "% 8.3f", stillnessCost))" +
+            " \(String(format: "% 8.3f%%", oxygenLevel * 100))" +
+            " \(String(format: "% 8.3f", oxygenCost))" +
+            " \(String(format: "% 8.3f", oxygenCost + stillnessCost))" +
+            " \(String(format: "% 8.3f%%", fungibleEnergyFullness * 100))" +
+            " \(String(format: "% 8.3f", fungibleEnergyContent))" +
+            " \(String(format: "% 10.3f", fungibleEnergyCapacity))"
+            , level: 80
         )
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0

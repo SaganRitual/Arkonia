@@ -6,7 +6,7 @@ final class Arrive: Dispatchable {
     func arrive() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { fatalError() }
-        Debug.log("Arrive \(six(st.name))", level: 71)
+        Debug.log("Arrive \(six(st.name))", level: 85)
 
         switch shuttle.consumedContents {
         case .arkon: dp.parasitize()
@@ -23,6 +23,7 @@ final class Arrive: Dispatchable {
         ch.stillCounter /= 2
 
         mannaSprite.getManna()!.harvest { entropizedInJoules in
+            Debug.log("graze \(entropizedInJoules)", level: 85)
             st.metabolism.absorbEnergy(entropizedInJoules)
             dp.releaseStage()
         }

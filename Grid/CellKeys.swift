@@ -35,7 +35,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
     }
 
     var gridPosition: AKPoint {
-        get { return cell_?.gridPosition ?? AKPoint(x: -4242, y: -4242) }
+        get { return cell_?.gridPosition ?? AKPoint(x: -4343, y: -4343) }
         set { preconditionFailure() }
     }
 
@@ -62,18 +62,18 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         self.cell_ = cell
         cell.isLocked = true
         cell.ownerName = ownerName
-        Debug.log("HotKey at \(cell.gridPosition) for \(six(ownerName))", level: 78)
+        Debug.log("HotKey at \(cell.gridPosition) for \(six(ownerName))", level: 85)
 
         cell.coldKey = ColdKey(for: cell)
     }
 
     deinit {
-        Debug.log("~HotKey at \(gridPosition) for \(six(bell?.ownerName))", level: 78)
+        Debug.log("~HotKey at \(gridPosition) for \(six(bell?.ownerName))", level: 85)
         releaseLock()
     }
 
     func deactivate() {
-        Debug.log("deactivate at \(gridPosition) for  for \(six(ownerName))", level: 78)
+        Debug.log("deactivate at \(gridPosition) for  for \(six(ownerName))", level: 80)
         self.cell_ = nil
     }
 
@@ -82,13 +82,13 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
         while true {
             guard let waitingStepper = c.getRescheduledArkon() else {
-                Debug.log("reengageRequesters empty", level: 78)
+                Debug.log("reengageRequesters empty", level: 80)
                 return
             }
 
             if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
                 precondition(dp.scratch.engagerKey == nil)
-                Debug.log("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 78)
+                Debug.log("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 85)
                 dp.disengage()
                 return
             }
@@ -97,7 +97,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
     func releaseLock() {
         let wasLocked = cell_?.releaseLock() ?? false
-        if wasLocked  { Debug.log("releaseLock at \(cell_?.gridPosition ?? AKPoint(x: -42, y: -42)) for \(six(ownerName)) nil? \(cell_ == nil)", level: 78) }
+        if wasLocked  { Debug.log("releaseLock at \(cell_?.gridPosition ?? AKPoint(x: -42, y: -42)) for \(six(ownerName)) nil? \(cell_ == nil)", level: 85) }
         reengageRequesters()
         cell_ = nil
     }
@@ -117,7 +117,7 @@ class NilKey: GridCellKey {
     //swiftlint:disable unused_setter_value
     var bell: GridCell? { get { nil } set { preconditionFailure() } }
     var contents: GridCell.Contents { get { .invalid } set { preconditionFailure() } }
-    var gridPosition: AKPoint { get { AKPoint(x: -4242, y: -4242) } set { preconditionFailure() } }
+    var gridPosition: AKPoint { get { AKPoint(x: -4444, y: -4444) } set { preconditionFailure() } }
     var ownerName: String { get { "invalid" } set { preconditionFailure() } }
     var sprite: SKSpriteNode?  { get { nil } set { preconditionFailure() } }
     //swiftlint:enable unused_setter_value

@@ -78,10 +78,11 @@ class Metabolism {
             " energy \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
             " level \(String(format: "%-2.6f", fungibleEnergyContent))" +
             " cap \(String(format: "%-2.6f", fungibleEnergyCapacity))\n"
-            , level: 68
+            , level: 84
         )
     }
 
+    static var absorbEnergyHeader = false
     func absorbEnergy(_ cJoules: CGFloat) {
 
 //        Debug.log(
@@ -96,18 +97,23 @@ class Metabolism {
 //        )
 
         stomach.deposit(cJoules)
-        Debug.log("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 74)
+//        Debug.log("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 79)
+
+        if !Metabolism.absorbEnergyHeader {
+            Debug.log("Deposit    cJoules   fungible    stomach      ready        fat      spawn    content", level: 84)
+            Metabolism.absorbEnergyHeader = true
+        }
 
         Debug.log(
-            " Deposit " +
-            String(format: "% 6.2f ", stomach.level) +
-            String(format: "% 6.2f ", readyEnergyReserves.level) +
-            String(format: "% 6.2f ", fatReserves.level) +
-            String(format: "% 6.2f ", spawnReserves.level) +
-            String(format: "% 6.2f ", energyContent) +
-            String(format: "(% 6.2f)", cJoules) +
-            String(format: "% 6.2f ", fungibleEnergyFullness),
-            level: 74
+            "Deposit " +
+            String(format: "% 10.2f ", cJoules) +
+            String(format: "% 10.2f ", fungibleEnergyFullness) +
+            String(format: "% 10.2f ", stomach.level) +
+            String(format: "% 10.2f ", readyEnergyReserves.level) +
+            String(format: "% 10.2f ", fatReserves.level) +
+            String(format: "% 10.2f ", spawnReserves.level) +
+            String(format: "% 10.2f ", energyContent),
+            level: 84
         )
     }
 

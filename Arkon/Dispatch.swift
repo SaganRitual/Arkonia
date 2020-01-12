@@ -36,7 +36,7 @@ final class Dispatch {
         scratch.parentNet = parentNet
     }
 
-    deinit { Debug.log("deinit \(six(name))", level: 70) }
+    deinit { Debug.log("deinit \(six(name))", level: 80) }
 }
 
 extension Dispatch {
@@ -47,7 +47,7 @@ extension Dispatch {
         }
     }
 
-    func apoptosize()   { dispatch(Apoptosize.self) }
+    func apoptosize()   { Debug.log("dispatch.apop \(six(name))", level: 80); dispatch(Apoptosize.self) }
 
     func arrive()       { dispatch(Arrive.self) }
 
