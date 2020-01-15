@@ -20,30 +20,18 @@ extension GridCell {
         return randomCell!
     }
 
-    static func lockBirthPosition(parent: Stepper, name: String, _ onComplete: @escaping (HotKey) -> Void) {
+    static func lockBirthPosition(parent: Stepper, name: String, _ onComplete: @escaping (HotKey?) -> Void) {
         Substrate.serialQueue.async {
             let key = lockBirthPosition(parent: parent, name: name)
             onComplete(key)
         }
     }
 
-    static func lockBirthPosition(parent: Stepper, name: String) -> HotKey {
-        var randomGridCell: HotKey?
-        var gridPointIndex = 0
+    static func lockBirthPosition(parent: Stepper, name: String) -> HotKey? {
+        let gridPointIndex = Int.random(in: 0..<Arkonia.cMotorGridlets)
+        let p = parent.gridCell.getGridPointByIndex(gridPointIndex)
 
-        repeat {
-            gridPointIndex += 1
-
-            let p = parent.gridCell.getGridPointByIndex(gridPointIndex)
-
-            guard let hk = GridCell.atIf(p)?.lockIf(ownerName: name)
-                else { continue }
-
-            randomGridCell = hk
-        } while (randomGridCell?.contents ?? .invalid) != .nothing
-
-        Debug.log("lockBirthPosition for parent \(six(parent.name)) at \(randomGridCell!.gridPosition)", level: 75)
-        return randomGridCell!
+        return GridCell.atIf(p)?.lockIf(ownerName: name)
     }
 
     static func lockRandomEmptyCell(ownerName: String, _ onComplete: @escaping ((HotKey?) -> Void)) {

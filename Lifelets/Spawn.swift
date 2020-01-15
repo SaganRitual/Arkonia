@@ -75,19 +75,30 @@ final class Spawn: DispatchableProtocol, SpawnProtocol {
 
 extension WorkItems {
     static func spawn(_ spawn: Spawn) {
+        var newKey: HotKey?
 
         Debug.log("Spawn \(six(spawn.embryoName))", level: 71)
+
         func a() {
-            registerBirth(myName: spawn.embryoName, myParent: spawn.meTheParent)
-                { spawn.fishDay = $0; b() }
+            getStartingPosition(spawn.fishDay, spawn.embryoName, spawn.meTheParent) {
+                if let newKey = $0 {
+                    spawn.engagerKey = newKey
+                    spawn.meTheParent?.nose.color = .red
+                    b()
+                    return
+                }
+
+                Debug.log("Spawn failed \(six(spawn.meTheParent?.name)) \(six(spawn.embryoName))", level: 91)
+                spawn.postponeSpawn()
+            }
         }
 
         func b() {
-            getStartingPosition(spawn.fishDay, spawn.embryoName, spawn.meTheParent)
-                { spawn.engagerKey = $0; c($0) }
+            registerBirth(myName: spawn.embryoName, myParent: spawn.meTheParent)
+                { spawn.fishDay = $0; c() }
         }
 
-        func c(_ engagerKey: HotKey?) { spawn.buildArkon(engagerKey, d) }
+        func c() { spawn.buildArkon(d) }
         func d() { WorkItems.launchNewborn(spawn) }
 
         a()
@@ -175,10 +186,10 @@ extension Spawn {
         dp.metabolize()
     }
 
-    func buildArkon(_ engagerKey: HotKey?, _ onComplete: @escaping () -> Void) {
+    func buildArkon(_ onComplete: @escaping () -> Void) {
         let action = SKAction.run { [unowned self] in
             assert(Display.displayCycle == .actions)
-            self.buildSprites(engagerKey)
+            self.buildSprites()
             self.thorax!.addChild(self.nose!)
             self.buildGuts()
         }
@@ -186,7 +197,7 @@ extension Spawn {
         GriddleScene.shared.run(action, completion: onComplete)
     }
 
-    private func buildSprites(_ engagerKey: HotKey?) {
+    private func buildSprites() {
         assert(Display.displayCycle == .actions)
 
         self.nose = SpriteFactory.shared.noseHangar.makeSprite(embryoName)
@@ -194,7 +205,7 @@ extension Spawn {
 
         guard let thorax = self.thorax else { fatalError() }
         guard let nose = self.nose else { fatalError() }
-        guard let engagerKey = engagerKey else { fatalError() }
+        guard let engagerKey = self.engagerKey else { fatalError() }
 
         nose.alpha = 1
         nose.colorBlendFactor = 0.5
@@ -265,5 +276,17 @@ extension Spawn {
                 ndp.disengage()
             }
         }
+    }
+}
+
+extension Spawn {
+    func postponeSpawn() {
+        guard let st = meTheParent, let dp = st.dispatch else { fatalError() }
+
+        let failedSpawnCost = Arkonia.maxMannaEnergyContentInJoules
+        st.metabolism.withdrawFromSpawn(failedSpawnCost)
+
+        st.nose.color = .black
+        dp.metabolize()
     }
 }
