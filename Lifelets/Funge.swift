@@ -21,6 +21,9 @@ extension Funge {
         guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
         if !isAlive  { Debug.log("FungeRoute1 \(six(st.name))", level: 85); dp.apoptosize(); return }
+
+        st.sprite.setScale(Arkonia.arkonScaleFactor * (1 + st.metabolism.spawnEnergyFullness) / Arkonia.zoomFactor)
+
         if !canSpawn { Debug.log("FungeRoute2 \(six(st.name))", level: 85); dp.plot(); return }
 
         Debug.log("FungeRoute3 \(six(st.name))", level: 85)

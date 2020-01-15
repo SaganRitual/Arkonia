@@ -33,13 +33,17 @@ class Banana {
             sprite.colorBlendFactor = Arkonia.mannaColorBlendMinimum
 
             sprite.userData![SpriteUserDataKey.setContentsCallback] = setContentsCallback
+            sprite.userData![SpriteUserDataKey.bloomActionIx] = 0
 
             GriddleScene.arkonsPortal!.addChild(sprite)
         }
 
         func setContentsCallback() {
             Debug.log("setContentsCallback \(sprite.position)", level: 86)
-            sprite.run(Banana.Sprite.eoomAction)
+            var bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
+            sprite.run(Banana.Sprite.bloomActions[bloomActionIx])
+            bloomActionIx = (bloomActionIx + 1) % 3
+            sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
         }
 
         func setManna(_ manna: Banana) {
@@ -149,6 +153,7 @@ extension Banana.Energy {
 extension Banana.Sprite {
     static var debug = true
     static let bloomAction = SKAction.group([fadeInAction, colorAction])
+    static let doomAction = SKAction.group([fadeInAction, dolorAction])
     static let eoomAction = SKAction.group([fadeInAction, eolorAction])
 
     private static let colorAction = SKAction.colorize(
@@ -156,10 +161,18 @@ extension Banana.Sprite {
         duration: Arkonia.mannaFullGrowthDurationSeconds
     )
 
-    private static let eolorAction = SKAction.colorize(
+    private static let dolorAction = SKAction.colorize(
         with: .red, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
         duration: Arkonia.mannaFullGrowthDurationSeconds
     )
+
+    private static let eolorAction = SKAction.colorize(
+        with: .yellow, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
+        duration: Arkonia.mannaFullGrowthDurationSeconds
+    )
+
+    static let bloomActions = [ bloomAction, doomAction, eoomAction ]
+    static let colorActions = [ colorAction, dolorAction, eolorAction ]
 
     static let fadeInAction = SKAction.fadeIn(withDuration: 1)
 
@@ -188,7 +201,13 @@ extension Banana.Sprite {
 
     func plant(at cell: GridCell?, _ onComplete: @escaping () -> Void) {
         prep(at: cell)
-        sprite.run(Banana.Sprite.bloomAction)
+
+        var bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
+        let toRun = Banana.Sprite.bloomActions[bloomActionIx]
+        bloomActionIx = (bloomActionIx + 1) % 3
+        sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
+
+        sprite.run(toRun)
         onComplete()
     }
 

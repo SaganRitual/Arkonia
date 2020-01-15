@@ -88,7 +88,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
             if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
                 precondition(dp.scratch.engagerKey == nil)
-                Debug.log("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 85)
+                Debug.log("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 92)
                 dp.disengage()
                 return
             }
