@@ -174,7 +174,7 @@ extension Spawn {
         guard let st = meTheParent, let dp = st.dispatch, let sprite = st.sprite
             else { return }
 
-        let rotate = SKAction.rotate(byAngle: 4 * 2 * CGFloat.pi, duration: 2.0)
+        let rotate = SKAction.rotate(byAngle: 2 * CGFloat.pi, duration: 0.25)
         sprite.run(rotate)
 
         let spawnCost = st.getSpawnCost()

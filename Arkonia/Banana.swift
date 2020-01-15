@@ -35,7 +35,8 @@ class Banana {
             sprite.userData![SpriteUserDataKey.setContentsCallback] = setContentsCallback
             sprite.userData![SpriteUserDataKey.bloomActionIx] = 0
 
-            GriddleScene.arkonsPortal!.addChild(sprite)
+            sprite.zPosition = 4
+            GriddleScene.mannaPortal!.addChild(sprite)
         }
 
         func setContentsCallback() {

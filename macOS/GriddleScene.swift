@@ -48,6 +48,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
     ]
 
     static var arkonsPortal: SKSpriteNode!
+    static var mannaPortal: SKSpriteNode!
 
     var netDisplay: NetDisplay?
     var netPortal: SKSpriteNode!
@@ -100,6 +101,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
     override func didMove(to view: SKView) {
         GriddleScene.shared = self
 
+        GriddleScene.mannaPortal = (childNode(withName: "manna_portal") as? SKSpriteNode)!
         GriddleScene.arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
         Substrate.shared = Substrate(on: GriddleScene.arkonsPortal)
         Substrate.shared.postInit()
