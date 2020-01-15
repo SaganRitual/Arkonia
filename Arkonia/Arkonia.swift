@@ -10,7 +10,8 @@ class Arkonia {
     static let mannaScaleFactor: CGFloat = 0.1
     static let noseScaleFactor: CGFloat = 0.75
 
-    static let senseGridSide = 3
+    static let senseGridCRings = 1
+    static let senseGridSide = 1 + 2 * senseGridCRings
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeuronsSpatial = 2 * cSenseGridlets
     static let cSenseNeuronsNonSpatial = 4
