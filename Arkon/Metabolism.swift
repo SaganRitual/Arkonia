@@ -100,7 +100,7 @@ class Metabolism {
 //        Debug.log("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 79)
 
         if !Metabolism.absorbEnergyHeader {
-            Debug.log("Deposit    cJoules   fungible    stomach      ready        fat      spawn    content", level: 84)
+            Debug.log("Deposit    cJoules   fungible    stomach      ready        fat      spawn    content", level: 88)
             Metabolism.absorbEnergyHeader = true
         }
 
@@ -113,7 +113,7 @@ class Metabolism {
             String(format: "% 10.2f ", fatReserves.level) +
             String(format: "% 10.2f ", spawnReserves.level) +
             String(format: "% 10.2f ", energyContent),
-            level: 84
+            level: 88
         )
     }
 

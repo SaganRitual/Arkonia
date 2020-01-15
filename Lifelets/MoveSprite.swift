@@ -13,14 +13,15 @@ final class MoveSprite: Dispatchable {
     func moveSprite() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
-        Debug.log("MoveSprite \(six(st.name))", level: 85)
 
         if shuttle.fromCell == nil {
+            Debug.log("Resting \(six(st.name))", level: 90)
             Debug.debugColor(st, .red, .cyan)
             MoveSprite.rest(st) { dp.releaseStage() }
             return
         }
 
+        Debug.log("Moving \(six(st.name))", level: 88)
         Debug.debugColor(st, .red, .magenta)
 
         guard let hotKey = shuttle.toCell?.bell else { preconditionFailure() }

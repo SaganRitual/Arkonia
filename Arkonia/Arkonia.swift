@@ -7,7 +7,7 @@ class Arkonia {
 
     static let zoomFactor: CGFloat = 4
     static let arkonScaleFactor: CGFloat = 0.8
-    static let mannaScaleFactor: CGFloat = 0.2
+    static let mannaScaleFactor: CGFloat = 0.1
     static let noseScaleFactor: CGFloat = 0.75
 
     static let senseGridSide = 3
@@ -19,13 +19,13 @@ class Arkonia {
     static let cMotorGridlets = cMotorNeurons + 1
 
     static let allowSpawning = true
-    static let cMannaMorsels = 4000
-    static let debugMessageLevel = 88
+    static let cMannaMorsels = 6000
+    static let debugMessageLevel = 91
     static let debugMessageToConsole = true
-    static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules / 1.0
+    static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
     static let funkyCells = true
-    static let initialPopulation = 50
+    static let initialPopulation = 25
     static let oxygenCostPerTick: CGFloat = 0.0005
     static let inhaleFudgeFactor: CGFloat = 2.0
     static let spawnOverhead: CGFloat = 1.5
@@ -34,7 +34,7 @@ class Arkonia {
     static let mannaColorBlendMinimum: CGFloat = 0.15
     static let mannaFullGrowthDurationSeconds: TimeInterval = 1
     static let mannaInitialRebloomDelay = 1.0
-    static let maxMannaEnergyContentInJoules: CGFloat = 500
+    static let maxMannaEnergyContentInJoules: CGFloat = 1000
 
     static var mannaColorBlendRangeWidth: CGFloat
         { mannaColorBlendMaximum - mannaColorBlendMinimum }

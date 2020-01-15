@@ -169,7 +169,7 @@ extension Plot {
             return labs > rabs
         }
 
-        Debug.log("order for \(six(st.name)): \(order)", level: 82)
+        Debug.log("order for \(six(st.name)): \(order)", level: 90)
 
         let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 

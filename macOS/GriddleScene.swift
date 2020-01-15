@@ -134,8 +134,10 @@ class GriddleScene: SKScene, SKSceneDelegate {
             Clock.shared = Clock(self)
             Census.shared = Census(self)
 
-            self.readyForDisplayCycle = true
-            self.speed = 1
+            self.run(SKAction.run {
+                self.readyForDisplayCycle = true
+                self.speed = 1
+            })
         }
 
         a()

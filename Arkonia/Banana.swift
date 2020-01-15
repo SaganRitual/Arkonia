@@ -89,11 +89,12 @@ extension Banana {
 
     func getNutritionInJoules(_ onComplete: @escaping (CGFloat) -> Void) {
         let f = sprite.getIndicatorFullness()
+        precondition(floor(f) <= 1.0)   // floor() because we get rounding errors sometimes
+
         let e = self.energy.getEnergyContentInJoules(f)
 
         Clock.shared.entropize(e) { entropizedEnergyContentInJoules in
-            Debug.log("getNutritionInJoules: fullness = \(f), energy = \(e), z = \(entropizedEnergyContentInJoules)", level: 85)
-//            precondition(entropizedEnergyContentInJoules <= Arkonia.maxMannaEnergyContentInJoules)
+            Debug.log("getNutritionInJoules: fullness = \(f), energy = \(e), z = \(entropizedEnergyContentInJoules)", level: 88)
             onComplete(entropizedEnergyContentInJoules)
         }
     }
@@ -148,15 +149,9 @@ extension Banana.Energy {
 extension Banana.Sprite {
     static var debug = true
     static let bloomAction = SKAction.group([fadeInAction, colorAction])
-    static let doomAction = SKAction.group([fadeInAction, dolorAction])
     static let eoomAction = SKAction.group([fadeInAction, eolorAction])
 
     private static let colorAction = SKAction.colorize(
-        with: .green, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
-        duration: Arkonia.mannaFullGrowthDurationSeconds
-    )
-
-    private static let dolorAction = SKAction.colorize(
         with: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
         duration: Arkonia.mannaFullGrowthDurationSeconds
     )
@@ -169,7 +164,16 @@ extension Banana.Sprite {
     static let fadeInAction = SKAction.fadeIn(withDuration: 1)
 
     func getIndicatorFullness() -> CGFloat {
-        let top = max(sprite.colorBlendFactor, Arkonia.mannaColorBlendMinimum)
+        // Sometimes the color blend factor ends up outside this range, which
+        // botches the energy calculations when we eat the manna. I think it's
+        // something to do with the way I'm running the actions, but I don't
+        // feel like looking at it at the moment
+        let top = constrain(
+            sprite.colorBlendFactor,
+            lo: Arkonia.mannaColorBlendMinimum,
+            hi: Arkonia.mannaColorBlendMaximum
+        )
+
         let width = abs(top - Arkonia.mannaColorBlendMinimum)
         let result = width / Arkonia.mannaColorBlendRangeWidth
 
@@ -179,7 +183,6 @@ extension Banana.Sprite {
 
     func inject(at cell: GridCell?, _ onComplete: @escaping () -> Void) {
         prep(at: cell)
-        sprite.colorBlendFactor = 1
         onComplete()
     }
 
