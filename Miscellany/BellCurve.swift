@@ -40,12 +40,12 @@ class BellCurve_ {
 // https://stackoverflow.com/users/2538939/code-different
 // https://stackoverflow.com/a/49471411/1610473
 class BellCurve {
-    private let randomSource = GKARC4RandomSource()
+    static private let randomSource = GKARC4RandomSource()
 
     func nextFloat() -> Float {
         let mean: Float = 0.0, deviation: Float = 2.0
-        let x1 = randomSource.nextUniform() // a random number between 0 and 1
-        let x2 = randomSource.nextUniform() // a random number between 0 and 1
+        let x1 = BellCurve.randomSource.nextUniform() // a random number between 0 and 1
+        let x2 = BellCurve.randomSource.nextUniform() // a random number between 0 and 1
         let z1 = sqrt(-2 * log(x1)) * cos(2 * Float.pi * x2) // z1 is normally distributed
 
         // Convert z1 from the Standard Normal Distribution to our Normal Distribution

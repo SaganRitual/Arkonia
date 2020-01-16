@@ -17,26 +17,10 @@ class Net {
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
         parentActivator: ((_: Double) -> Double)?
     ) {
-
         if let L = layers {
             self.layers = Net.mutateNetStructure(L)
         } else {
-
-            var newLayersFromScratch = Net.layersTemplate
-
-            let layerInsertionOdds = Int.random(in: 1..<100)
-            if abs(layerInsertionOdds) <= 30 {
-                let insertionPoint = Int.random(in: 1..<newLayersFromScratch.count)
-
-                if layerInsertionOdds < 0 {
-                    newLayersFromScratch.remove(at: insertionPoint)
-                } else if layerInsertionOdds > 0 {
-                    newLayersFromScratch.insert(Int.random(in: 1..<20), at: insertionPoint)
-                }
-            }
-
-            self.layers = newLayersFromScratch
-
+            self.layers = Net.newLayersFromScratch()
         }
 
         (cWeights, cBiases) = Net.computeParameters(self.layers)
@@ -134,60 +118,65 @@ class Net {
     }
 
     static func mutateNetStrand(parentStrand p: [Double]?, targetLength: Int) -> [Double] {
-        var m: [Double]?
-        if let parentStrand = p { m = Mutator.shared.mutateRandomDoubles(parentStrand) }
-
-        guard var mutated = m else {
-            m = (0..<targetLength).map { _ in Double.random(in: -1..<1) }
-            return m!
+        if let parentStrand = p,
+            let childStrand = Mutator.shared.mutateRandomDoubles(parentStrand) {
+            Debug.log("Parent values \(parentStrand)", level: 93)
+            Debug.log("Child values \(childStrand)", level: 93)
+            return childStrand
         }
 
-        let parentStrandLength = p?.count ?? 0
+        let fromScratch = (0..<targetLength).map { _ in Double.random(in: -1..<1) }
+        Debug.log("Generate from scratch = \(fromScratch)", level: 93)
+        return fromScratch
+    }
 
-        if mutated.count > parentStrandLength {
-            mutated.append(contentsOf:
-                (parentStrandLength..<mutated.count).map { _ in Double.random(in: -1..<1) }
-            )
+    static func mutateNetStructure(_ layers: [Int]) -> [Int] {
+
+        var mutated = [Arkonia.cSenseNeurons]
+        let cOriginalLayers = layers.count
+
+        for L in 1..<cOriginalLayers {
+            switch Int.random(in: 0..<100) {
+
+            case  0..<80:
+                mutated.append(layers[L])
+
+            case 80..<90: continue
+
+            case  90..<95:
+                mutated.append(layers[L])
+                mutated.append(Int.random(in: 1..<10))
+
+            case  95..<100:
+                mutated.append(Int.random(in: 1..<10))
+
+            default:
+                fatalError()
+            }
         }
+
+        if mutated.count == 1 { mutated.append(Arkonia.cMotorNeurons) }
+
+        mutated.append(Arkonia.cMotorNeurons)
 
         return mutated
     }
 
-    static func mutateNetStructure(_ layers: [Int]) -> [Int] {
-        return []
-//
-//        var mutated = [ArkoniaCentral.cSenseNeurons]
-//        let cOriginalLayers = layers.count
+    static func newLayersFromScratch() -> [Int] {
+        var newLayers = Net.layersTemplate
 
-//        for L in 1..<cOriginalLayers {
-//            switch Int.random(in: 0..<100) {
-//
-//            case  0..<80:
-//                mutated.append(layers[L])
-//
-//            case 80..<90: continue
-//
-//            case  90..<95:
-//                mutated.append(layers[L])
-//                mutated.append(Int.random(in: 1..<10))
-//
-//            case  95..<100:
-//                mutated.append(Int.random(in: 1..<10))
-//
-//            default:
-//                fatalError()
-//            }
-//        }
+        let layerInsertionOdds = Int.random(in: 1..<100)
+        if abs(layerInsertionOdds) <= 30 {
+            let insertionPoint = Int.random(in: 1..<newLayers.count)
 
-//        if mutated.count == 1 { mutated.append(ArkoniaCentral.cMotorNeurons) }
+            if layerInsertionOdds < 0 {
+                newLayers.remove(at: insertionPoint)
+            } else if layerInsertionOdds > 0 {
+                newLayers.insert(Int.random(in: 1..<20), at: insertionPoint)
+            }
+        }
 
-//        mutated.append(ArkoniaCentral.cMotorNeurons)
-//
-//        return mutated
-    }
-
-    static func mutateSingleLayerStructure(_ layer: [Double]) -> [Double] {
-        return []
+        return newLayers
     }
 
 }

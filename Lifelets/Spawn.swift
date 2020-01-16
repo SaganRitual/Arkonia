@@ -1,18 +1,5 @@
 import SpriteKit
 
-protocol SpawnProtocol: class, DispatchableProtocol {
-    var callAgain: Bool { get }
-    var dispatch: Dispatch? { get set }
-    var engagerKey: HotKey? { get set }
-    var fishDay: Fishday { get set }
-    var metabolism: Metabolism? { get set }
-    var net: Net? { get }
-    var netDisplay: NetDisplay? { get }
-    var nose: SKSpriteNode? { get set }
-    var meTheParent: Stepper? { get set }
-    var thorax: SKSpriteNode? { get set }
-}
-
 enum Names {
     static var nameix = 0
     static var setix = 0
@@ -40,7 +27,7 @@ enum Names {
     }
 }
 
-final class Spawn: DispatchableProtocol, SpawnProtocol {
+final class Spawn: DispatchableProtocol {
     var dispatch: Dispatch? { willSet { fatalError() } }
 
     weak var scratch: Scratchpad?
@@ -145,8 +132,8 @@ extension Spawn {
         metabolism = Metabolism()
 
         net = Net(
-            parentBiases: meTheParent?.parentBiases, parentWeights: meTheParent?.parentWeights,
-            layers: meTheParent?.parentLayers, parentActivator: meTheParent?.parentActivator
+            parentBiases: meTheParent?.net.biases, parentWeights: meTheParent?.net.weights,
+            layers: meTheParent?.net.layers, parentActivator: meTheParent?.net.activatorFunction
         )
 
         guard let sprite = self.thorax else { fatalError() }
