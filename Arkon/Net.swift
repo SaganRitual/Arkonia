@@ -6,6 +6,12 @@ class Net {
         Arkonia.cSenseNeurons, Arkonia.cMotorNeurons, Arkonia.cMotorNeurons
     ]
 
+    static let dispatchQueue = DispatchQueue(
+        label: "ak.net.q",
+        attributes: .concurrent,
+        target: DispatchQueue.global(qos: .default)
+    )
+
     let activatorFunction: (_: Double) -> Double
     let biases: [Double]
     let cBiases: Int
@@ -13,9 +19,19 @@ class Net {
     let layers: [Int]
     let weights: [Double]
 
-    init(
+    static func makeNet(
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
-        parentActivator: ((_: Double) -> Double)?
+        parentActivator: ((_: Double) -> Double)?, _ onComplete: @escaping (Net) -> Void
+    ) {
+        dispatchQueue.async {
+            let newNet = Net(parentBiases, parentWeights, layers, parentActivator)
+            onComplete(newNet)
+        }
+    }
+
+    private init(
+        _ parentBiases: [Double]?, _ parentWeights: [Double]?, _ layers: [Int]?,
+        _ parentActivator: ((_: Double) -> Double)?
     ) {
         if let L = layers {
             self.layers = Net.mutateNetStructure(L)
@@ -29,12 +45,6 @@ class Net {
         self.weights = Net.mutateNetStrand(parentStrand: parentWeights, targetLength: cWeights)
 
         self.activatorFunction = Net.mutateActivator(parentActivator: parentActivator)
-
-//        Debug.log("L", self.layers, self.layers.count, "b", cBiases, self.biases.count, "w", cWeights, self.weights.count)
-    }
-
-    deinit {
-//        Debug.log("~Net()?")
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {

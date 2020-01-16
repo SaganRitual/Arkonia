@@ -128,18 +128,14 @@ typealias OnComplete0p = () -> Void
 typealias OnComplete1p = (HotKey?) -> Void
 
 extension Spawn {
-    func buildGuts() {
+    func buildGuts(_ onComplete: @escaping (Net) -> Void) {
         metabolism = Metabolism()
 
-        net = Net(
+        Net.makeNet(
             parentBiases: meTheParent?.net.biases, parentWeights: meTheParent?.net.weights,
             layers: meTheParent?.net.layers, parentActivator: meTheParent?.net.activatorFunction
-        )
-
-        guard let sprite = self.thorax else { fatalError() }
-        buildNetDisplay(sprite)
+        ) { onComplete($0) }
     }
-
 }
 
 extension Spawn {
@@ -174,14 +170,24 @@ extension Spawn {
     }
 
     func buildArkon(_ onComplete: @escaping () -> Void) {
-        let action = SKAction.run { [unowned self] in
-            assert(Display.displayCycle == .actions)
-            self.buildSprites()
-            self.thorax!.addChild(self.nose!)
-            self.buildGuts()
+
+        func a() {
+            let action = SKAction.run { [unowned self] in self.buildSprites() }
+            GriddleScene.shared.run(action, completion: b)
         }
 
-        GriddleScene.shared.run(action, completion: onComplete)
+        func b() { self.buildGuts { self.net = $0; c() } }
+
+        func c() {
+            let action = SKAction.run { [unowned self] in
+                guard let sprite = self.thorax else { fatalError() }
+                self.buildNetDisplay(sprite)
+            }
+
+            GriddleScene.shared.run(action, completion: onComplete)
+        }
+
+        a()
     }
 
     private func buildSprites() {
@@ -189,6 +195,8 @@ extension Spawn {
 
         self.nose = SpriteFactory.shared.noseHangar.makeSprite(embryoName)
         self.thorax = SpriteFactory.shared.arkonsHangar.makeSprite(embryoName)
+
+        self.thorax!.addChild(self.nose!)
 
         guard let thorax = self.thorax else { fatalError() }
         guard let nose = self.nose else { fatalError() }
