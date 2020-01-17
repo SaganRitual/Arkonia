@@ -205,11 +205,13 @@ extension Spawn {
         nose.alpha = 1
         nose.colorBlendFactor = 0.5
         nose.setScale(Arkonia.noseScaleFactor)
+        nose.zPosition = 6
 
         thorax.setScale(Arkonia.arkonScaleFactor * 1.0 / Arkonia.zoomFactor)
         thorax.colorBlendFactor = 0.5
         thorax.position = engagerKey.scenePosition
         thorax.alpha = 1
+        thorax.zPosition = 5
 
         let noseColor: SKColor = (meTheParent == nil) ? .magenta : .yellow
         Debug.debugColor(thorax, .green, nose, noseColor)

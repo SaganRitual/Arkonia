@@ -20,7 +20,7 @@ extension Funge {
     func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool) {
         guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        if !isAlive  { Debug.log("FungeRoute1 \(six(st.name))", level: 85); dp.apoptosize(); return }
+        if !isAlive || st.gridCell.isInDangerZone { Debug.log("FungeRoute1 \(six(st.name))", level: 85); dp.apoptosize(); return }
 
         st.sprite.setScale(Arkonia.arkonScaleFactor * (1 + st.metabolism.spawnEnergyFullness) / Arkonia.zoomFactor)
 
@@ -50,7 +50,7 @@ extension WorkItems {
     static func getAge(
         of arkon: String, at currentTime: Int, _ onComplete: @escaping OnComplete1Int
     ) {
-        Census.dispatchQueue.async(flags: .barrier) {
+        Census.dispatchQueue.async {
             let age = Census.getAge(of: arkon, at: currentTime)
             onComplete(age)
         }
@@ -65,7 +65,7 @@ extension WorkItems {
     ) {
         Funge.dispatchQueue.async {
             let isAlive = stepper.metabolism.fungeProper(
-                age: age, stillCounter: stepper.dispatch.scratch.stillCounter
+                age: age, co2Counter: stepper.dispatch.scratch.co2Counter
             )
 
             let canSpawn = stepper.canSpawn()
@@ -77,37 +77,17 @@ extension WorkItems {
 
 extension Metabolism {
     static var showHeader = true
-    func fungeProper(age: Int, stillCounter: CGFloat) -> Bool {
+    func fungeProper(age: Int, co2Counter: CGFloat) -> Bool {
         let joulesNeeded = Arkonia.fudgeMassFactor * mass
 
         withdrawFromReady(joulesNeeded)
 
         let oxygenCost: CGFloat = Arkonia.oxygenCostPerTick
-//        let ratchet = CGFloat(1 + Int(stillCounter * 100) / 5)
-        let stillnessCost: CGFloat = (pow(1.01, stillCounter) - 1)// * ratchet
+        let co2Cost: CGFloat = pow(Arkonia.co2BaseCost, co2Counter)
 
-        oxygenLevel -= oxygenCost + stillnessCost
+        oxygenLevel -= oxygenCost
+        co2Level += co2Cost
 
-        if Metabolism.showHeader {
-            Debug.log("             age     mass      w/d    sCost       O2     oCost     O2+s    gFull  gContent  gCapacity", level: 79)
-            Metabolism.showHeader = false
-        }
-
-        Debug.log(
-            "fungeProper:" +
-            " \(String(format: "% 3d", age))" +
-            " \(String(format: "% 8.3f", mass))" +
-            " \(String(format: "% 8.3f", joulesNeeded))" +
-            " \(String(format: "% 8.3f", stillnessCost))" +
-            " \(String(format: "% 8.3f%%", oxygenLevel * 100))" +
-            " \(String(format: "% 8.3f", oxygenCost))" +
-            " \(String(format: "% 8.3f", oxygenCost + stillnessCost))" +
-            " \(String(format: "% 8.3f%%", fungibleEnergyFullness * 100))" +
-            " \(String(format: "% 8.3f", fungibleEnergyContent))" +
-            " \(String(format: "% 10.3f", fungibleEnergyCapacity))"
-            , level: 80
-        )
-
-        return fungibleEnergyFullness > 0 && oxygenLevel > 0
+        return fungibleEnergyFullness > 0 && oxygenLevel > 0 && co2Level < Arkonia.co2MaxLevel
     }
 }

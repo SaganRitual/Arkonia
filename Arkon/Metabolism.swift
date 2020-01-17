@@ -5,6 +5,7 @@ class Metabolism {
     let fungibleReserves: [EnergyReserve]
     let reUnderflowThreshold: CGFloat
 
+    var co2Level: CGFloat = 0
     var oxygenLevel: CGFloat = 1.0
 
     var bone = EnergyReserve(.bone)
@@ -75,6 +76,7 @@ class Metabolism {
             "Metabolism():" +
             " mass \(String(format: "%-2.6f", mass))," +
             " O2 \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
+            " CO2 \(String(format: "%-3.2f%%", co2Level * 100))" +
             " energy \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
             " level \(String(format: "%-2.6f", fungibleEnergyContent))" +
             " cap \(String(format: "%-2.6f", fungibleEnergyCapacity))\n"
@@ -84,6 +86,7 @@ class Metabolism {
 
     static var absorbEnergyHeader = false
     func absorbEnergy(_ cJoules: CGFloat) {
+        respire()
 
 //        Debug.log(
 //            "[Deposit " +
@@ -99,7 +102,7 @@ class Metabolism {
         stomach.deposit(cJoules)
 //        Debug.log("Deposit" + String(format: "% 6.6f joules", cJoules) + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity), level: 79)
 
-        if !Metabolism.absorbEnergyHeader {
+        if false && !Metabolism.absorbEnergyHeader {
             Debug.log("Deposit    cJoules   fungible    stomach      ready        fat      spawn    content", level: 88)
             Metabolism.absorbEnergyHeader = true
         }
@@ -117,8 +120,9 @@ class Metabolism {
         )
     }
 
-    func inhale(_ howMuch: CGFloat = 1.0) {
-        oxygenLevel = constrain(howMuch + oxygenLevel, lo: 0.0, hi: 1)
+    func respire(_ inhale: CGFloat = 1.0, _ exhale: CGFloat = Arkonia.co2MaxLevel) {
+        oxygenLevel = constrain(inhale + oxygenLevel, lo: 0.0, hi: 1)
+        co2Level = max(co2Level - exhale, 0.0)
     }
 
     @discardableResult

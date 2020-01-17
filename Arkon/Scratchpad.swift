@@ -11,7 +11,7 @@ class Scratchpad {
     var name = ""
     weak var parentNet: Net?
     weak var stepper: Stepper?
-    var stillCounter: CGFloat = 0
+    var co2Counter: CGFloat = 0
 
     //swiftlint:disable large_tuple
     func getKeypoints() -> (Scratchpad, Dispatch, Stepper) {

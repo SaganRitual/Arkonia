@@ -18,7 +18,7 @@ class Substrate {
     private var xPortal = 0, yPortal = 0
 
     static let serialQueue = DispatchQueue(
-        label: "arkonia.grid.serial", target: DispatchQueue.global(qos: .default)
+        label: "arkonia.grid.serial", target: DispatchQueue.global(qos: .background)
     )
 
     init(on portal: SKSpriteNode) {
@@ -49,6 +49,11 @@ class Substrate {
 
     func getCell(at position: AKPoint) -> GridCell {
         elles[position.y + hGrid][position.x + wGrid]
+    }
+
+    func isInDangerZone(_ cell: GridCell) -> Bool {
+        return  cell.gridPosition.x <= -wGrid || cell.gridPosition.x >= wGrid ||
+                cell.gridPosition.y <= -hGrid || cell.gridPosition.y >= hGrid
     }
 
     func postInit() {

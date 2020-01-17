@@ -5,19 +5,17 @@ func showDebugLog() {
 }
 
 struct Debug {
-    static let debugColorIsEnabled = false
-
     static func debugColor(
         _ thorax: SKSpriteNode, _ thoraxColor: SKColor,
         _ nose: SKSpriteNode, _ noseColor: SKColor
     ) {
-        if !Debug.debugColorIsEnabled { return }
+        if !Arkonia.debugColorIsEnabled { return }
         thorax.color = thoraxColor
         nose.color = noseColor
     }
 
     static func debugColor(_ stepper: Stepper, _ thoraxColor: SKColor, _ noseColor: SKColor) {
-        if !Debug.debugColorIsEnabled { return }
+        if !Arkonia.debugColorIsEnabled { return }
         stepper.sprite.color = thoraxColor
         stepper.nose.color = noseColor
     }
@@ -36,17 +34,17 @@ struct Debug {
     }()
 
     static func log(_ message: String, level: Int? = nil) {
+        let useThisLevel = level ?? Arkonia.debugMessageLevel
+
+        guard useThisLevel >= Arkonia.debugMessageLevel else { return }
+
         debugLogQueue.async {
-            let useThisLevel = level ?? Arkonia.debugMessageLevel
+            logMessages[logIndex] = message
+            logIndex = (logIndex + 1) % cLogMessages
 
-            if useThisLevel >= Arkonia.debugMessageLevel {
-                logMessages[logIndex] = message
-                logIndex = (logIndex + 1) % cLogMessages
+            if Arkonia.debugMessageToConsole { print(message) }
 
-                if Arkonia.debugMessageToConsole { print(message) }
-
-                if logIndex == 0 { logWrapped = true }
-            }
+            if logIndex == 0 { logWrapped = true }
         }
     }
 

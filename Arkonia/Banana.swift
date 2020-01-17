@@ -55,6 +55,7 @@ class Banana {
     fileprivate let energy = Energy()
     fileprivate let fishNumber: Int
     fileprivate let grid = Grid()
+    fileprivate var rebloomDelay = Arkonia.mannaInitialRebloomDelay
     fileprivate let sprite: Sprite
 
     fileprivate init(_ fishNumber: Int, _ onComplete: @escaping () -> Void) {
@@ -68,40 +69,51 @@ class Banana {
 
 extension Banana {
     func harvest(_ onComplete: @escaping (CGFloat) -> Void) {
-        var newHome: GridCell!
-        var didPlant = false
+        getNutritionInJoules {
+            Debug.log("harvest", level: 85)
 
-        func a() {
-            sprite.reset()
-            grid.plant(sprite.sprite) { newHome = $0; didPlant = $1; b() }
+            self.sprite.reset()
+            onComplete($0)
+
+            self.replant()
         }
-
-        func b() {
-            if didPlant { self.sprite.plant(at: newHome, c) }
-            else        { self.sprite.inject(at: newHome, c) }
-        }
-
-        func c() {
-            getNutritionInJoules {
-                self.sprite.sprite.colorBlendFactor = Arkonia.mannaColorBlendMinimum
-                onComplete($0)
-            }
-        }
-
-        Debug.log("harvest", level: 85)
-        a()
     }
 
-    func getNutritionInJoules(_ onComplete: @escaping (CGFloat) -> Void) {
+    func getEnergyContentInJoules() -> CGFloat {
         let f = sprite.getIndicatorFullness()
         precondition(floor(f) <= 1.0)   // floor() because we get rounding errors sometimes
 
-        let e = self.energy.getEnergyContentInJoules(f)
+        return self.energy.getEnergyContentInJoules(f)
+    }
+
+    func getNutritionInJoules(_ onComplete: @escaping (CGFloat) -> Void) {
+        let e = getEnergyContentInJoules()
 
         Clock.shared.entropize(e) { entropizedEnergyContentInJoules in
-            Debug.log("getNutritionInJoules: fullness = \(f), energy = \(e), z = \(entropizedEnergyContentInJoules)", level: 88)
             onComplete(entropizedEnergyContentInJoules)
         }
+    }
+
+    func replant() {
+        var newHome: GridCell!
+        var didPlant = false
+
+        func a() { Banana.dispatchQueue.asyncAfter(deadline: .now() + rebloomDelay, execute: b) }
+
+        func b() {
+            sprite.reset()
+            grid.plant(sprite.sprite) { newHome = $0; didPlant = $1; c() }
+        }
+
+        func c() {
+            if didPlant { self.sprite.plant(at: newHome, d) }
+            else        { self.sprite.inject(at: newHome, d) }
+        }
+
+        func d() { rebloomDelay += 0.1 }
+
+        Debug.log("harvest", level: 85)
+        a()
     }
 
     fileprivate func sow(_ onComplete: @escaping () -> Void) {
@@ -175,7 +187,9 @@ extension Banana.Sprite {
     static let bloomActions = [ bloomAction, doomAction, eoomAction ]
     static let colorActions = [ colorAction, dolorAction, eolorAction ]
 
-    static let fadeInAction = SKAction.fadeIn(withDuration: 1)
+    static let fadeInAction = SKAction.fadeAlpha(
+        to: 1, duration: Arkonia.mannaFullGrowthDurationSeconds
+    )
 
     func getIndicatorFullness() -> CGFloat {
         // Sometimes the color blend factor ends up outside this range, which
@@ -220,5 +234,6 @@ extension Banana.Sprite {
     fileprivate func reset() {
         Banana.Sprite.debug = false
         sprite.alpha = 0
+        sprite.colorBlendFactor = Arkonia.mannaColorBlendMinimum
     }
 }

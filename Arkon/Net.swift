@@ -48,16 +48,8 @@ class Net {
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
-        var cWeights = 0
-        for c in 0..<(layers.count - 1) {
-            cWeights += layers[c] * layers[c + 1]
-        }
-
-        var cBiases = 0
-        for b in 1..<layers.count {
-            cBiases += layers[b]
-        }
-
+        let cWeights = zip(layers.dropLast(), layers.dropFirst()).reduce(0) { $0 + ($1.0 * $1.1) }
+        let cBiases = layers.dropFirst().reduce(0, +)
         return (cWeights, cBiases)
     }
 
@@ -129,10 +121,17 @@ class Net {
 
     static func mutateNetStrand(parentStrand p: [Double]?, targetLength: Int) -> [Double] {
         if let parentStrand = p,
-            let childStrand = Mutator.shared.mutateRandomDoubles(parentStrand) {
-            Debug.log("Parent values \(parentStrand)", level: 93)
-            Debug.log("Child values \(childStrand)", level: 93)
-            return childStrand
+            let firstPass = Mutator.shared.mutateRandomDoubles(parentStrand) {
+
+            let c = firstPass.count
+
+            if c > targetLength {
+                return Array(firstPass.prefix(targetLength))
+            } else if c < targetLength {
+                return firstPass + (c..<targetLength).map { _ in Double.random(in: -1..<1) }
+            }
+
+            return firstPass
         }
 
         let fromScratch = (0..<targetLength).map { _ in Double.random(in: -1..<1) }
@@ -172,21 +171,5 @@ class Net {
         return mutated
     }
 
-    static func newLayersFromScratch() -> [Int] {
-        var newLayers = Net.layersTemplate
-
-        let layerInsertionOdds = Int.random(in: 1..<100)
-        if abs(layerInsertionOdds) <= 30 {
-            let insertionPoint = Int.random(in: 1..<newLayers.count)
-
-            if layerInsertionOdds < 0 {
-                newLayers.remove(at: insertionPoint)
-            } else if layerInsertionOdds > 0 {
-                newLayers.insert(Int.random(in: 1..<20), at: insertionPoint)
-            }
-        }
-
-        return newLayers
-    }
-
+    static func newLayersFromScratch() -> [Int] { Net.layersTemplate }
 }

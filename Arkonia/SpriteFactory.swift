@@ -47,11 +47,11 @@ class SpriteHangar {
         if drone.getKeyField(.uuid, require: false) as? String == nil {
             if drone.userData == nil { drone.userData = [:] }
             drone.userData![SpriteUserDataKey.uuid] = UUID().uuidString
+            drone.userData![SpriteUserDataKey.debug] = [String]()
         }
 
         drone.alpha = 0
         drone.name = name
-        drone.userData![SpriteUserDataKey.debug] = name
         drone.color = .gray
         drone.colorBlendFactor = 1.0
         return drone

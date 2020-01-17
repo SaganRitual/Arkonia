@@ -9,9 +9,9 @@ extension Metabolize {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         Debug.log("Metabolize \(six(st.name))", level: 71)
 
-        if Debug.debugColorIsEnabled { st.sprite.color = .red }
+        if Arkonia.debugColorIsEnabled { st.sprite.color = .red }
 
-        st.metabolism.metabolizeProper(ch.stillCounter > 0, st.nose)
+        st.metabolism.metabolizeProper(ch.co2Counter > 0, st.nose)
 
         dp.colorize()
     }
@@ -24,9 +24,9 @@ extension Metabolism {
         }
 
         if fungibleEnergyFullness < 0.5 {
-            if Debug.debugColorIsEnabled { nose.color = .green }
+            if Arkonia.debugColorIsEnabled { nose.color = .green }
         } else {
-            if Debug.debugColorIsEnabled { nose.color = .blue }
+            if Arkonia.debugColorIsEnabled { nose.color = .blue }
         }
 
         nose.colorBlendFactor = 1 - fungibleEnergyFullness

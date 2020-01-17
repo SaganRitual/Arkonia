@@ -8,8 +8,8 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
             (self.rawValue + 1) / Double(Contents.allCases.count + 1)
         }
 
-        var isEdible:   Bool { self == .arkon || self == .manna }
-        var isOccupied: Bool { self != .invalid && self != .nothing }
+        var isEdible:       Bool { self == .arkon || self == .manna }
+        var isOccupied:     Bool { self != .invalid && self != .nothing }
     }
 
     var debugDescription: String { return "GridCell.at(\(gridPosition.x), \(gridPosition.y))" }
@@ -26,6 +26,8 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     private (set) var contents = Contents.nothing
 
     weak var sprite: SKSpriteNode?
+
+    var isInDangerZone: Bool { Substrate.shared.isInDangerZone(self) }
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
         self.gridPosition = gridPosition
@@ -87,9 +89,25 @@ extension GridCell {
             self.contents = newContentType
             self.sprite = newSprite
 
-            floatMannaIf()
-            onComplete()
+            guard self.contents == .nothing else { e(); return }
+
+            if let dormantMannaSprite = self.dormantManna.popFirst() {
+                self.contents = .manna
+                self.sprite = dormantMannaSprite
+                c(dormantMannaSprite)
+                return
+            }
+
+            e()
         }
+
+        func c(_ dormantMannaSprite: SKSpriteNode) {
+            let a = SKAction.run { dormantMannaSprite.setContentsCallback?() }
+            dormantMannaSprite.run(a)
+            e()
+        }
+
+        func e() { onComplete() }
 
         a()
     }

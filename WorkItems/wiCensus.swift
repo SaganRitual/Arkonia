@@ -6,7 +6,7 @@ extension WorkItems {
     static func registerBirth(
         myName: String, myParent: Stepper?, _ onComplete: @escaping OnComplete1Fishday
     ) {
-        Census.dispatchQueue.async(flags: .barrier) {
+        Census.dispatchQueue.async {
             let fishday = Census.shared.registerBirth(myName, myParent)
             onComplete(fishday)
         }
@@ -24,7 +24,7 @@ extension WorkItems {
     static func registerDeath(
         _ nameOfDeceased: String, _ worldTime: Int, _ onComplete: @escaping () -> Void
     ) {
-        Census.dispatchQueue.async(flags: .barrier) {
+        Census.dispatchQueue.async {
             Census.shared.registerDeath(nameOfDeceased, worldTime)
             onComplete()
         }
@@ -45,7 +45,10 @@ extension WorkItems {
         var worldClock = 0
 
         func a() { getWorldClock              { worldClock = $0; b() } }
-        func b() { getNames(portal)           { names = $0; c() } }
+
+        // append here because grasping for straws at the cause of this
+        // weird data race
+        func b() { getNames(portal)           { names.append(contentsOf: $0); c() } }
         func c() { getAges(names, worldClock) { ages = $0; d() } }
 
         func d() {
@@ -59,7 +62,7 @@ extension WorkItems {
     private static func getAges(
         _ names: [String], _ currentTime: Int, _ onComplete: @escaping OnCompleteIntArray
     ) {
-        Census.dispatchQueue.async(flags: .barrier) {
+        Census.dispatchQueue.async {
             let ages = names.map { Census.getAge(of: $0, at: currentTime) }
             onComplete(ages)
         }
@@ -68,15 +71,12 @@ extension WorkItems {
     static func getNames(
         _ portal: SKSpriteNode, _ onComplete: @escaping OnCompleteStringArray
     ) {
-        var names = [String]()
-
         let action = SKAction.run {
-            names = portal.children.compactMap { node in
-                (node as? SKSpriteNode)?.getStepper(require: false)?.name
-            }
+            let names = portal.children.compactMap { $0.name }
+            onComplete(names)
         }
 
-        portal.run(action) { onComplete(names) }
+        portal.run(action)
     }
 
 //    static let targetCArkons = 50

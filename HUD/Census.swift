@@ -23,7 +23,6 @@ class Census {
 
     static let dispatchQueue = DispatchQueue(
         label: "ak.census.q",
-        attributes: .concurrent,
         target: DispatchQueue.global(qos: .utility)
     )
 
@@ -46,7 +45,7 @@ class Census {
 
 extension Census {
     func getNextFishNumber(_ onComplete: @escaping (Int) -> Void) {
-        Census.dispatchQueue.async(flags: .barrier) {
+        Census.dispatchQueue.async {
             let next = self.getNextFishNumber()
             onComplete(next)
         }

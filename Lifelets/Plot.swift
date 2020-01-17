@@ -19,7 +19,7 @@ final class Plot: Dispatchable {
 
         func a() { self.makeSenseGrid(b) }
         func b() { self.computeMove(c) }
-        func c() { ch.stillCounter += ch.cellShuttle!.didMove ? 0.005 : 0.05; d() }
+        func c() { ch.co2Counter += ch.cellShuttle!.didMove ? 0 : 1; d() }
         func d() { dp.moveSprite() }
 
         a()
@@ -50,7 +50,9 @@ final class Plot: Dispatchable {
 
         func a() { loadGridInputs(from: sg) { gridInputs = $0; b() } }
 
-        func b() {
+        func b() { Net.dispatchQueue.async(execute: c) }
+
+        func c() {
             self.getSenseData(gridInputs)
             guard let sd = self.senseData else { fatalError() }
             ch.cellShuttle = self.makeCellShuttle(sd, sg)
@@ -66,30 +68,32 @@ extension Plot {
     private func loadGridInputs(
         from senseGrid: CellSenseGrid, _ onComplete: @escaping ([Double]) -> Void
     ) {
-        var gridInputs = [Double]()
+        var entropyPerJoule = 0.0
+        func a() { Clock.shared.entropize(1) { entropyPerJoule = Double($0); b() } }
 
-        func a(_ ix: Int) {
-            if ix >= senseGrid.cells.count { onComplete(gridInputs); return }
+        func b() { DispatchQueue.global(qos: .default).async(execute: c) }
 
-            self.loadGridInput(senseGrid.cells[ix]) {
-                gridInputs.append(contentsOf: [$0, $1])
-
-                a(ix + 1) // This isn't recursing; it's running in a separate work item
+        func c() {
+            var gridInputs = [Double]()
+            for ix in 0..<senseGrid.cells.count {
+                let (content, nutrition) = self.loadGridInput(senseGrid.cells[ix])
+                let cc = content * entropyPerJoule, nn = nutrition * entropyPerJoule
+                gridInputs.append(contentsOf: [cc, nn])
             }
+
+            onComplete(gridInputs)
         }
 
-        a(0)
+        a()
     }
 
-    private func loadGridInput(
-        _ cellKey: GridCellKey, _ onComplete: @escaping (Double, Double) -> Void
-    ) {
+    private func loadGridInput(_ cellKey: GridCellKey) -> (Double, Double) {
+
         let contentsAsNetSignal = cellKey.contents.asNetSignal
         let nutritionAsNetSignal: (CGFloat) -> Double = { Double($0) - 0.5 }
 
         if cellKey.contents == .invalid {
-            onComplete(contentsAsNetSignal, 0)
-            return
+            return (contentsAsNetSignal, 0)
         }
 
         guard let (_, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
@@ -98,30 +102,19 @@ extension Plot {
 
         switch cellKey.contents {
         case .arkon:
-            Clock.shared.entropize(st.metabolism!.energyFullness) {
-                nutrition = nutritionAsNetSignal($0)
-                onComplete(contentsAsNetSignal, nutrition)
-            }
+            nutrition = nutritionAsNetSignal(st.metabolism!.energyFullness)
+            return (contentsAsNetSignal, nutrition)
 
         case .manna:
             guard let manna = cellKey.sprite?.getManna(require: false)
                 else { fatalError() }
 
-            var nutrition: CGFloat = 0
-            var entropized: CGFloat = 0
-
-            func a() { manna.getNutritionInJoules { nutrition = $0; b() } }
-
-            func b() { Clock.shared.entropize(nutrition) { entropized = $0; c() } }
-
-            func c() {
-                onComplete(contentsAsNetSignal, nutritionAsNetSignal(nutrition))
-            }
-
-            a()
+            let energy = manna.getEnergyContentInJoules()
+            let energyAsNetSignal = nutritionAsNetSignal(energy)
+            return (contentsAsNetSignal, energyAsNetSignal)
 
         case .nothing:
-            onComplete(contentsAsNetSignal, 0)
+            return (contentsAsNetSignal, 0)
 
         case .invalid: fatalError()
         }

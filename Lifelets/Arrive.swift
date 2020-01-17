@@ -20,10 +20,8 @@ final class Arrive: Dispatchable {
         guard let shuttle = ch.cellShuttle else { fatalError() }
         guard let mannaSprite = shuttle.consumedSprite else { fatalError() }
 
-        ch.stillCounter /= 2
-
         mannaSprite.getManna()!.harvest { entropizedInJoules in
-            Debug.log("graze \(entropizedInJoules)", level: 85)
+            Debug.log("graze \(entropizedInJoules)", level: 95)
             st.metabolism.absorbEnergy(entropizedInJoules)
             dp.releaseStage()
         }

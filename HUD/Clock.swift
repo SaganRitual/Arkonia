@@ -15,7 +15,6 @@ class Clock {
 
     static let dispatchQueue = DispatchQueue(
         label: "ak.clock.q",
-        attributes: .concurrent,
         target: DispatchQueue.global(qos: .utility)
     )
 
@@ -31,7 +30,7 @@ class Clock {
         Arkonia.tickTheWorld(Clock.dispatchQueue, self.tickTheWorld)
     }
 
-    func entropize(_ energyInJoules: CGFloat, _ onComplete: @escaping (CGFloat) -> Void) {
+    func entropize(_ energyInJoules: CGFloat = 1, _ onComplete: @escaping (CGFloat) -> Void) {
         Clock.dispatchQueue.async {
             let freakingUglyFixThis = self.getEntropy()
             let ummWhichIsEntropyHuh = (1 - freakingUglyFixThis)

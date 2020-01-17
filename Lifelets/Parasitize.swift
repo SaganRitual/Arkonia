@@ -93,7 +93,6 @@ extension WorkItems {
 
     static func parasitize(_ victor: Stepper, _ victim: Stepper) {
         Substrate.serialQueue.async {
-            victor.dispatch.scratch.stillCounter = 0
             victor.metabolism.parasitizeProper(victim)
             victor.dispatch.releaseStage()
 
@@ -109,6 +108,5 @@ extension Metabolism {
         let netEnergy = victimEnergy * 0.25
 
         absorbEnergy(netEnergy)
-        inhale()
     }
 }

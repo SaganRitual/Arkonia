@@ -1,7 +1,7 @@
 import SpriteKit
 
 final class MoveSprite: Dispatchable {
-    static let moveDuration: TimeInterval = 0.2
+    static let moveDuration: TimeInterval = 0.1
     static let restAction = SKAction.wait(forDuration: moveDuration)
 
     static func rest(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
