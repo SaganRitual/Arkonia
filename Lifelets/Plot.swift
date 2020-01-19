@@ -5,12 +5,6 @@ final class Plot: Dispatchable {
     var senseData: [Double]?
     var senseGrid: CellSenseGrid?
 
-    static let dispatchQueue = DispatchQueue(
-        label: "ak.plot.q",
-        attributes: .concurrent,
-        target: DispatchQueue.global(qos: .default)
-    )
-
     internal override func launch() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         Debug.log("Plot \(six(st.name))", level: 82)

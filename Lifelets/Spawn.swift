@@ -45,12 +45,6 @@ final class Spawn: DispatchableProtocol {
     var thorax: SKSpriteNode?
     var tempStrongReference: Spawn?
 
-    static let dispatchQueue = DispatchQueue(
-        label: "ak.spawn.q",
-        attributes: .concurrent,
-        target: DispatchQueue.global(qos: .default)
-    )
-
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
         self.meTheParent = scratch.stepper
