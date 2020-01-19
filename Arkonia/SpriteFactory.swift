@@ -51,6 +51,7 @@ class SpriteHangar {
         }
 
         drone.alpha = 0
+        drone.zRotation = 0
         drone.name = name
         drone.color = .gray
         drone.colorBlendFactor = 1.0

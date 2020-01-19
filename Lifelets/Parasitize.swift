@@ -17,7 +17,7 @@ extension WorkItems {
         func b() {
             guard let winner = victor, let loser = victim else { fatalError() }
 
-            Debug.debugColor(loser, .red, .yellow)
+            Debug.debugColor(loser, .red, .purple)
             Debug.debugColor(winner, .green, .red)
 
             dieHorribly(loser.sprite, c)
@@ -25,7 +25,11 @@ extension WorkItems {
 
         func c() {
             guard let winner = victor, let loser = victim else { fatalError() }
-            parasitize(winner, loser)
+            parasitize(winner, loser, d)
+        }
+
+        func d() {
+            guard let winner = victor else { fatalError() }
             winner.dispatch.scratch.co2Counter = 0
         }
 
@@ -34,11 +38,17 @@ extension WorkItems {
 }
 
 extension WorkItems {
-    private static let bleedToDeath = SKAction.colorize(with: .red, colorBlendFactor: 1, duration: 0.5)
-    private static let resizeToDeath = SKAction.scale(to: 0.25, duration: 0.5)
-    private static let groupDo = SKAction.group([bleedToDeath, resizeToDeath])
-    private static let groupUndo = SKAction.group([bleedToDeath.reversed(), resizeToDeath.reversed()])
-    private static let sequence = SKAction.sequence([groupDo, groupUndo])
+    private static let big = Arkonia.arkonScaleFactor * 3 / Arkonia.zoomFactor
+    private static let small = Arkonia.arkonScaleFactor / Arkonia.zoomFactor
+    private static let d = 0.1
+
+    private static let bleedToDeath = SKAction.colorize(with: .red, colorBlendFactor: 1, duration: d)
+//    private static let resizeToDeath = SKAction.scale(to: big, duration: d)
+    private static let deelbToDeath = SKAction.colorize(with: .white, colorBlendFactor: 0, duration: d)
+//    private static let eziserToDeath = SKAction.scale(to: small, duration: d)
+//    private static let groupDo = SKAction.group([bleedToDeath, resizeToDeath])
+//    private static let groupUndo = SKAction.group([deelbToDeath, eziserToDeath])
+    private static let sequence = SKAction.sequence([bleedToDeath, deelbToDeath])
     private static let makeAScene = SKAction.repeat(sequence, count: 5)
 
     static func dieHorribly(_ sprite: SKSpriteNode, _ onComplete: @escaping () -> Void) {
@@ -92,12 +102,16 @@ extension WorkItems {
         }
     }
 
-    static func parasitize(_ victor: Stepper, _ victim: Stepper) {
+    static func parasitize(
+        _ victor: Stepper, _ victim: Stepper, _ onComplete: @escaping () -> Void
+    ) {
         Substrate.serialQueue.async {
             victor.metabolism.parasitizeProper(victim)
             victor.dispatch.releaseStage()
 
-            if victor.isTurnabouted { victim.dispatch.apoptosize() }
+            victim.dispatch.apoptosize()
+
+            onComplete()
         }
     }
 }

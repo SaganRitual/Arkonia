@@ -180,7 +180,7 @@ extension Banana.Sprite {
     )
 
     private static let eolorAction = SKAction.colorize(
-        with: .yellow, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
+        with: .green, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
         duration: Arkonia.mannaFullGrowthDurationSeconds
     )
 

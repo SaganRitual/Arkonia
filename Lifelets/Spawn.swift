@@ -153,16 +153,20 @@ extension Spawn {
         guard let st = meTheParent, let dp = st.dispatch, let sprite = st.sprite
             else { return }
 
-        let rotate = SKAction.rotate(byAngle: 2 * CGFloat.pi, duration: 0.25)
-        sprite.run(rotate)
+        func a() {
+            let rotate = SKAction.rotate(byAngle: 2 * CGFloat.pi, duration: 0.25)
+            sprite.run(rotate, completion: b)
+        }
 
-        let spawnCost = st.getSpawnCost()
-        //        Debug.log("pre-spawn cost = \(spawnCost), remainder: \(st.metabolism.stomach.mass) \(st.metabolism.stomach.level) = \(st.metabolism.energyContent)", level: 74)
-        st.metabolism.withdrawFromSpawn(spawnCost)
-        st.metabolism.fatReserves.level = 0
-        //        Debug.log("post-spawn cost = \(spawnCost), remainder: \(st.metabolism.stomach.mass) \(st.metabolism.stomach.level) = \(st.metabolism.energyContent)", level: 74)
+        func b() {
+            let spawnCost = st.getSpawnCost()
+            st.metabolism.withdrawFromSpawn(spawnCost)
+            st.metabolism.fatReserves.level = 0
 
-        dp.metabolize()
+            dp.metabolize()
+        }
+
+        a()
     }
 
     func buildArkon(_ onComplete: @escaping () -> Void) {
@@ -265,7 +269,6 @@ extension Spawn {
         GriddleScene.arkonsPortal.run(action) {
             Substrate.serialQueue.async {
                 Debug.log("launchB substrate", level: 85)
-//                self.engagerKey = nil
                 ndp.disengage()
             }
         }
