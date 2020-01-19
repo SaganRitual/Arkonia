@@ -3,7 +3,10 @@ import Dispatch
 
 final class Plot: Dispatchable {
     var senseData: [Double]?
-    var senseGrid: CellSenseGrid?
+
+    deinit {
+        scratch?.senseGrid = nil
+    }
 
     internal override func launch() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
@@ -11,24 +14,11 @@ final class Plot: Dispatchable {
 
         var entropy: CGFloat = 0
 
-        func a() { self.makeSenseGrid(b) }
         func b() { self.computeMove(c) }
         func c() { ch.co2Counter += ch.cellShuttle!.didMove ? 0 : 1; d() }
         func d() { dp.moveSprite() }
 
-        a()
-    }
-
-    func makeSenseGrid(_ onComplete: @escaping () -> Void) {
-        guard let (ch, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
-        guard let hk = ch.engagerKey as? HotKey else { preconditionFailure() }
-
-        CellSenseGrid.makeCellSenseGrid(
-            from: hk, by: Arkonia.cSenseGridlets, block: st.previousShiftOffset
-        ) {
-            self.senseGrid = $0
-            onComplete()
-        }
+        b()
     }
 
     func getSenseData(_ gridInputs: [Double]) {
@@ -38,7 +28,7 @@ final class Plot: Dispatchable {
 
     func computeMove(_ onComplete: @escaping () -> Void) {
         guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
-        guard let sg = senseGrid else { fatalError() }
+        guard let sg = ch.senseGrid else { fatalError() }
 
         var gridInputs = [Double]()
 

@@ -10,6 +10,7 @@ class Scratchpad {
     var isApoptosizing = false
     var name = ""
     weak var parentNet: Net?
+    var senseGrid: CellSenseGrid?
     weak var stepper: Stepper?
     var co2Counter: CGFloat = 0
 

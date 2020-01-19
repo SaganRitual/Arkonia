@@ -63,7 +63,7 @@ class EnergyReserve {
 
         case .stomach:
             name = "stomach"
-            capacity = 40
+            capacity = Arkonia.maxMannaEnergyContentInJoules
             energyDensity = 2
             level = 0
             overflowThreshold = 0

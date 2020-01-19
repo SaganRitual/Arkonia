@@ -26,6 +26,7 @@ extension WorkItems {
         func c() {
             guard let winner = victor, let loser = victim else { fatalError() }
             parasitize(winner, loser)
+            winner.dispatch.scratch.co2Counter = 0
         }
 
         a()

@@ -10,7 +10,7 @@ final class Funge: Dispatchable {
 
     override func launch() {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log("Funge \(six(st.name))", level: 85)
+        Debug.log("Funge \(six(st.name))", level: 95)
         Debug.debugColor(st, .yellow, .yellow)
         WorkItems.checkSpawnability(st) { self.fungeRoute($0, $1) }
     }
@@ -20,13 +20,13 @@ extension Funge {
     func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool) {
         guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        if !isAlive || st.gridCell.isInDangerZone { Debug.log("FungeRoute1 \(six(st.name))", level: 85); dp.apoptosize(); return }
+        if !isAlive || st.gridCell.isInDangerZone { Debug.log("FungeRoute1 \(six(st.name))", level: 95); dp.apoptosize(); return }
 
         st.sprite.setScale(Arkonia.arkonScaleFactor * (1 + st.metabolism.spawnEnergyFullness) / Arkonia.zoomFactor)
 
-        if !canSpawn { Debug.log("FungeRoute2 \(six(st.name))", level: 85); dp.plot(); return }
+        if !canSpawn { Debug.log("FungeRoute2 \(six(st.name))", level: 95); dp.plot(); return }
 
-        Debug.log("FungeRoute3 \(six(st.name))", level: 85)
+        Debug.log("FungeRoute3 \(six(st.name))", level: 95)
         dp.spawn()
     }
 }
@@ -85,8 +85,12 @@ extension Metabolism {
         let oxygenCost: CGFloat = Arkonia.oxygenCostPerTick
         let co2Cost: CGFloat = pow(Arkonia.co2BaseCost, co2Counter)
 
+        Debug.log("O2 cost \(oxygenCost), CO2 cost \(co2Cost)", level: 96)
+
         oxygenLevel -= oxygenCost
         co2Level += co2Cost
+
+        Debug.log("O2 level \(oxygenLevel), CO2 level \(co2Level)", level: 96)
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0 && co2Level < Arkonia.co2MaxLevel
     }

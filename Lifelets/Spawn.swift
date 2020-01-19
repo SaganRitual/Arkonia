@@ -32,6 +32,7 @@ final class Spawn: DispatchableProtocol {
 
     weak var scratch: Scratchpad?
 
+    var birthplace: HotKey?
     var callAgain = false
     var engagerKey: HotKey?
     let embryoName = Names.getName()
@@ -48,6 +49,7 @@ final class Spawn: DispatchableProtocol {
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
         self.meTheParent = scratch.stepper
+        self.birthplace = scratch.senseGrid?.getRandomHotKey()
         self.tempStrongReference = self
     }
 
@@ -61,26 +63,26 @@ extension WorkItems {
         Debug.log("Spawn \(six(spawn.embryoName))", level: 71)
 
         func a() {
-            getStartingPosition(spawn.fishDay, spawn.embryoName, spawn.meTheParent) {
-                if let newKey = $0 {
-                    spawn.engagerKey = newKey
-                    spawn.meTheParent?.nose.color = .red
-                    b()
-                    return
-                }
+            if spawn.birthplace != nil { newKey = spawn.birthplace; b(); return }
 
-                Debug.log("Spawn failed \(six(spawn.meTheParent?.name)) \(six(spawn.embryoName))", level: 91)
-                spawn.postponeSpawn()
+            getStartingPosition(spawn.fishDay, spawn.embryoName, spawn.meTheParent) {
+                newKey = $0; b()
             }
         }
 
-        func b() {
+        func b() { if newKey == nil { spawn.postponeSpawn() } else { c() } }
+
+        func c() {
+            spawn.birthplace = nil
+            spawn.engagerKey = newKey
+            spawn.meTheParent?.nose.color = .red
+
             registerBirth(myName: spawn.embryoName, myParent: spawn.meTheParent)
-                { spawn.fishDay = $0; c() }
+                { spawn.fishDay = $0; d() }
         }
 
-        func c() { spawn.buildArkon(d) }
-        func d() { WorkItems.launchNewborn(spawn) }
+        func d() { spawn.buildArkon(e) }
+        func e() { WorkItems.launchNewborn(spawn) }
 
         a()
     }

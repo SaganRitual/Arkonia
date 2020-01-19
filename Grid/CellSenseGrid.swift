@@ -3,27 +3,13 @@ class CellSenseGrid: CustomDebugStringConvertible {
     var centerName = ""
     var debugDescription = ""
 
-    static func makeCellSenseGrid(
-        from center: HotKey, by cGridlets: Int, block: AKPoint,
-        _ onComplete: @escaping (CellSenseGrid) -> Void
-    ) {
-        Substrate.serialQueue.async {
-            let senseGrid = CellSenseGrid(from: center, by: cGridlets, block: block)
-            onComplete(senseGrid)
-        }
-    }
-
     init(from center: HotKey, by cGridlets: Int, block: AKPoint) {
-        self.postInit(from: center, by: cGridlets, block: block)
-    }
-
-    private func postInit(from center: HotKey, by cGridlets: Int, block: AKPoint) {
-        guard let cc = center.bell else { preconditionFailure() }
+        guard let cc = center.bell else { fatalError() }
         centerName = cc.ownerName
 
         cells = [center] + (1..<cGridlets).map { index in
             guard let position = center.bell?.getGridPointByIndex(index)
-                else { preconditionFailure() }
+                else { fatalError() }
 
             if position == block { return NilKey() }
             guard let cell = GridCell.atIf(position) else { return NilKey() }
@@ -31,10 +17,18 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
             let lockType: GridCell.RequireLock = index > Arkonia.cMotorGridlets ? .cold : .degradeToCold
 
-            guard let lock = cell.getLock(ownerName: centerName, lockType)
+            guard let lock = cell.lock(require: lockType, ownerName: centerName)
                 else { fatalError() }
 
             return lock
         }
+    }
+
+//    deinit {
+//        cells.dropFirst().compactMap({ $0 as? HotKey }).forEach { $0.releaseLock() }
+//    }
+
+    func getRandomHotKey() -> HotKey? {
+        return cells.dropFirst().compactMap({ $0 as? HotKey }).randomElement()
     }
 }

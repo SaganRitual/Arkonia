@@ -20,7 +20,7 @@ extension Metabolize {
 extension Metabolism {
     fileprivate func metabolizeProper(_ isStarving: Bool, _ nose: SKSpriteNode) {
         if stomach.level > 0 {
-            Debug.log("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 89)
+            Debug.log("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 96)
         }
 
         if fungibleEnergyFullness < 0.5 {
@@ -71,7 +71,7 @@ extension Metabolism {
         }
 
         if logMessage.count > 3 {
-            Debug.log(logMessage, level: 89)
+            Debug.log(logMessage, level: 96)
         }
     }
 }

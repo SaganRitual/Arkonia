@@ -110,7 +110,7 @@ extension Banana {
             else        { self.sprite.inject(at: newHome, d) }
         }
 
-        func d() { rebloomDelay += 0.1 }
+        func d() { rebloomDelay += 0.05 }
 
         Debug.log("harvest", level: 85)
         a()

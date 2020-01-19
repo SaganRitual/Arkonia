@@ -21,8 +21,9 @@ final class Arrive: Dispatchable {
         guard let mannaSprite = shuttle.consumedSprite else { fatalError() }
 
         mannaSprite.getManna()!.harvest { entropizedInJoules in
-            Debug.log("graze \(entropizedInJoules)", level: 95)
+            Debug.log("graze \(entropizedInJoules)", level: 97)
             st.metabolism.absorbEnergy(entropizedInJoules)
+            ch.co2Counter = 0
             dp.releaseStage()
         }
     }

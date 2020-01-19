@@ -55,7 +55,7 @@ extension Stepper {
         let sr = String(format: "%3.3f", metabolism.spawnReserves.level)
         let sf = String(format: "%3.3f%%", metabolism.spawnEnergyFullness * 100)
         if metabolism.spawnReserves.level > 0 {
-            Debug.log("spawnCost(\(six(name))) = \(sc); spawnReserves at \(sr) (\(sf))", level: 74)
+            Debug.log("spawnCost(\(six(name))) = \(sc); spawnReserves at \(sr) (\(sf))", level: 95)
         }
         return spawnCost
     }

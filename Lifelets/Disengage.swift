@@ -11,6 +11,7 @@ final class Disengage: Dispatchable {
             ch.cellShuttle?.toCell = nil
             ch.cellShuttle?.fromCell = nil
             ch.cellShuttle = nil
+            ch.senseGrid = nil
 
             (ch.engagerKey as? HotKey)?.releaseLock()
             ch.engagerKey = nil // Will already be nil if we're coming here from reengage

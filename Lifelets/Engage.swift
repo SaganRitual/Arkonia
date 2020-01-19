@@ -1,45 +1,47 @@
 import Dispatch
 
-enum DebugEngage {
-    case nothing, entry, notHotKey, coldKey, running, returned
-}
-
 final class Engage: Dispatchable {
-    internal override func launch() {
-        guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
-        guard let gc = st.gridCell else { fatalError() }
-        Debug.log("Engage \(six(st.name))", level: 85)
+    private(set) var engagerKey: GridCellKey!
+    private(set) var cellSenseGrid: CellSenseGrid!
 
+    internal override func launch() {
+        guard let (_, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
+
+        Debug.log("Engage \(six(st.name))", level: 85)
         Debug.debugColor(st, .magenta, .magenta)
 
-        WorkItems.getLock(
-            at: gc, for: st, require: .degradeToCold, rescheduleIf: true
-        ) { key in
-            if key is HotKey {
-                ch.engagerKey = key
-                Debug.log("Got HotKey for \(six(st.name))", level: 85)
-                dp.funge()
-            }
+        Substrate.serialQueue.async {
+            let isEngaged = self.engage()
+            guard isEngaged else { return }
 
-            Debug.log("Got \(type(of: key!)) Key for \(six(st.name))", level: 85)
+            self.makeSenseGrid()
+            dp.funge()
         }
     }
 }
 
-extension WorkItems {
-    typealias OnCompleteKey = (GridCellKey?) -> Void
+extension Engage {
+    private func engage() -> Bool {
+        guard let (ch, _, st) = self.scratch?.getKeypoints() else { fatalError() }
+        guard let gc = st.gridCell else { fatalError() }
 
-    static func getLock(
-        at cell: GridCell, for stepper: Stepper, require: GridCell.RequireLock,
-        rescheduleIf: Bool = true, _ onComplete: @escaping OnCompleteKey
-    ) {
-        Debug.log("getLock1 at \(cell) for \(six(stepper.name))", level: 85)
-        Substrate.serialQueue.async {
-            Debug.log("getLock2 at \(cell) for \(six(stepper.name))", level: 85)
-            let gl = cell.getLock(for: stepper, require, rescheduleIf)
-            Debug.log("getLock3 at \(cell) for \(six(stepper.name))", level: 85)
-            onComplete(gl)
+        engagerKey = gc.getLock(for: st, .degradeToCold, true)
+
+        if engagerKey is HotKey {
+            ch.engagerKey = engagerKey
+            return true
         }
+
+        return false
+    }
+
+    private func makeSenseGrid() {
+        guard let (ch, _, st) = self.scratch?.getKeypoints() else { fatalError() }
+        guard let hk = ch.engagerKey as? HotKey else { fatalError() }
+
+        ch.senseGrid = CellSenseGrid(
+            from: hk, by: Arkonia.cSenseGridlets, block: st.previousShiftOffset
+        )
     }
 }
 
@@ -50,12 +52,9 @@ extension GridCell {
 
         if key is ColdKey && rescheduleIf {
             Debug.log("getLock4.5 for \(six(stepper.name))", level: 85)
-            reschedule(stepper) }
-        return key
-    }
+            reschedule(stepper)
+        }
 
-    func getLock(ownerName: String, _ require: RequireLock) -> GridCellKey? {
-        Debug.log("getLock5 for \(six(ownerName))", level: 85)
-        return lock(require: require, ownerName: ownerName)
+        return key
     }
 }

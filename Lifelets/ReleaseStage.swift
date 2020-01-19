@@ -14,6 +14,7 @@ final class ReleaseStage: Dispatchable {
             shuttle.fromCell = nil
             shuttle.toCell = nil
             ch.cellShuttle = nil
+            ch.senseGrid = nil
             dp.metabolize()
         }
     }
