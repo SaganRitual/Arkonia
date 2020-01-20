@@ -24,7 +24,7 @@ final class Arrive: Dispatchable {
             Debug.log("graze \(entropizedInJoules)", level: 97)
             st.metabolism.absorbEnergy(entropizedInJoules)
             ch.co2Counter = 0
-            dp.releaseStage()
+            dp.releaseShuttle()
         }
     }
 }

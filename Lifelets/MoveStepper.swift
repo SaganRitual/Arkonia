@@ -26,6 +26,6 @@ extension MoveStepper {
             return
         }
 
-        dp.releaseStage()
+        dp.releaseShuttle()
     }
 }

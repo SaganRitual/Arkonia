@@ -17,7 +17,7 @@ final class MoveSprite: Dispatchable {
         if shuttle.fromCell == nil {
             Debug.log("Resting \(six(st.name))", level: 90)
             Debug.debugColor(st, .red, .cyan)
-            MoveSprite.rest(st) { dp.releaseStage() }
+            MoveSprite.rest(st) { dp.releaseShuttle() }
             return
         }
 

@@ -42,7 +42,7 @@ class SpriteHangar {
     func makeSprite(_ name: String?) -> SKSpriteNode {
         if parkedDrones.isEmpty { parkedDrones.append(factoryFunction(texture)) }
 
-        guard let drone = parkedDrones.popLast() else { fatalError() }
+        guard let drone = parkedDrones.popFirst() else { fatalError() }
 
         if drone.getKeyField(.uuid, require: false) as? String == nil {
             if drone.userData == nil { drone.userData = [:] }
@@ -64,7 +64,12 @@ class SpriteHangar {
     }
 
     func retireSprite(_ sprite: SKSpriteNode) {
-        parkedDrones.append(sprite)
+        if sprite.getKeyField(.net9Portal, require: false) == nil {
+            parkedDrones.append(sprite)
+        } else {
+            parkedDrones.insert(sprite, at: 0)
+        }
+
         sprite.removeAllActions()
         sprite.removeFromParent()
     }

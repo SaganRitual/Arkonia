@@ -20,13 +20,10 @@ extension Funge {
     func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool) {
         guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        if !isAlive || st.gridCell.isInDangerZone { Debug.log("FungeRoute1 \(six(st.name))", level: 95); dp.apoptosize(); return }
+        if !isAlive || st.gridCell.isInDangerZone { dp.apoptosize(); return }
 
-        st.sprite.setScale(Arkonia.arkonScaleFactor * (1 + st.metabolism.spawnEnergyFullness) / Arkonia.zoomFactor)
+        if !canSpawn { dp.plot(); return }
 
-        if !canSpawn { Debug.log("FungeRoute2 \(six(st.name))", level: 95); dp.plot(); return }
-
-        Debug.log("FungeRoute3 \(six(st.name))", level: 95)
         dp.spawn()
     }
 }

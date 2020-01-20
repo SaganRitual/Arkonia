@@ -75,7 +75,7 @@ extension WorkItems {
         func c() {
             spawn.birthplace = nil
             spawn.engagerKey = newKey
-            spawn.meTheParent?.nose.color = .red
+            spawn.meTheParent?.nose.color = .yellow
 
             registerBirth(myName: spawn.embryoName, myParent: spawn.meTheParent)
                 { spawn.fishDay = $0; d() }

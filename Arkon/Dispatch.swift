@@ -47,29 +47,29 @@ extension Dispatch {
         }
     }
 
-    func apoptosize()   { Debug.log("dispatch.apop \(six(name))", level: 80); dispatch(Apoptosize.self) }
+    func apoptosize()     { dispatch(Apoptosize.self) }
 
-    func arrive()       { dispatch(Arrive.self) }
+    func arrive()         { dispatch(Arrive.self) }
 
-    func colorize()     { dispatch(Colorize.self) }
+    func colorize()       { dispatch(Colorize.self) }
 
-    func disengage()    { dispatch(Disengage.self) }
+    func disengage()      { dispatch(Disengage.self) }
 
-    func engage()       { dispatch(Engage.self) }
+    func engage()         { dispatch(Engage.self) }
 
-    func funge()        { dispatch(Funge.self) }
+    func funge()          { dispatch(Funge.self) }
 
-    func metabolize()   { dispatch(Metabolize.self) }
+    func metabolize()     { dispatch(Metabolize.self) }
 
-    func moveSprite()   { dispatch(MoveSprite.self) }
+    func moveSprite()     { dispatch(MoveSprite.self) }
 
-    func moveStepper()  { dispatch(MoveStepper.self) }
+    func moveStepper()    { dispatch(MoveStepper.self) }
 
-    func parasitize()   { dispatch(Parasitize.self) }
+    func parasitize()     { dispatch(Parasitize.self) }
 
-    func plot()         { dispatch(Plot.self) }
+    func plot()           { dispatch(Plot.self) }
 
-    func releaseStage() { dispatch(ReleaseStage.self) }
+    func releaseShuttle() { dispatch(ReleaseShuttle.self) }
 
-    func spawn()        { dispatch(Spawn.self) }
+    func spawn()          { dispatch(Spawn.self) }
 }

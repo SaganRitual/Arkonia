@@ -17,7 +17,7 @@ extension WorkItems {
         func b() {
             guard let winner = victor, let loser = victim else { fatalError() }
 
-            Debug.debugColor(loser, .red, .purple)
+            Debug.debugColor(loser, .red, .black)
             Debug.debugColor(winner, .green, .red)
 
             dieHorribly(loser.sprite, c)
@@ -43,11 +43,7 @@ extension WorkItems {
     private static let d = 0.1
 
     private static let bleedToDeath = SKAction.colorize(with: .red, colorBlendFactor: 1, duration: d)
-//    private static let resizeToDeath = SKAction.scale(to: big, duration: d)
     private static let deelbToDeath = SKAction.colorize(with: .white, colorBlendFactor: 0, duration: d)
-//    private static let eziserToDeath = SKAction.scale(to: small, duration: d)
-//    private static let groupDo = SKAction.group([bleedToDeath, resizeToDeath])
-//    private static let groupUndo = SKAction.group([deelbToDeath, eziserToDeath])
     private static let sequence = SKAction.sequence([bleedToDeath, deelbToDeath])
     private static let makeAScene = SKAction.repeat(sequence, count: 5)
 
@@ -107,7 +103,7 @@ extension WorkItems {
     ) {
         Substrate.serialQueue.async {
             victor.metabolism.parasitizeProper(victim)
-            victor.dispatch.releaseStage()
+            victor.dispatch.releaseShuttle()
 
             victim.dispatch.apoptosize()
 

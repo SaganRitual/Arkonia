@@ -45,7 +45,7 @@
 		D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D2E2388345100517F60 /* MoveStepper.swift */; };
 		D4A59D31238839C700517F60 /* Arrive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D30238839C700517F60 /* Arrive.swift */; };
 		D4A59D332388BBD700517F60 /* Disengage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D322388BBD700517F60 /* Disengage.swift */; };
-		D4A59D372389901500517F60 /* ReleaseStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D362389901500517F60 /* ReleaseStage.swift */; };
+		D4A59D372389901500517F60 /* ReleaseShuttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D362389901500517F60 /* ReleaseShuttle.swift */; };
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
 		D4B4295322DAF1CD0036C904 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293C22DAEC7E0036C904 /* Report.swift */; };
 		D4BB6E73234E549C00529819 /* Funge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E72234E549C00529819 /* Funge.swift */; };
@@ -159,7 +159,7 @@
 		D4A59D2E2388345100517F60 /* MoveStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveStepper.swift; sourceTree = "<group>"; };
 		D4A59D30238839C700517F60 /* Arrive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arrive.swift; sourceTree = "<group>"; };
 		D4A59D322388BBD700517F60 /* Disengage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disengage.swift; sourceTree = "<group>"; };
-		D4A59D362389901500517F60 /* ReleaseStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseStage.swift; sourceTree = "<group>"; };
+		D4A59D362389901500517F60 /* ReleaseShuttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseShuttle.swift; sourceTree = "<group>"; };
 		D4B4293C22DAEC7E0036C904 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
 		D4B4293E22DAEC7E0036C904 /* IndexedRingBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexedRingBuffer.swift; sourceTree = "<group>"; };
@@ -320,7 +320,7 @@
 				D4A59D2E2388345100517F60 /* MoveStepper.swift */,
 				D4A4F45C23551F41000EC009 /* Parasitize.swift */,
 				D4A59D222387F64500517F60 /* Plot.swift */,
-				D4A59D362389901500517F60 /* ReleaseStage.swift */,
+				D4A59D362389901500517F60 /* ReleaseShuttle.swift */,
 				D4D5EABA2368B05200E95AA5 /* Spawn.swift */,
 				D41A299A23B9841000DE9CC6 /* WorkItems.swift */,
 			);
@@ -542,7 +542,7 @@
 				D464BA4622C737260069623C /* Overload2D.swift in Sources */,
 				D4A59D332388BBD700517F60 /* Disengage.swift in Sources */,
 				D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */,
-				D4A59D372389901500517F60 /* ReleaseStage.swift in Sources */,
+				D4A59D372389901500517F60 /* ReleaseShuttle.swift in Sources */,
 				D4A59D232387F64500517F60 /* Plot.swift in Sources */,
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
 				D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */,
