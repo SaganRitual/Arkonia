@@ -12,7 +12,7 @@ extension Colorize {
         Debug.debugColor(st, .blue, .blue)
 
         let babyBumpIsRunning = st.sprite.action(forKey: "baby-bump") != nil
-        let babyBumpShouldBeShowing = st.metabolism.spawnReserves.level < (st.getSpawnCost() / 2)
+        let babyBumpShouldBeShowing = st.metabolism.spawnReserves.level < (st.getSpawnCost() * 0.5)
 
         switch (babyBumpIsRunning, babyBumpShouldBeShowing) {
         case (true, true):  break
@@ -25,20 +25,21 @@ extension Colorize {
 }
 
 extension WorkItems {
+    private static let d = 0.1
+    private static let f: CGFloat = 5
+
+    private static let flatten = SKAction.scaleY(to: Arkonia.noseScaleFactor / f, duration: d)
+
+    private static let lengthen = SKAction.scaleX(to: Arkonia.noseScaleFactor * f, duration: d)
+
+    private static let shorten = SKAction.scaleX(to: Arkonia.noseScaleFactor / f, duration: d)
+
+    private static let unflatten = SKAction.scaleY(to: Arkonia.noseScaleFactor * f, duration: d)
+
+    private static let throb = SKAction.sequence([flatten, lengthen, shorten, unflatten])
+    private static let forever = SKAction.repeatForever(throb)
+
     static func lookPregnant(_ oxygenLevel: CGFloat, _ nose: SKSpriteNode) {
-        let d = 0.25
-
-        let flatten = SKAction.scaleY(to: Arkonia.noseScaleFactor / 5, duration: d)
-
-        let lengthen = SKAction.scaleX(to: Arkonia.noseScaleFactor * 5, duration: d)
-
-        let shorten = SKAction.scaleX(to: Arkonia.noseScaleFactor / 5, duration: d)
-
-        let unflatten = SKAction.scaleY(to: Arkonia.noseScaleFactor * 5, duration: d)
-
-        let throb = SKAction.sequence([flatten, lengthen, shorten, unflatten])
-        let forever = SKAction.repeatForever(throb)
-
         nose.run(forever, withKey: "baby-bump-nose")
     }
 }

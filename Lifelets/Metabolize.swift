@@ -23,13 +23,8 @@ extension Metabolism {
             Debug.log("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 96)
         }
 
-        if fungibleEnergyFullness < 0.5 {
-            if Arkonia.debugColorIsEnabled { nose.color = .green }
-        } else {
-            if Arkonia.debugColorIsEnabled { nose.color = .blue }
-        }
-
-        nose.colorBlendFactor = 1 - fungibleEnergyFullness
+        nose.color = .green
+        nose.colorBlendFactor = min(fungibleEnergyFullness * 2, 1)
 
         var logMessage = "mp:"
 

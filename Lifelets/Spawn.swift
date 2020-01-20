@@ -284,7 +284,7 @@ extension Spawn {
         let failedSpawnCost = Arkonia.maxMannaEnergyContentInJoules
         st.metabolism.withdrawFromSpawn(failedSpawnCost)
 
-        st.nose.color = .black
+        st.nose.color = .green
         dp.metabolize()
     }
 }
