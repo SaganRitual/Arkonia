@@ -172,20 +172,19 @@ extension Spawn {
     func buildArkon(_ onComplete: @escaping () -> Void) {
 
         func a() {
-            let action = SKAction.run { [unowned self] in self.buildSprites() }
-            GriddleScene.shared.run(action, completion: b)
+            SceneDispatch.schedule { [unowned self] in
+                self.buildSprites()
+                b()
+            }
         }
 
         func b() { self.buildGuts { self.net = $0; c() } }
 
         func c() {
-            let action = SKAction.run { [unowned self] in
+            SceneDispatch.schedule { [unowned self] in
                 guard let sprite = self.thorax else { fatalError() }
                 self.buildNetDisplay(sprite)
-            }
-
-            DispatchQueue.main.async {
-                GriddleScene.shared.run(action, completion: onComplete)
+                onComplete()
             }
         }
 
@@ -193,7 +192,7 @@ extension Spawn {
     }
 
     private func buildSprites() {
-        assert(Display.displayCycle == .actions)
+        assert(Display.displayCycle == .updateStarted)
 
         self.nose = SpriteFactory.shared.noseHangar.makeSprite(embryoName)
         self.thorax = SpriteFactory.shared.arkonsHangar.makeSprite(embryoName)
@@ -258,21 +257,15 @@ extension Spawn {
 
         ndp.scratch.engagerKey = ek
 
-        let action = SKAction.run {
-            Debug.log("launchB action", level: 85)
+        SceneDispatch.schedule {
             GriddleScene.arkonsPortal.addChild(newborn.sprite)
 
             let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
             newborn.sprite.run(rotate)
 
             self.tempStrongReference = nil  // Now the sprite has the only strong ref
-        }
 
-        GriddleScene.arkonsPortal.run(action) {
-            Substrate.serialQueue.async {
-                Debug.log("launchB substrate", level: 85)
-                ndp.disengage()
-            }
+            ndp.disengage()
         }
     }
 }

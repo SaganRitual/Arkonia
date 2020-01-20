@@ -20,7 +20,6 @@
 		D464BA3922C737260069623C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FC22650C20009DD384 /* AppDelegate.swift */; };
 		D464BA3B22C737260069623C /* Arkonia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* Arkonia.swift */; };
 		D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */; };
-		D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D464BA4422C737260069623C /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42751B92287DBAA0096CDB5 /* NetDisplay.swift */; };
 		D464BA4622C737260069623C /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D464BA4922C737260069623C /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FA22650BEF009DD384 /* AppController.swift */; };
@@ -46,6 +45,8 @@
 		D4A59D31238839C700517F60 /* Arrive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D30238839C700517F60 /* Arrive.swift */; };
 		D4A59D332388BBD700517F60 /* Disengage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D322388BBD700517F60 /* Disengage.swift */; };
 		D4A59D372389901500517F60 /* ReleaseShuttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D362389901500517F60 /* ReleaseShuttle.swift */; };
+		D4B2AC8223D595E000246746 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
+		D4B2AC8523D5983200246746 /* SceneDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B2AC8423D5983200246746 /* SceneDispatch.swift */; };
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
 		D4B4295322DAF1CD0036C904 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293C22DAEC7E0036C904 /* Report.swift */; };
 		D4BB6E73234E549C00529819 /* Funge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E72234E549C00529819 /* Funge.swift */; };
@@ -160,6 +161,7 @@
 		D4A59D30238839C700517F60 /* Arrive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arrive.swift; sourceTree = "<group>"; };
 		D4A59D322388BBD700517F60 /* Disengage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disengage.swift; sourceTree = "<group>"; };
 		D4A59D362389901500517F60 /* ReleaseShuttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseShuttle.swift; sourceTree = "<group>"; };
+		D4B2AC8423D5983200246746 /* SceneDispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDispatch.swift; sourceTree = "<group>"; };
 		D4B4293C22DAEC7E0036C904 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
 		D4B4293E22DAEC7E0036C904 /* IndexedRingBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexedRingBuffer.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				D4BB6E6A234E544B00529819 /* Lifelets */,
 				D46B1D7222813DF7003D711C /* Miscellany */,
 				D40985F922650BD8009DD384 /* macOS */,
+				D4B2AC8323D5965A00246746 /* SpriteKit */,
 				D41A29A323B9943F00DE9CC6 /* WorkItems */,
 				D40985E122650B0A009DD384 /* Products */,
 			);
@@ -236,10 +239,8 @@
 				D40985FA22650BEF009DD384 /* AppController.swift */,
 				D40985FC22650C20009DD384 /* AppDelegate.swift */,
 				D40985F322650B0B009DD384 /* Components.entitlements */,
-				D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */,
 				D40985F222650B0B009DD384 /* Info.plist */,
 				D40985EF22650B0B009DD384 /* Main.storyboard */,
-				D40985FE22650CC9009DD384 /* SceneViewController.swift */,
 				D461358A2288CEF800C9864E /* TheScene.sks */,
 			);
 			path = macOS;
@@ -260,7 +261,6 @@
 				D4603A6122A2720400885428 /* Banana.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
-				D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
 			);
 			path = Arkonia;
@@ -290,6 +290,17 @@
 				D46B1D9F22826994003D711C /* Overload2D.swift */,
 			);
 			path = Miscellany;
+			sourceTree = "<group>";
+		};
+		D4B2AC8323D5965A00246746 /* SpriteKit */ = {
+			isa = PBXGroup;
+			children = (
+				D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */,
+				D4B2AC8423D5983200246746 /* SceneDispatch.swift */,
+				D40985FE22650CC9009DD384 /* SceneViewController.swift */,
+				D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */,
+			);
+			path = SpriteKit;
 			sourceTree = "<group>";
 		};
 		D4B4293B22DAEC7E0036C904 /* HUD */ = {
@@ -534,10 +545,10 @@
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
-				D464BA4022C737260069623C /* NetDisplayGrid.swift in Sources */,
 				D4BB6E73234E549C00529819 /* Funge.swift in Sources */,
 				D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */,
 				D464BA4422C737260069623C /* NetDisplay.swift in Sources */,
+				D4B2AC8523D5983200246746 /* SceneDispatch.swift in Sources */,
 				D4A59D2623882C5D00517F60 /* MoveSprite.swift in Sources */,
 				D464BA4622C737260069623C /* Overload2D.swift in Sources */,
 				D4A59D332388BBD700517F60 /* Disengage.swift in Sources */,
@@ -550,6 +561,7 @@
 				D41ED8D623B084A100E82B08 /* Debug.swift in Sources */,
 				D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */,
 				D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */,
+				D4B2AC8223D595E000246746 /* NetDisplayGrid.swift in Sources */,
 				D4A59D31238839C700517F60 /* Arrive.swift in Sources */,
 				D4BD1DCE23C088C200CE0753 /* GridCell.swift in Sources */,
 				D4BD1DC723C088C200CE0753 /* CellShuttle.swift in Sources */,

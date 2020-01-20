@@ -29,7 +29,7 @@ class NetDisplay {
     }
 
     func display() {
-        GriddleScene.shared.run(SKAction.run { self.display_() })
+        SceneDispatch.schedule {self.display_() }
     }
 
     private func display_() {
@@ -68,7 +68,8 @@ class NetDisplay {
 
     func reset() {
         Debug.log("~NetDisplay", level: 20)
-        let action = SKAction.run { /* strong self in */ self.background.removeAllChildren() }
-        self.background.run(action)
+        SceneDispatch.schedule {
+            /* strong self in */ self.background.removeAllChildren()
+        }
     }
 }

@@ -23,11 +23,9 @@ class SpriteHangar {
     }
 
     func makeSprite(_ name: String?, _ onComplete: @escaping SpriteFactoryCallback1P) {
-        var sprite: SKSpriteNode?
-        let action = SKAction.run { sprite = self.makeSprite(name) }
-        GriddleScene.shared.run(action) {
-            guard let s = sprite else { fatalError() }
-            onComplete(s)
+        SceneDispatch.schedule {
+            let sprite = self.makeSprite(name)
+            onComplete(sprite)
         }
     }
 
@@ -59,8 +57,10 @@ class SpriteHangar {
     }
 
     func retireSprite(_ sprite: SKSpriteNode, _ onComplete: @escaping () -> Void) {
-        let action = SKAction.run { self.retireSprite(sprite) }
-        GriddleScene.shared.run(action, completion: onComplete)
+        SceneDispatch.schedule {
+            self.retireSprite(sprite)
+            onComplete()
+        }
     }
 
     func retireSprite(_ sprite: SKSpriteNode) {
@@ -99,12 +99,8 @@ class SpriteFactory {
     }
 
     func postInit(_ net9Portals: [SKSpriteNode], _ onComplete: @escaping () -> Void) {
-        let action = SKAction.run { self.postInit(net9Portals) }
-        GriddleScene.shared.run(action, completion: onComplete)
-    }
-
-    private func postInit(_ net9Portals: [SKSpriteNode]) {
         arkonsHangar.setupNetPortals(net9Portals)
+        onComplete()
     }
 }
 

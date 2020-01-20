@@ -12,7 +12,7 @@ struct NetGraphics {
         var textureLength: CGFloat = 0
         var targetLength: CGFloat = 0
 
-        GriddleScene.shared.run(SKAction.run { partA() })
+        SceneDispatch.schedule { partA() }
 
         func partA() { linesHangar.makeSprite("line", partB) }
 
@@ -43,8 +43,10 @@ struct NetGraphics {
     func drawNeuron(
         at gridPoint: GridPoint, layerRole: LayerRole, _ onComplete: @escaping SpriteFactoryCallback0P
     ) {
-        let a = SKAction.run { self.drawNeuron(at: gridPoint, layerRole: layerRole) }
-        GriddleScene.shared.run(a) { onComplete() }
+        SceneDispatch.schedule {
+            self.drawNeuron(at: gridPoint, layerRole: layerRole)
+            onComplete()
+        }
     }
 
     func drawNeuron(at gridPoint: GridPoint, layerRole: LayerRole) {

@@ -71,12 +71,10 @@ extension WorkItems {
     static func getNames(
         _ portal: SKSpriteNode, _ onComplete: @escaping OnCompleteStringArray
     ) {
-        let action = SKAction.run {
+        SceneDispatch.schedule {
             let names = portal.children.compactMap { $0.name }
             onComplete(names)
         }
-
-        portal.run(action)
     }
 
 //    static let targetCArkons = 50

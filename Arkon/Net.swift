@@ -176,7 +176,9 @@ class Net {
     static func addMutatedLayer(_ layers: [Int]) -> [Int] {
         let insertPoint = Int.random(in: 1..<layers.count)
         var structureToMutate = layers
-        let layerToMutate = structureToMutate[insertPoint] + Int.random(in: -2..<2)
+        let sign = Bool.random() ? 1 : -1
+        let mag = Int.random(in: 1..<2)
+        let layerToMutate = structureToMutate[insertPoint] + sign * mag
 
         structureToMutate.insert(layerToMutate, at: insertPoint)
         return structureToMutate
@@ -190,9 +192,14 @@ class Net {
     }
 
     static func dropLayer(_ layers: [Int]) -> [Int] {
-        let dropPoint = Int.random(in: 1..<layers.count)
+        let howMany = Int.random(in: 1..<layers.count)
         var toMutate = layers
-        toMutate.remove(at: dropPoint)
+
+        for _ in 0..<howMany {
+            let dropPoint = Int.random(in: 1..<toMutate.count)
+            toMutate.remove(at: dropPoint)
+        }
+
         return toMutate
     }
 

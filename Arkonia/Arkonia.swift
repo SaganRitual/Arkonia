@@ -20,7 +20,7 @@ class Arkonia {
     static let cMotorGridlets = cMotorNeurons + 1
 
     static let allowSpawning = true
-    static let cMannaMorsels = 8000
+    static let cMannaMorsels = 10000
     static let debugColorIsEnabled = false
     static let debugMessageLevel = 98
     static let debugMessageToConsole = true

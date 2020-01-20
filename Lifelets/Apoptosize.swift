@@ -39,11 +39,9 @@ extension WorkItems {
     private static func retireSprites(
         _ nose: SKSpriteNode, _ thorax: SKSpriteNode
     ) {
-        let action = SKAction.run {
+        SceneDispatch.schedule {
             SpriteFactory.shared.noseHangar.retireSprite(nose)
             SpriteFactory.shared.arkonsHangar.retireSprite(thorax)
         }
-
-        GriddleScene.shared.run(action)
     }
 }

@@ -142,6 +142,8 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         Display.displayCycle = .updateStarted
 
+        SceneDispatch.tick()
+
         Display.displayCycle = .actions
 
         tickCount += 1
