@@ -28,6 +28,7 @@ class Arkonia {
     static let fudgeMassFactor: CGFloat = 0.1
     static let funkyCells = true
     static let initialPopulation = 25
+    static let worldTimeLimit: TimeInterval? = nil  //5000
 
     static let co2BaseCost: CGFloat = 1.02
     static let co2MaxLevel: CGFloat = 50
@@ -40,6 +41,7 @@ class Arkonia {
     static let mannaColorBlendMinimum: CGFloat = 0.15
     static let mannaFullGrowthDurationSeconds: TimeInterval = 1
     static let mannaInitialRebloomDelay = 1.0
+    static let mannaRebloomDelayIncrement =  0.1
     static let maxMannaEnergyContentInJoules: CGFloat = 40
 
     static var mannaColorBlendRangeWidth: CGFloat

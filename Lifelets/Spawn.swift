@@ -184,7 +184,9 @@ extension Spawn {
                 self.buildNetDisplay(sprite)
             }
 
-            GriddleScene.shared.run(action, completion: onComplete)
+            DispatchQueue.main.async {
+                GriddleScene.shared.run(action, completion: onComplete)
+            }
         }
 
         a()

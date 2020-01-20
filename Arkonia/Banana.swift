@@ -110,7 +110,7 @@ extension Banana {
             else        { self.sprite.inject(at: newHome, d) }
         }
 
-        func d() { rebloomDelay += 0.05 }
+        func d() { rebloomDelay += Arkonia.mannaRebloomDelayIncrement }
 
         Debug.log("harvest", level: 85)
         a()

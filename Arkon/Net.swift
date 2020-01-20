@@ -139,36 +139,61 @@ class Net {
         return fromScratch
     }
 
+    enum NetMutation: CaseIterable {
+        case passThru, addDuplicatedLayer, addMutatedLayer, addRandomLayer, dropLayer
+    }
+
     static func mutateNetStructure(_ layers: [Int]) -> [Int] {
+        // 80% chance that the structure won't change at all
+        if Int.random(in: 0..<100) < 80 { return layers }
 
-        var mutated = [Arkonia.cSenseNeurons]
-        let cOriginalLayers = layers.count
+        var newNet: [Int]
 
-        for L in 1..<cOriginalLayers {
-            switch Int.random(in: 0..<100) {
-
-            case  0..<80:
-                mutated.append(layers[L])
-
-            case 80..<90: continue
-
-            case  90..<95:
-                mutated.append(layers[L])
-                mutated.append(Int.random(in: 1..<10))
-
-            case  95..<100:
-                mutated.append(Int.random(in: 1..<10))
-
-            default:
-                fatalError()
-            }
+        switch NetMutation.allCases.randomElement() {
+        case .passThru:           newNet = Array(layers.dropFirst())
+        case .addDuplicatedLayer: newNet = addDuplicatedLayer(layers)
+        case .addMutatedLayer:    newNet = addMutatedLayer(layers)
+        case .addRandomLayer:     newNet = addRandomLayer(layers)
+        case .dropLayer:          newNet = dropLayer(layers)
+        case .none:               fatalError()
         }
 
-        if mutated.count == 1 { mutated.append(Arkonia.cMotorNeurons) }
+        if newNet.isEmpty { newNet.append(Arkonia.cMotorNeurons) }
 
-        mutated.append(Arkonia.cMotorNeurons)
+        newNet.insert(Arkonia.cSenseNeurons, at: 0)
+        newNet.append(Arkonia.cMotorNeurons)
 
-        return mutated
+        return newNet
+    }
+
+    static func addDuplicatedLayer(_ layers: [Int]) -> [Int] {
+        let insertPoint = Int.random(in: 1..<layers.count)
+        var toMutate = layers
+        toMutate.insert(toMutate[insertPoint], at: insertPoint)
+        return toMutate
+    }
+
+    static func addMutatedLayer(_ layers: [Int]) -> [Int] {
+        let insertPoint = Int.random(in: 1..<layers.count)
+        var structureToMutate = layers
+        let layerToMutate = structureToMutate[insertPoint] + Int.random(in: -2..<2)
+
+        structureToMutate.insert(layerToMutate, at: insertPoint)
+        return structureToMutate
+    }
+
+    static func addRandomLayer(_ layers: [Int]) -> [Int] {
+        let insertPoint = Int.random(in: 1..<layers.count)
+        var toMutate = layers
+        toMutate.insert(Int.random(in: 1..<10), at: insertPoint)
+        return toMutate
+    }
+
+    static func dropLayer(_ layers: [Int]) -> [Int] {
+        let dropPoint = Int.random(in: 1..<layers.count)
+        var toMutate = layers
+        toMutate.remove(at: dropPoint)
+        return toMutate
     }
 
     static func newLayersFromScratch() -> [Int] { Net.layersTemplate }

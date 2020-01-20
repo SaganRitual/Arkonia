@@ -6,8 +6,6 @@ class Clock {
 
     static var shared: Clock!
 
-    private let timeLimit: TimeInterval? = 5000
-
     let clockFormatter = DateComponentsFormatter()
     let clockReport: Reportoid
     let foodValueReport: Reportoid
@@ -43,7 +41,7 @@ class Clock {
     }
 
     private func getEntropy() -> CGFloat {
-        guard let t = timeLimit else { return 0 }
+        guard let t = Arkonia.worldTimeLimit else { return 0 }
         return min(CGFloat(self.worldClock * 2) / CGFloat(t), 1)
     }
 
