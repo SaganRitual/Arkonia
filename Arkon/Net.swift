@@ -178,9 +178,10 @@ class Net {
         var structureToMutate = layers
         let sign = Bool.random() ? 1 : -1
         let mag = Int.random(in: 1..<2)
-        let layerToMutate = structureToMutate[insertPoint] + sign * mag
+        let L = structureToMutate[insertPoint] + sign * mag
+        let mutatedLayer = (L == 0) ? 1 : L
 
-        structureToMutate.insert(layerToMutate, at: insertPoint)
+        structureToMutate.insert(mutatedLayer, at: insertPoint)
         return structureToMutate
     }
 

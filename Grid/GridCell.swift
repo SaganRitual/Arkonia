@@ -77,19 +77,28 @@ extension GridCell {
         dormantManna.append(sprite)
     }
 
+    static var cPhotosynthesizingManna = 0
+
     func setContents(
         to newContentType: Contents, newSprite: SKSpriteNode?,
         _ onComplete: @escaping () -> Void
     ) {
-        func a() { Substrate.serialQueue.async(execute: b) }
+//        func a() { Substrate.serialQueue.async(execute: b) }
 
         func b() {
+            if self.contents == .manna { GridCell.cPhotosynthesizingManna -= 1 }
+
             self.contents = newContentType
             self.sprite = newSprite
 
-            guard self.contents == .nothing else { e(); return }
+            guard newContentType == .nothing else {
+                if newContentType == .manna { GridCell.cPhotosynthesizingManna += 1 }
+                e()
+                return
+            }
 
             if let dormantMannaSprite = self.dormantManna.popFirst() {
+                GridCell.cPhotosynthesizingManna += 1
                 self.contents = .manna
                 self.sprite = dormantMannaSprite
                 c(dormantMannaSprite)
@@ -106,7 +115,7 @@ extension GridCell {
 
         func e() { onComplete() }
 
-        a()
+        b()
     }
 }
 

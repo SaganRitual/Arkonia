@@ -14,11 +14,12 @@ final class Plot: Dispatchable {
 
         var entropy: CGFloat = 0
 
-        func b() { self.computeMove(c) }
+        func a() { self.computeMove(b) }
+        func b() { Funge.dispatchQueue.async(execute: c) }
         func c() { ch.co2Counter += ch.cellShuttle!.didMove ? 0 : 1; d() }
         func d() { dp.moveSprite() }
 
-        b()
+        a()
     }
 
     func getSenseData(_ gridInputs: [Double]) {
@@ -40,7 +41,6 @@ final class Plot: Dispatchable {
             self.getSenseData(gridInputs)
             guard let sd = self.senseData else { fatalError() }
             ch.cellShuttle = self.makeCellShuttle(sd, sg)
-
             onComplete()
         }
 
@@ -55,7 +55,7 @@ extension Plot {
         var entropyPerJoule = 0.0
         func a() { Clock.shared.entropize(1) { entropyPerJoule = Double($0); b() } }
 
-        func b() { DispatchQueue.global(qos: .default).async(execute: c) }
+        func b() { Substrate.serialQueue.async(execute: c) }
 
         func c() {
             var gridInputs = [Double]()
@@ -80,7 +80,7 @@ extension Plot {
             return (contentsAsNetSignal, 0)
         }
 
-        guard let (_, _, st) = scratch?.getKeypoints() else { preconditionFailure() }
+        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
 
         var nutrition: Double = 0
 
@@ -129,6 +129,8 @@ extension Plot {
         guard let st = ch.stepper else { fatalError() }
         guard let net = st.net else { fatalError() }
 
+        Debug.log("makeCellShuttle for \(six(st.name)) from \(st.gridCell!)", level: 98)
+
         let motorOutputs: [(Int, Double)] =
             zip(0..., net.getMotorOutputs(senseData)).map { data in
                 let (ss, signal) = data
@@ -146,7 +148,7 @@ extension Plot {
             return labs > rabs
         }
 
-        Debug.log("order for \(six(st.name)): \(order)", level: 90)
+        Debug.log("order for \(six(st.name)): \(order)", level: 98)
 
         let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 
@@ -154,22 +156,22 @@ extension Plot {
         let toCell: HotKey
 
         if targetOffset == nil || targetOffset!.0 == 0 {
-            guard let t = senseGrid.cells[0] as? HotKey else { preconditionFailure() }
+            guard let t = senseGrid.cells[0] as? HotKey else { fatalError() }
 
             toCell = t; fromCell = nil
-            Debug.log("toCell at \(t.gridPosition)", level: 82)
+            Debug.log("toCell at \(t.gridPosition) holds \(six(t.sprite?.name))", level: 98)
         } else {
-            guard let t = senseGrid.cells[targetOffset!.0] as? HotKey else { preconditionFailure() }
-            guard let f = senseGrid.cells[0] as? HotKey else { preconditionFailure() }
+            guard let t = senseGrid.cells[targetOffset!.0] as? HotKey else { fatalError() }
+            guard let f = senseGrid.cells[0] as? HotKey else { fatalError() }
 
             toCell = t; fromCell = f
-            Debug.log("toCell at \(t.gridPosition), fromCell at \(f.gridPosition)", level: 82)
+            Debug.log("toCell at \(t.gridPosition) holds \(six(t.sprite?.name)), fromCell at \(f.gridPosition) holds \(six(f.sprite?.name))", level: 98)
         }
 
         if targetOffset == nil {
-            Debug.log("targetOffset: nil", level: 82)
+            Debug.log("targetOffset: nil", level: 98)
         } else {
-            Debug.log("targetOffset: \(targetOffset!.0)", level: 82)
+            Debug.log("targetOffset: \(targetOffset!.0)", level: 98)
         }
 
         return CellShuttle(fromCell, toCell)

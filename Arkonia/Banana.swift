@@ -164,7 +164,6 @@ extension Banana.Energy {
 }
 
 extension Banana.Sprite {
-    static var debug = true
     static let bloomAction = SKAction.group([fadeInAction, colorAction])
     static let doomAction = SKAction.group([fadeInAction, dolorAction])
     static let eoomAction = SKAction.group([fadeInAction, eolorAction])
@@ -232,7 +231,6 @@ extension Banana.Sprite {
     }
 
     fileprivate func reset() {
-        Banana.Sprite.debug = false
         sprite.alpha = 0
         sprite.colorBlendFactor = Arkonia.mannaColorBlendMinimum
     }

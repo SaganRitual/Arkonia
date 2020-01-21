@@ -1,7 +1,7 @@
 import GameplayKit
 
 final class Colorize: Dispatchable {
-    internal override func launch() { colorize() }
+    internal override func launch() { SceneDispatch.schedule(colorize) }
 }
 
 extension Colorize {
