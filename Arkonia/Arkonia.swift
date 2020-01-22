@@ -1,7 +1,5 @@
 import SpriteKit
 
-func six(_ string: String?) -> String { return String(string?.prefix(50) ?? "<no input>") }
-
 class Arkonia {
     typealias OnComplete1p = (Int) -> Void
 
@@ -22,7 +20,7 @@ class Arkonia {
     static let allowSpawning = true
     static let cMannaMorsels = 10000
     static let debugColorIsEnabled = false
-    static let debugMessageLevel = 99
+    static let debugMessageLevel = 100
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1

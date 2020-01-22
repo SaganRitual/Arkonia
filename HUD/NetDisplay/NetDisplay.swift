@@ -32,7 +32,13 @@ class NetDisplay {
         SceneDispatch.schedule {self.display_() }
     }
 
+    static var display_counter = 0
     private func display_() {
+        Debug.log(level: 99) {
+            NetDisplay.display_counter += 1
+            return "Net display \(NetDisplay.display_counter)"
+        }
+
         let neuronRadius = CGFloat(25)
 
         let cHiddenLayers = layers.count - 2

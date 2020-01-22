@@ -4,6 +4,8 @@ func showDebugLog() {
     Debug.showLog()
 }
 
+func six(_ string: String?) -> String {""}// { return String(string?.prefix(50) ?? "<no input>") }
+
 struct Debug {
     static func debugColor(
         _ thorax: SKSpriteNode, _ thoraxColor: SKColor,

@@ -42,6 +42,14 @@ class Stepper {
     }
 }
 
+extension Debug {
+    // This gives me fine-grained control over log messaging, while
+    // leaving out any excess processing needed for the log messages
+    static func log(level: Int, _ execute: () -> String?) {
+        if level >= Arkonia.debugMessageLevel { if let e = execute() { log(e) } }
+    }
+}
+
 extension Stepper {
     func canSpawn() -> Bool {
         return metabolism.spawnReserves.level > getSpawnCost()
@@ -51,12 +59,15 @@ extension Stepper {
         let spawnCost = Arkonia.allowSpawning ?
             EnergyReserve.spawnReservesCapacity * 0.95 : CGFloat.infinity
 
-        let sc = String(format: "%3.3f", spawnCost)
-        let sr = String(format: "%3.3f", metabolism.spawnReserves.level)
-        let sf = String(format: "%3.3f%%", metabolism.spawnEnergyFullness * 100)
-        if metabolism.spawnReserves.level > 0 {
-            Debug.log("spawnCost(\(six(name))) = \(sc); spawnReserves at \(sr) (\(sf))", level: 95)
+        Debug.log(level: 95) {
+            if metabolism.spawnReserves.level <= 0 { return nil }
+
+            let sc = String(format: "%3.3f", spawnCost)
+            let sr = String(format: "%3.3f", metabolism.spawnReserves.level)
+            let sf = String(format: "%3.3f%%", metabolism.spawnEnergyFullness * 100)
+            return "spawnCost(\(six(name))) = \(sc); spawnReserves at \(sr) (\(sf))"
         }
+
         return spawnCost
     }
 }
