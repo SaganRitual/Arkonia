@@ -36,7 +36,7 @@ extension WorkItems {
 
     private static let unflatten = SKAction.scaleY(to: Arkonia.noseScaleFactor * f, duration: d)
 
-    private static let throb = SKAction.sequence([flatten, lengthen, shorten, unflatten])
+    private static let throb = SKAction.sequence([flatten, unflatten])
     private static let forever = SKAction.repeatForever(throb)
 
     static func lookPregnant(_ oxygenLevel: CGFloat, _ nose: SKSpriteNode) {

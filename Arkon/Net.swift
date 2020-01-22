@@ -80,12 +80,10 @@ class Net {
     ]
 
     func getMotorOutputs(_ sensoryInputs: [Double]) -> [Double] {
-        assert(sensoryInputs.count == Arkonia.cSenseNeurons)
+//        assert(sensoryInputs.count == Arkonia.cSenseNeurons)
 
         var ncSS = 0
         var a0 = Matrix<Double>(column: sensoryInputs)
-
-        Debug.log("layers = \(layers)", level: 29)
 
         for _ in 0..<layers.count - 1 {
             defer { ncSS += 1 }
@@ -98,18 +96,12 @@ class Net {
 
             let b = Matrix<Double>((0..<nc1).map { [self.biases[$0]] })
 
-//            let b = Matrix<Double>((0..<nc1).map { _ in [Double.random(in: -1.0..<1.0)] })
-
-            Debug.log("W.columns = \(W.columns), a0.rows = \(a0.rows), a0 = \(a0)", level: 29)
-
             let t2 = Surge.mul(W, a0)
             let t3 = Surge.add(t2, b)
             let t4 = t3.joined()
-//            a0 = Matrix<Double>(t4.map { [AFn.function[AFn.FunctionName.sigmoid]!($0)] })
             a0 = Matrix<Double>(t4.map { [constrain(activatorFunction($0), lo: -1, hi: 1)] })
         }
 
-//        Debug.log("mo", (0..<a0.rows).map { a0[$0, 0] })
         return (0..<a0.rows).map { a0[$0, 0] }
     }
 
@@ -147,14 +139,15 @@ class Net {
         // 80% chance that the structure won't change at all
         if Int.random(in: 0..<100) < 80 { return layers }
 
+        let strippedNet = Array(layers.dropFirst())
         var newNet: [Int]
 
         switch NetMutation.allCases.randomElement() {
-        case .passThru:           newNet = Array(layers.dropFirst())
-        case .addDuplicatedLayer: newNet = addDuplicatedLayer(layers)
-        case .addMutatedLayer:    newNet = addMutatedLayer(layers)
-        case .addRandomLayer:     newNet = addRandomLayer(layers)
-        case .dropLayer:          newNet = dropLayer(layers)
+        case .passThru:           newNet = strippedNet
+        case .addDuplicatedLayer: newNet = addDuplicatedLayer(strippedNet)
+        case .addMutatedLayer:    newNet = addMutatedLayer(strippedNet)
+        case .addRandomLayer:     newNet = addRandomLayer(strippedNet)
+        case .dropLayer:          newNet = dropLayer(strippedNet)
         case .none:               fatalError()
         }
 
@@ -176,9 +169,9 @@ class Net {
     static func addMutatedLayer(_ layers: [Int]) -> [Int] {
         let insertPoint = Int.random(in: 1..<layers.count)
         var structureToMutate = layers
-        let sign = Bool.random() ? 1 : -1
         let mag = Int.random(in: 1..<2)
-        let L = structureToMutate[insertPoint] + sign * mag
+        let sign = Bool.random() ? 1 : -1
+        let L = abs(structureToMutate[insertPoint] + sign * mag)
         let mutatedLayer = (L == 0) ? 1 : L
 
         structureToMutate.insert(mutatedLayer, at: insertPoint)
