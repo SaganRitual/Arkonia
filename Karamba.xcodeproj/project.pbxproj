@@ -37,6 +37,7 @@
 		D495F0C3233FA6D0007D6E86 /* IndexedRingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293E22DAEC7E0036C904 /* IndexedRingBuffer.swift */; };
 		D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */; };
 		D495F0C8233FA6E9007D6E86 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D40985F222650B0B009DD384 /* Info.plist */; };
+		D497C1AA23D966A70078D39F /* SpritePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D497C1A923D966A70078D39F /* SpritePool.swift */; };
 		D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4F45C23551F41000EC009 /* Parasitize.swift */; };
 		D4A59D212387E4E400517F60 /* Engage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D202387E4E400517F60 /* Engage.swift */; };
 		D4A59D232387F64500517F60 /* Plot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D222387F64500517F60 /* Plot.swift */; };
@@ -152,6 +153,7 @@
 		D46B1D9F22826994003D711C /* Overload2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overload2D.swift; sourceTree = "<group>"; };
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D495F0CE233FAB01007D6E86 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
+		D497C1A923D966A70078D39F /* SpritePool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpritePool.swift; sourceTree = "<group>"; };
 		D4A12BE922EA58E900C15F59 /* Stepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
 		D4A4F45C23551F41000EC009 /* Parasitize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parasitize.swift; sourceTree = "<group>"; };
 		D4A59D202387E4E400517F60 /* Engage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engage.swift; sourceTree = "<group>"; };
@@ -241,7 +243,6 @@
 				D40985F322650B0B009DD384 /* Components.entitlements */,
 				D40985F222650B0B009DD384 /* Info.plist */,
 				D40985EF22650B0B009DD384 /* Main.storyboard */,
-				D461358A2288CEF800C9864E /* TheScene.sks */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -261,7 +262,6 @@
 				D4603A6122A2720400885428 /* Banana.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
-				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
 			);
 			path = Arkonia;
 			sourceTree = "<group>";
@@ -299,6 +299,9 @@
 				D4B2AC8423D5983200246746 /* SceneDispatch.swift */,
 				D40985FE22650CC9009DD384 /* SceneViewController.swift */,
 				D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */,
+				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
+				D497C1A923D966A70078D39F /* SpritePool.swift */,
+				D461358A2288CEF800C9864E /* TheScene.sks */,
 			);
 			path = SpriteKit;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				D40F452C23C88A3D0027BD0C /* EnergyReserve.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */,
+				D497C1AA23D966A70078D39F /* SpritePool.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
 				D4BB6E73234E549C00529819 /* Funge.swift in Sources */,
 				D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */,

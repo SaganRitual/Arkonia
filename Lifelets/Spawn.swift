@@ -135,14 +135,17 @@ extension Spawn {
 }
 
 extension Spawn {
-
     func buildNetDisplay(_ sprite: SKSpriteNode) {
         guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
             else { return }
 
-        guard let scene = np.parent as? SKScene else { return }
+        guard let hp = (sprite.userData?[SpriteUserDataKey.netHalfNeuronsPortal] as? SKSpriteNode)
+            else { fatalError() }
 
-        netDisplay = NetDisplay(scene: scene, background: np, layers: net!.layers)
+        netDisplay = NetDisplay(
+            fullNeuronsPortal: np, halfNeuronsPortal: hp, layers: net!.layers
+        )
+
         netDisplay!.display()
     }
 }
@@ -173,6 +176,7 @@ extension Spawn {
 
         func a() {
             SceneDispatch.schedule { [unowned self] in
+                Debug.log(level: 102) { "buildArkon/a" }
                 self.buildSprites()
                 b()
             }
@@ -182,6 +186,7 @@ extension Spawn {
 
         func c() {
             SceneDispatch.schedule { [unowned self] in
+                Debug.log(level: 102) { "buildArkon/c" }
                 guard let sprite = self.thorax else { fatalError() }
                 self.buildNetDisplay(sprite)
                 onComplete()
@@ -194,10 +199,8 @@ extension Spawn {
     private func buildSprites() {
         assert(Display.displayCycle == .updateStarted)
 
-        self.nose = SpriteFactory.shared.noseHangar.makeSprite(embryoName)
-        self.thorax = SpriteFactory.shared.arkonsHangar.makeSprite(embryoName)
-
-        self.thorax!.addChild(self.nose!)
+        self.nose = SpriteFactory.shared.nosesPool.makeSprite(embryoName)
+        self.thorax = SpriteFactory.shared.arkonsPool.makeSprite(embryoName)
 
         guard let thorax = self.thorax else { fatalError() }
         guard let nose = self.nose else { fatalError() }
@@ -208,6 +211,7 @@ extension Spawn {
         nose.setScale(Arkonia.noseScaleFactor)
         nose.zPosition = 6
 
+        thorax.addChild(self.nose!)
         thorax.setScale(Arkonia.arkonScaleFactor * 1.0 / Arkonia.zoomFactor)
         thorax.colorBlendFactor = 0.5
         thorax.position = engagerKey.scenePosition
@@ -258,7 +262,9 @@ extension Spawn {
         ndp.scratch.engagerKey = ek
 
         SceneDispatch.schedule {
-            GriddleScene.arkonsPortal.addChild(newborn.sprite)
+            Debug.log(level: 102) { "launchB" }
+
+            SpriteFactory.shared.arkonsPool.attachSprite(newborn.sprite)
 
             let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
             newborn.sprite.run(rotate)

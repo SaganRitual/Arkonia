@@ -4,7 +4,7 @@ func showDebugLog() {
     Debug.showLog()
 }
 
-func six(_ string: String?) -> String {""}// { return String(string?.prefix(50) ?? "<no input>") }
+func six(_ string: String?) -> String {""}// { String(string?.prefix(50) ?? "<nothing here>") }
 
 struct Debug {
     static func debugColor(

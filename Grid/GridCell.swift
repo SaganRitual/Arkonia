@@ -64,7 +64,7 @@ extension GridCell {
 
         if let dormantMannaSprite = self.dormantManna.popFirst() {
             SceneDispatch.schedule { [unowned self] in
-                Debug.log("float manna at \(self))", level: 86)
+                Debug.log(level: 102) { "float manna at \(self))" }
                 self.contents = .manna
                 self.sprite = dormantMannaSprite
                 dormantMannaSprite.setContentsCallback?()
@@ -109,8 +109,11 @@ extension GridCell {
         }
 
         func c(_ dormantMannaSprite: SKSpriteNode) {
-            SceneDispatch.schedule { dormantMannaSprite.setContentsCallback?() }
-            e()
+            SceneDispatch.schedule {
+                Debug.log(level: 102) { "set contents/c" }
+                dormantMannaSprite.setContentsCallback?()
+                e()
+            }
         }
 
         func e() { onComplete() }

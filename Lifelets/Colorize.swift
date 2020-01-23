@@ -1,7 +1,10 @@
 import GameplayKit
 
 final class Colorize: Dispatchable {
-    internal override func launch() { SceneDispatch.schedule(colorize) }
+    internal override func launch() {
+        Debug.log(level: 102) { "colorize" }
+        SceneDispatch.schedule(colorize)
+    }
 }
 
 extension Colorize {
@@ -11,13 +14,11 @@ extension Colorize {
 
         Debug.debugColor(st, .blue, .blue)
 
-        let babyBumpIsRunning = st.sprite.action(forKey: "baby-bump") != nil
-        let babyBumpShouldBeShowing = st.metabolism.spawnReserves.level < (st.getSpawnCost() * 0.5)
+        let babyBumpShouldBeShowing = st.metabolism.spawnReserves.level > (st.getSpawnCost() * 0.5)
 
-        switch (babyBumpIsRunning, babyBumpShouldBeShowing) {
-        case (true, true):  break
-        case (false, true): WorkItems.lookPregnant(st.metabolism.oxygenLevel, st.nose)
-        default:            WorkItems.lookNotPregnant(st.nose)
+        switch babyBumpShouldBeShowing {
+        case true:  WorkItems.lookPregnant(st.metabolism.oxygenLevel, st.nose)
+        case false: WorkItems.lookNotPregnant(st.nose)
         }
 
         dp.disengage()
@@ -25,28 +26,16 @@ extension Colorize {
 }
 
 extension WorkItems {
-    private static let d = 0.1
-    private static let f: CGFloat = 5
-
-    private static let flatten = SKAction.scaleY(to: Arkonia.noseScaleFactor / f, duration: d)
-
-    private static let lengthen = SKAction.scaleX(to: Arkonia.noseScaleFactor * f, duration: d)
-
-    private static let shorten = SKAction.scaleX(to: Arkonia.noseScaleFactor / f, duration: d)
-
-    private static let unflatten = SKAction.scaleY(to: Arkonia.noseScaleFactor * f, duration: d)
-
-    private static let throb = SKAction.sequence([flatten, unflatten])
-    private static let forever = SKAction.repeatForever(throb)
+    private static let f: CGFloat = Arkonia.zoomFactor
 
     static func lookPregnant(_ oxygenLevel: CGFloat, _ nose: SKSpriteNode) {
-        nose.run(forever, withKey: "baby-bump-nose")
+        nose.yScale = Arkonia.noseScaleFactor / f * 2
+        nose.xScale = Arkonia.noseScaleFactor * f * 2
     }
 }
 
 extension WorkItems {
     static func lookNotPregnant(_ nose: SKSpriteNode) {
-        nose.removeAction(forKey: "baby-bump")
         nose.setScale(Arkonia.noseScaleFactor)
     }
 }

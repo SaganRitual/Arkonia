@@ -16,12 +16,10 @@ extension WorkItems {
         guard let nose = st.nose else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
 
-        if let nd = st.netDisplay { nd.reset() }
-
         func a() { Debug.log("aApoptosize \(six(st.name))", level: 80); Census.shared.registerDeath(st, b) }
         func b() { Debug.log("bApoptosize \(six(st.name))", level: 80); releaseStepper(st, gc, c) }
         func c() { Debug.log("cApoptosize \(six(st.name))", level: 83); gc.setContents(to: .nothing, newSprite: nil, d) }
-        func d() { Debug.log("dApoptosize \(six(st.name))", level: 80); retireSprites(nose, thorax) }
+        func d() { Debug.log("dApoptosize \(six(st.name))", level: 80); releaseSprites(nose, thorax) }
 
         a()
     }
@@ -36,12 +34,13 @@ extension WorkItems {
         }
     }
 
-    private static func retireSprites(
+    private static func releaseSprites(
         _ nose: SKSpriteNode, _ thorax: SKSpriteNode
     ) {
         SceneDispatch.schedule {
-            SpriteFactory.shared.noseHangar.retireSprite(nose)
-            SpriteFactory.shared.arkonsHangar.retireSprite(thorax)
+            Debug.log(level: 102) { "Apoptosize release sprites" }
+            SpriteFactory.shared.nosesPool.releaseSprite(nose)
+            SpriteFactory.shared.arkonsPool.releaseSprite(thorax)
         }
     }
 }

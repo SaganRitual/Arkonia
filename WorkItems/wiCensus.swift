@@ -72,6 +72,7 @@ extension WorkItems {
         _ portal: SKSpriteNode, _ onComplete: @escaping OnCompleteStringArray
     ) {
         SceneDispatch.schedule {
+            Debug.log(level: 102) { "getNames" }
             let names = portal.children.compactMap { $0.name }
             onComplete(names)
         }

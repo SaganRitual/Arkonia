@@ -19,8 +19,6 @@ enum SceneDispatch {
     }
 
     static func tick() {
-        lockQueue.sync {
-            while let wi = workItems.popFirst() { wi() }
-        }
+        lockQueue.sync { while let wi = workItems.popFirst() { wi() } }
     }
 }

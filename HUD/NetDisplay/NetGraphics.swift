@@ -1,91 +1,85 @@
 import SpriteKit
 
 struct NetGraphics {
-    let background: SKSpriteNode
-    let fullNeuronsHangar: SpriteHangar
-    let halfNeuronsHangar: SpriteHangar
-    let linesHangar: SpriteHangar
+    let fullNeuronsPortal: SKSpriteNode
+    let halfNeuronsPortal: SKSpriteNode
     let netDisplayGrid: NetDisplayGridProtocol
 
-    func drawConnection(from start: CGPoint, to end: CGPoint, _ onComplete: @escaping SpriteFactoryCallback1P) {
-        var line: SKSpriteNode!
+    func drawConnection(from start: CGPoint, to end: CGPoint) {
         var textureLength: CGFloat = 0
         var targetLength: CGFloat = 0
 
-        SceneDispatch.schedule { partA() }
+        let line = SpriteFactory.shared.linesPool.makeSprite("line")
+        textureLength = line.size.width
+        targetLength = start.distance(to: end)
+        line.xScale = targetLength / textureLength
+        line.yScale = 1
 
-        func partA() { linesHangar.makeSprite("line", partB) }
+        line.zRotation = (end - start).theta
+        line.position = start + ((end - start) / 2)
 
-        func partB(_ sprite: SKSpriteNode) {
-            textureLength = line.size.width
-            targetLength = start.distance(to: end)
-            line.xScale = targetLength / textureLength
-            line.yScale = 1
-
-            line.zRotation = (end - start).theta
-            line.position = start + ((end - start) / 2)
-            line.color = .white
-            line.colorBlendFactor = 1
-            line.alpha = 0.5
-            line.zPosition = 0
-            background.zPosition = -1
-            self.background.addChild(line)
-            onComplete(line)
-        }
+        SpriteFactory.shared.linesPool.attachSprite(line)
     }
 
-    func drawConnection(from start_: GridPoint, to end_: GridPoint, _ onComplete: @escaping SpriteFactoryCallback1P) {
-        let start = netDisplayGrid.getPosition(start_)
-        let end = netDisplayGrid.getPosition(end_)
-        drawConnection(from: start, to: end, onComplete)
-    }
-
-    func drawNeuron(
-        at gridPoint: GridPoint, layerRole: LayerRole, _ onComplete: @escaping SpriteFactoryCallback0P
-    ) {
+    func drawConnection(from start_: GridPoint, to end_: GridPoint, _ onComplete: @escaping () -> Void) {
         SceneDispatch.schedule {
-            self.drawNeuron(at: gridPoint, layerRole: layerRole)
+            Debug.log(level: 102) { "drawConnection 1" }
+            let start = self.netDisplayGrid.getPosition(start_)
+            let end = self.netDisplayGrid.getPosition(end_)
+            self.drawConnection(from: start, to: end)
             onComplete()
         }
     }
 
     func drawNeuron(at gridPoint: GridPoint, layerRole: LayerRole) {
-        let hangar: SpriteHangar = {
-            switch layerRole {
-            case .senseLayer:  return halfNeuronsHangar
-            case .motorLayer:  return halfNeuronsHangar
-            case .hiddenLayer: return fullNeuronsHangar
-            }
-        }()
-
-        let sprite: SKSpriteNode = hangar.makeSprite("neuron")
-
+        let portal: SKSpriteNode
+        let sprite: SKSpriteNode
         let yFudge: CGFloat
 
         switch layerRole {
         case .senseLayer:
+            portal = halfNeuronsPortal
+            sprite = SpriteFactory.shared.halfNeuronsPool.makeSprite("neuron")
             sprite.color = .orange
-            yFudge = sprite.size.height / 8
+            sprite.zRotation = 0
+            sprite.setScale(1)    // Set the scale to get yFudge right, set real scale below
+            yFudge = sprite.size.height / Arkonia.zoomFactor / 2
 
         case .motorLayer:
+            portal = halfNeuronsPortal
+            sprite = SpriteFactory.shared.halfNeuronsPool.makeSprite("neuron")
             sprite.color = .blue
             sprite.zRotation = CGFloat.pi
-            yFudge = -sprite.size.height / 8
+            sprite.setScale(1)    // Set the scale to get yFudge right, set real scale below
+            yFudge = -sprite.size.height / Arkonia.zoomFactor / 2
 
         case .hiddenLayer:
+            portal = fullNeuronsPortal
+            sprite = SpriteFactory.shared.fullNeuronsPool.makeSprite("neuron")
             sprite.color = .green
+            sprite.setScale(1)    // Set the scale to get yFudge right, set real scale below
             yFudge = 0
         }
 
-        sprite.setScale(0.1)
         sprite.colorBlendFactor = 0.5
         sprite.alpha = 1.0
         sprite.position = netDisplayGrid.getPosition(gridPoint)
         sprite.position.y -= yFudge
         sprite.zPosition = 17
+        sprite.setScale(0.1)
 
-        self.background.addChild(sprite)
+        portal.addChild(sprite)
 
         Debug.log("sprite \(six(sprite.name)) at \(sprite.position)", level: 17)
+    }
+
+    func drawNeuron(
+        at gridPoint: GridPoint, layerRole: LayerRole, _ onComplete: @escaping () -> Void
+    ) {
+        SceneDispatch.schedule {
+            Debug.log(level: 102) { "drawNeuron" }
+            self.drawNeuron(at: gridPoint, layerRole: layerRole)
+            onComplete()
+        }
     }
 }

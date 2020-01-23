@@ -29,21 +29,18 @@ class Banana {
         init(_ fishNumber: Int) {
             let name = "manna-\(fishNumber)"
 
-            sprite = SpriteFactory.shared.mannaHangar.makeSprite(name)
-            sprite.colorBlendFactor = Arkonia.mannaColorBlendMinimum
+            sprite = SpriteFactory.shared.mannaPool.makeSprite(name)
 
             sprite.userData![SpriteUserDataKey.setContentsCallback] = setContentsCallback
             sprite.userData![SpriteUserDataKey.bloomActionIx] = 0
 
-            sprite.zPosition = 4
-            GriddleScene.mannaPortal!.addChild(sprite)
+            SpriteFactory.shared.mannaPool.attachSprite(sprite)
         }
 
         func setContentsCallback() {
-            Debug.log("setContentsCallback \(sprite.position)", level: 86)
             var bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
             sprite.run(Banana.Sprite.bloomActions[bloomActionIx])
-            bloomActionIx = (bloomActionIx + 1) % 3
+            bloomActionIx = (bloomActionIx + 1) % Banana.Sprite.cBloomActions
             sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
         }
 
@@ -164,6 +161,7 @@ extension Banana.Energy {
 }
 
 extension Banana.Sprite {
+    static let cBloomActions = 3
     static let bloomAction = SKAction.group([fadeInAction, colorAction])
     static let doomAction = SKAction.group([fadeInAction, dolorAction])
     static let eoomAction = SKAction.group([fadeInAction, eolorAction])
@@ -218,7 +216,7 @@ extension Banana.Sprite {
 
         var bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
         let toRun = Banana.Sprite.bloomActions[bloomActionIx]
-        bloomActionIx = (bloomActionIx + 1) % 3
+        bloomActionIx = (bloomActionIx + 1) % Banana.Sprite.cBloomActions
         sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
 
         sprite.run(toRun)

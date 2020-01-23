@@ -2,39 +2,41 @@ import Foundation
 import SpriteKit
 
 class NetDisplay {
-    let background: SKSpriteNode
+    let fullNeuronsPortal: SKSpriteNode
+    let halfNeuronsPortal: SKSpriteNode
     let layers: [Int]
     var netDisplayGrid: NetDisplayGridProtocol
     let netGraphics: NetGraphics
-    let spriteFactory: SpriteFactory
 
-    init(scene: SKScene, background: SKSpriteNode, layers: [Int]) {
-        self.spriteFactory = SpriteFactory(
-            scene: scene,
-            thoraxFactory: SpriteFactory.makeFakeThorax(texture:),
-            noseFactory: SpriteFactory.makeFakeNose(texture:)
-        )
-
-        self.background = background
+    init(fullNeuronsPortal: SKSpriteNode, halfNeuronsPortal: SKSpriteNode, layers: [Int]) {
+        self.fullNeuronsPortal = fullNeuronsPortal
+        self.halfNeuronsPortal = halfNeuronsPortal
         self.layers = layers
 
-        self.netDisplayGrid = NetDisplayGrid(portal: background, cHiddenLayers: layers.count - 2)
+        self.netDisplayGrid = NetDisplayGrid(portal: fullNeuronsPortal, cHiddenLayers: layers.count - 2)
+
         self.netGraphics = NetGraphics(
-            background: background,
-            fullNeuronsHangar: spriteFactory.fullNeuronsHangar,
-            halfNeuronsHangar: spriteFactory.halfNeuronsHangar,
-            linesHangar: spriteFactory.linesHangar,
+            fullNeuronsPortal: fullNeuronsPortal,
+            halfNeuronsPortal: halfNeuronsPortal,
             netDisplayGrid: netDisplayGrid
         )
     }
 
+    deinit {
+        SpriteFactory.shared.fullNeuronsPool.releaseSprites(from: fullNeuronsPortal)
+        SpriteFactory.shared.halfNeuronsPool.releaseSprites(from: halfNeuronsPortal)
+    }
+
     func display() {
-        SceneDispatch.schedule {self.display_() }
+        SceneDispatch.schedule {
+            Debug.log(level: 102) { "net display" }
+            self.display_()
+        }
     }
 
     static var display_counter = 0
     private func display_() {
-        Debug.log(level: 99) {
+        Debug.log(level: 100) {
             NetDisplay.display_counter += 1
             return "Net display \(NetDisplay.display_counter)"
         }
@@ -69,13 +71,6 @@ class NetDisplay {
 
                 positionsForUpperLayer.append(netDisplayGrid.getPosition(upperGridPoint))
             }
-        }
-    }
-
-    func reset() {
-        Debug.log("~NetDisplay", level: 20)
-        SceneDispatch.schedule {
-            /* strong self in */ self.background.removeAllChildren()
         }
     }
 }

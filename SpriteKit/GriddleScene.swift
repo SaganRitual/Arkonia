@@ -41,10 +41,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
     static var arkonsPortal: SKSpriteNode!
     static var mannaPortal: SKSpriteNode!
-
-    var netDisplay: NetDisplay?
-    var netPortal: SKSpriteNode!
-    var net9Portals = [SKSpriteNode]()
+    static var netPortal: SKSpriteNode!
 
     var reportFactory: ReportFactory!
     var reportArkonia: Report!
@@ -93,38 +90,27 @@ class GriddleScene: SKScene, SKSceneDelegate {
     override func didMove(to view: SKView) {
         GriddleScene.shared = self
 
-        GriddleScene.mannaPortal = (childNode(withName: "manna_portal") as? SKSpriteNode)!
         GriddleScene.arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
+        GriddleScene.mannaPortal = (childNode(withName: "manna_portal") as? SKSpriteNode)!
+        GriddleScene.netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
+
         Substrate.shared = Substrate(on: GriddleScene.arkonsPortal)
         Substrate.shared.postInit()
 
+        SpriteFactory.shared = SpriteFactory(scene: self)
+
         Debug.log("GriddleScene.arkonsPortal scale = \(GriddleScene.arkonsPortal.xScale) x \(GriddleScene.arkonsPortal.yScale)", level: 38)
 
-        netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
-
-        enumerateChildNodes(withName: "net_9portal") { node_, _ in
-            let node = (node_ as? SKSpriteNode)!
-            self.net9Portals.append(node)
-        }
-
-        SpriteFactory.shared = SpriteFactory(
-            scene: self,
-            thoraxFactory: SpriteFactory.makeSprite(texture:),
-            noseFactory: SpriteFactory.makeSprite(texture:)
-        )
-
-        func a() { SpriteFactory.shared.postInit(net9Portals, b) }
-
-        func b() {
+        func a() {
             self.scene!.delegate = self
 
             self.hud = HUD(scene: self)
             self.buildReports()
 
-            Banana.populateGarden(c)
+            Banana.populateGarden(b)
         }
 
-        func c() {
+        func b() {
             Clock.shared = Clock(self)
             Census.shared = Census(self)
 
