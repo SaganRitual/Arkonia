@@ -18,7 +18,7 @@ struct NetGraphics {
         line.zRotation = (end - start).theta
         line.position = start + ((end - start) / 2)
 
-        SpriteFactory.shared.linesPool.attachSprite(line)
+        SpriteFactory.shared.linesPool.attachSprite(line, useCustomPortal: true)
     }
 
     func drawConnection(from start_: GridPoint, to end_: GridPoint, _ onComplete: @escaping () -> Void) {
@@ -31,7 +31,7 @@ struct NetGraphics {
         }
     }
 
-    func drawNeuron(at gridPoint: GridPoint, layerRole: LayerRole) {
+    func drawNeuron(for arkon: SKSpriteNode, at gridPoint: GridPoint, layerRole: LayerRole) {
         let portal: SKSpriteNode
         let sprite: SKSpriteNode
         let yFudge: CGFloat
@@ -74,11 +74,11 @@ struct NetGraphics {
     }
 
     func drawNeuron(
-        at gridPoint: GridPoint, layerRole: LayerRole, _ onComplete: @escaping () -> Void
+        for arkon: SKSpriteNode, at gridPoint: GridPoint, layerRole: LayerRole, _ onComplete: @escaping () -> Void
     ) {
         SceneDispatch.schedule {
             Debug.log(level: 102) { "drawNeuron" }
-            self.drawNeuron(at: gridPoint, layerRole: layerRole)
+            self.drawNeuron(for: arkon, at: gridPoint, layerRole: layerRole)
             onComplete()
         }
     }

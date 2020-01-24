@@ -143,7 +143,7 @@ extension Spawn {
             else { fatalError() }
 
         netDisplay = NetDisplay(
-            fullNeuronsPortal: np, halfNeuronsPortal: hp, layers: net!.layers
+            arkon: sprite, fullNeuronsPortal: np, halfNeuronsPortal: hp, layers: net!.layers
         )
 
         netDisplay!.display()

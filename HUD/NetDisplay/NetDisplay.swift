@@ -2,13 +2,15 @@ import Foundation
 import SpriteKit
 
 class NetDisplay {
+    let arkon: SKSpriteNode
     let fullNeuronsPortal: SKSpriteNode
     let halfNeuronsPortal: SKSpriteNode
     let layers: [Int]
     var netDisplayGrid: NetDisplayGridProtocol
     let netGraphics: NetGraphics
 
-    init(fullNeuronsPortal: SKSpriteNode, halfNeuronsPortal: SKSpriteNode, layers: [Int]) {
+    init(arkon: SKSpriteNode, fullNeuronsPortal: SKSpriteNode, halfNeuronsPortal: SKSpriteNode, layers: [Int]) {
+        self.arkon = arkon
         self.fullNeuronsPortal = fullNeuronsPortal
         self.halfNeuronsPortal = halfNeuronsPortal
         self.layers = layers
@@ -23,8 +25,8 @@ class NetDisplay {
     }
 
     deinit {
-        SpriteFactory.shared.fullNeuronsPool.releaseSprites(from: fullNeuronsPortal)
-        SpriteFactory.shared.halfNeuronsPool.releaseSprites(from: halfNeuronsPortal)
+        // We don't free neuron and line sprites here; we free them rather when
+        // the arkon that owns the mini-portal destructs
     }
 
     func display() {
@@ -67,7 +69,7 @@ class NetDisplay {
 
             (0..<cNeurons).forEach { neuronSS in
                 let upperGridPoint = GridPoint(x: neuronSS, y: layerSS)
-                netGraphics.drawNeuron(at: upperGridPoint, layerRole: layerRole)
+                netGraphics.drawNeuron(for: arkon, at: upperGridPoint, layerRole: layerRole)
 
                 positionsForUpperLayer.append(netDisplayGrid.getPosition(upperGridPoint))
             }

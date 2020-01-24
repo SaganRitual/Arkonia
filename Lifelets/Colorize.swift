@@ -30,7 +30,7 @@ extension WorkItems {
 
     static func lookPregnant(_ oxygenLevel: CGFloat, _ nose: SKSpriteNode) {
         nose.yScale = Arkonia.noseScaleFactor / f * 2
-        nose.xScale = Arkonia.noseScaleFactor * f * 2
+        nose.xScale = Arkonia.noseScaleFactor * f
     }
 }
 

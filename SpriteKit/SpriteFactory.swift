@@ -10,8 +10,8 @@ class SpriteFactory {
     static var shared: SpriteFactory!
 
     let arkonsPool: ThoraxPool
-    let fullNeuronsPool: NeuronsPool
-    let halfNeuronsPool: NeuronsPool
+    let fullNeuronsPool: SpritePool
+    let halfNeuronsPool: SpritePool
     let linesPool: SpritePool
     let mannaPool: SpritePool
     let nosesPool: SpritePool
@@ -31,14 +31,14 @@ class SpriteFactory {
             DronePrototype(alpha: 0, color: .gray, colorBlendFactor: 1, zPosition: 10, zRotation: 0)
 
         let arkons = ThoraxPool(
-            "Arkons", "spark-thorax-large", GriddleScene.arkonsPortal, 1000, arkonPrototype
+            "Arkons", "spark-thorax-large", GriddleScene.arkonsPortal, 1000, arkonPrototype, .stepper
         )
 
         let nosePrototype =
             DronePrototype(alpha: 0, color: .darkGray, colorBlendFactor: 1, zPosition: 11, zRotation: 0)
 
         let noses = SpritePool(
-            "Arkons", "spark-nose-large", GriddleScene.arkonsPortal, 1000, nosePrototype
+            "Arkons", "spark-nose-large", GriddleScene.arkonsPortal, 1000, nosePrototype, nil
         )
 
         return (arkons, noses)
@@ -50,31 +50,31 @@ class SpriteFactory {
         )
 
         return SpritePool(
-            "Manna", "manna", GriddleScene.mannaPortal, Arkonia.cMannaMorsels, mannaPrototype
+            "Manna", "manna", GriddleScene.mannaPortal, Arkonia.cMannaMorsels, mannaPrototype, .manna
         )
     }
 
     // swiftlint:disable large_tuple
-    static func makeNetDisplayPools() -> (NeuronsPool, NeuronsPool, SpritePool) {
+    static func makeNetDisplayPools() -> (SpritePool, SpritePool, SpritePool) {
         let fullNeuronPrototype =
             DronePrototype(alpha: 0, color: .green, colorBlendFactor: 1, zPosition: 5, zRotation: 0)
 
-        let fullNeurons = NeuronsPool(
-            "Neurons", "neuron-plain", nil, 1000, fullNeuronPrototype
+        let fullNeurons = SpritePool(
+            "Neurons", "neuron-plain", nil, 1000, fullNeuronPrototype, .net9Portal
         )
 
         let halfNeuronPrototype =
             DronePrototype(alpha: 0, color: .gray, colorBlendFactor: 1, zPosition: 5, zRotation: 0)
 
-        let halfNeurons = NeuronsPool(
-            "Neurons", "neuron-plain-half", nil, 500, halfNeuronPrototype
+        let halfNeurons = SpritePool(
+            "Neurons", "neuron-plain-half", nil, 500, halfNeuronPrototype, .netHalfNeuronsPortal
         )
 
         let linePrototype =
             DronePrototype(alpha: 0, color: .green, colorBlendFactor: 1, zPosition: 5, zRotation: 0)
 
         let lines = SpritePool(
-            "Line", "line", nil, 4000, linePrototype
+            "Line", "line", nil, 4000, linePrototype, nil
         )
 
         return (fullNeurons, halfNeurons, lines)

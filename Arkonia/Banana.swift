@@ -116,12 +116,14 @@ extension Banana {
     fileprivate func sow(_ onComplete: @escaping () -> Void) {
         var newHome: GridCell!
         var didPlant = false
+        var retry = 0
 
         func a() { grid.plant(sprite.sprite) { newHome = $0; didPlant = $1; b() } }
 
         func b() {
             if didPlant { self.sprite.plant(at: newHome, onComplete) }
-            else        { self.sprite.inject(at: newHome, onComplete) }
+            else if retry >= 5 { self.sprite.inject(at: newHome, onComplete) }
+            else { retry += 1; a() }
         }
 
         a()

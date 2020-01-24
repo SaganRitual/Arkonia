@@ -14,13 +14,15 @@ class SpritePool {
     var parkedDrones: [SKSpriteNode]
     var prototype: DronePrototype
     var texture: SKTexture
+    let userDataKey: SpriteUserDataKey?
 
     init(
         _ atlasName: String,
         _ textureName: String,
         _ parentSKNode: SKNode?,
         _ poolCapacity: Int,
-        _ prototype: DronePrototype
+        _ prototype: DronePrototype,
+        _ userDataKey: SpriteUserDataKey?
     ) {
         self.atlas = SKTextureAtlas(named: atlasName)
         self.texture = atlas.textureNamed(textureName)
@@ -28,16 +30,19 @@ class SpritePool {
         self.parkedDrones = []
         self.parkedDrones.reserveCapacity(poolCapacity)
         self.prototype = prototype
+        self.userDataKey = userDataKey
     }
 
-    func attachSprite(_ sprite: SKSpriteNode, portalKey: SpriteUserDataKey? = nil) {
-        if let key = portalKey,
-            let portal = sprite.getKeyField(key, require: false) as? SKSpriteNode {
-            portal.addChild(sprite)
+    func attachSprite(_ sprite: SKSpriteNode, useCustomPortal: Bool = false) {
+        guard useCustomPortal else {
+            parentSKNode!.addChild(sprite)
             return
         }
 
-        parentSKNode!.addChild(sprite)
+        guard let customPortal = sprite.getKeyField(userDataKey!, require: false) as? SKSpriteNode
+            else { fatalError() }
+
+        customPortal.addChild(sprite)
     }
 
     func getDrone() -> SKSpriteNode {
@@ -79,18 +84,9 @@ class SpritePool {
         parkedDrones.append(sprite)
     }
 
-    func releaseSprites(from portal: SKSpriteNode) { fatalError() }
-
     func skRelease(_ sprite: SKSpriteNode) {
         sprite.removeAllActions()
         sprite.removeFromParent()
-    }
-}
-
-class NeuronsPool: SpritePool {
-    override func releaseSprites(from portal: SKSpriteNode) {
-        parkedDrones.append(contentsOf: portal.children.map { ($0 as? SKSpriteNode)! })
-        portal.removeAllChildren()
     }
 }
 
@@ -104,9 +100,10 @@ class ThoraxPool: SpritePool {
         _ textureName: String,
         _ parentSKNode: SKNode?,
         _ poolCapacity: Int,
-        _ prototype: DronePrototype
+        _ prototype: DronePrototype,
+        _ userDataKey: SpriteUserDataKey?   // Unused; keep it for the override
     ) {
-        super.init(atlasName, textureName, parentSKNode, poolCapacity, prototype)
+        super.init(atlasName, textureName, parentSKNode, poolCapacity, prototype, .stepper)
         setupNetDisplayPortals()
     }
 
@@ -132,20 +129,31 @@ class ThoraxPool: SpritePool {
             return
         }
 
+        guard let fullNeuronPortal = sprite.getKeyField(.net9Portal) as? SKSpriteNode,
+            let halfNeuronPortal = sprite.getKeyField(.netHalfNeuronsPortal) as? SKSpriteNode
+        else { fatalError() }
+
+        fullNeuronPortal.removeAllChildren()
+        halfNeuronPortal.removeAllChildren()
+
         skRelease(sprite)
         parkedDronesWithNetDisplay.append(sprite)
         Debug.log(level: 101) { "release to net display drones array" }
     }
 
     func setupNetDisplayPortals() {
-        GriddleScene.shared.enumerateChildNodes(withName: "net_9portal") { node, _ in
+
+        GriddleScene.shared.enumerateChildNodes(withName: "net_9portal*") { node, _ in
             guard let portal = node as? SKSpriteNode else { fatalError() }
             self.netDisplayPortals.append(portal)
         }
 
-        GriddleScene.shared.enumerateChildNodes(withName: "net_9portal_halfNeurons") { node, _ in
+        GriddleScene.shared.enumerateChildNodes(withName: "net_9portal_halfNeurons*") { node, _ in
             guard let portal = node as? SKSpriteNode else { fatalError() }
             self.halfNeuronDisplayPortals.append(portal)
         }
+
+        self.netDisplayPortals.sort { $0.name! < $1.name! }
+        self.halfNeuronDisplayPortals.sort { $0.name! < $1.name! }
     }
 }
