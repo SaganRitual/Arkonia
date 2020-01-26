@@ -1,5 +1,9 @@
 struct AKPoint: Hashable, HasXY, CustomDebugStringConvertible {
-    var debugDescription: String { return "(\(x), \(y))" }
+    private func debugDescription_() -> String {
+        return String(format: "(% 03d, % 03d)", x, y)
+    }
+
+    var debugDescription: String { debugDescription_() }
 
     let x: Int; let y: Int
 

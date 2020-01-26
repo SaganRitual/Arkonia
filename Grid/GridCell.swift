@@ -12,7 +12,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
         var isOccupied:     Bool { self != .invalid && self != .nothing }
     }
 
-    var debugDescription: String { return "GridCell.at(\(gridPosition.x), \(gridPosition.y))" }
+    lazy var debugDescription: String = { String(format: "GridCell.at(-%03d, -%03d)", gridPosition.x, gridPosition.y) }()
 
     var coldKey: ColdKey?
     var dormantManna = [SKSpriteNode]()
@@ -25,7 +25,11 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
     private (set) var contents = Contents.nothing
 
-    weak var sprite: SKSpriteNode?
+    weak var sprite: SKSpriteNode? {
+        willSet(sprite) {
+            Debug.log(level: 108) { "Set sprite for gridCell \(gridPosition) to \(six(sprite?.name))" }
+        }
+    }
 
     var isInDangerZone: Bool { Substrate.shared.isInDangerZone(self) }
 
@@ -35,15 +39,15 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
         coldKey = ColdKey(for: self)
 
-        if Arkonia.funkyCells == false { return }
+        guard let funkyMultiplier = Arkonia.funkyCells else { return }
 
         let wScene = CGFloat(Substrate.shared.cPortal) / 2
         let hScene = CGFloat(Substrate.shared.rPortal) / 2
 
-        let lScene = scenePosition.x - wScene
-        let rScene = scenePosition.x + wScene
-        let bScene = scenePosition.y - hScene
-        let tScene = scenePosition.y + hScene
+        let lScene = scenePosition.x - wScene * funkyMultiplier
+        let rScene = scenePosition.x + wScene * funkyMultiplier
+        let bScene = scenePosition.y - hScene * funkyMultiplier
+        let tScene = scenePosition.y + hScene * funkyMultiplier
 
         self.randomScenePosition = CGPoint.random(
             xRange: lScene..<rScene, yRange: bScene..<tScene
@@ -59,17 +63,16 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 }
 
 extension GridCell {
-    func floatMannaIf() {
-        guard self.contents == .nothing else { return }
+    func clearContents() {
+//        assert(isLocked)
 
-        if let dormantMannaSprite = self.dormantManna.popFirst() {
-            SceneDispatch.schedule { [unowned self] in
-                Debug.log(level: 102) { "float manna at \(self))" }
-                self.contents = .manna
-                self.sprite = dormantMannaSprite
-                dormantMannaSprite.setContentsCallback?()
-            }
-        }
+        Debug.log(level: 109) { "clearContents \(six(sprite?.name)) at \(gridPosition)" }
+
+        // We don't clear manna, only arkons that move away from the cell, or die
+        assert(self.contents == .arkon)
+
+        self.contents = .nothing
+        self.sprite = nil
     }
 
     func injectManna(_ sprite: SKSpriteNode) {
@@ -78,47 +81,16 @@ extension GridCell {
     }
 
     static var cPhotosynthesizingManna = 0
+    static var cInjectedManna = 0
 
-    func setContents(
-        to newContentType: Contents, newSprite: SKSpriteNode?,
-        _ onComplete: @escaping () -> Void
-    ) {
-//        func a() { Substrate.serialQueue.async(execute: b) }
-
-        func b() {
-            if self.contents == .manna { GridCell.cPhotosynthesizingManna -= 1 }
-
-            self.contents = newContentType
-            self.sprite = newSprite
-
-            guard newContentType == .nothing else {
-                if newContentType == .manna { GridCell.cPhotosynthesizingManna += 1 }
-                e()
-                return
-            }
-
-            if let dormantMannaSprite = self.dormantManna.popFirst() {
-                GridCell.cPhotosynthesizingManna += 1
-                self.contents = .manna
-                self.sprite = dormantMannaSprite
-                c(dormantMannaSprite)
-                return
-            }
-
-            e()
+    func setContents(to newContent: Contents, newSprite: SKSpriteNode?) {
+        assert(newContent.isEdible) // Use clearContents() to set it to nothing
+        Debug.log(level: 109) {
+            "setContent for \(six(newSprite?.name)) at \(gridPosition) to \(newContent) replacing \(contents) name \(six(sprite?.name))"
         }
 
-        func c(_ dormantMannaSprite: SKSpriteNode) {
-            SceneDispatch.schedule {
-                Debug.log(level: 102) { "set contents/c" }
-                dormantMannaSprite.setContentsCallback?()
-                e()
-            }
-        }
-
-        func e() { onComplete() }
-
-        b()
+        self.contents = newContent
+        self.sprite = newSprite
     }
 }
 
@@ -164,6 +136,11 @@ extension GridCell {
         return key
     }
 
+    func lockIfEmpty(ownerName: String) -> HotKey? {
+        if contents.isOccupied { return nil }
+        return lockIf(ownerName: ownerName)
+    }
+
     func lock(require: RequireLock = .hot, ownerName: String) -> GridCellKey? {
 //        precondition(self.ownerName != ownerName)
         Debug.log("lock for \(six(ownerName)) was \(six(self.ownerName))", level: 85)
@@ -181,6 +158,7 @@ extension GridCell {
         }
     }
 
+    @discardableResult
     func releaseLock() -> Bool {
         Debug.log("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 85)
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))

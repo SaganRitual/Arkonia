@@ -50,6 +50,7 @@ extension GridCell {
 
             guard let hk = ck as? HotKey else { continue }
 
+            Debug.log(level: 109) { "set2 \(six(ownerName))" }
             randomGridCell = hk
         } while randomGridCell == nil
 

@@ -86,6 +86,7 @@ class Net {
         var a0 = Matrix<Double>(column: sensoryInputs)
 
         for _ in 0..<layers.count - 1 {
+            Debug.log(level: 103) { "Loop start: \(sensoryInputs)" }
             defer { ncSS += 1 }
             let nc0 = layers[ncSS + 0]
             let nc1 = layers[ncSS + 1]
@@ -94,12 +95,20 @@ class Net {
                 (0..<nc0).map { row in self.weights[col * nc0 + row] }
             })
 
+            Debug.log(level: 103) { "\(W)" }
+
             let b = Matrix<Double>((0..<nc1).map { [self.biases[$0]] })
+
+            Debug.log(level: 103) { "\(b)" }
 
             let t2 = Surge.mul(W, a0)
             let t3 = Surge.add(t2, b)
             let t4 = t3.joined()
-            a0 = Matrix<Double>(t4.map { [constrain(activatorFunction($0), lo: -1, hi: 1)] })
+            a0 = Matrix<Double>(t4.map {
+                [Net.sinusoid($0)]
+            })
+
+            Debug.log(level: 103) { "\(a0)" }
         }
 
         return (0..<a0.rows).map { a0[$0, 0] }

@@ -69,6 +69,9 @@ extension WorkItems {
         guard let hisSprite = myScratch.cellShuttle?.consumedSprite else { fatalError() }
         guard let hisStepper = hisSprite.getStepper() else { fatalError() }
 
+        precondition(hisStepper !== myStepper)
+        precondition(hisStepper.name != myStepper.name)
+
         let myMass = myStepper.metabolism.mass
         let hisMass = hisStepper.metabolism.mass
 
@@ -87,9 +90,14 @@ extension WorkItems {
             guard let myShuttle = myScratch.cellShuttle else { fatalError() }
 
             myShuttle.transferKeys(to: hisStepper) {
+                assert(hisScratch.engagerKey == nil)
+
                 hisScratch.cellShuttle = $0
-                hisScratch.engagerKey = nil
                 myScratch.cellShuttle = nil
+
+                Debug.log(level: 104) {
+                    "me \(six(myScratch.name)) -> nil true, him \(six(hisScratch.name)) -> nil \(hisScratch.cellShuttle == nil)"
+                }
 
                 myStepper.gridCell.descheduleIf(hisStepper)
 
@@ -101,10 +109,14 @@ extension WorkItems {
     static func parasitize(
         _ victor: Stepper, _ victim: Stepper, _ onComplete: @escaping () -> Void
     ) {
+        Debug.log(level: 109) { "victor \(victor.name) eats \(victim.name) at \(victor.gridCell.gridPosition)/\(victim.gridCell.gridPosition)" }
         Substrate.serialQueue.async {
             victor.metabolism.parasitizeProper(victim)
             victor.dispatch.releaseShuttle()
 
+            Debug.log(level: 109) { "set4 \(six(victim.name))" }
+            if let ek = victim.dispatch.scratch.engagerKey as? HotKey { ek.releaseLock() }
+            victim.gridCell = nil   // Victor now owns the cell
             victim.dispatch.apoptosize()
 
             onComplete()

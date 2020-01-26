@@ -20,4 +20,18 @@ class Scratchpad {
         return (self, dp, st)
     }
     //swiftlint:enable large_tuple
+
+    deinit {
+        if let hk = engagerKey as? HotKey { hk.releaseLock() }
+        engagerKey = nil
+
+        if let fc = cellShuttle?.fromCell { fc.releaseLock() }
+        cellShuttle?.fromCell = nil
+
+        if let tc = cellShuttle?.toCell { tc.releaseLock() }
+        cellShuttle?.toCell = nil
+
+        senseGrid?.cells.forEach { ($0 as? HotKey)?.releaseLock() }
+        senseGrid = nil
+    }
 }

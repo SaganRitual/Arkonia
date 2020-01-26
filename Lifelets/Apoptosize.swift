@@ -1,46 +1,51 @@
 import SpriteKit
 
 final class Apoptosize: Dispatchable {
-    internal override func launch() { Debug.log("Apoptosize launch \(six(scratch?.name))", level: 80); aApoptosize() }
+    internal override func launch() { dismemberArkon() }
 }
 
 extension Apoptosize {
-    func aApoptosize() { WorkItems.dismemberArkon(scratch) }
-}
-
-extension WorkItems {
-    static func dismemberArkon(_ scratch: Scratchpad?) {
+    private func dismemberArkon() {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log("Apoptosize \(six(st.name))", level: 80)
+        Debug.log(level: 80) { "Apoptosize \(six(st.name))" }
+
         guard let thorax = st.sprite else { fatalError() }
         guard let nose = st.nose else { fatalError() }
-        guard let gc = st.gridCell else { fatalError() }
 
-        func a() { Debug.log("aApoptosize \(six(st.name))", level: 80); Census.shared.registerDeath(st, b) }
-        func b() { Debug.log("bApoptosize \(six(st.name))", level: 80); releaseStepper(st, gc, c) }
-        func c() { Debug.log("cApoptosize \(six(st.name))", level: 83); gc.setContents(to: .nothing, newSprite: nil, d) }
-        func d() { Debug.log("dApoptosize \(six(st.name))", level: 80); releaseSprites(nose, thorax) }
+        func a() { Census.shared.registerDeath(st, b) }
+        func b() { Substrate.serialQueue.async(execute: d) }
+//        func c() { releaseStepper(d) }
+
+        func d() {
+            // If another arkon just ate me, I won't have a grid cell any more
+            if let gc = st.gridCell {
+//                assert(gc.isLocked)
+//                assert(gc.ownerName == st.name)
+                Debug.log(level: 111) { "clearContents from Apoptosize at \(gc.gridPosition); c = \(GridCell.cPhotosynthesizingManna), i = \(GridCell.cInjectedManna)" }
+                gc.clearContents()
+            }
+
+            releaseStepper()
+            releaseSprites(nose, thorax)
+        }
 
         a()
     }
 
-    private static func releaseStepper(
-        _ stepper: Stepper, _ gridCell: GridCell, _ onComplete: @escaping () -> Void
-    ) {
-        Substrate.serialQueue.async {
-            gridCell.descheduleIf(stepper)
-            Stepper.releaseStepper(stepper, from: stepper.sprite!)
-            onComplete()
-        }
-    }
-
-    private static func releaseSprites(
-        _ nose: SKSpriteNode, _ thorax: SKSpriteNode
-    ) {
+    private func releaseSprites(_ nose: SKSpriteNode, _ thorax: SKSpriteNode) {
         SceneDispatch.schedule {
             Debug.log(level: 102) { "Apoptosize release sprites" }
             SpriteFactory.shared.nosesPool.releaseSprite(nose)
             SpriteFactory.shared.arkonsPool.releaseSprite(thorax)
         }
+    }
+
+    private func releaseStepper() {
+        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+
+        // If another arkon just ate me, I won't have a grid cell any more
+        st.gridCell?.descheduleIf(st)
+        if let ek = ch.engagerKey as? HotKey { ek.releaseLock() }
+        Stepper.releaseStepper(st, from: st.sprite!)
     }
 }

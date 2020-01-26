@@ -49,7 +49,7 @@ final class Spawn: DispatchableProtocol {
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
         self.meTheParent = scratch.stepper
-        self.birthplace = scratch.senseGrid?.getRandomHotKey()
+        self.birthplace = scratch.senseGrid?.getRandomEmptyHotKey()
         self.tempStrongReference = self
     }
 
@@ -74,6 +74,7 @@ extension WorkItems {
 
         func c() {
             spawn.birthplace = nil
+            assert(spawn.engagerKey == nil) // utter paranoia
             spawn.engagerKey = newKey
             spawn.meTheParent?.nose.color = .yellow
 
@@ -109,7 +110,8 @@ extension WorkItems {
             )
         }
 
-        return GridCell.lockBirthPosition(parent: parent, name: embryoName)
+        return parent.dispatch.scratch.senseGrid?.cells.compactMap({ $0 as? HotKey }).filter({ $0.ownerName == parent.name }).randomElement()
+//        return GridCell.lockBirthPosition(parent: parent, name: embryoName)
     }
 }
 
@@ -243,10 +245,11 @@ extension Spawn {
         precondition(newborn.name == newborn.sprite.name)
         precondition((thorax?.name ?? "foo") == newborn.sprite.name)
 
-        ek.bell?.setContents(to: .arkon, newSprite: newborn.sprite) {
-            Debug.log("launchNewborn.setContents", level: 80)
-            self.launchB(ek, newborn)
-        }
+        ek.bell?.setContents(to: .arkon, newSprite: newborn.sprite)
+        newborn.gridCell = ek.bell
+        Debug.log(level: 104) { "setContents from launchNewborn at \(ek.gridPosition)" }
+        Debug.log(level: 109) { "set5 newborn \(six(newborn.name)), parent \(six(self.meTheParent?.name))" }
+        self.launchB(ek, newborn)
     }
 
     private func launchB(_ ek: HotKey, _ newborn: Stepper) {
@@ -262,7 +265,7 @@ extension Spawn {
         ndp.scratch.engagerKey = ek
 
         SceneDispatch.schedule {
-            Debug.log(level: 102) { "launchB" }
+            Debug.log(level: 105) { "launchB" }
 
             SpriteFactory.shared.arkonsPool.attachSprite(newborn.sprite)
 

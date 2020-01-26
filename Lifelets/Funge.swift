@@ -9,18 +9,24 @@ final class Funge: Dispatchable {
     )
 
     override func launch() {
-        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
         Debug.log("Funge \(six(st.name))", level: 95)
         Debug.debugColor(st, .yellow, .blue)
-        WorkItems.checkSpawnability(st) { self.fungeRoute($0, $1) }
+        guard let ek = ch.engagerKey as? HotKey else { fatalError() }
+        WorkItems.checkSpawnability(st) { self.fungeRoute($0, $1, ek) }
     }
 }
 
 extension Funge {
-    func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool) {
+    func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool, _ hotKey: HotKey) {
         guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        if !isAlive || st.gridCell.isInDangerZone { dp.apoptosize(); return }
+        Debug.log(level: 104) { "fungeRoute for \(six(st.name)) at \(st.gridCell.gridPosition) isAlive \(isAlive) canSpawn \(canSpawn)" }
+        if !isAlive || st.gridCell.isInDangerZone {
+            hotKey.releaseLock()
+            dp.apoptosize()
+            return
+        }
 
         if !canSpawn { dp.plot(); return }
 

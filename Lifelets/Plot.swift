@@ -4,13 +4,11 @@ import Dispatch
 final class Plot: Dispatchable {
     var senseData: [Double]?
 
-    deinit {
-        scratch?.senseGrid = nil
-    }
+    internal override func launch() { plot() }
 
-    internal override func launch() {
+    private func plot() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log("Plot \(six(st.name))", level: 82)
+        Debug.log(level: 104) { "Plot \(six(st.name))" }
 
         var entropy: CGFloat = 0
 
@@ -39,8 +37,18 @@ final class Plot: Dispatchable {
 
         func c() {
             self.getSenseData(gridInputs)
+            Debug.log(level: 103) { "gridInputs \(gridInputs)" }
             guard let sd = self.senseData else { fatalError() }
             ch.cellShuttle = self.makeCellShuttle(sd, sg)
+            sg.releaseNonStageCells(keep: ch.cellShuttle!.toCell!)
+            ch.engagerKey = nil
+            Debug.log(level: 104) {
+                "computeMove \(six(ch.name)) ->"
+                + " \(ch.cellShuttle!.toCell?.contents ?? .invalid) to"
+                + " \(ch.cellShuttle!.toCell?.gridPosition ?? AKPoint.zero),"
+                + " \(ch.cellShuttle!.fromCell?.contents ?? .invalid) from"
+                + " \(ch.cellShuttle!.fromCell?.gridPosition ?? AKPoint.zero)"
+            }
             onComplete()
         }
 
@@ -61,8 +69,8 @@ extension Plot {
             var gridInputs = [Double]()
             for ix in 0..<senseGrid.cells.count {
                 let (content, nutrition) = self.loadGridInput(senseGrid.cells[ix])
-                let cc = content * entropyPerJoule, nn = nutrition * entropyPerJoule
-                gridInputs.append(contentsOf: [cc, nn])
+                let nn = nutrition * entropyPerJoule
+                gridInputs.append(contentsOf: [content, nn])
             }
 
             onComplete(gridInputs)
@@ -74,7 +82,6 @@ extension Plot {
     private func loadGridInput(_ cellKey: GridCellKey) -> (Double, Double) {
 
         let contentsAsNetSignal = cellKey.contents.asNetSignal
-        let nutritionAsNetSignal: (CGFloat) -> Double = { Double($0) - 0.5 }
 
         if cellKey.contents == .invalid {
             return (contentsAsNetSignal, 0)
@@ -82,20 +89,17 @@ extension Plot {
 
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
 
-        var nutrition: Double = 0
-
         switch cellKey.contents {
         case .arkon:
-            nutrition = nutritionAsNetSignal(st.metabolism!.energyFullness)
-            return (contentsAsNetSignal, nutrition)
+            return (contentsAsNetSignal, Double(st.metabolism!.energyFullness))
 
         case .manna:
             guard let manna = cellKey.sprite?.getManna(require: false)
                 else { fatalError() }
 
             let energy = manna.getEnergyContentInJoules()
-            let energyAsNetSignal = nutritionAsNetSignal(energy)
-            return (contentsAsNetSignal, energyAsNetSignal)
+            let nutrition = Double(energy) / Double(Arkonia.maxMannaEnergyContentInJoules)
+            return (contentsAsNetSignal, nutrition)
 
         case .nothing:
             return (contentsAsNetSignal, 0)
@@ -109,17 +113,20 @@ extension Plot {
 
         var theData = [Double]()
 
-        let r = st.gridCell.randomScenePosition?.radius ?? 0
-        let t = st.gridCell.randomScenePosition?.theta ?? 0
-        let ro = (r / Substrate.shared.hypoteneuse) - 0.5
-        let to = (t / Substrate.shared.hypoteneuse) - 0.5
-        theData.append(contentsOf: [Double(to), Double(ro)])
+        let radius = st.gridCell.randomScenePosition?.radius ?? 0
+        let theta = st.gridCell.randomScenePosition?.theta ?? 0
+        let normalRadius = (radius / Substrate.shared.hypoteneuse)
+        let constrainedTheta = theta.truncatingRemainder(dividingBy: 2 * CGFloat.pi)
+        let normalTheta = constrainedTheta / (2 * CGFloat.pi)
+        let positiveTheta = (normalTheta >= 0) ? normalTheta : 1 + normalTheta
+        theData.append(contentsOf: [Double(normalRadius), Double(positiveTheta)])
+        let x = st.gridCell.randomScenePosition?.x ?? 0
+        let y = st.gridCell.randomScenePosition?.y ?? 0
+        Debug.log(level: 103) { "x, y = \(x), \(y), r, theta = \(radius), \(theta)" }
 
         let hunger = Double(st.metabolism.hunger)
-        let asphyxia = Double(1 - st.metabolism.oxygenLevel)
-        let ho = hunger - 0.5
-        let ao = asphyxia - 0.5
-        theData.append(contentsOf: [ho, ao])
+        let asphyxia = Double(st.metabolism.co2Level / Arkonia.co2MaxLevel)
+        theData.append(contentsOf: [hunger, asphyxia])
 
         return theData
     }
@@ -142,13 +149,13 @@ extension Plot {
         let trimmed = motorOutputs.filter { abs($0.1) < 1.0 && $0.0 != 0 }
 
         let order = trimmed.sorted { lhs, rhs in
-            let labs = abs(lhs.1)
-            let rabs = abs(rhs.1)
+            let labs = lhs.1//abs(lhs.1)
+            let rabs = rhs.1//abs(rhs.1)
 
             return labs > rabs
         }
 
-        Debug.log("order for \(six(st.name)): \(order)", level: 98)
+        Debug.log("order for \(six(st.name)): \(order)", level: 102)
 
         let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 
@@ -159,13 +166,22 @@ extension Plot {
             guard let t = senseGrid.cells[0] as? HotKey else { fatalError() }
 
             toCell = t; fromCell = nil
-            Debug.log("toCell at \(t.gridPosition) holds \(six(t.sprite?.name))", level: 98)
+            Debug.log(level: 104) { "toCell at \(t.gridPosition) holds \(six(t.sprite?.name))" }
         } else {
             guard let t = senseGrid.cells[targetOffset!.0] as? HotKey else { fatalError() }
             guard let f = senseGrid.cells[0] as? HotKey else { fatalError() }
 
             toCell = t; fromCell = f
-            Debug.log("toCell at \(t.gridPosition) holds \(six(t.sprite?.name)), fromCell at \(f.gridPosition) holds \(six(f.sprite?.name))", level: 98)
+            Debug.log(level: 104) {
+                let m = senseGrid.cells.map { "\($0.gridPosition) \(type(of: $0)) \($0.contents)" }
+
+                return "I am \(six(st.name))" +
+                "; toCell at \(t.gridPosition) holds \(six(t.sprite?.name))" +
+                ", fromCell at \(f.gridPosition) holds \(six(f.sprite?.name))\n" +
+                "senseGrid(\(m)"
+            }
+
+            assert(fromCell?.contents ?? .nothing == .arkon)
         }
 
         if targetOffset == nil {
@@ -174,6 +190,7 @@ extension Plot {
             Debug.log("targetOffset: \(targetOffset!.0)", level: 98)
         }
 
+        assert((fromCell?.contents ?? .arkon) == .arkon)
         return CellShuttle(fromCell, toCell)
     }
 }

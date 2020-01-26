@@ -11,22 +11,29 @@ class CellShuttle {
         self.fromCell = fromCell; self.toCell = toCell
     }
 
-    func move(_ onComplete: @escaping () -> Void) {
+    func move() {
         consumedContents = .nothing
         consumedSprite = nil
 
         // No fromCell means we didn't move
         guard let f = fromCell?.bell else { return }
-        guard let t = toCell?.bell else { preconditionFailure() }
+        guard let t = toCell?.bell else { fatalError() }
+
+        assert(f.isLocked && t.isLocked && f.ownerName == t.ownerName)
+        assert(f.contents == .arkon && f.sprite != nil)
 
         consumedContents = t.contents
         consumedSprite = t.sprite
 
-        func a() { t.setContents(to: f.contents, newSprite: f.sprite, b) }
-        func b() { f.setContents(to: .nothing, newSprite: nil, c) }
-        func c() { self.didMove = true; onComplete() }
+        Debug.log(level: 104) { "setContents from CellShuttle.move f \(f.contents) at \(f.gridPosition) t \(t.contents) at \(t.gridPosition)" }
 
-        a()
+        t.setContents(to: f.contents, newSprite: f.sprite)
+        f.clearContents()
+        fromCell?.releaseLock()
+
+        assert(t.contents == .arkon && t.sprite != nil)
+
+        self.didMove = true
     }
 
     func transferKeys(to winner: Stepper, _ onComplete: @escaping (CellShuttle) -> Void) {

@@ -4,7 +4,7 @@ func showDebugLog() {
     Debug.showLog()
 }
 
-func six(_ string: String?) -> String {""}// { String(string?.prefix(50) ?? "<nothing here>") }
+func six(_ string: String?) -> String { String(string?.prefix(50) ?? "<nothing here>") }
 
 struct Debug {
     static func debugColor(
@@ -62,5 +62,22 @@ struct Debug {
             let wix = (firstEntry + ix) % cLogMessages
             print(String(format: formatString, wix), logMessages[wix])
         }
+    }
+
+    static func showMannaStats() {
+        var cCells = 0, cInjected = 0, cPhotosynthesizing = 0
+
+        for x in -Substrate.shared.wGrid..<Substrate.shared.wGrid {
+            for y in -Substrate.shared.hGrid..<Substrate.shared.hGrid {
+                let p = AKPoint(x: x, y: y)
+                let c = Substrate.shared.getCell(at: p)
+
+                cCells += 1
+                cInjected += c.dormantManna.count
+                cPhotosynthesizing += (c.contents == .manna) ? 1 : 0
+            }
+        }
+
+        print("Manna stats; \(cCells) cells, \(cInjected) injected, \(cPhotosynthesizing) photosynthesizing")
     }
 }

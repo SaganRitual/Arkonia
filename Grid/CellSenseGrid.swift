@@ -24,11 +24,11 @@ class CellSenseGrid: CustomDebugStringConvertible {
         }
     }
 
-//    deinit {
-//        cells.dropFirst().compactMap({ $0 as? HotKey }).forEach { $0.releaseLock() }
-//    }
+    func releaseNonStageCells(keep: HotKey) {
+        cells.dropFirst().compactMap({ $0 as? HotKey }).filter({ $0 !== keep }).forEach { $0.releaseLock() }
+    }
 
-    func getRandomHotKey() -> HotKey? {
-        return cells.dropFirst().compactMap({ $0 as? HotKey }).randomElement()
+    func getRandomEmptyHotKey() -> HotKey? {
+        return cells.dropFirst().compactMap({ $0 as? HotKey }).filter({ !$0.contents.isOccupied }).randomElement()
     }
 }

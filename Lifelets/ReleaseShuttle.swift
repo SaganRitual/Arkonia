@@ -2,20 +2,28 @@ import Dispatch
 
 final class ReleaseShuttle: Dispatchable {
     internal override func launch() {
+        Substrate.serialQueue.async { self.releaseShuttle() }
+    }
+
+    private func releaseShuttle() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let shuttle = ch.cellShuttle else { preconditionFailure() }
-        guard let toCell = shuttle.toCell else { preconditionFailure() }
-        Debug.log("ReleaseShuttle \(six(st.name))", level: 86)
+        guard let shuttle = ch.cellShuttle else { fatalError() }
+        guard let toCell = shuttle.toCell else { fatalError() }
 
         Debug.debugColor(st, .green, .cyan)
 
-        Substrate.serialQueue.async {
-            ch.engagerKey = toCell
-            shuttle.fromCell = nil
-            shuttle.toCell = nil
-            ch.cellShuttle = nil
-            ch.senseGrid = nil
-            dp.metabolize()
-        }
+        assert(ch.engagerKey == nil)
+        ch.engagerKey = toCell
+
+        shuttle.fromCell?.releaseLock() // If we didn't move, there won't be a fromCell
+        shuttle.fromCell = nil
+
+        shuttle.toCell!.releaseLock()   // There will always be a toCell
+        shuttle.toCell = nil
+
+        ch.cellShuttle = nil
+        Debug.log(level: 104) { "ReleaseShuttle \(six(ch.name)) nil -> \(ch.cellShuttle == nil)" }
+        ch.senseGrid = nil
+        dp.metabolize()
     }
 }

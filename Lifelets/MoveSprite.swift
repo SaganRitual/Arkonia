@@ -1,33 +1,59 @@
 import SpriteKit
 
 final class MoveSprite: Dispatchable {
-    static let moveDuration: TimeInterval = 0.1
-    static let restAction = SKAction.wait(forDuration: moveDuration)
+    static let maxMoveDuration: TimeInterval = 0.3
+    static let maxRestDuration: TimeInterval = 0.3
+    static let minMoveDuration: TimeInterval = 0.1
+    static let minRestDuration: TimeInterval = 0.1
 
-    static func rest(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
-        stepper.sprite.run(restAction) { Substrate.serialQueue.async(execute: onComplete) }
-    }
-
-    internal override func launch() { moveSprite() }
+    internal override func launch() { SceneDispatch.schedule { self.moveSprite() } }
 
     func moveSprite() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let shuttle = ch.cellShuttle else { preconditionFailure() }
+        guard let shuttle = ch.cellShuttle else { fatalError() }
 
         if shuttle.fromCell == nil {
-            Debug.log("Resting \(six(st.name))", level: 90)
+            Debug.log(level: 104) { "Resting \(six(st.name))" }
             Debug.debugColor(st, .red, .cyan)
-            MoveSprite.rest(st) { dp.releaseShuttle() }
+            MoveSprite.restAction(st) { dp.releaseShuttle() }
             return
         }
 
-        Debug.log("Moving \(six(st.name))", level: 88)
-        Debug.debugColor(st, .red, .magenta)
+        assert(shuttle.fromCell !== shuttle.toCell)
+        assert(shuttle.fromCell != nil && shuttle.toCell != nil)
+        assert(shuttle.fromCell!.contents == .arkon)
 
-        guard let hotKey = shuttle.toCell?.bell else { preconditionFailure() }
+        guard let hotKey = shuttle.toCell?.bell else { fatalError() }
         let position = hotKey.randomScenePosition ?? hotKey.scenePosition
 
-        let moveAction = SKAction.move(to: position, duration: MoveSprite.moveDuration)
-        st.sprite.run(moveAction) { dp.moveStepper() }
+        MoveSprite.moveAction(st, to: position) {
+            Debug.log(level: 104) { "End of move action for \(six(st.name))" }
+            Debug.debugColor(st, .red, .cyan)
+            dp.moveStepper()
+        }
+    }
+
+    private static func makeRestAction() -> SKAction? {
+        let restDuration = TimeInterval.random(in: MoveSprite.minRestDuration..<MoveSprite.maxRestDuration)
+        return restDuration == 0 ? nil : SKAction.wait(forDuration: restDuration)
+    }
+
+    private static func moveAction(_ stepper: Stepper, to position: CGPoint, _ onComplete: @escaping () -> Void) {
+        let moveDuration = TimeInterval.random(in: MoveSprite.minMoveDuration..<MoveSprite.maxMoveDuration)
+        if moveDuration == 0 { onComplete(); return }
+
+        Debug.log(level: 104) { "Moving \(six(stepper.name))" }
+        Debug.debugColor(stepper, .red, .magenta)
+
+        let move = SKAction.move(to: position, duration: moveDuration)
+        var aSequence = [move]
+        if let ra = makeRestAction() { aSequence.append(ra) }
+        let sequence = SKAction.sequence(aSequence)
+        stepper.sprite.run(sequence, completion: onComplete)
+    }
+
+    private static func restAction(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
+        guard let ra = makeRestAction() else { onComplete(); return }
+        stepper.sprite.run(ra, completion: onComplete)
     }
 }

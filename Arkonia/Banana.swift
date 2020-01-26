@@ -1,14 +1,8 @@
 import SpriteKit
 
 class Banana {
-    static private let dispatchQueue = DispatchQueue(
-        label: "arkon.banana.q", target: DispatchQueue.global(qos: .userInitiated)
-    )
-
     static func populateGarden(_ onComplete: @escaping () -> Void) {
         var cSown = 0
-
-        func a() { dispatchQueue.async(execute: b) }
 
         func b() { (0..<Arkonia.cMannaMorsels).forEach { _ = Banana($0, c) } }
 
@@ -17,7 +11,7 @@ class Banana {
             if cSown >= Arkonia.cMannaMorsels { onComplete() }
         }
 
-        a()
+        b()
     }
 
     fileprivate struct Grid { }
@@ -27,7 +21,7 @@ class Banana {
         let sprite: SKSpriteNode
 
         init(_ fishNumber: Int) {
-            let name = "manna-\(fishNumber)"
+            let name = String(format: "manna-%05d", fishNumber)
 
             sprite = SpriteFactory.shared.mannaPool.makeSprite(name)
 
@@ -66,13 +60,32 @@ class Banana {
 
 extension Banana {
     func harvest(_ onComplete: @escaping (CGFloat) -> Void) {
-        getNutritionInJoules {
-            Debug.log("harvest", level: 85)
+        getNutritionInJoules { nutrition in
+            GridCell.cPhotosynthesizingManna -= 1
+            Debug.log(level: 111) {
+                "harvest \(nutrition) joules from \(six(self.sprite.sprite.name))"
+                + " at \(self.sprite.sprite.position);"
+                + " c = \(GridCell.cPhotosynthesizingManna)"
+                + " i = \(GridCell.cInjectedManna)"
+            }
 
             self.sprite.reset()
-            onComplete($0)
+            self.replant { onComplete(nutrition) }
+        }
+    }
 
-            self.replant()
+    func floatManna(at cell: GridCell, hotKey: HotKey) {
+        Substrate.serialQueue.async {
+//            // We need the lock for the duration of this call, but the compiler
+//            // gets pissed off if we don't use cellKey. Hence the two-line
+//            // construction
+//            let cellKey = cell.lock(require: .degradeToNil, ownerName: self.sprite.sprite.name!)
+//            guard let hotKey = cell. as? HotKey else { fatalError() }
+
+            GridCell.cPhotosynthesizingManna += 1
+            Debug.log(level: 108) { "Banana.floatManna at \(cell.gridPosition); c = \(GridCell.cPhotosynthesizingManna)" }
+            cell.setContents(to: .manna, newSprite: self.sprite.sprite)
+            hotKey.releaseLock(serviceRequesters: false)
         }
     }
 
@@ -91,39 +104,23 @@ extension Banana {
         }
     }
 
-    func replant() {
-        var newHome: GridCell!
-        var didPlant = false
-
-        func a() { Banana.dispatchQueue.asyncAfter(deadline: .now() + rebloomDelay, execute: b) }
-
-        func b() {
-            sprite.reset()
-            grid.plant(sprite.sprite) { newHome = $0; didPlant = $1; c() }
-        }
-
-        func c() {
-            if didPlant { self.sprite.plant(at: newHome, d) }
-            else        { self.sprite.inject(at: newHome, d) }
-        }
-
-        func d() { rebloomDelay += Arkonia.mannaRebloomDelayIncrement }
-
-        Debug.log("harvest", level: 85)
-        a()
+    fileprivate func sow(_ onComplete: @escaping () -> Void) {
+        replant(cRetries: 5, onComplete)
     }
 
-    fileprivate func sow(_ onComplete: @escaping () -> Void) {
-        var newHome: GridCell!
+    private func replant(cRetries: Int = 0, _ onComplete: @escaping () -> Void) {
+        var newHome: GridCell?
         var didPlant = false
-        var retry = 0
 
-        func a() { grid.plant(sprite.sprite) { newHome = $0; didPlant = $1; b() } }
+        func a() {
+            grid.plant(sprite.sprite, cRetries: cRetries) {
+                newHome = $0; didPlant = $1; b()
+            }
+        }
 
         func b() {
             if didPlant { self.sprite.plant(at: newHome, onComplete) }
-            else if retry >= 5 { self.sprite.inject(at: newHome, onComplete) }
-            else { retry += 1; a() }
+            else        { self.sprite.inject(at: newHome, onComplete) }
         }
 
         a()
@@ -131,24 +128,34 @@ extension Banana {
 }
 
 extension Banana.Grid {
-    fileprivate func plant(_ sprite: SKSpriteNode, _ onComplete: @escaping (GridCell, Bool) -> Void) {
+    fileprivate func plant(
+        _ sprite: SKSpriteNode,
+        cRetries: Int = 0,
+        _ onComplete: @escaping (GridCell, Bool) -> Void
+    ) {
         var cell: GridCell!
+        var hotKey: HotKey?
 
-        func a() { Substrate.serialQueue.async(execute: b) }
-        func b() { cell = GridCell.getRandomCell(); c() }
-        func c() { if cell.contents.isOccupied { isOccupied() } else { isNotOccupied() } }
+        Substrate.serialQueue.async {
+            for _ in 0..<(cRetries + 1) where hotKey == nil {
+                cell = GridCell.getRandomCell()
 
-        func isOccupied() {
-            Debug.log("inject \(six(sprite.name)) at \(cell.gridPosition)", level: 83)
-            cell.injectManna(sprite)
-            onComplete(cell, false)
+                if let hk = cell.lockIfEmpty(ownerName: sprite.name!) { hotKey = hk }
+            }
+
+            if hotKey == nil {
+                GridCell.cInjectedManna += 1
+                Debug.log(level: 112) { "inject \(six(sprite.name)) at \(cell.gridPosition); d = \(cell.dormantManna.count); c = \(GridCell.cPhotosynthesizingManna); i = \(GridCell.cInjectedManna)" }
+                cell.injectManna(sprite)
+            } else {
+                GridCell.cPhotosynthesizingManna += 1
+                Debug.log(level: 111) { "plant  \(six(sprite.name)) at \(cell.gridPosition); c = \(GridCell.cPhotosynthesizingManna); i = \(GridCell.cInjectedManna)" }
+                cell.setContents(to: .manna, newSprite: sprite)
+            }
+
+            hotKey?.releaseLock(serviceRequesters: false)
+            onComplete(cell, hotKey != nil)
         }
-
-        func isNotOccupied() {
-            cell.setContents(to: .manna, newSprite: sprite) { onComplete(cell, true) }
-        }
-
-        a()
     }
 }
 

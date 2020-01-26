@@ -20,17 +20,17 @@ class Arkonia {
     static let allowSpawning = true
     static let cMannaMorsels = 7000
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 103  // var so we can change it on the fly
+    static var debugMessageLevel = 113 // var so we can change it on the fly
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
-    static let funkyCells = true
+    static let funkyCells: CGFloat? = 0.75
     static let initialPopulation = 25
     static let worldTimeLimit: TimeInterval? = nil  //5000
 
     static let co2BaseCost: CGFloat = 1.02
     static let co2MaxLevel: CGFloat = 50
-    static let oxygenCostPerTick: CGFloat = 0.001
+    static let oxygenCostPerTick: CGFloat = 0.01
 
     static let inhaleFudgeFactor: CGFloat = 2.0
     static let spawnOverhead: CGFloat = 1.5

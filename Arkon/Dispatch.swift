@@ -40,8 +40,12 @@ final class Dispatch {
 }
 
 extension Dispatch {
+    private static let dispatchQueue = DispatchQueue(
+        label: "ak.dispatch.q", attributes: .concurrent, target: DispatchQueue.main
+    )
+
     private func dispatch(_ type: DispatchableProtocol.Type) {
-        Substrate.serialQueue.async {
+        Dispatch.dispatchQueue.async {
             self.lifelet = type.init(self.scratch)
             self.lifelet.launch()
         }

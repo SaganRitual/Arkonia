@@ -24,7 +24,8 @@ struct ColdKey: GridCellKey {
 
 class HotKey: GridCellKey, CustomDebugStringConvertible {
     private weak var cell_: GridCell?
-    var bell: GridCell? { get { cell_ } set { preconditionFailure() } }
+    var bell: GridCell? { get { cell_ } set { fatalError() } }
+    var isLive = true
 
     var debugDescription: String {
         "\(bell?.gridPosition ?? AKPoint(x: -4242, y: -4242))"
@@ -35,18 +36,18 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
     }
 
     var gridPosition: AKPoint {
-        get { return cell_?.gridPosition ?? AKPoint(x: -4343, y: -4343) }
-        set { preconditionFailure() }
+        get { return cell_!.gridPosition }
+        set { fatalError() }
     }
 
     var randomScenePosition: CGPoint? {
         get { return cell_?.randomScenePosition }
-        set { preconditionFailure() }
+        set { fatalError() }
     }
 
     var scenePosition: CGPoint {
         get { return cell_?.scenePosition ?? CGPoint(x: -42.42, y: -42.42) }
-        set { preconditionFailure() }
+        set { fatalError() }
     }
 
     var ownerName: String {
@@ -68,37 +69,52 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
     }
 
     deinit {
-        Debug.log("~HotKey at \(gridPosition) for \(six(bell?.ownerName))", level: 85)
-        releaseLock()
+        // Releasing the HotKey involves the HotKey itself. So we have to tell
+        // it to shut down before we reach deinit
+        assert(cell_ == nil)
     }
 
-    func deactivate() {
-        Debug.log("deactivate at \(gridPosition) for  for \(six(ownerName))", level: 80)
-        self.cell_ = nil
+    func floatMannaIf() {
+        guard let c = bell else { fatalError() }
+        guard let floater = c.dormantManna.popFirst() else {
+            Debug.log(level: 110) { "no manna to float at \(gridPosition)" }
+            return
+        }
+
+        Debug.log(level: 112) { "float  \(six(floater.name)) at \(gridPosition), top is \(c.contents)" }
+        guard let manna = floater.getManna() else { fatalError() }
+        manna.floatManna(at: c, hotKey: self)
     }
 
     func reengageRequesters() {
         guard let c = bell else { return }
 
-        while true {
-            guard let waitingStepper = c.getRescheduledArkon() else {
-                Debug.log("reengageRequesters empty", level: 80)
-                return
-            }
+        Debug.log(level: 105) {
+            return c.toReschedule.isEmpty ? nil :
+            "Reengage from \(c.toReschedule.count) requesters at \(gridPosition)"
+        }
 
+        while let waitingStepper = c.getRescheduledArkon() {
             if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
-                precondition(dp.scratch.engagerKey == nil)
-                Debug.log("reengageRequesters: \(six(st.name)) at \(self.gridPosition)", level: 92)
+                let ch = dp.scratch
+                assert(ch.engagerKey == nil)
+                Debug.log(level: 107) { "reengageRequesters: \(six(st.name)) at \(self.gridPosition); from \(ch.cellShuttle?.fromCell?.gridPosition ?? AKPoint.zero), to \(ch.cellShuttle?.toCell?.gridPosition ?? AKPoint.zero)" }
                 dp.disengage()
                 return
             }
         }
+
+        // We come here only if there were no living arkons in the reschedule queue
+        if c.contents.isOccupied {
+            Debug.log(level: 110) {
+                "not floating manna at \(c.gridPosition); cRescheduleArkons \(c.toReschedule.count), contents \(c.contents)"
+            }
+        } else { floatMannaIf() }
     }
 
-    func releaseLock() {
-        let wasLocked = cell_?.releaseLock() ?? false
-        if wasLocked  { Debug.log("releaseLock at \(cell_?.gridPosition ?? AKPoint(x: -42, y: -42)) for \(six(ownerName)) nil? \(cell_ == nil)", level: 85) }
-        reengageRequesters()
+    func releaseLock(serviceRequesters: Bool = true) {
+        cell_?.releaseLock()
+        if serviceRequesters { reengageRequesters() }
         cell_ = nil
     }
 
@@ -109,16 +125,20 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         Debug.log("transferKey from \(six(self.ownerName)) at \(gridPosition) to \(six(winner.name))", level: 71)
 
         self.ownerName = winner.name
-        c.setContents(to: .arkon, newSprite: winner.sprite, onComplete)
+        Debug.log(level: 104) { "setContents from transferKey in \(c.gridPosition)" }
+        c.setContents(to: .arkon, newSprite: winner.sprite)
+        if winner.dispatch.scratch.engagerKey != nil { releaseLock() }
+        Debug.log(level: 104) { "setContents from transferKey out \(c.gridPosition)" }
+        onComplete()
     }
 }
 
 class NilKey: GridCellKey {
     //swiftlint:disable unused_setter_value
-    var bell: GridCell? { get { nil } set { preconditionFailure() } }
-    var contents: GridCell.Contents { get { .invalid } set { preconditionFailure() } }
-    var gridPosition: AKPoint { get { AKPoint(x: -4444, y: -4444) } set { preconditionFailure() } }
-    var ownerName: String { get { "invalid" } set { preconditionFailure() } }
-    var sprite: SKSpriteNode?  { get { nil } set { preconditionFailure() } }
+    var bell: GridCell? { get { nil } set { fatalError() } }
+    var contents: GridCell.Contents { get { .invalid } set { fatalError() } }
+    var gridPosition: AKPoint { get { AKPoint(x: -4444, y: -4444) } set { fatalError() } }
+    var ownerName: String { get { "invalid" } set { fatalError() } }
+    var sprite: SKSpriteNode?  { get { nil } set { fatalError() } }
     //swiftlint:enable unused_setter_value
 }

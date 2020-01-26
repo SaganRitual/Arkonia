@@ -6,7 +6,11 @@ class Stepper {
     private weak var gridCell_: GridCell?
     var gridCell: GridCell! {
         get { gridCell_ }
-        set { gridCell_ = newValue }
+        set {
+            gridCell_ = newValue
+            let gp = newValue == nil ? "<nil>" : "\(newValue!.gridPosition)"
+            Debug.log(level: 108) { "set stepper \(six(name)) gridCell to \(gp)" }
+        }
     }
     var isTurnabouted: Bool = false
     var metabolism: Metabolism!
@@ -33,12 +37,16 @@ class Stepper {
 
         if needsNewDispatch { self.dispatch = Dispatch(self) }
 
-        Debug.log("Stepper \(six(embryo.embryoName))", level: 71)
-    }
-
-    deinit {
-        dispatch.scratch.engagerKey = nil
-        Debug.log("~Stepper \(six(name))", level: 85)
+        let isLocked = embryo.engagerKey!.bell?.isLocked
+        let lockOwner = embryo.engagerKey!.bell?.ownerName ?? "no owner"
+        let occupiedBy = embryo.engagerKey!.bell?.sprite?.name ?? "no one"
+        let isLockedString = isLocked == nil ? "nothing" : (isLocked! ? "already locked" : "not yet locked")
+        Debug.log(level: 109) {
+            "set1 \(six(embryo.embryoName))"
+            + " isLocked \(isLockedString) by \(six(lockOwner))"
+            + " occupied by \(six(occupiedBy))"
+            + ", parent is \(six(parentStepper?.name))"
+        }
     }
 }
 
