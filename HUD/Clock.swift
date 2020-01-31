@@ -51,7 +51,7 @@ class Clock {
         self.clockReport.data.text =
             self.clockFormatter.string(from: TimeInterval(self.worldClock))
 
-        let c = Substrate.serialQueue.sync { GridCell.cPhotosynthesizingManna }
+        let c = Grid.serialQueue.sync { GridCell.cPhotosynthesizingManna }
 
         self.foodValueReport.data.text = (Arkonia.worldTimeLimit == nil) ?
             String(format: "% 5d/%3d%", c, Arkonia.cMannaMorsels) :

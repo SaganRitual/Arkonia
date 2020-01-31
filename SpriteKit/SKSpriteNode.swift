@@ -44,8 +44,8 @@ extension SKSpriteNode {
         return entry
     }
 
-    func getManna(require: Bool = true) -> Banana? {
-        if let manna = getKeyField(SpriteUserDataKey.manna, require: require) as? Banana
+    func getManna(require: Bool = true) -> Manna? {
+        if let manna = getKeyField(SpriteUserDataKey.manna, require: require) as? Manna
             { return manna }
 
         if require { fatalError() }

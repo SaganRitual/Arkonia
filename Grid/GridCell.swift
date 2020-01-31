@@ -31,7 +31,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
         }
     }
 
-    var isInDangerZone: Bool { Substrate.shared.isInDangerZone(self) }
+    var isInDangerZone: Bool { Grid.shared.isInDangerZone(self) }
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
         self.gridPosition = gridPosition
@@ -41,8 +41,8 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
         guard let funkyMultiplier = Arkonia.funkyCells else { return }
 
-        let wScene = CGFloat(Substrate.shared.cPortal) / 2
-        let hScene = CGFloat(Substrate.shared.rPortal) / 2
+        let wScene = CGFloat(Grid.shared.cPortal) / 2
+        let hScene = CGFloat(Grid.shared.rPortal) / 2
 
         let lScene = scenePosition.x - wScene * funkyMultiplier
         let rScene = scenePosition.x + wScene * funkyMultiplier

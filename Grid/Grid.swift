@@ -1,7 +1,7 @@
 import SpriteKit
 
-class Substrate {
-    static var shared: Substrate!
+class Grid {
+    static var shared: Grid!
 
     private var elles = [[GridCell]]()
 
@@ -74,7 +74,7 @@ class Substrate {
     }
 }
 
-extension Substrate {
+extension Grid {
     private func setupGrid() {
         for yG in -hGrid..<hGrid { setupRow(yG) }
 

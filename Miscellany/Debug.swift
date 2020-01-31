@@ -67,10 +67,10 @@ struct Debug {
     static func showMannaStats() {
         var cCells = 0, cInjected = 0, cPhotosynthesizing = 0
 
-        for x in -Substrate.shared.wGrid..<Substrate.shared.wGrid {
-            for y in -Substrate.shared.hGrid..<Substrate.shared.hGrid {
+        for x in -Grid.shared.wGrid..<Grid.shared.wGrid {
+            for y in -Grid.shared.hGrid..<Grid.shared.hGrid {
                 let p = AKPoint(x: x, y: y)
-                let c = Substrate.shared.getCell(at: p)
+                let c = Grid.shared.getCell(at: p)
 
                 cCells += 1
                 cInjected += c.dormantManna.count

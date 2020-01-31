@@ -8,7 +8,7 @@ protocol HasXY {
 extension GridCell {
     static func atIf(_ x: Int, _ y: Int) -> GridCell? {
         let p = AKPoint(x: x, y: y)
-        return Substrate.shared.getCellIf(at: p)
+        return Grid.shared.getCellIf(at: p)
     }
 
     static func at(_ x: Int, _ y: Int) -> GridCell {

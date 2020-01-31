@@ -94,8 +94,8 @@ class GriddleScene: SKScene, SKSceneDelegate {
         GriddleScene.mannaPortal = (childNode(withName: "manna_portal") as? SKSpriteNode)!
         GriddleScene.netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
 
-        Substrate.shared = Substrate(on: GriddleScene.arkonsPortal)
-        Substrate.shared.postInit()
+        Grid.shared = Grid(on: GriddleScene.arkonsPortal)
+        Grid.shared.postInit()
 
         SpriteFactory.shared = SpriteFactory(scene: self)
 
@@ -107,7 +107,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
             self.hud = HUD(scene: self)
             self.buildReports()
 
-            Banana.populateGarden(b)
+            Manna.populateGarden(b)
         }
 
         func b() {

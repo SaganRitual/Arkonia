@@ -4,7 +4,7 @@ final class Engage: Dispatchable {
     private(set) var engagerKey: GridCellKey!
     private(set) var cellSenseGrid: CellSenseGrid!
 
-    internal override func launch() { Substrate.serialQueue.async(execute: engage) }
+    internal override func launch() { Grid.serialQueue.async(execute: engage) }
 }
 
 extension Engage {

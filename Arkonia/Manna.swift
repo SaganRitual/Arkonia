@@ -1,10 +1,10 @@
 import SpriteKit
 
-class Banana {
+class Manna {
     static func populateGarden(_ onComplete: @escaping () -> Void) {
         var cSown = 0
 
-        func b() { (0..<Arkonia.cMannaMorsels).forEach { _ = Banana($0, c) } }
+        func b() { (0..<Arkonia.cMannaMorsels).forEach { _ = Manna($0, c) } }
 
         func c() {
             cSown += 1
@@ -33,12 +33,12 @@ class Banana {
 
         func setContentsCallback() {
             var bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
-            sprite.run(Banana.Sprite.bloomActions[bloomActionIx])
-            bloomActionIx = (bloomActionIx + 1) % Banana.Sprite.cBloomActions
+            sprite.run(Manna.Sprite.bloomActions[bloomActionIx])
+            bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
             sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
         }
 
-        func setManna(_ manna: Banana) {
+        func setManna(_ manna: Manna) {
             self.sprite.userData![SpriteUserDataKey.manna] = manna
         }
     }
@@ -58,7 +58,7 @@ class Banana {
     }
 }
 
-extension Banana {
+extension Manna {
     func harvest(_ onComplete: @escaping (CGFloat) -> Void) {
         getNutritionInJoules { nutrition in
             GridCell.cPhotosynthesizingManna -= 1
@@ -75,7 +75,7 @@ extension Banana {
     }
 
     func floatManna(at cell: GridCell, hotKey: HotKey) {
-        Substrate.serialQueue.async {
+        Grid.serialQueue.async {
 //            // We need the lock for the duration of this call, but the compiler
 //            // gets pissed off if we don't use cellKey. Hence the two-line
 //            // construction
@@ -127,7 +127,7 @@ extension Banana {
     }
 }
 
-extension Banana.Grid {
+extension Manna.Grid {
     fileprivate func plant(
         _ sprite: SKSpriteNode,
         cRetries: Int = 0,
@@ -136,7 +136,7 @@ extension Banana.Grid {
         var cell: GridCell!
         var hotKey: HotKey?
 
-        Substrate.serialQueue.async {
+        Grid.serialQueue.async {
             for _ in 0..<(cRetries + 1) where hotKey == nil {
                 cell = GridCell.getRandomCell()
 
@@ -159,7 +159,7 @@ extension Banana.Grid {
     }
 }
 
-extension Banana.Energy {
+extension Manna.Energy {
     func getEnergyContentInJoules(_ indicatorFullness: CGFloat) -> CGFloat {
         let rate = Arkonia.mannaGrowthRateJoulesPerSecond
         let duration = CGFloat(Arkonia.mannaFullGrowthDurationSeconds)
@@ -169,7 +169,7 @@ extension Banana.Energy {
     }
 }
 
-extension Banana.Sprite {
+extension Manna.Sprite {
     static let cBloomActions = 3
     static let bloomAction = SKAction.group([fadeInAction, colorAction])
     static let doomAction = SKAction.group([fadeInAction, dolorAction])
@@ -224,8 +224,8 @@ extension Banana.Sprite {
         prep(at: cell)
 
         var bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
-        let toRun = Banana.Sprite.bloomActions[bloomActionIx]
-        bloomActionIx = (bloomActionIx + 1) % Banana.Sprite.cBloomActions
+        let toRun = Manna.Sprite.bloomActions[bloomActionIx]
+        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
         sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
 
         sprite.run(toRun)
