@@ -21,7 +21,7 @@ extension Apoptosize {
             if let gc = st.gridCell {
 //                assert(gc.isLocked)
 //                assert(gc.ownerName == st.name)
-                Debug.log(level: 111) { "clearContents from Apoptosize at \(gc.gridPosition); c = \(GridCell.cPhotosynthesizingManna), i = \(GridCell.cInjectedManna)" }
+                Debug.log(level: 111) { "clearContents from Apoptosize at \(gc.gridPosition); c = \(GridCell.cPhotosynthesizingManna)" }
                 gc.clearContents()
             }
 

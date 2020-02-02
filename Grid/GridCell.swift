@@ -15,7 +15,6 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     lazy var debugDescription: String = { String(format: "GridCell.at(-%03d, -%03d)", gridPosition.x, gridPosition.y) }()
 
     var coldKey: ColdKey?
-    var dormantManna = [SKSpriteNode]()
     let gridPosition: AKPoint
     var isLocked = false
     var ownerName = "never owned"
@@ -75,13 +74,7 @@ extension GridCell {
         self.sprite = nil
     }
 
-    func injectManna(_ sprite: SKSpriteNode) {
-        sprite.position = randomScenePosition ?? scenePosition
-        dormantManna.append(sprite)
-    }
-
     static var cPhotosynthesizingManna = 0
-    static var cInjectedManna = 0
 
     func setContents(to newContent: Contents, newSprite: SKSpriteNode?) {
         assert(newContent.isEdible) // Use clearContents() to set it to nothing

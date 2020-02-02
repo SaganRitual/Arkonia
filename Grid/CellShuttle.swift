@@ -29,7 +29,7 @@ class CellShuttle {
 
         t.setContents(to: f.contents, newSprite: f.sprite)
         f.clearContents()
-        fromCell?.releaseLock()
+        self.fromCell?.releaseLock()
 
         assert(t.contents == .arkon && t.sprite != nil)
 

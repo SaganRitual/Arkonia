@@ -65,7 +65,7 @@ struct Debug {
     }
 
     static func showMannaStats() {
-        var cCells = 0, cInjected = 0, cPhotosynthesizing = 0
+        var cCells = 0, cPhotosynthesizing = 0
 
         for x in -Grid.shared.wGrid..<Grid.shared.wGrid {
             for y in -Grid.shared.hGrid..<Grid.shared.hGrid {
@@ -73,11 +73,10 @@ struct Debug {
                 let c = Grid.shared.getCell(at: p)
 
                 cCells += 1
-                cInjected += c.dormantManna.count
                 cPhotosynthesizing += (c.contents == .manna) ? 1 : 0
             }
         }
 
-        print("Manna stats; \(cCells) cells, \(cInjected) injected, \(cPhotosynthesizing) photosynthesizing")
+        print("Manna stats; \(cCells) cells, \(cPhotosynthesizing) photosynthesizing")
     }
 }

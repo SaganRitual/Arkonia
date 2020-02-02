@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 enum SpriteUserDataKey {
-    case manna, net9Portal, netHalfNeuronsPortal, netDisplay, stepper, uuid, debug, injectedAt
+    case manna, net9Portal, netHalfNeuronsPortal, netDisplay, stepper, uuid, debug
     case setContentsCallback, bloomActionIx
 }
 

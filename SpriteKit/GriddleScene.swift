@@ -101,26 +101,20 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         Debug.log("GriddleScene.arkonsPortal scale = \(GriddleScene.arkonsPortal.xScale) x \(GriddleScene.arkonsPortal.yScale)", level: 38)
 
-        func a() {
-            self.scene!.delegate = self
+        self.scene!.delegate = self
 
-            self.hud = HUD(scene: self)
-            self.buildReports()
+        self.hud = HUD(scene: self)
+        self.buildReports()
 
-            Manna.populateGarden(b)
-        }
+        Manna.populateGarden()
 
-        func b() {
-            Clock.shared = Clock(self)
-            Census.shared = Census(self)
+        Clock.shared = Clock(self)
+        Census.shared = Census(self)
 
-            self.run(SKAction.run {
-                self.readyForDisplayCycle = true
-                self.speed = 1
-            })
-        }
-
-        a()
+        self.run(SKAction.run {
+            self.readyForDisplayCycle = true
+            self.speed = 1
+        })
     }
 
     override func update(_ currentTime: TimeInterval) {

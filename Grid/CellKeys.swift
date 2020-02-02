@@ -74,18 +74,6 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         assert(cell_ == nil)
     }
 
-    func floatMannaIf() {
-        guard let c = bell else { fatalError() }
-        guard let floater = c.dormantManna.popFirst() else {
-            Debug.log(level: 110) { "no manna to float at \(gridPosition)" }
-            return
-        }
-
-        Debug.log(level: 112) { "float  \(six(floater.name)) at \(gridPosition), top is \(c.contents)" }
-        guard let manna = floater.getManna() else { fatalError() }
-        manna.floatManna(at: c, hotKey: self)
-    }
-
     func reengageRequesters() {
         guard let c = bell else { return }
 
@@ -103,13 +91,6 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
                 return
             }
         }
-
-        // We come here only if there were no living arkons in the reschedule queue
-        if c.contents.isOccupied {
-            Debug.log(level: 110) {
-                "not floating manna at \(c.gridPosition); cRescheduleArkons \(c.toReschedule.count), contents \(c.contents)"
-            }
-        } else { floatMannaIf() }
     }
 
     func releaseLock(serviceRequesters: Bool = true) {

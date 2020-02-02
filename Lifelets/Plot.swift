@@ -40,6 +40,12 @@ final class Plot: Dispatchable {
             Debug.log(level: 103) { "gridInputs \(gridInputs)" }
             guard let sd = self.senseData else { fatalError() }
             ch.cellShuttle = self.makeCellShuttle(sd, sg)
+            d()
+        }
+
+        func d() { Grid.serialQueue.async(execute: e) }
+
+        func e() {
             sg.releaseNonStageCells(keep: ch.cellShuttle!.toCell!)
             ch.engagerKey = nil
             Debug.log(level: 104) {

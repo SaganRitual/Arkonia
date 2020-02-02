@@ -5,10 +5,6 @@ extension SKSpriteNode {
         return getKeyField(.setContentsCallback, require: false) as? (() -> Void)
     }
 
-    func getKeyField() -> AKPoint? {
-        return getKeyField(.injectedAt) as? AKPoint
-    }
-
     func getKeyField(_ spriteKey: SpriteUserDataKey, require: Bool = true) -> Any? {
         func failIf(_ sub: String) {
             if require { Debug.log("getKeyField failed to get \(sub) for \(six(name))"); fatalError() }
