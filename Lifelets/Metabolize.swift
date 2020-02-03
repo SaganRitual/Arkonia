@@ -7,6 +7,7 @@ final class Metabolize: Dispatchable {
 extension Metabolize {
     func aMetabolize() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        assert(st.sprite === st.gridCell.sprite)
         Debug.log("Metabolize \(six(st.name))", level: 71)
 
         if Arkonia.debugColorIsEnabled { st.sprite.color = .red }

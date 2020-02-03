@@ -110,7 +110,7 @@ extension WorkItems {
             )
         }
 
-        return parent.dispatch.scratch.senseGrid?.cells.compactMap({ $0 as? HotKey }).filter({ $0.ownerName == parent.name }).randomElement()
+        return parent.dispatch.scratch.senseGrid?.cells.dropFirst().compactMap({ $0 as? HotKey }).filter({ $0.ownerName == parent.name }).randomElement()
 //        return GridCell.lockBirthPosition(parent: parent, name: embryoName)
     }
 }
@@ -168,6 +168,7 @@ extension Spawn {
             st.metabolism.withdrawFromSpawn(spawnCost)
             st.metabolism.fatReserves.level = 0
 
+            assert(st.sprite === st.gridCell.sprite)
             dp.metabolize()
         }
 
@@ -245,7 +246,9 @@ extension Spawn {
         precondition(newborn.name == newborn.sprite.name)
         precondition((thorax?.name ?? "foo") == newborn.sprite.name)
 
+        Debug.log(level: 115) { "pre-setContents at \(ek.gridPosition), \(ek.contents), \(six(ek.sprite?.name)), \(six(ek.ownerName))" }
         ek.bell?.setContents(to: .arkon, newSprite: newborn.sprite)
+        Debug.log(level: 115) { "post-setContents at \(ek.gridPosition), \(ek.contents), \(six(ek.sprite?.name)), \(six(ek.ownerName)) -- \(newborn.gridCell?.gridPosition ?? AKPoint.zero)" }
         newborn.gridCell = ek.bell
         Debug.log(level: 104) { "setContents from launchNewborn at \(ek.gridPosition)" }
         Debug.log(level: 109) { "set5 newborn \(six(newborn.name)), parent \(six(self.meTheParent?.name))" }
@@ -253,6 +256,15 @@ extension Spawn {
     }
 
     private func launchB(_ ek: HotKey, _ newborn: Stepper) {
+        Debug.log(level: 115) {
+            "launchB parent = \(six(scratch?.stepper?.name))"
+            + " should be == \(six(scratch?.stepper?.gridCell.sprite?.name))"
+            + " (\(six(scratch?.stepper?.sprite?.getKeyField(.uuid) as? String)))"
+            + "; newborn is \(six(newborn.name))"
+            + " (\(six(newborn.sprite?.getKeyField(.uuid) as? String)))"
+            + " ek \(six(ek.sprite?.name)) \(six(ek.ownerName))"
+        }
+
         ek.sprite?.name = newborn.name
         ek.ownerName = newborn.name
 
@@ -287,6 +299,7 @@ extension Spawn {
         st.metabolism.withdrawFromSpawn(failedSpawnCost)
 
         st.nose.color = .green
+        assert(st.sprite === st.gridCell.sprite)
         dp.metabolize()
     }
 }
