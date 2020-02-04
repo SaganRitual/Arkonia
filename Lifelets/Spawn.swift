@@ -51,6 +51,13 @@ final class Spawn: DispatchableProtocol {
         self.meTheParent = scratch.stepper
         self.birthplace = scratch.senseGrid?.getRandomEmptyHotKey()
         self.tempStrongReference = self
+
+        Debug.log(level: 117) {
+            return "Spawn: parent \(six(meTheParent?.name))"
+                + " at \(String(describing: meTheParent?.gridCell?.gridPosition))"
+                + " spawns \(six(embryoName))"
+                + " at \(String(describing: birthplace?.gridPosition))"
+        }
     }
 
     func launch() { WorkItems.spawn(self) }
@@ -60,21 +67,34 @@ extension WorkItems {
     static func spawn(_ spawn: Spawn) {
         var newKey: HotKey?
 
-        Debug.log("Spawn \(six(spawn.embryoName))", level: 71)
+        Debug.log(level: 117) { "Spawn1 \(six(spawn.embryoName)) at \(six(spawn.birthplace?.gridPosition))" }
 
         func a() {
-            if spawn.birthplace != nil { newKey = spawn.birthplace; b(); return }
+            if spawn.birthplace == nil {
+                Debug.log(level: 117) { "Spawn2.5 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
+                getStartingPosition(spawn.fishDay, spawn.embryoName, spawn.meTheParent) {
+                    newKey = $0
+                    Debug.log(level: 117) { "Spawn3 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
+                    b()
+                }
 
-            getStartingPosition(spawn.fishDay, spawn.embryoName, spawn.meTheParent) {
-                newKey = $0; b()
+                return
             }
+
+            newKey = spawn.birthplace
+            Debug.log(level: 117) { "Spawn2 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
+            b()
         }
 
-        func b() { if newKey == nil { spawn.postponeSpawn() } else { c() } }
+        func b() {
+            if newKey == nil {
+                Debug.log(level: 117) { "Spawn4 \(six(spawn.embryoName)) no available cell; postpone spawn" }
+                spawn.postponeSpawn()
+            } else { c() }
+        }
 
         func c() {
-            spawn.birthplace = nil
-            assert(spawn.engagerKey == nil) // utter paranoia
+            Debug.log(level: 117) { "Spawn5 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
             spawn.engagerKey = newKey
             spawn.meTheParent?.nose.color = .yellow
 
@@ -82,8 +102,14 @@ extension WorkItems {
                 { spawn.fishDay = $0; d() }
         }
 
-        func d() { spawn.buildArkon(e) }
-        func e() { WorkItems.launchNewborn(spawn) }
+        func d() {
+            Debug.log(level: 117) { "Spawn5.5 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
+            spawn.buildArkon(e) }
+        func e() {
+            Debug.log(level: 117) { "Spawn6 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
+            WorkItems.launchNewborn(spawn)
+            Debug.log(level: 117) { "Spawn7 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
+       }
 
         a()
     }
@@ -110,8 +136,11 @@ extension WorkItems {
             )
         }
 
-        return parent.dispatch.scratch.senseGrid?.cells.dropFirst().compactMap({ $0 as? HotKey }).filter({ $0.ownerName == parent.name }).randomElement()
-//        return GridCell.lockBirthPosition(parent: parent, name: embryoName)
+        return parent.dispatch.scratch.senseGrid?.cells
+            .dropFirst()
+            .compactMap({ $0 as? HotKey })
+            .filter({ !$0.contents.isOccupied && $0.ownerName == parent.name })
+            .randomElement()
     }
 }
 
@@ -235,7 +264,7 @@ extension WorkItems {
 extension Spawn {
     func launchNewborn() {
         let newborn = Stepper(self, needsNewDispatch: true)
-        precondition(newborn.sprite.parent == nil)
+        assert(newborn.sprite.parent == nil)
         newborn.parentStepper = self.meTheParent
         newborn.dispatch.scratch.stepper = newborn
         newborn.sprite?.color = .yellow
@@ -243,10 +272,11 @@ extension Spawn {
 
         guard let ek = engagerKey else { fatalError() }
 
-        precondition(newborn.name == newborn.sprite.name)
-        precondition((thorax?.name ?? "foo") == newborn.sprite.name)
+        assert(newborn.name == newborn.sprite.name)
+        assert((thorax?.name ?? "foo") == newborn.sprite.name)
 
         Debug.log(level: 115) { "pre-setContents at \(ek.gridPosition), \(ek.contents), \(six(ek.sprite?.name)), \(six(ek.ownerName))" }
+        assert(ek.contents != .arkon)
         ek.bell?.setContents(to: .arkon, newSprite: newborn.sprite)
         Debug.log(level: 115) { "post-setContents at \(ek.gridPosition), \(ek.contents), \(six(ek.sprite?.name)), \(six(ek.ownerName)) -- \(newborn.gridCell?.gridPosition ?? AKPoint.zero)" }
         newborn.gridCell = ek.bell
@@ -274,6 +304,7 @@ extension Spawn {
 
         guard let ndp = newborn.dispatch else { fatalError() }
 
+        Debug.log(level: 117) { "ndp.scratch.engagerKey = \(ndp.scratch.engagerKey?.gridPosition ?? AKPoint.zero), owner = \(six(ndp.scratch.engagerKey?.ownerName)), tenant = \(six(ndp.scratch.engagerKey?.sprite?.name))" }
         ndp.scratch.engagerKey = ek
 
         SceneDispatch.schedule {

@@ -18,9 +18,9 @@ class Arkonia {
     static let cMotorGridlets = cMotorNeurons + 1
 
     static let allowSpawning = true
-    static let cMannaMorsels = 7000
+    static let cMannaMorsels = 8000
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 113 // var so we can change it on the fly
+    static var debugMessageLevel = 118 // var so we can change it on the fly
     static let debugMessageToConsole = false
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
@@ -39,7 +39,7 @@ class Arkonia {
     static let mannaColorBlendMinimum: CGFloat = 0.15
     static let mannaFullGrowthDurationSeconds: TimeInterval = 1
     static let mannaInitialRebloomDelay = 1.0
-    static let mannaRebloomDelayIncrement =  0.1
+    static let mannaRebloomDelayIncrement =  0.25
     static let maxMannaEnergyContentInJoules: CGFloat = 40
 
     static var mannaColorBlendRangeWidth: CGFloat
