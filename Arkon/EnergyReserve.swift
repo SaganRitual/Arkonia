@@ -79,7 +79,7 @@ class EnergyReserve {
         let Ls = String(format: "%3.3f", level)
         let fs = String(format: "%3.3f%%", level / capacity)
         level = min(level + cJoules, capacity)
-        Debug.log("deposit \(js) to \(name), level = \(level), was \(Ls)/\(fs)", level: 89)
+        Debug.log(level: 89) { "deposit \(js) to \(name), level = \(level), was \(Ls)/\(fs)" }
     }
 
     @discardableResult
@@ -96,7 +96,7 @@ class EnergyReserve {
         let Ls = String(format: "%3.3f", level)
         let fs = String(format: "%3.3f", level / capacity)
         let ns = String(format: "%3.3f", net)
-        Debug.log("withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)", level: 74)
+        Debug.log(level: 74) { "withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)" }
         return net
     }
 }

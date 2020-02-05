@@ -10,7 +10,7 @@ final class Funge: Dispatchable {
 
     override func launch() {
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log("Funge \(six(st.name))", level: 95)
+        Debug.log(level: 95) { "Funge \(six(st.name))" }
         Debug.debugColor(st, .yellow, .blue)
         guard let ek = ch.engagerKey as? HotKey else { fatalError() }
         WorkItems.checkSpawnability(st) { self.fungeRoute($0, $1, ek) }
@@ -88,12 +88,12 @@ extension Metabolism {
         let oxygenCost: CGFloat = Arkonia.oxygenCostPerTick
         let co2Cost: CGFloat = pow(Arkonia.co2BaseCost, co2Counter)
 
-        Debug.log("O2 cost \(oxygenCost), CO2 cost \(co2Cost)", level: 96)
+        Debug.log(level: 96) { "O2 cost \(oxygenCost), CO2 cost \(co2Cost)" }
 
         oxygenLevel -= oxygenCost
         co2Level += co2Cost
 
-        Debug.log("O2 level \(oxygenLevel), CO2 level \(co2Level)", level: 96)
+        Debug.log(level: 96) { "O2 level \(oxygenLevel), CO2 level \(co2Level)" }
 
         return fungibleEnergyFullness > 0 && oxygenLevel > 0 && co2Level < Arkonia.co2MaxLevel
     }

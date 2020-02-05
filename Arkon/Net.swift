@@ -136,7 +136,7 @@ class Net {
         }
 
         let fromScratch = (0..<targetLength).map { _ in Double.random(in: -1..<1) }
-        Debug.log("Generate from scratch = \(fromScratch)", level: 93)
+        Debug.log(level: 93) { "Generate from scratch = \(fromScratch)" }
         return fromScratch
     }
 

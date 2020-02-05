@@ -50,14 +50,6 @@ class Stepper {
     }
 }
 
-extension Debug {
-    // This gives me fine-grained control over log messaging, while
-    // leaving out any excess processing needed for the log messages
-    static func log(level: Int, _ execute: () -> String?) {
-        if level >= Arkonia.debugMessageLevel { if let e = execute() { log(e) } }
-    }
-}
-
 extension Stepper {
     func canSpawn() -> Bool {
         return metabolism.spawnReserves.level > getSpawnCost()

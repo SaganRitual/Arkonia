@@ -99,7 +99,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         SpriteFactory.shared = SpriteFactory(scene: self)
 
-        Debug.log("GriddleScene.arkonsPortal scale = \(GriddleScene.arkonsPortal.xScale) x \(GriddleScene.arkonsPortal.yScale)", level: 38)
+        Debug.log(level: 38) { "GriddleScene.arkonsPortal scale = \(GriddleScene.arkonsPortal.xScale) x \(GriddleScene.arkonsPortal.yScale)" }
 
         self.scene!.delegate = self
 

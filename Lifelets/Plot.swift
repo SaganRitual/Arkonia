@@ -142,7 +142,7 @@ extension Plot {
         guard let st = ch.stepper else { fatalError() }
         guard let net = st.net else { fatalError() }
 
-        Debug.log("makeCellShuttle for \(six(st.name)) from \(st.gridCell!)", level: 98)
+        Debug.log(level: 98) { "makeCellShuttle for \(six(st.name)) from \(st.gridCell!)" }
 
         let motorOutputs: [(Int, Double)] =
             zip(0..., net.getMotorOutputs(senseData)).map { data in
@@ -161,7 +161,7 @@ extension Plot {
             return labs > rabs
         }
 
-        Debug.log("order for \(six(st.name)): \(order)", level: 102)
+        Debug.log(level: 102) { "order for \(six(st.name)): \(order)" }
 
         let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 
@@ -191,9 +191,9 @@ extension Plot {
         }
 
         if targetOffset == nil {
-            Debug.log("targetOffset: nil", level: 98)
+            Debug.log(level: 98) { "targetOffset: nil" }
         } else {
-            Debug.log("targetOffset: \(targetOffset!.0)", level: 98)
+            Debug.log(level: 98) { "targetOffset: \(targetOffset!.0)" }
         }
 
         assert((fromCell?.contents ?? .arkon) == .arkon)

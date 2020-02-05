@@ -50,11 +50,11 @@ class Metabolism {
     var mass: CGFloat {
         let m: CGFloat = self.allReserves.reduce(0.0) {
             subtotal, reserve in
-            Debug.log("reserve \(reserve.name) level = \(reserve.level), reserve mass = \(reserve.mass)", level: 95)
+            Debug.log(level: 95) { "reserve \(reserve.name) level = \(reserve.level), reserve mass = \(reserve.mass)" }
             return subtotal + reserve.mass
         }
 
-        Debug.log("mass: \(m)", level: 95)
+        Debug.log(level: 95) { "mass: \(m)" }
 
         return m
     }
@@ -72,7 +72,7 @@ class Metabolism {
         // Overflow is 5/6, make underflow 1/4, see how it goes
         self.reUnderflowThreshold = 1.0 / 4.0 * readyEnergyReserves.capacity
 
-        Debug.log(
+        Debug.log(level: 84) {
             "Metabolism():" +
             " mass \(String(format: "%-2.6f", mass))," +
             " O2 \(String(format: "%-3.2f%%", oxygenLevel * 100))" +
@@ -80,8 +80,7 @@ class Metabolism {
             " energy \(String(format: "%-3.2f%%", fungibleEnergyFullness * 100))" +
             " level \(String(format: "%-2.6f", fungibleEnergyContent))" +
             " cap \(String(format: "%-2.6f", fungibleEnergyCapacity))\n"
-            , level: 84
-        )
+        }
     }
 
     static var absorbEnergyHeader = false
@@ -100,21 +99,20 @@ class Metabolism {
 //        )
 
         stomach.deposit(cJoules)
-        Debug.log(
+        Debug.log(level: 96) {
             "Deposit to stomach"
             + String(format: "% 6.6f joules", cJoules)
             + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity)
             + String(format: ", O2 % 6.6f%%", oxygenLevel)
             + String(format: ", CO2 % 6.6f%%", co2Level)
-            , level: 96
-        )
+        }
 
         if false && !Metabolism.absorbEnergyHeader {
-            Debug.log("Deposit    cJoules   fungible    stomach      ready        fat      spawn    content", level: 88)
+            Debug.log(level: 88) { "Deposit    cJoules   fungible    stomach      ready        fat      spawn    content" }
             Metabolism.absorbEnergyHeader = true
         }
 
-        Debug.log(
+        Debug.log(level: 95) {
             "Deposit " +
             String(format: "% 10.2f ", cJoules) +
             String(format: "% 10.2f ", fungibleEnergyFullness) +
@@ -122,16 +120,15 @@ class Metabolism {
             String(format: "% 10.2f ", readyEnergyReserves.level) +
             String(format: "% 10.2f ", fatReserves.level) +
             String(format: "% 10.2f ", spawnReserves.level) +
-            String(format: "% 10.2f ", energyContent),
-            level: 95
-        )
+            String(format: "% 10.2f ", energyContent)
+        }
     }
 
     func respire(_ inhale: CGFloat = 1.0, _ exhale: CGFloat = Arkonia.co2MaxLevel) {
         oxygenLevel = constrain(inhale + oxygenLevel, lo: 0.0, hi: 1)
         co2Level = max(co2Level - exhale, 0.0)
 
-        Debug.log("respire; o2: \(oxygenLevel), co2 \(co2Level)", level: 96)
+        Debug.log(level: 96) { "respire; o2: \(oxygenLevel), co2 \(co2Level)" }
     }
 
     @discardableResult

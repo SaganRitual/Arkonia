@@ -8,7 +8,7 @@ extension Metabolize {
     func aMetabolize() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         assert(st.sprite === st.gridCell.sprite)
-        Debug.log("Metabolize \(six(st.name))", level: 71)
+        Debug.log(level: 71) { "Metabolize \(six(st.name))" }
 
         if Arkonia.debugColorIsEnabled { st.sprite.color = .red }
 
@@ -21,7 +21,7 @@ extension Metabolize {
 extension Metabolism {
     fileprivate func metabolizeProper(_ isStarving: Bool, _ nose: SKSpriteNode) {
         if stomach.level > 0 {
-            Debug.log("metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)", level: 96)
+            Debug.log(level: 96) { "metabolizeProper; stomach = \(stomach.level) (\(stomach.level / stomach.capacity)) oxygen = \(oxygenLevel)" }
         }
 
         nose.color = .green
@@ -67,7 +67,7 @@ extension Metabolism {
         }
 
         if logMessage.count > 3 {
-            Debug.log(logMessage, level: 96)
+            Debug.log(level: 96) { logMessage }
         }
     }
 }

@@ -37,11 +37,18 @@ struct Debug {
         return s
     }()
 
-    static func log(_ message: String, level: Int? = nil) {
+    // This gives me fine-grained control over log messaging, while
+    // leaving out any excess processing needed for the log messages.
+    // Not to mention the hundreds of thousands of Strings that come out of it
+    static func log(level: Int? = nil, _ execute: () -> String?) {
         let useThisLevel = level ?? Arkonia.debugMessageLevel
 
         guard useThisLevel >= Arkonia.debugMessageLevel else { return }
 
+        if let e = execute() { log(e) }
+    }
+
+    private static func log(_ message: String) {
         debugLogQueue.async {
             logMessages[logIndex] = message
             logIndex = (logIndex + 1) % cLogMessages

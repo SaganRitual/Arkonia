@@ -68,7 +68,7 @@ extension Manna.Sprite {
         let width = abs(top - Arkonia.mannaColorBlendMinimum)
         let result = width / Arkonia.mannaColorBlendRangeWidth
 
-        Debug.log("getIndicatorFullness t = \(top), w = \(width), r = \(result)", level: 82)
+        Debug.log(level: 82) { "getIndicatorFullness t = \(top), w = \(width), r = \(result)" }
         return result
     }
 

@@ -63,7 +63,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         self.cell_ = cell
         cell.isLocked = true
         cell.ownerName = ownerName
-        Debug.log("HotKey at \(cell.gridPosition) for \(six(ownerName))", level: 85)
+        Debug.log(level: 85) { "HotKey at \(cell.gridPosition) for \(six(ownerName))" }
 
         cell.coldKey = ColdKey(for: cell)
     }
@@ -103,7 +103,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         guard let c = cell_ else { fatalError() }
         precondition(c.isLocked)
 
-        Debug.log("transferKey from \(six(self.ownerName)) at \(gridPosition) to \(six(winner.name))", level: 71)
+        Debug.log(level: 71) { "transferKey from \(six(self.ownerName)) at \(gridPosition) to \(six(winner.name))" }
 
         self.ownerName = winner.name
         Debug.log(level: 104) { "setContents from transferKey in \(c.gridPosition)" }

@@ -65,10 +65,10 @@ extension Engage {
 extension GridCell {
     func getLock(for stepper: Stepper, _ require: RequireLock, _ rescheduleIf: Bool) -> GridCellKey? {
         let key = lock(require: require, ownerName: stepper.name)
-        Debug.log("getLock4 for \(six(stepper.name))", level: 85)
+        Debug.log(level: 85) { "getLock4 for \(six(stepper.name))" }
 
         if key is ColdKey && rescheduleIf {
-            Debug.log("getLock4.5 for \(six(stepper.name))", level: 85)
+            Debug.log(level: 85) { "getLock4.5 for \(six(stepper.name))" }
             reschedule(stepper)
         }
 

@@ -70,7 +70,7 @@ struct NetGraphics {
 
         portal.addChild(sprite)
 
-        Debug.log("sprite \(six(sprite.name)) at \(sprite.position)", level: 17)
+        Debug.log(level: 17) { "sprite \(six(sprite.name)) at \(sprite.position)" }
     }
 
     func drawNeuron(

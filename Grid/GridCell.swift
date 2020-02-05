@@ -90,8 +90,11 @@ extension GridCell {
 extension GridCell {
     func descheduleIf(_ stepper: Stepper) {
         toReschedule.removeAll {
+            let name = $0.name
             let remove = $0.name == stepper.name
-            if remove { Debug.log("deschedule \(six(stepper.name)) == \(six($0.name))", level: 62) }
+            if remove {
+                Debug.log(level: 62) { "deschedule \(six(stepper.name)) == \(six(name))" }
+            }
             return remove
         }
     }
@@ -100,10 +103,10 @@ extension GridCell {
         defer { if toReschedule.isEmpty == false { _ = toReschedule.removeFirst() } }
 
         if !toReschedule.isEmpty {
-            Debug.log(
+            Debug.log(level: 62) {
                 "getRescheduledArkon \(six(toReschedule.first!.name)) " +
-                "\(toReschedule.count)", level: 62
-            )
+                "\(toReschedule.count)"
+            }
         }
         return toReschedule.first
     }
@@ -112,7 +115,7 @@ extension GridCell {
         precondition(toReschedule.contains { $0.name == stepper.name } == false)
         toReschedule.append(stepper)
         Debug.debugColor(stepper, .blue, .red)
-        Debug.log("reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))", level: 71)
+        Debug.log(level: 71) { "reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))" }
     }
 }
 
@@ -136,24 +139,24 @@ extension GridCell {
 
     func lock(require: RequireLock = .hot, ownerName: String) -> GridCellKey? {
 //        precondition(self.ownerName != ownerName)
-        Debug.log("lock for \(six(ownerName)) was \(six(self.ownerName))", level: 85)
+        Debug.log(level: 85) { "lock for \(six(ownerName)) was \(six(self.ownerName))" }
 
         switch (self.isLocked, require) {
         case (true, .hot): fatalError()
-        case (true, .degradeToNil): Debug.log("true, .degradeToNil", level: 85); return nil
-        case (true, .degradeToCold): Debug.log("true, .degradeToCold", level: 85); return self.coldKey
+        case (true, .degradeToNil): Debug.log(level: 85) { "true, .degradeToNil" }; return nil
+        case (true, .degradeToCold): Debug.log(level: 85) { "true, .degradeToCold" }; return self.coldKey
 
-        case (_, .cold): Debug.log("_, .cold", level: 85); return self.coldKey
+        case (_, .cold): Debug.log(level: 85) { "_, .cold" }; return self.coldKey
 
-        case (false, .degradeToCold): Debug.log("false, .degradeToCold", level: 80); fallthrough
-        case (false, .degradeToNil): Debug.log("false, .degradeToNil", level: 80);  fallthrough
-        case (false, .hot): Debug.log("false, .hot", level: 85); return HotKey(for: self, ownerName: ownerName)
+        case (false, .degradeToCold): Debug.log(level: 80) { "false, .degradeToCold" }; fallthrough
+        case (false, .degradeToNil): Debug.log(level: 80) { "false, .degradeToNil" };  fallthrough
+        case (false, .hot): Debug.log(level: 85) { "false, .hot" }; return HotKey(for: self, ownerName: ownerName)
         }
     }
 
     @discardableResult
     func releaseLock() -> Bool {
-        Debug.log("GridCell.releaseLock \(six(ownerName)) at \(self)", level: 85)
+        Debug.log(level: 85) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         defer { isLocked = false; ownerName = "No owner" }
         return isLocked && !toReschedule.isEmpty
