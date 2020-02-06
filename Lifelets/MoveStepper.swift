@@ -13,7 +13,7 @@ final class MoveStepper: Dispatchable {
         Debug.log(level: 107) { "set3 \(six(stepper.name)) gridCell before \(stepper.gridCell.gridPosition)" }
 //        let other = stepper.gridCell.sprite?.getStepper(require: false)
 
-        stepper.gridCell = shuttle.toCell?.bell
+        stepper.gridCell = shuttle.toCell?.gridCell
 //        print                ("MoveStepper"
 //        + " stepper \(six(stepper.name))"
 //        + " sprite \(six(stepper.sprite?.name))"

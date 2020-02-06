@@ -23,44 +23,43 @@ struct ColdKey: GridCellKey {
 }
 
 class HotKey: GridCellKey, CustomDebugStringConvertible {
-    private weak var cell_: GridCell?
-    var bell: GridCell? { get { cell_ } set { fatalError() } }
+    private(set) weak var gridCell: GridCell?
     var isLive = true
 
     var debugDescription: String {
-        "\(bell?.gridPosition ?? AKPoint(x: -4242, y: -4242))"
+        "\(gridCell?.gridPosition ?? AKPoint(x: -4242, y: -4242))"
     }
 
     var contents: GridCell.Contents {
-        get { return cell_?.contents ?? .invalid }
+        get { return gridCell?.contents ?? .invalid }
     }
 
     var gridPosition: AKPoint {
-        get { return cell_!.gridPosition }
+        get { return gridCell!.gridPosition }
         set { fatalError() }
     }
 
     var randomScenePosition: CGPoint? {
-        get { return cell_?.randomScenePosition }
+        get { return gridCell?.randomScenePosition }
         set { fatalError() }
     }
 
     var scenePosition: CGPoint {
-        get { return cell_?.scenePosition ?? CGPoint(x: -42.42, y: -42.42) }
+        get { return gridCell?.scenePosition ?? CGPoint(x: -42.42, y: -42.42) }
         set { fatalError() }
     }
 
     var ownerName: String {
-        get { return cell_?.ownerName ?? "empty hotkey" }
-        set { cell_?.ownerName = newValue }
+        get { return gridCell?.ownerName ?? "empty hotkey" }
+        set { gridCell?.ownerName = newValue }
     }
 
     var sprite: SKSpriteNode? {
-        get { return cell_?.sprite }
+        get { return gridCell?.sprite }
     }
 
     init(for cell: GridCell, ownerName: String) {
-        self.cell_ = cell
+        self.gridCell = cell
         cell.isLocked = true
         cell.ownerName = ownerName
         Debug.log(level: 85) { "HotKey at \(cell.gridPosition) for \(six(ownerName))" }
@@ -71,11 +70,11 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
     deinit {
         // Releasing the HotKey involves the HotKey itself. So we have to tell
         // it to shut down before we reach deinit
-        assert(cell_ == nil)
+        assert(gridCell == nil)
     }
 
     func reengageRequesters() {
-        guard let c = bell else { return }
+        guard let c = gridCell else { return }
 
         Debug.log(level: 105) {
             return c.toReschedule.isEmpty ? nil :
@@ -94,13 +93,13 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
     }
 
     func releaseLock(serviceRequesters: Bool = true) {
-        cell_?.releaseLock()
+        gridCell?.releaseLock()
         if serviceRequesters { reengageRequesters() }
-        cell_ = nil
+        gridCell = nil
     }
 
     func transferKey(to winner: Stepper, _ onComplete: @escaping () -> Void) {
-        guard let c = cell_ else { fatalError() }
+        guard let c = gridCell else { fatalError() }
         precondition(c.isLocked)
 
         Debug.log(level: 71) { "transferKey from \(six(self.ownerName)) at \(gridPosition) to \(six(winner.name))" }
@@ -116,7 +115,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
 class NilKey: GridCellKey {
     //swiftlint:disable unused_setter_value
-    var bell: GridCell? { get { nil } set { fatalError() } }
+    var gridCell: GridCell? { get { nil } set { fatalError() } }
     var contents: GridCell.Contents { get { .invalid } set { fatalError() } }
     var gridPosition: AKPoint { get { AKPoint(x: -4444, y: -4444) } set { fatalError() } }
     var ownerName: String { get { "invalid" } set { fatalError() } }

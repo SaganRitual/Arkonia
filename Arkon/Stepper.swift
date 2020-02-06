@@ -3,15 +3,7 @@ import SpriteKit
 class Stepper {
     var cOffspring = 0
     var dispatch: Dispatch!
-    private weak var gridCell_: GridCell?
-    var gridCell: GridCell! {
-        get { gridCell_ }
-        set {
-            gridCell_ = newValue
-            let gp = newValue == nil ? "<nil>" : "\(newValue!.gridPosition)"
-            Debug.log(level: 108) { "set stepper \(six(name)) gridCell to \(gp)" }
-        }
-    }
+    weak var gridCell: GridCell!
     var isTurnabouted: Bool = false
     var metabolism: Metabolism!
     let name: String
@@ -27,7 +19,7 @@ class Stepper {
     weak var sprite: SKSpriteNode!
 
     init(_ embryo: Spawn, needsNewDispatch: Bool = false) {
-        self.gridCell_ = embryo.engagerKey!.bell
+        self.gridCell = embryo.engagerKey!.gridCell
         self.metabolism = embryo.metabolism
         self.name = embryo.embryoName
         self.net = embryo.net
@@ -37,9 +29,9 @@ class Stepper {
 
         if needsNewDispatch { self.dispatch = Dispatch(self) }
 
-        let isLocked = embryo.engagerKey!.bell?.isLocked
-        let lockOwner = embryo.engagerKey!.bell?.ownerName ?? "no owner"
-        let occupiedBy = embryo.engagerKey!.bell?.sprite?.name ?? "no one"
+        let isLocked = embryo.engagerKey!.gridCell?.isLocked
+        let lockOwner = embryo.engagerKey!.gridCell?.ownerName ?? "no owner"
+        let occupiedBy = embryo.engagerKey!.gridCell?.sprite?.name ?? "no one"
         let isLockedString = isLocked == nil ? "nothing" : (isLocked! ? "already locked" : "not yet locked")
         Debug.log(level: 109) {
             "set1 \(six(embryo.embryoName))"

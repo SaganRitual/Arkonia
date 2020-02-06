@@ -23,7 +23,7 @@ final class MoveSprite: Dispatchable {
         assert(shuttle.fromCell != nil && shuttle.toCell != nil)
         assert(shuttle.fromCell!.contents == .arkon)
 
-        guard let hotKey = shuttle.toCell?.bell else { fatalError() }
+        guard let hotKey = shuttle.toCell?.gridCell else { fatalError() }
         let position = hotKey.randomScenePosition ?? hotKey.scenePosition
 
         MoveSprite.moveAction(st, to: position) {

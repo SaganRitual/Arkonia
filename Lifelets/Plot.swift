@@ -122,8 +122,8 @@ extension Plot {
         let radius = st.gridCell.randomScenePosition?.radius ?? 0
         let theta = st.gridCell.randomScenePosition?.theta ?? 0
         let normalRadius = (radius / Grid.shared.hypoteneuse)
-        let constrainedTheta = theta.truncatingRemainder(dividingBy: 2 * CGFloat.pi)
-        let normalTheta = constrainedTheta / (2 * CGFloat.pi)
+        let constrainedTheta = theta.truncatingRemainder(dividingBy: CGFloat.tau)
+        let normalTheta = constrainedTheta / CGFloat.tau
         let positiveTheta = (normalTheta >= 0) ? normalTheta : 1 + normalTheta
         theData.append(contentsOf: [Double(normalRadius), Double(positiveTheta)])
         let x = st.gridCell.randomScenePosition?.x ?? 0

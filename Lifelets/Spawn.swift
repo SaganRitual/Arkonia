@@ -188,7 +188,7 @@ extension Spawn {
             else { return }
 
         func a() {
-            let rotate = SKAction.rotate(byAngle: 2 * CGFloat.pi, duration: 0.25)
+            let rotate = SKAction.rotate(byAngle: CGFloat.tau, duration: 0.25)
             sprite.run(rotate, completion: b)
         }
 
@@ -277,9 +277,9 @@ extension Spawn {
 
         Debug.log(level: 115) { "pre-setContents at \(ek.gridPosition), \(ek.contents), \(six(ek.sprite?.name)), \(six(ek.ownerName))" }
         assert(ek.contents != .arkon)
-        ek.bell?.setContents(to: .arkon, newSprite: newborn.sprite)
+        ek.gridCell?.setContents(to: .arkon, newSprite: newborn.sprite)
         Debug.log(level: 115) { "post-setContents at \(ek.gridPosition), \(ek.contents), \(six(ek.sprite?.name)), \(six(ek.ownerName)) -- \(newborn.gridCell?.gridPosition ?? AKPoint.zero)" }
-        newborn.gridCell = ek.bell
+        newborn.gridCell = ek.gridCell
         Debug.log(level: 104) { "setContents from launchNewborn at \(ek.gridPosition)" }
         Debug.log(level: 109) { "set5 newborn \(six(newborn.name)), parent \(six(self.meTheParent?.name))" }
         self.launchB(ek, newborn)
@@ -312,7 +312,7 @@ extension Spawn {
 
             SpriteFactory.shared.arkonsPool.attachSprite(newborn.sprite)
 
-            let rotate = SKAction.rotate(byAngle: -4 * 2 * CGFloat.pi, duration: 2.0)
+            let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
             newborn.sprite.run(rotate)
 
             self.tempStrongReference = nil  // Now the sprite has the only strong ref

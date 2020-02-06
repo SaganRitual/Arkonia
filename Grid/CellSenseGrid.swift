@@ -4,11 +4,11 @@ class CellSenseGrid: CustomDebugStringConvertible {
     var debugDescription = ""
 
     init(from center: HotKey, by cGridlets: Int, block: AKPoint) {
-        guard let cc = center.bell else { fatalError() }
+        guard let cc = center.gridCell else { fatalError() }
         centerName = cc.ownerName
 
         cells = [center] + (1..<cGridlets).map { index in
-            guard let position = center.bell?.getGridPointByIndex(index)
+            guard let position = center.gridCell?.getGridPointByIndex(index)
                 else { fatalError() }
 
             if position == block { return NilKey() }

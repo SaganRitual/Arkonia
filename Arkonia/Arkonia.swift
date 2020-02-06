@@ -37,9 +37,9 @@ class Arkonia {
 
     static let mannaColorBlendMaximum: CGFloat = 0.35
     static let mannaColorBlendMinimum: CGFloat = 0.15
-    static let mannaFullGrowthDurationSeconds: TimeInterval = 1
-    static let mannaInitialRebloomDelay = 1.0
-    static let mannaRebloomDelayIncrement =  0.25
+    static let mannaFullGrowthDurationSeconds: TimeInterval = 5.0
+    static let mannaInitialRebloomDelay: TimeInterval = 30.0
+    static let mannaRebloomDelayIncrement: TimeInterval =  30.0
     static let maxMannaEnergyContentInJoules: CGFloat = 40
 
     static var mannaColorBlendRangeWidth: CGFloat
