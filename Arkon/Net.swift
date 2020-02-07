@@ -19,6 +19,9 @@ class Net {
     let layers: [Int]
     let weights: [Double]
 
+    let mBiases: [Matrix<Double>]
+    let mWeights: [Matrix<Double>]
+
     static func makeNet(
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
         parentActivator: ((_: Double) -> Double)?, _ onComplete: @escaping (Net) -> Void
@@ -45,6 +48,44 @@ class Net {
         self.weights = Net.mutateNetStrand(parentStrand: parentWeights, targetLength: cWeights)
 
         self.activatorFunction = Net.mutateActivator(parentActivator: parentActivator)
+
+        self.mBiases = Net.makeBiasesVectors(self.layers, self.biases)
+        self.mWeights = Net.makeWeightsVectors(self.layers, self.weights)
+    }
+
+    static func makeBiasesVectors(_ layers: [Int], _ biases: [Double]) -> [Matrix<Double>] {
+        var ncSS = 0
+        var biasesVectors = [Matrix<Double>]()
+
+        for _ in 0..<layers.count - 1 {
+            defer { ncSS += 1 }
+            let nc1 = layers[ncSS + 1]
+
+            let b = Matrix<Double>((0..<nc1).map { [biases[$0]] })
+
+            biasesVectors.append(b)
+        }
+
+        return biasesVectors
+    }
+
+    static func makeWeightsVectors(_ layers: [Int], _ weights: [Double]) -> [Matrix<Double>] {
+        var ncSS = 0
+        var weightsVectors = [Matrix<Double>]()
+
+        for _ in 0..<layers.count - 1 {
+            defer { ncSS += 1 }
+            let nc0 = layers[ncSS + 0]
+            let nc1 = layers[ncSS + 1]
+
+            let W = Matrix<Double>((0..<nc1).map { col in
+                (0..<nc0).map { row in weights[col * nc0 + row] }
+            })
+
+            weightsVectors.append(W)
+        }
+
+        return weightsVectors
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
@@ -53,23 +94,25 @@ class Net {
         return (cWeights, cBiases)
     }
 
-    static func arctan(_ x: Double) -> Double { return atan(x) }
-    static func bentidentity(_ x: Double) -> Double { return ((sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
-    static func binarystep(_ x: Double) -> Double { return x < 0.0 ? 0.0 : 1.0 }
-    static func gaussian(_ x: Double) -> Double { return exp(-(x * x)) }
-    static func identity(_ x: Double) -> Double { return x }
-    static func leakyrelu(_ x: Double) -> Double { return x < 0.0 ? (0.01 * x) : x }
-    static func logistic(_ x: Double) -> Double { return 1.0 / (1.0 + exp(-x)) }
-    static func sinc(_ x: Double) -> Double { return x == 0.0 ? 1.0 : sin(x) / x }
-    static func sinusoid(_ x: Double) -> Double { return sin(x) }
-    static func softplus(_ x: Double) -> Double { return log(1.0 + exp(x)) }
-    static func softsign(_ x: Double) -> Double { return x / (1 + abs(x)) }
+    static func arctan(_ x: Double) -> Double { Surge.atan(x) }
+    static func bentidentity(_ x: Double) -> Double { ((Surge.sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
+    static func binarystep(_ x: Double) -> Double { x < 0.0 ? 0.0 : 1.0 }
+    static func gaussian(_ x: Double) -> Double { Surge.exp(-(x * x)) }
+    static func identity(_ x: Double) -> Double { x }
+    static func leakyrelu(_ x: Double) -> Double { x < 0.0 ? (0.01 * x) : x }
+    static func logistic(_ x: Double) -> Double { 1.0 / (1.0 + Surge.exp(-x)) }
+    static func sinc(_ x: Double) -> Double { x == 0.0 ? 1.0 : Surge.sin(x) / x }
+    static func sinusoid(_ x: Double) -> Double {  Surge.sin(x) }
+    static func softplus(_ x: Double) -> Double { Surge.log(1.0 + Surge.exp(x)) }
+    static func softsign(_ x: Double) -> Double { x / (1 + abs(x)) }
 
     static func sqnl(_ x: Double) -> Double {
-        if x > 2.0 { return 1.0 }
-        if x >= 0.0 { return x - x * x / 4.0 }
-        if x >= -2.0 { return x + x * x / 4.0 }
-        return -1.0
+        switch x {
+        case -2.0..<0.0: return x + x * x / 4.0
+        case 0.0..<2.0:  return x - x * x / 4.0
+        case 2.0...:     return 1.0
+        default:         return -1.0
+        }
     }
 
     static func tanh(_ x: Double) -> Double { return CoreGraphics.tanh(x) }
@@ -80,38 +123,17 @@ class Net {
     ]
 
     func getMotorOutputs(_ sensoryInputs: [Double]) -> [Double] {
-//        assert(sensoryInputs.count == Arkonia.cSenseNeurons)
+        var inputsToNextLayer = Matrix<Double>(column: sensoryInputs)
 
-        var ncSS = 0
-        var a0 = Matrix<Double>(column: sensoryInputs)
+        for (W, B) in zip(mWeights, mBiases) {
+            let t1 = Surge.mul(W, inputsToNextLayer)
+            let t2 = Surge.add(t1, B)
+            let t3 = t2.map { [Net.sinusoid($0.first!)] }
 
-        for _ in 0..<layers.count - 1 {
-            Debug.log(level: 103) { "Loop start: \(sensoryInputs)" }
-            defer { ncSS += 1 }
-            let nc0 = layers[ncSS + 0]
-            let nc1 = layers[ncSS + 1]
-
-            let W = Matrix<Double>((0..<nc1).map { col in
-                (0..<nc0).map { row in self.weights[col * nc0 + row] }
-            })
-
-            Debug.log(level: 103) { "\(W)" }
-
-            let b = Matrix<Double>((0..<nc1).map { [self.biases[$0]] })
-
-            Debug.log(level: 103) { "\(b)" }
-
-            let t2 = Surge.mul(W, a0)
-            let t3 = Surge.add(t2, b)
-            let t4 = t3.joined()
-            a0 = Matrix<Double>(t4.map {
-                [Net.sinusoid($0)]
-            })
-
-            Debug.log(level: 103) { "\(a0)" }
+            inputsToNextLayer = Matrix<Double>(t3)
         }
 
-        return (0..<a0.rows).map { a0[$0, 0] }
+        return (0..<inputsToNextLayer.rows).map { inputsToNextLayer[$0, 0] }
     }
 
     static func mutateActivator(parentActivator: ((_: Double) -> Double)?) -> (_: Double) -> Double {

@@ -1,10 +1,10 @@
 import SpriteKit
 
 final class MoveSprite: Dispatchable {
-    static let maxMoveDuration: TimeInterval = 0.3
-    static let maxRestDuration: TimeInterval = 0.3
-    static let minMoveDuration: TimeInterval = 0.1
-    static let minRestDuration: TimeInterval = 0.1
+    static let maxMoveDuration: TimeInterval = 0.2001
+    static let maxRestDuration: TimeInterval = 0.06
+    static let minMoveDuration: TimeInterval = 0.2
+    static let minRestDuration: TimeInterval = 0.05
 
     internal override func launch() { SceneDispatch.schedule { self.moveSprite() } }
 
@@ -34,7 +34,7 @@ final class MoveSprite: Dispatchable {
     }
 
     private static func makeRestAction() -> SKAction? {
-        let restDuration = TimeInterval.random(in: MoveSprite.minRestDuration..<MoveSprite.maxRestDuration)
+        let restDuration: TimeInterval = 0//TimeInterval.random(in: MoveSprite.minRestDuration..<MoveSprite.maxRestDuration)
         return restDuration == 0 ? nil : SKAction.wait(forDuration: restDuration)
     }
 
@@ -46,10 +46,10 @@ final class MoveSprite: Dispatchable {
         Debug.debugColor(stepper, .red, .magenta)
 
         let move = SKAction.move(to: position, duration: moveDuration)
-        var aSequence = [move]
-        if let ra = makeRestAction() { aSequence.append(ra) }
-        let sequence = SKAction.sequence(aSequence)
-        stepper.sprite.run(sequence, completion: onComplete)
+//        var aSequence = [move]
+//        if let ra = makeRestAction() { aSequence.append(ra) }
+//        let sequence = SKAction.sequence(aSequence)
+        stepper.sprite.run(move, completion: onComplete)
     }
 
     private static func restAction(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
