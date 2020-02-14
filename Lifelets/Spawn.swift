@@ -159,7 +159,7 @@ extension Spawn {
         metabolism = Metabolism()
 
         Net.makeNet(
-            parentBiases: meTheParent?.net.biases, parentWeights: meTheParent?.net.weights,
+            parentBiases: meTheParent?.net.biases.map({ Double($0) }), parentWeights: meTheParent?.net.weights.map({ Double($0) }),
             layers: meTheParent?.net.layers, parentActivator: meTheParent?.net.activatorFunction
         ) { onComplete($0) }
     }

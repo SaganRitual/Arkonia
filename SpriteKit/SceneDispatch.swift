@@ -1,4 +1,5 @@
 import Dispatch
+import Foundation
 
 /**
  Executes work items in the scene's update context
@@ -19,6 +20,11 @@ enum SceneDispatch {
     }
 
     static func tick() {
-        lockQueue.sync { while let wi = workItems.popFirst() { wi() } }
+        let startTime = Date()
+        lockQueue.sync {
+            if Date().timeIntervalSince(startTime) > 0.01 {
+                return }
+            while let wi = workItems.popFirst() { wi() }
+        }
     }
 }

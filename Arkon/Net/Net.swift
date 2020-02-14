@@ -9,18 +9,16 @@ class Net {
     static let dispatchQueue = DispatchQueue(
         label: "ak.net.q",
         attributes: .concurrent,
-        target: DispatchQueue.global(qos: .default)
+        target: DispatchQueue.global(qos: .utility)
     )
 
     let activatorFunction: (_: Double) -> Double
     let biases: [Double]
     let cBiases: Int
     let cWeights: Int
+    let hotNet: HotNet
     let layers: [Int]
     let weights: [Double]
-
-    let mBiases: [Matrix<Double>]
-    let mWeights: [Matrix<Double>]
 
     static func makeNet(
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
@@ -49,43 +47,7 @@ class Net {
 
         self.activatorFunction = Net.mutateActivator(parentActivator: parentActivator)
 
-        self.mBiases = Net.makeBiasesVectors(self.layers, self.biases)
-        self.mWeights = Net.makeWeightsVectors(self.layers, self.weights)
-    }
-
-    static func makeBiasesVectors(_ layers: [Int], _ biases: [Double]) -> [Matrix<Double>] {
-        var ncSS = 0
-        var biasesVectors = [Matrix<Double>]()
-
-        for _ in 0..<layers.count - 1 {
-            defer { ncSS += 1 }
-            let nc1 = layers[ncSS + 1]
-
-            let b = Matrix<Double>((0..<nc1).map { [biases[$0]] })
-
-            biasesVectors.append(b)
-        }
-
-        return biasesVectors
-    }
-
-    static func makeWeightsVectors(_ layers: [Int], _ weights: [Double]) -> [Matrix<Double>] {
-        var ncSS = 0
-        var weightsVectors = [Matrix<Double>]()
-
-        for _ in 0..<layers.count - 1 {
-            defer { ncSS += 1 }
-            let nc0 = layers[ncSS + 0]
-            let nc1 = layers[ncSS + 1]
-
-            let W = Matrix<Double>((0..<nc1).map { col in
-                (0..<nc0).map { row in weights[col * nc0 + row] }
-            })
-
-            weightsVectors.append(W)
-        }
-
-        return weightsVectors
+        hotNet = HotNet(self.layers, self.biases, self.weights)
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
@@ -93,7 +55,9 @@ class Net {
         let cBiases = layers.dropFirst().reduce(0, +)
         return (cWeights, cBiases)
     }
+}
 
+extension Net {
     static func arctan(_ x: Double) -> Double { Surge.atan(x) }
     static func bentidentity(_ x: Double) -> Double { ((Surge.sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
     static func binarystep(_ x: Double) -> Double { x < 0.0 ? 0.0 : 1.0 }
@@ -122,18 +86,8 @@ class Net {
         logistic, sinc, sinusoid, softplus, softsign, sqnl, tanh
     ]
 
-    func getMotorOutputs(_ sensoryInputs: [Double]) -> [Double] {
-        var inputsToNextLayer = Matrix<Double>(column: sensoryInputs)
-
-        for (W, B) in zip(mWeights, mBiases) {
-            let t1 = Surge.mul(W, inputsToNextLayer)
-            let t2 = Surge.add(t1, B)
-            let t3 = t2.map { [Net.sinusoid($0.first!)] }
-
-            inputsToNextLayer = Matrix<Double>(t3)
-        }
-
-        return (0..<inputsToNextLayer.rows).map { inputsToNextLayer[$0, 0] }
+    func getMotorOutputs(_ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void) {
+        hotNet.driveSignal(sensoryInputs, onComplete)
     }
 
     static func mutateActivator(parentActivator: ((_: Double) -> Double)?) -> (_: Double) -> Double {
@@ -191,38 +145,47 @@ class Net {
     }
 
     static func addDuplicatedLayer(_ layers: [Int]) -> [Int] {
-        let insertPoint = Int.random(in: 1..<layers.count)
+        let layerToDuplicate = layers.randomElement()
+        let insertPoint = Int.random(in: 0..<layers.count)
         var toMutate = layers
-        toMutate.insert(toMutate[insertPoint], at: insertPoint)
+        toMutate.insert(layerToDuplicate!, at: insertPoint)
+
+        Debug.log(level: 120) { "addDuplicatedLayer to \(layers.count)-layer net: \(layerToDuplicate!) neurons, insert at \(insertPoint)" }
         return toMutate
     }
 
     static func addMutatedLayer(_ layers: [Int]) -> [Int] {
-        let insertPoint = Int.random(in: 1..<layers.count)
+        let layerToMutate = layers.randomElement()
+        let insertPoint = Int.random(in: 0..<layers.count)
         var structureToMutate = layers
         let mag = Int.random(in: 1..<2)
         let sign = Bool.random() ? 1 : -1
-        let L = abs(structureToMutate[insertPoint] + sign * mag)
+        let L = abs(layerToMutate! + sign * mag)
         let mutatedLayer = (L == 0) ? 1 : L
 
         structureToMutate.insert(mutatedLayer, at: insertPoint)
+
+        Debug.log(level: 120) { "addMutatedLayer to \(layers.count)-layer net: \(layerToMutate!) neurons, insert at \(insertPoint)" }
         return structureToMutate
     }
 
     static func addRandomLayer(_ layers: [Int]) -> [Int] {
-        let insertPoint = Int.random(in: 1..<layers.count)
+        let insertPoint = Int.random(in: 0..<layers.count)
         var toMutate = layers
-        toMutate.insert(Int.random(in: 1..<10), at: insertPoint)
+        let cNeurons = Int.random(in: 1..<10)
+        toMutate.insert(cNeurons, at: insertPoint)
+        Debug.log(level: 120) { "addRandomLayer to \(layers.count)-layer net: \(cNeurons) neurons, insert at \(insertPoint)" }
         return toMutate
     }
 
     static func dropLayer(_ layers: [Int]) -> [Int] {
-        let howMany = Int.random(in: 1..<layers.count)
+        let howMany = Int.random(in: 0..<layers.count)
         var toMutate = layers
 
         for _ in 0..<howMany {
-            let dropPoint = Int.random(in: 1..<toMutate.count)
+            let dropPoint = Int.random(in: 0..<toMutate.count)
             toMutate.remove(at: dropPoint)
+            Debug.log(level: 120) { "dropLayer from \(layers.count)-layer net, at \(dropPoint)" }
         }
 
         return toMutate

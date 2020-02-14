@@ -63,6 +63,9 @@
 		D4BD1DCB23C088C200CE0753 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD1DC123C088C200CE0753 /* Grid.swift */; };
 		D4BD1DCC23C088C200CE0753 /* CellSenseGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD1DC223C088C200CE0753 /* CellSenseGrid.swift */; };
 		D4BD1DCE23C088C200CE0753 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD1DC423C088C200CE0753 /* GridCell.swift */; };
+		D4C7E06324088C51005C0191 /* HotNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E06224088C51005C0191 /* HotNet.swift */; };
+		D4C7E065240896B0005C0191 /* WeightsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E064240896B0005C0191 /* WeightsMatrix.swift */; };
+		D4C7E06724089721005C0191 /* HotLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E06624089721005C0191 /* HotLayer.swift */; };
 		D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D5EABA2368B05200E95AA5 /* Spawn.swift */; };
 		D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7FE2D23E6BD2A0043D57D /* Manna.swift */; };
 		D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */; };
@@ -182,6 +185,9 @@
 		D4BD1DC123C088C200CE0753 /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		D4BD1DC223C088C200CE0753 /* CellSenseGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellSenseGrid.swift; sourceTree = "<group>"; };
 		D4BD1DC423C088C200CE0753 /* GridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
+		D4C7E06224088C51005C0191 /* HotNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotNet.swift; sourceTree = "<group>"; };
+		D4C7E064240896B0005C0191 /* WeightsMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightsMatrix.swift; sourceTree = "<group>"; };
+		D4C7E06624089721005C0191 /* HotLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotLayer.swift; sourceTree = "<group>"; };
 		D4CF20A622A4C296000FD2BA /* Arkonia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkonia.swift; sourceTree = "<group>"; };
 		D4D5EABA2368B05200E95AA5 /* Spawn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spawn.swift; sourceTree = "<group>"; };
 		D4E7FE2D23E6BD2A0043D57D /* Manna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
@@ -274,10 +280,10 @@
 		D43EA81B228FDCC3006C619D /* Arkon */ = {
 			isa = PBXGroup;
 			children = (
+				D4D346A723FC649F00E6D1C2 /* Net */,
 				D4FFE9612365814F00F5DDFB /* Dispatch.swift */,
 				D40F452B23C88A3D0027BD0C /* EnergyReserve.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
-				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D422FE6E238E56C7007F0B7B /* Scratchpad.swift */,
 				D4A12BE922EA58E900C15F59 /* Stepper.swift */,
 			);
@@ -360,6 +366,17 @@
 				D4BD1DBB23C088C200CE0753 /* Random.swift */,
 			);
 			path = Grid;
+			sourceTree = "<group>";
+		};
+		D4D346A723FC649F00E6D1C2 /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				D4C7E06624089721005C0191 /* HotLayer.swift */,
+				D4C7E06224088C51005C0191 /* HotNet.swift */,
+				D4EE561922BC96290076D8A1 /* Net.swift */,
+				D4C7E064240896B0005C0191 /* WeightsMatrix.swift */,
+			);
+			path = Net;
 			sourceTree = "<group>";
 		};
 		D4E8D268227E06F400DFCB40 /* NetDisplay */ = {
@@ -573,8 +590,11 @@
 				D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */,
 				D4B2AC8223D595E000246746 /* NetDisplayGrid.swift in Sources */,
 				D4A59D31238839C700517F60 /* Arrive.swift in Sources */,
+				D4C7E06724089721005C0191 /* HotLayer.swift in Sources */,
 				D4BD1DCE23C088C200CE0753 /* GridCell.swift in Sources */,
 				D4BD1DC723C088C200CE0753 /* CellShuttle.swift in Sources */,
+				D4C7E06324088C51005C0191 /* HotNet.swift in Sources */,
+				D4C7E065240896B0005C0191 /* WeightsMatrix.swift in Sources */,
 				D4BD1DC623C088C200CE0753 /* Protocol.swift in Sources */,
 				D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */,
 				D458940223CFE847004FED72 /* Mutator.swift in Sources */,

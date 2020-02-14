@@ -66,7 +66,7 @@ struct NetGraphics {
         sprite.position = netDisplayGrid.getPosition(gridPoint)
         sprite.position.y -= yFudge
         sprite.zPosition = 17
-        sprite.setScale(0.1)
+        sprite.setScale(0.07)
 
         portal.addChild(sprite)
 
