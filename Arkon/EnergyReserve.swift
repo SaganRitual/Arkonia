@@ -75,11 +75,14 @@ class EnergyReserve {
     func deposit(_ cJoules: CGFloat) {
         if cJoules <= 0 { return }  // Energy level can go slightly neg, rounding?
 
-        let js = String(format: "%3.3f", cJoules)
-        let Ls = String(format: "%3.3f", level)
-        let fs = String(format: "%3.3f%%", level / capacity)
         level = min(level + cJoules, capacity)
-        Debug.log(level: 89) { "deposit \(js) to \(name), level = \(level), was \(Ls)/\(fs)" }
+        Debug.log(level: 89) {
+            let js = String(format: "%3.3f", cJoules)
+            let Ls = String(format: "%3.3f", level)
+            let fs = String(format: "%3.3f%%", level / capacity)
+
+            return "deposit \(js) to \(name), level = \(level), was \(Ls)/\(fs)"
+        }
     }
 
     @discardableResult
@@ -92,11 +95,14 @@ class EnergyReserve {
         let net = min(level, cJoules)
         level -= net
 
-        let js = String(format: "%3.3f", cJoules)
-        let Ls = String(format: "%3.3f", level)
-        let fs = String(format: "%3.3f", level / capacity)
-        let ns = String(format: "%3.3f", net)
-        Debug.log(level: 74) { "withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)" }
+        Debug.log(level: 74) {
+            let js = String(format: "%3.3f", cJoules)
+            let Ls = String(format: "%3.3f", level)
+            let fs = String(format: "%3.3f", level / capacity)
+            let ns = String(format: "%3.3f", net)
+
+            return "withdraw \(js)(\(ns)) from \(name), level = \(Ls), fullness = \(fs)"
+        }
         return net
     }
 }

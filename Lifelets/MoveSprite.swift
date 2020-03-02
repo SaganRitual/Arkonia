@@ -1,10 +1,10 @@
 import SpriteKit
 
 final class MoveSprite: Dispatchable {
-    static let maxMoveDuration: TimeInterval = 0.2
-    static let maxRestDuration: TimeInterval = 0.06
-    static let minMoveDuration: TimeInterval = 0.1
-    static let minRestDuration: TimeInterval = 0.05
+    static let maxMoveDuration: TimeInterval = 0.02
+    static let maxRestDuration: TimeInterval = 0.02
+    static let minMoveDuration: TimeInterval = 0.01
+    static let minRestDuration: TimeInterval = 0.01
 
     internal override func launch() { SceneDispatch.schedule { self.moveSprite() } }
 
@@ -34,7 +34,7 @@ final class MoveSprite: Dispatchable {
     }
 
     private static func makeRestAction() -> SKAction? {
-        let restDuration = TimeInterval.random(in: MoveSprite.minRestDuration..<MoveSprite.maxRestDuration)
+        let restDuration = TimeInterval(0)//.random(in: MoveSprite.minRestDuration..<MoveSprite.maxRestDuration)
         return restDuration == 0 ? nil : SKAction.wait(forDuration: restDuration)
     }
 

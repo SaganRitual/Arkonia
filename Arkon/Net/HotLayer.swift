@@ -73,7 +73,7 @@ extension HotLayer {
             rightMatrix: weightsMatrix.mpsMatrix, resultMatrix: transferMatrix
         )
 
-        adder.encode(
+         adder.encode(
             to: commandBuffer,
             sourceMatrices: [transferMatrix, biasesMatrix],
             resultMatrix: neuronsOutMatrix, scale: nil, offsetVector: nil,

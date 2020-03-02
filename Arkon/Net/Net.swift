@@ -16,7 +16,7 @@ class Net {
     let biases: [Double]
     let cBiases: Int
     let cWeights: Int
-    let hotNet: HotNet
+    let hotNet: BlasNet
     let layers: [Int]
     let weights: [Double]
 
@@ -47,7 +47,8 @@ class Net {
 
         self.activatorFunction = Net.mutateActivator(parentActivator: parentActivator)
 
-        hotNet = HotNet(self.layers, self.biases, self.weights)
+//        hotNet = HotNet(self.layers, self.biases, self.weights)
+        hotNet = BlasNet(self.layers, self.biases, self.weights)
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {

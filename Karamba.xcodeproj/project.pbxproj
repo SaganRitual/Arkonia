@@ -66,6 +66,8 @@
 		D4C7E06324088C51005C0191 /* HotNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E06224088C51005C0191 /* HotNet.swift */; };
 		D4C7E065240896B0005C0191 /* WeightsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E064240896B0005C0191 /* WeightsMatrix.swift */; };
 		D4C7E06724089721005C0191 /* HotLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E06624089721005C0191 /* HotLayer.swift */; };
+		D4C7E079240CC0C2005C0191 /* BlasNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E070240CC0C2005C0191 /* BlasNet.swift */; };
+		D4C7E07A240CC0C2005C0191 /* BlasLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E078240CC0C2005C0191 /* BlasLayer.swift */; };
 		D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D5EABA2368B05200E95AA5 /* Spawn.swift */; };
 		D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7FE2D23E6BD2A0043D57D /* Manna.swift */; };
 		D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */; };
@@ -188,6 +190,8 @@
 		D4C7E06224088C51005C0191 /* HotNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotNet.swift; sourceTree = "<group>"; };
 		D4C7E064240896B0005C0191 /* WeightsMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightsMatrix.swift; sourceTree = "<group>"; };
 		D4C7E06624089721005C0191 /* HotLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotLayer.swift; sourceTree = "<group>"; };
+		D4C7E070240CC0C2005C0191 /* BlasNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlasNet.swift; sourceTree = "<group>"; };
+		D4C7E078240CC0C2005C0191 /* BlasLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlasLayer.swift; sourceTree = "<group>"; };
 		D4CF20A622A4C296000FD2BA /* Arkonia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkonia.swift; sourceTree = "<group>"; };
 		D4D5EABA2368B05200E95AA5 /* Spawn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spawn.swift; sourceTree = "<group>"; };
 		D4E7FE2D23E6BD2A0043D57D /* Manna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
@@ -371,6 +375,8 @@
 		D4D346A723FC649F00E6D1C2 /* Net */ = {
 			isa = PBXGroup;
 			children = (
+				D4C7E078240CC0C2005C0191 /* BlasLayer.swift */,
+				D4C7E070240CC0C2005C0191 /* BlasNet.swift */,
 				D4C7E06624089721005C0191 /* HotLayer.swift */,
 				D4C7E06224088C51005C0191 /* HotNet.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
@@ -552,6 +558,7 @@
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
 				D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */,
+				D4C7E07A240CC0C2005C0191 /* BlasLayer.swift in Sources */,
 				D4BD1DCB23C088C200CE0753 /* Grid.swift in Sources */,
 				D4BD1DCC23C088C200CE0753 /* CellSenseGrid.swift in Sources */,
 				D422DE0D23598BEC003734B8 /* Clock.swift in Sources */,
@@ -599,6 +606,7 @@
 				D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */,
 				D458940223CFE847004FED72 /* Mutator.swift in Sources */,
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
+				D4C7E079240CC0C2005C0191 /* BlasNet.swift in Sources */,
 				D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
 				D422DE0B23598B52003734B8 /* Census.swift in Sources */,
@@ -764,6 +772,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -783,6 +792,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
