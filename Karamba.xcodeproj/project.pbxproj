@@ -75,58 +75,6 @@
 		D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE9612365814F00F5DDFB /* Dispatch.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		D4EE55CA22BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F8A1E1AA19917A79009735E2;
-			remoteInfo = "Surge-iOS";
-		};
-		D4EE55CC22BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F84A6AAE19A9A72F007B53E1;
-			remoteInfo = "SurgeTests-iOS";
-		};
-		D4EE55CE22BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 614AD31F1FC0AD99002BFE1C;
-			remoteInfo = "Surge-macOS";
-		};
-		D4EE55D022BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 614AD3271FC0AD99002BFE1C;
-			remoteInfo = "SurgeTests-macOS";
-		};
-		D4EE55D222BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 614AD3511FC0B001002BFE1C;
-			remoteInfo = "Surge-tvOS";
-		};
-		D4EE55D422BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 614AD3591FC0B001002BFE1C;
-			remoteInfo = "SurgeTests-tvOS";
-		};
-		D4EE55D622BC1C6E0076D8A1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 614AD3821FC0B125002BFE1C;
-			remoteInfo = "Surge-watchOS";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		D40985ED22650B0B009DD384 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D40985F022650B0B009DD384 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -198,7 +146,6 @@
 		D4E7FE7F23E97F5A0043D57D /* Karamba copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Karamba copy-Info.plist"; path = "/Users/rob/Projects/Arkonia/Karamba copy-Info.plist"; sourceTree = "<absolute>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
 		D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GriddleScene.swift; sourceTree = "<group>"; };
-		D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Surge.xcodeproj; path = Surge/Surge.xcodeproj; sourceTree = "<group>"; };
 		D4EE561922BC96290076D8A1 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		D4F6460722A4253F00FD8C56 /* ColorGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
 		D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSpriteNode.swift; sourceTree = "<group>"; };
@@ -225,7 +172,6 @@
 				D42172F2233EE46000A56594 /* .overcommit.yml */,
 				D42172E9233EE46000A56594 /* .swiftlint.yml */,
 				D495E5E822DE294D00AFF2AC /* README.md */,
-				D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */,
 				D43EA81B228FDCC3006C619D /* Arkon */,
 				D43EA81A228FDBA4006C619D /* Arkonia */,
 				D4BD1DBA23C088C200CE0753 /* Grid */,
@@ -395,20 +341,6 @@
 			path = NetDisplay;
 			sourceTree = "<group>";
 		};
-		D4EE55C122BC1C6E0076D8A1 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D4EE55CB22BC1C6E0076D8A1 /* Surge.framework */,
-				D4EE55CD22BC1C6E0076D8A1 /* SurgeTests-iOS.xctest */,
-				D4EE55CF22BC1C6E0076D8A1 /* Surge.framework */,
-				D4EE55D122BC1C6E0076D8A1 /* SurgeTests-macOS.xctest */,
-				D4EE55D322BC1C6E0076D8A1 /* Surge.framework */,
-				D4EE55D522BC1C6E0076D8A1 /* SurgeTests-tvOS.xctest */,
-				D4EE55D722BC1C6E0076D8A1 /* Surge.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -451,70 +383,12 @@
 			mainGroup = D40985D722650B0A009DD384;
 			productRefGroup = D40985E122650B0A009DD384 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = D4EE55C122BC1C6E0076D8A1 /* Products */;
-					ProjectRef = D4EE55C022BC1C6E0076D8A1 /* Surge.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				D464BA3122C737260069623C /* Karamba */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		D4EE55CB22BC1C6E0076D8A1 /* Surge.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Surge.framework;
-			remoteRef = D4EE55CA22BC1C6E0076D8A1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D4EE55CD22BC1C6E0076D8A1 /* SurgeTests-iOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SurgeTests-iOS.xctest";
-			remoteRef = D4EE55CC22BC1C6E0076D8A1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D4EE55CF22BC1C6E0076D8A1 /* Surge.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Surge.framework;
-			remoteRef = D4EE55CE22BC1C6E0076D8A1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D4EE55D122BC1C6E0076D8A1 /* SurgeTests-macOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SurgeTests-macOS.xctest";
-			remoteRef = D4EE55D022BC1C6E0076D8A1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D4EE55D322BC1C6E0076D8A1 /* Surge.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Surge.framework;
-			remoteRef = D4EE55D222BC1C6E0076D8A1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D4EE55D522BC1C6E0076D8A1 /* SurgeTests-tvOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SurgeTests-tvOS.xctest";
-			remoteRef = D4EE55D422BC1C6E0076D8A1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D4EE55D722BC1C6E0076D8A1 /* Surge.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Surge.framework;
-			remoteRef = D4EE55D622BC1C6E0076D8A1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D464BA5722C737260069623C /* Resources */ = {
