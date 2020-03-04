@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D40F452C23C88A3D0027BD0C /* EnergyReserve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40F452B23C88A3D0027BD0C /* EnergyReserve.swift */; };
+		D413E660240F745100077E35 /* Plot.CellShuttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413E65F240F745100077E35 /* Plot.CellShuttle.swift */; };
 		D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A299A23B9841000DE9CC6 /* WorkItems.swift */; };
 		D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A29A423B9945F00DE9CC6 /* wiCensus.swift */; };
 		D41ED8D623B084A100E82B08 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
@@ -84,6 +85,7 @@
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D40F452B23C88A3D0027BD0C /* EnergyReserve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyReserve.swift; sourceTree = "<group>"; };
+		D413E65F240F745100077E35 /* Plot.CellShuttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plot.CellShuttle.swift; sourceTree = "<group>"; };
 		D41A299A23B9841000DE9CC6 /* WorkItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkItems.swift; sourceTree = "<group>"; };
 		D41A29A423B9945F00DE9CC6 /* wiCensus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wiCensus.swift; sourceTree = "<group>"; };
 		D41ED8D523B084A100E82B08 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
@@ -143,7 +145,6 @@
 		D4CF20A622A4C296000FD2BA /* Arkonia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkonia.swift; sourceTree = "<group>"; };
 		D4D5EABA2368B05200E95AA5 /* Spawn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spawn.swift; sourceTree = "<group>"; };
 		D4E7FE2D23E6BD2A0043D57D /* Manna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
-		D4E7FE7F23E97F5A0043D57D /* Karamba copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Karamba copy-Info.plist"; path = "/Users/rob/Projects/Arkonia/Karamba copy-Info.plist"; sourceTree = "<absolute>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
 		D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GriddleScene.swift; sourceTree = "<group>"; };
 		D4EE561922BC96290076D8A1 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
@@ -182,7 +183,6 @@
 				D4B2AC8323D5965A00246746 /* SpriteKit */,
 				D41A29A323B9943F00DE9CC6 /* WorkItems */,
 				D40985E122650B0A009DD384 /* Products */,
-				D4E7FE7F23E97F5A0043D57D /* Karamba copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -295,6 +295,7 @@
 				D4A59D2E2388345100517F60 /* MoveStepper.swift */,
 				D4A4F45C23551F41000EC009 /* Parasitize.swift */,
 				D4A59D222387F64500517F60 /* Plot.swift */,
+				D413E65F240F745100077E35 /* Plot.CellShuttle.swift */,
 				D4A59D362389901500517F60 /* ReleaseShuttle.swift */,
 				D4D5EABA2368B05200E95AA5 /* Spawn.swift */,
 				D41A299A23B9841000DE9CC6 /* WorkItems.swift */,
@@ -454,6 +455,7 @@
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
 				D4BB6E73234E549C00529819 /* Funge.swift in Sources */,
 				D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */,
+				D413E660240F745100077E35 /* Plot.CellShuttle.swift in Sources */,
 				D464BA4422C737260069623C /* NetDisplay.swift in Sources */,
 				D4B2AC8523D5983200246746 /* SceneDispatch.swift in Sources */,
 				D4A59D2623882C5D00517F60 /* MoveSprite.swift in Sources */,

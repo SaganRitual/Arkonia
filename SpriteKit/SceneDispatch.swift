@@ -22,8 +22,7 @@ enum SceneDispatch {
     static func tick() {
         let startTime = Date()
         lockQueue.sync {
-            if Date().timeIntervalSince(startTime) > 0.01 {
-                return }
+            if Date().timeIntervalSince(startTime) > 0.005 { return }
             while let wi = workItems.popFirst() { wi() }
         }
     }

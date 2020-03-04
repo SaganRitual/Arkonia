@@ -8,7 +8,7 @@ class WeightsMatrix {
     let mpsMatrix: MPSMatrix
     let rowStride: Int
 
-    init(_ cColumnsIn: Int, _ cColumnsOut: Int, _ device: MTLDevice, _ weightsRaw: [Double]) {
+    init(_ cColumnsIn: Int, _ cColumnsOut: Int, _ device: MTLDevice, _ weightsRaw: ArraySlice<Double>) {
         self.cColumnsIn = cColumnsIn
         self.cColumnsOut = cColumnsOut
         self.device = device
@@ -28,9 +28,12 @@ class WeightsMatrix {
 
         mpsMatrix = MPSMatrix(buffer: mb, descriptor: matrixDescriptor)
 
-        let as2dArray: [[Double]] = (0..<cRowsOut).map { rowIx in
-            let rowStartIx = rowIx * cColumnsOut
-            return (0..<cColumnsOut).map { columnIx in weightsRaw[rowStartIx + columnIx] }
+        var rowStartIx = weightsRaw.startIndex
+        let as2dArray: [[Double]] = (0..<cRowsOut).map { _ in
+            let rowEndIx = weightsRaw.index(rowStartIx, offsetBy: cColumnsOut)
+
+            defer { rowStartIx = rowEndIx }
+            return Array(weightsRaw[rowStartIx..<rowEndIx])
         }
 
         fillMatrix(as2dArray)

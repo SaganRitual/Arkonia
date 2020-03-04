@@ -15,7 +15,7 @@ private struct GPUArray {
 
     mutating func next() -> MTLDevice {
         defer { whichOne = (whichOne + 1) % gpu.count }
-        return gpu[whichOne]
+        return gpu[0]
     }
 }
 
@@ -35,18 +35,30 @@ class HotNet {
         neuronsInMatrix = topLayerNeuronsMatrix
         neuronsInMatrix.data.label = "0"
 
-        let CL = coldLayers + [Arkonia.cMotorNeurons]
-        hotLayers = zip(0..<CL.count - 1, 1..<CL.count).map { _, lowerLayerIx in
+        let CL = coldLayers
+
+        var biasesIxL = 0, biasesIxR = 0
+        var weightsIxL = 0, weightsIxR = 0
+
+        hotLayers = zip(0..<CL.count - 1, 1..<CL.count).map { upperLayerIx, lowerLayerIx in
+            let cNeuronsIn = CL[upperLayerIx]
             let cNeuronsOut = CL[lowerLayerIx]
+
+            biasesIxR += cNeuronsOut
+            weightsIxR += cNeuronsIn * cNeuronsOut
 
             neuronsOutMatrix = HotNet.makeMatrix(device, cNeuronsOut)
             neuronsOutMatrix.data.label = "[Buffer \(lowerLayerIx)], \(cNeuronsOut) columns"
 
             let hotLayer = HotLayer(
-                biases, device, neuronsInMatrix, neuronsOutMatrix, weights
+                biases[biasesIxL..<biasesIxR], device,
+                neuronsInMatrix, neuronsOutMatrix,
+                weights[weightsIxL..<weightsIxR]
             )
 
             neuronsInMatrix = neuronsOutMatrix
+            biasesIxL = biasesIxR
+            weightsIxL = weightsIxR
 
             return hotLayer
         }
@@ -57,7 +69,7 @@ class HotNet {
     ) {
         guard let commandBuffer = commandQueue.makeCommandBuffer() else { fatalError() }
 
-        HotNet.chargeMatrix(topLayerNeuronsMatrix.data, sensoryInputs)
+        HotNet.chargeMatrix(topLayerNeuronsMatrix.data, sensoryInputs[...])
 
         hotLayers.forEach { layer in layer.chargeCommandBuffer(commandBuffer) }
 
@@ -71,7 +83,7 @@ class HotNet {
 }
 
 extension HotNet {
-    static func chargeMatrix(_ data: MTLBuffer, _ rawValues: [Double]) {
+    static func chargeMatrix(_ data: MTLBuffer, _ rawValues: ArraySlice<Double>) {
         let dContents = data.contents()
 
         zip(stride(from: 0, to: rawValues.count * NumberSize, by: NumberSize), rawValues).forEach { z in
@@ -81,7 +93,7 @@ extension HotNet {
         }
     }
 
-    static func makeMatrix(_ device: MTLDevice, _ rawValues: [Double]) -> MPSMatrix {
+    static func makeMatrix(_ device: MTLDevice, _ rawValues: ArraySlice<Double>) -> MPSMatrix {
         let rowStride = MPSMatrixDescriptor.rowBytes(fromColumns: rawValues.count, dataType: NumberTypeInGPU)
         let d = MPSMatrixDescriptor(dimensions: 1, columns: rawValues.count, rowBytes: rowStride, dataType: NumberTypeInGPU)
 

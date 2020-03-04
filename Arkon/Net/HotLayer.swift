@@ -11,11 +11,11 @@ class HotLayer {
     let weightsMatrix: WeightsMatrix
 
     init(
-        _ biases: [Double],
+        _ biases: ArraySlice<Double>,
         _ device: MTLDevice,
         _ neuronsInMatrix: MPSMatrix,
         _ neuronsOutMatrix: MPSMatrix,
-        _ weights: [Double]
+        _ weights: ArraySlice<Double>
     ) {
         self.neuronsInMatrix = neuronsInMatrix
         self.neuronsOutMatrix = neuronsOutMatrix
