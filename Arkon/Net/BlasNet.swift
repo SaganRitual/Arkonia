@@ -10,15 +10,22 @@ class BlasNet {
     var neuronsOut = [BlasNumber]()
 
     init(_ coldLayers: [Int], _ biases_: [Double], _ weights: [Double]) {
-        let CL = coldLayers + [Arkonia.cMotorNeurons]
+        let CL = coldLayers// + [Arkonia.cMotorNeurons]
 
         let biases = biases_[...]   // Get slice thingy
+        var biasesIx = 0
+        var weightsIx = 0
 
         blasLayers = zip(0..<CL.count - 1, 1..<CL.count).map { upperLayerIx, lowerLayerIx in
             let cNeuronsIn = CL[upperLayerIx]
             let cNeuronsOut = CL[lowerLayerIx]
-            let layerBiases = biases.dropFirst(cNeuronsOut)
-            let layerWeights = weights.dropFirst(cNeuronsIn * cNeuronsOut)
+
+            biasesIx += cNeuronsOut
+            let layerBiases = biases[..<biasesIx]
+
+            weightsIx += cNeuronsIn * cNeuronsOut
+            let layerWeights = weights[..<weightsIx]
+
             return BlasLayer(layerBiases, cNeuronsIn, cNeuronsOut, layerWeights)
         }
     }

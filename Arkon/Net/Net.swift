@@ -1,4 +1,5 @@
-import Surge
+import CoreGraphics
+import Dispatch
 
 class Net {
 
@@ -16,7 +17,7 @@ class Net {
     let biases: [Double]
     let cBiases: Int
     let cWeights: Int
-    let hotNet: BlasNet
+    let hotNet: HotNet
     let layers: [Int]
     let weights: [Double]
 
@@ -47,8 +48,8 @@ class Net {
 
         self.activatorFunction = Net.mutateActivator(parentActivator: parentActivator)
 
-//        hotNet = HotNet(self.layers, self.biases, self.weights)
-        hotNet = BlasNet(self.layers, self.biases, self.weights)
+        hotNet = HotNet(self.layers, self.biases, self.weights)
+//        hotNet = BlasNet(self.layers, self.biases, self.weights)
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
@@ -59,16 +60,16 @@ class Net {
 }
 
 extension Net {
-    static func arctan(_ x: Double) -> Double { Surge.atan(x) }
-    static func bentidentity(_ x: Double) -> Double { ((Surge.sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
+    static func arctan(_ x: Double) -> Double { atan(x) }
+    static func bentidentity(_ x: Double) -> Double { ((sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
     static func binarystep(_ x: Double) -> Double { x < 0.0 ? 0.0 : 1.0 }
-    static func gaussian(_ x: Double) -> Double { Surge.exp(-(x * x)) }
+    static func gaussian(_ x: Double) -> Double { exp(-(x * x)) }
     static func identity(_ x: Double) -> Double { x }
     static func leakyrelu(_ x: Double) -> Double { x < 0.0 ? (0.01 * x) : x }
-    static func logistic(_ x: Double) -> Double { 1.0 / (1.0 + Surge.exp(-x)) }
-    static func sinc(_ x: Double) -> Double { x == 0.0 ? 1.0 : Surge.sin(x) / x }
-    static func sinusoid(_ x: Double) -> Double {  Surge.sin(x) }
-    static func softplus(_ x: Double) -> Double { Surge.log(1.0 + Surge.exp(x)) }
+    static func logistic(_ x: Double) -> Double { 1.0 / (1.0 + exp(-x)) }
+    static func sinc(_ x: Double) -> Double { x == 0.0 ? 1.0 : sin(x) / x }
+    static func sinusoid(_ x: Double) -> Double {  sin(x) }
+    static func softplus(_ x: Double) -> Double { log(1.0 + exp(x)) }
     static func softsign(_ x: Double) -> Double { x / (1 + abs(x)) }
 
     static func sqnl(_ x: Double) -> Double {

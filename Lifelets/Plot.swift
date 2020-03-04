@@ -149,13 +149,6 @@ extension Plot {
 
         func a() { net.getMotorOutputs(senseData) { motorOutputs = zip(0..., $0).map { ($0, $1) }; b() } }
 
-//        motorOutputs.map { data in
-//            let (ss, signal) = data
-//            let sSignal = String(format: "%-2.6f", signal)
-//            guard let dSignal = Double(sSignal) else { fatalError() }
-//            return (ss, dSignal)
-//        }
-
         func b() {
             let trimmed = motorOutputs.filter { /*abs($0.1) < 1.0 &&*/ $0.0 != 0 }
 
@@ -166,7 +159,7 @@ extension Plot {
                 return labs > rabs
             }
 
-            Debug.log(level: 119) { "order for \(six(st.name)): \(order)" }
+            Debug.log(level: 121) { "trimmedtrimmed for \(six(st.name)): \(order)" }
 
             let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 
