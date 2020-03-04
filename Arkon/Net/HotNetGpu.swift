@@ -19,10 +19,10 @@ private struct GPUArray {
     }
 }
 
-class HotNet {
+final class HotNetGpu: HotNet {
     let commandQueue: MTLCommandQueue
     let device = GPUArray.shared.next()
-    var hotLayers = [HotLayer]()
+    var hotLayers = [HotLayerGpu]()
     var neuronsInMatrix: MPSMatrix!
     var neuronsOutMatrix: MPSMatrix!
     let topLayerNeuronsMatrix: MPSMatrix!
@@ -31,7 +31,7 @@ class HotNet {
         guard let cq = device.makeCommandQueue() else { fatalError() }
         commandQueue = cq
 
-        topLayerNeuronsMatrix = HotNet.makeMatrix(device, coldLayers[0])
+        topLayerNeuronsMatrix = HotNetGpu.makeMatrix(device, coldLayers[0])
         neuronsInMatrix = topLayerNeuronsMatrix
         neuronsInMatrix.data.label = "0"
 
@@ -47,10 +47,10 @@ class HotNet {
             biasesIxR += cNeuronsOut
             weightsIxR += cNeuronsIn * cNeuronsOut
 
-            neuronsOutMatrix = HotNet.makeMatrix(device, cNeuronsOut)
+            neuronsOutMatrix = HotNetGpu.makeMatrix(device, cNeuronsOut)
             neuronsOutMatrix.data.label = "[Buffer \(lowerLayerIx)], \(cNeuronsOut) columns"
 
-            let hotLayer = HotLayer(
+            let hotLayer = HotLayerGpu(
                 biases[biasesIxL..<biasesIxR], device,
                 neuronsInMatrix, neuronsOutMatrix,
                 weights[weightsIxL..<weightsIxR]
@@ -69,7 +69,7 @@ class HotNet {
     ) {
         guard let commandBuffer = commandQueue.makeCommandBuffer() else { fatalError() }
 
-        HotNet.chargeMatrix(topLayerNeuronsMatrix.data, sensoryInputs[...])
+        HotNetGpu.chargeMatrix(topLayerNeuronsMatrix.data, sensoryInputs[...])
 
         hotLayers.forEach { layer in layer.chargeCommandBuffer(commandBuffer) }
 
@@ -82,7 +82,7 @@ class HotNet {
     }
 }
 
-extension HotNet {
+extension HotNetGpu {
     static func chargeMatrix(_ data: MTLBuffer, _ rawValues: ArraySlice<Double>) {
         let dContents = data.contents()
 

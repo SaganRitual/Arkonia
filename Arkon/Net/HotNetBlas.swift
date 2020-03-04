@@ -5,8 +5,8 @@ typealias BlasNumber = Float
 typealias BlasBuffer_Read = UnsafeBufferPointer<BlasNumber>
 typealias BlasBuffer_Write = UnsafeMutableBufferPointer<BlasNumber>
 
-class BlasNet {
-    var blasLayers = [BlasLayer]()
+final class HotNetBlas: HotNet {
+    var blasLayers = [HotLayerBlas]()
     var neuronsOut = [BlasNumber]()
 
     init(_ coldLayers: [Int], _ biases: [Double], _ weights: [Double]) {
@@ -25,7 +25,7 @@ class BlasNet {
             let layerBiases = biases[biasesIxL..<biasesIxR]
             let layerWeights = weights[weightsIxL..<weightsIxR]
 
-            return BlasLayer(layerBiases, cNeuronsIn, cNeuronsOut, layerWeights)
+            return HotLayerBlas(layerBiases, cNeuronsIn, cNeuronsOut, layerWeights)
         }
     }
 

@@ -1,6 +1,6 @@
 import MetalPerformanceShaders
 
-class HotLayer {
+class HotLayerGpu {
     let adder: MPSMatrixSum
     let biasesMatrix: MPSMatrix
     weak var device: MTLDevice!
@@ -20,13 +20,13 @@ class HotLayer {
         self.neuronsInMatrix = neuronsInMatrix
         self.neuronsOutMatrix = neuronsOutMatrix
 
-        self.biasesMatrix = HotNet.makeMatrix(device, biases)
+        self.biasesMatrix = HotNetGpu.makeMatrix(device, biases)
 
         let cNeuronsIn = neuronsInMatrix.columns
         let cNeuronsOut = neuronsOutMatrix.columns
         let cRowsOut = cNeuronsIn
 
-        self.transferMatrix = HotNet.makeMatrix(device, cNeuronsOut)
+        self.transferMatrix = HotNetGpu.makeMatrix(device, cNeuronsOut)
 
         self.weightsMatrix = WeightsMatrix(cRowsOut, cNeuronsOut, device, weights)
 
@@ -42,7 +42,7 @@ class HotLayer {
     }
 }
 
-extension HotLayer {
+extension HotLayerGpu {
     func showComputeOutput() {
 //        var output = getComputeOutput(transferMatrix)
 //        print("transfer", output)
@@ -65,7 +65,7 @@ extension HotLayer {
     }
 }
 
-extension HotLayer {
+extension HotLayerGpu {
 
     func chargeCommandBuffer(_ commandBuffer: MTLCommandBuffer) {
         multiplier.encode(

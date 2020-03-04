@@ -1,6 +1,6 @@
 import Accelerate
 
-class BlasLayer {
+class HotLayerBlas {
     var biases = [BlasNumber]()
     var neuronsOut = [BlasNumber]()
     var weights = [BlasNumber]()
@@ -46,7 +46,7 @@ class BlasLayer {
     }
 }
 
-extension BlasLayer {
+extension HotLayerBlas {
 
     func getComputeOutput() -> [Double] { neuronsOut.map { Double($0) } }
 

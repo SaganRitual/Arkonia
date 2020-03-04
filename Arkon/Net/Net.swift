@@ -1,6 +1,14 @@
 import CoreGraphics
 import Dispatch
 
+enum HotNetType { case gpu, blas }
+let hotNetType: HotNetType = .gpu
+
+protocol HotNet: class {
+    init(_ layers: [Int], _ biases: [Double], _ weights: [Double])
+    func driveSignal(_ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void)
+}
+
 class Net {
 
     static var layersTemplate = [
@@ -17,7 +25,7 @@ class Net {
     let biases: [Double]
     let cBiases: Int
     let cWeights: Int
-    let hotNet: BlasNet
+    let hotNet: HotNet
     let layers: [Int]
     let weights: [Double]
 
@@ -48,8 +56,10 @@ class Net {
 
         self.activatorFunction = Net.mutateActivator(parentActivator: parentActivator)
 
-//        hotNet = HotNet(self.layers, self.biases, self.weights)
-        hotNet = BlasNet(self.layers, self.biases, self.weights)
+        switch hotNetType {
+        case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights)
+        case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights)
+        }
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
