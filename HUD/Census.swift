@@ -15,6 +15,8 @@ class Census {
     private(set) var highWaterPopulation = 0
     private var localTime = 0
     private(set) var population = 0
+    private(set) var births = 0
+    let rBirths: Reportoid
     let rPopulation: Reportoid
     let rHighWaterAge: Reportoid
     let rHighWaterPopulation: Reportoid
@@ -27,6 +29,7 @@ class Census {
     )
 
     init(_ scene: GriddleScene) {
+        rBirths = scene.reportHistory.reportoid(1)
         rPopulation = scene.reportArkonia.reportoid(2)
         rHighWaterPopulation = scene.reportMisc.reportoid(2)
         rHighWaterAge = scene.reportMisc.reportoid(1)
@@ -62,16 +65,19 @@ extension Census {
 }
 
 extension Census {
-    func updateReports(_ ages: [Int]) {
+    func updateReports(_ ages: [Int], _ worldClock: Int) {
         if ages.isEmpty { return }
 
         let greatestAge = ages.last!
         self.rCOffspring.data.text = String(format: "%d", highWaterCOffspring)
         self.rHighWaterPopulation.data.text = String(highWaterPopulation)
         self.rPopulation.data.text = String(population)
+        self.rBirths.data.text = String(births)
 
         let n = max(greatestAge, highWaterAge)
         rHighWaterAge.data.text = ageFormatter.string(from: Double(n))
+
+        localTime = worldClock
     }
 
     func registerDeath(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
@@ -82,6 +88,7 @@ extension Census {
 extension Census {
     func registerBirth(_ myName: String, _ myParent: Stepper?) -> Fishday {
         self.population += 1
+        self.births += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
 
         myParent?.cOffspring += 1

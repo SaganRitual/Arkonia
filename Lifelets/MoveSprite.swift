@@ -1,10 +1,10 @@
 import SpriteKit
 
 final class MoveSprite: Dispatchable {
-    static let maxMoveDuration: TimeInterval = 0.02
-    static let maxRestDuration: TimeInterval = 0.02
-    static let minMoveDuration: TimeInterval = 0.01
-    static let minRestDuration: TimeInterval = 0.01
+    static let maxMoveDuration: TimeInterval = 0.07
+    static let maxRestDuration: TimeInterval = 0.07
+    static let minMoveDuration: TimeInterval = 0.03
+    static let minRestDuration: TimeInterval = 0.03
 
     internal override func launch() { SceneDispatch.schedule { self.moveSprite() } }
 
@@ -15,8 +15,7 @@ final class MoveSprite: Dispatchable {
         if shuttle.fromCell == nil {
             Debug.log(level: 104) { "Resting \(six(st.name))" }
             Debug.debugColor(st, .red, .cyan)
-//            MoveSprite.restAction(st) { dp.releaseShuttle() }
-            dp.releaseShuttle()
+            MoveSprite.restAction(st) { dp.releaseShuttle() }
             return
         }
 
@@ -27,12 +26,11 @@ final class MoveSprite: Dispatchable {
         guard let hotKey = shuttle.toCell?.gridCell else { fatalError() }
         let position = hotKey.randomScenePosition ?? hotKey.scenePosition
 
-//        MoveSprite.moveAction(st, to: position) {
+        MoveSprite.moveAction(st, to: position) {
             Debug.log(level: 104) { "End of move action for \(six(st.name))" }
             Debug.debugColor(st, .red, .cyan)
-        st.sprite.position = position
             dp.moveStepper()
-//        }
+        }
     }
 
     private static func makeRestAction() -> SKAction? {

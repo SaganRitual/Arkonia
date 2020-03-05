@@ -43,8 +43,9 @@ class GriddleScene: SKScene, SKSceneDelegate {
     static var mannaPortal: SKSpriteNode!
     static var netPortal: SKSpriteNode!
 
-    var reportFactory: ReportFactory!
     var reportArkonia: Report!
+    var reportFactory: ReportFactory!
+    var reportHistory: Report!
     var reportMisc: Report!
 
     //swiftlint:disable unused_setter_value
@@ -68,6 +69,13 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
     func buildReports() {
         reportFactory = ReportFactory(hud: hud)
+
+        reportHistory = reportFactory.newReport()
+        reportHistory.setTitle("History")
+        reportHistory.setReportoid(1, label: "Births", data: "0")
+        reportHistory.setReportoid(2, label: "", data: "")
+        reportHistory.setReportoid(3, label: "", data: "")
+        hud.placeMonitor(reportHistory, dashboard: 0, quadrant: 2)
 
         reportMisc = reportFactory.newReport()
         reportMisc.setTitle("High Water")

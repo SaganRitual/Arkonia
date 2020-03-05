@@ -52,8 +52,8 @@ extension WorkItems {
         func c() { getAges(names, worldClock) { ages = $0; d() } }
 
         func d() {
-            seedWorld(ages)
-            Census.shared.updateReports(ages)
+            seedWorld()
+            Census.shared.updateReports(ages, worldClock)
         }
 
         a()
@@ -63,7 +63,7 @@ extension WorkItems {
         _ names: [String], _ currentTime: Int, _ onComplete: @escaping OnCompleteIntArray
     ) {
         Census.dispatchQueue.async {
-            let ages = names.map { Census.getAge(of: $0, at: currentTime) }
+            let ages = names.map({ Census.getAge(of: $0, at: currentTime) }).sorted()
             onComplete(ages)
         }
     }
@@ -78,19 +78,8 @@ extension WorkItems {
         }
     }
 
-//    static let targetCArkons = 50
-//    static var cArkons = 0
-//    static var populated = false
-//    static func seedWorld(_ ages: [Int]) {
-//        if populated == false {
-//            Dispatch().spawn()
-//            cArkons += 1
-//            populated = (cArkons >= targetCArkons)
-//        }
-//    }
-
     static var populated = false
-    static func seedWorld(_ ages: [Int]) {
+    static func seedWorld() {
         if populated == false {
             for _ in 0..<Arkonia.initialPopulation { Dispatch().spawn() }
             populated = true

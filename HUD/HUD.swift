@@ -23,12 +23,13 @@ class Quadrant {
 
 class HUD {
     enum MonitorPrototype: Int, CaseIterable {
-        case report = 0, nothing = 1
+        case report = 0, nothing = 1, placeholder2 = 2
     }
 
     static private let prototypeNames: [MonitorPrototype: String] = [
         .report: "report_monitor_prototype",
-        .nothing: "other_monitor_prototype"
+        .nothing: "other_monitor_prototype",
+        .placeholder2: "placeholder2"
     ]
 
     private var dashboards = [Dashboard]()
@@ -42,10 +43,10 @@ class HUD {
 
         dashboards.append(Dashboard(node: prototypesContainer, quadrants: prototypes))
 
-//        let placeholdersContainer = scene.childNode(withName: "dashboard2")!
-//        let placeholders = HUD.unpackPlaceholders(placeholdersContainer, scene: scene)
-//
-//        dashboards.append(Dashboard(node: placeholdersContainer, quadrants: placeholders))
+        let placeholdersContainer = scene.childNode(withName: "dashboard2")!
+        let placeholders = HUD.unpackPrototypes(placeholdersContainer, scene: scene)
+
+        dashboards.append(Dashboard(node: placeholdersContainer, quadrants: placeholders))
     }
 
     func getNetPortal() -> SKNode {

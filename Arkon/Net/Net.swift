@@ -2,7 +2,7 @@ import CoreGraphics
 import Dispatch
 
 enum HotNetType { case gpu, blas }
-let hotNetType: HotNetType = .gpu
+let hotNetType: HotNetType = .blas
 
 protocol HotNet: class {
     init(_ layers: [Int], _ biases: [Double], _ weights: [Double])
@@ -10,11 +10,6 @@ protocol HotNet: class {
 }
 
 class Net {
-
-    static var layersTemplate = [
-        Arkonia.cSenseNeurons, Arkonia.cMotorNeurons, Arkonia.cMotorNeurons
-    ]
-
     static let dispatchQueue = DispatchQueue(
         label: "ak.net.q",
         attributes: .concurrent,
@@ -46,7 +41,12 @@ class Net {
         if let L = layers {
             self.layers = Net.mutateNetStructure(L)
         } else {
-            self.layers = Net.newLayersFromScratch()
+            let maxHiddenLayers = 10
+
+            self.layers =
+                [Arkonia.cSenseNeurons] +
+                (0..<maxHiddenLayers).compactMap { Bool.random() ? (maxHiddenLayers - $0) * 2 : nil } +
+                [Arkonia.cMotorNeurons]
         }
 
         (cWeights, cBiases) = Net.computeParameters(self.layers)
@@ -202,6 +202,4 @@ extension Net {
 
         return toMutate
     }
-
-    static func newLayersFromScratch() -> [Int] { Net.layersTemplate }
 }
