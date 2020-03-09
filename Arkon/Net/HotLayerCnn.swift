@@ -1,97 +1,62 @@
+import Foundation
 import MetalPerformanceShaders
 
 class HotLayerCnn {
-    var biases: [Number]
-    var pBiases: UnsafeMutablePointer<Float>
-    let convolutionDescriptor: MPSCNNConvolutionDescriptor
+    let biases: [Float]
+    let cNeuronsIn: Int
+    let cNeuronsOut: Int
+    let cnnLayer: MPSCNNFullyConnected
+    let dataSource: DataSource
     weak var device: MTLDevice!
-    var pTheWeightsArray: UnsafeMutableRawPointer
-    let theWeightsArray: [Number]
+    let imageIn: MPSImage
+    let imageOut: MPSImage
+    let weights: [Float]
 
     init(
         _ biases: ArraySlice<Double>,
         _ cNeuronsIn: Int,
         _ cNeuronsOut: Int,
         _ device: MTLDevice,
+        _ imageIn: MPSImage,
+        _ imageOut: MPSImage,
         _ weights: ArraySlice<Double>
     ) {
-        self.biases = biases.map { Number($0) }
-        biases.withUnsafeMutableBufferPointer { pBiases = $0 }
+        self.biases = biases.map { Float($0) }
+        self.cNeuronsIn = cNeuronsIn
+        self.cNeuronsOut = cNeuronsOut
+        self.imageIn = imageIn
+        self.imageOut = imageOut
 
-        self.theWeightsArray = weights.map { Number($0) }
-        self.pTheWeightsArray = UnsafeMutableRawPointer.allocate(
-            byteCount: weights.count * NumberSize, alignment: NumberSize
+        self.dataSource = DataSource(
+            biases, device, "hot.net.cnn.data.source",
+            1, 1, cNeuronsIn, cNeuronsOut, weights
         )
 
-        let cRowsIn = 1
-        let cRowsOut = cNeuronsIn
+        self.device = device
+        self.weights = weights.map { Float($0) }
 
-        convolutionDescriptor = MPSCNNConvolutionDescriptor(
-            kernelWidth: 1, kernelHeight: 1, inputFeatureChannels: cRowsIn,
-            outputFeatureChannels: cNeuronsOut, neuronFilter: nil
-        )
-
-        let fc = MPSCNNFullyConnected(
-            device: device, convolutionDescriptor: fcDesc,
-            kernelWeights: weights.map { Float($0) }, biasTerms: biases.map { Float($0) },
-            flags: .none
-        )
-    }
-}
-
-extension HotLayerCnn: NSObject,   {
-
-    func biasTerms() -> UnsafeMutablePointer<Float>? { pBiases }
-
-    func dataType() -> MPSDataType { NumberTypeInGPU }
-
-    func descriptor() -> MPSCNNConvolutionDescriptor { convolutionDescriptor }
-
-    func label() -> String? { nil }
-
-    func load() -> Bool { false }
-
-    func purge() { assert(false) }
-
-    func weights() -> UnsafeMutableRawPointer { pTheWeightsArray }
-}
-
-extension HotLayerCnn {
-    func showComputeOutput() {
-//        var output = getComputeOutput(transferMatrix)
-//        print("transfer", output)
-
-//        let output = getComputeOutput(neuronsOutMatrix)
-//        print("neuronsOut", output)
+        self.cnnLayer = MPSCNNFullyConnected(device: device, weights: dataSource)
     }
 
-    func getComputeOutput(_ matrix: MPSMatrix? = nil) -> [Double] {
-        let matrix = matrix ?? neuronsOutMatrix
+    func chargeLayerInput(_ input_: ArraySlice<Double>) {
+        let input = input_.map { Float($0) }
 
-        let rc = matrix.data.contents()
-        return stride(from: 0, to: matrix.columns * NumberSize, by: NumberSize).map {
-            offset in
+        input.withUnsafeBufferPointer { ptr in
+            for i in 0..<imageIn.texture.arrayLength {
+                let region = MTLRegion(origin: MTLOriginMake(0, 0, 0), size: MTLSizeMake(1, 1, 1))
 
-            let rr = rc.load(fromByteOffset: offset, as: Number.self)
-
-            return Net.sinusoid(Double(rr))
+                imageIn.texture.replace(
+                    region: region, mipmapLevel: 0, slice: i,
+                    withBytes: ptr.baseAddress!.advanced(by: i * 4),
+                    bytesPerRow: MemoryLayout<Float32>.stride * 4, bytesPerImage: 0
+                )
+            }
         }
     }
-}
 
-extension HotLayerCnn {
+    func getComputeOutput() -> [Double] { imageOut.toArray() }
 
-    func chargeCommandBuffer(_ commandBuffer: MTLCommandBuffer) {
-        multiplier.encode(
-            commandBuffer: commandBuffer, leftMatrix: neuronsInMatrix,
-            rightMatrix: weightsMatrix.mpsMatrix, resultMatrix: transferMatrix
-        )
-
-         adder.encode(
-            to: commandBuffer,
-            sourceMatrices: [transferMatrix, biasesMatrix],
-            resultMatrix: neuronsOutMatrix, scale: nil, offsetVector: nil,
-            biasVector: nil, start: 0
-        )
+    func driveSignal(_ commandBuffer: MTLCommandBuffer) {
+      cnnLayer.encode(commandBuffer: commandBuffer, sourceImage: imageIn, destinationImage: imageOut)
     }
 }

@@ -1,8 +1,8 @@
 import CoreGraphics
 import Dispatch
 
-enum HotNetType { case gpu, blas }
-let hotNetType: HotNetType = .blas
+enum HotNetType { case blas, cnn, gpu }
+let hotNetType: HotNetType = .cnn
 
 protocol HotNet: class {
     init(_ layers: [Int], _ biases: [Double], _ weights: [Double])
@@ -57,8 +57,9 @@ class Net {
         self.activatorFunction = Net.mutateActivator(parentActivator: parentActivator)
 
         switch hotNetType {
-        case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights)
         case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights)
+        case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights)
+        case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights)
         }
     }
 

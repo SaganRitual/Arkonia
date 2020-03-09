@@ -15,6 +15,11 @@
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
 		D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6E238E56C7007F0B7B /* Scratchpad.swift */; };
+		D43DC50624162FB10017FADF /* HotLayerCnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50524162FB10017FADF /* HotLayerCnn.swift */; };
+		D43DC50824165AFE0017FADF /* GPUArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50724165AFE0017FADF /* GPUArray.swift */; };
+		D43DC50A24165D450017FADF /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50924165D450017FADF /* DataSource.swift */; };
+		D43DC50C2416A7FC0017FADF /* HotNetCnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50B2416A7FC0017FADF /* HotNetCnn.swift */; };
+		D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50D2416C4AC0017FADF /* MPSImage+Floats.swift */; };
 		D458940223CFE847004FED72 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495F0CE233FAB01007D6E86 /* Mutator.swift */; };
 		D464BA3322C737260069623C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D464BA3722C737260069623C /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
@@ -97,6 +102,11 @@
 		D422DE0C23598BEC003734B8 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		D422FE6E238E56C7007F0B7B /* Scratchpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
+		D43DC50524162FB10017FADF /* HotLayerCnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerCnn.swift; sourceTree = "<group>"; };
+		D43DC50724165AFE0017FADF /* GPUArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUArray.swift; sourceTree = "<group>"; };
+		D43DC50924165D450017FADF /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
+		D43DC50B2416A7FC0017FADF /* HotNetCnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotNetCnn.swift; sourceTree = "<group>"; };
+		D43DC50D2416C4AC0017FADF /* MPSImage+Floats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MPSImage+Floats.swift"; sourceTree = "<group>"; };
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D441B99A229CFFA800FB7057 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
 		D4603A6122A2720400885428 /* MoreManna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreManna.swift; sourceTree = "<group>"; };
@@ -322,10 +332,15 @@
 		D4D346A723FC649F00E6D1C2 /* Net */ = {
 			isa = PBXGroup;
 			children = (
+				D43DC50924165D450017FADF /* DataSource.swift */,
+				D43DC50724165AFE0017FADF /* GPUArray.swift */,
+				D43DC50524162FB10017FADF /* HotLayerCnn.swift */,
 				D4C7E078240CC0C2005C0191 /* HotLayerBlas.swift */,
 				D4C7E06624089721005C0191 /* HotLayerGpu.swift */,
 				D4C7E070240CC0C2005C0191 /* HotNetBlas.swift */,
+				D43DC50B2416A7FC0017FADF /* HotNetCnn.swift */,
 				D4C7E06224088C51005C0191 /* HotNetGpu.swift */,
+				D43DC50D2416C4AC0017FADF /* MPSImage+Floats.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
 				D4C7E064240896B0005C0191 /* WeightsMatrix.swift */,
 			);
@@ -430,7 +445,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D43DC50824165AFE0017FADF /* GPUArray.swift in Sources */,
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
+				D43DC50C2416A7FC0017FADF /* HotNetCnn.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
 				D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */,
 				D4C7E07A240CC0C2005C0191 /* HotLayerBlas.swift in Sources */,
@@ -451,6 +468,7 @@
 				D40F452C23C88A3D0027BD0C /* EnergyReserve.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */,
+				D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */,
 				D497C1AA23D966A70078D39F /* SpritePool.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
 				D4BB6E73234E549C00529819 /* Funge.swift in Sources */,
@@ -471,6 +489,7 @@
 				D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */,
 				D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */,
 				D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */,
+				D43DC50A24165D450017FADF /* DataSource.swift in Sources */,
 				D4B2AC8223D595E000246746 /* NetDisplayGrid.swift in Sources */,
 				D4A59D31238839C700517F60 /* Arrive.swift in Sources */,
 				D4C7E06724089721005C0191 /* HotLayerGpu.swift in Sources */,
@@ -481,6 +500,7 @@
 				D4BD1DC623C088C200CE0753 /* Protocol.swift in Sources */,
 				D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */,
 				D458940223CFE847004FED72 /* Mutator.swift in Sources */,
+				D43DC50624162FB10017FADF /* HotLayerCnn.swift in Sources */,
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
 				D4C7E079240CC0C2005C0191 /* HotNetBlas.swift in Sources */,
 				D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */,

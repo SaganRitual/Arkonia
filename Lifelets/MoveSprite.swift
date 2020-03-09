@@ -1,10 +1,10 @@
 import SpriteKit
 
 final class MoveSprite: Dispatchable {
-    static let maxMoveDuration: TimeInterval = 0.07
-    static let maxRestDuration: TimeInterval = 0.07
-    static let minMoveDuration: TimeInterval = 0.03
-    static let minRestDuration: TimeInterval = 0.03
+    static let maxMoveDuration: TimeInterval = 0.10
+    static let maxRestDuration: TimeInterval = 0.10
+    static let minMoveDuration: TimeInterval = 0.05
+    static let minRestDuration: TimeInterval = 0.05
 
     internal override func launch() { SceneDispatch.schedule { self.moveSprite() } }
 

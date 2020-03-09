@@ -4,22 +4,17 @@ final class HotNetCnn: HotNet {
     let commandQueue: MTLCommandQueue
     let device = GPUArray.shared.next()
     var hotLayers = [HotLayerCnn]()
-    var neuronsInMatrix: MPSMatrix!
-    var neuronsOutMatrix: MPSMatrix!
-    let topLayerNeuronsMatrix: MPSMatrix!
 
     init(_ coldLayers: [Int], _ biases: [Double], _ weights: [Double]) {
         guard let cq = device.makeCommandQueue() else { fatalError() }
         commandQueue = cq
 
-        topLayerNeuronsMatrix = HotNetCnn.makeMatrix(device, coldLayers[0])
-        neuronsInMatrix = topLayerNeuronsMatrix
-        neuronsInMatrix.data.label = "0"
-
         let CL = coldLayers
-
         var biasesIxL = 0, biasesIxR = 0
         var weightsIxL = 0, weightsIxR = 0
+
+        var inputImgDesc = MPSImageDescriptor(channelFormat: .float32, width: 1, height: 1, featureChannels: CL[0])
+        var inputImage = MPSImage(device: device, imageDescriptor: inputImgDesc)
 
         hotLayers = zip(0..<CL.count - 1, 1..<CL.count).map { upperLayerIx, lowerLayerIx in
             let cNeuronsIn = CL[upperLayerIx]
@@ -28,16 +23,19 @@ final class HotNetCnn: HotNet {
             biasesIxR += cNeuronsOut
             weightsIxR += cNeuronsIn * cNeuronsOut
 
-            neuronsOutMatrix = HotNetCnn.makeMatrix(device, cNeuronsOut)
-            neuronsOutMatrix.data.label = "[Buffer \(lowerLayerIx)], \(cNeuronsOut) columns"
+            let outputImgDesc = MPSImageDescriptor(channelFormat: .float32, width: 1, height: 1, featureChannels: cNeuronsOut)
+            let outputImage = MPSImage(device: device, imageDescriptor: outputImgDesc)
 
             let hotLayer = HotLayerCnn(
-                biases[biasesIxL..<biasesIxR], device,
-                neuronsInMatrix, neuronsOutMatrix,
+                biases[biasesIxL..<biasesIxR],
+                cNeuronsIn, cNeuronsOut, device,
+                inputImage, outputImage,
                 weights[weightsIxL..<weightsIxR]
             )
 
-            neuronsInMatrix = neuronsOutMatrix
+            inputImgDesc = outputImgDesc
+            inputImage = outputImage
+
             biasesIxL = biasesIxR
             weightsIxL = weightsIxR
 
@@ -50,11 +48,12 @@ final class HotNetCnn: HotNet {
     ) {
         guard let commandBuffer = commandQueue.makeCommandBuffer() else { fatalError() }
 
-        HotNetCnn.chargeMatrix(topLayerNeuronsMatrix.data, sensoryInputs[...])
+        chargeInput(sensoryInputs[...])
 
-        hotLayers.forEach { layer in layer.chargeCommandBuffer(commandBuffer) }
+        hotLayers.forEach { layer in layer.driveSignal(commandBuffer) }
 
         commandBuffer.addCompletedHandler { _ in
+//            self.hotLayers.forEach { print($0.getComputeOutput()) }
             let motorOutputs = self.hotLayers.last!.getComputeOutput()
             onComplete(motorOutputs)
         }
@@ -64,33 +63,7 @@ final class HotNetCnn: HotNet {
 }
 
 extension HotNetCnn {
-    static func chargeMatrix(_ data: MTLBuffer, _ rawValues: ArraySlice<Double>) {
-        let dContents = data.contents()
-
-        zip(stride(from: 0, to: rawValues.count * NumberSize, by: NumberSize), rawValues).forEach { z in
-            let (byteOffset, rawValue) = (z.0, Number(z.1))
-
-            dContents.storeBytes(of: rawValue, toByteOffset: byteOffset, as: Number.self)
-        }
-    }
-
-    static func makeMatrix(_ device: MTLDevice, _ rawValues: ArraySlice<Double>) -> MPSMatrix {
-        let rowStride = MPSMatrixDescriptor.rowBytes(fromColumns: rawValues.count, dataType: NumberTypeInGPU)
-        let d = MPSMatrixDescriptor(dimensions: 1, columns: rawValues.count, rowBytes: rowStride, dataType: NumberTypeInGPU)
-
-        guard let inputBuffer = device.makeBuffer(
-            length: d.matrixBytes, options: MTLResourceOptions.storageModeManaged
-        ) else { fatalError() }
-
-        chargeMatrix(inputBuffer, rawValues)
-
-        return MPSMatrix(buffer: inputBuffer, descriptor: d)
-    }
-
-    static func makeMatrix(_ device: MTLDevice, _ cColumns: Int) -> MPSMatrix {
-        let rowStride = MPSMatrixDescriptor.rowBytes(fromColumns: cColumns, dataType: NumberTypeInGPU)
-        let d = MPSMatrixDescriptor(dimensions: 1, columns: cColumns, rowBytes: rowStride, dataType: NumberTypeInGPU)
-
-        return MPSMatrix(device: device, descriptor: d)
+    func chargeInput(_ rawValues: ArraySlice<Double>) {
+        hotLayers[0].chargeLayerInput(rawValues)
     }
 }

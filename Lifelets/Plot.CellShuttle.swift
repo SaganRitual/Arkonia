@@ -1,5 +1,9 @@
+import CoreGraphics
+
 // swiftlint:disable function_body_length
 extension Plot {
+//    static var cNaN = 0
+
     func makeCellShuttle(
         _ senseData: [Double], _ senseGrid: CellSenseGrid, _ onComplete: @escaping (CellShuttle) -> Void
     ) {
@@ -15,8 +19,12 @@ extension Plot {
             net.getMotorOutputs(senseData) { rawOutputs in
 
                 motorOutputs = zip(0..., rawOutputs).map { position, rawOutput in
-                    let finalOutput = String(format: "%-.4f", rawOutput)
-                    return (position, Double(finalOutput)!)
+//                    if rawOutput.isNaN { print("NaN \(Plot.cNaN)"); Plot.cNaN += 1 }
+
+                    let finalOutput = rawOutput.isNaN ? 0 :
+                        Double(Int(rawOutput * 1e6)) / 1e6
+
+                    return (position, finalOutput)
                 }
 
                 b()
