@@ -1,3 +1,4 @@
+import Accelerate
 import SpriteKit
 
 class Metabolism {
@@ -8,35 +9,20 @@ class Metabolism {
     var co2Level: CGFloat = 0
     var oxygenLevel: CGFloat = 1.0
 
-    var bone = EnergyReserve(.bone)
-    var fatReserves = EnergyReserve(.fatReserves)
-    var readyEnergyReserves = EnergyReserve(.readyEnergyReserves)
-    var spawnReserves = EnergyReserve(.spawnReserves)
-    var stomach = EnergyReserve(.stomach)
+    let capacities = HotReserve()
+    let levels = HotReserve()
 
-    var energyCapacity: CGFloat {
-        return allReserves.reduce(0.0) { subtotal, reserves in
-            subtotal + reserves.capacity
-        }
-    }
+    var bone: EnergyReserve
+    var fatReserves: EnergyReserve
+    var readyEnergyReserves: EnergyReserve
+    var spawnReserves: EnergyReserve
+    var stomach: EnergyReserve
 
-    var fungibleEnergyCapacity: CGFloat {
-        return fungibleReserves.reduce(0.0) { subtotal, reserves in
-            subtotal + reserves.capacity
-        }
-    }
+    var energyCapacity: CGFloat { capacities.sum(.all) }
+    var fungibleEnergyCapacity: CGFloat { capacities.sum(.fungible) }
 
-    var energyContent: CGFloat {
-        return allReserves.reduce(0.0) { subtotal, reserves in
-            return subtotal + reserves.level
-        }// + (muscles?.energyContent ?? 0)
-    }
-
-    var fungibleEnergyContent: CGFloat {
-        return fungibleReserves.reduce(0.0) { subtotal, reserves in
-            return subtotal + reserves.level
-        }// + (muscles?.energyContent ?? 0)
-    }
+    var energyContent: CGFloat { levels.sum(.all) }
+    var fungibleEnergyContent: CGFloat { levels.sum(.fungible) }
 
     var energyFullness: CGFloat { return energyContent / energyCapacity }
 
@@ -66,6 +52,12 @@ class Metabolism {
     }
 
     init() {
+        bone = EnergyReserve(.bone, capacities, HotReserve.Reserve.bone.rawValue, levels)
+        fatReserves = EnergyReserve(.fatReserves, capacities, HotReserve.Reserve.fat.rawValue, levels)
+        readyEnergyReserves = EnergyReserve(.readyEnergyReserves, capacities, HotReserve.Reserve.ready.rawValue, levels)
+        spawnReserves = EnergyReserve(.spawnReserves, capacities, HotReserve.Reserve.spawn.rawValue, levels)
+        stomach = EnergyReserve(.stomach, capacities, HotReserve.Reserve.stomach.rawValue, levels)
+
         self.allReserves = [bone, stomach, readyEnergyReserves, fatReserves, spawnReserves]
         self.fungibleReserves = [readyEnergyReserves, fatReserves]
 

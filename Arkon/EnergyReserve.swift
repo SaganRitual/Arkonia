@@ -19,54 +19,73 @@ class EnergyReserve {
     var isFull: Bool { return level >= capacity }
     var mass: CGFloat { return level / energyDensity }
 
-    let capacity: CGFloat                       // in mJ
+    var capacity: CGFloat {                        // in mJ
+        get { CGFloat(capacities!.values[hotReserveBucket]) }
+        set { capacities!.values[hotReserveBucket] = Double(newValue) }
+    }
+
     let energyDensity: CGFloat                  // in J/g
     let energyReserveType: EnergyReserveType
     let overflowThreshold: CGFloat              // in mJ
 
-    var level: CGFloat = 0                      // in mJ
+    var level: CGFloat {                        // in mJ
+        get { CGFloat(levels!.values[hotReserveBucket]) }
+        set { levels!.values[hotReserveBucket] = Double(newValue) }
+    }
+
+    weak var capacities: HotReserve!
+    let hotReserveBucket: Int
+    weak var levels: HotReserve!
     let name: String
 
-    init(_ type: EnergyReserveType) {
+    init(
+        _ type: EnergyReserveType,
+        _ capacities: HotReserve,
+        _ hotReserveBucket: Int,
+        _ levels: HotReserve
+    ) {
         self.energyReserveType = type
+        self.capacities = capacities
+        self.hotReserveBucket = hotReserveBucket
+        self.levels = levels
 
         let level: CGFloat
 
         switch type {
         case .bone:
             name = "bone"
-            capacity = 5
             energyDensity = 1
             level = EnergyReserve.startingLevelBone
             overflowThreshold = CGFloat.infinity
+            capacity = 5
 
         case .fatReserves:
             name = "fatReserves"
-            capacity = 160
             energyDensity = 8
             level = EnergyReserve.startingLevelFat
             overflowThreshold = 160
+            capacity = 160
 
         case .readyEnergyReserves:
             name = "readyEnergyReserves"
-            capacity = 120
             energyDensity = 4
             level = EnergyReserve.startingLevelReadyEnergy
             overflowThreshold = 100
+            capacity = 120
 
         case .spawnReserves:
             name = "spawnReserves"
-            capacity = 160
             energyDensity = 16
             level = 0
             overflowThreshold = CGFloat.infinity
+            capacity = 160
 
         case .stomach:
             name = "stomach"
-            capacity = Arkonia.maxMannaEnergyContentInJoules
             energyDensity = 2
             level = 0
             overflowThreshold = 0
+            capacity = Arkonia.maxMannaEnergyContentInJoules
         }
 
         self.level = level

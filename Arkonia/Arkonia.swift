@@ -4,7 +4,7 @@ class Arkonia {
     typealias OnComplete1p = (Int) -> Void
 
     static let zoomFactor: CGFloat = 4
-    static let arkonScaleFactor: CGFloat = 0.8
+    static let arkonScaleFactor: CGFloat = 0.6
     static let mannaScaleFactor: CGFloat = 0.1
     static let noseScaleFactor: CGFloat = 0.75
 
@@ -25,8 +25,8 @@ class Arkonia {
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
     static let funkyCells: CGFloat? = 0.75
-    static let initialPopulation = 10
-    static let maxPopulation = 100
+    static let initialPopulation = 600
+    static let maxPopulation = 600
     static let worldTimeLimit: TimeInterval? = nil  //5000
 
     static let co2BaseCost: CGFloat = 1.02

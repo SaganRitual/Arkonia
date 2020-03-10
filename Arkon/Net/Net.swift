@@ -2,7 +2,7 @@ import CoreGraphics
 import Dispatch
 
 enum HotNetType { case blas, cnn, gpu }
-let hotNetType: HotNetType = .cnn
+var hotNetType: HotNetType = .blas
 
 protocol HotNet: class {
     init(_ layers: [Int], _ biases: [Double], _ weights: [Double])
@@ -61,6 +61,8 @@ class Net {
         case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights)
         case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights)
         }
+
+//        hotNetType = (hotNetType == .blas) ? .gpu : .blas
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {

@@ -20,6 +20,7 @@
 		D43DC50A24165D450017FADF /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50924165D450017FADF /* DataSource.swift */; };
 		D43DC50C2416A7FC0017FADF /* HotNetCnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50B2416A7FC0017FADF /* HotNetCnn.swift */; };
 		D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50D2416C4AC0017FADF /* MPSImage+Floats.swift */; };
+		D43DC51024177B4E0017FADF /* HotReserves.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50F24177B4E0017FADF /* HotReserves.swift */; };
 		D458940223CFE847004FED72 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495F0CE233FAB01007D6E86 /* Mutator.swift */; };
 		D464BA3322C737260069623C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D464BA3722C737260069623C /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
@@ -107,6 +108,7 @@
 		D43DC50924165D450017FADF /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		D43DC50B2416A7FC0017FADF /* HotNetCnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotNetCnn.swift; sourceTree = "<group>"; };
 		D43DC50D2416C4AC0017FADF /* MPSImage+Floats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MPSImage+Floats.swift"; sourceTree = "<group>"; };
+		D43DC50F24177B4E0017FADF /* HotReserves.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotReserves.swift; sourceTree = "<group>"; };
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D441B99A229CFFA800FB7057 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
 		D4603A6122A2720400885428 /* MoreManna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreManna.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				D4D346A723FC649F00E6D1C2 /* Net */,
 				D4FFE9612365814F00F5DDFB /* Dispatch.swift */,
 				D40F452B23C88A3D0027BD0C /* EnergyReserve.swift */,
+				D43DC50F24177B4E0017FADF /* HotReserves.swift */,
 				D441B99A229CFFA800FB7057 /* Metabolism.swift */,
 				D422FE6E238E56C7007F0B7B /* Scratchpad.swift */,
 				D4A12BE922EA58E900C15F59 /* Stepper.swift */,
@@ -466,6 +469,7 @@
 				D4A59D212387E4E400517F60 /* Engage.swift in Sources */,
 				D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */,
 				D40F452C23C88A3D0027BD0C /* EnergyReserve.swift in Sources */,
+				D43DC51024177B4E0017FADF /* HotReserves.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */,
 				D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */,
