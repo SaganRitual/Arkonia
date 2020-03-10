@@ -13,12 +13,9 @@ genetically to make them better at eating each other, and ultimately, to make yo
 Written in Swift, using SpriteKit, with no UI other than the main window, because I really
 suck at UI programming.
 
-### Status 05 Jan 2020
+### Status 10 March 2020
 
-Another big redesign. Using the physics engine to move them around turned out to be a big headache,
-so now I move them around on a fixed grid using SKActions. Now, with any luck, I'll get some cool
-genetic stuff going, like some genes to control the body--at present, all the genes are devoted to building the
-brain.
+Neural net calculations can now be configured to run on the GPU -- either as MPSMatrix operations or MPSCNNConvolution stuff -- or on the CPU using the BLAS functions in the Accelerate library. As it turns out, Accelerate does just as well as the GPU; I think it's because the nets are too small to be efficient. Some investigation is in order, but I haven't done it yet.
 
 Arkons currently have four sets of senses, two sets for tracking external stimuli and two
 for tracking internal stimuli:
