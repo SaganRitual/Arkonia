@@ -4,8 +4,10 @@ import Dispatch
 enum HotNetType { case blas, cnn, gpu }
 var hotNetType: HotNetType = .blas
 
+var activatorSS = 0
+
 protocol HotNet: class {
-    init(_ layers: [Int], _ biases: [Double], _ weights: [Double])
+    init(_ layers: [Int], _ biases: [Double], _ weights: [Double], _ activator: @escaping (Double) -> Double)
     func driveSignal(_ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void)
 }
 
@@ -54,12 +56,12 @@ class Net {
         self.biases = Net.mutateNetStrand(parentStrand: parentBiases, targetLength: cBiases)
         self.weights = Net.mutateNetStrand(parentStrand: parentWeights, targetLength: cWeights)
 
-        self.activatorFunction = Net.mutateActivator(parentActivator: parentActivator)
+        self.activatorFunction = Net.funcs[activatorSS]
 
         switch hotNetType {
-        case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights)
-        case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights)
-        case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights)
+        case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights, self.activatorFunction)
+        case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights, self.activatorFunction)
+        case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights, self.activatorFunction)
         }
 
 //        hotNetType = (hotNetType == .blas) ? .gpu : .blas

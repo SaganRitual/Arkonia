@@ -6,10 +6,13 @@ typealias BlasBuffer_Read = UnsafeBufferPointer<BlasNumber>
 typealias BlasBuffer_Write = UnsafeMutableBufferPointer<BlasNumber>
 
 final class HotNetBlas: HotNet {
+    var activator: (Double) -> Double
     var blasLayers = [HotLayerBlas]()
     var neuronsOut = [BlasNumber]()
 
-    init(_ coldLayers: [Int], _ biases: [Double], _ weights: [Double]) {
+    init(_ coldLayers: [Int], _ biases: [Double], _ weights: [Double], _ activator: @escaping (Double) -> Double) {
+        self.activator = activator
+
         let CL = coldLayers// + [Arkonia.cMotorNeurons]
 
         var biasesIxL = 0, biasesIxR = 0
@@ -43,7 +46,8 @@ final class HotNetBlas: HotNet {
                 outputs.withUnsafeBufferPointer { inputToNextLayer = $0 }
             }
 
-            onComplete(Array(inputToNextLayer).map { Double($0) })
+            let oc = Array(inputToNextLayer).map { activator(Double($0)) }
+            onComplete(oc)
         }
     }
 

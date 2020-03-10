@@ -2,7 +2,8 @@ import CoreGraphics
 
 // swiftlint:disable function_body_length
 extension Plot {
-//    static var cNaN = 0
+    static var cNaN = 0
+    static var cInf = 0
 
     func makeCellShuttle(
         _ senseData: [Double], _ senseGrid: CellSenseGrid, _ onComplete: @escaping (CellShuttle) -> Void
@@ -18,13 +19,23 @@ extension Plot {
         func a() {
             net.getMotorOutputs(senseData) { rawOutputs in
 
-                motorOutputs = zip(0..., rawOutputs).map { position, rawOutput in
-//                    if rawOutput.isNaN { print("NaN \(Plot.cNaN)"); Plot.cNaN += 1 }
+                motorOutputs = zip(0..., rawOutputs).compactMap { position, rawOutput in
+                    if rawOutput.isNaN {
+                        Plot.cNaN += 1
+                        print("NaN \(Plot.cNaN)")
+                        return nil
+                    }
 
-                    let finalOutput = rawOutput.isNaN ? 0 :
-                        Double(Int(rawOutput * 1e6)) / 1e6
+                    if rawOutput.isInfinite {
+                        Plot.cInf += 1
+                        print("cInf \(Plot.cInf)")
+                        return nil
+                    }
 
-                    return (position, finalOutput)
+                    let sign: Double = rawOutput < 0 ? -1 : 1
+                    let big1 = min(abs(rawOutput) * 1e6, 1e7)
+                    let big2 = Int(big1)
+                    return (position, sign * Double(big2) / 1e6)
                 }
 
                 b()
