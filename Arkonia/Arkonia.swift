@@ -25,7 +25,7 @@ class Arkonia {
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
     static let funkyCells: CGFloat? = 0.75
-    static let initialPopulation = 1
+    static let initialPopulation = 10
     static let maxPopulation = 200
     static let worldTimeLimit: TimeInterval? = nil  //5000
 
