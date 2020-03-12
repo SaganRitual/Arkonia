@@ -28,9 +28,9 @@ class Mutator {
 //        var debugMessage = ""
 
         while cMutate > 0 {
-            let wherefore = Int.random(in: 1..<inDoubles.count)
+            let wherefore = Int.random(in: 0..<inDoubles.count)
             let mutated = mutate(from: inDoubles[wherefore])
-            outDoubles.insert(mutated, at: wherefore)
+            outDoubles[wherefore] = mutated
 
 //            Debug.log(level: 121) {
 //                debugMessage += "at \(wherefore) from \(inDoubles[wherefore]) to \(mutated); "

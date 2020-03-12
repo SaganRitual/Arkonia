@@ -16,7 +16,9 @@ class Census {
     private var localTime = 0
     private(set) var population = 0
     private(set) var births = 0
+
     let rBirths: Reportoid
+    let rNextRain: Reportoid
     let rPopulation: Reportoid
     let rHighWaterAge: Reportoid
     let rHighWaterPopulation: Reportoid
@@ -30,9 +32,13 @@ class Census {
 
     init(_ scene: GriddleScene) {
         rBirths = scene.reportHistory.reportoid(1)
+        rNextRain = scene.reportHistory.reportoid(2)
+
         rPopulation = scene.reportArkonia.reportoid(2)
+
         rHighWaterPopulation = scene.reportMisc.reportoid(2)
         rHighWaterAge = scene.reportMisc.reportoid(1)
+
         ageFormatter = DateComponentsFormatter()
 
         ageFormatter.allowedUnits = [.minute, .second]
@@ -73,6 +79,9 @@ extension Census {
         self.rHighWaterPopulation.data.text = String(highWaterPopulation)
         self.rPopulation.data.text = String(population)
         self.rBirths.data.text = String(births)
+
+        let d = Date().distance(to: Clock.shared.nextRain)
+        self.rNextRain.data.text = ageFormatter.string(from: Double(d))
 
         let n = max(greatestAge, highWaterAge)
         rHighWaterAge.data.text = ageFormatter.string(from: Double(n))

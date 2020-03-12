@@ -86,7 +86,7 @@ extension Manna {
         }
 
         func b() {
-            let fudge = TimeInterval.random(in: 1..<5)
+            let fudge = TimeInterval.random(in: 0.5..<1)
             let when = DispatchWallTime.now() + toNextRain + fudge
             Grid.serialQueue.asyncAfter(wallDeadline: when, execute: c)
         }
@@ -95,7 +95,7 @@ extension Manna {
             (newHome, didPlant) = mGrid.plant(sprite.sprite)
             if didPlant { self.sprite.plant(at: newHome); return }
 
-            let fudge = TimeInterval.random(in: 1..<5)
+            let fudge = TimeInterval.random(in: 0.5..<1)
             let when = DispatchWallTime.now() + fudge
             Grid.serialQueue.asyncAfter(wallDeadline: when, execute: c)
         }
