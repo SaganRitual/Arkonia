@@ -96,7 +96,7 @@ extension WorkItems {
         func c() {
             Debug.log(level: 117) { "Spawn5 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
             spawn.engagerKey = newKey
-            spawn.meTheParent?.nose.color = .yellow
+//            spawn.meTheParent?.nose.color = .yellow
 
             registerBirth(myName: spawn.embryoName, myParent: spawn.meTheParent)
                 { spawn.fishDay = $0; d() }
@@ -268,8 +268,8 @@ extension Spawn {
         assert(newborn.sprite.parent == nil)
         newborn.parentStepper = self.meTheParent
         newborn.dispatch.scratch.stepper = newborn
-        newborn.sprite?.color = .yellow
-        newborn.nose?.color = .white
+        newborn.sprite?.color = (net?.isCloneOfParent ?? false) ? .green : .white
+        newborn.nose?.color = (net?.isCloneOfParent ?? false) ? .green : .white
 
         guard let ek = engagerKey else { fatalError() }
 
@@ -330,7 +330,7 @@ extension Spawn {
         let failedSpawnCost = Arkonia.maxMannaEnergyContentInJoules
         st.metabolism.withdrawFromSpawn(failedSpawnCost)
 
-        st.nose.color = .green
+        st.nose.color = .blue
         assert(st.sprite === st.gridCell.sprite)
         dp.metabolize()
     }

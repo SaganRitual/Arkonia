@@ -20,6 +20,7 @@ class Net {
     let biases: [Double]
     let cBiases: Int
     let cWeights: Int
+    var isCloneOfParent = true
     let hotNet: HotNet
     let layers: [Int]
     let weights: [Double]
@@ -38,8 +39,10 @@ class Net {
         _ parentBiases: [Double]?, _ parentWeights: [Double]?, _ layers: [Int]?,
         _ parentActivator: ((_: Double) -> Double)?
     ) {
+        var didMutate = false
+
         if let L = layers {
-            self.layers = Net.mutateNetStructure(L)
+            (self.layers, didMutate) = Mutator.mutateNetStructure(L)
         } else {
             var L: [Int] = []
 
@@ -56,12 +59,12 @@ class Net {
 
         (cWeights, cBiases) = Net.computeParameters(self.layers)
 
-        Debug.log(level: 121) { "biases" }
-        self.biases = Net.mutateNetStrand(parentStrand: parentBiases, targetLength: cBiases)
-        Debug.log(level: 121) { "weights" }
-        self.weights = Net.mutateNetStrand(parentStrand: parentWeights, targetLength: cWeights)
+        (self.biases, didMutate) = Mutator.mutateNetStrand(parentStrand: parentBiases, targetLength: cBiases)
+        (self.weights, didMutate) = Mutator.mutateNetStrand(parentStrand: parentWeights, targetLength: cWeights)
 
-        self.activatorFunction = Net.identity// Net.mutateActivator(parentActivator: parentActivator)
+        (self.activatorFunction, didMutate) = Mutator.mutateActivator(parentActivator: parentActivator)
+
+        self.isCloneOfParent = !didMutate
 
         switch hotNetType {
         case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights, self.activatorFunction)
@@ -105,111 +108,5 @@ extension Net {
 
     func getMotorOutputs(_ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void) {
         hotNet.driveSignal(sensoryInputs, onComplete)
-    }
-
-    static func mutateActivator(parentActivator: ((_: Double) -> Double)?) -> (_: Double) -> Double {
-        guard let p = parentActivator else { return funcs.randomElement()! }
-
-        return Int.random(in: 0..<100) > 90 ? funcs.randomElement()! : p
-    }
-
-    static func mutateNetStrand(parentStrand p: [Double]?, targetLength: Int) -> [Double] {
-        if let parentStrand = p,
-            let firstPass = Mutator.shared.mutateRandomDoubles(parentStrand) {
-
-            let c = firstPass.count
-
-            if c > targetLength {
-                return Array(firstPass.prefix(targetLength))
-            } else if c < targetLength {
-                return firstPass + (c..<targetLength).map { _ in Double.random(in: -1..<1) }
-            }
-
-            return firstPass
-        }
-
-        let fromScratch = (0..<targetLength).map { _ in Double.random(in: -1..<1) }
-        Debug.log(level: 93) { "Generate from scratch = \(fromScratch)" }
-        return fromScratch
-    }
-
-    enum NetMutation: CaseIterable {
-        case passThru, addDuplicatedLayer, addMutatedLayer, addRandomLayer, dropLayer
-    }
-
-    static func mutateNetStructure(_ layers: [Int]) -> [Int] {
-        // 80% chance that the structure won't change at all
-        if Int.random(in: 0..<100) < 80 {
-            Debug.log(level: 121) { "no mutation to net structure" }
-            return layers
-        }
-
-        Debug.log(level: 121) { "mutating net structure" }
-
-        let strippedNet = Array(layers.dropFirst())
-        var newNet: [Int]
-
-        switch NetMutation.allCases.randomElement() {
-        case .passThru:           newNet = strippedNet
-        case .addDuplicatedLayer: newNet = addDuplicatedLayer(strippedNet)
-        case .addMutatedLayer:    newNet = addMutatedLayer(strippedNet)
-        case .addRandomLayer:     newNet = addRandomLayer(strippedNet)
-        case .dropLayer:          newNet = dropLayer(strippedNet)
-        case .none:               fatalError()
-        }
-
-        if newNet.isEmpty { newNet.append(Arkonia.cMotorNeurons) }
-
-        newNet.insert(Arkonia.cSenseNeurons, at: 0)
-        newNet.append(Arkonia.cMotorNeurons)
-
-        return newNet
-    }
-
-    static func addDuplicatedLayer(_ layers: [Int]) -> [Int] {
-        let layerToDuplicate = layers.randomElement()
-        let insertPoint = Int.random(in: 0..<layers.count)
-        var toMutate = layers
-        toMutate.insert(layerToDuplicate!, at: insertPoint)
-
-        Debug.log(level: 120) { "addDuplicatedLayer to \(layers.count)-layer net: \(layerToDuplicate!) neurons, insert at \(insertPoint)" }
-        return toMutate
-    }
-
-    static func addMutatedLayer(_ layers: [Int]) -> [Int] {
-        let layerToMutate = layers.randomElement()
-        let insertPoint = Int.random(in: 0..<layers.count)
-        var structureToMutate = layers
-        let mag = Int.random(in: 1..<2)
-        let sign = Bool.random() ? 1 : -1
-        let L = abs(layerToMutate! + sign * mag)
-        let mutatedLayer = (L == 0) ? 1 : L
-
-        structureToMutate.insert(mutatedLayer, at: insertPoint)
-
-        Debug.log(level: 120) { "addMutatedLayer to \(layers.count)-layer net: \(layerToMutate!) neurons, insert at \(insertPoint)" }
-        return structureToMutate
-    }
-
-    static func addRandomLayer(_ layers: [Int]) -> [Int] {
-        let insertPoint = Int.random(in: 0..<layers.count)
-        var toMutate = layers
-        let cNeurons = Int.random(in: 1..<10)
-        toMutate.insert(cNeurons, at: insertPoint)
-        Debug.log(level: 120) { "addRandomLayer to \(layers.count)-layer net: \(cNeurons) neurons, insert at \(insertPoint)" }
-        return toMutate
-    }
-
-    static func dropLayer(_ layers: [Int]) -> [Int] {
-        let howMany = Int.random(in: 0..<layers.count)
-        var toMutate = layers
-
-        for _ in 0..<howMany {
-            let dropPoint = Int.random(in: 0..<toMutate.count)
-            toMutate.remove(at: dropPoint)
-            Debug.log(level: 120) { "dropLayer from \(layers.count)-layer net, at \(dropPoint)" }
-        }
-
-        return toMutate
     }
 }
