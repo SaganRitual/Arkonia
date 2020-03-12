@@ -13,6 +13,7 @@ extension Plot {
         guard let net = st.net else { fatalError() }
 
         Debug.log(level: 119) { "makeCellShuttle for \(six(st.name)) from \(st.gridCell!)" }
+        Debug.log(level: 122) { "senseData \(senseData)" }
 
         var motorOutputs = [(Int, Double)]()
 
@@ -32,10 +33,7 @@ extension Plot {
                         return nil
                     }
 
-                    let sign: Double = rawOutput < 0 ? -1 : 1
-                    let big1 = min(abs(rawOutput) * 1e6, 1e7)
-                    let big2 = Int(big1)
-                    return (position, sign * Double(big2) / 1e6)
+                    return (position, rawOutput)
                 }
 
                 b()
@@ -51,6 +49,8 @@ extension Plot {
 
                 return labs > rabs
             }
+
+            Debug.log(level: 122) { "order \(order)" }
 
             let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
 

@@ -71,17 +71,33 @@ extension Manna {
     }
 
     private func replant(firstTime: Bool = false) {
-        var newHome: GridCell?
         var didPlant = false
+        var newHome: GridCell?
+        var toNextRain: TimeInterval = 0
 
-        func a() { Grid.serialQueue.async(execute: b) }
+        func a() {
+            Clock.dispatchQueue.async {
+                if let nextRain = Clock.shared?.nextRain {
+                    toNextRain = max(0, Date().distance(to: nextRain))
+                }
+
+                b()
+            }
+        }
 
         func b() {
-            (newHome, didPlant) = mGrid.plant(sprite.sprite)
+            let fudge = TimeInterval.random(in: 1..<5)
+            let when = DispatchWallTime.now() + toNextRain + fudge
+            Grid.serialQueue.asyncAfter(wallDeadline: when, execute: c)
+        }
 
+        func c() {
+            (newHome, didPlant) = mGrid.plant(sprite.sprite)
             if didPlant { self.sprite.plant(at: newHome); return }
 
-            Grid.serialQueue.asyncAfter(deadline: .now() + rebloomDelay, execute: b)
+            let fudge = TimeInterval.random(in: 1..<5)
+            let when = DispatchWallTime.now() + fudge
+            Grid.serialQueue.asyncAfter(wallDeadline: when, execute: c)
         }
 
         a()

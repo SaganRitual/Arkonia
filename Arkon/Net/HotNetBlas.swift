@@ -42,6 +42,7 @@ final class HotNetBlas: HotNet {
             var outputs: BlasBuffer_Write!
 
             blasLayers.forEach { layer in
+                Debug.log(level: 122) { "driveSignal out \(Array(inputToNextLayer))" }
                 outputs = layer.driveSignal(inputToNextLayer)
                 outputs.withUnsafeBufferPointer { inputToNextLayer = $0 }
             }

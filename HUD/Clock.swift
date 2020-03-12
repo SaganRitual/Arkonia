@@ -9,6 +9,11 @@ class Clock {
     let clockFormatter = DateComponentsFormatter()
     let clockReport: Reportoid
     let foodValueReport: Reportoid
+    var nextRain = Date()
+    let nextRainPlot: [TimeInterval] = [
+        20, 20, 30, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 80, 60, 40, 20
+    ]
+    var nextRainPlotSS = 0
     var worldClock = 0
 
     static let dispatchQueue = DispatchQueue(
@@ -47,6 +52,12 @@ class Clock {
 
     func tickTheWorld() {
         self.worldClock += 1
+
+        let now = Date()
+        if self.nextRain < now {
+            self.nextRain = now + nextRainPlot[nextRainPlotSS]
+            nextRainPlotSS = (nextRainPlotSS + 1) % nextRainPlot.count
+        }
 
         self.clockReport.data.text =
             self.clockFormatter.string(from: TimeInterval(self.worldClock))

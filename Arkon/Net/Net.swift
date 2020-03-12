@@ -4,8 +4,6 @@ import Dispatch
 enum HotNetType { case blas, cnn, gpu }
 var hotNetType: HotNetType = .blas
 
-var activatorSS = 0
-
 protocol HotNet: class {
     init(_ layers: [Int], _ biases: [Double], _ weights: [Double], _ activator: @escaping (Double) -> Double)
     func driveSignal(_ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void)
@@ -43,28 +41,33 @@ class Net {
         if let L = layers {
             self.layers = Net.mutateNetStructure(L)
         } else {
-            let maxHiddenLayers = 10
+            var L: [Int] = []
 
-            self.layers =
-                [Arkonia.cSenseNeurons] +
-                (0..<maxHiddenLayers).compactMap { Bool.random() ? (maxHiddenLayers - $0) * 2 : nil } +
-                [Arkonia.cMotorNeurons]
+            var cNeurons = Arkonia.cSenseNeurons
+            while cNeurons > (2 * Arkonia.cMotorNeurons) {
+                L.append(cNeurons)
+                cNeurons /= 2
+            }
+
+            L.append(2 * Arkonia.cMotorNeurons)
+            L.append(Arkonia.cMotorNeurons)
+            self.layers = L
         }
 
         (cWeights, cBiases) = Net.computeParameters(self.layers)
 
+        Debug.log(level: 121) { "biases" }
         self.biases = Net.mutateNetStrand(parentStrand: parentBiases, targetLength: cBiases)
+        Debug.log(level: 121) { "weights" }
         self.weights = Net.mutateNetStrand(parentStrand: parentWeights, targetLength: cWeights)
 
-        self.activatorFunction = Net.funcs[activatorSS]
+        self.activatorFunction = Net.identity// Net.mutateActivator(parentActivator: parentActivator)
 
         switch hotNetType {
         case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights, self.activatorFunction)
         case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights, self.activatorFunction)
         case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights, self.activatorFunction)
         }
-
-//        hotNetType = (hotNetType == .blas) ? .gpu : .blas
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {
@@ -77,13 +80,10 @@ class Net {
 extension Net {
     static func arctan(_ x: Double) -> Double { atan(x) }
     static func bentidentity(_ x: Double) -> Double { ((sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
-    static func binarystep(_ x: Double) -> Double { x < 0.0 ? 0.0 : 1.0 }
-    static func gaussian(_ x: Double) -> Double { exp(-(x * x)) }
     static func identity(_ x: Double) -> Double { x }
     static func leakyrelu(_ x: Double) -> Double { x < 0.0 ? (0.01 * x) : x }
     static func logistic(_ x: Double) -> Double { 1.0 / (1.0 + exp(-x)) }
-    static func sinc(_ x: Double) -> Double { x == 0.0 ? 1.0 : sin(x) / x }
-    static func sinusoid(_ x: Double) -> Double {  sin(x) }
+    static func sinusoid(_ x: Double) -> Double { sin(x) }
     static func softplus(_ x: Double) -> Double { log(1.0 + exp(x)) }
     static func softsign(_ x: Double) -> Double { x / (1 + abs(x)) }
 
@@ -99,8 +99,8 @@ extension Net {
     static func tanh(_ x: Double) -> Double { return CoreGraphics.tanh(x) }
 
     static let funcs = [
-        arctan, bentidentity, binarystep, gaussian, identity, leakyrelu,
-        logistic, sinc, sinusoid, softplus, softsign, sqnl, tanh
+        arctan, bentidentity, identity, leakyrelu,
+        logistic, sinusoid, softplus, softsign, sqnl, tanh
     ]
 
     func getMotorOutputs(_ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void) {
@@ -139,7 +139,12 @@ extension Net {
 
     static func mutateNetStructure(_ layers: [Int]) -> [Int] {
         // 80% chance that the structure won't change at all
-        if Int.random(in: 0..<100) < 80 { return layers }
+        if Int.random(in: 0..<100) < 80 {
+            Debug.log(level: 121) { "no mutation to net structure" }
+            return layers
+        }
+
+        Debug.log(level: 121) { "mutating net structure" }
 
         let strippedNet = Array(layers.dropFirst())
         var newNet: [Int]
