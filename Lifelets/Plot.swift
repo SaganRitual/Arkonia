@@ -118,16 +118,10 @@ extension Plot {
 
         var theData = [Double]()
 
-        let radius = st.gridCell.randomScenePosition?.radius ?? 0
-        let theta = st.gridCell.randomScenePosition?.theta ?? 0
-        let normalRadius = (radius / Grid.shared.hypoteneuse)
-        let constrainedTheta = theta.truncatingRemainder(dividingBy: CGFloat.tau)
-        let normalTheta = constrainedTheta / CGFloat.tau
-        let positiveTheta = (normalTheta >= 0) ? normalTheta : 1 + normalTheta
-        theData.append(contentsOf: [Double(normalRadius), Double(positiveTheta)])
-        let x = st.gridCell.randomScenePosition?.x ?? 0
-        let y = st.gridCell.randomScenePosition?.y ?? 0
-        Debug.log(level: 103) { "x, y = \(x), \(y), r, theta = \(radius), \(theta)" }
+        theData.append(contentsOf: [
+            Double(st.gridCell.gridPosition.x),
+            Double(st.gridCell.gridPosition.y)
+        ])
 
         let hunger = Double(st.metabolism.hunger)
         let asphyxia = Double(st.metabolism.co2Level / Arkonia.co2MaxLevel)
