@@ -7,7 +7,7 @@ extension Manna.MGrid {
         guard let hotKey = cell.lockIfEmpty(ownerName: sprite.name!)
             else { return (cell, false) }
 
-        Clock.dispatchQueue.async{ GridCell.cPhotosynthesizingManna += 1 }  // Because laziness
+        Clock.dispatchQueue.async { GridCell.cPhotosynthesizingManna += 1 }  // Because laziness
         Debug.log(level: 111) { "plant  \(six(sprite.name)) at \(cell.gridPosition); c = \(GridCell.cPhotosynthesizingManna)" }
         cell.setContents(to: .manna, newSprite: sprite)
 

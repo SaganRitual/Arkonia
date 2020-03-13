@@ -95,10 +95,12 @@ class Clock {
         self.clockReport.data.text =
             self.clockFormatter.string(from: TimeInterval(self.worldClock))
 
-        let c = Grid.serialQueue.sync { GridCell.cPhotosynthesizingManna }
+        let cManna = Grid.serialQueue.sync { (GridCell.cPhotosynthesizingManna, GridCell.cDeadManna) }
+        let photosynthesizing = cManna.0
+        let dead = cManna.1
 
         self.foodValueReport.data.text = (Arkonia.worldTimeLimit == nil) ?
-            String(format: "% 5d/%3d%", c, Arkonia.cMannaMorsels) :
+            String(format: "% 5d/%3d%", photosynthesizing, Arkonia.cMannaMorsels - dead) :
             String(format: "%.2f%%", (1 - self.getEntropy()) * 100)
     }
 }

@@ -74,6 +74,7 @@ extension GridCell {
         self.sprite = nil
     }
 
+    static var cDeadManna = 0
     static var cPhotosynthesizingManna = 0
 
     func setContents(to newContent: Contents, newSprite: SKSpriteNode?) {
