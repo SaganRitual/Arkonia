@@ -23,13 +23,13 @@ extension Plot {
                 motorOutputs = zip(0..., rawOutputs).compactMap { position, rawOutput in
                     if rawOutput.isNaN {
                         Plot.cNaN += 1
-                        print("NaN \(Plot.cNaN)")
+                        Debug.log { "NaN \(Plot.cNaN)" }
                         return nil
                     }
 
                     if rawOutput.isInfinite {
                         Plot.cInf += 1
-                        print("cInf \(Plot.cInf)")
+                        Debug.log { "cInf \(Plot.cInf)" }
                         return nil
                     }
 
