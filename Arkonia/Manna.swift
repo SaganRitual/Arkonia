@@ -86,8 +86,8 @@ extension Manna {
         }
 
         func b() {
-            // Have 0.1% of the manna die off when it's eaten
-            if Int.random(in: 0..<1000) == 0 && firstTime == false {
+            // Have 1% of the manna die off when it's eaten
+            if Int.random(in: 0..<100) == 0 && firstTime == false {
                 Clock.dispatchQueue.async { GridCell.cDeadManna += 1 }
                 return
             }

@@ -32,6 +32,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
     static var shared: GriddleScene!
 
     var clock: Clock?
+    var fertileSpot: FertileSpot!
     var hud: HUD!
     var readyForDisplayCycle = false
 
@@ -115,6 +116,8 @@ class GriddleScene: SKScene, SKSceneDelegate {
         self.buildReports()
 
         Manna.populateGarden()
+
+        fertileSpot = FertileSpot()
 
         Clock.shared = Clock(self)
         Census.shared = Census(self)

@@ -1,4 +1,19 @@
-struct AKPoint: Hashable, HasXY, CustomDebugStringConvertible {
+import CoreGraphics
+
+struct AKPoint: Overload2D, Hashable, HasXY, CustomDebugStringConvertible {
+    // swiftlint:disable unused_setter_value
+    var aa: CGFloat { get { CGFloat(x) } set { } }
+    var bb: CGFloat { get { CGFloat(y) } set { } }
+    // swiftlint:enable unused_setter_value
+
+    func asPoint() -> CGPoint { return CGPoint(x: x, y: y) }
+
+    func asSize() -> CGSize { return CGSize(width: x, height: y) }
+
+    func asVector() -> CGVector { return CGVector(dx: x, dy: y) }
+
+    static func makeTuple(_ xx: CGFloat, _ yy: CGFloat) -> AKPoint { AKPoint(xx, yy) }
+
     private func debugDescription_() -> String {
         return String(format: "(% 03d, % 03d)", x, y)
     }
@@ -9,6 +24,7 @@ struct AKPoint: Hashable, HasXY, CustomDebugStringConvertible {
 
     init(_ point: AKPoint) { x = point.x; y = point.y }
     init(x: Int, y: Int) { self.x = x; self.y = y }
+    init(_ xx: CGFloat, _ yy: CGFloat) { self.x = Int(xx); self.y = Int(yy) }
 
     static let zero = AKPoint(x: 0, y: 0)
 

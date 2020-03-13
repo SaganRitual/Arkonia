@@ -4,6 +4,9 @@ extension Manna.MGrid {
     func plant(_ sprite: SKSpriteNode) -> (GridCell, Bool) {
         let cell = GridCell.getRandomCell()
 
+        guard GriddleScene.shared.fertileSpot.node.contains(cell.scenePosition)
+            else { return (cell, false) }
+
         guard let hotKey = cell.lockIfEmpty(ownerName: sprite.name!)
             else { return (cell, false) }
 
