@@ -33,7 +33,7 @@
 		D464BA4B22C737260069623C /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D464BA5022C737260069623C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D464BA5122C737260069623C /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
-		D464BA5222C737260069623C /* MoreManna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* MoreManna.swift */; };
+		D464BA5222C737260069623C /* Manna.Energy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.Energy.swift */; };
 		D464BA5522C737260069623C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D464BA5822C737260069623C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -41,7 +41,6 @@
 		D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
 		D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BE922EA58E900C15F59 /* Stepper.swift */; };
-		D495F0C3233FA6D0007D6E86 /* IndexedRingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293E22DAEC7E0036C904 /* IndexedRingBuffer.swift */; };
 		D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */; };
 		D495F0C8233FA6E9007D6E86 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D40985F222650B0B009DD384 /* Info.plist */; };
 		D497C1AA23D966A70078D39F /* SpritePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D497C1A923D966A70078D39F /* SpritePool.swift */; };
@@ -54,6 +53,9 @@
 		D4A59D332388BBD700517F60 /* Disengage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D322388BBD700517F60 /* Disengage.swift */; };
 		D4A59D372389901500517F60 /* ReleaseShuttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D362389901500517F60 /* ReleaseShuttle.swift */; };
 		D4B00912241B8BB3007FDD6F /* FertileSpot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B00911241B8BB3007FDD6F /* FertileSpot.swift */; };
+		D4B00914241C97BD007FDD6F /* MannaCannon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B00913241C97BD007FDD6F /* MannaCannon.swift */; };
+		D4B00916241D3F43007FDD6F /* MannaCannon.Blast.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B00915241D3F43007FDD6F /* MannaCannon.Blast.swift */; };
+		D4B00919241FF722007FDD6F /* Cbuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B00917241FD5B8007FDD6F /* Cbuffer.swift */; };
 		D4B2AC8223D595E000246746 /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */; };
 		D4B2AC8523D5983200246746 /* SceneDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B2AC8423D5983200246746 /* SceneDispatch.swift */; };
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
@@ -112,7 +114,7 @@
 		D43DC50F24177B4E0017FADF /* HotReserves.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotReserves.swift; sourceTree = "<group>"; };
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D441B99A229CFFA800FB7057 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
-		D4603A6122A2720400885428 /* MoreManna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreManna.swift; sourceTree = "<group>"; };
+		D4603A6122A2720400885428 /* Manna.Energy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.Energy.swift; sourceTree = "<group>"; };
 		D461358A2288CEF800C9864E /* TheScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TheScene.sks; sourceTree = "<group>"; };
 		D464BA5F22C737260069623C /* Karamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
@@ -133,10 +135,12 @@
 		D4A59D322388BBD700517F60 /* Disengage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Disengage.swift; sourceTree = "<group>"; };
 		D4A59D362389901500517F60 /* ReleaseShuttle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseShuttle.swift; sourceTree = "<group>"; };
 		D4B00911241B8BB3007FDD6F /* FertileSpot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FertileSpot.swift; sourceTree = "<group>"; };
+		D4B00913241C97BD007FDD6F /* MannaCannon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MannaCannon.swift; sourceTree = "<group>"; };
+		D4B00915241D3F43007FDD6F /* MannaCannon.Blast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MannaCannon.Blast.swift; sourceTree = "<group>"; };
+		D4B00917241FD5B8007FDD6F /* Cbuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cbuffer.swift; sourceTree = "<group>"; };
 		D4B2AC8423D5983200246746 /* SceneDispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDispatch.swift; sourceTree = "<group>"; };
 		D4B4293C22DAEC7E0036C904 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
-		D4B4293E22DAEC7E0036C904 /* IndexedRingBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexedRingBuffer.swift; sourceTree = "<group>"; };
 		D4B4294022DAEC7E0036C904 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		D4BB6E72234E549C00529819 /* Funge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Funge.swift; sourceTree = "<group>"; };
 		D4BB6E76234EDCA500529819 /* Apoptosize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apoptosize.swift; sourceTree = "<group>"; };
@@ -235,7 +239,9 @@
 				D4CF20A622A4C296000FD2BA /* Arkonia.swift */,
 				D4B00911241B8BB3007FDD6F /* FertileSpot.swift */,
 				D4E7FE2D23E6BD2A0043D57D /* Manna.swift */,
-				D4603A6122A2720400885428 /* MoreManna.swift */,
+				D4603A6122A2720400885428 /* Manna.Energy.swift */,
+				D4B00913241C97BD007FDD6F /* MannaCannon.swift */,
+				D4B00915241D3F43007FDD6F /* MannaCannon.Blast.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 			);
@@ -260,6 +266,7 @@
 			isa = PBXGroup;
 			children = (
 				D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */,
+				D4B00917241FD5B8007FDD6F /* Cbuffer.swift */,
 				D4F6460722A4253F00FD8C56 /* ColorGradient.swift */,
 				D41ED8D523B084A100E82B08 /* Debug.swift */,
 				D43EA83D229233F7006C619D /* Extensions.swift */,
@@ -290,7 +297,6 @@
 				D422DE0A23598B52003734B8 /* Census.swift */,
 				D422DE0C23598BEC003734B8 /* Clock.swift */,
 				D4B4294022DAEC7E0036C904 /* HUD.swift */,
-				D4B4293E22DAEC7E0036C904 /* IndexedRingBuffer.swift */,
 				D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */,
 				D4B4293C22DAEC7E0036C904 /* Report.swift */,
 			);
@@ -462,9 +468,9 @@
 				D422DE0D23598BEC003734B8 /* Clock.swift in Sources */,
 				D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */,
 				D4BD1DC823C088C200CE0753 /* Indexer.swift in Sources */,
-				D495F0C3233FA6D0007D6E86 /* IndexedRingBuffer.swift in Sources */,
 				D4BD1DC523C088C200CE0753 /* Random.swift in Sources */,
 				D464BA3922C737260069623C /* AppDelegate.swift in Sources */,
+				D4B00919241FF722007FDD6F /* Cbuffer.swift in Sources */,
 				D4B4295322DAF1CD0036C904 /* Report.swift in Sources */,
 				D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */,
 				D464BA3B22C737260069623C /* Arkonia.swift in Sources */,
@@ -488,6 +494,7 @@
 				D4A59D332388BBD700517F60 /* Disengage.swift in Sources */,
 				D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */,
 				D4A59D372389901500517F60 /* ReleaseShuttle.swift in Sources */,
+				D4B00916241D3F43007FDD6F /* MannaCannon.Blast.swift in Sources */,
 				D4A59D232387F64500517F60 /* Plot.swift in Sources */,
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
 				D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */,
@@ -498,6 +505,7 @@
 				D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */,
 				D43DC50A24165D450017FADF /* DataSource.swift in Sources */,
 				D4B2AC8223D595E000246746 /* NetDisplayGrid.swift in Sources */,
+				D4B00914241C97BD007FDD6F /* MannaCannon.swift in Sources */,
 				D4A59D31238839C700517F60 /* Arrive.swift in Sources */,
 				D4C7E06724089721005C0191 /* HotLayerGpu.swift in Sources */,
 				D4BD1DCE23C088C200CE0753 /* GridCell.swift in Sources */,
@@ -516,7 +524,7 @@
 				D4BD1DC923C088C200CE0753 /* Positions.swift in Sources */,
 				D4B00912241B8BB3007FDD6F /* FertileSpot.swift in Sources */,
 				D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */,
-				D464BA5222C737260069623C /* MoreManna.swift in Sources */,
+				D464BA5222C737260069623C /* Manna.Energy.swift in Sources */,
 				D4BB6E77234EDCA500529819 /* Apoptosize.swift in Sources */,
 				D4BD1DCA23C088C200CE0753 /* CellKeys.swift in Sources */,
 				D464BA5522C737260069623C /* Extensions.swift in Sources */,

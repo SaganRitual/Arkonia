@@ -70,8 +70,8 @@ class SpritePool {
     }
 
     func makeSprite(with drone: SKSpriteNode, _ name: String?) -> SKSpriteNode {
-        drone.alpha = prototype.alpha
-        drone.color = prototype.color
+//        drone.alpha = prototype.alpha
+        drone.color = .purple//prototype.color
         drone.colorBlendFactor = prototype.colorBlendFactor
         drone.name = name
         drone.zPosition = prototype.zPosition

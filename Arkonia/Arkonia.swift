@@ -8,23 +8,24 @@ class Arkonia {
     static let mannaScaleFactor: CGFloat = 0.1
     static let noseScaleFactor: CGFloat = 0.75
 
-    static let senseGridCRings = 3
+    static let senseGridCRings = 1
     static let senseGridSide = 1 + 2 * senseGridCRings
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeuronsSpatial = 2 * cSenseGridlets
-    static let cSenseNeuronsNonSpatial = 4
+    static let cSenseNeuronsNonSpatial = 4 + cFertileSpots * 2
     static let cSenseNeurons = cSenseNeuronsSpatial + cSenseNeuronsNonSpatial
     static let cMotorNeurons = 9 - 1
     static let cMotorGridlets = cMotorNeurons + 1
 
     static let allowSpawning = true
-    static let cMannaMorsels = 10000
+    static let cMannaMorsels = 8000
+    static let cFertileSpots = 10
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 123 // var so we can change it on the fly
+    static var debugMessageLevel = 131 // var so we can change it on the fly
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
-    static let funkyCells: CGFloat? = nil
+    static let funkyCells: CGFloat? = 2 / zoomFactor
     static let initialPopulation = 25
     static let maxPopulation = Int.max
     static let worldTimeLimit: TimeInterval? = nil  //5000
@@ -32,16 +33,16 @@ class Arkonia {
     static let co2BaseCost: CGFloat = 1.02
     static let co2MaxLevel: CGFloat = 50
     static let oxygenCostPerTick: CGFloat = 0.01
+    static let neuronCostPerCycle: CGFloat = 0.01  // In joules
 
     static let inhaleFudgeFactor: CGFloat = 2.0
     static let spawnOverhead: CGFloat = 1.5
 
     static let mannaColorBlendMaximum: CGFloat = 0.35
     static let mannaColorBlendMinimum: CGFloat = 0.25
-    static let mannaFullGrowthDurationSeconds: TimeInterval = 5.0
-    static let mannaInitialRebloomDelay: TimeInterval = 5 * 60
-    static let mannaRebloomDelayIncrement: TimeInterval = 5 * 60
-    static let maxMannaEnergyContentInJoules: CGFloat = 40
+    static let mannaFullGrowthDurationSeconds: TimeInterval = 0.01
+    static let maxMannaEnergyContentInJoules: CGFloat = 100
+    static let mannaReplantBatchSize: Int = 100
 
     static var mannaColorBlendRangeWidth: CGFloat
         { mannaColorBlendMaximum - mannaColorBlendMinimum }

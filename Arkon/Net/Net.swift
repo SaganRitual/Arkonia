@@ -19,6 +19,7 @@ class Net {
     let activatorFunction: (_: Double) -> Double
     let biases: [Double]
     let cBiases: Int
+    let cNeurons: Int
     let cWeights: Int
     var isCloneOfParent = true
     let hotNet: HotNet
@@ -57,14 +58,20 @@ class Net {
             self.layers = L
         }
 
+        self.cNeurons = self.layers.reduce(0, +)
+
         (cWeights, cBiases) = Net.computeParameters(self.layers)
 
+        var dm = false
         (self.biases, didMutate) = Mutator.mutateNetStrand(parentStrand: parentBiases, targetLength: cBiases)
+        if didMutate { dm = true }
         (self.weights, didMutate) = Mutator.mutateNetStrand(parentStrand: parentWeights, targetLength: cWeights)
+        if didMutate { dm = true }
 
         (self.activatorFunction, didMutate) = Mutator.mutateActivator(parentActivator: parentActivator)
+        if didMutate { dm = true }
 
-        self.isCloneOfParent = !didMutate
+        self.isCloneOfParent = !dm
 
         switch hotNetType {
         case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights, self.activatorFunction)

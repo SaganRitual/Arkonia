@@ -119,14 +119,28 @@ extension Plot {
         var theData = [Double]()
 
         theData.append(contentsOf: [
-            Double(st.gridCell.gridPosition.x),
-            Double(st.gridCell.gridPosition.y)
+            Double(st.gridCell.scenePosition.x),
+            Double(st.gridCell.scenePosition.y)
         ])
 
         let hunger = Double(st.metabolism.hunger)
         let asphyxia = Double(st.metabolism.co2Level / Arkonia.co2MaxLevel)
         theData.append(contentsOf: [hunger, asphyxia])
 
+        var fertileSpotData = [(Double, Double)]()
+        for fertileSpot in MannaCannon.shared!.fertileSpots {
+            let result = fertileSpot.node.position - st.sprite.position
+            let theta = (result.x == 0) ? 0 : atan(result.y / result.x)
+            let r = result.hypotenuse
+            fertileSpotData.append((Double(r), Double(theta)))
+        }
+
+        fertileSpotData.sorted(by: { lhs, rhs in lhs.0 < rhs.0 }).forEach { pair in
+            let r = pair.0, theta = pair.1
+            theData.append(contentsOf: [r, theta])
+        }
+
+        Debug.log(level: 123) { "theData = \(theData)" }
         return theData
     }
 }

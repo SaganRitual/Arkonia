@@ -99,7 +99,7 @@ extension Grid {
     }
 
     private func populate() {
-        if yGrid >= hGrid { spiral(); return }
+//        if yGrid >= hGrid { spiral(); return }
 
         if yGrid < hGrid {
             if xGrid < wGrid {
@@ -122,19 +122,6 @@ extension Grid {
 
         DispatchQueue.global().asyncAfter(deadline: .now()) {
             self.populate()
-        }
-    }
-
-    private func spiral() {
-        if cellIndex >= 169 { return }
-
-        let p = GridCell.getGridPointByIndex(center: AKPoint(x: -10, y: -13), targetIndex: cellIndex)
-        let c = getCell(at: p)
-        c.sprite?.alpha = 0
-        cellIndex += 1
-
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.005) {
-            self.spiral()
         }
     }
 }

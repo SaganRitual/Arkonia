@@ -1,10 +1,10 @@
 import SpriteKit
 
-class Manna {
-    static func populateGarden() {
-        (0..<Arkonia.cMannaMorsels).forEach { _ = Manna($0) }
-    }
+extension Arkonia {
+    static let cMannaReplant = 100
+}
 
+class Manna {
     struct MGrid { }
     struct Energy { }
 
@@ -26,33 +26,35 @@ class Manna {
     fileprivate let energy = Energy()
     fileprivate let fishNumber: Int
     fileprivate let mGrid = MGrid()
-    fileprivate var rebloomDelay = Arkonia.mannaInitialRebloomDelay
-    fileprivate let sprite: Sprite
+    let sprite: Sprite
 
-    fileprivate init(_ fishNumber: Int) {
+    init(_ fishNumber: Int) {
         self.fishNumber = fishNumber
         self.sprite = Sprite(fishNumber)
-
         self.sprite.setManna(self)
-        sow()
+        self.sprite.reset()
+    }
+
+    func mark() {
+        sprite.sprite.color = .green
     }
 }
 
 extension Manna {
     func harvest(_ onComplete: @escaping (CGFloat) -> Void) {
-        getNutritionInJoules { nutrition in
-            GridCell.cPhotosynthesizingManna -= 1
-            Debug.log(level: 111) {
-                "harvest \(nutrition) joules from \(six(self.sprite.sprite.name))"
-                + " at \(self.sprite.sprite.position);"
-                + " c = \(GridCell.cPhotosynthesizingManna)"
-            }
 
-            self.rebloomDelay += Arkonia.mannaRebloomDelayIncrement
-            self.sprite.reset()
-            self.replant()
-            onComplete(nutrition)
+        var nutritionInJoules: CGFloat = 0
+
+        func a() { getNutritionInJoules { nutritionInJoules = $0; b() } }
+
+        func b() {
+            GridCell.cPhotosynthesizingManna -= 1
+
+            SceneDispatch.schedule(self.sprite.reset)
+            MannaCannon.shared!.refurbishManna(self) { onComplete(nutritionInJoules) }
         }
+
+        a()
     }
 
     func getEnergyContentInJoules() -> CGFloat {
@@ -70,44 +72,18 @@ extension Manna {
         }
     }
 
-    private func replant(firstTime: Bool = false) {
-        var didPlant = false
-        var newHome: GridCell?
-        var toNextRain: TimeInterval = 0
+    func replant(_ onComplete: @escaping (Bool) -> Void) {
+//            // Have 1% of the manna die off when it's eaten
+//            if Int.random(in: 0..<100) == 0 && firstTime == false {
+//                Clock.dispatchQueue.async { GridCell.cDeadManna += 1 }
+//                return
+//            }
+        Debug.log(level: 124) { "replant.1" }
 
-        func a() {
-            Clock.dispatchQueue.async {
-                if let nextRain = Clock.shared?.nextRain {
-                    toNextRain = max(0, Date().distance(to: nextRain))
-                }
+        let (newHome, didPlant) = mGrid.plant(sprite.sprite)
+        Debug.log(level: 124) { "replant.2" }
 
-                b()
-            }
-        }
-
-        func b() {
-            // Have 1% of the manna die off when it's eaten
-            if Int.random(in: 0..<100) == 0 && firstTime == false {
-                Clock.dispatchQueue.async { GridCell.cDeadManna += 1 }
-                return
-            }
-
-            let fudge = TimeInterval.random(in: 0.5..<1)
-            let when = DispatchWallTime.now() + toNextRain + fudge
-            Grid.serialQueue.asyncAfter(wallDeadline: when, execute: c)
-        }
-
-        func c() {
-            (newHome, didPlant) = mGrid.plant(sprite.sprite)
-            if didPlant { self.sprite.plant(at: newHome); return }
-
-            let fudge = TimeInterval.random(in: 0.5..<1)
-            let when = DispatchWallTime.now() + fudge
-            Grid.serialQueue.asyncAfter(wallDeadline: when, execute: c)
-        }
-
-        a()
+        if didPlant { self.sprite.plant(at: newHome) }
+        onComplete(didPlant)
     }
-
-    fileprivate func sow() { replant(firstTime: true) }
 }

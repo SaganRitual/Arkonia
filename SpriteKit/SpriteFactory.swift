@@ -28,14 +28,14 @@ class SpriteFactory {
 
     static func makeArkonsPools() -> (ThoraxPool, SpritePool) {
         let arkonPrototype =
-            DronePrototype(alpha: 0, color: .gray, colorBlendFactor: 1, zPosition: 10, zRotation: 0)
+            DronePrototype(alpha: 1, color: .gray, colorBlendFactor: 1, zPosition: 10, zRotation: 0)
 
         let arkons = ThoraxPool(
             "Arkons", "spark-thorax-large", GriddleScene.arkonsPortal, 1000, arkonPrototype, .stepper
         )
 
         let nosePrototype =
-            DronePrototype(alpha: 0, color: .darkGray, colorBlendFactor: 1, zPosition: 11, zRotation: 0)
+            DronePrototype(alpha: 1, color: .darkGray, colorBlendFactor: 1, zPosition: 11, zRotation: 0)
 
         let noses = SpritePool(
             "Arkons", "spark-nose-large", GriddleScene.arkonsPortal, 1000, nosePrototype, nil
@@ -46,7 +46,7 @@ class SpriteFactory {
 
     static func makeMannaPool() -> SpritePool {
         let mannaPrototype = DronePrototype(
-            alpha: 0, color: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum, zPosition: 9, zRotation: 0
+            alpha: 1, color: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum, zPosition: 9, zRotation: 0
         )
 
         return SpritePool(

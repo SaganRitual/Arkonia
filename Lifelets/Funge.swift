@@ -68,7 +68,8 @@ extension WorkItems {
     ) {
         Funge.dispatchQueue.async {
             let isAlive = stepper.metabolism.fungeProper(
-                age: age, co2Counter: stepper.dispatch.scratch.co2Counter
+                cNeurons: stepper.net!.cNeurons, age: age,
+                co2Counter: stepper.dispatch.scratch.co2Counter
             )
 
             let canSpawn = stepper.canSpawn()
@@ -80,8 +81,8 @@ extension WorkItems {
 
 extension Metabolism {
     static var showHeader = true
-    func fungeProper(age: Int, co2Counter: CGFloat) -> Bool {
-        let joulesNeeded = Arkonia.fudgeMassFactor * mass
+    func fungeProper(cNeurons: Int, age: Int, co2Counter: CGFloat) -> Bool {
+        let joulesNeeded = Arkonia.fudgeMassFactor * mass + CGFloat(cNeurons) * Arkonia.neuronCostPerCycle
 
         withdrawFromReady(joulesNeeded)
 

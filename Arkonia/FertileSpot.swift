@@ -2,26 +2,28 @@ import SpriteKit
 
 class FertileSpot {
     var distance = CGFloat.zero
-    let node = SKShapeNode(circleOfRadius: GriddleScene.arkonsPortal.size.hypotenuse / 1.5)
+    let node = SKShapeNode(circleOfRadius: GriddleScene.arkonsPortal.size.hypotenuse / 3)
     var currentPosition: GridCell
 
     init() {
         currentPosition = GridCell.getRandomCell()
 
+        node.strokeColor = .clear
+        node.alpha = 0
+        node.zPosition = 3
         node.position = currentPosition.scenePosition
-        node.zPosition = 100
-        GriddleScene.arkonsPortal.addChild(node)
+        GriddleScene.mannaPortal.addChild(node)
 
         move()
     }
 
     func move() {
-        node.xScale *= 0.99
-        node.yScale *= 0.99
+        node.xScale *= 0.90
+        node.yScale *= 0.90
 
         let newTarget = GridCell.getRandomCell()
         let distance = currentPosition.scenePosition.distance(to: newTarget.scenePosition)
-        let speed = CGFloat(100)  // in pix/sec
+        let speed = CGFloat(10)  // in pix/sec
         let time = TimeInterval(distance / speed)
 
         currentPosition = newTarget

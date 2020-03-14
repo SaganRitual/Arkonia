@@ -4,8 +4,9 @@ extension Manna.MGrid {
     func plant(_ sprite: SKSpriteNode) -> (GridCell, Bool) {
         let cell = GridCell.getRandomCell()
 
-        guard GriddleScene.shared.fertileSpot.node.contains(cell.scenePosition)
-            else { return (cell, false) }
+        if MannaCannon.shared!.fertileSpots.compactMap({
+            $0.node.contains(cell.scenePosition) ? true : nil
+        }).isEmpty { return (cell, false) }
 
         guard let hotKey = cell.lockIfEmpty(ownerName: sprite.name!)
             else { return (cell, false) }
@@ -78,11 +79,13 @@ extension Manna.Sprite {
     func plant(at cell: GridCell?) {
         prep(at: cell)
 
-        var bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
+        let bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
         let toRun = Manna.Sprite.bloomActions[bloomActionIx]
-        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
+//        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
         sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
 
+        // Ok to let this run independently of the caller's thread, we don't
+        // need anything from it, so there's no need to wait for completion
         sprite.run(toRun)
     }
 
