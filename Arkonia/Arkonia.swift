@@ -8,20 +8,20 @@ class Arkonia {
     static let mannaScaleFactor: CGFloat = 0.1
     static let noseScaleFactor: CGFloat = 0.75
 
-    static let senseGridCRings = 1
+    static let senseGridCRings = 3
     static let senseGridSide = 1 + 2 * senseGridCRings
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeuronsSpatial = 2 * cSenseGridlets
     static let cSenseNeuronsNonSpatial = 4 + cFertileSpots * 2
     static let cSenseNeurons = cSenseNeuronsSpatial + cSenseNeuronsNonSpatial
-    static let cMotorNeurons = 9 - 1
-    static let cMotorGridlets = cMotorNeurons + 1
+    static let cMotorNeurons = 1
+    static let cMotorGridlets = 8
 
     static let allowSpawning = true
     static let cMannaMorsels = 8000
     static let cFertileSpots = 10
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 131 // var so we can change it on the fly
+    static var debugMessageLevel = 133 // var so we can change it on the fly
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1

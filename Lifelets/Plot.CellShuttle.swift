@@ -4,6 +4,9 @@ import CoreGraphics
 extension Plot {
     static var cNaN = 0
     static var cInf = 0
+    static var motorHistogram = [Int](repeating: 0, count: Arkonia.cMotorGridlets + 1)
+    static var targetHistogram = [Int](repeating: 0, count: Arkonia.cMotorGridlets + 1)
+    static var sinHistogram = [Int](repeating: 0, count: Arkonia.cMotorGridlets + 1)
 
     func makeCellShuttle(
         _ senseData: [Double], _ senseGrid: CellSenseGrid, _ onComplete: @escaping (CellShuttle) -> Void
@@ -41,29 +44,52 @@ extension Plot {
         }
 
         func b() {
-            let trimmed = motorOutputs.filter { /*abs($0.1) < 1.0 &&*/ $0.0 != 0 }
+            let motorOutput_ = motorOutputs[0].1
 
-            let order = trimmed.sorted { lhs, rhs in
-                let labs = lhs.1//abs(lhs.1)
-                let rabs = rhs.1//abs(rhs.1)
+            // Take anything < 1 as a fraction of 2π
+//            if abs(motorOutput_) <= 1 { motorOutput_ *= Double.pi }
 
-                return labs > rabs
+            // Divide the circle into 8 slices
+
+            let s1 = sin(motorOutput_)
+            assert(s1 <= 1 && s1 >= -1)
+            let s2 = asin(s1) + (Double.pi / 2)
+            assert(s2 >= 0 && s2 <= Double.pi)
+            let s3 = s2 / Double.pi
+            assert(s3 >= 0 && s3 <= 1)
+            let s4 = Double(Arkonia.cMotorGridlets + 1)
+            let s5 = s3 * s4
+            let motorOutput = Int(s5)// Int((sin(motorOutput_) + 1) / 2 * Double(Arkonia.cMotorGridlets + 1))
+            assert(motorOutput >= 0 && motorOutput <= Arkonia.cMotorGridlets + 1)
+            Debug.log(level: 131) { "motorOutput \(motorOutputs), single \(motorOutput)" }
+
+            Plot.motorHistogram[motorOutput] += 1
+
+            let gridlets = (0..<(Arkonia.cMotorGridlets + 1)).map { wrappingIndex in
+                (motorOutput + wrappingIndex) % (Arkonia.cMotorGridlets + 1)
             }
 
-            Debug.log(level: 122) { "order \(order)" }
+            guard let targetOffset = gridlets.first(where: { senseGrid.cells[$0] is HotKey })
+                else { fatalError() }
 
-            let targetOffset = order.first { senseGrid.cells[$0.0] is HotKey }
+            Debug.log(level: 132) { "toff \(targetOffset) from gridlets \(gridlets)" }
+
+//            let sinss = Int((sin(motorOutput_) + 1) / 2 * Double(Arkonia.cMotorGridlets))
+//            Plot.sinHistogram[sinss] += 1
+//            Debug.log(level: 132) { return targetOffset == 0 ? "toff = 0, motorOutput_ = \(motorOutput_)" : nil }
+            Plot.targetHistogram[targetOffset] += 1
+            Debug.log(level: 132) { "sins/targets/motors <- \(Plot.targetHistogram) <- \(Plot.motorHistogram)" }
 
             let fromCell: HotKey?
             let toCell: HotKey
 
-            if targetOffset == nil || targetOffset!.0 == 0 {
-                guard let t = senseGrid.cells[0] as? HotKey else { fatalError() }
+            if targetOffset == 0 {
+                guard let t = senseGrid.cells[targetOffset] as? HotKey else { fatalError() }
 
                 toCell = t; fromCell = nil
                 Debug.log(level: 104) { "toCell at \(t.gridPosition) holds \(six(t.sprite?.name))" }
             } else {
-                guard let t = senseGrid.cells[targetOffset!.0] as? HotKey else { fatalError() }
+                guard let t = senseGrid.cells[targetOffset] as? HotKey else { fatalError() }
                 guard let f = senseGrid.cells[0] as? HotKey else { fatalError() }
 
                 toCell = t; fromCell = f
@@ -79,11 +105,7 @@ extension Plot {
                 assert(fromCell?.contents ?? .nothing == .arkon)
             }
 
-            if targetOffset == nil {
-                Debug.log(level: 98) { "targetOffset: nil" }
-            } else {
-                Debug.log(level: 98) { "targetOffset: \(targetOffset!.0)" }
-            }
+            Debug.log(level: 98) { "targetOffset: \(targetOffset)" }
 
             assert((fromCell?.contents ?? .arkon) == .arkon)
             onComplete(CellShuttle(fromCell, toCell))
