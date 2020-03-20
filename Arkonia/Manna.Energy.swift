@@ -26,6 +26,7 @@ extension Manna.Energy {
         let duration = CGFloat(Arkonia.mannaFullGrowthDurationSeconds)
 
         let energyContent: CGFloat = indicatorFullness * rate * duration
+        Debug.log(level: 136) { "energy content \(energyContent)" }
         return energyContent
     }
 }

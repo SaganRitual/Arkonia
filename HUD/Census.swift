@@ -88,7 +88,7 @@ extension Census {
             MannaCannon.shared!.replantDispatch.sync {
                 let now = Date()
                 toNextBlast = now.distance(to: MannaCannon.shared!.nextBlast)
-                Debug.log(level: 126) { "update toNextBlast = \(toNextBlast), now = \(now), next = \(MannaCannon.shared!.nextBlast)" }
+                Debug.log(level: 133) { "update toNextBlast = \(toNextBlast), now = \(now), next = \(MannaCannon.shared!.nextBlast)" }
                 b()
             }
         }

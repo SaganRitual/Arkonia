@@ -8,7 +8,7 @@ class EnergyReserve {
     static let startingLevelBone: CGFloat = 5
     static let startingLevelFat: CGFloat = 15
     static let startingLevelReadyEnergy: CGFloat = 120
-    static let spawnReservesCapacity: CGFloat = 160
+    static let spawnReservesCapacity: CGFloat = 300
 
     static let startingEnergyLevel = (
         startingLevelBone + startingLevelFat + startingLevelReadyEnergy
@@ -78,7 +78,7 @@ class EnergyReserve {
             energyDensity = 16
             level = 0
             overflowThreshold = CGFloat.infinity
-            capacity = 160
+            capacity = EnergyReserve.spawnReservesCapacity
 
         case .stomach:
             name = "stomach"

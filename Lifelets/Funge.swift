@@ -66,22 +66,34 @@ extension WorkItems {
     private static func tickLife(
         of stepper: Stepper, to age: Int, _ onComplete: @escaping OnComplete2p
     ) {
-        Funge.dispatchQueue.async {
+        var worldClock = 0
+
+        func a() { getWorldClock { worldClock = $0; b() } }
+
+        func b() { Funge.dispatchQueue.async(execute: c) }
+
+        func c() {
             let isAlive = stepper.metabolism.fungeProper(
                 cNeurons: stepper.net!.cNeurons, age: age,
-                co2Counter: stepper.dispatch.scratch.co2Counter
+                co2Counter: stepper.dispatch.scratch.co2Counter,
+                cOffspring: stepper.cOffspring,
+                currentTime: worldClock
             )
 
             let canSpawn = stepper.canSpawn()
 
             onComplete(isAlive, canSpawn)
         }
+
+        a()
     }
 }
 
 extension Metabolism {
-    static var showHeader = true
-    func fungeProper(cNeurons: Int, age: Int, co2Counter: CGFloat) -> Bool {
+
+    func fungeProper(
+        cNeurons: Int, age: Int, co2Counter: CGFloat, cOffspring: Int, currentTime: Int
+    ) -> Bool {
         let joulesNeeded = Arkonia.fudgeMassFactor * mass + CGFloat(cNeurons) * Arkonia.neuronCostPerCycle
 
         withdrawFromReady(joulesNeeded)
@@ -96,6 +108,20 @@ extension Metabolism {
 
         Debug.log(level: 96) { "O2 level \(oxygenLevel), CO2 level \(co2Level)" }
 
-        return fungibleEnergyFullness > 0 && oxygenLevel > 0 && co2Level < Arkonia.co2MaxLevel
+        // Having babies is necessary for life
+//        let fluctuationRange = 10 * Double.pi    // in seconds * π
+//        let averageGestation = 25               // in seconds
+//        let dAge = Double(age) / 7
+//        let adjustment = (sin(dAge) / Double.pi) * Double(fluctuationRange) - Double(age / 10)
+//        let fullGestation = averageGestation + Int(adjustment)
+//        let spawnDeadline = age + max(fullGestation, 25)
+
+//        Debug.log(level: 138) { "age \(age) + adjustment \(adjustment), fullGestation \(fullGestation)" }
+
+        return
+            fungibleEnergyFullness > 0 &&
+            oxygenLevel > 0 &&
+            co2Level < Arkonia.co2MaxLevel/* &&
+            age < spawnDeadline*/
     }
 }

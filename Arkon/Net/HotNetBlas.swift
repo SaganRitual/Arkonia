@@ -32,22 +32,42 @@ final class HotNetBlas: HotNet {
         }
     }
 
+    // extra to allow for == 1
+    static var inputsHistogram = [Double](repeating: 0, count: 10)
+    static var gridInputsHistogram = [Double](repeating: 0, count: 10)
+
     func driveSignal(
         _ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void
     ) {
         let si = sensoryInputs.map { BlasNumber($0) }
+//        Debug.log(level: 138) { "driveSignal in \(sensoryInputs)" }
+        assert(sensoryInputs.min()! >= -1 && sensoryInputs.max()! <= 1)
+
+        Debug.log(level: 142) {
+
+            sensoryInputs.forEach {
+                let scaledUp = ($0 + 1) * Double(HotNetBlas.inputsHistogram.count) / 2
+                let truncated = Int(ceil(scaledUp)) - 1
+                if truncated >= HotNetBlas.inputsHistogram.count { print("here \(truncated)") }
+                HotNetBlas.inputsHistogram[truncated] += 1
+            }
+
+            return "sihist \(HotNetBlas.inputsHistogram)"
+        }
 
         si.withUnsafeBufferPointer {
             var inputToNextLayer = $0
             var outputs: BlasBuffer_Write!
 
+            Debug.log(level: 143) { "1.driveSignal out \(Array(inputToNextLayer))" }
+
             blasLayers.forEach { layer in
-                Debug.log(level: 122) { "driveSignal out \(Array(inputToNextLayer))" }
                 outputs = layer.driveSignal(inputToNextLayer)
                 outputs.withUnsafeBufferPointer { inputToNextLayer = $0 }
+                Debug.log(level: 143) { "n.driveSignal out \(Array(inputToNextLayer))" }
             }
 
-            let oc = Array(inputToNextLayer).map { activator(Double($0)) }
+            let oc = Array(inputToNextLayer).map { Double($0) }
             onComplete(oc)
         }
     }

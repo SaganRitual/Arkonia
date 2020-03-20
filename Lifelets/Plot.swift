@@ -73,9 +73,9 @@ extension Plot {
         func c() {
             var gridInputs = [Double]()
             for ix in 0..<senseGrid.cells.count {
-                let (content, nutrition) = self.loadGridInput(senseGrid.cells[ix])
+                let nutrition = self.loadGridInput(senseGrid.cells[ix])
                 let nn = nutrition * entropyPerJoule
-                gridInputs.append(contentsOf: [content, nn])
+                gridInputs.append(nn)
             }
 
             onComplete(gridInputs)
@@ -84,19 +84,15 @@ extension Plot {
         a()
     }
 
-    private func loadGridInput(_ cellKey: GridCellKey) -> (Double, Double) {
-
-        let contentsAsNetSignal = cellKey.contents.asNetSignal
+    private func loadGridInput(_ cellKey: GridCellKey) -> Double {
 
         if cellKey.contents == .invalid {
-            return (contentsAsNetSignal, 0)
+            return 0
         }
-
-        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
 
         switch cellKey.contents {
         case .arkon:
-            return (contentsAsNetSignal, Double(st.metabolism!.energyFullness))
+            return 0
 
         case .manna:
             guard let manna = cellKey.sprite?.getManna(require: false)
@@ -104,10 +100,11 @@ extension Plot {
 
             let energy = manna.getEnergyContentInJoules()
             let nutrition = Double(energy) / Double(Arkonia.maxMannaEnergyContentInJoules)
-            return (contentsAsNetSignal, nutrition)
+            Debug.log(level: 139) { "nutrition \(nutrition) at \(cellKey.gridPosition)" }
+            return nutrition
 
         case .nothing:
-            return (contentsAsNetSignal, 0)
+            return 0
 
         case .invalid: fatalError()
         }
@@ -119,8 +116,8 @@ extension Plot {
         var theData = [Double]()
 
         theData.append(contentsOf: [
-            Double(st.gridCell.scenePosition.x),
-            Double(st.gridCell.scenePosition.y)
+            Double(st.gridCell.scenePosition.x / GriddleScene.arkonsPortal.size.width),
+            Double(st.gridCell.scenePosition.y / GriddleScene.arkonsPortal.size.height)
         ])
 
         let hunger = Double(st.metabolism.hunger)
@@ -129,18 +126,19 @@ extension Plot {
 
         var fertileSpotData = [(Double, Double)]()
         for fertileSpot in MannaCannon.shared!.fertileSpots {
-            let result = fertileSpot.node.position - st.sprite.position
-            let theta = (result.x == 0) ? 0 : atan(result.y / result.x)
-            let r = result.hypotenuse
+            let result = st.sprite.position - fertileSpot.node.position
+            let theta = (result.x == 0) ? 0 : atan(result.y / result.x) / (CGFloat.pi / 2)
+            let r = result.hypotenuse / GriddleScene.arkonsPortal.size.hypotenuse
             fertileSpotData.append((Double(r), Double(theta)))
         }
 
         fertileSpotData.sorted(by: { lhs, rhs in lhs.0 < rhs.0 }).forEach { pair in
             let r = pair.0, theta = pair.1
+            assert(theta >= -1 && theta <= 1)
             theData.append(contentsOf: [r, theta])
         }
 
-        Debug.log(level: 123) { "theData = \(theData)" }
+        Debug.log(level: 139) { "theData = \(theData)" }
         return theData
     }
 }

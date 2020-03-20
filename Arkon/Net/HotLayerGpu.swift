@@ -60,7 +60,7 @@ extension HotLayerGpu {
 
             let rr = rc.load(fromByteOffset: offset, as: Number.self)
 
-            return Net.sinusoid(Double(rr))
+            return Double(rr)
         }
     }
 }

@@ -31,6 +31,7 @@ class HotLayerBlas {
     func driveSignal(_ liveInput: BlasBuffer_Read) -> BlasBuffer_Write {
         self.neuronsOut = self.biases.map { $0 }
         self.neuronsOut.withUnsafeMutableBufferPointer { self.pNeuronsOut = $0 }
+        Debug.log(level: 145) { "biases \(self.neuronsOut)" }
 
         let M: Int32 = 1, K = Int32(liveInput.count), N = Int32(cNeuronsOut)
 
@@ -42,6 +43,15 @@ class HotLayerBlas {
             1, pNeuronsOut.baseAddress, N
         )
 
+        (0..<self.neuronsOut.count).forEach {
+            let a = Double(self.neuronsOut[$0])
+            let b = Arkonia.netActivator(a) * 2 - 1
+            let c = BlasNumber(b)
+            self.neuronsOut[$0] = c
+        }
+
+        Debug.log(level: 145) { "weights \(self.weights)" }
+        Debug.log(level: 145) { "outputs \(self.neuronsOut)" }
         return pNeuronsOut
     }
 }
