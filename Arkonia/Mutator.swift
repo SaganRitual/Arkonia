@@ -75,10 +75,10 @@ private extension Mutator {
 
     static func mutateRandomDoubles(_ inDoubles: [Double]) -> ([Double]?, Bool) {
         var didMutate = false
-        if Int.random(in: 0..<100) < 90 { return (inDoubles, didMutate) }
+        if Int.random(in: 0..<100) < 75 { return (inDoubles, didMutate) }
 
         let b = Double.random(in: 0..<0.05)
-        var cMutate = b * Double(inDoubles.count)  // max 10% of genome
+        var cMutate = b * Double(inDoubles.count)  // max 5% of genome
 
         let i = Int(cMutate)
         if i == 0 && Bool.random() {

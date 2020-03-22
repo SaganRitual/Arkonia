@@ -34,10 +34,6 @@ class Manna {
         self.sprite.setManna(self)
         self.sprite.reset()
     }
-
-    func mark() {
-        sprite.sprite.color = .green
-    }
 }
 
 extension Manna {
@@ -72,18 +68,22 @@ extension Manna {
         }
     }
 
-    func replant(_ onComplete: @escaping (Bool) -> Void) {
-//            // Have 1% of the manna die off when it's eaten
-//            if Int.random(in: 0..<100) == 0 && firstTime == false {
-//                Clock.dispatchQueue.async { GridCell.cDeadManna += 1 }
-//                return
-//            }
+    enum ReplantResult { case didPlant, didNotPlant, died }
+
+    func replant(_ onComplete: @escaping (ReplantResult) -> Void) {
+        // Have 1% of the manna die off when it's eaten
+        if Int.random(in: 0..<100) == 0 && MannaCannon.firstPass == false {
+            Clock.dispatchQueue.async { GridCell.cDeadManna += 1 }
+            onComplete(.died)
+            return
+        }
+
         Debug.log(level: 124) { "replant.1" }
 
         let (newHome, didPlant) = mGrid.plant(sprite.sprite)
         Debug.log(level: 124) { "replant.2" }
 
         if didPlant { self.sprite.plant(at: newHome) }
-        onComplete(didPlant)
+        onComplete(didPlant ? .didPlant : .didNotPlant)
     }
 }

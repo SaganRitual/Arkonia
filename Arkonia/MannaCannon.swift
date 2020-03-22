@@ -27,6 +27,8 @@ class MannaCannon {
         fertileSpots = (0..<Arkonia.cFertileSpots).map { _ in FertileSpot() }
     }
 
+    static var firstPass = true
+
     func blast() {
         var currentMorsel: Manna?
         var resetCounters = true
@@ -34,6 +36,7 @@ class MannaCannon {
         func a() { replantDispatch.async(execute: b) }
 
         func b() {
+            defer { }
             if resetCounters {
                 cReplantsAttempted = 0
                 cReplantFailures = 0
@@ -55,21 +58,24 @@ class MannaCannon {
             }
 
             Debug.log(level: 130) { "blast.c2 \(cReplantsAttempted) <? \(cReplantsToAttempt) <- \(mannaMagazine.count)" }
+
+            MannaCannon.firstPass = false
             scheduleBlast()
         }
 
-        func d(_ didPlant: Bool) {
-            if didPlant {
+        func d(_ didPlant: Manna.ReplantResult) {
+            switch didPlant {
+            case .died: fallthrough
+
+            case .didPlant:
                 Debug.log(level: 130) { "blast.didPlant \(six(currentMorsel?.sprite.sprite.name)) \(cReplantsAttempted) <? \(cReplantsToAttempt) <- \(mannaMagazine.count)" }
                 cReplantFailures = 0
                 currentMorsel = nil
-            } else {
+
+            case .didNotPlant:
                 Debug.log(level: 130) { "blast.didNotPlant \(six(currentMorsel?.sprite.sprite.name)) \(cReplantsAttempted) <? \(cReplantsToAttempt) <- \(mannaMagazine.count)" }
                 cReplantFailures += 1
-                if cReplantFailures < 5 {
-                    Debug.log(level: 130) { "blast.retryPlantOnNewThread \(six(currentMorsel?.sprite.sprite.name)) \(cReplantsAttempted) <? \(cReplantsToAttempt) <- \(mannaMagazine.count)" }
-                    a()
-                    return }
+                if cReplantFailures < 5 { a(); return }
                 Debug.log(level: 130) { "blast.giveUp \(six(currentMorsel?.sprite.sprite.name)) \(cReplantsAttempted) <? \(cReplantsToAttempt) <- \(mannaMagazine.count)" }
             }
 
@@ -82,7 +88,6 @@ class MannaCannon {
     func postInit() {
         (0..<Arkonia.cMannaMorsels).forEach { fishNumber in
             let m = Manna(fishNumber)
-            m.mark()
             mannaMagazine.push(m)
 
             Debug.log(level: 129) { "postInit \(fishNumber) \(six(m.sprite.sprite.name))" }
