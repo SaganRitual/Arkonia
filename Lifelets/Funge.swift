@@ -28,7 +28,7 @@ extension Funge {
             return
         }
 
-        if !canSpawn || Census.shared.population > Arkonia.maxPopulation { dp.plot(); return }
+        if !canSpawn || Census.shared.population > Arkonia.maxPopulation { dp.computeMove(); return }
 
         dp.spawn()
     }

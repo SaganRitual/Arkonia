@@ -57,6 +57,8 @@ extension Dispatch {
 
     func colorize()       { dispatch(Colorize.self) }
 
+    func computeMove()    { dispatch(ComputeMove.self) }
+
     func disengage()      { dispatch(Disengage.self) }
 
     func engage()         { dispatch(Engage.self) }
@@ -70,8 +72,6 @@ extension Dispatch {
     func moveStepper()    { dispatch(MoveStepper.self) }
 
     func parasitize()     { dispatch(Parasitize.self) }
-
-    func plot()           { dispatch(Plot.self) }
 
     func releaseShuttle() { dispatch(ReleaseShuttle.self) }
 

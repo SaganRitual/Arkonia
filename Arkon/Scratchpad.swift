@@ -10,6 +10,7 @@ class Scratchpad {
     var isApoptosizing = false
     var name = ""
     weak var parentNet: Net?
+    var plotter: Plotter?
     var senseGrid: CellSenseGrid?
     weak var stepper: Stepper?
     var co2Counter: CGFloat = 0
@@ -22,16 +23,25 @@ class Scratchpad {
     //swiftlint:enable large_tuple
 
     deinit {
-        if let hk = engagerKey as? HotKey { hk.releaseLock() }
+        Debug.log(level: 146) { "Scratchpad deinit for \(name)" }
+        if let hk = engagerKey as? HotKey {
+            Debug.log(level: 146) { "release engager key for \(name)" }
+            hk.releaseLock() }
         engagerKey = nil
 
-        if let fc = cellShuttle?.fromCell { fc.releaseLock() }
+        if let fc = cellShuttle?.fromCell {
+            Debug.log(level: 146) { "release fromCell for \(name)" }
+            fc.releaseLock() }
         cellShuttle?.fromCell = nil
 
-        if let tc = cellShuttle?.toCell { tc.releaseLock() }
+        if let tc = cellShuttle?.toCell {
+            Debug.log(level: 146) { "release toCell for \(name)" }
+            tc.releaseLock() }
         cellShuttle?.toCell = nil
 
-        senseGrid?.cells.forEach { ($0 as? HotKey)?.releaseLock() }
+        senseGrid?.cells.forEach { cellKey in
+            Debug.log(level: 146) { "release senseGrid cell for \(name) -> \(cellKey is HotKey)" }
+            (cellKey as? HotKey)?.releaseLock() }
         senseGrid = nil
     }
 }

@@ -12,7 +12,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
         var isOccupied:     Bool { self != .invalid && self != .nothing }
     }
 
-    lazy var debugDescription: String = { String(format: "GridCell.at(-%03d, -%03d)", gridPosition.x, gridPosition.y) }()
+    lazy var debugDescription: String = { String(format: "GridCell.at(% 03d, % 03d)", gridPosition.x, gridPosition.y) }()
 
     var coldKey: ColdKey?
     let gridPosition: AKPoint
@@ -94,7 +94,7 @@ extension GridCell {
             let name = $0.name
             let remove = $0.name == stepper.name
             if remove {
-                Debug.log(level: 62) { "deschedule \(six(stepper.name)) == \(six(name))" }
+                Debug.log(level: 146) { "deschedule \(six(stepper.name)) == \(six(name))" }
             }
             return remove
         }
@@ -104,7 +104,7 @@ extension GridCell {
         defer { if toReschedule.isEmpty == false { _ = toReschedule.removeFirst() } }
 
         if !toReschedule.isEmpty {
-            Debug.log(level: 62) {
+            Debug.log(level: 146) {
                 "getRescheduledArkon \(six(toReschedule.first!.name)) " +
                 "\(toReschedule.count)"
             }
@@ -116,7 +116,7 @@ extension GridCell {
         precondition(toReschedule.contains { $0.name == stepper.name } == false)
         toReschedule.append(stepper)
         Debug.debugColor(stepper, .blue, .red)
-        Debug.log(level: 71) { "reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))" }
+        Debug.log(level: 146) { "reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))" }
     }
 }
 

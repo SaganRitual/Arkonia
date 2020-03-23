@@ -40,6 +40,10 @@ class Stepper {
             + ", parent is \(six(parentStepper?.name))"
         }
     }
+
+    deinit {
+        Debug.log(level: 146) { "deinit \(name)" }
+    }
 }
 
 extension Stepper {

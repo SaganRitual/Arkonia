@@ -76,7 +76,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
     func reengageRequesters() {
         guard let c = gridCell else { return }
 
-        Debug.log(level: 105) {
+        Debug.log(level: 146) {
             return c.toReschedule.isEmpty ? nil :
             "Reengage from \(c.toReschedule.count) requesters at \(gridPosition)"
         }
@@ -85,7 +85,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
             if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
                 let ch = dp.scratch
                 assert(ch.engagerKey == nil)
-                Debug.log(level: 107) { "reengageRequesters: \(six(st.name)) at \(self.gridPosition); from \(ch.cellShuttle?.fromCell?.gridPosition ?? AKPoint.zero), to \(ch.cellShuttle?.toCell?.gridPosition ?? AKPoint.zero)" }
+                Debug.log(level: 146) { "reengageRequesters: \(six(st.name)) at \(self.gridPosition); from \(ch.cellShuttle?.fromCell?.gridPosition ?? AKPoint.zero), to \(ch.cellShuttle?.toCell?.gridPosition ?? AKPoint.zero)" }
                 dp.disengage()
                 return
             }

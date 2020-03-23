@@ -1,14 +1,15 @@
 import CoreGraphics
 
 // swiftlint:disable function_body_length
-extension Plot {
+
+extension Plotter {
     static var cNaN = 0
     static var cInf = 0
     static var motorHistogram = [Int](repeating: 0, count: Arkonia.cMotorGridlets + 1)
     static var targetHistogram = [Int](repeating: 0, count: Arkonia.cMotorGridlets + 1)
     static var sinHistogram = [Int](repeating: 0, count: Arkonia.cMotorGridlets + 1)
 
-    func makeCellShuttle(
+    func setRoute(
         _ senseData: [Double], _ senseGrid: CellSenseGrid, _ onComplete: @escaping (CellShuttle) -> Void
     ) {
         guard let ch = scratch else { fatalError() }
@@ -26,14 +27,14 @@ extension Plot {
 
                 motorOutputs = zip(0..., rawOutputs).compactMap { position, rawOutput in
                     if rawOutput.isNaN {
-                        Plot.cNaN += 1
-                        Debug.log { "NaN \(Plot.cNaN)" }
+                        Plotter.cNaN += 1
+                        Debug.log { "NaN \(Plotter.cNaN)" }
                         return nil
                     }
 
                     if rawOutput.isInfinite {
-                        Plot.cInf += 1
-                        Debug.log { "cInf \(Plot.cInf)" }
+                        Plotter.cInf += 1
+                        Debug.log { "cInf \(Plotter.cInf)" }
                         return nil
                     }
 
@@ -62,7 +63,7 @@ extension Plot {
             let motorOutput = s3 - 1
             Debug.log(level: 143) { "motorOutput \(motorOutputs), \(s0), \(s1), \(s2), \(s3) -> \(motorOutput)" }
 
-            Plot.motorHistogram[motorOutput] += 1
+            Plotter.motorHistogram[motorOutput] += 1
 
             var skip = 0
             let gridlets: [Int] = (0..<(Arkonia.cMotorGridlets + 1)).map { wrappingIndex in
@@ -85,8 +86,8 @@ extension Plot {
 //            let sinss = Int((sin(motorOutput_) + 1) / 2 * Double(Arkonia.cMotorGridlets))
 //            Plot.sinHistogram[sinss] += 1
 //            Debug.log(level: 132) { return targetOffset == 0 ? "toff = 0, motorOutput_ = \(motorOutput_)" : nil }
-            Plot.targetHistogram[targetOffset] += 1
-            Debug.log(level: 143) { "sins/targets/motors <- \(Plot.targetHistogram) <- \(Plot.motorHistogram)" }
+            Plotter.targetHistogram[targetOffset] += 1
+            Debug.log(level: 143) { "sins/targets/motors <- \(Plotter.targetHistogram) <- \(Plotter.motorHistogram)" }
 
             let fromCell: HotKey?
             let toCell: HotKey
