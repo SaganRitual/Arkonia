@@ -3,11 +3,12 @@ import CoreGraphics
 // swiftlint:disable function_body_length
 
 extension Plotter {
+    static let cMotorGridlets = Arkonia.cMotorGridlets
     static var cNaN = 0
     static var cInf = 0
-    static var motorHistogram = [Int](repeating: 0, count: Arkonia.cMotorGridlets + 1)
-    static var targetHistogram = [Int](repeating: 0, count: Arkonia.cMotorGridlets + 1)
-    static var sinHistogram = [Int](repeating: 0, count: Arkonia.cMotorGridlets + 1)
+    static var motorHistogram = [Int](repeating: 0, count: Plotter.cMotorGridlets + 1)
+    static var targetHistogram = [Int](repeating: 0, count: Plotter.cMotorGridlets + 1)
+    static var sinHistogram = [Int](repeating: 0, count: Plotter.cMotorGridlets + 1)
 
     func setRoute(
         _ senseData: [Double], _ senseGrid: CellSenseGrid, _ onComplete: @escaping (CellShuttle) -> Void
@@ -53,27 +54,27 @@ extension Plotter {
 
 //            let s0 = motorOutput_ + 1   // s0 range is 0...2
 //            let s1 = s0 / 2.0           // s1 range is 0...1
-//            let s2 = s1 * Double(Arkonia.cMotorGridlets + 1)
+//            let s2 = s1 * Double(Plotter.cMotorGridlets + 1)
 //            let s3 = ceil(s2) - 1
-//            let motorOutput = Int(s3) // Int((motorOutput_ + 1) / 2.0 * Double(Arkonia.cMotorGridlets + 1))
-            let s0 = motorOutput_ + 1
-            let s1 = s0 * Double(Arkonia.cMotorGridlets + 1) / 2
-            let s2 = ceil(s1)
+//            let motorOutput = Int(s3) // Int((motorOutput_ + 1) / 2.0 * Double(Plotter.cMotorGridlets + 1))
+            let s0 = motorOutput_
+            let s1 = s0 * Double(Plotter.cMotorGridlets + 1)
+            let s2 = floor(s1)
             let s3 = Int(s2)
-            let motorOutput = s3 - 1
-            Debug.log(level: 143) { "motorOutput \(motorOutputs), \(s0), \(s1), \(s2), \(s3) -> \(motorOutput)" }
+            let motorOutput = s3
+            Debug.log(level: 148) { "motorOutput \(motorOutputs), \(s0), \(s1), \(s2), \(s3) -> \(motorOutput)" }
 
             Plotter.motorHistogram[motorOutput] += 1
 
             var skip = 0
-            let gridlets: [Int] = (0..<(Arkonia.cMotorGridlets + 1)).map { wrappingIndex in
+            let gridlets: [Int] = (0..<(Plotter.cMotorGridlets + 1)).map { wrappingIndex in
                 if wrappingIndex == 0 { return motorOutput }
 
-                let wrapped = wrappingIndex % (Arkonia.cMotorGridlets + 1)
+                let wrapped = wrappingIndex % (Plotter.cMotorGridlets + 1)
 
                 if wrapped == motorOutput { skip = 1 }
 
-                return (wrappingIndex + skip) % (Arkonia.cMotorGridlets + 1)
+                return (wrappingIndex + skip) % (Plotter.cMotorGridlets + 1)
             }
 
             var targetOffset: Int = 0
@@ -83,7 +84,7 @@ extension Plotter {
 
             Debug.log(level: 139) { "toff \(targetOffset) from gridlets \(gridlets)" }
 
-//            let sinss = Int((sin(motorOutput_) + 1) / 2 * Double(Arkonia.cMotorGridlets))
+//            let sinss = Int((sin(motorOutput_) + 1) / 2 * Double(Plotter.cMotorGridlets))
 //            Plot.sinHistogram[sinss] += 1
 //            Debug.log(level: 132) { return targetOffset == 0 ? "toff = 0, motorOutput_ = \(motorOutput_)" : nil }
             Plotter.targetHistogram[targetOffset] += 1

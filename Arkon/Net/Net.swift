@@ -97,7 +97,9 @@ extension Net {
     static func bentidentity(_ x: Double) -> Double { ((sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
     static func identity(_ x: Double) -> Double { x }
     static func leakyrelu(_ x: Double) -> Double { x < 0.0 ? (0.01 * x) : x }
+
     static func logistic(_ x: Double) -> Double { 1.0 / (1.0 + exp(-x)) }
+
     static func sinusoid(_ x: Double) -> Double { sin(x) }
 
     static func sqnl(_ x: Double) -> Double {

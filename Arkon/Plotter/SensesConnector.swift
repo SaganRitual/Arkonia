@@ -104,16 +104,24 @@ class SensesConnector {
 
     private func loadGridInput(_ cellKey: GridCellKey) -> Double {
         switch cellKey.contents {
-        case .arkon:   return 0
-        case .nothing: return 0
-        case .invalid: return 0
+        case .arkon:   return -1
+        case .nothing: return -1
+        case .invalid: return -1
 
         case .manna:
             guard let manna = cellKey.sprite?.getManna(require: false)
                 else { fatalError() }
 
             Debug.log(level: 145) { "load grid input \(manna.getEnergyContentInJoules())" }
-            return Double(manna.getEnergyContentInJoules())
+            let j = manna.getEnergyContentInJoules()
+
+            // If the manna is fully charged, we'll get a 1, which we don't want;
+            // we want only values < 1. Probably something I still don't understand
+            // about the way nets are supposed to work
+            let k = (j < Arkonia.maxMannaEnergyContentInJoules) ? j :
+                Arkonia.maxMannaEnergyContentInJoules * 0.99
+
+            return Double(k)
         }
     }
 }

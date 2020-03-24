@@ -36,7 +36,6 @@ class MannaCannon {
         func a() { replantDispatch.async(execute: b) }
 
         func b() {
-            defer { }
             if resetCounters {
                 cReplantsAttempted = 0
                 cReplantFailures = 0
@@ -107,27 +106,18 @@ class MannaCannon {
     }
 
     func scheduleBlast() {
-        Debug.log(level: 135) { "sb 0 " }
         let p = MannaCannon.nextBlastPlot[nextBlastPlotSS]
 
         nextBlastPlotSS = (nextBlastPlotSS + 1) % MannaCannon.nextBlastPlot.count
 
         // Cycle through seasons, longer barren periods, then shorter
         let now = Date()
-        Debug.log(level: 135) { "sb 1 \(now)" }
         let elapsedTimeThisCycle = fluctuationCycleStart.distance(to: now)
-        Debug.log(level: 135) { "sb 2 \(elapsedTimeThisCycle)" }
         let normalized = elapsedTimeThisCycle / fluctuationCycleDuration
-        Debug.log(level: 135) { "sb 3 \(normalized)" }
         let scaledForSine = ((2 * normalized) - 1) * Double.pi
-        Debug.log(level: 135) { "sb 4 \(scaledForSine)" }
         let extendDrySeason = constrain(p * sin(scaledForSine), lo: -p + 1, hi: p - 1)
-        Debug.log(level: 135) { "sb 5 \(extendDrySeason)" }
         let totalDrySeason = p + extendDrySeason
-        Debug.log(level: 135) { "sb 6 \(totalDrySeason)" }
         self.nextBlast = now + totalDrySeason
-
-        Debug.log(level: 135) { "sb 7 \(self.nextBlast)" }
 
         replantDispatch.asyncAfter(wallDeadline: .now() + totalDrySeason, execute: blast)
     }

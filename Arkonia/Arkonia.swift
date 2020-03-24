@@ -20,10 +20,10 @@ class Arkonia {
     static let netActivator = Net.logistic
 
     static let allowSpawning = true
-    static let cMannaMorsels = 8000
+    static let cMannaMorsels = 5000
     static let cFertileSpots = 5
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 148 // var so we can change it on the fly
+    static var debugMessageLevel = 149 // var so we can change it on the fly
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
@@ -32,10 +32,10 @@ class Arkonia {
     static let maxPopulation = Int.max
     static let worldTimeLimit: TimeInterval? = nil//5000
 
-    static let co2BaseCost: CGFloat = 1.02
+    static let co2BaseCost: CGFloat = 0//1.02
     static let co2MaxLevel: CGFloat = 50
-    static let oxygenCostPerTick: CGFloat = 0.01
-    static let neuronCostPerCycle: CGFloat = 0.01  // In joules
+    static let oxygenCostPerTick: CGFloat = 0//0.01
+    static let neuronCostPerCycle: CGFloat = 0//0.01  // In joules
 
     static let inhaleFudgeFactor: CGFloat = 2.0
     static let spawnOverhead: CGFloat = 1.5

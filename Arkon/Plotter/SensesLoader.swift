@@ -25,6 +25,10 @@ class SensesLoader {
             )
 
             let sensoryInputs = connectors.map { $0.load() }
+
+            // Make sure all our inputs are in proper range
+            precondition(sensoryInputs.first(where: { $0 < -1 || $0 >= 1 }) == nil)
+
             onComplete(sensoryInputs)
         }
     }

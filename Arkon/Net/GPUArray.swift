@@ -4,7 +4,7 @@ struct GPUArray {
     static var shared = GPUArray()
 
     private let gpu: [MTLDevice]
-    private var whichOne = 1
+    private var whichOne = 0
 
     init() { gpu = MTLCopyAllDevices() }
 
