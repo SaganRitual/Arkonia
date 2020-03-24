@@ -106,7 +106,7 @@ extension Net {
         switch x {
         case -2.0..<0.0: return x + x * x / 4.0
         case 0.0..<2.0:  return x - x * x / 4.0
-        case 2.0...:     return 1.0
+        case 2.0...:     return 0.99
         default:         return -1.0
         }
     }

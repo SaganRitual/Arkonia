@@ -23,7 +23,7 @@ class Arkonia {
     static let cMannaMorsels = 5000
     static let cFertileSpots = 5
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 149 // var so we can change it on the fly
+    static var debugMessageLevel = 151 // var so we can change it on the fly
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
@@ -44,7 +44,6 @@ class Arkonia {
     static let mannaColorBlendMinimum: CGFloat = 0.25
     static let mannaFullGrowthDurationSeconds: TimeInterval = 2
     static let maxMannaEnergyContentInJoules: CGFloat = 200
-    static let mannaReplantBatchSize: Int = 100
 
     static var mannaColorBlendRangeWidth: CGFloat
         { mannaColorBlendMaximum - mannaColorBlendMinimum }

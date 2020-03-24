@@ -40,35 +40,36 @@ final class HotNetBlas: HotNet {
         _ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void
     ) {
         let si = sensoryInputs.map { BlasNumber($0) }
-//        Debug.log(level: 138) { "driveSignal in \(sensoryInputs)" }
         assert(sensoryInputs.min()! >= -1 && sensoryInputs.max()! <= 1)
-
-        Debug.log(level: 142) {
-
-            sensoryInputs.forEach {
-                let scaledUp = ($0 + 1) * Double(HotNetBlas.inputsHistogram.count) / 2
-                let truncated = Int(ceil(scaledUp)) - 1
-                if truncated >= HotNetBlas.inputsHistogram.count { print("here \(truncated)") }
-                HotNetBlas.inputsHistogram[truncated] += 1
-            }
-
-            return "sihist \(HotNetBlas.inputsHistogram)"
-        }
 
         si.withUnsafeBufferPointer {
             var inputToNextLayer = $0
             var outputs: BlasBuffer_Write!
 
-            Debug.log(level: 143) { "1.driveSignal out \(Array(inputToNextLayer))" }
+            showLayerOutput("top   ", inputToNextLayer)
 
             blasLayers.forEach { layer in
                 outputs = layer.driveSignal(inputToNextLayer)
                 outputs.withUnsafeBufferPointer { inputToNextLayer = $0 }
-                Debug.log(level: 143) { "n.driveSignal out \(Array(inputToNextLayer))" }
+                showLayerOutput("hidden", inputToNextLayer)
             }
 
             let oc = Array(inputToNextLayer).map { Double($0) }
             onComplete(oc)
+        }
+    }
+
+    private func showLayerOutput(_ layerCategory: String, _ output: UnsafeBufferPointer<BlasNumber>) {
+        Debug.log(level: 150) {
+            var outputString = ""
+            var sep = ""
+
+            Array(output).forEach {
+                outputString += sep + String(format: "% 0.4f", $0)
+                if sep.isEmpty { sep = ", " }
+            }
+
+            return "\(layerCategory) layer inputs \(outputString)"
         }
     }
 

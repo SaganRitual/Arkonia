@@ -49,7 +49,7 @@ class SensesConnector {
 
         func c() {
             let scale = Double(Arkonia.maxMannaEnergyContentInJoules) / entropyPerJoule
-            Debug.log(level: 145) { "scale = \(scale) = \(entropyPerJoule) / \(Arkonia.maxMannaEnergyContentInJoules) " }
+            Debug.log(level: 150) { "scale = \(scale) = \(Arkonia.maxMannaEnergyContentInJoules) / \(entropyPerJoule) " }
 
             gridInputs = senseGrid.cells.map { cell in
                 SensoryInput(scale: scale) { [weak self] in self!.loadGridInput(cell) }
@@ -104,15 +104,15 @@ class SensesConnector {
 
     private func loadGridInput(_ cellKey: GridCellKey) -> Double {
         switch cellKey.contents {
-        case .arkon:   return -1
-        case .nothing: return -1
-        case .invalid: return -1
+        case .arkon:   return 0
+        case .nothing: return 0
+        case .invalid: return 0
 
         case .manna:
             guard let manna = cellKey.sprite?.getManna(require: false)
                 else { fatalError() }
 
-            Debug.log(level: 145) { "load grid input \(manna.getEnergyContentInJoules())" }
+            Debug.log(level: 150) { "load grid input \(manna.getEnergyContentInJoules())" }
             let j = manna.getEnergyContentInJoules()
 
             // If the manna is fully charged, we'll get a 1, which we don't want;
