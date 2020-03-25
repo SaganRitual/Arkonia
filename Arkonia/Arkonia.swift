@@ -3,12 +3,12 @@ import SpriteKit
 class Arkonia {
     typealias OnComplete1p = (Int) -> Void
 
-    static let zoomFactor: CGFloat = 4
+    static let zoomFactor: CGFloat = 5
     static let arkonScaleFactor: CGFloat = 0.7
-    static let mannaScaleFactor: CGFloat = 0.1
+    static let mannaScaleFactor: CGFloat = 0.3
     static let noseScaleFactor: CGFloat = 0.75
 
-    static let senseGridCRings = 4
+    static let senseGridCRings = 5
     static let senseGridSide = 1 + 2 * senseGridCRings
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeuronsSpatial = cSenseGridlets
@@ -17,18 +17,16 @@ class Arkonia {
     static let cMotorNeurons = 1
     static let cMotorGridlets = cSenseGridlets - 1
 
-    static let netActivator = Net.logistic
-
     static let allowSpawning = true
-    static let cMannaMorsels = 5000
+    static let cMannaMorsels = 8000
     static let cFertileSpots = 5
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 151 // var so we can change it on the fly
+    static var debugMessageLevel = 153 // var so we can change it on the fly
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
     static let funkyCells: CGFloat? = nil//2 / zoomFactor
-    static let initialPopulation = 50
+    static let initialPopulation = 25
     static let maxPopulation = Int.max
     static let worldTimeLimit: TimeInterval? = nil//5000
 

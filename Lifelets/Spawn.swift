@@ -160,8 +160,9 @@ extension Spawn {
 
         Debug.log(level: 121) { "\(six(meTheParent?.name))" }
         Net.makeNet(
-            parentBiases: meTheParent?.net.biases.map({ Double($0) }), parentWeights: meTheParent?.net.weights.map({ Double($0) }),
-            layers: meTheParent?.net.layers, parentActivator: meTheParent?.net.activatorFunction
+            parentBiases: meTheParent?.net.biases.map({ Double($0) }),
+            parentWeights: meTheParent?.net.weights.map({ Double($0) }),
+            layers: meTheParent?.net.layers
         ) { onComplete($0) }
     }
 }

@@ -45,7 +45,7 @@ class HotLayerBlas {
 
         (0..<self.neuronsOut.count).forEach {
             let a = Double(self.neuronsOut[$0])
-            let b = Arkonia.netActivator(a)
+            let b = Net.logistic(a)
             let c = BlasNumber(b)
             self.neuronsOut[$0] = c
         }

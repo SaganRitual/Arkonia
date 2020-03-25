@@ -56,7 +56,7 @@ extension Manna.Sprite {
     static let colorActions = [ colorAction, dolorAction, eolorAction ]
 
     static let fadeInAction = SKAction.fadeAlpha(
-        to: 1, duration: Arkonia.mannaFullGrowthDurationSeconds
+        to: 0.5, duration: Arkonia.mannaFullGrowthDurationSeconds
     )
 
     func getIndicatorFullness() -> CGFloat {

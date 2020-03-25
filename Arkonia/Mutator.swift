@@ -3,18 +3,6 @@ import GameplayKit
 enum Mutator {
     static let rng = GKGaussianDistribution(randomSource: GKARC4RandomSource(), mean: 0, deviation: 33)
 
-    static func mutateActivator(parentActivator: ((_: Double) -> Double)?) -> ((_: Double) -> Double, Bool) {
-        guard let p = parentActivator else { return (Arkonia.netActivator, false) }
-
-//        if Int.random(in: 0..<100) > 90 {
-//            let didMutate = true    // Because laziness
-//
-//            return (Net.funcs.randomElement()!, didMutate)
-//        }
-
-        return (p, false)
-    }
-
     static func mutateNetStrand(parentStrand p: [Double]?, targetLength: Int) -> ([Double], Bool) {
         if let parentStrand = p {
             let (fp, didMutate) = mutateRandomDoubles(parentStrand)

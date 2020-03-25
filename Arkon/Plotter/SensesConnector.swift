@@ -1,25 +1,24 @@
 import CoreGraphics
 
 struct SensoryInput {
-    let getRawValueDouble: (() -> Double)?
-    let getRawValueCGFloat: (() -> CGFloat)?
+    let activator: ((Double) -> (Double))?
+    let getRawValue: () -> Double
     let scale: Double
 
-    init(scale: Double, _ getRawValue: @escaping () -> Double) {
+    init(
+        scale: Double,
+        _ getRawValue: @escaping () -> Double,
+        _ activator: ((Double) -> Double)?
+    ) {
+        self.activator = activator
+        self.getRawValue = getRawValue
         self.scale = scale
-        self.getRawValueDouble = getRawValue
-        self.getRawValueCGFloat = nil
-    }
-
-    init(scale: CGFloat, _ getRawValue: @escaping () -> CGFloat) {
-        self.scale = Double(scale)
-        self.getRawValueCGFloat = getRawValue
-        self.getRawValueDouble = nil
     }
 
     func load() -> Double {
-        if let rv = getRawValueDouble { return rv() / scale }
-        return (Double)(getRawValueCGFloat!()) / scale
+        let scaled = getRawValue() / scale
+        let activated = activator?(scaled) ?? scaled
+        return activated
     }
 }
 
@@ -48,11 +47,15 @@ class SensesConnector {
         func b() { Grid.serialQueue.async(execute: c) }
 
         func c() {
-            let scale = Double(Arkonia.maxMannaEnergyContentInJoules) / entropyPerJoule
-            Debug.log(level: 150) { "scale = \(scale) = \(Arkonia.maxMannaEnergyContentInJoules) / \(entropyPerJoule) " }
+            let scale = 1.0 / entropyPerJoule
+            Debug.log(level: 151) { "scale = \(scale) = 1 / \(entropyPerJoule) " }
 
             gridInputs = senseGrid.cells.map { cell in
-                SensoryInput(scale: scale) { [weak self] in self!.loadGridInput(cell) }
+                SensoryInput(
+                    scale: scale,
+                    { [weak self] in self!.loadGridInput(cell) },
+                    { scaledValue in max(0, scaledValue) }
+                )
             }
 
             onComplete()
@@ -67,17 +70,19 @@ class SensesConnector {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
 
         let myX = SensoryInput(
-            scale: GriddleScene.arkonsPortal.size.width,
-            { st.gridCell.scenePosition.x }
+            scale: Double(Grid.shared!.wGrid),
+            { Double(st.gridCell.gridPosition.x) },
+            { $0 }  // identity function, we're already scaled to -1..<1
         )
 
         let myY = SensoryInput(
-            scale: GriddleScene.arkonsPortal.size.height,
-            { st.gridCell.scenePosition.y }
+            scale: Double(Grid.shared!.hGrid),
+            { Double(st.gridCell.gridPosition.y) },
+            { $0 }  // identity function, we're already scaled to -1..<1
         )
 
-        let hunger = SensoryInput(scale: 1) { st.metabolism.hunger }
-        let asphyxia = SensoryInput(scale: Arkonia.co2MaxLevel) { st.metabolism.co2Level }
+        let hunger = SensoryInput(scale: 1, { Double(st.metabolism.hunger) }, { $0 })
+        let asphyxia = SensoryInput(scale: Double(Arkonia.co2MaxLevel), { Double(st.metabolism.co2Level) }, { $0 })
 
         nonGridInputs.append(myX)
         nonGridInputs.append(myY)
@@ -88,13 +93,13 @@ class SensesConnector {
             let diff = st.sprite.position - fertileSpot.node.position
 
             let radius = SensoryInput(
-                scale: GriddleScene.arkonsPortal.size.hypotenuse / 2,
-                { diff.hypotenuse / 2 }
+                scale: Double(Grid.shared.hypoteneuse),
+                { Double(diff.hypotenuse / 2) }, { $0 }
             )
 
             let theta = SensoryInput(
-                scale: CGFloat.pi / 2,
-                { (diff.x == 0) ? 0 : atan(diff.y / diff.x) }
+                scale: Double.pi / 2,
+                { (diff.x == 0) ? 0 : atan(Double(diff.y) / Double(diff.x)) }, { Double($0) }
             )
 
             nonGridInputs.append(radius)
@@ -112,16 +117,13 @@ class SensesConnector {
             guard let manna = cellKey.sprite?.getManna(require: false)
                 else { fatalError() }
 
-            Debug.log(level: 150) { "load grid input \(manna.getEnergyContentInJoules())" }
-            let j = manna.getEnergyContentInJoules()
+            let energy = Double(manna.getEnergyContentInJoules() / Arkonia.maxMannaEnergyContentInJoules)
+            Debug.log(level: 151) { "load grid input \(energy)" }
 
-            // If the manna is fully charged, we'll get a 1, which we don't want;
-            // we want only values < 1. Probably something I still don't understand
-            // about the way nets are supposed to work
-            let k = (j < Arkonia.maxMannaEnergyContentInJoules) ? j :
-                Arkonia.maxMannaEnergyContentInJoules * 0.99
-
-            return Double(k)
+            // If the manna is fully charged, we can get a 1.0 out of the
+            // scaling above. Shave a bit off it so we don't go outside our
+            // array boundaries later in the signal-driving process
+            return energy < 1.0 ? energy : energy - 1e-4
         }
     }
 }

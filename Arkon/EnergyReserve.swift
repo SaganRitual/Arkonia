@@ -8,7 +8,7 @@ class EnergyReserve {
     static let startingLevelBone: CGFloat = 5
     static let startingLevelFat: CGFloat = 15
     static let startingLevelReadyEnergy: CGFloat = 120
-    static let spawnReservesCapacity: CGFloat = 300
+    static let spawnReservesCapacity: CGFloat = 200
 
     static let startingEnergyLevel = (
         startingLevelBone + startingLevelFat + startingLevelReadyEnergy

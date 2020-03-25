@@ -5,7 +5,7 @@ enum HotNetType { case blas, cnn, gpu }
 var hotNetType: HotNetType = .blas
 
 protocol HotNet: class {
-    init(_ layers: [Int], _ biases: [Double], _ weights: [Double], _ activator: @escaping (Double) -> Double)
+    init(_ layers: [Int], _ biases: [Double], _ weights: [Double])
     func driveSignal(_ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void)
 }
 
@@ -16,7 +16,6 @@ class Net {
         target: DispatchQueue.global(qos: .utility)
     )
 
-    let activatorFunction: (_: Double) -> Double
     let biases: [Double]
     let cBiases: Int
     let cNeurons: Int
@@ -28,17 +27,16 @@ class Net {
 
     static func makeNet(
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
-        parentActivator: ((_: Double) -> Double)?, _ onComplete: @escaping (Net) -> Void
+        _ onComplete: @escaping (Net) -> Void
     ) {
         dispatchQueue.async {
-            let newNet = Net(parentBiases, parentWeights, layers, parentActivator)
+            let newNet = Net(parentBiases, parentWeights, layers)
             onComplete(newNet)
         }
     }
 
     private init(
-        _ parentBiases: [Double]?, _ parentWeights: [Double]?, _ layers: [Int]?,
-        _ parentActivator: ((_: Double) -> Double)?
+        _ parentBiases: [Double]?, _ parentWeights: [Double]?, _ layers: [Int]?
     ) {
         var didMutate = false
 
@@ -73,15 +71,12 @@ class Net {
         (self.weights, didMutate) = Mutator.mutateNetStrand(parentStrand: parentWeights, targetLength: cWeights)
         if didMutate { dm = true }
 
-        (self.activatorFunction, didMutate) = Mutator.mutateActivator(parentActivator: parentActivator)
-        if didMutate { dm = true }
-
         self.isCloneOfParent = !dm
 
         switch hotNetType {
-        case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights, self.activatorFunction)
-        case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights, self.activatorFunction)
-        case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights, self.activatorFunction)
+        case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights)
+        case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights)
+        case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights)
         }
     }
 

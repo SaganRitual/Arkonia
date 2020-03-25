@@ -6,7 +6,6 @@ let NumberSize = MemoryLayout<Number>.size
 let NumberTypeInGPU = MPSDataType.float32
 
 final class HotNetGpu: HotNet {
-    let activator: (Double) -> Double
     let commandQueue: MTLCommandQueue
     let device = GPUArray.shared.next()
     var hotLayers = [HotLayerGpu]()
@@ -14,9 +13,7 @@ final class HotNetGpu: HotNet {
     var neuronsOutMatrix: MPSMatrix!
     let topLayerNeuronsMatrix: MPSMatrix!
 
-    init(_ coldLayers: [Int], _ biases: [Double], _ weights: [Double], _ activator: @escaping (Double) -> Double) {
-        self.activator = activator
-
+    init(_ coldLayers: [Int], _ biases: [Double], _ weights: [Double]) {
         guard let cq = device.makeCommandQueue() else { fatalError() }
         commandQueue = cq
 

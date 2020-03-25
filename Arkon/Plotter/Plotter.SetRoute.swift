@@ -52,25 +52,33 @@ extension Plotter {
             let s2 = floor(s1)
             let s3 = Int(s2)
             let motorOutput = s3
-            Debug.log(level: 150) { "motorOutput \(motorOutputs) -> \(motorOutput)" }
+            Debug.log(level: 152) { "motorOutput \(motorOutputs) -> \(motorOutput)" }
 
-            var skip = 0
-            let gridlets: [Int] = (0..<(Plotter.cMotorGridlets + 1)).map { wrappingIndex in
-                if wrappingIndex == 0 { return motorOutput }
-
-                let wrapped = wrappingIndex % (Plotter.cMotorGridlets + 1)
-
-                if wrapped == motorOutput { skip = 1 }
-
-                return (wrappingIndex + skip) % (Plotter.cMotorGridlets + 1)
+            // Try to use the selected motor output, ie, jump to that square on
+            // the grid. But if that square is occupied, lay out a selection array
+            // that makes "stand still" the least likely option. If the motor
+            // output is 0 already, we just take it as is.
+            //
+            // Say we have 9 squares, meaning the 0 square where we are right now, and
+            // the 8 around us. If the motor output is 3, then we set up the selection
+            // array like 3, 4, 5, 6, 7, 8, 9, 1, 2, 0
+            //
+            let selector: [Int]
+            if motorOutput > 0 {
+                selector = [motorOutput] +
+                            ((motorOutput + 1)..<(Plotter.cMotorGridlets + 1)).map { $0 } +
+                            (1..<motorOutput).map { $0 } +
+                            [0]
+            } else {
+                selector = [0]
             }
 
             var targetOffset: Int = 0
-            if let toff = gridlets.first(where: {
+            if let toff = selector.first(where: {
                 senseGrid.cells[$0] is HotKey && (senseGrid.cells[$0].contents != .arkon || $0 == 0)
             }) { targetOffset = toff }
 
-            Debug.log(level: 139) { "toff \(targetOffset) from gridlets \(gridlets)" }
+            Debug.log(level: 152) { "toff \(targetOffset) from selector \(selector)" }
 
             let fromCell: HotKey?
             let toCell: HotKey

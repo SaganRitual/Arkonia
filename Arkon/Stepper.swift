@@ -10,7 +10,6 @@ class Stepper {
     var net: Net!
     var netDisplay: NetDisplay?
     var nose: SKSpriteNode!
-    var parentActivator: ((_: Double) -> Double)?
     var parentBiases: [Double]?
     var parentLayers: [Int]?
     weak var parentStepper: Stepper?

@@ -10,14 +10,3 @@ protocol GridCellProtocol {
 
     var contents: GridCell.Contents { get }
 }
-
-extension GridCell {
-    static let gridPointsByIndex = [
-        AKPoint(x: 0, y: 0),
-
-        AKPoint(x: 1, y: 0), AKPoint(x: 1, y: -1), AKPoint(x: 0, y: 0),
-        AKPoint(x: 0, y: 0), AKPoint(x: 0, y: 0), AKPoint(x: 0, y: 0),
-        AKPoint(x: 0, y: 0), AKPoint(x: 0, y: 0)
-
-    ]
-}
