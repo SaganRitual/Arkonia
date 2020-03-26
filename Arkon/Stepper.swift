@@ -52,7 +52,7 @@ extension Stepper {
 
     func getSpawnCost() -> CGFloat {
         let spawnCost = Arkonia.allowSpawning ?
-            EnergyReserve.spawnReservesCapacity * 0.95 : CGFloat.infinity
+            Arkonia.spawnReservesCapacity * 0.95 : CGFloat.infinity
 
         Debug.log(level: 95) {
             if metabolism.spawnReserves.level <= 0 { return nil }

@@ -108,20 +108,9 @@ extension Metabolism {
 
         Debug.log(level: 96) { "O2 level \(oxygenLevel), CO2 level \(co2Level)" }
 
-        // Having babies is necessary for life
-//        let fluctuationRange = 10 * Double.pi    // in seconds * π
-//        let averageGestation = 25               // in seconds
-//        let dAge = Double(age) / 7
-//        let adjustment = (sin(dAge) / Double.pi) * Double(fluctuationRange) - Double(age / 10)
-//        let fullGestation = averageGestation + Int(adjustment)
-//        let spawnDeadline = age + max(fullGestation, 25)
-
-//        Debug.log(level: 138) { "age \(age) + adjustment \(adjustment), fullGestation \(fullGestation)" }
-
         return
             fungibleEnergyFullness > 0 &&
             oxygenLevel > 0 &&
-            co2Level < Arkonia.co2MaxLevel/* &&
-            age < spawnDeadline*/
+            co2Level < Arkonia.co2MaxLevel
     }
 }

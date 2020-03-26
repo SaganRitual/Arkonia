@@ -3,12 +3,12 @@ import SpriteKit
 class Arkonia {
     typealias OnComplete1p = (Int) -> Void
 
-    static let zoomFactor: CGFloat = 5
+    static let zoomFactor: CGFloat = 4
     static let arkonScaleFactor: CGFloat = 0.7
     static let mannaScaleFactor: CGFloat = 0.3
     static let noseScaleFactor: CGFloat = 0.75
 
-    static let senseGridCRings = 5
+    static let senseGridCRings = 3
     static let senseGridSide = 1 + 2 * senseGridCRings
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeuronsSpatial = cSenseGridlets
@@ -18,30 +18,31 @@ class Arkonia {
     static let cMotorGridlets = cSenseGridlets - 1
 
     static let allowSpawning = true
-    static let cMannaMorsels = 8000
-    static let cFertileSpots = 5
+    static let cMannaMorsels = 6000
+    static let cFertileSpots = 10
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 153 // var so we can change it on the fly
+    static var debugMessageLevel = 154 // var so we can change it on the fly
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
-    static let funkyCells: CGFloat? = nil//2 / zoomFactor
-    static let initialPopulation = 25
+    static let funkyCells: CGFloat? = 2 / zoomFactor
+    static let initialPopulation = 50
     static let maxPopulation = Int.max
     static let worldTimeLimit: TimeInterval? = nil//5000
 
-    static let co2BaseCost: CGFloat = 0//1.02
+    static let co2BaseCost: CGFloat = 1.02
     static let co2MaxLevel: CGFloat = 50
-    static let oxygenCostPerTick: CGFloat = 0//0.01
-    static let neuronCostPerCycle: CGFloat = 0//0.01  // In joules
+    static let oxygenCostPerTick: CGFloat = 0.01
+    static let neuronCostPerCycle: CGFloat = 0.01  // In joules
 
     static let inhaleFudgeFactor: CGFloat = 2.0
     static let spawnOverhead: CGFloat = 1.5
+    static let spawnReservesCapacity: CGFloat = 200
 
     static let mannaColorBlendMaximum: CGFloat = 0.35
     static let mannaColorBlendMinimum: CGFloat = 0.25
     static let mannaFullGrowthDurationSeconds: TimeInterval = 2
-    static let maxMannaEnergyContentInJoules: CGFloat = 200
+    static let maxMannaEnergyContentInJoules: CGFloat = 500
 
     static var mannaColorBlendRangeWidth: CGFloat
         { mannaColorBlendMaximum - mannaColorBlendMinimum }

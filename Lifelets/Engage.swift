@@ -9,19 +9,46 @@ final class Engage: Dispatchable {
 
 extension Engage {
     private func engage() {
-        guard let (_, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
 
         Debug.log(level: 104) { "Engage \(six(st.name)) \(st.gridCell!.contents) at \(st.gridCell.gridPosition)" }
         Debug.debugColor(st, .magenta, .magenta)
 
-        let isEngaged = self.engage_()
-        guard isEngaged else {
-            Debug.log(level: 104) { "Engage failed for \(six(st.name))" }
-            return
+        var age: Int = 0
+        var aligned = false
+        var clock: Int = 0
+
+        func a() { Clock.dispatchQueue.async(execute: b) }
+
+        func b() {
+            clock = Clock.shared.worldClock
+            WorkItems.getAge(of: st.name, at: clock) { age = $0; c()}
         }
 
-        self.makeSenseGrid()
-        dp.funge()
+        func c() {
+            if ch.spreading > 0 {
+                Debug.log(level: 153) { "Temp skipping \(six(st.name)), clock \(clock), age \(age)" }
+                ch.spreading -= 1
+                dp.disengage(); return
+            }
+
+            Debug.log(level: 153) { "Not skipping \(six(st.name)), clock \(clock), age \(age)" }
+            d()
+        }
+
+        func d() {
+            ch.spreading = ch.spreader
+            let isEngaged = self.engage_()
+            guard isEngaged else {
+                Debug.log(level: 153) { "Engage failed for \(six(st.name))" }
+                return
+            }
+
+            self.makeSenseGrid()
+            dp.funge()
+        }
+
+        a()
     }
 
     private func engage_() -> Bool {

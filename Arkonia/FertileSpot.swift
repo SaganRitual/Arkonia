@@ -10,7 +10,7 @@ class FertileSpot {
         currentPosition = GridCell.getRandomCell()
         totalDistance = CGPoint.zero.distance(to: currentPosition.scenePosition)
 
-        node.strokeColor = .clear   // Set to .white to see it on screen, for debug
+        node.strokeColor = .white   // Set to .white to see it on screen, for debug
         node.alpha = 1
         node.zPosition = 5
         node.position = currentPosition.scenePosition
@@ -20,13 +20,13 @@ class FertileSpot {
     }
 
     func move() {
-        let scale = abs(sin(totalDistance)) * 0.75 + 0.1
+        let scale = abs(sin(totalDistance)) * 0.25 + 0.1
 
         Debug.log(level: 133) { "fertile \(scale) \(node.xScale)" }
 
         let newTarget = GridCell.getRandomCell()
         let distanceToTarget = currentPosition.scenePosition.distance(to: newTarget.scenePosition)
-        let speed = CGFloat(10)  // in pix/sec
+        let speed = CGFloat(100)  // in pix/sec
         let time = TimeInterval(distanceToTarget / speed)
 
         currentPosition = newTarget
