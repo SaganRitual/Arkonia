@@ -73,7 +73,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
         reportHistory = reportFactory.newReport()
         reportHistory.setTitle("History")
         reportHistory.setReportoid(1, label: "Births", data: "0")
-        reportHistory.setReportoid(2, label: "Next rain", data: "")
+        reportHistory.setReportoid(2, label: "", data: "")
         reportHistory.setReportoid(3, label: "", data: "")
         hud.placeMonitor(reportHistory, dashboard: 0, quadrant: 2)
 

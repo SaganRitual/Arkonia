@@ -18,7 +18,6 @@ class Census {
     private(set) var births = 0
 
     let rBirths: Reportoid
-    let rNextBlast: Reportoid
     let rPopulation: Reportoid
     let rHighWaterAge: Reportoid
     let rHighWaterPopulation: Reportoid
@@ -32,7 +31,6 @@ class Census {
 
     init(_ scene: GriddleScene) {
         rBirths = scene.reportHistory.reportoid(1)
-        rNextBlast = scene.reportHistory.reportoid(2)
 
         rPopulation = scene.reportArkonia.reportoid(2)
 
@@ -75,7 +73,6 @@ extension Census {
         if ages.isEmpty { return }
 
         var greatestAge: Int = 0
-        var toNextBlast: TimeInterval = 0
 
         func a() {
             greatestAge = ages.last!
@@ -84,18 +81,9 @@ extension Census {
             self.rHighWaterPopulation.data.text = String(highWaterPopulation)
             self.rPopulation.data.text = String(population)
             self.rBirths.data.text = String(births)
-
-            MannaCannon.shared!.replantDispatch.sync {
-                let now = Date()
-                toNextBlast = now.distance(to: MannaCannon.shared!.nextBlast)
-                Debug.log(level: 133) { "update toNextBlast = \(toNextBlast), now = \(now), next = \(MannaCannon.shared!.nextBlast)" }
-                b()
-            }
         }
 
         func b() {
-            self.rNextBlast.data.text = ageFormatter.string(from: Double(max(toNextBlast, 0)))
-
             let n = max(greatestAge, highWaterAge)
             rHighWaterAge.data.text = ageFormatter.string(from: Double(n))
 

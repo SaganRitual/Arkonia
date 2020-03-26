@@ -6,22 +6,23 @@ final class Arrive: Dispatchable {
     func arrive() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { fatalError() }
-        Debug.log(level: 85) { "Arrive \(six(st.name))" }
+        Debug.log(level: 154) { "Arrive \(six(st.name))" }
 
         switch shuttle.consumedContents {
-        case .arkon: dp.parasitize()
-        case .manna: graze()
+        case .arkon: dp.parasitize(); return
+        case .nothing: break
         default: fatalError()
         }
+
+        if st.gridCell.mannaSprite != nil { graze() }
     }
 
     func graze() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let shuttle = ch.cellShuttle else { fatalError() }
-        guard let mannaSprite = shuttle.consumedSprite else { fatalError() }
+        guard let manna = st.gridCell.mannaSprite?.getManna(require: false) else { fatalError() }
 
-        mannaSprite.getManna()!.harvest { entropizedInJoules in
-            Debug.log(level: 97) { "graze \(entropizedInJoules)" }
+        manna.harvest { entropizedInJoules in
+            Debug.log(level: 154) { "graze \(entropizedInJoules)" }
             st.metabolism.absorbEnergy(entropizedInJoules)
             ch.co2Counter = 0
             dp.releaseShuttle()

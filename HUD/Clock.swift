@@ -51,12 +51,32 @@ class Clock {
         self.clockReport.data.text =
             self.clockFormatter.string(from: TimeInterval(self.worldClock))
 
-        let cManna = Grid.serialQueue.sync { (GridCell.cPhotosynthesizingManna, GridCell.cDeadManna) }
-        let photosynthesizing = cManna.0
-        let dead = cManna.1
+        var cPhotosynthesizingManna = 0
+        var cDeadManna = 0
 
-        self.foodValueReport.data.text = (Arkonia.worldTimeLimit == nil) ?
-            String(format: "% 5d/%3d%", photosynthesizing, Arkonia.cMannaMorsels - dead) :
-            String(format: "%.2f%%", (1 - self.getEntropy()) * 100)
+        func a() { MannaCannon.shared!.rebloomDispatch.async(execute: b) }
+
+        func b() {
+            cPhotosynthesizingManna = MannaCannon.shared!.cPhotosynthesizingManna
+            cDeadManna = MannaCannon.shared!.cDeadManna
+            c()
+        }
+
+        func c() { Clock.dispatchQueue.async(execute: d) }
+
+        func d() {
+            self.foodValueReport.data.text
+                = (Arkonia.worldTimeLimit == nil)
+
+                ? String(
+                    format: "% 5d/%3d%",
+                    MannaCannon.shared!.cPhotosynthesizingManna,
+                    Arkonia.cMannaMorsels - MannaCannon.shared!.cDeadManna
+                )
+
+                : String(format: "%.2f%%", (1 - self.getEntropy()) * 100)
+        }
+
+        a()
     }
 }

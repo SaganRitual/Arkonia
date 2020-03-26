@@ -22,30 +22,6 @@ extension SKSpriteNode {
         return entry
     }
 
-    func getKeyField(_ cellContents: GridCell.Contents, require: Bool = true) -> Any? {
-        func failIf(_ sub: String) {
-            if require {
-                Debug.log { "getKeyField failed to get \(sub) for \(six(name))" }
-                fatalError()
-            }
-        }
-
-        guard let userData = self.userData
-            else { failIf("'user data'"); return nil }
-
-        let spriteKey: SpriteUserDataKey
-        switch cellContents {
-        case .arkon: spriteKey = .stepper
-        case .manna: spriteKey = .manna
-        default: spriteKey = .uuid
-        }
-
-        guard let entry = userData[spriteKey]
-            else { failIf("'entry' for \(spriteKey)"); return nil }
-
-        return entry
-    }
-
     func getManna(require: Bool = true) -> Manna? {
         if let manna = getKeyField(SpriteUserDataKey.manna, require: require) as? Manna
             { return manna }
@@ -63,7 +39,7 @@ extension SKSpriteNode {
     }
 
     func getStepper(require: Bool = true) -> Stepper? {
-        if let stepper = getKeyField(.arkon, require: require) as? Stepper
+        if let stepper = getKeyField(.stepper, require: require) as? Stepper
             { return stepper }
 
         if require { fatalError() }

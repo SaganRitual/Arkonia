@@ -4,6 +4,7 @@ import SpriteKit
 protocol GridCellKey {
     var contents: GridCell.Contents { get }
     var gridPosition: AKPoint { get }
+    var mannaSprite: SKSpriteNode? { get }
     var ownerName: String { get }
     var sprite: SKSpriteNode? { get }
 }
@@ -12,6 +13,7 @@ struct ColdKey: GridCellKey {
     init(for cell: GridCell) {
         contents = cell.contents
         gridPosition = cell.gridPosition
+        mannaSprite = cell.mannaSprite
         ownerName = cell.ownerName
         sprite = cell.sprite
     }
@@ -19,6 +21,7 @@ struct ColdKey: GridCellKey {
     let contents: GridCell.Contents
     let gridPosition : AKPoint
     let ownerName: String
+    let mannaSprite: SKSpriteNode?
     let sprite: SKSpriteNode?
 }
 
@@ -47,6 +50,10 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
     var scenePosition: CGPoint {
         get { return gridCell?.scenePosition ?? CGPoint(x: -42.42, y: -42.42) }
         set { fatalError() }
+    }
+
+    var mannaSprite: SKSpriteNode? {
+        get { return gridCell?.mannaSprite }
     }
 
     var ownerName: String {
@@ -118,6 +125,7 @@ class NilKey: GridCellKey {
     var gridCell: GridCell? { get { nil } set { fatalError() } }
     var contents: GridCell.Contents { get { .invalid } set { fatalError() } }
     var gridPosition: AKPoint { get { AKPoint(x: -4444, y: -4444) } set { fatalError() } }
+    var mannaSprite: SKSpriteNode?  { get { nil } set { fatalError() } }
     var ownerName: String { get { "invalid" } set { fatalError() } }
     var sprite: SKSpriteNode?  { get { nil } set { fatalError() } }
     //swiftlint:enable unused_setter_value

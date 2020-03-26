@@ -1,11 +1,10 @@
 import SpriteKit
 
 extension Arkonia {
-    static let cMannaReplant = 100
+    static let cMannaRebloom = 100
 }
 
 class Manna {
-    struct MGrid { }
     struct Energy { }
 
     struct Sprite {
@@ -23,14 +22,15 @@ class Manna {
         }
     }
 
-    fileprivate let energy = Energy()
+    fileprivate let energy = Manna.Energy()
     fileprivate let fishNumber: Int
-    fileprivate let mGrid = MGrid()
-    let sprite: Sprite
+    let sprite: Manna.Sprite
+
+    var isPhotosynthesizing: Bool { self.sprite.isPhotosynthesizing }
 
     init(_ fishNumber: Int) {
         self.fishNumber = fishNumber
-        self.sprite = Sprite(fishNumber)
+        self.sprite = Manna.Sprite(fishNumber)
         self.sprite.setManna(self)
         self.sprite.reset()
     }
@@ -38,17 +38,17 @@ class Manna {
 
 extension Manna {
     func harvest(_ onComplete: @escaping (CGFloat) -> Void) {
-
         var nutritionInJoules: CGFloat = 0
 
         func a() { getNutritionInJoules { nutritionInJoules = $0; b() } }
 
         func b() {
-            GridCell.cPhotosynthesizingManna -= 1
+            MannaCannon.shared!.rebloomDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
 
-            SceneDispatch.schedule(self.sprite.reset)
-            MannaCannon.shared!.refurbishManna(self) { onComplete(nutritionInJoules) }
+            self.rebloom(c)
         }
+
+        func c() { onComplete(nutritionInJoules) }
 
         a()
     }
@@ -64,26 +64,29 @@ extension Manna {
         let e = getEnergyContentInJoules()
 
         Clock.shared.entropize(e) { entropizedEnergyContentInJoules in
+            Debug.log(level: 154) { "getNutritionInJoules \(entropizedEnergyContentInJoules)" }
             onComplete(entropizedEnergyContentInJoules)
         }
     }
 
-    enum ReplantResult { case didPlant, didNotPlant, died }
+    func plant() {
+        let cell = GridCell.getRandomCell()
+        cell.mannaSprite = self.sprite.sprite
+        self.sprite.bloom(at: cell)
+    }
 
-    func replant(_ onComplete: @escaping (ReplantResult) -> Void) {
+    enum RebloomResult { case died, rebloomed }
+
+    func rebloom(_ onComplete: @escaping () -> Void) {
+        sprite.reset()
+        onComplete()
+
         // Have 1% of the manna die off when it's eaten
-        if Int.random(in: 0..<100) == 0 && MannaCannon.firstPass == false {
-            Clock.dispatchQueue.async { GridCell.cDeadManna += 1 }
-            onComplete(.died)
+        if Int.random(in: 0..<100) > 0 {
+            sprite.rebloom()
             return
         }
 
-        Debug.log(level: 124) { "replant.1" }
-
-        let (newHome, didPlant) = mGrid.plant(sprite.sprite)
-        Debug.log(level: 124) { "replant.2" }
-
-        if didPlant { self.sprite.plant(at: newHome) }
-        onComplete(didPlant ? .didPlant : .didNotPlant)
+        MannaCannon.shared!.rebloomDispatch.async { MannaCannon.shared!.cDeadManna += 1 }
     }
 }

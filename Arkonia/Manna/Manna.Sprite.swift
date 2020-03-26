@@ -1,36 +1,5 @@
 import SpriteKit
 
-extension Manna.MGrid {
-    func plant(_ sprite: SKSpriteNode) -> (GridCell, Bool) {
-        let cell = GridCell.getRandomCell()
-
-        if MannaCannon.shared!.fertileSpots.compactMap({
-            $0.node.contains(cell.scenePosition) ? true : nil
-        }).isEmpty { return (cell, false) }
-
-        guard let hotKey = cell.lockIfEmpty(ownerName: sprite.name!)
-            else { return (cell, false) }
-
-        Clock.dispatchQueue.async { GridCell.cPhotosynthesizingManna += 1 }  // Because laziness
-        Debug.log(level: 111) { "plant  \(six(sprite.name)) at \(cell.gridPosition); c = \(GridCell.cPhotosynthesizingManna)" }
-        cell.setContents(to: .manna, newSprite: sprite)
-
-        hotKey.releaseLock(serviceRequesters: false)
-        return (cell, true)
-    }
-}
-
-extension Manna.Energy {
-    func getEnergyContentInJoules(_ indicatorFullness: CGFloat) -> CGFloat {
-        let rate = Arkonia.mannaGrowthRateJoulesPerSecond
-        let duration = CGFloat(Arkonia.mannaFullGrowthDurationSeconds)
-
-        let energyContent: CGFloat = indicatorFullness * rate * duration
-        Debug.log(level: 136) { "energy content \(energyContent)" }
-        return energyContent
-    }
-}
-
 extension Manna.Sprite {
     static let cBloomActions = 3
     static let bloomAction = SKAction.group([fadeInAction, colorAction])
@@ -59,6 +28,35 @@ extension Manna.Sprite {
         to: 0.5, duration: Arkonia.mannaFullGrowthDurationSeconds
     )
 
+    var isPhotosynthesizing: Bool {
+        sprite.colorBlendFactor > Arkonia.mannaColorBlendMinimum
+    }
+
+    func bloom(at cell: GridCell?) {
+        if cell != nil { prepForFirstPlanting(at: cell) }
+
+        if MannaCannon.shared?.fertileSpots.first(
+            where: { $0.node.contains(sprite.position) }
+        ) == nil {
+            let duration = TimeInterval.random(in: 1..<5)
+            MannaCannon.shared!.rebloomDispatch.asyncAfter(deadline: .now() + duration) { self.bloom(at: nil) }
+            return
+        }
+
+        // No need to wait for this, the count doesn't have to be
+        // accurate; it's for display purposes only
+        MannaCannon.shared!.rebloomDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
+
+        var bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
+        let toRun = Manna.Sprite.bloomActions[bloomActionIx]
+        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
+        sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
+
+        // Ok to let this run independently of the caller's thread, we don't
+        // need anything from it, so there's no need to wait for completion
+        sprite.run(toRun)
+    }
+
     func getIndicatorFullness() -> CGFloat {
         // Sometimes the color blend factor ends up outside this range, which
         // botches the energy calculations when we eat the manna. I think it's
@@ -73,30 +71,26 @@ extension Manna.Sprite {
         let width = abs(top - Arkonia.mannaColorBlendMinimum)
         let result = width / Arkonia.mannaColorBlendRangeWidth
 
-        Debug.log(level: 82) { "getIndicatorFullness t = \(top), w = \(width), r = \(result)" }
+        Debug.log(level: 154) { "getIndicatorFullness t = \(top), w = \(width), r = \(result)" }
         return result
     }
 
-    func plant(at cell: GridCell?) {
-        prep(at: cell)
-
-        let bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
-        let toRun = Manna.Sprite.bloomActions[bloomActionIx]
-//        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
-        sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
-
-        // Ok to let this run independently of the caller's thread, we don't
-        // need anything from it, so there's no need to wait for completion
-        sprite.run(toRun)
-    }
-
-    private func prep(at cell: GridCell?) {
+    private func prepForFirstPlanting(at cell: GridCell?) {
         sprite.setScale(Arkonia.mannaScaleFactor / Arkonia.zoomFactor)
         sprite.position = cell?.randomScenePosition ?? cell!.scenePosition
     }
 
+    func rebloom() {
+        let duration = TimeInterval.random(
+            in: Arkonia.mannaRebloomDelayMinimum..<Arkonia.mannaRebloomDelayMaximum
+        )
+
+        MannaCannon.shared!.rebloomDispatch.asyncAfter(deadline: .now() + duration) { self.bloom(at: nil) }
+    }
+
     func reset() {
         sprite.alpha = 0
+        sprite.color = .white
         sprite.colorBlendFactor = Arkonia.mannaColorBlendMinimum
     }
 

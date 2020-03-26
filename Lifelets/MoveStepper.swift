@@ -6,11 +6,11 @@ final class MoveStepper: Dispatchable {
     func moveStepper() {
         guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { preconditionFailure() }
-        Debug.log(level: 104) { "MoveStepper \(six(stepper.name))" }
+        Debug.log(level: 154) { "MoveStepper \(six(stepper.name))" }
 
         shuttle.move()
         stepper.previousShiftOffset = stepper.gridCell.gridPosition
-        Debug.log(level: 107) { "set3 \(six(stepper.name)) gridCell before \(stepper.gridCell.gridPosition)" }
+        Debug.log(level: 154) { "set3 \(six(stepper.name)) gridCell before \(stepper.gridCell.gridPosition)" }
 //        let other = stepper.gridCell.sprite?.getStepper(require: false)
 
         stepper.gridCell = shuttle.toCell?.gridCell
@@ -32,14 +32,19 @@ final class MoveStepper: Dispatchable {
 
 extension MoveStepper {
     func postMove(_ shuttle: CellShuttle) {
-        guard let (_, dp, _) = scratch?.getKeypoints() else { fatalError() }
+        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        if shuttle.didMove && shuttle.consumedContents.isEdible {
-            assert(shuttle.toCell?.contents == .arkon)
+        Debug.log(level: 154) { "postMove" }
+        let isEdible = shuttle.consumedContents == .arkon || st.gridCell.mannaSprite != nil
+
+        if shuttle.didMove && isEdible {
+            Debug.log(level: 154) { "post move to arrive" }
+            assert(shuttle.toCell?.contents == .arkon || shuttle.toCell?.contents == .nothing)
             dp.arrive()
             return
         }
 
+        Debug.log(level: 154) { "post move to releaseshuttle" }
         dp.releaseShuttle()
     }
 }

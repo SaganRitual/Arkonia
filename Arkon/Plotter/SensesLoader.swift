@@ -25,7 +25,7 @@ class SensesLoader {
             )
 
             let sensoryInputs = connectors.map { $0.load() }
-            Debug.log(level: 151) {
+            Debug.log(level: 154) {
                 var outputString = ""
                 var sep = ""
 

@@ -2,13 +2,13 @@ import SpriteKit
 
 class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     enum Contents: Double, CaseIterable {
-        case arkon, invalid, manna, nothing
+        case arkon, invalid, nothing
 
         var asNetSignal: Double {
             (self.rawValue + 1) / Double(Contents.allCases.count + 1)
         }
 
-        var isEdible:       Bool { self == .arkon || self == .manna }
+//        var isEdible:       Bool { self == .arkon || self == .manna }
         var isOccupied:     Bool { self != .invalid && self != .nothing }
     }
 
@@ -24,6 +24,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
     private (set) var contents = Contents.nothing
 
+    var mannaSprite: SKSpriteNode?
     weak var sprite: SKSpriteNode? {
         willSet(sprite) {
             Debug.log(level: 108) { "Set sprite for gridCell \(gridPosition) to \(six(sprite?.name))" }
@@ -63,22 +64,15 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
 extension GridCell {
     func clearContents() {
-//        assert(isLocked)
-
         Debug.log(level: 109) { "clearContents \(six(sprite?.name)) at \(gridPosition)" }
 
-        // We don't clear manna, only arkons that move away from the cell, or die
-        assert(self.contents == .arkon)
+        assert(self.contents == .arkon) // No more manna as variable contents
 
         self.contents = .nothing
         self.sprite = nil
     }
 
-    static var cDeadManna = 0
-    static var cPhotosynthesizingManna = 0
-
     func setContents(to newContent: Contents, newSprite: SKSpriteNode?) {
-        assert(newContent.isEdible) // Use clearContents() to set it to nothing
         Debug.log(level: 109) {
             "setContent for \(six(newSprite?.name)) at \(gridPosition) to \(newContent) replacing \(contents) name \(six(sprite?.name))"
         }

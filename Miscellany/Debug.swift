@@ -82,7 +82,12 @@ struct Debug {
                 let c = Grid.shared.getCell(at: p)
 
                 cCells += 1
-                cPhotosynthesizing += (c.contents == .manna) ? 1 : 0
+
+                guard let manna = c.mannaSprite?.getManna(require: false) else {
+                    continue
+                }
+
+                cPhotosynthesizing += manna.isPhotosynthesizing ? 1 : 0
             }
         }
 

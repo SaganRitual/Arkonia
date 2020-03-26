@@ -52,7 +52,7 @@ extension Plotter {
             let s2 = floor(s1)
             let s3 = Int(s2)
             let motorOutput = s3
-            Debug.log(level: 152) { "motorOutput \(motorOutputs) -> \(motorOutput)" }
+            Debug.log(level: 154) { "motorOutput \(motorOutputs) -> \(motorOutput)" }
 
             // Try to use the selected motor output, ie, jump to that square on
             // the grid. But if that square is occupied, lay out a selection array
@@ -78,7 +78,7 @@ extension Plotter {
                 senseGrid.cells[$0] is HotKey && (senseGrid.cells[$0].contents != .arkon || $0 == 0)
             }) { targetOffset = toff }
 
-            Debug.log(level: 152) { "toff \(targetOffset) from selector \(selector)" }
+            Debug.log(level: 154) { "toff \(targetOffset) from selector \(selector)" }
 
             let fromCell: HotKey?
             let toCell: HotKey
