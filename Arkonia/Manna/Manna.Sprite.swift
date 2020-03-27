@@ -47,9 +47,9 @@ extension Manna.Sprite {
         // accurate; it's for display purposes only
         MannaCannon.shared!.rebloomDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
 
-        var bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
+        let bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
         let toRun = Manna.Sprite.bloomActions[bloomActionIx]
-        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
+//        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
         sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
 
         // Ok to let this run independently of the caller's thread, we don't
@@ -89,8 +89,9 @@ extension Manna.Sprite {
     }
 
     func reset() {
+        sprite.removeAllActions()
         sprite.alpha = 0
-        sprite.color = .white
+        sprite.color = .black
         sprite.colorBlendFactor = Arkonia.mannaColorBlendMinimum
     }
 

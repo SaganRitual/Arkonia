@@ -79,7 +79,6 @@ extension Grid {
 
         yGrid = -hGrid
         xGrid = -wGrid
-//        populate()
     }
 
     private func setupRow(_ yG: Int) {

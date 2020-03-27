@@ -20,7 +20,7 @@ class Arkonia {
     static let allowSpawning = true
     static let cMannaMorsels = 8000
     static let cFertileSpots = 10
-    static let debugColorIsEnabled = false
+    static let debugColorIsEnabled = true
     static var debugMessageLevel = 155 // var so we can change it on the fly
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
@@ -43,8 +43,8 @@ class Arkonia {
     static let mannaColorBlendMinimum: CGFloat = 0.15
     static let mannaFullGrowthDurationSeconds: TimeInterval = 10
     static let maxMannaEnergyContentInJoules: CGFloat = 500
-    static let mannaRebloomDelayMinimum: TimeInterval = 1
-    static let mannaRebloomDelayMaximum: TimeInterval = 2
+    static let mannaRebloomDelayMinimum: TimeInterval = 5
+    static let mannaRebloomDelayMaximum: TimeInterval = 7
 
     static var mannaColorBlendRangeWidth: CGFloat
         { mannaColorBlendMaximum - mannaColorBlendMinimum }

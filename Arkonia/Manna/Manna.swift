@@ -43,6 +43,8 @@ extension Manna {
         func a() { getNutritionInJoules { nutritionInJoules = $0; b() } }
 
         func b() {
+            if nutritionInJoules < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { onComplete(0); return }
+
             MannaCannon.shared!.rebloomDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
 
             self.rebloom(c)

@@ -40,7 +40,7 @@ final class Dispatch {
 }
 
 extension Dispatch {
-    private static let dispatchQueue = DispatchQueue(
+    static let dispatchQueue = DispatchQueue(
         label: "ak.dispatch.q", attributes: .concurrent, target: DispatchQueue.main
     )
 
