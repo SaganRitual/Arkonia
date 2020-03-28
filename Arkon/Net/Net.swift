@@ -50,13 +50,14 @@ class Net {
                 Arkonia.cMotorNeurons
             ]
 
+//            var L = [Int]()
 //            var cNeurons = Arkonia.cSenseNeurons
 //            while cNeurons > (2 * Arkonia.cMotorNeurons) {
 //                L.append(cNeurons)
 //                cNeurons /= 2
 //            }
 //
-//            L.append(2 * Arkonia.cMotorNeurons)
+////            L.append(2 * Arkonia.cMotorNeurons)
 //            L.append(Arkonia.cMotorNeurons)
             self.layers = L
         }

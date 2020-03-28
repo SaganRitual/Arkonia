@@ -2,9 +2,15 @@ import SpriteKit
 
 extension Manna.Sprite {
     static let cBloomActions = 3
+    static let firstBloomAction = SKAction.group([firstFadeInAction, firstColorAction])
     static let bloomAction = SKAction.group([fadeInAction, colorAction])
     static let doomAction = SKAction.group([fadeInAction, dolorAction])
     static let eoomAction = SKAction.group([fadeInAction, eolorAction])
+
+    private static let firstColorAction = SKAction.colorize(
+        with: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
+        duration: 0.01
+    )
 
     private static let colorAction = SKAction.colorize(
         with: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
@@ -23,6 +29,10 @@ extension Manna.Sprite {
 
     static let bloomActions = [ bloomAction, doomAction, eoomAction ]
     static let colorActions = [ colorAction, dolorAction, eolorAction ]
+
+    static let firstFadeInAction = SKAction.fadeAlpha(
+        to: 0.5, duration: 0.01
+    )
 
     static let fadeInAction = SKAction.fadeAlpha(
         to: 0.5, duration: Arkonia.mannaFullGrowthDurationSeconds
@@ -48,7 +58,10 @@ extension Manna.Sprite {
         MannaCannon.shared!.rebloomDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
 
         let bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
-        let toRun = Manna.Sprite.bloomActions[bloomActionIx]
+
+        // We get non-nil cell only on the first time through, which is the
+        // only time we get an instant bloom
+        let toRun = (cell == nil) ? Manna.Sprite.bloomActions[bloomActionIx] : Manna.Sprite.firstBloomAction
 //        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
         sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
 

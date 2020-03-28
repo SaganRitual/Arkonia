@@ -1,7 +1,18 @@
 import GameplayKit
 
 enum Mutator {
-    static let rng = GKGaussianDistribution(randomSource: GKARC4RandomSource(), mean: 0, deviation: 33)
+    // Mutation amounts, zero-centered and spread out over a fast and loose normal curve generator
+    static let mutationValue: (() -> Double) = {
+        let samples: [Double] = stride(from: -1.0, to: 1.0, by: 0.001).map {
+            let sign = abs($0) / $0
+            let curve: Double = exp(-sqrt(2 * Double.pi) * $0 * $0 / 1.5)
+            let flipped = sign * (1 - curve)
+            let result = (flipped < 1.0) ? flipped : flipped - 1e-6  // We don't like 1.0
+            return result
+        }
+
+        return { return samples.randomElement()! / 10.0 }
+    }()
 
     static func mutateNetStrand(parentStrand p: [Double]?, targetLength: Int) -> ([Double], Bool) {
         if let parentStrand = p {
@@ -20,7 +31,7 @@ enum Mutator {
             }
         }
 
-        let fromScratch = (0..<targetLength).map { _ in Double.random(in: -1..<1) }
+        let fromScratch: [Double] = (0..<targetLength).map { _ in Double.random(in: -1..<1) }
         Debug.log(level: 93) { "Generate from scratch = \(fromScratch)" }
         return (fromScratch, false)
     }
@@ -99,8 +110,8 @@ private extension Mutator {
     }
 
     static func mutate(from value: Double) -> (Double, Bool) {
-        let nu = Double(rng.nextUniform())
-        Debug.log(level: 121) { "from \(value) to \(value + nu)" }
+        let nu = Mutator.mutationValue()
+        Debug.log(level: 154) { "from \(value) to \(value + nu) with \(nu)" }
 
         // If next uniform is zero, we didn't change anything
         return (value + nu, nu != 0)

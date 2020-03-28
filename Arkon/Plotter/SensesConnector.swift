@@ -71,7 +71,7 @@ class SensesConnector {
         histoQueue.async {
             precondition(value >= -1.0 && value <= 1.0)
 
-            let vv = (value < 1.0) ? value : value - 1e4    // Because we do get 1.0 sometimes
+            let vv = (value < 1.0) ? value : value - 1e-4    // Because we do get 1.0 sometimes
             let ss = Int((vv + 1) * Double(cBuckets / 2))
             histogram[ss] += 1
             Debug.log(level: 155) { "H: \(histogram)" }
