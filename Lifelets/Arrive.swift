@@ -6,33 +6,26 @@ final class Arrive: Dispatchable {
     func arrive() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { fatalError() }
-        Debug.log(level: 154) { "Arrive \(six(st.name))" }
+        Debug.log(level: 156) { "Arrive \(six(st.name)) at \(six((st.gridCell)?.gridPosition)) manna \(st.gridCell.manna != nil)" }
 
-        switch shuttle.consumedContents {
-        case .arkon: dp.parasitize(); return
-        case .nothing: break
-        default: fatalError()
-        }
+        if shuttle.consumedStepper != nil { dp.parasitize(); return }
+        if st.gridCell.manna != nil { graze(); return }
 
-        if st.gridCell.mannaSprite != nil { graze() }
+        dp.releaseShuttle()
     }
 
     func graze() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let manna = st.gridCell.mannaSprite?.getManna(require: false) else { fatalError() }
+        guard let manna = st.gridCell.manna else { fatalError() }
+        Debug.log(level: 156) { "graze \(st.name)" }
 
         manna.harvest { entropizedInJoules in
-            Debug.log(level: 154) { "graze \(entropizedInJoules)" }
+            Debug.log(level: 156) { "graze \(st.name) \(entropizedInJoules)" }
 
             // If we're just chewing on celery, we don't get a co2 reset
             if entropizedInJoules > 0 {
                 st.metabolism.absorbEnergy(entropizedInJoules)
                 ch.co2Counter = 0
-
-//                Dispatch.dispatchQueue.asyncAfter(deadline: .now() + 0.25) {
-                    dp.releaseShuttle()
-//                }
-                return
             }
 
             dp.releaseShuttle()

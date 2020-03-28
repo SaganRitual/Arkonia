@@ -30,7 +30,7 @@ class Stepper {
 
         let isLocked = embryo.engagerKey!.gridCell?.isLocked
         let lockOwner = embryo.engagerKey!.gridCell?.ownerName ?? "no owner"
-        let occupiedBy = embryo.engagerKey!.gridCell?.sprite?.name ?? "no one"
+        let occupiedBy = embryo.engagerKey!.gridCell?.stepper?.name ?? "no one"
         let isLockedString = isLocked == nil ? "nothing" : (isLocked! ? "already locked" : "not yet locked")
         Debug.log(level: 109) {
             "set1 \(six(embryo.embryoName))"
@@ -41,7 +41,7 @@ class Stepper {
     }
 
     deinit {
-        Debug.log(level: 146) { "deinit \(name)" }
+        Debug.log(level: 155) { "deinit \(name) \(net.layers.count) layers \(net.cNeurons) neurons" }
     }
 }
 
@@ -69,11 +69,15 @@ extension Stepper {
 
 extension Stepper {
     static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
-        sprite.userData![SpriteUserDataKey.stepper] = stepper
+        // We save the stepper in the userdata of the sprite, but only as
+        // a centralized strong reference to the stepper. We don't use it,
+        // because retrieving it from the dictionary is way too slow
+        sprite.userData = ["stepper": stepper]
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
-        sprite.userData![SpriteUserDataKey.stepper] = nil
+        // See notes in attachStepper
+        sprite.userData!["stepper"] = nil
 		sprite.name = nil
     }
 }

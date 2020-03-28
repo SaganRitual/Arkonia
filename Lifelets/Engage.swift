@@ -11,7 +11,7 @@ extension Engage {
     private func engage() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
 
-        Debug.log(level: 104) { "Engage \(six(st.name)) \(st.gridCell!.contents) at \(st.gridCell.gridPosition)" }
+        Debug.log(level: 155) { "Engage \(six(st.name)) \(st.gridCell!.contents) at \(st.gridCell.gridPosition)" }
         Debug.debugColor(st, .magenta, .magenta)
 
         var age: Int = 0
@@ -87,7 +87,6 @@ extension Engage {
         }
 
         assert(ch.senseGrid!.cells[0].contents == .arkon)
-        assert(ch.senseGrid!.cells[0].sprite?.name ?? "goof" == st.name)
     }
 }
 

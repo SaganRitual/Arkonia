@@ -2,8 +2,7 @@ import Foundation
 import SpriteKit
 
 enum SpriteUserDataKey {
-    case manna, net9Portal, netHalfNeuronsPortal, netDisplay, stepper, uuid, debug
-    case setContentsCallback, bloomActionIx
+    case net9Portal, netHalfNeuronsPortal, netDisplay, uuid
 }
 
 class SpriteFactory {
@@ -31,7 +30,7 @@ class SpriteFactory {
             DronePrototype(alpha: 1, color: .gray, colorBlendFactor: 1, zPosition: 10, zRotation: 0)
 
         let arkons = ThoraxPool(
-            "Arkons", "spark-thorax-large", GriddleScene.arkonsPortal, 1000, arkonPrototype, .stepper
+            "Arkons", "spark-thorax-large", GriddleScene.arkonsPortal, 1000, arkonPrototype
         )
 
         let nosePrototype =
@@ -50,7 +49,7 @@ class SpriteFactory {
         )
 
         return SpritePool(
-            "Manna", "manna", GriddleScene.mannaPortal, Arkonia.cMannaMorsels, mannaPrototype, .manna
+            "Manna", "manna", GriddleScene.mannaPortal, Arkonia.cMannaMorsels, mannaPrototype, nil
         )
     }
 

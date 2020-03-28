@@ -22,7 +22,7 @@ final class ReleaseShuttle: Dispatchable {
         shuttle.toCell = nil
 
         ch.cellShuttle = nil
-        Debug.log(level: 104) { "ReleaseShuttle \(six(ch.name)) nil -> \(ch.cellShuttle == nil)" }
+        Debug.log(level: 156) { "ReleaseShuttle \(six(ch.name)) nil -> \(ch.cellShuttle == nil)" }
         ch.senseGrid = nil
         dp.metabolize()
     }

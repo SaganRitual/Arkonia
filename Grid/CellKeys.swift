@@ -4,25 +4,25 @@ import SpriteKit
 protocol GridCellKey {
     var contents: GridCell.Contents { get }
     var gridPosition: AKPoint { get }
-    var mannaSprite: SKSpriteNode? { get }
+    var manna: Manna? { get }
     var ownerName: String { get }
-    var sprite: SKSpriteNode? { get }
+    var stepper: Stepper? { get }
 }
 
 struct ColdKey: GridCellKey {
     init(for cell: GridCell) {
         contents = cell.contents
         gridPosition = cell.gridPosition
-        mannaSprite = cell.mannaSprite
+        manna = cell.manna
         ownerName = cell.ownerName
-        sprite = cell.sprite
+        stepper = cell.stepper
     }
 
     let contents: GridCell.Contents
     let gridPosition : AKPoint
     let ownerName: String
-    let mannaSprite: SKSpriteNode?
-    let sprite: SKSpriteNode?
+    let manna: Manna?
+    let stepper: Stepper?
 }
 
 class HotKey: GridCellKey, CustomDebugStringConvertible {
@@ -52,8 +52,8 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         set { fatalError() }
     }
 
-    var mannaSprite: SKSpriteNode? {
-        get { return gridCell?.mannaSprite }
+    var manna: Manna? {
+        get { return gridCell?.manna }
     }
 
     var ownerName: String {
@@ -61,8 +61,8 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         set { gridCell?.ownerName = newValue }
     }
 
-    var sprite: SKSpriteNode? {
-        get { return gridCell?.sprite }
+    var stepper: Stepper? {
+        get { return gridCell?.stepper }
     }
 
     init(for cell: GridCell, ownerName: String) {
@@ -113,7 +113,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
         self.ownerName = winner.name
         Debug.log(level: 104) { "setContents from transferKey in \(c.gridPosition)" }
-        c.setContents(to: .arkon, newSprite: winner.sprite)
+        c.setContents(to: winner)
         if winner.dispatch.scratch.engagerKey != nil { releaseLock() }
         Debug.log(level: 104) { "setContents from transferKey out \(c.gridPosition)" }
         onComplete()
@@ -125,8 +125,8 @@ class NilKey: GridCellKey {
     var gridCell: GridCell? { get { nil } set { fatalError() } }
     var contents: GridCell.Contents { get { .invalid } set { fatalError() } }
     var gridPosition: AKPoint { get { AKPoint(x: -4444, y: -4444) } set { fatalError() } }
-    var mannaSprite: SKSpriteNode?  { get { nil } set { fatalError() } }
+    var manna: Manna?  { get { nil } set { fatalError() } }
     var ownerName: String { get { "invalid" } set { fatalError() } }
-    var sprite: SKSpriteNode?  { get { nil } set { fatalError() } }
+    var stepper: Stepper?  { get { nil } set { fatalError() } }
     //swiftlint:enable unused_setter_value
 }

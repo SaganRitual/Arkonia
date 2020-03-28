@@ -3,16 +3,14 @@ import SpriteKit
 class Manna {
     struct Energy { }
 
-    struct Sprite {
+    class Sprite {
+        var bloomActionIx = 0
         let sprite: SKSpriteNode
 
         init(_ fishNumber: Int) {
             let name = String(format: "manna-%05d", fishNumber)
 
             sprite = SpriteFactory.shared.mannaPool.makeSprite(name)
-
-            sprite.userData![SpriteUserDataKey.setContentsCallback] = setContentsCallback
-            sprite.userData![SpriteUserDataKey.bloomActionIx] = 0
 
             SpriteFactory.shared.mannaPool.attachSprite(sprite)
         }
@@ -27,7 +25,6 @@ class Manna {
     init(_ fishNumber: Int) {
         self.fishNumber = fishNumber
         self.sprite = Manna.Sprite(fishNumber)
-        self.sprite.setManna(self)
         self.sprite.reset()
     }
 }
@@ -69,9 +66,10 @@ extension Manna {
 
     func plant() -> Bool {
         let cell = GridCell.getRandomCell()
-        guard cell.mannaSprite == nil else { return false }
+        guard cell.manna == nil else { return false }
 
-        cell.mannaSprite = self.sprite.sprite
+        Debug.log(level: 156) { "plant \(self.fishNumber) at \(cell.gridPosition)" }
+        cell.manna = self
         self.sprite.bloom(at: cell)
         return true
     }

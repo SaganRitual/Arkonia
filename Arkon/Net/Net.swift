@@ -79,6 +79,8 @@ class Net {
         case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights)
         case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights)
         }
+
+        Debug.log(level: 155) { "New net \(self.layers.count) layers \(self.cNeurons) neurons" }
     }
 
     static func computeParameters(_ layers: [Int]) -> (Int, Int) {

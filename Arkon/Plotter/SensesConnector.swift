@@ -128,7 +128,7 @@ class SensesConnector {
         case .nothing: break
         }
 
-        guard let manna = cellKey.mannaSprite?.getManna(require: false) else { return 0 }
+        guard let manna = cellKey.manna else { return 0 }
 
         let energy = Double(manna.getEnergyContentInJoules() / Arkonia.maxMannaEnergyContentInJoules)
         Debug.log(level: 154) { "load grid input \(energy)" }

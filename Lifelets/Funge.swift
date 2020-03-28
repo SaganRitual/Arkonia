@@ -10,7 +10,7 @@ final class Funge: Dispatchable {
 
     override func launch() {
         guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log(level: 95) { "Funge \(six(st.name))" }
+        Debug.log(level: 156) { "Funge \(six(st.name))" }
         Debug.debugColor(st, .yellow, .blue)
         guard let ek = ch.engagerKey as? HotKey else { fatalError() }
         WorkItems.checkSpawnability(st) { self.fungeRoute($0, $1, ek) }

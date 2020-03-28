@@ -12,8 +12,10 @@ final class MoveSprite: Dispatchable {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let shuttle = ch.cellShuttle else { fatalError() }
 
+        Debug.log(level: 156) { "MoveSprite \(st.name)" }
+
         if shuttle.fromCell == nil {
-            Debug.log(level: 104) { "Resting \(six(st.name))" }
+            Debug.log(level: 156) { "Resting \(six(st.name))" }
             Debug.debugColor(st, .red, .cyan)
             MoveSprite.restAction(st) { dp.releaseShuttle() }
             return

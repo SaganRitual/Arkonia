@@ -67,7 +67,7 @@ extension WorkItems {
     static func spawn(_ spawn: Spawn) {
         var newKey: HotKey?
 
-        Debug.log(level: 117) { "Spawn1 \(six(spawn.embryoName)) at \(six(spawn.birthplace?.gridPosition))" }
+        Debug.log(level: 156) { "Spawn1 \(six(spawn.embryoName)) at \(six(spawn.birthplace?.gridPosition))" }
 
         func a() {
             if spawn.birthplace == nil {
@@ -199,7 +199,6 @@ extension Spawn {
             st.metabolism.withdrawFromSpawn(spawnCost)
             st.metabolism.fatReserves.level = 0
 
-            assert(st.sprite === st.gridCell.sprite)
             dp.metabolize()
         }
 
@@ -277,27 +276,14 @@ extension Spawn {
         assert(newborn.name == newborn.sprite.name)
         assert((thorax?.name ?? "foo") == newborn.sprite.name)
 
-        Debug.log(level: 115) { "pre-setContents at \(ek.gridPosition), \(ek.contents), \(six(ek.sprite?.name)), \(six(ek.ownerName))" }
-        assert(ek.contents != .arkon)
-        ek.gridCell?.setContents(to: .arkon, newSprite: newborn.sprite)
-        Debug.log(level: 115) { "post-setContents at \(ek.gridPosition), \(ek.contents), \(six(ek.sprite?.name)), \(six(ek.ownerName)) -- \(newborn.gridCell?.gridPosition ?? AKPoint.zero)" }
+        ek.gridCell?.setContents(to: newborn)
+
         newborn.gridCell = ek.gridCell
-        Debug.log(level: 104) { "setContents from launchNewborn at \(ek.gridPosition)" }
-        Debug.log(level: 109) { "set5 newborn \(six(newborn.name)), parent \(six(self.meTheParent?.name))" }
+
         self.launchB(ek, newborn)
     }
 
     private func launchB(_ ek: HotKey, _ newborn: Stepper) {
-        Debug.log(level: 115) {
-            "launchB parent = \(six(scratch?.stepper?.name))"
-            + " should be == \(six(scratch?.stepper?.gridCell.sprite?.name))"
-            + " (\(six(scratch?.stepper?.sprite?.getKeyField(.uuid) as? String)))"
-            + "; newborn is \(six(newborn.name))"
-            + " (\(six(newborn.sprite?.getKeyField(.uuid) as? String)))"
-            + " ek \(six(ek.sprite?.name)) \(six(ek.ownerName))"
-        }
-
-        ek.sprite?.name = newborn.name
         ek.ownerName = newborn.name
 
         Stepper.attachStepper(newborn, to: newborn.sprite)
@@ -306,7 +292,6 @@ extension Spawn {
 
         guard let ndp = newborn.dispatch else { fatalError() }
 
-        Debug.log(level: 117) { "ndp.scratch.engagerKey = \(ndp.scratch.engagerKey?.gridPosition ?? AKPoint.zero), owner = \(six(ndp.scratch.engagerKey?.ownerName)), tenant = \(six(ndp.scratch.engagerKey?.sprite?.name))" }
         ndp.scratch.engagerKey = ek
 
         SceneDispatch.schedule {
@@ -332,7 +317,6 @@ extension Spawn {
         st.metabolism.withdrawFromSpawn(failedSpawnCost)
 
         st.nose.color = .blue
-        assert(st.sprite === st.gridCell.sprite)
         dp.metabolize()
     }
 }

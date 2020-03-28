@@ -87,20 +87,11 @@ extension Plotter {
                 guard let t = senseGrid.cells[targetOffset] as? HotKey else { fatalError() }
 
                 toCell = t; fromCell = nil
-                Debug.log(level: 104) { "toCell at \(t.gridPosition) holds \(six(t.sprite?.name))" }
             } else {
                 guard let t = senseGrid.cells[targetOffset] as? HotKey else { fatalError() }
                 guard let f = senseGrid.cells[0] as? HotKey else { fatalError() }
 
                 toCell = t; fromCell = f
-                Debug.log(level: 104) {
-                    let m = senseGrid.cells.map { "\($0.gridPosition) \(type(of: $0)) \($0.contents)" }
-
-                    return "I am \(six(st.name))" +
-                    "; toCell at \(t.gridPosition) holds \(six(t.sprite?.name))" +
-                    ", fromCell at \(f.gridPosition) holds \(six(f.sprite?.name))\n" +
-                    "senseGrid(\(m)"
-                }
 
                 assert(fromCell?.contents ?? .nothing == .arkon)
             }

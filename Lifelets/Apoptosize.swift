@@ -7,7 +7,7 @@ final class Apoptosize: Dispatchable {
 extension Apoptosize {
     private func dismemberArkon() {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log(level: 80) { "Apoptosize \(six(st.name))" }
+        Debug.log(level: 156) { "Apoptosize \(six(st.name))" }
 
         guard let thorax = st.sprite else { fatalError() }
         guard let nose = st.nose else { fatalError() }

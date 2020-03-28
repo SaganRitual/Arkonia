@@ -65,7 +65,7 @@ class Grid {
         wGrid -= (wGrid % 2) == 0 ? 1 : 0
         hGrid -= (hGrid % 2) == 0 ? 1 : 0
 
-        Debug.log(level: 156) {
+        Debug.log {
             "pix/row \(rPortal), column \(cPortal)"
             + "; pix width \(wPortal) height \(hPortal)"
             + "; grid width \(wGrid) height \(hGrid)"
@@ -98,32 +98,5 @@ extension Grid {
         let cgp = CGPoint(x: cPortal / 4 + xG * xPortal, y: rPortal / 4 + yG * yPortal)
 
         elles[yG + hGrid].append(GridCell(gridPosition: akp, scenePosition: cgp))
-    }
-
-    private func populate() {
-//        if yGrid >= hGrid { spiral(); return }
-
-        if yGrid < hGrid {
-            if xGrid < wGrid {
-                let sprite = SKSpriteNode(texture: noseTexture)
-
-                let cell = getCell(at: AKPoint(x: xGrid, y: yGrid))
-                cell.sprite = sprite
-
-                sprite.setScale(Arkonia.arkonScaleFactor * 1.0 / Arkonia.zoomFactor)
-                sprite.position = cell.scenePosition
-                sprite.name = "\(xGrid) \(yGrid)"
-
-                portal!.addChild(sprite)
-                xGrid += 1
-            } else {
-                yGrid += 1
-                xGrid = -wGrid
-            }
-        }
-
-        DispatchQueue.global().asyncAfter(deadline: .now()) {
-            self.populate()
-        }
     }
 }

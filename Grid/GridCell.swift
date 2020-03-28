@@ -24,12 +24,8 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
     private (set) var contents = Contents.nothing
 
-    var mannaSprite: SKSpriteNode?
-    weak var sprite: SKSpriteNode? {
-        willSet(sprite) {
-            Debug.log(level: 108) { "Set sprite for gridCell \(gridPosition) to \(six(sprite?.name))" }
-        }
-    }
+    var manna: Manna?
+    weak var stepper: Stepper?
 
     var isInDangerZone: Bool { Grid.shared.isInDangerZone(self) }
 
@@ -64,21 +60,21 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
 extension GridCell {
     func clearContents() {
-        Debug.log(level: 109) { "clearContents \(six(sprite?.name)) at \(gridPosition)" }
+        Debug.log(level: 109) { "clearContents \(six(stepper?.name)) at \(gridPosition)" }
 
         assert(self.contents == .arkon) // No more manna as variable contents
 
         self.contents = .nothing
-        self.sprite = nil
+        self.stepper = nil
     }
 
-    func setContents(to newContent: Contents, newSprite: SKSpriteNode?) {
+    func setContents(to stepper: Stepper?) {
         Debug.log(level: 109) {
-            "setContent for \(six(newSprite?.name)) at \(gridPosition) to \(newContent) replacing \(contents) name \(six(sprite?.name))"
+            "setContent for \(six(stepper?.name)) at \(gridPosition) replacing \(six(stepper?.name))"
         }
 
-        self.contents = newContent
-        self.sprite = newSprite
+        self.contents = .arkon
+        self.stepper = stepper
     }
 }
 

@@ -14,7 +14,7 @@ class SpritePool {
     var parkedDrones: [SKSpriteNode]
     var prototype: DronePrototype
     var texture: SKTexture
-    let userDataKey: SpriteUserDataKey?
+    var userDataKey: SpriteUserDataKey?
 
     init(
         _ atlasName: String,
@@ -52,15 +52,6 @@ class SpritePool {
 
         guard let drone = parkedDrones.popLast() else { fatalError() }
 
-        if drone.getKeyField(.uuid, require: false) as? String == nil {
-            if drone.userData == nil { drone.userData = [:] }
-            drone.userData![SpriteUserDataKey.uuid] = UUID().uuidString
-
-            Debug.log(level: 100) {
-                (drone.getKeyField(.uuid, require: false) as? String)!
-            }
-        }
-
         return drone
     }
 
@@ -95,15 +86,14 @@ class ThoraxPool: SpritePool {
     var halfNeuronDisplayPortals = [SKSpriteNode]()
     var parkedDronesWithNetDisplay = [SKSpriteNode]()
 
-    override init(
+    init(
         _ atlasName: String,
         _ textureName: String,
         _ parentSKNode: SKNode?,
         _ poolCapacity: Int,
-        _ prototype: DronePrototype,
-        _ userDataKey: SpriteUserDataKey?   // Unused; keep it for the override
+        _ prototype: DronePrototype
     ) {
-        super.init(atlasName, textureName, parentSKNode, poolCapacity, prototype, .stepper)
+        super.init(atlasName, textureName, parentSKNode, poolCapacity, prototype, nil)
         setupNetDisplayPortals()
     }
 

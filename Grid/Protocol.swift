@@ -6,7 +6,7 @@ protocol GridCellProtocol {
     var gridPosition: AKPoint { get }
     var scenePosition: CGPoint { get }
     var randomScenePosition: CGPoint? { get }
-    var sprite: SKSpriteNode? { get }
+    var stepper: Stepper? { get }
 
     var contents: GridCell.Contents { get }
 }

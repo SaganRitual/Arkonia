@@ -11,8 +11,6 @@ extension Colorize {
     func colorize() {
         guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
 
-        assert(st.sprite === st.gridCell.sprite)
-
         Debug.log(level:71) { "Colorize \(six(st.name))" }
 
         Debug.debugColor(st, .blue, .blue)

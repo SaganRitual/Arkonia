@@ -15,6 +15,8 @@ class Plotter {
         guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
         guard let sg = ch.senseGrid else { fatalError() }
 
+        Debug.log(level: 156) { "plot" }
+
         var sensoryInputs: [Double]!
 
         func a() { sensesLoader.loadSenses { sensoryInputs = $0; b() } }
@@ -30,7 +32,7 @@ class Plotter {
         func e() {
             sg.releaseNonStageCells(keep: ch.cellShuttle!.toCell!)
             ch.engagerKey = nil
-            Debug.log(level: 104) {
+            Debug.log(level: 156) {
                 "computeMove \(six(ch.name)) ->"
                 + " \(ch.cellShuttle!.toCell?.contents ?? .invalid) to"
                 + " \(ch.cellShuttle!.toCell?.gridPosition ?? AKPoint.zero),"

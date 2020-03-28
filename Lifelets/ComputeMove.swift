@@ -6,7 +6,7 @@ final class ComputeMove: Dispatchable {
 
     private func computeMove() {
         guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log(level: 104) { "Plot \(six(st.name))" }
+        Debug.log(level: 156) { "ComputeMove \(six(st.name))" }
 
         if ch.plotter == nil { ch.plotter = Plotter(ch) }
         guard let pt = ch.plotter else { fatalError() }

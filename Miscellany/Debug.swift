@@ -83,7 +83,7 @@ struct Debug {
 
                 cCells += 1
 
-                guard let manna = c.mannaSprite?.getManna(require: false) else {
+                guard let manna = c.manna else {
                     continue
                 }
 

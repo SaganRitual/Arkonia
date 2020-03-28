@@ -8,7 +8,7 @@ final class Parasitize: Dispatchable {
 extension WorkItems {
     static func parasitize(_ scratch: Scratchpad?) {
         guard let (attackerScratch, _, attackerStepper) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log(level: 71) { "Parasitize; attacker is \(six(attackerStepper.name))" }
+        Debug.log(level: 156) { "Parasitize; attacker is \(six(attackerStepper.name))" }
 
         var victor: Stepper?, victim: Stepper?
 
@@ -60,14 +60,13 @@ extension WorkItems {
     }
 
     private static func attack(scratch: Scratchpad?, _ onComplete: @escaping (Stepper, Stepper) -> Void) {
-        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
 
         Debug.debugColor(st, .green, .blue)
 
         guard let (myScratch, _, myStepper) = scratch?.getKeypoints() else { fatalError() }
 
-        guard let hisSprite = myScratch.cellShuttle?.consumedSprite else { fatalError() }
-        guard let hisStepper = hisSprite.getStepper() else { fatalError() }
+        guard let hisStepper = ch.cellShuttle?.toCell?.stepper else { fatalError() }
 
         precondition(hisStepper !== myStepper)
         precondition(hisStepper.name != myStepper.name)

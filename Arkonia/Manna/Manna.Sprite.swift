@@ -57,13 +57,10 @@ extension Manna.Sprite {
         // accurate; it's for display purposes only
         MannaCannon.shared!.rebloomDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
 
-        let bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
-
         // We get non-nil cell only on the first time through, which is the
         // only time we get an instant bloom
         let toRun = (cell == nil) ? Manna.Sprite.bloomActions[bloomActionIx] : Manna.Sprite.firstBloomAction
-//        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
-        sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
+        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
 
         // Ok to let this run independently of the caller's thread, we don't
         // need anything from it, so there's no need to wait for completion
@@ -93,12 +90,17 @@ extension Manna.Sprite {
         sprite.position = cell?.randomScenePosition ?? cell!.scenePosition
     }
 
+    static var nextBloom: TimeInterval = 0.05
     func rebloom() {
-        let duration = TimeInterval.random(
-            in: Arkonia.mannaRebloomDelayMinimum..<Arkonia.mannaRebloomDelayMaximum
-        )
+//        let duration = TimeInterval.random(
+//            in: Arkonia.mannaRebloomDelayMinimum..<Arkonia.mannaRebloomDelayMaximum
+//        )
 
-        MannaCannon.shared!.rebloomDispatch.asyncAfter(deadline: .now() + duration) { self.bloom(at: nil) }
+        MannaCannon.shared!.rebloomDispatch.asyncAfter(deadline: .now() + Manna.Sprite.nextBloom) {
+            Manna.Sprite.nextBloom += 0.05
+            if Manna.Sprite.nextBloom >= 1.0 { Manna.Sprite.nextBloom = 0.05 }
+            self.bloom(at: nil)
+        }
     }
 
     func reset() {
@@ -106,16 +108,5 @@ extension Manna.Sprite {
         sprite.alpha = 0
         sprite.color = .black
         sprite.colorBlendFactor = Arkonia.mannaColorBlendMinimum
-    }
-
-    func setContentsCallback() {
-        var bloomActionIx = (sprite.getKeyField(.bloomActionIx) as? Int)!
-        sprite.run(Manna.Sprite.bloomActions[bloomActionIx])
-        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
-        sprite.userData![SpriteUserDataKey.bloomActionIx] = bloomActionIx
-    }
-
-    func setManna(_ manna: Manna) {
-        self.sprite.userData![SpriteUserDataKey.manna] = manna
     }
 }
