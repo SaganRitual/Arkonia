@@ -17,6 +17,8 @@ class Grid {
     private(set) var xGrid = 0, yGrid = 0
     private var xPortal = 0, yPortal = 0
 
+    let magicGridScaleNumber = 1
+
     static let serialQueue = DispatchQueue(
         label: "arkonia.grid.serial", target: DispatchQueue.global(qos: .background)
     )
@@ -31,11 +33,11 @@ class Grid {
         atlas = SKTextureAtlas(named: "Arkons")
         noseTexture = atlas.textureNamed("spark-nose-large")
 
-        cPortal = Int(noseTexture.size().width / Arkonia.zoomFactor)
-        rPortal = Int(noseTexture.size().height / Arkonia.zoomFactor)
+        cPortal = Int(noseTexture.size().width / Arkonia.zoomFactor) / magicGridScaleNumber
+        rPortal = Int(noseTexture.size().height / Arkonia.zoomFactor) / magicGridScaleNumber
 
-        wPortal = Int(floor(portal.size.width * Arkonia.zoomFactor))
-        hPortal = Int(floor(portal.size.height * Arkonia.zoomFactor))
+        wPortal = Int(floor(portal.size.width * Arkonia.zoomFactor)) / magicGridScaleNumber
+        hPortal = Int(floor(portal.size.height * Arkonia.zoomFactor)) / magicGridScaleNumber
 
         hypoteneuse = sqrt(CGFloat(wPortal * wPortal) + CGFloat(hPortal * hPortal))
     }
@@ -63,7 +65,7 @@ class Grid {
         wGrid -= (wGrid % 2) == 0 ? 1 : 0
         hGrid -= (hGrid % 2) == 0 ? 1 : 0
 
-        Debug.log(level: 72) {
+        Debug.log(level: 156) {
             "pix/row \(rPortal), column \(cPortal)"
             + "; pix width \(wPortal) height \(hPortal)"
             + "; grid width \(wGrid) height \(hGrid)"
@@ -89,8 +91,9 @@ extension Grid {
     private func setupCell(_ xG: Int, _ yG: Int) {
         let akp = AKPoint(x: xG, y: yG)
 
-        xPortal = cPortal / 2 + xGrid * cPortal
-        yPortal = rPortal / 2 + yGrid * rPortal
+        let fudge = pow(Double(magicGridScaleNumber), 2)
+        xPortal = Int(fudge) * (cPortal / 2 + xGrid * cPortal)
+        yPortal = Int(fudge) * (rPortal / 2 + yGrid * rPortal)
 
         let cgp = CGPoint(x: cPortal / 4 + xG * xPortal, y: rPortal / 4 + yG * yPortal)
 

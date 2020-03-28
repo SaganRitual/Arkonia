@@ -11,7 +11,8 @@ class FertileSpot {
         totalDistance = CGPoint.zero.distance(to: currentPosition.scenePosition)
 
         node.strokeColor = .clear   // Set to .white to see it on screen, for debug
-        node.alpha = 1
+        node.fillColor = .clear
+        node.alpha = 0.5
         node.zPosition = 5
         node.position = currentPosition.scenePosition
         GriddleScene.mannaPortal.addChild(node)

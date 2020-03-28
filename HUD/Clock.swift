@@ -70,8 +70,9 @@ class Clock {
 
                 ? String(
                     format: "% 5d/%3d%",
-                    MannaCannon.shared!.cPhotosynthesizingManna,
-                    Arkonia.cMannaMorsels - MannaCannon.shared!.cDeadManna
+                    cPhotosynthesizingManna,
+                    // cPlantedManna is set at startup and never read afterward
+                    MannaCannon.shared!.cPlantedManna - cDeadManna
                 )
 
                 : String(format: "%.2f%%", (1 - self.getEntropy()) * 100)

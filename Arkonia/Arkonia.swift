@@ -4,8 +4,8 @@ class Arkonia {
     typealias OnComplete1p = (Int) -> Void
 
     static let zoomFactor: CGFloat = 4
-    static let arkonScaleFactor: CGFloat = 0.7
-    static let mannaScaleFactor: CGFloat = 0.3
+    static let arkonScaleFactor: CGFloat = 1
+    static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.75
 
     static let senseGridCRings = 3
@@ -18,10 +18,10 @@ class Arkonia {
     static let cMotorGridlets = cSenseGridlets - 1
 
     static let allowSpawning = true
-    static let cMannaMorsels = 8000
+    static let cMannaMorsels = 10000
     static let cFertileSpots = 10
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 155 // var so we can change it on the fly
+    static var debugMessageLevel = 156 // var so we can change it on the fly
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1

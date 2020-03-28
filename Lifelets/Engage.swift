@@ -4,7 +4,7 @@ final class Engage: Dispatchable {
     private(set) var engagerKey: GridCellKey!
     private(set) var cellSenseGrid: CellSenseGrid!
 
-    internal override func launch() { Grid.serialQueue.async(execute: engage) }
+    internal override func launch() { engage() }
 }
 
 extension Engage {
@@ -36,7 +36,9 @@ extension Engage {
             d()
         }
 
-        func d() {
+        func d() { Grid.serialQueue.async(execute: e) }
+
+        func e() {
             ch.spreading = ch.spreader
             let isEngaged = self.engage_()
             guard isEngaged else {

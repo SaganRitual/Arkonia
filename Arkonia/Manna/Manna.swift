@@ -1,9 +1,5 @@
 import SpriteKit
 
-extension Arkonia {
-    static let cMannaRebloom = 100
-}
-
 class Manna {
     struct Energy { }
 
@@ -71,10 +67,13 @@ extension Manna {
         }
     }
 
-    func plant() {
+    func plant() -> Bool {
         let cell = GridCell.getRandomCell()
+        guard cell.mannaSprite == nil else { return false }
+
         cell.mannaSprite = self.sprite.sprite
         self.sprite.bloom(at: cell)
+        return true
     }
 
     enum RebloomResult { case died, rebloomed }
