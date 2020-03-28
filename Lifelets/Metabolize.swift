@@ -50,7 +50,11 @@ extension Metabolism {
 
         if fatToSpawn {
             let transfer = fatReserves.withdraw(Arkonia.energyTransferRateInJoules)
-            spawnReserves.deposit(transfer)
+
+            // Chronic hunger makes it difficult to have more babies, so eat up
+            let adjusted = transfer * (1 - hunger / 2)
+
+            spawnReserves.deposit(adjusted)
         }
     }
 }

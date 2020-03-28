@@ -29,9 +29,9 @@ final class Arrive: Dispatchable {
                 st.metabolism.absorbEnergy(entropizedInJoules)
                 ch.co2Counter = 0
 
-                Dispatch.dispatchQueue.asyncAfter(deadline: .now() + 0.25) {
+//                Dispatch.dispatchQueue.asyncAfter(deadline: .now() + 0.25) {
                     dp.releaseShuttle()
-                }
+//                }
                 return
             }
 

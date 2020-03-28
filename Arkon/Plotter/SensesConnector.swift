@@ -64,6 +64,20 @@ class SensesConnector {
         a()
     }
 
+    static let cBuckets = 10
+    static var histogram = [Int](repeating: 0, count: cBuckets)
+    static var histoQueue = DispatchQueue.global(qos: .utility)
+    static func histogrize(_ value: Double) {
+        histoQueue.async {
+            precondition(value >= -1.0 && value <= 1.0)
+
+            let vv = (value < 1.0) ? value : value - 1e4    // Because we do get 1.0 sometimes
+            let ss = Int((vv + 1) * Double(cBuckets / 2))
+            histogram[ss] += 1
+            Debug.log(level: 155) { "H: \(histogram)" }
+        }
+    }
+
     // We need connect only once to the non-grid inputs, so we take care of
     // that in the initializer
     private func connectNonGridInputs() {
@@ -94,7 +108,7 @@ class SensesConnector {
 
             let radius = SensoryInput(
                 scale: Double(Grid.shared.hypoteneuse),
-                { Double(diff.hypotenuse / 2) }, { $0 }
+                { Double(diff.hypotenuse) }, { $0 }
             )
 
             let theta = SensoryInput(
