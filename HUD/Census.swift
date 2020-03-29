@@ -33,8 +33,8 @@ class Census {
     )
 
     init(_ scene: GriddleScene) {
-        rBirths = scene.reportSundry.reportoid(1)
-        rLiveNeurons = scene.reportSundry.reportoid(2)
+        rLiveNeurons = scene.reportSundry.reportoid(1)
+        rBirths = scene.reportSundry.reportoid(2)
 
         rPopulation = scene.reportArkonia.reportoid(2)
 
@@ -124,6 +124,8 @@ extension Census {
 
     func registerDeath(_ nameOfDeceased: String, _ cNeuronsOfDeceased: Int, _ worldTime: Int) {
         let ageOfDeceased = Census.getAge(of: nameOfDeceased, at: worldTime)
+
+        GriddleScene.shared.bcNeurons.subtractSample(cNeuronsOfDeceased)
 
         cLiveNeurons -= cNeuronsOfDeceased
         highWaterAge = max(highWaterAge, ageOfDeceased)

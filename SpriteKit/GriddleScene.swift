@@ -86,7 +86,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
         reportSundry = reportFactory.newReport()
         reportSundry.setTitle("Sundry")
         reportSundry.setReportoid(1, label: "Nodes", data: "0")
-        reportSundry.setReportoid(2, label: "Total births", data: "0")
+        reportSundry.setReportoid(2, label: "All births", data: "0")
         reportSundry.setReportoid(3, label: "", data: "")
         hud.placeMonitor(reportSundry, dashboard: 0, quadrant: 2)
 

@@ -77,6 +77,13 @@ extension BarChart {
         Debug.log(level: 161) { "addSample(\(sample)) -> bucket[\(whichBar)] = \(buckets[whichBar])" }
     }
 
+    func subtractSample(_ sample: Int) {
+        let whichBar = sample / 25
+        buckets[whichBar] -= 1
+
+        Debug.log(level: 161) { "subtractSample(\(sample)) -> bucket[\(whichBar)] = \(buckets[whichBar])" }
+    }
+
     func setChartLabel(_ text: String) {
         let barChartLabel = "barchart_title_understudy"
         let node = childNode(withName: barChartLabel)
