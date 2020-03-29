@@ -15,7 +15,11 @@ class MannaCannon {
     var cPlantedManna = 0
 
     init() {
-        fertileSpots = (0..<Arkonia.cFertileSpots).map { _ in FertileSpot() }
+        fertileSpots = (0..<Arkonia.cFertileSpots).map { ss in
+            let color = ColorGradient.makeColor(ss, Arkonia.cFertileSpots * 2)
+            return FertileSpot(color)
+        }
+
         readyManna = []
     }
 

@@ -7,10 +7,10 @@ class FertileSpot {
     var scale = CGFloat.zero
     var totalDistance = CGFloat.zero
 
-    init() {
+    init(_ color: SKColor) {
         totalDistance = CGPoint.zero.distance(to: currentPosition.scenePosition)
 
-        node.strokeColor = .white   // Set to .white to see it on screen, for debug
+        node.strokeColor = color   // Set to .white to see it on screen, for debug
         node.fillColor = .clear
         node.alpha = 0.5
         node.zPosition = 5

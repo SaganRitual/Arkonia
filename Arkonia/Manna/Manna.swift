@@ -70,7 +70,7 @@ extension Manna {
 
         Debug.log(level: 156) { "plant \(self.fishNumber) at \(cell.gridPosition)" }
         cell.manna = self
-        self.sprite.bloom(at: cell)
+        self.sprite.bloom(at: cell, color: .blue)
         return true
     }
 
@@ -85,10 +85,10 @@ extension Manna {
             return
         }
 
-        if MannaCannon.shared?.fertileSpots.first(
+        guard let fs = MannaCannon.shared?.fertileSpots.first(
             where: { $0.node.contains(sprite.sprite.position) }
-        ) == nil { MannaCannon.shared!.blast(self); return }
+        ) else { MannaCannon.shared!.blast(self); return }
 
-        sprite.bloom(at: nil)
+        sprite.bloom(at: nil, color: fs.node.strokeColor)
     }
 }

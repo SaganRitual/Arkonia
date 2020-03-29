@@ -1,34 +1,21 @@
 import SpriteKit
 
 extension Manna.Sprite {
-    static let cBloomActions = 3
     static let firstBloomAction = SKAction.group([firstFadeInAction, firstColorAction])
-    static let bloomAction = SKAction.group([fadeInAction, colorAction])
-    static let doomAction = SKAction.group([fadeInAction, dolorAction])
-    static let eoomAction = SKAction.group([fadeInAction, eolorAction])
 
     private static let firstColorAction = SKAction.colorize(
         with: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
         duration: 0.01
     )
 
-    private static let colorAction = SKAction.colorize(
-        with: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
-        duration: Arkonia.mannaFullGrowthDurationSeconds
-    )
+    private static func bloomAction(_ color: SKColor) -> SKAction {
+        let colorAction = SKAction.colorize(
+            with: color, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
+            duration: Arkonia.mannaFullGrowthDurationSeconds
+        )
 
-    private static let dolorAction = SKAction.colorize(
-        with: .red, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
-        duration: Arkonia.mannaFullGrowthDurationSeconds
-    )
-
-    private static let eolorAction = SKAction.colorize(
-        with: .green, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
-        duration: Arkonia.mannaFullGrowthDurationSeconds
-    )
-
-    static let bloomActions = [ bloomAction, doomAction, eoomAction ]
-    static let colorActions = [ colorAction, dolorAction, eolorAction ]
+        return SKAction.group([fadeInAction, colorAction])
+    }
 
     static let firstFadeInAction = SKAction.fadeAlpha(
         to: 0.5, duration: 0.01
@@ -42,15 +29,14 @@ extension Manna.Sprite {
         sprite.colorBlendFactor > Arkonia.mannaColorBlendMinimum
     }
 
-    func bloom(at cell: GridCell?) {
+    func bloom(at cell: GridCell?, color: SKColor) {
         if cell != nil { prepForFirstPlanting(at: cell) }
 
         Debug.log(level: 157) { "Bloom commit for \(six((cell ?? gridCell)?.gridPosition)), t = \(mach_absolute_time())" }
 
         // We get non-nil cell only on the first time through, which is the
         // only time we get an instant bloom
-        let toRun = (cell == nil) ? Manna.Sprite.bloomActions[bloomActionIx] : Manna.Sprite.firstBloomAction
-        bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
+        let toRun = (cell == nil) ? Manna.Sprite.bloomAction(color) : Manna.Sprite.firstBloomAction
 
         MannaCannon.shared!.diebackDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
 
