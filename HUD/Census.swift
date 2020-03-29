@@ -13,11 +13,14 @@ class Census {
     private(set) var highWaterAge = 0
     private(set) var highWaterCOffspring = 0
     private(set) var highWaterPopulation = 0
+
+    private(set) var births = 0
+    private(set) var cLiveNeurons = 0
     private var localTime = 0
     private(set) var population = 0
-    private(set) var births = 0
 
     let rBirths: Reportoid
+    let rLiveNeurons: Reportoid
     let rPopulation: Reportoid
     let rHighWaterAge: Reportoid
     let rHighWaterPopulation: Reportoid
@@ -30,7 +33,8 @@ class Census {
     )
 
     init(_ scene: GriddleScene) {
-        rBirths = scene.reportHistory.reportoid(1)
+        rBirths = scene.reportSundry.reportoid(1)
+        rLiveNeurons = scene.reportSundry.reportoid(2)
 
         rPopulation = scene.reportArkonia.reportoid(2)
 
@@ -78,6 +82,7 @@ extension Census {
         self.rHighWaterPopulation.data.text = String(highWaterPopulation)
         self.rPopulation.data.text = String(population)
         self.rBirths.data.text = String(births)
+        self.rLiveNeurons.data.text = String(cLiveNeurons)
 
         let n = max(greatestAge, highWaterAge)
         rHighWaterAge.data.text = ageFormatter.string(from: Double(n))
@@ -92,10 +97,11 @@ extension Census {
 }
 
 extension Census {
-    func registerBirth(_ myName: String, _ myParent: Stepper?) -> Fishday {
+    func registerBirth(_ myName: String, _ myParent: Stepper?, _ myNet: Net?) -> Fishday {
         self.population += 1
         self.births += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
+        self.cLiveNeurons += myNet?.cNeurons ?? 0
 
         myParent?.cOffspring += 1
 
@@ -113,9 +119,10 @@ extension Census {
         return archive[myName]!
     }
 
-    func registerDeath(_ nameOfDeceased: String, _ worldTime: Int) {
+    func registerDeath(_ nameOfDeceased: String, _ cNeuronsOfDeceased: Int, _ worldTime: Int) {
         let ageOfDeceased = Census.getAge(of: nameOfDeceased, at: worldTime)
 
+        cLiveNeurons -= cNeuronsOfDeceased
         highWaterAge = max(highWaterAge, ageOfDeceased)
         population -= 1
     }

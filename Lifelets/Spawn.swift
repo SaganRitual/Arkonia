@@ -98,13 +98,16 @@ extension WorkItems {
             spawn.engagerKey = newKey
 //            spawn.meTheParent?.nose.color = .yellow
 
-            registerBirth(myName: spawn.embryoName, myParent: spawn.meTheParent)
-                { spawn.fishDay = $0; d() }
+            spawn.buildArkon(d)
         }
 
         func d() {
             Debug.log(level: 117) { "Spawn5.5 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
-            spawn.buildArkon(e) }
+
+            registerBirth(myName: spawn.embryoName, myParent: spawn.meTheParent, myNet: spawn.net)
+                { spawn.fishDay = $0; e() }
+        }
+
         func e() {
             Debug.log(level: 117) { "Spawn6 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
             WorkItems.launchNewborn(spawn)
