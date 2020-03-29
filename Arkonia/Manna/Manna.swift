@@ -41,7 +41,7 @@ extension Manna {
 
             MannaCannon.shared!.diebackDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
 
-            self.rebloom()
+            sprite.gridCell!.mannaAwaitingRebloom = true
             onComplete(nutritionInJoules)
         }
 

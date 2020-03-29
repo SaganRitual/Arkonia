@@ -25,6 +25,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     private (set) var contents = Contents.nothing
 
     var manna: Manna?
+    var mannaAwaitingRebloom = false
     weak var stepper: Stepper?
 
     var isInDangerZone: Bool { Grid.shared.isInDangerZone(self) }

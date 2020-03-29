@@ -106,6 +106,11 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
                 return
             }
         }
+
+        if c.mannaAwaitingRebloom {
+            c.manna!.rebloom()
+            c.mannaAwaitingRebloom = false
+        }
     }
 
     func releaseLock(serviceRequesters: Bool = true) {
