@@ -26,6 +26,8 @@ extension Engage {
         }
 
         func c() {
+            ch.spreading = 0   // Disable spreading, see if it's still needed
+
             if ch.spreading > 0 {
                 Debug.log(level: 153) { "Temp skipping \(six(st.name)), clock \(clock), age \(age)" }
                 ch.spreading -= 1

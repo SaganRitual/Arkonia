@@ -1,19 +1,20 @@
 import SpriteKit
 
 class FertileSpot {
-    var currentPosition: GridCell
+    var currentPosition = GridCell.at(AKPoint.zero)
+    var firstPass = true
     let node = SKShapeNode(circleOfRadius: GriddleScene.arkonsPortal.size.hypotenuse / 3)
     var scale = CGFloat.zero
     var totalDistance = CGFloat.zero
 
     init() {
-        currentPosition = GridCell.getRandomCell()
         totalDistance = CGPoint.zero.distance(to: currentPosition.scenePosition)
 
-        node.strokeColor = .clear   // Set to .white to see it on screen, for debug
+        node.strokeColor = .white   // Set to .white to see it on screen, for debug
         node.fillColor = .clear
         node.alpha = 0.5
         node.zPosition = 5
+        node.setScale(10)
         node.position = currentPosition.scenePosition
         GriddleScene.mannaPortal.addChild(node)
 
@@ -21,7 +22,9 @@ class FertileSpot {
     }
 
     func move() {
-        let scale = abs(sin(totalDistance)) * 0.25 + 0.1
+        // Start the lilypads off huge, so the arkons can get a foothold
+        let scale = firstPass ? 10 : abs(sin(totalDistance)) * 0.25 + 0.1
+        firstPass = false
 
         Debug.log(level: 133) { "fertile \(scale) \(node.xScale)" }
 

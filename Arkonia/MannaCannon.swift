@@ -3,10 +3,11 @@ import SpriteKit
 class MannaCannon {
     static var shared: MannaCannon?
 
-    var rebloomDispatch = DispatchQueue(
-        label: "ak.manna.rebloom", target: DispatchQueue.global(qos: .userInitiated)
+    var diebackDispatch = DispatchQueue(
+        label: "ak.manna.rebloom", target: DispatchQueue.global(qos: .utility)
     )
 
+    private(set) var readyManna: [Manna]
     private(set) var fertileSpots: [FertileSpot]
 
     var cDeadManna = 0
@@ -15,6 +16,33 @@ class MannaCannon {
 
     init() {
         fertileSpots = (0..<Arkonia.cFertileSpots).map { _ in FertileSpot() }
+        readyManna = []
+    }
+
+    func blast(_ manna: Manna) {
+        let targetCLaunchees = 10
+
+        diebackDispatch.async {
+            self.readyManna.append(manna)
+
+            if self.readyManna.count >= targetCLaunchees {
+                Debug.log(level: 158) { "blast.0 \(self.readyManna.count)" }
+
+                let duration = TimeInterval.random(
+                    in: Arkonia.mannaRebloomDelayMinimum..<Arkonia.mannaRebloomDelayMaximum
+                )
+
+                let cLaunchees = min(self.readyManna.count, targetCLaunchees)
+                let launchees = Array(self.readyManna[0..<cLaunchees])
+                self.readyManna.removeFirst(cLaunchees)
+
+                Debug.log(level: 158) { "blast.1 \(self.readyManna.count)" }
+
+                self.diebackDispatch.asyncAfter(deadline: .now() + duration) {
+                    launchees.forEach { $0.rebloom() }
+                }
+            }
+        }
     }
 
     func postInit() {

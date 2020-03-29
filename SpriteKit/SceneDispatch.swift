@@ -16,14 +16,35 @@ enum SceneDispatch {
     private static var workItems = [() -> Void]()
 
     static func schedule(_ workItem: @escaping () -> Void) {
-        lockQueue.async { workItems.append(workItem) }
+        lockQueue.async {
+            cWorkItems += 1
+            workItems.append(workItem)
+        }
     }
 
+    static var highWaterWorkItems = 0
+    static var cWorkItems = 0
+
     static func tick() {
-        let startTime = Date()
+        let tickStartTime = Date()
+
         lockQueue.sync {
-            if Date().timeIntervalSince(startTime) > 0.005 { return }
-            while let wi = workItems.popFirst() { wi() }
+
+            defer {
+                if cWorkItems > highWaterWorkItems {
+                    Debug.log(level: 158) { "cWorkItems = \(cWorkItems)" }
+                    highWaterWorkItems = cWorkItems
+                }
+            }
+
+            while let wi = workItems.popFirst() {
+                cWorkItems -= 1
+                wi()
+
+                if Date().timeIntervalSince(tickStartTime) > 0.005 {
+                    return
+                }
+            }
         }
     }
 }

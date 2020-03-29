@@ -104,9 +104,10 @@ extension GridCell {
 
     func reschedule(_ stepper: Stepper) {
         precondition(toReschedule.contains { $0.name == stepper.name } == false)
+        let count = HotKey.countRescheduledArkons(more: true)
         toReschedule.append(stepper)
         Debug.debugColor(stepper, .blue, .red)
-        Debug.log(level: 146) { "reschedule \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))" }
+        Debug.log(level: 157) { "reschedule \(count) \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))" }
     }
 }
 

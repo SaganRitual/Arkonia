@@ -5,6 +5,7 @@ class Manna {
 
     class Sprite {
         var bloomActionIx = 0
+        weak var gridCell: GridCell?
         let sprite: SKSpriteNode
 
         init(_ fishNumber: Int) {
@@ -38,12 +39,11 @@ extension Manna {
         func b() {
             if nutritionInJoules < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { onComplete(0); return }
 
-            MannaCannon.shared!.rebloomDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
+            MannaCannon.shared!.diebackDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
 
-            self.rebloom(c)
+            self.rebloom()
+            onComplete(nutritionInJoules)
         }
-
-        func c() { onComplete(nutritionInJoules) }
 
         a()
     }
@@ -76,16 +76,19 @@ extension Manna {
 
     enum RebloomResult { case died, rebloomed }
 
-    func rebloom(_ onComplete: @escaping () -> Void) {
+    func rebloom() {
         sprite.reset()
-        onComplete()
 
         // Have 1% of the manna die off when it's eaten
-        if Int.random(in: 0..<100) > 0 {
-            sprite.rebloom()
+        if Int.random(in: 0..<100) == 0 {
+            MannaCannon.shared!.diebackDispatch.async { MannaCannon.shared!.cDeadManna += 1 }
             return
         }
 
-        MannaCannon.shared!.rebloomDispatch.async { MannaCannon.shared!.cDeadManna += 1 }
+        if MannaCannon.shared?.fertileSpots.first(
+            where: { $0.node.contains(sprite.sprite.position) }
+        ) == nil { MannaCannon.shared!.blast(self); return }
+
+        sprite.bloom(at: nil)
     }
 }

@@ -80,6 +80,14 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         assert(gridCell == nil)
     }
 
+    static var rescheduledCount = 0
+    static func countRescheduledArkons(more: Bool) -> Int {
+        DispatchQueue.global(qos: .utility).sync {
+            rescheduledCount += more ? 1 : -1
+            return rescheduledCount
+        }
+    }
+
     func reengageRequesters() {
         guard let c = gridCell else { return }
 
@@ -90,9 +98,10 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
         while let waitingStepper = c.getRescheduledArkon() {
             if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
+                let count = HotKey.countRescheduledArkons(more: false)
                 let ch = dp.scratch
                 assert(ch.engagerKey == nil)
-                Debug.log(level: 146) { "reengageRequesters: \(six(st.name)) at \(self.gridPosition); from \(ch.cellShuttle?.fromCell?.gridPosition ?? AKPoint.zero), to \(ch.cellShuttle?.toCell?.gridPosition ?? AKPoint.zero)" }
+                Debug.log(level: 157) { "reengageRequesters: \(count) \(six(st.name)) at \(self.gridPosition); from \(ch.cellShuttle?.fromCell?.gridPosition ?? AKPoint.zero), to \(ch.cellShuttle?.toCell?.gridPosition ?? AKPoint.zero)" }
                 dp.disengage()
                 return
             }

@@ -69,10 +69,14 @@ extension Stepper {
 
 extension Stepper {
     static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
+        // Some of the drones get their userData set up for the net display,
+        // the rest of them we set up here
+        if sprite.userData == nil { sprite.userData = [:] }
+
         // We save the stepper in the userdata of the sprite, but only as
         // a centralized strong reference to the stepper. We don't use it,
         // because retrieving it from the dictionary is way too slow
-        sprite.userData = ["stepper": stepper]
+        sprite.userData!["stepper"] = stepper
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {

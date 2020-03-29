@@ -10,6 +10,10 @@ class NetDisplay {
     let netGraphics: NetGraphics
 
     init(arkon: SKSpriteNode, fullNeuronsPortal: SKSpriteNode, halfNeuronsPortal: SKSpriteNode, layers: [Int]) {
+        Debug.log(level: 159) {
+            return "NetDisplay \(NetDisplay.display_counter)"
+        }
+
         self.arkon = arkon
         self.fullNeuronsPortal = fullNeuronsPortal
         self.halfNeuronsPortal = halfNeuronsPortal
@@ -30,17 +34,23 @@ class NetDisplay {
     }
 
     func display() {
+        Debug.log(level: 159) {
+            NetDisplay.display_counter += 1
+            return "Net display.0 \(NetDisplay.display_counter)"
+        }
+
         SceneDispatch.schedule {
-            Debug.log(level: 102) { "net display" }
+            Debug.log(level: 159) {
+                return "Net display.1 \(NetDisplay.display_counter)"
+            }
             self.display_()
         }
     }
 
     static var display_counter = 0
     private func display_() {
-        Debug.log(level: 100) {
-            NetDisplay.display_counter += 1
-            return "Net display \(NetDisplay.display_counter)"
+        Debug.log(level: 159) {
+            return "Net display.2 \(NetDisplay.display_counter)"
         }
 
         let neuronRadius = CGFloat(25)

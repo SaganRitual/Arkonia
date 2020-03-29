@@ -22,10 +22,28 @@ final class Arrive: Dispatchable {
         manna.harvest { entropizedInJoules in
             Debug.log(level: 156) { "graze \(st.name) \(entropizedInJoules)" }
 
-            // If we're just chewing on celery, we don't get a co2 reset
             if entropizedInJoules > 0 {
                 st.metabolism.absorbEnergy(entropizedInJoules)
-                ch.co2Counter = 0
+
+                // If the manna isn't bloomed enough to be at full capacity
+                // for mannaCo2AbsorberLevelOrSomething, then our co2 isn't
+                // reset fully
+                let co2AbsorberOrSomethingAvailable =
+                    entropizedInJoules / Arkonia.maxMannaEnergyContentInJoules
+
+                let discount = (co2AbsorberOrSomethingAvailable > 0.25) ? 1 : co2AbsorberOrSomethingAvailable
+
+                let c = ch.co2Counter
+                ch.co2Counter *= (1 - discount)
+
+                Debug.log(level: 160) {
+                    "co2 \(st.name)"
+                    + ", \(entropizedInJoules)"
+                    + ", \(c)"
+                    + ", \(ch.co2Counter)"
+                    + ", \(co2AbsorberOrSomethingAvailable)"
+                    + ", \(discount)"
+                }
             }
 
             dp.releaseShuttle()

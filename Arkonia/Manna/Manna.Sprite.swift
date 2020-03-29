@@ -45,22 +45,14 @@ extension Manna.Sprite {
     func bloom(at cell: GridCell?) {
         if cell != nil { prepForFirstPlanting(at: cell) }
 
-        if MannaCannon.shared?.fertileSpots.first(
-            where: { $0.node.contains(sprite.position) }
-        ) == nil {
-            let duration = TimeInterval.random(in: 1..<5)
-            MannaCannon.shared!.rebloomDispatch.asyncAfter(deadline: .now() + duration) { self.bloom(at: nil) }
-            return
-        }
-
-        // No need to wait for this, the count doesn't have to be
-        // accurate; it's for display purposes only
-        MannaCannon.shared!.rebloomDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
+        Debug.log(level: 157) { "Bloom commit for \(six((cell ?? gridCell)?.gridPosition)), t = \(mach_absolute_time())" }
 
         // We get non-nil cell only on the first time through, which is the
         // only time we get an instant bloom
         let toRun = (cell == nil) ? Manna.Sprite.bloomActions[bloomActionIx] : Manna.Sprite.firstBloomAction
         bloomActionIx = (bloomActionIx + 1) % Manna.Sprite.cBloomActions
+
+        MannaCannon.shared!.diebackDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
 
         // Ok to let this run independently of the caller's thread, we don't
         // need anything from it, so there's no need to wait for completion
@@ -86,21 +78,9 @@ extension Manna.Sprite {
     }
 
     private func prepForFirstPlanting(at cell: GridCell?) {
+        self.gridCell = cell
         sprite.setScale(Arkonia.mannaScaleFactor / Arkonia.zoomFactor)
         sprite.position = cell?.randomScenePosition ?? cell!.scenePosition
-    }
-
-    static var nextBloom: TimeInterval = 0.05
-    func rebloom() {
-//        let duration = TimeInterval.random(
-//            in: Arkonia.mannaRebloomDelayMinimum..<Arkonia.mannaRebloomDelayMaximum
-//        )
-
-        MannaCannon.shared!.rebloomDispatch.asyncAfter(deadline: .now() + Manna.Sprite.nextBloom) {
-            Manna.Sprite.nextBloom += 0.05
-            if Manna.Sprite.nextBloom >= 1.0 { Manna.Sprite.nextBloom = 0.05 }
-            self.bloom(at: nil)
-        }
     }
 
     func reset() {

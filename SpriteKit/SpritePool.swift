@@ -98,12 +98,15 @@ class ThoraxPool: SpritePool {
     }
 
     override func getDrone() -> SKSpriteNode {
+        Debug.log(level: 159) { "getDrone.0" }
         if let netDisplayPortal = netDisplayPortals.popLast(),
             let halfNeuronDisplayPortal = halfNeuronDisplayPortals.popLast()
         {
+            Debug.log(level: 159) { "getDrone.1" }
             let drone = super.getDrone()
-            drone.userData?[SpriteUserDataKey.net9Portal] = netDisplayPortal
-            drone.userData?[SpriteUserDataKey.netHalfNeuronsPortal] = halfNeuronDisplayPortal
+            drone.userData = [:]
+            drone.userData![SpriteUserDataKey.net9Portal] = netDisplayPortal
+            drone.userData![SpriteUserDataKey.netHalfNeuronsPortal] = halfNeuronDisplayPortal
             return drone
         }
 
@@ -132,6 +135,7 @@ class ThoraxPool: SpritePool {
     }
 
     func setupNetDisplayPortals() {
+        Debug.log(level: 159) { "setupNetDisplayPortals" }
 
         GriddleScene.shared.enumerateChildNodes(withName: "net_9portal*") { node, _ in
             guard let portal = node as? SKSpriteNode else { fatalError() }

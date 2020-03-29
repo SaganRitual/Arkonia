@@ -55,6 +55,7 @@ class SpriteFactory {
 
     // swiftlint:disable large_tuple
     static func makeNetDisplayPools() -> (SpritePool, SpritePool, SpritePool) {
+        Debug.log(level: 159) { "makeNetDisplayPools" }
         let fullNeuronPrototype =
             DronePrototype(alpha: 0, color: .green, colorBlendFactor: 1, zPosition: 5, zRotation: 0)
 
