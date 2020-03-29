@@ -85,7 +85,7 @@ extension Manna {
             return
         }
 
-        guard let fs = MannaCannon.shared?.fertileSpots.first(
+        guard let fs = MannaCannon.shared?.pollenators.first(
             where: { $0.node.contains(sprite.sprite.position) }
         ) else { MannaCannon.shared!.blast(self); return }
 

@@ -8,16 +8,16 @@ class MannaCannon {
     )
 
     private(set) var readyManna: [Manna]
-    private(set) var fertileSpots: [FertileSpot]
+    private(set) var pollenators: [Pollenator]
 
     var cDeadManna = 0
     var cPhotosynthesizingManna = 0
     var cPlantedManna = 0
 
     init() {
-        fertileSpots = (0..<Arkonia.cFertileSpots).map { ss in
-            let color = ColorGradient.makeColor(ss, Arkonia.cFertileSpots * 2)
-            return FertileSpot(color)
+        pollenators = (0..<Arkonia.cPollenators).map { ss in
+            let color = ColorGradient.makeColor(ss, Arkonia.cPollenators * 2)
+            return Pollenator(color)
         }
 
         readyManna = []

@@ -12,14 +12,14 @@ class Arkonia {
     static let senseGridSide = 1 + 2 * senseGridCRings
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeuronsSpatial = cSenseGridlets
-    static let cSenseNeuronsNonSpatial = 4 + cFertileSpots * 2
+    static let cSenseNeuronsNonSpatial = 4 + cPollenators * 2
     static let cSenseNeurons = cSenseNeuronsSpatial + cSenseNeuronsNonSpatial
     static let cMotorNeurons = 1
     static let cMotorGridlets = cSenseGridlets - 1
 
     static let allowSpawning = true
     static let cMannaMorsels = 10000
-    static let cFertileSpots = 10
+    static let cPollenators = 10
     static let debugColorIsEnabled = false
     static var debugMessageLevel = 161 // var so we can change it on the fly
     static let debugMessageToConsole = true

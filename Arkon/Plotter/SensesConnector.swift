@@ -103,8 +103,8 @@ class SensesConnector {
         nonGridInputs.append(hunger)
         nonGridInputs.append(asphyxia)
 
-        for fertileSpot in MannaCannon.shared!.fertileSpots {
-            let diff = st.sprite.position - fertileSpot.node.position
+        for pollenator in MannaCannon.shared!.pollenators {
+            let diff = st.sprite.position - pollenator.node.position
 
             let radius = SensoryInput(
                 scale: Double(Grid.shared.hypoteneuse),

@@ -1,6 +1,6 @@
 import SpriteKit
 
-class FertileSpot {
+class Pollenator {
     var currentPosition = GridCell.at(AKPoint.zero)
     var firstPass = true
     let node = SKShapeNode(circleOfRadius: GriddleScene.arkonsPortal.size.hypotenuse / 3)
@@ -26,7 +26,7 @@ class FertileSpot {
         let scale = firstPass ? 10 : abs(sin(totalDistance)) * 0.25 + 0.1
         firstPass = false
 
-        Debug.log(level: 133) { "fertile \(scale) \(node.xScale)" }
+        Debug.log(level: 133) { "pollenator \(scale) \(node.xScale)" }
 
         let newTarget = GridCell.getRandomCell()
         let distanceToTarget = currentPosition.scenePosition.distance(to: newTarget.scenePosition)
