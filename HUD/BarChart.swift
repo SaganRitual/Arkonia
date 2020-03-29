@@ -71,14 +71,15 @@ extension BarChart {
     }
 
     func addSample(_ sample: Int) {
-        let whichBar = sample / 25
+        let whichBar = constrain(sample / 10, lo: 0, hi: 9)
+        if whichBar <= 2 { return }
         buckets[whichBar] += 1
 
         Debug.log(level: 161) { "addSample(\(sample)) -> bucket[\(whichBar)] = \(buckets[whichBar])" }
     }
 
     func subtractSample(_ sample: Int) {
-        let whichBar = sample / 25
+        let whichBar = constrain(sample / 10, lo: 0, hi: 99)
         buckets[whichBar] -= 1
 
         Debug.log(level: 161) { "subtractSample(\(sample)) -> bucket[\(whichBar)] = \(buckets[whichBar])" }

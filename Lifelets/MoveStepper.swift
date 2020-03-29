@@ -1,7 +1,7 @@
 import SpriteKit
 
 final class MoveStepper: Dispatchable {
-    internal override func launch() { Grid.serialQueue.async(execute: moveStepper) }
+    internal override func launch() { Grid.serialQueue.timeProfileAsync(execute: moveStepper) }
 
     func moveStepper() {
         guard let (ch, _, stepper) = scratch?.getKeypoints() else { fatalError() }

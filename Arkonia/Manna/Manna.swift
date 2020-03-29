@@ -89,6 +89,6 @@ extension Manna {
             where: { $0.node.contains(sprite.sprite.position) }
         ) else { MannaCannon.shared!.blast(self); return }
 
-        sprite.bloom(at: nil, color: fs.node.strokeColor)
+        sprite.bloom(at: nil, color: fs.node.strokeColor, scaleFactor: fs.node.xScale * fs.node.yScale)
     }
 }

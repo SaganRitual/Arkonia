@@ -1,5 +1,45 @@
 import SpriteKit
 
+extension DispatchQueue {
+    static var highWaterAsync = UInt64(0)
+    func timeProfileAsync(execute: @escaping () -> Void) {
+        let start = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+        self.async {
+            let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+            let duration = stop - start
+
+            GriddleScene.shared.bcNeurons.addSample(Int(duration / 1000000))
+
+            if duration > DispatchQueue.highWaterAsync {
+                Debug.log(level: 162) { "highwaterAsync \(duration)" }
+                DispatchQueue.highWaterAsync = duration
+            }
+
+            execute()
+        }
+    }
+
+    static var highWaterSync = UInt64(0)
+    func timeProfileSync<T>(execute: @escaping () throws -> T) rethrows -> T {
+        do {
+            let start = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+            return try self.sync {
+                let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+                let duration = stop - start
+
+                if duration > DispatchQueue.highWaterSync {
+                    Debug.log(level: 162) { "highwaterSync \(duration)" }
+                    DispatchQueue.highWaterAsync = duration
+                }
+
+                return try execute()
+            }
+        } catch {
+            fatalError()
+        }
+    }
+}
+
 class Grid {
     static var shared: Grid!
 

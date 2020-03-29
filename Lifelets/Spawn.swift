@@ -124,7 +124,7 @@ extension WorkItems {
     static private func getStartingPosition(
         _ fishDay: Fishday, _ embryoName: String, _ meTheParent: Stepper?, _ onComplete: @escaping onCompleteHotKey
     ) {
-        Grid.serialQueue.async {
+        Grid.serialQueue.timeProfileAsync {
             let key = getStartingPosition(fishDay, embryoName, meTheParent)
             onComplete(key)
         }
@@ -261,7 +261,7 @@ extension Spawn {
 
 extension WorkItems {
     static func launchNewborn(_ spawn: Spawn) {
-        Grid.serialQueue.async(execute: spawn.launchNewborn)
+        Grid.serialQueue.timeProfileAsync(execute: spawn.launchNewborn)
     }
 }
 

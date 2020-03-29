@@ -38,7 +38,7 @@ extension Engage {
             d()
         }
 
-        func d() { Grid.serialQueue.async(execute: e) }
+        func d() { Grid.serialQueue.timeProfileAsync(execute: e) }
 
         func e() {
             ch.spreading = ch.spreader

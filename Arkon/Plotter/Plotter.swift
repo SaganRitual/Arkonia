@@ -27,7 +27,7 @@ class Plotter {
             self.setRoute(sensoryInputs, sg) { ch.cellShuttle = $0; d()  }
         }
 
-        func d() { Grid.serialQueue.async(execute: e) }
+        func d() { Grid.serialQueue.timeProfileAsync(execute: e) }
 
         func e() {
             sg.releaseNonStageCells(keep: ch.cellShuttle!.toCell!)

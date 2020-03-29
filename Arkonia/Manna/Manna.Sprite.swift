@@ -8,13 +8,21 @@ extension Manna.Sprite {
         duration: 0.01
     )
 
-    private static func bloomAction(_ color: SKColor) -> SKAction {
+    private static func bloomAction(_ color: SKColor, _ scaleFactor: CGFloat? = nil) -> SKAction {
         let colorAction = SKAction.colorize(
             with: color, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
             duration: Arkonia.mannaFullGrowthDurationSeconds
         )
 
-        return SKAction.group([fadeInAction, colorAction])
+        var group = [colorAction, fadeInAction]
+
+        if let s = scaleFactor {
+            let newScale = constrain(s / 75, lo: 0.7, hi: 7) * Arkonia.mannaScaleFactor / Arkonia.zoomFactor
+            let scaleAction = SKAction.scale(to: newScale, duration: Arkonia.mannaFullGrowthDurationSeconds)
+            group.append(scaleAction)
+        }
+
+        return SKAction.group(group)
     }
 
     static let firstFadeInAction = SKAction.fadeAlpha(
@@ -29,14 +37,14 @@ extension Manna.Sprite {
         sprite.colorBlendFactor > Arkonia.mannaColorBlendMinimum
     }
 
-    func bloom(at cell: GridCell?, color: SKColor) {
+    func bloom(at cell: GridCell?, color: SKColor, scaleFactor: CGFloat? = nil) {
         if cell != nil { prepForFirstPlanting(at: cell) }
 
         Debug.log(level: 157) { "Bloom commit for \(six((cell ?? gridCell)?.gridPosition)), t = \(mach_absolute_time())" }
 
         // We get non-nil cell only on the first time through, which is the
         // only time we get an instant bloom
-        let toRun = (cell == nil) ? Manna.Sprite.bloomAction(color) : Manna.Sprite.firstBloomAction
+        let toRun = (cell == nil) ? Manna.Sprite.bloomAction(color, scaleFactor) : Manna.Sprite.firstBloomAction
 
         MannaCannon.shared!.diebackDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
 
