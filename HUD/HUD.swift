@@ -23,13 +23,14 @@ class Quadrant {
 
 class HUD {
     enum MonitorPrototype: Int, CaseIterable {
-        case report = 0, nothing = 1, placeholder2 = 2
+        case report = 0, nothing = 1, placeholder2 = 2, barchart = 3
     }
 
     static private let prototypeNames: [MonitorPrototype: String] = [
         .report: "report_monitor_prototype",
         .nothing: "other_monitor_prototype",
-        .placeholder2: "placeholder2"
+        .placeholder2: "placeholder2",
+        .barchart: "barchart_monitor_prototype"
     ]
 
     private var dashboards = [Dashboard]()
@@ -75,7 +76,7 @@ class HUD {
         let quadrants: [Quadrant] = MonitorPrototype.allCases.map { monitorType in
             let name = prototypeNames[monitorType]!
             let node = dashboard.childNode(withName: name)
-            let monitorPrototype = (node as? Report)!
+            let monitorPrototype = (node as? SKSpriteNode)!
 
             let quadrant = Quadrant(
                 monitor: monitorPrototype, quadrantPosition: monitorPrototype.position

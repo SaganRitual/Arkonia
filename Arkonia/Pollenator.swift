@@ -12,7 +12,7 @@ class Pollenator {
 
         node.strokeColor = color   // Set to .white to see it on screen, for debug
         node.fillColor = .clear
-        node.alpha = 0.5
+        node.alpha = 0
         node.zPosition = 5
         node.setScale(10)
         node.position = currentPosition.scenePosition

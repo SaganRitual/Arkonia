@@ -16,7 +16,7 @@ class MannaCannon {
 
     init() {
         pollenators = (0..<Arkonia.cPollenators).map { ss in
-            let color = ColorGradient.makeColor(ss, Arkonia.cPollenators * 2)
+            let color = ColorGradient.makeColor(ss, Arkonia.cPollenators)
             return Pollenator(color)
         }
 

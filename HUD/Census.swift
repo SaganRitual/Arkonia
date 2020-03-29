@@ -101,7 +101,10 @@ extension Census {
         self.population += 1
         self.births += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
-        self.cLiveNeurons += myNet?.cNeurons ?? 0
+
+        let n = myNet?.cNeurons ?? 0
+        self.cLiveNeurons += n
+        GriddleScene.shared.bcNeurons.addSample(n)
 
         myParent?.cOffspring += 1
 

@@ -21,7 +21,7 @@ class Arkonia {
     static let cMannaMorsels = 10000
     static let cPollenators = 10
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 161 // var so we can change it on the fly
+    static var debugMessageLevel = 162 // var so we can change it on the fly
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1

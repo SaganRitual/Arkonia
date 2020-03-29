@@ -18,11 +18,11 @@ extension Manna.Sprite {
     }
 
     static let firstFadeInAction = SKAction.fadeAlpha(
-        to: 0.5, duration: 0.01
+        to: 0.4, duration: 0.01
     )
 
     static let fadeInAction = SKAction.fadeAlpha(
-        to: 0.5, duration: Arkonia.mannaFullGrowthDurationSeconds
+        to: 0.4, duration: Arkonia.mannaFullGrowthDurationSeconds
     )
 
     var isPhotosynthesizing: Bool {

@@ -22,7 +22,7 @@ class SceneViewController: NSViewController {
         guard let view = view as? SKView else { return }
 
         view.ignoresSiblingOrder = true
-        view.showsFPS = true
+//        view.showsFPS = true
 //        view.showsNodeCount = true
 //        view.showsDrawCount = true
 //        view.isAsynchronous = false

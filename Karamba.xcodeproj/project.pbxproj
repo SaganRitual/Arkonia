@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D40F452C23C88A3D0027BD0C /* EnergyReserve.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40F452B23C88A3D0027BD0C /* EnergyReserve.swift */; };
 		D413E660240F745100077E35 /* Plotter.SetRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413E65F240F745100077E35 /* Plotter.SetRoute.swift */; };
+		D41787062430D5090025EC00 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41787052430D5090025EC00 /* BarChart.swift */; };
 		D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A299A23B9841000DE9CC6 /* WorkItems.swift */; };
 		D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A29A423B9945F00DE9CC6 /* wiCensus.swift */; };
 		D41ED8D623B084A100E82B08 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
@@ -98,6 +99,7 @@
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D40F452B23C88A3D0027BD0C /* EnergyReserve.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyReserve.swift; sourceTree = "<group>"; };
 		D413E65F240F745100077E35 /* Plotter.SetRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plotter.SetRoute.swift; sourceTree = "<group>"; };
+		D41787052430D5090025EC00 /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		D41A299A23B9841000DE9CC6 /* WorkItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkItems.swift; sourceTree = "<group>"; };
 		D41A29A423B9945F00DE9CC6 /* wiCensus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wiCensus.swift; sourceTree = "<group>"; };
 		D41ED8D523B084A100E82B08 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				D4E8D268227E06F400DFCB40 /* NetDisplay */,
+				D41787052430D5090025EC00 /* BarChart.swift */,
 				D422DE0A23598B52003734B8 /* Census.swift */,
 				D422DE0C23598BEC003734B8 /* Clock.swift */,
 				D4B4294022DAEC7E0036C904 /* HUD.swift */,
@@ -550,6 +553,7 @@
 				D422DE0B23598B52003734B8 /* Census.swift in Sources */,
 				D4BD1DC923C088C200CE0753 /* Positions.swift in Sources */,
 				D4B00912241B8BB3007FDD6F /* Pollenator.swift in Sources */,
+				D41787062430D5090025EC00 /* BarChart.swift in Sources */,
 				D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */,
 				D464BA5222C737260069623C /* Manna.Energy.swift in Sources */,
 				D4BB6E77234EDCA500529819 /* Apoptosize.swift in Sources */,

@@ -43,6 +43,9 @@ class GriddleScene: SKScene, SKSceneDelegate {
     static var mannaPortal: SKSpriteNode!
     static var netPortal: SKSpriteNode!
 
+    var barChartFactory: BarChartFactory!
+    var bcNeurons: BarChart!
+
     var reportArkonia: Report!
     var reportFactory: ReportFactory!
     var reportSundry: Report!
@@ -67,13 +70,23 @@ class GriddleScene: SKScene, SKSceneDelegate {
         Debug.showLog()
      }
 
+    func buildBarCharts() {
+        barChartFactory = BarChartFactory(hud: hud)
+
+        bcNeurons = barChartFactory.newChart()
+        bcNeurons.setChartLabel("Live Nodes")
+        hud.placeMonitor(bcNeurons, dashboard: 0, quadrant: 3)
+
+        bcNeurons.start()
+    }
+
     func buildReports() {
         reportFactory = ReportFactory(hud: hud)
 
         reportSundry = reportFactory.newReport()
         reportSundry.setTitle("Sundry")
-        reportSundry.setReportoid(1, label: "Births", data: "0")
-        reportSundry.setReportoid(2, label: "Live Nodes", data: "0")
+        reportSundry.setReportoid(1, label: "Nodes", data: "0")
+        reportSundry.setReportoid(2, label: "Total births", data: "0")
         reportSundry.setReportoid(3, label: "", data: "")
         hud.placeMonitor(reportSundry, dashboard: 0, quadrant: 2)
 
@@ -113,6 +126,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         self.hud = HUD(scene: self)
         self.buildReports()
+        self.buildBarCharts()
 
         MannaCannon.shared = MannaCannon()
         MannaCannon.shared!.postInit()
