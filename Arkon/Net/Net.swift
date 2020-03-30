@@ -13,7 +13,7 @@ class Net {
     static let dispatchQueue = DispatchQueue(
         label: "ak.net.q",
         attributes: .concurrent,
-        target: DispatchQueue.global(qos: .utility)
+        target: DispatchQueue.global(qos: .userInitiated)
     )
 
     let biases: [Double]
@@ -31,7 +31,7 @@ class Net {
     ) {
         dispatchQueue.async {
             let newNet = Net(parentBiases, parentWeights, layers)
-            onComplete(newNet)
+            Dispatch.dispatchQueue.async { onComplete(newNet) }
         }
     }
 

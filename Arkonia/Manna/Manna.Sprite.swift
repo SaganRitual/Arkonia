@@ -46,7 +46,7 @@ extension Manna.Sprite {
         // only time we get an instant bloom
         let toRun = (cell == nil) ? Manna.Sprite.bloomAction(color, scaleFactor) : Manna.Sprite.firstBloomAction
 
-        MannaCannon.shared!.diebackDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
+        MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
 
         // Ok to let this run independently of the caller's thread, we don't
         // need anything from it, so there's no need to wait for completion

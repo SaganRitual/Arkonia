@@ -59,8 +59,8 @@ class Grid {
 
     let magicGridScaleNumber = 1
 
-    static let serialQueue = DispatchQueue(
-        label: "arkonia.grid.serial", target: DispatchQueue.global(qos: .background)
+    static let arkonsPlaneQueue = DispatchQueue(
+        label: "arkon.plane.serial", target: DispatchQueue.global(qos: .background)
     )
 
     init(on portal: SKSpriteNode) {

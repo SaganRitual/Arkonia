@@ -9,7 +9,7 @@ extension GridCell {
     }
 
     static func getRandomEmptyCell(_ onComplete: @escaping (GridCell) -> Void) {
-        Grid.serialQueue.timeProfileAsync { onComplete(getRandomEmptyCell()) }
+        Grid.arkonsPlaneQueue.async { onComplete(getRandomEmptyCell()) }
     }
 
     static func getRandomEmptyCell() -> GridCell {
@@ -21,7 +21,7 @@ extension GridCell {
     }
 
     static func lockBirthPosition(parent: Stepper, name: String, _ onComplete: @escaping (HotKey?) -> Void) {
-        Grid.serialQueue.async {
+        Grid.arkonsPlaneQueue.async {
             let key = lockBirthPosition(parent: parent, name: name)
             onComplete(key)
         }
@@ -35,7 +35,7 @@ extension GridCell {
     }
 
     static func lockRandomEmptyCell(ownerName: String, _ onComplete: @escaping ((HotKey?) -> Void)) {
-        Grid.serialQueue.async {
+        Grid.arkonsPlaneQueue.async {
             let hotKey = lockRandomEmptyCell(ownerName: ownerName)
             onComplete(hotKey)
         }

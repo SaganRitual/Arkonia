@@ -54,7 +54,7 @@ class Clock {
         var cPhotosynthesizingManna = 0
         var cDeadManna = 0
 
-        func a() { MannaCannon.shared!.diebackDispatch.async(execute: b) }
+        func a() { MannaCannon.mannaPlaneQueue.async(execute: b) }
 
         func b() {
             cPhotosynthesizingManna = MannaCannon.shared!.cPhotosynthesizingManna

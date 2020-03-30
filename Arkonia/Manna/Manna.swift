@@ -37,12 +37,13 @@ extension Manna {
         func a() { getNutritionInJoules { nutritionInJoules = $0; b() } }
 
         func b() {
-            if nutritionInJoules < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { onComplete(0); return }
+            defer { Dispatch.dispatchQueue.async { onComplete(nutritionInJoules) } }
 
-            MannaCannon.shared!.diebackDispatch.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
+            if nutritionInJoules < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { return }
+
+            MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
 
             sprite.gridCell!.mannaAwaitingRebloom = true
-            onComplete(nutritionInJoules)
         }
 
         a()
@@ -60,7 +61,8 @@ extension Manna {
 
         Clock.shared.entropize(e) { entropizedEnergyContentInJoules in
             Debug.log(level: 154) { "getNutritionInJoules \(entropizedEnergyContentInJoules)" }
-            onComplete(entropizedEnergyContentInJoules)
+
+            Dispatch.dispatchQueue.async { onComplete(entropizedEnergyContentInJoules) }
         }
     }
 
@@ -81,7 +83,7 @@ extension Manna {
 
         // Have 1% of the manna die off when it's eaten
         if Int.random(in: 0..<100) == 0 {
-            MannaCannon.shared!.diebackDispatch.async { MannaCannon.shared!.cDeadManna += 1 }
+            MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cDeadManna += 1 }
             return
         }
 

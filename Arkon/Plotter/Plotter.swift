@@ -28,18 +28,15 @@ class Plotter {
         }
 
         // 97298509+
-        func d() { Grid.serialQueue.async(execute: e) }
+        func d() { Grid.arkonsPlaneQueue.async(execute: e) }
 
         func e() {
             sg.releaseNonStageCells(keep: ch.cellShuttle!.toCell!)
             ch.engagerKey = nil
-            Debug.log(level: 156) {
-                "computeMove \(six(ch.name)) ->"
-                + " \(ch.cellShuttle!.toCell?.contents ?? .invalid) to"
-                + " \(ch.cellShuttle!.toCell?.gridPosition ?? AKPoint.zero),"
-                + " \(ch.cellShuttle!.fromCell?.contents ?? .invalid) from"
-                + " \(ch.cellShuttle!.fromCell?.gridPosition ?? AKPoint.zero)"
-            }
+
+            // As of 2020.03.29, this goes out to ComputeMove.computeMove.b,
+            // where we're jumping out to the funge queue anyway, so no need to
+            // re-queue this as we do the others
             onComplete()
         }
 

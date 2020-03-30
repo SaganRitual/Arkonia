@@ -15,38 +15,32 @@ final class Arrive: Dispatchable {
     }
 
     func graze() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
         guard let manna = st.gridCell.manna else { fatalError() }
         Debug.log(level: 156) { "graze \(st.name)" }
 
         manna.harvest { entropizedInJoules in
             Debug.log(level: 156) { "graze \(st.name) \(entropizedInJoules)" }
 
-            if entropizedInJoules > 0 {
-                st.metabolism.absorbEnergy(entropizedInJoules)
-
-                // If the manna isn't bloomed enough to be at full capacity
-                // for mannaCo2AbsorberLevelOrSomething, then our co2 isn't
-                // reset fully
-                let co2AbsorberOrSomethingAvailable =
-                    entropizedInJoules / Arkonia.maxMannaEnergyContentInJoules
-
-                let discount = (co2AbsorberOrSomethingAvailable > 0.25) ? 1 : co2AbsorberOrSomethingAvailable
-
-                let c = ch.co2Counter
-                ch.co2Counter *= (1 - discount)
-
-                Debug.log(level: 160) {
-                    "co2 \(st.name)"
-                    + ", \(entropizedInJoules)"
-                    + ", \(c)"
-                    + ", \(ch.co2Counter)"
-                    + ", \(co2AbsorberOrSomethingAvailable)"
-                    + ", \(discount)"
-                }
-            }
+            if entropizedInJoules > 0 { self.postHarvest(entropizedInJoules) }
 
             dp.releaseShuttle()
         }
+    }
+
+    func postHarvest(_ entropizedInJoules: CGFloat) {
+        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+
+        st.metabolism.absorbEnergy(entropizedInJoules)
+
+        // If the manna isn't bloomed enough to be at full capacity
+        // for mannaCo2AbsorberLevelOrSomething, then our co2 isn't
+        // reset fully
+        let co2AbsorberOrSomethingAvailable =
+            entropizedInJoules / Arkonia.maxMannaEnergyContentInJoules
+
+        let discount = (co2AbsorberOrSomethingAvailable > 0.25) ? 1 : co2AbsorberOrSomethingAvailable
+
+        ch.co2Counter *= (1 - discount)
     }
 }

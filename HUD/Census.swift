@@ -102,9 +102,9 @@ extension Census {
         self.births += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
 
-//        let n = myNet?.cNeurons ?? 0
-//        self.cLiveNeurons += n
-//        GriddleScene.shared.bcNeurons.addSample(n)
+        let n = myNet?.cNeurons ?? 0
+        self.cLiveNeurons += n
+        GriddleScene.shared.bcNeurons.addSample(n)
 
         myParent?.cOffspring += 1
 
@@ -125,7 +125,7 @@ extension Census {
     func registerDeath(_ nameOfDeceased: String, _ cNeuronsOfDeceased: Int, _ worldTime: Int) {
         let ageOfDeceased = Census.getAge(of: nameOfDeceased, at: worldTime)
 
-//        GriddleScene.shared.bcNeurons.subtractSample(cNeuronsOfDeceased)
+        GriddleScene.shared.bcNeurons.subtractSample(cNeuronsOfDeceased)
 
         cLiveNeurons -= cNeuronsOfDeceased
         highWaterAge = max(highWaterAge, ageOfDeceased)

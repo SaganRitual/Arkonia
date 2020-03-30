@@ -23,7 +23,7 @@ final class BarChart: SKSpriteNode {
         }.sorted { $0.name ?? "" < $1.name ?? "" }[whichBar]
     }
 
-    func reset() { (0..<buckets.count).forEach { buckets[$0] = 0 } }
+    func reset() { SceneDispatch.schedule { (0..<self.buckets.count).forEach { self.buckets[$0] = 0 } } }
 
     func start() {
         let updateAction = SKAction.run { [weak self] in self?.update() }
@@ -67,20 +67,19 @@ extension BarChart {
     func addSample(_ sample: CGFloat) {
         let scaledAndCentered = Int(abs(sample) * 100) / 10
         let whichBar = (scaledAndCentered < 10) ? scaledAndCentered : (10 - 1)
-        buckets[whichBar] += 1
+        SceneDispatch.schedule { self.buckets[whichBar] += 1 }
     }
 
     func addSample(_ sample: Int) {
-        let whichBar = constrain(sample / 10, lo: 0, hi: 9)
-        if whichBar <= 2 { return }
-        buckets[whichBar] += 1
+        let whichBar = sample / 25
+        SceneDispatch.schedule { self.buckets[whichBar] += 1 }
 
         Debug.log(level: 161) { "addSample(\(sample)) -> bucket[\(whichBar)] = \(buckets[whichBar])" }
     }
 
     func subtractSample(_ sample: Int) {
-        let whichBar = constrain(sample / 10, lo: 0, hi: 99)
-        buckets[whichBar] -= 1
+        let whichBar = sample / 25
+        SceneDispatch.schedule { self.buckets[whichBar] -= 1 }
 
         Debug.log(level: 161) { "subtractSample(\(sample)) -> bucket[\(whichBar)] = \(buckets[whichBar])" }
     }

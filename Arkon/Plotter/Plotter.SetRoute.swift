@@ -39,7 +39,8 @@ extension Plotter {
                     return (position, rawOutput)
                 }
 
-                b()
+                // Get off the computation thread as quickly as possible
+                Dispatch.dispatchQueue.async(execute: b)
             }
         }
 

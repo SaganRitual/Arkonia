@@ -13,6 +13,10 @@ class EnergyReserve {
         startingLevelBone + startingLevelFat + startingLevelReadyEnergy
     )
 
+    static let energyReserveQueue = DispatchQueue(
+        label: "energy.reserve.queue", target: DispatchQueue.global(qos: .utility)
+    )
+
     var isAmple: Bool { return level >= overflowThreshold }
     var isEmpty: Bool { return level <= 0 }
     var isFull: Bool { return level >= capacity }

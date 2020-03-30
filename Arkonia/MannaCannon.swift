@@ -3,8 +3,8 @@ import SpriteKit
 class MannaCannon {
     static var shared: MannaCannon?
 
-    var diebackDispatch = DispatchQueue(
-        label: "ak.manna.rebloom", target: DispatchQueue.global(qos: .utility)
+    static let mannaPlaneQueue = DispatchQueue(
+        label: "manna.plane.serial", target: DispatchQueue.global(qos: .utility)
     )
 
     private(set) var readyManna: [Manna]
@@ -26,7 +26,7 @@ class MannaCannon {
     func blast(_ manna: Manna) {
         let targetCLaunchees = 10
 
-        diebackDispatch.async {
+        MannaCannon.mannaPlaneQueue.async {
             self.readyManna.append(manna)
 
             if self.readyManna.count >= targetCLaunchees {
@@ -42,7 +42,7 @@ class MannaCannon {
 
                 Debug.log(level: 158) { "blast.1 \(self.readyManna.count)" }
 
-                self.diebackDispatch.asyncAfter(deadline: .now() + duration) {
+                MannaCannon.mannaPlaneQueue.asyncAfter(deadline: .now() + duration) {
                     launchees.forEach { $0.rebloom() }
                 }
             }

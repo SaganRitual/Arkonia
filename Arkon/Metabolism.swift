@@ -75,45 +75,9 @@ class Metabolism {
         }
     }
 
-    static var absorbEnergyHeader = false
     func absorbEnergy(_ cJoules: CGFloat) {
         respire()
-
-//        Debug.log(
-//            "[Deposit " +
-//            String(format: "% 6.2f ", stomach.level) +
-//            String(format: "% 6.2f ", readyEnergyReserves.level) +
-//            String(format: "% 6.2f ", fatReserves.level) +
-//            String(format: "% 6.2f ", spawnReserves.level) +
-//            String(format: "% 6.2f ", energyContent) +
-//            String(format: "(% 6.2f)", cJoules),
-//            level: 14
-//        )
-
         stomach.deposit(cJoules)
-        Debug.log(level: 96) {
-            "Deposit to stomach"
-            + String(format: "% 6.6f joules", cJoules)
-            + String(format: "% 6.6f%% full", 100.0 * stomach.level / stomach.capacity)
-            + String(format: ", O2 % 6.6f%%", oxygenLevel)
-            + String(format: ", CO2 % 6.6f%%", co2Level)
-        }
-
-        if false && !Metabolism.absorbEnergyHeader {
-            Debug.log(level: 88) { "Deposit    cJoules   fungible    stomach      ready        fat      spawn    content" }
-            Metabolism.absorbEnergyHeader = true
-        }
-
-        Debug.log(level: 95) {
-            "Deposit " +
-            String(format: "% 10.2f ", cJoules) +
-            String(format: "% 10.2f ", fungibleEnergyFullness) +
-            String(format: "% 10.2f ", stomach.level) +
-            String(format: "% 10.2f ", readyEnergyReserves.level) +
-            String(format: "% 10.2f ", fatReserves.level) +
-            String(format: "% 10.2f ", spawnReserves.level) +
-            String(format: "% 10.2f ", energyContent)
-        }
     }
 
     func respire(_ inhale: CGFloat = 1.0, _ exhale: CGFloat = Arkonia.co2MaxLevel) {

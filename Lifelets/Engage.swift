@@ -29,7 +29,7 @@ extension Engage {
         }
 
         func c() {
-            ch.spreading = 0   // Disable spreading, see if it's still needed
+//            ch.spreading = 0   // Disable spreading, see if it's still needed
 
             if ch.spreading > 0 {
                 Debug.log(level: 153) { "Temp skipping \(six(st.name)), clock \(clock), age \(age)" }
@@ -41,7 +41,7 @@ extension Engage {
             d()
         }
 
-        func d() { Grid.serialQueue.async(execute: e) }
+        func d() { Grid.arkonsPlaneQueue.async(execute: e) }
 
         func e() {
             ch.spreading = ch.spreader
@@ -51,15 +51,15 @@ extension Engage {
                 return
             }
 
-//            let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
-//            let duration = stop - startTime
-//
-//            if duration > Engage.engageHighwater {
-//                if duration < 1_500_000 { Engage.engageHighwater = duration }   // Don't go over 1.5s
-//                Debug.log(level: 162) { "Engage highwater delay = \(duration)" }
-//                dp.apoptosize()
-//                return
-//            }
+            let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+            let duration = stop - startTime
+
+            if age > 10 && duration > Engage.engageHighwater {
+                if duration < 1_500_000 { Engage.engageHighwater = duration }   // Don't go over 1.5s
+                Debug.log(level: 162) { "Engage highwater delay = \(duration)" }
+                dp.apoptosize()
+                return
+            }
 
             self.makeSenseGrid()
             dp.funge()
