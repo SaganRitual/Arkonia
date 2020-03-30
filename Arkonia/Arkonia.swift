@@ -37,12 +37,12 @@ class Arkonia {
 
     static let inhaleFudgeFactor: CGFloat = 2.0
     static let spawnOverhead: CGFloat = 1.5
-    static let spawnReservesCapacity: CGFloat = 100
+    static let spawnReservesCapacity: CGFloat = 50
 
     static let mannaColorBlendMaximum: CGFloat = 0.50
     static let mannaColorBlendMinimum: CGFloat = 0.15
     static let mannaFullGrowthDurationSeconds: TimeInterval = 10
-    static let maxMannaEnergyContentInJoules: CGFloat = 500
+    static let maxMannaEnergyContentInJoules: CGFloat = 1000
     static let mannaRebloomDelayMinimum: TimeInterval = 5
     static let mannaRebloomDelayMaximum: TimeInterval = 7
 

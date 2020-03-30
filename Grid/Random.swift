@@ -21,7 +21,7 @@ extension GridCell {
     }
 
     static func lockBirthPosition(parent: Stepper, name: String, _ onComplete: @escaping (HotKey?) -> Void) {
-        Grid.serialQueue.timeProfileAsync {
+        Grid.serialQueue.async {
             let key = lockBirthPosition(parent: parent, name: name)
             onComplete(key)
         }
@@ -35,7 +35,7 @@ extension GridCell {
     }
 
     static func lockRandomEmptyCell(ownerName: String, _ onComplete: @escaping ((HotKey?) -> Void)) {
-        Grid.serialQueue.timeProfileAsync {
+        Grid.serialQueue.async {
             let hotKey = lockRandomEmptyCell(ownerName: ownerName)
             onComplete(hotKey)
         }

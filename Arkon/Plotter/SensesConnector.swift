@@ -44,7 +44,8 @@ class SensesConnector {
         var entropyPerJoule = 0.0
         func a() { Clock.shared.entropize(1) { entropyPerJoule = Double($0); b() } }
 
-        func b() { Grid.serialQueue.timeProfileAsync(execute: c) }
+        // 95371784+
+        func b() { Grid.serialQueue.async(execute: c) }
 
         func c() {
             let scale = 1.0 / entropyPerJoule

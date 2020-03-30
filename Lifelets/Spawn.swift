@@ -124,7 +124,7 @@ extension WorkItems {
     static private func getStartingPosition(
         _ fishDay: Fishday, _ embryoName: String, _ meTheParent: Stepper?, _ onComplete: @escaping onCompleteHotKey
     ) {
-        Grid.serialQueue.timeProfileAsync {
+        Grid.serialQueue.async {
             let key = getStartingPosition(fishDay, embryoName, meTheParent)
             onComplete(key)
         }
@@ -260,6 +260,7 @@ extension Spawn {
 }
 
 extension WorkItems {
+    // Testing launchNewborn: 158539682 and climbing
     static func launchNewborn(_ spawn: Spawn) {
         Grid.serialQueue.timeProfileAsync(execute: spawn.launchNewborn)
     }
@@ -283,7 +284,9 @@ extension Spawn {
 
         newborn.gridCell = ek.gridCell
 
-        self.launchB(ek, newborn)
+        // Schedule the second part separately, to avoid holding the grid too long
+        // 113533466 and climbing
+        Grid.serialQueue.async { self.launchB(ek, newborn) }
     }
 
     private func launchB(_ ek: HotKey, _ newborn: Stepper) {

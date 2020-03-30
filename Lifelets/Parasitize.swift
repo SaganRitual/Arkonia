@@ -54,7 +54,7 @@ extension WorkItems {
 
 extension WorkItems {
     static func attack(by scratch: Scratchpad, _ onComplete: @escaping (Stepper, Stepper) -> Void) {
-        Grid.serialQueue.timeProfileAsync {
+        Grid.serialQueue.async {
             attack(scratch: scratch) { victor, victim in onComplete(victor, victim) }
         }
     }
@@ -109,7 +109,7 @@ extension WorkItems {
         _ victor: Stepper, _ victim: Stepper, _ onComplete: @escaping () -> Void
     ) {
         Debug.log(level: 109) { "victor \(victor.name) eats \(victim.name) at \(victor.gridCell.gridPosition)/\(victim.gridCell.gridPosition)" }
-        Grid.serialQueue.timeProfileAsync {
+        Grid.serialQueue.async {
             victor.metabolism.parasitizeProper(victim)
             victor.dispatch.releaseShuttle()
 

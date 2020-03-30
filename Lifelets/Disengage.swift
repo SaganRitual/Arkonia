@@ -1,7 +1,7 @@
 import Dispatch
 
 final class Disengage: Dispatchable {
-    internal override func launch() { Grid.serialQueue.timeProfileAsync { self.disengage() } }
+    internal override func launch() { Grid.serialQueue.async { self.disengage() } }
 
     private func disengage() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }

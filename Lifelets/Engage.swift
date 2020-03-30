@@ -8,6 +8,8 @@ final class Engage: Dispatchable {
 }
 
 extension Engage {
+    static var engageHighwater: __uint64_t = 0
+
     private func engage() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
 
@@ -17,6 +19,7 @@ extension Engage {
         var age: Int = 0
         var aligned = false
         var clock: Int = 0
+        let startTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 
         func a() { Clock.dispatchQueue.async(execute: b) }
 
@@ -38,7 +41,7 @@ extension Engage {
             d()
         }
 
-        func d() { Grid.serialQueue.timeProfileAsync(execute: e) }
+        func d() { Grid.serialQueue.async(execute: e) }
 
         func e() {
             ch.spreading = ch.spreader
@@ -47,6 +50,16 @@ extension Engage {
                 Debug.log(level: 153) { "Engage failed for \(six(st.name))" }
                 return
             }
+
+//            let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+//            let duration = stop - startTime
+//
+//            if duration > Engage.engageHighwater {
+//                if duration < 1_500_000 { Engage.engageHighwater = duration }   // Don't go over 1.5s
+//                Debug.log(level: 162) { "Engage highwater delay = \(duration)" }
+//                dp.apoptosize()
+//                return
+//            }
 
             self.makeSenseGrid()
             dp.funge()

@@ -13,7 +13,7 @@ extension Apoptosize {
         guard let nose = st.nose else { fatalError() }
 
         func a() { Census.shared.registerDeath(st, b) }
-        func b() { Grid.serialQueue.timeProfileAsync(execute: d) }
+        func b() { Grid.serialQueue.async(execute: d) }
 //        func c() { releaseStepper(d) }
 
         func d() {

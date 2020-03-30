@@ -2,7 +2,7 @@ import Dispatch
 
 final class ReleaseShuttle: Dispatchable {
     internal override func launch() {
-        Grid.serialQueue.timeProfileAsync { self.releaseShuttle() }
+        Grid.serialQueue.async { self.releaseShuttle() }
     }
 
     private func releaseShuttle() {
