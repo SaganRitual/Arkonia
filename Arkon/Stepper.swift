@@ -28,15 +28,17 @@ class Stepper {
 
         if needsNewDispatch { self.dispatch = Dispatch(self) }
 
-        let isLocked = embryo.engagerKey!.gridCell?.isLocked
-        let lockOwner = embryo.engagerKey!.gridCell?.ownerName ?? "no owner"
-        let occupiedBy = embryo.engagerKey!.gridCell?.stepper?.name ?? "no one"
-        let isLockedString = isLocked == nil ? "nothing" : (isLocked! ? "already locked" : "not yet locked")
         Debug.log(level: 109) {
-            "set1 \(six(embryo.embryoName))"
-            + " isLocked \(isLockedString) by \(six(lockOwner))"
-            + " occupied by \(six(occupiedBy))"
-            + ", parent is \(six(parentStepper?.name))"
+
+            let isLocked = embryo.engagerKey!.gridCell?.isLocked
+            let lockOwner = embryo.engagerKey!.gridCell?.ownerName ?? "no owner"
+            let occupiedBy = embryo.engagerKey!.gridCell?.stepper?.name ?? "no one"
+            let isLockedString = isLocked == nil ? "nothing" : (isLocked! ? "already locked" : "not yet locked")
+
+            return "set1 \(six(embryo.embryoName))"
+                    + " isLocked \(isLockedString) by \(six(lockOwner))"
+                    + " occupied by \(six(occupiedBy))"
+                    + ", parent is \(six(parentStepper?.name))"
         }
     }
 

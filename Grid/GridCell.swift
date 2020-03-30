@@ -1,16 +1,6 @@
 import SpriteKit
 
 class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
-    enum Contents: Double, CaseIterable {
-        case arkon, invalid, nothing
-
-        var asNetSignal: Double {
-            (self.rawValue + 1) / Double(Contents.allCases.count + 1)
-        }
-
-//        var isEdible:       Bool { self == .arkon || self == .manna }
-        var isOccupied:     Bool { self != .invalid && self != .nothing }
-    }
 
     lazy var debugDescription: String = { String(format: "GridCell.at(% 03d, % 03d)", gridPosition.x, gridPosition.y) }()
 
@@ -22,13 +12,9 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     var toReschedule = [Stepper]()
     let scenePosition: CGPoint
 
-    private (set) var contents = Contents.nothing
-
     var manna: Manna?
     var mannaAwaitingRebloom = false
     weak var stepper: Stepper?
-
-    var isInDangerZone: Bool { Grid.shared.isInDangerZone(self) }
 
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
         self.gridPosition = gridPosition
@@ -56,26 +42,6 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 //        self.indicator.alpha = 0
 //        self.indicator.setScale(0.3)
 //        GriddleScene.arkonsPortal.addChild(self.indicator)
-    }
-}
-
-extension GridCell {
-    func clearContents() {
-        Debug.log(level: 109) { "clearContents \(six(stepper?.name)) at \(gridPosition)" }
-
-        assert(self.contents == .arkon) // No more manna as variable contents
-
-        self.contents = .nothing
-        self.stepper = nil
-    }
-
-    func setContents(to stepper: Stepper?) {
-        Debug.log(level: 109) {
-            "setContent for \(six(stepper?.name)) at \(gridPosition) replacing \(six(stepper?.name))"
-        }
-
-        self.contents = .arkon
-        self.stepper = stepper
     }
 }
 
@@ -126,7 +92,7 @@ extension GridCell {
     }
 
     func lockIfEmpty(ownerName: String) -> HotKey? {
-        if contents.isOccupied { return nil }
+        if stepper != nil { return nil }
         return lockIf(ownerName: ownerName)
     }
 

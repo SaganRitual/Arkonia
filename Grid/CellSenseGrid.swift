@@ -29,6 +29,6 @@ class CellSenseGrid: CustomDebugStringConvertible {
     }
 
     func getRandomEmptyHotKey() -> HotKey? {
-        return cells.dropFirst().compactMap({ $0 as? HotKey }).filter({ !$0.contents.isOccupied }).randomElement()
+        return cells.dropFirst().compactMap({ $0 as? HotKey }).filter({ $0.stepper == nil }).randomElement()
     }
 }

@@ -4,7 +4,7 @@ func showDebugLog() {
     Debug.showLog()
 }
 
-func six(_ key: HotKey?) -> String { key == nil ? "<nil>" : "contents \(key!.contents), tenant \(six(key!.gridPosition))"}
+func six(_ key: HotKey?) -> String { key == nil ? "<nil>" : "tenant \(six(key!.gridPosition))"}
 func six(_ point: AKPoint?) -> String { point == nil ? "<nil>" : "\(point!)"}
 func six(_ string: String?) -> String { String(string?.prefix(50) ?? "<nothing here>") }
 
@@ -92,5 +92,39 @@ struct Debug {
         }
 
         print("Manna stats; \(cCells) cells, \(cPhotosynthesizing) photosynthesizing")
+    }
+
+    static var cBuckets: Int?
+    static var dBuckets = Double(0)
+    static var histogram: [Int]?
+
+    static func histogrize(_ value: Double, scale: Int = 10, inputRange: Range<Double>) {
+        Debug.log {
+            precondition(inputRange == -1.0..<1.0 || inputRange == 0.0..<1.0)
+            precondition(value >= inputRange.lowerBound && value <= inputRange.upperBound)
+
+            if cBuckets == nil {
+                cBuckets = scale
+                dBuckets = Double(scale)
+                histogram = [Int](repeating: 0, count: scale)
+            } else {
+                precondition(scale == cBuckets!)
+            }
+
+            let vv = (value < 1.0) ? value : value - 1e-4   // Because we do get 1.0 sometimes
+
+            let ss: Int
+            if inputRange == -1.0..<1.0 {
+                let shifted = vv + 1           // Convert scale -1..<1 to 0..<2
+                let rescaled = shifted / 2     // Convert scale 0..<2 to 0..<1
+                ss = Int(rescaled * dBuckets)  // Convert scale 0..<1 to bucket subscript 0..<cBuckets
+            } else {
+                ss = Int(vv * dBuckets)        // Convert scale 0..<1 to bucket subscript 0..<cBuckets
+            }
+
+            histogram![ss] += 1
+            let isItBecauseOfTheArray = Array(histogram!)
+            return "H: \(isItBecauseOfTheArray)"
+        }
     }
 }

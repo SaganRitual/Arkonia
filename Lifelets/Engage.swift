@@ -13,7 +13,7 @@ extension Engage {
     private func engage() {
         guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
 
-        Debug.log(level: 155) { "Engage \(six(st.name)) \(st.gridCell!.contents) at \(st.gridCell.gridPosition)" }
+        Debug.log(level: 155) { "Engage \(six(st.name)) at \(st.gridCell.gridPosition)" }
         Debug.debugColor(st, .magenta, .magenta)
 
         var age: Int = 0
@@ -51,15 +51,15 @@ extension Engage {
                 return
             }
 
-            let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
-            let duration = stop - startTime
+//            let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+//            let duration = stop - startTime
 
-            if age > 10 && duration > Engage.engageHighwater {
-                if duration < 1_500_000 { Engage.engageHighwater = duration }   // Don't go over 1.5s
-                Debug.log(level: 162) { "Engage highwater delay = \(duration)" }
-                dp.apoptosize()
-                return
-            }
+//            if age > 10 && duration > Engage.engageHighwater {
+//                if duration < 1_500_000 { Engage.engageHighwater = duration }   // Don't go over 1.5s
+//                Debug.log() { "Engage highwater delay = \(duration)" }
+//                dp.apoptosize()
+//                return
+//            }
 
             self.makeSenseGrid()
             dp.funge()
@@ -88,20 +88,17 @@ extension Engage {
         guard let hk = ch.engagerKey as? HotKey else { fatalError() }
 
         Debug.log(level: 105) {
-            "senseGrid1 \(hk.gridPosition) \(hk.contents) \(st.name)"
+            "senseGrid1 \(hk.gridPosition) \(st.name)"
         }
-        assert(hk.contents == .arkon)
 
         ch.senseGrid = CellSenseGrid(
             from: hk, by: Arkonia.cSenseGridlets, block: st.previousShiftOffset
         )
 
         Debug.log(level: 105) {
-            let m = ch.senseGrid!.cells.map { "\($0.gridPosition) \(type(of: $0)) \($0.contents)" }
+            let m = ch.senseGrid!.cells.map { "\($0.gridPosition) \(type(of: $0))" }
             return "senseGrid0 \(m)"
         }
-
-        assert(ch.senseGrid!.cells[0].contents == .arkon)
     }
 }
 

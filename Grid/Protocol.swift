@@ -7,6 +7,4 @@ protocol GridCellProtocol {
     var scenePosition: CGPoint { get }
     var randomScenePosition: CGPoint? { get }
     var stepper: Stepper? { get }
-
-    var contents: GridCell.Contents { get }
 }

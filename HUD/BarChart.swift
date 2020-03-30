@@ -71,14 +71,14 @@ extension BarChart {
     }
 
     func addSample(_ sample: Int) {
-        let whichBar = sample / 25
+        let whichBar = sample / 50
         SceneDispatch.schedule { self.buckets[whichBar] += 1 }
 
         Debug.log(level: 161) { "addSample(\(sample)) -> bucket[\(whichBar)] = \(buckets[whichBar])" }
     }
 
     func subtractSample(_ sample: Int) {
-        let whichBar = sample / 25
+        let whichBar = sample / 50
         SceneDispatch.schedule { self.buckets[whichBar] -= 1 }
 
         Debug.log(level: 161) { "subtractSample(\(sample)) -> bucket[\(whichBar)] = \(buckets[whichBar])" }

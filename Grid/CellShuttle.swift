@@ -1,7 +1,6 @@
 import SpriteKit
 
 class CellShuttle {
-    weak var consumedStepper: Stepper?
     var didMove = false
     var fromCell: HotKey?
     var toCell: HotKey?
@@ -11,8 +10,6 @@ class CellShuttle {
     }
 
     func move() {
-        consumedStepper = nil
-
         // No fromCell means we didn't move
         guard let f = fromCell?.gridCell else { return }
         guard let t = toCell?.gridCell else { fatalError() }
@@ -20,12 +17,9 @@ class CellShuttle {
         assert(f.isLocked && t.isLocked && f.ownerName == t.ownerName)
         assert(f.stepper != nil)
 
-        consumedStepper = t.stepper
+        t.stepper = f.stepper
+        f.stepper = nil
 
-        Debug.log(level: 104) { "setContents from CellShuttle.move f \(f.contents) at \(f.gridPosition) t \(t.contents) at \(t.gridPosition)" }
-
-        t.setContents(to: f.stepper)
-        f.clearContents()
         self.fromCell?.releaseLock()
 
         assert(t.stepper != nil)

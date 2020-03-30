@@ -55,6 +55,8 @@ extension Plotter {
             let motorOutput = s3
             Debug.log(level: 154) { "motorOutput \(motorOutputs) -> \(motorOutput)" }
 
+//            Debug.histogrize(s0, scale: Plotter.cMotorGridlets + 1, inputRange: 0..<1)
+
             // Try to use the selected motor output, ie, jump to that square on
             // the grid. But if that square is occupied, lay out a selection array
             // that makes "stand still" the least likely option. If the motor
@@ -76,7 +78,7 @@ extension Plotter {
 
             var targetOffset: Int = 0
             if let toff = selector.first(where: {
-                senseGrid.cells[$0] is HotKey && (senseGrid.cells[$0].contents != .arkon || $0 == 0)
+                senseGrid.cells[$0] is HotKey && (senseGrid.cells[$0].stepper == nil || $0 == 0)
             }) { targetOffset = toff }
 
             Debug.log(level: 154) { "toff \(targetOffset) from selector \(selector)" }
@@ -93,13 +95,10 @@ extension Plotter {
                 guard let f = senseGrid.cells[0] as? HotKey else { fatalError() }
 
                 toCell = t; fromCell = f
-
-                assert(fromCell?.contents ?? .nothing == .arkon)
             }
 
             Debug.log(level: 98) { "targetOffset: \(targetOffset)" }
 
-            assert((fromCell?.contents ?? .arkon) == .arkon)
             onComplete(CellShuttle(fromCell, toCell))
         }
 

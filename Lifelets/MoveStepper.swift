@@ -37,7 +37,6 @@ extension MoveStepper {
 
         if shuttle.didMove && isEdible {
             Debug.log(level: 156) { "post move to arrive" }
-            assert(shuttle.toCell?.contents == .arkon || shuttle.toCell?.contents == .nothing)
             dp.arrive()
             return
         }

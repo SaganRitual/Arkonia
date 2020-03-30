@@ -18,7 +18,7 @@ extension Apoptosize {
 
         func d() {
             // If another arkon just ate me, I won't have a grid cell any more
-            if let gc = st.gridCell { gc.clearContents() }
+            if let gc = st.gridCell { gc.stepper = nil }
 
             releaseStepper()
             releaseSprites(nose, thorax)

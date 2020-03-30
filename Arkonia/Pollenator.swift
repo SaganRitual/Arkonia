@@ -12,9 +12,9 @@ class Pollenator {
 
         node.strokeColor = color   // Set to .white to see it on screen, for debug
         node.fillColor = .clear
-        node.alpha = 0
+        node.alpha = 1
         node.zPosition = 5
-        node.setScale(10)
+        node.setScale(1)
         node.position = currentPosition.scenePosition
         GriddleScene.mannaPortal.addChild(node)
 
@@ -23,7 +23,7 @@ class Pollenator {
 
     func move() {
         // Start the lilypads off huge, so the arkons can get a foothold
-        let scale = firstPass ? 10 : abs(sin(totalDistance)) * 0.25 + 0.1
+        let scale = firstPass ? 1 : abs(sin(totalDistance)) * 0.25 + 0.1
         firstPass = false
 
         Debug.log(level: 133) { "pollenator \(scale) \(node.xScale)" }

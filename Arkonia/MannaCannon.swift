@@ -43,7 +43,7 @@ class MannaCannon {
                 Debug.log(level: 158) { "blast.1 \(self.readyManna.count)" }
 
                 MannaCannon.mannaPlaneQueue.asyncAfter(deadline: .now() + duration) {
-                    launchees.forEach { $0.rebloom() }
+                    launchees.forEach { manna in SceneDispatch.schedule { manna.rebloom() } }
                 }
             }
         }

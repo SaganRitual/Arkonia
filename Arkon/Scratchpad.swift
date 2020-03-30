@@ -5,7 +5,7 @@ class Scratchpad {
     var battle: (Stepper, Stepper)?
     var canSpawn = false
     var cellShuttle: CellShuttle?
-    var spreader = Int.random(in: 0..<5)
+    var spreader = Int.random(in: 0..<10)
     var spreading = 0
     weak var dispatch: Dispatch?
     var engagerKey: GridCellKey?

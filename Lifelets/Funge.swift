@@ -20,9 +20,11 @@ final class Funge: Dispatchable {
 extension Funge {
     func fungeRoute(_ isAlive: Bool, _ canSpawn: Bool, _ hotKey: HotKey) {
         guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        precondition(Grid.shared.isOnGrid(st.gridCell.gridPosition))
 
         Debug.log(level: 104) { "fungeRoute for \(six(st.name)) at \(st.gridCell.gridPosition) isAlive \(isAlive) canSpawn \(canSpawn)" }
-        if !isAlive || st.gridCell.isInDangerZone {
+
+        if !isAlive {
             hotKey.releaseLock()
             dp.apoptosize()
             return

@@ -15,7 +15,7 @@ extension GridCell {
     static func getRandomEmptyCell() -> GridCell {
         var randomCell: GridCell?
 
-        repeat { randomCell = getRandomCell() } while randomCell?.contents.isOccupied ?? true
+        repeat { randomCell = getRandomCell() } while randomCell?.stepper != nil
 
         return randomCell!
     }

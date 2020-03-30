@@ -4,11 +4,11 @@ final class Arrive: Dispatchable {
     internal override func launch() { arrive() }
 
     func arrive() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let shuttle = ch.cellShuttle else { fatalError() }
+        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
+//        guard let shuttle = ch.cellShuttle else { fatalError() }
         Debug.log(level: 156) { "Arrive \(six(st.name)) at \(six((st.gridCell)?.gridPosition)) manna \(st.gridCell.manna != nil)" }
 
-        if shuttle.consumedStepper != nil { dp.parasitize(); return }
+//        if shuttle.consumedStepper != nil { dp.parasitize(); return }
         if st.gridCell.manna != nil { graze(); return }
 
         dp.releaseShuttle()

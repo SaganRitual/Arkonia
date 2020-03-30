@@ -83,19 +83,16 @@ class Grid {
     }
 
     func getCellIf(at position: AKPoint) -> GridCell? {
-        guard position.x >= -wGrid && position.x < wGrid &&
-              position.y >= -hGrid && position.y < hGrid else { return nil }
-
-        return getCell(at: position)
+        return isOnGrid(position) ? getCell(at: position) : nil
     }
 
     func getCell(at position: AKPoint) -> GridCell {
         elles[position.y + hGrid][position.x + wGrid]
     }
 
-    func isInDangerZone(_ cell: GridCell) -> Bool {
-        return  cell.gridPosition.x <= -wGrid || cell.gridPosition.x >= wGrid ||
-                cell.gridPosition.y <= -hGrid || cell.gridPosition.y >= hGrid
+    func isOnGrid(_ position: AKPoint) -> Bool {
+        return position.x >= -wGrid && position.x < wGrid &&
+               position.y >= -hGrid && position.y < hGrid
     }
 
     func postInit() {

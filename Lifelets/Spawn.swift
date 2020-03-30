@@ -142,7 +142,7 @@ extension WorkItems {
         return parent.dispatch.scratch.senseGrid?.cells
             .dropFirst()
             .compactMap({ $0 as? HotKey })
-            .filter({ !$0.contents.isOccupied && $0.ownerName == parent.name })
+            .filter({ $0.stepper == nil && $0.ownerName == parent.name })
             .randomElement()
     }
 }
@@ -280,7 +280,7 @@ extension Spawn {
         assert(newborn.name == newborn.sprite.name)
         assert((thorax?.name ?? "foo") == newborn.sprite.name)
 
-        ek.gridCell?.setContents(to: newborn)
+        ek.gridCell?.stepper = newborn
 
         newborn.gridCell = ek.gridCell
 

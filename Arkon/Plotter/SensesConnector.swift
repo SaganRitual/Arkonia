@@ -1,31 +1,25 @@
 import CoreGraphics
 
-struct SensoryInput {
-    let activator: ((Double) -> (Double))?
-    let getRawValue: () -> Double
-    let scale: Double
+struct GridInput {
+    let loadSelector: () -> Double
+    let loadNutrition: () -> Double
 
-    init(
-        scale: Double,
-        _ getRawValue: @escaping () -> Double,
-        _ activator: ((Double) -> Double)?
-    ) {
-        self.activator = activator
-        self.getRawValue = getRawValue
-        self.scale = scale
+    init(_ loadNutrition: @escaping () -> Double, _ loadSelector: @escaping () -> Double) {
+        self.loadNutrition = loadNutrition
+        self.loadSelector = loadSelector
     }
+}
 
-    func load() -> Double {
-        let scaled = getRawValue() / scale
-        let activated = activator?(scaled) ?? scaled
-        return activated
-    }
+struct NonGridInput {
+    let load: () -> Double
+
+    init(_ load: @escaping () -> Double) { self.load = load }
 }
 
 class SensesConnector {
     weak var scratch: Scratchpad?
-    private(set) var gridInputs = [SensoryInput]()
-    private(set) var nonGridInputs = [SensoryInput]()
+    private(set) var gridInputs = [GridInput]()
+    private(set) var nonGridInputs = [NonGridInput]()
 
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
@@ -44,7 +38,6 @@ class SensesConnector {
         var entropyPerJoule = 0.0
         func a() { Clock.shared.entropize(1) { entropyPerJoule = Double($0); b() } }
 
-        // 95371784+
         func b() { Grid.arkonsPlaneQueue.async(execute: c) }
 
         func c() {
@@ -52,10 +45,9 @@ class SensesConnector {
             Debug.log(level: 154) { "scale = \(scale) = 1 / \(entropyPerJoule) " }
 
             gridInputs = senseGrid.cells.map { cell in
-                SensoryInput(
-                    scale: scale,
-                    { [weak self] in self!.loadGridInput(cell) },
-                    { scaledValue in max(0, scaledValue) }
+                GridInput(
+                    { [weak self] in self!.loadNutrition(cell) },
+                    { [weak self] in self!.loadSelector(cell) }
                 )
             }
 
@@ -65,39 +57,23 @@ class SensesConnector {
         a()
     }
 
-    static let cBuckets = 10
-    static var histogram = [Int](repeating: 0, count: cBuckets)
-    static var histoQueue = DispatchQueue.global(qos: .utility)
-    static func histogrize(_ value: Double) {
-        histoQueue.async {
-            precondition(value >= -1.0 && value <= 1.0)
-
-            let vv = (value < 1.0) ? value : value - 1e-4    // Because we do get 1.0 sometimes
-            let ss = Int((vv + 1) * Double(cBuckets / 2))
-            histogram[ss] += 1
-            Debug.log(level: 155) { "H: \(histogram)" }
-        }
-    }
-
     // We need connect only once to the non-grid inputs, so we take care of
     // that in the initializer
     private func connectNonGridInputs() {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
 
-        let myX = SensoryInput(
-            scale: Double(Grid.shared!.wGrid),
-            { Double(st.gridCell.gridPosition.x) },
-            { $0 }  // identity function, we're already scaled to -1..<1
+        let myX = NonGridInput(
+            { Double(st.gridCell.gridPosition.x) / Double(Grid.shared!.wGrid) }
         )
 
-        let myY = SensoryInput(
-            scale: Double(Grid.shared!.hGrid),
-            { Double(st.gridCell.gridPosition.y) },
-            { $0 }  // identity function, we're already scaled to -1..<1
+        let myY = NonGridInput(
+            { Double(st.gridCell.gridPosition.y) / Double(Grid.shared!.hGrid) }
         )
 
-        let hunger = SensoryInput(scale: 1, { Double(st.metabolism.hunger) }, { $0 })
-        let asphyxia = SensoryInput(scale: Double(Arkonia.co2MaxLevel), { Double(st.metabolism.co2Level) }, { $0 })
+        let hunger = NonGridInput({ Double(st.metabolism.hunger)})
+        let asphyxia = NonGridInput(
+            { Double(st.metabolism.co2Level) / Double(Arkonia.co2MaxLevel) }
+        )
 
         nonGridInputs.append(myX)
         nonGridInputs.append(myY)
@@ -107,28 +83,44 @@ class SensesConnector {
         for pollenator in MannaCannon.shared!.pollenators {
             let diff = st.sprite.position - pollenator.node.position
 
-            let radius = SensoryInput(
-                scale: Double(Grid.shared.hypoteneuse),
-                { Double(diff.hypotenuse) }, { $0 }
+            let radius = NonGridInput(
+                { Double(diff.hypotenuse / Grid.shared.hypoteneuse) }
             )
 
-            let theta = SensoryInput(
-                scale: Double.pi / 2,
-                { (diff.x == 0) ? 0 : atan(Double(diff.y) / Double(diff.x)) }, { Double($0) }
-            )
+            let t = (diff.x == 0) ? 0 : atan(Double(diff.y) / Double(diff.x))
+            let tt = t / (Double.pi / 2)
+            let theta = NonGridInput({ tt })
+
+//            Debug.log { "\(radius.load()), \(theta.load()), \(t), \(tt)" }
+//            Debug.histogrize(theta.load(), scale: 10, inputRange: -1..<1)
 
             nonGridInputs.append(radius)
             nonGridInputs.append(theta)
         }
     }
 
-    private func loadGridInput(_ cellKey: GridCellKey) -> Double {
-        switch cellKey.contents {
-        case .arkon:   return 0
-        case .invalid: return 0
-        case .nothing: break
-        }
+    enum CellContents: Double {
+        case invalid = 0, arkon = 1, empty = 2, manna = 3
 
+        func asSenseData() -> Double { return self.rawValue / 4.0 }
+    }
+
+    private func loadSelector(_ cellKey: GridCellKey) -> Double {
+        let contents: CellContents
+
+        if cellKey is NilKey           { contents = .invalid } // Off the grid
+        else if cellKey.stepper != nil { contents = .arkon }
+        else if cellKey.manna == nil   { contents = .empty }
+        else                           { contents = .manna }
+
+        return contents.asSenseData()
+    }
+
+    private func loadNutrition(_ cellKey: GridCellKey) -> Double {
+        if cellKey is NilKey { return 0 }
+
+        // Seems like we need to separate the different cell types here
+        if cellKey.stepper != nil { return 0 }
         guard let manna = cellKey.manna else { return 0 }
 
         let energy = Double(manna.getEnergyContentInJoules() / Arkonia.maxMannaEnergyContentInJoules)

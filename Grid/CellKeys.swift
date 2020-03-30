@@ -2,7 +2,6 @@
 import SpriteKit
 
 protocol GridCellKey {
-    var contents: GridCell.Contents { get }
     var gridPosition: AKPoint { get }
     var manna: Manna? { get }
     var ownerName: String { get }
@@ -11,14 +10,12 @@ protocol GridCellKey {
 
 struct ColdKey: GridCellKey {
     init(for cell: GridCell) {
-        contents = cell.contents
         gridPosition = cell.gridPosition
         manna = cell.manna
         ownerName = cell.ownerName
         stepper = cell.stepper
     }
 
-    let contents: GridCell.Contents
     let gridPosition : AKPoint
     let ownerName: String
     let manna: Manna?
@@ -31,10 +28,6 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
     var debugDescription: String {
         "\(gridCell?.gridPosition ?? AKPoint(x: -4242, y: -4242))"
-    }
-
-    var contents: GridCell.Contents {
-        get { return gridCell?.contents ?? .invalid }
     }
 
     var gridPosition: AKPoint {
@@ -127,7 +120,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 
         self.ownerName = winner.name
         Debug.log(level: 104) { "setContents from transferKey in \(c.gridPosition)" }
-        c.setContents(to: winner)
+        c.stepper = winner
         if winner.dispatch.scratch.engagerKey != nil { releaseLock() }
         Debug.log(level: 104) { "setContents from transferKey out \(c.gridPosition)" }
         onComplete()
@@ -137,7 +130,6 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
 class NilKey: GridCellKey {
     //swiftlint:disable unused_setter_value
     var gridCell: GridCell? { get { nil } set { fatalError() } }
-    var contents: GridCell.Contents { get { .invalid } set { fatalError() } }
     var gridPosition: AKPoint { get { AKPoint(x: -4444, y: -4444) } set { fatalError() } }
     var manna: Manna?  { get { nil } set { fatalError() } }
     var ownerName: String { get { "invalid" } set { fatalError() } }
