@@ -20,28 +20,28 @@ extension GridCell {
         return randomCell!
     }
 
-    static func lockBirthPosition(parent: Stepper, name: String, _ onComplete: @escaping (HotKey?) -> Void) {
+    static func lockBirthPosition(parent: Stepper, name: ArkonName, _ onComplete: @escaping (HotKey?) -> Void) {
         Grid.arkonsPlaneQueue.async {
             let key = lockBirthPosition(parent: parent, name: name)
             onComplete(key)
         }
     }
 
-    static func lockBirthPosition(parent: Stepper, name: String) -> HotKey? {
+    static func lockBirthPosition(parent: Stepper, name: ArkonName) -> HotKey? {
         let gridPointIndex = Int.random(in: 0..<Arkonia.cMotorGridlets)
         let p = parent.gridCell.getGridPointByIndex(gridPointIndex)
 
         return GridCell.atIf(p)?.lockIf(ownerName: name)
     }
 
-    static func lockRandomEmptyCell(ownerName: String, _ onComplete: @escaping ((HotKey?) -> Void)) {
+    static func lockRandomEmptyCell(ownerName: ArkonName, _ onComplete: @escaping ((HotKey?) -> Void)) {
         Grid.arkonsPlaneQueue.async {
             let hotKey = lockRandomEmptyCell(ownerName: ownerName)
             onComplete(hotKey)
         }
     }
 
-    static func lockRandomEmptyCell(ownerName: String) -> HotKey? {
+    static func lockRandomEmptyCell(ownerName: ArkonName) -> HotKey? {
         var randomGridCell: HotKey?
 
         repeat {

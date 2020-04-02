@@ -91,7 +91,7 @@ extension BarChart {
         label.text = text
         label.fontColor = .yellow
         label.color = .blue
-        label.zPosition = 100
+        label.zPosition = 0
         label.alpha = 1.0
     }
 

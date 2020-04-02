@@ -27,14 +27,14 @@ class SpriteFactory {
 
     static func makeArkonsPools() -> (ThoraxPool, SpritePool) {
         let arkonPrototype =
-            DronePrototype(alpha: 1, color: .gray, colorBlendFactor: 1, zPosition: 10, zRotation: 0)
+            DronePrototype(alpha: 1, color: .gray, colorBlendFactor: 1, zPosition: 0, zRotation: 0)
 
         let arkons = ThoraxPool(
             "Arkons", "spark-thorax-large", GriddleScene.arkonsPortal, 1000, arkonPrototype
         )
 
         let nosePrototype =
-            DronePrototype(alpha: 1, color: .darkGray, colorBlendFactor: 1, zPosition: 11, zRotation: 0)
+            DronePrototype(alpha: 1, color: .darkGray, colorBlendFactor: 1, zPosition: 0, zRotation: 0)
 
         let noses = SpritePool(
             "Arkons", "spark-nose-large", GriddleScene.arkonsPortal, 1000, nosePrototype, nil
@@ -45,11 +45,11 @@ class SpriteFactory {
 
     static func makeMannaPool() -> SpritePool {
         let mannaPrototype = DronePrototype(
-            alpha: 1, color: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum, zPosition: 9, zRotation: 0
+            alpha: 1, color: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum, zPosition: 0, zRotation: 0
         )
 
         return SpritePool(
-            "Manna", "manna", GriddleScene.mannaPortal, Arkonia.cMannaMorsels, mannaPrototype, nil
+            "Manna", "manna", GriddleScene.arkonsPortal, Arkonia.cMannaMorsels, mannaPrototype, nil
         )
     }
 
@@ -57,21 +57,21 @@ class SpriteFactory {
     static func makeNetDisplayPools() -> (SpritePool, SpritePool, SpritePool) {
         Debug.log(level: 159) { "makeNetDisplayPools" }
         let fullNeuronPrototype =
-            DronePrototype(alpha: 0, color: .green, colorBlendFactor: 1, zPosition: 5, zRotation: 0)
+            DronePrototype(alpha: 0, color: .green, colorBlendFactor: 1, zPosition: 0, zRotation: 0)
 
         let fullNeurons = SpritePool(
             "Neurons", "neuron-plain", nil, 1000, fullNeuronPrototype, .net9Portal
         )
 
         let halfNeuronPrototype =
-            DronePrototype(alpha: 0, color: .gray, colorBlendFactor: 1, zPosition: 5, zRotation: 0)
+            DronePrototype(alpha: 0, color: .gray, colorBlendFactor: 1, zPosition: 0, zRotation: 0)
 
         let halfNeurons = SpritePool(
             "Neurons", "neuron-plain-half", nil, 500, halfNeuronPrototype, .netHalfNeuronsPortal
         )
 
         let linePrototype =
-            DronePrototype(alpha: 0, color: .green, colorBlendFactor: 1, zPosition: 5, zRotation: 0)
+            DronePrototype(alpha: 0, color: .green, colorBlendFactor: 1, zPosition: 0, zRotation: 0)
 
         let lines = SpritePool(
             "Line", "line", nil, 4000, linePrototype, nil
@@ -93,7 +93,7 @@ extension SpriteFactory {
         let line = SKShapeNode(path: linePath)
         line.strokeColor = color
         line.lineWidth = 3
-        line.zPosition = 10
+        line.zPosition = 0
         return line
     }
 }

@@ -40,8 +40,9 @@ class GriddleScene: SKScene, SKSceneDelegate {
     ]
 
     static var arkonsPortal: SKSpriteNode!
-    static var mannaPortal: SKSpriteNode!
+    static var dashboardsPortal: SKSpriteNode!
     static var netPortal: SKSpriteNode!
+    static var netPortalHalfNeurons: SKSpriteNode!
 
     var barChartFactory: BarChartFactory!
     var bcNeurons: BarChart!
@@ -108,12 +109,37 @@ class GriddleScene: SKScene, SKSceneDelegate {
         //        reportArkonia.start()
     }
 
+    func loadScenePortal(_ portalName: String) -> SKSpriteNode {
+        let portal = (childNode(withName: portalName) as? SKSpriteNode)!
+        let x = (portal.userData!["x"] as? Int)!
+        let y = (portal.userData!["y"] as? Int)!
+
+        portal.position = CGPoint(x: x, y: y)
+        return portal
+    }
+
     override func didMove(to view: SKView) {
         GriddleScene.shared = self
 
-        GriddleScene.arkonsPortal = (childNode(withName: "arkons_portal") as? SKSpriteNode)!
-        GriddleScene.mannaPortal = (childNode(withName: "manna_portal") as? SKSpriteNode)!
-        GriddleScene.netPortal = (childNode(withName: "net_portal") as? SKSpriteNode)!
+        GriddleScene.arkonsPortal =         loadScenePortal("arkons_portal")
+        GriddleScene.dashboardsPortal =     loadScenePortal("dashboards_portal_backer")
+        GriddleScene.netPortal =            loadScenePortal("net_9portals_backer")
+        GriddleScene.netPortalHalfNeurons = loadScenePortal("net_9portals_half_neurons_backer")
+
+        // Position in the array is the zPosition, so 0 is the lowest layer
+        let portalsZorders: [SKNode] = [
+            GriddleScene.arkonsPortal,
+            GriddleScene.dashboardsPortal,
+            GriddleScene.netPortalHalfNeurons,
+            GriddleScene.netPortal
+        ]
+
+        (0..<portalsZorders.count).forEach { ss in
+            let dd = CGFloat(ss)
+            portalsZorders[ss].zPosition = dd
+        }
+
+        GriddleScene.arkonsPortal.alpha = 1
 
         Grid.shared = Grid(on: GriddleScene.arkonsPortal)
         Grid.shared.postInit()

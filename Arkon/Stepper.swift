@@ -6,7 +6,7 @@ class Stepper {
     weak var gridCell: GridCell!
     var isTurnabouted: Bool = false
     var metabolism: Metabolism!
-    let name: String
+    let name: ArkonName
     var net: Net!
     var netDisplay: NetDisplay?
     var nose: SKSpriteNode!
@@ -27,19 +27,6 @@ class Stepper {
         self.sprite = embryo.thorax
 
         if needsNewDispatch { self.dispatch = Dispatch(self) }
-
-        Debug.log(level: 109) {
-
-            let isLocked = embryo.engagerKey!.gridCell?.isLocked
-            let lockOwner = embryo.engagerKey!.gridCell?.ownerName ?? "no owner"
-            let occupiedBy = embryo.engagerKey!.gridCell?.stepper?.name ?? "no one"
-            let isLockedString = isLocked == nil ? "nothing" : (isLocked! ? "already locked" : "not yet locked")
-
-            return "set1 \(six(embryo.embryoName))"
-                    + " isLocked \(isLockedString) by \(six(lockOwner))"
-                    + " occupied by \(six(occupiedBy))"
-                    + ", parent is \(six(parentStepper?.name))"
-        }
     }
 
     deinit {

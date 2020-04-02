@@ -10,7 +10,7 @@ class Scratchpad {
     weak var dispatch: Dispatch?
     var engagerKey: GridCellKey?
     var isApoptosizing = false
-    var name = ""
+    var name = ArkonName.makeName(.nothing, 0)
     weak var parentNet: Net?
     var plotter: Plotter?
     var senseGrid: CellSenseGrid?

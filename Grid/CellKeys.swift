@@ -4,7 +4,7 @@ import SpriteKit
 protocol GridCellKey {
     var gridPosition: AKPoint { get }
     var manna: Manna? { get }
-    var ownerName: String { get }
+    var ownerName: ArkonName { get }
     var stepper: Stepper? { get }
 }
 
@@ -17,7 +17,7 @@ struct ColdKey: GridCellKey {
     }
 
     let gridPosition : AKPoint
-    let ownerName: String
+    let ownerName: ArkonName
     let manna: Manna?
     let stepper: Stepper?
 }
@@ -49,8 +49,8 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         get { return gridCell?.manna }
     }
 
-    var ownerName: String {
-        get { return gridCell?.ownerName ?? "empty hotkey" }
+    var ownerName: ArkonName {
+        get { return gridCell?.ownerName ?? ArkonName.empty }
         set { gridCell?.ownerName = newValue }
     }
 
@@ -58,7 +58,7 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         get { return gridCell?.stepper }
     }
 
-    init(for cell: GridCell, ownerName: String) {
+    init(for cell: GridCell, ownerName: ArkonName) {
         self.gridCell = cell
         cell.isLocked = true
         cell.ownerName = ownerName
@@ -132,7 +132,7 @@ class NilKey: GridCellKey {
     var gridCell: GridCell? { get { nil } set { fatalError() } }
     var gridPosition: AKPoint { get { AKPoint(x: -4444, y: -4444) } set { fatalError() } }
     var manna: Manna?  { get { nil } set { fatalError() } }
-    var ownerName: String { get { "invalid" } set { fatalError() } }
+    var ownerName: ArkonName { get { ArkonName.offgrid } set { fatalError() } }
     var stepper: Stepper?  { get { nil } set { fatalError() } }
     //swiftlint:enable unused_setter_value
 }

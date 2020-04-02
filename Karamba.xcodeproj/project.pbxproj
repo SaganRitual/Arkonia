@@ -41,7 +41,6 @@
 		D464BA5522C737260069623C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D464BA5822C737260069623C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
-		D464BA5A22C737260069623C /* TheScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D461358A2288CEF800C9864E /* TheScene.sks */; };
 		D467E885242D2AB0006325E0 /* Manna.Sprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D467E884242D2AB0006325E0 /* Manna.Sprite.swift */; };
 		D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
@@ -64,6 +63,8 @@
 		D4B2AC8523D5983200246746 /* SceneDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B2AC8423D5983200246746 /* SceneDispatch.swift */; };
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
 		D4B4295322DAF1CD0036C904 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293C22DAEC7E0036C904 /* Report.swift */; };
+		D4B9512124349A8800BD2085 /* ArkonName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9512024349A8800BD2085 /* ArkonName.swift */; };
+		D4B9512324351EAF00BD2085 /* Arkonia.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4B9512224351EAF00BD2085 /* Arkonia.sks */; };
 		D4BB6E73234E549C00529819 /* Funge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E72234E549C00529819 /* Funge.swift */; };
 		D4BB6E77234EDCA500529819 /* Apoptosize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E76234EDCA500529819 /* Apoptosize.swift */; };
 		D4BB6E7B234EF62800529819 /* Metabolize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E7A234EF62800529819 /* Metabolize.swift */; };
@@ -123,7 +124,6 @@
 		D44EFA5924280D1B00798FE6 /* SensesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensesLoader.swift; sourceTree = "<group>"; };
 		D4523A4C242942FF0074442F /* SensesConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensesConnector.swift; sourceTree = "<group>"; };
 		D4603A6122A2720400885428 /* Manna.Energy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.Energy.swift; sourceTree = "<group>"; };
-		D461358A2288CEF800C9864E /* TheScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TheScene.sks; sourceTree = "<group>"; };
 		D464BA5F22C737260069623C /* Karamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D467E884242D2AB0006325E0 /* Manna.Sprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.Sprite.swift; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
@@ -150,6 +150,8 @@
 		D4B4293C22DAEC7E0036C904 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
 		D4B4294022DAEC7E0036C904 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		D4B9512024349A8800BD2085 /* ArkonName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonName.swift; sourceTree = "<group>"; };
+		D4B9512224351EAF00BD2085 /* Arkonia.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Arkonia.sks; sourceTree = "<group>"; };
 		D4BB6E72234E549C00529819 /* Funge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Funge.swift; sourceTree = "<group>"; };
 		D4BB6E76234EDCA500529819 /* Apoptosize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apoptosize.swift; sourceTree = "<group>"; };
 		D4BB6E7A234EF62800529819 /* Metabolize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metabolize.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 			children = (
 				D4D346A723FC649F00E6D1C2 /* Net */,
 				D44EFA5624280C7700798FE6 /* Plotter */,
+				D4B9512024349A8800BD2085 /* ArkonName.swift */,
 				D4FFE9612365814F00F5DDFB /* Dispatch.swift */,
 				D40F452B23C88A3D0027BD0C /* EnergyReserve.swift */,
 				D43DC50F24177B4E0017FADF /* HotReserves.swift */,
@@ -307,13 +310,13 @@
 		D4B2AC8323D5965A00246746 /* SpriteKit */ = {
 			isa = PBXGroup;
 			children = (
+				D4B9512224351EAF00BD2085 /* Arkonia.sks */,
 				D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */,
 				D4B2AC8423D5983200246746 /* SceneDispatch.swift */,
 				D40985FE22650CC9009DD384 /* SceneViewController.swift */,
 				D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */,
 				D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */,
 				D497C1A923D966A70078D39F /* SpritePool.swift */,
-				D461358A2288CEF800C9864E /* TheScene.sks */,
 			);
 			path = SpriteKit;
 			sourceTree = "<group>";
@@ -454,7 +457,7 @@
 				D495F0C8233FA6E9007D6E86 /* Info.plist in Resources */,
 				D464BA5822C737260069623C /* Assets.xcassets in Resources */,
 				D464BA5922C737260069623C /* Main.storyboard in Resources */,
-				D464BA5A22C737260069623C /* TheScene.sks in Resources */,
+				D4B9512324351EAF00BD2085 /* Arkonia.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,6 +535,7 @@
 				D44EFA5A24280D1B00798FE6 /* SensesLoader.swift in Sources */,
 				D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */,
 				D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */,
+				D4B9512124349A8800BD2085 /* ArkonName.swift in Sources */,
 				D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */,
 				D43DC50A24165D450017FADF /* DataSource.swift in Sources */,
 				D4B2AC8223D595E000246746 /* NetDisplayGrid.swift in Sources */,

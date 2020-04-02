@@ -4,6 +4,7 @@ func showDebugLog() {
     Debug.showLog()
 }
 
+func six(_ nameThing: ArkonName?) -> String { nameThing == nil ? "<nil>" : "\(nameThing!.nametag)\((nameThing!.setNumber))" }
 func six(_ key: HotKey?) -> String { key == nil ? "<nil>" : "tenant \(six(key!.gridPosition))"}
 func six(_ point: AKPoint?) -> String { point == nil ? "<nil>" : "\(point!)"}
 func six(_ string: String?) -> String { String(string?.prefix(50) ?? "<nothing here>") }

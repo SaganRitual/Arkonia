@@ -1,7 +1,7 @@
 import SpriteKit
 
 class Pollenator {
-    var currentPosition = GridCell.at(AKPoint.zero)
+    var currentPosition = GridCell.getRandomCell()
     var firstPass = true
     let node = SKShapeNode(circleOfRadius: GriddleScene.arkonsPortal.size.hypotenuse / 3)
     var scale = CGFloat.zero
@@ -10,13 +10,14 @@ class Pollenator {
     init(_ color: SKColor) {
         totalDistance = CGPoint.zero.distance(to: currentPosition.scenePosition)
 
-        node.strokeColor = color   // Set to .white to see it on screen, for debug
-        node.fillColor = .clear
-        node.alpha = 1
-        node.zPosition = 5
+        node.strokeColor = .clear  // Set to .white to see it on screen, for debug
+        node.fillColor = color
+        node.alpha = 0.05
+        node.zPosition = 0
         node.setScale(1)
         node.position = currentPosition.scenePosition
-        GriddleScene.mannaPortal.addChild(node)
+
+        GriddleScene.arkonsPortal.addChild(node)
 
         move()
     }

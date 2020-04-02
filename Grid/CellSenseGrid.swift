@@ -1,6 +1,6 @@
 class CellSenseGrid: CustomDebugStringConvertible {
     var cells = [GridCellKey]()
-    var centerName = ""
+    var centerName = ArkonName.offgrid
     var debugDescription = ""
 
     init(from center: HotKey, by cGridlets: Int, block: AKPoint) {

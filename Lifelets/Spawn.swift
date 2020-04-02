@@ -1,32 +1,5 @@
 import SpriteKit
 
-enum Names {
-    static var nameix = 0
-    static var setix = 0
-
-    static var names = [
-        "Alice-", "Bob-", "Charles-",
-        "David-", "Ellen-", "Felicity-",
-        "Grace-", "Helen-", "India-",
-        "James-", "Karen-", "Lizbeth-",
-        "Mary-", "Nathan-", "Olivia-",
-        "Paul-", "Quincy-", "Rob-",
-        "Samantha-", "Tatiana-", "Ulna-",
-        "Vivian-", "William-", "Xavier-",
-        "Yvonne-", "Zoe-"
-    ]
-
-    static func getName() -> String {
-        defer {
-            nameix = (nameix + 1) % names.count
-            if nameix == 0 { setix += 1 }
-        }
-
-        let newName = names[nameix % names.count] + String(format: "%03d-Arkon", setix)
-        return newName
-    }
-}
-
 final class Spawn: DispatchableProtocol {
     var dispatch: Dispatch? { willSet { fatalError() } }
 
@@ -35,7 +8,7 @@ final class Spawn: DispatchableProtocol {
     var birthplace: HotKey?
     var callAgain = false
     var engagerKey: HotKey?
-    let embryoName = Names.getName()
+    let embryoName = ArkonName.makeName()
     var fishDay = Fishday(fishNumber: 0, birthday: 0)
     var metabolism: Metabolism?
     var net: Net?
@@ -122,7 +95,7 @@ extension WorkItems {
     typealias onCompleteHotKey = (HotKey?) -> Void
 
     static private func getStartingPosition(
-        _ fishDay: Fishday, _ embryoName: String, _ meTheParent: Stepper?, _ onComplete: @escaping onCompleteHotKey
+        _ fishDay: Fishday, _ embryoName: ArkonName, _ meTheParent: Stepper?, _ onComplete: @escaping onCompleteHotKey
     ) {
         Grid.arkonsPlaneQueue.async {
             let key = getStartingPosition(fishDay, embryoName, meTheParent)
@@ -131,11 +104,11 @@ extension WorkItems {
     }
 
     static private func getStartingPosition(
-        _ fishDay: Fishday, _ embryoName: String, _ meTheParent: Stepper?
+        _ fishDay: Fishday, _ embryoName: ArkonName, _ meTheParent: Stepper?
     ) -> HotKey? {
         guard let parent = meTheParent else {
             return GridCell.lockRandomEmptyCell(
-                ownerName: "aboriginal-\(fishDay.fishNumber)"
+                ownerName: ArkonName.makeName(.aboriginal, fishDay.fishNumber)
             )
         }
 
@@ -245,14 +218,14 @@ extension Spawn {
         nose.alpha = 1
         nose.colorBlendFactor = 0.5
         nose.setScale(Arkonia.noseScaleFactor)
-        nose.zPosition = 6
+        nose.zPosition = 3
 
         thorax.addChild(self.nose!)
         thorax.setScale(Arkonia.arkonScaleFactor * 1.0 / Arkonia.zoomFactor)
         thorax.colorBlendFactor = 0.5
         thorax.position = engagerKey.scenePosition
         thorax.alpha = 1
-        thorax.zPosition = 5
+        thorax.zPosition = 2
 
         let noseColor: SKColor = (meTheParent == nil) ? .magenta : .yellow
         Debug.debugColor(thorax, .green, nose, noseColor)
@@ -276,9 +249,6 @@ extension Spawn {
         newborn.nose?.color = (net?.isCloneOfParent ?? false) ? .green : .white
 
         guard let ek = engagerKey else { fatalError() }
-
-        assert(newborn.name == newborn.sprite.name)
-        assert((thorax?.name ?? "foo") == newborn.sprite.name)
 
         ek.gridCell?.stepper = newborn
 

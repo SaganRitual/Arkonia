@@ -55,16 +55,16 @@ class SpritePool {
         return drone
     }
 
-    func makeSprite(_ name: String?) -> SKSpriteNode {
+    func makeSprite(_ name: ArkonName?) -> SKSpriteNode {
         let drone = getDrone()
         return makeSprite(with: drone, name)
     }
 
-    func makeSprite(with drone: SKSpriteNode, _ name: String?) -> SKSpriteNode {
+    func makeSprite(with drone: SKSpriteNode, _ name: ArkonName?) -> SKSpriteNode {
 //        drone.alpha = prototype.alpha
         drone.color = .purple//prototype.color
         drone.colorBlendFactor = prototype.colorBlendFactor
-        drone.name = name
+        drone.name = "\(name!.nametag)(\(name!.setNumber))"
         drone.zPosition = prototype.zPosition
         drone.zRotation = prototype.zRotation
         return drone
@@ -98,11 +98,11 @@ class ThoraxPool: SpritePool {
     }
 
     override func getDrone() -> SKSpriteNode {
-        Debug.log(level: 159) { "getDrone.0" }
+        Debug.log(level: 163) { "getDrone.0" }
         if let netDisplayPortal = netDisplayPortals.popLast(),
             let halfNeuronDisplayPortal = halfNeuronDisplayPortals.popLast()
         {
-            Debug.log(level: 159) { "getDrone.1" }
+            Debug.log(level: 163) { "getDrone.1" }
             let drone = super.getDrone()
             drone.userData = [:]
             drone.userData![SpriteUserDataKey.net9Portal] = netDisplayPortal
@@ -110,8 +110,12 @@ class ThoraxPool: SpritePool {
             return drone
         }
 
-        if let readyDrone = parkedDronesWithNetDisplay.popLast() { return readyDrone }
-        else { return super.getDrone() }
+        if let readyDrone = parkedDronesWithNetDisplay.popLast() {
+            Debug.log(level: 163) { "getDrone.2" }
+            return readyDrone }
+        else {
+            Debug.log(level: 163) { "getDrone.3" }
+            return super.getDrone() }
     }
 
     override func releaseSprite(_ sprite: SKSpriteNode) {
@@ -135,14 +139,14 @@ class ThoraxPool: SpritePool {
     }
 
     func setupNetDisplayPortals() {
-        Debug.log(level: 159) { "setupNetDisplayPortals" }
+        Debug.log(level: 163) { "setupNetDisplayPortals" }
 
-        GriddleScene.shared.enumerateChildNodes(withName: "net_9portal*") { node, _ in
+        GriddleScene.netPortal.enumerateChildNodes(withName: "net_9portal_full*") { node, _ in
             guard let portal = node as? SKSpriteNode else { fatalError() }
             self.netDisplayPortals.append(portal)
         }
 
-        GriddleScene.shared.enumerateChildNodes(withName: "net_9portal_halfNeurons*") { node, _ in
+        GriddleScene.netPortalHalfNeurons.enumerateChildNodes(withName: "net_9portal_half*") { node, _ in
             guard let portal = node as? SKSpriteNode else { fatalError() }
             self.halfNeuronDisplayPortals.append(portal)
         }

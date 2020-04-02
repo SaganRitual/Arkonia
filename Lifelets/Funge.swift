@@ -53,7 +53,7 @@ extension WorkItems {
     }
 
     static func getAge(
-        of arkon: String, at currentTime: Int, _ onComplete: @escaping OnComplete1Int
+        of arkon: ArkonName, at currentTime: Int, _ onComplete: @escaping OnComplete1Int
     ) {
         Census.dispatchQueue.async {
             let age = Census.getAge(of: arkon, at: currentTime)

@@ -7,7 +7,7 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     var coldKey: ColdKey?
     let gridPosition: AKPoint
     var isLocked = false
-    var ownerName = "never owned"
+    var ownerName = ArkonName.empty
     var randomScenePosition: CGPoint?
     var toReschedule = [Stepper]()
     let scenePosition: CGPoint
@@ -83,7 +83,7 @@ extension GridCell {
 
     enum RequireLock { case cold, degradeToCold, degradeToNil, hot }
 
-    func lockIf(ownerName: String) -> HotKey? {
+    func lockIf(ownerName: ArkonName) -> HotKey? {
         if isLocked { return nil }
         guard let key = lock(require: .degradeToNil, ownerName: ownerName) as? HotKey
             else { fatalError() }
@@ -91,12 +91,12 @@ extension GridCell {
         return key
     }
 
-    func lockIfEmpty(ownerName: String) -> HotKey? {
+    func lockIfEmpty(ownerName: ArkonName) -> HotKey? {
         if stepper != nil { return nil }
         return lockIf(ownerName: ownerName)
     }
 
-    func lock(require: RequireLock = .hot, ownerName: String) -> GridCellKey? {
+    func lock(require: RequireLock = .hot, ownerName: ArkonName) -> GridCellKey? {
 //        precondition(self.ownerName != ownerName)
         Debug.log(level: 85) { "lock for \(six(ownerName)) was \(six(self.ownerName))" }
 
@@ -117,7 +117,7 @@ extension GridCell {
     func releaseLock() -> Bool {
         Debug.log(level: 85) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
-        defer { isLocked = false; ownerName = "No owner" }
+        defer { isLocked = false; ownerName = ArkonName.empty }
         return isLocked && !toReschedule.isEmpty
     }
 }

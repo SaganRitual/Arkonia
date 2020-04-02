@@ -20,14 +20,15 @@ class Dispatchable: DispatchableProtocol {
 
 final class Dispatch {
     var lifelet: DispatchableProtocol!
-    var name = ""
+    var name = ArkonName.makeName(.nothing, 0)
     var scratch = Scratchpad()
     var wiLaunch: DispatchWorkItem?
 
     init(_ stepper: Stepper? = nil) {
         scratch.dispatch = self
         scratch.stepper = stepper
-        self.name = stepper?.name ?? "No name?"
+
+        if let n = stepper?.name { self.name = n }
         self.scratch.name = self.name
     }
 

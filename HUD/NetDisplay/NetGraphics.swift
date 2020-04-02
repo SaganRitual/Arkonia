@@ -9,7 +9,7 @@ struct NetGraphics {
         var textureLength: CGFloat = 0
         var targetLength: CGFloat = 0
 
-        let line = SpriteFactory.shared.linesPool.makeSprite("line")
+        let line = SpriteFactory.shared.linesPool.makeSprite(ArkonName(nametag: .line, setNumber: 0))
         textureLength = line.size.width
         targetLength = start.distance(to: end)
         line.xScale = targetLength / textureLength
@@ -39,7 +39,7 @@ struct NetGraphics {
         switch layerRole {
         case .senseLayer:
             portal = halfNeuronsPortal
-            sprite = SpriteFactory.shared.halfNeuronsPool.makeSprite("neuron")
+            sprite = SpriteFactory.shared.halfNeuronsPool.makeSprite(ArkonName(nametag: .neuron, setNumber: 0))
             sprite.color = .orange
             sprite.zRotation = 0
             sprite.setScale(1)    // Set the scale to get yFudge right, set real scale below
@@ -47,7 +47,7 @@ struct NetGraphics {
 
         case .motorLayer:
             portal = halfNeuronsPortal
-            sprite = SpriteFactory.shared.halfNeuronsPool.makeSprite("neuron")
+            sprite = SpriteFactory.shared.halfNeuronsPool.makeSprite(ArkonName(nametag: .neuron, setNumber: 0))
             sprite.color = .blue
             sprite.zRotation = CGFloat.pi
             sprite.setScale(1)    // Set the scale to get yFudge right, set real scale below
@@ -55,7 +55,7 @@ struct NetGraphics {
 
         case .hiddenLayer:
             portal = fullNeuronsPortal
-            sprite = SpriteFactory.shared.fullNeuronsPool.makeSprite("neuron")
+            sprite = SpriteFactory.shared.fullNeuronsPool.makeSprite(ArkonName(nametag: .neuron, setNumber: 0))
             sprite.color = .green
             sprite.setScale(1)    // Set the scale to get yFudge right, set real scale below
             yFudge = 0
@@ -63,9 +63,10 @@ struct NetGraphics {
 
         sprite.colorBlendFactor = 0.5
         sprite.alpha = 1.0
+        sprite.blendMode = .replace
         sprite.position = netDisplayGrid.getPosition(gridPoint)
         sprite.position.y -= yFudge
-        sprite.zPosition = 17
+        sprite.zPosition = 2
         sprite.setScale(0.07)
 
         portal.addChild(sprite)

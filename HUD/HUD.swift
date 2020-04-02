@@ -23,12 +23,12 @@ class Quadrant {
 
 class HUD {
     enum MonitorPrototype: Int, CaseIterable {
-        case report = 0, nothing = 1, placeholder2 = 2, barchart = 3
+        case report = 0, placeholder1 = 1, placeholder2 = 2, barchart = 3
     }
 
     static private let prototypeNames: [MonitorPrototype: String] = [
         .report: "report_monitor_prototype",
-        .nothing: "other_monitor_prototype",
+        .placeholder1: "placeholder1",
         .placeholder2: "placeholder2",
         .barchart: "barchart_monitor_prototype"
     ]
@@ -39,15 +39,14 @@ class HUD {
     init(scene: SKScene) {
         self.scene = scene
 
-        let prototypesContainer = scene.childNode(withName: "dashboard2")!
-        let prototypes = HUD.unpackPrototypes(prototypesContainer, scene: scene)
+        let prototypes = HUD.unpackPrototypes(GriddleScene.dashboardsPortal, scene: scene)
 
-        dashboards.append(Dashboard(node: prototypesContainer, quadrants: prototypes))
+        dashboards.append(Dashboard(node: GriddleScene.dashboardsPortal, quadrants: prototypes))
 
-        let placeholdersContainer = scene.childNode(withName: "dashboard2")!
-        let placeholders = HUD.unpackPrototypes(placeholdersContainer, scene: scene)
-
-        dashboards.append(Dashboard(node: placeholdersContainer, quadrants: placeholders))
+//        let placeholdersContainer = dashboardsPortalBacker.childNode(withName: "dashboard2")!
+//        let placeholders = HUD.unpackPrototypes(placeholdersContainer, scene: scene)
+//
+//        dashboards.append(Dashboard(node: placeholdersContainer, quadrants: placeholders))
     }
 
     func getNetPortal() -> SKNode {

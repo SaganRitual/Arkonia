@@ -9,7 +9,7 @@ class Census {
     static var shared: Census!
 
     let ageFormatter: DateComponentsFormatter
-    var archive = [String: Fishday]()
+    var archive = [ArkonName: Fishday]()
     private(set) var highWaterAge = 0
     private(set) var highWaterCOffspring = 0
     private(set) var highWaterPopulation = 0
@@ -67,7 +67,7 @@ extension Census {
         return self.TheFishNumber
     }
 
-    static func getAge(of arkon: String, at currentTime: Int) -> Int {
+    static func getAge(of arkon: ArkonName, at currentTime: Int) -> Int {
         return currentTime - Census.shared.archive[arkon]!.birthday
     }
 }
@@ -97,7 +97,7 @@ extension Census {
 }
 
 extension Census {
-    func registerBirth(_ myName: String, _ myParent: Stepper?, _ myNet: Net?) -> Fishday {
+    func registerBirth(_ myName: ArkonName, _ myParent: Stepper?, _ myNet: Net?) -> Fishday {
         self.population += 1
         self.births += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
@@ -122,7 +122,7 @@ extension Census {
         return archive[myName]!
     }
 
-    func registerDeath(_ nameOfDeceased: String, _ cNeuronsOfDeceased: Int, _ worldTime: Int) {
+    func registerDeath(_ nameOfDeceased: ArkonName, _ cNeuronsOfDeceased: Int, _ worldTime: Int) {
         let ageOfDeceased = Census.getAge(of: nameOfDeceased, at: worldTime)
 
         GriddleScene.shared.bcNeurons.subtractSample(cNeuronsOfDeceased)

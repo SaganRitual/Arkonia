@@ -4,7 +4,7 @@ extension WorkItems {
     typealias OnComplete1Fishday = (Fishday) -> Void
 
     static func registerBirth(
-        myName: String, myParent: Stepper?, myNet: Net?, _ onComplete: @escaping OnComplete1Fishday
+        myName: ArkonName, myParent: Stepper?, myNet: Net?, _ onComplete: @escaping OnComplete1Fishday
     ) {
         Census.dispatchQueue.async {
             let fishday = Census.shared.registerBirth(myName, myParent, myNet)
@@ -22,7 +22,7 @@ extension WorkItems {
     }
 
     static func registerDeath(
-        _ nameOfDeceased: String, _ cNeuronsOfDeceased: Int, _ worldTime: Int, _ onComplete: @escaping () -> Void
+        _ nameOfDeceased: ArkonName, _ cNeuronsOfDeceased: Int, _ worldTime: Int, _ onComplete: @escaping () -> Void
     ) {
         Census.dispatchQueue.async {
             Census.shared.registerDeath(nameOfDeceased, cNeuronsOfDeceased, worldTime)
@@ -41,13 +41,11 @@ extension WorkItems {
         guard let portal = GriddleScene.arkonsPortal else { fatalError() }
 
         var ages = [Int]()
-        var names = [String]()
+        var names = [ArkonName]()
         var worldClock = 0
 
         func a() { getWorldClock              { worldClock = $0; b() } }
 
-        // append here because grasping for straws at the cause of this
-        // weird data race
         func b() { getNames(portal)           { names.append(contentsOf: $0); c() } }
         func c() { getAges(names, worldClock) { ages = $0; d() } }
 
@@ -60,7 +58,7 @@ extension WorkItems {
     }
 
     private static func getAges(
-        _ names: [String], _ currentTime: Int, _ onComplete: @escaping OnCompleteIntArray
+        _ names: [ArkonName], _ currentTime: Int, _ onComplete: @escaping OnCompleteIntArray
     ) {
         Census.dispatchQueue.async {
             let ages = names.map({ Census.getAge(of: $0, at: currentTime) }).sorted()
@@ -69,11 +67,11 @@ extension WorkItems {
     }
 
     static func getNames(
-        _ portal: SKSpriteNode, _ onComplete: @escaping OnCompleteStringArray
+        _ portal: SKSpriteNode, _ onComplete: @escaping ([ArkonName]) -> Void
     ) {
         SceneDispatch.schedule {
             Debug.log(level: 102) { "getNames" }
-            let names = portal.children.compactMap { $0.name }
+            let names = Census.shared.archive.keys.filter { $0 != ArkonName.empty }
             onComplete(names)
         }
     }
