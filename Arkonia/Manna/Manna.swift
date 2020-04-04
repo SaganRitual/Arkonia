@@ -37,9 +37,11 @@ extension Manna {
         func a() { getNutritionInJoules { nutritionInJoules = $0; b() } }
 
         func b() {
-            defer { Dispatch.dispatchQueue.async { onComplete(nutritionInJoules) } }
+            defer {
+                Dispatch.dispatchQueue.async { onComplete(nutritionInJoules) }
+            }
 
-            if nutritionInJoules < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { return }
+            if nutritionInJoules < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { nutritionInJoules = 0 }
 
             MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
 
@@ -91,6 +93,6 @@ extension Manna {
             where: { $0.node.contains(sprite.sprite.position) }
         ) else { MannaCannon.shared!.blast(self); return }
 
-        sprite.bloom(at: nil, color: fs.node.strokeColor, scaleFactor: fs.node.xScale * fs.node.yScale)
+        sprite.bloom(at: nil, color: fs.node.fillColor, scaleFactor: fs.node.xScale)
     }
 }

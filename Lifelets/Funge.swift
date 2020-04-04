@@ -2,6 +2,7 @@ import CoreGraphics
 import Foundation
 
 final class Funge: Dispatchable {
+
     static let dispatchQueue = DispatchQueue(
         label: "ak.funge.q",
         attributes: .concurrent,
@@ -13,7 +14,8 @@ final class Funge: Dispatchable {
         Debug.log(level: 156) { "Funge \(six(st.name))" }
         Debug.debugColor(st, .yellow, .blue)
         guard let ek = ch.engagerKey as? HotKey else { fatalError() }
-        WorkItems.checkSpawnability(st) { self.fungeRoute($0, $1, ek) }
+
+        Funge.TickLife(st).tick { self.fungeRoute($0, $1, ek) }
     }
 }
 
@@ -36,65 +38,10 @@ extension Funge {
     }
 }
 
-extension WorkItems {
-    typealias OnComplete1Int = (Int) -> Void
-    typealias OnComplete1TimeInterval = (TimeInterval) -> Void
-    typealias OnComplete2p = (Bool, Bool) -> Void
-
-    static func checkSpawnability(_ stepper: Stepper, _ onComplete: @escaping OnComplete2p) {
-
-        func a()           { getWorldClock(b) }
-        func b(_ now: Int) { getAge(of: stepper.name, at: now, c) }
-        func c(_ age: Int) { tickLife(of: stepper, to: age, d) }
-
-        func d(_ isAlive: Bool, _ canSpawn: Bool) { onComplete(isAlive, canSpawn) }
-
-        a()
-    }
-
-    static func getAge(
-        of arkon: ArkonName, at currentTime: Int, _ onComplete: @escaping OnComplete1Int
-    ) {
-        Census.dispatchQueue.async {
-            let age = Census.getAge(of: arkon, at: currentTime)
-            onComplete(age)
-        }
-    }
-
-    static func getWorldClock(_ onComplete: @escaping OnComplete1Int) {
-        Clock.dispatchQueue.async { onComplete(Clock.shared!.worldClock) }
-    }
-
-    private static func tickLife(
-        of stepper: Stepper, to age: Int, _ onComplete: @escaping OnComplete2p
-    ) {
-        var worldClock = 0
-
-        func a() { getWorldClock { worldClock = $0; b() } }
-
-        func b() { Funge.dispatchQueue.async(execute: c) }
-
-        func c() {
-            let isAlive = stepper.metabolism.fungeProper(
-                cNeurons: stepper.net!.cNeurons, age: age,
-                co2Counter: stepper.dispatch.scratch.co2Counter,
-                cOffspring: stepper.cOffspring,
-                currentTime: worldClock
-            )
-
-            let canSpawn = stepper.canSpawn()
-
-            onComplete(isAlive, canSpawn)
-        }
-
-        a()
-    }
-}
-
 extension Metabolism {
 
     func fungeProper(
-        cNeurons: Int, age: Int, co2Counter: CGFloat, cOffspring: Int, currentTime: Int
+        cNeurons: Int, co2Counter: CGFloat, cOffspring: Int, currentTime: Int
     ) -> Bool {
         let joulesNeeded = Arkonia.fudgeMassFactor * mass + CGFloat(cNeurons) * Arkonia.neuronCostPerCycle
 

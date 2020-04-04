@@ -15,7 +15,7 @@ extension WorkItems {
     static func registerDeath(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
         var worldClock = 0
 
-        func a() { getWorldClock { worldClock = $0; b() } }
+        func a() { Clock.getWorldClock { worldClock = $0; b() } }
         func b() { registerDeath(stepper.name, stepper.net!.cNeurons, worldClock, onComplete) }
 
         a()
@@ -44,7 +44,7 @@ extension WorkItems {
         var names = [ArkonName]()
         var worldClock = 0
 
-        func a() { getWorldClock              { worldClock = $0; b() } }
+        func a() { Clock.getWorldClock              { worldClock = $0; b() } }
 
         func b() { getNames(portal)           { names.append(contentsOf: $0); c() } }
         func c() { getAges(names, worldClock) { ages = $0; d() } }

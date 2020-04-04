@@ -1,79 +1,34 @@
 import Dispatch
 
 final class Engage: Dispatchable {
-    private(set) var engagerKey: GridCellKey!
-    private(set) var cellSenseGrid: CellSenseGrid!
-
-    internal override func launch() { engage() }
-}
-
-extension Engage {
-    static var engageHighwater: __uint64_t = 0
+    internal override func launch() { Grid.arkonsPlaneQueue.async(execute: engage) }
 
     private func engage() {
-        guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
+        guard let (_, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
 
         Debug.log(level: 155) { "Engage \(six(st.name)) at \(st.gridCell.gridPosition)" }
         Debug.debugColor(st, .magenta, .magenta)
 
-        var age: Int = 0
-        var aligned = false
-        var clock: Int = 0
-        let startTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+//        let startTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 
-        func a() { Clock.dispatchQueue.async(execute: b) }
-
-        func b() {
-            clock = Clock.shared.worldClock
-            WorkItems.getAge(of: st.name, at: clock) { age = $0; c()}
+        let isEngaged = self.engageIf()
+        guard isEngaged else {
+            Debug.log(level: 153) { "Engage failed for \(six(st.name))" }
+            return
         }
-
-        func c() {
-//            ch.spreading = 0   // Disable spreading, see if it's still needed
-
-            if ch.spreading > 0 {
-                Debug.log(level: 153) { "Temp skipping \(six(st.name)), clock \(clock), age \(age)" }
-                ch.spreading -= 1
-                dp.disengage(); return
-            }
-
-            Debug.log(level: 153) { "Not skipping \(six(st.name)), clock \(clock), age \(age)" }
-            d()
-        }
-
-        func d() { Grid.arkonsPlaneQueue.async(execute: e) }
-
-        func e() {
-            ch.spreading = ch.spreader
-            let isEngaged = self.engage_()
-            guard isEngaged else {
-                Debug.log(level: 153) { "Engage failed for \(six(st.name))" }
-                return
-            }
 
 //            let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 //            let duration = stop - startTime
 
-//            if age > 10 && duration > Engage.engageHighwater {
-//                if duration < 1_500_000 { Engage.engageHighwater = duration }   // Don't go over 1.5s
-//                Debug.log() { "Engage highwater delay = \(duration)" }
-//                dp.apoptosize()
-//                return
-//            }
-
-            self.makeSenseGrid()
-            dp.funge()
-        }
-
-        a()
+        self.makeSenseGrid()
+        dp.funge()
     }
 
-    private func engage_() -> Bool {
+    private func engageIf() -> Bool {
         guard let (ch, _, st) = self.scratch?.getKeypoints() else { fatalError() }
         guard let gc = st.gridCell else { fatalError() }
 
-        assert(engagerKey == nil)
-        engagerKey = gc.getLock(for: st, .degradeToCold, true)
+        let engagerKey = gc.getLock(for: st, .degradeToCold, true)
 
         if engagerKey is HotKey {
             ch.engagerKey = engagerKey

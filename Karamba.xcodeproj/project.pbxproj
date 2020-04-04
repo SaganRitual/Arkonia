@@ -48,6 +48,7 @@
 		D495F0C7233FA6E1007D6E86 /* GriddleScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */; };
 		D495F0C8233FA6E9007D6E86 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D40985F222650B0B009DD384 /* Info.plist */; };
 		D497C1AA23D966A70078D39F /* SpritePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D497C1A923D966A70078D39F /* SpritePool.swift */; };
+		D49DDAF5243809B1007639EE /* Funge.TickLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49DDAF4243809B1007639EE /* Funge.TickLife.swift */; };
 		D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A4F45C23551F41000EC009 /* Parasitize.swift */; };
 		D4A59D212387E4E400517F60 /* Engage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D202387E4E400517F60 /* Engage.swift */; };
 		D4A59D232387F64500517F60 /* ComputeMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A59D222387F64500517F60 /* ComputeMove.swift */; };
@@ -134,6 +135,7 @@
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D495F0CE233FAB01007D6E86 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D497C1A923D966A70078D39F /* SpritePool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpritePool.swift; sourceTree = "<group>"; };
+		D49DDAF4243809B1007639EE /* Funge.TickLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Funge.TickLife.swift; sourceTree = "<group>"; };
 		D4A12BE922EA58E900C15F59 /* Stepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
 		D4A4F45C23551F41000EC009 /* Parasitize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parasitize.swift; sourceTree = "<group>"; };
 		D4A59D202387E4E400517F60 /* Engage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engage.swift; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 				D4A59D322388BBD700517F60 /* Disengage.swift */,
 				D4A59D202387E4E400517F60 /* Engage.swift */,
 				D4BB6E72234E549C00529819 /* Funge.swift */,
+				D49DDAF4243809B1007639EE /* Funge.TickLife.swift */,
 				D4BB6E7A234EF62800529819 /* Metabolize.swift */,
 				D4A59D2523882C5D00517F60 /* MoveSprite.swift */,
 				D4A59D2E2388345100517F60 /* MoveStepper.swift */,
@@ -531,6 +534,7 @@
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
 				D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */,
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
+				D49DDAF5243809B1007639EE /* Funge.TickLife.swift in Sources */,
 				D41ED8D623B084A100E82B08 /* Debug.swift in Sources */,
 				D44EFA5A24280D1B00798FE6 /* SensesLoader.swift in Sources */,
 				D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */,

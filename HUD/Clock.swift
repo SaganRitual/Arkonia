@@ -12,7 +12,7 @@ class Clock {
     var worldClock = 0
 
     static let dispatchQueue = DispatchQueue(
-        label: "ak.clock.q",
+        label: "ak.clock.q", attributes: .concurrent,
         target: DispatchQueue.global(qos: .utility)
     )
 
@@ -43,6 +43,10 @@ class Clock {
     private func getEntropy() -> CGFloat {
         guard let t = Arkonia.worldTimeLimit else { return 0 }
         return min(CGFloat(self.worldClock * 2) / CGFloat(t), 1)
+    }
+
+    static func getWorldClock(_ onComplete: @escaping (Int) -> Void) {
+        Clock.dispatchQueue.async { onComplete(Clock.shared!.worldClock) }
     }
 
     func tickTheWorld() {
