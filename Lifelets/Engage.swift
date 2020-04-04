@@ -4,12 +4,10 @@ final class Engage: Dispatchable {
     internal override func launch() { Grid.arkonsPlaneQueue.async(execute: engage) }
 
     private func engage() {
-        guard let (_, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
 
         Debug.log(level: 155) { "Engage \(six(st.name)) at \(st.gridCell.gridPosition)" }
         Debug.debugColor(st, .magenta, .magenta)
-
-//        let startTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 
         let isEngaged = self.engageIf()
         guard isEngaged else {
@@ -17,11 +15,10 @@ final class Engage: Dispatchable {
             return
         }
 
-//            let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
-//            let duration = stop - startTime
+        ch.debugStart = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 
         self.makeSenseGrid()
-        dp.funge()
+        dp.tickLife()
     }
 
     private func engageIf() -> Bool {

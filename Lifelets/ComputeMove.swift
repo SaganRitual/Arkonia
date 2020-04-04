@@ -14,7 +14,7 @@ final class ComputeMove: Dispatchable {
         var entropy: CGFloat = 0
 
         func a() { pt.plot(b) }
-        func b() { Funge.dispatchQueue.async(execute: c) }
+        func b() { TickLife.dispatchQueue.async(execute: c) }
         func c() { ch.co2Counter += ch.cellShuttle!.didMove ? 0 : 1; d() }
         func d() { dp.moveSprite() }
 

@@ -64,8 +64,6 @@ extension Dispatch {
 
     func engage()         { dispatch(Engage.self) }
 
-    func funge()          { dispatch(Funge.self) }
-
     func metabolize()     { dispatch(Metabolize.self) }
 
     func moveSprite()     { dispatch(MoveSprite.self) }
@@ -77,4 +75,6 @@ extension Dispatch {
     func releaseShuttle() { dispatch(ReleaseShuttle.self) }
 
     func spawn()          { dispatch(Spawn.self) }
+
+    func tickLife()       { dispatch(TickLife.self) }
 }

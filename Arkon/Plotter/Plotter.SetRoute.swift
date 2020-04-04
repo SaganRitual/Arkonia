@@ -97,7 +97,7 @@ extension Plotter {
                 toCell = t; fromCell = f
             }
 
-            Debug.log(level: 98) { "targetOffset: \(targetOffset)" }
+            if targetOffset == 0 { Debug.log(level: 164) { "targetOffset: for \(st.name) \(targetOffset)" } }
 
             onComplete(CellShuttle(fromCell, toCell))
         }

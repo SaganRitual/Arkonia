@@ -16,6 +16,9 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     var mannaAwaitingRebloom = false
     weak var stepper: Stepper?
 
+    var lockTime: __uint64_t = 0
+    var releaseTime: __uint64_t = 0
+
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
         self.gridPosition = gridPosition
         self.scenePosition = scenePosition
@@ -97,6 +100,8 @@ extension GridCell {
     }
 
     func lock(require: RequireLock = .hot, ownerName: ArkonName) -> GridCellKey? {
+        lockTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+
 //        precondition(self.ownerName != ownerName)
         Debug.log(level: 85) { "lock for \(six(ownerName)) was \(six(self.ownerName))" }
 
@@ -113,8 +118,19 @@ extension GridCell {
         }
     }
 
+    func debugStats() {
+        releaseTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+        let duration = constrain(Double(releaseTime - lockTime) / 1e10, lo: 0, hi: 1)
+
+//        if st.name == ArkonName(nametag: .alice, setNumber: 0) {
+        if duration > 0.1 {
+//            Debug.histogrize(Double(duration), scale: 10, inputRange: 0..<1)
+        }
+    }
+
     @discardableResult
     func releaseLock() -> Bool {
+        debugStats()
         Debug.log(level: 85) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         defer { isLocked = false; ownerName = ArkonName.empty }

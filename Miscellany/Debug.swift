@@ -102,7 +102,10 @@ struct Debug {
     static func histogrize(_ value: Double, scale: Int = 10, inputRange: Range<Double>) {
         Debug.log {
             precondition(inputRange == -1.0..<1.0 || inputRange == 0.0..<1.0)
-            precondition(value >= inputRange.lowerBound && value <= inputRange.upperBound)
+
+            if(value < inputRange.lowerBound || value > inputRange.upperBound) {
+                return "Histogram overflow: value is \(value) range is \(inputRange)"
+            }
 
             if cBuckets == nil {
                 cBuckets = scale

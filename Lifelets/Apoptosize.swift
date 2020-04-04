@@ -9,38 +9,39 @@ extension Apoptosize {
         guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
         Debug.log(level: 156) { "Apoptosize \(six(st.name))" }
 
-        guard let thorax = st.sprite else { fatalError() }
-        guard let nose = st.nose else { fatalError() }
-
-        func a() { Census.shared.registerDeath(st, b) }
-        func b() { Grid.arkonsPlaneQueue.async(execute: d) }
-//        func c() { releaseStepper(d) }
-
-        func d() {
-            // If another arkon just ate me, I won't have a grid cell any more
-            if let gc = st.gridCell { gc.stepper = nil }
-
-            releaseStepper()
-            releaseSprites(nose, thorax)
-        }
-
-        a()
+        Census.shared.registerDeath(st, release)
     }
 
-    private func releaseSprites(_ nose: SKSpriteNode, _ thorax: SKSpriteNode) {
+    private func release() {
+        guard let (_, _, st) = self.scratch?.getKeypoints() else { fatalError() }
+        if let gc = st.gridCell { gc.stepper = nil }
+
+        releaseStepper(releaseSprites)
+    }
+
+    private func releaseSprites() {
         SceneDispatch.schedule {
+            guard let (_, _, st) = self.scratch?.getKeypoints() else { fatalError() }
+            guard let thorax = st.sprite else { fatalError() }
+            guard let nose = st.nose else { fatalError() }
+
             Debug.log(level: 102) { "Apoptosize release sprites" }
+
             SpriteFactory.shared.nosesPool.releaseSprite(nose)
             SpriteFactory.shared.arkonsPool.releaseSprite(thorax)
         }
     }
 
-    private func releaseStepper() {
-        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+    private func releaseStepper(_ onComplete: @escaping () -> Void) {
+        Grid.arkonsPlaneQueue.async {
+            guard let (ch, _, st) = self.scratch?.getKeypoints() else { fatalError() }
 
-        // If another arkon just ate me, I won't have a grid cell any more
-        st.gridCell?.descheduleIf(st)
-        if let ek = ch.engagerKey as? HotKey { ek.releaseLock() }
-        Stepper.releaseStepper(st, from: st.sprite!)
+            // If another arkon just ate me, I won't have a grid cell any more
+            st.gridCell?.descheduleIf(st)
+            if let ek = ch.engagerKey as? HotKey { ek.releaseLock() }
+            Stepper.releaseStepper(st, from: st.sprite!)
+
+            onComplete()
+        }
     }
 }

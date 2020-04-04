@@ -35,7 +35,7 @@ class Plotter {
             ch.engagerKey = nil
 
             // As of 2020.03.29, this goes out to ComputeMove.computeMove.b,
-            // where we're jumping out to the funge queue anyway, so no need to
+            // where we're jumping out to the tickLife queue anyway, so no need to
             // re-queue this as we do the others
             onComplete()
         }
