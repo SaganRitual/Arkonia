@@ -7,15 +7,14 @@ final class MoveSprite: Dispatchable {
     internal override func launch() { SceneDispatch.schedule { self.moveSprite() } }
 
     func moveSprite() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let shuttle = ch.cellShuttle else { fatalError() }
+        guard let shuttle = scratch.cellShuttle else { fatalError() }
 
-        Debug.log(level: 156) { "MoveSprite \(st.name)" }
+        Debug.log(level: 156) { "MoveSprite \(scratch.stepper.name)" }
 
         if shuttle.fromCell == nil {
-            Debug.log(level: 156) { "Resting \(six(st.name))" }
-            Debug.debugColor(st, .red, .cyan)
-            MoveSprite.restArkon(st) { dp.releaseShuttle() }
+            Debug.log(level: 156) { "Resting \(six(scratch.stepper.name))" }
+            Debug.debugColor(scratch.stepper, .red, .cyan)
+            MoveSprite.restArkon(scratch.stepper) { self.scratch.dispatch!.releaseShuttle() }
             return
         }
 
@@ -25,19 +24,19 @@ final class MoveSprite: Dispatchable {
         guard let hotKey = shuttle.toCell?.gridCell else { fatalError() }
         let position = hotKey.randomScenePosition ?? hotKey.scenePosition
 
-//        let duration1 = ch.debugStart == 0 ? 0 : Debug.debugStats(startedAt: ch.debugStart, scale: UInt64(1e6 * 5))
-//        let duration2 = ch.debugStart == 0 ? 0 : Debug.debugStats(startedAt: ch.debugStart, scale: 1e8 * 4)
+//        let duration1 = scratch.debugStart == 0 ? 0 : Debug.debugStats(startedAt: scratch.debugStart, scale: UInt64(1e6 * 5))
+//        let duration2 = scratch.debugStart == 0 ? 0 : Debug.debugStats(startedAt: scratch.debugStart, scale: 1e8 * 4)
 
 //        MoveSprite.histogram1.histogrize(Double(duration1), scale: 100, inputRange: 0..<1)
-//        if duration2 > 0 { MoveSprite.histogram2.histogrize(100 * duration2 / Double(st.net.layers.reduce(0, +)), scale: 100, inputRange: 0..<1) }
+//        if duration2 > 0 { MoveSprite.histogram2.histogrize(100 * duration2 / Double(stepper.net.layers.reduce(0, +)), scale: 100, inputRange: 0..<1) }
 
-        MoveSprite.moveAction(st, to: position) {
-            Debug.log(level: 104) { "End of move action for \(six(st.name))" }
-            Debug.debugColor(st, .red, .cyan)
+        MoveSprite.moveAction(scratch.stepper, to: position) {
+            Debug.log(level: 104) { "End of move action for \(six(self.scratch.stepper.name))" }
+            Debug.debugColor(self.scratch.stepper, .red, .cyan)
 
-            ch.debugStart = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+            self.scratch.debugStart = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 
-            dp.moveStepper()
+            self.scratch.dispatch!.moveStepper()
         }
     }
 

@@ -6,14 +6,13 @@ final class ReleaseShuttle: Dispatchable {
     }
 
     private func releaseShuttle() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let shuttle = ch.cellShuttle else { fatalError() }
+        guard let shuttle = scratch.cellShuttle else { fatalError() }
         guard let toCell = shuttle.toCell else { fatalError() }
 
-        Debug.debugColor(st, .green, .cyan)
+        Debug.debugColor(scratch.stepper, .green, .cyan)
 
-        assert(ch.engagerKey == nil)
-        ch.engagerKey = toCell
+        assert(scratch.engagerKey == nil)
+        scratch.engagerKey = toCell
 
         shuttle.fromCell?.releaseLock() // If we didn't move, there won't be a fromCell
         shuttle.fromCell = nil
@@ -21,9 +20,9 @@ final class ReleaseShuttle: Dispatchable {
         shuttle.toCell!.releaseLock()   // There will always be a toCell
         shuttle.toCell = nil
 
-        ch.cellShuttle = nil
-        Debug.log(level: 156) { "ReleaseShuttle \(six(ch.name)) nil -> \(ch.cellShuttle == nil)" }
-        ch.senseGrid = nil
-        dp.metabolize()
+        scratch.cellShuttle = nil
+        Debug.log(level: 156) { "ReleaseShuttle \(six(scratch.name)) nil -> \(scratch.cellShuttle == nil)" }
+        scratch.senseGrid = nil
+        scratch.dispatch!.metabolize()
     }
 }

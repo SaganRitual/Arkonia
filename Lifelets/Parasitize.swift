@@ -6,9 +6,8 @@ final class Parasitize: Dispatchable {
 }
 
 extension WorkItems {
-    static func parasitize(_ scratch: Scratchpad?) {
-        guard let (attackerScratch, _, attackerStepper) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log(level: 156) { "Parasitize; attacker is \(six(attackerStepper.name))" }
+    static func parasitize(_ attackerScratch: Scratchpad) {
+        Debug.log(level: 156) { "Parasitize; attacker is \(six(attackerScratch.stepper.name))" }
 
         var victor: Stepper?, victim: Stepper?
 
@@ -59,30 +58,26 @@ extension WorkItems {
         }
     }
 
-    private static func attack(scratch: Scratchpad?, _ onComplete: @escaping (Stepper, Stepper) -> Void) {
-        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
+    private static func attack(scratch myScratch: Scratchpad, _ onComplete: @escaping (Stepper, Stepper) -> Void) {
+        Debug.debugColor(myScratch.stepper, .green, .blue)
 
-        Debug.debugColor(st, .green, .blue)
+        guard let hisStepper = myScratch.cellShuttle?.toCell?.stepper else { fatalError() }
 
-        guard let (myScratch, _, myStepper) = scratch?.getKeypoints() else { fatalError() }
+        precondition(hisStepper !== myScratch.stepper)
+        precondition(hisStepper.name != myScratch.stepper.name)
 
-        guard let hisStepper = ch.cellShuttle?.toCell?.stepper else { fatalError() }
-
-        precondition(hisStepper !== myStepper)
-        precondition(hisStepper.name != myStepper.name)
-
-        let myMass = myStepper.metabolism.mass
+        let myMass = myScratch.stepper.metabolism.mass
         let hisMass = hisStepper.metabolism.mass
 
         if myMass > (hisMass * 1.25) {
-            myStepper.isTurnabouted = false
+            myScratch.stepper.isTurnabouted = false
             hisStepper.isTurnabouted = false
 
-            myStepper.gridCell.descheduleIf(hisStepper)
+            myScratch.stepper.gridCell.descheduleIf(hisStepper)
 
-            onComplete(myStepper, hisStepper)
+            onComplete(myScratch.stepper, hisStepper)
         } else {
-            myStepper.isTurnabouted = true
+            myScratch.stepper.isTurnabouted = true
             hisStepper.isTurnabouted = true
 
             let hisScratch = hisStepper.dispatch.scratch
@@ -98,9 +93,9 @@ extension WorkItems {
                     "me \(six(myScratch.name)) -> nil true, him \(six(hisScratch.name)) -> nil \(hisScratch.cellShuttle == nil)"
                 }
 
-                myStepper.gridCell.descheduleIf(hisStepper)
+                myScratch.stepper.gridCell.descheduleIf(hisStepper)
 
-                onComplete(hisStepper, myStepper)
+                onComplete(hisStepper, myScratch.stepper)
             }
         }
     }

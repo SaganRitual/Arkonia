@@ -122,7 +122,7 @@ extension GridCell {
         releaseTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
         let duration = constrain(Double(releaseTime - lockTime) / 1e10, lo: 0, hi: 1)
 
-//        if st.name == ArkonName(nametag: .alice, setNumber: 0) {
+//        if stepper.name == ArkonName(nametag: .alice, setNumber: 0) {
         if duration > 0.1 {
 //            Debug.histogrize(Double(duration), scale: 10, inputRange: 0..<1)
         }

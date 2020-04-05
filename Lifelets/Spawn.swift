@@ -1,7 +1,7 @@
 import SpriteKit
 
 final class Spawn: DispatchableProtocol {
-    var dispatch: Dispatch? { willSet { fatalError() } }
+    var dispatch: Dispatch! { willSet { fatalError() } }
 
     weak var scratch: Scratchpad?
 
@@ -162,7 +162,7 @@ extension Spawn {
 extension Spawn {
 
     func abandonNewborn() {
-        guard let st = meTheParent, let dp = st.dispatch, let sprite = st.sprite
+        guard let stepper = meTheParent, let dispatch = stepper.dispatch, let sprite = stepper.sprite
             else { return }
 
         func a() {
@@ -171,11 +171,11 @@ extension Spawn {
         }
 
         func b() {
-            let spawnCost = st.getSpawnCost()
-            st.metabolism.withdrawFromSpawn(spawnCost)
-            st.metabolism.fatReserves.level = 0
+            let spawnCost = stepper.getSpawnCost()
+            stepper.metabolism.withdrawFromSpawn(spawnCost)
+            stepper.metabolism.fatReserves.level = 0
 
-            dp.metabolize()
+            dispatch.metabolize()
         }
 
         a()
@@ -287,12 +287,12 @@ extension Spawn {
 
 extension Spawn {
     func postponeSpawn() {
-        guard let st = meTheParent, let dp = st.dispatch else { fatalError() }
+        guard let stepper = meTheParent, let dispatch = stepper.dispatch else { fatalError() }
 
         let failedSpawnCost = Arkonia.maxMannaEnergyContentInJoules
-        st.metabolism.withdrawFromSpawn(failedSpawnCost)
+        stepper.metabolism.withdrawFromSpawn(failedSpawnCost)
 
-        st.nose.color = .blue
-        dp.metabolize()
+        stepper.nose.color = .blue
+        dispatch.metabolize()
     }
 }

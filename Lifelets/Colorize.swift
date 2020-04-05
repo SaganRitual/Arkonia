@@ -9,20 +9,18 @@ final class Colorize: Dispatchable {
 
 extension Colorize {
     func colorize() {
-        guard let (_, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        Debug.log(level:71) { "Colorize \(six(scratch.stepper.name))" }
 
-        Debug.log(level:71) { "Colorize \(six(st.name))" }
+        Debug.debugColor(scratch.stepper, .blue, .blue)
 
-        Debug.debugColor(st, .blue, .blue)
-
-        let babyBumpShouldBeShowing = st.metabolism.spawnReserves.level > (st.getSpawnCost() * 0.5)
+        let babyBumpShouldBeShowing = scratch.stepper.metabolism.spawnReserves.level > (scratch.stepper.getSpawnCost() * 0.5)
 
         switch babyBumpShouldBeShowing {
-        case true:  WorkItems.lookPregnant(st.metabolism.oxygenLevel, st.nose)
-        case false: WorkItems.lookNotPregnant(st.nose)
+        case true:  WorkItems.lookPregnant(scratch.stepper.metabolism.oxygenLevel, scratch.stepper.nose)
+        case false: WorkItems.lookNotPregnant(scratch.stepper.nose)
         }
 
-        dp.disengage()
+        scratch.dispatch!.disengage()
     }
 }
 

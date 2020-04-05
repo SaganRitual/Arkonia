@@ -10,11 +10,11 @@ extension Plotter {
     func setRoute(
         _ senseData: [Double], _ senseGrid: CellSenseGrid, _ onComplete: @escaping (CellShuttle) -> Void
     ) {
-        guard let ch = scratch else { fatalError() }
-        guard let st = ch.stepper else { fatalError() }
-        guard let net = st.net else { fatalError() }
+        guard let scratch = scratch else { fatalError() }
+        guard let stepper = scratch.stepper else { fatalError() }
+        guard let net = stepper.net else { fatalError() }
 
-        Debug.log(level: 119) { "makeCellShuttle for \(six(st.name)) from \(st.gridCell!)" }
+        Debug.log(level: 119) { "makeCellShuttle for \(six(stepper.name)) from \(stepper.gridCell!)" }
         Debug.log(level: 122) { "senseData \(senseData)" }
 
         var motorOutputs = [(Int, Double)]()
@@ -73,7 +73,7 @@ extension Plotter {
                 toCell = t; fromCell = f
             }
 
-            if targetOffset == 0 { Debug.log(level: 164) { "targetOffset \(targetOffset) for \(st.name)" } }
+            if targetOffset == 0 { Debug.log(level: 164) { "targetOffset \(targetOffset) for \(stepper.name)" } }
 
             onComplete(CellShuttle(fromCell, toCell))
         }

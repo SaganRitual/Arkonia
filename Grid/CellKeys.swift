@@ -89,12 +89,12 @@ class HotKey: GridCellKey, CustomDebugStringConvertible {
         }
 
         while let waitingStepper = c.getRescheduledArkon() {
-            if let dp = waitingStepper.dispatch, let st = dp.scratch.stepper {
+            if let dispatch = waitingStepper.dispatch, let stepper = dispatch.scratch.stepper {
                 let count = HotKey.countRescheduledArkons(more: false)
-                let ch = dp.scratch
-                assert(ch.engagerKey == nil)
-                Debug.log(level: 157) { "reengageRequesters: \(count) \(six(st.name)) at \(self.gridPosition); from \(ch.cellShuttle?.fromCell?.gridPosition ?? AKPoint.zero), to \(ch.cellShuttle?.toCell?.gridPosition ?? AKPoint.zero)" }
-                dp.disengage()
+                let scratch = dispatch.scratch
+                assert(scratch.engagerKey == nil)
+                Debug.log(level: 157) { "reengageRequesters: \(count) \(six(stepper.name)) at \(self.gridPosition); from \(scratch.cellShuttle?.fromCell?.gridPosition ?? AKPoint.zero), to \(scratch.cellShuttle?.toCell?.gridPosition ?? AKPoint.zero)" }
+                dispatch.disengage()
                 return
             }
         }

@@ -6,15 +6,13 @@ final class Metabolize: Dispatchable {
 
 extension Metabolize {
     func aMetabolize() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
+        Debug.log(level: 71) { "Metabolize \(six(scratch.stepper.name))" }
 
-        Debug.log(level: 71) { "Metabolize \(six(st.name))" }
+        if Arkonia.debugColorIsEnabled { scratch.stepper.sprite.color = .red }
 
-        if Arkonia.debugColorIsEnabled { st.sprite.color = .red }
+        scratch.stepper.metabolism.metabolizeProper(scratch.co2Counter > 0, scratch.stepper.nose)
 
-        st.metabolism.metabolizeProper(ch.co2Counter > 0, st.nose)
-
-        dp.colorize()
+        scratch.dispatch!.colorize()
     }
 }
 

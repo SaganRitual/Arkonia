@@ -9,7 +9,7 @@ protocol DispatchableProtocol {
 }
 
 class Dispatchable: DispatchableProtocol {
-    var scratch: Scratchpad?
+    var scratch: Scratchpad!
 
     required init(_ scratch: Scratchpad) {
         self.scratch = scratch

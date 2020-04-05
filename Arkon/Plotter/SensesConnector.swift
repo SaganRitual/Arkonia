@@ -17,7 +17,7 @@ struct NonGridInput {
 }
 
 class SensesConnector {
-    weak var scratch: Scratchpad?
+    weak var scratch: Scratchpad!
     var firstNonGridInput = 0
 
     init(_ scratch: Scratchpad) { self.scratch = scratch }
@@ -27,8 +27,7 @@ class SensesConnector {
     }
 
     func connect(_ onComplete: @escaping () -> Void) {
-        guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
-        guard let sg = ch.senseGrid else { fatalError() }
+        guard let sg = scratch.senseGrid else { fatalError() }
 
         connectGridInputs(from: sg) {
             self.connectNonGridInputs()
@@ -44,17 +43,15 @@ class SensesConnector {
         func b() { Grid.arkonsPlaneQueue.async(execute: c) }
 
         func c() {
-            guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
+            let scale = 1.0 / scratch.currentEntropyPerJoule
+            Debug.log(level: 154) { "scale = \(scale) = 1 / \(scratch.currentEntropyPerJoule) " }
 
-            let scale = 1.0 / ch.currentEntropyPerJoule
-            Debug.log(level: 154) { "scale = \(scale) = 1 / \(ch.currentEntropyPerJoule) " }
-
-            if ch.gridInputs.isEmpty { ch.gridInputs = [Double](repeating: 0, count: Arkonia.cSenseNeuronsSpatial + Arkonia.cSenseNeuronsNonSpatial) }
-//            ch.gridInputs.removeAll(keepingCapacity: true)
+            if scratch.gridInputs.isEmpty { scratch.gridInputs = [Double](repeating: 0, count: Arkonia.cSenseNeuronsSpatial + Arkonia.cSenseNeuronsNonSpatial) }
+//            scratch.gridInputs.removeAll(keepingCapacity: true)
 
             (0..<senseGrid.cells.count).forEach { ss in
-                ch.gridInputs[2 * ss + 0] = self.loadNutrition(senseGrid.cells[ss])
-                ch.gridInputs[2 * ss + 1] = self.loadSelector(senseGrid.cells[ss])
+                scratch.gridInputs[2 * ss + 0] = self.loadNutrition(senseGrid.cells[ss])
+                scratch.gridInputs[2 * ss + 1] = self.loadSelector(senseGrid.cells[ss])
             }
 
             firstNonGridInput = senseGrid.cells.count * 2
@@ -68,15 +65,13 @@ class SensesConnector {
     // We need connect only once to the non-grid inputs, so we take care of
     // that in the initializer
     private func connectNonGridInputs() {
-        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
-
-        ch.gridInputs[firstNonGridInput + 0] = Double(st.gridCell.gridPosition.x) / Double(Grid.shared!.wGrid)
-        ch.gridInputs[firstNonGridInput + 1] = Double(st.gridCell.gridPosition.y) / Double(Grid.shared!.hGrid)
-        ch.gridInputs[firstNonGridInput + 2] = Double(st.metabolism.hunger)
-        ch.gridInputs[firstNonGridInput + 3] = Double(st.metabolism.co2Level) / Double(Arkonia.co2MaxLevel)
+        scratch.gridInputs[firstNonGridInput + 0] = Double(scratch.stepper.gridCell.gridPosition.x) / Double(Grid.shared!.wGrid)
+        scratch.gridInputs[firstNonGridInput + 1] = Double(scratch.stepper.gridCell.gridPosition.y) / Double(Grid.shared!.hGrid)
+        scratch.gridInputs[firstNonGridInput + 2] = Double(scratch.stepper.metabolism.hunger)
+        scratch.gridInputs[firstNonGridInput + 3] = Double(scratch.stepper.metabolism.co2Level) / Double(Arkonia.co2MaxLevel)
 
         for (ss, pollenator) in zip(0..., MannaCannon.shared!.pollenators) {
-            let diff = st.sprite.position - pollenator.node.position
+            let diff = scratch.stepper.sprite.position - pollenator.node.position
 
             let t = (diff.x == 0) ? 0 : atan(Double(diff.y) / Double(diff.x))
             let tt = t / (Double.pi / 2)
@@ -84,8 +79,8 @@ class SensesConnector {
 //            Debug.log { "\(radius.load()), \(theta.load()), \(t), \(tt)" }
 //            Debug.histogrize(theta.load(), scale: 10, inputRange: -1..<1)
 
-            ch.gridInputs[firstNonGridInput + 4 + ss * 2 + 0] = Double(diff.hypotenuse / Grid.shared.hypoteneuse)
-            ch.gridInputs[firstNonGridInput + 4 + ss * 2 + 1] = tt
+            scratch.gridInputs[firstNonGridInput + 4 + ss * 2 + 0] = Double(diff.hypotenuse / Grid.shared.hypoteneuse)
+            scratch.gridInputs[firstNonGridInput + 4 + ss * 2 + 1] = tt
         }
     }
 

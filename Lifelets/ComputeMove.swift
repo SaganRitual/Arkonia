@@ -5,18 +5,17 @@ final class ComputeMove: Dispatchable {
     internal override func launch() { computeMove() }
 
     private func computeMove() {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log(level: 156) { "ComputeMove \(six(st.name))" }
+        Debug.log(level: 156) { "ComputeMove \(six(scratch.stepper.name))" }
 
-        if ch.plotter == nil { ch.plotter = Plotter(ch) }
-        guard let pt = ch.plotter else { fatalError() }
+        if scratch.plotter == nil { scratch.plotter = Plotter(scratch) }
+        guard let pt = scratch.plotter else { fatalError() }
 
         var entropy: CGFloat = 0
 
         func a() { pt.plot(b) }
         func b() { TickLife.dispatchQueue.async(execute: c) }
-        func c() { ch.co2Counter += ch.cellShuttle!.didMove ? 0 : 1; d() }
-        func d() { dp.moveSprite() }
+        func c() { scratch.co2Counter += scratch.cellShuttle!.didMove ? 0 : 1; d() }
+        func d() { scratch.dispatch!.moveSprite() }
 
         a()
     }

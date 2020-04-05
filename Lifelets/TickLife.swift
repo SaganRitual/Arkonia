@@ -13,9 +13,8 @@ final class TickLife: Dispatchable {
     )
 
     override func launch() {
-        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
-        Debug.log(level: 156) { "TickLife \(six(st.name))" }
-        Debug.debugColor(st, .yellow, .blue)
+        Debug.log(level: 156) { "TickLife \(six(scratch.stepper.name))" }
+        Debug.debugColor(scratch.stepper, .yellow, .blue)
 
         tick()
     }
@@ -25,24 +24,20 @@ final class TickLife: Dispatchable {
 
 extension TickLife {
     private func tickLife() {
-        guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
-
-        ch.currentTime = Clock.shared!.worldClock
-        ch.currentEntropyPerJoule = Double(1 - Clock.shared!.getEntropy())
+        scratch.currentTime = Clock.shared!.worldClock
+        scratch.currentEntropyPerJoule = Double(1 - Clock.shared!.getEntropy())
 
         TickLife.dispatchQueue.async(execute: tickLife_)
     }
 
     private func tickLife_() {
-        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
-
-        let isAlive = st.metabolism.tickLifeMath(
-            cNeurons: st.net!.cNeurons,
-            co2Counter: st.dispatch.scratch.co2Counter,
-            cOffspring: st.cOffspring
+        let isAlive = scratch.stepper.metabolism.tickLifeMath(
+            cNeurons: scratch.stepper.net!.cNeurons,
+            co2Counter: scratch.stepper.dispatch.scratch.co2Counter,
+            cOffspring: scratch.stepper.cOffspring
         )
 
-        let canSpawn = st.canSpawn()
+        let canSpawn = scratch.stepper.canSpawn()
 
         routeLife(isAlive, canSpawn)
     }
@@ -50,20 +45,17 @@ extension TickLife {
 
 extension TickLife {
     private func routeLife(_ isAlive: Bool, _ canSpawn: Bool) {
-        guard let (ch, dp, st) = scratch?.getKeypoints() else { fatalError() }
-        guard let hotKey = ch.engagerKey as? HotKey else { fatalError() }
+        guard let hotKey = scratch.engagerKey as? HotKey else { fatalError() }
 
-        precondition(Grid.shared.isOnGrid(st.gridCell.gridPosition))
-
-        Debug.log(level: 104) { "tickLifeRoute for \(six(st.name)) at \(st.gridCell.gridPosition) isAlive \(isAlive) canSpawn \(canSpawn)" }
+        precondition(Grid.shared.isOnGrid(scratch.stepper.gridCell.gridPosition))
 
         if !isAlive {
             hotKey.releaseLock()
-            dp.apoptosize()
+            scratch.dispatch!.apoptosize()
             return
         }
 
-        if canSpawn { dp.spawn() } else { dp.computeMove() }
+        if canSpawn { scratch.dispatch!.spawn() } else { scratch.dispatch!.computeMove() }
     }
 }
 

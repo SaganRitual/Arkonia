@@ -4,29 +4,26 @@ final class Engage: Dispatchable {
     internal override func launch() { Grid.arkonsPlaneQueue.async(execute: engage) }
 
     private func engage() {
-        guard let (_, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
-
-        Debug.log(level: 155) { "Engage \(six(st.name)) at \(st.gridCell.gridPosition)" }
-        Debug.debugColor(st, .magenta, .magenta)
+        Debug.log(level: 155) { "Engage \(six(scratch.stepper.name)) at \(scratch.stepper.gridCell.gridPosition)" }
+        Debug.debugColor(scratch.stepper, .magenta, .magenta)
 
         let isEngaged = self.engageIf()
         guard isEngaged else {
-            Debug.log(level: 153) { "Engage failed for \(six(st.name))" }
+            Debug.log(level: 153) { "Engage failed for \(six(scratch.stepper.name))" }
             return
         }
 
         self.makeSenseGrid()
-        dp.tickLife()
+        scratch.dispatch!.tickLife()
     }
 
     private func engageIf() -> Bool {
-        guard let (ch, _, st) = self.scratch?.getKeypoints() else { fatalError() }
-        guard let gc = st.gridCell else { fatalError() }
+        guard let gc = scratch.stepper.gridCell else { fatalError() }
 
-        let engagerKey = gc.getLock(for: st, .degradeToCold, true)
+        let engagerKey = gc.getLock(for: scratch.stepper, .degradeToCold, true)
 
         if engagerKey is HotKey {
-            ch.engagerKey = engagerKey
+            scratch.engagerKey = engagerKey
             return true
         }
 
@@ -34,19 +31,18 @@ final class Engage: Dispatchable {
     }
 
     private func makeSenseGrid() {
-        guard let (ch, _, st) = self.scratch?.getKeypoints() else { fatalError() }
-        guard let hk = ch.engagerKey as? HotKey else { fatalError() }
+        guard let hk = scratch.engagerKey as? HotKey else { fatalError() }
 
         Debug.log(level: 105) {
-            "senseGrid1 \(hk.gridPosition) \(st.name)"
+            "senseGrid1 \(hk.gridPosition) \(scratch.stepper.name)"
         }
 
-        ch.senseGrid = CellSenseGrid(
-            from: hk, by: Arkonia.cSenseGridlets, block: st.previousShiftOffset
+        scratch.senseGrid = CellSenseGrid(
+            from: hk, by: Arkonia.cSenseGridlets, block: scratch.stepper.previousShiftOffset
         )
 
         Debug.log(level: 105) {
-            let m = ch.senseGrid!.cells.map { "\($0.gridPosition) \(type(of: $0))" }
+            let m = scratch.senseGrid!.cells.map { "\($0.gridPosition) \(type(of: $0))" }
             return "senseGrid0 \(m)"
         }
     }

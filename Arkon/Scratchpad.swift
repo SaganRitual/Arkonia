@@ -15,7 +15,7 @@ class Scratchpad {
     var plotter: Plotter?
     var senseGrid: CellSenseGrid?
     var sensesConnector: SensesConnector?
-    weak var stepper: Stepper?
+    weak var stepper: Stepper!
     var co2Counter: CGFloat = 0
     var debugTimer: __uint64_t = 0
     var debugStart: __uint64_t = 0
@@ -25,13 +25,6 @@ class Scratchpad {
 
     var currentTime: Int = 0
     var currentEntropyPerJoule: Double = 0
-
-    //swiftlint:disable large_tuple
-    func getKeypoints() -> (Scratchpad, Dispatch, Stepper) {
-        guard let dp = dispatch, let st = stepper else { fatalError() }
-        return (self, dp, st)
-    }
-    //swiftlint:enable large_tuple
 
     deinit {
         Debug.log(level: 146) { "Scratchpad deinit for \(name)" }
