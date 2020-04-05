@@ -1,4 +1,4 @@
-struct ArkonName: Hashable {
+struct ArkonName: Hashable, CustomDebugStringConvertible {
     enum Nametag: CaseIterable {
         case alice, bob, charles, david, ellen, felicity, grace, helen
         case india, james, karen, lizbeth, mary, nathan, olivia, paul
@@ -32,8 +32,15 @@ struct ArkonName: Hashable {
     static let empty   = ArkonName(nametag: .nothing, setNumber: 0)
     static let offgrid = ArkonName(nametag: .offgrid, setNumber: 0)
 
+    let debugDescription: String
     let nametag: Nametag
     let setNumber: Int
+
+    init(nametag: ArkonName.Nametag, setNumber: Int) {
+        self.debugDescription = "\(nametag)(\(setNumber))"
+        self.nametag = nametag
+        self.setNumber = setNumber
+    }
 
     static func == (_ lhs: ArkonName, _ rhs: ArkonName) -> Bool {
         return lhs.nametag == rhs.nametag && lhs.setNumber == rhs.setNumber

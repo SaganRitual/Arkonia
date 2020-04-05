@@ -4,7 +4,6 @@ import Foundation
 final class TickLife: Dispatchable {
     var isAlive = false
     var canSpawn = false
-    var currentTime = 0
     var onComplete: ((Bool, Bool) -> Void)?
 
     static let dispatchQueue = DispatchQueue(
@@ -21,12 +20,15 @@ final class TickLife: Dispatchable {
         tick()
     }
 
-    private func tick() { Clock.getWorldClock(tickLife) }
+    private func tick() { Clock.dispatchQueue.async(execute: tickLife_) }
 }
 
 extension TickLife {
-    private func tickLife(_ currentTime: Int) {
-        self.currentTime = currentTime
+    private func tickLife() {
+        guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
+
+        ch.currentTime = Clock.shared!.worldClock
+        ch.currentEntropyPerJoule = Double(1 - Clock.shared!.getEntropy())
 
         TickLife.dispatchQueue.async(execute: tickLife_)
     }
@@ -37,8 +39,7 @@ extension TickLife {
         let isAlive = st.metabolism.tickLifeMath(
             cNeurons: st.net!.cNeurons,
             co2Counter: st.dispatch.scratch.co2Counter,
-            cOffspring: st.cOffspring,
-            currentTime: currentTime
+            cOffspring: st.cOffspring
         )
 
         let canSpawn = st.canSpawn()
@@ -68,7 +69,7 @@ extension TickLife {
 
 extension Metabolism {
     func tickLifeMath(
-        cNeurons: Int, co2Counter: CGFloat, cOffspring: Int, currentTime: Int
+        cNeurons: Int, co2Counter: CGFloat, cOffspring: Int
     ) -> Bool {
         let joulesNeeded = Arkonia.fudgeMassFactor * mass + CGFloat(cNeurons) * Arkonia.neuronCostPerCycle
 

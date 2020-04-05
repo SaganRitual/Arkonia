@@ -9,7 +9,7 @@ class Clock {
     let clockFormatter = DateComponentsFormatter()
     let clockReport: Reportoid
     let foodValueReport: Reportoid
-    var worldClock = 0
+    private(set) var worldClock = 0
 
     static let dispatchQueue = DispatchQueue(
         label: "ak.clock.q", attributes: .concurrent,
@@ -29,18 +29,14 @@ class Clock {
     }
 
     func entropize(_ energyInJoules: CGFloat = 1, _ onComplete: @escaping (CGFloat) -> Void) {
-        Clock.dispatchQueue.async {
-            let freakingUglyFixThis = self.getEntropy()
-            let ummWhichIsEntropyHuh = (1 - freakingUglyFixThis)
-            onComplete(energyInJoules * ummWhichIsEntropyHuh)
-        }
+        Clock.dispatchQueue.async { onComplete(energyInJoules * (1 - self.getEntropy())) }
     }
 
     func getEntropy(_ onComplete: @escaping (CGFloat) -> Void) {
         Clock.dispatchQueue.async { self.getEntropy(onComplete) }
     }
 
-    private func getEntropy() -> CGFloat {
+    func getEntropy() -> CGFloat {
         guard let t = Arkonia.worldTimeLimit else { return 0 }
         return min(CGFloat(self.worldClock * 2) / CGFloat(t), 1)
     }

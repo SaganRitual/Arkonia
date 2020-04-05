@@ -24,7 +24,6 @@ struct ColdKey: GridCellKey {
 
 class HotKey: GridCellKey, CustomDebugStringConvertible {
     private(set) weak var gridCell: GridCell?
-    var isLive = true
 
     var debugDescription: String {
         "\(gridCell?.gridPosition ?? AKPoint(x: -4242, y: -4242))"

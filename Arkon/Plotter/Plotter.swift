@@ -1,10 +1,10 @@
+import Foundation
+
 class Plotter {
     weak var scratch: Scratchpad?
-    let sensesLoader: SensesLoader
 
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
-        self.sensesLoader = SensesLoader(scratch)
     }
 
     deinit {
@@ -19,12 +19,21 @@ class Plotter {
 
         var sensoryInputs: [Double]!
 
-        func a() { sensesLoader.loadSenses { sensoryInputs = $0; b() } }
+        func a() {
+            if ch.sensesConnector == nil { ch.sensesConnector = SensesConnector(ch) }
 
-        func b() { Net.dispatchQueue.async(execute: c) }
+            ch.sensesConnector!.connect(b)
+        }
+
+        func b() {
+//            let delay = TimeInterval.random(in: 0.01..<0.02)
+//            let randomer = TimeInterval.random(in: 1..<5)
+//            Net.dispatchQueue.asyncAfter(deadline: .now() + delay * randomer, execute: c)
+            Net.dispatchQueue.async(execute: c)
+        }
 
         func c() {
-            self.setRoute(sensoryInputs, sg) { ch.cellShuttle = $0; d()  }
+            self.setRoute(ch.gridInputs, sg) { ch.cellShuttle = $0; d()  }
         }
 
         // 97298509+

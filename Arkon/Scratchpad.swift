@@ -14,11 +14,17 @@ class Scratchpad {
     weak var parentNet: Net?
     var plotter: Plotter?
     var senseGrid: CellSenseGrid?
+    var sensesConnector: SensesConnector?
     weak var stepper: Stepper?
     var co2Counter: CGFloat = 0
     var debugTimer: __uint64_t = 0
     var debugStart: __uint64_t = 0
     var debugStop: __uint64_t = 0
+
+    var gridInputs = [Double]()
+
+    var currentTime: Int = 0
+    var currentEntropyPerJoule: Double = 0
 
     //swiftlint:disable large_tuple
     func getKeypoints() -> (Scratchpad, Dispatch, Stepper) {

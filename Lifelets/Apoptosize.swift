@@ -19,9 +19,8 @@ extension Apoptosize {
         releaseStepper(releaseSprites)
     }
 
-    private func releaseSprites() {
+    private func releaseSprites(_ st: Stepper) {
         SceneDispatch.schedule {
-            guard let (_, _, st) = self.scratch?.getKeypoints() else { fatalError() }
             guard let thorax = st.sprite else { fatalError() }
             guard let nose = st.nose else { fatalError() }
 
@@ -32,7 +31,7 @@ extension Apoptosize {
         }
     }
 
-    private func releaseStepper(_ onComplete: @escaping () -> Void) {
+    private func releaseStepper(_ onComplete: @escaping (Stepper) -> Void) {
         Grid.arkonsPlaneQueue.async {
             guard let (ch, _, st) = self.scratch?.getKeypoints() else { fatalError() }
 
@@ -41,7 +40,9 @@ extension Apoptosize {
             if let ek = ch.engagerKey as? HotKey { ek.releaseLock() }
             Stepper.releaseStepper(st, from: st.sprite!)
 
-            onComplete()
+            // This is the last strong reference to the stepper. Once the
+            // caller is finished with the variable, the stepper should destruct
+            onComplete(st)
         }
     }
 }

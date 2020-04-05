@@ -23,7 +23,6 @@
 		D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50D2416C4AC0017FADF /* MPSImage+Floats.swift */; };
 		D43DC51024177B4E0017FADF /* HotReserves.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50F24177B4E0017FADF /* HotReserves.swift */; };
 		D44EFA5824280CB600798FE6 /* Plotter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EFA5724280CB600798FE6 /* Plotter.swift */; };
-		D44EFA5A24280D1B00798FE6 /* SensesLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EFA5924280D1B00798FE6 /* SensesLoader.swift */; };
 		D4523A4D242942FF0074442F /* SensesConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4523A4C242942FF0074442F /* SensesConnector.swift */; };
 		D458940223CFE847004FED72 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495F0CE233FAB01007D6E86 /* Mutator.swift */; };
 		D464BA3322C737260069623C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
@@ -121,7 +120,6 @@
 		D43EA83D229233F7006C619D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D441B99A229CFFA800FB7057 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
 		D44EFA5724280CB600798FE6 /* Plotter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plotter.swift; sourceTree = "<group>"; };
-		D44EFA5924280D1B00798FE6 /* SensesLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensesLoader.swift; sourceTree = "<group>"; };
 		D4523A4C242942FF0074442F /* SensesConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensesConnector.swift; sourceTree = "<group>"; };
 		D4603A6122A2720400885428 /* Manna.Energy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.Energy.swift; sourceTree = "<group>"; };
 		D464BA5F22C737260069623C /* Karamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -278,7 +276,6 @@
 				D44EFA5724280CB600798FE6 /* Plotter.swift */,
 				D413E65F240F745100077E35 /* Plotter.SetRoute.swift */,
 				D4523A4C242942FF0074442F /* SensesConnector.swift */,
-				D44EFA5924280D1B00798FE6 /* SensesLoader.swift */,
 			);
 			path = Plotter;
 			sourceTree = "<group>";
@@ -532,7 +529,6 @@
 				D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */,
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
 				D41ED8D623B084A100E82B08 /* Debug.swift in Sources */,
-				D44EFA5A24280D1B00798FE6 /* SensesLoader.swift in Sources */,
 				D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */,
 				D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */,
 				D4B9512124349A8800BD2085 /* ArkonName.swift in Sources */,

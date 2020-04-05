@@ -4,7 +4,7 @@ final class Engage: Dispatchable {
     internal override func launch() { Grid.arkonsPlaneQueue.async(execute: engage) }
 
     private func engage() {
-        guard let (ch, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
+        guard let (_, dp, st) = self.scratch?.getKeypoints() else { fatalError() }
 
         Debug.log(level: 155) { "Engage \(six(st.name)) at \(st.gridCell.gridPosition)" }
         Debug.debugColor(st, .magenta, .magenta)
@@ -14,8 +14,6 @@ final class Engage: Dispatchable {
             Debug.log(level: 153) { "Engage failed for \(six(st.name))" }
             return
         }
-
-        ch.debugStart = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 
         self.makeSenseGrid()
         dp.tickLife()

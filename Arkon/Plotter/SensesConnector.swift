@@ -18,84 +18,74 @@ struct NonGridInput {
 
 class SensesConnector {
     weak var scratch: Scratchpad?
-    private(set) var gridInputs = [GridInput]()
-    private(set) var nonGridInputs = [NonGridInput]()
+    var firstNonGridInput = 0
 
-    init(_ scratch: Scratchpad) {
-        self.scratch = scratch
-        connectNonGridInputs()
-    }
+    init(_ scratch: Scratchpad) { self.scratch = scratch }
 
     deinit {
         Debug.log(level: 147) { "SensesConnector deinit \(six(scratch?.name))" }
     }
 
+    func connect(_ onComplete: @escaping () -> Void) {
+        guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
+        guard let sg = ch.senseGrid else { fatalError() }
+
+        connectGridInputs(from: sg) {
+            self.connectNonGridInputs()
+            onComplete()
+        }
+    }
+
     // We create the cell sense grid anew each time the arkon moves, so we
     // can't connect directly to the sense inputs as we do with the non-grid inputs
-    func connectGridInputs(
+    private func connectGridInputs(
         from senseGrid: CellSenseGrid, _ onComplete: @escaping () -> Void
     ) {
-        var entropyPerJoule = 0.0
-        func a() { Clock.shared.entropize(1) { entropyPerJoule = Double($0); b() } }
-
         func b() { Grid.arkonsPlaneQueue.async(execute: c) }
 
         func c() {
-            let scale = 1.0 / entropyPerJoule
-            Debug.log(level: 154) { "scale = \(scale) = 1 / \(entropyPerJoule) " }
+            guard let (ch, _, _) = scratch?.getKeypoints() else { fatalError() }
 
-            gridInputs = senseGrid.cells.map { cell in
-                GridInput(
-                    { [weak self] in self!.loadNutrition(cell) },
-                    { [weak self] in self!.loadSelector(cell) }
-                )
+            let scale = 1.0 / ch.currentEntropyPerJoule
+            Debug.log(level: 154) { "scale = \(scale) = 1 / \(ch.currentEntropyPerJoule) " }
+
+            if ch.gridInputs.isEmpty { ch.gridInputs = [Double](repeating: 0, count: Arkonia.cSenseNeuronsSpatial + Arkonia.cSenseNeuronsNonSpatial) }
+//            ch.gridInputs.removeAll(keepingCapacity: true)
+
+            (0..<senseGrid.cells.count).forEach { ss in
+                ch.gridInputs[2 * ss + 0] = self.loadNutrition(senseGrid.cells[ss])
+                ch.gridInputs[2 * ss + 1] = self.loadSelector(senseGrid.cells[ss])
             }
+
+            firstNonGridInput = senseGrid.cells.count * 2
 
             Dispatch.dispatchQueue.async(execute: onComplete)
         }
 
-        a()
+        b()
     }
 
     // We need connect only once to the non-grid inputs, so we take care of
     // that in the initializer
     private func connectNonGridInputs() {
-        guard let (_, _, st) = scratch?.getKeypoints() else { fatalError() }
+        guard let (ch, _, st) = scratch?.getKeypoints() else { fatalError() }
 
-        let myX = NonGridInput(
-            { Double(st.gridCell.gridPosition.x) / Double(Grid.shared!.wGrid) }
-        )
+        ch.gridInputs[firstNonGridInput + 0] = Double(st.gridCell.gridPosition.x) / Double(Grid.shared!.wGrid)
+        ch.gridInputs[firstNonGridInput + 1] = Double(st.gridCell.gridPosition.y) / Double(Grid.shared!.hGrid)
+        ch.gridInputs[firstNonGridInput + 2] = Double(st.metabolism.hunger)
+        ch.gridInputs[firstNonGridInput + 3] = Double(st.metabolism.co2Level) / Double(Arkonia.co2MaxLevel)
 
-        let myY = NonGridInput(
-            { Double(st.gridCell.gridPosition.y) / Double(Grid.shared!.hGrid) }
-        )
-
-        let hunger = NonGridInput({ Double(st.metabolism.hunger)})
-        let asphyxia = NonGridInput(
-            { Double(st.metabolism.co2Level) / Double(Arkonia.co2MaxLevel) }
-        )
-
-        nonGridInputs.append(myX)
-        nonGridInputs.append(myY)
-        nonGridInputs.append(hunger)
-        nonGridInputs.append(asphyxia)
-
-        for pollenator in MannaCannon.shared!.pollenators {
+        for (ss, pollenator) in zip(0..., MannaCannon.shared!.pollenators) {
             let diff = st.sprite.position - pollenator.node.position
-
-            let radius = NonGridInput(
-                { Double(diff.hypotenuse / Grid.shared.hypoteneuse) }
-            )
 
             let t = (diff.x == 0) ? 0 : atan(Double(diff.y) / Double(diff.x))
             let tt = t / (Double.pi / 2)
-            let theta = NonGridInput({ tt })
 
 //            Debug.log { "\(radius.load()), \(theta.load()), \(t), \(tt)" }
 //            Debug.histogrize(theta.load(), scale: 10, inputRange: -1..<1)
 
-            nonGridInputs.append(radius)
-            nonGridInputs.append(theta)
+            ch.gridInputs[firstNonGridInput + 4 + ss * 2 + 0] = Double(diff.hypotenuse / Grid.shared.hypoteneuse)
+            ch.gridInputs[firstNonGridInput + 4 + ss * 2 + 1] = tt
         }
     }
 

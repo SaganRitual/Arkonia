@@ -8,11 +8,11 @@ class Arkonia {
     static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.75
 
-    static let senseGridCRings = 3
+    static let senseGridCRings = 4
     static let senseGridSide = 1 + 2 * senseGridCRings
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeuronsSpatial = cSenseGridlets * 2
-    static let cSenseNeuronsNonSpatial = 4 //+ cPollenators * 2
+    static let cSenseNeuronsNonSpatial = 4 + cPollenators * 2
     static let cSenseNeurons = cSenseNeuronsSpatial + cSenseNeuronsNonSpatial
     static let cMotorNeurons = 1
     static let cMotorGridlets = cSenseGridlets - 1
@@ -21,7 +21,7 @@ class Arkonia {
     static let cMannaMorsels = 10000
     static let cPollenators = 5
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 164 // var so we can change it on the fly
+    static var debugMessageLevel = 166 // var so we can change it on the fly
     static let debugMessageToConsole = true
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
@@ -46,8 +46,8 @@ class Arkonia {
     static let mannaRebloomDelayMinimum: TimeInterval = 3
     static let mannaRebloomDelayMaximum: TimeInterval = 5
 
-    static let arkonMinMoveDuration: TimeInterval = 0.1
-    static let arkonMaxMoveDuration: TimeInterval = 0.1
+    static let arkonMinMoveDuration: TimeInterval = 0
+    static let arkonMaxMoveDuration: TimeInterval = 0
 
     static let arkonMinRestDuration: TimeInterval = 0
     static let arkonMaxRestDuration: TimeInterval = 0

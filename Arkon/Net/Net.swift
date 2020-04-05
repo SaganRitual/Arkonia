@@ -29,7 +29,7 @@ class Net {
         parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
         _ onComplete: @escaping (Net) -> Void
     ) {
-        dispatchQueue.async {
+        self.dispatchQueue.async {
             let newNet = Net(parentBiases, parentWeights, layers)
             Dispatch.dispatchQueue.async { onComplete(newNet) }
         }

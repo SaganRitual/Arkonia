@@ -24,6 +24,16 @@ struct Debug {
         stepper.sprite.color = thoraxColor
         stepper.nose.color = noseColor
     }
+}
+
+extension Debug {
+    static func debugStats(startedAt: UInt64, scale: Double) -> Double {
+        let stoppedAt = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+        return constrain(Double(stoppedAt - startedAt) / scale, lo: 0, hi: 1)
+    }
+}
+
+extension Debug {
 
     private static let debugLogQueue = DispatchQueue(
         label: "arkonia.log.q", target: DispatchQueue.global(qos: .utility)
@@ -95,40 +105,42 @@ struct Debug {
         print("Manna stats; \(cCells) cells, \(cPhotosynthesizing) photosynthesizing")
     }
 
-    static var cBuckets: Int?
-    static var dBuckets = Double(0)
-    static var histogram: [Int]?
+    class Histogram {
+        var cBuckets: Int?
+        var dBuckets = Double(0)
+        var histogram: [Int]?
 
-    static func histogrize(_ value: Double, scale: Int = 10, inputRange: Range<Double>) {
-        Debug.log {
-            precondition(inputRange == -1.0..<1.0 || inputRange == 0.0..<1.0)
+        func histogrize(_ value: Double, scale: Int = 10, inputRange: Range<Double>) {
+            Debug.log {
+                precondition(inputRange == -1.0..<1.0 || inputRange == 0.0..<1.0)
 
-            if(value < inputRange.lowerBound || value > inputRange.upperBound) {
-                return "Histogram overflow: value is \(value) range is \(inputRange)"
+                if(value < inputRange.lowerBound || value > inputRange.upperBound) {
+                    return "Histogram overflow: value is \(value) range is \(inputRange)"
+                }
+
+                if cBuckets == nil {
+                    cBuckets = scale
+                    dBuckets = Double(scale)
+                    histogram = [Int](repeating: 0, count: scale)
+                } else {
+                    precondition(scale == cBuckets!)
+                }
+
+                let vv = (value < 1.0) ? value : value - 1e-4   // Because we do get 1.0 sometimes
+
+                let ss: Int
+                if inputRange == -1.0..<1.0 {
+                    let shifted = vv + 1           // Convert scale -1..<1 to 0..<2
+                    let rescaled = shifted / 2     // Convert scale 0..<2 to 0..<1
+                    ss = Int(rescaled * dBuckets)  // Convert scale 0..<1 to bucket subscript 0..<cBuckets
+                } else {
+                    ss = Int(vv * dBuckets)        // Convert scale 0..<1 to bucket subscript 0..<cBuckets
+                }
+
+                histogram![ss] += 1
+                let showHowMany = 20
+                return "H(\(showHowMany)): \(histogram!.prefix(showHowMany))"
             }
-
-            if cBuckets == nil {
-                cBuckets = scale
-                dBuckets = Double(scale)
-                histogram = [Int](repeating: 0, count: scale)
-            } else {
-                precondition(scale == cBuckets!)
-            }
-
-            let vv = (value < 1.0) ? value : value - 1e-4   // Because we do get 1.0 sometimes
-
-            let ss: Int
-            if inputRange == -1.0..<1.0 {
-                let shifted = vv + 1           // Convert scale -1..<1 to 0..<2
-                let rescaled = shifted / 2     // Convert scale 0..<2 to 0..<1
-                ss = Int(rescaled * dBuckets)  // Convert scale 0..<1 to bucket subscript 0..<cBuckets
-            } else {
-                ss = Int(vv * dBuckets)        // Convert scale 0..<1 to bucket subscript 0..<cBuckets
-            }
-
-            histogram![ss] += 1
-            let isItBecauseOfTheArray = Array(histogram!)
-            return "H: \(isItBecauseOfTheArray)"
         }
     }
 }

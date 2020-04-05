@@ -55,33 +55,9 @@ extension Plotter {
             let motorOutput = s3
             Debug.log(level: 154) { "motorOutput \(motorOutputs) -> \(motorOutput)" }
 
-//            Debug.histogrize(s0, scale: Plotter.cMotorGridlets + 1, inputRange: 0..<1)
+            let targetOffset = calculateTargetOffset(for: motorOutput, from: senseGrid.cells)
 
-            // Try to use the selected motor output, ie, jump to that square on
-            // the grid. But if that square is occupied, lay out a selection array
-            // that makes "stand still" the least likely option. If the motor
-            // output is 0 already, we just take it as is.
-            //
-            // Say we have 9 squares, meaning the 0 square where we are right now, and
-            // the 8 around us. If the motor output is 3, then we set up the selection
-            // array like 3, 4, 5, 6, 7, 8, 9, 1, 2, 0
-            //
-            let selector: [Int]
-            if motorOutput > 0 {
-                selector = [motorOutput] +
-                            ((motorOutput + 1)..<(Plotter.cMotorGridlets + 1)).map { $0 } +
-                            (1..<motorOutput).map { $0 } +
-                            [0]
-            } else {
-                selector = [0]
-            }
-
-            var targetOffset: Int = 0
-            if let toff = selector.first(where: {
-                senseGrid.cells[$0] is HotKey && (senseGrid.cells[$0].stepper == nil || $0 == 0)
-            }) { targetOffset = toff }
-
-            Debug.log(level: 154) { "toff \(targetOffset) from selector \(selector)" }
+            Debug.log(level: 154) { "toff \(targetOffset) from motorOutput \(motorOutput)" }
 
             let fromCell: HotKey?
             let toCell: HotKey
@@ -97,11 +73,34 @@ extension Plotter {
                 toCell = t; fromCell = f
             }
 
-            if targetOffset == 0 { Debug.log(level: 164) { "targetOffset: for \(st.name) \(targetOffset)" } }
+            if targetOffset == 0 { Debug.log(level: 164) { "targetOffset \(targetOffset) for \(st.name)" } }
 
             onComplete(CellShuttle(fromCell, toCell))
         }
 
         a()
+    }
+
+    func calculateTargetOffset(for motorOutput: Int, from cells: [GridCellKey]) -> Int {
+        // Try to use the selected motor output, ie, jump to that square on
+        // the grid. But if that square is occupied, lay out a selection array
+        // that makes "stand still" the least likely option. If the motor
+        // output is 0 already, we just take it as is.
+        //
+        // Say we have 9 squares, meaning the 0 square where we are right now, and
+        // the 8 around us. If the motor output is 3, then we set up the selection
+        // array like 3, 4, 5, 6, 7, 8, 9, 1, 2, 0
+        //
+        for m in 0..<Plotter.cMotorGridlets {
+            let select = (m + motorOutput) % Plotter.cMotorGridlets
+            if select == 0 { continue }
+
+            if cells[select] is HotKey &&
+                (cells[select].stepper == nil || select == 0) {
+                return select
+            }
+        }
+
+        return 0
     }
 }
