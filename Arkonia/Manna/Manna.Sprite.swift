@@ -75,7 +75,7 @@ extension Manna.Sprite {
         self.gridCell = cell
         sprite.setScale(Arkonia.mannaScaleFactor / Arkonia.zoomFactor)
         sprite.position = cell?.randomScenePosition ?? cell!.scenePosition
-        sprite.zPosition = 1
+        sprite.zPosition = 0
     }
 
     func reset() {

@@ -82,6 +82,8 @@
 		D4C7E06724089721005C0191 /* HotLayerGpu.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E06624089721005C0191 /* HotLayerGpu.swift */; };
 		D4C7E079240CC0C2005C0191 /* HotNetBlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E070240CC0C2005C0191 /* HotNetBlas.swift */; };
 		D4C7E07A240CC0C2005C0191 /* HotLayerBlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E078240CC0C2005C0191 /* HotLayerBlas.swift */; };
+		D4D4F050243ABACC00D093DF /* HotNetBnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4F04F243ABACC00D093DF /* HotNetBnn.swift */; };
+		D4D4F052243ABBA900D093DF /* HotLayerBnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4F051243ABBA900D093DF /* HotLayerBnn.swift */; };
 		D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D5EABA2368B05200E95AA5 /* Spawn.swift */; };
 		D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7FE2D23E6BD2A0043D57D /* Manna.swift */; };
 		D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */; };
@@ -169,6 +171,8 @@
 		D4C7E070240CC0C2005C0191 /* HotNetBlas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotNetBlas.swift; sourceTree = "<group>"; };
 		D4C7E078240CC0C2005C0191 /* HotLayerBlas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerBlas.swift; sourceTree = "<group>"; };
 		D4CF20A622A4C296000FD2BA /* Arkonia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkonia.swift; sourceTree = "<group>"; };
+		D4D4F04F243ABACC00D093DF /* HotNetBnn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotNetBnn.swift; sourceTree = "<group>"; };
+		D4D4F051243ABBA900D093DF /* HotLayerBnn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotLayerBnn.swift; sourceTree = "<group>"; };
 		D4D5EABA2368B05200E95AA5 /* Spawn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spawn.swift; sourceTree = "<group>"; };
 		D4E7FE2D23E6BD2A0043D57D /* Manna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
@@ -376,8 +380,10 @@
 				D43DC50724165AFE0017FADF /* GPUArray.swift */,
 				D43DC50524162FB10017FADF /* HotLayerCnn.swift */,
 				D4C7E078240CC0C2005C0191 /* HotLayerBlas.swift */,
+				D4D4F051243ABBA900D093DF /* HotLayerBnn.swift */,
 				D4C7E06624089721005C0191 /* HotLayerGpu.swift */,
 				D4C7E070240CC0C2005C0191 /* HotNetBlas.swift */,
+				D4D4F04F243ABACC00D093DF /* HotNetBnn.swift */,
 				D43DC50B2416A7FC0017FADF /* HotNetCnn.swift */,
 				D4C7E06224088C51005C0191 /* HotNetGpu.swift */,
 				D43DC50D2416C4AC0017FADF /* MPSImage+Floats.swift */,
@@ -507,6 +513,7 @@
 				D4FFE65823AF3CB800D0A1EE /* AKPoint.swift in Sources */,
 				D4A59D212387E4E400517F60 /* Engage.swift in Sources */,
 				D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */,
+				D4D4F052243ABBA900D093DF /* HotLayerBnn.swift in Sources */,
 				D40F452C23C88A3D0027BD0C /* EnergyReserve.swift in Sources */,
 				D43DC51024177B4E0017FADF /* HotReserves.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
@@ -552,6 +559,7 @@
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
 				D422DE0B23598B52003734B8 /* Census.swift in Sources */,
 				D4BD1DC923C088C200CE0753 /* Positions.swift in Sources */,
+				D4D4F050243ABACC00D093DF /* HotNetBnn.swift in Sources */,
 				D4B00912241B8BB3007FDD6F /* Pollenator.swift in Sources */,
 				D41787062430D5090025EC00 /* BarChart.swift in Sources */,
 				D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */,

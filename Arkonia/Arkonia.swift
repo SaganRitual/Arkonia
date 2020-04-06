@@ -46,8 +46,8 @@ class Arkonia {
     static let mannaRebloomDelayMinimum: TimeInterval = 3
     static let mannaRebloomDelayMaximum: TimeInterval = 5
 
-    static let arkonMinMoveDuration: TimeInterval = 0
-    static let arkonMaxMoveDuration: TimeInterval = 0
+    static let arkonMinMoveDuration: TimeInterval = 0.2
+    static let arkonMaxMoveDuration: TimeInterval = 0.2
 
     static let arkonMinRestDuration: TimeInterval = 0
     static let arkonMaxRestDuration: TimeInterval = 0

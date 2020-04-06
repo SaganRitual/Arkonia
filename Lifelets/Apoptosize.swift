@@ -31,6 +31,8 @@ extension Apoptosize {
 
     private func releaseStepper(_ onComplete: @escaping (Stepper) -> Void) {
         Grid.arkonsPlaneQueue.async {
+            let finalStrongReference = self.scratch.stepper!
+
             // If another arkon just ate me, I won't have a grid cell any more
             self.scratch.stepper.gridCell?.descheduleIf(self.scratch.stepper)
             if let ek = self.scratch.engagerKey as? HotKey { ek.releaseLock() }
@@ -38,7 +40,7 @@ extension Apoptosize {
 
             // This is the last strong reference to the stepper. Once the
             // caller is finished with the variable, the stepper should destruct
-            onComplete(self.scratch.stepper)
+            onComplete(finalStrongReference)
         }
     }
 }

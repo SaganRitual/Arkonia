@@ -13,7 +13,14 @@ class Pollenator {
         node.strokeColor = .clear  // Set to .white to see it on screen, for debug
         node.fillColor = color
         node.alpha = 0.05
-        node.zPosition = 0
+
+        // Just for fun, and curiosity, random blend mode for each pollenator
+        node.blendMode = [
+            SKBlendMode.add, SKBlendMode.multiplyAlpha, SKBlendMode.screen,
+            SKBlendMode.subtract, SKBlendMode.alpha
+        ].randomElement()!
+
+        node.zPosition = 1
         node.setScale(1)
         node.position = currentPosition.scenePosition
 

@@ -12,7 +12,7 @@ extension Metabolize {
 
         scratch.stepper.metabolism.metabolizeProper(scratch.co2Counter > 0, scratch.stepper.nose)
 
-        scratch.dispatch!.colorize()
+        scratch.dispatch!.disengage()
     }
 }
 
