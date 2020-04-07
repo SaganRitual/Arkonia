@@ -26,19 +26,18 @@ class Plotter {
 //            let delay = TimeInterval.random(in: 0.01..<0.02)
 //            let randomer = TimeInterval.random(in: 1..<5)
 //            Net.dispatchQueue.asyncAfter(deadline: .now() + delay * randomer, execute: c)
-            Net.dispatchQueue.async(execute: c)
+            Net.dispatchQueue.async { c(.net) }
         }
 
-        func c() {
+        func c(_ catchDumbMistakes: DispatchQueueID) {
             self.setRoute(scratch.gridInputs, sg) { self.scratch.cellShuttle = $0; d()  }
         }
 
         // 97298509+
-        func d() { Grid.arkonsPlaneQueue.async(execute: e) }
+        func d() { Grid.arkonsPlaneQueue.async { e(.arkonsPlane) } }
 
-        func e() {
-            sg.releaseNonStageCells(keep: scratch.cellShuttle!.toCell!)
-            scratch.engagerKey = nil
+        func e(_ catchDumbMistakes: DispatchQueueID) {
+            sg.reset(keep: scratch.cellShuttle!.toCell!, catchDumbMistakes)
 
             // As of 2020.03.29, this goes out to ComputeMove.computeMove.b,
             // where we're jumping out to the tickLife queue anyway, so no need to

@@ -5,9 +5,9 @@ final class Spawn: DispatchableProtocol {
 
     weak var scratch: Scratchpad?
 
-    var birthplace: HotKey?
+    var birthplace: GridCell?
     var callAgain = false
-    var engagerKey: HotKey?
+    var engagerKey: GridCell?
     let embryoName = ArkonName.makeName()
     var fishDay = Fishday(fishNumber: 0, birthday: 0)
     var metabolism: Metabolism?
@@ -25,11 +25,16 @@ final class Spawn: DispatchableProtocol {
         self.birthplace = scratch.senseGrid?.getRandomEmptyHotKey()
         self.tempStrongReference = self
 
-        Debug.log(level: 117) {
+        if let ss = scratch.senseGrid?.cells.firstIndex(where: { ($0 as? GridCell) === self.birthplace }) {
+            scratch.senseGrid?.cells[ss] = ColdKey(for: self.birthplace!)
+        }
+
+        Debug.log(level: 167) {
             return "Spawn: parent \(six(meTheParent?.name))"
                 + " at \(String(describing: meTheParent?.gridCell?.gridPosition))"
                 + " spawns \(six(embryoName))"
                 + " at \(String(describing: birthplace?.gridPosition))"
+                + " owner \(six(self.birthplace?.ownerName))"
         }
     }
 
@@ -38,16 +43,14 @@ final class Spawn: DispatchableProtocol {
 
 extension WorkItems {
     static func spawn(_ spawn: Spawn) {
-        var newKey: HotKey?
+        var newKey: GridCell?
 
-        Debug.log(level: 156) { "Spawn1 \(six(spawn.embryoName)) at \(six(spawn.birthplace?.gridPosition))" }
+        Debug.log(level: 167) { "Spawn1 \(six(spawn.embryoName)) at \(six(spawn.birthplace?.gridPosition))" }
 
         func a() {
             if spawn.birthplace == nil {
-                Debug.log(level: 117) { "Spawn2.5 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
                 getStartingPosition(spawn.fishDay, spawn.embryoName, spawn.meTheParent) {
                     newKey = $0
-                    Debug.log(level: 117) { "Spawn3 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
                     b()
                 }
 
@@ -55,19 +58,17 @@ extension WorkItems {
             }
 
             newKey = spawn.birthplace
-            Debug.log(level: 117) { "Spawn2 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
             b()
         }
 
         func b() {
             if newKey == nil {
-                Debug.log(level: 117) { "Spawn4 \(six(spawn.embryoName)) no available cell; postpone spawn" }
+                Debug.log(level: 167) { "Spawn4 \(six(spawn.embryoName)) no available cell; postpone spawn" }
                 spawn.postponeSpawn()
             } else { c() }
         }
 
         func c() {
-            Debug.log(level: 117) { "Spawn5 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
             spawn.engagerKey = newKey
 //            spawn.meTheParent?.nose.color = .yellow
 
@@ -75,16 +76,13 @@ extension WorkItems {
         }
 
         func d() {
-            Debug.log(level: 117) { "Spawn5.5 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
 
             registerBirth(myName: spawn.embryoName, myParent: spawn.meTheParent, myNet: spawn.net)
                 { spawn.fishDay = $0; e() }
         }
 
         func e() {
-            Debug.log(level: 117) { "Spawn6 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
             WorkItems.launchNewborn(spawn)
-            Debug.log(level: 117) { "Spawn7 \(six(spawn.embryoName)) alternate birthplace at \(six(newKey))" }
        }
 
         a()
@@ -92,29 +90,27 @@ extension WorkItems {
 }
 
 extension WorkItems {
-    typealias onCompleteHotKey = (HotKey?) -> Void
-
     static private func getStartingPosition(
-        _ fishDay: Fishday, _ embryoName: ArkonName, _ meTheParent: Stepper?, _ onComplete: @escaping onCompleteHotKey
+        _ fishDay: Fishday, _ embryoName: ArkonName, _ meTheParent: Stepper?, _ onComplete: @escaping (GridCell?) -> Void
     ) {
         Grid.arkonsPlaneQueue.async {
-            let key = getStartingPosition(fishDay, embryoName, meTheParent)
+            let key = getStartingPosition(fishDay, embryoName, meTheParent, .arkonsPlane)
             onComplete(key)
         }
     }
 
     static private func getStartingPosition(
-        _ fishDay: Fishday, _ embryoName: ArkonName, _ meTheParent: Stepper?
-    ) -> HotKey? {
+        _ fishDay: Fishday, _ embryoName: ArkonName, _ meTheParent: Stepper?, _ catchDumbMistakes: DispatchQueueID
+    ) -> GridCell? {
         guard let parent = meTheParent else {
             return GridCell.lockRandomEmptyCell(
-                ownerName: ArkonName.makeName(.aboriginal, fishDay.fishNumber)
+                ownerName: ArkonName.makeName(.aboriginal, fishDay.fishNumber), catchDumbMistakes
             )
         }
 
         return parent.dispatch.scratch.senseGrid?.cells
             .dropFirst()
-            .compactMap({ $0 as? HotKey })
+            .compactMap({ $0 as? GridCell })
             .filter({ $0.stepper == nil && $0.ownerName == parent.name })
             .randomElement()
     }
@@ -128,7 +124,7 @@ extension Spawn {
 }
 
 typealias OnComplete0p = () -> Void
-typealias OnComplete1p = (HotKey?) -> Void
+typealias OnComplete1p = (GridCell?) -> Void
 
 extension Spawn {
     func buildGuts(_ onComplete: @escaping (Net) -> Void) {
@@ -248,19 +244,18 @@ extension Spawn {
         newborn.sprite?.color = (net?.isCloneOfParent ?? false) ? .green : .white
         newborn.nose?.color = (net?.isCloneOfParent ?? false) ? .green : .white
 
-        guard let ek = engagerKey else { fatalError() }
-
-        ek.gridCell?.stepper = newborn
-
-        newborn.gridCell = ek.gridCell
-
         // Schedule the second part separately, to avoid holding the grid too long
         // 113533466 and climbing
-        Grid.arkonsPlaneQueue.async { self.launchB(ek, newborn) }
+        Grid.arkonsPlaneQueue.async { self.launchB(newborn) }
     }
 
-    private func launchB(_ ek: HotKey, _ newborn: Stepper) {
-        ek.ownerName = newborn.name
+    private func launchB(_ newborn: Stepper) {
+        guard let gridCell = self.engagerKey else { fatalError() }
+
+        newborn.gridCell = gridCell
+
+        gridCell.stepper = newborn
+        gridCell.ownerName = newborn.name
 
         Stepper.attachStepper(newborn, to: newborn.sprite)
 
@@ -268,10 +263,10 @@ extension Spawn {
 
         guard let ndp = newborn.dispatch else { fatalError() }
 
-        ndp.scratch.engagerKey = ek
+        ndp.scratch.engagerKey = self.engagerKey
 
-        SceneDispatch.schedule {
-            Debug.log(level: 105) { "launchB" }
+        SceneDispatch.schedule { [unowned self] in // Catch dumb mistakes
+            Debug.log(level: 167) { "launchB for \(newborn.name) -> \(newborn.gridCell!) \(newborn.gridCell.ownerName)/\(gridCell.ownerName)" }
 
             SpriteFactory.shared.arkonsPool.attachSprite(newborn.sprite)
 

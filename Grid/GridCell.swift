@@ -1,10 +1,16 @@
 import SpriteKit
 
+protocol GridCellProtocol {
+    var gridPosition: AKPoint { get }
+    var manna: Manna? { get }
+    var ownerName: ArkonName { get }
+    var stepper: Stepper? { get }
+}
+
 class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
 
     lazy var debugDescription: String = { String(format: "GridCell.at(% 03d, % 03d)", gridPosition.x, gridPosition.y) }()
 
-    var coldKey: ColdKey?
     let gridPosition: AKPoint
     var isLocked = false
     var ownerName = ArkonName.empty
@@ -22,8 +28,6 @@ class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
     init(gridPosition: AKPoint, scenePosition: CGPoint) {
         self.gridPosition = gridPosition
         self.scenePosition = scenePosition
-
-        coldKey = ColdKey(for: self)
 
         guard let funkyMultiplier = Arkonia.funkyCells else { return }
 
@@ -74,48 +78,45 @@ extension GridCell {
 
     func reschedule(_ stepper: Stepper) {
         precondition(toReschedule.contains { $0.name == stepper.name } == false)
-        let count = HotKey.countRescheduledArkons(more: true)
         toReschedule.append(stepper)
         Debug.debugColor(stepper, .blue, .red)
-        Debug.log(level: 157) { "reschedule \(count) \(six(stepper.name)) at \(self) toReschedule.count = \(toReschedule.count); \(gridPosition) owned by \(six(ownerName))" }
     }
 }
 
 extension GridCell {
-    typealias LockComplete = (GridCellKey?) -> Void
-
     enum RequireLock { case cold, degradeToCold, degradeToNil, hot }
 
-    func lockIf(ownerName: ArkonName) -> HotKey? {
+    func lockIf(ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCell? {
         if isLocked { return nil }
-        guard let key = lock(require: .degradeToNil, ownerName: ownerName) as? HotKey
+        guard let key = lock(require: .degradeToNil, ownerName: ownerName, catchDumbMistakes) as? GridCell
             else { fatalError() }
 
         return key
     }
 
-    func lockIfEmpty(ownerName: ArkonName) -> HotKey? {
+    func lockIfEmpty(ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCell? {
         if stepper != nil { return nil }
-        return lockIf(ownerName: ownerName)
+        return lockIf(ownerName: ownerName, catchDumbMistakes)
     }
 
-    func lock(require: RequireLock = .hot, ownerName: ArkonName) -> GridCellKey? {
+    func lock(require: RequireLock = .hot, ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCellProtocol? {
+        assert(catchDumbMistakes == .arkonsPlane)
+
         lockTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 
-//        precondition(self.ownerName != ownerName)
-        Debug.log(level: 85) { "lock for \(six(ownerName)) was \(six(self.ownerName))" }
-
+        let key: GridCellProtocol?
         switch (self.isLocked, require) {
-        case (true, .hot): fatalError()
-        case (true, .degradeToNil): Debug.log(level: 85) { "true, .degradeToNil" }; return nil
-        case (true, .degradeToCold): Debug.log(level: 85) { "true, .degradeToCold" }; return self.coldKey
+        case (true, .hot):           fatalError()
+        case (true, .degradeToNil):  key = nil
+        case (true, .degradeToCold): key = ColdKey(for: self)
 
-        case (_, .cold): Debug.log(level: 85) { "_, .cold" }; return self.coldKey
+        case (_, .cold):             key = ColdKey(for: self)
 
-        case (false, .degradeToCold): Debug.log(level: 80) { "false, .degradeToCold" }; fallthrough
-        case (false, .degradeToNil): Debug.log(level: 80) { "false, .degradeToNil" };  fallthrough
-        case (false, .hot): Debug.log(level: 85) { "false, .hot" }; return HotKey(for: self, ownerName: ownerName)
+        case (false, _):             isLocked = true; self.ownerName = ownerName; key = self
         }
+
+        Debug.log(level: 167) { "Lock attempt at \(six(key?.gridPosition)) by \(ownerName) got G \(key is GridCell) C \(key is ColdKey) N \(key is NilKey) n \(key == nil)" }
+        return key
     }
 
     func debugStats() {
@@ -129,11 +130,19 @@ extension GridCell {
     }
 
     @discardableResult
-    func releaseLock() -> Bool {
+    func releaseLock(_ dispatchQueueID: DispatchQueueID) -> Bool {
+        assert(dispatchQueueID == .arkonsPlane)
+
+        // Allows us to release the lock without caring whether we
+        // really have a lock. Seems ugly, look into it
+        if ownerName.nametag == .nothing { return false }
+
         debugStats()
-        Debug.log(level: 85) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
+        Debug.log(level: 167) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
+//        assert(ownerName.nametag != .nothing)
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         defer { isLocked = false; ownerName = ArkonName.empty }
+        reengageRequesters()
         return isLocked && !toReschedule.isEmpty
     }
 }

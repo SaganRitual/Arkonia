@@ -90,7 +90,7 @@ class SensesConnector {
         func asSenseData() -> Double { return self.rawValue / 4.0 }
     }
 
-    private func loadSelector(_ cellKey: GridCellKey) -> Double {
+    private func loadSelector(_ cellKey: GridCellProtocol) -> Double {
         let contents: CellContents
 
         if cellKey is NilKey           { contents = .invalid } // Off the grid
@@ -101,7 +101,7 @@ class SensesConnector {
         return contents.asSenseData()
     }
 
-    private func loadNutrition(_ cellKey: GridCellKey) -> Double {
+    private func loadNutrition(_ cellKey: GridCellProtocol) -> Double {
         if cellKey is NilKey { return 0 }
 
         // Seems like we need to separate the different cell types here

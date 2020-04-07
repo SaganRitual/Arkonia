@@ -39,7 +39,7 @@ class NetDisplay {
             return "Net display.0 \(NetDisplay.display_counter)"
         }
 
-        SceneDispatch.schedule {
+        SceneDispatch.schedule { [unowned self] in // Catch dumb mistakes
             Debug.log(level: 159) {
                 return "Net display.1 \(NetDisplay.display_counter)"
             }

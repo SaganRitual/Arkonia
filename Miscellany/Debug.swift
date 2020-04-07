@@ -4,8 +4,8 @@ func showDebugLog() {
     Debug.showLog()
 }
 
-func six(_ nameThing: ArkonName?) -> String { nameThing == nil ? "<nil>" : "\(nameThing!.nametag)\((nameThing!.setNumber))" }
-func six(_ key: HotKey?) -> String { key == nil ? "<nil>" : "tenant \(six(key!.gridPosition))"}
+func six(_ nameThing: ArkonName?) -> String { nameThing == nil ? "<nil>" : "\(nameThing!)" }
+func six(_ key: GridCell?) -> String { key == nil ? "<nil>" : "\(six(key!.gridPosition)) tenant \(six(key!.stepper?.name)), owned by \(six(key!.ownerName))" }
 func six(_ point: AKPoint?) -> String { point == nil ? "<nil>" : "\(point!)"}
 func six(_ string: String?) -> String { String(string?.prefix(50) ?? "<nothing here>") }
 

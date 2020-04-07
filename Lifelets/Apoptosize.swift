@@ -6,7 +6,7 @@ final class Apoptosize: Dispatchable {
 
 extension Apoptosize {
     private func dismemberArkon() {
-        Debug.log(level: 156) { "Apoptosize \(six(scratch.stepper.name))" }
+        Debug.log(level: 157) { "Apoptosize \(six(scratch.stepper.name))" }
 
         Census.shared.registerDeath(scratch.stepper, release)
     }
@@ -35,7 +35,8 @@ extension Apoptosize {
 
             // If another arkon just ate me, I won't have a grid cell any more
             self.scratch.stepper.gridCell?.descheduleIf(self.scratch.stepper)
-            if let ek = self.scratch.engagerKey as? HotKey { ek.releaseLock() }
+            assert(self.scratch.engagerKey == nil)
+//            if let ek = self.scratch.engagerKey as? GridCell { ek.releaseLock() }
             Stepper.releaseStepper(self.scratch.stepper, from: self.scratch.stepper.sprite!)
 
             // This is the last strong reference to the stepper. Once the

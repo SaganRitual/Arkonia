@@ -13,24 +13,24 @@ final class TickLife: Dispatchable {
     )
 
     override func launch() {
-        Debug.log(level: 156) { "TickLife \(six(scratch.stepper.name))" }
+        Debug.log(level: 167) { "TickLife \(six(scratch.stepper.name))" }
         Debug.debugColor(scratch.stepper, .yellow, .blue)
 
         tick()
     }
 
-    private func tick() { Clock.dispatchQueue.async(execute: tickLife_) }
+    private func tick() { Clock.dispatchQueue.async { self.tickLife(.clock) } }
 }
 
 extension TickLife {
-    private func tickLife() {
+    private func tickLife(_ catchDumbMistakes: DispatchQueueID) {
         scratch.currentTime = Clock.shared!.worldClock
         scratch.currentEntropyPerJoule = Double(1 - Clock.shared!.getEntropy())
 
-        TickLife.dispatchQueue.async(execute: tickLife_)
+        TickLife.dispatchQueue.async { self.tickLife_(.tickLife) }
     }
 
-    private func tickLife_() {
+    private func tickLife_(_ catchDumbMistakes: DispatchQueueID) {
         let isAlive = scratch.stepper.metabolism.tickLifeMath(
             cNeurons: scratch.stepper.net!.cNeurons,
             co2Counter: scratch.stepper.dispatch.scratch.co2Counter,
@@ -39,18 +39,21 @@ extension TickLife {
 
         let canSpawn = scratch.stepper.canSpawn()
 
-        routeLife(isAlive, canSpawn)
+        Grid.arkonsPlaneQueue.async { self.routeLife(isAlive, canSpawn, .arkonsPlane) }
     }
 }
 
 extension TickLife {
-    private func routeLife(_ isAlive: Bool, _ canSpawn: Bool) {
-        guard let hotKey = scratch.engagerKey as? HotKey else { fatalError() }
+    private func routeLife(_ isAlive: Bool, _ canSpawn: Bool, _ catchDumbMistakes: DispatchQueueID) {
+        Debug.log(level: 167) { "routeLife \(six(scratch.stepper.name))" }
+
+        guard let hotKey = scratch.engagerKey else { fatalError() }
 
         precondition(Grid.shared.isOnGrid(scratch.stepper.gridCell.gridPosition))
 
         if !isAlive {
-            hotKey.releaseLock()
+            hotKey.releaseLock(catchDumbMistakes)
+            self.scratch.engagerKey = nil
             scratch.dispatch!.apoptosize()
             return
         }

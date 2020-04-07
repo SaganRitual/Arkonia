@@ -20,35 +20,35 @@ extension GridCell {
         return randomCell!
     }
 
-    static func lockBirthPosition(parent: Stepper, name: ArkonName, _ onComplete: @escaping (HotKey?) -> Void) {
+    static func lockBirthPosition(parent: Stepper, name: ArkonName, _ catchDumbMistakes: DispatchQueueID, _ onComplete: @escaping (GridCell?) -> Void) {
         Grid.arkonsPlaneQueue.async {
-            let key = lockBirthPosition(parent: parent, name: name)
+            let key = lockBirthPosition(parent: parent, name: name, catchDumbMistakes)
             onComplete(key)
         }
     }
 
-    static func lockBirthPosition(parent: Stepper, name: ArkonName) -> HotKey? {
+    static func lockBirthPosition(parent: Stepper, name: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCell? {
         let gridPointIndex = Int.random(in: 0..<Arkonia.cMotorGridlets)
         let p = parent.gridCell.getGridPointByIndex(gridPointIndex)
 
-        return GridCell.atIf(p)?.lockIf(ownerName: name)
+        return GridCell.atIf(p)?.lockIf(ownerName: name, catchDumbMistakes)
     }
 
-    static func lockRandomEmptyCell(ownerName: ArkonName, _ onComplete: @escaping ((HotKey?) -> Void)) {
+    static func lockRandomEmptyCell(ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID, _ onComplete: @escaping ((GridCell?) -> Void)) {
         Grid.arkonsPlaneQueue.async {
-            let hotKey = lockRandomEmptyCell(ownerName: ownerName)
+            let hotKey = lockRandomEmptyCell(ownerName: ownerName, catchDumbMistakes)
             onComplete(hotKey)
         }
     }
 
-    static func lockRandomEmptyCell(ownerName: ArkonName) -> HotKey? {
-        var randomGridCell: HotKey?
+    static func lockRandomEmptyCell(ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCell? {
+        var randomGridCell: GridCell?
 
         repeat {
             let r = GridCell.getRandomEmptyCell()
-            let ck = r.lock(require: .degradeToCold, ownerName: ownerName)
+            let ck = r.lock(require: .degradeToCold, ownerName: ownerName, catchDumbMistakes)
 
-            guard let hk = ck as? HotKey else { continue }
+            guard let hk = ck as? GridCell else { continue }
 
             Debug.log(level: 109) { "set2 \(six(ownerName))" }
             randomGridCell = hk

@@ -18,7 +18,7 @@ class Stepper {
     weak var sprite: SKSpriteNode!
 
     init(_ embryo: Spawn, needsNewDispatch: Bool = false) {
-        self.gridCell = embryo.engagerKey!.gridCell
+        self.gridCell = embryo.engagerKey
         self.metabolism = embryo.metabolism
         self.name = embryo.embryoName
         self.net = embryo.net
@@ -27,10 +27,6 @@ class Stepper {
         self.sprite = embryo.thorax
 
         if needsNewDispatch { self.dispatch = Dispatch(self) }
-    }
-
-    deinit {
-        Debug.log(level: 155) { "deinit \(name) \(net.layers.count) layers \(net.cNeurons) neurons" }
     }
 }
 
@@ -69,8 +65,13 @@ extension Stepper {
     }
 
     static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
-        // See notes in attachStepper
-        sprite.userData!["stepper"] = nil
-		sprite.name = nil
+        Grid.arkonsPlaneQueue.async {
+            // Scratchpad deinit needs the plane to be locked
+            stepper.dispatch.scratch.dispatchQueueID = .arkonsPlane
+
+            // See notes in attachStepper
+            sprite.userData!["stepper"] = nil
+            sprite.name = nil
+        }
     }
 }

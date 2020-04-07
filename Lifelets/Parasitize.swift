@@ -2,16 +2,18 @@ import SpriteKit
 
 final class Parasitize: Dispatchable {
 
-    internal override func launch() { WorkItems.parasitize(scratch) }
+    internal override func launch() { Parasitize.parasitize(scratch, .unspecified) }
 }
 
-extension WorkItems {
-    static func parasitize(_ attackerScratch: Scratchpad) {
+extension Parasitize {
+    static func parasitize(_ attackerScratch: Scratchpad, _ catchDumbMistakes: DispatchQueueID) {
         Debug.log(level: 156) { "Parasitize; attacker is \(six(attackerScratch.stepper.name))" }
 
         var victor: Stepper?, victim: Stepper?
 
-        func a() { attack(by: attackerScratch) { (victor, victim) = ($0, $1); b() } }
+        func a() {
+            attackAfterLockingPlane(by: attackerScratch) { (victor, victim) = ($0, $1); b() }
+        }
 
         func b() {
             guard let winner = victor, let loser = victim else { fatalError() }
@@ -24,7 +26,7 @@ extension WorkItems {
 
         func c() {
             guard let winner = victor, let loser = victim else { fatalError() }
-            parasitize(winner, loser, d)
+            parasitize(winner, loser, catchDumbMistakes, d)
         }
 
         func d() {
@@ -36,7 +38,7 @@ extension WorkItems {
     }
 }
 
-extension WorkItems {
+extension Parasitize {
     private static let big = Arkonia.arkonScaleFactor * 3 / Arkonia.zoomFactor
     private static let small = Arkonia.arkonScaleFactor / Arkonia.zoomFactor
     private static let d = 0.1
@@ -51,14 +53,19 @@ extension WorkItems {
     }
 }
 
-extension WorkItems {
-    static func attack(by scratch: Scratchpad, _ onComplete: @escaping (Stepper, Stepper) -> Void) {
+extension Parasitize {
+    static func attackAfterLockingPlane(
+        by scratch: Scratchpad, _ onComplete: @escaping (Stepper, Stepper) -> Void
+    ) {
         Grid.arkonsPlaneQueue.async {
-            attack(scratch: scratch) { victor, victim in onComplete(victor, victim) }
+            attackOnLockedPlane(scratch: scratch, .arkonsPlane) { victor, victim in onComplete(victor, victim) }
         }
     }
 
-    private static func attack(scratch myScratch: Scratchpad, _ onComplete: @escaping (Stepper, Stepper) -> Void) {
+    private static func attackOnLockedPlane(
+        scratch myScratch: Scratchpad, _ catchDumbMistakes: DispatchQueueID,
+        _ onComplete: @escaping (Stepper, Stepper) -> Void
+    ) {
         Debug.debugColor(myScratch.stepper, .green, .blue)
 
         guard let hisStepper = myScratch.cellShuttle?.toCell?.stepper else { fatalError() }
@@ -83,7 +90,7 @@ extension WorkItems {
             let hisScratch = hisStepper.dispatch.scratch
             guard let myShuttle = myScratch.cellShuttle else { fatalError() }
 
-            myShuttle.transferKeys(to: hisStepper) {
+            myShuttle.transferKeys(to: hisStepper, catchDumbMistakes) {
                 assert(hisScratch.engagerKey == nil)
 
                 hisScratch.cellShuttle = $0
@@ -101,7 +108,7 @@ extension WorkItems {
     }
 
     static func parasitize(
-        _ victor: Stepper, _ victim: Stepper, _ onComplete: @escaping () -> Void
+        _ victor: Stepper, _ victim: Stepper, _ catchDumbMistakes: DispatchQueueID, _ onComplete: @escaping () -> Void
     ) {
         Debug.log(level: 109) { "victor \(victor.name) eats \(victim.name) at \(victor.gridCell.gridPosition)/\(victim.gridCell.gridPosition)" }
         Grid.arkonsPlaneQueue.async {
@@ -109,7 +116,7 @@ extension WorkItems {
             victor.dispatch.releaseShuttle()
 
             Debug.log(level: 109) { "set4 \(six(victim.name))" }
-            if let ek = victim.dispatch.scratch.engagerKey as? HotKey { ek.releaseLock() }
+            if let ek = victim.dispatch.scratch.engagerKey { ek.releaseLock(catchDumbMistakes) }
             victim.gridCell = nil   // Victor now owns the cell
             victim.dispatch.apoptosize()
 

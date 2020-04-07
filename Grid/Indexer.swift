@@ -1,4 +1,6 @@
 extension GridCell {
+    enum LikeCSS { case right1, right2, bottom, left, top }
+
     private static func _2xMinusOneSquared(_ x: Int) -> Int { ((2 * x) - 1) * ((2 * x) - 1) }
 
     private static func getBaseX(_ index: Int) -> Int {

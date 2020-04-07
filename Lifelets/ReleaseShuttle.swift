@@ -2,27 +2,28 @@ import Dispatch
 
 final class ReleaseShuttle: Dispatchable {
     internal override func launch() {
-        Grid.arkonsPlaneQueue.async { self.releaseShuttle() }
+        Grid.arkonsPlaneQueue.async { self.releaseShuttle(.arkonsPlane) }
     }
 
-    private func releaseShuttle() {
+    private func releaseShuttle(_ catchDumbMistakes: DispatchQueueID) {
         guard let shuttle = scratch.cellShuttle else { fatalError() }
-        guard let toCell = shuttle.toCell else { fatalError() }
 
         Debug.debugColor(scratch.stepper, .green, .cyan)
 
-        assert(scratch.engagerKey == nil)
-        scratch.engagerKey = toCell
-
-        shuttle.fromCell?.releaseLock() // If we didn't move, there won't be a fromCell
+        assert(shuttle.didMove == (shuttle.fromCell != nil))
+        shuttle.fromCell?.releaseLock(catchDumbMistakes) // If we didn't move, there won't be a fromCell
         shuttle.fromCell = nil
 
-        shuttle.toCell!.releaseLock()   // There will always be a toCell
-        shuttle.toCell = nil
+//        shuttle.toCell!.releaseLock()   // There will always be a toCell
+//        shuttle.toCell = nil
 
         scratch.cellShuttle = nil
-        Debug.log(level: 156) { "ReleaseShuttle \(six(scratch.name)) nil -> \(scratch.cellShuttle == nil)" }
+        Debug.log(level: 157) { "ReleaseShuttle \(six(scratch.name)) nil -> \(scratch.cellShuttle == nil)" }
+
+        // Destructing the sense grid causes the scratch
+//        scratch.dispatchQueueID = catchDumbMistakes
         scratch.senseGrid = nil
+
         scratch.dispatch!.metabolize()
     }
 }

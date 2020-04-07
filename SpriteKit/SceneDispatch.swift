@@ -32,7 +32,7 @@ enum SceneDispatch {
 
             defer {
                 if cWorkItems > highWaterWorkItems {
-                    Debug.log(level: 158) { "cWorkItems = \(cWorkItems)" }
+                    Debug.log { "SceneDispatch cWorkItems = \(cWorkItems)" }
                     highWaterWorkItems = cWorkItems
                 }
             }
@@ -41,7 +41,7 @@ enum SceneDispatch {
                 cWorkItems -= 1
                 wi()
 
-                if Date().timeIntervalSince(tickStartTime) > 0.005 {
+                if Date().timeIntervalSince(tickStartTime) > 0.01 {
                     return
                 }
             }

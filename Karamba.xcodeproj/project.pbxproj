@@ -69,7 +69,6 @@
 		D4BB6E7B234EF62800529819 /* Metabolize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E7A234EF62800529819 /* Metabolize.swift */; };
 		D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E7C234EF71800529819 /* Colorize.swift */; };
 		D4BD1DC523C088C200CE0753 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD1DBB23C088C200CE0753 /* Random.swift */; };
-		D4BD1DC623C088C200CE0753 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD1DBC23C088C200CE0753 /* Protocol.swift */; };
 		D4BD1DC723C088C200CE0753 /* CellShuttle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD1DBD23C088C200CE0753 /* CellShuttle.swift */; };
 		D4BD1DC823C088C200CE0753 /* Indexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD1DBE23C088C200CE0753 /* Indexer.swift */; };
 		D4BD1DC923C088C200CE0753 /* Positions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BD1DBF23C088C200CE0753 /* Positions.swift */; };
@@ -157,7 +156,6 @@
 		D4BB6E7A234EF62800529819 /* Metabolize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metabolize.swift; sourceTree = "<group>"; };
 		D4BB6E7C234EF71800529819 /* Colorize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colorize.swift; sourceTree = "<group>"; };
 		D4BD1DBB23C088C200CE0753 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
-		D4BD1DBC23C088C200CE0753 /* Protocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		D4BD1DBD23C088C200CE0753 /* CellShuttle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellShuttle.swift; sourceTree = "<group>"; };
 		D4BD1DBE23C088C200CE0753 /* Indexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Indexer.swift; sourceTree = "<group>"; };
 		D4BD1DBF23C088C200CE0753 /* Positions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Positions.swift; sourceTree = "<group>"; };
@@ -367,7 +365,6 @@
 				D4BD1DC423C088C200CE0753 /* GridCell.swift */,
 				D4BD1DBE23C088C200CE0753 /* Indexer.swift */,
 				D4BD1DBF23C088C200CE0753 /* Positions.swift */,
-				D4BD1DBC23C088C200CE0753 /* Protocol.swift */,
 				D4BD1DBB23C088C200CE0753 /* Random.swift */,
 			);
 			path = Grid;
@@ -549,7 +546,6 @@
 				D4BD1DC723C088C200CE0753 /* CellShuttle.swift in Sources */,
 				D4C7E06324088C51005C0191 /* HotNetGpu.swift in Sources */,
 				D4C7E065240896B0005C0191 /* WeightsMatrix.swift in Sources */,
-				D4BD1DC623C088C200CE0753 /* Protocol.swift in Sources */,
 				D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */,
 				D458940223CFE847004FED72 /* Mutator.swift in Sources */,
 				D43DC50624162FB10017FADF /* HotLayerCnn.swift in Sources */,

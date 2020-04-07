@@ -7,12 +7,16 @@ final class MoveStepper: Dispatchable {
         guard let shuttle = scratch.cellShuttle else { preconditionFailure() }
         Debug.log(level: 156) { "MoveStepper \(six(scratch.stepper.name))" }
 
-        shuttle.move()
         scratch.stepper.previousShiftOffset = scratch.stepper.gridCell.gridPosition
+        scratch.stepper.gridCell = shuttle.toCell
+        scratch.engagerKey = shuttle.toCell
+
+        shuttle.move()
+
         Debug.log(level: 154) { "set3 \(six(scratch.stepper.name)) gridCell before \(scratch.stepper.gridCell.gridPosition)" }
+
 //        let other = stepper.gridCell.sprite?.getStepper(require: false)
 
-        scratch.stepper.gridCell = shuttle.toCell?.gridCell
 //        print                ("MoveStepper"
 //        + " stepper \(six(stepper.name))"
 //        + " sprite \(six(stepper.sprite?.name))"

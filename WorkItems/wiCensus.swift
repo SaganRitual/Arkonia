@@ -69,11 +69,16 @@ extension WorkItems {
     static func getNames(
         _ portal: SKSpriteNode, _ onComplete: @escaping ([ArkonName]) -> Void
     ) {
-        SceneDispatch.schedule {
-            Debug.log(level: 102) { "getNames" }
-            let names = Census.shared.archive.keys.filter { $0 != ArkonName.empty }
-            onComplete(names)
-        }
+        var names: [ArkonName]!
+
+        func a() { Census.dispatchQueue.async(execute: b) }
+
+        func b() { names = Census.shared.archive.keys.filter { $0 != ArkonName.empty }; c() }
+
+        // I don't recall why I'm calling onComplete on the scene dispatch; look into it
+        func c() { SceneDispatch.schedule { onComplete(names) } }
+
+        a()
     }
 
     static var populated = false
