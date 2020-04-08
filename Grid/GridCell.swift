@@ -1,13 +1,13 @@
 import SpriteKit
 
-protocol GridCellProtocol {
+protocol GridCellProtocol: CustomDebugStringConvertible {
     var gridPosition: AKPoint { get }
     var manna: Manna? { get }
     var ownerName: ArkonName { get }
     var stepper: Stepper? { get }
 }
 
-class GridCell: GridCellProtocol, Equatable, CustomDebugStringConvertible {
+class GridCell: GridCellProtocol, Equatable {
 
     lazy var debugDescription: String = { String(format: "GridCell.at(% 03d, % 03d)", gridPosition.x, gridPosition.y) }()
 
@@ -65,14 +65,16 @@ extension GridCell {
     }
 
     func getRescheduledArkon() -> Stepper? {
-        defer { if toReschedule.isEmpty == false { _ = toReschedule.removeFirst() } }
-
+        #if DEBUG
         if !toReschedule.isEmpty {
             Debug.log(level: 146) {
                 "getRescheduledArkon \(six(toReschedule.first!.name)) " +
                 "\(toReschedule.count)"
             }
         }
+        #endif
+
+        defer { if toReschedule.isEmpty == false { _ = toReschedule.removeFirst() } }
         return toReschedule.first
     }
 
@@ -100,7 +102,8 @@ extension GridCell {
     }
 
     func lock(require: RequireLock = .hot, ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCellProtocol? {
-        assert(catchDumbMistakes == .arkonsPlane)
+        assert(catchDumbMistakes == .arkonsPlane)   // Make sure we're on the right dispatch queue
+        assert(self.ownerName != ownerName)         // Make sure we're not trying to lock a cell we already own
 
         lockTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 
@@ -115,7 +118,15 @@ extension GridCell {
         case (false, _):             isLocked = true; self.ownerName = ownerName; key = self
         }
 
-        Debug.log(level: 167) { "Lock attempt at \(six(key?.gridPosition)) by \(ownerName) got G \(key is GridCell) C \(key is ColdKey) N \(key is NilKey) n \(key == nil)" }
+        #if DEBUG
+        Debug.log(level: 166) {
+            "Lock attempt at \(six(key?.gridPosition))"
+            + " by \(ownerName) got G \(key is GridCell)"
+            + " C \(key is ColdKey) N \(key is NilKey)"
+            + " n \(key == nil)"
+        }
+        #endif
+
         return key
     }
 
@@ -133,13 +144,10 @@ extension GridCell {
     func releaseLock(_ dispatchQueueID: DispatchQueueID) -> Bool {
         assert(dispatchQueueID == .arkonsPlane)
 
-        // Allows us to release the lock without caring whether we
-        // really have a lock. Seems ugly, look into it
-        if ownerName.nametag == .nothing { return false }
+        assert(ownerName.nametag != .nothing)
 
-        debugStats()
+//        debugStats()
         Debug.log(level: 167) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
-//        assert(ownerName.nametag != .nothing)
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         defer { isLocked = false; ownerName = ArkonName.empty }
         reengageRequesters()

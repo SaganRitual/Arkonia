@@ -36,7 +36,7 @@ extension Debug {
 extension Debug {
 
     private static let debugLogQueue = DispatchQueue(
-        label: "arkonia.log.q", target: DispatchQueue.global(qos: .utility)
+        label: "arkonia.log.q", target: DispatchQueue.global()
     )
 
     private static let cLogMessages = 10000

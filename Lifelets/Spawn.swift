@@ -26,6 +26,7 @@ final class Spawn: DispatchableProtocol {
         self.tempStrongReference = self
 
         if let ss = scratch.senseGrid?.cells.firstIndex(where: { ($0 as? GridCell) === self.birthplace }) {
+            Debug.log(level: 167) { "wtf? \(scratch.stepper.name) -> \(ss) \(six(scratch.senseGrid?.cells[ss] as? GridCell))" }
             scratch.senseGrid?.cells[ss] = ColdKey(for: self.birthplace!)
         }
 
@@ -180,7 +181,7 @@ extension Spawn {
     func buildArkon(_ onComplete: @escaping () -> Void) {
 
         func a() {
-            SceneDispatch.schedule { [unowned self] in
+            SceneDispatch.shared.schedule { [unowned self] in
                 Debug.log(level: 102) { "buildArkon/a" }
                 self.buildSprites()
                 b()
@@ -190,7 +191,7 @@ extension Spawn {
         func b() { self.buildGuts { self.net = $0; c() } }
 
         func c() {
-            SceneDispatch.schedule { [unowned self] in
+            SceneDispatch.shared.schedule { [unowned self] in
                 Debug.log(level: 102) { "buildArkon/c" }
                 guard let sprite = self.thorax else { fatalError() }
                 self.buildNetDisplay(sprite)
@@ -265,7 +266,7 @@ extension Spawn {
 
         ndp.scratch.engagerKey = self.engagerKey
 
-        SceneDispatch.schedule { [unowned self] in // Catch dumb mistakes
+        SceneDispatch.shared.schedule { [unowned self] in // Catch dumb mistakes
             Debug.log(level: 167) { "launchB for \(newborn.name) -> \(newborn.gridCell!) \(newborn.gridCell.ownerName)/\(gridCell.ownerName)" }
 
             SpriteFactory.shared.arkonsPool.attachSprite(newborn.sprite)

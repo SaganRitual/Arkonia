@@ -14,7 +14,7 @@ class EnergyReserve {
     )
 
     static let energyReserveQueue = DispatchQueue(
-        label: "energy.reserve.queue", target: DispatchQueue.global(qos: .utility)
+        label: "energy.reserve.queue", target: DispatchQueue.global()
     )
 
     var isAmple: Bool { return level >= overflowThreshold }

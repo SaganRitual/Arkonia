@@ -76,7 +76,7 @@ extension WorkItems {
         func b() { names = Census.shared.archive.keys.filter { $0 != ArkonName.empty }; c() }
 
         // I don't recall why I'm calling onComplete on the scene dispatch; look into it
-        func c() { SceneDispatch.schedule { onComplete(names) } }
+        func c() { SceneDispatch.shared.schedule { onComplete(names) } }
 
         a()
     }

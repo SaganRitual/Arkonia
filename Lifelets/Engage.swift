@@ -4,6 +4,8 @@ final class Engage: Dispatchable {
     internal override func launch() { Grid.arkonsPlaneQueue.async { self.engage(.arkonsPlane) } }
 
     private func engage(_ catchDumbMistakes: DispatchQueueID) {
+        assert(scratch.engagerKey == nil)
+
         Debug.log(level: 167) { "Engage \(six(scratch.stepper.name)) at \(scratch.stepper.gridCell.gridPosition)" }
         Debug.debugColor(scratch.stepper, .magenta, .magenta)
 

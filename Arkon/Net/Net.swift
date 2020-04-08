@@ -13,7 +13,7 @@ class Net {
     static let dispatchQueue = DispatchQueue(
         label: "ak.net.q",
         attributes: .concurrent,
-        target: DispatchQueue.global(qos: .userInitiated)
+        target: DispatchQueue.global()
     )
 
     let biases: [Double]

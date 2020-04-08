@@ -40,7 +40,7 @@ final class Dispatch {
 
 extension Dispatch {
     static let dispatchQueue = DispatchQueue(
-        label: "ak.dispatch.q", attributes: .concurrent, target: DispatchQueue.main
+        label: "ak.dispatch.q", attributes: .concurrent, target: DispatchQueue.global()
     )
 
     private func dispatch(_ type: DispatchableProtocol.Type) {

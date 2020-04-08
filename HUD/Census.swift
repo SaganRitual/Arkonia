@@ -29,7 +29,7 @@ class Census {
 
     static let dispatchQueue = DispatchQueue(
         label: "ak.census.q",
-        target: DispatchQueue.global(qos: .utility)
+        target: DispatchQueue.global()
     )
 
     init(_ scene: GriddleScene) {

@@ -21,7 +21,7 @@ class Arkonia {
     static let cMannaMorsels = 10000
     static let cPollenators = 5
     static let debugColorIsEnabled = false
-    static var debugMessageLevel = 168 // var so we can change it on the fly
+    static var debugMessageLevel = 167 // var so we can change it on the fly
     static let debugMessageToConsole = false
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
@@ -46,8 +46,8 @@ class Arkonia {
     static let mannaRebloomDelayMinimum: TimeInterval = 3
     static let mannaRebloomDelayMaximum: TimeInterval = 5
 
-    static let arkonMinMoveDuration: TimeInterval = 0.2
-    static let arkonMaxMoveDuration: TimeInterval = 0.2
+    static let arkonMinMoveDuration: TimeInterval = 0.1
+    static let arkonMaxMoveDuration: TimeInterval = 0.1
 
     static let arkonMinRestDuration: TimeInterval = 0
     static let arkonMaxRestDuration: TimeInterval = 0

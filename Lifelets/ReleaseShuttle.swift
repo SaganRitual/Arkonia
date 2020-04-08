@@ -14,14 +14,18 @@ final class ReleaseShuttle: Dispatchable {
         shuttle.fromCell?.releaseLock(catchDumbMistakes) // If we didn't move, there won't be a fromCell
         shuttle.fromCell = nil
 
-//        shuttle.toCell!.releaseLock()   // There will always be a toCell
-//        shuttle.toCell = nil
+        // We don't release the lock on the toCell, because that's the cell we're
+        // standing on at te moment. Let the disengage lifelet take care of that
+//        shuttle.toCell!.releaseLock()
 
+        assert(shuttle.toCell != nil)
+
+        shuttle.toCell = nil
         scratch.cellShuttle = nil
+
         Debug.log(level: 157) { "ReleaseShuttle \(six(scratch.name)) nil -> \(scratch.cellShuttle == nil)" }
 
-        // Destructing the sense grid causes the scratch
-//        scratch.dispatchQueueID = catchDumbMistakes
+        assert(scratch.senseGrid?.cells.isEmpty ?? false)
         scratch.senseGrid = nil
 
         scratch.dispatch!.metabolize()

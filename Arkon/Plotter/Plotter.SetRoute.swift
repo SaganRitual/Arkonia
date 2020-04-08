@@ -8,14 +8,18 @@ extension Plotter {
         guard let stepper = scratch.stepper else { fatalError() }
         guard let net = stepper.net else { fatalError() }
 
+        #if DEBUG
         Debug.log(level: 119) { "makeCellShuttle for \(six(stepper.name)) from \(stepper.gridCell!)" }
         Debug.log(level: 122) { "senseData \(senseData)" }
+        #endif
 
         var motorOutputs = [(Int, Double)]()
 
         func a() {
             net.getMotorOutputs(senseData) { rawOutputs in
+                #if DEBUG
                 Debug.log(level: 145) { "rawOutputs \(rawOutputs)" }
+                #endif
 
                 motorOutputs = zip(0..., rawOutputs).compactMap { position, rawOutput in
                     (position, rawOutput)
@@ -35,17 +39,24 @@ extension Plotter {
             let s2 = floor(s1)
             let s3 = Int(s2)
             let motorOutput = s3
+
+            #if DEBUG
             Debug.log(level: 154) { "motorOutput \(motorOutputs) -> \(motorOutput)" }
+            #endif
 
             let targetOffset = calculateTargetOffset(for: motorOutput, from: senseGrid.cells)
 
+            #if DEBUG
             Debug.log(level: 154) { "toff \(targetOffset) from motorOutput \(motorOutput)" }
+            #endif
 
             guard let toCell = senseGrid.cells[targetOffset] as? GridCell else { fatalError() }
             let fromCell = (targetOffset > 0) ? senseGrid.cells[0] as? GridCell : nil
 
+            #if DEBUG
             if targetOffset == 0 { Debug.log(level: 167) { "targetOffset \(targetOffset) \(six(toCell))" } }
             else { Debug.log(level: 167) { "from \(six(fromCell)) to targetOffset \(targetOffset) \(six(toCell))" } }
+            #endif
 
             onComplete(CellShuttle(fromCell, toCell))
         }
@@ -54,10 +65,12 @@ extension Plotter {
     }
 
     func calculateTargetOffset(for motorOutput: Int, from cells: [GridCellProtocol]) -> Int {
+        #if DEBUG
         for c in cells {
             assert((c is GridCell) == (c.ownerName == cells[0].ownerName))
             assert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell))
         }
+        #endif
 
         // Try to use the selected motor output, ie, jump to that square on
         // the grid. But if that square is occupied, lay out a selection array

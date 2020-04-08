@@ -8,42 +8,34 @@ import Foundation
  access of the sprites and actions and stuff. This lets us schedule stuff to
  run on the next scene update, on the main thread
 */
-enum SceneDispatch {
-    private static let lockQueue = DispatchQueue(
-        label: "ak.scene.q", target: DispatchQueue.global(qos: .default)
+class SceneDispatch {
+    static let shared = SceneDispatch()
+
+    private let lockQueue = DispatchQueue(
+        label: "ak.scene.q",// attributes: .concurrent,
+        target: DispatchQueue.global()
     )
 
-    private static var workItems = [() -> Void]()
+    let fivems = UInt64(5e6)
 
-    static func schedule(_ workItem: @escaping () -> Void) {
-        lockQueue.async {
-            cWorkItems += 1
-            workItems.append(workItem)
-        }
+    // In case my ring buffer buys us any performance over a plain array
+    private var workItems = Cbuffer<() -> Void>(cElements: 1000)
+
+    func schedule(_ workItem: @escaping () -> Void) {
+        lockQueue.async { self.workItems.push(workItem) }
     }
 
-    static var highWaterWorkItems = 0
-    static var cWorkItems = 0
-
-    static func tick() {
-        let tickStartTime = Date()
-
+    func tick() {
         lockQueue.sync {
+            assert(Display.displayCycle == .updateStarted)
 
-            defer {
-                if cWorkItems > highWaterWorkItems {
-                    Debug.log { "SceneDispatch cWorkItems = \(cWorkItems)" }
-                    highWaterWorkItems = cWorkItems
-                }
-            }
+            let start = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 
-            while let wi = workItems.popFirst() {
-                cWorkItems -= 1
-                wi()
+            while !workItems.isEmpty {
+                let workItem = workItems.pop()
+                workItem()
 
-                if Date().timeIntervalSince(tickStartTime) > 0.01 {
-                    return
-                }
+                if (clock_gettime_nsec_np(CLOCK_UPTIME_RAW) - start) > fivems { break }
             }
         }
     }

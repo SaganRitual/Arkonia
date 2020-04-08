@@ -4,7 +4,7 @@ class MannaCannon {
     static var shared: MannaCannon?
 
     static let mannaPlaneQueue = DispatchQueue(
-        label: "manna.plane.serial", target: DispatchQueue.global(qos: .utility)
+        label: "manna.plane.serial", target: DispatchQueue.global()
     )
 
     private(set) var readyManna: [Manna]
@@ -43,7 +43,7 @@ class MannaCannon {
                 Debug.log(level: 158) { "blast.1 \(self.readyManna.count)" }
 
                 MannaCannon.mannaPlaneQueue.asyncAfter(deadline: .now() + duration) {
-                    launchees.forEach { manna in SceneDispatch.schedule { manna.rebloom() } }
+                    launchees.forEach { manna in SceneDispatch.shared.schedule { manna.rebloom() } }
                 }
             }
         }

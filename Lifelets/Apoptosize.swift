@@ -18,7 +18,7 @@ extension Apoptosize {
     }
 
     private func releaseSprites(_ stepper: Stepper) {
-        SceneDispatch.schedule {
+        SceneDispatch.shared.schedule {
             guard let thorax = stepper.sprite else { fatalError() }
             guard let nose = stepper.nose else { fatalError() }
 

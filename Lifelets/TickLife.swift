@@ -9,7 +9,7 @@ final class TickLife: Dispatchable {
     static let dispatchQueue = DispatchQueue(
         label: "ak.ticklife.q",
         attributes: .concurrent,
-        target: DispatchQueue.global(qos: .default)
+        target: DispatchQueue.global()
     )
 
     override func launch() {
@@ -24,6 +24,8 @@ final class TickLife: Dispatchable {
 
 extension TickLife {
     private func tickLife(_ catchDumbMistakes: DispatchQueueID) {
+        assert(catchDumbMistakes == .clock)
+
         scratch.currentTime = Clock.shared!.worldClock
         scratch.currentEntropyPerJoule = Double(1 - Clock.shared!.getEntropy())
 
@@ -31,6 +33,8 @@ extension TickLife {
     }
 
     private func tickLife_(_ catchDumbMistakes: DispatchQueueID) {
+        assert(catchDumbMistakes == .tickLife)
+
         let isAlive = scratch.stepper.metabolism.tickLifeMath(
             cNeurons: scratch.stepper.net!.cNeurons,
             co2Counter: scratch.stepper.dispatch.scratch.co2Counter,
@@ -45,6 +49,8 @@ extension TickLife {
 
 extension TickLife {
     private func routeLife(_ isAlive: Bool, _ canSpawn: Bool, _ catchDumbMistakes: DispatchQueueID) {
+        assert(catchDumbMistakes == .arkonsPlane)
+
         Debug.log(level: 167) { "routeLife \(six(scratch.stepper.name))" }
 
         guard let hotKey = scratch.engagerKey else { fatalError() }

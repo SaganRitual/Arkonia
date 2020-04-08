@@ -4,7 +4,7 @@ final class MoveSprite: Dispatchable {
     static let histogram1 = Debug.Histogram()
     static let histogram2 = Debug.Histogram()
 
-    internal override func launch() { SceneDispatch.schedule { [unowned self] in self.moveSprite() } }
+    internal override func launch() { SceneDispatch.shared.schedule { [unowned self] in self.moveSprite() } }
 
     func moveSprite() {
         guard let shuttle = scratch.cellShuttle else { fatalError() }

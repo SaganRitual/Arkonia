@@ -60,7 +60,7 @@ class Grid {
     let magicGridScaleNumber = 1
 
     static let arkonsPlaneQueue = DispatchQueue(
-        label: "arkon.plane.serial", target: DispatchQueue.global(qos: .background)
+        label: "arkon.plane.serial", target: DispatchQueue.global()
     )
 
     init(on portal: SKSpriteNode) {

@@ -22,7 +22,7 @@ struct NetGraphics {
     }
 
     func drawConnection(from start_: GridPoint, to end_: GridPoint, _ onComplete: @escaping () -> Void) {
-        SceneDispatch.schedule {
+        SceneDispatch.shared.schedule {
             Debug.log(level: 102) { "drawConnection 1" }
             let start = self.netDisplayGrid.getPosition(start_)
             let end = self.netDisplayGrid.getPosition(end_)
@@ -77,7 +77,7 @@ struct NetGraphics {
     func drawNeuron(
         for arkon: SKSpriteNode, at gridPoint: GridPoint, layerRole: LayerRole, _ onComplete: @escaping () -> Void
     ) {
-        SceneDispatch.schedule {
+        SceneDispatch.shared.schedule {
             Debug.log(level: 102) { "drawNeuron" }
             self.drawNeuron(for: arkon, at: gridPoint, layerRole: layerRole)
             onComplete()

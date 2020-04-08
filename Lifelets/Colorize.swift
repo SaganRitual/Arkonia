@@ -3,7 +3,7 @@ import GameplayKit
 final class Colorize: Dispatchable {
     internal override func launch() {
         Debug.log(level: 102) { "colorize" }
-        SceneDispatch.schedule {  [unowned self] in self.colorize() } // Catch dumb mistakes
+        SceneDispatch.shared.schedule {  [unowned self] in self.colorize() } // Catch dumb mistakes
     }
 }
 
