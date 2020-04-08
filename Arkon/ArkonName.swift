@@ -1,3 +1,5 @@
+import Foundation
+
 struct ArkonName: Hashable, CustomDebugStringConvertible {
     enum Nametag: CaseIterable {
         case alice, bob, charles, david, ellen, felicity, grace, helen
@@ -6,37 +8,47 @@ struct ArkonName: Hashable, CustomDebugStringConvertible {
         case xavier, yvonne, zoe
 
         // Fix cRealnames if you add or remove here. Yes, it's ugly. Sue me
-        case aboriginal, line, manna, neuron, nothing, offgrid
+        case embryo, line, manna, neuron, empty, offgrid
     }
 
     static var cRealNames = Nametag.allCases.count - 6
     static var nameix = 0
     static var setNumber = 0
 
-    static func makeName(_ nametag: ArkonName.Nametag, _ setNumber: Int) -> ArkonName {
-        return ArkonName(nametag: nametag, setNumber: setNumber)
+    static func makeMannaName(_ fishNumber: Int) -> ArkonName {
+        return ArkonName(nametag: .manna, setNumber: fishNumber)
     }
 
     static func makeName() -> ArkonName {
         defer {
-            nameix = (nameix + 1) % cRealNames
-            if nameix == 0 { setNumber += 1 }
+            nameix += 1
+            setNumber += 1
+//            if (nameix % cRealNames) == 0 { setNumber += 1 }
         }
 
-        return ArkonName(
+        let newName = ArkonName(
             nametag: Nametag.allCases[nameix % cRealNames],
             setNumber: setNumber
         )
+
+        #if DEBUG
+        Debug.log(level: 168) { "new name \(newName)" }
+        #endif
+
+        return newName
     }
 
-    static let empty   = ArkonName(nametag: .nothing, setNumber: 0)
-    static let offgrid = ArkonName(nametag: .offgrid, setNumber: 0)
+    static let embryo     = ArkonName(nametag: .embryo, setNumber: 0)
+    static let empty      = ArkonName(nametag: .empty, setNumber: 0)
+    static let line       = ArkonName(nametag: .line, setNumber: 0)
+    static let neuron     = ArkonName(nametag: .neuron, setNumber: 0)
+    static let offgrid    = ArkonName(nametag: .offgrid, setNumber: 0)
 
     let debugDescription: String
     let nametag: Nametag
     let setNumber: Int
 
-    init(nametag: ArkonName.Nametag, setNumber: Int) {
+    private init(nametag: ArkonName.Nametag, setNumber: Int) {
         self.debugDescription = "\(nametag)(\(setNumber))"
         self.nametag = nametag
         self.setNumber = setNumber

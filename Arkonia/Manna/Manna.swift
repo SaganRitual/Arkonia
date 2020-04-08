@@ -9,7 +9,7 @@ class Manna {
         let sprite: SKSpriteNode
 
         init(_ fishNumber: Int) {
-            let name = ArkonName(nametag: .manna, setNumber: fishNumber)
+            let name = ArkonName.makeMannaName(fishNumber)
 
             sprite = SpriteFactory.shared.mannaPool.makeSprite(name)
 

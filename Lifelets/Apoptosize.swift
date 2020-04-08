@@ -14,7 +14,7 @@ extension Apoptosize {
     private func release() {
         if let gc = scratch.stepper.gridCell { gc.stepper = nil }
 
-        releaseStepper(releaseSprites)
+        releaseStepper { self.releaseSprites($0) }
     }
 
     private func releaseSprites(_ stepper: Stepper) {
@@ -30,14 +30,24 @@ extension Apoptosize {
     }
 
     private func releaseStepper(_ onComplete: @escaping (Stepper) -> Void) {
-        Grid.arkonsPlaneQueue.async {
+        // Make sure it's all on the right dispatch queue
+        let catchDumbMistakes = DispatchQueueID.arkonsPlane
+        // If you put it on a different queue, change the above, or else
+        let catchReallyDumbMistakes = Grid.arkonsPlaneQueue
+        catchReallyDumbMistakes.async {
             let finalStrongReference = self.scratch.stepper!
 
             // If another arkon just ate me, I won't have a grid cell any more
             self.scratch.stepper.gridCell?.descheduleIf(self.scratch.stepper)
-            assert(self.scratch.engagerKey == nil)
-//            if let ek = self.scratch.engagerKey as? GridCell { ek.releaseLock() }
-            Stepper.releaseStepper(self.scratch.stepper, from: self.scratch.stepper.sprite!)
+            // An ugly hack, I need to clean up the way I'm handling engager
+            // keys and stuff. For now, just make sure they're all cleaned up
+            // here inside the arkonsPlane lock
+            self.scratch.apoptosize(catchDumbMistakes)
+
+            Stepper.releaseStepper(
+                self.scratch.stepper, from: self.scratch.stepper.sprite!,
+                catchDumbMistakes
+            )
 
             // This is the last strong reference to the stepper. Once the
             // caller is finished with the variable, the stepper should destruct

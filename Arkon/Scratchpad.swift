@@ -10,12 +10,11 @@ class Scratchpad {
     var battle: (Stepper, Stepper)?
     var canSpawn = false
     var cellShuttle: CellShuttle?
-    var spreader = Int.random(in: 0..<10)
-    var spreading = 0
     weak var dispatch: Dispatch?
     var engagerKey: GridCell?
-    var isApoptosizing = false
-    var name = ArkonName.makeName(.nothing, 0)
+    var isRescheduled = false
+    var isSpawning = false
+    var name = ArkonName.empty
     weak var parentNet: Net?
     var plotter: Plotter?
     var senseGrid: CellSenseGrid?
@@ -30,25 +29,24 @@ class Scratchpad {
 
     var currentTime: Int = 0
     var currentEntropyPerJoule: Double = 0
-    var dispatchQueueID = DispatchQueueID.arkonDispatch
 
-    deinit {
+    func apoptosize(_ catchDumbMistakes: DispatchQueueID) {
         Debug.log(level: 146) { "Scratchpad deinit for \(name)" }
         if let hk = engagerKey {
-            Debug.log(level: 146) { "release engager key for \(name)" }
-            hk.releaseLock(dispatchQueueID)
+            Debug.log(level: 168) { "release engager key for \(name)" }
+            hk.releaseLock(catchDumbMistakes)
             engagerKey = nil
         }
 
         if let fc = cellShuttle?.fromCell {
             Debug.log(level: 146) { "release fromCell for \(name)" }
-            fc.releaseLock(dispatchQueueID)
+            fc.releaseLock(catchDumbMistakes)
             cellShuttle?.fromCell = nil
         }
 
         if let tc = cellShuttle?.toCell {
             Debug.log(level: 146) { "release toCell for \(name)" }
-            tc.releaseLock(dispatchQueueID)
+            tc.releaseLock(catchDumbMistakes)
             cellShuttle?.toCell = nil
         }
     }

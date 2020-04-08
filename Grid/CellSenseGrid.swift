@@ -17,6 +17,8 @@ class CellSenseGrid: CustomDebugStringConvertible {
             if position == block { return CellSenseGrid.nilKey }
             guard let cell = GridCell.atIf(position) else { return CellSenseGrid.nilKey }
 
+            Debug.log(level: 168) { "CellSenseGrid \(index), \(position) tenant \(six(cell.stepper?.name)) owner \(six(cell.ownerName))" }
+
             // The cell hed better not have my name on it already
             assert(center.ownerName != cell.ownerName)
 
@@ -38,17 +40,61 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
     // Release the locks on all hot cells except the from/to cells for the shuttle,
     // and let go of everything, so we don't have any strong references hanging around
-    func reset(keep: GridCell, _ catchDumbMistakes: DispatchQueueID) {
-        for cell in cells.dropFirst() where cell.gridPosition != keep.gridPosition {
-            guard let hot = cell as? GridCell else { continue }
-            Debug.log(level: 167) { "Release hot \(hot.gridPosition) tenant \(six(hot.stepper?.name)) owner \(six(hot.ownerName))" }
-            hot.releaseLock(catchDumbMistakes)
+    func reset(keep: GridCell? = nil, _ catchDumbMistakes: DispatchQueueID) {
+
+        let hotKeys: [(Int, GridCell)] = zip(1..., cells.dropFirst()).compactMap {
+            pair in let (ss, cell) = pair
+
+            // Skip the keeper, if there is one
+            if let k = keep, cell.gridPosition == k.gridPosition { return nil }
+            // Ignore anything cold
+            guard let hotCell = cell as? GridCell else { return nil }
+
+            // As of 2020.04.08, there's only one way we'll get here and find
+            // that the owner names don't match: when we've just now spawned and
+            // transferred that cell to the offspring. Any other time, we should
+            // fall through here, because these are our hot keys
+            let offspringOwnsThisCell = (hotCell.ownerName != cells[0].ownerName)
+            if offspringOwnsThisCell { return nil }
+
+            return (ss, hotCell)
         }
 
+        hotKeys.forEach {
+            pair in let (ss, hotCell) = pair
+
+            Debug.log(level: 168) { "Release hot \(hotCell.gridPosition) tenant \(six(hotCell.stepper?.name)) owner \(six(hotCell.ownerName))" }
+
+            hotCell.releaseLock(catchDumbMistakes)
+
+            // Superstitious debugging -- this shouldn't matter, because we're
+            // about to delete the array anyway, but I'm looking for poltergeists now
+            cells[ss] = CellSenseGrid.nilKey
+        }
+
+        Debug.log(level: 168) { "SenseGrid post-reset for \(cells[0].ownerName) \(cells.map { "\($0):\(type(of: $0))" })" }
+
+        assert(cells.filter({ $0.ownerName == cells[0].ownerName }).count <= 2)
         cells.removeAll(keepingCapacity: true)
     }
 
-    func getRandomEmptyHotKey() -> GridCell? {
-        return cells.dropFirst().compactMap({ $0 as? GridCell }).filter({ $0.stepper == nil }).randomElement()
+    func setupBirthingCell(for embryoName: ArkonName) -> GridCell? {
+        let pairs: [(Int, GridCell)] = zip(1..., cells.dropFirst()).compactMap({ pair in let (ss, coldCell) = pair
+            if let hotCell = coldCell as? GridCell, hotCell.stepper == nil { return (ss, hotCell) }
+            return nil
+        })
+
+        // If there's nowhere for my offspring to be born, I guess I'll have to eat him
+        guard let (ss, birthingCell) = pairs.randomElement() else { return nil }
+
+        Debug.log(level: 168) { "setupBirthingCell ss \(ss), cell \(birthingCell.gridPosition), owned by \(birthingCell.ownerName)" }
+
+        // Newborn takes the hot cell
+        birthingCell.ownerName = embryoName
+
+        // I convert my hot cell to a cold key
+        cells[ss] = ColdKey(for: birthingCell)
+
+        return birthingCell
     }
 }

@@ -5,10 +5,9 @@ final class Spawn: DispatchableProtocol {
 
     weak var scratch: Scratchpad?
 
-    var birthplace: GridCell?
     var callAgain = false
-    var engagerKey: GridCell?
-    let embryoName = ArkonName.makeName()
+    var engagerKeyForNewborn: GridCell?
+    var embryoName = ArkonName.embryo
     var fishDay = Fishday(fishNumber: 0, birthday: 0)
     var metabolism: Metabolism?
     var net: Net?
@@ -22,98 +21,43 @@ final class Spawn: DispatchableProtocol {
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
         self.meTheParent = scratch.stepper
-        self.birthplace = scratch.senseGrid?.getRandomEmptyHotKey()
         self.tempStrongReference = self
-
-        if let ss = scratch.senseGrid?.cells.firstIndex(where: { ($0 as? GridCell) === self.birthplace }) {
-            Debug.log(level: 167) { "wtf? \(scratch.stepper.name) -> \(ss) \(six(scratch.senseGrid?.cells[ss] as? GridCell))" }
-            scratch.senseGrid?.cells[ss] = ColdKey(for: self.birthplace!)
-        }
-
-        Debug.log(level: 167) {
-            return "Spawn: parent \(six(meTheParent?.name))"
-                + " at \(String(describing: meTheParent?.gridCell?.gridPosition))"
-                + " spawns \(six(embryoName))"
-                + " at \(String(describing: birthplace?.gridPosition))"
-                + " owner \(six(self.birthplace?.ownerName))"
-        }
     }
 
-    func launch() { WorkItems.spawn(self) }
+    func launch() { Grid.arkonsPlaneQueue.async { self.spawn(.arkonsPlane) } }
 }
 
-extension WorkItems {
-    static func spawn(_ spawn: Spawn) {
-        var newKey: GridCell?
-
-        Debug.log(level: 167) { "Spawn1 \(six(spawn.embryoName)) at \(six(spawn.birthplace?.gridPosition))" }
-
+extension Spawn {
+    func spawn(_ catchDumbMistakes: DispatchQueueID) {
         func a() {
-            if spawn.birthplace == nil {
-                getStartingPosition(spawn.fishDay, spawn.embryoName, spawn.meTheParent) {
-                    newKey = $0
-                    b()
-                }
+            embryoName = ArkonName.makeName()
 
+            if meTheParent == nil {
+                engagerKeyForNewborn = GridCell.lockRandomEmptyCell(
+                    ownerName: embryoName, catchDumbMistakes
+                )
+            } else {
+                engagerKeyForNewborn = scratch!.senseGrid!.setupBirthingCell(for: embryoName)
+            }
+
+            if engagerKeyForNewborn == nil {
+                Debug.log(level: 169) { "Spawn4 \(six(embryoName)) no available cell; postpone spawn" }
+                postponeSpawn()
                 return
             }
 
-            newKey = spawn.birthplace
-            b()
+            meTheParent?.nose.color = .yellow
+            buildArkon(b)
         }
 
         func b() {
-            if newKey == nil {
-                Debug.log(level: 167) { "Spawn4 \(six(spawn.embryoName)) no available cell; postpone spawn" }
-                spawn.postponeSpawn()
-            } else { c() }
+            WorkItems.registerBirth(myName: embryoName, myParent: meTheParent, myNet: net) {
+                self.fishDay = $0
+                self.launchNewborn()
+            }
         }
-
-        func c() {
-            spawn.engagerKey = newKey
-//            spawn.meTheParent?.nose.color = .yellow
-
-            spawn.buildArkon(d)
-        }
-
-        func d() {
-
-            registerBirth(myName: spawn.embryoName, myParent: spawn.meTheParent, myNet: spawn.net)
-                { spawn.fishDay = $0; e() }
-        }
-
-        func e() {
-            WorkItems.launchNewborn(spawn)
-       }
 
         a()
-    }
-}
-
-extension WorkItems {
-    static private func getStartingPosition(
-        _ fishDay: Fishday, _ embryoName: ArkonName, _ meTheParent: Stepper?, _ onComplete: @escaping (GridCell?) -> Void
-    ) {
-        Grid.arkonsPlaneQueue.async {
-            let key = getStartingPosition(fishDay, embryoName, meTheParent, .arkonsPlane)
-            onComplete(key)
-        }
-    }
-
-    static private func getStartingPosition(
-        _ fishDay: Fishday, _ embryoName: ArkonName, _ meTheParent: Stepper?, _ catchDumbMistakes: DispatchQueueID
-    ) -> GridCell? {
-        guard let parent = meTheParent else {
-            return GridCell.lockRandomEmptyCell(
-                ownerName: ArkonName.makeName(.aboriginal, fishDay.fishNumber), catchDumbMistakes
-            )
-        }
-
-        return parent.dispatch.scratch.senseGrid?.cells
-            .dropFirst()
-            .compactMap({ $0 as? GridCell })
-            .filter({ $0.stepper == nil && $0.ownerName == parent.name })
-            .randomElement()
     }
 }
 
@@ -158,9 +102,13 @@ extension Spawn {
 
 extension Spawn {
 
-    func abandonNewborn() {
+    func abandonNewborn(_ catchDumbMistakes: DispatchQueueID) {
         guard let stepper = meTheParent, let dispatch = stepper.dispatch, let sprite = stepper.sprite
             else { return }
+
+        // We're not going to move until the next cycle; unload the
+        // cells we locked when we engaged
+        scratch?.senseGrid?.reset(catchDumbMistakes)
 
         func a() {
             let rotate = SKAction.rotate(byAngle: CGFloat.tau, duration: 0.25)
@@ -210,7 +158,7 @@ extension Spawn {
 
         guard let thorax = self.thorax else { fatalError() }
         guard let nose = self.nose else { fatalError() }
-        guard let engagerKey = self.engagerKey else { fatalError() }
+        guard let engagerKey = self.engagerKeyForNewborn else { fatalError() }
 
         nose.alpha = 1
         nose.colorBlendFactor = 0.5
@@ -229,10 +177,10 @@ extension Spawn {
     }
 }
 
-extension WorkItems {
+extension Spawn {
     // Testing launchNewborn: 158539682 and climbing
-    static func launchNewborn(_ spawn: Spawn) {
-        Grid.arkonsPlaneQueue.async(execute: spawn.launchNewborn)
+    func launchNewborn(_ spawn: Spawn) {
+        Grid.arkonsPlaneQueue.async(execute: launchNewborn)
     }
 }
 
@@ -246,28 +194,35 @@ extension Spawn {
         newborn.nose?.color = (net?.isCloneOfParent ?? false) ? .green : .white
 
         // Schedule the second part separately, to avoid holding the grid too long
-        // 113533466 and climbing
-        Grid.arkonsPlaneQueue.async { self.launchB(newborn) }
+        Grid.arkonsPlaneQueue.async { self.launchB(newborn, .arkonsPlane) }
     }
 
-    private func launchB(_ newborn: Stepper) {
-        guard let gridCell = self.engagerKey else { fatalError() }
+    private func launchB(_ newborn: Stepper, _ catchDumbMistakes: DispatchQueueID) {
+        guard let engagerKey = self.engagerKeyForNewborn else { fatalError() }
 
-        newborn.gridCell = gridCell
+        newborn.gridCell = engagerKey
+        self.engagerKeyForNewborn = nil
 
-        gridCell.stepper = newborn
-        gridCell.ownerName = newborn.name
+        engagerKey.stepper = newborn
+
+        // Name should be set up in the beginning spawn step
+        assert(engagerKey.ownerName == newborn.name)
 
         Stepper.attachStepper(newborn, to: newborn.sprite)
 
-        abandonNewborn()
+        abandonNewborn(catchDumbMistakes)
 
         guard let ndp = newborn.dispatch else { fatalError() }
 
-        ndp.scratch.engagerKey = self.engagerKey
+        ndp.scratch.engagerKey = engagerKey
+        ndp.scratch.isSpawning = true
 
         SceneDispatch.shared.schedule { [unowned self] in // Catch dumb mistakes
-            Debug.log(level: 167) { "launchB for \(newborn.name) -> \(newborn.gridCell!) \(newborn.gridCell.ownerName)/\(gridCell.ownerName)" }
+            Debug.log(level: 168) {
+                "launchB for \(six(self.meTheParent?.name)).\(newborn.name)" +
+                " -> \(six(self.meTheParent?.gridCell)).\(newborn.gridCell!)" +
+                " \(six(self.meTheParent?.gridCell.ownerName))/\(engagerKey.ownerName)"
+            }
 
             SpriteFactory.shared.arkonsPool.attachSprite(newborn.sprite)
 

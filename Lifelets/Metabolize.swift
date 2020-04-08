@@ -6,7 +6,7 @@ final class Metabolize: Dispatchable {
 
 extension Metabolize {
     func aMetabolize() {
-        Debug.log(level: 71) { "Metabolize \(six(scratch.stepper.name))" }
+        Debug.log(level: 168) { "Metabolize \(six(scratch.stepper.name))" }
 
         if Arkonia.debugColorIsEnabled { scratch.stepper.sprite.color = .red }
 

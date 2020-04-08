@@ -91,13 +91,13 @@ extension Parasitize {
             guard let myShuttle = myScratch.cellShuttle else { fatalError() }
 
             myShuttle.transferKeys(to: hisStepper, catchDumbMistakes) {
-                assert(hisScratch.engagerKey == nil)
+                assert(hisScratch!.engagerKey == nil)
 
-                hisScratch.cellShuttle = $0
+                hisScratch!.cellShuttle = $0
                 myScratch.cellShuttle = nil
 
                 Debug.log(level: 104) {
-                    "me \(six(myScratch.name)) -> nil true, him \(six(hisScratch.name)) -> nil \(hisScratch.cellShuttle == nil)"
+                    "me \(six(myScratch.name)) -> nil true, him \(six(hisScratch!.name)) -> nil \(hisScratch!.cellShuttle == nil)"
                 }
 
                 myScratch.stepper.gridCell.descheduleIf(hisStepper)

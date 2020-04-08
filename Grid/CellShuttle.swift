@@ -47,7 +47,7 @@ extension GridCell {
     }
 
     func reengageRequesters() {
-        Debug.log(level: 146) {
+        Debug.log(level: 168) {
             return self.toReschedule.isEmpty ? nil :
             "Reengage from \(self.toReschedule.count) requesters at \(gridPosition)"
         }
@@ -56,7 +56,7 @@ extension GridCell {
         while let waitingStepper = self.getRescheduledArkon() {
             if let dispatch = waitingStepper.dispatch {
                 let scratch = dispatch.scratch
-                assert(scratch.engagerKey == nil)
+                assert(scratch!.engagerKey == nil)
                 dispatch.disengage()
                 return
             }

@@ -15,7 +15,7 @@ struct AKPoint: Overload2D, Hashable, HasXY, CustomDebugStringConvertible {
     static func makeTuple(_ xx: CGFloat, _ yy: CGFloat) -> AKPoint { AKPoint(xx, yy) }
 
     private func debugDescription_() -> String {
-        return String(format: "(% 03d, % 03d)", x, y)
+        return String(format: "%+03d%+03d", x, y)
     }
 
     var debugDescription: String { debugDescription_() }

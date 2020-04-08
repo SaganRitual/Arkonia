@@ -18,7 +18,7 @@ class Stepper {
     weak var sprite: SKSpriteNode!
 
     init(_ embryo: Spawn, needsNewDispatch: Bool = false) {
-        self.gridCell = embryo.engagerKey
+        self.gridCell = embryo.engagerKeyForNewborn
         self.metabolism = embryo.metabolism
         self.name = embryo.embryoName
         self.net = embryo.net
@@ -64,14 +64,14 @@ extension Stepper {
         sprite.userData!["stepper"] = stepper
     }
 
-    static func releaseStepper(_ stepper: Stepper, from sprite: SKSpriteNode) {
-        Grid.arkonsPlaneQueue.async {
-            // Scratchpad deinit needs the plane to be locked
-            stepper.dispatch.scratch.dispatchQueueID = .arkonsPlane
+    static func releaseStepper(
+        _ stepper: Stepper, from sprite: SKSpriteNode,
+        _ catchDumbMistakes: DispatchQueueID
+    ) {
+        assert(catchDumbMistakes == .arkonsPlane)
 
-            // See notes in attachStepper
-            sprite.userData!["stepper"] = nil
-            sprite.name = nil
-        }
+        // See notes in attachStepper
+        sprite.userData!["stepper"] = nil
+        sprite.name = nil
     }
 }

@@ -9,7 +9,7 @@ final class Colorize: Dispatchable {
 
 extension Colorize {
     func colorize() {
-        Debug.log(level:71) { "Colorize \(six(scratch.stepper.name))" }
+        Debug.log(level:168) { "Colorize \(six(scratch.stepper.name))" }
 
         Debug.debugColor(scratch.stepper, .blue, .blue)
 

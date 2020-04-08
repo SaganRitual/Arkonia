@@ -1,21 +1,15 @@
 class Cbuffer<T> {
     var cElements: Int
-    var elements: [T]
+    var elements: [T?]
     var firstPass = true
     var nextPopOffset: Int = 0
     var nextPushOffset: Int = 0
     var wrappedPop = false
 
     var count: Int {
-        if nextPushOffset == nextPopOffset {
-            Debug.log(level: 129) { "count.1 \(nextPushOffset) == \(nextPopOffset) -> \(wrappedPop) ? \(cElements) : 0" }
-            return wrappedPop ? cElements : 0 }
-        if nextPushOffset > nextPopOffset  {
-            Debug.log(level: 129) { " count.2 \(nextPushOffset) > \(nextPopOffset) -> \(nextPushOffset - nextPopOffset)" }
-            return nextPushOffset - nextPopOffset }
-        else                               {
-            Debug.log(level: 129) { " count.3 \(nextPushOffset) < \(nextPopOffset) -> \(nextPushOffset - nextPopOffset + cElements)" }
-            return nextPushOffset - nextPopOffset + cElements }
+        if nextPushOffset == nextPopOffset { return wrappedPop ? cElements : 0 }
+        if nextPushOffset > nextPopOffset  { return nextPushOffset - nextPopOffset }
+        else                               { return nextPushOffset - nextPopOffset + cElements }
     }
 
     // swiftlint:disable empty_count
@@ -37,7 +31,8 @@ class Cbuffer<T> {
             wrappedPop = false
         }
 
-        return elements[nextPopOffset]
+        defer { elements[nextPopOffset] = nil }
+        return elements[nextPopOffset]!
     }
 
     func push(_ element: T) {

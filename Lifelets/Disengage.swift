@@ -12,11 +12,16 @@ final class Disengage: Dispatchable {
     }
 
     private func disengage() {
-        Debug.log(level: 156) { "Disengage \(scratch.stepper.name)" }
+        assert(scratch.engagerKey != nil || scratch.isSpawning || scratch.isRescheduled)
+
+        scratch.engagerKey?.releaseLock(catchDumbMistakes)
+
+        Debug.log(level: 168) { "Disengage \(scratch.stepper.name) at \(six(scratch.engagerKey?.gridPosition))" }
         Debug.debugColor(scratch.stepper, .cyan, .cyan)
 
-        if let hk = scratch.engagerKey { hk.releaseLock(catchDumbMistakes) }
         scratch.engagerKey = nil
+        scratch.isSpawning = false
+        scratch.isRescheduled = false
 
         scratch.dispatch!.engage()
     }

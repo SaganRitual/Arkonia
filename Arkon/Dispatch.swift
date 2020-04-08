@@ -11,17 +11,15 @@ protocol DispatchableProtocol {
 class Dispatchable: DispatchableProtocol {
     var scratch: Scratchpad!
 
-    required init(_ scratch: Scratchpad) {
-        self.scratch = scratch
-    }
+    required init(_ scratch: Scratchpad) { self.scratch = scratch }
 
     func launch() { preconditionFailure() }
 }
 
 final class Dispatch {
     var lifelet: DispatchableProtocol!
-    var name = ArkonName.makeName(.nothing, 0)
-    var scratch = Scratchpad()
+    var name = ArkonName.empty
+    var scratch: Scratchpad! = Scratchpad()
     var wiLaunch: DispatchWorkItem?
 
     init(_ stepper: Stepper? = nil) {

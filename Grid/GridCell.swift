@@ -9,7 +9,7 @@ protocol GridCellProtocol: CustomDebugStringConvertible {
 
 class GridCell: GridCellProtocol, Equatable {
 
-    lazy var debugDescription: String = { String(format: "GridCell.at(% 03d, % 03d)", gridPosition.x, gridPosition.y) }()
+    lazy var debugDescription: String = { String(format: "GridCell(\(gridPosition))") }()
 
     let gridPosition: AKPoint
     var isLocked = false
@@ -67,7 +67,7 @@ extension GridCell {
     func getRescheduledArkon() -> Stepper? {
         #if DEBUG
         if !toReschedule.isEmpty {
-            Debug.log(level: 146) {
+            Debug.log(level: 168) {
                 "getRescheduledArkon \(six(toReschedule.first!.name)) " +
                 "\(toReschedule.count)"
             }
@@ -79,8 +79,10 @@ extension GridCell {
     }
 
     func reschedule(_ stepper: Stepper) {
+        Debug.log(level: 168) { "reschedule \(stepper.name)" }
         precondition(toReschedule.contains { $0.name == stepper.name } == false)
         toReschedule.append(stepper)
+        stepper.dispatch.scratch.isRescheduled = true   // Debug
         Debug.debugColor(stepper, .blue, .red)
     }
 }
@@ -144,10 +146,10 @@ extension GridCell {
     func releaseLock(_ dispatchQueueID: DispatchQueueID) -> Bool {
         assert(dispatchQueueID == .arkonsPlane)
 
-        assert(ownerName.nametag != .nothing)
+        assert(ownerName != ArkonName.empty)
 
 //        debugStats()
-        Debug.log(level: 167) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
+        Debug.log(level: 166) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         defer { isLocked = false; ownerName = ArkonName.empty }
         reengageRequesters()

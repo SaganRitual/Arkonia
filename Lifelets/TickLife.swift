@@ -53,18 +53,11 @@ extension TickLife {
 
         Debug.log(level: 167) { "routeLife \(six(scratch.stepper.name))" }
 
-        guard let hotKey = scratch.engagerKey else { fatalError() }
-
         precondition(Grid.shared.isOnGrid(scratch.stepper.gridCell.gridPosition))
 
-        if !isAlive {
-            hotKey.releaseLock(catchDumbMistakes)
-            self.scratch.engagerKey = nil
-            scratch.dispatch!.apoptosize()
-            return
-        }
-
-        if canSpawn { scratch.dispatch!.spawn() } else { scratch.dispatch!.computeMove() }
+        if !isAlive      { scratch.dispatch!.apoptosize()  }
+        else if canSpawn { scratch.dispatch!.spawn()       }
+        else             { scratch.dispatch!.computeMove() }
     }
 }
 

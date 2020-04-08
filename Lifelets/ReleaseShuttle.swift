@@ -18,7 +18,7 @@ final class ReleaseShuttle: Dispatchable {
         // standing on at te moment. Let the disengage lifelet take care of that
 //        shuttle.toCell!.releaseLock()
 
-        assert(shuttle.toCell != nil)
+        assert(shuttle.toCell != nil && shuttle.toCell!.isLocked && shuttle.toCell!.ownerName == scratch.stepper.name)
 
         shuttle.toCell = nil
         scratch.cellShuttle = nil

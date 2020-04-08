@@ -42,18 +42,12 @@ extension GridCell {
     }
 
     static func lockRandomEmptyCell(ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCell? {
-        var randomGridCell: GridCell?
+        let randomGridCell = GridCell.getRandomEmptyCell()
 
-        repeat {
-            let r = GridCell.getRandomEmptyCell()
-            let ck = r.lock(require: .degradeToCold, ownerName: ownerName, catchDumbMistakes)
+        guard let hotKey = randomGridCell.lock(
+            require: .degradeToCold, ownerName: ownerName, catchDumbMistakes
+        ) as? GridCell else { return nil }
 
-            guard let hk = ck as? GridCell else { continue }
-
-            Debug.log(level: 109) { "set2 \(six(ownerName))" }
-            randomGridCell = hk
-        } while randomGridCell == nil
-
-        return randomGridCell!
+        return hotKey
     }
 }
