@@ -4,12 +4,17 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>Karamba.xcscheme_^#shared#^_</key>
+		<key>Karamba-Debug.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>isShown</key>
 			<true/>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+		<key>Karamba-Release.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
@@ -50,6 +55,11 @@
 			<true/>
 		</dict>
 		<key>D4603A6322A2B11A00885428</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D464BA3122C737260069623C</key>
 		<dict>
 			<key>primary</key>
 			<true/>

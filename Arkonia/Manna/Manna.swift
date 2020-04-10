@@ -41,7 +41,7 @@ extension Manna {
                 Dispatch.dispatchQueue.async { onComplete(nutritionInJoules) }
             }
 
-            if nutritionInJoules < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { nutritionInJoules = 0 }
+            if nutritionInJoules < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { nutritionInJoules = 0; return }
 
             MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
 
@@ -84,7 +84,7 @@ extension Manna {
         sprite.reset()
 
         // Have 1% of the manna die off when it's eaten
-        if Int.random(in: 0..<100) == 0 {
+        if Int.random(in: 0..<100) < 1 {
             MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cDeadManna += 1 }
             return
         }

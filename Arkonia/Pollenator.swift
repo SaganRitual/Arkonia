@@ -31,7 +31,7 @@ class Pollenator {
 
     func move() {
         // Start the lilypads off huge, so the arkons can get a foothold
-        let scale = firstPass ? 1 : abs(sin(totalDistance)) * 0.25 + 0.1
+        let scale = firstPass ? 1 : abs(sin(totalDistance)) * 0.25 + 0.05
         firstPass = false
 
         Debug.log(level: 133) { "pollenator \(scale) \(node.xScale)" }
