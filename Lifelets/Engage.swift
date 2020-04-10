@@ -77,7 +77,7 @@ extension GridCell {
             #endif
 
             assert(isLocked && ownerName != stepper.name)
-            reschedule(stepper)
+            reschedule(stepper, catchDumbMistakes)
         }
 
         return key

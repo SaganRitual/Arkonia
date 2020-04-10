@@ -45,26 +45,4 @@ extension GridCell {
 
         onComplete()
     }
-
-    func reengageRequesters() {
-        Debug.log(level: 168) {
-            return self.toReschedule.isEmpty ? nil :
-            "Reengage from \(self.toReschedule.count) requesters at \(gridPosition)"
-        }
-
-        // Re-launch all rescheduled arkons before re-launching the manna
-        while let waitingStepper = self.getRescheduledArkon() {
-            if let dispatch = waitingStepper.dispatch {
-                let scratch = dispatch.scratch
-                assert(scratch!.engagerKey == nil)
-                dispatch.disengage()
-                return
-            }
-        }
-
-        if self.mannaAwaitingRebloom {
-            self.manna!.rebloom()
-            self.mannaAwaitingRebloom = false
-        }
-    }
 }

@@ -80,7 +80,7 @@ extension Parasitize {
             myScratch.stepper.isTurnabouted = false
             hisStepper.isTurnabouted = false
 
-            myScratch.stepper.gridCell.descheduleIf(hisStepper)
+            myScratch.stepper.gridCell.descheduleIf(hisStepper, catchDumbMistakes)
 
             onComplete(myScratch.stepper, hisStepper)
         } else {
@@ -100,7 +100,7 @@ extension Parasitize {
                     "me \(six(myScratch.name)) -> nil true, him \(six(hisScratch!.name)) -> nil \(hisScratch!.cellShuttle == nil)"
                 }
 
-                myScratch.stepper.gridCell.descheduleIf(hisStepper)
+                myScratch.stepper.gridCell.descheduleIf(hisStepper, catchDumbMistakes)
 
                 onComplete(hisStepper, myScratch.stepper)
             }

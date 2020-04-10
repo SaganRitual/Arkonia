@@ -22,8 +22,7 @@ struct ArkonName: Hashable, CustomDebugStringConvertible {
     static func makeName() -> ArkonName {
         defer {
             nameix += 1
-            setNumber += 1
-//            if (nameix % cRealNames) == 0 { setNumber += 1 }
+            if (nameix % cRealNames) == 0 { setNumber += 1 }
         }
 
         let newName = ArkonName(

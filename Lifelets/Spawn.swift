@@ -238,7 +238,10 @@ extension Spawn {
 
 extension Spawn {
     func postponeSpawn() {
-        guard let stepper = meTheParent, let dispatch = stepper.dispatch else { fatalError() }
+        guard let stepper = meTheParent, let dispatch = stepper.dispatch else {
+            Debug.log { "Aboriginal \(embryoName) could not be launched at \(six(engagerKeyForNewborn?.gridPosition))" }
+            return
+        }
 
         let failedSpawnCost = Arkonia.maxMannaEnergyContentInJoules
         stepper.metabolism.withdrawFromSpawn(failedSpawnCost)

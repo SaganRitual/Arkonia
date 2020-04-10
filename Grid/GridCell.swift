@@ -53,41 +53,6 @@ class GridCell: GridCellProtocol, Equatable {
 }
 
 extension GridCell {
-    func descheduleIf(_ stepper: Stepper) {
-        toReschedule.removeAll {
-            let name = $0.name
-            let remove = $0.name == stepper.name
-            if remove {
-                Debug.log(level: 146) { "deschedule \(six(stepper.name)) == \(six(name))" }
-            }
-            return remove
-        }
-    }
-
-    func getRescheduledArkon() -> Stepper? {
-        #if DEBUG
-        if !toReschedule.isEmpty {
-            Debug.log(level: 168) {
-                "getRescheduledArkon \(six(toReschedule.first!.name)) " +
-                "\(toReschedule.count)"
-            }
-        }
-        #endif
-
-        defer { if toReschedule.isEmpty == false { _ = toReschedule.removeFirst() } }
-        return toReschedule.first
-    }
-
-    func reschedule(_ stepper: Stepper) {
-        Debug.log(level: 168) { "reschedule \(stepper.name)" }
-        precondition(toReschedule.contains { $0.name == stepper.name } == false)
-        toReschedule.append(stepper)
-        stepper.dispatch.scratch.isRescheduled = true   // Debug
-        Debug.debugColor(stepper, .blue, .red)
-    }
-}
-
-extension GridCell {
     enum RequireLock { case cold, degradeToCold, degradeToNil, hot }
 
     func lockIf(ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCell? {
@@ -149,10 +114,11 @@ extension GridCell {
         assert(ownerName != ArkonName.empty)
 
 //        debugStats()
-        Debug.log(level: 166) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
+        Debug.log(level: 168) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         defer { isLocked = false; ownerName = ArkonName.empty }
-        reengageRequesters()
+
+        reengageRequesters(dispatchQueueID)
         return isLocked && !toReschedule.isEmpty
     }
 }

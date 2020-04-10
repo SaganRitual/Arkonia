@@ -32,22 +32,28 @@ class Scratchpad {
 
     func apoptosize(_ catchDumbMistakes: DispatchQueueID) {
         Debug.log(level: 146) { "Scratchpad deinit for \(name)" }
-        if let hk = engagerKey {
-            Debug.log(level: 168) { "release engager key for \(name)" }
-            hk.releaseLock(catchDumbMistakes)
-            engagerKey = nil
-        }
-
         if let fc = cellShuttle?.fromCell {
-            Debug.log(level: 146) { "release fromCell for \(name)" }
+            Debug.log(level: 169) { "release fromCell \(fc.gridPosition) for \(name)" }
             fc.releaseLock(catchDumbMistakes)
             cellShuttle?.fromCell = nil
         }
 
         if let tc = cellShuttle?.toCell {
-            Debug.log(level: 146) { "release toCell for \(name)" }
+            Debug.log(level: 169) { "release toCell \(tc.gridPosition) for \(name)" }
             tc.releaseLock(catchDumbMistakes)
             cellShuttle?.toCell = nil
+        }
+
+        if let hk = engagerKey {
+            Debug.log(level: 169) { "release engager key \(hk.gridPosition) for \(name)" }
+            hk.releaseLock(catchDumbMistakes)
+            engagerKey = nil
+        }
+
+        if let sg = senseGrid {
+            Debug.log(level: 169) { "release senseGrid centered at \(sg.cells[0].gridPosition) for \(name)" }
+            sg.reset(catchDumbMistakes)
+            senseGrid = nil
         }
     }
 }

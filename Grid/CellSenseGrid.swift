@@ -1,11 +1,14 @@
 class CellSenseGrid: CustomDebugStringConvertible {
     static let nilKey = NilKey()
 
-    var cells = [GridCellProtocol]()
     lazy var debugDescription: String = { cells[0].debugDescription }()
+
+    var cells = [GridCellProtocol]()
+    var ownerName: ArkonName
 
     init(from center: GridCell, by cGridlets: Int, block: AKPoint, _ catchDumbMistakes: DispatchQueueID) {
         assert(center.ownerName == center.stepper?.name)
+        self.ownerName = center.ownerName
 
         // The following loop needs to be atomic relative to the arkons grid,
         // we want no interference from anyone else trying to get our squares
@@ -17,14 +20,14 @@ class CellSenseGrid: CustomDebugStringConvertible {
             if position == block { return CellSenseGrid.nilKey }
             guard let cell = GridCell.atIf(position) else { return CellSenseGrid.nilKey }
 
-            Debug.log(level: 168) { "CellSenseGrid \(index), \(position) tenant \(six(cell.stepper?.name)) owner \(six(cell.ownerName))" }
+            Debug.log(level: 168) { "CellSenseGrid \(index), \(position) tenant \(six(cell.stepper?.name)) owner \(six(self.ownerName))" }
 
             // The cell hed better not have my name on it already
-            assert(center.ownerName != cell.ownerName)
+            assert(self.ownerName != cell.ownerName)
 
             let lockType: GridCell.RequireLock = index > Arkonia.cMotorGridlets ? .cold : .degradeToCold
 
-            guard let lock = cell.lock(require: lockType, ownerName: center.ownerName, catchDumbMistakes)
+            guard let lock = cell.lock(require: lockType, ownerName: self.ownerName, catchDumbMistakes)
                 else { fatalError() }
 
             return lock
@@ -54,7 +57,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
             // that the owner names don't match: when we've just now spawned and
             // transferred that cell to the offspring. Any other time, we should
             // fall through here, because these are our hot keys
-            let offspringOwnsThisCell = (hotCell.ownerName != cells[0].ownerName)
+            let offspringOwnsThisCell = (hotCell.ownerName != self.ownerName)
             if offspringOwnsThisCell { return nil }
 
             return (ss, hotCell)
@@ -63,7 +66,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
         hotKeys.forEach {
             pair in let (ss, hotCell) = pair
 
-            Debug.log(level: 168) { "Release hot \(hotCell.gridPosition) tenant \(six(hotCell.stepper?.name)) owner \(six(hotCell.ownerName))" }
+            Debug.log(level: 168) { "Release hot \(hotCell.gridPosition) tenant \(six(hotCell.stepper?.name)) owner \(six(self.ownerName))" }
 
             hotCell.releaseLock(catchDumbMistakes)
 
@@ -72,9 +75,9 @@ class CellSenseGrid: CustomDebugStringConvertible {
             cells[ss] = CellSenseGrid.nilKey
         }
 
-        Debug.log(level: 168) { "SenseGrid post-reset for \(cells[0].ownerName) \(cells.map { "\($0):\(type(of: $0))" })" }
+        Debug.log(level: 169) { "SenseGrid post-reset for \(self.ownerName) \(cells.compactMap { ($0 is NilKey) ? nil : "\($0):\(type(of: $0))" })" }
 
-        assert(cells.filter({ $0.ownerName == cells[0].ownerName }).count <= 2)
+        assert(cells.filter({ $0.ownerName == self.ownerName }).count <= 2)
         cells.removeAll(keepingCapacity: true)
     }
 
