@@ -19,12 +19,14 @@ class Manna {
 
     fileprivate let energy = Manna.Energy()
     fileprivate let fishNumber: Int
+    fileprivate var mostRecentBloomTime: Date
     let sprite: Manna.Sprite
 
     var isPhotosynthesizing: Bool { self.sprite.isPhotosynthesizing }
 
     init(_ fishNumber: Int) {
         self.fishNumber = fishNumber
+        self.mostRecentBloomTime = Date()
         self.sprite = Manna.Sprite(fishNumber)
         self.sprite.reset()
     }
@@ -41,6 +43,7 @@ extension Manna {
                 Dispatch.dispatchQueue.async { onComplete(nutritionInJoules) }
             }
 
+            // Don't give up any nutrition at all until I've bloomed enough
             if nutritionInJoules < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { nutritionInJoules = 0; return }
 
             MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
@@ -74,7 +77,7 @@ extension Manna {
 
         Debug.log(level: 156) { "plant \(self.fishNumber) at \(cell.gridPosition)" }
         cell.manna = self
-        self.sprite.bloom(at: cell, color: .blue)
+        self.sprite.firstBloom(at: cell)
         return true
     }
 
@@ -83,16 +86,19 @@ extension Manna {
     func rebloom() {
         sprite.reset()
 
-        // Have 1% of the manna die off when it's eaten
-        if Int.random(in: 0..<100) < 1 {
-            MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cDeadManna += 1 }
-            return
-        }
+//        // Have 1% of the manna die off when it's eaten
+//        if Int.random(in: 0..<100) < 1 {
+//            MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cDeadManna += 1 }
+//            return
+//        }
 
         guard let fs = MannaCannon.shared?.pollenators.first(
             where: { $0.node.contains(sprite.sprite.position) }
         ) else { MannaCannon.shared!.blast(self); return }
 
-        sprite.bloom(at: nil, color: fs.node.fillColor, scaleFactor: fs.node.xScale)
+        let now = Date()
+        let growthDuration = mostRecentBloomTime.distance(to: now)
+        let maturity = min(1, growthDuration / Arkonia.mannaFullGrowthDurationSeconds)
+        sprite.bloom(maturity: maturity, color: fs.node.fillColor, scaleFactor: fs.node.xScale)
     }
 }

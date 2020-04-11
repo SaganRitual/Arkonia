@@ -8,17 +8,23 @@ extension Manna.Sprite {
         duration: 0.01
     )
 
-    private static func bloomAction(_ color: SKColor, _ scaleFactor: CGFloat? = nil) -> SKAction {
+    private static func bloomAction(
+        _ timeRequiredForFullBloom: TimeInterval,
+        _ color: SKColor,
+        _ scaleFactor: CGFloat? = nil
+    ) -> SKAction {
         let colorAction = SKAction.colorize(
             with: color, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
-            duration: Arkonia.mannaFullGrowthDurationSeconds
+            duration: timeRequiredForFullBloom
         )
 
         var group = [colorAction, fadeInAction]
 
+        // Just for interesting nerdy visuals, scale the manna to the same
+        // scale as its pollenator
         if let s = scaleFactor {
             let newScale = constrain(s / 75, lo: 0.7, hi: 7) * Arkonia.mannaScaleFactor / Arkonia.zoomFactor
-            let scaleAction = SKAction.scale(to: newScale, duration: Arkonia.mannaFullGrowthDurationSeconds)
+            let scaleAction = SKAction.scale(to: newScale, duration: timeRequiredForFullBloom)
             group.append(scaleAction)
         }
 
@@ -37,20 +43,28 @@ extension Manna.Sprite {
         sprite.colorBlendFactor > Arkonia.mannaColorBlendMinimum
     }
 
-    func bloom(at cell: GridCell?, color: SKColor, scaleFactor: CGFloat? = nil) {
-        if cell != nil { prepForFirstPlanting(at: cell) }
+    func bloom(maturity: TimeInterval, color: SKColor, scaleFactor: CGFloat) {
+        // Select for arkons that leave the manna to bloom more, in order to
+        // get more nutrition. If they eat it too early, it will take longer to
+        // rebloom to full nutritional value
+        let recoveryRatio = maturity < 1 ? 1 - maturity : 0
+        let timeRequiredForFullBloom = Arkonia.mannaFullGrowthDurationSeconds * (1 + recoveryRatio)
 
-        Debug.log(level: 157) { "Bloom commit for \(six((cell ?? gridCell)?.gridPosition)), t = \(mach_absolute_time())" }
+        let toRun = Manna.Sprite.bloomAction(timeRequiredForFullBloom, color, scaleFactor)
 
-        // We get non-nil cell only on the first time through, which is the
-        // only time we get an instant bloom
-        let toRun = (cell == nil) ? Manna.Sprite.bloomAction(color, scaleFactor) : Manna.Sprite.firstBloomAction
+        MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
+
+        sprite.run(toRun)
+    }
+
+    func firstBloom(at cell: GridCell) {
+        prepForFirstPlanting(at: cell)
 
         MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
 
         // Ok to let this run independently of the caller's thread, we don't
         // need anything from it, so there's no need to wait for completion
-        sprite.run(toRun)
+        sprite.run(Manna.Sprite.firstBloomAction)
     }
 
     func getIndicatorFullness() -> CGFloat {

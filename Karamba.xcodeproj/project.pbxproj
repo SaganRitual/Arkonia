@@ -64,7 +64,7 @@
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
 		D4B4295322DAF1CD0036C904 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293C22DAEC7E0036C904 /* Report.swift */; };
 		D4B9512124349A8800BD2085 /* ArkonName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9512024349A8800BD2085 /* ArkonName.swift */; };
-		D4B9512324351EAF00BD2085 /* Arkonia.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4B9512224351EAF00BD2085 /* Arkonia.sks */; };
+		D4B9512324351EAF00BD2085 /* ArkoniaScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4B9512224351EAF00BD2085 /* ArkoniaScene.sks */; };
 		D4BB6E73234E549C00529819 /* TickLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E72234E549C00529819 /* TickLife.swift */; };
 		D4BB6E77234EDCA500529819 /* Apoptosize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E76234EDCA500529819 /* Apoptosize.swift */; };
 		D4BB6E7B234EF62800529819 /* Metabolize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E7A234EF62800529819 /* Metabolize.swift */; };
@@ -152,7 +152,7 @@
 		D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
 		D4B4294022DAEC7E0036C904 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		D4B9512024349A8800BD2085 /* ArkonName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonName.swift; sourceTree = "<group>"; };
-		D4B9512224351EAF00BD2085 /* Arkonia.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Arkonia.sks; sourceTree = "<group>"; };
+		D4B9512224351EAF00BD2085 /* ArkoniaScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ArkoniaScene.sks; sourceTree = "<group>"; };
 		D4BB6E72234E549C00529819 /* TickLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickLife.swift; sourceTree = "<group>"; };
 		D4BB6E76234EDCA500529819 /* Apoptosize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apoptosize.swift; sourceTree = "<group>"; };
 		D4BB6E7A234EF62800529819 /* Metabolize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metabolize.swift; sourceTree = "<group>"; };
@@ -311,7 +311,7 @@
 		D4B2AC8323D5965A00246746 /* SpriteKit */ = {
 			isa = PBXGroup;
 			children = (
-				D4B9512224351EAF00BD2085 /* Arkonia.sks */,
+				D4B9512224351EAF00BD2085 /* ArkoniaScene.sks */,
 				D4EBEE3E22E0E9EF007C98A4 /* GriddleScene.swift */,
 				D4B2AC8423D5983200246746 /* SceneDispatch.swift */,
 				D40985FE22650CC9009DD384 /* SceneViewController.swift */,
@@ -460,7 +460,7 @@
 				D495F0C8233FA6E9007D6E86 /* Info.plist in Resources */,
 				D464BA5822C737260069623C /* Assets.xcassets in Resources */,
 				D464BA5922C737260069623C /* Main.storyboard in Resources */,
-				D4B9512324351EAF00BD2085 /* Arkonia.sks in Resources */,
+				D4B9512324351EAF00BD2085 /* ArkoniaScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

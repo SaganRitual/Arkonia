@@ -28,7 +28,7 @@ class SceneViewController: NSViewController {
 //        view.isAsynchronous = false
 //        view.showsPhysics = true
 
-        let scene = SKScene(fileNamed: "Arkonia.sks")!
+        let scene = SKScene(fileNamed: "ArkoniaScene.sks")!
 
         self.scene = scene
 

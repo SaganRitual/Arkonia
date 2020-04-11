@@ -42,12 +42,9 @@ extension Debug {
     private static let cLogMessages = 10000
     private static var logIndex = 0
     private static var logWrapped = false
-    private static var logMessages: [String] = {
-        var s = Array(repeating: String(), count: cLogMessages)
-        s.reserveCapacity(cLogMessages)
-        return s
-    }()
+    private static var logMessages: [String] = Array(repeating: String(), count: cLogMessages)
 
+    #if DEBUG
     // This gives me fine-grained control over log messaging, while
     // leaving out any excess processing needed for the log messages.
     // Not to mention the hundreds of thousands of Strings that come out of it
@@ -69,6 +66,9 @@ extension Debug {
             if logIndex == 0 { logWrapped = true }
         }
     }
+    #else
+    static func log(level: Int? = nil, _ execute: () -> String?) {}
+    #endif
 
     static func showLog() {
         print("Log index = \(logIndex)")

@@ -31,7 +31,10 @@ enum Mutator {
             }
         }
 
-        let fromScratch: [Double] = (0..<targetLength).map { _ in Double.random(in: -1..<1) }
+        let fromScratch: [Double] = (0..<targetLength).map { _ in
+            Double.random(in: -1..<1) * Double.random(in: -1..<1) / Double.random(in: -1..<1)
+        }
+
         Debug.log(level: 93) { "Generate from scratch = \(fromScratch)" }
         return (fromScratch, false)
     }
@@ -87,7 +90,6 @@ private extension Mutator {
 
         cMutate = Double(i) + ((i == 0) ? 1 : 0)
         var outDoubles = inDoubles
-//        var debugMessage = ""
 
         while cMutate > 0 {
             let wherefore = Int.random(in: 0..<inDoubles.count)
@@ -97,15 +99,9 @@ private extension Mutator {
 
             outDoubles[wherefore] = newValue
 
-//            Debug.log(level: 121) {
-//                debugMessage += "at \(wherefore) from \(inDoubles[wherefore]) to \(mutated); "
-//                return nil  // Don't log anything; that will happen at the end
-//            }
-
             cMutate -= 1
         }
 
-//        Debug.log(level: 121) { return debugMessage.isEmpty ? nil : "Mutations(\(b)): \(debugMessage)" }
         return (outDoubles, didMutate)
     }
 
