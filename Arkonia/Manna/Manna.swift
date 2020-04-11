@@ -1,10 +1,7 @@
 import SpriteKit
 
 class Manna {
-    struct Energy { }
-
     class Sprite {
-        var bloomActionIx = 0
         weak var gridCell: GridCell?
         let sprite: SKSpriteNode
 
@@ -17,8 +14,7 @@ class Manna {
         }
     }
 
-    fileprivate let energy = Manna.Energy()
-    fileprivate var entropyFactor = Arkonia.selectionPressureFactor
+    fileprivate var timeRequiredForFullBloom = Arkonia.mannaFullGrowthDurationSeconds
     fileprivate let fishNumber: Int
     fileprivate var mostRecentBloomTime: Date
     let sprite: Manna.Sprite
@@ -27,9 +23,11 @@ class Manna {
 
     init(_ fishNumber: Int) {
         self.fishNumber = fishNumber
-        self.mostRecentBloomTime = Date()
         self.sprite = Manna.Sprite(fishNumber)
         self.sprite.reset()
+
+        // Set our date to the past so we'll treat the first bloom as completed already
+        self.mostRecentBloomTime = Date() - Arkonia.mannaFullGrowthDurationSeconds
     }
 }
 
@@ -56,18 +54,22 @@ extension Manna {
     }
 
     func getEnergyContentInJoules() -> CGFloat {
-        let f = sprite.getIndicatorFullness()
-        precondition(floor(f) <= 1.0)   // floor() because we get rounding errors sometimes
+        let indicatorFullness = sprite.getIndicatorFullness()
+        let rate = Arkonia.mannaGrowthRateJoulesPerSecond
+        let duration = CGFloat(Arkonia.mannaFullGrowthDurationSeconds)
 
-        return self.energy.getEnergyContentInJoules(f)
+        let energyContent: CGFloat = indicatorFullness * rate * duration
+        Debug.log(level: 136) { "energy content \(energyContent)" }
+        return energyContent
     }
 
     func getNutritionInJoules(_ onComplete: @escaping (CGFloat) -> Void) {
         let e = getEnergyContentInJoules()
 
-        Clock.shared.entropize(e) { entropizedEnergyContentInJoules in
-            Debug.log(level: 154) { "getNutritionInJoules \(entropizedEnergyContentInJoules)" }
+        // If there's no time limit, then cosmic entropy is n/a, doesn't happen
+        if Arkonia.worldTimeLimit == nil { onComplete(e); return }
 
+        Clock.shared.entropize(e) { entropizedEnergyContentInJoules in
             Dispatch.dispatchQueue.async { onComplete(entropizedEnergyContentInJoules) }
         }
     }
@@ -87,28 +89,29 @@ extension Manna {
     func rebloom() {
         sprite.reset()
 
-//        // Have 1% of the manna die off when it's eaten
-//        if Int.random(in: 0..<100) < 1 {
-//            MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cDeadManna += 1 }
-//            return
-//        }
-
+        // Check for pollenators above me; if none, go back to sleep for a while
         guard let fs = MannaCannon.shared?.pollenators.first(
             where: { $0.node.contains(sprite.sprite.position) }
         ) else { MannaCannon.shared!.blast(self); return }
 
+        // If I'm being harvested before I've reached full maturity, it will
+        // take proportionally longer for me to reach it this time. The delay is
+        // cumulative: say the normal bloom time is 10s, and I mature only up to
+        // 6.3s, when an arkon grazes me. It will take me a total of
+        // (normal bloom time + (10 - 6.3s)) * 10s/5s =
+        // (normal bloom time + 3.7) * 2 seconds to reach full maturity
         let now = Date()
         let growthDuration = mostRecentBloomTime.distance(to: now)
+        let maturity = constrain(growthDuration / timeRequiredForFullBloom, lo: 0.5, hi: 1.0)
+        let catchup = timeRequiredForFullBloom * (1 - maturity)
 
-        let maturity = min(
-            1,
-            growthDuration / (self.entropyFactor * Arkonia.mannaFullGrowthDurationSeconds)
-        )
+        timeRequiredForFullBloom = catchup + Arkonia.mannaFullGrowthDurationSeconds
+        mostRecentBloomTime = now
 
-        // We get a bit more tired each time we're grazed, such that reaching
-        // nutritional maturity takes a bit longer every time
-        self.entropyFactor *= 2
+        #if DEBUG
+        Debug.log(level: 171) { "rebloom \(growthDuration), \(maturity), \(catchup), \(timeRequiredForFullBloom)" }
+        #endif
 
-        sprite.bloom(maturity: maturity, color: fs.node.fillColor, scaleFactor: fs.node.xScale)
+        sprite.bloom(timeRequiredForFullBloom, color: fs.node.fillColor, scaleFactor: fs.node.xScale)
     }
 }

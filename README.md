@@ -19,7 +19,7 @@ suck at UI programming.
 <img align="right" src="https://github.com/SaganRitual/Arkonia/blob/exp/MovieforREADME.gif">
 
 At long last, it's fast enough and stable enough to be (potentially) interesting.
-I notice that a few people have cloned the repo. That's cool. I do most development on the `exp`
+I notice that a few people have cloned the repo. That's seriously cool. I do most development on the `exp`
 branch. I merge down to `dev` whenever I get sick of chasing bugs long enough to do the merge
 and push. So look for the latest on `exp`. Build the `Karamba` Xcode project, debug or release
 

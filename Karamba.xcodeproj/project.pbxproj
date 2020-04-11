@@ -37,7 +37,6 @@
 		D464BA4B22C737260069623C /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D8622816F58003D711C /* NetGraphics.swift */; };
 		D464BA5022C737260069623C /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D88228173BE003D711C /* Protocols.swift */; };
 		D464BA5122C737260069623C /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6460722A4253F00FD8C56 /* ColorGradient.swift */; };
-		D464BA5222C737260069623C /* Manna.Energy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4603A6122A2720400885428 /* Manna.Energy.swift */; };
 		D464BA5522C737260069623C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D464BA5822C737260069623C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
@@ -124,7 +123,6 @@
 		D441B99A229CFFA800FB7057 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
 		D44EFA5724280CB600798FE6 /* Plotter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plotter.swift; sourceTree = "<group>"; };
 		D4523A4C242942FF0074442F /* SensesConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensesConnector.swift; sourceTree = "<group>"; };
-		D4603A6122A2720400885428 /* Manna.Energy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.Energy.swift; sourceTree = "<group>"; };
 		D464BA5F22C737260069623C /* Karamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D467E884242D2AB0006325E0 /* Manna.Sprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.Sprite.swift; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
@@ -288,7 +286,6 @@
 			isa = PBXGroup;
 			children = (
 				D4E7FE2D23E6BD2A0043D57D /* Manna.swift */,
-				D4603A6122A2720400885428 /* Manna.Energy.swift */,
 				D467E884242D2AB0006325E0 /* Manna.Sprite.swift */,
 			);
 			path = Manna;
@@ -563,7 +560,6 @@
 				D4B00912241B8BB3007FDD6F /* Pollenator.swift in Sources */,
 				D41787062430D5090025EC00 /* BarChart.swift in Sources */,
 				D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */,
-				D464BA5222C737260069623C /* Manna.Energy.swift in Sources */,
 				D4BB6E77234EDCA500529819 /* Apoptosize.swift in Sources */,
 				D4BD1DCA23C088C200CE0753 /* CellKeys.swift in Sources */,
 				D464BA5522C737260069623C /* Extensions.swift in Sources */,

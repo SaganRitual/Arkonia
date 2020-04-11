@@ -10,6 +10,7 @@ extension Manna.Sprite {
 
     private static func bloomAction(
         _ timeRequiredForFullBloom: TimeInterval,
+        _ timingFunction: @escaping (Float) -> Float,
         _ color: SKColor,
         _ scaleFactor: CGFloat? = nil
     ) -> SKAction {
@@ -17,6 +18,16 @@ extension Manna.Sprite {
             with: color, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
             duration: timeRequiredForFullBloom
         )
+
+        let fadeInAction = SKAction.fadeAlpha(
+            to: 0.4, duration: timeRequiredForFullBloom
+        )
+
+        colorAction.timingMode = .easeIn
+        fadeInAction.timingMode = .easeIn
+
+        colorAction.timingFunction = timingFunction
+        fadeInAction.timingFunction = timingFunction
 
         var group = [colorAction, fadeInAction]
 
@@ -43,18 +54,29 @@ extension Manna.Sprite {
         sprite.colorBlendFactor > Arkonia.mannaColorBlendMinimum
     }
 
-    func bloom(maturity: TimeInterval, color: SKColor, scaleFactor: CGFloat) {
-        // Select for arkons that leave the manna to bloom more, in order to
-        // get more nutrition. If they eat it too early, it will take longer to
-        // rebloom to full nutritional value
-        let recoveryRatio = maturity < 1 ? 1 - maturity : 0
-        let timeRequiredForFullBloom = Arkonia.mannaFullGrowthDurationSeconds * (1 + recoveryRatio)
-
-        let toRun = Manna.Sprite.bloomAction(timeRequiredForFullBloom, color, scaleFactor)
+    func bloom(_ timeRequiredForFullBloom: Double, color: SKColor, scaleFactor: CGFloat) {
+        let toRun = Manna.Sprite.bloomAction(
+            timeRequiredForFullBloom, bloomTimingFunction, color, scaleFactor
+        )
 
         MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
 
         sprite.run(toRun)
+    }
+
+    func bloomTimingFunction(_ inputTime: Float) -> Float {
+        // See how we feel about an 80/20 kind of thing, where we have to be 80%
+        // mature to reach 20% of our nutritional value, then there is a big burst
+        // to full nutrition during the last 20% of maturation
+        // The 80/20 rule is more generally n / (1 - n)
+        // SpriteKit gives us 0.0..<1.0
+
+        let eighty: Float = 0.8
+        let twenty: Float = 1.0 - eighty
+
+        return inputTime < eighty ?
+                         (twenty / eighty) * inputTime:
+                twenty + (eighty / twenty) * (inputTime - eighty)
     }
 
     func firstBloom(at cell: GridCell) {
