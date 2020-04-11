@@ -51,7 +51,7 @@ extension WorkItems {
 
         func d() {
             seedWorld()
-            Census.shared.updateReports(ages, worldClock)
+            Census.shared.updateReports(worldClock)
         }
 
         a()

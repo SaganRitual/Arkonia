@@ -18,6 +18,7 @@ class Manna {
     }
 
     fileprivate let energy = Manna.Energy()
+    fileprivate var entropyFactor = Arkonia.selectionPressureFactor
     fileprivate let fishNumber: Int
     fileprivate var mostRecentBloomTime: Date
     let sprite: Manna.Sprite
@@ -98,7 +99,16 @@ extension Manna {
 
         let now = Date()
         let growthDuration = mostRecentBloomTime.distance(to: now)
-        let maturity = min(1, growthDuration / Arkonia.mannaFullGrowthDurationSeconds)
+
+        let maturity = min(
+            1,
+            growthDuration / (self.entropyFactor * Arkonia.mannaFullGrowthDurationSeconds)
+        )
+
+        // We get a bit more tired each time we're grazed, such that reaching
+        // nutritional maturity takes a bit longer every time
+        self.entropyFactor *= 2
+
         sprite.bloom(maturity: maturity, color: fs.node.fillColor, scaleFactor: fs.node.xScale)
     }
 }

@@ -73,19 +73,14 @@ extension Census {
 }
 
 extension Census {
-    func updateReports(_ ages: [Int], _ worldClock: Int) {
-        if ages.isEmpty { return }
-
-        let greatestAge = ages.last!
-
+    func updateReports(_ worldClock: Int) {
         self.rCOffspring.data.text = String(format: "%d", highWaterCOffspring)
         self.rHighWaterPopulation.data.text = String(highWaterPopulation)
         self.rPopulation.data.text = String(population)
         self.rBirths.data.text = String(births)
         self.rLiveNeurons.data.text = String(cLiveNeurons)
 
-        let n = max(greatestAge, highWaterAge)
-        rHighWaterAge.data.text = ageFormatter.string(from: Double(n))
+        rHighWaterAge.data.text = ageFormatter.string(from: Double(highWaterAge))
 
         localTime = worldClock
         Debug.log(level: 155) { "updateReports highwaterAge = \(highWaterAge)" }
@@ -130,5 +125,7 @@ extension Census {
         cLiveNeurons -= cNeuronsOfDeceased
         highWaterAge = max(highWaterAge, ageOfDeceased)
         population -= 1
+
+        Debug.log(level: 170) { "registerDeath \(nameOfDeceased) at \(worldTime), aged \(ageOfDeceased), highwater \(highWaterAge)" }
     }
 }
