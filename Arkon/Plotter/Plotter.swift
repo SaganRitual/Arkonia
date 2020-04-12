@@ -1,6 +1,7 @@
 import Foundation
 
 class Plotter {
+//    static let histogram = Debug.Histogram()
     weak var scratch: Scratchpad!
 
     init(_ scratch: Scratchpad) { self.scratch = scratch }
@@ -30,7 +31,8 @@ class Plotter {
         }
 
         func c(_ catchDumbMistakes: DispatchQueueID) {
-            self.setRoute(scratch.gridInputs, sg) { self.scratch.cellShuttle = $0; d()  }
+            self.setRoute(scratch.gridInputs, sg) {
+                self.scratch.cellShuttle = $0; self.scratch.jumpSpeed = $1; d()  }
         }
 
         // 97298509+

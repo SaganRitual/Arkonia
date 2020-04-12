@@ -8,13 +8,13 @@ class Arkonia {
     static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.75
 
-    static let senseGridCRings = 5
+    static let senseGridCRings = 8
     static let senseGridSide = 1 + 2 * senseGridCRings
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeuronsSpatial = cSenseGridlets * 2
     static let cSenseNeuronsNonSpatial = 4 + cPollenators * 2
     static let cSenseNeurons = cSenseNeuronsSpatial + cSenseNeuronsNonSpatial
-    static let cMotorNeurons = 1
+    static let cMotorNeurons = 2
     static let cMotorGridlets = cSenseGridlets - 1
 
     static let allowSpawning = true
@@ -48,8 +48,7 @@ class Arkonia {
     static let mannaRebloomDelayMinimum: TimeInterval = 3
     static let mannaRebloomDelayMaximum: TimeInterval = 5
 
-    static let arkonMinMoveDuration: TimeInterval = 0.17
-    static let arkonMaxMoveDuration: TimeInterval = 0.2
+    static let arkonStandardSpeedPixPerSec: CGFloat = 250
 
     static let arkonMinRestDuration: TimeInterval = 0
     static let arkonMaxRestDuration: TimeInterval = 0

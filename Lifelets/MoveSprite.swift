@@ -41,48 +41,22 @@ final class MoveSprite: Dispatchable {
         }
     }
 
-    private static func makeRestAction() -> SKAction? {
-        if Arkonia.arkonMinRestDuration == 0 ||
-            Arkonia.arkonMaxRestDuration == 0 { return nil }
-
-        let restDuration: TimeInterval
-
-        if Arkonia.arkonMinRestDuration == Arkonia.arkonMaxRestDuration {
-            restDuration = Arkonia.arkonMinMoveDuration
-        } else {
-            restDuration = TimeInterval.random(
-                in: Arkonia.arkonMinRestDuration..<Arkonia.arkonMaxRestDuration
-            )
-        }
-
-        return SKAction.wait(forDuration: restDuration)
-    }
-
-    private static func moveAction(_ stepper: Stepper, to position: CGPoint, _ onComplete: @escaping () -> Void) {
-        let moveDuration: TimeInterval
-
-        if Arkonia.arkonMinMoveDuration == Arkonia.arkonMaxMoveDuration {
-            moveDuration = Arkonia.arkonMinMoveDuration
-        } else {
-            let a = TimeInterval.random(in: Arkonia.arkonMinMoveDuration..<Arkonia.arkonMaxMoveDuration)
-            let b = a * TimeInterval.random(in: Arkonia.arkonMinMoveDuration..<Arkonia.arkonMaxMoveDuration)
-            moveDuration = b / TimeInterval.random(in: Arkonia.arkonMinMoveDuration..<Arkonia.arkonMaxMoveDuration)
-        }
-
-        if moveDuration == 0 { stepper.sprite.position = position; onComplete(); return }
+    private static func moveAction(_ stepper: Stepper, to targetPosition: CGPoint, _ onComplete: @escaping () -> Void) {
+        // The jump speed comes from the neural net
+        let m = max(0.5, CGFloat(1 + stepper.dispatch.scratch.jumpSpeed))
+        let moveSpeed = m * Arkonia.arkonStandardSpeedPixPerSec
+        let distanceInPix = stepper.gridCell.scenePosition.distance(to: targetPosition)
+        let moveDuration = TimeInterval(distanceInPix / moveSpeed)
 
         Debug.log(level: 104) { "Moving \(six(stepper.name))" }
         Debug.debugColor(stepper, .red, .magenta)
 
-        let move = SKAction.move(to: position, duration: moveDuration)
-        var aSequence = [move]
-        if let ra = makeRestAction() { aSequence.append(ra) }
-        let sequence = SKAction.sequence(aSequence)
-        stepper.sprite.run(sequence, completion: onComplete)
+        let move = SKAction.move(to: targetPosition, duration: moveDuration)
+        stepper.sprite.run(move, completion: onComplete)
     }
 
     private static func restArkon(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
-        guard let ra = makeRestAction() else { onComplete(); return }
-        stepper.sprite.run(ra, completion: onComplete)
+        let rest = SKAction.wait(forDuration: 0.02)
+        stepper.sprite.run(rest, completion: onComplete)
     }
 }

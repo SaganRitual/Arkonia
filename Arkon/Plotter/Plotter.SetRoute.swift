@@ -1,8 +1,12 @@
 import CoreGraphics
 
 extension Plotter {
+
+    enum MotorIndex: Int { case jumpSelector, jumpSpeed }
+
     func setRoute(
-        _ senseData: [Double], _ senseGrid: CellSenseGrid, _ onComplete: @escaping (CellShuttle) -> Void
+        _ senseData: [Double], _ senseGrid: CellSenseGrid,
+        _ onComplete: @escaping (CellShuttle, Double) -> Void
     ) {
         guard let scratch = scratch else { fatalError() }
         guard let stepper = scratch.stepper else { fatalError() }
@@ -13,17 +17,10 @@ extension Plotter {
         Debug.log(level: 122) { "senseData \(senseData)" }
         #endif
 
-        var motorOutputs = [(Int, Double)]()
+        var motorOutputs = [Double]()
 
         func a() {
-            net.getMotorOutputs(senseData) { rawOutputs in
-                #if DEBUG
-                Debug.log(level: 145) { "rawOutputs \(rawOutputs)" }
-                #endif
-
-                motorOutputs = zip(0..., rawOutputs).compactMap { position, rawOutput in
-                    (position, rawOutput)
-                }
+            net.getMotorOutputs(senseData) { motorOutputs = $0
 
                 // Get off the computation thread as quickly as possible
                 Dispatch.dispatchQueue.async(execute: b)
@@ -31,10 +28,8 @@ extension Plotter {
         }
 
         func b() {
-            let motorOutput_ = motorOutputs[0].1
-
             // Divide the circle into cMotorGridlets + 1 slices
-            let s0 = motorOutput_
+            let s0 = motorOutputs[MotorIndex.jumpSelector.rawValue]
             let s1 = s0 * Double(Arkonia.cMotorGridlets + 1)
             let s2 = floor(s1)
             let s3 = Int(s2)
@@ -58,7 +53,9 @@ extension Plotter {
             else { Debug.log(level: 167) { "from \(six(fromCell)) to targetOffset \(targetOffset) \(six(toCell))" } }
             #endif
 
-            onComplete(CellShuttle(fromCell, toCell))
+            let jumpSpeed = motorOutputs[MotorIndex.jumpSpeed.rawValue] * 2 - 1
+//            Plotter.histogram.histogrize(jumpSpeed, inputRange: -1..<1)
+            onComplete(CellShuttle(fromCell, toCell), jumpSpeed)
         }
 
         a()

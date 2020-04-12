@@ -14,6 +14,7 @@ class Scratchpad {
     var engagerKey: GridCell?
     var isRescheduled = false
     var isSpawning = false
+    var jumpSpeed = 0.0
     var name = ArkonName.empty
     weak var parentNet: Net?
     var plotter: Plotter?
