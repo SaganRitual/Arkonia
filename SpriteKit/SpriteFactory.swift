@@ -1,14 +1,15 @@
 import Foundation
 import SpriteKit
 
-enum SpriteUserDataKey {
-    case net9Portal, netHalfNeuronsPortal, netDisplay, uuid
+enum SpriteUserDataKey: String {
+    case net9Portal, netHalfNeuronsPortal, netDisplay, x, y, uuid
 }
 
 class SpriteFactory {
     static var shared: SpriteFactory!
 
     let arkonsPool: ThoraxPool
+    let dotsPool: SpritePool
     let fullNeuronsPool: SpritePool
     let halfNeuronsPool: SpritePool
     let linesPool: SpritePool
@@ -22,7 +23,7 @@ class SpriteFactory {
 
         (arkonsPool, nosesPool) = SpriteFactory.makeArkonsPools()
         (fullNeuronsPool, halfNeuronsPool, linesPool) = SpriteFactory.makeNetDisplayPools()
-        mannaPool = SpriteFactory.makeMannaPool()
+        (mannaPool, dotsPool) = SpriteFactory.makeMannaPool()
     }
 
     static func makeArkonsPools() -> (ThoraxPool, SpritePool) {
@@ -30,27 +31,33 @@ class SpriteFactory {
             DronePrototype(alpha: 1, color: .gray, colorBlendFactor: 1, zPosition: 0, zRotation: 0)
 
         let arkons = ThoraxPool(
-            "Arkons", "spark-thorax-large", GriddleScene.arkonsPortal, 1000, arkonPrototype
+            "Arkons", "spark-thorax-large", ArkoniaScene.arkonsPortal, 1000, arkonPrototype
         )
 
         let nosePrototype =
             DronePrototype(alpha: 1, color: .darkGray, colorBlendFactor: 1, zPosition: 0, zRotation: 0)
 
         let noses = SpritePool(
-            "Arkons", "spark-nose-large", GriddleScene.arkonsPortal, 1000, nosePrototype, nil
+            "Arkons", "spark-nose-large", ArkoniaScene.arkonsPortal, 1000, nosePrototype, nil
         )
 
         return (arkons, noses)
     }
 
-    static func makeMannaPool() -> SpritePool {
+    static func makeMannaPool() -> (SpritePool, SpritePool) {
         let mannaPrototype = DronePrototype(
             alpha: 1, color: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum, zPosition: 0, zRotation: 0
         )
 
-        return SpritePool(
-            "Manna", "manna", GriddleScene.arkonsPortal, Arkonia.cMannaMorsels, mannaPrototype, nil
+        let manna = SpritePool(
+            "Manna", "manna", ArkoniaScene.arkonsPortal, Arkonia.cMannaMorsels, mannaPrototype, nil
         )
+
+        let dots = SpritePool(
+            "Manna", "manna", ArkoniaScene.arkonsPortal, (LineGraph.cColumns * 2), mannaPrototype, nil
+        )
+
+        return (manna, dots)
     }
 
     // swiftlint:disable large_tuple

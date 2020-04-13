@@ -141,12 +141,16 @@ class ThoraxPool: SpritePool {
     func setupNetDisplayPortals() {
         Debug.log(level: 163) { "setupNetDisplayPortals" }
 
-        GriddleScene.netPortal.enumerateChildNodes(withName: "net_9portal_full*") { node, _ in
+        (0..<9).forEach {
+            let name = String(format: "net_9portal_full_%02d", $0)
+            let node = ArkoniaScene.netPortal.childNode(withName: name)!
             guard let portal = node as? SKSpriteNode else { fatalError() }
             self.netDisplayPortals.append(portal)
         }
 
-        GriddleScene.netPortalHalfNeurons.enumerateChildNodes(withName: "net_9portal_half*") { node, _ in
+        (0..<9).forEach {
+            let name = String(format: "net_9portal_halfNeurons_%02d", $0)
+            let node = ArkoniaScene.netPortalHalfNeurons.childNode(withName: name)!
             guard let portal = node as? SKSpriteNode else { fatalError() }
             self.halfNeuronDisplayPortals.append(portal)
         }

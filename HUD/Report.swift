@@ -5,7 +5,7 @@ class ReportFactory {
     private let prototype: Report
 
     init(hud: HUD) {
-        prototype = (hud.getPrototype(.report) as? Report)!
+        prototype = (hud.getMonitorPrototype(.report, from: hud.dashboards[0]) as? Report)!
         hud.releasePrototype(prototype)
     }
 

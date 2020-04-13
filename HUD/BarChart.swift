@@ -5,7 +5,7 @@ class BarChartFactory {
     private let prototype: BarChart
 
     init(hud: HUD) {
-        prototype = (hud.getPrototype(.barchart) as? BarChart)!
+        prototype = (hud.getMonitorPrototype(.barchart, from: hud.dashboards[0]) as? BarChart)!
 
         hud.releasePrototype(prototype)
     }

@@ -12,7 +12,7 @@ extension SKSpriteNode {
         guard let userData = self.userData
             else { failIf("'user data'"); return nil }
 
-        guard let entry = userData[spriteKey]
+        guard let entry = userData[spriteKey.rawValue]
             else { failIf("'entry' for \(spriteKey)"); return nil }
 
         return entry

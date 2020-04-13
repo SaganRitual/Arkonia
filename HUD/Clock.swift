@@ -16,7 +16,7 @@ class Clock {
         target: DispatchQueue.global()
     )
 
-    init(_ scene: GriddleScene) {
+    init(_ scene: ArkoniaScene) {
         clockReport = scene.reportArkonia.reportoid(1)
         foodValueReport = scene.reportArkonia.reportoid(3)
 

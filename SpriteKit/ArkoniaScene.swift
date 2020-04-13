@@ -17,7 +17,7 @@ struct Display {
     static var displayCycle: DisplayCycle = .limbo
 }
 
-class GriddleScene: SKScene, SKSceneDelegate {
+class ArkoniaScene: SKScene, SKSceneDelegate {
     private var tickCount = 0
 
     func didEvaluateActions(for scene: SKScene) {
@@ -29,7 +29,7 @@ class GriddleScene: SKScene, SKSceneDelegate {
         Display.displayCycle = .limbo
     }
 
-    static var shared: GriddleScene!
+    static var shared: ArkoniaScene!
 
     var clock: Clock?
     var hud: HUD!
@@ -40,12 +40,20 @@ class GriddleScene: SKScene, SKSceneDelegate {
     ]
 
     static var arkonsPortal: SKSpriteNode!
-    static var dashboardsPortal: SKSpriteNode!
+    static var dashboardsPortal0: SKSpriteNode!
+    static var dashboardsPortal1: SKSpriteNode!
     static var netPortal: SKSpriteNode!
     static var netPortalHalfNeurons: SKSpriteNode!
 
     var barChartFactory: BarChartFactory!
     var bcNeurons: BarChart!
+
+    var lineGraphFactory: LineGraphFactory!
+    var lgNeurons: LineGraph!
+    var lgGenes: LineGraph!
+    var lgOffspring: LineGraph!
+
+    var placeholderFactory: PlaceholderFactory!
 
     var reportArkonia: Report!
     var reportFactory: ReportFactory!
@@ -76,9 +84,39 @@ class GriddleScene: SKScene, SKSceneDelegate {
 
         bcNeurons = barChartFactory.newChart()
         bcNeurons.setChartLabel("Live Nodes")
-        hud.placeMonitor(bcNeurons, dashboard: 0, quadrant: 3)
+        hud.placeMonitor(bcNeurons, dashboard: 0, quadrant: 0)
 
         bcNeurons.start()
+    }
+
+    func buildLineGraphs() {
+        lineGraphFactory = LineGraphFactory(hud: hud, scene: self)
+
+        lgNeurons = lineGraphFactory.newGraph()
+        lgNeurons.setChartLabel("Neurons")
+        hud.placeMonitor(lgNeurons, dashboard: 1, quadrant: 3)
+
+//        lgGenes = lineGraphFactory.newGraph()
+//        lgGenes.maxInput = 500
+//        lgGenes.setChartLabel("Genes")
+//        lgGenes.pullDataAction = LineGraphUpdate.getCGeneUpdater(lgGenes)
+//        hud.placeMonitor(lgGenes, dashboard: 1, quadrant: 1)
+
+//        lgOffspring = lineGraphFactory.newGraph()
+//        lgOffspring.setChartLabel("Offspring")
+//        hud.placeMonitor(lgOffspring, dashboard: 1, quadrant: 2)
+
+        lgNeurons.start()
+//        lgGenes.start()
+    }
+
+    func buildPlaceholders() {
+        placeholderFactory = PlaceholderFactory(hud: hud)
+
+        [(0, 1)].forEach {
+            let p = placeholderFactory.newPlaceholder()
+            hud.placeMonitor(p, dashboard: $0.0, quadrant: $0.1)
+        }
     }
 
     func buildReports() {
@@ -89,24 +127,27 @@ class GriddleScene: SKScene, SKSceneDelegate {
         reportSundry.setReportoid(1, label: "Nodes", data: "0")
         reportSundry.setReportoid(2, label: "All births", data: "0")
         reportSundry.setReportoid(3, label: "", data: "")
-        hud.placeMonitor(reportSundry, dashboard: 0, quadrant: 2)
+        hud.placeMonitor(reportSundry, dashboard: 0, quadrant: 3)
 
         reportMisc = reportFactory.newReport()
         reportMisc.setTitle("High Water")
         reportMisc.setReportoid(1, label: "Age", data: "0")
         reportMisc.setReportoid(2, label: "Population", data: "0")
         reportMisc.setReportoid(3, label: "Offspring", data: "0")
-        hud.placeMonitor(reportMisc, dashboard: 0, quadrant: 0)
+        hud.placeMonitor(reportMisc, dashboard: 0, quadrant: 1)
 
         reportArkonia = reportFactory.newReport()
         reportArkonia.setTitle("Arkonia")
         reportArkonia.setReportoid(1, label: "Clock", data: "00:00:00")
         reportArkonia.setReportoid(2, label: "Population", data: "0")
         reportArkonia.setReportoid(3, label: "Food", data: "0")
-        hud.placeMonitor(reportArkonia, dashboard: 0, quadrant: 1)
+        hud.placeMonitor(reportArkonia, dashboard: 0, quadrant: 2)
 
-        reportMisc.start()
-        //        reportArkonia.start()
+//        reportMisc.start()
+
+        // We run the different elements of this report on separate threads,
+        // only because I haven't gotten around to cleaning up the HUD yet
+//        reportArkonia.start()
     }
 
     func loadScenePortal(_ portalName: String) -> SKSpriteNode {
@@ -119,40 +160,30 @@ class GriddleScene: SKScene, SKSceneDelegate {
     }
 
     override func didMove(to view: SKView) {
-        GriddleScene.shared = self
+        ArkoniaScene.shared = self
 
-        GriddleScene.arkonsPortal =         loadScenePortal("arkons_portal")
-        GriddleScene.dashboardsPortal =     loadScenePortal("dashboards_portal_backer")
-        GriddleScene.netPortal =            loadScenePortal("net_9portals_backer")
-        GriddleScene.netPortalHalfNeurons = loadScenePortal("net_9portals_half_neurons_backer")
+        ArkoniaScene.arkonsPortal =         loadScenePortal("arkons_portal")
+        ArkoniaScene.dashboardsPortal0 =    loadScenePortal("dashboards_portal_backer0")
+        ArkoniaScene.dashboardsPortal1 =    loadScenePortal("dashboards_portal_backer1")
+        ArkoniaScene.netPortal =            loadScenePortal("net_9portals_backer")
+        ArkoniaScene.netPortalHalfNeurons = loadScenePortal("net_9portals_half_neurons_backer")
 
-        // Position in the array is the zPosition, so 0 is the lowest layer
-        let portalsZorders: [SKNode] = [
-            GriddleScene.arkonsPortal,
-            GriddleScene.dashboardsPortal,
-            GriddleScene.netPortalHalfNeurons,
-            GriddleScene.netPortal
-        ]
+        ArkoniaScene.arkonsPortal.alpha = 1
 
-        (0..<portalsZorders.count).forEach { ss in
-            let dd = CGFloat(ss)
-            portalsZorders[ss].zPosition = dd
-        }
-
-        GriddleScene.arkonsPortal.alpha = 1
-
-        Grid.shared = Grid(on: GriddleScene.arkonsPortal)
+        Grid.shared = Grid(on: ArkoniaScene.arkonsPortal)
         Grid.shared.postInit()
 
         SpriteFactory.shared = SpriteFactory(scene: self)
 
-        Debug.log(level: 38) { "GriddleScene.arkonsPortal scale = \(GriddleScene.arkonsPortal.xScale) x \(GriddleScene.arkonsPortal.yScale)" }
+        Debug.log(level: 38) { "GriddleScene.arkonsPortal scale = \(ArkoniaScene.arkonsPortal.xScale) x \(ArkoniaScene.arkonsPortal.yScale)" }
 
         self.scene!.delegate = self
 
         self.hud = HUD(scene: self)
         self.buildReports()
-        self.buildBarCharts()
+        self.buildLineGraphs()
+//        self.buildBarCharts()
+        self.buildPlaceholders()
 
         MannaCannon.shared = MannaCannon()
         MannaCannon.shared!.postInit()

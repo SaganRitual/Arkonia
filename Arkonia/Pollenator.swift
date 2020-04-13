@@ -3,7 +3,7 @@ import SpriteKit
 class Pollenator {
     var currentPosition = GridCell.getRandomCell()
     var firstPass = true
-    let node = SKShapeNode(circleOfRadius: GriddleScene.arkonsPortal.size.hypotenuse / 3)
+    let node = SKShapeNode(circleOfRadius: ArkoniaScene.arkonsPortal.size.hypotenuse / 3)
     var scale = CGFloat.zero
     var totalDistance = CGFloat.zero
 
@@ -24,7 +24,7 @@ class Pollenator {
         node.setScale(1)
         node.position = currentPosition.scenePosition
 
-        GriddleScene.arkonsPortal.addChild(node)
+        ArkoniaScene.arkonsPortal.addChild(node)
 
         move()
     }

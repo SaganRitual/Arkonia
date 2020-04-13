@@ -32,7 +32,7 @@ class Census {
         target: DispatchQueue.global()
     )
 
-    init(_ scene: GriddleScene) {
+    init(_ scene: ArkoniaScene) {
         rLiveNeurons = scene.reportSundry.reportoid(1)
         rBirths = scene.reportSundry.reportoid(2)
 
@@ -99,7 +99,6 @@ extension Census {
 
         let n = myNet?.cNeurons ?? 0
         self.cLiveNeurons += n
-        GriddleScene.shared.bcNeurons.addSample(n)
 
         myParent?.cOffspring += 1
 
@@ -120,11 +119,10 @@ extension Census {
     func registerDeath(_ nameOfDeceased: ArkonName, _ cNeuronsOfDeceased: Int, _ worldTime: Int) {
         let ageOfDeceased = Census.getAge(of: nameOfDeceased, at: worldTime)
 
-        GriddleScene.shared.bcNeurons.subtractSample(cNeuronsOfDeceased)
-
-        cLiveNeurons -= cNeuronsOfDeceased
         highWaterAge = max(highWaterAge, ageOfDeceased)
         population -= 1
+
+        archive.removeValue(forKey: nameOfDeceased)
 
         Debug.log(level: 170) { "registerDeath \(nameOfDeceased) at \(worldTime), aged \(ageOfDeceased), highwater \(highWaterAge)" }
     }

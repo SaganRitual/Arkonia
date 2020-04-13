@@ -38,20 +38,32 @@ extension WorkItems {
     typealias OnCompleteStringArray = ([String]) -> Void
 
     static func updateReports() {
-        guard let portal = GriddleScene.arkonsPortal else { fatalError() }
+        guard let portal = ArkoniaScene.arkonsPortal else { fatalError() }
 
         var ages = [Int]()
+        var worldClock = 0
+
+        func a() { getAges { ages = $0; worldClock = $1; b() } }
+
+        func b() {
+            seedWorld()
+            Census.shared.updateReports(worldClock)
+        }
+
+        a()
+    }
+
+    static func getAges(_ onComplete: @escaping ([Int], Int) -> Void) {
+        guard let portal = ArkoniaScene.arkonsPortal else { fatalError() }
+
         var names = [ArkonName]()
         var worldClock = 0
 
-        func a() { Clock.getWorldClock              { worldClock = $0; b() } }
+        func a() { Clock.getWorldClock        { worldClock = $0; b() } }
 
         func b() { getNames(portal)           { names.append(contentsOf: $0); c() } }
-        func c() { getAges(names, worldClock) { ages = $0; d() } }
-
-        func d() {
-            seedWorld()
-            Census.shared.updateReports(worldClock)
+        func c() {
+            getAges(names, worldClock) { onComplete($0, worldClock) }
         }
 
         a()
@@ -73,7 +85,7 @@ extension WorkItems {
 
         func a() { Census.dispatchQueue.async(execute: b) }
 
-        func b() { names = Census.shared.archive.keys.filter { $0 != ArkonName.empty }; c() }
+        func b() { names = Census.shared.archive.keys.map { $0 }; c() }
 
         // I don't recall why I'm calling onComplete on the scene dispatch; look into it
         func c() { SceneDispatch.shared.schedule { onComplete(names) } }
