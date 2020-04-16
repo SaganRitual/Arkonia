@@ -73,7 +73,7 @@ extension WorkItems {
         _ names: [ArkonName], _ currentTime: Int, _ onComplete: @escaping OnCompleteIntArray
     ) {
         Census.dispatchQueue.async {
-            let ages = names.map({ Census.getAge(of: $0, at: currentTime) }).sorted()
+            let ages = names.compactMap({ Census.getAge(of: $0, at: currentTime, require: false) }).sorted()
             onComplete(ages)
         }
     }

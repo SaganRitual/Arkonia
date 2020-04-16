@@ -2,15 +2,11 @@ import Foundation
 import SpriteKit
 
 class BarChartFactory {
-    private let prototype: BarChart
+    let hud: HUD
 
-    init(hud: HUD) {
-        prototype = (hud.getMonitorPrototype(.barchart, from: hud.dashboards[0]) as? BarChart)!
+    init(hud: HUD) { self.hud = hud }
 
-        hud.releasePrototype(prototype)
-    }
-
-    func newChart() -> BarChart { return (prototype.copy() as? BarChart)! }
+    func newChart() -> BarChart { (hud.prototypes.barchart.copy() as? BarChart)! }
 }
 
 final class BarChart: SKSpriteNode {

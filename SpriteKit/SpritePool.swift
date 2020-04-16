@@ -98,11 +98,11 @@ class ThoraxPool: SpritePool {
     }
 
     override func getDrone() -> SKSpriteNode {
-        Debug.log(level: 163) { "getDrone.0" }
+        Debug.log(level: 172) { "getDrone.0" }
         if let netDisplayPortal = netDisplayPortals.popLast(),
             let halfNeuronDisplayPortal = halfNeuronDisplayPortals.popLast()
         {
-            Debug.log(level: 163) { "getDrone.1" }
+            Debug.log(level: 172) { "getDrone.1" }
             let drone = super.getDrone()
             drone.userData = [:]
             drone.userData![SpriteUserDataKey.net9Portal] = netDisplayPortal
@@ -110,12 +110,8 @@ class ThoraxPool: SpritePool {
             return drone
         }
 
-        if let readyDrone = parkedDronesWithNetDisplay.popLast() {
-            Debug.log(level: 163) { "getDrone.2" }
-            return readyDrone }
-        else {
-            Debug.log(level: 163) { "getDrone.3" }
-            return super.getDrone() }
+        if let readyDrone = parkedDronesWithNetDisplay.popLast() { return readyDrone }
+        else { return super.getDrone() }
     }
 
     override func releaseSprite(_ sprite: SKSpriteNode) {
@@ -141,16 +137,12 @@ class ThoraxPool: SpritePool {
     func setupNetDisplayPortals() {
         Debug.log(level: 163) { "setupNetDisplayPortals" }
 
-        (0..<9).forEach {
-            let name = String(format: "net_9portal_full_%02d", $0)
-            let node = ArkoniaScene.netPortal.childNode(withName: name)!
+        ArkoniaScene.netPortal.enumerateChildNodes(withName: "net_9portal_full*") { node, _ in
             guard let portal = node as? SKSpriteNode else { fatalError() }
             self.netDisplayPortals.append(portal)
         }
 
-        (0..<9).forEach {
-            let name = String(format: "net_9portal_halfNeurons_%02d", $0)
-            let node = ArkoniaScene.netPortalHalfNeurons.childNode(withName: name)!
+        ArkoniaScene.netPortalHalfNeurons.enumerateChildNodes(withName: "net_9portal_half*") { node, _ in
             guard let portal = node as? SKSpriteNode else { fatalError() }
             self.halfNeuronDisplayPortals.append(portal)
         }

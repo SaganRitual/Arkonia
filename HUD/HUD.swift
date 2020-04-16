@@ -1,124 +1,123 @@
 import Foundation
 import SpriteKit
 
-class Dashboard {
-    var node: SKNode
-    var quadrants: [Quadrant]
-
-    init(node: SKNode, quadrants: [Quadrant]) {
-        self.node = node
-        self.quadrants = quadrants
-    }
+enum HudPrototype: String {
+    case barchart_monitor_prototype, dashboard_backer, empty_monitor_prototype
+    case linegraph_monitor_prototype, report_monitor_prototype
 }
 
-class Quadrant {
-    var monitor: SKSpriteNode?
-    let quadrantPosition: CGPoint
+enum HudLayout: String, CaseIterable {
+    case dashboards_portal_1x1, dashboards_portal_1x2
+    case dashboards_portal_2x1, dashboards_portal_2x2
+}
 
-    init(monitor: SKSpriteNode, quadrantPosition: CGPoint) {
-        self.monitor = monitor
-        self.quadrantPosition = quadrantPosition
-    }
+class EmptyMonitorFactory {
+    let hud: HUD
+
+    init(hud: HUD) { self.hud = hud }
+
+    func newPlaceholder() -> SKSpriteNode { return (hud.prototypes.empty.copy() as? SKSpriteNode)! }
 }
 
 class HUD {
-    enum MonitorPrototype: Int, CaseIterable {
-        case report = 0, barchart = 1, placeholder1c = 2, linegraph = 3
+    struct Prototypes {
+        init(
+            _ barchart: BarChart, _ dashboard: SKSpriteNode, _ empty: SKSpriteNode,
+            _ lineGraph: LineGraph, _ report: Report
+        ) {
+            self.barchart = barchart
+            self.dashboard = dashboard
+            self.empty = empty
+            self.lineGraph = lineGraph
+            self.report = report
+
+            [barchart, dashboard, empty, lineGraph, report].forEach { $0.removeFromParent() }
+        }
+
+        let barchart: BarChart
+        let dashboard: SKSpriteNode
+        let empty: SKSpriteNode
+        let lineGraph: LineGraph
+        let report: Report
     }
 
-    enum PlaceholderPrototype: Int, CaseIterable {
-        case placeholder2a = 0, placeholder2b = 1, placeholder2c = 2, placeholder2d = 3
-    }
+    enum DashboardId { case top, middle, bottom }
 
-    static private let monitorPrototypeNames: [MonitorPrototype: String] = [
-        .report: "report_monitor_prototype",
-        .barchart: "barchart_monitor_prototype",
-        .placeholder1c: "placeholder1c",
-        .linegraph: "linegraph_monitor_prototype"
-    ]
-
-    static private let placeholderPrototypeNames: [PlaceholderPrototype: String] = [
-        .placeholder2a: "placeholder2a",
-        .placeholder2b: "placeholder2b",
-        .placeholder2c: "placeholder2c",
-        .placeholder2d: "placeholder2d"
-    ]
-
-    private(set) var dashboards = [Dashboard]()
-    private let scene: SKScene
+    private(set) var dashboards = [DashboardId: SKSpriteNode]()
+    private(set) var emptyMonitorFactory: EmptyMonitorFactory!
+    let layouts: [HudLayout: SKNode]
+    let prototypes: Prototypes
+    let scene: SKScene
 
     init(scene: SKScene) {
         self.scene = scene
+        self.layouts = HUD.unpackLayouts(scene)
+        self.prototypes = HUD.unpackPrototypes(scene)
+        self.emptyMonitorFactory = EmptyMonitorFactory(hud: self)
+    }
 
-        let monitorPrototypes = HUD.unpackPrototypes(ArkoniaScene.dashboardsPortal0, scene: scene)
-        dashboards.append(Dashboard(node: ArkoniaScene.dashboardsPortal0, quadrants: monitorPrototypes))
+    func buildDashboards() {
+        let dashboardsFactory = DashboardFactory(hud: self)
 
-        let placeholderPrototypes = HUD.unpackPlaceholders(ArkoniaScene.dashboardsPortal1, scene: scene)
-        dashboards.append(Dashboard(node: ArkoniaScene.dashboardsPortal1, quadrants: placeholderPrototypes))
+        let bottom = dashboardsFactory.newDashboard()
+        let bx = bottom.size.width, by = -bottom.size.height
+        bottom.position = CGPoint(x: bx, y: by)
+        scene.addChild(bottom)
+
+        let middle = dashboardsFactory.newDashboard()
+        let mx = middle.size.width, my = CGFloat.zero
+        middle.position = CGPoint(x: mx, y: my)
+        scene.addChild(middle)
+
+        dashboards[.middle] = middle
+        dashboards[.bottom] = bottom
+    }
+
+    func placeDashoid(
+        _ dashoid: SKSpriteNode, on dashboardId: DashboardId,
+        quadrant: Int, layoutId: HudLayout
+    ) {
+        guard let layout = layouts[layoutId] else { fatalError() }
+        dashoid.position =
+            layout.children
+                .filter({ $0.name != nil })
+                .sorted(by: { $0.name! < $1.name! })[quadrant].position
+
+        dashboards[dashboardId]!.addChild(dashoid)
+    }
+
+    private static func unpackLayouts(_ scene: SKScene) -> [HudLayout: SKNode] {
+        return HudLayout.allCases.reduce(into: [:]) { result, prototypeId in
+            result[prototypeId] =
+                (scene.childNode(withName: prototypeId.rawValue) as? SKSpriteNode)!
+        }
+    }
+
+    private static func unpackPrototypes(_ scene: SKScene) -> Prototypes {
+        guard let bc = scene.childNode(
+            withName: HudPrototype.barchart_monitor_prototype.rawValue
+        ) as? BarChart else { fatalError() }
+
+        guard let db = scene.childNode(
+            withName: HudPrototype.dashboard_backer.rawValue
+        ) as? SKSpriteNode else { fatalError() }
+
+        guard let em = scene.childNode(
+            withName: HudPrototype.empty_monitor_prototype.rawValue
+        ) as? SKSpriteNode else { fatalError() }
+
+        guard let lg = scene.childNode(
+            withName: HudPrototype.linegraph_monitor_prototype.rawValue
+        ) as? LineGraph else { fatalError() }
+
+        guard let rp = scene.childNode(
+            withName: HudPrototype.report_monitor_prototype.rawValue
+        ) as? Report else { fatalError() }
+
+        return Prototypes(bc, db, em, lg, rp)
     }
 
     func getNetPortal() -> SKNode {
         return scene.childNode(withName: "net_portal")!
-    }
-
-    func getMonitorPrototype(_ whichOne: MonitorPrototype, from dashboard: Dashboard) -> SKNode? {
-        return dashboard.quadrants[whichOne.rawValue].monitor
-    }
-
-    func getPlaceholderPrototype(_ whichOne: PlaceholderPrototype, from dashboard: Dashboard) -> SKNode? {
-        return dashboard.quadrants[whichOne.rawValue].monitor
-    }
-
-    func placeMonitor(_ monitor: SKSpriteNode, dashboard whichDashboard: Int, quadrant whichQuadrant: Int) {
-        let dashboard = dashboards[whichDashboard]
-        let quadrant = dashboard.quadrants[whichQuadrant]
-
-        quadrant.monitor?.removeFromParent()
-
-        if let x = monitor.getKeyField(SpriteUserDataKey.x, require: false) as? CGFloat,
-            let y = monitor.getKeyField(SpriteUserDataKey.y, require: false) as? CGFloat {
-            monitor.position = CGPoint(x: x, y: y)
-        } else {
-            monitor.position = quadrant.quadrantPosition
-        }
-
-        dashboard.node.addChild(monitor)
-    }
-
-    func releasePrototype(_ thePrototype: SKNode) {
-        thePrototype.removeFromParent()
-    }
-
-    static private func unpackPrototypes(_ dashboard: SKNode, scene: SKScene) -> [Quadrant] {
-        let quadrants: [Quadrant] = MonitorPrototype.allCases.compactMap { monitorType in
-            guard let name = monitorPrototypeNames[monitorType] else { fatalError() }
-
-            guard let monitorPrototype: SKSpriteNode =
-                dashboard.childNode(withName: name) as? SKSpriteNode else {
-                    Debug.log { "monitorPrototype \(monitorType)(\(name)) not found in \(dashboard.name!)" }
-                    return nil
-            }
-
-            return Quadrant(
-                monitor: monitorPrototype, quadrantPosition: monitorPrototype.position
-            )
-        }
-
-        return quadrants
-    }
-
-    static private func unpackPlaceholders(_ dashboard: SKNode, scene: SKScene) -> [Quadrant] {
-        let quadrants: [Quadrant] = PlaceholderPrototype.allCases.compactMap { placeholderType in
-            guard let name = placeholderPrototypeNames[placeholderType] else { fatalError() }
-
-            guard let placeholderPrototype: SKSpriteNode =
-                dashboard.childNode(withName: name) as? SKSpriteNode else { return nil }
-
-            return Quadrant(
-                monitor: placeholderPrototype, quadrantPosition: placeholderPrototype.position
-            )
-        }
-
-        return quadrants
     }
 }

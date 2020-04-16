@@ -8,7 +8,7 @@ extension DispatchQueue {
             let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
             let duration = stop - start
 
-            ArkoniaScene.shared.bcNeurons.addSample(Int(duration / 1000000))
+//            ArkoniaScene.shared.bcNeurons.addSample(Int(duration / 1000000))
 
             if duration > DispatchQueue.highWaterAsync {
                 Debug.log(level: 162) { "highwaterAsync \(duration)" }

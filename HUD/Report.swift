@@ -2,14 +2,11 @@ import Foundation
 import SpriteKit
 
 class ReportFactory {
-    private let prototype: Report
+    let hud: HUD
 
-    init(hud: HUD) {
-        prototype = (hud.getMonitorPrototype(.report, from: hud.dashboards[0]) as? Report)!
-        hud.releasePrototype(prototype)
-    }
+    init(hud: HUD) { self.hud = hud }
 
-    func newReport() -> Report { return (prototype.copy() as? Report)! }
+    func newReport() -> Report { return (hud.prototypes.report.copy() as? Report)! }
 }
 
 struct Reportoid {

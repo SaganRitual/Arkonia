@@ -40,20 +40,15 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
     ]
 
     static var arkonsPortal: SKSpriteNode!
-    static var dashboardsPortal0: SKSpriteNode!
-    static var dashboardsPortal1: SKSpriteNode!
     static var netPortal: SKSpriteNode!
     static var netPortalHalfNeurons: SKSpriteNode!
 
     var barChartFactory: BarChartFactory!
-    var bcNeurons: BarChart!
 
     var lineGraphFactory: LineGraphFactory!
     var lgNeurons: LineGraph!
     var lgGenes: LineGraph!
     var lgOffspring: LineGraph!
-
-    var placeholderFactory: PlaceholderFactory!
 
     var reportArkonia: Report!
     var reportFactory: ReportFactory!
@@ -81,20 +76,21 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
 
     func buildBarCharts() {
         barChartFactory = BarChartFactory(hud: hud)
-
-        bcNeurons = barChartFactory.newChart()
-        bcNeurons.setChartLabel("Live Nodes")
-        hud.placeMonitor(bcNeurons, dashboard: 0, quadrant: 0)
-
-        bcNeurons.start()
     }
 
     func buildLineGraphs() {
+        [0, 2].forEach {
+            let p = hud.emptyMonitorFactory.newPlaceholder()
+            hud.placeDashoid(p, on: .middle, quadrant: $0, layoutId: .dashboards_portal_1x2)
+        }
+
         lineGraphFactory = LineGraphFactory(hud: hud, scene: self)
 
         lgNeurons = lineGraphFactory.newGraph()
         lgNeurons.setChartLabel("Neurons")
-        hud.placeMonitor(lgNeurons, dashboard: 1, quadrant: 3)
+
+        hud.placeDashoid(lgNeurons, on: .middle, quadrant: 1, layoutId: .dashboards_portal_1x2)
+//        hud.placeMonitor(lgNeurons, dashboard: 1, quadrant: 3)
 
 //        lgGenes = lineGraphFactory.newGraph()
 //        lgGenes.maxInput = 500
@@ -110,40 +106,43 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
 //        lgGenes.start()
     }
 
-    func buildPlaceholders() {
-        placeholderFactory = PlaceholderFactory(hud: hud)
-
-        [(0, 1)].forEach {
-            let p = placeholderFactory.newPlaceholder()
-            hud.placeMonitor(p, dashboard: $0.0, quadrant: $0.1)
-        }
-    }
-
     func buildReports() {
-        reportFactory = ReportFactory(hud: hud)
+        let p = hud.emptyMonitorFactory.newPlaceholder()
+        hud.placeDashoid(p, on: .bottom, quadrant: 3, layoutId: .dashboards_portal_2x2)
 
-        reportSundry = reportFactory.newReport()
-        reportSundry.setTitle("Sundry")
-        reportSundry.setReportoid(1, label: "Nodes", data: "0")
-        reportSundry.setReportoid(2, label: "All births", data: "0")
-        reportSundry.setReportoid(3, label: "", data: "")
-        hud.placeMonitor(reportSundry, dashboard: 0, quadrant: 3)
+        reportFactory = ReportFactory(hud: hud)
 
         reportMisc = reportFactory.newReport()
         reportMisc.setTitle("High Water")
         reportMisc.setReportoid(1, label: "Age", data: "0")
         reportMisc.setReportoid(2, label: "Population", data: "0")
         reportMisc.setReportoid(3, label: "Offspring", data: "0")
-        hud.placeMonitor(reportMisc, dashboard: 0, quadrant: 1)
+
+        hud.placeDashoid(
+            reportMisc, on: .bottom, quadrant: 0, layoutId: .dashboards_portal_2x2
+        )
 
         reportArkonia = reportFactory.newReport()
         reportArkonia.setTitle("Arkonia")
         reportArkonia.setReportoid(1, label: "Clock", data: "00:00:00")
         reportArkonia.setReportoid(2, label: "Population", data: "0")
         reportArkonia.setReportoid(3, label: "Food", data: "0")
-        hud.placeMonitor(reportArkonia, dashboard: 0, quadrant: 2)
 
-//        reportMisc.start()
+        hud.placeDashoid(
+            reportArkonia, on: .bottom, quadrant: 1, layoutId: .dashboards_portal_2x2
+        )
+
+        reportSundry = reportFactory.newReport()
+        reportSundry.setTitle("Sundry")
+        reportSundry.setReportoid(1, label: "All births", data: "0")
+        reportSundry.setReportoid(2, label: "", data: "")
+        reportSundry.setReportoid(3, label: "", data: "")
+
+        hud.placeDashoid(
+            reportSundry, on: .bottom, quadrant: 2, layoutId: .dashboards_portal_2x2
+        )
+
+        reportMisc.start()
 
         // We run the different elements of this report on separate threads,
         // only because I haven't gotten around to cleaning up the HUD yet
@@ -163,8 +162,6 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         ArkoniaScene.shared = self
 
         ArkoniaScene.arkonsPortal =         loadScenePortal("arkons_portal")
-        ArkoniaScene.dashboardsPortal0 =    loadScenePortal("dashboards_portal_backer0")
-        ArkoniaScene.dashboardsPortal1 =    loadScenePortal("dashboards_portal_backer1")
         ArkoniaScene.netPortal =            loadScenePortal("net_9portals_backer")
         ArkoniaScene.netPortalHalfNeurons = loadScenePortal("net_9portals_half_neurons_backer")
 
@@ -180,10 +177,10 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         self.scene!.delegate = self
 
         self.hud = HUD(scene: self)
+        self.hud.buildDashboards()
         self.buildReports()
         self.buildLineGraphs()
 //        self.buildBarCharts()
-        self.buildPlaceholders()
 
         MannaCannon.shared = MannaCannon()
         MannaCannon.shared!.postInit()

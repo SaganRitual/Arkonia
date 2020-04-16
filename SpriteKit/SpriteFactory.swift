@@ -1,8 +1,8 @@
 import Foundation
 import SpriteKit
 
-enum SpriteUserDataKey: String {
-    case net9Portal, netHalfNeuronsPortal, netDisplay, x, y, uuid
+enum SpriteUserDataKey {
+    case net9Portal, netHalfNeuronsPortal, netDisplay, x, y, uuid, lineGraphDots
 }
 
 class SpriteFactory {
@@ -53,8 +53,10 @@ class SpriteFactory {
             "Manna", "manna", ArkoniaScene.arkonsPortal, Arkonia.cMannaMorsels, mannaPrototype, nil
         )
 
+        // Dots for the line graph are the same as manna dots, we just keep them in a
+        // different pool
         let dots = SpritePool(
-            "Manna", "manna", ArkoniaScene.arkonsPortal, (LineGraph.cColumns * 2), mannaPrototype, nil
+            "Manna", "manna", nil, (LineGraph.cColumns * 2), mannaPrototype, .lineGraphDots
         )
 
         return (manna, dots)

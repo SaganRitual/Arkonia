@@ -41,8 +41,8 @@
 		D464BA5822C737260069623C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D467E885242D2AB0006325E0 /* Manna.Sprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D467E884242D2AB0006325E0 /* Manna.Sprite.swift */; };
+		D47FDDC424485BC500C89A1E /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FDDC324485BC500C89A1E /* Dashboard.swift */; };
 		D488AC882443969D00B94685 /* IndexedRingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D488AC872443969D00B94685 /* IndexedRingBuffer.swift */; };
-		D488AC8D2443E12500B94685 /* Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D488AC8C2443E12500B94685 /* Placeholder.swift */; };
 		D495F0B9233FA6C2007D6E86 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D441B99A229CFFA800FB7057 /* Metabolism.swift */; };
 		D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
 		D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BE922EA58E900C15F59 /* Stepper.swift */; };
@@ -134,8 +134,8 @@
 		D46B1D8622816F58003D711C /* NetGraphics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetGraphics.swift; sourceTree = "<group>"; };
 		D46B1D88228173BE003D711C /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		D46B1D9F22826994003D711C /* Overload2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overload2D.swift; sourceTree = "<group>"; };
+		D47FDDC324485BC500C89A1E /* Dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		D488AC872443969D00B94685 /* IndexedRingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedRingBuffer.swift; sourceTree = "<group>"; };
-		D488AC8C2443E12500B94685 /* Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Placeholder.swift; sourceTree = "<group>"; };
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D495F0CE233FAB01007D6E86 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D497C1A923D966A70078D39F /* SpritePool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpritePool.swift; sourceTree = "<group>"; };
@@ -153,7 +153,6 @@
 		D4B00917241FD5B8007FDD6F /* Cbuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cbuffer.swift; sourceTree = "<group>"; };
 		D4B2AC8423D5983200246746 /* SceneDispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDispatch.swift; sourceTree = "<group>"; };
 		D4B4293C22DAEC7E0036C904 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
-		D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDiagram.swift; sourceTree = "<group>"; };
 		D4B4294022DAEC7E0036C904 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		D4B9512024349A8800BD2085 /* ArkonName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonName.swift; sourceTree = "<group>"; };
 		D4B9512224351EAF00BD2085 /* ArkoniaScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ArkoniaScene.sks; sourceTree = "<group>"; };
@@ -335,11 +334,10 @@
 				D41787052430D5090025EC00 /* BarChart.swift */,
 				D422DE0A23598B52003734B8 /* Census.swift */,
 				D422DE0C23598BEC003734B8 /* Clock.swift */,
+				D47FDDC324485BC500C89A1E /* Dashboard.swift */,
 				D4B4294022DAEC7E0036C904 /* HUD.swift */,
 				D4BBFCDC24430318000C139D /* LineGraph.swift */,
 				D4BBFCDD24430318000C139D /* LineGraphUpdate.swift */,
-				D4B4293D22DAEC7E0036C904 /* NetDiagram.swift */,
-				D488AC8C2443E12500B94685 /* Placeholder.swift */,
 				D4B4293C22DAEC7E0036C904 /* Report.swift */,
 			);
 			path = HUD;
@@ -526,7 +524,6 @@
 				D4D4F052243ABBA900D093DF /* HotLayerBnn.swift in Sources */,
 				D40F452C23C88A3D0027BD0C /* EnergyReserve.swift in Sources */,
 				D43DC51024177B4E0017FADF /* HotReserves.swift in Sources */,
-				D488AC8D2443E12500B94685 /* Placeholder.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* ArkoniaScene.swift in Sources */,
 				D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */,
@@ -550,6 +547,7 @@
 				D41ED8D623B084A100E82B08 /* Debug.swift in Sources */,
 				D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */,
 				D4BBFCDE24430318000C139D /* LineGraph.swift in Sources */,
+				D47FDDC424485BC500C89A1E /* Dashboard.swift in Sources */,
 				D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */,
 				D4231C7B2440405600683742 /* Reschedule.swift in Sources */,
 				D4B9512124349A8800BD2085 /* ArkonName.swift in Sources */,

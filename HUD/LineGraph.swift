@@ -2,19 +2,17 @@ import Foundation
 import SpriteKit
 
 class LineGraphFactory {
-    private let prototype: LineGraph
-    static var dotTexture: SKTexture!
+    let dotTexture: SKTexture!
+    let hud: HUD
 
     init(hud: HUD, scene: ArkoniaScene) {
-        guard let p = hud.getMonitorPrototype(.linegraph, from: hud.dashboards[0]) as? LineGraph else { fatalError() }
-        prototype = p
-        let tShape = SKShapeNode(circleOfRadius: 2.5)
-        LineGraphFactory.dotTexture = scene.view?.texture(from: tShape)
+        self.hud = hud
 
-        hud.releasePrototype(prototype)
+        let tShape = SKShapeNode(circleOfRadius: 2.5)
+        self.dotTexture = scene.view?.texture(from: tShape)
     }
 
-    func newGraph() -> LineGraph { return (prototype.copy() as? LineGraph)! }
+    func newGraph() -> LineGraph { return (hud.prototypes.lineGraph.copy() as? LineGraph)! }
 }
 
 enum LineGraphSetId: Int, CaseIterable { case avg, med, max }
@@ -72,8 +70,8 @@ final class LineGraph: SKSpriteNode {
     var cropNode: SKCropNode!
     var currentColumn = 0
     var maskNode: SKSpriteNode!
-    var maxInput: CGFloat = 10000.0
-    let minInput: CGFloat = 0.0
+    var maxInput: CGFloat = 1_000_000.0
+    let minInput: CGFloat = 10.0
     var plotSets = [LineGraphPlotSet]()
     var runningAverages = Cbuffer<LineGraphInputSet>(cElements: LineGraph.cSamplesForAverage, mode: .putOnlyRing)
     var started = false
@@ -83,6 +81,17 @@ final class LineGraph: SKSpriteNode {
         let node = childNode(withName: lineGraphLabel)
         let label = (node as? SKLabelNode)!
         label.text = text
+    }
+
+    func setChartMinMax(_ lo: Int, _ hi: Int) {
+        let loLabel = "linegraph_range_bottom"
+        let hiLabel = "linegraph_range_top"
+
+        zip([loLabel, hiLabel], [lo, hi]).forEach {
+            let node = childNode(withName: $0.0)
+            let label = (node as? SKLabelNode)!
+            label.text = "\($0.1)"
+        }
     }
 
     func start() {
@@ -141,38 +150,43 @@ final class LineGraph: SKSpriteNode {
     }
 
     func drawYAxisMarkers() {
-        for exponent in stride(from: 0, through: log10(maxInput), by: 1) {
+        let chartMinY = log10(minInput)
+        let chartMaxY = log10(maxInput)
+
+        setChartMinMax(Int(chartMinY), Int(chartMaxY))
+
+        for exponent in stride(from: chartMinY, through: chartMaxY, by: 1) {
             let heightInput = pow(10, exponent)
             let y = logPlotY(heightInput)
 
+            let heightOfChart: CGFloat = canvases[0].size.height
+            let bottomOfChart: CGFloat = -heightOfChart / 2
+            let convertedY = canvases[0].convert(CGPoint(x: 0, y: y), to: self).y
+            let adjustedY = bottomOfChart + convertedY
+
             self.canvases.forEach { canvas in
                 let line = SpriteFactory.drawLine(
-                    from: CGPoint(x: -size.width / 2, y: y),
-                    to: CGPoint(x: size.width / 2, y: y),
+                    from: CGPoint(x: -size.width / 2, y: adjustedY),
+                    to: CGPoint(x: size.width / 2, y: adjustedY),
                     color: .gray
                 )
 
-                line.lineWidth = 0.1
+                line.lineWidth = 2
                 line.zPosition = canvas.zPosition + 0.1
-                addChild(line)
+                self.addChild(line)
             }
         }
     }
 
     func logPlotY(_ input_: CGFloat) -> CGFloat {
-        precondition(input_ >= minInput)
-
-        let input = min(input_, maxInput)
+        let input = constrain(input_, lo: minInput, hi: maxInput)
         let heightOfChart: CGFloat = canvases[0].size.height
-        let bottomOfChart: CGFloat = canvases[0].position.y - heightOfChart / 2
 
-        let nz = (input == 0) ? 1 : input + 1
-        let nonZero = CGFloat(log10(nz))
-        let minLog: CGFloat = log10(minInput + 1.0)
-        let maxLog: CGFloat = log10(maxInput + 1.0)
+        let inputLog = CGFloat(log10(input))
+        let minLog: CGFloat = log10(minInput)
+        let maxLog: CGFloat = log10(maxInput)
 
-        let output = bottomOfChart + heightOfChart * (nonZero - minLog) / (maxLog - minLog)
-        return output
+        return heightOfChart * (inputLog - minLog) / (maxLog - minLog)
     }
 
     func setupGraphLines() {
@@ -184,7 +198,8 @@ final class LineGraph: SKSpriteNode {
             let whichCanvas = (ss < LineGraph.cColumns) ? 0 : 1
 
             [avg, med, max].forEach {
-                canvases[whichCanvas].addChild($0)
+                $0.userData = [SpriteUserDataKey.lineGraphDots: self.canvases[whichCanvas]]
+                SpriteFactory.shared.dotsPool.attachSprite($0, useCustomPortal: true)
 
                 let xHideDots = 1 // Hide outside crop window until after update
                 let xAdjust = (LineGraph.cColumns / 2) - xHideDots
@@ -192,7 +207,7 @@ final class LineGraph: SKSpriteNode {
                 $0.position = CGPoint(x: CGFloat((cAdjust - xAdjust) * columnWidth), y: self.bottom)
 
                 $0.setScale(0.25 / Arkonia.zoomFactor)
-                $0.alpha = 1
+                $0.alpha = 0
                 $0.colorBlendFactor = 1
             }
 
@@ -202,6 +217,10 @@ final class LineGraph: SKSpriteNode {
         }
 
         currentColumn = LineGraph.cColumns
+    }
+
+    func stop() {
+        canvases.forEach { $0.removeAllActions() }
     }
 
     func update() {
@@ -216,6 +235,8 @@ final class LineGraph: SKSpriteNode {
 
             runningAverages.put(newInputSet)
 
+//            var debugString = "inputSet \(newInputSet.avg), \(newInputSet.med), \(newInputSet.max)"
+
             LineGraphSetId.allCases.forEach { whichDatum in
                 let total = runningAverages.elements.reduce(CGFloat.zero) { subtotal, inputSet_ in
                     guard let inputSet = inputSet_ else { fatalError() }
@@ -224,13 +245,25 @@ final class LineGraph: SKSpriteNode {
 
                 let average = total / CGFloat(runningAverages.count)
                 let rawSample = newInputSet.getInput(whichDatum)
-                let final = (whichDatum == .max) ? rawSample : average
+                let final = ((whichDatum == .max) ? rawSample : average)
 
+                let whichCanvas = (currentColumn < LineGraph.cColumns) ? 0 : 1
                 let plotY = logPlotY(final)
+                let converted = self.convert(CGPoint(x: 0, y: plotY), to: canvases[whichCanvas])
+
                 let plotoid = plotSets[currentColumn].getLine(whichDatum)
 
-                plotoid.position.y = plotY
+//                debugString += ", \(plotY)"
+
+                let heightOfChart: CGFloat = canvases[whichCanvas].size.height
+                let bottomOfChart: CGFloat = canvases[whichCanvas].position.y - heightOfChart / 2
+
+                plotoid.position.y = bottomOfChart + converted.y
+
+                plotoid.alpha = 1//(final < 1) ? 0 : 1
             }
+
+//            Debug.log { debugString }
         }
 
         a()

@@ -28,11 +28,6 @@ class NetDisplay {
         )
     }
 
-    deinit {
-        // We don't free neuron and line sprites here; we free them rather when
-        // the arkon that owns the mini-portal destructs
-    }
-
     func display() {
         Debug.log(level: 159) {
             NetDisplay.display_counter += 1

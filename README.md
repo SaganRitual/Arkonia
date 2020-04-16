@@ -10,7 +10,7 @@
 A hobbyist's toy, under construction. A world of creatures whose brains and bodies evolve
 genetically to make them better at eating each other, and ultimately, to make you all my slaves.
 Written in Swift, using SpriteKit, with no UI other than the main window, because I really
-suck at UI programming.
+suck at UI programming
 
 # Status 10 April 2020
 
@@ -19,7 +19,9 @@ suck at UI programming.
 <img align="right" src="https://github.com/SaganRitual/Arkonia/blob/exp/MovieforREADME.gif">
 
 At long last, it's fast enough and stable enough to be (potentially) interesting.
-I notice that a few people have cloned the repo. That's seriously cool. I do most development on the `exp`
+I notice that a few people have cloned the repo. That's seriously cool. Someone let me know if
+it turns out not to be interesting after all. I'd welcome any comments of any kind, for that matter.
+I do most development on the `exp`
 branch. I merge down to `dev` whenever I get sick of chasing bugs long enough to do the merge
 and push. So look for the latest on `exp`. Build the `Karamba` Xcode project, debug or release
 

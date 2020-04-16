@@ -20,7 +20,6 @@ class Census {
     private(set) var population = 0
 
     let rBirths: Reportoid
-    let rLiveNeurons: Reportoid
     let rPopulation: Reportoid
     let rHighWaterAge: Reportoid
     let rHighWaterPopulation: Reportoid
@@ -33,8 +32,7 @@ class Census {
     )
 
     init(_ scene: ArkoniaScene) {
-        rLiveNeurons = scene.reportSundry.reportoid(1)
-        rBirths = scene.reportSundry.reportoid(2)
+        rBirths = scene.reportSundry.reportoid(1)
 
         rPopulation = scene.reportArkonia.reportoid(2)
 
@@ -67,8 +65,13 @@ extension Census {
         return self.TheFishNumber
     }
 
-    static func getAge(of arkon: ArkonName, at currentTime: Int) -> Int {
-        return currentTime - Census.shared.archive[arkon]!.birthday
+    static func getAge(of arkon: ArkonName, at currentTime: Int, require: Bool = true) -> Int? {
+        if let birthday = Census.shared.archive[arkon]?.birthday {
+            return currentTime - birthday
+        } else {
+            if require { fatalError() }
+            return nil
+        }
     }
 }
 
@@ -78,7 +81,6 @@ extension Census {
         self.rHighWaterPopulation.data.text = String(highWaterPopulation)
         self.rPopulation.data.text = String(population)
         self.rBirths.data.text = String(births)
-        self.rLiveNeurons.data.text = String(cLiveNeurons)
 
         rHighWaterAge.data.text = ageFormatter.string(from: Double(highWaterAge))
 
@@ -117,13 +119,16 @@ extension Census {
     }
 
     func registerDeath(_ nameOfDeceased: ArkonName, _ cNeuronsOfDeceased: Int, _ worldTime: Int) {
-        let ageOfDeceased = Census.getAge(of: nameOfDeceased, at: worldTime)
+        guard let ageOfDeceased = Census.getAge(of: nameOfDeceased, at: worldTime) else { fatalError() }
 
         highWaterAge = max(highWaterAge, ageOfDeceased)
         population -= 1
 
         archive.removeValue(forKey: nameOfDeceased)
 
-        Debug.log(level: 170) { "registerDeath \(nameOfDeceased) at \(worldTime), aged \(ageOfDeceased), highwater \(highWaterAge)" }
+        if archive.isEmpty {
+            ArkoniaScene.shared.speed = 0
+            ArkoniaScene.shared.lgNeurons.canvases.forEach { canvas in canvas.speed = 0 }
+        }
     }
 }

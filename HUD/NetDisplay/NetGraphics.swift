@@ -57,6 +57,7 @@ struct NetGraphics {
             portal = fullNeuronsPortal
             sprite = SpriteFactory.shared.fullNeuronsPool.makeSprite(ArkonName.neuron)
             sprite.color = .green
+            sprite.zPosition = 100
             sprite.setScale(1)    // Set the scale to get yFudge right, set real scale below
             yFudge = 0
         }
