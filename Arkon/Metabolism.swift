@@ -8,6 +8,8 @@ class Metabolism {
 
     var co2Level: CGFloat = 0
     var oxygenLevel: CGFloat = 1.0
+    var mostRecentCycleStartTime = UInt64(0)
+    var overTimeLimitCount = 0
 
     let capacities = HotReserve()
     let levels = HotReserve()

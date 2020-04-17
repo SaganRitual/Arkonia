@@ -23,13 +23,13 @@ class Arkonia {
 
     // vars so I can change them from the debugger
     static var debugColorIsEnabled = false
-    static var debugMessageLevel = 173
+    static var debugMessageLevel = 174
     static var debugMessageToConsole = true
 
     static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
     static let funkyCells: CGFloat? = 2 / zoomFactor
-    static let initialPopulation = 50
+    static let initialPopulation = 100
     static let maxPopulation = Int.max
     static let worldTimeLimit: TimeInterval? = nil//5000
 
@@ -55,6 +55,8 @@ class Arkonia {
 
     static let arkonMinRestDuration: TimeInterval = 0
     static let arkonMaxRestDuration: TimeInterval = 0
+
+    static let one_ms = UInt64(1e6) // # ns in one ms
 
     static var mannaColorBlendRangeWidth: CGFloat
         { mannaColorBlendMaximum - mannaColorBlendMinimum }

@@ -3,33 +3,31 @@ import SpriteKit
 
 enum LineGraphUpdate {
     static func getAgeStats(_ onComplete: @escaping (LineGraphInputSet?) -> Void) {
-        func a() { SceneDispatch.shared.schedule(b) }
+        func a() { Census.dispatchQueue.async(execute: b) }
 
         func b() {
-            let counts = ArkoniaScene.arkonsPortal.children.compactMap({ arkonSprite in
-                (arkonSprite.userData?["stepper"] as? Stepper)?.net.cNeurons
-            }).sorted()
+            let cLiveNeurons = CGFloat(Census.shared.cLiveNeurons)
+            let cLiveArkons = Census.shared.archive.count
 
-            if counts.isEmpty { onComplete(nil); return }
+            if cLiveNeurons == 0 { onComplete(nil); return }
 
-            let total = CGFloat(counts.reduce(0, +))
-            let average = total / CGFloat(counts.count)
+            let average = cLiveNeurons / CGFloat(cLiveArkons)
+            let medianSS = cLiveArkons / 2
 
             let median: CGFloat
+            let sorted = Census.shared.archive.sorted {
+                $0.value.cNeurons < $1.value.cNeurons
+            }
 
-            let medianSS = counts.count / 2
-
-            if counts.count % 2 == 1 {
-                median = CGFloat(counts[medianSS])
+            if cLiveArkons % 2 == 1 {
+                median = CGFloat(sorted[medianSS].value.cNeurons)
             } else {
-                let upper = CGFloat(counts[medianSS])
-                let lower = CGFloat(counts[medianSS - 1])
+                let upper = CGFloat(sorted[medianSS].value.cNeurons)
+                let lower = CGFloat(sorted[medianSS - 1].value.cNeurons)
                 median = CGFloat(upper + lower) / 2
             }
 
-//            guard let maxCNeurons = counts.max() else { return }
-
-            onComplete(LineGraphInputSet(average, median, total))
+            onComplete(LineGraphInputSet(average, median, cLiveNeurons))
         }
 
         a()

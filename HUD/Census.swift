@@ -1,8 +1,9 @@
 import SpriteKit
 
 struct Fishday {
-    let fishNumber: Int
     let birthday: Int
+    let cNeurons: Int
+    let fishNumber: Int
 }
 
 class Census {
@@ -114,7 +115,12 @@ extension Census {
             " real hw cOfspring \(self.highWaterCOffspring)"
         }
 
-        archive[myName] = Fishday(fishNumber: self.getNextFishNumber(), birthday: self.localTime)
+        archive[myName] = Fishday(
+            birthday: self.localTime,
+            cNeurons: myNet?.cNeurons ?? 0, // How would we ever not have a net? Looks like code rot to me
+            fishNumber: self.getNextFishNumber()
+        )
+
         return archive[myName]!
     }
 
@@ -123,6 +129,8 @@ extension Census {
 
         highWaterAge = max(highWaterAge, ageOfDeceased)
         population -= 1
+
+        self.cLiveNeurons -= cNeuronsOfDeceased
 
         archive.removeValue(forKey: nameOfDeceased)
 

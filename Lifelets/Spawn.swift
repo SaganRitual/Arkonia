@@ -8,7 +8,7 @@ final class Spawn: DispatchableProtocol {
     var callAgain = false
     var engagerKeyForNewborn: GridCell?
     var embryoName = ArkonName.embryo
-    var fishDay = Fishday(fishNumber: 0, birthday: 0)
+    var fishDay = Fishday(birthday: 0, cNeurons: 0, fishNumber: 0)
     var metabolism: Metabolism?
     var net: Net?
     var netDisplay: NetDisplay?

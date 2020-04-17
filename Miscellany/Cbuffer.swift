@@ -49,7 +49,7 @@ class Cbuffer<T> {
 
     func push(_ element: T) {
         assert(mode == .fifo)
-        assert(nextPopOffset != nextPushOffset || wrappedPop == false)
+        assert(nextPopOffset != nextPushOffset || wrappedPop == false, "Overflow in FIFO")
 
         defer {
             nextPushOffset = (nextPushOffset + 1) % cElements
