@@ -31,9 +31,7 @@ enum Mutator {
             }
         }
 
-        let fromScratch: [Double] = (0..<targetLength).map { _ in
-            Double.random(in: -1..<1) * Double.random(in: -1..<1) / Double.random(in: -1..<1)
-        }
+        let fromScratch: [Double] = (0..<targetLength).map { _ in Double.random(in: -1..<1) }
 
         Debug.log(level: 93) { "Generate from scratch = \(fromScratch)" }
         return (fromScratch, false)
@@ -42,8 +40,8 @@ enum Mutator {
     static func mutateNetStructure(_ layers: [Int]) -> ([Int], Bool) {
         var didMutate = false
 
-        // 80% chance that the structure won't change at all
-        if Int.random(in: 0..<100) < 80 {
+        // 70% chance that the structure won't change at all
+        if Int.random(in: 0..<100) < 70 {
             Debug.log(level: 121) { "no mutation to net structure" }
             return (layers, didMutate)
         }

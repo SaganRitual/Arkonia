@@ -48,7 +48,7 @@ final class MoveSprite: Dispatchable {
         let distanceInPix = stepper.gridCell.scenePosition.distance(to: targetPosition)
         let moveDuration = TimeInterval(distanceInPix / moveSpeed)
 
-        Debug.log(level: 104) { "Moving \(six(stepper.name))" }
+        Debug.log(level: 104) { "Moving \(six(stepper.name)) at \(moveSpeed)pix/sec" }
         Debug.debugColor(stepper, .red, .magenta)
 
         let move = SKAction.move(to: targetPosition, duration: moveDuration)

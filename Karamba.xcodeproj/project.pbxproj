@@ -250,6 +250,13 @@
 			path = WorkItems;
 			sourceTree = "<group>";
 		};
+		D434592A244D63EB005B7CF1 /* Metabolism */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Metabolism;
+			sourceTree = "<group>";
+		};
 		D43EA81A228FDBA4006C619D /* Arkonia */ = {
 			isa = PBXGroup;
 			children = (
@@ -266,6 +273,7 @@
 		D43EA81B228FDCC3006C619D /* Arkon */ = {
 			isa = PBXGroup;
 			children = (
+				D434592A244D63EB005B7CF1 /* Metabolism */,
 				D4D346A723FC649F00E6D1C2 /* Net */,
 				D44EFA5624280C7700798FE6 /* Plotter */,
 				D4B9512024349A8800BD2085 /* ArkonName.swift */,

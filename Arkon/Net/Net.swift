@@ -43,21 +43,16 @@ class Net {
         if let L = layers {
             (self.layers, didMutate) = Mutator.mutateNetStructure(L)
         } else {
-//            let L: [Int] = [
-//                Arkonia.cSenseNeurons,
-//                Arkonia.cSenseNeurons / 2,
-//                Arkonia.cSenseNeurons / 4,
-//                Arkonia.cMotorNeurons
-//            ]
-
+            // Set up layers in some random configurations, as in
+            // how many layers and how many neurons per layer
             var L = [Int]()
+            let div = Int.random(in: 2...4)
             var cNeurons = Arkonia.cSenseNeurons
-            while cNeurons > (4 * Arkonia.cMotorNeurons) {
+            while cNeurons > (div * Arkonia.cMotorNeurons) {
                 L.append(cNeurons)
-                cNeurons /= 4
+                cNeurons /= div
             }
 
-//            L.append(2 * Arkonia.cMotorNeurons)
             L.append(Arkonia.cMotorNeurons)
             self.layers = L
         }

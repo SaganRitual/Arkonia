@@ -1,6 +1,8 @@
 import GameplayKit
 
 final class Colorize: Dispatchable {
+    var babyBumpIsShowing = false
+
     internal override func launch() {
         Debug.log(level: 102) { "colorize" }
         SceneDispatch.shared.schedule {  [unowned self] in self.colorize() } // Catch dumb mistakes
@@ -15,9 +17,16 @@ extension Colorize {
 
         let babyBumpShouldBeShowing = scratch.stepper.metabolism.spawnReserves.level > (scratch.stepper.getSpawnCost() * 0.5)
 
-        switch babyBumpShouldBeShowing {
-        case true:  WorkItems.lookPregnant(scratch.stepper.metabolism.oxygenLevel, scratch.stepper.nose)
-        case false: WorkItems.lookNotPregnant(scratch.stepper.nose)
+        switch (babyBumpShouldBeShowing, babyBumpIsShowing) {
+        case (true, false):
+            WorkItems.lookPregnant(scratch.stepper.metabolism.oxygenLevel, scratch.stepper.nose)
+            babyBumpIsShowing = true
+
+        case (false, true):
+            WorkItems.lookNotPregnant(scratch.stepper.nose)
+            babyBumpIsShowing = false
+
+        default: break
         }
 
         scratch.dispatch!.disengage()

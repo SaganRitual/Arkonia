@@ -24,6 +24,7 @@ class SceneDispatch {
     }
 
     var maxWorkItemsTime = UInt64(0)
+    var overdueCount = 0
 
     func tick() {
         lockQueue.sync {
@@ -38,15 +39,21 @@ class SceneDispatch {
 
                 duration = clock_gettime_nsec_np(CLOCK_UPTIME_RAW) - start
                 if duration > maxWorkItemsTime {
-                    maxWorkItemsTime += Arkonia.one_ms
-                    Debug.log(level: 173) { "Increasing scene dispatch queue time limit to \(maxWorkItemsTime) ms" }
+                    if overdueCount > 5 {
+                        overdueCount = 0
+                        maxWorkItemsTime += Arkonia.one_ms
+                        Debug.log(level: 173) { "Increasing scene dispatch queue time limit to \(maxWorkItemsTime / Arkonia.one_ms) ms" }
+                    }
+
                     break
                 }
             }
 
-            if duration < maxWorkItemsTime && maxWorkItemsTime > Arkonia.one_ms {
+            if workItems.isEmpty { overdueCount = 0 } else { overdueCount += 1 }
+
+            if duration < maxWorkItemsTime && maxWorkItemsTime > Arkonia.one_ms && overdueCount == 0 {
                 maxWorkItemsTime -= Arkonia.one_ms / UInt64(10)
-                Debug.log(level: 172) { "Decreasing scene dispatch queue time limit to \(maxWorkItemsTime) ms" }
+                Debug.log(level: 173) { "Decreasing scene dispatch queue time limit to \(maxWorkItemsTime / Arkonia.one_ms) ms" }
             }
         }
     }

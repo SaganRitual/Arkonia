@@ -53,8 +53,7 @@ extension Plotter {
             else { Debug.log(level: 167) { "from \(six(fromCell)) to targetOffset \(targetOffset) \(six(toCell))" } }
             #endif
 
-            let jumpSpeed = motorOutputs[MotorIndex.jumpSpeed.rawValue] * 2 - 1
-//            Plotter.histogram.histogrize(jumpSpeed, inputRange: -1..<1)
+            let jumpSpeed = motorOutputs[MotorIndex.jumpSpeed.rawValue]
             onComplete(CellShuttle(fromCell, toCell), jumpSpeed)
         }
 

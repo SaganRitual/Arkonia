@@ -1,3 +1,4 @@
+import GameplayKit
 import SpriteKit
 
 class Arkonia {
@@ -5,7 +6,7 @@ class Arkonia {
 
     static let zoomFactor: CGFloat = 4
     static let arkonScaleFactor: CGFloat = 1
-    static let mannaScaleFactor: CGFloat = 0.5
+    static let mannaScaleFactor: CGFloat = 0.4
     static let noseScaleFactor: CGFloat = 0.75
 
     static let senseGridCRings = 5
@@ -18,7 +19,7 @@ class Arkonia {
     static let cMotorGridlets = cSenseGridlets - 1
 
     static let allowSpawning = true
-    static let cMannaMorsels = 7500
+    static let cMannaMorsels = 6000
     static let cPollenators = 5
 
     // vars so I can change them from the debugger

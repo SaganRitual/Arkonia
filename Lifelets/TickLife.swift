@@ -76,10 +76,10 @@ extension Metabolism {
         }
 
         if mostRecentCycleStartTime > 0 {
-            if duration > Arkonia.one_ms * UInt64(1000) {
+            if duration > Arkonia.one_ms * UInt64(500) {
                 overTimeLimitCount += 1
 
-                if overTimeLimitCount > 5 {
+                if overTimeLimitCount > 5 || duration >= Arkonia.one_ms * UInt64(1000)  {
                     Debug.log(level: 173) { "Killing off someone after \(duration / UInt64(Arkonia.one_ms))ms" }
                     return false
                 }

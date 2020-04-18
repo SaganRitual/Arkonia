@@ -1,45 +1,5 @@
 import SpriteKit
 
-extension DispatchQueue {
-    static var highWaterAsync = UInt64(0)
-    func timeProfileAsync(execute: @escaping () -> Void) {
-        let start = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
-        self.async {
-            let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
-            let duration = stop - start
-
-//            ArkoniaScene.shared.bcNeurons.addSample(Int(duration / 1000000))
-
-            if duration > DispatchQueue.highWaterAsync {
-                Debug.log(level: 162) { "highwaterAsync \(duration)" }
-                DispatchQueue.highWaterAsync = duration
-            }
-
-            execute()
-        }
-    }
-
-    static var highWaterSync = UInt64(0)
-    func timeProfileSync<T>(execute: @escaping () throws -> T) rethrows -> T {
-        do {
-            let start = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
-            return try self.sync {
-                let stop = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
-                let duration = stop - start
-
-                if duration > DispatchQueue.highWaterSync {
-                    Debug.log(level: 162) { "highwaterSync \(duration)" }
-                    DispatchQueue.highWaterAsync = duration
-                }
-
-                return try execute()
-            }
-        } catch {
-            fatalError()
-        }
-    }
-}
-
 class Grid {
     static var shared: Grid!
 
@@ -57,8 +17,6 @@ class Grid {
     private(set) var xGrid = 0, yGrid = 0
     private var xPortal = 0, yPortal = 0
 
-    let magicGridScaleNumber = 1
-
     static let arkonsPlaneQueue = DispatchQueue(
         label: "arkon.plane.serial", target: DispatchQueue.global()
     )
@@ -73,11 +31,11 @@ class Grid {
         atlas = SKTextureAtlas(named: "Arkons")
         noseTexture = atlas.textureNamed("spark-nose-large")
 
-        cPortal = Int(noseTexture.size().width / Arkonia.zoomFactor) / magicGridScaleNumber
-        rPortal = Int(noseTexture.size().height / Arkonia.zoomFactor) / magicGridScaleNumber
+        cPortal = Int(noseTexture.size().width / Arkonia.zoomFactor)
+        rPortal = Int(noseTexture.size().height / Arkonia.zoomFactor)
 
-        wPortal = Int(floor(portal.size.width * Arkonia.zoomFactor)) / magicGridScaleNumber
-        hPortal = Int(floor(portal.size.height * Arkonia.zoomFactor)) / magicGridScaleNumber
+        wPortal = Int(floor(portal.size.width * Arkonia.zoomFactor))
+        hPortal = Int(floor(portal.size.height * Arkonia.zoomFactor))
 
         hypoteneuse = sqrt(CGFloat(wPortal * wPortal) + CGFloat(hPortal * hPortal))
     }
@@ -104,8 +62,8 @@ class Grid {
 
         Debug.log {
             "pix/row \(rPortal), column \(cPortal)"
-            + "; pix width \(wPortal) height \(hPortal)"
-            + "; grid width \(wGrid) height \(hGrid)"
+            + "; pix width \(wPortal)? height \(hPortal)?"
+            + "; grid width \(wGrid * 2) height \(hGrid * 2)"
         }
 
         setupGrid()
@@ -128,12 +86,10 @@ extension Grid {
     private func setupCell(_ xG: Int, _ yG: Int) {
         let akp = AKPoint(x: xG, y: yG)
 
-        let fudge = pow(Double(magicGridScaleNumber), 2)
-        xPortal = Int(fudge) * (cPortal / 2 + xGrid * cPortal)
-        yPortal = Int(fudge) * (rPortal / 2 + yGrid * rPortal)
+        xPortal = cPortal / 2 + xGrid * cPortal
+        yPortal = rPortal / 2 + yGrid * rPortal
 
         let cgp = CGPoint(x: cPortal / 4 + xG * xPortal, y: rPortal / 4 + yG * yPortal)
-
         elles[yG + hGrid].append(GridCell(gridPosition: akp, scenePosition: cgp))
     }
 }
