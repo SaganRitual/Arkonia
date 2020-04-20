@@ -35,26 +35,27 @@ extension Plotter {
             let s3 = Int(s2)
             let motorOutput = s3
 
-            #if DEBUG
-            Debug.log(level: 154) { "motorOutput \(motorOutputs) -> \(motorOutput)" }
-            #endif
-
             let targetOffset = calculateTargetOffset(for: motorOutput, from: senseGrid.cells)
-
-            #if DEBUG
-            Debug.log(level: 154) { "toff \(targetOffset) from motorOutput \(motorOutput)" }
-            #endif
 
             guard let toCell = senseGrid.cells[targetOffset] as? GridCell else { fatalError() }
             let fromCell = (targetOffset > 0) ? senseGrid.cells[0] as? GridCell : nil
 
-            #if DEBUG
-            if targetOffset == 0 { Debug.log(level: 167) { "targetOffset \(targetOffset) \(six(toCell))" } }
-            else { Debug.log(level: 167) { "from \(six(fromCell)) to targetOffset \(targetOffset) \(six(toCell))" } }
-            #endif
+            let jumpSpeedMotorOutput = motorOutputs[MotorIndex.jumpSpeed.rawValue]
 
-            let jumpSpeed = motorOutputs[MotorIndex.jumpSpeed.rawValue]
-            onComplete(CellShuttle(fromCell, toCell), jumpSpeed)
+            if let f = fromCell {
+                let asPercentage = CGFloat(1 + jumpSpeedMotorOutput) / 2
+
+                let e = EnergyBudget.computeMoveCost(
+                    jumpSpeedAsPercentage: asPercentage,
+                    distanceInPixels: f.scenePosition.distance(to: toCell.scenePosition),
+                    massInGrams: scratch.stepper.metabolism.x.mass
+                )
+
+                scratch.stepper.metabolism.x.withdrawEnergy(e)
+                scratch.stepper.metabolism.x.report()
+            }
+
+            onComplete(CellShuttle(fromCell, toCell), jumpSpeedMotorOutput)
         }
 
         a()

@@ -2,6 +2,8 @@ import Accelerate
 import SpriteKit
 
 class Metabolism {
+    let x = MetabolismX()
+
     let allReserves: [EnergyReserve]
     let fungibleReserves: [EnergyReserve]
     let reUnderflowThreshold: CGFloat
@@ -79,7 +81,10 @@ class Metabolism {
 
     func absorbEnergy(_ cJoules: CGFloat) {
         respire()
+        x.inhale(cJoules)
+
         stomach.deposit(cJoules)
+        x.absorbEnergy(cJoules)
     }
 
     func respire(_ inhale: CGFloat = 1.0, _ exhale: CGFloat = Arkonia.co2MaxLevel) {
@@ -91,11 +96,13 @@ class Metabolism {
 
     @discardableResult
     func withdrawFromReady(_ cJoules: CGFloat) -> CGFloat {
+        x.withdrawEnergy(cJoules)
         return readyEnergyReserves.withdraw(cJoules)
     }
 
     @discardableResult
     func withdrawFromSpawn(_ cJoules: CGFloat) -> CGFloat {
+        x.spawn.withdraw(cJoules)
         return spawnReserves.withdraw(cJoules)
     }
 }

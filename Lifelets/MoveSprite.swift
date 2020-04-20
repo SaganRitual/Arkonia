@@ -42,13 +42,14 @@ final class MoveSprite: Dispatchable {
     }
 
     private static func moveAction(_ stepper: Stepper, to targetPosition: CGPoint, _ onComplete: @escaping () -> Void) {
-        // The jump speed comes from the neural net
-        let m = max(0.5, CGFloat(1 + stepper.dispatch.scratch.jumpSpeed))
-        let moveSpeed = m * Arkonia.arkonStandardSpeedPixPerSec
+        // The jump speed comes from the neural net as -1..<1
+        let m = CGFloat(1 + stepper.dispatch.scratch.jumpSpeed) / 2
+        let moveSpeedInMeters = 2 * m * Arkonia.arkonStandardSpeedPixPerSec / CGFloat(Grid.shared.portalWidthInPix / Grid.shared.gridCellWidthInPix)
         let distanceInPix = stepper.gridCell.scenePosition.distance(to: targetPosition)
-        let moveDuration = TimeInterval(distanceInPix / moveSpeed)
+        let distanceInMeters = 2 * distanceInPix / CGFloat(Grid.shared.portalWidthInPix / Grid.shared.gridCellWidthInPix)
+        let moveDuration = TimeInterval(distanceInMeters / moveSpeedInMeters)
 
-        Debug.log(level: 104) { "Moving \(six(stepper.name)) at \(moveSpeed)pix/sec" }
+        Debug.log(level: 104) { "Moving \(six(stepper.name)) at \(moveSpeedInMeters)pix/sec" }
         Debug.debugColor(stepper, .red, .magenta)
 
         let move = SKAction.move(to: targetPosition, duration: moveDuration)

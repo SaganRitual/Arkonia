@@ -87,8 +87,8 @@ extension Debug {
     static func showMannaStats() {
         var cCells = 0, cPhotosynthesizing = 0
 
-        for x in -Grid.shared.wGrid..<Grid.shared.wGrid {
-            for y in -Grid.shared.hGrid..<Grid.shared.hGrid {
+        for x in -Grid.shared.gridWidthInCells..<Grid.shared.gridWidthInCells {
+            for y in -Grid.shared.gridHeightInCells..<Grid.shared.gridHeightInCells {
                 let p = AKPoint(x: x, y: y)
                 let c = Grid.shared.getCell(at: p)
 

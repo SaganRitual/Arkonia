@@ -31,8 +31,8 @@ class GridCell: GridCellProtocol, Equatable {
 
         guard let funkyMultiplier = Arkonia.funkyCells else { return }
 
-        let wScene = CGFloat(Grid.shared.cPortal) / 2
-        let hScene = CGFloat(Grid.shared.rPortal) / 2
+        let wScene = CGFloat(Grid.shared.gridCellWidthInPix) / 2
+        let hScene = CGFloat(Grid.shared.gridCellHeightInPix) / 2
 
         let lScene = scenePosition.x - wScene * funkyMultiplier
         let rScene = scenePosition.x + wScene * funkyMultiplier

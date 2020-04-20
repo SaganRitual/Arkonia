@@ -2,7 +2,7 @@ import CoreGraphics
 
 extension GridCell {
     static func getRandomCell() -> GridCell {
-        let wp = Grid.shared.wGrid - 3, hp = Grid.shared.hGrid - 3
+        let wp = Grid.shared.gridWidthInCells - 3, hp = Grid.shared.gridHeightInCells - 3
         let ak = AKPoint.random(-wp..<wp, -hp..<hp)
 
         return GridCell.at(ak.x, ak.y)

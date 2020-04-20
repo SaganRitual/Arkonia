@@ -65,8 +65,8 @@ class SensesConnector {
     // We need connect only once to the non-grid inputs, so we take care of
     // that in the initializer
     private func connectNonGridInputs() {
-        scratch.gridInputs[firstNonGridInput + 0] = Double(scratch.stepper.gridCell.gridPosition.x) / Double(Grid.shared!.wGrid)
-        scratch.gridInputs[firstNonGridInput + 1] = Double(scratch.stepper.gridCell.gridPosition.y) / Double(Grid.shared!.hGrid)
+        scratch.gridInputs[firstNonGridInput + 0] = Double(scratch.stepper.gridCell.gridPosition.x) / Double(Grid.shared!.gridWidthInCells)
+        scratch.gridInputs[firstNonGridInput + 1] = Double(scratch.stepper.gridCell.gridPosition.y) / Double(Grid.shared!.gridHeightInCells)
         scratch.gridInputs[firstNonGridInput + 2] = Double(scratch.stepper.metabolism.hunger)
         scratch.gridInputs[firstNonGridInput + 3] = Double(scratch.stepper.metabolism.co2Level) / Double(Arkonia.co2MaxLevel)
 

@@ -18,6 +18,8 @@ extension Metabolize {
 
 extension Metabolism {
     fileprivate func metabolizeProper(_ isStarving: Bool, _ nose: SKSpriteNode) {
+        x.digest()
+
 //        nose.color = .green
         nose.colorBlendFactor = min(fungibleEnergyFullness * 2, 1)
 

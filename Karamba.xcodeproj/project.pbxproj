@@ -17,6 +17,9 @@
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
 		D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6E238E56C7007F0B7B /* Scratchpad.swift */; };
 		D4231C7B2440405600683742 /* Reschedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4231C7A2440405600683742 /* Reschedule.swift */; };
+		D434592E244D699F005B7CF1 /* MetabolismX.swift in Sources */ = {isa = PBXBuildFile; fileRef = D434592B244D699F005B7CF1 /* MetabolismX.swift */; };
+		D434592F244D699F005B7CF1 /* Organ.swift in Sources */ = {isa = PBXBuildFile; fileRef = D434592C244D699F005B7CF1 /* Organ.swift */; };
+		D4345930244D699F005B7CF1 /* EnergyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D434592D244D699F005B7CF1 /* EnergyBudget.swift */; };
 		D43DC50624162FB10017FADF /* HotLayerCnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50524162FB10017FADF /* HotLayerCnn.swift */; };
 		D43DC50824165AFE0017FADF /* GPUArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50724165AFE0017FADF /* GPUArray.swift */; };
 		D43DC50A24165D450017FADF /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50924165D450017FADF /* DataSource.swift */; };
@@ -117,6 +120,9 @@
 		D422FE6E238E56C7007F0B7B /* Scratchpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
 		D4231C7A2440405600683742 /* Reschedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reschedule.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
+		D434592B244D699F005B7CF1 /* MetabolismX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetabolismX.swift; sourceTree = "<group>"; };
+		D434592C244D699F005B7CF1 /* Organ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Organ.swift; sourceTree = "<group>"; };
+		D434592D244D699F005B7CF1 /* EnergyBudget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyBudget.swift; sourceTree = "<group>"; };
 		D43DC50524162FB10017FADF /* HotLayerCnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerCnn.swift; sourceTree = "<group>"; };
 		D43DC50724165AFE0017FADF /* GPUArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUArray.swift; sourceTree = "<group>"; };
 		D43DC50924165D450017FADF /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
@@ -253,6 +259,9 @@
 		D434592A244D63EB005B7CF1 /* Metabolism */ = {
 			isa = PBXGroup;
 			children = (
+				D434592D244D699F005B7CF1 /* EnergyBudget.swift */,
+				D434592B244D699F005B7CF1 /* MetabolismX.swift */,
+				D434592C244D699F005B7CF1 /* Organ.swift */,
 			);
 			path = Metabolism;
 			sourceTree = "<group>";
@@ -524,6 +533,7 @@
 				D4B00919241FF722007FDD6F /* Cbuffer.swift in Sources */,
 				D4B4295322DAF1CD0036C904 /* Report.swift in Sources */,
 				D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */,
+				D434592F244D699F005B7CF1 /* Organ.swift in Sources */,
 				D464BA3B22C737260069623C /* Arkonia.swift in Sources */,
 				D4523A4D242942FF0074442F /* SensesConnector.swift in Sources */,
 				D4FFE65823AF3CB800D0A1EE /* AKPoint.swift in Sources */,
@@ -575,8 +585,10 @@
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
 				D4C7E079240CC0C2005C0191 /* HotNetBlas.swift in Sources */,
 				D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */,
+				D4345930244D699F005B7CF1 /* EnergyBudget.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
 				D422DE0B23598B52003734B8 /* Census.swift in Sources */,
+				D434592E244D699F005B7CF1 /* MetabolismX.swift in Sources */,
 				D4BD1DC923C088C200CE0753 /* Positions.swift in Sources */,
 				D4D4F050243ABACC00D093DF /* HotNetBnn.swift in Sources */,
 				D4B00912241B8BB3007FDD6F /* Pollenator.swift in Sources */,

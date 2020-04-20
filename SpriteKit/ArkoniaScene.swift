@@ -167,8 +167,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
 
         ArkoniaScene.arkonsPortal.alpha = 1
 
-        Grid.shared = Grid(on: ArkoniaScene.arkonsPortal)
-        Grid.shared.postInit()
+        Grid.makeGrid(on: ArkoniaScene.arkonsPortal)
 
         SpriteFactory.shared = SpriteFactory(scene: self)
 
