@@ -42,7 +42,7 @@ extension Spawn {
 
             if engagerKeyForNewborn == nil {
                 Debug.log(level: 169) { "Spawn4 \(six(embryoName)) no available cell; postpone spawn" }
-                postponeSpawn()
+                failSpawn()
                 return
             }
 
@@ -73,6 +73,7 @@ typealias OnComplete1p = (GridCell?) -> Void
 
 extension Spawn {
     func buildGuts(_ onComplete: @escaping (Net) -> Void) {
+//        metabolism = Metabolism()
         metabolism = Metabolism()
 
         Debug.log(level: 121) { "\(six(meTheParent?.name))" }
@@ -116,10 +117,7 @@ extension Spawn {
         }
 
         func b() {
-            let spawnCost = stepper.getSpawnCost()
-            stepper.metabolism.withdrawFromSpawn(spawnCost)
-            stepper.metabolism.fatReserves.level = 0
-
+            stepper.metabolism.getEmbryo()
             dispatch.metabolize()
         }
 
@@ -237,14 +235,15 @@ extension Spawn {
 }
 
 extension Spawn {
-    func postponeSpawn() {
+    func failSpawn() {
         guard let stepper = meTheParent, let dispatch = stepper.dispatch else {
             Debug.log { "Aboriginal \(embryoName) could not be launched at \(six(engagerKeyForNewborn?.gridPosition))" }
             return
         }
 
-        let failedSpawnCost = Arkonia.maxMannaEnergyContentInJoules
-        stepper.metabolism.withdrawFromSpawn(failedSpawnCost)
+        // No place to put your offspring, that's no excuse, you lose the
+        // embryo anyway
+        stepper.metabolism.getEmbryo()
 
         stepper.nose.color = .blue
         dispatch.metabolize()

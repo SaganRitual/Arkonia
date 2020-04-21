@@ -14,8 +14,7 @@ final class ComputeMove: Dispatchable {
 
         func a() { pt.plot(b) }
         func b() { TickLife.dispatchQueue.async(execute: c) }
-        func c() { scratch.co2Counter += scratch.cellShuttle!.didMove ? 0 : 1; d() }
-        func d() { scratch.dispatch!.moveSprite() }
+        func c() { scratch.dispatch!.moveSprite() }
 
         a()
     }

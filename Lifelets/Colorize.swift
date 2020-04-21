@@ -15,11 +15,13 @@ extension Colorize {
 
         Debug.debugColor(scratch.stepper, .blue, .blue)
 
-        let babyBumpShouldBeShowing = scratch.stepper.metabolism.spawnReserves.level > (scratch.stepper.getSpawnCost() * 0.5)
+        let babyBumpShouldBeShowing =
+            scratch.stepper.metabolism.spawn.level >
+            (scratch.stepper.metabolism.spawnCost * 0.8)
 
         switch (babyBumpShouldBeShowing, babyBumpIsShowing) {
         case (true, false):
-            WorkItems.lookPregnant(scratch.stepper.metabolism.oxygenLevel, scratch.stepper.nose)
+            WorkItems.lookPregnant(scratch.stepper.metabolism.lungs.level, scratch.stepper.nose)
             babyBumpIsShowing = true
 
         case (false, true):

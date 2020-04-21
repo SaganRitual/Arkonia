@@ -48,11 +48,18 @@ extension Plotter {
                 let e = EnergyBudget.computeMoveCost(
                     jumpSpeedAsPercentage: asPercentage,
                     distanceInPixels: f.scenePosition.distance(to: toCell.scenePosition),
-                    massInGrams: scratch.stepper.metabolism.x.mass
+                    massKg: scratch.stepper.metabolism.mass
                 )
 
-                scratch.stepper.metabolism.x.withdrawEnergy(e)
-                scratch.stepper.metabolism.x.report()
+                let netEnergy = scratch.stepper.metabolism.withdrawEnergy(e)
+                scratch.stepper.metabolism.report("setrte")
+
+                Debug.log(level: 173) { "Jump: need \(e) joules for \(f.scenePosition.distance(to: toCell.scenePosition)) pix, mass \(scratch.stepper.metabolism.mass) grams" }
+                if netEnergy < e {
+                    Debug.log(level: 173) { "Out of energy: \(netEnergy) < \(e)" }
+                    scratch.dispatch!.apoptosize()
+                    return
+                }
             }
 
             onComplete(CellShuttle(fromCell, toCell), jumpSpeedMotorOutput)

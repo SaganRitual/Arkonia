@@ -21,7 +21,6 @@ class Scratchpad {
     var senseGrid: CellSenseGrid?
     var sensesConnector: SensesConnector?
     weak var stepper: Stepper!
-    var co2Counter: CGFloat = 0
     var debugTimer: __uint64_t = 0
     var debugStart: __uint64_t = 0
     var debugStop: __uint64_t = 0

@@ -56,9 +56,9 @@ class Grid {
         Grid.pixelsPerMeter = CGFloat(gridCellWidthInPix)
 
         Debug.log {
-            "pix/row \(gridCellHeightInPix), column \(gridCellWidthInPix)"
-            + "; pix width \(portalWidthInPix)? height \(portalHeightInPix)?"
-            + "; grid width \(gridWidthInCells * Int(zf)) height \(gridHeightInCells * Int(zf))"
+            "cell width \(gridCellWidthInPix * Int(zf))px, height \(gridCellHeightInPix * Int(zf))px"
+            + "; portal width \(portalWidthInPix)px, height \(portalHeightInPix)px"
+            + "; grid width \(2 * gridWidthInCells) cells, height \(2 * gridHeightInCells) cells"
         }
     }
 

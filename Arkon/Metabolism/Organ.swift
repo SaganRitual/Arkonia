@@ -1,142 +1,156 @@
 import CoreGraphics
 
-class Organ {
+enum OozeMedium: String { case force, gas, meat, pluripotentia, vitamins, work }
+
+protocol Reportable {
+    var level: CGFloat { get }
+    var mass: CGFloat { get }
+}
+
+class OozeStorage: Reportable {
     internal init(
-        capacity: CGFloat, energyDensity: CGFloat, transferRate: CGFloat
+        capacity: CGFloat, density: CGFloat,
+        medium: OozeMedium, overflowFullness: CGFloat? = nil,
+        underflowFullness: CGFloat? = nil
     ) {
         self.capacity = capacity
-        self.energyDensity = energyDensity
-        self.transferRate = transferRate
+        self.density = density
+        self.medium = medium
+        self.overflowFullness = overflowFullness
+        self.underflowFullness = underflowFullness
     }
+
+    let capacity:          CGFloat      // unspecified units
+    let density:           CGFloat      // kg/unit
+    var level:             CGFloat = 0  // same units as capacity
+    let medium:            OozeMedium
+    let overflowFullness:  CGFloat?
+    let underflowFullness: CGFloat?
+
+    var availableCapacity: CGFloat { capacity - level }
+    var isOverflowing:     Bool    { fullness > (overflowFullness ?? 1) }
+    var isUnderflowing:    Bool    { fullness < (underflowFullness ?? 0) }
 
     var fullness:  CGFloat { level / capacity }
     var isEmpty:   Bool    { level <= 0 }
     var isFull:    Bool    { level >= capacity }
     var isNominal: Bool    { !isEmpty && !isFull }
-    var mass:      CGFloat { level / energyDensity }
+    var mass:      CGFloat { level * density }
 
-    let capacity:      CGFloat    // in J
-    let energyDensity: CGFloat    // in J/g
-    var level =        CGFloat(0) // in J
-    let transferRate:  CGFloat    // in J/sec
-
-    func deposit(_ cJoules: CGFloat) {
-        assert(cJoules > 0)
-        level = min(level + cJoules, capacity)
+    func deposit(_ quantity: CGFloat) {
+        level = min((level + quantity), capacity)
     }
 
     @discardableResult
-    func withdraw(
-        _ cJoules: CGFloat, _ receiverRate: CGFloat? = nil, _ o2: CGFloat? = nil
-    ) -> CGFloat {
-
-        // When we eat, limit the transfer rate only to that of the ready
-        // organ; we could make the muscles the receiver, but it seems
-        // unnecessarily complex
-        let rr = receiverRate ?? CGFloat.infinity
-
-        // When we get oxygen from the lungs, we don't need more oxygen for
-        // processing it like we need for the other organs
-        let oo = o2 ?? CGFloat.infinity
-
-        guard let net = [cJoules, level, oo, rr, transferRate].min()
-            else { fatalError() }
-
-        level -= net
-        return net
-
+    func withdraw(_ quantity: CGFloat?) -> CGFloat {
+        if let q = quantity {
+            let net = min(level, q)
+            level -= net
+            return net
+        } else {
+            defer { level = 0 }
+            return level
+        }
     }
 
     @discardableResult
-    func withdrawMax(receiverRate: CGFloat?, o2: CGFloat) -> CGFloat {
-        withdraw(capacity, receiverRate, o2)
+    func withdrawFromSurplus(max quantity: CGFloat) -> CGFloat {
+        if (overflowFullness == nil) || !isOverflowing { return 0 }
+        let net = min(quantity, (1 - overflowFullness!) * capacity)
+        Debug.log(level: 175) { "withdrawFromSurplus(\(quantity)) -> net \(net)" }
+        return withdraw(net)
     }
 }
 
-enum AccessoryType: Int, CaseIterable { case bone, leather, poison }
+class VitaminStorage: OozeStorage {
+    // Vitamin storage is already in kg, no conversion needed
+    override var mass: CGFloat { return super.level }
 
-class Accessory: Organ {
-    let type: AccessoryType
-    private(set) var vitaminLevel: CGFloat = 0
+    init() {
+        super.init(
+            capacity: EnergyBudget.VitaminStore.capacityKg,
+            density: 1,
+            medium: .vitamins,
+            overflowFullness: 1,
+            underflowFullness: 0
+        )
+    }
+}
 
-    internal init(
-        capacity: CGFloat, energyDensity: CGFloat, transferRate: CGFloat,
-        type: AccessoryType
-    ) {
+enum DeployableType: Int, CaseIterable { case bone, leather, poison }
+
+class Deployable: Reportable {
+    private let rawMaterial: OozeStorage
+    let type: DeployableType
+    private let vitamins: OozeStorage
+
+    var level: CGFloat { fatalError() }
+    var mass: CGFloat { rawMaterial.mass + vitamins.mass }
+
+    internal init(type: DeployableType) {
         self.type = type
 
-        super.init(
-            capacity: capacity, energyDensity: energyDensity, transferRate: transferRate
+        self.rawMaterial = OozeStorage(
+            capacity: EnergyBudget.Accessory.capacityVolts,
+            density: EnergyBudget.Accessory.densityKgPerVcap,
+            medium: .force, // (electromotive force, that is)
+            overflowFullness: 1,
+            underflowFullness: 0
         )
+
+        self.vitamins = VitaminStorage()
     }
 
-    func depositVitamin(from stomach: Stomach) {
-        let net = stomach.withdrawVitamin(type)
-        vitaminLevel = min(capacity, vitaminLevel + net)
-    }
-
-    func withdrawVitamin(_ cVitaminoids: CGFloat, o2: CGFloat) -> CGFloat {
-        let netVitaminoids = min(vitaminLevel, (cVitaminoids * capacity / 10))
-        vitaminLevel -= netVitaminoids
-
-        return withdraw(netVitaminoids, nil, o2)
-    }
+    func depositRawMaterial(_ quantity: CGFloat) { rawMaterial.deposit(quantity) }
+    func depositVitamins(_ quantity: CGFloat) { vitamins.deposit(quantity) }
+    func withdrawRawMaterial(_ quantity: CGFloat) -> CGFloat { return rawMaterial.withdraw(quantity) }
+    func withdrawVitamins(_ quantity: CGFloat) -> CGFloat { return vitamins.withdraw(quantity) }
 }
 
-class Oxygen: Organ {
-    // This is an attempt to make the code easier to read elsewhere. It's the
-    // amount of energy that can be created when combusting. With a reactivity
-    // level of 1, I can combust 1 joule from the energy reserves
-    override var level: CGFloat {
-        set(L) { super.level = L * EnergyBudget.o2costPerJoule }
-        get    { super.level / EnergyBudget.o2costPerJoule }
-    }
+class Lungs: OozeStorage {
+    override var mass: CGFloat { super.level * EnergyBudget.Lungs.densityKgPerCC }
 
-    // Of course, the above complicates matters, because it might make us
-    // seem a lot heavier than we really are, because the mass is calculated
-    // from the resource level. Make sure to use the right one
-    override var mass: CGFloat { super.level * EnergyBudget.o2costPerJoule }
+    internal init() {
+        super.init(
+            capacity: EnergyBudget.Lungs.capacityCCs,
+            density: EnergyBudget.Lungs.densityKgPerCC,
+            medium: .gas,
+            overflowFullness: 1,
+            underflowFullness: 0
+        )
+    }
 
     func combust(_ cJoulesOfReactant: CGFloat) {
-        let o2 = cJoulesOfReactant * EnergyBudget.o2costPerJoule
-        super.withdraw(o2)
+        let o2 = cJoulesOfReactant * EnergyBudget.Lungs.combustionCCsPerJoule
+        let netO2 = super.withdraw(o2)
+        if netO2 < o2 {
+            Debug.log(level: 174) { "Out of oxygen; \(netO2) < \(o2)" }
+        }
     }
 
-    func inhale(_ cJoulesOfO2: CGFloat) { super.deposit(cJoulesOfO2) }
+    func inhale(_ ccsO2: CGFloat) { super.deposit(ccsO2) }
 }
 
-class ReadyEnergy: Organ {
-    internal init(
-        capacity: CGFloat, energyDensity: CGFloat, transferRate: CGFloat,
-        overflowFullness: CGFloat
-    ) {
-        self.overflowFullness = overflowFullness
-
+class ReadyEnergy: OozeStorage {
+    internal init() {
         super.init(
-            capacity: capacity, energyDensity: energyDensity, transferRate: transferRate
+            capacity: EnergyBudget.Ready.capacityJoules,
+            density: EnergyBudget.Ready.densityKgPerJoule,
+            medium: .work,
+            overflowFullness: EnergyBudget.Ready.overflowFullness,
+            underflowFullness: EnergyBudget.Ready.underflowFullness
         )
     }
-
-    override var isNominal: Bool { super.isNominal && !isOverflowing }
-
-    var isOverflowing: Bool { fullness > overflowFullness }
-
-    let overflowFullness: CGFloat   // in % of capacity
 }
 
-class Stomach: Organ {
-    var vitaminLevel = [CGFloat](repeating: 0, count: AccessoryType.allCases.count)
-
-    // Note that the 'capacity' here is actually the energy capacity of the
-    // organ, not the vitaminoid capacity of the stomach's vitamin pouch.
-    // Because laziness
-    func depositVitamin(_ cVitaminoids: CGFloat, type: AccessoryType) {
-        vitaminLevel[type.rawValue] =
-            min(vitaminLevel[type.rawValue] + cVitaminoids, capacity)
-    }
-
-    func withdrawVitamin(_ type: AccessoryType) -> CGFloat {
-        defer { vitaminLevel[type.rawValue] = 0 }
-        return vitaminLevel[type.rawValue]
+class Stomach: OozeStorage {
+    internal init() {
+        super.init(
+            capacity: EnergyBudget.Stomach.capacityKg,
+            density: EnergyBudget.Stomach.densityKgPerJoule,
+            medium: .meat,
+            overflowFullness: 1,
+            underflowFullness: 0
+        )
     }
 }

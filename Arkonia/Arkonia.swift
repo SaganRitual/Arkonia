@@ -19,7 +19,7 @@ class Arkonia {
     static let cMotorGridlets = cSenseGridlets - 1
 
     static let allowSpawning = true
-    static let cMannaMorsels = 6000
+    static let cMannaMorsels = 10000
     static let cPollenators = 5
 
     // vars so I can change them from the debugger
@@ -27,7 +27,6 @@ class Arkonia {
     static var debugMessageLevel = 174
     static var debugMessageToConsole = true
 
-    static let energyTransferRateInJoules: CGFloat = maxMannaEnergyContentInJoules * 2.0
     static let fudgeMassFactor: CGFloat = 0.1
     static let funkyCells: CGFloat? = 2 / zoomFactor
     static let initialPopulation = 1
@@ -51,8 +50,6 @@ class Arkonia {
     static let maxMannaEnergyContentInJoules: CGFloat = 400
     static let mannaRebloomDelayMinimum: TimeInterval = 3
     static let mannaRebloomDelayMaximum: TimeInterval = 5
-
-    static let arkonStandardSpeedPixPerSec: CGFloat = 250
 
     static let arkonMinRestDuration: TimeInterval = 0
     static let arkonMaxRestDuration: TimeInterval = 0

@@ -31,28 +31,6 @@ class Stepper {
 }
 
 extension Stepper {
-    func canSpawn() -> Bool {
-        return metabolism.spawnReserves.level > getSpawnCost()
-    }
-
-    func getSpawnCost() -> CGFloat {
-        let spawnCost = Arkonia.allowSpawning ?
-            Arkonia.spawnReservesCapacity * 0.95 : CGFloat.infinity
-
-        Debug.log(level: 95) {
-            if metabolism.spawnReserves.level <= 0 { return nil }
-
-            let sc = String(format: "%3.3f", spawnCost)
-            let sr = String(format: "%3.3f", metabolism.spawnReserves.level)
-            let sf = String(format: "%3.3f%%", metabolism.spawnEnergyFullness * 100)
-            return "spawnCost(\(six(name))) = \(sc); spawnReserves at \(sr) (\(sf))"
-        }
-
-        return spawnCost
-    }
-}
-
-extension Stepper {
     static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
         // Some of the drones get their userData set up for the net display,
         // the rest of them we set up here

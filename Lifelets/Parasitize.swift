@@ -26,12 +26,7 @@ extension Parasitize {
 
         func c() {
             guard let winner = victor, let loser = victim else { fatalError() }
-            parasitize(winner, loser, catchDumbMistakes, d)
-        }
-
-        func d() {
-            guard let winner = victor else { fatalError() }
-            winner.dispatch.scratch.co2Counter = 0
+            parasitize(winner, loser, catchDumbMistakes) {}
         }
 
         a()
@@ -127,10 +122,16 @@ extension Parasitize {
 
 extension Metabolism {
     func parasitizeProper(_ victim: Stepper) {
-        let spareCapacity = stomach.capacity - stomach.level
-        let victimEnergy = victim.metabolism.withdrawFromReady(spareCapacity)
-        let netEnergy = victimEnergy * 0.25
+//        let spareCapacity = stomach.capacity - stomach.level
+//        let victimEnergy = victim.metabolism.withdrawEnergy(spareCapacity)
+//        let netEnergy = victimEnergy * 0.25
 
-        absorbEnergy(netEnergy)
+//        absorb(
+//            Manna.Nutrition(
+//                victim.metabolism.bone.vitaminLevel, netEnergy,
+//                victim.metabolism.leather.vitaminLevel, victim.metabolism.lungs.level,
+//                victim.metabolism.poison.vitaminLevel
+//            )
+//        )
     }
 }

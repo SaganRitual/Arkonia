@@ -1,19 +1,6 @@
 import SpriteKit
 
 class Manna {
-    class Sprite {
-        weak var gridCell: GridCell?
-        let sprite: SKSpriteNode
-
-        init(_ fishNumber: Int) {
-            let name = ArkonName.makeMannaName(fishNumber)
-
-            sprite = SpriteFactory.shared.mannaPool.makeSprite(name)
-
-            SpriteFactory.shared.mannaPool.attachSprite(sprite)
-        }
-    }
-
     fileprivate var timeRequiredForFullBloom = Arkonia.mannaFullGrowthDurationSeconds
     fileprivate let fishNumber: Int
     fileprivate var mostRecentBloomTime: Date
@@ -32,22 +19,54 @@ class Manna {
 }
 
 extension Manna {
-    func harvest(_ onComplete: @escaping (CGFloat) -> Void) {
-        var nutritionInJoules: CGFloat = 0
+    class Nutrition {
+        internal init(
+            _ bone: CGFloat, _ ham: CGFloat, _ leather: CGFloat,
+            _ oxygen: CGFloat, _ poison: CGFloat
+        ) {
+            self.bone = bone
+            self.ham = ham
+            self.leather = leather
+            self.oxygen = oxygen
+            self.poison = poison
+        }
 
-        func a() { getNutritionInJoules { nutritionInJoules = $0; b() } }
+        let bone: CGFloat
+        let ham: CGFloat
+        let leather: CGFloat
+        let oxygen: CGFloat
+        let poison: CGFloat
+    }
+}
 
-        func b() {
-            defer {
-                Dispatch.dispatchQueue.async { onComplete(nutritionInJoules) }
-            }
+extension Manna {
+    class Sprite {
+        weak var gridCell: GridCell?
+        let sprite: SKSpriteNode
 
+        init(_ fishNumber: Int) {
+            let name = ArkonName.makeMannaName(fishNumber)
+
+            sprite = SpriteFactory.shared.mannaPool.makeSprite(name)
+
+            SpriteFactory.shared.mannaPool.attachSprite(sprite)
+        }
+    }
+}
+
+extension Manna {
+    func harvest(_ onComplete: @escaping (Nutrition?) -> Void) {
+        func a() { getNutrition(b) }
+
+        func b(_ nutrition: Nutrition) {
             // Don't give up any nutrition at all until I've bloomed enough
-            if nutritionInJoules < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { nutritionInJoules = 0; return }
+            if nutrition.ham < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { onComplete(nil); return }
 
             MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
 
             sprite.gridCell!.mannaAwaitingRebloom = true
+
+            Dispatch.dispatchQueue.async { onComplete(nutrition) }
         }
 
         a()
@@ -63,14 +82,25 @@ extension Manna {
         return energyContent
     }
 
-    func getNutritionInJoules(_ onComplete: @escaping (CGFloat) -> Void) {
+    func getNutrition(_ onComplete: @escaping (Nutrition) -> Void) {
         let e = getEnergyContentInJoules()
 
         // If there's no time limit, then cosmic entropy is n/a, doesn't happen
-        if Arkonia.worldTimeLimit == nil { onComplete(e); return }
+        if Arkonia.worldTimeLimit == nil {
+            let nutrition = Nutrition(1, e, 1, e, 1 )
+            onComplete(nutrition)
+            return
+        }
 
         Clock.shared.entropize(e) { entropizedEnergyContentInJoules in
-            Dispatch.dispatchQueue.async { onComplete(entropizedEnergyContentInJoules) }
+            Dispatch.dispatchQueue.async {
+                let nutrition = Nutrition(
+                    1, entropizedEnergyContentInJoules,
+                    1, entropizedEnergyContentInJoules, 1
+                )
+
+                onComplete(nutrition)
+            }
         }
     }
 

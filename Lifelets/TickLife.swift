@@ -37,11 +37,10 @@ extension TickLife {
 
         let isAlive = scratch.stepper.metabolism.tickLifeMath(
             cNeurons: scratch.stepper.net!.cNeurons,
-            co2Counter: scratch.stepper.dispatch.scratch.co2Counter,
             cOffspring: scratch.stepper.cOffspring
         )
 
-        let canSpawn = scratch.stepper.canSpawn()
+        let canSpawn = scratch.stepper.metabolism.canSpawn
 
         Grid.arkonsPlaneQueue.async { self.routeLife(isAlive, canSpawn, .arkonsPlane) }
     }
@@ -60,7 +59,7 @@ extension TickLife {
         else             { scratch.dispatch!.computeMove() }
     }
 }
-
+/*
 extension Metabolism {
     func tickLifeMath(
         cNeurons: Int, co2Counter: CGFloat, cOffspring: Int
@@ -107,5 +106,44 @@ extension Metabolism {
             fungibleEnergyFullness > 0 &&
             oxygenLevel > 0 &&
             co2Level < Arkonia.co2MaxLevel
+    }
+}
+*/
+extension Metabolism {
+    func tickLifeMath(cNeurons: Int, cOffspring: Int) -> Bool {
+        #if DEBUG
+        // If we're getting bogged down so much that we can't get to this arkon
+        // in less than our time limit, kill this guy off
+        let currentTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+        let duration = currentTime - mostRecentCycleStartTime
+
+        defer {
+            mostRecentCycleStartTime = currentTime
+            overTimeLimitCount = 0
+        }
+
+        if mostRecentCycleStartTime > 0 {
+            if duration > Arkonia.one_ms * UInt64(500) {
+                overTimeLimitCount += 1
+
+                if overTimeLimitCount > 5 || duration >= Arkonia.one_ms * UInt64(1000)  {
+                    Debug.log(level: 173) { "Killing off someone after \(duration / UInt64(Arkonia.one_ms))ms" }
+                    return false
+                }
+            }
+        }
+
+        mostRecentCycleStartTime = currentTime
+        overTimeLimitCount = 0
+        #endif
+
+//        let joulesNeeded =
+//            (capacity * EnergyBudget.joulesCostPerOrganCapacity)
+//            + (CGFloat(cNeurons) * EnergyBudget.joulesCostPerNeuron)
+//            + (mass * EnergyBudget.joulesCostPerBodyMass)
+//
+//        withdrawEnergy(joulesNeeded)
+
+        return ready.level > 0 && lungs.level > 0
     }
 }
