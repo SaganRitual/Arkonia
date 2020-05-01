@@ -1,5 +1,7 @@
 import SpriteKit
 
+func six(_ key: GridCell?) -> String { key == nil ? "<nil>" : "\(six(key!.gridPosition)) tenant \(six(key!.stepper?.name)), owned by \(six(key!.ownerName))" }
+
 protocol GridCellProtocol: CustomDebugStringConvertible {
     var gridPosition: AKPoint { get }
     var manna: Manna? { get }

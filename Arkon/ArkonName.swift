@@ -1,5 +1,7 @@
 import Foundation
 
+func six(_ nameThing: ArkonName?) -> String { nameThing == nil ? "<nil>" : "\(nameThing!)" }
+
 struct ArkonName: Hashable, CustomDebugStringConvertible {
     enum Nametag: CaseIterable {
         case alice, bob, charles, david, ellen, felicity, grace, helen

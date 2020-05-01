@@ -17,10 +17,9 @@
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
 		D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6E238E56C7007F0B7B /* Scratchpad.swift */; };
 		D4231C7B2440405600683742 /* Reschedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4231C7A2440405600683742 /* Reschedule.swift */; };
-		D434592E244D699F005B7CF1 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D434592B244D699F005B7CF1 /* Metabolism.swift */; };
-		D434592F244D699F005B7CF1 /* Organ.swift in Sources */ = {isa = PBXBuildFile; fileRef = D434592C244D699F005B7CF1 /* Organ.swift */; };
-		D4345932244F934B005B7CF1 /* Digestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4345931244F934B005B7CF1 /* Digestion.swift */; };
-		D4345934244F93AA005B7CF1 /* Combustion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4345933244F93AA005B7CF1 /* Combustion.swift */; };
+		D434592E244D699F005B7CF1 /* Netabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D434592B244D699F005B7CF1 /* Netabolism.swift */; };
+		D4345932244F934B005B7CF1 /* Cigestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4345931244F934B005B7CF1 /* Cigestion.swift */; };
+		D4345934244F93AA005B7CF1 /* Bombustion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4345933244F93AA005B7CF1 /* Bombustion.swift */; };
 		D43DC50624162FB10017FADF /* HotLayerCnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50524162FB10017FADF /* HotLayerCnn.swift */; };
 		D43DC50824165AFE0017FADF /* GPUArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50724165AFE0017FADF /* GPUArray.swift */; };
 		D43DC50A24165D450017FADF /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50924165D450017FADF /* DataSource.swift */; };
@@ -91,14 +90,41 @@
 		D4D4F050243ABACC00D093DF /* HotNetBnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4F04F243ABACC00D093DF /* HotNetBnn.swift */; };
 		D4D4F052243ABBA900D093DF /* HotLayerBnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4F051243ABBA900D093DF /* HotLayerBnn.swift */; };
 		D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D5EABA2368B05200E95AA5 /* Spawn.swift */; };
-		D4DA9EBA24550F46009E9A30 /* EnergyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DA9EB924550F46009E9A30 /* EnergyBudget.swift */; };
 		D4DA9EBC24551967009E9A30 /* EnergyBudget.Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DA9EBB24551967009E9A30 /* EnergyBudget.Functions.swift */; };
 		D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7FE2D23E6BD2A0043D57D /* Manna.swift */; };
+		D4F680A5245D37A1000B8EF2 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
+		D4F680A6245D37AE000B8EF2 /* Arkonia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* Arkonia.swift */; };
+		D4F680A7245D38FA000B8EF2 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
+		D4F680B224626EBE000B8EF2 /* Digestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F680B124626EBE000B8EF2 /* Digestion.swift */; };
+		D4F680B424626F16000B8EF2 /* ChamberedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F680B324626F16000B8EF2 /* ChamberedStore.swift */; };
+		D4F680B624626F94000B8EF2 /* Lungs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F680B524626F94000B8EF2 /* Lungs.swift */; };
+		D4F680B82462703D000B8EF2 /* Jump.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F680B72462703D000B8EF2 /* Jump.swift */; };
+		D4F680BA2462706D000B8EF2 /* Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F680B92462706D000B8EF2 /* Transfer.swift */; };
+		D4F680BC246295A2000B8EF2 /* EnergyBudget.Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F680BB246295A2000B8EF2 /* EnergyBudget.Protocols.swift */; };
 		D4F89BE32457C8130044F0D2 /* EnergyBudget.numbers in Resources */ = {isa = PBXBuildFile; fileRef = D4F89BE22457C8130044F0D2 /* EnergyBudget.numbers */; };
+		D4F89BEB245BCCCA0044F0D2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F89BEA245BCCCA0044F0D2 /* main.swift */; };
+		D4F89BF3245BCE640044F0D2 /* OozeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F89BF2245BCE640044F0D2 /* OozeStorage.swift */; };
+		D4F89BF4245BCE640044F0D2 /* OozeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F89BF2245BCE640044F0D2 /* OozeStorage.swift */; };
+		D4F89BF6245BD59A0044F0D2 /* EnergyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F89BF5245BD59A0044F0D2 /* EnergyBudget.swift */; };
+		D4F89BF7245BD59A0044F0D2 /* EnergyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F89BF5245BD59A0044F0D2 /* EnergyBudget.swift */; };
+		D4F89BF9245BE0770044F0D2 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F89BF8245BE0770044F0D2 /* Metabolism.swift */; };
+		D4F89BFA245BE0770044F0D2 /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F89BF8245BE0770044F0D2 /* Metabolism.swift */; };
 		D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */; };
 		D4FFE65823AF3CB800D0A1EE /* AKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */; };
 		D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE9612365814F00F5DDFB /* Dispatch.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D4F89BE6245BCCCA0044F0D2 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		D40985ED22650B0B009DD384 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -123,10 +149,9 @@
 		D422FE6E238E56C7007F0B7B /* Scratchpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
 		D4231C7A2440405600683742 /* Reschedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reschedule.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
-		D434592B244D699F005B7CF1 /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
-		D434592C244D699F005B7CF1 /* Organ.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Organ.swift; sourceTree = "<group>"; };
-		D4345931244F934B005B7CF1 /* Digestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Digestion.swift; sourceTree = "<group>"; };
-		D4345933244F93AA005B7CF1 /* Combustion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Combustion.swift; sourceTree = "<group>"; };
+		D434592B244D699F005B7CF1 /* Netabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Netabolism.swift; sourceTree = "<group>"; };
+		D4345931244F934B005B7CF1 /* Cigestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cigestion.swift; sourceTree = "<group>"; };
+		D4345933244F93AA005B7CF1 /* Bombustion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bombustion.swift; sourceTree = "<group>"; };
 		D43DC50524162FB10017FADF /* HotLayerCnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerCnn.swift; sourceTree = "<group>"; };
 		D43DC50724165AFE0017FADF /* GPUArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUArray.swift; sourceTree = "<group>"; };
 		D43DC50924165D450017FADF /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
@@ -188,16 +213,26 @@
 		D4D4F04F243ABACC00D093DF /* HotNetBnn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotNetBnn.swift; sourceTree = "<group>"; };
 		D4D4F051243ABBA900D093DF /* HotLayerBnn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotLayerBnn.swift; sourceTree = "<group>"; };
 		D4D5EABA2368B05200E95AA5 /* Spawn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spawn.swift; sourceTree = "<group>"; };
-		D4DA9EB924550F46009E9A30 /* EnergyBudget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyBudget.swift; sourceTree = "<group>"; };
 		D4DA9EBB24551967009E9A30 /* EnergyBudget.Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyBudget.Functions.swift; sourceTree = "<group>"; };
 		D4E7FE2D23E6BD2A0043D57D /* Manna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
 		D4EBEE3E22E0E9EF007C98A4 /* ArkoniaScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaScene.swift; sourceTree = "<group>"; };
 		D4EE561922BC96290076D8A1 /* Net.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		D4F6460722A4253F00FD8C56 /* ColorGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
+		D4F680B124626EBE000B8EF2 /* Digestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Digestion.swift; sourceTree = "<group>"; };
+		D4F680B324626F16000B8EF2 /* ChamberedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChamberedStore.swift; sourceTree = "<group>"; };
+		D4F680B524626F94000B8EF2 /* Lungs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lungs.swift; sourceTree = "<group>"; };
+		D4F680B72462703D000B8EF2 /* Jump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Jump.swift; sourceTree = "<group>"; };
+		D4F680B92462706D000B8EF2 /* Transfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transfer.swift; sourceTree = "<group>"; };
+		D4F680BB246295A2000B8EF2 /* EnergyBudget.Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyBudget.Protocols.swift; sourceTree = "<group>"; };
 		D4F89BE0245613E90044F0D2 /* energy-budget.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "energy-budget.sh"; sourceTree = "<group>"; };
 		D4F89BE1245614340044F0D2 /* swiftlint.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = swiftlint.sh; sourceTree = "<group>"; };
 		D4F89BE22457C8130044F0D2 /* EnergyBudget.numbers */ = {isa = PBXFileReference; lastKnownFileType = file; path = EnergyBudget.numbers; sourceTree = "<group>"; };
+		D4F89BE8245BCCCA0044F0D2 /* EnergyBudget */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EnergyBudget; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4F89BEA245BCCCA0044F0D2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D4F89BF2245BCE640044F0D2 /* OozeStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OozeStorage.swift; sourceTree = "<group>"; };
+		D4F89BF5245BD59A0044F0D2 /* EnergyBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyBudget.swift; sourceTree = "<group>"; };
+		D4F89BF8245BE0770044F0D2 /* Metabolism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
 		D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSpriteNode.swift; sourceTree = "<group>"; };
 		D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKPoint.swift; sourceTree = "<group>"; };
 		D4FFE9612365814F00F5DDFB /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
@@ -205,6 +240,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		D464BA5622C737260069623C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4F89BE5245BCCCA0044F0D2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -227,6 +269,7 @@
 				D42172E9233EE46000A56594 /* .swiftlint.yml */,
 				D43EA81B228FDCC3006C619D /* Arkon */,
 				D43EA81A228FDBA4006C619D /* Arkonia */,
+				D4F89BE9245BCCCA0044F0D2 /* EnergyBudget */,
 				D4BD1DBA23C088C200CE0753 /* Grid */,
 				D4B4293B22DAEC7E0036C904 /* HUD */,
 				D4BB6E6A234E544B00529819 /* Lifelets */,
@@ -242,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				D464BA5F22C737260069623C /* Karamba.app */,
+				D4F89BE8245BCCCA0044F0D2 /* EnergyBudget */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -270,12 +314,10 @@
 		D434592A244D63EB005B7CF1 /* Metabolism */ = {
 			isa = PBXGroup;
 			children = (
-				D4345933244F93AA005B7CF1 /* Combustion.swift */,
-				D4345931244F934B005B7CF1 /* Digestion.swift */,
-				D4DA9EB924550F46009E9A30 /* EnergyBudget.swift */,
+				D4345933244F93AA005B7CF1 /* Bombustion.swift */,
+				D4345931244F934B005B7CF1 /* Cigestion.swift */,
 				D4DA9EBB24551967009E9A30 /* EnergyBudget.Functions.swift */,
-				D434592B244D699F005B7CF1 /* Metabolism.swift */,
-				D434592C244D699F005B7CF1 /* Organ.swift */,
+				D434592B244D699F005B7CF1 /* Netabolism.swift */,
 			);
 			path = Metabolism;
 			sourceTree = "<group>";
@@ -440,6 +482,23 @@
 			path = NetDisplay;
 			sourceTree = "<group>";
 		};
+		D4F89BE9245BCCCA0044F0D2 /* EnergyBudget */ = {
+			isa = PBXGroup;
+			children = (
+				D4F89BEA245BCCCA0044F0D2 /* main.swift */,
+				D4F680B324626F16000B8EF2 /* ChamberedStore.swift */,
+				D4F89BF5245BD59A0044F0D2 /* EnergyBudget.swift */,
+				D4F680BB246295A2000B8EF2 /* EnergyBudget.Protocols.swift */,
+				D4F680B124626EBE000B8EF2 /* Digestion.swift */,
+				D4F680B72462703D000B8EF2 /* Jump.swift */,
+				D4F680B524626F94000B8EF2 /* Lungs.swift */,
+				D4F89BF8245BE0770044F0D2 /* Metabolism.swift */,
+				D4F89BF2245BCE640044F0D2 /* OozeStorage.swift */,
+				D4F680B92462706D000B8EF2 /* Transfer.swift */,
+			);
+			path = EnergyBudget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -461,15 +520,37 @@
 			productReference = D464BA5F22C737260069623C /* Karamba.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D4F89BE7245BCCCA0044F0D2 /* EnergyBudget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4F89BEC245BCCCA0044F0D2 /* Build configuration list for PBXNativeTarget "EnergyBudget" */;
+			buildPhases = (
+				D4F89BE4245BCCCA0044F0D2 /* Sources */,
+				D4F89BE5245BCCCA0044F0D2 /* Frameworks */,
+				D4F89BE6245BCCCA0044F0D2 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EnergyBudget;
+			productName = EnergyBudget;
+			productReference = D4F89BE8245BCCCA0044F0D2 /* EnergyBudget */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		D40985D822650B0A009DD384 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1100;
+				LastSwiftUpdateCheck = 1120;
+				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = "Boring Software";
+				TargetAttributes = {
+					D4F89BE7245BCCCA0044F0D2 = {
+						CreatedOnToolsVersion = 11.2;
+					};
+				};
 			};
 			buildConfigurationList = D40985DB22650B0A009DD384 /* Build configuration list for PBXProject "Karamba" */;
 			compatibilityVersion = "Xcode 9.3";
@@ -485,6 +566,7 @@
 			projectRoot = "";
 			targets = (
 				D464BA3122C737260069623C /* Karamba */,
+				D4F89BE7245BCCCA0044F0D2 /* EnergyBudget */,
 			);
 		};
 /* End PBXProject section */
@@ -535,6 +617,7 @@
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
 				D467E885242D2AB0006325E0 /* Manna.Sprite.swift in Sources */,
 				D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */,
+				D4F89BF9245BE0770044F0D2 /* Metabolism.swift in Sources */,
 				D4C7E07A240CC0C2005C0191 /* HotLayerBlas.swift in Sources */,
 				D4BD1DCB23C088C200CE0753 /* Grid.swift in Sources */,
 				D4BD1DCC23C088C200CE0753 /* CellSenseGrid.swift in Sources */,
@@ -547,11 +630,11 @@
 				D4B00919241FF722007FDD6F /* Cbuffer.swift in Sources */,
 				D4B4295322DAF1CD0036C904 /* Report.swift in Sources */,
 				D4BB6E7D234EF71800529819 /* Colorize.swift in Sources */,
-				D434592F244D699F005B7CF1 /* Organ.swift in Sources */,
 				D464BA3B22C737260069623C /* Arkonia.swift in Sources */,
 				D4523A4D242942FF0074442F /* SensesConnector.swift in Sources */,
 				D4FFE65823AF3CB800D0A1EE /* AKPoint.swift in Sources */,
 				D4A59D212387E4E400517F60 /* Engage.swift in Sources */,
+				D4F89BF6245BD59A0044F0D2 /* EnergyBudget.swift in Sources */,
 				D4D4F052243ABBA900D093DF /* HotLayerBnn.swift in Sources */,
 				D40F452C23C88A3D0027BD0C /* EnergyReserve.swift in Sources */,
 				D43DC51024177B4E0017FADF /* HotReserves.swift in Sources */,
@@ -579,7 +662,7 @@
 				D41ED8D623B084A100E82B08 /* Debug.swift in Sources */,
 				D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */,
 				D4BBFCDE24430318000C139D /* LineGraph.swift in Sources */,
-				D4345932244F934B005B7CF1 /* Digestion.swift in Sources */,
+				D4345932244F934B005B7CF1 /* Cigestion.swift in Sources */,
 				D47FDDC424485BC500C89A1E /* Dashboard.swift in Sources */,
 				D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */,
 				D4231C7B2440405600683742 /* Reschedule.swift in Sources */,
@@ -594,7 +677,7 @@
 				D4BD1DC723C088C200CE0753 /* CellShuttle.swift in Sources */,
 				D4C7E06324088C51005C0191 /* HotNetGpu.swift in Sources */,
 				D4C7E065240896B0005C0191 /* WeightsMatrix.swift in Sources */,
-				D4DA9EBA24550F46009E9A30 /* EnergyBudget.swift in Sources */,
+				D4F89BF3245BCE640044F0D2 /* OozeStorage.swift in Sources */,
 				D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */,
 				D458940223CFE847004FED72 /* Mutator.swift in Sources */,
 				D43DC50624162FB10017FADF /* HotLayerCnn.swift in Sources */,
@@ -603,11 +686,11 @@
 				D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
 				D422DE0B23598B52003734B8 /* Census.swift in Sources */,
-				D434592E244D699F005B7CF1 /* Metabolism.swift in Sources */,
+				D434592E244D699F005B7CF1 /* Netabolism.swift in Sources */,
 				D4BD1DC923C088C200CE0753 /* Positions.swift in Sources */,
 				D4D4F050243ABACC00D093DF /* HotNetBnn.swift in Sources */,
 				D4B00912241B8BB3007FDD6F /* Pollenator.swift in Sources */,
-				D4345934244F93AA005B7CF1 /* Combustion.swift in Sources */,
+				D4345934244F93AA005B7CF1 /* Bombustion.swift in Sources */,
 				D41787062430D5090025EC00 /* BarChart.swift in Sources */,
 				D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */,
 				D4BB6E77234EDCA500529819 /* Apoptosize.swift in Sources */,
@@ -615,6 +698,26 @@
 				D464BA5522C737260069623C /* Extensions.swift in Sources */,
 				D4BB6E7B234EF62800529819 /* Metabolize.swift in Sources */,
 				D44EFA5824280CB600798FE6 /* Plotter.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D4F89BE4245BCCCA0044F0D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4F89BF4245BCE640044F0D2 /* OozeStorage.swift in Sources */,
+				D4F680BC246295A2000B8EF2 /* EnergyBudget.Protocols.swift in Sources */,
+				D4F680A6245D37AE000B8EF2 /* Arkonia.swift in Sources */,
+				D4F680B224626EBE000B8EF2 /* Digestion.swift in Sources */,
+				D4F680A5245D37A1000B8EF2 /* Debug.swift in Sources */,
+				D4F680B624626F94000B8EF2 /* Lungs.swift in Sources */,
+				D4F680A7245D38FA000B8EF2 /* Extensions.swift in Sources */,
+				D4F680B424626F16000B8EF2 /* ChamberedStore.swift in Sources */,
+				D4F680BA2462706D000B8EF2 /* Transfer.swift in Sources */,
+				D4F89BEB245BCCCA0044F0D2 /* main.swift in Sources */,
+				D4F89BFA245BE0770044F0D2 /* Metabolism.swift in Sources */,
+				D4F89BF7245BD59A0044F0D2 /* EnergyBudget.swift in Sources */,
+				D4F680B82462703D000B8EF2 /* Jump.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -797,6 +900,36 @@
 			};
 			name = Release;
 		};
+		D4F89BED245BCCCA0044F0D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D4F89BEE245BCCCA0044F0D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DD983V4X84;
+				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.arkonia;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -814,6 +947,15 @@
 			buildConfigurations = (
 				D464BA5D22C737260069623C /* Debug */,
 				D464BA5E22C737260069623C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4F89BEC245BCCCA0044F0D2 /* Build configuration list for PBXNativeTarget "EnergyBudget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4F89BED245BCCCA0044F0D2 /* Debug */,
+				D4F89BEE245BCCCA0044F0D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

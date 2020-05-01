@@ -53,3 +53,11 @@ extension Stepper {
         sprite.name = nil
     }
 }
+
+extension Debug {
+    static func debugColor(_ stepper: Stepper, _ thoraxColor: SKColor, _ noseColor: SKColor) {
+        if !Arkonia.debugColorIsEnabled { return }
+        stepper.sprite.color = thoraxColor
+        stepper.nose.color = noseColor
+    }
+}

@@ -145,3 +145,26 @@ extension Manna {
         sprite.bloom(timeRequiredForFullBloom, color: fs.node.fillColor, scaleFactor: fs.node.xScale)
     }
 }
+
+extension Debug {
+    static func showMannaStats() {
+        var cCells = 0, cPhotosynthesizing = 0
+
+        for x in -Grid.shared.gridWidthInCells..<Grid.shared.gridWidthInCells {
+            for y in -Grid.shared.gridHeightInCells..<Grid.shared.gridHeightInCells {
+                let p = AKPoint(x: x, y: y)
+                let c = Grid.shared.getCell(at: p)
+
+                cCells += 1
+
+                guard let manna = c.manna else {
+                    continue
+                }
+
+                cPhotosynthesizing += manna.isPhotosynthesizing ? 1 : 0
+            }
+        }
+
+        print("Manna stats; \(cCells) cells, \(cPhotosynthesizing) photosynthesizing")
+    }
+}

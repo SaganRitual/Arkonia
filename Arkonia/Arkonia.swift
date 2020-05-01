@@ -24,7 +24,7 @@ class Arkonia {
 
     // vars so I can change them from the debugger
     static var debugColorIsEnabled = false
-    static var debugMessageLevel = 174
+    static var debugMessageLevel = 180
     static var debugMessageToConsole = true
 
     static let fudgeMassFactor: CGFloat = 0.1

@@ -59,90 +59,16 @@ extension TickLife {
         else             { scratch.dispatch!.computeMove() }
     }
 }
-/*
-extension Metabolism {
-    func tickLifeMath(
-        cNeurons: Int, co2Counter: CGFloat, cOffspring: Int
-    ) -> Bool {
-        // If we're getting bogged down so much that we can't get to this arkon
-        // in less than our time limit, kill this guy off
-        let currentTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
-        let duration = currentTime - mostRecentCycleStartTime
 
-        defer {
-            mostRecentCycleStartTime = currentTime
-            overTimeLimitCount = 0
-        }
-
-        if mostRecentCycleStartTime > 0 {
-            if duration > Arkonia.one_ms * UInt64(500) {
-                overTimeLimitCount += 1
-
-                if overTimeLimitCount > 5 || duration >= Arkonia.one_ms * UInt64(1000)  {
-                    Debug.log(level: 173) { "Killing off someone after \(duration / UInt64(Arkonia.one_ms))ms" }
-                    return false
-                }
-            }
-        }
-
-        mostRecentCycleStartTime = currentTime
-        overTimeLimitCount = 0
-
-        let joulesNeeded = Arkonia.fudgeMassFactor * mass + CGFloat(cNeurons) * Arkonia.neuronCostPerCycle
-
-        withdrawFromReady(joulesNeeded)
-
-        let oxygenCost: CGFloat = Arkonia.oxygenCostPerTick
-        let co2Cost: CGFloat = pow(Arkonia.co2BaseCost, co2Counter)
-
-        Debug.log(level: 96) { "O2 cost \(oxygenCost), CO2 cost \(co2Cost)" }
-
-        oxygenLevel -= oxygenCost
-        co2Level += co2Cost
-
-        Debug.log(level: 96) { "O2 level \(oxygenLevel), CO2 level \(co2Level)" }
-
-        return
-            fungibleEnergyFullness > 0 &&
-            oxygenLevel > 0 &&
-            co2Level < Arkonia.co2MaxLevel
-    }
-}
-*/
 extension Metabolism {
     func tickLifeMath(cNeurons: Int, cOffspring: Int) -> Bool {
-        #if DEBUG
-        // If we're getting bogged down so much that we can't get to this arkon
-        // in less than our time limit, kill this guy off
-        let currentTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
-        let duration = currentTime - mostRecentCycleStartTime
+        let joulesNeeded =
 
-        defer {
-            mostRecentCycleStartTime = currentTime
-            overTimeLimitCount = 0
-        }
+            (capacity * EnergyBudget.joulesCostPerOrganCapacity)
+            + (CGFloat(cNeurons) * EnergyBudget.joulesCostPerNeuron)
+            + (mass * EnergyBudget.joulesCostPerBodyMass)
 
-        if mostRecentCycleStartTime > 0 {
-            if duration > Arkonia.one_ms * UInt64(500) {
-                overTimeLimitCount += 1
-
-                if overTimeLimitCount > 5 || duration >= Arkonia.one_ms * UInt64(1000)  {
-                    Debug.log(level: 173) { "Killing off someone after \(duration / UInt64(Arkonia.one_ms))ms" }
-                    return false
-                }
-            }
-        }
-
-        mostRecentCycleStartTime = currentTime
-        overTimeLimitCount = 0
-        #endif
-
-//        let joulesNeeded =
-//            (capacity * EnergyBudget.joulesCostPerOrganCapacity)
-//            + (CGFloat(cNeurons) * EnergyBudget.joulesCostPerNeuron)
-//            + (mass * EnergyBudget.joulesCostPerBodyMass)
-//
-//        withdrawEnergy(joulesNeeded)
+        withdrawEnergy(joulesNeeded)
 
         return ready.level > 0 && lungs.level > 0
     }

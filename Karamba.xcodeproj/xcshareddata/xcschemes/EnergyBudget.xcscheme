@@ -5,6 +5,22 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D4F89BE7245BCCCA0044F0D2"
+               BuildableName = "EnergyBudget"
+               BlueprintName = "EnergyBudget"
+               ReferencedContainer = "container:Karamba.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -28,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D464BA3122C737260069623C"
-            BuildableName = "Karamba.app"
-            BlueprintName = "Karamba"
+            BlueprintIdentifier = "D4F89BE7245BCCCA0044F0D2"
+            BuildableName = "EnergyBudget"
+            BlueprintName = "EnergyBudget"
             ReferencedContainer = "container:Karamba.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -45,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D464BA3122C737260069623C"
-            BuildableName = "Karamba.app"
-            BlueprintName = "Karamba"
+            BlueprintIdentifier = "D4F89BE7245BCCCA0044F0D2"
+            BuildableName = "EnergyBudget"
+            BlueprintName = "EnergyBudget"
             ReferencedContainer = "container:Karamba.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

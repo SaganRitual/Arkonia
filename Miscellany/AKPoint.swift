@@ -1,5 +1,7 @@
 import CoreGraphics
 
+func six(_ point: AKPoint?) -> String { point == nil ? "<nil>" : "\(point!)"}
+
 struct AKPoint: Overload2D, Hashable, HasXY, CustomDebugStringConvertible {
     // swiftlint:disable unused_setter_value
     var aa: CGFloat { get { CGFloat(x) } set { } }

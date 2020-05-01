@@ -4,9 +4,6 @@ func showDebugLog() {
     Debug.showLog()
 }
 
-func six(_ nameThing: ArkonName?) -> String { nameThing == nil ? "<nil>" : "\(nameThing!)" }
-func six(_ key: GridCell?) -> String { key == nil ? "<nil>" : "\(six(key!.gridPosition)) tenant \(six(key!.stepper?.name)), owned by \(six(key!.ownerName))" }
-func six(_ point: AKPoint?) -> String { point == nil ? "<nil>" : "\(point!)"}
 func six(_ string: String?) -> String { String(string?.prefix(50) ?? "<nothing here>") }
 
 struct Debug {
@@ -17,12 +14,6 @@ struct Debug {
         if !Arkonia.debugColorIsEnabled { return }
         thorax.color = thoraxColor
         nose.color = noseColor
-    }
-
-    static func debugColor(_ stepper: Stepper, _ thoraxColor: SKColor, _ noseColor: SKColor) {
-        if !Arkonia.debugColorIsEnabled { return }
-        stepper.sprite.color = thoraxColor
-        stepper.nose.color = noseColor
     }
 }
 
@@ -70,6 +61,13 @@ extension Debug {
     static func log(level: Int? = nil, _ execute: () -> String?) {}
     #endif
 
+    // Need this for testing, when the test run as a console app, the app quits
+    // before the log can finish displaying messages. Have the console app
+    // call this function before exiting
+    static func waitForLogClear() {
+        debugLogQueue.sync { print("Waiting for log to clear...") }
+    }
+
     static func showLog() {
         print("Log index = \(logIndex)")
 
@@ -82,27 +80,6 @@ extension Debug {
             let wix = (firstEntry + ix) % cLogMessages
             print(String(format: formatString, wix), logMessages[wix])
         }
-    }
-
-    static func showMannaStats() {
-        var cCells = 0, cPhotosynthesizing = 0
-
-        for x in -Grid.shared.gridWidthInCells..<Grid.shared.gridWidthInCells {
-            for y in -Grid.shared.gridHeightInCells..<Grid.shared.gridHeightInCells {
-                let p = AKPoint(x: x, y: y)
-                let c = Grid.shared.getCell(at: p)
-
-                cCells += 1
-
-                guard let manna = c.manna else {
-                    continue
-                }
-
-                cPhotosynthesizing += manna.isPhotosynthesizing ? 1 : 0
-            }
-        }
-
-        print("Manna stats; \(cCells) cells, \(cPhotosynthesizing) photosynthesizing")
     }
 
     class Histogram {
