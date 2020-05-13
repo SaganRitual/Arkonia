@@ -57,7 +57,7 @@ class Metabolism: HasSelectableStore {
     func applyFixedMetabolicCosts() -> Bool {
         var alive = true
 
-        Debug.log(level: 180) {
+        Debug.log(level: 179) {
             "enter applyFixedMetabolicCosts()"
                 + " -> be = \(self.bodyPerCycleEnergyCost)"
                 + ", bo = \(self.bodyPerCycleOozeCost)"
@@ -108,6 +108,10 @@ class Metabolism: HasSelectableStore {
                   let compartment = selectStore(id) else { continue }
 
             compartment.deposit(mannaStoreLevel)
+
+            Debug.log(level: 180) {
+                "absorb \(mannaStoreLevel) into \(id), result level \(compartment.level)"
+            }
         }
     }
 

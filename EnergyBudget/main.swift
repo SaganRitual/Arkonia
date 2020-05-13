@@ -13,11 +13,11 @@ enum RandomJumpDistance {
 }
 
 func energyBudget(_ metabolism: Metabolism, _ passCounter: Int) -> Bool {
-    Debug.log(level: 180) { "post-init(\(passCounter))" }
+    Debug.log(level: 179) { "post-init(\(passCounter))" }
 
     metabolism.digest()
 
-    Debug.log(level: 180) { "post-digest(\(passCounter))" }
+    Debug.log(level: 179) { "post-digest(\(passCounter))" }
 
     var isAlive = metabolism.applyFixedMetabolicCosts()
 
@@ -29,14 +29,15 @@ func energyBudget(_ metabolism: Metabolism, _ passCounter: Int) -> Bool {
     if !isAlive { return false }
 
     Debug.log(level: 180) { "post-jump(\(passCounter)), isAlive = \(isAlive)" }
-//
-//    metabolism.eat()
-//
-//    Debug.log(level: 180) { "post-eat" }
+
+    if Int.random(in: 0..<100) < 25 {
+        metabolism.eat()
+        Debug.log(level: 180) { "post-eat; mass \(metabolism.mass)" }
+    }
 
     return true
 }
 
 let metabolism = Metabolism(cNeurons: 300)
-for i in 0..<10 { if energyBudget(metabolism, i) == false { break } }
+for i in 0..<100 { if energyBudget(metabolism, i) == false { break } }
 Debug.waitForLogClear()

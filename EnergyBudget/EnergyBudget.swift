@@ -51,7 +51,7 @@ struct MannaContent: HasSelectableStore {
     typealias StoreType = CGFloat
 
     let bone:    CGFloat = 1
-    let ham:     CGFloat = 1   // Manna contains ham; arkons convert it directly to energy
+    let ham:     CGFloat = 300   // Manna contains ham; arkons convert it directly to energy
     let leather: CGFloat = 1
     let o2:      CGFloat = 1
 
@@ -73,7 +73,7 @@ extension EnergyBudget {
         case .fat: return EnergyBudget(
             organID:             organID,
             chamberID:           chamberID,
-            capacity:            100,
+            capacity:            300,
             compression:         1,
             contentDensity:      1,
             organDensity:        0.1,
@@ -199,7 +199,7 @@ extension EnergyBudget {
         case .fatStore: return EnergyBudget(
             organID:             organID,
             chamberID:           .na,
-            capacity:            100,
+            capacity:            300,
             compression:         1,
             contentDensity:      1,
             organDensity:        0.1,
