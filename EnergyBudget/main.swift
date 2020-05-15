@@ -30,7 +30,7 @@ func energyBudget(_ metabolism: Metabolism, _ passCounter: Int) -> Bool {
 
     Debug.log(level: 180) { "post-jump(\(passCounter)), isAlive = \(isAlive)" }
 
-    if Int.random(in: 0..<100) < 25 {
+    if Int.random(in: 0..<100) < 50 {
         metabolism.eat()
         Debug.log(level: 180) { "post-eat; mass \(metabolism.mass)" }
     }

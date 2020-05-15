@@ -15,13 +15,14 @@ class Metabolism: HasSelectableStore {
     typealias StoreType = OozeStorage
 
     let bone =     OozeStorage(.bone)
-    let embryo =   ChamberedStore(.embryo, 2)
     let energy =   OozeStorage(.energy)
     let fatStore = OozeStorage(.fatStore)
     let leather =  OozeStorage(.leather)
     let lungs =    Lungs()
-    let spawn =    ChamberedStore(.spawn, 2)
     let stomach =  ChamberedStore(.stomach, 1)
+
+    var embryo: ChamberedStore? = ChamberedStore(.embryo, 2)
+    var spawn: ChamberedStore?
 
     let bodyPerCycleEnergyCost: CGFloat
     let bodyPerCycleOozeCost:   CGFloat
@@ -38,10 +39,10 @@ class Metabolism: HasSelectableStore {
         let brainPerCycleOozeCost   = cn * WorldConstants.useCostOozePerNeuronKg
 
         allOrgans = [
-            bone, embryo, energy, fatStore, leather, lungs, spawn, stomach
+            bone, embryo!, energy, fatStore, leather, lungs, stomach
         ]
 
-        secondaryStores = [.bone, .fatStore, .energy, .leather, .lungs]
+        secondaryStores = [.bone, .energy, .fatStore, .leather, .lungs]
 
         let capacityCenters = allOrgans.compactMap { $0 as? HasCapacityCosts }
 
@@ -51,7 +52,7 @@ class Metabolism: HasSelectableStore {
         bodyPerCycleEnergyCost = brainPerCycleEnergyCost + gutPerCycleEnergyCost
         bodyPerCycleOozeCost = brainPerCycleOozeCost + gutPerCycleOozeCost
 
-        ChamberedStore.fill(embryo)
+        ChamberedStore.fill(embryo!)
     }
 
     func applyFixedMetabolicCosts() -> Bool {
@@ -105,7 +106,7 @@ class Metabolism: HasSelectableStore {
 
         for id in secondaryStores {
             guard let mannaStoreLevel = manna.selectStore(id),
-                  let compartment = selectStore(id) else { continue }
+                  let compartment = stomach.selectStore(id) else { continue }
 
             compartment.deposit(mannaStoreLevel)
 

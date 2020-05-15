@@ -1,11 +1,30 @@
-// swiftlint:disable large_tuple
 import Foundation
 
 extension Metabolism {
+    struct TransferLevels {
+        internal init(
+            _ netNativeDraw: CGFloat, _ netNativeDeposit: CGFloat,
+            _ drawFullness: CGFloat, _ depositFullness: CGFloat
+        ) {
+            self.netNativeDraw = netNativeDraw
+            self.netNativeDeposit = netNativeDeposit
+            self.drawFullness = drawFullness
+            self.depositFullness = depositFullness
+        }
+
+        let netNativeDraw: CGFloat
+        let netNativeDeposit: CGFloat
+        let drawFullness: CGFloat
+        let depositFullness: CGFloat
+    }
+
     func getTransferLevels(
-        from source: OozeStorage, to sink: OozeStorage, maxDeposit: CGFloat = CGFloat.infinity
-    ) -> (CGFloat, CGFloat, CGFloat, CGFloat) {
-        let sourceLevelNative = source.level * source.E.compression
+        from source: OozeStorage, to sink: OozeStorage,
+        maxDeposit: CGFloat = CGFloat.infinity,
+        maxDraw: CGFloat = CGFloat.infinity
+    ) -> TransferLevels {
+        let sourceLevelNative_ = source.level * source.E.compression
+        let sourceLevelNative = min(sourceLevelNative_, maxDraw)
         let sourceLevelKgOoze = sourceLevelNative * source.E.contentDensity
 
         let sinkLevelNative_ = sink.availableCapacity * sink.E.compression
@@ -22,8 +41,9 @@ extension Metabolism {
         let toSinkTransfer = transferrable / sink.E.contentDensity
         let netNativeDeposit = toSinkTransfer / sink.E.compression
 
-        Debug.log(level: 179) {
+        Debug.log(level: 180) {
             "getTransferLevels: source \(source.E.organID):\(source.E.chamberID)"
+            + " level \(source.level) compression \(source.E.compression)"
             + " native \(sourceLevelNative)"
             + " kg \(sourceLevelKgOoze)"
             + " transferrable \(transferrable)"
@@ -32,7 +52,7 @@ extension Metabolism {
             + " net native draw \(netNativeDraw)"
         }
 
-        Debug.log(level: 179) {
+        Debug.log(level: 180) {
             "getTransferLevels: sink \(sink.E.organID):\(sink.E.chamberID) capacity: "
             + " native \(sink.E.capacity) - \(sink.level) = \(sinkLevelNative)"
             + " kg \(sinkLevelKgOoze)"
@@ -42,7 +62,7 @@ extension Metabolism {
             + " net native deposit \(netNativeDeposit)"
         }
 
-        return (netNativeDraw, netNativeDeposit, drawFullness, depositFullness)
+        return TransferLevels(netNativeDraw, netNativeDeposit, drawFullness, depositFullness)
     }
 
     @discardableResult
@@ -65,27 +85,21 @@ extension Metabolism {
         return netDeposit
     }
 
-    @discardableResult
     func transferSurplus(
-        _ maxQuantity_: CGFloat?, from source: OrganProtocol,
-        to sink: OrganProtocol
-    ) -> CGFloat {
-        let maxQuantity = maxQuantity_ ?? sink.storage.availableCapacity
-        let net = min(maxQuantity, sink.storage.availableCapacity)
+        _ source: OozeStorage,
+        _ sink: OozeStorage,
+        maxDeposit: CGFloat = CGFloat.infinity,
+        maxDraw: CGFloat = CGFloat.infinity
+    ) {
+        let transferLevels = getTransferLevels(
+            from: source, to: sink, maxDeposit: maxDeposit, maxDraw: maxDraw
+        )
 
-        let netDraw: CGFloat, netDeposit: CGFloat
-        if net > 0 {
-            netDraw = source.storage.withdraw(net)
-            netDeposit = sink.storage.deposit(net)
-        } else { netDraw = 0; netDeposit = 0 }
-
-        Debug.log(level: 179) {
-            "transferSurplus(\(maxQuantity)"
-            + ", from: \(source.storage.E.organID)"
-            + ", to: \(sink.storage.E.organID)"
-            + " -> \(netDraw) -> \(netDeposit)"
+        if transferLevels.netNativeDraw > 0 && transferLevels.netNativeDeposit > 0 {
+            transfer(
+                transferLevels.netNativeDraw, from: source,
+                as: transferLevels.netNativeDeposit, to: sink
+            )
         }
-
-        return net
     }
 }
