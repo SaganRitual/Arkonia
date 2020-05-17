@@ -45,8 +45,9 @@ extension Plotter {
             if let f = fromCell {
 //                let asPercentage = CGFloat(1 + jumpSpeedMotorOutput) / 2
 
-                let jumpDistance = f.gridPosition.asPoint().distance(to: toCell.gridPosition.asPoint())
-                let isAlive = stepper.metabolism.applyJumpCosts(jumpDistance)
+                let jumpDistanceInCells = f.gridPosition.asPoint().distance(to: toCell.gridPosition.asPoint())
+                let jumpDistanceInMeters = jumpDistanceInCells / RealWorldConversions.cellsPerRealMeter
+                let isAlive = stepper.metabolism.applyJumpCosts(jumpDistanceInMeters)
 
                 if !isAlive {
                     scratch.dispatch!.apoptosize()

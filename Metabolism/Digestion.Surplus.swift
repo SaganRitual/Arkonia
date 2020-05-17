@@ -67,7 +67,7 @@ extension Metabolism {
             transferSurplus(fatStore, chamber, maxDraw: maxDraw)
         }
 
-        Debug.log(level: 180) {
+        Debug.log(level: 181) {
             "Filling spawn embryo"
             + "; fat \(spawn.fatStore!.fullness * 100)%"
             + "; ham \(spawn.hamStore.fullness * 100)%"

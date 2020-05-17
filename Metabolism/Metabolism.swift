@@ -74,25 +74,25 @@ class Metabolism: HasSelectableStore {
         for maintainBody: (() -> Bool) in [
             {
                 let start = self.energy.level
-                defer { Debug.log(level: 179) { "maintainBody(energy); energy start \(start) result \(self.energy.level) alive = \(alive)" } }
+                defer { Debug.log(level: 180) { "maintainBody(energy); energy start \(start) result \(self.energy.level) alive = \(alive)" } }
                 alive = self.energy.withdraw(self.bodyPerCycleEnergyCost) == self.bodyPerCycleEnergyCost
                 return alive
             },
             {
                 let start = self.fatStore.level
-                defer { Debug.log(level: 179) { "maintainBody(material); fatStore start \(start) result \(self.fatStore.level) alive = \(alive)" } }
+                defer { Debug.log(level: 180) { "maintainBody(material); fatStore start \(start) result \(self.fatStore.level) alive = \(alive)" } }
                 alive = self.fatStore.withdraw(self.bodyPerCycleOozeCost) == self.bodyPerCycleOozeCost
                 return alive
             },
             {
                 let start = self.lungs.storage.level
-                defer { Debug.log(level: 179) { "maintainBody(lungs.1); lungs start \(start) result \(self.lungs.storage.level) alive = \(alive)" } }
+                defer { Debug.log(level: 180) { "maintainBody(lungs.1); lungs start \(start) result \(self.lungs.storage.level) alive = \(alive)" } }
                 alive = self.lungs.combust(energy: self.bodyPerCycleEnergyCost)
                 return alive
             },
             {
                 let start = self.lungs.storage.level
-                defer { Debug.log(level: 179) { "maintainBody(lungs.2); lungs start \(start) result \(self.lungs.storage.level) alive = \(alive)" } }
+                defer { Debug.log(level: 180) { "maintainBody(lungs.2); lungs start \(start) result \(self.lungs.storage.level) alive = \(alive)" } }
                 alive = self.lungs.combust(ooze: self.bodyPerCycleOozeCost)
                 return alive
             }

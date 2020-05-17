@@ -24,7 +24,7 @@ class Lungs: OrganProtocol, Protoplasm, HasCapacity, HasMass {
     func combust(energy cJoulesOfReactant: CGFloat) -> Bool {
         let o2 = cJoulesOfReactant / Ratios.o2_combustJoulesPerCC
         let net = storage.withdraw(o2)
-        Debug.log(level: 179) { "Lungs.combust(energy: \(cJoulesOfReactant)) -> \(net) (\(net == o2))" }
+        Debug.log(level: 179) { "Lungs.combust(energy: \(cJoulesOfReactant)) -> \(net) isAlive = (\(net == o2))" }
         return net == o2
     }
 
@@ -32,7 +32,7 @@ class Lungs: OrganProtocol, Protoplasm, HasCapacity, HasMass {
     func combust(ooze cKgOfReactant: CGFloat) -> Bool {
         let o2 = cKgOfReactant * Ratios.o2_combustOozeKgPerCC
         let net = storage.withdraw(o2)
-        Debug.log(level: 179) { "Lungs.combust(ooze: \(cKgOfReactant)) -> \(net) (\(net == o2))" }
+        Debug.log(level: 179) { "Lungs.combust(ooze: \(cKgOfReactant)) -> \(net) isAlive = (\(net == o2))" }
         return net == o2
     }
 

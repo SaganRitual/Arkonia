@@ -39,19 +39,15 @@ extension TickLife {
 
         scratch.stepper.metabolism.digest()
 
-        let isAlive = scratch.stepper.metabolism.applyFixedMetabolicCosts()
-        let canSpawn = isAlive && scratch.stepper.metabolism.canSpawn()
+        isAlive = scratch.stepper.metabolism.applyFixedMetabolicCosts()
+        canSpawn = isAlive && scratch.stepper.metabolism.canSpawn()
 
-        let rl: () -> Void = { self.routeLife(isAlive, canSpawn, .arkonsPlane) }
-
-        if isAlive { colorizer = Colorizer(scratch); colorizer.colorize(rl) } else { rl() }
+        if isAlive { colorizer = Colorizer(scratch); colorizer.colorize(routeLife) } else { routeLife() }
     }
 }
 
 extension TickLife {
-    private func routeLife(_ isAlive: Bool, _ canSpawn: Bool, _ catchDumbMistakes: DispatchQueueID) {
-        assert(catchDumbMistakes == .arkonsPlane)
-
+    private func routeLife() {
         Debug.log(level: 167) { "routeLife \(six(scratch.stepper.name))" }
 
         precondition(Grid.shared.isOnGrid(scratch.stepper.gridCell.gridPosition))

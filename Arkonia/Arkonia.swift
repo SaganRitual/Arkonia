@@ -24,11 +24,11 @@ class Arkonia {
 
     // vars so I can change them from the debugger
     static var debugColorIsEnabled = false
-    static var debugMessageLevel = 180
+    static var debugMessageLevel = 182
     static var debugMessageToConsole = true
 
     static let funkyCells: CGFloat? = 2 / zoomFactor
-    static let initialPopulation = 1
+    static let initialPopulation = 50
     static let maxPopulation = Int.max
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedPixPerSec: CGFloat = 100

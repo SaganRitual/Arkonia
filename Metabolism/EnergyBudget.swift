@@ -53,7 +53,7 @@ struct MannaContent: HasSelectableStore {
     let bone:    CGFloat = 1
     let ham:     CGFloat = 300   // Manna contains ham; arkons convert it directly to energy
     let leather: CGFloat = 1
-    let o2:      CGFloat = 1
+    let o2:      CGFloat = 100
 
     func selectStore(_ organID: OrganID) -> CGFloat? {
         switch organID {
@@ -70,51 +70,6 @@ struct MannaContent: HasSelectableStore {
 extension EnergyBudget {
     static func makeEnergyBudgetForChamberedStore(_ organID: OrganID, _ chamberID: ChamberID) -> EnergyBudget {
         switch chamberID {
-        case .fat: return EnergyBudget(
-            organID:             organID,
-            chamberID:           chamberID,
-            capacity:            100,
-            compression:         1,
-            contentDensity:      1,
-            organDensity:        0.1,
-            overflowFullness:    nil,
-            underflowFullness:   nil,
-            maintCostOozePerCap: 1,
-            maintCostWorkPerCap: 1,
-            mfgCostOozePerCap:   1,
-            mfgCostWorkPerCap:   1
-        )
-
-        case .ham: return EnergyBudget(
-            organID:             organID,
-            chamberID:           chamberID,
-            capacity:            300,
-            compression:         1,
-            contentDensity:      1,
-            organDensity:        0.01,
-            overflowFullness:    nil,
-            underflowFullness:   nil,
-            maintCostOozePerCap: 1,
-            maintCostWorkPerCap: 1,
-            mfgCostOozePerCap:   1,
-            mfgCostWorkPerCap:   1
-        )
-
-        case .oxygen: return EnergyBudget(
-            organID:             organID,
-            chamberID:           chamberID,
-            capacity:            1200,
-            compression:         1,
-            contentDensity:      1,
-            organDensity:        0.05,
-            overflowFullness:    nil,
-            underflowFullness:   nil,
-            maintCostOozePerCap: 1,
-            maintCostWorkPerCap: 1,
-            mfgCostOozePerCap:   1,
-            mfgCostWorkPerCap:   1
-        )
-
         case .vitaminB: return EnergyBudget(
             organID:             organID,
             chamberID:           chamberID,
@@ -128,7 +83,7 @@ extension EnergyBudget {
             maintCostWorkPerCap: 1,
             mfgCostOozePerCap:   1,
             mfgCostWorkPerCap:   1
-        )
+            )
 
         case .vitaminL: return EnergyBudget(
             organID:             organID,
@@ -143,14 +98,22 @@ extension EnergyBudget {
             maintCostWorkPerCap: 1,
             mfgCostOozePerCap:   1,
             mfgCostWorkPerCap:   1
-        )
+            )
 
         case .na: fatalError()
+
+        case .ham:    return    makeEnergyBudgetForHamChamber(organID, capacity: 300)
+        case .fat:    return    makeEnergyBudgetForFatChamber(organID, capacity: 400)
+        case .oxygen: return makeEnergyBudgetForOxygenChamber(organID, capacity: 400)
         }
     }
 
     static func makeEnergyBudgetForBasicStore(_ organID: OrganID) -> EnergyBudget {
         switch organID {
+        case .energy:   return makeEnergyBudgetForMainEnergyStore(capacity: 300)
+        case .fatStore: return    makeEnergyBudgetForMainFatStore(capacity: 400)
+        case .lungs:    return makeEnergyBudgetForMainOxygenStore(capacity: 400)
+
         case .bone: return EnergyBudget(
             organID:             organID,
             chamberID:           .na,
@@ -181,36 +144,6 @@ extension EnergyBudget {
             mfgCostWorkPerCap:   1
         )
 
-        case .energy: return EnergyBudget(
-            organID:             organID,
-            chamberID:           .na,
-            capacity:            300,
-            compression:         1,
-            contentDensity:      1,
-            organDensity:        0.1,
-            overflowFullness:    0.25,
-            underflowFullness:   0.75,
-            maintCostOozePerCap: 1,
-            maintCostWorkPerCap: 1,
-            mfgCostOozePerCap:   1,
-            mfgCostWorkPerCap:   1
-        )
-
-        case .fatStore: return EnergyBudget(
-            organID:             organID,
-            chamberID:           .na,
-            capacity:            100,
-            compression:         1,
-            contentDensity:      1,
-            organDensity:        0.1,
-            overflowFullness:    0.75,
-            underflowFullness:   nil,
-            maintCostOozePerCap: 1,
-            maintCostWorkPerCap: 1,
-            mfgCostOozePerCap:   1,
-            mfgCostWorkPerCap:   1
-        )
-
         case .leather: return EnergyBudget(
             organID:             organID,
             chamberID:           .na,
@@ -218,21 +151,6 @@ extension EnergyBudget {
             compression:         1,
             contentDensity:      1,
             organDensity:        0.2,
-            overflowFullness:    nil,
-            underflowFullness:   nil,
-            maintCostOozePerCap: 1,
-            maintCostWorkPerCap: 1,
-            mfgCostOozePerCap:   1,
-            mfgCostWorkPerCap:   1
-        )
-
-        case .lungs: return EnergyBudget(
-            organID:             organID,
-            chamberID:           .na,
-            capacity:            1200,
-            compression:         1,
-            contentDensity:      1,
-            organDensity:        0.05,
             overflowFullness:    nil,
             underflowFullness:   nil,
             maintCostOozePerCap: 1,
@@ -271,5 +189,111 @@ extension EnergyBudget {
             mfgCostWorkPerCap:   1
         )
         }
+    }
+}
+
+extension EnergyBudget {
+    static func makeEnergyBudgetForMainFatStore(capacity: CGFloat) -> EnergyBudget {
+        return EnergyBudget(
+            organID:             .fatStore,
+            chamberID:           .na,
+            capacity:            capacity,
+            compression:         1,
+            contentDensity:      1,
+            organDensity:        0.1,
+            overflowFullness:    0.75,
+            underflowFullness:   nil,
+            maintCostOozePerCap: 1,
+            maintCostWorkPerCap: 1,
+            mfgCostOozePerCap:   1,
+            mfgCostWorkPerCap:   1
+        )
+    }
+
+    static func makeEnergyBudgetForMainEnergyStore(capacity: CGFloat) -> EnergyBudget {
+        return EnergyBudget(
+            organID:             .energy,
+            chamberID:           .na,
+            capacity:            capacity,
+            compression:         1,
+            contentDensity:      1,
+            organDensity:        0.1,
+            overflowFullness:    0.25,
+            underflowFullness:   0.75,
+            maintCostOozePerCap: 1,
+            maintCostWorkPerCap: 1,
+            mfgCostOozePerCap:   1,
+            mfgCostWorkPerCap:   1
+        )
+    }
+
+    static func makeEnergyBudgetForMainOxygenStore(capacity: CGFloat) -> EnergyBudget {
+        return EnergyBudget(
+            organID:             .lungs,
+            chamberID:           .na,
+            capacity:            capacity,
+            compression:         1,
+            contentDensity:      1,
+            organDensity:        0.05,
+            overflowFullness:    nil,
+            underflowFullness:   nil,
+            maintCostOozePerCap: 1,
+            maintCostWorkPerCap: 1,
+            mfgCostOozePerCap:   1,
+            mfgCostWorkPerCap:   1
+        )
+    }
+}
+
+extension EnergyBudget {
+    static func makeEnergyBudgetForFatChamber(_ organID: OrganID, capacity: CGFloat) -> EnergyBudget {
+        return EnergyBudget(
+            organID:             organID,
+            chamberID:           .fat,
+            capacity:            capacity,
+            compression:         1,
+            contentDensity:      1,
+            organDensity:        0.1,
+            overflowFullness:    nil,
+            underflowFullness:   nil,
+            maintCostOozePerCap: 1,
+            maintCostWorkPerCap: 1,
+            mfgCostOozePerCap:   1,
+            mfgCostWorkPerCap:   1
+        )
+    }
+
+    static func makeEnergyBudgetForHamChamber(_ organID: OrganID, capacity: CGFloat) -> EnergyBudget {
+        return EnergyBudget(
+            organID:             organID,
+            chamberID:           .ham,
+            capacity:            capacity,
+            compression:         1,
+            contentDensity:      1,
+            organDensity:        0.1,
+            overflowFullness:    nil,
+            underflowFullness:   nil,
+            maintCostOozePerCap: 1,
+            maintCostWorkPerCap: 1,
+            mfgCostOozePerCap:   1,
+            mfgCostWorkPerCap:   1
+        )
+    }
+
+    static func makeEnergyBudgetForOxygenChamber(_ organID: OrganID, capacity: CGFloat) -> EnergyBudget {
+        return EnergyBudget(
+            organID:             organID,
+            chamberID:           .oxygen,
+            capacity:            capacity,
+            compression:         1,
+            contentDensity:      1,
+            organDensity:        0.1,
+            overflowFullness:    nil,
+            underflowFullness:   nil,
+            maintCostOozePerCap: 1,
+            maintCostWorkPerCap: 1,
+            mfgCostOozePerCap:   1,
+            mfgCostWorkPerCap:   1
+        )
     }
 }
