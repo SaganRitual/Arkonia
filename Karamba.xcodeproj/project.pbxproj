@@ -35,6 +35,7 @@
 		D44EFA5824280CB600798FE6 /* Plotter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EFA5724280CB600798FE6 /* Plotter.swift */; };
 		D450E53C246EEE09001E4601 /* Digestion.Surplus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450E53B246EEE09001E4601 /* Digestion.Surplus.swift */; };
 		D4523A4D242942FF0074442F /* SensesConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4523A4C242942FF0074442F /* SensesConnector.swift */; };
+		D457109B2471169100A9B94F /* JumpSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D457109A2471169100A9B94F /* JumpSpec.swift */; };
 		D458940223CFE847004FED72 /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D495F0CE233FAB01007D6E86 /* Mutator.swift */; };
 		D464BA3322C737260069623C /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D7322813E12003D711C /* KIdentifier.swift */; };
 		D464BA3722C737260069623C /* SceneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40985FE22650CC9009DD384 /* SceneViewController.swift */; };
@@ -158,6 +159,7 @@
 		D44EFA5724280CB600798FE6 /* Plotter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plotter.swift; sourceTree = "<group>"; };
 		D450E53B246EEE09001E4601 /* Digestion.Surplus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Digestion.Surplus.swift; sourceTree = "<group>"; };
 		D4523A4C242942FF0074442F /* SensesConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensesConnector.swift; sourceTree = "<group>"; };
+		D457109A2471169100A9B94F /* JumpSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpSpec.swift; sourceTree = "<group>"; };
 		D464BA5F22C737260069623C /* Karamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D467E884242D2AB0006325E0 /* Manna.Sprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.Sprite.swift; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 				D41ED8D523B084A100E82B08 /* Debug.swift */,
 				D43EA83D229233F7006C619D /* Extensions.swift */,
 				D488AC872443969D00B94685 /* IndexedRingBuffer.swift */,
+				D457109A2471169100A9B94F /* JumpSpec.swift */,
 				D46B1D7322813E12003D711C /* KIdentifier.swift */,
 				D46B1D9F22826994003D711C /* Overload2D.swift */,
 			);
@@ -659,6 +662,7 @@
 				D43DC50624162FB10017FADF /* HotLayerCnn.swift in Sources */,
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
 				D4C7E079240CC0C2005C0191 /* HotNetBlas.swift in Sources */,
+				D457109B2471169100A9B94F /* JumpSpec.swift in Sources */,
 				D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
 				D40DF32924706E4B001649FA /* EnergyBudget.swift in Sources */,

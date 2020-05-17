@@ -31,7 +31,7 @@ class Arkonia {
     static let initialPopulation = 50
     static let maxPopulation = Int.max
     static let worldTimeLimit: TimeInterval? = nil//5000
-    static let standardSpeedPixPerSec: CGFloat = 100
+    static let standardSpeedCellsPerSecond: CGFloat = 25
 
     static let spawnOverhead: CGFloat = 1.5
 

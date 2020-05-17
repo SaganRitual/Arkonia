@@ -16,6 +16,7 @@ class Scratchpad {
     var isRescheduled = false
     var isSpawning = false
     var jumpSpeed = 0.0
+    var jumpSpec: JumpSpec!
     var name = ArkonName.empty
     weak var parentNet: Net?
     var plotter: Plotter?

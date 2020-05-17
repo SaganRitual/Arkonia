@@ -40,14 +40,15 @@ extension Plotter {
             guard let toCell = senseGrid.cells[targetOffset] as? GridCell else { fatalError() }
             let fromCell = (targetOffset > 0) ? senseGrid.cells[0] as? GridCell : nil
 
-//            let jumpSpeedMotorOutput = motorOutputs[MotorIndex.jumpSpeed.rawValue]
+            let jumpSpeedMotorOutput = motorOutputs[MotorIndex.jumpSpeed.rawValue]
 
             if let f = fromCell {
-//                let asPercentage = CGFloat(1 + jumpSpeedMotorOutput) / 2
-
+                let asPercentage = CGFloat(1 + jumpSpeedMotorOutput) / 2
                 let jumpDistanceInCells = f.gridPosition.asPoint().distance(to: toCell.gridPosition.asPoint())
-                let jumpDistanceInMeters = jumpDistanceInCells / RealWorldConversions.cellsPerRealMeter
-                let isAlive = stepper.metabolism.applyJumpCosts(jumpDistanceInMeters)
+
+                scratch.jumpSpec = JumpSpec(jumpDistanceInCells, asPercentage)
+
+                let isAlive = stepper.metabolism.applyJumpCosts(scratch.jumpSpec)
 
                 if !isAlive {
                     scratch.dispatch!.apoptosize()
