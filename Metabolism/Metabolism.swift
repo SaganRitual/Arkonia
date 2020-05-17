@@ -33,6 +33,9 @@ class Metabolism: HasSelectableStore {
     lazy var massCenters = allOrgans.compactMap { $0 as? HasMass }
     var mass: CGFloat { massCenters.reduce(0) { $0 + $1.mass } }
 
+    var asphyxiation: CGFloat { 1 - lungs.storage.fullness }
+    var hunger: CGFloat { 1 - stomach.hamStore.fullness }
+
     init(cNeurons: Int) {
         let cn = CGFloat(cNeurons)
         let brainPerCycleEnergyCost = cn * WorldConstants.useCostWorkPerNeuronJoules
@@ -65,31 +68,31 @@ class Metabolism: HasSelectableStore {
         }
 
         defer {
-            Debug.log(level: 180) { "exit applyFixedMetabolicCosts(); alive = \(alive)" }
+            Debug.log(level: 179) { "exit applyFixedMetabolicCosts(); alive = \(alive)" }
         }
 
         for maintainBody: (() -> Bool) in [
             {
                 let start = self.energy.level
-                defer { Debug.log(level: 180) { "maintainBody(energy); energy start \(start) result \(self.energy.level) alive = \(alive)" } }
+                defer { Debug.log(level: 179) { "maintainBody(energy); energy start \(start) result \(self.energy.level) alive = \(alive)" } }
                 alive = self.energy.withdraw(self.bodyPerCycleEnergyCost) == self.bodyPerCycleEnergyCost
                 return alive
             },
             {
                 let start = self.fatStore.level
-                defer { Debug.log(level: 180) { "maintainBody(material); fatStore start \(start) result \(self.fatStore.level) alive = \(alive)" } }
+                defer { Debug.log(level: 179) { "maintainBody(material); fatStore start \(start) result \(self.fatStore.level) alive = \(alive)" } }
                 alive = self.fatStore.withdraw(self.bodyPerCycleOozeCost) == self.bodyPerCycleOozeCost
                 return alive
             },
             {
                 let start = self.lungs.storage.level
-                defer { Debug.log(level: 180) { "maintainBody(lungs.1); lungs start \(start) result \(self.lungs.storage.level) alive = \(alive)" } }
+                defer { Debug.log(level: 179) { "maintainBody(lungs.1); lungs start \(start) result \(self.lungs.storage.level) alive = \(alive)" } }
                 alive = self.lungs.combust(energy: self.bodyPerCycleEnergyCost)
                 return alive
             },
             {
                 let start = self.lungs.storage.level
-                defer { Debug.log(level: 180) { "maintainBody(lungs.2); lungs start \(start) result \(self.lungs.storage.level) alive = \(alive)" } }
+                defer { Debug.log(level: 179) { "maintainBody(lungs.2); lungs start \(start) result \(self.lungs.storage.level) alive = \(alive)" } }
                 alive = self.lungs.combust(ooze: self.bodyPerCycleOozeCost)
                 return alive
             }
@@ -101,6 +104,15 @@ class Metabolism: HasSelectableStore {
         return alive
     }
 
+    func canSpawn() -> Bool {
+        guard let spawn = self.spawn else { return false }
+
+        return [spawn.fatStore!, spawn.hamStore, spawn.oxygenStore].allSatisfy { $0.isFull }
+    }
+
+    func detachBirthEmbryo() { embryo = nil }
+    func detachSpawnEmbryo() { spawn = nil }
+
     func eat() {
         let manna = MannaContent()
 
@@ -110,7 +122,7 @@ class Metabolism: HasSelectableStore {
 
             compartment.deposit(mannaStoreLevel)
 
-            Debug.log(level: 180) {
+            Debug.log(level: 179) {
                 "absorb \(mannaStoreLevel) into \(id), result level \(compartment.level)"
             }
         }

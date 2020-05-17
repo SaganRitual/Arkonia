@@ -40,29 +40,21 @@ extension Plotter {
             guard let toCell = senseGrid.cells[targetOffset] as? GridCell else { fatalError() }
             let fromCell = (targetOffset > 0) ? senseGrid.cells[0] as? GridCell : nil
 
-            let jumpSpeedMotorOutput = motorOutputs[MotorIndex.jumpSpeed.rawValue]
+//            let jumpSpeedMotorOutput = motorOutputs[MotorIndex.jumpSpeed.rawValue]
 
             if let f = fromCell {
-                let asPercentage = CGFloat(1 + jumpSpeedMotorOutput) / 2
+//                let asPercentage = CGFloat(1 + jumpSpeedMotorOutput) / 2
 
-                let e = EnergyBudget.computeMoveCost(
-                    jumpSpeedAsPercentage: asPercentage,
-                    distanceInPixels: f.scenePosition.distance(to: toCell.scenePosition),
-                    massKg: scratch.stepper.metabolism.mass
-                )
+                let jumpDistance = f.gridPosition.asPoint().distance(to: toCell.gridPosition.asPoint())
+                let isAlive = stepper.metabolism.applyJumpCosts(jumpDistance)
 
-                let netEnergy = scratch.stepper.metabolism.withdrawEnergy(e)
-                scratch.stepper.metabolism.report("setrte")
-
-                Debug.log(level: 173) { "Jump: need \(e) joules for \(f.scenePosition.distance(to: toCell.scenePosition)) pix, mass \(scratch.stepper.metabolism.mass) grams" }
-                if netEnergy < e {
-                    Debug.log(level: 173) { "Out of energy: \(netEnergy) < \(e)" }
+                if !isAlive {
                     scratch.dispatch!.apoptosize()
                     return
                 }
             }
 
-            onComplete(CellShuttle(fromCell, toCell), jumpSpeedMotorOutput)
+            onComplete(CellShuttle(fromCell, toCell), 1/*jumpSpeedMotorOutput*/)
         }
 
         a()

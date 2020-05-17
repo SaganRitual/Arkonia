@@ -28,6 +28,6 @@ final class ReleaseShuttle: Dispatchable {
         assert(scratch.senseGrid?.cells.isEmpty ?? false)
         scratch.senseGrid = nil
 
-        scratch.dispatch!.metabolize()
+        scratch.dispatch!.disengage()
     }
 }

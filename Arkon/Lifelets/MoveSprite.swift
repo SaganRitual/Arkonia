@@ -44,7 +44,7 @@ final class MoveSprite: Dispatchable {
     private static func moveAction(_ stepper: Stepper, to targetPosition: CGPoint, _ onComplete: @escaping () -> Void) {
         // The jump speed comes from the neural net as -1..<1
         let m = CGFloat(1 + stepper.dispatch.scratch.jumpSpeed) / 2
-        let moveSpeedInMeters = 2 * m * EnergyBudget.World.standardSpeedPixPerSec / CGFloat(Grid.shared.portalWidthInPix / Grid.shared.gridCellWidthInPix)
+        let moveSpeedInMeters = 2 * m * Arkonia.standardSpeedPixPerSec / CGFloat(Grid.shared.portalWidthInPix / Grid.shared.gridCellWidthInPix)
         let distanceInPix = stepper.gridCell.scenePosition.distance(to: targetPosition)
         let distanceInMeters = 2 * distanceInPix / CGFloat(Grid.shared.portalWidthInPix / Grid.shared.gridCellWidthInPix)
         let moveDuration = TimeInterval(distanceInMeters / moveSpeedInMeters)

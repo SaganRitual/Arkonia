@@ -41,7 +41,7 @@ extension Metabolism {
         let toSinkTransfer = transferrable / sink.E.contentDensity
         let netNativeDeposit = toSinkTransfer / sink.E.compression
 
-        Debug.log(level: 180) {
+        Debug.log(level: 179) {
             "getTransferLevels: source \(source.E.organID):\(source.E.chamberID)"
             + " level \(source.level) compression \(source.E.compression)"
             + " native \(sourceLevelNative)"
@@ -52,7 +52,7 @@ extension Metabolism {
             + " net native draw \(netNativeDraw)"
         }
 
-        Debug.log(level: 180) {
+        Debug.log(level: 179 ) {
             "getTransferLevels: sink \(sink.E.organID):\(sink.E.chamberID) capacity: "
             + " native \(sink.E.capacity) - \(sink.level) = \(sinkLevelNative)"
             + " kg \(sinkLevelKgOoze)"

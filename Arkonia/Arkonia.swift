@@ -27,20 +27,13 @@ class Arkonia {
     static var debugMessageLevel = 180
     static var debugMessageToConsole = true
 
-    static let fudgeMassFactor: CGFloat = 0.1
     static let funkyCells: CGFloat? = 2 / zoomFactor
     static let initialPopulation = 1
     static let maxPopulation = Int.max
     static let worldTimeLimit: TimeInterval? = nil//5000
+    static let standardSpeedPixPerSec: CGFloat = 100
 
-    static let co2BaseCost: CGFloat = 1.02
-    static let co2MaxLevel: CGFloat = 50
-    static let oxygenCostPerTick: CGFloat = 0.01
-    static let neuronCostPerCycle: CGFloat = 0//0.01  // In joules
-
-    static let inhaleFudgeFactor: CGFloat = 2.0
     static let spawnOverhead: CGFloat = 1.5
-    static let spawnReservesCapacity: CGFloat = 300
 
     static let mannaColorBlendMaximum: CGFloat = 0.50
     static let mannaColorBlendMinimum: CGFloat = 0.15

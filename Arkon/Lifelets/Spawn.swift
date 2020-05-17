@@ -73,15 +73,16 @@ typealias OnComplete1p = (GridCell?) -> Void
 
 extension Spawn {
     func buildGuts(_ onComplete: @escaping (Net) -> Void) {
-//        metabolism = Metabolism()
-        metabolism = Metabolism()
-
         Debug.log(level: 121) { "\(six(meTheParent?.name))" }
+
         Net.makeNet(
             parentBiases: meTheParent?.net.biases.map({ Double($0) }),
             parentWeights: meTheParent?.net.weights.map({ Double($0) }),
             layers: meTheParent?.net.layers
-        ) { onComplete($0) }
+        ) { newNet in
+            self.metabolism = Metabolism(cNeurons: newNet.cNeurons)
+            onComplete(newNet)
+        }
     }
 }
 
@@ -117,8 +118,8 @@ extension Spawn {
         }
 
         func b() {
-            stepper.metabolism.getEmbryo()
-            dispatch.metabolize()
+            stepper.metabolism.detachSpawnEmbryo()
+            dispatch.disengage()
         }
 
         a()
@@ -243,9 +244,9 @@ extension Spawn {
 
         // No place to put your offspring, that's no excuse, you lose the
         // embryo anyway
-        stepper.metabolism.getEmbryo()
+        stepper.metabolism.detachSpawnEmbryo()
 
         stepper.nose.color = .blue
-        dispatch.metabolize()
+        dispatch.disengage()
     }
 }

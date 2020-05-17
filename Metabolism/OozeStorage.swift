@@ -57,7 +57,7 @@ class OozeStorage: Protoplasm, StorageProtocol {
     func withdrawFromSurplus(max quantity: CGFloat) -> CGFloat {
         if !isOverflowing { return 0 }
         let net = min(quantity, (1 - E.overflowFullness!) * E.capacity)
-        Debug.log(level: 180) { "OozeStorage.withdrawFromSurplus(\(quantity)) -> \(net)" }
+        Debug.log(level: 179) { "OozeStorage.withdrawFromSurplus(\(quantity)) -> \(net)" }
         return withdraw(net)
     }
 }

@@ -7,6 +7,7 @@ enum DispatchQueueID: Int {
 }
 
 class Scratchpad {
+    var babyBumpIsShowing = false
     var battle: (Stepper, Stepper)?
     var canSpawn = false
     var cellShuttle: CellShuttle?

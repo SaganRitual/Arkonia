@@ -52,15 +52,11 @@ extension Dispatch {
 
     func arrive()         { dispatch(Arrive.self) }
 
-    func colorize()       { dispatch(Colorize.self) }
-
     func computeMove()    { dispatch(ComputeMove.self) }
 
     func disengage()      { dispatch(Disengage.self) }
 
     func engage()         { dispatch(Engage.self) }
-
-    func metabolize()     { dispatch(Metabolize.self) }
 
     func moveSprite()     { dispatch(MoveSprite.self) }
 

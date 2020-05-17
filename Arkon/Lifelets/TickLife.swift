@@ -4,6 +4,7 @@ import Foundation
 final class TickLife: Dispatchable {
     var isAlive = false
     var canSpawn = false
+    var colorizer: Colorizer!
     var onComplete: ((Bool, Bool) -> Void)?
 
     static let dispatchQueue = DispatchQueue(
@@ -16,6 +17,7 @@ final class TickLife: Dispatchable {
         Debug.log(level: 167) { "TickLife \(six(scratch.stepper.name))" }
         Debug.debugColor(scratch.stepper, .yellow, .blue)
 
+        colorizer = Colorizer(scratch)
         tick()
     }
 
@@ -35,14 +37,14 @@ extension TickLife {
     private func tickLife_(_ catchDumbMistakes: DispatchQueueID) {
         assert(catchDumbMistakes == .tickLife)
 
-        let isAlive = scratch.stepper.metabolism.tickLifeMath(
-            cNeurons: scratch.stepper.net!.cNeurons,
-            cOffspring: scratch.stepper.cOffspring
-        )
+        scratch.stepper.metabolism.digest()
 
-        let canSpawn = scratch.stepper.metabolism.canSpawn
+        let isAlive = scratch.stepper.metabolism.applyFixedMetabolicCosts()
+        let canSpawn = isAlive && scratch.stepper.metabolism.canSpawn()
 
-        Grid.arkonsPlaneQueue.async { self.routeLife(isAlive, canSpawn, .arkonsPlane) }
+        let rl: () -> Void = { self.routeLife(isAlive, canSpawn, .arkonsPlane) }
+
+        if isAlive { colorizer = Colorizer(scratch); colorizer.colorize(rl) } else { rl() }
     }
 }
 
@@ -57,19 +59,5 @@ extension TickLife {
         if !isAlive      { scratch.dispatch!.apoptosize()  }
         else if canSpawn { scratch.dispatch!.spawn()       }
         else             { scratch.dispatch!.computeMove() }
-    }
-}
-
-extension Metabolism {
-    func tickLifeMath(cNeurons: Int, cOffspring: Int) -> Bool {
-        let joulesNeeded =
-
-            (capacity * EnergyBudget.joulesCostPerOrganCapacity)
-            + (CGFloat(cNeurons) * EnergyBudget.joulesCostPerNeuron)
-            + (mass * EnergyBudget.joulesCostPerBodyMass)
-
-        withdrawEnergy(joulesNeeded)
-
-        return ready.level > 0 && lungs.level > 0
     }
 }
