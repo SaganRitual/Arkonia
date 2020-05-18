@@ -19,27 +19,6 @@ class Manna {
 }
 
 extension Manna {
-    class Nutrition {
-        internal init(
-            _ bone: CGFloat, _ ham: CGFloat, _ leather: CGFloat,
-            _ oxygen: CGFloat, _ poison: CGFloat
-        ) {
-            self.bone = bone
-            self.ham = ham
-            self.leather = leather
-            self.oxygen = oxygen
-            self.poison = poison
-        }
-
-        let bone: CGFloat
-        let ham: CGFloat
-        let leather: CGFloat
-        let oxygen: CGFloat
-        let poison: CGFloat
-    }
-}
-
-extension Manna {
     class Sprite {
         weak var gridCell: GridCell?
         let sprite: SKSpriteNode
@@ -55,53 +34,18 @@ extension Manna {
 }
 
 extension Manna {
-    func harvest(_ onComplete: @escaping (Nutrition?) -> Void) {
-        func a() { getNutrition(b) }
+    func harvest(_ onComplete: @escaping (MannaContent?) -> Void) {
+        let maturityLevel = sprite.getMaturityLevel()
 
-        func b(_ nutrition: Nutrition) {
-            // Don't give up any nutrition at all until I've bloomed enough
-            if nutrition.ham < (0.25 * Arkonia.maxMannaEnergyContentInJoules) { onComplete(nil); return }
+        // Don't give up any nutrition at all until I've bloomed enough
+        if maturityLevel < 0.25 { onComplete(nil); return }
 
-            MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
+        MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
 
-            sprite.gridCell!.mannaAwaitingRebloom = true
+        sprite.gridCell!.mannaAwaitingRebloom = true
 
-            Dispatch.dispatchQueue.async { onComplete(nutrition) }
-        }
-
-        a()
-    }
-
-    func getEnergyContentInJoules() -> CGFloat {
-        let indicatorFullness = sprite.getIndicatorFullness()
-        let rate = Arkonia.mannaGrowthRateJoulesPerSecond
-        let duration = CGFloat(Arkonia.mannaFullGrowthDurationSeconds)
-
-        let energyContent: CGFloat = indicatorFullness * rate * duration
-        Debug.log(level: 136) { "energy content \(energyContent)" }
-        return energyContent
-    }
-
-    func getNutrition(_ onComplete: @escaping (Nutrition) -> Void) {
-        let e = getEnergyContentInJoules()
-
-        // If there's no time limit, then cosmic entropy is n/a, doesn't happen
-        if Arkonia.worldTimeLimit == nil {
-            let nutrition = Nutrition(1, e, 1, e, 1 )
-            onComplete(nutrition)
-            return
-        }
-
-        Clock.shared.entropize(e) { entropizedEnergyContentInJoules in
-            Dispatch.dispatchQueue.async {
-                let nutrition = Nutrition(
-                    1, entropizedEnergyContentInJoules,
-                    1, entropizedEnergyContentInJoules, 1
-                )
-
-                onComplete(nutrition)
-            }
-        }
+        let mannaContent = MannaContent(maturityLevel)
+        Dispatch.dispatchQueue.async { onComplete(mannaContent) }
     }
 
     func plant() -> Bool {

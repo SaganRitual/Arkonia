@@ -108,7 +108,7 @@ class SensesConnector {
         if cellKey.stepper != nil { return 0 }
         guard let manna = cellKey.manna else { return 0 }
 
-        let energy = Double(manna.getEnergyContentInJoules() / Arkonia.maxMannaEnergyContentInJoules)
+        let energy = Double(manna.sprite.getMaturityLevel())
         Debug.log(level: 154) { "load grid input \(energy)" }
 
         // If the manna is fully charged, we can get a 1.0 out of the

@@ -1,6 +1,6 @@
 import SpriteKit
 
-extension WorkItems {
+enum WorkItems {
     typealias OnComplete1Fishday = (Fishday) -> Void
 
     static func registerBirth(

@@ -13,8 +13,8 @@ final class Arrive: Dispatchable {
         guard let manna = scratch.stepper.gridCell.manna else { fatalError() }
         Debug.log(level: 174) { "graze \(scratch.stepper.name)" }
 
-        manna.harvest { _ /*nutrition*/ in
-            self.scratch.stepper.metabolism.eat(/*nutrition*/)
+        manna.harvest { mannaContent in
+            if let mc = mannaContent { self.scratch.stepper.metabolism.eat(mc) }
             self.scratch.dispatch!.releaseShuttle()
         }
     }

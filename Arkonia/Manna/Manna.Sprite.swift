@@ -89,7 +89,7 @@ extension Manna.Sprite {
         sprite.run(Manna.Sprite.firstBloomAction)
     }
 
-    func getIndicatorFullness() -> CGFloat {
+    func getMaturityLevel() -> CGFloat {
         // Sometimes the color blend factor ends up outside this range, which
         // botches the energy calculations when we eat the manna. I think it's
         // something to do with the way I'm running the actions, but I don't

@@ -4,7 +4,7 @@ import Foundation
 final class TickLife: Dispatchable {
     var isAlive = false
     var canSpawn = false
-    var colorizer: Colorizer!
+    let colorizer: Colorizer
     var onComplete: ((Bool, Bool) -> Void)?
 
     static let dispatchQueue = DispatchQueue(
@@ -13,11 +13,14 @@ final class TickLife: Dispatchable {
         target: DispatchQueue.global()
     )
 
+    required init(_ scratch: Scratchpad) {
+        colorizer = Colorizer(scratch)
+        super.init(scratch)
+    }
+
     override func launch() {
         Debug.log(level: 167) { "TickLife \(six(scratch.stepper.name))" }
         Debug.debugColor(scratch.stepper, .yellow, .blue)
-
-        colorizer = Colorizer(scratch)
         tick()
     }
 
@@ -42,7 +45,7 @@ extension TickLife {
         isAlive = scratch.stepper.metabolism.applyFixedMetabolicCosts()
         canSpawn = isAlive && scratch.stepper.metabolism.canSpawn()
 
-        if isAlive { colorizer = Colorizer(scratch); colorizer.colorize(routeLife) } else { routeLife() }
+        if isAlive { colorizer.colorize(routeLife) } else { routeLife() }
     }
 }
 

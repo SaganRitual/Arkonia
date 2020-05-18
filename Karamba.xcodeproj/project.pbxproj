@@ -20,7 +20,6 @@
 		D40DF3312470C2A2001649FA /* Colorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DF3302470C2A2001649FA /* Colorizer.swift */; };
 		D413E660240F745100077E35 /* Plotter.SetRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413E65F240F745100077E35 /* Plotter.SetRoute.swift */; };
 		D41787062430D5090025EC00 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41787052430D5090025EC00 /* BarChart.swift */; };
-		D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A299A23B9841000DE9CC6 /* WorkItems.swift */; };
 		D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A29A423B9945F00DE9CC6 /* wiCensus.swift */; };
 		D41ED8D623B084A100E82B08 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
@@ -138,7 +137,6 @@
 		D40DF3302470C2A2001649FA /* Colorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colorizer.swift; sourceTree = "<group>"; };
 		D413E65F240F745100077E35 /* Plotter.SetRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plotter.SetRoute.swift; sourceTree = "<group>"; };
 		D41787052430D5090025EC00 /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
-		D41A299A23B9841000DE9CC6 /* WorkItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkItems.swift; sourceTree = "<group>"; };
 		D41A29A423B9945F00DE9CC6 /* wiCensus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wiCensus.swift; sourceTree = "<group>"; };
 		D41ED8D523B084A100E82B08 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		D42172E9233EE46000A56594 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -409,7 +407,6 @@
 				D4A59D362389901500517F60 /* ReleaseShuttle.swift */,
 				D4D5EABA2368B05200E95AA5 /* Spawn.swift */,
 				D4BB6E72234E549C00529819 /* TickLife.swift */,
-				D41A299A23B9841000DE9CC6 /* WorkItems.swift */,
 			);
 			path = Lifelets;
 			sourceTree = "<group>";
@@ -646,7 +643,6 @@
 				D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */,
 				D4231C7B2440405600683742 /* Reschedule.swift in Sources */,
 				D4B9512124349A8800BD2085 /* ArkonName.swift in Sources */,
-				D41A299B23B9841000DE9CC6 /* WorkItems.swift in Sources */,
 				D43DC50A24165D450017FADF /* DataSource.swift in Sources */,
 				D4B2AC8223D595E000246746 /* NetDisplayGrid.swift in Sources */,
 				D4B00914241C97BD007FDD6F /* MannaCannon.swift in Sources */,

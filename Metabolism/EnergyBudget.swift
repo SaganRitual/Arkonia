@@ -51,17 +51,21 @@ struct MannaContent: HasSelectableStore {
     typealias StoreType = CGFloat
 
     let bone:    CGFloat = 1
-    let ham:     CGFloat = 300   // Manna contains ham; arkons convert it directly to energy
+    let ham:     CGFloat = 800   // Manna contains ham; arkons convert it directly to energy
     let leather: CGFloat = 1
-    let o2:      CGFloat = 100
+    let o2:      CGFloat = 700
+
+    let maturityLevel: CGFloat
+
+    init(_ maturityLevel: CGFloat = 1) { self.maturityLevel = maturityLevel }
 
     func selectStore(_ organID: OrganID) -> CGFloat? {
         switch organID {
-        case .bone:     return bone
-        case .energy:   return ham
+        case .bone:     return bone * maturityLevel
+        case .energy:   return ham * maturityLevel
         case .fatStore: return nil
-        case .leather:  return leather
-        case .lungs:    return o2
+        case .leather:  return leather * maturityLevel
+        case .lungs:    return o2 * maturityLevel
         default: fatalError()
         }
     }
@@ -102,17 +106,17 @@ extension EnergyBudget {
 
         case .na: fatalError()
 
-        case .ham:    return    makeEnergyBudgetForHamChamber(organID, capacity: 300)
-        case .fat:    return    makeEnergyBudgetForFatChamber(organID, capacity: 400)
-        case .oxygen: return makeEnergyBudgetForOxygenChamber(organID, capacity: 400)
+        case .ham:    return    makeEnergyBudgetForHamChamber(organID, capacity: 500)
+        case .fat:    return    makeEnergyBudgetForFatChamber(organID, capacity: 500)
+        case .oxygen: return makeEnergyBudgetForOxygenChamber(organID, capacity: 550)
         }
     }
 
     static func makeEnergyBudgetForBasicStore(_ organID: OrganID) -> EnergyBudget {
         switch organID {
-        case .energy:   return makeEnergyBudgetForMainEnergyStore(capacity: 300)
-        case .fatStore: return    makeEnergyBudgetForMainFatStore(capacity: 400)
-        case .lungs:    return makeEnergyBudgetForMainOxygenStore(capacity: 400)
+        case .energy:   return makeEnergyBudgetForMainEnergyStore(capacity: 900)
+        case .fatStore: return    makeEnergyBudgetForMainFatStore(capacity: 700)
+        case .lungs:    return makeEnergyBudgetForMainOxygenStore(capacity: 800)
 
         case .bone: return EnergyBudget(
             organID:             organID,

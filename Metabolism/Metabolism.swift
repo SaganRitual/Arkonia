@@ -113,11 +113,9 @@ class Metabolism: HasSelectableStore {
     func detachBirthEmbryo() { embryo = nil }
     func detachSpawnEmbryo() { spawn = nil }
 
-    func eat() {
-        let manna = MannaContent()
-
+    func eat(_ mannaContent: MannaContent) {
         for id in secondaryStores {
-            guard let mannaStoreLevel = manna.selectStore(id),
+            guard let mannaStoreLevel = mannaContent.selectStore(id),
                   let compartment = stomach.selectStore(id) else { continue }
 
             compartment.deposit(mannaStoreLevel)
