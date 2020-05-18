@@ -8,7 +8,7 @@ final class ReleaseShuttle: Dispatchable {
     private func releaseShuttle(_ catchDumbMistakes: DispatchQueueID) {
         guard let shuttle = scratch.cellShuttle else { fatalError() }
 
-        Debug.debugColor(scratch.stepper, .green, .cyan)
+        Debug.debugColor(scratch.stepper, .brown, .yellow)
 
         assert(shuttle.didMove == (shuttle.fromCell != nil))
         shuttle.fromCell?.releaseLock(catchDumbMistakes) // If we didn't move, there won't be a fromCell

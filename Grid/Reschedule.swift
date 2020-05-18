@@ -73,7 +73,7 @@ extension GridCell {
 
         Grid.arkonsPlaneQueue.asyncAfter(deadline: .now() + TimeInterval(1)) { self.debugFoo() }
 
-        Debug.debugColor(stepper, .blue, .red)
+        Debug.debugColor(stepper, .brown, .cyan)
         #endif
 
         toReschedule.append(stepper)

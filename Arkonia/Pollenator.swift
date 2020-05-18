@@ -2,7 +2,7 @@ import SpriteKit
 
 class Pollenator {
     var currentPosition = GridCell.getRandomCell()
-    var firstPass = true
+    var cycleNumber = 0
     let node = SKShapeNode(circleOfRadius: ArkoniaScene.arkonsPortal.size.hypotenuse / 3)
     var scale = CGFloat.zero
     var totalDistance = CGFloat.zero
@@ -10,9 +10,9 @@ class Pollenator {
     init(_ color: SKColor) {
         totalDistance = CGPoint.zero.distance(to: currentPosition.scenePosition)
 
-        node.strokeColor = .clear  // Set to .white to see it on screen, for debug
+        node.strokeColor = .clear
         node.fillColor = color
-        node.alpha = 0.05
+        node.alpha = 0.3
 
         node.zPosition = 1
         node.setScale(1)
@@ -24,21 +24,24 @@ class Pollenator {
     }
 
     func move() {
-        // Start the lilypads off huge, so the arkons can get a foothold
-        let scale = firstPass ? 1 : abs(sin(totalDistance)) * 0.25 + 0.05
-        firstPass = false
+        defer { cycleNumber += 1 }
 
-        Debug.log(level: 133) { "pollenator \(scale) \(node.xScale)" }
+        // Start the lilypads off huge, so the arkons can get a foothold
+        let baseScale = (cycleNumber == 0) ? 1 : abs(sin(totalDistance)) * 0.25 + 0.05
+
+        Debug.log(level: 133) { "pollenator \(baseScale) \(node.xScale)" }
 
         let newTarget = GridCell.getRandomCell()
         let distanceToTarget = currentPosition.scenePosition.distance(to: newTarget.scenePosition)
         let speed = CGFloat(100)  // in pix/sec
-        let time = TimeInterval(distanceToTarget / speed)
+        let precess = (cycleNumber < 25) ? 1 : abs(sin(CGFloat(cycleNumber) / 10 * (CGFloat.pi / 2))) + 1
+        let baseTime = TimeInterval(distanceToTarget / speed)
+        let time = baseTime * Double(precess)
 
         currentPosition = newTarget
         totalDistance += distanceToTarget
 
-        let scaleAction = SKAction.scale(to: scale, duration: time)
+        let scaleAction = SKAction.scale(to: baseScale / precess, duration: baseTime)
         let moveAction = SKAction.move(to: newTarget.scenePosition, duration: time)
         let group = SKAction.group([scaleAction, moveAction])
         node.run(group) { self.move() }

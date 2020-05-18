@@ -3,11 +3,11 @@ import SpriteKit
 
 class Arkonia {
     static let zoomFactor: CGFloat = 4
-    static let arkonScaleFactor: CGFloat = 1
+    static let arkonScaleFactor: CGFloat = 0.4
     static let mannaScaleFactor: CGFloat = 0.4
     static let noseScaleFactor: CGFloat = 0.75
 
-    static let senseGridCRings = 5
+    static let senseGridCRings = 8
     static let senseGridSide = 1 + 2 * senseGridCRings
     static let cSenseGridlets = senseGridSide * senseGridSide
     static let cSenseNeuronsSpatial = cSenseGridlets * 2
@@ -21,7 +21,7 @@ class Arkonia {
     static let cPollenators = 5
 
     // vars so I can change them from the debugger
-    static var debugColorIsEnabled = false
+    static var debugColorIsEnabled = true
     static var debugMessageLevel = 182
     static var debugMessageToConsole = true
 

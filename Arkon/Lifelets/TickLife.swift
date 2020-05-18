@@ -20,7 +20,7 @@ final class TickLife: Dispatchable {
 
     override func launch() {
         Debug.log(level: 167) { "TickLife \(six(scratch.stepper.name))" }
-        Debug.debugColor(scratch.stepper, .yellow, .blue)
+        Debug.debugColor(scratch.stepper, .brown, .blue)
         tick()
     }
 
@@ -45,12 +45,14 @@ extension TickLife {
         isAlive = scratch.stepper.metabolism.applyFixedMetabolicCosts()
         canSpawn = isAlive && scratch.stepper.metabolism.canSpawn()
 
-        if isAlive { colorizer.colorize(routeLife) } else { routeLife() }
+        if isAlive { colorizer.colorize(routeLife) } else { routeLife_() }
     }
 }
 
 extension TickLife {
-    private func routeLife() {
+    private func routeLife() { TickLife.dispatchQueue.async { self.routeLife_() } }
+
+    private func routeLife_() {
         Debug.log(level: 167) { "routeLife \(six(scratch.stepper.name))" }
 
         precondition(Grid.shared.isOnGrid(scratch.stepper.gridCell.gridPosition))

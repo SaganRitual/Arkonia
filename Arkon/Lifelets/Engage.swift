@@ -7,7 +7,7 @@ final class Engage: Dispatchable {
         assert(scratch.engagerKey == nil)
 
         Debug.log(level: 168) { "Engage \(six(scratch.stepper.name)) at \(scratch.stepper.gridCell.gridPosition)" }
-        Debug.debugColor(scratch.stepper, .magenta, .magenta)
+        Debug.debugColor(scratch.stepper, .blue, .brown)
 
         let isEngaged = self.engageIf(catchDumbMistakes)
         guard isEngaged else {

@@ -67,7 +67,7 @@ extension Metabolism {
             }
         }
 
-        if detachEmbryo { self.embryo = nil }
+        if detachEmbryo { detachBirthEmbryo() }
 
         return true
     }

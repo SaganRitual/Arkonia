@@ -160,7 +160,8 @@ extension Spawn {
         guard let engagerKey = self.engagerKeyForNewborn else { fatalError() }
 
         nose.alpha = 1
-        nose.colorBlendFactor = 0.5
+        nose.colorBlendFactor = 1
+        nose.color = .blue
         nose.setScale(Arkonia.noseScaleFactor)
         nose.zPosition = 3
 
@@ -171,8 +172,8 @@ extension Spawn {
         thorax.alpha = 1
         thorax.zPosition = 2
 
-        let noseColor: SKColor = (meTheParent == nil) ? .magenta : .yellow
-        Debug.debugColor(thorax, .green, nose, noseColor)
+        let noseColor: SKColor = (meTheParent == nil) ? .systemBlue : .yellow
+        Debug.debugColor(thorax, .blue, nose, noseColor)
     }
 }
 

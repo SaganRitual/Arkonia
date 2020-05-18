@@ -4,6 +4,7 @@ final class Arrive: Dispatchable {
     internal override func launch() { arrive() }
 
     func arrive() {
+        Debug.debugColor(scratch.stepper, .brown, .green)
         if scratch.stepper.gridCell.manna != nil { graze(); return }
 
         scratch.dispatch!.releaseShuttle()

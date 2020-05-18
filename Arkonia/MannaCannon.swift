@@ -15,8 +15,10 @@ class MannaCannon {
     var cPlantedManna = 0
 
     init() {
-        pollenators = (0..<Arkonia.cPollenators).map { ss in
-            let color = ColorGradient.makeColor(ss, Arkonia.cPollenators)
+        // Colors for bone, ham, leather, oxygen, ooze pollenators
+        let colors: [SKColor] = [.white, .systemPink, .brown, .blue, .green]
+        pollenators = colors.map { color in
+//            let color = ColorGradient.makeColor(ss, Arkonia.cPollenators)
             return Pollenator(color)
         }
 

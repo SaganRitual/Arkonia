@@ -7,13 +7,15 @@ final class MoveSprite: Dispatchable {
     internal override func launch() { SceneDispatch.shared.schedule { [unowned self] in self.moveSprite() } }
 
     func moveSprite() {
+        Debug.debugColor(scratch.stepper, .brown, .orange)
+
         guard let shuttle = scratch.cellShuttle else { fatalError() }
 
         Debug.log(level: 167) { "MoveSprite \(scratch.stepper.name)" }
 
         if shuttle.fromCell == nil {
             Debug.log(level: 167) { "Resting \(six(scratch.stepper.name))" }
-            Debug.debugColor(scratch.stepper, .red, .cyan)
+            Debug.debugColor(scratch.stepper, .blue, .cyan)
             MoveSprite.restArkon(scratch.stepper) { self.scratch.dispatch!.releaseShuttle() }
             return
         }
@@ -33,7 +35,7 @@ final class MoveSprite: Dispatchable {
 
         MoveSprite.moveAction(scratch.stepper, to: position) {
             Debug.log(level: 167) { "End of move action for \(six(self.scratch.stepper.name))" }
-            Debug.debugColor(self.scratch.stepper, .red, .cyan)
+            Debug.debugColor(self.scratch.stepper, .blue, .gray)
 
             self.scratch.debugStart = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 
@@ -46,7 +48,7 @@ final class MoveSprite: Dispatchable {
         let moveDuration = js.durationSeconds
 
         Debug.log(level: 104) { "Moving \(six(stepper.name)) at \(js.speedMetersPerSec)m/sec" }
-        Debug.debugColor(stepper, .red, .magenta)
+        Debug.debugColor(stepper, .blue, .green)
 
         let move = SKAction.move(to: targetPosition, duration: moveDuration)
         stepper.sprite.run(move, completion: onComplete)

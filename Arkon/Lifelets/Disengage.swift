@@ -1,4 +1,5 @@
 import Dispatch
+import SpriteKit
 
 final class Disengage: Dispatchable {
     var catchDumbMistakes = DispatchQueueID.unspecified
@@ -17,7 +18,7 @@ final class Disengage: Dispatchable {
         scratch.engagerKey?.releaseLock(catchDumbMistakes)
 
         Debug.log(level: 168) { "Disengage \(scratch.stepper.name) at \(six(scratch.engagerKey?.gridPosition))" }
-        Debug.debugColor(scratch.stepper, .cyan, .cyan)
+        Debug.debugColor(scratch.stepper, .blue, .blue)
 
         scratch.engagerKey = nil
         scratch.isSpawning = false

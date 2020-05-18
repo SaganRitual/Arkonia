@@ -8,6 +8,7 @@ final class Parasitize: Dispatchable {
 extension Parasitize {
     static func parasitize(_ attackerScratch: Scratchpad, _ catchDumbMistakes: DispatchQueueID) {
         Debug.log(level: 156) { "Parasitize; attacker is \(six(attackerScratch.stepper.name))" }
+        Debug.debugColor(attackerScratch.stepper, .brown, .red)
 
         var victor: Stepper?, victim: Stepper?
 
@@ -18,8 +19,8 @@ extension Parasitize {
         func b() {
             guard let winner = victor, let loser = victim else { fatalError() }
 
-            Debug.debugColor(loser, .red, .black)
-            Debug.debugColor(winner, .green, .red)
+            Debug.debugColor(loser, .blue, .magenta)
+            Debug.debugColor(winner, .blue, .orange)
 
             dieHorribly(loser.sprite, c)
         }
@@ -61,7 +62,7 @@ extension Parasitize {
         scratch myScratch: Scratchpad, _ catchDumbMistakes: DispatchQueueID,
         _ onComplete: @escaping (Stepper, Stepper) -> Void
     ) {
-        Debug.debugColor(myScratch.stepper, .green, .blue)
+        Debug.debugColor(myScratch.stepper, .blue, .purple)
 
         guard let hisStepper = myScratch.cellShuttle?.toCell?.stepper else { fatalError() }
 

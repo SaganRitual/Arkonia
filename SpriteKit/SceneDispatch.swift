@@ -55,6 +55,10 @@ class SceneDispatch {
                 maxWorkItemsTime -= Arkonia.one_ms / UInt64(10)
                 Debug.log(level: 173) { "Decreasing scene dispatch queue time limit to \(maxWorkItemsTime / Arkonia.one_ms) ms" }
             }
+
+            if workItems.count > Int(CGFloat(workItems.cElements) * 0.9) {
+                Debug.log { "SceneDispatch workitems.count = \(workItems.count)" }
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ final class Apoptosize: Dispatchable {
 
 extension Apoptosize {
     private func dismemberArkon() {
+        Debug.debugColor(scratch.stepper, .brown, .green)
         Debug.log(level: 180) { "Apoptosize \(six(scratch.stepper.name))" }
 
         Census.shared.registerDeath(scratch.stepper, release)

@@ -6,6 +6,7 @@ final class ComputeMove: Dispatchable {
 
     private func computeMove() {
         Debug.log(level: 156) { "ComputeMove \(six(scratch.stepper.name))" }
+        Debug.debugColor(scratch.stepper, .brown, .magenta)
 
         if scratch.plotter == nil { scratch.plotter = Plotter(scratch) }
         guard let pt = scratch.plotter else { fatalError() }
