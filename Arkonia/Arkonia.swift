@@ -3,8 +3,8 @@ import SpriteKit
 
 class Arkonia {
     static let zoomFactor: CGFloat = 4
-    static let arkonScaleFactor: CGFloat = 0.4
-    static let mannaScaleFactor: CGFloat = 0.4
+    static let arkonScaleFactor: CGFloat = 0.3
+    static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.75
 
     static let senseGridCRings = 8
@@ -21,8 +21,8 @@ class Arkonia {
     static let cPollenators = 5
 
     // vars so I can change them from the debugger
-    static var debugColorIsEnabled = true
-    static var debugMessageLevel = 182
+    static var debugColorIsEnabled = false
+    static var debugMessageLevel = 183
     static var debugMessageToConsole = true
 
     static let funkyCells: CGFloat? = 2 / zoomFactor
@@ -47,6 +47,9 @@ class Arkonia {
 
     static var mannaColorBlendRangeWidth: CGFloat
         { mannaColorBlendMaximum - mannaColorBlendMinimum }
+
+    static let realSecondsPerArkoniaDay: TimeInterval = 60
+    static let minimumDarknessAsAlpha: CGFloat = 0.85
 }
 
 extension Arkonia {

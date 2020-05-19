@@ -40,4 +40,4 @@ func energyBudget(_ metabolism: Metabolism, _ passCounter: Int) -> Bool {
 
 let metabolism = Metabolism(cNeurons: 300)
 for i in 0..<100 { if energyBudget(metabolism, i) == false { break } }
-Debug.waitForLogClear()
+Debug.waitForLogToClear()

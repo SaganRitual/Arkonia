@@ -7,13 +7,14 @@ final class Engage: Dispatchable {
         assert(scratch.engagerKey == nil)
 
         Debug.log(level: 168) { "Engage \(six(scratch.stepper.name)) at \(scratch.stepper.gridCell.gridPosition)" }
-        Debug.debugColor(scratch.stepper, .blue, .brown)
+        Debug.debugColor(scratch.stepper, .red, .yellow)
 
         let isEngaged = self.engageIf(catchDumbMistakes)
         guard isEngaged else {
             Debug.log(level: 168) { "Engage failed for \(six(scratch.stepper.name))" }
             return
         }
+        Debug.debugColor(scratch.stepper, .red, .green)
 
         self.makeSenseGrid(catchDumbMistakes)
         scratch.dispatch!.tickLife()
@@ -71,6 +72,7 @@ extension GridCell {
         Debug.log(level: 167) { "getLock4 for \(six(stepper.name))" }
         #endif
 
+        Debug.debugColor(stepper, .red, .blue)
         if key is ColdKey {
             #if DEBUG
             Debug.log(level: 167) { "getLock4.5 for \(six(stepper.name))" }
@@ -78,6 +80,7 @@ extension GridCell {
 
             assert(isLocked && ownerName != stepper.name)
             reschedule(stepper, catchDumbMistakes)
+            Debug.debugColor(stepper, .red, .black)
         }
 
         return key

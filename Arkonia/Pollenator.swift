@@ -1,18 +1,21 @@
 import SpriteKit
 
+// Remember: everything about pollenators happens during the spritekit scene
+// update, so it's ok for us to hit, for example, ArkoniaScene.currentSceneTime,
+// unprotected, because it's never changed outside the scene update
 class Pollenator {
+    var birthday: TimeInterval = 0
     var currentPosition = GridCell.getRandomCell()
-    var cycleNumber = 0
-    let node = SKShapeNode(circleOfRadius: ArkoniaScene.arkonsPortal.size.hypotenuse / 3)
-    var scale = CGFloat.zero
-    var totalDistance = CGFloat.zero
+    let node = SKShapeNode(circleOfRadius: ArkoniaScene.arkonsPortal.size.hypotenuse / 5)
+    let sizeScaleDivisor: TimeInterval
+    let speedScaleDivisor: TimeInterval
+
+    var age: TimeInterval { ArkoniaScene.currentSceneTime - birthday }
 
     init(_ color: SKColor) {
-        totalDistance = CGPoint.zero.distance(to: currentPosition.scenePosition)
-
         node.strokeColor = .clear
         node.fillColor = color
-        node.alpha = 0.3
+        node.alpha = 0.1
 
         node.zPosition = 1
         node.setScale(1)
@@ -20,29 +23,33 @@ class Pollenator {
 
         ArkoniaScene.arkonsPortal.addChild(node)
 
-        move()
+        let primes: [TimeInterval] = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
+        sizeScaleDivisor = primes.randomElement()!
+        speedScaleDivisor = primes.randomElement()!
+
+        SceneDispatch.shared.schedule {
+            self.birthday = ArkoniaScene.currentSceneTime
+            self.move()
+        }
     }
 
     func move() {
-        defer { cycleNumber += 1 }
+        // Vary the scale from 3^1 to 3^-1 over 10-second cycle
+        let sizeVariance = sqrt(pow(2, sin(age / sizeScaleDivisor)))
+        let sizeScale = CGFloat(sizeVariance) * 0.25
+        let speedVariance = sqrt(pow(2, sin(age / speedScaleDivisor)))
+        let speedScale = CGFloat(speedVariance) * 50  // in pix/sec
 
-        // Start the lilypads off huge, so the arkons can get a foothold
-        let baseScale = (cycleNumber == 0) ? 1 : abs(sin(totalDistance)) * 0.25 + 0.05
-
-        Debug.log(level: 133) { "pollenator \(baseScale) \(node.xScale)" }
+        Debug.log(level: 133) { "pollenator \(sizeScale) \(node.xScale)" }
 
         let newTarget = GridCell.getRandomCell()
         let distanceToTarget = currentPosition.scenePosition.distance(to: newTarget.scenePosition)
-        let speed = CGFloat(100)  // in pix/sec
-        let precess = (cycleNumber < 25) ? 1 : abs(sin(CGFloat(cycleNumber) / 10 * (CGFloat.pi / 2))) + 1
-        let baseTime = TimeInterval(distanceToTarget / speed)
-        let time = baseTime * Double(precess)
+        let travelTime = TimeInterval(distanceToTarget / speedScale)
 
         currentPosition = newTarget
-        totalDistance += distanceToTarget
 
-        let scaleAction = SKAction.scale(to: baseScale / precess, duration: baseTime)
-        let moveAction = SKAction.move(to: newTarget.scenePosition, duration: time)
+        let scaleAction = SKAction.scale(to: sizeScale, duration: min(1, travelTime))
+        let moveAction = SKAction.move(to: newTarget.scenePosition, duration: travelTime)
         let group = SKAction.group([scaleAction, moveAction])
         node.run(group) { self.move() }
     }

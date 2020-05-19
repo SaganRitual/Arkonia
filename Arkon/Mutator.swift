@@ -14,7 +14,7 @@ enum Mutator {
         return { return samples.randomElement()! / 10.0 }
     }()
 
-    static func mutateNetStrand(parentStrand p: [Double]?, targetLength: Int) -> ([Double], Bool) {
+    static func mutateNetStrand(parentStrand p: [Double]?, targetLength: Int, value: Double? = nil) -> ([Double], Bool) {
         if let parentStrand = p {
             let (fp, didMutate) = mutateRandomDoubles(parentStrand)
             if let firstPass = fp {
@@ -31,7 +31,8 @@ enum Mutator {
             }
         }
 
-        let fromScratch: [Double] = (0..<targetLength).map { _ in Double.random(in: -1..<1) }
+        let (lo, hi): (Int, Int) = (value == nil) ? (-1, 1) : ((value! == 0) ? (0, 0) : (-1, 1))
+        let fromScratch: [Double] = (0..<targetLength).map { _ in Double(Int.random(in: lo...hi)) }
 
         Debug.log(level: 93) { "Generate from scratch = \(fromScratch)" }
         return (fromScratch, false)

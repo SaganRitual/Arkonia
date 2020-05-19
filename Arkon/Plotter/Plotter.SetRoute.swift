@@ -56,7 +56,7 @@ extension Plotter {
                 }
             }
 
-            onComplete(CellShuttle(fromCell, toCell), 1/*jumpSpeedMotorOutput*/)
+            onComplete(CellShuttle(fromCell, toCell), jumpSpeedMotorOutput)
         }
 
         a()
@@ -82,7 +82,7 @@ extension Plotter {
 
         for m in 0..<Arkonia.cMotorGridlets {
             let select = (m + motorOutput) % Arkonia.cMotorGridlets
-            if select == 0 { continue }
+//            if select == 0 { continue }
 
             if cells[select] is GridCell &&
                 (cells[select].stepper == nil || select == 0) {
@@ -90,6 +90,7 @@ extension Plotter {
             }
         }
 
-        return 0
+//        return 0
+        fatalError()
     }
 }

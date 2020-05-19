@@ -9,6 +9,7 @@ class Clock {
     let clockFormatter = DateComponentsFormatter()
     let clockReport: Reportoid
     let foodValueReport: Reportoid
+    var isRunning = false
     private(set) var worldClock = 0
 
     static let dispatchQueue = DispatchQueue(
@@ -25,6 +26,7 @@ class Clock {
         clockFormatter.unitsStyle = .positional
         clockFormatter.zeroFormattingBehavior = .pad
 
+        isRunning = true
         Arkonia.tickTheWorld(Clock.dispatchQueue, self.tickTheWorld)
     }
 
@@ -45,7 +47,11 @@ class Clock {
         Clock.dispatchQueue.async { onComplete(Clock.shared!.worldClock) }
     }
 
+    static func stop() { Clock.shared.isRunning = false }
+
     func tickTheWorld() {
+        guard isRunning else { return }
+
         self.worldClock += 1
 
         self.clockReport.data.text =

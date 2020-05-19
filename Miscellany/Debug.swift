@@ -35,7 +35,6 @@ extension Debug {
     private static var logWrapped = false
     private static var logMessages: [String] = Array(repeating: String(), count: cLogMessages)
 
-    #if DEBUG
     // This gives me fine-grained control over log messaging, while
     // leaving out any excess processing needed for the log messages.
     // Not to mention the hundreds of thousands of Strings that come out of it
@@ -57,14 +56,11 @@ extension Debug {
             if logIndex == 0 { logWrapped = true }
         }
     }
-    #else
-    static func log(level: Int? = nil, _ execute: () -> String?) {}
-    #endif
 
     // Need this for testing, when the test run as a console app, the app quits
     // before the log can finish displaying messages. Have the console app
     // call this function before exiting
-    static func waitForLogClear() {
+    static func waitForLogToClear() {
         debugLogQueue.sync { print("Waiting for log to clear...") }
     }
 

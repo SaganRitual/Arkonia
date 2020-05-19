@@ -57,7 +57,7 @@ extension GridCell {
     }
 
     func reschedule(_ stepper: Stepper, _ catchDumbMistakes: DispatchQueueID) {
-        #if DEBUG
+        #if true
         assert(catchDumbMistakes == .arkonsPlane)
 
         // We shouldn't be here unless the lock attempt failed
@@ -65,7 +65,7 @@ extension GridCell {
         // The same arkon shouldn't be in here twice
         assert(toReschedule.contains { $0.name == stepper.name } == false)
 
-        Debug.log(level: 169) {
+        Debug.log(level: 182) {
             " Reschedule \(self.stepper!.name)"
             + " for cell \(self.gridPosition)"
             + " owned by \(self.ownerName)"
@@ -82,7 +82,7 @@ extension GridCell {
 
     func debugFoo() {
         if !self.toReschedule.isEmpty {
-            Debug.log(level: 169) {
+            Debug.log(level: 182) {
                 "Still here:"
                 + " reschedule \(self.stepper!.name)"
                 + " for cell \(self.gridPosition)"

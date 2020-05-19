@@ -137,6 +137,7 @@ extension Census {
         if archive.isEmpty {
             ArkoniaScene.shared.speed = 0
             ArkoniaScene.shared.lgNeurons.canvases.forEach { canvas in canvas.speed = 0 }
+            Clock.stop()
         }
     }
 }

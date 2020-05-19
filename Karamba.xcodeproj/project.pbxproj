@@ -52,7 +52,6 @@
 		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
 		D467E885242D2AB0006325E0 /* Manna.Sprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D467E884242D2AB0006325E0 /* Manna.Sprite.swift */; };
 		D47FDDC424485BC500C89A1E /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FDDC324485BC500C89A1E /* Dashboard.swift */; };
-		D488AC882443969D00B94685 /* IndexedRingBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D488AC872443969D00B94685 /* IndexedRingBuffer.swift */; };
 		D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EE561922BC96290076D8A1 /* Net.swift */; };
 		D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A12BE922EA58E900C15F59 /* Stepper.swift */; };
 		D495F0C7233FA6E1007D6E86 /* ArkoniaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EBEE3E22E0E9EF007C98A4 /* ArkoniaScene.swift */; };
@@ -166,7 +165,6 @@
 		D46B1D88228173BE003D711C /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		D46B1D9F22826994003D711C /* Overload2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overload2D.swift; sourceTree = "<group>"; };
 		D47FDDC324485BC500C89A1E /* Dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
-		D488AC872443969D00B94685 /* IndexedRingBuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedRingBuffer.swift; sourceTree = "<group>"; };
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D495F0CE233FAB01007D6E86 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
 		D497C1A923D966A70078D39F /* SpritePool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpritePool.swift; sourceTree = "<group>"; };
@@ -305,7 +303,6 @@
 				D467E886242D2ADE006325E0 /* Manna */,
 				D4CF20A622A4C296000FD2BA /* Arkonia.swift */,
 				D4B00913241C97BD007FDD6F /* MannaCannon.swift */,
-				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
 				D4B00911241B8BB3007FDD6F /* Pollenator.swift */,
 				D46B1D88228173BE003D711C /* Protocols.swift */,
 			);
@@ -322,6 +319,7 @@
 				D4B9512024349A8800BD2085 /* ArkonName.swift */,
 				D40DF3302470C2A2001649FA /* Colorizer.swift */,
 				D4FFE9612365814F00F5DDFB /* Dispatch.swift */,
+				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
 				D422FE6E238E56C7007F0B7B /* Scratchpad.swift */,
 				D4A12BE922EA58E900C15F59 /* Stepper.swift */,
 			);
@@ -355,7 +353,6 @@
 				D4F6460722A4253F00FD8C56 /* ColorGradient.swift */,
 				D41ED8D523B084A100E82B08 /* Debug.swift */,
 				D43EA83D229233F7006C619D /* Extensions.swift */,
-				D488AC872443969D00B94685 /* IndexedRingBuffer.swift */,
 				D457109A2471169100A9B94F /* JumpSpec.swift */,
 				D46B1D7322813E12003D711C /* KIdentifier.swift */,
 				D46B1D9F22826994003D711C /* Overload2D.swift */,
@@ -615,7 +612,6 @@
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* ArkoniaScene.swift in Sources */,
 				D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */,
-				D488AC882443969D00B94685 /* IndexedRingBuffer.swift in Sources */,
 				D497C1AA23D966A70078D39F /* SpritePool.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
 				D40DF3312470C2A2001649FA /* Colorizer.swift in Sources */,
