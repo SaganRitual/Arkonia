@@ -16,7 +16,7 @@ class MannaCannon {
 
     init() {
         // Colors for bone, ham, leather, oxygen, ooze pollenators
-        let colors: [SKColor] = [.white, .systemPink, .brown, .blue, .green]
+        let colors: [SKColor] = [.white, .purple, .yellow, .blue, .green]
         pollenators = colors.map { Pollenator($0) }
 
         readyManna = []

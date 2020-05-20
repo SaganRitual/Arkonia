@@ -48,7 +48,7 @@ struct EnergyBudget: HasCapacity {
 }
 
 extension EnergyBudget {
-    static let supersizer: CGFloat = 10
+    static let supersizer: CGFloat = 2.5
 
     static func makeEnergyBudgetForChamberedStore(_ organID: OrganID, _ chamberID: ChamberID) -> EnergyBudget {
         switch chamberID {
@@ -85,7 +85,7 @@ extension EnergyBudget {
         case .na: fatalError()
 
         case .ham:    return    makeEnergyBudgetForHamChamber(organID, capacity: 500 * EnergyBudget.supersizer)
-        case .fat:    return    makeEnergyBudgetForFatChamber(organID, capacity: 500 * EnergyBudget.supersizer)
+        case .fat:    return    makeEnergyBudgetForFatChamber(organID, capacity: 1000 * EnergyBudget.supersizer)
         case .oxygen: return makeEnergyBudgetForOxygenChamber(organID, capacity: 550 * EnergyBudget.supersizer)
         }
     }
@@ -93,7 +93,7 @@ extension EnergyBudget {
     static func makeEnergyBudgetForBasicStore(_ organID: OrganID) -> EnergyBudget {
         switch organID {
         case .energy:   return makeEnergyBudgetForMainEnergyStore(capacity: 900 * EnergyBudget.supersizer)
-        case .fatStore: return    makeEnergyBudgetForMainFatStore(capacity: 700 * EnergyBudget.supersizer)
+        case .fatStore: return    makeEnergyBudgetForMainFatStore(capacity: 1000 * EnergyBudget.supersizer)
         case .lungs:    return makeEnergyBudgetForMainOxygenStore(capacity: 800 * EnergyBudget.supersizer)
 
         case .bone: return EnergyBudget(
@@ -181,8 +181,8 @@ extension EnergyBudget {
             chamberID:           .na,
             capacity:            capacity,
             compression:         1,
-            contentDensity:      1,
-            organDensity:        0.1,
+            contentDensity:      0.01,
+            organDensity:        0.01,
             overflowFullness:    0.75,
             underflowFullness:   nil,
             maintCostOozePerCap: 1,
@@ -198,7 +198,7 @@ extension EnergyBudget {
             chamberID:           .na,
             capacity:            capacity,
             compression:         1,
-            contentDensity:      1,
+            contentDensity:      0.1,
             organDensity:        0.1,
             overflowFullness:    0.25,
             underflowFullness:   0.75,
@@ -215,7 +215,7 @@ extension EnergyBudget {
             chamberID:           .na,
             capacity:            capacity,
             compression:         1,
-            contentDensity:      1,
+            contentDensity:      0.1,
             organDensity:        0.05,
             overflowFullness:    nil,
             underflowFullness:   nil,
@@ -234,8 +234,8 @@ extension EnergyBudget {
             chamberID:           .fat,
             capacity:            capacity,
             compression:         1,
-            contentDensity:      1,
-            organDensity:        0.1,
+            contentDensity:      0.01,
+            organDensity:        0.01,
             overflowFullness:    nil,
             underflowFullness:   nil,
             maintCostOozePerCap: 1,
@@ -251,7 +251,7 @@ extension EnergyBudget {
             chamberID:           .ham,
             capacity:            capacity,
             compression:         1,
-            contentDensity:      1,
+            contentDensity:      0.1,
             organDensity:        0.1,
             overflowFullness:    nil,
             underflowFullness:   nil,
@@ -268,7 +268,7 @@ extension EnergyBudget {
             chamberID:           .oxygen,
             capacity:            capacity,
             compression:         1,
-            contentDensity:      1,
+            contentDensity:      0.1,
             organDensity:        0.1,
             overflowFullness:    nil,
             underflowFullness:   nil,

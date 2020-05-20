@@ -27,13 +27,13 @@ extension Metabolism {
         let sourceLevelNative = min(sourceLevelNative_, maxDraw)
         let sourceLevelKgOoze = sourceLevelNative * source.E.contentDensity
 
-        let sinkLevelNative_ = sink.availableCapacity * sink.E.compression
-        let sinkLevelNative = min(sinkLevelNative_, maxDeposit)
-        let sinkLevelKgOoze = sinkLevelNative * sink.E.contentDensity
+        let sinkAvailableCapacityNative_ = sink.availableCapacity * sink.E.compression
+        let sinkAvailableCapacityNative = min(sinkAvailableCapacityNative_, maxDeposit)
+        let sinkAvailableCapacityKgOoze = sinkAvailableCapacityNative * sink.E.contentDensity
 
-        let transferrable = min(sourceLevelKgOoze, sinkLevelKgOoze)
+        let transferrable = min(sourceLevelKgOoze, sinkAvailableCapacityKgOoze)
         let drawFullness = (sourceLevelKgOoze > 0) ? (transferrable / sourceLevelKgOoze) : 0
-        let depositFullness = (sinkLevelKgOoze > 0) ? (transferrable / sinkLevelKgOoze) : 0
+        let depositFullness = (sinkAvailableCapacityKgOoze > 0) ? (transferrable / sinkAvailableCapacityKgOoze) : 0
 
         let fromSourceTransfer = transferrable / source.E.contentDensity
         let netNativeDraw = fromSourceTransfer / source.E.compression
@@ -54,8 +54,8 @@ extension Metabolism {
 
         Debug.log(level: 179 ) {
             "getTransferLevels: sink \(sink.E.organID):\(sink.E.chamberID) capacity: "
-            + " native \(sink.E.capacity) - \(sink.level) = \(sinkLevelNative)"
-            + " kg \(sinkLevelKgOoze)"
+            + " native \(sink.E.capacity) - \(sink.level) = \(sinkAvailableCapacityNative)"
+            + " kg \(sinkAvailableCapacityKgOoze)"
             + " transferrable \(transferrable)"
             + " deposit fullness \(depositFullness)"
             + " to sink transfer \(toSinkTransfer)"

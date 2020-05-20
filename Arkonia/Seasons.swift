@@ -28,7 +28,7 @@ class Seasons {
 
     func getSeasonalFactors(_ onComplete: @escaping (CGFloat, CGFloat) -> Void) {
         SceneDispatch.shared.schedule {
-            let ageOfYearInDays = self.dayCounter.truncatingRemainder(dividingBy: Arkonia.arkoniaDaysPerYear)
+            let ageOfYearInDays = self.dayCounter.remainder(dividingBy: Arkonia.arkoniaDaysPerYear)
             let yearCompletion: TimeInterval = ageOfYearInDays / Arkonia.arkoniaDaysPerYear
             let scaledToSin = yearCompletion * TimeInterval.tau
             let weatherIntensityIndex = (sin(scaledToSin) + 1) / 2

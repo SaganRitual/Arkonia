@@ -4,7 +4,7 @@ extension Manna.Sprite {
     static let firstBloomAction = SKAction.group([firstFadeInAction, firstColorAction])
 
     private static let firstColorAction = SKAction.colorize(
-        with: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
+        with: .darkGray, colorBlendFactor: Arkonia.mannaColorBlendMaximum,
         duration: 0.01
     )
 
@@ -29,15 +29,15 @@ extension Manna.Sprite {
         colorAction.timingFunction = timingFunction
         fadeInAction.timingFunction = timingFunction
 
-        var group = [colorAction, fadeInAction]
+        let group = [colorAction, fadeInAction]
 
         // Just for interesting nerdy visuals, scale the manna to the same
         // scale as its pollenator
-        if let s = scaleFactor {
-            let newScale = constrain(s / 75, lo: 0.7, hi: 7) * Arkonia.mannaScaleFactor / Arkonia.zoomFactor
-            let scaleAction = SKAction.scale(to: newScale, duration: timeRequiredForFullBloom)
-            group.append(scaleAction)
-        }
+//        if let s = scaleFactor {
+//            let newScale = constrain(s / 75, lo: 0.7, hi: 7) * Arkonia.mannaScaleFactor / Arkonia.zoomFactor
+//            let scaleAction = SKAction.scale(to: newScale, duration: timeRequiredForFullBloom)
+//            group.append(scaleAction)
+//        }
 
         return SKAction.group(group)
     }

@@ -26,6 +26,7 @@
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
 		D422FE6F238E56C7007F0B7B /* Scratchpad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422FE6E238E56C7007F0B7B /* Scratchpad.swift */; };
 		D4231C7B2440405600683742 /* Reschedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4231C7A2440405600683742 /* Reschedule.swift */; };
+		D428D191247624C800777356 /* Conveniences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D428D190247624C800777356 /* Conveniences.swift */; };
 		D43DC50624162FB10017FADF /* HotLayerCnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50524162FB10017FADF /* HotLayerCnn.swift */; };
 		D43DC50824165AFE0017FADF /* GPUArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50724165AFE0017FADF /* GPUArray.swift */; };
 		D43DC50A24165D450017FADF /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50924165D450017FADF /* DataSource.swift */; };
@@ -148,6 +149,7 @@
 		D422FE6E238E56C7007F0B7B /* Scratchpad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scratchpad.swift; sourceTree = "<group>"; };
 		D4231C7A2440405600683742 /* Reschedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reschedule.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
+		D428D190247624C800777356 /* Conveniences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conveniences.swift; sourceTree = "<group>"; };
 		D43DC50524162FB10017FADF /* HotLayerCnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerCnn.swift; sourceTree = "<group>"; };
 		D43DC50724165AFE0017FADF /* GPUArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUArray.swift; sourceTree = "<group>"; };
 		D43DC50924165D450017FADF /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
@@ -354,6 +356,7 @@
 				D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */,
 				D4B00917241FD5B8007FDD6F /* Cbuffer.swift */,
 				D4F6460722A4253F00FD8C56 /* ColorGradient.swift */,
+				D428D190247624C800777356 /* Conveniences.swift */,
 				D41ED8D523B084A100E82B08 /* Debug.swift */,
 				D43EA83D229233F7006C619D /* Extensions.swift */,
 				D457109A2471169100A9B94F /* JumpSpec.swift */,
@@ -664,6 +667,7 @@
 				D40DF32924706E4B001649FA /* EnergyBudget.swift in Sources */,
 				D40DF32724706E4B001649FA /* Digestion.swift in Sources */,
 				D422DE0B23598B52003734B8 /* Census.swift in Sources */,
+				D428D191247624C800777356 /* Conveniences.swift in Sources */,
 				D4BD1DC923C088C200CE0753 /* Positions.swift in Sources */,
 				D4D4F050243ABACC00D093DF /* HotNetBnn.swift in Sources */,
 				D4B00912241B8BB3007FDD6F /* Pollenator.swift in Sources */,

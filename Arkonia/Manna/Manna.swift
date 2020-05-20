@@ -41,7 +41,7 @@ extension EnergyBudget {
         // swiftlint:enable nesting
 
         let bone:    CGFloat = 1
-        let ham:     CGFloat = 800   // Manna contains ham; arkons convert it directly to energy
+        let ham:     CGFloat = 1000   // Manna contains ham; arkons convert it directly to energy
         let leather: CGFloat = 1
         let o2:      CGFloat = 700
 
@@ -73,7 +73,7 @@ extension Manna {
         let maturityLevel = sprite.getMaturityLevel()
 
         // Don't give up any nutrition at all until I've bloomed enough
-        if maturityLevel < 0.25 { onComplete(nil); return }
+        if maturityLevel < 1e-2 { onComplete(nil); return }
 
         MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
 
@@ -125,16 +125,17 @@ extension Manna {
         // (normal bloom time + (10 - 6.3s)) * 10s/5s =
         // (normal bloom time + 3.7) * 2 seconds to reach full maturity
         let now = Date()
-        let growthDuration = mostRecentBloomTime.distance(to: now)
-        let maturity = constrain(growthDuration / timeRequiredForFullBloom, lo: 0.5, hi: 1.0)
-        let catchup = timeRequiredForFullBloom * (1 - maturity)
+//        let growthDuration = mostRecentBloomTime.distance(to: now)
+//        let maturity = constrain(growthDuration / timeRequiredForFullBloom, lo: 0.5, hi: 1.0)
+//        let catchup = timeRequiredForFullBloom * (1 - maturity)
+        let catchup: TimeInterval = 0
 
         timeRequiredForFullBloom = catchup + Arkonia.mannaFullGrowthDurationSeconds
         mostRecentBloomTime = now
 
-        #if DEBUG
-        Debug.log(level: 171) { "rebloom \(growthDuration), \(maturity), \(catchup), \(timeRequiredForFullBloom)" }
-        #endif
+//        #if DEBUG
+//        Debug.log(level: 171) { "rebloom \(growthDuration), \(maturity), \(catchup), \(timeRequiredForFullBloom)" }
+//        #endif
 
         sprite.bloom(timeRequiredForFullBloom, color: fs.node.fillColor, scaleFactor: fs.node.xScale)
     }

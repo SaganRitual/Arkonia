@@ -36,7 +36,10 @@ class Cbuffer<T> {
     @discardableResult
     func pop() -> T {
         assert(mode == .fifo)
-        precondition(nextPopOffset != nextPushOffset || wrappedPop == true, "Underflow in FIFO")
+        precondition(
+            nextPopOffset != nextPushOffset || wrappedPop == true,
+            "Underflow in FIFO -- line \(#line) in \(#file)"
+        )
 
         defer {
             elements[nextPopOffset] = nil
@@ -49,7 +52,10 @@ class Cbuffer<T> {
 
     func push(_ element: T) {
         assert(mode == .fifo)
-        precondition(nextPopOffset != nextPushOffset || wrappedPop == false, "Overflow in FIFO")
+        precondition(
+            nextPopOffset != nextPushOffset || wrappedPop == false,
+            "Overflow in FIFO -- line \(#line) in \(#file)"
+        )
 
         defer {
             nextPushOffset = (nextPushOffset + 1) % cElements

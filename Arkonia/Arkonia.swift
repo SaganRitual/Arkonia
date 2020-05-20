@@ -3,7 +3,7 @@ import SpriteKit
 
 class Arkonia {
     static let zoomFactor: CGFloat = 4
-    static let arkonScaleFactor: CGFloat = 0.3
+    static let arkonScaleFactor: CGFloat = 0.5
     static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.75
 
@@ -31,14 +31,12 @@ class Arkonia {
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedCellsPerSecond: CGFloat = 25
 
-    static let spawnOverhead: CGFloat = 1.5
+    static let mannaColorBlendMaximum: CGFloat = 0.70
+    static let mannaColorBlendMinimum: CGFloat = 0.10
+    static let mannaFullGrowthDurationSeconds: TimeInterval = 5
 
-    static let mannaColorBlendMaximum: CGFloat = 0.50
-    static let mannaColorBlendMinimum: CGFloat = 0.15
-    static let mannaFullGrowthDurationSeconds: TimeInterval = 10
-
-    static let mannaRebloomDelayMinimum: TimeInterval = 3
-    static let mannaRebloomDelayMaximum: TimeInterval = 5
+    static let mannaRebloomDelayMinimum: TimeInterval = 0.2
+    static let mannaRebloomDelayMaximum: TimeInterval = 1.0
 
     static let arkonMinRestDuration: TimeInterval = 0
     static let arkonMaxRestDuration: TimeInterval = 0
@@ -51,7 +49,7 @@ class Arkonia {
     static let realSecondsPerArkoniaDay: TimeInterval = 60
     static let arkoniaDaysPerSeason: TimeInterval = 5
     static let arkoniaDaysPerYear: TimeInterval = 2 * arkoniaDaysPerSeason
-    static let maximumBrightnessAlpha: CGFloat = 0.5
+    static let maximumBrightnessAlpha: CGFloat = 0.6
 }
 
 extension Arkonia {

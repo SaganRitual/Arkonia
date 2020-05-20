@@ -104,14 +104,37 @@ class Metabolism: HasSelectableStore {
         return alive
     }
 
+    // The spawn embryo and all of my own reserves must be full before I can
+    // give birth
     func canSpawn() -> Bool {
         guard let spawn = self.spawn else { return false }
 
-        return [spawn.fatStore!, spawn.hamStore, spawn.oxygenStore].allSatisfy { $0.isFull }
+        let organIDs: [OrganID] = [.fatStore, .energy, .lungs]
+
+        // To spawn, your spawn embryo must be full, and...
+        let spawnEmbryoReady = organIDs.map { spawn.selectStore($0)! }.allSatisfy { $0.isFull }
+
+        // Your own reserves must be nearly full -- I'd go with completely full,
+        // but we're checking this just after we've applied the fixed metabolic costs,
+        // so none of the stores will be compltely full. I'm fine with full minus
+        // one cycle of fixed costs. It's easier than trying to change the order of
+        // this check and the fixed cost application.
+        let reservesReady = organIDs.map { self.selectStore($0)! }.allSatisfy { $0.fullness > 0.95 }
+
+        return spawnEmbryoReady && reservesReady
     }
 
     func detachBirthEmbryo() { embryo = nil }
-    func detachSpawnEmbryo() { spawn = nil }
+    func detachSpawnEmbryo() {
+        spawn = nil
+
+        // Spawning is expensive
+        let organIDs: [OrganID] = [.fatStore, .energy, .lungs]
+        organIDs.forEach {
+            guard let store = self.selectStore($0) else { fatalError() }
+            store.withdraw(store.level / 2)
+        }
+    }
 
     func eat(_ mannaContent: EnergyBudget.MannaContent) {
         for id in secondaryStores {

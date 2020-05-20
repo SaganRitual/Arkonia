@@ -58,15 +58,24 @@ extension GridCell {
 
     func reschedule(_ stepper: Stepper, _ catchDumbMistakes: DispatchQueueID) {
         #if true
-        assert(catchDumbMistakes == .arkonsPlane)
+        precondition(
+            catchDumbMistakes == .arkonsPlane,
+            "Dumb mistake -- line \(#line) in \(#file)"
+        )
 
-        // We shouldn't be here unless the lock attempt failed
-        assert(self.isLocked && self.ownerName != .empty && self.ownerName != stepper.name)
+        precondition(
+            self.isLocked && self.ownerName != .empty && self.ownerName != stepper.name,
+            "We shouldn't be here unless the lock attempt failed -- line \(#line) in \(#file)"
+        )
+
         // The same arkon shouldn't be in here twice
-        assert(toReschedule.contains { $0.name == stepper.name } == false)
+        precondition(
+            toReschedule.contains { $0.name == stepper.name } == false,
+            "The same arkon shouldn't be in here twice -- line \(#line) in \(#file)"
+        )
 
         Debug.log(level: 182) {
-            " Reschedule \(self.stepper!.name)"
+            "Reschedule \(self.stepper!.name)"
             + " for cell \(self.gridPosition)"
             + " owned by \(self.ownerName)"
         }
@@ -82,7 +91,7 @@ extension GridCell {
 
     func debugFoo() {
         if !self.toReschedule.isEmpty {
-            Debug.log(level: 182) {
+            Debug.log(level: 183) {
                 "Still here:"
                 + " reschedule \(self.stepper!.name)"
                 + " for cell \(self.gridPosition)"

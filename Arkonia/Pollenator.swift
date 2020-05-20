@@ -7,15 +7,15 @@ class Pollenator {
     var birthday: TimeInterval = 0
     var currentPosition = GridCell.getRandomCell()
     let node = SKShapeNode(circleOfRadius: ArkoniaScene.arkonsPortal.size.hypotenuse / 5)
-    let sizeScaleDivisor: TimeInterval
-    let speedScaleDivisor: TimeInterval
+    let sizePeakToPeak: TimeInterval
+    let speedPeakToPeak: TimeInterval
 
     var age: TimeInterval { ArkoniaScene.currentSceneTime - birthday }
 
     init(_ color: SKColor) {
         node.strokeColor = .clear
         node.fillColor = color
-        node.alpha = 0.075
+        node.alpha = 0
 
         node.zPosition = 1
         node.setScale(1)
@@ -23,9 +23,9 @@ class Pollenator {
 
         ArkoniaScene.arkonsPortal.addChild(node)
 
-        let primes: [TimeInterval] = [3, 5, 7, 11, 13, 17, 19, 23, 29, 31]
-        sizeScaleDivisor = primes.randomElement()!
-        speedScaleDivisor = primes.randomElement()!
+        let peakToPeakSeconds: [TimeInterval] = [3, 5, 7, 11, 13]
+        sizePeakToPeak = 1 / peakToPeakSeconds.randomElement()!
+        speedPeakToPeak = 1 / peakToPeakSeconds.randomElement()!
 
         SceneDispatch.shared.schedule {
             self.birthday = ArkoniaScene.currentSceneTime
@@ -34,10 +34,21 @@ class Pollenator {
     }
 
     func move() {
-        // Vary the scale from 3^1 to 3^-1 over 10-second cycle
-        let sizeVariance = sqrt(pow(2, sin(age / sizeScaleDivisor)))
+        let positionInSizeCycle = age.remainder(dividingBy: sizePeakToPeak) / sizePeakToPeak
+        let yInSizeCycle = sin(positionInSizeCycle * TimeInterval.tau)
+
+        let positionInSpeedCycle = age.remainder(dividingBy: speedPeakToPeak) / speedPeakToPeak
+        let yInSpeedCycle = sin(positionInSpeedCycle * TimeInterval.tau)
+
+        // Nothing special about the functions here; the main thing is the
+        // value of the sizeCycleY et al, which is going from 1 to -1
+        // periodically. The functions below are pulled out of the air to
+        // get the pollenators to move and size according to the whim of
+        // the Arkonian deity (you)
+        let sizeVariance = sqrt(pow(2, yInSizeCycle))
         let sizeScale = CGFloat(sizeVariance) * 0.5
-        let speedVariance = sqrt(pow(2, sin(age / speedScaleDivisor)))
+
+        let speedVariance = sqrt(pow(2, yInSpeedCycle))
         let speedScale = CGFloat(speedVariance) * 100  // in pix/sec
 
         Debug.log(level: 133) { "pollenator \(sizeScale) \(node.xScale)" }
