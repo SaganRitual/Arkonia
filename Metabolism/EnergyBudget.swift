@@ -47,34 +47,6 @@ struct EnergyBudget: HasCapacity {
     let mfgCostWorkPerCap:   CGFloat
 }
 
-struct MannaContent: HasSelectableStore {
-    typealias StoreType = CGFloat
-
-    let bone:    CGFloat = 1
-    let ham:     CGFloat = 800   // Manna contains ham; arkons convert it directly to energy
-    let leather: CGFloat = 1
-    let o2:      CGFloat = 700
-
-    let maturityLevel: CGFloat
-    let supersizer: CGFloat
-
-    init(_ maturityLevel: CGFloat = 1, _ supersizer: CGFloat = 3) {
-        self.maturityLevel = maturityLevel
-        self.supersizer = supersizer
-    }
-
-    func selectStore(_ organID: OrganID) -> CGFloat? {
-        switch organID {
-        case .bone:     return bone * maturityLevel * supersizer
-        case .energy:   return ham * maturityLevel * supersizer
-        case .fatStore: return nil
-        case .leather:  return leather * maturityLevel * supersizer
-        case .lungs:    return o2 * maturityLevel * supersizer
-        default: fatalError()
-        }
-    }
-}
-
 extension EnergyBudget {
     static let supersizer: CGFloat = 3
     static func makeEnergyBudgetForChamberedStore(_ organID: OrganID, _ chamberID: ChamberID) -> EnergyBudget {

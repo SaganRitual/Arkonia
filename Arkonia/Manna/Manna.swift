@@ -33,8 +33,43 @@ extension Manna {
     }
 }
 
+extension EnergyBudget {
+    struct MannaContent: HasSelectableStore {
+        // swiftlint:disable nesting
+        // "Nesting Violation: Types should be nested at most 1 level deep (nesting)"
+        typealias StoreType = CGFloat
+        // swiftlint:enable nesting
+
+        let bone:    CGFloat = 1
+        let ham:     CGFloat = 800   // Manna contains ham; arkons convert it directly to energy
+        let leather: CGFloat = 1
+        let o2:      CGFloat = 700
+
+        let maturityLevel: CGFloat
+        let scale: CGFloat
+        let seasonalFactors: CGFloat
+
+        init(_ maturityLevel: CGFloat = 1, _ seasonalFactors: CGFloat) {
+            self.maturityLevel = maturityLevel
+            self.seasonalFactors = seasonalFactors
+            self.scale = EnergyBudget.supersizer * maturityLevel * seasonalFactors
+        }
+
+        func selectStore(_ organID: OrganID) -> CGFloat? {
+            switch organID {
+            case .bone:     return bone * scale
+            case .energy:   return ham * scale
+            case .fatStore: return nil
+            case .leather:  return leather * scale
+            case .lungs:    return o2 * scale
+            default: fatalError()
+            }
+        }
+    }
+}
+
 extension Manna {
-    func harvest(_ onComplete: @escaping (MannaContent?) -> Void) {
+    func harvest(_ onComplete: @escaping (EnergyBudget.MannaContent?) -> Void) {
         let maturityLevel = sprite.getMaturityLevel()
 
         // Don't give up any nutrition at all until I've bloomed enough
@@ -44,8 +79,21 @@ extension Manna {
 
         sprite.gridCell!.mannaAwaitingRebloom = true
 
-        let mannaContent = MannaContent(maturityLevel)
-        Dispatch.dispatchQueue.async { onComplete(mannaContent) }
+        Seasons.shared.getSeasonalFactors { seasonalFactors in
+            let mannaContent = EnergyBudget.MannaContent(maturityLevel, seasonalFactors)
+
+            Debug.log(level: 183) {
+                return (maturityLevel < 0.9) ? nil :
+
+                "harvest:"
+                + " maturity \(maturityLevel)"
+                + " seasonal \(seasonalFactors)"
+                + " = \(maturityLevel * seasonalFactors)"
+                + " -> ham \(mannaContent.selectStore(.energy)!)"
+            }
+
+            Dispatch.dispatchQueue.async { onComplete(mannaContent) }
+        }
     }
 
     func plant() -> Bool {

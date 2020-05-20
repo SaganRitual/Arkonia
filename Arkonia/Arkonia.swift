@@ -26,7 +26,7 @@ class Arkonia {
     static var debugMessageToConsole = true
 
     static let funkyCells: CGFloat? = 2 / zoomFactor
-    static let initialPopulation = 100
+    static let initialPopulation = 50
     static let maxPopulation = Int.max
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedCellsPerSecond: CGFloat = 25
@@ -49,7 +49,9 @@ class Arkonia {
         { mannaColorBlendMaximum - mannaColorBlendMinimum }
 
     static let realSecondsPerArkoniaDay: TimeInterval = 60
-    static let minimumDarknessAsAlpha: CGFloat = 0.85
+    static let arkoniaDaysPerSeason: TimeInterval = 5
+    static let arkoniaDaysPerYear: TimeInterval = 2 * arkoniaDaysPerSeason
+    static let maximumBrightnessAlpha: CGFloat = 0.5
 }
 
 extension Arkonia {

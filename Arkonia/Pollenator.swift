@@ -15,7 +15,7 @@ class Pollenator {
     init(_ color: SKColor) {
         node.strokeColor = .clear
         node.fillColor = color
-        node.alpha = 0.1
+        node.alpha = 0.075
 
         node.zPosition = 1
         node.setScale(1)
@@ -36,9 +36,9 @@ class Pollenator {
     func move() {
         // Vary the scale from 3^1 to 3^-1 over 10-second cycle
         let sizeVariance = sqrt(pow(2, sin(age / sizeScaleDivisor)))
-        let sizeScale = CGFloat(sizeVariance) * 0.25
+        let sizeScale = CGFloat(sizeVariance) * 0.5
         let speedVariance = sqrt(pow(2, sin(age / speedScaleDivisor)))
-        let speedScale = CGFloat(speedVariance) * 50  // in pix/sec
+        let speedScale = CGFloat(speedVariance) * 100  // in pix/sec
 
         Debug.log(level: 133) { "pollenator \(sizeScale) \(node.xScale)" }
 

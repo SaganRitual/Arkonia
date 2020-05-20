@@ -42,7 +42,6 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
     static var arkonsPortal: SKSpriteNode!
     static var netPortal: SKSpriteNode!
     static var netPortalHalfNeurons: SKSpriteNode!
-    static var sunshield: SKSpriteNode!
 
     var barChartFactory: BarChartFactory!
 
@@ -165,12 +164,8 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         ArkoniaScene.arkonsPortal =         loadScenePortal("arkons_portal")
         ArkoniaScene.netPortal =            loadScenePortal("net_9portals_backer")
         ArkoniaScene.netPortalHalfNeurons = loadScenePortal("net_9portals_half_neurons_backer")
-        ArkoniaScene.sunshield =            loadScenePortal("sunshield")
 
         ArkoniaScene.arkonsPortal.alpha = 1
-        ArkoniaScene.sunshield.removeFromParent()
-        ArkoniaScene.arkonsPortal.addChild(ArkoniaScene.sunshield)
-        ArkoniaScene.sunshield.position = CGPoint.zero
 
         Grid.makeGrid(on: ArkoniaScene.arkonsPortal)
 
@@ -189,6 +184,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         MannaCannon.shared = MannaCannon()
         MannaCannon.shared!.postInit()
 
+        Seasons.shared = Seasons()
         Clock.shared = Clock(self)
         Census.shared = Census(self)
 
@@ -196,22 +192,6 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
             self.readyForDisplayCycle = true
             self.speed = 1
         })
-    }
-
-    // Note: we show daylight by revealing the sun-colored background behind
-    // the black arkons plane, so it's a bit backward. An alpha of 1.0 is
-    // midnight, because the black arkons plane is fully opaque, hiding the "sun"
-    func advanceDayNightCycle(_ currentTime: TimeInterval) {
-        let sceneAgeRealSeconds = currentTime - ArkoniaScene.sceneBirthday
-        let sceneAgeArkoniaDays = sceneAgeRealSeconds / Arkonia.realSecondsPerArkoniaDay
-
-        // The world always starts at night
-        let shifted = sceneAgeArkoniaDays + TimeInterval(CGFloat.pi / 2)
-
-        let darknessLevel = (1 - Arkonia.minimumDarknessAsAlpha) * CGFloat(abs(sin(shifted)))
-        let alphaScale = Arkonia.minimumDarknessAsAlpha + darknessLevel
-
-        ArkoniaScene.sunshield.alpha = alphaScale
     }
 
     // Safe only in SceneDispatch context
@@ -224,8 +204,6 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         Display.displayCycle = .updateStarted
 
         ArkoniaScene.currentSceneTime = currentTime
-
-        advanceDayNightCycle(currentTime)
 
         SceneDispatch.shared.tick()
 
