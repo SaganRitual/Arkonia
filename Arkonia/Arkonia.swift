@@ -17,7 +17,7 @@ class Arkonia {
     static let cMotorGridlets = cSenseGridlets - 1
 
     static let allowSpawning = true
-    static let cMannaMorsels = 7500
+    static let cMannaMorsels = 5000
     static let cPollenators = 5
 
     // vars so I can change them from the debugger

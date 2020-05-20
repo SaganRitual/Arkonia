@@ -79,15 +79,17 @@ extension Manna {
 
         sprite.gridCell!.mannaAwaitingRebloom = true
 
-        Seasons.shared.getSeasonalFactors { seasonalFactors in
+        Seasons.shared.getSeasonalFactors { dayNightFactor, weatherIntensityIndex in
+            let seasonalFactors =  dayNightFactor * weatherIntensityIndex
             let mannaContent = EnergyBudget.MannaContent(maturityLevel, seasonalFactors)
 
-            Debug.log(level: 183) {
+            Debug.log(level: 182) {
                 return (maturityLevel < 0.9) ? nil :
 
                 "harvest:"
                 + " maturity \(maturityLevel)"
-                + " seasonal \(seasonalFactors)"
+                + " dayNight \(dayNightFactor)"
+                + " weather \(weatherIntensityIndex)"
                 + " = \(maturityLevel * seasonalFactors)"
                 + " -> ham \(mannaContent.selectStore(.energy)!)"
             }

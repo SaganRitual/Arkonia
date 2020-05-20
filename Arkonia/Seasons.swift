@@ -26,7 +26,7 @@ class Seasons {
         start()
     }
 
-    func getSeasonalFactors(_ onComplete: @escaping (CGFloat) -> Void) {
+    func getSeasonalFactors(_ onComplete: @escaping (CGFloat, CGFloat) -> Void) {
         SceneDispatch.shared.schedule {
             let ageOfYearInDays = self.dayCounter.truncatingRemainder(dividingBy: Arkonia.arkoniaDaysPerYear)
             let yearCompletion: TimeInterval = ageOfYearInDays / Arkonia.arkoniaDaysPerYear
@@ -36,9 +36,15 @@ class Seasons {
             // dayNightFactor == 1 means midday, 0 is midnight
             let dayNightFactor = self.sun.alpha / Arkonia.maximumBrightnessAlpha
 
-            let seasonalFactors = dayNightFactor * CGFloat(weatherIntensityIndex)
+            Debug.log(level: 182) {
+                "seasonalFactors:"
+                + " julian date \(ageOfYearInDays)"
+                + " 0..<1 \(yearCompletion)"
+                + " for sin \(scaledToSin)"
+                + " weather \(weatherIntensityIndex)"
+            }
 
-            onComplete(seasonalFactors)
+            onComplete(dayNightFactor, CGFloat(weatherIntensityIndex))
         }
     }
 
@@ -56,9 +62,9 @@ class Seasons {
             duration: Arkonia.realSecondsPerArkoniaDay / 2
         )
 
-        let countDays = SKAction.run { self.dayCounter += 1 }
+        let countHalfDay = SKAction.run { self.dayCounter += 0.5 }
 
-        let oneDayOneNight = SKAction.sequence([lighten, darken, countDays])
+        let oneDayOneNight = SKAction.sequence([lighten, countHalfDay, darken, countHalfDay])
         let dayNightCycle = SKAction.repeatForever(oneDayOneNight)
 
         let realSecondsPerArkoniaSeason = TimeInterval(Arkonia.arkoniaDaysPerSeason) * Arkonia.realSecondsPerArkoniaDay

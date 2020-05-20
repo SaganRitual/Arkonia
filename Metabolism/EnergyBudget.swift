@@ -48,7 +48,8 @@ struct EnergyBudget: HasCapacity {
 }
 
 extension EnergyBudget {
-    static let supersizer: CGFloat = 3
+    static let supersizer: CGFloat = 10
+
     static func makeEnergyBudgetForChamberedStore(_ organID: OrganID, _ chamberID: ChamberID) -> EnergyBudget {
         switch chamberID {
         case .vitaminB: return EnergyBudget(
