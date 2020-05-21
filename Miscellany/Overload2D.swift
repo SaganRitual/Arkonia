@@ -211,11 +211,11 @@ extension CGPoint: Overload2D {
     }
 
     static func random(in range: Range<CGFloat>) -> CGPoint {
-        return CGPoint(x: CGFloat.random(in: range), y: CGFloat.random(in: range))
+        return CGPoint(x: Arkonia.random(in: range), y: Arkonia.random(in: range))
     }
 
     static func random(xRange: Range<CGFloat>, yRange: Range<CGFloat>) -> CGPoint {
-        return CGPoint(x: CGFloat.random(in: xRange), y: CGFloat.random(in: yRange))
+        return CGPoint(x: Arkonia.random(in: xRange), y: Arkonia.random(in: yRange))
     }
 
     func asPoint() -> CGPoint {
@@ -264,11 +264,11 @@ extension CGSize: Overload2D {
     }
 
     static func random(in range: Range<CGFloat>) -> CGSize {
-        return CGSize(width: CGFloat.random(in: range), height: CGFloat.random(in: range))
+        return CGSize(width: Arkonia.random(in: range), height: Arkonia.random(in: range))
     }
 
     static func random(widthRange: Range<CGFloat>, heightRange: Range<CGFloat>) -> CGSize {
-        return CGSize(width: CGFloat.random(in: widthRange), height: CGFloat.random(in: heightRange))
+        return CGSize(width: Arkonia.random(in: widthRange), height: Arkonia.random(in: heightRange))
     }
 
     func asPoint() -> CGPoint {
@@ -313,11 +313,11 @@ extension CGVector: Overload2D {
     }
 
     static func random(in range: Range<CGFloat>) -> CGVector {
-        return CGVector(dx: CGFloat.random(in: range), dy: CGFloat.random(in: range))
+        return CGVector(dx: Arkonia.random(in: range), dy: Arkonia.random(in: range))
     }
 
     static func random(dxRange: Range<CGFloat>, dyRange: Range<CGFloat>) -> CGVector {
-        return CGVector(dx: CGFloat.random(in: dxRange), dy: CGFloat.random(in: dyRange))
+        return CGVector(dx: Arkonia.random(in: dxRange), dy: Arkonia.random(in: dyRange))
     }
 
     func asPoint() -> CGPoint {

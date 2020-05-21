@@ -24,9 +24,6 @@ class Plotter {
         }
 
         func b() {
-//            let delay = TimeInterval.random(in: 0.01..<0.02)
-//            let randomer = TimeInterval.random(in: 1..<5)
-//            Net.dispatchQueue.asyncAfter(deadline: .now() + delay * randomer, execute: c)
             Net.dispatchQueue.async { c(.net) }
         }
 
@@ -35,7 +32,6 @@ class Plotter {
                 self.scratch.cellShuttle = $0; self.scratch.jumpSpeed = $1; d()  }
         }
 
-        // 97298509+
         func d() { Grid.arkonsPlaneQueue.async { e(.arkonsPlane) } }
 
         func e(_ catchDumbMistakes: DispatchQueueID) {

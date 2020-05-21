@@ -31,7 +31,7 @@ class MannaCannon {
             if self.readyManna.count >= targetCLaunchees {
                 Debug.log(level: 158) { "blast.0 \(self.readyManna.count)" }
 
-                let duration = TimeInterval.random(
+                let duration = Arkonia.random(
                     in: Arkonia.mannaRebloomDelayMinimum..<Arkonia.mannaRebloomDelayMaximum
                 )
 

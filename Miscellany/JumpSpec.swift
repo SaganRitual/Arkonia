@@ -15,11 +15,11 @@ struct JumpSpec {
         distanceMeters = JumpSpec.getDistanceMeters(distanceInCells)
         speedMetersPerSec = JumpSpec.getSpeedMetersPerSec(speedAsPercentage)
 
-        let visualAccelerationScaleNoEffectOnPhysics: TimeInterval = 2
+        let visualAccelerationScaleNoEffectOnPhysicsCalculations: TimeInterval = 2
 
         durationSeconds =
             TimeInterval(distanceMeters / speedMetersPerSec) /
-            visualAccelerationScaleNoEffectOnPhysics
+            visualAccelerationScaleNoEffectOnPhysicsCalculations
     }
 
     static private func getDistanceMeters(_ distanceInCells: CGFloat) -> CGFloat {

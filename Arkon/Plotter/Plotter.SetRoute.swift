@@ -44,7 +44,7 @@ extension Plotter {
             let jumpSpeedMotorOutput = motorOutputs[MotorIndex.jumpSpeed.rawValue]
 
             if let f = fromCell {
-                let asPercentage = CGFloat(1 + jumpSpeedMotorOutput) / 2
+                let asPercentage = max(CGFloat(jumpSpeedMotorOutput), 0.1)
                 let jumpDistanceInCells = f.gridPosition.asPoint().distance(to: toCell.gridPosition.asPoint())
 
                 scratch.jumpSpec = JumpSpec(jumpDistanceInCells, asPercentage)

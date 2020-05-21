@@ -35,6 +35,22 @@ class Net {
         }
     }
 
+    static func generateRandomNetStructure() -> [Int] {
+        var L = [Int]()
+
+        // Just making stuff up here
+        let div = Arkonia.random(in: 2...4)
+        var cNeurons = Arkonia.cSenseNeurons
+        while cNeurons > (div * Arkonia.cMotorNeurons) {
+            L.append(cNeurons)
+            cNeurons /= div
+        }
+
+        L.append(Arkonia.cMotorNeurons)
+
+        return L
+    }
+
     private init(
         _ parentBiases: [Double]?, _ parentWeights: [Double]?, _ layers: [Int]?
     ) {
@@ -43,18 +59,7 @@ class Net {
         if let L = layers {
             (self.layers, didMutate) = Mutator.mutateNetStructure(L)
         } else {
-            // Set up layers in some random configurations, as in
-            // how many layers and how many neurons per layer
-            var L = [Int]()
-            let div = Int.random(in: 2...4)
-            var cNeurons = Arkonia.cSenseNeurons
-            while cNeurons > (div * Arkonia.cMotorNeurons) {
-                L.append(cNeurons)
-                cNeurons /= div
-            }
-
-            L.append(Arkonia.cMotorNeurons)
-            self.layers = L
+            self.layers = Net.generateRandomNetStructure()
         }
 
         self.cNeurons = self.layers.reduce(0, +)

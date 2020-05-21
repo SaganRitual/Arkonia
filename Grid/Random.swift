@@ -28,7 +28,7 @@ extension GridCell {
     }
 
     static func lockBirthPosition(parent: Stepper, name: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCell? {
-        let gridPointIndex = Int.random(in: 0..<Arkonia.cMotorGridlets)
+        let gridPointIndex = Arkonia.random(in: 0..<Arkonia.cMotorGridlets)
         let p = parent.gridCell.getGridPointByIndex(gridPointIndex)
 
         return GridCell.atIf(p)?.lockIf(ownerName: name, catchDumbMistakes)

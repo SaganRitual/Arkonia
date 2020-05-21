@@ -28,10 +28,16 @@ class Seasons {
 
     func getSeasonalFactors(_ onComplete: @escaping (CGFloat, CGFloat) -> Void) {
         SceneDispatch.shared.schedule {
-            let ageOfYearInDays = self.dayCounter.remainder(dividingBy: Arkonia.arkoniaDaysPerYear)
+            let ageOfYearInDays = self.dayCounter.truncatingRemainder(dividingBy: Arkonia.arkoniaDaysPerYear)
             let yearCompletion: TimeInterval = ageOfYearInDays / Arkonia.arkoniaDaysPerYear
             let scaledToSin = yearCompletion * TimeInterval.tau
-            let weatherIntensityIndex = (sin(scaledToSin) + 1) / 2
+
+            // Shift -1...1 sine domain to 0...1
+            let weatherIntensityIndex = CGFloat(sin(scaledToSin) + 1) / 2
+
+            // Arkonia uses the proper (celsius) scale, but the temperature
+            // always stays in the range of 0.25...1˚C
+            let itReallyAmountsToTemperature = max(weatherIntensityIndex, 0.25)
 
             // dayNightFactor == 1 means midday, 0 is midnight
             let dayNightFactor = self.sun.alpha / Arkonia.maximumBrightnessAlpha
@@ -41,10 +47,10 @@ class Seasons {
                 + " julian date \(ageOfYearInDays)"
                 + " 0..<1 \(yearCompletion)"
                 + " for sin \(scaledToSin)"
-                + " weather \(weatherIntensityIndex)"
+                + " temp \(itReallyAmountsToTemperature)"
             }
 
-            onComplete(dayNightFactor, CGFloat(weatherIntensityIndex))
+            onComplete(dayNightFactor, itReallyAmountsToTemperature)
         }
     }
 
@@ -52,14 +58,17 @@ class Seasons {
     // update, so it's ok for us to hit, for example, ArkoniaScene.currentSceneTime,
     // unprotected, because it's never changed outside the scene update
     func start() {
+        let durationToFullLight = Arkonia.realSecondsPerArkoniaDay * Arkonia.darknessAsPercentageOfDay
+        let durationToFullDarkness = Arkonia.realSecondsPerArkoniaDay * (1 - Arkonia.darknessAsPercentageOfDay)
+
         let darken = SKAction.fadeAlpha(
             to: 0,
-            duration: Arkonia.realSecondsPerArkoniaDay / 2
+            duration: durationToFullLight
         )
 
         let lighten = SKAction.fadeAlpha(
             to: Arkonia.maximumBrightnessAlpha,
-            duration: Arkonia.realSecondsPerArkoniaDay / 2
+            duration: durationToFullDarkness
         )
 
         let countHalfDay = SKAction.run { self.dayCounter += 0.5 }
@@ -67,16 +76,18 @@ class Seasons {
         let oneDayOneNight = SKAction.sequence([lighten, countHalfDay, darken, countHalfDay])
         let dayNightCycle = SKAction.repeatForever(oneDayOneNight)
 
-        let realSecondsPerArkoniaSeason = TimeInterval(Arkonia.arkoniaDaysPerSeason) * Arkonia.realSecondsPerArkoniaDay
+        let realSecondsPerYear = Arkonia.arkoniaDaysPerYear * Arkonia.realSecondsPerArkoniaDay
+        let winterDuration = realSecondsPerYear * Arkonia.winterAsPercentageOfYear
+        let summerDuration = realSecondsPerYear - winterDuration
 
         let warm = SKAction.colorize(
-            with: .yellow, colorBlendFactor: 1,
-            duration: realSecondsPerArkoniaSeason / 2
+            with: .orange, colorBlendFactor: 1,
+            duration: winterDuration
         )
 
         let cool = SKAction.colorize(
             with: .blue, colorBlendFactor: 1,
-            duration: realSecondsPerArkoniaSeason / 2
+            duration: summerDuration
         )
 
         let oneSummerOneWinter = SKAction.sequence([warm, cool])

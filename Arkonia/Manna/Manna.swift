@@ -84,8 +84,6 @@ extension Manna {
             let mannaContent = EnergyBudget.MannaContent(maturityLevel, seasonalFactors)
 
             Debug.log(level: 182) {
-                return (maturityLevel < 0.9) ? nil :
-
                 "harvest:"
                 + " maturity \(maturityLevel)"
                 + " dayNight \(dayNightFactor)"

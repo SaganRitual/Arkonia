@@ -9,7 +9,7 @@ enum RandomJumpDistance {
         sqrt(zeroSquared + threeSquared), sqrt(oneSquared + threeSquared), sqrt(twoSquared + threeSquared), sqrt(threeSquared + threeSquared)
     ]
 
-    static func inMeters() -> CGFloat { jumpDistancesInCellUnits.randomElement()! / RealWorldConversions.cellsPerRealMeter }
+    static func inMeters() -> CGFloat { Arkonia.randomElement(jumpDistancesInCellUnits) / RealWorldConversions.cellsPerRealMeter }
 }
 
 func energyBudget(_ metabolism: Metabolism, _ passCounter: Int) -> Bool {
@@ -30,7 +30,7 @@ func energyBudget(_ metabolism: Metabolism, _ passCounter: Int) -> Bool {
 
     Debug.log(level: 180) { "post-jump(\(passCounter)), isAlive = \(isAlive)" }
 
-    if Int.random(in: 0..<100) < 25 {
+    if Arkonia.random(in: 0..<100) < 25 {
         metabolism.eat()
         Debug.log(level: 180) { "post-eat; mass \(metabolism.mass)" }
     }

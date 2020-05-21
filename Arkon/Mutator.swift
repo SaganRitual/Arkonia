@@ -11,7 +11,7 @@ enum Mutator {
             return result
         }
 
-        return { return samples.randomElement()! / 10.0 }
+        return { return Arkonia.randomElement(in: samples) / 10 }
     }()
 
     static func mutateNetStrand(parentStrand p: [Double]?, targetLength: Int, value: Double? = nil) -> ([Double], Bool) {
@@ -24,7 +24,7 @@ enum Mutator {
                 if c > targetLength {
                     return (Array(firstPass.prefix(targetLength)), didMutate)
                 } else if c < targetLength {
-                    return (firstPass + (c..<targetLength).map { _ in Double.random(in: -1..<1) }, didMutate)
+                    return (firstPass + (c..<targetLength).map { _ in Arkonia.random(in: -1.0..<1.0) }, didMutate)
                 }
 
                 return (firstPass, didMutate)
@@ -32,7 +32,7 @@ enum Mutator {
         }
 
         let (lo, hi): (Int, Int) = (value == nil) ? (-1, 1) : ((value! == 0) ? (0, 0) : (-1, 1))
-        let fromScratch: [Double] = (0..<targetLength).map { _ in Double(Int.random(in: lo...hi)) }
+        let fromScratch: [Double] = (0..<targetLength).map { _ in Double(Arkonia.random(in: lo...hi)) }
 
         Debug.log(level: 93) { "Generate from scratch = \(fromScratch)" }
         return (fromScratch, false)
@@ -42,7 +42,7 @@ enum Mutator {
         var didMutate = false
 
         // 70% chance that the structure won't change at all
-        if Int.random(in: 0..<100) < 70 {
+        if Arkonia.random(in: 0..<100) < 70 {
             Debug.log(level: 121) { "no mutation to net structure" }
             return (layers, didMutate)
         }
@@ -54,10 +54,8 @@ enum Mutator {
         let strippedNet = Array(layers.dropFirst())
         var newNet: [Int]
 
-        switch NetMutation.allCases.randomElement() {
+        switch NetMutation.allCases.randomElement(using: &Arkonia.rng) {
         case .passThru:           newNet = strippedNet
-        case .addDuplicatedLayer: newNet = addDuplicatedLayer(strippedNet)
-        case .addMutatedLayer:    newNet = addMutatedLayer(strippedNet)
         case .addRandomLayer:     newNet = addRandomLayer(strippedNet)
         case .dropLayer:          newNet = dropLayer(strippedNet)
         case .none:               fatalError()
@@ -76,13 +74,13 @@ private extension Mutator {
 
     static func mutateRandomDoubles(_ inDoubles: [Double]) -> ([Double]?, Bool) {
         var didMutate = false
-        if Int.random(in: 0..<100) < 75 { return (inDoubles, didMutate) }
+        if Arkonia.random(in: 0..<100) < 75 { return (inDoubles, didMutate) }
 
-        let b = Double.random(in: 0..<0.05)
+        let b = Arkonia.random(in: 0..<0.05)
         var cMutate = b * Double(inDoubles.count)  // max 5% of genome
 
         let i = Int(cMutate)
-        if i == 0 && Bool.random() {
+        if i == 0 && Arkonia.randomBool() {
             Debug.log(level: 121) { "no mutation" }
             return (nil, false)
         }
@@ -91,7 +89,7 @@ private extension Mutator {
         var outDoubles = inDoubles
 
         while cMutate > 0 {
-            let wherefore = Int.random(in: 0..<inDoubles.count)
+            let wherefore = Arkonia.random(in: 0..<inDoubles.count)
 
             let (newValue, dm) = mutate(from: inDoubles[wherefore])
             if dm { didMutate = true }
@@ -113,52 +111,29 @@ private extension Mutator {
     }
 
     enum NetMutation: CaseIterable {
-        case passThru, addDuplicatedLayer, addMutatedLayer, addRandomLayer, dropLayer
+        case passThru, addRandomLayer, dropLayer
     }
 }
 
 private extension Mutator {
-
-    static func addDuplicatedLayer(_ layers: [Int]) -> [Int] {
-        let layerToDuplicate = layers.randomElement()
-        let insertPoint = Int.random(in: 0..<layers.count)
-        var toMutate = layers
-        toMutate.insert(layerToDuplicate!, at: insertPoint)
-
-        Debug.log(level: 120) { "addDuplicatedLayer to \(layers.count)-layer net: \(layerToDuplicate!) neurons, insert at \(insertPoint)" }
-        return toMutate
-    }
-
-    static func addMutatedLayer(_ layers: [Int]) -> [Int] {
-        let layerToMutate = layers.randomElement()
-        let insertPoint = Int.random(in: 0..<layers.count)
-        var structureToMutate = layers
-        let mag = Int.random(in: 1..<2)
-        let sign = Bool.random() ? 1 : -1
-        let L = abs(layerToMutate! + sign * mag)
-        let mutatedLayer = (L == 0) ? 1 : L
-
-        structureToMutate.insert(mutatedLayer, at: insertPoint)
-
-        Debug.log(level: 120) { "addMutatedLayer to \(layers.count)-layer net: \(layerToMutate!) neurons, insert at \(insertPoint)" }
-        return structureToMutate
-    }
-
     static func addRandomLayer(_ layers: [Int]) -> [Int] {
-        let insertPoint = Int.random(in: 0..<layers.count)
         var toMutate = layers
-        let cNeurons = Int.random(in: 1..<10)
+
+        let insertPoint = Arkonia.random(in: 0..<toMutate.count)
+        let cNeurons = Arkonia.random(in: toMutate.min()!..<toMutate.max()!)
+
         toMutate.insert(cNeurons, at: insertPoint)
+
         Debug.log(level: 120) { "addRandomLayer to \(layers.count)-layer net: \(cNeurons) neurons, insert at \(insertPoint)" }
         return toMutate
     }
 
     static func dropLayer(_ layers: [Int]) -> [Int] {
-        let howMany = Int.random(in: 0..<layers.count)
         var toMutate = layers
+        let howMany = Arkonia.random(in: 0..<toMutate.count)
 
         for _ in 0..<howMany {
-            let dropPoint = Int.random(in: 0..<toMutate.count)
+            let dropPoint = Arkonia.random(in: 0..<toMutate.count)
             toMutate.remove(at: dropPoint)
             Debug.log(level: 120) { "dropLayer from \(layers.count)-layer net, at \(dropPoint)" }
         }
