@@ -7,12 +7,12 @@ class CellSenseGrid: CustomDebugStringConvertible {
     var ownerName: ArkonName
 
     init(from center: GridCell, by cGridlets: Int, block: AKPoint, _ catchDumbMistakes: DispatchQueueID) {
-        assert(center.ownerName == center.stepper?.name)
+        hardAssert(center.ownerName == center.stepper?.name)
         self.ownerName = center.ownerName
 
         // The following loop needs to be atomic relative to the arkons grid,
         // we want no interference from anyone else trying to get our squares
-        assert(catchDumbMistakes == .arkonsPlane)
+        hardAssert(catchDumbMistakes == .arkonsPlane)
 
         cells = [center] + (1..<cGridlets).map { index in
             let position = center.getGridPointByIndex(index)
@@ -23,20 +23,18 @@ class CellSenseGrid: CustomDebugStringConvertible {
             Debug.log(level: 168) { "CellSenseGrid \(index), \(position) tenant \(six(cell.stepper?.name)) owner \(six(self.ownerName))" }
 
             // The cell hed better not have my name on it already
-            assert(self.ownerName != cell.ownerName)
+            hardAssert(self.ownerName != cell.ownerName)
 
             let lockType: GridCell.RequireLock = index > Arkonia.cMotorGridlets ? .cold : .degradeToCold
 
-            guard let lock = cell.lock(require: lockType, ownerName: self.ownerName, catchDumbMistakes)
-                else { fatalError() }
-
+            let lock = (cell.lock(require: lockType, ownerName: self.ownerName, catchDumbMistakes))!
             return lock
         }
 
         #if DEBUG
         for c in cells {
-            assert((c is GridCell) == (c.ownerName == center.ownerName))
-            assert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell))
+            hardAssert((c is GridCell) == (c.ownerName == center.ownerName))
+            hardAssert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell))
         }
         #endif
     }
@@ -77,7 +75,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
         Debug.log(level: 169) { "SenseGrid post-reset for \(self.ownerName) \(cells.compactMap { ($0 is NilKey) ? nil : "\($0):\(type(of: $0))" })" }
 
-        assert(cells.filter({ $0.ownerName == self.ownerName }).count <= 2)
+        hardAssert(cells.filter({ $0.ownerName == self.ownerName }).count <= 2)
         cells.removeAll(keepingCapacity: true)
     }
 

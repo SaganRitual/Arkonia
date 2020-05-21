@@ -27,7 +27,7 @@ class SensesConnector {
     }
 
     func connect(_ onComplete: @escaping () -> Void) {
-        guard let sg = scratch.senseGrid else { fatalError() }
+        let sg = (scratch.senseGrid)!
 
         connectGridInputs(from: sg) {
             self.connectNonGridInputs()

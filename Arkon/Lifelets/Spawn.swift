@@ -91,8 +91,7 @@ extension Spawn {
         guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
             else { return }
 
-        guard let hp = (sprite.userData?[SpriteUserDataKey.netHalfNeuronsPortal] as? SKSpriteNode)
-            else { fatalError() }
+        let hp = (sprite.userData?[SpriteUserDataKey.netHalfNeuronsPortal] as? SKSpriteNode)!
 
         netDisplay = NetDisplay(
             arkon: sprite, fullNeuronsPortal: np, halfNeuronsPortal: hp, layers: net!.layers
@@ -140,7 +139,7 @@ extension Spawn {
         func c() {
             SceneDispatch.shared.schedule { [unowned self] in
                 Debug.log(level: 102) { "buildArkon/c" }
-                guard let sprite = self.thorax else { fatalError() }
+                let sprite = (self.thorax)!
                 self.buildNetDisplay(sprite)
                 onComplete()
             }
@@ -150,14 +149,14 @@ extension Spawn {
     }
 
     private func buildSprites() {
-        assert(Display.displayCycle == .updateStarted)
+        hardAssert(Display.displayCycle == .updateStarted)
 
         self.nose = SpriteFactory.shared.nosesPool.makeSprite(embryoName)
         self.thorax = SpriteFactory.shared.arkonsPool.makeSprite(embryoName)
 
-        guard let thorax = self.thorax else { fatalError() }
-        guard let nose = self.nose else { fatalError() }
-        guard let engagerKey = self.engagerKeyForNewborn else { fatalError() }
+        let thorax = (self.thorax)!
+        let nose = (self.nose)!
+        let engagerKey = (self.engagerKeyForNewborn)!
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
@@ -187,7 +186,7 @@ extension Spawn {
 extension Spawn {
     func launchNewborn() {
         let newborn = Stepper(self, needsNewDispatch: true)
-        assert(newborn.sprite.parent == nil)
+        hardAssert(newborn.sprite.parent == nil)
         newborn.parentStepper = self.meTheParent
         newborn.dispatch.scratch.stepper = newborn
         newborn.sprite?.color = (net?.isCloneOfParent ?? false) ? .green : .white
@@ -198,7 +197,7 @@ extension Spawn {
     }
 
     private func launchB(_ newborn: Stepper, _ catchDumbMistakes: DispatchQueueID) {
-        guard let engagerKey = self.engagerKeyForNewborn else { fatalError() }
+        let engagerKey = (self.engagerKeyForNewborn)!
 
         newborn.gridCell = engagerKey
         self.engagerKeyForNewborn = nil
@@ -206,13 +205,13 @@ extension Spawn {
         engagerKey.stepper = newborn
 
         // Name should be set up in the beginning spawn step
-        assert(engagerKey.ownerName == newborn.name)
+        hardAssert(engagerKey.ownerName == newborn.name)
 
         Stepper.attachStepper(newborn, to: newborn.sprite)
 
         abandonNewborn(catchDumbMistakes)
 
-        guard let ndp = newborn.dispatch else { fatalError() }
+        let ndp = (newborn.dispatch)!
 
         ndp.scratch.engagerKey = engagerKey
         ndp.scratch.isSpawning = true

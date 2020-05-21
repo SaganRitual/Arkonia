@@ -17,7 +17,8 @@ extension Parasitize {
         }
 
         func b() {
-            guard let winner = victor, let loser = victim else { fatalError() }
+            let winner = (victor)!
+            let loser = (victim)!
 
             Debug.debugColor(loser, .blue, .magenta)
             Debug.debugColor(winner, .blue, .orange)
@@ -26,7 +27,9 @@ extension Parasitize {
         }
 
         func c() {
-            guard let winner = victor, let loser = victim else { fatalError() }
+            let winner = (victor)!
+            let loser = (victim)!
+
             parasitize(winner, loser, catchDumbMistakes) {}
         }
 
@@ -64,10 +67,10 @@ extension Parasitize {
     ) {
         Debug.debugColor(myScratch.stepper, .blue, .purple)
 
-        guard let hisStepper = myScratch.cellShuttle?.toCell?.stepper else { fatalError() }
+        let hisStepper = (myScratch.cellShuttle?.toCell?.stepper)!
 
-        precondition(hisStepper !== myScratch.stepper)
-        precondition(hisStepper.name != myScratch.stepper.name)
+        hardAssert(hisStepper !== myScratch.stepper)
+        hardAssert(hisStepper.name != myScratch.stepper.name)
 
         let myMass = myScratch.stepper.metabolism.mass
         let hisMass = hisStepper.metabolism.mass
@@ -84,10 +87,10 @@ extension Parasitize {
             hisStepper.isTurnabouted = true
 
             let hisScratch = hisStepper.dispatch.scratch
-            guard let myShuttle = myScratch.cellShuttle else { fatalError() }
+            let myShuttle = (myScratch.cellShuttle)!
 
             myShuttle.transferKeys(to: hisStepper, catchDumbMistakes) {
-                assert(hisScratch!.engagerKey == nil)
+                hardAssert(hisScratch!.engagerKey == nil)
 
                 hisScratch!.cellShuttle = $0
                 myScratch.cellShuttle = nil

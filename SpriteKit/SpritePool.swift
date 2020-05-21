@@ -39,9 +39,7 @@ class SpritePool {
             return
         }
 
-        guard let customPortal = sprite.getKeyField(userDataKey!, require: false) as? SKSpriteNode
-            else { fatalError() }
-
+        let customPortal = (sprite.getKeyField(userDataKey!, require: false) as? SKSpriteNode)!
         customPortal.addChild(sprite)
     }
 
@@ -50,7 +48,7 @@ class SpritePool {
             parkedDrones.append(SKSpriteNode(texture: self.texture))
         }
 
-        guard let drone = parkedDrones.popLast() else { fatalError() }
+        let drone = (parkedDrones.popLast())!
 
         return drone
     }
@@ -122,9 +120,8 @@ class ThoraxPool: SpritePool {
             return
         }
 
-        guard let fullNeuronPortal = sprite.getKeyField(.net9Portal) as? SKSpriteNode,
-            let halfNeuronPortal = sprite.getKeyField(.netHalfNeuronsPortal) as? SKSpriteNode
-        else { fatalError() }
+        let fullNeuronPortal = (sprite.getKeyField(.net9Portal) as? SKSpriteNode)!
+        let halfNeuronPortal = (sprite.getKeyField(.netHalfNeuronsPortal) as? SKSpriteNode)!
 
         fullNeuronPortal.removeAllChildren()
         halfNeuronPortal.removeAllChildren()
@@ -138,12 +135,12 @@ class ThoraxPool: SpritePool {
         Debug.log(level: 163) { "setupNetDisplayPortals" }
 
         ArkoniaScene.netPortal.enumerateChildNodes(withName: "net_9portal_full*") { node, _ in
-            guard let portal = node as? SKSpriteNode else { fatalError() }
+            let portal = (node as? SKSpriteNode)!
             self.netDisplayPortals.append(portal)
         }
 
         ArkoniaScene.netPortalHalfNeurons.enumerateChildNodes(withName: "net_9portal_half*") { node, _ in
-            guard let portal = node as? SKSpriteNode else { fatalError() }
+            let portal = (node as? SKSpriteNode)!
             self.halfNeuronDisplayPortals.append(portal)
         }
 

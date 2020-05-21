@@ -8,9 +8,9 @@ extension Plotter {
         _ senseData: [Double], _ senseGrid: CellSenseGrid,
         _ onComplete: @escaping (CellShuttle, Double) -> Void
     ) {
-        guard let scratch = scratch else { fatalError() }
-        guard let stepper = scratch.stepper else { fatalError() }
-        guard let net = stepper.net else { fatalError() }
+        let scratch = (self.scratch)!
+        let stepper = (scratch.stepper)!
+        let net = (stepper.net)!
 
         #if DEBUG
         Debug.log(level: 119) { "makeCellShuttle for \(six(stepper.name)) from \(stepper.gridCell!)" }
@@ -37,7 +37,8 @@ extension Plotter {
 
             let targetOffset = calculateTargetOffset(for: motorOutput, from: senseGrid.cells)
 
-            guard let toCell = senseGrid.cells[targetOffset] as? GridCell else { fatalError() }
+            let toCell = (senseGrid.cells[targetOffset] as? GridCell)!
+
             let fromCell = (targetOffset > 0) ? senseGrid.cells[0] as? GridCell : nil
 
             let jumpSpeedMotorOutput = motorOutputs[MotorIndex.jumpSpeed.rawValue]
@@ -65,8 +66,8 @@ extension Plotter {
     func calculateTargetOffset(for motorOutput: Int, from cells: [GridCellProtocol]) -> Int {
         #if DEBUG
         for c in cells {
-            assert((c is GridCell) == (c.ownerName == cells[0].ownerName))
-            assert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell))
+            hardAssert((c is GridCell) == (c.ownerName == cells[0].ownerName))
+            hardAssert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell))
         }
         #endif
 

@@ -37,7 +37,7 @@ final class HotNetBlas: HotNet {
         _ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void
     ) {
         let si = sensoryInputs.map { BlasNumber($0) }
-        assert(sensoryInputs.min()! >= -1 && sensoryInputs.max()! <= 1)
+        hardAssert(sensoryInputs.min()! >= -1 && sensoryInputs.max()! <= 1)
 
         si.withUnsafeBufferPointer {
             var inputToNextLayer = $0

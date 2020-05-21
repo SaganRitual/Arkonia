@@ -125,7 +125,7 @@ extension Census {
     }
 
     func registerDeath(_ nameOfDeceased: ArkonName, _ cNeuronsOfDeceased: Int, _ worldTime: Int) {
-        guard let ageOfDeceased = Census.getAge(of: nameOfDeceased, at: worldTime) else { fatalError() }
+        let ageOfDeceased = (Census.getAge(of: nameOfDeceased, at: worldTime))!
 
         highWaterAge = max(highWaterAge, ageOfDeceased)
         population -= 1

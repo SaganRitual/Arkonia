@@ -11,7 +11,7 @@ final class Arrive: Dispatchable {
     }
 
     func graze() {
-        guard let manna = scratch.stepper.gridCell.manna else { fatalError() }
+        let manna = (scratch.stepper.gridCell.manna)!
         Debug.log(level: 174) { "graze \(scratch.stepper.name)" }
 
         manna.harvest { mannaContent in

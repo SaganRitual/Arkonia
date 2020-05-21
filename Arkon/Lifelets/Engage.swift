@@ -4,7 +4,7 @@ final class Engage: Dispatchable {
     internal override func launch() { Grid.arkonsPlaneQueue.async { self.engage(.arkonsPlane) } }
 
     private func engage(_ catchDumbMistakes: DispatchQueueID) {
-        assert(scratch.engagerKey == nil)
+        hardAssert(scratch.engagerKey == nil)
 
         Debug.log(level: 168) { "Engage \(six(scratch.stepper.name)) at \(scratch.stepper.gridCell.gridPosition)" }
         Debug.debugColor(scratch.stepper, .red, .yellow)
@@ -21,9 +21,9 @@ final class Engage: Dispatchable {
     }
 
     private func engageIf(_ catchDumbMistakes: DispatchQueueID) -> Bool {
-        assert(scratch.engagerKey == nil)
+        hardAssert(scratch.engagerKey == nil)
 
-        guard let gc = scratch.stepper.gridCell else { fatalError() }
+        let gc = (scratch.stepper.gridCell)!
 
         if let ek = gc.getLock(for: scratch.stepper, .degradeToCold, catchDumbMistakes) as? GridCell
             { scratch.engagerKey = ek; return true }
@@ -32,7 +32,7 @@ final class Engage: Dispatchable {
     }
 
     private func makeSenseGrid(_ catchDumbMistakes: DispatchQueueID) {
-        guard let hk = scratch.engagerKey else { fatalError() }
+        let hk = (scratch.engagerKey)!
 
         Debug.log(level: 167) {
             "senseGrid.0 for \(scratch.stepper.name) at \(hk.gridPosition)"
@@ -78,7 +78,7 @@ extension GridCell {
             Debug.log(level: 167) { "getLock4.5 for \(six(stepper.name))" }
             #endif
 
-            assert(isLocked && ownerName != stepper.name)
+            hardAssert(isLocked && ownerName != stepper.name)
             reschedule(stepper, catchDumbMistakes)
             Debug.debugColor(stepper, .red, .black)
         }

@@ -6,7 +6,7 @@ final class HotNetCnn: HotNet {
     var hotLayers = [HotLayerCnn]()
 
     init(_ coldLayers: [Int], _ biases: [Double], _ weights: [Double]) {
-        guard let cq = device.makeCommandQueue() else { fatalError() }
+        let cq = (device.makeCommandQueue())!
         commandQueue = cq
 
         let CL = coldLayers
@@ -46,7 +46,7 @@ final class HotNetCnn: HotNet {
     func driveSignal(
         _ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void
     ) {
-        guard let commandBuffer = commandQueue.makeCommandBuffer() else { fatalError() }
+        let commandBuffer = (commandQueue.makeCommandBuffer())!
 
         chargeInput(sensoryInputs[...])
 

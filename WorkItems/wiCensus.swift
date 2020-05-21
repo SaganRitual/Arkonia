@@ -38,7 +38,7 @@ extension WorkItems {
     typealias OnCompleteStringArray = ([String]) -> Void
 
     static func updateReports() {
-        guard let portal = ArkoniaScene.arkonsPortal else { fatalError() }
+        let portal = (ArkoniaScene.arkonsPortal)!
 
         var ages = [Int]()
         var worldClock = 0
@@ -54,7 +54,7 @@ extension WorkItems {
     }
 
     static func getAges(_ onComplete: @escaping ([Int], Int) -> Void) {
-        guard let portal = ArkoniaScene.arkonsPortal else { fatalError() }
+        let portal = (ArkoniaScene.arkonsPortal)!
 
         var names = [ArkonName]()
         var worldClock = 0

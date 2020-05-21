@@ -9,7 +9,7 @@ final class MoveSprite: Dispatchable {
     func moveSprite() {
         Debug.debugColor(scratch.stepper, .brown, .orange)
 
-        guard let shuttle = scratch.cellShuttle else { fatalError() }
+        let shuttle = (scratch.cellShuttle)!
 
         Debug.log(level: 167) { "MoveSprite \(scratch.stepper.name)" }
 
@@ -20,11 +20,11 @@ final class MoveSprite: Dispatchable {
             return
         }
 
-        assert(shuttle.fromCell !== shuttle.toCell)
-        assert(shuttle.fromCell != nil && shuttle.toCell != nil)
-        assert((shuttle.fromCell?.isLocked) ?? false && (shuttle.toCell?.isLocked ?? false))
+        hardAssert(shuttle.fromCell !== shuttle.toCell)
+        hardAssert(shuttle.fromCell != nil && shuttle.toCell != nil)
+        hardAssert((shuttle.fromCell?.isLocked) ?? false && (shuttle.toCell?.isLocked ?? false))
 
-        guard let hotKey = shuttle.toCell else { fatalError() }
+        let hotKey = (shuttle.toCell)!
         let position = hotKey.randomScenePosition ?? hotKey.scenePosition
 
 //        let duration1 = scratch.debugStart == 0 ? 0 : Debug.debugStats(startedAt: scratch.debugStart, scale: UInt64(1e6 * 5))

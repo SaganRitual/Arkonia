@@ -77,7 +77,7 @@ class HUD {
         _ dashoid: SKSpriteNode, on dashboardId: DashboardId,
         quadrant: Int, layoutId: HudLayout
     ) {
-        guard let layout = layouts[layoutId] else { fatalError() }
+        let layout = (layouts[layoutId])!
         dashoid.position =
             layout.children
                 .filter({ $0.name != nil })
@@ -94,25 +94,25 @@ class HUD {
     }
 
     private static func unpackPrototypes(_ scene: SKScene) -> Prototypes {
-        guard let bc = scene.childNode(
+        let bc = (scene.childNode(
             withName: HudPrototype.barchart_monitor_prototype.rawValue
-        ) as? BarChart else { fatalError() }
+        ) as? BarChart)!
 
-        guard let db = scene.childNode(
+        let db = (scene.childNode(
             withName: HudPrototype.dashboard_backer.rawValue
-        ) as? SKSpriteNode else { fatalError() }
+        ) as? SKSpriteNode)!
 
-        guard let em = scene.childNode(
+        let em = (scene.childNode(
             withName: HudPrototype.empty_monitor_prototype.rawValue
-        ) as? SKSpriteNode else { fatalError() }
+        ) as? SKSpriteNode)!
 
-        guard let lg = scene.childNode(
+        let lg = (scene.childNode(
             withName: HudPrototype.linegraph_monitor_prototype.rawValue
-        ) as? LineGraph else { fatalError() }
+        ) as? LineGraph)!
 
-        guard let rp = scene.childNode(
+        let rp = (scene.childNode(
             withName: HudPrototype.report_monitor_prototype.rawValue
-        ) as? Report else { fatalError() }
+        ) as? Report)!
 
         return Prototypes(bc, db, em, lg, rp)
     }

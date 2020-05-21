@@ -11,7 +11,7 @@ class Plotter {
     }
 
     func plot(_ onComplete: @escaping () -> Void) {
-        guard let sg = scratch.senseGrid else { fatalError() }
+        let sg = (scratch.senseGrid)!
 
         Debug.log(level: 156) { "plot" }
 

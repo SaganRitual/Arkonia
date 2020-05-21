@@ -131,7 +131,7 @@ class Metabolism: HasSelectableStore {
         // Spawning is expensive
         let organIDs: [OrganID] = [.fatStore, .energy, .lungs]
         organIDs.forEach {
-            guard let store = self.selectStore($0) else { fatalError() }
+            let store = (self.selectStore($0))!
             store.withdraw(store.level / 2)
         }
     }

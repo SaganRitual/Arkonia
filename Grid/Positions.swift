@@ -12,7 +12,7 @@ extension GridCell {
     }
 
     static func at(_ x: Int, _ y: Int) -> GridCell {
-        guard let c = atIf(x, y) else { fatalError() }
+        let c = (atIf(x, y))!
         return c
     }
 

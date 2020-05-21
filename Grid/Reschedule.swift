@@ -2,7 +2,7 @@ import Foundation
 
 extension GridCell {
     func descheduleIf(_ stepper: Stepper, _ catchDumbMistakes: DispatchQueueID) {
-        assert(catchDumbMistakes == .arkonsPlane)
+        hardAssert(catchDumbMistakes == .arkonsPlane)
 
         toReschedule.removeAll { waitingStepper in
             let remove = waitingStepper.name == stepper.name
@@ -12,7 +12,7 @@ extension GridCell {
     }
 
     func getRescheduledArkon(_ catchDumbMistakes: DispatchQueueID) -> Stepper? {
-        assert(catchDumbMistakes == .arkonsPlane)
+        hardAssert(catchDumbMistakes == .arkonsPlane)
 
         #if DEBUG
         if !toReschedule.isEmpty {
@@ -28,7 +28,7 @@ extension GridCell {
     }
 
     func reengageRequesters(_ catchDumbMistakes: DispatchQueueID) {
-        assert(catchDumbMistakes == .arkonsPlane)
+        hardAssert(catchDumbMistakes == .arkonsPlane)
 
         Debug.log(level: 169) {
             return self.toReschedule.isEmpty ? nil :
@@ -39,7 +39,7 @@ extension GridCell {
         while let waitingStepper = self.getRescheduledArkon(catchDumbMistakes) {
             if let dispatch = waitingStepper.dispatch {
                 let scratch = dispatch.scratch
-                assert(scratch!.engagerKey == nil)
+                hardAssert(scratch!.engagerKey == nil)
                 Debug.log(level: 169) { "reengageRequesters; disengage \(waitingStepper.name) at \(self.gridPosition)" }
                 dispatch.disengage()
                 return
@@ -58,18 +58,18 @@ extension GridCell {
 
     func reschedule(_ stepper: Stepper, _ catchDumbMistakes: DispatchQueueID) {
         #if true
-        precondition(
+        hardAssert(
             catchDumbMistakes == .arkonsPlane,
             "Dumb mistake -- line \(#line) in \(#file)"
         )
 
-        precondition(
+        hardAssert(
             self.isLocked && self.ownerName != .empty && self.ownerName != stepper.name,
             "We shouldn't be here unless the lock attempt failed -- line \(#line) in \(#file)"
         )
 
         // The same arkon shouldn't be in here twice
-        precondition(
+        hardAssert(
             toReschedule.contains { $0.name == stepper.name } == false,
             "The same arkon shouldn't be in here twice -- line \(#line) in \(#file)"
         )

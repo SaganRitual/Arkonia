@@ -96,12 +96,12 @@ final class LineGraph: SKSpriteNode {
 
     func start() {
         self.enumerateChildNodes(withName: "linegraph_canvas*") { cn, _ in
-            guard let canvasNode = cn as? SKSpriteNode else { fatalError() }
+            let canvasNode = (cn as? SKSpriteNode)!
             self.canvases.append(canvasNode)
         }
 
         // Need two canvas shapes to get the conveyor belt effect
-        assert(self.canvases.count == 2)
+        hardAssert(self.canvases.count == 2)
 
         self.maskNode = (self.canvases[0].copy() as? SKSpriteNode)!
         self.maskNode.name = "masknode"
@@ -239,13 +239,13 @@ final class LineGraph: SKSpriteNode {
 
             LineGraphSetId.allCases.forEach { whichDatum in
                 let total = runningAverages.elements.reduce(CGFloat.zero) { subtotal, inputSet_ in
-                    guard let inputSet = inputSet_ else { fatalError() }
+                    let inputSet = (inputSet_)!
                     return subtotal + inputSet.getInput(whichDatum)
                 }
 
                 let average = total / CGFloat(runningAverages.count)
                 let rawSample = newInputSet.getInput(whichDatum)
-                let final = ((whichDatum == .max) ? rawSample : average)
+                let final = (whichDatum == .max) ? rawSample : average
 
                 let whichCanvas = (currentColumn < LineGraph.cColumns) ? 0 : 1
                 let plotY = logPlotY(final)

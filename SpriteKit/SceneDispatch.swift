@@ -28,7 +28,7 @@ class SceneDispatch {
 
     func tick() {
         lockQueue.sync {
-            assert(Display.displayCycle == .updateStarted)
+            hardAssert(Display.displayCycle == .updateStarted)
 
             let start = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
             var duration = UInt64(0)

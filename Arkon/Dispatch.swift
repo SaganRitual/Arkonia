@@ -13,7 +13,7 @@ class Dispatchable: DispatchableProtocol {
 
     required init(_ scratch: Scratchpad) { self.scratch = scratch }
 
-    func launch() { preconditionFailure() }
+    func launch() { fatalError() }
 }
 
 final class Dispatch {

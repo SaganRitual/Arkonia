@@ -1,5 +1,9 @@
 import SpriteKit
 
+func hardAssert(_ condition: Bool, _ message: String = "") {
+    if !condition { fatalError(message) }
+}
+
 func showDebugLog() {
     Debug.showLog()
 }
@@ -85,7 +89,7 @@ extension Debug {
 
         func histogrize(_ value: Double, scale: Int = 10, inputRange: Range<Double>) {
             Debug.log {
-                precondition(inputRange == -1.0..<1.0 || inputRange == 0.0..<1.0)
+                hardAssert(inputRange == -1.0..<1.0 || inputRange == 0.0..<1.0)
 
                 if(value < inputRange.lowerBound || value > inputRange.upperBound) {
                     return "Histogram overflow: value is \(value) range is \(inputRange)"
@@ -96,7 +100,7 @@ extension Debug {
                     dBuckets = Double(scale)
                     histogram = [Int](repeating: 0, count: scale)
                 } else {
-                    precondition(scale == cBuckets!)
+                    hardAssert(scale == cBuckets!)
                 }
 
                 let vv = (value < 1.0) ? value : value - 1e-4   // Because we do get 1.0 sometimes

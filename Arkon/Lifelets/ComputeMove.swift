@@ -9,7 +9,7 @@ final class ComputeMove: Dispatchable {
         Debug.debugColor(scratch.stepper, .brown, .magenta)
 
         if scratch.plotter == nil { scratch.plotter = Plotter(scratch) }
-        guard let pt = scratch.plotter else { fatalError() }
+        let pt = (scratch.plotter)!
 
         var entropy: CGFloat = 0
 

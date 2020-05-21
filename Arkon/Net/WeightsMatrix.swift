@@ -21,10 +21,10 @@ class WeightsMatrix {
             rowBytes: rowStride, dataType: NumberTypeInGPU
         )
 
-        guard let mb = device.makeBuffer(
+        let mb = (device.makeBuffer(
             length: matrixDescriptor.matrixBytes,
             options: MTLResourceOptions.storageModeManaged
-        ) else { fatalError() }
+        ))!
 
         mpsMatrix = MPSMatrix(buffer: mb, descriptor: matrixDescriptor)
 

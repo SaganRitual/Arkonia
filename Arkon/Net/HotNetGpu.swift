@@ -14,7 +14,7 @@ final class HotNetGpu: HotNet {
     let topLayerNeuronsMatrix: MPSMatrix!
 
     init(_ coldLayers: [Int], _ biases: [Double], _ weights: [Double]) {
-        guard let cq = device.makeCommandQueue() else { fatalError() }
+        let cq = (device.makeCommandQueue())!
         commandQueue = cq
 
         topLayerNeuronsMatrix = HotNetGpu.makeMatrix(device, coldLayers[0])
@@ -53,7 +53,7 @@ final class HotNetGpu: HotNet {
     func driveSignal(
         _ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void
     ) {
-        guard let commandBuffer = commandQueue.makeCommandBuffer() else { fatalError() }
+        let commandBuffer = (commandQueue.makeCommandBuffer())!
 
         HotNetGpu.chargeMatrix(topLayerNeuronsMatrix.data, sensoryInputs[...])
 
@@ -83,9 +83,9 @@ extension HotNetGpu {
         let rowStride = MPSMatrixDescriptor.rowBytes(fromColumns: rawValues.count, dataType: NumberTypeInGPU)
         let d = MPSMatrixDescriptor(dimensions: 1, columns: rawValues.count, rowBytes: rowStride, dataType: NumberTypeInGPU)
 
-        guard let inputBuffer = device.makeBuffer(
+        let inputBuffer = (device.makeBuffer(
             length: d.matrixBytes, options: MTLResourceOptions.storageModeManaged
-        ) else { fatalError() }
+        ))!
 
         chargeMatrix(inputBuffer, rawValues)
 

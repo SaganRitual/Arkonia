@@ -13,16 +13,16 @@ class CellShuttle {
     func move() {
         // No fromCell means we didn't move
         guard let f = fromCell else { return }
-        guard let t = toCell else { fatalError() }
+        let t = (toCell)!
 
         Debug.log(level: 167) { "CellShuttle.move fromCell \(six(fromCell)) toCell \(six(toCell))" }
-        assert(f.isLocked && t.isLocked && f.ownerName == t.ownerName)
-        assert(f.stepper != nil)
+        hardAssert(f.isLocked && t.isLocked && f.ownerName == t.ownerName)
+        hardAssert(f.stepper != nil)
 
         t.stepper = f.stepper
         f.stepper = nil
 
-        assert(t.stepper != nil)
+        hardAssert(t.stepper != nil)
 
         self.didMove = true
     }
@@ -34,7 +34,7 @@ class CellShuttle {
 
 extension GridCell {
     func transferKey(to winner: Stepper, _ catchDumbMistakes: DispatchQueueID, _ onComplete: @escaping () -> Void) {
-        precondition(self.isLocked)
+        hardAssert(self.isLocked)
 
         Debug.log(level: 71) { "transferKey from \(six(self.ownerName)) at \(gridPosition) to \(six(winner.name))" }
 

@@ -59,9 +59,8 @@ extension GridCell {
 
     func lockIf(ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCell? {
         if isLocked { return nil }
-        guard let key = lock(require: .degradeToNil, ownerName: ownerName, catchDumbMistakes) as? GridCell
-            else { fatalError() }
 
+        let key = (lock(require: .degradeToNil, ownerName: ownerName, catchDumbMistakes) as? GridCell)!
         return key
     }
 
@@ -71,8 +70,8 @@ extension GridCell {
     }
 
     func lock(require: RequireLock = .hot, ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCellProtocol? {
-        assert(catchDumbMistakes == .arkonsPlane)   // Make sure we're on the right dispatch queue
-        assert(self.ownerName != ownerName)         // Make sure we're not trying to lock a cell we already own
+        hardAssert(catchDumbMistakes == .arkonsPlane)   // Make sure we're on the right dispatch queue
+        hardAssert(self.ownerName != ownerName)         // Make sure we're not trying to lock a cell we already own
 
         lockTime = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
 
@@ -111,9 +110,9 @@ extension GridCell {
 
     @discardableResult
     func releaseLock(_ dispatchQueueID: DispatchQueueID) -> Bool {
-        assert(dispatchQueueID == .arkonsPlane)
+        hardAssert(dispatchQueueID == .arkonsPlane)
 
-        assert(ownerName != ArkonName.empty)
+        hardAssert(ownerName != ArkonName.empty)
 
 //        debugStats()
         Debug.log(level: 168) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }

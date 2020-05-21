@@ -43,9 +43,9 @@ class HotLayerBnn {
         var hiddenDesc = BNNSVectorDescriptor(
             size: cNeuronsOut, data_type: .float, data_scale: 0, data_bias: 0)
 
-        guard let hl = BNNSFilterCreateFullyConnectedLayer(
+        let hl = (BNNSFilterCreateFullyConnectedLayer(
             &inputDesc, &hiddenDesc, &layerParameters, nil
-        ) else { fatalError() }
+        ))!
 
         hotLayer = hl
     }

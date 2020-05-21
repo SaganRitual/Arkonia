@@ -28,14 +28,14 @@ extension Metabolism {
         var detachEmbryo = true
 
         for id in secondaryStores {
-            guard let source = embryo.selectStore(id) else { fatalError() }
+            let source = (embryo.selectStore(id))!
 
             if source.isEmpty {
                 Debug.log(level: 179) { "digest.0a: embryo chamber \(id) is empty" }
                 continue
             }
 
-            guard let sink = self.selectStore(id) else { fatalError() }
+            let sink = (self.selectStore(id))!
 
             Debug.log(level: 179) {
                 "digest.1a:"

@@ -5,7 +5,9 @@ final class MoveStepper: Dispatchable {
 
     func moveStepper() {
         Debug.debugColor(scratch.stepper, .brown, .purple)
-        guard let shuttle = scratch.cellShuttle else { preconditionFailure() }
+
+        let shuttle = (scratch.cellShuttle)!
+
         Debug.log(level: 156) { "MoveStepper \(six(scratch.stepper.name))" }
 
         scratch.stepper.previousShiftOffset = scratch.stepper.gridCell.gridPosition
