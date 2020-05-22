@@ -159,7 +159,7 @@ extension Spawn {
         let engagerKey = (self.engagerKeyForNewborn)!
 
         nose.alpha = 1
-        nose.colorBlendFactor = 1
+        nose.colorBlendFactor = 0
         nose.color = .blue
         nose.setScale(Arkonia.noseScaleFactor)
         nose.zPosition = 3

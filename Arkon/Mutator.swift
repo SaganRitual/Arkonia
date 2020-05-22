@@ -38,6 +38,9 @@ enum Mutator {
         return (fromScratch, false)
     }
 
+    // Not sure this is a good mutation. It basically restructures the entire
+    // hidden net. Even the smallest change makes the offspring a completely
+    // different creature
     static func mutateNetStructure(_ layers: [Int]) -> ([Int], Bool) {
         var didMutate = false
 
@@ -49,24 +52,24 @@ enum Mutator {
 
         Debug.log(level: 121) { "mutating net structure" }
 
-        didMutate = true
-
-        let strippedNet = Array(layers.dropFirst())
-        var newNet: [Int]
+        let strippedNetStructure = Array(layers.dropFirst())
+        var newNetStructure: [Int]
 
         switch NetMutation.allCases.randomElement(using: &Arkonia.rng) {
-        case .passThru:           newNet = strippedNet
-        case .addRandomLayer:     newNet = addRandomLayer(strippedNet)
-        case .dropLayer:          newNet = dropLayer(strippedNet)
+        case .passThru:           newNetStructure = strippedNetStructure
+        case .addRandomLayer:     newNetStructure = addRandomLayer(strippedNetStructure)
+        case .dropLayer:          newNetStructure = dropLayer(strippedNetStructure)
         case .none:               fatalError()
         }
 
-        if newNet.isEmpty { newNet.append(Arkonia.cMotorNeurons) }
+        if newNetStructure.isEmpty { newNetStructure.append(Arkonia.cMotorNeurons) }
 
-        newNet.insert(Arkonia.cSenseNeurons, at: 0)
-        newNet.append(Arkonia.cMotorNeurons)
+        didMutate = newNetStructure != strippedNetStructure
 
-        return (newNet, didMutate)
+        newNetStructure.insert(Arkonia.cSenseNeurons, at: 0)
+        newNetStructure.append(Arkonia.cMotorNeurons)
+
+        return (newNetStructure, didMutate)
     }
 }
 
@@ -130,13 +133,10 @@ private extension Mutator {
 
     static func dropLayer(_ layers: [Int]) -> [Int] {
         var toMutate = layers
-        let howMany = Arkonia.random(in: 0..<toMutate.count)
 
-        for _ in 0..<howMany {
-            let dropPoint = Arkonia.random(in: 0..<toMutate.count)
-            toMutate.remove(at: dropPoint)
-            Debug.log(level: 120) { "dropLayer from \(layers.count)-layer net, at \(dropPoint)" }
-        }
+        let dropPoint = Arkonia.random(in: 0..<toMutate.count)
+        toMutate.remove(at: dropPoint)
+        Debug.log(level: 120) { "dropLayer from \(layers.count)-layer net, at \(dropPoint)" }
 
         return toMutate
     }

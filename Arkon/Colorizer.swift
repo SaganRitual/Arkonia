@@ -43,12 +43,7 @@ extension Colorizer {
     }
 
     private func setNoseColor(_ metabolism: Metabolism, _ nose: SKSpriteNode) {
-        if metabolism.embryo != nil { nose.color = .blue }
-        else if metabolism.spawn != nil { nose.color = .red }
-        else { nose.color = .white }
-
-        nose.colorBlendFactor = 1
-        nose.alpha = 1 - metabolism.asphyxiation
+        nose.colorBlendFactor = metabolism.asphyxiation
     }
 
     private func setThoraxScale(_ metabolism: Metabolism, _ thorax: SKSpriteNode) {
