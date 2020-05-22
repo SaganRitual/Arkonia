@@ -2,10 +2,12 @@ import GameplayKit
 
 enum Mutator {
     // Mutation amounts, zero-centered and spread out over a fast and loose normal curve generator
-    static let mutationValue: (() -> Double) = {
-        let samples: [Double] = stride(from: -1.0, to: 1.0, by: 0.001).map {
-            let sign = abs($0) / $0
-            let curve: Double = exp(-sqrt(2 * Double.pi) * $0 * $0 / 1.5)
+    static let mutationValue: (() -> Float) = {
+        let samples: [Float] = stride(from: -1.0, to: 1.0, by: 0.001).map {
+            let sign = Float(abs($0) / $0)
+            let sSquared = Double($0 * $0)
+            let eee: Double = exp(-sqrt(2 * Double.pi) * sSquared / 1.5)
+            let curve = Float(eee)
             let flipped = sign * (1 - curve)
             let result = (flipped < 1.0) ? flipped : flipped - 1e-6  // We don't like 1.0
             return result
@@ -14,7 +16,7 @@ enum Mutator {
         return { return Arkonia.randomElement(in: samples) / 10 }
     }()
 
-    static func mutateNetStrand(parentStrand p: [Double]?, targetLength: Int, value: Double? = nil) -> ([Double], Bool) {
+    static func mutateNetStrand(parentStrand p: [Float]?, targetLength: Int, value: Float? = nil) -> ([Float], Bool) {
         if let parentStrand = p {
             let (fp, didMutate) = mutateRandomDoubles(parentStrand)
             if let firstPass = fp {
@@ -24,7 +26,8 @@ enum Mutator {
                 if c > targetLength {
                     return (Array(firstPass.prefix(targetLength)), didMutate)
                 } else if c < targetLength {
-                    return (firstPass + (c..<targetLength).map { _ in Arkonia.random(in: -1.0..<1.0) }, didMutate)
+                    let n = Float(-1), p = Float(1)
+                    return (firstPass + (c..<targetLength).map { _ in Arkonia.random(in: n..<p) }, didMutate)
                 }
 
                 return (firstPass, didMutate)
@@ -32,7 +35,7 @@ enum Mutator {
         }
 
         let (lo, hi): (Int, Int) = (value == nil) ? (-1, 1) : ((value! == 0) ? (0, 0) : (-1, 1))
-        let fromScratch: [Double] = (0..<targetLength).map { _ in Double(Arkonia.random(in: lo...hi)) }
+        let fromScratch: [Float] = (0..<targetLength).map { _ in Float(Arkonia.random(in: lo...hi)) }
 
         Debug.log(level: 93) { "Generate from scratch = \(fromScratch)" }
         return (fromScratch, false)
@@ -75,7 +78,7 @@ enum Mutator {
 
 private extension Mutator {
 
-    static func mutateRandomDoubles(_ inDoubles: [Double]) -> ([Double]?, Bool) {
+    static func mutateRandomDoubles(_ inDoubles: [Float]) -> ([Float]?, Bool) {
         var didMutate = false
         if Arkonia.random(in: 0..<100) < 75 { return (inDoubles, didMutate) }
 
@@ -92,6 +95,7 @@ private extension Mutator {
         var outDoubles = inDoubles
 
         while cMutate > 0 {
+            autoreleasepool {
             let wherefore = Arkonia.random(in: 0..<inDoubles.count)
 
             let (newValue, dm) = mutate(from: inDoubles[wherefore])
@@ -100,12 +104,12 @@ private extension Mutator {
             outDoubles[wherefore] = newValue
 
             cMutate -= 1
-        }
+        }}
 
         return (outDoubles, didMutate)
     }
 
-    static func mutate(from value: Double) -> (Double, Bool) {
+    static func mutate(from value: Float) -> (Float, Bool) {
         let nu = Mutator.mutationValue()
         Debug.log(level: 154) { "from \(value) to \(value + nu) with \(nu)" }
 

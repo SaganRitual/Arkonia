@@ -1,7 +1,10 @@
 import SpriteKit
 
 func hardAssert(_ condition: Bool, _ message: String = "") {
-    if !condition { fatalError(message) }
+    if !condition {
+        Debug.log { message }
+        fatalError(message)
+    }
 }
 
 func showDebugLog() {

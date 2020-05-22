@@ -31,6 +31,9 @@ extension Arkonia {
     static func random(in range: Range<Int>) -> Int { Int.random(in: range, using: &rng) }
     static func random(in range: ClosedRange<Int>) -> Int { Int.random(in: range, using: &rng) }
 
+    static func random(in range: Range<Float>) -> Float { Float.random(in: range, using: &rng) }
+    static func random(in range: ClosedRange<Float>) -> Float { Float.random(in: range, using: &rng) }
+
     static func random(in range: Range<Double>) -> Double { Double.random(in: range, using: &rng) }
     static func random(in range: ClosedRange<Double>) -> Double { Double.random(in: range, using: &rng) }
 

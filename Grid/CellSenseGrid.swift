@@ -22,8 +22,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
             Debug.log(level: 168) { "CellSenseGrid \(index), \(position) tenant \(six(cell.stepper?.name)) owner \(six(self.ownerName))" }
 
-            // The cell hed better not have my name on it already
-            hardAssert(self.ownerName != cell.ownerName)
+            hardAssert(self.ownerName != cell.ownerName, "Cell should not have my name on it already (\(self.ownerName))")
 
             let lockType: GridCell.RequireLock = index > Arkonia.cMotorGridlets ? .cold : .degradeToCold
 

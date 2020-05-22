@@ -33,10 +33,6 @@ enum WorkItems {
 }
 
 extension WorkItems {
-    typealias OnComplete1p = (Int) -> Void
-    typealias OnCompleteIntArray = ([Int]) -> Void
-    typealias OnCompleteStringArray = ([String]) -> Void
-
     static func updateReports() {
         let portal = (ArkoniaScene.arkonsPortal)!
 
@@ -70,7 +66,7 @@ extension WorkItems {
     }
 
     private static func getAges(
-        _ names: [ArkonName], _ currentTime: Int, _ onComplete: @escaping OnCompleteIntArray
+        _ names: [ArkonName], _ currentTime: Int, _ onComplete: @escaping ([Int]) -> Void
     ) {
         Census.dispatchQueue.async {
             let ages = names.compactMap({ Census.getAge(of: $0, at: currentTime, require: false) }).sorted()

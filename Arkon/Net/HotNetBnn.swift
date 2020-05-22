@@ -2,30 +2,29 @@ import Accelerate
 import QuartzCore
 
 typealias BnnNumber = Float
+let BnnNumberSize: Int = MemoryLayout<BnnNumber>.stride
 
 final class HotNetBnn: HotNet {
     var bnnLayers = [HotLayerBnn]()
     var neuronsIn: [BnnNumber]
 
-    init(_ coldLayers: [Int], _ biases: [Double], _ weights: [Double]) {
-        let CL = coldLayers// + [Arkonia.cMotorNeurons]
-
-        var biasesIxL = 0, biasesIxR = 0
-        var weightsIxL = 0, weightsIxR = 0
+    init(_ coldLayers: [Int], _ biases: UnsafeRawPointer, _ weights: UnsafeRawPointer) {
+        var biasesIx = 0
+        var weightsIx = 0
 
         // Input to top layer
-        self.neuronsIn = [BnnNumber](repeating: 0, count: CL[0])
+        self.neuronsIn = [BnnNumber](repeating: 0, count: coldLayers[0])
         var nextInput = UnsafePointer(self.neuronsIn)
 
-        bnnLayers = zip(0..<CL.count - 1, 1..<CL.count).map { upperLayerIx, lowerLayerIx in
-            let cNeuronsIn = CL[upperLayerIx]
-            let cNeuronsOut = CL[lowerLayerIx]
+        bnnLayers = zip(0..<coldLayers.count - 1, 1..<coldLayers.count).map { upperLayerIx, lowerLayerIx in
+            let cNeuronsIn = coldLayers[upperLayerIx]
+            let cNeuronsOut = coldLayers[lowerLayerIx]
 
-            biasesIxR += cNeuronsOut
-            weightsIxR += cNeuronsIn * cNeuronsOut
+            let layerBiases = biases.advanced(by: biasesIx * BnnNumberSize)
+            let layerWeights = weights.advanced(by: weightsIx * BnnNumberSize)
 
-            let layerBiases = biases[biasesIxL..<biasesIxR]
-            let layerWeights = weights[weightsIxL..<weightsIxR]
+            biasesIx += cNeuronsOut
+            weightsIx += cNeuronsIn * cNeuronsOut
 
             let h = HotLayerBnn(layerBiases, nextInput, cNeuronsIn, cNeuronsOut, layerWeights)
             nextInput = h.getOutputBuffer()

@@ -1,12 +1,6 @@
 import Accelerate
 
 class HotLayerBnn {
-    let biases: [BnnNumber]
-    let weights: [BnnNumber]
-
-    let biasesLayerData: BNNSLayerData
-    let weightsLayerData: BNNSLayerData
-
     var layerParameters: BNNSFullyConnectedLayerParameters
     let hotLayer: BNNSFilter
 
@@ -15,25 +9,22 @@ class HotLayerBnn {
     var pNeuronsOut: UnsafePointer<BnnNumber>
 
     init(
-        _ biases: ArraySlice<Double>,
+        _ biases: UnsafeRawPointer,
         _ pNeuronsIn: UnsafePointer<BnnNumber>,
         _ cNeuronsIn: Int,
         _ cNeuronsOut: Int,
-        _ weights: ArraySlice<Double>
+        _ weights: UnsafeRawPointer
     ) {
         self.pNeuronsIn = pNeuronsIn
         self.neuronsOut = [BnnNumber](repeating: 0, count: cNeuronsOut)
         self.pNeuronsOut = UnsafePointer(self.neuronsOut)
 
-        self.biases = biases.prefix(cNeuronsOut).map { BnnNumber($0) }
-        self.weights = weights.prefix(cNeuronsIn * cNeuronsOut).map { BnnNumber($0) }
-
-        self.biasesLayerData = BNNSLayerData(data: self.biases, data_type: .float)
-        self.weightsLayerData = BNNSLayerData(data: self.weights, data_type: .float)
+        let bnnBiases = BNNSLayerData(data: biases, data_type: .float)
+        let bnnWeights = BNNSLayerData(data: weights, data_type: .float)
 
         self.layerParameters = BNNSFullyConnectedLayerParameters(
             in_size: cNeuronsIn, out_size: cNeuronsOut,
-            weights: self.weightsLayerData, bias: self.biasesLayerData,
+            weights: bnnWeights, bias: bnnBiases,
             activation: BNNSActivation(function: .sigmoid)
         )
 
@@ -43,9 +34,9 @@ class HotLayerBnn {
         var hiddenDesc = BNNSVectorDescriptor(
             size: cNeuronsOut, data_type: .float, data_scale: 0, data_bias: 0)
 
-        let hl = (BNNSFilterCreateFullyConnectedLayer(
+        guard let hl = BNNSFilterCreateFullyConnectedLayer(
             &inputDesc, &hiddenDesc, &layerParameters, nil
-        ))!
+        ) else { fatalError("Couldn't get BNNSFilterCreateFullyConnectedLayer() in HotLayerBnn()") }
 
         hotLayer = hl
     }

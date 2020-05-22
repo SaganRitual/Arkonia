@@ -5,7 +5,7 @@ enum HotNetType { case blas, bnn, cnn, gpu }
 var hotNetType: HotNetType = .bnn
 
 protocol HotNet: class {
-    init(_ layers: [Int], _ biases: [Double], _ weights: [Double])
+    init(_ layers: [Int], _ biases: UnsafeRawPointer, _ weights: UnsafeRawPointer)
     func driveSignal(_ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void)
 }
 
@@ -16,17 +16,17 @@ class Net {
         target: DispatchQueue.global()
     )
 
-    let biases: [Double]
+    let biases: [Float]
     let cBiases: Int
     let cNeurons: Int
     let cWeights: Int
     var isCloneOfParent = true
     let hotNet: HotNet
     let layers: [Int]
-    let weights: [Double]
+    let weights: [Float]
 
     static func makeNet(
-        parentBiases: [Double]?, parentWeights: [Double]?, layers: [Int]?,
+        parentBiases: [Float]?, parentWeights: [Float]?, layers: [Int]?,
         _ onComplete: @escaping (Net) -> Void
     ) {
         self.dispatchQueue.async {
@@ -52,11 +52,11 @@ class Net {
     }
 
     private init(
-        _ parentBiases: [Double]?, _ parentWeights: [Double]?, _ layers: [Int]?
+        _ parentBiases: [Float]?, _ parentWeights: [Float]?, _ layerStructure: [Int]?
     ) {
         var didMutate = false
 
-        if let L = layers {
+        if let L = layerStructure {
             (self.layers, didMutate) = Mutator.mutateNetStructure(L)
         } else {
             self.layers = Net.generateRandomNetStructure()
@@ -73,12 +73,13 @@ class Net {
         if didMutate { dm = true }
 
         self.isCloneOfParent = !dm
-
+//
         switch hotNetType {
-        case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights)
+//        case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights)
         case .bnn:  hotNet = HotNetBnn(self.layers, self.biases, self.weights)
-        case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights)
-        case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights)
+//        case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights)
+//        case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights)
+        default: fatalError()
         }
 
         Debug.log(level: 155) { "New net \(self.layers.count) layers \(self.cNeurons) neurons" }

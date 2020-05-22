@@ -62,22 +62,12 @@ extension Spawn {
 }
 
 extension Spawn {
-    enum Constants {
-        static let brightColor = 0x00_FF_00    // Full green
-        static let standardColor = 0x00_FF_00  // Slightly dim green
-    }
-}
-
-typealias OnComplete0p = () -> Void
-typealias OnComplete1p = (GridCell?) -> Void
-
-extension Spawn {
     func buildGuts(_ onComplete: @escaping (Net) -> Void) {
         Debug.log(level: 121) { "\(six(meTheParent?.name))" }
 
         Net.makeNet(
-            parentBiases: meTheParent?.net.biases.map({ Double($0) }),
-            parentWeights: meTheParent?.net.weights.map({ Double($0) }),
+            parentBiases: meTheParent?.net.biases.map({ $0 }),
+            parentWeights: meTheParent?.net.weights.map({ $0 }),
             layers: meTheParent?.net.layers
         ) { newNet in
             self.metabolism = Metabolism(cNeurons: newNet.cNeurons)

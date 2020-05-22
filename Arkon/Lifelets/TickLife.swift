@@ -43,7 +43,7 @@ extension TickLife {
         scratch.stepper.metabolism.digest()
 
         isAlive = scratch.stepper.metabolism.applyFixedMetabolicCosts()
-        canSpawn = isAlive && scratch.stepper.metabolism.canSpawn()
+        canSpawn = Arkonia.allowSpawning && isAlive && scratch.stepper.metabolism.canSpawn()
 
         if isAlive { colorizer.colorize(routeLife) } else { routeLife_() }
     }

@@ -70,7 +70,7 @@ class SensesConnector {
         scratch.gridInputs[firstNonGridInput + 2] = Double(scratch.stepper.metabolism.hunger)
         scratch.gridInputs[firstNonGridInput + 3] = Double(scratch.stepper.metabolism.asphyxiation)
 
-        for (ss, pollenator) in zip(0..., MannaCannon.shared!.pollenators) {
+        for (ss, pollenator) in zip(0..., MannaCannon.shared!.pollenators) { autoreleasepool {
             let diff = scratch.stepper.sprite.position - pollenator.node.position
 
             let t = (diff.x == 0) ? 0 : atan(Double(diff.y) / Double(diff.x))
@@ -81,7 +81,7 @@ class SensesConnector {
 
             scratch.gridInputs[firstNonGridInput + 4 + ss * 2 + 0] = Double(diff.hypotenuse / Grid.shared.hypoteneuse)
             scratch.gridInputs[firstNonGridInput + 4 + ss * 2 + 1] = tt
-        }
+        }}
     }
 
     enum CellContents: Double {

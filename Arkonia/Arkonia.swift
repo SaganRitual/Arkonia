@@ -16,7 +16,7 @@ class Arkonia {
     static let cMotorNeurons = 2
     static let cMotorGridlets = cSenseGridlets - 1
 
-    static let allowSpawning = true
+    static let allowSpawning = false
     static let cMannaMorsels = 5000
     static let cPollenators = 5
 
@@ -26,7 +26,7 @@ class Arkonia {
     static var debugMessageToConsole = true
 
     static let funkyCells: CGFloat? = 2 / zoomFactor
-    static let initialPopulation = 50
+    static let initialPopulation = 5
     static let maxPopulation = Int.max
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedCellsPerSecond: CGFloat = 25
