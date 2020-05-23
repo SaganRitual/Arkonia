@@ -52,11 +52,9 @@ class Census {
 
         rCOffspring = scene.reportMisc.reportoid(3)
 
-        tickTimer = Timer(fire: Date() + 1, interval: 1, repeats: true) { _ in
+        tickTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.updateReports()
         }
-
-        tickTimer.fire()
     }
 }
 

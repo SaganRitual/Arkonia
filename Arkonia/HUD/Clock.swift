@@ -30,11 +30,9 @@ class Clock {
 
         isRunning = true
 
-        tickTimer = Timer(fire: Date() + 1, interval: 1, repeats: true) { _ in
+        tickTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.tickTheWorld()
         }
-
-        tickTimer.fire()
     }
 
     func entropize(_ energyInJoules: CGFloat = 1, _ onComplete: @escaping (CGFloat) -> Void) {
@@ -78,17 +76,17 @@ class Clock {
         func c() { Clock.dispatchQueue.async(execute: d) }
 
         func d() {
-//            self.foodValueReport.data.text
-//                = (Arkonia.worldTimeLimit == nil)
-//
-//                ? String(
-//                    format: "% 5d/%3d%",
-//                    cPhotosynthesizingManna,
-//                    // cPlantedManna is set at startup and never read afterward
-//                    MannaCannon.shared!.cPlantedManna - cDeadManna
-//                )
-//
-//                : String(format: "%.2f%%", (1 - self.getEntropy()) * 100)
+            self.foodValueReport.data.text
+                = (Arkonia.worldTimeLimit == nil)
+
+                ? String(
+                    format: "% 5d/%3d%",
+                    cPhotosynthesizingManna,
+                    // cPlantedManna is set at startup and never read afterward
+                    MannaCannon.shared!.cPlantedManna - cDeadManna
+                )
+
+                : String(format: "%.2f%%", (1 - self.getEntropy()) * 100)
         }
 
         a()
