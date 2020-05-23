@@ -46,18 +46,10 @@ extension Stepper {
         _ stepper: Stepper, from sprite: SKSpriteNode,
         _ catchDumbMistakes: DispatchQueueID
     ) {
-        hardAssert(catchDumbMistakes == .arkonsPlane)
+        hardAssert(catchDumbMistakes == .arkonsPlane, "hardAssert at \(#file):\(#line)")
 
         // See notes in attachStepper
         sprite.userData!["stepper"] = nil
         sprite.name = nil
-    }
-}
-
-extension Debug {
-    static func debugColor(_ stepper: Stepper, _ thoraxColor: SKColor, _ noseColor: SKColor) {
-        if !Arkonia.debugColorIsEnabled { return }
-        stepper.sprite.color = thoraxColor
-        stepper.nose.color = noseColor
     }
 }

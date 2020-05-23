@@ -4,7 +4,7 @@ final class Engage: Dispatchable {
     internal override func launch() { Grid.arkonsPlaneQueue.async { self.engage(.arkonsPlane) } }
 
     private func engage(_ catchDumbMistakes: DispatchQueueID) {
-        hardAssert(scratch.engagerKey == nil)
+        hardAssert(scratch.engagerKey == nil, "hardAssert at \(#file):\(#line)")
 
         Debug.log(level: 168) { "Engage \(six(scratch.stepper.name)) at \(scratch.stepper.gridCell.gridPosition)" }
         Debug.debugColor(scratch.stepper, .red, .yellow)
@@ -21,7 +21,7 @@ final class Engage: Dispatchable {
     }
 
     private func engageIf(_ catchDumbMistakes: DispatchQueueID) -> Bool {
-        hardAssert(scratch.engagerKey == nil)
+        hardAssert(scratch.engagerKey == nil, "hardAssert at \(#file):\(#line)")
 
         let gc = (scratch.stepper.gridCell)!
 
@@ -78,7 +78,7 @@ extension GridCell {
             Debug.log(level: 167) { "getLock4.5 for \(six(stepper.name))" }
             #endif
 
-            hardAssert(isLocked && ownerName != stepper.name)
+            hardAssert(isLocked && ownerName != stepper.name, "hardAssert at \(#file):\(#line)")
             reschedule(stepper, catchDumbMistakes)
             Debug.debugColor(stepper, .red, .black)
         }

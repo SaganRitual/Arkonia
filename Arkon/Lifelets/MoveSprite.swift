@@ -20,9 +20,9 @@ final class MoveSprite: Dispatchable {
             return
         }
 
-        hardAssert(shuttle.fromCell !== shuttle.toCell)
-        hardAssert(shuttle.fromCell != nil && shuttle.toCell != nil)
-        hardAssert((shuttle.fromCell?.isLocked) ?? false && (shuttle.toCell?.isLocked ?? false))
+        hardAssert(shuttle.fromCell !== shuttle.toCell, "hardAssert at \(#file):\(#line)")
+        hardAssert(shuttle.fromCell != nil && shuttle.toCell != nil, "hardAssert at \(#file):\(#line)")
+        hardAssert((shuttle.fromCell?.isLocked) ?? false && (shuttle.toCell?.isLocked ?? false), "hardAssert at \(#file):\(#line)")
 
         let hotKey = (shuttle.toCell)!
         let position = hotKey.randomScenePosition ?? hotKey.scenePosition

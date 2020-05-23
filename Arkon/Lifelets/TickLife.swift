@@ -29,7 +29,7 @@ final class TickLife: Dispatchable {
 
 extension TickLife {
     private func tickLife(_ catchDumbMistakes: DispatchQueueID) {
-        hardAssert(catchDumbMistakes == .clock)
+        hardAssert(catchDumbMistakes == .clock, "hardAssert at \(#file):\(#line)")
 
         scratch.currentTime = Clock.shared!.worldClock
         scratch.currentEntropyPerJoule = Double(1 - Clock.shared!.getEntropy())
@@ -38,7 +38,7 @@ extension TickLife {
     }
 
     private func tickLife_(_ catchDumbMistakes: DispatchQueueID) {
-        hardAssert(catchDumbMistakes == .tickLife)
+        hardAssert(catchDumbMistakes == .tickLife, "hardAssert at \(#file):\(#line)")
 
         scratch.stepper.metabolism.digest()
 
@@ -55,7 +55,7 @@ extension TickLife {
     private func routeLife_() {
         Debug.log(level: 167) { "routeLife \(six(scratch.stepper.name))" }
 
-        hardAssert(Grid.shared.isOnGrid(scratch.stepper.gridCell.gridPosition))
+        hardAssert(Grid.shared.isOnGrid(scratch.stepper.gridCell.gridPosition), "hardAssert at \(#file):\(#line)")
 
         if !isAlive      { scratch.dispatch!.apoptosize()  }
         else if canSpawn { scratch.dispatch!.spawn()       }

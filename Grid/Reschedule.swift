@@ -2,7 +2,7 @@ import Foundation
 
 extension GridCell {
     func descheduleIf(_ stepper: Stepper, _ catchDumbMistakes: DispatchQueueID) {
-        hardAssert(catchDumbMistakes == .arkonsPlane)
+        hardAssert(catchDumbMistakes == .arkonsPlane, "hardAssert at \(#file):\(#line)")
 
         toReschedule.removeAll { waitingStepper in
             let remove = waitingStepper.name == stepper.name
@@ -12,7 +12,7 @@ extension GridCell {
     }
 
     func getRescheduledArkon(_ catchDumbMistakes: DispatchQueueID) -> Stepper? {
-        hardAssert(catchDumbMistakes == .arkonsPlane)
+        hardAssert(catchDumbMistakes == .arkonsPlane, "hardAssert at \(#file):\(#line)")
 
         #if DEBUG
         if !toReschedule.isEmpty {
@@ -28,7 +28,7 @@ extension GridCell {
     }
 
     func reengageRequesters(_ catchDumbMistakes: DispatchQueueID) {
-        hardAssert(catchDumbMistakes == .arkonsPlane)
+        hardAssert(catchDumbMistakes == .arkonsPlane, "hardAssert at \(#file):\(#line)")
 
         Debug.log(level: 169) {
             return self.toReschedule.isEmpty ? nil :
@@ -39,7 +39,7 @@ extension GridCell {
         while let waitingStepper = self.getRescheduledArkon(catchDumbMistakes) {
             if let dispatch = waitingStepper.dispatch {
                 let scratch = dispatch.scratch
-                hardAssert(scratch!.engagerKey == nil)
+                hardAssert(scratch!.engagerKey == nil, "hardAssert at \(#file):\(#line)")
                 Debug.log(level: 169) { "reengageRequesters; disengage \(waitingStepper.name) at \(self.gridPosition)" }
                 dispatch.disengage()
                 return

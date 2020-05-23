@@ -13,7 +13,10 @@ final class Disengage: Dispatchable {
     }
 
     private func disengage() {
-        hardAssert(scratch.engagerKey != nil || scratch.isSpawning || scratch.isRescheduled)
+        hardAssert(
+            scratch.engagerKey != nil || scratch.isSpawning || scratch.isRescheduled,
+            "hardAssert at \(#file):\(#line)"
+        )
 
         scratch.engagerKey?.releaseLock(catchDumbMistakes)
 

@@ -36,7 +36,7 @@ final class HotNetBnn: HotNet {
         _ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void
     ) {
         let si = sensoryInputs.map { BnnNumber($0) }
-        hardAssert(sensoryInputs.min()! >= -1 && sensoryInputs.max()! <= 1)
+        hardAssert(sensoryInputs.min()! >= -1 && sensoryInputs.max()! <= 1, "hardAssert at \(#file):\(#line)")
 
         bnnLayers.first!.driveSignal(si)
 

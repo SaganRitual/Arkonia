@@ -21,7 +21,7 @@ class Cbuffer<T> {
     // swiftlint:enable empty_count
 
     var isFull: Bool {
-        hardAssert(mode == .putOnlyRing)    // A full fifo is different
+        hardAssert(mode == .putOnlyRing, "hardAssert at \(#file):\(#line)")    // A full fifo is different
         return elements.count == cElements
     }
 
@@ -35,7 +35,7 @@ class Cbuffer<T> {
 
     @discardableResult
     func pop() -> T {
-        hardAssert(mode == .fifo)
+        hardAssert(mode == .fifo, "hardAssert at \(#file):\(#line)")
         hardAssert(
             nextPopOffset != nextPushOffset || wrappedPop == true,
             "Underflow in FIFO -- line \(#line) in \(#file)"
@@ -51,7 +51,7 @@ class Cbuffer<T> {
     }
 
     func push(_ element: T) {
-        hardAssert(mode == .fifo)
+        hardAssert(mode == .fifo, "hardAssert at \(#file):\(#line)")
         hardAssert(
             nextPopOffset != nextPushOffset || wrappedPop == false,
             "Overflow in FIFO -- line \(#line) in \(#file)"
@@ -79,7 +79,7 @@ class Cbuffer<T> {
     }
 
     func put(_ element: T) {
-        hardAssert(mode == .putOnlyRing)
+        hardAssert(mode == .putOnlyRing, "hardAssert at \(#file):\(#line)")
         put_(element)
     }
 }

@@ -63,11 +63,11 @@ extension Plotter {
         a()
     }
 
-    func calculateTargetOffset(for motorOutput: Int, from cells: [GridCellProtocol]) -> Int {
+    func calculateTargetOffset(for motorOutput: Int, from cells: [GridCellProtocol?]) -> Int {
         #if DEBUG
         for c in cells {
-            hardAssert((c is GridCell) == (c.ownerName == cells[0].ownerName))
-            hardAssert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell))
+            hardAssert((c is GridCell) == (c.ownerName == cells[0].ownerName), "hardAssert at \(#file):\(#line)")
+            hardAssert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell), "hardAssert at \(#file):\(#line)")
         }
         #endif
 

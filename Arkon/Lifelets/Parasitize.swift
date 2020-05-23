@@ -69,8 +69,8 @@ extension Parasitize {
 
         let hisStepper = (myScratch.cellShuttle?.toCell?.stepper)!
 
-        hardAssert(hisStepper !== myScratch.stepper)
-        hardAssert(hisStepper.name != myScratch.stepper.name)
+        hardAssert(hisStepper !== myScratch.stepper, "hardAssert at \(#file):\(#line)")
+        hardAssert(hisStepper.name != myScratch.stepper.name, "hardAssert at \(#file):\(#line)")
 
         let myMass = myScratch.stepper.metabolism.mass
         let hisMass = hisStepper.metabolism.mass
@@ -90,7 +90,7 @@ extension Parasitize {
             let myShuttle = (myScratch.cellShuttle)!
 
             myShuttle.transferKeys(to: hisStepper, catchDumbMistakes) {
-                hardAssert(hisScratch!.engagerKey == nil)
+                hardAssert(hisScratch!.engagerKey == nil, "hardAssert at \(#file):\(#line)")
 
                 hisScratch!.cellShuttle = $0
                 myScratch.cellShuttle = nil
