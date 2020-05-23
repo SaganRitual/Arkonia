@@ -19,6 +19,7 @@ class Census {
     private(set) var cLiveNeurons = 0
     private var localTime = 0
     private(set) var population = 0
+    var populated = false
 
     let rBirths: Reportoid
     let rPopulation: Reportoid
@@ -26,6 +27,8 @@ class Census {
     let rHighWaterPopulation: Reportoid
     let rCOffspring: Reportoid
     private var TheFishNumber = 0
+
+    var tickTimer: Timer!
 
     static let dispatchQueue = DispatchQueue(
         label: "ak.census.q",
@@ -49,7 +52,11 @@ class Census {
 
         rCOffspring = scene.reportMisc.reportoid(3)
 
-        Arkonia.tickTheWorld(Census.dispatchQueue, WorkItems.updateReports)
+        tickTimer = Timer(fire: Date() + 1, interval: 1, repeats: true) { _ in
+            self.updateReports()
+        }
+
+        tickTimer.fire()
     }
 }
 
@@ -90,7 +97,7 @@ extension Census {
     }
 
     func registerDeath(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
-        WorkItems.registerDeath(stepper, onComplete)
+        Census.registerDeath(stepper, onComplete)
     }
 }
 

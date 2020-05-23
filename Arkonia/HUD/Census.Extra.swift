@@ -1,6 +1,6 @@
 import SpriteKit
 
-enum WorkItems {
+extension Census {
     typealias OnComplete1Fishday = (Fishday) -> Void
 
     static func registerBirth(
@@ -32,8 +32,8 @@ enum WorkItems {
 
 }
 
-extension WorkItems {
-    static func updateReports() {
+extension Census {
+    func updateReports() {
         let portal = (ArkoniaScene.arkonsPortal)!
 
         var ages = [Int]()
@@ -49,7 +49,7 @@ extension WorkItems {
         a()
     }
 
-    static func getAges(_ onComplete: @escaping ([Int], Int) -> Void) {
+    func getAges(_ onComplete: @escaping ([Int], Int) -> Void) {
         let portal = (ArkoniaScene.arkonsPortal)!
 
         var names = [ArkonName]()
@@ -65,7 +65,7 @@ extension WorkItems {
         a()
     }
 
-    private static func getAges(
+    private func getAges(
         _ names: [ArkonName], _ currentTime: Int, _ onComplete: @escaping ([Int]) -> Void
     ) {
         Census.dispatchQueue.async {
@@ -74,7 +74,7 @@ extension WorkItems {
         }
     }
 
-    static func getNames(
+    func getNames(
         _ portal: SKSpriteNode, _ onComplete: @escaping ([ArkonName]) -> Void
     ) {
         var names: [ArkonName]!
@@ -89,8 +89,7 @@ extension WorkItems {
         a()
     }
 
-    static var populated = false
-    static func seedWorld() {
+    func seedWorld() {
         if populated == false {
             for _ in 0..<Arkonia.initialPopulation { Dispatch().spawn() }
             populated = true

@@ -41,6 +41,8 @@ class HotLayerBnn {
         hotLayer = hl
     }
 
+    deinit { hotLayer.deallocate() }
+
     func driveSignal(_ liveInput: [BnnNumber]) {
         let result = BNNSFilterApply(hotLayer, liveInput, &self.neuronsOut)
         if result != 0 { fatalError() }

@@ -66,7 +66,7 @@ extension Plotter {
     func calculateTargetOffset(for motorOutput: Int, from cells: [GridCellProtocol?]) -> Int {
         #if DEBUG
         for c in cells {
-            hardAssert((c is GridCell) == (c.ownerName == cells[0].ownerName), "hardAssert at \(#file):\(#line)")
+            hardAssert((c is GridCell) == (c!.ownerName == cells[0]!.ownerName), "hardAssert at \(#file):\(#line)")
             hardAssert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell), "hardAssert at \(#file):\(#line)")
         }
         #endif
@@ -85,8 +85,8 @@ extension Plotter {
             let select = (m + motorOutput) % Arkonia.cMotorGridlets
 //            if select == 0 { continue }
 
-            if cells[select] is GridCell &&
-                (cells[select].stepper == nil || select == 0) {
+            if let cell = cells[select] as? GridCell,
+                  (cell.stepper == nil || select == 0) {
                 return select
             }
         }

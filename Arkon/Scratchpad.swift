@@ -53,9 +53,13 @@ class Scratchpad {
         }
 
         if let sg = senseGrid {
-            Debug.log(level: 169) { "release senseGrid centered at \(sg.cells[0].gridPosition) for \(name)" }
+            Debug.log(level: 169) {
+                let cell = (sg.cells[0] as? GridCell)!
+                return "release senseGrid centered at \(cell.gridPosition) for \(name)"
+            }
+
             sg.reset(catchDumbMistakes)
-            senseGrid = nil
+            sg.cells[0] = CellSenseGrid.nilKey
         }
     }
 }

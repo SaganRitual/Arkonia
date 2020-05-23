@@ -25,10 +25,9 @@ final class ReleaseShuttle: Dispatchable {
 
         shuttle.toCell = nil
         scratch.cellShuttle = nil
+        scratch.senseGrid!.reset(catchDumbMistakes)
 
         Debug.log(level: 157) { "ReleaseShuttle \(six(scratch.name)) nil -> \(scratch.cellShuttle == nil)" }
-
-        hardAssert(scratch.senseGrid?.cells.isEmpty ?? false, "hardAssert at \(#file):\(#line)")
 
         scratch.dispatch!.disengage()
     }

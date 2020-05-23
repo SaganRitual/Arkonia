@@ -16,7 +16,7 @@ class Arkonia {
     static let cMotorNeurons = 2
     static let cMotorGridlets = cSenseGridlets - 1
 
-    static let allowSpawning = false
+    static let allowSpawning = true
     static let cMannaMorsels = 5000
     static let cPollenators = 5
 
@@ -26,8 +26,7 @@ class Arkonia {
     static var debugMessageToConsole = true
 
     static let funkyCells: CGFloat? = 2 / zoomFactor
-    static let initialPopulation = 5
-    static let maxPopulation = Int.max
+    static let initialPopulation = 1
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedCellsPerSecond: CGFloat = 25
 
@@ -52,16 +51,4 @@ class Arkonia {
     static let arkoniaDaysPerYear: TimeInterval = 2 * arkoniaDaysPerSeason
     static let winterAsPercentageOfYear: TimeInterval = 0.40
     static let maximumBrightnessAlpha: CGFloat = 1
-}
-
-extension Arkonia {
-    static func tickTheWorld(_ queue: DispatchQueue, _ tick: @escaping () -> Void) {
-        // This vomitosis is because I can't figure out how to get
-        // asyncAfter to create a barrier task; it just runs concurrently
-        // with the others, and causes crashes. Tried with DispatchWorkItem
-        // too, but that didn't work even when using async(flags:execute:)
-        queue.asyncAfter(deadline: .now() + 1) {
-            queue.async(flags: .barrier) { tick(); tickTheWorld(queue, tick) }
-        }
-    }
 }

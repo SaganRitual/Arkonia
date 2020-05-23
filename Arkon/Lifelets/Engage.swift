@@ -38,9 +38,14 @@ final class Engage: Dispatchable {
             "senseGrid.0 for \(scratch.stepper.name) at \(hk.gridPosition)"
         }
 
-        scratch.senseGrid = CellSenseGrid(
-            from: hk, by: Arkonia.cSenseGridlets, block: scratch.stepper.previousShiftOffset, catchDumbMistakes
-        )
+        if scratch.senseGrid == nil {
+            scratch.senseGrid = CellSenseGrid(
+                scratch.stepper, cGridlets: Arkonia.cSenseGridlets,
+                block: scratch.stepper.previousShiftOffset
+            )
+        }
+
+        scratch.senseGrid!.assembleGrid(center: hk, catchDumbMistakes)
 
         #if DEBUG
         Debug.log(level: 167) {
@@ -55,7 +60,7 @@ final class Engage: Dispatchable {
                 default: fatalError()
                 }
 
-                return "\(key)\(cell.gridPosition)"
+                return "\(key)\(cell!.gridPosition)"
             }
 
             return "senseGrid.1 for \(scratch.stepper.name) \(m)"

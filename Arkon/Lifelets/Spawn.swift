@@ -51,7 +51,7 @@ extension Spawn {
         }
 
         func b() {
-            WorkItems.registerBirth(myName: embryoName, myParent: meTheParent, myNet: net) {
+            Census.registerBirth(myName: embryoName, myParent: meTheParent, myNet: net) {
                 self.fishDay = $0
                 self.launchNewborn()
             }

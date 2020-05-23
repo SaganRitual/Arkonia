@@ -20,7 +20,7 @@
 		D40DF3312470C2A2001649FA /* Colorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DF3302470C2A2001649FA /* Colorizer.swift */; };
 		D413E660240F745100077E35 /* Plotter.SetRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413E65F240F745100077E35 /* Plotter.SetRoute.swift */; };
 		D41787062430D5090025EC00 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41787052430D5090025EC00 /* BarChart.swift */; };
-		D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A29A423B9945F00DE9CC6 /* wiCensus.swift */; };
+		D41A29A523B9945F00DE9CC6 /* Census.Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A29A423B9945F00DE9CC6 /* Census.Extra.swift */; };
 		D41ED8D623B084A100E82B08 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
@@ -130,7 +130,7 @@
 		D40DF3302470C2A2001649FA /* Colorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colorizer.swift; sourceTree = "<group>"; };
 		D413E65F240F745100077E35 /* Plotter.SetRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plotter.SetRoute.swift; sourceTree = "<group>"; };
 		D41787052430D5090025EC00 /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
-		D41A29A423B9945F00DE9CC6 /* wiCensus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wiCensus.swift; sourceTree = "<group>"; };
+		D41A29A423B9945F00DE9CC6 /* Census.Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.Extra.swift; sourceTree = "<group>"; };
 		D41ED8D523B084A100E82B08 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		D42172E9233EE46000A56594 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
@@ -257,7 +257,6 @@
 				D46B1D7222813DF7003D711C /* Miscellany */,
 				D40985F922650BD8009DD384 /* macOS */,
 				D4B2AC8323D5965A00246746 /* SpriteKit */,
-				D41A29A323B9943F00DE9CC6 /* WorkItems */,
 				D40985E122650B0A009DD384 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -282,14 +281,6 @@
 				D40985EF22650B0B009DD384 /* Main.storyboard */,
 			);
 			path = macOS;
-			sourceTree = "<group>";
-		};
-		D41A29A323B9943F00DE9CC6 /* WorkItems */ = {
-			isa = PBXGroup;
-			children = (
-				D41A29A423B9945F00DE9CC6 /* wiCensus.swift */,
-			);
-			path = WorkItems;
 			sourceTree = "<group>";
 		};
 		D43EA81A228FDBA4006C619D /* Arkonia */ = {
@@ -378,6 +369,7 @@
 				D4E8D268227E06F400DFCB40 /* NetDisplay */,
 				D41787052430D5090025EC00 /* BarChart.swift */,
 				D422DE0A23598B52003734B8 /* Census.swift */,
+				D41A29A423B9945F00DE9CC6 /* Census.Extra.swift */,
 				D422DE0C23598BEC003734B8 /* Clock.swift */,
 				D47FDDC324485BC500C89A1E /* Dashboard.swift */,
 				D4B4294022DAEC7E0036C904 /* HUD.swift */,
@@ -643,7 +635,7 @@
 				D4BD1DCE23C088C200CE0753 /* GridCell.swift in Sources */,
 				D4BD1DC723C088C200CE0753 /* CellShuttle.swift in Sources */,
 				D40DF32D24706E4B001649FA /* Metabolism.swift in Sources */,
-				D41A29A523B9945F00DE9CC6 /* wiCensus.swift in Sources */,
+				D41A29A523B9945F00DE9CC6 /* Census.Extra.swift in Sources */,
 				D458940223CFE847004FED72 /* Mutator.swift in Sources */,
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
 				D457109B2471169100A9B94F /* JumpSpec.swift in Sources */,

@@ -1,24 +1,39 @@
+import Foundation
+
 class CellSenseGrid: CustomDebugStringConvertible {
     static let nilKey = NilKey()
 
     lazy var debugDescription: String = { cells[0].debugDescription }()
 
-    var cells = [GridCellProtocol]()
-    var ownerName: ArkonName
+    var cells: [GridCellProtocol?]
+    let cGridlets: Int
+    let block: AKPoint
+    let ownerName: ArkonName
 
-    init(from center: GridCell, by cGridlets: Int, block: AKPoint, _ catchDumbMistakes: DispatchQueueID) {
-        hardAssert(center.ownerName == center.stepper?.name)
-        self.ownerName = center.ownerName
+    init(_ stepper: Stepper, cGridlets: Int, block: AKPoint) {
+        self.block = block
+        self.ownerName = stepper.name
+
+        self.cells = [GridCellProtocol?](repeating: nil, count: cGridlets)
+
+        self.cGridlets = cGridlets
+    }
+
+    func assembleGrid(center: GridCell, _ catchDumbMistakes: DispatchQueueID) {
+        hardAssert(center.ownerName == center.stepper?.name, "hardAssert at \(#file):\(#line)")
+
+        self.cells[0] = center
 
         // The following loop needs to be atomic relative to the arkons grid,
         // we want no interference from anyone else trying to get our squares
-        hardAssert(catchDumbMistakes == .arkonsPlane)
+        hardAssert(catchDumbMistakes == .arkonsPlane, "hardAssert at \(#file):\(#line)")
 
-        cells = [center] + (1..<cGridlets).map { index in
+        for index in 1..<cGridlets {
             let position = center.getGridPointByIndex(index)
 
-            if position == block { return CellSenseGrid.nilKey }
-            guard let cell = GridCell.atIf(position) else { return CellSenseGrid.nilKey }
+            if position == block { self.cells[index] = CellSenseGrid.nilKey; continue }
+
+            guard let cell = GridCell.atIf(position) else { self.cells[index] = CellSenseGrid.nilKey; continue }
 
             Debug.log(level: 168) { "CellSenseGrid \(index), \(position) tenant \(six(cell.stepper?.name)) owner \(six(self.ownerName))" }
 
@@ -26,14 +41,16 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
             let lockType: GridCell.RequireLock = index > Arkonia.cMotorGridlets ? .cold : .degradeToCold
 
-            let lock = (cell.lock(require: lockType, ownerName: self.ownerName, catchDumbMistakes))!
-            return lock
+            guard let lock = (cell.lock(require: lockType, ownerName: self.ownerName, catchDumbMistakes))
+                else { fatalError() }
+
+            self.cells[index] = lock
         }
 
         #if DEBUG
         for c in cells {
-            hardAssert((c is GridCell) == (c.ownerName == center.ownerName))
-            hardAssert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell))
+            hardAssert((c is GridCell) == (c!.ownerName == center.ownerName), "hardAssert at \(#file):\(#line)")
+            hardAssert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell), "hardAssert at \(#file):\(#line)")
         }
         #endif
     }
@@ -45,10 +62,11 @@ class CellSenseGrid: CustomDebugStringConvertible {
         let hotKeys: [(Int, GridCell)] = zip(1..., cells.dropFirst()).compactMap {
             pair in let (ss, cell) = pair
 
-            // Skip the keeper, if there is one
-            if let k = keep, cell.gridPosition == k.gridPosition { return nil }
             // Ignore anything cold
             guard let hotCell = cell as? GridCell else { return nil }
+
+            // Skip the keeper, if there is one
+            if let k = keep, hotCell.gridPosition == k.gridPosition { return nil }
 
             // As of 2020.04.08, there's only one way we'll get here and find
             // that the owner names don't match: when we've just now spawned and
@@ -67,15 +85,13 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
             hotCell.releaseLock(catchDumbMistakes)
 
-            // Superstitious debugging -- this shouldn't matter, because we're
-            // about to delete the array anyway, but I'm looking for poltergeists now
-            cells[ss] = CellSenseGrid.nilKey
+            cells[ss] = CellSenseGrid.nilKey    // Be tidy, in case it helps with debg
         }
 
-        Debug.log(level: 169) { "SenseGrid post-reset for \(self.ownerName) \(cells.compactMap { ($0 is NilKey) ? nil : "\($0):\(type(of: $0))" })" }
-
-        hardAssert(cells.filter({ $0.ownerName == self.ownerName }).count <= 2)
-        cells.removeAll(keepingCapacity: true)
+        hardAssert(
+            cells.filter({ (($0 as? GridCell)?.ownerName ?? ArkonName.empty) == self.ownerName }).count <= 2,
+            "hardAssert at \(#file):\(#line)"
+        )
     }
 
     func setupBirthingCell(for embryoName: ArkonName) -> GridCell? {

@@ -49,9 +49,10 @@ class SensesConnector {
             if scratch.gridInputs.isEmpty { scratch.gridInputs = [Double](repeating: 0, count: Arkonia.cSenseNeuronsSpatial + Arkonia.cSenseNeuronsNonSpatial) }
 //            scratch.gridInputs.removeAll(keepingCapacity: true)
 
-            (0..<senseGrid.cells.count).forEach { ss in
-                scratch.gridInputs[2 * ss + 0] = self.loadNutrition(senseGrid.cells[ss])
-                scratch.gridInputs[2 * ss + 1] = self.loadSelector(senseGrid.cells[ss])
+            for ss in 0..<senseGrid.cells.count {
+                guard let cell = senseGrid.cells[ss] as? GridCell else { continue }
+                scratch.gridInputs[2 * ss + 0] = self.loadNutrition(cell)
+                scratch.gridInputs[2 * ss + 1] = self.loadSelector(cell)
             }
 
             firstNonGridInput = senseGrid.cells.count * 2

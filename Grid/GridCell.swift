@@ -112,8 +112,6 @@ extension GridCell {
     func releaseLock(_ dispatchQueueID: DispatchQueueID) -> Bool {
         hardAssert(dispatchQueueID == .arkonsPlane, "hardAssert at \(#file):\(#line)")
 
-        hardAssert(ownerName != ArkonName.empty, "hardAssert at \(#file):\(#line)")
-
 //        debugStats()
         Debug.log(level: 168) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
