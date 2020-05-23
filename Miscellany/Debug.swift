@@ -22,6 +22,12 @@ struct Debug {
         thorax.color = thoraxColor
         nose.color = noseColor
     }
+
+    static func debugColor(_ stepper: Stepper, _ thoraxColor: SKColor, _ noseColor: SKColor) {
+        if !Arkonia.debugColorIsEnabled { return }
+        stepper.sprite.color = thoraxColor
+        stepper.nose.color = noseColor
+    }
 }
 
 extension Debug {
@@ -92,7 +98,7 @@ extension Debug {
 
         func histogrize(_ value: Double, scale: Int = 10, inputRange: Range<Double>) {
             Debug.log {
-                hardAssert(inputRange == -1.0..<1.0 || inputRange == 0.0..<1.0)
+                hardAssert(inputRange == -1.0..<1.0 || inputRange == 0.0..<1.0, "hardAssert at \(#file):\(#line)")
 
                 if(value < inputRange.lowerBound || value > inputRange.upperBound) {
                     return "Histogram overflow: value is \(value) range is \(inputRange)"
@@ -103,7 +109,7 @@ extension Debug {
                     dBuckets = Double(scale)
                     histogram = [Int](repeating: 0, count: scale)
                 } else {
-                    hardAssert(scale == cBuckets!)
+                    hardAssert(scale == cBuckets!, "hardAssert at \(#file):\(#line)")
                 }
 
                 let vv = (value < 1.0) ? value : value - 1e-4   // Because we do get 1.0 sometimes

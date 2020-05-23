@@ -21,43 +21,49 @@ extension Colorizer {
         if Arkonia.debugColorIsEnabled {
             Debug.debugColor(scratch.stepper, .brown, .brown)
         } else {
-            setNoseColor(scratch.stepper.metabolism, scratch.stepper.nose)
+            setNoseColor()
         }
 
-        setThoraxScale(scratch.stepper.metabolism, scratch.stepper.sprite)
+        setThoraxScale()
 
         let babyBumpShouldBeShowing =
             (scratch.stepper.metabolism.spawn?.oxygenStore.level ?? 0) > 0
 
         switch (babyBumpShouldBeShowing, scratch.babyBumpIsShowing) {
         case (true, false):
-            lookPregnant(scratch.stepper.nose)
+            lookPregnant()
             scratch.babyBumpIsShowing = true
 
         case (false, true):
-            lookNotPregnant(scratch.stepper.nose)
+            lookNotPregnant()
             scratch.babyBumpIsShowing = false
 
         default: break
         }
     }
 
-    private func setNoseColor(_ metabolism: Metabolism, _ nose: SKSpriteNode) {
-        nose.colorBlendFactor = metabolism.asphyxiation
+    private func setNoseColor() {
+        scratch.stepper.nose.colorBlendFactor = 1 - scratch.stepper.metabolism.asphyxiation
     }
 
-    private func setThoraxScale(_ metabolism: Metabolism, _ thorax: SKSpriteNode) {
-        let effectiveMass = metabolism.mass - (metabolism.embryo?.mass ?? 0)
+    private func setThoraxScale() {
+        let m = scratch.stepper.metabolism!
+        let effectiveMass = m.mass - (m.embryo?.mass ?? 0)
         let scale = log(effectiveMass + 1)
-        thorax.setScale(Arkonia.arkonScaleFactor * scale / Arkonia.zoomFactor)
+        scratch.stepper.sprite.setScale(Arkonia.arkonScaleFactor * scale / Arkonia.zoomFactor)
     }
 
-    private func lookNotPregnant(_ nose: SKSpriteNode) {
-        nose.setScale(Arkonia.noseScaleFactor)
+    private func lookNotPregnant() {
+        scratch.stepper.nose.setScale(Arkonia.noseScaleFactor)
     }
 
-    private func lookPregnant(_ nose: SKSpriteNode) {
-        nose.yScale = Arkonia.noseScaleFactor / Arkonia.zoomFactor * 2
-        nose.xScale = Arkonia.noseScaleFactor * Arkonia.zoomFactor
+    private func lookPregnant() {
+        let m = scratch.stepper.metabolism!
+        let f: CGFloat = m.spawn?.fatStore?.fullness ?? 0.25
+        let s: CGFloat = Arkonia.arkonScaleFactor * Arkonia.noseScaleFactor *
+            Arkonia.zoomFactor * f
+
+        scratch.stepper.nose.yScale = s
+        scratch.stepper.nose.xScale = s
     }
 }

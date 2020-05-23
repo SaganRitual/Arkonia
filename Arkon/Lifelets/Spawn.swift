@@ -46,7 +46,7 @@ extension Spawn {
                 return
             }
 
-            meTheParent?.nose.color = .yellow
+//            meTheParent?.nose.color = .yellow
             buildArkon(b)
         }
 
@@ -139,7 +139,7 @@ extension Spawn {
     }
 
     private func buildSprites() {
-        hardAssert(Display.displayCycle == .updateStarted)
+        hardAssert(Display.displayCycle == .updateStarted, "hardAssert at \(#file):\(#line)")
 
         self.nose = SpriteFactory.shared.nosesPool.makeSprite(embryoName)
         self.thorax = SpriteFactory.shared.arkonsPool.makeSprite(embryoName)
@@ -149,7 +149,7 @@ extension Spawn {
         let engagerKey = (self.engagerKeyForNewborn)!
 
         nose.alpha = 1
-        nose.colorBlendFactor = 0
+        nose.colorBlendFactor = 1
         nose.color = .blue
         nose.setScale(Arkonia.noseScaleFactor)
         nose.zPosition = 3
@@ -176,11 +176,11 @@ extension Spawn {
 extension Spawn {
     func launchNewborn() {
         let newborn = Stepper(self, needsNewDispatch: true)
-        hardAssert(newborn.sprite.parent == nil)
+        hardAssert(newborn.sprite.parent == nil, "hardAssert at \(#file):\(#line)")
         newborn.parentStepper = self.meTheParent
         newborn.dispatch.scratch.stepper = newborn
         newborn.sprite?.color = (net?.isCloneOfParent ?? false) ? .green : .white
-        newborn.nose?.color = (net?.isCloneOfParent ?? false) ? .green : .white
+        newborn.nose?.color = .blue
 
         // Schedule the second part separately, to avoid holding the grid too long
         Grid.arkonsPlaneQueue.async { self.launchB(newborn, .arkonsPlane) }
@@ -195,7 +195,7 @@ extension Spawn {
         engagerKey.stepper = newborn
 
         // Name should be set up in the beginning spawn step
-        hardAssert(engagerKey.ownerName == newborn.name)
+        hardAssert(engagerKey.ownerName == newborn.name, "hardAssert at \(#file):\(#line)")
 
         Stepper.attachStepper(newborn, to: newborn.sprite)
 
