@@ -75,7 +75,9 @@ extension Manna {
         // Don't give up any nutrition at all until I've bloomed enough
         if maturityLevel < 1e-2 { onComplete(nil); return }
 
-        MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna -= 1 }
+        MannaCannon.mannaPlaneQueue.async {
+            MannaCannon.shared!.cPhotosynthesizingManna -= 1
+        }
 
         sprite.gridCell!.mannaAwaitingRebloom = true
 
@@ -109,12 +111,16 @@ extension Manna {
     enum RebloomResult { case died, rebloomed }
 
     func rebloom() {
+        hardAssert(Display.displayCycle == .updateStarted)
+
         sprite.reset()
 
         // Check for pollenators above me; if none, go back to sleep for a while
-        guard let fs = MannaCannon.shared?.pollenators.first(
+        let mc = MannaCannon.shared!
+
+        guard let pollenator = mc.pollenators.first (
             where: { $0.node.contains(sprite.sprite.position) }
-        ) else { MannaCannon.shared!.blast(self); return }
+        ) else { mc.blast(self); return }
 
         // If I'm being harvested before I've reached full maturity, it will
         // take proportionally longer for me to reach it this time. The delay is
@@ -135,7 +141,8 @@ extension Manna {
 //        Debug.log(level: 171) { "rebloom \(growthDuration), \(maturity), \(catchup), \(timeRequiredForFullBloom)" }
 //        #endif
 
-        sprite.bloom(timeRequiredForFullBloom, color: fs.node.fillColor, scaleFactor: fs.node.xScale)
+        let node = pollenator.node
+        sprite.bloom(timeRequiredForFullBloom, color: node.fillColor, scaleFactor: node.xScale)
     }
 }
 

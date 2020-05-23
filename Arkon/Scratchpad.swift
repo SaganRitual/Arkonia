@@ -20,7 +20,7 @@ class Scratchpad {
     var name = ArkonName.empty
     weak var parentNet: Net?
     var plotter: Plotter?
-    var senseGrid: CellSenseGrid?
+    var senseGrid: SenseGrid?
     var sensesConnector: SensesConnector?
     weak var stepper: Stepper!
     var debugTimer: __uint64_t = 0
@@ -59,7 +59,7 @@ class Scratchpad {
             }
 
             sg.reset(catchDumbMistakes)
-            sg.cells[0] = CellSenseGrid.nilKey
+            sg.cells[0] = SenseGrid.nilKey
         }
     }
 }

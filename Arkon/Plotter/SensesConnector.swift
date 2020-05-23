@@ -28,17 +28,25 @@ class SensesConnector {
 
     func connect(_ onComplete: @escaping () -> Void) {
         let sg = (scratch.senseGrid)!
+        var yearFullness = CGFloat.zero
+        var dayFullness = CGFloat.zero
 
-        connectGridInputs(from: sg) {
-            self.connectNonGridInputs()
-            onComplete()
+        func a() {
+            Seasons.shared.getSeasonalFactors {
+                dayFullness = $0; yearFullness = $1; b()
+            }
         }
+
+        func b() { connectGridInputs(from: sg, c) }
+        func c() { connectNonGridInputs(dayFullness, yearFullness); onComplete() }
+
+        a()
     }
 
     // We create the cell sense grid anew each time the arkon moves, so we
     // can't connect directly to the sense inputs as we do with the non-grid inputs
     private func connectGridInputs(
-        from senseGrid: CellSenseGrid, _ onComplete: @escaping () -> Void
+        from senseGrid: SenseGrid, _ onComplete: @escaping () -> Void
     ) {
         func b() { Grid.arkonsPlaneQueue.async(execute: c) }
 
@@ -46,8 +54,9 @@ class SensesConnector {
             let scale = 1.0 / scratch.currentEntropyPerJoule
             Debug.log(level: 154) { "scale = \(scale) = 1 / \(scratch.currentEntropyPerJoule) " }
 
-            if scratch.gridInputs.isEmpty { scratch.gridInputs = [Double](repeating: 0, count: Arkonia.cSenseNeuronsSpatial + Arkonia.cSenseNeuronsNonSpatial) }
-//            scratch.gridInputs.removeAll(keepingCapacity: true)
+            if scratch.gridInputs.isEmpty {
+                scratch.gridInputs = [Double](repeating: 0, count: Arkonia.cSenseNeurons)
+            }
 
             for ss in 0..<senseGrid.cells.count {
                 guard let cell = senseGrid.cells[ss] as? GridCell else { continue }
@@ -65,13 +74,27 @@ class SensesConnector {
 
     // We need connect only once to the non-grid inputs, so we take care of
     // that in the initializer
-    private func connectNonGridInputs() {
-        scratch.gridInputs[firstNonGridInput + 0] = Double(scratch.stepper.gridCell.gridPosition.x) / Double(Grid.shared!.gridWidthInCells)
-        scratch.gridInputs[firstNonGridInput + 1] = Double(scratch.stepper.gridCell.gridPosition.y) / Double(Grid.shared!.gridHeightInCells)
-        scratch.gridInputs[firstNonGridInput + 2] = Double(scratch.stepper.metabolism.hunger)
-        scratch.gridInputs[firstNonGridInput + 3] = Double(scratch.stepper.metabolism.asphyxiation)
+    private func connectNonGridInputs(_ dayFullness: CGFloat, _ yearFullness: CGFloat) {
+        func miscSense(_ sense: Arkonia.MiscSense) -> Int { firstNonGridInput + sense.rawValue  }
+        func pollenatorSense(_ index: Int) -> Int { firstNonGridInput + Arkonia.cSenseNeuronsMisc + index * 2  }
 
-        for (ss, pollenator) in zip(0..., MannaCannon.shared!.pollenators) { autoreleasepool {
+        let st = scratch.stepper!, gc = st.gridCell!, mt = st.metabolism!, cs = mt.spawn
+
+        // Average fullness of the spawn embryo; not really very representative,
+        // see whether it has any effect.
+        let ff = cs?.fatStore?.fullness ?? 0
+        let hf = cs?.hamStore.fullness ?? 0
+        let of = cs?.oxygenStore.fullness ?? 0
+        let gestationFullness = (ff + hf + of) / 3.0
+
+        scratch.gridInputs[miscSense(.y)] = Double(gc.gridPosition.y) / Double(Grid.shared!.gridHeightInCells)
+        scratch.gridInputs[miscSense(.hunger)] = Double(mt.hunger)
+        scratch.gridInputs[miscSense(.asphyxiation)] = Double(mt.asphyxiation)
+        scratch.gridInputs[miscSense(.gestationFullness)] = Double(gestationFullness)
+        scratch.gridInputs[miscSense(.dayFullness)] = Double(dayFullness)
+        scratch.gridInputs[miscSense(.yearFullness)] = Double(yearFullness)
+
+        for pollenator in MannaCannon.shared!.pollenators {
             let diff = scratch.stepper.sprite.position - pollenator.node.position
 
             let t = (diff.x == 0) ? 0 : atan(Double(diff.y) / Double(diff.x))
@@ -80,9 +103,9 @@ class SensesConnector {
 //            Debug.log { "\(radius.load()), \(theta.load()), \(t), \(tt)" }
 //            Debug.histogrize(theta.load(), scale: 10, inputRange: -1..<1)
 
-            scratch.gridInputs[firstNonGridInput + 4 + ss * 2 + 0] = Double(diff.hypotenuse / Grid.shared.hypoteneuse)
-            scratch.gridInputs[firstNonGridInput + 4 + ss * 2 + 1] = tt
-        }}
+            scratch.gridInputs[pollenatorSense(0)] = Double(diff.hypotenuse / Grid.shared.hypoteneuse)
+            scratch.gridInputs[pollenatorSense(1)] = tt
+        }
     }
 
     enum CellContents: Double {

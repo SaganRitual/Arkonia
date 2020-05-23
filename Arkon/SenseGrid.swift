@@ -1,6 +1,6 @@
 import Foundation
 
-class CellSenseGrid: CustomDebugStringConvertible {
+class SenseGrid: CustomDebugStringConvertible {
     static let nilKey = NilKey()
 
     lazy var debugDescription: String = { cells[0].debugDescription }()
@@ -31,13 +31,16 @@ class CellSenseGrid: CustomDebugStringConvertible {
         for index in 1..<cGridlets {
             let position = center.getGridPointByIndex(index)
 
-            if position == block { self.cells[index] = CellSenseGrid.nilKey; continue }
+            if position == block { self.cells[index] = SenseGrid.nilKey; continue }
 
-            guard let cell = GridCell.atIf(position) else { self.cells[index] = CellSenseGrid.nilKey; continue }
+            guard let cell = GridCell.atIf(position) else { self.cells[index] = SenseGrid.nilKey; continue }
 
             Debug.log(level: 168) { "CellSenseGrid \(index), \(position) tenant \(six(cell.stepper?.name)) owner \(six(self.ownerName))" }
 
-            hardAssert(self.ownerName != cell.ownerName, "Cell should not have my name on it already (\(self.ownerName))")
+            hardAssert(
+                self.ownerName != cell.ownerName,
+                "Cell at \(position)/\(type(of: cell)) should not have my name (\(self.ownerName)) on it already; line number \(#line) in \(#file)"
+            )
 
             let lockType: GridCell.RequireLock = index > Arkonia.cMotorGridlets ? .cold : .degradeToCold
 
@@ -85,7 +88,7 @@ class CellSenseGrid: CustomDebugStringConvertible {
 
             hotCell.releaseLock(catchDumbMistakes)
 
-            cells[ss] = CellSenseGrid.nilKey    // Be tidy, in case it helps with debg
+            cells[ss] = SenseGrid.nilKey    // Be tidy, in case it helps with debg
         }
 
         hardAssert(

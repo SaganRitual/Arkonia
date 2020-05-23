@@ -39,7 +39,7 @@ final class Engage: Dispatchable {
         }
 
         if scratch.senseGrid == nil {
-            scratch.senseGrid = CellSenseGrid(
+            scratch.senseGrid = SenseGrid(
                 scratch.stepper, cGridlets: Arkonia.cSenseGridlets,
                 block: scratch.stepper.previousShiftOffset
             )

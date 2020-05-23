@@ -49,10 +49,12 @@ extension GridCell {
         }
 
         if self.mannaAwaitingRebloom {
-            Debug.log(level: 168) { "reengageRequesters/rebloom manna at \(self.gridPosition)" }
-
-            self.manna!.rebloom()
+            Debug.log(level: 183) { "reengageRequesters/rebloom manna at \(self.gridPosition)" }
             self.mannaAwaitingRebloom = false
+
+            SceneDispatch.shared.schedule {
+                self.manna!.rebloom()
+            }
         }
     }
 

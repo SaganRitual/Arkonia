@@ -95,7 +95,6 @@ private extension Mutator {
         var outDoubles = inDoubles
 
         while cMutate > 0 {
-            autoreleasepool {
             let wherefore = Arkonia.random(in: 0..<inDoubles.count)
 
             let (newValue, dm) = mutate(from: inDoubles[wherefore])
@@ -104,7 +103,7 @@ private extension Mutator {
             outDoubles[wherefore] = newValue
 
             cMutate -= 1
-        }}
+        }
 
         return (outDoubles, didMutate)
     }

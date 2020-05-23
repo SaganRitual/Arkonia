@@ -5,7 +5,7 @@ extension Plotter {
     enum MotorIndex: Int { case jumpSelector, jumpSpeed }
 
     func setRoute(
-        _ senseData: [Double], _ senseGrid: CellSenseGrid,
+        _ senseData: [Double], _ senseGrid: SenseGrid,
         _ onComplete: @escaping (CellShuttle, Double) -> Void
     ) {
         let scratch = (self.scratch)!
@@ -20,9 +20,8 @@ extension Plotter {
         var motorOutputs = [Double]()
 
         func a() {
-            net.getMotorOutputs(senseData) { motorOutputs = $0
-
-                // Get off the computation thread as quickly as possible
+            net.getMotorOutputs(senseData) {
+                motorOutputs = $0
                 Dispatch.dispatchQueue.async(execute: b)
             }
         }
@@ -72,26 +71,17 @@ extension Plotter {
         #endif
 
         // Try to use the selected motor output, ie, jump to that square on
-        // the grid. But if that square is occupied, lay out a selection array
-        // that makes "stand still" the least likely option. If the motor
-        // output is 0 already, we just take it as is.
-        //
-        // Say we have 9 squares, meaning the 0 square where we are right now, and
-        // the 8 around us. If the motor output is 3, then we set up the selection
-        // array like 3, 4, 5, 6, 7, 8, 9, 1, 2, 0
-        //
+        // the grid. But if that square is occupied, find one that's not, and
+        // jump to that one. A "jump" to cells[0] means we'll just stand still.
 
         for m in 0..<Arkonia.cMotorGridlets {
             let select = (m + motorOutput) % Arkonia.cMotorGridlets
-//            if select == 0 { continue }
-
             if let cell = cells[select] as? GridCell,
                   (cell.stepper == nil || select == 0) {
                 return select
             }
         }
 
-//        return 0
         fatalError()
     }
 }

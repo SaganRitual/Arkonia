@@ -59,7 +59,9 @@ extension Manna.Sprite {
             timeRequiredForFullBloom, bloomTimingFunction, color, scaleFactor
         )
 
-        MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
+        MannaCannon.mannaPlaneQueue.async {
+            MannaCannon.shared!.cPhotosynthesizingManna += 1
+        }
 
         sprite.run(toRun)
     }
@@ -82,7 +84,9 @@ extension Manna.Sprite {
     func firstBloom(at cell: GridCell) {
         prepForFirstPlanting(at: cell)
 
-        MannaCannon.mannaPlaneQueue.async { MannaCannon.shared!.cPhotosynthesizingManna += 1 }
+        MannaCannon.mannaPlaneQueue.async {
+            MannaCannon.shared!.cPhotosynthesizingManna += 1
+        }
 
         // Ok to let this run independently of the caller's thread, we don't
         // need anything from it, so there's no need to wait for completion
