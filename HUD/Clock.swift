@@ -15,7 +15,7 @@ class Clock {
     var tickTimer: Timer!
 
     static let dispatchQueue = DispatchQueue(
-        label: "ak.clock.q", attributes: .concurrent,
+        label: "ak.clock.q",
         target: DispatchQueue.global()
     )
 
@@ -31,7 +31,7 @@ class Clock {
         isRunning = true
 
         tickTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            self.tickTheWorld()
+            Clock.dispatchQueue.async { self.tickTheWorld() }
         }
     }
 

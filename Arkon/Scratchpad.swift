@@ -27,7 +27,7 @@ class Scratchpad {
     var debugStart: __uint64_t = 0
     var debugStop: __uint64_t = 0
 
-    var gridInputs = [Double]()
+    var senseInputs = [Double]()
 
     var currentTime: Int = 0
     var currentEntropyPerJoule: Double = 0

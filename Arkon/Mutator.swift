@@ -1,5 +1,9 @@
 import GameplayKit
 
+enum NetMutation: CaseIterable {
+    case dropLayer, duplicateLayer, duplicateAndMutateLayer, insertRandomLayer, mutateCRings
+}
+
 enum Mutator {
     // Mutation amounts, zero-centered and spread out over a fast and loose normal curve generator
     static let mutationValue: (() -> Float) = {
@@ -13,89 +17,29 @@ enum Mutator {
             return result
         }
 
-        return { return Arkonia.randomElement(in: samples) / 10 }
+        return { return samples.randomElement()! / 10 }
     }()
-
-    static func mutateNetStrand(parentStrand p: [Float]?, targetLength: Int, value: Float? = nil) -> ([Float], Bool) {
-        if let parentStrand = p {
-            let (fp, didMutate) = mutateRandomDoubles(parentStrand)
-            if let firstPass = fp {
-
-                let c = firstPass.count
-
-                if c > targetLength {
-                    return (Array(firstPass.prefix(targetLength)), didMutate)
-                } else if c < targetLength {
-                    let n = Float(-1), p = Float(1)
-                    return (firstPass + (c..<targetLength).map { _ in Arkonia.random(in: n..<p) }, didMutate)
-                }
-
-                return (firstPass, didMutate)
-            }
-        }
-
-        let (lo, hi): (Int, Int) = (value == nil) ? (-1, 1) : ((value! == 0) ? (0, 0) : (-1, 1))
-        let fromScratch: [Float] = (0..<targetLength).map { _ in Float(Arkonia.random(in: lo...hi)) }
-
-        Debug.log(level: 93) { "Generate from scratch = \(fromScratch)" }
-        return (fromScratch, false)
-    }
-
-    // Not sure this is a good mutation. It basically restructures the entire
-    // hidden net. Even the smallest change makes the offspring a completely
-    // different creature
-    static func mutateNetStructure(_ layers: [Int]) -> ([Int], Bool) {
-        var didMutate = false
-
-        // 70% chance that the structure won't change at all
-        if Arkonia.random(in: 0..<100) < 70 {
-            Debug.log(level: 121) { "no mutation to net structure" }
-            return (layers, didMutate)
-        }
-
-        Debug.log(level: 121) { "mutating net structure" }
-
-        let strippedNetStructure = Array(layers.dropFirst())
-        var newNetStructure: [Int]
-
-        switch NetMutation.allCases.randomElement(using: &Arkonia.rng) {
-        case .passThru:           newNetStructure = strippedNetStructure
-        case .addRandomLayer:     newNetStructure = addRandomLayer(strippedNetStructure)
-        case .dropLayer:          newNetStructure = dropLayer(strippedNetStructure)
-        case .none:               fatalError()
-        }
-
-        if newNetStructure.isEmpty { newNetStructure.append(Arkonia.cMotorNeurons) }
-
-        didMutate = newNetStructure != strippedNetStructure
-
-        newNetStructure.insert(Arkonia.cSenseNeurons, at: 0)
-        newNetStructure.append(Arkonia.cMotorNeurons)
-
-        return (newNetStructure, didMutate)
-    }
 }
 
-private extension Mutator {
+extension Mutator {
+    // Nil return means no mutation was performed, caller can reuse the
+    // original array safely
+    static func mutateRandomDoubles(_ inDoubles: ArraySlice<Float>) -> [Float]? {
+        if Int.random(in: 0..<100) < 75 { return nil }
 
-    static func mutateRandomDoubles(_ inDoubles: [Float]) -> ([Float]?, Bool) {
-        var didMutate = false
-        if Arkonia.random(in: 0..<100) < 75 { return (inDoubles, didMutate) }
+        let b = Double.random(in: 0..<0.10)
+        var cMutate = Int(b * Double(inDoubles.count))  // max 10% of genome
 
-        let b = Arkonia.random(in: 0..<0.05)
-        var cMutate = b * Double(inDoubles.count)  // max 5% of genome
-
-        let i = Int(cMutate)
-        if i == 0 && Arkonia.randomBool() {
+        if cMutate == 0 && Bool.random() {
             Debug.log(level: 121) { "no mutation" }
-            return (nil, false)
+            return nil
         }
 
-        cMutate = Double(i) + ((i == 0) ? 1 : 0)
         var outDoubles = inDoubles
+        var didMutate = false
 
         while cMutate > 0 {
-            let wherefore = Arkonia.random(in: 0..<inDoubles.count)
+            let wherefore = Int.random(in: 0..<inDoubles.count)
 
             let (newValue, dm) = mutate(from: inDoubles[wherefore])
             if dm { didMutate = true }
@@ -105,42 +49,28 @@ private extension Mutator {
             cMutate -= 1
         }
 
-        return (outDoubles, didMutate)
+        return didMutate ? Array(outDoubles) : nil
+    }
+
+    static func mutateRandomDoubles(_ inDoubles: [Float]) -> [Float]? {
+        return mutateRandomDoubles(inDoubles[...])
     }
 
     static func mutate(from value: Float) -> (Float, Bool) {
         let nu = Mutator.mutationValue()
-        Debug.log(level: 154) { "from \(value) to \(value + nu) with \(nu)" }
+        Debug.log(level: 184) { "from \(value) to \(value + nu) with \(nu)" }
 
         // If next uniform is zero, we didn't change anything
         return (value + nu, nu != 0)
     }
 
-    enum NetMutation: CaseIterable {
-        case passThru, addRandomLayer, dropLayer
-    }
-}
+    static func mutate(from value: Int) -> (Int, Bool) {
+        let nu = Mutator.mutationValue()
+        let v = Float(value)
 
-private extension Mutator {
-    static func addRandomLayer(_ layers: [Int]) -> [Int] {
-        var toMutate = layers
+        Debug.log(level: 184) { "from \(v) to \(v + nu) with \(nu)" }
 
-        let insertPoint = Arkonia.random(in: 0..<toMutate.count)
-        let cNeurons = Arkonia.random(in: toMutate.min()!..<toMutate.max()!)
-
-        toMutate.insert(cNeurons, at: insertPoint)
-
-        Debug.log(level: 120) { "addRandomLayer to \(layers.count)-layer net: \(cNeurons) neurons, insert at \(insertPoint)" }
-        return toMutate
-    }
-
-    static func dropLayer(_ layers: [Int]) -> [Int] {
-        var toMutate = layers
-
-        let dropPoint = Arkonia.random(in: 0..<toMutate.count)
-        toMutate.remove(at: dropPoint)
-        Debug.log(level: 120) { "dropLayer from \(layers.count)-layer net, at \(dropPoint)" }
-
-        return toMutate
+        // If next uniform is zero, we didn't change anything
+        return (Int(v + nu), nu != 0)
     }
 }

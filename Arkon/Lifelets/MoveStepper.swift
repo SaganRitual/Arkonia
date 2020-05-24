@@ -6,9 +6,9 @@ final class MoveStepper: Dispatchable {
     func moveStepper() {
         Debug.debugColor(scratch.stepper, .brown, .purple)
 
-        let shuttle = (scratch.cellShuttle)!
+        let shuttle = scratch.cellShuttle!
 
-        Debug.log(level: 156) { "MoveStepper \(six(scratch.stepper.name))" }
+        Debug.log(level: 184) { "MoveStepper \(six(scratch.stepper.name)) to \(shuttle.toCell!.gridPosition)" }
 
         scratch.stepper.previousShiftOffset = scratch.stepper.gridCell.gridPosition
         scratch.stepper.gridCell = shuttle.toCell
@@ -16,7 +16,7 @@ final class MoveStepper: Dispatchable {
 
         shuttle.move()
 
-        Debug.log(level: 154) { "set3 \(six(scratch.stepper.name)) gridCell before \(scratch.stepper.gridCell.gridPosition)" }
+        Debug.log(level: 184) { "set3 \(six(scratch.stepper.name)) gridCell before \(scratch.stepper.gridCell.gridPosition)" }
 
         self.postMove(shuttle)
     }
@@ -24,16 +24,16 @@ final class MoveStepper: Dispatchable {
 
 extension MoveStepper {
     func postMove(_ shuttle: CellShuttle) {
-        Debug.log(level: 156) { "postMove" }
+        Debug.log(level: 184) { "postMove, landed at \(scratch.stepper.gridCell.gridPosition)/\(scratch.stepper.gridCell.scenePosition)" }
         let isEdible = scratch.stepper.gridCell.stepper != nil || scratch.stepper.gridCell.manna != nil
 
         if shuttle.didMove && isEdible {
-            Debug.log(level: 156) { "post move to arrive" }
+            Debug.log(level: 184) { "post move to arrive" }
             scratch.dispatch!.arrive()
             return
         }
 
-        Debug.log(level: 156) { "post move to releaseshuttle" }
+        Debug.log(level: 184) { "post move to releaseshuttle" }
         scratch.dispatch!.releaseShuttle()
     }
 }

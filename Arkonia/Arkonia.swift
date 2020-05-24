@@ -7,28 +7,13 @@ class Arkonia {
     static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.75
 
-    enum MiscSense: Int, CaseIterable {
-        case x, y, hunger, asphyxiation
-        case gestationFullness, dayFullness, yearFullness
-    }
-
-    static let senseGridCRings = 8
-    static let senseGridSide = 1 + 2 * senseGridCRings
-    static let cSenseGridlets = senseGridSide * senseGridSide
-    static let cSenseNeuronsGrid = cSenseGridlets * 2
-    static let cSenseNeuronsMisc = MiscSense.allCases.count
-    static let cSenseNeuronsPollenators = cPollenators * 2
-    static let cSenseNeurons = cSenseNeuronsGrid + cSenseNeuronsMisc + cSenseNeuronsPollenators
-    static let cMotorNeurons = 2
-    static let cMotorGridlets = cSenseGridlets - 1
-
     static let allowSpawning = true
     static let cMannaMorsels = 5000
     static let cPollenators = 5
 
     // vars so I can change them from the debugger
     static var debugColorIsEnabled = false
-    static var debugMessageLevel = 184
+    static var debugMessageLevel = 187
     static var debugMessageToConsole = true
 
     static let funkyCells: CGFloat? = 2 / zoomFactor

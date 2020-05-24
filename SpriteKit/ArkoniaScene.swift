@@ -35,10 +35,6 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
     var hud: HUD!
     var readyForDisplayCycle = false
 
-    let layers = [
-        Arkonia.cSenseNeurons, Arkonia.cMotorNeurons, Arkonia.cMotorNeurons
-    ]
-
     static var arkonsPortal: SKSpriteNode!
     static var netPortal: SKSpriteNode!
     static var netPortalHalfNeurons: SKSpriteNode!

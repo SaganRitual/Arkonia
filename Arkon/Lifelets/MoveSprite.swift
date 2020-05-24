@@ -11,10 +11,10 @@ final class MoveSprite: Dispatchable {
 
         let shuttle = (scratch.cellShuttle)!
 
-        Debug.log(level: 167) { "MoveSprite \(scratch.stepper.name)" }
+        Debug.log(level: 184) { "MoveSprite \(scratch.stepper.name)" }
 
         if shuttle.fromCell == nil {
-            Debug.log(level: 167) { "Resting \(six(scratch.stepper.name))" }
+            Debug.log(level: 184) { "Resting \(six(scratch.stepper.name))" }
             Debug.debugColor(scratch.stepper, .blue, .cyan)
             MoveSprite.restArkon(scratch.stepper) { self.scratch.dispatch!.releaseShuttle() }
             return
@@ -22,9 +22,9 @@ final class MoveSprite: Dispatchable {
 
         hardAssert(shuttle.fromCell !== shuttle.toCell, "hardAssert at \(#file):\(#line)")
         hardAssert(shuttle.fromCell != nil && shuttle.toCell != nil, "hardAssert at \(#file):\(#line)")
-        hardAssert((shuttle.fromCell?.isLocked) ?? false && (shuttle.toCell?.isLocked ?? false), "hardAssert at \(#file):\(#line)")
+        hardAssert((shuttle.fromCell?.isLocked ?? false) && (shuttle.toCell?.isLocked ?? false), "hardAssert at \(#file):\(#line)")
 
-        let hotKey = (shuttle.toCell)!
+        let hotKey = shuttle.toCell!
         let position = hotKey.randomScenePosition ?? hotKey.scenePosition
 
 //        let duration1 = scratch.debugStart == 0 ? 0 : Debug.debugStats(startedAt: scratch.debugStart, scale: UInt64(1e6 * 5))
@@ -34,7 +34,7 @@ final class MoveSprite: Dispatchable {
 //        if duration2 > 0 { MoveSprite.histogram2.histogrize(100 * duration2 / Double(stepper.net.layers.reduce(0, +)), scale: 100, inputRange: 0..<1) }
 
         MoveSprite.moveAction(scratch.stepper, to: position) {
-            Debug.log(level: 167) { "End of move action for \(six(self.scratch.stepper.name))" }
+            Debug.log(level: 184) { "End of move action for \(six(self.scratch.stepper.name)) to \(position)" }
             Debug.debugColor(self.scratch.stepper, .blue, .gray)
 
             self.scratch.debugStart = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)

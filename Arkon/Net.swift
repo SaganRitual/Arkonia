@@ -5,7 +5,7 @@ enum HotNetType { case blas, bnn, cnn, gpu }
 var hotNetType: HotNetType = .bnn
 
 protocol HotNet: class {
-    init(_ layers: [Int], _ biases: UnsafeRawPointer, _ weights: UnsafeRawPointer)
+    init(_ netStructure: NetStructure, _ biases: UnsafeRawPointer, _ weights: UnsafeRawPointer)
     func driveSignal(_ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void)
 }
 
@@ -17,78 +17,50 @@ class Net {
     )
 
     let biases: [Float]
-    let cBiases: Int
-    let cNeurons: Int
-    let cWeights: Int
     var isCloneOfParent = true
     let hotNet: HotNet
-    let layers: [Int]
+    let netStructure: NetStructure
     let weights: [Float]
 
     static func makeNet(
-        parentBiases: [Float]?, parentWeights: [Float]?, layers: [Int]?,
+        parentNetStructure: NetStructure?,
+        parentBiases: [Float]?, parentWeights: [Float]?,
         _ onComplete: @escaping (Net) -> Void
     ) {
         self.dispatchQueue.async {
-            let newNet = Net(parentBiases, parentWeights, layers)
+            let netStructure = NetStructure.makeNetStructure(parentNetStructure)
+            let newNet = Net(netStructure, parentBiases, parentWeights)
             Dispatch.dispatchQueue.async { onComplete(newNet) }
         }
     }
 
-    static func generateRandomNetStructure() -> [Int] {
-        var L = [Int]()
-
-        // Just making stuff up here
-        let div = Arkonia.random(in: 2...4)
-        var cNeurons = Arkonia.cSenseNeurons
-        while cNeurons > (div * Arkonia.cMotorNeurons) {
-            L.append(cNeurons)
-            cNeurons /= div
-        }
-
-        L.append(Arkonia.cMotorNeurons)
-
-        return L
-    }
-
     private init(
-        _ parentBiases: [Float]?, _ parentWeights: [Float]?, _ layerStructure: [Int]?
+        _ netStructure: NetStructure, _ parentBiases: [Float]?,
+        _ parentWeights: [Float]?
     ) {
-        var didMutate = false
+        self.netStructure = netStructure
 
-        if let L = layerStructure {
-            (self.layers, didMutate) = Mutator.mutateNetStructure(L)
-        } else {
-            self.layers = Net.generateRandomNetStructure()
-        }
+        let biasesStrandRaw = Mutator.mutateNetStrand(
+            parentStrand: parentBiases, targetLength: netStructure.cBiases
+        )
 
-        self.cNeurons = self.layers.reduce(0, +)
+        self.biases = netStructure.assembleStrand(biasesStrandRaw, 1)
 
-        (cWeights, cBiases) = Net.computeParameters(self.layers)
+        let weightsStrandRaw = Mutator.mutateNetStrand(
+            parentStrand: parentWeights, targetLength: netStructure.cWeights
+        )
 
-        var dm = false
-        (self.biases, didMutate) = Mutator.mutateNetStrand(parentStrand: parentBiases, targetLength: cBiases)
-        if didMutate { dm = true }
-        (self.weights, didMutate) = Mutator.mutateNetStrand(parentStrand: parentWeights, targetLength: cWeights)
-        if didMutate { dm = true }
+        self.weights = netStructure.assembleStrand(weightsStrandRaw, 2)
 
-        self.isCloneOfParent = !dm
-//
         switch hotNetType {
 //        case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights)
-        case .bnn:  hotNet = HotNetBnn(self.layers, self.biases, self.weights)
+        case .bnn:  hotNet = HotNetBnn(netStructure, biases, weights)
 //        case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights)
 //        case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights)
         default: fatalError()
         }
 
-        Debug.log(level: 155) { "New net \(self.layers.count) layers \(self.cNeurons) neurons" }
-    }
-
-    static func computeParameters(_ layers: [Int]) -> (Int, Int) {
-        let cWeights = zip(layers.dropLast(), layers.dropFirst()).reduce(0) { $0 + ($1.0 * $1.1) }
-        let cBiases = layers.dropFirst().reduce(0, +)
-        return (cWeights, cBiases)
+        Debug.log(level: 184) { "New net structure \(self.netStructure)" }
     }
 }
 

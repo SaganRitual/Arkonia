@@ -36,8 +36,8 @@ final class Report: SKSpriteNode {
         // Note: start at child #1, zero is the title, because laziness
         let toChildren: [SKAction] = (1...3).map {
             let r = reportoid($0)
-            let scaleDown = SKAction.scaleY(to: 0.01, duration: Arkonia.random(in: 0.5..<1.5))
-            let scaleUp = SKAction.scaleY(to: 1, duration: Arkonia.random(in: 0.5..<1.5))
+            let scaleDown = SKAction.scaleY(to: 0.01, duration: TimeInterval.random(in: 0.5..<1.5))
+            let scaleUp = SKAction.scaleY(to: 1, duration: TimeInterval.random(in: 0.5..<1.5))
             let sequence = SKAction.sequence([scaleDown, scaleUp])
             let c1 = SKAction.run(sequence, onChildWithName: r.data.name!)
             let c2 = SKAction.run(sequence, onChildWithName: r.label.name!)

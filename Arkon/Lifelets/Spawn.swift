@@ -51,7 +51,7 @@ extension Spawn {
         }
 
         func b() {
-            Census.registerBirth(myName: embryoName, myParent: meTheParent, myNet: net) {
+            Census.registerBirth(myName: embryoName, myParent: meTheParent, myNet: net!) {
                 self.fishDay = $0
                 self.launchNewborn()
             }
@@ -66,11 +66,11 @@ extension Spawn {
         Debug.log(level: 121) { "\(six(meTheParent?.name))" }
 
         Net.makeNet(
+            parentNetStructure: meTheParent?.net.netStructure,
             parentBiases: meTheParent?.net.biases.map({ $0 }),
-            parentWeights: meTheParent?.net.weights.map({ $0 }),
-            layers: meTheParent?.net.layers
+            parentWeights: meTheParent?.net.weights.map({ $0 })
         ) { newNet in
-            self.metabolism = Metabolism(cNeurons: newNet.cNeurons)
+            self.metabolism = Metabolism(cNeurons: newNet.netStructure.cNeurons)
             onComplete(newNet)
         }
     }
@@ -84,7 +84,8 @@ extension Spawn {
         let hp = (sprite.userData?[SpriteUserDataKey.netHalfNeuronsPortal] as? SKSpriteNode)!
 
         netDisplay = NetDisplay(
-            arkon: sprite, fullNeuronsPortal: np, halfNeuronsPortal: hp, layers: net!.layers
+            arkon: sprite, fullNeuronsPortal: np, halfNeuronsPortal: hp,
+            layerDescriptors: net!.netStructure.layerDescriptors
         )
 
         netDisplay!.display()
@@ -144,9 +145,15 @@ extension Spawn {
         self.nose = SpriteFactory.shared.nosesPool.makeSprite(embryoName)
         self.thorax = SpriteFactory.shared.arkonsPool.makeSprite(embryoName)
 
-        let thorax = (self.thorax)!
-        let nose = (self.nose)!
-        let engagerKey = (self.engagerKeyForNewborn)!
+        let thorax = self.thorax!
+        let nose = self.nose!
+        let engagerKey = self.engagerKeyForNewborn!
+
+        Debug.log(level: 185) {
+            "parent \(six(meTheParent?.name))"
+            + " building sprites for offspring \(embryoName)"
+            + " at \(engagerKey.gridPosition)"
+        }
 
         nose.alpha = 1
         nose.colorBlendFactor = 1
@@ -157,7 +164,7 @@ extension Spawn {
         thorax.addChild(self.nose!)
         thorax.setScale(Arkonia.arkonScaleFactor * 1.0 / Arkonia.zoomFactor)
         thorax.colorBlendFactor = 0.5
-        thorax.position = engagerKey.scenePosition
+        thorax.position = engagerKey.randomScenePosition ?? engagerKey.scenePosition
         thorax.alpha = 1
         thorax.zPosition = 2
 
@@ -187,7 +194,7 @@ extension Spawn {
     }
 
     private func launchB(_ newborn: Stepper, _ catchDumbMistakes: DispatchQueueID) {
-        let engagerKey = (self.engagerKeyForNewborn)!
+        let engagerKey = self.engagerKeyForNewborn!
 
         newborn.gridCell = engagerKey
         self.engagerKeyForNewborn = nil
@@ -201,7 +208,7 @@ extension Spawn {
 
         abandonNewborn(catchDumbMistakes)
 
-        let ndp = (newborn.dispatch)!
+        let ndp = newborn.dispatch!
 
         ndp.scratch.engagerKey = engagerKey
         ndp.scratch.isSpawning = true

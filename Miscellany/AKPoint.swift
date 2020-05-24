@@ -31,7 +31,7 @@ struct AKPoint: Overload2D, Hashable, HasXY, CustomDebugStringConvertible {
     static let zero = AKPoint(x: 0, y: 0)
 
     static func random(_ xRange: Range<Int>, _ yRange: Range<Int>) -> AKPoint {
-        let xx = Arkonia.random(in: xRange), yy = Arkonia.random(in: yRange)
+        let xx = Int.random(in: xRange), yy = Int.random(in: yRange)
         return AKPoint(x: xx, y: yy)
     }
 

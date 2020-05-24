@@ -28,7 +28,7 @@ class Plotter {
         }
 
         func c(_ catchDumbMistakes: DispatchQueueID) {
-            self.setRoute(scratch.gridInputs, sg) {
+            self.setRoute(scratch.senseInputs, sg) {
                 self.scratch.cellShuttle = $0; self.scratch.jumpSpeed = $1; d()  }
         }
 

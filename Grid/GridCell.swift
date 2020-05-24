@@ -87,7 +87,7 @@ extension GridCell {
         }
 
         #if DEBUG
-        Debug.log(level: 166) {
+        Debug.log(level: 185) {
             "Lock attempt at \(six(key?.gridPosition))"
             + " by \(ownerName) got G \(key is GridCell)"
             + " C \(key is ColdKey) N \(key is NilKey)"
@@ -113,7 +113,7 @@ extension GridCell {
         hardAssert(dispatchQueueID == .arkonsPlane, "hardAssert at \(#file):\(#line)")
 
 //        debugStats()
-        Debug.log(level: 168) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
+        Debug.log(level: 185) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
 //        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         defer { isLocked = false; ownerName = ArkonName.empty }
 

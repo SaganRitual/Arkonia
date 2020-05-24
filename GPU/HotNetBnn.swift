@@ -8,23 +8,30 @@ final class HotNetBnn: HotNet {
     var bnnLayers = [HotLayerBnn]()
     var neuronsIn: [BnnNumber]
 
-    init(_ coldLayers: [Int], _ biases: UnsafeRawPointer, _ weights: UnsafeRawPointer) {
+    init(_ netStructure: NetStructure, _ biases: UnsafeRawPointer, _ weights: UnsafeRawPointer) {
         var biasesIx = 0
         var weightsIx = 0
 
         // Input to top layer
-        self.neuronsIn = [BnnNumber](repeating: 0, count: coldLayers[0])
+        self.neuronsIn = [BnnNumber](repeating: 0, count: netStructure.layerDescriptors[0])
         var nextInput = UnsafePointer(self.neuronsIn)
 
-        bnnLayers = zip(0..<coldLayers.count - 1, 1..<coldLayers.count).map { upperLayerIx, lowerLayerIx in
-            let cNeuronsIn = coldLayers[upperLayerIx]
-            let cNeuronsOut = coldLayers[lowerLayerIx]
+        // Connect each upper layer to the lower layer
+        bnnLayers = zip(
+            netStructure.layerDescriptors.dropLast(),
+            netStructure.layerDescriptors.dropFirst()
+        ).map {
+            cNeuronsIn, cNeuronsOut in
 
             let layerBiases = biases.advanced(by: biasesIx * BnnNumberSize)
             let layerWeights = weights.advanced(by: weightsIx * BnnNumberSize)
 
             biasesIx += cNeuronsOut
             weightsIx += cNeuronsIn * cNeuronsOut
+
+            Debug.log(level: 186) {
+                "HotLayerBnn(): cIn \(cNeuronsIn) cOut \(cNeuronsOut) bIx \(biasesIx) wIx \(weightsIx)"
+            }
 
             let h = HotLayerBnn(layerBiases, nextInput, cNeuronsIn, cNeuronsOut, layerWeights)
             nextInput = h.getOutputBuffer()

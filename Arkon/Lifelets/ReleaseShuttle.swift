@@ -15,7 +15,7 @@ final class ReleaseShuttle: Dispatchable {
         shuttle.fromCell = nil
 
         // We don't release the lock on the toCell, because that's the cell we're
-        // standing on at te moment. Let the disengage lifelet take care of that
+        // standing on at the moment. Let the disengage lifelet take care of that
 //        shuttle.toCell!.releaseLock()
 
         hardAssert(
@@ -23,9 +23,10 @@ final class ReleaseShuttle: Dispatchable {
             "hardAssert at \(#file):\(#line)"
         )
 
+        scratch.senseGrid!.reset(keep: shuttle.toCell!, catchDumbMistakes)
+
         shuttle.toCell = nil
         scratch.cellShuttle = nil
-        scratch.senseGrid!.reset(catchDumbMistakes)
 
         Debug.log(level: 157) { "ReleaseShuttle \(six(scratch.name)) nil -> \(scratch.cellShuttle == nil)" }
 

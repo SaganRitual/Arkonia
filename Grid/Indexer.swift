@@ -1,6 +1,13 @@
 extension GridCell {
     enum LikeCSS { case right1, right2, bottom, left, top }
 
+    static let indexedGridPoints: [AKPoint] = {
+        let netStructure = NetStructure.makeNetStructure(cSenseRings: NetStructure.cSenseRingsRange.upperBound)
+        return (0..<netStructure.cCellsWithinSenseRange).map {
+            GridCell.makeIndexedGridPoint($0)
+        }
+    }()
+
     private static func _2xMinusOneSquared(_ x: Int) -> Int { ((2 * x) - 1) * ((2 * x) - 1) }
 
     private static func getBaseX(_ index: Int) -> Int {
@@ -67,12 +74,8 @@ extension GridCell {
         return getGridPointByIndex(center: gridPosition, targetIndex: targetIndex)
     }
 
-    static let gridPoints = (0..<Arkonia.cMotorGridlets + 1).map {
-        GridCell.makeIndexedGridPoint($0)
-    }
-
     func getGridPointByIndex(center: AKPoint, targetIndex: Int) -> AKPoint {
-        return center + GridCell.gridPoints[targetIndex]
+        return center + GridCell.indexedGridPoints[targetIndex]
     }
 
     static func makeIndexedGridPoint(_ targetIndex: Int) -> AKPoint {
@@ -101,25 +104,4 @@ extension GridCell {
         Debug.log(level: 131) { "getGridPointByIndex(\(targetIndex)) -> \(AKPoint.zero) + (\(x), \(y)) = \(AKPoint(x: x, y: y))" }
         return AKPoint(x: x, y: y)
     }
-
-//    static func getGridPointByIndex(center: AKPoint, targetIndex: Int) -> AKPoint {
-//        return [
-//            AKPoint(x: +0, y: +0),
-//
-//            AKPoint(x: +1, y: +0), AKPoint(x: +1, y: -1), AKPoint(x: +0, y: -1), AKPoint(x: -1, y: -1),
-//            AKPoint(x: -1, y: +0), AKPoint(x: -1, y: +1), AKPoint(x: +0, y: +1), AKPoint(x: +1, y: +1),
-//
-//            AKPoint(x: +2, y: +0), AKPoint(x: +2, y: -2), AKPoint(x: +0, y: -2), AKPoint(x: -2, y: -2),
-//            AKPoint(x: -2, y: +0), AKPoint(x: -2, y: +2), AKPoint(x: +0, y: +2), AKPoint(x: +2, y: +2),
-//
-//            AKPoint(x: +3, y: -1), AKPoint(x: +2, y: -3), AKPoint(x: -1, y: -3), AKPoint(x: -3, y: -2),
-//            AKPoint(x: -3, y: -1), AKPoint(x: -2, y: +3), AKPoint(x: +1, y: +3), AKPoint(x: +3, y: +2),
-//
-//            AKPoint(x: +4, y: -3), AKPoint(x: +1, y: -4), AKPoint(x: -3, y: -4), AKPoint(x: -4, y: -1),
-//            AKPoint(x: -4, y: +3), AKPoint(x: -1, y: +4), AKPoint(x: +3, y: +4), AKPoint(x: +4, y: +1),
-//
-//            AKPoint(x: +5, y: -1), AKPoint(x: +4, y: -5), AKPoint(x: -1, y: -5), AKPoint(x: -5, y: -4),
-//            AKPoint(x: -5, y: +1), AKPoint(x: -4, y: +5), AKPoint(x: +1, y: +5), AKPoint(x: +5, y: +4)
-//        ][targetIndex] + center
-//    }
 }

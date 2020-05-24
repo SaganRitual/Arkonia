@@ -18,15 +18,23 @@ final class Disengage: Dispatchable {
             "hardAssert at \(#file):\(#line)"
         )
 
-        scratch.engagerKey?.releaseLock(catchDumbMistakes)
-
-        Debug.log(level: 168) { "Disengage \(scratch.stepper.name) at \(six(scratch.engagerKey?.gridPosition))" }
-        Debug.debugColor(scratch.stepper, .blue, .blue)
+        Debug.log(level: 185) {
+            "Disengage \(six(scratch?.stepper?.name))"
+            + " at \(six(scratch?.engagerKey?.gridPosition))"
+            + " owner \(six(scratch?.engagerKey?.ownerName))"
+            + " sense center \(six(scratch?.senseGrid?.cells[0]?.gridPosition))"
+            + " owner \(six(scratch.senseGrid?.cells[0]?.ownerName))"
+        }
 
         scratch.senseGrid?.cells[0] = SenseGrid.nilKey
+
+        scratch.engagerKey?.releaseLock(catchDumbMistakes)
+
         scratch.engagerKey = nil
         scratch.isSpawning = false
         scratch.isRescheduled = false
+
+        Debug.debugColor(scratch.stepper, .blue, .blue)
 
         scratch.dispatch!.engage()
     }

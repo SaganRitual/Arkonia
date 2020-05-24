@@ -4,9 +4,8 @@ class HotLayerBnn {
     var layerParameters: BNNSFullyConnectedLayerParameters
     let hotLayer: BNNSFilter
 
-    var neuronsOut: [BnnNumber]
+    private(set) var neuronsOut: [BnnNumber]
     var pNeuronsIn: UnsafePointer<BnnNumber>
-    var pNeuronsOut: UnsafePointer<BnnNumber>
 
     init(
         _ biases: UnsafeRawPointer,
@@ -17,7 +16,6 @@ class HotLayerBnn {
     ) {
         self.pNeuronsIn = pNeuronsIn
         self.neuronsOut = [BnnNumber](repeating: 0, count: cNeuronsOut)
-        self.pNeuronsOut = UnsafePointer(self.neuronsOut)
 
         let bnnBiases = BNNSLayerData(data: biases, data_type: .float)
         let bnnWeights = BNNSLayerData(data: weights, data_type: .float)
@@ -53,5 +51,5 @@ class HotLayerBnn {
         if result != 0 { fatalError() }
     }
 
-    func getOutputBuffer() -> UnsafePointer<BnnNumber> { pNeuronsOut }
+    func getOutputBuffer() -> UnsafePointer<BnnNumber> { return UnsafePointer(neuronsOut) }
 }

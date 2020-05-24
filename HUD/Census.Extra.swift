@@ -4,7 +4,7 @@ extension Census {
     typealias OnComplete1Fishday = (Fishday) -> Void
 
     static func registerBirth(
-        myName: ArkonName, myParent: Stepper?, myNet: Net?, _ onComplete: @escaping OnComplete1Fishday
+        myName: ArkonName, myParent: Stepper?, myNet: Net, _ onComplete: @escaping OnComplete1Fishday
     ) {
         Census.dispatchQueue.async {
             let fishday = Census.shared.registerBirth(myName, myParent, myNet)
@@ -16,7 +16,7 @@ extension Census {
         var worldClock = 0
 
         func a() { Clock.getWorldClock { worldClock = $0; b() } }
-        func b() { registerDeath(stepper.name, stepper.net!.cNeurons, worldClock, onComplete) }
+        func b() { registerDeath(stepper.name, stepper.net!.netStructure.cNeurons, worldClock, onComplete) }
 
         a()
     }

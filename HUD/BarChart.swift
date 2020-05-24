@@ -28,7 +28,7 @@ final class BarChart: SKSpriteNode {
         let updateForever = SKAction.repeatForever(updateOncePerSecond)
 
         let toChildren: [SKAction] = (0..<10).map {
-            let scale = SKAction.scaleY(to: 0.01, duration: Arkonia.random(in: 0.5..<1.5))
+            let scale = SKAction.scaleY(to: 0.01, duration: TimeInterval.random(in: 0.5..<1.5))
 
             return SKAction.run(scale, onChildWithName: bar($0).name!)
         }
@@ -45,7 +45,7 @@ final class BarChart: SKSpriteNode {
 
         (0..<10).forEach { bucketSS in
             let scaleValue = 0.95 * CGFloat(buckets[bucketSS]) / unit
-            let duration = Arkonia.random(in: 0..<0.41)
+            let duration = TimeInterval.random(in: 0..<0.41)
 
             Debug.log(level: 161) { "bucketSS = \(bucketSS), unit = \(unit), scaleValue = \(scaleValue)" }
 

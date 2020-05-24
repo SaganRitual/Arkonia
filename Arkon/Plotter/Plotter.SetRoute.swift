@@ -8,9 +8,9 @@ extension Plotter {
         _ senseData: [Double], _ senseGrid: SenseGrid,
         _ onComplete: @escaping (CellShuttle, Double) -> Void
     ) {
-        let scratch = (self.scratch)!
-        let stepper = (scratch.stepper)!
-        let net = (stepper.net)!
+        let scratch = self.scratch!
+        let stepper = scratch.stepper!
+        let net = stepper.net!
 
         #if DEBUG
         Debug.log(level: 119) { "makeCellShuttle for \(six(stepper.name)) from \(stepper.gridCell!)" }
@@ -27,9 +27,9 @@ extension Plotter {
         }
 
         func b() {
-            // Divide the circle into cMotorGridlets + 1 slices
+            // Divide the circle into cCellsWithinSenseRange slices
             let s0 = motorOutputs[MotorIndex.jumpSelector.rawValue]
-            let s1 = s0 * Double(Arkonia.cMotorGridlets + 1)
+            let s1 = s0 * Double(net.netStructure.cCellsWithinSenseRange)
             let s2 = floor(s1)
             let s3 = Int(s2)
             let motorOutput = s3
@@ -64,18 +64,16 @@ extension Plotter {
 
     func calculateTargetOffset(for motorOutput: Int, from cells: [GridCellProtocol?]) -> Int {
         #if DEBUG
-        for c in cells {
-            hardAssert((c is GridCell) == (c!.ownerName == cells[0]!.ownerName), "hardAssert at \(#file):\(#line)")
-            hardAssert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell), "hardAssert at \(#file):\(#line)")
-        }
+        Plotter.checkGridIntegrity(scratch, cells)
         #endif
 
         // Try to use the selected motor output, ie, jump to that square on
         // the grid. But if that square is occupied, find one that's not, and
         // jump to that one. A "jump" to cells[0] means we'll just stand still.
 
-        for m in 0..<Arkonia.cMotorGridlets {
-            let select = (m + motorOutput) % Arkonia.cMotorGridlets
+        let cCellsWithinSenseRange = scratch.stepper.net.netStructure.cCellsWithinSenseRange
+        for m in 0..<cCellsWithinSenseRange {
+            let select = (m + motorOutput) % cCellsWithinSenseRange
             if let cell = cells[select] as? GridCell,
                   (cell.stepper == nil || select == 0) {
                 return select
@@ -85,3 +83,34 @@ extension Plotter {
         fatalError()
     }
 }
+
+#if DEBUG
+extension Plotter {
+    static func checkGridIntegrity(_ scratch: Scratchpad, _ cells: [GridCellProtocol?]) {
+        for c in cells {
+            if let cc = c as? GridCell {
+                hardAssert(
+                    cc.ownerName == cells[0]!.ownerName,
+                    "Hot cell \(cc.gridPosition) in my (\(scratch.stepper.name))"
+                        + " grid has someone else's name"
+                        + " (\(cc.ownerName)) on it"
+                        + " \(#file):\(#line)"
+                )
+
+                hardAssert(
+                    cc.isLocked,
+                    "Hot cell \(cc.gridPosition) in my grid has my name"
+                    + " (\(scratch.stepper.name)) but isn't locked"
+                    + " \(#file):\(#line)"
+                )
+            } else if let cc = c {
+                hardAssert(
+                    cc.ownerName != cells[0]!.ownerName,
+                    "Cold cell \(cc.gridPosition) in my grid has my name"
+                    + "(\(scratch.stepper.name)) on it \(#file):\(#line)"
+                )
+            }
+        }
+    }
+}
+#endif

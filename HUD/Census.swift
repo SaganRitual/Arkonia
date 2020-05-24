@@ -100,13 +100,12 @@ extension Census {
 }
 
 extension Census {
-    func registerBirth(_ myName: ArkonName, _ myParent: Stepper?, _ myNet: Net?) -> Fishday {
+    func registerBirth(_ myName: ArkonName, _ myParent: Stepper?, _ myNet: Net) -> Fishday {
         self.population += 1
         self.births += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
 
-        let n = myNet?.cNeurons ?? 0
-        self.cLiveNeurons += n
+        self.cLiveNeurons += myNet.netStructure.cNeurons
 
         myParent?.cOffspring += 1
 
@@ -122,7 +121,7 @@ extension Census {
 
         archive[myName] = Fishday(
             birthday: self.localTime,
-            cNeurons: myNet?.cNeurons ?? 0, // How would we ever not have a net? Looks like code rot to me
+            cNeurons: myNet.netStructure.cNeurons,
             fishNumber: self.getNextFishNumber()
         )
 

@@ -10,7 +10,7 @@ final class HotNetBlas: HotNet {
     var neuronsOut = [BlasNumber]()
 
     init(_ coldLayers: [Int], _ biases: [Double], _ weights: [Double]) {
-        let CL = coldLayers// + [Arkonia.cMotorNeurons]
+        let CL = coldLayers// + [Arkonia.cMotorOutputs]
 
         var biasesIxL = 0, biasesIxR = 0
         var weightsIxL = 0, weightsIxR = 0

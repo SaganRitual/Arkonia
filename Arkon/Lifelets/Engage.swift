@@ -23,7 +23,7 @@ final class Engage: Dispatchable {
     private func engageIf(_ catchDumbMistakes: DispatchQueueID) -> Bool {
         hardAssert(scratch.engagerKey == nil, "hardAssert at \(#file):\(#line)")
 
-        let gc = (scratch.stepper.gridCell)!
+        let gc = scratch.stepper.gridCell!
 
         if let ek = gc.getLock(for: scratch.stepper, .degradeToCold, catchDumbMistakes) as? GridCell
             { scratch.engagerKey = ek; return true }
@@ -32,23 +32,25 @@ final class Engage: Dispatchable {
     }
 
     private func makeSenseGrid(_ catchDumbMistakes: DispatchQueueID) {
-        let hk = (scratch.engagerKey)!
+        let hk = scratch.engagerKey!
 
-        Debug.log(level: 167) {
+        Debug.log(level: 185) {
             "senseGrid.0 for \(scratch.stepper.name) at \(hk.gridPosition)"
         }
 
         if scratch.senseGrid == nil {
             scratch.senseGrid = SenseGrid(
-                scratch.stepper, cGridlets: Arkonia.cSenseGridlets,
-                block: scratch.stepper.previousShiftOffset
+                scratch.stepper,
+                cCellsWithinSenseRange: scratch.stepper.net.netStructure.cCellsWithinSenseRange
             )
         }
 
-        scratch.senseGrid!.assembleGrid(center: hk, catchDumbMistakes)
+        scratch.senseGrid!.assembleGrid(
+            center: hk, block: scratch.stepper.previousShiftOffset, catchDumbMistakes
+        )
 
         #if DEBUG
-        Debug.log(level: 167) {
+        Debug.log(level: 185) {
             let m: [String] = scratch.senseGrid!.cells.map { cell in
                 let key: String
 
@@ -74,13 +76,13 @@ extension GridCell {
         let key = lock(require: require, ownerName: stepper.name, catchDumbMistakes)
 
         #if DEBUG
-        Debug.log(level: 167) { "getLock4 for \(six(stepper.name))" }
+        Debug.log(level: 185) { "getLock4 for \(six(stepper.name))" }
         #endif
 
         Debug.debugColor(stepper, .red, .blue)
         if key is ColdKey {
             #if DEBUG
-            Debug.log(level: 167) { "getLock4.5 for \(six(stepper.name))" }
+            Debug.log(level: 185) { "getLock4.5 for \(six(stepper.name))" }
             #endif
 
             hardAssert(isLocked && ownerName != stepper.name, "hardAssert at \(#file):\(#line)")

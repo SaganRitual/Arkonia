@@ -20,28 +20,42 @@ extension GridCell {
         return randomCell!
     }
 
-    static func lockBirthPosition(parent: Stepper, name: ArkonName, _ catchDumbMistakes: DispatchQueueID, _ onComplete: @escaping (GridCell?) -> Void) {
+    static func lockBirthPosition(
+        parent: Stepper, gridPointIndex: Int, name: ArkonName,
+        _ catchDumbMistakes: DispatchQueueID, _ onComplete: @escaping (GridCell?
+    ) -> Void) {
         Grid.arkonsPlaneQueue.async {
-            let key = lockBirthPosition(parent: parent, name: name, catchDumbMistakes)
+            let key = lockBirthPosition(
+                parent: parent, gridPointIndex: gridPointIndex,
+                name: name, catchDumbMistakes
+            )
+
             onComplete(key)
         }
     }
 
-    static func lockBirthPosition(parent: Stepper, name: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCell? {
-        let gridPointIndex = Arkonia.random(in: 0..<Arkonia.cMotorGridlets)
+    static func lockBirthPosition(
+        parent: Stepper, gridPointIndex: Int, name: ArkonName,
+        _ catchDumbMistakes: DispatchQueueID
+    ) -> GridCell? {
         let p = parent.gridCell.getGridPointByIndex(gridPointIndex)
 
         return GridCell.atIf(p)?.lockIf(ownerName: name, catchDumbMistakes)
     }
 
-    static func lockRandomEmptyCell(ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID, _ onComplete: @escaping ((GridCell?) -> Void)) {
+    static func lockRandomEmptyCell(
+        ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID,
+        _ onComplete: @escaping ((GridCell?) -> Void)
+    ) {
         Grid.arkonsPlaneQueue.async {
             let hotKey = lockRandomEmptyCell(ownerName: ownerName, catchDumbMistakes)
             onComplete(hotKey)
         }
     }
 
-    static func lockRandomEmptyCell(ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID) -> GridCell? {
+    static func lockRandomEmptyCell(
+        ownerName: ArkonName, _ catchDumbMistakes: DispatchQueueID
+    ) -> GridCell? {
         let randomGridCell = GridCell.getRandomEmptyCell()
 
         guard let hotKey = randomGridCell.lock(
