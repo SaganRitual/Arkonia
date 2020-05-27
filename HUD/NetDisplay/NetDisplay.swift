@@ -5,13 +5,13 @@ class NetDisplay {
     let arkon: SKSpriteNode
     let fullNeuronsPortal: SKSpriteNode
     let halfNeuronsPortal: SKSpriteNode
-    let layerDescriptors: ArraySlice<Int>
+    let layerDescriptors: [Int]
     var netDisplayGrid: NetDisplayGridProtocol
     let netGraphics: NetGraphics
 
     init(
         arkon: SKSpriteNode, fullNeuronsPortal: SKSpriteNode,
-        halfNeuronsPortal: SKSpriteNode, layerDescriptors: ArraySlice<Int>
+        halfNeuronsPortal: SKSpriteNode, layerDescriptors: [Int]
     ) {
         Debug.log(level: 159) {
             return "NetDisplay \(NetDisplay.display_counter)"

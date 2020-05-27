@@ -65,11 +65,9 @@ extension Spawn {
     func buildGuts(_ onComplete: @escaping (Net) -> Void) {
         Debug.log(level: 121) { "\(six(meTheParent?.name))" }
 
-        Net.makeNet(
-            parentNetStructure: meTheParent?.net.netStructure,
-            parentBiases: meTheParent?.net.biases.map({ $0 }),
-            parentWeights: meTheParent?.net.weights.map({ $0 })
-        ) { newNet in
+        let nn = meTheParent?.net
+
+        Net.makeNet(nn?.netStructure, nn?.pBiases, nn?.pWeights) { newNet in
             self.metabolism = Metabolism(cNeurons: newNet.netStructure.cNeurons)
             onComplete(newNet)
         }
@@ -93,7 +91,6 @@ extension Spawn {
 }
 
 extension Spawn {
-
     func abandonNewborn(_ catchDumbMistakes: DispatchQueueID) {
         guard let stepper = meTheParent, let dispatch = stepper.dispatch, let sprite = stepper.sprite
             else { return }

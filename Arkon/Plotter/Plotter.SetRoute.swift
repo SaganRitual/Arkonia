@@ -2,7 +2,7 @@ import CoreGraphics
 
 extension Plotter {
 
-    enum MotorIndex: Int { case jumpSelector, jumpSpeed }
+    enum MotorIndex: Int, CaseIterable { case jumpSelector, jumpSpeed }
 
     func setRoute(
         _ senseData: [Double], _ senseGrid: SenseGrid,
@@ -17,19 +17,14 @@ extension Plotter {
         Debug.log(level: 122) { "senseData \(senseData)" }
         #endif
 
-        var motorOutputs = [Double]()
+        func a() { net.driveSignal(b) }
 
-        func a() {
-            net.getMotorOutputs(senseData) {
-                motorOutputs = $0
-                Dispatch.dispatchQueue.async(execute: b)
-            }
-        }
+        func b() { Dispatch.dispatchQueue.async(execute: c) }
 
-        func b() {
+        func c() {
             // Divide the circle into cCellsWithinSenseRange slices
-            let s0 = motorOutputs[MotorIndex.jumpSelector.rawValue]
-            let s1 = s0 * Double(net.netStructure.cCellsWithinSenseRange)
+            let s0 = scratch.stepper.net.pMotorOutputs[MotorIndex.jumpSelector.rawValue]
+            let s1 = s0 * Float(net.netStructure.cCellsWithinSenseRange)
             let s2 = floor(s1)
             let s3 = Int(s2)
             let motorOutput = s3
@@ -40,7 +35,7 @@ extension Plotter {
 
             let fromCell = (targetOffset > 0) ? senseGrid.cells[0] as? GridCell : nil
 
-            let jumpSpeedMotorOutput = motorOutputs[MotorIndex.jumpSpeed.rawValue]
+            let jumpSpeedMotorOutput = scratch.stepper.net.pMotorOutputs[MotorIndex.jumpSpeed.rawValue]
 
             if let f = fromCell {
                 let asPercentage = max(CGFloat(jumpSpeedMotorOutput), 0.1)
@@ -56,7 +51,7 @@ extension Plotter {
                 }
             }
 
-            onComplete(CellShuttle(fromCell, toCell), jumpSpeedMotorOutput)
+            onComplete(CellShuttle(fromCell, toCell), Double(jumpSpeedMotorOutput))
         }
 
         a()

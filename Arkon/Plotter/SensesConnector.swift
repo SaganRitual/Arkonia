@@ -57,17 +57,12 @@ class SensesConnector {
             let scale = 1.0 / scratch.currentEntropyPerJoule
             Debug.log(level: 154) { "scale = \(scale) = 1 / \(scratch.currentEntropyPerJoule) " }
 
-            if scratch.senseInputs.isEmpty {
-                scratch.senseInputs = [Double](
-                    repeating: 0,
-                    count: scratch.stepper.net.netStructure.cSenseInputs * 2
-                )
-            }
+            let senseNeurons = UnsafeMutablePointer(mutating: scratch.stepper.net.pNeurons)
 
             for ss in 0..<scratch.stepper.net.netStructure.cCellsWithinSenseRange {
                 guard let cell = senseGrid.cells[ss] as? GridCell else { continue }
-                scratch.senseInputs[2 * ss + 0] = self.loadNutrition(cell)
-                scratch.senseInputs[2 * ss + 1] = self.loadSelector(cell)
+                senseNeurons[2 * ss + 0] = self.loadNutrition(cell)
+                senseNeurons[2 * ss + 1] = self.loadSelector(cell)
             }
 
             Dispatch.dispatchQueue.async(execute: onComplete)
@@ -79,11 +74,6 @@ class SensesConnector {
     // We need connect only once to the non-grid inputs, so we take care of
     // that in the initializer
     private func connectNonGridInputs(_ dayFullness: CGFloat, _ yearFullness: CGFloat) {
-        let cMiscSenseInputs = scratch.stepper.net.netStructure.cSenseInputsMisc
-
-        func miscSense(_ sense: MiscSenses) -> Int { indexOfFirstNonGridInput + sense.rawValue  }
-        func pollenatorSense(_ index: Int) -> Int { indexOfFirstNonGridInput + cMiscSenseInputs + index * 2  }
-
         let st = scratch.stepper!, gc = st.gridCell!, mt = st.metabolism!, cs = mt.spawn
 
         // Average fullness of the spawn embryo; not really very representative,
@@ -93,34 +83,38 @@ class SensesConnector {
         let of = cs?.oxygenStore.fullness ?? 0
         let gestationFullness = (ff + hf + of) / 3.0
 
-        scratch.senseInputs[miscSense(.y)] = Double(gc.gridPosition.y) / Double(Grid.shared!.gridHeightInCells)
-        scratch.senseInputs[miscSense(.hunger)] = Double(mt.hunger)
-        scratch.senseInputs[miscSense(.asphyxiation)] = Double(mt.asphyxiation)
-        scratch.senseInputs[miscSense(.gestationFullness)] = Double(gestationFullness)
-        scratch.senseInputs[miscSense(.dayFullness)] = Double(dayFullness)
-        scratch.senseInputs[miscSense(.yearFullness)] = Double(yearFullness)
+        let cGridSenseInputs = scratch.stepper.net.netStructure.cSenseInputsFromGrid
 
-        for pollenator in MannaCannon.shared!.pollenators {
+        func setMiscSense(_ sense: MiscSenses, _ value: CGFloat) {
+            scratch.stepper.net.pSenseNeuronsMisc[sense.rawValue] = Float(value)
+        }
+
+        setMiscSense(.y, CGFloat(gc.gridPosition.y) / CGFloat(Grid.shared!.gridHeightInCells))
+        setMiscSense(.hunger, mt.hunger)
+        setMiscSense(.asphyxiation, mt.asphyxiation)
+        setMiscSense(.gestationFullness, gestationFullness)
+        setMiscSense(.dayFullness, dayFullness)
+        setMiscSense(.yearFullness, yearFullness)
+
+        for (ss, pollenator) in zip(0..., MannaCannon.shared!.pollenators) {
             let diff = scratch.stepper.sprite.position - pollenator.node.position
 
-            let t = (diff.x == 0) ? 0 : atan(Double(diff.y) / Double(diff.x))
-            let tt = t / (Double.pi / 2)
+            let t = (diff.x == 0) ? 0 : atan(Float(diff.y) / Float(diff.x))
+            let tt = t / (Float.pi / 2)
 
-//            Debug.log { "\(radius.load()), \(theta.load()), \(t), \(tt)" }
-//            Debug.histogrize(theta.load(), scale: 10, inputRange: -1..<1)
-
-            scratch.senseInputs[pollenatorSense(0)] = Double(diff.hypotenuse / Grid.shared.hypoteneuse)
-            scratch.senseInputs[pollenatorSense(1)] = tt
+            let pn = scratch.stepper.net.pSenseNeuronsPollenators
+            pn[ss * 2 + 0] = Float(diff.hypotenuse / Grid.shared.hypoteneuse)
+            pn[ss * 2 + 1] = tt
         }
     }
 
-    enum CellContents: Double {
+    enum CellContents: Float {
         case invalid = 0, arkon = 1, empty = 2, manna = 3
 
-        func asSenseData() -> Double { return self.rawValue / 4.0 }
+        func asSenseData() -> Float { return self.rawValue / 4.0 }
     }
 
-    private func loadSelector(_ cellKey: GridCellProtocol) -> Double {
+    private func loadSelector(_ cellKey: GridCellProtocol) -> Float {
         let contents: CellContents
 
         if cellKey is NilKey           { contents = .invalid } // Off the grid
@@ -131,14 +125,14 @@ class SensesConnector {
         return contents.asSenseData()
     }
 
-    private func loadNutrition(_ cellKey: GridCellProtocol) -> Double {
+    private func loadNutrition(_ cellKey: GridCellProtocol) -> Float {
         if cellKey is NilKey { return 0 }
 
         // Seems like we need to separate the different cell types here
         if cellKey.stepper != nil { return 0 }
         guard let manna = cellKey.manna else { return 0 }
 
-        let energy = Double(manna.sprite.getMaturityLevel())
+        let energy = Float(manna.sprite.getMaturityLevel())
         Debug.log(level: 154) { "load grid input \(energy)" }
 
         // If the manna is fully charged, we can get a 1.0 out of the

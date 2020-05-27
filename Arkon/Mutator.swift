@@ -19,42 +19,6 @@ enum Mutator {
 
         return { return samples.randomElement()! / 10 }
     }()
-}
-
-extension Mutator {
-    // Nil return means no mutation was performed, caller can reuse the
-    // original array safely
-    static func mutateRandomDoubles(_ inDoubles: ArraySlice<Float>) -> [Float]? {
-        if Int.random(in: 0..<100) < 75 { return nil }
-
-        let b = Double.random(in: 0..<0.10)
-        var cMutate = Int(b * Double(inDoubles.count))  // max 10% of genome
-
-        if cMutate == 0 && Bool.random() {
-            Debug.log(level: 121) { "no mutation" }
-            return nil
-        }
-
-        var outDoubles = inDoubles
-        var didMutate = false
-
-        while cMutate > 0 {
-            let wherefore = Int.random(in: 0..<inDoubles.count)
-
-            let (newValue, dm) = mutate(from: inDoubles[wherefore])
-            if dm { didMutate = true }
-
-            outDoubles[wherefore] = newValue
-
-            cMutate -= 1
-        }
-
-        return didMutate ? Array(outDoubles) : nil
-    }
-
-    static func mutateRandomDoubles(_ inDoubles: [Float]) -> [Float]? {
-        return mutateRandomDoubles(inDoubles[...])
-    }
 
     static func mutate(from value: Float) -> (Float, Bool) {
         let nu = Mutator.mutationValue()

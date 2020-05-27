@@ -9,162 +9,79 @@ enum MotorNeurons: Int, CaseIterable {
 
 struct NetStructure {
     static let cLayersRange: ClosedRange<Int> = 2...5
-    static let cSenseRingsRange: ClosedRange<Int> = 1...8
+    static let cSenseRingsRange: ClosedRange<Int> = 1...10
 
-    let layerDescriptors: ArraySlice<Int>
+    let layerDescriptors: [Int]
 
-    let hiddenLayerStructure: [Int]
     let cMotorOutputs: Int
     let cSenseInputs: Int
+
+    let cBiases: Int
     let cNeurons: Int
+    let cWeights: Int
 
     let cCellsWithinSenseRange: Int
     let cSenseRings: Int
 
     let cSenseInputsFromGrid: Int
-    let cSenseInputsMisc: Int
     let cSenseInputsFromPollenators: Int
+    let cSenseInputsMisc: Int
 
-    var cBiases = 0
-    var cWeights = 0
+    var isCloneOfParent = false
 
-    let isCloneOfParent: Bool
+    init(_ cSenseRings: Int?, _ parentLayerDescriptors: [Int]?) {
+        self.cSenseRings = cSenseRings ?? Int.random(in: NetStructure.cSenseRingsRange)
 
-    // Default to creating an unmutated copy of the original strand
-    var assembleStrand: (([Float], Int) -> [Float]) = { originalStrand, _ in return Array(originalStrand) }
+        let cCellsPerSide = 1 + 2 * self.cSenseRings
+        self.cCellsWithinSenseRange = cCellsPerSide * cCellsPerSide
 
-    // New net structure based on parent if there is one, from scratch otherwise
-    static func makeNetStructure(_ parentNetStructure: NetStructure?) -> NetStructure {
-        if let p = parentNetStructure { return Mutator.mutateNetStructure(p) }
+        self.cSenseInputsFromGrid = cCellsWithinSenseRange * 2
+        self.cSenseInputsMisc = MiscSenses.allCases.count
+        self.cSenseInputsFromPollenators = Arkonia.cPollenators * 2
+        self.cSenseInputs = cSenseInputsFromGrid + cSenseInputsMisc + cSenseInputsFromPollenators
 
-        let cSenseRings = Int.random(in: NetStructure.cSenseRingsRange)
-        return makeNetStructure(cSenseRings: cSenseRings)
-    }
-
-    // New net structure based partly on parent, with mutated cSenseRings
-    static func makeNetStructure(
-        _ parentNetStructure: NetStructure, _ cSenseRings: Int
-    ) -> NetStructure {
-        // From parent, unchanged
-        let cSenseInputsMisc = parentNetStructure.cSenseInputsMisc
-        let cSenseInputsFromPollenators = parentNetStructure.cSenseInputsFromPollenators
-        let cMotorOutputs = MotorNeurons.allCases.count
-        let hiddenLayerStructure = parentNetStructure.hiddenLayerStructure
-
-        // Values dependent on cSenseRings
-        let cCellsPerSide = 1 + 2 * cSenseRings
-        let cCellsWithinSenseRange = cCellsPerSide * cCellsPerSide
-        let cSenseInputsFromGrid = cCellsWithinSenseRange * 2
-
-        let cSenseInputs = cSenseInputsFromGrid + cSenseInputsMisc + cSenseInputsFromPollenators
-
-        let layerDescriptors: ArraySlice<Int> =
-            [cSenseInputs] + hiddenLayerStructure + [cMotorOutputs]
-
-        let (cBiases, cWeights) = computeNetParameters(layerDescriptors)
-        let cNeurons = layerDescriptors.reduce(0, +)
-
-        let isCloneOfParent = (cSenseRings == parentNetStructure.cSenseRings)
-
-        let newNet = NetStructure(
-            layerDescriptors: layerDescriptors,
-            hiddenLayerStructure: hiddenLayerStructure, cMotorOutputs: cMotorOutputs,
-            cSenseInputs: cSenseInputs, cNeurons: cNeurons, cCellsWithinSenseRange: cCellsWithinSenseRange,
-            cSenseRings: cSenseRings, cSenseInputsFromGrid: cSenseInputsFromGrid,
-            cSenseInputsMisc: cSenseInputsMisc,
-            cSenseInputsFromPollenators: cSenseInputsFromPollenators,
-            cBiases: cBiases, cWeights: cWeights, isCloneOfParent: isCloneOfParent
-        )
-
-        return newNet
-    }
-
-    // New net structure based mostly on parent, with mutated hidden layer structure
-    static func makeNetStructure(
-        _ parentNetStructure: NetStructure, _ hiddenLayerStructure: [Int]
-    ) -> NetStructure {
-        hardAssert(!hiddenLayerStructure.isEmpty, "hardAssert \(#file):\(#line)")
-
-        // From parent, unchanged
-        let cSenseRings = parentNetStructure.cSenseRings
-        let cSenseInputsFromGrid = parentNetStructure.cSenseInputsFromGrid
-        let cSenseInputsMisc = parentNetStructure.cSenseInputsMisc
-        let cSenseInputsFromPollenators = parentNetStructure.cSenseInputsFromPollenators
-        let cMotorOutputs = MotorNeurons.allCases.count
-
-        let cCellsWithinSenseRange = parentNetStructure.cCellsWithinSenseRange
-        let cSenseInputs = parentNetStructure.cSenseInputs
-
-        let layerDescriptors: ArraySlice<Int> =
-            [cSenseInputs] + hiddenLayerStructure + [cMotorOutputs]
-
-        let cNeurons = layerDescriptors.reduce(0, +)
-
-        let isCloneOfParent = hiddenLayerStructure == parentNetStructure.hiddenLayerStructure
-
-        let newNet = NetStructure(
-            layerDescriptors: layerDescriptors,
-            hiddenLayerStructure: hiddenLayerStructure, cMotorOutputs: cMotorOutputs,
-            cSenseInputs: cSenseInputs, cNeurons: cNeurons, cCellsWithinSenseRange: cCellsWithinSenseRange,
-            cSenseRings: cSenseRings, cSenseInputsFromGrid: cSenseInputsFromGrid,
-            cSenseInputsMisc: cSenseInputsMisc,
-            cSenseInputsFromPollenators: cSenseInputsFromPollenators,
-            isCloneOfParent: isCloneOfParent
-        )
-
-        return newNet
-    }
-
-    // New net structure based on number of sense rings
-    static func makeNetStructure(cSenseRings: Int) -> NetStructure {
-        let cCellsPerSide = 1 + 2 * cSenseRings
-        let cCellsWithinSenseRange = cCellsPerSide * cCellsPerSide
-
-        let cSenseInputsFromGrid = cCellsWithinSenseRange * 2
-        let cSenseInputsMisc = MiscSenses.allCases.count
-        let cSenseInputsFromPollenators = Arkonia.cPollenators * 2
-        let cSenseInputs = cSenseInputsFromGrid + cSenseInputsMisc + cSenseInputsFromPollenators
-
-        let cMotorOutputs = MotorNeurons.allCases.count
+        self.cMotorOutputs = MotorNeurons.allCases.count
 
         let div = Int.random(in: NetStructure.cLayersRange)
         var cNeuronsHiddenLayer = cSenseInputs / div
 
-        var hiddenLayerStructure = [Int]()
-
+        var hiddenLayersStructure = [Int]()
         while cNeuronsHiddenLayer > (div * cMotorOutputs) {
-            hiddenLayerStructure.append(cNeuronsHiddenLayer)
+            hiddenLayersStructure.append(cNeuronsHiddenLayer)
             cNeuronsHiddenLayer /= div
         }
 
-        let layerDescriptors: ArraySlice<Int> =
-            [cSenseInputs] + hiddenLayerStructure + [cMotorOutputs]
+        if hiddenLayersStructure.isEmpty {
+            let cFudgeNeurons = max((cSenseInputs + cMotorOutputs) / 2, 1)
+            hiddenLayersStructure = [cFudgeNeurons]
+        }
 
-        let (cBiases, cWeights) = computeNetParameters(layerDescriptors)
-        let cNeurons = layerDescriptors.reduce(0, +)
+        // This ugliness is just so I can compare the layer structure
+        // to the parent layer structure; I'm feeling too lazy to think
+        // about how to make it into an if/let construct
+        let dd: [Int]? = [cSenseInputs] + hiddenLayersStructure + [cMotorOutputs]
+        let layerStructureIsClone = (dd == parentLayerDescriptors)
 
-        return NetStructure(
-            layerDescriptors: layerDescriptors,
-            hiddenLayerStructure: hiddenLayerStructure, cMotorOutputs: cMotorOutputs,
-            cSenseInputs: cSenseInputs, cNeurons: cNeurons, cCellsWithinSenseRange: cCellsWithinSenseRange,
-            cSenseRings: cSenseRings, cSenseInputsFromGrid: cSenseInputsFromGrid,
-            cSenseInputsMisc: cSenseInputsMisc,
-            cSenseInputsFromPollenators: cSenseInputsFromPollenators,
-            cBiases: cBiases, cWeights: cWeights, isCloneOfParent: false
-        )
+        self.layerDescriptors = dd!
+
+        (self.cNeurons, self.cBiases, self.cWeights) =
+            NetStructure.computeNetParameters(layerDescriptors)
+
+        let cp = (layerStructureIsClone && (self.cSenseRings == (cSenseRings ?? 0)))
+
+        isCloneOfParent = cp
     }
 
-    static func computeNetParameters(_ layers: ArraySlice<Int>) -> (Int, Int) {
-        let cWeights = zip(layers.dropLast(), layers.dropFirst()).reduce(0) { $0 + ($1.0 * $1.1) }
-        let cBiases = layers.dropFirst().reduce(0, +)
-        return (cBiases, cWeights)
-    }
+    // swiftlint:disable large_tuple
+    // Large Tuple Violation: Tuples should have at most 2 members
+    static func computeNetParameters(_ layerDescriptors: [Int]) -> (Int, Int, Int) {
+        let dd = layerDescriptors
 
-    func getSegmentLength(whichSegment: Int, dimensions: Int) -> Int {
-        let elementCounts = (dimensions == 1) ?
-            layerDescriptors.map { $0 } :
-            zip(layerDescriptors.dropLast(), layerDescriptors.dropFirst()).map { $0 * $1 }
+        let cNeurons = dd.reduce(0, +)
+        let cBiases  = dd.dropFirst().reduce(0, +)
+        let cWeights = zip(dd.dropLast(), dd.dropFirst()).reduce(0) { $0 + ($1.0 * $1.1) }
 
-        return elementCounts[whichSegment]
+        return (cNeurons, cBiases, cWeights)
     }
+    // swiftlint:enable large_tuple
 }

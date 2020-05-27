@@ -2,7 +2,7 @@ extension GridCell {
     enum LikeCSS { case right1, right2, bottom, left, top }
 
     static let indexedGridPoints: [AKPoint] = {
-        let netStructure = NetStructure.makeNetStructure(cSenseRings: NetStructure.cSenseRingsRange.upperBound)
+        let netStructure = NetStructure(NetStructure.cSenseRingsRange.upperBound, nil)
         return (0..<netStructure.cCellsWithinSenseRange).map {
             GridCell.makeIndexedGridPoint($0)
         }
