@@ -8,6 +8,64 @@ enum MotorNeurons: Int, CaseIterable {
 }
 
 struct NetStructure {
+    init(
+        layerDescriptors: ArraySlice<Int>,
+        hiddenLayerStructure: [Int],
+        cMotorOutputs: Int,
+        cSenseInputs: Int,
+        cNeurons: Int,
+        cCellsWithinSenseRange: Int,
+        cSenseRings: Int,
+        cSenseInputsFromGrid: Int,
+        cSenseInputsMisc: Int,
+        cSenseInputsFromPollenators: Int,
+        isCloneOfParent: Bool,
+        cBiases: Int,
+        cWeights: Int
+    ) {
+        self.layerDescriptors = layerDescriptors
+        self.hiddenLayerStructure = hiddenLayerStructure
+        self.cMotorOutputs = cMotorOutputs
+        self.cSenseInputs = cSenseInputs
+        self.cNeurons = cNeurons
+        self.cCellsWithinSenseRange = cCellsWithinSenseRange
+        self.cSenseRings = cSenseRings
+        self.cSenseInputsFromGrid = cSenseInputsFromGrid
+        self.cSenseInputsMisc = cSenseInputsMisc
+        self.cSenseInputsFromPollenators = cSenseInputsFromPollenators
+        self.isCloneOfParent = isCloneOfParent
+
+        self.cNetParameters = cBiases + cWeights
+    }
+
+    init(
+        layerDescriptors: ArraySlice<Int>,
+        hiddenLayerStructure: [Int],
+        cMotorOutputs: Int,
+        cSenseInputs: Int,
+        cNeurons: Int,
+        cCellsWithinSenseRange: Int,
+        cSenseRings: Int,
+        cSenseInputsFromGrid: Int,
+        cSenseInputsMisc: Int,
+        cSenseInputsFromPollenators: Int,
+        isCloneOfParent: Bool,
+        cNetParameters: Int
+    ) {
+        self.layerDescriptors = layerDescriptors
+        self.hiddenLayerStructure = hiddenLayerStructure
+        self.cMotorOutputs = cMotorOutputs
+        self.cSenseInputs = cSenseInputs
+        self.cNeurons = cNeurons
+        self.cCellsWithinSenseRange = cCellsWithinSenseRange
+        self.cSenseRings = cSenseRings
+        self.cSenseInputsFromGrid = cSenseInputsFromGrid
+        self.cSenseInputsMisc = cSenseInputsMisc
+        self.cSenseInputsFromPollenators = cSenseInputsFromPollenators
+        self.isCloneOfParent = isCloneOfParent
+        self.cNetParameters = cNetParameters
+    }
+
     static let cLayersRange: ClosedRange<Int> = 2...5
     static let cSenseRingsRange: ClosedRange<Int> = 1...8
 
@@ -17,6 +75,7 @@ struct NetStructure {
     let cMotorOutputs: Int
     let cSenseInputs: Int
     let cNeurons: Int
+    let cNetParameters: Int
 
     let cCellsWithinSenseRange: Int
     let cSenseRings: Int
@@ -25,13 +84,7 @@ struct NetStructure {
     let cSenseInputsMisc: Int
     let cSenseInputsFromPollenators: Int
 
-    var cBiases = 0
-    var cWeights = 0
-
     let isCloneOfParent: Bool
-
-    // Default to creating an unmutated copy of the original strand
-    var assembleStrand: (([Float], Int) -> [Float]) = { originalStrand, _ in return Array(originalStrand) }
 
     // New net structure based on parent if there is one, from scratch otherwise
     static func makeNetStructure(_ parentNetStructure: NetStructure?) -> NetStructure {
@@ -61,8 +114,9 @@ struct NetStructure {
         let layerDescriptors: ArraySlice<Int> =
             [cSenseInputs] + hiddenLayerStructure + [cMotorOutputs]
 
-        let (cBiases, cWeights) = computeNetParameters(layerDescriptors)
         let cNeurons = layerDescriptors.reduce(0, +)
+
+        let (cBiases, cWeights) = computeNetParameters(layerDescriptors)
 
         let isCloneOfParent = (cSenseRings == parentNetStructure.cSenseRings)
 
@@ -73,7 +127,7 @@ struct NetStructure {
             cSenseRings: cSenseRings, cSenseInputsFromGrid: cSenseInputsFromGrid,
             cSenseInputsMisc: cSenseInputsMisc,
             cSenseInputsFromPollenators: cSenseInputsFromPollenators,
-            cBiases: cBiases, cWeights: cWeights, isCloneOfParent: isCloneOfParent
+            isCloneOfParent: isCloneOfParent, cBiases: cBiases, cWeights: cWeights
         )
 
         return newNet
@@ -99,6 +153,7 @@ struct NetStructure {
             [cSenseInputs] + hiddenLayerStructure + [cMotorOutputs]
 
         let cNeurons = layerDescriptors.reduce(0, +)
+        let cNetParameters = parentNetStructure.cNetParameters
 
         let isCloneOfParent = hiddenLayerStructure == parentNetStructure.hiddenLayerStructure
 
@@ -109,7 +164,7 @@ struct NetStructure {
             cSenseRings: cSenseRings, cSenseInputsFromGrid: cSenseInputsFromGrid,
             cSenseInputsMisc: cSenseInputsMisc,
             cSenseInputsFromPollenators: cSenseInputsFromPollenators,
-            isCloneOfParent: isCloneOfParent
+            isCloneOfParent: isCloneOfParent, cNetParameters: cNetParameters
         )
 
         return newNet
@@ -127,30 +182,36 @@ struct NetStructure {
 
         let cMotorOutputs = MotorNeurons.allCases.count
 
-        let div = Int.random(in: NetStructure.cLayersRange)
-        var cNeuronsHiddenLayer = cSenseInputs / div
+//        let div = Int.random(in: NetStructure.cLayersRange)
+//        var cNeuronsHiddenLayer = cSenseInputs / div
 
-        var hiddenLayerStructure = [Int]()
+//        var hiddenLayerStructure = [Int]()
 
-        while cNeuronsHiddenLayer > (div * cMotorOutputs) {
-            hiddenLayerStructure.append(cNeuronsHiddenLayer)
-            cNeuronsHiddenLayer /= div
-        }
+//        while cNeuronsHiddenLayer > (div * cMotorOutputs) {
+//            hiddenLayerStructure.append(cNeuronsHiddenLayer)
+//            cNeuronsHiddenLayer /= div
+//        }
+//
+//        if hiddenLayerStructure.isEmpty {
+//            let cFudgeNeurons = max((cSenseInputs + cMotorOutputs) / 2, 1)
+//            hiddenLayerStructure = [cFudgeNeurons]
+//        }
 
-        let layerDescriptors: ArraySlice<Int> =
-            [cSenseInputs] + hiddenLayerStructure + [cMotorOutputs]
+        let layerDescriptors: ArraySlice<Int> = [2, 2, 2]
+//            [cSenseInputs] + hiddenLayerStructure + [cMotorOutputs]
+
+        let cNeurons = layerDescriptors.reduce(0, +)
 
         let (cBiases, cWeights) = computeNetParameters(layerDescriptors)
-        let cNeurons = layerDescriptors.reduce(0, +)
 
         return NetStructure(
             layerDescriptors: layerDescriptors,
-            hiddenLayerStructure: hiddenLayerStructure, cMotorOutputs: cMotorOutputs,
+            hiddenLayerStructure: [2], cMotorOutputs: cMotorOutputs,
             cSenseInputs: cSenseInputs, cNeurons: cNeurons, cCellsWithinSenseRange: cCellsWithinSenseRange,
             cSenseRings: cSenseRings, cSenseInputsFromGrid: cSenseInputsFromGrid,
             cSenseInputsMisc: cSenseInputsMisc,
             cSenseInputsFromPollenators: cSenseInputsFromPollenators,
-            cBiases: cBiases, cWeights: cWeights, isCloneOfParent: false
+            isCloneOfParent: false, cBiases: cBiases, cWeights: cWeights
         )
     }
 

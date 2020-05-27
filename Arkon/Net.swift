@@ -5,9 +5,16 @@ enum HotNetType { case blas, bnn, cnn, gpu }
 var hotNetType: HotNetType = .bnn
 
 protocol HotNet: class {
-    init(_ netStructure: NetStructure, _ biases: UnsafeRawPointer, _ weights: UnsafeRawPointer)
-    func driveSignal(_ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void)
+    init(
+        _ netStructure: NetStructure,
+        _ neurons: UnsafeMutablePointer<Float>,
+        _ netParameters: UnsafePointer<Float>
+    )
+
+    func driveSignal(_ onComplete: @escaping () -> Void)
 }
+
+typealias NetParametersBuffer = UnsafeMutableBufferPointer<Float>
 
 class Net {
     static let dispatchQueue = DispatchQueue(
@@ -16,47 +23,50 @@ class Net {
         target: DispatchQueue.global()
     )
 
-    let biases: [Float]
-    var isCloneOfParent = true
+    let isCloneOfParent: Bool
     let hotNet: HotNet
+    let netParameters: [Float]
     let netStructure: NetStructure
-    let weights: [Float]
+    var neurons: [Float]
 
     static func makeNet(
         parentNetStructure: NetStructure?,
-        parentBiases: [Float]?, parentWeights: [Float]?,
+        parentNetParameters: UnsafePointer<Float>?,
         _ onComplete: @escaping (Net) -> Void
     ) {
         self.dispatchQueue.async {
             let netStructure = NetStructure.makeNetStructure(parentNetStructure)
-            let newNet = Net(netStructure, parentBiases, parentWeights)
+            let newNet = Net(netStructure, parentNetParameters)
             Dispatch.dispatchQueue.async { onComplete(newNet) }
         }
     }
 
     private init(
-        _ netStructure: NetStructure, _ parentBiases: [Float]?,
-        _ parentWeights: [Float]?
+        _ netStructure: NetStructure, _ parentNetParameters: UnsafePointer<Float>?
     ) {
         self.netStructure = netStructure
+        self.netParameters = [Float](repeating: 0, count: netStructure.cNetParameters)
+        self.neurons = [Float](repeating: 0, count: netStructure.cNeurons)
 
-        let biasesStrandRaw = Mutator.mutateNetStrand(
-            parentStrand: parentBiases, targetLength: netStructure.cBiases
-        )
+        if let original = parentNetParameters {
+            let copy = UnsafeMutablePointer(mutating: &self.netParameters)
+            self.isCloneOfParent = Mutator.mutateNetParameters(
+                from: original, to: copy, count: netStructure.cNetParameters
+            )
+        } else {
+            let newParameters = UnsafeMutablePointer(mutating: &self.netParameters)
+            (0..<netStructure.cNetParameters).forEach {
+                newParameters[$0] = Float.random(in: -1..<1)
+            }
 
-        self.biases = netStructure.assembleStrand(biasesStrandRaw, 1)
+            self.isCloneOfParent = false
+        }
 
-        let weightsStrandRaw = Mutator.mutateNetStrand(
-            parentStrand: parentWeights, targetLength: netStructure.cWeights
-        )
-
-        self.weights = netStructure.assembleStrand(weightsStrandRaw, 2)
+        let pNeurons = UnsafeMutablePointer(mutating: &self.neurons)
+        let pNetParameters = UnsafePointer(self.netParameters)
 
         switch hotNetType {
-//        case .blas: hotNet = HotNetBlas(self.layers, self.biases, self.weights)
-        case .bnn:  hotNet = HotNetBnn(netStructure, biases, weights)
-//        case .cnn:  hotNet = HotNetCnn(self.layers, self.biases, self.weights)
-//        case .gpu:  hotNet = HotNetGpu(self.layers, self.biases, self.weights)
+        case .bnn:  hotNet = HotNetBnn(netStructure, pNeurons, pNetParameters)
         default: fatalError()
         }
 
@@ -87,7 +97,5 @@ extension Net {
         arctan, bentidentity, identity, leakyrelu, sinusoid, sqnl
     ]
 
-    func getMotorOutputs(_ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void) {
-        hotNet.driveSignal(sensoryInputs, onComplete)
-    }
+    func driveSignal(_ onComplete: @escaping () -> Void) { hotNet.driveSignal(onComplete) }
 }

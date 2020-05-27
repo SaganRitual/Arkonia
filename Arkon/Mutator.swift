@@ -22,38 +22,42 @@ enum Mutator {
 }
 
 extension Mutator {
-    // Nil return means no mutation was performed, caller can reuse the
-    // original array safely
-    static func mutateRandomDoubles(_ inDoubles: ArraySlice<Float>) -> [Float]? {
-        if Int.random(in: 0..<100) < 75 { return nil }
+    static func mutateNetParameters(
+        from original: UnsafePointer<Float>, to copy: UnsafeMutablePointer<Float>, count: Int
+    ) -> Bool {
+        copy.initialize(from: original, count: count)
 
-        let b = Double.random(in: 0..<0.10)
-        var cMutate = Int(b * Double(inDoubles.count))  // max 10% of genome
+        let oddsOfMutation = 0.25
+        if Double.random(in: 0..<1) < (1 - oddsOfMutation) { return true }
 
-        if cMutate == 0 && Bool.random() {
-            Debug.log(level: 121) { "no mutation" }
-            return nil
+        let percentageMutation = Double.random(in: 0..<0.10)
+        let cMutations = Int(percentageMutation * Double(count))
+        if cMutations == 0 { return true }
+
+        var isCloneOfParent = true
+        for _ in 0..<cMutations {
+            let randomOffset = Int.random(in: 0..<count)
+            let (newValue, didMutate) = mutate(from: copy[randomOffset])
+            if didMutate {
+                isCloneOfParent = false
+                copy[randomOffset] = newValue
+            }
         }
 
-        var outDoubles = inDoubles
-        var didMutate = false
-
-        while cMutate > 0 {
-            let wherefore = Int.random(in: 0..<inDoubles.count)
-
-            let (newValue, dm) = mutate(from: inDoubles[wherefore])
-            if dm { didMutate = true }
-
-            outDoubles[wherefore] = newValue
-
-            cMutate -= 1
-        }
-
-        return didMutate ? Array(outDoubles) : nil
+        return isCloneOfParent
     }
 
-    static func mutateRandomDoubles(_ inDoubles: [Float]) -> [Float]? {
-        return mutateRandomDoubles(inDoubles[...])
+    static func mutateNetStructure(_ parentNetStructure: NetStructure) -> NetStructure {
+        // 90% chance that the structure won't change at all
+        if Int.random(in: 0..<100) < 90 {
+            Debug.log(level: 121) { "no mutation to net structure" }
+
+            return parentNetStructure
+        }
+
+        Debug.log(level: 121) { "mutating net structure" }
+        let cSenseRings = Int.random(in: NetStructure.cSenseRingsRange)
+        return NetStructure.makeNetStructure(cSenseRings: cSenseRings)
     }
 
     static func mutate(from value: Float) -> (Float, Bool) {

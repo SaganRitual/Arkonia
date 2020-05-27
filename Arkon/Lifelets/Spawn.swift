@@ -66,9 +66,8 @@ extension Spawn {
         Debug.log(level: 121) { "\(six(meTheParent?.name))" }
 
         Net.makeNet(
-            parentNetStructure: meTheParent?.net.netStructure,
-            parentBiases: meTheParent?.net.biases.map({ $0 }),
-            parentWeights: meTheParent?.net.weights.map({ $0 })
+            parentNetStructure: meTheParent?.net!.netStructure,
+            parentNetParameters: meTheParent?.net!.netParameters
         ) { newNet in
             self.metabolism = Metabolism(cNeurons: newNet.netStructure.cNeurons)
             onComplete(newNet)
