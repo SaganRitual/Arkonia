@@ -44,13 +44,6 @@ class GridCell: GridCellProtocol, Equatable {
         self.randomScenePosition = CGPoint.random(
             xRange: lScene..<rScene, yRange: bScene..<tScene
         )
-
-//        self.indicator = SpriteFactory.shared.noseHangar.makeSprite()
-//        self.indicator.position = scenePosition
-//        self.indicator.color = .white
-//        self.indicator.alpha = 0
-//        self.indicator.setScale(0.3)
-//        GriddleScene.arkonsPortal.addChild(self.indicator)
     }
 }
 
@@ -112,9 +105,7 @@ extension GridCell {
     func releaseLock(_ dispatchQueueID: DispatchQueueID) -> Bool {
         hardAssert(dispatchQueueID == .arkonsPlane, "hardAssert at \(#file):\(#line)")
 
-//        debugStats()
         Debug.log(level: 185) { "GridCell.releaseLock \(six(ownerName)) at \(self)" }
-//        indicator.run(SKAction.fadeOut(withDuration: 2.0))
         defer { isLocked = false; ownerName = ArkonName.empty }
 
         reengageRequesters(dispatchQueueID)

@@ -222,6 +222,8 @@ extension Spawn {
             let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
             newborn.sprite.run(rotate)
 
+            self.addDebugBox(newborn)
+
             self.tempStrongReference = nil  // Now the sprite has the only strong ref
 
             ndp.disengage()
@@ -230,6 +232,38 @@ extension Spawn {
 }
 
 extension Spawn {
+    func addDebugBox(_ newborn: Stepper) {
+        let cCellsPerSide = 1 + 2 * newborn.net.netStructure.cSenseRings
+        let cCellsWithinSenseRange = cCellsPerSide * cCellsPerSide
+
+        let baseCell = GridCell.at(AKPoint.zero)
+        let path = CGMutablePath()
+        var cornerIndex = cCellsWithinSenseRange - 1
+        var cornerPoint = baseCell.getGridPointByIndex(cornerIndex)
+        var cornerCell = GridCell.at(cornerPoint).scenePosition
+        path.move(to: cornerCell)
+        var cCorners = 4
+        repeat {
+            cornerIndex -= (cCellsPerSide - 1)
+            cornerPoint = baseCell.getGridPointByIndex(cornerIndex)
+            cornerCell = GridCell.at(cornerPoint).scenePosition
+            path.addLine(to: cornerCell)
+            cCorners -= 1
+        } while cCorners > 1
+
+//        cornerIndex = cCellsWithinSenseRange
+//        cornerPoint = baseCell.getGridPointByIndex(cornerIndex - 1)
+//        cornerCell = GridCell.at(cornerPoint).randomScenePosition ?? GridCell.at(cornerPoint).scenePosition
+//        path.addLine(to: cornerCell)
+
+        let debugBox = SKShapeNode(path: path)
+        debugBox.lineWidth = 3
+        debugBox.xScale = 1 / newborn.sprite.xScale
+        debugBox.yScale = 1 / newborn.sprite.yScale
+
+        newborn.sprite.addChild(debugBox)
+    }
+
     func failSpawn() {
         guard let stepper = meTheParent, let dispatch = stepper.dispatch else {
             Debug.log { "Aboriginal \(embryoName) could not be launched at \(six(engagerKeyForNewborn?.gridPosition))" }
