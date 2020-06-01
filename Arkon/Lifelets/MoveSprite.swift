@@ -11,7 +11,7 @@ final class MoveSprite: Dispatchable {
 
         let shuttle = (scratch.cellShuttle)!
 
-        Debug.log(level: 184) { "MoveSprite \(scratch.stepper.name)" }
+        Debug.log(level: 188) { "MoveSprite \(scratch.stepper.name)" }
 
         if shuttle.fromCell == nil {
             Debug.log(level: 184) { "Resting \(six(scratch.stepper.name))" }
@@ -20,9 +20,9 @@ final class MoveSprite: Dispatchable {
             return
         }
 
-        hardAssert(shuttle.fromCell !== shuttle.toCell, "hardAssert at \(#file):\(#line)")
-        hardAssert(shuttle.fromCell != nil && shuttle.toCell != nil, "hardAssert at \(#file):\(#line)")
-        hardAssert((shuttle.fromCell?.isLocked ?? false) && (shuttle.toCell?.isLocked ?? false), "hardAssert at \(#file):\(#line)")
+        hardAssert(shuttle.fromCell !== shuttle.toCell) { "hardAssert at \(#file):\(#line)" }
+        hardAssert(shuttle.fromCell != nil && shuttle.toCell != nil) { "hardAssert at \(#file):\(#line)" }
+        hardAssert((shuttle.fromCell?.isLocked ?? false) && (shuttle.toCell?.isLocked ?? false)) { "hardAssert at \(#file):\(#line)" }
 
         let hotKey = shuttle.toCell!
         let position = hotKey.randomScenePosition ?? hotKey.scenePosition

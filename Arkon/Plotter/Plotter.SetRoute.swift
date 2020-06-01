@@ -82,26 +82,23 @@ extension Plotter {
     static func checkGridIntegrity(_ scratch: Scratchpad, _ cells: [GridCellProtocol?]) {
         for c in cells {
             if let cc = c as? GridCell {
-                hardAssert(
-                    cc.ownerName == cells[0]!.ownerName,
+                hardAssert(cc.ownerName == cells[0]!.ownerName) {
                     "Hot cell \(cc.gridPosition) in my (\(scratch.stepper.name))"
                         + " grid has someone else's name"
                         + " (\(cc.ownerName)) on it"
                         + " \(#file):\(#line)"
-                )
+                }
 
-                hardAssert(
-                    cc.isLocked,
+                    hardAssert(cc.isLocked) {
                     "Hot cell \(cc.gridPosition) in my grid has my name"
                     + " (\(scratch.stepper.name)) but isn't locked"
                     + " \(#file):\(#line)"
-                )
+                }
             } else if let cc = c {
-                hardAssert(
-                    cc.ownerName != cells[0]!.ownerName,
+                hardAssert(cc.ownerName != cells[0]!.ownerName) {
                     "Cold cell \(cc.gridPosition) in my grid has my name"
                     + "(\(scratch.stepper.name)) on it \(#file):\(#line)"
-                )
+                }
             }
         }
     }

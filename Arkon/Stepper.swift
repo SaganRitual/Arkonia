@@ -46,7 +46,7 @@ extension Stepper {
         _ stepper: Stepper, from sprite: SKSpriteNode,
         _ catchDumbMistakes: DispatchQueueID
     ) {
-        hardAssert(catchDumbMistakes == .arkonsPlane, "hardAssert at \(#file):\(#line)")
+        hardAssert(catchDumbMistakes == .arkonsPlane) { "hardAssert at \(#file):\(#line)" }
 
         // See notes in attachStepper
         sprite.userData!["stepper"] = nil

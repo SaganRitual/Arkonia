@@ -108,8 +108,15 @@ class Net {
 
         self.pMotorOutputs = pNeurons + netStructure.cNeurons - netStructure.cMotorNeurons
 
-        hardAssert(netStructure.cSenseNeurons == netStructure.cSenseNeuronsGrid + netStructure.cSenseNeuronsMisc + netStructure.cSenseNeuronsPollenators)
-        hardAssert(netStructure.cNeurons == netStructure.cSenseNeurons + netStructure.cHiddenNeurons + netStructure.cMotorNeurons)
+        hardAssert(
+            netStructure.cSenseNeurons == netStructure.cSenseNeuronsGrid
+            + netStructure.cSenseNeuronsMisc + netStructure.cSenseNeuronsPollenators
+        )  { "\(#file):\(#line)" }
+
+        hardAssert(
+            netStructure.cNeurons == netStructure.cSenseNeurons
+            + netStructure.cHiddenNeurons + netStructure.cMotorNeurons
+        )  { "\(#file):\(#line)" }
 
         switch hotNetType {
         case .blas: hotNet = HotNetBlas(netStructure, pNeurons, pBiases, pWeights)
@@ -119,7 +126,7 @@ class Net {
     }
 
     func release(catchDumbMistakes: DispatchQueueID, _ onComplete: @escaping () -> Void) {
-        hardAssert(catchDumbMistakes == .net, "\(#file):\(#line)")
+        hardAssert(catchDumbMistakes == .net) { "\(#file):\(#line)" }
         [pNeurons, pBiases, pWeights].forEach { block in
             Debug.log(level: 187) { "Release net pre \(block)" }
             block.deallocate()

@@ -14,9 +14,10 @@ final class Disengage: Dispatchable {
 
     private func disengage() {
         hardAssert(
-            scratch.engagerKey != nil || scratch.isSpawning || scratch.isRescheduled,
+            scratch.engagerKey != nil || scratch.isSpawning || scratch.isRescheduled
+        ) {
             "hardAssert at \(#file):\(#line)"
-        )
+        }
 
         Debug.log(level: 185) {
             "Disengage \(six(scratch?.stepper?.name))"

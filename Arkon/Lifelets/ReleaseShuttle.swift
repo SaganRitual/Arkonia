@@ -10,7 +10,7 @@ final class ReleaseShuttle: Dispatchable {
 
         Debug.debugColor(scratch.stepper, .brown, .yellow)
 
-        hardAssert(shuttle.didMove == (shuttle.fromCell != nil), "hardAssert at \(#file):\(#line)")
+        hardAssert(shuttle.didMove == (shuttle.fromCell != nil)) { "hardAssert at \(#file):\(#line)" }
         shuttle.fromCell?.releaseLock(catchDumbMistakes) // If we didn't move, there won't be a fromCell
         shuttle.fromCell = nil
 
@@ -19,9 +19,12 @@ final class ReleaseShuttle: Dispatchable {
 //        shuttle.toCell!.releaseLock()
 
         hardAssert(
-            shuttle.toCell != nil && shuttle.toCell!.isLocked && shuttle.toCell!.ownerName == scratch.stepper.name,
+            shuttle.toCell != nil
+                && shuttle.toCell!.isLocked
+                && shuttle.toCell!.ownerName == scratch.stepper.name
+        ) {
             "hardAssert at \(#file):\(#line)"
-        )
+        }
 
         scratch.senseGrid!.reset(keep: shuttle.toCell!, catchDumbMistakes)
 

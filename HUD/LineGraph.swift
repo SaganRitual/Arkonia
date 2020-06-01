@@ -101,7 +101,7 @@ final class LineGraph: SKSpriteNode {
         }
 
         // Need two canvas shapes to get the conveyor belt effect
-        hardAssert(self.canvases.count == 2, "hardAssert at \(#file):\(#line)")
+        hardAssert(self.canvases.count == 2) { "hardAssert at \(#file):\(#line)" }
 
         self.maskNode = (self.canvases[0].copy() as? SKSpriteNode)!
         self.maskNode.name = "masknode"

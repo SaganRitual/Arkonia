@@ -137,7 +137,7 @@ extension Spawn {
     }
 
     private func buildSprites() {
-        hardAssert(Display.displayCycle == .updateStarted, "hardAssert at \(#file):\(#line)")
+        hardAssert(Display.displayCycle == .updateStarted) { "hardAssert at \(#file):\(#line)" }
 
         self.nose = SpriteFactory.shared.nosesPool.makeSprite(embryoName)
         self.thorax = SpriteFactory.shared.arkonsPool.makeSprite(embryoName)
@@ -180,7 +180,7 @@ extension Spawn {
 extension Spawn {
     func launchNewborn() {
         let newborn = Stepper(self, needsNewDispatch: true)
-        hardAssert(newborn.sprite.parent == nil, "hardAssert at \(#file):\(#line)")
+        hardAssert(newborn.sprite.parent == nil) { "hardAssert at \(#file):\(#line)" }
         newborn.parentStepper = self.meTheParent
         newborn.dispatch.scratch.stepper = newborn
         newborn.sprite?.color = (net?.isCloneOfParent ?? false) ? .green : .white
@@ -199,7 +199,7 @@ extension Spawn {
         engagerKey.stepper = newborn
 
         // Name should be set up in the beginning spawn step
-        hardAssert(engagerKey.ownerName == newborn.name, "hardAssert at \(#file):\(#line)")
+        hardAssert(engagerKey.ownerName == newborn.name) { "hardAssert at \(#file):\(#line)" }
 
         Stepper.attachStepper(newborn, to: newborn.sprite)
 
@@ -222,7 +222,7 @@ extension Spawn {
             let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
             newborn.sprite.run(rotate)
 
-            self.addDebugBox(newborn)
+//            self.addDebugBox(newborn)
 
             self.tempStrongReference = nil  // Now the sprite has the only strong ref
 
@@ -237,31 +237,26 @@ extension Spawn {
         let cCellsWithinSenseRange = cCellsPerSide * cCellsPerSide
 
         let baseCell = GridCell.at(AKPoint.zero)
-        let path = CGMutablePath()
-        var cornerIndex = cCellsWithinSenseRange - 1
-        var cornerPoint = baseCell.getGridPointByIndex(cornerIndex)
-        var cornerCell = GridCell.at(cornerPoint).scenePosition
-        path.move(to: cornerCell)
-        var cCorners = 4
-        repeat {
-            cornerIndex -= (cCellsPerSide - 1)
-            cornerPoint = baseCell.getGridPointByIndex(cornerIndex)
-            cornerCell = GridCell.at(cornerPoint).scenePosition
-            path.addLine(to: cornerCell)
-            cCorners -= 1
-        } while cCorners > 1
+        let baseNode = SKNode()// = SKShapeNode(circleOfRadius: 200)
+        baseNode.xScale = 1 / newborn.sprite.xScale
+        baseNode.yScale = 1 / newborn.sprite.yScale
+        baseNode.alpha = 1
+        baseNode.zPosition = 100
 
-//        cornerIndex = cCellsWithinSenseRange
-//        cornerPoint = baseCell.getGridPointByIndex(cornerIndex - 1)
-//        cornerCell = GridCell.at(cornerPoint).randomScenePosition ?? GridCell.at(cornerPoint).scenePosition
-//        path.addLine(to: cornerCell)
+        newborn.sprite.addChild(baseNode)
 
-        let debugBox = SKShapeNode(path: path)
-        debugBox.lineWidth = 3
-        debugBox.xScale = 1 / newborn.sprite.xScale
-        debugBox.yScale = 1 / newborn.sprite.yScale
+        for index in stride(from: 1, to: cCellsWithinSenseRange, by: 1) {
+            let indicatorGridPosition = baseCell.getGridPointByIndex(index)
+            let node = SKShapeNode(circleOfRadius: 1.5)
 
-        newborn.sprite.addChild(debugBox)
+            node.fillColor = .yellow
+//            node.position = GridCell.at(indicatorGridPosition).scenePosition
+
+            baseNode.addChild(node)
+            let p = GridCell.at(indicatorGridPosition).scenePosition + newborn.sprite.position
+            node.position = ArkoniaScene.arkonsPortal.convert(p, to: baseNode) / 2.75
+            node.zPosition = 200
+        }
     }
 
     func failSpawn() {

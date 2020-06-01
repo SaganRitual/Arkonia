@@ -111,7 +111,7 @@ extension Manna {
     enum RebloomResult { case died, rebloomed }
 
     func rebloom() {
-        hardAssert(Display.displayCycle == .updateStarted)
+        hardAssert(Display.displayCycle == .updateStarted) { "hardAssert at \(#file):\(#line)" }
 
         sprite.reset()
 

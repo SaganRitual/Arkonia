@@ -122,7 +122,7 @@ struct NetStructure {
         (self.cNeurons, self.cBiases, self.cWeights) =
             NetStructure.computeNetParameters(layerDescriptors)
 
-        hardAssert(debugCNeurons == cNeurons, "\(#line) in \(#file)")
+        hardAssert(debugCNeurons == cNeurons) { "\(#line) in \(#file)" }
 
         let cp = layerStructureIsClone && (self.cSenseRings == cSenseRings)
 

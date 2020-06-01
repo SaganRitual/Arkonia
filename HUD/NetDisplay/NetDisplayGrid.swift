@@ -47,7 +47,9 @@ class NetDisplayGrid: NetDisplayGridProtocol {
     func setPosition(id: KIdentifier, gridX: Int, gridY: Int) {
         let position = getPosition(GridPoint(x: gridX, y: gridY))
         guard let p = neuronPositions[id] else { neuronPositions[id] = position; return }
-        hardAssert(p == position, "neuronPositions[\(id)] = \(p) already; now setting to \(position)?")
+        hardAssert(p == position) {
+            "neuronPositions[\(id)] = \(p) already; now setting to \(position)?"
+        }
     }
 
     func setVerticalSpacing(cHiddenLayers: Int) {

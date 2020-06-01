@@ -18,13 +18,13 @@ class SenseGrid: CustomDebugStringConvertible {
     }
 
     func assembleGrid(center: GridCell, block: AKPoint, _ catchDumbMistakes: DispatchQueueID) {
-        hardAssert(center.ownerName == center.stepper?.name, "hardAssert at \(#file):\(#line)")
+        hardAssert(center.ownerName == center.stepper?.name) { "hardAssert at \(#file):\(#line)" }
 
         self.cells[0] = center
 
         // The following loop needs to be atomic relative to the arkons grid,
         // we want no interference from anyone else trying to get our squares
-        hardAssert(catchDumbMistakes == .arkonsPlane, "hardAssert at \(#file):\(#line)")
+        hardAssert(catchDumbMistakes == .arkonsPlane) { "hardAssert at \(#file):\(#line)" }
 
         for index in 1..<cCellsWithinSenseRange {
             let position = center.getGridPointByIndex(index)
@@ -35,10 +35,9 @@ class SenseGrid: CustomDebugStringConvertible {
 
             Debug.log(level: 168) { "CellSenseGrid \(index), \(position) tenant \(six(cell.stepper?.name)) owner \(six(self.ownerName))" }
 
-            hardAssert(
-                self.ownerName != cell.ownerName,
+            hardAssert(self.ownerName != cell.ownerName) {
                 "Cell at \(position)/\(type(of: cell)) should not have my name (\(self.ownerName)) on it already; line number \(#line) in \(#file)"
-            )
+            }
 
             guard let lock = (cell.lock(require: .degradeToCold, ownerName: self.ownerName, catchDumbMistakes))
                 else { fatalError() }
@@ -54,7 +53,7 @@ class SenseGrid: CustomDebugStringConvertible {
     // Release the locks on all hot cells except the from/to cells for the shuttle,
     // and let go of everything, so we don't have any strong references hanging around
     func reset(keep: GridCell? = nil, _ catchDumbMistakes: DispatchQueueID) {
-        hardAssert(catchDumbMistakes == .arkonsPlane, "Wrong dispatch queue")
+        hardAssert(catchDumbMistakes == .arkonsPlane) { "Wrong dispatch queue" }
 
         let hotKeys: [(Int, GridCell)] = zip(1..., cells.dropFirst()).compactMap {
             pair in let (ss, cell) = pair
@@ -89,9 +88,8 @@ class SenseGrid: CustomDebugStringConvertible {
         }
 
         hardAssert(
-            cells.filter({ (($0 as? GridCell)?.ownerName ?? ArkonName.empty) == self.ownerName }).count <= 2,
-            "hardAssert at \(#file):\(#line)"
-        )
+            cells.filter({ (($0 as? GridCell)?.ownerName ?? ArkonName.empty) == self.ownerName }).count <= 2
+        ) { "hardAssert at \(#file):\(#line)" }
     }
 
     func setupBirthingCell(for embryoName: ArkonName) -> GridCell? {
@@ -119,32 +117,29 @@ class SenseGrid: CustomDebugStringConvertible {
 extension SenseGrid {
     static func checkGridIntegrity(_ center: GridCell, _ cells: [GridCellProtocol?]) {
         for c in cells {
-            hardAssert((c is GridCell) == (c!.ownerName == center.ownerName), "hardAssert at \(#file):\(#line)")
-            hardAssert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell), "hardAssert at \(#file):\(#line)")
+            hardAssert((c is GridCell) == (c!.ownerName == center.ownerName)) { "hardAssert at \(#file):\(#line)" }
+            hardAssert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell)) { "hardAssert at \(#file):\(#line)" }
 
             if let cc = c as? GridCell {
 
-                hardAssert(
-                    cc.ownerName == center.ownerName,
+                hardAssert(cc.ownerName == center.ownerName) {
                     "Hot cell in my (\(center.ownerName))"
                         + " grid has someone else's name"
                         + " (\(cc.ownerName)) on it"
                         + " \(#file):\(#line)"
-                )
+                }
 
-                hardAssert(
-                    cc.isLocked,
+                hardAssert(cc.isLocked) {
                     "Hot cell in my grid has my name"
                     + " (\(center.ownerName)) but isn't locked"
                     + " \(#file):\(#line)"
-                )
+                }
 
             } else if let cc = c {
-                hardAssert(
-                    cc.ownerName != center.ownerName,
+                hardAssert(cc.ownerName != center.ownerName) {
                     "Cold cell in my grid has my name"
                         + "(\(center.ownerName)) on it \(#file):\(#line)"
-                )
+                }
             }
         }
     }

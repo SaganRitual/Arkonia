@@ -1,9 +1,10 @@
 import SpriteKit
 
-func hardAssert(_ condition: Bool, _ message: String = "") {
+func hardAssert(_ condition: Bool, _ execute: @escaping (() -> String?)) {
     if !condition {
-        Debug.log { message }
-        fatalError(message)
+        guard let e = execute() else { fatalError() }
+        Debug.log { return e }
+        fatalError(e)
     }
 }
 
@@ -64,7 +65,10 @@ extension Debug {
             logMessages[logIndex] = message
             logIndex = (logIndex + 1) % cLogMessages
 
-            if Arkonia.debugMessageToConsole { print(message) }
+            let d = startTime.distance(to: Date())
+            let s = String(format: "%f:", d)
+
+            if Arkonia.debugMessageToConsole { print(s, message) }
 
             if logIndex == 0 { logWrapped = true }
         }
@@ -98,7 +102,9 @@ extension Debug {
 
         func histogrize(_ value: Double, scale: Int = 10, inputRange: Range<Double>) {
             Debug.log {
-                hardAssert(inputRange == -1.0..<1.0 || inputRange == 0.0..<1.0, "hardAssert at \(#file):\(#line)")
+                hardAssert(inputRange == -1.0..<1.0 || inputRange == 0.0..<1.0) {
+                    "hardAssert at \(#file):\(#line)"
+                }
 
                 if(value < inputRange.lowerBound || value > inputRange.upperBound) {
                     return "Histogram overflow: value is \(value) range is \(inputRange)"
@@ -109,7 +115,7 @@ extension Debug {
                     dBuckets = Double(scale)
                     histogram = [Int](repeating: 0, count: scale)
                 } else {
-                    hardAssert(scale == cBuckets!, "hardAssert at \(#file):\(#line)")
+                    hardAssert(scale == cBuckets!) { "hardAssert at \(#file):\(#line)" }
                 }
 
                 let vv = (value < 1.0) ? value : value - 1e-4   // Because we do get 1.0 sometimes
