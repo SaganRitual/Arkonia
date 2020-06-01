@@ -8,9 +8,7 @@ extension Plotter {
         _ senseData: [Double], _ senseGrid: SenseGrid,
         _ onComplete: @escaping (CellShuttle, Double) -> Void
     ) {
-        let scratch = self.scratch!
-        let stepper = scratch.stepper!
-        let net = stepper.net!
+        let scratch = self.scratch!, stepper = scratch.stepper!, net = stepper.net!
 
         #if DEBUG
         Debug.log(level: 119) { "makeCellShuttle for \(six(stepper.name)) from \(stepper.gridCell!)" }
@@ -23,7 +21,7 @@ extension Plotter {
 
         func c() {
             // Divide the circle into cCellsWithinSenseRange slices
-            let s0 = scratch.stepper.net.pMotorOutputs[MotorIndex.jumpSelector.rawValue]
+            let s0 = net.pMotorOutputs[MotorIndex.jumpSelector.rawValue]
             let s1 = s0 * Float(net.netStructure.cCellsWithinSenseRange)
             let s2 = floor(s1)
             let s3 = Int(s2)

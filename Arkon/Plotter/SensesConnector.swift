@@ -22,7 +22,7 @@ class SensesConnector {
 
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
-        self.indexOfFirstNonGridInput = scratch.stepper!.net!.netStructure.cSenseInputsFromGrid
+        self.indexOfFirstNonGridInput = scratch.stepper!.net!.netStructure.cSenseNeuronsGrid
     }
 
     deinit {
@@ -54,9 +54,6 @@ class SensesConnector {
         func b() { Grid.arkonsPlaneQueue.async(execute: c) }
 
         func c() {
-            let scale = 1.0 / scratch.currentEntropyPerJoule
-            Debug.log(level: 154) { "scale = \(scale) = 1 / \(scratch.currentEntropyPerJoule) " }
-
             let senseNeurons = UnsafeMutablePointer(mutating: scratch.stepper.net.pNeurons)
 
             for ss in 0..<scratch.stepper.net.netStructure.cCellsWithinSenseRange {
@@ -83,12 +80,13 @@ class SensesConnector {
         let of = cs?.oxygenStore.fullness ?? 0
         let gestationFullness = (ff + hf + of) / 3.0
 
-        let cGridSenseInputs = scratch.stepper.net.netStructure.cSenseInputsFromGrid
+        let cGridSenseInputs = scratch.stepper.net.netStructure.cSenseNeuronsGrid
 
         func setMiscSense(_ sense: MiscSenses, _ value: CGFloat) {
             scratch.stepper.net.pSenseNeuronsMisc[sense.rawValue] = Float(value)
         }
 
+        setMiscSense(.x, CGFloat(gc.gridPosition.x) / CGFloat(Grid.shared!.gridWidthInCells))
         setMiscSense(.y, CGFloat(gc.gridPosition.y) / CGFloat(Grid.shared!.gridHeightInCells))
         setMiscSense(.hunger, mt.hunger)
         setMiscSense(.asphyxiation, mt.asphyxiation)

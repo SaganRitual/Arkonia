@@ -1,74 +1,41 @@
 import Accelerate
 import QuartzCore
 
-typealias BlasNumber = Float
-typealias BlasBuffer_Read = UnsafeBufferPointer<BlasNumber>
-typealias BlasBuffer_Write = UnsafeMutableBufferPointer<BlasNumber>
-
 final class HotNetBlas: HotNet {
     var blasLayers = [HotLayerBlas]()
-    var neuronsOut = [BlasNumber]()
 
-    init(_ coldLayers: [Int], _ biases: [Double], _ weights: [Double]) {
-        let CL = coldLayers// + [Arkonia.cMotorOutputs]
-
-        var biasesIxL = 0, biasesIxR = 0
-        var weightsIxL = 0, weightsIxR = 0
-
-        blasLayers = zip(0..<CL.count - 1, 1..<CL.count).map { upperLayerIx, lowerLayerIx in
-            let cNeuronsIn = CL[upperLayerIx]
-            let cNeuronsOut = CL[lowerLayerIx]
-
-            biasesIxR += cNeuronsOut
-            weightsIxR += cNeuronsIn * cNeuronsOut
-
-            let layerBiases = biases[biasesIxL..<biasesIxR]
-            let layerWeights = weights[weightsIxL..<weightsIxR]
-
-            return HotLayerBlas(layerBiases, cNeuronsIn, cNeuronsOut, layerWeights)
-        }
-    }
-
-    // extra to allow for == 1
-    static var inputsHistogram = [Double](repeating: 0, count: 10)
-    static var gridInputsHistogram = [Double](repeating: 0, count: 10)
-
-    func driveSignal(
-        _ sensoryInputs: [Double], _ onComplete: @escaping ([Double]) -> Void
+    init(
+        _ netStructure: NetStructure,
+        _ pNeurons_: UnsafePointer<Float>,
+        _ pBiases_: UnsafePointer<Float>,
+        _ pWeights_: UnsafePointer<Float>
     ) {
-        let si = sensoryInputs.map { BlasNumber($0) }
-        hardAssert(sensoryInputs.min()! >= -1 && sensoryInputs.max()! <= 1, "hardAssert at \(#file):\(#line)")
+        let dd = netStructure.layerDescriptors
 
-        si.withUnsafeBufferPointer {
-            var inputToNextLayer = $0
-            var outputs: BlasBuffer_Write!
+        var pNeuronsIn = pNeurons_
+        var pNeuronsOut = UnsafeMutablePointer(mutating: pNeurons_ + dd[0])
+        var pBiases = pBiases_
+        var pWeights = pWeights_
 
-            showLayerOutput("top   ", inputToNextLayer)
+        // Connect each upper layer to the lower layer
+        blasLayers = zip(dd.dropLast(), dd.dropFirst()).map {
+            cNeuronsIn, cNeuronsOut in
 
-            blasLayers.forEach { layer in
-                outputs = layer.driveSignal(inputToNextLayer)
-                outputs.withUnsafeBufferPointer { inputToNextLayer = $0 }
-                showLayerOutput("hidden", inputToNextLayer)
+            defer {
+                pNeuronsIn  =  UnsafePointer(pNeuronsOut)   // Output from one layer is input to next
+                pNeuronsOut += cNeuronsOut
+                pBiases     += cNeuronsOut
+                pWeights    += (cNeuronsIn * cNeuronsOut)
             }
 
-            let oc = Array(inputToNextLayer).map { Double($0) }
-
-            onComplete(oc)
+            return HotLayerBlas(
+                cNeuronsIn, pNeuronsIn, pBiases, pWeights, cNeuronsOut, pNeuronsOut
+            )
         }
     }
 
-    private func showLayerOutput(_ layerCategory: String, _ output: UnsafeBufferPointer<BlasNumber>) {
-        Debug.log(level: 151) {
-            var outputString = ""
-            var sep = ""
-
-            Array(output).forEach {
-                outputString += sep + String(format: "% 0.4f", $0)
-                if sep.isEmpty { sep = ", " }
-            }
-
-            return "\(layerCategory) layer inputs \(outputString)"
-        }
+    func driveSignal(_ onComplete: @escaping () -> Void) {
+        blasLayers.forEach { $0.driveSignal() }
+        onComplete()
     }
-
 }

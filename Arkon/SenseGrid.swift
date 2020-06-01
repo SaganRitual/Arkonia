@@ -54,6 +54,7 @@ class SenseGrid: CustomDebugStringConvertible {
     // Release the locks on all hot cells except the from/to cells for the shuttle,
     // and let go of everything, so we don't have any strong references hanging around
     func reset(keep: GridCell? = nil, _ catchDumbMistakes: DispatchQueueID) {
+        hardAssert(catchDumbMistakes == .arkonsPlane, "Wrong dispatch queue")
 
         let hotKeys: [(Int, GridCell)] = zip(1..., cells.dropFirst()).compactMap {
             pair in let (ss, cell) = pair

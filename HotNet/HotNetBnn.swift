@@ -10,9 +10,9 @@ final class HotNetBnn: HotNet {
 
     init(
         _ netStructure: NetStructure,
-        _ pNeurons_: UnsafePointer<Float>,
-        _ pBiases_: UnsafePointer<Float>,
-        _ pWeights_: UnsafePointer<Float>
+        _ pNeurons_: UnsafePointer<BnnNumber>,
+        _ pBiases_: UnsafePointer<BnnNumber>,
+        _ pWeights_: UnsafePointer<BnnNumber>
     ) {
         self.layerDescriptors = netStructure.layerDescriptors
 

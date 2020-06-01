@@ -6,7 +6,7 @@ final class ReleaseShuttle: Dispatchable {
     }
 
     private func releaseShuttle(_ catchDumbMistakes: DispatchQueueID) {
-        let shuttle = (scratch.cellShuttle)!
+        let shuttle = scratch.cellShuttle!
 
         Debug.debugColor(scratch.stepper, .brown, .yellow)
 

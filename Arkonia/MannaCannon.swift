@@ -30,7 +30,7 @@ class MannaCannon {
         MannaCannon.mannaPlaneQueue.async {
             self.readyManna.append(manna)
 
-            if self.readyManna.count >= targetCLaunchees {
+            if self.readyManna.count > targetCLaunchees {
                 Debug.log(level: 183) { "blast.0 \(self.readyManna.count), \(targetCLaunchees)" }
 
                 let duration = TimeInterval.random(

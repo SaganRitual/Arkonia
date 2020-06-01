@@ -69,6 +69,12 @@ class Net {
         let biases = UnsafeMutablePointer<Float>.allocate(capacity: netStructure.cBiases)
         let weights = UnsafeMutablePointer<Float>.allocate(capacity: netStructure.cWeights)
 
+        neurons.initialize(repeating: 0, count: netStructure.cNeurons)
+
+        Debug.log(level: 187) { "neurons at \(neurons); \(netStructure.cNeurons) floats, \(netStructure.cNeurons * 4) bytes" }
+        Debug.log(level: 187) { "biases at \(biases); \(netStructure.cBiases) floats, \(netStructure.cBiases * 4) bytes" }
+        Debug.log(level: 187) { "weights at \(weights); \(netStructure.cWeights) floats, \(netStructure.cWeights * 4) bytes" }
+
         // If the net structure has mutated, the biases and weights are irrelevant;
         // there's no point in trying to use any of them, and the buffers will need
         // to be different sizes anyway. Use all that stuff only if my net structure
@@ -96,21 +102,30 @@ class Net {
         self.pWeights = UnsafePointer(weights)
 
         self.pSenseNeuronsGrid = UnsafeMutablePointer(mutating: pNeurons + 0)
-        self.pSenseNeuronsMisc = pSenseNeuronsGrid + netStructure.cSenseInputsFromGrid
-        self.pSenseNeuronsPollenators = pSenseNeuronsMisc + netStructure.cSenseInputsMisc
+        self.pSenseNeuronsMisc = pSenseNeuronsGrid + netStructure.cSenseNeuronsGrid
+        self.pSenseNeuronsPollenators = pSenseNeuronsMisc + netStructure.cSenseNeuronsMisc
 
-        self.pMotorOutputs = pNeurons + netStructure.cNeurons - netStructure.cMotorOutputs
+        self.pMotorOutputs = pNeurons + netStructure.cNeurons - netStructure.cMotorNeurons
+
+        hardAssert(netStructure.cSenseNeurons == netStructure.cSenseNeuronsGrid + netStructure.cSenseNeuronsMisc + netStructure.cSenseNeuronsPollenators)
+        hardAssert(netStructure.cNeurons == netStructure.cSenseNeurons + netStructure.cHiddenNeurons + netStructure.cMotorNeurons)
 
         switch hotNetType {
+        case .blas: hotNet = HotNetBlas(netStructure, pNeurons, pBiases, pWeights)
         case .bnn:  hotNet = HotNetBnn(netStructure, pNeurons, pBiases, pWeights)
         default: fatalError()
         }
     }
 
-    deinit {
-        pNeurons.deallocate()
-        pBiases.deallocate()
-        pWeights.deallocate()
+    func release(catchDumbMistakes: DispatchQueueID, _ onComplete: @escaping () -> Void) {
+        hardAssert(catchDumbMistakes == .net, "\(#file):\(#line)")
+        [pNeurons, pBiases, pWeights].forEach { block in
+            Debug.log(level: 187) { "Release net pre \(block)" }
+            block.deallocate()
+            Debug.log(level: 187) { "Release net post" }
+        }
+
+        onComplete()
     }
 }
 
@@ -119,25 +134,26 @@ extension Net {
         _ biases: UnsafeMutablePointer<Float>, _ cBiases: Int,
         _ weights: UnsafeMutablePointer<Float>, _ cWeights: Int
     ) -> Bool {
-        let oddsOfMutation = 0.25
-        if Double.random(in: 0..<1) < (1 - oddsOfMutation) { return true }
+        let oddsOfMutation: Float = 0.25
+        if Float.random(in: 0..<1) < (1 - oddsOfMutation) { return true }
 
-        let percentageMutation = Double.random(in: 0..<0.10)
-        let cNetParameters = cBiases + cWeights
-
-        let cMutations = Int(percentageMutation * Double(cNetParameters))
+        let percentageMutation = Float.random(in: 0..<0.10)
+        let cMutations = Int(percentageMutation * Float(cBiases + cWeights))
         if cMutations == 0 { return true }
 
         var isCloneOfParent = true
         for _ in 0..<cMutations {
-            let randomOffset = Int.random(in: 0..<cNetParameters)
+            let (whichBuffer, offset): (UnsafeMutablePointer<Float>, Int)
+            if Bool.random() {
+                whichBuffer = biases; offset = Int.random(in: 0..<cBiases)
+            } else {
+                whichBuffer = weights; offset = Int.random(in: 0..<cWeights)
+            }
 
-            let whichBuffer = randomOffset < cBiases ? biases : weights
-            let bufferOffset = max(randomOffset, randomOffset - cBiases)
-            let (newValue, didMutate) = Mutator.mutate(from: whichBuffer[bufferOffset])
+            let (newValue, didMutate) = Mutator.mutate(from: whichBuffer[offset])
             if didMutate {
                 isCloneOfParent = false
-                whichBuffer[bufferOffset] = newValue
+                whichBuffer[offset] = newValue
             }
         }
 
@@ -146,16 +162,16 @@ extension Net {
 }
 
 extension Net {
-    static func arctan(_ x: Double) -> Double { atan(x) }
-    static func bentidentity(_ x: Double) -> Double { ((sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
-    static func identity(_ x: Double) -> Double { x }
-    static func leakyrelu(_ x: Double) -> Double { x < 0.0 ? (0.01 * x) : x }
+    static func arctan(_ x: Float) -> Float { atan(x) }
+    static func bentidentity(_ x: Float) -> Float { ((sqrt(x * x + 1.0) - 1.0) / 2.0) + x }
+    static func identity(_ x: Float) -> Float { x }
+    static func leakyrelu(_ x: Float) -> Float { x < 0.0 ? (0.01 * x) : x }
 
-    static func logistic(_ x: Double) -> Double { 1.0 / (1.0 + exp(-x)) }
+    static func logistic(_ x: Float) -> Float { 1.0 / (1.0 + exp(-x)) }
 
-    static func sinusoid(_ x: Double) -> Double { sin(x) }
+    static func sinusoid(_ x: Float) -> Float { sin(x) }
 
-    static func sqnl(_ x: Double) -> Double {
+    static func sqnl(_ x: Float) -> Float {
         switch x {
         case -2.0..<0.0: return x + x * x / 4.0
         case 0.0..<2.0:  return x - x * x / 4.0

@@ -7,20 +7,24 @@ final class Apoptosize: Dispatchable {
 extension Apoptosize {
     private func dismemberArkon() {
         Debug.debugColor(scratch.stepper, .brown, .green)
-        Debug.log(level: 180) { "Apoptosize \(six(scratch.stepper.name))" }
+        Debug.log(level: 187) { "Apoptosize.0 \(six(scratch.stepper.name))" }
 
-        Census.shared.registerDeath(scratch.stepper, release)
+        Census.shared.registerDeath(scratch.stepper, releaseNet)
     }
 
-    private func release() {
-        if let gc = scratch.stepper.gridCell { gc.stepper = nil }
+    private func releaseNet() {
+        Debug.log(level: 187) { "Apoptosize.1 \(six(scratch.stepper.name))" }
+        scratch.stepper.net.release(catchDumbMistakes: .net, releaseStepper_)
+    }
 
+    private func releaseStepper_() {
+        Debug.log(level: 187) { "Apoptosize.2 \(six(scratch.stepper.name))" }
         releaseStepper { self.releaseSprites($0.sprite, $0.nose) }
     }
 
     private func releaseSprites(_ thorax: SKSpriteNode, _ nose: SKSpriteNode) {
         SceneDispatch.shared.schedule {
-            Debug.log(level: 102) { "Apoptosize release sprites" }
+            Debug.log(level: 187) { "Apoptosize.3 release sprites" }
 
             SpriteFactory.shared.nosesPool.releaseSprite(nose)
             SpriteFactory.shared.arkonsPool.releaseSprite(thorax)
@@ -33,6 +37,8 @@ extension Apoptosize {
         // If you put it on a different queue, change the above, or else
         let catchReallyDumbMistakes = Grid.arkonsPlaneQueue
         catchReallyDumbMistakes.async {
+            if let gc = self.scratch.stepper.gridCell { gc.stepper = nil }
+
             let finalStrongReference = self.scratch.stepper!
 
             // If another arkon just ate me, I won't have a grid cell any more

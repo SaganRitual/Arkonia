@@ -1,76 +1,70 @@
 import Accelerate
 
 class HotLayerBlas {
-    var biases = [BlasNumber]()
-    var neuronsOut = [BlasNumber]()
-    var weights = [BlasNumber]()
-
-    var pBiases: BlasBuffer_Read!
-    var pNeuronsOut: BlasBuffer_Write!
-    var pWeights: BlasBuffer_Read!
-
     let cNeuronsIn: Int
     let cNeuronsOut: Int
+    let pBiases: UnsafePointer<Float>
+    let pNeuronsIn: UnsafePointer<Float>
+    let pNeuronsOut: UnsafeMutablePointer<Float>
+    let pWeights: UnsafePointer<Float>
 
     init(
-        _ biases_: ArraySlice<Double>,
         _ cNeuronsIn: Int,
+        _ pNeuronsIn: UnsafePointer<Float>,
+        _ pBiases: UnsafePointer<Float>,
+        _ pWeights: UnsafePointer<Float>,
         _ cNeuronsOut: Int,
-        _ weights_: ArraySlice<Double>
+        _ pNeuronsOut: UnsafeMutablePointer<Float>
     ) {
         self.cNeuronsIn = cNeuronsIn
         self.cNeuronsOut = cNeuronsOut
 
-        self.biases = biases_.prefix(cNeuronsOut).map { BlasNumber($0) }
-        self.weights = weights_.prefix(cNeuronsIn * cNeuronsOut).map { BlasNumber($0) }
-
-        self.biases.withUnsafeBufferPointer { self.pBiases = $0 }
-        self.weights.withUnsafeBufferPointer { self.pWeights = $0 }
+        self.pBiases = pBiases
+        self.pNeuronsIn = pNeuronsIn
+        self.pNeuronsOut = pNeuronsOut
+        self.pWeights = pWeights
     }
 
-    func driveSignal(_ liveInput: BlasBuffer_Read) -> BlasBuffer_Write {
-        self.neuronsOut = self.biases.map { $0 }
-        self.neuronsOut.withUnsafeMutableBufferPointer { self.pNeuronsOut = $0 }
-        Debug.log(level: 145) { "biases \(self.neuronsOut)" }
+    func driveSignal() {
+        // The sgemv function below does y = alpha * Ax + beta * y; copy
+        // the biases to y here so the sgemm result will be added to them
 
-        let M: Int32 = 1, K = Int32(liveInput.count), N = Int32(cNeuronsOut)
-
-        cblas_sgemm(
-            CblasRowMajor, CblasNoTrans, CblasNoTrans,
-            M, N, K,
-            1, liveInput.baseAddress,
-            K, pWeights.baseAddress, N,
-            1, pNeuronsOut.baseAddress, N
+        cblas_scopy(
+            Int32(cNeuronsOut), // Number of elements in the vectors
+            pBiases,            // Copy from biases vector
+            Int32(1),           // Stride -- take each nth element, we want all
+            pNeuronsOut,        // Copy to neurons output
+            Int32(1)            // Stride for output -- write to each nth entry
         )
 
-        (0..<self.neuronsOut.count).forEach {
-            let a = Double(self.neuronsOut[$0])
-            let b = Net.logistic(a)
-            let c = BlasNumber(b)
-            self.neuronsOut[$0] = c
+        Debug.log(level: 187) {
+            "scopy: \(cNeuronsOut), \(pBiases), 1, \(pNeuronsOut), 1"
         }
 
-        Debug.log(level: 145) { "weights \(self.weights)" }
-        Debug.log(level: 145) { "outputs \(self.neuronsOut)" }
-        return pNeuronsOut
-    }
-}
+        cblas_sgemv(
+            CblasRowMajor, CblasNoTrans,
+            Int32(cNeuronsIn),  // Number of rows in A, that is, the weights
+            Int32(cNeuronsOut), // Number of columns in A
+            Float(1),           // alpha (scale for Ax result)
+            pWeights,           // The matrix A
+            Int32(cNeuronsOut), // Size of first dimension of A, aka "pitch", aka "lda"
+            pNeuronsIn,         // The vector x
+            Int32(1),           // Stride for x -- take each nth element, we want all
+            Float(1),           // beta (scale for y)
+            pNeuronsOut,        // The output vector y
+            Int32(1)            // Stride for y -- write to each nth entry
+        )
 
-extension HotLayerBlas {
+        Debug.log(level: 187) {
+            "sgemv: CblasRowMajor, CblasNoTrans, \(cNeuronsIn), \(cNeuronsOut), 1, \(pWeights), \(cNeuronsOut), \(pNeuronsIn), 1, 1, \(pNeuronsOut), 1"
+        }
 
-    func getComputeOutput() -> [Double] { neuronsOut.map { Double($0) } }
-
-    func getOutputBuffer() -> BlasBuffer_Read {
-        var buffer: BlasBuffer_Read!
-        neuronsOut.withUnsafeBufferPointer { buffer = $0 }
-        return buffer
-    }
-
-    func showComputeOutput() {
-//        var output = getComputeOutput(transferMatrix)
-//        print("transfer", output)
-
-//        let output = getComputeOutput(neuronsOutMatrix)
-//        print("neuronsOut", output)
+        // I thought there would be a function in the blas library for applying
+        // a function to each element. I guess not
+        (0..<cNeuronsOut).forEach {
+            let a = pNeuronsOut[$0]
+            let b = Net.logistic(a)
+            self.pNeuronsOut[$0] = b
+        }
     }
 }
