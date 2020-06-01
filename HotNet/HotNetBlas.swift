@@ -38,4 +38,6 @@ final class HotNetBlas: HotNet {
         blasLayers.forEach { $0.driveSignal() }
         onComplete()
     }
+
+    func release() {} // Required by protocol
 }

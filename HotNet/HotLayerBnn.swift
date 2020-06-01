@@ -42,10 +42,10 @@ class HotLayerBnn {
         hotLayer = hl
     }
 
-    deinit { hotLayer.deallocate() }
-
     func driveSignal() {
         let result = BNNSFilterApply(hotLayer, pNeuronsIn, pNeuronsOut)
         if result != 0 { fatalError() }
     }
+
+    func release() { hotLayer.deallocate() }
 }

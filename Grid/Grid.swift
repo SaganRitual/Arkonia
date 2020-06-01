@@ -10,7 +10,7 @@ class Grid {
     private let noseTexture: SKTexture
     private weak var portal: SKSpriteNode?
 
-    let gridCellWidthInPix, gridCellHeightInPix: Int
+    let gridCellWidthInPix: Int, gridCellHeightInPix: Int
     let gridHeightInCells: Int, gridWidthInCells: Int
     let portalHeightInPix, portalWidthInPix: Int
     let hypoteneuse: CGFloat

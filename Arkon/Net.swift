@@ -13,6 +13,7 @@ protocol HotNet: class {
     )
 
     func driveSignal(_ onComplete: @escaping () -> Void)
+    func release()
 }
 
 typealias NetParametersBuffer = UnsafeMutableBufferPointer<Float>

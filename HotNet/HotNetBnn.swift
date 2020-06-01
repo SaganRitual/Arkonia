@@ -46,6 +46,8 @@ final class HotNetBnn: HotNet {
         onComplete()
     }
 
+    func release() { bnnLayers.forEach { $0.release() } }
+
     private func showLayerOutput(_ layerCategory: String, _ output: UnsafeBufferPointer<BnnNumber>) {
         Debug.log(level: 151) {
             var outputString = ""
