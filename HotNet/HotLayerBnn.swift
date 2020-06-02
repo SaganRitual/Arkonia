@@ -47,5 +47,5 @@ class HotLayerBnn {
         if result != 0 { fatalError() }
     }
 
-    func release() { hotLayer.deallocate() }
+    func release() { hotLayer.deallocate(); BNNSFilterDestroy(hotLayer) }
 }

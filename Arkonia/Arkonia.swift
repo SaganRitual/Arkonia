@@ -8,16 +8,16 @@ class Arkonia {
     static let noseScaleFactor: CGFloat = 0.75
 
     static let allowSpawning = true
-    static let cMannaMorsels = 4000
+    static let cMannaMorsels = 5000
     static let cPollenators = 5
 
     // vars so I can change them from the debugger
     static var debugColorIsEnabled = false
-    static var debugMessageLevel = 189
+    static var debugMessageLevel = 188
     static var debugMessageToConsole = true
 
     static let funkyCells: CGFloat? = 2 / zoomFactor
-    static let initialPopulation = 150
+    static let initialPopulation = 100
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedCellsPerSecond: CGFloat = 25
 

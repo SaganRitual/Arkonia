@@ -42,7 +42,7 @@ class HotLayerBlas {
         }
 
         cblas_sgemv(
-            CblasRowMajor, CblasNoTrans,
+            CblasRowMajor, CblasTrans,
             Int32(cNeuronsIn),  // Number of rows in A, that is, the weights
             Int32(cNeuronsOut), // Number of columns in A
             Float(1),           // alpha (scale for Ax result)

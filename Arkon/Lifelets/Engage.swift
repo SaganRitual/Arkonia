@@ -6,7 +6,7 @@ final class Engage: Dispatchable {
     private func engage(_ catchDumbMistakes: DispatchQueueID) {
         hardAssert(scratch.engagerKey == nil) { "hardAssert at \(#file):\(#line)" }
 
-        Debug.log(level: 188) { "Engage \(six(scratch.stepper.name)) at \(scratch.stepper.gridCell.gridPosition)" }
+        Debug.log(level: 180) { "Engage \(six(scratch.stepper.name)) at \(scratch.stepper.gridCell.gridPosition)" }
         Debug.debugColor(scratch.stepper, .red, .yellow)
 
         let isEngaged = self.engageIf(catchDumbMistakes)

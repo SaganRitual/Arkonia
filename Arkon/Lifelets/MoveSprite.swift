@@ -11,7 +11,7 @@ final class MoveSprite: Dispatchable {
 
         let shuttle = (scratch.cellShuttle)!
 
-        Debug.log(level: 188) { "MoveSprite \(scratch.stepper.name)" }
+        Debug.log(level: 180) { "MoveSprite \(scratch.stepper.name)" }
 
         if shuttle.fromCell == nil {
             Debug.log(level: 184) { "Resting \(six(scratch.stepper.name))" }
@@ -34,7 +34,7 @@ final class MoveSprite: Dispatchable {
 //        if duration2 > 0 { MoveSprite.histogram2.histogrize(100 * duration2 / Double(stepper.net.layers.reduce(0, +)), scale: 100, inputRange: 0..<1) }
 
         MoveSprite.moveAction(scratch.stepper, to: position) {
-            Debug.log(level: 188) { "End of move action for \(six(self.scratch.stepper.name)) to \(position)" }
+            Debug.log(level: 180) { "End of move action for \(six(self.scratch.stepper.name)) to \(position)" }
             Debug.debugColor(self.scratch.stepper, .blue, .gray)
 
             self.scratch.debugStart = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
@@ -47,7 +47,7 @@ final class MoveSprite: Dispatchable {
         let js = stepper.dispatch.scratch.jumpSpec!
         let moveDuration = js.durationSeconds
 
-        Debug.log(level: 188) { "Moving \(six(stepper.name)) at \(js.speedMetersPerSec)m/sec" }
+        Debug.log(level: 180) { "Moving \(six(stepper.name)) at \(js.speedMetersPerSec)m/sec" }
         Debug.debugColor(stepper, .blue, .green)
 
         let move = SKAction.move(to: targetPosition, duration: moveDuration)
@@ -55,7 +55,7 @@ final class MoveSprite: Dispatchable {
     }
 
     private static func restArkon(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
-        Debug.log(level: 188) { "Resting \(six(stepper.name))" }
+        Debug.log(level: 180) { "Resting \(six(stepper.name))" }
         let rest = SKAction.wait(forDuration: 0.02)
         stepper.sprite.run(rest, completion: onComplete)
     }

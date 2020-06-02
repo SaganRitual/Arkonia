@@ -83,7 +83,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         lineGraphFactory = LineGraphFactory(hud: hud, scene: self)
 
         lgNeurons = lineGraphFactory.newGraph()
-        lgNeurons.setChartLabel("Neurons")
+        lgNeurons.setChartLabel("Almanac")
 
         hud.placeDashoid(lgNeurons, on: .middle, quadrant: 1, layoutId: .dashboards_portal_1x2)
 //        hud.placeMonitor(lgNeurons, dashboard: 1, quadrant: 3)
