@@ -1,15 +1,23 @@
 extension GridCell {
     enum LikeCSS { case right1, right2, bottom, left, top }
 
-    static let indexedGridPoints: [AKPoint] = {
+    static let senseGridLookupCCells: Int = {
         let maxCSenseRings = NetStructure.cSenseRingsRange.upperBound
 
         let cCellsPerSide = 1 + 2 * maxCSenseRings
         let cCellsWithinSenseRange = cCellsPerSide * cCellsPerSide
 
-        return (0..<cCellsWithinSenseRange).map {
-            GridCell.makeIndexedGridPoint($0)
-        }
+        return cCellsWithinSenseRange
+    }()
+
+    static let indexedGridPoints: ContiguousArray<AKPoint> = {
+        var a = ContiguousArray(
+            repeating: AKPoint.zero, count: senseGridLookupCCells
+        )
+
+        (0..<senseGridLookupCCells).forEach { a[$0] = GridCell.makeIndexedGridPoint($0) }
+
+        return a
     }()
 
     private static func _2xMinusOneSquared(_ x: Int) -> Int { ((2 * x) - 1) * ((2 * x) - 1) }
