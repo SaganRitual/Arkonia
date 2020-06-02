@@ -44,6 +44,7 @@ extension Debug {
         label: "arkonia.log.q", target: DispatchQueue.global()
     )
 
+    private static let startTime = Date()
     private static let cLogMessages = 10000
     private static var logIndex = 0
     private static var logWrapped = false

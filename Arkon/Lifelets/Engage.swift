@@ -40,10 +40,8 @@ final class Engage: Dispatchable {
         }
 
         if scratch.senseGrid == nil {
-            scratch.senseGrid = SenseGrid(
-                scratch.stepper,
-                cCellsWithinSenseRange: scratch.stepper.net.netStructure.cCellsWithinSenseRange
-            )
+            let c = scratch.stepper.net.netStructure.cCellsWithinSenseRange
+            scratch.senseGrid = SenseGrid(scratch.stepper, cCellsWithinSenseRange: c)
         }
 
         scratch.senseGrid!.assembleGrid(

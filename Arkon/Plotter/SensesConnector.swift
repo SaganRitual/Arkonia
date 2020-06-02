@@ -56,7 +56,12 @@ class SensesConnector {
         func c() {
             let senseNeurons = UnsafeMutablePointer(mutating: scratch.stepper.net.pNeurons)
 
-            for ss in 0..<scratch.stepper.net.netStructure.cCellsWithinSenseRange {
+            let cCells = scratch.stepper.net.netStructure.cCellsWithinSenseRange
+
+            hardAssert(cCells == senseGrid.cCellsWithinSenseRange) { "\(#line):\(#file)" }
+            hardAssert(cCells == senseGrid.cells.count) { "\(#line):\(#file)" }
+
+            for ss in 0..<cCells {
                 guard let cell = senseGrid.cells[ss] as? GridCell else { continue }
                 senseNeurons[2 * ss + 0] = self.loadNutrition(cell)
                 senseNeurons[2 * ss + 1] = self.loadSelector(cell)

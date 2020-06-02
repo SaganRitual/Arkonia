@@ -35,8 +35,14 @@ class SenseGrid: CustomDebugStringConvertible {
 
             Debug.log(level: 168) { "CellSenseGrid \(index), \(position) tenant \(six(cell.stepper?.name)) owner \(six(self.ownerName))" }
 
-            hardAssert(self.ownerName != cell.ownerName) {
-                "Cell at \(position)/\(type(of: cell)) should not have my name (\(self.ownerName)) on it already; line number \(#line) in \(#file)"
+            if self.ownerName == cell.ownerName {
+                SenseGrid.checkGridIntegrity(center, cells)
+
+                hardAssert(false) {
+                    "Cell at \(position)/\(type(of: cell))"
+                    + " should not have my name (\(self.ownerName))"
+                    + " on it already; line number \(#line) in \(#file)"
+                }
             }
 
             guard let lock = (cell.lock(require: .degradeToCold, ownerName: self.ownerName, catchDumbMistakes))

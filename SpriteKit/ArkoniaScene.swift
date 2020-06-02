@@ -194,6 +194,18 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
     static var currentSceneTime: TimeInterval = 0
     static var sceneBirthday: TimeInterval = 0
 
+    func addDebugBox(_ index: Int) {
+        let baseCell = GridCell.at(AKPoint.zero)
+
+        let indicatorGridPosition = baseCell.getGridPointByIndex(index)
+        let node = SKShapeNode(circleOfRadius: 5)
+
+        node.fillColor = .yellow
+        node.position = GridCell.at(indicatorGridPosition).scenePosition
+
+        ArkoniaScene.arkonsPortal.addChild(node)
+    }
+
     override func update(_ currentTime: TimeInterval) {
         guard readyForDisplayCycle else { ArkoniaScene.sceneBirthday = currentTime; return }
 
@@ -206,5 +218,9 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         Display.displayCycle = .actions
 
         tickCount += 1
+
+//        if (tickCount % 10) == 0 {
+//            addDebugBox(tickCount / 10)
+//        }
     }
 }

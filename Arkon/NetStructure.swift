@@ -8,7 +8,6 @@ enum MotorNeurons: Int, CaseIterable {
 }
 
 struct NetStructure {
-    static let cLayersRange: ClosedRange<Int> = 2...5
     static let cSenseRingsRange: ClosedRange<Int> = 1...10
 
     let layerDescriptors: [Int]
@@ -30,7 +29,7 @@ struct NetStructure {
 
     var isCloneOfParent = false
 
-    let layerStructures: [Int: [[Int]]] = [
+    static let layerStructures: [Int: [[Int]]] = [
         1: [
             [35, 32, 16, 8, 4, 2], //  1: (2 *  3^2) + 7 + 10
             [35, 17, 8, 4, 2],
@@ -95,7 +94,7 @@ struct NetStructure {
 
     init(_ cSenseRings: Int?, _ parentLayerDescriptors: [Int]?) {
         self.cSenseRings = cSenseRings ?? Int.random(in: NetStructure.cSenseRingsRange)
-        self.layerDescriptors = layerStructures[self.cSenseRings]!.randomElement()!
+        self.layerDescriptors = NetStructure.layerStructures[self.cSenseRings]!.randomElement()!
 
         self.cCellsWithinSenseRange = {
             let cCellsPerSide = 1 + 2 * (cSenseRings ?? 1)
