@@ -70,8 +70,8 @@ final class LineGraph: SKSpriteNode {
     var cropNode: SKCropNode!
     var currentColumn = 0
     var maskNode: SKSpriteNode!
-    var maxInput: CGFloat = 1_000_000.0
-    let minInput: CGFloat = 10.0
+    var maxInput: CGFloat = 2.1
+    let minInput: CGFloat = 0.1
     var plotSets = [LineGraphPlotSet]()
     var runningAverages = Cbuffer<LineGraphInputSet>(cElements: LineGraph.cSamplesForAverage, mode: .putOnlyRing)
     var started = false
@@ -155,7 +155,7 @@ final class LineGraph: SKSpriteNode {
 
         setChartMinMax(Int(chartMinY), Int(chartMaxY))
 
-        for exponent in stride(from: chartMinY, through: chartMaxY, by: 1) {
+        for exponent in stride(from: chartMinY, through: chartMaxY, by: 0.5) {
             let heightInput = pow(10, exponent)
             let y = logPlotY(heightInput)
 

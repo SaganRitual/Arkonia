@@ -29,6 +29,9 @@ final class Engage: Dispatchable {
             for: scratch.stepper, .degradeToCold, catchDumbMistakes
         ) as? GridCell { scratch.engagerKey = ek; return true }
 
+        // Even if we don't move, you can't argue with Lord Kelvin
+        scratch.tickBacklog += 1
+
         return false
     }
 

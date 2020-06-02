@@ -23,6 +23,7 @@ class Scratchpad {
     var senseGrid: SenseGrid?
     var sensesConnector: SensesConnector?
     weak var stepper: Stepper!
+    var tickBacklog = 0
     var debugTimer: __uint64_t = 0
     var debugStart: __uint64_t = 0
     var debugStop: __uint64_t = 0

@@ -40,9 +40,13 @@ extension TickLife {
     private func tickLife_(_ catchDumbMistakes: DispatchQueueID) {
         hardAssert(catchDumbMistakes == .tickLife) { "hardAssert at \(#file):\(#line)" }
 
-        scratch.stepper.metabolism.digest()
+        repeat {
+            scratch.stepper.metabolism.digest()
+            isAlive = scratch.stepper.metabolism.applyFixedMetabolicCosts()
+            scratch.tickBacklog -= 1
+        } while scratch.tickBacklog >= 0
 
-        isAlive = scratch.stepper.metabolism.applyFixedMetabolicCosts()
+        scratch.tickBacklog = 0
         canSpawn = Arkonia.allowSpawning && isAlive && scratch.stepper.metabolism.canSpawn()
 
         if isAlive { colorizer.colorize(routeLife) } else { routeLife_() }
