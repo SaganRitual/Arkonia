@@ -10,8 +10,6 @@ class Stepper {
     var net: Net!
     var netDisplay: NetDisplay?
     var nose: SKSpriteNode!
-    var parentBiases: [Double]?
-    var parentLayers: [Int]?
     weak var parentStepper: Stepper?
     var parentWeights: [Double]?
     var previousShiftOffset = AKPoint.zero

@@ -55,7 +55,7 @@ extension Plotter {
         a()
     }
 
-    func calculateTargetOffset(for motorOutput: Int, from cells: [GridCellProtocol?]) -> Int {
+    func calculateTargetOffset(for motorOutput: Int, from cells: ContiguousArray<GridCellProtocol?>) -> Int {
         #if DEBUG
         Plotter.checkGridIntegrity(scratch, cells)
         #endif
@@ -79,7 +79,7 @@ extension Plotter {
 
 #if DEBUG
 extension Plotter {
-    static func checkGridIntegrity(_ scratch: Scratchpad, _ cells: [GridCellProtocol?]) {
+    static func checkGridIntegrity(_ scratch: Scratchpad, _ cells: ContiguousArray<GridCellProtocol?>) {
         for c in cells {
             if let cc = c as? GridCell {
                 hardAssert(cc.ownerName == cells[0]!.ownerName) {

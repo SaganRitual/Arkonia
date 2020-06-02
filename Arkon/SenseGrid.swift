@@ -5,14 +5,14 @@ class SenseGrid: CustomDebugStringConvertible {
 
     lazy var debugDescription: String = { cells[0].debugDescription }()
 
-    var cells: [GridCellProtocol?]
+    var cells: ContiguousArray<GridCellProtocol?>
     let cCellsWithinSenseRange: Int
     let ownerName: ArkonName
 
     init(_ stepper: Stepper, cCellsWithinSenseRange: Int) {
         self.ownerName = stepper.name
 
-        self.cells = [GridCellProtocol?](repeating: nil, count: cCellsWithinSenseRange)
+        self.cells = ContiguousArray<GridCellProtocol?>(repeating: nil, count: cCellsWithinSenseRange)
 
         self.cCellsWithinSenseRange = cCellsWithinSenseRange
     }
@@ -35,6 +35,7 @@ class SenseGrid: CustomDebugStringConvertible {
 
             Debug.log(level: 168) { "CellSenseGrid \(index), \(position) tenant \(six(cell.stepper?.name)) owner \(six(self.ownerName))" }
 
+            #if DEBUG
             if self.ownerName == cell.ownerName {
                 SenseGrid.checkGridIntegrity(center, cells)
 
@@ -44,6 +45,7 @@ class SenseGrid: CustomDebugStringConvertible {
                     + " on it already; line number \(#line) in \(#file)"
                 }
             }
+            #endif
 
             guard let lock = (cell.lock(require: .degradeToCold, ownerName: self.ownerName, catchDumbMistakes))
                 else { fatalError() }
@@ -121,7 +123,7 @@ class SenseGrid: CustomDebugStringConvertible {
 
 #if DEBUG
 extension SenseGrid {
-    static func checkGridIntegrity(_ center: GridCell, _ cells: [GridCellProtocol?]) {
+    static func checkGridIntegrity(_ center: GridCell, _ cells: ContiguousArray<GridCellProtocol?>) {
         for c in cells {
             hardAssert((c is GridCell) == (c!.ownerName == center.ownerName)) { "hardAssert at \(#file):\(#line)" }
             hardAssert(((c as? GridCell)?.isLocked ?? false) || !(c is GridCell)) { "hardAssert at \(#file):\(#line)" }
