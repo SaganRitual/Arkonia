@@ -70,6 +70,8 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         Debug.showLog()
      }
 
+    override func keyDown(with event: NSEvent) { Census.shared.reSeedWorld() }
+
     func buildBarCharts() {
         barChartFactory = BarChartFactory(hud: hud)
     }

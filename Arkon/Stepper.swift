@@ -14,6 +14,7 @@ class Stepper {
     var parentWeights: [Double]?
     var previousShiftOffset = AKPoint.zero
     weak var sprite: SKSpriteNode!
+    var tooth: SKSpriteNode!
 
     init(_ embryo: Spawn, needsNewDispatch: Bool = false) {
         self.gridCell = embryo.engagerKeyForNewborn
@@ -22,6 +23,7 @@ class Stepper {
         self.net = embryo.net
         self.netDisplay = embryo.netDisplay
         self.nose = embryo.nose
+        self.tooth = embryo.tooth
         self.sprite = embryo.thorax
 
         if needsNewDispatch { self.dispatch = Dispatch(self) }

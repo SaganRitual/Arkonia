@@ -19,13 +19,14 @@ extension Apoptosize {
 
     private func releaseStepper_() {
         Debug.log(level: 187) { "Apoptosize.2 \(six(scratch.stepper.name))" }
-        releaseStepper { self.releaseSprites($0.sprite, $0.nose) }
+        releaseStepper { self.releaseSprites($0.sprite, $0.nose, $0.tooth) }
     }
 
-    private func releaseSprites(_ thorax: SKSpriteNode, _ nose: SKSpriteNode) {
+    private func releaseSprites(_ thorax: SKSpriteNode, _ nose: SKSpriteNode, _ tooth: SKSpriteNode) {
         SceneDispatch.shared.schedule {
             Debug.log(level: 187) { "Apoptosize.3 release sprites" }
 
+            SpriteFactory.shared.teethPool.releaseSprite(tooth)
             SpriteFactory.shared.nosesPool.releaseSprite(nose)
             SpriteFactory.shared.arkonsPool.releaseSprite(thorax)
         }

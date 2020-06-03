@@ -17,6 +17,7 @@ final class Spawn: DispatchableProtocol {
     weak var meTheParent: Stepper?
     var thorax: SKSpriteNode?
     var tempStrongReference: Spawn?
+    var tooth: SKSpriteNode?
 
     init(_ scratch: Scratchpad) {
         self.scratch = scratch
@@ -46,7 +47,6 @@ extension Spawn {
                 return
             }
 
-//            meTheParent?.nose.color = .yellow
             buildArkon(b)
         }
 
@@ -139,11 +139,13 @@ extension Spawn {
     private func buildSprites() {
         hardAssert(Display.displayCycle == .updateStarted) { "hardAssert at \(#file):\(#line)" }
 
+        self.tooth = SpriteFactory.shared.teethPool.makeSprite(embryoName)
         self.nose = SpriteFactory.shared.nosesPool.makeSprite(embryoName)
         self.thorax = SpriteFactory.shared.arkonsPool.makeSprite(embryoName)
 
         let thorax = self.thorax!
         let nose = self.nose!
+        let tooth = self.tooth!
         let engagerKey = self.engagerKeyForNewborn!
 
         Debug.log(level: 185) {
@@ -152,6 +154,12 @@ extension Spawn {
             + " at \(engagerKey.gridPosition)"
         }
 
+        tooth.alpha = 1
+        tooth.colorBlendFactor = 1
+        tooth.color = .red
+        tooth.zPosition = 4
+
+        nose.addChild(self.tooth!)
         nose.alpha = 1
         nose.colorBlendFactor = 1
         nose.color = .blue

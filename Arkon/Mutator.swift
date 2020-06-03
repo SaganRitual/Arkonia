@@ -17,22 +17,25 @@ enum Mutator {
             return result
         }
 
-        return { return samples.randomElement()! / 10 }
+        return { return samples.randomElement()! }
     }()
 
     static func mutate(from value: Float) -> (Float, Bool) {
-        let nu = Mutator.mutationValue()
-        Debug.log(level: 184) { "from \(value) to \(value + nu) with \(nu)" }
+        // The mutation value is from a normal curve on -1.0..<1.0
+        // Add 1/10 of that to the value we got, which should
+        // also be in -1.0..<1.0
+        let nu = Mutator.mutationValue() / 10
+        Debug.log(level: 188) { "from \(value) to \(value + nu) with \(nu)" }
 
         // If next uniform is zero, we didn't change anything
         return (value + nu, nu != 0)
     }
 
     static func mutate(from value: Int) -> (Int, Bool) {
-        let nu = Mutator.mutationValue()
+        let nu = Mutator.mutationValue() / 10
         let v = Float(value)
 
-        Debug.log(level: 184) { "from \(v) to \(v + nu) with \(nu)" }
+        Debug.log(level: 189) { "from \(value) to \(Int(v + nu)) with \(nu)" }
 
         // If next uniform is zero, we didn't change anything
         return (Int(v + nu), nu != 0)

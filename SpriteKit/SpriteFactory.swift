@@ -16,17 +16,20 @@ class SpriteFactory {
     let mannaPool: SpritePool
     let nosesPool: SpritePool
     let scene: SKScene
+    let teethPool: SpritePool
     var count = 0
 
     init(scene: SKScene) {
         self.scene = scene
 
-        (arkonsPool, nosesPool) = SpriteFactory.makeArkonsPools()
+        (arkonsPool, nosesPool, teethPool) = SpriteFactory.makeArkonsPools()
         (fullNeuronsPool, halfNeuronsPool, linesPool) = SpriteFactory.makeNetDisplayPools()
         (mannaPool, dotsPool) = SpriteFactory.makeMannaPool()
     }
 
-    static func makeArkonsPools() -> (ThoraxPool, SpritePool) {
+    // swiftlint:disable large_tuple
+    // Large Tuple Violation: Tuples should have at most 2 members. (large_tuple)
+    static func makeArkonsPools() -> (ThoraxPool, SpritePool, SpritePool) {
         let arkonPrototype =
             DronePrototype(alpha: 1, color: .gray, colorBlendFactor: 1, zPosition: 0, zRotation: 0)
 
@@ -41,7 +44,14 @@ class SpriteFactory {
             "Arkons", "spark-nose-large", ArkoniaScene.arkonsPortal, 1000, nosePrototype, nil
         )
 
-        return (arkons, noses)
+        let toothPrototype =
+            DronePrototype(alpha: 1, color: .systemPink, colorBlendFactor: 1, zPosition: 0, zRotation: 0)
+
+        let teeth = SpritePool(
+            "Arkons", "spark-tooth-large", ArkoniaScene.arkonsPortal, 1000, toothPrototype, nil
+        )
+
+        return (arkons, noses, teeth)
     }
 
     static func makeMannaPool() -> (SpritePool, SpritePool) {

@@ -2,7 +2,7 @@ import CoreGraphics
 import Dispatch
 
 enum HotNetType { case blas, bnn, cnn, gpu }
-var hotNetType: HotNetType = .bnn
+var hotNetType: HotNetType = .blas
 
 protocol HotNet: class {
     init(
@@ -145,7 +145,7 @@ extension Net {
         let oddsOfMutation: Float = 0.25
         if Float.random(in: 0..<1) < (1 - oddsOfMutation) { return true }
 
-        let percentageMutation = Float.random(in: 0..<0.10)
+        let percentageMutation = Float.random(in: 0..<0.1)
         let cMutations = Int(percentageMutation * Float(cBiases + cWeights))
         if cMutations == 0 { return true }
 

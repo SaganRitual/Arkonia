@@ -56,6 +56,8 @@ class Census {
             self.updateReports()
         }
     }
+
+    func reSeedWorld() { populated = false }
 }
 
 extension Census {

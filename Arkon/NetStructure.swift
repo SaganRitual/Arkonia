@@ -8,7 +8,7 @@ enum MotorNeurons: Int, CaseIterable {
 }
 
 struct NetStructure {
-    static let cSenseRingsRange: ClosedRange<Int> = 1...5
+    static let cSenseRingsRange: ClosedRange<Int> = 1...10
 
     let layerDescriptors: [Int]
 
