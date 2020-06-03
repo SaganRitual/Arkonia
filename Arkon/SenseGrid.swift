@@ -52,10 +52,6 @@ class SenseGrid: CustomDebugStringConvertible {
 
             self.cells[index] = lock
         }
-
-        #if DEBUG
-        SenseGrid.checkGridIntegrity(center, cells)
-        #endif
     }
 
     // Release the locks on all hot cells except the from/to cells for the shuttle,

@@ -56,10 +56,6 @@ extension Plotter {
     }
 
     func calculateTargetOffset(for motorOutput: Int, from cells: ContiguousArray<GridCellProtocol?>) -> Int {
-        #if DEBUG
-        Plotter.checkGridIntegrity(scratch, cells)
-        #endif
-
         // Try to use the selected motor output, ie, jump to that square on
         // the grid. But if that square is occupied, find one that's not, and
         // jump to that one. A "jump" to cells[0] means we'll just stand still.
@@ -76,31 +72,3 @@ extension Plotter {
         fatalError()
     }
 }
-
-#if DEBUG
-extension Plotter {
-    static func checkGridIntegrity(_ scratch: Scratchpad, _ cells: ContiguousArray<GridCellProtocol?>) {
-        for c in cells {
-            if let cc = c as? GridCell {
-                hardAssert(cc.ownerName == cells[0]!.ownerName) {
-                    "Hot cell \(cc.gridPosition) in my (\(scratch.stepper.name))"
-                        + " grid has someone else's name"
-                        + " (\(cc.ownerName)) on it"
-                        + " \(#file):\(#line)"
-                }
-
-                    hardAssert(cc.isLocked) {
-                    "Hot cell \(cc.gridPosition) in my grid has my name"
-                    + " (\(scratch.stepper.name)) but isn't locked"
-                    + " \(#file):\(#line)"
-                }
-            } else if let cc = c {
-                hardAssert(cc.ownerName != cells[0]!.ownerName) {
-                    "Cold cell \(cc.gridPosition) in my grid has my name"
-                    + "(\(scratch.stepper.name)) on it \(#file):\(#line)"
-                }
-            }
-        }
-    }
-}
-#endif

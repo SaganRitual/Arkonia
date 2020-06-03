@@ -29,6 +29,8 @@ excluded: # paths to ignore during linting. Takes precedence over `included`.
   - 'PlaygroundsSuck-Light'
   - 'PlaygroundsSuck-LightTests'
   - 'Arkon/Metabolism/EnergyBudget.swift'
+  - 'Miscellany/Tensor.Random.swift'
+  - 'Miscellany/Tensor.Utilities.swift'
 analyzer_rules: # Rules run by `swiftlint analyze` (experimental)
   - explicit_self
 

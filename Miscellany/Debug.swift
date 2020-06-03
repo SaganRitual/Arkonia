@@ -101,38 +101,51 @@ extension Debug {
         var dBuckets = Double(0)
         var histogram: [Int]?
 
-        func histogrize(_ value: Double, scale: Int = 10, inputRange: Range<Double>) {
-            Debug.log {
-                hardAssert(inputRange == -1.0..<1.0 || inputRange == 0.0..<1.0) {
-                    "hardAssert at \(#file):\(#line)"
+        static let histogramDispatchQueue = DispatchQueue(
+            label: "ak.histogram.queue", target: DispatchQueue.global()
+        )
+
+        // swiftlint:disable nesting
+        // Nesting Violation: Types should be nested at most 1 level deep (nesting)
+        enum InputRange { case minusOneToOne, zeroToOne }
+        // swiftlint:enable nesting
+
+        func histogrize(_ value: Double, scale: Int = 10, inputRange inputRange_: InputRange) {
+            Histogram.histogramDispatchQueue.async {
+                let inputRange: Range<Double>
+                switch inputRange_ {
+                case .minusOneToOne: inputRange = Double(-1)..<Double(1)
+                case .zeroToOne:     inputRange = Double(0)..<Double(1)
                 }
 
                 if(value < inputRange.lowerBound || value > inputRange.upperBound) {
-                    return "Histogram overflow: value is \(value) range is \(inputRange)"
+                    Debug.log { "Histogram overflow: value is \(value) range is \(inputRange)" }
                 }
 
-                if cBuckets == nil {
-                    cBuckets = scale
-                    dBuckets = Double(scale)
-                    histogram = [Int](repeating: 0, count: scale)
+                if self.cBuckets == nil {
+                    self.cBuckets = scale
+                    self.dBuckets = Double(scale)
+                    self.histogram = [Int](repeating: 0, count: scale)
                 } else {
-                    hardAssert(scale == cBuckets!) { "hardAssert at \(#file):\(#line)" }
+                    hardAssert(scale == self.cBuckets!) { "hardAssert at \(#file):\(#line)" }
                 }
 
                 let vv = (value < 1.0) ? value : value - 1e-4   // Because we do get 1.0 sometimes
 
                 let ss: Int
-                if inputRange == -1.0..<1.0 {
+                switch inputRange_ {
+                case .minusOneToOne:
                     let shifted = vv + 1           // Convert scale -1..<1 to 0..<2
                     let rescaled = shifted / 2     // Convert scale 0..<2 to 0..<1
-                    ss = Int(rescaled * dBuckets)  // Convert scale 0..<1 to bucket subscript 0..<cBuckets
-                } else {
-                    ss = Int(vv * dBuckets)        // Convert scale 0..<1 to bucket subscript 0..<cBuckets
+                    ss = Int(rescaled * self.dBuckets)  // Convert scale 0..<1 to bucket subscript 0..<cBuckets
+
+                case .zeroToOne:
+                    ss = Int(vv * self.dBuckets)        // Convert scale 0..<1 to bucket subscript 0..<cBuckets
                 }
 
-                histogram![ss] += 1
-                let showHowMany = 20
-                return "H(\(showHowMany)): \(histogram!.prefix(showHowMany))"
+                self.histogram![ss] += 1
+                let showHowMany = 100
+                Debug.log { "H(\(showHowMany)): \(self.histogram!.prefix(showHowMany))" }
             }
         }
     }

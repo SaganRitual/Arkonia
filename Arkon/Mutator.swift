@@ -1,43 +1,40 @@
 import GameplayKit
+import GameKit
 
 enum NetMutation: CaseIterable {
     case dropLayer, duplicateLayer, duplicateAndMutateLayer, insertRandomLayer, mutateCRings
 }
 
 enum Mutator {
-    // Mutation amounts, zero-centered and spread out over a fast and loose normal curve generator
-    static let mutationValue: (() -> Float) = {
-        let samples: [Float] = stride(from: -1.0, to: 1.0, by: 0.001).map {
-            let sign = Float(abs($0) / $0)
-            let sSquared = Double($0 * $0)
-            let eee: Double = exp(-sqrt(2 * Double.pi) * sSquared / 1.5)
-            let curve = Float(eee)
-            let flipped = sign * (1 - curve)
-            let result = (flipped < 1.0) ? flipped : flipped - 1e-6  // We don't like 1.0
-            return result
-        }
+    static let dist = NormalDistribution<Float>(mean: 0, standardDeviation: 3)
 
-        return { return samples.randomElement()! }
+    static let mutationValue: (() -> Float) = {
+        var normalizer = Float(0)
+
+        let rawSamples: [Float] = stride(from: -1000, to: 1000, by: 1).map({ _ in
+            let n = dist.next(using: &ARC4RandomNumberGenerator.global)
+            if abs(n) > abs(normalizer) { normalizer = n }
+            return n
+        })
+
+        let cSamples = UInt64(rawSamples.count)
+        let normalizedSamples = rawSamples.map { $0 / normalizer }
+
+        return {
+            let ns = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
+            let ss = Int(ns % cSamples)
+            return normalizedSamples[ss]
+        }
     }()
 
     static func mutate(from value: Float) -> (Float, Bool) {
         // The mutation value is from a normal curve on -1.0..<1.0
         // Add 1/10 of that to the value we got, which should
         // also be in -1.0..<1.0
-        let nu = Mutator.mutationValue() / 10
-        Debug.log(level: 188) { "from \(value) to \(value + nu) with \(nu)" }
+        let nu = Mutator.mutationValue()
+        Debug.log(level: 187) { "mutate from \(value) + \(nu) to \(value + nu)"}
 
         // If next uniform is zero, we didn't change anything
         return (value + nu, nu != 0)
-    }
-
-    static func mutate(from value: Int) -> (Int, Bool) {
-        let nu = Mutator.mutationValue() / 10
-        let v = Float(value)
-
-        Debug.log(level: 189) { "from \(value) to \(Int(v + nu)) with \(nu)" }
-
-        // If next uniform is zero, we didn't change anything
-        return (Int(v + nu), nu != 0)
     }
 }
