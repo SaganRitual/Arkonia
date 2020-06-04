@@ -84,19 +84,18 @@ class Net {
         // If my net structure is a clone of my parent's net structure,
         // copy his buffers and see about mutating the biases and/or
         // weights I'm inheriting
-        var cp = true
         if netStructure.isCloneOfParent {
             biases.initialize(from: parentBiases!, count: netStructure.cBiases)
             weights.initialize(from: parentWeights!, count: netStructure.cWeights)
+
+            self.isCloneOfParent = Net.mutateNetParameters(
+                biases, netStructure.cBiases, weights, netStructure.cWeights
+            )
         } else {
             (0..<netStructure.cBiases).forEach  { biases[$0]  = Float.random(in: -1..<1) }
             (0..<netStructure.cWeights).forEach { weights[$0] = Float.random(in: -1..<1) }
-            cp = false
+            self.isCloneOfParent = false
         }
-
-        self.isCloneOfParent = Net.mutateNetParameters(
-            biases, netStructure.cBiases, weights, netStructure.cWeights
-        ) && cp
 
         self.pNeurons = UnsafePointer(neurons)
         self.pBiases = UnsafePointer(biases)

@@ -136,6 +136,8 @@ extension Census {
         highWaterAge = max(highWaterAge, ageOfDeceased)
         population -= 1
 
+        if population < 25 { Dispatch().spawn() }
+
         self.cLiveNeurons -= cNeuronsOfDeceased
 
         archive.removeValue(forKey: nameOfDeceased)

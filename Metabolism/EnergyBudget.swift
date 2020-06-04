@@ -25,8 +25,9 @@ enum MaterialConversions {
 }
 
 enum WorldConstants {
-    static let useCostWorkPerNeuronJoules: CGFloat = 0.5 / 300
-    static let useCostOozePerNeuronKg:     CGFloat = 0.5 / 300
+    static let baselineCNeurons: CGFloat = 2000 // A ten-ring sense grid takes about 2k
+    static let useCostWorkPerNeuronJoules: CGFloat = 0.5 / baselineCNeurons
+    static let useCostOozePerNeuronKg:     CGFloat = 0.5 / baselineCNeurons
 }
 
 struct EnergyBudget: HasCapacity {
