@@ -46,10 +46,12 @@ extension TickLife {
             scratch.tickBacklog -= 1
         } while scratch.tickBacklog >= 0
 
+        if !(isAlive && Grid.shared.isOnGrid(scratch.stepper.gridCell.gridPosition))
+            { scratch.dispatch!.apoptosize(); return }
+
         scratch.tickBacklog = 0
         canSpawn = Arkonia.allowSpawning && isAlive && scratch.stepper.metabolism.canSpawn()
-
-        if isAlive { colorizer.colorize(routeLife) } else { routeLife_() }
+        colorizer.colorize(routeLife)
     }
 }
 
@@ -63,8 +65,7 @@ extension TickLife {
             Grid.shared.isOnGrid(scratch.stepper.gridCell.gridPosition)
         ) { "hardAssert at \(#file):\(#line)" }
 
-        if !isAlive      { scratch.dispatch!.apoptosize()  }
-        else if canSpawn { scratch.dispatch!.spawn()       }
-        else             { scratch.dispatch!.computeMove() }
+        if canSpawn { scratch.dispatch!.spawn()       }
+        else        { scratch.dispatch!.computeMove() }
     }
 }

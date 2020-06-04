@@ -28,6 +28,7 @@
 		D4231C7B2440405600683742 /* Reschedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4231C7A2440405600683742 /* Reschedule.swift */; };
 		D42B7CEF248765C000085F7F /* Tensor.Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42B7CEE248765C000085F7F /* Tensor.Random.swift */; };
 		D42B7CF12487678A00085F7F /* Tensor.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42B7CF02487678A00085F7F /* Tensor.Utilities.swift */; };
+		D42B7CF32487C59000085F7F /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42B7CF22487C59000085F7F /* ImageCache.swift */; };
 		D43DC50824165AFE0017FADF /* GPUArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50724165AFE0017FADF /* GPUArray.swift */; };
 		D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50D2416C4AC0017FADF /* MPSImage+Floats.swift */; };
 		D44EFA5824280CB600798FE6 /* Plotter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44EFA5724280CB600798FE6 /* Plotter.swift */; };
@@ -147,6 +148,7 @@
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
 		D42B7CEE248765C000085F7F /* Tensor.Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tensor.Random.swift; sourceTree = "<group>"; };
 		D42B7CF02487678A00085F7F /* Tensor.Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tensor.Utilities.swift; sourceTree = "<group>"; };
+		D42B7CF22487C59000085F7F /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		D43DC50524162FB10017FADF /* HotLayerCnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerCnn.swift; sourceTree = "<group>"; };
 		D43DC50724165AFE0017FADF /* GPUArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUArray.swift; sourceTree = "<group>"; };
 		D43DC50924165D450017FADF /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
@@ -445,6 +447,7 @@
 		D4E8D268227E06F400DFCB40 /* NetDisplay */ = {
 			isa = PBXGroup;
 			children = (
+				D42B7CF22487C59000085F7F /* ImageCache.swift */,
 				D42751B92287DBAA0096CDB5 /* NetDisplay.swift */,
 				D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */,
 				D46B1D8622816F58003D711C /* NetGraphics.swift */,
@@ -652,6 +655,7 @@
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
 				D457109B2471169100A9B94F /* JumpSpec.swift in Sources */,
 				D4A4F45D23551F41000EC009 /* Parasitize.swift in Sources */,
+				D42B7CF32487C59000085F7F /* ImageCache.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
 				D40DF32924706E4B001649FA /* EnergyBudget.swift in Sources */,
 				D40DF32724706E4B001649FA /* Digestion.swift in Sources */,

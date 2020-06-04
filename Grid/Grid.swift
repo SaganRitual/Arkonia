@@ -73,8 +73,8 @@ class Grid {
     }
 
     func isOnGrid(_ position: AKPoint) -> Bool {
-        return position.x >= -gridWidthInCells && position.x < gridWidthInCells &&
-               position.y >= -gridHeightInCells && position.y < gridHeightInCells
+        return position.x >= -gridWidthInCells + 1 && position.x < gridWidthInCells - 1 &&
+               position.y >= -gridHeightInCells + 1 && position.y < gridHeightInCells - 1
     }
 }
 

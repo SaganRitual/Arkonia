@@ -29,7 +29,9 @@ extension Plotter {
 
             let targetOffset = calculateTargetOffset(for: motorOutput, from: senseGrid.cells)
 
-            let toCell = (senseGrid.cells[targetOffset] as? GridCell)!
+            guard let toCell = senseGrid.cells[targetOffset] as? GridCell else {
+                scratch.dispatch?.apoptosize(); return
+            }
 
             let fromCell = (targetOffset > 0) ? senseGrid.cells[0] as? GridCell : nil
 
@@ -63,9 +65,15 @@ extension Plotter {
         let cCellsWithinSenseRange = scratch.stepper.net.netStructure.cCellsWithinSenseRange
         for m in 0..<cCellsWithinSenseRange {
             let select = (m + motorOutput) % cCellsWithinSenseRange
-            if let cell = cells[select] as? GridCell,
-                  (cell.stepper == nil || select == 0) {
+            let cell = cells[select]
+
+            switch cell {
+            case let c as GridCell:
+                if c.stepper == nil || select == 0 { return select }
+            case is NilKey:
                 return select
+            default:
+                break
             }
         }
 
