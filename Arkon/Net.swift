@@ -142,7 +142,7 @@ extension Net {
         _ biases: UnsafeMutablePointer<Float>, _ cBiases: Int,
         _ weights: UnsafeMutablePointer<Float>, _ cWeights: Int
     ) -> Bool {
-        let oddsOfMutation: Float = 0.25
+        let oddsOfMutation: Float = 1
         if Float.random(in: 0..<1) < (1 - oddsOfMutation) { return true }
 
         let percentageMutation = Float.random(in: 0..<0.1)
@@ -158,7 +158,7 @@ extension Net {
                 whichBuffer = weights; offset = Int.random(in: 0..<cWeights)
             }
 
-            let (newValue, didMutate) = Mutator.mutate(from: whichBuffer[offset])
+            let (newValue, didMutate) = Mutator.shared.mutate(from: whichBuffer[offset])
             if didMutate {
                 isCloneOfParent = false
                 whichBuffer[offset] = newValue

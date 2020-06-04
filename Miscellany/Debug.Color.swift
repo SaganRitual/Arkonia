@@ -1,9 +1,18 @@
-//
-//  Debug.Color.swift
-//  Karamba
-//
-//  Created by Rob Bishop on 6/3/20.
-//  Copyright © 2020 Boring Software. All rights reserved.
-//
+import SpriteKit
 
-import Foundation
+extension Debug {
+    static func debugColor(
+        _ thorax: SKSpriteNode, _ thoraxColor: SKColor,
+        _ nose: SKSpriteNode, _ noseColor: SKColor
+    ) {
+        if !Arkonia.debugColorIsEnabled { return }
+        thorax.color = thoraxColor
+        nose.color = noseColor
+    }
+
+    static func debugColor(_ stepper: Stepper, _ thoraxColor: SKColor, _ noseColor: SKColor) {
+        if !Arkonia.debugColorIsEnabled { return }
+        stepper.sprite.color = thoraxColor
+        stepper.nose.color = noseColor
+    }
+}

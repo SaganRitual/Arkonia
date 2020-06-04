@@ -15,23 +15,6 @@ func showDebugLog() {
 func six(_ string: String?) -> String { String(string?.prefix(50) ?? "<nothing here>") }
 
 struct Debug {
-    static func debugColor(
-        _ thorax: SKSpriteNode, _ thoraxColor: SKColor,
-        _ nose: SKSpriteNode, _ noseColor: SKColor
-    ) {
-        if !Arkonia.debugColorIsEnabled { return }
-        thorax.color = thoraxColor
-        nose.color = noseColor
-    }
-
-    static func debugColor(_ stepper: Stepper, _ thoraxColor: SKColor, _ noseColor: SKColor) {
-        if !Arkonia.debugColorIsEnabled { return }
-        stepper.sprite.color = thoraxColor
-        stepper.nose.color = noseColor
-    }
-}
-
-extension Debug {
     static func debugStats(startedAt: UInt64, scale: Double) -> Double {
         let stoppedAt = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
         return constrain(Double(stoppedAt - startedAt) / scale, lo: 0, hi: 1)
@@ -41,7 +24,7 @@ extension Debug {
 extension Debug {
 
     private static let debugLogQueue = DispatchQueue(
-        label: "arkonia.log.q", target: DispatchQueue.global()
+        label: "arkonia.log.q", target: DispatchQueue.global(qos: .userInitiated)
     )
 
     private static let startTime = Date()
@@ -98,11 +81,13 @@ extension Debug {
 
     class Histogram {
         var cBuckets: Int?
+        var countdownToLog: Int?
         var dBuckets = Double(0)
+        let debugLogInterval = 100
         var histogram: [Int]?
 
         static let histogramDispatchQueue = DispatchQueue(
-            label: "ak.histogram.queue", target: DispatchQueue.global()
+            label: "ak.histogram.queue", target: DispatchQueue.global(qos: .userInitiated)
         )
 
         // swiftlint:disable nesting
@@ -110,7 +95,9 @@ extension Debug {
         enum InputRange { case minusOneToOne, zeroToOne }
         // swiftlint:enable nesting
 
-        func histogrize(_ value: Double, scale: Int = 10, inputRange inputRange_: InputRange) {
+        func histogrize(
+            _ value: Double, scale: Int = 10, inputRange inputRange_: InputRange
+        ) {
             Histogram.histogramDispatchQueue.async {
                 let inputRange: Range<Double>
                 switch inputRange_ {
@@ -144,8 +131,13 @@ extension Debug {
                 }
 
                 self.histogram![ss] += 1
-                let showHowMany = 100
-                Debug.log { "H(\(showHowMany)): \(self.histogram!.prefix(showHowMany))" }
+                if self.countdownToLog == nil { self.countdownToLog = 0 } else { self.countdownToLog! -= 1 }
+
+                if self.countdownToLog == nil || self.countdownToLog! <= 0 {
+                    let showHowMany = 100
+                    Debug.log { "H(\(showHowMany)): \(self.histogram!.prefix(showHowMany))" }
+                    self.countdownToLog! = self.debugLogInterval
+                }
             }
         }
     }
