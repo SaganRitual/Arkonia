@@ -74,14 +74,4 @@ struct NetGraphics {
 
         Debug.log(level: 17) { "sprite \(six(sprite.name)) at \(sprite.position)" }
     }
-
-    func drawNeuron(
-        for arkon: SKSpriteNode, at gridPoint: GridPoint, layerRole: LayerRole, _ onComplete: @escaping () -> Void
-    ) {
-        SceneDispatch.shared.schedule {
-            Debug.log(level: 102) { "drawNeuron" }
-            self.drawNeuron(for: arkon, at: gridPoint, layerRole: layerRole)
-            onComplete()
-        }
-    }
 }
