@@ -2,7 +2,7 @@ import CoreGraphics
 
 func six(_ point: AKPoint?) -> String { point == nil ? "<nil>" : "\(point!)"}
 
-struct AKPoint: Overload2D, Hashable, HasXY, CustomDebugStringConvertible {
+struct AKPoint: Overload2D, Hashable, CustomDebugStringConvertible {
     // swiftlint:disable unused_setter_value
     var aa: CGFloat { get { CGFloat(x) } set { } }
     var bb: CGFloat { get { CGFloat(y) } set { } }
@@ -16,11 +16,7 @@ struct AKPoint: Overload2D, Hashable, HasXY, CustomDebugStringConvertible {
 
     static func makeTuple(_ xx: CGFloat, _ yy: CGFloat) -> AKPoint { AKPoint(xx, yy) }
 
-    private func debugDescription_() -> String {
-        return String(format: "%+03d%+03d", x, y)
-    }
-
-    var debugDescription: String { debugDescription_() }
+    var debugDescription: String { String(format: "%+03d%+03d", x, y) }
 
     let x: Int; let y: Int
 
@@ -45,5 +41,44 @@ struct AKPoint: Overload2D, Hashable, HasXY, CustomDebugStringConvertible {
 
     static func * (_ lhs: AKPoint, _ rhs: Int) -> AKPoint {
         return AKPoint(x: lhs.x * rhs, y: lhs.y * rhs)
+    }
+}
+
+struct AKSize: Overload2D, Hashable, CustomDebugStringConvertible {
+    // swiftlint:disable unused_setter_value
+    var aa: CGFloat { get { CGFloat(width) } set { } }
+    var bb: CGFloat { get { CGFloat(height) } set { } }
+    // swiftlint:enable unused_setter_value
+
+    func area() -> Int { return width * height }
+
+    func asPoint() -> CGPoint { return CGPoint(x: width, y: height) }
+
+    func asSize() -> CGSize { return CGSize(width: width, height: height) }
+
+    func asVector() -> CGVector { return CGVector(dx: width, dy: height) }
+
+    static func makeTuple(_ ww: CGFloat, _ hh: CGFloat) -> AKSize { AKSize(ww, hh) }
+
+    var debugDescription: String { String(format: "%+03d%+03d", width, height) }
+
+    let width: Int; let height: Int
+
+    init(_ size: AKSize) { width = size.width; height = size.height }
+    init(width: Int, height: Int) { self.width = width; self.height = height }
+    init(_ ww: CGFloat, _ hh: CGFloat) { self.width = Int(ww); self.height = Int(hh) }
+
+    static let zero = AKSize(width: 0, height: 0)
+
+    static func + (_ lhs: AKSize, _ rhs: AKSize) -> AKSize {
+        return AKSize(width: lhs.width + rhs.width, height: lhs.height + rhs.height)
+    }
+
+    static func - (_ lhs: AKSize, _ rhs: AKSize) -> AKSize {
+        return AKSize(width: lhs.width - rhs.width, height: lhs.height - rhs.height)
+    }
+
+    static func * (_ lhs: AKSize, _ rhs: Int) -> AKSize {
+        return AKSize(width: lhs.width * rhs, height: lhs.height * rhs)
     }
 }

@@ -1,10 +1,5 @@
 import SpriteKit
 
-protocol HasXY {
-    var x: Int { get }
-    var y: Int { get }
-}
-
 extension GridCell {
     static func atIf(_ x: Int, _ y: Int) -> GridCell? {
         let p = AKPoint(x: x, y: y)

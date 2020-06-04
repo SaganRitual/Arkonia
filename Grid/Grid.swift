@@ -8,7 +8,6 @@ class Grid {
 
     private let atlas: SKTextureAtlas
     private let noseTexture: SKTexture
-    private let toothTexture: SKTexture
     private weak var portal: SKSpriteNode?
 
     let gridCellWidthInPix: Int, gridCellHeightInPix: Int
@@ -37,7 +36,6 @@ class Grid {
 
         atlas = SKTextureAtlas(named: "Arkons")
         noseTexture = atlas.textureNamed("spark-nose-large")
-        toothTexture = atlas.textureNamed("spark-tooth-large")
 
         let zf = CGFloat(Arkonia.zoomFactor)
 

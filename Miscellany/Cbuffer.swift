@@ -34,7 +34,7 @@ class Cbuffer<T> {
     }
 
     @discardableResult
-    func pop() -> T {
+    func popFront() -> T {
         hardAssert(mode == .fifo) { "hardAssert at \(#file):\(#line)" }
         hardAssert(nextPopOffset != nextPushOffset || wrappedPop == true) {
             "Underflow in FIFO -- line \(#line) in \(#file)"
@@ -49,7 +49,7 @@ class Cbuffer<T> {
         return elements[nextPopOffset]!
     }
 
-    func push(_ element: T) {
+    func pushBack(_ element: T) {
         hardAssert(mode == .fifo) { "hardAssert at \(#file):\(#line)" }
         hardAssert(nextPopOffset != nextPushOffset || wrappedPop == false) {
             "Overflow in FIFO -- line \(#line) in \(#file)"

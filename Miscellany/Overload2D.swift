@@ -271,6 +271,8 @@ extension CGSize: Overload2D {
         return CGSize(width: CGFloat.random(in: widthRange), height: CGFloat.random(in: heightRange))
     }
 
+    func area() -> CGFloat { return width * height }
+
     func asPoint() -> CGPoint {
         return CGPoint(x: width, y: height)
     }
