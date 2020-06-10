@@ -1,16 +1,16 @@
 import SpriteKit
 
 class Manna {
+    let absoluteIngridIndex: Int
     fileprivate var timeRequiredForFullBloom = Arkonia.mannaFullGrowthDurationSeconds
-    fileprivate let fishNumber: Int
     fileprivate var mostRecentBloomTime: Date
     let sprite: Manna.Sprite
 
     var isPhotosynthesizing: Bool { self.sprite.isPhotosynthesizing }
 
-    init(_ fishNumber: Int) {
-        self.fishNumber = fishNumber
-        self.sprite = Manna.Sprite(fishNumber)
+    init(_ absoluteIngridIndex: Int) {
+        self.absoluteIngridIndex = absoluteIngridIndex
+        self.sprite = Manna.Sprite(absoluteIngridIndex)
         self.sprite.reset()
 
         // Set our date to the past so we'll treat the first bloom as completed already
@@ -20,7 +20,6 @@ class Manna {
 
 extension Manna {
     class Sprite {
-        weak var gridCell: GridCell?
         let sprite: SKSpriteNode
 
         init(_ fishNumber: Int) {
@@ -44,8 +43,6 @@ extension Manna {
             MannaCannon.shared!.cPhotosynthesizingManna -= 1
         }
 
-        sprite.gridCell!.mannaAwaitingRebloom = true
-
         Seasons.shared.getSeasonalFactors { dayNightFactor, temperatureCelsiusDegreees in
             let seasonalFactors =  dayNightFactor * temperatureCelsiusDegreees
             let mannaContent = EnergyBudget.MannaContent(maturityLevel, seasonalFactors)
@@ -62,18 +59,6 @@ extension Manna {
             Dispatch.dispatchQueue.async { onComplete(mannaContent) }
         }
     }
-
-    func plant() -> Bool {
-        let cell = GridCell.getRandomCell()
-        guard cell.manna == nil else { return false }
-
-        Debug.log(level: 156) { "plant \(self.fishNumber) at \(cell.gridPosition)" }
-        cell.manna = self
-        self.sprite.firstBloom(at: cell)
-        return true
-    }
-
-    enum RebloomResult { case died, rebloomed }
 
     func rebloom() {
         hardAssert(Display.displayCycle == .updateStarted) { "hardAssert at \(#file):\(#line)" }
@@ -102,34 +87,7 @@ extension Manna {
         timeRequiredForFullBloom = catchup + Arkonia.mannaFullGrowthDurationSeconds
         mostRecentBloomTime = now
 
-//        #if DEBUG
-//        Debug.log(level: 171) { "rebloom \(growthDuration), \(maturity), \(catchup), \(timeRequiredForFullBloom)" }
-//        #endif
-
         let node = pollenator.node
         sprite.bloom(timeRequiredForFullBloom, color: node.fillColor, scaleFactor: node.xScale)
-    }
-}
-
-extension Debug {
-    static func showMannaStats() {
-        var cCells = 0, cPhotosynthesizing = 0
-
-        for x in -Grid.shared.gridWidthInCells..<Grid.shared.gridWidthInCells {
-            for y in -Grid.shared.gridHeightInCells..<Grid.shared.gridHeightInCells {
-                let p = AKPoint(x: x, y: y)
-                let c = Grid.shared.getCell(at: p)
-
-                cCells += 1
-
-                guard let manna = c.manna else {
-                    continue
-                }
-
-                cPhotosynthesizing += manna.isPhotosynthesizing ? 1 : 0
-            }
-        }
-
-        print("Manna stats; \(cCells) cells, \(cPhotosynthesizing) photosynthesizing")
     }
 }

@@ -81,8 +81,8 @@ extension Manna.Sprite {
                 twenty + (eighty / twenty) * (inputTime - eighty)
     }
 
-    func firstBloom(at cell: GridCell) {
-        prepForFirstPlanting(at: cell)
+    func firstBloom(at absoluteGridIndex: Int) {
+        prepForFirstPlanting(at: absoluteGridIndex)
 
         MannaCannon.mannaPlaneQueue.async {
             MannaCannon.shared!.cPhotosynthesizingManna += 1
@@ -111,11 +111,13 @@ extension Manna.Sprite {
         return result
     }
 
-    private func prepForFirstPlanting(at cell: GridCell?) {
-        self.gridCell = cell
+    private func prepForFirstPlanting(at cellAbsoluteIndex: Int) {
+        let cell = Ingrid.shared.cellAt(cellAbsoluteIndex)
         sprite.setScale(Arkonia.mannaScaleFactor / Arkonia.zoomFactor)
-        sprite.position = cell?.randomScenePosition ?? cell!.scenePosition
+        sprite.position = cell.scenePosition
         sprite.zPosition = 0
+
+        Debug.log(level: 190) { "Prep to plant at g(\(cell.gridPosition)) p(\(cell.scenePosition)) " }
     }
 
     func reset() {

@@ -3,36 +3,28 @@ import Foundation
 typealias GoCall = () -> Void
 
 protocol DispatchableProtocol {
-    init(_ scratch: Scratchpad)
+    init(_ stepper: Stepper?)
 
     func launch()
 }
 
 class Dispatchable: DispatchableProtocol {
-    var scratch: Scratchpad!
+    var stepper: Stepper!
 
-    required init(_ scratch: Scratchpad) { self.scratch = scratch }
+    required init(_ stepper: Stepper?) { self.stepper = stepper }
 
     func launch() { fatalError() }
 }
 
 final class Dispatch {
     var lifelet: DispatchableProtocol!
-    var name = ArkonName.empty
-    var scratch: Scratchpad! = Scratchpad()
-    var wiLaunch: DispatchWorkItem?
+    weak var stepper: Stepper?
 
     init(_ stepper: Stepper? = nil) {
-        scratch.dispatch = self
-        scratch.stepper = stepper
-
-        if let n = stepper?.name { self.name = n }
-        self.scratch.name = self.name
-    }
-
-    init(parentNet: Net) {
-        scratch.dispatch = self
-        scratch.parentNet = parentNet
+        if let st = stepper {
+            self.stepper = st
+            st.dispatch = self
+        }
     }
 }
 
@@ -43,7 +35,7 @@ extension Dispatch {
 
     private func dispatch(_ type: DispatchableProtocol.Type) {
         Dispatch.dispatchQueue.async {
-            self.lifelet = type.init(self.scratch)
+            self.lifelet = type.init(self.stepper)
             self.lifelet.launch()
         }
     }
@@ -52,19 +44,15 @@ extension Dispatch {
 
     func arrive()         { dispatch(Arrive.self) }
 
-    func computeMove()    { dispatch(ComputeMove.self) }
+    func driveNetSignal() { dispatch(DriveNetSignal.self) }
 
-    func disengage()      { dispatch(Disengage.self) }
+    func disengageGrid()  { dispatch(DisengageGrid.self) }
 
-    func engage()         { dispatch(Engage.self) }
+    func engageGrid()     { dispatch(EngageGrid.self) }
 
     func moveSprite()     { dispatch(MoveSprite.self) }
 
     func moveStepper()    { dispatch(MoveStepper.self) }
-
-    func parasitize()     { dispatch(Parasitize.self) }
-
-    func releaseShuttle() { dispatch(ReleaseShuttle.self) }
 
     func spawn()          { dispatch(Spawn.self) }
 

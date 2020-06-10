@@ -1,37 +1,39 @@
 import Foundation
 
-class IngridCellDescriptor {
+struct IngridCellDescriptor {
     let absoluteIndex: Int
     let cell: IngridCell?
-    let requiresTeleportation: Bool
+    let virtualScenePosition: CGPoint?  // For asteroids-style wraparound movement
 
     init() {
         absoluteIndex = 0
         cell = nil
-        requiresTeleportation = false
+        virtualScenePosition = nil
     }
 
-    init(_ cell: IngridCell?, _ absoluteIndex: Int, _ requiresTeleportation: Bool = false) {
+    init(_ cell: IngridCell?, _ absoluteIndex: Int, _ virtualScenePosition: CGPoint?) {
         // cell == nil means we coulnd't lock the cell, which means that although
         // we know it's there, we can't see inside it, and we can't jump to it
         self.cell = cell
 
         self.absoluteIndex = absoluteIndex
-        self.requiresTeleportation = requiresTeleportation
+        self.virtualScenePosition = virtualScenePosition
+    }
+
+    init(_ cell: IngridCell, _ virtualScenePosition: CGPoint? = nil) {
+        self.cell = cell
+        self.absoluteIndex = cell.absoluteIndex
+        self.virtualScenePosition = virtualScenePosition
     }
 }
 
 class IngridCell {
     let absoluteIndex: Int
     let gridPosition: AKPoint
-    var isLocked = false
-    let randomScenePosition: CGPoint?
     let scenePosition: CGPoint
-    let waitingLockRequests: Cbuffer<EngagerSpec>
 
     init() {
-        absoluteIndex = 0; gridPosition = .zero; randomScenePosition = nil;
-        scenePosition = .zero; waitingLockRequests = .init(cElements: 0)
+        absoluteIndex = 0; gridPosition = .zero; scenePosition = .zero
     }
 
     init(
@@ -41,11 +43,11 @@ class IngridCell {
         self.absoluteIndex = absoluteIndex
         self.gridPosition = absolutePosition
 
-        self.scenePosition = self.gridPosition.asPoint() * cellSideInPix / 2
-        self.waitingLockRequests = .init(cElements: 10, mode: .fifo)
+        let sp = self.gridPosition.asPoint() * cellSideInPix
 
-        guard let fm = funkyCellsMultiplier else
-            { self.randomScenePosition = nil; return }
+        guard let fm = funkyCellsMultiplier else {
+            self.scenePosition = sp; return
+        }
 
         // Set a random position on the display for this cell, slightly
         // offset from the center of the cell, just so Arkonia won't look
@@ -53,12 +55,12 @@ class IngridCell {
         let wScene = cellSideInPix / 2
         let hScene = cellSideInPix / 2
 
-        let lScene = scenePosition.x - wScene * fm
-        let rScene = scenePosition.x + wScene * fm
-        let bScene = scenePosition.y - hScene * fm
-        let tScene = scenePosition.y + hScene * fm
+        let lScene = sp.x - wScene * fm
+        let rScene = sp.x + wScene * fm
+        let bScene = sp.y - hScene * fm
+        let tScene = sp.y + hScene * fm
 
-        self.randomScenePosition = CGPoint.random(
+        self.scenePosition = CGPoint.random(
             xRange: lScene..<rScene, yRange: bScene..<tScene
         )
     }

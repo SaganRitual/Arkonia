@@ -1,9 +1,10 @@
 import SpriteKit
 
 class Stepper {
+    var birthday: TimeInterval = 0
     var cOffspring = 0
     var dispatch: Dispatch!
-    weak var gridCell: GridCell!
+    var ingridCellAbsoluteIndex = 0
     var isTurnabouted: Bool = false
     var metabolism: Metabolism!
     let name: ArkonName
@@ -13,11 +14,22 @@ class Stepper {
     weak var parentStepper: Stepper?
     var parentWeights: [Double]?
     var previousShiftOffset = AKPoint.zero
+    var sensorPad: UnsafeMutablePointer<IngridCellDescriptor>
     weak var sprite: SKSpriteNode!
     var tooth: SKSpriteNode!
 
+    var babyBumpIsShowing = false
+    var canSpawn = false
+    var jumpSpeed = 0.0
+    var jumpSpec: JumpSpec!
+
+    weak var parentNet: Net?
+    weak var stepper: Stepper!
+
+    var currentTime: Int = 0
+    var currentEntropyPerJoule: Double = 0
+
     init(_ embryo: Spawn, needsNewDispatch: Bool = false) {
-        self.gridCell = embryo.engagerKeyForNewborn
         self.metabolism = embryo.metabolism
         self.name = embryo.embryoName
         self.net = embryo.net
@@ -26,7 +38,37 @@ class Stepper {
         self.tooth = embryo.tooth
         self.sprite = embryo.thorax
 
+        let c = self.net.netStructure.cCellsWithinSenseRange
+        self.sensorPad = .allocate(capacity: c)
+        self.sensorPad.initialize(repeating: IngridCellDescriptor(), count: c)
+
         if needsNewDispatch { self.dispatch = Dispatch(self) }
+    }
+
+    func apoptosize(_ onComplete: @escaping () -> Void) {
+        let c = net.netStructure.cCellsWithinSenseRange
+
+        Ingrid.shared.disengageSensorPad(
+            sensorPad, padCCells: c, keepTheseCells: [], onComplete
+        )
+    }
+
+    func detachRandomCellForNewborn() -> IngridCellDescriptor {
+        let bp =  UnsafeMutableBufferPointer(
+            start: sensorPad, count: net.netStructure.cCellsWithinSenseRange
+        )
+
+        let hotCell = bp.compactMap({ $0.cell }).randomElement()!
+        let localIndex = bp.firstIndex(where: { $0.absoluteIndex == hotCell.absoluteIndex })!
+
+        let virtualScenePosition = bp[localIndex].virtualScenePosition
+
+        Debug.log(level: 190) { "detachRandomCell absoluteIx \(hotCell.absoluteIndex) localIx \(localIndex)" }
+
+        // Invalidate my reference to my offspring's cell; he now owns the lock
+        bp[localIndex] = IngridCellDescriptor()
+
+        return IngridCellDescriptor(hotCell, virtualScenePosition)
     }
 }
 
@@ -43,11 +85,8 @@ extension Stepper {
     }
 
     static func releaseStepper(
-        _ stepper: Stepper, from sprite: SKSpriteNode,
-        _ catchDumbMistakes: DispatchQueueID
+        _ stepper: Stepper, from sprite: SKSpriteNode
     ) {
-        hardAssert(catchDumbMistakes == .arkonsPlane) { "hardAssert at \(#file):\(#line)" }
-
         // See notes in attachStepper
         sprite.userData!["stepper"] = nil
         sprite.name = nil

@@ -24,7 +24,7 @@ struct Debug {
 extension Debug {
 
     private static let debugLogQueue = DispatchQueue(
-        label: "arkonia.log.q", target: DispatchQueue.global(qos: .userInitiated)
+        label: "arkonia.log.q", target: DispatchQueue.global()
     )
 
     private static let startTime = Date()
@@ -87,7 +87,7 @@ extension Debug {
         var histogram: [Int]?
 
         static let histogramDispatchQueue = DispatchQueue(
-            label: "ak.histogram.queue", target: DispatchQueue.global(qos: .userInitiated)
+            label: "ak.histogram.queue", target: DispatchQueue.global()
         )
 
         // swiftlint:disable nesting

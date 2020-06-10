@@ -31,7 +31,7 @@ struct Arkon {
     }
 
     func stopArkon(keepTheseCells: [Int] = [], _ onComplete: @escaping () -> Void) {
-        grid.disengage(pad: pad, padCCells: cCellsInRange, keepTheseCells: keepTheseCells, onComplete)
+        grid.disengageSensorPad(pad: pad, padCCells: cCellsInRange, keepTheseCells: keepTheseCells, onComplete)
     }
 }
 

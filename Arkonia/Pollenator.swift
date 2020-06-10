@@ -5,7 +5,7 @@ import SpriteKit
 // unprotected, because it's never changed outside the scene update
 class Pollenator {
     var birthday: TimeInterval = 0
-    var currentPosition = GridCell.getRandomCell()
+    var currentPosition = Ingrid.randomCell().scenePosition
     let node = SKShapeNode(circleOfRadius: ArkoniaScene.arkonsPortal.size.hypotenuse / 5)
     let sizePeakToPeak: TimeInterval
     let speedPeakToPeak: TimeInterval
@@ -19,7 +19,7 @@ class Pollenator {
 
         node.zPosition = 1
         node.setScale(1)
-        node.position = currentPosition.scenePosition
+        node.position = currentPosition
 
         ArkoniaScene.arkonsPortal.addChild(node)
 
@@ -53,15 +53,14 @@ class Pollenator {
 
         Debug.log(level: 133) { "pollenator \(sizeScale) \(node.xScale)" }
 
-        let newTarget = GridCell.getRandomCell()
-        let distanceToTarget = currentPosition.scenePosition.distance(to: newTarget.scenePosition)
+        let newTargetPosition = Ingrid.randomCell().scenePosition
+        let distanceToTarget = currentPosition.distance(to: newTargetPosition)
         let travelTime = TimeInterval(distanceToTarget / speedScale)
 
-        currentPosition = newTarget
-
         let scaleAction = SKAction.scale(to: sizeScale, duration: min(1, travelTime))
-        let moveAction = SKAction.move(to: newTarget.scenePosition, duration: travelTime)
+        let moveAction = SKAction.move(to: newTargetPosition, duration: travelTime)
         let group = SKAction.group([scaleAction, moveAction])
-        node.run(group) { self.move() }
+
+        node.run(group) { self.currentPosition = newTargetPosition; self.move() }
     }
 }

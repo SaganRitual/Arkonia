@@ -15,6 +15,11 @@ struct IngridIndexer {
         }
     }
 
+    func getGridPointByLocalIndex(center absoluteIndex: Int, targetIndex localIndex: Int) -> AKPoint {
+        let cell = Ingrid.shared.cellAt(absoluteIndex)
+        return cell.gridPosition + indexedGridPoints[localIndex]
+    }
+
     func getGridPointByLocalIndex(center: AKPoint, targetIndex: Int) -> AKPoint {
         return center + indexedGridPoints[targetIndex]
     }

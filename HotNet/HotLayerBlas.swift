@@ -29,6 +29,9 @@ class HotLayerBlas {
         // The sgemv function below does y = alpha * Ax + beta * y; copy
         // the biases to y here so the sgemm result will be added to them
 
+        let cog = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
+        Debug.log(level: 193) { "pre-copy biases layer \(cNeuronsIn)x\(cNeuronsOut) n = \(cog)" }
+
         cblas_scopy(
             Int32(cNeuronsOut), // Number of elements in the vectors
             pBiases,            // Copy from biases vector
@@ -37,9 +40,8 @@ class HotLayerBlas {
             Int32(1)            // Stride for output -- write to each nth entry
         )
 
-        Debug.log(level: 187) {
-            "scopy: \(cNeuronsOut), \(pBiases), 1, \(pNeuronsOut), 1"
-        }
+        let dog = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
+        Debug.log(level: 193) { "copy biases layer \(cNeuronsIn)x\(cNeuronsOut) n = \(dog)" }
 
         cblas_sgemv(
             CblasRowMajor, CblasTrans,
@@ -55,7 +57,10 @@ class HotLayerBlas {
             Int32(1)            // Stride for y -- write to each nth entry
         )
 
-        Debug.log(level: 187) {
+        let bog = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
+        Debug.log(level: 193) { "sgemv layer \(cNeuronsIn)x\(cNeuronsOut) n = \(bog)" }
+
+        Debug.log(level: 192) {
             "sgemv: CblasRowMajor, CblasNoTrans, \(cNeuronsIn), \(cNeuronsOut), 1, \(pWeights), \(cNeuronsOut), \(pNeuronsIn), 1, 1, \(pNeuronsOut), 1"
         }
 
@@ -66,5 +71,8 @@ class HotLayerBlas {
             let b = Net.logistic(a)
             self.pNeuronsOut[$0] = b
         }
+
+        let log = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
+        Debug.log(level: 193) { "output from layer \(cNeuronsIn)x\(cNeuronsOut) n = \(log)" }
     }
 }

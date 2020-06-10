@@ -10,7 +10,6 @@ class Census {
     static var shared: Census!
 
     let ageFormatter: DateComponentsFormatter
-    var archive = [ArkonName: Fishday]()
     private(set) var highWaterAge = 0
     private(set) var highWaterCOffspring = 0
     private(set) var highWaterPopulation = 0
@@ -73,13 +72,8 @@ extension Census {
         return self.TheFishNumber
     }
 
-    static func getAge(of arkon: ArkonName, at currentTime: Int, require: Bool = true) -> Int? {
-        if let birthday = Census.shared.archive[arkon]?.birthday {
-            return currentTime - birthday
-        } else {
-            if require { fatalError() }
-            return nil
-        }
+    static func getAge(of arkon: Stepper, at currentTime: Int) -> TimeInterval {
+        return TimeInterval(currentTime) - arkon.birthday
     }
 }
 
@@ -115,37 +109,17 @@ extension Census {
             myParent?.cOffspring ?? 0, self.highWaterCOffspring
         )
 
-        Debug.log(level: 89) {
-            "nil? \(myParent == nil), pop \(self.population)"
-            + ", cOffspring \(myParent?.cOffspring ?? -1)" +
-            " real hw cOfspring \(self.highWaterCOffspring)"
-        }
-
-        archive[myName] = Fishday(
-            birthday: self.localTime,
-            cNeurons: myNet.netStructure.cNeurons,
-            fishNumber: self.getNextFishNumber()
-        )
-
-        return archive[myName]!
+        return Fishday(birthday: 0, cNeurons: myNet.netStructure.cNeurons, fishNumber: 0)
     }
 
-    func registerDeath(_ nameOfDeceased: ArkonName, _ cNeuronsOfDeceased: Int, _ worldTime: Int) {
-        let ageOfDeceased = (Census.getAge(of: nameOfDeceased, at: worldTime))!
+    func registerDeath(_ stepper: Stepper, _ worldTime: Int) {
+        let ageOfDeceased = Census.getAge(of: stepper, at: worldTime)
 
-        highWaterAge = max(highWaterAge, ageOfDeceased)
+        highWaterAge = max(highWaterAge, Int(ageOfDeceased))
         population -= 1
 
         if population < 25 { Dispatch().spawn() }
 
-        self.cLiveNeurons -= cNeuronsOfDeceased
-
-        archive.removeValue(forKey: nameOfDeceased)
-
-        if archive.isEmpty {
-            ArkoniaScene.shared.speed = 0
-            ArkoniaScene.shared.lgNeurons.canvases.forEach { canvas in canvas.speed = 0 }
-            Clock.stop()
-        }
+        self.cLiveNeurons -= stepper.net!.netStructure.cNeurons
     }
 }

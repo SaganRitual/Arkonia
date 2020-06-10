@@ -6,16 +6,17 @@ class MannaCannon {
     static let mannaPlaneQueue = DispatchQueue(
         label: "manna.plane.serial", target: DispatchQueue.global()
     )
+    private var readyMannaIndices: Cbuffer<Int>
 
-    private(set) var readyManna: [Manna]
+    let readyMannaBatchSize = 10
     let pollenators: [Pollenator]
 
     var cDeadManna = 0
     var cPhotosynthesizingManna = 0
     var cPlantedManna = 0
 
-    init() {
-        readyManna = []
+    init(cManna: Int) {
+        readyMannaIndices = .init(cElements: cManna)
 
         if Arkonia.cPollenators == 0 { pollenators = []; return }
 
@@ -25,29 +26,26 @@ class MannaCannon {
     }
 
     func blast(_ manna: Manna) {
-        let targetCLaunchees = 10
-
         MannaCannon.mannaPlaneQueue.async {
-            self.readyManna.append(manna)
+            [readyMannaBatchSize, readyMannaIndices] in
 
-            if self.readyManna.count > targetCLaunchees {
-                Debug.log(level: 183) { "blast.0 \(self.readyManna.count), \(targetCLaunchees)" }
+            readyMannaIndices.pushBack(manna.absoluteIngridIndex)
 
-                let duration = TimeInterval.random(
-                    in: Arkonia.mannaRebloomDelayMinimum..<Arkonia.mannaRebloomDelayMaximum
-                )
+            if readyMannaIndices.count > readyMannaBatchSize {
+                let min_ = Arkonia.mannaRebloomDelayMinimum
+                let max_ = Arkonia.mannaRebloomDelayMaximum
+                let duration = TimeInterval.random(in: min_..<max_)
 
-                let cLaunchees = min(self.readyManna.count, targetCLaunchees)
-                let launchees = Array(self.readyManna[0..<cLaunchees])
-                self.readyManna.removeFirst(cLaunchees)
+                let cMannaToLaunch = min(readyMannaIndices.count, readyMannaBatchSize)
 
-                Debug.log(level: 183) { "blast.1 \(self.readyManna.count), \(targetCLaunchees), \(cLaunchees)" }
+                let mannaToLaunch: [Manna] = (0..<cMannaToLaunch).map { _ in
+                    let absoluteMannaIndex = readyMannaIndices.popFront()
+                    return Ingrid.shared.manna.mannaAt(absoluteMannaIndex)!
+                }
 
                 MannaCannon.mannaPlaneQueue.asyncAfter(deadline: .now() + duration) {
-                    Debug.log(level: 183) { "blast.2 \(self.readyManna.count), \(targetCLaunchees), \(cLaunchees)" }
                     SceneDispatch.shared.schedule {
-                        Debug.log(level: 183) { "blast.3 \(self.readyManna.count), \(targetCLaunchees), \(cLaunchees)" }
-                        launchees.forEach { $0.rebloom() }
+                        mannaToLaunch.forEach { $0.rebloom() }
                     }
                 }
             }
@@ -55,18 +53,19 @@ class MannaCannon {
     }
 
     func postInit() {
-        // Indiscriminately attempt to plant as many manna as indicated, but
-        // down below, we get a random cell, and if it's already occupied, we
-        // don't bother it, instead we count that as a bona fide attempt, and
-        // use the unplanted manna for the next plant attempt. So we'll typically
-        // not end up with cMannaMorsels planted
-        var morsel: Manna?
-        for fishNumber in 0..<Arkonia.cMannaMorsels {
-            if morsel == nil { morsel = Manna(fishNumber) }
-            if morsel!.plant() == true {
-                cPlantedManna += 1
-                morsel = nil
-            }
+        // Indiscriminately attempt to plant as many manna as indicated. Since
+        // we're choosing a random cell each time, we'll soemteims pick a cell
+        // that already has manna in it, in which case we skip the attempt. The
+        // result is that we'll always end up with fewer than cMannaMorsels morsels
+        for _ in 0..<Arkonia.cMannaMorsels {
+            let ingridAbsoluteIndex = Ingrid.randomCellIndex()
+            if Ingrid.shared.manna.mannaAt(ingridAbsoluteIndex) != nil { continue }
+
+            Ingrid.shared.manna.placeManna(at: ingridAbsoluteIndex)
+
+            let m = Ingrid.shared.manna.mannaAt(ingridAbsoluteIndex)!
+            m.sprite.firstBloom(at: ingridAbsoluteIndex)
+            cPlantedManna += 1
         }
     }
 }

@@ -124,14 +124,8 @@ class Net {
         }
     }
 
-    func release(catchDumbMistakes: DispatchQueueID, _ onComplete: @escaping () -> Void) {
-        hardAssert(catchDumbMistakes == .net) { "\(#file):\(#line)" }
-        [pNeurons, pBiases, pWeights].forEach { block in
-            Debug.log(level: 187) { "Release net pre \(block)" }
-            block.deallocate()
-            Debug.log(level: 187) { "Release net post" }
-        }
-
+    func release(_ onComplete: @escaping () -> Void) {
+        [pNeurons, pBiases, pWeights].forEach { $0.deallocate() }
         onComplete()
     }
 }
@@ -141,7 +135,7 @@ extension Net {
         _ biases: UnsafeMutablePointer<Float>, _ cBiases: Int,
         _ weights: UnsafeMutablePointer<Float>, _ cWeights: Int
     ) -> Bool {
-        let oddsOfMutation: Float = 1
+        let oddsOfMutation: Float = 0.25
         if Float.random(in: 0..<1) < (1 - oddsOfMutation) { return true }
 
         let percentageMutation = Float.random(in: 0..<0.1)

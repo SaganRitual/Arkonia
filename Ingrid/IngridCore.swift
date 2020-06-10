@@ -2,7 +2,7 @@ import Foundation
 
 struct EngagerSpec {
     let cCellsInRange: Int
-    let center: AKPoint
+    let center: Int
     let onComplete: () -> Void
     let pad: UnsafeMutablePointer<IngridCellDescriptor>
 }
@@ -13,7 +13,7 @@ class IngridCore {
     let portalDimensionsPix: CGSize
 
     let indexer: IngridIndexer
-    let theGrid: UnsafeMutableBufferPointer<IngridCell>
+    let theGrid: UnsafeMutableBufferPointer<IngridCell?>
 
     init(
         cellDimensionsPix: CGSize, portalDimensionsPix: CGSize,
@@ -36,15 +36,15 @@ class IngridCore {
 
         self.gridDimensionsCells = AKSize(width: wc, height: hc)
 
-        let cCells = wc * hc
+        let cCells = self.gridDimensionsCells.area()
 
         theGrid = .allocate(capacity: cCells)
-        theGrid.initialize(repeating: IngridCell())
+        theGrid.initialize(repeating: nil)
 
         for cellAbsoluteIndex in 0..<cCells {
-            let ap = self.absolutePosition(of: cellAbsoluteIndex)
+            let ap = absolutePosition(of: cellAbsoluteIndex)
             let ic = IngridCell(
-                cellAbsoluteIndex, ap, portalDimensionsPix.width, funkyCellsMultiplier
+                cellAbsoluteIndex, ap, cellDimensionsPix.width, funkyCellsMultiplier
             )
 
             theGrid[cellAbsoluteIndex] = ic
@@ -68,6 +68,13 @@ class IngridCore {
 
         return AKPoint(x: x, y: y)
     }
+
+    func cellAt(_ absolutePosition: AKPoint) -> IngridCell {
+        let ax = Ingrid.absoluteIndex(of: absolutePosition)
+        return theGrid[ax]!
+    }
+
+    func cellAt(_ absoluteIndex: Int) -> IngridCell { theGrid[absoluteIndex]! }
 
     // In other words, check whether the specified point is out of bounds of
     // the grid, and if so, return the point on the other side of the grid,
@@ -95,47 +102,20 @@ class IngridCore {
         return newPoint == oldPoint ? nil : newPoint
     }
 
-    func disengage(
-        pad: UnsafeMutablePointer<IngridCellDescriptor>, padCCells: Int,
-        keepTheseCells absoluteIndices: [Int],
-        _ callback: @escaping (IngridCell) -> Void
-    ) {
-        let aix: (Int) -> Int = { pad[$0].absoluteIndex }
-
-        for padSS in (0..<padCCells) where !absoluteIndices.contains(aix(padSS)) {
-            let cell = theGrid[aix(padSS)]
-
-            cell.isLocked = false
-            callback(cell)
-        }
-    }
-
-    @discardableResult
-    func engageSensorPad(_ engagerSpec: EngagerSpec) -> Bool {
-        let centerIx = absoluteIndex(of: engagerSpec.center)
-
-        // If someone else has my own cell locked, I can't do anything
-        if self.theGrid[centerIx].isLocked { return false }
-
+    func engageSensorPad(_ engagerSpec: EngagerSpec) {
         for ss in (0..<engagerSpec.cCellsInRange) {
 
-            var isDisjunct = false
-            var p = self.indexer.getGridPointByLocalIndex(center: engagerSpec.center, targetIndex: ss)
+            var p = self.indexer.getGridPointByLocalIndex(
+                center: engagerSpec.center, targetIndex: ss
+            )
 
-            if let q = self.correctForDisjunction(p) { p = q; isDisjunct = true }
+            var vp: CGPoint?    // Virtual target for teleportation
 
-            let cell = self.getCell(at: p)
-            let iOwnTheLock = !cell.isLocked
-            let requiresTeleportation = isDisjunct
-            let c: IngridCell? = iOwnTheLock ? cell : nil
+            if let q = self.correctForDisjunction(p) { vp = p.asPoint(); p = q }
 
-            c?.isLocked = true
+            let cell = cellAt(p)
 
-            engagerSpec.pad[ss] = IngridCellDescriptor(c, cell.absoluteIndex, requiresTeleportation)
+            engagerSpec.pad[ss] = IngridCellDescriptor(cell, vp)
         }
-
-        return true
     }
-
-    func getCell(at point: AKPoint) -> IngridCell { theGrid[absoluteIndex(of: point)] }
 }

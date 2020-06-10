@@ -165,7 +165,15 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
 
         ArkoniaScene.arkonsPortal.alpha = 1
 
-        Grid.makeGrid(on: ArkoniaScene.arkonsPortal)
+        let tAtlas = SKTextureAtlas(named: "Arkons")
+        let tTexture = tAtlas.textureNamed("spark-thorax-large")
+
+        Ingrid.shared = .init(
+            cellDimensionsPix: tTexture.size() / Arkonia.zoomFactor,
+            portalDimensionsPix: ArkoniaScene.arkonsPortal.size,
+            maxCSenseRings: NetStructure.cSenseRingsRange.upperBound,
+            funkyCellsMultiplier: Arkonia.funkyCells
+        )
 
         SpriteFactory.shared = SpriteFactory(scene: self)
 
@@ -179,7 +187,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         self.buildLineGraphs()
 //        self.buildBarCharts()
 
-        MannaCannon.shared = MannaCannon()
+        MannaCannon.shared = MannaCannon(cManna: Arkonia.cMannaMorsels)
         MannaCannon.shared!.postInit()
 
         Seasons.shared = Seasons()
@@ -196,18 +204,6 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
     static var currentSceneTime: TimeInterval = 0
     static var sceneBirthday: TimeInterval = 0
 
-    func addDebugBox(_ index: Int) {
-        let baseCell = GridCell.at(AKPoint.zero)
-
-        let indicatorGridPosition = baseCell.getGridPointByIndex(index)
-        let node = SKShapeNode(circleOfRadius: 5)
-
-        node.fillColor = .yellow
-        node.position = GridCell.at(indicatorGridPosition).scenePosition
-
-        ArkoniaScene.arkonsPortal.addChild(node)
-    }
-
     override func update(_ currentTime: TimeInterval) {
         guard readyForDisplayCycle else { ArkoniaScene.sceneBirthday = currentTime; return }
 
@@ -220,9 +216,5 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         Display.displayCycle = .actions
 
         tickCount += 1
-
-//        if (tickCount % 10) == 0 {
-//            addDebugBox(tickCount / 10)
-//        }
     }
 }

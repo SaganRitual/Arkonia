@@ -20,7 +20,7 @@ class SceneDispatch {
     private var workItems = Cbuffer<() -> Void>(cElements: 1000)
 
     func schedule(_ workItem: @escaping () -> Void) {
-        lockQueue.async { self.workItems.push(workItem) }
+        lockQueue.async { self.workItems.pushBack(workItem) }
     }
 
     var maxWorkItemsTime = UInt64(0)
@@ -34,7 +34,7 @@ class SceneDispatch {
             var duration = UInt64(0)
 
             while !workItems.isEmpty {
-                let workItem = workItems.pop()
+                let workItem = workItems.popFront()
                 workItem()
 
                 duration = clock_gettime_nsec_np(CLOCK_UPTIME_RAW) - start

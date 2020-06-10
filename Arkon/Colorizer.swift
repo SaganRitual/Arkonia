@@ -2,9 +2,9 @@ import GameplayKit
 
 class Colorizer {
     var babyBumpIsShowing = false
-    let scratch: Scratchpad
+    weak var stepper: Stepper?
 
-    init(_ scratch: Scratchpad) { self.scratch = scratch }
+    init(_ stepper: Stepper) { self.stepper = stepper }
 
     func colorize(_ onComplete: @escaping () -> Void) {
         SceneDispatch.shared.schedule { [unowned self] in
@@ -16,10 +16,10 @@ class Colorizer {
 
 extension Colorizer {
     private func colorize_() {
-        Debug.log(level:168) { "Colorize \(six(scratch.stepper.name))" }
+        Debug.log(level:168) { "Colorize \(six(stepper!.name))" }
 
         if Arkonia.debugColorIsEnabled {
-            Debug.debugColor(scratch.stepper, .brown, .brown)
+            Debug.debugColor(stepper!, .brown, .brown)
         } else {
             setNoseColor()
         }
@@ -27,43 +27,43 @@ extension Colorizer {
         setThoraxScale()
 
         let babyBumpShouldBeShowing =
-            (scratch.stepper.metabolism.spawn?.oxygenStore.level ?? 0) > 0
+            (stepper!.metabolism.spawn?.oxygenStore.level ?? 0) > 0
 
-        switch (babyBumpShouldBeShowing, scratch.babyBumpIsShowing) {
+        switch (babyBumpShouldBeShowing, stepper!.babyBumpIsShowing) {
         case (true, false):
             lookPregnant()
-            scratch.babyBumpIsShowing = true
+            stepper!.babyBumpIsShowing = true
 
         case (false, true):
             lookNotPregnant()
-            scratch.babyBumpIsShowing = false
+            stepper!.babyBumpIsShowing = false
 
         default: break
         }
     }
 
     private func setNoseColor() {
-        scratch.stepper.nose.colorBlendFactor = 1 - scratch.stepper.metabolism.asphyxiation
+        stepper!.nose.colorBlendFactor = 1 - stepper!.metabolism.asphyxiation
     }
 
     private func setThoraxScale() {
-        let m = scratch.stepper.metabolism!
+        let m = stepper!.metabolism!
         let effectiveMass = m.mass - (m.embryo?.mass ?? 0)
         let scale = log(effectiveMass + 1)
-        scratch.stepper.sprite.setScale(Arkonia.arkonScaleFactor * scale / Arkonia.zoomFactor)
+        stepper!.sprite.setScale(Arkonia.arkonScaleFactor * scale / Arkonia.zoomFactor)
     }
 
     private func lookNotPregnant() {
-        scratch.stepper.nose.setScale(Arkonia.noseScaleFactor)
+        stepper!.nose.setScale(Arkonia.noseScaleFactor)
     }
 
     private func lookPregnant() {
-        let m = scratch.stepper.metabolism!
+        let m = stepper!.metabolism!
         let f: CGFloat = m.spawn?.fatStore?.fullness ?? 0.25
         let s: CGFloat = Arkonia.arkonScaleFactor * Arkonia.noseScaleFactor *
             Arkonia.zoomFactor * f
 
-        scratch.stepper.nose.yScale = s
-        scratch.stepper.nose.xScale = s
+        stepper!.nose.yScale = s
+        stepper!.nose.xScale = s
     }
 }
