@@ -5,7 +5,7 @@ final class EngageGrid: Dispatchable {
 
     private func engageGrid() {
         Debug.debugColor(stepper, .red, .yellow)
-        Debug.log(level: 192) { "engage" }
+        Debug.log(level: 195) { "engage \(stepper!.name)" }
 
         let engagerSpec = EngagerSpec(
             cCellsInRange: stepper.net.netStructure.cCellsWithinSenseRange,

@@ -1,15 +1,22 @@
 import SpriteKit
 
 final class Apoptosize: Dispatchable {
-    internal override func launch() { dismemberArkon() }
+    internal override func launch() { apoptosize() }
 }
 
 private extension Apoptosize {
-    func dismemberArkon() {
+    func apoptosize() {
         Debug.log(level: 191) { "Apoptosize.dismemberArkon" }
         Debug.debugColor(stepper, .brown, .green)
 
-        Census.shared.registerDeath(stepper, releaseNet)
+        Census.shared.registerDeath(stepper, disengageSensorPad)
+    }
+
+    func disengageSensorPad() {
+        let padCCells = stepper.net.netStructure.cCellsWithinSenseRange
+        Ingrid.shared.disengageSensorPad(
+            stepper.sensorPad, padCCells: padCCells, keepTheseCells: [], releaseNet
+        )
     }
 
     func releaseNet() {
@@ -29,7 +36,6 @@ private extension Apoptosize {
     }
 
     func releaseStepper(_ onComplete: @escaping (Stepper) -> Void) {
-
         Stepper.releaseStepper(stepper, from: stepper.sprite!)
 
         // This is the last strong reference to the stepper. Once the

@@ -47,6 +47,7 @@ class Ingrid {
 
     func completeDeferredLockRequest(for readyCell: Int) {
         let lock = lockAt(readyCell)
+
         if lock.waitingLockRequests.isEmpty { lock.isLocked = false; return }
 
         let engagerSpec = lock.waitingLockRequests.popFront()
@@ -56,7 +57,6 @@ class Ingrid {
     }
 
     func deferLockRequest(_ engagerSpec: EngagerSpec) {
-        Debug.log(level: 192) { "deferLockRequest \(engagerSpec.center)" }
         let lock = lockAt(engagerSpec.center)
         lock.waitingLockRequests.pushBack(engagerSpec)
     }
@@ -70,7 +70,7 @@ class Ingrid {
         lockQueue.async {
             let aix: (Int) -> Int = { pad[$0].absoluteIndex }
 
-            for padSS in (0..<padCCells) where !keepTheseCells.contains(aix(padSS)) {
+            for padSS in (0..<padCCells) where pad[padSS].cell != nil && !keepTheseCells.contains(aix(padSS)) {
                 self.completeDeferredLockRequest(for: aix(padSS))
             }
 
@@ -80,13 +80,9 @@ class Ingrid {
 
     func engageSensorPad(_ engagerSpec: EngagerSpec) {
         lockQueue.async {
-            Debug.log(level: 192) { "engageSensorPad \(engagerSpec)" }
-
             let centerLock = self.locks[engagerSpec.center]!
 
             if centerLock.isLocked { self.deferLockRequest(engagerSpec); return }
-
-            Debug.log(level: 192) { "engageSensorPad locked \(engagerSpec)" }
 
             self.core.engageSensorPad(engagerSpec)
 
@@ -110,7 +106,7 @@ class Ingrid {
                 self.locks[cellDescriptor.absoluteIndex]!.isLocked = true
             }
 
-            engagerSpec.onComplete()
+            self.nonCriticalsQueue.async(execute: engagerSpec.onComplete)
         }
     }
 

@@ -1,8 +1,14 @@
 class IngridArkons {
-    var allTheArkons: ContiguousArray<Stepper?>
+    // A reason to choose unsafe buffers rather than contiguous arrays: the
+    // thread sanitizer in the debugger counts the entire contiguous array as
+    // a single object, so if you have one thread hitting one cell in the array,
+    // and another thread hitting a differet cell in the array, the debugger will
+    // halt and say it's an access race. Unsafe buffers don't exhibit that behavior
+    var allTheArkons: UnsafeMutableBufferPointer<Stepper?>
 
     init(_ cCells: Int) {
-        allTheArkons = .init(repeating: nil, count: cCells)
+        allTheArkons = .allocate(capacity: cCells)
+        allTheArkons.initialize(repeating: nil)
     }
 
     func arkonAt(_ absoluteIndex: Int) -> Stepper? { allTheArkons[absoluteIndex] }

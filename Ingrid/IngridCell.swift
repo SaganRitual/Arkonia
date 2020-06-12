@@ -1,12 +1,17 @@
 import Foundation
 
 struct IngridCellDescriptor {
-    let absoluteIndex: Int
+    let absoluteIndex_: Int?
+
+    // Makes default-initialized cell descriptors unusable, so I don't
+    // end up freeing the wrong locks or other such nastiness
+    var absoluteIndex: Int { absoluteIndex_! }
+
     let cell: IngridCell?
     let virtualScenePosition: CGPoint?  // For asteroids-style wraparound movement
 
     init() {
-        absoluteIndex = 0
+        absoluteIndex_ = nil
         cell = nil
         virtualScenePosition = nil
     }
@@ -16,13 +21,13 @@ struct IngridCellDescriptor {
         // we know it's there, we can't see inside it, and we can't jump to it
         self.cell = cell
 
-        self.absoluteIndex = absoluteIndex
+        self.absoluteIndex_ = absoluteIndex
         self.virtualScenePosition = virtualScenePosition
     }
 
     init(_ cell: IngridCell, _ virtualScenePosition: CGPoint? = nil) {
         self.cell = cell
-        self.absoluteIndex = cell.absoluteIndex
+        self.absoluteIndex_ = cell.absoluteIndex
         self.virtualScenePosition = virtualScenePosition
     }
 }

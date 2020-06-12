@@ -47,10 +47,9 @@ struct DriveResponse {
                 toCell = stepper.sensorPad[ss]
             }
 
-            // If toCell is a cell that we don't own, then we don't jump there
-            if toCell.cell == nil { onComplete(); return }
+            hardAssert(toCell.cell != nil) { "No cells available to jump to?" }
 
-            Debug.log(level: 194) { "move with \(s0) to local ix \(targetOffset)" }
+            Debug.log(level: 195) { "move \(stepper.name) with \(s0) to local ix \(targetOffset) abs ix \(toCell.absoluteIndex)" }
 
             let fromCell = stepper.sensorPad[0]
             let asPercentage = max(CGFloat(jumpSpeedMotorOutput), 0.1)

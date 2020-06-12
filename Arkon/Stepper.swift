@@ -63,7 +63,7 @@ class Stepper {
 
         let virtualScenePosition = bp[localIndex].virtualScenePosition
 
-        Debug.log(level: 190) { "detachRandomCell absoluteIx \(hotCell.absoluteIndex) localIx \(localIndex)" }
+        Debug.log(level: 195) { "detachRandomCell absoluteIx \(hotCell.absoluteIndex) localIx \(localIndex)" }
 
         // Invalidate my reference to my offspring's cell; he now owns the lock
         bp[localIndex] = IngridCellDescriptor()
