@@ -26,9 +26,11 @@ struct DriveResponse {
         _ senseData: UnsafeMutablePointer<Float>,
         _ onComplete: @escaping () -> Void
     ) {
+        let cSensorPadCells = net.netStructure.cCellsWithinSenseRange
+
         // Divide the circle into cCellsWithinSenseRange slices
         let s0 = net.pMotorOutputs[MotorIndex.jumpSelector.rawValue]
-        let s1 = s0 * Float(net.netStructure.cCellsWithinSenseRange)
+        let s1 = s0 * Float(cSensorPadCells)
         let s2 = floor(s1)
         let s3 = Int(s2)
         let targetOffset = s3
@@ -36,21 +38,28 @@ struct DriveResponse {
         let jumpSpeedMotorOutput = stepper.net.pMotorOutputs[MotorIndex.jumpSpeed.rawValue]
 
         if targetOffset > 0 {
+            var toCell = stepper.sensorPad[targetOffset]
+
+            for ss_ in 0..<cSensorPadCells {
+                let ss = (ss_ + targetOffset) % cSensorPadCells
+                if toCell.cell != nil { break }
+
+                toCell = stepper.sensorPad[ss]
+            }
+
+            // If toCell is a cell that we don't own, then we don't jump there
+            if toCell.cell == nil { onComplete(); return }
+
             Debug.log(level: 194) { "move with \(s0) to local ix \(targetOffset)" }
 
             let fromCell = stepper.sensorPad[0]
-            let toCell = stepper.sensorPad[targetOffset]
             let asPercentage = max(CGFloat(jumpSpeedMotorOutput), 0.1)
 
             stepper.jumpSpec = JumpSpec(fromCell, toCell, asPercentage)
 
-            let isAlive = stepper.metabolism.applyJumpCosts(stepper.jumpSpec)
+            let isAlive = stepper.metabolism.applyJumpCosts(stepper.jumpSpec!)
 
-            if !isAlive {
-                Debug.log(level: 192) { "driveResponse_C -> apoptosize" }
-                stepper.dispatch!.apoptosize()
-                return
-            }
+            if !isAlive { stepper.dispatch!.apoptosize(); return }
         }
 
         onComplete()

@@ -21,7 +21,7 @@ class Stepper {
     var babyBumpIsShowing = false
     var canSpawn = false
     var jumpSpeed = 0.0
-    var jumpSpec: JumpSpec!
+    var jumpSpec: JumpSpec?
 
     weak var parentNet: Net?
     weak var stepper: Stepper!

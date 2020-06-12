@@ -8,7 +8,7 @@ final class DisengageGrid: Dispatchable {
         Debug.debugColor(stepper, .blue, .blue)
         Debug.log(level: 192) { "disengage" }
 
-        stepper.jumpSpec = .noJump  // For tidiness and superstition
+        stepper.jumpSpec = nil  // For tidiness and superstition
 
         Ingrid.shared.disengageSensorPad(
             stepper.sensorPad,

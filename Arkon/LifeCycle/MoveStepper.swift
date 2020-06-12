@@ -6,8 +6,8 @@ final class MoveStepper: Dispatchable {
     func moveStepper() {
         Debug.debugColor(stepper, .brown, .purple)
 
-        if let moveFrom = stepper.jumpSpec.fromCell?.absoluteIndex {
-            let moveTo = stepper.jumpSpec.toCell.absoluteIndex
+        if let moveFrom = stepper.jumpSpec!.fromCell?.absoluteIndex {
+            let moveTo = stepper.jumpSpec!.toCell.absoluteIndex
             let contents = Ingrid.shared.getContents(in: moveTo)
 
             Ingrid.shared.arkons.moveArkon(
