@@ -135,8 +135,8 @@ extension Net {
         _ biases: UnsafeMutablePointer<Float>, _ cBiases: Int,
         _ weights: UnsafeMutablePointer<Float>, _ cWeights: Int
     ) -> Bool {
-        let oddsOfMutation: Float = 0.25
-        if Float.random(in: 0..<1) < (1 - oddsOfMutation) { return true }
+        let oddsOfPerfectClone: Float = 0.85
+        if Float.random(in: 0..<1) < oddsOfPerfectClone { return true }
 
         let percentageMutation = Float.random(in: 0..<0.1)
         let cMutations = Int(percentageMutation * Float(cBiases + cWeights))
