@@ -1,31 +1,24 @@
-import CoreGraphics
-import Dispatch
+import Foundation
 
-final class DriveNetSignal: Dispatchable {
-    let response: DriveResponse
-    let stimulus: DriveStimulus
+extension Stepper {
+    func driveNetSignal() {
+        func driveNetSignal_A() {
+            Debug.debugColor(self, .blue, .red)
 
-    required init(_ stepper: Stepper?) {
-        stimulus = DriveStimulus(stepper!)
-        response = DriveResponse(stepper!)
-        super.init(stepper!)
-    }
+            let stimulus = DriveStimulus(self)
+            stimulus.driveStimulus(driveNetSignal_B)
+        }
 
-    internal override func launch() { driveNetSignal_A() }
+        func driveNetSignal_B() {
+            let pNeurons = UnsafeMutablePointer(mutating: net.pNeurons)
+            let response = DriveResponse(self)
+            response.driveResponse(pNeurons, driveNetSignal_C)
+        }
 
-    private func driveNetSignal_A() {
-        stimulus.driveStimulus(driveNetSignal_B)
-    }
+        func driveNetSignal_C(_ netResultIsJump: Bool) {
+            if netResultIsJump { moveSprite() } else { disengageGrid() }
+        }
 
-    private func driveNetSignal_B() {
-        let pNeurons = UnsafeMutablePointer(mutating: stepper.net!.pNeurons)
-        let log = (0..<stepper.net.netStructure.cSenseNeurons).map { pNeurons[$0] }
-        Debug.log(level: 193) { "drive net signal, senseLayer in = \(log)" }
-        response.driveResponse(pNeurons, driveNetSignal_C)
-    }
-
-    private func driveNetSignal_C() {
-        if stepper.jumpSpec == nil { stepper.dispatch!.disengageGrid() }
-        else                       { stepper.dispatch!.moveSprite() }
+        MainDispatchQueue.async(execute: driveNetSignal_A)
     }
 }

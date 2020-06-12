@@ -1,31 +1,57 @@
-struct IngridIndexer {
+struct GridIndexer {
     enum LikeCSS { case right1, right2, bottom, left, top }
 
-    let cCellsWithinSenseRange: Int
-    let indexedGridPoints: UnsafeMutableBufferPointer<AKPoint>
+    private let cCellsWithinSenseRange: Int
+    private let indexedGridPoints: [AKPoint]
 
     init(maxCSenseRings: Int) {
         let cCellsPerSide = 1 + 2 * maxCSenseRings
         self.cCellsWithinSenseRange = cCellsPerSide * cCellsPerSide
 
-        self.indexedGridPoints = .allocate(capacity: cCellsWithinSenseRange)
+        var p = [AKPoint]()
+        p.reserveCapacity(cCellsWithinSenseRange)
 
         (0..<cCellsWithinSenseRange).forEach {
-            self.indexedGridPoints[$0] = IngridIndexer.makeIndexedGridPoint($0)
+            p.append(GridIndexer.makeIndexedGridPoint($0))
         }
+
+        indexedGridPoints = p
     }
 
-    func getGridPointByLocalIndex(center absoluteIndex: Int, targetIndex localIndex: Int) -> AKPoint {
-        let cell = Ingrid.shared.cellAt(absoluteIndex)
-        return cell.gridPosition + indexedGridPoints[localIndex]
-    }
-
-    func getGridPointByLocalIndex(center: AKPoint, targetIndex: Int) -> AKPoint {
-        return center + indexedGridPoints[targetIndex]
+    func localIndexToVirtualGrid(_ center: AKPoint, _ localIx: Int) -> AKPoint {
+        indexedGridPoints[localIx] + center
     }
 }
 
-private extension IngridIndexer {
+private extension GridIndexer {
+    static func makeIndexedGridPoint(_ targetIndex: Int) -> AKPoint {
+        if targetIndex == 0 { return AKPoint.zero }
+
+        let baseX = getBaseX(targetIndex)
+        var partialIndex = _2xMinusOneSquared(baseX)
+        let sideExtent = getExtent(baseX)
+
+        var x = baseX, y = 0
+        var whichSide = LikeCSS.right1
+
+        while partialIndex < targetIndex {
+            switch whichSide {
+            case .right1: fallthrough
+            case .right2: (x, y, whichSide) =  stepDown(x, y, sideExtent, whichSide)
+
+            case .bottom: (x, y, whichSide) =  stepLeft(x, y, sideExtent, whichSide)
+            case .left:   (x, y, whichSide) =    stepUp(x, y, sideExtent, whichSide)
+            case .top:    (x, y, whichSide) = stepRight(x, y, sideExtent, whichSide)
+            }
+
+            partialIndex += 1
+        }
+
+        return AKPoint(x: x, y: y)
+    }
+}
+
+private extension GridIndexer {
     static func _2xMinusOneSquared(_ x: Int) -> Int { ((2 * x) - 1) * ((2 * x) - 1) }
 
     static func getBaseX(_ index: Int) -> Int {
@@ -87,30 +113,4 @@ private extension IngridIndexer {
         return (x + 1, y + 0, whichSide)
     }
     //swiftlint:enable large_tuple
-
-    static func makeIndexedGridPoint(_ targetIndex: Int) -> AKPoint {
-        if targetIndex == 0 { return AKPoint.zero }
-
-        let baseX = getBaseX(targetIndex)
-        var partialIndex = _2xMinusOneSquared(baseX)
-        let sideExtent = getExtent(baseX)
-
-        var x = baseX, y = 0
-        var whichSide = LikeCSS.right1
-
-        while partialIndex < targetIndex {
-            switch whichSide {
-            case .right1: fallthrough
-            case .right2: (x, y, whichSide) =  stepDown(x, y, sideExtent, whichSide)
-
-            case .bottom: (x, y, whichSide) =  stepLeft(x, y, sideExtent, whichSide)
-            case .left:   (x, y, whichSide) =    stepUp(x, y, sideExtent, whichSide)
-            case .top:    (x, y, whichSide) = stepRight(x, y, sideExtent, whichSide)
-            }
-
-            partialIndex += 1
-        }
-
-        return AKPoint(x: x, y: y)
-    }
 }

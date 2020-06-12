@@ -1,23 +1,11 @@
 import Dispatch
 
-final class EngageGrid: Dispatchable {
-    internal override func launch() { engageGrid() }
-
-    private func engageGrid() {
-        Debug.debugColor(stepper, .red, .yellow)
-        Debug.log(level: 195) { "engage \(stepper!.name)" }
-
-        let engagerSpec = EngagerSpec(
-            cCellsInRange: stepper.net.netStructure.cCellsWithinSenseRange,
-            center: stepper.ingridCellAbsoluteIndex, onComplete: tickLife,
-            pad: stepper.sensorPad
-        )
-
-        Ingrid.shared.engageSensorPad(engagerSpec)
-    }
-
-    private func tickLife() {
-        Debug.debugColor(stepper, .red, .green)
-        stepper.dispatch!.tickLife()
+extension Stepper {
+    func engageGrid() {
+        MainDispatchQueue.async {
+            Debug.log(level: 206) { "engageGrid" }
+            Debug.debugColor(self, .red, .yellow)
+            self.sensorPad.engageSensorPad(for: self, self.tickLife)
+        }
     }
 }

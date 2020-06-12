@@ -15,8 +15,8 @@ class MannaCannon {
     var cPhotosynthesizingManna = 0
     var cPlantedManna = 0
 
-    init(cManna: Int) {
-        readyMannaIndices = .init(cElements: cManna)
+    init() {
+        readyMannaIndices = .init(cElements: Arkonia.cMannaMorsels)
 
         if Arkonia.cPollenators == 0 { pollenators = []; return }
 
@@ -29,7 +29,7 @@ class MannaCannon {
         MannaCannon.mannaPlaneQueue.async {
             [readyMannaBatchSize, readyMannaIndices] in
 
-            readyMannaIndices.pushBack(manna.absoluteIngridIndex)
+            readyMannaIndices.pushBack(manna.absoluteGridIndex)
 
             if readyMannaIndices.count > readyMannaBatchSize {
                 let min_ = Arkonia.mannaRebloomDelayMinimum
@@ -40,7 +40,7 @@ class MannaCannon {
 
                 let mannaToLaunch: [Manna] = (0..<cMannaToLaunch).map { _ in
                     let absoluteMannaIndex = readyMannaIndices.popFront()
-                    return Ingrid.shared.manna.mannaAt(absoluteMannaIndex)!
+                    return Grid.mannaAt(absoluteMannaIndex)!
                 }
 
                 MannaCannon.mannaPlaneQueue.asyncAfter(deadline: .now() + duration) {
@@ -54,17 +54,39 @@ class MannaCannon {
 
     func postInit() {
         // Indiscriminately attempt to plant as many manna as indicated. Since
-        // we're choosing a random cell each time, we'll soemteims pick a cell
-        // that already has manna in it, in which case we skip the attempt. The
-        // result is that we'll always end up with fewer than cMannaMorsels morsels
+        // we're choosing a random cell each time, we'll sometimes pick a cell
+        // that already has manna in it, in which case we try to find an open
+        // cell among the eight cells surrounding the chosen random cell. If we
+        // can't place manna in any of these nine cells, skip the attempt. The
+        // result is that we'll usually end up with fewer than cMannaMorsels morsels
         for _ in 0..<Arkonia.cMannaMorsels {
-            let ingridAbsoluteIndex = Ingrid.randomCellIndex()
-            if Ingrid.shared.manna.mannaAt(ingridAbsoluteIndex) != nil { continue }
+            let center = Grid.randomCellIndex()
+            var newMannaHome: AKPoint?
+            let centerPosition = Grid.gridPosition(of: center)
 
-            Ingrid.shared.manna.placeManna(at: ingridAbsoluteIndex)
+            for cellLocalIx in 0..<9 {
+                let virtualPoint = Grid.localIndexToVirtualGrid(
+                    center: centerPosition, localIx: cellLocalIx
+                )
 
-            let m = Ingrid.shared.manna.mannaAt(ingridAbsoluteIndex)!
-            m.sprite.firstBloom(at: ingridAbsoluteIndex)
+                let gridAbsoluteIndex =
+                    Grid.asteroidize(virtualPoint) ??
+                    Grid.absoluteIndex(of: virtualPoint)
+
+                newMannaHome = Grid.cellAt(gridAbsoluteIndex).properties.gridPosition
+
+                if Grid.mannaAt(gridAbsoluteIndex) == nil { break }
+
+                newMannaHome = nil
+            }
+
+            guard let h = newMannaHome else { continue }
+            let absoluteIx = Grid.cellAt(h).properties.gridAbsoluteIndex
+            Grid.plantManna(at: absoluteIx)
+
+            let m = Grid.mannaAt(absoluteIx)!
+            m.sprite.firstBloom(at: absoluteIx)
+
             cPlantedManna += 1
         }
     }

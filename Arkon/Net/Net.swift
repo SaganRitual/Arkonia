@@ -19,12 +19,6 @@ protocol HotNet: class {
 typealias NetParametersBuffer = UnsafeMutableBufferPointer<Float>
 
 class Net {
-    static let dispatchQueue = DispatchQueue(
-        label: "ak.net.q",
-        attributes: .concurrent,
-        target: DispatchQueue.global()
-    )
-
     let isCloneOfParent: Bool
     let hotNet: HotNet
     let netStructure: NetStructure
@@ -43,7 +37,7 @@ class Net {
         _ parentWeights: UnsafePointer<Float>?,
         _ onComplete: @escaping (Net) -> Void
     ) {
-        self.dispatchQueue.async {
+        MainDispatchQueue.async {
             let netStructure = NetStructure(
                 parentNetStructure?.cSenseRings,
                 parentNetStructure?.layerDescriptors
@@ -56,7 +50,7 @@ class Net {
                 netStructure: netStructure, parentBiases: pb, parentWeights: pw
             )
 
-            Dispatch.dispatchQueue.async { onComplete(newNet) }
+            onComplete(newNet)
         }
     }
 
@@ -87,7 +81,6 @@ class Net {
         if netStructure.isCloneOfParent {
             biases.initialize(from: parentBiases!, count: netStructure.cBiases)
             weights.initialize(from: parentWeights!, count: netStructure.cWeights)
-
             self.isCloneOfParent = Net.mutateNetParameters(
                 biases, netStructure.cBiases, weights, netStructure.cWeights
             )
@@ -96,6 +89,13 @@ class Net {
             (0..<netStructure.cWeights).forEach { weights[$0] = Float.random(in: -1..<1) }
             self.isCloneOfParent = false
         }
+
+        // I don't get this. If we init the parameters with random Float values as
+        // above, we get arkons that move in straight lines. If we mutate those same
+        // values *randomly*, like this, they behave differently. Weird
+//        self.isCloneOfParent = Net.mutateNetParameters(
+//            biases, netStructure.cBiases, weights, netStructure.cWeights
+//        )
 
         self.pNeurons = UnsafePointer(neurons)
         self.pBiases = UnsafePointer(biases)
@@ -135,8 +135,8 @@ extension Net {
         _ biases: UnsafeMutablePointer<Float>, _ cBiases: Int,
         _ weights: UnsafeMutablePointer<Float>, _ cWeights: Int
     ) -> Bool {
-        let oddsOfMutation: Float = 0.25
-        if Float.random(in: 0..<1) < (1 - oddsOfMutation) { return true }
+        let oddsOfPerfectClone: Float = 0.85
+        if Float.random(in: 0..<1) < oddsOfPerfectClone { return true }
 
         let percentageMutation = Float.random(in: 0..<0.1)
         let cMutations = Int(percentageMutation * Float(cBiases + cWeights))

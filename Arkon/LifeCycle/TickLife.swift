@@ -1,60 +1,41 @@
 import CoreGraphics
 import Foundation
 
-final class TickLife: Dispatchable {
-    var isAlive = false
-    var canSpawn = false
-    let colorizer: Colorizer
-    var onComplete: ((Bool, Bool) -> Void)?
+extension Stepper {
+    func tickLife() {
+        var isAlive = false
+        var canSpawn = false
+        var onComplete: ((Bool, Bool) -> Void)?
 
-    static let dispatchQueue = DispatchQueue(
-        label: "ak.ticklife.q",
-        attributes: .concurrent,
-        target: DispatchQueue.global()
-    )
+        func tickLife_A() { Clock.dispatchQueue.async(execute: tickLife_B) }
+        func tickLife_B() {
+            Debug.log(level: 206) { "tickLife_A \(six(name))" }
+            Debug.debugColor(self, .green, .blue)
 
-    required init(_ stepper: Stepper?) {
-        colorizer = Colorizer(stepper!)
-        super.init(stepper!)
-    }
+            currentTime = Clock.shared!.worldClock
+            currentEntropyPerJoule = Double(1 - Clock.shared!.getEntropy())
 
-    override func launch() {
-        Debug.debugColor(stepper, .brown, .blue)
-        tick()
-    }
+            MainDispatchQueue.async(execute: tickLife_C)
+        }
 
-    private func tick() { Clock.dispatchQueue.async(execute: tickLife_A) }
-}
+        func tickLife_C() {
+            metabolism.digest()
+            isAlive = metabolism.applyFixedMetabolicCosts()
 
-extension TickLife {
-    private func tickLife_A() {
-        Debug.log(level: 190) { "tickLife_A \(six(stepper.name))" }
-        stepper.currentTime = Clock.shared!.worldClock
-        stepper.currentEntropyPerJoule = Double(1 - Clock.shared!.getEntropy())
+            if !isAlive { Debug.log(level: 205) { "apoptosizing" } }
 
-        TickLife.dispatchQueue.async(execute: tickLife_B)
-    }
+            if !isAlive { apoptosize(); return }
 
-    private func tickLife_B() {
-        Debug.log(level: 190) { "tickLife_B \(six(stepper.name))" }
+            canSpawn = Arkonia.allowSpawning && isAlive && metabolism.canSpawn()
 
-        stepper.metabolism.digest()
-        isAlive = stepper.metabolism.applyFixedMetabolicCosts()
+            if canSpawn { Debug.log(level: 205) { "spawning" } }
+            else        { Debug.log(level: 205) { "driveNetSignaling" } }
 
-        if !isAlive { stepper.dispatch!.apoptosize(); return }
+            if canSpawn { Stepper.makeNewArkon(self); return }
 
-        canSpawn = Arkonia.allowSpawning && isAlive && stepper.metabolism.canSpawn()
-        colorizer.colorize(routeLife_A)
-    }
-}
+            colorize(driveNetSignal)
+        }
 
-extension TickLife {
-    private func routeLife_A() { TickLife.dispatchQueue.async { self.routeLife_B() } }
-
-    private func routeLife_B() {
-        Debug.log(level: 167) { "routeLife \(six(stepper.name))" }
-
-        if canSpawn { stepper.dispatch!.spawn()       }
-        else        { stepper.dispatch!.driveNetSignal() }
+        tickLife_A()
     }
 }

@@ -1,14 +1,12 @@
 import SpriteKit
 
 extension Census {
-    typealias OnComplete1Fishday = (Fishday) -> Void
-
     static func registerBirth(
-        myName: ArkonName, myParent: Stepper?, myNet: Net, _ onComplete: @escaping OnComplete1Fishday
+        myParent: Stepper?, myNet: Net, _ onComplete: @escaping (Fishday) -> Void
     ) {
         Census.dispatchQueue.async {
-            let fishday = Census.shared.registerBirth(myName, myParent, myNet)
-            onComplete(fishday)
+            let fishday = Census.shared.registerBirth(myParent, myNet)
+            MainDispatchQueue.async { onComplete(fishday) }
         }
     }
 
@@ -34,7 +32,7 @@ extension Census {
 
 extension Census {
     func updateReports() {
-        let portal = (ArkoniaScene.arkonsPortal)!
+        let portal = ArkoniaScene.arkonsPortal!
 
         var ages = [Int]()
         var worldClock = 0
@@ -94,7 +92,10 @@ extension Census {
 
     func seedWorld() {
         if populated == false {
-            for _ in 0..<Arkonia.initialPopulation { Dispatch().spawn() }
+            for _ in 0..<Arkonia.initialPopulation {
+                Debug.log(level: 205) { "Spawn ex nihilo" }
+                Stepper.makeNewArkon(nil)
+            }
             populated = true
         }
     }

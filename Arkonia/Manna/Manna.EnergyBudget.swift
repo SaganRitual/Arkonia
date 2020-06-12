@@ -8,9 +8,9 @@ extension EnergyBudget {
         // swiftlint:enable nesting
 
         let bone:    CGFloat = 1
-        let ham:     CGFloat = 1000   // Manna contains ham; arkons convert it directly to energy
+        let ham:     CGFloat = 100   // Manna contains ham; arkons convert it directly to energy
         let leather: CGFloat = 1
-        let o2:      CGFloat = 700
+        let o2:      CGFloat = 70
 
         let maturityLevel: CGFloat
         let scale: CGFloat

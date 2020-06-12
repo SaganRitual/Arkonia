@@ -18,12 +18,28 @@
 		D40DF32E24706E4B001649FA /* OozeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F89BF2245BCE640044F0D2 /* OozeStorage.swift */; };
 		D40DF32F24706E4B001649FA /* Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F680B92462706D000B8EF2 /* Transfer.swift */; };
 		D40DF3312470C2A2001649FA /* Colorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DF3302470C2A2001649FA /* Colorizer.swift */; };
+		D41290F1249C6E8900DF0B32 /* GridSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290EF249C6E8200DF0B32 /* GridSync.swift */; };
+		D41290F4249C920700DF0B32 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290F3249C920700DF0B32 /* Grid.swift */; };
+		D41290FD249CFB3000DF0B32 /* GridIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290FC249CFB3000DF0B32 /* GridIndexer.swift */; };
 		D413E660240F745100077E35 /* DriveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413E65F240F745100077E35 /* DriveResponse.swift */; };
+		D414A40D2499983500DDCB25 /* SensorPadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D414A40C2499983500DDCB25 /* SensorPadCell.swift */; };
 		D41787062430D5090025EC00 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41787052430D5090025EC00 /* BarChart.swift */; };
 		D41A29A523B9945F00DE9CC6 /* Census.Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A29A423B9945F00DE9CC6 /* Census.Extra.swift */; };
+		D41BB59D24A1B5C100945298 /* ArkonBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41BB59C24A1B5C100945298 /* ArkonBuilder.swift */; };
+		D41BB59F24A28DE500945298 /* GridArkons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41BB59E24A28DE500945298 /* GridArkons.swift */; };
+		D41BB5A124A3AC2B00945298 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290F3249C920700DF0B32 /* Grid.swift */; };
+		D41BB5A224A3AC2B00945298 /* GridArkons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41BB59E24A28DE500945298 /* GridArkons.swift */; };
+		D41BB5A324A3AC2B00945298 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42664E8249E6E8C00CBF28B /* GridCell.swift */; };
+		D41BB5A424A3AC2B00945298 /* GridCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654DE22489825900B34D4E /* GridCore.swift */; };
+		D41BB5A524A3AC2B00945298 /* GridIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290FC249CFB3000DF0B32 /* GridIndexer.swift */; };
+		D41BB5A624A3AC2B00945298 /* GridManna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D485E3E92490F69B0092A7B1 /* GridManna.swift */; };
+		D41BB5A724A3AC2B00945298 /* GridSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290EF249C6E8200DF0B32 /* GridSync.swift */; };
+		D41BB5A924A3EFFD00945298 /* Spawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41BB5A824A3EFFD00945298 /* Spawn.swift */; };
 		D41ED8D623B084A100E82B08 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
+		D42664E9249E6E8C00CBF28B /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42664E8249E6E8C00CBF28B /* GridCell.swift */; };
+		D42664F024A168BA00CBF28B /* SensorPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42664EF24A168BA00CBF28B /* SensorPad.swift */; };
 		D42B7CEF248765C000085F7F /* Tensor.Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42B7CEE248765C000085F7F /* Tensor.Random.swift */; };
 		D42B7CF12487678A00085F7F /* Tensor.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42B7CF02487678A00085F7F /* Tensor.Utilities.swift */; };
 		D4337BB82488B910009CA9DD /* NormalDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4337BB72488B910009CA9DD /* NormalDistribution.swift */; };
@@ -47,16 +63,11 @@
 		D464BA5522C737260069623C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D464BA5822C737260069623C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D40985ED22650B0B009DD384 /* Assets.xcassets */; };
 		D464BA5922C737260069623C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D40985EF22650B0B009DD384 /* Main.storyboard */; };
-		D4654DFD2489834200B34D4E /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654DFC2489834200B34D4E /* main.swift */; };
-		D4654DFE2489835300B34D4E /* IngridCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654DE22489825900B34D4E /* IngridCore.swift */; };
 		D4654DFF24898BB200B34D4E /* AKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */; };
 		D4654E002489914E00B34D4E /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
-		D4654E022489936E00B34D4E /* IngridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654E012489936E00B34D4E /* IngridCell.swift */; };
 		D4654E05248A080600B34D4E /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
-		D4654E07248A0A7D00B34D4E /* IngridIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654E06248A0A7D00B34D4E /* IngridIndexer.swift */; };
 		D4654E08248AFCEC00B34D4E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D4654E09248AFCF600B34D4E /* Arkonia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* Arkonia.swift */; };
-		D4654E0B248E030900B34D4E /* Ingrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654E0A248E030900B34D4E /* Ingrid.swift */; };
 		D467E885242D2AB0006325E0 /* Manna.Sprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D467E884242D2AB0006325E0 /* Manna.Sprite.swift */; };
 		D476693F2488A4960074F702 /* Arkonia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* Arkonia.swift */; };
 		D47669432488A4960074F702 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
@@ -72,14 +83,9 @@
 		D47669612488A88A0074F702 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F89BEA245BCCCA0044F0D2 /* main.swift */; };
 		D47FDDC424485BC500C89A1E /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47FDDC324485BC500C89A1E /* Dashboard.swift */; };
 		D485E3E0248EF7780092A7B1 /* Cbuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B00917241FD5B8007FDD6F /* Cbuffer.swift */; };
-		D485E3E1248F442A0092A7B1 /* Ingrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654E0A248E030900B34D4E /* Ingrid.swift */; };
-		D485E3E2248F442A0092A7B1 /* IngridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654E012489936E00B34D4E /* IngridCell.swift */; };
-		D485E3E3248F442A0092A7B1 /* IngridCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654DE22489825900B34D4E /* IngridCore.swift */; };
-		D485E3E4248F442A0092A7B1 /* IngridIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654E06248A0A7D00B34D4E /* IngridIndexer.swift */; };
+		D485E3E3248F442A0092A7B1 /* GridCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654DE22489825900B34D4E /* GridCore.swift */; };
 		D485E3E62490AF070092A7B1 /* Arkon.EnergyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D485E3E52490AF070092A7B1 /* Arkon.EnergyBudget.swift */; };
-		D485E3E82490F05A0092A7B1 /* IngridArkons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D485E3E72490F05A0092A7B1 /* IngridArkons.swift */; };
-		D485E3EA2490F69B0092A7B1 /* IngridManna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D485E3E92490F69B0092A7B1 /* IngridManna.swift */; };
-		D485E3EB2490F7990092A7B1 /* IngridManna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D485E3E92490F69B0092A7B1 /* IngridManna.swift */; };
+		D485E3EB2490F7990092A7B1 /* GridManna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D485E3E92490F69B0092A7B1 /* GridManna.swift */; };
 		D485E3EF2491BBC70092A7B1 /* DriveStimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D485E3ED2491BB7A0092A7B1 /* DriveStimulus.swift */; };
 		D494C87224827A0A00692274 /* HotLayerBlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E078240CC0C2005C0191 /* HotLayerBlas.swift */; };
 		D494C8732483293800692274 /* HotNetBlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E070240CC0C2005C0191 /* HotNetBlas.swift */; };
@@ -101,6 +107,8 @@
 		D4B2AC8523D5983200246746 /* SceneDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B2AC8423D5983200246746 /* SceneDispatch.swift */; };
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
 		D4B4295322DAF1CD0036C904 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293C22DAEC7E0036C904 /* Report.swift */; };
+		D4B7B4942494D46E00894A61 /* Census.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7B4932494D46E00894A61 /* Census.Stats.swift */; };
+		D4B7B49624971CAF00894A61 /* ArkonEmbryo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7B49524971CAF00894A61 /* ArkonEmbryo.swift */; };
 		D4B9512124349A8800BD2085 /* ArkonName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9512024349A8800BD2085 /* ArkonName.swift */; };
 		D4B9512324351EAF00BD2085 /* ArkoniaScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4B9512224351EAF00BD2085 /* ArkoniaScene.sks */; };
 		D4BB6E73234E549C00529819 /* TickLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E72234E549C00529819 /* TickLife.swift */; };
@@ -109,7 +117,6 @@
 		D4BBFCDF24430318000C139D /* LineGraphUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBFCDD24430318000C139D /* LineGraphUpdate.swift */; };
 		D4D4F050243ABACC00D093DF /* HotNetBnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4F04F243ABACC00D093DF /* HotNetBnn.swift */; };
 		D4D4F052243ABBA900D093DF /* HotLayerBnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4F051243ABBA900D093DF /* HotLayerBnn.swift */; };
-		D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D5EABA2368B05200E95AA5 /* Spawn.swift */; };
 		D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E7FE2D23E6BD2A0043D57D /* Manna.swift */; };
 		D4EA4BE6247A086200763EF8 /* NetStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4EA4BE5247A086200763EF8 /* NetStructure.swift */; };
 		D4F680A5245D37A1000B8EF2 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
@@ -126,7 +133,6 @@
 		D4FBAEDD24745D9E0008F32F /* Seasons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FBAEDC24745D9E0008F32F /* Seasons.swift */; };
 		D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */; };
 		D4FFE65823AF3CB800D0A1EE /* AKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */; };
-		D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FFE9612365814F00F5DDFB /* Dispatch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -168,9 +174,16 @@
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D40DF3302470C2A2001649FA /* Colorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colorizer.swift; sourceTree = "<group>"; };
+		D41290EF249C6E8200DF0B32 /* GridSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSync.swift; sourceTree = "<group>"; };
+		D41290F3249C920700DF0B32 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		D41290FC249CFB3000DF0B32 /* GridIndexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridIndexer.swift; sourceTree = "<group>"; };
 		D413E65F240F745100077E35 /* DriveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveResponse.swift; sourceTree = "<group>"; };
+		D414A40C2499983500DDCB25 /* SensorPadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorPadCell.swift; sourceTree = "<group>"; };
 		D41787052430D5090025EC00 /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		D41A29A423B9945F00DE9CC6 /* Census.Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.Extra.swift; sourceTree = "<group>"; };
+		D41BB59C24A1B5C100945298 /* ArkonBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonBuilder.swift; sourceTree = "<group>"; };
+		D41BB59E24A28DE500945298 /* GridArkons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridArkons.swift; sourceTree = "<group>"; };
+		D41BB5A824A3EFFD00945298 /* Spawn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spawn.swift; sourceTree = "<group>"; };
 		D41ED8D523B084A100E82B08 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		D42172E9233EE46000A56594 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D42172F1233EE46000A56594 /* .gitmodules */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitmodules; sourceTree = "<group>"; };
@@ -178,6 +191,8 @@
 		D42172F3233EE46000A56594 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D422DE0A23598B52003734B8 /* Census.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D422DE0C23598BEC003734B8 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
+		D42664E8249E6E8C00CBF28B /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
+		D42664EF24A168BA00CBF28B /* SensorPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorPad.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
 		D42B7CEE248765C000085F7F /* Tensor.Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tensor.Random.swift; sourceTree = "<group>"; };
 		D42B7CF02487678A00085F7F /* Tensor.Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tensor.Utilities.swift; sourceTree = "<group>"; };
@@ -192,12 +207,8 @@
 		D450E53B246EEE09001E4601 /* Digestion.Surplus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Digestion.Surplus.swift; sourceTree = "<group>"; };
 		D457109A2471169100A9B94F /* JumpSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpSpec.swift; sourceTree = "<group>"; };
 		D464BA5F22C737260069623C /* Karamba.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Karamba.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4654DE22489825900B34D4E /* IngridCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngridCore.swift; sourceTree = "<group>"; };
+		D4654DE22489825900B34D4E /* GridCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCore.swift; sourceTree = "<group>"; };
 		D4654DFA248982CE00B34D4E /* Ingrid */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Ingrid; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4654DFC2489834200B34D4E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		D4654E012489936E00B34D4E /* IngridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngridCell.swift; sourceTree = "<group>"; };
-		D4654E06248A0A7D00B34D4E /* IngridIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngridIndexer.swift; sourceTree = "<group>"; };
-		D4654E0A248E030900B34D4E /* Ingrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingrid.swift; sourceTree = "<group>"; };
 		D467E884242D2AB0006325E0 /* Manna.Sprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.Sprite.swift; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
 		D46B1D7322813E12003D711C /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
@@ -210,8 +221,7 @@
 		D476695D2488A8400074F702 /* Manna.EnergyBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.EnergyBudget.swift; sourceTree = "<group>"; };
 		D47FDDC324485BC500C89A1E /* Dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		D485E3E52490AF070092A7B1 /* Arkon.EnergyBudget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkon.EnergyBudget.swift; sourceTree = "<group>"; };
-		D485E3E72490F05A0092A7B1 /* IngridArkons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngridArkons.swift; sourceTree = "<group>"; };
-		D485E3E92490F69B0092A7B1 /* IngridManna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngridManna.swift; sourceTree = "<group>"; };
+		D485E3E92490F69B0092A7B1 /* GridManna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridManna.swift; sourceTree = "<group>"; };
 		D485E3ED2491BB7A0092A7B1 /* DriveStimulus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveStimulus.swift; sourceTree = "<group>"; };
 		D495E5E822DE294D00AFF2AC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D495F0CE233FAB01007D6E86 /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
@@ -229,6 +239,8 @@
 		D4B2AC8423D5983200246746 /* SceneDispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDispatch.swift; sourceTree = "<group>"; };
 		D4B4293C22DAEC7E0036C904 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		D4B4294022DAEC7E0036C904 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		D4B7B4932494D46E00894A61 /* Census.Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.Stats.swift; sourceTree = "<group>"; };
+		D4B7B49524971CAF00894A61 /* ArkonEmbryo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonEmbryo.swift; sourceTree = "<group>"; };
 		D4B9512024349A8800BD2085 /* ArkonName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonName.swift; sourceTree = "<group>"; };
 		D4B9512224351EAF00BD2085 /* ArkoniaScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ArkoniaScene.sks; sourceTree = "<group>"; };
 		D4BB6E72234E549C00529819 /* TickLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickLife.swift; sourceTree = "<group>"; };
@@ -243,7 +255,6 @@
 		D4CF20A622A4C296000FD2BA /* Arkonia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arkonia.swift; sourceTree = "<group>"; };
 		D4D4F04F243ABACC00D093DF /* HotNetBnn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotNetBnn.swift; sourceTree = "<group>"; };
 		D4D4F051243ABBA900D093DF /* HotLayerBnn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotLayerBnn.swift; sourceTree = "<group>"; };
-		D4D5EABA2368B05200E95AA5 /* Spawn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spawn.swift; sourceTree = "<group>"; };
 		D4E7FE2D23E6BD2A0043D57D /* Manna.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
 		D4E8D271227E8CB500DFCB40 /* SpriteFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
 		D4EA4BE5247A086200763EF8 /* NetStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetStructure.swift; sourceTree = "<group>"; };
@@ -265,7 +276,6 @@
 		D4FBAEDC24745D9E0008F32F /* Seasons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Seasons.swift; sourceTree = "<group>"; };
 		D4FFE64B23AF3B4200D0A1EE /* SKSpriteNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKSpriteNode.swift; sourceTree = "<group>"; };
 		D4FFE65723AF3CB800D0A1EE /* AKPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKPoint.swift; sourceTree = "<group>"; };
-		D4FFE9612365814F00F5DDFB /* Dispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -313,7 +323,7 @@
 				D43EA81A228FDBA4006C619D /* Arkonia */,
 				D4D346A723FC649F00E6D1C2 /* HotNet */,
 				D4B4293B22DAEC7E0036C904 /* HUD */,
-				D4654DE1248981AE00B34D4E /* Ingrid */,
+				D41290EE249C6E6D00DF0B32 /* Grid */,
 				D46B1D7222813DF7003D711C /* Miscellany */,
 				D40985F922650BD8009DD384 /* macOS */,
 				D4B2AC8323D5965A00246746 /* SpriteKit */,
@@ -345,6 +355,20 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
+		D41290EE249C6E6D00DF0B32 /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				D41290F3249C920700DF0B32 /* Grid.swift */,
+				D41BB59E24A28DE500945298 /* GridArkons.swift */,
+				D42664E8249E6E8C00CBF28B /* GridCell.swift */,
+				D4654DE22489825900B34D4E /* GridCore.swift */,
+				D41290FC249CFB3000DF0B32 /* GridIndexer.swift */,
+				D485E3E92490F69B0092A7B1 /* GridManna.swift */,
+				D41290EF249C6E8200DF0B32 /* GridSync.swift */,
+			);
+			path = Grid;
+			sourceTree = "<group>";
+		};
 		D43EA81A228FDBA4006C619D /* Arkonia */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,27 +389,16 @@
 				D4BB6E6A234E544B00529819 /* LifeCycle */,
 				D4F89BE9245BCCCA0044F0D2 /* Metabolism */,
 				D485E3E52490AF070092A7B1 /* Arkon.EnergyBudget.swift */,
+				D41BB59C24A1B5C100945298 /* ArkonBuilder.swift */,
+				D4B7B49524971CAF00894A61 /* ArkonEmbryo.swift */,
 				D4B9512024349A8800BD2085 /* ArkonName.swift */,
 				D40DF3302470C2A2001649FA /* Colorizer.swift */,
-				D4FFE9612365814F00F5DDFB /* Dispatch.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
+				D42664EF24A168BA00CBF28B /* SensorPad.swift */,
+				D414A40C2499983500DDCB25 /* SensorPadCell.swift */,
 				D4A12BE922EA58E900C15F59 /* Stepper.swift */,
 			);
 			path = Arkon;
-			sourceTree = "<group>";
-		};
-		D4654DE1248981AE00B34D4E /* Ingrid */ = {
-			isa = PBXGroup;
-			children = (
-				D4654DFC2489834200B34D4E /* main.swift */,
-				D4654E0A248E030900B34D4E /* Ingrid.swift */,
-				D485E3E72490F05A0092A7B1 /* IngridArkons.swift */,
-				D4654E012489936E00B34D4E /* IngridCell.swift */,
-				D4654DE22489825900B34D4E /* IngridCore.swift */,
-				D4654E06248A0A7D00B34D4E /* IngridIndexer.swift */,
-				D485E3E92490F69B0092A7B1 /* IngridManna.swift */,
-			);
-			path = Ingrid;
 			sourceTree = "<group>";
 		};
 		D467E886242D2ADE006325E0 /* Manna */ = {
@@ -451,6 +464,7 @@
 				D41787052430D5090025EC00 /* BarChart.swift */,
 				D422DE0A23598B52003734B8 /* Census.swift */,
 				D41A29A423B9945F00DE9CC6 /* Census.Extra.swift */,
+				D4B7B4932494D46E00894A61 /* Census.Stats.swift */,
 				D422DE0C23598BEC003734B8 /* Clock.swift */,
 				D47FDDC324485BC500C89A1E /* Dashboard.swift */,
 				D4B4294022DAEC7E0036C904 /* HUD.swift */,
@@ -471,7 +485,7 @@
 				D4A59D202387E4E400517F60 /* EngageGrid.swift */,
 				D4A59D2523882C5D00517F60 /* MoveSprite.swift */,
 				D4A59D2E2388345100517F60 /* MoveStepper.swift */,
-				D4D5EABA2368B05200E95AA5 /* Spawn.swift */,
+				D41BB5A824A3EFFD00945298 /* Spawn.swift */,
 				D4BB6E72234E549C00529819 /* TickLife.swift */,
 			);
 			path = LifeCycle;
@@ -677,6 +691,8 @@
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D42B7CF12487678A00085F7F /* Tensor.Utilities.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
+				D414A40D2499983500DDCB25 /* SensorPadCell.swift in Sources */,
+				D4B7B4942494D46E00894A61 /* Census.Stats.swift in Sources */,
 				D467E885242D2AB0006325E0 /* Manna.Sprite.swift in Sources */,
 				D422DE0D23598BEC003734B8 /* Clock.swift in Sources */,
 				D4BBFCDF24430318000C139D /* LineGraphUpdate.swift in Sources */,
@@ -685,8 +701,9 @@
 				D40DF32B24706E4B001649FA /* Jump.swift in Sources */,
 				D464BA3922C737260069623C /* AppDelegate.swift in Sources */,
 				D40DF32F24706E4B001649FA /* Transfer.swift in Sources */,
-				D485E3EB2490F7990092A7B1 /* IngridManna.swift in Sources */,
+				D485E3EB2490F7990092A7B1 /* GridManna.swift in Sources */,
 				D4B00919241FF722007FDD6F /* Cbuffer.swift in Sources */,
+				D41BB59F24A28DE500945298 /* GridArkons.swift in Sources */,
 				D494C8732483293800692274 /* HotNetBlas.swift in Sources */,
 				D4B4295322DAF1CD0036C904 /* Report.swift in Sources */,
 				D464BA3B22C737260069623C /* Arkonia.swift in Sources */,
@@ -701,45 +718,45 @@
 				D497C1AA23D966A70078D39F /* SpritePool.swift in Sources */,
 				D464BA3D22C737260069623C /* SpriteFactory.swift in Sources */,
 				D40DF3312470C2A2001649FA /* Colorizer.swift in Sources */,
+				D41290F4249C920700DF0B32 /* Grid.swift in Sources */,
 				D485E3EF2491BBC70092A7B1 /* DriveStimulus.swift in Sources */,
 				D40DF32C24706E4B001649FA /* Lungs.swift in Sources */,
 				D4BB6E73234E549C00529819 /* TickLife.swift in Sources */,
 				D4FFE64C23AF3B4200D0A1EE /* SKSpriteNode.swift in Sources */,
 				D413E660240F745100077E35 /* DriveResponse.swift in Sources */,
+				D42664F024A168BA00CBF28B /* SensorPad.swift in Sources */,
 				D464BA4422C737260069623C /* NetDisplay.swift in Sources */,
 				D4B2AC8523D5983200246746 /* SceneDispatch.swift in Sources */,
-				D485E3E3248F442A0092A7B1 /* IngridCore.swift in Sources */,
+				D485E3E3248F442A0092A7B1 /* GridCore.swift in Sources */,
 				D4A59D2623882C5D00517F60 /* MoveSprite.swift in Sources */,
+				D41290F1249C6E8900DF0B32 /* GridSync.swift in Sources */,
 				D464BA4622C737260069623C /* Overload2D.swift in Sources */,
 				D4A59D332388BBD700517F60 /* DisengageGrid.swift in Sources */,
 				D495F0BA233FA6C2007D6E86 /* Net.swift in Sources */,
 				D4A59D232387F64500517F60 /* DriveNetSignal.swift in Sources */,
 				D4EA4BE6247A086200763EF8 /* NetStructure.swift in Sources */,
 				D464BA4922C737260069623C /* AppController.swift in Sources */,
-				D4FFE9622365814F00F5DDFB /* Dispatch.swift in Sources */,
 				D464BA4B22C737260069623C /* NetGraphics.swift in Sources */,
 				D41ED8D623B084A100E82B08 /* Debug.swift in Sources */,
-				D4D5EABB2368B05200E95AA5 /* Spawn.swift in Sources */,
 				D40DF32E24706E4B001649FA /* OozeStorage.swift in Sources */,
 				D485E3E62490AF070092A7B1 /* Arkon.EnergyBudget.swift in Sources */,
 				D494C87224827A0A00692274 /* HotLayerBlas.swift in Sources */,
 				D4BBFCDE24430318000C139D /* LineGraph.swift in Sources */,
 				D40DF32A24706E4B001649FA /* EnergyBudget.Protocols.swift in Sources */,
-				D485E3E4248F442A0092A7B1 /* IngridIndexer.swift in Sources */,
 				D42B7CEF248765C000085F7F /* Tensor.Random.swift in Sources */,
-				D485E3E2248F442A0092A7B1 /* IngridCell.swift in Sources */,
-				D485E3E1248F442A0092A7B1 /* Ingrid.swift in Sources */,
 				D47FDDC424485BC500C89A1E /* Dashboard.swift in Sources */,
 				D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */,
 				D4B9512124349A8800BD2085 /* ArkonName.swift in Sources */,
+				D4B7B49624971CAF00894A61 /* ArkonEmbryo.swift in Sources */,
 				D4B2AC8223D595E000246746 /* NetDisplayGrid.swift in Sources */,
+				D41BB5A924A3EFFD00945298 /* Spawn.swift in Sources */,
 				D4B00914241C97BD007FDD6F /* MannaCannon.swift in Sources */,
 				D4A59D31238839C700517F60 /* Arrive.swift in Sources */,
-				D485E3E82490F05A0092A7B1 /* IngridArkons.swift in Sources */,
 				D40DF32D24706E4B001649FA /* Metabolism.swift in Sources */,
 				D41A29A523B9945F00DE9CC6 /* Census.Extra.swift in Sources */,
 				D458940223CFE847004FED72 /* Mutator.swift in Sources */,
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
+				D42664E9249E6E8C00CBF28B /* GridCell.swift in Sources */,
 				D457109B2471169100A9B94F /* JumpSpec.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
 				D4337BBA2488C097009CA9DD /* LayerStructures.swift in Sources */,
@@ -748,10 +765,12 @@
 				D422DE0B23598B52003734B8 /* Census.swift in Sources */,
 				D4D4F050243ABACC00D093DF /* HotNetBnn.swift in Sources */,
 				D476695A2488A7060074F702 /* Debug.Color.swift in Sources */,
+				D41290FD249CFB3000DF0B32 /* GridIndexer.swift in Sources */,
 				D4B00912241B8BB3007FDD6F /* Pollenator.swift in Sources */,
 				D41787062430D5090025EC00 /* BarChart.swift in Sources */,
 				D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */,
 				D4BB6E77234EDCA500529819 /* Apoptosize.swift in Sources */,
+				D41BB59D24A1B5C100945298 /* ArkonBuilder.swift in Sources */,
 				D464BA5522C737260069623C /* Extensions.swift in Sources */,
 				D40DF32824706E4B001649FA /* Digestion.Surplus.swift in Sources */,
 			);
@@ -761,18 +780,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4654DFE2489835300B34D4E /* IngridCore.swift in Sources */,
+				D41BB5A324A3AC2B00945298 /* GridCell.swift in Sources */,
 				D4654E08248AFCEC00B34D4E /* Extensions.swift in Sources */,
 				D4654E002489914E00B34D4E /* Overload2D.swift in Sources */,
-				D4654E07248A0A7D00B34D4E /* IngridIndexer.swift in Sources */,
-				D485E3EA2490F69B0092A7B1 /* IngridManna.swift in Sources */,
-				D4654E022489936E00B34D4E /* IngridCell.swift in Sources */,
 				D4654E09248AFCF600B34D4E /* Arkonia.swift in Sources */,
+				D41BB5A524A3AC2B00945298 /* GridIndexer.swift in Sources */,
 				D4654DFF24898BB200B34D4E /* AKPoint.swift in Sources */,
-				D4654DFD2489834200B34D4E /* main.swift in Sources */,
-				D4654E0B248E030900B34D4E /* Ingrid.swift in Sources */,
 				D485E3E0248EF7780092A7B1 /* Cbuffer.swift in Sources */,
+				D41BB5A424A3AC2B00945298 /* GridCore.swift in Sources */,
+				D41BB5A224A3AC2B00945298 /* GridArkons.swift in Sources */,
 				D4654E05248A080600B34D4E /* Debug.swift in Sources */,
+				D41BB5A724A3AC2B00945298 /* GridSync.swift in Sources */,
+				D41BB5A124A3AC2B00945298 /* Grid.swift in Sources */,
+				D41BB5A624A3AC2B00945298 /* GridManna.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

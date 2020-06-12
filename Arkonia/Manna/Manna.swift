@@ -1,16 +1,16 @@
 import SpriteKit
 
 class Manna {
-    let absoluteIngridIndex: Int
+    let absoluteGridIndex: Int
     fileprivate var timeRequiredForFullBloom = Arkonia.mannaFullGrowthDurationSeconds
     fileprivate var mostRecentBloomTime: Date
     let sprite: Manna.Sprite
 
     var isPhotosynthesizing: Bool { self.sprite.isPhotosynthesizing }
 
-    init(_ absoluteIngridIndex: Int) {
-        self.absoluteIngridIndex = absoluteIngridIndex
-        self.sprite = Manna.Sprite(absoluteIngridIndex)
+    init(_ absoluteGridIndex: Int) {
+        self.absoluteGridIndex = absoluteGridIndex
+        self.sprite = Manna.Sprite()
         self.sprite.reset()
 
         // Set our date to the past so we'll treat the first bloom as completed already
@@ -22,10 +22,8 @@ extension Manna {
     class Sprite {
         let sprite: SKSpriteNode
 
-        init(_ fishNumber: Int) {
-            let name = ArkonName.makeMannaName(fishNumber)
-
-            sprite = SpriteFactory.shared.mannaPool.makeSprite(name)
+        init() {
+            sprite = SpriteFactory.shared.mannaPool.makeSprite()
 
             SpriteFactory.shared.mannaPool.attachSprite(sprite)
         }
@@ -47,7 +45,7 @@ extension Manna {
             let seasonalFactors =  dayNightFactor * temperatureCelsiusDegreees
             let mannaContent = EnergyBudget.MannaContent(maturityLevel, seasonalFactors)
 
-            Debug.log(level: 182) {
+            Debug.log(level: 196) {
                 "harvest:"
                 + " maturity \(maturityLevel)"
                 + " dayNight \(dayNightFactor)"
@@ -56,7 +54,8 @@ extension Manna {
                 + " -> ham \(mannaContent.selectStore(.energy)!)"
             }
 
-            Dispatch.dispatchQueue.async { onComplete(mannaContent) }
+            SceneDispatch.shared.schedule(self.rebloom)
+            MainDispatchQueue.async { onComplete(mannaContent) }
         }
     }
 

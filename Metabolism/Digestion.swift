@@ -2,7 +2,7 @@ import Foundation
 
 extension Metabolism {
     func digest() {
-        Debug.log(level: 179) { "digest.0" }
+        Debug.log(level: 202) { "digest.0" }
 
         // For no particular reason, I've decided to forbid Arkons to draw on
         // their fat reserves from grazing until they've used up their whole
@@ -13,14 +13,14 @@ extension Metabolism {
 
         processStorage(embryoIsPresent)
 
-        Debug.log(level: 179) { "digest.7; mass \(mass)" }
+        Debug.log(level: 202) { "digest.7; mass \(mass)" }
     }
 }
 
 extension Metabolism {
     func processEmbryo() -> Bool {
         guard let embryo = self.embryo else {
-            Debug.log(level: 179) { "digest.00: embryo is no longer attached" }
+            Debug.log(level: 202) { "digest.00: embryo is no longer attached" }
             return false
         }
 
@@ -31,13 +31,13 @@ extension Metabolism {
             let source = (embryo.selectStore(id))!
 
             if source.isEmpty {
-                Debug.log(level: 179) { "digest.0a: embryo chamber \(id) is empty" }
+                Debug.log(level: 202) { "digest.0a: embryo chamber \(id) is empty" }
                 continue
             }
 
             let sink = (self.selectStore(id))!
 
-            Debug.log(level: 179) {
+            Debug.log(level: 202) {
                 "digest.1a:"
                 + " \(source.E.organID):\(source.E.chamberID) level \(source.level)"
                 + " \(sink.E.organID):\(sink.E.chamberID) level \(sink.level)"
@@ -45,7 +45,7 @@ extension Metabolism {
 
             let transferLevels = getTransferLevels(from: source, to: sink)
 
-            Debug.log(level: 179) {
+            Debug.log(level: 202) {
                 "digest.1b: netDraw \(transferLevels.netNativeDraw)"
                 + " netDeposit \(transferLevels.netNativeDeposit)"
                 + " drawFullness \(transferLevels.drawFullness)"
@@ -62,7 +62,7 @@ extension Metabolism {
             // There's still something left in the embryo, don't let go of it yet
             if !source.isEmpty { detachEmbryo = false }
 
-            Debug.log(level: 179) {
+            Debug.log(level: 202) {
                 "digest.1c: source result \(source.level) sink result \(sink.level)"
             }
         }
@@ -77,17 +77,17 @@ extension Metabolism {
     func processStomach() {
         for id in secondaryStores {
             guard let source = stomach.selectStore(id) else {
-                Debug.log(level: 179) { "digest.2.0a: stomach has no \(id) chamber" }
+                Debug.log(level: 202) { "digest.2.0a: stomach has no \(id) chamber" }
                 continue
             }
 
             if source.isEmpty {
-                Debug.log(level: 179) { "digest.2.0b: stomach chamber \(id) is empty" }
+                Debug.log(level: 202) { "digest.2.0b: stomach chamber \(id) is empty" }
                 continue
             }
 
             guard let sink = self.selectStore(id) else {
-                Debug.log(level: 179) {
+                Debug.log(level: 202) {
                     if let so = stomach.selectStore(id) { return "store \(so.E.organID)/\(so.E.chamberID) empty \(so.isEmpty)" }
                     else { return nil }
                 }
@@ -95,13 +95,13 @@ extension Metabolism {
                 continue
             }
 
-            Debug.log(level: 179) {
+            Debug.log(level: 202) {
                 "digest.2a: \(source.E.organID):\(source.E.chamberID) level \(source.level) \(sink.E.organID):\(sink.E.chamberID) level \(sink.level)"
             }
 
             let transferLevels = getTransferLevels(from: source, to: sink)
 
-            Debug.log(level: 179) {
+            Debug.log(level: 202) {
                 "digest.2b: netDraw \(transferLevels.netNativeDraw)"
                 + " netDeposit \(transferLevels.netNativeDeposit)"
                 + " drawFullness \(transferLevels.drawFullness)"
@@ -117,7 +117,7 @@ extension Metabolism {
                 as: transferLevels.netNativeDeposit, to: sink
             )
 
-            Debug.log(level: 179) {
+            Debug.log(level: 202) {
                 "digest.2c: source result \(source.level) sink result \(sink.level)"
             }
         }

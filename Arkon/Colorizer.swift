@@ -1,11 +1,6 @@
 import GameplayKit
 
-class Colorizer {
-    var babyBumpIsShowing = false
-    weak var stepper: Stepper?
-
-    init(_ stepper: Stepper) { self.stepper = stepper }
-
+extension Stepper {
     func colorize(_ onComplete: @escaping () -> Void) {
         SceneDispatch.shared.schedule { [unowned self] in
             self.colorize_()
@@ -14,12 +9,12 @@ class Colorizer {
     }
 }
 
-extension Colorizer {
+extension Stepper {
     private func colorize_() {
-        Debug.log(level:168) { "Colorize \(six(stepper!.name))" }
+        Debug.log(level:204) { "Colorize \(six(name))" }
 
         if Arkonia.debugColorIsEnabled {
-            Debug.debugColor(stepper!, .brown, .brown)
+            Debug.debugColor(self, .brown, .brown)
         } else {
             setNoseColor()
         }
@@ -27,43 +22,43 @@ extension Colorizer {
         setThoraxScale()
 
         let babyBumpShouldBeShowing =
-            (stepper!.metabolism.spawn?.oxygenStore.level ?? 0) > 0
+            (metabolism.spawn?.oxygenStore.level ?? 0) > 0
 
-        switch (babyBumpShouldBeShowing, stepper!.babyBumpIsShowing) {
+        switch (babyBumpShouldBeShowing, babyBumpIsShowing) {
         case (true, false):
             lookPregnant()
-            stepper!.babyBumpIsShowing = true
+            babyBumpIsShowing = true
 
         case (false, true):
             lookNotPregnant()
-            stepper!.babyBumpIsShowing = false
+            babyBumpIsShowing = false
 
         default: break
         }
     }
 
     private func setNoseColor() {
-        stepper!.nose.colorBlendFactor = 1 - stepper!.metabolism.asphyxiation
+        nose.colorBlendFactor = 1 - metabolism.asphyxiation
     }
 
     private func setThoraxScale() {
-        let m = stepper!.metabolism!
+        let m = metabolism
         let effectiveMass = m.mass - (m.embryo?.mass ?? 0)
         let scale = log(effectiveMass + 1)
-        stepper!.sprite.setScale(Arkonia.arkonScaleFactor * scale / Arkonia.zoomFactor)
+        thorax.setScale(Arkonia.arkonScaleFactor * scale / Arkonia.zoomFactor)
     }
 
     private func lookNotPregnant() {
-        stepper!.nose.setScale(Arkonia.noseScaleFactor)
+        nose.setScale(Arkonia.noseScaleFactor)
     }
 
     private func lookPregnant() {
-        let m = stepper!.metabolism!
+        let m = metabolism
         let f: CGFloat = m.spawn?.fatStore?.fullness ?? 0.25
         let s: CGFloat = Arkonia.arkonScaleFactor * Arkonia.noseScaleFactor *
             Arkonia.zoomFactor * f
 
-        stepper!.nose.yScale = s
-        stepper!.nose.xScale = s
+        nose.yScale = s
+        nose.xScale = s
     }
 }

@@ -1,31 +1,39 @@
 import SpriteKit
 
-final class MoveStepper: Dispatchable {
-    internal override func launch() { moveStepper() }
+extension Stepper {
+    func moveStepper() { MainDispatchQueue.async(execute: moveStepper_) }
 
-    func moveStepper() {
-        Debug.debugColor(stepper, .brown, .purple)
+    func moveStepper_() {
+        Debug.debugColor(self, .brown, .purple)
 
-        Debug.log(level: 195) { "moveStepper \(stepper!.name) at absix \(stepper.ingridCellAbsoluteIndex) "}
+        cJumps += 1    // We count it as a jump even if we don't move
 
-        if let moveFrom = stepper.jumpSpec!.fromCell?.absoluteIndex {
-            let moveTo = stepper.jumpSpec!.toCell.absoluteIndex
-            hardAssert(stepper.jumpSpec!.toCell.cell != nil) { "here?" }
-            Debug.log(level: 195) { "moveStepper \(stepper!.name) from abs \(moveFrom) to abs \(moveTo)"}
-            let contents = Ingrid.shared.getContents(in: moveTo)
+        let fromLocalIx = jumpSpec!.fromCell.padLocalIndex
+        let toLocalIx =   jumpSpec!.toCell.padLocalIndex
+        let fromAbsIx = sensorPad.thePadCells[fromLocalIx].liveGridCell!.properties.gridAbsoluteIndex
+        let toAbsIx = sensorPad.thePadCells[toLocalIx].liveGridCell!.properties.gridAbsoluteIndex
 
-            Ingrid.shared.arkons.moveArkon(
-                stepper, fromIndex: moveFrom, toIndex: moveTo
-            )
+        let fromContents = sensorPad.thePadCells[fromLocalIx].liveGridCell!.contents
+        let toContents = sensorPad.thePadCells[toLocalIx].liveGridCell!.contents
 
-            if contents == .arkon || contents == .manna {
-                Debug.log(level: 192) { "moveStepper -> arrive" }
-                stepper.dispatch!.arrive()
-                return
-            }
+        Debug.log(level: 209) {
+            "moveStepper \(name)"
+            + " to loc \(toLocalIx);"
+            + " from abs \(fromAbsIx)"
+            + " to abs \(toAbsIx)"
         }
 
-        Debug.log(level: 192) { "moveStepper -> disengage" }
-        stepper.dispatch!.disengageGrid()
+        hardAssert(fromContents.hasArkon()) { "fromWrong" }
+        hardAssert(!toContents.hasArkon()) { "toWrong" }
+
+        sensorPad.moveArkon(to: jumpSpec!.toCell)
+
+        if toContents.hasManna() {
+            Debug.log(level: 192) { "moveStepper -> arrive" }
+            arrive()
+            return
+        }
+
+        disengageGrid()
     }
 }

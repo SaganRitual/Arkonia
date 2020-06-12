@@ -1,23 +1,24 @@
 import SpriteKit
 
-final class Arrive: Dispatchable {
-    internal override func launch() { arrive() }
+extension Stepper {
+    func arrive() { MainDispatchQueue.async(execute: arrive_) }
 
-    func arrive() {
-        Debug.debugColor(stepper, .brown, .green)
+    private func arrive_() {
+        Debug.log(level: 206) { "arrive" }
+        Debug.debugColor(self, .brown, .green)
 
-        let ax = stepper.ingridCellAbsoluteIndex
-        if let manna = Ingrid.shared!.manna.mannaAt(ax) { graze(manna); return }
+        let ax = sensorPad.centerAbsoluteIndex!
+        if let manna = Grid.mannaAt(ax) { graze(manna); return }
 
-        Debug.log(level: 192) { "arrive -> disengage" }
-        stepper.dispatch!.disengageGrid()
+        self.disengageGrid()
     }
 
-    func graze(_ manna: Manna) {
-        manna.harvest { mannaContent in
-            if let mc = mannaContent { self.stepper.metabolism.eat(mc) }
-            Debug.log(level: 192) { "graze -> disengage" }
-            self.stepper.dispatch!.disengageGrid()
+    private func graze(_ manna: Manna) {
+        Debug.log(level: 206) { "graze" }
+        cFoodHits += 1
+        manna.harvest {
+            if let mannaContent = $0 { self.metabolism.eat(mannaContent) }
+            self.disengageGrid()
         }
     }
 }

@@ -42,9 +42,8 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
     var barChartFactory: BarChartFactory!
 
     var lineGraphFactory: LineGraphFactory!
-    var lgNeurons: LineGraph!
-    var lgGenes: LineGraph!
-    var lgOffspring: LineGraph!
+    var lgWeather: LineGraph!
+    var lgFoodHits: LineGraph!
 
     var reportArkonia: Report!
     var reportFactory: ReportFactory!
@@ -77,31 +76,19 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
     }
 
     func buildLineGraphs() {
-        [0, 2].forEach {
-            let p = hud.emptyMonitorFactory.newPlaceholder()
-            hud.placeDashoid(p, on: .middle, quadrant: $0, layoutId: .dashboards_portal_1x2)
-        }
-
         lineGraphFactory = LineGraphFactory(hud: hud, scene: self)
 
-        lgNeurons = lineGraphFactory.newGraph()
-        lgNeurons.setChartLabel("Almanac")
+        lgWeather = lineGraphFactory.newGraph()
+        lgFoodHits = lineGraphFactory.newGraph()
 
-        hud.placeDashoid(lgNeurons, on: .middle, quadrant: 1, layoutId: .dashboards_portal_1x2)
-//        hud.placeMonitor(lgNeurons, dashboard: 1, quadrant: 3)
+        lgWeather.setChartLabel("Almanac")
+        lgFoodHits.setChartLabel("Food Hitrate")
 
-//        lgGenes = lineGraphFactory.newGraph()
-//        lgGenes.maxInput = 500
-//        lgGenes.setChartLabel("Genes")
-//        lgGenes.pullDataAction = LineGraphUpdate.getCGeneUpdater(lgGenes)
-//        hud.placeMonitor(lgGenes, dashboard: 1, quadrant: 1)
+        hud.placeDashoid(lgWeather, on: .middle, quadrant: 0, layoutId: .dashboards_portal_1x1)
+        hud.placeDashoid(lgFoodHits, on: .middle, quadrant: 1, layoutId: .dashboards_portal_1x1)
 
-//        lgOffspring = lineGraphFactory.newGraph()
-//        lgOffspring.setChartLabel("Offspring")
-//        hud.placeMonitor(lgOffspring, dashboard: 1, quadrant: 2)
-
-        lgNeurons.start()
-//        lgGenes.start()
+        lgWeather.start(dataset: .weather)
+        lgFoodHits.start(dataset: .foodHits)
     }
 
     func buildReports() {
@@ -168,7 +155,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         let tAtlas = SKTextureAtlas(named: "Arkons")
         let tTexture = tAtlas.textureNamed("spark-thorax-large")
 
-        Ingrid.shared = .init(
+        Grid.makeGrid(
             cellDimensionsPix: tTexture.size() / Arkonia.zoomFactor,
             portalDimensionsPix: ArkoniaScene.arkonsPortal.size,
             maxCSenseRings: NetStructure.cSenseRingsRange.upperBound,
@@ -187,7 +174,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         self.buildLineGraphs()
 //        self.buildBarCharts()
 
-        MannaCannon.shared = MannaCannon(cManna: Arkonia.cMannaMorsels)
+        MannaCannon.shared = MannaCannon()
         MannaCannon.shared!.postInit()
 
         Seasons.shared = Seasons()

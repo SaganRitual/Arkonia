@@ -31,6 +31,10 @@ class NetDisplay {
         )
     }
 
+    deinit {
+        Debug.log(level: 205) { "~NetDisplay" }
+    }
+
     func display() {
         Debug.log(level: 159) {
             NetDisplay.display_counter += 1
@@ -46,7 +50,8 @@ class NetDisplay {
     }
 
     // swiftlint:disable function_body_length
-    // Function Body Length Violation: Function body should span 40 lines or less excluding comments and whitespace: currently spans 41 lines (function_body_length)
+    // Function Body Length Violation: Function body should span 40 lines or
+    // less excluding comments and whitespace: currently spans 41 lines (function_body_length)
     static var display_counter = 0
     private func display_() {
         Debug.log(level: 159) {

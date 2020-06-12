@@ -112,12 +112,9 @@ extension Manna.Sprite {
     }
 
     private func prepForFirstPlanting(at cellAbsoluteIndex: Int) {
-        let cell = Ingrid.shared.cellAt(cellAbsoluteIndex)
         sprite.setScale(Arkonia.mannaScaleFactor / Arkonia.zoomFactor)
-        sprite.position = cell.scenePosition
+        sprite.position = Grid.cellAt(cellAbsoluteIndex).properties.scenePosition
         sprite.zPosition = 0
-
-        Debug.log(level: 190) { "Prep to plant at g(\(cell.gridPosition)) p(\(cell.scenePosition)) " }
     }
 
     func reset() {

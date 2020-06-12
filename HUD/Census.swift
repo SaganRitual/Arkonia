@@ -1,9 +1,26 @@
 import SpriteKit
 
 struct Fishday {
-    let birthday: Int
+    private static var TheFishNumber = 0
+
+    let birthday: TimeInterval
     let cNeurons: Int
     let fishNumber: Int
+    let name: ArkonName
+
+    // All this needs to happen on a serial queue. The Census serial
+    // queue seems like the most sensible one, given that it's census-related
+    init(cNeurons: Int) {
+        self.cNeurons = cNeurons
+        self.fishNumber = Fishday.getNextFishNumber()
+        self.name = ArkonName.makeName()
+        self.birthday = TimeInterval(Census.shared.localTime)
+    }
+
+    private static func getNextFishNumber() -> Int {
+        defer { Fishday.TheFishNumber += 1 }
+        return Fishday.TheFishNumber
+    }
 }
 
 class Census {
@@ -16,7 +33,7 @@ class Census {
 
     private(set) var births = 0
     private(set) var cLiveNeurons = 0
-    private var localTime = 0
+    private(set) var localTime = 0
     private(set) var population = 0
     var populated = false
 
@@ -25,7 +42,6 @@ class Census {
     let rHighWaterAge: Reportoid
     let rHighWaterPopulation: Reportoid
     let rCOffspring: Reportoid
-    private var TheFishNumber = 0
 
     var tickTimer: Timer!
 
@@ -60,20 +76,8 @@ class Census {
 }
 
 extension Census {
-    func getNextFishNumber(_ onComplete: @escaping (Int) -> Void) {
-        Census.dispatchQueue.async {
-            let next = self.getNextFishNumber()
-            onComplete(next)
-        }
-    }
-
-    private func getNextFishNumber() -> Int {
-        defer { self.TheFishNumber += 1 }
-        return self.TheFishNumber
-    }
-
     static func getAge(of arkon: Stepper, at currentTime: Int) -> TimeInterval {
-        return TimeInterval(currentTime) - arkon.birthday
+        return TimeInterval(currentTime) - arkon.fishday.birthday
     }
 }
 
@@ -91,12 +95,13 @@ extension Census {
     }
 
     func registerDeath(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
+        Debug.log(level: 205) { "registerDeath.0; population \(self.population)" }
         Census.registerDeath(stepper, onComplete)
     }
 }
 
 extension Census {
-    func registerBirth(_ myName: ArkonName, _ myParent: Stepper?, _ myNet: Net) -> Fishday {
+    func registerBirth(_ myParent: Stepper?, _ myNet: Net) -> Fishday {
         self.population += 1
         self.births += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
@@ -109,17 +114,22 @@ extension Census {
             myParent?.cOffspring ?? 0, self.highWaterCOffspring
         )
 
-        return Fishday(birthday: 0, cNeurons: myNet.netStructure.cNeurons, fishNumber: 0)
+        Debug.log(level: 205) { "registerBirth; population \(self.population)" }
+
+        return Fishday(cNeurons: myNet.netStructure.cNeurons)
     }
 
     func registerDeath(_ stepper: Stepper, _ worldTime: Int) {
+        Debug.log(level: 205) { "registerDeath.1; population \(self.population)" }
         let ageOfDeceased = Census.getAge(of: stepper, at: worldTime)
 
         highWaterAge = max(highWaterAge, Int(ageOfDeceased))
         population -= 1
 
-        if population < 25 { Dispatch().spawn() }
+        if population < 25 { Stepper.makeNewArkon(nil) }
 
-        self.cLiveNeurons -= stepper.net!.netStructure.cNeurons
+        self.cLiveNeurons -= stepper.net.netStructure.cNeurons
+
+        Debug.log(level: 205) { "registerDeath.2; population \(self.population)" }
     }
 }

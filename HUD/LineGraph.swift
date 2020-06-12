@@ -58,6 +58,7 @@ class LineGraphInputSet {
 }
 
 enum Plot: String, CaseIterable { case avg, med, max }
+enum LineGraphDataset { case foodHits, uninitialized, weather }
 
 final class LineGraph: SKSpriteNode {
     static let cSamplesForAverage = 5
@@ -75,6 +76,7 @@ final class LineGraph: SKSpriteNode {
     var plotSets = [LineGraphPlotSet]()
     var runningAverages = Cbuffer<LineGraphInputSet>(cElements: LineGraph.cSamplesForAverage, mode: .putOnlyRing)
     var started = false
+    var dataset = LineGraphDataset.uninitialized
 
     func setChartLabel(_ text: String) {
         let lineGraphLabel = "linegraph_title_understudy"
@@ -94,7 +96,9 @@ final class LineGraph: SKSpriteNode {
         }
     }
 
-    func start() {
+    func start(dataset: LineGraphDataset) {
+        self.dataset = dataset
+
         self.enumerateChildNodes(withName: "linegraph_canvas*") { cn, _ in
             let canvasNode = (cn as? SKSpriteNode)!
             self.canvases.append(canvasNode)
@@ -219,12 +223,16 @@ final class LineGraph: SKSpriteNode {
         currentColumn = LineGraph.cColumns
     }
 
-    func stop() {
-        canvases.forEach { $0.removeAllActions() }
-    }
+    func stop() { canvases.forEach { $0.removeAllActions() } }
 
     func update() {
-        func a() { LineGraphUpdate.getAgeStats(b) }
+        func a() {
+            switch dataset {
+            case .foodHits: LineGraphUpdate.getFoodHitStats(b)
+            case .weather: LineGraphUpdate.getWeatherStats(b)
+            default: fatalError()
+            }
+         }
 
         func b(_ newInputSet_: LineGraphInputSet?) {
             defer {

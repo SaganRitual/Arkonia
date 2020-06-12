@@ -53,16 +53,14 @@ class SpritePool {
         return drone
     }
 
-    func makeSprite(_ name: ArkonName?) -> SKSpriteNode {
+    func makeSprite() -> SKSpriteNode {
         let drone = getDrone()
-        return makeSprite(with: drone, name)
+        return makeSprite(with: drone)
     }
 
-    func makeSprite(with drone: SKSpriteNode, _ name: ArkonName?) -> SKSpriteNode {
-//        drone.alpha = prototype.alpha
-        drone.color = .purple//prototype.color
+    func makeSprite(with drone: SKSpriteNode) -> SKSpriteNode {
+        drone.color = .black
         drone.colorBlendFactor = prototype.colorBlendFactor
-        drone.name = "\(name!.nametag)(\(name!.setNumber))"
         drone.zPosition = prototype.zPosition
         drone.zRotation = prototype.zRotation
         return drone
@@ -92,7 +90,7 @@ class ThoraxPool: SpritePool {
         _ prototype: DronePrototype
     ) {
         super.init(atlasName, textureName, parentSKNode, poolCapacity, prototype, nil)
-//        setupNetDisplayPortals()
+        setupNetDisplayPortals()
     }
 
     override func getDrone() -> SKSpriteNode {

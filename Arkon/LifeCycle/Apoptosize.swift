@@ -1,45 +1,29 @@
 import SpriteKit
 
-final class Apoptosize: Dispatchable {
-    internal override func launch() { apoptosize() }
-}
-
-private extension Apoptosize {
+extension Stepper {
     func apoptosize() {
-        Debug.log(level: 191) { "Apoptosize.dismemberArkon" }
-        Debug.debugColor(stepper, .brown, .green)
+        Debug.debugColor(self, .brown, .green)
 
-        Census.shared.registerDeath(stepper, disengageSensorPad)
-    }
+        func apoptosize_A() { Census.shared.registerDeath(self, apoptosize_B) }
+        func apoptosize_B() { MainDispatchQueue.async(execute: apoptosize_C) }
+        func apoptosize_C() { sensorPad.disengageSensorPad(apoptosize_D) }
+        func apoptosize_D() { net.release(apoptosize_E) }
+        func apoptosize_E() { SceneDispatch.shared.schedule(apoptosize_F) }
+        func apoptosize_F() { releaseSprites(apoptosize_G) }
+        func apoptosize_G() { MainDispatchQueue.async(execute: apoptosize_H) }
 
-    func disengageSensorPad() {
-        let padCCells = stepper.net.netStructure.cCellsWithinSenseRange
-        Ingrid.shared.disengageSensorPad(
-            stepper.sensorPad, padCCells: padCCells, keepTheseCells: [], releaseNet
-        )
-    }
-
-    func releaseNet() {
-        stepper.net.release(releaseStepper_)
-    }
-
-    func releaseStepper_() {
-        releaseStepper { self.releaseSprites($0.sprite, $0.nose, $0.tooth) }
-    }
-
-    func releaseSprites(_ thorax: SKSpriteNode, _ nose: SKSpriteNode, _ tooth: SKSpriteNode) {
-        SceneDispatch.shared.schedule {
-            SpriteFactory.shared.teethPool.releaseSprite(tooth)
-            SpriteFactory.shared.nosesPool.releaseSprite(nose)
-            SpriteFactory.shared.arkonsPool.releaseSprite(thorax)
+        func apoptosize_H() {
+            // This releases the last strong ref; self should deinit now
+            Grid.detachArkonFromGrid(at: sensorPad.centerAbsoluteIndex!)
         }
+
+        MainDispatchQueue.async(execute: apoptosize_A)
     }
 
-    func releaseStepper(_ onComplete: @escaping (Stepper) -> Void) {
-        Stepper.releaseStepper(stepper, from: stepper.sprite!)
-
-        // This is the last strong reference to the stepper. Once the
-        // caller is finished with the variable, the stepper should destruct
-        onComplete(stepper)
+    func releaseSprites(_ onComplete: @escaping () -> Void) {
+        SpriteFactory.shared.teethPool.releaseSprite(tooth)
+        SpriteFactory.shared.nosesPool.releaseSprite(nose)
+        SpriteFactory.shared.arkonsPool.releaseSprite(thorax)
+        onComplete()
     }
 }
