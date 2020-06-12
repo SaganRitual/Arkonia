@@ -54,17 +54,40 @@ class MannaCannon {
 
     func postInit() {
         // Indiscriminately attempt to plant as many manna as indicated. Since
-        // we're choosing a random cell each time, we'll soemteims pick a cell
-        // that already has manna in it, in which case we skip the attempt. The
-        // result is that we'll always end up with fewer than cMannaMorsels morsels
+        // we're choosing a random cell each time, we'll sometimes pick a cell
+        // that already has manna in it, in which case we try to find an open
+        // cell among the eight cells surrounding the chosen random cell. If we
+        // can't place manna in any of these nine cells, skip the attempt. The
+        // result is that we'll usually end up with fewer than cMannaMorsels morsels
         for _ in 0..<Arkonia.cMannaMorsels {
-            let ingridAbsoluteIndex = Ingrid.randomCellIndex()
-            if Ingrid.shared.manna.mannaAt(ingridAbsoluteIndex) != nil { continue }
+            let center = Ingrid.randomCellIndex()
+            var newMannaHome: AKPoint?
 
-            Ingrid.shared.manna.placeManna(at: ingridAbsoluteIndex)
+            let core = Ingrid.shared.core
+            let ixer = core.indexer
+            for cellLocalIx in 0..<9 {
+                newMannaHome = ixer.getGridPointByLocalIndex(
+                    center: center, targetIndex: cellLocalIx
+                )
 
-            let m = Ingrid.shared.manna.mannaAt(ingridAbsoluteIndex)!
-            m.sprite.firstBloom(at: ingridAbsoluteIndex)
+                // Wrap to the other side of the grid, asteroids style, if
+                // the new home we just calculated is off the grid
+                if let corrected = core.correctForDisjunction(newMannaHome!) {
+                    newMannaHome = corrected
+                }
+
+                if Ingrid.shared.manna.mannaAt(newMannaHome!) == nil { break }
+
+                newMannaHome = nil
+            }
+
+            guard let h = newMannaHome else { continue }
+            let absoluteIx = Ingrid.shared.cellAt(h).absoluteIndex
+            Ingrid.shared.manna.placeManna(at: absoluteIx)
+
+            let m = Ingrid.shared.manna.mannaAt(absoluteIx)!
+            m.sprite.firstBloom(at: absoluteIx)
+
             cPlantedManna += 1
         }
     }

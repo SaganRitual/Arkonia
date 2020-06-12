@@ -47,7 +47,7 @@ extension Manna {
             let seasonalFactors =  dayNightFactor * temperatureCelsiusDegreees
             let mannaContent = EnergyBudget.MannaContent(maturityLevel, seasonalFactors)
 
-            Debug.log(level: 182) {
+            Debug.log(level: 196) {
                 "harvest:"
                 + " maturity \(maturityLevel)"
                 + " dayNight \(dayNightFactor)"
@@ -56,6 +56,7 @@ extension Manna {
                 + " -> ham \(mannaContent.selectStore(.energy)!)"
             }
 
+            SceneDispatch.shared.schedule(self.rebloom)
             Dispatch.dispatchQueue.async { onComplete(mannaContent) }
         }
     }
