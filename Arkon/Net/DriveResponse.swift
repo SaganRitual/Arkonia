@@ -33,7 +33,9 @@ struct DriveResponse {
         let s1 = s0 * Float(cSensorPadCells)
         let s2 = floor(s1)
         let s3 = Int(s2)
-        let targetOffset = s3
+
+        // In case we get a 1.0 -- that would push us beyond the end of the array
+        let targetOffset = (s3 == cSensorPadCells) ? cSensorPadCells - 1 : s3
 
         let jumpSpeedMotorOutput = stepper.net.pMotorOutputs[MotorIndex.jumpSpeed.rawValue]
 
