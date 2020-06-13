@@ -87,7 +87,6 @@ class Net {
         if netStructure.isCloneOfParent {
             biases.initialize(from: parentBiases!, count: netStructure.cBiases)
             weights.initialize(from: parentWeights!, count: netStructure.cWeights)
-
             self.isCloneOfParent = Net.mutateNetParameters(
                 biases, netStructure.cBiases, weights, netStructure.cWeights
             )
@@ -96,6 +95,13 @@ class Net {
             (0..<netStructure.cWeights).forEach { weights[$0] = Float.random(in: -1..<1) }
             self.isCloneOfParent = false
         }
+
+        // I don't get this. If we init the parameters with random Float values as
+        // above, we get arkons that move in straight lines. If we mutate those same
+        // values *randomly*, like this, they behave differently. Weird
+//        self.isCloneOfParent = Net.mutateNetParameters(
+//            biases, netStructure.cBiases, weights, netStructure.cWeights
+//        )
 
         self.pNeurons = UnsafePointer(neurons)
         self.pBiases = UnsafePointer(biases)

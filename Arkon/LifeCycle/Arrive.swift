@@ -14,6 +14,8 @@ final class Arrive: Dispatchable {
     }
 
     func graze(_ manna: Manna) {
+        stepper.cFoodHits += 1
+
         manna.harvest { mannaContent in
             if let mc = mannaContent { self.stepper.metabolism.eat(mc) }
             Debug.log(level: 192) { "graze -> disengage" }

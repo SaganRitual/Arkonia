@@ -8,6 +8,8 @@ final class MoveStepper: Dispatchable {
 
         Debug.log(level: 195) { "moveStepper \(stepper!.name) at absix \(stepper.ingridCellAbsoluteIndex) "}
 
+        stepper!.cJumps += 1    // We count it as a jump even if we don't move
+
         if let moveFrom = stepper.jumpSpec!.fromCell?.absoluteIndex {
             let moveTo = stepper.jumpSpec!.toCell.absoluteIndex
             hardAssert(stepper.jumpSpec!.toCell.cell != nil) { "here?" }

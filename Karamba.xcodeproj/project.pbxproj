@@ -101,6 +101,7 @@
 		D4B2AC8523D5983200246746 /* SceneDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B2AC8423D5983200246746 /* SceneDispatch.swift */; };
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
 		D4B4295322DAF1CD0036C904 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293C22DAEC7E0036C904 /* Report.swift */; };
+		D4B7B4942494D46E00894A61 /* Census.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7B4932494D46E00894A61 /* Census.Stats.swift */; };
 		D4B9512124349A8800BD2085 /* ArkonName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9512024349A8800BD2085 /* ArkonName.swift */; };
 		D4B9512324351EAF00BD2085 /* ArkoniaScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4B9512224351EAF00BD2085 /* ArkoniaScene.sks */; };
 		D4BB6E73234E549C00529819 /* TickLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E72234E549C00529819 /* TickLife.swift */; };
@@ -229,6 +230,7 @@
 		D4B2AC8423D5983200246746 /* SceneDispatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDispatch.swift; sourceTree = "<group>"; };
 		D4B4293C22DAEC7E0036C904 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		D4B4294022DAEC7E0036C904 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		D4B7B4932494D46E00894A61 /* Census.Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.Stats.swift; sourceTree = "<group>"; };
 		D4B9512024349A8800BD2085 /* ArkonName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonName.swift; sourceTree = "<group>"; };
 		D4B9512224351EAF00BD2085 /* ArkoniaScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ArkoniaScene.sks; sourceTree = "<group>"; };
 		D4BB6E72234E549C00529819 /* TickLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickLife.swift; sourceTree = "<group>"; };
@@ -451,6 +453,7 @@
 				D41787052430D5090025EC00 /* BarChart.swift */,
 				D422DE0A23598B52003734B8 /* Census.swift */,
 				D41A29A423B9945F00DE9CC6 /* Census.Extra.swift */,
+				D4B7B4932494D46E00894A61 /* Census.Stats.swift */,
 				D422DE0C23598BEC003734B8 /* Clock.swift */,
 				D47FDDC324485BC500C89A1E /* Dashboard.swift */,
 				D4B4294022DAEC7E0036C904 /* HUD.swift */,
@@ -677,6 +680,7 @@
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D42B7CF12487678A00085F7F /* Tensor.Utilities.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
+				D4B7B4942494D46E00894A61 /* Census.Stats.swift in Sources */,
 				D467E885242D2AB0006325E0 /* Manna.Sprite.swift in Sources */,
 				D422DE0D23598BEC003734B8 /* Clock.swift in Sources */,
 				D4BBFCDF24430318000C139D /* LineGraphUpdate.swift in Sources */,

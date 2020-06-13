@@ -120,8 +120,8 @@ extension Spawn {
 
         func c() {
             SceneDispatch.shared.schedule { [unowned self] in
-                Debug.log(level: 102) { "buildArkon/c" }
                 let sprite = self.newbornThorax!
+                Debug.log(level: 196) { "buildArkon/c offspring of \(six(self.meTheParent?.name))" }
                 self.buildNetDisplay(sprite)
                 onComplete()
             }
@@ -176,14 +176,20 @@ extension Spawn {
         newborn.sprite?.color = (net?.isCloneOfParent ?? false) ? .green : .white
         newborn.nose?.color = .blue
 
+        Debug.log { "name.0 \(six(self.meTheParent?.name)) sprite nil \(newborn.sprite == nil)" }
+
         let birthingCell =
             meTheParent?.detachRandomCellForNewborn() ?? self.landingPad[0]
+        Debug.log { "name.1 \(six(self.meTheParent?.name)) sprite nil \(newborn.sprite == nil)" }
 
         placeNewborn(newborn, at: birthingCell)
+        Debug.log { "name.2 \(six(self.meTheParent?.name)) sprite nil \(newborn.sprite == nil)" }
 
         abandonNewborn()
+        Debug.log { "name.3 \(six(self.meTheParent?.name)) sprite nil \(newborn.sprite == nil)" }
 
         SceneDispatch.shared.schedule {
+            Debug.log { "name.4 \(six(self.meTheParent?.name)) sprite nil \(newborn.sprite == nil)" }
             SpriteFactory.shared.arkonsPool.attachSprite(newborn.sprite)
 
             let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)

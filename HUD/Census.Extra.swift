@@ -34,7 +34,7 @@ extension Census {
 
 extension Census {
     func updateReports() {
-        let portal = (ArkoniaScene.arkonsPortal)!
+        let portal = ArkoniaScene.arkonsPortal!
 
         var ages = [Int]()
         var worldClock = 0

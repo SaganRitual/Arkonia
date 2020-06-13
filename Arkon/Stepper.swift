@@ -2,6 +2,8 @@ import SpriteKit
 
 class Stepper {
     var birthday: TimeInterval = 0
+    var cFoodHits = 0
+    var cJumps = 0
     var cOffspring = 0
     var dispatch: Dispatch!
     var ingridCellAbsoluteIndex = 0
