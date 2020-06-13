@@ -76,11 +76,6 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
     }
 
     func buildLineGraphs() {
-//        [0, 2].forEach {
-//            let p = hud.emptyMonitorFactory.newPlaceholder()
-//            hud.placeDashoid(p, on: .middle, quadrant: $0, layoutId: .dashboards_portal_1x2)
-//        }
-//
         lineGraphFactory = LineGraphFactory(hud: hud, scene: self)
 
         lgWeather = lineGraphFactory.newGraph()
@@ -90,7 +85,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         lgFoodHits.setChartLabel("Food Hitrate")
 
         hud.placeDashoid(lgWeather, on: .middle, quadrant: 1, layoutId: .dashboards_portal_1x2)
-        hud.placeDashoid(lgFoodHits, on: .middle, quadrant: 2, layoutId: .dashboards_portal_1x2)
+        hud.placeDashoid(lgFoodHits, on: .top, quadrant: 2, layoutId: .dashboards_portal_1x2)
 
         lgWeather.start(dataset: .weather)
         lgFoodHits.start(dataset: .foodHits)

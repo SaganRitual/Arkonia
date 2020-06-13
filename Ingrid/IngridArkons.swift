@@ -24,6 +24,11 @@ class IngridArkons {
         stepper.ingridCellAbsoluteIndex = toIndex
     }
 
-    func placeArkon(_ stepper: Stepper, atIndex: Int) { allTheArkons[atIndex] = stepper }
-    func releaseArkon(_ stepper: Stepper) { allTheArkons[stepper.ingridCellAbsoluteIndex] = nil }
+    func placeArkon(_ stepper: Stepper, atIndex: Int) {
+        allTheArkons[atIndex] = stepper
+    }
+
+    func releaseArkon(_ stepper: Stepper) {
+        allTheArkons[stepper.ingridCellAbsoluteIndex] = nil
+    }
 }

@@ -62,7 +62,7 @@ private extension DriveStimulus {
         setMiscSense(.yearFullness, yearFullness)
 
         for (ss, pollenator) in zip(0..., MannaCannon.shared!.pollenators) {
-            let diff = stepper!.sprite.position - pollenator.node.position
+            let diff = stepper!.thorax.position - pollenator.node.position
 
             let t = (diff.x == 0) ? 0 : atan(Float(diff.y) / Float(diff.x))
             let tt = t / (Float.pi / 2)

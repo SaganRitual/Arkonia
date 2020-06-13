@@ -17,7 +17,7 @@ class Stepper {
     var parentWeights: [Double]?
     var previousShiftOffset = AKPoint.zero
     var sensorPad: UnsafeMutablePointer<IngridCellDescriptor>
-    weak var sprite: SKSpriteNode!
+    var thorax: SKSpriteNode!
     var tooth: SKSpriteNode!
 
     var babyBumpIsShowing = false
@@ -26,33 +26,24 @@ class Stepper {
     var jumpSpec: JumpSpec?
 
     weak var parentNet: Net?
-    weak var stepper: Stepper!
 
     var currentTime: Int = 0
     var currentEntropyPerJoule: Double = 0
 
     init(_ embryo: Spawn, needsNewDispatch: Bool = false) {
         self.metabolism = embryo.metabolism
-        self.name = embryo.embryoName
+        self.name = embryo.embryoName!
         self.net = embryo.net
         self.netDisplay = embryo.netDisplay
         self.nose = embryo.newbornNose
+        self.thorax = embryo.newbornThorax!
         self.tooth = embryo.newbornTooth
-        self.sprite = embryo.newbornThorax
 
         let c = self.net.netStructure.cCellsWithinSenseRange
         self.sensorPad = .allocate(capacity: c)
         self.sensorPad.initialize(repeating: IngridCellDescriptor(), count: c)
 
         if needsNewDispatch { self.dispatch = Dispatch(self) }
-    }
-
-    func apoptosize(_ onComplete: @escaping () -> Void) {
-        let c = net.netStructure.cCellsWithinSenseRange
-
-        Ingrid.shared.disengageSensorPad(
-            sensorPad, padCCells: c, keepTheseCells: [], onComplete
-        )
     }
 
     func detachRandomCellForNewborn() -> IngridCellDescriptor {

@@ -5,8 +5,8 @@ final class DisengageGrid: Dispatchable {
     internal override func launch() { disengageGrid() }
 
     private func disengageGrid() {
+        Debug.log(level: 197) { "disengage \(six(stepper?.name))" }
         Debug.debugColor(stepper, .blue, .blue)
-        Debug.log(level: 192) { "disengage" }
 
         stepper.jumpSpec = nil  // For tidiness and superstition
 

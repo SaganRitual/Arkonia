@@ -50,7 +50,7 @@ extension Colorizer {
         let m = stepper!.metabolism!
         let effectiveMass = m.mass - (m.embryo?.mass ?? 0)
         let scale = log(effectiveMass + 1)
-        stepper!.sprite.setScale(Arkonia.arkonScaleFactor * scale / Arkonia.zoomFactor)
+        stepper!.thorax.setScale(Arkonia.arkonScaleFactor * scale / Arkonia.zoomFactor)
     }
 
     private func lookNotPregnant() {

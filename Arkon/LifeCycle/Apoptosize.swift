@@ -25,11 +25,12 @@ private extension Apoptosize {
         SceneDispatch.shared.schedule {
             SpriteFactory.shared.teethPool.releaseSprite(self.stepper.tooth)
             SpriteFactory.shared.nosesPool.releaseSprite(self.stepper.nose)
-            SpriteFactory.shared.arkonsPool.releaseSprite(self.stepper.sprite)
+            SpriteFactory.shared.arkonsPool.releaseSprite(self.stepper.thorax)
 
             // This doesn't have to happen on the scene dispatch, but it
             // needs to happen  last. It's quick enough, I think, to not
             // be a big issue running on this dispatch. I guess we'll find out
+            Debug.log(level: 197) { "apoptosize.releaseStepper \(six(self.stepper?.name))" }
             Ingrid.shared.arkons.releaseArkon(self.stepper!)
         }
     }

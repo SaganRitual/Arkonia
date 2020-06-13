@@ -34,10 +34,10 @@ final class MoveSprite: Dispatchable {
 
         let fadeOut = SKAction.fadeOut(withDuration: moveHalfDuration)
         let fadeIn = SKAction.fadeIn(withDuration: moveHalfDuration)
-        let move = SKAction.run { stepper.sprite.position = targetPosition }
+        let move = SKAction.run { stepper.thorax.position = targetPosition }
         let sequence = SKAction.sequence([fadeOut, move, fadeIn])
 
-        stepper.sprite.run(sequence, completion: onComplete)
+        stepper.thorax.run(sequence, completion: onComplete)
     }
 
     private static func moveAction(_ stepper: Stepper, to targetPosition: CGPoint, _ onComplete: @escaping () -> Void) {
@@ -47,11 +47,11 @@ final class MoveSprite: Dispatchable {
         Debug.debugColor(stepper, .blue, .green)
 
         let move = SKAction.move(to: targetPosition, duration: moveDuration)
-        stepper.sprite.run(move, completion: onComplete)
+        stepper.thorax.run(move, completion: onComplete)
     }
 
     private static func restArkon(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
         let rest = SKAction.wait(forDuration: 0.02)
-        stepper.sprite.run(rest, completion: onComplete)
+        stepper.thorax.run(rest, completion: onComplete)
     }
 }

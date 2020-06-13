@@ -3,7 +3,7 @@ import SpriteKit
 final class Spawn: DispatchableProtocol {
     var dispatch: Dispatch! { willSet { fatalError() } }
 
-    var embryoName = ArkonName.embryo
+    var embryoName: ArkonName?
     var fishDay = Fishday(birthday: 0, cNeurons: 0, fishNumber: 0)
     let landingPad: UnsafeMutablePointer<IngridCellDescriptor>
     var metabolism: Metabolism?
@@ -22,10 +22,19 @@ final class Spawn: DispatchableProtocol {
         self.landingPad.initialize(to: IngridCellDescriptor())
     }
 
-    func launch() { spawn_A() }
+    func launch() { spawn_pre_A0() }
 }
 
 extension Spawn {
+    private func spawn_pre_A0() {
+        Census.dispatchQueue.async(execute: spawn_pre_A1)
+    }
+
+    private func spawn_pre_A1() {
+        self.embryoName = ArkonName.makeName()
+        Dispatch.dispatchQueue.async(execute: spawn_A)
+    }
+
     private func spawn_A() {
         // No parent; that means I'm a disembodied something-or-other bringing
         // an arkon into existence from nothing. Find a random home for it;
@@ -51,9 +60,8 @@ extension Spawn {
     private func spawn_B() { buildArkon(spawn_C) }
 
     private func spawn_C() {
-        Census.registerBirth(myName: embryoName, myParent: meTheParent, myNet: net!) {
+        Census.registerBirth(myName: embryoName!, myParent: meTheParent, myNet: net!) {
             self.fishDay = $0
-            self.embryoName = ArkonName.makeName()
             self.launchNewborn_A()
         }
     }
@@ -90,12 +98,14 @@ extension Spawn {
 
 extension Spawn {
     func abandonNewborn() {
-        guard let stepper = meTheParent, let dispatch = stepper.dispatch, let sprite = stepper.sprite
+        guard let stepper = meTheParent, let dispatch = stepper.dispatch
             else { return }
+
+        let thorax = stepper.thorax
 
         func a() {
             let rotate = SKAction.rotate(byAngle: CGFloat.tau, duration: 0.25)
-            sprite.run(rotate, completion: b)
+            thorax!.run(rotate, completion: b)
         }
 
         func b() {
@@ -120,9 +130,10 @@ extension Spawn {
 
         func c() {
             SceneDispatch.shared.schedule { [unowned self] in
-                let sprite = self.newbornThorax!
-                Debug.log(level: 196) { "buildArkon/c offspring of \(six(self.meTheParent?.name))" }
-                self.buildNetDisplay(sprite)
+                let thorax = self.newbornThorax!
+                thorax.name = "\(self.embryoName!)"
+
+                self.buildNetDisplay(thorax)
                 onComplete()
             }
         }
@@ -173,27 +184,21 @@ extension Spawn {
         let newborn = Stepper(self, needsNewDispatch: true)
 
         newborn.parentStepper = meTheParent
-        newborn.sprite?.color = (net?.isCloneOfParent ?? false) ? .green : .white
+        newborn.thorax.color = (net?.isCloneOfParent ?? false) ? .green : .white
         newborn.nose?.color = .blue
-
-        Debug.log { "name.0 \(six(self.meTheParent?.name)) sprite nil \(newborn.sprite == nil)" }
 
         let birthingCell =
             meTheParent?.detachRandomCellForNewborn() ?? self.landingPad[0]
-        Debug.log { "name.1 \(six(self.meTheParent?.name)) sprite nil \(newborn.sprite == nil)" }
 
         placeNewborn(newborn, at: birthingCell)
-        Debug.log { "name.2 \(six(self.meTheParent?.name)) sprite nil \(newborn.sprite == nil)" }
 
         abandonNewborn()
-        Debug.log { "name.3 \(six(self.meTheParent?.name)) sprite nil \(newborn.sprite == nil)" }
 
         SceneDispatch.shared.schedule {
-            Debug.log { "name.4 \(six(self.meTheParent?.name)) sprite nil \(newborn.sprite == nil)" }
-            SpriteFactory.shared.arkonsPool.attachSprite(newborn.sprite)
+            SpriteFactory.shared.arkonsPool.attachSprite(newborn.thorax)
 
             let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
-            newborn.sprite.run(rotate)
+            newborn.thorax.run(rotate)
 
             newborn.dispatch!.disengageGrid()
         }
@@ -201,7 +206,7 @@ extension Spawn {
 
     private func placeNewborn(_ newborn: Stepper, at birthingCell: IngridCellDescriptor) {
         newborn.sensorPad[0] = birthingCell
-        newborn.sprite.position = birthingCell.cell!.scenePosition
+        newborn.thorax.position = birthingCell.cell!.scenePosition
         newborn.ingridCellAbsoluteIndex = birthingCell.absoluteIndex
 
         Ingrid.shared.arkons.placeArkon(newborn, atIndex: birthingCell.absoluteIndex)
