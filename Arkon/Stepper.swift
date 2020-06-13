@@ -34,9 +34,9 @@ class Stepper {
         self.name = embryo.embryoName
         self.net = embryo.net
         self.netDisplay = embryo.netDisplay
-        self.nose = embryo.nose
-        self.tooth = embryo.tooth
-        self.sprite = embryo.thorax
+        self.nose = embryo.newbornNose
+        self.tooth = embryo.newbornTooth
+        self.sprite = embryo.newbornThorax
 
         let c = self.net.netStructure.cCellsWithinSenseRange
         self.sensorPad = .allocate(capacity: c)
@@ -69,26 +69,5 @@ class Stepper {
         bp[localIndex] = IngridCellDescriptor()
 
         return IngridCellDescriptor(hotCell, virtualScenePosition)
-    }
-}
-
-extension Stepper {
-    static func attachStepper(_ stepper: Stepper, to sprite: SKSpriteNode) {
-        // Some of the drones get their userData set up for the net display,
-        // the rest of them we set up here
-        if sprite.userData == nil { sprite.userData = [:] }
-
-        // We save the stepper in the userdata of the sprite, but only as
-        // a centralized strong reference to the stepper. We don't use it,
-        // because retrieving it from the dictionary is way too slow
-        sprite.userData!["stepper"] = stepper
-    }
-
-    static func releaseStepper(
-        _ stepper: Stepper, from sprite: SKSpriteNode
-    ) {
-        // See notes in attachStepper
-        sprite.userData!["stepper"] = nil
-        sprite.name = nil
     }
 }

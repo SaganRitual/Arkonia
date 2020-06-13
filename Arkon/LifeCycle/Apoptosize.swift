@@ -19,27 +19,18 @@ private extension Apoptosize {
         )
     }
 
-    func releaseNet() {
-        stepper.net.release(releaseStepper_)
-    }
+    func releaseNet() { stepper.net.release(releaseStepper) }
 
-    func releaseStepper_() {
-        releaseStepper { self.releaseSprites($0.sprite, $0.nose, $0.tooth) }
-    }
-
-    func releaseSprites(_ thorax: SKSpriteNode, _ nose: SKSpriteNode, _ tooth: SKSpriteNode) {
+    func releaseStepper() {
         SceneDispatch.shared.schedule {
-            SpriteFactory.shared.teethPool.releaseSprite(tooth)
-            SpriteFactory.shared.nosesPool.releaseSprite(nose)
-            SpriteFactory.shared.arkonsPool.releaseSprite(thorax)
+            SpriteFactory.shared.teethPool.releaseSprite(self.stepper.tooth)
+            SpriteFactory.shared.nosesPool.releaseSprite(self.stepper.nose)
+            SpriteFactory.shared.arkonsPool.releaseSprite(self.stepper.sprite)
+
+            // This doesn't have to happen on the scene dispatch, but it
+            // needs to happen  last. It's quick enough, I think, to not
+            // be a big issue running on this dispatch. I guess we'll find out
+            Ingrid.shared.arkons.releaseArkon(self.stepper!)
         }
-    }
-
-    func releaseStepper(_ onComplete: @escaping (Stepper) -> Void) {
-        Stepper.releaseStepper(stepper, from: stepper.sprite!)
-
-        // This is the last strong reference to the stepper. Once the
-        // caller is finished with the variable, the stepper should destruct
-        onComplete(stepper)
     }
 }

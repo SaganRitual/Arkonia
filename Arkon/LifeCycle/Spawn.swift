@@ -7,22 +7,19 @@ final class Spawn: DispatchableProtocol {
     var fishDay = Fishday(birthday: 0, cNeurons: 0, fishNumber: 0)
     let landingPad: UnsafeMutablePointer<IngridCellDescriptor>
     var metabolism: Metabolism?
+    let meTheParent: Stepper?
     var net: Net?
     var netDisplay: NetDisplay?
-    weak var newborn: Stepper?
-    var nose: SKSpriteNode?
-    weak var meTheParent: Stepper?
-    var thorax: SKSpriteNode?
-    var tempStrongReference: Spawn?
-    var tooth: SKSpriteNode?
+    var newborn: Stepper?
+    var newbornNose: SKSpriteNode?
+    var newbornThorax: SKSpriteNode?
+    var newbornTooth: SKSpriteNode?
 
     init(_ stepper: Stepper?) {
         self.meTheParent = stepper
 
         self.landingPad = .allocate(capacity: 1)
         self.landingPad.initialize(to: IngridCellDescriptor())
-
-        self.tempStrongReference = self
     }
 
     func launch() { spawn_A() }
@@ -30,8 +27,6 @@ final class Spawn: DispatchableProtocol {
 
 extension Spawn {
     private func spawn_A() {
-        Debug.log(level: 191) { "Spawn.spawn_A" }
-
         // No parent; that means I'm a disembodied something-or-other bringing
         // an arkon into existence from nothing. Find a random home for it;
         // remember, if the desired cell isn't available, the engager function
@@ -126,7 +121,7 @@ extension Spawn {
         func c() {
             SceneDispatch.shared.schedule { [unowned self] in
                 Debug.log(level: 102) { "buildArkon/c" }
-                let sprite = (self.thorax)!
+                let sprite = self.newbornThorax!
                 self.buildNetDisplay(sprite)
                 onComplete()
             }
@@ -138,20 +133,20 @@ extension Spawn {
     private func buildSprites() {
         hardAssert(Display.displayCycle == .updateStarted) { "hardAssert at \(#file):\(#line)" }
 
-        self.tooth = SpriteFactory.shared.teethPool.makeSprite(embryoName)
-        self.nose = SpriteFactory.shared.nosesPool.makeSprite(embryoName)
-        self.thorax = SpriteFactory.shared.arkonsPool.makeSprite(embryoName)
+        self.newbornTooth = SpriteFactory.shared.teethPool.makeSprite(embryoName)
+        self.newbornNose = SpriteFactory.shared.nosesPool.makeSprite(embryoName)
+        self.newbornThorax = SpriteFactory.shared.arkonsPool.makeSprite(embryoName)
 
-        let thorax = self.thorax!
-        let nose = self.nose!
-        let tooth = self.tooth!
+        let thorax = self.newbornThorax!
+        let nose = self.newbornNose!
+        let tooth = self.newbornTooth!
 
         tooth.alpha = 1
         tooth.colorBlendFactor = 1
         tooth.color = .red
         tooth.zPosition = 4
 
-        nose.addChild(self.tooth!)
+        nose.addChild(tooth)
         nose.alpha = 1
         nose.colorBlendFactor = 1
         nose.color = .blue
@@ -160,7 +155,7 @@ extension Spawn {
 
         // We don't set the arkon's main sprite position here; we set it later,
         // after we have a sensor pad and stuff set up
-        thorax.addChild(self.nose!)
+        thorax.addChild(nose)
         thorax.setScale(Arkonia.arkonScaleFactor * 1.0 / Arkonia.zoomFactor)
         thorax.colorBlendFactor = 0.5
         thorax.alpha = 1
@@ -181,31 +176,28 @@ extension Spawn {
         newborn.sprite?.color = (net?.isCloneOfParent ?? false) ? .green : .white
         newborn.nose?.color = .blue
 
-        let bc: IngridCellDescriptor
+        let birthingCell =
+            meTheParent?.detachRandomCellForNewborn() ?? self.landingPad[0]
 
-        if let p = meTheParent { bc = p.detachRandomCellForNewborn() }
-        else                   { bc = self.landingPad[0] }
-
-        newborn.sensorPad[0] = bc
-        newborn.sprite.position = bc.cell!.scenePosition
-
-        newborn.ingridCellAbsoluteIndex = bc.absoluteIndex
-
-        Stepper.attachStepper(newborn, to: newborn.sprite)
+        placeNewborn(newborn, at: birthingCell)
 
         abandonNewborn()
 
-        let ndp = newborn.dispatch!
-
-        SceneDispatch.shared.schedule { [unowned self] in // Catch dumb mistakes
+        SceneDispatch.shared.schedule {
             SpriteFactory.shared.arkonsPool.attachSprite(newborn.sprite)
 
             let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
             newborn.sprite.run(rotate)
 
-            self.tempStrongReference = nil  // Now the sprite has the only strong ref
-
-            ndp.disengageGrid()
+            newborn.dispatch!.disengageGrid()
         }
+    }
+
+    private func placeNewborn(_ newborn: Stepper, at birthingCell: IngridCellDescriptor) {
+        newborn.sensorPad[0] = birthingCell
+        newborn.sprite.position = birthingCell.cell!.scenePosition
+        newborn.ingridCellAbsoluteIndex = birthingCell.absoluteIndex
+
+        Ingrid.shared.arkons.placeArkon(newborn, atIndex: birthingCell.absoluteIndex)
     }
 }
