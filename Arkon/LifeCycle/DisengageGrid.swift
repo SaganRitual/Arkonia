@@ -11,7 +11,7 @@ final class DisengageGrid: Dispatchable {
 
         Ingrid.shared.disengageSensorPad(
             stepper.sensorPad,
-            padCCells: stepper.net.netStructure.cCellsWithinSenseRange,
+            padCCells: stepper.net.netStructure.sensorPadCCells,
             keepTheseCells: []
         ) { self.stepper.dispatch!.engageGrid() }
     }

@@ -38,8 +38,6 @@ class NetDisplay {
         }
 
         SceneDispatch.shared.schedule { [unowned self] in // Catch dumb mistakes
-            let s = "\(#line):\(#file)"
-            Debug.log(level: 197) { s }
             Debug.log(level: 159) {
                 return "Net display.1 \(NetDisplay.display_counter)"
             }
@@ -67,8 +65,6 @@ class NetDisplay {
         var layerRole = LayerRole.senseLayer
 
         func a() {
-            let s = "\(#line):\(#file)"
-            Debug.log(level: 197) { s }
             if layerSS < includeMotorLayer { b() }
         }
 
@@ -106,8 +102,6 @@ class NetDisplay {
         }
 
         func c() {
-            let s = "\(#line):\(#file)"
-            Debug.log(level: 197) { s }
             Debug.log(level: 189) {
                 "display_.c0 \(layerSS + 1): \(nextNeuronSS) - \(nextNeuronSS + cNeurons)"
             }

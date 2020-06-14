@@ -13,9 +13,9 @@ private extension Apoptosize {
     }
 
     func disengageSensorPad() {
-        let padCCells = stepper.net.netStructure.cCellsWithinSenseRange
+        let pc = stepper.net.netStructure.sensorPadCCells
         Ingrid.shared.disengageSensorPad(
-            stepper.sensorPad, padCCells: padCCells, keepTheseCells: [], releaseNet
+            stepper.sensorPad, padCCells: pc, keepTheseCells: [0], releaseNet
         )
     }
 
@@ -23,8 +23,6 @@ private extension Apoptosize {
 
     func releaseStepper() {
         SceneDispatch.shared.schedule {
-            let s = "\(#line):\(#file)"
-            Debug.log(level: 197) { s }
             SpriteFactory.shared.teethPool.releaseSprite(self.stepper.tooth)
             SpriteFactory.shared.nosesPool.releaseSprite(self.stepper.nose)
             SpriteFactory.shared.arkonsPool.releaseSprite(self.stepper.thorax)

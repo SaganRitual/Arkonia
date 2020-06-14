@@ -8,7 +8,7 @@ final class EngageGrid: Dispatchable {
         Debug.log(level: 195) { "engage \(stepper!.name)" }
 
         let engagerSpec = EngagerSpec(
-            cCellsInRange: stepper.net.netStructure.cCellsWithinSenseRange,
+            cCellsInRange: stepper.net.netStructure.sensorPadCCells,
             center: stepper.ingridCellAbsoluteIndex, onComplete: tickLife,
             pad: stepper.sensorPad
         )

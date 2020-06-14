@@ -7,27 +7,27 @@ struct IngridCellDescriptor {
     // end up freeing the wrong locks or other such nastiness
     var absoluteIndex: Int { absoluteIndex_! }
 
-    let cell: IngridCell?
+    let coreCell: IngridCell?
     let virtualScenePosition: CGPoint?  // For asteroids-style wraparound movement
 
     init() {
         absoluteIndex_ = nil
-        cell = nil
+        coreCell = nil
         virtualScenePosition = nil
     }
 
-    init(_ cell: IngridCell?, _ absoluteIndex: Int, _ virtualScenePosition: CGPoint?) {
-        // cell == nil means we coulnd't lock the cell, which means that although
+    init(_ coreCell: IngridCell?, _ absoluteIndex: Int, _ virtualScenePosition: CGPoint?) {
+        // coreCell == nil means we coulnd't lock the cell, which means that although
         // we know it's there, we can't see inside it, and we can't jump to it
-        self.cell = cell
+        self.coreCell = coreCell
 
         self.absoluteIndex_ = absoluteIndex
         self.virtualScenePosition = virtualScenePosition
     }
 
-    init(_ cell: IngridCell, _ virtualScenePosition: CGPoint? = nil) {
-        self.cell = cell
-        self.absoluteIndex_ = cell.absoluteIndex
+    init(_ coreCell: IngridCell, _ virtualScenePosition: CGPoint? = nil) {
+        self.coreCell = coreCell
+        self.absoluteIndex_ = coreCell.absoluteIndex
         self.virtualScenePosition = virtualScenePosition
     }
 }

@@ -10,21 +10,26 @@ final class MoveStepper: Dispatchable {
 
         stepper!.cJumps += 1    // We count it as a jump even if we don't move
 
-        if let moveFrom = stepper.jumpSpec!.fromCell?.absoluteIndex {
-            let moveTo = stepper.jumpSpec!.toCell.absoluteIndex
-            hardAssert(stepper.jumpSpec!.toCell.cell != nil) { "here?" }
-            Debug.log(level: 195) { "moveStepper \(stepper!.name) from abs \(moveFrom) to abs \(moveTo)"}
-            let contents = Ingrid.shared.getContents(in: moveTo)
+        let js =     stepper.jumpSpec!
+        let fromIx = js.fromCell.absoluteIndex
+        let toIx =   js.toCell.absoluteIndex
 
-            Ingrid.shared.arkons.moveArkon(
-                stepper, fromIndex: moveFrom, toIndex: moveTo
-            )
+        let fromContents = Ingrid.shared.getContents(in: fromIx)
+        let toContents = Ingrid.shared.getContents(in: toIx)
 
-            if contents == .arkon || contents == .manna {
-                Debug.log(level: 192) { "moveStepper -> arrive" }
-                stepper.dispatch!.arrive()
-                return
-            }
+        hardAssert(fromContents == .arkon) { "fromWrong" }
+        hardAssert(toContents != .arkon) { "toWrong" }
+
+        Debug.log(level: 198) { "moveStepper \(stepper.name) from abs ix \(fromIx)(\(fromContents)) to \(toIx)(\(toContents))" }
+
+        Ingrid.shared.arkons.moveArkon(
+            stepper, fromCell: js.fromCell, toCell: js.toCell
+        )
+
+        if toContents == .manna {
+            Debug.log(level: 192) { "moveStepper -> arrive" }
+            stepper.dispatch!.arrive()
+            return
         }
 
         Debug.log(level: 197) { "moveStepper -> disengage \(stepper.name)" }

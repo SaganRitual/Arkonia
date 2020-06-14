@@ -1,10 +1,10 @@
 import Foundation
 
 struct JumpSpec {
-    // fromCellPosition == nil means we don't jump, in which case, toCellPosition
-    // is just our current position
-    let fromCell: IngridCellDescriptor?
-    let toCell: IngridCellDescriptor
+    let fromCell: IngridCell
+    let toCell: IngridCell
+
+    let toVirtualScenePosition: CGPoint?
 
     let distanceInCells: CGFloat
     let speedAsPercentage: CGFloat
@@ -13,22 +13,19 @@ struct JumpSpec {
     let durationSeconds: TimeInterval
     let speedMetersPerSec: CGFloat
 
-    static var noJump = JumpSpec()
-
-    init(_ fromCell: IngridCellDescriptor?, _ toCell: IngridCellDescriptor, _ speedAsPercentage: CGFloat) {
+    init(
+        _ fromCell: IngridCell, _ toCell: IngridCell,
+        _ toVirtualScenePosition: CGPoint?, _ speedAsPercentage: CGFloat
+    ) {
         self.fromCell = fromCell
         self.toCell = toCell
+        self.toVirtualScenePosition = toVirtualScenePosition
 
         self.distanceInCells = {
-            guard let fc = fromCell else { return 0 }
+            let fp = fromCell.gridPosition.asPoint()
+            let tp = toVirtualScenePosition ?? toCell.gridPosition.asPoint()
 
-            let fp = fc.cell!.gridPosition.asPoint()
-            let tp = toCell.cell!.gridPosition.asPoint()
-
-            Debug.log(level: 192) { "JumpSpec from \(fp) to \(tp), vp \(toCell.virtualScenePosition ?? CGPoint.zero)" }
-
-            // In case we need to teleport to the other side, asteroids-style
-            if let vp = toCell.virtualScenePosition { return fp.distance(to: vp) }
+            Debug.log(level: 197) { "JumpSpec from \(fp) to \(tp) isVirtual \(toVirtualScenePosition != nil)" }
 
             return fp.distance(to: tp)
         }()
@@ -43,16 +40,6 @@ struct JumpSpec {
         durationSeconds =
             TimeInterval(distanceMeters / speedMetersPerSec) /
             visualSpeedScaleNoEffectOnPhysicsCalculations
-    }
-
-    private init() {
-        fromCell = nil
-        toCell = IngridCellDescriptor()
-        distanceInCells = 0
-        speedAsPercentage = 0
-        distanceMeters = 0
-        durationSeconds = 0
-        speedMetersPerSec = 0
     }
 
     static private func getDistanceMeters(_ distanceInCells: CGFloat) -> CGFloat {

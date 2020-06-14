@@ -62,8 +62,6 @@ extension Manna {
     }
 
     func rebloom() {
-        let s = "\(#line):\(#file)"
-        Debug.log(level: 197) { s }
         hardAssert(Display.displayCycle == .updateStarted) { "hardAssert at \(#file):\(#line)" }
 
         sprite.reset()

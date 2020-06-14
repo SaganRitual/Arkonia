@@ -79,19 +79,17 @@ private extension DriveStimulus {
     func transferSensorPadToSenseNeurons() {
         let sensorPad = stepper!.sensorPad
         let senseNeurons = UnsafeMutablePointer(mutating: stepper!.net.pNeurons)
-        let cCells = stepper!.net.netStructure.cCellsWithinSenseRange
+        let cCells = stepper!.net.netStructure.sensorPadCCells
 
         senseNeurons.initialize(to: 0)
 
-        // Skip my center cell; I don't need to know my nutritional value or
-        // that I'm an arkon
-        for ss in 1..<cCells {
-            guard let cell = sensorPad[ss].cell else { continue }
+        for ss in 0..<cCells {
+            guard let coreCell = sensorPad[ss].coreCell else { continue }
 
             Debug.log(level: 195) { "getNutrition for \(stepper!.name) from local \(ss) \(sensorPad[ss].absoluteIndex)" }
 
-            senseNeurons[2 * ss + 0] = getNutrition(in: cell) ?? 0
-            senseNeurons[2 * ss + 1] = loadSelector(from: cell)
+            senseNeurons[2 * ss + 0] = getNutrition(in: coreCell) ?? 0
+            senseNeurons[2 * ss + 1] = loadSelector(from: coreCell)
         }
     }
 }

@@ -39,7 +39,7 @@ class Stepper {
         self.thorax = embryo.newbornThorax!
         self.tooth = embryo.newbornTooth
 
-        let c = self.net.netStructure.cCellsWithinSenseRange
+        let c = self.net.netStructure.sensorPadCCells
         self.sensorPad = .allocate(capacity: c)
         self.sensorPad.initialize(repeating: IngridCellDescriptor(), count: c)
 
@@ -51,11 +51,13 @@ class Stepper {
     }
 
     func detachBirthingCellForNewborn() -> IngridCellDescriptor {
-        guard let localIndex = (1..<net.netStructure.cCellsWithinSenseRange).first(where: {
-            sensorPad[$0].cell != nil
+        guard let localIndex = (1..<net.netStructure.sensorPadCCells).first(where: {
+            guard let candidateCell = sensorPad[$0].coreCell else { return false }
+            let contents = Ingrid.shared.getContents(in: candidateCell)
+            return contents == .empty || contents == .manna
         }) else { fatalError("No usable cells for newborn?") }
 
-        let birthingCell = sensorPad[localIndex].cell!
+        let birthingCell = sensorPad[localIndex].coreCell!
         let virtualScenePosition = sensorPad[localIndex].virtualScenePosition
 
         Debug.log(level: 195) { "detachRandomCell absoluteIx \(birthingCell.absoluteIndex) localIx \(localIndex)" }

@@ -22,15 +22,18 @@ class IngridArkons {
         return allTheArkons[ax]?.takeUnretainedValue()
     }
 
-    func moveArkon(_ stepper: Stepper, fromIndex: Int, toIndex: Int) {
-        Debug.log(level: 198) { "moveArkon \(stepper.name) to abs ix \(toIndex) from \(fromIndex)" }
-        hardAssert(allTheArkons[fromIndex] != nil) { "huh-1?" }
-        allTheArkons[toIndex] = allTheArkons[fromIndex]
-        hardAssert(allTheArkons[fromIndex] != nil) { "huh0?" }
-        hardAssert(allTheArkons[toIndex] != nil) { "huh?" }
-        allTheArkons[fromIndex] = nil
-        stepper.ingridCellAbsoluteIndex = toIndex
-        hardAssert(allTheArkons[toIndex] != nil) { "huh2?" }
+    func moveArkon(_ stepper: Stepper, fromCell: IngridCell, toCell: IngridCell) {
+        let fromContents = Ingrid.shared.getContents(in: fromCell.absoluteIndex)
+        let toContents = Ingrid.shared.getContents(in: toCell.absoluteIndex)
+
+        Debug.log(level: 198) { "moveArkon \(stepper.name) from abs ix \(fromCell.absoluteIndex)(\(fromContents)) to \(toCell.absoluteIndex)(\(toContents))" }
+        hardAssert(allTheArkons[fromCell.absoluteIndex] != nil) { "huh-1?" }
+        allTheArkons[toCell.absoluteIndex] = allTheArkons[fromCell.absoluteIndex]
+        hardAssert(allTheArkons[fromCell.absoluteIndex] != nil) { "huh0?" }
+        hardAssert(allTheArkons[toCell.absoluteIndex] != nil) { "huh?" }
+        allTheArkons[fromCell.absoluteIndex] = nil
+        stepper.ingridCellAbsoluteIndex = toCell.absoluteIndex
+        hardAssert(allTheArkons[toCell.absoluteIndex] != nil) { "huh2?" }
     }
 
     func placeArkon(_ stepper: Stepper, atIndex: Int) {

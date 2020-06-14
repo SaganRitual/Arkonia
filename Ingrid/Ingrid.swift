@@ -47,11 +47,11 @@ class Ingrid {
 
     func completeDeferredLockRequest(for readyCell: Int) {
         let lock = lockAt(readyCell)
-        Debug.log(level: 197) { "completeDeferredLockRequest for \(readyCell)" }
 
         if lock.waitingLockRequests.isEmpty { lock.isLocked = false; return }
 
         let engagerSpec = lock.waitingLockRequests.popFront()
+        Debug.log(level: 197) { "completeDeferredLockRequest for \(readyCell)" }
 
         core.engageSensorPad(engagerSpec)
         engagerSpec.onComplete()
@@ -72,7 +72,7 @@ class Ingrid {
         lockQueue.async {
             let aix: (Int) -> Int = { pad[$0].absoluteIndex }
 
-            for padSS in (0..<padCCells) where pad[padSS].cell != nil && !keepTheseCells.contains(aix(padSS)) {
+            for padSS in (0..<padCCells) where pad[padSS].coreCell != nil && !keepTheseCells.contains(aix(padSS)) {
                 self.completeDeferredLockRequest(for: aix(padSS))
             }
 
@@ -131,7 +131,7 @@ extension Ingrid {
         if Ingrid.shared.arkons.arkonAt(absoluteIndex) != nil { return .arkon }
         else if Ingrid.shared.manna.mannaAt(absoluteIndex) != nil { return .manna }
 
-        return .invisible
+        return .empty
     }
 
     func getContents(in cell: IngridCell) -> CellContents {

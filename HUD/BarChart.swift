@@ -20,8 +20,6 @@ final class BarChart: SKSpriteNode {
     }
 
     func reset() { SceneDispatch.shared.schedule {
-        let s = "\(#line):\(#file)"
-        Debug.log(level: 197) { s }
         (0..<self.buckets.count).forEach { self.buckets[$0] = 0 } } }
 
     func start() {
@@ -67,8 +65,6 @@ extension BarChart {
         let scaledAndCentered = Int(abs(sample) * 100) / 10
         let whichBar = (scaledAndCentered < 10) ? scaledAndCentered : (10 - 1)
         SceneDispatch.shared.schedule {
-            let s = "\(#line):\(#file)"
-            Debug.log(level: 197) { s }
             self.buckets[whichBar] += 1 }
     }
 
@@ -76,8 +72,6 @@ extension BarChart {
         // If we get a value too big, count it in the rightmost bar
         let whichBar = min(sample / 50, buckets.count - 1)
         SceneDispatch.shared.schedule {
-            let s = "\(#line):\(#file)"
-            Debug.log(level: 197) { s }
             self.buckets[whichBar] += 1 }
 
         Debug.log(level: 161) { "addSample(\(sample)) -> bucket[\(whichBar)] = \(buckets[whichBar])" }
@@ -87,8 +81,6 @@ extension BarChart {
         // If we get a value too big, count it in the rightmost bar
         let whichBar = min(sample / 50, buckets.count - 1)
         SceneDispatch.shared.schedule {
-            let s = "\(#line):\(#file)"
-            Debug.log(level: 197) { s }
             self.buckets[whichBar] -= 1 }
 
         Debug.log(level: 161) { "subtractSample(\(sample)) -> bucket[\(whichBar)] = \(buckets[whichBar])" }
