@@ -25,7 +25,11 @@ final class DriveNetSignal: Dispatchable {
     }
 
     private func driveNetSignal_C() {
-        if stepper.jumpSpec == nil { stepper.dispatch!.disengageGrid() }
+        if stepper.jumpSpec == nil {
+            Debug.log(level: 197) { "driveNetSignal_C \(stepper.name)" }
+            stepper.dispatch!.disengageGrid()
+
+        }
         else                       { stepper.dispatch!.moveSprite() }
     }
 }

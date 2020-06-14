@@ -84,8 +84,8 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         lgWeather.setChartLabel("Almanac")
         lgFoodHits.setChartLabel("Food Hitrate")
 
-        hud.placeDashoid(lgWeather, on: .middle, quadrant: 1, layoutId: .dashboards_portal_1x2)
-        hud.placeDashoid(lgFoodHits, on: .top, quadrant: 2, layoutId: .dashboards_portal_1x2)
+        hud.placeDashoid(lgWeather, on: .middle, quadrant: 0, layoutId: .dashboards_portal_1x1)
+        hud.placeDashoid(lgFoodHits, on: .middle, quadrant: 1, layoutId: .dashboards_portal_1x1)
 
         lgWeather.start(dataset: .weather)
         lgFoodHits.start(dataset: .foodHits)

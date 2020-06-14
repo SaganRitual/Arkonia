@@ -120,6 +120,8 @@ extension Spawn {
 
         func a() {
             SceneDispatch.shared.schedule { [unowned self] in
+                let s = "\(#line):\(#file)"
+                Debug.log(level: 197) { s }
                 Debug.log(level: 102) { "buildArkon/a" }
                 self.buildSprites()
                 b()
@@ -130,6 +132,8 @@ extension Spawn {
 
         func c() {
             SceneDispatch.shared.schedule { [unowned self] in
+                let s = "\(#line):\(#file)"
+                Debug.log(level: 197) { s }
                 let thorax = self.newbornThorax!
                 thorax.name = "\(self.embryoName!)"
 
@@ -188,13 +192,15 @@ extension Spawn {
         newborn.nose?.color = .blue
 
         let birthingCell =
-            meTheParent?.detachRandomCellForNewborn() ?? self.landingPad[0]
+            meTheParent?.detachBirthingCellForNewborn() ?? self.landingPad[0]
 
         placeNewborn(newborn, at: birthingCell)
 
         abandonNewborn()
 
         SceneDispatch.shared.schedule {
+            let s = "\(#line):\(#file)"
+            Debug.log(level: 197) { s }
             SpriteFactory.shared.arkonsPool.attachSprite(newborn.thorax)
 
             let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
@@ -207,7 +213,6 @@ extension Spawn {
     private func placeNewborn(_ newborn: Stepper, at birthingCell: IngridCellDescriptor) {
         newborn.sensorPad[0] = birthingCell
         newborn.thorax.position = birthingCell.cell!.scenePosition
-        newborn.ingridCellAbsoluteIndex = birthingCell.absoluteIndex
 
         Ingrid.shared.arkons.placeArkon(newborn, atIndex: birthingCell.absoluteIndex)
     }

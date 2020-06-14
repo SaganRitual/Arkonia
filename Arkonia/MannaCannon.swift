@@ -45,6 +45,8 @@ class MannaCannon {
 
                 MannaCannon.mannaPlaneQueue.asyncAfter(deadline: .now() + duration) {
                     SceneDispatch.shared.schedule {
+                        let s = "\(#line):\(#file)"
+                        Debug.log(level: 197) { s }
                         mannaToLaunch.forEach { $0.rebloom() }
                     }
                 }

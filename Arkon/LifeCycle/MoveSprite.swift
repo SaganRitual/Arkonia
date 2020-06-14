@@ -7,6 +7,8 @@ final class MoveSprite: Dispatchable {
     internal override func launch() { SceneDispatch.shared.schedule(moveSprite) }
 
     func moveSprite() {
+        let s = "\(#line):\(#file)"
+        Debug.log(level: 197) { s }
         Debug.debugColor(stepper, .brown, .orange)
 
         let j = stepper.jumpSpec!
@@ -51,6 +53,7 @@ final class MoveSprite: Dispatchable {
     }
 
     private static func restArkon(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
+        Debug.log(level: 197) { "rest arkon \(stepper.name)" }
         let rest = SKAction.wait(forDuration: 0.02)
         stepper.thorax.run(rest, completion: onComplete)
     }

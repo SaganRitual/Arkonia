@@ -8,6 +8,8 @@ class Colorizer {
 
     func colorize(_ onComplete: @escaping () -> Void) {
         SceneDispatch.shared.schedule { [unowned self] in
+            let s = "\(#line):\(#file)"
+            Debug.log(level: 197) { s }
             self.colorize_()
             onComplete()
         }

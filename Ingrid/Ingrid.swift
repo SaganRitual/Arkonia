@@ -47,6 +47,7 @@ class Ingrid {
 
     func completeDeferredLockRequest(for readyCell: Int) {
         let lock = lockAt(readyCell)
+        Debug.log(level: 197) { "completeDeferredLockRequest for \(readyCell)" }
 
         if lock.waitingLockRequests.isEmpty { lock.isLocked = false; return }
 
@@ -57,6 +58,7 @@ class Ingrid {
     }
 
     func deferLockRequest(_ engagerSpec: EngagerSpec) {
+        Debug.log(level: 198) { "deferLockRequest for \(engagerSpec.center)" }
         let lock = lockAt(engagerSpec.center)
         lock.waitingLockRequests.pushBack(engagerSpec)
     }

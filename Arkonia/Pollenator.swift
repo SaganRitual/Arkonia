@@ -28,6 +28,8 @@ class Pollenator {
         speedPeakToPeak = 1 / peakToPeakSeconds.randomElement()!
 
         SceneDispatch.shared.schedule {
+            let s = "\(#line):\(#file)"
+            Debug.log(level: 197) { s }
             self.birthday = ArkoniaScene.currentSceneTime
             self.move()
         }

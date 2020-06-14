@@ -46,21 +46,23 @@ class Stepper {
         if needsNewDispatch { self.dispatch = Dispatch(self) }
     }
 
-    func detachRandomCellForNewborn() -> IngridCellDescriptor {
-        let bp =  UnsafeMutableBufferPointer(
-            start: sensorPad, count: net.netStructure.cCellsWithinSenseRange
-        )
+    deinit {
+        Debug.log(level: 197) { "Stepper \(self.name) deinit" }
+    }
 
-        let hotCell = bp.compactMap({ $0.cell }).randomElement()!
-        let localIndex = bp.firstIndex(where: { $0.absoluteIndex == hotCell.absoluteIndex })!
+    func detachBirthingCellForNewborn() -> IngridCellDescriptor {
+        guard let localIndex = (1..<net.netStructure.cCellsWithinSenseRange).first(where: {
+            sensorPad[$0].cell != nil
+        }) else { fatalError("No usable cells for newborn?") }
 
-        let virtualScenePosition = bp[localIndex].virtualScenePosition
+        let birthingCell = sensorPad[localIndex].cell!
+        let virtualScenePosition = sensorPad[localIndex].virtualScenePosition
 
-        Debug.log(level: 195) { "detachRandomCell absoluteIx \(hotCell.absoluteIndex) localIx \(localIndex)" }
+        Debug.log(level: 195) { "detachRandomCell absoluteIx \(birthingCell.absoluteIndex) localIx \(localIndex)" }
 
         // Invalidate my reference to my offspring's cell; he now owns the lock
-        bp[localIndex] = IngridCellDescriptor()
+        sensorPad[localIndex] = IngridCellDescriptor()
 
-        return IngridCellDescriptor(hotCell, virtualScenePosition)
+        return IngridCellDescriptor(birthingCell, virtualScenePosition)
     }
 }

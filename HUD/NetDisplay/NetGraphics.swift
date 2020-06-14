@@ -23,6 +23,8 @@ struct NetGraphics {
 
     func drawConnection(from start_: GridPoint, to end_: GridPoint, _ onComplete: @escaping () -> Void) {
         SceneDispatch.shared.schedule {
+            let s = "\(#line):\(#file)"
+            Debug.log(level: 197) { s }
             Debug.log(level: 102) { "drawConnection 1" }
             let start = self.netDisplayGrid.getPosition(start_)
             let end = self.netDisplayGrid.getPosition(end_)

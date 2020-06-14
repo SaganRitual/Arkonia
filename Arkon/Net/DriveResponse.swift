@@ -44,12 +44,34 @@ struct DriveResponse {
 
             for ss_ in 0..<cSensorPadCells {
                 let ss = (ss_ + targetOffset) % cSensorPadCells
-                if toCell.cell != nil { break }
+
+                // If the target cell isn't available (meaning we couldn't
+                // see it when we tried to lock it, because someone had that
+                // cell locked already), then find the first visible cell after
+                // our target. If that turns out to be the cell I'm sitting in,
+                // skip it and look for the next after that. I've decided to
+                // jump already, so, I'll jump.
+                //
+                // No particular reason for this policy. We could just as easily
+                // stay here. Maybe put it under genetic control and see if it
+                // has any effect
+                if ss == 0 { continue }
+
+                // Of course, don't forget that we can't squeeze into the
+                // same cell as another arkon, at least not for now
+                if let cell = toCell.cell {
+                    let contents = Ingrid.shared.getContents(in: cell)
+                    if contents == .empty || contents == .manna { break }
+                }
 
                 toCell = stepper.sensorPad[ss]
             }
 
-            hardAssert(toCell.cell != nil) { "No cells available to jump to?" }
+            /// We're surrounded!
+            if toCell.cell == nil {
+                Debug.log(level: 199) { "Arkon \(stepper.name) couldn't jump out of \(toCell.absoluteIndex)" }
+                onComplete(); return
+            }
 
             Debug.log(level: 195) { "move \(stepper.name) with \(s0) to local ix \(targetOffset) abs ix \(toCell.absoluteIndex)" }
 
