@@ -102,6 +102,7 @@
 		D4B4295222DAEDBF0036C904 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4294022DAEC7E0036C904 /* HUD.swift */; };
 		D4B4295322DAF1CD0036C904 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B4293C22DAEC7E0036C904 /* Report.swift */; };
 		D4B7B4942494D46E00894A61 /* Census.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7B4932494D46E00894A61 /* Census.Stats.swift */; };
+		D4B7B49624971CAF00894A61 /* ArkonEmbryo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7B49524971CAF00894A61 /* ArkonEmbryo.swift */; };
 		D4B9512124349A8800BD2085 /* ArkonName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9512024349A8800BD2085 /* ArkonName.swift */; };
 		D4B9512324351EAF00BD2085 /* ArkoniaScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D4B9512224351EAF00BD2085 /* ArkoniaScene.sks */; };
 		D4BB6E73234E549C00529819 /* TickLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB6E72234E549C00529819 /* TickLife.swift */; };
@@ -231,6 +232,7 @@
 		D4B4293C22DAEC7E0036C904 /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		D4B4294022DAEC7E0036C904 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		D4B7B4932494D46E00894A61 /* Census.Stats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.Stats.swift; sourceTree = "<group>"; };
+		D4B7B49524971CAF00894A61 /* ArkonEmbryo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonEmbryo.swift; sourceTree = "<group>"; };
 		D4B9512024349A8800BD2085 /* ArkonName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkonName.swift; sourceTree = "<group>"; };
 		D4B9512224351EAF00BD2085 /* ArkoniaScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = ArkoniaScene.sks; sourceTree = "<group>"; };
 		D4BB6E72234E549C00529819 /* TickLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickLife.swift; sourceTree = "<group>"; };
@@ -367,6 +369,7 @@
 				D4BB6E6A234E544B00529819 /* LifeCycle */,
 				D4F89BE9245BCCCA0044F0D2 /* Metabolism */,
 				D485E3E52490AF070092A7B1 /* Arkon.EnergyBudget.swift */,
+				D4B7B49524971CAF00894A61 /* ArkonEmbryo.swift */,
 				D4B9512024349A8800BD2085 /* ArkonName.swift */,
 				D40DF3302470C2A2001649FA /* Colorizer.swift */,
 				D4FFE9612365814F00F5DDFB /* Dispatch.swift */,
@@ -736,6 +739,7 @@
 				D47FDDC424485BC500C89A1E /* Dashboard.swift in Sources */,
 				D4E7FE2E23E6BD2A0043D57D /* Manna.swift in Sources */,
 				D4B9512124349A8800BD2085 /* ArkonName.swift in Sources */,
+				D4B7B49624971CAF00894A61 /* ArkonEmbryo.swift in Sources */,
 				D4B2AC8223D595E000246746 /* NetDisplayGrid.swift in Sources */,
 				D4B00914241C97BD007FDD6F /* MannaCannon.swift in Sources */,
 				D4A59D31238839C700517F60 /* Arrive.swift in Sources */,

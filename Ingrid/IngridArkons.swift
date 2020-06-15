@@ -40,7 +40,7 @@ class IngridArkons {
     // by the spawn cycle, which is accessing the cell through its sensor
     // pad, meaning it already owns the locks and no one else will be trying
     // to muck with them
-    func placeArkon(_ stepper: Stepper, atIndex: Int) {
+    func placeArkonOnGrid(_ stepper: Stepper, atIndex: Int) {
         hardAssert(Ingrid.shared.getContents(in: atIndex) != .arkon) { "placeArkon" }
         allTheArkons[atIndex] = Unmanaged.passRetained(stepper)
         stepper.ingridCellAbsoluteIndex = atIndex

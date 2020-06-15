@@ -13,7 +13,6 @@ class Stepper {
     var net: Net!
     var netDisplay: NetDisplay?
     var nose: SKSpriteNode!
-    weak var parentStepper: Stepper?
     var parentWeights: [Double]?
     var previousShiftOffset = AKPoint.zero
     var sensorPad: UnsafeMutablePointer<IngridCellDescriptor>
@@ -30,20 +29,23 @@ class Stepper {
     var currentTime: Int = 0
     var currentEntropyPerJoule: Double = 0
 
-    init(_ embryo: Spawn, needsNewDispatch: Bool = false) {
+    init(_ embryo: ArkonEmbryo) {
         self.metabolism = embryo.metabolism
-        self.name = embryo.embryoName!
+        self.name = embryo.name!
         self.net = embryo.net
         self.netDisplay = embryo.netDisplay
-        self.nose = embryo.newbornNose
-        self.thorax = embryo.newbornThorax!
-        self.tooth = embryo.newbornTooth
+        self.nose = embryo.noseSprite!
+        self.thorax = embryo.thoraxSprite!
+        self.tooth = embryo.toothSprite
 
         let c = self.net.netStructure.sensorPadCCells
         self.sensorPad = .allocate(capacity: c)
         self.sensorPad.initialize(repeating: IngridCellDescriptor(), count: c)
 
-        if needsNewDispatch { self.dispatch = Dispatch(self) }
+        thorax.color = net!.isCloneOfParent ? .green : .white
+        nose!.color = .blue
+
+        self.dispatch = Dispatch(self)
     }
 
     deinit {

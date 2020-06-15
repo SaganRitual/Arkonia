@@ -154,6 +154,10 @@ class Ingrid {
         locks[fromCell.absoluteIndex]!.isReadyForDeferCompletion = true
     }
 
+    func placeArkonOnGrid(_ stepper: Stepper, atIndex: Int) {
+        arkons.placeArkonOnGrid(stepper, atIndex: atIndex)
+    }
+
     func releaseArkon(_ stepper: Stepper) {
         lockQueue.async {
             let releasedCellIx = self.arkons.releaseArkon(stepper)
