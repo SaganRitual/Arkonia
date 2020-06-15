@@ -2,24 +2,19 @@ import Foundation
 
 class IngridLock {
     var isLocked = false
-    var isReadyForDeferCompletion = false
     let waitingLockRequests = Cbuffer<EngagerSpec>(cElements: 10, mode: .fifo)
 }
 
 class Ingrid {
     static var shared: Ingrid!
 
-    let arkons: IngridArkons
-    let core: IngridCore
-    let locks: UnsafeMutableBufferPointer<IngridLock?>
-    let manna: IngridManna
+    private let arkons: IngridArkons
+    private let core: IngridCore
+    private let locks: UnsafeMutableBufferPointer<IngridLock?>
+    private let manna: IngridManna
 
-    let lockQueue = DispatchQueue(
+    private let lockQueue = DispatchQueue(
         label: "ak.grid.serial", target: DispatchQueue.global()
-    )
-
-    let nonCriticalsQueue = DispatchQueue(
-        label: "ak.grid.concurrent", attributes: .concurrent, target: DispatchQueue.global()
     )
 
     init(
@@ -55,7 +50,7 @@ class Ingrid {
         Debug.log(level: 198) { "completeDeferredLockRequest for \(readyCellAbsoluteIndex)" }
 
         core.engageSensorPad(engagerSpec)
-        nonCriticalsQueue.async(execute: engagerSpec.onComplete)
+        Dispatch.dispatchQueue.async(execute: engagerSpec.onComplete)
     }
 
     func deferLockRequest(_ engagerSpec: EngagerSpec, _ onDefermentComplete: @escaping (EngagerSpec) -> Void) {
@@ -99,10 +94,6 @@ class Ingrid {
         let centerLock = self.locks[engagerSpec.centerAbsoluteIndex]!
 
         if centerLock.isLocked {
-            Debug.log(level: 198) {
-                "engageSensorPad deferred for \(engagerSpec.sensorPad[0].absoluteIndex)"
-            }
-
             self.deferLockRequest(engagerSpec, engageSensorPad_B)
             return
         }

@@ -23,11 +23,11 @@ extension Spawn {
         Dispatch.dispatchQueue.async(execute: nextStep)
     }
 
-    // No parent; that means I'm a disembodied something-or-other bringing
-    // an arkon into existence from nothing. Find a random home for it.
-    // Note: if the desired cell isn't available, the engager function
-    // will wait for it and send us on our way when it is available. First
-    // come is first served as locked cells become available
+    // No parent; that means the new arkon is coming into the world from
+    // nothing, like Oprah Winfrey, or the white Oprah, Chuck Norris. Find
+    // a random place in the ooze. Unlike normal births (the kind that have a
+    // parent), the self-creating arkon might choose a cell that someone already
+    // has locked, in which case it will have to get in line for the cell
     private func spawn_C() {
         let cellIx = Ingrid.randomCellIndex()
         let landingPadCCells = 1
@@ -85,7 +85,7 @@ extension Spawn {
 
         func a() {
             let rotate = SKAction.rotate(byAngle: CGFloat.tau, duration: 0.25)
-            embryo.thoraxSprite!.run(rotate, completion: b)
+            parentArkon.thorax!.run(rotate, completion: b)
         }
 
         func b() {
@@ -129,8 +129,6 @@ extension Spawn {
 
         embryo.placeNewbornOnGrid(newborn)
 
-        abandonNewborn()
-
         SceneDispatch.shared.schedule { self.launchNewborn_C(newborn) }
     }
 
@@ -140,6 +138,9 @@ extension Spawn {
         let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
         newborn.thorax.run(rotate)
 
+        // Newborn goes onto its own dispatch thingy here
         newborn.dispatch!.disengageGrid()
+
+        abandonNewborn()
     }
 }
