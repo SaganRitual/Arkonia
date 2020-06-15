@@ -9,7 +9,7 @@ final class Arrive: Dispatchable {
         let ax = stepper.ingridCellAbsoluteIndex
         if let manna = Ingrid.shared!.manna.mannaAt(ax) { graze(manna); return }
 
-        Debug.log(level: 197) { "arrive -> disengage \(stepper.name)" }
+        Debug.log(level: 198) { "arrive -> disengage \(stepper.name)" }
         stepper.dispatch!.disengageGrid()
     }
 
@@ -18,7 +18,7 @@ final class Arrive: Dispatchable {
 
         manna.harvest { mannaContent in
             if let mc = mannaContent { self.stepper.metabolism.eat(mc) }
-            Debug.log(level: 197) { "graze -> disengage \(self.stepper.name)" }
+            Debug.log(level: 198) { "graze -> disengage \(self.stepper.name)" }
             self.stepper.dispatch!.disengageGrid()
         }
     }

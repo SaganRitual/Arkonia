@@ -32,7 +32,7 @@ final class MoveStepper: Dispatchable {
             return
         }
 
-        Debug.log(level: 197) { "moveStepper -> disengage \(stepper.name)" }
+        Debug.log(level: 198) { "moveStepper -> disengage \(stepper.name)" }
         stepper.dispatch!.disengageGrid()
     }
 }

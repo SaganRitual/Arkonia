@@ -1,6 +1,6 @@
 import Foundation
 
-struct IngridCellDescriptor {
+struct IngridCellDescriptor: CustomDebugStringConvertible {
     let absoluteIndex_: Int?
 
     // Makes default-initialized cell descriptors unusable, so I don't
@@ -9,6 +9,10 @@ struct IngridCellDescriptor {
 
     let coreCell: IngridCell?
     let virtualScenePosition: CGPoint?  // For asteroids-style wraparound movement
+
+    var debugDescription: String {
+        ((coreCell == nil) ? "Cold" : "Hot(\(absoluteIndex))")
+    }
 
     init() {
         absoluteIndex_ = nil

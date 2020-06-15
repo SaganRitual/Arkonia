@@ -1,10 +1,34 @@
 import Foundation
 
 struct EngagerSpec {
-    let cCellsInRange: Int
-    let center: Int
+    let centerAbsoluteIndex: Int
     let onComplete: () -> Void
-    let pad: UnsafeMutablePointer<IngridCellDescriptor>
+    let onWakeupFromDefer: ((EngagerSpec) -> Void)?
+    let sensorPad: UnsafeMutablePointer<IngridCellDescriptor>
+    let sensorPadCCells: Int
+
+    init(
+        _ sensorPadCCells: Int, _ centerAbsoluteIndex: Int,
+        _ sensorPad: UnsafeMutablePointer<IngridCellDescriptor>,
+        _ onComplete: @escaping () -> Void
+    ) {
+        self.centerAbsoluteIndex = centerAbsoluteIndex
+        self.onComplete = onComplete
+        self.sensorPad = sensorPad
+        self.sensorPadCCells = sensorPadCCells
+        self.onWakeupFromDefer = nil
+    }
+
+    init(
+        _ saveForDefer: EngagerSpec,
+        _ onWakeupFromDefer: ((EngagerSpec) -> Void)?
+    ) {
+        self.centerAbsoluteIndex = saveForDefer.centerAbsoluteIndex
+        self.onComplete = saveForDefer.onComplete
+        self.sensorPad = saveForDefer.sensorPad
+        self.sensorPadCCells = saveForDefer.sensorPadCCells
+        self.onWakeupFromDefer = nil
+    }
 }
 
 class IngridCore {
@@ -103,10 +127,10 @@ class IngridCore {
     }
 
     func engageSensorPad(_ engagerSpec: EngagerSpec) {
-        for ss in (0..<engagerSpec.cCellsInRange) {
+        for ss in (0..<engagerSpec.sensorPadCCells) {
 
             var p = self.indexer.getGridPointByLocalIndex(
-                center: engagerSpec.center, targetIndex: ss
+                center: engagerSpec.centerAbsoluteIndex, targetIndex: ss
             )
 
             var vp: CGPoint?    // Virtual target for teleportation
@@ -115,7 +139,7 @@ class IngridCore {
 
             let cell = cellAt(p)
 
-            engagerSpec.pad[ss] = IngridCellDescriptor(cell, vp)
+            engagerSpec.sensorPad[ss] = IngridCellDescriptor(cell, vp)
         }
     }
 }

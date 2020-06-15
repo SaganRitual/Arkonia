@@ -36,18 +36,30 @@ class IngridArkons {
         hardAssert(allTheArkons[toCell.absoluteIndex] != nil) { "huh2?" }
     }
 
+    // We don't need to lock this function, because it's only ever called
+    // by the spawn cycle, which is accessing the cell through its sensor
+    // pad, meaning it already owns the locks and no one else will be trying
+    // to muck with them
     func placeArkon(_ stepper: Stepper, atIndex: Int) {
+        hardAssert(Ingrid.shared.getContents(in: atIndex) != .arkon) { "placeArkon" }
         allTheArkons[atIndex] = Unmanaged.passRetained(stepper)
         stepper.ingridCellAbsoluteIndex = atIndex
 
         Debug.log(level: 198) { "placeArkon \(stepper.name) at abs ix \(atIndex)" }
     }
 
-    func releaseArkon(_ stepper: Stepper) {
+    // Unlike placeArkon(), this function must be called only for locked cells,
+    // so never call it directly, instead call the Ingrid version, which knows
+    // how to lock stuff
+    func releaseArkon(_ stepper: Stepper) -> Int {
         Debug.log(level: 198) { "releaseArkon \(stepper.name) at abs ix \(stepper.ingridCellAbsoluteIndex)" }
 
         allTheArkons[stepper.ingridCellAbsoluteIndex]!.release()
         allTheArkons[stepper.ingridCellAbsoluteIndex] = nil
-        stepper.ingridCellAbsoluteIndex = -4242
+
+        // For debugging; invalid index will crash anyone trying to use the
+        // stepper's index to address the grid after we just now released th cell
+        defer { stepper.ingridCellAbsoluteIndex = -4242 }
+        return stepper.ingridCellAbsoluteIndex
     }
 }

@@ -15,11 +15,11 @@ private extension Apoptosize {
     func disengageSensorPad() {
         let pc = stepper.net.netStructure.sensorPadCCells
         Ingrid.shared.disengageSensorPad(
-            stepper.sensorPad, padCCells: pc, keepTheseCells: [0], releaseNet
-        )
+            stepper.sensorPad, padCCells: pc, keepTheseCellsByLocalIndex: []
+        ) { self.releaseNet(self.stepper) }
     }
 
-    func releaseNet() { stepper.net.release(releaseStepper) }
+    func releaseNet(_ holdingStrongReference: Stepper) { stepper.net.release(releaseStepper) }
 
     func releaseStepper() {
         SceneDispatch.shared.schedule {
@@ -30,9 +30,9 @@ private extension Apoptosize {
             // This doesn't have to happen on the scene dispatch, but it
             // needs to happen  last. It's quick enough, I think, to not
             // be a big issue running on this dispatch. I guess we'll find out
-            Debug.log(level: 197) { "apoptosize.releaseStepper.0 \(six(self.stepper?.name))" }
-            Ingrid.shared.arkons.releaseArkon(self.stepper!)
-            Debug.log(level: 197) { "apoptosize.releaseStepper.1 \(six(self.stepper?.name))" }
+            Debug.log(level: 198) { "apoptosize.releaseStepper.0 \(six(self.stepper?.name))" }
+            Ingrid.shared.releaseArkon(self.stepper!)
+            Debug.log(level: 198) { "apoptosize.releaseStepper.1 \(six(self.stepper?.name))" }
         }
     }
 }

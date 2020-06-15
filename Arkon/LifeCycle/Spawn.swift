@@ -5,7 +5,7 @@ final class Spawn: DispatchableProtocol {
 
     var embryoName: ArkonName?
     var fishDay = Fishday(birthday: 0, cNeurons: 0, fishNumber: 0)
-    let landingPad: UnsafeMutablePointer<IngridCellDescriptor>
+    let landingPad: UnsafeMutablePointer<IngridCellDescriptor>?
     var metabolism: Metabolism?
     let meTheParent: Stepper?
     var net: Net?
@@ -18,48 +18,48 @@ final class Spawn: DispatchableProtocol {
     init(_ stepper: Stepper?) {
         self.meTheParent = stepper
 
+        if stepper != nil { self.landingPad = nil; return }
+
         self.landingPad = .allocate(capacity: 1)
-        self.landingPad.initialize(to: IngridCellDescriptor())
+        self.landingPad!.initialize(to: IngridCellDescriptor())
     }
 
-    func launch() { spawn_pre_A0() }
+    func launch() { spawn_A() }
 }
 
 extension Spawn {
-    private func spawn_pre_A0() {
-        Census.dispatchQueue.async(execute: spawn_pre_A1)
-    }
-
-    private func spawn_pre_A1() {
-        self.embryoName = ArkonName.makeName()
-        Dispatch.dispatchQueue.async(execute: spawn_A)
-    }
-
     private func spawn_A() {
+        Census.dispatchQueue.async(execute: spawn_B)
+    }
+
+    private func spawn_B() {
+        self.embryoName = ArkonName.makeName()
+        Dispatch.dispatchQueue.async(execute: spawn_C)
+    }
+
+    private func spawn_C() {
         // No parent; that means I'm a disembodied something-or-other bringing
-        // an arkon into existence from nothing. Find a random home for it;
-        // remember, if the desired cell isn't available, the engager function
-        // will wait for it and send us along when it is available
+        // an arkon into existence from nothing. Find a random home for it.
+        // Note: if the desired cell isn't available, the engager function
+        // will wait for it and send us on our way when it is available. First
+        // come is first served as locked cells become available
         if meTheParent == nil {
             let cellIx = Ingrid.randomCellIndex()
 
             // Ok, it's a landing pad rather than a sensor pad, but it's
             // the same thing internally; we need it for locking the cell
-            let es = EngagerSpec(
-                cCellsInRange: 1, center: cellIx,
-                onComplete: spawn_B, pad: self.landingPad
-            )
+            let es = EngagerSpec(1, cellIx, landingPad!, self.spawn_D)
 
             Ingrid.shared.engageSensorPad(es)
             return
         }
 
-        spawn_B()   // I'm an arkon making a new arkon
+        spawn_D()   // I'm an arkon making a new arkon
     }
 
-    private func spawn_B() { buildArkon(spawn_C) }
+    private func spawn_D() { buildArkon(spawn_E) }
 
-    private func spawn_C() {
+    private func spawn_E() {
         Census.registerBirth(myName: embryoName!, myParent: meTheParent, myNet: net!) {
             self.fishDay = $0
             self.launchNewborn_A()
@@ -188,7 +188,7 @@ extension Spawn {
         newborn.nose?.color = .blue
 
         let birthingCell =
-            meTheParent?.detachBirthingCellForNewborn() ?? self.landingPad[0]
+            self.landingPad?[0] ?? meTheParent!.detachBirthingCellForNewborn()
 
         placeNewborn(newborn, at: birthingCell)
 

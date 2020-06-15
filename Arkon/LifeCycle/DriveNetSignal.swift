@@ -24,12 +24,10 @@ final class DriveNetSignal: Dispatchable {
         response.driveResponse(pNeurons, driveNetSignal_C)
     }
 
-    private func driveNetSignal_C() {
-        if stepper.jumpSpec == nil {
-            Debug.log(level: 197) { "driveNetSignal_C \(stepper.name)" }
-            stepper.dispatch!.disengageGrid()
+    private func driveNetSignal_C(_ didJump: Bool) {
+        if didJump { stepper.dispatch!.moveSprite(); return }
 
-        }
-        else                       { stepper.dispatch!.moveSprite() }
+        Debug.log(level: 198) { "driveNetSignal_C \(stepper.name)" }
+        stepper.dispatch!.disengageGrid()
     }
 }

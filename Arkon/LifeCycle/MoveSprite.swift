@@ -47,7 +47,7 @@ final class MoveSprite: Dispatchable {
     }
 
     private static func restArkon(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
-        Debug.log(level: 197) { "rest arkon \(stepper.name)" }
+        Debug.log(level: 198) { "rest arkon \(stepper.name)" }
         let rest = SKAction.wait(forDuration: 0.02)
         stepper.thorax.run(rest, completion: onComplete)
     }
