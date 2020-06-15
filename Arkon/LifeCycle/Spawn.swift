@@ -190,6 +190,8 @@ extension Spawn {
         let birthingCell =
             self.landingPad?[0] ?? meTheParent!.detachBirthingCellForNewborn()
 
+        Debug.log(level: 200) { "launchNewborn_B bc = \(birthingCell.absoluteIndex)" }
+
         placeNewborn(newborn, at: birthingCell)
 
         abandonNewborn()

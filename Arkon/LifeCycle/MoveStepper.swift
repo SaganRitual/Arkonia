@@ -22,7 +22,7 @@ final class MoveStepper: Dispatchable {
 
         Debug.log(level: 198) { "moveStepper \(stepper.name) from abs ix \(fromIx)(\(fromContents)) to \(toIx)(\(toContents))" }
 
-        Ingrid.shared.arkons.moveArkon(
+        Ingrid.shared.moveArkon(
             stepper, fromCell: js.fromCell, toCell: js.toCell
         )
 

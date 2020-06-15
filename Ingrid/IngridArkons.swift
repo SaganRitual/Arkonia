@@ -22,7 +22,7 @@ class IngridArkons {
         return allTheArkons[ax]?.takeUnretainedValue()
     }
 
-    func moveArkon(_ stepper: Stepper, fromCell: IngridCell, toCell: IngridCell) {
+    func moveArkon(foo stepper: Stepper, fromCell: IngridCell, toCell: IngridCell) {
         let fromContents = Ingrid.shared.getContents(in: fromCell.absoluteIndex)
         let toContents = Ingrid.shared.getContents(in: toCell.absoluteIndex)
 
