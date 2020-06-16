@@ -35,16 +35,12 @@ class IngridArkons {
         hardAssert(Ingrid.shared.getContents(in: atIndex) != .arkon) { "placeArkon" }
         allTheArkons[atIndex] = Unmanaged.passRetained(stepper)
         stepper.ingridCellAbsoluteIndex = atIndex
-
-        Debug.log(level: 198) { "placeArkon \(stepper.name) at abs ix \(atIndex)" }
     }
 
     // Unlike placeArkon(), this function must be called only for locked cells,
     // so never call it directly, instead call the Ingrid version, which knows
     // how to lock stuff
     func releaseArkon(_ stepper: Stepper) -> Int {
-        Debug.log(level: 198) { "releaseArkon \(stepper.name) at abs ix \(stepper.ingridCellAbsoluteIndex)" }
-
         allTheArkons[stepper.ingridCellAbsoluteIndex]!.release()
         allTheArkons[stepper.ingridCellAbsoluteIndex] = nil
 

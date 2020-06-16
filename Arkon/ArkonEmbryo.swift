@@ -19,12 +19,23 @@ class ArkonEmbryo {
         if parentArkon != nil { self.sensorPad = nil; return }
     }
 
-    func buildSprites(_ onComplete: @escaping () -> Void) {
+    func abandonParent() {
+        let birthingCell = (parentArkon == nil) ?
+            IngridCellDescriptor(Ingrid.randomCell()) : getBirthingCell()
+
+        // Engaging the birth cell might mean waiting around until anyone using
+        // the cell or waiting for it themselves is finished. The completion
+        // here runs after all that stuff is done and this arkon finally has the
+        // cell locked
+        sensorPad!.engageBirthCell(center: birthingCell.absoluteIndex, self.launch)
+    }
+
+    func buildSprites() {
         hardAssert(Display.displayCycle == .updateStarted) { "hardAssert at \(#file):\(#line)" }
 
-        toothSprite = SpriteFactory.shared.teethPool.makeSprite(name)
-        noseSprite = SpriteFactory.shared.nosesPool.makeSprite(name)
-        thoraxSprite = SpriteFactory.shared.arkonsPool.makeSprite(name)
+        toothSprite = SpriteFactory.shared.teethPool.makeSprite()
+        noseSprite = SpriteFactory.shared.nosesPool.makeSprite()
+        thoraxSprite = SpriteFactory.shared.arkonsPool.makeSprite()
 
         toothSprite!.alpha = 1
         toothSprite!.colorBlendFactor = 1
@@ -48,17 +59,16 @@ class ArkonEmbryo {
 
         let noseColor: SKColor = (parentArkon == nil) ? .systemBlue : .yellow
         Debug.debugColor(thoraxSprite!, .blue, noseSprite!, noseColor)
-
-        MainDispatchQueue.async(execute: onComplete)
     }
 
-    func buildGuts(_ onComplete: @escaping (Net) -> Void) {
+    func buildGuts(_ onComplete: @escaping () -> Void) {
         let nn = parentArkon?.net
 
         Net.makeNet(nn?.netStructure, nn?.pBiases, nn?.pWeights) { newNet in
             self.sensorPad = .makeSensorPad(newNet.netStructure.sensorPadCCells)
             self.metabolism = Metabolism(cNeurons: newNet.netStructure.cNeurons)
-            onComplete(newNet)
+            self.net = newNet
+            onComplete()
         }
     }
 
@@ -101,8 +111,5 @@ extension ArkonEmbryo {
 
         let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
         newborn.thorax.run(rotate)
-
-        // Newborn goes onto its own dispatch here
-        sensorPad!.disengageGrid(newborn.dispatch!.engageGrid)
     }
 }

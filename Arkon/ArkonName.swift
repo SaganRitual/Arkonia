@@ -17,10 +17,6 @@ struct ArkonName: Hashable, CustomDebugStringConvertible {
     static var nameix = 0
     static var setNumber = 0
 
-    static func makeMannaName(_ fishNumber: Int) -> ArkonName {
-        return ArkonName(nametag: .manna, setNumber: fishNumber)
-    }
-
     static func makeName() -> ArkonName {
         defer {
             nameix += 1

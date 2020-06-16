@@ -43,17 +43,8 @@ struct DriveResponse {
             guard let correctedTarget = stepper.sensorPad.getCorrectedTarget(
                 candidateLocalIndex: targetOffset
             ) else {
-                Debug.log(level: 199) { "Arkon \(stepper.name) couldn't jump out of \(stepper.ingridCellAbsoluteIndex)" }
-
                 let okToJump = false
                 onComplete(okToJump); return
-            }
-
-            Debug.log(level: 198) {
-                "move \(stepper.name)"
-                + " with \(s0)"
-                + " to local ix \(correctedTarget.finalTargetLocalIx)"
-                + " abs ix \(correctedTarget.toCell.absoluteIndex)"
             }
 
             let from = stepper.sensorPad.thePad[0].coreCell!

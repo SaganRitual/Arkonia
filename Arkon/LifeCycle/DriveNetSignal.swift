@@ -19,15 +19,12 @@ final class DriveNetSignal: Dispatchable {
 
     private func driveNetSignal_B() {
         let pNeurons = UnsafeMutablePointer(mutating: stepper.net!.pNeurons)
-        let log = (0..<stepper.net.netStructure.cSenseNeurons).map { pNeurons[$0] }
-        Debug.log(level: 193) { "drive net signal, senseLayer in = \(log)" }
         response.driveResponse(pNeurons, driveNetSignal_C)
     }
 
     private func driveNetSignal_C(_ didJump: Bool) {
         if didJump { stepper.dispatch!.moveSprite(); return }
 
-        Debug.log(level: 198) { "driveNetSignal_C \(stepper.name)" }
         stepper.dispatch!.disengageGrid()
     }
 }

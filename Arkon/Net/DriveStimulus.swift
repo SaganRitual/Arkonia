@@ -86,8 +86,6 @@ private extension DriveStimulus {
         for ss in 0..<cCells {
             guard let coreCell = sensorPad.thePad[ss].coreCell else { continue }
 
-            Debug.log(level: 195) { "getNutrition for \(stepper!.name) from local \(ss) \(sensorPad.thePad[ss].absoluteIndex)" }
-
             senseNeurons[2 * ss + 0] = getNutrition(in: coreCell) ?? 0
             senseNeurons[2 * ss + 1] = loadSelector(from: coreCell)
         }

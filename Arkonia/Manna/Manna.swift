@@ -10,7 +10,7 @@ class Manna {
 
     init(_ absoluteIngridIndex: Int) {
         self.absoluteIngridIndex = absoluteIngridIndex
-        self.sprite = Manna.Sprite(absoluteIngridIndex)
+        self.sprite = Manna.Sprite()
         self.sprite.reset()
 
         // Set our date to the past so we'll treat the first bloom as completed already
@@ -22,10 +22,8 @@ extension Manna {
     class Sprite {
         let sprite: SKSpriteNode
 
-        init(_ fishNumber: Int) {
-            let name = ArkonName.makeMannaName(fishNumber)
-
-            sprite = SpriteFactory.shared.mannaPool.makeSprite(name)
+        init() {
+            sprite = SpriteFactory.shared.mannaPool.makeSprite()
 
             SpriteFactory.shared.mannaPool.attachSprite(sprite)
         }

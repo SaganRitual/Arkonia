@@ -9,7 +9,7 @@ class Stepper {
     var ingridCellAbsoluteIndex = 0
     var isTurnabouted: Bool = false
     var metabolism: Metabolism!
-    let name: ArkonName
+    var name: ArkonName?
     var net: Net!
     var netDisplay: NetDisplay?
     var nose: SKSpriteNode!
@@ -31,7 +31,6 @@ class Stepper {
 
     init(_ embryo: ArkonEmbryo) {
         self.metabolism = embryo.metabolism
-        self.name = embryo.name!
         self.net = embryo.net
         self.netDisplay = embryo.netDisplay
         self.nose = embryo.noseSprite!
@@ -47,7 +46,7 @@ class Stepper {
     }
 
     deinit {
-        Debug.log(level: 198) { "Stepper \(self.name) deinit" }
+        Debug.log(level: 198) { "Stepper \(self.name!) deinit" }
     }
 
     func detachBirthingCellForNewborn() -> IngridCellDescriptor {

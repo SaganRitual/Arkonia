@@ -6,8 +6,6 @@ final class MoveStepper: Dispatchable {
     func moveStepper() {
         Debug.debugColor(stepper, .brown, .purple)
 
-        Debug.log(level: 195) { "moveStepper \(stepper!.name) at absix \(stepper.ingridCellAbsoluteIndex) "}
-
         stepper!.cJumps += 1    // We count it as a jump even if we don't move
 
         let js = stepper.jumpSpec!
@@ -22,8 +20,6 @@ final class MoveStepper: Dispatchable {
         hardAssert(fromContents == .arkon) { "fromWrong" }
         hardAssert(toContents != .arkon) { "toWrong" }
 
-        Debug.log(level: 198) { "moveStepper \(stepper.name) from abs ix \(fromIx)(\(fromContents)) to \(toIx)(\(toContents))" }
-
         Ingrid.shared.moveArkon(
             stepper, fromCell: js.fromCell, toCell: js.toCell
         )
@@ -37,7 +33,6 @@ final class MoveStepper: Dispatchable {
             return
         }
 
-        Debug.log(level: 198) { "moveStepper -> disengage \(stepper.name)" }
         stepper.dispatch!.disengageGrid()
     }
 }
