@@ -14,9 +14,8 @@ private extension Apoptosize {
 
     func disengageSensorPad() {
         let pc = stepper.net.netStructure.sensorPadCCells
-        Ingrid.shared.disengageSensorPad(
-            stepper.sensorPad, padCCells: pc, keepTheseCellsByLocalIndex: []
-        ) { self.releaseNet(self.stepper) }
+        Ingrid.shared.disengageSensorPad(stepper.sensorPad, padCCells: pc)
+            { self.releaseNet(self.stepper) }
     }
 
     func releaseNet(_ holdingStrongReference: Stepper) { stepper.net.release(releaseStepper) }

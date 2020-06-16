@@ -56,7 +56,7 @@ class Net {
                 netStructure: netStructure, parentBiases: pb, parentWeights: pw
             )
 
-            Dispatch.dispatchQueue.async { onComplete(newNet) }
+            MainDispatchQueue.async { onComplete(newNet) }
         }
     }
 

@@ -57,7 +57,7 @@ extension Manna {
             }
 
             SceneDispatch.shared.schedule(self.rebloom)
-            Dispatch.dispatchQueue.async { onComplete(mannaContent) }
+            MainDispatchQueue.async { onComplete(mannaContent) }
         }
     }
 

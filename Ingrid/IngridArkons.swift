@@ -22,18 +22,9 @@ class IngridArkons {
         return allTheArkons[ax]?.takeUnretainedValue()
     }
 
-    func moveArkon(foo stepper: Stepper, fromCell: IngridCell, toCell: IngridCell) {
-        let fromContents = Ingrid.shared.getContents(in: fromCell.absoluteIndex)
-        let toContents = Ingrid.shared.getContents(in: toCell.absoluteIndex)
-
-        Debug.log(level: 198) { "moveArkon \(stepper.name) from abs ix \(fromCell.absoluteIndex)(\(fromContents)) to \(toCell.absoluteIndex)(\(toContents))" }
-        hardAssert(allTheArkons[fromCell.absoluteIndex] != nil) { "huh-1?" }
+    func moveArkon(fromCell: IngridCell, toCell: IngridCell) {
         allTheArkons[toCell.absoluteIndex] = allTheArkons[fromCell.absoluteIndex]
-        hardAssert(allTheArkons[fromCell.absoluteIndex] != nil) { "huh0?" }
-        hardAssert(allTheArkons[toCell.absoluteIndex] != nil) { "huh?" }
         allTheArkons[fromCell.absoluteIndex] = nil
-        stepper.ingridCellAbsoluteIndex = toCell.absoluteIndex
-        hardAssert(allTheArkons[toCell.absoluteIndex] != nil) { "huh2?" }
     }
 
     // We don't need to lock this function, because it's only ever called

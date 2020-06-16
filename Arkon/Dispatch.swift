@@ -28,13 +28,13 @@ final class Dispatch {
     }
 }
 
-extension Dispatch {
-    static let dispatchQueue = DispatchQueue(
-        label: "ak.dispatch.q", attributes: .concurrent, target: DispatchQueue.global()
-    )
+let MainDispatchQueue = DispatchQueue(
+    label: "ak.dispatch.q", attributes: .concurrent, target: DispatchQueue.global()
+)
 
+extension Dispatch {
     private func dispatch(_ type: DispatchableProtocol.Type) {
-        Dispatch.dispatchQueue.async {
+        MainDispatchQueue.async {
             self.lifelet = type.init(self.stepper)
             self.lifelet.launch()
         }

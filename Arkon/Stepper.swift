@@ -15,7 +15,7 @@ class Stepper {
     var nose: SKSpriteNode!
     var parentWeights: [Double]?
     var previousShiftOffset = AKPoint.zero
-    var sensorPad: UnsafeMutablePointer<IngridCellDescriptor>
+    var sensorPad: SensorPad
     var thorax: SKSpriteNode!
     var tooth: SKSpriteNode!
 
@@ -38,9 +38,7 @@ class Stepper {
         self.thorax = embryo.thoraxSprite!
         self.tooth = embryo.toothSprite
 
-        let c = self.net.netStructure.sensorPadCCells
-        self.sensorPad = .allocate(capacity: c)
-        self.sensorPad.initialize(repeating: IngridCellDescriptor(), count: c)
+        sensorPad = SensorPad(self.net.netStructure)
 
         thorax.color = net!.isCloneOfParent ? .green : .white
         nose!.color = .blue
@@ -55,7 +53,7 @@ class Stepper {
     func detachBirthingCellForNewborn() -> IngridCellDescriptor {
         guard let localIndex = (1..<net.netStructure.sensorPadCCells).first(where: { sensorPadSS in
             let c = sensorPad[sensorPadSS].coreCell
-            let d = (c == nil) ? "\(c!)" : "no lock"
+            let d = (c == nil) ? "no lock" : "\(c!)"
             Debug.log(level: 198) { "candidate birth cell \(sensorPadSS) \(d), parent \(self.name)" }
             guard let candidateCell = sensorPad[sensorPadSS].coreCell else { return false }
             let contents = Ingrid.shared.getContents(in: candidateCell)

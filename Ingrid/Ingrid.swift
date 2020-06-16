@@ -2,16 +2,17 @@ import Foundation
 
 class IngridLock {
     var isLocked = false
-    let waitingLockRequests = Cbuffer<EngagerSpec>(cElements: 10, mode: .fifo)
+    let waitingLockRequests = Cbuffer<SensorPadMapper>(cElements: 10, mode: .fifo)
 }
 
 class Ingrid {
     static var shared: Ingrid!
 
-    private let arkons: IngridArkons
-    private let core: IngridCore
-    private let locks: UnsafeMutableBufferPointer<IngridLock?>
-    private let manna: IngridManna
+    let arkons: IngridArkons
+    let core: IngridCore
+    let indexer: IngridIndexer
+    let locks: UnsafeMutableBufferPointer<IngridLock?>
+    let manna: IngridManna
 
     private let lockQueue = DispatchQueue(
         label: "ak.grid.serial", target: DispatchQueue.global()
@@ -21,7 +22,9 @@ class Ingrid {
         cellDimensionsPix: CGSize, portalDimensionsPix: CGSize,
         maxCSenseRings: Int, funkyCellsMultiplier: CGFloat?
     ) {
-        core = IngridCore(
+        self.indexer = .init(maxCSenseRings: maxCSenseRings)
+
+        core = .init(
             cellDimensionsPix: cellDimensionsPix,
             portalDimensionsPix: portalDimensionsPix,
             maxCSenseRings: maxCSenseRings,
@@ -41,71 +44,44 @@ class Ingrid {
     func cellAt(_ absolutePosition: AKPoint) -> IngridCell { core.cellAt(absolutePosition) }
     func cellAt(_ absoluteIndex: Int) -> IngridCell { core.cellAt(absoluteIndex) }
 
+    // It's ok for this to be called outside of the lock queue, because the
+    // readyCellAbsoluteIndex comes from the arkon's sensor pad, which means
+    // he has this cell locked already, and no one else will be looking at it
     func completeDeferredLockRequest(for readyCellAbsoluteIndex: Int) {
         let lock = lockAt(readyCellAbsoluteIndex)
 
         if lock.waitingLockRequests.isEmpty { lock.isLocked = false; return }
 
-        let engagerSpec = lock.waitingLockRequests.popFront()
+        let mapper = lock.waitingLockRequests.popFront()
         Debug.log(level: 198) { "completeDeferredLockRequest for \(readyCellAbsoluteIndex)" }
 
-        core.engageSensorPad(engagerSpec)
-        Dispatch.dispatchQueue.async(execute: engagerSpec.onComplete)
+        core.engageSensorPad(mapper)
+        MainDispatchQueue.async(execute: mapper.onComplete)
     }
 
-    func deferLockRequest(_ engagerSpec: EngagerSpec, _ onDefermentComplete: @escaping (EngagerSpec) -> Void) {
-        Debug.log(level: 198) { "deferLockRequest for \(engagerSpec.centerAbsoluteIndex)" }
-        let lock = lockAt(engagerSpec.centerAbsoluteIndex)
-        hardAssert(lock.isLocked) { "Deferred but the cell isn't locked" }
-        lock.waitingLockRequests.pushBack(engagerSpec)
+    func deferLockRequest(_ mapper: SensorPadMapper, _ onDefermentComplete: @escaping (SensorPadMapper) -> Void) {
+        let lock = lockAt(mapper.centerAbsoluteIndex)
+        lock.waitingLockRequests.pushBack(mapper)
     }
 
-    func disengageSensorPad(
-        _ pad: UnsafeMutablePointer<IngridCellDescriptor>,
-        padCCells: Int,
-        keepTheseCellsByLocalIndex: [Int],
-        _ onComplete: @escaping () -> Void
-    ) {
-        let aix: (Int) -> Int = { pad[$0].absoluteIndex }
-
-        let cog = (0..<padCCells).filter({ pad[$0].coreCell != nil && !keepTheseCellsByLocalIndex.contains($0) }).map { "\(aix($0))" }
-        Debug.log(level: 198) { "disengageSensorPad \(cog)" }
-        lockQueue.async {
-            for localPadIx in (0..<padCCells) where pad[localPadIx].coreCell != nil && !keepTheseCellsByLocalIndex.contains(localPadIx) {
-                // Invalidate the caller's pad so he won't think he can just
-                // come back and mess about the place
-                pad[localPadIx] = IngridCellDescriptor(nil, aix(localPadIx), nil)
-
-                if self.locks[aix(localPadIx)]!.isReadyForDeferCompletion {
-                    self.locks[aix(localPadIx)]!.isReadyForDeferCompletion = false
-                    self.completeDeferredLockRequest(for: localPadIx)
-                }
-            }
-
-            self.nonCriticalsQueue.async(execute: onComplete)
-        }
+    func engageSensorPad(_ mapper: SensorPadMapper) {
+        lockQueue.async { self.engageSensorPad_A(mapper) }
     }
 
-    func engageSensorPad(_ engagerSpec: EngagerSpec) {
-        lockQueue.async { self.engageSensorPad_A(engagerSpec) }
-    }
-
-    private func engageSensorPad_A(_ engagerSpec: EngagerSpec) {
-        let centerLock = self.locks[engagerSpec.centerAbsoluteIndex]!
+    private func engageSensorPad_A(_ mapper: SensorPadMapper) {
+        let centerLock = self.locks[mapper.centerAbsoluteIndex]!
 
         if centerLock.isLocked {
-            self.deferLockRequest(engagerSpec, engageSensorPad_B)
+            self.deferLockRequest(mapper, engageSensorPad_B)
             return
         }
 
-        engageSensorPad_B(engagerSpec)
+        engageSensorPad_B(mapper)
     }
 
-    private func engageSensorPad_B(_ engagerSpec: EngagerSpec) {
-        self.core.engageSensorPad(engagerSpec)
-
-        for localIx in 1..<engagerSpec.sensorPadCCells {
-            let cellDescriptor = engagerSpec.sensorPad[localIx]
+    private func engageSensorPad_B(_ mapper: SensorPadMapper) {
+        for localIx in 0..<mapper.sensorPadCCells {
+            let cellDescriptor = mapper.sensorPad[localIx]
             let lock = self.locks[cellDescriptor.absoluteIndex]!
 
             // The core doesn't know about locks, so it gives us back raw
@@ -114,7 +90,7 @@ class Ingrid {
             // block the sensor pad from seeing them by replacing the descriptor
             // with a blind one
             if lock.isLocked {
-                engagerSpec.sensorPad[localIx] = IngridCellDescriptor(
+                mapper.sensorPad[localIx] = IngridCellDescriptor(
                     nil, cellDescriptor.absoluteIndex, nil
                 )
 
@@ -124,9 +100,9 @@ class Ingrid {
             self.locks[cellDescriptor.absoluteIndex]!.isLocked = true
         }
 
-        let cog = (0..<engagerSpec.sensorPadCCells).map { engagerSpec.sensorPad[$0] }
-        Debug.log(level: 198) { "Ingrid.engageSensorPad: \(cog)" }
-        self.nonCriticalsQueue.async(execute: engagerSpec.onComplete)
+        MainDispatchQueue.async {
+            mapper.onComplete()
+        }
     }
 
     func lockAt(_ absolutePosition: AKPoint) -> IngridLock {
@@ -136,13 +112,14 @@ class Ingrid {
 
     func lockAt(_ absoluteIndex: Int) -> IngridLock { return locks[absoluteIndex]! }
 
-    func moveArkon(_ stepper: Stepper, fromCell: IngridCell, toCell: IngridCell) {
-        arkons.moveArkon(foo: stepper, fromCell: fromCell, toCell: toCell)
+    func lockCells(_ mapper: SensorPadMapper) {
+    }
 
-        // When the arkon disengages his sensor pad from the grid, this
-        // will cause it to check whether anyone is waiting on the lock
-        // for this cell
-        locks[fromCell.absoluteIndex]!.isReadyForDeferCompletion = true
+    func moveArkon(
+        _ stepper: Stepper, fromCell: IngridCell, toCell: IngridCell
+    ) {
+        arkons.moveArkon(fromCell: fromCell, toCell: toCell)
+        completeDeferredLockRequest(for: fromCell.absoluteIndex)
     }
 
     func placeArkonOnGrid(_ stepper: Stepper, atIndex: Int) {
@@ -154,6 +131,10 @@ class Ingrid {
             let releasedCellIx = self.arkons.releaseArkon(stepper)
             self.completeDeferredLockRequest(for: releasedCellIx)
         }
+    }
+
+    func unlockCells(_ absoluteIndexes: [Int]) {
+
     }
 }
 

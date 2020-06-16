@@ -6,14 +6,7 @@ final class EngageGrid: Dispatchable {
     private func engageGrid() {
         Debug.debugColor(stepper, .red, .yellow)
         Debug.log(level: 195) { "engage \(stepper!.name)" }
-
-        let engagerSpec = EngagerSpec(
-            stepper.net.netStructure.sensorPadCCells,
-            stepper.ingridCellAbsoluteIndex,
-            stepper.sensorPad, self.tickLife
-        )
-
-        Ingrid.shared.engageSensorPad(engagerSpec)
+        stepper.sensorPad.engageGrid(tickLife)
     }
 
     private func tickLife() {

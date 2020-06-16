@@ -26,7 +26,7 @@ struct DriveResponse {
     private func driveResponse_B(
         _ senseData: UnsafeMutablePointer<Float>,
         _ onComplete: @escaping (Bool) -> Void
-    ) { Dispatch.dispatchQueue.async { self.driveResponse_C(senseData, onComplete) } }
+    ) { MainDispatchQueue.async { self.driveResponse_C(senseData, onComplete) } }
 
     private func driveResponse_C(
         _ senseData: UnsafeMutablePointer<Float>,
@@ -61,16 +61,16 @@ struct DriveResponse {
             }
 
             let from = stepper.sensorPad[0].coreCell!
+            let fromLocalIx = correctedTarget.finalTargetLocalIx
             let to = correctedTarget.toCell
             let virtual = correctedTarget.virtualScenePosition
 
             let asPercentage = max(CGFloat(jumpSpeedMotorOutput), 0.1)
 
-            stepper.jumpSpec = JumpSpec(from, to, virtual, asPercentage)
+            stepper.jumpSpec = JumpSpec(from, fromLocalIx, to, virtual, asPercentage)
 
             Ingrid.shared.disengageSensorPad(
-                stepper.sensorPad, padCCells: cSensorPadCells,
-                keepTheseCellsByLocalIndex: [0, correctedTarget.finalTargetLocalIx]
+                stepper.sensorPad, padCCells: cSensorPadCells
             ) { self.driveResponse_D(onComplete) }
 
             return

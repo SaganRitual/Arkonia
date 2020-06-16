@@ -20,7 +20,7 @@ extension Spawn {
     private func spawn_B() {
         embryo.name = ArkonName.makeName()
         let nextStep = (self.embryo.parentArkon == nil) ? spawn_C : spawn_D
-        Dispatch.dispatchQueue.async(execute: nextStep)
+        MainDispatchQueue.async(execute: nextStep)
     }
 
     // No parent; that means the new arkon is coming into the world from
@@ -32,7 +32,7 @@ extension Spawn {
         let cellIx = Ingrid.randomCellIndex()
         let landingPadCCells = 1
 
-        let es = EngagerSpec(
+        let es = SensorPadMapper(
             landingPadCCells, cellIx, embryo.landingPad!, spawn_D
         )
 
@@ -120,12 +120,10 @@ extension Spawn {
 }
 
 extension Spawn {
-    private func launchNewborn_A() { Dispatch.dispatchQueue.async(execute: launchNewborn_B) }
+    private func launchNewborn_A() { MainDispatchQueue.async(execute: launchNewborn_B) }
 
     private func launchNewborn_B() {
         let newborn = Stepper(embryo)
-
-        Debug.log(level: 200) { "launchNewborn_B bc = \(embryo.birthingCell.absoluteIndex)" }
 
         embryo.placeNewbornOnGrid(newborn)
 
@@ -139,8 +137,11 @@ extension Spawn {
         newborn.thorax.run(rotate)
 
         // Newborn goes onto its own dispatch thingy here
-        newborn.dispatch!.disengageGrid()
+        Ingrid.shared.disengageSensorPad(embryo.landingPad!, padCCells: 1)
+            { newborn.dispatch!.engageGrid() }
 
-        abandonNewborn()
+        // If I'm an arkon giving birth to another arkon, resume my
+        // normal life cycle
+        if embryo.parentArkon != nil { abandonNewborn() }
     }
 }

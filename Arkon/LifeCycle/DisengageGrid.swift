@@ -9,10 +9,7 @@ final class DisengageGrid: Dispatchable {
 
         stepper.jumpSpec = nil  // For tidiness and superstition
 
-        Ingrid.shared.disengageSensorPad(
-            stepper.sensorPad,
-            padCCells: stepper.net.netStructure.sensorPadCCells,
-            keepTheseCellsByLocalIndex: []
-        ) { self.stepper.dispatch!.engageGrid() }
+        stepper.sensorPad.reset()
+        stepper.dispatch!.engageGrid()
     }
 }

@@ -10,9 +10,11 @@ final class MoveStepper: Dispatchable {
 
         stepper!.cJumps += 1    // We count it as a jump even if we don't move
 
-        let js =     stepper.jumpSpec!
-        let fromIx = js.fromCell.absoluteIndex
-        let toIx =   js.toCell.absoluteIndex
+        let js = stepper.jumpSpec!
+
+        let fromIx =      js.fromCell.absoluteIndex
+        let fromLocalIx = js.fromLocalIndex
+        let toIx =        js.toCell.absoluteIndex
 
         let fromContents = Ingrid.shared.getContents(in: fromIx)
         let toContents = Ingrid.shared.getContents(in: toIx)
@@ -25,6 +27,9 @@ final class MoveStepper: Dispatchable {
         Ingrid.shared.moveArkon(
             stepper, fromCell: js.fromCell, toCell: js.toCell
         )
+
+        stepper.ingridCellAbsoluteIndex = js.toCell.absoluteIndex
+        stepper.sensorPad[fromLocalIx] = IngridCellDescriptor(js.fromCell)
 
         if toContents == .manna {
             Debug.log(level: 192) { "moveStepper -> arrive" }

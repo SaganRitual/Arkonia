@@ -11,7 +11,7 @@ let wait = DispatchSemaphore(value: 0)
 
 struct Arkon {
     let cCellsInRange = 9
-    var engagerSpec: EngagerSpec?
+    var mapper: SensorPadMapper?
     let name: String
     var pad: UnsafeMutablePointer<IngridCellDescriptor>
 
@@ -23,11 +23,11 @@ struct Arkon {
 
     mutating func goArkon(at center: AKPoint, _ onComplete: @escaping () -> Void) {
 
-        self.engagerSpec = EngagerSpec(
+        self.mapper = mapper(
             cCellsInRange: cCellsInRange, center: center, onComplete: onComplete, pad: self.pad
         )
 
-        grid.engageSensorPad(engagerSpec!)
+        grid.engageSensorPad(mapper!)
     }
 
     func stopArkon(keepTheseCells: [Int] = [], _ onComplete: @escaping () -> Void) {

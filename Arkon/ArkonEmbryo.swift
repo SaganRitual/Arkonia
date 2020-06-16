@@ -3,27 +3,22 @@ import SpriteKit
 class ArkonEmbryo {
     var name: ArkonName?
     var fishDay = Fishday(birthday: 0, cNeurons: 0, fishNumber: 0)
-    let landingPad: UnsafeMutablePointer<IngridCellDescriptor>?
     var metabolism: Metabolism?
     let parentArkon: Stepper?
     var net: Net?
     var netDisplay: NetDisplay?
     var newborn: Stepper?
     var noseSprite: SKSpriteNode?
+    let sensorPad: SensorPad
     var thoraxSprite: SKSpriteNode?
     var toothSprite: SKSpriteNode?
-
-    var birthingCell: IngridCellDescriptor {
-        landingPad?[0] ?? parentArkon!.detachBirthingCellForNewborn()
-    }
 
     init(_ parentArkon: Stepper?) {
         self.parentArkon = parentArkon
 
-        if parentArkon != nil { self.landingPad = nil; return }
+        if parentArkon != nil { self.sensorPad = nil; return }
 
-        self.landingPad = .allocate(capacity: 1)
-        self.landingPad!.initialize(to: IngridCellDescriptor())
+        self.sensorPad = SensorPad.makeLandingPad()
     }
 
     func buildSprites() {
@@ -55,6 +50,10 @@ class ArkonEmbryo {
 
         let noseColor: SKColor = (parentArkon == nil) ? .systemBlue : .yellow
         Debug.debugColor(thoraxSprite!, .blue, noseSprite!, noseColor)
+    }
+
+    func getBirthingCell() -> IngridCellDescriptor {
+        parentArkon?.detachBirthingCellForNewborn() ?? sensorPad.detachLandingPad()
     }
 
     func placeNewbornOnGrid(_ newborn: Stepper) {

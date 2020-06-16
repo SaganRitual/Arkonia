@@ -1,50 +1,16 @@
 import Foundation
 
-struct EngagerSpec {
-    let centerAbsoluteIndex: Int
-    let onComplete: () -> Void
-    let onWakeupFromDefer: ((EngagerSpec) -> Void)?
-    let sensorPad: UnsafeMutablePointer<IngridCellDescriptor>
-    let sensorPadCCells: Int
-
-    init(
-        _ sensorPadCCells: Int, _ centerAbsoluteIndex: Int,
-        _ sensorPad: UnsafeMutablePointer<IngridCellDescriptor>,
-        _ onComplete: @escaping () -> Void
-    ) {
-        self.centerAbsoluteIndex = centerAbsoluteIndex
-        self.onComplete = onComplete
-        self.sensorPad = sensorPad
-        self.sensorPadCCells = sensorPadCCells
-        self.onWakeupFromDefer = nil
-    }
-
-    init(
-        _ saveForDefer: EngagerSpec,
-        _ onWakeupFromDefer: ((EngagerSpec) -> Void)?
-    ) {
-        self.centerAbsoluteIndex = saveForDefer.centerAbsoluteIndex
-        self.onComplete = saveForDefer.onComplete
-        self.sensorPad = saveForDefer.sensorPad
-        self.sensorPadCCells = saveForDefer.sensorPadCCells
-        self.onWakeupFromDefer = nil
-    }
-}
-
 class IngridCore {
     let cellDimensionsPix: CGSize
     let gridDimensionsCells: AKSize
     let portalDimensionsPix: CGSize
 
-    let indexer: IngridIndexer
     let theGrid: UnsafeMutableBufferPointer<IngridCell?>
 
     init(
         cellDimensionsPix: CGSize, portalDimensionsPix: CGSize,
         maxCSenseRings: Int, funkyCellsMultiplier: CGFloat?
     ) {
-        self.indexer = .init(maxCSenseRings: maxCSenseRings)
-
         self.cellDimensionsPix = cellDimensionsPix
         self.portalDimensionsPix = portalDimensionsPix
 
@@ -124,22 +90,5 @@ class IngridCore {
 
         let newPoint = AKPoint(x: newX, y: newY)
         return newPoint == oldPoint ? nil : newPoint
-    }
-
-    func engageSensorPad(_ engagerSpec: EngagerSpec) {
-        for ss in (0..<engagerSpec.sensorPadCCells) {
-
-            var p = self.indexer.getGridPointByLocalIndex(
-                center: engagerSpec.centerAbsoluteIndex, targetIndex: ss
-            )
-
-            var vp: CGPoint?    // Virtual target for teleportation
-
-            if let q = self.correctForDisjunction(p) { vp = p.asPoint(); p = q }
-
-            let cell = cellAt(p)
-
-            engagerSpec.sensorPad[ss] = IngridCellDescriptor(cell, vp)
-        }
     }
 }

@@ -34,6 +34,12 @@ struct IngridCellDescriptor: CustomDebugStringConvertible {
         self.absoluteIndex_ = coreCell.absoluteIndex
         self.virtualScenePosition = virtualScenePosition
     }
+
+    init(_ absoluteIndex: Int, _ virtualScenePosition: CGPoint? = nil) {
+        self.coreCell = nil
+        self.absoluteIndex_ = absoluteIndex
+        self.virtualScenePosition = virtualScenePosition
+    }
 }
 
 class IngridCell {
