@@ -16,62 +16,40 @@ final class Spawn: DispatchableProtocol {
 
 extension Spawn {
     private func spawn_A() {
-        Census.dispatchQueue.async(execute: spawn_B_censusStuff)
+        Census.dispatchQueue.async(execute: spawn_B_registerBirth)
     }
 
-    private func spawn_B_censusStuff() {
-        embryo.name = ArkonName.makeName()
-        Census.shared.registerBirth(embryo.name!, parentArkon, embryo.net!)
-    }
+    private func spawn_B_registerBirth() {
+        embryo.registerBirth()
 
-    // No parent; that means the new arkon is coming into the world from
-    // nothing, like Oprah Winfrey, or the white Oprah, Chuck Norris. Find
-    // a random place in the ooze. Unlike normal births (the kind that have a
-    // parent), the self-creating arkon might choose a cell that someone already
-    // has locked, in which case it will have to get in line for the cell
-    private func spawn_C_arkonFromNothing() {
-        let cellIx = Ingrid.randomCellIndex()
-        Ingrid.shared.engageGrid(<#T##mapper: SensorPadMapper##SensorPadMapper#>)
-
-        Ingrid.shared.engageSensorPad(sensorPad)   // The sensor pad points us to the next step
-    }
-
-    private func spawn_D_arkonFromParentArkon() { buildArkon(spawn_E_registerBirth) }
-
-    private func spawn_E_registerBirth() {
-        Census.registerBirth(
-            myName: embryo.name!, myParent: parentArkon, myNet: embryo.net!
-        ) {
-            self.embryo.fishDay = $0
-            self.launchNewborn_A()
+        SceneDispatch.shared.schedule { [unowned self] in
+            // Calls back on the main dispatch queue
+            self.embryo.buildSprites(self.spawn_C_buildGuts)
         }
     }
-}
 
-extension Spawn {
-    func buildGuts(_ onComplete: @escaping (Net) -> Void) {
-        let nn = parentArkon?.net
+    private func spawn_C_buildGuts() {
+        embryo.buildGuts(spawn_D_buildNetDisplay)
+    }
 
-        Net.makeNet(nn?.netStructure, nn?.pBiases, nn?.pWeights) { newNet in
-            self.embryo.metabolism = Metabolism(cNeurons: newNet.netStructure.cNeurons)
-            onComplete(newNet)
+    private func spawn_D_buildNetDisplay(_ net: Net) {
+        SceneDispatch.shared.schedule { [unowned self] in
+            self.buildNetDisplay(self.embryo.thoraxSprite!)
+            MainDispatchQueue.async(execute: self.spawn_E_engageGrid)
         }
     }
-}
 
-extension Spawn {
-    func buildNetDisplay(_ sprite: SKSpriteNode) {
-        guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
-            else { return }
+    private func spawn_E_engageGrid() {
+        let birthingCell = (parentArkon == nil) ?
+            IngridCellDescriptor(Ingrid.randomCell()) : embryo.getBirthingCell()
 
-        let hp = (sprite.userData?[SpriteUserDataKey.netHalfNeuronsPortal] as? SKSpriteNode)!
-
-        embryo.netDisplay = NetDisplay(
-            arkon: sprite, fullNeuronsPortal: np, halfNeuronsPortal: hp,
-            layerDescriptors: embryo.net!.netStructure.layerDescriptors
+        embryo.sensorPad!.engageBirthCell(
+            center: birthingCell.absoluteIndex, embryo.launch
         )
 
-        embryo.netDisplay!.display()
+        // If I'm an arkon giving birth to another arkon, resume my
+        // normal life cycle
+        if parentArkon != nil { abandonNewborn() }
     }
 }
 
@@ -93,52 +71,17 @@ extension Spawn {
         a()
     }
 
-    func buildArkon(_ onComplete: @escaping () -> Void) {
+    func buildNetDisplay(_ sprite: SKSpriteNode) {
+        guard let np = (sprite.userData?[SpriteUserDataKey.net9Portal] as? SKSpriteNode)
+            else { return }
 
-        func a() {
-            SceneDispatch.shared.schedule { [unowned self] in
-                Debug.log(level: 102) { "buildArkon/a" }
-                self.embryo.buildSprites()
-                b()
-            }
-        }
+        let hp = (sprite.userData?[SpriteUserDataKey.netHalfNeuronsPortal] as? SKSpriteNode)!
 
-        func b() { self.buildGuts { self.embryo.net = $0; c() } }
+        embryo.netDisplay = NetDisplay(
+            arkon: sprite, fullNeuronsPortal: np, halfNeuronsPortal: hp,
+            layerDescriptors: embryo.net!.netStructure.layerDescriptors
+        )
 
-        func c() {
-            SceneDispatch.shared.schedule { [unowned self] in
-                self.buildNetDisplay(self.embryo.thoraxSprite!)
-                onComplete()
-            }
-        }
-
-        a()
-    }
-}
-
-extension Spawn {
-    private func launchNewborn_A() { MainDispatchQueue.async(execute: launchNewborn_B) }
-
-    private func launchNewborn_B() {
-        let newborn = Stepper(embryo)
-
-        embryo.placeNewbornOnGrid(newborn)
-
-        SceneDispatch.shared.schedule { self.launchNewborn_C(newborn) }
-    }
-
-    private func launchNewborn_C(_ newborn: Stepper) {
-        SpriteFactory.shared.arkonsPool.attachSprite(newborn.thorax)
-
-        let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
-        newborn.thorax.run(rotate)
-
-        // Newborn goes onto its own dispatch thingy here
-        Ingrid.shared.disengageSensorPad(embryo.landingPad!, padCCells: 1)
-            { newborn.dispatch!.engageGrid() }
-
-        // If I'm an arkon giving birth to another arkon, resume my
-        // normal life cycle
-        if parentArkon != nil { abandonNewborn() }
+        embryo.netDisplay!.display()
     }
 }

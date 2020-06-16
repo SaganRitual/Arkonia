@@ -2,12 +2,6 @@ import CoreGraphics
 
 struct DriveResponse {
 
-    struct CorrectedTarget {
-        let toCell: IngridCell
-        let finalTargetLocalIx: Int
-        let virtualScenePosition: CGPoint?
-    }
-
     enum MotorIndex: Int, CaseIterable { case jumpSelector, jumpSpeed }
 
     let net: Net
@@ -46,7 +40,9 @@ struct DriveResponse {
         let jumpSpeedMotorOutput = stepper.net.pMotorOutputs[MotorIndex.jumpSpeed.rawValue]
 
         if targetOffset > 0 {
-            guard let correctedTarget = correctForUnreachableTarget(targetOffset) else {
+            guard let correctedTarget = stepper.sensorPad.getCorrectedTarget(
+                candidateLocalIndex: targetOffset
+            ) else {
                 Debug.log(level: 199) { "Arkon \(stepper.name) couldn't jump out of \(stepper.ingridCellAbsoluteIndex)" }
 
                 let okToJump = false
@@ -86,57 +82,5 @@ struct DriveResponse {
         if isAlive { let okToJump = true; onComplete(okToJump); return }
 
         stepper.dispatch!.apoptosize()
-    }
-
-    private func correctForUnreachableTarget(_ targetOffset: Int) -> CorrectedTarget? {
-        let cSensorPadCells = net.netStructure.sensorPadCCells
-
-        var toCell: IngridCell?
-        var finalTargetLocalIx: Int?
-        var virtualScenePosition: CGPoint?
-
-        Debug.log(level: 198) { "correctForUnreachableTarget.0 try \(targetOffset)" }
-
-        for ss_ in 0..<cSensorPadCells where toCell == nil {
-            let ss = (ss_ + targetOffset) % cSensorPadCells
-
-            // If the target cell isn't available (meaning we couldn't
-            // see it when we tried to lock it, because someone had that
-            // cell locked already), then find the first visible cell after
-            // our target. If that turns out to be the cell I'm sitting in,
-            // skip it and look for the next after that. I've decided to
-            // jump already, so, I'll jump.
-            //
-            // No particular reason for this policy. We could just as easily
-            // stay here. Maybe put it under genetic control and see if it
-            // has any effect
-            if ss == 0 {
-                Debug.log(level: 198) { "correctForUnreachableTarget.1 skipping pad[0] \(targetOffset)" }
-                continue
-            }
-
-            // If we don't get a core cell, it's because we don't have the
-            // cell locked (someone else has it), so we can't jump there
-            guard let coreCell = stepper.sensorPad.thePad[ss].coreCell else {
-                Debug.log(level: 198) { "correctForUnreachableTarget.2 no lock at \(ss)" }
-                continue
-            }
-
-            // Of course, don't forget that we can't squeeze into the
-            // same cell as another arkon, at least not for now
-            let contents = Ingrid.shared.getContents(in: coreCell)
-            if contents == .empty || contents == .manna {
-                finalTargetLocalIx = ss
-                toCell = coreCell
-                virtualScenePosition = stepper.sensorPad.thePad[ss].virtualScenePosition
-                break
-            }
-        }
-
-        return toCell == nil ? nil :
-            CorrectedTarget(
-                toCell: toCell!, finalTargetLocalIx: finalTargetLocalIx!,
-                virtualScenePosition: virtualScenePosition
-            )
     }
 }

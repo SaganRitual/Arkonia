@@ -19,7 +19,7 @@ class ArkonEmbryo {
         if parentArkon != nil { self.sensorPad = nil; return }
     }
 
-    func buildSprites() {
+    func buildSprites(_ onComplete: @escaping () -> Void) {
         hardAssert(Display.displayCycle == .updateStarted) { "hardAssert at \(#file):\(#line)" }
 
         toothSprite = SpriteFactory.shared.teethPool.makeSprite(name)
@@ -48,15 +48,55 @@ class ArkonEmbryo {
 
         let noseColor: SKColor = (parentArkon == nil) ? .systemBlue : .yellow
         Debug.debugColor(thoraxSprite!, .blue, noseSprite!, noseColor)
+
+        MainDispatchQueue.async(execute: onComplete)
+    }
+
+    func buildGuts(_ onComplete: @escaping (Net) -> Void) {
+        let nn = parentArkon?.net
+
+        Net.makeNet(nn?.netStructure, nn?.pBiases, nn?.pWeights) { newNet in
+            self.sensorPad = .makeSensorPad(newNet.netStructure.sensorPadCCells)
+            self.metabolism = Metabolism(cNeurons: newNet.netStructure.cNeurons)
+            onComplete(newNet)
+        }
     }
 
     func getBirthingCell() -> IngridCellDescriptor {
-        parentArkon?.detachBirthingCellForNewborn() ?? sensorPad.detachLandingPad()
+        parentArkon?.detachBirthingCellForNewborn() ?? Ingrid.randomCell()
     }
 
     func placeNewbornOnGrid(_ newborn: Stepper) {
         thoraxSprite!.position = birthingCell.coreCell!.scenePosition
 
         Ingrid.shared.placeArkonOnGrid(newborn, atIndex: birthingCell.absoluteIndex)
+    }
+
+    func registerBirth() {
+        name = ArkonName.makeName()
+        fishDay = Census.shared.registerBirth(name!, parentArkon, net!)
+    }
+}
+
+extension ArkonEmbryo {
+    func launch() { MainDispatchQueue.async(execute: launchNewborn_B) }
+
+    private func launchNewborn_B() {
+        let newborn = Stepper(self)
+
+        placeNewbornOnGrid(newborn)
+
+        SceneDispatch.shared.schedule { self.launchNewborn_C(newborn) }
+    }
+
+    private func launchNewborn_C(_ newborn: Stepper) {
+        SpriteFactory.shared.arkonsPool.attachSprite(newborn.thorax)
+
+        let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
+        newborn.thorax.run(rotate)
+
+        // Newborn goes onto its own dispatch here
+        Ingrid.shared.disengageSensorPad(landingPad!, padCCells: 1)
+            { newborn.dispatch!.engageGrid() }
     }
 }

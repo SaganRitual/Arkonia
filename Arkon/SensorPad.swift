@@ -1,22 +1,5 @@
 import Foundation
 
-protocol GridPad: class {
-    var thePad: UnsafeMutablePointer<IngridCellDescriptor> { get }
-
-    func localIndexToAbsolute(_ localIx: Int) -> Int
-}
-
-extension GridPad {
-    func localIndexToAbsolute(_ localIx: Int) -> Int { thePad[localIx].absoluteIndex }
-}
-
-class LandingPad {
-    init() {
-        let center = localIndexToAbsolute(0)
-        
-    }
-}
-
 class SensorPad {
     let cCells: Int
     let thePad: UnsafeMutablePointer<IngridCellDescriptor>
@@ -32,6 +15,8 @@ class SensorPad {
             repeating: IngridCellDescriptor(), count: sensorPadCCells
         )
     }
+
+    func localIndexToAbsolute(_ localIx: Int) -> Int { thePad[localIx].absoluteIndex }
 }
 
 extension SensorPad {
@@ -63,11 +48,14 @@ extension SensorPad {
 }
 
 extension SensorPad {
-    func engageGrid(_ onComplete: @escaping () -> Void) {
-        let centerAbsoluteIndex = localIndexToAbsolute(0)
-        let cCells = 1
-        let mapper = mapSensorPadToGrid(centerAbsoluteIndex, cCells, onComplete)
+    func engageGrid(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
+        let mapper = mapSensorPadToGrid(absoluteIndex, cCells, onComplete)
         Ingrid.shared.engageGrid(mapper) // completion callback is inside the mapper
+    }
+
+    func engageBirthCell(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
+        let mapper = SensorPadMapper(1, absoluteIndex, thePad, onComplete)
+        Ingrid.shared.engageGrid(mapper)
     }
 
     private func mapSensorPadToGrid(
@@ -94,4 +82,65 @@ extension SensorPad {
     }
 
     func reset() { }
+}
+
+extension SensorPad {
+
+    struct CorrectedTarget {
+        let toCell: IngridCell
+        let finalTargetLocalIx: Int
+        let virtualScenePosition: CGPoint?
+    }
+
+    func getCorrectedTarget(candidateLocalIndex targetOffset: Int) -> CorrectedTarget? {
+        var toCell: IngridCell?
+        var finalTargetLocalIx: Int?
+        var virtualScenePosition: CGPoint?
+
+        Debug.log(level: 198) { "correctForUnreachableTarget.0 try \(targetOffset)" }
+
+        for ss_ in 0..<cCells where toCell == nil {
+            let ss = (ss_ + targetOffset) % cCells
+
+            // If the target cell isn't available (meaning we couldn't
+            // see it when we tried to lock it, because someone had that
+            // cell locked already), then find the first visible cell after
+            // our target. If that turns out to be the cell I'm sitting in,
+            // skip it and look for the next after that. I've decided to
+            // jump already, so, I'll jump.
+            //
+            // No particular reason for this policy. We could just as easily
+            // stay here. Maybe put it under genetic control and see if it
+            // has any effect
+            if ss == 0 {
+                Debug.log(level: 198) { "correctForUnreachableTarget.1 skipping pad[0] \(targetOffset)" }
+                continue
+            }
+
+            // If we don't get a core cell, it's because we don't have the
+            // cell locked (someone else has it), so we can't jump there
+            guard let coreCell = thePad[ss].coreCell else {
+                Debug.log(level: 198) { "correctForUnreachableTarget.2 no lock at \(ss)" }
+                continue
+            }
+
+            // Of course, don't forget that we can't squeeze into the
+            // same cell as another arkon, at least not for now
+            let contents = Ingrid.shared.getContents(in: coreCell)
+            if contents == .empty || contents == .manna {
+                finalTargetLocalIx = ss
+                toCell = coreCell
+                virtualScenePosition = thePad[ss].virtualScenePosition
+                break
+            }
+        }
+
+        guard let t = toCell else { return nil }
+
+        return CorrectedTarget(
+            toCell: t, finalTargetLocalIx: finalTargetLocalIx!,
+            virtualScenePosition: virtualScenePosition
+        )
+    }
+
 }

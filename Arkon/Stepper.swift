@@ -38,7 +38,7 @@ class Stepper {
         self.thorax = embryo.thoraxSprite!
         self.tooth = embryo.toothSprite
 
-        sensorPad = SensorPad(self.net.netStructure)
+        sensorPad = .makeSensorPad(self.net!.netStructure.sensorPadCCells)
 
         thorax.color = net!.isCloneOfParent ? .green : .white
         nose!.color = .blue
@@ -51,23 +51,22 @@ class Stepper {
     }
 
     func detachBirthingCellForNewborn() -> IngridCellDescriptor {
-        guard let localIndex = (1..<net.netStructure.sensorPadCCells).first(where: { sensorPadSS in
-            let c = sensorPad.thePad[sensorPadSS].coreCell
-            let d = (c == nil) ? "no lock" : "\(c!)"
-            Debug.log(level: 198) { "candidate birth cell \(sensorPadSS) \(d), parent \(self.name)" }
-            guard let candidateCell = sensorPad.thePad[sensorPadSS].coreCell else { return false }
-            let contents = Ingrid.shared.getContents(in: candidateCell)
-            return contents == .empty || contents == .manna
-        }) else { fatalError("No usable cells for newborn?") }
+        var localIndex = 1  // Try to drop the kid close by
+        let birthingCell: IngridCell?
+        let virtualScenePosition: CGPoint?
 
-        let birthingCell = sensorPad.thePad[localIndex].coreCell!
-        let virtualScenePosition = sensorPad.thePad[localIndex].virtualScenePosition
-
-        Debug.log(level: 198) { "detachRandomCell absoluteIx \(birthingCell.absoluteIndex) localIx \(localIndex)" }
+        if let j = sensorPad.getCorrectedTarget(candidateLocalIndex: localIndex) {
+            localIndex = j.finalTargetLocalIx
+            birthingCell = j.toCell
+            virtualScenePosition = j.virtualScenePosition
+        } else {
+            birthingCell = sensorPad.thePad[localIndex].coreCell!
+            virtualScenePosition = sensorPad.thePad[localIndex].virtualScenePosition
+        }
 
         // Invalidate my reference to my offspring's cell; he now owns the lock
         sensorPad.thePad[localIndex] = IngridCellDescriptor()
 
-        return IngridCellDescriptor(birthingCell, virtualScenePosition)
+        return IngridCellDescriptor(birthingCell!, virtualScenePosition!)
     }
 }
