@@ -108,7 +108,12 @@ class Ingrid {
         }
 
         // Lock the cell and get off the lock queue
+        let centerCell = cellAt(mapper.centerAbsoluteIndex)
+
         centerLock.isLocked = true
+        mapper.sensorPad[0] = IngridCellDescriptor(centerCell)
+
+        connectSensorPad(mapper)
         MainDispatchQueue.async(execute: mapper.onComplete)
     }
 

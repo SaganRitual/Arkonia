@@ -65,8 +65,9 @@ class ArkonEmbryo {
         let nn = parentArkon?.net
 
         Net.makeNet(nn?.netStructure, nn?.pBiases, nn?.pWeights) { newNet in
-            self.sensorPad = .makeSensorPad(newNet.netStructure.sensorPadCCells)
-            self.metabolism = Metabolism(cNeurons: newNet.netStructure.cNeurons)
+            let ns = newNet.netStructure
+            self.sensorPad = .makeSensorPad(ns.sensorPadCCells)
+            self.metabolism = Metabolism(cNeurons: ns.cNeurons)
             self.net = newNet
             onComplete()
         }

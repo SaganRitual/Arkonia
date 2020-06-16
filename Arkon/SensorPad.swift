@@ -61,7 +61,7 @@ extension SensorPad {
 
     func firstFullGridEngage(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
         let mapper = SensorPadMapper(cCells, absoluteIndex, thePad, onComplete)
-        Ingrid.shared.engageGrid(mapper)
+        Ingrid.shared.engageGrid(mapper, centerCellIsAlreadyLocked: true)
     }
 
     func engageGrid(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
