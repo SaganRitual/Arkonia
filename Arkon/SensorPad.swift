@@ -4,6 +4,8 @@ class SensorPad {
     let cCells: Int
     let thePad: UnsafeMutablePointer<IngridCellDescriptor>
 
+    var jumpTargetLocalIndex: Int?
+
     static func makeSensorPad(_ cCells: Int) -> SensorPad { return .init(cCells) }
 
     private init(_ sensorPadCCells: Int) {
@@ -20,11 +22,6 @@ class SensorPad {
 }
 
 extension SensorPad {
-    func detachLandingPad() -> IngridCellDescriptor {
-        defer { thePad.deallocate() }
-        return IngridCellDescriptor(thePad[0].coreCell!)
-    }
-
     // Release all the cells in the sensor pad that won't be involved in the
     // jump. The "shuttle" refers to the two cells remaining, which will always
     // be the center, at [0], and some other locked cell in the pad
@@ -43,11 +40,20 @@ extension SensorPad {
             return absoluteCellIx
         }
 
+        // After we jump, we'll need to remember this so we can free
+        // it back to the grid when we disengage
+        jumpTargetLocalIndex = absoluteIndexesToUnlock[1]
+
         Ingrid.shared.unlockCells(absoluteIndexesToUnlock)
     }
 }
 
 extension SensorPad {
+    func disengageGrid(_ onComplete: @escaping () -> Void) {
+        let jumpedTo = thePad[jumpTargetLocalIndex!].absoluteIndex
+        Ingrid.shared.unlockCells([jumpedTo])
+    }
+
     func engageGrid(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
         let mapper = mapSensorPadToGrid(absoluteIndex, cCells, onComplete)
         Ingrid.shared.engageGrid(mapper) // completion callback is inside the mapper
@@ -81,7 +87,7 @@ extension SensorPad {
         )
     }
 
-    func reset() { }
+    func reset() {  }
 }
 
 extension SensorPad {

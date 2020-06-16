@@ -12,9 +12,9 @@ final class MoveStepper: Dispatchable {
 
         let js = stepper.jumpSpec!
 
-        let fromIx =      js.fromCell.absoluteIndex
-        let fromLocalIx = js.fromLocalIndex
-        let toIx =        js.toCell.absoluteIndex
+        let fromIx =    js.fromCell.absoluteIndex
+        let toLocalIx = js.toLocalIndex
+        let toIx =      js.toCell.absoluteIndex
 
         let fromContents = Ingrid.shared.getContents(in: fromIx)
         let toContents = Ingrid.shared.getContents(in: toIx)
@@ -28,8 +28,8 @@ final class MoveStepper: Dispatchable {
             stepper, fromCell: js.fromCell, toCell: js.toCell
         )
 
-        stepper.ingridCellAbsoluteIndex = js.toCell.absoluteIndex
-        stepper.sensorPad.thePad[fromLocalIx] = IngridCellDescriptor(js.fromCell)
+        stepper.ingridCellAbsoluteIndex = toIx
+        stepper.sensorPad.thePad[toLocalIx] = IngridCellDescriptor(js.toCell)
 
         if toContents == .manna {
             Debug.log(level: 192) { "moveStepper -> arrive" }

@@ -57,18 +57,17 @@ struct DriveResponse {
             }
 
             let from = stepper.sensorPad.thePad[0].coreCell!
-            let fromLocalIx = correctedTarget.finalTargetLocalIx
+            let toLocalIx = correctedTarget.finalTargetLocalIx
             let to = correctedTarget.toCell
             let virtual = correctedTarget.virtualScenePosition
 
             let asPercentage = max(CGFloat(jumpSpeedMotorOutput), 0.1)
 
-            stepper.jumpSpec = JumpSpec(from, fromLocalIx, to, virtual, asPercentage)
+            stepper.jumpSpec = JumpSpec(from, to, toLocalIx, virtual, asPercentage)
 
-            Ingrid.shared.disengageSensorPad(
-                stepper.sensorPad, padCCells: cSensorPadCells
-            ) { self.driveResponse_D(onComplete) }
-
+            // All done with most of the sensor pad. All we need now is the
+            // shuttle; free up everything else for the other arkons
+            stepper.sensorPad.pruneToShuttle(toLocalIx)
             return
         }
 

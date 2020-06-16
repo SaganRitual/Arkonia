@@ -63,13 +63,20 @@ class ArkonEmbryo {
     }
 
     func getBirthingCell() -> IngridCellDescriptor {
-        parentArkon?.detachBirthingCellForNewborn() ?? Ingrid.randomCell()
+        let cell: IngridCellDescriptor
+
+        if let p = parentArkon { cell = p.detachBirthingCellForNewborn() }
+        else                   { cell = Ingrid.randomCell() }
+
+        return cell
     }
 
     func placeNewbornOnGrid(_ newborn: Stepper) {
-        thoraxSprite!.position = birthingCell.coreCell!.scenePosition
+        let bc = getBirthingCell()
 
-        Ingrid.shared.placeArkonOnGrid(newborn, atIndex: birthingCell.absoluteIndex)
+        thoraxSprite!.position = bc.coreCell!.scenePosition
+
+        Ingrid.shared.placeArkonOnGrid(newborn, atIndex: bc.absoluteIndex)
     }
 
     func registerBirth() {
@@ -96,7 +103,6 @@ extension ArkonEmbryo {
         newborn.thorax.run(rotate)
 
         // Newborn goes onto its own dispatch here
-        Ingrid.shared.disengageSensorPad(landingPad!, padCCells: 1)
-            { newborn.dispatch!.engageGrid() }
+        sensorPad!.disengageGrid(newborn.dispatch!.engageGrid)
     }
 }

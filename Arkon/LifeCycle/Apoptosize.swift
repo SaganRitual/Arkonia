@@ -13,9 +13,7 @@ private extension Apoptosize {
     }
 
     func apoptosize_B_disengageSensorPad() {
-        let pc = stepper.net.netStructure.sensorPadCCells
-        Ingrid.shared.disengageSensorPad(stepper.sensorPad, padCCells: pc)
-            { self.apoptosize_C_releaseNet(self.stepper) }
+        stepper.sensorPad.disengageGrid { self.apoptosize_C_releaseNet(self.stepper) }
     }
 
     func apoptosize_C_releaseNet(_ holdingStrongReference: Stepper) {

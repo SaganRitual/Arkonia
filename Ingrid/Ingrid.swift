@@ -48,7 +48,7 @@ class Ingrid {
     // readyCellAbsoluteIndex comes from the arkon's sensor pad, which means
     // he has this cell locked already, and no one else will be looking at it
     func completeDeferredLockRequest(for readyCellAbsoluteIndex: Int) {
-        let lock = getLockHandleAt(readyCellAbsoluteIndex)
+        let lock = locks[readyCellAbsoluteIndex]!
 
         if lock.waitingLockRequests.isEmpty { lock.isLocked = false; return }
 
@@ -108,9 +108,6 @@ class Ingrid {
         MainDispatchQueue.async(execute: mapper.onComplete)
     }
 
-    func lockCells(_ mapper: SensorPadMapper) {
-    }
-
     func moveArkon(
         _ stepper: Stepper, fromCell: IngridCell, toCell: IngridCell
     ) {
@@ -130,7 +127,7 @@ class Ingrid {
     }
 
     func unlockCells(_ absoluteIndexes: [Int]) {
-
+        absoluteIndexes.forEach { completeDeferredLockRequest(for: $0) }
     }
 }
 
@@ -160,6 +157,10 @@ extension Ingrid {
 
     static func absolutePosition(of index: Int) -> AKPoint {
         Ingrid.shared.core.absolutePosition(of: index)
+    }
+
+    static func randomCell() -> IngridCellDescriptor {
+        return IngridCellDescriptor(Ingrid.shared.cellAt(randomCellIndex()))
     }
 
     static func randomCell() -> IngridCell {

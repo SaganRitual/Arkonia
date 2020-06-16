@@ -64,9 +64,8 @@ class MannaCannon {
             var newMannaHome: AKPoint?
 
             let core = Ingrid.shared.core
-            let ixer = core.indexer
             for cellLocalIx in 0..<9 {
-                newMannaHome = ixer.getGridPointByLocalIndex(
+                newMannaHome = Ingrid.shared.indexer.getGridPointByLocalIndex(
                     center: center, targetIndex: cellLocalIx
                 )
 

@@ -4,7 +4,7 @@ struct JumpSpec {
     let fromCell: IngridCell
     let toCell: IngridCell
 
-    let fromLocalIndex: Int
+    let toLocalIndex: Int
     let toVirtualScenePosition: CGPoint?
 
     let distanceInCells: CGFloat
@@ -15,12 +15,12 @@ struct JumpSpec {
     let speedMetersPerSec: CGFloat
 
     init(
-        _ fromCell: IngridCell, _ fromLocalIndex: Int, _ toCell: IngridCell,
+        _ fromCell: IngridCell, _ toCell: IngridCell, _ toLocalIndex: Int,
         _ toVirtualScenePosition: CGPoint?, _ speedAsPercentage: CGFloat
     ) {
         self.fromCell = fromCell
         self.toCell = toCell
-        self.fromLocalIndex = fromLocalIndex
+        self.toLocalIndex = toLocalIndex
         self.toVirtualScenePosition = toVirtualScenePosition
 
         self.distanceInCells = {
