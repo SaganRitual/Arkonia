@@ -99,17 +99,23 @@ extension ArkonEmbryo {
     func launch() { MainDispatchQueue.async(execute: launchNewborn_B) }
 
     private func launchNewborn_B() {
-        let newborn = Stepper(self)
+        self.newborn = Stepper(self)
 
-        placeNewbornOnGrid(newborn)
+        placeNewbornOnGrid(newborn!)
 
-        SceneDispatch.shared.schedule { self.launchNewborn_C(newborn) }
+        SceneDispatch.shared.schedule(self.launchNewborn_C)
     }
 
-    private func launchNewborn_C(_ newborn: Stepper) {
-        SpriteFactory.shared.arkonsPool.attachSprite(newborn.thorax)
+    private func launchNewborn_C() {
+        SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)
 
         let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
-        newborn.thorax.run(rotate)
+        newborn!.thorax.run(rotate, completion: self.launchNewborn_D)
+    }
+
+    private func launchNewborn_D() {
+        sensorPad!.firstFullGridEngage(
+            center: newborn!.ingridCellAbsoluteIndex, newborn!.dispatch.tickLife
+        )
     }
 }

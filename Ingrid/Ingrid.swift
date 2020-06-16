@@ -91,14 +91,18 @@ class Ingrid {
         locks[mapper.centerAbsoluteIndex]!.waitingLockRequests.pushBack(deferer)
     }
 
-    func engageGrid(_ mapper: SensorPadMapper) {
-        lockQueue.async { self.engageGrid_A(mapper) }
+    func engageGrid(
+        _ mapper: SensorPadMapper, centerCellIsAlreadyLocked: Bool = false
+    ) {
+        lockQueue.async { self.engageGrid_A(mapper, centerCellIsAlreadyLocked) }
     }
 
-    private func engageGrid_A(_ mapper: SensorPadMapper) {
+    private func engageGrid_A(
+        _ mapper: SensorPadMapper, _ centerCellIsAlreadyLocked: Bool
+    ) {
         let centerLock = self.locks[mapper.centerAbsoluteIndex]!
 
-        if centerLock.isLocked {
+        if centerLock.isLocked && !centerCellIsAlreadyLocked {
             self.deferLockRequest(mapper, connectSensorPad)
             return
         }

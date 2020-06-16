@@ -54,14 +54,19 @@ extension SensorPad {
         Ingrid.shared.unlockCells([jumpedTo])
     }
 
-    func engageGrid(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
-        let mapper = mapSensorPadToGrid(absoluteIndex, cCells, onComplete)
-        Ingrid.shared.engageGrid(mapper) // completion callback is inside the mapper
-    }
-
     func engageBirthCell(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
         let mapper = SensorPadMapper(1, absoluteIndex, thePad, onComplete)
         Ingrid.shared.engageGrid(mapper)
+    }
+
+    func firstFullGridEngage(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
+        let mapper = SensorPadMapper(cCells, absoluteIndex, thePad, onComplete)
+        Ingrid.shared.engageGrid(mapper)
+    }
+
+    func engageGrid(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
+        let mapper = mapSensorPadToGrid(absoluteIndex, cCells, onComplete)
+        Ingrid.shared.engageGrid(mapper) // completion callback is inside the mapper
     }
 
     private func mapSensorPadToGrid(
@@ -103,7 +108,7 @@ extension SensorPad {
         var finalTargetLocalIx: Int?
         var virtualScenePosition: CGPoint?
 
-        Debug.log(level: 198) { "correctForUnreachableTarget.0 try \(targetOffset)" }
+        Debug.log(level: 198) { "getCorrectedTarget.0 try \(targetOffset)" }
 
         for ss_ in 0..<cCells where toCell == nil {
             let ss = (ss_ + targetOffset) % cCells
@@ -118,15 +123,15 @@ extension SensorPad {
             // No particular reason for this policy. We could just as easily
             // stay here. Maybe put it under genetic control and see if it
             // has any effect
-            if ss == 0 {
-                Debug.log(level: 198) { "correctForUnreachableTarget.1 skipping pad[0] \(targetOffset)" }
+            if ss == cCells - 1 {
+                Debug.log(level: 198) { "getCorrectedTarget.1 skipping pad[0] at \(ss)" }
                 continue
             }
 
             // If we don't get a core cell, it's because we don't have the
             // cell locked (someone else has it), so we can't jump there
             guard let coreCell = thePad[ss].coreCell else {
-                Debug.log(level: 198) { "correctForUnreachableTarget.2 no lock at \(ss)" }
+                Debug.log(level: 198) { "getCorrectedTarget.2 no lock at \(ss)" }
                 continue
             }
 
