@@ -9,29 +9,26 @@ private extension Apoptosize {
         Debug.log(level: 191) { "Apoptosize.dismemberArkon" }
         Debug.debugColor(stepper, .brown, .green)
 
-        Census.shared.registerDeath(stepper, disengageSensorPad)
+        Census.shared.registerDeath(stepper, apoptosize_B_disengageSensorPad)
     }
 
-    func disengageSensorPad() {
+    func apoptosize_B_disengageSensorPad() {
         let pc = stepper.net.netStructure.sensorPadCCells
         Ingrid.shared.disengageSensorPad(stepper.sensorPad, padCCells: pc)
-            { self.releaseNet(self.stepper) }
+            { self.apoptosize_C_releaseNet(self.stepper) }
     }
 
-    func releaseNet(_ holdingStrongReference: Stepper) { stepper.net.release(releaseStepper) }
+    func apoptosize_C_releaseNet(_ holdingStrongReference: Stepper) {
+        stepper.net.release(apoptosize_D_releaseStepper)
+    }
 
-    func releaseStepper() {
+    func apoptosize_D_releaseStepper() {
         SceneDispatch.shared.schedule {
             SpriteFactory.shared.teethPool.releaseSprite(self.stepper.tooth)
             SpriteFactory.shared.nosesPool.releaseSprite(self.stepper.nose)
             SpriteFactory.shared.arkonsPool.releaseSprite(self.stepper.thorax)
 
-            // This doesn't have to happen on the scene dispatch, but it
-            // needs to happen  last. It's quick enough, I think, to not
-            // be a big issue running on this dispatch. I guess we'll find out
-            Debug.log(level: 198) { "apoptosize.releaseStepper.0 \(six(self.stepper?.name))" }
             Ingrid.shared.releaseArkon(self.stepper!)
-            Debug.log(level: 198) { "apoptosize.releaseStepper.1 \(six(self.stepper?.name))" }
         }
     }
 }

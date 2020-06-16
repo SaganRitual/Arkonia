@@ -48,69 +48,65 @@ class Ingrid {
     // readyCellAbsoluteIndex comes from the arkon's sensor pad, which means
     // he has this cell locked already, and no one else will be looking at it
     func completeDeferredLockRequest(for readyCellAbsoluteIndex: Int) {
-        let lock = lockAt(readyCellAbsoluteIndex)
+        let lock = getLockHandleAt(readyCellAbsoluteIndex)
 
         if lock.waitingLockRequests.isEmpty { lock.isLocked = false; return }
 
         let mapper = lock.waitingLockRequests.popFront()
         Debug.log(level: 198) { "completeDeferredLockRequest for \(readyCellAbsoluteIndex)" }
 
-        core.engageSensorPad(mapper)
+        connectSensorPad(mapper)
         MainDispatchQueue.async(execute: mapper.onComplete)
     }
 
-    func deferLockRequest(_ mapper: SensorPadMapper, _ onDefermentComplete: @escaping (SensorPadMapper) -> Void) {
-        let lock = lockAt(mapper.centerAbsoluteIndex)
-        lock.waitingLockRequests.pushBack(mapper)
-    }
-
-    func engageSensorPad(_ mapper: SensorPadMapper) {
-        lockQueue.async { self.engageSensorPad_A(mapper) }
-    }
-
-    private func engageSensorPad_A(_ mapper: SensorPadMapper) {
-        let centerLock = self.locks[mapper.centerAbsoluteIndex]!
-
-        if centerLock.isLocked {
-            self.deferLockRequest(mapper, engageSensorPad_B)
-            return
-        }
-
-        engageSensorPad_B(mapper)
-    }
-
-    private func engageSensorPad_B(_ mapper: SensorPadMapper) {
-        for localIx in 0..<mapper.sensorPadCCells {
+    private func connectSensorPad(_ mapper: SensorPadMapper) {
+        // When we come here, we have the center cell locked, so
+        // we start from 1 instead of 0
+        for localIx in 1..<mapper.sensorPadCCells {
             let cellDescriptor = mapper.sensorPad[localIx]
             let lock = self.locks[cellDescriptor.absoluteIndex]!
 
-            // The core doesn't know about locks, so it gives us back raw
-            // cell descriptors that can access even cells that are already
-            // locked (by someone else). Here we check for those cells and
-            // block the sensor pad from seeing them by replacing the descriptor
-            // with a blind one
+            // The mapper has filled out its sensor pad optimistically,
+            // assuming all the cells it requests can be locked. Here we
+            // give it the bad news about any it's not allowed to have, by
+            // replacing non-locked descriptors with blind ones
             if lock.isLocked {
                 mapper.sensorPad[localIx] = IngridCellDescriptor(
                     nil, cellDescriptor.absoluteIndex, nil
                 )
-
-                continue
+            } else {
+                // Good news for the requester
+                self.locks[cellDescriptor.absoluteIndex]!.isLocked = true
             }
-
-            self.locks[cellDescriptor.absoluteIndex]!.isLocked = true
         }
 
-        MainDispatchQueue.async {
-            mapper.onComplete()
+        MainDispatchQueue.async(execute: mapper.onComplete)
+    }
+
+    func deferLockRequest(
+        _ mapper: SensorPadMapper,
+        _ onDefermentComplete: @escaping (SensorPadMapper) -> Void
+    ) {
+        let deferer = SensorPadMapper(mapper, onDefermentComplete)
+        locks[mapper.centerAbsoluteIndex]!.waitingLockRequests.pushBack(deferer)
+    }
+
+    func engageGrid(_ mapper: SensorPadMapper) {
+        lockQueue.async { self.engageGrid_A(mapper) }
+    }
+
+    private func engageGrid_A(_ mapper: SensorPadMapper) {
+        let centerLock = self.locks[mapper.centerAbsoluteIndex]!
+
+        if centerLock.isLocked {
+            self.deferLockRequest(mapper, connectSensorPad)
+            return
         }
-    }
 
-    func lockAt(_ absolutePosition: AKPoint) -> IngridLock {
-        let ax = Ingrid.absoluteIndex(of: absolutePosition)
-        return locks[ax]!
+        // Lock the cell and get off the lock queue
+        centerLock.isLocked = true
+        MainDispatchQueue.async(execute: mapper.onComplete)
     }
-
-    func lockAt(_ absoluteIndex: Int) -> IngridLock { return locks[absoluteIndex]! }
 
     func lockCells(_ mapper: SensorPadMapper) {
     }

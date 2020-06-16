@@ -1,6 +1,6 @@
 import Foundation
 
-class IngridCore {
+struct IngridCore {
     let cellDimensionsPix: CGSize
     let gridDimensionsCells: AKSize
     let portalDimensionsPix: CGSize

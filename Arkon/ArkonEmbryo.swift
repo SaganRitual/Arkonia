@@ -4,12 +4,12 @@ class ArkonEmbryo {
     var name: ArkonName?
     var fishDay = Fishday(birthday: 0, cNeurons: 0, fishNumber: 0)
     var metabolism: Metabolism?
-    let parentArkon: Stepper?
     var net: Net?
     var netDisplay: NetDisplay?
     var newborn: Stepper?
     var noseSprite: SKSpriteNode?
-    let sensorPad: SensorPad
+    let parentArkon: Stepper?
+    var sensorPad: SensorPad?
     var thoraxSprite: SKSpriteNode?
     var toothSprite: SKSpriteNode?
 
@@ -17,8 +17,6 @@ class ArkonEmbryo {
         self.parentArkon = parentArkon
 
         if parentArkon != nil { self.sensorPad = nil; return }
-
-        self.sensorPad = SensorPad.makeLandingPad()
     }
 
     func buildSprites() {

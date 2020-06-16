@@ -60,7 +60,7 @@ struct DriveResponse {
                 + " abs ix \(correctedTarget.toCell.absoluteIndex)"
             }
 
-            let from = stepper.sensorPad[0].coreCell!
+            let from = stepper.sensorPad.thePad[0].coreCell!
             let fromLocalIx = correctedTarget.finalTargetLocalIx
             let to = correctedTarget.toCell
             let virtual = correctedTarget.virtualScenePosition
@@ -117,7 +117,7 @@ struct DriveResponse {
 
             // If we don't get a core cell, it's because we don't have the
             // cell locked (someone else has it), so we can't jump there
-            guard let coreCell = stepper.sensorPad[ss].coreCell else {
+            guard let coreCell = stepper.sensorPad.thePad[ss].coreCell else {
                 Debug.log(level: 198) { "correctForUnreachableTarget.2 no lock at \(ss)" }
                 continue
             }
@@ -128,7 +128,7 @@ struct DriveResponse {
             if contents == .empty || contents == .manna {
                 finalTargetLocalIx = ss
                 toCell = coreCell
-                virtualScenePosition = stepper.sensorPad[ss].virtualScenePosition
+                virtualScenePosition = stepper.sensorPad.thePad[ss].virtualScenePosition
                 break
             }
         }

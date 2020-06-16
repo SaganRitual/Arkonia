@@ -4,9 +4,11 @@ final class Spawn: DispatchableProtocol {
     var dispatch: Dispatch! { willSet { fatalError() } }
 
     var embryo: ArkonEmbryo
+    let parentArkon: Stepper?
 
     init(_ parentArkon: Stepper?) {
         self.embryo = ArkonEmbryo(parentArkon)
+        self.parentArkon = parentArkon
     }
 
     func launch() { spawn_A() }
@@ -14,13 +16,12 @@ final class Spawn: DispatchableProtocol {
 
 extension Spawn {
     private func spawn_A() {
-        Census.dispatchQueue.async(execute: spawn_B)
+        Census.dispatchQueue.async(execute: spawn_B_censusStuff)
     }
 
-    private func spawn_B() {
+    private func spawn_B_censusStuff() {
         embryo.name = ArkonName.makeName()
-        let nextStep = (self.embryo.parentArkon == nil) ? spawn_C : spawn_D
-        MainDispatchQueue.async(execute: nextStep)
+        Census.shared.registerBirth(embryo.name!, parentArkon, embryo.net!)
     }
 
     // No parent; that means the new arkon is coming into the world from
@@ -28,22 +29,18 @@ extension Spawn {
     // a random place in the ooze. Unlike normal births (the kind that have a
     // parent), the self-creating arkon might choose a cell that someone already
     // has locked, in which case it will have to get in line for the cell
-    private func spawn_C() {
+    private func spawn_C_arkonFromNothing() {
         let cellIx = Ingrid.randomCellIndex()
-        let landingPadCCells = 1
+        Ingrid.shared.engageGrid(<#T##mapper: SensorPadMapper##SensorPadMapper#>)
 
-        let es = SensorPadMapper(
-            landingPadCCells, cellIx, embryo.landingPad!, spawn_D
-        )
-
-        Ingrid.shared.engageSensorPad(es)   // The es points us to the next step
+        Ingrid.shared.engageSensorPad(sensorPad)   // The sensor pad points us to the next step
     }
 
-    private func spawn_D() { buildArkon(spawn_E) }
+    private func spawn_D_arkonFromParentArkon() { buildArkon(spawn_E_registerBirth) }
 
-    private func spawn_E() {
+    private func spawn_E_registerBirth() {
         Census.registerBirth(
-            myName: embryo.name!, myParent: embryo.parentArkon, myNet: embryo.net!
+            myName: embryo.name!, myParent: parentArkon, myNet: embryo.net!
         ) {
             self.embryo.fishDay = $0
             self.launchNewborn_A()
@@ -53,7 +50,7 @@ extension Spawn {
 
 extension Spawn {
     func buildGuts(_ onComplete: @escaping (Net) -> Void) {
-        let nn = embryo.parentArkon?.net
+        let nn = parentArkon?.net
 
         Net.makeNet(nn?.netStructure, nn?.pBiases, nn?.pWeights) { newNet in
             self.embryo.metabolism = Metabolism(cNeurons: newNet.netStructure.cNeurons)
@@ -80,7 +77,7 @@ extension Spawn {
 
 extension Spawn {
     func abandonNewborn() {
-        guard let parentArkon = embryo.parentArkon, let dispatch = parentArkon.dispatch
+        guard let parentArkon = self.parentArkon, let dispatch = parentArkon.dispatch
             else { return }
 
         func a() {
@@ -142,6 +139,6 @@ extension Spawn {
 
         // If I'm an arkon giving birth to another arkon, resume my
         // normal life cycle
-        if embryo.parentArkon != nil { abandonNewborn() }
+        if parentArkon != nil { abandonNewborn() }
     }
 }

@@ -1,12 +1,26 @@
 import Foundation
 
+protocol GridPad: class {
+    var thePad: UnsafeMutablePointer<IngridCellDescriptor> { get }
+
+    func localIndexToAbsolute(_ localIx: Int) -> Int
+}
+
+extension GridPad {
+    func localIndexToAbsolute(_ localIx: Int) -> Int { thePad[localIx].absoluteIndex }
+}
+
+class LandingPad {
+    init() {
+        let center = localIndexToAbsolute(0)
+        
+    }
+}
+
 class SensorPad {
     let cCells: Int
     let thePad: UnsafeMutablePointer<IngridCellDescriptor>
 
-    func localIndexToAbsolute(_ localIx: Int) -> Int { thePad[localIx].absoluteIndex }
-
-    static func makeLandingPad() -> SensorPad { return .init(1) }
     static func makeSensorPad(_ cCells: Int) -> SensorPad { return .init(cCells) }
 
     private init(_ sensorPadCCells: Int) {
@@ -51,12 +65,13 @@ extension SensorPad {
 extension SensorPad {
     func engageGrid(_ onComplete: @escaping () -> Void) {
         let centerAbsoluteIndex = localIndexToAbsolute(0)
-        let mapper = mapSensorPadToGrid(centerAbsoluteIndex, onComplete)
-        Ingrid.shared.lockCells(mapper) // completion callback is inside the mapper
+        let cCells = 1
+        let mapper = mapSensorPadToGrid(centerAbsoluteIndex, cCells, onComplete)
+        Ingrid.shared.engageGrid(mapper) // completion callback is inside the mapper
     }
 
     private func mapSensorPadToGrid(
-        _ centerAbsoluteIndex: Int, _ onComplete: @escaping () -> Void
+        _ centerAbsoluteIndex: Int, _ cCells: Int, _ onComplete: @escaping () -> Void
     ) -> SensorPadMapper {
         for ss in 0..<cCells {
             var p = Ingrid.shared.indexer.getGridPointByLocalIndex(

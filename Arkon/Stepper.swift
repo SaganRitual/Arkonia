@@ -52,21 +52,21 @@ class Stepper {
 
     func detachBirthingCellForNewborn() -> IngridCellDescriptor {
         guard let localIndex = (1..<net.netStructure.sensorPadCCells).first(where: { sensorPadSS in
-            let c = sensorPad[sensorPadSS].coreCell
+            let c = sensorPad.thePad[sensorPadSS].coreCell
             let d = (c == nil) ? "no lock" : "\(c!)"
             Debug.log(level: 198) { "candidate birth cell \(sensorPadSS) \(d), parent \(self.name)" }
-            guard let candidateCell = sensorPad[sensorPadSS].coreCell else { return false }
+            guard let candidateCell = sensorPad.thePad[sensorPadSS].coreCell else { return false }
             let contents = Ingrid.shared.getContents(in: candidateCell)
             return contents == .empty || contents == .manna
         }) else { fatalError("No usable cells for newborn?") }
 
-        let birthingCell = sensorPad[localIndex].coreCell!
-        let virtualScenePosition = sensorPad[localIndex].virtualScenePosition
+        let birthingCell = sensorPad.thePad[localIndex].coreCell!
+        let virtualScenePosition = sensorPad.thePad[localIndex].virtualScenePosition
 
         Debug.log(level: 198) { "detachRandomCell absoluteIx \(birthingCell.absoluteIndex) localIx \(localIndex)" }
 
         // Invalidate my reference to my offspring's cell; he now owns the lock
-        sensorPad[localIndex] = IngridCellDescriptor()
+        sensorPad.thePad[localIndex] = IngridCellDescriptor()
 
         return IngridCellDescriptor(birthingCell, virtualScenePosition)
     }
