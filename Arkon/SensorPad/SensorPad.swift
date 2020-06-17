@@ -2,7 +2,7 @@ import Foundation
 
 class SensorPad {
     let cCells: Int
-    let thePad: UnsafeMutablePointer<IngridCellDescriptor?>
+    let thePad: UnsafeMutablePointer<IngridCellConnector?>
 
     var jumpTargetLocalIndex: Int?
 
@@ -17,7 +17,7 @@ class SensorPad {
             repeating: nil, count: sensorPadCCells
         )
 
-        (0..<sensorPadCCells).forEach { self.thePad[$0] = IngridCellDescriptor() }
+        (0..<sensorPadCCells).forEach { self.thePad[$0] = IngridCellConnector() }
     }
 
     func localIndexToAbsolute(_ localIx: Int) -> Int { thePad[localIx]!.absoluteIndex }
@@ -33,7 +33,7 @@ extension SensorPad {
 
         // Invalidate the caller's pad so he won't think he can just
         // come back and mess about the place
-        thePad[localPadIx] = IngridCellDescriptor(absoluteCellIx)
+        thePad[localPadIx] = IngridCellConnector(absoluteCellIx)
 
         return absoluteCellIx
     }
@@ -103,7 +103,7 @@ extension SensorPad {
             let cell = Ingrid.shared.cellAt(p)
 
             Debug.log(level: 200) { "requesting cell at \(cell.absoluteIndex) (local \(ss))" }
-            thePad[ss] = IngridCellDescriptor(cell, vp)
+            thePad[ss] = IngridCellConnector(cell, vp)
         }
 
         return SensorPadMapper(

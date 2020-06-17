@@ -21,7 +21,7 @@ class ArkonEmbryo {
 
     func abandonParent() {
         let birthingCell = (parentArkon == nil) ?
-            IngridCellDescriptor(Ingrid.randomCell()) : getBirthingCell()
+            IngridCellConnector(Ingrid.randomCell()) : getBirthingCell()
 
         // Engaging the birth cell might mean waiting around until anyone using
         // the cell or waiting for it themselves is finished. The completion
@@ -73,8 +73,8 @@ class ArkonEmbryo {
         }
     }
 
-    func getBirthingCell() -> IngridCellDescriptor {
-        let cell: IngridCellDescriptor
+    func getBirthingCell() -> IngridCellConnector {
+        let cell: IngridCellConnector
 
         if let p = parentArkon { cell = p.detachBirthingCellForNewborn() }
         else                   { cell = Ingrid.randomCell() }

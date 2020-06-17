@@ -46,7 +46,7 @@ class Stepper {
         Debug.log(level: 198) { "Stepper \(self.name) deinit" }
     }
 
-    func detachBirthingCellForNewborn() -> IngridCellDescriptor {
+    func detachBirthingCellForNewborn() -> IngridCellConnector {
         var localIndex = 1  // Try to drop the kid close by
         let birthingCell: IngridCell?
         let virtualScenePosition: CGPoint?
@@ -61,8 +61,8 @@ class Stepper {
         }
 
         // Invalidate my reference to my offspring's cell; he now owns the lock
-        sensorPad.thePad[localIndex] = IngridCellDescriptor()
+        sensorPad.thePad[localIndex] = IngridCellConnector()
 
-        return IngridCellDescriptor(birthingCell!, virtualScenePosition!)
+        return IngridCellConnector(birthingCell!, virtualScenePosition!)
     }
 }

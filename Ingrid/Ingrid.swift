@@ -71,7 +71,7 @@ class Ingrid {
             // give it the bad news about any it's not allowed to have, by
             // replacing non-locked descriptors with blind ones
             if lock.isLocked {
-                mapper.sensorPadThePad[localIx] = IngridCellDescriptor(
+                mapper.sensorPadThePad[localIx] = IngridCellConnector(
                     nil, cellDescriptor.absoluteIndex, nil
                 )
             } else {
@@ -110,7 +110,7 @@ class Ingrid {
         let centerCell = cellAt(mapper.centerAbsoluteIndex)
 
         centerLock.isLocked = true
-        mapper.sensorPadThePad[0] = IngridCellDescriptor(centerCell)
+        mapper.sensorPadThePad[0] = IngridCellConnector(centerCell)
 
         connectSensorPad(mapper)
         MainDispatchQueue.async(execute: mapper.onComplete)
@@ -167,8 +167,8 @@ extension Ingrid {
         Ingrid.shared.core.absolutePosition(of: index)
     }
 
-    static func randomCell() -> IngridCellDescriptor {
-        return IngridCellDescriptor(Ingrid.shared.cellAt(randomCellIndex()))
+    static func randomCell() -> IngridCellConnector {
+        return IngridCellConnector(Ingrid.shared.cellAt(randomCellIndex()))
     }
 
     static func randomCell() -> IngridCell {

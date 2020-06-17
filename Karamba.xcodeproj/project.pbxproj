@@ -29,6 +29,7 @@
 		D42B7CF12487678A00085F7F /* Tensor.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42B7CF02487678A00085F7F /* Tensor.Utilities.swift */; };
 		D4337BB82488B910009CA9DD /* NormalDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4337BB72488B910009CA9DD /* NormalDistribution.swift */; };
 		D4337BBA2488C097009CA9DD /* LayerStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4337BB92488C097009CA9DD /* LayerStructures.swift */; };
+		D43BBEB42499D60100637815 /* IngridCellConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43BBEB32499D60100637815 /* IngridCellConnector.swift */; };
 		D43DC50824165AFE0017FADF /* GPUArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50724165AFE0017FADF /* GPUArray.swift */; };
 		D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50D2416C4AC0017FADF /* MPSImage+Floats.swift */; };
 		D450E53C246EEE09001E4601 /* Digestion.Surplus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450E53B246EEE09001E4601 /* Digestion.Surplus.swift */; };
@@ -189,6 +190,7 @@
 		D42B7CF02487678A00085F7F /* Tensor.Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tensor.Utilities.swift; sourceTree = "<group>"; };
 		D4337BB72488B910009CA9DD /* NormalDistribution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalDistribution.swift; sourceTree = "<group>"; };
 		D4337BB92488C097009CA9DD /* LayerStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerStructures.swift; sourceTree = "<group>"; };
+		D43BBEB32499D60100637815 /* IngridCellConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngridCellConnector.swift; sourceTree = "<group>"; };
 		D43DC50524162FB10017FADF /* HotLayerCnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerCnn.swift; sourceTree = "<group>"; };
 		D43DC50724165AFE0017FADF /* GPUArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUArray.swift; sourceTree = "<group>"; };
 		D43DC50924165D450017FADF /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 				D4654E0A248E030900B34D4E /* Ingrid.swift */,
 				D485E3E72490F05A0092A7B1 /* IngridArkons.swift */,
 				D4654E012489936E00B34D4E /* IngridCell.swift */,
+				D43BBEB32499D60100637815 /* IngridCellConnector.swift */,
 				D4654DE22489825900B34D4E /* IngridCore.swift */,
 				D4654E06248A0A7D00B34D4E /* IngridIndexer.swift */,
 				D485E3E92490F69B0092A7B1 /* IngridManna.swift */,
@@ -720,6 +723,7 @@
 				D4A59D212387E4E400517F60 /* EngageGrid.swift in Sources */,
 				D4D4F052243ABBA900D093DF /* HotLayerBnn.swift in Sources */,
 				D40DF32624706E4B001649FA /* ChamberedStore.swift in Sources */,
+				D43BBEB42499D60100637815 /* IngridCellConnector.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* ArkoniaScene.swift in Sources */,
 				D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */,
