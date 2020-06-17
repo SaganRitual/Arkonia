@@ -10,13 +10,16 @@ class IngridCell {
     }
 
     init(
-        _ absoluteIndex: Int, _ absolutePosition: AKPoint,
+        _ absoluteIndex: Int, _ absolutePosition: AKPoint, _ paddingPixels: CGSize,
         _ cellSideInPix: CGFloat, _ funkyCellsMultiplier: CGFloat?
     ) {
         self.absoluteIndex = absoluteIndex
         self.gridPosition = absolutePosition
 
-        let sp = self.gridPosition.asPoint() * cellSideInPix
+        // Don't ask me where these numbers come from. I'm doing some much scaling
+        // up and down I don't even want to look at it
+        let fudge = CGPoint(x: -0.5, y: +0.25)
+        let sp = ((self.gridPosition.asPoint() + fudge) * cellSideInPix) + paddingPixels.asPoint()
 
         guard let fm = funkyCellsMultiplier else {
             self.scenePosition = sp; return

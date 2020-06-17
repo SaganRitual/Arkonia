@@ -1,4 +1,5 @@
 import Foundation
+import SpriteKit
 
 struct IngridCore {
     let cellDimensionsPix: CGSize
@@ -31,10 +32,13 @@ struct IngridCore {
         theGrid = .allocate(capacity: cCells)
         theGrid.initialize(repeating: nil)
 
+        let gridSizePixels = self.gridDimensionsCells.asSize() * cellDimensionsPix.width
+        let paddingPixels = (self.portalDimensionsPix - gridSizePixels) / 2.0
+
         for cellAbsoluteIndex in 0..<cCells {
             let ap = absolutePosition(of: cellAbsoluteIndex)
             let ic = IngridCell(
-                cellAbsoluteIndex, ap, cellDimensionsPix.width, funkyCellsMultiplier
+                cellAbsoluteIndex, ap, paddingPixels, cellDimensionsPix.width, funkyCellsMultiplier
             )
 
             theGrid[cellAbsoluteIndex] = ic
@@ -90,5 +94,52 @@ struct IngridCore {
 
         let newPoint = AKPoint(x: newX, y: newY)
         return newPoint == oldPoint ? nil : newPoint
+    }
+
+    enum LineSet { case horizontal, vertical }
+
+    func drawGridLines() {
+        let halfW = gridDimensionsCells.width / 2, halfH = gridDimensionsCells.height / 2
+
+        func drawSet(_ halfD1: Int, _ halfD2: Int, _ lineSet: LineSet) {
+            for i in -halfD2..<halfD2 {
+                let x1: Int, y1: Int, x2: Int, y2: Int
+
+                switch lineSet {
+                case .horizontal:
+                    x1 = -halfD1; y1 = i; x2 = halfD1; y2 = i
+                case .vertical:
+                    x1 = i; y1 = -halfD1; x2 = i; y2 = halfD1
+                }
+
+                let start = cellAt(AKPoint(x: x1, y: y1)).scenePosition
+                let end =   cellAt(AKPoint(x: x2, y: y2)).scenePosition
+
+                let line = SpriteFactory.drawLine(from: start, to: end, color: .darkGray)
+                ArkoniaScene.arkonsPortal.addChild(line)
+            }
+        }
+
+        drawSet(halfW, halfH, .horizontal)
+        drawSet(halfH, halfW, .vertical)
+    }
+
+    func drawGridIndicators() {
+        let atlas = SKTextureAtlas(named: "Backgrounds")
+        let texture = atlas.textureNamed("debug-rectangle-solid")
+
+        let halfW = gridDimensionsCells.width / 2, halfH = gridDimensionsCells.height / 2
+
+        for y in -halfH..<halfH {
+            for x in -halfW..<halfW {
+                let p = cellAt(AKPoint(x: x, y: y)).scenePosition
+                let s = SKSpriteNode(texture: texture)
+                s.position = p
+                s.setScale(0.2)
+                s.color = .darkGray
+                s.colorBlendFactor = 1
+                ArkoniaScene.arkonsPortal.addChild(s)
+            }
+        }
     }
 }
