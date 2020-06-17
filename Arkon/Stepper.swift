@@ -2,51 +2,48 @@ import SpriteKit
 
 class Stepper {
     var birthday: TimeInterval = 0
-    var cFoodHits = 0
-    var cJumps = 0
-    var cOffspring = 0
-    var dispatch: Dispatch!
-    var ingridCellAbsoluteIndex = 0
-    var isTurnabouted: Bool = false
-    var metabolism: Metabolism!
-    var name: ArkonName?
-    var net: Net!
-    var netDisplay: NetDisplay?
-    var nose: SKSpriteNode!
-    var parentWeights: [Double]?
-    var previousShiftOffset = AKPoint.zero
-    var sensorPad: SensorPad
-    var thorax: SKSpriteNode!
-    var tooth: SKSpriteNode!
+    let metabolism: Metabolism
+    let name: ArkonName
+    let net: Net
+    let netDisplay: NetDisplay?
+    let nose: SKSpriteNode
+    let sensorPad: SensorPad
+    let thorax: SKSpriteNode
+    let tooth: SKSpriteNode
 
     var babyBumpIsShowing = false
     var canSpawn = false
-    var jumpSpeed = 0.0
-    var jumpSpec: JumpSpec?
-
-    weak var parentNet: Net?
-
+    var cFoodHits = 0
+    var cJumps = 0
+    var cOffspring = 0
     var currentTime: Int = 0
     var currentEntropyPerJoule: Double = 0
+    var ingridCellAbsoluteIndex = 0
+    var jumpSpec: JumpSpec?
+    var jumpSpeed = 0.0
+    var previousShiftOffset = AKPoint.zero
+
+    var dispatch: Dispatch!
 
     init(_ embryo: ArkonEmbryo) {
-        self.metabolism = embryo.metabolism
-        self.net = embryo.net
+        self.metabolism = embryo.metabolism!
+        self.name = embryo.name!
+        self.net = embryo.net!
         self.netDisplay = embryo.netDisplay
         self.nose = embryo.noseSprite!
         self.thorax = embryo.thoraxSprite!
-        self.tooth = embryo.toothSprite
+        self.tooth = embryo.toothSprite!
 
-        sensorPad = .makeSensorPad(self.net!.netStructure.sensorPadCCells)
+        sensorPad = embryo.sensorPad!
 
-        thorax.color = net!.isCloneOfParent ? .green : .white
-        nose!.color = .blue
+        thorax.color = net.isCloneOfParent ? .green : .white
+        nose.color = .blue
 
         self.dispatch = Dispatch(self)
     }
 
     deinit {
-        Debug.log(level: 198) { "Stepper \(self.name!) deinit" }
+        Debug.log(level: 198) { "Stepper \(self.name) deinit" }
     }
 
     func detachBirthingCellForNewborn() -> IngridCellDescriptor {
@@ -59,8 +56,8 @@ class Stepper {
             birthingCell = j.toCell
             virtualScenePosition = j.virtualScenePosition
         } else {
-            birthingCell = sensorPad.thePad[localIndex].coreCell!
-            virtualScenePosition = sensorPad.thePad[localIndex].virtualScenePosition
+            birthingCell = sensorPad.thePad[localIndex]!.coreCell!
+            virtualScenePosition = sensorPad.thePad[localIndex]!.virtualScenePosition
         }
 
         // Invalidate my reference to my offspring's cell; he now owns the lock

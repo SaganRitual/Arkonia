@@ -63,7 +63,7 @@ class Ingrid {
         // When we come here, we have the center cell locked, so
         // we start from 1 instead of 0
         for localIx in 1..<mapper.sensorPadCCells {
-            let cellDescriptor = mapper.sensorPad[localIx]
+            let cellDescriptor = mapper.sensorPadThePad[localIx]!
             let lock = self.locks[cellDescriptor.absoluteIndex]!
 
             // The mapper has filled out its sensor pad optimistically,
@@ -71,16 +71,15 @@ class Ingrid {
             // give it the bad news about any it's not allowed to have, by
             // replacing non-locked descriptors with blind ones
             if lock.isLocked {
-                mapper.sensorPad[localIx] = IngridCellDescriptor(
+                mapper.sensorPadThePad[localIx] = IngridCellDescriptor(
                     nil, cellDescriptor.absoluteIndex, nil
                 )
             } else {
+                Debug.log(level: 200) { "locking \(cellDescriptor.absoluteIndex) (local \(localIx))"}
                 // Good news for the requester
                 self.locks[cellDescriptor.absoluteIndex]!.isLocked = true
             }
         }
-
-        MainDispatchQueue.async(execute: mapper.onComplete)
     }
 
     func deferLockRequest(
@@ -111,7 +110,7 @@ class Ingrid {
         let centerCell = cellAt(mapper.centerAbsoluteIndex)
 
         centerLock.isLocked = true
-        mapper.sensorPad[0] = IngridCellDescriptor(centerCell)
+        mapper.sensorPadThePad[0] = IngridCellDescriptor(centerCell)
 
         connectSensorPad(mapper)
         MainDispatchQueue.async(execute: mapper.onComplete)

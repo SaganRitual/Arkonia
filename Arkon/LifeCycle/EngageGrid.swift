@@ -10,6 +10,6 @@ final class EngageGrid: Dispatchable {
 
     private func tickLife() {
         Debug.debugColor(stepper, .red, .green)
-        stepper.dispatch!.tickLife()
+        stepper.dispatch.tickLife()
     }
 }

@@ -120,6 +120,6 @@ extension Census {
 
         if population < 25 { Dispatch().spawn() }
 
-        self.cLiveNeurons -= stepper.net!.netStructure.cNeurons
+        self.cLiveNeurons -= stepper.net.netStructure.cNeurons
     }
 }

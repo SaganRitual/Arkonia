@@ -27,7 +27,7 @@ class ArkonEmbryo {
         // the cell or waiting for it themselves is finished. The completion
         // here runs after all that stuff is done and this arkon finally has the
         // cell locked
-        sensorPad!.engageBirthCell(center: birthingCell.absoluteIndex, self.launch)
+        sensorPad!.engageBirthCell(center: birthingCell.absoluteIndex, self.launchNewborn)
     }
 
     func buildSprites() {
@@ -97,9 +97,13 @@ class ArkonEmbryo {
 }
 
 extension ArkonEmbryo {
-    func launch() { MainDispatchQueue.async(execute: launchNewborn_B) }
+    func launchNewborn() {
+        Debug.log(level: 200) { "launchNewborn" }
+        MainDispatchQueue.async(execute: launchNewborn_B)
+    }
 
     private func launchNewborn_B() {
+        Debug.log(level: 200) { "launchNewborn_B" }
         self.newborn = Stepper(self)
 
         placeNewbornOnGrid(newborn!)
@@ -108,6 +112,7 @@ extension ArkonEmbryo {
     }
 
     private func launchNewborn_C() {
+        Debug.log(level: 200) { "launchNewborn_C" }
         SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)
 
         let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
@@ -115,6 +120,7 @@ extension ArkonEmbryo {
     }
 
     private func launchNewborn_D() {
+        Debug.log(level: 200) { "launchNewborn_D" }
         sensorPad!.firstFullGridEngage(
             center: newborn!.ingridCellAbsoluteIndex, newborn!.dispatch.tickLife
         )

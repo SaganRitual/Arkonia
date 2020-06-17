@@ -11,20 +11,22 @@ final class DriveNetSignal: Dispatchable {
         super.init(stepper!)
     }
 
-    internal override func launch() { driveNetSignal_A() }
+    internal override func launch() { driveNetSignal() }
 
-    private func driveNetSignal_A() {
+    private func driveNetSignal() {
+        Debug.debugColor(stepper, .blue, .red)
+        Debug.log(level: 200) { "routeLife \(six(stepper.name))" }
         stimulus.driveStimulus(driveNetSignal_B)
     }
 
     private func driveNetSignal_B() {
-        let pNeurons = UnsafeMutablePointer(mutating: stepper.net!.pNeurons)
+        let pNeurons = UnsafeMutablePointer(mutating: stepper.net.pNeurons)
         response.driveResponse(pNeurons, driveNetSignal_C)
     }
 
     private func driveNetSignal_C(_ didJump: Bool) {
-        if didJump { stepper.dispatch!.moveSprite(); return }
+        if didJump { stepper.dispatch.moveSprite(); return }
 
-        stepper.dispatch!.disengageGrid()
+        stepper.dispatch.disengageGrid()
     }
 }

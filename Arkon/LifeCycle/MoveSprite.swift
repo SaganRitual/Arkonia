@@ -11,7 +11,7 @@ final class MoveSprite: Dispatchable {
 
         guard let js = stepper.jumpSpec else {
             Debug.debugColor(stepper, .blue, .cyan)
-            MoveSprite.restArkon(stepper, stepper.dispatch!.disengageGrid)
+            MoveSprite.restArkon(stepper, stepper.dispatch.disengageGrid)
             return
         }
 
@@ -20,7 +20,7 @@ final class MoveSprite: Dispatchable {
 
         moveAction(stepper) {
             Debug.debugColor(self.stepper, .blue, .red)
-            self.stepper.dispatch!.moveStepper()
+            self.stepper.dispatch.moveStepper()
         }
     }
 

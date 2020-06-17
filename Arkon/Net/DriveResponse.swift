@@ -9,7 +9,7 @@ struct DriveResponse {
 
     init(_ stepper: Stepper) {
         self.stepper = stepper
-        self.net = stepper.net!
+        self.net = stepper.net
     }
 
     func driveResponse(
@@ -26,6 +26,7 @@ struct DriveResponse {
         _ senseData: UnsafeMutablePointer<Float>,
         _ onComplete: @escaping (Bool) -> Void
     ) {
+        Debug.log(level: 200) { "driveResponse_C.0 \(six(stepper.name))" }
         let cSensorPadCells = net.netStructure.sensorPadCCells
 
         // Divide the circle into cCellsWithinSenseRange slices
@@ -43,11 +44,13 @@ struct DriveResponse {
             guard let correctedTarget = stepper.sensorPad.getCorrectedTarget(
                 candidateLocalIndex: targetOffset
             ) else {
+                Debug.log(level: 200) { "driveResponse_C.1 \(six(stepper.name))" }
                 let okToJump = false
                 onComplete(okToJump); return
             }
 
-            let from = stepper.sensorPad.thePad[0].coreCell!
+            Debug.log(level: 200) { "driveResponse_C.2 \(six(stepper.name))" }
+            let from = stepper.sensorPad.thePad[0]!.coreCell!
             let toLocalIx = correctedTarget.finalTargetLocalIx
             let to = correctedTarget.toCell
             let virtual = correctedTarget.virtualScenePosition
@@ -59,9 +62,11 @@ struct DriveResponse {
             // All done with most of the sensor pad. All we need now is the
             // shuttle; free up everything else for the other arkons
             stepper.sensorPad.pruneToShuttle(toLocalIx)
+            driveResponse_D(onComplete)
             return
         }
 
+        Debug.log(level: 200) { "driveResponse_C.3 \(six(stepper.name))" }
         let okToJump = false
         onComplete(okToJump)
     }
@@ -69,8 +74,10 @@ struct DriveResponse {
     private func driveResponse_D(_ onComplete: @escaping (Bool) -> Void) {
         let isAlive = stepper.metabolism.applyJumpCosts(stepper.jumpSpec!)
 
+        Debug.log(level: 200) { "driveResponse_D.0 \(six(stepper.name))" }
         if isAlive { let okToJump = true; onComplete(okToJump); return }
 
-        stepper.dispatch!.apoptosize()
+        Debug.log(level: 200) { "driveResponse_D.1 \(six(stepper.name))" }
+        stepper.dispatch.apoptosize()
     }
 }

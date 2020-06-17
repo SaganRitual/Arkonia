@@ -19,6 +19,7 @@
 		D40DF32F24706E4B001649FA /* Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F680B92462706D000B8EF2 /* Transfer.swift */; };
 		D40DF3312470C2A2001649FA /* Colorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DF3302470C2A2001649FA /* Colorizer.swift */; };
 		D413E660240F745100077E35 /* DriveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413E65F240F745100077E35 /* DriveResponse.swift */; };
+		D414A40D2499983500DDCB25 /* SensorPad.CorrectedTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D414A40C2499983500DDCB25 /* SensorPad.CorrectedTarget.swift */; };
 		D41787062430D5090025EC00 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41787052430D5090025EC00 /* BarChart.swift */; };
 		D41A29A523B9945F00DE9CC6 /* Census.Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41A29A423B9945F00DE9CC6 /* Census.Extra.swift */; };
 		D41ED8D623B084A100E82B08 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
@@ -173,6 +174,7 @@
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D40DF3302470C2A2001649FA /* Colorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colorizer.swift; sourceTree = "<group>"; };
 		D413E65F240F745100077E35 /* DriveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveResponse.swift; sourceTree = "<group>"; };
+		D414A40C2499983500DDCB25 /* SensorPad.CorrectedTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorPad.CorrectedTarget.swift; sourceTree = "<group>"; };
 		D41787052430D5090025EC00 /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		D41A29A423B9945F00DE9CC6 /* Census.Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.Extra.swift; sourceTree = "<group>"; };
 		D41ED8D523B084A100E82B08 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
@@ -353,6 +355,16 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
+		D414A40B249997FD00DDCB25 /* SensorPad */ = {
+			isa = PBXGroup;
+			children = (
+				D4B7B499249813A400894A61 /* SensorPad.swift */,
+				D414A40C2499983500DDCB25 /* SensorPad.CorrectedTarget.swift */,
+				D4B7B49B24985B2700894A61 /* SensorPadMapper.swift */,
+			);
+			path = SensorPad;
+			sourceTree = "<group>";
+		};
 		D43EA81A228FDBA4006C619D /* Arkonia */ = {
 			isa = PBXGroup;
 			children = (
@@ -372,14 +384,13 @@
 				D485E3EC2491BB4E0092A7B1 /* Net */,
 				D4BB6E6A234E544B00529819 /* LifeCycle */,
 				D4F89BE9245BCCCA0044F0D2 /* Metabolism */,
+				D414A40B249997FD00DDCB25 /* SensorPad */,
 				D485E3E52490AF070092A7B1 /* Arkon.EnergyBudget.swift */,
 				D4B7B49524971CAF00894A61 /* ArkonEmbryo.swift */,
 				D4B9512024349A8800BD2085 /* ArkonName.swift */,
 				D40DF3302470C2A2001649FA /* Colorizer.swift */,
 				D4FFE9612365814F00F5DDFB /* Dispatch.swift */,
 				D495F0CE233FAB01007D6E86 /* Mutator.swift */,
-				D4B7B499249813A400894A61 /* SensorPad.swift */,
-				D4B7B49B24985B2700894A61 /* SensorPadMapper.swift */,
 				D4A12BE922EA58E900C15F59 /* Stepper.swift */,
 			);
 			path = Arkon;
@@ -689,6 +700,7 @@
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
 				D42B7CF12487678A00085F7F /* Tensor.Utilities.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
+				D414A40D2499983500DDCB25 /* SensorPad.CorrectedTarget.swift in Sources */,
 				D4B7B4942494D46E00894A61 /* Census.Stats.swift in Sources */,
 				D467E885242D2AB0006325E0 /* Manna.Sprite.swift in Sources */,
 				D422DE0D23598BEC003734B8 /* Clock.swift in Sources */,

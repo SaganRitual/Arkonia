@@ -47,7 +47,7 @@ extension Colorizer {
     }
 
     private func setThoraxScale() {
-        let m = stepper!.metabolism!
+        let m = stepper!.metabolism
         let effectiveMass = m.mass - (m.embryo?.mass ?? 0)
         let scale = log(effectiveMass + 1)
         stepper!.thorax.setScale(Arkonia.arkonScaleFactor * scale / Arkonia.zoomFactor)
@@ -58,7 +58,7 @@ extension Colorizer {
     }
 
     private func lookPregnant() {
-        let m = stepper!.metabolism!
+        let m = stepper!.metabolism
         let f: CGFloat = m.spawn?.fatStore?.fullness ?? 0.25
         let s: CGFloat = Arkonia.arkonScaleFactor * Arkonia.noseScaleFactor *
             Arkonia.zoomFactor * f

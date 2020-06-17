@@ -4,17 +4,17 @@ struct SensorPadMapper {
     let centerAbsoluteIndex: Int
     let onComplete: () -> Void
     let onWakeupFromDefer: ((SensorPadMapper) -> Void)?
-    let sensorPad: UnsafeMutablePointer<IngridCellDescriptor>
+    let sensorPadThePad: UnsafeMutablePointer<IngridCellDescriptor?>
     let sensorPadCCells: Int
 
     init(
         _ sensorPadCCells: Int, _ centerAbsoluteIndex: Int,
-        _ sensorPad: UnsafeMutablePointer<IngridCellDescriptor>,
+        _ sensorPadThePad: UnsafeMutablePointer<IngridCellDescriptor?>,
         _ onComplete: @escaping () -> Void
     ) {
         self.centerAbsoluteIndex = centerAbsoluteIndex
         self.onComplete = onComplete
-        self.sensorPad = sensorPad
+        self.sensorPadThePad = .init(sensorPadThePad)
         self.sensorPadCCells = sensorPadCCells
         self.onWakeupFromDefer = nil
     }
@@ -25,7 +25,7 @@ struct SensorPadMapper {
     ) {
         self.centerAbsoluteIndex = saveForDefer.centerAbsoluteIndex
         self.onComplete = saveForDefer.onComplete
-        self.sensorPad = saveForDefer.sensorPad
+        self.sensorPadThePad = .init(saveForDefer.sensorPadThePad)
         self.sensorPadCCells = saveForDefer.sensorPadCCells
         self.onWakeupFromDefer = nil
     }

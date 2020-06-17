@@ -9,12 +9,12 @@ final class Arrive: Dispatchable {
         let ax = stepper.ingridCellAbsoluteIndex
         if let manna = Ingrid.shared!.manna.mannaAt(ax) { graze(manna); return }
 
-        stepper.dispatch!.disengageGrid()
+        stepper.dispatch.disengageGrid()
     }
 
     func graze(_ manna: Manna) {
         stepper.cFoodHits += 1
 
-        manna.harvest { _ in self.stepper.dispatch!.disengageGrid() }
+        manna.harvest { _ in self.stepper.dispatch.disengageGrid() }
     }
 }

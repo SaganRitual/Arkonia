@@ -16,6 +16,8 @@ final class Spawn: DispatchableProtocol {
 
 extension Spawn {
     private func spawn() {
+        if let p = parentArkon { Debug.debugColor(p, .blue, .purple) }
+
         embryo.buildGuts(spawn_B)
     }
 
@@ -54,7 +56,7 @@ extension Spawn {
 
         func a() {
             let rotate = SKAction.rotate(byAngle: CGFloat.tau, duration: 0.25)
-            parentArkon.thorax!.run(rotate, completion: b)
+            parentArkon.thorax.run(rotate, completion: b)
         }
 
         func b() {
@@ -69,6 +71,7 @@ extension Spawn {
         // abandonParent() has some work to do even for arkons that come from
         // nowhere, without a parent -- note that the embryo goes off here and
         // becomes a legit arkon with its own dispatch
+        Debug.log(level: 200) { "separateParentFromOffspring" }
         embryo.abandonParent()
 
         // If I'm an arkon giving birth to another arkon, resume my

@@ -29,10 +29,10 @@ final class MoveStepper: Dispatchable {
 
         if toContents == .manna {
             Debug.log(level: 192) { "moveStepper -> arrive" }
-            stepper.dispatch!.arrive()
+            stepper.dispatch.arrive()
             return
         }
 
-        stepper.dispatch!.disengageGrid()
+        stepper.dispatch.disengageGrid()
     }
 }

@@ -13,7 +13,11 @@ private extension Apoptosize {
     }
 
     func apoptosize_B_disengageSensorPad() {
-        stepper.sensorPad.disengageGrid { self.apoptosize_C_releaseNet(self.stepper) }
+        if let jumpedTo = stepper.jumpSpec?.toLocalIndex {
+            stepper.sensorPad.disengageGrid(jumpedTo) {
+                self.apoptosize_C_releaseNet(self.stepper)
+            }
+        } else { self.apoptosize_C_releaseNet(self.stepper) }
     }
 
     func apoptosize_C_releaseNet(_ holdingStrongReference: Stepper) {

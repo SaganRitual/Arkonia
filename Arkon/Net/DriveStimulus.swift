@@ -34,7 +34,7 @@ private extension DriveStimulus {
     func transferNonPadInputsToSenseNeurons(
         _ dayFullness: CGFloat, _ yearFullness: CGFloat
     ) {
-        let st = stepper!, mt = st.metabolism!, cs = mt.spawn
+        let st = stepper!, mt = st.metabolism, cs = mt.spawn
         let ax = st.ingridCellAbsoluteIndex, gc = Ingrid.shared.cellAt(ax)
 
         // Average fullness of the spawn embryo; not really very representative,
@@ -84,7 +84,7 @@ private extension DriveStimulus {
         senseNeurons.initialize(to: 0)
 
         for ss in 0..<cCells {
-            guard let coreCell = sensorPad.thePad[ss].coreCell else { continue }
+            guard let coreCell = sensorPad.thePad[ss]!.coreCell else { continue }
 
             senseNeurons[2 * ss + 0] = getNutrition(in: coreCell) ?? 0
             senseNeurons[2 * ss + 1] = loadSelector(from: coreCell)

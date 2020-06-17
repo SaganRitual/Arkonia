@@ -18,6 +18,7 @@ struct IngridCellDescriptor: CustomDebugStringConvertible {
         absoluteIndex_ = nil
         coreCell = nil
         virtualScenePosition = nil
+        Debug.log(level: 200) { "empty cell descriptor" }
     }
 
     init(_ coreCell: IngridCell?, _ absoluteIndex: Int, _ virtualScenePosition: CGPoint?) {
