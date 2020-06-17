@@ -60,7 +60,8 @@ extension SensorPad {
     }
 
     func engageBirthCell(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
-        Debug.log(level: 203) { "engageBirthCell at abs \(absoluteIndex)" }
+        let p = Ingrid.absolutePosition(of: absoluteIndex)
+        Debug.log(level: 203) { "engageBirthCell at abs \(absoluteIndex) \(p)" }
         let mapper = SensorPadMapper(1, absoluteIndex, thePad, onComplete)
         Ingrid.shared.engageGrid(mapper)
     }
@@ -68,16 +69,23 @@ extension SensorPad {
     func firstFullGridEngage(
         center absoluteIndex: Int, _ lockCompletionCallback: @escaping () -> Void
     ) {
-        let alreadyLockedCell = thePad[0]
+        let alreadyLockedCell = Ingrid.shared.cellAt(absoluteIndex)
 
         let mapper = mapSensorPadToGrid(absoluteIndex, cCells, true, lockCompletionCallback)
 
-        thePad[0] = alreadyLockedCell
+        let p = Ingrid.absolutePosition(of: absoluteIndex)
+        Debug.log(level: 203) { "firstFullGridEngage at abs \(absoluteIndex) \(p)" }
+
+        thePad[0] = IngridCellConnector(alreadyLockedCell)
         Ingrid.shared.engageGrid(mapper, centerCellIsAlreadyLocked: true)
     }
 
     func engageGrid(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
         let mapper = mapSensorPadToGrid(absoluteIndex, cCells, false, onComplete)
+
+        let p = Ingrid.absolutePosition(of: mapper.centerAbsoluteIndex)
+        Debug.log(level: 203) { "engageGrid at abs \(absoluteIndex) \(p)" }
+
         Ingrid.shared.engageGrid(mapper) // completion callback is inside the mapper
     }
 
@@ -89,7 +97,7 @@ extension SensorPad {
 
         let start = centerCellIsAlreadyLocked ? 1 : 0
 
-        Debug.log(level: 200) { "mapSensorPadToGrid start at localIx \(start)" }
+        Debug.log(level: 203) { "mapSensorPadToGrid center is \(centerAbsoluteIndex), start at localIx \(start)" }
 
         for ss in start..<cCells {
             var p = Ingrid.shared.indexer.getGridPointByLocalIndex(
@@ -103,7 +111,7 @@ extension SensorPad {
 
             let cell = Ingrid.shared.cellAt(p)
 
-            Debug.log(level: 200) { "requesting cell at \(cell.absoluteIndex) (local \(ss))" }
+            Debug.log(level: 203) { "requesting cell at \(cell.absoluteIndex) \(cell.gridPosition) (local \(ss))" }
             thePad[ss] = IngridCellConnector(cell, vp)
         }
 

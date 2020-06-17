@@ -1,9 +1,10 @@
 import SpriteKit
 
 class ArkonEmbryo {
-    var name: ArkonName?
+    var birthingCellAbsoluteIndex: Int?
     var fishDay = Fishday(birthday: 0, cNeurons: 0, fishNumber: 0)
     var metabolism: Metabolism?
+    var name: ArkonName?
     var net: Net?
     var netDisplay: NetDisplay?
     var newborn: Stepper?
@@ -14,20 +15,26 @@ class ArkonEmbryo {
     var toothSprite: SKSpriteNode?
 
     init(_ parentArkon: Stepper?) {
+        Debug.log(level: 204) { "ArkonEmbryo" }
         self.parentArkon = parentArkon
 
         if parentArkon != nil { self.sensorPad = nil; return }
     }
 
     func abandonParent() {
-        let birthingCell = (parentArkon == nil) ?
-            IngridCellConnector(Ingrid.randomCell()) : getBirthingCell()
+        birthingCellAbsoluteIndex = getBirthingCell().absoluteIndex
+
+        Debug.log(level: 204) {
+            "abandon parent, birthing cell at"
+            + "\(birthingCellAbsoluteIndex!)"
+            + " \(Ingrid.shared.cellAt(birthingCellAbsoluteIndex!).gridPosition)"
+        }
 
         // Engaging the birth cell might mean waiting around until anyone using
         // the cell or waiting for it themselves is finished. The completion
         // here runs after all that stuff is done and this arkon finally has the
         // cell locked
-        sensorPad!.engageBirthCell(center: birthingCell.absoluteIndex, self.launchNewborn)
+        sensorPad!.engageBirthCell(center: birthingCellAbsoluteIndex!, self.launchNewborn)
     }
 
     func buildSprites() {
@@ -85,9 +92,9 @@ class ArkonEmbryo {
     }
 
     func placeNewbornOnGrid(_ newborn: Stepper) {
-        let bc = getBirthingCell()
+        let bc = Ingrid.shared.cellAt(newborn.ingridCellAbsoluteIndex)
 
-        thoraxSprite!.position = bc.coreCell!.scenePosition
+        thoraxSprite!.position = bc.scenePosition
 
         Ingrid.shared.placeArkonOnGrid(newborn, atIndex: bc.absoluteIndex)
     }

@@ -33,8 +33,9 @@ struct NetStructure {
         self.cSenseRings = cSenseRings ?? Int.random(in: NetStructure.cSenseRingsRange)
         self.layerDescriptors = NetStructure.layerStructures[self.cSenseRings]!.randomElement()!
 
+        let sr = self.cSenseRings
         self.sensorPadCCells = {
-            let cCellsPerSide = 1 + 2 * (cSenseRings ?? 1)
+            let cCellsPerSide = 1 + 2 * sr
             return cCellsPerSide * cCellsPerSide
         }()
 

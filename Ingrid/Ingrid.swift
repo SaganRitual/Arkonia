@@ -13,6 +13,7 @@ class Ingrid {
     let indexer: IngridIndexer
     let locks: UnsafeMutableBufferPointer<IngridLock?>
     let manna: IngridManna
+    let sprites: IngridSprites
 
     private let lockQueue = DispatchQueue(
         label: "ak.grid.serial", target: DispatchQueue.global()
@@ -35,6 +36,7 @@ class Ingrid {
 
         arkons = IngridArkons(cCells)
         manna = IngridManna(cCells)
+        sprites = IngridSprites(cCells)
 
         locks = .allocate(capacity: cCells)
         locks.initialize(repeating: nil)
@@ -50,7 +52,11 @@ class Ingrid {
     func completeDeferredLockRequest(for readyCellAbsoluteIndex: Int) {
         let lock = locks[readyCellAbsoluteIndex]!
 
-        if lock.waitingLockRequests.isEmpty { lock.isLocked = false; return }
+        if lock.waitingLockRequests.isEmpty {
+            lock.isLocked = false
+            sprites.clearLockIndicator(readyCellAbsoluteIndex)
+            return
+        }
 
         let mapper = lock.waitingLockRequests.popFront()
         Debug.log(level: 198) { "completeDeferredLockRequest for \(readyCellAbsoluteIndex)" }
@@ -77,6 +83,7 @@ class Ingrid {
             } else {
                 Debug.log(level: 200) { "locking \(cellDescriptor.absoluteIndex) (local \(localIx))"}
                 // Good news for the requester
+                sprites.showLock(cellDescriptor.absoluteIndex)
                 self.locks[cellDescriptor.absoluteIndex]!.isLocked = true
             }
         }
@@ -100,6 +107,8 @@ class Ingrid {
         _ mapper: SensorPadMapper, _ centerCellIsAlreadyLocked: Bool
     ) {
         let centerLock = self.locks[mapper.centerAbsoluteIndex]!
+        let p = Ingrid.absolutePosition(of: mapper.centerAbsoluteIndex)
+        Debug.log(level: 204) { "engageGrid_A \(mapper.centerAbsoluteIndex) \(p)" }
 
         if centerLock.isLocked && !centerCellIsAlreadyLocked {
             self.deferLockRequest(mapper, connectSensorPad)
@@ -111,6 +120,7 @@ class Ingrid {
 
         centerLock.isLocked = true
         mapper.sensorPadThePad[0] = IngridCellConnector(centerCell)
+        sprites.showLock(mapper.centerAbsoluteIndex, .centerLock)
 
         connectSensorPad(mapper)
         MainDispatchQueue.async(execute: mapper.onComplete)

@@ -34,7 +34,7 @@ let MainDispatchQueue = DispatchQueue(
 
 extension Dispatch {
     private func dispatch(_ type: DispatchableProtocol.Type) {
-        MainDispatchQueue.async {
+        MainDispatchQueue.asyncAfter(deadline: .now() + 0.1) {
             self.lifelet = type.init(self.stepper)
             self.lifelet.launch()
         }

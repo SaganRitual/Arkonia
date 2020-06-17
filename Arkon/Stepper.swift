@@ -26,6 +26,7 @@ class Stepper {
     var dispatch: Dispatch!
 
     init(_ embryo: ArkonEmbryo) {
+        self.ingridCellAbsoluteIndex = embryo.birthingCellAbsoluteIndex!
         self.metabolism = embryo.metabolism!
         self.name = embryo.name!
         self.net = embryo.net!

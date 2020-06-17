@@ -18,6 +18,7 @@
 		D40DF32E24706E4B001649FA /* OozeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F89BF2245BCE640044F0D2 /* OozeStorage.swift */; };
 		D40DF32F24706E4B001649FA /* Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F680B92462706D000B8EF2 /* Transfer.swift */; };
 		D40DF3312470C2A2001649FA /* Colorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DF3302470C2A2001649FA /* Colorizer.swift */; };
+		D41290ED249A445300DF0B32 /* IngridSprites.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290EB249A442200DF0B32 /* IngridSprites.swift */; };
 		D413E660240F745100077E35 /* DriveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413E65F240F745100077E35 /* DriveResponse.swift */; };
 		D414A40D2499983500DDCB25 /* SensorPad.CorrectedTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D414A40C2499983500DDCB25 /* SensorPad.CorrectedTarget.swift */; };
 		D41787062430D5090025EC00 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41787052430D5090025EC00 /* BarChart.swift */; };
@@ -174,6 +175,7 @@
 		D40985FC22650C20009DD384 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D40985FE22650CC9009DD384 /* SceneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneViewController.swift; sourceTree = "<group>"; };
 		D40DF3302470C2A2001649FA /* Colorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colorizer.swift; sourceTree = "<group>"; };
+		D41290EB249A442200DF0B32 /* IngridSprites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngridSprites.swift; sourceTree = "<group>"; };
 		D413E65F240F745100077E35 /* DriveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveResponse.swift; sourceTree = "<group>"; };
 		D414A40C2499983500DDCB25 /* SensorPad.CorrectedTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorPad.CorrectedTarget.swift; sourceTree = "<group>"; };
 		D41787052430D5090025EC00 /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 				D4654DE22489825900B34D4E /* IngridCore.swift */,
 				D4654E06248A0A7D00B34D4E /* IngridIndexer.swift */,
 				D485E3E92490F69B0092A7B1 /* IngridManna.swift */,
+				D41290EB249A442200DF0B32 /* IngridSprites.swift */,
 			);
 			path = Ingrid;
 			sourceTree = "<group>";
@@ -723,6 +726,7 @@
 				D4A59D212387E4E400517F60 /* EngageGrid.swift in Sources */,
 				D4D4F052243ABBA900D093DF /* HotLayerBnn.swift in Sources */,
 				D40DF32624706E4B001649FA /* ChamberedStore.swift in Sources */,
+				D41290ED249A445300DF0B32 /* IngridSprites.swift in Sources */,
 				D43BBEB42499D60100637815 /* IngridCellConnector.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* ArkoniaScene.swift in Sources */,
