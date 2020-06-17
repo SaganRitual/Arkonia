@@ -5,15 +5,13 @@ final class DisengageGrid: Dispatchable {
     internal override func launch() { disengageGrid() }
 
     private func disengageGrid() {
-        Debug.debugColor(stepper, .blue, .blue)
+        Debug.debugColor(stepper, .blue, .yellow)
 
-        guard let jumpedTo = stepper.jumpSpec?.toLocalIndex else {
-            stepper.dispatch.engageGrid(); return
+        if let jumpedTo = stepper.jumpSpec?.toLocalIndex {
+            stepper.sensorPad.disengageGrid(jumpedTo)
         }
 
-        stepper.sensorPad.disengageGrid(jumpedTo) {
-            self.stepper.jumpSpec = nil
-            self.stepper.dispatch.engageGrid()
-        }
+        self.stepper.jumpSpec = nil
+        self.stepper.dispatch.engageGrid()
     }
 }

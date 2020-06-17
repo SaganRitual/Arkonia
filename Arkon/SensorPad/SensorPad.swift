@@ -54,7 +54,7 @@ extension SensorPad {
 }
 
 extension SensorPad {
-    func disengageGrid(_ jumpTargetLocalIndex: Int, _ onComplete: @escaping () -> Void) {
+    func disengageGrid(_ jumpTargetLocalIndex: Int) {
         let jumpedTo = thePad[jumpTargetLocalIndex]!.absoluteIndex
         Ingrid.shared.unlockCells([jumpedTo])
     }
