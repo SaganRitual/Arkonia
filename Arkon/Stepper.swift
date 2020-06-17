@@ -63,6 +63,6 @@ class Stepper {
         // Invalidate my reference to my offspring's cell; he now owns the lock
         sensorPad.thePad[localIndex] = IngridCellConnector()
 
-        return IngridCellConnector(birthingCell!, virtualScenePosition!)
+        return IngridCellConnector(birthingCell!, virtualScenePosition)
     }
 }

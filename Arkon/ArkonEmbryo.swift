@@ -79,6 +79,8 @@ class ArkonEmbryo {
         if let p = parentArkon { cell = p.detachBirthingCellForNewborn() }
         else                   { cell = Ingrid.randomCell() }
 
+        Debug.log(level: 203) { "embryo.getBirthingCell() -> \(cell)" }
+
         return cell
     }
 
@@ -98,12 +100,12 @@ class ArkonEmbryo {
 
 extension ArkonEmbryo {
     func launchNewborn() {
-        Debug.log(level: 200) { "launchNewborn" }
+        Debug.log(level: 203) { "launchNewborn" }
         MainDispatchQueue.async(execute: launchNewborn_B)
     }
 
     private func launchNewborn_B() {
-        Debug.log(level: 200) { "launchNewborn_B" }
+        Debug.log(level: 203) { "launchNewborn_B" }
         self.newborn = Stepper(self)
 
         placeNewbornOnGrid(newborn!)
@@ -112,7 +114,7 @@ extension ArkonEmbryo {
     }
 
     private func launchNewborn_C() {
-        Debug.log(level: 200) { "launchNewborn_C" }
+        Debug.log(level: 203) { "launchNewborn_C" }
         SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)
 
         let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
@@ -120,7 +122,7 @@ extension ArkonEmbryo {
     }
 
     private func launchNewborn_D() {
-        Debug.log(level: 200) { "launchNewborn_D" }
+        Debug.log(level: 203) { "launchNewborn_D" }
         sensorPad!.firstFullGridEngage(
             center: newborn!.ingridCellAbsoluteIndex, newborn!.dispatch.tickLife
         )

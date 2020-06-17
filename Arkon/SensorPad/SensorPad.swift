@@ -60,6 +60,7 @@ extension SensorPad {
     }
 
     func engageBirthCell(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
+        Debug.log(level: 203) { "engageBirthCell at abs \(absoluteIndex)" }
         let mapper = SensorPadMapper(1, absoluteIndex, thePad, onComplete)
         Ingrid.shared.engageGrid(mapper)
     }

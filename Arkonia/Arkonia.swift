@@ -12,8 +12,8 @@ class Arkonia {
     static let cPollenators = 5
 
     // vars so I can change them from the debugger
-    static var debugColorIsEnabled = true
-    static var debugMessageLevel = 201
+    static var debugColorIsEnabled = false
+    static var debugMessageLevel = 203
     static var debugMessageToConsole = true
 
     static let funkyCells: CGFloat? = 2 / zoomFactor
