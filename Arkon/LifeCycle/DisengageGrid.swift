@@ -7,11 +7,9 @@ final class DisengageGrid: Dispatchable {
     private func disengageGrid() {
         Debug.debugColor(stepper, .blue, .yellow)
 
-        if let jumpedTo = stepper.jumpSpec?.toLocalIndex {
-            stepper.sensorPad.disengageGrid(jumpedTo)
-        }
-
         self.stepper.jumpSpec = nil
+
+        stepper.sensorPad.disengageGrid()
         self.stepper.dispatch.engageGrid()
     }
 }
