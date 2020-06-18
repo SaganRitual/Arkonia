@@ -53,13 +53,15 @@ class Ingrid {
         let lock = locks[readyCellAbsoluteIndex]!
 
         if lock.waitingLockRequests.isEmpty {
+            if Arkonia.debugGrid { sprites.showLock(readyCellAbsoluteIndex, .unlocked) }
+
             lock.isLocked = false
-            sprites.clearLockIndicator(readyCellAbsoluteIndex)
             return
         }
 
         let mapper = lock.waitingLockRequests.popFront()
         Debug.log(level: 198) { "completeDeferredLockRequest for \(readyCellAbsoluteIndex)" }
+        if Arkonia.debugGrid { sprites.showLock(readyCellAbsoluteIndex, .deferredAndCompleted) }
 
         connectSensorPad(mapper)
         MainDispatchQueue.async(execute: mapper.onComplete)
@@ -80,10 +82,12 @@ class Ingrid {
                 mapper.sensorPadThePad[localIx] = IngridCellConnector(
                     nil, cellDescriptor.absoluteIndex, nil
                 )
+
+                if Arkonia.debugGrid { sprites.showLock(cellDescriptor.absoluteIndex, .blind) }
             } else {
                 Debug.log(level: 200) { "locking \(cellDescriptor.absoluteIndex) (local \(localIx))"}
                 // Good news for the requester
-                sprites.showLock(cellDescriptor.absoluteIndex)
+                if Arkonia.debugGrid { sprites.showLock(cellDescriptor.absoluteIndex, .locked) }
                 self.locks[cellDescriptor.absoluteIndex]!.isLocked = true
             }
         }
@@ -93,6 +97,7 @@ class Ingrid {
         _ mapper: SensorPadMapper,
         _ onDefermentComplete: @escaping (SensorPadMapper) -> Void
     ) {
+        if Arkonia.debugGrid { sprites.showLock(mapper.centerAbsoluteIndex, .deferred) }
         let deferer = SensorPadMapper(mapper, onDefermentComplete)
         locks[mapper.centerAbsoluteIndex]!.waitingLockRequests.pushBack(deferer)
     }
@@ -120,7 +125,7 @@ class Ingrid {
 
         centerLock.isLocked = true
         mapper.sensorPadThePad[0] = IngridCellConnector(centerCell)
-        sprites.showLock(mapper.centerAbsoluteIndex, .centerLock)
+        if Arkonia.debugGrid { sprites.showLock(mapper.centerAbsoluteIndex, .centerLock) }
 
         connectSensorPad(mapper)
         MainDispatchQueue.async(execute: mapper.onComplete)

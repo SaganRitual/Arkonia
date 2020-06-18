@@ -34,9 +34,15 @@ let MainDispatchQueue = DispatchQueue(
 
 extension Dispatch {
     private func dispatch(_ type: DispatchableProtocol.Type) {
-        MainDispatchQueue.asyncAfter(deadline: .now() + 0.1) {
-            self.lifelet = type.init(self.stepper)
-            self.lifelet.launch()
+        func dispatch_() {
+            lifelet = type.init(stepper)
+            lifelet.launch()
+        }
+
+        if Arkonia.debugGrid {
+            MainDispatchQueue.asyncAfter(deadline: .now() + 1, execute: dispatch_)
+        } else {
+            MainDispatchQueue.async(execute: dispatch_)
         }
     }
 

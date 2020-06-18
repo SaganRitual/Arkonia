@@ -3,7 +3,7 @@ import SpriteKit
 
 class Arkonia {
     static let zoomFactor: CGFloat = 4
-    static let arkonScaleFactor: CGFloat = 0.4
+    static let arkonScaleFactor: CGFloat = 0.3
     static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.75
 
@@ -13,11 +13,12 @@ class Arkonia {
 
     // vars so I can change them from the debugger
     static var debugColorIsEnabled = false
-    static var debugMessageLevel = 203
+    static var debugMessageLevel = 205
     static var debugMessageToConsole = true
+    static var debugGrid = true
 
     static let funkyCells: CGFloat? = nil //2 / zoomFactor
-    static let initialPopulation = 1
+    static let initialPopulation = 10
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedCellsPerSecond: CGFloat = 25
 

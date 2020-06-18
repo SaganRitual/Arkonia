@@ -1,7 +1,7 @@
 import SpriteKit
 
 class AKSpriteNode {
-    enum State { case pristine, centerLock, locked, blind, deferred, unlocked }
+    enum State { case pristine, centerLock, locked, blind, deferred, unlocked, deferredAndCompleted }
     var state = State.pristine
     let sprite: SKSpriteNode
 
@@ -9,26 +9,30 @@ class AKSpriteNode {
         self.sprite = sprite
     }
 
-    func showLock(_ forceState: State = .locked) {
+    func showLock(_ forceState: State) {
         state = forceState
 
         switch forceState {
         case .centerLock: sprite.color = .yellow
-        default: sprite.color = .red
+        case .deferred:   sprite.color = .blue
+        case .locked:     sprite.color = .red
+        case .blind:      sprite.color = .black
+        default:          sprite.color = .darkGray
         }
 
         sprite.colorBlendFactor = 1
     }
 
-    func clearLockIndicator(_ forceState: State = .unlocked) {
+    func clearLockIndicator(_ forceState: State) {
         state = forceState
 
         switch forceState {
-        case .centerLock: sprite.color = .green
-        default: sprite.color = .red
+        case .unlocked:             sprite.color = .darkGray
+        case .deferredAndCompleted: sprite.color = .magenta
+        default:                    fatalError()
         }
 
-        sprite.colorBlendFactor = 0.5
+        sprite.colorBlendFactor = 0.8
     }
 }
 
@@ -40,14 +44,22 @@ class IngridSprites {
         allTheSprites.initialize(repeating: nil)
     }
 
-    func showLock(_ absoluteIndex: Int, _ forceState: AKSpriteNode.State = .locked) {
+    func showLock(_ absoluteIndex: Int, _ state: AKSpriteNode.State) {
         let p = Ingrid.absolutePosition(of: absoluteIndex)
         Debug.log(level: 204) { "show lock at \(absoluteIndex) \(p)" }
-        allTheSprites[absoluteIndex]?.takeUnretainedValue().showLock(forceState)
+
+        if let sprite = allTheSprites[absoluteIndex]?.takeUnretainedValue() {
+            sprite.showLock(state)
+        }
     }
 
-    func clearLockIndicator(_ absoluteIndex: Int, _ forceState: AKSpriteNode.State = .locked) {
-        allTheSprites[absoluteIndex]?.takeUnretainedValue().clearLockIndicator(forceState)
+    func clearLockIndicator(_ absoluteIndex: Int, _ state: AKSpriteNode.State) {
+        if let sprite = allTheSprites[absoluteIndex]?.takeUnretainedValue() {
+            sprite.showLock(state)
+            return
+        }
+
+        allTheSprites[absoluteIndex]?.takeUnretainedValue().clearLockIndicator(state)
     }
 }
 
