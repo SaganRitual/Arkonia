@@ -43,7 +43,7 @@ extension Spawn {
     }
 
     private func spawn_E() {
-        MainDispatchQueue.sync {
+        MainDispatchQueue.async {
             self.separateParentFromOffspring()
         }
     }
@@ -51,23 +51,23 @@ extension Spawn {
 
 extension Spawn {
     func abandonNewborn() {
-        Debug.log(level: 203) { "abandonNewborn.0" }
+        Debug.log(level: 205) { "abandonNewborn.0" }
         guard let parentArkon = self.parentArkon, let dispatch = parentArkon.dispatch
             else { return }
 
         func a() {
-            Debug.log(level: 203) { "abandonNewborn.2" }
+            Debug.log(level: 205) { "abandonNewborn.2" }
             let rotate = SKAction.rotate(byAngle: CGFloat.tau, duration: 0.25)
             parentArkon.thorax.run(rotate, completion: b)
         }
 
         func b() {
-            Debug.log(level: 203) { "abandonNewborn.3" }
+            Debug.log(level: 205) { "abandonNewborn.3, parent is \(parentArkon.name)" }
             parentArkon.metabolism.detachSpawnEmbryo()
             dispatch.disengageGrid()
         }
 
-        Debug.log(level: 203) { "abandonNewborn.1" }
+        Debug.log(level: 205) { "abandonNewborn.1" }
         a()
     }
 
@@ -75,7 +75,7 @@ extension Spawn {
         // abandonParent() has some work to do even for arkons that come from
         // nowhere, without a parent -- note that the embryo goes off here and
         // becomes a legit arkon with its own dispatch
-        Debug.log(level: 203) { "separateParentFromOffspring" }
+        Debug.log(level: 205) { "separateParentFromOffspring" }
         embryo.abandonParent()
 
         // If I'm an arkon giving birth to another arkon, resume my

@@ -91,6 +91,7 @@ extension Census {
     }
 
     func registerDeath(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
+        Debug.log(level: 205) { "registerDeath.0; population \(self.population)" }
         Census.registerDeath(stepper, onComplete)
     }
 }
@@ -109,10 +110,13 @@ extension Census {
             myParent?.cOffspring ?? 0, self.highWaterCOffspring
         )
 
+        Debug.log(level: 205) { "registerBirth; population \(self.population)" }
+
         return Fishday(birthday: 0, cNeurons: myNet.netStructure.cNeurons, fishNumber: 0)
     }
 
     func registerDeath(_ stepper: Stepper, _ worldTime: Int) {
+        Debug.log(level: 205) { "registerDeath.1; population \(self.population)" }
         let ageOfDeceased = Census.getAge(of: stepper, at: worldTime)
 
         highWaterAge = max(highWaterAge, Int(ageOfDeceased))
@@ -121,5 +125,7 @@ extension Census {
         if population < 25 { Dispatch().spawn() }
 
         self.cLiveNeurons -= stepper.net.netStructure.cNeurons
+
+        Debug.log(level: 205) { "registerDeath.2; population \(self.population)" }
     }
 }

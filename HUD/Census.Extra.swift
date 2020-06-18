@@ -94,9 +94,9 @@ extension Census {
 
     func seedWorld() {
         if populated == false {
-//            Ingrid.shared.core.drawGridLines()
-            Ingrid.shared.sprites.drawGridIndicators()
-            for _ in 0..<Arkonia.initialPopulation { Dispatch().spawn() }
+            if Arkonia.debugGrid { Ingrid.shared.sprites.drawGridIndicators() }
+            else { for _ in 0..<Arkonia.initialPopulation { Dispatch().spawn() } }
+
             populated = true
         }
     }

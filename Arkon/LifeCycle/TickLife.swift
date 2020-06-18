@@ -7,12 +7,6 @@ final class TickLife: Dispatchable {
     let colorizer: Colorizer
     var onComplete: ((Bool, Bool) -> Void)?
 
-    static let dispatchQueue = DispatchQueue(
-        label: "ak.ticklife.q",
-        attributes: .concurrent,
-        target: DispatchQueue.global()
-    )
-
     required init(_ stepper: Stepper?) {
         colorizer = Colorizer(stepper!)
         super.init(stepper!)
@@ -28,7 +22,7 @@ final class TickLife: Dispatchable {
 
 extension TickLife {
     private func tickLife() {
-        Debug.log(level: 203) { "tickLife_A \(six(stepper.name))" }
+        Debug.log(level: 204) { "tickLife_A \(six(stepper.name))" }
         Debug.debugColor(stepper, .green, .blue)
 
         stepper.currentTime = Clock.shared!.worldClock
@@ -37,14 +31,14 @@ extension TickLife {
         stepper.metabolism.digest()
         isAlive = stepper.metabolism.applyFixedMetabolicCosts()
 
-        if !isAlive { Debug.log(level: 203) { "apoptosizing" } }
+        if !isAlive { Debug.log(level: 205) { "apoptosizing" } }
 
         if !isAlive { stepper.dispatch.apoptosize(); return }
 
         canSpawn = Arkonia.allowSpawning && isAlive && stepper.metabolism.canSpawn()
 
-        if canSpawn { Debug.log(level: 203) { "spawning" } }
-        else        { Debug.log(level: 203) { "driveNetSignaling" } }
+        if canSpawn { Debug.log(level: 204) { "spawning" } }
+        else        { Debug.log(level: 204) { "driveNetSignaling" } }
 
         let route = canSpawn ?
             stepper.dispatch.spawn : stepper.dispatch.driveNetSignal

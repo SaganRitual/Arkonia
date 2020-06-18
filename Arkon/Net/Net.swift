@@ -19,12 +19,6 @@ protocol HotNet: class {
 typealias NetParametersBuffer = UnsafeMutableBufferPointer<Float>
 
 class Net {
-    static let dispatchQueue = DispatchQueue(
-        label: "ak.net.q",
-        attributes: .concurrent,
-        target: DispatchQueue.global()
-    )
-
     let isCloneOfParent: Bool
     let hotNet: HotNet
     let netStructure: NetStructure
@@ -43,7 +37,7 @@ class Net {
         _ parentWeights: UnsafePointer<Float>?,
         _ onComplete: @escaping (Net) -> Void
     ) {
-        self.dispatchQueue.async {
+        MainDispatchQueue.async {
             let netStructure = NetStructure(
                 parentNetStructure?.cSenseRings,
                 parentNetStructure?.layerDescriptors

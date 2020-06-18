@@ -77,7 +77,7 @@ struct DriveResponse {
         Debug.log(level: 200) { "driveResponse_D.0 \(six(stepper.name))" }
         if isAlive { let okToJump = true; onComplete(okToJump); return }
 
-        Debug.log(level: 200) { "driveResponse_D.1 \(six(stepper.name))" }
+        Debug.log(level: 205) { "driveResponse_D.1 \(six(stepper.name))" }
         stepper.dispatch.apoptosize()
     }
 }

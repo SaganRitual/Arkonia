@@ -53,6 +53,7 @@ class Ingrid {
         let lock = locks[readyCellAbsoluteIndex]!
 
         if lock.waitingLockRequests.isEmpty {
+            Debug.log(level: 204) { "end deferral fulfillments for \(readyCellAbsoluteIndex)" }
             if Arkonia.debugGrid { sprites.showLock(readyCellAbsoluteIndex, .unlocked) }
 
             lock.isLocked = false
@@ -60,7 +61,7 @@ class Ingrid {
         }
 
         let mapper = lock.waitingLockRequests.popFront()
-        Debug.log(level: 198) { "completeDeferredLockRequest for \(readyCellAbsoluteIndex)" }
+        Debug.log(level: 205) { "completeDeferredLockRequest for \(readyCellAbsoluteIndex)" }
         if Arkonia.debugGrid { sprites.showLock(readyCellAbsoluteIndex, .deferredAndCompleted) }
 
         connectSensorPad(mapper)
@@ -97,6 +98,8 @@ class Ingrid {
         _ mapper: SensorPadMapper,
         _ onDefermentComplete: @escaping (SensorPadMapper) -> Void
     ) {
+        let p = Ingrid.absolutePosition(of: mapper.centerAbsoluteIndex)
+        Debug.log(level: 205) { "deferLockRequest at abs \(mapper.centerAbsoluteIndex) \(p)" }
         if Arkonia.debugGrid { sprites.showLock(mapper.centerAbsoluteIndex, .deferred) }
         let deferer = SensorPadMapper(mapper, onDefermentComplete)
         locks[mapper.centerAbsoluteIndex]!.waitingLockRequests.pushBack(deferer)
