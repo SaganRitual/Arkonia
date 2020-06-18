@@ -1,38 +1,50 @@
 import SpriteKit
 
 class AKSpriteNode {
-    enum State { case pristine, centerLock, locked, blind, deferred, unlocked, deferredAndCompleted }
+    enum State {
+        case pristine, centerLock, locked, blind, deferred
+        case unlocked, deferredAndCompleted
+        case reservedForOffspring, reservedForMiracleBirth
+    }
+
+    var previousColor: SKColor = .darkGray
+    var currentColor: SKColor = .darkGray
     var state = State.pristine
     let sprite: SKSpriteNode
 
     init(_ sprite: SKSpriteNode) {
         self.sprite = sprite
+        currentColor = .darkGray
     }
 
-    func showLock(_ forceState: State) {
-        state = forceState
+    func runActions() {
+        let actionForPrevious = SKAction.colorize(with: previousColor, colorBlendFactor: 1, duration: 0.25)
+        let actionForCurrent  = SKAction.colorize(with: currentColor, colorBlendFactor: 1, duration: 0.25)
+        let sequence = SKAction.sequence([actionForPrevious, actionForCurrent])
+        let forever = SKAction.repeatForever(sequence)
 
-        switch forceState {
-        case .centerLock: sprite.color = .yellow
-        case .deferred:   sprite.color = .blue
-        case .locked:     sprite.color = .red
-        case .blind:      sprite.color = .black
-        default:          sprite.color = .darkGray
-        }
-
-        sprite.colorBlendFactor = 1
+        sprite.removeAllActions()
+        sprite.run(forever)
     }
 
-    func clearLockIndicator(_ forceState: State) {
-        state = forceState
+    func showLock(_ newState: State) {
+        previousColor = currentColor
 
-        switch forceState {
-        case .unlocked:             sprite.color = .darkGray
-        case .deferredAndCompleted: sprite.color = .magenta
-        default:                    fatalError()
+        switch newState {
+        case .reservedForOffspring:    currentColor = .green
+        case .reservedForMiracleBirth: currentColor = .magenta
+        case .deferredAndCompleted:    currentColor = .magenta
+
+        case .centerLock: currentColor = .yellow
+        case .deferred:   currentColor = .blue
+        case .locked:     currentColor = .red
+        case .blind:      currentColor = .black
+        case .unlocked:   currentColor = .darkGray
+        default:          currentColor = .darkGray
         }
 
-        sprite.colorBlendFactor = 0.8
+        state = newState
+        runActions()
     }
 }
 
@@ -51,15 +63,6 @@ class IngridSprites {
         if let sprite = allTheSprites[absoluteIndex]?.takeUnretainedValue() {
             sprite.showLock(state)
         }
-    }
-
-    func clearLockIndicator(_ absoluteIndex: Int, _ state: AKSpriteNode.State) {
-        if let sprite = allTheSprites[absoluteIndex]?.takeUnretainedValue() {
-            sprite.showLock(state)
-            return
-        }
-
-        allTheSprites[absoluteIndex]?.takeUnretainedValue().clearLockIndicator(state)
     }
 }
 

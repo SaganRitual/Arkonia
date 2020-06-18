@@ -15,10 +15,10 @@ class Arkonia {
     static var debugColorIsEnabled = false
     static var debugMessageLevel = 205
     static var debugMessageToConsole = true
-    static var debugGrid = false
+    static var debugGrid = true
 
     static let funkyCells: CGFloat? = nil //2 / zoomFactor
-    static let initialPopulation = 10
+    static let initialPopulation = 2
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedCellsPerSecond: CGFloat = 25
 

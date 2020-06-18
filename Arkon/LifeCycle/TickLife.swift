@@ -37,7 +37,7 @@ extension TickLife {
 
         canSpawn = Arkonia.allowSpawning && isAlive && stepper.metabolism.canSpawn()
 
-        if canSpawn { Debug.log(level: 204) { "spawning" } }
+        if canSpawn { Debug.log(level: 205) { "spawning" } }
         else        { Debug.log(level: 204) { "driveNetSignaling" } }
 
         let route = canSpawn ?

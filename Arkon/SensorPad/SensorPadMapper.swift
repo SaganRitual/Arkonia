@@ -3,7 +3,6 @@ import Foundation
 struct SensorPadMapper {
     let centerAbsoluteIndex: Int
     let onComplete: () -> Void
-    let onWakeupFromDefer: ((SensorPadMapper) -> Void)?
     let sensorPadThePad: UnsafeMutablePointer<IngridCellConnector?>
     let sensorPadCCells: Int
 
@@ -16,7 +15,6 @@ struct SensorPadMapper {
         self.onComplete = onComplete
         self.sensorPadThePad = .init(sensorPadThePad)
         self.sensorPadCCells = sensorPadCCells
-        self.onWakeupFromDefer = nil
     }
 
     init(
@@ -27,6 +25,5 @@ struct SensorPadMapper {
         self.onComplete = saveForDefer.onComplete
         self.sensorPadThePad = .init(saveForDefer.sensorPadThePad)
         self.sensorPadCCells = saveForDefer.sensorPadCCells
-        self.onWakeupFromDefer = nil
     }
 }

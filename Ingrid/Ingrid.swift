@@ -65,7 +65,7 @@ class Ingrid {
         if Arkonia.debugGrid { sprites.showLock(readyCellAbsoluteIndex, .deferredAndCompleted) }
 
         connectSensorPad(mapper)
-        MainDispatchQueue.async(execute: mapper.onComplete)
+        MainDispatchQueue.asyncAfter(deadline: .now() + 1, execute: mapper.onComplete)
     }
 
     private func connectSensorPad(_ mapper: SensorPadMapper) {
@@ -94,15 +94,11 @@ class Ingrid {
         }
     }
 
-    func deferLockRequest(
-        _ mapper: SensorPadMapper,
-        _ onDefermentComplete: @escaping (SensorPadMapper) -> Void
-    ) {
+    func deferLockRequest(_ mapper: SensorPadMapper) {
         let p = Ingrid.absolutePosition(of: mapper.centerAbsoluteIndex)
         Debug.log(level: 205) { "deferLockRequest at abs \(mapper.centerAbsoluteIndex) \(p)" }
         if Arkonia.debugGrid { sprites.showLock(mapper.centerAbsoluteIndex, .deferred) }
-        let deferer = SensorPadMapper(mapper, onDefermentComplete)
-        locks[mapper.centerAbsoluteIndex]!.waitingLockRequests.pushBack(deferer)
+        locks[mapper.centerAbsoluteIndex]!.waitingLockRequests.pushBack(mapper)
     }
 
     func engageGrid(
@@ -119,7 +115,7 @@ class Ingrid {
         Debug.log(level: 204) { "engageGrid_A \(mapper.centerAbsoluteIndex) \(p)" }
 
         if centerLock.isLocked && !centerCellIsAlreadyLocked {
-            self.deferLockRequest(mapper, connectSensorPad)
+            self.deferLockRequest(mapper)
             return
         }
 
@@ -131,7 +127,7 @@ class Ingrid {
         if Arkonia.debugGrid { sprites.showLock(mapper.centerAbsoluteIndex, .centerLock) }
 
         connectSensorPad(mapper)
-        MainDispatchQueue.async(execute: mapper.onComplete)
+        MainDispatchQueue.asyncAfter(deadline: .now() + 1, execute: mapper.onComplete)
     }
 
     func moveArkon(

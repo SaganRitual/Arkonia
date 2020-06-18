@@ -53,6 +53,7 @@ class Census {
 
         tickTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.updateReports()
+            if Arkonia.debugGrid { Ingrid.shared.sprites.drawGridIndicators() }
         }
     }
 

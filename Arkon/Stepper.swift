@@ -64,6 +64,12 @@ class Stepper {
         // Invalidate my reference to my offspring's cell; he now owns the lock
         sensorPad.thePad[localIndex] = IngridCellConnector()
 
+        Debug.log(level: 205) {
+            "detachBirthingCellForNewborn returns"
+            + " \(birthingCell!.absoluteIndex)"
+            + " \(birthingCell!.gridPosition)"
+        }
+
         return IngridCellConnector(birthingCell!, virtualScenePosition)
     }
 }

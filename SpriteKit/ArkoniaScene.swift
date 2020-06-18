@@ -174,7 +174,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         self.buildLineGraphs()
 //        self.buildBarCharts()
 
-        MannaCannon.shared = MannaCannon(cManna: Arkonia.cMannaMorsels)
+        MannaCannon.shared = MannaCannon()
         MannaCannon.shared!.postInit()
 
         Seasons.shared = Seasons()

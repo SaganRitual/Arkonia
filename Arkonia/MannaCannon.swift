@@ -15,8 +15,8 @@ class MannaCannon {
     var cPhotosynthesizingManna = 0
     var cPlantedManna = 0
 
-    init(cManna: Int) {
-        readyMannaIndices = .init(cElements: cManna)
+    init() {
+        readyMannaIndices = .init(cElements: Arkonia.cMannaMorsels)
 
         if Arkonia.cPollenators == 0 { pollenators = []; return }
 

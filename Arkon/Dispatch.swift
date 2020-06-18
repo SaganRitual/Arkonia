@@ -39,11 +39,7 @@ extension Dispatch {
             lifelet.launch()
         }
 
-        if Arkonia.debugGrid {
-            MainDispatchQueue.asyncAfter(deadline: .now() + 1, execute: dispatch_)
-        } else {
-            MainDispatchQueue.async(execute: dispatch_)
-        }
+        MainDispatchQueue.asyncAfter(deadline: .now() + 1, execute: dispatch_)
     }
 
     func apoptosize()     { dispatch(Apoptosize.self) }

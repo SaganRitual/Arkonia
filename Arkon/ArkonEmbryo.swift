@@ -34,7 +34,9 @@ class ArkonEmbryo {
         // the cell or waiting for it themselves is finished. The completion
         // here runs after all that stuff is done and this arkon finally has the
         // cell locked
-        sensorPad!.engageBirthCell(center: birthingCellAbsoluteIndex!, self.launchNewborn)
+        sensorPad!.engageBirthCell(center: birthingCellAbsoluteIndex!) {
+            MainDispatchQueue.asyncAfter(deadline: .now() + 1, execute: self.launchNewborn)
+        }
     }
 
     func buildSprites() {
@@ -83,10 +85,16 @@ class ArkonEmbryo {
     func getBirthingCell() -> IngridCellConnector {
         let cell: IngridCellConnector
 
-        if let p = parentArkon { cell = p.detachBirthingCellForNewborn() }
-        else                   { cell = Ingrid.randomCell() }
+        if let p = parentArkon {
+            cell = p.detachBirthingCellForNewborn()
+            Ingrid.shared.sprites.showLock(cell.absoluteIndex, .reservedForOffspring)
+        }
+        else                   {
+            cell = Ingrid.randomCell()
+            Ingrid.shared.sprites.showLock(cell.absoluteIndex, .reservedForMiracleBirth)
+        }
 
-        Debug.log(level: 203) { "embryo.getBirthingCell() -> \(cell)" }
+        Debug.log(level: 205) { "embryo \(six(name)) getBirthingCell() -> \(cell) from parent \(six(parentArkon?.name))" }
 
         return cell
     }
@@ -121,7 +129,7 @@ extension ArkonEmbryo {
     }
 
     private func launchNewborn_C() {
-        Debug.log(level: 205) { "launchNewborn_C, real stepper now \(self.newborn!.name)" }
+        Debug.log(level: 205) { "launchNewborn_C, real stepper now \(self.newborn!.name) at \(self.newborn!.ingridCellAbsoluteIndex) or \(self.birthingCellAbsoluteIndex ?? -4242)" }
         SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)
 
         let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)

@@ -16,7 +16,7 @@ class Colorizer {
 
 extension Colorizer {
     private func colorize_() {
-        Debug.log(level:168) { "Colorize \(six(stepper!.name))" }
+        Debug.log(level:204) { "Colorize \(six(stepper!.name))" }
 
         if Arkonia.debugColorIsEnabled {
             Debug.debugColor(stepper!, .brown, .brown)

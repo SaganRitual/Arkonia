@@ -18,34 +18,38 @@ extension Spawn {
     private func spawn() {
         if let p = parentArkon { Debug.debugColor(p, .blue, .purple) }
 
+        Debug.log(level: 205) { "spawn start, parent is \(six(parentArkon?.name))" }
+
         embryo.buildGuts(spawn_B)
     }
 
     private func spawn_B() {
         SceneDispatch.shared.schedule {
             self.embryo.buildSprites()
-            self.spawn_C()
+            MainDispatchQueue.asyncAfter(deadline: .now() + 1) { self.spawn_C() }
         }
     }
 
     private func spawn_C() {
         SceneDispatch.shared.schedule {
             self.setupNetDisplay()
-            self.spawn_D()
+            MainDispatchQueue.asyncAfter(deadline: .now() + 1) { self.spawn_D() }
         }
     }
 
     private func spawn_D() {
         Census.dispatchQueue.async {
+            Debug.log(level: 205) { "spawn_D, parent is \(six(self.parentArkon?.name))" }
+
             self.embryo.registerBirth()
-            self.spawn_E()
+            MainDispatchQueue.asyncAfter(deadline: .now() + 1) { self.spawn_E() }
         }
     }
 
     private func spawn_E() {
-        MainDispatchQueue.async {
+        MainDispatchQueue.async { MainDispatchQueue.asyncAfter(deadline: .now() + 1) {
             self.separateParentFromOffspring()
-        }
+        }}
     }
 }
 
