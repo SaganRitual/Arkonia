@@ -124,16 +124,6 @@ extension ArkonEmbryo {
         SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)
 
         let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
-        newborn!.thorax.run(rotate, completion: launchNewborn_D)
-    }
-
-    private func launchNewborn_D() {
-        Debug.log(level: 205) { "launchNewborn_D \(self.newborn!.name)" }
-        sensorPad!.firstFullGridEngage(
-            center: newborn!.gridCellAbsoluteIndex
-        ) {
-            Debug.log(level: 205) { "launchNewborn_E \(self.newborn!.name)" }
-            self.newborn!.dispatch.tickLife()
-        }
+        newborn!.thorax.run(rotate, completion: newborn!.dispatch.tickLife)
     }
 }
