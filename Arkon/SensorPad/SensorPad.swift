@@ -1,6 +1,6 @@
 import Foundation
 
-typealias UnsafeCellConnectors = UnsafeMutablePointer<IngridCellConnector?>
+typealias UnsafeCellConnectors = UnsafeMutablePointer<GridCellConnector?>
 
 class SensorPad {
     let cCells: Int
@@ -29,7 +29,7 @@ extension SensorPad {
 
         // Invalidate the caller's pad so he won't think he can just
         // come back and mess about the place
-        thePad[localPadIx] = IngridCellConnector(absoluteCellIx)
+        thePad[localPadIx] = GridCellConnector(absoluteCellIx)
 
         return absoluteCellIx
     }
@@ -73,7 +73,7 @@ extension SensorPad {
         let p = Ingrid.absolutePosition(of: absoluteIndex)
         Debug.log(level: 203) { "firstFullGridEngage at abs \(absoluteIndex) \(p)" }
 
-        thePad[0] = IngridCellConnector(alreadyLockedCell)
+        thePad[0] = GridCellConnector(alreadyLockedCell)
         Ingrid.shared.engageGrid(mapper, centerCellIsAlreadyLocked: true)
     }
 
@@ -109,7 +109,7 @@ extension SensorPad {
             let cell = Ingrid.shared.cellAt(p)
 
             Debug.log(level: 203) { "requesting cell at \(cell.absoluteIndex) \(cell.gridPosition) (local \(ss))" }
-            thePad[ss] = IngridCellConnector(cell, vp)
+            thePad[ss] = GridCellConnector(cell, vp)
         }
 
         return SensorPadMapper(

@@ -25,7 +25,7 @@ final class MoveStepper: Dispatchable {
         )
 
         stepper.ingridCellAbsoluteIndex = toIx
-        stepper.sensorPad.thePad[toLocalIx] = IngridCellConnector(js.toCell)
+        stepper.sensorPad.thePad[toLocalIx] = GridCellConnector(js.toCell)
 
         if toContents == .manna {
             Debug.log(level: 192) { "moveStepper -> arrive" }

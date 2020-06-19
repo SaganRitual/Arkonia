@@ -52,7 +52,7 @@ private extension GridSync {
             // give it the bad news about any it's not allowed to have, by
             // replacing non-locked descriptors with blind ones
             if lock.isLocked {
-                let cc = IngridCellConnector(cellDescriptor.absoluteIndex)
+                let cc = GridCellConnector(cellDescriptor.absoluteIndex)
                 lockRequest.unsafeCellConnectors[localIx] = cc
                 continue
             }

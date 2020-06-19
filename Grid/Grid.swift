@@ -33,7 +33,7 @@ struct Grid {
 }
 
 extension Grid {
-    func cellAt(_ absoluteIndex: Int) -> IngridCellConnector { core.cellAt(absoluteIndex) }
+    func cellAt(_ absoluteIndex: Int) -> GridCellConnector { core.cellAt(absoluteIndex) }
 
     func arkonAt(_ absoluteIndex: Int) -> Stepper? { arkons.arkonAt(absoluteIndex) }
     func mannaAt(_ absolutIndex: Int) -> Manna?    { manna.mannaAt(absolutIndex) }

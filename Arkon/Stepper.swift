@@ -47,7 +47,7 @@ class Stepper {
         Debug.log(level: 198) { "Stepper \(self.name) deinit" }
     }
 
-    func detachBirthingCellForNewborn() -> IngridCellConnector? {
+    func detachBirthingCellForNewborn() -> GridCellConnector? {
         var localIndex = 1  // Try to drop the kid close by
         let birthingCell: GridCell?
         let virtualScenePosition: CGPoint?
@@ -61,7 +61,7 @@ class Stepper {
         virtualScenePosition = j.virtualScenePosition
 
         // Invalidate my reference to my offspring's cell; he now owns the lock
-        sensorPad.thePad[localIndex] = IngridCellConnector()
+        sensorPad.thePad[localIndex] = GridCellConnector()
 
         Debug.log(level: 205) {
             "detachBirthingCellForNewborn returns"
@@ -69,6 +69,6 @@ class Stepper {
             + " \(birthingCell!.gridPosition)"
         }
 
-        return IngridCellConnector(birthingCell!, virtualScenePosition)
+        return GridCellConnector(birthingCell!, virtualScenePosition)
     }
 }

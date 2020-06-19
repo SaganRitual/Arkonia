@@ -65,8 +65,8 @@ struct IngridCore {
         return AKPoint(x: x, y: y)
     }
 
-    func cellAt(_ absoluteIndex: Int) -> IngridCellConnector {
-        IngridCellConnector(theGrid[absoluteIndex]!)
+    func cellAt(_ absoluteIndex: Int) -> GridCellConnector {
+        GridCellConnector(theGrid[absoluteIndex]!)
     }
 
     // In other words, check whether the specified point is out of bounds of

@@ -1,7 +1,7 @@
 import SpriteKit
 
 class ArkonEmbryo {
-    var birthingCell: IngridCellConnector?
+    var birthingCell: GridCellConnector?
     var fishDay = Fishday(birthday: 0, cNeurons: 0, fishNumber: 0)
     var metabolism: Metabolism?
     var name: ArkonName?
@@ -70,7 +70,7 @@ extension ArkonEmbryo {
         }
     }
 
-    func detachFromParent(_ birthingCell: IngridCellConnector) {
+    func detachFromParent(_ birthingCell: GridCellConnector) {
         self.birthingCell = birthingCell
 
         if birthingCell.coreCell == nil {
