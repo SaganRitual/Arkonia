@@ -6,7 +6,7 @@ struct IngridCore {
     let gridDimensionsCells: AKSize
     let portalDimensionsPix: CGSize
 
-    let theGrid: UnsafeMutableBufferPointer<IngridCell?>
+    let theGrid: UnsafeMutableBufferPointer<GridCell?>
 
     init(
         cellDimensionsPix: CGSize, portalDimensionsPix: CGSize,
@@ -37,7 +37,7 @@ struct IngridCore {
 
         for cellAbsoluteIndex in 0..<cCells {
             let ap = absolutePosition(of: cellAbsoluteIndex)
-            let ic = IngridCell(
+            let ic = GridCell(
                 cellAbsoluteIndex, ap, paddingPixels, cellDimensionsPix.width, funkyCellsMultiplier
             )
 
@@ -65,12 +65,9 @@ struct IngridCore {
         return AKPoint(x: x, y: y)
     }
 
-    func cellAt(_ absolutePosition: AKPoint) -> IngridCell {
-        let ax = Ingrid.absoluteIndex(of: absolutePosition)
-        return theGrid[ax]!
+    func cellAt(_ absoluteIndex: Int) -> IngridCellConnector {
+        IngridCellConnector(theGrid[absoluteIndex]!)
     }
-
-    func cellAt(_ absoluteIndex: Int) -> IngridCell { theGrid[absoluteIndex]! }
 
     // In other words, check whether the specified point is out of bounds of
     // the grid, and if so, return the point on the other side of the grid,

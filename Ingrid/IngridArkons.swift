@@ -22,7 +22,7 @@ class IngridArkons {
         return allTheArkons[ax]?.takeUnretainedValue()
     }
 
-    func moveArkon(fromCell: IngridCell, toCell: IngridCell) {
+    func moveArkon(fromCell: GridCell, toCell: GridCell) {
         allTheArkons[toCell.absoluteIndex] = allTheArkons[fromCell.absoluteIndex]
         allTheArkons[fromCell.absoluteIndex] = nil
     }

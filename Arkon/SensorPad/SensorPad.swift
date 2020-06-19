@@ -1,26 +1,22 @@
 import Foundation
 
+typealias UnsafeCellConnectors = UnsafeMutablePointer<IngridCellConnector?>
+
 class SensorPad {
     let cCells: Int
-    let thePad: UnsafeMutablePointer<IngridCellConnector?>
-
-    var jumpTargetLocalIndex: Int?
+    var centerAbsoluteIndex = 0
+    let unsafeCellConnectors: UnsafeCellConnectors
 
     static func makeSensorPad(_ cCells: Int) -> SensorPad { return .init(cCells) }
 
-    private init(_ sensorPadCCells: Int) {
-        self.cCells = sensorPadCCells
+    private init(_ cCells: Int) {
+        self.cCells = cCells
 
-        self.thePad = .allocate(capacity: sensorPadCCells)
-
-        self.thePad.initialize(
-            repeating: nil, count: sensorPadCCells
-        )
-
-        (0..<sensorPadCCells).forEach { self.thePad[$0] = IngridCellConnector() }
+        self.unsafeCellConnectors = .allocate(capacity: cCells)
+        self.unsafeCellConnectors.initialize(repeating: nil, count: cCells)
     }
 
-    func localIndexToAbsolute(_ localIx: Int) -> Int { thePad[localIx]!.absoluteIndex }
+    func localIndexToAbsolute(_ localIx: Int) -> Int { unsafeCellConnectors[localIx]!.absoluteIndex }
 }
 
 extension SensorPad {

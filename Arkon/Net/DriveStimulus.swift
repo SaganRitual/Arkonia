@@ -20,14 +20,14 @@ private extension DriveStimulus {
         onComplete()
     }
 
-    func getNutrition(in cell: IngridCell) -> Float? {
+    func getNutrition(in cell: GridCell) -> Float? {
         guard let stepper = Ingrid.shared.arkons.arkonAt(cell.absoluteIndex) else
             { return Ingrid.shared.manna.getNutrition(in: cell) }
 
         return Float(stepper.metabolism.energy.level)
     }
 
-    func loadSelector(from cell: IngridCell) -> Float {
+    func loadSelector(from cell: GridCell) -> Float {
         return Ingrid.shared.getContents(in: cell).asSenseData()
     }
 

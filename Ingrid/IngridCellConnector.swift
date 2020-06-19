@@ -7,7 +7,7 @@ struct IngridCellConnector: CustomDebugStringConvertible {
     // end up freeing the wrong locks or other such nastiness
     var absoluteIndex: Int { absoluteIndex_! }
 
-    let coreCell: IngridCell?
+    let coreCell: GridCell?
     let virtualScenePosition: CGPoint?  // For asteroids-style wraparound movement
 
     var debugDescription: String {
@@ -21,7 +21,7 @@ struct IngridCellConnector: CustomDebugStringConvertible {
         Debug.log(level: 200) { "empty cell descriptor" }
     }
 
-    init(_ coreCell: IngridCell?, _ absoluteIndex: Int, _ virtualScenePosition: CGPoint?) {
+    init(_ coreCell: GridCell?, _ absoluteIndex: Int, _ virtualScenePosition: CGPoint?) {
         // coreCell == nil means we coulnd't lock the cell, which means that although
         // we know it's there, we can't see inside it, and we can't jump to it
         self.coreCell = coreCell
@@ -30,7 +30,7 @@ struct IngridCellConnector: CustomDebugStringConvertible {
         self.virtualScenePosition = virtualScenePosition
     }
 
-    init(_ coreCell: IngridCell, _ virtualScenePosition: CGPoint? = nil) {
+    init(_ coreCell: GridCell, _ virtualScenePosition: CGPoint? = nil) {
         self.coreCell = coreCell
         self.absoluteIndex_ = coreCell.absoluteIndex
         self.virtualScenePosition = virtualScenePosition

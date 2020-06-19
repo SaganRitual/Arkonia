@@ -5,7 +5,7 @@ class IngridManna {
         allTheManna = .init(repeating: nil, count: cCells)
     }
 
-    func getNutrition(in cell: IngridCell) -> Float? {
+    func getNutrition(in cell: GridCell) -> Float? {
         guard let manna = Ingrid.shared.manna.mannaAt(cell.absoluteIndex) else
             { return nil }
 

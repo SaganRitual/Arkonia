@@ -3,13 +3,13 @@ import Foundation
 extension SensorPad {
 
     struct CorrectedTarget {
-        let toCell: IngridCell
+        let toCell: GridCell
         let finalTargetLocalIx: Int
         let virtualScenePosition: CGPoint?
     }
 
     func getCorrectedTarget(candidateLocalIndex targetOffset: Int) -> CorrectedTarget? {
-        var toCell: IngridCell?
+        var toCell: GridCell?
         var finalTargetLocalIx: Int?
         var virtualScenePosition: CGPoint?
 

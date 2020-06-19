@@ -49,7 +49,7 @@ class Stepper {
 
     func detachBirthingCellForNewborn() -> IngridCellConnector? {
         var localIndex = 1  // Try to drop the kid close by
-        let birthingCell: IngridCell?
+        let birthingCell: GridCell?
         let virtualScenePosition: CGPoint?
 
         // Couldn't find a cell anywhere around me to put my newborn

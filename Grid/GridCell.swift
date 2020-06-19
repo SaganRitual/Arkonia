@@ -1,6 +1,6 @@
 import Foundation
 
-class IngridCell {
+class GridCell {
     let absoluteIndex: Int
     let gridPosition: AKPoint
     let scenePosition: CGPoint

@@ -1,8 +1,8 @@
 import Foundation
 
 struct JumpSpec {
-    let fromCell: IngridCell
-    let toCell: IngridCell
+    let fromCell: GridCell
+    let toCell: GridCell
 
     let toLocalIndex: Int
     let toVirtualScenePosition: CGPoint?
@@ -15,7 +15,7 @@ struct JumpSpec {
     let speedMetersPerSec: CGFloat
 
     init(
-        _ fromCell: IngridCell, _ toCell: IngridCell, _ toLocalIndex: Int,
+        _ fromCell: GridCell, _ toCell: GridCell, _ toLocalIndex: Int,
         _ toVirtualScenePosition: CGPoint?, _ speedAsPercentage: CGFloat
     ) {
         self.fromCell = fromCell
