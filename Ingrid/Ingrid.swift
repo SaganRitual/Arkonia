@@ -65,7 +65,8 @@ class Ingrid {
         if Arkonia.debugGrid { sprites.showLock(readyCellAbsoluteIndex, .deferredAndCompleted) }
 
         connectSensorPad(mapper)
-        MainDispatchQueue.asyncAfter(deadline: .now() + 1, execute: mapper.onComplete)
+        if Arkonia.debugGrid { MainDispatchQueue.asyncAfter(deadline: .now() + 1, execute: mapper.onComplete) }
+        else { MainDispatchQueue.async(execute: mapper.onComplete) }
     }
 
     private func connectSensorPad(_ mapper: SensorPadMapper) {

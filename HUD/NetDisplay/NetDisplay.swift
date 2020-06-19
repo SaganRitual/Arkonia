@@ -31,6 +31,10 @@ class NetDisplay {
         )
     }
 
+    deinit {
+        print("here")
+    }
+
     func display() {
         Debug.log(level: 159) {
             NetDisplay.display_counter += 1

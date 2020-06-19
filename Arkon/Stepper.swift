@@ -26,7 +26,7 @@ class Stepper {
     var dispatch: Dispatch!
 
     init(_ embryo: ArkonEmbryo) {
-        self.ingridCellAbsoluteIndex = embryo.birthingCellAbsoluteIndex!
+        self.ingridCellAbsoluteIndex = embryo.birthingCell!.absoluteIndex
         self.metabolism = embryo.metabolism!
         self.name = embryo.name!
         self.net = embryo.net!
@@ -47,19 +47,18 @@ class Stepper {
         Debug.log(level: 198) { "Stepper \(self.name) deinit" }
     }
 
-    func detachBirthingCellForNewborn() -> IngridCellConnector {
+    func detachBirthingCellForNewborn() -> IngridCellConnector? {
         var localIndex = 1  // Try to drop the kid close by
         let birthingCell: IngridCell?
         let virtualScenePosition: CGPoint?
 
-        if let j = sensorPad.getCorrectedTarget(candidateLocalIndex: localIndex) {
-            localIndex = j.finalTargetLocalIx
-            birthingCell = j.toCell
-            virtualScenePosition = j.virtualScenePosition
-        } else {
-            birthingCell = sensorPad.thePad[localIndex]!.coreCell!
-            virtualScenePosition = sensorPad.thePad[localIndex]!.virtualScenePosition
-        }
+        // Couldn't find a cell anywhere around me to put my newborn
+        guard let j = sensorPad.getCorrectedTarget(candidateLocalIndex: localIndex)
+            else { return nil }
+
+        localIndex = j.finalTargetLocalIx
+        birthingCell = j.toCell
+        virtualScenePosition = j.virtualScenePosition
 
         // Invalidate my reference to my offspring's cell; he now owns the lock
         sensorPad.thePad[localIndex] = IngridCellConnector()

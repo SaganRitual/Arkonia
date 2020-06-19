@@ -1,7 +1,7 @@
 import SpriteKit
 
 class ArkonEmbryo {
-    var birthingCellAbsoluteIndex: Int?
+    var birthingCell: IngridCellConnector?
     var fishDay = Fishday(birthday: 0, cNeurons: 0, fishNumber: 0)
     var metabolism: Metabolism?
     var name: ArkonName?
@@ -21,24 +21,12 @@ class ArkonEmbryo {
         if parentArkon != nil { self.sensorPad = nil; return }
     }
 
-    func abandonParent() {
-        birthingCellAbsoluteIndex = getBirthingCell().absoluteIndex
-
-        Debug.log(level: 205) {
-            "abandon parent, birthing cell at"
-            + " \(birthingCellAbsoluteIndex!)"
-            + " \(Ingrid.shared.cellAt(birthingCellAbsoluteIndex!).gridPosition)"
-        }
-
-        // Engaging the birth cell might mean waiting around until anyone using
-        // the cell or waiting for it themselves is finished. The completion
-        // here runs after all that stuff is done and this arkon finally has the
-        // cell locked
-        sensorPad!.engageBirthCell(center: birthingCellAbsoluteIndex!) {
-            MainDispatchQueue.asyncAfter(deadline: .now() + 1, execute: self.launchNewborn)
-        }
+    deinit {
+        print("here")
     }
+}
 
+extension ArkonEmbryo {
     func buildSprites() {
         hardAssert(Display.displayCycle == .updateStarted) { "hardAssert at \(#file):\(#line)" }
 
@@ -82,21 +70,22 @@ class ArkonEmbryo {
         }
     }
 
-    func getBirthingCell() -> IngridCellConnector {
-        let cell: IngridCellConnector
+    func detachFromParent(_ birthingCell: IngridCellConnector) {
+        self.birthingCell = birthingCell
 
-        if let p = parentArkon {
-            cell = p.detachBirthingCellForNewborn()
-            Ingrid.shared.sprites.showLock(cell.absoluteIndex, .reservedForOffspring)
+        if birthingCell.coreCell == nil {
+            // We have a random cell from on high; we need to lock it
+            // before we can inhabit it. We will also come here if the parent
+            // arkon couldn't find a suitable landing place for the newborn
+            sensorPad!.engageBirthCell(center: birthingCell.absoluteIndex, launchNewborn)
+            Ingrid.shared.sprites.showLock(birthingCell.absoluteIndex, .reservedForMiracleBirth)
+        } else {
+            // The parent arkon has chosen a cell for us from among her locked
+            // sensor pad cells. We don't need to do anything else, just start
+            // eating
+            launchNewborn()
+            Ingrid.shared.sprites.showLock(birthingCell.absoluteIndex, .reservedForOffspring)
         }
-        else                   {
-            cell = Ingrid.randomCell()
-            Ingrid.shared.sprites.showLock(cell.absoluteIndex, .reservedForMiracleBirth)
-        }
-
-        Debug.log(level: 205) { "embryo \(six(name)) getBirthingCell() -> \(cell) from parent \(six(parentArkon?.name))" }
-
-        return cell
     }
 
     func placeNewbornOnGrid(_ newborn: Stepper) {
@@ -129,7 +118,11 @@ extension ArkonEmbryo {
     }
 
     private func launchNewborn_C() {
-        Debug.log(level: 205) { "launchNewborn_C, real stepper now \(self.newborn!.name) at \(self.newborn!.ingridCellAbsoluteIndex) or \(self.birthingCellAbsoluteIndex ?? -4242)" }
+        Debug.log(level: 205) {
+            "launchNewborn_C, real stepper now \(self.newborn!.name)"
+            + " at \(self.newborn!.ingridCellAbsoluteIndex)"
+        }
+
         SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)
 
         let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)

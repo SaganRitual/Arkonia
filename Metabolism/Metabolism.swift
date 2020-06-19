@@ -125,7 +125,7 @@ class Metabolism: HasSelectableStore {
     }
 
     func detachBirthEmbryo() { embryo = nil }
-    func detachSpawnEmbryo() {
+    func detachOffspring() {
         spawn = nil
 
         // Spawning is expensive

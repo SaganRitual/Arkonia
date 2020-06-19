@@ -11,6 +11,10 @@ final class Spawn: DispatchableProtocol {
         self.parentArkon = parentArkon
     }
 
+    deinit {
+        print("here")
+    }
+
     func launch() { spawn() }
 }
 
@@ -26,14 +30,16 @@ extension Spawn {
     private func spawn_B() {
         SceneDispatch.shared.schedule {
             self.embryo.buildSprites()
-            MainDispatchQueue.asyncAfter(deadline: .now() + 1) { self.spawn_C() }
+            if Arkonia.debugGrid { MainDispatchQueue.asyncAfter(deadline: .now() + 1) { self.spawn_C() } }
+            else { self.spawn_C() }
         }
     }
 
     private func spawn_C() {
         SceneDispatch.shared.schedule {
             self.setupNetDisplay()
-            MainDispatchQueue.asyncAfter(deadline: .now() + 1) { self.spawn_D() }
+            if Arkonia.debugGrid { MainDispatchQueue.asyncAfter(deadline: .now() + 1) { self.spawn_D() } }
+            else { self.spawn_D() }
         }
     }
 
@@ -42,49 +48,44 @@ extension Spawn {
             Debug.log(level: 205) { "spawn_D, parent is \(six(self.parentArkon?.name))" }
 
             self.embryo.registerBirth()
-            MainDispatchQueue.asyncAfter(deadline: .now() + 1) { self.spawn_E() }
+            if Arkonia.debugGrid { MainDispatchQueue.asyncAfter(deadline: .now() + 1) { self.spawn_E() } }
+            else { self.spawn_E() }
         }
     }
 
     private func spawn_E() {
-        MainDispatchQueue.async { MainDispatchQueue.asyncAfter(deadline: .now() + 1) {
-            self.separateParentFromOffspring()
-        }}
+        if Arkonia.debugGrid { MainDispatchQueue.asyncAfter(deadline: .now() + 1) { self.abandonNewborn() } }
+        else { MainDispatchQueue.async { self.abandonNewborn() } }
     }
 }
 
 extension Spawn {
     func abandonNewborn() {
         Debug.log(level: 205) { "abandonNewborn.0" }
-        guard let parentArkon = self.parentArkon, let dispatch = parentArkon.dispatch
-            else { return }
 
         func a() {
             Debug.log(level: 205) { "abandonNewborn.2" }
-            let rotate = SKAction.rotate(byAngle: CGFloat.tau, duration: 0.25)
-            parentArkon.thorax.run(rotate, completion: b)
+            if let p = parentArkon {
+                let rotate = SKAction.rotate(byAngle: CGFloat.tau, duration: 0.25)
+                p.thorax.run(rotate, completion: b)
+            }
+
+            b()
         }
 
         func b() {
-            Debug.log(level: 205) { "abandonNewborn.3, parent is \(parentArkon.name)" }
-            parentArkon.metabolism.detachSpawnEmbryo()
-            dispatch.disengageGrid()
+            let birthingCell: IngridCellConnector
+            if let bc = parentArkon?.detachBirthingCellForNewborn() { birthingCell = bc }
+            else { birthingCell = Ingrid.randomCell() }
+
+            embryo.detachFromParent(birthingCell) // Off you go, don't talk to strangers
+
+            parentArkon?.metabolism.detachOffspring()
+            parentArkon?.dispatch.disengageGrid()
         }
 
         Debug.log(level: 205) { "abandonNewborn.1" }
         a()
-    }
-
-    private func separateParentFromOffspring() {
-        // abandonParent() has some work to do even for arkons that come from
-        // nowhere, without a parent -- note that the embryo goes off here and
-        // becomes a legit arkon with its own dispatch
-        Debug.log(level: 205) { "separateParentFromOffspring" }
-        embryo.abandonParent()
-
-        // If I'm an arkon giving birth to another arkon, resume my
-        // normal life cycle
-        if parentArkon != nil { abandonNewborn() }
     }
 
     private func setupNetDisplay() {
