@@ -12,7 +12,7 @@ struct GridLockRequest {
     ) {
         self.centerAbsoluteIndex = sensorPad.localIndexToAbsolute(cellLocalIndex)
         self.onCellReady = onCellReady
-        self.unsafeCellConnectors = .init(mutating: unsafeCellConnectors)
+        self.unsafeCellConnectors = .init(mutating: sensorPad.unsafeCellConnectors)
         self.cUnsafeCellConnectors = sensorPad.cCells
     }
 }

@@ -26,6 +26,10 @@
 		D41290F5249C920700DF0B32 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290F3249C920700DF0B32 /* Grid.swift */; };
 		D41290F7249C959000DF0B32 /* SensorPad.CellContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290F6249C959000DF0B32 /* SensorPad.CellContents.swift */; };
 		D41290F8249C959000DF0B32 /* SensorPad.CellContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290F6249C959000DF0B32 /* SensorPad.CellContents.swift */; };
+		D41290FA249CFA4500DF0B32 /* GridCellConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290F9249CFA4400DF0B32 /* GridCellConnector.swift */; };
+		D41290FB249CFA4500DF0B32 /* GridCellConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290F9249CFA4400DF0B32 /* GridCellConnector.swift */; };
+		D41290FD249CFB3000DF0B32 /* GridIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290FC249CFB3000DF0B32 /* GridIndexer.swift */; };
+		D41290FE249CFB3000DF0B32 /* GridIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290FC249CFB3000DF0B32 /* GridIndexer.swift */; };
 		D413E660240F745100077E35 /* DriveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413E65F240F745100077E35 /* DriveResponse.swift */; };
 		D414A40D2499983500DDCB25 /* SensorPad.CorrectedTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D414A40C2499983500DDCB25 /* SensorPad.CorrectedTarget.swift */; };
 		D41787062430D5090025EC00 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41787052430D5090025EC00 /* BarChart.swift */; };
@@ -37,7 +41,6 @@
 		D42B7CF12487678A00085F7F /* Tensor.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42B7CF02487678A00085F7F /* Tensor.Utilities.swift */; };
 		D4337BB82488B910009CA9DD /* NormalDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4337BB72488B910009CA9DD /* NormalDistribution.swift */; };
 		D4337BBA2488C097009CA9DD /* LayerStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4337BB92488C097009CA9DD /* LayerStructures.swift */; };
-		D43BBEB42499D60100637815 /* GridCellConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43BBEB32499D60100637815 /* GridCellConnector.swift */; };
 		D43DC50824165AFE0017FADF /* GPUArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50724165AFE0017FADF /* GPUArray.swift */; };
 		D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43DC50D2416C4AC0017FADF /* MPSImage+Floats.swift */; };
 		D450E53C246EEE09001E4601 /* Digestion.Surplus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D450E53B246EEE09001E4601 /* Digestion.Surplus.swift */; };
@@ -63,7 +66,6 @@
 		D4654E002489914E00B34D4E /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46B1D9F22826994003D711C /* Overload2D.swift */; };
 		D4654E022489936E00B34D4E /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654E012489936E00B34D4E /* GridCell.swift */; };
 		D4654E05248A080600B34D4E /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
-		D4654E07248A0A7D00B34D4E /* IngridIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654E06248A0A7D00B34D4E /* IngridIndexer.swift */; };
 		D4654E08248AFCEC00B34D4E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43EA83D229233F7006C619D /* Extensions.swift */; };
 		D4654E09248AFCF600B34D4E /* Arkonia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4CF20A622A4C296000FD2BA /* Arkonia.swift */; };
 		D467E885242D2AB0006325E0 /* Manna.Sprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D467E884242D2AB0006325E0 /* Manna.Sprite.swift */; };
@@ -83,7 +85,6 @@
 		D485E3E0248EF7780092A7B1 /* Cbuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B00917241FD5B8007FDD6F /* Cbuffer.swift */; };
 		D485E3E2248F442A0092A7B1 /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654E012489936E00B34D4E /* GridCell.swift */; };
 		D485E3E3248F442A0092A7B1 /* IngridCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654DE22489825900B34D4E /* IngridCore.swift */; };
-		D485E3E4248F442A0092A7B1 /* IngridIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4654E06248A0A7D00B34D4E /* IngridIndexer.swift */; };
 		D485E3E62490AF070092A7B1 /* Arkon.EnergyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D485E3E52490AF070092A7B1 /* Arkon.EnergyBudget.swift */; };
 		D485E3E82490F05A0092A7B1 /* IngridArkons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D485E3E72490F05A0092A7B1 /* IngridArkons.swift */; };
 		D485E3EA2490F69B0092A7B1 /* IngridManna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D485E3E92490F69B0092A7B1 /* IngridManna.swift */; };
@@ -184,6 +185,8 @@
 		D41290EF249C6E8200DF0B32 /* GridSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSync.swift; sourceTree = "<group>"; };
 		D41290F3249C920700DF0B32 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		D41290F6249C959000DF0B32 /* SensorPad.CellContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorPad.CellContents.swift; sourceTree = "<group>"; };
+		D41290F9249CFA4400DF0B32 /* GridCellConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCellConnector.swift; sourceTree = "<group>"; };
+		D41290FC249CFB3000DF0B32 /* GridIndexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridIndexer.swift; sourceTree = "<group>"; };
 		D413E65F240F745100077E35 /* DriveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveResponse.swift; sourceTree = "<group>"; };
 		D414A40C2499983500DDCB25 /* SensorPad.CorrectedTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorPad.CorrectedTarget.swift; sourceTree = "<group>"; };
 		D41787052430D5090025EC00 /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
@@ -200,7 +203,6 @@
 		D42B7CF02487678A00085F7F /* Tensor.Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tensor.Utilities.swift; sourceTree = "<group>"; };
 		D4337BB72488B910009CA9DD /* NormalDistribution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalDistribution.swift; sourceTree = "<group>"; };
 		D4337BB92488C097009CA9DD /* LayerStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayerStructures.swift; sourceTree = "<group>"; };
-		D43BBEB32499D60100637815 /* GridCellConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GridCellConnector.swift; path = ../Ingrid/GridCellConnector.swift; sourceTree = "<group>"; };
 		D43DC50524162FB10017FADF /* HotLayerCnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerCnn.swift; sourceTree = "<group>"; };
 		D43DC50724165AFE0017FADF /* GPUArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPUArray.swift; sourceTree = "<group>"; };
 		D43DC50924165D450017FADF /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
@@ -214,7 +216,6 @@
 		D4654DFA248982CE00B34D4E /* Ingrid */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Ingrid; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4654DFC2489834200B34D4E /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		D4654E012489936E00B34D4E /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
-		D4654E06248A0A7D00B34D4E /* IngridIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngridIndexer.swift; sourceTree = "<group>"; };
 		D467E884242D2AB0006325E0 /* Manna.Sprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manna.Sprite.swift; sourceTree = "<group>"; };
 		D46B1D6F2280B097003D711C /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
 		D46B1D7322813E12003D711C /* KIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
@@ -372,7 +373,8 @@
 			children = (
 				D41290F3249C920700DF0B32 /* Grid.swift */,
 				D4654E012489936E00B34D4E /* GridCell.swift */,
-				D43BBEB32499D60100637815 /* GridCellConnector.swift */,
+				D41290F9249CFA4400DF0B32 /* GridCellConnector.swift */,
+				D41290FC249CFB3000DF0B32 /* GridIndexer.swift */,
 				D4B7B49B24985B2700894A61 /* GridLockRequest.swift */,
 				D41290EF249C6E8200DF0B32 /* GridSync.swift */,
 			);
@@ -426,7 +428,6 @@
 				D4654DFC2489834200B34D4E /* main.swift */,
 				D485E3E72490F05A0092A7B1 /* IngridArkons.swift */,
 				D4654DE22489825900B34D4E /* IngridCore.swift */,
-				D4654E06248A0A7D00B34D4E /* IngridIndexer.swift */,
 				D485E3E92490F69B0092A7B1 /* IngridManna.swift */,
 				D41290EB249A442200DF0B32 /* IngridSprites.swift */,
 			);
@@ -721,6 +722,7 @@
 				D4FBAEDD24745D9E0008F32F /* Seasons.swift in Sources */,
 				D43DC50824165AFE0017FADF /* GPUArray.swift in Sources */,
 				D464BA3322C737260069623C /* KIdentifier.swift in Sources */,
+				D41290FA249CFA4500DF0B32 /* GridCellConnector.swift in Sources */,
 				D42B7CF12487678A00085F7F /* Tensor.Utilities.swift in Sources */,
 				D464BA3722C737260069623C /* SceneViewController.swift in Sources */,
 				D414A40D2499983500DDCB25 /* SensorPad.CorrectedTarget.swift in Sources */,
@@ -744,7 +746,6 @@
 				D4D4F052243ABBA900D093DF /* HotLayerBnn.swift in Sources */,
 				D40DF32624706E4B001649FA /* ChamberedStore.swift in Sources */,
 				D41290ED249A445300DF0B32 /* IngridSprites.swift in Sources */,
-				D43BBEB42499D60100637815 /* GridCellConnector.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* ArkoniaScene.swift in Sources */,
 				D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */,
@@ -779,7 +780,6 @@
 				D494C87224827A0A00692274 /* HotLayerBlas.swift in Sources */,
 				D4BBFCDE24430318000C139D /* LineGraph.swift in Sources */,
 				D40DF32A24706E4B001649FA /* EnergyBudget.Protocols.swift in Sources */,
-				D485E3E4248F442A0092A7B1 /* IngridIndexer.swift in Sources */,
 				D42B7CEF248765C000085F7F /* Tensor.Random.swift in Sources */,
 				D485E3E2248F442A0092A7B1 /* GridCell.swift in Sources */,
 				D47FDDC424485BC500C89A1E /* Dashboard.swift in Sources */,
@@ -803,6 +803,7 @@
 				D422DE0B23598B52003734B8 /* Census.swift in Sources */,
 				D4D4F050243ABACC00D093DF /* HotNetBnn.swift in Sources */,
 				D476695A2488A7060074F702 /* Debug.Color.swift in Sources */,
+				D41290FD249CFB3000DF0B32 /* GridIndexer.swift in Sources */,
 				D4B00912241B8BB3007FDD6F /* Pollenator.swift in Sources */,
 				D41787062430D5090025EC00 /* BarChart.swift in Sources */,
 				D495F0BE233FA6C2007D6E86 /* Stepper.swift in Sources */,
@@ -817,10 +818,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4654DFE2489835300B34D4E /* IngridCore.swift in Sources */,
+				D41290FE249CFB3000DF0B32 /* GridIndexer.swift in Sources */,
 				D4654E08248AFCEC00B34D4E /* Extensions.swift in Sources */,
 				D4654E002489914E00B34D4E /* Overload2D.swift in Sources */,
+				D41290FB249CFA4500DF0B32 /* GridCellConnector.swift in Sources */,
 				D41290F0249C6E8200DF0B32 /* GridSync.swift in Sources */,
-				D4654E07248A0A7D00B34D4E /* IngridIndexer.swift in Sources */,
 				D485E3EA2490F69B0092A7B1 /* IngridManna.swift in Sources */,
 				D41290F2249C7A5A00DF0B32 /* GridLockRequest.swift in Sources */,
 				D4654E022489936E00B34D4E /* GridCell.swift in Sources */,

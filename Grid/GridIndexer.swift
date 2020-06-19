@@ -1,4 +1,4 @@
-struct IngridIndexer {
+struct GridIndexer {
     enum LikeCSS { case right1, right2, bottom, left, top }
 
     let cCellsWithinSenseRange: Int
@@ -11,21 +11,12 @@ struct IngridIndexer {
         self.indexedGridPoints = .allocate(capacity: cCellsWithinSenseRange)
 
         (0..<cCellsWithinSenseRange).forEach {
-            self.indexedGridPoints[$0] = IngridIndexer.makeIndexedGridPoint($0)
+            self.indexedGridPoints[$0] = GridIndexer.makeIndexedGridPoint($0)
         }
-    }
-
-    func getGridPointByLocalIndex(center absoluteIndex: Int, targetIndex localIndex: Int) -> AKPoint {
-        let cell = Ingrid.shared.cellAt(absoluteIndex)
-        return cell.gridPosition + indexedGridPoints[localIndex]
-    }
-
-    func getGridPointByLocalIndex(center: AKPoint, targetIndex: Int) -> AKPoint {
-        return center + indexedGridPoints[targetIndex]
     }
 }
 
-private extension IngridIndexer {
+private extension GridIndexer {
     static func _2xMinusOneSquared(_ x: Int) -> Int { ((2 * x) - 1) * ((2 * x) - 1) }
 
     static func getBaseX(_ index: Int) -> Int {

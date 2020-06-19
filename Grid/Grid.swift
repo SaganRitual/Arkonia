@@ -5,7 +5,7 @@ struct Grid {
 
     let arkons:  IngridArkons
     let core:    IngridCore
-    let indexer: IngridIndexer
+    let indexer: GridIndexer
     let manna:   IngridManna
     let sprites: IngridSprites
     let sync:    GridSync
