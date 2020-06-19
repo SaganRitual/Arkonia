@@ -16,8 +16,8 @@ extension SensorPad {
         Debug.log(level: 198) { "getCorrectedTarget.0 try \(targetOffset)" }
 
         for ss_ in 0..<cCells {
-            let ss = (ss_ + targetOffset) % cCells
-            let absoluteIndex = thePad[ss]!.absoluteIndex
+            let localIndex = (ss_ + targetOffset) % cCells
+            let absoluteIndex = localIndexToAbsolute(localIndex)
 
             // If the target cell isn't available (meaning we couldn't
             // see it when we tried to lock it, because someone had that
@@ -29,25 +29,25 @@ extension SensorPad {
             // No particular reason for this policy. We could just as easily
             // stay here. Maybe put it under genetic control and see if it
             // has any effect
-            if ss == cCells - 1 {
-                Debug.log(level: 198) { "getCorrectedTarget.1 skipping pad[0] at \(ss) (local \(absoluteIndex))" }
+            if localIndex == cCells - 1 {
+                Debug.log(level: 198) { "getCorrectedTarget.1 skipping pad[0] at \(localIndex) (local \(absoluteIndex))" }
                 continue
             }
 
             // If we don't get a core cell, it's because we don't have the
             // cell locked (someone else has it), so we can't jump there
-            guard let coreCell = thePad[ss]!.coreCell else {
-                Debug.log(level: 198) { "getCorrectedTarget.2 no lock at \(ss) (local \(absoluteIndex))" }
+            guard let coreCell = unsafeCellConnectors[localIndex]!.coreCell else {
+                Debug.log(level: 198) { "getCorrectedTarget.2 no lock at \(localIndex) (local \(absoluteIndex))" }
                 continue
             }
 
             // Of course, don't forget that we can't squeeze into the
             // same cell as another arkon, at least not for now
-            let contents = Ingrid.shared.getContents(in: coreCell)
+            let contents = getContents(in: coreCell)
             if contents == .empty || contents == .manna {
-                finalTargetLocalIx = ss
+                finalTargetLocalIx = localIndex
                 toCell = coreCell
-                virtualScenePosition = thePad[ss]!.virtualScenePosition
+                virtualScenePosition = unsafeCellConnectors[localIndex]!.virtualScenePosition
                 break   // We have the cell we want
             }
         }

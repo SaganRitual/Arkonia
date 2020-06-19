@@ -6,8 +6,8 @@ final class Arrive: Dispatchable {
     func arrive() {
         Debug.debugColor(stepper, .brown, .green)
 
-        let ax = stepper.ingridCellAbsoluteIndex
-        if let manna = Ingrid.shared!.manna.mannaAt(ax) { graze(manna); return }
+        let ax = stepper.gridCellAbsoluteIndex
+        if let manna = Grid.shared.mannaAt(ax) { graze(manna); return }
 
         stepper.dispatch.disengageGrid()
     }

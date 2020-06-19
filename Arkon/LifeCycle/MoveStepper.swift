@@ -14,18 +14,18 @@ final class MoveStepper: Dispatchable {
         let toLocalIx = js.toLocalIndex
         let toIx =      js.toCell.absoluteIndex
 
-        let fromContents = Ingrid.shared.getContents(in: fromIx)
-        let toContents = Ingrid.shared.getContents(in: toIx)
+        let fromContents = stepper.sensorPad.getContents(in: fromIx)
+        let toContents = stepper.sensorPad.getContents(in: toIx)
 
         hardAssert(fromContents == .arkon) { "fromWrong" }
         hardAssert(toContents != .arkon) { "toWrong" }
 
-        Ingrid.shared.moveArkon(
+        Grid.shared.moveArkon(
             stepper, fromCell: js.fromCell, toCell: js.toCell
         )
 
-        stepper.ingridCellAbsoluteIndex = toIx
-        stepper.sensorPad.thePad[toLocalIx] = GridCellConnector(js.toCell)
+        stepper.gridCellAbsoluteIndex = toIx
+        stepper.sensorPad.unsafeCellConnectors[toLocalIx] = GridCellConnector(js.toCell)
 
         if toContents == .manna {
             Debug.log(level: 192) { "moveStepper -> arrive" }

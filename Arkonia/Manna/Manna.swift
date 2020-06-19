@@ -1,15 +1,15 @@
 import SpriteKit
 
 class Manna {
-    let absoluteIngridIndex: Int
+    let absoluteGridIndex: Int
     fileprivate var timeRequiredForFullBloom = Arkonia.mannaFullGrowthDurationSeconds
     fileprivate var mostRecentBloomTime: Date
     let sprite: Manna.Sprite
 
     var isPhotosynthesizing: Bool { self.sprite.isPhotosynthesizing }
 
-    init(_ absoluteIngridIndex: Int) {
-        self.absoluteIngridIndex = absoluteIngridIndex
+    init(_ absoluteGridIndex: Int) {
+        self.absoluteGridIndex = absoluteGridIndex
         self.sprite = Manna.Sprite()
         self.sprite.reset()
 

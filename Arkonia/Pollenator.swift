@@ -5,7 +5,7 @@ import SpriteKit
 // unprotected, because it's never changed outside the scene update
 class Pollenator {
     var birthday: TimeInterval = 0
-    var currentPosition = Ingrid.randomCell().scenePosition
+    var currentPosition = Grid.randomCell().scenePosition
     let node = SKShapeNode(circleOfRadius: ArkoniaScene.arkonsPortal.size.hypotenuse / 5)
     let sizePeakToPeak: TimeInterval
     let speedPeakToPeak: TimeInterval
@@ -53,7 +53,7 @@ class Pollenator {
 
         Debug.log(level: 133) { "pollenator \(sizeScale) \(node.xScale)" }
 
-        let newTargetPosition = Ingrid.randomCell().scenePosition
+        let newTargetPosition = Grid.randomCell().scenePosition
         let distanceToTarget = currentPosition.distance(to: newTargetPosition)
         let travelTime = TimeInterval(distanceToTarget / speedScale)
 

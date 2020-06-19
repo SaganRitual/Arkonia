@@ -1,4 +1,4 @@
-class IngridArkons {
+class GridArkons {
     // A reason to choose unsafe buffers rather than contiguous arrays: the
     // thread sanitizer in the debugger counts the entire contiguous array as
     // a single object, so if you have one thread hitting one cell in the array,
@@ -17,36 +17,27 @@ class IngridArkons {
 
     func arkonAt(_ absoluteIndex: Int) -> Stepper? { allTheArkons[absoluteIndex]?.takeUnretainedValue() }
 
-    func arkonAt(_ absolutePosition: AKPoint) -> Stepper? {
-        let ax = Ingrid.absoluteIndex(of: absolutePosition)
-        return allTheArkons[ax]?.takeUnretainedValue()
-    }
-
-    func moveArkon(fromCell: GridCell, toCell: GridCell) {
-        allTheArkons[toCell.absoluteIndex] = allTheArkons[fromCell.absoluteIndex]
-        allTheArkons[fromCell.absoluteIndex] = nil
+    func moveArkon(_ stepper: Stepper, from fromCellIndex: Int, to toCellIndex: Int) {
+        allTheArkons[toCellIndex] = allTheArkons[fromCellIndex]!
+        allTheArkons[fromCellIndex] = nil
+        stepper.gridCellAbsoluteIndex = toCellIndex
     }
 
     // We don't need to lock this function, because it's only ever called
     // by the spawn cycle, which is accessing the cell through its sensor
     // pad, meaning it already owns the locks and no one else will be trying
     // to muck with them
-    func placeArkonOnGrid(_ stepper: Stepper, atIndex: Int) {
-        hardAssert(Ingrid.shared.getContents(in: atIndex) != .arkon) { "placeArkon" }
+    func placeArkon(_ stepper: Stepper, atIndex: Int) {
         allTheArkons[atIndex] = Unmanaged.passRetained(stepper)
-        stepper.ingridCellAbsoluteIndex = atIndex
+        stepper.gridCellAbsoluteIndex = atIndex
     }
 
     // Unlike placeArkon(), this function must be called only for locked cells,
-    // so never call it directly, instead call the Ingrid version, which knows
+    // so never call it directly, instead call the Grid version, which knows
     // how to lock stuff
-    func releaseArkon(_ stepper: Stepper) -> Int {
-        allTheArkons[stepper.ingridCellAbsoluteIndex]!.release()
-        allTheArkons[stepper.ingridCellAbsoluteIndex] = nil
-
-        // For debugging; invalid index will crash anyone trying to use the
-        // stepper's index to address the grid after we just now released th cell
-        defer { stepper.ingridCellAbsoluteIndex = -4242 }
-        return stepper.ingridCellAbsoluteIndex
+    func removeArkon(_ stepper: Stepper) -> Int {
+        allTheArkons[stepper.gridCellAbsoluteIndex]!.release()
+        allTheArkons[stepper.gridCellAbsoluteIndex] = nil
+        return stepper.gridCellAbsoluteIndex
     }
 }

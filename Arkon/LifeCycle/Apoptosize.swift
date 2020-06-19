@@ -32,7 +32,7 @@ private extension Apoptosize {
             SpriteFactory.shared.nosesPool.releaseSprite(self.stepper.nose)
             SpriteFactory.shared.arkonsPool.releaseSprite(self.stepper.thorax)
 
-            Ingrid.shared.releaseArkon(self.stepper!)
+            Grid.shared.removeArkon(self.stepper!)
         }
     }
 }

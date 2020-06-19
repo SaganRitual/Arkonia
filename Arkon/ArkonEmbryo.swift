@@ -78,22 +78,22 @@ extension ArkonEmbryo {
             // before we can inhabit it. We will also come here if the parent
             // arkon couldn't find a suitable landing place for the newborn
             sensorPad!.engageBirthCell(center: birthingCell.absoluteIndex, launchNewborn)
-            Ingrid.shared.sprites.showLock(birthingCell.absoluteIndex, .reservedForMiracleBirth)
+            Grid.shared.sprites.showLock(birthingCell.absoluteIndex, .reservedForMiracleBirth)
         } else {
             // The parent arkon has chosen a cell for us from among her locked
             // sensor pad cells. We don't need to do anything else, just start
             // eating
             launchNewborn()
-            Ingrid.shared.sprites.showLock(birthingCell.absoluteIndex, .reservedForOffspring)
+            Grid.shared.sprites.showLock(birthingCell.absoluteIndex, .reservedForOffspring)
         }
     }
 
     func placeNewbornOnGrid(_ newborn: Stepper) {
-        let bc = Ingrid.shared.cellAt(newborn.ingridCellAbsoluteIndex)
+        let bc = Grid.shared.cellAt(newborn.gridCellAbsoluteIndex)
 
         thoraxSprite!.position = bc.scenePosition
 
-        Ingrid.shared.placeArkonOnGrid(newborn, atIndex: bc.absoluteIndex)
+        Grid.shared.placeArkonOnGrid(newborn, atIndex: bc.absoluteIndex)
     }
 
     func registerBirth() {
@@ -120,7 +120,7 @@ extension ArkonEmbryo {
     private func launchNewborn_C() {
         Debug.log(level: 205) {
             "launchNewborn_C, real stepper now \(self.newborn!.name)"
-            + " at \(self.newborn!.ingridCellAbsoluteIndex)"
+            + " at \(self.newborn!.gridCellAbsoluteIndex)"
         }
 
         SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)
@@ -132,7 +132,7 @@ extension ArkonEmbryo {
     private func launchNewborn_D() {
         Debug.log(level: 205) { "launchNewborn_D \(self.newborn!.name)" }
         sensorPad!.firstFullGridEngage(
-            center: newborn!.ingridCellAbsoluteIndex
+            center: newborn!.gridCellAbsoluteIndex
         ) {
             Debug.log(level: 205) { "launchNewborn_E \(self.newborn!.name)" }
             self.newborn!.dispatch.tickLife()

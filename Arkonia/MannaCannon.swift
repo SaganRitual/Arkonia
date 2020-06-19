@@ -29,7 +29,7 @@ class MannaCannon {
         MannaCannon.mannaPlaneQueue.async {
             [readyMannaBatchSize, readyMannaIndices] in
 
-            readyMannaIndices.pushBack(manna.absoluteIngridIndex)
+            readyMannaIndices.pushBack(manna.absoluteGridIndex)
 
             if readyMannaIndices.count > readyMannaBatchSize {
                 let min_ = Arkonia.mannaRebloomDelayMinimum
@@ -40,7 +40,7 @@ class MannaCannon {
 
                 let mannaToLaunch: [Manna] = (0..<cMannaToLaunch).map { _ in
                     let absoluteMannaIndex = readyMannaIndices.popFront()
-                    return Ingrid.shared.manna.mannaAt(absoluteMannaIndex)!
+                    return Grid.shared.manna.mannaAt(absoluteMannaIndex)!
                 }
 
                 MannaCannon.mannaPlaneQueue.asyncAfter(deadline: .now() + duration) {
@@ -60,12 +60,12 @@ class MannaCannon {
         // can't place manna in any of these nine cells, skip the attempt. The
         // result is that we'll usually end up with fewer than cMannaMorsels morsels
         for _ in 0..<Arkonia.cMannaMorsels {
-            let center = Ingrid.randomCellIndex()
+            let center = Grid.randomCellIndex()
             var newMannaHome: AKPoint?
 
-            let core = Ingrid.shared.core
+            let core = Grid.shared.core
             for cellLocalIx in 0..<9 {
-                newMannaHome = Ingrid.shared.indexer.getGridPointByLocalIndex(
+                newMannaHome = Grid.shared.indexer.getGridPointByLocalIndex(
                     center: center, targetIndex: cellLocalIx
                 )
 
@@ -75,16 +75,16 @@ class MannaCannon {
                     newMannaHome = corrected
                 }
 
-                if Ingrid.shared.manna.mannaAt(newMannaHome!) == nil { break }
+                if Grid.shared.manna.mannaAt(newMannaHome!) == nil { break }
 
                 newMannaHome = nil
             }
 
             guard let h = newMannaHome else { continue }
-            let absoluteIx = Ingrid.shared.cellAt(h).absoluteIndex
-            Ingrid.shared.manna.placeManna(at: absoluteIx)
+            let absoluteIx = Grid.shared.cellAt(h).absoluteIndex
+            Grid.shared.manna.placeManna(at: absoluteIx)
 
-            let m = Ingrid.shared.manna.mannaAt(absoluteIx)!
+            let m = Grid.shared.manna.mannaAt(absoluteIx)!
             m.sprite.firstBloom(at: absoluteIx)
 
             cPlantedManna += 1

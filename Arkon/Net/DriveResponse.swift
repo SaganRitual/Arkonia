@@ -50,7 +50,7 @@ struct DriveResponse {
             }
 
             Debug.log(level: 200) { "driveResponse_C.2 \(six(stepper.name))" }
-            let from = stepper.sensorPad.thePad[0]!.coreCell!
+            let from = stepper.sensorPad.unsafeCellConnectors[0]!.coreCell!
             let toLocalIx = correctedTarget.finalTargetLocalIx
             let to = correctedTarget.toCell
             let virtual = correctedTarget.virtualScenePosition

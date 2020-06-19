@@ -1,4 +1,4 @@
-class IngridManna {
+class GridManna {
     private var allTheManna: ContiguousArray<Manna?>
 
     init(_ cCells: Int) {
@@ -6,7 +6,7 @@ class IngridManna {
     }
 
     func getNutrition(in cell: GridCell) -> Float? {
-        guard let manna = Ingrid.shared.manna.mannaAt(cell.absoluteIndex) else
+        guard let manna = Grid.shared.manna.mannaAt(cell.absoluteIndex) else
             { return nil }
 
         return Float(manna.sprite.getMaturityLevel())
@@ -15,7 +15,7 @@ class IngridManna {
     func mannaAt(_ absoluteIndex: Int) -> Manna? { allTheManna[absoluteIndex] }
 
     func mannaAt(_ absolutePosition: AKPoint) -> Manna? {
-        let ax = Ingrid.absoluteIndex(of: absolutePosition)
+        let ax = Grid.absoluteIndex(of: absolutePosition)
         return allTheManna[ax]
     }
 

@@ -1,7 +1,7 @@
 import Foundation
 import SpriteKit
 
-struct IngridCore {
+struct GridCore {
     let cellDimensionsPix: CGSize
     let gridDimensionsCells: AKSize
     let portalDimensionsPix: CGSize

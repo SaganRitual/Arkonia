@@ -45,7 +45,7 @@ extension SensorPad {
     // be the center, at [0], and some other locked cell in the pad
     func pruneToShuttle(_ keepLocalIndex: Int) {
         let absoluteIndexesToUnlock = invalidateToShuttle(keepLocalIndex)
-        Ingrid.shared.unlockCells(absoluteIndexesToUnlock)
+        Grid.shared.unlockCells(absoluteIndexesToUnlock)
     }
 }
 
@@ -55,35 +55,35 @@ extension SensorPad {
             return thePad[$0]!.coreCell?.absoluteIndex
         }
 
-        Ingrid.shared.unlockCells(toUnlockAbsoluteIndexes)
+        Grid.shared.unlockCells(toUnlockAbsoluteIndexes)
     }
 
     func engageBirthCell(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
         let mapper = SensorPadMapper(1, absoluteIndex, thePad, onComplete)
-        Ingrid.shared.engageGrid(mapper)
+        Grid.shared.engageGrid(mapper)
     }
 
     func firstFullGridEngage(
         center absoluteIndex: Int, _ lockCompletionCallback: @escaping () -> Void
     ) {
-        let alreadyLockedCell = Ingrid.shared.cellAt(absoluteIndex)
+        let alreadyLockedCell = Grid.shared.cellAt(absoluteIndex)
 
         let mapper = mapSensorPadToGrid(absoluteIndex, cCells, true, lockCompletionCallback)
 
-        let p = Ingrid.absolutePosition(of: absoluteIndex)
+        let p = Grid.absolutePosition(of: absoluteIndex)
         Debug.log(level: 203) { "firstFullGridEngage at abs \(absoluteIndex) \(p)" }
 
         thePad[0] = GridCellConnector(alreadyLockedCell)
-        Ingrid.shared.engageGrid(mapper, centerCellIsAlreadyLocked: true)
+        Grid.shared.engageGrid(mapper, centerCellIsAlreadyLocked: true)
     }
 
     func engageGrid(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
         let mapper = mapSensorPadToGrid(absoluteIndex, cCells, false, onComplete)
 
-        let p = Ingrid.absolutePosition(of: mapper.centerAbsoluteIndex)
+        let p = Grid.absolutePosition(of: mapper.centerAbsoluteIndex)
         Debug.log(level: 203) { "engageGrid at abs \(absoluteIndex) \(p)" }
 
-        Ingrid.shared.engageGrid(mapper) // completion callback is inside the mapper
+        Grid.shared.engageGrid(mapper) // completion callback is inside the mapper
     }
 
     private func mapSensorPadToGrid(
@@ -97,16 +97,16 @@ extension SensorPad {
         Debug.log(level: 203) { "mapSensorPadToGrid center is \(centerAbsoluteIndex), start at localIx \(start)" }
 
         for ss in start..<cCells {
-            var p = Ingrid.shared.indexer.getGridPointByLocalIndex(
+            var p = Grid.shared.indexer.getGridPointByLocalIndex(
                 center: centerAbsoluteIndex, targetIndex: ss
             )
 
             var vp: CGPoint?    // Virtual target for teleportation
 
-            if let q = Ingrid.shared.core.correctForDisjunction(p)
+            if let q = Grid.shared.core.correctForDisjunction(p)
                 { vp = p.asPoint(); p = q }
 
-            let cell = Ingrid.shared.cellAt(p)
+            let cell = Grid.shared.cellAt(p)
 
             Debug.log(level: 203) { "requesting cell at \(cell.absoluteIndex) \(cell.gridPosition) (local \(ss))" }
             thePad[ss] = GridCellConnector(cell, vp)

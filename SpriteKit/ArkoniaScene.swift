@@ -155,7 +155,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         let tAtlas = SKTextureAtlas(named: "Arkons")
         let tTexture = tAtlas.textureNamed("spark-thorax-large")
 
-        Ingrid.shared = .init(
+        Grid.shared = .init(
             cellDimensionsPix: tTexture.size() / Arkonia.zoomFactor,
             portalDimensionsPix: ArkoniaScene.arkonsPortal.size,
             maxCSenseRings: NetStructure.cSenseRingsRange.upperBound,

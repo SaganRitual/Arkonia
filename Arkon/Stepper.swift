@@ -18,7 +18,7 @@ class Stepper {
     var cOffspring = 0
     var currentTime: Int = 0
     var currentEntropyPerJoule: Double = 0
-    var ingridCellAbsoluteIndex = 0
+    var gridCellAbsoluteIndex = 0
     var jumpSpec: JumpSpec?
     var jumpSpeed = 0.0
     var previousShiftOffset = AKPoint.zero
@@ -26,7 +26,7 @@ class Stepper {
     var dispatch: Dispatch!
 
     init(_ embryo: ArkonEmbryo) {
-        self.ingridCellAbsoluteIndex = embryo.birthingCell!.absoluteIndex
+        self.gridCellAbsoluteIndex = embryo.birthingCell!.absoluteIndex
         self.metabolism = embryo.metabolism!
         self.name = embryo.name!
         self.net = embryo.net!

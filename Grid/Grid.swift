@@ -3,11 +3,11 @@ import Foundation
 struct Grid {
     static var shared: Grid!
 
-    let arkons:  IngridArkons
-    let core:    IngridCore
+    let arkons:  GridArkons
+    let core:    GridCore
     let indexer: GridIndexer
-    let manna:   IngridManna
-    let sprites: IngridSprites
+    let manna:   GridManna
+    let sprites: GridDebugView
     let sync:    GridSync
 
     init(
@@ -25,9 +25,9 @@ struct Grid {
 
         let cCells = core.gridDimensionsCells.area()
 
-        arkons =  IngridArkons(cCells)
-        manna =   IngridManna(cCells)
-        sprites = IngridSprites(cCells)
+        arkons =  GridArkons(cCells)
+        manna =   GridManna(cCells)
+        sprites = GridDebugView(cCells)
         sync =    GridSync(cCells)
     }
 }
@@ -41,16 +41,16 @@ extension Grid {
     func moveArkon(
         _ stepper: Stepper, fromCell: GridCell, toCell: GridCell
     ) {
-        arkons.moveArkon(fromCell: fromCell, toCell: toCell)
+        arkons.moveArkon(stepper, from: fromCell.absoluteIndex, to: toCell.absoluteIndex)
         sync.completeDeferredLockRequest(fromCell.absoluteIndex)
     }
 
     func placeArkon(_ stepper: Stepper, atIndex: Int) {
-        arkons.placeArkonOnGrid(stepper, atIndex: atIndex)
+        arkons.placeArkon(stepper, atIndex: atIndex)
     }
 
-    func releaseArkon(_ stepper: Stepper) {
-        let releasedCellIx = self.arkons.releaseArkon(stepper)
+    func removeArkon(_ stepper: Stepper) {
+        let releasedCellIx = arkons.removeArkon(stepper)
         sync.completeDeferredLockRequest(releasedCellIx)
     }
 }

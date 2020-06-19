@@ -25,7 +25,7 @@ class GridSync {
     }
 }
 
-private extension GridSync {
+extension GridSync {
     func completeDeferredLockRequest(_ absoluteIndex: Int) {
         let lock = locks[absoluteIndex]!
 
