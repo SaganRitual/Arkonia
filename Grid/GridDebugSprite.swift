@@ -1,6 +1,6 @@
 import SpriteKit
 
-class GridSpriteNode {
+class GridDebugSprite {
     enum State {
         case pristine, centerLock, locked, blind, deferred
         case unlocked, deferredAndCompleted

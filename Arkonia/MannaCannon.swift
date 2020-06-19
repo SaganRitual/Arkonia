@@ -65,13 +65,15 @@ class MannaCannon {
 
             let core = Grid.shared.core
             for cellLocalIx in 0..<9 {
-                newMannaHome = Grid.shared.indexer.getGridPointByLocalIndex(
-                    center: center, targetIndex: cellLocalIx
+                let gridAbsoluteIndex = Grid.shared!.localIndexToGridAbsolute(
+                    center, cellLocalIx
                 )
+
+                newMannaHome = Grid.shared.bareCellAt(gridAbsoluteIndex).gridPosition
 
                 // Wrap to the other side of the grid, asteroids style, if
                 // the new home we just calculated is off the grid
-                if let corrected = core.correctForDisjunction(newMannaHome!) {
+                if let corrected = core.correctForDisjunction(gridAbsoluteIndex) {
                     newMannaHome = corrected
                 }
 

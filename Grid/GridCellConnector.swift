@@ -6,8 +6,10 @@ struct GridCellConnector: CustomDebugStringConvertible {
     let coreCell: GridCell?
     let virtualScenePosition: CGPoint?  // For asteroids-style wraparound movement
 
+    var isHot: Bool { coreCell != nil }
+
     var debugDescription: String {
-        ((coreCell == nil) ? "Cold" : "Hot(\(absoluteIndex))")
+        isHot ? "Hot(\(absoluteIndex))" : "Cold"
     }
 
     init(_ coreCell: GridCell?, _ absoluteIndex: Int, _ virtualScenePosition: CGPoint?) {

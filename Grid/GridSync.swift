@@ -8,7 +8,7 @@ class GridLock {
 }
 
 class GridSync {
-    let locks: UnsafeGridLocks
+    private let locks: UnsafeGridLocks
 
     private let lockQueue = DispatchQueue(
         label: "ak.grid.serial", target: DispatchQueue.global()
@@ -19,9 +19,51 @@ class GridSync {
         locks.initialize(repeating: nil)
         for ss in 0..<cCells { locks[ss] = GridLock() }
     }
+}
+
+extension GridSync {
+    func disengageGrid(_ request: GridLockRequest) {
+        (0..<request.cUnsafeCellConnectors).forEach {
+            let connector = request.unsafeCellConnectors[$0]!
+            if connector.isHot { releaseCell(connector.absoluteIndex) }
+        }
+    }
 
     func engageGrid(_ request: GridLockRequest) {
         lockQueue.async { self.engageGrid_B_requestLock(request) }
+    }
+
+    func releaseCell(_ absoluteIndex: Int) { completeDeferredLockRequest(absoluteIndex) }
+
+    func releaseCells(_ absoluteIndexes: [Int]) {
+        absoluteIndexes.forEach { releaseCell($0) }
+    }
+}
+
+private extension GridSync {
+    func engageGrid_B_requestLock(_ request: GridLockRequest) {
+        let centerLock = self.locks[request.centerAbsoluteIndex]!
+
+        if centerLock.isLocked {
+            self.deferLockRequest(request)
+            return
+        }
+
+        engageGrid_C_onCenterCellAvailable(request)
+    }
+
+    func engageGrid_C_onCenterCellAvailable(_ request: GridLockRequest) {
+        let centerCell = Grid.shared.cellAt(request.centerAbsoluteIndex)
+
+        locks[request.centerAbsoluteIndex]!.isLocked = true
+        request.unsafeCellConnectors[0] = centerCell
+    }
+
+    func engageGrid_D_onCenterCellLocked(_ request: GridLockRequest) {
+        lockQueue.async {
+            self.connectSensorPad(request)
+            MainDispatchQueue.async(execute: request.onCellReady)
+        }
     }
 }
 
@@ -37,6 +79,9 @@ extension GridSync {
         let request = lock.deferredLockRequests.popFront()
         engageGrid_D_onCenterCellLocked(request)
     }
+}
+
+private extension GridSync {
 
     func connectSensorPad(_ lockRequest: GridLockRequest) {
         // We come here only after the requester has the center of
@@ -64,30 +109,5 @@ extension GridSync {
 
     func deferLockRequest(_ request: GridLockRequest) {
         locks[request.centerAbsoluteIndex]!.deferredLockRequests.pushBack(request)
-    }
-
-    func engageGrid_B_requestLock(_ request: GridLockRequest) {
-        let centerLock = self.locks[request.centerAbsoluteIndex]!
-
-        if centerLock.isLocked {
-            self.deferLockRequest(request)
-            return
-        }
-
-        engageGrid_C_onCenterCellAvailable(request)
-    }
-
-    func engageGrid_C_onCenterCellAvailable(_ request: GridLockRequest) {
-        let centerCell = Grid.shared.cellAt(request.centerAbsoluteIndex)
-
-        locks[request.centerAbsoluteIndex]!.isLocked = true
-        request.unsafeCellConnectors[0] = centerCell
-    }
-
-    func engageGrid_D_onCenterCellLocked(_ request: GridLockRequest) {
-        lockQueue.async {
-            self.connectSensorPad(request)
-            MainDispatchQueue.async(execute: request.onCellReady)
-        }
     }
 }

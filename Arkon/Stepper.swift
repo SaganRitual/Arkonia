@@ -61,7 +61,7 @@ class Stepper {
         virtualScenePosition = j.virtualScenePosition
 
         // Invalidate my reference to my offspring's cell; he now owns the lock
-        sensorPad.thePad[localIndex] = GridCellConnector()
+        sensorPad.unsafeCellConnectors[localIndex] = nil
 
         Debug.log(level: 205) {
             "detachBirthingCellForNewborn returns"

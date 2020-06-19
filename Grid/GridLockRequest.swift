@@ -7,10 +7,9 @@ struct GridLockRequest {
     let cUnsafeCellConnectors: Int
 
     init(
-        _ sensorPad: SensorPad, _ cellLocalIndex: Int,
-        _ onCellReady: @escaping () -> Void
+        _ sensorPad: SensorPad, _ onCellReady: @escaping () -> Void
     ) {
-        self.centerAbsoluteIndex = sensorPad.localIndexToAbsolute(cellLocalIndex)
+        self.centerAbsoluteIndex = sensorPad.centerAbsoluteIndex
         self.onCellReady = onCellReady
         self.unsafeCellConnectors = .init(mutating: sensorPad.unsafeCellConnectors)
         self.cUnsafeCellConnectors = sensorPad.cCells

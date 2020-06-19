@@ -14,6 +14,10 @@ struct GridIndexer {
             self.indexedGridPoints[$0] = GridIndexer.makeIndexedGridPoint($0)
         }
     }
+
+    func localIndexToGridPosition(_ center: AKPoint, _ localIx: Int) -> AKPoint {
+        center + indexedGridPoints[localIx]
+    }
 }
 
 private extension GridIndexer {

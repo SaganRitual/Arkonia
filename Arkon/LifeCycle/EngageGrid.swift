@@ -5,7 +5,7 @@ final class EngageGrid: Dispatchable {
 
     private func engageGrid() {
         Debug.debugColor(stepper, .red, .yellow)
-        stepper.sensorPad.engageGrid(center: stepper.gridCellAbsoluteIndex, tickLife)
+        stepper.sensorPad.engageGrid(tickLife)
     }
 
     private func tickLife() {

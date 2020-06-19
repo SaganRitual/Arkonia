@@ -15,21 +15,22 @@ class SensorPad {
         self.unsafeCellConnectors = .allocate(capacity: cCells)
         self.unsafeCellConnectors.initialize(repeating: nil, count: cCells)
     }
-
-    func localIndexToAbsolute(_ localIx: Int) -> Int { unsafeCellConnectors[localIx]!.absoluteIndex }
 }
 
 extension SensorPad {
+    @discardableResult
     func invalidateCell(_ localPadIx: Int) -> Int? {
         // If we don't have a hot connection to the cell, we don't
         // need to do anything to it
-        if thePad[localPadIx]!.coreCell == nil { return nil }
+        guard unsafeCellConnectors[localPadIx]!.isHot else { return nil }
 
-        let absoluteCellIx = localIndexToAbsolute(localPadIx)
+        let absoluteCellIx = Grid.shared.localIndexToGridAbsolute(
+            centerAbsoluteIndex, localPadIx
+        )
 
         // Invalidate the caller's pad so he won't think he can just
         // come back and mess about the place
-        thePad[localPadIx] = GridCellConnector(absoluteCellIx)
+        unsafeCellConnectors[localPadIx] = GridCellConnector(absoluteCellIx)
 
         return absoluteCellIx
     }
@@ -44,76 +45,46 @@ extension SensorPad {
     // jump. The "shuttle" refers to the two cells remaining, which will always
     // be the center, at [0], and some other locked cell in the pad
     func pruneToShuttle(_ keepLocalIndex: Int) {
-        let absoluteIndexesToUnlock = invalidateToShuttle(keepLocalIndex)
-        Grid.shared.unlockCells(absoluteIndexesToUnlock)
+        let absoluteIndexesToRelease = invalidateToShuttle(keepLocalIndex)
+        Grid.shared.releaseCells(absoluteIndexesToRelease)
     }
 }
 
 extension SensorPad {
     func disengageGrid() {
-        let toUnlockAbsoluteIndexes: [Int] = (0..<cCells).compactMap {
-            return thePad[$0]!.coreCell?.absoluteIndex
+        let absoluteIndexesToUnlock: [Int] = (0..<cCells).compactMap {
+            self.invalidateCell($0)
+            return unsafeCellConnectors[$0]!.coreCell?.absoluteIndex
         }
 
-        Grid.shared.unlockCells(toUnlockAbsoluteIndexes)
+        Grid.shared.releaseCells(absoluteIndexesToUnlock)
     }
 
-    func engageBirthCell(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
-        let mapper = SensorPadMapper(1, absoluteIndex, thePad, onComplete)
-        Grid.shared.engageGrid(mapper)
+    func engageBirthCell(_ onCellReady: @escaping () -> Void) {
+        let lockRequest = GridLockRequest(self, onCellReady)
+        Grid.shared.engageGrid(lockRequest)
     }
 
-    func firstFullGridEngage(
-        center absoluteIndex: Int, _ lockCompletionCallback: @escaping () -> Void
-    ) {
-        let alreadyLockedCell = Grid.shared.cellAt(absoluteIndex)
+    func engageGrid(_ onComplete: @escaping () -> Void) {
+        mapSensorPadToGrid()
 
-        let mapper = mapSensorPadToGrid(absoluteIndex, cCells, true, lockCompletionCallback)
-
-        let p = Grid.absolutePosition(of: absoluteIndex)
-        Debug.log(level: 203) { "firstFullGridEngage at abs \(absoluteIndex) \(p)" }
-
-        thePad[0] = GridCellConnector(alreadyLockedCell)
-        Grid.shared.engageGrid(mapper, centerCellIsAlreadyLocked: true)
+        let lockRequest = GridLockRequest(self, onComplete)
+        Grid.shared.engageGrid(lockRequest)
     }
 
-    func engageGrid(center absoluteIndex: Int, _ onComplete: @escaping () -> Void) {
-        let mapper = mapSensorPadToGrid(absoluteIndex, cCells, false, onComplete)
+    private func mapSensorPadToGrid() {
+        for ss in 1..<cCells {
+            let absoluteIndex = Grid.shared.localIndexToGridAbsolute(centerAbsoluteIndex, ss)
 
-        let p = Grid.absolutePosition(of: mapper.centerAbsoluteIndex)
-        Debug.log(level: 203) { "engageGrid at abs \(absoluteIndex) \(p)" }
+            var jumpTarget = Grid.gridPosition(of: absoluteIndex)
+            var teleportationTarget: CGPoint?
 
-        Grid.shared.engageGrid(mapper) // completion callback is inside the mapper
-    }
+            if let q = Grid.shared.core.correctForDisjunction(absoluteIndex)
+                { teleportationTarget = jumpTarget.asPoint(); jumpTarget = q }
 
-    private func mapSensorPadToGrid(
-        _ centerAbsoluteIndex: Int, _ cCells: Int,
-        _ centerCellIsAlreadyLocked: Bool,
-        _ lockCompletionCallback: @escaping () -> Void
-    ) -> SensorPadMapper {
+            let cell = Grid.shared.bareCellAt(jumpTarget)
 
-        let start = centerCellIsAlreadyLocked ? 1 : 0
-
-        Debug.log(level: 203) { "mapSensorPadToGrid center is \(centerAbsoluteIndex), start at localIx \(start)" }
-
-        for ss in start..<cCells {
-            var p = Grid.shared.indexer.getGridPointByLocalIndex(
-                center: centerAbsoluteIndex, targetIndex: ss
-            )
-
-            var vp: CGPoint?    // Virtual target for teleportation
-
-            if let q = Grid.shared.core.correctForDisjunction(p)
-                { vp = p.asPoint(); p = q }
-
-            let cell = Grid.shared.cellAt(p)
-
-            Debug.log(level: 203) { "requesting cell at \(cell.absoluteIndex) \(cell.gridPosition) (local \(ss))" }
-            thePad[ss] = GridCellConnector(cell, vp)
+            unsafeCellConnectors[ss] = GridCellConnector(cell, teleportationTarget)
         }
-
-        return SensorPadMapper(
-            cCells, centerAbsoluteIndex, thePad, lockCompletionCallback
-        )
     }
 }

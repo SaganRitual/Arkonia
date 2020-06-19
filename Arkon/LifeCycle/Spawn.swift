@@ -76,7 +76,7 @@ extension Spawn {
         func b() {
             let birthingCell: GridCellConnector
             if let bc = parentArkon?.detachBirthingCellForNewborn() { birthingCell = bc }
-            else { birthingCell = GridCellConnector(Grid.shared.randomCellIndex()) }
+            else { birthingCell = GridCellConnector(Grid.randomCellIndex()) }
 
             embryo.detachFromParent(birthingCell) // Off you go, don't talk to strangers
 

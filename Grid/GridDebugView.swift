@@ -1,15 +1,15 @@
 import SpriteKit
 
 class GridDebugView {
-    var allTheSprites: UnsafeMutableBufferPointer<Unmanaged<GridSpriteNode>?>
+    var allTheSprites: UnsafeMutableBufferPointer<Unmanaged<GridDebugSprite>?>
 
     init(_ cCells: Int) {
         allTheSprites = .allocate(capacity: cCells)
         allTheSprites.initialize(repeating: nil)
     }
 
-    func showLock(_ absoluteIndex: Int, _ state: GridSpriteNode.State) {
-        let p = Grid.absolutePosition(of: absoluteIndex)
+    func showLock(_ absoluteIndex: Int, _ state: GridDebugSprite.State) {
+        let p = Grid.gridPosition(of: absoluteIndex)
         Debug.log(level: 204) { "show lock at \(absoluteIndex) \(p)" }
 
         if let sprite = allTheSprites[absoluteIndex]?.takeUnretainedValue() {
@@ -36,8 +36,8 @@ extension GridDebugView {
                     x1 = i; y1 = -halfD1; x2 = i; y2 = halfD1
                 }
 
-                let start = Grid.shared.cellAt(AKPoint(x: x1, y: y1)).scenePosition
-                let end =   Grid.shared.cellAt(AKPoint(x: x2, y: y2)).scenePosition
+                let start = Grid.shared.bareCellAt(AKPoint(x: x1, y: y1)).scenePosition
+                let end =   Grid.shared.bareCellAt(AKPoint(x: x2, y: y2)).scenePosition
 
                 let line = SpriteFactory.drawLine(from: start, to: end, color: .darkGray)
                 ArkoniaScene.arkonsPortal.addChild(line)
@@ -59,7 +59,7 @@ extension GridDebugView {
             for x in -halfW..<halfW {
                 let a = AKPoint(x: x, y: y)
                 let i = Grid.absoluteIndex(of: a)
-                let c = Grid.shared.cellAt(i)
+                let c = Grid.shared.bareCellAt(i)
                 let p = c.scenePosition
                 let s = SKSpriteNode(texture: texture)
                 s.position = p
@@ -68,7 +68,7 @@ extension GridDebugView {
                 s.colorBlendFactor = 1
                 ArkoniaScene.arkonsPortal.addChild(s)
 
-                allTheSprites[i] = Unmanaged.passRetained(AKSpriteNode(s))
+                allTheSprites[i] = Unmanaged.passRetained(GridDebugSprite(s))
             }
         }
     }

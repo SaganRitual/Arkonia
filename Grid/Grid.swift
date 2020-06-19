@@ -33,11 +33,39 @@ struct Grid {
 }
 
 extension Grid {
+    func bareCellAt(_ absoluteIndex: Int) -> GridCell { core.bareCellAt(absoluteIndex) }
+    func bareCellAt(_ gridPoint: AKPoint) -> GridCell { core.bareCellAt(gridPoint) }
     func cellAt(_ absoluteIndex: Int) -> GridCellConnector { core.cellAt(absoluteIndex) }
+    func cellAt(_ gridPoint: AKPoint) -> GridCellConnector { core.cellAt(gridPoint) }
 
     func arkonAt(_ absoluteIndex: Int) -> Stepper? { arkons.arkonAt(absoluteIndex) }
     func mannaAt(_ absolutIndex: Int) -> Manna?    { manna.mannaAt(absolutIndex) }
 
+    func localIndexToGridAbsolute(_ center: AKPoint, _ localIndex: Int) -> Int {
+        let gridPoint = indexer.localIndexToGridPosition(center, localIndex)
+        let cell = core.bareCellAt(gridPoint)
+        return cell.absoluteIndex
+    }
+
+    func localIndexToGridAbsolute(
+        _ centerAbsoluteIndex: Int, _ localIndex: Int
+    ) -> Int {
+        let center = bareCellAt(centerAbsoluteIndex).gridPosition
+        return localIndexToGridAbsolute(center, localIndex)
+    }
+}
+
+extension Grid {
+    func disengageGrid(_ request: GridLockRequest) {
+        sync.disengageGrid(request)
+    }
+
+    func engageGrid(_ request: GridLockRequest) { sync.engageGrid(request) }
+
+    func releaseCells(_ absoluteIndexes: [Int]) { sync.releaseCells(absoluteIndexes) }
+}
+
+extension Grid {
     func moveArkon(
         _ stepper: Stepper, fromCell: GridCell, toCell: GridCell
     ) {
@@ -60,12 +88,17 @@ extension Grid {
         Grid.shared.core.absoluteIndex(of: point)
     }
 
-    static func absolutePosition(of index: Int) -> AKPoint {
+    static func gridPosition(of index: Int) -> AKPoint {
         Grid.shared.core.absolutePosition(of: index)
     }
 
     static func randomCellIndex() -> Int {
         let cCellsInGrid = Grid.shared.core.gridDimensionsCells.area()
         return Int.random(in: 0..<cCellsInGrid)
+    }
+
+    static func randomBareCell() -> GridCell {
+        let rc = randomCellIndex()
+        return Grid.shared.bareCellAt(rc)
     }
 }

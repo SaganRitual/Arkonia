@@ -33,8 +33,8 @@
 		D4129100249D103800DF0B32 /* GridArkons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290FF249D103800DF0B32 /* GridArkons.swift */; };
 		D4129101249D103800DF0B32 /* GridArkons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290FF249D103800DF0B32 /* GridArkons.swift */; };
 		D4129102249D122300DF0B32 /* GridDebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41290EB249A442200DF0B32 /* GridDebugView.swift */; };
-		D4129104249D127400DF0B32 /* GridSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4129103249D127400DF0B32 /* GridSpriteNode.swift */; };
-		D4129105249D127400DF0B32 /* GridSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4129103249D127400DF0B32 /* GridSpriteNode.swift */; };
+		D4129104249D127400DF0B32 /* GridDebugSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4129103249D127400DF0B32 /* GridDebugSprite.swift */; };
+		D4129105249D127400DF0B32 /* GridDebugSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4129103249D127400DF0B32 /* GridDebugSprite.swift */; };
 		D413E660240F745100077E35 /* DriveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D413E65F240F745100077E35 /* DriveResponse.swift */; };
 		D414A40D2499983500DDCB25 /* SensorPad.CorrectedTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D414A40C2499983500DDCB25 /* SensorPad.CorrectedTarget.swift */; };
 		D41787062430D5090025EC00 /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41787052430D5090025EC00 /* BarChart.swift */; };
@@ -191,7 +191,7 @@
 		D41290F9249CFA4400DF0B32 /* GridCellConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCellConnector.swift; sourceTree = "<group>"; };
 		D41290FC249CFB3000DF0B32 /* GridIndexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridIndexer.swift; sourceTree = "<group>"; };
 		D41290FF249D103800DF0B32 /* GridArkons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridArkons.swift; sourceTree = "<group>"; };
-		D4129103249D127400DF0B32 /* GridSpriteNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridSpriteNode.swift; sourceTree = "<group>"; };
+		D4129103249D127400DF0B32 /* GridDebugSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridDebugSprite.swift; sourceTree = "<group>"; };
 		D413E65F240F745100077E35 /* DriveResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriveResponse.swift; sourceTree = "<group>"; };
 		D414A40C2499983500DDCB25 /* SensorPad.CorrectedTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorPad.CorrectedTarget.swift; sourceTree = "<group>"; };
 		D41787052430D5090025EC00 /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
@@ -378,11 +378,11 @@
 				D4654E012489936E00B34D4E /* GridCell.swift */,
 				D41290F9249CFA4400DF0B32 /* GridCellConnector.swift */,
 				D4654DE22489825900B34D4E /* GridCore.swift */,
+				D4129103249D127400DF0B32 /* GridDebugSprite.swift */,
 				D41290EB249A442200DF0B32 /* GridDebugView.swift */,
 				D41290FC249CFB3000DF0B32 /* GridIndexer.swift */,
 				D4B7B49B24985B2700894A61 /* GridLockRequest.swift */,
 				D485E3E92490F69B0092A7B1 /* GridManna.swift */,
-				D4129103249D127400DF0B32 /* GridSpriteNode.swift */,
 				D41290EF249C6E8200DF0B32 /* GridSync.swift */,
 			);
 			path = Grid;
@@ -788,7 +788,7 @@
 				D4A59D31238839C700517F60 /* Arrive.swift in Sources */,
 				D40DF32D24706E4B001649FA /* Metabolism.swift in Sources */,
 				D41A29A523B9945F00DE9CC6 /* Census.Extra.swift in Sources */,
-				D4129104249D127400DF0B32 /* GridSpriteNode.swift in Sources */,
+				D4129104249D127400DF0B32 /* GridDebugSprite.swift in Sources */,
 				D458940223CFE847004FED72 /* Mutator.swift in Sources */,
 				D464BA5022C737260069623C /* Protocols.swift in Sources */,
 				D457109B2471169100A9B94F /* JumpSpec.swift in Sources */,
@@ -813,7 +813,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4129105249D127400DF0B32 /* GridSpriteNode.swift in Sources */,
+				D4129105249D127400DF0B32 /* GridDebugSprite.swift in Sources */,
 				D4654DFE2489835300B34D4E /* GridCore.swift in Sources */,
 				D41290FE249CFB3000DF0B32 /* GridIndexer.swift in Sources */,
 				D4654E08248AFCEC00B34D4E /* Extensions.swift in Sources */,

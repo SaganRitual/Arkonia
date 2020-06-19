@@ -73,27 +73,25 @@ extension ArkonEmbryo {
     func detachFromParent(_ birthingCell: GridCellConnector) {
         self.birthingCell = birthingCell
 
-        if birthingCell.coreCell == nil {
-            // We have a random cell from on high; we need to lock it
-            // before we can inhabit it. We will also come here if the parent
-            // arkon couldn't find a suitable landing place for the newborn
-            sensorPad!.engageBirthCell(center: birthingCell.absoluteIndex, launchNewborn)
-            Grid.shared.sprites.showLock(birthingCell.absoluteIndex, .reservedForMiracleBirth)
-        } else {
+        if birthingCell.isHot {
             // The parent arkon has chosen a cell for us from among her locked
             // sensor pad cells. We don't need to do anything else, just start
             // eating
             launchNewborn()
-            Grid.shared.sprites.showLock(birthingCell.absoluteIndex, .reservedForOffspring)
+        } else {
+            // We have a random cell from on high; we need to lock it
+            // before we can inhabit it. We will also come here if the parent
+            // arkon couldn't find a suitable landing place for the newborn
+            sensorPad!.engageBirthCell(launchNewborn)
         }
     }
 
     func placeNewbornOnGrid(_ newborn: Stepper) {
-        let bc = Grid.shared.cellAt(newborn.gridCellAbsoluteIndex)
+        let bc = sensorPad!.unsafeCellConnectors[newborn.gridCellAbsoluteIndex]
 
-        thoraxSprite!.position = bc.scenePosition
+        thoraxSprite!.position = bc!.coreCell!.scenePosition
 
-        Grid.shared.placeArkonOnGrid(newborn, atIndex: bc.absoluteIndex)
+        Grid.shared.placeArkon(newborn, atIndex: newborn.gridCellAbsoluteIndex)
     }
 
     func registerBirth() {
@@ -114,7 +112,7 @@ extension ArkonEmbryo {
 
         placeNewbornOnGrid(newborn!)
 
-        SceneDispatch.shared.schedule(self.launchNewborn_C)
+        SceneDispatch.shared.schedule(launchNewborn_C)
     }
 
     private func launchNewborn_C() {
@@ -126,7 +124,7 @@ extension ArkonEmbryo {
         SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)
 
         let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
-        newborn!.thorax.run(rotate, completion: self.launchNewborn_D)
+        newborn!.thorax.run(rotate, completion: launchNewborn_D)
     }
 
     private func launchNewborn_D() {
