@@ -48,7 +48,7 @@ extension GridSync {
 
 private extension GridSync {
     func engageGrid_B_requestLock(_ request: GridLockRequest) {
-        Debug.log(level: 205) { "engageGrid_B_requestLock" }
+        Debug.log(level: 205) { "engageGrid_B_requestLock for \(request.centerAbsoluteIndex)" }
         let centerLock = self.locks[request.centerAbsoluteIndex]!
 
         if centerLock.isLocked {
@@ -60,10 +60,11 @@ private extension GridSync {
     }
 
     func engageGrid_C_onCenterCellAvailable(_ request: GridLockRequest) {
-        Debug.log(level: 205) { "engageGrid_C_onCenterCellAvailable" }
+        Debug.log(level: 205) { "engageGrid_C_onCenterCellAvailable \(request.centerAbsoluteIndex)" }
         let centerCell = Grid.shared.cellAt(request.centerAbsoluteIndex)
 
         locks[request.centerAbsoluteIndex]!.isLocked = true
+        Grid.shared.sprites.setState(.locked, at: request.centerAbsoluteIndex)
         request.unsafeCellConnectors[0] = centerCell
         engageGrid_D_onCenterCellLocked(request)
     }
@@ -82,6 +83,7 @@ extension GridSync {
         let lock = locks[absoluteIndex]!
 
         if lock.deferredLockRequests.isEmpty {
+            Grid.shared.sprites.setState(.unlocked, at: absoluteIndex)
             lock.isLocked = false
             return
         }
@@ -114,6 +116,8 @@ private extension GridSync {
 
             // Good news for the requester
             self.locks[cellDescriptor.absoluteIndex]!.isLocked = true
+            Grid.shared.sprites.setState(.locked, at: cellDescriptor.absoluteIndex)
+            Debug.log(level: 205) { "engageGrid_C_onCenterCellAvailable \(cellDescriptor.absoluteIndex)" }
         }
     }
 

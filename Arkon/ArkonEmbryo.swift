@@ -78,6 +78,7 @@ extension ArkonEmbryo {
 
     func detachFromParent(_ birthingCell: GridCellConnector) {
         self.birthingCell = birthingCell
+        sensorPad!.centerAbsoluteIndex = birthingCell.absoluteIndex
 
         if birthingCell.isHot {
             // The parent arkon has chosen a cell for us from among her locked

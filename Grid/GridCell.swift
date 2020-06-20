@@ -16,10 +16,7 @@ class GridCell {
         self.absoluteIndex = absoluteIndex
         self.gridPosition = absolutePosition
 
-        // Don't ask me where these numbers come from. I'm doing some much scaling
-        // up and down I don't even want to look at it
-        let fudge = CGPoint(x: -0.5, y: +0.25)
-        let sp = ((self.gridPosition.asPoint() + fudge) * cellSideInPix) + paddingPixels.asPoint()
+        let sp = (self.gridPosition.asPoint() * cellSideInPix) //+ paddingPixels.asPoint()
 
         guard let fm = funkyCellsMultiplier else {
             self.scenePosition = sp; return

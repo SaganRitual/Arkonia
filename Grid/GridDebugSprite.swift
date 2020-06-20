@@ -12,7 +12,7 @@ class GridDebugSprite {
 
     init(_ sprite: SKSpriteNode) { self.sprite = sprite }
 
-    func signal(_ newState: State) {
+    func setState(_ newState: State) {
         switch newState {
         case .locked:     setSimpleLock()
         case .unlocked:   setSlightlyWorn()

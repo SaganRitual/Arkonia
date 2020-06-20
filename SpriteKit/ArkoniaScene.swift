@@ -181,6 +181,8 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         Clock.shared = Clock(self)
         Census.shared = Census(self)
 
+        if Arkonia.debugGrid { Grid.shared.sprites.drawGridIndicators() }
+
         self.run(SKAction.run {
             self.readyForDisplayCycle = true
             self.speed = 1

@@ -33,7 +33,9 @@ struct GridCore {
         theGrid.initialize(repeating: nil)
 
         let gridSizePixels = self.gridDimensionsCells.asSize() * cellDimensionsPix.width
-        let paddingPixels = (self.portalDimensionsPix - gridSizePixels) / 2.0
+        let paddingPixels = (self.portalDimensionsPix - gridSizePixels) / 2
+
+        Debug.log { "gridSizePixels = \(gridSizePixels), paddingPixels = \(paddingPixels)" }
 
         for cellAbsoluteIndex in 0..<cCells {
             let ap = absolutePosition(of: cellAbsoluteIndex)

@@ -10,9 +10,9 @@ class GridDebugView {
         allTheSprites.initialize(repeating: nil)
     }
 
-    func signal(_ newState: GridDebugSprite.State, at cellAbsoluteIndex: Int) {
+    func setState(_ newState: GridDebugSprite.State, at cellAbsoluteIndex: Int) {
         guard Arkonia.debugGrid else { return }
-        allTheSprites[cellAbsoluteIndex]!.takeUnretainedValue().signal(newState)
+        allTheSprites[cellAbsoluteIndex]!.takeUnretainedValue().setState(newState)
     }
 }
 
@@ -50,24 +50,17 @@ extension GridDebugView {
         let atlas = SKTextureAtlas(named: "Backgrounds")
         let texture = atlas.textureNamed("debug-rectangle-solid")
 
-        let halfW = Grid.shared.core.gridDimensionsCells.width / 2
-        let halfH = Grid.shared.core.gridDimensionsCells.height / 2
+        for cellAbsoluteIndex in 0..<Grid.shared.core.theGrid.count {
+            let c = Grid.shared.bareCellAt(cellAbsoluteIndex)
+            let p = c.scenePosition
+            let s = SKSpriteNode(texture: texture)
+            s.position = p
+            s.setScale(0.2)
+            s.color = .darkGray
+            s.colorBlendFactor = 1
+            ArkoniaScene.arkonsPortal.addChild(s)
 
-        for y in -halfH..<halfH {
-            for x in -halfW..<halfW {
-                let a = AKPoint(x: x, y: y)
-                let i = Grid.absoluteIndex(of: a)
-                let c = Grid.shared.bareCellAt(i)
-                let p = c.scenePosition
-                let s = SKSpriteNode(texture: texture)
-                s.position = p
-                s.setScale(0.2)
-                s.color = .darkGray
-                s.colorBlendFactor = 1
-                ArkoniaScene.arkonsPortal.addChild(s)
-
-                allTheSprites[i] = Unmanaged.passRetained(GridDebugSprite(s))
-            }
+            allTheSprites[cellAbsoluteIndex] = Unmanaged.passRetained(GridDebugSprite(s))
         }
     }
 }
