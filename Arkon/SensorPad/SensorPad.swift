@@ -5,6 +5,7 @@ typealias UnsafeCellConnectors = UnsafeMutablePointer<GridCellConnector?>
 class SensorPad {
     let cCells: Int
     var centerAbsoluteIndex = 0
+    var hasCompletedFirstEngagement = false
     let unsafeCellConnectors: UnsafeCellConnectors
 
     var centerGridPoint: AKPoint { Grid.shared.bareCellAt(centerAbsoluteIndex).gridPosition }
@@ -60,11 +61,11 @@ extension SensorPad {
         Grid.shared.releaseCells(absoluteIndexesToUnlock)
     }
 
-    func engageGrid(_ onComplete: @escaping () -> Void) {
+    func engageGrid(centerIsPreLocked: Bool, _ onComplete: @escaping () -> Void) {
         mapSensorPadToGrid()
 
         let lockRequest = GridLockRequest(self, onComplete)
-        Grid.shared.engageGrid(lockRequest)
+        Grid.shared.engageGrid(lockRequest, centerIsPreLocked)
     }
 
     private func mapSensorPadToGrid() {

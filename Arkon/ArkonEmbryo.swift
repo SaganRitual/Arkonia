@@ -88,7 +88,7 @@ extension ArkonEmbryo {
             // We have a random cell from on high; we need to lock it
             // before we can inhabit it. We will also come here if the parent
             // arkon couldn't find a suitable landing place for the newborn
-            sensorPad!.engageGrid(launchNewborn)
+            sensorPad!.engageGrid(centerIsPreLocked: false, launchNewborn)
         }
     }
 

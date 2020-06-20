@@ -55,13 +55,12 @@ extension Grid {
 }
 
 extension Grid {
-    func disengageGrid(_ request: GridLockRequest) {
-        sync.disengageGrid(request)
-    }
-
-    func engageGrid(_ request: GridLockRequest) { sync.engageGrid(request) }
-
+    func disengageGrid(_ request: GridLockRequest) { sync.disengageGrid(request) }
     func releaseCells(_ absoluteIndexes: [Int]) { sync.releaseCells(absoluteIndexes) }
+
+    func engageGrid(_ request: GridLockRequest, _ centerIsPreLocked: Bool) {
+        sync.engageGrid(request, centerIsPreLocked)
+    }
 }
 
 extension Grid {

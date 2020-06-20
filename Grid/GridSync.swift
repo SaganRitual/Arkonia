@@ -29,8 +29,14 @@ extension GridSync {
         }
     }
 
-    func engageGrid(_ request: GridLockRequest) {
-        lockQueue.async { self.engageGrid_B_requestLock(request) }
+    func engageGrid(_ request: GridLockRequest, _ centerIsPreLocked: Bool) {
+        lockQueue.async {
+            if centerIsPreLocked {
+                self.engageGrid_D_onCenterCellLocked(request)
+            } else {
+                self.engageGrid_B_requestLock(request)
+            }
+        }
     }
 
     func releaseCell(_ absoluteIndex: Int) { completeDeferredLockRequest(absoluteIndex) }
@@ -112,6 +118,7 @@ private extension GridSync {
     }
 
     func deferLockRequest(_ request: GridLockRequest) {
+        Debug.log(level: 205) { "deferLockRequest" }
         locks[request.centerAbsoluteIndex]!.deferredLockRequests.pushBack(request)
     }
 }
