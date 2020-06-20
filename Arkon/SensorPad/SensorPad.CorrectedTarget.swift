@@ -17,9 +17,9 @@ extension SensorPad {
 
         for ss_ in 0..<cCells {
             let localIndex = (ss_ + targetOffset) % cCells
-            let absoluteIndex = Grid.shared.localIndexToGridAbsolute(
-                centerAbsoluteIndex, localIndex
-            )
+
+            let absoluteIndex =
+                Grid.shared.localIndexToGridAbsolute(centerGridPoint, localIndex)
 
             // If the target cell isn't available (meaning we couldn't
             // see it when we tried to lock it, because someone had that

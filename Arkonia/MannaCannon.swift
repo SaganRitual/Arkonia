@@ -63,18 +63,11 @@ class MannaCannon {
             let center = Grid.randomCellIndex()
             var newMannaHome: AKPoint?
 
-            let core = Grid.shared.core
             for cellLocalIx in 0..<9 {
-                let gridAbsoluteIndex =
-                    Grid.shared!.localIndexToVirtualGrid(cellLocalIx)
+                let centerPosition = Grid.gridPosition(of: center)
+                let gridAbsoluteIndex = Grid.shared.localIndexToGridAbsolute(centerPosition, cellLocalIx)
 
                 newMannaHome = Grid.shared.bareCellAt(gridAbsoluteIndex).gridPosition
-
-                // Wrap to the other side of the grid, asteroids style, if
-                // the new home we just calculated is off the grid
-                if let corrected = core.correctForDisjunction(gridAbsoluteIndex) {
-                    newMannaHome = corrected
-                }
 
                 if Grid.shared.manna.mannaAt(newMannaHome!) == nil { break }
 

@@ -7,6 +7,8 @@ class SensorPad {
     var centerAbsoluteIndex = 0
     let unsafeCellConnectors: UnsafeCellConnectors
 
+    var centerGridPoint: AKPoint { Grid.shared.bareCellAt(centerAbsoluteIndex).gridPosition }
+
     static func makeSensorPad(_ cCells: Int) -> SensorPad { return .init(cCells) }
 
     private init(_ cCells: Int) {
@@ -24,9 +26,7 @@ extension SensorPad {
         // need to do anything to it
         guard unsafeCellConnectors[localPadIx]!.isHot else { return nil }
 
-        let absoluteCellIx = Grid.shared.localIndexToGridAbsolute(
-            centerAbsoluteIndex, localPadIx
-        )
+        let absoluteCellIx = Grid.shared.localIndexToGridAbsolute(centerGridPoint, localPadIx)
 
         // Invalidate the caller's pad so he won't think he can just
         // come back and mess about the place
@@ -74,13 +74,12 @@ extension SensorPad {
 
     private func mapSensorPadToGrid() {
         for ss in 1..<cCells {
-            let absoluteIndex = Grid.shared.localIndexToGridAbsolute(centerAbsoluteIndex, ss)
+            let virtualGridPoint = Grid.shared.localIndexToVirtualGrid(ss)
+            let jumpTarget = Grid.shared.core.correctForDisjunction(virtualGridPoint)
 
-            var jumpTarget = Grid.gridPosition(of: absoluteIndex)
-            var teleportationTarget: CGPoint?
-
-            if let q = Grid.shared.core.correctForDisjunction(absoluteIndex)
-                { teleportationTarget = jumpTarget.asPoint(); jumpTarget = q }
+            let checkTeleportation = virtualGridPoint + centerGridPoint
+            let teleportationTarget: CGPoint? = (checkTeleportation == jumpTarget) ?
+                jumpTarget.asPoint() : nil
 
             let cell = Grid.shared.bareCellAt(jumpTarget)
 
