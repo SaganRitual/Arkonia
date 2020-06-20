@@ -15,9 +15,7 @@ struct GridIndexer {
         }
     }
 
-    func localIndexToGridPosition(_ center: AKPoint, _ localIx: Int) -> AKPoint {
-        center + indexedGridPoints[localIx]
-    }
+    func localIndexToVirtualGrid(_ localIx: Int) -> AKPoint { indexedGridPoints[localIx] }
 }
 
 private extension GridIndexer {

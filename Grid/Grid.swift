@@ -42,16 +42,15 @@ extension Grid {
     func mannaAt(_ absolutIndex: Int) -> Manna?    { manna.mannaAt(absolutIndex) }
 
     func localIndexToGridAbsolute(_ center: AKPoint, _ localIndex: Int) -> Int {
-        let gridPoint = indexer.localIndexToGridPosition(center, localIndex)
-        let cell = core.bareCellAt(gridPoint)
+        let virtualGridOffset = indexer.localIndexToVirtualGrid(localIndex)
+        let virtualGridPoint = center + virtualGridOffset
+        let realGridPoint = core.correctForDisjunction(virtualGridPoint)
+        let cell = core.bareCellAt(realGridPoint)
         return cell.absoluteIndex
     }
 
-    func localIndexToGridAbsolute(
-        _ centerAbsoluteIndex: Int, _ localIndex: Int
-    ) -> Int {
-        let center = bareCellAt(centerAbsoluteIndex).gridPosition
-        return localIndexToGridAbsolute(center, localIndex)
+    func localIndexToVirtualGrid(_ localIndex: Int) -> AKPoint {
+        indexer.localIndexToVirtualGrid(localIndex)
     }
 }
 

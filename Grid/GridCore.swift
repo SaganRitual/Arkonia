@@ -79,13 +79,12 @@ struct GridCore {
     // In other words, check whether the specified point is out of bounds of
     // the grid, and if so, return the point on the other side of the grid,
     // a wrap-around like the old Atari game called Asteroids
-    func correctForDisjunction(_ realPointAbsoluteIndex: Int) -> AKPoint? {
-        let realPoint = absolutePosition(of: realPointAbsoluteIndex)
-        let ax = abs(realPoint.x), sx = (realPoint.x < 0) ? -1 : 1
-        let ay = abs(realPoint.y), sy = (realPoint.y < 0) ? -1 : 1
+    func correctForDisjunction(_ virtualPoint: AKPoint) -> AKPoint {
+        let ax = abs(virtualPoint.x), sx = (virtualPoint.x < 0) ? -1 : 1
+        let ay = abs(virtualPoint.y), sy = (virtualPoint.y < 0) ? -1 : 1
 
         let halfW = gridDimensionsCells.width / 2, halfH = gridDimensionsCells.height / 2
-        var newX = realPoint.x, newY = realPoint.y
+        var newX = virtualPoint.x, newY = virtualPoint.y
 
         func correct(_ a: Int, _ halfGrid: Int, _ new: Int, _ sign: Int) -> Int? {
             if a > halfGrid {
@@ -99,7 +98,6 @@ struct GridCore {
         if let nx = correct(ax, halfW, newX, sx) { newX = nx }
         if let ny = correct(ay, halfH, newY, sy) { newY = ny }
 
-        let newPoint = AKPoint(x: newX, y: newY)
-        return newPoint == realPoint ? nil : newPoint
+        return AKPoint(x: newX, y: newY)
     }
 }

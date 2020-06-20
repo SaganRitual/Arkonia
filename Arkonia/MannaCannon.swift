@@ -65,9 +65,8 @@ class MannaCannon {
 
             let core = Grid.shared.core
             for cellLocalIx in 0..<9 {
-                let gridAbsoluteIndex = Grid.shared!.localIndexToGridAbsolute(
-                    center, cellLocalIx
-                )
+                let gridAbsoluteIndex =
+                    Grid.shared!.localIndexToVirtualGrid(cellLocalIx)
 
                 newMannaHome = Grid.shared.bareCellAt(gridAbsoluteIndex).gridPosition
 
