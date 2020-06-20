@@ -97,7 +97,7 @@ extension ArkonEmbryo {
 
         thoraxSprite!.position = bc!.coreCell!.scenePosition
 
-        Grid.shared.placeArkon(newborn, atIndex: newborn.gridCellAbsoluteIndex)
+        Grid.shared.placeArkon(newborn, atIndex: sensorPad!.centerAbsoluteIndex)
     }
 
     func registerBirth() {
@@ -130,7 +130,7 @@ extension ArkonEmbryo {
     private func launchNewborn_C() {
         Debug.log(level: 205) {
             "launchNewborn_C, real stepper now \(self.newborn!.name)"
-            + " at \(self.newborn!.gridCellAbsoluteIndex)"
+            + " at \(self.newborn!.sensorPad.centerAbsoluteIndex)"
         }
 
         SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)

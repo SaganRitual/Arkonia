@@ -20,7 +20,7 @@ class GridArkons {
     func moveArkon(_ stepper: Stepper, from fromCellIndex: Int, to toCellIndex: Int) {
         allTheArkons[toCellIndex] = allTheArkons[fromCellIndex]!
         allTheArkons[fromCellIndex] = nil
-        stepper.gridCellAbsoluteIndex = toCellIndex
+        stepper.sensorPad.centerAbsoluteIndex = toCellIndex
     }
 
     // We don't need to lock this function, because it's only ever called
@@ -29,15 +29,15 @@ class GridArkons {
     // to muck with them
     func placeArkon(_ stepper: Stepper, atIndex: Int) {
         allTheArkons[atIndex] = Unmanaged.passRetained(stepper)
-        stepper.gridCellAbsoluteIndex = atIndex
+        stepper.sensorPad.centerAbsoluteIndex = atIndex
     }
 
     // Unlike placeArkon(), this function must be called only for locked cells,
     // so never call it directly, instead call the Grid version, which knows
     // how to lock stuff
     func removeArkon(_ stepper: Stepper) -> Int {
-        allTheArkons[stepper.gridCellAbsoluteIndex]!.release()
-        allTheArkons[stepper.gridCellAbsoluteIndex] = nil
-        return stepper.gridCellAbsoluteIndex
+        allTheArkons[stepper.sensorPad.centerAbsoluteIndex]!.release()
+        allTheArkons[stepper.sensorPad.centerAbsoluteIndex] = nil
+        return stepper.sensorPad.centerAbsoluteIndex
     }
 }

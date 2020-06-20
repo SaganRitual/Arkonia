@@ -6,7 +6,7 @@ final class Arrive: Dispatchable {
     func arrive() {
         Debug.debugColor(stepper, .brown, .green)
 
-        let ax = stepper.gridCellAbsoluteIndex
+        let ax = stepper.sensorPad.centerAbsoluteIndex
         if let manna = Grid.shared.mannaAt(ax) { graze(manna); return }
 
         stepper.dispatch.disengageGrid()

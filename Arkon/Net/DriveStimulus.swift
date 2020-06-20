@@ -35,7 +35,7 @@ private extension DriveStimulus {
         _ dayFullness: CGFloat, _ yearFullness: CGFloat
     ) {
         let st = stepper, mt = st.metabolism, cs = mt.spawn
-        let ax = st.gridCellAbsoluteIndex
+        let ax = st.sensorPad.centerAbsoluteIndex
         let gp = Grid.shared.core.absolutePosition(of: ax)
 
         // Average fullness of the spawn embryo; not really very representative,

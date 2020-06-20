@@ -24,7 +24,7 @@ final class MoveStepper: Dispatchable {
             stepper, fromCell: js.fromCell, toCell: js.toCell
         )
 
-        stepper.gridCellAbsoluteIndex = toIx
+        stepper.sensorPad.centerAbsoluteIndex = toIx
         stepper.sensorPad.unsafeCellConnectors[toLocalIx] = GridCellConnector(js.toCell)
 
         if toContents == .manna {
