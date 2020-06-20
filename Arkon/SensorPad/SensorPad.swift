@@ -60,11 +60,6 @@ extension SensorPad {
         Grid.shared.releaseCells(absoluteIndexesToUnlock)
     }
 
-    func engageBirthCell(_ onCellReady: @escaping () -> Void) {
-        let lockRequest = GridLockRequest(self, onCellReady)
-        Grid.shared.engageGrid(lockRequest)
-    }
-
     func engageGrid(_ onComplete: @escaping () -> Void) {
         mapSensorPadToGrid()
 

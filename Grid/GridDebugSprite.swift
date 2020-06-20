@@ -7,43 +7,31 @@ class GridDebugSprite {
         case reservedForOffspring, reservedForMiracleBirth
     }
 
-    var previousColor: SKColor = .darkGray
-    var currentColor: SKColor = .darkGray
-    var state = State.pristine
     let sprite: SKSpriteNode
+    var currentState = State.pristine
 
-    init(_ sprite: SKSpriteNode) {
-        self.sprite = sprite
-        currentColor = .darkGray
-    }
+    init(_ sprite: SKSpriteNode) { self.sprite = sprite }
 
-    func runActions() {
-        let actionForPrevious = SKAction.colorize(with: previousColor, colorBlendFactor: 1, duration: 0.25)
-        let actionForCurrent  = SKAction.colorize(with: currentColor, colorBlendFactor: 1, duration: 0.25)
-        let sequence = SKAction.sequence([actionForPrevious, actionForCurrent])
-        let forever = SKAction.repeatForever(sequence)
-
-        sprite.removeAllActions()
-        sprite.run(forever)
-    }
-
-    func showLock(_ newState: State) {
-        previousColor = currentColor
-
+    func signal(_ newState: State) {
         switch newState {
-        case .reservedForOffspring:    currentColor = .green
-        case .reservedForMiracleBirth: currentColor = .magenta
-        case .deferredAndCompleted:    currentColor = .magenta
+        case .locked:     setSimpleLock()
+        case .unlocked:   setSlightlyWorn()
+        case .deferred:   setDeferred()
+        case .centerLock: setSimpleCenterLock()
+        case .reservedForOffspring: setReservedForOffspring()
+        case .reservedForMiracleBirth: setReservedForMiracleBirth()
 
-        case .centerLock: currentColor = .yellow
-        case .deferred:   currentColor = .blue
-        case .locked:     currentColor = .red
-        case .blind:      currentColor = .black
-        case .unlocked:   currentColor = .darkGray
-        default:          currentColor = .darkGray
+        case .deferredAndCompleted: setSimpleLock()
+        default: fatalError()
         }
 
-        state = newState
-        runActions()
+        currentState = newState
     }
+
+    func setDeferred() { sprite.color = .blue }
+    func setReservedForMiracleBirth() { sprite.color = .magenta }
+    func setReservedForOffspring() { sprite.color = .cyan }
+    func setSimpleLock() { sprite.color = .red }
+    func setSimpleCenterLock() { sprite.color = .yellow }
+    func setSlightlyWorn() { sprite.color = .gray }
 }

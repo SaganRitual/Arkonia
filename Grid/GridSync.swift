@@ -42,6 +42,7 @@ extension GridSync {
 
 private extension GridSync {
     func engageGrid_B_requestLock(_ request: GridLockRequest) {
+        Debug.log(level: 205) { "engageGrid_B_requestLock" }
         let centerLock = self.locks[request.centerAbsoluteIndex]!
 
         if centerLock.isLocked {
@@ -53,13 +54,16 @@ private extension GridSync {
     }
 
     func engageGrid_C_onCenterCellAvailable(_ request: GridLockRequest) {
+        Debug.log(level: 205) { "engageGrid_C_onCenterCellAvailable" }
         let centerCell = Grid.shared.cellAt(request.centerAbsoluteIndex)
 
         locks[request.centerAbsoluteIndex]!.isLocked = true
         request.unsafeCellConnectors[0] = centerCell
+        engageGrid_D_onCenterCellLocked(request)
     }
 
     func engageGrid_D_onCenterCellLocked(_ request: GridLockRequest) {
+        Debug.log(level: 205) { "engageGrid_D_onCenterCellLocked" }
         lockQueue.async {
             self.connectSensorPad(request)
             MainDispatchQueue.async(execute: request.onCellReady)

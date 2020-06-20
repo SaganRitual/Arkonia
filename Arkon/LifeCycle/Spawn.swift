@@ -3,16 +3,16 @@ import SpriteKit
 final class Spawn: DispatchableProtocol {
     var dispatch: Dispatch! { willSet { fatalError() } }
 
-    var embryo: ArkonEmbryo
+    var embryo: ArkonEmbryo!
     let parentArkon: Stepper?
 
     init(_ parentArkon: Stepper?) {
-        self.embryo = ArkonEmbryo(parentArkon)
         self.parentArkon = parentArkon
+        self.embryo = ArkonEmbryo(parentArkon, self)
     }
 
     deinit {
-        print("here")
+        Debug.log(level: 205) { "~spawn" }
     }
 
     func launch() { spawn() }

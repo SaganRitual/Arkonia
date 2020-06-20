@@ -9,20 +9,26 @@ class ArkonEmbryo {
     var netDisplay: NetDisplay?
     var newborn: Stepper?
     var noseSprite: SKSpriteNode?
-    let parentArkon: Stepper?
+    var parentArkon: Stepper?
     var sensorPad: SensorPad?
     var thoraxSprite: SKSpriteNode?
     var toothSprite: SKSpriteNode?
 
-    init(_ parentArkon: Stepper?) {
+    // Strong ref to the spawn object for when we're born supernaturally.
+    // We need it to exist until we're ready to disconnect, which comes late
+    // in the process, and I don't feel like rewriting anything else at the moment
+    var supernaturalSpawnThing: Spawn?
+
+    init(_ parentArkon: Stepper?, _ supernaturalSpawnThing: Spawn?) {
         Debug.log(level: 204) { "ArkonEmbryo" }
         self.parentArkon = parentArkon
+        self.supernaturalSpawnThing = supernaturalSpawnThing
 
         if parentArkon != nil { self.sensorPad = nil; return }
     }
 
     deinit {
-        print("here")
+        Debug.log(level: 205) { "~ArkonEmbryo" }
     }
 }
 
@@ -82,12 +88,12 @@ extension ArkonEmbryo {
             // We have a random cell from on high; we need to lock it
             // before we can inhabit it. We will also come here if the parent
             // arkon couldn't find a suitable landing place for the newborn
-            sensorPad!.engageBirthCell(launchNewborn)
+            sensorPad!.engageGrid(launchNewborn)
         }
     }
 
     func placeNewbornOnGrid(_ newborn: Stepper) {
-        let bc = sensorPad!.unsafeCellConnectors[newborn.gridCellAbsoluteIndex]
+        let bc = sensorPad!.unsafeCellConnectors[0]
 
         thoraxSprite!.position = bc!.coreCell!.scenePosition
 
@@ -110,7 +116,13 @@ extension ArkonEmbryo {
         Debug.log(level: 205) { "launchNewborn_B \(name!)" }
         self.newborn = Stepper(self)
 
+        // The grid creates a strong ref to the new arkon...
         placeNewbornOnGrid(newborn!)
+
+        // ...so the embryo and all its trappings can go away now; here
+        // we nil the hacky circular reference that's been holding it
+        // together all this time
+        supernaturalSpawnThing = nil
 
         SceneDispatch.shared.schedule(launchNewborn_C)
     }

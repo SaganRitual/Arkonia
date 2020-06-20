@@ -4,17 +4,15 @@ class GridDebugView {
     var allTheSprites: UnsafeMutableBufferPointer<Unmanaged<GridDebugSprite>?>
 
     init(_ cCells: Int) {
+        guard Arkonia.debugGrid else { allTheSprites = .allocate(capacity: 1); return }
+
         allTheSprites = .allocate(capacity: cCells)
         allTheSprites.initialize(repeating: nil)
     }
 
-    func showLock(_ absoluteIndex: Int, _ state: GridDebugSprite.State) {
-        let p = Grid.gridPosition(of: absoluteIndex)
-        Debug.log(level: 204) { "show lock at \(absoluteIndex) \(p)" }
-
-        if let sprite = allTheSprites[absoluteIndex]?.takeUnretainedValue() {
-            sprite.showLock(state)
-        }
+    func signal(_ newState: GridDebugSprite.State, at cellAbsoluteIndex: Int) {
+        guard Arkonia.debugGrid else { return }
+        allTheSprites[cellAbsoluteIndex]!.takeUnretainedValue().signal(newState)
     }
 }
 
