@@ -18,8 +18,65 @@ struct GridIndexer {
         indexedGridPoints = p
     }
 
-    func localIndexToVirtualGrid(_ center: AKPoint, _ localIx: Int) -> AKPoint {
-        indexedGridPoints[localIx] + center
+    func localIndexToVirtualGrid(_ localIx: Int, from centerGridCell: GridCell) -> AKPoint {
+        indexedGridPoints[localIx] + centerGridCell.properties.gridPosition
+    }
+
+    func localIndexToRealGrid(_ localIx: Int, from centerGridCell: GridCell) -> (GridCell, AKPoint) {
+        let virtualGridPosition = localIndexToVirtualGrid(localIx, from: centerGridCell)
+        return asteroidize(virtualGridPosition)
+    }
+}
+
+extension GridIndexer {
+    func first(
+        fromCenterAt absoluteGridIndex: Int, cCells: Int,
+        where predicate: @escaping (GridCell, AKPoint) -> Bool
+    ) -> (GridCell, AKPoint)? {
+        let centerCell = Grid.cellAt(absoluteGridIndex)
+        return first(fromCenterAt: centerCell, cCells: cCells, where: predicate)
+    }
+
+    func first(
+        fromCenterAt centerCell: GridCell, cCells: Int,
+        where predicate: @escaping (GridCell, AKPoint) -> Bool
+    ) -> (GridCell, AKPoint)? {
+        var gridCell: GridCell?
+        var virtualGridPosition: AKPoint?
+
+        let ix = (0..<cCells).first { localIndex in
+            (gridCell, virtualGridPosition) =
+                localIndexToRealGrid(localIndex, from: centerCell)
+
+            return predicate(gridCell!, virtualGridPosition!)
+        }
+
+        return ix == nil ? nil : (gridCell!, virtualGridPosition!)
+    }
+}
+
+private extension GridIndexer {
+    // In other words, check whether the specified point is out of bounds of
+    // the grid, and if so, return the point on the other side of the grid,
+    // a wrap-around like the old Atari game called Asteroids
+    func asteroidize(_ virtualGridPosition: AKPoint) -> (GridCell, AKPoint) {
+        let ax = abs(virtualGridPosition.x), sx = (virtualGridPosition.x < 0) ? -1 : 1
+        let ay = abs(virtualGridPosition.y), sy = (virtualGridPosition.y < 0) ? -1 : 1
+
+        var newX = virtualGridPosition.x, newY = virtualGridPosition.y
+
+        func warp(_ a: Int, _ gridDimension: Int, _ new: Int, _ sign: Int) -> Int? {
+            (a > gridDimension / 2) ? sign * (a - gridDimension) : nil
+        }
+
+        if let nx = warp(ax, Grid.gridDimensionsCells.width, newX, sx) { newX = nx }
+        if let ny = warp(ay, Grid.gridDimensionsCells.height, newY, sy) { newY = ny }
+
+        let realGridPosition = AKPoint(x: newX, y: newY)
+
+        return (realGridPosition == virtualGridPosition) ?
+            (Grid.cellAt(realGridPosition), realGridPosition) :
+            (Grid.cellAt(realGridPosition), virtualGridPosition)
     }
 }
 

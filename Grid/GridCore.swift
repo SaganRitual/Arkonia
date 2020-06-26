@@ -1,8 +1,6 @@
 import Foundation
 import SpriteKit
 
-protocol GridPlantableArkon { }
-
 class GridCore {
     let cellDimensionsPix: CGSize
     let funkyCellsMultiplier: CGFloat?
@@ -59,34 +57,6 @@ class GridCore {
 
             self.theCells.append(ic)
         }
-    }
-}
-
-extension GridCore {
-    // In other words, check whether the specified point is out of bounds of
-    // the grid, and if so, return the point on the other side of the grid,
-    // a wrap-around like the old Atari game called Asteroids
-    func asteroidize(_ virtualPosition: AKPoint) -> Int? {
-        let ax = abs(virtualPosition.x), sx = (virtualPosition.x < 0) ? -1 : 1
-        let ay = abs(virtualPosition.y), sy = (virtualPosition.y < 0) ? -1 : 1
-
-        let halfDimensions = gridDimensionsCells / 2
-        var newX = virtualPosition.x, newY = virtualPosition.y
-
-        func warp(_ a: Int, _ halfGrid: Int, _ new: Int, _ sign: Int) -> Int? {
-            if a > halfGrid {
-                let d = 2 * (a - halfGrid) - 1
-                return -sign * (a - d)
-            }
-
-            return nil
-        }
-
-        if let nx = warp(ax, halfDimensions.width, newX, sx) { newX = nx }
-        if let ny = warp(ay, halfDimensions.height, newY, sy) { newY = ny }
-
-        let realGridPosition = AKPoint(x: newX, y: newY)
-        return (realGridPosition == virtualPosition) ? nil : absoluteIndex(of: realGridPosition)
     }
 }
 

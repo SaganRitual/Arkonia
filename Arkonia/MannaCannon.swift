@@ -60,34 +60,25 @@ class MannaCannon {
         // can't place manna in any of these nine cells, skip the attempt. The
         // result is that we'll usually end up with fewer than cMannaMorsels morsels
         for _ in 0..<Arkonia.cMannaMorsels {
-            let center = Grid.randomCellIndex()
-            var newMannaHome: AKPoint?
-            let centerPosition = Grid.gridPosition(of: center)
+            let centerGridCell = Grid.randomCell()
 
-            for cellLocalIx in 0..<9 {
-                let virtualPoint = Grid.localIndexToVirtualGrid(
-                    center: centerPosition, localIx: cellLocalIx
-                )
+            guard let newMannaHome = getEmptyCell(startingAt: centerGridCell) else { continue }
 
-                let gridAbsoluteIndex =
-                    Grid.asteroidize(virtualPoint) ??
-                    Grid.absoluteIndex(of: virtualPoint)
+            let absoluteIx = newMannaHome.properties.gridAbsoluteIndex
 
-                newMannaHome = Grid.cellAt(gridAbsoluteIndex).properties.gridPosition
-
-                if Grid.mannaAt(gridAbsoluteIndex) == nil { break }
-
-                newMannaHome = nil
-            }
-
-            guard let h = newMannaHome else { continue }
-            let absoluteIx = Grid.cellAt(h).properties.gridAbsoluteIndex
-            Grid.plantManna(at: absoluteIx)
-
-            let m = Grid.mannaAt(absoluteIx)!
+            let m = Grid.plantManna(at: absoluteIx)
             m.sprite.firstBloom(at: absoluteIx)
 
             cPlantedManna += 1
         }
+    }
+
+    private func getEmptyCell(startingAt centerGridCell: GridCell) -> GridCell? {
+        if let (targetCell, _) = Grid.first(
+            fromCenterAt: centerGridCell, cCells: 9, where: { candidateCell, _ in
+            !candidateCell.contents.hasManna()
+        }) { return targetCell }
+
+        return nil
     }
 }

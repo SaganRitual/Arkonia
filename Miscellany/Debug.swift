@@ -8,12 +8,6 @@ func hardAssert(_ condition: Bool, _ execute: @escaping (() -> String?)) {
     }
 }
 
-func showDebugLog() {
-    Debug.showLog()
-}
-
-func six(_ string: String?) -> String { String(string?.prefix(50) ?? "<nothing here>") }
-
 struct Debug {
     static func debugStats(startedAt: UInt64, scale: Double) -> Double {
         let stoppedAt = clock_gettime_nsec_np(CLOCK_UPTIME_RAW)
@@ -28,7 +22,7 @@ extension Debug {
     )
 
     private static let startTime = Date()
-    private static let cLogMessages = 10000
+    private static let cLogMessages = 50000
     private static var logIndex = 0
     private static var logWrapped = false
     private static var logMessages: [String] = Array(repeating: String(), count: cLogMessages)

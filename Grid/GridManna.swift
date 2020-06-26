@@ -6,7 +6,9 @@ struct GridManna {
 
     func mannaAt(_ absoluteIndex: Int) -> Manna? { Grid.cellAt(absoluteIndex).contents.manna }
 
-    func plantManna(at absoluteIndex: Int) {
-        Grid.cellAt(absoluteIndex).contents.manna = Manna(absoluteIndex)
+    func plantManna(at absoluteIndex: Int) -> Manna {
+        let m = Manna(absoluteIndex)
+        Grid.cellAt(absoluteIndex).contents.manna = m
+        return m
     }
 }

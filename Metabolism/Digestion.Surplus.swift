@@ -50,10 +50,10 @@ extension Metabolism {
         let maxDraw = (1 - L) * fatStore.E.capacity
 
         // Make it expensive to create a new embryo
-        guard let spawn = self.spawn else {
+        guard let spawn = self.sporangium else {
             if fatStore.isFull {
                 Debug.log(level: 179) { "Create spawn embryo" }
-                self.spawn = ChamberedStore(.spawn, 2)
+                self.sporangium = ChamberedStore(.spawn, 2)
                 fatStore.withdrawFromSurplus(max: maxDraw)
             }
 

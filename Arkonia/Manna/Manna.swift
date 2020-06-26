@@ -67,7 +67,7 @@ extension Manna {
         // Check for pollenators above me; if none, go back to sleep for a while
         let mc = MannaCannon.shared!
 
-        guard let pollenator = mc.pollenators.first (
+        guard let pollenator = mc.pollenators.first(
             where: { $0.node.contains(sprite.sprite.position) }
         ) else { mc.blast(self); return }
 

@@ -2,6 +2,8 @@ import Foundation
 
 extension Stepper {
     func driveNetSignal() {
+        MainDispatchQueue.async { driveNetSignal_A() }
+
         func driveNetSignal_A() {
             Debug.debugColor(self, .blue, .red)
 
@@ -16,9 +18,13 @@ extension Stepper {
         }
 
         func driveNetSignal_C(_ netResultIsJump: Bool) {
-            if netResultIsJump { moveSprite() } else { disengageGrid() }
+            if netResultIsJump {
+                Debug.log(level: 213) { "driveNetSignal; result is jump" }
+                moveSprite()
+            } else {
+                Debug.log(level: 213) { "driveNetSignal; result is rest" }
+                disengageGrid()
+            }
         }
-
-        MainDispatchQueue.async(execute: driveNetSignal_A)
     }
 }

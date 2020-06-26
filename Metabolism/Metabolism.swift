@@ -21,8 +21,12 @@ class Metabolism: HasSelectableStore {
     let lungs =    Lungs()
     let stomach =  ChamberedStore(.stomach, 1)
 
+    // This is the embryo I feed on at birth; when it's
+    // empty, I detach it
     var embryo: ChamberedStore? = ChamberedStore(.embryo, 2)
-    var spawn: ChamberedStore?
+
+    // This is where I build my offspring
+    var sporangium: ChamberedStore?
 
     let bodyPerCycleEnergyCost: CGFloat
     let bodyPerCycleOozeCost:   CGFloat
@@ -107,7 +111,7 @@ class Metabolism: HasSelectableStore {
     // The spawn embryo and all of my own reserves must be full before I can
     // give birth
     func canSpawn() -> Bool {
-        guard let spawn = self.spawn else { return false }
+        guard let spawn = self.sporangium else { return false }
 
         let organIDs: [OrganID] = [.fatStore, .energy, .lungs]
 
@@ -126,7 +130,7 @@ class Metabolism: HasSelectableStore {
 
     func detachBirthEmbryo() { embryo = nil }
     func detachOffspring() {
-        spawn = nil
+        sporangium = nil
 
         // Spawning is expensive
         let organIDs: [OrganID] = [.fatStore, .energy, .lungs]
@@ -137,6 +141,7 @@ class Metabolism: HasSelectableStore {
     }
 
     func eat(_ mannaContent: EnergyBudget.MannaContent) {
+        Debug.log(level: 213) { "metabolism.eat" }
         for id in secondaryStores {
             guard let mannaStoreLevel = mannaContent.selectStore(id),
                   let compartment = stomach.selectStore(id) else { continue }

@@ -1,8 +1,18 @@
 import Foundation
 
+struct SensorSnapshot {
+    let sensorSS: CellSensor
+    let cellSS: GridCell
+
+    init(_ sensor: CellSensor) {
+        self.sensorSS = sensor
+        self.cellSS = sensor.liveGridCell
+    }
+}
+
 struct JumpSpec {
-    let fromCell: SensorPadCell
-    let toCell: SensorPadCell
+    let from: GridCell
+    let to: SensorSnapshot
 
     let distanceInCells: CGFloat
     let speedAsPercentage: CGFloat
@@ -11,18 +21,20 @@ struct JumpSpec {
     let durationSeconds: TimeInterval
     let speedMetersPerSec: CGFloat
 
-    init(
-        _ fromCell: SensorPadCell, _ toCell: SensorPadCell, _ speedAsPercentage: CGFloat
-    ) {
-        self.fromCell = fromCell
-        self.toCell = toCell
+    init(from fromLiveGridCell: GridCell, to: CellSensor, speedAsPercentage: CGFloat) {
+        self.from = fromLiveGridCell
+        self.to = .init(to)
+
+        hardAssert(fromLiveGridCell.properties.gridPosition != to.liveGridCell.properties.gridPosition) { nil }
 
         self.distanceInCells = {
-            let fp = fromCell.liveGridCell!.properties.gridPosition.asPoint()
-            let tp = (toCell.virtualGridPosition ?? toCell.liveGridCell!.properties.gridPosition).asPoint()
+            let fp = fromLiveGridCell.properties.gridPosition.asPoint()
+            let tp = (to.virtualGridPosition ?? to.liveGridCell.properties.gridPosition).asPoint()
 
             return fp.distance(to: tp)
         }()
+
+        hardAssert(self.distanceInCells > 0) { nil }
 
         self.speedAsPercentage = speedAsPercentage
 

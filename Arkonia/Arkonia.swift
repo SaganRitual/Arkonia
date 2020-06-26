@@ -1,9 +1,12 @@
-import GameplayKit
-import SpriteKit
+import Foundation
+
+let MainDispatchQueue = DispatchQueue(
+    label: "ak.dispatch.q", attributes: .concurrent, target: DispatchQueue.global()
+)
 
 class Arkonia {
     static let zoomFactor: CGFloat = 4
-    static let arkonScaleFactor: CGFloat = 0.4
+    static let arkonScaleFactor: CGFloat = 0.35
     static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.75
 
@@ -12,13 +15,13 @@ class Arkonia {
     static let cPollenators = 5
 
     // vars so I can change them from the debugger
-    static var debugColorIsEnabled = false
-    static var debugMessageLevel = 209
-    static var debugMessageToConsole = true
+    static var debugColorIsEnabled = true
+    static var debugMessageLevel = 214
+    static var debugMessageToConsole = false
     static var debugGrid = false
 
-    static let funkyCells: CGFloat? = nil//6 / zoomFactor
-    static let initialPopulation = 1
+    static let funkyCells: CGFloat? = nil// 6 / zoomFactor
+    static let initialPopulation = 10
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedCellsPerSecond: CGFloat = 25
 

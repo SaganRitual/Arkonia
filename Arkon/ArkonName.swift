@@ -1,6 +1,9 @@
 import Foundation
 
-func six(_ nameThing: ArkonName?) -> String { nameThing == nil ? "<nil>" : "\(nameThing!)" }
+func AKName(_ name: ArkonName?) -> String {
+    if let n = name { return n.debugDescription }
+    return "<no name>"
+}
 
 struct ArkonName: Hashable, CustomDebugStringConvertible {
     enum Nametag: CaseIterable {
@@ -27,10 +30,6 @@ struct ArkonName: Hashable, CustomDebugStringConvertible {
             nametag: Nametag.allCases[nameix % cRealNames],
             setNumber: setNumber
         )
-
-        #if DEBUG
-        Debug.log(level: 168) { "new name \(newName)" }
-        #endif
 
         return newName
     }

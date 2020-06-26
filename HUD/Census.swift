@@ -68,7 +68,7 @@ class Census {
         rCOffspring = scene.reportMisc.reportoid(3)
 
         tickTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            self.updateReports()
+            Census.dispatchQueue.async { self.updateReports() }
         }
     }
 
@@ -101,12 +101,12 @@ extension Census {
 }
 
 extension Census {
-    func registerBirth(_ myParent: Stepper?, _ myNet: Net) -> Fishday {
+    func registerBirth(_ myParent: Stepper?, _ myNetStructure: NetStructure) -> Fishday {
         self.population += 1
         self.births += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
 
-        self.cLiveNeurons += myNet.netStructure.cNeurons
+        self.cLiveNeurons += myNetStructure.cNeurons
 
         myParent?.cOffspring += 1
 
@@ -116,7 +116,7 @@ extension Census {
 
         Debug.log(level: 205) { "registerBirth; population \(self.population)" }
 
-        return Fishday(cNeurons: myNet.netStructure.cNeurons)
+        return Fishday(cNeurons: myNetStructure.cNeurons)
     }
 
     func registerDeath(_ stepper: Stepper, _ worldTime: Int) {
@@ -126,7 +126,7 @@ extension Census {
         highWaterAge = max(highWaterAge, Int(ageOfDeceased))
         population -= 1
 
-        if population < 25 { Stepper.makeNewArkon(nil) }
+//        if population < 25 { Stepper.makeNewArkon(nil) }
 
         self.cLiveNeurons -= stepper.net.netStructure.cNeurons
 

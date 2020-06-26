@@ -1,23 +1,30 @@
 import SpriteKit
 
-class ArkonEmbryo: GridPlantableArkon {
+class ArkonEmbryo {
     var arkonBuilder: ArkonBuilder?
-    var birthingCell: GridCell?
     var fishday: Fishday?
     var metabolism: Metabolism?
     var name: ArkonName?
     var net: Net?
     var netDisplay: NetDisplay?
+    var netStructure: NetStructure?
     var newborn: Stepper?
     var noseSprite: SKSpriteNode?
     var parentArkon: Stepper?
     var sensorPad: SensorPad?
+    var spindle: Spindle?
+    var spindleTarget: GridCell?
+    let spindleTargetIsPreLocked: Bool
     var thoraxSprite: SKSpriteNode?
     var toothSprite: SKSpriteNode?
 
-    init(_ parentArkon: Stepper?, _ birthingCell: GridCell) {
+    init(
+        _ parentArkon: Stepper?, _ spindleTarget: GridCell,
+        spindleTargetIsPreLocked: Bool
+    ) {
+        self.spindleTargetIsPreLocked = spindleTargetIsPreLocked
         self.arkonBuilder = ArkonBuilder(embryo: self)
-        self.birthingCell = birthingCell
+        self.spindleTarget = spindleTarget
         self.parentArkon = parentArkon
     }
 
@@ -28,47 +35,74 @@ class ArkonEmbryo: GridPlantableArkon {
 
 extension ArkonEmbryo {
     func buildArkon(_ onOffspringReadyToSeparate: (() -> Void)?) {
-        func buildArkon_a() { MainDispatchQueue.async(execute: buildArkon_A) }
-        func buildArkon_A() { arkonBuilder!.buildGuts(buildArkon_B) }
-
-        func buildArkon_B() { SceneDispatch.shared.schedule(buildArkon_C) }
-        func buildArkon_C() { arkonBuilder!.buildSprites(buildArkon_D) }
-
-        func buildArkon_D() { SceneDispatch.shared.schedule(buildArkon_E) }
-        func buildArkon_E() { arkonBuilder!.setupNetDisplay(buildArkon_F) }
-
-        func buildArkon_F() { Census.dispatchQueue.async(execute: buildArkon_G) }
-        func buildArkon_G() { registerBirth { self.fishday = $0; buildArkon_H() } }
-
-        func buildArkon_H() { MainDispatchQueue.async(execute: buildArkon_I) }
-        func buildArkon_I() { self.launch(onOffspringReadyToSeparate) }
 
         Debug.log(level: 209) { "buildArkon" }
-        buildArkon_a()
+
+        MainDispatchQueue.async { buildArkon_A() }
+
+        func buildArkon_A() { buildNetStructure(); buildArkon_B() }
+
+        func buildArkon_B() { Census.dispatchQueue.async(execute: buildArkon_C) }
+        func buildArkon_C() { registerBirth { self.fishday = $0; buildArkon_D() } }
+
+        func buildArkon_D() { MainDispatchQueue.async(execute: buildArkon_E) }
+        func buildArkon_E() { arkonBuilder!.buildGuts(buildArkon_F) }
+
+        func buildArkon_F() { SceneDispatch.shared.schedule(buildArkon_G) }
+        func buildArkon_G() { arkonBuilder!.buildSprites(buildArkon_H) }
+
+        func buildArkon_H() { SceneDispatch.shared.schedule(buildArkon_I) }
+        func buildArkon_I() { arkonBuilder!.setupNetDisplay(buildArkon_J) }
+
+        func buildArkon_J() { MainDispatchQueue.async(execute: buildArkon_K) }
+        func buildArkon_K() { self.launch(onOffspringReadyToSeparate) }
+    }
+
+    func buildNetStructure() {
+        self.netStructure = NetStructure(
+            parentArkon?.net.netStructure.cSenseRings,
+            parentArkon?.net.netStructure.layerDescriptors
+        )
     }
 
     func launch(_ onOffspringReadyToSeparate: (() -> Void)?) {
+        self.newborn = Stepper(self)
+        self.newborn!.spindle.postInit(self.newborn!)
+
         if let oof = onOffspringReadyToSeparate {
+            Debug.log(level: 212) { "separate \(self.newborn!.name) from parent" }
             MainDispatchQueue.async(execute: oof)
         }
 
-        self.newborn = Stepper(self)
-        let takeLock = parentArkon != nil
+        Debug.log(level: 214) {
+            "launch newborn \(self.newborn!.name) child of \(AKName(parentArkon?.name))"
+            + " at spindle target \(self.spindleTarget!.properties)"
+        }
 
-        func launch_A() { Grid.attachArkonToGrid(newborn!, launch_B) }
-        func launch_B() { SceneDispatch.shared.schedule(launch_C) }
+        func launch_A() { SceneDispatch.shared.schedule(launch_B) }
 
-        func launch_C() {
+        func launch_B() {
             SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)
 
             let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
-            newborn!.thorax.run(rotate, completion: newborn!.tickLife)
+            newborn!.thorax.run(rotate)
+
+            // Parent will have relinquished its hold on the live connection
+            newborn!.spindle.attachToGrid(iHaveTheLiveConnection: spindleTargetIsPreLocked, launch_C)
+        }
+
+        func launch_C() {
+            // Away we go. If I'm supernatural, I might have to wait for my
+            // birth cell to become available, if someone else is in it, or
+            // looking at it. If I'm a natural birth, an offspring from an
+            // arkon, the cell is locked and waiting just for me
+            newborn!.spindle.sensorPad.engageSensors(newborn!.tickLife)
         }
 
         launch_A()
     }
 
     func registerBirth(_ onComplete: @escaping (Fishday) -> Void) {
-        Census.registerBirth(myParent: parentArkon, myNet: net!, onComplete)
+        Census.registerBirth(myParent: parentArkon, myNetStructure: netStructure!, onComplete)
     }
 }

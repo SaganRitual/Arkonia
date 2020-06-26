@@ -11,7 +11,7 @@ extension Stepper {
 
 extension Stepper {
     private func colorize_() {
-        Debug.log(level:204) { "Colorize \(six(name))" }
+        Debug.log(level:204) { "Colorize \(name)" }
 
         if Arkonia.debugColorIsEnabled {
             Debug.debugColor(self, .brown, .brown)
@@ -22,7 +22,7 @@ extension Stepper {
         setThoraxScale()
 
         let babyBumpShouldBeShowing =
-            (metabolism.spawn?.oxygenStore.level ?? 0) > 0
+            (metabolism.sporangium?.oxygenStore.level ?? 0) > 0
 
         switch (babyBumpShouldBeShowing, babyBumpIsShowing) {
         case (true, false):
@@ -54,7 +54,7 @@ extension Stepper {
 
     private func lookPregnant() {
         let m = metabolism
-        let f: CGFloat = m.spawn?.fatStore?.fullness ?? 0.25
+        let f: CGFloat = m.sporangium?.fatStore?.fullness ?? 0.25
         let s: CGFloat = Arkonia.arkonScaleFactor * Arkonia.noseScaleFactor *
             Arkonia.zoomFactor * f
 

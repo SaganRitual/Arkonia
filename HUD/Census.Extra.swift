@@ -2,10 +2,11 @@ import SpriteKit
 
 extension Census {
     static func registerBirth(
-        myParent: Stepper?, myNet: Net, _ onComplete: @escaping (Fishday) -> Void
+        myParent: Stepper?, myNetStructure: NetStructure,
+        _ onComplete: @escaping (Fishday) -> Void
     ) {
         Census.dispatchQueue.async {
-            let fishday = Census.shared.registerBirth(myParent, myNet)
+            let fishday = Census.shared.registerBirth(myParent, myNetStructure)
             MainDispatchQueue.async { onComplete(fishday) }
         }
     }
@@ -32,8 +33,6 @@ extension Census {
 
 extension Census {
     func updateReports() {
-        let portal = ArkoniaScene.arkonsPortal!
-
         var ages = [Int]()
         var worldClock = 0
 

@@ -71,7 +71,5 @@ struct NetGraphics {
         sprite.setScale(0.07)
 
         portal.addChild(sprite)
-
-        Debug.log(level: 17) { "sprite \(six(sprite.name)) at \(sprite.position)" }
     }
 }

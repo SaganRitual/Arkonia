@@ -4,39 +4,62 @@ extension Stepper {
     func abandonNewborn() {
         let rotate = SKAction.rotate(byAngle: CGFloat.tau, duration: 0.25)
 
-        func abandonNewborn_A() { thorax.run(rotate); abandonNewborn_B() }
-        func abandonNewborn_B() { MainDispatchQueue.async(execute: abandonNewborn_C) }
-        func abandonNewborn_C() {
-            metabolism.detachOffspring()
-            disengageGrid()
+        thorax.run(rotate)
+
+        MainDispatchQueue.async {
+            self.metabolism.detachOffspring()
+            self.disengageGrid()
+        }
+    }
+
+    static func makeNewArkon(_ parentArkon: Stepper?) {
+        let spindleTarget_ = setSpindleTarget(parentArkon)
+        let spindleTarget = spindleTarget_ ?? Grid.randomCell()
+
+        Debug.log(level: 213) {
+            "makeNewArkon"
+                + "; parent \(AKName(parentArkon?.name)) at \(String(describing: parentArkon?.spindle.gridCell.properties.gridPosition))"
+            + ", newborn at \(spindleTarget.properties.gridPosition)"
         }
 
-        abandonNewborn_A()
+        spawn(
+            from: parentArkon, at: spindleTarget,
+            spindleTargetIsPreLocked: spindleTarget_ != nil
+        )
     }
 }
 
-extension Stepper {
-    private static func spawn(from parent: Stepper?, at birthCell: GridCell) {
+private extension Stepper {
+    static func setSpindleTarget(_ parentIf: Stepper?) -> GridCell? {
+        var spindleTarget: GridCell?
 
-        func spawn_A() { MainDispatchQueue.async(execute: spawn_B) }
+        if let pa = parentIf,
+           let bc = pa.sensorPad.getFirstTargetableCell(startingAt: 1) {
+            spindleTarget = bc.liveGridCell
+
+            assert(bc.iHaveTheLiveConnection && bc.liveGridCell?.lock.isLocked ?? false)
+
+            bc.iHaveTheLiveConnection = false   // Offspring needs it; we're blind to it now
+        }
+
+        return spindleTarget
+    }
+
+    static func spawn(
+        from parent: Stepper?, at spindleTarget: GridCell,
+        spindleTargetIsPreLocked: Bool
+    ) {
+        MainDispatchQueue.async { spawn_B() }
 
         func spawn_B() {
             if parent != nil { Debug.debugColor(parent!, .blue, .purple) }
 
-            let embryo = ArkonEmbryo(parent, birthCell)
+            let embryo = ArkonEmbryo(
+                parent, spindleTarget,
+                spindleTargetIsPreLocked: spindleTargetIsPreLocked
+            )
+
             embryo.beginLife(parent?.abandonNewborn)
-        }
-
-        spawn_A()
-    }
-
-    static func makeNewArkon(_ parentArkon: Stepper?) {
-        if let pa = parentArkon,
-           let padCell = pa.sensorPad.getFirstTargetableCell(startingAt: 1),
-           let liveGridCell = padCell.liveGridCell {
-            spawn(from: pa, at: liveGridCell)
-        } else {
-            Grid.lockRandomCell { self.spawn(from: nil, at: $0) }
         }
     }
 }

@@ -1,23 +1,27 @@
 import Foundation
 
-class GridCell {
+class GridCell: CustomDebugStringConvertible {
     let contents = GridCellContents()
-    let lock = GridLock()
+    let lock: GridLock
     let properties: GridCellProperties
+
+    var debugDescription: String { "Cell at \(properties.gridPosition)" }
 
     init(
         _ absoluteIndex: Int, _ absolutePosition: AKPoint, _ paddingPixels: CGSize,
         _ cellSideInPix: CGFloat, _ funkyCellsMultiplier: CGFloat?
     ) {
         properties = .init(
-            absoluteIndex, absolutePosition, paddingPixels, cellSideInPix,
-            funkyCellsMultiplier
+            absoluteIndex, absolutePosition, paddingPixels,
+            cellSideInPix, funkyCellsMultiplier
         )
+
+        lock = .init(absoluteIndex)
     }
 }
 
 class GridCellContents {
-    var arkon: GridPlantableArkon?
+    var arkon: Spindle?
     var manna: Manna?
 
     enum CellContents: Float {
@@ -37,12 +41,14 @@ class GridCellContents {
     }
 }
 
-struct GridCellProperties {
+struct GridCellProperties: CustomDebugStringConvertible {
     let gridAbsoluteIndex: Int
     let gridPosition: AKPoint
     let scenePosition: CGPoint
 
     static let zero = GridCellProperties(0, AKPoint.zero, CGSize.zero, 0, nil)
+
+    let debugDescription: String
 
     init(
         _ absoluteIndex: Int, _ absolutePosition: AKPoint, _ paddingPixels: CGSize,
@@ -50,6 +56,9 @@ struct GridCellProperties {
     ) {
         self.gridAbsoluteIndex = absoluteIndex
         self.gridPosition = absolutePosition
+
+        debugDescription =
+            String(format: "%04d:", gridAbsoluteIndex) + "\(gridPosition)"
 
         let sp = (self.gridPosition.asPoint() * cellSideInPix) //+ paddingPixels.asPoint()
 

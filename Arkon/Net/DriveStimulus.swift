@@ -20,21 +20,25 @@ private extension DriveStimulus {
         onComplete()
     }
 
+    // Average fullness of the sporangium; not really very representative,
+    // see whether it has any effect.
+    func getGestationFullness(_ sporangium: ChamberedStore?) -> CGFloat {
+        guard let ng = sporangium else { return 0 }
+
+        let sf = [
+            (ng.fatStore?.fullness ?? 0), ng.hamStore.fullness, ng.oxygenStore.fullness
+        ]
+
+        return sf.reduce(0, +) / CGFloat(sf.count)
+    }
+
     func transferNonPadInputsToSenseNeurons(
         _ dayFullness: CGFloat, _ yearFullness: CGFloat
     ) {
-        let st = stepper, mt = st.metabolism, cs = mt.spawn
-        let ax = st.sensorPad.centerAbsoluteIndex!
-        let gp = Grid.gridPosition(of: ax)
+        let st = stepper, mt = st.metabolism, sn = st.spindle
 
-        // Average fullness of the spawn embryo; not really very representative,
-        // see whether it has any effect.
-        let ff = cs?.fatStore?.fullness ?? 0
-        let hf = cs?.hamStore.fullness ?? 0
-        let of = cs?.oxygenStore.fullness ?? 0
-        let gestationFullness = (ff + hf + of) / 3.0
-
-        let cGridSenseInputs = st.net.netStructure.cSenseNeuronsGrid
+        let gp = Grid.gridPosition(of: sn.gridCell.properties.gridAbsoluteIndex)
+        let gestationFullness = getGestationFullness(mt.sporangium)
 
         func setMiscSense(_ sense: MiscSenses, _ value: CGFloat) {
             st.net.pSenseNeuronsMisc[sense.rawValue] = Float(value)
@@ -73,7 +77,7 @@ private extension DriveStimulus {
 
         senseNeurons.initialize(to: 0)
 
-        for ss in 0..<cCells {
+        for ss in 1..<cCells {
             senseNeurons[2 * ss + 0] = sensorPad.getNutrition(at: ss)
             senseNeurons[2 * ss + 1] = sensorPad.loadSelector(at: ss)
         }

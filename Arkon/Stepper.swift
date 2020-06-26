@@ -1,16 +1,13 @@
 import SpriteKit
 
-let MainDispatchQueue = DispatchQueue(
-    label: "ak.dispatch.q", attributes: .concurrent, target: DispatchQueue.global()
-)
-
-class Stepper: GridPlantableArkon {
+class Stepper {
     let fishday: Fishday
     let metabolism: Metabolism
     let net: Net
     let netDisplay: NetDisplay?
     let nose: SKSpriteNode
     let sensorPad: SensorPad
+    let spindle: Spindle
     let thorax: SKSpriteNode
     let tooth: SKSpriteNode
 
@@ -33,12 +30,13 @@ class Stepper: GridPlantableArkon {
         self.net = embryo.net!
         self.netDisplay = embryo.netDisplay
         self.nose = embryo.noseSprite!
+        self.spindle = embryo.spindle!
         self.thorax = embryo.thoraxSprite!
         self.tooth = embryo.toothSprite!
 
         self.sensorPad = embryo.sensorPad!
 
-        thorax.position = sensorPad.centerCellScenePosition!
+//        thorax.position = sensorPad.centerScenePosition!
         thorax.color = net.isCloneOfParent ? .green : .white
         nose.color = .blue
     }

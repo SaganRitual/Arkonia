@@ -32,17 +32,12 @@ class Net {
     let pMotorOutputs: UnsafePointer<Float>
 
     static func makeNet(
-        _ parentNetStructure: NetStructure?,
+        _ netStructure: NetStructure,
         _ parentBiases: UnsafePointer<Float>?,
         _ parentWeights: UnsafePointer<Float>?,
         _ onComplete: @escaping (Net) -> Void
     ) {
         MainDispatchQueue.async {
-            let netStructure = NetStructure(
-                parentNetStructure?.cSenseRings,
-                parentNetStructure?.layerDescriptors
-            )
-
             let (pb, pw) = netStructure.isCloneOfParent ?
                 (parentBiases, parentWeights) : (nil, nil)
 
