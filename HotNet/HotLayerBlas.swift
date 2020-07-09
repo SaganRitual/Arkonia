@@ -26,12 +26,41 @@ class HotLayerBlas {
     }
 
     func driveSignal() {
-        // The sgemv function below does y = alpha * Ax + beta * y; copy
+        Debug.log(level: 192) {
+            "sgemv: CblasRowMajor, CblasTrans"
+            + ", \(cNeuronsIn), \(cNeuronsOut), 1"
+            + ", \(pWeights), \(cNeuronsOut), \(pNeuronsIn)"
+            + ", 1, 1, \(pNeuronsOut), 1"
+        }
+
+        copyBiasesToCBuffer()
+        multiplyMatrices()
+        applyActivator()
+    }
+}
+
+private extension HotLayerBlas {
+    func applyActivator() {
+        // I thought there would be a function in the blas library for applying
+        // a function to each element. I guess not
+        (0..<cNeuronsOut).forEach {
+            self.pNeuronsOut[$0] = Net.logistic(pNeuronsOut[$0])
+        }
+
+        Debug.log(level: 193) {
+            let log = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
+            return "output from layer \(cNeuronsIn)x\(cNeuronsOut) n = \(log)"
+        }
+    }
+
+    func copyBiasesToCBuffer() {
+        Debug.log(level: 193) {
+            let cog = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
+            return "pre-copy biases layer \(cNeuronsIn)x\(cNeuronsOut) n = \(cog)"
+        }
+
+        // The sgemv function in driveSignal() does y = alpha * Ax + beta * y; copy
         // the biases to y here so the sgemm result will be added to them
-
-        let cog = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
-        Debug.log(level: 193) { "pre-copy biases layer \(cNeuronsIn)x\(cNeuronsOut) n = \(cog)" }
-
         cblas_scopy(
             Int32(cNeuronsOut), // Number of elements in the vectors
             pBiases,            // Copy from biases vector
@@ -40,9 +69,13 @@ class HotLayerBlas {
             Int32(1)            // Stride for output -- write to each nth entry
         )
 
-        let dog = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
-        Debug.log(level: 193) { "copy biases layer \(cNeuronsIn)x\(cNeuronsOut) n = \(dog)" }
+        Debug.log(level: 193) {
+            let dog = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
+            return "post-copy biases layer \(cNeuronsIn)x\(cNeuronsOut) n = \(dog)"
+        }
+    }
 
+    func multiplyMatrices() {
         cblas_sgemv(
             CblasRowMajor, CblasTrans,
             Int32(cNeuronsIn),  // Number of rows in A, that is, the weights
@@ -57,22 +90,9 @@ class HotLayerBlas {
             Int32(1)            // Stride for y -- write to each nth entry
         )
 
-        let bog = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
-        Debug.log(level: 193) { "sgemv layer \(cNeuronsIn)x\(cNeuronsOut) n = \(bog)" }
-
-        Debug.log(level: 192) {
-            "sgemv: CblasRowMajor, CblasNoTrans, \(cNeuronsIn), \(cNeuronsOut), 1, \(pWeights), \(cNeuronsOut), \(pNeuronsIn), 1, 1, \(pNeuronsOut), 1"
+        Debug.log(level: 193) {
+            let bog = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
+            return "post-sgemv layer \(cNeuronsIn)x\(cNeuronsOut) n = \(bog)"
         }
-
-        // I thought there would be a function in the blas library for applying
-        // a function to each element. I guess not
-        (0..<cNeuronsOut).forEach {
-            let a = pNeuronsOut[$0]
-            let b = Net.logistic(a)
-            self.pNeuronsOut[$0] = b
-        }
-
-        let log = (0..<cNeuronsOut).map { pNeuronsOut[$0] }
-        Debug.log(level: 193) { "output from layer \(cNeuronsIn)x\(cNeuronsOut) n = \(log)" }
     }
 }

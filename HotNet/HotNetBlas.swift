@@ -37,10 +37,13 @@ final class HotNetBlas: HotNet {
     func driveSignal(_ onComplete: @escaping () -> Void) {
         blasLayers.forEach { $0.driveSignal() }
 
-        let c = blasLayers.last!.cNeuronsOut
-        let p = blasLayers.last!.pNeuronsOut
-        let log = (0..<c).map { p[$0] }
-        Debug.log(level: 193) { "motorOutputs \(log)" }
+        Debug.log(level: 193) {
+            let c = blasLayers.last!.cNeuronsOut
+            let p = blasLayers.last!.pNeuronsOut
+            let log = (0..<c).map { p[$0] }
+            return "motorOutputs \(log)"
+        }
+
         onComplete()
     }
 

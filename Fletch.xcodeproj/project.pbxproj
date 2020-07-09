@@ -1,0 +1,909 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D400137F24BD4647001D429A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400137E24BD4647001D429A /* AppDelegate.swift */; };
+		D400138124BD4647001D429A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400138024BD4647001D429A /* ContentView.swift */; };
+		D400138324BD4648001D429A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D400138224BD4648001D429A /* Assets.xcassets */; };
+		D400138624BD4648001D429A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D400138524BD4648001D429A /* Preview Assets.xcassets */; };
+		D400138924BD4648001D429A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D400138724BD4648001D429A /* Main.storyboard */; };
+		D400139824BD7156001D429A /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = D400139724BD7156001D429A /* Charts */; };
+		D400139A24BD7197001D429A /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400139924BD7197001D429A /* LineChartView.swift */; };
+		D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */; };
+		D49EBA1924C16DE00006E0E1 /* AKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1224C16DDF0006E0E1 /* AKPoint.swift */; };
+		D49EBA1A24C16DE00006E0E1 /* NormalDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1324C16DDF0006E0E1 /* NormalDistribution.swift */; };
+		D49EBA1B24C16DE00006E0E1 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1424C16DDF0006E0E1 /* Overload2D.swift */; };
+		D49EBA1C24C16DE00006E0E1 /* Debug.Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1524C16DDF0006E0E1 /* Debug.Color.swift */; };
+		D49EBA1D24C16DE00006E0E1 /* JumpSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1624C16DE00006E0E1 /* JumpSpec.swift */; };
+		D49EBA2224C170CE0006E0E1 /* Tensor.Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1F24C170CE0006E0E1 /* Tensor.Random.swift */; };
+		D49EBA2324C170CE0006E0E1 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2024C170CE0006E0E1 /* KIdentifier.swift */; };
+		D49EBA2424C170CE0006E0E1 /* Tensor.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2124C170CE0006E0E1 /* Tensor.Utilities.swift */; };
+		D4E0411324BFE87C0026970F /* LineChartCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E0411224BFE87C0026970F /* LineChartCore.swift */; };
+		D4F663A624C088C4006B95BF /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663A524C088C4006B95BF /* GameView.swift */; };
+		D4F6642924C16A93006B95BF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D4F663BB24C16A92006B95BF /* LICENSE */; };
+		D4F6642A24C16A93006B95BF /* Spindle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663BD24C16A92006B95BF /* Spindle.swift */; };
+		D4F6642B24C16A93006B95BF /* SensorPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663BF24C16A92006B95BF /* SensorPad.swift */; };
+		D4F6642C24C16A93006B95BF /* SensorPad.Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663C024C16A93006B95BF /* SensorPad.Data.swift */; };
+		D4F6642D24C16A93006B95BF /* CellSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663C124C16A93006B95BF /* CellSensor.swift */; };
+		D4F6642E24C16A93006B95BF /* SensorPad.Translate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663C224C16A93006B95BF /* SensorPad.Translate.swift */; };
+		D4F6642F24C16A93006B95BF /* ArkonEmbryo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663C324C16A93006B95BF /* ArkonEmbryo.swift */; };
+		D4F6643024C16A93006B95BF /* Mutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663C424C16A93006B95BF /* Mutator.swift */; };
+		D4F6643224C16A93006B95BF /* DriveStimulus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663C724C16A93006B95BF /* DriveStimulus.swift */; };
+		D4F6643324C16A93006B95BF /* LayerStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663C824C16A93006B95BF /* LayerStructures.swift */; };
+		D4F6643424C16A93006B95BF /* DriveResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663C924C16A93006B95BF /* DriveResponse.swift */; };
+		D4F6643524C16A93006B95BF /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663CA24C16A93006B95BF /* Net.swift */; };
+		D4F6643624C16A93006B95BF /* NetStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663CB24C16A93006B95BF /* NetStructure.swift */; };
+		D4F6643824C16A93006B95BF /* EngageGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663CF24C16A93006B95BF /* EngageGrid.swift */; };
+		D4F6643924C16A93006B95BF /* TickLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663D024C16A93006B95BF /* TickLife.swift */; };
+		D4F6643A24C16A93006B95BF /* Arrive.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663D124C16A93006B95BF /* Arrive.swift */; };
+		D4F6643D24C16A93006B95BF /* Spawn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663D524C16A93006B95BF /* Spawn.swift */; };
+		D4F6643E24C16A93006B95BF /* MoveStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663D624C16A93006B95BF /* MoveStepper.swift */; };
+		D4F6643F24C16A93006B95BF /* DriveNetSignal.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663D724C16A93006B95BF /* DriveNetSignal.swift */; };
+		D4F6644024C16A93006B95BF /* MoveSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663D824C16A93006B95BF /* MoveSprite.swift */; };
+		D4F6644224C16A93006B95BF /* Apoptosize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663DA24C16A93006B95BF /* Apoptosize.swift */; };
+		D4F6644324C16A93006B95BF /* ArkonName.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663DB24C16A93006B95BF /* ArkonName.swift */; };
+		D4F6644424C16A93006B95BF /* Colorizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663DC24C16A93006B95BF /* Colorizer.swift */; };
+		D4F6644524C16A93006B95BF /* Stepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663DD24C16A93006B95BF /* Stepper.swift */; };
+		D4F6644624C16A93006B95BF /* Arkon.EnergyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663DE24C16A93006B95BF /* Arkon.EnergyBudget.swift */; };
+		D4F6644724C16A93006B95BF /* ArkonBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663DF24C16A93006B95BF /* ArkonBuilder.swift */; };
+		D4F6644824C16A93006B95BF /* OozeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663E124C16A93006B95BF /* OozeStorage.swift */; };
+		D4F6644924C16A93006B95BF /* EnergyBudget.Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663E224C16A93006B95BF /* EnergyBudget.Protocols.swift */; };
+		D4F6644A24C16A93006B95BF /* ChamberedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663E324C16A93006B95BF /* ChamberedStore.swift */; };
+		D4F6644B24C16A93006B95BF /* Digestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663E424C16A93006B95BF /* Digestion.swift */; };
+		D4F6644C24C16A93006B95BF /* Jump.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663E524C16A93006B95BF /* Jump.swift */; };
+		D4F6644D24C16A93006B95BF /* Metabolism.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663E624C16A93006B95BF /* Metabolism.swift */; };
+		D4F6644E24C16A93006B95BF /* Digestion.Surplus.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663E724C16A93006B95BF /* Digestion.Surplus.swift */; };
+		D4F6644F24C16A93006B95BF /* Lungs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663E824C16A93006B95BF /* Lungs.swift */; };
+		D4F6645024C16A93006B95BF /* EnergyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663E924C16A93006B95BF /* EnergyBudget.swift */; };
+		D4F6645224C16A93006B95BF /* Transfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663EB24C16A93006B95BF /* Transfer.swift */; };
+		D4F6645324C16A93006B95BF /* SceneDispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663ED24C16A93006B95BF /* SceneDispatch.swift */; };
+		D4F6645424C16A93006B95BF /* ArkoniaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663EE24C16A93006B95BF /* ArkoniaScene.swift */; };
+		D4F6645524C16A93006B95BF /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663EF24C16A93006B95BF /* SpriteFactory.swift */; };
+		D4F6645724C16A93006B95BF /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F124C16A93006B95BF /* SKSpriteNode.swift */; };
+		D4F6645A24C16A93006B95BF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F424C16A93006B95BF /* GameScene.swift */; };
+		D4F6645B24C16A93006B95BF /* SpritePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F524C16A93006B95BF /* SpritePool.swift */; };
+		D4F6645C24C16A93006B95BF /* MannaCannon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F724C16A93006B95BF /* MannaCannon.swift */; };
+		D4F6645D24C16A93006B95BF /* Seasons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F824C16A93006B95BF /* Seasons.swift */; };
+		D4F6645E24C16A93006B95BF /* Manna.EnergyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663FA24C16A93006B95BF /* Manna.EnergyBudget.swift */; };
+		D4F6645F24C16A93006B95BF /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663FB24C16A93006B95BF /* Manna.swift */; };
+		D4F6646024C16A93006B95BF /* Manna.Sprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663FC24C16A93006B95BF /* Manna.Sprite.swift */; };
+		D4F6646124C16A93006B95BF /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663FD24C16A93006B95BF /* Protocols.swift */; };
+		D4F6646224C16A93006B95BF /* Pollenator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663FE24C16A93006B95BF /* Pollenator.swift */; };
+		D4F6646424C16A93006B95BF /* Arkonia.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640024C16A93006B95BF /* Arkonia.swift */; };
+		D4F6646524C16A93006B95BF /* GridIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640224C16A93006B95BF /* GridIndexer.swift */; };
+		D4F6646624C16A93006B95BF /* GridCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640324C16A93006B95BF /* GridCore.swift */; };
+		D4F6646724C16A93006B95BF /* GridManna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640424C16A93006B95BF /* GridManna.swift */; };
+		D4F6646824C16A93006B95BF /* GridLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640524C16A93006B95BF /* GridLock.swift */; };
+		D4F6646924C16A93006B95BF /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640624C16A93006B95BF /* Grid.swift */; };
+		D4F6646A24C16A93006B95BF /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640724C16A93006B95BF /* GridCell.swift */; };
+		D4F6646C24C16A93006B95BF /* WeightsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640A24C16A93006B95BF /* WeightsMatrix.swift */; };
+		D4F6646D24C16A93006B95BF /* HotNetCnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640B24C16A93006B95BF /* HotNetCnn.swift */; };
+		D4F6646E24C16A93006B95BF /* HotLayerCnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640C24C16A93006B95BF /* HotLayerCnn.swift */; };
+		D4F6646F24C16A93006B95BF /* HotLayerBnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640D24C16A93006B95BF /* HotLayerBnn.swift */; };
+		D4F6647024C16A93006B95BF /* HotLayerBlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640E24C16A93006B95BF /* HotLayerBlas.swift */; };
+		D4F6647124C16A93006B95BF /* MPSImage+Floats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640F24C16A93006B95BF /* MPSImage+Floats.swift */; };
+		D4F6647224C16A93006B95BF /* HotNetBnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641024C16A93006B95BF /* HotNetBnn.swift */; };
+		D4F6647324C16A93006B95BF /* HotNetBlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641124C16A93006B95BF /* HotNetBlas.swift */; };
+		D4F6647424C16A93006B95BF /* GPUArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641224C16A93006B95BF /* GPUArray.swift */; };
+		D4F6647524C16A93006B95BF /* AKMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641324C16A93006B95BF /* AKMatrix.swift */; };
+		D4F6647924C16A93006B95BF /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641824C16A93006B95BF /* Report.swift */; };
+		D4F6647A24C16A93006B95BF /* Census.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641924C16A93006B95BF /* Census.Stats.swift */; };
+		D4F6647B24C16A93006B95BF /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641A24C16A93006B95BF /* Clock.swift */; };
+		D4F6647C24C16A93006B95BF /* LineGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641B24C16A93006B95BF /* LineGraph.swift */; };
+		D4F6647D24C16A93006B95BF /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641C24C16A93006B95BF /* Dashboard.swift */; };
+		D4F6647E24C16A93006B95BF /* Census.Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641D24C16A93006B95BF /* Census.Extra.swift */; };
+		D4F6647F24C16A93006B95BF /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641E24C16A93006B95BF /* HUD.swift */; };
+		D4F6648024C16A93006B95BF /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641F24C16A93006B95BF /* BarChart.swift */; };
+		D4F6648124C16A93006B95BF /* LineGraphUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642024C16A93006B95BF /* LineGraphUpdate.swift */; };
+		D4F6648224C16A93006B95BF /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642124C16A93006B95BF /* Census.swift */; };
+		D4F6648324C16A93006B95BF /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642324C16A93006B95BF /* NetDisplay.swift */; };
+		D4F6648424C16A93006B95BF /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642424C16A93006B95BF /* NetGraphics.swift */; };
+		D4F6648524C16A93006B95BF /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642524C16A93006B95BF /* NetDisplayGrid.swift */; };
+		D4F6648624C16A93006B95BF /* MovieForREADME.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = D4F6642624C16A93006B95BF /* MovieForREADME.mp4 */; };
+		D4F6648724C16A93006B95BF /* MovieforREADME.gif in Resources */ = {isa = PBXBuildFile; fileRef = D4F6642724C16A93006B95BF /* MovieforREADME.gif */; };
+		D4F6648824C16A93006B95BF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D4F6642824C16A93006B95BF /* README.md */; };
+		D4F6648C24C16BA5006B95BF /* .overcommit.yml in Resources */ = {isa = PBXBuildFile; fileRef = D4F6648924C16BA5006B95BF /* .overcommit.yml */; };
+		D4F6648D24C16BA5006B95BF /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D4F6648A24C16BA5006B95BF /* .swiftlint.yml */; };
+		D4FE3F8A24BEB9A60055D095 /* ChartLegend.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */; };
+		D4FE3F8C24BEBAD10055D095 /* ChartLegendoid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */; };
+		D4FE3F9424BED7720055D095 /* Cbuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F9324BED7720055D095 /* Cbuffer.swift */; };
+		D4FE3F9624BED7AD0055D095 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F9524BED7AD0055D095 /* Debug.swift */; };
+		D4FE3F9B24BED8060055D095 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F9A24BED8060055D095 /* Extensions.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D400137B24BD4647001D429A /* Fletch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fletch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D400137E24BD4647001D429A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D400138024BD4647001D429A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D400138224BD4648001D429A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D400138524BD4648001D429A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D400138824BD4648001D429A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D400138A24BD4648001D429A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D400138B24BD4648001D429A /* Fletch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fletch.entitlements; sourceTree = "<group>"; };
+		D400139924BD7197001D429A /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
+		D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
+		D49EBA1224C16DDF0006E0E1 /* AKPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AKPoint.swift; sourceTree = "<group>"; };
+		D49EBA1324C16DDF0006E0E1 /* NormalDistribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalDistribution.swift; sourceTree = "<group>"; };
+		D49EBA1424C16DDF0006E0E1 /* Overload2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Overload2D.swift; sourceTree = "<group>"; };
+		D49EBA1524C16DDF0006E0E1 /* Debug.Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.Color.swift; sourceTree = "<group>"; };
+		D49EBA1624C16DE00006E0E1 /* JumpSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JumpSpec.swift; sourceTree = "<group>"; };
+		D49EBA1724C16DE00006E0E1 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D49EBA1F24C170CE0006E0E1 /* Tensor.Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tensor.Random.swift; sourceTree = "<group>"; };
+		D49EBA2024C170CE0006E0E1 /* KIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
+		D49EBA2124C170CE0006E0E1 /* Tensor.Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tensor.Utilities.swift; sourceTree = "<group>"; };
+		D4E0411224BFE87C0026970F /* LineChartCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartCore.swift; sourceTree = "<group>"; };
+		D4F663A524C088C4006B95BF /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		D4F663BB24C16A92006B95BF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		D4F663BD24C16A92006B95BF /* Spindle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spindle.swift; sourceTree = "<group>"; };
+		D4F663BF24C16A92006B95BF /* SensorPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorPad.swift; sourceTree = "<group>"; };
+		D4F663C024C16A93006B95BF /* SensorPad.Data.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorPad.Data.swift; sourceTree = "<group>"; };
+		D4F663C124C16A93006B95BF /* CellSensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellSensor.swift; sourceTree = "<group>"; };
+		D4F663C224C16A93006B95BF /* SensorPad.Translate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorPad.Translate.swift; sourceTree = "<group>"; };
+		D4F663C324C16A93006B95BF /* ArkonEmbryo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArkonEmbryo.swift; sourceTree = "<group>"; };
+		D4F663C424C16A93006B95BF /* Mutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutator.swift; sourceTree = "<group>"; };
+		D4F663C724C16A93006B95BF /* DriveStimulus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriveStimulus.swift; sourceTree = "<group>"; };
+		D4F663C824C16A93006B95BF /* LayerStructures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerStructures.swift; sourceTree = "<group>"; };
+		D4F663C924C16A93006B95BF /* DriveResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriveResponse.swift; sourceTree = "<group>"; };
+		D4F663CA24C16A93006B95BF /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
+		D4F663CB24C16A93006B95BF /* NetStructure.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetStructure.swift; sourceTree = "<group>"; };
+		D4F663CF24C16A93006B95BF /* EngageGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EngageGrid.swift; sourceTree = "<group>"; };
+		D4F663D024C16A93006B95BF /* TickLife.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickLife.swift; sourceTree = "<group>"; };
+		D4F663D124C16A93006B95BF /* Arrive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arrive.swift; sourceTree = "<group>"; };
+		D4F663D524C16A93006B95BF /* Spawn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spawn.swift; sourceTree = "<group>"; };
+		D4F663D624C16A93006B95BF /* MoveStepper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveStepper.swift; sourceTree = "<group>"; };
+		D4F663D724C16A93006B95BF /* DriveNetSignal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DriveNetSignal.swift; sourceTree = "<group>"; };
+		D4F663D824C16A93006B95BF /* MoveSprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoveSprite.swift; sourceTree = "<group>"; };
+		D4F663DA24C16A93006B95BF /* Apoptosize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Apoptosize.swift; sourceTree = "<group>"; };
+		D4F663DB24C16A93006B95BF /* ArkonName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArkonName.swift; sourceTree = "<group>"; };
+		D4F663DC24C16A93006B95BF /* Colorizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colorizer.swift; sourceTree = "<group>"; };
+		D4F663DD24C16A93006B95BF /* Stepper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stepper.swift; sourceTree = "<group>"; };
+		D4F663DE24C16A93006B95BF /* Arkon.EnergyBudget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arkon.EnergyBudget.swift; sourceTree = "<group>"; };
+		D4F663DF24C16A93006B95BF /* ArkonBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArkonBuilder.swift; sourceTree = "<group>"; };
+		D4F663E124C16A93006B95BF /* OozeStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OozeStorage.swift; sourceTree = "<group>"; };
+		D4F663E224C16A93006B95BF /* EnergyBudget.Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyBudget.Protocols.swift; sourceTree = "<group>"; };
+		D4F663E324C16A93006B95BF /* ChamberedStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChamberedStore.swift; sourceTree = "<group>"; };
+		D4F663E424C16A93006B95BF /* Digestion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Digestion.swift; sourceTree = "<group>"; };
+		D4F663E524C16A93006B95BF /* Jump.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jump.swift; sourceTree = "<group>"; };
+		D4F663E624C16A93006B95BF /* Metabolism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Metabolism.swift; sourceTree = "<group>"; };
+		D4F663E724C16A93006B95BF /* Digestion.Surplus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Digestion.Surplus.swift; sourceTree = "<group>"; };
+		D4F663E824C16A93006B95BF /* Lungs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lungs.swift; sourceTree = "<group>"; };
+		D4F663E924C16A93006B95BF /* EnergyBudget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnergyBudget.swift; sourceTree = "<group>"; };
+		D4F663EA24C16A93006B95BF /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D4F663EB24C16A93006B95BF /* Transfer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transfer.swift; sourceTree = "<group>"; };
+		D4F663ED24C16A93006B95BF /* SceneDispatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDispatch.swift; sourceTree = "<group>"; };
+		D4F663EE24C16A93006B95BF /* ArkoniaScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArkoniaScene.swift; sourceTree = "<group>"; };
+		D4F663EF24C16A93006B95BF /* SpriteFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
+		D4F663F124C16A93006B95BF /* SKSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKSpriteNode.swift; sourceTree = "<group>"; };
+		D4F663F424C16A93006B95BF /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		D4F663F524C16A93006B95BF /* SpritePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpritePool.swift; sourceTree = "<group>"; };
+		D4F663F724C16A93006B95BF /* MannaCannon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MannaCannon.swift; sourceTree = "<group>"; };
+		D4F663F824C16A93006B95BF /* Seasons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Seasons.swift; sourceTree = "<group>"; };
+		D4F663FA24C16A93006B95BF /* Manna.EnergyBudget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manna.EnergyBudget.swift; sourceTree = "<group>"; };
+		D4F663FB24C16A93006B95BF /* Manna.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
+		D4F663FC24C16A93006B95BF /* Manna.Sprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manna.Sprite.swift; sourceTree = "<group>"; };
+		D4F663FD24C16A93006B95BF /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		D4F663FE24C16A93006B95BF /* Pollenator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pollenator.swift; sourceTree = "<group>"; };
+		D4F6640024C16A93006B95BF /* Arkonia.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arkonia.swift; sourceTree = "<group>"; };
+		D4F6640224C16A93006B95BF /* GridIndexer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridIndexer.swift; sourceTree = "<group>"; };
+		D4F6640324C16A93006B95BF /* GridCore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCore.swift; sourceTree = "<group>"; };
+		D4F6640424C16A93006B95BF /* GridManna.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridManna.swift; sourceTree = "<group>"; };
+		D4F6640524C16A93006B95BF /* GridLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridLock.swift; sourceTree = "<group>"; };
+		D4F6640624C16A93006B95BF /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		D4F6640724C16A93006B95BF /* GridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
+		D4F6640824C16A93006B95BF /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		D4F6640A24C16A93006B95BF /* WeightsMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeightsMatrix.swift; sourceTree = "<group>"; };
+		D4F6640B24C16A93006B95BF /* HotNetCnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotNetCnn.swift; sourceTree = "<group>"; };
+		D4F6640C24C16A93006B95BF /* HotLayerCnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerCnn.swift; sourceTree = "<group>"; };
+		D4F6640D24C16A93006B95BF /* HotLayerBnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerBnn.swift; sourceTree = "<group>"; };
+		D4F6640E24C16A93006B95BF /* HotLayerBlas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerBlas.swift; sourceTree = "<group>"; };
+		D4F6640F24C16A93006B95BF /* MPSImage+Floats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MPSImage+Floats.swift"; sourceTree = "<group>"; };
+		D4F6641024C16A93006B95BF /* HotNetBnn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotNetBnn.swift; sourceTree = "<group>"; };
+		D4F6641124C16A93006B95BF /* HotNetBlas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotNetBlas.swift; sourceTree = "<group>"; };
+		D4F6641224C16A93006B95BF /* GPUArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPUArray.swift; sourceTree = "<group>"; };
+		D4F6641324C16A93006B95BF /* AKMatrix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AKMatrix.swift; sourceTree = "<group>"; };
+		D4F6641424C16A93006B95BF /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
+		D4F6641524C16A93006B95BF /* HotLayerMps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerMps.swift; sourceTree = "<group>"; };
+		D4F6641624C16A93006B95BF /* HotNetMps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotNetMps.swift; sourceTree = "<group>"; };
+		D4F6641824C16A93006B95BF /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
+		D4F6641924C16A93006B95BF /* Census.Stats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.Stats.swift; sourceTree = "<group>"; };
+		D4F6641A24C16A93006B95BF /* Clock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
+		D4F6641B24C16A93006B95BF /* LineGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraph.swift; sourceTree = "<group>"; };
+		D4F6641C24C16A93006B95BF /* Dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
+		D4F6641D24C16A93006B95BF /* Census.Extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.Extra.swift; sourceTree = "<group>"; };
+		D4F6641E24C16A93006B95BF /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		D4F6641F24C16A93006B95BF /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
+		D4F6642024C16A93006B95BF /* LineGraphUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphUpdate.swift; sourceTree = "<group>"; };
+		D4F6642124C16A93006B95BF /* Census.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
+		D4F6642324C16A93006B95BF /* NetDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
+		D4F6642424C16A93006B95BF /* NetGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetGraphics.swift; sourceTree = "<group>"; };
+		D4F6642524C16A93006B95BF /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
+		D4F6642624C16A93006B95BF /* MovieForREADME.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = MovieForREADME.mp4; sourceTree = "<group>"; };
+		D4F6642724C16A93006B95BF /* MovieforREADME.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = MovieforREADME.gif; sourceTree = "<group>"; };
+		D4F6642824C16A93006B95BF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D4F6648924C16BA5006B95BF /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .overcommit.yml; sourceTree = "<group>"; };
+		D4F6648A24C16BA5006B95BF /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLegend.swift; sourceTree = "<group>"; };
+		D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLegendoid.swift; sourceTree = "<group>"; };
+		D4FE3F9324BED7720055D095 /* Cbuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cbuffer.swift; sourceTree = "<group>"; };
+		D4FE3F9524BED7AD0055D095 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
+		D4FE3F9A24BED8060055D095 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D400137824BD4647001D429A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D400139824BD7156001D429A /* Charts in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D400137224BD4646001D429A = {
+			isa = PBXGroup;
+			children = (
+				D4F663BB24C16A92006B95BF /* LICENSE */,
+				D4F6642724C16A93006B95BF /* MovieforREADME.gif */,
+				D4F6642624C16A93006B95BF /* MovieForREADME.mp4 */,
+				D4F6648924C16BA5006B95BF /* .overcommit.yml */,
+				D4F6642824C16A93006B95BF /* README.md */,
+				D4F6648A24C16BA5006B95BF /* .swiftlint.yml */,
+				D4F663BC24C16A92006B95BF /* Arkon */,
+				D4F663F624C16A93006B95BF /* Arkonia */,
+				D4F6640124C16A93006B95BF /* Grid */,
+				D4F6640924C16A93006B95BF /* HotNet */,
+				D4F6641724C16A93006B95BF /* HUD */,
+				D400137D24BD4647001D429A /* macOS */,
+				D4FE3F9224BED7590055D095 /* Miscellany */,
+				D4F663EC24C16A93006B95BF /* SpriteKit */,
+				D400139124BD599E001D429A /* UI */,
+				D400137C24BD4647001D429A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D400137C24BD4647001D429A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D400137B24BD4647001D429A /* Fletch.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D400137D24BD4647001D429A /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				D400137E24BD4647001D429A /* AppDelegate.swift */,
+				D400138224BD4648001D429A /* Assets.xcassets */,
+				D400138724BD4648001D429A /* Main.storyboard */,
+				D400138A24BD4648001D429A /* Info.plist */,
+				D400138B24BD4648001D429A /* Fletch.entitlements */,
+				D400138424BD4648001D429A /* Preview Content */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		D400138424BD4648001D429A /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				D400138524BD4648001D429A /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D400139124BD599E001D429A /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */,
+				D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */,
+				D400138024BD4647001D429A /* ContentView.swift */,
+				D4F663A524C088C4006B95BF /* GameView.swift */,
+				D4E0411224BFE87C0026970F /* LineChartCore.swift */,
+				D400139924BD7197001D429A /* LineChartView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		D4F663BC24C16A92006B95BF /* Arkon */ = {
+			isa = PBXGroup;
+			children = (
+				D4F663CE24C16A93006B95BF /* LifeCycle */,
+				D4F663E024C16A93006B95BF /* Metabolism */,
+				D4F663C524C16A93006B95BF /* Net */,
+				D4F663BE24C16A92006B95BF /* Sensors */,
+				D4F663DF24C16A93006B95BF /* ArkonBuilder.swift */,
+				D4F663C324C16A93006B95BF /* ArkonEmbryo.swift */,
+				D4F663DE24C16A93006B95BF /* Arkon.EnergyBudget.swift */,
+				D4F663DB24C16A93006B95BF /* ArkonName.swift */,
+				D4F663DC24C16A93006B95BF /* Colorizer.swift */,
+				D4F663C424C16A93006B95BF /* Mutator.swift */,
+				D4F663BD24C16A92006B95BF /* Spindle.swift */,
+				D4F663DD24C16A93006B95BF /* Stepper.swift */,
+			);
+			path = Arkon;
+			sourceTree = "<group>";
+		};
+		D4F663BE24C16A92006B95BF /* Sensors */ = {
+			isa = PBXGroup;
+			children = (
+				D4F663C124C16A93006B95BF /* CellSensor.swift */,
+				D4F663BF24C16A92006B95BF /* SensorPad.swift */,
+				D4F663C024C16A93006B95BF /* SensorPad.Data.swift */,
+				D4F663C224C16A93006B95BF /* SensorPad.Translate.swift */,
+			);
+			path = Sensors;
+			sourceTree = "<group>";
+		};
+		D4F663C524C16A93006B95BF /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				D4F663C924C16A93006B95BF /* DriveResponse.swift */,
+				D4F663C724C16A93006B95BF /* DriveStimulus.swift */,
+				D4F663C824C16A93006B95BF /* LayerStructures.swift */,
+				D4F663CA24C16A93006B95BF /* Net.swift */,
+				D4F663CB24C16A93006B95BF /* NetStructure.swift */,
+			);
+			path = Net;
+			sourceTree = "<group>";
+		};
+		D4F663CE24C16A93006B95BF /* LifeCycle */ = {
+			isa = PBXGroup;
+			children = (
+				D4F663DA24C16A93006B95BF /* Apoptosize.swift */,
+				D4F663D124C16A93006B95BF /* Arrive.swift */,
+				D4F663D724C16A93006B95BF /* DriveNetSignal.swift */,
+				D4F663CF24C16A93006B95BF /* EngageGrid.swift */,
+				D4F663D824C16A93006B95BF /* MoveSprite.swift */,
+				D4F663D624C16A93006B95BF /* MoveStepper.swift */,
+				D4F663D524C16A93006B95BF /* Spawn.swift */,
+				D4F663D024C16A93006B95BF /* TickLife.swift */,
+			);
+			path = LifeCycle;
+			sourceTree = "<group>";
+		};
+		D4F663E024C16A93006B95BF /* Metabolism */ = {
+			isa = PBXGroup;
+			children = (
+				D4F663E324C16A93006B95BF /* ChamberedStore.swift */,
+				D4F663E424C16A93006B95BF /* Digestion.swift */,
+				D4F663E724C16A93006B95BF /* Digestion.Surplus.swift */,
+				D4F663E924C16A93006B95BF /* EnergyBudget.swift */,
+				D4F663E224C16A93006B95BF /* EnergyBudget.Protocols.swift */,
+				D4F663E524C16A93006B95BF /* Jump.swift */,
+				D4F663E824C16A93006B95BF /* Lungs.swift */,
+				D4F663E624C16A93006B95BF /* Metabolism.swift */,
+				D4F663E124C16A93006B95BF /* OozeStorage.swift */,
+				D4F663EB24C16A93006B95BF /* Transfer.swift */,
+				D4F663EA24C16A93006B95BF /* main.swift */,
+			);
+			path = Metabolism;
+			sourceTree = "<group>";
+		};
+		D4F663EC24C16A93006B95BF /* SpriteKit */ = {
+			isa = PBXGroup;
+			children = (
+				D4F663EE24C16A93006B95BF /* ArkoniaScene.swift */,
+				D4F663F424C16A93006B95BF /* GameScene.swift */,
+				D4F663ED24C16A93006B95BF /* SceneDispatch.swift */,
+				D4F663F124C16A93006B95BF /* SKSpriteNode.swift */,
+				D4F663EF24C16A93006B95BF /* SpriteFactory.swift */,
+				D4F663F524C16A93006B95BF /* SpritePool.swift */,
+			);
+			path = SpriteKit;
+			sourceTree = "<group>";
+		};
+		D4F663F624C16A93006B95BF /* Arkonia */ = {
+			isa = PBXGroup;
+			children = (
+				D4F663F924C16A93006B95BF /* Manna */,
+				D4F6640024C16A93006B95BF /* Arkonia.swift */,
+				D4F663F724C16A93006B95BF /* MannaCannon.swift */,
+				D4F663FE24C16A93006B95BF /* Pollenator.swift */,
+				D4F663FD24C16A93006B95BF /* Protocols.swift */,
+				D4F663F824C16A93006B95BF /* Seasons.swift */,
+			);
+			path = Arkonia;
+			sourceTree = "<group>";
+		};
+		D4F663F924C16A93006B95BF /* Manna */ = {
+			isa = PBXGroup;
+			children = (
+				D4F663FB24C16A93006B95BF /* Manna.swift */,
+				D4F663FA24C16A93006B95BF /* Manna.EnergyBudget.swift */,
+				D4F663FC24C16A93006B95BF /* Manna.Sprite.swift */,
+			);
+			path = Manna;
+			sourceTree = "<group>";
+		};
+		D4F6640124C16A93006B95BF /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				D4F6640624C16A93006B95BF /* Grid.swift */,
+				D4F6640724C16A93006B95BF /* GridCell.swift */,
+				D4F6640324C16A93006B95BF /* GridCore.swift */,
+				D4F6640224C16A93006B95BF /* GridIndexer.swift */,
+				D4F6640524C16A93006B95BF /* GridLock.swift */,
+				D4F6640424C16A93006B95BF /* GridManna.swift */,
+				D4F6640824C16A93006B95BF /* main.swift */,
+			);
+			path = Grid;
+			sourceTree = "<group>";
+		};
+		D4F6640924C16A93006B95BF /* HotNet */ = {
+			isa = PBXGroup;
+			children = (
+				D4F6641324C16A93006B95BF /* AKMatrix.swift */,
+				D4F6641424C16A93006B95BF /* DataSource.swift */,
+				D4F6641224C16A93006B95BF /* GPUArray.swift */,
+				D4F6641124C16A93006B95BF /* HotNetBlas.swift */,
+				D4F6641024C16A93006B95BF /* HotNetBnn.swift */,
+				D4F6640B24C16A93006B95BF /* HotNetCnn.swift */,
+				D4F6641624C16A93006B95BF /* HotNetMps.swift */,
+				D4F6640E24C16A93006B95BF /* HotLayerBlas.swift */,
+				D4F6640D24C16A93006B95BF /* HotLayerBnn.swift */,
+				D4F6640C24C16A93006B95BF /* HotLayerCnn.swift */,
+				D4F6641524C16A93006B95BF /* HotLayerMps.swift */,
+				D4F6640F24C16A93006B95BF /* MPSImage+Floats.swift */,
+				D4F6640A24C16A93006B95BF /* WeightsMatrix.swift */,
+			);
+			path = HotNet;
+			sourceTree = "<group>";
+		};
+		D4F6641724C16A93006B95BF /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				D4F6642224C16A93006B95BF /* NetDisplay */,
+				D4F6642124C16A93006B95BF /* Census.swift */,
+				D4F6641D24C16A93006B95BF /* Census.Extra.swift */,
+				D4F6641924C16A93006B95BF /* Census.Stats.swift */,
+				D4F6641A24C16A93006B95BF /* Clock.swift */,
+				D4F6641C24C16A93006B95BF /* Dashboard.swift */,
+				D4F6641E24C16A93006B95BF /* HUD.swift */,
+				D4F6641B24C16A93006B95BF /* LineGraph.swift */,
+				D4F6642024C16A93006B95BF /* LineGraphUpdate.swift */,
+				D4F6641824C16A93006B95BF /* Report.swift */,
+			);
+			path = HUD;
+			sourceTree = "<group>";
+		};
+		D4F6642224C16A93006B95BF /* NetDisplay */ = {
+			isa = PBXGroup;
+			children = (
+				D4F6641F24C16A93006B95BF /* BarChart.swift */,
+				D4F6642324C16A93006B95BF /* NetDisplay.swift */,
+				D4F6642524C16A93006B95BF /* NetDisplayGrid.swift */,
+				D4F6642424C16A93006B95BF /* NetGraphics.swift */,
+			);
+			path = NetDisplay;
+			sourceTree = "<group>";
+		};
+		D4FE3F9224BED7590055D095 /* Miscellany */ = {
+			isa = PBXGroup;
+			children = (
+				D49EBA1224C16DDF0006E0E1 /* AKPoint.swift */,
+				D4FE3F9324BED7720055D095 /* Cbuffer.swift */,
+				D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */,
+				D4FE3F9524BED7AD0055D095 /* Debug.swift */,
+				D49EBA1524C16DDF0006E0E1 /* Debug.Color.swift */,
+				D4FE3F9A24BED8060055D095 /* Extensions.swift */,
+				D49EBA1624C16DE00006E0E1 /* JumpSpec.swift */,
+				D49EBA2024C170CE0006E0E1 /* KIdentifier.swift */,
+				D49EBA1724C16DE00006E0E1 /* main.swift */,
+				D49EBA1324C16DDF0006E0E1 /* NormalDistribution.swift */,
+				D49EBA1424C16DDF0006E0E1 /* Overload2D.swift */,
+				D49EBA1F24C170CE0006E0E1 /* Tensor.Random.swift */,
+				D49EBA2124C170CE0006E0E1 /* Tensor.Utilities.swift */,
+			);
+			path = Miscellany;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D400137A24BD4647001D429A /* Fletch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D400138E24BD4648001D429A /* Build configuration list for PBXNativeTarget "Fletch" */;
+			buildPhases = (
+				D400137724BD4647001D429A /* Sources */,
+				D400137824BD4647001D429A /* Frameworks */,
+				D400137924BD4647001D429A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Fletch;
+			packageProductDependencies = (
+				D400139724BD7156001D429A /* Charts */,
+			);
+			productName = Fletch;
+			productReference = D400137B24BD4647001D429A /* Fletch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D400137324BD4646001D429A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1160;
+				LastUpgradeCheck = 1200;
+				ORGANIZATIONNAME = "Boring Software";
+				TargetAttributes = {
+					D400137A24BD4647001D429A = {
+						CreatedOnToolsVersion = 11.6;
+					};
+				};
+			};
+			buildConfigurationList = D400137624BD4646001D429A /* Build configuration list for PBXProject "Fletch" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D400137224BD4646001D429A;
+			packageReferences = (
+				D400139624BD7156001D429A /* XCRemoteSwiftPackageReference "swiftui-charts" */,
+			);
+			productRefGroup = D400137C24BD4647001D429A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D400137A24BD4647001D429A /* Fletch */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D400137924BD4647001D429A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4F6648D24C16BA5006B95BF /* .swiftlint.yml in Resources */,
+				D400138924BD4648001D429A /* Main.storyboard in Resources */,
+				D4F6648724C16A93006B95BF /* MovieforREADME.gif in Resources */,
+				D400138624BD4648001D429A /* Preview Assets.xcassets in Resources */,
+				D4F6648624C16A93006B95BF /* MovieForREADME.mp4 in Resources */,
+				D4F6642924C16A93006B95BF /* LICENSE in Resources */,
+				D4F6648C24C16BA5006B95BF /* .overcommit.yml in Resources */,
+				D4F6648824C16A93006B95BF /* README.md in Resources */,
+				D400138324BD4648001D429A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D400137724BD4647001D429A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4F6646824C16A93006B95BF /* GridLock.swift in Sources */,
+				D4F6645024C16A93006B95BF /* EnergyBudget.swift in Sources */,
+				D49EBA1924C16DE00006E0E1 /* AKPoint.swift in Sources */,
+				D4F6646124C16A93006B95BF /* Protocols.swift in Sources */,
+				D4F6646224C16A93006B95BF /* Pollenator.swift in Sources */,
+				D4F6647124C16A93006B95BF /* MPSImage+Floats.swift in Sources */,
+				D4FE3F9424BED7720055D095 /* Cbuffer.swift in Sources */,
+				D4F6648424C16A93006B95BF /* NetGraphics.swift in Sources */,
+				D4F6646524C16A93006B95BF /* GridIndexer.swift in Sources */,
+				D4F6645E24C16A93006B95BF /* Manna.EnergyBudget.swift in Sources */,
+				D400138124BD4647001D429A /* ContentView.swift in Sources */,
+				D4F6644E24C16A93006B95BF /* Digestion.Surplus.swift in Sources */,
+				D4F6646C24C16A93006B95BF /* WeightsMatrix.swift in Sources */,
+				D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */,
+				D4F6646724C16A93006B95BF /* GridManna.swift in Sources */,
+				D400137F24BD4647001D429A /* AppDelegate.swift in Sources */,
+				D4FE3F9B24BED8060055D095 /* Extensions.swift in Sources */,
+				D4F6647A24C16A93006B95BF /* Census.Stats.swift in Sources */,
+				D4F6646424C16A93006B95BF /* Arkonia.swift in Sources */,
+				D4F6646F24C16A93006B95BF /* HotLayerBnn.swift in Sources */,
+				D4F6646024C16A93006B95BF /* Manna.Sprite.swift in Sources */,
+				D4F6646D24C16A93006B95BF /* HotNetCnn.swift in Sources */,
+				D4F6644824C16A93006B95BF /* OozeStorage.swift in Sources */,
+				D4F6643324C16A93006B95BF /* LayerStructures.swift in Sources */,
+				D4F6643E24C16A93006B95BF /* MoveStepper.swift in Sources */,
+				D4F6642C24C16A93006B95BF /* SensorPad.Data.swift in Sources */,
+				D4F6648124C16A93006B95BF /* LineGraphUpdate.swift in Sources */,
+				D4F6644F24C16A93006B95BF /* Lungs.swift in Sources */,
+				D49EBA2324C170CE0006E0E1 /* KIdentifier.swift in Sources */,
+				D4F6645F24C16A93006B95BF /* Manna.swift in Sources */,
+				D4F6644A24C16A93006B95BF /* ChamberedStore.swift in Sources */,
+				D4F6644524C16A93006B95BF /* Stepper.swift in Sources */,
+				D4F6648524C16A93006B95BF /* NetDisplayGrid.swift in Sources */,
+				D4F6643224C16A93006B95BF /* DriveStimulus.swift in Sources */,
+				D49EBA1C24C16DE00006E0E1 /* Debug.Color.swift in Sources */,
+				D4F6643024C16A93006B95BF /* Mutator.swift in Sources */,
+				D4F6642D24C16A93006B95BF /* CellSensor.swift in Sources */,
+				D4F6644424C16A93006B95BF /* Colorizer.swift in Sources */,
+				D4F6643A24C16A93006B95BF /* Arrive.swift in Sources */,
+				D4F6647924C16A93006B95BF /* Report.swift in Sources */,
+				D4FE3F8C24BEBAD10055D095 /* ChartLegendoid.swift in Sources */,
+				D4F6647424C16A93006B95BF /* GPUArray.swift in Sources */,
+				D4FE3F9624BED7AD0055D095 /* Debug.swift in Sources */,
+				D4F6645524C16A93006B95BF /* SpriteFactory.swift in Sources */,
+				D4F6645424C16A93006B95BF /* ArkoniaScene.swift in Sources */,
+				D4F6648224C16A93006B95BF /* Census.swift in Sources */,
+				D49EBA1A24C16DE00006E0E1 /* NormalDistribution.swift in Sources */,
+				D4F6643624C16A93006B95BF /* NetStructure.swift in Sources */,
+				D4F6643D24C16A93006B95BF /* Spawn.swift in Sources */,
+				D4F6644324C16A93006B95BF /* ArkonName.swift in Sources */,
+				D4F6645A24C16A93006B95BF /* GameScene.swift in Sources */,
+				D4F6644924C16A93006B95BF /* EnergyBudget.Protocols.swift in Sources */,
+				D4F6642F24C16A93006B95BF /* ArkonEmbryo.swift in Sources */,
+				D4F6644224C16A93006B95BF /* Apoptosize.swift in Sources */,
+				D4F6647024C16A93006B95BF /* HotLayerBlas.swift in Sources */,
+				D4F6647D24C16A93006B95BF /* Dashboard.swift in Sources */,
+				D49EBA2224C170CE0006E0E1 /* Tensor.Random.swift in Sources */,
+				D4F6644624C16A93006B95BF /* Arkon.EnergyBudget.swift in Sources */,
+				D4F6644B24C16A93006B95BF /* Digestion.swift in Sources */,
+				D4F6645D24C16A93006B95BF /* Seasons.swift in Sources */,
+				D4F6643F24C16A93006B95BF /* DriveNetSignal.swift in Sources */,
+				D4F6642A24C16A93006B95BF /* Spindle.swift in Sources */,
+				D4F6643424C16A93006B95BF /* DriveResponse.swift in Sources */,
+				D49EBA1D24C16DE00006E0E1 /* JumpSpec.swift in Sources */,
+				D4F6643924C16A93006B95BF /* TickLife.swift in Sources */,
+				D49EBA2424C170CE0006E0E1 /* Tensor.Utilities.swift in Sources */,
+				D4F6646624C16A93006B95BF /* GridCore.swift in Sources */,
+				D4F6647B24C16A93006B95BF /* Clock.swift in Sources */,
+				D4F6645224C16A93006B95BF /* Transfer.swift in Sources */,
+				D4F6647F24C16A93006B95BF /* HUD.swift in Sources */,
+				D4F6644724C16A93006B95BF /* ArkonBuilder.swift in Sources */,
+				D4E0411324BFE87C0026970F /* LineChartCore.swift in Sources */,
+				D4F6647524C16A93006B95BF /* AKMatrix.swift in Sources */,
+				D4F6645724C16A93006B95BF /* SKSpriteNode.swift in Sources */,
+				D4F6645324C16A93006B95BF /* SceneDispatch.swift in Sources */,
+				D4F6646A24C16A93006B95BF /* GridCell.swift in Sources */,
+				D4F6646E24C16A93006B95BF /* HotLayerCnn.swift in Sources */,
+				D4F6643524C16A93006B95BF /* Net.swift in Sources */,
+				D4F6647224C16A93006B95BF /* HotNetBnn.swift in Sources */,
+				D4F6646924C16A93006B95BF /* Grid.swift in Sources */,
+				D400139A24BD7197001D429A /* LineChartView.swift in Sources */,
+				D4F6642B24C16A93006B95BF /* SensorPad.swift in Sources */,
+				D49EBA1B24C16DE00006E0E1 /* Overload2D.swift in Sources */,
+				D4F663A624C088C4006B95BF /* GameView.swift in Sources */,
+				D4F6647C24C16A93006B95BF /* LineGraph.swift in Sources */,
+				D4FE3F8A24BEB9A60055D095 /* ChartLegend.swift in Sources */,
+				D4F6647324C16A93006B95BF /* HotNetBlas.swift in Sources */,
+				D4F6645C24C16A93006B95BF /* MannaCannon.swift in Sources */,
+				D4F6647E24C16A93006B95BF /* Census.Extra.swift in Sources */,
+				D4F6644D24C16A93006B95BF /* Metabolism.swift in Sources */,
+				D4F6648024C16A93006B95BF /* BarChart.swift in Sources */,
+				D4F6643824C16A93006B95BF /* EngageGrid.swift in Sources */,
+				D4F6645B24C16A93006B95BF /* SpritePool.swift in Sources */,
+				D4F6648324C16A93006B95BF /* NetDisplay.swift in Sources */,
+				D4F6644C24C16A93006B95BF /* Jump.swift in Sources */,
+				D4F6642E24C16A93006B95BF /* SensorPad.Translate.swift in Sources */,
+				D4F6644024C16A93006B95BF /* MoveSprite.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		D400138724BD4648001D429A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D400138824BD4648001D429A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		D400138C24BD4648001D429A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D400138D24BD4648001D429A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		D400138F24BD4648001D429A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = macOS/Fletch.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"macOS/Preview Content\"";
+				DEVELOPMENT_TEAM = DD983V4X84;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.Fletch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D400139024BD4648001D429A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = macOS/Fletch.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"macOS/Preview Content\"";
+				DEVELOPMENT_TEAM = DD983V4X84;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.Fletch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D400137624BD4646001D429A /* Build configuration list for PBXProject "Fletch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D400138C24BD4648001D429A /* Debug */,
+				D400138D24BD4648001D429A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D400138E24BD4648001D429A /* Build configuration list for PBXNativeTarget "Fletch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D400138F24BD4648001D429A /* Debug */,
+				D400139024BD4648001D429A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D400139624BD7156001D429A /* XCRemoteSwiftPackageReference "swiftui-charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/spacenation/swiftui-charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D400139724BD7156001D429A /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D400139624BD7156001D429A /* XCRemoteSwiftPackageReference "swiftui-charts" */;
+			productName = Charts;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = D400137324BD4646001D429A /* Project object */;
+}

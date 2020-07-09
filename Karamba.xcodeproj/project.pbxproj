@@ -33,6 +33,10 @@
 		D41ED8D623B084A100E82B08 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41ED8D523B084A100E82B08 /* Debug.swift */; };
 		D422DE0B23598B52003734B8 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0A23598B52003734B8 /* Census.swift */; };
 		D422DE0D23598BEC003734B8 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D422DE0C23598BEC003734B8 /* Clock.swift */; };
+		D42485E324B7AFFE00E7EDEE /* HotLayerMps.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E06624089721005C0191 /* HotLayerMps.swift */; };
+		D42485E424B8166700E7EDEE /* HotNetMps.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C7E06224088C51005C0191 /* HotNetMps.swift */; };
+		D42485E624B82AC000E7EDEE /* Net.Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42485E524B82AC000E7EDEE /* Net.Extra.swift */; };
+		D42485E824B9027100E7EDEE /* AKMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42485E724B9027100E7EDEE /* AKMatrix.swift */; };
 		D42664E9249E6E8C00CBF28B /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42664E8249E6E8C00CBF28B /* GridCell.swift */; };
 		D42664F024A168BA00CBF28B /* SensorPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42664EF24A168BA00CBF28B /* SensorPad.swift */; };
 		D42B7CEF248765C000085F7F /* Tensor.Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42B7CEE248765C000085F7F /* Tensor.Random.swift */; };
@@ -210,6 +214,8 @@
 		D42172F3233EE46000A56594 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		D422DE0A23598B52003734B8 /* Census.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D422DE0C23598BEC003734B8 /* Clock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
+		D42485E524B82AC000E7EDEE /* Net.Extra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Net.Extra.swift; sourceTree = "<group>"; };
+		D42485E724B9027100E7EDEE /* AKMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AKMatrix.swift; sourceTree = "<group>"; };
 		D42664E8249E6E8C00CBF28B /* GridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCell.swift; sourceTree = "<group>"; };
 		D42664EF24A168BA00CBF28B /* SensorPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorPad.swift; sourceTree = "<group>"; };
 		D42751B92287DBAA0096CDB5 /* NetDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
@@ -270,9 +276,9 @@
 		D4BB6E76234EDCA500529819 /* Apoptosize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Apoptosize.swift; sourceTree = "<group>"; };
 		D4BBFCDC24430318000C139D /* LineGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraph.swift; sourceTree = "<group>"; };
 		D4BBFCDD24430318000C139D /* LineGraphUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphUpdate.swift; sourceTree = "<group>"; };
-		D4C7E06224088C51005C0191 /* HotNetGpu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotNetGpu.swift; sourceTree = "<group>"; };
+		D4C7E06224088C51005C0191 /* HotNetMps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotNetMps.swift; sourceTree = "<group>"; };
 		D4C7E064240896B0005C0191 /* WeightsMatrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightsMatrix.swift; sourceTree = "<group>"; };
-		D4C7E06624089721005C0191 /* HotLayerGpu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotLayerGpu.swift; sourceTree = "<group>"; };
+		D4C7E06624089721005C0191 /* HotLayerMps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotLayerMps.swift; sourceTree = "<group>"; };
 		D4C7E070240CC0C2005C0191 /* HotNetBlas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotNetBlas.swift; sourceTree = "<group>"; };
 		D4C7E078240CC0C2005C0191 /* HotLayerBlas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerBlas.swift; sourceTree = "<group>"; };
 		D4CC187424AE7F7900052A2F /* Spindle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spindle.swift; sourceTree = "<group>"; };
@@ -481,6 +487,7 @@
 				D485E3ED2491BB7A0092A7B1 /* DriveStimulus.swift */,
 				D4337BB92488C097009CA9DD /* LayerStructures.swift */,
 				D4EE561922BC96290076D8A1 /* Net.swift */,
+				D42485E524B82AC000E7EDEE /* Net.Extra.swift */,
 				D4EA4BE5247A086200763EF8 /* NetStructure.swift */,
 			);
 			path = Net;
@@ -536,16 +543,17 @@
 		D4D346A723FC649F00E6D1C2 /* HotNet */ = {
 			isa = PBXGroup;
 			children = (
+				D42485E724B9027100E7EDEE /* AKMatrix.swift */,
 				D43DC50924165D450017FADF /* DataSource.swift */,
 				D43DC50724165AFE0017FADF /* GPUArray.swift */,
 				D43DC50524162FB10017FADF /* HotLayerCnn.swift */,
 				D4C7E078240CC0C2005C0191 /* HotLayerBlas.swift */,
 				D4D4F051243ABBA900D093DF /* HotLayerBnn.swift */,
-				D4C7E06624089721005C0191 /* HotLayerGpu.swift */,
+				D4C7E06624089721005C0191 /* HotLayerMps.swift */,
 				D4C7E070240CC0C2005C0191 /* HotNetBlas.swift */,
 				D4D4F04F243ABACC00D093DF /* HotNetBnn.swift */,
 				D43DC50B2416A7FC0017FADF /* HotNetCnn.swift */,
-				D4C7E06224088C51005C0191 /* HotNetGpu.swift */,
+				D4C7E06224088C51005C0191 /* HotNetMps.swift */,
 				D43DC50D2416C4AC0017FADF /* MPSImage+Floats.swift */,
 				D4C7E064240896B0005C0191 /* WeightsMatrix.swift */,
 			);
@@ -677,7 +685,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1120;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Boring Software";
 				TargetAttributes = {
 					D439839724A7A48D0082313C = {
@@ -798,6 +806,7 @@
 				D4D4F052243ABBA900D093DF /* HotLayerBnn.swift in Sources */,
 				D40DF32624706E4B001649FA /* ChamberedStore.swift in Sources */,
 				D4A59D2F2388345100517F60 /* MoveStepper.swift in Sources */,
+				D42485E424B8166700E7EDEE /* HotNetMps.swift in Sources */,
 				D495F0C7233FA6E1007D6E86 /* ArkoniaScene.swift in Sources */,
 				D43DC50E2416C4AC0017FADF /* MPSImage+Floats.swift in Sources */,
 				D497C1AA23D966A70078D39F /* SpritePool.swift in Sources */,
@@ -812,6 +821,7 @@
 				D42664F024A168BA00CBF28B /* SensorPad.swift in Sources */,
 				D464BA4422C737260069623C /* NetDisplay.swift in Sources */,
 				D4B2AC8523D5983200246746 /* SceneDispatch.swift in Sources */,
+				D42485E824B9027100E7EDEE /* AKMatrix.swift in Sources */,
 				D485E3E3248F442A0092A7B1 /* GridCore.swift in Sources */,
 				D4A59D2623882C5D00517F60 /* MoveSprite.swift in Sources */,
 				D464BA4622C737260069623C /* Overload2D.swift in Sources */,
@@ -834,6 +844,7 @@
 				D4B7B49624971CAF00894A61 /* ArkonEmbryo.swift in Sources */,
 				D4B2AC8223D595E000246746 /* NetDisplayGrid.swift in Sources */,
 				D41BB5A924A3EFFD00945298 /* Spawn.swift in Sources */,
+				D42485E324B7AFFE00E7EDEE /* HotLayerMps.swift in Sources */,
 				D4B00914241C97BD007FDD6F /* MannaCannon.swift in Sources */,
 				D4A59D31238839C700517F60 /* Arrive.swift in Sources */,
 				D40DF32D24706E4B001649FA /* Metabolism.swift in Sources */,
@@ -843,6 +854,7 @@
 				D42664E9249E6E8C00CBF28B /* GridCell.swift in Sources */,
 				D457109B2471169100A9B94F /* JumpSpec.swift in Sources */,
 				D464BA5122C737260069623C /* ColorGradient.swift in Sources */,
+				D42485E624B82AC000E7EDEE /* Net.Extra.swift in Sources */,
 				D4337BBA2488C097009CA9DD /* LayerStructures.swift in Sources */,
 				D40DF32924706E4B001649FA /* EnergyBudget.swift in Sources */,
 				D40DF32724706E4B001649FA /* Digestion.swift in Sources */,
@@ -954,6 +966,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1020,6 +1033,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

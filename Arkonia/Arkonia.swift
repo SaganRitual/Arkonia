@@ -15,13 +15,13 @@ class Arkonia {
     static let cPollenators = 5
 
     // vars so I can change them from the debugger
-    static var debugColorIsEnabled = true
-    static var debugMessageLevel = 214
+    static var debugColorIsEnabled = false
+    static var debugMessageLevel = 217
     static var debugMessageToConsole = false
     static var debugGrid = false
 
-    static let funkyCells: CGFloat? = nil// 6 / zoomFactor
-    static let initialPopulation = 10
+    static let funkyCells: CGFloat? = 6 / zoomFactor
+    static let initialPopulation = 1
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedCellsPerSecond: CGFloat = 25
 

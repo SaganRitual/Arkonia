@@ -1,6 +1,18 @@
 enum CBufferMode { case fifo, putOnlyRing }
 
-class Cbuffer<T> {
+class Cbuffer<T: BinaryFloatingPoint>: RandomAccessCollection {
+    func index(after i: Int) -> Int { (i + 1) % cElements }
+
+    subscript(position: Int) -> T {
+        get { return self.elements[position]! }
+        set { fatalError() }
+    }
+
+    var startIndex: Int { nextPushOffset }
+    var endIndex: Int { startIndex }
+
+    typealias Index = Int
+
     private(set) var cElements: Int
     private(set) var elements: [T?]
     private var firstPass = true
@@ -79,5 +91,7 @@ class Cbuffer<T> {
     func put(_ element: T) {
         hardAssert(mode == .putOnlyRing) { "hardAssert at \(#file):\(#line)" }
         put_(element)
+
+        nextPushOffset = (nextPushOffset + 1) % cElements
     }
 }

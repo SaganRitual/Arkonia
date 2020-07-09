@@ -30,7 +30,7 @@ struct NetStructure {
     var isCloneOfParent = false
 
     init(_ cSenseRings: Int?, _ parentLayerDescriptors: [Int]?) {
-        self.cSenseRings = cSenseRings ?? Int.random(in: NetStructure.cSenseRingsRange)
+        self.cSenseRings = cSenseRings ??  Int.random(in: NetStructure.cSenseRingsRange)
         self.layerDescriptors = NetStructure.layerStructures[self.cSenseRings]!.randomElement()!
 
         let sr = self.cSenseRings
