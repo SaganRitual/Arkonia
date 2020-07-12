@@ -26,6 +26,8 @@ struct Fishday {
 class Census {
     static var shared: Census!
 
+    let censusData = CensusData()
+
     let ageFormatter: DateComponentsFormatter
     private(set) var highWaterAge = 0
     private(set) var highWaterCOffspring = 0
@@ -42,6 +44,9 @@ class Census {
     let rHighWaterAge: Reportoid
     let rHighWaterPopulation: Reportoid
     let rCOffspring: Reportoid
+
+    // Markers for said arkons, not the arkons themselves
+    var oldestLivingMarker, aimestLivingMarker, busiestLivingMarker: SKSpriteNode?
 
     var tickTimer: Timer!
 
@@ -67,6 +72,18 @@ class Census {
 
         rCOffspring = scene.reportMisc.reportoid(3)
 
+        oldestLivingMarker = SpriteFactory.shared.markersPool.makeSprite()
+        aimestLivingMarker = SpriteFactory.shared.markersPool.makeSprite()
+        busiestLivingMarker = SpriteFactory.shared.markersPool.makeSprite()
+
+        [
+            (oldestLivingMarker!, SKColor.yellow),
+            (aimestLivingMarker!, SKColor.orange),
+            (busiestLivingMarker!, SKColor.green)
+        ].forEach {
+            $0.0.color = $0.1; $0.0.zPosition = 10; $0.0.zRotation = CGFloat.tau / 2
+        }
+
         tickTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             Census.dispatchQueue.async { self.updateReports() }
         }
@@ -83,12 +100,16 @@ extension Census {
 
 extension Census {
     func updateReports(_ worldClock: Int) {
+        censusData.compress(TimeInterval(worldClock))
+
         self.rCOffspring.data.text = String(format: "%d", highWaterCOffspring)
         self.rHighWaterPopulation.data.text = String(highWaterPopulation)
         self.rPopulation.data.text = String(population)
         self.rBirths.data.text = String(births)
 
         rHighWaterAge.data.text = ageFormatter.string(from: Double(highWaterAge))
+
+        markExemplars()
 
         localTime = worldClock
         Debug.log(level: 155) { "updateReports highwaterAge = \(highWaterAge)" }
@@ -100,8 +121,33 @@ extension Census {
     }
 }
 
+private extension Census {
+    func markExemplars() {
+        guard let stats = censusData.stats,
+            let oa = stats.oldestArkon, let be = stats.bestAimArkon,
+            let bu = stats.busiestArkon
+            else { return }
+
+        let dataDriven = [
+            (oldestLivingMarker!, oa, Double(stats.maxAge)),
+            (aimestLivingMarker!, be, stats.maxFoodHitRate),
+            (busiestLivingMarker!, bu, Double(stats.maxCOffspring))
+        ]
+
+        dataDriven.forEach { updateMarkerIf($0.0, $0.1.nose) }
+    }
+
+    func updateMarkerIf(_ marker: SKSpriteNode, _ markCandidate: SKSpriteNode) {
+        if marker.parent != nil {
+            marker.removeFromParent()
+        }
+
+        markCandidate.addChild(marker)
+    }
+}
+
 extension Census {
-    func registerBirth(_ myParent: Stepper?, _ myNetStructure: NetStructure) -> Fishday {
+    func registerBirth(_ myNetStructure: NetStructure, _ myParent: Stepper?) -> Fishday {
         self.population += 1
         self.births += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
@@ -121,14 +167,11 @@ extension Census {
 
     func registerDeath(_ stepper: Stepper, _ worldTime: Int) {
         Debug.log(level: 205) { "registerDeath.1; population \(self.population)" }
-        let ageOfDeceased = Census.getAge(of: stepper, at: worldTime)
-
-        highWaterAge = max(highWaterAge, Int(ageOfDeceased))
-        population -= 1
-
-//        if population < 25 { Stepper.makeNewArkon(nil) }
 
         self.cLiveNeurons -= stepper.net.netStructure.cNeurons
+
+        highWaterAge = max(highWaterAge, Int(censusData.stats?.maxAge ?? 0))
+        population -= 1
 
         Debug.log(level: 205) { "registerDeath.2; population \(self.population)" }
     }

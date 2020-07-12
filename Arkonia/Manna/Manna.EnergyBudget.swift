@@ -15,11 +15,12 @@ extension EnergyBudget {
         let maturityLevel: CGFloat
         let scale: CGFloat
         let seasonalFactors: CGFloat
+        let supersizerScale: CGFloat = 0.85
 
         init(_ maturityLevel: CGFloat = 1, _ seasonalFactors: CGFloat) {
             self.maturityLevel = maturityLevel
             self.seasonalFactors = seasonalFactors
-            self.scale = EnergyBudget.supersizer * maturityLevel * seasonalFactors
+            self.scale = EnergyBudget.supersizer * self.supersizerScale * maturityLevel * seasonalFactors
         }
 
         func selectStore(_ organID: OrganID) -> CGFloat? {

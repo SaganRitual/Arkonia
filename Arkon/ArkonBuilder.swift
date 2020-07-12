@@ -35,6 +35,7 @@ struct ArkonBuilder {
         embryo.toothSprite!.color = .red
         embryo.toothSprite!.zPosition = 4
         embryo.toothSprite!.colorBlendFactor = 1
+        embryo.toothSprite!.xScale = Arkonia.toothScaleFactor
 
         embryo.noseSprite!.addChild(embryo.toothSprite!)
         embryo.noseSprite!.setScale(Arkonia.noseScaleFactor)

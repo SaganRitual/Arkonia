@@ -21,7 +21,7 @@ class MannaCannon {
         if Arkonia.cPollenators == 0 { pollenators = []; return }
 
         // Colors for bone, ham, leather, oxygen, ooze pollenators
-        let colors: [SKColor] = [.white, .purple, .yellow, .blue, .green]
+        let colors: [SKColor] = [.red, .magenta, .yellow, .cyan, .green]
         pollenators = colors.map { Pollenator($0) }
     }
 

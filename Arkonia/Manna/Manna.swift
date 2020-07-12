@@ -2,6 +2,7 @@ import SpriteKit
 
 class Manna {
     let absoluteGridIndex: Int
+    var cHarvests = 0
     fileprivate var timeRequiredForFullBloom = Arkonia.mannaFullGrowthDurationSeconds
     fileprivate var mostRecentBloomTime: Date
     let sprite: Manna.Sprite
@@ -32,6 +33,8 @@ extension Manna {
 
 extension Manna {
     func harvest(_ onComplete: @escaping (EnergyBudget.MannaContent?) -> Void) {
+        cHarvests += 1
+
         let maturityLevel = sprite.getMaturityLevel()
 
         // Don't give up any nutrition at all until I've bloomed enough
@@ -45,8 +48,8 @@ extension Manna {
             let seasonalFactors =  dayNightFactor * temperatureCelsiusDegreees
             let mannaContent = EnergyBudget.MannaContent(maturityLevel, seasonalFactors)
 
-            Debug.log(level: 196) {
-                "harvest:"
+            Debug.log(level: 217) {
+                "harvest at \(self.absoluteGridIndex):"
                 + " maturity \(maturityLevel)"
                 + " dayNight \(dayNightFactor)"
                 + " weather \(temperatureCelsiusDegreees)"
@@ -78,14 +81,14 @@ extension Manna {
         // (normal bloom time + (10 - 6.3s)) * 10s/5s =
         // (normal bloom time + 3.7) * 2 seconds to reach full maturity
         let now = Date()
-//        let growthDuration = mostRecentBloomTime.distance(to: now)
-//        let maturity = constrain(growthDuration / timeRequiredForFullBloom, lo: 0.5, hi: 1.0)
-//        let catchup = timeRequiredForFullBloom * (1 - maturity)
-        let catchup: TimeInterval = 0
+        let growthDuration = mostRecentBloomTime.distance(to: now)
+        let maturity = constrain(growthDuration / timeRequiredForFullBloom, lo: 0.5, hi: 1.0)
+        let catchup = timeRequiredForFullBloom * (1 - maturity)
 
         timeRequiredForFullBloom = catchup + Arkonia.mannaFullGrowthDurationSeconds
         mostRecentBloomTime = now
 
+        Debug.log(level: 217) { "rebloom at \(absoluteGridIndex); timeRequiredForFullBloom = \(timeRequiredForFullBloom)" }
         let node = pollenator.node
         sprite.bloom(timeRequiredForFullBloom, color: node.fillColor, scaleFactor: node.xScale)
     }

@@ -35,9 +35,9 @@ class Pollenator {
 
     func move() {
         let positionInSizeCycle = age.truncatingRemainder(dividingBy: sizePeakToPeak) / sizePeakToPeak
-        let yInSizeCycle = sin(positionInSizeCycle * TimeInterval.tau)
-
         let positionInSpeedCycle = age.truncatingRemainder(dividingBy: speedPeakToPeak) / speedPeakToPeak
+
+        let yInSizeCycle = sin(positionInSizeCycle * TimeInterval.tau)
         let yInSpeedCycle = sin(positionInSpeedCycle * TimeInterval.tau)
 
         // Nothing special about the functions here; the main thing is the

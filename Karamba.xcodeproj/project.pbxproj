@@ -450,6 +450,16 @@
 			path = Arkon;
 			sourceTree = "<group>";
 		};
+		D4589E3024BAA27B00A04149 /* Census */ = {
+			isa = PBXGroup;
+			children = (
+				D422DE0A23598B52003734B8 /* Census.swift */,
+				D41A29A423B9945F00DE9CC6 /* Census.Extra.swift */,
+				D4B7B4932494D46E00894A61 /* Census.Stats.swift */,
+			);
+			path = Census;
+			sourceTree = "<group>";
+		};
 		D467E886242D2ADE006325E0 /* Manna */ = {
 			isa = PBXGroup;
 			children = (
@@ -510,11 +520,9 @@
 		D4B4293B22DAEC7E0036C904 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
+				D4589E3024BAA27B00A04149 /* Census */,
 				D4E8D268227E06F400DFCB40 /* NetDisplay */,
 				D41787052430D5090025EC00 /* BarChart.swift */,
-				D422DE0A23598B52003734B8 /* Census.swift */,
-				D41A29A423B9945F00DE9CC6 /* Census.Extra.swift */,
-				D4B7B4932494D46E00894A61 /* Census.Stats.swift */,
 				D422DE0C23598BEC003734B8 /* Clock.swift */,
 				D47FDDC324485BC500C89A1E /* Dashboard.swift */,
 				D4B4294022DAEC7E0036C904 /* HUD.swift */,

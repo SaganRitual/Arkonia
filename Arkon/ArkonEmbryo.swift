@@ -43,7 +43,10 @@ extension ArkonEmbryo {
         func buildArkon_A() { buildNetStructure(); buildArkon_B() }
 
         func buildArkon_B() { Census.dispatchQueue.async(execute: buildArkon_C) }
-        func buildArkon_C() { registerBirth { self.fishday = $0; buildArkon_D() } }
+        func buildArkon_C() {
+            self.fishday = Census.shared.registerBirth(netStructure!, parentArkon)
+            buildArkon_D()
+        }
 
         func buildArkon_D() { MainDispatchQueue.async(execute: buildArkon_E) }
         func buildArkon_E() { arkonBuilder!.buildGuts(buildArkon_F) }
@@ -84,14 +87,28 @@ extension ArkonEmbryo {
         func launch_B() {
             SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)
 
-            let rotate = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
-            newborn!.thorax.run(rotate)
+            let birthDance = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
+            newborn!.thorax.run(birthDance)
+
+            let deathDance = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 1)
+            let forever = SKAction.repeatForever(deathDance)
+            newborn!.tooth.run(forever)
 
             // Parent will have relinquished its hold on the live connection
             newborn!.spindle.attachToGrid(iHaveTheLiveConnection: spindleTargetIsPreLocked, launch_C)
         }
 
         func launch_C() {
+            // Should do this long before, during the build process when we have
+            // the census lock already, but it's ugly and I don't feel like
+            // fixing it right now
+            Census.dispatchQueue.async {
+                Census.shared.censusData.insert(self.newborn!)
+                launch_D()
+            }
+        }
+
+        func launch_D() {
             // Away we go. If I'm supernatural, I might have to wait for my
             // birth cell to become available, if someone else is in it, or
             // looking at it. If I'm a natural birth, an offspring from an
@@ -100,9 +117,5 @@ extension ArkonEmbryo {
         }
 
         launch_A()
-    }
-
-    func registerBirth(_ onComplete: @escaping (Fishday) -> Void) {
-        Census.registerBirth(myParent: parentArkon, myNetStructure: netStructure!, onComplete)
     }
 }

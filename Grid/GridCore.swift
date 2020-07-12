@@ -33,7 +33,6 @@ class GridCore {
         let gridSizePixels = self.gridDimensionsCells.asSize() * cellDimensionsPix.width
         self.paddingPixels = (self.portalDimensionsPix - gridSizePixels) / 2
 
-        Debug.log { "gridSizePixels = \(gridSizePixels), paddingPixels = \(paddingPixels)" }
         Debug.log {
             "Grid size = \(self.gridDimensionsCells)"
             + ", portalsize = \(self.portalDimensionsPix)"

@@ -34,7 +34,7 @@ extension Manna.Sprite {
         // Just for interesting nerdy visuals, scale the manna to the same
         // scale as its pollenator
         if let s = scaleFactor {
-            let newScale = constrain(s / 75, lo: 0.7, hi: 7) * Arkonia.mannaScaleFactor / Arkonia.zoomFactor
+            let newScale = constrain(s / 75, lo: 1.25, hi: 2) * Arkonia.mannaScaleFactor / Arkonia.zoomFactor
             let scaleAction = SKAction.scale(to: newScale, duration: timeRequiredForFullBloom)
             group.append(scaleAction)
         }
@@ -76,9 +76,7 @@ extension Manna.Sprite {
         let eighty: Float = 0.8
         let twenty: Float = 1.0 - eighty
 
-        return inputTime < eighty ?
-                         (twenty / eighty) * inputTime:
-                twenty + (eighty / twenty) * (inputTime - eighty)
+        return inputTime < eighty ? twenty * inputTime : inputTime
     }
 
     func firstBloom(at absoluteGridIndex: Int) {

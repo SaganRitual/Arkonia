@@ -1,37 +1,25 @@
 import Foundation
 
-struct CitizenInfo {
-    let fishday: Fishday
-    var cFoodHits: Int = 0
-    var cJumps: Int = 0
-    var cOffspring: Int = 0
-}
-
 struct PopulationStats {
     let averageAge: Double
     let maxAge: Double
+    weak var oldestArkon: Stepper?
 
     let averageFoodHitRate: Double
     let maxFoodHitRate: Double
+    weak var bestAimArkon: Stepper?
 
     let averageCOffspring: Double
     let maxCOffspring: Int
+    weak var busiestArkon: Stepper?
 }
 
 class CitizenMinder {
     weak var citizen: Stepper?
-    var citizenInfo: CitizenInfo
     var next: UnsafeMutablePointer<CitizenMinder>?
     var prev: UnsafeMutablePointer<CitizenMinder>?
 
-    init(_ citizen: Stepper) {
-        self.citizen = citizen
-
-        citizenInfo = .init(
-            fishday: citizen.fishday, cFoodHits: citizen.cFoodHits,
-            cJumps: citizen.cJumps, cOffspring: citizen.cOffspring
-        )
-    }
+    init(_ citizen: Stepper) { self.citizen = citizen }
 }
 
 class CensusData {
@@ -40,12 +28,14 @@ class CensusData {
 
     var isEmpty: Bool { head == nil }
 
-    func compress(_ currentTime: TimeInterval) -> PopulationStats {
+    var stats: PopulationStats?
+
+    func compress(_ currentTime: TimeInterval) {
         var cArkons = 0
-        var ageSum = TimeInterval(0), maxAge = TimeInterval(0)
-        var maxFoodHitRate = 0.0
-        var foodHitRateSum = 0.0
-        var maxCOffspring = 0
+        var ageSum = TimeInterval(0), maxAge = TimeInterval(-1)
+        var maxFoodHitRate = -1.0
+        var foodHitRateSum = -1.0
+        var maxCOffspring = -1
         var cOffspringSum = 0
 
         var currentMinder = self.head
@@ -53,25 +43,34 @@ class CensusData {
         // Citizens disappear from the roster when their steppers destruct. We
         // see this as a nil citizen in the minder. Minders stick around until
         // we see that their citizen has died, at which point we, uhh, "retire" the minder
+        var oldestArkon, bestAimArkon, busiestArkon: Stepper?
+
         repeat {
             guard let minder = currentMinder else { break } // End of the list
 
-            if minder.pointee.citizen == nil {
+            guard let info = minder.pointee.citizen else {
                 currentMinder = delete(minder.pointee)
                 continue
             }
 
-            let info = minder.pointee.citizenInfo
-
             let age = currentTime - info.fishday.birthday
-            maxAge = max(age, maxAge); ageSum += age
+            ageSum += age
 
-            let foodHitRate = Double(info.cFoodHits) / Double(info.cJumps)
+            if let (newMax, arkon) = checkMax(
+                age, maxAge, minder.pointee.citizen!
+            ) { maxAge = newMax; oldestArkon = arkon }
 
-            maxFoodHitRate = max(foodHitRate, maxFoodHitRate)
+            let foodHitRate = info.cJumps == 0 ? 0 : Double(info.cFoodHits) / Double(info.cJumps)
             foodHitRateSum += foodHitRate
 
-            maxCOffspring = max(info.cOffspring, maxCOffspring)
+            if let (newMax, arkon) = checkMax(
+                foodHitRate, maxFoodHitRate, minder.pointee.citizen!
+            ) { maxFoodHitRate = newMax; bestAimArkon = arkon }
+
+            if let (newMax, arkon) = checkMax(
+                Double(info.cOffspring), Double(maxCOffspring), minder.pointee.citizen!
+            ) { maxCOffspring = Int(newMax); busiestArkon = arkon }
+
             cOffspringSum += info.cOffspring
 
             cArkons += 1
@@ -79,22 +78,33 @@ class CensusData {
             currentMinder = currentMinder!.pointee.next
         } while currentMinder != nil
 
-        return PopulationStats(
+        self.stats = PopulationStats(
             averageAge: Double(ageSum) / Double(cArkons),
             maxAge: Double(maxAge),
+            oldestArkon: oldestArkon,
             averageFoodHitRate: foodHitRateSum / Double(cArkons),
             maxFoodHitRate: maxFoodHitRate,
+            bestAimArkon: bestAimArkon,
             averageCOffspring: Double(cOffspringSum) / Double(cArkons),
-            maxCOffspring: maxCOffspring
+            maxCOffspring: maxCOffspring,
+            busiestArkon: busiestArkon
         )
     }
 
+    private func checkMax(
+        _ testValue: Double, _ maxValue: Double, _ arkon: Stepper
+    ) -> (Double, Stepper)? {
+        testValue > maxValue ? (testValue, arkon) : nil
+    }
+
+    // Clients don't need to delete nodes. We keep weak refs, so when the
+    // arkon goes away, we drop it off the list automatically
     private func delete(_ node: CitizenMinder) -> UnsafeMutablePointer<CitizenMinder>? {
         guard let head = self.head, let tail = self.tail else { fatalError() }
 
-        // Note: identity, not just equality
-        if head.pointee === node && tail.pointee === node { // Deleting the only remaining node on the list
-
+        // Note: identity, not just equality, although I imagine equality would be fine
+        if head.pointee === node && tail.pointee === node {
+            // Deleting the only remaining node on the list
             self.head = nil
             self.tail = nil
             return nil
