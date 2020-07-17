@@ -23,6 +23,9 @@
 		D49EBA2224C170CE0006E0E1 /* Tensor.Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1F24C170CE0006E0E1 /* Tensor.Random.swift */; };
 		D49EBA2324C170CE0006E0E1 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2024C170CE0006E0E1 /* KIdentifier.swift */; };
 		D49EBA2424C170CE0006E0E1 /* Tensor.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2124C170CE0006E0E1 /* Tensor.Utilities.swift */; };
+		D49EBA2924C175FB0006E0E1 /* Census.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2624C175FB0006E0E1 /* Census.Stats.swift */; };
+		D49EBA2A24C175FB0006E0E1 /* Census.Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */; };
+		D49EBA2B24C175FB0006E0E1 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2824C175FB0006E0E1 /* Census.swift */; };
 		D4E0411324BFE87C0026970F /* LineChartCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E0411224BFE87C0026970F /* LineChartCore.swift */; };
 		D4F663A624C088C4006B95BF /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663A524C088C4006B95BF /* GameView.swift */; };
 		D4F6642924C16A93006B95BF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D4F663BB24C16A92006B95BF /* LICENSE */; };
@@ -65,7 +68,6 @@
 		D4F6645424C16A93006B95BF /* ArkoniaScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663EE24C16A93006B95BF /* ArkoniaScene.swift */; };
 		D4F6645524C16A93006B95BF /* SpriteFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663EF24C16A93006B95BF /* SpriteFactory.swift */; };
 		D4F6645724C16A93006B95BF /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F124C16A93006B95BF /* SKSpriteNode.swift */; };
-		D4F6645A24C16A93006B95BF /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F424C16A93006B95BF /* GameScene.swift */; };
 		D4F6645B24C16A93006B95BF /* SpritePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F524C16A93006B95BF /* SpritePool.swift */; };
 		D4F6645C24C16A93006B95BF /* MannaCannon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F724C16A93006B95BF /* MannaCannon.swift */; };
 		D4F6645D24C16A93006B95BF /* Seasons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F824C16A93006B95BF /* Seasons.swift */; };
@@ -82,8 +84,6 @@
 		D4F6646924C16A93006B95BF /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640624C16A93006B95BF /* Grid.swift */; };
 		D4F6646A24C16A93006B95BF /* GridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640724C16A93006B95BF /* GridCell.swift */; };
 		D4F6646C24C16A93006B95BF /* WeightsMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640A24C16A93006B95BF /* WeightsMatrix.swift */; };
-		D4F6646D24C16A93006B95BF /* HotNetCnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640B24C16A93006B95BF /* HotNetCnn.swift */; };
-		D4F6646E24C16A93006B95BF /* HotLayerCnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640C24C16A93006B95BF /* HotLayerCnn.swift */; };
 		D4F6646F24C16A93006B95BF /* HotLayerBnn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640D24C16A93006B95BF /* HotLayerBnn.swift */; };
 		D4F6647024C16A93006B95BF /* HotLayerBlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640E24C16A93006B95BF /* HotLayerBlas.swift */; };
 		D4F6647124C16A93006B95BF /* MPSImage+Floats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6640F24C16A93006B95BF /* MPSImage+Floats.swift */; };
@@ -92,15 +92,12 @@
 		D4F6647424C16A93006B95BF /* GPUArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641224C16A93006B95BF /* GPUArray.swift */; };
 		D4F6647524C16A93006B95BF /* AKMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641324C16A93006B95BF /* AKMatrix.swift */; };
 		D4F6647924C16A93006B95BF /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641824C16A93006B95BF /* Report.swift */; };
-		D4F6647A24C16A93006B95BF /* Census.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641924C16A93006B95BF /* Census.Stats.swift */; };
 		D4F6647B24C16A93006B95BF /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641A24C16A93006B95BF /* Clock.swift */; };
 		D4F6647C24C16A93006B95BF /* LineGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641B24C16A93006B95BF /* LineGraph.swift */; };
 		D4F6647D24C16A93006B95BF /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641C24C16A93006B95BF /* Dashboard.swift */; };
-		D4F6647E24C16A93006B95BF /* Census.Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641D24C16A93006B95BF /* Census.Extra.swift */; };
 		D4F6647F24C16A93006B95BF /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641E24C16A93006B95BF /* HUD.swift */; };
 		D4F6648024C16A93006B95BF /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641F24C16A93006B95BF /* BarChart.swift */; };
 		D4F6648124C16A93006B95BF /* LineGraphUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642024C16A93006B95BF /* LineGraphUpdate.swift */; };
-		D4F6648224C16A93006B95BF /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642124C16A93006B95BF /* Census.swift */; };
 		D4F6648324C16A93006B95BF /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642324C16A93006B95BF /* NetDisplay.swift */; };
 		D4F6648424C16A93006B95BF /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642424C16A93006B95BF /* NetGraphics.swift */; };
 		D4F6648524C16A93006B95BF /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642524C16A93006B95BF /* NetDisplayGrid.swift */; };
@@ -136,6 +133,9 @@
 		D49EBA1F24C170CE0006E0E1 /* Tensor.Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tensor.Random.swift; sourceTree = "<group>"; };
 		D49EBA2024C170CE0006E0E1 /* KIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
 		D49EBA2124C170CE0006E0E1 /* Tensor.Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tensor.Utilities.swift; sourceTree = "<group>"; };
+		D49EBA2624C175FB0006E0E1 /* Census.Stats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.Stats.swift; sourceTree = "<group>"; };
+		D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.Extra.swift; sourceTree = "<group>"; };
+		D49EBA2824C175FB0006E0E1 /* Census.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D4E0411224BFE87C0026970F /* LineChartCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartCore.swift; sourceTree = "<group>"; };
 		D4F663A524C088C4006B95BF /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		D4F663BB24C16A92006B95BF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -179,7 +179,6 @@
 		D4F663EE24C16A93006B95BF /* ArkoniaScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArkoniaScene.swift; sourceTree = "<group>"; };
 		D4F663EF24C16A93006B95BF /* SpriteFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteFactory.swift; sourceTree = "<group>"; };
 		D4F663F124C16A93006B95BF /* SKSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKSpriteNode.swift; sourceTree = "<group>"; };
-		D4F663F424C16A93006B95BF /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		D4F663F524C16A93006B95BF /* SpritePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpritePool.swift; sourceTree = "<group>"; };
 		D4F663F724C16A93006B95BF /* MannaCannon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MannaCannon.swift; sourceTree = "<group>"; };
 		D4F663F824C16A93006B95BF /* Seasons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Seasons.swift; sourceTree = "<group>"; };
@@ -210,15 +209,12 @@
 		D4F6641524C16A93006B95BF /* HotLayerMps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerMps.swift; sourceTree = "<group>"; };
 		D4F6641624C16A93006B95BF /* HotNetMps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotNetMps.swift; sourceTree = "<group>"; };
 		D4F6641824C16A93006B95BF /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
-		D4F6641924C16A93006B95BF /* Census.Stats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.Stats.swift; sourceTree = "<group>"; };
 		D4F6641A24C16A93006B95BF /* Clock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
 		D4F6641B24C16A93006B95BF /* LineGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraph.swift; sourceTree = "<group>"; };
 		D4F6641C24C16A93006B95BF /* Dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
-		D4F6641D24C16A93006B95BF /* Census.Extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.Extra.swift; sourceTree = "<group>"; };
 		D4F6641E24C16A93006B95BF /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		D4F6641F24C16A93006B95BF /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
 		D4F6642024C16A93006B95BF /* LineGraphUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphUpdate.swift; sourceTree = "<group>"; };
-		D4F6642124C16A93006B95BF /* Census.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D4F6642324C16A93006B95BF /* NetDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
 		D4F6642424C16A93006B95BF /* NetGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetGraphics.swift; sourceTree = "<group>"; };
 		D4F6642524C16A93006B95BF /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
@@ -310,6 +306,16 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
+		D49EBA2524C175FB0006E0E1 /* Census */ = {
+			isa = PBXGroup;
+			children = (
+				D49EBA2824C175FB0006E0E1 /* Census.swift */,
+				D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */,
+				D49EBA2624C175FB0006E0E1 /* Census.Stats.swift */,
+			);
+			path = Census;
+			sourceTree = "<group>";
+		};
 		D4F663BC24C16A92006B95BF /* Arkon */ = {
 			isa = PBXGroup;
 			children = (
@@ -389,7 +395,6 @@
 			isa = PBXGroup;
 			children = (
 				D4F663EE24C16A93006B95BF /* ArkoniaScene.swift */,
-				D4F663F424C16A93006B95BF /* GameScene.swift */,
 				D4F663ED24C16A93006B95BF /* SceneDispatch.swift */,
 				D4F663F124C16A93006B95BF /* SKSpriteNode.swift */,
 				D4F663EF24C16A93006B95BF /* SpriteFactory.swift */,
@@ -458,10 +463,8 @@
 		D4F6641724C16A93006B95BF /* HUD */ = {
 			isa = PBXGroup;
 			children = (
+				D49EBA2524C175FB0006E0E1 /* Census */,
 				D4F6642224C16A93006B95BF /* NetDisplay */,
-				D4F6642124C16A93006B95BF /* Census.swift */,
-				D4F6641D24C16A93006B95BF /* Census.Extra.swift */,
-				D4F6641924C16A93006B95BF /* Census.Stats.swift */,
 				D4F6641A24C16A93006B95BF /* Clock.swift */,
 				D4F6641C24C16A93006B95BF /* Dashboard.swift */,
 				D4F6641E24C16A93006B95BF /* HUD.swift */,
@@ -603,11 +606,9 @@
 				D4F6646724C16A93006B95BF /* GridManna.swift in Sources */,
 				D400137F24BD4647001D429A /* AppDelegate.swift in Sources */,
 				D4FE3F9B24BED8060055D095 /* Extensions.swift in Sources */,
-				D4F6647A24C16A93006B95BF /* Census.Stats.swift in Sources */,
 				D4F6646424C16A93006B95BF /* Arkonia.swift in Sources */,
 				D4F6646F24C16A93006B95BF /* HotLayerBnn.swift in Sources */,
 				D4F6646024C16A93006B95BF /* Manna.Sprite.swift in Sources */,
-				D4F6646D24C16A93006B95BF /* HotNetCnn.swift in Sources */,
 				D4F6644824C16A93006B95BF /* OozeStorage.swift in Sources */,
 				D4F6643324C16A93006B95BF /* LayerStructures.swift in Sources */,
 				D4F6643E24C16A93006B95BF /* MoveStepper.swift in Sources */,
@@ -631,12 +632,10 @@
 				D4FE3F9624BED7AD0055D095 /* Debug.swift in Sources */,
 				D4F6645524C16A93006B95BF /* SpriteFactory.swift in Sources */,
 				D4F6645424C16A93006B95BF /* ArkoniaScene.swift in Sources */,
-				D4F6648224C16A93006B95BF /* Census.swift in Sources */,
 				D49EBA1A24C16DE00006E0E1 /* NormalDistribution.swift in Sources */,
 				D4F6643624C16A93006B95BF /* NetStructure.swift in Sources */,
 				D4F6643D24C16A93006B95BF /* Spawn.swift in Sources */,
 				D4F6644324C16A93006B95BF /* ArkonName.swift in Sources */,
-				D4F6645A24C16A93006B95BF /* GameScene.swift in Sources */,
 				D4F6644924C16A93006B95BF /* EnergyBudget.Protocols.swift in Sources */,
 				D4F6642F24C16A93006B95BF /* ArkonEmbryo.swift in Sources */,
 				D4F6644224C16A93006B95BF /* Apoptosize.swift in Sources */,
@@ -644,6 +643,7 @@
 				D4F6647D24C16A93006B95BF /* Dashboard.swift in Sources */,
 				D49EBA2224C170CE0006E0E1 /* Tensor.Random.swift in Sources */,
 				D4F6644624C16A93006B95BF /* Arkon.EnergyBudget.swift in Sources */,
+				D49EBA2924C175FB0006E0E1 /* Census.Stats.swift in Sources */,
 				D4F6644B24C16A93006B95BF /* Digestion.swift in Sources */,
 				D4F6645D24C16A93006B95BF /* Seasons.swift in Sources */,
 				D4F6643F24C16A93006B95BF /* DriveNetSignal.swift in Sources */,
@@ -662,11 +662,12 @@
 				D4F6645724C16A93006B95BF /* SKSpriteNode.swift in Sources */,
 				D4F6645324C16A93006B95BF /* SceneDispatch.swift in Sources */,
 				D4F6646A24C16A93006B95BF /* GridCell.swift in Sources */,
-				D4F6646E24C16A93006B95BF /* HotLayerCnn.swift in Sources */,
+				D49EBA2B24C175FB0006E0E1 /* Census.swift in Sources */,
 				D4F6643524C16A93006B95BF /* Net.swift in Sources */,
 				D4F6647224C16A93006B95BF /* HotNetBnn.swift in Sources */,
 				D4F6646924C16A93006B95BF /* Grid.swift in Sources */,
 				D400139A24BD7197001D429A /* LineChartView.swift in Sources */,
+				D49EBA2A24C175FB0006E0E1 /* Census.Extra.swift in Sources */,
 				D4F6642B24C16A93006B95BF /* SensorPad.swift in Sources */,
 				D49EBA1B24C16DE00006E0E1 /* Overload2D.swift in Sources */,
 				D4F663A624C088C4006B95BF /* GameView.swift in Sources */,
@@ -674,7 +675,6 @@
 				D4FE3F8A24BEB9A60055D095 /* ChartLegend.swift in Sources */,
 				D4F6647324C16A93006B95BF /* HotNetBlas.swift in Sources */,
 				D4F6645C24C16A93006B95BF /* MannaCannon.swift in Sources */,
-				D4F6647E24C16A93006B95BF /* Census.Extra.swift in Sources */,
 				D4F6644D24C16A93006B95BF /* Metabolism.swift in Sources */,
 				D4F6648024C16A93006B95BF /* BarChart.swift in Sources */,
 				D4F6643824C16A93006B95BF /* EngageGrid.swift in Sources */,
@@ -827,6 +827,8 @@
 				DEVELOPMENT_TEAM = DD983V4X84;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_PEDANTIC = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -835,6 +837,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.Fletch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -851,6 +854,8 @@
 				DEVELOPMENT_TEAM = DD983V4X84;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_PEDANTIC = YES;
 				INFOPLIST_FILE = macOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -859,6 +864,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.boringsoftware.Fletch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

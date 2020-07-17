@@ -5,8 +5,8 @@ let MainDispatchQueue = DispatchQueue(
 )
 
 class Arkonia {
-    static let zoomFactor: CGFloat = 8
-    static let arkonScaleFactor: CGFloat = 0.55
+    static let zoomFactor: CGFloat = 25
+    static let arkonScaleFactor: CGFloat = 0.4
     static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.40
     static let toothScaleFactor: CGFloat = 2.0

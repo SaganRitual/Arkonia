@@ -90,7 +90,7 @@ class ThoraxPool: SpritePool {
         _ prototype: DronePrototype
     ) {
         super.init(atlasName, textureName, parentSKNode, poolCapacity, prototype, nil)
-        setupNetDisplayPortals()
+//        setupNetDisplayPortals()
     }
 
     override func getDrone() -> SKSpriteNode {

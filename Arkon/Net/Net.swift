@@ -1,8 +1,14 @@
 import CoreGraphics
 import Dispatch
+import MetalPerformanceShaders
 
 enum HotNetType { case blas, bnn, cnn, gpu }
 var hotNetType: HotNetType = .blas
+
+typealias Number = Float
+
+let NumberSize = MemoryLayout<Number>.size
+let NumberTypeInGPU = MPSDataType.float32
 
 protocol HotNet: class {
     init(
@@ -122,38 +128,6 @@ class Net {
     func release(_ onComplete: @escaping () -> Void) {
         [pNeurons, pBiases, pWeights].forEach { $0.deallocate() }
         onComplete()
-    }
-}
-
-extension Net {
-    static func mutateNetParameters(
-        _ biases: UnsafeMutablePointer<Float>, _ cBiases: Int,
-        _ weights: UnsafeMutablePointer<Float>, _ cWeights: Int
-    ) -> Bool {
-        let oddsOfPerfectClone: Float = 0.85
-        if Float.random(in: 0..<1) < oddsOfPerfectClone { return true }
-
-        let percentageMutation = Float.random(in: 0..<0.1)
-        let cMutations = Int(percentageMutation * Float(cBiases + cWeights))
-        if cMutations == 0 { return true }
-
-        var isCloneOfParent = true
-        for _ in 0..<cMutations {
-            let (whichBuffer, offset): (UnsafeMutablePointer<Float>, Int)
-            if Bool.random() {
-                whichBuffer = biases; offset = Int.random(in: 0..<cBiases)
-            } else {
-                whichBuffer = weights; offset = Int.random(in: 0..<cWeights)
-            }
-
-            let (newValue, didMutate) = Mutator.shared.mutate(from: whichBuffer[offset])
-            if didMutate {
-                isCloneOfParent = false
-                whichBuffer[offset] = newValue
-            }
-        }
-
-        return isCloneOfParent
     }
 }
 

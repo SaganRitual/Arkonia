@@ -53,7 +53,7 @@ struct ContentView: View {
                 }
             }.frame(height: 200)
 
-            GameView(scene: GameScene())
+            GameView(scene: ArkoniaScene())
         }
     }
 }

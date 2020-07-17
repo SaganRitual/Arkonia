@@ -134,23 +134,42 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
 //        reportArkonia.start()
     }
 
-    func loadScenePortal(_ portalName: String) -> SKSpriteNode {
-        let portal = (childNode(withName: portalName) as? SKSpriteNode)!
-        let x = (portal.userData!["x"] as? Int)!
-        let y = (portal.userData!["y"] as? Int)!
+    override func mouseDown(with event: NSEvent) {
+        let location = event.location(in: self)
 
-        portal.position = CGPoint(x: x, y: y)
-        return portal
+        let size = CGSize(width: 40, height: 40)
+        let cube = SKShapeNode(rectOf: size)
+        cube.fillColor = .red
+        cube.position = location
+
+        addChild(cube)
     }
 
     override func didMove(to view: SKView) {
+
+        // Much gratitude to Jakub Charvat https://www.hackingwithswift.com/users/jakcharvat
+        // https://www.hackingwithswift.com/forums/swiftui/swiftui-spritekit-macos-catalina-10-15/2662/2669
+
+        backgroundColor = .black
+
+        view.ignoresSiblingOrder = true
+        view.showsFPS = true
+        view.showsNodeCount = true
+        view.showsDrawCount = true
+//        view.isAsynchronous = false
+//        view.showsPhysics = true
+
         ArkoniaScene.shared = self
 
-        ArkoniaScene.arkonsPortal =         loadScenePortal("arkons_portal")
-        ArkoniaScene.netPortal =            loadScenePortal("net_9portals_backer")
-        ArkoniaScene.netPortalHalfNeurons = loadScenePortal("net_9portals_half_neurons_backer")
+        ArkoniaScene.arkonsPortal =         SKSpriteNode(color: .black, size: view.scene!.size)
+//        ArkoniaScene.netPortal =            loadScenePortal("net_9portals_backer")
+//        ArkoniaScene.netPortalHalfNeurons = loadScenePortal("net_9portals_half_neurons_backer")
 
-        ArkoniaScene.arkonsPortal.alpha = 1
+//        ArkoniaScene.arkonsPortal.color = .blue
+//        ArkoniaScene.arkonsPortal.colorBlendFactor = 1
+//        ArkoniaScene.arkonsPortal.alpha = 0.5
+//        ArkoniaScene.arkonsPortal.zPosition = 100
+        self.addChild(ArkoniaScene.arkonsPortal)
 
         let tAtlas = SKTextureAtlas(named: "Arkons")
         let tTexture = tAtlas.textureNamed("spark-thorax-large")
@@ -168,10 +187,10 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
 
         self.scene!.delegate = self
 
-        self.hud = HUD(scene: self)
-        self.hud.buildDashboards()
-        self.buildReports()
-        self.buildLineGraphs()
+//        self.hud = HUD(scene: self)
+//        self.hud.buildDashboards()
+//        self.buildReports()
+//        self.buildLineGraphs()
 //        self.buildBarCharts()
 
         MannaCannon.shared = MannaCannon()

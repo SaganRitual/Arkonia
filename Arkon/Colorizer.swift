@@ -55,10 +55,11 @@ extension Stepper {
     private func lookPregnant() {
         let m = metabolism
         let f: CGFloat = m.sporangium?.fatStore?.fullness ?? 0.25
-        let s: CGFloat = Arkonia.arkonScaleFactor * Arkonia.noseScaleFactor *
-            Arkonia.zoomFactor * f
+        let s: CGFloat = Arkonia.noseScaleFactor * (2 + f)
 
         nose.yScale = s
         nose.xScale = s
+        tooth.yScale = 1 / s
+        tooth.xScale = 2 * s
     }
 }

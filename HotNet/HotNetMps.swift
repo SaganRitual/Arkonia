@@ -1,10 +1,5 @@
 import MetalPerformanceShaders
 
-typealias Number = Float
-
-let NumberSize = MemoryLayout<Number>.size
-let NumberTypeInGPU = MPSDataType.float32
-
 final class HotNetMps: HotNet {
     let device = GPUArray.shared.next()
     var gpuLayers = [HotLayerMps]()

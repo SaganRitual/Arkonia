@@ -1,6 +1,6 @@
 enum CBufferMode { case fifo, putOnlyRing }
 
-class Cbuffer<T: BinaryFloatingPoint>: RandomAccessCollection {
+class Cbuffer<T>: RandomAccessCollection {
     func index(after i: Int) -> Int { (i + 1) % cElements }
 
     subscript(position: Int) -> T {
