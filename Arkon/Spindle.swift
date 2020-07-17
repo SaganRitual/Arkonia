@@ -24,17 +24,21 @@ extension Spindle {
     private func attachToCell(iHaveTheLiveConnection: Bool, _ onComplete: @escaping () -> Void) {
         state = .normal
         occupyCell(self.gridCell, iHaveTheLiveConnection: iHaveTheLiveConnection)
-        MainDispatchQueue.async(execute: onComplete)
+        mainDispatch(onComplete)
     }
 
     func attachToGrid(iHaveTheLiveConnection: Bool, _ onComplete: @escaping () -> Void) {
         switch state {
         case .inBirthCellWithLockFromParent:
-            attachToCell(iHaveTheLiveConnection: iHaveTheLiveConnection, onComplete)
+            attachToCell(iHaveTheLiveConnection: iHaveTheLiveConnection) {
+                mainDispatch(onComplete)
+            }
 
         case .inBirthLimboAwaitingTargetCellReady:
             GridLock.lockQueue.async {
-                self.lockSpindleTarget(self.gridCell, gridIsLocked: true, onComplete)
+                self.lockSpindleTarget(self.gridCell, gridIsLocked: true) {
+                    mainDispatch(onComplete)
+                }
             }
 
         default: fatalError("This is only for birth-related attachments")
@@ -43,7 +47,11 @@ extension Spindle {
 
     func getLifecycleLock(_ onComplete: @escaping () -> Void) {
         state = .normal
-        GridLock.lockQueue.async { self.lockCurrentCell(gridIsLocked: true, onComplete) }
+        GridLock.lockQueue.async {
+            self.lockCurrentCell(gridIsLocked: true) {
+                mainDispatch(onComplete)
+            }
+        }
     }
 }
 
@@ -96,7 +104,7 @@ private extension Spindle {
 
         state = .normal
         cell.lock.isLocked = true
-        MainDispatchQueue.async(execute: onCenterIsLocked)
+        mainDispatch(onCenterIsLocked)
     }
 }
 

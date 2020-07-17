@@ -1,9 +1,6 @@
 import SpriteKit
 
 class Clock {
-    typealias OnComplete1CGFloatp = (CGFloat) -> Void
-    typealias OnComplete1Intp = (Int) -> Void
-
     static var shared: Clock!
 
     let clockFormatter = DateComponentsFormatter()
@@ -35,12 +32,10 @@ class Clock {
         }
     }
 
-    func entropize(_ energyInJoules: CGFloat = 1, _ onComplete: @escaping (CGFloat) -> Void) {
-        Clock.dispatchQueue.async { onComplete(energyInJoules * (1 - self.getEntropy())) }
-    }
-
     func getEntropy(_ onComplete: @escaping (CGFloat) -> Void) {
-        Clock.dispatchQueue.async { self.getEntropy(onComplete) }
+        Clock.dispatchQueue.async {
+            self.getEntropy { e in mainDispatch { onComplete(e) } }
+        }
     }
 
     func getEntropy() -> CGFloat {
@@ -49,7 +44,9 @@ class Clock {
     }
 
     static func getWorldClock(_ onComplete: @escaping (Int) -> Void) {
-        Clock.dispatchQueue.async { onComplete(Clock.shared!.worldClock) }
+        Clock.dispatchQueue.async {
+            mainDispatch { onComplete(Clock.shared!.worldClock) }
+        }
     }
 
     static func stop() { Clock.shared.isRunning = false }

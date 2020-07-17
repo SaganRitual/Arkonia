@@ -7,7 +7,7 @@ extension Census {
     ) {
         Census.dispatchQueue.async {
             let fishday = Census.shared.registerBirth(me.net.netStructure, myParent)
-            MainDispatchQueue.async { onComplete(fishday) }
+            mainDispatch { onComplete(fishday) }
         }
     }
 
@@ -25,7 +25,7 @@ extension Census {
     ) {
         Census.dispatchQueue.async {
             Census.shared.registerDeath(stepper, worldTime)
-            onComplete()
+            mainDispatch(onComplete)
         }
     }
 

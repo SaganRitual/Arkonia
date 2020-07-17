@@ -7,8 +7,10 @@ enum LineGraphUpdate {
 
         func b() {
             Seasons.shared.getSeasonalFactors { dayIntensity, seasonIntensity in
-                let temperature = dayIntensity + seasonIntensity
-                onComplete(LineGraphInputSet(dayIntensity, seasonIntensity, temperature))
+                mainDispatch {
+                    let temperature = dayIntensity + seasonIntensity
+                    onComplete(LineGraphInputSet(dayIntensity, seasonIntensity, temperature))
+                }
             }
         }
 
@@ -20,8 +22,10 @@ enum LineGraphUpdate {
 
         func b() {
             Seasons.shared.getSeasonalFactors { dayIntensity, seasonIntensity in
-                let temperature = dayIntensity + seasonIntensity
-                onComplete(LineGraphInputSet(dayIntensity, seasonIntensity, temperature))
+                mainDispatch {
+                    let temperature = dayIntensity + seasonIntensity
+                    onComplete(LineGraphInputSet(dayIntensity, seasonIntensity, temperature))
+                }
             }
         }
 

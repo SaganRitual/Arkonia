@@ -45,7 +45,7 @@ extension Stepper {
             + " to \(js.to.cellSS.properties.gridPosition)"
         }
 
-        stepper.thorax.run(sequence, completion: onComplete)
+        stepper.thorax.run(sequence) { mainDispatch(onComplete) }
     }
 
     private static func moveAction(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
@@ -62,11 +62,11 @@ extension Stepper {
         }
 
         let move = SKAction.move(to: scenePosition, duration: moveDuration)
-        stepper.thorax.run(move, completion: onComplete)
+        stepper.thorax.run(move) { mainDispatch(onComplete) }
     }
 
     private static func restArkon(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
         let rest = SKAction.wait(forDuration: 0.02)
-        stepper.thorax.run(rest, completion: onComplete)
+        stepper.thorax.run(rest) { mainDispatch(onComplete) }
     }
 }

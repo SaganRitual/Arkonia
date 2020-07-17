@@ -30,7 +30,7 @@ extension SensorPad {
 
             Debug.log(level: 215) { "engaging for \(AKName(name)): \(s)" }
 
-            onComplete()
+            mainDispatch(onComplete)
         }
 
         func engageSensors_B(_ sensor: CellSensor, gridIsLocked: Bool) -> String {

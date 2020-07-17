@@ -50,7 +50,10 @@ class Seasons {
                 + " temp \(itReallyAmountsToTemperature)"
             }
 
-            onComplete(dayNightFactor, itReallyAmountsToTemperature)
+            // Get off the scene dispatch queue
+            mainDispatch {
+                onComplete(dayNightFactor, itReallyAmountsToTemperature)
+            }
         }
     }
 

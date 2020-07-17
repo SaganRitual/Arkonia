@@ -1,5 +1,9 @@
 import SwiftUI
 
+// swiftlint:disable multiple_closures_with_trailing_closure
+// "Multiple Closures with Trailing Closure Violation: Trailing closure syntax
+// should not be used when passing more than one closure argument."
+
 struct ChartLegendoid: View {
     @EnvironmentObject var dataSelector: ChartLegendSelect
     @State private var isActive = true

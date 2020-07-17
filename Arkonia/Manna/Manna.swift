@@ -38,7 +38,10 @@ extension Manna {
         let maturityLevel = sprite.getMaturityLevel()
 
         // Don't give up any nutrition at all until I've bloomed enough
-        if maturityLevel < 1e-2 { onComplete(nil); return }
+        if maturityLevel < 1e-2 {
+            mainDispatch { onComplete(nil) }
+            return
+        }
 
         MannaCannon.mannaPlaneQueue.async {
             MannaCannon.shared!.cPhotosynthesizingManna -= 1
@@ -58,7 +61,7 @@ extension Manna {
             }
 
             SceneDispatch.shared.schedule(self.rebloom)
-            MainDispatchQueue.async { onComplete(mannaContent) }
+            mainDispatch { onComplete(mannaContent) }
         }
     }
 

@@ -17,7 +17,7 @@ private extension DriveStimulus {
     ) {
         transferSensorPadToSenseNeurons()
         transferNonPadInputsToSenseNeurons(dayFullness, yearFullness)
-        onComplete()
+        mainDispatch(onComplete)
     }
 
     // Average fullness of the sporangium; not really very representative,

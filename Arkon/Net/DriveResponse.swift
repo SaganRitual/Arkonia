@@ -16,7 +16,7 @@ class DriveResponse {
     private func driveResponse_B(
         _ senseData: UnsafeMutablePointer<Float>,
         _ onComplete: @escaping (Bool) -> Void
-    ) { MainDispatchQueue.async { self.driveResponse_C(senseData, onComplete) } }
+    ) { mainDispatch { self.driveResponse_C(senseData, onComplete) } }
 
     private func driveResponse_C(
         _ senseData: UnsafeMutablePointer<Float>,
@@ -34,7 +34,9 @@ class DriveResponse {
         // In case we get a 1.0 -- that would push us beyond the end of the array
         let targetOffset = (s3 == cSensorPadCells) ? cSensorPadCells - 1 : s3
 
-        driveResponse_C1(senseData, targetOffset, onComplete)
+        driveResponse_C1(senseData, targetOffset) { okToJump in
+            mainDispatch { onComplete(okToJump) }
+        }
     }
 
     private func driveResponse_C1(

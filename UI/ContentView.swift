@@ -1,6 +1,10 @@
 import SpriteKit
 import SwiftUI
 
+// swiftlint:disable multiple_closures_with_trailing_closure
+// "Multiple Closures with Trailing Closure Violation: Trailing closure syntax
+// should not be used when passing more than one closure argument."
+
 struct ContentView: View {
     @EnvironmentObject var lineChartData: LineChartData
     @State private var showingAgeLineChart = false
@@ -43,7 +47,7 @@ struct ContentView: View {
 
                         ForEach(0..<buttonLabels.count) { labelSS in
                             HStack {
-                                Button(action: { self.showChart(labelSS) } ) {
+                                Button(action: { self.showChart(labelSS) }) {
                                     Text(buttonLabels[labelSS]).frame(minWidth: 75)
                                 }
                                 .foregroundColor(.black)

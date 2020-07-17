@@ -6,7 +6,7 @@ extension Stepper {
 
         Census.shared.registerDeath(self) { apoptosize_A() }
 
-        func apoptosize_A() { MainDispatchQueue.async(execute: apoptosize_B) }
+        func apoptosize_A() { mainDispatch(apoptosize_B) }
 
         func apoptosize_B() {
             // Ugly. We tell the cell we're gone ahead of time so the

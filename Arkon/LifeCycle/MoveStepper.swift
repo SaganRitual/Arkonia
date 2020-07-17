@@ -5,7 +5,7 @@ extension Stepper {
         var fromContents: GridCellContents?
         var toContents: GridCellContents?
 
-        func moveStepper_A() { MainDispatchQueue.async(execute: moveStepper_B) }
+        func moveStepper_A() { mainDispatch(moveStepper_B) }
 
         func moveStepper_B() {
             Debug.debugColor(self, .brown, .purple)

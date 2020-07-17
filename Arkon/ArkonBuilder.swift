@@ -20,7 +20,7 @@ struct ArkonBuilder {
             em.metabolism = Metabolism(cNeurons: ns.cNeurons)
             em.net = newNet
 
-            onComplete()
+            mainDispatch(onComplete)
         }
     }
 
@@ -55,7 +55,7 @@ struct ArkonBuilder {
 
         let noseColor: SKColor = (embryo.parentArkon == nil) ? .systemBlue : .yellow
         Debug.debugColor(embryo.thoraxSprite!, .blue, embryo.noseSprite!, noseColor)
-        onComplete()
+        mainDispatch(onComplete)
     }
 
     func setupNetDisplay(_ onComplete: @escaping () -> Void) {
@@ -64,7 +64,7 @@ struct ArkonBuilder {
         guard let ud = embryo.thoraxSprite!.userData,
               let np = (ud[SpriteUserDataKey.net9Portal] as? SKSpriteNode),
               let hp = (ud[SpriteUserDataKey.netHalfNeuronsPortal] as? SKSpriteNode)
-            else { onComplete(); return }
+            else { mainDispatch(onComplete); return }
 
         embryo.netDisplay = NetDisplay(
             arkon: embryo.thoraxSprite!,
@@ -73,6 +73,6 @@ struct ArkonBuilder {
         )
 
         embryo.netDisplay!.display()
-        onComplete()
+        mainDispatch(onComplete)
     }
 }

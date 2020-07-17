@@ -38,7 +38,7 @@ extension ArkonEmbryo {
 
         Debug.log(level: 209) { "buildArkon" }
 
-        MainDispatchQueue.async { buildArkon_A() }
+        mainDispatch { buildArkon_A() }
 
         func buildArkon_A() { buildNetStructure(); buildArkon_B() }
 
@@ -48,7 +48,7 @@ extension ArkonEmbryo {
             buildArkon_D()
         }
 
-        func buildArkon_D() { MainDispatchQueue.async(execute: buildArkon_E) }
+        func buildArkon_D() { mainDispatch(buildArkon_E) }
         func buildArkon_E() { arkonBuilder!.buildGuts(buildArkon_F) }
 
         func buildArkon_F() { SceneDispatch.shared.schedule(buildArkon_G) }
@@ -57,7 +57,7 @@ extension ArkonEmbryo {
         func buildArkon_H() { SceneDispatch.shared.schedule(buildArkon_I) }
         func buildArkon_I() { arkonBuilder!.setupNetDisplay(buildArkon_J) }
 
-        func buildArkon_J() { MainDispatchQueue.async(execute: buildArkon_K) }
+        func buildArkon_J() { mainDispatch(buildArkon_K) }
         func buildArkon_K() { self.launch(onOffspringReadyToSeparate) }
     }
 
@@ -74,7 +74,7 @@ extension ArkonEmbryo {
 
         if let oof = onOffspringReadyToSeparate {
             Debug.log(level: 212) { "separate \(self.newborn!.name) from parent" }
-            MainDispatchQueue.async(execute: oof)
+            mainDispatch(oof)
         }
 
         Debug.log(level: 214) {

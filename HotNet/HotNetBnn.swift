@@ -43,7 +43,7 @@ final class HotNetBnn: HotNet {
 
     func driveSignal(_ onComplete: @escaping () -> Void) {
         bnnLayers.forEach { $0.driveSignal() }
-        onComplete()
+        mainDispatch(onComplete)
     }
 
     func release() { bnnLayers.forEach { $0.release() } }

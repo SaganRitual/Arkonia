@@ -1,9 +1,9 @@
 import SpriteKit
 
 extension Stepper {
-    func arrive() { MainDispatchQueue.async(execute: arrive_) }
+    func arrive() { mainDispatch(arrive_B) }
 
-    private func arrive_() {
+    private func arrive_B() {
         Debug.log(level: 213) { "arrive" }
         Debug.debugColor(self, .brown, .green)
 

@@ -7,7 +7,7 @@ class LineChartData: ObservableObject {
     var timer: Timer?
 
     init(_ cDataSets: Int) {
-        (0..<cDataSets).forEach { setSS in
+        (0..<cDataSets).forEach { _ in
             let c = Cbuffer<Double>(cElements: 20, mode: .putOnlyRing)
             (0..<20).forEach { _ in c.put(Double.random(in: 0..<1)) }
             theData.append(c)

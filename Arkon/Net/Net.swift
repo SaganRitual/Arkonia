@@ -43,7 +43,7 @@ class Net {
         _ parentWeights: UnsafePointer<Float>?,
         _ onComplete: @escaping (Net) -> Void
     ) {
-        MainDispatchQueue.async {
+        mainDispatch {
             let (pb, pw) = netStructure.isCloneOfParent ?
                 (parentBiases, parentWeights) : (nil, nil)
 
@@ -127,7 +127,7 @@ class Net {
 
     func release(_ onComplete: @escaping () -> Void) {
         [pNeurons, pBiases, pWeights].forEach { $0.deallocate() }
-        onComplete()
+        mainDispatch(onComplete)
     }
 }
 
@@ -154,5 +154,7 @@ extension Net {
         arctan, bentidentity, identity, leakyrelu, sinusoid, sqnl
     ]
 
-    func driveSignal(_ onComplete: @escaping () -> Void) { hotNet.driveSignal(onComplete) }
+    func driveSignal(_ onComplete: @escaping () -> Void) {
+        hotNet.driveSignal { mainDispatch(onComplete) }
+    }
 }

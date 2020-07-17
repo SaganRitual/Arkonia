@@ -55,7 +55,7 @@ final class HotNetCnn: HotNet {
         commandBuffer.addCompletedHandler { _ in
 //            self.hotLayers.forEach { print($0.getComputeOutput()) }
             let motorOutputs = self.hotLayers.last!.getComputeOutput()
-            onComplete(motorOutputs)
+            mainDispatch { onComplete(motorOutputs) }
         }
 
         commandBuffer.commit()

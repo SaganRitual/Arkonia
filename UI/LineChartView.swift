@@ -123,10 +123,8 @@ struct LineChartView: View {
 
 }
 
-
 struct LineChartView_Previews: PreviewProvider {
     static var previews: some View {
         LineChartView()
     }
 }
-

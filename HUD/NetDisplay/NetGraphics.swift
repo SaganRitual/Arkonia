@@ -27,7 +27,7 @@ struct NetGraphics {
             let start = self.netDisplayGrid.getPosition(start_)
             let end = self.netDisplayGrid.getPosition(end_)
             self.drawConnection(from: start, to: end)
-            onComplete()
+            mainDispatch(onComplete)
         }
     }
 

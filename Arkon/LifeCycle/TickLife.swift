@@ -15,7 +15,7 @@ extension Stepper {
             currentTime = Clock.shared!.worldClock
             currentEntropyPerJoule = Double(1 - Clock.shared!.getEntropy())
 
-            MainDispatchQueue.async(execute: tickLife_B)
+            mainDispatch(tickLife_B)
         }
 
         func tickLife_B() {

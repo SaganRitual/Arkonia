@@ -36,7 +36,7 @@ final class HotNetMps: HotNet {
             layerSS += 1
 
             if layerSS < gpuLayers.count { driveSignal_A() }
-            else                         { onComplete() }
+            else                         { mainDispatch(onComplete) }
         }
     }
 

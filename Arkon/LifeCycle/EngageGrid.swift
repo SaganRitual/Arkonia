@@ -17,7 +17,7 @@ extension Stepper {
         engageGrid()
     }
 
-    func engageGrid() { MainDispatchQueue.async(execute: engageGrid_B) }
+    func engageGrid() { mainDispatch(engageGrid_B) }
 }
 
 private extension Stepper {

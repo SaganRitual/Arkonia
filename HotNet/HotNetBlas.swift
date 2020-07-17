@@ -44,7 +44,7 @@ final class HotNetBlas: HotNet {
             return "motorOutputs \(log)"
         }
 
-        onComplete()
+        mainDispatch(onComplete)
     }
 
     func release() {} // Required by protocol

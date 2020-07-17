@@ -39,7 +39,7 @@ for localIx in 1..<9 {
 }
 
 func engageGrid() {
-    MainDispatchQueue.async {
+    mainDispatch {
         Debug.log(level: 206) { "engageGrid" }
         Debug.debugColor(self, .red, .yellow)
 

@@ -2,7 +2,7 @@ import Foundation
 
 extension Stepper {
     func driveNetSignal() {
-        MainDispatchQueue.async { driveNetSignal_A() }
+        mainDispatch { driveNetSignal_A() }
 
         func driveNetSignal_A() {
             Debug.debugColor(self, .blue, .red)

@@ -1,9 +1,5 @@
 import Foundation
 
-let MainDispatchQueue = DispatchQueue(
-    label: "ak.dispatch.q", attributes: .concurrent, target: DispatchQueue.global()
-)
-
 class Arkonia {
     static let zoomFactor: CGFloat = 25
     static let arkonScaleFactor: CGFloat = 0.4
@@ -49,4 +45,14 @@ class Arkonia {
     static let arkoniaDaysPerYear: TimeInterval = 2 * arkoniaDaysPerSeason
     static let winterAsPercentageOfYear: TimeInterval = 0.5
     static let maximumBrightnessAlpha: CGFloat = 1
+}
+
+extension Arkonia {
+    static fileprivate let MainDispatchQueue = DispatchQueue(
+        label: "ak.dispatch.q", attributes: .concurrent, target: DispatchQueue.global()
+    )
+}
+
+func mainDispatch(_ execute: @escaping () -> Void) {
+    Arkonia.MainDispatchQueue.async(execute: execute)
 }

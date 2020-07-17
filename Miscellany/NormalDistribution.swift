@@ -13,6 +13,7 @@ struct AKRandomNumberFakerator {
 
         for ss in 0..<normalizedSamples.count {
             normalizedSamples[ss] = dist.next(using: &ARC4RandomNumberGenerator.global)
+            assert(abs(normalizedSamples[ss]) < 1)
         }
     }
 }
@@ -30,6 +31,14 @@ struct AKRandomer: IteratorProtocol {
     mutating func bool() -> Bool { next()! < 0 }
     mutating func positive() -> Float { abs(next()!) }
 
-    mutating func inRange(_ range: Range<Int>) -> Int { Int(abs(next()!) * Float(range.upperBound)) }
+    mutating func inRange(_ range: Range<Int>) -> Int {
+        let a = abs(next()!)
+        let b = Float(range.upperBound)
+        let c = a * b
+        let d = Int(c)
+        Debug.log { "inRange -> \(a), \(b), \(c), \(d)" }
+        return d
+    }
+
     mutating func inRange(_ range: Range<Float>) -> Float { abs(next()!) * range.upperBound }
 }

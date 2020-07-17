@@ -6,7 +6,7 @@ extension Stepper {
 
         thorax.run(rotate)
 
-        MainDispatchQueue.async {
+        mainDispatch {
             self.metabolism.detachOffspring()
             self.disengageGrid()
         }
@@ -49,7 +49,7 @@ private extension Stepper {
         from parent: Stepper?, at spindleTarget: GridCell,
         spindleTargetIsPreLocked: Bool
     ) {
-        MainDispatchQueue.async { spawn_B() }
+        mainDispatch { spawn_B() }
 
         func spawn_B() {
             if parent != nil { Debug.debugColor(parent!, .blue, .purple) }

@@ -106,6 +106,7 @@
 		D4F6648824C16A93006B95BF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D4F6642824C16A93006B95BF /* README.md */; };
 		D4F6648C24C16BA5006B95BF /* .overcommit.yml in Resources */ = {isa = PBXBuildFile; fileRef = D4F6648924C16BA5006B95BF /* .overcommit.yml */; };
 		D4F6648D24C16BA5006B95BF /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D4F6648A24C16BA5006B95BF /* .swiftlint.yml */; };
+		D4F78ADB24C227F60035F415 /* swiftlint.sh in Resources */ = {isa = PBXBuildFile; fileRef = D4F78ADA24C227F60035F415 /* swiftlint.sh */; };
 		D4FE3F8A24BEB9A60055D095 /* ChartLegend.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */; };
 		D4FE3F8C24BEBAD10055D095 /* ChartLegendoid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */; };
 		D4FE3F9424BED7720055D095 /* Cbuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F9324BED7720055D095 /* Cbuffer.swift */; };
@@ -223,6 +224,7 @@
 		D4F6642824C16A93006B95BF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D4F6648924C16BA5006B95BF /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .overcommit.yml; sourceTree = "<group>"; };
 		D4F6648A24C16BA5006B95BF /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		D4F78ADA24C227F60035F415 /* swiftlint.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = swiftlint.sh; sourceTree = "<group>"; };
 		D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLegend.swift; sourceTree = "<group>"; };
 		D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLegendoid.swift; sourceTree = "<group>"; };
 		D4FE3F9324BED7720055D095 /* Cbuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cbuffer.swift; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 				D4F6642624C16A93006B95BF /* MovieForREADME.mp4 */,
 				D4F6648924C16BA5006B95BF /* .overcommit.yml */,
 				D4F6642824C16A93006B95BF /* README.md */,
+				D4F78ADA24C227F60035F415 /* swiftlint.sh */,
 				D4F6648A24C16BA5006B95BF /* .swiftlint.yml */,
 				D4F663BC24C16A92006B95BF /* Arkon */,
 				D4F663F624C16A93006B95BF /* Arkonia */,
@@ -513,6 +516,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D400138E24BD4648001D429A /* Build configuration list for PBXNativeTarget "Fletch" */;
 			buildPhases = (
+				D4F78ADC24C228310035F415 /* ShellScript */,
 				D400137724BD4647001D429A /* Sources */,
 				D400137824BD4647001D429A /* Frameworks */,
 				D400137924BD4647001D429A /* Resources */,
@@ -577,12 +581,33 @@
 				D4F6648624C16A93006B95BF /* MovieForREADME.mp4 in Resources */,
 				D4F6642924C16A93006B95BF /* LICENSE in Resources */,
 				D4F6648C24C16BA5006B95BF /* .overcommit.yml in Resources */,
+				D4F78ADB24C227F60035F415 /* swiftlint.sh in Resources */,
 				D4F6648824C16A93006B95BF /* README.md in Resources */,
 				D400138324BD4648001D429A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D4F78ADC24C228310035F415 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n/Users/rob/Projects/Arkonia/swiftlint.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D400137724BD4647001D429A /* Sources */ = {
