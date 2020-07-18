@@ -1,7 +1,7 @@
 import Foundation
 
 struct AKRandomNumberFakerator {
-    static var shared = AKRandomNumberFakerator()
+    static var shared: AKRandomNumberFakerator?
 
     static let cSamples = UInt64(200000)
     var normalizedSamples = ContiguousArray<Float>(
@@ -11,9 +11,20 @@ struct AKRandomNumberFakerator {
     init() {
         let dist = NormalDistribution<Float>(mean: 0, standardDeviation: 3)
 
+        var max: Float = 0
         for ss in 0..<normalizedSamples.count {
             normalizedSamples[ss] = dist.next(using: &ARC4RandomNumberGenerator.global)
-            assert(abs(normalizedSamples[ss]) < 1)
+            if abs(normalizedSamples[ss]) > max {
+                max = normalizedSamples[ss]
+            }
+        }
+
+        for ss in 0..<normalizedSamples.count {
+            normalizedSamples[ss] /= max
+            if abs(normalizedSamples[ss]) == 1 {
+                normalizedSamples[ss] = 0
+                Debug.log { "found one" }
+            }
         }
     }
 }
@@ -25,7 +36,7 @@ struct AKRandomer: IteratorProtocol {
 
     mutating func next() -> Float? {
         defer { ss = (ss + 1) % Int(AKRandomNumberFakerator.cSamples) }
-        return AKRandomNumberFakerator.shared.normalizedSamples[ss]
+        return AKRandomNumberFakerator.shared!.normalizedSamples[ss]
     }
 
     mutating func bool() -> Bool { next()! < 0 }

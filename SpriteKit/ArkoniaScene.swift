@@ -200,6 +200,8 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         Clock.shared = Clock(self)
         Census.shared = Census(self)
 
+        AKRandomNumberFakerator.shared = .init()
+
         self.run(SKAction.run {
             self.readyForDisplayCycle = true
             self.speed = 1
