@@ -196,8 +196,6 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         MannaCannon.shared = MannaCannon()
         MannaCannon.shared!.postInit()
 
-        Seasons.shared = Seasons()
-        Clock.shared = Clock(self)
         Census.shared = Census(self)
 
         AKRandomNumberFakerator.shared = .init()

@@ -6,7 +6,13 @@ struct DriveStimulus {
     init(_ stepper: Stepper) { self.stepper = stepper }
 
     func driveStimulus(_ onComplete: @escaping () -> Void) {
-        Seasons.shared.getSeasonalFactors { self.driveStimulus_B($0, $1, onComplete) }
+        DispatchQueue.main.async {
+            self.driveStimulus_B(
+                Clock.shared.seasonalFactors.sunHeight,
+                Clock.shared.seasonalFactors.sunstickHeight,
+                onComplete
+            )
+        }
     }
 }
 

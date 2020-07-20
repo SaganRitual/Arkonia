@@ -70,7 +70,6 @@
 		D4F6645724C16A93006B95BF /* SKSpriteNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F124C16A93006B95BF /* SKSpriteNode.swift */; };
 		D4F6645B24C16A93006B95BF /* SpritePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F524C16A93006B95BF /* SpritePool.swift */; };
 		D4F6645C24C16A93006B95BF /* MannaCannon.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F724C16A93006B95BF /* MannaCannon.swift */; };
-		D4F6645D24C16A93006B95BF /* Seasons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663F824C16A93006B95BF /* Seasons.swift */; };
 		D4F6645E24C16A93006B95BF /* Manna.EnergyBudget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663FA24C16A93006B95BF /* Manna.EnergyBudget.swift */; };
 		D4F6645F24C16A93006B95BF /* Manna.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663FB24C16A93006B95BF /* Manna.swift */; };
 		D4F6646024C16A93006B95BF /* Manna.Sprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663FC24C16A93006B95BF /* Manna.Sprite.swift */; };
@@ -107,6 +106,11 @@
 		D4F6648C24C16BA5006B95BF /* .overcommit.yml in Resources */ = {isa = PBXBuildFile; fileRef = D4F6648924C16BA5006B95BF /* .overcommit.yml */; };
 		D4F6648D24C16BA5006B95BF /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D4F6648A24C16BA5006B95BF /* .swiftlint.yml */; };
 		D4F78ADB24C227F60035F415 /* swiftlint.sh in Resources */ = {isa = PBXBuildFile; fileRef = D4F78ADA24C227F60035F415 /* swiftlint.sh */; };
+		D4F78AE024C27C790035F415 /* DaylightFactorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78ADF24C27C790035F415 /* DaylightFactorView.swift */; };
+		D4F78B5D24C529060035F415 /* SeasonFactorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B5C24C529060035F415 /* SeasonFactorView.swift */; };
+		D4F78B5F24C5292C0035F415 /* SeasonalFactors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B5E24C5292C0035F415 /* SeasonalFactors.swift */; };
+		D4F78B6124C52DA20035F415 /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6024C52DA10035F415 /* ButtonsView.swift */; };
+		D4F78B6324C550A20035F415 /* ArkoniaLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */; };
 		D4FE3F8A24BEB9A60055D095 /* ChartLegend.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */; };
 		D4FE3F8C24BEBAD10055D095 /* ChartLegendoid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */; };
 		D4FE3F9424BED7720055D095 /* Cbuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F9324BED7720055D095 /* Cbuffer.swift */; };
@@ -182,7 +186,6 @@
 		D4F663F124C16A93006B95BF /* SKSpriteNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKSpriteNode.swift; sourceTree = "<group>"; };
 		D4F663F524C16A93006B95BF /* SpritePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpritePool.swift; sourceTree = "<group>"; };
 		D4F663F724C16A93006B95BF /* MannaCannon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MannaCannon.swift; sourceTree = "<group>"; };
-		D4F663F824C16A93006B95BF /* Seasons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Seasons.swift; sourceTree = "<group>"; };
 		D4F663FA24C16A93006B95BF /* Manna.EnergyBudget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manna.EnergyBudget.swift; sourceTree = "<group>"; };
 		D4F663FB24C16A93006B95BF /* Manna.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manna.swift; sourceTree = "<group>"; };
 		D4F663FC24C16A93006B95BF /* Manna.Sprite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Manna.Sprite.swift; sourceTree = "<group>"; };
@@ -225,6 +228,11 @@
 		D4F6648924C16BA5006B95BF /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .overcommit.yml; sourceTree = "<group>"; };
 		D4F6648A24C16BA5006B95BF /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D4F78ADA24C227F60035F415 /* swiftlint.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = swiftlint.sh; sourceTree = "<group>"; };
+		D4F78ADF24C27C790035F415 /* DaylightFactorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaylightFactorView.swift; sourceTree = "<group>"; };
+		D4F78B5C24C529060035F415 /* SeasonFactorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonFactorView.swift; sourceTree = "<group>"; };
+		D4F78B5E24C5292C0035F415 /* SeasonalFactors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SeasonalFactors.swift; path = Arkonia/SeasonalFactors.swift; sourceTree = SOURCE_ROOT; };
+		D4F78B6024C52DA10035F415 /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
+		D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaLayout.swift; sourceTree = "<group>"; };
 		D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLegend.swift; sourceTree = "<group>"; };
 		D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLegendoid.swift; sourceTree = "<group>"; };
 		D4FE3F9324BED7720055D095 /* Cbuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cbuffer.swift; sourceTree = "<group>"; };
@@ -299,12 +307,16 @@
 		D400139124BD599E001D429A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */,
+				D4F78B6024C52DA10035F415 /* ButtonsView.swift */,
 				D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */,
 				D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */,
 				D400138024BD4647001D429A /* ContentView.swift */,
+				D4F78ADF24C27C790035F415 /* DaylightFactorView.swift */,
 				D4F663A524C088C4006B95BF /* GameView.swift */,
 				D4E0411224BFE87C0026970F /* LineChartCore.swift */,
 				D400139924BD7197001D429A /* LineChartView.swift */,
+				D4F78B5C24C529060035F415 /* SeasonFactorView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -414,7 +426,7 @@
 				D4F663F724C16A93006B95BF /* MannaCannon.swift */,
 				D4F663FE24C16A93006B95BF /* Pollenator.swift */,
 				D4F663FD24C16A93006B95BF /* Protocols.swift */,
-				D4F663F824C16A93006B95BF /* Seasons.swift */,
+				D4F78B5E24C5292C0035F415 /* SeasonalFactors.swift */,
 			);
 			path = Arkonia;
 			sourceTree = "<group>";
@@ -623,9 +635,11 @@
 				D4FE3F9424BED7720055D095 /* Cbuffer.swift in Sources */,
 				D4F6648424C16A93006B95BF /* NetGraphics.swift in Sources */,
 				D4F6646524C16A93006B95BF /* GridIndexer.swift in Sources */,
+				D4F78B6324C550A20035F415 /* ArkoniaLayout.swift in Sources */,
 				D4F6645E24C16A93006B95BF /* Manna.EnergyBudget.swift in Sources */,
 				D400138124BD4647001D429A /* ContentView.swift in Sources */,
 				D4F6644E24C16A93006B95BF /* Digestion.Surplus.swift in Sources */,
+				D4F78B6124C52DA20035F415 /* ButtonsView.swift in Sources */,
 				D4F6646C24C16A93006B95BF /* WeightsMatrix.swift in Sources */,
 				D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */,
 				D4F6646724C16A93006B95BF /* GridManna.swift in Sources */,
@@ -634,9 +648,11 @@
 				D4F6646424C16A93006B95BF /* Arkonia.swift in Sources */,
 				D4F6646F24C16A93006B95BF /* HotLayerBnn.swift in Sources */,
 				D4F6646024C16A93006B95BF /* Manna.Sprite.swift in Sources */,
+				D4F78B5D24C529060035F415 /* SeasonFactorView.swift in Sources */,
 				D4F6644824C16A93006B95BF /* OozeStorage.swift in Sources */,
 				D4F6643324C16A93006B95BF /* LayerStructures.swift in Sources */,
 				D4F6643E24C16A93006B95BF /* MoveStepper.swift in Sources */,
+				D4F78B5F24C5292C0035F415 /* SeasonalFactors.swift in Sources */,
 				D4F6642C24C16A93006B95BF /* SensorPad.Data.swift in Sources */,
 				D4F6648124C16A93006B95BF /* LineGraphUpdate.swift in Sources */,
 				D4F6644F24C16A93006B95BF /* Lungs.swift in Sources */,
@@ -670,7 +686,6 @@
 				D4F6644624C16A93006B95BF /* Arkon.EnergyBudget.swift in Sources */,
 				D49EBA2924C175FB0006E0E1 /* Census.Stats.swift in Sources */,
 				D4F6644B24C16A93006B95BF /* Digestion.swift in Sources */,
-				D4F6645D24C16A93006B95BF /* Seasons.swift in Sources */,
 				D4F6643F24C16A93006B95BF /* DriveNetSignal.swift in Sources */,
 				D4F6642A24C16A93006B95BF /* Spindle.swift in Sources */,
 				D4F6643424C16A93006B95BF /* DriveResponse.swift in Sources */,
@@ -681,6 +696,7 @@
 				D4F6647B24C16A93006B95BF /* Clock.swift in Sources */,
 				D4F6645224C16A93006B95BF /* Transfer.swift in Sources */,
 				D4F6647F24C16A93006B95BF /* HUD.swift in Sources */,
+				D4F78AE024C27C790035F415 /* DaylightFactorView.swift in Sources */,
 				D4F6644724C16A93006B95BF /* ArkonBuilder.swift in Sources */,
 				D4E0411324BFE87C0026970F /* LineChartCore.swift in Sources */,
 				D4F6647524C16A93006B95BF /* AKMatrix.swift in Sources */,

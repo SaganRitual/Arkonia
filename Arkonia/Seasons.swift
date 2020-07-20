@@ -17,7 +17,7 @@ class Seasons {
         self.sun = SKSpriteNode(texture: texture)
 
         sun.alpha = 0       // Start the world at midnight
-        sun.color = .clear
+        sun.color = .blue
         sun.colorBlendFactor = 1
         sun.size = ArkoniaScene.arkonsPortal!.size
 
@@ -50,10 +50,7 @@ class Seasons {
                 + " temp \(itReallyAmountsToTemperature)"
             }
 
-            // Get off the scene dispatch queue
-            mainDispatch {
-                onComplete(dayNightFactor, itReallyAmountsToTemperature)
-            }
+            onComplete(dayNightFactor, itReallyAmountsToTemperature)
         }
     }
 
@@ -84,12 +81,12 @@ class Seasons {
         let summerDuration = realSecondsPerYear - winterDuration
 
         let warm = SKAction.colorize(
-            with: .clear, colorBlendFactor: 1,
+            with: .orange, colorBlendFactor: 1,
             duration: winterDuration
         )
 
         let cool = SKAction.colorize(
-            with: .clear, colorBlendFactor: 1,
+            with: .blue, colorBlendFactor: 1,
             duration: summerDuration
         )
 

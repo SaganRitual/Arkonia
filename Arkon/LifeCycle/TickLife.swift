@@ -12,8 +12,8 @@ extension Stepper {
             Debug.log(level: 213) { "tickLife_A \(name)" }
             Debug.debugColor(self, .green, .blue)
 
-            currentTime = Clock.shared!.worldClock
-            currentEntropyPerJoule = Double(1 - Clock.shared!.getEntropy())
+            currentTime = Clock.shared.worldClock
+            currentEntropyPerJoule = Double(1 - Clock.shared.getEntropy())
 
             mainDispatch(tickLife_B)
         }

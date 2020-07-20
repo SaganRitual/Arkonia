@@ -47,15 +47,16 @@ extension Manna {
             MannaCannon.shared!.cPhotosynthesizingManna -= 1
         }
 
-        Seasons.shared.getSeasonalFactors { dayNightFactor, temperatureCelsiusDegreees in
-            let seasonalFactors =  dayNightFactor * temperatureCelsiusDegreees
+        DispatchQueue.main.async {
+            let seasonalFactors =
+                Clock.shared.seasonalFactors.sunHeight *
+                Clock.shared.seasonalFactors.sunstickHeight
+
             let mannaContent = EnergyBudget.MannaContent(maturityLevel, seasonalFactors)
 
             Debug.log(level: 217) {
                 "harvest at \(self.absoluteGridIndex):"
                 + " maturity \(maturityLevel)"
-                + " dayNight \(dayNightFactor)"
-                + " weather \(temperatureCelsiusDegreees)"
                 + " = \(maturityLevel * seasonalFactors)"
                 + " -> ham \(mannaContent.selectStore(.energy)!)"
             }

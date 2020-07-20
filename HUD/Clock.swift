@@ -1,22 +1,23 @@
 import SpriteKit
+import SwiftUI
 
 class Clock {
-    static var shared: Clock!
+    static var shared = Clock()
 
     let clockFormatter = DateComponentsFormatter()
 //    let clockReport: Reportoid
 //    let foodValueReport: Reportoid
     var isRunning = false
-    private(set) var worldClock = 0
+    private(set) var worldClock = TimeInterval(0)
 
-    var tickTimer: Timer!
+    let seasonalFactors = SeasonalFactors()
 
     static let dispatchQueue = DispatchQueue(
         label: "ak.clock.q",
         target: DispatchQueue.global()
     )
 
-    init(_ scene: ArkoniaScene) {
+    init() {
 //        clockReport = scene.reportArkonia.reportoid(1)
 //        foodValueReport = scene.reportArkonia.reportoid(3)
 //
@@ -26,10 +27,7 @@ class Clock {
 //        clockFormatter.zeroFormattingBehavior = .pad
 
         isRunning = true
-
-        tickTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            Clock.dispatchQueue.async { self.tickTheWorld() }
-        }
+        tickTheWorld()
     }
 
     func getEntropy(_ onComplete: @escaping (CGFloat) -> Void) {
@@ -43,9 +41,10 @@ class Clock {
         return min(CGFloat(self.worldClock * 2) / CGFloat(t), 1)
     }
 
-    static func getWorldClock(_ onComplete: @escaping (Int) -> Void) {
+    static func getWorldClock(_ onComplete: @escaping (TimeInterval) -> Void) {
         Clock.dispatchQueue.async {
-            mainDispatch { onComplete(Clock.shared!.worldClock) }
+            let c = Clock.shared.worldClock
+            mainDispatch { onComplete(c) }
         }
     }
 
@@ -54,7 +53,11 @@ class Clock {
     func tickTheWorld() {
         guard isRunning else { return }
 
-        self.worldClock += 1
+        let delay = 1 / Arkonia.updateFrequencyHertz
+        self.worldClock += delay
+        seasonalFactors.update(TimeInterval(self.worldClock))
+
+        Clock.dispatchQueue.asyncAfter(deadline: .now() + delay, execute: tickTheWorld)
 
 //        self.clockReport.data.text =
 //            self.clockFormatter.string(from: TimeInterval(self.worldClock))
@@ -62,17 +65,17 @@ class Clock {
 //        var cPhotosynthesizingManna = 0
 //        var cDeadManna = 0
 
-        func a() { MannaCannon.mannaPlaneQueue.async(execute: b) }
+//        func a() { MannaCannon.mannaPlaneQueue.async(execute: b) }
 
-        func b() {
+//        func b() {
 //            cPhotosynthesizingManna = MannaCannon.shared!.cPhotosynthesizingManna
 //            cDeadManna = MannaCannon.shared!.cDeadManna
-            c()
-        }
+//            c()
+//        }
 
-        func c() { Clock.dispatchQueue.async(execute: d) }
+//        func c() { Clock.dispatchQueue.async(execute: d) }
 
-        func d() {
+//        func d() {
 //            self.foodValueReport.data.text
 //                = (Arkonia.worldTimeLimit == nil)
 //
@@ -84,8 +87,8 @@ class Clock {
 //                )
 //
 //                : String(format: "%.2f%%", (1 - self.getEntropy()) * 100)
-        }
+//        }
 
-        a()
+//        a()
     }
 }

@@ -165,7 +165,7 @@ extension Census {
         return Fishday(cNeurons: myNetStructure.cNeurons)
     }
 
-    func registerDeath(_ stepper: Stepper, _ worldTime: Int) {
+    func registerDeath(_ stepper: Stepper, _ worldTime: TimeInterval) {
         Debug.log(level: 205) { "registerDeath.1; population \(self.population)" }
 
         self.cLiveNeurons -= stepper.net.netStructure.cNeurons

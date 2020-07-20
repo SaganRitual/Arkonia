@@ -6,12 +6,7 @@ enum LineGraphUpdate {
         func a() { Census.dispatchQueue.async(execute: b) }
 
         func b() {
-            Seasons.shared.getSeasonalFactors { dayIntensity, seasonIntensity in
-                mainDispatch {
-                    let temperature = dayIntensity + seasonIntensity
-                    onComplete(LineGraphInputSet(dayIntensity, seasonIntensity, temperature))
-                }
-            }
+            onComplete(LineGraphInputSet(0, 0, 0))
         }
 
         a()
@@ -21,11 +16,18 @@ enum LineGraphUpdate {
         func a() { Census.dispatchQueue.async(execute: b) }
 
         func b() {
-            Seasons.shared.getSeasonalFactors { dayIntensity, seasonIntensity in
-                mainDispatch {
-                    let temperature = dayIntensity + seasonIntensity
-                    onComplete(LineGraphInputSet(dayIntensity, seasonIntensity, temperature))
-                }
+            mainDispatch {
+                let temperature =
+                    Clock.shared.seasonalFactors.sunHeight +
+                    Clock.shared.seasonalFactors.sunstickHeight
+
+                onComplete(
+                    LineGraphInputSet(
+                            Clock.shared.seasonalFactors.sunHeight,
+                            Clock.shared.seasonalFactors.sunstickHeight,
+                            temperature
+                    )
+                )
             }
         }
 

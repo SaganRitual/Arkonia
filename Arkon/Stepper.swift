@@ -16,7 +16,7 @@ class Stepper {
     var cFoodHits = 0
     var cJumps = 0
     var cOffspring = 0
-    var currentTime: Int = 0
+    var currentTime: TimeInterval = 0
     var currentEntropyPerJoule: Double = 0
     var jumpSpec: JumpSpec?
     var jumpSpeed = 0.0
