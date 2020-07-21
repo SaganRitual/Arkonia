@@ -17,7 +17,7 @@ struct ContentView: View {
                         .frame(maxWidth: .infinity)
 
                     ButtonsView()
-                }.frame(height: ArkoniaLayout.ContentView.frameHeight)
+                }.frame(maxHeight: .infinity)
 
                 GameView(scene: ArkoniaScene())
             }

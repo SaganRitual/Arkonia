@@ -42,12 +42,12 @@ extension Census {
     }
 
     func seedWorld() {
-        if populated == false {
-            for _ in 0..<Arkonia.initialPopulation {
-                Debug.log(level: 205) { "Spawn ex nihilo" }
-                Stepper.makeNewArkon(nil)
-            }
-            populated = true
-        }
+//        if populated == false {
+//            for _ in 0..<Arkonia.initialPopulation {
+//                Debug.log(level: 205) { "Spawn ex nihilo" }
+//                Stepper.makeNewArkon(nil)
+//            }
+//            populated = true
+//        }
     }
 }

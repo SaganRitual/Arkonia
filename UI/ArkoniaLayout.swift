@@ -28,10 +28,10 @@ extension ArkoniaLayout.SeasonFactorView {
     static let frameWidth: CGFloat = 40
 
     static let bgFrameWidth: CGFloat = 40
-    static let bgFrameHeight: CGFloat = 350
+    static let bgFrameHeight: CGFloat = ArkoniaLayout.ContentView.frameHeight
 
     static let stickGrooveFrameWidth: CGFloat = 10
-    static let stickGrooveFrameHeight: CGFloat = 350
+    static let stickGrooveFrameHeight: CGFloat = ArkoniaLayout.ContentView.frameHeight
 
     static let tempIndicatorFrameWidth = bgFrameWidth
     static let tempIndicatorFrameHeight: CGFloat = 3
