@@ -5,11 +5,11 @@ class SeasonalFactors: ObservableObject {
 
     var previousSunHeight: CGFloat = 0
 
-    let darknessDuration: TimeInterval
-    let daylightDuration: TimeInterval
+    let darknessDurationSeconds: TimeInterval
+    let daylightDurationSeconds: TimeInterval
     let dayRatio: TimeInterval
     let nightRatio: TimeInterval
-    let secondsPerYear: TimeInterval
+    let secondsPerYear: TimeInterval = Arkonia.realSecondsPerArkoniaDay * Arkonia.arkoniaDaysPerYear
     let summerDurationDays: TimeInterval
     let summerRatio: TimeInterval
     let winterDurationDays: TimeInterval
@@ -18,14 +18,15 @@ class SeasonalFactors: ObservableObject {
     init() {
         nightRatio = Arkonia.darknessAsPercentageOfDay
         dayRatio = 1 - nightRatio
-        daylightDuration = 2 / nightRatio
-        darknessDuration = Arkonia.realSecondsPerArkoniaDay - daylightDuration
+        daylightDurationSeconds = dayRatio * Arkonia.realSecondsPerArkoniaDay
+        darknessDurationSeconds = Arkonia.realSecondsPerArkoniaDay - daylightDurationSeconds
 
-        secondsPerYear = Arkonia.realSecondsPerArkoniaDay * Arkonia.arkoniaDaysPerYear
         winterRatio = Arkonia.winterAsPercentageOfYear
         summerRatio = 1 - winterRatio
-        summerDurationDays = 2 / (winterRatio * Arkonia.realSecondsPerArkoniaDay)
+        summerDurationDays = summerRatio * Arkonia.arkoniaDaysPerYear
         winterDurationDays = Arkonia.arkoniaDaysPerYear - summerDurationDays
+
+        Debug.log { String(format: "%.05f, %.05f", daylightDurationSeconds, darknessDurationSeconds) }
     }
 
     func update(_ officialTime: TimeInterval) {
@@ -36,25 +37,25 @@ class SeasonalFactors: ObservableObject {
     }
 
     var sunstickHeight: CGFloat {
-        let timeOfYear = elapsedTimeRealSeconds.truncatingRemainder(
-            dividingBy: secondsPerYear
-        )
-
-        let yearFullness = timeOfYear / secondsPerYear
-        let day = yearFullness * Arkonia.arkoniaDaysPerYear
-        Debug.log { String(format: "%0.2f", yearFullness) + " " + String(format: "%0.2f", TimeInterval.pi / summerDurationDays) }
-
-        let normalizedSunstickHeight: TimeInterval
-        if day < TimeInterval.pi / summerDurationDays {
-            normalizedSunstickHeight = sin(winterRatio * TimeInterval.pi * day)
-        } else {
-            normalizedSunstickHeight = sin((day - Arkonia.arkoniaDaysPerYear) * TimeInterval.pi / winterDurationDays)
-        }
-
-        let y = -CGFloat(normalizedSunstickHeight) *
-            (ArkoniaLayout.SeasonFactorView.stickGrooveFrameHeight - ArkoniaLayout.DaylightFactorView.sunstickFrameHeight) / 2
-
-        return y
+//        let timeOfYear = elapsedTimeRealSeconds.truncatingRemainder(
+//            dividingBy: secondsPerYear
+//        )
+//
+//        let yearFullness = timeOfYear / secondsPerYear
+//        let day = yearFullness * Arkonia.arkoniaDaysPerYear
+//
+//        let normalizedSunstickHeight: TimeInterval
+//        if day < TimeInterval.pi / summerDurationDays {
+//            normalizedSunstickHeight = sin(winterRatio * TimeInterval.pi * day)
+//        } else {
+//            normalizedSunstickHeight = sin((day - Arkonia.arkoniaDaysPerYear) * TimeInterval.pi / winterDurationDays)
+//        }
+//
+//        let y = -CGFloat(normalizedSunstickHeight) *
+//            (ArkoniaLayout.SeasonFactorView.stickGrooveFrameHeight - ArkoniaLayout.DaylightFactorView.sunstickFrameHeight) / 2
+//
+//        return y
+        return 0
     }
 
     var sunHeight: CGFloat {
@@ -62,14 +63,15 @@ class SeasonalFactors: ObservableObject {
             dividingBy: Arkonia.realSecondsPerArkoniaDay
         )
 
-        let normalizedSunHeight: TimeInterval
-        if timeOfDay < TimeInterval.pi / daylightDuration {
-            normalizedSunHeight = sin(nightRatio * TimeInterval.pi * timeOfDay)
-        } else {
-            normalizedSunHeight = sin((timeOfDay - Arkonia.realSecondsPerArkoniaDay) * TimeInterval.pi / darknessDuration)
-        }
+        let c0 = timeOfDay * TimeInterval.pi / daylightDurationSeconds
+        let c1 = TimeInterval.pi * (timeOfDay - Arkonia.realSecondsPerArkoniaDay) / darknessDurationSeconds
 
-        let y = -CGFloat(normalizedSunHeight) * ArkoniaLayout.DaylightFactorView.sunstickFrameHeight / 2
+        let normalizedSunHeight = timeOfDay <= daylightDurationSeconds ? sin(c0) : sin(c1)
+
+        let y = -CGFloat(normalizedSunHeight * Arkonia.realSecondsPerArkoniaDay / 2) * ArkoniaLayout.DaylightFactorView.sunFrameHeight / 2
+
+        Debug.log { String(format: "time %0.5f, n %0.5f, y %.05f", timeOfDay, normalizedSunHeight, y) }
+
         return y
     }
 }
