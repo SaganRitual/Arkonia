@@ -52,6 +52,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             newFrame = NSRect(origin: NSPoint(x: 50, y: 100), size: NSSize(width: 1500, height: 850))
         }
 
+        ArkoniaLayout.SeasonFactorView.bgFrameHeight = newFrame.height
+        ArkoniaLayout.SeasonFactorView.stickGrooveFrameHeight = newFrame.height
+
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView().frame(width: newFrame.width, height: newFrame.height)
 

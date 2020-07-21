@@ -11,13 +11,13 @@ struct ContentView: View {
                 .environmentObject(Clock.shared.seasonalFactors)
 
             VStack {
-                ZStack {
-                    Rectangle()
-                        .foregroundColor(Color.gray)
-                        .frame(maxWidth: .infinity)
+                HStack {
+                    AlmanacView().environmentObject(Clock.shared.seasonalFactors)
+                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
 
-                    ButtonsView()
-                }.frame(maxHeight: .infinity)
+                    Rectangle().foregroundColor(Color.gray)
+                }
+                .frame(height: ArkoniaLayout.ContentView.hudHeight)
 
                 GameView(scene: ArkoniaScene())
             }

@@ -1,18 +1,25 @@
 import CoreGraphics
 
 enum ArkoniaLayout {
+    enum AlmanacView {}
     enum ButtonsView {}
     enum ContentView {}
     enum DaylightFactorView {}
     enum SeasonFactorView {}
 }
 
+extension ArkoniaLayout.AlmanacView {
+    static let frameWidth: CGFloat = 250
+    static let labelFontSize: CGFloat = 16
+    static let meterFontSize: CGFloat = 14
+}
+
 extension ArkoniaLayout.ButtonsView {
-    static let buttonLabelsFrameMinWidth: CGFloat = 75
+    static let buttonLabelsFrameMinWidth: CGFloat = 50
 }
 
 extension ArkoniaLayout.ContentView {
-    static let frameHeight: CGFloat = 200
+    static let hudHeight: CGFloat = 125
 }
 
 extension ArkoniaLayout.DaylightFactorView {
@@ -28,10 +35,10 @@ extension ArkoniaLayout.SeasonFactorView {
     static let frameWidth: CGFloat = 40
 
     static let bgFrameWidth: CGFloat = 40
-    static let bgFrameHeight: CGFloat = ArkoniaLayout.ContentView.frameHeight
+    static var bgFrameHeight = CGFloat.zero // Set by the app startup
 
     static let stickGrooveFrameWidth: CGFloat = 10
-    static let stickGrooveFrameHeight: CGFloat = ArkoniaLayout.ContentView.frameHeight
+    static var stickGrooveFrameHeight = CGFloat.zero // Set by the app startup
 
     static let tempIndicatorFrameWidth = bgFrameWidth
     static let tempIndicatorFrameHeight: CGFloat = 3

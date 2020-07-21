@@ -7,13 +7,15 @@ struct SeasonFactorView: View {
         ZStack {
             Rectangle()
                 .frame(
-                    width: ArkoniaLayout.SeasonFactorView.bgFrameWidth
+                    width: ArkoniaLayout.SeasonFactorView.bgFrameWidth,
+                    height: ArkoniaLayout.SeasonFactorView.bgFrameHeight
                 )
                 .foregroundColor(Color(NSColor.darkGray))
 
             Rectangle()
                 .frame(
-                    width: ArkoniaLayout.SeasonFactorView.stickGrooveFrameWidth
+                    width: ArkoniaLayout.SeasonFactorView.stickGrooveFrameWidth,
+                    height: ArkoniaLayout.SeasonFactorView.stickGrooveFrameHeight
                 )
                 .cornerRadius(5)
                 .foregroundColor(Color(NSColor(calibratedWhite: 0.1, alpha: 1)))
@@ -31,7 +33,7 @@ struct SeasonFactorView: View {
                 .environmentObject(seasonalFactors)
                 .offset(x: 0, y: seasonalFactors.sunstickHeight)
                 .animation(.linear)
-        }.frame(maxHeight: .infinity)
+        }
     }
 }
 
