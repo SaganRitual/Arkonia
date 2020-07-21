@@ -15,6 +15,9 @@ struct ContentView: View {
                     AlmanacView().environmentObject(Clock.shared.seasonalFactors)
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
 
+                    AuxScalarHudView()
+                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
+
                     Rectangle().foregroundColor(Color.gray)
                 }
                 .frame(height: ArkoniaLayout.ContentView.hudHeight)
