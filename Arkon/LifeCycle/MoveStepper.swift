@@ -10,7 +10,7 @@ extension Stepper {
         func moveStepper_B() {
             Debug.debugColor(self, .brown, .purple)
 
-            cJumps += 1    // We count it as a jump even if we don't move
+            censusData.increment(.jumps)    // We count it as a jump even if we don't move
 
             let toLocalIx =   jumpSpec!.to.sensorSS.sensorPadLocalIndex
             let fromAbsIx =   spindle.gridCell.properties.gridAbsoluteIndex

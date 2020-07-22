@@ -63,14 +63,11 @@ class SeasonalFactors: ObservableObject {
     }
 
     var pCurrentDay: TimeInterval {
-        (
-            TimeInterval(elapsedSecondsThisYear) -
-            (TimeInterval(elapsedDaysThisYear) * Arkonia.realSecondsPerArkoniaDay)
-        ) / Arkonia.realSecondsPerArkoniaDay
+        elapsedSecondsToday / Arkonia.realSecondsPerArkoniaDay
     }
 
     var pCurrentYear: TimeInterval {
-        TimeInterval(elapsedSecondsThisYear) / secondsPerYear
+        elapsedSecondsThisYear / secondsPerYear
     }
 
     var sunHeight: CGFloat {

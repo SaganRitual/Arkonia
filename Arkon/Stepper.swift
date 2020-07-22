@@ -66,6 +66,16 @@ extension Stepper {
 extension Stepper.CensusData {
     enum Datum { case foodHits, jumps, offspring }
 
+    func increment(_ datum: Datum) {
+        Census.dispatchQueue.async {
+            switch datum {
+            case .foodHits:  self.cFoodHits += 1
+            case .jumps:     self.cJumps += 1
+            case .offspring: self.cOffspring += 1
+            }
+        }
+    }
+
     func set(_ datum: Datum, _ value: Int) {
         Census.dispatchQueue.async {
             switch datum {

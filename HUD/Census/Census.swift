@@ -138,15 +138,10 @@ extension Census {
     func registerBirth(_ myNetStructure: NetStructure, _ myParent: Stepper?) -> Int {
         self.population += 1
         self.births += 1
-        self.highWaterPopulation = max(self.highWaterPopulation, self.population)
 
         self.cLiveNeurons += myNetStructure.cNeurons
 
-        myParent?.cOffspring += 1
-
-        self.highWaterCOffspring = max(
-            myParent?.cOffspring ?? 0, self.highWaterCOffspring
-        )
+        myParent?.censusData.increment(.offspring)
 
         Debug.log(level: 205) { "registerBirth; population \(self.population)" }
 
