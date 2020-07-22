@@ -47,17 +47,15 @@ extension Manna {
             MannaCannon.shared!.cPhotosynthesizingManna -= 1
         }
 
-        DispatchQueue.main.async {
-            let seasonalFactors =
-                Clock.shared.seasonalFactors.sunHeight *
-                Clock.shared.seasonalFactors.sunstickHeight
+        Clock.dispatchQueue.async {
+            let temperature = SeasonalFactors(Clock.shared.worldClock).normalizedSunstickHeight
 
-            let mannaContent = EnergyBudget.MannaContent(maturityLevel, seasonalFactors)
+            let mannaContent = EnergyBudget.MannaContent(maturityLevel, temperature)
 
-            Debug.log(level: 217) {
+            Debug.log(level: 218) {
                 "harvest at \(self.absoluteGridIndex):"
-                + " maturity \(maturityLevel)"
-                + " = \(maturityLevel * seasonalFactors)"
+                + " maturity \(maturityLevel) * temperature \(temperature)"
+                + " = \(maturityLevel * temperature)"
                 + " -> ham \(mannaContent.selectStore(.energy)!)"
             }
 

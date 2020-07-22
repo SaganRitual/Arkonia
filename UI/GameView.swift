@@ -9,7 +9,7 @@ struct GameView: View {
 
     var body: some View {
         GeometryReader { proxy in
-            GameViewRepresentable(scene: scene, proxy: proxy)
+            GameViewRepresentable(scene: self.scene, proxy: proxy)
         }
     }
 }

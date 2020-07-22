@@ -18,13 +18,13 @@ struct ChartLegend: View {
                 VStack {
                     ForEach(0..<descriptors.count) { ss in
                         ChartLegendoid(
-                            color: descriptors[ss].0,
-                            label: descriptors[ss].1,
+                            color: self.descriptors[ss].0,
+                            label: self.descriptors[ss].1,
                             selectorSS: ss
                         )
                         .padding(.bottom, ss == 2 ? 0 : -7)
                         .padding(.top, ss == 0 ? 0 : -7)
-                        .environmentObject(dataSelectors)
+                            .environmentObject(self.dataSelectors)
                     }
                 }
             }

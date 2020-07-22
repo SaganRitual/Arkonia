@@ -14,9 +14,7 @@ struct AKRandomNumberFakerator {
         var max: Float = 0
         for ss in 0..<normalizedSamples.count {
             normalizedSamples[ss] = dist.next(using: &ARC4RandomNumberGenerator.global)
-            if abs(normalizedSamples[ss]) > max {
-                max = normalizedSamples[ss]
-            }
+            if abs(normalizedSamples[ss]) > max { max = normalizedSamples[ss] }
         }
 
         for ss in 0..<normalizedSamples.count {

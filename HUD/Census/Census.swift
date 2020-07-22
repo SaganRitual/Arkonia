@@ -10,11 +10,11 @@ struct Fishday {
 
     // All this needs to happen on a serial queue. The Census serial
     // queue seems like the most sensible one, given that it's census-related
-    init(cNeurons: Int) {
+    init(currentTime: Int, cNeurons: Int) {
         self.cNeurons = cNeurons
         self.fishNumber = Fishday.getNextFishNumber()
         self.name = ArkonName.makeName()
-        self.birthday = TimeInterval(Census.shared.localTime)
+        self.birthday = TimeInterval(currentTime)
     }
 
     private static func getNextFishNumber() -> Int {
@@ -35,7 +35,6 @@ class Census {
 
     private(set) var births = 0
     private(set) var cLiveNeurons = 0
-    private(set) var localTime = 0
     private(set) var population = 0
     var populated = false
 
@@ -101,17 +100,6 @@ extension Census {
 extension Census {
     func updateReports(_ worldClock: Int) {
         censusData.compress(TimeInterval(worldClock))
-
-//        self.rCOffspring.data.text = String(format: "%d", highWaterCOffspring)
-//        self.rHighWaterPopulation.data.text = String(highWaterPopulation)
-//        self.rPopulation.data.text = String(population)
-//        self.rBirths.data.text = String(births)
-
-//        rHighWaterAge.data.text = ageFormatter.string(from: Double(highWaterAge))
-
-//        markExemplars()
-
-        localTime = worldClock
         Debug.log(level: 155) { "updateReports highwaterAge = \(highWaterAge)" }
     }
 
@@ -147,7 +135,7 @@ private extension Census {
 }
 
 extension Census {
-    func registerBirth(_ myNetStructure: NetStructure, _ myParent: Stepper?) -> Fishday {
+    func registerBirth(_ myNetStructure: NetStructure, _ myParent: Stepper?) -> Int {
         self.population += 1
         self.births += 1
         self.highWaterPopulation = max(self.highWaterPopulation, self.population)
@@ -162,7 +150,7 @@ extension Census {
 
         Debug.log(level: 205) { "registerBirth; population \(self.population)" }
 
-        return Fishday(cNeurons: myNetStructure.cNeurons)
+        return myNetStructure.cNeurons
     }
 
     func registerDeath(_ stepper: Stepper, _ worldTime: TimeInterval) {

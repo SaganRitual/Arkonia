@@ -38,13 +38,21 @@ extension ArkonEmbryo {
 
         Debug.log(level: 209) { "buildArkon" }
 
-        mainDispatch { buildArkon_A() }
+        var worldClock = 0
+        var cNeurons = 0
+
+        Clock.dispatchQueue.async { buildArkon_0() }
+
+        func buildArkon_0() { worldClock = Int(Clock.shared.worldClock); buildArkon_1() }
+
+        func buildArkon_1() { mainDispatch(buildArkon_A) }
 
         func buildArkon_A() { buildNetStructure(); buildArkon_B() }
 
         func buildArkon_B() { Census.dispatchQueue.async(execute: buildArkon_C) }
         func buildArkon_C() {
-            self.fishday = Census.shared.registerBirth(netStructure!, parentArkon)
+            cNeurons = Census.shared.registerBirth(netStructure!, parentArkon)
+            self.fishday = Fishday(currentTime: worldClock, cNeurons: cNeurons)
             buildArkon_D()
         }
 

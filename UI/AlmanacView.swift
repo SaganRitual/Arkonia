@@ -4,7 +4,6 @@ struct AlmanacView: View {
     @EnvironmentObject var seasonalFactors: SeasonalFactors
 
     let clockFormatter = DateComponentsFormatter()
-    let secondsPerYear = Arkonia.realSecondsPerArkoniaDay * Arkonia.arkoniaDaysPerYear
 
     init() {
         clockFormatter.allowedUnits = [.hour, .minute, .second]
@@ -13,16 +12,11 @@ struct AlmanacView: View {
         clockFormatter.zeroFormattingBehavior = .pad
     }
 
-    var currentDay: Int {
-        Int(max(0, floor((
-            seasonalFactors.elapsedTimeRealSeconds -
-            (TimeInterval(currentYear) * secondsPerYear)) /
-            Arkonia.realSecondsPerArkoniaDay
-        )))
-    }
-
-    var currentYear: Int {
-        Int(floor(seasonalFactors.elapsedTimeRealSeconds / secondsPerYear))
+    enum Property { case elapsedTimeRealSeconds }
+    func readClock(_ property: Property) -> TimeInterval {
+        switch property {
+        case .elapsedTimeRealSeconds: return seasonalFactors.elapsedTimeRealSeconds
+        }
     }
 
     var labelFont: Font {
@@ -37,24 +31,6 @@ struct AlmanacView: View {
             size: ArkoniaLayout.AlmanacView.meterFontSize,
             design: Font.Design.monospaced
         )
-    }
-
-    var pCurrentDay: TimeInterval {
-        (
-            seasonalFactors.elapsedTimeRealSeconds -
-            (TimeInterval(currentYear) * secondsPerYear) -
-            (TimeInterval(currentDay) * Arkonia.realSecondsPerArkoniaDay)
-        ) / Arkonia.realSecondsPerArkoniaDay
-    }
-
-    var pCurrentYear: TimeInterval {
-        (seasonalFactors.elapsedTimeRealSeconds -
-            (TimeInterval(currentYear) * secondsPerYear)
-        ) / secondsPerYear
-    }
-
-    var temperature: CGFloat {
-        -(seasonalFactors.sunstickHeight + seasonalFactors.sunHeight)
     }
 
     var body: some View {
@@ -72,19 +48,19 @@ struct AlmanacView: View {
                 HStack(alignment: .bottom) {
                     Text("Year:Day").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(currentYear):\(currentDay)")
+                    Text("\(seasonalFactors.currentYear):\(seasonalFactors.elapsedDaysThisYear)")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("p-Year:p-Day").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(String(format: "%02.0f", pCurrentYear * 100)):\(String(format: "%02.0f", pCurrentDay * 100))")
+                    Text("\(String(format: "%02.0f", seasonalFactors.pCurrentYear * 100)):\(String(format: "%02.0f", seasonalFactors.pCurrentDay * 100))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("Temperature").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(String(format: "%0.2f", temperature))")
+                    Text("\(String(format: "%0.2f", seasonalFactors.temperature))")
                 }.padding(.leading).padding(.trailing)
 
             }

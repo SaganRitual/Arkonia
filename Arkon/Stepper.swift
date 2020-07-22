@@ -13,14 +13,19 @@ class Stepper {
 
     var babyBumpIsShowing = false
     var canSpawn = false
-    var cFoodHits = 0
-    var cJumps = 0
-    var cOffspring = 0
     var currentTime: TimeInterval = 0
     var currentEntropyPerJoule: Double = 0
     var jumpSpec: JumpSpec?
     var jumpSpeed = 0.0
     var previousShiftOffset = AKPoint.zero
+
+    class CensusData {
+        var cFoodHits = 0
+        var cJumps = 0
+        var cOffspring = 0
+    }
+
+    var censusData = CensusData()
 
     var name: ArkonName { fishday.name }
 
@@ -36,8 +41,38 @@ class Stepper {
 
         self.sensorPad = embryo.sensorPad!
 
-//        thorax.position = sensorPad.centerScenePosition!
         thorax.color = net.isCloneOfParent ? .green : .white
         nose.color = .blue
+    }
+}
+
+extension Stepper {
+    var cFoodHits: Int {
+        get { censusData.cFoodHits }
+        set { censusData.set(.foodHits, newValue) }
+    }
+
+    var cJumps: Int {
+        get { censusData.cJumps }
+        set { censusData.set(.jumps, newValue) }
+    }
+
+    var cOffspring: Int {
+        get { censusData.cOffspring }
+        set { censusData.set(.offspring, newValue) }
+    }
+}
+
+extension Stepper.CensusData {
+    enum Datum { case foodHits, jumps, offspring }
+
+    func set(_ datum: Datum, _ value: Int) {
+        Census.dispatchQueue.async {
+            switch datum {
+            case .foodHits:  self.cFoodHits = value
+            case .jumps:     self.cJumps = value
+            case .offspring: self.cOffspring = value
+            }
+        }
     }
 }

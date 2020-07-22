@@ -15,8 +15,8 @@ struct ChartLegendoid: View {
     var body: some View {
         HStack {
             Button(action: {
-                isActive.toggle()
-                dataSelector.toggle(selectorSS)
+                self.isActive.toggle()
+                self.dataSelector.toggle(self.selectorSS)
             }) {
                 Rectangle()
                     .foregroundColor(isActive ? color : .gray)

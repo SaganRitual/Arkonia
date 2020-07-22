@@ -6,12 +6,11 @@ struct DriveStimulus {
     init(_ stepper: Stepper) { self.stepper = stepper }
 
     func driveStimulus(_ onComplete: @escaping () -> Void) {
-        DispatchQueue.main.async {
-            self.driveStimulus_B(
-                Clock.shared.seasonalFactors.sunHeight,
-                Clock.shared.seasonalFactors.sunstickHeight,
-                onComplete
-            )
+        Clock.dispatchQueue.async {
+            let sh = Clock.shared.seasonalFactors.sunHeight
+            let ssh = Clock.shared.seasonalFactors.sunstickHeight
+
+            mainDispatch { self.driveStimulus_B(sh, ssh, onComplete) }
         }
     }
 }
@@ -23,7 +22,7 @@ private extension DriveStimulus {
     ) {
         transferSensorPadToSenseNeurons()
         transferNonPadInputsToSenseNeurons(dayFullness, yearFullness)
-        mainDispatch(onComplete)
+        onComplete()
     }
 
     // Average fullness of the sporangium; not really very representative,
