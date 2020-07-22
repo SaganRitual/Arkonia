@@ -47,20 +47,9 @@ class Stepper {
 }
 
 extension Stepper {
-    var cFoodHits: Int {
-        get { censusData.cFoodHits }
-        set { censusData.set(.foodHits, newValue) }
-    }
-
-    var cJumps: Int {
-        get { censusData.cJumps }
-        set { censusData.set(.jumps, newValue) }
-    }
-
-    var cOffspring: Int {
-        get { censusData.cOffspring }
-        set { censusData.set(.offspring, newValue) }
-    }
+    var cFoodHits:  Int { censusData.cFoodHits }
+    var cJumps:     Int { censusData.cJumps }
+    var cOffspring: Int { censusData.cOffspring }
 }
 
 extension Stepper.CensusData {
@@ -72,16 +61,6 @@ extension Stepper.CensusData {
             case .foodHits:  self.cFoodHits += 1
             case .jumps:     self.cJumps += 1
             case .offspring: self.cOffspring += 1
-            }
-        }
-    }
-
-    func set(_ datum: Datum, _ value: Int) {
-        Census.dispatchQueue.async {
-            switch datum {
-            case .foodHits:  self.cFoodHits = value
-            case .jumps:     self.cJumps = value
-            case .offspring: self.cOffspring = value
             }
         }
     }

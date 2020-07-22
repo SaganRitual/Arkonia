@@ -44,7 +44,7 @@ class Clock {
     static func getWorldClock(_ onComplete: @escaping (TimeInterval) -> Void) {
         Clock.dispatchQueue.async {
             let c = Clock.shared.worldClock
-            mainDispatch { onComplete(c) }
+            onComplete(c)
         }
     }
 

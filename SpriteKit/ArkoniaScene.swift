@@ -183,20 +183,16 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
 
         SpriteFactory.shared = SpriteFactory(scene: self)
 
-        Debug.log(level: 38) { "GriddleScene.arkonsPortal scale = \(ArkoniaScene.arkonsPortal.xScale) x \(ArkoniaScene.arkonsPortal.yScale)" }
+        Debug.log(level: 38) {
+            "GriddleScene.arkonsPortal scale"
+            + " = \(ArkoniaScene.arkonsPortal.xScale)"
+            + " x \(ArkoniaScene.arkonsPortal.yScale)"
+        }
 
         self.scene!.delegate = self
 
-//        self.hud = HUD(scene: self)
-//        self.hud.buildDashboards()
-//        self.buildReports()
-//        self.buildLineGraphs()
-//        self.buildBarCharts()
-
         MannaCannon.shared = MannaCannon()
         MannaCannon.shared!.postInit()
-
-        Census.shared = Census(self)
 
         AKRandomNumberFakerator.shared = .init()
 

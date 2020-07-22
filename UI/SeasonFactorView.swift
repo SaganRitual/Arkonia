@@ -39,6 +39,6 @@ struct SeasonFactorView: View {
 
 struct SeasonFactorView_Previews: PreviewProvider {
     static var previews: some View {
-        SeasonFactorView()
+        return SeasonFactorView().environmentObject(SeasonalFactors())
     }
 }

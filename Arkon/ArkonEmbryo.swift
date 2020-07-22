@@ -111,7 +111,7 @@ extension ArkonEmbryo {
             // the census lock already, but it's ugly and I don't feel like
             // fixing it right now
             Census.dispatchQueue.async {
-                Census.shared.censusData.insert(self.newborn!)
+                Census.shared.censusAgent.insert(self.newborn!)
                 launch_D()
             }
         }

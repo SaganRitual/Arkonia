@@ -35,13 +35,14 @@ extension Census {
             mainDispatch(onComplete)
         }
     }
-
 }
 
 extension Census {
     func updateReports() {
         seedWorld()
-        Clock.getWorldClock { Census.shared.updateReports(Int($0)) }
+        Clock.getWorldClock { worldClock in
+            Census.dispatchQueue.async { Census.shared.updateReports(Int(worldClock)) }
+        }
     }
 
     func seedWorld() {

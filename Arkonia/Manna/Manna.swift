@@ -52,7 +52,7 @@ extension Manna {
 
             let mannaContent = EnergyBudget.MannaContent(maturityLevel, temperature)
 
-            Debug.log(level: 218) {
+            Debug.log(level: 217) {
                 "harvest at \(self.absoluteGridIndex):"
                 + " maturity \(maturityLevel) * temperature \(temperature)"
                 + " = \(maturityLevel * temperature)"

@@ -17,6 +17,7 @@ struct ContentView: View {
 
                     AuxScalarHudView()
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
+                        .environmentObject(Census.shared.censusAgent.stats)
 
                     LineChartView()
                         .environmentObject(LineChartViews.lineChartData)

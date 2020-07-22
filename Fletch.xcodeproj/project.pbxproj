@@ -14,6 +14,7 @@
 		D400138924BD4648001D429A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D400138724BD4648001D429A /* Main.storyboard */; };
 		D400139824BD7156001D429A /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = D400139724BD7156001D429A /* Charts */; };
 		D400139A24BD7197001D429A /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400139924BD7197001D429A /* LineChartView.swift */; };
+		D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45EEC7E24C8F61B00527632 /* PopulationStats.swift */; };
 		D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */; };
 		D49EBA1924C16DE00006E0E1 /* AKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1224C16DDF0006E0E1 /* AKPoint.swift */; };
 		D49EBA1A24C16DE00006E0E1 /* NormalDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1324C16DDF0006E0E1 /* NormalDistribution.swift */; };
@@ -23,7 +24,7 @@
 		D49EBA2224C170CE0006E0E1 /* Tensor.Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1F24C170CE0006E0E1 /* Tensor.Random.swift */; };
 		D49EBA2324C170CE0006E0E1 /* KIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2024C170CE0006E0E1 /* KIdentifier.swift */; };
 		D49EBA2424C170CE0006E0E1 /* Tensor.Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2124C170CE0006E0E1 /* Tensor.Utilities.swift */; };
-		D49EBA2924C175FB0006E0E1 /* Census.Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2624C175FB0006E0E1 /* Census.Stats.swift */; };
+		D49EBA2924C175FB0006E0E1 /* CensusAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2624C175FB0006E0E1 /* CensusAgent.swift */; };
 		D49EBA2A24C175FB0006E0E1 /* Census.Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */; };
 		D49EBA2B24C175FB0006E0E1 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2824C175FB0006E0E1 /* Census.swift */; };
 		D4E0411324BFE87C0026970F /* LineChartCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E0411224BFE87C0026970F /* LineChartCore.swift */; };
@@ -130,6 +131,7 @@
 		D400138A24BD4648001D429A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D400138B24BD4648001D429A /* Fletch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fletch.entitlements; sourceTree = "<group>"; };
 		D400139924BD7197001D429A /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
+		D45EEC7E24C8F61B00527632 /* PopulationStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationStats.swift; sourceTree = "<group>"; };
 		D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
 		D49EBA1224C16DDF0006E0E1 /* AKPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AKPoint.swift; sourceTree = "<group>"; };
 		D49EBA1324C16DDF0006E0E1 /* NormalDistribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalDistribution.swift; sourceTree = "<group>"; };
@@ -140,7 +142,7 @@
 		D49EBA1F24C170CE0006E0E1 /* Tensor.Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tensor.Random.swift; sourceTree = "<group>"; };
 		D49EBA2024C170CE0006E0E1 /* KIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KIdentifier.swift; sourceTree = "<group>"; };
 		D49EBA2124C170CE0006E0E1 /* Tensor.Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tensor.Utilities.swift; sourceTree = "<group>"; };
-		D49EBA2624C175FB0006E0E1 /* Census.Stats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.Stats.swift; sourceTree = "<group>"; };
+		D49EBA2624C175FB0006E0E1 /* CensusAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CensusAgent.swift; sourceTree = "<group>"; };
 		D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.Extra.swift; sourceTree = "<group>"; };
 		D49EBA2824C175FB0006E0E1 /* Census.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D4E0411224BFE87C0026970F /* LineChartCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartCore.swift; sourceTree = "<group>"; };
@@ -331,8 +333,9 @@
 			isa = PBXGroup;
 			children = (
 				D49EBA2824C175FB0006E0E1 /* Census.swift */,
+				D49EBA2624C175FB0006E0E1 /* CensusAgent.swift */,
 				D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */,
-				D49EBA2624C175FB0006E0E1 /* Census.Stats.swift */,
+				D45EEC7E24C8F61B00527632 /* PopulationStats.swift */,
 			);
 			path = Census;
 			sourceTree = "<group>";
@@ -692,7 +695,7 @@
 				D4F6647D24C16A93006B95BF /* Dashboard.swift in Sources */,
 				D49EBA2224C170CE0006E0E1 /* Tensor.Random.swift in Sources */,
 				D4F6644624C16A93006B95BF /* Arkon.EnergyBudget.swift in Sources */,
-				D49EBA2924C175FB0006E0E1 /* Census.Stats.swift in Sources */,
+				D49EBA2924C175FB0006E0E1 /* CensusAgent.swift in Sources */,
 				D4F6644B24C16A93006B95BF /* Digestion.swift in Sources */,
 				D4F6643F24C16A93006B95BF /* DriveNetSignal.swift in Sources */,
 				D4F6642A24C16A93006B95BF /* Spindle.swift in Sources */,
@@ -721,6 +724,7 @@
 				D49EBA1B24C16DE00006E0E1 /* Overload2D.swift in Sources */,
 				D4F663A624C088C4006B95BF /* GameView.swift in Sources */,
 				D4F6647C24C16A93006B95BF /* LineGraph.swift in Sources */,
+				D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */,
 				D4FE3F8A24BEB9A60055D095 /* ChartLegend.swift in Sources */,
 				D4F6647324C16A93006B95BF /* HotNetBlas.swift in Sources */,
 				D4F6645C24C16A93006B95BF /* MannaCannon.swift in Sources */,

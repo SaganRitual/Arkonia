@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct AuxScalarHudView: View {
+    @EnvironmentObject var stats: PopulationStats
+
     var labelFont: Font {
         Font.system(
             size: ArkoniaLayout.AlmanacView.labelFontSize,
@@ -22,25 +24,25 @@ struct AuxScalarHudView: View {
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
-                    Text("Food").font(self.labelFont)
+                    Text("Population").font(self.labelFont)
                     Spacer()
-                    Text("0/0")
+                    Text("\(Census.shared.censusAgent.stats.currentPopulation)")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("All births").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("0")
+                    Text("\(Census.shared.censusAgent.stats.allBirths)")
+                }.padding(.leading).padding(.trailing)
+
+                HStack(alignment: .bottom) {
+                    Text("Food").font(self.labelFont).padding(.top, 5)
+                    Spacer()
+                    Text("0/0")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("Llamas").font(self.labelFont).padding(.top, 5)
-                    Spacer()
-                    Text("0")
-                }.padding(.leading).padding(.trailing)
-
-                HStack(alignment: .bottom) {
-                    Text("Accordions").font(self.labelFont).padding(.top, 5)
                     Spacer()
                     Text("0")
                 }.padding(.leading).padding(.trailing)
@@ -54,6 +56,6 @@ struct AuxScalarHudView: View {
 
 struct AuxScalarHudView_Previews: PreviewProvider {
     static var previews: some View {
-        AuxScalarHudView()
+        AuxScalarHudView().environmentObject(PopulationStats())
     }
 }
