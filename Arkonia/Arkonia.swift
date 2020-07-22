@@ -40,10 +40,10 @@ class Arkonia {
         { mannaColorBlendMaximum - mannaColorBlendMinimum }
 
     static let updateFrequencyHertz:      TimeInterval = 5
-    static let realSecondsPerArkoniaDay:  TimeInterval = 5
+    static let realSecondsPerArkoniaDay:  TimeInterval = 10
     static let darknessAsPercentageOfDay: TimeInterval = 0.8
-    static let arkoniaDaysPerYear:        TimeInterval = 5
-    static let winterAsPercentageOfYear:  TimeInterval = 0.8
+    static let arkoniaDaysPerYear:        TimeInterval = 10
+    static let winterAsPercentageOfYear:  TimeInterval = 0.3
 }
 
 extension Arkonia {

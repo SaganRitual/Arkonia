@@ -3,6 +3,10 @@ import SwiftUI
 import Charts
 import Shapes
 
+enum LineChartViews {
+    static var lineChartData = LineChartData(6)
+}
+
 class ChartLegendSelect: ObservableObject {
     @Published var dataSelectors = [Bool]()
 
@@ -27,24 +31,24 @@ struct LineChartView: View {
                 VStack(alignment: .leading) {
                     ChartLegend(
                         descriptors: [
-                            (Color.green, "Average"),
-                            (Color(NSColor.cyan), "Median"),
-                            (Color.blue, "Maximum")
+                            (Color.green, "Avg"),
+                            (Color(NSColor.cyan), "Med"),
+                            (Color.blue, "Max")
                         ],
                         groupName: "Current"
                     ).environmentObject(dataSelectorsLeft)
                 }
 
                 Spacer()
-                Text("Age").font(.title).offset(y: 10)
+                Text("Population").font(.system(size: 16)).offset(y: 10)
                 Spacer()
 
                 VStack(alignment: .leading) {
                     ChartLegend(
                         descriptors: [
-                            (Color.red, "Average"),
-                            (Color.yellow, "Median"),
-                            (Color.purple, "Maximum")
+                            (Color.red, "Avg"),
+                            (Color.yellow, "Med"),
+                            (Color.purple, "Max")
                         ],
                         groupName: "All-time"
                     ).environmentObject(dataSelectorsRight)
@@ -53,56 +57,54 @@ struct LineChartView: View {
 
             HStack {
                 VStack {
-                    AxisLabels(.vertical, data: 0..<10, id: \.self) {
-                        Text("\((10 - 1) - $0)")
-                            .fontWeight(.bold)
-                            .font(Font.system(size: 8))
+                    AxisLabels(.vertical, data: [0, 5, 10], id: \.self) {
+                        Text("\(10 - $0)")
+                            .font(Font.system(size: 6))
                             .foregroundColor(.secondary)
                     }
                     .frame(width: 20)
+                    .padding(.bottom)
 
                     Rectangle().foregroundColor(.clear).frame(width: 20, height: 0)
                 }
 
                 VStack {
-                    Rectangle().foregroundColor(.clear).frame(width: 20, height: 10)
-
                     ZStack {
                         Chart(data: lineChartData.theData[0])
                             .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsLeft.dataSelectors[0] ? .green : .clear, lineWidth: 2)
+                                LineChartStyle(.quadCurve, lineColor: dataSelectorsLeft.dataSelectors[0] ? .green : .clear, lineWidth: 1)
                             )
-                            .padding()
+                            .padding(.trailing, 1).padding(.leading, 1)
 
                         Chart(data: lineChartData.theData[1])
                             .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsLeft.dataSelectors[1] ? Color(NSColor.cyan) : .clear, lineWidth: 2)
+                                LineChartStyle(.quadCurve, lineColor: dataSelectorsLeft.dataSelectors[1] ? Color(NSColor.cyan) : .clear, lineWidth: 1)
                             )
-                            .padding()
+                            .padding(.trailing, 1).padding(.leading, 1)
 
                         Chart(data: lineChartData.theData[2])
                             .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsLeft.dataSelectors[2] ? .blue : .clear, lineWidth: 2)
+                                LineChartStyle(.quadCurve, lineColor: dataSelectorsLeft.dataSelectors[2] ? .blue : .clear, lineWidth: 1)
                             )
-                            .padding()
+                            .padding(.trailing, 1).padding(.leading, 1)
 
                         Chart(data: lineChartData.theData[3])
                             .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsRight.dataSelectors[0] ? .red : .clear, lineWidth: 2)
+                                LineChartStyle(.quadCurve, lineColor: dataSelectorsRight.dataSelectors[0] ? .red : .clear, lineWidth: 1)
                             )
-                            .padding()
+                            .padding(.trailing, 1).padding(.leading, 1)
 
                         Chart(data: lineChartData.theData[4])
                             .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsRight.dataSelectors[1] ? .yellow : .clear, lineWidth: 2)
+                                LineChartStyle(.quadCurve, lineColor: dataSelectorsRight.dataSelectors[1] ? .yellow : .clear, lineWidth: 1)
                             )
-                            .padding()
+                            .padding(.trailing, 1).padding(.leading, 1)
 
                         Chart(data: lineChartData.theData[5])
                             .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsRight.dataSelectors[2] ? .purple : .clear, lineWidth: 2)
+                                LineChartStyle(.quadCurve, lineColor: dataSelectorsRight.dataSelectors[2] ? .purple : .clear, lineWidth: 1)
                             )
-                            .padding()
+                            .padding(.trailing, 1).padding(.leading, 1)
                             .background(
                                 GridPattern(
                                     horizontalLines: 10, verticalLines: 0
@@ -111,7 +113,7 @@ struct LineChartView: View {
                                     Color.white.opacity(0.1),
                                     style: .init(lineWidth: 2, lineCap: .round)
                                 )
-                            )
+                            ).frame(height: 75)
                     }
 
                     Rectangle().foregroundColor(.clear).frame(width: 20, height: 20)

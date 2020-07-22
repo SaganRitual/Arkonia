@@ -9,12 +9,12 @@ struct ChartLegend: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text(groupName)
-                .font(.headline)
-                .padding(.top, 5)
+                .font(.system(size: 10))
+                .padding(.top, 3)
                 .padding(.bottom, -10)
-                .padding(.leading, 10)
+                .padding(.leading, 6)
 
-            HStack {
+            HStack(alignment: .center) {
                 VStack {
                     ForEach(0..<descriptors.count) { ss in
                         ChartLegendoid(
@@ -22,14 +22,12 @@ struct ChartLegend: View {
                             label: descriptors[ss].1,
                             selectorSS: ss
                         )
-                        .padding(.bottom, ss == 2 ? 0 : -5)
-                        .padding(.top, ss == 0 ? 0 : -5)
+                        .padding(.bottom, ss == 2 ? 0 : -7)
+                        .padding(.top, ss == 0 ? 0 : -7)
                         .environmentObject(dataSelectors)
                     }
                 }
             }
-            .padding(.leading, 10)
-            .padding(.trailing, 10)
             .padding(.bottom, 5)
         }
     }
@@ -41,9 +39,9 @@ struct ChartLegend_Previews: PreviewProvider {
     static var previews: some View {
         ChartLegend(
             descriptors: [
-                (Color.green, "Average"),
-                (Color(NSColor.cyan), "Median"),
-                (Color.blue, "Maximum")
+                (Color.green, "Avg"),
+                (Color(NSColor.cyan), "Med"),
+                (Color.blue, "Max")
             ],
             groupName: "Current"
         ).environmentObject(dataSelectors)

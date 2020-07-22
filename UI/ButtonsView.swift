@@ -12,7 +12,7 @@ struct ButtonsView: View {
     @State private var showingPopulationLineChart = false
 
     let buttonLabels = [
-        "Age", "Food hit rate", "Neurons", "Offspring", "Population"
+        "Age", "Food hit rate", "Neurons", "Offspring", "Population", "Krakens"
     ]
 
     private func showChart(_ chartSS: Int) {
@@ -29,23 +29,56 @@ struct ButtonsView: View {
     var body: some View {
         ZStack(alignment: .leading) {
             Rectangle()
-                .foregroundColor(Color(NSColor.darkGray))
+                .foregroundColor(Color.white.opacity(0.01))
 
             VStack {
                 Text("Line charts")
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .font(.headline)
                     .underline()
 
-                ForEach(0..<buttonLabels.count) { labelSS in
-                    HStack {
-                        Button(action: { self.showChart(labelSS) }) {
-                            Text(buttonLabels[labelSS]).frame(minWidth: ArkoniaLayout.ButtonsView.buttonLabelsFrameMinWidth)
-                        }
-                        .foregroundColor(.black)
+                HStack {
+                    Button(action: { self.showChart(0) }) {
+                        Text(buttonLabels[0]).frame(minWidth: ArkoniaLayout.ButtonsView.buttonLabelsFrameMinWidth)
                     }
+                    .foregroundColor(.black)
+
+                    Spacer()
+
+                    Button(action: { self.showChart(1) }) {
+                        Text(buttonLabels[1]).frame(minWidth: ArkoniaLayout.ButtonsView.buttonLabelsFrameMinWidth)
+                    }
+                    .foregroundColor(.black)
                 }
-            }.padding(.leading)
+
+                HStack {
+                    Button(action: { self.showChart(2) }) {
+                        Text(buttonLabels[2]).frame(minWidth: ArkoniaLayout.ButtonsView.buttonLabelsFrameMinWidth)
+                    }
+                    .foregroundColor(.black)
+
+                    Spacer()
+
+                    Button(action: { self.showChart(3) }) {
+                        Text(buttonLabels[3]).frame(minWidth: ArkoniaLayout.ButtonsView.buttonLabelsFrameMinWidth)
+                    }
+                    .foregroundColor(.black)
+                }
+
+                HStack {
+                    Button(action: { self.showChart(4) }) {
+                        Text(buttonLabels[4]).frame(minWidth: ArkoniaLayout.ButtonsView.buttonLabelsFrameMinWidth)
+                    }
+                    .foregroundColor(.black)
+
+                    Spacer()
+
+                    Button(action: { self.showChart(5) }) {
+                        Text(buttonLabels[5]).frame(minWidth: ArkoniaLayout.ButtonsView.buttonLabelsFrameMinWidth)
+                    }
+                    .foregroundColor(.black)
+                }
+            }.padding(.leading).frame(width: 200)
         }
     }
 }

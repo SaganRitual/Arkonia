@@ -21,10 +21,7 @@ struct AKRandomNumberFakerator {
 
         for ss in 0..<normalizedSamples.count {
             normalizedSamples[ss] /= max
-            if abs(normalizedSamples[ss]) == 1 {
-                normalizedSamples[ss] = 0
-                Debug.log { "found one" }
-            }
+            if abs(normalizedSamples[ss]) == 1 { normalizedSamples[ss] = 0 }
         }
     }
 }

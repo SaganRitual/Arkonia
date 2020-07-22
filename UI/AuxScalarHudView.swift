@@ -18,7 +18,7 @@ struct AuxScalarHudView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .foregroundColor(.black)
+                .foregroundColor(Color.white.opacity(0.01))
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {

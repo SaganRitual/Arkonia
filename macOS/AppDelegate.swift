@@ -40,7 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             // We got the screen dimensions, count the frame from them
             // visibleFrame is the screen size excluding menu bar (on top of the screen)
             // and dock (by default on bottom)
-            let newWidth = screenFrame.width * 0.7
+            let newWidth = screenFrame.width * 0.85
             let newHeight = newWidth / aspectRatioOfRobsMacbookPro
             let newSize = NSSize(width: newWidth, height: newHeight)
 

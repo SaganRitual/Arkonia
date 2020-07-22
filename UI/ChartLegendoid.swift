@@ -20,7 +20,7 @@ struct ChartLegendoid: View {
             }) {
                 Rectangle()
                     .foregroundColor(isActive ? color : .gray)
-                    .frame(width: 100, height: 10)
+                    .frame(width: 30, height: 3)
             }
             .buttonStyle(PlainButtonStyle())
             .padding(.leading, 7)
@@ -28,11 +28,11 @@ struct ChartLegendoid: View {
             Spacer()
 
             Text(label)
-                .font(.subheadline)
+                .font(.system(size: 10))
                 .padding(.trailing, 7)
                 .foregroundColor(isActive ? .white : .gray)
         }
-        .frame(width: 200, height: 20)
+        .frame(width: 90, height: 15)
     }
 }
 
@@ -40,7 +40,7 @@ struct ChartLegendoid_Previews: PreviewProvider {
     static var previews: some View {
         ChartLegendoid(
             color: .blue,
-            label: "Preview",
+            label: "MMM",
             selectorSS: 0
         )
     }

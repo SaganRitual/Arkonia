@@ -18,7 +18,10 @@ struct ContentView: View {
                     AuxScalarHudView()
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
 
-                    Rectangle().foregroundColor(Color.gray)
+                    LineChartView()
+                        .environmentObject(LineChartViews.lineChartData)
+
+                    ButtonsView()
                 }
                 .frame(height: ArkoniaLayout.ContentView.hudHeight)
 
