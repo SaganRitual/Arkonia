@@ -27,6 +27,7 @@
 		D49EBA2924C175FB0006E0E1 /* CensusAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2624C175FB0006E0E1 /* CensusAgent.swift */; };
 		D49EBA2A24C175FB0006E0E1 /* Census.Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */; };
 		D49EBA2B24C175FB0006E0E1 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2824C175FB0006E0E1 /* Census.swift */; };
+		D4A2FB9424C963D200E88803 /* AgeHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A2FB9324C963D200E88803 /* AgeHudView.swift */; };
 		D4E0411324BFE87C0026970F /* LineChartCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E0411224BFE87C0026970F /* LineChartCore.swift */; };
 		D4F663A624C088C4006B95BF /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663A524C088C4006B95BF /* GameView.swift */; };
 		D4F6642924C16A93006B95BF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D4F663BB24C16A92006B95BF /* LICENSE */; };
@@ -112,8 +113,8 @@
 		D4F78B5F24C5292C0035F415 /* SeasonalFactors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B5E24C5292C0035F415 /* SeasonalFactors.swift */; };
 		D4F78B6124C52DA20035F415 /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6024C52DA10035F415 /* ButtonsView.swift */; };
 		D4F78B6324C550A20035F415 /* ArkoniaLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */; };
-		D4F78B6524C75B690035F415 /* AlmanacView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6424C75B690035F415 /* AlmanacView.swift */; };
-		D4F78B6924C7A93F0035F415 /* AuxScalarHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6824C7A93F0035F415 /* AuxScalarHudView.swift */; };
+		D4F78B6524C75B690035F415 /* AlmanacHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6424C75B690035F415 /* AlmanacHudView.swift */; };
+		D4F78B6924C7A93F0035F415 /* PopulationHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */; };
 		D4FE3F8A24BEB9A60055D095 /* ChartLegend.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */; };
 		D4FE3F8C24BEBAD10055D095 /* ChartLegendoid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */; };
 		D4FE3F9424BED7720055D095 /* Cbuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F9324BED7720055D095 /* Cbuffer.swift */; };
@@ -145,6 +146,7 @@
 		D49EBA2624C175FB0006E0E1 /* CensusAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CensusAgent.swift; sourceTree = "<group>"; };
 		D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.Extra.swift; sourceTree = "<group>"; };
 		D49EBA2824C175FB0006E0E1 /* Census.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
+		D4A2FB9324C963D200E88803 /* AgeHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeHudView.swift; sourceTree = "<group>"; };
 		D4E0411224BFE87C0026970F /* LineChartCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartCore.swift; sourceTree = "<group>"; };
 		D4F663A524C088C4006B95BF /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		D4F663BB24C16A92006B95BF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -237,8 +239,8 @@
 		D4F78B5E24C5292C0035F415 /* SeasonalFactors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SeasonalFactors.swift; path = Arkonia/SeasonalFactors.swift; sourceTree = SOURCE_ROOT; };
 		D4F78B6024C52DA10035F415 /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
 		D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaLayout.swift; sourceTree = "<group>"; };
-		D4F78B6424C75B690035F415 /* AlmanacView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlmanacView.swift; sourceTree = "<group>"; };
-		D4F78B6824C7A93F0035F415 /* AuxScalarHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuxScalarHudView.swift; sourceTree = "<group>"; };
+		D4F78B6424C75B690035F415 /* AlmanacHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlmanacHudView.swift; sourceTree = "<group>"; };
+		D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationHudView.swift; sourceTree = "<group>"; };
 		D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLegend.swift; sourceTree = "<group>"; };
 		D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartLegendoid.swift; sourceTree = "<group>"; };
 		D4FE3F9324BED7720055D095 /* Cbuffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cbuffer.swift; sourceTree = "<group>"; };
@@ -313,9 +315,9 @@
 		D400139124BD599E001D429A /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				D4F78B6424C75B690035F415 /* AlmanacView.swift */,
+				D4A2FB9324C963D200E88803 /* AgeHudView.swift */,
+				D4F78B6424C75B690035F415 /* AlmanacHudView.swift */,
 				D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */,
-				D4F78B6824C7A93F0035F415 /* AuxScalarHudView.swift */,
 				D4F78B6024C52DA10035F415 /* ButtonsView.swift */,
 				D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */,
 				D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */,
@@ -324,6 +326,7 @@
 				D4F663A524C088C4006B95BF /* GameView.swift */,
 				D4E0411224BFE87C0026970F /* LineChartCore.swift */,
 				D400139924BD7197001D429A /* LineChartView.swift */,
+				D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */,
 				D4F78B5C24C529060035F415 /* SeasonFactorView.swift */,
 			);
 			path = UI;
@@ -639,6 +642,7 @@
 				D4F6645024C16A93006B95BF /* EnergyBudget.swift in Sources */,
 				D49EBA1924C16DE00006E0E1 /* AKPoint.swift in Sources */,
 				D4F6646124C16A93006B95BF /* Protocols.swift in Sources */,
+				D4A2FB9424C963D200E88803 /* AgeHudView.swift in Sources */,
 				D4F6646224C16A93006B95BF /* Pollenator.swift in Sources */,
 				D4F6647124C16A93006B95BF /* MPSImage+Floats.swift in Sources */,
 				D4FE3F9424BED7720055D095 /* Cbuffer.swift in Sources */,
@@ -653,7 +657,7 @@
 				D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */,
 				D4F6646724C16A93006B95BF /* GridManna.swift in Sources */,
 				D400137F24BD4647001D429A /* AppDelegate.swift in Sources */,
-				D4F78B6924C7A93F0035F415 /* AuxScalarHudView.swift in Sources */,
+				D4F78B6924C7A93F0035F415 /* PopulationHudView.swift in Sources */,
 				D4FE3F9B24BED8060055D095 /* Extensions.swift in Sources */,
 				D4F6646424C16A93006B95BF /* Arkonia.swift in Sources */,
 				D4F6646F24C16A93006B95BF /* HotLayerBnn.swift in Sources */,
@@ -682,7 +686,7 @@
 				D4F6647424C16A93006B95BF /* GPUArray.swift in Sources */,
 				D4FE3F9624BED7AD0055D095 /* Debug.swift in Sources */,
 				D4F6645524C16A93006B95BF /* SpriteFactory.swift in Sources */,
-				D4F78B6524C75B690035F415 /* AlmanacView.swift in Sources */,
+				D4F78B6524C75B690035F415 /* AlmanacHudView.swift in Sources */,
 				D4F6645424C16A93006B95BF /* ArkoniaScene.swift in Sources */,
 				D49EBA1A24C16DE00006E0E1 /* NormalDistribution.swift in Sources */,
 				D4F6643624C16A93006B95BF /* NetStructure.swift in Sources */,

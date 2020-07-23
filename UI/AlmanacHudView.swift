@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AlmanacView: View {
+struct AlmanacHudView: View {
     @EnvironmentObject var seasonalFactors: SeasonalFactors
 
     let clockFormatter = DateComponentsFormatter()
@@ -84,6 +84,6 @@ struct AlmanacView: View {
 
 struct AlmanacView_Previews: PreviewProvider {
     static var previews: some View {
-        AlmanacView().environmentObject(SeasonalFactors())
+        AlmanacHudView().environmentObject(SeasonalFactors())
     }
 }

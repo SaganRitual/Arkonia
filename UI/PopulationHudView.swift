@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AuxScalarHudView: View {
+struct PopulationHudView: View {
     @EnvironmentObject var stats: PopulationStats
     @EnvironmentObject var mannaStats: MannaStats
 
@@ -31,6 +31,12 @@ struct AuxScalarHudView: View {
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
+                    Text("Highwater").font(self.labelFont).padding(.top, 5)
+                    Spacer()
+                    Text("\(Census.shared.highwaterPopulation)")
+                }.padding(.leading).padding(.trailing)
+
+                HStack(alignment: .bottom) {
                     Text("All births").font(self.labelFont).padding(.top, 5)
                     Spacer()
                     Text("\(Census.shared.censusAgent.stats.allBirths)")
@@ -40,12 +46,6 @@ struct AuxScalarHudView: View {
                     Text("Food").font(self.labelFont).padding(.top, 5)
                     Spacer()
                     Text("\(String(format: "% 5d", mannaStats.cPhotosynthesizingManna))/\(String(format: "% 5d", mannaStats.cPlantedManna))")
-                }.padding(.leading).padding(.trailing)
-
-                HStack(alignment: .bottom) {
-                    Text("Llamas").font(self.labelFont).padding(.top, 5)
-                    Spacer()
-                    Text("0")
                 }.padding(.leading).padding(.trailing)
             }
             .font(self.meterFont)
@@ -57,6 +57,6 @@ struct AuxScalarHudView: View {
 
 struct AuxScalarHudView_Previews: PreviewProvider {
     static var previews: some View {
-        AuxScalarHudView().environmentObject(PopulationStats())
+        PopulationHudView().environmentObject(PopulationStats())
     }
 }

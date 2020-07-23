@@ -54,7 +54,7 @@ private extension GridLock {
             self.onLocked = onLocked
         }
 
-        func redeploy() { Debug.log { "Redeploy" }; onLocked() }
+        func redeploy() { onLocked() }
     }
 
     func serviceDeferrals(_ cellIsOccupied: Bool) {

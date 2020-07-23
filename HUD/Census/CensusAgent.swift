@@ -25,8 +25,9 @@ class CensusAgent {
 
     func compress(
         _ currentTime: TimeInterval,
+        _ allBirths: Int,
         _ currentPopulation: Int,
-        _ allBirths: Int
+        _ highwaterPopulation: Int
     ) {
         var cArkons = 0
         var ageSum = TimeInterval(0), maxAge = TimeInterval(0)
@@ -84,8 +85,8 @@ class CensusAgent {
             averageFoodHitRate:(cArkons == 0) ? 0 : (foodHitRateSum / Double(cArkons)),
             maxFoodHitRate: maxFoodHitRate,
             averageCOffspring:(cArkons == 0) ? 0 : (Double(cOffspringSum) / Double(cArkons)),
-            maxCOffspring: maxCOffspring, currentPopulation: currentPopulation,
-            allBirths: allBirths
+            maxCOffspring: maxCOffspring, allBirths: allBirths,
+            currentPopulation: currentPopulation, highwaterPopulation: highwaterPopulation
         )
     }
 

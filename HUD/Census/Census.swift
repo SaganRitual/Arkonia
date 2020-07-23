@@ -32,6 +32,7 @@ class Census {
     private(set) var allBirths = 0
     private(set) var cLiveNeurons = 0
     private(set) var highwaterAge: TimeInterval = 0
+    private(set) var highwaterPopulation = 0
     private(set) var population = 0
     var populated = false
 
@@ -63,7 +64,7 @@ extension Census {
 extension Census {
     func updateReports(_ worldClock: Int) {
         censusAgent.compress(
-            TimeInterval(worldClock), self.population, self.allBirths
+            TimeInterval(worldClock), self.allBirths, self.population, self.highwaterPopulation
         )
 
         highwaterAge = TimeInterval(max(censusAgent.stats.maxAge, highwaterAge))
@@ -95,6 +96,10 @@ extension Census {
         self.cLiveNeurons += myNetStructure.cNeurons
         self.population += 1
         self.allBirths += 1
+
+        if self.population > self.highwaterPopulation {
+            self.highwaterPopulation = self.population
+        }
 
         return myNetStructure.cNeurons
     }
