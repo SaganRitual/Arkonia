@@ -2,7 +2,7 @@ import Foundation
 
 class GridCell: CustomDebugStringConvertible {
     let contents = GridCellContents()
-    let lock: GridLock
+    let lock = GridLock()
     let properties: GridCellProperties
 
     var debugDescription: String { "Cell at \(properties.gridPosition)" }
@@ -15,8 +15,6 @@ class GridCell: CustomDebugStringConvertible {
             absoluteIndex, absolutePosition, paddingPixels,
             cellSideInPix, funkyCellsMultiplier
         )
-
-        lock = .init(absoluteIndex)
     }
 }
 

@@ -7,31 +7,10 @@ class GridLock {
     )
 
     var isLocked = false
-//    var isLocked = false {
-//        willSet {
-//            let cell = Grid.cellAt(debugix)
-//            let color: SKColor
-//            switch (isLocked, newValue) {
-//            case (false, false): color = .orange
-//            case (false, true):  color = .red
-//            case (true, false):  color = .green
-//            case (true, true):   color = .blue
-//            }
-//            cell.contents.manna?.sprite.sprite.color = color
-//            cell.contents.manna?.sprite.sprite.alpha = 1
-//            cell.contents.manna?.sprite.sprite.colorBlendFactor = 1
-//            cell.contents.manna?.sprite.sprite.removeAllActions()
-//            Debug.log(level: 215) { "Cell \(cell.properties)(\(isLocked), \(newValue)) -> \(newValue ? "" : "un")lock" }
-//        }
-//    }
-
-    let debugix: Int
 
     // I'd be surprised if it ever goes past 2
     fileprivate let occupancyDeferrals = Cbuffer<Deferral>(cElements: 5, mode: .fifo)
     fileprivate var occupantLockDeferral: Deferral?
-
-    init(_ debugix: Int) { self.debugix = debugix }
 }
 
 extension GridLock {
@@ -75,12 +54,10 @@ private extension GridLock {
             self.onLocked = onLocked
         }
 
-        func redeploy() { onLocked() }
+        func redeploy() { Debug.log { "Redeploy" }; onLocked() }
     }
 
     func serviceDeferrals(_ cellIsOccupied: Bool) {
-        let cell = Grid.cellAt(debugix)
-        assert(cell.lock.isLocked)
         GridLock.lockQueue.async { serviceDeferrals_A() }
 
         func serviceDeferrals_A() {
@@ -96,17 +73,14 @@ private extension GridLock {
             // anything. We're stuck on the defer list until that guy moves,
             // which in most cases will be in the next cycle
             if occupancyDeferrals.isEmpty || cellIsOccupied {
-                Debug.log(level: 215) { "serviceDeferrals_B0 \(AKName(Grid.cellAt(debugix).contents.arkon?.arkon?.name)) for \(cell.properties)/\(occupancyDeferrals.isEmpty)/\(cellIsOccupied)" }
                 self.isLocked = false
                 return
             }
 
-            Debug.log(level: 215) { "serviceDeferrals_B1 for \(cell.properties)" }
             occupancyDeferrals.popFront().redeploy()
         }
 
         func serviceDeferrals_C() {
-            Debug.log(level: 215) { "serviceDeferrals_C for \(cell.properties)" }
             occupantLockDeferral!.redeploy(); occupantLockDeferral = nil; return
         }
     }
