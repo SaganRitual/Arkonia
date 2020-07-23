@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PopulationHudView: View {
+struct OffspringHudView: View {
     @EnvironmentObject var stats: PopulationStats
 
     var labelFont: Font {
@@ -24,28 +24,27 @@ struct PopulationHudView: View {
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
-                    Text("Population").font(self.labelFont)
+                    Text("Max offspring").font(self.labelFont)
                     Spacer()
-                    Text("\(Census.shared.censusAgent.stats.currentPopulation)")
+                    Text("\(String(format: "% 3.0f", Census.shared.censusAgent.stats.maxCOffspring))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("Highwater").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(Census.shared.highwaterPopulation)")
+                    Text("\(String(format: "% 3.0f", Census.shared.highwaterCOffspring))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("All births").font(self.labelFont).padding(.top, 5)
+                    Text("Average").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(Census.shared.censusAgent.stats.allBirths)")
+                    Text("\(String(format: "% 3.2f", Census.shared.censusAgent.stats.averageCOffspring))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Accordions").font(self.labelFont).padding(.top, 5)
+                    Text("Median").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("0")
-//                    Text(String(format: "%d", Census.shared.cLiveNeurons))
+                    Text(String(format: "% 3.2f", Census.shared.censusAgent.stats.medCOffspring))
                 }.padding(.leading).padding(.trailing)
             }
             .font(self.meterFont)
@@ -55,8 +54,8 @@ struct PopulationHudView: View {
     }
 }
 
-struct PopulationHudView_Previews: PreviewProvider {
+struct OffspringHudView_Previews: PreviewProvider {
     static var previews: some View {
-        PopulationHudView().environmentObject(PopulationStats())
+        OffspringHudView().environmentObject(PopulationStats())
     }
 }

@@ -14,6 +14,7 @@
 		D400138924BD4648001D429A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D400138724BD4648001D429A /* Main.storyboard */; };
 		D400139824BD7156001D429A /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = D400139724BD7156001D429A /* Charts */; };
 		D400139A24BD7197001D429A /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400139924BD7197001D429A /* LineChartView.swift */; };
+		D4252D1324CA439400F1C2DC /* OffspringHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4252D1224CA439400F1C2DC /* OffspringHudView.swift */; };
 		D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45EEC7E24C8F61B00527632 /* PopulationStats.swift */; };
 		D46284CC24C9E69F006B42B9 /* FoodHitRateHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */; };
 		D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */; };
@@ -133,6 +134,7 @@
 		D400138A24BD4648001D429A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D400138B24BD4648001D429A /* Fletch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fletch.entitlements; sourceTree = "<group>"; };
 		D400139924BD7197001D429A /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
+		D4252D1224CA439400F1C2DC /* OffspringHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffspringHudView.swift; sourceTree = "<group>"; };
 		D45EEC7E24C8F61B00527632 /* PopulationStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationStats.swift; sourceTree = "<group>"; };
 		D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodHitRateHudView.swift; sourceTree = "<group>"; };
 		D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				D4F663A524C088C4006B95BF /* GameView.swift */,
 				D4E0411224BFE87C0026970F /* LineChartCore.swift */,
 				D400139924BD7197001D429A /* LineChartView.swift */,
+				D4252D1224CA439400F1C2DC /* OffspringHudView.swift */,
 				D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */,
 				D4F78B5C24C529060035F415 /* SeasonFactorView.swift */,
 			);
@@ -652,6 +655,7 @@
 				D4F6648424C16A93006B95BF /* NetGraphics.swift in Sources */,
 				D4F6646524C16A93006B95BF /* GridIndexer.swift in Sources */,
 				D4F78B6324C550A20035F415 /* ArkoniaLayout.swift in Sources */,
+				D4252D1324CA439400F1C2DC /* OffspringHudView.swift in Sources */,
 				D4F6645E24C16A93006B95BF /* Manna.EnergyBudget.swift in Sources */,
 				D400138124BD4647001D429A /* ContentView.swift in Sources */,
 				D4F6644E24C16A93006B95BF /* Digestion.Surplus.swift in Sources */,

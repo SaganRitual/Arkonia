@@ -11,7 +11,8 @@ class PopulationStats: ObservableObject {
     weak var bestAimArkon: Stepper?
 
     @Published var averageCOffspring: Double = 0
-    @Published var maxCOffspring: Int = 0
+    @Published var maxCOffspring: Double = 0
+    @Published var medCOffspring: Double = 0
     weak var busiestArkon: Stepper?
 
     @Published var allBirths: Int = 0
@@ -22,7 +23,7 @@ class PopulationStats: ObservableObject {
     func update(
         averageAge: TimeInterval, maxAge: TimeInterval, medAge: TimeInterval,
         averageFoodHitRate: Double, maxFoodHitRate: Double,
-        averageCOffspring: Double, maxCOffspring: Int,
+        averageCOffspring: Double, medCOffspring: Double, maxCOffspring: Double,
         allBirths: Int, currentPopulation: Int,
         oldestArkon: Stepper?, bestAimArkon: Stepper?, busiestArkon: Stepper?
     ) {
@@ -36,6 +37,7 @@ class PopulationStats: ObservableObject {
             self.maxCOffspring = maxCOffspring
 
             self.medAge = medAge
+            self.medCOffspring = medCOffspring
 
             self.allBirths = allBirths
             self.currentPopulation = currentPopulation

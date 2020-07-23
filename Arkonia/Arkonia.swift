@@ -6,7 +6,7 @@ class Arkonia {
     static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.40
     static let toothScaleFactor: CGFloat = 2.0
-    static let markerScaleFactor: CGFloat = 5
+    static let markerScaleFactor: CGFloat = 3
 
     static let allowSpawning = true
     static let cMannaMorsels = 7500

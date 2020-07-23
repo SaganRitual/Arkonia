@@ -15,6 +15,7 @@ class CensusAgent {
     var isEmpty: Bool { head == nil }
 
     var ages = [Double]()
+    var cOffsprings = [Double]()
     var stats = PopulationStats()
 
     private func checkMax(
@@ -69,6 +70,7 @@ class CensusAgent {
             ) { maxCOffspring = Int(newMax); busiestArkon = newArkon }
 
             cOffspringSum += arkon.cOffspring
+            cOffsprings.append(Double(arkon.cOffspring))
 
             cArkons += 1
 
@@ -81,7 +83,7 @@ class CensusAgent {
             averageFoodHitRate:(cArkons == 0) ? 0 : (foodHitRateSum / Double(cArkons)),
             maxFoodHitRate: maxFoodHitRate,
             averageCOffspring:(cArkons == 0) ? 0 : (Double(cOffspringSum) / Double(cArkons)),
-            maxCOffspring: maxCOffspring, allBirths: allBirths,
+            medCOffspring: getMedianCOffspring(), maxCOffspring: Double(maxCOffspring), allBirths: allBirths,
             currentPopulation: cArkons, oldestArkon: oldestArkon, bestAimArkon: bestAimArkon,
             busiestArkon: busiestArkon
         )
@@ -123,6 +125,19 @@ class CensusAgent {
         if self.ages.isEmpty { return 0 }
 
         let m = self.ages.sorted()
+        let ss = m.count / 2
+
+        if (m.count % 2) == 0 {
+            return m[ss]
+        } else {
+            return (m[ss] + m[ss + 1]) / 2
+        }
+    }
+
+    private func getMedianCOffspring() -> TimeInterval {
+        if self.cOffsprings.isEmpty { return 0 }
+
+        let m = self.cOffsprings.sorted()
         let ss = m.count / 2
 
         if (m.count % 2) == 0 {

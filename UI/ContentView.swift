@@ -22,7 +22,6 @@ struct ContentView: View {
                     PopulationHudView()
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
                         .environmentObject(Census.shared.censusAgent.stats)
-                        .environmentObject(MannaStats.stats)
 
                     Spacer()
 
@@ -32,11 +31,16 @@ struct ContentView: View {
 
                     Spacer()
 
-                    FoodHitrateHudView()
+                    OffspringHudView()
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
                         .environmentObject(Census.shared.censusAgent.stats)
 
                     Spacer()
+
+                    FoodHitrateHudView()
+                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
+                        .environmentObject(Census.shared.censusAgent.stats)
+                        .environmentObject(MannaStats.stats)
                 }
                 .frame(height: ArkoniaLayout.ContentView.hudHeight)
 

@@ -9,9 +9,9 @@ enum ArkoniaLayout {
 }
 
 extension ArkoniaLayout.AlmanacView {
-    static let frameWidth: CGFloat = 250
-    static let labelFontSize: CGFloat = 16
-    static let meterFontSize: CGFloat = 14
+    static let frameWidth: CGFloat = 225
+    static let labelFontSize: CGFloat = 14
+    static let meterFontSize: CGFloat = 12
 }
 
 extension ArkoniaLayout.ButtonsView {

@@ -34,6 +34,7 @@ class Census {
     private(set) var highwaterAge: TimeInterval = 0
     private(set) var highwaterPopulation = 0
     private(set) var highwaterFoodHitrate = 0.0
+    private(set) var highwaterCOffspring = 0.0
     var populated = false
 
     // Markers for said arkons, not the arkons themselves
@@ -70,7 +71,6 @@ class Census {
             marker.color = colors[ss]
             marker.colorBlendFactor = 1
             marker.zPosition = 10
-            marker.zRotation = CGFloat.tau / CGFloat(markers.count) * CGFloat(ss)
             marker.setScale(Arkonia.markerScaleFactor)
         }
     }
@@ -84,9 +84,7 @@ extension Census {
 
 extension Census {
     func updateReports(_ worldClock: Int) {
-        censusAgent.compress(
-            TimeInterval(worldClock), self.allBirths
-        )
+        censusAgent.compress(TimeInterval(worldClock), self.allBirths)
 
         markExemplars()
 
@@ -109,7 +107,7 @@ private extension Census {
         ).forEach {
             (a, m) in
             guard let arkon = a, let marker = m else { return }
-            updateMarker(marker, arkon.nose)
+            updateMarker(marker, arkon.thorax)
         }
     }
 

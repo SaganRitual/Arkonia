@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FoodHitrateHudView: View {
     @EnvironmentObject var stats: PopulationStats
+    @EnvironmentObject var mannaStats: MannaStats
 
     var labelFont: Font {
         Font.system(
@@ -41,15 +42,15 @@ struct FoodHitrateHudView: View {
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Highwater").font(self.labelFont).padding(.top, 5)
-                    Spacer()
-                    Text(format(.highwater))
-                }.padding(.leading).padding(.trailing)
-
-                HStack(alignment: .bottom) {
                     Text("Average").font(self.labelFont).padding(.top, 5)
                     Spacer()
                     Text(format(.average))
+                }.padding(.leading).padding(.trailing)
+
+                HStack(alignment: .bottom) {
+                    Text("Manna").font(self.labelFont).padding(.top, 5)
+                    Spacer()
+                    Text("\(String(format: "% 5d", mannaStats.cPhotosynthesizingManna))/\(String(format: "% 5d", mannaStats.cPlantedManna))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
