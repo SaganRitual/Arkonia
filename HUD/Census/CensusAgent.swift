@@ -25,9 +25,7 @@ class CensusAgent {
 
     func compress(
         _ currentTime: TimeInterval,
-        _ allBirths: Int,
-        _ currentPopulation: Int,
-        _ highwaterPopulation: Int
+        _ allBirths: Int
     ) {
         var cArkons = 0
         var ageSum = TimeInterval(0), maxAge = TimeInterval(0)
@@ -41,38 +39,38 @@ class CensusAgent {
         // Citizens disappear from the roster when their steppers destruct. We
         // see this as a nil citizen in the minder. Minders stick around until
         // we see that their citizen has died, at which point we, uhh, "retire" the minder
-//        var oldestArkon, bestAimArkon, busiestArkon: Stepper?
+        var oldestArkon, bestAimArkon, busiestArkon: Stepper?
 
         ages.removeAll(keepingCapacity: true)
 
         repeat {
             guard let minder = currentMinder else { break } // End of the list
 
-            guard let info = minder.pointee.citizen else {
+            guard let arkon = minder.pointee.citizen else {
                 currentMinder = delete(minder.pointee)
                 continue
             }
 
-            let age = currentTime - info.fishday.birthday
+            let age = currentTime - arkon.fishday.birthday
             ageSum += age
             ages.append(age)
 
-            if let (newMax, _) = checkMax(
+            if let (newMax, newArkon) = checkMax(
                 age, maxAge, minder.pointee.citizen!
-            ) { maxAge = newMax/*; oldestArkon = arkon*/ }
+            ) { maxAge = newMax; oldestArkon = newArkon }
 
-            let foodHitRate = info.cJumps == 0 ? 0 : Double(info.cFoodHits) / Double(info.cJumps)
+            let foodHitRate = arkon.cJumps == 0 ? 0 : Double(arkon.cFoodHits) / Double(arkon.cJumps)
             foodHitRateSum += foodHitRate
 
-            if let (newMax, _) = checkMax(
+            if let (newMax, newArkon) = checkMax(
                 foodHitRate, maxFoodHitRate, minder.pointee.citizen!
-            ) { maxFoodHitRate = newMax/*; bestAimArkon = arkon*/ }
+            ) { maxFoodHitRate = newMax; bestAimArkon = newArkon }
 
-            if let (newMax, _) = checkMax(
-                Double(info.cOffspring), Double(maxCOffspring), minder.pointee.citizen!
-            ) { maxCOffspring = Int(newMax)/*; busiestArkon = arkon*/ }
+            if let (newMax, newArkon) = checkMax(
+                Double(arkon.cOffspring), Double(maxCOffspring), minder.pointee.citizen!
+            ) { maxCOffspring = Int(newMax); busiestArkon = newArkon }
 
-            cOffspringSum += info.cOffspring
+            cOffspringSum += arkon.cOffspring
 
             cArkons += 1
 
@@ -86,7 +84,8 @@ class CensusAgent {
             maxFoodHitRate: maxFoodHitRate,
             averageCOffspring:(cArkons == 0) ? 0 : (Double(cOffspringSum) / Double(cArkons)),
             maxCOffspring: maxCOffspring, allBirths: allBirths,
-            currentPopulation: currentPopulation, highwaterPopulation: highwaterPopulation
+            currentPopulation: cArkons, oldestArkon: oldestArkon, bestAimArkon: bestAimArkon,
+            busiestArkon: busiestArkon
         )
     }
 
@@ -105,13 +104,13 @@ class CensusAgent {
         } else if head.pointee === node { // Deleting first node
 
             self.head = node.next
-            node.next!.pointee.prev = self.head // we know there's a next bc the tail is non-nil
+            node.next!.pointee.prev = nil // we know there's a next bc the tail is non-nil
             return node.next
 
         } else if tail.pointee === node { // Deleting last node
 
             self.tail = node.prev
-            node.prev!.pointee.next = self.tail
+            node.prev!.pointee.next = nil
             return nil
 
         } else { // Deleting somewheres in the middle

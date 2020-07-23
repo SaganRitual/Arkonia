@@ -55,7 +55,7 @@ class Clock {
 
         let delay = 1 / Arkonia.updateFrequencyHertz
         self.worldClock += delay
-        seasonalFactors.update(TimeInterval(self.worldClock))
+        seasonalFactors.update(self.worldClock)
 
         Clock.dispatchQueue.asyncAfter(deadline: .now() + delay, execute: tickTheWorld)
 

@@ -10,7 +10,7 @@ class ArkonEmbryo {
     var netStructure: NetStructure?
     var newborn: Stepper?
     var noseSprite: SKSpriteNode?
-    var parentArkon: Stepper?
+    weak var parentArkon: Stepper?
     var sensorPad: SensorPad?
     var spindle: Spindle?
     var spindleTarget: GridCell?

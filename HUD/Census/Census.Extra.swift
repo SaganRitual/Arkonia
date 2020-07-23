@@ -17,24 +17,6 @@ extension Census {
 
         a()
     }
-
-    static func registerDeath(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
-        var worldClock: TimeInterval = 0
-
-        func a() { Clock.getWorldClock { worldClock = $0; b() } }
-        func b() { registerDeath(stepper, worldClock, onComplete) }
-
-        a()
-    }
-
-    static func registerDeath(
-        _ stepper: Stepper, _ worldTime: TimeInterval, _ onComplete: @escaping () -> Void
-    ) {
-        Census.dispatchQueue.async {
-            Census.shared.registerDeath(stepper, worldTime)
-            mainDispatch(onComplete)
-        }
-    }
 }
 
 extension Census {

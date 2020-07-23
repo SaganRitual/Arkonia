@@ -6,7 +6,7 @@ func AKName(_ name: ArkonName?) -> String {
 }
 
 struct ArkonName: Hashable, CustomDebugStringConvertible {
-    enum Nametag: CaseIterable {
+    enum Nametag: String, CaseIterable {
         case alice, bob, charles, david, ellen, felicity, grace, helen
         case india, james, karen, lizbeth, mary, nathan, olivia, paul
         case quincy, rob, samantha, tatiana, ulna, vivian, william
@@ -52,5 +52,9 @@ struct ArkonName: Hashable, CustomDebugStringConvertible {
 
     static func == (_ lhs: ArkonName, _ rhs: ArkonName) -> Bool {
         return lhs.nametag == rhs.nametag && lhs.setNumber == rhs.setNumber
+    }
+
+    static func < (_ lhs: ArkonName, _ rhs: ArkonName) -> Bool {
+        return lhs.setNumber < rhs.setNumber && lhs.nametag.rawValue < rhs.nametag.rawValue
     }
 }

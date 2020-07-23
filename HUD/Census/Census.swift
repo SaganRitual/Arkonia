@@ -34,7 +34,6 @@ class Census {
     private(set) var highwaterAge: TimeInterval = 0
     private(set) var highwaterPopulation = 0
     private(set) var highwaterFoodHitrate = 0.0
-    private(set) var population = 0
     var populated = false
 
     // Markers for said arkons, not the arkons themselves
@@ -65,27 +64,35 @@ extension Census {
 extension Census {
     func updateReports(_ worldClock: Int) {
         censusAgent.compress(
-            TimeInterval(worldClock), self.allBirths, self.population, self.highwaterPopulation
+            TimeInterval(worldClock), self.allBirths
         )
+
+        markExemplars()
 
         highwaterAge = TimeInterval(max(censusAgent.stats.maxAge, highwaterAge))
         highwaterFoodHitrate = max(censusAgent.stats.maxFoodHitRate, highwaterFoodHitrate)
+        highwaterPopulation = max(censusAgent.stats.currentPopulation, highwaterPopulation)
 
         lineChartData.update([
             censusAgent.stats.averageAge, censusAgent.stats.maxAge,
             censusAgent.stats.medAge, 0, 0, Double(highwaterAge)
         ])
     }
-
-    func registerDeath(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
-        Census.registerDeath(stepper, onComplete)
-    }
 }
 
 private extension Census {
-    func markExemplars() { }
+    func markExemplars() {
+        zip(
+            [censusAgent.stats.oldestArkon, censusAgent.stats.bestAimArkon, censusAgent.stats.busiestArkon],
+            [oldestLivingMarker, aimestLivingMarker, busiestLivingMarker]
+        ).forEach {
+            (a, m) in
+            guard let arkon = a, let marker = m else { return }
+            updateMarker(marker, arkon.thorax)
+        }
+    }
 
-    func updateMarkerIf(_ marker: SKSpriteNode, _ markCandidate: SKSpriteNode) {
+    func updateMarker(_ marker: SKSpriteNode, _ markCandidate: SKSpriteNode) {
         if marker.parent != nil { marker.removeFromParent() }
         markCandidate.addChild(marker)
     }
@@ -96,18 +103,8 @@ extension Census {
         myParent?.censusData.increment(.offspring)
 
         self.cLiveNeurons += myNetStructure.cNeurons
-        self.population += 1
         self.allBirths += 1
 
-        if self.population > self.highwaterPopulation {
-            self.highwaterPopulation = self.population
-        }
-
         return myNetStructure.cNeurons
-    }
-
-    func registerDeath(_ stepper: Stepper, _ worldTime: TimeInterval) {
-        self.cLiveNeurons -= stepper.net.netStructure.cNeurons
-        self.population -= 1
     }
 }

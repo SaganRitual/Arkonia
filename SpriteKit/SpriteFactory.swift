@@ -35,7 +35,10 @@ class SpriteFactory {
             zPosition: 0, zRotation: 0
         )
 
-        return SpritePool("Backgrounds", "marker", nil, 5, markerPrototype, nil)
+        let cMarkers = 5
+        let p = SpritePool("Backgrounds", "marker", nil, cMarkers, markerPrototype, nil)
+        zip(0..., p.parkedDrones).forEach { $1.zRotation = CGFloat($0) * CGFloat.tau / CGFloat(cMarkers) }
+        return p
     }
 
     // swiftlint:disable large_tuple

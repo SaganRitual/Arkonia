@@ -6,7 +6,7 @@ class Arkonia {
     static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.40
     static let toothScaleFactor: CGFloat = 2.0
-    static let markerScaleFactor: CGFloat = noseScaleFactor
+    static let markerScaleFactor: CGFloat = 10
 
     static let allowSpawning = true
     static let cMannaMorsels = 7500
@@ -41,9 +41,9 @@ class Arkonia {
 
     static let updateFrequencyHertz:      TimeInterval = 5
     static let realSecondsPerArkoniaDay:  TimeInterval = 10
-    static let darknessAsPercentageOfDay: TimeInterval = 0.6
+    static let darknessAsPercentageOfDay: TimeInterval = 0.7
     static let arkoniaDaysPerYear:        TimeInterval = 10
-    static let winterAsPercentageOfYear:  TimeInterval = 0.4
+    static let winterAsPercentageOfYear:  TimeInterval = 0.7
 }
 
 extension Arkonia {
