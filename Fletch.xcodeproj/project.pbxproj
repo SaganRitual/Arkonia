@@ -15,6 +15,7 @@
 		D400139824BD7156001D429A /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = D400139724BD7156001D429A /* Charts */; };
 		D400139A24BD7197001D429A /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400139924BD7197001D429A /* LineChartView.swift */; };
 		D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45EEC7E24C8F61B00527632 /* PopulationStats.swift */; };
+		D46284CC24C9E69F006B42B9 /* FoodHitRateHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */; };
 		D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */; };
 		D49EBA1924C16DE00006E0E1 /* AKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1224C16DDF0006E0E1 /* AKPoint.swift */; };
 		D49EBA1A24C16DE00006E0E1 /* NormalDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1324C16DDF0006E0E1 /* NormalDistribution.swift */; };
@@ -133,6 +134,7 @@
 		D400138B24BD4648001D429A /* Fletch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fletch.entitlements; sourceTree = "<group>"; };
 		D400139924BD7197001D429A /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 		D45EEC7E24C8F61B00527632 /* PopulationStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationStats.swift; sourceTree = "<group>"; };
+		D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodHitRateHudView.swift; sourceTree = "<group>"; };
 		D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
 		D49EBA1224C16DDF0006E0E1 /* AKPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AKPoint.swift; sourceTree = "<group>"; };
 		D49EBA1324C16DDF0006E0E1 /* NormalDistribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalDistribution.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */,
 				D400138024BD4647001D429A /* ContentView.swift */,
 				D4F78ADF24C27C790035F415 /* DaylightFactorView.swift */,
+				D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */,
 				D4F663A524C088C4006B95BF /* GameView.swift */,
 				D4E0411224BFE87C0026970F /* LineChartCore.swift */,
 				D400139924BD7197001D429A /* LineChartView.swift */,
@@ -723,6 +726,7 @@
 				D4F6647224C16A93006B95BF /* HotNetBnn.swift in Sources */,
 				D4F6646924C16A93006B95BF /* Grid.swift in Sources */,
 				D400139A24BD7197001D429A /* LineChartView.swift in Sources */,
+				D46284CC24C9E69F006B42B9 /* FoodHitRateHudView.swift in Sources */,
 				D49EBA2A24C175FB0006E0E1 /* Census.Extra.swift in Sources */,
 				D4F6642B24C16A93006B95BF /* SensorPad.swift in Sources */,
 				D49EBA1B24C16DE00006E0E1 /* Overload2D.swift in Sources */,

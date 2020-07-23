@@ -33,6 +33,7 @@ class Census {
     private(set) var cLiveNeurons = 0
     private(set) var highwaterAge: TimeInterval = 0
     private(set) var highwaterPopulation = 0
+    private(set) var highwaterFoodHitrate = 0.0
     private(set) var population = 0
     var populated = false
 
@@ -68,6 +69,7 @@ extension Census {
         )
 
         highwaterAge = TimeInterval(max(censusAgent.stats.maxAge, highwaterAge))
+        highwaterFoodHitrate = max(censusAgent.stats.maxFoodHitRate, highwaterFoodHitrate)
 
         lineChartData.update([
             censusAgent.stats.averageAge, censusAgent.stats.maxAge,

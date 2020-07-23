@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AgeHudView: View {
+struct FoodHitrateHudView: View {
     @EnvironmentObject var stats: PopulationStats
 
     var labelFont: Font {
@@ -17,14 +17,14 @@ struct AgeHudView: View {
         )
     }
 
-    enum Format { case maxAge, highwaterAge, averageAge, neurons }
+    enum Format { case max, highwater, average, llamas }
 
     func format(_ format: Format) -> String {
         switch format {
-        case .maxAge:       return String(format: "%.0f", Census.shared.censusAgent.stats.maxAge)
-        case .highwaterAge: return String(format: "%.0f", Census.shared.highwaterAge)
-        case .averageAge:   return String(format: "%.0f", Census.shared.censusAgent.stats.averageAge)
-        case .neurons:      return String(format: "%d", Census.shared.cLiveNeurons)
+        case .max:       return String(format: "%0.2f", Census.shared.censusAgent.stats.maxFoodHitRate)
+        case .highwater: return String(format: "%0.2f", Census.shared.highwaterFoodHitrate)
+        case .average:   return String(format: "%0.2f", Census.shared.censusAgent.stats.averageFoodHitRate)
+        case .llamas:    return String(format: "%d", 0)
         }
     }
 
@@ -35,27 +35,27 @@ struct AgeHudView: View {
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
-                    Text("Max Age").font(self.labelFont)
+                    Text("Max Food Hitrate").font(self.labelFont)
                     Spacer()
-                    Text(format(.maxAge))
+                    Text(format(.max))
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("Highwater").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(format(.highwaterAge))
+                    Text(format(.highwater))
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("Average").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(format(.averageAge))
+                    Text(format(.average))
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Neurons").font(self.labelFont).padding(.top, 5)
+                    Text("Llamas").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(format(.neurons))
+                    Text(format(.llamas))
                 }.padding(.leading).padding(.trailing)
             }
             .font(self.meterFont)
@@ -65,8 +65,8 @@ struct AgeHudView: View {
     }
 }
 
-struct AgeHudView_Previews: PreviewProvider {
+struct FoodHitrateHudView_Previews: PreviewProvider {
     static var previews: some View {
-        AgeHudView().environmentObject(PopulationStats())
+        FoodHitrateHudView().environmentObject(PopulationStats())
     }
 }

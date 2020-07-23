@@ -12,21 +12,31 @@ struct ContentView: View {
 
             VStack {
                 HStack {
+                    Spacer()
+
                     AlmanacHudView().environmentObject(Clock.shared.seasonalFactors)
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
+
+                    Spacer()
 
                     PopulationHudView()
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
                         .environmentObject(Census.shared.censusAgent.stats)
                         .environmentObject(MannaStats.stats)
 
+                    Spacer()
+
                     AgeHudView()
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
                         .environmentObject(Census.shared.censusAgent.stats)
 
-                    Rectangle()
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(Color.white.opacity(0.01))
+                    Spacer()
+
+                    FoodHitrateHudView()
+                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
+                        .environmentObject(Census.shared.censusAgent.stats)
+
+                    Spacer()
                 }
                 .frame(height: ArkoniaLayout.ContentView.hudHeight)
 
