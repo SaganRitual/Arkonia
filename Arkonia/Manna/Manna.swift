@@ -68,11 +68,9 @@ extension Manna {
         sprite.reset()
 
         // Check for pollenators above me; if none, go back to sleep for a while
-        let mc = MannaCannon.shared!
-
-        guard let pollenator = mc.pollenators.first(
+        guard let pollenator = MannaCannon.shared.pollenators.first(
             where: { $0.node.contains(sprite.sprite.position) }
-        ) else { mc.blast(self); return }
+        ) else { MannaCannon.shared.blast(self); return }
 
         // If I'm being harvested before I've reached full maturity, it will
         // take proportionally longer for me to reach it this time. The delay is
@@ -88,8 +86,9 @@ extension Manna {
         timeRequiredForFullBloom = catchup + Arkonia.mannaFullGrowthDurationSeconds
         mostRecentBloomTime = now
 
-        Debug.log(level: 217) { "rebloom at \(absoluteGridIndex); timeRequiredForFullBloom = \(timeRequiredForFullBloom)" }
-        let node = pollenator.node
-        sprite.bloom(timeRequiredForFullBloom, color: node.fillColor, scaleFactor: node.xScale)
+        sprite.bloom(
+            timeRequiredForFullBloom, color: pollenator.node.fillColor,
+            scaleFactor: pollenator.node.xScale
+        )
     }
 }

@@ -86,8 +86,9 @@ class Net {
                 biases, netStructure.cBiases, weights, netStructure.cWeights
             )
         } else {
-            (0..<netStructure.cBiases).forEach  { biases[$0]  = Float.random(in: -1..<1) }
-            (0..<netStructure.cWeights).forEach { weights[$0] = Float.random(in: -1..<1) }
+            var r = AKRandomer(.uniform)
+            (0..<netStructure.cBiases).forEach  { biases[$0]  = r.inRange(-1..<1) }
+            (0..<netStructure.cWeights).forEach { weights[$0] = r.inRange(-1..<1) }
             self.isCloneOfParent = false
         }
 

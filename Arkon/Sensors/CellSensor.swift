@@ -23,7 +23,7 @@ class CellSensor {
         self.liveGridCell = cell
     }
 
-    func disengage() -> Bool {
+    func disengage() {
         let iHadTheLiveConnection = self.iHaveTheLiveConnection
 
         self.iHaveTheLiveConnection = false
@@ -31,14 +31,7 @@ class CellSensor {
 
         if iHadTheLiveConnection {
             let cellIsOccupied = liveGridCell.contents.hasArkon()
-            Debug.log(level: 215) {
-                return "disengage() for \(AKName(liveGridCell.contents.arkon?.arkon?.name)) \(cellIsOccupied ? "" : "non-")"
-                        + "occupied cell at \(liveGridCell.properties)"
-            }
-
             liveGridCell.lock.releaseLock(cellIsOccupied)
         }
-
-        return iHadTheLiveConnection
     }
 }

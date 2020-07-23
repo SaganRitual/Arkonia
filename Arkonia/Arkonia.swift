@@ -1,7 +1,7 @@
 import Foundation
 
 class Arkonia {
-    static let zoomFactor: CGFloat = 25
+    static let zoomFactor: CGFloat = 20
     static let arkonScaleFactor: CGFloat = 0.4
     static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.40
@@ -18,8 +18,8 @@ class Arkonia {
     static var debugMessageToConsole = true
     static var debugGrid = false
 
-    static let funkyCells: CGFloat? = 6 / zoomFactor
-    static let initialPopulation = 50
+    static let funkyCells: CGFloat? = 2
+    static let initialPopulation = 100
 
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedCellsPerSecond: CGFloat = 25
@@ -41,9 +41,9 @@ class Arkonia {
 
     static let updateFrequencyHertz:      TimeInterval = 5
     static let realSecondsPerArkoniaDay:  TimeInterval = 10
-    static let darknessAsPercentageOfDay: TimeInterval = 0.8
+    static let darknessAsPercentageOfDay: TimeInterval = 0.6
     static let arkoniaDaysPerYear:        TimeInterval = 10
-    static let winterAsPercentageOfYear:  TimeInterval = 0.3
+    static let winterAsPercentageOfYear:  TimeInterval = 0.6
 }
 
 extension Arkonia {

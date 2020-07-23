@@ -9,7 +9,7 @@ struct Mutator {
     static var shared = Mutator()
 
     let histogram = Debug.Histogram()
-    var randomer = AKRandomer()
+    var randomer = AKRandomer(.normal)
 
     mutating func mutate(from value: Float) -> (Float, Bool) {
         let nu = randomer.next()!
@@ -24,7 +24,7 @@ extension Net {
         _ biases: UnsafeMutablePointer<Float>, _ cBiases: Int,
         _ weights: UnsafeMutablePointer<Float>, _ cWeights: Int
     ) -> Bool {
-        var randomer = AKRandomer()
+        var randomer = AKRandomer(.uniform)
         let oddsOfPerfectClone: Float = 0.85
 
         if randomer.positive() < oddsOfPerfectClone { return true }

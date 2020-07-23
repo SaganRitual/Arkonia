@@ -59,7 +59,7 @@ class MannaCannon {
                     return Grid.mannaAt(absoluteMannaIndex)!
                 }
 
-                MannaCannon.mannaPlaneQueue.asyncAfter(deadline: .now() + duration) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
                     SceneDispatch.shared.schedule {
                         mannaToLaunch.forEach { $0.rebloom() }
                     }
