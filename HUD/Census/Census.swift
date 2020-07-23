@@ -27,9 +27,11 @@ class Census {
     static var shared = Census()
 
     let censusAgent = CensusAgent()
+    let lineChartData = LineChartData(6)
 
     private(set) var allBirths = 0
     private(set) var cLiveNeurons = 0
+    private(set) var highwaterAge: TimeInterval = 0
     private(set) var population = 0
     var populated = false
 
@@ -63,6 +65,13 @@ extension Census {
         censusAgent.compress(
             TimeInterval(worldClock), self.population, self.allBirths
         )
+
+        highwaterAge = TimeInterval(max(censusAgent.stats.maxAge, highwaterAge))
+
+        lineChartData.update([
+            censusAgent.stats.averageAge, censusAgent.stats.maxAge,
+            censusAgent.stats.medAge, 0, 0, Double(highwaterAge)
+        ])
     }
 
     func registerDeath(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {

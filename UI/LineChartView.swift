@@ -3,10 +3,6 @@ import SwiftUI
 import Charts
 import Shapes
 
-enum LineChartViews {
-    static var lineChartData = LineChartData(6)
-}
-
 class ChartLegendSelect: ObservableObject {
     @Published var dataSelectors = [Bool]()
 
@@ -40,7 +36,7 @@ struct LineChartView: View {
                 }
 
                 Spacer()
-                Text("Population").font(.system(size: 16)).offset(y: 10)
+                Text("Age").font(.system(size: 16)).offset(y: 10)
                 Spacer()
 
                 VStack(alignment: .leading) {
@@ -127,6 +123,6 @@ struct LineChartView: View {
 
 struct LineChartView_Previews: PreviewProvider {
     static var previews: some View {
-        LineChartView()
+        LineChartView().environmentObject(LineChartData(6))
     }
 }

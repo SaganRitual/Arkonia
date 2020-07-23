@@ -14,7 +14,14 @@ class CensusAgent {
 
     var isEmpty: Bool { head == nil }
 
+    var ages = [Double]()
     var stats = PopulationStats()
+
+    private func checkMax(
+        _ testValue: Double, _ maxValue: Double, _ arkon: Stepper
+    ) -> (Double, Stepper)? {
+        testValue > maxValue ? (testValue, arkon) : nil
+    }
 
     func compress(
         _ currentTime: TimeInterval,
@@ -22,10 +29,10 @@ class CensusAgent {
         _ allBirths: Int
     ) {
         var cArkons = 0
-        var ageSum = TimeInterval(0), maxAge = TimeInterval(-1)
-        var maxFoodHitRate = -1.0
-        var foodHitRateSum = -1.0
-        var maxCOffspring = -1
+        var ageSum = TimeInterval(0), maxAge = TimeInterval(0)
+        var maxFoodHitRate: Double = 0
+        var foodHitRateSum: Double = 0
+        var maxCOffspring = 0
         var cOffspringSum = 0
 
         var currentMinder = self.head
@@ -34,6 +41,8 @@ class CensusAgent {
         // see this as a nil citizen in the minder. Minders stick around until
         // we see that their citizen has died, at which point we, uhh, "retire" the minder
 //        var oldestArkon, bestAimArkon, busiestArkon: Stepper?
+
+        ages.removeAll(keepingCapacity: true)
 
         repeat {
             guard let minder = currentMinder else { break } // End of the list
@@ -45,6 +54,7 @@ class CensusAgent {
 
             let age = currentTime - info.fishday.birthday
             ageSum += age
+            ages.append(age)
 
             if let (newMax, _) = checkMax(
                 age, maxAge, minder.pointee.citizen!
@@ -69,20 +79,14 @@ class CensusAgent {
         } while currentMinder != nil
 
         self.stats.update(
-            averageAge: Double(ageSum) / Double(cArkons),
-            maxAge: Double(maxAge),
-            averageFoodHitRate: foodHitRateSum / Double(cArkons),
+            averageAge: (cArkons == 0) ? 0 : (Double(ageSum) / Double(cArkons)),
+            maxAge: Double(maxAge), medAge: getMedianAge(),
+            averageFoodHitRate:(cArkons == 0) ? 0 : (foodHitRateSum / Double(cArkons)),
             maxFoodHitRate: maxFoodHitRate,
-            averageCOffspring: Double(cOffspringSum) / Double(cArkons),
+            averageCOffspring:(cArkons == 0) ? 0 : (Double(cOffspringSum) / Double(cArkons)),
             maxCOffspring: maxCOffspring, currentPopulation: currentPopulation,
             allBirths: allBirths
         )
-    }
-
-    private func checkMax(
-        _ testValue: Double, _ maxValue: Double, _ arkon: Stepper
-    ) -> (Double, Stepper)? {
-        testValue > maxValue ? (testValue, arkon) : nil
     }
 
     // Clients don't need to delete nodes. We keep weak refs, so when the
@@ -114,6 +118,19 @@ class CensusAgent {
             node.prev!.pointee.next = node.next
             node.next!.pointee.prev = node.prev
             return node.next
+        }
+    }
+
+    private func getMedianAge() -> TimeInterval {
+        if self.ages.isEmpty { return 0 }
+
+        let m = self.ages.sorted()
+        let ss = m.count / 2
+
+        if (m.count % 2) == 0 {
+            return m[ss]
+        } else {
+            return (m[ss] + m[ss + 1]) / 2
         }
     }
 

@@ -1,8 +1,9 @@
 import SwiftUI
 
 class PopulationStats: ObservableObject {
-    @Published var averageAge: Double = 0
-    @Published var maxAge: Double = 0
+    @Published var averageAge: TimeInterval = 0
+    @Published var maxAge: TimeInterval = 0
+    @Published var medAge: TimeInterval = 0
     weak var oldestArkon: Stepper?
 
     @Published var averageFoodHitRate: Double = 0
@@ -20,7 +21,7 @@ class PopulationStats: ObservableObject {
     // Function Parameter Count Violation: Function should have 5 parameters
     // or less: it currently has 6
     func update(
-        averageAge: Double, maxAge: Double,
+        averageAge: TimeInterval, maxAge: TimeInterval, medAge: TimeInterval,
         averageFoodHitRate: Double, maxFoodHitRate: Double,
         averageCOffspring: Double, maxCOffspring: Int,
         currentPopulation: Int, allBirths: Int
@@ -33,6 +34,8 @@ class PopulationStats: ObservableObject {
             self.maxAge = maxAge
             self.maxFoodHitRate = maxFoodHitRate
             self.maxCOffspring = maxCOffspring
+
+            self.medAge = medAge
 
             self.currentPopulation = currentPopulation
             self.allBirths = allBirths

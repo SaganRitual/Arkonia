@@ -20,7 +20,7 @@ struct ContentView: View {
                         .environmentObject(Census.shared.censusAgent.stats)
 
                     LineChartView()
-                        .environmentObject(LineChartViews.lineChartData)
+                        .environmentObject(Census.shared.lineChartData)
 
                     ButtonsView()
                 }
