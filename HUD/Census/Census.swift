@@ -38,6 +38,7 @@ class Census {
 
     // Markers for said arkons, not the arkons themselves
     var oldestLivingMarker, aimestLivingMarker, busiestLivingMarker: SKSpriteNode?
+    var markers = [SKSpriteNode]()
 
     var tickTimer: Timer!
 
@@ -53,6 +54,26 @@ class Census {
     }
 
     func reSeedWorld() { populated = false }
+
+    func setupMarkers() {
+        oldestLivingMarker = SpriteFactory.shared.markersPool.getDrone()
+        aimestLivingMarker = SpriteFactory.shared.markersPool.getDrone()
+        busiestLivingMarker = SpriteFactory.shared.markersPool.getDrone()
+
+        markers.append(contentsOf: [
+            oldestLivingMarker!, aimestLivingMarker!, busiestLivingMarker!
+        ])
+
+        let colors: [SKColor] = [.yellow, .orange, .green]
+
+        zip(0..., markers).forEach { ss, marker in
+            marker.color = colors[ss]
+            marker.colorBlendFactor = 1
+            marker.zPosition = 10
+            marker.zRotation = CGFloat.tau / CGFloat(markers.count) * CGFloat(ss)
+            marker.setScale(Arkonia.markerScaleFactor)
+        }
+    }
 }
 
 extension Census {
@@ -88,13 +109,19 @@ private extension Census {
         ).forEach {
             (a, m) in
             guard let arkon = a, let marker = m else { return }
-            updateMarker(marker, arkon.thorax)
+            updateMarker(marker, arkon.nose)
         }
     }
 
     func updateMarker(_ marker: SKSpriteNode, _ markCandidate: SKSpriteNode) {
-        if marker.parent != nil { marker.removeFromParent() }
+        if marker.parent != nil {
+            marker.alpha = 0
+            marker.removeFromParent()
+        }
+
         markCandidate.addChild(marker)
+
+        marker.alpha = 1
     }
 }
 

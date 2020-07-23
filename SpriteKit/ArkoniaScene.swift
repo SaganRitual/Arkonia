@@ -182,6 +182,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         )
 
         SpriteFactory.shared = SpriteFactory(scene: self)
+        Census.shared.setupMarkers()
 
         Debug.log(level: 38) {
             "GriddleScene.arkonsPortal scale"

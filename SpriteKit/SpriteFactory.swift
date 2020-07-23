@@ -37,7 +37,12 @@ class SpriteFactory {
 
         let cMarkers = 5
         let p = SpritePool("Backgrounds", "marker", nil, cMarkers, markerPrototype, nil)
-        zip(0..., p.parkedDrones).forEach { $1.zRotation = CGFloat($0) * CGFloat.tau / CGFloat(cMarkers) }
+
+        zip(0..., p.parkedDrones).forEach {
+            $1.zPosition = 50
+            $1.zRotation = CGFloat($0) * CGFloat.tau / CGFloat(cMarkers)
+        }
+
         return p
     }
 

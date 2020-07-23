@@ -6,7 +6,7 @@ class Arkonia {
     static let mannaScaleFactor: CGFloat = 0.5
     static let noseScaleFactor: CGFloat = 0.40
     static let toothScaleFactor: CGFloat = 2.0
-    static let markerScaleFactor: CGFloat = 10
+    static let markerScaleFactor: CGFloat = 5
 
     static let allowSpawning = true
     static let cMannaMorsels = 7500
@@ -18,7 +18,7 @@ class Arkonia {
     static var debugMessageToConsole = true
     static var debugGrid = false
 
-    static let funkyCells: CGFloat? = 2
+    static let funkyCells: CGFloat? = nil
     static let initialPopulation = 100
 
     static let worldTimeLimit: TimeInterval? = nil//5000

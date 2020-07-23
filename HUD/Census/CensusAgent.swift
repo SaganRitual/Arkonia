@@ -29,10 +29,8 @@ class CensusAgent {
     ) {
         var cArkons = 0
         var ageSum = TimeInterval(0), maxAge = TimeInterval(0)
-        var maxFoodHitRate: Double = 0
-        var foodHitRateSum: Double = 0
-        var maxCOffspring = 0
-        var cOffspringSum = 0
+        var foodHitRateSum: Double = 0, maxFoodHitRate: Double = 0
+        var cOffspringSum = 0, maxCOffspring = 0
 
         var currentMinder = self.head
 
