@@ -17,6 +17,7 @@ class PopulationStats: ObservableObject {
 
     @Published var allBirths: Int = 0
     @Published var currentPopulation: Int = 0
+    @Published var cNeurons: Int = 0
 
     // swiftlint:disable function_parameter_count
     // Function Parameter Count Violation: Function should have 5 parameters or less
@@ -25,7 +26,8 @@ class PopulationStats: ObservableObject {
         averageFoodHitRate: Double, maxFoodHitRate: Double,
         averageCOffspring: Double, medCOffspring: Double, maxCOffspring: Double,
         allBirths: Int, currentPopulation: Int,
-        oldestArkon: Stepper?, bestAimArkon: Stepper?, busiestArkon: Stepper?
+        oldestArkon: Stepper?, bestAimArkon: Stepper?, busiestArkon: Stepper?,
+        cNeurons: Int
     ) {
         DispatchQueue.main.async {
             self.averageAge = averageAge
@@ -45,6 +47,8 @@ class PopulationStats: ObservableObject {
             self.oldestArkon = oldestArkon
             self.bestAimArkon = bestAimArkon
             self.busiestArkon = busiestArkon
+
+            self.cNeurons = cNeurons
         }
     }
     // swiftlint:enable function_parameter_count

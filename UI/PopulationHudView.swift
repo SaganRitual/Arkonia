@@ -21,6 +21,7 @@ struct PopulationHudView: View {
         ZStack {
             Rectangle()
                 .foregroundColor(Color.white.opacity(0.01))
+                .border(Color.black)
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
@@ -42,10 +43,9 @@ struct PopulationHudView: View {
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Accordions").font(self.labelFont).padding(.top, 5)
+                    Text("Neurons").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("0")
-//                    Text(String(format: "%d", Census.shared.cLiveNeurons))
+                    Text(String(format: "%d", Census.shared.censusAgent.stats.cNeurons))
                 }.padding(.leading).padding(.trailing)
             }
             .font(self.meterFont)

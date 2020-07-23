@@ -14,8 +14,8 @@ class CensusAgent {
 
     var isEmpty: Bool { head == nil }
 
-    var ages = [Double]()
-    var cOffsprings = [Double]()
+    var ages = [Stepper]()
+    var cOffsprings = [Stepper]()
     var stats = PopulationStats()
 
     private func checkMax(
@@ -24,11 +24,12 @@ class CensusAgent {
         testValue > maxValue ? (testValue, arkon) : nil
     }
 
-    func compress(
-        _ currentTime: TimeInterval,
-        _ allBirths: Int
-    ) {
+    // swiftlint:disable function_body_length
+    // unction Body Length Violation: Function body should span 40 lines or
+    // less excluding comments and whitespace:
+    func compress(_ currentTime: TimeInterval, _ allBirths: Int) {
         var cArkons = 0
+        var cNeurons = 0
         var ageSum = TimeInterval(0), maxAge = TimeInterval(0)
         var foodHitRateSum: Double = 0, maxFoodHitRate: Double = 0
         var cOffspringSum = 0, maxCOffspring = 0
@@ -41,6 +42,7 @@ class CensusAgent {
         var oldestArkon, bestAimArkon, busiestArkon: Stepper?
 
         ages.removeAll(keepingCapacity: true)
+        cOffsprings.removeAll(keepingCapacity: true)
 
         repeat {
             guard let minder = currentMinder else { break } // End of the list
@@ -50,9 +52,11 @@ class CensusAgent {
                 continue
             }
 
+            cNeurons += arkon.net.netStructure.cNeurons
+
             let age = currentTime - arkon.fishday.birthday
             ageSum += age
-            ages.append(age)
+            ages.append(arkon)
 
             if let (newMax, newArkon) = checkMax(
                 age, maxAge, minder.pointee.citizen!
@@ -70,7 +74,7 @@ class CensusAgent {
             ) { maxCOffspring = Int(newMax); busiestArkon = newArkon }
 
             cOffspringSum += arkon.cOffspring
-            cOffsprings.append(Double(arkon.cOffspring))
+            cOffsprings.append(arkon)
 
             cArkons += 1
 
@@ -79,15 +83,16 @@ class CensusAgent {
 
         self.stats.update(
             averageAge: (cArkons == 0) ? 0 : (Double(ageSum) / Double(cArkons)),
-            maxAge: Double(maxAge), medAge: getMedianAge(),
+            maxAge: Double(maxAge), medAge: getMedianAge(currentTime: currentTime),
             averageFoodHitRate:(cArkons == 0) ? 0 : (foodHitRateSum / Double(cArkons)),
             maxFoodHitRate: maxFoodHitRate,
             averageCOffspring:(cArkons == 0) ? 0 : (Double(cOffspringSum) / Double(cArkons)),
             medCOffspring: getMedianCOffspring(), maxCOffspring: Double(maxCOffspring), allBirths: allBirths,
             currentPopulation: cArkons, oldestArkon: oldestArkon, bestAimArkon: bestAimArkon,
-            busiestArkon: busiestArkon
+            busiestArkon: busiestArkon, cNeurons: cNeurons
         )
     }
+    // swiftlint:enable function_body_length
 
     // Clients don't need to delete nodes. We keep weak refs, so when the
     // arkon goes away, we drop it off the list automatically
@@ -121,29 +126,33 @@ class CensusAgent {
         }
     }
 
-    private func getMedianAge() -> TimeInterval {
+    private func getMedianAge(currentTime: TimeInterval) -> TimeInterval {
         if self.ages.isEmpty { return 0 }
 
-        let m = self.ages.sorted()
+        let m = self.ages.sorted { $0.name < $1.name }
         let ss = m.count / 2
 
         if (m.count % 2) == 0 {
-            return m[ss]
+            return currentTime - m[ss].fishday.birthday
         } else {
-            return (m[ss] + m[ss + 1]) / 2
+            return (2 * currentTime - (m[ss].fishday.birthday + m[ss + 1].fishday.birthday)) / 2
         }
     }
 
-    private func getMedianCOffspring() -> TimeInterval {
+    private func getMedianCOffspring() -> Double {
         if self.cOffsprings.isEmpty { return 0 }
 
-        let m = self.cOffsprings.sorted()
+        let m = self.cOffsprings.sorted {
+            $0.cOffspring < $1.cOffspring ||
+            ($0.cOffspring == $1.cOffspring && $0.fishday.name < $1.fishday.name)
+        }
+
         let ss = m.count / 2
 
         if (m.count % 2) == 0 {
-            return m[ss]
+            return Double(m[ss].cOffspring)
         } else {
-            return (m[ss] + m[ss + 1]) / 2
+            return Double((m[ss].cOffspring + m[ss + 1].cOffspring) / 2)
         }
     }
 

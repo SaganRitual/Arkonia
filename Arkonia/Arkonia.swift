@@ -43,7 +43,7 @@ class Arkonia {
     static let realSecondsPerArkoniaDay:  TimeInterval = 10
     static let darknessAsPercentageOfDay: TimeInterval = 0.7
     static let arkoniaDaysPerYear:        TimeInterval = 10
-    static let winterAsPercentageOfYear:  TimeInterval = 0.7
+    static let winterAsPercentageOfYear:  TimeInterval = 0.5
 }
 
 extension Arkonia {

@@ -71,6 +71,7 @@ class Census {
             marker.color = colors[ss]
             marker.colorBlendFactor = 1
             marker.zPosition = 10
+            marker.zRotation = -CGFloat.tau * CGFloat(ss) / CGFloat(markers.count)
             marker.setScale(Arkonia.markerScaleFactor)
         }
     }
@@ -89,6 +90,7 @@ extension Census {
         markExemplars()
 
         highwaterAge = TimeInterval(max(censusAgent.stats.maxAge, highwaterAge))
+        highwaterCOffspring = TimeInterval(max(censusAgent.stats.maxCOffspring, highwaterCOffspring))
         highwaterFoodHitrate = max(censusAgent.stats.maxFoodHitRate, highwaterFoodHitrate)
         highwaterPopulation = max(censusAgent.stats.currentPopulation, highwaterPopulation)
 
@@ -126,8 +128,6 @@ private extension Census {
 extension Census {
     func registerBirth(_ myNetStructure: NetStructure, _ myParent: Stepper?) -> Int {
         myParent?.censusData.increment(.offspring)
-
-        self.cLiveNeurons += myNetStructure.cNeurons
         self.allBirths += 1
 
         return myNetStructure.cNeurons

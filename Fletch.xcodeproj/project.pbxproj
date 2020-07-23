@@ -19,7 +19,7 @@
 		D46284CC24C9E69F006B42B9 /* FoodHitRateHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */; };
 		D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */; };
 		D49EBA1924C16DE00006E0E1 /* AKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1224C16DDF0006E0E1 /* AKPoint.swift */; };
-		D49EBA1A24C16DE00006E0E1 /* NormalDistribution.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1324C16DDF0006E0E1 /* NormalDistribution.swift */; };
+		D49EBA1A24C16DE00006E0E1 /* AKRandomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1324C16DDF0006E0E1 /* AKRandomer.swift */; };
 		D49EBA1B24C16DE00006E0E1 /* Overload2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1424C16DDF0006E0E1 /* Overload2D.swift */; };
 		D49EBA1C24C16DE00006E0E1 /* Debug.Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1524C16DDF0006E0E1 /* Debug.Color.swift */; };
 		D49EBA1D24C16DE00006E0E1 /* JumpSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1624C16DE00006E0E1 /* JumpSpec.swift */; };
@@ -139,7 +139,7 @@
 		D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodHitRateHudView.swift; sourceTree = "<group>"; };
 		D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
 		D49EBA1224C16DDF0006E0E1 /* AKPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AKPoint.swift; sourceTree = "<group>"; };
-		D49EBA1324C16DDF0006E0E1 /* NormalDistribution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalDistribution.swift; sourceTree = "<group>"; };
+		D49EBA1324C16DDF0006E0E1 /* AKRandomer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AKRandomer.swift; sourceTree = "<group>"; };
 		D49EBA1424C16DDF0006E0E1 /* Overload2D.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Overload2D.swift; sourceTree = "<group>"; };
 		D49EBA1524C16DDF0006E0E1 /* Debug.Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.Color.swift; sourceTree = "<group>"; };
 		D49EBA1624C16DE00006E0E1 /* JumpSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JumpSpec.swift; sourceTree = "<group>"; };
@@ -523,6 +523,7 @@
 			isa = PBXGroup;
 			children = (
 				D49EBA1224C16DDF0006E0E1 /* AKPoint.swift */,
+				D49EBA1324C16DDF0006E0E1 /* AKRandomer.swift */,
 				D4FE3F9324BED7720055D095 /* Cbuffer.swift */,
 				D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */,
 				D4FE3F9524BED7AD0055D095 /* Debug.swift */,
@@ -531,7 +532,6 @@
 				D49EBA1624C16DE00006E0E1 /* JumpSpec.swift */,
 				D49EBA2024C170CE0006E0E1 /* KIdentifier.swift */,
 				D49EBA1724C16DE00006E0E1 /* main.swift */,
-				D49EBA1324C16DDF0006E0E1 /* NormalDistribution.swift */,
 				D49EBA1424C16DDF0006E0E1 /* Overload2D.swift */,
 				D49EBA1F24C170CE0006E0E1 /* Tensor.Random.swift */,
 				D49EBA2124C170CE0006E0E1 /* Tensor.Utilities.swift */,
@@ -695,7 +695,7 @@
 				D4F6645524C16A93006B95BF /* SpriteFactory.swift in Sources */,
 				D4F78B6524C75B690035F415 /* AlmanacHudView.swift in Sources */,
 				D4F6645424C16A93006B95BF /* ArkoniaScene.swift in Sources */,
-				D49EBA1A24C16DE00006E0E1 /* NormalDistribution.swift in Sources */,
+				D49EBA1A24C16DE00006E0E1 /* AKRandomer.swift in Sources */,
 				D4F6643624C16A93006B95BF /* NetStructure.swift in Sources */,
 				D4F6643D24C16A93006B95BF /* Spawn.swift in Sources */,
 				D4F6644324C16A93006B95BF /* ArkonName.swift in Sources */,

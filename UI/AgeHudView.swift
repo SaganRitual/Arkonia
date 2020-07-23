@@ -17,14 +17,14 @@ struct AgeHudView: View {
         )
     }
 
-    enum Format { case maxAge, highwaterAge, averageAge, neurons }
+    enum Format { case maxAge, highwaterAge, averageAge, medAge }
 
     func format(_ format: Format) -> String {
         switch format {
         case .maxAge:       return String(format: "%.0f", Census.shared.censusAgent.stats.maxAge)
         case .highwaterAge: return String(format: "%.0f", Census.shared.highwaterAge)
-        case .averageAge:   return String(format: "%.0f", Census.shared.censusAgent.stats.averageAge)
-        case .neurons:      return String(format: "%d", Census.shared.cLiveNeurons)
+        case .averageAge:   return String(format: "%.2f", Census.shared.censusAgent.stats.averageAge)
+        case .medAge:       return String(format: "%.2f", Census.shared.censusAgent.stats.medAge)
         }
     }
 
@@ -32,6 +32,7 @@ struct AgeHudView: View {
         ZStack {
             Rectangle()
                 .foregroundColor(Color.white.opacity(0.01))
+                .border(Color.black)
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
@@ -53,9 +54,9 @@ struct AgeHudView: View {
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Neurons").font(self.labelFont).padding(.top, 5)
+                    Text("Median").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(format(.neurons))
+                    Text(format(.medAge))
                 }.padding(.leading).padding(.trailing)
             }
             .font(self.meterFont)

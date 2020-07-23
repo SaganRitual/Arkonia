@@ -66,6 +66,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         )
 
         window.center()
+        window.title = "Arkonia"
         window.setFrameAutosaveName("Arkonia")
         window.contentView = NSHostingView(rootView: contentView)
         window.makeKeyAndOrderFront(nil)

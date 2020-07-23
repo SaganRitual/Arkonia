@@ -3,7 +3,7 @@ import Foundation
 struct AKRandomNumberFakerator {
     static var shared: AKRandomNumberFakerator?
 
-    static let cSamples = UInt64(10000)
+    static let cSamples = UInt64(200_000)
     var normalizedSamples = ContiguousArray<Float>(
         repeating: 0, count: Int(AKRandomNumberFakerator.cSamples)
     )

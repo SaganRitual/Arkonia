@@ -33,6 +33,7 @@ struct FoodHitrateHudView: View {
         ZStack {
             Rectangle()
                 .foregroundColor(Color.white.opacity(0.01))
+                .border(Color.black)
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {

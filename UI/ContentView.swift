@@ -17,30 +17,24 @@ struct ContentView: View {
                     AlmanacHudView().environmentObject(Clock.shared.seasonalFactors)
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
 
-                    Spacer()
-
                     PopulationHudView()
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
                         .environmentObject(Census.shared.censusAgent.stats)
-
-                    Spacer()
 
                     AgeHudView()
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
                         .environmentObject(Census.shared.censusAgent.stats)
 
-                    Spacer()
-
                     OffspringHudView()
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
                         .environmentObject(Census.shared.censusAgent.stats)
-
-                    Spacer()
 
                     FoodHitrateHudView()
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
                         .environmentObject(Census.shared.censusAgent.stats)
                         .environmentObject(MannaStats.stats)
+
+                    Spacer()
                 }
                 .frame(height: ArkoniaLayout.ContentView.hudHeight)
 
