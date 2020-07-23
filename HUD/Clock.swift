@@ -68,8 +68,8 @@ class Clock {
 //        func a() { MannaCannon.mannaPlaneQueue.async(execute: b) }
 
 //        func b() {
-//            cPhotosynthesizingManna = MannaCannon.shared!.cPhotosynthesizingManna
-//            cDeadManna = MannaCannon.shared!.cDeadManna
+//            cPhotosynthesizingManna = MannaCannon.shared.cPhotosynthesizingManna
+//            cDeadManna = MannaCannon.shared.cDeadManna
 //            c()
 //        }
 
@@ -83,7 +83,7 @@ class Clock {
 //                    format: "% 5d/%3d%",
 //                    cPhotosynthesizingManna,
 //                    // cPlantedManna is set at startup and never read afterward
-//                    MannaCannon.shared!.cPlantedManna - cDeadManna
+//                    MannaCannon.shared.cPlantedManna - cDeadManna
 //                )
 //
 //                : String(format: "%.2f%%", (1 - self.getEntropy()) * 100)

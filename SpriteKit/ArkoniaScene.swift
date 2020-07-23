@@ -192,7 +192,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         self.scene!.delegate = self
 
         MannaCannon.shared = MannaCannon()
-        MannaCannon.shared!.postInit()
+        MannaCannon.shared.postInit()
 
         AKRandomNumberFakerator.shared = .init()
 

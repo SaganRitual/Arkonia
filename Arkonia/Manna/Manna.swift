@@ -43,9 +43,7 @@ extension Manna {
             return
         }
 
-        MannaCannon.mannaPlaneQueue.async {
-            MannaCannon.shared!.cPhotosynthesizingManna -= 1
-        }
+        MannaStats.stats.updateMannaStat(.photosynthesizing, by: -1)
 
         Clock.dispatchQueue.async {
             let temperature = SeasonalFactors(Clock.shared.worldClock).normalizedSunstickHeight

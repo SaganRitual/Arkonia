@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AuxScalarHudView: View {
     @EnvironmentObject var stats: PopulationStats
+    @EnvironmentObject var mannaStats: MannaStats
 
     var labelFont: Font {
         Font.system(
@@ -38,7 +39,7 @@ struct AuxScalarHudView: View {
                 HStack(alignment: .bottom) {
                     Text("Food").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("0/0")
+                    Text("\(String(format: "% 5d", mannaStats.cPhotosynthesizingManna))/\(String(format: "% 5d", mannaStats.cPlantedManna))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {

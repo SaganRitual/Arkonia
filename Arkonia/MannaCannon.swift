@@ -1,7 +1,27 @@
 import SpriteKit
 
+class MannaStats: ObservableObject {
+    static let stats = MannaStats()
+
+    @Published var cDeadManna = 0
+    @Published var cPhotosynthesizingManna = 0
+    @Published var cPlantedManna = 0
+
+    enum Datum { case dead, photosynthesizing, planted }
+
+    func updateMannaStat(_ datum: Datum, by value: Int) {
+        DispatchQueue.main.async {
+            switch datum {
+            case .dead: self.cDeadManna += value
+            case .photosynthesizing: self.cPhotosynthesizingManna += value
+            case .planted: self.cPlantedManna += value
+            }
+        }
+    }
+}
+
 class MannaCannon {
-    static var shared: MannaCannon?
+    static var shared: MannaCannon!
 
     static let mannaPlaneQueue = DispatchQueue(
         label: "manna.plane.serial", target: DispatchQueue.global()
@@ -10,10 +30,6 @@ class MannaCannon {
 
     let readyMannaBatchSize = 10
     let pollenators: [Pollenator]
-
-    var cDeadManna = 0
-    var cPhotosynthesizingManna = 0
-    var cPlantedManna = 0
 
     init() {
         readyMannaIndices = .init(cElements: Arkonia.cMannaMorsels)
@@ -59,18 +75,20 @@ class MannaCannon {
         // cell among the eight cells surrounding the chosen random cell. If we
         // can't place manna in any of these nine cells, skip the attempt. The
         // result is that we'll usually end up with fewer than cMannaMorsels morsels
+        var cPlantedManna = 0
         for _ in 0..<Arkonia.cMannaMorsels {
             let centerGridCell = Grid.randomCell()
 
             guard let newMannaHome = getEmptyCell(startingAt: centerGridCell) else { continue }
 
+            cPlantedManna += 1
             let absoluteIx = newMannaHome.properties.gridAbsoluteIndex
 
             let m = Grid.plantManna(at: absoluteIx)
             m.sprite.firstBloom(at: absoluteIx)
-
-            cPlantedManna += 1
         }
+
+        MannaStats.stats.updateMannaStat(.planted, by: cPlantedManna)
     }
 
     private func getEmptyCell(startingAt centerGridCell: GridCell) -> GridCell? {
