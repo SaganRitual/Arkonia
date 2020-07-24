@@ -132,7 +132,7 @@ class CensusAgent {
         let m = self.ages.sorted { $0.name < $1.name }
         let ss = m.count / 2
 
-        if (m.count % 2) == 0 {
+        if (m.count % 2) == 0  || m.count == 1 {
             return currentTime - m[ss].fishday.birthday
         } else {
             return (2 * currentTime - (m[ss].fishday.birthday + m[ss + 1].fishday.birthday)) / 2
@@ -149,7 +149,7 @@ class CensusAgent {
 
         let ss = m.count / 2
 
-        if (m.count % 2) == 0 {
+        if (m.count % 2) == 0  || m.count == 1 {
             return Double(m[ss].cOffspring)
         } else {
             return Double((m[ss].cOffspring + m[ss + 1].cOffspring) / 2)

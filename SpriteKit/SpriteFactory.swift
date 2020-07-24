@@ -14,7 +14,6 @@ class SpriteFactory {
     let halfNeuronsPool: SpritePool
     let linesPool: SpritePool
     let mannaPool: SpritePool
-    let markersPool: SpritePool
     let nosesPool: SpritePool
     let scene: SKScene
     let teethPool: SpritePool
@@ -26,7 +25,6 @@ class SpriteFactory {
         (arkonsPool, nosesPool, teethPool) = SpriteFactory.makeArkonsPools()
         (fullNeuronsPool, halfNeuronsPool, linesPool) = SpriteFactory.makeNetDisplayPools()
         (mannaPool, dotsPool) = SpriteFactory.makeMannaPool()
-        markersPool = SpriteFactory.makeMarkersPool()
     }
 
     static func makeMarkersPool() -> SpritePool {

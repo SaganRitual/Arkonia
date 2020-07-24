@@ -43,6 +43,13 @@ class SeasonalFactors: ObservableObject {
 
     var myTime: TimeInterval { self.worldClock ?? self.elapsedTimeRealSeconds}
 
+    var normalizedSunHeight: CGFloat {
+        let c0 = elapsedSecondsToday * TimeInterval.pi / daylightDurationSeconds
+        let c1 = TimeInterval.pi * (elapsedSecondsToday - Arkonia.realSecondsPerArkoniaDay) / darknessDurationSeconds
+
+        return CGFloat(elapsedSecondsToday <= daylightDurationSeconds ? sin(c0) : sin(c1))
+    }
+
     var normalizedSunstickHeight: CGFloat {
         let n: TimeInterval
 
@@ -71,14 +78,7 @@ class SeasonalFactors: ObservableObject {
     }
 
     var sunHeight: CGFloat {
-        let c0 = elapsedSecondsToday * TimeInterval.pi / daylightDurationSeconds
-        let c1 = TimeInterval.pi * (elapsedSecondsToday - Arkonia.realSecondsPerArkoniaDay) / darknessDurationSeconds
-
-        let normalizedSunHeight = elapsedSecondsToday <= daylightDurationSeconds ? sin(c0) : sin(c1)
-
-        let y = -CGFloat(normalizedSunHeight) * ArkoniaLayout.DaylightFactorView.sunFrameHeight * 2
-
-        return y
+        -CGFloat(normalizedSunHeight) * ArkoniaLayout.DaylightFactorView.sunFrameHeight * 2
     }
 
     var sunstickHeight: CGFloat {
@@ -88,6 +88,20 @@ class SeasonalFactors: ObservableObject {
     }
 
     var temperature: CGFloat { -(sunstickHeight + sunHeight) }
+
+    var normalizedTemperature: CGFloat { ntStick + ntSun }
+
+    var ntSun: CGFloat {
+        let a = ArkoniaLayout.DaylightFactorView.sunstickFrameHeight
+        let b = ArkoniaLayout.SeasonFactorView.stickGrooveFrameHeight
+        return normalizedSunHeight * a / b
+    }
+
+    var ntStick: CGFloat {
+        let a = ArkoniaLayout.DaylightFactorView.sunstickFrameHeight
+        let b = ArkoniaLayout.SeasonFactorView.stickGrooveFrameHeight
+        return normalizedSunstickHeight * (1 - a / b)
+    }
 
     func update(_ officialTime: TimeInterval) {
         DispatchQueue.main.async {

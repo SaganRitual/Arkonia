@@ -59,9 +59,12 @@ class Census {
     func reSeedWorld() { populated = false }
 
     func setupMarkers() {
-        oldestLivingMarker = SpriteFactory.shared.markersPool.getDrone()
-        aimestLivingMarker = SpriteFactory.shared.markersPool.getDrone()
-        busiestLivingMarker = SpriteFactory.shared.markersPool.getDrone()
+        let atlas = SKTextureAtlas(named: "Backgrounds")
+        let texture = atlas.textureNamed("marker")
+
+        oldestLivingMarker = SKSpriteNode(texture: texture)
+        aimestLivingMarker = SKSpriteNode(texture: texture)
+        busiestLivingMarker = SKSpriteNode(texture: texture)
 
         markers.append(contentsOf: [
             oldestLivingMarker!, aimestLivingMarker!, busiestLivingMarker!
@@ -74,7 +77,7 @@ class Census {
             marker.colorBlendFactor = 1
             marker.zPosition = 10
             marker.zRotation = -CGFloat.tau * CGFloat(ss) / CGFloat(markers.count)
-            marker.setScale(Arkonia.markerScaleFactor)
+            marker.setScale(Arkonia.markerScaleFactor / CGFloat(ss + 1))
         }
     }
 }

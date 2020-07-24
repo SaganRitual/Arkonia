@@ -9,11 +9,12 @@ class Pollenator {
     let node = SKShapeNode(circleOfRadius: ArkoniaScene.arkonsPortal.size.hypotenuse / 5)
     let sizePeakToPeak: TimeInterval
     let speedPeakToPeak: TimeInterval
+    var temperatureAdjustment: CGFloat = 0
 
     var age: TimeInterval { ArkoniaScene.currentSceneTime - birthday }
 
     init(_ color: SKColor) {
-        node.strokeColor = .clear
+        node.strokeColor = color
         node.fillColor = color
         node.alpha = 0
 
@@ -27,13 +28,25 @@ class Pollenator {
         sizePeakToPeak = 1 / peakToPeakSeconds.randomElement()!
         speedPeakToPeak = 1 / peakToPeakSeconds.randomElement()!
 
-        SceneDispatch.shared.schedule {
-            self.birthday = ArkoniaScene.currentSceneTime
-            self.move()
+        self.birthday = ArkoniaScene.currentSceneTime
+
+        move()
+    }
+
+    func getTemperature(_ onComplete: @escaping () -> Void) {
+        Clock.dispatchQueue.async {
+            let t = SeasonalFactors(Clock.shared.worldClock).normalizedTemperature
+            self.temperatureAdjustment = (t + 2) / 2  // Scale -1..<1 to 1..<2
+            Debug.log(level: 217) { "pollenator? \(t) \(self.temperatureAdjustment)" }
+            onComplete()
         }
     }
 
-    func move() {
+    func move() { getTemperature(move_B) }
+
+    func move_B() { SceneDispatch.shared.schedule(move_C) }
+
+    func move_C() {
         let positionInSizeCycle = age.truncatingRemainder(dividingBy: sizePeakToPeak) / sizePeakToPeak
         let positionInSpeedCycle = age.truncatingRemainder(dividingBy: speedPeakToPeak) / speedPeakToPeak
 
@@ -44,14 +57,14 @@ class Pollenator {
         // value of the sizeCycleY et al, which is going from 1 to -1
         // periodically. The functions below are pulled out of the air to
         // get the pollenators to move and size according to the whim of
-        // the Arkonian deity (you)
+        // the Arkonian deity
         let sizeVariance = sqrt(pow(2, yInSizeCycle))
-        let sizeScale = CGFloat(sizeVariance) * 0.5
+        let sizeScale = CGFloat(sizeVariance) * 0.35 * temperatureAdjustment
 
         let speedVariance = sqrt(pow(2, yInSpeedCycle))
-        let speedScale = CGFloat(speedVariance) * 100  // in pix/sec
+        let speedScale = CGFloat(speedVariance) * 50 * temperatureAdjustment  // in pix/sec
 
-        Debug.log(level: 133) { "pollenator \(sizeScale) \(node.xScale)" }
+        Debug.log(level: 217) { "pollenator \(sizeScale) \(speedScale)" }
 
         let newTargetPosition = Grid.randomCell().properties.scenePosition
         let distanceToTarget = currentPosition.distance(to: newTargetPosition)
@@ -61,6 +74,9 @@ class Pollenator {
         let moveAction = SKAction.move(to: newTargetPosition, duration: travelTime)
         let group = SKAction.group([scaleAction, moveAction])
 
-        node.run(group) { self.currentPosition = newTargetPosition; self.move() }
+        node.run(group) {
+            self.currentPosition = newTargetPosition
+            self.move()
+        }
     }
 }

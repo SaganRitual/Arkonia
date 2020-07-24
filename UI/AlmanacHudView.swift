@@ -40,7 +40,7 @@ struct AlmanacHudView: View {
         case .day: return String(format: "%02d", Int(seasonalFactors.elapsedDaysThisYear))
         case .pYear: return String(format: "%02.0f", min(99, seasonalFactors.pCurrentYear * 100))
         case .pDay: return String(format: "%02.0f", min(99, seasonalFactors.pCurrentDay * 100))
-        case .temperature: return String(format: "%0.2f", seasonalFactors.temperature)
+        case .temperature: return String(format: "%0.2f", seasonalFactors.normalizedTemperature * 100)
         }
     }
 

@@ -46,9 +46,9 @@ extension Manna {
         MannaStats.stats.updateMannaStat(.photosynthesizing, by: -1)
 
         Clock.dispatchQueue.async {
-            let temperature = SeasonalFactors(Clock.shared.worldClock).normalizedSunstickHeight
-
-            let mannaContent = EnergyBudget.MannaContent(maturityLevel, temperature)
+            let temperature = SeasonalFactors(Clock.shared.worldClock).normalizedTemperature
+            let scaleZeroToOne = (temperature + 1) / 2  // Convert -1..<1 to 0..<1
+            let mannaContent = EnergyBudget.MannaContent(maturityLevel, scaleZeroToOne)
 
             Debug.log(level: 217) {
                 "harvest at \(self.absoluteGridIndex):"
