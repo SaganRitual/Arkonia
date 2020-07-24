@@ -73,7 +73,15 @@ class AKRandomNumberFakerator: ObservableObject {
             self.cSamplesNormalized += AKRandomNumberFakerator.cSamplesToGenerate / 100
 
             if self.cSamplesNormalized < AKRandomNumberFakerator.cSamplesToGenerate { self.normalizeBatch() }
-            else { self.isNormallizing = false; self.isBusy = false; self.onComplete() }
+            else {
+                self.isNormallizing = false
+                self.isBusy = false
+
+                // Wait a little, so the UI can finish drawing the progress bar
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                    self.onComplete()
+                }
+            }
         }
     }
 }

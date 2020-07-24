@@ -39,7 +39,7 @@ struct PopulationHudView: View {
                 HStack(alignment: .bottom) {
                     Text("All births").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(Census.shared.censusAgent.stats.allBirths)")
+                    Text("\(String(format: "%d", Census.shared.censusAgent.stats.allBirths))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {

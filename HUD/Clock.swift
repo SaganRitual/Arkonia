@@ -17,15 +17,7 @@ class Clock {
         target: DispatchQueue.global()
     )
 
-    init() {
-//        clockReport = scene.reportArkonia.reportoid(1)
-//        foodValueReport = scene.reportArkonia.reportoid(3)
-//
-//        clockFormatter.allowedUnits = [.hour, .minute, .second]
-//        clockFormatter.allowsFractionalUnits = true
-//        clockFormatter.unitsStyle = .positional
-//        clockFormatter.zeroFormattingBehavior = .pad
-
+    func start() {
         isRunning = true
         tickTheWorld()
     }

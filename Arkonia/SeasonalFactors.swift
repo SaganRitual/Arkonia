@@ -76,7 +76,7 @@ class SeasonalFactors: ObservableObject {
 
         let normalizedSunHeight = elapsedSecondsToday <= daylightDurationSeconds ? sin(c0) : sin(c1)
 
-        let y = -CGFloat(normalizedSunHeight * Arkonia.realSecondsPerArkoniaDay / 2) * ArkoniaLayout.DaylightFactorView.sunFrameHeight / 2
+        let y = -CGFloat(normalizedSunHeight) * ArkoniaLayout.DaylightFactorView.sunFrameHeight * 2
 
         return y
     }

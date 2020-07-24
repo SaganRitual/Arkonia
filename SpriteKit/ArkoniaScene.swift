@@ -107,6 +107,7 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
 
         SpriteFactory.shared = SpriteFactory(scene: self)
         Census.shared.start()
+        Clock.shared.start()
 
         self.scene!.delegate = self
 
