@@ -31,7 +31,7 @@ struct ArkonBuilder {
         embryo!.noseSprite =   SpriteFactory.shared.nosesPool.makeSprite()
         embryo!.thoraxSprite = SpriteFactory.shared.arkonsPool.makeSprite()
 
-        embryo!.toothSprite!.alpha = 1
+        embryo!.toothSprite!.alpha = 0
         embryo!.toothSprite!.color = .red
         embryo!.toothSprite!.zPosition = 4
         embryo!.toothSprite!.colorBlendFactor = 1

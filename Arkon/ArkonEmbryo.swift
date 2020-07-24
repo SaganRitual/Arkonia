@@ -98,9 +98,9 @@ extension ArkonEmbryo {
             let birthDance = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 0.5)
             newborn!.thorax.run(birthDance)
 
-            let deathDance = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 1)
-            let forever = SKAction.repeatForever(deathDance)
-            newborn!.tooth.run(forever)
+//            let deathDance = SKAction.rotate(byAngle: -2 * CGFloat.tau, duration: 1)
+//            let forever = SKAction.repeatForever(deathDance)
+//            newborn!.tooth.run(forever)
 
             // Parent will have relinquished its hold on the live connection
             newborn!.spindle.attachToGrid(iHaveTheLiveConnection: spindleTargetIsPreLocked, launch_C)
