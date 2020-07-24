@@ -1,6 +1,6 @@
 # Arkonia
 
-[![GitHub release](https://img.shields.io/github/release-pre/SaganRitual/Arkonia.svg?style=plastic)](https://github.com/SaganRitual/Arkonia/tree/v4.0)
+[![GitHub release](https://img.shields.io/github/release-pre/SaganRitual/Arkonia.svg?style=plastic)](https://github.com/SaganRitual/Arkonia/tree/v5.0)
 [![License](https://img.shields.io/github/license/SaganRitual/Arkonia.svg?style=plastic)](https://github.com/SaganRitual/Arkonia/blob/dev/LICENSE)
 [![Runs on](https://img.shields.io/badge/Platform-macOS%20only-blue.svg?style=plastic)](https://www.apple.com/macos/)
 [![Does not run on](https://img.shields.io/badge/Platform-not%20iOS-red.svg?style=plastic)](https://www.urbandictionary.com/define.php?term=SOL)
@@ -9,35 +9,36 @@
 
 A hobbyist's toy, under construction. A world of creatures whose brains and bodies evolve
 genetically to make them better at eating each other, and ultimately, to make you all my slaves.
-Written in Swift, using SpriteKit, with no UI other than the main window, because I really
-suck at UI programming
+Written in Swift, using SwiftUI, SpriteKit, and Metal
 
-# Status 10 April 2020
+# Status 23 July 2020
 
-## Now We're Somewhere
+## Now with SwiftUI
 
 <img align="right" src="https://github.com/SaganRitual/Arkonia/blob/exp/MovieforREADME.gif">
 
-At long last, it's fast enough and stable enough to be (potentially) interesting.
-I notice that a few people have cloned the repo. That's seriously cool. Someone let me know if
-it turns out not to be interesting after all. I'd welcome any comments of any kind, for that matter.
+Like it says on the tin. I finally broke down and decided to learn SwiftUI. So it looks nicer
+than it did before, I hope. It's only a thousand times easier than creating "UI" with the
+Xcode scene editor.
+
 I do most development on the `exp`
 branch. I merge down to `dev` whenever I get sick of chasing bugs long enough to do the merge
-and push. So look for the latest on `exp`. Build the `Karamba` Xcode project, debug or release
+and push. So look for the latest on `exp`. Build the `Fletch` Xcode project, debug or release
 
 ## The Latest on The `exp` Branch
 
-### Metal and Accelerate support for neural nets
+* The changes for SwiftUI were extensive; I've retired the `Karamba` Xcode project and replaced
+it with `Fletch`
+* I totally rewrote the grid, the spawn mechanism, the life cycle dispatch mechanism, and the
+grid sensor array that Arkons use for sensory input. Then I
+re-rewrote the spawn mechanism and overhauled the rewrite of the grid. Performance is way up
+and bugs are way down
+* I rewrote the `BLAS` neural net driver from scratch, this time using unsafe pointers and
+unmanaged resources to great effect
+* I've yet to get the other neural net drivers un-broken; so much world conquest to do, so
+little time
 
-I've created neural net drivers for both the `BLAS` and `BNNS` models in the Accelerate library,
-as well as drivers for the GPU using both the matrix operations and the convolution kernel tools
-in the the Metal Performance Shaders library. As it turns out, Accelerate does just as well
-as the GPU; I think it's because my neural nets are (currently) too small to be efficient.
-Some investigation is in order, but I haven't done it yet. Also, I think I broke the GPU and BLAS
-stuff while getting the BNNS stuff to work, but now that I know so much more than I did then, I'll
-probably rewrite those rather than trying to fix them
-
-### Selection pressures
+### Selection pressures (unchanged (or possibly broken) from the last release)
 
 * The obvious one, finding the manna (food): Arkons don't know how to do that when the app launches
 * Pollenation: the manna can't re-bloom after being grazed until it's pollenated. The pollenators
@@ -53,7 +54,7 @@ most of what they need is in the manna, so they kind of have to eat constantly
 * Carbon-dioxide reducer or whatever-something: some random experiments with other selection pressure,
 I'll clean it all up some day
 
-### Sensory inputs
+### Sensory inputs (unchanged (or possibly broken) from the last release)
 
 Arkons currently have four sets of senses, two sets for tracking external stimuli and two
 for tracking internal stimuli:
@@ -65,9 +66,11 @@ for tracking internal stimuli:
 enough), as ((x, y), nutrition value) pairs
 * Locations of pollenators, as (x, y)
 
+### Road map
+
 I don't have a road map, because I lack discipline. Here are some alleyways I will probably explore.
 
-* Restore parasitism, which I broke while working on the GPU stuff, and which has since gone a bit crusty
+* Restore parasitism (this is next; my Arkons are getting lazy from not having someone try to eat them)
 * Genome
   * Body and behavior genes
   * Sex
