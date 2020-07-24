@@ -71,81 +71,11 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
 
     override func keyDown(with event: NSEvent) { Census.shared.reSeedWorld() }
 
-    func buildBarCharts() {
-        barChartFactory = BarChartFactory(hud: hud)
-    }
-
-    func buildLineGraphs() {
-        lineGraphFactory = LineGraphFactory(hud: hud, scene: self)
-
-        lgWeather = lineGraphFactory.newGraph()
-        lgFoodHits = lineGraphFactory.newGraph()
-
-        lgWeather.setChartLabel("Almanac")
-        lgFoodHits.setChartLabel("Food Hitrate")
-
-        hud.placeDashoid(lgWeather, on: .middle, quadrant: 0, layoutId: .dashboards_portal_1x1)
-        hud.placeDashoid(lgFoodHits, on: .middle, quadrant: 1, layoutId: .dashboards_portal_1x1)
-
-        lgWeather.start(dataset: .weather)
-        lgFoodHits.start(dataset: .foodHits)
-    }
-
-    func buildReports() {
-        let p = hud.emptyMonitorFactory.newPlaceholder()
-        hud.placeDashoid(p, on: .bottom, quadrant: 3, layoutId: .dashboards_portal_2x2)
-
-        reportFactory = ReportFactory(hud: hud)
-
-        reportMisc = reportFactory.newReport()
-        reportMisc.setTitle("High Water")
-        reportMisc.setReportoid(1, label: "Age", data: "0")
-        reportMisc.setReportoid(2, label: "Population", data: "0")
-        reportMisc.setReportoid(3, label: "Offspring", data: "0")
-
-        hud.placeDashoid(
-            reportMisc, on: .bottom, quadrant: 0, layoutId: .dashboards_portal_2x2
-        )
-
-        reportArkonia = reportFactory.newReport()
-        reportArkonia.setTitle("Arkonia")
-        reportArkonia.setReportoid(1, label: "Clock", data: "00:00:00")
-        reportArkonia.setReportoid(2, label: "Population", data: "0")
-        reportArkonia.setReportoid(3, label: "Food", data: "0")
-
-        hud.placeDashoid(
-            reportArkonia, on: .bottom, quadrant: 1, layoutId: .dashboards_portal_2x2
-        )
-
-        reportSundry = reportFactory.newReport()
-        reportSundry.setTitle("Sundry")
-        reportSundry.setReportoid(1, label: "All births", data: "0")
-        reportSundry.setReportoid(2, label: "", data: "")
-        reportSundry.setReportoid(3, label: "", data: "")
-
-        hud.placeDashoid(
-            reportSundry, on: .bottom, quadrant: 2, layoutId: .dashboards_portal_2x2
-        )
-
-        reportMisc.start()
-
-        // We run the different elements of this report on separate threads,
-        // only because I haven't gotten around to cleaning up the HUD yet
-//        reportArkonia.start()
-    }
-
-    override func mouseDown(with event: NSEvent) {
-        let location = event.location(in: self)
-
-        let size = CGSize(width: 40, height: 40)
-        let cube = SKShapeNode(rectOf: size)
-        cube.fillColor = .red
-        cube.position = location
-
-        addChild(cube)
-    }
-
     override func didMove(to view: SKView) {
+        AKRandomNumberFakerator.shared.fillArrays { self.didMove_(to: view) }
+    }
+
+    func didMove_(to view: SKView) {
 
         // Much gratitude to Jakub Charvat https://www.hackingwithswift.com/users/jakcharvat
         // https://www.hackingwithswift.com/forums/swiftui/swiftui-spritekit-macos-catalina-10-15/2662/2669
@@ -161,14 +91,8 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
 
         ArkoniaScene.shared = self
 
-        ArkoniaScene.arkonsPortal =         SKSpriteNode(color: .black, size: view.scene!.size)
-//        ArkoniaScene.netPortal =            loadScenePortal("net_9portals_backer")
-//        ArkoniaScene.netPortalHalfNeurons = loadScenePortal("net_9portals_half_neurons_backer")
+        ArkoniaScene.arkonsPortal = SKSpriteNode(color: .black, size: view.scene!.size)
 
-//        ArkoniaScene.arkonsPortal.color = .blue
-//        ArkoniaScene.arkonsPortal.colorBlendFactor = 1
-//        ArkoniaScene.arkonsPortal.alpha = 0.5
-//        ArkoniaScene.arkonsPortal.zPosition = 100
         self.addChild(ArkoniaScene.arkonsPortal)
 
         let tAtlas = SKTextureAtlas(named: "Arkons")
@@ -182,20 +106,12 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
         )
 
         SpriteFactory.shared = SpriteFactory(scene: self)
-        Census.shared.setupMarkers()
-
-        Debug.log(level: 38) {
-            "GriddleScene.arkonsPortal scale"
-            + " = \(ArkoniaScene.arkonsPortal.xScale)"
-            + " x \(ArkoniaScene.arkonsPortal.yScale)"
-        }
+        Census.shared.start()
 
         self.scene!.delegate = self
 
         MannaCannon.shared = MannaCannon()
         MannaCannon.shared.postInit()
-
-        AKRandomNumberFakerator.shared = .init()
 
         self.run(SKAction.run {
             self.readyForDisplayCycle = true

@@ -14,6 +14,7 @@
 		D400138924BD4648001D429A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D400138724BD4648001D429A /* Main.storyboard */; };
 		D400139824BD7156001D429A /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = D400139724BD7156001D429A /* Charts */; };
 		D400139A24BD7197001D429A /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400139924BD7197001D429A /* LineChartView.swift */; };
+		D4120DDC24CA65BD005CC773 /* LlamaProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */; };
 		D4252D1324CA439400F1C2DC /* OffspringHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4252D1224CA439400F1C2DC /* OffspringHudView.swift */; };
 		D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45EEC7E24C8F61B00527632 /* PopulationStats.swift */; };
 		D46284CC24C9E69F006B42B9 /* FoodHitRateHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */; };
@@ -134,6 +135,7 @@
 		D400138A24BD4648001D429A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D400138B24BD4648001D429A /* Fletch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fletch.entitlements; sourceTree = "<group>"; };
 		D400139924BD7197001D429A /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
+		D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaProgressView.swift; sourceTree = "<group>"; };
 		D4252D1224CA439400F1C2DC /* OffspringHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffspringHudView.swift; sourceTree = "<group>"; };
 		D45EEC7E24C8F61B00527632 /* PopulationStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationStats.swift; sourceTree = "<group>"; };
 		D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodHitRateHudView.swift; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 				D4F663A524C088C4006B95BF /* GameView.swift */,
 				D4E0411224BFE87C0026970F /* LineChartCore.swift */,
 				D400139924BD7197001D429A /* LineChartView.swift */,
+				D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */,
 				D4252D1224CA439400F1C2DC /* OffspringHudView.swift */,
 				D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */,
 				D4F78B5C24C529060035F415 /* SeasonFactorView.swift */,
@@ -699,6 +702,7 @@
 				D4F6643624C16A93006B95BF /* NetStructure.swift in Sources */,
 				D4F6643D24C16A93006B95BF /* Spawn.swift in Sources */,
 				D4F6644324C16A93006B95BF /* ArkonName.swift in Sources */,
+				D4120DDC24CA65BD005CC773 /* LlamaProgressView.swift in Sources */,
 				D4F6644924C16A93006B95BF /* EnergyBudget.Protocols.swift in Sources */,
 				D4F6642F24C16A93006B95BF /* ArkonEmbryo.swift in Sources */,
 				D4F6644224C16A93006B95BF /* Apoptosize.swift in Sources */,

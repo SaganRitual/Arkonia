@@ -1,31 +1,79 @@
 import Foundation
+import SwiftUI
 
-struct AKRandomNumberFakerator {
-    static var shared: AKRandomNumberFakerator?
+class AKRandomNumberFakerator: ObservableObject {
+    @Published var isBusy = false
+    @Published var isLloading = false
+    @Published var isNormallizing = false
+    @Published var llamaFullness = 0.0
 
-    static let cSamples = UInt64(200_000)
-    var normalizedSamples = ContiguousArray<Float>(
-        repeating: 0, count: Int(AKRandomNumberFakerator.cSamples)
-    )
+    static var shared = AKRandomNumberFakerator()
 
-    var uniformSamples = ContiguousArray<Float>(
-        repeating: 0, count: Int(AKRandomNumberFakerator.cSamples)
-    )
+    static let cSamplesToGenerate = 200_000
+
+    var normalizedSamples: ContiguousArray<Float>
+    var uniformSamples: ContiguousArray<Float>
+
+    let normalDistribution = NormalDistribution<Float>(mean: 0, standardDeviation: 3)
+    let uniformDistribution = UniformFloatingPointDistribution(lowerBound: -1, upperBound: 1)
+
+    var cSamplesGenerated = 0
+    var cSamplesNormalized = 0
+    var maxFloat: Float = 0
+    var onComplete: () -> Void = {}
 
     init() {
-        let normal = NormalDistribution<Float>(mean: 0, standardDeviation: 3)
-        let uniform = UniformFloatingPointDistribution(lowerBound: -1, upperBound: 1)
+        normalizedSamples = .init(repeating: 0, count: AKRandomNumberFakerator.cSamplesToGenerate)
+        uniformSamples = .init(repeating: 0, count: AKRandomNumberFakerator.cSamplesToGenerate)
+    }
 
-        var max: Float = 0
-        for ss in 0..<normalizedSamples.count {
-            normalizedSamples[ss] = normal.next(using: &ARC4RandomNumberGenerator.global)
-            uniformSamples[ss] = Float(uniform.next(using: &ARC4RandomNumberGenerator.global))
-            if abs(normalizedSamples[ss]) > max { max = normalizedSamples[ss] }
+    func fillArrays(_ onComplete: @escaping () -> Void) {
+        self.onComplete = onComplete
+
+        isBusy = true
+        isLloading = true
+        arrayBatch()
+    }
+
+    func arrayBatch() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            for ss in 0..<(AKRandomNumberFakerator.cSamplesToGenerate / 100) {
+                self.normalizedSamples[self.cSamplesGenerated + ss] = self.normalDistribution.next(using: &ARC4RandomNumberGenerator.global)
+                self.uniformSamples[self.cSamplesGenerated + ss] = Float(self.uniformDistribution.next(using: &ARC4RandomNumberGenerator.global))
+
+                if abs(self.normalizedSamples[self.cSamplesGenerated + ss]) > self.maxFloat {
+                    self.maxFloat = self.normalizedSamples[self.cSamplesGenerated + ss]
+                }
+            }
+
+            self.llamaFullness += 0.01
+            self.cSamplesGenerated += AKRandomNumberFakerator.cSamplesToGenerate / 100
+
+            if self.cSamplesGenerated < AKRandomNumberFakerator.cSamplesToGenerate { self.arrayBatch() }
+            else { self.isLloading = false; self.normalize() }
         }
+    }
 
-        for ss in 0..<normalizedSamples.count {
-            normalizedSamples[ss] /= max
-            if abs(normalizedSamples[ss]) == 1 { normalizedSamples[ss] = 0 }
+    func normalize() {
+        isNormallizing = true
+        llamaFullness = 0
+        normalizeBatch()
+    }
+
+    func normalizeBatch() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            for ss in 0..<(AKRandomNumberFakerator.cSamplesToGenerate / 100) {
+                self.normalizedSamples[self.cSamplesNormalized + ss] /= self.maxFloat
+                if abs(self.normalizedSamples[self.cSamplesNormalized + ss]) == 1 {
+                    self.normalizedSamples[self.cSamplesNormalized + ss] = 0
+                }
+            }
+
+            self.llamaFullness += 0.01
+            self.cSamplesNormalized += AKRandomNumberFakerator.cSamplesToGenerate / 100
+
+            if self.cSamplesNormalized < AKRandomNumberFakerator.cSamplesToGenerate { self.normalizeBatch() }
+            else { self.isNormallizing = false; self.isBusy = false; self.onComplete() }
         }
     }
 }
@@ -39,19 +87,19 @@ struct AKRandomer: IteratorProtocol {
 
     let mode: Mode
 
-    var ss: Int = Int.random(in: 0..<Int(AKRandomNumberFakerator.cSamples))
+    var ss: Int = Int.random(in: 0..<AKRandomNumberFakerator.cSamplesToGenerate)
 
     mutating func next() -> Float? {
         if mode == .uniform { return nextUniform() }
 
-        defer { ss = (ss + 1) % Int(AKRandomNumberFakerator.cSamples) }
+        defer { ss = (ss + 1) % AKRandomNumberFakerator.cSamplesToGenerate }
 
-        return AKRandomNumberFakerator.shared!.normalizedSamples[ss]
+        return AKRandomNumberFakerator.shared.normalizedSamples[ss]
     }
 
     mutating private func nextUniform() -> Float? {
-        defer { ss = (ss + 1) % Int(AKRandomNumberFakerator.cSamples) }
-        return AKRandomNumberFakerator.shared!.uniformSamples[ss]
+        defer { ss = (ss + 1) % AKRandomNumberFakerator.cSamplesToGenerate }
+        return AKRandomNumberFakerator.shared.uniformSamples[ss]
     }
 
     mutating func bool() -> Bool { next()! < 0 }

@@ -2,6 +2,8 @@ import SpriteKit
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var randomer: AKRandomNumberFakerator
+
     var body: some View {
         HStack {
             Spacer()
@@ -39,6 +41,9 @@ struct ContentView: View {
                 .frame(height: ArkoniaLayout.ContentView.hudHeight)
 
                 GameView(scene: ArkoniaScene())
+                    .sheet(isPresented: $randomer.isBusy) {
+                        LlamaProgressView().environmentObject(randomer)
+                    }
             }
         }
     }

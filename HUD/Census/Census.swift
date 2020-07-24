@@ -48,7 +48,9 @@ class Census {
         target: DispatchQueue.global()
     )
 
-    init() {
+    func start() {
+        setupMarkers()
+
         tickTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             Census.dispatchQueue.async { self.updateReports() }
         }

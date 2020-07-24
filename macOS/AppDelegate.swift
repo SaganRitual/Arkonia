@@ -56,7 +56,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ArkoniaLayout.SeasonFactorView.stickGrooveFrameHeight = newFrame.height
 
         // Create the SwiftUI view that provides the window contents.
-        let contentView = ContentView().frame(width: newFrame.width, height: newFrame.height)
+        let contentView = ContentView()
+            .frame(width: newFrame.width, height: newFrame.height)
+            .environmentObject(AKRandomNumberFakerator.shared)
 
         // Create the window and set the content view. 
         window = NSWindow(
