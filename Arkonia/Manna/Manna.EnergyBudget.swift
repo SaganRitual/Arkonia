@@ -14,7 +14,7 @@ extension EnergyBudget {
 
         let maturityLevel: CGFloat
         let scale: CGFloat
-        let supersizerScale: CGFloat = 0.60
+        let supersizerScale: CGFloat = 0.9
         let temperature: CGFloat
 
         init(_ maturityLevel: CGFloat = 1, _ temperature: CGFloat) {

@@ -1,7 +1,7 @@
 import CoreGraphics
 
 class DriveResponse {
-    enum MotorIndex: Int, CaseIterable { case jumpSelector, jumpSpeed }
+    enum MotorIndex: Int, CaseIterable { case attackTarget, attackYesNo, jumpTarget, jumpSpeed }
 
     let net: Net
     let stepper: Stepper
@@ -18,6 +18,13 @@ class DriveResponse {
         _ onComplete: @escaping (Bool) -> Void
     ) { mainDispatch { self.driveResponse_C(senseData, onComplete) } }
 
+    private func getIndexedOffset(for rawValue: Float, cCells: Int) -> Int {
+        let result = Int(floor(rawValue * Float(cCells)))
+
+        // In case we get a 1.0 -- that would push us beyond the end of the array
+        return result == cCells ? cCells - 1 : result
+    }
+
     private func driveResponse_C(
         _ senseData: UnsafeMutablePointer<Float>,
         _ onComplete: @escaping (Bool) -> Void
@@ -25,16 +32,21 @@ class DriveResponse {
         Debug.log(level: 213) { "driveResponse_C.0 \(stepper.name)" }
         let cSensorPadCells = net.netStructure.sensorPadCCells
 
-        // Divide the circle into cCellsWithinSenseRange slices
-        let s0 = net.pMotorOutputs[MotorIndex.jumpSelector.rawValue]
-        let s1 = s0 * Float(cSensorPadCells)
-        let s2 = floor(s1)
-        let s3 = Int(s2)
+        // Divide the circle into cSensorPadCells slices
+        let targetOffset = getIndexedOffset(
+            for: net.pMotorOutputs[MotorIndex.jumpTarget.rawValue],
+            cCells: cSensorPadCells
+        )
 
-        // In case we get a 1.0 -- that would push us beyond the end of the array
-        let targetOffset = (s3 == cSensorPadCells) ? cSensorPadCells - 1 : s3
+        let attackYesNo =
+            stepper.net.pMotorOutputs[MotorIndex.attackYesNo.rawValue] > 0
 
-        driveResponse_C1(senseData, targetOffset) { okToJump in
+        let attackTargetIndex = getIndexedOffset(
+            for: stepper.net.pMotorOutputs[MotorIndex.attackTarget.rawValue],
+            cCells: 9   // We can attack only those arkons in adjacent cells
+        )
+
+        driveResponse_C1(senseData, targetOffset, attackYesNo, attackTargetIndex) { okToJump in
             mainDispatch { onComplete(okToJump) }
         }
     }
@@ -42,6 +54,8 @@ class DriveResponse {
     private func driveResponse_C1(
         _ senseData: UnsafeMutablePointer<Float>,
         _ targetOffset: Int,
+        _ attackYesNo: Bool,
+        _ attackTargetIndex: Int,
         _ onComplete: @escaping (Bool) -> Void
     ) {
         assert(stepper.jumpSpec == nil)
@@ -68,7 +82,8 @@ class DriveResponse {
             assert(stepper.spindle.gridCell.lock.isLocked)
             stepper.jumpSpec = JumpSpec(
                 from: stepper.spindle.gridCell!, to: correctedTarget,
-                speedAsPercentage: max(CGFloat(jumpSpeedMotorOutput), 0.1)
+                speedAsPercentage: max(CGFloat(jumpSpeedMotorOutput), 0.1),
+                attackYesNo: attackYesNo, attackTargetIndex: attackTargetIndex
             )
 
             Debug.log(level: 215) {

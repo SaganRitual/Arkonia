@@ -5,8 +5,7 @@ struct GridIndexer {
     private let indexedGridPoints: [AKPoint]
 
     init(maxCSenseRings: Int) {
-        let cCellsPerSide = 1 + 2 * maxCSenseRings
-        self.cCellsWithinSenseRange = cCellsPerSide * cCellsPerSide
+        self.cCellsWithinSenseRange = GridIndexer.cellsWithinSenseRange(maxCSenseRings)
 
         var p = [AKPoint]()
         p.reserveCapacity(cCellsWithinSenseRange)
@@ -16,6 +15,11 @@ struct GridIndexer {
         }
 
         indexedGridPoints = p
+    }
+
+    static func cellsWithinSenseRange(_ cSenseRings: Int) -> Int {
+        let cCellsPerSide = 1 + 2 * cSenseRings
+        return cCellsPerSide * cCellsPerSide
     }
 
     func localIndexToVirtualGrid(_ localIx: Int, from centerGridCell: GridCell) -> AKPoint {

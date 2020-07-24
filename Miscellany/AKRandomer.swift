@@ -9,7 +9,11 @@ class AKRandomNumberFakerator: ObservableObject {
 
     static var shared = AKRandomNumberFakerator()
 
+    #if DEBUG
+    static let cSamplesToGenerate = 2_000
+    #else
     static let cSamplesToGenerate = 200_000
+    #endif
 
     var normalizedSamples: ContiguousArray<Float>
     var uniformSamples: ContiguousArray<Float>

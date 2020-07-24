@@ -15,6 +15,7 @@
 		D400139824BD7156001D429A /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = D400139724BD7156001D429A /* Charts */; };
 		D400139A24BD7197001D429A /* LineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D400139924BD7197001D429A /* LineChartView.swift */; };
 		D4120DDC24CA65BD005CC773 /* LlamaProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */; };
+		D41396A824CB889900341D97 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41396A724CB889900341D97 /* Parasitize.swift */; };
 		D4252D1324CA439400F1C2DC /* OffspringHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4252D1224CA439400F1C2DC /* OffspringHudView.swift */; };
 		D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45EEC7E24C8F61B00527632 /* PopulationStats.swift */; };
 		D46284CC24C9E69F006B42B9 /* FoodHitRateHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */; };
@@ -136,6 +137,7 @@
 		D400138B24BD4648001D429A /* Fletch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fletch.entitlements; sourceTree = "<group>"; };
 		D400139924BD7197001D429A /* LineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartView.swift; sourceTree = "<group>"; };
 		D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaProgressView.swift; sourceTree = "<group>"; };
+		D41396A724CB889900341D97 /* Parasitize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parasitize.swift; sourceTree = "<group>"; };
 		D4252D1224CA439400F1C2DC /* OffspringHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffspringHudView.swift; sourceTree = "<group>"; };
 		D45EEC7E24C8F61B00527632 /* PopulationStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationStats.swift; sourceTree = "<group>"; };
 		D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodHitRateHudView.swift; sourceTree = "<group>"; };
@@ -321,24 +323,40 @@
 		D400139124BD599E001D429A /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				D4A2FB9324C963D200E88803 /* AgeHudView.swift */,
-				D4F78B6424C75B690035F415 /* AlmanacHudView.swift */,
+				D41396AA24CBCB9100341D97 /* Hud */,
+				D41396A924CBCB7000341D97 /* Charts */,
 				D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */,
 				D4F78B6024C52DA10035F415 /* ButtonsView.swift */,
-				D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */,
-				D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */,
 				D400138024BD4647001D429A /* ContentView.swift */,
 				D4F78ADF24C27C790035F415 /* DaylightFactorView.swift */,
-				D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */,
 				D4F663A524C088C4006B95BF /* GameView.swift */,
-				D4E0411224BFE87C0026970F /* LineChartCore.swift */,
-				D400139924BD7197001D429A /* LineChartView.swift */,
 				D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */,
-				D4252D1224CA439400F1C2DC /* OffspringHudView.swift */,
-				D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */,
 				D4F78B5C24C529060035F415 /* SeasonFactorView.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		D41396A924CBCB7000341D97 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				D4FE3F8924BEB9A60055D095 /* ChartLegend.swift */,
+				D4FE3F8B24BEBAD10055D095 /* ChartLegendoid.swift */,
+				D4E0411224BFE87C0026970F /* LineChartCore.swift */,
+				D400139924BD7197001D429A /* LineChartView.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
+		D41396AA24CBCB9100341D97 /* Hud */ = {
+			isa = PBXGroup;
+			children = (
+				D4A2FB9324C963D200E88803 /* AgeHudView.swift */,
+				D4F78B6424C75B690035F415 /* AlmanacHudView.swift */,
+				D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */,
+				D4252D1224CA439400F1C2DC /* OffspringHudView.swift */,
+				D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */,
+			);
+			path = Hud;
 			sourceTree = "<group>";
 		};
 		D49EBA2524C175FB0006E0E1 /* Census */ = {
@@ -403,6 +421,7 @@
 				D4F663CF24C16A93006B95BF /* EngageGrid.swift */,
 				D4F663D824C16A93006B95BF /* MoveSprite.swift */,
 				D4F663D624C16A93006B95BF /* MoveStepper.swift */,
+				D41396A724CB889900341D97 /* Parasitize.swift */,
 				D4F663D524C16A93006B95BF /* Spawn.swift */,
 				D4F663D024C16A93006B95BF /* TickLife.swift */,
 			);
@@ -750,6 +769,7 @@
 				D4F6645B24C16A93006B95BF /* SpritePool.swift in Sources */,
 				D4F6648324C16A93006B95BF /* NetDisplay.swift in Sources */,
 				D4F6644C24C16A93006B95BF /* Jump.swift in Sources */,
+				D41396A824CB889900341D97 /* Parasitize.swift in Sources */,
 				D4F6642E24C16A93006B95BF /* SensorPad.Translate.swift in Sources */,
 				D4F6644024C16A93006B95BF /* MoveSprite.swift in Sources */,
 			);

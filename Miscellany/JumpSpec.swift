@@ -13,6 +13,8 @@ struct SensorSnapshot {
 struct JumpSpec {
     let from: GridCell
     let to: SensorSnapshot
+    let attackYesNo: Bool
+    let attackTargetIndex: Int
 
     let distanceInCells: CGFloat
     let speedAsPercentage: CGFloat
@@ -21,9 +23,15 @@ struct JumpSpec {
     let durationSeconds: TimeInterval
     let speedMetersPerSec: CGFloat
 
-    init(from fromLiveGridCell: GridCell, to: CellSensor, speedAsPercentage: CGFloat) {
+    init(
+        from fromLiveGridCell: GridCell, to: CellSensor,
+        speedAsPercentage: CGFloat,
+        attackYesNo: Bool, attackTargetIndex: Int
+    ) {
         self.from = fromLiveGridCell
         self.to = .init(to)
+        self.attackYesNo = attackYesNo
+        self.attackTargetIndex = attackTargetIndex
 
         hardAssert(fromLiveGridCell.properties.gridPosition != to.liveGridCell.properties.gridPosition) { nil }
 

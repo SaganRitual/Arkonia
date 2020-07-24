@@ -1,4 +1,5 @@
 import SpriteKit
+import SwiftUI
 
 struct Fishday {
     private static var TheFishNumber = 0
@@ -23,18 +24,40 @@ struct Fishday {
     }
 }
 
+class CensusHighwater: ObservableObject {
+    @Published var age: TimeInterval = 0
+    @Published var allBirths = 0
+    @Published var cLiveNeurons = 0
+    @Published var cOffspring = 0.0
+    @Published var foodHitrate = 0.0
+    @Published var population = 0
+
+    var coreAge: TimeInterval = 0
+    var coreAllBirths = 0
+    var coreCLiveNeurons = 0
+    var coreCOffspring = 0.0
+    var coreFoodHitrate = 0.0
+    var corePopulation = 0
+
+    func update() {
+        DispatchQueue.main.async {
+            self.age = self.coreAge
+            self.allBirths = self.coreAllBirths
+            self.cLiveNeurons = self.coreCLiveNeurons
+            self.cOffspring = self.coreCOffspring
+            self.foodHitrate = self.coreFoodHitrate
+            self.population = self.corePopulation
+        }
+    }
+}
+
 class Census {
     static var shared = Census()
 
     let censusAgent = CensusAgent()
     let lineChartData = LineChartData(6)
+    var highwater = CensusHighwater()
 
-    private(set) var allBirths = 0
-    private(set) var cLiveNeurons = 0
-    private(set) var highwaterAge: TimeInterval = 0
-    private(set) var highwaterPopulation = 0
-    private(set) var highwaterFoodHitrate = 0.0
-    private(set) var highwaterCOffspring = 0.0
     var populated = false
 
     // Markers for said arkons, not the arkons themselves
@@ -63,21 +86,20 @@ class Census {
         let texture = atlas.textureNamed("marker")
 
         oldestLivingMarker = SKSpriteNode(texture: texture)
-        aimestLivingMarker = SKSpriteNode(texture: texture)
         busiestLivingMarker = SKSpriteNode(texture: texture)
+        aimestLivingMarker = SKSpriteNode(texture: texture)
 
         markers.append(contentsOf: [
-            oldestLivingMarker!, aimestLivingMarker!, busiestLivingMarker!
+            oldestLivingMarker!, busiestLivingMarker!, aimestLivingMarker!
         ])
 
-        let colors: [SKColor] = [.yellow, .orange, .green]
+        let colors: [SKColor] = [.yellow, .green, .orange]
 
         zip(0..., markers).forEach { ss, marker in
             marker.color = colors[ss]
             marker.colorBlendFactor = 1
             marker.zPosition = 10
-            marker.zRotation = -CGFloat.tau * CGFloat(ss) / CGFloat(markers.count)
-            marker.setScale(Arkonia.markerScaleFactor / CGFloat(ss + 1))
+            marker.setScale(Arkonia.markerScaleFactor / (CGFloat(ss) + 1.25 - CGFloat(ss) * 0.45))
         }
     }
 }
@@ -90,18 +112,18 @@ extension Census {
 
 extension Census {
     func updateReports(_ worldClock: Int) {
-        censusAgent.compress(TimeInterval(worldClock), self.allBirths)
+        censusAgent.compress(TimeInterval(worldClock), self.highwater.coreAllBirths)
 
         markExemplars()
 
-        highwaterAge = TimeInterval(max(censusAgent.stats.maxAge, highwaterAge))
-        highwaterCOffspring = TimeInterval(max(censusAgent.stats.maxCOffspring, highwaterCOffspring))
-        highwaterFoodHitrate = max(censusAgent.stats.maxFoodHitRate, highwaterFoodHitrate)
-        highwaterPopulation = max(censusAgent.stats.currentPopulation, highwaterPopulation)
+        self.highwater.coreAge = TimeInterval(max(censusAgent.stats.maxAge, self.highwater.coreAge))
+        self.highwater.coreCOffspring = TimeInterval(max(censusAgent.stats.maxCOffspring, self.highwater.coreCOffspring))
+        self.highwater.coreFoodHitrate = max(censusAgent.stats.maxFoodHitRate, self.highwater.coreFoodHitrate)
+        self.highwater.corePopulation = max(censusAgent.stats.currentPopulation, self.highwater.corePopulation)
 
         lineChartData.update([
             censusAgent.stats.averageAge, censusAgent.stats.maxAge,
-            censusAgent.stats.medAge, 0, 0, Double(highwaterAge)
+            censusAgent.stats.medAge, 0, 0, Double(self.highwater.coreAge)
         ])
     }
 }
@@ -133,7 +155,7 @@ private extension Census {
 extension Census {
     func registerBirth(_ myNetStructure: NetStructure, _ myParent: Stepper?) -> Int {
         myParent?.censusData.increment(.offspring)
-        self.allBirths += 1
+        self.highwater.coreAllBirths += 1
 
         return myNetStructure.cNeurons
     }

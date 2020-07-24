@@ -19,10 +19,10 @@ extension Stepper {
 
         func driveNetSignal_C(_ netResultIsJump: Bool) {
             if netResultIsJump {
-                Debug.log(level: 213) { "driveNetSignal; result is jump" }
+                Debug.log(level: 217) { "driveNetSignal; result is jump" }
                 moveSprite()
             } else {
-                Debug.log(level: 213) { "driveNetSignal; result is rest" }
+                Debug.log(level: 217) { "driveNetSignal; result is rest" }
                 disengageGrid()
             }
         }

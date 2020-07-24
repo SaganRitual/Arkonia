@@ -1,8 +1,7 @@
 import SwiftUI
 
-struct FoodHitrateHudView: View {
+struct PopulationHudView: View {
     @EnvironmentObject var stats: PopulationStats
-    @EnvironmentObject var mannaStats: MannaStats
 
     var labelFont: Font {
         Font.system(
@@ -18,17 +17,6 @@ struct FoodHitrateHudView: View {
         )
     }
 
-    enum Format { case max, highwater, average, llamas }
-
-    func format(_ format: Format) -> String {
-        switch format {
-        case .max:       return String(format: "%0.2f", Census.shared.censusAgent.stats.maxFoodHitRate)
-        case .highwater: return String(format: "%0.2f", Census.shared.highwaterFoodHitrate)
-        case .average:   return String(format: "%0.2f", Census.shared.censusAgent.stats.averageFoodHitRate)
-        case .llamas:    return String(format: "%d", 0)
-        }
-    }
-
     var body: some View {
         ZStack {
             Rectangle()
@@ -37,27 +25,27 @@ struct FoodHitrateHudView: View {
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
-                    Text("Max Food Hitrate").font(self.labelFont)
+                    Text("Population").font(self.labelFont)
                     Spacer()
-                    Text(format(.max))
+                    Text("\(Census.shared.censusAgent.stats.currentPopulation)")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Average").font(self.labelFont).padding(.top, 5)
+                    Text("Highwater").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(format(.average))
+                    Text("\(Census.shared.highwater.population)")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Manna").font(self.labelFont).padding(.top, 5)
+                    Text("All births").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(String(format: "% 5d", mannaStats.cPhotosynthesizingManna))/\(String(format: "% 5d", mannaStats.cPlantedManna))")
+                    Text("\(String(format: "%d", Census.shared.censusAgent.stats.allBirths))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Llamas").font(self.labelFont).padding(.top, 5)
+                    Text("Neurons").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(format(.llamas))
+                    Text(String(format: "%d", Census.shared.censusAgent.stats.cNeurons))
                 }.padding(.leading).padding(.trailing)
             }
             .font(self.meterFont)
@@ -67,8 +55,8 @@ struct FoodHitrateHudView: View {
     }
 }
 
-struct FoodHitrateHudView_Previews: PreviewProvider {
+struct PopulationHudView_Previews: PreviewProvider {
     static var previews: some View {
-        FoodHitrateHudView().environmentObject(PopulationStats())
+        PopulationHudView().environmentObject(PopulationStats())
     }
 }

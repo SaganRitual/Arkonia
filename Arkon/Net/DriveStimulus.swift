@@ -1,6 +1,11 @@
 import Foundation
 
 struct DriveStimulus {
+    enum MiscSenses: Int, CaseIterable {
+        case x, y, hunger, asphyxiation
+        case gestationFullness, dayFullness, yearFullness
+    }
+
     unowned let stepper: Stepper
 
     init(_ stepper: Stepper) { self.stepper = stepper }

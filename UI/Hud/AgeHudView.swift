@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct OffspringHudView: View {
+struct AgeHudView: View {
     @EnvironmentObject var stats: PopulationStats
 
     var labelFont: Font {
@@ -17,6 +17,17 @@ struct OffspringHudView: View {
         )
     }
 
+    enum Format { case maxAge, highwaterAge, averageAge, medAge }
+
+    func format(_ format: Format) -> String {
+        switch format {
+        case .maxAge:       return String(format: "%.0f", Census.shared.censusAgent.stats.maxAge)
+        case .highwaterAge: return String(format: "%.0f", Census.shared.highwater.age)
+        case .averageAge:   return String(format: "%.2f", Census.shared.censusAgent.stats.averageAge)
+        case .medAge:       return String(format: "%.2f", Census.shared.censusAgent.stats.medAge)
+        }
+    }
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -25,27 +36,27 @@ struct OffspringHudView: View {
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
-                    Text("Max offspring").font(self.labelFont)
+                    Text("Max Age").font(self.labelFont)
                     Spacer()
-                    Text("\(String(format: "% 3.0f", Census.shared.censusAgent.stats.maxCOffspring))")
+                    Text(format(.maxAge))
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("Highwater").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(String(format: "% 3.0f", Census.shared.highwaterCOffspring))")
+                    Text(format(.highwaterAge))
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("Average").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(String(format: "% 3.2f", Census.shared.censusAgent.stats.averageCOffspring))")
+                    Text(format(.averageAge))
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("Median").font(self.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(String(format: "% 3.2f", Census.shared.censusAgent.stats.medCOffspring))
+                    Text(format(.medAge))
                 }.padding(.leading).padding(.trailing)
             }
             .font(self.meterFont)
@@ -55,8 +66,8 @@ struct OffspringHudView: View {
     }
 }
 
-struct OffspringHudView_Previews: PreviewProvider {
+struct AgeHudView_Previews: PreviewProvider {
     static var previews: some View {
-        OffspringHudView().environmentObject(PopulationStats())
+        AgeHudView().environmentObject(PopulationStats())
     }
 }

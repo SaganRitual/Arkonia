@@ -55,6 +55,11 @@ extension Manna.Sprite {
     }
 
     func bloom(_ timeRequiredForFullBloom: Double, color: SKColor, scaleFactor: CGFloat) {
+        if Int.random(in: 0..<1000) == 0 {
+            MannaStats.stats.updateMannaStat(.dead, by: 1)
+            return
+        }
+
         let toRun = Manna.Sprite.bloomAction(
             timeRequiredForFullBloom, bloomTimingFunction, color, scaleFactor
         )

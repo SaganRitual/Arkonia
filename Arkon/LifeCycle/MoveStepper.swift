@@ -19,7 +19,7 @@ extension Stepper {
             fromContents = spindle.gridCell.contents
             toContents = jumpSpec!.to.sensorSS.liveGridCell.contents
 
-            Debug.log(level: 213) {
+            Debug.log(level: 217) {
                 "moveStepper \(name)"
                 + " \(fromContents!.hasArkon())"
                 + " localIx \(toLocalIx);"
@@ -43,7 +43,8 @@ extension Stepper {
                 return
             }
 
-            disengageGrid()
+            if jumpSpec!.attackYesNo { parasitize() }
+            else                     { disengageGrid() }
         }
 
         moveStepper_A()
