@@ -28,5 +28,8 @@ private extension Stepper {
         spindle.getLifecycleLock(engageGrid_C)
     }
 
-    func engageGrid_C() { sensorPad.engageSensors(tickLife) }
+    func engageGrid_C() {
+        if self.isDyingFromParasite { apoptosize(); return }
+        sensorPad.engageSensors(tickLife)
+    }
 }

@@ -4,23 +4,18 @@ import SwiftUI
 class Clock {
     static var shared = Clock()
 
-    let clockFormatter = DateComponentsFormatter()
-//    let clockReport: Reportoid
-//    let foodValueReport: Reportoid
     var isRunning = false
     private(set) var worldClock = TimeInterval(0)
 
     let seasonalFactors = SeasonalFactors()
+    let timerDelay = 1 / Arkonia.updateFrequencyHertz
 
     static let dispatchQueue = DispatchQueue(
         label: "ak.clock.q",
         target: DispatchQueue.global()
     )
 
-    func start() {
-        isRunning = true
-        tickTheWorld()
-    }
+    func start() { isRunning = true; tickTheWorld() }
 
     func getEntropy(_ onComplete: @escaping (CGFloat) -> Void) {
         Clock.dispatchQueue.async {
@@ -41,46 +36,18 @@ class Clock {
     }
 
     static func stop() { Clock.shared.isRunning = false }
-
+}
+//
+private extension Clock {
     func tickTheWorld() {
         guard isRunning else { return }
 
-        let delay = 1 / Arkonia.updateFrequencyHertz
-        self.worldClock += delay
+        Clock.dispatchQueue.asyncAfter(deadline: .now() + timerDelay, execute: tickTheWorld_B)
+    }
+
+    func tickTheWorld_B() {
+        self.worldClock += timerDelay
         seasonalFactors.update(self.worldClock)
-
-        Clock.dispatchQueue.asyncAfter(deadline: .now() + delay, execute: tickTheWorld)
-
-//        self.clockReport.data.text =
-//            self.clockFormatter.string(from: TimeInterval(self.worldClock))
-
-//        var cPhotosynthesizingManna = 0
-//        var cDeadManna = 0
-
-//        func a() { MannaCannon.mannaPlaneQueue.async(execute: b) }
-
-//        func b() {
-//            cPhotosynthesizingManna = MannaCannon.shared.cPhotosynthesizingManna
-//            cDeadManna = MannaCannon.shared.cDeadManna
-//            c()
-//        }
-
-//        func c() { Clock.dispatchQueue.async(execute: d) }
-
-//        func d() {
-//            self.foodValueReport.data.text
-//                = (Arkonia.worldTimeLimit == nil)
-//
-//                ? String(
-//                    format: "% 5d/%3d%",
-//                    cPhotosynthesizingManna,
-//                    // cPlantedManna is set at startup and never read afterward
-//                    MannaCannon.shared.cPlantedManna - cDeadManna
-//                )
-//
-//                : String(format: "%.2f%%", (1 - self.getEntropy()) * 100)
-//        }
-
-//        a()
+        tickTheWorld()
     }
 }

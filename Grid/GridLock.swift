@@ -9,7 +9,8 @@ class GridLock {
     var isLocked = false
 
     // I'd be surprised if it ever goes past 2
-    fileprivate let occupancyDeferrals = Cbuffer<Deferral>(cElements: 5, mode: .fifo)
+    // 2020.07.25: I'm surprised because it went past 5
+    fileprivate let occupancyDeferrals = Cbuffer<Deferral>(cElements: 10, mode: .fifo)
     fileprivate var occupantLockDeferral: Deferral?
 }
 
@@ -28,14 +29,14 @@ extension GridLock {
         // so he can forage for food
         if normalLock {
             hardAssert(self.occupantLockDeferral == nil) { nil }
-            Debug.log(level: 214) { "occupantLockDeferral at \(cell.properties.gridPosition)" }
+            Debug.log(level: 218) { "occupantLockDeferral at \(cell.properties.gridPosition)" }
             self.occupantLockDeferral = deferral
         }
 
         // "Not normal" meaning this is a supernatural birth from the sky and
         // the coming newborn needs its landing cell to be locked so it can land
         else {
-            Debug.log(level: 214) { "occupancyDeferrals at \(cell.properties.gridPosition)" }
+            Debug.log(level: 218) { "occupancyDeferrals at \(cell.properties.gridPosition)" }
             cell.lock.occupancyDeferrals.pushBack(deferral) }
     }
 
@@ -68,6 +69,7 @@ private extension GridLock {
         }
 
         func serviceDeferrals_B() {
+            Debug.log(level: 217) { "serviceDeferrals_B \(self.occupancyDeferrals.count)" }
             // If there's nothing in the defer list, then of course we're finished.
             // But if there's someone sitting in the cell still, we can't do
             // anything. We're stuck on the defer list until that guy moves,
@@ -81,6 +83,7 @@ private extension GridLock {
         }
 
         func serviceDeferrals_C() {
+            Debug.log(level: 217) { "serviceDeferrals_C \(self.occupancyDeferrals.count)" }
             occupantLockDeferral!.redeploy(); occupantLockDeferral = nil; return
         }
     }

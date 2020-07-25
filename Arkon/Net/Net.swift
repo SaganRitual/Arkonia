@@ -37,6 +37,8 @@ class Net {
     let pSenseNeuronsPollenators: UnsafeMutablePointer<Float>
     let pMotorOutputs: UnsafePointer<Float>
 
+    var defunct = false
+
     static func makeNet(
         _ netStructure: NetStructure,
         _ parentBiases: UnsafePointer<Float>?,
@@ -127,6 +129,8 @@ class Net {
     }
 
     func release(_ onComplete: @escaping () -> Void) {
+        hardAssert(defunct == false) { "double-release?" }
+        defunct = true
         [pNeurons, pBiases, pWeights].forEach { $0.deallocate() }
         mainDispatch(onComplete)
     }

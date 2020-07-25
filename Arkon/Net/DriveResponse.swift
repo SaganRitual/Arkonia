@@ -18,11 +18,13 @@ class DriveResponse {
         _ onComplete: @escaping (Bool) -> Void
     ) { mainDispatch { self.driveResponse_C(senseData, onComplete) } }
 
-    private func getIndexedOffset(for rawValue: Float, cCells: Int) -> Int {
-        let result = Int(floor(rawValue * Float(cCells)))
+    private func getIndexedOffset(for rawValue: Float, cCells: Range<Int>) -> Int {
+        let result = Int(floor(rawValue * Float(cCells.count))) + cCells.lowerBound
 
         // In case we get a 1.0 -- that would push us beyond the end of the array
-        return result == cCells ? cCells - 1 : result
+        let rr = (result == cCells.count) ? cCells.count - 1 : result
+        Debug.log(level: 218) { "rr \(rawValue), \(cCells.count), \(result), \(rr)" }
+        return rr
     }
 
     private func driveResponse_C(
@@ -35,15 +37,15 @@ class DriveResponse {
         // Divide the circle into cSensorPadCells slices
         let targetOffset = getIndexedOffset(
             for: net.pMotorOutputs[MotorIndex.jumpTarget.rawValue],
-            cCells: cSensorPadCells
+            cCells: 0..<cSensorPadCells
         )
 
-        let attackYesNo =
-            stepper.net.pMotorOutputs[MotorIndex.attackYesNo.rawValue] > 0
+        let attackYesNo = true
+//            stepper.net.pMotorOutputs[MotorIndex.attackYesNo.rawValue] > 0
 
         let attackTargetIndex = getIndexedOffset(
             for: stepper.net.pMotorOutputs[MotorIndex.attackTarget.rawValue],
-            cCells: 9   // We can attack only those arkons in adjacent cells
+            cCells: 1..<9   // We can attack only those arkons in adjacent cells
         )
 
         driveResponse_C1(senseData, targetOffset, attackYesNo, attackTargetIndex) { okToJump in
@@ -60,12 +62,8 @@ class DriveResponse {
     ) {
         assert(stepper.jumpSpec == nil)
         let jumpSpeedMotorOutput = stepper.net.pMotorOutputs[MotorIndex.jumpSpeed.rawValue]
-        let onJump   = {
-            Debug.log(level: 213) { "driveResponse_C1.X1 jump" }
-            onComplete(true) }
-        let onNoJump = {
-            Debug.log(level: 213) { "driveResponse_C1.X2 no jump" }
-            onComplete(false) }
+        let onJump   = { onComplete(true) }
+        let onNoJump = { onComplete(false) }
 
         Debug.log(level: 213) { "driveResponse_C1.X3 targetOffset \(targetOffset)" }
 

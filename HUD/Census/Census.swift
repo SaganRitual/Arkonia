@@ -39,23 +39,29 @@ class CensusHighwater: ObservableObject {
     var coreFoodHitrate = 0.0
     var corePopulation = 0
 
-    func update() {
+    // swiftlint:disable function_parameter_count
+    // Function Parameter Count Violation: Function should have 5 parameters
+    // or less: it currently has 6
+    func update(
+        _ age: TimeInterval, _ allBirths: Int, _ cLiveNeurons: Int,
+        _ cOffspring: Double, _ foodHitrate: Double, _ population: Int
+    ) {
         DispatchQueue.main.async {
-            self.age = self.coreAge
-            self.allBirths = self.coreAllBirths
-            self.cLiveNeurons = self.coreCLiveNeurons
-            self.cOffspring = self.coreCOffspring
-            self.foodHitrate = self.coreFoodHitrate
-            self.population = self.corePopulation
+            self.age = age
+            self.allBirths = allBirths
+            self.cLiveNeurons = cLiveNeurons
+            self.cOffspring = cOffspring
+            self.foodHitrate = foodHitrate
+            self.population = population
         }
     }
+    // swiftlint:enable function_parameter_count
 }
 
 class Census {
     static var shared = Census()
 
     let censusAgent = CensusAgent()
-    let lineChartData = LineChartData(6)
     var highwater = CensusHighwater()
 
     var populated = false
@@ -73,11 +79,8 @@ class Census {
 
     func start() {
         setupMarkers()
-
-        tickTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            DispatchQueue.main.async(execute: self.highwater.update)
-            Census.dispatchQueue.async { self.updateReports() }
-        }
+        seedWorld()
+        updateReports()
     }
 
     func reSeedWorld() { populated = false }
@@ -111,21 +114,36 @@ extension Census {
     }
 }
 
-extension Census {
-    func updateReports(_ worldClock: Int) {
-        censusAgent.compress(TimeInterval(worldClock), self.highwater.coreAllBirths)
+private extension Census {
+    func updateReports() {
+        Clock.dispatchQueue.asyncAfter(deadline: .now() + 1) {
+            let wc = Int(Clock.shared.worldClock)
+            self.updateReports_B(wc)
+        }
+    }
 
-        markExemplars()
+    func updateReports_B(_ worldClock: Int) {
+        Census.dispatchQueue.async {
+            self.updateReports_C(worldClock)
+
+            self.highwater.update(
+                self.highwater.coreAge, self.highwater.coreAllBirths,
+                self.highwater.coreCLiveNeurons, self.highwater.coreCOffspring,
+                self.highwater.coreFoodHitrate, self.highwater.corePopulation
+            )
+        }
+    }
+
+    func updateReports_C(_ worldClock: Int) {
+        censusAgent.compress(TimeInterval(worldClock), self.highwater.coreAllBirths)
 
         self.highwater.coreAge = TimeInterval(max(censusAgent.stats.maxAge, self.highwater.coreAge))
         self.highwater.coreCOffspring = TimeInterval(max(censusAgent.stats.maxCOffspring, self.highwater.coreCOffspring))
         self.highwater.coreFoodHitrate = max(censusAgent.stats.maxFoodHitRate, self.highwater.coreFoodHitrate)
         self.highwater.corePopulation = max(censusAgent.stats.currentPopulation, self.highwater.corePopulation)
 
-        lineChartData.update([
-            censusAgent.stats.averageAge, censusAgent.stats.maxAge,
-            censusAgent.stats.medAge, 0, 0, Double(self.highwater.coreAge)
-        ])
+        markExemplars()
+        updateReports()
     }
 }
 
@@ -142,22 +160,15 @@ private extension Census {
     }
 
     func updateMarker(_ marker: SKSpriteNode, _ markCandidate: SKSpriteNode) {
-        if marker.parent != nil {
-            marker.alpha = 0
-            marker.removeFromParent()
+        SceneDispatch.shared.schedule {
+            if marker.parent != nil {
+                marker.alpha = 0
+                marker.removeFromParent()
+            }
+
+            markCandidate.addChild(marker)
+
+            marker.alpha = 1
         }
-
-        markCandidate.addChild(marker)
-
-        marker.alpha = 1
-    }
-}
-
-extension Census {
-    func registerBirth(_ myNetStructure: NetStructure, _ myParent: Stepper?) -> Int {
-        myParent?.censusData.increment(.offspring)
-        self.highwater.coreAllBirths += 1
-
-        return myNetStructure.cNeurons
     }
 }

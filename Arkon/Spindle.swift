@@ -2,6 +2,7 @@ class Spindle {
     enum State {
         case inBirthCellWithLockFromParent
         case inBirthLimboAwaitingTargetCellReady
+        case inDeathCellWithLockFromAttacker
         case normal
     }
 
@@ -30,9 +31,7 @@ extension Spindle {
     func attachToGrid(iHaveTheLiveConnection: Bool, _ onComplete: @escaping () -> Void) {
         switch state {
         case .inBirthCellWithLockFromParent:
-            attachToCell(iHaveTheLiveConnection: iHaveTheLiveConnection) {
-                mainDispatch(onComplete)
-            }
+            attachToCell(iHaveTheLiveConnection: iHaveTheLiveConnection, onComplete)
 
         case .inBirthLimboAwaitingTargetCellReady:
             GridLock.lockQueue.async {

@@ -42,7 +42,7 @@ struct ContentView: View {
 
                 GameView(scene: ArkoniaScene())
                     .sheet(isPresented: $randomer.isBusy) {
-                        LlamaProgressView().environmentObject(randomer)
+                        LlamaProgressView().environmentObject(self.randomer)
                     }
             }
         }

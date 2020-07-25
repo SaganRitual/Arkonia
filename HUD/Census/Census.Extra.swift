@@ -17,16 +17,16 @@ extension Census {
 
         a()
     }
+
+    func registerBirth(_ myNetStructure: NetStructure, _ myParent: Stepper?) -> Int {
+        myParent?.censusData.increment(.offspring)
+        self.highwater.coreAllBirths += 1
+
+        return myNetStructure.cNeurons
+    }
 }
 
 extension Census {
-    func updateReports() {
-        seedWorld()
-        Clock.getWorldClock { worldClock in
-            Census.dispatchQueue.async { Census.shared.updateReports(Int(worldClock)) }
-        }
-    }
-
     func seedWorld() {
         if populated == false {
             for _ in 0..<Arkonia.initialPopulation {
