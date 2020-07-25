@@ -23,6 +23,7 @@ struct NetStructure {
     init(_ cSenseRings: Int?, _ parentLayerDescriptors: [Int]?) {
         self.cSenseRings = cSenseRings ??  Int.random(in: NetStructure.cSenseRingsRange)
         self.sensorPadCCells = GridIndexer.cellsWithinSenseRange(self.cSenseRings)
+//        self.layerDescriptors = NetStructure.layerStructures[self.cSenseRings]!.randomElement()!
 
         self.cSenseNeuronsMisc = DriveStimulus.MiscSenses.allCases.count
         self.cSenseNeuronsPollenators = Arkonia.cPollenators * 2

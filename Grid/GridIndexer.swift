@@ -30,6 +30,33 @@ struct GridIndexer {
         let virtualGridPosition = localIndexToVirtualGrid(localIx, from: centerGridCell)
         return asteroidize(virtualGridPosition)
     }
+
+    static func square(_ value: Int) -> Int { value * value }
+
+    static func offsetToLocalIndex(_ offset: AKPoint) -> Int {
+        let whichRing = max(abs(offset.x), abs(offset.y))
+
+        if offset.y == whichRing {
+            // We're at the top of the ring
+            return square(2 * whichRing + 1) - (2 * whichRing - offset.x)
+
+        } else if offset.x == whichRing {
+            // We're on the right of the ring
+            return (offset.y > 0) ?
+                square(2 * whichRing + 1) - offset.y :
+                square(2 * whichRing - 1) - offset.y
+
+        } else if offset.y == -whichRing {
+            // We're on the bottom of the ring
+            return square(2 * whichRing - 1) + (2 * whichRing - offset.x)
+
+        } else if offset.x == -whichRing {
+            // We're on the left of the ring
+            return square(2 * whichRing) + offset.y + 1
+        }
+
+        fatalError()
+    }
 }
 
 extension GridIndexer {
@@ -108,7 +135,10 @@ private extension GridIndexer {
             partialIndex += 1
         }
 
-        return AKPoint(x: x, y: y)
+        let testPoint = AKPoint(x: x, y: y)
+        let hopefulIndex = offsetToLocalIndex(testPoint)
+        assert(hopefulIndex == targetIndex)
+        return testPoint
     }
 }
 

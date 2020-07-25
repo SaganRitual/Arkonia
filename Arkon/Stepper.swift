@@ -15,6 +15,7 @@ class Stepper {
     var canSpawn = false
     var currentTime: TimeInterval = 0
     var currentEntropyPerJoule: Double = 0
+    var isDyingFromParasite = false
     var jumpSpec: JumpSpec?
     var jumpSpeed = 0.0
     var previousShiftOffset = AKPoint.zero
