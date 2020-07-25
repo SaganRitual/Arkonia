@@ -23,7 +23,6 @@ struct NetStructure {
     init(_ cSenseRings: Int?, _ parentLayerDescriptors: [Int]?) {
         self.cSenseRings = cSenseRings ??  Int.random(in: NetStructure.cSenseRingsRange)
         self.sensorPadCCells = GridIndexer.cellsWithinSenseRange(self.cSenseRings)
-        self.layerDescriptors = NetStructure.layerStructures[self.cSenseRings]!.randomElement()!
 
         self.cSenseNeuronsMisc = DriveStimulus.MiscSenses.allCases.count
         self.cSenseNeuronsPollenators = Arkonia.cPollenators * 2
@@ -32,9 +31,8 @@ struct NetStructure {
 
         self.cMotorNeurons = DriveResponse.MotorIndex.allCases.count
 
-//        self.layerDescriptors = NetStructure.buildLayerStructure(
-//            cSenseNeurons, cMotorNeurons
-//        )
+        self.layerDescriptors =
+            NetStructure.buildLayerStructure(cSenseNeurons, cMotorNeurons)
 
         // There must be at least one hidden layer
         hardAssert(self.layerDescriptors.count >= 3) { nil }
@@ -51,7 +49,7 @@ struct NetStructure {
         (self.cNeurons, self.cBiases, self.cWeights) =
             NetStructure.computeNetParameters(layerDescriptors)
 
-        Debug.log(level: 217) { "cSenseRings \(self.cSenseRings)"}
+        Debug.log(level: 217) { "cSenseRings \(self.cSenseRings)" }
 
         hardAssert(debugCNeurons == cNeurons) { "\(#line) in \(#file)" }
 
@@ -79,29 +77,34 @@ struct NetStructure {
 extension NetStructure {
     static func buildLayerStructure(_ cSenseNeurons: Int, _ cMotorNeurons: Int) -> [Int] {
         var layerStructure = [cSenseNeurons]
-        var randomer = AKRandomer(.uniform)
+//        var randomer = AKRandomer(.uniform)
 
         var cMaxNeuronsThisLayer = cSenseNeurons
-        Debug.log(level: 218) { "cSenseNeurons \(cSenseNeurons)"}
+        Debug.log(level: 217) { "cSenseNeurons \(cSenseNeurons)"}
 
-        // Try to make each layer at least half the size of the
-        // layer above it
+        // Try to make each layer at least half the size of the layer above it
         while cMaxNeuronsThisLayer > (cMotorNeurons * 4) {
-            let divisor = randomer.inRange(2..<(cMaxNeuronsThisLayer / (cMotorNeurons * 2)))
-            Debug.log(level: 218) { "divisor \(divisor)"}
+//            let divisor = randomer.inRange(2..<(cMaxNeuronsThisLayer / (cMotorNeurons * 2)))
+            let divisor = 2
+            Debug.log(level: 217) { "divisor \(divisor)"}
             if divisor == 0 { break }
 
             let cNeuronsThisLayer = cMaxNeuronsThisLayer / divisor
             layerStructure.append(cNeuronsThisLayer)
 
-            Debug.log(level: 218) { "cn \(cMaxNeuronsThisLayer), \(divisor), \(cNeuronsThisLayer) -> \(cMaxNeuronsThisLayer - (cNeuronsThisLayer * divisor))" }
+            Debug.log(level: 217) {
+                "cn \(cMaxNeuronsThisLayer)"
+                + ", \(divisor)"
+                + ", \(cNeuronsThisLayer)"
+                + " -> \(cMaxNeuronsThisLayer - (cNeuronsThisLayer * divisor))"
+            }
 
-            cMaxNeuronsThisLayer -= (cNeuronsThisLayer * divisor)
+            cMaxNeuronsThisLayer -= cNeuronsThisLayer
         }
 
         layerStructure.append(cMotorNeurons)
 
-        Debug.log(level: 218) { "buildLayerStructure -> \(layerStructure)" }
+        Debug.log(level: 217) { "buildLayerStructure -> \(layerStructure)" }
 
         return layerStructure
     }

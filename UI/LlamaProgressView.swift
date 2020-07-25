@@ -10,7 +10,11 @@ struct LlamaProgressView: View {
                 .foregroundColor(Color.white.opacity(0.01))
 
             VStack {
+                #if DEBUG
+                Text(randomer.isLloading ? "Lloading Llittle Llamas" : "Normallizing")
+                #else
                 Text(randomer.isLloading ? "Lloading Llamas" : "Normallizing")
+                #endif
 
                 ZStack(alignment: .leading) {
                     Rectangle()

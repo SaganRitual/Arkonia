@@ -75,6 +75,7 @@ class Census {
         setupMarkers()
 
         tickTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            DispatchQueue.main.async(execute: self.highwater.update)
             Census.dispatchQueue.async { self.updateReports() }
         }
     }

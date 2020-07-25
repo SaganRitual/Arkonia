@@ -19,7 +19,7 @@ class Arkonia {
     static var debugGrid = false
 
     static let funkyCells: CGFloat? = nil
-    static let initialPopulation = 10
+    static let initialPopulation = 50
 
     static let worldTimeLimit: TimeInterval? = nil//5000
     static let standardSpeedCellsPerSecond: CGFloat = 25
