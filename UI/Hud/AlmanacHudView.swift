@@ -19,20 +19,6 @@ struct AlmanacHudView: View {
         }
     }
 
-    var labelFont: Font {
-        Font.system(
-            size: ArkoniaLayout.AlmanacView.labelFontSize,
-            design: Font.Design.monospaced
-        ).lowercaseSmallCaps()
-    }
-
-    var meterFont: Font {
-        Font.system(
-            size: ArkoniaLayout.AlmanacView.meterFontSize,
-            design: Font.Design.monospaced
-        )
-    }
-
     enum NumberStringFormat { case year, day, pYear, pDay, temperature }
     func format(_ format: NumberStringFormat) -> String {
         switch format {
@@ -52,31 +38,31 @@ struct AlmanacHudView: View {
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
-                    Text("Run duration").font(self.labelFont)
+                    Text("Run duration").font(ArkoniaLayout.labelFont)
                     Spacer()
                     Text(clockFormatter.string(from: seasonalFactors.elapsedTimeRealSeconds)!)
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Year:Day").font(self.labelFont).padding(.top, 5)
+                    Text("Year:Day").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
                     Text("\(format(.year)):\(format(.day))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("p-Year:p-Day").font(self.labelFont).padding(.top, 5)
+                    Text("p-Year:p-Day").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
                     Text("\(format(.pYear)):\(format(.pDay))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Temperature").font(self.labelFont).padding(.top, 5)
+                    Text("Temperature").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
                     Text("\(format(.temperature))")
                 }.padding(.leading).padding(.trailing)
 
             }
-            .font(self.meterFont)
+            .font(ArkoniaLayout.meterFont)
             .foregroundColor(.green)
             .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
         }

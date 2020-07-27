@@ -1,16 +1,16 @@
 import SwiftUI
 
-struct AgeHudView: View {
+struct NeuronsHudView: View {
     @EnvironmentObject var stats: PopulationStats
 
-    enum Format { case maxAge, highwaterAge, averageAge, medAge }
+    enum Format { case cLiveNeurons, highwaterLive, cAverageNeurons, highwaterAverage }
 
     func format(_ format: Format) -> String {
         switch format {
-        case .maxAge:       return String(format: "%.0f", Census.shared.censusAgent.stats.maxAge)
-        case .highwaterAge: return String(format: "%.0f", Census.shared.highwater.age)
-        case .averageAge:   return String(format: "%.2f", Census.shared.censusAgent.stats.averageAge)
-        case .medAge:       return String(format: "%.2f", Census.shared.censusAgent.stats.medAge)
+        case .cLiveNeurons:     return String(format: "%d", Census.shared.censusAgent.stats.cNeurons)
+        case .highwaterLive:    return String(format: "%d", Census.shared.highwater.cLiveNeurons)
+        case .cAverageNeurons:  return String(format: "%0.2f", Census.shared.censusAgent.stats.cAverageNeurons)
+        case .highwaterAverage: return String(format: "%0.2f", Census.shared.highwater.cAverageNeurons)
         }
     }
 
@@ -22,27 +22,28 @@ struct AgeHudView: View {
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
-                    Text("Max Age").font(ArkoniaLayout.labelFont)
+                    Text("Live neurons").font(ArkoniaLayout.labelFont)
                     Spacer()
-                    Text(format(.maxAge))
+                    Text(format(.cLiveNeurons))
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("Highwater").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(format(.highwaterAge))
+                    Text(format(.highwaterLive))
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Average").font(ArkoniaLayout.labelFont).padding(.top, 5)
+                    Text("Per Arkon").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(format(.averageAge))
+                    Text(format(.cAverageNeurons)
+                    )
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Median").font(ArkoniaLayout.labelFont).padding(.top, 5)
+                    Text("Highwater").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(format(.medAge))
+                    Text(format(.highwaterAverage))
                 }.padding(.leading).padding(.trailing)
             }
             .font(ArkoniaLayout.meterFont)
@@ -52,8 +53,8 @@ struct AgeHudView: View {
     }
 }
 
-struct AgeHudView_Previews: PreviewProvider {
+struct NeuronsHudView_Previews: PreviewProvider {
     static var previews: some View {
-        AgeHudView().environmentObject(PopulationStats())
+        NeuronsHudView().environmentObject(PopulationStats())
     }
 }

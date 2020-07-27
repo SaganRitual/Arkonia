@@ -3,20 +3,6 @@ import SwiftUI
 struct PopulationHudView: View {
     @EnvironmentObject var stats: PopulationStats
 
-    var labelFont: Font {
-        Font.system(
-            size: ArkoniaLayout.AlmanacView.labelFontSize,
-            design: Font.Design.monospaced
-        ).lowercaseSmallCaps()
-    }
-
-    var meterFont: Font {
-        Font.system(
-            size: ArkoniaLayout.AlmanacView.meterFontSize,
-            design: Font.Design.monospaced
-        )
-    }
-
     var body: some View {
         ZStack {
             Rectangle()
@@ -25,30 +11,30 @@ struct PopulationHudView: View {
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
-                    Text("Population").font(self.labelFont)
+                    Text("Population").font(ArkoniaLayout.labelFont)
                     Spacer()
                     Text("\(Census.shared.censusAgent.stats.currentPopulation)")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Highwater").font(self.labelFont).padding(.top, 5)
+                    Text("Highwater").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
                     Text("\(Census.shared.highwater.population)")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("All births").font(self.labelFont).padding(.top, 5)
+                    Text("All births").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
                     Text("\(String(format: "%d", Census.shared.censusAgent.stats.allBirths))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Neurons").font(self.labelFont).padding(.top, 5)
+                    Text("Neurons").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
                     Text(String(format: "%d", Census.shared.censusAgent.stats.cNeurons))
                 }.padding(.leading).padding(.trailing)
             }
-            .font(self.meterFont)
+            .font(ArkoniaLayout.meterFont)
             .foregroundColor(.green)
             .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
         }

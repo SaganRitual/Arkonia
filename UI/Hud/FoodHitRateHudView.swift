@@ -4,20 +4,6 @@ struct FoodHitrateHudView: View {
     @EnvironmentObject var stats: PopulationStats
     @EnvironmentObject var mannaStats: MannaStats
 
-    var labelFont: Font {
-        Font.system(
-            size: ArkoniaLayout.AlmanacView.labelFontSize,
-            design: Font.Design.monospaced
-        ).lowercaseSmallCaps()
-    }
-
-    var meterFont: Font {
-        Font.system(
-            size: ArkoniaLayout.AlmanacView.meterFontSize,
-            design: Font.Design.monospaced
-        )
-    }
-
     enum Format { case max, highwater, average, llamas }
 
     func format(_ format: Format) -> String {
@@ -37,19 +23,19 @@ struct FoodHitrateHudView: View {
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
-                    Text("Max Food Hitrate").font(self.labelFont)
+                    Text("Max Food Hitrate").font(ArkoniaLayout.labelFont)
                     Spacer()
                     Text(format(.max))
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Average").font(self.labelFont).padding(.top, 5)
+                    Text("Average").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
                     Text(format(.average))
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Manna").font(self.labelFont).padding(.top, 5)
+                    Text("Manna").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
                     Text(
                         "\(String(format: "% 5d", mannaStats.cPhotosynthesizingManna))"
@@ -58,12 +44,12 @@ struct FoodHitrateHudView: View {
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Llamas").font(self.labelFont).padding(.top, 5)
+                    Text("Llamas").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
                     Text(format(.llamas))
                 }.padding(.leading).padding(.trailing)
             }
-            .font(self.meterFont)
+            .font(ArkoniaLayout.meterFont)
             .foregroundColor(.green)
             .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
         }

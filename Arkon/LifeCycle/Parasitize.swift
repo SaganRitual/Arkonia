@@ -35,8 +35,10 @@ extension Stepper {
 
             assert(victim !== self)
 
-            parasitize_B(victim)
-            return
+            // Victim will see this when he wakes up, then he'll die
+            victim.isDyingFromParasite = true
+
+            dieDramatically(victim)    // We don't wait for this to complete
         }
 
         Debug.log(level: 221) {
@@ -58,29 +60,12 @@ extension Stepper {
         disengageGrid()
     }
 
-    private func parasitize_B(_ victim: Stepper) {
+    private func dieDramatically(_ victim: Stepper) {
         let swell = SKAction.scale(by: 1.3, duration: 0.05)
         let shrink = swell.reversed()
         let sequence = SKAction.sequence([swell, shrink])
         let `repeat` = SKAction.repeat(sequence, count: 8)
-        thorax.run(`repeat`) { self.parasitize_C(victim) }
-    }
-
-    private func parasitize_C(_ victim: Stepper) {
-        let debugix = self.getLocalIndexForCell(victim.spindle.gridCell)
-
-        // Victim will see this when he wakes up, then he'll die
-        victim.isDyingFromParasite = true
-
-        mainDispatch {
-            Debug.log(level: 220) {
-                return "parasitize: \(AKName(self.name))"
-                    + " devours \(AKName(victim.name))"
-                    + "; jumped from \(self.jumpSpec!.from.properties.gridPosition)"
-                    + " to \(self.jumpSpec!.to.cellSS.properties.gridPosition)"
-                    + " attacking index \(debugix))"
-            }
-        }
+        victim.thorax.run(`repeat`)
     }
 }
 

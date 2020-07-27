@@ -17,6 +17,8 @@ class PopulationStats: ObservableObject {
 
     @Published var allBirths: Int = 0
     @Published var currentPopulation: Int = 0
+
+    @Published var cAverageNeurons: Double = 0
     @Published var cNeurons: Int = 0
 
     // swiftlint:disable function_parameter_count
@@ -49,6 +51,7 @@ class PopulationStats: ObservableObject {
             self.busiestArkon = busiestArkon
 
             self.cNeurons = cNeurons
+            self.cAverageNeurons = Double(cNeurons) / Double(currentPopulation)
         }
     }
     // swiftlint:enable function_parameter_count

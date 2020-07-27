@@ -28,6 +28,7 @@ class CensusHighwater: ObservableObject {
     @Published var age: TimeInterval = 0
     @Published var allBirths = 0
     @Published var cLiveNeurons = 0
+    @Published var cAverageNeurons = 0.0
     @Published var cOffspring = 0.0
     @Published var foodHitrate = 0.0
     @Published var population = 0
@@ -35,6 +36,7 @@ class CensusHighwater: ObservableObject {
     var coreAge: TimeInterval = 0
     var coreAllBirths = 0
     var coreCLiveNeurons = 0
+    var coreCAverageNeurons = 0.0
     var coreCOffspring = 0.0
     var coreFoodHitrate = 0.0
     var corePopulation = 0
@@ -44,7 +46,8 @@ class CensusHighwater: ObservableObject {
     // or less: it currently has 6
     func update(
         _ age: TimeInterval, _ allBirths: Int, _ cLiveNeurons: Int,
-        _ cOffspring: Double, _ foodHitrate: Double, _ population: Int
+        _ cOffspring: Double, _ foodHitrate: Double, _ population: Int,
+        _ cAverageNeurons: Double
     ) {
         DispatchQueue.main.async {
             self.age = age
@@ -53,6 +56,7 @@ class CensusHighwater: ObservableObject {
             self.cOffspring = cOffspring
             self.foodHitrate = foodHitrate
             self.population = population
+            self.cAverageNeurons = cAverageNeurons
         }
     }
     // swiftlint:enable function_parameter_count
@@ -129,7 +133,8 @@ private extension Census {
             self.highwater.update(
                 self.highwater.coreAge, self.highwater.coreAllBirths,
                 self.highwater.coreCLiveNeurons, self.highwater.coreCOffspring,
-                self.highwater.coreFoodHitrate, self.highwater.corePopulation
+                self.highwater.coreFoodHitrate, self.highwater.corePopulation,
+                self.highwater.coreCAverageNeurons
             )
         }
     }
@@ -138,9 +143,11 @@ private extension Census {
         censusAgent.compress(TimeInterval(worldClock), self.highwater.coreAllBirths)
 
         self.highwater.coreAge = TimeInterval(max(censusAgent.stats.maxAge, self.highwater.coreAge))
+        self.highwater.coreCLiveNeurons = max(censusAgent.stats.cNeurons, self.highwater.cLiveNeurons)
         self.highwater.coreCOffspring = TimeInterval(max(censusAgent.stats.maxCOffspring, self.highwater.coreCOffspring))
         self.highwater.coreFoodHitrate = max(censusAgent.stats.maxFoodHitRate, self.highwater.coreFoodHitrate)
         self.highwater.corePopulation = max(censusAgent.stats.currentPopulation, self.highwater.corePopulation)
+        self.highwater.coreCAverageNeurons = max(censusAgent.stats.cAverageNeurons, self.highwater.coreCAverageNeurons)
 
         markExemplars()
         updateReports()

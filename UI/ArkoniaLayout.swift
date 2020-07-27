@@ -1,4 +1,5 @@
 import CoreGraphics
+import SwiftUI
 
 enum ArkoniaLayout {
     enum AlmanacView {}
@@ -6,6 +7,18 @@ enum ArkoniaLayout {
     enum ContentView {}
     enum DaylightFactorView {}
     enum SeasonFactorView {}
+}
+
+extension ArkoniaLayout {
+    static let labelFont = Font.system(
+        size: ArkoniaLayout.AlmanacView.labelFontSize,
+        design: Font.Design.monospaced
+    ).lowercaseSmallCaps()
+
+    static let meterFont = Font.system(
+        size: ArkoniaLayout.AlmanacView.meterFontSize,
+        design: Font.Design.monospaced
+    )
 }
 
 extension ArkoniaLayout.AlmanacView {

@@ -17,6 +17,7 @@
 		D4120DDC24CA65BD005CC773 /* LlamaProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */; };
 		D41396A824CB889900341D97 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41396A724CB889900341D97 /* Parasitize.swift */; };
 		D4252D1324CA439400F1C2DC /* OffspringHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4252D1224CA439400F1C2DC /* OffspringHudView.swift */; };
+		D45AAD7224CE8D0D00744836 /* NeuronsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45AAD7124CE8D0D00744836 /* NeuronsView.swift */; };
 		D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45EEC7E24C8F61B00527632 /* PopulationStats.swift */; };
 		D46284CC24C9E69F006B42B9 /* FoodHitRateHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */; };
 		D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */; };
@@ -96,13 +97,8 @@
 		D4F6647324C16A93006B95BF /* HotNetBlas.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641124C16A93006B95BF /* HotNetBlas.swift */; };
 		D4F6647424C16A93006B95BF /* GPUArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641224C16A93006B95BF /* GPUArray.swift */; };
 		D4F6647524C16A93006B95BF /* AKMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641324C16A93006B95BF /* AKMatrix.swift */; };
-		D4F6647924C16A93006B95BF /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641824C16A93006B95BF /* Report.swift */; };
 		D4F6647B24C16A93006B95BF /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641A24C16A93006B95BF /* Clock.swift */; };
-		D4F6647C24C16A93006B95BF /* LineGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641B24C16A93006B95BF /* LineGraph.swift */; };
-		D4F6647D24C16A93006B95BF /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641C24C16A93006B95BF /* Dashboard.swift */; };
-		D4F6647F24C16A93006B95BF /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641E24C16A93006B95BF /* HUD.swift */; };
 		D4F6648024C16A93006B95BF /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641F24C16A93006B95BF /* BarChart.swift */; };
-		D4F6648124C16A93006B95BF /* LineGraphUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642024C16A93006B95BF /* LineGraphUpdate.swift */; };
 		D4F6648324C16A93006B95BF /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642324C16A93006B95BF /* NetDisplay.swift */; };
 		D4F6648424C16A93006B95BF /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642424C16A93006B95BF /* NetGraphics.swift */; };
 		D4F6648524C16A93006B95BF /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642524C16A93006B95BF /* NetDisplayGrid.swift */; };
@@ -139,6 +135,7 @@
 		D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaProgressView.swift; sourceTree = "<group>"; };
 		D41396A724CB889900341D97 /* Parasitize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parasitize.swift; sourceTree = "<group>"; };
 		D4252D1224CA439400F1C2DC /* OffspringHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffspringHudView.swift; sourceTree = "<group>"; };
+		D45AAD7124CE8D0D00744836 /* NeuronsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuronsView.swift; sourceTree = "<group>"; };
 		D45EEC7E24C8F61B00527632 /* PopulationStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationStats.swift; sourceTree = "<group>"; };
 		D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodHitRateHudView.swift; sourceTree = "<group>"; };
 		D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorGradient.swift; sourceTree = "<group>"; };
@@ -226,13 +223,8 @@
 		D4F6641424C16A93006B95BF /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		D4F6641524C16A93006B95BF /* HotLayerMps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerMps.swift; sourceTree = "<group>"; };
 		D4F6641624C16A93006B95BF /* HotNetMps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotNetMps.swift; sourceTree = "<group>"; };
-		D4F6641824C16A93006B95BF /* Report.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		D4F6641A24C16A93006B95BF /* Clock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
-		D4F6641B24C16A93006B95BF /* LineGraph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraph.swift; sourceTree = "<group>"; };
-		D4F6641C24C16A93006B95BF /* Dashboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
-		D4F6641E24C16A93006B95BF /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		D4F6641F24C16A93006B95BF /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
-		D4F6642024C16A93006B95BF /* LineGraphUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineGraphUpdate.swift; sourceTree = "<group>"; };
 		D4F6642324C16A93006B95BF /* NetDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
 		D4F6642424C16A93006B95BF /* NetGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetGraphics.swift; sourceTree = "<group>"; };
 		D4F6642524C16A93006B95BF /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
@@ -353,6 +345,7 @@
 				D4A2FB9324C963D200E88803 /* AgeHudView.swift */,
 				D4F78B6424C75B690035F415 /* AlmanacHudView.swift */,
 				D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */,
+				D45AAD7124CE8D0D00744836 /* NeuronsView.swift */,
 				D4252D1224CA439400F1C2DC /* OffspringHudView.swift */,
 				D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */,
 			);
@@ -521,11 +514,6 @@
 				D49EBA2524C175FB0006E0E1 /* Census */,
 				D4F6642224C16A93006B95BF /* NetDisplay */,
 				D4F6641A24C16A93006B95BF /* Clock.swift */,
-				D4F6641C24C16A93006B95BF /* Dashboard.swift */,
-				D4F6641E24C16A93006B95BF /* HUD.swift */,
-				D4F6641B24C16A93006B95BF /* LineGraph.swift */,
-				D4F6642024C16A93006B95BF /* LineGraphUpdate.swift */,
-				D4F6641824C16A93006B95BF /* Report.swift */,
 			);
 			path = HUD;
 			sourceTree = "<group>";
@@ -697,7 +685,6 @@
 				D4F6643E24C16A93006B95BF /* MoveStepper.swift in Sources */,
 				D4F78B5F24C5292C0035F415 /* SeasonalFactors.swift in Sources */,
 				D4F6642C24C16A93006B95BF /* SensorPad.Data.swift in Sources */,
-				D4F6648124C16A93006B95BF /* LineGraphUpdate.swift in Sources */,
 				D4F6644F24C16A93006B95BF /* Lungs.swift in Sources */,
 				D49EBA2324C170CE0006E0E1 /* KIdentifier.swift in Sources */,
 				D4F6645F24C16A93006B95BF /* Manna.swift in Sources */,
@@ -710,7 +697,6 @@
 				D4F6642D24C16A93006B95BF /* CellSensor.swift in Sources */,
 				D4F6644424C16A93006B95BF /* Colorizer.swift in Sources */,
 				D4F6643A24C16A93006B95BF /* Arrive.swift in Sources */,
-				D4F6647924C16A93006B95BF /* Report.swift in Sources */,
 				D4FE3F8C24BEBAD10055D095 /* ChartLegendoid.swift in Sources */,
 				D4F6647424C16A93006B95BF /* GPUArray.swift in Sources */,
 				D4FE3F9624BED7AD0055D095 /* Debug.swift in Sources */,
@@ -726,7 +712,7 @@
 				D4F6642F24C16A93006B95BF /* ArkonEmbryo.swift in Sources */,
 				D4F6644224C16A93006B95BF /* Apoptosize.swift in Sources */,
 				D4F6647024C16A93006B95BF /* HotLayerBlas.swift in Sources */,
-				D4F6647D24C16A93006B95BF /* Dashboard.swift in Sources */,
+				D45AAD7224CE8D0D00744836 /* NeuronsView.swift in Sources */,
 				D49EBA2224C170CE0006E0E1 /* Tensor.Random.swift in Sources */,
 				D4F6644624C16A93006B95BF /* Arkon.EnergyBudget.swift in Sources */,
 				D49EBA2924C175FB0006E0E1 /* CensusAgent.swift in Sources */,
@@ -740,7 +726,6 @@
 				D4F6646624C16A93006B95BF /* GridCore.swift in Sources */,
 				D4F6647B24C16A93006B95BF /* Clock.swift in Sources */,
 				D4F6645224C16A93006B95BF /* Transfer.swift in Sources */,
-				D4F6647F24C16A93006B95BF /* HUD.swift in Sources */,
 				D4F78AE024C27C790035F415 /* DaylightFactorView.swift in Sources */,
 				D4F6644724C16A93006B95BF /* ArkonBuilder.swift in Sources */,
 				D4E0411324BFE87C0026970F /* LineChartCore.swift in Sources */,
@@ -758,7 +743,6 @@
 				D4F6642B24C16A93006B95BF /* SensorPad.swift in Sources */,
 				D49EBA1B24C16DE00006E0E1 /* Overload2D.swift in Sources */,
 				D4F663A624C088C4006B95BF /* GameView.swift in Sources */,
-				D4F6647C24C16A93006B95BF /* LineGraph.swift in Sources */,
 				D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */,
 				D4FE3F8A24BEB9A60055D095 /* ChartLegend.swift in Sources */,
 				D4F6647324C16A93006B95BF /* HotNetBlas.swift in Sources */,
