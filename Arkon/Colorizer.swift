@@ -2,7 +2,7 @@ import GameplayKit
 
 extension Stepper {
     func colorize(_ onComplete: @escaping () -> Void) {
-        SceneDispatch.shared.schedule { [unowned self] in
+        SceneDispatch.shared.schedule("colorize") { [unowned self] in
             self.colorize_()
             mainDispatch(onComplete)
         }

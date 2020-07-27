@@ -14,7 +14,7 @@ class Arkonia {
 
     // vars so I can change them from the debugger
     static var debugColorIsEnabled = false
-    static var debugMessageLevel = 223
+    static var debugMessageLevel = 224
     static var debugMessageToConsole = true
     static var debugGrid = false
 
@@ -26,7 +26,7 @@ class Arkonia {
 
     static let mannaColorBlendMaximum: CGFloat = 0.85
     static let mannaColorBlendMinimum: CGFloat = 0.10
-    static let mannaFullGrowthDurationSeconds: TimeInterval = 2
+    static let mannaFullGrowthDurationSeconds: TimeInterval = 5
 
     static let mannaRebloomDelayMinimum: TimeInterval = 0.2
     static let mannaRebloomDelayMaximum: TimeInterval = 1.0

@@ -58,7 +58,7 @@ extension Manna {
             }
 
             MannaCannon.shared.updateFoodValue(newSample: Double(mannaContent.selectStore(.energy)!))
-            SceneDispatch.shared.schedule(self.rebloom)
+            SceneDispatch.shared.schedule("rebloom", self.rebloom)
             mainDispatch { onComplete(mannaContent) }
         }
     }

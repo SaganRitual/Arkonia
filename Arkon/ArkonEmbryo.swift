@@ -58,7 +58,7 @@ extension ArkonEmbryo {
         func buildArkon_D() { mainDispatch(buildArkon_E) }
         func buildArkon_E() { arkonBuilder!.buildGuts(buildArkon_F) }
 
-        func buildArkon_F() { SceneDispatch.shared.schedule(buildArkon_G) }
+        func buildArkon_F() { SceneDispatch.shared.schedule("buildArkon_F", buildArkon_G) }
         func buildArkon_G() { arkonBuilder!.buildSprites(buildArkon_J) }
 
         func buildArkon_J() { mainDispatch(buildArkon_K) }
@@ -86,7 +86,7 @@ extension ArkonEmbryo {
             + " at spindle target \(self.spindleTarget!.properties)"
         }
 
-        func launch_A() { SceneDispatch.shared.schedule(launch_B) }
+        func launch_A() { SceneDispatch.shared.schedule("embryo launch_A", launch_B) }
 
         func launch_B() {
             SpriteFactory.shared.arkonsPool.attachSprite(newborn!.thorax)

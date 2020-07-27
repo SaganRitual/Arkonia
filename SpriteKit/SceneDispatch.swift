@@ -16,11 +16,16 @@ class SceneDispatch {
         target: DispatchQueue.global()
     )
 
-    // In case my ring buffer buys us any performance over a plain array
-    private var workItems = Cbuffer<() -> Void>(cElements: 1000)
+    struct WorkItem {
+        let id: String
+        let workFunction: () -> Void
+    }
 
-    func schedule(_ workItem: @escaping () -> Void) {
-        lockQueue.async { self.workItems.pushBack(workItem) }
+    // In case my ring buffer buys us any performance over a plain array
+    private var workItems = Cbuffer<WorkItem>(cElements: 1000)
+
+    func schedule(_ id: String, _ workFunction: @escaping () -> Void) {
+        lockQueue.async { self.workItems.pushBack(WorkItem(id: id, workFunction: workFunction)) }
     }
 
     var maxWorkItemsTime = UInt64(0)
@@ -35,7 +40,8 @@ class SceneDispatch {
 
             while !workItems.isEmpty {
                 let workItem = workItems.popFront()
-                workItem()
+                Debug.log(level: 223) { "Running workitem \(workItem.id)" }
+                workItem.workFunction()
 
                 duration = clock_gettime_nsec_np(CLOCK_UPTIME_RAW) - start
                 if duration > maxWorkItemsTime {

@@ -65,7 +65,7 @@ class MannaCannon {
                 }
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
-                    SceneDispatch.shared.schedule {
+                    SceneDispatch.shared.schedule("blast") {
                         mannaToLaunch.forEach { $0.rebloom() }
                     }
                 }

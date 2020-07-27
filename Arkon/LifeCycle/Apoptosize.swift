@@ -29,7 +29,7 @@ extension Stepper {
             net.release(apoptosize_B)
         }
 
-        func apoptosize_B() { SceneDispatch.shared.schedule(apoptosize_C) }
+        func apoptosize_B() { SceneDispatch.shared.schedule("apop_c", apoptosize_C) }
 
         func apoptosize_C() {
             releaseSprites()
@@ -51,7 +51,7 @@ extension Stepper {
 
 private extension Stepper {
     func dramaticDeath() {
-        SceneDispatch.shared.schedule {
+        SceneDispatch.shared.schedule("dramaticDeath") {
             let colorize = SKAction.colorize(with: .red, colorBlendFactor: 1, duration: 1)
             let scale = SKAction.scale(to: CGSize.zero, duration: 1)
             let group = SKAction.group([colorize, scale])

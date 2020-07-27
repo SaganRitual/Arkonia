@@ -44,7 +44,7 @@ class Pollenator {
 
     func move() { getTemperature(move_B) }
 
-    func move_B() { SceneDispatch.shared.schedule(move_C) }
+    func move_B() { SceneDispatch.shared.schedule("move_b", move_C) }
 
     func move_C() {
         let positionInSizeCycle = age.truncatingRemainder(dividingBy: sizePeakToPeak) / sizePeakToPeak

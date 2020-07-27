@@ -182,7 +182,7 @@ private extension Census {
     }
 
     func updateMarker(_ marker: SKSpriteNode, _ markCandidate: SKSpriteNode) {
-        SceneDispatch.shared.schedule {
+        SceneDispatch.shared.schedule("updateMarker") {
             if marker.parent != nil {
                 marker.alpha = 0
                 marker.removeFromParent()

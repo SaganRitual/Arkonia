@@ -2,30 +2,26 @@ import SpriteKit
 
 extension Stepper {
     func moveSprite() {
-        SceneDispatch.shared.schedule { moveSprite_A() }
+        Debug.log(level: 213) { "moveSprite.0" }
+        Debug.debugColor(self, .brown, .orange)
 
-        func moveSprite_A() {
-            Debug.log(level: 213) { "moveSprite.0" }
-            Debug.debugColor(self, .brown, .orange)
+        guard let js = self.jumpSpec else {
+            Debug.log(level: 213) { "moveSprite.1" }
+            Debug.debugColor(self, .blue, .cyan)
 
-            guard let js = self.jumpSpec else {
-                Debug.log(level: 213) { "moveSprite.1" }
-                Debug.debugColor(self, .blue, .cyan)
+            // The call to disengageGrid also reengages and restarts
+            // the life cycle
+            Stepper.restArkon(self, disengageGrid)
+            return
+        }
 
-                // The call to disengageGrid also reengages and restarts
-                // the life cycle
-                Stepper.restArkon(self, disengageGrid)
-                return
-            }
+        let moveAction = js.to.sensorSS.virtualGridPosition == nil ?
+            Stepper.moveAction : Stepper.teleportAction
 
-            let moveAction = js.to.sensorSS.virtualGridPosition == nil ?
-                Stepper.moveAction : Stepper.teleportAction
-
-            moveAction(self) {
-                Debug.log(level: 213) { "moveSprite.2" }
-                Debug.debugColor(self, .blue, .red)
-                self.moveStepper()
-            }
+        moveAction(self) {
+            Debug.log(level: 213) { "moveSprite.2" }
+            Debug.debugColor(self, .blue, .red)
+            self.moveStepper()
         }
     }
 
@@ -45,7 +41,9 @@ extension Stepper {
             + " to \(js.to.cellSS.properties.gridPosition)"
         }
 
-        stepper.thorax.run(sequence) { mainDispatch(onComplete) }
+        SceneDispatch.shared.schedule("teleportAction") {
+            stepper.thorax.run(sequence) { mainDispatch(onComplete) }
+        }
     }
 
     private static func moveAction(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
@@ -62,11 +60,17 @@ extension Stepper {
         }
 
         let move = SKAction.move(to: scenePosition, duration: moveDuration)
-        stepper.thorax.run(move) { mainDispatch(onComplete) }
+
+        SceneDispatch.shared.schedule("moveAction") {
+            stepper.thorax.run(move) { mainDispatch(onComplete) }
+        }
     }
 
     private static func restArkon(_ stepper: Stepper, _ onComplete: @escaping () -> Void) {
         let rest = SKAction.wait(forDuration: 0.02)
-        stepper.thorax.run(rest) { mainDispatch(onComplete) }
+
+        SceneDispatch.shared.schedule("restArkon") {
+            stepper.thorax.run(rest) { mainDispatch(onComplete) }
+        }
     }
 }
