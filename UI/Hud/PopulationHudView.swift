@@ -29,9 +29,12 @@ struct PopulationHudView: View {
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("Neurons").font(ArkoniaLayout.labelFont).padding(.top, 5)
+                    Text("Manna").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(String(format: "%d", Census.shared.censusAgent.stats.cNeurons))
+                    Text(
+                        "\(String(format: "% 5d", MannaStats.stats.cPhotosynthesizingManna))"
+                        + "/\(String(format: "% 5d", MannaStats.stats.cPlantedManna - MannaStats.stats.cDeadManna))"
+                    )
                 }.padding(.leading).padding(.trailing)
             }
             .font(ArkoniaLayout.meterFont)

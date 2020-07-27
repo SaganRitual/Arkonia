@@ -32,23 +32,11 @@ class ArkoniaScene: SKScene, SKSceneDelegate {
     static var shared: ArkoniaScene!
 
     var clock: Clock?
-    var hud: HUD!
     var readyForDisplayCycle = false
 
     static var arkonsPortal: SKSpriteNode!
     static var netPortal: SKSpriteNode!
     static var netPortalHalfNeurons: SKSpriteNode!
-
-    var barChartFactory: BarChartFactory!
-
-    var lineGraphFactory: LineGraphFactory!
-    var lgWeather: LineGraph!
-    var lgFoodHits: LineGraph!
-
-    var reportArkonia: Report!
-    var reportFactory: ReportFactory!
-    var reportSundry: Report!
-    var reportMisc: Report!
 
     //swiftlint:disable unused_setter_value
     override var isUserInteractionEnabled: Bool { get { true } set { } }

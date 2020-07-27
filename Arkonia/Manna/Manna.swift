@@ -50,13 +50,14 @@ extension Manna {
             let scaleZeroToOne = (temperature + 1) / 2  // Convert -1..<1 to 0..<1
             let mannaContent = EnergyBudget.MannaContent(maturityLevel, scaleZeroToOne)
 
-            Debug.log(level: 217) {
+            Debug.log(level: 220) {
                 "harvest at \(self.absoluteGridIndex):"
                 + " maturity \(maturityLevel) * temperature \(temperature)"
                 + " = \(maturityLevel * temperature)"
                 + " -> ham \(mannaContent.selectStore(.energy)!)"
             }
 
+            MannaCannon.shared.updateFoodValue(newSample: Double(mannaContent.selectStore(.energy)!))
             SceneDispatch.shared.schedule(self.rebloom)
             mainDispatch { onComplete(mannaContent) }
         }

@@ -98,10 +98,6 @@
 		D4F6647424C16A93006B95BF /* GPUArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641224C16A93006B95BF /* GPUArray.swift */; };
 		D4F6647524C16A93006B95BF /* AKMatrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641324C16A93006B95BF /* AKMatrix.swift */; };
 		D4F6647B24C16A93006B95BF /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641A24C16A93006B95BF /* Clock.swift */; };
-		D4F6648024C16A93006B95BF /* BarChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6641F24C16A93006B95BF /* BarChart.swift */; };
-		D4F6648324C16A93006B95BF /* NetDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642324C16A93006B95BF /* NetDisplay.swift */; };
-		D4F6648424C16A93006B95BF /* NetGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642424C16A93006B95BF /* NetGraphics.swift */; };
-		D4F6648524C16A93006B95BF /* NetDisplayGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F6642524C16A93006B95BF /* NetDisplayGrid.swift */; };
 		D4F6648624C16A93006B95BF /* MovieForREADME.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = D4F6642624C16A93006B95BF /* MovieForREADME.mp4 */; };
 		D4F6648724C16A93006B95BF /* MovieforREADME.gif in Resources */ = {isa = PBXBuildFile; fileRef = D4F6642724C16A93006B95BF /* MovieforREADME.gif */; };
 		D4F6648824C16A93006B95BF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = D4F6642824C16A93006B95BF /* README.md */; };
@@ -224,10 +220,6 @@
 		D4F6641524C16A93006B95BF /* HotLayerMps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotLayerMps.swift; sourceTree = "<group>"; };
 		D4F6641624C16A93006B95BF /* HotNetMps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotNetMps.swift; sourceTree = "<group>"; };
 		D4F6641A24C16A93006B95BF /* Clock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clock.swift; sourceTree = "<group>"; };
-		D4F6641F24C16A93006B95BF /* BarChart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarChart.swift; sourceTree = "<group>"; };
-		D4F6642324C16A93006B95BF /* NetDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplay.swift; sourceTree = "<group>"; };
-		D4F6642424C16A93006B95BF /* NetGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetGraphics.swift; sourceTree = "<group>"; };
-		D4F6642524C16A93006B95BF /* NetDisplayGrid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetDisplayGrid.swift; sourceTree = "<group>"; };
 		D4F6642624C16A93006B95BF /* MovieForREADME.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = MovieForREADME.mp4; sourceTree = "<group>"; };
 		D4F6642724C16A93006B95BF /* MovieforREADME.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = MovieforREADME.gif; sourceTree = "<group>"; };
 		D4F6642824C16A93006B95BF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -274,7 +266,6 @@
 				D4F663F624C16A93006B95BF /* Arkonia */,
 				D4F6640124C16A93006B95BF /* Grid */,
 				D4F6640924C16A93006B95BF /* HotNet */,
-				D4F6641724C16A93006B95BF /* HUD */,
 				D400137D24BD4647001D429A /* macOS */,
 				D4FE3F9224BED7590055D095 /* Miscellany */,
 				D4F663EC24C16A93006B95BF /* SpriteKit */,
@@ -454,8 +445,10 @@
 		D4F663F624C16A93006B95BF /* Arkonia */ = {
 			isa = PBXGroup;
 			children = (
+				D49EBA2524C175FB0006E0E1 /* Census */,
 				D4F663F924C16A93006B95BF /* Manna */,
 				D4F6640024C16A93006B95BF /* Arkonia.swift */,
+				D4F6641A24C16A93006B95BF /* Clock.swift */,
 				D4F663F724C16A93006B95BF /* MannaCannon.swift */,
 				D4F663FE24C16A93006B95BF /* Pollenator.swift */,
 				D4F663FD24C16A93006B95BF /* Protocols.swift */,
@@ -506,27 +499,6 @@
 				D4F6640A24C16A93006B95BF /* WeightsMatrix.swift */,
 			);
 			path = HotNet;
-			sourceTree = "<group>";
-		};
-		D4F6641724C16A93006B95BF /* HUD */ = {
-			isa = PBXGroup;
-			children = (
-				D49EBA2524C175FB0006E0E1 /* Census */,
-				D4F6642224C16A93006B95BF /* NetDisplay */,
-				D4F6641A24C16A93006B95BF /* Clock.swift */,
-			);
-			path = HUD;
-			sourceTree = "<group>";
-		};
-		D4F6642224C16A93006B95BF /* NetDisplay */ = {
-			isa = PBXGroup;
-			children = (
-				D4F6641F24C16A93006B95BF /* BarChart.swift */,
-				D4F6642324C16A93006B95BF /* NetDisplay.swift */,
-				D4F6642524C16A93006B95BF /* NetDisplayGrid.swift */,
-				D4F6642424C16A93006B95BF /* NetGraphics.swift */,
-			);
-			path = NetDisplay;
 			sourceTree = "<group>";
 		};
 		D4FE3F9224BED7590055D095 /* Miscellany */ = {
@@ -662,7 +634,6 @@
 				D4F6646224C16A93006B95BF /* Pollenator.swift in Sources */,
 				D4F6647124C16A93006B95BF /* MPSImage+Floats.swift in Sources */,
 				D4FE3F9424BED7720055D095 /* Cbuffer.swift in Sources */,
-				D4F6648424C16A93006B95BF /* NetGraphics.swift in Sources */,
 				D4F6646524C16A93006B95BF /* GridIndexer.swift in Sources */,
 				D4F78B6324C550A20035F415 /* ArkoniaLayout.swift in Sources */,
 				D4252D1324CA439400F1C2DC /* OffspringHudView.swift in Sources */,
@@ -690,7 +661,6 @@
 				D4F6645F24C16A93006B95BF /* Manna.swift in Sources */,
 				D4F6644A24C16A93006B95BF /* ChamberedStore.swift in Sources */,
 				D4F6644524C16A93006B95BF /* Stepper.swift in Sources */,
-				D4F6648524C16A93006B95BF /* NetDisplayGrid.swift in Sources */,
 				D4F6643224C16A93006B95BF /* DriveStimulus.swift in Sources */,
 				D49EBA1C24C16DE00006E0E1 /* Debug.Color.swift in Sources */,
 				D4F6643024C16A93006B95BF /* Mutator.swift in Sources */,
@@ -748,10 +718,8 @@
 				D4F6647324C16A93006B95BF /* HotNetBlas.swift in Sources */,
 				D4F6645C24C16A93006B95BF /* MannaCannon.swift in Sources */,
 				D4F6644D24C16A93006B95BF /* Metabolism.swift in Sources */,
-				D4F6648024C16A93006B95BF /* BarChart.swift in Sources */,
 				D4F6643824C16A93006B95BF /* EngageGrid.swift in Sources */,
 				D4F6645B24C16A93006B95BF /* SpritePool.swift in Sources */,
-				D4F6648324C16A93006B95BF /* NetDisplay.swift in Sources */,
 				D4F6644C24C16A93006B95BF /* Jump.swift in Sources */,
 				D41396A824CB889900341D97 /* Parasitize.swift in Sources */,
 				D4F6642E24C16A93006B95BF /* SensorPad.Translate.swift in Sources */,

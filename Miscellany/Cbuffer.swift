@@ -21,6 +21,17 @@ class Cbuffer<T>: RandomAccessCollection {
     private var nextPushOffset: Int = 0
     private var wrappedPop = false
 
+    func average() -> Double {
+        var subtotal: Double = 0.0
+
+        elements.forEach {
+            guard let i = $0 as? Double else { fatalError() }
+            subtotal += i
+        }
+
+        return subtotal / Double(count)
+    }
+
     var count: Int {
         if mode == .putOnlyRing            { return elements.count }
         if nextPushOffset == nextPopOffset { return wrappedPop ? cElements : 0 }

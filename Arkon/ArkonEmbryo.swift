@@ -6,7 +6,6 @@ class ArkonEmbryo {
     var metabolism: Metabolism?
     var name: ArkonName?
     var net: Net?
-    var netDisplay: NetDisplay?
     var netStructure: NetStructure?
     var newborn: Stepper?
     var noseSprite: SKSpriteNode?
@@ -60,10 +59,7 @@ extension ArkonEmbryo {
         func buildArkon_E() { arkonBuilder!.buildGuts(buildArkon_F) }
 
         func buildArkon_F() { SceneDispatch.shared.schedule(buildArkon_G) }
-        func buildArkon_G() { arkonBuilder!.buildSprites(buildArkon_H) }
-
-        func buildArkon_H() { SceneDispatch.shared.schedule(buildArkon_I) }
-        func buildArkon_I() { arkonBuilder!.setupNetDisplay(buildArkon_J) }
+        func buildArkon_G() { arkonBuilder!.buildSprites(buildArkon_J) }
 
         func buildArkon_J() { mainDispatch(buildArkon_K) }
         func buildArkon_K() { self.launch(onOffspringReadyToSeparate) }

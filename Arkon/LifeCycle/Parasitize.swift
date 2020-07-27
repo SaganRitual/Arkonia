@@ -38,6 +38,8 @@ extension Stepper {
             // Victim will see this when he wakes up, then he'll die
             victim.isDyingFromParasite = true
 
+            Debug.log(level: 222) { "Parasitize: \(AKName(self.fishday.name)) devours \(AKName(victim.fishday.name))" }
+
             dieDramatically(victim)    // We don't wait for this to complete
         }
 

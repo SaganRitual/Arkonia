@@ -19,14 +19,13 @@ struct AlmanacHudView: View {
         }
     }
 
-    enum NumberStringFormat { case year, day, pYear, pDay, temperature }
+    enum NumberStringFormat { case year, day, temperature, foodValue }
     func format(_ format: NumberStringFormat) -> String {
         switch format {
         case .year: return String(format: "%02d", Int(seasonalFactors.currentYear))
         case .day: return String(format: "%02d", Int(seasonalFactors.elapsedDaysThisYear))
-        case .pYear: return String(format: "%02.0f", min(99, seasonalFactors.pCurrentYear * 100))
-        case .pDay: return String(format: "%02.0f", min(99, seasonalFactors.pCurrentDay * 100))
         case .temperature: return String(format: "%0.2f", seasonalFactors.normalizedTemperature * 100)
+        case .foodValue: return String(format: "%0.2f", MannaStats.stats.foodValue)
         }
     }
 
@@ -50,15 +49,15 @@ struct AlmanacHudView: View {
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
-                    Text("p-Year:p-Day").font(ArkoniaLayout.labelFont).padding(.top, 5)
-                    Spacer()
-                    Text("\(format(.pYear)):\(format(.pDay))")
-                }.padding(.leading).padding(.trailing)
-
-                HStack(alignment: .bottom) {
                     Text("Temperature").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
                     Text("\(format(.temperature))")
+                }.padding(.leading).padding(.trailing)
+
+                HStack(alignment: .bottom) {
+                    Text("Food value").font(ArkoniaLayout.labelFont).padding(.top, 5)
+                    Spacer()
+                    Text("\(format(.foodValue))")
                 }.padding(.leading).padding(.trailing)
 
             }

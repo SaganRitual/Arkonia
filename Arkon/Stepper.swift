@@ -4,7 +4,6 @@ class Stepper {
     let fishday: Fishday
     let metabolism: Metabolism
     let net: Net
-    let netDisplay: NetDisplay?
     let nose: SKSpriteNode
     let sensorPad: SensorPad
     let spindle: Spindle
@@ -34,7 +33,6 @@ class Stepper {
         self.fishday = embryo.fishday!
         self.metabolism = embryo.metabolism!
         self.net = embryo.net!
-        self.netDisplay = embryo.netDisplay
         self.nose = embryo.noseSprite!
         self.spindle = embryo.spindle!
         self.thorax = embryo.thoraxSprite!

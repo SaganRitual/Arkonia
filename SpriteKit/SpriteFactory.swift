@@ -9,7 +9,6 @@ class SpriteFactory {
     static var shared: SpriteFactory!
 
     let arkonsPool: ThoraxPool
-    let dotsPool: SpritePool
     let fullNeuronsPool: SpritePool
     let halfNeuronsPool: SpritePool
     let linesPool: SpritePool
@@ -24,7 +23,7 @@ class SpriteFactory {
 
         (arkonsPool, nosesPool, teethPool) = SpriteFactory.makeArkonsPools()
         (fullNeuronsPool, halfNeuronsPool, linesPool) = SpriteFactory.makeNetDisplayPools()
-        (mannaPool, dotsPool) = SpriteFactory.makeMannaPool()
+        mannaPool = SpriteFactory.makeMannaPool()
     }
 
     static func makeMarkersPool() -> SpritePool {
@@ -71,7 +70,7 @@ class SpriteFactory {
         return (arkons, noses, teeth)
     }
 
-    static func makeMannaPool() -> (SpritePool, SpritePool) {
+    static func makeMannaPool() -> SpritePool {
         let mannaPrototype = DronePrototype(
             alpha: 1, color: .blue, colorBlendFactor: Arkonia.mannaColorBlendMaximum, zPosition: 0, zRotation: 0
         )
@@ -80,13 +79,7 @@ class SpriteFactory {
             "Manna", "manna", ArkoniaScene.arkonsPortal, Arkonia.cMannaMorsels, mannaPrototype, nil
         )
 
-        // Dots for the line graph are the same as manna dots, we just keep them in a
-        // different pool
-        let dots = SpritePool(
-            "Manna", "manna", nil, (LineGraph.cColumns * 2), mannaPrototype, .lineGraphDots
-        )
-
-        return (manna, dots)
+        return manna
     }
 
     // swiftlint:disable large_tuple

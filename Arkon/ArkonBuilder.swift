@@ -57,22 +57,4 @@ struct ArkonBuilder {
         Debug.debugColor(embryo!.thoraxSprite!, .blue, embryo!.noseSprite!, noseColor)
         mainDispatch(onComplete)
     }
-
-    func setupNetDisplay(_ onComplete: @escaping () -> Void) {
-        // If the drone has a NetDisplay object attached, set it up to draw
-        // our layer structure on the hud
-        guard let ud = embryo!.thoraxSprite!.userData,
-              let np = (ud[SpriteUserDataKey.net9Portal] as? SKSpriteNode),
-              let hp = (ud[SpriteUserDataKey.netHalfNeuronsPortal] as? SKSpriteNode)
-            else { mainDispatch(onComplete); return }
-
-        embryo!.netDisplay = NetDisplay(
-            arkon: embryo!.thoraxSprite!,
-            fullNeuronsPortal: np, halfNeuronsPortal: hp,
-            layerDescriptors: embryo!.net!.netStructure.layerDescriptors
-        )
-
-        embryo!.netDisplay!.display()
-        mainDispatch(onComplete)
-    }
 }

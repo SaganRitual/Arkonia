@@ -6,8 +6,9 @@ class MannaStats: ObservableObject {
     @Published var cDeadManna = 0
     @Published var cPhotosynthesizingManna = 0
     @Published var cPlantedManna = 0
+    @Published var foodValue = 0.0
 
-    enum Datum { case dead, photosynthesizing, planted }
+    enum Datum { case dead, photosynthesizing, planted, foodValue }
 
     func updateMannaStat(_ datum: Datum, by value: Int) {
         DispatchQueue.main.async {
@@ -15,6 +16,9 @@ class MannaStats: ObservableObject {
             case .dead: self.cDeadManna += value
             case .photosynthesizing: self.cPhotosynthesizingManna += value
             case .planted: self.cPlantedManna += value
+
+            case .foodValue:
+                self.foodValue = MannaCannon.shared.perMorselFoodValues.average()
             }
         }
     }
@@ -30,6 +34,7 @@ class MannaCannon {
 
     let readyMannaBatchSize = 10
     let pollenators: [Pollenator]
+    var perMorselFoodValues = Cbuffer<Double>(cElements: 500, mode: .putOnlyRing)
 
     init() {
         readyMannaIndices = .init(cElements: Arkonia.cMannaMorsels)
@@ -66,6 +71,11 @@ class MannaCannon {
                 }
             }
         }
+    }
+
+    func updateFoodValue(newSample: Double) {
+        perMorselFoodValues.put(newSample)
+        MannaStats.stats.updateMannaStat(.foodValue, by: Int(newSample))
     }
 
     func postInit() {
