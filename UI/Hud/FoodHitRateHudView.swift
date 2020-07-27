@@ -8,9 +8,9 @@ struct FoodHitrateHudView: View {
 
     func format(_ format: Format) -> String {
         switch format {
-        case .max:       return String(format: "%0.2f", Census.shared.censusAgent.stats.maxFoodHitRate)
+        case .max:       return String(format: "%0.2f", stats.maxFoodHitRate)
         case .highwater: return String(format: "%0.2f", Census.shared.highwater.foodHitrate)
-        case .average:   return String(format: "%0.2f", Census.shared.censusAgent.stats.averageFoodHitRate)
+        case .average:   return String(format: "%0.2f", stats.averageFoodHitRate)
         case .llamas:    return String(format: "%d", 0)
         }
     }

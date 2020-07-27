@@ -13,7 +13,7 @@ struct OffspringHudView: View {
                 HStack(alignment: .bottom) {
                     Text("Max offspring").font(ArkoniaLayout.labelFont)
                     Spacer()
-                    Text("\(String(format: "% 3.0f", Census.shared.censusAgent.stats.maxCOffspring))")
+                    Text("\(String(format: "% 3.0f", stats.maxCOffspring))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
@@ -25,13 +25,13 @@ struct OffspringHudView: View {
                 HStack(alignment: .bottom) {
                     Text("Average").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(String(format: "% 3.2f", Census.shared.censusAgent.stats.averageCOffspring))")
+                    Text("\(String(format: "% 3.2f", stats.averageCOffspring))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("Median").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text(String(format: "% 3.2f", Census.shared.censusAgent.stats.medCOffspring))
+                    Text(String(format: "% 3.2f", stats.medCOffspring))
                 }.padding(.leading).padding(.trailing)
             }
             .font(ArkoniaLayout.meterFont)

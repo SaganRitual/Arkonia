@@ -13,7 +13,7 @@ struct PopulationHudView: View {
                 HStack(alignment: .bottom) {
                     Text("Population").font(ArkoniaLayout.labelFont)
                     Spacer()
-                    Text("\(Census.shared.censusAgent.stats.currentPopulation)")
+                    Text("\(stats.currentPopulation)")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
@@ -25,7 +25,7 @@ struct PopulationHudView: View {
                 HStack(alignment: .bottom) {
                     Text("All births").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(String(format: "%d", Census.shared.censusAgent.stats.allBirths))")
+                    Text("\(String(format: "%d", stats.allBirths))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {

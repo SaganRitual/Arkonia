@@ -8,8 +8,6 @@ enum NetMutation: CaseIterable {
 struct Mutator {
     static var shared = Mutator()
 
-    let histogram = Debug.Histogram()
-
     mutating func mutate(from value: Float, nextNormal: Float) -> (Float, Bool) {
         // If next normal is zero, we didn't change anything
         return (value + nextNormal, nextNormal != 0)

@@ -22,17 +22,17 @@ extension ArkoniaLayout {
 }
 
 extension ArkoniaLayout.AlmanacView {
-    static let frameWidth: CGFloat = 225
-    static let labelFontSize: CGFloat = 14
-    static let meterFontSize: CGFloat = 12
+    static let frameWidth: CGFloat = 185
+    static let labelFontSize: CGFloat = 12
+    static let meterFontSize: CGFloat = 10
 }
 
 extension ArkoniaLayout.ButtonsView {
-    static let buttonLabelsFrameMinWidth: CGFloat = 50
+    static let buttonLabelsFrameMinWidth: CGFloat = 45
 }
 
 extension ArkoniaLayout.ContentView {
-    static let hudHeight: CGFloat = 125
+    static let hudHeight: CGFloat = 100
 }
 
 extension ArkoniaLayout.DaylightFactorView {

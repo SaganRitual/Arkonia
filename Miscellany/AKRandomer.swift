@@ -2,6 +2,14 @@ import Foundation
 import SwiftUI
 
 class AKRandomNumberFakerator: ObservableObject {
+    #if DEBUG
+    @Published var histogramPublishedArray: [Double] =
+        [0.15, 0.3, 0.45, 0.6, 0.75, 0.4, 0.35, 0.25, 0.15, 0.05]
+    #else
+    @Published var histogramPublishedArray: [Double] =
+        .init(repeating: 0, count: 10)
+    #endif
+
     @Published var isBusy = false
     @Published var isLloading = false
     @Published var isNormallizing = false
@@ -23,6 +31,7 @@ class AKRandomNumberFakerator: ObservableObject {
 
     var cSamplesGenerated = 0
     var cSamplesNormalized = 0
+    var histogram = Histogram(10, .minusOneToOne)
     var maxFloat: Float = 0
     var onComplete: () -> Void = {}
 
@@ -40,18 +49,27 @@ class AKRandomNumberFakerator: ObservableObject {
     }
 
     func arrayBatch() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-            for ss in 0..<(AKRandomNumberFakerator.cSamplesToGenerate / 100) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.005) {
+            for ss in 0..<(AKRandomNumberFakerator.cSamplesToGenerate / 200) {
                 self.normalizedSamples[self.cSamplesGenerated + ss] = self.normalDistribution.next(using: &ARC4RandomNumberGenerator.global)
-                self.uniformSamples[self.cSamplesGenerated + ss] = Float(self.uniformDistribution.next(using: &ARC4RandomNumberGenerator.global))
 
-                if abs(self.normalizedSamples[self.cSamplesGenerated + ss]) > self.maxFloat {
+                let u = self.uniformDistribution.next(using: &ARC4RandomNumberGenerator.global)
+                self.uniformSamples[self.cSamplesGenerated + ss] = Float(u)
+                self.histogram.addSample(u)
+
+                if abs(self.normalizedSamples[self.cSamplesGenerated + ss]) > abs(self.maxFloat) {
                     self.maxFloat = self.normalizedSamples[self.cSamplesGenerated + ss]
                 }
             }
 
-            self.llamaFullness += 0.01
-            self.cSamplesGenerated += AKRandomNumberFakerator.cSamplesToGenerate / 100
+            self.llamaFullness += 0.005
+            self.cSamplesGenerated += AKRandomNumberFakerator.cSamplesToGenerate / 200
+
+            (0..<self.histogram.histogram!.count).forEach {
+                self.histogramPublishedArray[$0] =
+                    Double(self.histogram.histogram![$0]) /
+                    Double(AKRandomNumberFakerator.cSamplesToGenerate)
+            }
 
             if self.cSamplesGenerated < AKRandomNumberFakerator.cSamplesToGenerate { self.arrayBatch() }
             else { self.isLloading = false; self.normalize() }
@@ -61,20 +79,34 @@ class AKRandomNumberFakerator: ObservableObject {
     func normalize() {
         isNormallizing = true
         llamaFullness = 0
+
+        (0..<self.histogram.histogram!.count).forEach {
+            self.histogramPublishedArray[$0] = 0
+        }
+
         normalizeBatch()
     }
 
     func normalizeBatch() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-            for ss in 0..<(AKRandomNumberFakerator.cSamplesToGenerate / 100) {
-                self.normalizedSamples[self.cSamplesNormalized + ss] /= self.maxFloat
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.005) {
+            for ss in 0..<(AKRandomNumberFakerator.cSamplesToGenerate / 200) {
+                var n = self.normalizedSamples[self.cSamplesNormalized + ss] / self.maxFloat
                 if abs(self.normalizedSamples[self.cSamplesNormalized + ss]) == 1 {
-                    self.normalizedSamples[self.cSamplesNormalized + ss] = 0
+                    n = 0
                 }
+
+                self.normalizedSamples[self.cSamplesNormalized + ss] = n
+                self.histogram.addSample(Double(n))
             }
 
-            self.llamaFullness += 0.01
-            self.cSamplesNormalized += AKRandomNumberFakerator.cSamplesToGenerate / 100
+            (0..<self.histogram.histogram!.count).forEach {
+                self.histogramPublishedArray[$0] =
+                    Double(self.histogram.histogram![$0]) /
+                    Double(AKRandomNumberFakerator.cSamplesToGenerate)
+            }
+
+            self.llamaFullness += 0.005
+            self.cSamplesNormalized += AKRandomNumberFakerator.cSamplesToGenerate / 200
 
             if self.cSamplesNormalized < AKRandomNumberFakerator.cSamplesToGenerate { self.normalizeBatch() }
             else {

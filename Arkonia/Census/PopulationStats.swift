@@ -19,7 +19,9 @@ class PopulationStats: ObservableObject {
     @Published var currentPopulation: Int = 0
 
     @Published var cAverageNeurons: Double = 0
+    @Published var cBrainy: Int = 0
     @Published var cNeurons: Int = 0
+    @Published var cRoomy: Int = 0
 
     // swiftlint:disable function_parameter_count
     // Function Parameter Count Violation: Function should have 5 parameters or less
@@ -29,7 +31,7 @@ class PopulationStats: ObservableObject {
         averageCOffspring: Double, medCOffspring: Double, maxCOffspring: Double,
         allBirths: Int, currentPopulation: Int,
         oldestArkon: Stepper?, bestAimArkon: Stepper?, busiestArkon: Stepper?,
-        cNeurons: Int
+        cNeurons: Int, cBrainy: Int, cRoomy: Int
     ) {
         DispatchQueue.main.async {
             self.averageAge = averageAge
@@ -52,6 +54,8 @@ class PopulationStats: ObservableObject {
 
             self.cNeurons = cNeurons
             self.cAverageNeurons = Double(cNeurons) / Double(currentPopulation)
+            self.cBrainy = cBrainy
+            self.cRoomy = cRoomy
         }
     }
     // swiftlint:enable function_parameter_count

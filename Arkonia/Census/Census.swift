@@ -27,19 +27,23 @@ struct Fishday {
 class CensusHighwater: ObservableObject {
     @Published var age: TimeInterval = 0
     @Published var allBirths = 0
+    @Published var brainy = 0
     @Published var cLiveNeurons = 0
     @Published var cAverageNeurons = 0.0
     @Published var cOffspring = 0.0
     @Published var foodHitrate = 0.0
     @Published var population = 0
+    @Published var roomy = 0
 
     var coreAge: TimeInterval = 0
     var coreAllBirths = 0
+    var coreBrainy = 0
     var coreCLiveNeurons = 0
     var coreCAverageNeurons = 0.0
     var coreCOffspring = 0.0
     var coreFoodHitrate = 0.0
     var corePopulation = 0
+    var coreRoomy = Int.max
 
     // swiftlint:disable function_parameter_count
     // Function Parameter Count Violation: Function should have 5 parameters
@@ -47,8 +51,11 @@ class CensusHighwater: ObservableObject {
     func update(
         _ age: TimeInterval, _ allBirths: Int, _ cLiveNeurons: Int,
         _ cOffspring: Double, _ foodHitrate: Double, _ population: Int,
-        _ cAverageNeurons: Double
+        _ cAverageNeurons: Double, _ cBrainy: Int, _ cRoomy: Int
     ) {
+        Debug.log(level: 222) {
+            "highwater \(cBrainy) \(cRoomy)"
+        }
         DispatchQueue.main.async {
             self.age = age
             self.allBirths = allBirths
@@ -57,6 +64,8 @@ class CensusHighwater: ObservableObject {
             self.foodHitrate = foodHitrate
             self.population = population
             self.cAverageNeurons = cAverageNeurons
+            self.brainy = cBrainy
+            self.roomy = cRoomy
         }
     }
     // swiftlint:enable function_parameter_count
@@ -134,7 +143,8 @@ private extension Census {
                 self.highwater.coreAge, self.highwater.coreAllBirths,
                 self.highwater.coreCLiveNeurons, self.highwater.coreCOffspring,
                 self.highwater.coreFoodHitrate, self.highwater.corePopulation,
-                self.highwater.coreCAverageNeurons
+                self.highwater.coreCAverageNeurons, self.highwater.coreBrainy,
+                self.highwater.coreRoomy
             )
         }
     }
@@ -143,11 +153,16 @@ private extension Census {
         censusAgent.compress(TimeInterval(worldClock), self.highwater.coreAllBirths)
 
         self.highwater.coreAge = TimeInterval(max(censusAgent.stats.maxAge, self.highwater.coreAge))
+        self.highwater.coreBrainy = max(censusAgent.stats.cBrainy, self.highwater.coreBrainy)
         self.highwater.coreCLiveNeurons = max(censusAgent.stats.cNeurons, self.highwater.cLiveNeurons)
         self.highwater.coreCOffspring = TimeInterval(max(censusAgent.stats.maxCOffspring, self.highwater.coreCOffspring))
         self.highwater.coreFoodHitrate = max(censusAgent.stats.maxFoodHitRate, self.highwater.coreFoodHitrate)
         self.highwater.corePopulation = max(censusAgent.stats.currentPopulation, self.highwater.corePopulation)
         self.highwater.coreCAverageNeurons = max(censusAgent.stats.cAverageNeurons, self.highwater.coreCAverageNeurons)
+
+        if censusAgent.stats.cRoomy > 0 {
+            self.highwater.coreRoomy = min(censusAgent.stats.cRoomy, self.highwater.coreRoomy)
+        }
 
         markExemplars()
         updateReports()

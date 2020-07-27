@@ -37,7 +37,7 @@ struct AlmanacHudView: View {
 
             VStack(alignment: .leading) {
                 HStack(alignment: .bottom) {
-                    Text("Run duration").font(ArkoniaLayout.labelFont)
+                    Text("Elapsed").font(ArkoniaLayout.labelFont)
                     Spacer()
                     Text(clockFormatter.string(from: seasonalFactors.elapsedTimeRealSeconds)!)
                 }.padding(.leading).padding(.trailing)

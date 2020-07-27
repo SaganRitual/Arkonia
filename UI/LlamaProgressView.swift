@@ -1,3 +1,4 @@
+import Charts
 import SwiftUI
 
 struct LlamaProgressView: View {
@@ -6,19 +7,28 @@ struct LlamaProgressView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .frame(width: 300, height: 100)
+                .frame(width: 300)
                 .foregroundColor(Color.white.opacity(0.01))
 
             VStack {
                 #if DEBUG
                 Text(randomer.isLloading ? "Lloading Llittle Llamas" : "Normallizing")
+                    .frame(height: 30)
                 #else
                 Text(randomer.isLloading ? "Lloading Llamas" : "Normallizing")
+                    .frame(height: 30)
                 #endif
+
+                Chart(data: randomer.histogramPublishedArray)
+                    .chartStyle(
+                        ColumnChartStyle(column: Capsule().foregroundColor(.green), spacing: 2)
+                    )
+                    .frame(width: 100, height: 200)
+                    .padding(.top, -100)
 
                 ZStack(alignment: .leading) {
                     Rectangle()
-                        .frame(width: 250, height: 30)
+                        .frame(height: 30)
                         .foregroundColor(Color.white.opacity(0.5))
                         .border(Color.black)
                         .padding(.top, 3)
@@ -28,7 +38,7 @@ struct LlamaProgressView: View {
                         .foregroundColor(Color.black.opacity(0.5))
                         .offset(y: 1.5)
                 }
-            }
+            }.frame(width: 250, height: 250)
         }
     }
 }

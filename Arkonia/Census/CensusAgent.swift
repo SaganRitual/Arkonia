@@ -29,7 +29,7 @@ class CensusAgent {
     // less excluding comments and whitespace:
     func compress(_ currentTime: TimeInterval, _ allBirths: Int) {
         var cArkons = 0
-        var cNeurons = 0
+        var cNeurons = 0, cBrainy = 0, cRoomy = Int.max
         var ageSum = TimeInterval(0), maxAge = TimeInterval(0)
         var foodHitRateSum: Double = 0, maxFoodHitRate: Double = 0
         var cOffspringSum = 0, maxCOffspring = 0
@@ -53,6 +53,9 @@ class CensusAgent {
             }
 
             cNeurons += arkon.net.netStructure.cNeurons
+            if arkon.net.netStructure.cNeurons > cBrainy { cBrainy = arkon.net.netStructure.cNeurons }
+            if arkon.net.netStructure.cNeurons < cRoomy { cRoomy = arkon.net.netStructure.cNeurons }
+            Debug.log(level: 222) { "brainy \(cBrainy) roomy \(cRoomy)" }
 
             let age = currentTime - arkon.fishday.birthday
             ageSum += age
@@ -89,7 +92,7 @@ class CensusAgent {
             averageCOffspring:(cArkons == 0) ? 0 : (Double(cOffspringSum) / Double(cArkons)),
             medCOffspring: getMedianCOffspring(), maxCOffspring: Double(maxCOffspring), allBirths: allBirths,
             currentPopulation: cArkons, oldestArkon: oldestArkon, bestAimArkon: bestAimArkon,
-            busiestArkon: busiestArkon, cNeurons: cNeurons
+            busiestArkon: busiestArkon, cNeurons: cNeurons, cBrainy: cBrainy, cRoomy: cRoomy
         )
     }
     // swiftlint:enable function_body_length

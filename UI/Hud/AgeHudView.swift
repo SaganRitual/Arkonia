@@ -7,10 +7,10 @@ struct AgeHudView: View {
 
     func format(_ format: Format) -> String {
         switch format {
-        case .maxAge:       return String(format: "%.0f", Census.shared.censusAgent.stats.maxAge)
+        case .maxAge:       return String(format: "%.0f", stats.maxAge)
         case .highwaterAge: return String(format: "%.0f", Census.shared.highwater.age)
-        case .averageAge:   return String(format: "%.2f", Census.shared.censusAgent.stats.averageAge)
-        case .medAge:       return String(format: "%.2f", Census.shared.censusAgent.stats.medAge)
+        case .averageAge:   return String(format: "%.2f", stats.averageAge)
+        case .medAge:       return String(format: "%.2f", stats.medAge)
         }
     }
 
