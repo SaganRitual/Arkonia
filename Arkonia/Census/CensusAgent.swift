@@ -15,33 +15,24 @@ class CensusAgent {
     var isEmpty: Bool { head == nil }
 
     var ages = [Stepper]()
+    var brainiests = [Stepper]()
     var cOffsprings = [Stepper]()
     var stats = PopulationStats()
 
-    private func checkMax(
-        _ testValue: Double, _ maxValue: Double, _ arkon: Stepper
-    ) -> (Double, Stepper)? {
-        testValue > maxValue ? (testValue, arkon) : nil
-    }
-
-    // swiftlint:disable function_body_length
+    // swifmlint:disable function_body_length
     // unction Body Length Violation: Function body should span 40 lines or
     // less excluding comments and whitespace:
     func compress(_ currentTime: TimeInterval, _ allBirths: Int) {
-        var cArkons = 0
-        var cNeurons = 0, cBrainy = 0, cRoomy = Int.max
-        var ageSum = TimeInterval(0), maxAge = TimeInterval(0)
-        var foodHitRateSum: Double = 0, maxFoodHitRate: Double = 0
-        var cOffspringSum = 0, maxCOffspring = 0
+        stats.resetCore()
 
         var currentMinder = self.head
 
         // Citizens disappear from the roster when their steppers destruct. We
         // see this as a nil citizen in the minder. Minders stick around until
         // we see that their citizen has died, at which point we, uhh, "retire" the minder
-        var oldestArkon, bestAimArkon, busiestArkon: Stepper?
 
         ages.removeAll(keepingCapacity: true)
+        brainiests.removeAll(keepingCapacity: true)
         cOffsprings.removeAll(keepingCapacity: true)
 
         repeat {
@@ -52,50 +43,30 @@ class CensusAgent {
                 continue
             }
 
-            cNeurons += arkon.net.netStructure.cNeurons
-            if arkon.net.netStructure.cNeurons > cBrainy { cBrainy = arkon.net.netStructure.cNeurons }
-            if arkon.net.netStructure.cNeurons < cRoomy { cRoomy = arkon.net.netStructure.cNeurons }
-            Debug.log(level: 222) { "brainy \(cBrainy) roomy \(cRoomy)" }
+            stats.coreCNeurons += arkon.net.netStructure.cNeurons
 
-            let age = currentTime - arkon.fishday.birthday
-            ageSum += age
             ages.append(arkon)
-
-            if let (newMax, newArkon) = checkMax(
-                age, maxAge, minder.pointee.citizen!
-            ) { maxAge = newMax; oldestArkon = newArkon }
-
-            let foodHitRate = arkon.cJumps == 0 ? 0 : Double(arkon.cFoodHits) / Double(arkon.cJumps)
-            foodHitRateSum += foodHitRate
-
-            if let (newMax, newArkon) = checkMax(
-                foodHitRate, maxFoodHitRate, minder.pointee.citizen!
-            ) { maxFoodHitRate = newMax; bestAimArkon = newArkon }
-
-            if let (newMax, newArkon) = checkMax(
-                Double(arkon.cOffspring), Double(maxCOffspring), minder.pointee.citizen!
-            ) { maxCOffspring = Int(newMax); busiestArkon = newArkon }
-
-            cOffspringSum += arkon.cOffspring
+            brainiests.append(arkon)
             cOffsprings.append(arkon)
 
-            cArkons += 1
+            stats.maxIf(.brainiest, value: Double(arkon.net.netStructure.cNeurons), arkon: arkon)
+
+            if arkon.net.netStructure.cNeurons < stats.coreCRoomy {
+                stats.coreCRoomy = arkon.net.netStructure.cNeurons
+            }
+
+            let age = currentTime - arkon.fishday.birthday
+            stats.maxIf(.oldest, value: age, arkon: arkon)
+
+            stats.maxIf(.busiest, value: Double(arkon.censusData.cOffspring), arkon: arkon)
 
             currentMinder = currentMinder!.pointee.next
         } while currentMinder != nil
 
-        self.stats.update(
-            averageAge: (cArkons == 0) ? 0 : (Double(ageSum) / Double(cArkons)),
-            maxAge: Double(maxAge), medAge: getMedianAge(currentTime: currentTime),
-            averageFoodHitRate:(cArkons == 0) ? 0 : (foodHitRateSum / Double(cArkons)),
-            maxFoodHitRate: maxFoodHitRate,
-            averageCOffspring:(cArkons == 0) ? 0 : (Double(cOffspringSum) / Double(cArkons)),
-            medCOffspring: getMedianCOffspring(), maxCOffspring: Double(maxCOffspring), allBirths: allBirths,
-            currentPopulation: cArkons, oldestArkon: oldestArkon, bestAimArkon: bestAimArkon,
-            busiestArkon: busiestArkon, cNeurons: cNeurons, cBrainy: cBrainy, cRoomy: cRoomy
-        )
+        stats.coreMedAge = getMedianAge(currentTime: currentTime)
+        stats.coreMedCOffspring = getMedianCOffspring()
     }
-    // swiftlint:enable function_body_length
+    // swiftmint:enable function_body_length
 
     // Clients don't need to delete nodes. We keep weak refs, so when the
     // arkon goes away, we drop it off the list automatically

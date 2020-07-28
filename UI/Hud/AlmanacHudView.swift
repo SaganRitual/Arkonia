@@ -20,10 +20,25 @@ struct AlmanacHudView: View {
     }
 
     enum NumberStringFormat { case year, day, temperature, foodValue }
+    let upArrow = "⬆"
+    let downArrow = "⬇"
+
     func format(_ format: NumberStringFormat) -> String {
         switch format {
-        case .year: return String(format: "%02d", Int(seasonalFactors.currentYear))
-        case .day: return String(format: "%02d", Int(seasonalFactors.elapsedDaysThisYear))
+        case .year:
+            let elapsedDays = seasonalFactors.elapsedDaysThisYear
+            let qYearInDays = Arkonia.arkoniaDaysPerYear / 4
+            let ascending = elapsedDays < qYearInDays || elapsedDays > Arkonia.arkoniaDaysPerYear - qYearInDays
+            let arrow = "\(ascending ? upArrow : downArrow)"
+            return String(format: "\(arrow)%02d", Int(seasonalFactors.currentYear))
+
+        case .day:
+            let elapsedSeconds = seasonalFactors.elapsedSecondsToday
+            let qDayInSeconds = Arkonia.realSecondsPerArkoniaDay / 4
+            let ascending = elapsedSeconds < qDayInSeconds || elapsedSeconds > Arkonia.realSecondsPerArkoniaDay - qDayInSeconds
+            let arrow = "\(ascending ? upArrow : downArrow)"
+            return String(format: "\(arrow)%02d", Int(seasonalFactors.elapsedDaysThisYear))
+
         case .temperature: return String(format: "%0.2f", seasonalFactors.normalizedTemperature * 100)
         case .foodValue: return String(format: "%0.2f", MannaStats.stats.foodValue)
         }
@@ -45,7 +60,7 @@ struct AlmanacHudView: View {
                 HStack(alignment: .bottom) {
                     Text("Year:Day").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(format(.year)):\(format(.day))")
+                    Text("\(format(.year))\(format(.day))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {

@@ -80,7 +80,7 @@ class Census {
     var populated = false
 
     // Markers for said arkons, not the arkons themselves
-    var oldestLivingMarker, aimestLivingMarker, busiestLivingMarker: SKSpriteNode?
+    var oldestLivingMarker, brainiestLivingMarker, busiestLivingMarker: SKSpriteNode?
     var markers = [SKSpriteNode]()
 
     var tickTimer: Timer!
@@ -104,13 +104,13 @@ class Census {
 
         oldestLivingMarker = SKSpriteNode(texture: texture)
         busiestLivingMarker = SKSpriteNode(texture: texture)
-        aimestLivingMarker = SKSpriteNode(texture: texture)
+        brainiestLivingMarker = SKSpriteNode(texture: texture)
 
         markers.append(contentsOf: [
-            oldestLivingMarker!, busiestLivingMarker!, aimestLivingMarker!
+            oldestLivingMarker!, busiestLivingMarker!, brainiestLivingMarker!
         ])
 
-        let colors: [SKColor] = [.yellow, .green, .orange]
+        let colors: [SKColor] = [.yellow, .green, .purple]
 
         zip(0..., markers).forEach { ss, marker in
             marker.color = colors[ss]
@@ -137,60 +137,42 @@ private extension Census {
 
     func updateReports_B(_ worldClock: Int) {
         Census.dispatchQueue.async {
-            self.updateReports_C(worldClock)
-
-            self.highwater.update(
-                self.highwater.coreAge, self.highwater.coreAllBirths,
-                self.highwater.coreCLiveNeurons, self.highwater.coreCOffspring,
-                self.highwater.coreFoodHitrate, self.highwater.corePopulation,
-                self.highwater.coreCAverageNeurons, self.highwater.coreBrainy,
-                self.highwater.coreRoomy
-            )
+            self.censusAgent.compress(TimeInterval(worldClock), self.highwater.coreAllBirths)
+            self.markExemplars()    // No need to wait on this; it's a sprite update
+            self.updateReports()
         }
-    }
-
-    func updateReports_C(_ worldClock: Int) {
-        censusAgent.compress(TimeInterval(worldClock), self.highwater.coreAllBirths)
-
-        self.highwater.coreAge = TimeInterval(max(censusAgent.stats.maxAge, self.highwater.coreAge))
-        self.highwater.coreBrainy = max(censusAgent.stats.cBrainy, self.highwater.coreBrainy)
-        self.highwater.coreCLiveNeurons = max(censusAgent.stats.cNeurons, self.highwater.cLiveNeurons)
-        self.highwater.coreCOffspring = TimeInterval(max(censusAgent.stats.maxCOffspring, self.highwater.coreCOffspring))
-        self.highwater.coreFoodHitrate = max(censusAgent.stats.maxFoodHitRate, self.highwater.coreFoodHitrate)
-        self.highwater.corePopulation = max(censusAgent.stats.currentPopulation, self.highwater.corePopulation)
-        self.highwater.coreCAverageNeurons = max(censusAgent.stats.cAverageNeurons, self.highwater.coreCAverageNeurons)
-
-        if censusAgent.stats.cRoomy > 0 {
-            self.highwater.coreRoomy = min(censusAgent.stats.cRoomy, self.highwater.coreRoomy)
-        }
-
-        markExemplars()
-        updateReports()
     }
 }
 
 private extension Census {
     func markExemplars() {
-        zip(
-            [censusAgent.stats.oldestArkon, censusAgent.stats.bestAimArkon, censusAgent.stats.busiestArkon],
-            [oldestLivingMarker, aimestLivingMarker, busiestLivingMarker]
-        ).forEach {
-            (a, m) in
-            guard let arkon = a, let marker = m else { return }
-            updateMarker(marker, arkon.thorax)
+        SceneDispatch.shared.schedule("updateMarker") { markExemplars_B() }
+
+        func markExemplars_B() {
+            zip([
+                censusAgent.stats.oldestArkon,
+                censusAgent.stats.brainiestArkon,
+                censusAgent.stats.busiestArkon
+            ], [
+                oldestLivingMarker,
+                brainiestLivingMarker,
+                busiestLivingMarker
+            ]).forEach {
+                (a, m) in
+                guard let arkon = a, let marker = m else { return }
+                updateMarker(marker, arkon.thorax)
+            }
         }
     }
 
     func updateMarker(_ marker: SKSpriteNode, _ markCandidate: SKSpriteNode) {
-        SceneDispatch.shared.schedule("updateMarker") {
-            if marker.parent != nil {
-                marker.alpha = 0
-                marker.removeFromParent()
-            }
-
-            markCandidate.addChild(marker)
-
-            marker.alpha = 1
+        if marker.parent != nil {
+            marker.alpha = 0
+            marker.removeFromParent()
         }
+
+        markCandidate.addChild(marker)
+
+        marker.alpha = 1
     }
 }

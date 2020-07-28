@@ -24,9 +24,8 @@ class Pollenator {
 
         ArkoniaScene.arkonsPortal.addChild(node)
 
-        let peakToPeakSeconds: [TimeInterval] = [3, 5, 7, 11, 13]
-        sizePeakToPeak = 1 / peakToPeakSeconds.randomElement()!
-        speedPeakToPeak = 1 / peakToPeakSeconds.randomElement()!
+        sizePeakToPeak = 1 / TimeInterval.random(in: 3..<15)
+        speedPeakToPeak = 1 / TimeInterval.random(in: 3..<15)
 
         self.birthday = ArkoniaScene.currentSceneTime
 
@@ -47,6 +46,10 @@ class Pollenator {
     func move_B() { SceneDispatch.shared.schedule("move_b", move_C) }
 
     func move_C() {
+
+        let sizePeakToPeak = 1 / TimeInterval.random(in: 3..<15)
+        let speedPeakToPeak = 1 / TimeInterval.random(in: 3..<15)
+
         let positionInSizeCycle = age.truncatingRemainder(dividingBy: sizePeakToPeak) / sizePeakToPeak
         let positionInSpeedCycle = age.truncatingRemainder(dividingBy: speedPeakToPeak) / speedPeakToPeak
 
@@ -59,10 +62,12 @@ class Pollenator {
         // get the pollenators to move and size according to the whim of
         // the Arkonian deity
         let sizeVariance = sqrt(pow(2, yInSizeCycle))
-        let sizeScale = CGFloat(sizeVariance) * 0.35 * temperatureAdjustment
+        let sizeFudgeFactor: CGFloat = 0.3
+        let sizeScale = CGFloat(sizeVariance) * sizeFudgeFactor * temperatureAdjustment
 
         let speedVariance = sqrt(pow(2, yInSpeedCycle))
-        let speedScale = CGFloat(speedVariance) * 50 * temperatureAdjustment  // in pix/sec
+        let speedFudgeFactor: CGFloat = 50.0
+        let speedScale = CGFloat(speedVariance) * speedFudgeFactor * temperatureAdjustment  // in pix/sec
 
         Debug.log(level: 217) { "pollenator \(sizeScale) \(speedScale)" }
 

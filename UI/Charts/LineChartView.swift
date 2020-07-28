@@ -16,10 +16,9 @@ class ChartLegendSelect: ObservableObject {
 }
 
 struct LineChartView: View {
-    @EnvironmentObject var lineChartData: LineChartData
+    @EnvironmentObject var lineChartCore: LineChartCore
 
-    let dataSelectorsLeft = ChartLegendSelect(3)
-    let dataSelectorsRight = ChartLegendSelect(3)
+    let dataSelectors = ChartLegendSelect(2)
 
     var body: some View {
         VStack {
@@ -27,28 +26,16 @@ struct LineChartView: View {
                 VStack(alignment: .leading) {
                     ChartLegend(
                         descriptors: [
-                            (Color.green, "Avg"),
-                            (Color(NSColor.cyan), "Med"),
-                            (Color.blue, "Max")
+                            (Color.green, "Max"),
+                            (Color(NSColor.cyan), "Avg")
                         ],
-                        groupName: "Current"
-                    ).environmentObject(dataSelectorsLeft)
+                        groupName: ""
+                    ).environmentObject(dataSelectors)
                 }
 
                 Spacer()
-                Text("Age").font(.system(size: 16)).offset(y: 10)
+                Text("Browsing success").font(.system(size: 16)).offset(y: 10)
                 Spacer()
-
-                VStack(alignment: .leading) {
-                    ChartLegend(
-                        descriptors: [
-                            (Color.red, "Avg"),
-                            (Color.yellow, "Med"),
-                            (Color.purple, "Max")
-                        ],
-                        groupName: "All-time"
-                    ).environmentObject(dataSelectorsRight)
-                }
             }.padding(.top, 10)
 
             HStack {
@@ -66,39 +53,21 @@ struct LineChartView: View {
 
                 VStack {
                     ZStack {
-                        Chart(data: lineChartData.theData[0])
+                        Chart(data: lineChartCore.theData[0])
                             .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsLeft.dataSelectors[0] ? .green : .clear, lineWidth: 1)
+                                LineChartStyle(.quadCurve, lineColor: dataSelectors.dataSelectors[0] ? .green : .clear, lineWidth: 1)
                             )
                             .padding(.trailing, 1).padding(.leading, 1)
 
-                        Chart(data: lineChartData.theData[1])
+                        Chart(data: lineChartCore.theData[1])
                             .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsLeft.dataSelectors[1] ? Color(NSColor.cyan) : .clear, lineWidth: 1)
+                                LineChartStyle(.quadCurve, lineColor: dataSelectors.dataSelectors[1] ? Color(NSColor.cyan) : .clear, lineWidth: 1)
                             )
                             .padding(.trailing, 1).padding(.leading, 1)
 
-                        Chart(data: lineChartData.theData[2])
+                        Chart(data: lineChartCore.theData[2])
                             .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsLeft.dataSelectors[2] ? .blue : .clear, lineWidth: 1)
-                            )
-                            .padding(.trailing, 1).padding(.leading, 1)
-
-                        Chart(data: lineChartData.theData[3])
-                            .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsRight.dataSelectors[0] ? .red : .clear, lineWidth: 1)
-                            )
-                            .padding(.trailing, 1).padding(.leading, 1)
-
-                        Chart(data: lineChartData.theData[4])
-                            .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsRight.dataSelectors[1] ? .yellow : .clear, lineWidth: 1)
-                            )
-                            .padding(.trailing, 1).padding(.leading, 1)
-
-                        Chart(data: lineChartData.theData[5])
-                            .chartStyle(
-                                LineChartStyle(.quadCurve, lineColor: dataSelectorsRight.dataSelectors[2] ? .purple : .clear, lineWidth: 1)
+                                LineChartStyle(.quadCurve, lineColor: dataSelectors.dataSelectors[2] ? .blue : .clear, lineWidth: 1)
                             )
                             .padding(.trailing, 1).padding(.leading, 1)
                             .background(
@@ -123,6 +92,6 @@ struct LineChartView: View {
 
 struct LineChartView_Previews: PreviewProvider {
     static var previews: some View {
-        LineChartView().environmentObject(LineChartData(6))
+        LineChartView().environmentObject(LineChartCore(2))
     }
 }

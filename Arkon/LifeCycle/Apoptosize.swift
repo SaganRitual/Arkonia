@@ -5,9 +5,8 @@ extension Stepper {
         Debug.debugColor(self, .brown, .green)
         assert(spindle.gridCell != nil)
 
-        if isDyingFromParasite { dramaticDeath() }
-
-        mainDispatch { apoptosize_A() }
+        if isDyingFromParasite { dramaticDeath { apoptosize_A() } }
+        else                   { mainDispatch { apoptosize_A() } }
 
         func apoptosize_A() {
             // Ugly. We tell the cell we're gone ahead of time so the
@@ -35,7 +34,7 @@ extension Stepper {
             releaseSprites()
 
             // I have to take steps to destruct on the census queue, because
-            // the census holds a weak pointer to me, so it will know when I'm gone
+            // the census holds a weak pointer to me so it can track my demise
             Census.dispatchQueue.async(execute: apoptosize_D)
         }
 
@@ -50,12 +49,12 @@ extension Stepper {
 }
 
 private extension Stepper {
-    func dramaticDeath() {
+    func dramaticDeath(_ onComplete: @escaping () -> Void) {
         SceneDispatch.shared.schedule("dramaticDeath") {
             let colorize = SKAction.colorize(with: .red, colorBlendFactor: 1, duration: 1)
             let scale = SKAction.scale(to: CGSize.zero, duration: 1)
             let group = SKAction.group([colorize, scale])
-            self.thorax.run(group)
+            self.thorax.run(group, completion: onComplete)
         }
     }
 }

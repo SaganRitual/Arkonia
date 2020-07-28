@@ -15,7 +15,7 @@ extension Stepper {
 
     private func graze(_ manna: Manna) {
         Debug.log(level: 213) { "graze" }
-        censusData.increment(.foodHits)
+//        censusData.increment(.foodHits)
         manna.harvest {
             Debug.log(level: 213) { "harvest" }
             if let mannaContent = $0 { self.metabolism.eat(mannaContent) }

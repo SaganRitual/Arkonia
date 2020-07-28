@@ -20,9 +20,11 @@ class Stepper {
     var previousShiftOffset = AKPoint.zero
 
     class CensusData {
-        var cFoodHits = 0
+        var cAttacks = 0
+        var cBloodBites = 0
         var cJumps = 0
         var cOffspring = 0
+        var cVeggieBites = 0
     }
 
     var censusData = CensusData()
@@ -46,20 +48,24 @@ class Stepper {
 }
 
 extension Stepper {
-    var cFoodHits:  Int { censusData.cFoodHits }
-    var cJumps:     Int { censusData.cJumps }
-    var cOffspring: Int { censusData.cOffspring }
+    var cAttacks:     Int { censusData.cAttacks }
+    var cBloodBites:  Int { censusData.cBloodBites }
+    var cJumps:       Int { censusData.cJumps }
+    var cOffspring:   Int { censusData.cOffspring }
+    var cVeggieBites: Int { censusData.cVeggieBites }
 }
 
 extension Stepper.CensusData {
-    enum Datum { case foodHits, jumps, offspring }
+    enum Datum { case attacks, bloodBites, jumps, offspring, veggieBites }
 
     func increment(_ datum: Datum) {
         Census.dispatchQueue.async {
             switch datum {
-            case .foodHits:  self.cFoodHits += 1
-            case .jumps:     self.cJumps += 1
-            case .offspring: self.cOffspring += 1
+            case .attacks:     self.cAttacks += 1
+            case .bloodBites:  self.cBloodBites += 1
+            case .jumps:       self.cJumps += 1
+            case .offspring:   self.cOffspring += 1
+            case .veggieBites: self.cVeggieBites += 1
             }
         }
     }

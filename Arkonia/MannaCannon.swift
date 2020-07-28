@@ -8,7 +8,7 @@ class MannaStats: ObservableObject {
     @Published var cPlantedManna = 0
     @Published var foodValue = 0.0
 
-    enum Datum { case dead, photosynthesizing, planted, foodValue }
+    enum Datum { case dead, photosynthesizing, planted }
 
     func updateMannaStat(_ datum: Datum, by value: Int) {
         DispatchQueue.main.async {
@@ -16,12 +16,11 @@ class MannaStats: ObservableObject {
             case .dead: self.cDeadManna += value
             case .photosynthesizing: self.cPhotosynthesizingManna += value
             case .planted: self.cPlantedManna += value
-
-            case .foodValue:
-                self.foodValue = MannaCannon.shared.perMorselFoodValues.average()
             }
         }
     }
+
+    func updateFoodValue(_ newValue: Double) { self.foodValue = newValue }
 }
 
 class MannaCannon {
@@ -75,7 +74,8 @@ class MannaCannon {
 
     func updateFoodValue(newSample: Double) {
         perMorselFoodValues.put(newSample)
-        MannaStats.stats.updateMannaStat(.foodValue, by: Int(newSample))
+        let newAverage = perMorselFoodValues.average()
+        MannaStats.stats.updateFoodValue(newAverage)
     }
 
     func postInit() {

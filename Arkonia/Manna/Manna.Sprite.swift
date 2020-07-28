@@ -55,7 +55,7 @@ extension Manna.Sprite {
     }
 
     func bloom(_ timeRequiredForFullBloom: Double, color: SKColor, scaleFactor: CGFloat) {
-        if Int.random(in: 0..<1000) == 0 {
+        if Int.random(in: 0..<1000) < 5 {
             MannaStats.stats.updateMannaStat(.dead, by: 1)
             return
         }

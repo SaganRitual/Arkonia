@@ -1,6 +1,6 @@
 import SwiftUI
 
-class LineChartData: ObservableObject {
+class LineChartCore: ObservableObject {
     @Published var updateTrigger = 0
 
     var theData = [Cbuffer<Double>]()

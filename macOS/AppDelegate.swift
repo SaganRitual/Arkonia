@@ -17,7 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc func openPreferencesWindow() {
         if nil == preferencesWindow {      // create once !!
-            let preferencesView = LineChartView().environmentObject(LineChartData(6))
+            let preferencesView = LineChartView().environmentObject(LineChartCore(6))
             // Create the preferences window and set content
             preferencesWindow = NSWindow(
                 contentRect: NSRect(x: 20, y: 20, width: 480, height: 300),

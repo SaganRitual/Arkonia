@@ -4,7 +4,7 @@ import SwiftUI
 // "Multiple Closures with Trailing Closure Violation: Trailing closure syntax
 // should not be used when passing more than one closure argument."
 struct ButtonsView: View {
-    @EnvironmentObject var lineChartData: LineChartData
+    @EnvironmentObject var lineChartCore: LineChartCore
     @State private var showingAgeLineChart = false
     @State private var showingFoodHitRateLineChart = false
     @State private var showingNeuronsLineChart = false
