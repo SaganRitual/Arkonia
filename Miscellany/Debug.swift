@@ -2,9 +2,9 @@ import SpriteKit
 
 func hardAssert(_ condition: Bool, _ execute: @escaping (() -> String?)) {
     if !condition {
-        guard let e = execute() else { fatalError() }
-        Debug.log { return e }
-        fatalError(e)
+        if let e = execute() { Debug.log { return e } }
+        Debug.waitForLogToClear()
+        fatalError(execute() ?? "We apologise for the inconvenience")
     }
 }
 

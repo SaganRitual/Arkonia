@@ -23,7 +23,6 @@ struct NetStructure {
     init(_ cSenseRings: Int?, _ parentLayerDescriptors: [Int]?) {
         self.cSenseRings = cSenseRings ??  Int.random(in: NetStructure.cSenseRingsRange)
         self.sensorPadCCells = GridIndexer.cellsWithinSenseRange(self.cSenseRings)
-//        self.layerDescriptors = NetStructure.layerStructures[self.cSenseRings]!.randomElement()!
 
         self.cSenseNeuronsMisc = DriveStimulus.MiscSenses.allCases.count
         self.cSenseNeuronsPollenators = Arkonia.cPollenators * 2
@@ -78,34 +77,39 @@ struct NetStructure {
 extension NetStructure {
     static func buildLayerStructure(_ cSenseNeurons: Int, _ cMotorNeurons: Int) -> [Int] {
         var layerStructure = [cSenseNeurons]
-//        var randomer = AKRandomer(.uniform)
+        var randomer = AKRandomer(.uniform)
 
+        let cMinNeuronsBottomHiddenLayer = (cMotorNeurons * 2) + 1
         var cMaxNeuronsThisLayer = cSenseNeurons
-        Debug.log(level: 217) { "cSenseNeurons \(cSenseNeurons)"}
+        var cNeuronsPreviousLayer = cSenseNeurons
 
-        // Try to make each layer at least half the size of the layer above it
-        while cMaxNeuronsThisLayer > (cMotorNeurons * 4) {
-//            let divisor = randomer.inRange(2..<(cMaxNeuronsThisLayer / (cMotorNeurons * 2)))
-            let divisor = 2
-            Debug.log(level: 217) { "divisor \(divisor)"}
-            if divisor == 0 { break }
+        Debug.log(level: 224) { "cSenseNeurons \(cSenseNeurons)"}
+
+        while cMaxNeuronsThisLayer > cMinNeuronsBottomHiddenLayer {
+            let minDivisor = cMaxNeuronsThisLayer / ((cNeuronsPreviousLayer - 1) / 2)
+            let maxDivisor = (cMaxNeuronsThisLayer / cMinNeuronsBottomHiddenLayer) - 1
+
+            if maxDivisor < minDivisor { break }
+
+            let divisor = randomer.inRange(minDivisor..<maxDivisor)
 
             let cNeuronsThisLayer = cMaxNeuronsThisLayer / divisor
             layerStructure.append(cNeuronsThisLayer)
 
-            Debug.log(level: 217) {
-                "cn \(cMaxNeuronsThisLayer)"
-                + ", \(divisor)"
-                + ", \(cNeuronsThisLayer)"
-                + " -> \(cMaxNeuronsThisLayer - (cNeuronsThisLayer * divisor))"
+            Debug.log(level: 224) {
+                "max available \(cMaxNeuronsThisLayer)"
+                + ", divisor \(divisor)"
+                + ", cNeuronsThisLayer \(cNeuronsThisLayer)"
+                + " -> \(cMaxNeuronsThisLayer - cNeuronsThisLayer)"
             }
 
             cMaxNeuronsThisLayer -= cNeuronsThisLayer
+            cNeuronsPreviousLayer = cNeuronsThisLayer
         }
 
         layerStructure.append(cMotorNeurons)
 
-        Debug.log(level: 217) { "buildLayerStructure -> \(layerStructure)" }
+        Debug.log(level: 224) { "buildLayerStructure -> \(layerStructure)" }
 
         return layerStructure
     }

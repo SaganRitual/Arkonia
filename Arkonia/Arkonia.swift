@@ -14,7 +14,7 @@ class Arkonia {
 
     // vars so I can change them from the debugger
     static var debugColorIsEnabled = false
-    static var debugMessageLevel = 224
+    static var debugMessageLevel = 225
     static var debugMessageToConsole = true
     static var debugGrid = false
 
@@ -40,10 +40,10 @@ class Arkonia {
         { mannaColorBlendMaximum - mannaColorBlendMinimum }
 
     static let updateFrequencyHertz:      TimeInterval = 5
-    static let realSecondsPerArkoniaDay:  TimeInterval = 60
-    static let darknessAsPercentageOfDay: TimeInterval = 0.2
+    static let realSecondsPerArkoniaDay:  TimeInterval = 10
+    static let darknessAsPercentageOfDay: TimeInterval = 0.5
     static let arkoniaDaysPerYear:        TimeInterval = 10
-    static let winterAsPercentageOfYear:  TimeInterval = 0.2
+    static let winterAsPercentageOfYear:  TimeInterval = 0.5
 }
 
 extension Arkonia {
