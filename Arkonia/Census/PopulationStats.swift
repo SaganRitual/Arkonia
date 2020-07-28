@@ -13,7 +13,6 @@ class PopulationStats: ObservableObject {
     @Published var maxCOffspring: Double = 0
     @Published var medCOffspring: Double = 0
 
-    @Published var allBirths: Int = 0
     @Published var currentPopulation: Int = 0
 
     @Published var cAverageNeurons: Double = 0
@@ -24,28 +23,36 @@ class PopulationStats: ObservableObject {
     @Published var maxCRoomy: Int = 0
 
     var coreAverageAge: TimeInterval = 0
-    var coreMaxAge: TimeInterval = 0
+    var coreMaxAge: TimeInterval = 0 { didSet { highwaterStats.highwaterIf(.age, value: coreMaxAge) } }
     var coreMedAge: TimeInterval = 0
     weak var oldestArkon: Stepper?
 
     var coreAverageCOffspring: Double = 0
-    var coreMaxCOffspring: Double = 0
+    var coreMaxCOffspring: Double = 0 { didSet { highwaterStats.highwaterIf(.cOffspring, value: coreMaxCOffspring) } }
     var coreMedCOffspring: Double = 0
     weak var busiestArkon: Stepper?
 
-    var coreAllBirths: Int = 0
-    var coreCurrentPopulation: Int = 0
+    var coreCurrentPopulation: Int = 0 { didSet { highwaterStats.highwaterIf(.population, value: Double(coreCurrentPopulation)) } }
 
-    var coreCAverageNeurons: Double = 0
-    var coreCNeurons: Int = 0
+    var coreCAverageNeurons: Double = 0 { didSet { highwaterStats.highwaterIf(.cAverageNeurons, value: coreCAverageNeurons) } }
+    var coreCNeurons: Int = 0 { didSet { highwaterStats.highwaterIf(.cLiveNeurons, value: Double(coreCNeurons)) } }
 
-    var coreCBrainy: Int = 0
-    var coreMaxCBrainy: Int = 0
+    var coreCBrainy: Int = 0 { didSet { if coreCBrainy > coreMaxCBrainy { coreMaxCBrainy = coreCBrainy } } }
+    var coreMaxCBrainy: Int = 0 { didSet { highwaterStats.highwaterIf(.brainy, value: Double(coreMaxCBrainy)) } }
 
-    var coreCRoomy: Int = 0
-    var coreMaxCRoomy: Int = 0
+    var coreCRoomy: Int = 10_000_000 { didSet {
+        if coreCRoomy == 0 || coreMaxCRoomy == 0 { return }
+        if coreCRoomy < coreMaxCRoomy { coreMaxCRoomy = coreCRoomy }
+    } }
+
+    var coreMaxCRoomy = 10_000_000 { didSet {
+        if coreMaxCRoomy == 0 { return }
+        highwaterStats.highwaterIf(.roomy, value: Double(coreMaxCRoomy))
+    } }
 
     weak var brainiestArkon: Stepper?
+
+    let highwaterStats = HighwaterStats()
 
     enum MaxIf { case brainiest, busiest, oldest, roomiest }
     func maxIf(_ maxIf: MaxIf, value: Double, arkon: Stepper) {
@@ -57,7 +64,7 @@ class PopulationStats: ObservableObject {
         case .oldest:
             if value > coreMaxAge { coreMaxAge = value; oldestArkon = arkon }
         case .roomiest:
-            if Int(value) > coreMaxCRoomy { coreMaxCRoomy = Int(value) }
+            if coreMaxCRoomy > 0 && Int(value) < coreMaxCRoomy { coreMaxCRoomy = Int(value) }
         }
     }
 
@@ -70,14 +77,13 @@ class PopulationStats: ObservableObject {
         coreAverageCOffspring = 0
         coreMaxCOffspring = 0
         coreMedCOffspring = 0
-        coreAllBirths = 0
         coreCurrentPopulation = 0
         coreCAverageNeurons = 0
         coreCBrainy = 0
         coreMaxCBrainy = 0
         coreCNeurons = 0
-        coreCRoomy = Int.max
-        coreMaxCRoomy = Int.max
+        coreCRoomy = 10_000_000
+        coreMaxCRoomy = 10_000_000
     }
 
     func updateUI() {
@@ -90,12 +96,13 @@ class PopulationStats: ObservableObject {
         self.medAge = self.coreMedAge
         self.medCOffspring = self.coreMedCOffspring
 
-        self.allBirths = self.coreAllBirths
         self.currentPopulation = self.coreCurrentPopulation
 
         self.cNeurons = self.coreCNeurons
         self.cAverageNeurons = self.coreCAverageNeurons
         self.cBrainy = self.coreCBrainy
         self.cRoomy = self.coreCRoomy
+
+        highwaterStats.updateUI()
     }
 }

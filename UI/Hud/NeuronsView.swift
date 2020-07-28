@@ -8,9 +8,9 @@ struct NeuronsHudView: View {
     func format(_ format: Format) -> String {
         switch format {
         case .cLiveNeurons:     return String(format: "%d", stats.cNeurons)
-        case .highwaterLive:    return String(format: "%d", Census.shared.highwater.cLiveNeurons)
+        case .highwaterLive:    return String(format: "%d", stats.highwaterStats.cLiveNeurons)
         case .cAverageNeurons:  return String(format: "%0.2f", stats.cAverageNeurons)
-        case .highwaterAverage: return String(format: "%0.2f", Census.shared.highwater.cAverageNeurons)
+        case .highwaterAverage: return String(format: "%0.2f", stats.highwaterStats.cAverageNeurons)
         }
     }
 

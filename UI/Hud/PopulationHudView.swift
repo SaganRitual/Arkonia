@@ -19,13 +19,13 @@ struct PopulationHudView: View {
                 HStack(alignment: .bottom) {
                     Text("Highwater").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(Census.shared.highwater.population)")
+                    Text("\(stats.highwaterStats.population)")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {
                     Text("All births").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(String(format: "%d", stats.allBirths))")
+                    Text("\(String(format: "%d", stats.highwaterStats.allBirths))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {

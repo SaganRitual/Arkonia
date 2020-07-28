@@ -8,7 +8,7 @@ struct AgeHudView: View {
     func format(_ format: Format) -> String {
         switch format {
         case .maxAge:       return String(format: "%.0f", stats.maxAge)
-        case .highwaterAge: return String(format: "%.0f", Census.shared.highwater.age)
+        case .highwaterAge: return String(format: "%.0f", stats.highwaterStats.age)
         case .averageAge:   return String(format: "%.2f", stats.averageAge)
         case .medAge:       return String(format: "%.2f", stats.medAge)
         }

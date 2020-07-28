@@ -47,8 +47,8 @@ class Pollenator {
 
     func move_C() {
 
-        let sizePeakToPeak = 1 / TimeInterval.random(in: 3..<15)
-        let speedPeakToPeak = 1 / TimeInterval.random(in: 3..<15)
+        let sizePeakToPeak = 1 / TimeInterval.random(in: 10..<20)
+        let speedPeakToPeak = 1 / TimeInterval.random(in: 10..<20)
 
         let positionInSizeCycle = age.truncatingRemainder(dividingBy: sizePeakToPeak) / sizePeakToPeak
         let positionInSpeedCycle = age.truncatingRemainder(dividingBy: speedPeakToPeak) / speedPeakToPeak

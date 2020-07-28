@@ -16,6 +16,8 @@
 		D4120DDC24CA65BD005CC773 /* LlamaProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */; };
 		D41396A824CB889900341D97 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41396A724CB889900341D97 /* Parasitize.swift */; };
 		D4252D1324CA439400F1C2DC /* OffspringHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4252D1224CA439400F1C2DC /* OffspringHudView.swift */; };
+		D438AC2924CFD2DF0021E65E /* HighwaterStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D438AC2824CFD2DF0021E65E /* HighwaterStats.swift */; };
+		D438AC2B24CFD3AB0021E65E /* Fishday.swift in Sources */ = {isa = PBXBuildFile; fileRef = D438AC2A24CFD3AB0021E65E /* Fishday.swift */; };
 		D45AAD7224CE8D0D00744836 /* NeuronsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45AAD7124CE8D0D00744836 /* NeuronsView.swift */; };
 		D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45EEC7E24C8F61B00527632 /* PopulationStats.swift */; };
 		D46C986624CF253A0056BF4B /* BrainyHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C986524CF253A0056BF4B /* BrainyHudView.swift */; };
@@ -132,6 +134,8 @@
 		D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaProgressView.swift; sourceTree = "<group>"; };
 		D41396A724CB889900341D97 /* Parasitize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parasitize.swift; sourceTree = "<group>"; };
 		D4252D1224CA439400F1C2DC /* OffspringHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffspringHudView.swift; sourceTree = "<group>"; };
+		D438AC2824CFD2DF0021E65E /* HighwaterStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighwaterStats.swift; sourceTree = "<group>"; };
+		D438AC2A24CFD3AB0021E65E /* Fishday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fishday.swift; sourceTree = "<group>"; };
 		D45AAD7124CE8D0D00744836 /* NeuronsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuronsView.swift; sourceTree = "<group>"; };
 		D45EEC7E24C8F61B00527632 /* PopulationStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationStats.swift; sourceTree = "<group>"; };
 		D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodHitRateHudView.swift; sourceTree = "<group>"; };
@@ -353,6 +357,7 @@
 				D49EBA2824C175FB0006E0E1 /* Census.swift */,
 				D49EBA2624C175FB0006E0E1 /* CensusAgent.swift */,
 				D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */,
+				D438AC2824CFD2DF0021E65E /* HighwaterStats.swift */,
 				D45EEC7E24C8F61B00527632 /* PopulationStats.swift */,
 			);
 			path = Census;
@@ -370,6 +375,7 @@
 				D4F663DE24C16A93006B95BF /* Arkon.EnergyBudget.swift */,
 				D4F663DB24C16A93006B95BF /* ArkonName.swift */,
 				D4F663DC24C16A93006B95BF /* Colorizer.swift */,
+				D438AC2A24CFD3AB0021E65E /* Fishday.swift */,
 				D4F663C424C16A93006B95BF /* Mutator.swift */,
 				D4F663BD24C16A92006B95BF /* Spindle.swift */,
 				D4F663DD24C16A93006B95BF /* Stepper.swift */,
@@ -660,6 +666,7 @@
 				D4F6644824C16A93006B95BF /* OozeStorage.swift in Sources */,
 				D4F6643324C16A93006B95BF /* LayerStructures.swift in Sources */,
 				D4F6643E24C16A93006B95BF /* MoveStepper.swift in Sources */,
+				D438AC2924CFD2DF0021E65E /* HighwaterStats.swift in Sources */,
 				D4F78B5F24C5292C0035F415 /* SeasonalFactors.swift in Sources */,
 				D4F6642C24C16A93006B95BF /* SensorPad.Data.swift in Sources */,
 				D4F6644F24C16A93006B95BF /* Lungs.swift in Sources */,
@@ -708,6 +715,7 @@
 				D4F78AE024C27C790035F415 /* DaylightFactorView.swift in Sources */,
 				D4F6644724C16A93006B95BF /* ArkonBuilder.swift in Sources */,
 				D4F6647524C16A93006B95BF /* AKMatrix.swift in Sources */,
+				D438AC2B24CFD3AB0021E65E /* Fishday.swift in Sources */,
 				D4F6645724C16A93006B95BF /* SKSpriteNode.swift in Sources */,
 				D4F6645324C16A93006B95BF /* SceneDispatch.swift in Sources */,
 				D4F6646A24C16A93006B95BF /* GridCell.swift in Sources */,

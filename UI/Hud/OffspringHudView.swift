@@ -19,7 +19,7 @@ struct OffspringHudView: View {
                 HStack(alignment: .bottom) {
                     Text("Highwater").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(String(format: "% 3.0f", Census.shared.highwater.cOffspring))")
+                    Text("\(String(format: "% 3.0f", stats.highwaterStats.cOffspring))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {

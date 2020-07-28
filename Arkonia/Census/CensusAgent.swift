@@ -22,7 +22,7 @@ class CensusAgent {
     // swifmlint:disable function_body_length
     // unction Body Length Violation: Function body should span 40 lines or
     // less excluding comments and whitespace:
-    func compress(_ currentTime: TimeInterval, _ allBirths: Int) {
+    func compress(_ currentTime: TimeInterval) {
         stats.resetCore()
 
         var currentMinder = self.head
@@ -44,6 +44,7 @@ class CensusAgent {
             }
 
             stats.coreCNeurons += arkon.net.netStructure.cNeurons
+            stats.coreCurrentPopulation += 1
 
             ages.append(arkon)
             brainiests.append(arkon)
@@ -51,7 +52,7 @@ class CensusAgent {
 
             stats.maxIf(.brainiest, value: Double(arkon.net.netStructure.cNeurons), arkon: arkon)
 
-            if arkon.net.netStructure.cNeurons < stats.coreCRoomy {
+            if stats.coreCRoomy > 0 && arkon.net.netStructure.cNeurons < stats.coreCRoomy {
                 stats.coreCRoomy = arkon.net.netStructure.cNeurons
             }
 
@@ -63,8 +64,9 @@ class CensusAgent {
             currentMinder = currentMinder!.pointee.next
         } while currentMinder != nil
 
-        stats.coreMedAge = getMedianAge(currentTime: currentTime)
-        stats.coreMedCOffspring = getMedianCOffspring()
+        (stats.coreAverageAge, stats.coreMedAge) = getAvgMedAge(currentTime: currentTime)
+        (stats.coreAverageCOffspring, stats.coreMedCOffspring) = getAvgMedCOffspring()
+        stats.coreCAverageNeurons = getAvgCNeurons()
     }
     // swiftmint:enable function_body_length
 
@@ -100,21 +102,29 @@ class CensusAgent {
         }
     }
 
-    private func getMedianAge(currentTime: TimeInterval) -> TimeInterval {
-        if self.ages.isEmpty { return 0 }
+    private func getAvgCNeurons() -> Double {
+        self.brainiests.reduce(0, { $0 + Double($1.net.netStructure.cNeurons) }) / Double(self.brainiests.count)
+    }
+
+    private func getAvgMedAge(currentTime: TimeInterval) -> (TimeInterval, TimeInterval) {
+        if self.ages.isEmpty { return (0, 0) }
 
         let m = self.ages.sorted { $0.name < $1.name }
         let ss = m.count / 2
 
+        let median: TimeInterval
         if (m.count % 2) == 0  || m.count == 1 {
-            return currentTime - m[ss].fishday.birthday
+            median = currentTime - m[ss].fishday.birthday
         } else {
-            return (2 * currentTime - (m[ss].fishday.birthday + m[ss + 1].fishday.birthday)) / 2
+            median = (2 * currentTime - (m[ss].fishday.birthday + m[ss + 1].fishday.birthday)) / 2
         }
+
+        let average = self.ages.reduce(0, { $0 + currentTime - $1.fishday.birthday }) / TimeInterval(self.ages.count)
+        return (average, median)
     }
 
-    private func getMedianCOffspring() -> Double {
-        if self.cOffsprings.isEmpty { return 0 }
+    private func getAvgMedCOffspring() -> (Double, Double) {
+        if self.cOffsprings.isEmpty { return (0, 0) }
 
         let m = self.cOffsprings.sorted {
             $0.cOffspring < $1.cOffspring ||
@@ -122,12 +132,16 @@ class CensusAgent {
         }
 
         let ss = m.count / 2
+        let median: Double
 
         if (m.count % 2) == 0  || m.count == 1 {
-            return Double(m[ss].cOffspring)
+            median = Double(m[ss].cOffspring)
         } else {
-            return Double((m[ss].cOffspring + m[ss + 1].cOffspring) / 2)
+            median = Double((m[ss].cOffspring + m[ss + 1].cOffspring) / 2)
         }
+
+        let average = self.cOffsprings.reduce(0, { $0 + Double($1.cOffspring) }) / Double(self.cOffsprings.count)
+        return (average, median)
     }
 
     // Always insert at the front; we don't care about order or nuthin

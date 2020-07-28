@@ -7,14 +7,14 @@ struct BrainyHudView: View {
 
     func format(_ format: Format) -> String {
         Debug.log(level: 222) {
-            "format \(stats.cBrainy) \(Census.shared.highwater.brainy) \(stats.cRoomy) \(Census.shared.highwater.roomy)"
+            "format \(stats.cBrainy) \(stats.highwaterStats.brainy) \(stats.cRoomy) \(stats.highwaterStats.roomy)"
         }
 
         switch format {
         case .brainy:    return String(format: "%d", stats.cBrainy)
-        case .highwater: return String(format: "%d", Census.shared.highwater.brainy)
+        case .highwater: return String(format: "%d", stats.highwaterStats.brainy)
         case .roomy:     return String(format: "%d", stats.cRoomy)
-        case .lowwater:  return String(format: "%d", Census.shared.highwater.roomy)
+        case .lowwater:  return String(format: "%d", stats.highwaterStats.roomy)
         }
     }
 

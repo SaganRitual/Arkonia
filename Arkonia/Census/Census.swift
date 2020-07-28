@@ -1,81 +1,10 @@
 import SpriteKit
 import SwiftUI
 
-struct Fishday {
-    private static var TheFishNumber = 0
-
-    let birthday: TimeInterval
-    let cNeurons: Int
-    let fishNumber: Int
-    let name: ArkonName
-
-    // All this needs to happen on a serial queue. The Census serial
-    // queue seems like the most sensible one, given that it's census-related
-    init(currentTime: Int, cNeurons: Int) {
-        self.cNeurons = cNeurons
-        self.fishNumber = Fishday.getNextFishNumber()
-        self.name = ArkonName.makeName()
-        self.birthday = TimeInterval(currentTime)
-    }
-
-    private static func getNextFishNumber() -> Int {
-        defer { Fishday.TheFishNumber += 1 }
-        return Fishday.TheFishNumber
-    }
-}
-
-class CensusHighwater: ObservableObject {
-    @Published var age: TimeInterval = 0
-    @Published var allBirths = 0
-    @Published var brainy = 0
-    @Published var cLiveNeurons = 0
-    @Published var cAverageNeurons = 0.0
-    @Published var cOffspring = 0.0
-    @Published var foodHitrate = 0.0
-    @Published var population = 0
-    @Published var roomy = 0
-
-    var coreAge: TimeInterval = 0
-    var coreAllBirths = 0
-    var coreBrainy = 0
-    var coreCLiveNeurons = 0
-    var coreCAverageNeurons = 0.0
-    var coreCOffspring = 0.0
-    var coreFoodHitrate = 0.0
-    var corePopulation = 0
-    var coreRoomy = Int.max
-
-    // swiftlint:disable function_parameter_count
-    // Function Parameter Count Violation: Function should have 5 parameters
-    // or less: it currently has 6
-    func update(
-        _ age: TimeInterval, _ allBirths: Int, _ cLiveNeurons: Int,
-        _ cOffspring: Double, _ foodHitrate: Double, _ population: Int,
-        _ cAverageNeurons: Double, _ cBrainy: Int, _ cRoomy: Int
-    ) {
-        Debug.log(level: 222) {
-            "highwater \(cBrainy) \(cRoomy)"
-        }
-        DispatchQueue.main.async {
-            self.age = age
-            self.allBirths = allBirths
-            self.cLiveNeurons = cLiveNeurons
-            self.cOffspring = cOffspring
-            self.foodHitrate = foodHitrate
-            self.population = population
-            self.cAverageNeurons = cAverageNeurons
-            self.brainy = cBrainy
-            self.roomy = cRoomy
-        }
-    }
-    // swiftlint:enable function_parameter_count
-}
-
 class Census {
     static var shared = Census()
 
     let censusAgent = CensusAgent()
-    var highwater = CensusHighwater()
 
     var populated = false
 
@@ -110,7 +39,7 @@ class Census {
             oldestLivingMarker!, busiestLivingMarker!, brainiestLivingMarker!
         ])
 
-        let colors: [SKColor] = [.yellow, .green, .purple]
+        let colors: [SKColor] = [.yellow, .green, .magenta]
 
         zip(0..., markers).forEach { ss, marker in
             marker.color = colors[ss]
@@ -137,8 +66,15 @@ private extension Census {
 
     func updateReports_B(_ worldClock: Int) {
         Census.dispatchQueue.async {
-            self.censusAgent.compress(TimeInterval(worldClock), self.highwater.coreAllBirths)
+            self.censusAgent.compress(TimeInterval(worldClock))
             self.markExemplars()    // No need to wait on this; it's a sprite update
+            self.updateReports_C()
+        }
+    }
+
+    func updateReports_C() {
+        DispatchQueue.main.async {
+            self.censusAgent.stats.updateUI()
             self.updateReports()
         }
     }
