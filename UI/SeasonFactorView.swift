@@ -27,9 +27,7 @@ struct SeasonFactorView: View {
         let scaleToSeasonalArrowFrameRange: CGFloat =
             (seasonalArrowFrameHeight - diurnalArrowFrameHeight) / 2
 
-        let seasonalArrowPosition = scaleSeasonalCurveToAnnualTrackPosition()
-
-        return seasonalArrowPosition - scaleToSeasonalArrowFrameRange * seasonalFactors.diurnalCurve
+        return scaleSeasonalCurveToAnnualTrackPosition() + (-1 * scaleToSeasonalArrowFrameRange * seasonalFactors.diurnalCurve * 0.9)
     }
 
     func scaleSeasonalCurveToAnnualTrackPosition() -> CGFloat {

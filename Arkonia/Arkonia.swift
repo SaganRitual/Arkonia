@@ -39,10 +39,10 @@ class Arkonia {
     static var mannaColorBlendRangeWidth: CGFloat
         { mannaColorBlendMaximum - mannaColorBlendMinimum }
 
-    static let arkoniaDaysPerYear:        TimeInterval = 5
-    static let darknessAsPercentageOfDay: TimeInterval = 0.5    // At the first solstice
+    static let arkoniaDaysPerYear:        TimeInterval = 10
+    static let darknessAsPercentageOfDay: TimeInterval = 0.3    // At the first solstice
     static let diurnalFluctuation:        TimeInterval = 2      // Amplitude of diurnal curve
-    static let realSecondsPerArkoniaDay:  TimeInterval = 5
+    static let realSecondsPerArkoniaDay:  TimeInterval = 60
     static let seasonalFluctuation:       TimeInterval = 0.5    // Amplitude of seasonal curve
     static let updateFrequencyHertz:      TimeInterval = 5
     static let winterAsPercentageOfYear:  TimeInterval = 0.5

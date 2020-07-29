@@ -50,7 +50,7 @@ class SeasonalFactors: ObservableObject {
     // https://math.stackexchange.com/users/12952/alexander-gruber
     // https://math.stackexchange.com/questions/3766767/is-there-a-simple-ish-function-for-modeling-seasonal-changes-to-day-night-durati
     var diurnalCurve: CGFloat { CGFloat(sin(
-        2 * TimeInterval.pi * elapsedSecondsToday * secondsPerDay / secondsPerYear
+        2 * TimeInterval.pi * elapsedSecondsToday / secondsPerDay
     ))}
 
     var seasonalCurve: CGFloat { CGFloat(sin(
