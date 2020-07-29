@@ -34,7 +34,7 @@ class Pollenator {
 
     func getTemperature(_ onComplete: @escaping () -> Void) {
         Clock.dispatchQueue.async {
-            let t = SeasonalFactors(Clock.shared.worldClock).normalizedTemperature
+            let t = SeasonalFactors(Clock.shared.worldClock).temperature
             self.temperatureAdjustment = (t + 2) / 2  // Scale -1..<1 to 1..<2
             Debug.log(level: 217) { "pollenator? \(t) \(self.temperatureAdjustment)" }
             onComplete()

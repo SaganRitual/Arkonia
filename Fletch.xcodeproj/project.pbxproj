@@ -111,7 +111,6 @@
 		D4F6648C24C16BA5006B95BF /* .overcommit.yml in Resources */ = {isa = PBXBuildFile; fileRef = D4F6648924C16BA5006B95BF /* .overcommit.yml */; };
 		D4F6648D24C16BA5006B95BF /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D4F6648A24C16BA5006B95BF /* .swiftlint.yml */; };
 		D4F78ADB24C227F60035F415 /* swiftlint.sh in Resources */ = {isa = PBXBuildFile; fileRef = D4F78ADA24C227F60035F415 /* swiftlint.sh */; };
-		D4F78AE024C27C790035F415 /* DaylightFactorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78ADF24C27C790035F415 /* DaylightFactorView.swift */; };
 		D4F78B5D24C529060035F415 /* SeasonFactorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B5C24C529060035F415 /* SeasonFactorView.swift */; };
 		D4F78B5F24C5292C0035F415 /* SeasonalFactors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B5E24C5292C0035F415 /* SeasonalFactors.swift */; };
 		D4F78B6324C550A20035F415 /* ArkoniaLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */; };
@@ -233,7 +232,6 @@
 		D4F6648924C16BA5006B95BF /* .overcommit.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .overcommit.yml; sourceTree = "<group>"; };
 		D4F6648A24C16BA5006B95BF /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D4F78ADA24C227F60035F415 /* swiftlint.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = swiftlint.sh; sourceTree = "<group>"; };
-		D4F78ADF24C27C790035F415 /* DaylightFactorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaylightFactorView.swift; sourceTree = "<group>"; };
 		D4F78B5C24C529060035F415 /* SeasonFactorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonFactorView.swift; sourceTree = "<group>"; };
 		D4F78B5E24C5292C0035F415 /* SeasonalFactors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SeasonalFactors.swift; path = Arkonia/SeasonalFactors.swift; sourceTree = SOURCE_ROOT; };
 		D4F78B6024C52DA10035F415 /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
@@ -318,7 +316,6 @@
 				D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */,
 				D4F78B6024C52DA10035F415 /* ButtonsView.swift */,
 				D400138024BD4647001D429A /* ContentView.swift */,
-				D4F78ADF24C27C790035F415 /* DaylightFactorView.swift */,
 				D4F663A524C088C4006B95BF /* GameView.swift */,
 				D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */,
 				D4F78B5C24C529060035F415 /* SeasonFactorView.swift */,
@@ -712,7 +709,6 @@
 				D4F6646624C16A93006B95BF /* GridCore.swift in Sources */,
 				D4F6647B24C16A93006B95BF /* Clock.swift in Sources */,
 				D4F6645224C16A93006B95BF /* Transfer.swift in Sources */,
-				D4F78AE024C27C790035F415 /* DaylightFactorView.swift in Sources */,
 				D4F6644724C16A93006B95BF /* ArkonBuilder.swift in Sources */,
 				D4F6647524C16A93006B95BF /* AKMatrix.swift in Sources */,
 				D438AC2B24CFD3AB0021E65E /* Fishday.swift in Sources */,

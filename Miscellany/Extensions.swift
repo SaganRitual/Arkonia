@@ -7,3 +7,6 @@ func constrain<T: Numeric & Comparable>(_ a: T, lo: T, hi: T) -> T {
     let capped = min(a, hi)
     return max(capped, lo)
 }
+
+func square(_ value: Int) -> Int { value * value }
+func square(_ value: Double) -> Double { value * value }

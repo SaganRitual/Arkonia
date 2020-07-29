@@ -9,9 +9,13 @@ class SeasonalFactors: ObservableObject {
 
     let darknessDurationSeconds: TimeInterval
     let daylightDurationSeconds: TimeInterval
-    let dayRatio: TimeInterval
+    let dayRatioAtFirstSolstice: TimeInterval = 1 - Arkonia.darknessAsPercentageOfDay
+    let diurnalFluctuation: CGFloat = CGFloat(Arkonia.diurnalFluctuation)
+
     let nightRatio: TimeInterval
+    let secondsPerDay: TimeInterval = Arkonia.realSecondsPerArkoniaDay
     let secondsPerYear: TimeInterval = Arkonia.realSecondsPerArkoniaDay * Arkonia.arkoniaDaysPerYear
+    let seasonalFluctuation: CGFloat = CGFloat(Arkonia.seasonalFluctuation)
     let summerDurationDays: TimeInterval
     let summerRatio: TimeInterval
     let winterDurationDays: TimeInterval
@@ -19,8 +23,7 @@ class SeasonalFactors: ObservableObject {
 
     init(_ worldClock: TimeInterval? = nil) {
         nightRatio = Arkonia.darknessAsPercentageOfDay
-        dayRatio = 1 - nightRatio
-        daylightDurationSeconds = dayRatio * Arkonia.realSecondsPerArkoniaDay
+        daylightDurationSeconds = dayRatioAtFirstSolstice * Arkonia.realSecondsPerArkoniaDay
         darknessDurationSeconds = Arkonia.realSecondsPerArkoniaDay - daylightDurationSeconds
 
         winterRatio = Arkonia.winterAsPercentageOfYear
@@ -41,46 +44,21 @@ class SeasonalFactors: ObservableObject {
     var elapsedSecondsToday: TimeInterval { elapsedSecondsThisYear.truncatingRemainder(dividingBy: Arkonia.realSecondsPerArkoniaDay) }
     var elapsedYearsToSeconds: TimeInterval { TimeInterval(currentYear) * secondsPerYear }
 
-    var myTime: TimeInterval { self.worldClock ?? self.elapsedTimeRealSeconds}
+    var myTime: TimeInterval { self.worldClock ?? self.elapsedTimeRealSeconds }
 
-    var normalizedSunHeight: CGFloat {
-        let secondsPerYear = Arkonia.realSecondsPerArkoniaDay * Arkonia.arkoniaDaysPerYear
+    // Many, many thanks to Alexander and the crowd at math.stackexchange
+    // https://math.stackexchange.com/users/12952/alexander-gruber
+    // https://math.stackexchange.com/questions/3766767/is-there-a-simple-ish-function-for-modeling-seasonal-changes-to-day-night-durati
+    var diurnalCurve: CGFloat { CGFloat(sin(
+        2 * TimeInterval.pi * elapsedSecondsToday * secondsPerDay / secondsPerYear
+    ))}
 
-        let diurnalCurve = sin(
-            2 * TimeInterval.pi * elapsedSecondsThisYear *
-                Arkonia.realSecondsPerArkoniaDay / secondsPerYear
-        )
+    var seasonalCurve: CGFloat { CGFloat(sin(
+        (Double.tau * elapsedSecondsThisYear) / secondsPerYear
+    ))}
 
-        return CGFloat(diurnalCurve)
-    }
-
-    var normalizedSunstickHeight: CGFloat {
-        let dayRatio = 1 - Arkonia.darknessAsPercentageOfDay
-        let secondsPerYear = Arkonia.realSecondsPerArkoniaDay * Arkonia.arkoniaDaysPerYear
-
-        let seasonalCurve = sin(
-            (2 * elapsedSecondsThisYear * dayRatio * dayRatio) / secondsPerYear
-        )
-
-        return CGFloat(seasonalCurve)
-    }
-
-    var sunHeight: CGFloat {
-        let a = ArkoniaLayout.DaylightFactorView.sunstickFrameHeight
-        let b = ArkoniaLayout.SeasonFactorView.stickGrooveFrameHeight
-        return normalizedSunHeight * a / b
-    }
-
-    var sunstickHeight: CGFloat {
-        let a = ArkoniaLayout.DaylightFactorView.sunstickFrameHeight
-        let b = ArkoniaLayout.SeasonFactorView.stickGrooveFrameHeight
-        return normalizedSunstickHeight * (1 - a / b)
-    }
-
-    var temperature: CGFloat { -(sunstickHeight + sunHeight) }
-
-    var normalizedTemperature: CGFloat {
-        -(normalizedSunstickHeight + normalizedSunHeight) / 2
+    var temperature: CGFloat {
+        ((seasonalFluctuation * seasonalCurve) + (diurnalFluctuation * diurnalCurve)) / 2
     }
 
     func update(_ officialTime: TimeInterval) {

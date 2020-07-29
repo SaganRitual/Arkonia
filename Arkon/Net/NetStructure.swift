@@ -1,5 +1,5 @@
 struct NetStructure {
-    static let cSenseRingsRange: ClosedRange<Int> = 1...10
+    static let cSenseRingsRange: ClosedRange<Int> = 1...20
 
     let layerDescriptors: [Int]
 

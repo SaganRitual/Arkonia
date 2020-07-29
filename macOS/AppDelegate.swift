@@ -53,7 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         ArkoniaLayout.SeasonFactorView.bgFrameHeight = newFrame.height
-        ArkoniaLayout.SeasonFactorView.stickGrooveFrameHeight = newFrame.height
+        ArkoniaLayout.SeasonFactorView.annualTrackFrameHeight = newFrame.height
 
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()

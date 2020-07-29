@@ -31,8 +31,6 @@ struct GridIndexer {
         return asteroidize(virtualGridPosition)
     }
 
-    static func square(_ value: Int) -> Int { value * value }
-
     static func offsetToLocalIndex(_ offset: AKPoint) -> Int {
         let whichRing = max(abs(offset.x), abs(offset.y))
 
