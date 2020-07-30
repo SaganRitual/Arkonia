@@ -12,8 +12,8 @@ struct DriveStimulus {
 
     func driveStimulus(_ onComplete: @escaping () -> Void) {
         Clock.dispatchQueue.async {
-            let sh = Clock.shared.seasonalFactors.diurnalCurve
-            let ssh = Clock.shared.seasonalFactors.seasonalCurve
+            let sh = CGFloat(Clock.shared.seasonalFactors.diurnalCurve)
+            let ssh = CGFloat(Clock.shared.seasonalFactors.annualCurve)
 
             mainDispatch { self.driveStimulus_B(sh, ssh, onComplete) }
         }

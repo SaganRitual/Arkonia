@@ -3,63 +3,91 @@ import SwiftUI
 class SeasonalFactors: ObservableObject {
     @Published var elapsedTimeRealSeconds: TimeInterval = 0
 
-    // Lets me construct an instance of this struct so I can use its
-    // nifty UI calculations for the manna energy budget
-    let worldClock: TimeInterval?
+    enum Formula { case johnathanZ, simpleSineAddition }
+    let formula: Formula
 
-    let darknessDurationSeconds: TimeInterval
-    let daylightDurationSeconds: TimeInterval
-    let dayRatioAtFirstSolstice: TimeInterval = 1 - Arkonia.darknessAsPercentageOfDay
-    let diurnalFluctuation: CGFloat = CGFloat(Arkonia.diurnalFluctuation)
+    let annualCyclePeriodSeconds: TimeInterval =
+        Arkonia.diurnalCyclePeriodSeconds * Arkonia.annualCyclePeriodDiurnalPeriods
 
-    let nightRatio: TimeInterval
-    let secondsPerDay: TimeInterval = Arkonia.realSecondsPerArkoniaDay
-    let secondsPerYear: TimeInterval = Arkonia.realSecondsPerArkoniaDay * Arkonia.arkoniaDaysPerYear
-    let seasonalFluctuation: CGFloat = CGFloat(Arkonia.seasonalFluctuation)
+    let daysPerYear = Arkonia.annualCyclePeriodSeconds / Arkonia.diurnalCyclePeriodSeconds
+    let diurnalFluctuation: TimeInterval = TimeInterval(Arkonia.diurnalFluctuation)
+
+    let secondsPerDay: TimeInterval = Arkonia.diurnalCyclePeriodSeconds
+    let secondsPerYear: TimeInterval = Arkonia.annualCyclePeriodSeconds
+    let seasonalFluctuation: TimeInterval = TimeInterval(Arkonia.seasonalFluctuation)
     let summerDurationDays: TimeInterval
     let summerRatio: TimeInterval
     let winterDurationDays: TimeInterval
     let winterRatio: TimeInterval
 
-    init(_ worldClock: TimeInterval? = nil) {
-        nightRatio = Arkonia.darknessAsPercentageOfDay
-        daylightDurationSeconds = dayRatioAtFirstSolstice * Arkonia.realSecondsPerArkoniaDay
-        darknessDurationSeconds = Arkonia.realSecondsPerArkoniaDay - daylightDurationSeconds
-
+    init(_ formula: Formula = .simpleSineAddition) {
+        self.formula = formula
         winterRatio = Arkonia.winterAsPercentageOfYear
         summerRatio = 1 - winterRatio
-        summerDurationDays = summerRatio * Arkonia.arkoniaDaysPerYear
-        winterDurationDays = Arkonia.arkoniaDaysPerYear - summerDurationDays
-
-        self.worldClock = worldClock
+        summerDurationDays = summerRatio * Arkonia.annualCyclePeriodDiurnalPeriods
+        winterDurationDays = Arkonia.annualCyclePeriodDiurnalPeriods - summerDurationDays
     }
-
-    var currentYear: Int { Int(floor(myTime / secondsPerYear)) }
-
-    var elapsedDaysThisYear: TimeInterval {
-        elapsedSecondsThisYear / Arkonia.realSecondsPerArkoniaDay
-    }
-
-    var elapsedSecondsThisYear: TimeInterval { myTime - elapsedYearsToSeconds  }
-    var elapsedSecondsToday: TimeInterval { elapsedSecondsThisYear.truncatingRemainder(dividingBy: Arkonia.realSecondsPerArkoniaDay) }
-    var elapsedYearsToSeconds: TimeInterval { TimeInterval(currentYear) * secondsPerYear }
-
-    var myTime: TimeInterval { self.worldClock ?? self.elapsedTimeRealSeconds }
 
     // Many, many thanks to Alexander and the crowd at math.stackexchange
     // https://math.stackexchange.com/users/12952/alexander-gruber
     // https://math.stackexchange.com/questions/3766767/is-there-a-simple-ish-function-for-modeling-seasonal-changes-to-day-night-durati
-    var diurnalCurve: CGFloat { CGFloat(sin(
-        2 * TimeInterval.pi * elapsedSecondsToday / secondsPerDay
-    ))}
-
-    var seasonalCurve: CGFloat { CGFloat(sin(
-        (Double.tau * elapsedSecondsThisYear) / secondsPerYear
-    ))}
-
-    var temperature: CGFloat {
-        ((seasonalFluctuation * seasonalCurve) + (diurnalFluctuation * diurnalCurve)) / 2
+    var annualCurve: TimeInterval {
+        return sin(TimeInterval.tau * elapsedTimeRealSeconds / annualCyclePeriodSeconds)
     }
+
+    var currentYear: Int { Int(floor(myTime / secondsPerYear)) }
+    var dayCompletionPercentage: TimeInterval { elapsedSecondsToday / secondsPerDay }
+
+    var diurnalCurve: TimeInterval {
+        switch formula {
+        case .simpleSineAddition:
+            return sin(
+                TimeInterval.tau * elapsedTimeRealSeconds *
+                secondsPerDay / secondsPerYear *
+                (daysPerYear / secondsPerDay)
+            )
+
+        case .johnathanZ:
+            let angularMeasureForDayOfYear = elapsedTimeRealSeconds / annualCyclePeriodSeconds
+            let axialTilt: TimeInterval = 23   // Approx 23 degrees
+            let latitude: TimeInterval = 45    // 45th meridian
+            let mysteryNumber: TimeInterval = angularMeasureForDayOfYear - 5 * TimeInterval.pi * elapsedTimeRealSeconds / 60
+            let fivePiOver4 = 5 * TimeInterval.pi / 4
+
+            return TimeInterval.pi * acos(
+                -(sin(axialTilt) * sin(latitude) + cos(axialTilt) * cos(latitude) * cos(mysteryNumber)) *
+                cos(angularMeasureForDayOfYear) - sin(angularMeasureForDayOfYear) *
+                sin(mysteryNumber) * cos(latitude)
+            ) / fivePiOver4
+        }
+    }
+
+    var elapsedDaysThisYear: TimeInterval {
+        elapsedSecondsThisYear / Arkonia.diurnalCyclePeriodSeconds
+    }
+
+    var elapsedSecondsThisYear: TimeInterval { myTime - elapsedYearsToSeconds  }
+
+    var elapsedSecondsToday: TimeInterval {
+        elapsedSecondsThisYear.truncatingRemainder(dividingBy: secondsPerDay)
+    }
+
+    var elapsedYearsToSeconds: TimeInterval {
+        TimeInterval(currentYear) * secondsPerYear
+    }
+
+    var myTime: TimeInterval { self.elapsedTimeRealSeconds }
+
+    var seasonalCurve: TimeInterval { TimeInterval(Arkonia.winterSolsticeDaylightPercentage) * annualCurve }
+
+    var temperatureCurve: CGFloat {
+        let t:  CGFloat = 0.5 * CGFloat(annualCurve + diurnalCurve) +
+                CGFloat(Arkonia.winterSolsticeDaylightPercentage * annualCurve)
+
+        return t / 1.5  // Where does this come from?
+    }
+
+    var yearCompletionPercentage: TimeInterval { elapsedSecondsThisYear / secondsPerYear }
 
     func update(_ officialTime: TimeInterval) {
         DispatchQueue.main.async {

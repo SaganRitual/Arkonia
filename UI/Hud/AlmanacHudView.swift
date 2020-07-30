@@ -28,7 +28,7 @@ struct AlmanacHudView: View {
         case .day:
             return String(format: "%02d", Int(seasonalFactors.elapsedDaysThisYear))
 
-        case .temperature: return String(format: "%0.2f", seasonalFactors.temperature * 100)
+        case .temperature: return String(format: "%0.2f", seasonalFactors.temperatureCurve * 100)
         case .foodValue: return String(format: "%0.2f", MannaStats.stats.foodValue)
         }
     }
@@ -49,7 +49,7 @@ struct AlmanacHudView: View {
                 HStack(alignment: .bottom) {
                     Text("Year:Day").font(ArkoniaLayout.labelFont).padding(.top, 5)
                     Spacer()
-                    Text("\(format(.year))\(format(.day))")
+                    Text("\(format(.year)):\(format(.day))")
                 }.padding(.leading).padding(.trailing)
 
                 HStack(alignment: .bottom) {

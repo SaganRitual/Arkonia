@@ -46,8 +46,8 @@ extension Manna {
         MannaStats.stats.updateMannaStat(.photosynthesizing, by: -1)
 
         Clock.dispatchQueue.async {
-            let temperature = SeasonalFactors(Clock.shared.worldClock).temperature
-            let scaleZeroToOne = (temperature + 1) / 2  // Convert -1..<1 to 0..<1
+            let temperature = Clock.shared.seasonalFactors.temperatureCurve
+            let scaleZeroToOne = CGFloat(temperature + 1) / 2  // Convert -1..<1 to 0..<1
             let mannaContent = EnergyBudget.MannaContent(maturityLevel, scaleZeroToOne)
 
             Debug.log(level: 220) {

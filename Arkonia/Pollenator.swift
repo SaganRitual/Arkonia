@@ -16,7 +16,7 @@ class Pollenator {
     init(_ color: SKColor) {
         node.strokeColor = color
         node.fillColor = color
-        node.alpha = 0
+        node.alpha = 0.1
 
         node.zPosition = 1
         node.setScale(1)
@@ -34,7 +34,7 @@ class Pollenator {
 
     func getTemperature(_ onComplete: @escaping () -> Void) {
         Clock.dispatchQueue.async {
-            let t = SeasonalFactors(Clock.shared.worldClock).temperature
+            let t = Clock.shared.seasonalFactors.temperatureCurve
             self.temperatureAdjustment = (t + 2) / 2  // Scale -1..<1 to 1..<2
             Debug.log(level: 217) { "pollenator? \(t) \(self.temperatureAdjustment)" }
             onComplete()

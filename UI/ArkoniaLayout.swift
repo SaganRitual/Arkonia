@@ -46,10 +46,12 @@ extension ArkoniaLayout.SeasonFactorView {
 
     static let naturalArrowHeightInAssetCatalog: CGFloat = 100
 
-    static let seasonalArrowFrameWidth: CGFloat = 10
-    static let seasonalArrowFrameHeightScale: CGFloat = 200 / naturalArrowHeightInAssetCatalog
-    static let seasonalArrowCornerRadius: CGFloat = 5
+    static let annualMarkerFrameWidth: CGFloat = 10
+    static let annualMarkerFrameHeight: CGFloat = 200
+    static let annualMarkerFrameHeightScale: CGFloat = annualMarkerFrameHeight / naturalArrowHeightInAssetCatalog
+    static let annualMarkerCornerRadius: CGFloat = 5
 
-    static let diurnalArrowFrameWidth: CGFloat = 20
-    static let diurnalArrowFrameHeightScale: CGFloat = 50 / naturalArrowHeightInAssetCatalog
+    static let diurnalMarkerFrameWidth: CGFloat = 15
+    static let diurnalMarkerFrameHeight: CGFloat = 50
+    static let diurnalMarkerFrameHeightScale: CGFloat = diurnalMarkerFrameHeight / naturalArrowHeightInAssetCatalog
 }

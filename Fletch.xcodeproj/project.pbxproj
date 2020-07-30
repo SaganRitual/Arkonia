@@ -41,6 +41,8 @@
 		D49EBA2A24C175FB0006E0E1 /* Census.Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */; };
 		D49EBA2B24C175FB0006E0E1 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2824C175FB0006E0E1 /* Census.swift */; };
 		D4A2FB9424C963D200E88803 /* AgeHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A2FB9324C963D200E88803 /* AgeHudView.swift */; };
+		D4D9924A24D31FA800653F06 /* SundialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D9924724D31FA800653F06 /* SundialView.swift */; };
+		D4D9924C24D31FA800653F06 /* SundialLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D9924924D31FA800653F06 /* SundialLayout.swift */; };
 		D4F663A624C088C4006B95BF /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663A524C088C4006B95BF /* GameView.swift */; };
 		D4F6642924C16A93006B95BF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D4F663BB24C16A92006B95BF /* LICENSE */; };
 		D4F6642A24C16A93006B95BF /* Spindle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663BD24C16A92006B95BF /* Spindle.swift */; };
@@ -111,7 +113,6 @@
 		D4F6648C24C16BA5006B95BF /* .overcommit.yml in Resources */ = {isa = PBXBuildFile; fileRef = D4F6648924C16BA5006B95BF /* .overcommit.yml */; };
 		D4F6648D24C16BA5006B95BF /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D4F6648A24C16BA5006B95BF /* .swiftlint.yml */; };
 		D4F78ADB24C227F60035F415 /* swiftlint.sh in Resources */ = {isa = PBXBuildFile; fileRef = D4F78ADA24C227F60035F415 /* swiftlint.sh */; };
-		D4F78B5D24C529060035F415 /* SeasonFactorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B5C24C529060035F415 /* SeasonFactorView.swift */; };
 		D4F78B5F24C5292C0035F415 /* SeasonalFactors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B5E24C5292C0035F415 /* SeasonalFactors.swift */; };
 		D4F78B6324C550A20035F415 /* ArkoniaLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */; };
 		D4F78B6924C7A93F0035F415 /* PopulationHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */; };
@@ -154,6 +155,9 @@
 		D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.Extra.swift; sourceTree = "<group>"; };
 		D49EBA2824C175FB0006E0E1 /* Census.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D4A2FB9324C963D200E88803 /* AgeHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeHudView.swift; sourceTree = "<group>"; };
+		D4D9924724D31FA800653F06 /* SundialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SundialView.swift; sourceTree = "<group>"; };
+		D4D9924824D31FA800653F06 /* Curve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curve.swift; sourceTree = "<group>"; };
+		D4D9924924D31FA800653F06 /* SundialLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SundialLayout.swift; sourceTree = "<group>"; };
 		D4E0411224BFE87C0026970F /* LineChartCore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartCore.swift; sourceTree = "<group>"; };
 		D4F663A524C088C4006B95BF /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		D4F663BB24C16A92006B95BF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -337,6 +341,7 @@
 		D41396AA24CBCB9100341D97 /* Hud */ = {
 			isa = PBXGroup;
 			children = (
+				D4D9924624D31F9000653F06 /* Sundial */,
 				D4A2FB9324C963D200E88803 /* AgeHudView.swift */,
 				D4F78B6424C75B690035F415 /* AlmanacHudView.swift */,
 				D46C986524CF253A0056BF4B /* BrainyHudView.swift */,
@@ -358,6 +363,16 @@
 				D45EEC7E24C8F61B00527632 /* PopulationStats.swift */,
 			);
 			path = Census;
+			sourceTree = "<group>";
+		};
+		D4D9924624D31F9000653F06 /* Sundial */ = {
+			isa = PBXGroup;
+			children = (
+				D4D9924824D31FA800653F06 /* Curve.swift */,
+				D4D9924924D31FA800653F06 /* SundialLayout.swift */,
+				D4D9924724D31FA800653F06 /* SundialView.swift */,
+			);
+			path = Sundial;
 			sourceTree = "<group>";
 		};
 		D4F663BC24C16A92006B95BF /* Arkon */ = {
@@ -659,7 +674,6 @@
 				D4F6646424C16A93006B95BF /* Arkonia.swift in Sources */,
 				D4F6646F24C16A93006B95BF /* HotLayerBnn.swift in Sources */,
 				D4F6646024C16A93006B95BF /* Manna.Sprite.swift in Sources */,
-				D4F78B5D24C529060035F415 /* SeasonFactorView.swift in Sources */,
 				D4F6644824C16A93006B95BF /* OozeStorage.swift in Sources */,
 				D4F6643324C16A93006B95BF /* LayerStructures.swift in Sources */,
 				D4F6643E24C16A93006B95BF /* MoveStepper.swift in Sources */,
@@ -718,10 +732,12 @@
 				D49EBA2B24C175FB0006E0E1 /* Census.swift in Sources */,
 				D4F6643524C16A93006B95BF /* Net.swift in Sources */,
 				D4F6647224C16A93006B95BF /* HotNetBnn.swift in Sources */,
+				D4D9924C24D31FA800653F06 /* SundialLayout.swift in Sources */,
 				D4F6646924C16A93006B95BF /* Grid.swift in Sources */,
 				D49EBA2A24C175FB0006E0E1 /* Census.Extra.swift in Sources */,
 				D4F6642B24C16A93006B95BF /* SensorPad.swift in Sources */,
 				D49EBA1B24C16DE00006E0E1 /* Overload2D.swift in Sources */,
+				D4D9924A24D31FA800653F06 /* SundialView.swift in Sources */,
 				D4F663A624C088C4006B95BF /* GameView.swift in Sources */,
 				D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */,
 				D4F6647324C16A93006B95BF /* HotNetBlas.swift in Sources */,

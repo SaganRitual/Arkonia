@@ -8,7 +8,7 @@ struct ContentView: View {
         HStack {
             Spacer()
 
-            SeasonFactorView()
+            SundialView(.simpleSineAddition)
                 .frame(width: ArkoniaLayout.SeasonFactorView.frameWidth)
                 .environmentObject(Clock.shared.seasonalFactors)
 

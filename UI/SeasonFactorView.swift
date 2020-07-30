@@ -1,15 +1,15 @@
 import SwiftUI
 
-extension Angle {
-    // This hopefully will help me not to confuse this with 2pi in the code below
-    static let pi = Angle.radians(Double.pi)
+extension CGFloat {
+    static let piOverTwo = CGFloat.pi / 2
+    static let threePiOverTwo = 3 * CGFloat.pi / 2
 }
 
 struct SeasonFactorView: View {
     @EnvironmentObject var seasonalFactors: SeasonalFactors
 
-    let qDay = Arkonia.realSecondsPerArkoniaDay / 4
-    let qYear = Arkonia.realSecondsPerArkoniaDay * Arkonia.arkoniaDaysPerYear  / 4
+    let qDay = Arkonia.diurnalCyclePeriodSeconds / 4
+    let qYear = Arkonia.diurnalCyclePeriodSeconds * Arkonia.annualCyclePeriodDiurnalPeriods  / 4
 
     var diurnalArrowFrameHeight: CGFloat {
         let c = ArkoniaLayout.SeasonFactorView.diurnalArrowFrameHeightScale *
@@ -27,24 +27,25 @@ struct SeasonFactorView: View {
         let scaleToSeasonalArrowFrameRange: CGFloat =
             (seasonalArrowFrameHeight - diurnalArrowFrameHeight) / 2
 
-        return scaleSeasonalCurveToAnnualTrackPosition() + (-1 * scaleToSeasonalArrowFrameRange * seasonalFactors.diurnalCurve * 0.9)
+        return scaleAnnualCurveToAnnualTrackPosition() +
+            (-1 * scaleToSeasonalArrowFrameRange * seasonalFactors.diurnalCurve * 0.9)
     }
 
-    func scaleSeasonalCurveToAnnualTrackPosition() -> CGFloat {
+    func scaleAnnualCurveToAnnualTrackPosition() -> CGFloat {
         let scaleToTrackFrameRange: CGFloat =
             (ArkoniaLayout.SeasonFactorView.annualTrackFrameHeight - seasonalArrowFrameHeight) / 2
 
-        return -1 * scaleToTrackFrameRange * seasonalFactors.seasonalCurve
+        return -1 * scaleToTrackFrameRange * seasonalFactors.annualCurve
     }
 
     var sunIsAscending: Bool {
-        (0..<qDay).contains(seasonalFactors.elapsedSecondsToday) ||
-        ((Arkonia.realSecondsPerArkoniaDay - qDay)...).contains(seasonalFactors.elapsedSecondsToday)
+        let p = seasonalFactors.diurnalCurve
+        return (0..<CGFloat.piOverTwo).contains(p) || (-CGFloat.piOverTwo..<0).contains(p)
     }
 
     var seasonIsAscending: Bool {
-        return (0..<qYear).contains(seasonalFactors.elapsedSecondsThisYear) ||
-        ((seasonalFactors.secondsPerYear - qYear)...).contains(seasonalFactors.elapsedSecondsThisYear)
+        let p = seasonalFactors.annualCurve - seasonalFactors.seasonalCurve
+        return (0..<CGFloat.piOverTwo).contains(p) || (-CGFloat.piOverTwo..<0).contains(p)
     }
 
     var body: some View {
@@ -68,9 +69,16 @@ struct SeasonFactorView: View {
             Image("sundial")
                 .blendMode(.hardLight)
                 .colorMultiply(.yellow)
-                .opacity(0.7)
+                .opacity(0.0)
                 .scaleEffect(CGSize(width: 1.5, height: (seasonIsAscending ? 1 : -1) * ArkoniaLayout.SeasonFactorView.seasonalArrowFrameHeightScale))
-                .offset(y: scaleSeasonalCurveToAnnualTrackPosition())
+                .offset(y: scaleAnnualCurveToAnnualTrackPosition())
+                .animation(.easeInOut)
+
+            // Temperature marker
+            Rectangle()
+                .frame(width: ArkoniaLayout.SeasonFactorView.bgFrameWidth, height: 7)
+                .foregroundColor(Color.black)
+                .offset(y: scaleDiurnalCurveToSeasonalArrowPosition())
                 .animation(.easeInOut)
 
             // Time of day
