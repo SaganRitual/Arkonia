@@ -32,6 +32,7 @@ excluded: # paths to ignore during linting. Takes precedence over `included`.
   - 'Miscellany/Tensor.Random.swift'
   - 'Miscellany/Tensor.Utilities.swift'
   - 'Miscellany/NormalDistribution.swift'
+  - 'UI/*'
 analyzer_rules: # Rules run by `swiftlint analyze` (experimental)
   - explicit_self
 

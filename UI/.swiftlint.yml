@@ -1,0 +1,9 @@
+# This one happens a lot with SwiftUI; it's not worth trying to write
+# better code to make swiftlint happy
+disabled_rules:
+  - multiple_closures_with_trailing_closure
+
+included_files
+  - 'UI/*'
+
+reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji, sonarqube, markdown)

@@ -10,15 +10,37 @@ enum ArkoniaLayout {
 }
 
 extension ArkoniaLayout {
+    static let chartAxisLabelFontSize = CGFloat(10)
+    static let labelFontSize = CGFloat(12)
+    static let meterFontSize = CGFloat(10)
+
+    static let chartAxisLabelFont = Font.system(
+        size: chartAxisLabelFontSize,
+        design: Font.Design.monospaced
+    )
+
     static let labelFont = Font.system(
-        size: ArkoniaLayout.AlmanacView.labelFontSize,
+        size: labelFontSize,
         design: Font.Design.monospaced
     ).lowercaseSmallCaps()
 
     static let meterFont = Font.system(
-        size: ArkoniaLayout.AlmanacView.meterFontSize,
+        size: meterFontSize,
         design: Font.Design.monospaced
     )
+
+    static let xScale = CGFloat(300)
+    static let yScale = CGFloat(200)
+
+    static let bodyRatio: CGFloat = 0.9
+    static let labelsRatio: CGFloat = 0.1
+
+    // Based on size of labelFont
+    static let labelTextSize = CGSize(width: 2 * labelFontSize, height: 1 * labelFontSize)
+
+    static func getLabelText(_ labelNumber: Int) -> String {
+        String(format: "% 3d", labelNumber)
+    }
 }
 
 extension ArkoniaLayout.AlmanacView {

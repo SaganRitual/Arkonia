@@ -33,7 +33,6 @@
 		D46C986624CF253A0056BF4B /* BrainyHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C986524CF253A0056BF4B /* BrainyHudView.swift */; };
 		D46C986824CF35B90056BF4B /* Histogram.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46C986724CF35B90056BF4B /* Histogram.swift */; };
 		D48C55CF24CF983800DECF57 /* AlmanacHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6424C75B690035F415 /* AlmanacHudView.swift */; };
-		D48C55D724CF9CE400DECF57 /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F78B6024C52DA10035F415 /* ButtonsView.swift */; };
 		D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1124C16DDF0006E0E1 /* ColorGradient.swift */; };
 		D49EBA1924C16DE00006E0E1 /* AKPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1224C16DDF0006E0E1 /* AKPoint.swift */; };
 		D49EBA1A24C16DE00006E0E1 /* AKRandomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA1324C16DDF0006E0E1 /* AKRandomer.swift */; };
@@ -252,7 +251,6 @@
 		D4F78ADA24C227F60035F415 /* swiftlint.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = swiftlint.sh; sourceTree = "<group>"; };
 		D4F78B5C24C529060035F415 /* SeasonFactorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeasonFactorView.swift; sourceTree = "<group>"; };
 		D4F78B5E24C5292C0035F415 /* SeasonalFactors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SeasonalFactors.swift; path = Arkonia/SeasonalFactors.swift; sourceTree = SOURCE_ROOT; };
-		D4F78B6024C52DA10035F415 /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
 		D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArkoniaLayout.swift; sourceTree = "<group>"; };
 		D4F78B6424C75B690035F415 /* AlmanacHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlmanacHudView.swift; sourceTree = "<group>"; };
 		D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopulationHudView.swift; sourceTree = "<group>"; };
@@ -330,7 +328,6 @@
 				D41396AA24CBCB9100341D97 /* Hud */,
 				D41396A924CBCB7000341D97 /* Charts */,
 				D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */,
-				D4F78B6024C52DA10035F415 /* ButtonsView.swift */,
 				D400138024BD4647001D429A /* ContentView.swift */,
 				D4F663A524C088C4006B95BF /* GameView.swift */,
 				D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */,
@@ -681,7 +678,6 @@
 				D49EBA1924C16DE00006E0E1 /* AKPoint.swift in Sources */,
 				D4F6646124C16A93006B95BF /* Protocols.swift in Sources */,
 				D4A2FB9424C963D200E88803 /* AgeHudView.swift in Sources */,
-				D48C55D724CF9CE400DECF57 /* ButtonsView.swift in Sources */,
 				D4F6646224C16A93006B95BF /* Pollenator.swift in Sources */,
 				D4F6647124C16A93006B95BF /* MPSImage+Floats.swift in Sources */,
 				D4FE3F9424BED7720055D095 /* Cbuffer.swift in Sources */,

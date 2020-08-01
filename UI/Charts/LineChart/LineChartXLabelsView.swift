@@ -8,7 +8,7 @@ struct LineChartXLabelsView: View {
             HStack {
                 ForEach(0..<10) { columnNumber in
                     Text(ArkoniaLayout.getLabelText(columnNumber))
-                        .font(ArkoniaLayout.labelFont)
+                        .font(ArkoniaLayout.chartAxisLabelFont)
                         .offset(x: -textUnitSize.width * 0.75)
                         .opacity(columnNumber > 0 ? 1 : 0)
 

@@ -1,10 +1,3 @@
-//
-//  LineChartYLabelsView.swift
-//  Snapes
-//
-//  Created by Rob Bishop on 8/1/20.
-//
-
 import SwiftUI
 
 struct LineChartYLabelsView: View {
@@ -15,7 +8,7 @@ struct LineChartYLabelsView: View {
             VStack {
                 ForEach(0..<10) { rowNumber in
                     Text(ArkoniaLayout.getLabelText(10 - rowNumber - 1))
-                        .font(ArkoniaLayout.labelFont)
+                        .font(ArkoniaLayout.chartAxisLabelFont)
                         .offset(y: textUnitSize.height * 1.5)
                         .opacity(rowNumber < 9 ? 1 : 0)
 
