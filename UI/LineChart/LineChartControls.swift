@@ -1,11 +1,10 @@
 import SwiftUI
 
 class LineChartDataset: ObservableObject {
-    let lines: [Histogram] = (0..<6).map { _ in Histogram(10, .zeroToOne) }
+    let lines: [Histogram] = (0..<6).map { _ in Histogram(10, .zeroToVariable) }
 }
 
 class LineChartControls: ObservableObject {
-    @Published var updateTrigger = 0
     @Published var switches = [Bool](repeating: true, count: 6)
 
     let akConfig: LineChartConfiguration

@@ -24,7 +24,7 @@ struct ContentView: View {
             }
 
             VStack {
-                ForEach(0..<5) { _ in
+                ForEach(0..<1) { _ in
                     LineChartTheChartView()
                         .environmentObject(
                             LineChartControls(
@@ -38,7 +38,8 @@ struct ContentView: View {
                         )
                         .padding([.trailing, .bottom, .leading])
                 }
-            }
+            }.environmentObject(Census.shared.censusAgent.stats)
+
         }
     }
 }

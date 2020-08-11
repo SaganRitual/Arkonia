@@ -22,6 +22,8 @@ class PopulationStats: ObservableObject {
     @Published var cRoomy: Int = 0
     @Published var maxCRoomy: Int = 0
 
+    @Published var histogramsUpdateTrigger = 0
+
     let foodSuccessHistograms = LineChartDataset()
 
     var coreAverageAge: TimeInterval = 0
@@ -104,6 +106,9 @@ class PopulationStats: ObservableObject {
         self.cAverageNeurons = self.coreCAverageNeurons
         self.cBrainy = self.coreCBrainy
         self.cRoomy = self.coreCRoomy
+
+        Debug.log(level: 225) { "updateUI" }
+        self.histogramsUpdateTrigger += 1
 
         highwaterStats.updateUI()
     }

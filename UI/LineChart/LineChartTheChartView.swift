@@ -36,7 +36,6 @@ struct LineChartTheChartView_Previews: PreviewProvider {
             for _ in 0..<L { line.track(sample: M) }
         }
 
-        lineChartControls.updateTrigger += 1
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: update)
     }
 

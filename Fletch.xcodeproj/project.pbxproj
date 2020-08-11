@@ -124,6 +124,16 @@
 		D4FE3F9B24BED8060055D095 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FE3F9A24BED8060055D095 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		D40724B524E3540200FC1B43 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D40724B124E3540200FC1B43 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D407247D24E34F8C00FC1B43;
+			remoteInfo = Charts;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		D400137B24BD4647001D429A /* Fletch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fletch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D400137E24BD4647001D429A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -143,6 +153,7 @@
 		D407246724E244E200FC1B43 /* LineChartLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLineView.swift; sourceTree = "<group>"; };
 		D407246824E244E200FC1B43 /* LineChartLegendoidView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegendoidView.swift; sourceTree = "<group>"; };
 		D407247224E26FC500FC1B43 /* HudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
+		D40724B124E3540200FC1B43 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = UI/Charts.xcodeproj; sourceTree = "<group>"; };
 		D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaProgressView.swift; sourceTree = "<group>"; };
 		D41396A724CB889900341D97 /* Parasitize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parasitize.swift; sourceTree = "<group>"; };
 		D4252D1224CA439400F1C2DC /* OffspringHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffspringHudView.swift; sourceTree = "<group>"; };
@@ -271,6 +282,7 @@
 		D400137224BD4646001D429A = {
 			isa = PBXGroup;
 			children = (
+				D40724B124E3540200FC1B43 /* Charts.xcodeproj */,
 				D4F663BB24C16A92006B95BF /* LICENSE */,
 				D4F6642724C16A93006B95BF /* MovieforREADME.gif */,
 				D4F6642624C16A93006B95BF /* MovieForREADME.mp4 */,
@@ -323,7 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				D41396AA24CBCB9100341D97 /* Hud */,
-				D407245E24E244E200FC1B43 /* Primitives */,
+				D407245F24E244E200FC1B43 /* LineChart */,
 				D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */,
 				D400138024BD4647001D429A /* ContentView.swift */,
 				D4F663A524C088C4006B95BF /* GameView.swift */,
@@ -331,14 +343,6 @@
 				D4F78B5C24C529060035F415 /* SeasonFactorView.swift */,
 			);
 			path = UI;
-			sourceTree = "<group>";
-		};
-		D407245E24E244E200FC1B43 /* Primitives */ = {
-			isa = PBXGroup;
-			children = (
-				D407245F24E244E200FC1B43 /* LineChart */,
-			);
-			path = Primitives;
 			sourceTree = "<group>";
 		};
 		D407245F24E244E200FC1B43 /* LineChart */ = {
@@ -355,6 +359,14 @@
 				D407246624E244E200FC1B43 /* LineChartTheChartView.swift */,
 			);
 			path = LineChart;
+			sourceTree = "<group>";
+		};
+		D40724B224E3540200FC1B43 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D40724B624E3540200FC1B43 /* Charts.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		D41396AA24CBCB9100341D97 /* Hud */ = {
@@ -615,12 +627,28 @@
 			);
 			productRefGroup = D400137C24BD4647001D429A /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D40724B224E3540200FC1B43 /* Products */;
+					ProjectRef = D40724B124E3540200FC1B43 /* Charts.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D400137A24BD4647001D429A /* Fletch */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D40724B624E3540200FC1B43 /* Charts.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Charts.app;
+			remoteRef = D40724B524E3540200FC1B43 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D400137924BD4647001D429A /* Resources */ = {

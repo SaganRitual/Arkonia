@@ -14,7 +14,7 @@ class Arkonia {
 
     // vars so I can change them from the debugger
     static var debugColorIsEnabled = false
-    static var debugMessageLevel = 225
+    static var debugMessageLevel = 226
     static var debugMessageToConsole = true
     static var debugGrid = false
 
@@ -43,7 +43,7 @@ class Arkonia {
     static let annualCyclePeriodSeconds: TimeInterval = diurnalCyclePeriodSeconds * annualCyclePeriodDiurnalPeriods
     static let winterSolsticeDaylightPercentage: TimeInterval = 0.8
     static let diurnalFluctuation:        TimeInterval = 1     // Amplitude of diurnal curve
-    static let diurnalCyclePeriodSeconds:  TimeInterval = 60
+    static let diurnalCyclePeriodSeconds: TimeInterval = 60
     static let seasonalFluctuation:       TimeInterval = 1     // Amplitude of seasonal curve
     static let updateFrequencyHertz:      TimeInterval = 5
     static let winterAsPercentageOfYear:  TimeInterval = 0.5
