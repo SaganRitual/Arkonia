@@ -35,14 +35,23 @@ struct ContentView: View {
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
                         .environmentObject(Census.shared.censusAgent.stats)
 
+                    LineChartTheChartView()
+                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
+                        .environmentObject(
+                            LineChartControls(
+                                LineChartBrowsingSuccess(),
+                                Census.shared.censusAgent.stats.foodSuccessHistograms
+                            )
+                        )
+
                     Spacer()
                 }
                 .frame(height: ArkoniaLayout.ContentView.hudHeight)
 
                 GameView(scene: ArkoniaScene())
-                    .sheet(isPresented: $randomer.isBusy) {
-                        LlamaProgressView().environmentObject(self.randomer)
-                    }
+//                    .sheet(isPresented: $randomer.isBusy) {
+//                        LlamaProgressView().environmentObject(self.randomer)
+//                    }
             }
         }
     }

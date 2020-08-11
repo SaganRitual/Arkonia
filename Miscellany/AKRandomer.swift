@@ -53,7 +53,7 @@ class AKRandomNumberFakerator: ObservableObject {
             for ss in 0..<(AKRandomNumberFakerator.cSamplesToGenerate / 200) {
                 let u = self.uniformDistribution.next(using: &ARC4RandomNumberGenerator.global)
                 self.uniformSamples[self.cSamplesGenerated + ss] = Float(u)
-                self.histogram.addSample(u)
+                self.histogram.track(sample: u)
 
                 let n = self.normalDistribution.next(using: &ARC4RandomNumberGenerator.global)
                 self.normalizedSamples[self.cSamplesGenerated + ss] = n
@@ -64,14 +64,13 @@ class AKRandomNumberFakerator: ObservableObject {
             self.llamaFullness += 0.005
             self.cSamplesGenerated += AKRandomNumberFakerator.cSamplesToGenerate / 200
 
+            let yValues = self.histogram.getScalarDistribution(reset: false)!
+
             // Scale to max value = 1.0 so the bars will be taller
-            let max = Double(self.histogram.histogram!.max()!)
-            let normalizeBars = (max == 0) ? 1 : (1 / max)
-            (0..<self.histogram.histogram!.count).forEach { barSS in
+            (0..<yValues.count).forEach { barSS in
                 // not sure where the 2 is coming from, but the bars are 2x too tall
                 self.histogramPublishedArray[barSS] =
-                    Double(self.histogram.histogram![barSS]) * normalizeBars / 2
-                    * Double.random(in: 0.9..<1.0)  // To make them bounce; I know, it's silly
+                    Double(yValues[barSS]) / 2 * Double.random(in: 0.9..<1.0)  // To make them bounce; I know, it's silly
             }
 
             if self.cSamplesGenerated < AKRandomNumberFakerator.cSamplesToGenerate { self.arrayBatch() }
@@ -83,7 +82,7 @@ class AKRandomNumberFakerator: ObservableObject {
         isNormallizing = true
         llamaFullness = 0
 
-        (0..<self.histogram.histogram!.count).forEach {
+        (0..<self.histogram.count).forEach {
             self.histogramPublishedArray[$0] = 0
         }
 
@@ -94,21 +93,19 @@ class AKRandomNumberFakerator: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.005) {
             for ss in 0..<(AKRandomNumberFakerator.cSamplesToGenerate / 200) {
                 var n = self.normalizedSamples[self.cSamplesNormalized + ss] / self.maxFloat
-                if abs(self.normalizedSamples[self.cSamplesNormalized + ss]) == 1 {
-                    n = 0
-                }
+                if abs(n) == 1 { n = 0 }
 
                 self.normalizedSamples[self.cSamplesNormalized + ss] = n
-                self.histogram.addSample(Double(n))
+                self.histogram.track(sample: Double(n))
             }
 
+            let yValues = self.histogram.getScalarDistribution(reset: false)!
+
             // Scale to max value = 1.0 so the bars will be taller
-            let max = Double(self.histogram.histogram!.max()!)
-            let normalizeBars = (max == 0) ? 1 : (1 / max)
-            (0..<self.histogram.histogram!.count).forEach { barSS in
+            (0..<yValues.count).forEach { barSS in
                 // not sure where the 2 is coming from, but the bars are 2x too tall
                 self.histogramPublishedArray[barSS] =
-                    Double(self.histogram.histogram![barSS]) * normalizeBars / 2
+                    Double(yValues[barSS]) / 2 * Double.random(in: 0.9..<1.0)  // To make them bounce; I know, it's silly
             }
 
             self.llamaFullness += 0.005

@@ -22,6 +22,8 @@ class PopulationStats: ObservableObject {
     @Published var cRoomy: Int = 0
     @Published var maxCRoomy: Int = 0
 
+    let foodSuccessHistograms = LineChartDataset()
+
     var coreAverageAge: TimeInterval = 0
     var coreMaxAge: TimeInterval = 0 { didSet { highwaterStats.highwaterIf(.age, value: coreMaxAge) } }
     var coreMedAge: TimeInterval = 0

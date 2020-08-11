@@ -1,4 +1,3 @@
-import Charts
 import SwiftUI
 
 struct LlamaProgressView: View {

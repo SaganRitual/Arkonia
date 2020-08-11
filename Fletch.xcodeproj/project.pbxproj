@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,8 +12,15 @@
 		D400138324BD4648001D429A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D400138224BD4648001D429A /* Assets.xcassets */; };
 		D400138624BD4648001D429A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D400138524BD4648001D429A /* Preview Assets.xcassets */; };
 		D400138924BD4648001D429A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D400138724BD4648001D429A /* Main.storyboard */; };
-		D400139824BD7156001D429A /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = D400139724BD7156001D429A /* Charts */; };
-		D4120DDC24CA65BD005CC773 /* LlamaProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */; };
+		D407246924E244E200FC1B43 /* LineChartDataBackdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246024E244E200FC1B43 /* LineChartDataBackdrop.swift */; };
+		D407246A24E244E200FC1B43 /* ColoredSquareToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246124E244E200FC1B43 /* ColoredSquareToggle.swift */; };
+		D407246B24E244E200FC1B43 /* LineChartHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246224E244E200FC1B43 /* LineChartHeaderView.swift */; };
+		D407246C24E244E200FC1B43 /* LineChartControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246324E244E200FC1B43 /* LineChartControls.swift */; };
+		D407246D24E244E200FC1B43 /* LineChartLegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246424E244E200FC1B43 /* LineChartLegendView.swift */; };
+		D407246E24E244E200FC1B43 /* LineChartConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246524E244E200FC1B43 /* LineChartConfigurations.swift */; };
+		D407246F24E244E200FC1B43 /* LineChartTheChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246624E244E200FC1B43 /* LineChartTheChartView.swift */; };
+		D407247024E244E200FC1B43 /* LineChartLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246724E244E200FC1B43 /* LineChartLineView.swift */; };
+		D407247124E244E200FC1B43 /* LineChartLegendoidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246824E244E200FC1B43 /* LineChartLegendoidView.swift */; };
 		D41396A824CB889900341D97 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41396A724CB889900341D97 /* Parasitize.swift */; };
 		D4252D1324CA439400F1C2DC /* OffspringHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4252D1224CA439400F1C2DC /* OffspringHudView.swift */; };
 		D438AC2924CFD2DF0021E65E /* HighwaterStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D438AC2824CFD2DF0021E65E /* HighwaterStats.swift */; };
@@ -125,6 +132,15 @@
 		D400138824BD4648001D429A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D400138A24BD4648001D429A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D400138B24BD4648001D429A /* Fletch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fletch.entitlements; sourceTree = "<group>"; };
+		D407246024E244E200FC1B43 /* LineChartDataBackdrop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartDataBackdrop.swift; sourceTree = "<group>"; };
+		D407246124E244E200FC1B43 /* ColoredSquareToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColoredSquareToggle.swift; sourceTree = "<group>"; };
+		D407246224E244E200FC1B43 /* LineChartHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartHeaderView.swift; sourceTree = "<group>"; };
+		D407246324E244E200FC1B43 /* LineChartControls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartControls.swift; sourceTree = "<group>"; };
+		D407246424E244E200FC1B43 /* LineChartLegendView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegendView.swift; sourceTree = "<group>"; };
+		D407246524E244E200FC1B43 /* LineChartConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartConfigurations.swift; sourceTree = "<group>"; };
+		D407246624E244E200FC1B43 /* LineChartTheChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTheChartView.swift; sourceTree = "<group>"; };
+		D407246724E244E200FC1B43 /* LineChartLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLineView.swift; sourceTree = "<group>"; };
+		D407246824E244E200FC1B43 /* LineChartLegendoidView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegendoidView.swift; sourceTree = "<group>"; };
 		D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaProgressView.swift; sourceTree = "<group>"; };
 		D41396A724CB889900341D97 /* Parasitize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parasitize.swift; sourceTree = "<group>"; };
 		D4252D1224CA439400F1C2DC /* OffspringHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffspringHudView.swift; sourceTree = "<group>"; };
@@ -244,7 +260,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D400139824BD7156001D429A /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +321,7 @@
 			isa = PBXGroup;
 			children = (
 				D41396AA24CBCB9100341D97 /* Hud */,
+				D407245E24E244E200FC1B43 /* Primitives */,
 				D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */,
 				D400138024BD4647001D429A /* ContentView.swift */,
 				D4F663A524C088C4006B95BF /* GameView.swift */,
@@ -313,6 +329,30 @@
 				D4F78B5C24C529060035F415 /* SeasonFactorView.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		D407245E24E244E200FC1B43 /* Primitives */ = {
+			isa = PBXGroup;
+			children = (
+				D407245F24E244E200FC1B43 /* LineChart */,
+			);
+			path = Primitives;
+			sourceTree = "<group>";
+		};
+		D407245F24E244E200FC1B43 /* LineChart */ = {
+			isa = PBXGroup;
+			children = (
+				D407246124E244E200FC1B43 /* ColoredSquareToggle.swift */,
+				D407246524E244E200FC1B43 /* LineChartConfigurations.swift */,
+				D407246324E244E200FC1B43 /* LineChartControls.swift */,
+				D407246024E244E200FC1B43 /* LineChartDataBackdrop.swift */,
+				D407246224E244E200FC1B43 /* LineChartHeaderView.swift */,
+				D407246824E244E200FC1B43 /* LineChartLegendoidView.swift */,
+				D407246424E244E200FC1B43 /* LineChartLegendView.swift */,
+				D407246724E244E200FC1B43 /* LineChartLineView.swift */,
+				D407246624E244E200FC1B43 /* LineChartTheChartView.swift */,
+			);
+			path = LineChart;
 			sourceTree = "<group>";
 		};
 		D41396AA24CBCB9100341D97 /* Hud */ = {
@@ -539,7 +579,6 @@
 			);
 			name = Fletch;
 			packageProductDependencies = (
-				D400139724BD7156001D429A /* Charts */,
 			);
 			productName = Fletch;
 			productReference = D400137B24BD4647001D429A /* Fletch.app */;
@@ -570,7 +609,6 @@
 			);
 			mainGroup = D400137224BD4646001D429A;
 			packageReferences = (
-				D400139624BD7156001D429A /* XCRemoteSwiftPackageReference "swiftui-charts" */,
 			);
 			productRefGroup = D400137C24BD4647001D429A /* Products */;
 			projectDirPath = "";
@@ -641,6 +679,7 @@
 				D4F6645E24C16A93006B95BF /* Manna.EnergyBudget.swift in Sources */,
 				D400138124BD4647001D429A /* ContentView.swift in Sources */,
 				D4F6644E24C16A93006B95BF /* Digestion.Surplus.swift in Sources */,
+				D407247124E244E200FC1B43 /* LineChartLegendoidView.swift in Sources */,
 				D4F6646C24C16A93006B95BF /* WeightsMatrix.swift in Sources */,
 				D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */,
 				D4F6646724C16A93006B95BF /* GridManna.swift in Sources */,
@@ -650,10 +689,12 @@
 				D4F6646424C16A93006B95BF /* Arkonia.swift in Sources */,
 				D4F6646F24C16A93006B95BF /* HotLayerBnn.swift in Sources */,
 				D4F6646024C16A93006B95BF /* Manna.Sprite.swift in Sources */,
+				D407246D24E244E200FC1B43 /* LineChartLegendView.swift in Sources */,
 				D4F6644824C16A93006B95BF /* OozeStorage.swift in Sources */,
 				D4F6643324C16A93006B95BF /* LayerStructures.swift in Sources */,
 				D4F6643E24C16A93006B95BF /* MoveStepper.swift in Sources */,
 				D438AC2924CFD2DF0021E65E /* HighwaterStats.swift in Sources */,
+				D407246B24E244E200FC1B43 /* LineChartHeaderView.swift in Sources */,
 				D4F78B5F24C5292C0035F415 /* SeasonalFactors.swift in Sources */,
 				D4F6642C24C16A93006B95BF /* SensorPad.Data.swift in Sources */,
 				D4F6644F24C16A93006B95BF /* Lungs.swift in Sources */,
@@ -675,8 +716,9 @@
 				D4F6643624C16A93006B95BF /* NetStructure.swift in Sources */,
 				D4F6643D24C16A93006B95BF /* Spawn.swift in Sources */,
 				D4F6644324C16A93006B95BF /* ArkonName.swift in Sources */,
-				D4120DDC24CA65BD005CC773 /* LlamaProgressView.swift in Sources */,
 				D4F6644924C16A93006B95BF /* EnergyBudget.Protocols.swift in Sources */,
+				D407247024E244E200FC1B43 /* LineChartLineView.swift in Sources */,
+				D407246C24E244E200FC1B43 /* LineChartControls.swift in Sources */,
 				D4F6642F24C16A93006B95BF /* ArkonEmbryo.swift in Sources */,
 				D4F6644224C16A93006B95BF /* Apoptosize.swift in Sources */,
 				D4F6647024C16A93006B95BF /* HotLayerBlas.swift in Sources */,
@@ -698,6 +740,7 @@
 				D4F6644724C16A93006B95BF /* ArkonBuilder.swift in Sources */,
 				D4F6647524C16A93006B95BF /* AKMatrix.swift in Sources */,
 				D438AC2B24CFD3AB0021E65E /* Fishday.swift in Sources */,
+				D407246F24E244E200FC1B43 /* LineChartTheChartView.swift in Sources */,
 				D4F6645724C16A93006B95BF /* SKSpriteNode.swift in Sources */,
 				D4F6645324C16A93006B95BF /* SceneDispatch.swift in Sources */,
 				D4F6646A24C16A93006B95BF /* GridCell.swift in Sources */,
@@ -707,8 +750,10 @@
 				D4D9924C24D31FA800653F06 /* SundialLayout.swift in Sources */,
 				D4F6646924C16A93006B95BF /* Grid.swift in Sources */,
 				D49EBA2A24C175FB0006E0E1 /* Census.Extra.swift in Sources */,
+				D407246924E244E200FC1B43 /* LineChartDataBackdrop.swift in Sources */,
 				D4F6642B24C16A93006B95BF /* SensorPad.swift in Sources */,
 				D49EBA1B24C16DE00006E0E1 /* Overload2D.swift in Sources */,
+				D407246E24E244E200FC1B43 /* LineChartConfigurations.swift in Sources */,
 				D4D9924A24D31FA800653F06 /* SundialView.swift in Sources */,
 				D4F663A624C088C4006B95BF /* GameView.swift in Sources */,
 				D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */,
@@ -722,6 +767,7 @@
 				D41396A824CB889900341D97 /* Parasitize.swift in Sources */,
 				D4F6642E24C16A93006B95BF /* SensorPad.Translate.swift in Sources */,
 				D4F6644024C16A93006B95BF /* MoveSprite.swift in Sources */,
+				D407246A24E244E200FC1B43 /* ColoredSquareToggle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -932,25 +978,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		D400139624BD7156001D429A /* XCRemoteSwiftPackageReference "swiftui-charts" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/spacenation/swiftui-charts.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		D400139724BD7156001D429A /* Charts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D400139624BD7156001D429A /* XCRemoteSwiftPackageReference "swiftui-charts" */;
-			productName = Charts;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D400137324BD4646001D429A /* Project object */;
 }
