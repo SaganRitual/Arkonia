@@ -24,7 +24,7 @@ struct ColoredSquareToggle: ToggleStyle {
                 Rectangle()
                     .foregroundColor(isOn ? self.color : Color.gray)
                     .border(Color.black, width: 2)
-                    .frame(width: 16, height: 16)
+                    .frame(width: 12, height: 12)
             }
             .buttonStyle(PlainButtonStyle())
 

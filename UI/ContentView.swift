@@ -13,45 +13,31 @@ struct ContentView: View {
                 .environmentObject(Clock.shared.seasonalFactors)
 
             VStack {
-                HStack {
-                    Spacer()
+                HudView()
+                    .frame(height: ArkoniaLayout.ContentView.hudHeight)
+                    .environmentObject(Census.shared.censusAgent.stats)
 
-                    AlmanacHudView().environmentObject(Clock.shared.seasonalFactors)
-                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
+                GameView(scene: ArkoniaScene())
+//                    .sheet(isPresented: $randomer.isBusy) {
+//                        LlamaProgressView().environmentObject(self.randomer)
+//                    }
+            }
 
-                    PopulationHudView()
-                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
-                        .environmentObject(Census.shared.censusAgent.stats)
-
-                    AgeHudView()
-                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
-                        .environmentObject(Census.shared.censusAgent.stats)
-
-                    OffspringHudView()
-                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
-                        .environmentObject(Census.shared.censusAgent.stats)
-
-                    NeuronsHudView()
-                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
-                        .environmentObject(Census.shared.censusAgent.stats)
-
+            VStack {
+                ForEach(0..<5) { _ in
                     LineChartTheChartView()
-                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
                         .environmentObject(
                             LineChartControls(
                                 LineChartBrowsingSuccess(),
                                 Census.shared.censusAgent.stats.foodSuccessHistograms
                             )
                         )
-
-                    Spacer()
+                        .frame(
+                            width: ArkoniaLayout.LineChartView.frameWidth,
+                            height: ArkoniaLayout.LineChartView.frameHeight
+                        )
+                        .padding([.trailing, .bottom, .leading])
                 }
-                .frame(height: ArkoniaLayout.ContentView.hudHeight)
-
-                GameView(scene: ArkoniaScene())
-//                    .sheet(isPresented: $randomer.isBusy) {
-//                        LlamaProgressView().environmentObject(self.randomer)
-//                    }
             }
         }
     }

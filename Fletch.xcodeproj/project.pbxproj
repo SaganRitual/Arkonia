@@ -21,6 +21,7 @@
 		D407246F24E244E200FC1B43 /* LineChartTheChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246624E244E200FC1B43 /* LineChartTheChartView.swift */; };
 		D407247024E244E200FC1B43 /* LineChartLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246724E244E200FC1B43 /* LineChartLineView.swift */; };
 		D407247124E244E200FC1B43 /* LineChartLegendoidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246824E244E200FC1B43 /* LineChartLegendoidView.swift */; };
+		D407247324E26FC500FC1B43 /* HudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407247224E26FC500FC1B43 /* HudView.swift */; };
 		D41396A824CB889900341D97 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41396A724CB889900341D97 /* Parasitize.swift */; };
 		D4252D1324CA439400F1C2DC /* OffspringHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4252D1224CA439400F1C2DC /* OffspringHudView.swift */; };
 		D438AC2924CFD2DF0021E65E /* HighwaterStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D438AC2824CFD2DF0021E65E /* HighwaterStats.swift */; };
@@ -141,6 +142,7 @@
 		D407246624E244E200FC1B43 /* LineChartTheChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTheChartView.swift; sourceTree = "<group>"; };
 		D407246724E244E200FC1B43 /* LineChartLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLineView.swift; sourceTree = "<group>"; };
 		D407246824E244E200FC1B43 /* LineChartLegendoidView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegendoidView.swift; sourceTree = "<group>"; };
+		D407247224E26FC500FC1B43 /* HudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HudView.swift; sourceTree = "<group>"; };
 		D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaProgressView.swift; sourceTree = "<group>"; };
 		D41396A724CB889900341D97 /* Parasitize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parasitize.swift; sourceTree = "<group>"; };
 		D4252D1224CA439400F1C2DC /* OffspringHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffspringHudView.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 				D4F78B6424C75B690035F415 /* AlmanacHudView.swift */,
 				D46C986524CF253A0056BF4B /* BrainyHudView.swift */,
 				D46284CB24C9E69F006B42B9 /* FoodHitRateHudView.swift */,
+				D407247224E26FC500FC1B43 /* HudView.swift */,
 				D45AAD7124CE8D0D00744836 /* NeuronsView.swift */,
 				D4252D1224CA439400F1C2DC /* OffspringHudView.swift */,
 				D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */,
@@ -690,6 +693,7 @@
 				D4F6646F24C16A93006B95BF /* HotLayerBnn.swift in Sources */,
 				D4F6646024C16A93006B95BF /* Manna.Sprite.swift in Sources */,
 				D407246D24E244E200FC1B43 /* LineChartLegendView.swift in Sources */,
+				D407247324E26FC500FC1B43 /* HudView.swift in Sources */,
 				D4F6644824C16A93006B95BF /* OozeStorage.swift in Sources */,
 				D4F6643324C16A93006B95BF /* LayerStructures.swift in Sources */,
 				D4F6643E24C16A93006B95BF /* MoveStepper.swift in Sources */,

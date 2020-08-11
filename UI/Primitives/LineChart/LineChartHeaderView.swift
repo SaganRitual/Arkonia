@@ -6,7 +6,7 @@ struct LineChartHeaderView: View {
     var body: some View {
         VStack {
             Text(lineChartControls.akConfig.chartTitle)
-                .font(.caption)
+                .font(ArkoniaLayout.labelFont)
                 .foregroundColor(.white)
 
             HStack {
@@ -17,7 +17,7 @@ struct LineChartHeaderView: View {
 
                 LineChartLegendView(AKPoint(x: 1, y: 0))
                     .frame(maxWidth: .infinity)
-            }
+            }.font(ArkoniaLayout.meterFont)
         }
     }
 }

@@ -6,13 +6,14 @@ enum ArkoniaLayout {
     enum ButtonsView {}
     enum ContentView {}
     enum DaylightFactorView {}
+    enum LineChartView {}
     enum SeasonFactorView {}
 }
 
 extension ArkoniaLayout {
     static let chartAxisLabelFontSize = CGFloat(10)
-    static let labelFontSize = CGFloat(12)
-    static let meterFontSize = CGFloat(10)
+    static let labelFontSize = CGFloat(10)
+    static let meterFontSize = CGFloat(8)
 
     static let chartAxisLabelFont = Font.system(
         size: chartAxisLabelFontSize,
@@ -55,6 +56,11 @@ extension ArkoniaLayout.ButtonsView {
 
 extension ArkoniaLayout.ContentView {
     static let hudHeight: CGFloat = 100
+}
+
+extension ArkoniaLayout.LineChartView {
+    static let frameWidth: CGFloat = 250
+    static let frameHeight: CGFloat = 120
 }
 
 extension ArkoniaLayout.SeasonFactorView {

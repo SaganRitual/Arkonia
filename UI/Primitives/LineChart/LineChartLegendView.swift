@@ -18,8 +18,7 @@ struct LineChartLegendView: View {
         let legend = lineChartControls.akConfig.getLegend(at: legendCoordinates)!
         if legend.titleEdge == (checkLeft ? .leading : .trailing) {
             return AnyView(Text(legend.legendTitle)
-                    .font(.footnote)
-                    .padding(checkLeft ? .trailing : .leading)
+                    .padding(checkLeft ? .leading : .trailing, 15)
             )
         } else {
             return AnyView(EmptyView())
@@ -69,7 +68,7 @@ struct LineChartLegendView: View {
         )
     }
 
-    var body: some View { buildControls() }
+    var body: some View { buildControls().font(ArkoniaLayout.meterFont) }
 }
 
 struct LineChartLegend_Previews: PreviewProvider {
