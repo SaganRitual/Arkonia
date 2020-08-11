@@ -16,16 +16,6 @@
 		D4120DDC24CA65BD005CC773 /* LlamaProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */; };
 		D41396A824CB889900341D97 /* Parasitize.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41396A724CB889900341D97 /* Parasitize.swift */; };
 		D4252D1324CA439400F1C2DC /* OffspringHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4252D1224CA439400F1C2DC /* OffspringHudView.swift */; };
-		D4288D3F24D610470036C629 /* LineChartLegend.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4288D3524D610470036C629 /* LineChartLegend.swift */; };
-		D4288D4024D610470036C629 /* LineChartLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4288D3624D610470036C629 /* LineChartLineView.swift */; };
-		D4288D4124D610470036C629 /* LineChartHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4288D3724D610470036C629 /* LineChartHeaderView.swift */; };
-		D4288D4224D610470036C629 /* LineChartXLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4288D3824D610470036C629 /* LineChartXLabelsView.swift */; };
-		D4288D4324D610470036C629 /* LineChartLegendSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4288D3924D610470036C629 /* LineChartLegendSelect.swift */; };
-		D4288D4424D610470036C629 /* LineChartVLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4288D3A24D610470036C629 /* LineChartVLinesView.swift */; };
-		D4288D4524D610470036C629 /* LineChartYLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4288D3B24D610470036C629 /* LineChartYLabelsView.swift */; };
-		D4288D4624D610470036C629 /* LineChartGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4288D3C24D610470036C629 /* LineChartGraphView.swift */; };
-		D4288D4724D610470036C629 /* LineChartHLinesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4288D3D24D610470036C629 /* LineChartHLinesView.swift */; };
-		D4288D4824D610470036C629 /* LineChartLegendoid.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4288D3E24D610470036C629 /* LineChartLegendoid.swift */; };
 		D438AC2924CFD2DF0021E65E /* HighwaterStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = D438AC2824CFD2DF0021E65E /* HighwaterStats.swift */; };
 		D438AC2B24CFD3AB0021E65E /* Fishday.swift in Sources */ = {isa = PBXBuildFile; fileRef = D438AC2A24CFD3AB0021E65E /* Fishday.swift */; };
 		D45AAD7224CE8D0D00744836 /* NeuronsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45AAD7124CE8D0D00744836 /* NeuronsView.swift */; };
@@ -138,16 +128,6 @@
 		D4120DDB24CA65BD005CC773 /* LlamaProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaProgressView.swift; sourceTree = "<group>"; };
 		D41396A724CB889900341D97 /* Parasitize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parasitize.swift; sourceTree = "<group>"; };
 		D4252D1224CA439400F1C2DC /* OffspringHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffspringHudView.swift; sourceTree = "<group>"; };
-		D4288D3524D610470036C629 /* LineChartLegend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegend.swift; sourceTree = "<group>"; };
-		D4288D3624D610470036C629 /* LineChartLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLineView.swift; sourceTree = "<group>"; };
-		D4288D3724D610470036C629 /* LineChartHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartHeaderView.swift; sourceTree = "<group>"; };
-		D4288D3824D610470036C629 /* LineChartXLabelsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartXLabelsView.swift; sourceTree = "<group>"; };
-		D4288D3924D610470036C629 /* LineChartLegendSelect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegendSelect.swift; sourceTree = "<group>"; };
-		D4288D3A24D610470036C629 /* LineChartVLinesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartVLinesView.swift; sourceTree = "<group>"; };
-		D4288D3B24D610470036C629 /* LineChartYLabelsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartYLabelsView.swift; sourceTree = "<group>"; };
-		D4288D3C24D610470036C629 /* LineChartGraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartGraphView.swift; sourceTree = "<group>"; };
-		D4288D3D24D610470036C629 /* LineChartHLinesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartHLinesView.swift; sourceTree = "<group>"; };
-		D4288D3E24D610470036C629 /* LineChartLegendoid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegendoid.swift; sourceTree = "<group>"; };
 		D438AC2824CFD2DF0021E65E /* HighwaterStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighwaterStats.swift; sourceTree = "<group>"; };
 		D438AC2A24CFD3AB0021E65E /* Fishday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fishday.swift; sourceTree = "<group>"; };
 		D45AAD7124CE8D0D00744836 /* NeuronsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuronsView.swift; sourceTree = "<group>"; };
@@ -326,7 +306,6 @@
 			isa = PBXGroup;
 			children = (
 				D41396AA24CBCB9100341D97 /* Hud */,
-				D41396A924CBCB7000341D97 /* Charts */,
 				D4F78B6224C550A20035F415 /* ArkoniaLayout.swift */,
 				D400138024BD4647001D429A /* ContentView.swift */,
 				D4F663A524C088C4006B95BF /* GameView.swift */,
@@ -334,14 +313,6 @@
 				D4F78B5C24C529060035F415 /* SeasonFactorView.swift */,
 			);
 			path = UI;
-			sourceTree = "<group>";
-		};
-		D41396A924CBCB7000341D97 /* Charts */ = {
-			isa = PBXGroup;
-			children = (
-				D4288D3424D6102C0036C629 /* LineChart */,
-			);
-			path = Charts;
 			sourceTree = "<group>";
 		};
 		D41396AA24CBCB9100341D97 /* Hud */ = {
@@ -357,23 +328,6 @@
 				D4F78B6824C7A93F0035F415 /* PopulationHudView.swift */,
 			);
 			path = Hud;
-			sourceTree = "<group>";
-		};
-		D4288D3424D6102C0036C629 /* LineChart */ = {
-			isa = PBXGroup;
-			children = (
-				D4288D3C24D610470036C629 /* LineChartGraphView.swift */,
-				D4288D3724D610470036C629 /* LineChartHeaderView.swift */,
-				D4288D3D24D610470036C629 /* LineChartHLinesView.swift */,
-				D4288D3524D610470036C629 /* LineChartLegend.swift */,
-				D4288D3E24D610470036C629 /* LineChartLegendoid.swift */,
-				D4288D3924D610470036C629 /* LineChartLegendSelect.swift */,
-				D4288D3624D610470036C629 /* LineChartLineView.swift */,
-				D4288D3A24D610470036C629 /* LineChartVLinesView.swift */,
-				D4288D3824D610470036C629 /* LineChartXLabelsView.swift */,
-				D4288D3B24D610470036C629 /* LineChartYLabelsView.swift */,
-			);
-			path = LineChart;
 			sourceTree = "<group>";
 		};
 		D49EBA2524C175FB0006E0E1 /* Census */ = {
@@ -688,17 +642,14 @@
 				D400138124BD4647001D429A /* ContentView.swift in Sources */,
 				D4F6644E24C16A93006B95BF /* Digestion.Surplus.swift in Sources */,
 				D4F6646C24C16A93006B95BF /* WeightsMatrix.swift in Sources */,
-				D4288D4824D610470036C629 /* LineChartLegendoid.swift in Sources */,
 				D49EBA1824C16DE00006E0E1 /* ColorGradient.swift in Sources */,
 				D4F6646724C16A93006B95BF /* GridManna.swift in Sources */,
 				D400137F24BD4647001D429A /* AppDelegate.swift in Sources */,
 				D4F78B6924C7A93F0035F415 /* PopulationHudView.swift in Sources */,
 				D4FE3F9B24BED8060055D095 /* Extensions.swift in Sources */,
-				D4288D4724D610470036C629 /* LineChartHLinesView.swift in Sources */,
 				D4F6646424C16A93006B95BF /* Arkonia.swift in Sources */,
 				D4F6646F24C16A93006B95BF /* HotLayerBnn.swift in Sources */,
 				D4F6646024C16A93006B95BF /* Manna.Sprite.swift in Sources */,
-				D4288D4224D610470036C629 /* LineChartXLabelsView.swift in Sources */,
 				D4F6644824C16A93006B95BF /* OozeStorage.swift in Sources */,
 				D4F6643324C16A93006B95BF /* LayerStructures.swift in Sources */,
 				D4F6643E24C16A93006B95BF /* MoveStepper.swift in Sources */,
@@ -711,17 +662,13 @@
 				D4F6644A24C16A93006B95BF /* ChamberedStore.swift in Sources */,
 				D4F6644524C16A93006B95BF /* Stepper.swift in Sources */,
 				D4F6643224C16A93006B95BF /* DriveStimulus.swift in Sources */,
-				D4288D3F24D610470036C629 /* LineChartLegend.swift in Sources */,
 				D49EBA1C24C16DE00006E0E1 /* Debug.Color.swift in Sources */,
 				D4F6643024C16A93006B95BF /* Mutator.swift in Sources */,
-				D4288D4424D610470036C629 /* LineChartVLinesView.swift in Sources */,
 				D4F6642D24C16A93006B95BF /* CellSensor.swift in Sources */,
 				D4F6644424C16A93006B95BF /* Colorizer.swift in Sources */,
-				D4288D4324D610470036C629 /* LineChartLegendSelect.swift in Sources */,
 				D4F6643A24C16A93006B95BF /* Arrive.swift in Sources */,
 				D4F6647424C16A93006B95BF /* GPUArray.swift in Sources */,
 				D4FE3F9624BED7AD0055D095 /* Debug.swift in Sources */,
-				D4288D4624D610470036C629 /* LineChartGraphView.swift in Sources */,
 				D4F6645524C16A93006B95BF /* SpriteFactory.swift in Sources */,
 				D4F6645424C16A93006B95BF /* ArkoniaScene.swift in Sources */,
 				D49EBA1A24C16DE00006E0E1 /* AKRandomer.swift in Sources */,
@@ -736,11 +683,9 @@
 				D45AAD7224CE8D0D00744836 /* NeuronsView.swift in Sources */,
 				D49EBA2224C170CE0006E0E1 /* Tensor.Random.swift in Sources */,
 				D48C55CF24CF983800DECF57 /* AlmanacHudView.swift in Sources */,
-				D4288D4524D610470036C629 /* LineChartYLabelsView.swift in Sources */,
 				D4F6644624C16A93006B95BF /* Arkon.EnergyBudget.swift in Sources */,
 				D49EBA2924C175FB0006E0E1 /* CensusAgent.swift in Sources */,
 				D4F6644B24C16A93006B95BF /* Digestion.swift in Sources */,
-				D4288D4124D610470036C629 /* LineChartHeaderView.swift in Sources */,
 				D4F6643F24C16A93006B95BF /* DriveNetSignal.swift in Sources */,
 				D4F6642A24C16A93006B95BF /* Spindle.swift in Sources */,
 				D4F6643424C16A93006B95BF /* DriveResponse.swift in Sources */,
@@ -755,7 +700,6 @@
 				D438AC2B24CFD3AB0021E65E /* Fishday.swift in Sources */,
 				D4F6645724C16A93006B95BF /* SKSpriteNode.swift in Sources */,
 				D4F6645324C16A93006B95BF /* SceneDispatch.swift in Sources */,
-				D4288D4024D610470036C629 /* LineChartLineView.swift in Sources */,
 				D4F6646A24C16A93006B95BF /* GridCell.swift in Sources */,
 				D49EBA2B24C175FB0006E0E1 /* Census.swift in Sources */,
 				D4F6643524C16A93006B95BF /* Net.swift in Sources */,

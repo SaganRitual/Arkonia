@@ -35,10 +35,6 @@ struct ContentView: View {
                         .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
                         .environmentObject(Census.shared.censusAgent.stats)
 
-                    BrainyHudView()
-                        .frame(width: ArkoniaLayout.AlmanacView.frameWidth)
-                        .environmentObject(Census.shared.censusAgent.stats)
-
                     Spacer()
                 }
                 .frame(height: ArkoniaLayout.ContentView.hudHeight)
