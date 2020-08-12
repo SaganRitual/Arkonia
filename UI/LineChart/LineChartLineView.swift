@@ -16,7 +16,7 @@ struct LineChartLineView: View {
     }
 
     func visuallyCenter(point: CGPoint, scale: CGSize) -> CGPoint {
-        CGPoint(x: point.x + 0.075 * scale.width, y: point.y - 0.075 / 2 * scale.height)
+        CGPoint(x: point.x + 0.075 * scale.width, y: point.y)
     }
 
     func drawLine(_ gProxy: GeometryProxy) -> Path {
@@ -32,9 +32,13 @@ struct LineChartLineView: View {
         let shifted = visuallyCenter(point: nonPlottedPoint, scale: gProxy.size)
         path.move(to: shifted)
 
-        for (pp, cp) in zip(plotPoints.dropLast(), plotPoints.dropFirst()) {
-            let previousPoint = visuallyCenter(point: fitToFrame(pp, by: gProxy.size), scale: gProxy.size)
-            let currentPoint = visuallyCenter(point: fitToFrame(cp, by: gProxy.size), scale: gProxy.size)
+        for (pp_, cp_) in zip(plotPoints.dropLast(), plotPoints.dropFirst()) {
+            let pp = fitToFrame(pp_, by: gProxy.size)
+            let cp = fitToFrame(cp_, by: gProxy.size)
+
+            let previousPoint = visuallyCenter(point: pp, scale: gProxy.size)
+            let currentPoint = visuallyCenter(point: cp, scale: gProxy.size)
+
             let mp = midpoint(between: previousPoint, and: currentPoint)
 
             path.addQuadCurve(to: mp, control: previousPoint)
@@ -46,7 +50,7 @@ struct LineChartLineView: View {
     var body: some View {
         GeometryReader { gr in
             self.drawLine(gr)
-                .stroke(lineWidth: (gr.size.width + gr.size.height) * 0.005)
+                .stroke(lineWidth: (gr.size.width + gr.size.height) * 0.003)
                 .foregroundColor(lineChartControls.akConfig.legendoids[switchSS].color)
                 .opacity(lineChartControls.switches[switchSS] ? 1 : 0)
                 .frame(minWidth: 200, minHeight: 100)
@@ -73,7 +77,7 @@ struct LineChartLineView_Previews: PreviewProvider {
 
     static var previews: some View {
         LineChartLineView(switchSS: 0)
-        .frame(width: 300, height: 100)
+        .frame(width: 300, height: 200)
         .environmentObject(lineChartControls)
     }
 }

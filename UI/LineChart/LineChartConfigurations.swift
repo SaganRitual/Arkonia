@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum AxisShape { case linear, log }
+enum AxisMode { case linear, log2, log10 }
 enum GridLinesDirection { case vertical, horizontal }
 
 struct LineChartLegendoidConfiguration {
@@ -18,11 +18,11 @@ protocol LineChartConfiguration {
     var chartBackdropColor: Color { get }
     var chartTitle: String { get }
 
-    var horizontalLines: Bool { get }
-    var verticalLines: Bool { get }
+    var cHorizontalLines: Int { get }
+    var cVerticalLines: Int { get }
 
-    var xAxisShape: AxisShape { get }
-    var yAxisShape: AxisShape { get }
+    var xAxisMode: AxisMode { get }
+    var yAxisMode: AxisMode { get }
     var xScale: CGFloat { get }
     var yScale: CGFloat { get }
 
@@ -35,10 +35,10 @@ protocol LineChartConfiguration {
 
 struct LineChartBrowsingSuccess: LineChartConfiguration {
     let chartBackdropColor = Color.gray
-    let horizontalLines = true
-    let verticalLines = true
-    let xAxisShape = AxisShape.linear
-    let yAxisShape = AxisShape.linear
+    let cHorizontalLines = 10
+    let cVerticalLines = 10
+    let xAxisMode = AxisMode.linear
+    let yAxisMode = AxisMode.linear
 
     let chartTitle = "Browsing Success"
     let legendFont = LineChartBrowsingSuccess.meterFont

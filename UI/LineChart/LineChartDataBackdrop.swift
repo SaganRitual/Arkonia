@@ -32,26 +32,27 @@ extension LineChartDataBackdrop {
     func drawGridLines(
         _ gProxy: GeometryProxy, _ direction: GridLinesDirection
     ) -> some View {
-        let (rectWidth, rectHeight) = direction == .vertical ?
-            (gProxy.size.width, 0) : (0, gProxy.size.height)
+        let (rectWidth, rectHeight, cLines) = direction == .vertical ?
+            (gProxy.size.width, 0, lineChartControls.akConfig.cVerticalLines) :
+            (0, gProxy.size.height, lineChartControls.akConfig.cHorizontalLines)
 
-        return ForEach(0..<(5 + 1)) { ss in
+        return ForEach(0..<(cLines + 1)) { ss in
             Path { path in
                 if direction == .vertical {
                     path.move(
-                        to: CGPoint(x: CGFloat(ss * 2) * rectWidth / 10, y: 0)
+                        to: CGPoint(x: CGFloat(ss * 10 / cLines) * rectWidth / 10, y: 0)
                     )
 
                     path.addLine(
-                        to: CGPoint(x: CGFloat(ss * 2) * rectWidth / 10, y: gProxy.size.height)
+                        to: CGPoint(x: CGFloat(ss * 10 / cLines) * rectWidth / 10, y: gProxy.size.height)
                     )
                 } else {
                     path.move(
-                        to: CGPoint(x: 0, y: CGFloat(ss * 2) * rectHeight / 10)
+                        to: CGPoint(x: 0, y: CGFloat(ss * 10 / cLines) * rectHeight / 10)
                     )
 
                     path.addLine(
-                        to: CGPoint(x: gProxy.size.width, y: CGFloat(ss * 2) * rectHeight / 10)
+                        to: CGPoint(x: gProxy.size.width, y: CGFloat(ss * 10 / cLines) * rectHeight / 10)
                     )
                 }
 
@@ -83,7 +84,7 @@ struct LineChartDataBackdrop_Previews: PreviewProvider {
 
     static var previews: some View {
         LineChartDataBackdrop()
-        .frame(width: 300, height: 100)
+        .frame(width: 600, height: 300)
         .environmentObject(lineChartControls)
     }
 }
