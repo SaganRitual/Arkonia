@@ -20,7 +20,7 @@ struct LineChartDataBackdrop: View {
                     LineChartLineView(switchSS: ss)
                 }
 
-                ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
+                ForEach(lineChartControls.akConfig.legends[1].legendoidRange) { ss in
                     LineChartLineView(switchSS: ss)
                 }
             }
@@ -61,4 +61,29 @@ extension LineChartDataBackdrop {
         }
     }
 
+}
+
+
+class LineChartDataBackdrop_PreviewsLineData: LineChartLineDataProtocol {
+    func getPlotPoints() -> [CGPoint] {
+        (Int(0)..<Int(10)).map {
+            CGPoint(x: Double($0) / 10, y: Double.random(in: 0..<1))
+        }
+    }
+}
+
+struct LineChartDataBackdrop_Previews: PreviewProvider {
+    static var dataset = LineChartDataset(
+        count: 4, constructor: { LineChartLineView_PreviewsLineData() }
+    )
+
+    static var lineChartControls = LineChartControls(
+        LineChartBrowsingSuccess(), dataset
+    )
+
+    static var previews: some View {
+        LineChartDataBackdrop()
+        .frame(width: 300, height: 100)
+        .environmentObject(lineChartControls)
+    }
 }

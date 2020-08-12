@@ -64,7 +64,7 @@ class LineChartLineView_PreviewsLineData: LineChartLineDataProtocol {
 
 struct LineChartLineView_Previews: PreviewProvider {
     static var dataset = LineChartDataset(
-        count: 1, constructor: { LineChartLineView_PreviewsLineData() }
+        count: 4, constructor: { LineChartLineView_PreviewsLineData() }
     )
 
     static var lineChartControls = LineChartControls(
