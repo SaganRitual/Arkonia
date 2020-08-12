@@ -1,6 +1,18 @@
 import SwiftUI
 
-enum AxisMode { case linear, log2, log10 }
+enum AxisMode {
+    case amLinear, amLog, amLog2, amLog10
+
+    static func adjustInputSample(_ sample: CGFloat, mode: AxisMode) -> CGFloat {
+        switch mode {
+        case .amLinear: return sample
+        case .amLog:    return log(sample)
+        case .amLog2:   return log2(sample)
+        case .amLog10:  return log10(sample)
+        }
+    }
+}
+
 enum GridLinesDirection { case vertical, horizontal }
 
 struct LineChartLegendoidConfiguration {
@@ -37,8 +49,8 @@ struct LineChartBrowsingSuccess: LineChartConfiguration {
     let chartBackdropColor = Color.gray
     let cHorizontalLines = 10
     let cVerticalLines = 10
-    let xAxisMode = AxisMode.linear
-    let yAxisMode = AxisMode.linear
+    let xAxisMode = AxisMode.amLog10
+    let yAxisMode = AxisMode.amLinear
 
     let chartTitle = "Browsing Success"
     let legendFont = LineChartBrowsingSuccess.meterFont

@@ -15,33 +15,45 @@ struct LineChartLineView: View {
         CGPoint(x: (start.x + end.x) / 2, y: (start.y + end.y) / 2)
     }
 
+    func translateToCoordinateSpace(sample: CGPoint, scale: CGSize) -> CGPoint {
+        let xm = lineChartControls.akConfig.xAxisMode
+        let ym = lineChartControls.akConfig.yAxisMode
+
+        let axisized = CGPoint(
+            x: AxisMode.adjustInputSample(sample.x, mode: xm) / 10,
+            y: AxisMode.adjustInputSample(sample.y, mode: ym) / 10
+        )
+
+        let fitted = fitToFrame(axisized, by: scale)
+
+        return visuallyCenter(point: fitted, scale: scale)
+    }
+
     func visuallyCenter(point: CGPoint, scale: CGSize) -> CGPoint {
-        CGPoint(x: point.x + 0.075 * scale.width, y: point.y)
+        CGPoint(x: point.x + 0.075 * scale.width, y: point.y - 0.075 * scale.height)
     }
 
     func drawLine(_ gProxy: GeometryProxy) -> Path {
         var path = Path()
 
-        let `switch` = lineChartControls.switches[switchSS]
-        if !`switch` { return path }
+        if !lineChartControls.switches[switchSS] { return path }
 
         let dataLine = lineChartControls.dataset!.lines[switchSS]
         let plotPoints = dataLine.getPlotPoints()
 
-        let nonPlottedPoint = fitToFrame(plotPoints[0], by: gProxy.size)
-        let shifted = visuallyCenter(point: nonPlottedPoint, scale: gProxy.size)
-        path.move(to: shifted)
+        let nonPlottedPoint = translateToCoordinateSpace(
+            sample: plotPoints[0], scale: gProxy.size
+        )
 
-        for (pp_, cp_) in zip(plotPoints.dropLast(), plotPoints.dropFirst()) {
-            let pp = fitToFrame(pp_, by: gProxy.size)
-            let cp = fitToFrame(cp_, by: gProxy.size)
+        path.move(to: nonPlottedPoint)
 
-            let previousPoint = visuallyCenter(point: pp, scale: gProxy.size)
-            let currentPoint = visuallyCenter(point: cp, scale: gProxy.size)
+        for (pp, cc) in zip(plotPoints.dropLast(), plotPoints.dropFirst()) {
+            let prev = translateToCoordinateSpace(sample: pp, scale: gProxy.size)
+            let curr = translateToCoordinateSpace(sample: cc, scale: gProxy.size)
 
-            let mp = midpoint(between: previousPoint, and: currentPoint)
+            let mp = midpoint(between: prev, and: curr)
 
-            path.addQuadCurve(to: mp, control: previousPoint)
+            path.addQuadCurve(to: mp, control: prev)
         }
 
         return path
@@ -61,7 +73,7 @@ struct LineChartLineView: View {
 class LineChartLineView_PreviewsLineData: LineChartLineDataProtocol {
     func getPlotPoints() -> [CGPoint] {
         (Int(0)..<Int(10)).map {
-            CGPoint(x: Double($0) / 10, y: Double.random(in: 0..<1))
+            CGPoint(x: pow(10, Double($0)), y: Double.random(in: 0..<10))
         }
     }
 }
