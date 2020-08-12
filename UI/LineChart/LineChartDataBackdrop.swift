@@ -8,20 +8,22 @@ struct LineChartDataBackdrop: View {
     }
 
     var body: some View {
-        ZStack {
-            GeometryReader { gr in
-                Rectangle()
-                    .foregroundColor(lineChartControls.akConfig.chartBackdropColor)
+        VStack {
+            ZStack {
+                GeometryReader { gr in
+                    Rectangle()
+                        .foregroundColor(lineChartControls.akConfig.chartBackdropColor)
 
-                self.drawGridLines(gr, .horizontal)
-                self.drawGridLines(gr, .vertical)
+                    self.drawGridLines(gr, .horizontal)
+                    self.drawGridLines(gr, .vertical)
 
-                ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
-                    LineChartLineView(switchSS: ss)
-                }
+                    ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
+                        LineChartLineView(switchSS: ss)
+                    }
 
-                ForEach(lineChartControls.akConfig.legends[1].legendoidRange) { ss in
-                    LineChartLineView(switchSS: ss)
+                    ForEach(lineChartControls.akConfig.legends[1].legendoidRange) { ss in
+                        LineChartLineView(switchSS: ss)
+                    }
                 }
             }
         }
@@ -61,21 +63,21 @@ extension LineChartDataBackdrop {
             .stroke(lineWidth: 1).foregroundColor((.black))
         }
     }
-
 }
-
 
 class LineChartDataBackdrop_PreviewsLineData: LineChartLineDataProtocol {
     func getPlotPoints() -> [CGPoint] {
         (Int(0)..<Int(10)).map {
-            CGPoint(x: Double($0) / 10, y: Double.random(in: 0..<1))
+            let p = CGPoint(x: Double($0) / 10, y: Double.random(in: 0..<1))
+            print("lcdb", p)
+            return p
         }
     }
 }
 
 struct LineChartDataBackdrop_Previews: PreviewProvider {
     static var dataset = LineChartDataset(
-        count: 4, constructor: { LineChartLineView_PreviewsLineData() }
+        count: 4, constructor: { LineChartDataBackdrop_PreviewsLineData() }
     )
 
     static var lineChartControls = LineChartControls(
@@ -84,7 +86,7 @@ struct LineChartDataBackdrop_Previews: PreviewProvider {
 
     static var previews: some View {
         LineChartDataBackdrop()
-        .frame(width: 600, height: 300)
+        .frame(width: 480, height: 300)
         .environmentObject(lineChartControls)
     }
 }

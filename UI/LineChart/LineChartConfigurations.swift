@@ -49,7 +49,7 @@ struct LineChartBrowsingSuccess: LineChartConfiguration {
     let chartBackdropColor = Color.gray
     let cHorizontalLines = 10
     let cVerticalLines = 10
-    let xAxisMode = AxisMode.amLog10
+    let xAxisMode = AxisMode.amLinear
     let yAxisMode = AxisMode.amLinear
 
     let chartTitle = "Browsing Success"
