@@ -4,27 +4,24 @@ struct ColoredSquareToggle: ToggleStyle {
     @Binding var isOn: Bool
 
     let akConfig: LineChartConfiguration
-    let legendCoordinates: AKPoint
+    let legendoidSS: Int
 
-    var color: Color {
-        let x = legendCoordinates.x, y = legendCoordinates.y
-        return akConfig.legends[x].legendoids[y].color
+    var color: Color { legendoid.color }
+    var labelText: String { legendoid.text }
+
+    var legendoid: LineChartLegendoidConfiguration {
+        akConfig.legendoids[legendoidSS]
     }
 
-    var labelText: String {
-        let x = legendCoordinates.x, y = legendCoordinates.y
-        return akConfig.legends[x].legendoids[y].text
-    }
+    func toggleButton() { self.isOn.toggle() }
 
     func makeBody(configuration: Configuration) -> some View {
         return HStack {
-            Button(action: {
-                self.isOn.toggle()
-            }) {
+            Button(action: self.toggleButton) {
                 Rectangle()
                     .foregroundColor(isOn ? self.color : Color.gray)
                     .border(Color.black, width: 2)
-                    .frame(width: 16, height: 16)
+                    .frame(width: 10, height: 10)
             }
             .buttonStyle(PlainButtonStyle())
 

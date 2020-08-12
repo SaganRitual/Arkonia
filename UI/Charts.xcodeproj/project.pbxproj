@@ -12,7 +12,15 @@
 		D407248524E34F8E00FC1B43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D407248424E34F8E00FC1B43 /* Assets.xcassets */; };
 		D407248824E34F8E00FC1B43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D407248724E34F8E00FC1B43 /* Preview Assets.xcassets */; };
 		D407248B24E34F8E00FC1B43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D407248924E34F8E00FC1B43 /* Main.storyboard */; };
-		D40724B824E3552C00FC1B43 /* LineChart in Resources */ = {isa = PBXBuildFile; fileRef = D40724B724E3552C00FC1B43 /* LineChart */; };
+		D40724D524E3562600FC1B43 /* LineChartDataBackdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724CC24E3562600FC1B43 /* LineChartDataBackdrop.swift */; };
+		D40724D624E3562600FC1B43 /* ColoredSquareToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724CD24E3562600FC1B43 /* ColoredSquareToggle.swift */; };
+		D40724D724E3562600FC1B43 /* LineChartHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724CE24E3562600FC1B43 /* LineChartHeaderView.swift */; };
+		D40724D824E3562600FC1B43 /* LineChartControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724CF24E3562600FC1B43 /* LineChartControls.swift */; };
+		D40724D924E3562600FC1B43 /* LineChartLegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724D024E3562600FC1B43 /* LineChartLegendView.swift */; };
+		D40724DA24E3562600FC1B43 /* LineChartConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724D124E3562600FC1B43 /* LineChartConfigurations.swift */; };
+		D40724DB24E3562600FC1B43 /* LineChartTheChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724D224E3562600FC1B43 /* LineChartTheChartView.swift */; };
+		D40724DC24E3562600FC1B43 /* LineChartLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724D324E3562600FC1B43 /* LineChartLineView.swift */; };
+		D40724DD24E3562600FC1B43 /* LineChartLegendoidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724D424E3562600FC1B43 /* LineChartLegendoidView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +32,15 @@
 		D407248A24E34F8E00FC1B43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D407248C24E34F8E00FC1B43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D407248D24E34F8E00FC1B43 /* Charts.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Charts.entitlements; sourceTree = "<group>"; };
-		D40724B724E3552C00FC1B43 /* LineChart */ = {isa = PBXFileReference; lastKnownFileType = folder; path = LineChart; sourceTree = "<group>"; };
+		D40724CC24E3562600FC1B43 /* LineChartDataBackdrop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartDataBackdrop.swift; sourceTree = "<group>"; };
+		D40724CD24E3562600FC1B43 /* ColoredSquareToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColoredSquareToggle.swift; sourceTree = "<group>"; };
+		D40724CE24E3562600FC1B43 /* LineChartHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartHeaderView.swift; sourceTree = "<group>"; };
+		D40724CF24E3562600FC1B43 /* LineChartControls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartControls.swift; sourceTree = "<group>"; };
+		D40724D024E3562600FC1B43 /* LineChartLegendView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegendView.swift; sourceTree = "<group>"; };
+		D40724D124E3562600FC1B43 /* LineChartConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartConfigurations.swift; sourceTree = "<group>"; };
+		D40724D224E3562600FC1B43 /* LineChartTheChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTheChartView.swift; sourceTree = "<group>"; };
+		D40724D324E3562600FC1B43 /* LineChartLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLineView.swift; sourceTree = "<group>"; };
+		D40724D424E3562600FC1B43 /* LineChartLegendoidView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegendoidView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +57,7 @@
 		D407247424E34F8C00FC1B43 = {
 			isa = PBXGroup;
 			children = (
-				D40724B724E3552C00FC1B43 /* LineChart */,
+				D40724CB24E3562600FC1B43 /* LineChart */,
 				D407247F24E34F8C00FC1B43 /* macOS */,
 				D407247E24E34F8C00FC1B43 /* Products */,
 			);
@@ -75,6 +91,22 @@
 				D407248724E34F8E00FC1B43 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D40724CB24E3562600FC1B43 /* LineChart */ = {
+			isa = PBXGroup;
+			children = (
+				D40724CD24E3562600FC1B43 /* ColoredSquareToggle.swift */,
+				D40724D124E3562600FC1B43 /* LineChartConfigurations.swift */,
+				D40724CF24E3562600FC1B43 /* LineChartControls.swift */,
+				D40724CC24E3562600FC1B43 /* LineChartDataBackdrop.swift */,
+				D40724CE24E3562600FC1B43 /* LineChartHeaderView.swift */,
+				D40724D424E3562600FC1B43 /* LineChartLegendoidView.swift */,
+				D40724D024E3562600FC1B43 /* LineChartLegendView.swift */,
+				D40724D324E3562600FC1B43 /* LineChartLineView.swift */,
+				D40724D224E3562600FC1B43 /* LineChartTheChartView.swift */,
+			);
+			path = LineChart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +169,6 @@
 				D407248B24E34F8E00FC1B43 /* Main.storyboard in Resources */,
 				D407248824E34F8E00FC1B43 /* Preview Assets.xcassets in Resources */,
 				D407248524E34F8E00FC1B43 /* Assets.xcassets in Resources */,
-				D40724B824E3552C00FC1B43 /* LineChart in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,8 +179,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D40724D924E3562600FC1B43 /* LineChartLegendView.swift in Sources */,
+				D40724D824E3562600FC1B43 /* LineChartControls.swift in Sources */,
+				D40724DD24E3562600FC1B43 /* LineChartLegendoidView.swift in Sources */,
 				D407248324E34F8C00FC1B43 /* ContentView.swift in Sources */,
 				D407248124E34F8C00FC1B43 /* AppDelegate.swift in Sources */,
+				D40724D724E3562600FC1B43 /* LineChartHeaderView.swift in Sources */,
+				D40724DC24E3562600FC1B43 /* LineChartLineView.swift in Sources */,
+				D40724DA24E3562600FC1B43 /* LineChartConfigurations.swift in Sources */,
+				D40724D524E3562600FC1B43 /* LineChartDataBackdrop.swift in Sources */,
+				D40724D624E3562600FC1B43 /* ColoredSquareToggle.swift in Sources */,
+				D40724DB24E3562600FC1B43 /* LineChartTheChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

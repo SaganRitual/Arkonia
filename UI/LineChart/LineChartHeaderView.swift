@@ -2,26 +2,22 @@ import SwiftUI
 
 struct LineChartHeaderView: View {
     @EnvironmentObject var lineChartControls: LineChartControls
-    @EnvironmentObject var stats: PopulationStats
 
     var body: some View {
         VStack {
             Text(lineChartControls.akConfig.chartTitle)
-                .font(ArkoniaLayout.labelFont)
+                .font(lineChartControls.akConfig.titleFont)
                 .foregroundColor(.white)
 
             HStack {
-                LineChartLegendView(AKPoint(x: 0, y: 0))
+                LineChartLegendView(legendSS: 0, legendoidRange: 0..<2)
                     .frame(maxWidth: .infinity)
 
-                ZStack {
-                    Text("\(stats.histogramsUpdateTrigger)").foregroundColor(.clear)
-                    Spacer()
-                }
+                Spacer()
 
-                LineChartLegendView(AKPoint(x: 1, y: 0))
+                LineChartLegendView(legendSS: 1, legendoidRange: 2..<4)
                     .frame(maxWidth: .infinity)
-            }.font(ArkoniaLayout.meterFont)
+            }.font(lineChartControls.akConfig.legendFont)
         }
     }
 }

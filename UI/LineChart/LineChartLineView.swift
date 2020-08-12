@@ -2,9 +2,11 @@ import SwiftUI
 
 struct LineChartLineView: View {
     @EnvironmentObject var lineChartControls: LineChartControls
-    @EnvironmentObject var stats: PopulationStats
 
-    let companionCheckboxAt: AKPoint
+    let legendSS: Int
+    let legendoidSS: Int
+    let switchSS: Int
+
     let viewWidth: CGFloat
     let viewHeight: CGFloat
 
@@ -13,12 +15,11 @@ struct LineChartLineView: View {
 
         if stats.histogramsUpdateTrigger < 0 { return path }
 
-        let `switch` = lineChartControls.getLegendoidSwitch(at: companionCheckboxAt)
+        let `switch` = lineChartControls.switches[switchSS]
         if !`switch` { return path }
 
-        let histogram = lineChartControls.getHistogram(at: companionCheckboxAt)
+        let histogram = lineChartControls.getHistogram(switchSS)
         guard let yValues = histogram.getScalarDistribution(reset: true) else {
-            Debug.log(level: 225) { "no data" }
             return path
         }
 

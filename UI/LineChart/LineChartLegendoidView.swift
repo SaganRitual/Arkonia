@@ -3,31 +3,28 @@ import SwiftUI
 struct LineChartLegendoidView: View {
     @EnvironmentObject var lineChartControls: LineChartControls
 
-    let legendCoordinates: AKPoint
-
-    var switchSS: Int { lineChartControls.getLegendoidSS(at: legendCoordinates) }
-
-    init(at legendCoordinates: AKPoint) {
-        self.legendCoordinates = legendCoordinates
-    }
+    let legendSS: Int
+    let legendoidSS: Int
+    let switchSS: Int
 
     var body: some View {
         Toggle(
-            lineChartControls.akConfig.getLegendoid(at: legendCoordinates)!.text,
+            lineChartControls.akConfig.legendoids[legendoidSS].text,
             isOn: $lineChartControls.switches[switchSS]
         )
             .toggleStyle(ColoredSquareToggle(
                 isOn: $lineChartControls.switches[switchSS],
                 akConfig: lineChartControls.akConfig,
-                legendCoordinates: legendCoordinates
+                legendSS: legendSS, legendoidSS: legendoidSS
             ))
     }
 }
 
 struct LineChartLegendoidView_Previews: PreviewProvider {
     static var previews: some View {
-        LineChartLegendoidView(at: AKPoint(x: 0, y: 0)).environmentObject(
-            LineChartControls(LineChartBrowsingSuccess(), LineChartDataset())
-        )
+        LineChartLegendoidView(legendSS: 0, legendoidSS: 0, switchSS: 0)
+            .environmentObject(
+                LineChartControls(LineChartBrowsingSuccess(), LineChartDataset())
+            )
     }
 }

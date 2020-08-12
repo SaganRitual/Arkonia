@@ -1,20 +1,35 @@
 import SwiftUI
 
-protocol LineChartConfiguration {
-    var chartBackdropColor: Color { get }
-    var horizontalLines: Bool { get }
-    var verticalLines: Bool { get }
-    var xAxisShape: AxisShape { get }
-    var yAxisShape: AxisShape { get }
-    var chartTitle: String { get }
-    var legends: [LineChartLegendConfiguration] { get }
-
-    func getLegend(at: AKPoint) -> LineChartLegendConfiguration?
-    func getLegendoid(at: AKPoint) -> LineChartLegendoidConfiguration?
-}
-
 enum AxisShape { case linear, log }
 enum GridLinesDirection { case vertical, horizontal }
+
+struct LineChartLegendoidConfiguration {
+    let color: Color
+    let text: String
+}
+
+struct LineChartLegendConfiguration {
+    let legendoidRange: Range<Int>
+    let legendTitle: String
+    let titleEdge: Edge
+}
+
+protocol LineChartConfiguration {
+    var chartBackdropColor: Color { get }
+    var chartTitle: String { get }
+
+    var horizontalLines: Bool { get }
+    var verticalLines: Bool { get }
+
+    var xAxisShape: AxisShape { get }
+    var yAxisShape: AxisShape { get }
+
+    var legendFont: Font { get }
+    var titleFont: Font { get }
+
+    var legends: [LineChartLegendConfiguration] { get }
+    var legendoids: [LineChartLegendoidConfiguration] { get }
+}
 
 struct LineChartBrowsingSuccess: LineChartConfiguration {
     let chartBackdropColor = Color.gray
@@ -24,47 +39,43 @@ struct LineChartBrowsingSuccess: LineChartConfiguration {
     let yAxisShape = AxisShape.linear
 
     let chartTitle = "Browsing Success"
-
-    func getLegend(at: AKPoint) -> LineChartLegendConfiguration? {
-        legends.count > at.x ? legends[at.x] : nil
-    }
-
-    func getLegendoid(at position: AKPoint) -> LineChartLegendoidConfiguration? {
-        guard let legend = getLegend(at: position) else { return nil }
-        return legend.legendoids.count > position.y ? legend.legendoids[position.y] : nil
-    }
+    let legendFont = LineChartBrowsingSuccess.meterFont
+    let titleFont = LineChartBrowsingSuccess.labelFont
 
     let legends = [
         LineChartLegendConfiguration(
-            legendTitle: "Current",
-            titleEdge: .leading,
-            legendoids: [
-                LineChartLegendoidConfiguration(color: .red, text: "Max"),
-                LineChartLegendoidConfiguration(color: .green, text: "Avg")
-            ]
+            legendoidRange: 0..<2, legendTitle: "Current", titleEdge: .leading
         ),
-
         LineChartLegendConfiguration(
-            legendTitle: "All-Time",
-            titleEdge: .trailing,
-            legendoids: [
-                LineChartLegendoidConfiguration(color: .blue, text: "Max"),
-                LineChartLegendoidConfiguration(color: .orange, text: "Avg")
-            ]
-        ),
+            legendoidRange: 2..<4, legendTitle: "All-time", titleEdge: .leading
+        )
     ]
 
-    var leadingLegendIndexes: Range<Int> { 0..<legends[0].legendoids.count }
-    var trailingLegendIndexes: Range<Int> { 0..<legends[1].legendoids.count }
+    let legendoids = [
+        LineChartLegendoidConfiguration(color: .red, text: "Max"),
+        LineChartLegendoidConfiguration(color: .green, text: "Avg"),
+        LineChartLegendoidConfiguration(color: .blue, text: "Max"),
+        LineChartLegendoidConfiguration(color: .orange, text: "Avg")
+    ]
 }
 
-struct LineChartLegendoidConfiguration {
-    let color: Color
-    let text: String
-}
+extension LineChartBrowsingSuccess {
+    static let chartAxisLabelFontSize = CGFloat(10)
+    static let labelFontSize = CGFloat(10)
+    static let meterFontSize = CGFloat(8)
 
-struct LineChartLegendConfiguration {
-    let legendTitle: String
-    let titleEdge: Edge
-    let legendoids: [LineChartLegendoidConfiguration]
+    static let chartAxisLabelFont = Font.system(
+        size: chartAxisLabelFontSize,
+        design: Font.Design.monospaced
+    )
+
+    static let labelFont = Font.system(
+        size: labelFontSize,
+        design: Font.Design.monospaced
+    ).lowercaseSmallCaps()
+
+    static let meterFont = Font.system(
+        size: meterFontSize,
+        design: Font.Design.monospaced
+    )
 }
