@@ -3,11 +3,8 @@ import SwiftUI
 struct LineChartDataBackdrop: View {
     @EnvironmentObject var lineChartControls: LineChartControls
 
-    var leadingLegendIndexes: Range<Int> { (lineChartControls.akConfig as? LineChartBrowsingSuccess)!.leadingLegendIndexes }
-    var trailingLegendIndexes: Range<Int> { (lineChartControls.akConfig as? LineChartBrowsingSuccess)!.trailingLegendIndexes }
-
     func getColor(_ ss: Int) -> Color {
-        lineChartControls.akConfig.getLegendoid(at: lineChartControls.liveLegendoidPositions[ss])!.color
+        lineChartControls.akConfig.legendoids[ss].color
     }
 
     var body: some View {
@@ -19,18 +16,12 @@ struct LineChartDataBackdrop: View {
                 self.drawGridLines(gr, .horizontal)
                 self.drawGridLines(gr, .vertical)
 
-                ForEach(self.leadingLegendIndexes) { ss in
-                    LineChartLineView(
-                        companionCheckboxAt: lineChartControls.liveLegendoidPositions[ss],
-                        viewWidth: gr.size.width, viewHeight: gr.size.height
-                    )
+                ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
+                    LineChartLineView(switchSS: ss)
                 }
 
-                ForEach(self.trailingLegendIndexes) { ss in
-                    LineChartLineView(
-                        companionCheckboxAt: lineChartControls.liveLegendoidPositions[ss + leadingLegendIndexes.upperBound],
-                        viewWidth: gr.size.width, viewHeight: gr.size.height
-                    )
+                ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
+                    LineChartLineView(switchSS: ss)
                 }
             }
         }

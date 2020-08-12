@@ -15,14 +15,18 @@ struct LineChartTheChartView: View {
     }
 }
 
+class LineChartTheChartView_PreviewsLineData: LineChartLineDataProtocol {
+    func getPlotPoints() -> [CGPoint] {
+        (Int(0)..<Int(10)).map { CGPoint(x: Double($0), y: Double.random(in: 0..<10)) }
+    }
+}
+
 struct LineChartTheChartView_Previews: PreviewProvider {
-    static var dataset = LineChartDataset()
+    static var dataset = LineChartDataset(count: 6, constructor: { LineChartTheChartView_PreviewsLineData() })
 
     static var lineChartControls = LineChartControls(
         LineChartBrowsingSuccess(), dataset
     )
-
-    static var timer: Timer?
 
     static func startViewTick() -> LineChartControls {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: update)
@@ -30,12 +34,6 @@ struct LineChartTheChartView_Previews: PreviewProvider {
     }
 
     static func update() {
-        for line in dataset.lines {
-            let L = Int.random(in: 0..<100)
-            let M = Double.random(in: 0..<1)
-            for _ in 0..<L { line.track(sample: M) }
-        }
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: update)
     }
 

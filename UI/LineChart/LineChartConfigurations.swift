@@ -23,6 +23,8 @@ protocol LineChartConfiguration {
 
     var xAxisShape: AxisShape { get }
     var yAxisShape: AxisShape { get }
+    var xScale: CGFloat { get }
+    var yScale: CGFloat { get }
 
     var legendFont: Font { get }
     var titleFont: Font { get }
@@ -41,6 +43,9 @@ struct LineChartBrowsingSuccess: LineChartConfiguration {
     let chartTitle = "Browsing Success"
     let legendFont = LineChartBrowsingSuccess.meterFont
     let titleFont = LineChartBrowsingSuccess.labelFont
+
+    let xScale = CGFloat(300)
+    let yScale = CGFloat(200)
 
     let legends = [
         LineChartLegendConfiguration(
@@ -63,6 +68,7 @@ extension LineChartBrowsingSuccess {
     static let chartAxisLabelFontSize = CGFloat(10)
     static let labelFontSize = CGFloat(10)
     static let meterFontSize = CGFloat(8)
+
 
     static let chartAxisLabelFont = Font.system(
         size: chartAxisLabelFontSize,

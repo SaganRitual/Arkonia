@@ -1,13 +1,13 @@
 import SwiftUI
 
-protocol LineChartDatasetProtocol {
-
+protocol LineChartLineDataProtocol: class {
+    func getPlotPoints() -> [CGPoint]
 }
 
 class LineChartDataset {
-    let lines: [LineChartDatasetProtocol]
+    let lines: [LineChartLineDataProtocol]
 
-    init(count: Int, constructor: () -> LineChartDatasetProtocol) {
+    init(count: Int, constructor: () -> LineChartLineDataProtocol) {
         self.lines = (0..<count).map { _ in constructor() }
     }
 }
@@ -22,8 +22,6 @@ class LineChartControls: ObservableObject {
 
     init(_ akConfig: LineChartConfiguration, _ dataset: LineChartDataset) {
         self.akConfig = akConfig; self.dataset = dataset
-        self.scale = CGSize(width: akConfig..xScale, height: ArkoniaLayout.yScale)
+        self.scale = CGSize(width: akConfig.xScale, height: akConfig.yScale)
     }
-
-    func getHistogram(_ switchSS: Int) -> Histogram { self.dataset!.lines[switchSS] }
 }
