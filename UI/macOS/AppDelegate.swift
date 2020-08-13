@@ -14,12 +14,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     var window: NSWindow!
 
-    let dataset = LineChartDataset(
-        count: 4, constructor: { LineChartApp_MockLineData() }
-    )
-
-    var lineChartControls: LineChartControls!
-
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         let contentRect = NSRect(x: 0, y: 0, width: 480, height: 300)
 
@@ -27,9 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let contentView =
             ContentView()
             .frame(width: contentRect.width, height: contentRect.height)
-            .environmentObject(
-                LineChartControls(LineChartBrowsingSuccess(), dataset)
-            )
+            .environmentObject(MockLineChartControls.controls)
 
         // Create the window and set the content view.
         window = NSWindow(

@@ -65,28 +65,10 @@ extension LineChartDataBackdrop {
     }
 }
 
-class LineChartDataBackdrop_PreviewsLineData: LineChartLineDataProtocol {
-    func getPlotPoints() -> [CGPoint] {
-        (Int(0)..<Int(10)).map {
-            let p = CGPoint(x: Double($0) / 10, y: Double.random(in: 0..<1))
-            print("lcdb", p)
-            return p
-        }
-    }
-}
-
 struct LineChartDataBackdrop_Previews: PreviewProvider {
-    static var dataset = LineChartDataset(
-        count: 4, constructor: { LineChartDataBackdrop_PreviewsLineData() }
-    )
-
-    static var lineChartControls = LineChartControls(
-        LineChartBrowsingSuccess(), dataset
-    )
-
     static var previews: some View {
         LineChartDataBackdrop()
-        .frame(width: 480, height: 300)
-        .environmentObject(lineChartControls)
+            .frame(width: 480, height: 300)
+            .environmentObject(MockLineChartControls.controls)
     }
 }

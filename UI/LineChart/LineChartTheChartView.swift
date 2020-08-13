@@ -22,15 +22,9 @@ class LineChartTheChartView_PreviewsLineData: LineChartLineDataProtocol {
 }
 
 struct LineChartTheChartView_Previews: PreviewProvider {
-    static var dataset = LineChartDataset(count: 6, constructor: { LineChartTheChartView_PreviewsLineData() })
-
-    static var lineChartControls = LineChartControls(
-        LineChartBrowsingSuccess(), dataset
-    )
-
     static func startViewTick() -> LineChartControls {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: update)
-        return lineChartControls
+        return MockLineChartControls.controls
     }
 
     static func update() {

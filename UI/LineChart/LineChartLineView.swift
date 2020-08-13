@@ -52,8 +52,7 @@ struct LineChartLineView: View {
             let curr = translateToCoordinateSpace(sample: cc, scale: gProxy.size)
 
             let mp = midpoint(between: prev, and: curr)
-            path.addLine(to: mp)
-//            path.addQuadCurve(to: mp, control: prev)
+            path.addQuadCurve(to: mp, control: prev)
         }
 
         return path
@@ -69,41 +68,15 @@ struct LineChartLineView: View {
         }
     }
 
-    // y == 0 from histogram, y == 300 here
-    // y == 1 from histogram, y == 0 here
-    // -0.1 * h when y = 0
-    // -0.05 * h when y = 1
     func visuallyCenter(point: CGPoint, scale: CGSize) -> CGPoint {
-        let p = CGPoint(
-            x: point.x + 0.075 * scale.width,
-            y: point.y + 0.01 * scale.height
-        )
-
-        print("vc", p, point.y, point.x)
-        return p
-    }
-}
-
-class LineChartLineView_PreviewsLineData: LineChartLineDataProtocol {
-    func getPlotPoints() -> [CGPoint] {
-        (Int(0)..<Int(10)).map {
-            CGPoint(x: Double($0) / 10, y: Double.random(in: 0..<1))
-        }
+        CGPoint(x: point.x + 0.075 * scale.width, y: point.y + 0.01 * scale.height)
     }
 }
 
 struct LineChartLineView_Previews: PreviewProvider {
-    static var dataset = LineChartDataset(
-        count: 4, constructor: { LineChartLineView_PreviewsLineData() }
-    )
-
-    static var lineChartControls = LineChartControls(
-        LineChartBrowsingSuccess(), dataset
-    )
-
     static var previews: some View {
         LineChartLineView(switchSS: 0)
-        .frame(width: 200, height: 100)
-        .environmentObject(lineChartControls)
+            .frame(width: 200, height: 100)
+            .environmentObject(MockLineChartControls.controls)
     }
 }
