@@ -22,10 +22,8 @@ struct LineChartAxisLabelsView: View {
                                 ForEach(0..<4) {
                                     Text("\(8 - 2 * $0)")
                                         .font(lineChartControls.akConfig.axisLabelsFont)
-
-                                    Spacer()
-                                        .frame(height: 0.075 * gr.size.height + CGFloat($0) * 0.025 * gr.size.height)
-                                }
+                                        .frame(height: 0.175 * gr.size.height)
+                                }.offset(y: -0.075 * gr.size.height)
                             }
                         )
 
@@ -36,6 +34,15 @@ struct LineChartAxisLabelsView: View {
                             .frame(
                                 width: gr.size.width * 0.9,
                                 height: gr.size.width * 0.1 // Note: my HEIGHT same as the other guy's WIDTH
+                            )
+                            .overlay(
+                                HStack {
+                                    ForEach(0..<4) {
+                                        Text("\(2 + 2 * $0)")
+                                            .font(lineChartControls.akConfig.axisLabelsFont)
+                                            .frame(width: 0.15 * gr.size.width)
+                                    }
+                                }
                             )
                     }
                 }
