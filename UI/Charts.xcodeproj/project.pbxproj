@@ -21,6 +21,7 @@
 		D40724DB24E3562600FC1B43 /* LineChartTheChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724D224E3562600FC1B43 /* LineChartTheChartView.swift */; };
 		D40724DC24E3562600FC1B43 /* LineChartLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724D324E3562600FC1B43 /* LineChartLineView.swift */; };
 		D40724DD24E3562600FC1B43 /* LineChartLegendoidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724D424E3562600FC1B43 /* LineChartLegendoidView.swift */; };
+		D40724DF24E4BDC600FC1B43 /* LineChartAxisLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724DE24E4BDC600FC1B43 /* LineChartAxisLabelsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		D40724D224E3562600FC1B43 /* LineChartTheChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTheChartView.swift; sourceTree = "<group>"; };
 		D40724D324E3562600FC1B43 /* LineChartLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLineView.swift; sourceTree = "<group>"; };
 		D40724D424E3562600FC1B43 /* LineChartLegendoidView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegendoidView.swift; sourceTree = "<group>"; };
+		D40724DE24E4BDC600FC1B43 /* LineChartAxisLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartAxisLabelsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				D40724CD24E3562600FC1B43 /* ColoredSquareToggle.swift */,
+				D40724DE24E4BDC600FC1B43 /* LineChartAxisLabelsView.swift */,
 				D40724D124E3562600FC1B43 /* LineChartConfigurations.swift */,
 				D40724CF24E3562600FC1B43 /* LineChartControls.swift */,
 				D40724CC24E3562600FC1B43 /* LineChartDataBackdrop.swift */,
@@ -184,6 +187,7 @@
 				D40724DD24E3562600FC1B43 /* LineChartLegendoidView.swift in Sources */,
 				D407248324E34F8C00FC1B43 /* ContentView.swift in Sources */,
 				D407248124E34F8C00FC1B43 /* AppDelegate.swift in Sources */,
+				D40724DF24E4BDC600FC1B43 /* LineChartAxisLabelsView.swift in Sources */,
 				D40724D724E3562600FC1B43 /* LineChartHeaderView.swift in Sources */,
 				D40724DC24E3562600FC1B43 /* LineChartLineView.swift in Sources */,
 				D40724DA24E3562600FC1B43 /* LineChartConfigurations.swift in Sources */,

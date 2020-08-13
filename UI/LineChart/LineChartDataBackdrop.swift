@@ -60,7 +60,7 @@ extension LineChartDataBackdrop {
 
                 path.closeSubpath()
             }
-            .stroke(lineWidth: 1).foregroundColor((.black))
+            .stroke(lineWidth: 1).foregroundColor(.black)
         }
     }
 }

@@ -37,10 +37,6 @@ struct LineChartLineView: View {
         let dataLine = lineChartControls.dataset!.lines[switchSS]
         let plotPoints = dataLine.getPlotPoints()
 
-        assert(plotPoints.allSatisfy {
-            $0.x >= 0 && $0.x <= 1 && $0.y >= 0 && $0.y <= 1
-        })
-
         let nonPlottedPoint = translateToCoordinateSpace(
             sample: plotPoints[0], scale: gProxy.size
         )

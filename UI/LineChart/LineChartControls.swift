@@ -27,17 +27,44 @@ class LineChartControls: ObservableObject {
 }
 
 class LineChartMockDataSource: LineChartLineDataProtocol {
+    let xAxisMode: AxisMode
+    let yAxisMode: AxisMode
+
+    init(xAxisMode: AxisMode, yAxisMode: AxisMode) {
+        self.xAxisMode = xAxisMode; self.yAxisMode = yAxisMode
+    }
+
+    func scaleToMode(value: CGFloat, mode: AxisMode) -> CGFloat {
+        switch mode {
+        // Not sure whether ln and log2 will ever be of any use
+        case .amLinear: return CGFloat(value)
+        case .amLog:    assert(false)//return exp(CGFloat(value))
+        case .amLog2:   assert(false)//return pow(2, CGFloat(value))
+        case .amLog10:  return pow(10, CGFloat(value))
+        }
+    }
+
     func getPlotPoints() -> [CGPoint] {
         (Int(0)..<Int(10)).map {
-            CGPoint(x: Double($0) / 10, y: Double.random(in: 0..<1))
+            CGPoint(
+                x: scaleToMode(value: CGFloat($0), mode: xAxisMode) / 10,
+                y: scaleToMode(value: CGFloat.random(in: 0..<10), mode: yAxisMode) / 10
+            )
         }
     }
 }
 
 enum MockLineChartControls {
     static let akConfig = LineChartBrowsingSuccess()
+    
     static let dataset = LineChartDataset(
-        count: 4, constructor: { LineChartMockDataSource() }
+        count: akConfig.legendoids.count,
+        constructor: {
+            LineChartMockDataSource(
+                xAxisMode: akConfig.xAxisMode,
+                yAxisMode: akConfig.yAxisMode
+            )
+        }
     )
 
     static let controls = LineChartControls(akConfig, dataset)

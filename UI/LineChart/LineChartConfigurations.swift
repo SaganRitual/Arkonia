@@ -38,6 +38,7 @@ protocol LineChartConfiguration {
     var xScale: CGFloat { get }
     var yScale: CGFloat { get }
 
+    var axisLabelsFont: Font { get }
     var legendFont: Font { get }
     var titleFont: Font { get }
 
@@ -46,13 +47,14 @@ protocol LineChartConfiguration {
 }
 
 struct LineChartBrowsingSuccess: LineChartConfiguration {
-    let chartBackdropColor = Color.gray
+    let chartBackdropColor = Color(white: 0.3)
     let cHorizontalLines = 10
     let cVerticalLines = 10
-    let xAxisMode = AxisMode.amLinear
+    let xAxisMode = AxisMode.amLog10
     let yAxisMode = AxisMode.amLinear
 
     let chartTitle = "Browsing Success"
+    let axisLabelsFont = LineChartBrowsingSuccess.chartAxisLabelFont
     let legendFont = LineChartBrowsingSuccess.meterFont
     let titleFont = LineChartBrowsingSuccess.labelFont
 
@@ -64,7 +66,7 @@ struct LineChartBrowsingSuccess: LineChartConfiguration {
             legendoidRange: 0..<2, legendTitle: "Current", titleEdge: .leading
         ),
         LineChartLegendConfiguration(
-            legendoidRange: 2..<4, legendTitle: "All-time", titleEdge: .leading
+            legendoidRange: 2..<4, legendTitle: "All-time", titleEdge: .trailing
         )
     ]
 
@@ -80,7 +82,6 @@ extension LineChartBrowsingSuccess {
     static let chartAxisLabelFontSize = CGFloat(10)
     static let labelFontSize = CGFloat(10)
     static let meterFontSize = CGFloat(8)
-
 
     static let chartAxisLabelFont = Font.system(
         size: chartAxisLabelFontSize,
