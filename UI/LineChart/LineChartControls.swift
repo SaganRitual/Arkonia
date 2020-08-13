@@ -46,10 +46,7 @@ class LineChartMockDataSource: LineChartLineDataProtocol {
 
     func getPlotPoints() -> [CGPoint] {
         (Int(0)..<Int(10)).map {
-            CGPoint(
-                x: scaleToMode(value: CGFloat($0), mode: xAxisMode) / 10,
-                y: scaleToMode(value: CGFloat.random(in: 0..<10), mode: yAxisMode) / 10
-            )
+            CGPoint(x: CGFloat($0) / 10, y: CGFloat.random(in: 0..<1))
         }
     }
 }

@@ -20,10 +20,14 @@ struct LineChartDataBackdrop: View {
                     ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
                         LineChartLineView(switchSS: ss)
                     }
+                    .offset(x: gr.size.width * 0.075, y: 0.5)
+                    .scaleEffect(CGSize(width: 1, height: -0.99))
 
                     ForEach(lineChartControls.akConfig.legends[1].legendoidRange) { ss in
                         LineChartLineView(switchSS: ss)
                     }
+                    .offset(x: gr.size.width * 0.075, y: 0.5)
+                    .scaleEffect(CGSize(width: 1, height: -0.99))
                 }
             }
         }

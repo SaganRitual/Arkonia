@@ -5,28 +5,13 @@ struct LineChartLineView: View {
 
     let switchSS: Int
 
-    func fitToFrame(_ plotPoint: CGPoint, by: CGSize) -> CGPoint {
-        let x = plotPoint.x * by.width
-        let y = (1 - plotPoint.y) * by.height * 0.98
-        return CGPoint(x: x, y: y)
-    }
-
     func midpoint(between start: CGPoint, and end: CGPoint) -> CGPoint {
         CGPoint(x: (start.x + end.x) / 2, y: (start.y + end.y) / 2)
     }
 
-    func translateToCoordinateSpace(sample: CGPoint, scale: CGSize) -> CGPoint {
-        let xm = lineChartControls.akConfig.xAxisMode
-        let ym = lineChartControls.akConfig.yAxisMode
-
-        let axisized = CGPoint(
-            x: AxisMode.adjustInputSample(sample.x, mode: xm),
-            y: AxisMode.adjustInputSample(sample.y, mode: ym)
-        )
-
-        let fitted = fitToFrame(axisized, by: scale)
-
-        return visuallyCenter(point: fitted, scale: scale)
+    func scalePointToFrame(_ point: CGPoint, scale: CGSize) -> CGPoint {
+        assert(point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1)
+        return CGPoint(x: point.x * scale.width, y: point.y * scale.height)
     }
 
     func drawLine(_ gProxy: GeometryProxy) -> Path {
@@ -35,18 +20,13 @@ struct LineChartLineView: View {
         if !lineChartControls.switches[switchSS] { return path }
 
         let dataLine = lineChartControls.dataset!.lines[switchSS]
-        let plotPoints = dataLine.getPlotPoints()
+        let plotPoints = dataLine.getPlotPoints().map {
+            scalePointToFrame($0, scale: gProxy.size)
+        }
 
-        let nonPlottedPoint = translateToCoordinateSpace(
-            sample: plotPoints[0], scale: gProxy.size
-        )
+        path.move(to: plotPoints[0])
 
-        path.move(to: nonPlottedPoint)
-
-        for (pp, cc) in zip(plotPoints.dropLast(), plotPoints.dropFirst()) {
-            let prev = translateToCoordinateSpace(sample: pp, scale: gProxy.size)
-            let curr = translateToCoordinateSpace(sample: cc, scale: gProxy.size)
-
+        for (prev, curr) in zip(plotPoints.dropLast(), plotPoints.dropFirst()) {
             let mp = midpoint(between: prev, and: curr)
             path.addQuadCurve(to: mp, control: prev)
         }
@@ -62,10 +42,6 @@ struct LineChartLineView: View {
                 .opacity(lineChartControls.switches[switchSS] ? 1 : 0)
                 .frame(minWidth: 200, minHeight: 100)
         }
-    }
-
-    func visuallyCenter(point: CGPoint, scale: CGSize) -> CGPoint {
-        CGPoint(x: point.x + 0.075 * scale.width, y: point.y + 0.01 * scale.height)
     }
 }
 
