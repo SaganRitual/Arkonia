@@ -6,12 +6,14 @@ struct LineChartTheChartView: View {
     var body: some View {
         VStack {
             LineChartHeaderView()
-                .padding(.top, 5)
 
-            LineChartDataBackdrop()
-                .padding(5)
+            LineChartAxisLabelsView()
                 .background(Color.gray)
+                .frame(maxHeight: 1.1 * 100)
         }
+        .frame(maxWidth: 1.1 * 200)
+        .padding([.trailing])
+        .background(Color(white: 0.3))
     }
 }
 

@@ -21,7 +21,7 @@ struct LineChartAxisLabelsView: View {
                             VStack {
                                 ForEach(0..<4) {
                                     Text("\(8 - 2 * $0)")
-                                        .font(lineChartControls.akConfig.axisLabelsFont)
+                                        .font(lineChartControls.akConfig.legendFont)
                                         .frame(height: 0.175 * gr.size.height)
                                 }.offset(y: -0.075 * gr.size.height)
                             }
@@ -39,7 +39,7 @@ struct LineChartAxisLabelsView: View {
                                 HStack {
                                     ForEach(0..<4) {
                                         Text("\(2 + 2 * $0)")
-                                            .font(lineChartControls.akConfig.axisLabelsFont)
+                                            .font(lineChartControls.akConfig.legendFont)
                                             .frame(width: 0.15 * gr.size.width)
                                     }
                                 }
