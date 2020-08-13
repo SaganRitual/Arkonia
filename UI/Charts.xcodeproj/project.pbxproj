@@ -21,7 +21,7 @@
 		D40724DB24E3562600FC1B43 /* LineChartTheChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724D224E3562600FC1B43 /* LineChartTheChartView.swift */; };
 		D40724DC24E3562600FC1B43 /* LineChartLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724D324E3562600FC1B43 /* LineChartLineView.swift */; };
 		D40724DD24E3562600FC1B43 /* LineChartLegendoidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724D424E3562600FC1B43 /* LineChartLegendoidView.swift */; };
-		D40724DF24E4BDC600FC1B43 /* LineChartAxisLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724DE24E4BDC600FC1B43 /* LineChartAxisLabelsView.swift */; };
+		D43EFD0A24E57D7B00B75232 /* LineChartAxisLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40724DE24E4BDC600FC1B43 /* LineChartAxisLabelsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -187,7 +187,7 @@
 				D40724DD24E3562600FC1B43 /* LineChartLegendoidView.swift in Sources */,
 				D407248324E34F8C00FC1B43 /* ContentView.swift in Sources */,
 				D407248124E34F8C00FC1B43 /* AppDelegate.swift in Sources */,
-				D40724DF24E4BDC600FC1B43 /* LineChartAxisLabelsView.swift in Sources */,
+				D43EFD0A24E57D7B00B75232 /* LineChartAxisLabelsView.swift in Sources */,
 				D40724D724E3562600FC1B43 /* LineChartHeaderView.swift in Sources */,
 				D40724DC24E3562600FC1B43 /* LineChartLineView.swift in Sources */,
 				D40724DA24E3562600FC1B43 /* LineChartConfigurations.swift in Sources */,

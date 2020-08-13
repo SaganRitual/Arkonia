@@ -24,7 +24,8 @@ class PopulationStats: ObservableObject {
 
     @Published var histogramsUpdateTrigger = 0
 
-    let foodSuccessHistograms = LineChartDataset()
+    let foodSuccessHistograms = LineChartDataset(
+    )
 
     var coreAverageAge: TimeInterval = 0
     var coreMaxAge: TimeInterval = 0 { didSet { highwaterStats.highwaterIf(.age, value: coreMaxAge) } }

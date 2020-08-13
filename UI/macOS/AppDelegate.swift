@@ -4,7 +4,7 @@ import SwiftUI
 class LineChartApp_MockLineData: LineChartLineDataProtocol {
     func getPlotPoints() -> [CGPoint] {
         (Int(0)..<Int(10)).map {
-            CGPoint(x: Double($0) / 10, y: 0)//Double.random(in: 0..<1))
+            CGPoint(x: Double($0) / 10, y: Double.random(in: 0..<1))
         }
     }
 }

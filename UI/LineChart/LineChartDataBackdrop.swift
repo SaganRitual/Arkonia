@@ -8,27 +8,30 @@ struct LineChartDataBackdrop: View {
     }
 
     var body: some View {
-        VStack {
-            ZStack {
-                GeometryReader { gr in
+        GeometryReader { gr in
+            VStack {
+                ZStack {
                     Rectangle()
+                        .frame(width: gr.size.width, height: gr.size.height)
                         .foregroundColor(lineChartControls.akConfig.chartBackdropColor)
 
                     self.drawGridLines(gr, .horizontal)
                     self.drawGridLines(gr, .vertical)
+                }.overlay(
+                    ZStack {
+                        ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
+                            LineChartLineView(switchSS: ss)
+                        }
+                        .offset(x: gr.size.width * 0.064 / 0.85)
+                        .scaleEffect(CGSize(width: 0.99 / 0.85, height: -0.99))
 
-                    ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
-                        LineChartLineView(switchSS: ss)
+                        ForEach(lineChartControls.akConfig.legends[1].legendoidRange) { ss in
+                            LineChartLineView(switchSS: ss)
+                        }
+                        .offset(x: gr.size.width * 0.064 / 0.85)
+                        .scaleEffect(CGSize(width: 0.99 / 0.85, height: -0.99))
                     }
-                    .offset(x: gr.size.width * 0.075, y: 0.5)
-                    .scaleEffect(CGSize(width: 1, height: -0.99))
-
-                    ForEach(lineChartControls.akConfig.legends[1].legendoidRange) { ss in
-                        LineChartLineView(switchSS: ss)
-                    }
-                    .offset(x: gr.size.width * 0.075, y: 0.5)
-                    .scaleEffect(CGSize(width: 1, height: -0.99))
-                }
+                )
             }
         }
     }

@@ -6,45 +6,42 @@ struct LineChartAxisLabelsView: View {
     func getLabelText(_ value: Int) -> AnyView {
         switch lineChartControls.akConfig.yAxisMode {
         case .amLinear: return AnyView(HStack { Text("\(value)") } )
-        case .amLog:    assert(false); return AnyView(HStack { Text("e"); Text("5)").baselineOffset(6) } )
-        case .amLog2:   assert(false); return AnyView(HStack { Text("2"); Text("5").baselineOffset(6) } )
         case .amLog10:  return AnyView(HStack { Text("10").padding(.trailing, -5); Text("\(value)").baselineOffset(20).padding(.leading, -2) } )
+        default: fatalError()
         }
     }
 
     var body: some View {
         ZStack {
             GeometryReader { gr in
-                ZStack {
-                    Rectangle()
-                        .frame(
-                            width: gr.size.width * 1.2,
-                            height: gr.size.height * 1.2
+                HStack(spacing: 0) {
+                    Spacer()
+                        .frame(width: gr.size.width * 0.1)
+                        .overlay(
+                            VStack {
+                                ForEach(0..<4) {
+                                    Text("\(8 - 2 * $0)")
+                                        .font(lineChartControls.akConfig.axisLabelsFont)
+
+                                    Spacer()
+                                        .frame(height: 0.075 * gr.size.height + CGFloat($0) * 0.025 * gr.size.height)
+                                }
+                            }
                         )
-                        .foregroundColor(lineChartControls.akConfig.chartBackdropColor)
 
-                    ForEach(0..<4) {
-                        getLabelText(($0 + 1) * 2)
-                            .font(lineChartControls.akConfig.axisLabelsFont)
-                            .offset(
-                                x: -gr.size.width * 0.45,
-                                y: ((1 - gr.size.height) / 6.25) * CGFloat($0) + 0.05 * gr.size.height
-                            )
+                    VStack(spacing: 0) {
+                        LineChartDataBackdrop()
 
-                        getLabelText(($0 + 1) * 2)
-                            .font(lineChartControls.akConfig.axisLabelsFont)
-                            .offset(
-                                x: -gr.size.width * 0.23 + CGFloat($0) * gr.size.width * 0.16,
-                                y: gr.size.height * 0.30
+                        Spacer()
+                            .frame(
+                                width: gr.size.width * 0.9,
+                                height: gr.size.width * 0.1 // Note: my HEIGHT same as the other guy's WIDTH
                             )
                     }
                 }
-
-                LineChartDataBackdrop()
-                    .frame(width: gr.size.width * 0.8, height: gr.size.height * 0.8)
-                    .offset(x: gr.size.width * 0.2, y: gr.size.height * 0.015)
             }
         }
+        .background(lineChartControls.akConfig.chartBackdropColor)
     }
 }
 

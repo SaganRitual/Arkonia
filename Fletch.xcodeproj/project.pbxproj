@@ -12,7 +12,6 @@
 		D400138324BD4648001D429A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D400138224BD4648001D429A /* Assets.xcassets */; };
 		D400138624BD4648001D429A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D400138524BD4648001D429A /* Preview Assets.xcassets */; };
 		D400138924BD4648001D429A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D400138724BD4648001D429A /* Main.storyboard */; };
-		D407246924E244E200FC1B43 /* LineChartDataBackdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246024E244E200FC1B43 /* LineChartDataBackdrop.swift */; };
 		D407246A24E244E200FC1B43 /* ColoredSquareToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246124E244E200FC1B43 /* ColoredSquareToggle.swift */; };
 		D407246B24E244E200FC1B43 /* LineChartHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246224E244E200FC1B43 /* LineChartHeaderView.swift */; };
 		D407246C24E244E200FC1B43 /* LineChartControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = D407246324E244E200FC1B43 /* LineChartControls.swift */; };
@@ -143,7 +142,6 @@
 		D400138824BD4648001D429A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D400138A24BD4648001D429A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D400138B24BD4648001D429A /* Fletch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fletch.entitlements; sourceTree = "<group>"; };
-		D407246024E244E200FC1B43 /* LineChartDataBackdrop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartDataBackdrop.swift; sourceTree = "<group>"; };
 		D407246124E244E200FC1B43 /* ColoredSquareToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColoredSquareToggle.swift; sourceTree = "<group>"; };
 		D407246224E244E200FC1B43 /* LineChartHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartHeaderView.swift; sourceTree = "<group>"; };
 		D407246324E244E200FC1B43 /* LineChartControls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartControls.swift; sourceTree = "<group>"; };
@@ -351,7 +349,6 @@
 				D407246124E244E200FC1B43 /* ColoredSquareToggle.swift */,
 				D407246524E244E200FC1B43 /* LineChartConfigurations.swift */,
 				D407246324E244E200FC1B43 /* LineChartControls.swift */,
-				D407246024E244E200FC1B43 /* LineChartDataBackdrop.swift */,
 				D407246224E244E200FC1B43 /* LineChartHeaderView.swift */,
 				D407246824E244E200FC1B43 /* LineChartLegendoidView.swift */,
 				D407246424E244E200FC1B43 /* LineChartLegendView.swift */,
@@ -782,7 +779,6 @@
 				D4D9924C24D31FA800653F06 /* SundialLayout.swift in Sources */,
 				D4F6646924C16A93006B95BF /* Grid.swift in Sources */,
 				D49EBA2A24C175FB0006E0E1 /* Census.Extra.swift in Sources */,
-				D407246924E244E200FC1B43 /* LineChartDataBackdrop.swift in Sources */,
 				D4F6642B24C16A93006B95BF /* SensorPad.swift in Sources */,
 				D49EBA1B24C16DE00006E0E1 /* Overload2D.swift in Sources */,
 				D407246E24E244E200FC1B43 /* LineChartConfigurations.swift in Sources */,

@@ -50,8 +50,8 @@ struct LineChartBrowsingSuccess: LineChartConfiguration {
     let chartBackdropColor = Color(white: 0.3)
     let cHorizontalLines = 10
     let cVerticalLines = 10
-    let xAxisMode = AxisMode.amLog10
-    let yAxisMode = AxisMode.amLog10
+    let xAxisMode = AxisMode.amLinear
+    let yAxisMode = AxisMode.amLinear
 
     let chartTitle = "Browsing Success"
     let axisLabelsFont = LineChartBrowsingSuccess.chartAxisLabelFont
