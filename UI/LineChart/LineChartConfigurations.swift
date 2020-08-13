@@ -51,7 +51,7 @@ struct LineChartBrowsingSuccess: LineChartConfiguration {
     let cHorizontalLines = 10
     let cVerticalLines = 10
     let xAxisMode = AxisMode.amLog10
-    let yAxisMode = AxisMode.amLinear
+    let yAxisMode = AxisMode.amLog10
 
     let chartTitle = "Browsing Success"
     let axisLabelsFont = LineChartBrowsingSuccess.chartAxisLabelFont

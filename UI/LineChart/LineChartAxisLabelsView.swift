@@ -1,21 +1,14 @@
-//
-//  LineChartAxisLabelsView.swift
-//  Charts
-//
-//  Created by Rob Bishop on 8/12/20.
-//
-
 import SwiftUI
 
 struct LineChartAxisLabelsView: View {
     @EnvironmentObject var lineChartControls: LineChartControls
 
-    func getLabelText() -> some View {
+    func getLabelText(_ value: Int) -> AnyView {
         switch lineChartControls.akConfig.yAxisMode {
-        case .amLinear: return Text("5")
-        case .amLog:    return Text("e") + Text("5").baselineOffset(6)
-        case .amLog2:   return Text("2") + Text("5").baselineOffset(6)
-        case .amLog10:  return Text("10") + Text("5").baselineOffset(6)
+        case .amLinear: return AnyView(HStack { Text("\(value)") } )
+        case .amLog:    assert(false); return AnyView(HStack { Text("e"); Text("5)").baselineOffset(6) } )
+        case .amLog2:   assert(false); return AnyView(HStack { Text("2"); Text("5").baselineOffset(6) } )
+        case .amLog10:  return AnyView(HStack { Text("10").padding(.trailing, -5); Text("\(value)").baselineOffset(20).padding(.leading, -2) } )
         }
     }
 
@@ -30,10 +23,21 @@ struct LineChartAxisLabelsView: View {
                         )
                         .foregroundColor(lineChartControls.akConfig.chartBackdropColor)
 
-                    getLabelText()
-                        .font(lineChartControls.akConfig.axisLabelsFont)
-                        .offset(x: -gr.size.width * 0.45, y: -gr.size.height * 0.2)
-                        .font(lineChartControls.akConfig.legendFont)
+                    ForEach(0..<4) {
+                        getLabelText(($0 + 1) * 2)
+                            .font(lineChartControls.akConfig.axisLabelsFont)
+                            .offset(
+                                x: -gr.size.width * 0.45,
+                                y: ((1 - gr.size.height) / 6.25) * CGFloat($0) + 0.05 * gr.size.height
+                            )
+
+                        getLabelText(($0 + 1) * 2)
+                            .font(lineChartControls.akConfig.axisLabelsFont)
+                            .offset(
+                                x: -gr.size.width * 0.23 + CGFloat($0) * gr.size.width * 0.16,
+                                y: gr.size.height * 0.30
+                            )
+                    }
                 }
 
                 LineChartDataBackdrop()

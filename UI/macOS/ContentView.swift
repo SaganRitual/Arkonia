@@ -4,7 +4,7 @@ struct ContentView: View {
     @EnvironmentObject var lineChartControls: LineChartControls
 
     var body: some View {
-        LineChartLineView(switchSS: 0)
+        LineChartAxisLabelsView()
     }
 }
 struct ContentView_Previews: PreviewProvider {
