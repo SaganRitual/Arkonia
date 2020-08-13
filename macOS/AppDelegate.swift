@@ -59,6 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let contentView = ContentView()
 //            .frame(width: newFrame.width, height: newFrame.height)
             .environmentObject(AKRandomNumberFakerator.shared)
+            .environmentObject(Census.shared.censusAgent.stats)
 
         // Create the window and set the content view. 
         window = NSWindow(

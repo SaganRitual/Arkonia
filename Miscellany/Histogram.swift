@@ -22,16 +22,23 @@ class Histogram {
     let inputRangeMode: InputRangeMode
     var theBuckets: [Bucket]
     var variableTop: Double = 10
+    let xAxisMode: AxisMode
+    let yAxisMode: AxisMode
 
     enum InputRangeMode { case minusOneToOne, zeroToVariable, zeroToMax(Int), zeroToOne }
 
     var count: Int { self.cBuckets }
 
-    init(_ cColumns: Int, _ inputRangeMode: InputRangeMode) {
+    init(
+        _ cColumns: Int, _ inputRangeMode: InputRangeMode,
+        _ xAxisMode: AxisMode, _ yAxisMode: AxisMode
+    ) {
         self.cBuckets = cColumns
         self.dBuckets = Double(cColumns)
         self.theBuckets = (0..<cColumns).map { _ in Bucket() }
         self.inputRangeMode = inputRangeMode
+        self.xAxisMode = xAxisMode
+        self.yAxisMode = yAxisMode
 
         switch inputRangeMode {
         case .minusOneToOne:           self.inputRange = Double(-1)..<Double(1)
@@ -51,16 +58,9 @@ class Histogram {
         return theBuckets.map { CGFloat($0.cSamples) / CGFloat(max.cSamples) }
     }
 
-    func track(sample: Double) {
-        addSample(xAxis: sample, yAxis: 1)
-    }
+    func addSample(sample: Double) { addSample(xAxis: sample, yAxis: 1) }
 
-    func track(cJumps: Int, against cGrazeSuccesses: Int) {
-        Debug.log(level: 224) { "track cJumps \(cJumps) against grazeSuccess \(cGrazeSuccesses)" }
-        addSample(xAxis: Double(cJumps), yAxis: Double(cGrazeSuccesses))
-    }
-
-    private func addSample(xAxis: Double, yAxis: Double) {
+    func addSample(xAxis: Double, yAxis: Double) {
         let bucketSS = getBucketFor(xAxis)
         theBuckets[bucketSS].addSample(yAxis)
     }
@@ -95,6 +95,8 @@ class Histogram {
 
         return ss
     }
+
+    func reset() { theBuckets.forEach { $0.reset() } }
 
     func scaleUp() {
         let totalSamples = theBuckets.reduce(0) { $0 + $1.cSamples }

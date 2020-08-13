@@ -6,8 +6,8 @@ enum AxisMode {
     static func adjustInputSample(_ sample: CGFloat, mode: AxisMode) -> CGFloat {
         switch mode {
         case .amLinear: return sample
-        case .amLog:    return log(sample)
-        case .amLog2:   return log2(sample)
+        case .amLog:    assert(false); return log(sample)
+        case .amLog2:   assert(false); return log2(sample)
         case .amLog10:  return log10(sample)
         }
     }

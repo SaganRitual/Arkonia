@@ -31,7 +31,7 @@ class AKRandomNumberFakerator: ObservableObject {
 
     var cSamplesGenerated = 0
     var cSamplesNormalized = 0
-    var histogram = Histogram(10, .minusOneToOne)
+    var histogram = Histogram(10, .minusOneToOne, .amLinear, .amLinear)
     var maxFloat: Float = 0
     var onComplete: () -> Void = {}
 
@@ -53,7 +53,7 @@ class AKRandomNumberFakerator: ObservableObject {
             for ss in 0..<(AKRandomNumberFakerator.cSamplesToGenerate / 200) {
                 let u = self.uniformDistribution.next(using: &ARC4RandomNumberGenerator.global)
                 self.uniformSamples[self.cSamplesGenerated + ss] = Float(u)
-                self.histogram.track(sample: u)
+                self.histogram.addSample(sample: u)
 
                 let n = self.normalDistribution.next(using: &ARC4RandomNumberGenerator.global)
                 self.normalizedSamples[self.cSamplesGenerated + ss] = n
@@ -96,7 +96,7 @@ class AKRandomNumberFakerator: ObservableObject {
                 if abs(n) == 1 { n = 0 }
 
                 self.normalizedSamples[self.cSamplesNormalized + ss] = n
-                self.histogram.track(sample: Double(n))
+                self.histogram.addSample(sample: Double(n))
             }
 
             let yValues = self.histogram.getScalarDistribution(reset: false)!

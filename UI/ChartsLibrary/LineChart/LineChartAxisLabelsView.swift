@@ -49,6 +49,10 @@ struct LineChartAxisLabelsView: View {
             }
         }
         .background(lineChartControls.akConfig.chartBackdropColor)
+        .frame(
+            minWidth: 1.1 * lineChartControls.akConfig.xScale,
+            minHeight: 1.1 * lineChartControls.akConfig.yScale
+        )
     }
 }
 

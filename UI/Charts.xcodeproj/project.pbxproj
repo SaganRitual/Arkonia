@@ -12,6 +12,16 @@
 		D407248524E34F8E00FC1B43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D407248424E34F8E00FC1B43 /* Assets.xcassets */; };
 		D407248824E34F8E00FC1B43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D407248724E34F8E00FC1B43 /* Preview Assets.xcassets */; };
 		D407248B24E34F8E00FC1B43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D407248924E34F8E00FC1B43 /* Main.storyboard */; };
+		D4DB6AE824E5B6EC006FE99E /* LineChartDataBackdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6ADE24E5B6EC006FE99E /* LineChartDataBackdrop.swift */; };
+		D4DB6AE924E5B6EC006FE99E /* ColoredSquareToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6ADF24E5B6EC006FE99E /* ColoredSquareToggle.swift */; };
+		D4DB6AEA24E5B6EC006FE99E /* LineChartHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AE024E5B6EC006FE99E /* LineChartHeaderView.swift */; };
+		D4DB6AEB24E5B6EC006FE99E /* LineChartControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AE124E5B6EC006FE99E /* LineChartControls.swift */; };
+		D4DB6AEC24E5B6EC006FE99E /* LineChartLegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AE224E5B6EC006FE99E /* LineChartLegendView.swift */; };
+		D4DB6AED24E5B6EC006FE99E /* LineChartConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AE324E5B6EC006FE99E /* LineChartConfigurations.swift */; };
+		D4DB6AEE24E5B6EC006FE99E /* LineChartTheChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AE424E5B6EC006FE99E /* LineChartTheChartView.swift */; };
+		D4DB6AEF24E5B6EC006FE99E /* LineChartLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AE524E5B6EC006FE99E /* LineChartLineView.swift */; };
+		D4DB6AF024E5B6EC006FE99E /* LineChartAxisLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AE624E5B6EC006FE99E /* LineChartAxisLabelsView.swift */; };
+		D4DB6AF124E5B6EC006FE99E /* LineChartLegendoidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AE724E5B6EC006FE99E /* LineChartLegendoidView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +33,16 @@
 		D407248A24E34F8E00FC1B43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D407248C24E34F8E00FC1B43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D407248D24E34F8E00FC1B43 /* Charts.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Charts.entitlements; sourceTree = "<group>"; };
+		D4DB6ADE24E5B6EC006FE99E /* LineChartDataBackdrop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartDataBackdrop.swift; sourceTree = "<group>"; };
+		D4DB6ADF24E5B6EC006FE99E /* ColoredSquareToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColoredSquareToggle.swift; sourceTree = "<group>"; };
+		D4DB6AE024E5B6EC006FE99E /* LineChartHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartHeaderView.swift; sourceTree = "<group>"; };
+		D4DB6AE124E5B6EC006FE99E /* LineChartControls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartControls.swift; sourceTree = "<group>"; };
+		D4DB6AE224E5B6EC006FE99E /* LineChartLegendView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegendView.swift; sourceTree = "<group>"; };
+		D4DB6AE324E5B6EC006FE99E /* LineChartConfigurations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartConfigurations.swift; sourceTree = "<group>"; };
+		D4DB6AE424E5B6EC006FE99E /* LineChartTheChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartTheChartView.swift; sourceTree = "<group>"; };
+		D4DB6AE524E5B6EC006FE99E /* LineChartLineView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLineView.swift; sourceTree = "<group>"; };
+		D4DB6AE624E5B6EC006FE99E /* LineChartAxisLabelsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartAxisLabelsView.swift; sourceTree = "<group>"; };
+		D4DB6AE724E5B6EC006FE99E /* LineChartLegendoidView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartLegendoidView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,8 +98,26 @@
 		D43EFD1124E5B4FF00B75232 /* ChartsLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				D4DB6ADD24E5B6EC006FE99E /* LineChart */,
 			);
 			path = ChartsLibrary;
+			sourceTree = "<group>";
+		};
+		D4DB6ADD24E5B6EC006FE99E /* LineChart */ = {
+			isa = PBXGroup;
+			children = (
+				D4DB6ADF24E5B6EC006FE99E /* ColoredSquareToggle.swift */,
+				D4DB6AE624E5B6EC006FE99E /* LineChartAxisLabelsView.swift */,
+				D4DB6AE324E5B6EC006FE99E /* LineChartConfigurations.swift */,
+				D4DB6AE124E5B6EC006FE99E /* LineChartControls.swift */,
+				D4DB6ADE24E5B6EC006FE99E /* LineChartDataBackdrop.swift */,
+				D4DB6AE024E5B6EC006FE99E /* LineChartHeaderView.swift */,
+				D4DB6AE724E5B6EC006FE99E /* LineChartLegendoidView.swift */,
+				D4DB6AE224E5B6EC006FE99E /* LineChartLegendView.swift */,
+				D4DB6AE524E5B6EC006FE99E /* LineChartLineView.swift */,
+				D4DB6AE424E5B6EC006FE99E /* LineChartTheChartView.swift */,
+			);
+			path = LineChart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,8 +190,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4DB6AEC24E5B6EC006FE99E /* LineChartLegendView.swift in Sources */,
+				D4DB6AEB24E5B6EC006FE99E /* LineChartControls.swift in Sources */,
 				D407248324E34F8C00FC1B43 /* ContentView.swift in Sources */,
 				D407248124E34F8C00FC1B43 /* AppDelegate.swift in Sources */,
+				D4DB6AEA24E5B6EC006FE99E /* LineChartHeaderView.swift in Sources */,
+				D4DB6AEF24E5B6EC006FE99E /* LineChartLineView.swift in Sources */,
+				D4DB6AED24E5B6EC006FE99E /* LineChartConfigurations.swift in Sources */,
+				D4DB6AE824E5B6EC006FE99E /* LineChartDataBackdrop.swift in Sources */,
+				D4DB6AE924E5B6EC006FE99E /* ColoredSquareToggle.swift in Sources */,
+				D4DB6AEE24E5B6EC006FE99E /* LineChartTheChartView.swift in Sources */,
+				D4DB6AF024E5B6EC006FE99E /* LineChartAxisLabelsView.swift in Sources */,
+				D4DB6AF124E5B6EC006FE99E /* LineChartLegendoidView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

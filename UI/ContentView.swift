@@ -10,12 +10,10 @@ struct ContentView: View {
 
             SundialView(.simpleSineAddition)
                 .frame(width: ArkoniaLayout.SeasonFactorView.frameWidth)
-                .environmentObject(Clock.shared.seasonalFactors)
 
             VStack {
                 HudView()
                     .frame(height: ArkoniaLayout.ContentView.hudHeight)
-                    .environmentObject(Census.shared.censusAgent.stats)
 
                 GameView(scene: ArkoniaScene())
 //                    .sheet(isPresented: $randomer.isBusy) {
@@ -25,21 +23,15 @@ struct ContentView: View {
 
             VStack {
                 ForEach(0..<1) { _ in
-                    LineChartTheChartView()
-                        .environmentObject(
-                            LineChartControls(
-                                LineChartBrowsingSuccess(),
-                                Census.shared.censusAgent.stats.foodSuccessHistograms
-                            )
-                        )
+                    FoodSuccessLineChart()
                         .frame(
                             width: ArkoniaLayout.LineChartView.frameWidth,
                             height: ArkoniaLayout.LineChartView.frameHeight
                         )
                         .padding([.trailing, .bottom, .leading])
+                        .environmentObject(FoodSuccessLineChartControls.controls)
                 }
-            }.environmentObject(Census.shared.censusAgent.stats)
-
+            }
         }
     }
 }

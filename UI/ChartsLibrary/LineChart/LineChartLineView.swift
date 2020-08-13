@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LineChartLineView: View {
     @EnvironmentObject var lineChartControls: LineChartControls
+    @EnvironmentObject var stats: PopulationStats
 
     let switchSS: Int
 

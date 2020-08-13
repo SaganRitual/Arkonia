@@ -37,6 +37,18 @@
 		D4A2FB9424C963D200E88803 /* AgeHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A2FB9324C963D200E88803 /* AgeHudView.swift */; };
 		D4D9924A24D31FA800653F06 /* SundialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D9924724D31FA800653F06 /* SundialView.swift */; };
 		D4D9924C24D31FA800653F06 /* SundialLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D9924924D31FA800653F06 /* SundialLayout.swift */; };
+		D4DB6ADC24E5B6C1006FE99E /* FoodSuccessLineChartConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6ADB24E5B6C1006FE99E /* FoodSuccessLineChartConfiguration.swift */; };
+		D4DB6AF324E5B7C5006FE99E /* FoodSuccessLineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AF224E5B7C5006FE99E /* FoodSuccessLineChart.swift */; };
+		D4DB6AF424E5BC81006FE99E /* LineChartDataBackdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AD024E5B563006FE99E /* LineChartDataBackdrop.swift */; };
+		D4DB6AF524E5BC81006FE99E /* LineChartHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AD224E5B563006FE99E /* LineChartHeaderView.swift */; };
+		D4DB6AF624E5BC81006FE99E /* ColoredSquareToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AD124E5B563006FE99E /* ColoredSquareToggle.swift */; };
+		D4DB6AF724E5BC81006FE99E /* LineChartAxisLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AD824E5B563006FE99E /* LineChartAxisLabelsView.swift */; };
+		D4DB6AF824E5BC81006FE99E /* LineChartLegendoidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AD924E5B563006FE99E /* LineChartLegendoidView.swift */; };
+		D4DB6AF924E5BC81006FE99E /* LineChartControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AD324E5B563006FE99E /* LineChartControls.swift */; };
+		D4DB6AFA24E5BC81006FE99E /* LineChartTheChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AD624E5B563006FE99E /* LineChartTheChartView.swift */; };
+		D4DB6AFB24E5BC81006FE99E /* LineChartLegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AD424E5B563006FE99E /* LineChartLegendView.swift */; };
+		D4DB6AFC24E5BC81006FE99E /* LineChartConfigurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AD524E5B563006FE99E /* LineChartConfigurations.swift */; };
+		D4DB6AFD24E5BC81006FE99E /* LineChartLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AD724E5B563006FE99E /* LineChartLineView.swift */; };
 		D4F663A624C088C4006B95BF /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663A524C088C4006B95BF /* GameView.swift */; };
 		D4F6642924C16A93006B95BF /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = D4F663BB24C16A92006B95BF /* LICENSE */; };
 		D4F6642A24C16A93006B95BF /* Spindle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F663BD24C16A92006B95BF /* Spindle.swift */; };
@@ -173,6 +185,8 @@
 		D4DB6AD724E5B563006FE99E /* LineChartLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartLineView.swift; sourceTree = "<group>"; };
 		D4DB6AD824E5B563006FE99E /* LineChartAxisLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartAxisLabelsView.swift; sourceTree = "<group>"; };
 		D4DB6AD924E5B563006FE99E /* LineChartLegendoidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartLegendoidView.swift; sourceTree = "<group>"; };
+		D4DB6ADB24E5B6C1006FE99E /* FoodSuccessLineChartConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodSuccessLineChartConfiguration.swift; sourceTree = "<group>"; };
+		D4DB6AF224E5B7C5006FE99E /* FoodSuccessLineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodSuccessLineChart.swift; sourceTree = "<group>"; };
 		D4F663A524C088C4006B95BF /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		D4F663BB24C16A92006B95BF /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		D4F663BD24C16A92006B95BF /* Spindle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Spindle.swift; sourceTree = "<group>"; };
@@ -348,6 +362,7 @@
 		D41396AA24CBCB9100341D97 /* Hud */ = {
 			isa = PBXGroup;
 			children = (
+				D4DB6ADA24E5B671006FE99E /* Charts */,
 				D4D9924624D31F9000653F06 /* Sundial */,
 				D4A2FB9324C963D200E88803 /* AgeHudView.swift */,
 				D4F78B6424C75B690035F415 /* AlmanacHudView.swift */,
@@ -394,18 +409,27 @@
 		D4DB6ACF24E5B563006FE99E /* LineChart */ = {
 			isa = PBXGroup;
 			children = (
-				D4DB6AD024E5B563006FE99E /* LineChartDataBackdrop.swift */,
 				D4DB6AD124E5B563006FE99E /* ColoredSquareToggle.swift */,
-				D4DB6AD224E5B563006FE99E /* LineChartHeaderView.swift */,
-				D4DB6AD324E5B563006FE99E /* LineChartControls.swift */,
-				D4DB6AD424E5B563006FE99E /* LineChartLegendView.swift */,
-				D4DB6AD524E5B563006FE99E /* LineChartConfigurations.swift */,
-				D4DB6AD624E5B563006FE99E /* LineChartTheChartView.swift */,
-				D4DB6AD724E5B563006FE99E /* LineChartLineView.swift */,
 				D4DB6AD824E5B563006FE99E /* LineChartAxisLabelsView.swift */,
+				D4DB6AD524E5B563006FE99E /* LineChartConfigurations.swift */,
+				D4DB6AD324E5B563006FE99E /* LineChartControls.swift */,
+				D4DB6AD024E5B563006FE99E /* LineChartDataBackdrop.swift */,
+				D4DB6AD224E5B563006FE99E /* LineChartHeaderView.swift */,
 				D4DB6AD924E5B563006FE99E /* LineChartLegendoidView.swift */,
+				D4DB6AD424E5B563006FE99E /* LineChartLegendView.swift */,
+				D4DB6AD724E5B563006FE99E /* LineChartLineView.swift */,
+				D4DB6AD624E5B563006FE99E /* LineChartTheChartView.swift */,
 			);
 			path = LineChart;
+			sourceTree = "<group>";
+		};
+		D4DB6ADA24E5B671006FE99E /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				D4DB6AF224E5B7C5006FE99E /* FoodSuccessLineChart.swift */,
+				D4DB6ADB24E5B6C1006FE99E /* FoodSuccessLineChartConfiguration.swift */,
+			);
+			path = Charts;
 			sourceTree = "<group>";
 		};
 		D4F663BC24C16A92006B95BF /* Arkon */ = {
@@ -701,13 +725,16 @@
 				D46C986624CF253A0056BF4B /* BrainyHudView.swift in Sources */,
 				D49EBA1924C16DE00006E0E1 /* AKPoint.swift in Sources */,
 				D4F6646124C16A93006B95BF /* Protocols.swift in Sources */,
+				D4DB6AF724E5BC81006FE99E /* LineChartAxisLabelsView.swift in Sources */,
 				D4A2FB9424C963D200E88803 /* AgeHudView.swift in Sources */,
 				D4F6646224C16A93006B95BF /* Pollenator.swift in Sources */,
 				D4F6647124C16A93006B95BF /* MPSImage+Floats.swift in Sources */,
 				D4FE3F9424BED7720055D095 /* Cbuffer.swift in Sources */,
 				D4F6646524C16A93006B95BF /* GridIndexer.swift in Sources */,
+				D4DB6ADC24E5B6C1006FE99E /* FoodSuccessLineChartConfiguration.swift in Sources */,
 				D4F78B6324C550A20035F415 /* ArkoniaLayout.swift in Sources */,
 				D4252D1324CA439400F1C2DC /* OffspringHudView.swift in Sources */,
+				D4DB6AF824E5BC81006FE99E /* LineChartLegendoidView.swift in Sources */,
 				D4F6645E24C16A93006B95BF /* Manna.EnergyBudget.swift in Sources */,
 				D400138124BD4647001D429A /* ContentView.swift in Sources */,
 				D4F6644E24C16A93006B95BF /* Digestion.Surplus.swift in Sources */,
@@ -721,6 +748,7 @@
 				D4F6646F24C16A93006B95BF /* HotLayerBnn.swift in Sources */,
 				D4F6646024C16A93006B95BF /* Manna.Sprite.swift in Sources */,
 				D407247324E26FC500FC1B43 /* HudView.swift in Sources */,
+				D4DB6AF324E5B7C5006FE99E /* FoodSuccessLineChart.swift in Sources */,
 				D4F6644824C16A93006B95BF /* OozeStorage.swift in Sources */,
 				D4F6643324C16A93006B95BF /* LayerStructures.swift in Sources */,
 				D4F6643E24C16A93006B95BF /* MoveStepper.swift in Sources */,
@@ -756,6 +784,9 @@
 				D4F6644624C16A93006B95BF /* Arkon.EnergyBudget.swift in Sources */,
 				D49EBA2924C175FB0006E0E1 /* CensusAgent.swift in Sources */,
 				D4F6644B24C16A93006B95BF /* Digestion.swift in Sources */,
+				D4DB6AFC24E5BC81006FE99E /* LineChartConfigurations.swift in Sources */,
+				D4DB6AF524E5BC81006FE99E /* LineChartHeaderView.swift in Sources */,
+				D4DB6AF424E5BC81006FE99E /* LineChartDataBackdrop.swift in Sources */,
 				D4F6643F24C16A93006B95BF /* DriveNetSignal.swift in Sources */,
 				D4F6642A24C16A93006B95BF /* Spindle.swift in Sources */,
 				D4F6643424C16A93006B95BF /* DriveResponse.swift in Sources */,
@@ -764,11 +795,13 @@
 				D49EBA2424C170CE0006E0E1 /* Tensor.Utilities.swift in Sources */,
 				D4F6646624C16A93006B95BF /* GridCore.swift in Sources */,
 				D4F6647B24C16A93006B95BF /* Clock.swift in Sources */,
+				D4DB6AF624E5BC81006FE99E /* ColoredSquareToggle.swift in Sources */,
 				D4F6645224C16A93006B95BF /* Transfer.swift in Sources */,
 				D4F6644724C16A93006B95BF /* ArkonBuilder.swift in Sources */,
 				D4F6647524C16A93006B95BF /* AKMatrix.swift in Sources */,
 				D438AC2B24CFD3AB0021E65E /* Fishday.swift in Sources */,
 				D4F6645724C16A93006B95BF /* SKSpriteNode.swift in Sources */,
+				D4DB6AFB24E5BC81006FE99E /* LineChartLegendView.swift in Sources */,
 				D4F6645324C16A93006B95BF /* SceneDispatch.swift in Sources */,
 				D4F6646A24C16A93006B95BF /* GridCell.swift in Sources */,
 				D49EBA2B24C175FB0006E0E1 /* Census.swift in Sources */,
@@ -781,13 +814,16 @@
 				D49EBA1B24C16DE00006E0E1 /* Overload2D.swift in Sources */,
 				D4D9924A24D31FA800653F06 /* SundialView.swift in Sources */,
 				D4F663A624C088C4006B95BF /* GameView.swift in Sources */,
+				D4DB6AFA24E5BC81006FE99E /* LineChartTheChartView.swift in Sources */,
 				D45EEC7F24C8F61B00527632 /* PopulationStats.swift in Sources */,
 				D4F6647324C16A93006B95BF /* HotNetBlas.swift in Sources */,
 				D4F6645C24C16A93006B95BF /* MannaCannon.swift in Sources */,
 				D4F6644D24C16A93006B95BF /* Metabolism.swift in Sources */,
+				D4DB6AF924E5BC81006FE99E /* LineChartControls.swift in Sources */,
 				D4F6643824C16A93006B95BF /* EngageGrid.swift in Sources */,
 				D4F6645B24C16A93006B95BF /* SpritePool.swift in Sources */,
 				D4F6644C24C16A93006B95BF /* Jump.swift in Sources */,
+				D4DB6AFD24E5BC81006FE99E /* LineChartLineView.swift in Sources */,
 				D46C986824CF35B90056BF4B /* Histogram.swift in Sources */,
 				D41396A824CB889900341D97 /* Parasitize.swift in Sources */,
 				D4F6642E24C16A93006B95BF /* SensorPad.Translate.swift in Sources */,

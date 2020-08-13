@@ -43,7 +43,7 @@ class CensusAgent {
                 continue
             }
 
-            stats.foodSuccessHistograms.lines[0].track(cJumps: arkon.cJumps, against: arkon.cVeggieBites)
+            stats.foodSuccessLineChart.receiveSamples(cJumps: arkon.cJumps, cVeggieBites: arkon.cVeggieBites)
 
             stats.coreCNeurons += arkon.net.netStructure.cNeurons
             stats.coreCurrentPopulation += 1
