@@ -2,7 +2,6 @@ import SwiftUI
 
 struct LineChartLineView: View {
     @EnvironmentObject var lineChartControls: LineChartControls
-    @EnvironmentObject var stats: PopulationStats
 
     let switchSS: Int
 
@@ -32,6 +31,12 @@ struct LineChartLineView: View {
             path.addQuadCurve(to: mp, control: prev)
         }
 
+//        path.move(to: CGPoint(x: 0.35 * gProxy.size.width, y: 0.25 * gProxy.size.height))
+//        path.addLine(to: CGPoint(x: 0.5 * gProxy.size.width, y: gProxy.size.height))
+//        path.addLine(to: CGPoint(x: 0.85 * gProxy.size.width, y: 0.6 * gProxy.size.height))
+//        path.addLine(to: CGPoint(x: 0, y: 0))
+//        path.closeSubpath()
+
         return path
     }
 
@@ -41,7 +46,7 @@ struct LineChartLineView: View {
                 .stroke(lineWidth: (gr.size.width + gr.size.height) * 0.003)
                 .foregroundColor(lineChartControls.akConfig.legendoids[switchSS].color)
                 .opacity(lineChartControls.switches[switchSS] ? 1 : 0)
-                .frame(minWidth: 200, minHeight: 100)
+                .scaleEffect(CGSize(width: 1.0, height: -1.0))
         }
     }
 }

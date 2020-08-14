@@ -20,7 +20,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Create the SwiftUI view that provides the window contents.
         let contentView =
             ContentView()
-            .frame(width: contentRect.width, height: contentRect.height)
             .environmentObject(MockLineChartControls.controls)
 
         // Create the window and set the content view.
