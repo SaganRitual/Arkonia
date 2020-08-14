@@ -20,6 +20,12 @@ struct LineChartLegendoidConfiguration {
     let text: String
 }
 
+struct LineChartTopMarker {
+    let axisMode: AxisMode
+    let base: String
+    let exponent: String
+}
+
 struct LineChartLegendConfiguration {
     let legendoidRange: Range<Int>
     let legendTitle: String
@@ -37,8 +43,13 @@ protocol LineChartConfiguration {
     var yAxisMode: AxisMode { get }
     var xScale: CGFloat { get }
     var yScale: CGFloat { get }
+    var xAxisTitle: String { get }
+    var yAxisTitle: String { get }
+    var xAxisTopMarker: LineChartTopMarker { get }
+    var yAxisTopMarker: LineChartTopMarker { get }
 
     var axisLabelsFont: Font { get }
+    var axisLabelsFontSize: CGFloat { get }
     var legendFont: Font { get }
     var titleFont: Font { get }
 
@@ -51,10 +62,17 @@ struct LineChartBrowsingSuccess: LineChartConfiguration {
     let cHorizontalLines = 10
     let cVerticalLines = 10
     let xAxisMode = AxisMode.amLinear
-    let yAxisMode = AxisMode.amLinear
+    let yAxisMode = AxisMode.amLog10
 
     let chartTitle = "Browsing Success"
+    let xAxisTitle = "Veggie bites/jump"
+    let yAxisTopMarker = LineChartTopMarker(axisMode: .amLog10, base: "10", exponent: "%d")
+    let yAxisTitle = "Jumps"
+    let xAxisTopMarker = LineChartTopMarker(axisMode: .amLinear, base: "%d%%", exponent: "")
+
     let axisLabelsFont = LineChartBrowsingSuccess.chartAxisLabelFont
+    let axisLabelsFontSize = LineChartBrowsingSuccess.chartAxisLabelFontSize
+
     let legendFont = LineChartBrowsingSuccess.meterFont
     let titleFont = LineChartBrowsingSuccess.labelFont
 
@@ -79,7 +97,7 @@ struct LineChartBrowsingSuccess: LineChartConfiguration {
 }
 
 extension LineChartBrowsingSuccess {
-    static let chartAxisLabelFontSize = CGFloat(10)
+    static let chartAxisLabelFontSize = CGFloat(12)
     static let labelFontSize = CGFloat(10)
     static let meterFontSize = CGFloat(8)
 

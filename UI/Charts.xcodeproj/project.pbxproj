@@ -12,6 +12,8 @@
 		D407248524E34F8E00FC1B43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D407248424E34F8E00FC1B43 /* Assets.xcassets */; };
 		D407248824E34F8E00FC1B43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D407248724E34F8E00FC1B43 /* Preview Assets.xcassets */; };
 		D407248B24E34F8E00FC1B43 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D407248924E34F8E00FC1B43 /* Main.storyboard */; };
+		D48FAC7224E659A800BB8D23 /* LineChartAxisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48FAC7124E659A800BB8D23 /* LineChartAxisView.swift */; };
+		D4B7EAD624E6B95F00A5A77B /* ViewBoundsTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7EAD524E6B95F00A5A77B /* ViewBoundsTool.swift */; };
 		D4DB6AE824E5B6EC006FE99E /* LineChartDataBackdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6ADE24E5B6EC006FE99E /* LineChartDataBackdrop.swift */; };
 		D4DB6AE924E5B6EC006FE99E /* ColoredSquareToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6ADF24E5B6EC006FE99E /* ColoredSquareToggle.swift */; };
 		D4DB6AEA24E5B6EC006FE99E /* LineChartHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6AE024E5B6EC006FE99E /* LineChartHeaderView.swift */; };
@@ -33,6 +35,8 @@
 		D407248A24E34F8E00FC1B43 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D407248C24E34F8E00FC1B43 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D407248D24E34F8E00FC1B43 /* Charts.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Charts.entitlements; sourceTree = "<group>"; };
+		D48FAC7124E659A800BB8D23 /* LineChartAxisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartAxisView.swift; sourceTree = "<group>"; };
+		D4B7EAD524E6B95F00A5A77B /* ViewBoundsTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBoundsTool.swift; sourceTree = "<group>"; };
 		D4DB6ADE24E5B6EC006FE99E /* LineChartDataBackdrop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartDataBackdrop.swift; sourceTree = "<group>"; };
 		D4DB6ADF24E5B6EC006FE99E /* ColoredSquareToggle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColoredSquareToggle.swift; sourceTree = "<group>"; };
 		D4DB6AE024E5B6EC006FE99E /* LineChartHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartHeaderView.swift; sourceTree = "<group>"; };
@@ -99,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				D4DB6ADD24E5B6EC006FE99E /* LineChart */,
+				D4B7EAD524E6B95F00A5A77B /* ViewBoundsTool.swift */,
 			);
 			path = ChartsLibrary;
 			sourceTree = "<group>";
@@ -108,6 +113,7 @@
 			children = (
 				D4DB6ADF24E5B6EC006FE99E /* ColoredSquareToggle.swift */,
 				D4DB6AE624E5B6EC006FE99E /* LineChartAxisLabelsView.swift */,
+				D48FAC7124E659A800BB8D23 /* LineChartAxisView.swift */,
 				D4DB6AE324E5B6EC006FE99E /* LineChartConfigurations.swift */,
 				D4DB6AE124E5B6EC006FE99E /* LineChartControls.swift */,
 				D4DB6ADE24E5B6EC006FE99E /* LineChartDataBackdrop.swift */,
@@ -193,6 +199,7 @@
 				D4DB6AEC24E5B6EC006FE99E /* LineChartLegendView.swift in Sources */,
 				D4DB6AEB24E5B6EC006FE99E /* LineChartControls.swift in Sources */,
 				D407248324E34F8C00FC1B43 /* ContentView.swift in Sources */,
+				D48FAC7224E659A800BB8D23 /* LineChartAxisView.swift in Sources */,
 				D407248124E34F8C00FC1B43 /* AppDelegate.swift in Sources */,
 				D4DB6AEA24E5B6EC006FE99E /* LineChartHeaderView.swift in Sources */,
 				D4DB6AEF24E5B6EC006FE99E /* LineChartLineView.swift in Sources */,
@@ -202,6 +209,7 @@
 				D4DB6AEE24E5B6EC006FE99E /* LineChartTheChartView.swift in Sources */,
 				D4DB6AF024E5B6EC006FE99E /* LineChartAxisLabelsView.swift in Sources */,
 				D4DB6AF124E5B6EC006FE99E /* LineChartLegendoidView.swift in Sources */,
+				D4B7EAD624E6B95F00A5A77B /* ViewBoundsTool.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

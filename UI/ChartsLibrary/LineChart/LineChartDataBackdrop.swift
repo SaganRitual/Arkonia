@@ -9,30 +9,30 @@ struct LineChartDataBackdrop: View {
 
     var body: some View {
         GeometryReader { gr in
-            VStack {
-                ZStack {
-                    Rectangle()
-                        .foregroundColor(lineChartControls.akConfig.chartBackdropColor)
+            ZStack {
+                Rectangle()
+                    .foregroundColor(lineChartControls.akConfig.chartBackdropColor)
 
-                    self.drawGridLines(gr, .horizontal)
-                    self.drawGridLines(gr, .vertical)
-                }
-                .overlay(
-                    ZStack {
-                        Group {
-                            ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
-                                LineChartLineView(switchSS: ss)
-                            }
-
-                            ForEach(lineChartControls.akConfig.legends[1].legendoidRange) { ss in
-                                LineChartLineView(switchSS: ss)
-                            }
-                        }
-                        .scaleEffect(CGSize(width: 1.0 / 0.85, height: 1.0))
-                        .offset(x: ((1.0 / 0.85) - 1) / 2 * gr.size.width)
-                    }
-                )
+                self.drawGridLines(gr, .horizontal)
+                self.drawGridLines(gr, .vertical)
             }
+            .overlay(
+                ZStack {
+                    ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
+                        LineChartLineView(switchSS: ss)
+                    }
+
+                    ForEach(lineChartControls.akConfig.legends[1].legendoidRange) { ss in
+                        LineChartLineView(switchSS: ss)
+                    }
+                }
+                // Scale the plots to the full 10x10 grid. The 0.85 is
+                // because when we draw a quad curve, we plot the last
+                // point at the midpoint betwen 0.8 & 0.9, so all our lines
+                // stop at x = 0.85
+                .scaleEffect(CGSize(width: 1.0 / 0.85, height: 1.0))
+                .offset(x: ((1.0 / 0.85) - 1) / 2 * gr.size.width)
+            )
         }
     }
 }

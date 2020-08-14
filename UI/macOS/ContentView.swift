@@ -4,7 +4,7 @@ struct ContentView: View {
     @EnvironmentObject var lineChartControls: LineChartControls
 
     var body: some View {
-        LineChartDataBackdrop()
+        LineChartAxisLabelsView()
 //        LineChartTheChartView()
 //            .padding(.top, 3)
 //            .border(Color.black)
