@@ -4,11 +4,7 @@ struct ContentView: View {
     @EnvironmentObject var lineChartControls: LineChartControls
 
     var body: some View {
-        LineChartAxisLabelsView()
-//        LineChartTheChartView()
-//            .padding(.top, 3)
-//            .border(Color.black)
-//            .background(lineChartControls.akConfig.chartBackdropColor)
+        LineChartTheChartView()
     }
 }
 struct ContentView_Previews: PreviewProvider {

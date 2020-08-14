@@ -41,8 +41,6 @@ protocol LineChartConfiguration {
 
     var xAxisMode: AxisMode { get }
     var yAxisMode: AxisMode { get }
-    var xScale: CGFloat { get }
-    var yScale: CGFloat { get }
     var xAxisTitle: String { get }
     var yAxisTitle: String { get }
     var xAxisTopMarker: LineChartTopMarker { get }
@@ -75,9 +73,6 @@ struct LineChartBrowsingSuccess: LineChartConfiguration {
 
     let legendFont = LineChartBrowsingSuccess.meterFont
     let titleFont = LineChartBrowsingSuccess.labelFont
-
-    let xScale = CGFloat(300)
-    let yScale = CGFloat(200)
 
     let legends = [
         LineChartLegendConfiguration(

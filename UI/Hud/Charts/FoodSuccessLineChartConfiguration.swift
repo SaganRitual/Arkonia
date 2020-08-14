@@ -4,29 +4,33 @@ struct FoodSuccessLineChartConfiguration: LineChartConfiguration {
     let chartBackdropColor = Color(white: 0.3)
     let cHorizontalLines = 10
     let cVerticalLines = 10
-    let xAxisMode = AxisMode.amLog10
-    let yAxisMode = AxisMode.amLinear
+    let xAxisMode = AxisMode.amLinear
+    let yAxisMode = AxisMode.amLog10
 
     let chartTitle = "Browsing Success"
+    let xAxisTitle = "Veggie bites/jump"
+    let yAxisTopMarker = LineChartTopMarker(axisMode: .amLog10, base: "10", exponent: "%d")
+    let yAxisTitle = "Jumps"
+    let xAxisTopMarker = LineChartTopMarker(axisMode: .amLinear, base: "%d%%", exponent: "")
+
     let axisLabelsFont = FoodSuccessLineChartConfiguration.chartAxisLabelFont
+    let axisLabelsFontSize = FoodSuccessLineChartConfiguration.chartAxisLabelFontSize
+
     let legendFont = FoodSuccessLineChartConfiguration.meterFont
     let titleFont = FoodSuccessLineChartConfiguration.labelFont
-
-    let xScale = CGFloat(200)
-    let yScale = CGFloat(100)
 
     let legends = [
         LineChartLegendConfiguration(
             legendoidRange: 0..<1, legendTitle: "Current", titleEdge: .leading
-        ),
-        LineChartLegendConfiguration(
-            legendoidRange: 0..<0, legendTitle: "All-time", titleEdge: .trailing
-        )
+        )//,
+//        LineChartLegendConfiguration(
+//            legendoidRange: 2..<4, legendTitle: "All-time", titleEdge: .trailing
+//        )
     ]
 
     let legendoids = [
 //        LineChartLegendoidConfiguration(color: .red, text: "Max"),
-        LineChartLegendoidConfiguration(color: .green, text: "Avg")
+        LineChartLegendoidConfiguration(color: .green, text: "Avg"),
 //        LineChartLegendoidConfiguration(color: .blue, text: "Max"),
 //        LineChartLegendoidConfiguration(color: .orange, text: "Avg")
     ]

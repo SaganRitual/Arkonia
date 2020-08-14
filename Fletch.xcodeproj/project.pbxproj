@@ -35,6 +35,7 @@
 		D49EBA2A24C175FB0006E0E1 /* Census.Extra.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */; };
 		D49EBA2B24C175FB0006E0E1 /* Census.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49EBA2824C175FB0006E0E1 /* Census.swift */; };
 		D4A2FB9424C963D200E88803 /* AgeHudView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A2FB9324C963D200E88803 /* AgeHudView.swift */; };
+		D4B7EADA24E74D3F00A5A77B /* LineChartAxisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B7EAD824E74D3F00A5A77B /* LineChartAxisView.swift */; };
 		D4D9924A24D31FA800653F06 /* SundialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D9924724D31FA800653F06 /* SundialView.swift */; };
 		D4D9924C24D31FA800653F06 /* SundialLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D9924924D31FA800653F06 /* SundialLayout.swift */; };
 		D4DB6ADC24E5B6C1006FE99E /* FoodSuccessLineChartConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DB6ADB24E5B6C1006FE99E /* FoodSuccessLineChartConfiguration.swift */; };
@@ -172,6 +173,7 @@
 		D49EBA2724C175FB0006E0E1 /* Census.Extra.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.Extra.swift; sourceTree = "<group>"; };
 		D49EBA2824C175FB0006E0E1 /* Census.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Census.swift; sourceTree = "<group>"; };
 		D4A2FB9324C963D200E88803 /* AgeHudView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeHudView.swift; sourceTree = "<group>"; };
+		D4B7EAD824E74D3F00A5A77B /* LineChartAxisView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChartAxisView.swift; sourceTree = "<group>"; };
 		D4D9924724D31FA800653F06 /* SundialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SundialView.swift; sourceTree = "<group>"; };
 		D4D9924824D31FA800653F06 /* Curve.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curve.swift; sourceTree = "<group>"; };
 		D4D9924924D31FA800653F06 /* SundialLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SundialLayout.swift; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 			children = (
 				D4DB6AD124E5B563006FE99E /* ColoredSquareToggle.swift */,
 				D4DB6AD824E5B563006FE99E /* LineChartAxisLabelsView.swift */,
+				D4B7EAD824E74D3F00A5A77B /* LineChartAxisView.swift */,
 				D4DB6AD524E5B563006FE99E /* LineChartConfigurations.swift */,
 				D4DB6AD324E5B563006FE99E /* LineChartControls.swift */,
 				D4DB6AD024E5B563006FE99E /* LineChartDataBackdrop.swift */,
@@ -773,6 +776,7 @@
 				D49EBA1A24C16DE00006E0E1 /* AKRandomer.swift in Sources */,
 				D4F6643624C16A93006B95BF /* NetStructure.swift in Sources */,
 				D4F6643D24C16A93006B95BF /* Spawn.swift in Sources */,
+				D4B7EADA24E74D3F00A5A77B /* LineChartAxisView.swift in Sources */,
 				D4F6644324C16A93006B95BF /* ArkonName.swift in Sources */,
 				D4F6644924C16A93006B95BF /* EnergyBudget.Protocols.swift in Sources */,
 				D4F6642F24C16A93006B95BF /* ArkonEmbryo.swift in Sources */,

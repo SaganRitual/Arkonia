@@ -66,10 +66,8 @@ struct LineChartAxisView: View {
     }
 
     var body: some View {
-        Group {
-            if whichAxis.x == 1 { drawHorizontal() }
-            else if whichAxis.y == 1 { drawVertical() }
-        }
+        if whichAxis.x == 1 { drawHorizontal() }
+        else if whichAxis.y == 1 { drawVertical() }
     }
 }
 

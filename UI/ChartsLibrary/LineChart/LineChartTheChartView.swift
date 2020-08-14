@@ -9,11 +9,8 @@ struct LineChartTheChartView: View {
 
             LineChartAxisLabelsView()
                 .background(Color.gray)
-                .frame(maxHeight: 1.1 * lineChartControls.akConfig.yScale)
+                .frame(minHeight: 100)
         }
-        .frame(maxWidth: 1.1 * lineChartControls.akConfig.xScale)
-        .padding([.trailing])
-        .background(Color(white: 0.3))
     }
 }
 

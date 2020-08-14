@@ -21,10 +21,10 @@ struct LineChartDataBackdrop: View {
                     ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
                         LineChartLineView(switchSS: ss)
                     }
-
-                    ForEach(lineChartControls.akConfig.legends[1].legendoidRange) { ss in
-                        LineChartLineView(switchSS: ss)
-                    }
+//
+//                    ForEach(lineChartControls.akConfig.legends[1].legendoidRange) { ss in
+//                        LineChartLineView(switchSS: ss)
+//                    }
                 }
                 // Scale the plots to the full 10x10 grid. The 0.85 is
                 // because when we draw a quad curve, we plot the last

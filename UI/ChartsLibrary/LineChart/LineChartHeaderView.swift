@@ -17,8 +17,8 @@ struct LineChartHeaderView: View {
 
                 Spacer()
 
-                LineChartLegendView(legendSS: 1, legendoidRange: lineChartControls.akConfig.legends[1].legendoidRange)
-                    .frame(maxWidth: .infinity)
+//                LineChartLegendView(legendSS: 1, legendoidRange: lineChartControls.akConfig.legends[1].legendoidRange)
+//                    .frame(maxWidth: .infinity)
             }.font(lineChartControls.akConfig.legendFont)
         }
     }
