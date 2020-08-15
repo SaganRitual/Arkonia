@@ -74,7 +74,7 @@ private extension Census {
 
     func updateReports_C() {
         DispatchQueue.main.async {
-            self.censusAgent.stats.updateUI()
+            self.censusAgent.stats.hudUpdateTrigger.toggle()
             self.updateReports()
         }
     }

@@ -4,11 +4,11 @@ protocol LineChartLineDataProtocol: class {
     func getPlotPoints() -> (CGFloat, [CGPoint])
 }
 
-class LineChartDataset: ObservableObject {
-    @Published var xAxisTopBaseValue: CGFloat = 100
-    @Published var xAxisTopExponentValue: CGFloat = 0
-    @Published var yAxisTopBaseValue: CGFloat = 10
-    @Published var yAxisTopExponentValue: CGFloat = 1
+class LineChartDataset {
+    var xAxisTopBaseValue: CGFloat = 100
+    var xAxisTopExponentValue: CGFloat = 0
+    var yAxisTopBaseValue: CGFloat = 10
+    var yAxisTopExponentValue: CGFloat = 1
 
     let lines: [LineChartLineDataProtocol]
 

@@ -1,25 +1,29 @@
 import SwiftUI
 
 struct LineChartDataBackdrop: View {
-    @EnvironmentObject var foodSuccessLineChartControls: LineChartControls
+    let lineChartControls: LineChartControls
+
+    init(_ c: LineChartControls) { self.lineChartControls = c }
 
     func getColor(_ ss: Int) -> Color {
-        foodSuccessLineChartControls.akConfig.legendoids[ss].color
+        lineChartControls.akConfig.legendoids[ss].color
     }
+
+    let stretch: CGFloat = 1.0 / 0.85
 
     var body: some View {
         GeometryReader { gr in
             ZStack {
                 Rectangle()
-                    .foregroundColor(foodSuccessLineChartControls.akConfig.chartBackdropColor)
+                    .foregroundColor(lineChartControls.akConfig.chartBackdropColor)
 
                 self.drawGridLines(gr, .horizontal)
                 self.drawGridLines(gr, .vertical)
             }
             .overlay(
                 ZStack {
-                    ForEach(foodSuccessLineChartControls.akConfig.legends[0].legendoidRange) { ss in
-                        LineChartLineView(switchSS: ss)
+                    ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
+                        LineChartLineView(lineChartControls, switchSS: ss)
                     }
 //
 //                    ForEach(lineChartControls.akConfig.legends[1].legendoidRange) { ss in
@@ -30,8 +34,8 @@ struct LineChartDataBackdrop: View {
                 // because when we draw a quad curve, we plot the last
                 // point at the midpoint betwen 0.8 & 0.9, so all our lines
                 // stop at x = 0.85
-                .scaleEffect(CGSize(width: 1.0 / 0.85, height: 1.0))
-                .offset(x: ((1.0 / 0.85) - 1) / 2 * gr.size.width)
+                .scaleEffect(CGSize(width: stretch, height: 1.0))
+                .offset(x: (stretch - 1) / 2 * gr.size.width)
             )
         }
     }
@@ -42,8 +46,8 @@ extension LineChartDataBackdrop {
         _ gProxy: GeometryProxy, _ direction: GridLinesDirection
     ) -> some View {
         let cLines = direction == .vertical ?
-            foodSuccessLineChartControls.akConfig.cVerticalLines :
-            foodSuccessLineChartControls.akConfig.cHorizontalLines
+            lineChartControls.akConfig.cVerticalLines :
+            lineChartControls.akConfig.cHorizontalLines
 
         return ForEach(0..<(cLines + 1)) { ss in
             Path { path in
@@ -67,10 +71,10 @@ extension LineChartDataBackdrop {
         }
     }
 }
-
-struct LineChartDataBackdrop_Previews: PreviewProvider {
-    static var previews: some View {
-        LineChartDataBackdrop()
-            .environmentObject(MockLineChartControls.controls)
-    }
-}
+//
+//struct LineChartDataBackdrop_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LineChartDataBackdrop()
+//            .environmentObject(MockLineChartControls.controls)
+//    }
+//}

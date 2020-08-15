@@ -1,9 +1,7 @@
 import SwiftUI
 
 struct FoodSuccessLineChart: View {
-    @EnvironmentObject var stats: PopulationStats
-
-    var body: some View { LineChartTheChartView() }
+    var body: some View { LineChartTheChartView(Census.shared.censusAgent.stats.foodSuccessLineChartControls.controls) }
 }
 
 class FoodSuccessLineData: LineChartLineDataProtocol {
@@ -39,8 +37,6 @@ class FoodSuccessLineChartControls {
     let controls: LineChartControls
     let dataset: LineChartDataset
 
-    let maxY: CGFloat = 0
-
     init() {
         dataset = LineChartDataset(
             count: akConfig.legendoids.count,
@@ -59,11 +55,5 @@ class FoodSuccessLineChartControls {
         let line = (dataset.lines[0] as? FoodSuccessLineData)!
         let browsingSuccess = Double(cVeggieBites) / Double(cJumps)
         line.histogram.addSample(xAxis: browsingSuccess, yAxis: Double(cJumps))
-    }
-
-    func updateUI() {
-        DispatchQueue.main.async {
-            self.dataset.yAxisTopExponentValue = max(CGFloat(cJumps), self.dataset.yAxisTopExponentValue)
-        }
     }
 }

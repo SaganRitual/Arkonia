@@ -1,20 +1,21 @@
 import SwiftUI
 
 struct LineChartLegendView: View {
-    @EnvironmentObject var foodSuccessLineChartControls: LineChartControls
 
     let checkLeft: Bool
     let legendSS: Int
     let legendoidRange: Range<Int>
+    let lineChartControls: LineChartControls
 
-    init(legendSS: Int, legendoidRange: Range<Int>) {
+    init(_ c: LineChartControls, legendSS: Int, legendoidRange: Range<Int>) {
+        self.lineChartControls = c
         self.legendSS = legendSS
         self.legendoidRange = legendoidRange
         self.checkLeft = legendoidRange.lowerBound == 0
     }
 
     func getLegendText() -> some View {
-        let legend = foodSuccessLineChartControls.akConfig.legends[legendSS]
+        let legend = lineChartControls.akConfig.legends[legendSS]
 
         if legend.titleEdge == (checkLeft ? .leading : .trailing) {
             return AnyView(Text(legend.legendTitle)
@@ -42,13 +43,6 @@ struct LineChartLegendView: View {
         }
     }
 
-    var body: some View { buildControls().font(foodSuccessLineChartControls.akConfig.legendFont) }
-}
-
-struct LineChartLegend_Previews: PreviewProvider {
-    static var previews: some View {
-        LineChartLegendView(legendSS: 0, legendoidRange: 0..<2)
-            .environmentObject(MockLineChartControls.controls)
-    }
+    var body: some View { buildControls().font(lineChartControls.akConfig.legendFont) }
 }
 

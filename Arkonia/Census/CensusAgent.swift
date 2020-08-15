@@ -46,8 +46,8 @@ class CensusAgent {
             Debug.log(level: 226) { "addSample(cJumps: \(arkon.cJumps), cVeggieBites: \(arkon.cVeggieBites))" }
             stats.foodSuccessLineChartControls.addSample(cJumps: arkon.cJumps, cVeggieBites: arkon.cVeggieBites)
 
-            stats.coreCNeurons += arkon.net.netStructure.cNeurons
-            stats.coreCurrentPopulation += 1
+            stats.cNeurons += arkon.net.netStructure.cNeurons
+            stats.currentPopulation += 1
 
             ages.append(arkon)
             brainiests.append(arkon)
@@ -55,8 +55,8 @@ class CensusAgent {
 
             stats.maxIf(.brainiest, value: Double(arkon.net.netStructure.cNeurons), arkon: arkon)
 
-            if stats.coreCRoomy > 0 && arkon.net.netStructure.cNeurons < stats.coreCRoomy {
-                stats.coreCRoomy = arkon.net.netStructure.cNeurons
+            if stats.cRoomy > 0 && arkon.net.netStructure.cNeurons < stats.cRoomy {
+                stats.cRoomy = arkon.net.netStructure.cNeurons
             }
 
             let age = currentTime - arkon.fishday.birthday
@@ -67,9 +67,9 @@ class CensusAgent {
             currentMinder = currentMinder!.pointee.next
         } while currentMinder != nil
 
-        (stats.coreAverageAge, stats.coreMedAge) = getAvgMedAge(currentTime: currentTime)
-        (stats.coreAverageCOffspring, stats.coreMedCOffspring) = getAvgMedCOffspring()
-        stats.coreCAverageNeurons = getAvgCNeurons()
+        (stats.averageAge, stats.medAge) = getAvgMedAge(currentTime: currentTime)
+        (stats.averageCOffspring, stats.medCOffspring) = getAvgMedCOffspring()
+        stats.cAverageNeurons = getAvgCNeurons()
     }
     // swiftmint:enable function_body_length
 

@@ -4,56 +4,36 @@ import SwiftUI
 /// are on the main queue. Note: there's no sync to keep the two out of here
 /// simultaneously. Rather, the census manages them together, so don't go
 /// calling into this class willy-nilly
+
+class UpdateTrigger: ObservableObject {
+    @Published var updateTrigger: Bool = false
+    func toggle() { self.updateTrigger.toggle() }
+}
+
 class PopulationStats: ObservableObject {
-    @Published var averageAge: TimeInterval = 0
-    @Published var maxAge: TimeInterval = 0
-    @Published var medAge: TimeInterval = 0
+    var averageAge: TimeInterval = 0
+    var maxAge: TimeInterval = 0
+    var medAge: TimeInterval = 0
 
-    @Published var averageCOffspring: Double = 0
-    @Published var maxCOffspring: Double = 0
-    @Published var medCOffspring: Double = 0
+    var averageCOffspring: Double = 0
+    var maxCOffspring: Double = 0
+    var medCOffspring: Double = 0
 
-    @Published var currentPopulation: Int = 0
+    var currentPopulation: Int = 0
 
-    @Published var cAverageNeurons: Double = 0
-    @Published var cBrainy: Int = 0
-    @Published var maxCBrainy: Int = 0
-    @Published var cNeurons: Int = 0
-    @Published var cRoomy: Int = 0
-    @Published var maxCRoomy: Int = 0
+    var cAverageNeurons: Double = 0
+    var cBrainy: Int = 0
+    var maxCBrainy: Int = 0
+    var cNeurons: Int = 0
+    var cRoomy: Int = 0
+    var maxCRoomy: Int = 0
 
-    @Published var histogramsUpdateTrigger = 0
+    var hudUpdateTrigger = UpdateTrigger()
 
     var foodSuccessLineChartControls = FoodSuccessLineChartControls()
 
-    var coreAverageAge: TimeInterval = 0
-    var coreMaxAge: TimeInterval = 0 { didSet { highwaterStats.highwaterIf(.age, value: coreMaxAge) } }
-    var coreMedAge: TimeInterval = 0
     weak var oldestArkon: Stepper?
-
-    var coreAverageCOffspring: Double = 0
-    var coreMaxCOffspring: Double = 0 { didSet { highwaterStats.highwaterIf(.cOffspring, value: coreMaxCOffspring) } }
-    var coreMedCOffspring: Double = 0
     weak var busiestArkon: Stepper?
-
-    var coreCurrentPopulation: Int = 0 { didSet { highwaterStats.highwaterIf(.population, value: Double(coreCurrentPopulation)) } }
-
-    var coreCAverageNeurons: Double = 0 { didSet { highwaterStats.highwaterIf(.cAverageNeurons, value: coreCAverageNeurons) } }
-    var coreCNeurons: Int = 0 { didSet { highwaterStats.highwaterIf(.cLiveNeurons, value: Double(coreCNeurons)) } }
-
-    var coreCBrainy: Int = 0 { didSet { if coreCBrainy > coreMaxCBrainy { coreMaxCBrainy = coreCBrainy } } }
-    var coreMaxCBrainy: Int = 0 { didSet { highwaterStats.highwaterIf(.brainy, value: Double(coreMaxCBrainy)) } }
-
-    var coreCRoomy: Int = 10_000_000 { didSet {
-        if coreCRoomy == 0 || coreMaxCRoomy == 0 { return }
-        if coreCRoomy < coreMaxCRoomy { coreMaxCRoomy = coreCRoomy }
-    } }
-
-    var coreMaxCRoomy = 10_000_000 { didSet {
-        if coreMaxCRoomy == 0 { return }
-        highwaterStats.highwaterIf(.roomy, value: Double(coreMaxCRoomy))
-    } }
-
     weak var brainiestArkon: Stepper?
 
     let highwaterStats = HighwaterStats()
@@ -62,55 +42,31 @@ class PopulationStats: ObservableObject {
     func maxIf(_ maxIf: MaxIf, value: Double, arkon: Stepper) {
         switch maxIf {
         case .brainiest:
-            if Int(value) > coreCBrainy { coreCBrainy = Int(value); brainiestArkon = arkon }
+            if Int(value) > cBrainy { cBrainy = Int(value); brainiestArkon = arkon }
         case .busiest:
-            if value > coreMaxCOffspring { coreMaxCOffspring = value; busiestArkon = arkon }
+            if value > maxCOffspring { maxCOffspring = value; busiestArkon = arkon }
         case .oldest:
-            if value > coreMaxAge { coreMaxAge = value; oldestArkon = arkon }
+            if value > maxAge { maxAge = value; oldestArkon = arkon }
         case .roomiest:
-            if coreMaxCRoomy > 0 && Int(value) < coreMaxCRoomy { coreMaxCRoomy = Int(value) }
+            if maxCRoomy > 0 && Int(value) < maxCRoomy { maxCRoomy = Int(value) }
         }
     }
 
     func resetCore() {
         oldestArkon = nil; busiestArkon = nil; brainiestArkon = nil
 
-        coreAverageAge = 0
-        coreMaxAge = 0
-        coreMedAge = 0
-        coreAverageCOffspring = 0
-        coreMaxCOffspring = 0
-        coreMedCOffspring = 0
-        coreCurrentPopulation = 0
-        coreCAverageNeurons = 0
-        coreCBrainy = 0
-        coreMaxCBrainy = 0
-        coreCNeurons = 0
-        coreCRoomy = 10_000_000
-        coreMaxCRoomy = 10_000_000
-    }
-
-    func updateUI() {
-        self.averageAge = self.coreAverageAge
-        self.averageCOffspring = self.coreAverageCOffspring
-
-        self.maxAge = self.coreMaxAge
-        self.maxCOffspring = self.coreMaxCOffspring
-
-        self.medAge = self.coreMedAge
-        self.medCOffspring = self.coreMedCOffspring
-
-        self.currentPopulation = self.coreCurrentPopulation
-
-        self.cNeurons = self.coreCNeurons
-        self.cAverageNeurons = self.coreCAverageNeurons
-        self.cBrainy = self.coreCBrainy
-        self.cRoomy = self.coreCRoomy
-
-        Debug.log(level: 225) { "update trigger \(self.histogramsUpdateTrigger)" }
-        self.histogramsUpdateTrigger += 1
-
-        highwaterStats.updateUI()
-        foodSuccessLineChartControls.updateUI()
+        averageAge = 0
+        maxAge = 0
+        medAge = 0
+        averageCOffspring = 0
+        maxCOffspring = 0
+        medCOffspring = 0
+        currentPopulation = 0
+        cAverageNeurons = 0
+        cBrainy = 0
+        maxCBrainy = 0
+        cNeurons = 0
+        cRoomy = 10_000_000
+        maxCRoomy = 10_000_000
     }
 }

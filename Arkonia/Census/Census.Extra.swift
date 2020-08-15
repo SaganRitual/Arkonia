@@ -20,7 +20,7 @@ extension Census {
 
     func registerBirth(_ myNetStructure: NetStructure, _ myParent: Stepper?) -> Int {
         myParent?.censusData.increment(.offspring)
-        censusAgent.stats.highwaterStats.coreAllBirths += 1
+        censusAgent.stats.highwaterStats.allBirths += 1
 
         return myNetStructure.cNeurons
     }

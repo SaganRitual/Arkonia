@@ -1,20 +1,26 @@
 import SwiftUI
 
 struct LineChartLegendoidView: View {
-    @EnvironmentObject var foodSuccessLineChartControls: LineChartControls
+    @EnvironmentObject var lineChartControls: LineChartControls
 
     let legendSS: Int
     let legendoidSS: Int
     let switchSS: Int
 
+    init(legendSS: Int, legendoidSS: Int, switchSS: Int) {
+        self.legendSS = legendSS
+        self.legendoidSS = legendoidSS
+        self.switchSS = switchSS
+    }
+
     var body: some View {
         Toggle(
-            foodSuccessLineChartControls.akConfig.legendoids[legendoidSS].text,
-            isOn: $foodSuccessLineChartControls.switches[switchSS]
+            lineChartControls.akConfig.legendoids[legendoidSS].text,
+            isOn: $lineChartControls.switches[switchSS]
         )
             .toggleStyle(ColoredSquareToggle(
-                isOn: $foodSuccessLineChartControls.switches[switchSS],
-                akConfig: foodSuccessLineChartControls.akConfig,
+                isOn: $lineChartControls.switches[switchSS],
+                akConfig: lineChartControls.akConfig,
                 legendoidSS: legendoidSS
             ))
     }

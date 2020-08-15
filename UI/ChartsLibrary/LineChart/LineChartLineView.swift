@@ -1,11 +1,15 @@
 import SwiftUI
 
 struct LineChartLineView: View {
-    @EnvironmentObject var foodSuccessLineChartControls: LineChartControls
-    @EnvironmentObject var stats: PopulationStats
-    @EnvironmentObject var dataset: LineChartDataset
-
+    let dataset: LineChartDataset
+    let lineChartControls: LineChartControls
     let switchSS: Int
+
+    init(_ c: LineChartControls, switchSS: Int) {
+        self.lineChartControls = c
+        self.switchSS = switchSS
+        self.dataset = c.dataset!
+    }
 
     func midpoint(between start: CGPoint, and end: CGPoint) -> CGPoint {
         CGPoint(x: (start.x + end.x) / 2, y: (start.y + end.y) / 2)
@@ -20,12 +24,14 @@ struct LineChartLineView: View {
     func drawLine(_ gProxy: GeometryProxy) -> Path {
         var path = Path()
 
-        if !foodSuccessLineChartControls.switches[switchSS] { return path }
-        print("getpltpoints3")
+        if !lineChartControls.switches[switchSS] { return path }
 
-        let plotPoints = dataset.lines[0].getPlotPoints().map {
+        let (maxY, pp) = dataset.lines[0].getPlotPoints()
+        let plotPoints = pp.map {
             scalePointToFrame($0, scale: gProxy.size)
         }
+
+        dataset.yAxisTopExponentValue = max(dataset.yAxisTopExponentValue, maxY)
 
         Debug.log(level: 226) { "drawLine \(gProxy.size), \(plotPoints)"}
 
@@ -49,17 +55,17 @@ struct LineChartLineView: View {
         GeometryReader { gr in
             self.drawLine(gr)
                 .stroke(lineWidth: (gr.size.width + gr.size.height) * 0.003)
-                .foregroundColor(foodSuccessLineChartControls.akConfig.legendoids[switchSS].color)
-                .opacity(foodSuccessLineChartControls.switches[switchSS] ? 1 : 0)
+                .foregroundColor(lineChartControls.akConfig.legendoids[switchSS].color)
+                .opacity(lineChartControls.switches[switchSS] ? 1 : 0)
                 .scaleEffect(CGSize(width: 1.0, height: -1.0))
         }
     }
 }
-
-struct LineChartLineView_Previews: PreviewProvider {
-    static var previews: some View {
-        LineChartLineView(switchSS: 0)
-            .frame(width: 200, height: 100)
-            .environmentObject(MockLineChartControls.controls)
-    }
-}
+//
+//struct LineChartLineView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LineChartLineView(switchSS: 0)
+//            .frame(width: 200, height: 100)
+//            .environmentObject(MockLineChartControls.controls)
+//    }
+//}
