@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var randomer: AKRandomNumberFakerator
+    @EnvironmentObject var controls: LineChartControls
 
     var body: some View {
         HStack {
@@ -29,7 +30,8 @@ struct ContentView: View {
                             height: ArkoniaLayout.LineChartView.frameHeight
                         )
                         .padding([.trailing, .bottom, .leading])
-                        .environmentObject(FoodSuccessLineChartControls.controls)
+                        .environmentObject(Census.shared.censusAgent.stats.foodSuccessLineChartControls.controls)
+                        .environmentObject(Census.shared.censusAgent.stats)
                 }
             }
         }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var lineChartControls: LineChartControls
+    @EnvironmentObject var foodSuccessLineChartControls: LineChartControls
 
     var body: some View {
         LineChartTheChartView()

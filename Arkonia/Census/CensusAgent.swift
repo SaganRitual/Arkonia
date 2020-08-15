@@ -43,7 +43,8 @@ class CensusAgent {
                 continue
             }
 
-            stats.foodSuccessLineChart.receiveSamples(cJumps: arkon.cJumps, cVeggieBites: arkon.cVeggieBites)
+            Debug.log(level: 226) { "addSample(cJumps: \(arkon.cJumps), cVeggieBites: \(arkon.cVeggieBites))" }
+            stats.foodSuccessLineChartControls.addSample(cJumps: arkon.cJumps, cVeggieBites: arkon.cVeggieBites)
 
             stats.coreCNeurons += arkon.net.netStructure.cNeurons
             stats.coreCurrentPopulation += 1

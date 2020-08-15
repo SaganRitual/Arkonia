@@ -1,20 +1,21 @@
 import SwiftUI
 
 struct LineChartAxisTopMarkerView: View {
-    @EnvironmentObject var lineChartControls: LineChartControls
+    @EnvironmentObject var foodSuccessLineChartControls: LineChartControls
+    @EnvironmentObject var dataset: LineChartDataset
 
     let whichAxis: CGPoint
 
     func getMode() -> AxisMode {
         (whichAxis.x == 1) ?
-            lineChartControls.akConfig.xAxisMode :
-            lineChartControls.akConfig.yAxisMode
+            foodSuccessLineChartControls.akConfig.xAxisMode :
+            foodSuccessLineChartControls.akConfig.yAxisMode
     }
 
     func getTopMarker() -> LineChartTopMarker {
         (whichAxis.x == 1) ?
-            lineChartControls.akConfig.xAxisTopMarker :
-            lineChartControls.akConfig.yAxisTopMarker
+            foodSuccessLineChartControls.akConfig.xAxisTopMarker :
+            foodSuccessLineChartControls.akConfig.yAxisTopMarker
     }
 
     func assembleMarker() -> AnyView {
@@ -23,18 +24,20 @@ struct LineChartAxisTopMarkerView: View {
     }
 
     func assembleXMarker() -> some View {
-        Text("\(getTopMarker().base)")
-            .offset(x: -lineChartControls.akConfig.axisLabelsFontSize / 2)
+        print("x, \(dataset.xAxisTopBaseValue), \(dataset.xAxisTopExponentValue)")
+            return Text("\(String(format: getTopMarker().base, dataset.xAxisTopBaseValue))")
+            .offset(x: -foodSuccessLineChartControls.akConfig.axisLabelsFontSize / 2)
     }
 
     func assembleYMarker() -> some View {
-        VStack {
-            Text("\(getTopMarker().exponent)")
+        print("y, \(dataset.yAxisTopBaseValue), \(dataset.yAxisTopExponentValue)")
+        return VStack {
+            Text("\(String(format: getTopMarker().exponent, dataset.yAxisTopExponentValue))")
                 .scaleEffect(0.85)
-                .offset(x: lineChartControls.akConfig.axisLabelsFontSize / 2)
+                .offset(x: foodSuccessLineChartControls.akConfig.axisLabelsFontSize / 2)
 
-            Text("\(getTopMarker().base)")
-                .offset(x: -lineChartControls.akConfig.axisLabelsFontSize / 2)
+            Text("\(String(format: getTopMarker().base, dataset.yAxisTopBaseValue))")
+                .offset(x: -foodSuccessLineChartControls.akConfig.axisLabelsFontSize / 2)
         }
     }
 
@@ -42,18 +45,18 @@ struct LineChartAxisTopMarkerView: View {
 }
 
 struct LineChartAxisView: View {
-    @EnvironmentObject var lineChartControls: LineChartControls
+    @EnvironmentObject var foodSuccessLineChartControls: LineChartControls
 
     let whichAxis: CGPoint
 
     func getMode(_ whichAxis: CGPoint) -> AxisMode {
         (whichAxis.x == 1) ?
-            lineChartControls.akConfig.xAxisMode :
-            lineChartControls.akConfig.yAxisMode
+            foodSuccessLineChartControls.akConfig.xAxisMode :
+            foodSuccessLineChartControls.akConfig.yAxisMode
     }
 
     func drawVertical() -> some View {
-        let asArray = lineChartControls.akConfig.yAxisTitle.map { String($0) }
+        let asArray = foodSuccessLineChartControls.akConfig.yAxisTitle.map { String($0) }
 
         return VStack {
             ForEach(0..<asArray.count) { Text("\(asArray[$0])") }
@@ -61,7 +64,7 @@ struct LineChartAxisView: View {
     }
 
     func drawHorizontal() -> some View {
-        Text(lineChartControls.akConfig.xAxisTitle)
+        Text(foodSuccessLineChartControls.akConfig.xAxisTitle)
             .lineLimit(1)
     }
 

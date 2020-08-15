@@ -1,24 +1,24 @@
 import SwiftUI
 
 struct LineChartDataBackdrop: View {
-    @EnvironmentObject var lineChartControls: LineChartControls
+    @EnvironmentObject var foodSuccessLineChartControls: LineChartControls
 
     func getColor(_ ss: Int) -> Color {
-        lineChartControls.akConfig.legendoids[ss].color
+        foodSuccessLineChartControls.akConfig.legendoids[ss].color
     }
 
     var body: some View {
         GeometryReader { gr in
             ZStack {
                 Rectangle()
-                    .foregroundColor(lineChartControls.akConfig.chartBackdropColor)
+                    .foregroundColor(foodSuccessLineChartControls.akConfig.chartBackdropColor)
 
                 self.drawGridLines(gr, .horizontal)
                 self.drawGridLines(gr, .vertical)
             }
             .overlay(
                 ZStack {
-                    ForEach(lineChartControls.akConfig.legends[0].legendoidRange) { ss in
+                    ForEach(foodSuccessLineChartControls.akConfig.legends[0].legendoidRange) { ss in
                         LineChartLineView(switchSS: ss)
                     }
 //
@@ -42,8 +42,8 @@ extension LineChartDataBackdrop {
         _ gProxy: GeometryProxy, _ direction: GridLinesDirection
     ) -> some View {
         let cLines = direction == .vertical ?
-            lineChartControls.akConfig.cVerticalLines :
-            lineChartControls.akConfig.cHorizontalLines
+            foodSuccessLineChartControls.akConfig.cVerticalLines :
+            foodSuccessLineChartControls.akConfig.cHorizontalLines
 
         return ForEach(0..<(cLines + 1)) { ss in
             Path { path in

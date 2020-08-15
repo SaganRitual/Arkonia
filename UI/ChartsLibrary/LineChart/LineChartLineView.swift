@@ -1,7 +1,9 @@
 import SwiftUI
 
 struct LineChartLineView: View {
-    @EnvironmentObject var lineChartControls: LineChartControls
+    @EnvironmentObject var foodSuccessLineChartControls: LineChartControls
+    @EnvironmentObject var stats: PopulationStats
+    @EnvironmentObject var dataset: LineChartDataset
 
     let switchSS: Int
 
@@ -10,19 +12,22 @@ struct LineChartLineView: View {
     }
 
     func scalePointToFrame(_ point: CGPoint, scale: CGSize) -> CGPoint {
-        assert(point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1)
-        return CGPoint(x: point.x * scale.width, y: point.y * scale.height)
+        let px = constrain(point.x, lo: 0, hi: 1)
+        let py = constrain(point.y, lo: 0, hi: 1)
+        return CGPoint(x: px * scale.width, y: py * scale.height)
     }
 
     func drawLine(_ gProxy: GeometryProxy) -> Path {
         var path = Path()
 
-        if !lineChartControls.switches[switchSS] { return path }
+        if !foodSuccessLineChartControls.switches[switchSS] { return path }
+        print("getpltpoints3")
 
-        let dataLine = lineChartControls.dataset!.lines[switchSS]
-        let plotPoints = dataLine.getPlotPoints().map {
+        let plotPoints = dataset.lines[0].getPlotPoints().map {
             scalePointToFrame($0, scale: gProxy.size)
         }
+
+        Debug.log(level: 226) { "drawLine \(gProxy.size), \(plotPoints)"}
 
         path.move(to: plotPoints[0])
 
@@ -44,8 +49,8 @@ struct LineChartLineView: View {
         GeometryReader { gr in
             self.drawLine(gr)
                 .stroke(lineWidth: (gr.size.width + gr.size.height) * 0.003)
-                .foregroundColor(lineChartControls.akConfig.legendoids[switchSS].color)
-                .opacity(lineChartControls.switches[switchSS] ? 1 : 0)
+                .foregroundColor(foodSuccessLineChartControls.akConfig.legendoids[switchSS].color)
+                .opacity(foodSuccessLineChartControls.switches[switchSS] ? 1 : 0)
                 .scaleEffect(CGSize(width: 1.0, height: -1.0))
         }
     }

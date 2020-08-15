@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct LineChartTheChartView: View {
-    @EnvironmentObject var lineChartControls: LineChartControls
-
     var body: some View {
         VStack {
             LineChartHeaderView()
@@ -15,8 +13,15 @@ struct LineChartTheChartView: View {
 }
 
 class LineChartTheChartView_PreviewsLineData: LineChartLineDataProtocol {
+    var xAxisTopBaseValue: CGFloat = 100
+    var xAxisTopExponentValue: CGFloat = 0
+    var yAxisTopBaseValue: CGFloat = 10
+    var yAxisTopExponentValue: CGFloat = 1
+
     func getPlotPoints() -> [CGPoint] {
-        (Int(0)..<Int(10)).map { CGPoint(x: Double($0), y: Double.random(in: 0..<10)) }
+        print("getpltpoint42")
+
+        return (Int(0)..<Int(10)).map { CGPoint(x: Double($0), y: Double.random(in: 0..<10)) }
     }
 }
 

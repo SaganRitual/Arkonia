@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct LineChartLegendView: View {
-    @EnvironmentObject var lineChartControls: LineChartControls
+    @EnvironmentObject var foodSuccessLineChartControls: LineChartControls
 
     let checkLeft: Bool
     let legendSS: Int
@@ -14,7 +14,7 @@ struct LineChartLegendView: View {
     }
 
     func getLegendText() -> some View {
-        let legend = lineChartControls.akConfig.legends[legendSS]
+        let legend = foodSuccessLineChartControls.akConfig.legends[legendSS]
 
         if legend.titleEdge == (checkLeft ? .leading : .trailing) {
             return AnyView(Text(legend.legendTitle)
@@ -42,7 +42,7 @@ struct LineChartLegendView: View {
         }
     }
 
-    var body: some View { buildControls().font(lineChartControls.akConfig.legendFont) }
+    var body: some View { buildControls().font(foodSuccessLineChartControls.akConfig.legendFont) }
 }
 
 struct LineChartLegend_Previews: PreviewProvider {

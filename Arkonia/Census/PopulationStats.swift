@@ -24,7 +24,7 @@ class PopulationStats: ObservableObject {
 
     @Published var histogramsUpdateTrigger = 0
 
-    var foodSuccessLineChart: FoodSuccessLineChart!
+    var foodSuccessLineChartControls = FoodSuccessLineChartControls()
 
     var coreAverageAge: TimeInterval = 0
     var coreMaxAge: TimeInterval = 0 { didSet { highwaterStats.highwaterIf(.age, value: coreMaxAge) } }
@@ -107,6 +107,7 @@ class PopulationStats: ObservableObject {
         self.cBrainy = self.coreCBrainy
         self.cRoomy = self.coreCRoomy
 
+        Debug.log(level: 225) { "update trigger \(self.histogramsUpdateTrigger)" }
         self.histogramsUpdateTrigger += 1
 
         highwaterStats.updateUI()

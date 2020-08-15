@@ -14,7 +14,7 @@ class Arkonia {
 
     // vars so I can change them from the debugger
     static var debugColorIsEnabled = false
-    static var debugMessageLevel = 226
+    static var debugMessageLevel = 227
     static var debugMessageToConsole = true
     static var debugGrid = false
 
