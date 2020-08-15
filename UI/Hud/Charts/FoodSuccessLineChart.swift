@@ -9,9 +9,7 @@ struct FoodSuccessLineChart: View {
 class FoodSuccessLineData: LineChartLineDataProtocol {
     let histogram = Histogram(10, .zeroToOne, .amLog10, .amLinear)
 
-    var maxLogY: CGFloat = 0
-
-    func getPlotPoints() -> [CGPoint] {
+    func getPlotPoints() -> (CGFloat, [CGPoint]) {
         print("getpltpoints7")
         var plotPoints = [CGPoint](repeating: CGPoint.zero, count: 10)
 
@@ -26,13 +24,13 @@ class FoodSuccessLineData: LineChartLineDataProtocol {
         }
 
         let maxY = plotPoints.max { $0.y < $1.y }!.y
-        self.maxLogY = constrain(floor(log10(maxY) + 1), lo: 1, hi: 10)
+        let maxLogY = constrain(floor(log10(maxY) + 1), lo: 1, hi: 10)
 
-        (0..<plotPoints.count).forEach { plotPoints[$0].x /= 10; plotPoints[$0].y /= pow(10, (self.maxLogY - 1)) }
+        (0..<plotPoints.count).forEach { plotPoints[$0].x /= 10; plotPoints[$0].y /= pow(10, (maxLogY - 1)) }
 
         Debug.log(level: 226) { "points \(maxY) \(plotPoints)" }
         defer { histogram.reset() }
-        return plotPoints
+        return (maxLogY, plotPoints)
     }
 }
 
@@ -40,6 +38,8 @@ class FoodSuccessLineChartControls {
     let akConfig = FoodSuccessLineChartConfiguration()
     let controls: LineChartControls
     let dataset: LineChartDataset
+
+    let maxY: CGFloat = 0
 
     init() {
         dataset = LineChartDataset(
@@ -59,7 +59,11 @@ class FoodSuccessLineChartControls {
         let line = (dataset.lines[0] as? FoodSuccessLineData)!
         let browsingSuccess = Double(cVeggieBites) / Double(cJumps)
         line.histogram.addSample(xAxis: browsingSuccess, yAxis: Double(cJumps))
+    }
 
-        dataset.yAxisTopExponentValue = max(CGFloat(cJumps), dataset.yAxisTopExponentValue)
+    func updateUI() {
+        DispatchQueue.main.async {
+            self.dataset.yAxisTopExponentValue = max(CGFloat(cJumps), self.dataset.yAxisTopExponentValue)
+        }
     }
 }

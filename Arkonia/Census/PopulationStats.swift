@@ -111,5 +111,6 @@ class PopulationStats: ObservableObject {
         self.histogramsUpdateTrigger += 1
 
         highwaterStats.updateUI()
+        foodSuccessLineChartControls.updateUI()
     }
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 protocol LineChartLineDataProtocol: class {
-    func getPlotPoints() -> [CGPoint]
+    func getPlotPoints() -> (CGFloat, [CGPoint])
 }
 
 class LineChartDataset: ObservableObject {
@@ -60,11 +60,12 @@ class LineChartMockDataSource: LineChartLineDataProtocol {
         }
     }
 
-    func getPlotPoints() -> [CGPoint] {
+    func getPlotPoints() -> (CGFloat, [CGPoint]) {
         print("getpltpoints2")
-        return (Int(0)..<Int(10)).map {
-            CGPoint(x: CGFloat($0) / 10, y: CGFloat.random(in: 0..<1))
-        }
+        return (
+            0,
+            (Int(0)..<Int(10)).map { CGPoint(x: CGFloat($0) / 10, y: CGFloat.random(in: 0..<1)) }
+        )
     }
 }
 
