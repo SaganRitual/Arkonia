@@ -30,10 +30,11 @@ struct ContentView: View {
                             height: ArkoniaLayout.LineChartView.frameHeight
                         )
                         .padding([.trailing, .bottom, .leading])
-                        .environmentObject(Census.shared.censusAgent.stats.foodSuccessLineChartControls.controls)
-                        .environmentObject(Census.shared.censusAgent.stats)
                 }
             }
+            .environmentObject(Census.shared.censusAgent.stats.foodSuccessLineChartControls.controls)
+            .environmentObject(Census.shared.censusAgent.stats)
+            .environmentObject(Census.shared.censusAgent.stats.hudUpdateTrigger)
         }
     }
 }

@@ -64,9 +64,9 @@ struct LineChartBrowsingSuccess: LineChartConfiguration {
 
     let chartTitle = "Browsing Success"
     let xAxisTitle = "Veggie bites/jump"
-    let yAxisTopMarker = LineChartTopMarker(axisMode: .amLog10, base: "10", exponent: "%d")
+    let yAxisTopMarker = LineChartTopMarker(axisMode: .amLog10, base: "10", exponent: "%f")
     let yAxisTitle = "Jumps"
-    let xAxisTopMarker = LineChartTopMarker(axisMode: .amLinear, base: "%d%%", exponent: "")
+    let xAxisTopMarker = LineChartTopMarker(axisMode: .amLinear, base: "%f%%", exponent: "")
 
     let axisLabelsFont = LineChartBrowsingSuccess.chartAxisLabelFont
     let axisLabelsFontSize = LineChartBrowsingSuccess.chartAxisLabelFontSize

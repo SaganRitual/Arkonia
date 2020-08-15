@@ -5,6 +5,8 @@ struct LineChartLineView: View {
     let lineChartControls: LineChartControls
     let switchSS: Int
 
+    @EnvironmentObject var hudUpdateTrigger: UpdateTrigger
+
     init(_ c: LineChartControls, switchSS: Int) {
         self.lineChartControls = c
         self.switchSS = switchSS
@@ -31,9 +33,9 @@ struct LineChartLineView: View {
             scalePointToFrame($0, scale: gProxy.size)
         }
 
-        dataset.yAxisTopExponentValue = max(dataset.yAxisTopExponentValue, maxY)
+        dataset.yAxisTopExponentValue = maxY
 
-        Debug.log(level: 226) { "drawLine \(gProxy.size), \(plotPoints)"}
+        Debug.log(level: 227) { "drawLine \(dataset.yAxisTopExponentValue), \(gProxy.size), \(plotPoints)"}
 
         path.move(to: plotPoints[0])
 

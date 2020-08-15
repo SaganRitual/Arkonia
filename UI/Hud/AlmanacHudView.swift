@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AlmanacHudView: View {
     @EnvironmentObject var seasonalFactors: SeasonalFactors
+    @EnvironmentObject var hudUpdateTrigger: UpdateTrigger
 
     let clockFormatter = DateComponentsFormatter()
 

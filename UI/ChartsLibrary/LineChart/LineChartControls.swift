@@ -8,7 +8,7 @@ class LineChartDataset {
     var xAxisTopBaseValue: CGFloat = 100
     var xAxisTopExponentValue: CGFloat = 0
     var yAxisTopBaseValue: CGFloat = 10
-    var yAxisTopExponentValue: CGFloat = 1
+    var yAxisTopExponentValue: CGFloat = 0
 
     let lines: [LineChartLineDataProtocol]
 
@@ -17,7 +17,6 @@ class LineChartDataset {
     }
 
     func update(_ xBase: CGFloat, _ xExp: CGFloat, _ yBase: CGFloat, _ yExp: CGFloat) {
-        print("lcd update \(xBase), \(xExp), \(yBase), \(yExp)")
         xAxisTopBaseValue = xBase
         xAxisTopExponentValue = xExp
         yAxisTopBaseValue = yBase
@@ -54,14 +53,12 @@ class LineChartMockDataSource: LineChartLineDataProtocol {
         switch mode {
         // Not sure whether ln and log2 will ever be of any use
         case .amLinear: return CGFloat(value)
-        case .amLog:    assert(false)//return exp(CGFloat(value))
-        case .amLog2:   assert(false)//return pow(2, CGFloat(value))
         case .amLog10:  return pow(10, CGFloat(value))
+        default: fatalError()
         }
     }
 
     func getPlotPoints() -> (CGFloat, [CGPoint]) {
-        print("getpltpoints2")
         return (
             0,
             (Int(0)..<Int(10)).map { CGPoint(x: CGFloat($0) / 10, y: CGFloat.random(in: 0..<1)) }

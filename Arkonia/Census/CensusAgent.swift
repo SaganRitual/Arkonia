@@ -43,7 +43,7 @@ class CensusAgent {
                 continue
             }
 
-            Debug.log(level: 226) { "addSample(cJumps: \(arkon.cJumps), cVeggieBites: \(arkon.cVeggieBites))" }
+            Debug.log(level: 228) { "addSample(cJumps: \(arkon.cJumps), cVeggieBites: \(arkon.cVeggieBites))" }
             stats.foodSuccessLineChartControls.addSample(cJumps: arkon.cJumps, cVeggieBites: arkon.cVeggieBites)
 
             stats.cNeurons += arkon.net.netStructure.cNeurons

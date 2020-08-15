@@ -8,25 +8,27 @@ class FoodSuccessLineData: LineChartLineDataProtocol {
     let histogram = Histogram(10, .zeroToOne, .amLog10, .amLinear)
 
     func getPlotPoints() -> (CGFloat, [CGPoint]) {
-        print("getpltpoints7")
         var plotPoints = [CGPoint](repeating: CGPoint.zero, count: 10)
 
         (0..<histogram.theBuckets.count).forEach {
             let raw = histogram.theBuckets[$0]
-            let s = max(CGFloat(raw.cSamples), 1)           // Avoid div by zero
-            let averageJumpsInThisSuccessRange = CGFloat(raw.sumOfAllSamples) / s
-            let y = averageJumpsInThisSuccessRange < 1 ? 0 : log10(averageJumpsInThisSuccessRange)
+            let cSamples = max(Double(raw.cSamples), 1)           // Avoid div by zero
+            let averageJumpsInThisSuccessRange = raw.sumOfAllSamples / cSamples
 
-            plotPoints[$0] = CGPoint(x: CGFloat($0), y: y)
-            Debug.log(level: 226) { "y = \(y) average = \(averageJumpsInThisSuccessRange) sum = \(raw.sumOfAllSamples) cSamples = \(s)" }
+            plotPoints[$0] = CGPoint(x: Double($0), y: averageJumpsInThisSuccessRange)
+            Debug.log(level: 228) { "raw Y average = \(averageJumpsInThisSuccessRange) sum = \(raw.sumOfAllSamples) cSamples = \(cSamples)" }
         }
 
         let maxY = plotPoints.max { $0.y < $1.y }!.y
-        let maxLogY = constrain(floor(log10(maxY) + 1), lo: 1, hi: 10)
+        let maxLogY = (maxY > 0) ? log10(maxY) : 0
+        let divLogY = floor(maxLogY + 0.5)
 
-        (0..<plotPoints.count).forEach { plotPoints[$0].x /= 10; plotPoints[$0].y /= pow(10, (maxLogY - 1)) }
+        (0..<plotPoints.count).forEach { pointSS in
+            Debug.log(level: 228) { "points1 [\(pointSS)] \(maxLogY) \(plotPoints[pointSS].y), \(divLogY), \(pow(10, divLogY))" }
+            plotPoints[pointSS].x /= 10; plotPoints[pointSS].y /= pow(10, divLogY)
+        }
 
-        Debug.log(level: 226) { "points \(maxY) \(plotPoints)" }
+        Debug.log(level: 229) { "points2 \(maxLogY) \(divLogY) \(plotPoints)" }
         defer { histogram.reset() }
         return (maxLogY, plotPoints)
     }
@@ -52,6 +54,7 @@ class FoodSuccessLineChartControls {
         // Also, don't track anyone who hasn't jumped yet
         if cJumps == cVeggieBites || cJumps == 0 { return }
 
+        Debug.log(level: 228) { "addSample(\(cJumps), \(cVeggieBites))" }
         let line = (dataset.lines[0] as? FoodSuccessLineData)!
         let browsingSuccess = Double(cVeggieBites) / Double(cJumps)
         line.histogram.addSample(xAxis: browsingSuccess, yAxis: Double(cJumps))

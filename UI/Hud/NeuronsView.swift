@@ -2,6 +2,7 @@ import SwiftUI
 
 struct NeuronsHudView: View {
     @EnvironmentObject var stats: PopulationStats
+    @EnvironmentObject var hudUpdateTrigger: UpdateTrigger
 
     enum Format { case cLiveNeurons, highwaterLive, cAverageNeurons, highwaterAverage }
 

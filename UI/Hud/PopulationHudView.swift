@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PopulationHudView: View {
     @EnvironmentObject var stats: PopulationStats
+    @EnvironmentObject var hudUpdateTrigger: UpdateTrigger
 
     var body: some View {
         ZStack {

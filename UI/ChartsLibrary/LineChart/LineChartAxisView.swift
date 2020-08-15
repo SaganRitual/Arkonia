@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct LineChartAxisTopMarkerView: View {
+    @EnvironmentObject var hudUpdateTrigger: UpdateTrigger
+
     let dataset: LineChartDataset
     let lineChartControls: LineChartControls
     let whichAxis: CGPoint
@@ -29,14 +31,12 @@ struct LineChartAxisTopMarkerView: View {
     }
 
     func assembleXMarker() -> some View {
-        print("x, \(dataset.xAxisTopBaseValue), \(dataset.xAxisTopExponentValue)")
-            return Text("\(String(format: getTopMarker().base, dataset.xAxisTopBaseValue))")
+        Text("\(String(format: getTopMarker().base, dataset.xAxisTopBaseValue))")
             .offset(x: -lineChartControls.akConfig.axisLabelsFontSize / 2)
     }
 
     func assembleYMarker() -> some View {
-        print("y, \(dataset.yAxisTopBaseValue), \(dataset.yAxisTopExponentValue)")
-        return VStack {
+        VStack {
             Text("\(String(format: getTopMarker().exponent, dataset.yAxisTopExponentValue))")
                 .scaleEffect(0.85)
                 .offset(x: lineChartControls.akConfig.axisLabelsFontSize / 2)

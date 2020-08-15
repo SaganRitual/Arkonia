@@ -9,9 +9,9 @@ struct FoodSuccessLineChartConfiguration: LineChartConfiguration {
 
     let chartTitle = "Browsing Success"
     let xAxisTitle = "Veggie bites/jump"
-    let yAxisTopMarker = LineChartTopMarker(axisMode: .amLog10, base: "10", exponent: "%d")
+    let yAxisTopMarker = LineChartTopMarker(axisMode: .amLog10, base: "10", exponent: "%2.0f")
     let yAxisTitle = "Jumps"
-    let xAxisTopMarker = LineChartTopMarker(axisMode: .amLinear, base: "%d%%", exponent: "")
+    let xAxisTopMarker = LineChartTopMarker(axisMode: .amLinear, base: "%3.0f%%", exponent: "")
 
     let axisLabelsFont = FoodSuccessLineChartConfiguration.chartAxisLabelFont
     let axisLabelsFontSize = FoodSuccessLineChartConfiguration.chartAxisLabelFontSize

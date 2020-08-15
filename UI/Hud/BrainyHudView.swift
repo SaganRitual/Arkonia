@@ -2,6 +2,7 @@ import SwiftUI
 
 struct BrainyHudView: View {
     @EnvironmentObject var stats: PopulationStats
+    @EnvironmentObject var hudUpdateTrigger: UpdateTrigger
 
     enum Format { case brainy, highwater, roomy, lowwater }
 

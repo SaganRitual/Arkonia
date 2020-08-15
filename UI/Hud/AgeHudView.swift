@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AgeHudView: View {
     @EnvironmentObject var stats: PopulationStats
+    @EnvironmentObject var hudUpdateTrigger: UpdateTrigger
 
     enum Format { case maxAge, highwaterAge, averageAge, medAge }
 

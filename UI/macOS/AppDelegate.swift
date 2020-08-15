@@ -3,7 +3,6 @@ import SwiftUI
 
 class LineChartApp_MockLineData: LineChartLineDataProtocol {
     func getPlotPoints() -> [CGPoint] {
-        print("getpltpoint52")
         return (Int(0)..<Int(10)).map {
             CGPoint(x: Double($0) / 10, y: Double.random(in: 0..<1))
         }

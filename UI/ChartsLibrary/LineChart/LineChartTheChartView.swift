@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct LineChartTheChartView: View {
+    @EnvironmentObject var hudUpdateTrigger: UpdateTrigger
+
     let lineChartControls: LineChartControls
     init(_ c: LineChartControls) { self.lineChartControls = c }
 
